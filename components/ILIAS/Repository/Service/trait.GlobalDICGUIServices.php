@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Repository;
 
@@ -83,6 +83,12 @@ trait GlobalDICGUIServices
     public function mainTemplate(): \ilGlobalTemplateInterface
     {
         return $this->DIC->ui()->mainTemplate();
+    }
+
+    public function initFetch(): void
+    {
+        $main_tpl = $this->mainTemplate();
+        $main_tpl->addJavaScript("assets/js/repository.js");
     }
 
     public function upload(): FileUpload

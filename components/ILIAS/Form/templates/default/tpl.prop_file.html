@@ -3,17 +3,18 @@
 		<div class="help-block">{TXT_FILENAME_HINT}</div>
 <!--  END filename -->
 		<!-- BEGIN prop_file_propval --><div style="margin-bottom:3px; margin-left:3px;"><span class="subtitle">{FILE_VAL}</span></div><!-- END prop_file_propval -->
-		
+
 		<div class="input-group">
 			<span class="input-group-btn">
 				<span class="btn btn-default btn-file">
-					{TXT_BROWSE}<input type="file" id="{ID}" name="{POST_VAR}"{DISABLED}/>
+					{TXT_BROWSE}<input type="file" id="{ID}" name="{POST_VAR}" data-maxsize="{MAX_SIZE}" data-maxsize-warning="{MAX_SIZE_WARNING}"{DISABLED}/>
 				</span>
 			</span>
-			<input tabindex="-1" type="text" class="form-control" readonly="readonly"{DISABLED}>
+            <label class='sr-only' for="{POST_VAR}_file_display">{LABEL_SELECTED_FILES_INPUT}</label>
+			<input tabindex="-1" id="{POST_VAR}_file_display" type="text" class="form-control" readonly="readonly"{DISABLED}>
 		</div>
-				
-		<!--<input type="file" id="{ID}" name="{POST_VAR}" size="{SIZE}"{DISABLED} />-->
+
+		<!--<input type="file" id="{ID}" name="{POST_VAR}" size="{SIZE}" data-maxsize="{MAX_SIZE}" data-maxsize-warning="{MAX_SIZE_WARNING}"{DISABLED} />-->
 		<!-- BEGIN max_size -->
 		<div class="help-block">{TXT_MAX_SIZE}</div>
 		<!-- END max_size -->

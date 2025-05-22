@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,18 +14,21 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Skill\Service\SkillTreeService;
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * Course/group skill notification
  *
  * @author Alex Killing <killing@leifos.com>
  */
-class ilSkillNotifications extends ilCronJob
+class ilSkillNotifications extends CronJob
 {
     protected ilLanguage $lng;
     protected ilObjUser $user;
@@ -71,9 +72,9 @@ class ilSkillNotifications extends ilCronJob
         return $lng->txt("skll_skill_notification_desc");
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
+        return JobScheduleType::DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -91,7 +92,7 @@ class ilSkillNotifications extends ilCronJob
         return true;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
         global $DIC;
 
@@ -100,7 +101,7 @@ class ilSkillNotifications extends ilCronJob
         $log = ilLoggerFactory::getLogger("skll");
         $log->debug("===Skill Notifications=== start");
 
-        $status = ilCronJobResult::STATUS_NO_ACTION;
+        $status = JobResult::STATUS_NO_ACTION;
         $status_details = null;
 
         $setting = new ilSetting("cron");
@@ -132,7 +133,7 @@ class ilSkillNotifications extends ilCronJob
         }
 
         // mails were sent - set cron job status accordingly
-        $status = ilCronJobResult::STATUS_OK;
+        $status = JobResult::STATUS_OK;
 
         // reset language/date
         ilDatePresentation::setUseRelativeDates($old_dt);
@@ -143,7 +144,7 @@ class ilSkillNotifications extends ilCronJob
         // save last run
         $setting->set(get_class($this), date("Y-m-d H:i:s"));
 
-        $result = new ilCronJobResult();
+        $result = new JobResult();
         $result->setStatus($status);
 
         if ($status_details) {

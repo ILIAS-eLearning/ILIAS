@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
- * @author       Lukas Zehnder <lz@studer-raimann.ch>
+ * @author              Lukas Zehnder <lz@studer-raimann.ch>
  *
  * @ilCtrl_IsCalledBy   ilObjWebDAVGUI: ilAdministrationGUI
  * @ilCtrl_Calls        ilObjWebDAVGUI: ilPermissionGUI
@@ -29,7 +29,8 @@ class ilObjWebDAVGUI extends ilObjectGUI
 {
     protected const SETTING_COMMANDS = [
         'edit' => 'editSettings',
-        'save' => 'saveSettings'];
+        'save' => 'saveSettings'
+    ];
 
     protected ilWebDAVDIC $webdav_dic;
     public ilErrorHandling $error_handling;
@@ -44,6 +45,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
     }
 
+    #[\Override]
     public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -75,6 +77,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
         }
     }
 
+    #[\Override]
     public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
@@ -91,12 +94,12 @@ class ilObjWebDAVGUI extends ilObjectGUI
         }
     }
 
+    #[\Override]
     public function setTitleAndDescription(): void
     {
         parent::setTitleAndDescription();
         $this->tpl->setDescription($this->object->getDescription());
     }
-
 
     protected function initSettingsForm(): ilPropertyFormGUI
     {

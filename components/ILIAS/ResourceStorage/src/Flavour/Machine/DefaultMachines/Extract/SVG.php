@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\Extract;
 
-use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 use ILIAS\Filesystem\Stream\Stream;
 use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\ImageSizeCalculator;
@@ -123,7 +122,7 @@ class SVG implements Extractor
             $svg->setAttribute('height', (string) $new_height);
 
             return $dom->saveXML($svg);
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return $svg_content;
         }
     }

@@ -18,6 +18,7 @@
 
 namespace ILIAS\StaticURL;
 
+use ILIAS\HTTP\Services;
 use ILIAS\DI\Container;
 use ILIAS\Refinery\Factory;
 
@@ -40,7 +41,7 @@ final class Context
         return $this->container->refinery();
     }
 
-    public function http(): \ILIAS\HTTP\Services
+    public function http(): Services
     {
         return $this->container->http();
     }

@@ -38,11 +38,8 @@ use ILIAS\BackgroundTasks\Task\UserInteraction;
  */
 class SyncTaskManager extends BasicTaskManager
 {
-    protected Persistence $persistence;
-
-    public function __construct(Persistence $persistence)
+    public function __construct(protected Persistence $persistence)
     {
-        $this->persistence = $persistence;
     }
 
     /**
@@ -61,9 +58,9 @@ class SyncTaskManager extends BasicTaskManager
                 throw new UserInteractionSkippedException('can be skipped');
             }
             $bucket->setState(State::FINISHED);
-        } catch (UserInteractionSkippedException $e) {
+        } catch (UserInteractionSkippedException) {
             $bucket->setState(State::FINISHED);
-        } catch (UserInteractionRequiredException $e) {
+        } catch (UserInteractionRequiredException) {
             // We're okay!
             $this->persistence->saveBucketAndItsTasks($bucket);
         }

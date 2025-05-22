@@ -18,19 +18,22 @@
 
 declare(strict_types=1);
 
+use ILIAS\Setup\Artifact\BuildArtifactObjective;
+use ILIAS\Setup\Artifact;
+use ILIAS\Setup\ImplementationOfInterfaceFinder;
+use ILIAS\Setup\Artifact\ArrayArtifact;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
-use ILIAS\Setup;
 use ILIAS\GlobalScreen\Scope\Toast\Provider\ToastProvider;
+use ILIAS\GlobalScreen\Scope\Footer\Provider\StaticFooterProvider;
 
 /**
- * Class ilGSBootLoaderBuilder
- * @package ILIAS\GlobalScreen\BootLoader
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ilGlobalScreenBuildProviderMapObjective extends Setup\Artifact\BuildArtifactObjective
+class ilGlobalScreenBuildProviderMapObjective extends BuildArtifactObjective
 {
     public function getArtifactName(): string
     {
@@ -38,25 +41,26 @@ class ilGlobalScreenBuildProviderMapObjective extends Setup\Artifact\BuildArtifa
     }
 
 
-    public function build(): Setup\Artifact
+    public function build(): Artifact
     {
         $class_names = [];
         $i = [
             StaticMainMenuProvider::class,
             StaticMetaBarProvider::class,
+            StaticFooterProvider::class,
             DynamicToolProvider::class,
             ModificationProvider::class,
             NotificationProvider::class,
             ToastProvider::class
         ];
 
-        $finder = new Setup\ImplementationOfInterfaceFinder();
+        $finder = new ImplementationOfInterfaceFinder();
         foreach ($i as $interface) {
             $class_names[$interface] = iterator_to_array(
                 $finder->getMatchingClassNames($interface)
             );
         }
 
-        return new Setup\Artifact\ArrayArtifact($class_names);
+        return new ArrayArtifact($class_names);
     }
 }

@@ -68,7 +68,7 @@ class arObjectCache
      * @param $id
      * @throws arException
      */
-    public static function get($class, $id): \ActiveRecord
+    public static function get(string $class, string $id): \ActiveRecord
     {
         new $class();
         if (!self::isCached($class, $id)) {

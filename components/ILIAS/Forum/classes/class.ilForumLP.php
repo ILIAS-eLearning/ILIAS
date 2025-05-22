@@ -18,48 +18,55 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Input\Input;
+
 /**
  * Class ilForumLP
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilForumLP extends ilObjectLP
 {
-    public function appendModeConfiguration(int $mode, ilRadioOption $modeElement): void
+    public function appendModeConfiguration(int $mode): array
     {
         global $DIC;
 
-        if (ilLPObjSettings::LP_MODE_CONTRIBUTION_TO_DISCUSSION === $mode) {
-            $num_postings = new ilNumberInputGUI(
-                $DIC->language()->txt('trac_frm_contribution_num_postings'),
-                'number_of_postings'
-            );
-            $num_postings->allowDecimals(false);
-            $num_postings->setMinValue(1);
-            $num_postings->setMaxValue(99999);
-            $num_postings->setSize(4);
-            $num_postings->setRequired(true);
-            if (is_int(ilForumProperties::getInstance($this->obj_id)->getLpReqNumPostings())) {
-                $requiredNumberOfPostings = ilForumProperties::getInstance($this->obj_id)->getLpReqNumPostings();
-                $num_postings->setValue((string) $requiredNumberOfPostings);
-            } else {
-                $num_postings->setValue('');
-            }
-            $modeElement->addSubItem($num_postings);
-
-            // Use the default text presentation of the base class
-            $modeElement->setTitle(parent::getModeText($mode));
+        if (ilLPObjSettings::LP_MODE_CONTRIBUTION_TO_DISCUSSION !== $mode) {
+            return [];
         }
+
+        $ui_factory = $DIC->ui()->factory();
+        $refinery = $DIC->refinery();
+        $lng = $DIC->language();
+
+        $num_postings = $ui_factory->input()->field()->numeric(
+            $lng->txt('trac_frm_contribution_num_postings')
+        )->withAdditionalTransformation(
+            $refinery->in()->series([
+                $refinery->int()->isGreaterThanOrEqual(1),
+                $refinery->int()->isLessThanOrEqual(99999)
+            ])
+        )->withRequired(true);
+
+        if (is_int(ilForumProperties::getInstance($this->obj_id)->getLpReqNumPostings())) {
+            $requiredNumberOfPostings = ilForumProperties::getInstance($this->obj_id)->getLpReqNumPostings();
+            $num_postings = $num_postings->withValue($requiredNumberOfPostings);
+        }
+
+        return ['number_of_postings' => $num_postings];
     }
 
-    public function saveModeConfiguration(ilPropertyFormGUI $form, bool &$modeChanged): void
-    {
+    public function saveModeConfiguration(
+        string $selected_group,
+        array $group_data,
+        bool &$modeChanged
+    ): void {
         $frm_properties = ilForumProperties::getInstance($this->obj_id);
 
         $current_value = $frm_properties->getLpReqNumPostings();
 
-        if (is_numeric($form->getInput('number_of_postings'))) {
+        if (is_numeric($group_data['number_of_postings'] ?? null)) {
             $frm_properties->setLpReqNumPostings(
-                (int) $form->getInput('number_of_postings')
+                (int) $group_data['number_of_postings']
             );
         } else {
             $frm_properties->setLpReqNumPostings(null);

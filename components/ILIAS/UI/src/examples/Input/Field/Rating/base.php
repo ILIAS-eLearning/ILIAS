@@ -1,11 +1,42 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\Rating;
 
 use ILIAS\Data\FiveStarRatingScale;
 
+/**
+ * ---
+ * description: >
+ *   Base example showing how use a Rating Input.
+ *
+ * expected output: >
+ *   ILIAS shows 4 Rating Inputs:
+ *   1: > You may change the rating by clicking on a star (or "neutral")
+ *   2: > You MUST change the rating, otherwise the form will display an error when submitted
+ *   3: > disabled, You cannot change the rating
+ *   4: > A Rating Input with a little line above.
+ *
+ *   When submitted, the selected values are displayed (in an array of Enums, with name and value).
+ * ---
+ */
 function base()
 {
     global $DIC;

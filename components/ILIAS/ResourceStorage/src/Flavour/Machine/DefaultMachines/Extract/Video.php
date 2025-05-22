@@ -28,14 +28,18 @@ use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
  */
 class Video extends General implements Extractor
 {
+    /**
+     * @var int
+     */
     private const BLACK_PICTURE_THRESHOLD = 99;
 
+    #[\Override]
     public function readImage(\Imagick $img, Stream $stream, PagesToExtract $definition): \Imagick
     {
         $amount_of_previews = $definition->getMaxPages();
         $max_size = escapeshellarg((string) ($definition->getMaxSize() * 1));
         $ffmpeg = escapeshellcmd(PATH_TO_FFMPEG);
-        $input_video = escapeshellarg($stream->getMetadata()['uri']);
+        $input_video = escapeshellarg((string) $stream->getMetadata()['uri']);
 
         // Get total duration of the video
         $duration = shell_exec(
@@ -75,6 +79,7 @@ class Video extends General implements Extractor
         return $img;
     }
 
+    #[\Override]
     public function getTargetFormat(): string
     {
         return 'jpg';
@@ -85,7 +90,7 @@ class Video extends General implements Extractor
         try {
             $image = new \Imagick();
             $image->readImageBlob($image_blob);
-        } catch (\ImagickException $e) {
+        } catch (\ImagickException) {
             return true;
         }
 

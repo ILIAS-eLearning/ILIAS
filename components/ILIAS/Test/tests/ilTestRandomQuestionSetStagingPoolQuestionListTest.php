@@ -65,14 +65,14 @@ class ilTestRandomQuestionSetStagingPoolQuestionListTest extends ilTestBaseTestC
     public function testAddTaxonomyFilter(): void
     {
         $taxId = 20;
-        $taxNodes = 'test';
+        $taxNodes = [134, 345];
         $this->testObj->addTaxonomyFilter($taxId, $taxNodes);
         $this->assertEquals([$taxId => $taxNodes], $this->testObj->getTaxonomyFilters());
     }
 
     public function testTypeFilter(): void
     {
-        $typeFilter = 5;
+        $typeFilter = [547, 1023];
         $this->testObj->setTypeFilter($typeFilter);
         $this->assertEquals($typeFilter, $this->testObj->getTypeFilter());
     }

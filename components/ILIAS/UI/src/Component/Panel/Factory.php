@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Panel;
 
@@ -47,9 +47,7 @@ interface Factory
      *      2: Standard Panels SHOULD be used in the center content as primary Container for grouping content of varying content.
      *
      *   composition:
-     *      1: Standard Panels MAY contain a Section View Control to change the current presentation of the content.
-     *      2: Standard Panels MAY contain a Pagination View Control to display data in chunks.
-     *      3: Standard Panels MAY have a Sortation View Control to perform ordering actions to the presented data.
+     *      1: Standard Panels MAY contain one or more View Controls.
      * ---
      * @param string $title
      * @param Component[]|Component
@@ -110,6 +108,8 @@ interface Factory
      *      1: >
      *         Report Panels SHOULD be used when user generated content of two sources (i.e results, guidelines in a template)
      *         is to be displayed alongside each other.
+     *   composition:
+     *      1: Report Panels MAY contain one or more View Controls.
      *   interaction:
      *      1: Links MAY open new views.
      *      2: Buttons MAY trigger actions or inline editing.

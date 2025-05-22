@@ -48,7 +48,7 @@ interface Launcher extends Component
      *   $launcher = $launcher->withStatusMessageBox($ui_factory->messageBox()->failure('You must accept the conditions.'));
      * ```
      */
-    public function withInputs(Group $fields, \Closure $evaluation, MessageBox\MessageBox $instruction = null): self;
+    public function withInputs(Group $fields, \Closure $evaluation, ?MessageBox\MessageBox $instruction = null): self;
 
     public function withStatusIcon(null | Icon | ProgressMeter $status_icon): self;
     public function withStatusMessageBox(?MessageBox\MessageBox $status_message): self;

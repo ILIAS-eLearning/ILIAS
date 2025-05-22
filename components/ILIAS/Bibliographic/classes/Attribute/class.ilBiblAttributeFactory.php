@@ -21,13 +21,11 @@
  */
 class ilBiblAttributeFactory implements ilBiblAttributeFactoryInterface
 {
-    protected \ilBiblFieldFactoryInterface $field_factory;
     protected ilDBInterface $db;
 
-    public function __construct(ilBiblFieldFactoryInterface $field_factory)
+    public function __construct(protected \ilBiblFieldFactoryInterface $field_factory)
     {
         global $DIC;
-        $this->field_factory = $field_factory;
         $this->db = $DIC->database();
     }
 

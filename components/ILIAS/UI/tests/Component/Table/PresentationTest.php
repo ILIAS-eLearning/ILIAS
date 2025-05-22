@@ -101,13 +101,11 @@ class PresentationTest extends TableTestBase
         $factory = new class () extends NoUIFactory {
             public I\Component\SignalGenerator $sig_gen;
 
-            public function button(): C\Button\Factory
+            public function button(): I\Component\Button\Factory
             {
-                return new I\Component\Button\Factory(
-                    new I\Component\SignalGenerator()
-                );
+                return new I\Component\Button\Factory();
             }
-            public function symbol(): ILIAS\UI\Component\Symbol\Factory
+            public function symbol(): I\Component\Symbol\Factory
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),

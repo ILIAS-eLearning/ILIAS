@@ -31,6 +31,8 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
     {
         parent::setUp();
 
+        $this->addGlobal_ilSetting();
+
         $lng_mock = $this->createMock(ilLanguage::class);
         $lng_mock
                  ->method("txt")
@@ -53,9 +55,8 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("tpl", $mainTpl_mock);
         $this->setGlobalVariable("tree", $tree_mock);
         $this->setGlobalVariable("ilDB", $db_mock);
-        $this->setGlobalVariable("ilUser", $this->createMock(ilObjUser::class));
         $this->setGlobalVariable("ilObjDataCache", $this->createMock(ilObjectDataCache::class));
-        $this->addGlobal_ilLog();
+
         $component_factory = $this->createMock(ilComponentFactory::class);
         $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
         $this->setGlobalVariable("component.factory", $component_factory);
@@ -63,15 +64,16 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
         $component_repository = $this->createMock(ilComponentRepository::class);
         $this->setGlobalVariable("component.repository", $component_repository);
 
-        $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
-        $this->parentObj_mock->method('getObject')->willReturn($this->createMock(ilObjTest::class));
+        $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(['getObject'])->getMock();
+        $this->parentObj_mock->method('getObject')->willReturn($this->getTestObjMock());
         $this->tableGui = new ilTestQuestionBrowserTableGUI(
             $this->getMockBuilder(ilTabsGUI::class)->disableOriginalConstructor()->getMock(),
             $tree_mock,
             $db_mock,
-            $this->createMock(ilLogger::class),
+            $this->createMock(ILIAS\Test\Logging\TestLogger::class),
             $component_repository,
             $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock(),
+            $this->createMock(ilObjUser::class),
             $this->createMock(ilAccessHandler::class),
             $this->createMock(\ILIAS\HTTP\GlobalHttpState::class),
             new \ILIAS\Refinery\Factory(
@@ -80,21 +82,20 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
             ),
             $this->createMock(ILIAS\UI\Factory::class),
             $this->createMock(ILIAS\UI\Renderer::class),
-            $this->createMock(ILIAS\Test\InternalRequestService::class),
-            $this->createMock(ILIAS\TestQuestionPool\QuestionInfoService::class)
+            $this->createMock(ILIAS\Test\RequestDataCollector::class),
+            $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
+            $lng_mock,
+            $ctrl_mock,
+            $mainTpl_mock,
+            $this->createMock(ilUIService::class),
+            $this->createMock(ILIAS\Data\Factory::class),
+            $this->createMock(ILIAS\Taxonomy\DomainService::class),
+            fn(int $questionPoolId) => 'testLink'
         );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestQuestionBrowserTableGUI::class, $this->tableGui);
-    }
-
-    public function testWriteAccess(): void
-    {
-        $this->tableGui->setWriteAccess(false);
-        $this->assertFalse($this->tableGui->hasWriteAccess());
-        $this->tableGui->setWriteAccess(true);
-        $this->assertTrue($this->tableGui->hasWriteAccess());
     }
 }

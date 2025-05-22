@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Factory;
@@ -583,7 +582,7 @@ class ilPersonalSkillsGUI
             }
 
             //  skill description
-            $panel_comps[] = $this->ui_fac->legacy($this->getBasicSkillDescription((string) $description));
+            $panel_comps[] = $this->ui_fac->legacy()->content($this->getBasicSkillDescription((string) $description));
 
 
             // skill level description
@@ -592,7 +591,7 @@ class ilPersonalSkillsGUI
                 $acc = new ilAccordionGUI();
                 $acc->setBehaviour(ilAccordionGUI::ALL_CLOSED);
                 $acc->addItem($lng->txt('skmg_skill_levels'), $skl_lvl_desc);
-                $panel_comps[] = $this->ui_fac->legacy($acc->getHTML());
+                $panel_comps[] = $this->ui_fac->legacy()->content($acc->getHTML());
             }
 
             $prof_comp_head_rendered = false;
@@ -600,10 +599,10 @@ class ilPersonalSkillsGUI
             if ($this->getProfileId() > 0) {
                 if ($this->getNonHistoricGapModeView()) {
                     if (!empty($self_eval_gap_item_prof = $this->getSelfEvalGapItem($level_data, $bs["tref"]))) {
-                        $panel_comps[] = $this->ui_fac->legacy($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_SELF));
+                        $panel_comps[] = $this->ui_fac->legacy()->content($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_SELF));
                         $has_at_least_one_entry = true;
                     }
-                    $panel_comps[] = $this->ui_fac->legacy($self_eval_gap_item_prof);
+                    $panel_comps[] = $this->ui_fac->legacy()->content($self_eval_gap_item_prof);
                 } else {
                     // get all self eval entries and render them
                     $self_eval_entries_latest = $this->getLatestEntriesForSkillHTML(
@@ -624,31 +623,31 @@ class ilPersonalSkillsGUI
                     );
 
                     if (!empty($self_eval_entries_latest)) {
-                        $panel_comps[] = $this->ui_fac->legacy($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_SELF));
+                        $panel_comps[] = $this->ui_fac->legacy()->content($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_SELF));
                         $has_at_least_one_entry = true;
                     }
-                    $panel_comps[] = $this->ui_fac->legacy($self_eval_entries_latest);
-                    $panel_comps[] = $this->ui_fac->legacy($self_eval_entries_non_latest);
+                    $panel_comps[] = $this->ui_fac->legacy()->content($self_eval_entries_latest);
+                    $panel_comps[] = $this->ui_fac->legacy()->content($self_eval_entries_non_latest);
                 }
 
                 if (!$this->skmg_settings->getHideProfileBeforeSelfEval() ||
                     ilBasicSkill::hasSelfEvaluated($user->getId(), $bs["id"], $bs["tref"])) {
                     if ($this->getFilter()->showTargetLevel()) {
-                        $panel_comps[] = $this->ui_fac->legacy($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_OTHERS));
+                        $panel_comps[] = $this->ui_fac->legacy()->content($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_OTHERS));
                         $prof_comp_head_rendered = true;
-                        $panel_comps[] = $this->ui_fac->legacy($this->getProfileTargetItem($this->getProfileId(), $level_data, $bs["tref"]));
+                        $panel_comps[] = $this->ui_fac->legacy()->content($this->getProfileTargetItem($this->getProfileId(), $level_data, $bs["tref"]));
                     }
                 }
             }
 
             if ($this->getNonHistoricGapModeView()) {
                 if (!empty($actual_gap_item = $this->getActualGapItem($level_data, $bs["tref"]))) {
-                    $panel_comps[] = $this->ui_fac->legacy($actual_gap_item);
+                    $panel_comps[] = $this->ui_fac->legacy()->content($actual_gap_item);
                     $has_at_least_one_entry = true;
                 }
                 if ($this->getProfileId() == 0) {
                     if (!empty($self_eval_gap_item_non_prof = $this->getSelfEvalGapItem($level_data, $bs["tref"]))) {
-                        $panel_comps[] = $this->ui_fac->legacy($self_eval_gap_item_non_prof);
+                        $panel_comps[] = $this->ui_fac->legacy()->content($self_eval_gap_item_non_prof);
                         $has_at_least_one_entry = true;
                     }
                 }
@@ -673,13 +672,13 @@ class ilPersonalSkillsGUI
                     );
 
                     if (!empty($object_entries_latest) && !$prof_comp_head_rendered) {
-                        $panel_comps[] = $this->ui_fac->legacy($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_OTHERS));
+                        $panel_comps[] = $this->ui_fac->legacy()->content($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_OTHERS));
                     }
                     if (!empty($object_entries_latest)) {
                         $has_at_least_one_entry = true;
                     }
-                    $panel_comps[] = $this->ui_fac->legacy($object_entries_latest);
-                    $panel_comps[] = $this->ui_fac->legacy($object_entries_non_latest);
+                    $panel_comps[] = $this->ui_fac->legacy()->content($object_entries_latest);
+                    $panel_comps[] = $this->ui_fac->legacy()->content($object_entries_non_latest);
                 } else {
                     // get all skill entries and render them
                     $all_entries_latest = $this->getLatestEntriesForSkillHTML(
@@ -700,18 +699,18 @@ class ilPersonalSkillsGUI
                     );
 
                     if (!empty($all_entries_latest) && !$prof_comp_head_rendered) {
-                        $panel_comps[] = $this->ui_fac->legacy($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_OTHERS));
+                        $panel_comps[] = $this->ui_fac->legacy()->content($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_OTHERS));
                     }
                     if (!empty($all_entries_latest)) {
                         $has_at_least_one_entry = true;
                     }
-                    $panel_comps[] = $this->ui_fac->legacy($all_entries_latest);
-                    $panel_comps[] = $this->ui_fac->legacy($all_entries_non_latest);
+                    $panel_comps[] = $this->ui_fac->legacy()->content($all_entries_latest);
+                    $panel_comps[] = $this->ui_fac->legacy()->content($all_entries_non_latest);
                 }
             }
 
             if (!$has_at_least_one_entry) {
-                $panel_comps[] = $this->ui_fac->legacy("<br/>" . $lng->txt("skmg_no_skill_entries"));
+                $panel_comps[] = $this->ui_fac->legacy()->content("<br/>" . $lng->txt("skmg_no_skill_entries"));
             }
 
             // suggested resources
@@ -762,7 +761,7 @@ class ilPersonalSkillsGUI
         $des = $this->getSkillCategoryDescription($skill_id, $tref_id);
 
         //put the description of the skill category to the very top of the sub panels
-        $sub_panels = $this->ui_fac->legacy($des . $this->ui_ren->render($sub_panels));
+        $sub_panels = $this->ui_fac->legacy()->content($des . $this->ui_ren->render($sub_panels));
 
         $panel = $this->ui_fac->panel()->standard(
             ilSkillTreeNode::_lookupTitle($skill_id, $tref_id),
@@ -1485,7 +1484,7 @@ class ilPersonalSkillsGUI
         if (!empty($all_chart_html)) {
             $pan = $this->ui_fac->panel()->standard(
                 $lng->txt("skmg_bar_charts"),
-                $this->ui_fac->legacy($all_chart_html)
+                $this->ui_fac->legacy()->content($all_chart_html)
             );
             $all_chart_html = $this->ui_ren->render($pan);
         }
@@ -1940,7 +1939,7 @@ class ilPersonalSkillsGUI
         $latest_entries_html = "";
         foreach ($latest_entries as $entry) {
             $latest_entries_html .= $this->ui_ren->render(
-                $this->ui_fac->legacy($this->getEvalItem($level_data, $entry, true))
+                $this->ui_fac->legacy()->content($this->getEvalItem($level_data, $entry, true))
             );
         }
 
@@ -1991,7 +1990,7 @@ class ilPersonalSkillsGUI
         $non_latest_entries_filtered_html = "";
         foreach ($non_latest_entries as $entry) {
             $non_latest_entries_filtered_html .= $this->ui_ren->render(
-                $this->ui_fac->legacy($this->getEvalItem($level_data, $entry, false))
+                $this->ui_fac->legacy()->content($this->getEvalItem($level_data, $entry, false))
             );
         }
 
@@ -2199,7 +2198,7 @@ class ilPersonalSkillsGUI
         // note for self-evaluation
         if ($this->skmg_settings->getHideProfileBeforeSelfEval() &&
             !ilBasicSkill::hasSelfEvaluated($this->user->getId(), $a_base_skill, $a_tref_id)) {
-            $sec_panel_content = $this->ui_fac->legacy($lng->txt("skmg_skill_needs_self_eval"));
+            $sec_panel_content = $this->ui_fac->legacy()->content($lng->txt("skmg_skill_needs_self_eval"));
             $sec_panel = $this->ui_fac->panel()->secondary()->legacy("", $sec_panel_content);
             return $sec_panel;
         }
@@ -2279,11 +2278,11 @@ class ilPersonalSkillsGUI
                     $item_groups
                 );
             } else {
-                $sec_panel_content = $this->ui_fac->legacy($lng->txt("skmg_skill_needs_impr_no_res"));
+                $sec_panel_content = $this->ui_fac->legacy()->content($lng->txt("skmg_skill_needs_impr_no_res"));
                 $sec_panel = $this->ui_fac->panel()->secondary()->legacy("", $sec_panel_content);
             }
         } else {
-            $sec_panel_content = $this->ui_fac->legacy($lng->txt("skmg_skill_no_needs_impr_info"));
+            $sec_panel_content = $this->ui_fac->legacy()->content($lng->txt("skmg_skill_no_needs_impr_info"));
             $sec_panel = $this->ui_fac->panel()->secondary()->legacy($lng->txt("skmg_skill_no_needs_impr"), $sec_panel_content);
         }
 

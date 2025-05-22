@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilCmiXapiDataSet
@@ -190,8 +191,7 @@ class ilCmiXapiDataSet extends ilDataSet
 
         $this->_archive['files'] = [
             "properties" => "properties.xml",
-            "metadata" => "metadata.xml",
-            "manifest" => 'manifest.xml',
+            "manifest" => 'manifest.xml'
         ];
         if (false !== strpos($this->data['SourceType'], 'local')) {
             $this->_archive['files']['content'] = "content.zip";
@@ -208,12 +208,6 @@ class ilCmiXapiDataSet extends ilDataSet
             mkdir($this->_archive['directories']['tempDir'], 0755, true);
             //$DIC->filesystem()->storage()->createDir($this->_archive['directories']['tempDir']);
         }
-
-        // build metadata xml file
-        file_put_contents(
-            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['metadata'],
-            $this->buildMetaData($id)
-        );
 
         // build manifest xml file
         file_put_contents(
@@ -252,10 +246,6 @@ class ilCmiXapiDataSet extends ilDataSet
             $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['manifest'],
             $this->_archive['directories']['archiveDir'] . '/' . "manifest.xml"
         );
-        $zArchive->addFile(
-            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['metadata'],
-            $this->_archive['directories']['archiveDir'] . '/' . "metadata.xml"
-        );
         if (isset($this->_archive['files']['content'])) {
             $zArchive->addFile(
                 $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['content'],
@@ -273,7 +263,6 @@ class ilCmiXapiDataSet extends ilDataSet
         */
 
         // unlink tempDir and its content
-        unlink($this->_archive['directories']['tempDir'] . "/metadata.xml");
         unlink($this->_archive['directories']['tempDir'] . "/manifest.xml");
         unlink($this->_archive['directories']['tempDir'] . "/properties.xml");
         if (isset($this->_archive['files']['content'])) {
@@ -360,13 +349,6 @@ class ilCmiXapiDataSet extends ilDataSet
         //var_dump($this->data); exit;
     }
 
-    public function buildMetaData(int $id): string
-    {
-        $md2xml = new ilMD2XML($id, $id, "cmix");
-        $md2xml->startExport();
-        return $md2xml->getXML();
-    }
-
     private function buildManifest(): string
     {
         $manWriter = new ilXmlWriter();
@@ -428,6 +410,12 @@ class ilCmiXapiDataSet extends ilDataSet
 
                 //$this->current_obj = $newObj;
                 $a_mapping->addMapping("components/ILIAS/CmiXapi", "cmix", $a_rec["Id"], (string) $newObj->getId());
+                $a_mapping->addMapping(
+                    "components/ILIAS/MetaData",
+                    "md",
+                    $a_rec["Id"] . ":0:cmix",
+                    $newObj->getId() . ":0:cmix"
+                );
                 break;
         }
     }

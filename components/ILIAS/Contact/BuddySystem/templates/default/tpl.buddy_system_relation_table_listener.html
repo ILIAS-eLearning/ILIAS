@@ -1,36 +1,56 @@
-<script type="text/javascript">
-(function($, $scope) {
-	$(function() {
-		var table          = $("#{TABLE_ID}");
-		var filter_val     = $("#{FILTER_ELM_ID}").val();
-		var no_entries_txt = '{NO_ENTRIES_TEXT}';
+<script type='text/javascript'>
+document.addEventListener('DOMContentLoaded', () => {
+  (function (scope) {
+    const table = document.querySelector('#{TABLE_ID}');
+    const filterInput = document.querySelector('#{FILTER_ELM_ID}');
+    const filterVal = !filterInput ? '' : filterInput.value;
+    const noEntriesText = '{NO_ENTRIES_TEXT}';
 
-		var stateChangedListener = function(event, usr_id, is_state, was_state) {
-			if (
-				(is_state == "ilBuddySystemUnlinkedRelationState") ||
-				(filter_val != "" && is_state != filter_val)
-			) {
-				var num_cells = table.find("tr[data-buddy-id=" + usr_id + "]").find("td").size();
-				table.find("tr[data-buddy-id=" + usr_id + "]").remove();
+    const stateChangedListener = function (event) {
+      const { buddyId, newState, oldState } = event.detail;
 
-				if (!table.find('.ilBuddySystemRelationRow').size()) {
-					var tform = table.closest('form');
+      if (newState === 'ilBuddySystemUnlinkedRelationState'
+        || (filterVal !== '' && newState !== filterVal)) {
+        const rows = table.querySelectorAll('tr[data-buddy-id="' + buddyId + '"]');
+        const numCells = rows.length ? rows[0].querySelectorAll('td').length : 0;
 
-					table.find('tbody').append('<tr class="tblrow1"><td class="ilCenter" colspan="' + num_cells + '">' + no_entries_txt  + '</td></tr>');
-					table.find('thead').remove();
-					tform.find('.ilTableSelectAll').remove();
-					tform.find('.ilTableCommandRowTop').remove();
-					tform.find('.ilTableCommandRow').remove();
-					if (!tform.find('.ilTableNav label').size()) {
-						tform.find('.ilTableNav').remove();
-					}
-				}
-			}
+        rows.forEach((row) => row.remove());
 
-			return true;
-		};
+        if (!table.querySelector('.ilBuddySystemRelationRow')) {
+          const tform = table.closest('form');
 
-		$($scope).on("il.bs.stateChange.afterStateChangePerformed", stateChangedListener);
-	});
-})(jQuery, window);
+          // Add no entries message
+          const tbody = table.querySelector('tbody');
+          const noEntriesRow = document.createElement('tr');
+          noEntriesRow.className = 'tblrow1';
+          noEntriesRow.innerHTML = '<td class="ilCenter" colspan="' + numCells + '">' + noEntriesText
+          tbody.appendChild(noEntriesRow);
+
+          // Remove unnecessary elements
+          const thead = table.querySelector('thead');
+          if (thead) thead.remove();
+
+          const tableSelectAll = tform.querySelector('.ilTableSelectAll');
+          if (tableSelectAll) tableSelectAll.remove();
+
+          const commandRowTop = tform.querySelector('.ilTableCommandRowTop');
+          if (commandRowTop) commandRowTop.remove();
+
+          const commandRow = tform.querySelector('.ilTableCommandRow');
+          if (commandRow) commandRow.remove();
+
+          const nav = tform.querySelector('.ilTableNav');
+          if (nav && !nav.querySelector('label')) {
+            nav.remove();
+          }
+        }
+      }
+
+      return true;
+    };
+
+    scope.addEventListener('il.bs.stateChange.afterStateChangePerformed', stateChangedListener);
+  }(window));
+});
+
 </script>

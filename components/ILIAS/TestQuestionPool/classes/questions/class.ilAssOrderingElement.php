@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Class represents an ordering element for assOrderingQuestion
@@ -73,7 +73,7 @@ class ilAssOrderingElement
     protected ?string $uploadImageFile = null;
     protected bool $imageRemovalRequest = false;
     protected ?string $imagePathWeb = null;
-    protected ?string $imagePathFs = null;
+    protected ?string $image_path_fs = null;
     protected $imageThumbnailPrefix = null;
 
     /**
@@ -208,7 +208,8 @@ class ilAssOrderingElement
      */
     public function isImageUploadAvailable(): bool
     {
-        return (bool) strlen($this->getUploadImageFile());
+        return $this->getUploadImageFile() !== null
+            && $this->getUploadImageFile() !== '';
     }
 
     /**
@@ -248,15 +249,12 @@ class ilAssOrderingElement
      */
     public function getImagePathFs(): ?string
     {
-        return $this->imagePathFs;
+        return $this->image_path_fs;
     }
 
-    /**
-     * @param string $imagePathFs
-     */
-    public function setImagePathFs($imagePathFs): void
+    public function setImagePathFs(string $image_path_fs): void
     {
-        $this->imagePathFs = $imagePathFs;
+        $this->image_path_fs = $image_path_fs;
     }
 
     public function getImageThumbnailPrefix()
@@ -269,10 +267,6 @@ class ilAssOrderingElement
         $this->imageThumbnailPrefix = $imageThumbnailPrefix;
     }
 
-    /**
-     * @param ilAssOrderingElement $element
-     * @return bool
-     */
     public function isSameElement(ilAssOrderingElement $element): bool
     {
         return [
@@ -288,9 +282,9 @@ class ilAssOrderingElement
         ];
     }
 
-    public function getStorageValue1($orderingType)
+    public function getStorageValue1(int $ordering_type): int|string
     {
-        switch ($orderingType) {
+        switch ($ordering_type) {
             case assOrderingQuestion::OQ_NESTED_TERMS:
             case assOrderingQuestion::OQ_NESTED_PICTURES:
 
@@ -303,9 +297,9 @@ class ilAssOrderingElement
         }
     }
 
-    public function getStorageValue2($orderingType)
+    public function getStorageValue2(int $ordering_type): int|string
     {
-        switch ($orderingType) {
+        switch ($ordering_type) {
             case assOrderingQuestion::OQ_NESTED_TERMS:
             case assOrderingQuestion::OQ_NESTED_PICTURES:
 
@@ -376,12 +370,12 @@ class ilAssOrderingElement
 
     public function getExportIdent(): string
     {
-        $ident = array(
+        $ident = [
             $this->getRandomIdentifier(),
             $this->getSolutionIdentifier(),
             $this->getPosition(),
             $this->getIndentation()
-        );
+        ];
 
         return implode(self::EXPORT_IDENT_PROPERTY_SEPARATOR, $ident);
     }

@@ -16,9 +16,11 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Component\Input\Container\Form\Standard;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\ResourceStorage\Services;
 use Psr\Http\Message\RequestInterface;
-use ILIAS\Data\DataSize;
-use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 /**
  * Class ilFileVersionFormGUI
@@ -36,15 +38,14 @@ class ilFileVersionFormGUI
     public const F_SAVE_MODE = 'save_mode';
 
     private \ilObjFile $file;
-    private ?\ILIAS\UI\Component\Input\Container\Form\Standard $form;
-    private \ILIAS\UI\Factory $ui_factory;
-    private \ILIAS\UI\Renderer $ui_renderer;
+    private ?Standard $form;
+    private Factory $ui_factory;
+    private Renderer $ui_renderer;
     private RequestInterface $request;
     private ilGlobalTemplateInterface $global_tpl;
     private ilLanguage $lng;
-    private \ILIAS\ResourceStorage\Services $resource_services;
+    private Services $resource_services;
     private string $post_url;
-    private UploadLimitResolver $upload_limit;
 
     /**
      * ilFileVersionFormGUI constructor.
@@ -65,7 +66,6 @@ class ilFileVersionFormGUI
             $this->resolveParentCommand($save_mode)
         );
         $this->lng->loadLanguageModule('file');
-        $this->upload_limit = $DIC['ui.upload_limit_resolver'];
         $this->initForm();
     }
 
@@ -90,11 +90,6 @@ class ilFileVersionFormGUI
                 : ilFileVersionsUploadHandlerGUI::MODE_APPEND
         );
 
-        $size = new DataSize(
-            $this->upload_limit->getBestPossibleUploadLimitInBytes($upload_handler),
-            DataSize::MB
-        );
-
         $inputs = [
             self::F_TITLE => $this->ui_factory->input()->field()->text(
                 $this->lng->txt(self::F_TITLE),
@@ -108,11 +103,7 @@ class ilFileVersionFormGUI
             ),
             self::F_FILE => $this->ui_factory->input()->field()->file(
                 $upload_handler,
-                $this->lng->txt(self::F_FILE),
-                sprintf(
-                    $this->lng->txt('upload_files_limit'),
-                    (string) $size
-                ),
+                $this->lng->txt(self::F_FILE)
             )->withMaxFiles(1)
              ->withRequired(true),
         ];
@@ -130,7 +121,7 @@ class ilFileVersionFormGUI
             return false;
         }
 
-        $title = !empty($data[self::F_TITLE]) ? $data[self::F_TITLE] : $this->file->getTitle();
+        $title = empty($data[self::F_TITLE]) ? $this->file->getTitle() : $data[self::F_TITLE];
         $description = $data[self::F_DESCRIPTION] !== '' ? $data[self::F_DESCRIPTION] : $this->file->getDescription();
         $revision_number = $data[self::F_FILE][0] ?? null;
         if ($revision_number === null) {

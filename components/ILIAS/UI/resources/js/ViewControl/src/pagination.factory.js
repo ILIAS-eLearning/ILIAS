@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import Pagination from './pagination.class';
+import Pagination from './pagination.class.js';
 
 export default class PaginationFactory {
   /**
@@ -29,8 +29,7 @@ export default class PaginationFactory {
   /**
    * @param {JQueryEventDispatcher} eventDispatcher
    */
-  constructor(eventDispatcher)
-  {
+  constructor(eventDispatcher) {
     this.#eventDispatcher = eventDispatcher;
   }
 

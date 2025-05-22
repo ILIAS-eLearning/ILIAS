@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Style\Content\Object;
 
@@ -210,6 +210,15 @@ class ObjectManager
         if ($this->globalFixed()) {
             $fixed_style = (int) $this->settings->get("fixed_content_style_id");
             return ilObject::_lookupTitle($fixed_style);
+        }
+        return "";
+    }
+
+    public function getGlobalDefaultTitle(): string
+    {
+        $style_id = (int) $this->settings->get("default_content_style_id");
+        if ($style_id > 0) {
+            return ilObject::_lookupTitle($style_id);
         }
         return "";
     }

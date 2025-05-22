@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -22,6 +23,8 @@ namespace ILIAS\Tests\UI\Component\Input;
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\UI\Component\Input\Field\PhpUploadLimit;
+use ILIAS\UI\Component\Input\Field\GlobalUploadLimit;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
@@ -115,7 +118,10 @@ class UploadLimitResolverTest extends TestCase
         bool $upload_handler_supports_chunks,
         int $expected_result,
     ): void {
-        $resolver = new UploadLimitResolver($php_ini_value, $custom_global_value);
+        $resolver = new UploadLimitResolver(
+            $this->getPhpUploadLimitMock($php_ini_value),
+            $this->getGlobalUploadLimitMock($custom_global_value)
+        );
 
         if ($upload_handler_supports_chunks) {
             $upload_handler = $this->upload_handler_with_chunks;
@@ -126,5 +132,19 @@ class UploadLimitResolverTest extends TestCase
         $actual_value = $resolver->getBestPossibleUploadLimitInBytes($upload_handler, $local_value);
 
         $this->assertEquals($expected_result, $actual_value);
+    }
+
+    protected function getPhpUploadLimitMock(int $upload_limit): PhpUploadLimit
+    {
+        $mock = $this->createMock(PhpUploadLimit::class);
+        $mock->method('getPhpUploadLimitInBytes')->willReturn($upload_limit);
+        return $mock;
+    }
+
+    protected function getGlobalUploadLimitMock(?int $upload_limit): GlobalUploadLimit
+    {
+        $mock = $this->createMock(GlobalUploadLimit::class);
+        $mock->method('getGlobalUploadLimitInBytes')->willReturn($upload_limit);
+        return $mock;
     }
 }

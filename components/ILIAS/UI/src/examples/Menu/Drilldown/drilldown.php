@@ -1,26 +1,50 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Menu\Drilldown;
 
+/**
+ * ---
+ * description: >
+ *   The example shows how to create and render a basic markdown field and attach it to a form.
+ *
+ *   0 Animal of the year
+ *   1    Switzerland
+ *   1.1    Riverine Amphipod (gammarus fossarum)
+ *   1.2    Wildcat
+ *   1.2.1    European Wildcat
+ *   1.2.2    African Wildcat
+ *   2    Germany
+ *   2.1    Otter
+ *   2.2    Mole
+ *          --divider--
+ *   2.3    Deer
+ *
+ * expected output: >
+ *   ILIAS shows a box titled "Animal of the year" and two drilldowns including a hover effect.
+ *   Clicking the drilldowns opens up more sub-entries or links pointing to the ILIAS page or open up a modal.
+ *   Clicking the heading will lead one level back.
+ * ---
+ */
 function drilldown()
 {
-    /**
-        0 Animal of the year
-        1    Switzerland
-        1.1        Riverine Amphipod (gammarus fossarum)
-        1.2        Wildcat
-        1.2.1           European Wildcat
-        1.2.2           African Wildcat
-        2    Germany
-        2.1        Otter
-        2.2        Mole
-                   --divider--
-        2.3        Deer
-    */
-
-
     global $DIC;
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();

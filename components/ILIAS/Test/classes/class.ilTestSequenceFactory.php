@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 /**
  * Factory for test sequence
  * @author		Björn Heyser <bheyser@databay.de>
@@ -31,7 +33,7 @@ class ilTestSequenceFactory
     public function __construct(
         private ilObjTest $test_obj,
         private ilDBInterface $db,
-        private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
+        private GeneralQuestionPropertiesRepository $questionrepository
     ) {
     }
 
@@ -63,7 +65,7 @@ class ilTestSequenceFactory
                     $this->db,
                     $activeId,
                     $pass,
-                    $this->questioninfo
+                    $this->questionrepository
                 );
             }
 
@@ -72,7 +74,7 @@ class ilTestSequenceFactory
                     $this->db,
                     $activeId,
                     $pass,
-                    $this->questioninfo
+                    $this->questionrepository
                 );
             }
         }

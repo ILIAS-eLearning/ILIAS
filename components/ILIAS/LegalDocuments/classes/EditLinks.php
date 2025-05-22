@@ -25,10 +25,6 @@ use ILIAS\LegalDocuments\Value\Criterion;
 
 interface EditLinks
 {
-    public function addCriterion(Document $document): string;
-    public function editDocument(Document $document): string;
-    public function deleteDocument(Document $document): string;
-
     public function editCriterion(Document $document, Criterion $criterion): string;
     public function deleteCriterion(Document $document, Criterion $criterion): string;
 }

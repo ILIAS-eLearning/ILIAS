@@ -18,6 +18,8 @@
 
 namespace ILIAS\ResourceStorage\Revision;
 
+use PHPUnit\Framework\MockObject\MockObject;
+
 require_once(__DIR__ . "/../AbstractTestBase.php");
 
 use ILIAS\ResourceStorage\AbstractTestBase;
@@ -32,14 +34,15 @@ use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
 class RevisionRepositoryTest extends AbstractTestBase
 {
     /**
-     * @var \ILIAS\ResourceStorage\Resource\StorableFileResource|mixed
+     * @var StorableFileResource|mixed
      */
     public $resource;
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver
+     * @var MockObject|InfoResolver
      */
-    private $info_resolver;
+    private MockObject $info_resolver;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

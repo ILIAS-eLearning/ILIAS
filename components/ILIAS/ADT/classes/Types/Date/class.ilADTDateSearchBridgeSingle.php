@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
@@ -57,7 +57,7 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
         return ($a_post['lower'] ?? false) || ($a_post['upper'] ?? false);
     }
 
-    public function importFromPost(array $a_post = null): bool
+    public function importFromPost(?array $a_post = null): bool
     {
         $post = $this->extractPostValues($a_post);
 

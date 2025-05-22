@@ -36,13 +36,11 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Filter\Standard) {
             return $this->renderStandard($component, $default_renderer);
         }
 
-        throw new LogicException("Cannot render: " . get_class($component));
+        $this->cannotHandleComponent($component);
     }
 
     /**
@@ -70,7 +68,7 @@ class Renderer extends AbstractComponentRenderer
         $this->renderToggleButton($tpl, $component, $default_renderer);
 
         // render inputs
-        $this->renderInputs($tpl, $component, $default_renderer);
+        $this->renderInputs($tpl, $component, $id, $default_renderer);
 
         return $tpl->get();
     }
@@ -78,7 +76,7 @@ class Renderer extends AbstractComponentRenderer
     protected function registerSignals(Filter\Filter $filter): Filter\Filter
     {
         $update = $filter->getUpdateSignal();
-        return $filter->withAdditionalOnLoadCode(fn ($id) => "$(document).on('$update', function(event, signalData) {
+        return $filter->withAdditionalOnLoadCode(fn($id) => "$(document).on('$update', function(event, signalData) {
                 il.UI.filter.onInputUpdate(event, signalData, '$id'); return false; 
             });");
     }
@@ -102,32 +100,23 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("ACTION", $component->getExpandAction());
         $tpl->parseCurrentBlock();
 
-        $opener_expand = $f->button()->bulky($f->symbol()->glyph()->expand(), $this->txt("filter"), "")
-            ->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
-					il.UI.filter.onAjaxCmd(event, '$id', 'expand');
-					event.preventDefault();
-			    });");
-
         $tpl->setCurrentBlock("action");
         $tpl->setVariable("ACTION_NAME", "collapse");
         $tpl->setVariable("ACTION", $component->getCollapseAction());
         $tpl->parseCurrentBlock();
 
-        $opener_collapse = $f->button()->bulky($f->symbol()->glyph()->collapse(), $this->txt("filter"), "")
-            ->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
-					il.UI.filter.onAjaxCmd(event, '$id', 'collapse');
-					event.preventDefault();
-			    });");
+        $tpl->setVariable("TITLE_FILTER", $this->txt("filter"));
+        $glyph_collapse = $f->symbol()->glyph()->collapse();
+        $tpl->setVariable("COLLAPSE_GLYPH", $default_renderer->render($glyph_collapse));
+        $glyph_expand = $f->symbol()->glyph()->expand();
+        $tpl->setVariable("EXPAND_GLYPH", $default_renderer->render($glyph_expand));
 
-        if ($component->isExpanded() == false) {
-            $opener = [$opener_collapse, $opener_expand];
-            $tpl->setVariable("OPENER", $default_renderer->render($opener));
-            $tpl->setVariable("INPUTS_ACTIVE_EXPANDED", "in");
-        } else {
-            $opener = [$opener_expand, $opener_collapse];
-            $tpl->setVariable("OPENER", $default_renderer->render($opener));
-            $tpl->setVariable("INPUTS_EXPANDED", "in");
-        }
+        $is_expanded = $component->isExpanded();
+        $tpl->setVariable("ARIA_EXPANDED", $is_expanded ? "true" : "false");
+        $tpl->setVariable("COLLAPSE_GLYPH_VISIBLE", $is_expanded ? 1 : 0);
+        $tpl->setVariable("EXPAND_GLYPH_VISIBLE", $is_expanded ? 0 : 1);
+        $tpl->setVariable("ACTIVE_INPUTS_EXPANDED", $is_expanded ? 0 : 1);
+        $tpl->setVariable("SECTION_INPUTS_EXPANDED", $is_expanded ? 1 : 0);
     }
 
     /**
@@ -147,7 +136,7 @@ class Renderer extends AbstractComponentRenderer
 
         // render apply and reset buttons
         $apply = $f->button()->bulky($f->symbol()->glyph()->apply(), $this->txt("apply"), "")
-            ->withOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
+            ->withOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
                         il.UI.filter.onCmd(event, '$id', 'apply');
                         return false; // stop event propagation
                 });
@@ -191,11 +180,11 @@ class Renderer extends AbstractComponentRenderer
          * @var $toggle Toggle
          */
         $toggle = $f->button()->toggle("", $toggle_on_signal, $toggle_off_signal, $component->isActivated());
-        $toggle = $toggle->withAdditionalOnLoadCode(fn ($id) => "$(document).on('$toggle_on_signal',function(event) {
+        $toggle = $toggle->withAdditionalOnLoadCode(fn($id) => "$(document).on('$toggle_on_signal',function(event) {
                         il.UI.filter.onCmd(event, '$id', 'toggleOn');
                         return false; // stop event propagation
             });");
-        $toggle = $toggle->withAdditionalOnLoadCode(fn ($id) => "$(document).on('$toggle_off_signal',function(event) {
+        $toggle = $toggle->withAdditionalOnLoadCode(fn($id) => "$(document).on('$toggle_off_signal',function(event) {
                         il.UI.filter.onCmd(event, '$id', 'toggleOff');
                         return false; // stop event propagation
             });");
@@ -209,6 +198,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderInputs(
         Template $tpl,
         Filter\Standard $component,
+        string $component_id,
         RendererInterface $default_renderer
     ): void {
         // pass information on what inputs should be initially rendered
@@ -236,20 +226,12 @@ class Renderer extends AbstractComponentRenderer
         }
         if (count($component->getInputs()) > 0) {
             $tpl->setCurrentBlock("active_inputs_section");
+            $tpl->setVariable("ID_FILTER_ACTIVE", $component_id);
             $tpl->parseCurrentBlock();
         }
 
         $input_group = $input_group->withOnUpdate($component->getUpdateSignal());
 
-        $renderer = $default_renderer->withAdditionalContext($component);
-        $tpl->setVariable("INPUTS", $renderer->render($input_group));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Filter\Standard::class);
+        $tpl->setVariable("INPUTS", $default_renderer->render($input_group));
     }
 }

@@ -67,7 +67,7 @@ class Renderer
 
 require_once(__DIR__ . "/../vendor/composer/vendor/autoload.php");
 
-function entry_point(string \$name)
+function entry_point(string \$name): int
 {
     \$null_dic = new ILIAS\Component\Dependencies\NullDIC();
     \$implement = new Pimple\Container();
@@ -169,7 +169,7 @@ PHP;
         throw new \\LogicException("Unknown entry point: \$name.");
     }
 
-    \$entry_points[\$name]()->enter();
+    return \$entry_points[\$name]()->enter();
 }
 
 PHP;

@@ -32,13 +32,13 @@ class Confirmation
     /**
      * @param Closure(): ilConfirmationGUI $create
      */
-    public function __construct(private readonly ilLanguage $language, Closure $create = null)
+    public function __construct(private readonly ilLanguage $language, ?Closure $create = null)
     {
         $this->create = $create ?? static fn() => new ilConfirmationGUI();
     }
 
     /**
-     * @param array<string, string> $items
+     * @param array<int|string, string> $items
      */
     public function render(string $link, string $command, string $cancel_command, string $message, array $items = []): string
     {

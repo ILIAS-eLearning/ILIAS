@@ -16,13 +16,10 @@
  *********************************************************************/
 
 declare(strict_types=1);
-
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\ResourceStorage\Consumer\InlineSrcBuilder;
 use ILIAS\ResourceStorage\Consumer\SrcBuilder;
 use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Revision\Revision;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\FileDelivery\Delivery\Disposition;
 use ILIAS\FileDelivery\Services;
 
@@ -43,7 +40,7 @@ class ilSecureTokenSrcBuilder implements SrcBuilder
         Revision $revision,
         bool $signed = true,
         float $valid_for_at_least_minutes = 60.0,
-        string $filename = null
+        ?string $filename = null
     ): string {
         // get stream from revision
         $stream = $revision->maybeStreamResolver()?->getStream();

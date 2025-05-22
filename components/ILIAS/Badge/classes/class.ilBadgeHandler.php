@@ -91,7 +91,7 @@ class ilBadgeHandler
     /**
      * @param string[]|null $a_components
      */
-    public function setComponents(array $a_components = null): void
+    public function setComponents(?array $a_components = null): void
     {
         if (isset($a_components) && count($a_components) === 0) {
             $a_components = null;
@@ -126,7 +126,7 @@ class ilBadgeHandler
         $comp = $this->getComponent($a_component_id);
         if ($comp) {
             $class = 'il' . $comp['name'] . 'BadgeProvider';
-            $file = $comp['type'] . '/' . $comp['name'] . '/classes/class.' . $class . '.php';
+            $file = '../' . $comp['type'] . '/' . $comp['name'] . '/classes/class.' . $class . '.php';
             if (file_exists($file)) {
                 $obj = new $class();
                 if ($obj instanceof ilBadgeProvider) {
@@ -194,7 +194,7 @@ class ilBadgeHandler
     /**
      * @param string[]|null $a_types
      */
-    public function setInactiveTypes(array $a_types = null): void
+    public function setInactiveTypes(?array $a_types = null): void
     {
         if (is_array($a_types) &&
             !count($a_types)) {
@@ -255,7 +255,7 @@ class ilBadgeHandler
      */
     public function getAvailableManualBadges(
         int $a_parent_obj_id,
-        string $a_parent_obj_type = null
+        ?string $a_parent_obj_type = null
     ): array {
         $res = [];
 
@@ -342,7 +342,7 @@ class ilBadgeHandler
     public function triggerEvaluation(
         string $a_type_id,
         int $a_user_id,
-        array $a_params = null
+        ?array $a_params = null
     ): void {
         if (!$this->isActive() || in_array($a_type_id, $this->getInactiveTypes(), true)) {
             return;
@@ -378,8 +378,8 @@ class ilBadgeHandler
      */
     public function getUserIds(
         int $a_parent_ref_id,
-        int $a_parent_obj_id = null,
-        string $a_parent_type = null
+        ?int $a_parent_obj_id = null,
+        ?string $a_parent_type = null
     ): array {
         $tree = $this->tree;
 
@@ -484,7 +484,7 @@ class ilBadgeHandler
 
     public function sendNotification(
         array $a_user_map,
-        int $a_parent_ref_id = null
+        ?int $a_parent_ref_id = null
     ): void {
         $badges = [];
 

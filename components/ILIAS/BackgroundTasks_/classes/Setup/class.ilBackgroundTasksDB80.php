@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\Setup;
-use ILIAS\Data\Password;
-
 class ilBackgroundTasksDB80 implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;

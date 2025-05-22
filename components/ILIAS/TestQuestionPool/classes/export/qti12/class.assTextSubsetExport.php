@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,8 +15,6 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
-use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
 
 /**
 * Class for text subset question exports
@@ -58,7 +57,7 @@ class assTextSubsetExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "QUESTIONTYPE");
-        $a_xml_writer->xmlElement("fieldentry", null, QuestionIdentifiers::TEXTSUBSET_QUESTION_IDENTIFIER);
+        $a_xml_writer->xmlElement("fieldentry", null, $this->object->getQuestionType());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "AUTHOR");
@@ -100,10 +99,7 @@ class assTextSubsetExport extends assQuestionExport
                 "rcardinality" => "Single"
             ];
             $a_xml_writer->xmlStartTag("response_str", $attrs);
-            $solution = $this->object->getSuggestedSolution(0);
-            if ($solution !== null) {
-                $a_xml_writer = $this->addSuggestedSolutionLink($a_xml_writer, $solution);
-            }
+            $a_xml_writer = $this->addSuggestedSolution($a_xml_writer);
             // shuffle output
             $attrs = [
                 "fibtype" => "String",
@@ -257,8 +253,6 @@ class assTextSubsetExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
-
-        $a_xml_writer = $this->addSolutionHints($a_xml_writer);
 
         $a_xml_writer->xmlEndTag("item");
         $a_xml_writer->xmlEndTag("questestinterop");

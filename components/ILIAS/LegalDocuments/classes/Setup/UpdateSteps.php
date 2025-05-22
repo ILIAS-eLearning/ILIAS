@@ -95,7 +95,7 @@ class UpdateSteps implements ilDatabaseUpdateSteps
     }
 
     /**
-     * @param array<string, $string> $tables
+     * @param array<string|int, mixed> $tables
      */
     private function renameTables(array $tables): void
     {

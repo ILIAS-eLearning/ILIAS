@@ -18,33 +18,26 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailTemplatePlaceholderResolver
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailTemplatePlaceholderResolver
 {
-    protected Mustache_Engine $mustache_engine;
-
-    public function __construct(Mustache_Engine $mustache_engine)
+    public function __construct(protected Mustache_Engine $mustache_engine)
     {
-        $this->mustache_engine = $mustache_engine;
     }
 
     /**
-     * @param array<int|string> $contextParameters
+     * @param array<int|string> $context_parameters
      */
     public function resolve(
         ilMailTemplateContext $context,
         string $message,
         ?ilObjUser $user = null,
-        array $contextParameters = []
+        array $context_parameters = []
     ): string {
         return $this->mustache_engine->render(
             $message,
             new ilMailTemplateContextAdapter(
                 [$context],
-                $contextParameters,
+                $context_parameters,
                 $user
             )
         );

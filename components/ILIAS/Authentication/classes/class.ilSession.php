@@ -26,33 +26,12 @@ declare(strict_types=1);
 class ilSession
 {
     /**
-     *
-     * Constant for fixed dession handling
-     *
-     * @var integer
-     *
-     */
-    public const SESSION_HANDLING_FIXED = 0;
-
-    /**
-     *
-     * Constant for load dependend session handling
-     *
-     * @var integer
-     *
-     */
-    public const SESSION_HANDLING_LOAD_DEPENDENT = 1;
-
-    /**
      * Constant for reason of session destroy
      *
      * @var integer
      */
     public const SESSION_CLOSE_USER = 1;  // manual logout
     public const SESSION_CLOSE_EXPIRE = 2;  // has expired
-    public const SESSION_CLOSE_FIRST = 3;  // kicked by session control (first abidencer)
-    public const SESSION_CLOSE_IDLE = 4;  // kickey by session control (ilde time)
-    public const SESSION_CLOSE_LIMIT = 5;  // kicked by session control (limit reached)
     public const SESSION_CLOSE_LOGIN = 6;  // anonymous => login
     public const SESSION_CLOSE_PUBLIC = 7;  // => anonymous
     public const SESSION_CLOSE_TIME = 8;  // account time limit reached
@@ -174,7 +153,7 @@ class ilSession
             $insert_values = implode(
                 ', ',
                 array_map(
-                    static fn (string $type, $value): string => $ilDB->quote($value, $type),
+                    static fn(string $type, $value): string => $ilDB->quote($value, $type),
                     array_column($fields, 0),
                     array_column($fields, 1)
                 )
@@ -182,13 +161,13 @@ class ilSession
 
             $update_fields = array_filter(
                 $fields,
-                static fn (string $field): bool => !in_array($field, ['session_id', 'user_id', 'createtime'], true),
+                static fn(string $field): bool => !in_array($field, ['session_id', 'user_id', 'createtime'], true),
                 ARRAY_FILTER_USE_KEY
             );
             $update_values = implode(
                 ', ',
                 array_map(
-                    static fn (string $field, string $type, $value): string => $field . ' = ' . $ilDB->quote(
+                    static fn(string $field, string $type, $value): string => $field . ' = ' . $ilDB->quote(
                         $value,
                         $type
                     ),
@@ -286,16 +265,21 @@ class ilSession
 
         $ilDB->manipulate($q);
 
-        try {
-            // only delete session cookie if it is set in the current request
-            if ($DIC->http()->wrapper()->cookie()->has(session_name()) &&
-                $DIC->http()->wrapper()->cookie()->retrieve(session_name(), $DIC->refinery()->kindlyTo()->string()) === $a_session_id) {
-                $cookieJar = $DIC->http()->cookieJar()->without(session_name());
-                $cookieJar->renderIntoResponseHeader($DIC->http()->response());
+        if (ilContext::usesHTTP()) {
+            try {
+                // only delete session cookie if it is set in the current request
+                if ($DIC->http()->wrapper()->cookie()->has(session_name()) &&
+                    $DIC->http()->wrapper()->cookie()->retrieve(
+                        session_name(),
+                        $DIC->refinery()->kindlyTo()->string()
+                    ) === $a_session_id) {
+                    $cookieJar = $DIC->http()->cookieJar()->without(session_name());
+                    $cookieJar->renderIntoResponseHeader($DIC->http()->response());
+                }
+            } catch (\Throwable $e) {
+                // ignore
+                // this is needed for "header already"  sent errors when the random cleanup of expired sessions is triggered
             }
-        } catch (\Throwable $e) {
-            // ignore
-            // this is needed for "header already"  sent errors when the random cleanup of expired sessions is triggered
         }
 
         return true;
@@ -376,73 +360,31 @@ class ilSession
     }
 
     /**
-     *
      * Returns the expiration timestamp in seconds
-     *
-     * @param	boolean	If passed, the value for fixed session is returned
-     * @return	integer	The expiration timestamp in seconds
-     * @static
-     *
      */
-    public static function getExpireValue(bool $fixedMode = false): int
+    public static function getExpireValue(): int
     {
-        global $DIC;
-
-        if ($fixedMode) {
-            // fixed session
-            return time() + self::getIdleValue($fixedMode);
-        }
-
-        /** @var ilSetting $ilSetting */
-        $ilSetting = $DIC['ilSetting'];
-        if ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) === (string) self::SESSION_HANDLING_FIXED) {
-            return time() + self::getIdleValue($fixedMode);
-        }
-
-        if ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) === (string) self::SESSION_HANDLING_LOAD_DEPENDENT) {
-            // load dependent session settings
-            $max_idle = (int) ($ilSetting->get('session_max_idle') ?? ilSessionControl::DEFAULT_MAX_IDLE);
-            return time() + $max_idle * 60;
-        }
-        return time() + ilSessionControl::DEFAULT_MAX_IDLE * 60;
+        return time() + self::getIdleValue();
     }
 
     /**
-     *
      * Returns the idle time in seconds
-     *
-     * @param	boolean	If passed, the value for fixed session is returned
-     * @return	integer	The idle time in seconds
      */
-    public static function getIdleValue(bool $fixedMode = false): int
+    public static function getIdleValue(): int
     {
         global $DIC;
 
-        $ilSetting = $DIC['ilSetting'];
         $ilClientIniFile = $DIC['ilClientIniFile'];
 
-        if ($fixedMode || $ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) === (string) self::SESSION_HANDLING_FIXED) {
-            // fixed session
-            return (int) $ilClientIniFile->readVariable('session', 'expire');
-        }
-
-        if ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) === (string) self::SESSION_HANDLING_LOAD_DEPENDENT) {
-            // load dependent session settings
-            return ((int) $ilSetting->get('session_max_idle', (string) (ilSessionControl::DEFAULT_MAX_IDLE))) * 60;
-        }
-        return ilSessionControl::DEFAULT_MAX_IDLE * 60;
+        return (int) $ilClientIniFile->readVariable('session', 'expire');
     }
 
     /**
-     *
      * Returns the session expiration value
-     *
-     * @return integer	The expiration value in seconds
-     *
      */
     public static function getSessionExpireValue(): int
     {
-        return self::getIdleValue(true);
+        return self::getIdleValue();
     }
 
     /**

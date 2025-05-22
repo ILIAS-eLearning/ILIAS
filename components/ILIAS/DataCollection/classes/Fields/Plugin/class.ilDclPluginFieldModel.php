@@ -40,4 +40,24 @@ class ilDclPluginFieldModel extends ilDclBaseFieldModel
     {
         return false;
     }
+
+    public function getPresentationTitle(): string
+    {
+        global $DIC;
+        $plugin = $DIC["component.factory"]->getPlugin(ilDclFieldTypePlugin::getPluginId($this->getDatatype()->getTitle()));
+        if (str_ends_with($plugin->txt('field_type_name'), 'field_type_name-')) {
+            return $plugin->getPluginName();
+        }
+        return $plugin->txt('field_type_name');
+    }
+
+    public function getPresentationDescription(): string
+    {
+        global $DIC;
+        $plugin = $DIC["component.factory"]->getPlugin(ilDclFieldTypePlugin::getPluginId($this->getDatatype()->getTitle()));
+        if (str_ends_with($plugin->txt('field_type_info'), 'field_type_info-')) {
+            return '';
+        }
+        return $plugin->txt('field_type_info');
+    }
 }

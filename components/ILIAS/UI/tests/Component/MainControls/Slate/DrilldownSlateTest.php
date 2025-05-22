@@ -38,15 +38,14 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
                 return new I\SignalGenerator();
             }
 
-            public function menu(): C\Menu\Factory
+            public function menu(): I\Menu\Factory
             {
                 return new I\Menu\Factory(
                     $this->getSigGen(),
-                    new ilLanguageMock()
                 );
             }
 
-            public function symbol(): C\Symbol\Factory
+            public function symbol(): I\Symbol\Factory
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
@@ -55,7 +54,7 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
                 );
             }
 
-            public function mainControls(): C\MainControls\Factory
+            public function mainControls(): I\MainControls\Factory
             {
                 $slate_factory = new I\MainControls\Slate\Factory(
                     $this->getSigGen(),
@@ -65,7 +64,7 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
                 return new I\MainControls\Factory($this->getSigGen(), $slate_factory);
             }
 
-            public function button(): C\Button\Factory
+            public function button(): I\Button\Factory
             {
                 return new I\Button\Factory();
             }
@@ -101,11 +100,11 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
                             <div></div>
                             <div class="c-drilldown__filter">
                                 <label for=\'id_3\' class="control-label">filter_nodes_in</label>
-                                <input id=\'id_3\' type="text" name=\'\' class="form-control" />
+                                <input id=\'id_3\' type="text" class="form-control" />
                             </div>
                             <div class="c-drilldown__backnav">
                                 <button class="btn btn-bulky" id="id_1" aria-label="back">
-                                    <span class="glyph" role="img">
+                                    <span class="glyph" aria-label="collapse/back" role="img">
                                         <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
                                     </span>
                                     <span class="bulky-label"></span>

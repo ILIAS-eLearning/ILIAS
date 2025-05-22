@@ -15,9 +15,9 @@
 
 import il from 'il';
 import $ from 'jquery';
-import SortationFactory from './sortation.factory';
-import PaginationFactory from './pagination.factory';
-import JQueryEventDispatcher from './jqueryeventdispatcher';
+import SortationFactory from './sortation.factory.js';
+import PaginationFactory from './pagination.factory.js';
+import JQueryEventDispatcher from '../../Core/src/jqueryeventdispatcher.js';
 
 const eventDispatcher = new JQueryEventDispatcher($);
 il.UI = il.UI || {};

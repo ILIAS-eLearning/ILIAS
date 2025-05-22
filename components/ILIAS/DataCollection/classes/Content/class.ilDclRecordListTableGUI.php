@@ -36,6 +36,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected \ILIAS\DI\UIServices $ui;
+    protected bool $page_active = false;
 
     public function __construct(
         ilDclRecordListGUI $a_parent_obj,
@@ -55,6 +56,9 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         $this->setPrefix($identifier);
         $this->setFormName($identifier);
         $this->setId($identifier);
+        $page = new ilDclDetailedViewDefinitionGUI($this->tableview->getId());
+        $this->page_active = $page->getPageObject()->isActive();
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->table = $table;
         $this->parent_obj = $a_parent_obj;
@@ -69,7 +73,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $this->addMultiCommand("confirmDeleteRecords", $this->lng->txt('dcl_delete_records'));
         }
 
-        if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
+        if ($this->page_active) {
             $this->addColumn("", "_front", '15px');
         }
 
@@ -90,8 +94,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         $this->setTopCommands(true);
         $this->setEnableHeader(true);
         $this->setShowRowsSelector(true);
-        $this->setShowTemplates(true);
-        $this->setEnableHeader(true);
         $this->setEnableTitle(true);
         $this->setTitle($table->getTitle());
         $this->setDescription($this->tableview->getTitle());
@@ -108,7 +110,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
                     }
                 }
             } else {
-                $default_sort_title = ilDclCache::getFieldCache((int)$fieldId)->getTitle();
+                $default_sort_title = ilDclCache::getFieldCache((int) $fieldId)->getTitle();
             }
             $this->setDefaultOrderField($default_sort_title);
         }
@@ -185,13 +187,10 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, "tableview_id", $this->tableview->getId());
             $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, "mode", $this->mode);
 
-            if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
-                $record_data["_front"] = $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord');
-            }
-
             $action_links = [];
 
-            if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
+            if ($this->page_active) {
+                $record_data["_front"] = $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord');
                 $action_links[] = $this->ui->factory()->link()->standard(
                     $this->lng->txt('view'),
                     $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord')
@@ -261,13 +260,9 @@ class ilDclRecordListTableGUI extends ilTable2GUI
 
         if ($a_set["_front"]) {
             $this->tpl->setCurrentBlock('view');
-            $this->tpl->setVariable("VIEW_IMAGE_LINK", $a_set["_front"]);
             $this->tpl->setVariable(
-                "VIEW_IMAGE_SRC",
-                ilUtil::img(
-                    ilUtil::getImagePath("media/enlarge.svg"),
-                    $this->lng->txt('dcl_display_record_alt')
-                )
+                "VIEW_DETAILS",
+                $this->ui->renderer()->render($this->ui->factory()->symbol()->glyph()->enlarge($a_set["_front"]))
             );
             $this->tpl->parseCurrentBlock();
         }
@@ -291,8 +286,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
 
     protected function needsActionRow(): bool
     {
-        if ($this->table->getPublicCommentsEnabled() ||
-            ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
+        if ($this->table->getPublicCommentsEnabled() || $this->page_active) {
             return true;
         }
 
@@ -321,54 +315,24 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         return $return;
     }
 
-    /**
-     * init filters with values from tableview
-     */
-    public function initFilterFromTableView(): void
-    {
-        $this->filters = [];
-        $this->filter = [];
-        foreach ($this->tableview->getFilterableFieldSettings() as $field_set) {
-            $field = $field_set->getFieldObject();
-            ilDclCache::getFieldRepresentation($field)->addFilterInputFieldToTable($this);
-
-            //set filter values
-            $filter = end($this->filters);
-            $value = $field_set->getFilterValue();
-            $filter->setValueByArray($value);
-            $filter->writeToSession();
-            $this->applyFilter($field->getId(), empty(array_filter($value)) ? null : $filter->getValue());
-
-            //Disable filters
-            if (!$field_set->isFilterChangeable()) {
-                $filter->setDisabled(true);
-                if ($filter instanceof ilCombinationInputGUI) {
-                    $filter->__call('setDisabled', [true]);
-                }
-            }
-        }
-    }
-
-    /**
-     * normally initialize filters - used by applyFilter and resetFilter
-     */
     public function initFilter(): void
     {
         foreach ($this->tableview->getFilterableFieldSettings() as $field_set) {
             $field = $field_set->getFieldObject();
             $value = ilDclCache::getFieldRepresentation($field)->addFilterInputFieldToTable($this);
+            $filter = $this->getFilterItemByPostVar('filter_' . $field->getId());
 
-            //Disable filters
-            $filter = end($this->filters);
-            if (!$field_set->isFilterChangeable()) {
-                //always set tableview-filtervalue with disabled fields, so resetFilter won't reset it
+            $isset = ilSession::has("form_" . $filter->getParentTable()->getId() . "_" . $filter->getFieldId());
+            if (!$field_set->isFilterChangeable() || !$isset) {
                 $value = $field_set->getFilterValue();
                 $filter->setValueByArray($value);
                 $value = $filter->getValue();
 
-                $filter->setDisabled(true);
-                if ($filter instanceof ilCombinationInputGUI) {
-                    $filter->__call('setDisabled', [true]);
+                if (!$field_set->isFilterChangeable()) {
+                    $filter->setDisabled(true);
+                    if ($filter instanceof ilCombinationInputGUI) {
+                        $filter->__call('setDisabled', [true]);
+                    }
                 }
             }
 

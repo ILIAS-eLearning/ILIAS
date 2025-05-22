@@ -183,42 +183,4 @@ class ilQuestionpoolExport
             }
         }
     }
-
-    /**
-    * build xml export file
-    */
-    protected function buildExportFileXLSX(): string
-    {
-        $worksheet = new ilAssExcelFormatHelper();
-        $worksheet->addSheet('Sheet 1');
-        $row = 1;
-        $col = 0;
-
-        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt("title"));
-        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt("description"));
-        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt("question_type"));
-        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt("author"));
-        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt("create_date"));
-        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col) . $row, $this->lng->txt("last_update"));
-
-        $col = 0;
-        $row++;
-        $questions = $this->qpl_obj->getQuestionList();
-        foreach ($questions as $question) {
-            $worksheet->setCell($row, $col++, $question["title"]);
-            $worksheet->setCell($row, $col++, $question["description"]);
-            $worksheet->setCell($row, $col++, $this->lng->txt($question["type_tag"]));
-            $worksheet->setCell($row, $col++, $question["author"]);
-            $created = new ilDate($question["created"], IL_CAL_UNIX);
-            $worksheet->setCell($row, $col++, $created);
-            $updated = new ilDate($question["tstamp"], IL_CAL_UNIX);
-            $worksheet->setCell($row, $col++, $updated);
-            $col = 0;
-            $row++;
-        }
-
-        $excelfile = $this->export_dir . '/' . $this->filename;
-        $worksheet->writeToFile($excelfile);
-        return $excelfile;
-    }
 }

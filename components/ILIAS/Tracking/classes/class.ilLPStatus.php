@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * Abstract class ilLPStatus for all learning progress modes
@@ -114,9 +115,19 @@ class ilLPStatus
         return array();
     }
 
-    public static function _getTypicalLearningTime(int $a_obj_id): int
+    public static function _getTypicalLearningTime(string $type, int $obj_id, int $sub_id = 0): int
     {
-        return ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
+        global $DIC;
+
+        $lom_services = $DIC->learningObjectMetadata();
+        $paths = $lom_services->paths();
+        $data_helper = $lom_services->dataHelper();
+
+        $value = $lom_services->read($obj_id, $sub_id, $type, $paths->firstTypicalLearningTime())
+                              ->firstData($paths->firstTypicalLearningTime())
+                              ->value();
+
+        return $data_helper->durationToSeconds($value);
     }
 
     /**
@@ -262,7 +273,7 @@ class ilLPStatus
     public function determineStatus(
         int $a_obj_id,
         int $a_usr_id,
-        object $a_obj = null
+        ?object $a_obj = null
     ): int {
         return 0;
     }
@@ -889,8 +900,9 @@ class ilLPStatus
         }
 
         // missing objects in DB (default mode)
+        $existing_obj_ids = array_keys($existing);
         if (sizeof($existing) != sizeof($a_obj_ids)) {
-            foreach (array_diff($a_obj_ids, $existing) as $obj_id) {
+            foreach (array_diff($a_obj_ids, $existing_obj_ids) as $obj_id) {
                 $olp = ilObjectLP::getInstance($obj_id);
                 $mode = $olp->getCurrentMode();
                 if ($mode == ilLPObjSettings::LP_MODE_DEACTIVATED) {

@@ -16,13 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\DI\Container;
-use ILIAS\Filesystem\Stream\FileStream;
-use ILIAS\FileUpload\DTO\UploadResult;
-use ILIAS\FileUpload\FileUpload;
-use ILIAS\ResourceStorage\Manager\Manager;
-use ILIAS\ResourceStorage\Revision\Revision;
-use ILIAS\ResourceStorage\Policy\FileNamePolicyException;
 use ILIAS\Data\DataSize;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
@@ -33,45 +26,8 @@ class ilObjFileInfo
 {
     use ilObjFileSecureString;
 
-    protected ?ResourceIdentification $rid;
-    protected string $title;
-    protected string $file_name;
-    protected string $suffix;
-    protected bool $deliver_inline;
-    protected bool $download_directly;
-    protected int $version;
-    protected DateTimeImmutable $creation_date;
-    protected bool $is_zip;
-    protected string $mime_type;
-    protected DataSize $file_size;
-    protected ?int $page_count;
-
-    public function __construct(
-        string $title,
-        ?ResourceIdentification $rid,
-        string $file_name,
-        string $suffix,
-        bool $deliver_inline,
-        bool $download_directly,
-        int $version,
-        DateTimeImmutable $creation_date,
-        bool $is_zip,
-        string $mime_type,
-        DataSize $file_size,
-        ?int $page_count
-    ) {
-        $this->title = $title;
-        $this->rid = $rid;
-        $this->file_name = $file_name;
-        $this->suffix = $suffix;
-        $this->deliver_inline = $deliver_inline;
-        $this->download_directly = $download_directly;
-        $this->version = $version;
-        $this->creation_date = $creation_date;
-        $this->is_zip = $is_zip;
-        $this->mime_type = $mime_type;
-        $this->file_size = $file_size;
-        $this->page_count = $page_count;
+    public function __construct(protected string $title, protected ?ResourceIdentification $rid, protected string $file_name, protected string $suffix, protected bool $deliver_inline, protected bool $download_directly, protected int $version, protected DateTimeImmutable $creation_date, protected bool $is_zip, protected string $mime_type, protected DataSize $file_size, protected ?int $page_count)
+    {
     }
 
     public function getFileName(): string

@@ -235,7 +235,8 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
 
         $final_childs = [];
         foreach ($childs as $k => $c) {
-            if ($this->matches($c) || !$this->isNodeRequested($a_parent_node_id)) {
+            if ($this->isNodeVisible($c)
+                && ($this->matches($c) || !$this->isNodeRequested($a_parent_node_id))) {
                 $final_childs[$k] = $c;
             }
         }
@@ -382,7 +383,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
         $node = $this->createNode($factory, $record);
 
         $href = $this->getNodeHref($record);
-        if ($href !== '' && '#' !== $href) {
+        if ($href !== '' && '#' !== $href && $this->isNodeClickable($record)) {
             $node = $node->withLink(new \ILIAS\Data\URI(ILIAS_HTTP_PATH . '/' . $href));
         }
 
@@ -420,9 +421,13 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
         $f = $this->ui->factory();
         $tree = $this->getTree();
 
-        $data = array(
-            $tree->getNodeData($tree->readRootId())
-        );
+        if (!$this->getSkipRootNode()) {
+            $data = array(
+                $tree->getNodeData($tree->readRootId())
+            );
+        } else {
+            $data = $tree->getChilds($tree->readRootId());
+        }
 
         $label = $this->getTreeLabel();
         if ($this->getTreeLabel() === "" && $this->getNodeContent($this->getRootNode())) {

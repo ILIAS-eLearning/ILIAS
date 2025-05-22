@@ -152,7 +152,10 @@ class ilUserUtil
         }
 
         foreach ($a_user_id as $id) {
-            if (!isset($names[$id]) || !$names[$id]) {
+            if (!isset($names[$id])) {
+                $names[$id] = $lng->txt('deleted_user');
+            }
+            if ($names[$id] === '') {
                 $names[$id] = $lng->txt('usr_name_undisclosed');
             }
         }
@@ -208,7 +211,6 @@ class ilUserUtil
         $starting_point_repository = new ilUserStartingPointRepository(
             $DIC['ilUser'],
             $DIC['ilDB'],
-            $DIC['tpl'],
             $DIC->logger(),
             $DIC['tree'],
             $DIC['rbacreview'],

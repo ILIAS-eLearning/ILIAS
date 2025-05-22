@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+use ILIAS\DI\UIServices;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\FileUpload\Collection\Exception\NoSuchElementException;
+use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\HTTP\Services;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\ResourceStorage\Revision\Revision;
@@ -27,9 +32,9 @@ use ILIAS\components\WOPI\Discovery\ActionDBRepository;
 use ILIAS\components\WOPI\Discovery\ActionRepository;
 use ILIAS\components\WOPI\Embed\EmbeddedApplication;
 use ILIAS\Data\URI;
-use ILIAS\UI\Component\Modal\Modal;
-use ILIAS\components\WOPI\Discovery\ActionTarget;
 use ILIAS\FileUpload\MimeType;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\File\Capabilities\Capabilities;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -59,7 +64,7 @@ class ilFileVersionsGUI
     public const CMD_CREATE_NEW_VERSION = 'saveVersion';
     public const CMD_ADD_REPLACING_VERSION = 'addReplacingVersion';
     public const CMD_CREATE_REPLACING_VERSION = 'createReplacingVersion';
-    public const CMD_UNZIP_CURRENT_REVISION = 'unzipCurrentRevision';
+    public const CMD_UNZIP_CURRENT_REVISION = Capabilities::UNZIP->value;
     public const CMD_PROCESS_UNZIP = 'processUnzip';
     public const CMD_RENDER_DELETE_SELECTED_VERSIONS_MODAL = 'renderDeleteSelectedVersionsModal';
     public const CMD_PUBLISH = 'publish';
@@ -69,7 +74,7 @@ class ilFileVersionsGUI
     private \ILIAS\ResourceStorage\Services $storage;
     private ActionRepository $action_repo;
     private ?Revision $current_revision;
-    protected \ILIAS\DI\UIServices $ui;
+    protected UIServices $ui;
     private ilAccessHandler $access;
     private \ilWorkspaceAccessHandler $wsp_access;
     private int $ref_id;
@@ -84,6 +89,7 @@ class ilFileVersionsGUI
     protected ilTree $tree;
     protected int $parent_id;
     protected Refinery $refinery;
+    protected LOMServices $lom_services;
 
     /**
      * ilFileVersionsGUI constructor.
@@ -105,6 +111,7 @@ class ilFileVersionsGUI
         $this->tree = $this->isWorkspaceContext() ? new ilWorkspaceTree($DIC->user()->getId()) : $DIC->repositoryTree();
         $this->file_component_builder = new ilObjFileComponentBuilder($this->lng, $this->ui);
         $this->refinery = $DIC->refinery();
+        $this->lom_services = $DIC->learningObjectMetadata();
 
         $this->parent_id = $this->tree->getParentId($this->file->getRefId()) ?? $this->getParentIdType();
         $this->wsp_access = new ilWorkspaceAccessHandler($this->tree);
@@ -118,8 +125,8 @@ class ilFileVersionsGUI
 
 
     /**
-     * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
-     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
+     * @throws NoSuchElementException
+     * @throws IllegalStateException
      */
     protected function performCommand(): void
     {
@@ -341,8 +348,8 @@ class ilFileVersionsGUI
     }
 
     /**
-     * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
-     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
+     * @throws NoSuchElementException
+     * @throws IllegalStateException
      */
     private function saveVersion(int $mode = ilFileVersionFormGUI::MODE_ADD): void
     {
@@ -372,14 +379,14 @@ class ilFileVersionsGUI
             $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
 
-        if($this->current_revision->getStatus() === RevisionStatus::DRAFT) {
+        if ($this->current_revision->getStatus() === RevisionStatus::DRAFT) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("file_rollback_rollback_first"), true);
             $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
 
         // rollback the version
         $version_id = $version_ids[0];
-        if($version_id === $this->current_revision->getVersionNumber()) {
+        if ($version_id === $this->current_revision->getVersionNumber()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("file_rollback_same_version"), true);
             $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
@@ -496,7 +503,7 @@ class ilFileVersionsGUI
 
         $this->http->saveResponse(
             $this->http->response()->withBody(
-                \ILIAS\Filesystem\Stream\Streams::ofString(
+                Streams::ofString(
                     (null !== $delete_selected_versions_modal) ?
                         $this->ui->renderer()->renderAsync([$delete_selected_versions_modal]) :
                         ''
@@ -516,7 +523,7 @@ class ilFileVersionsGUI
         $non_deletion_versions = array_udiff(
             $existing_versions,
             $deletion_version_ids,
-            static function ($a, $b) {
+            static function ($a, $b): int|float {
                 if ($a instanceof ilObjFileVersion) {
                     $a = $a->getHistEntryId();
                 }
@@ -555,7 +562,7 @@ class ilFileVersionsGUI
             $this->current_revision->getStatus() === RevisionStatus::DRAFT
         ) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('publish_before_delete'), $redirect);
-            if($redirect) {
+            if ($redirect) {
                 $this->ctrl->redirect($this, self::CMD_DEFAULT);
             }
         }
@@ -563,7 +570,7 @@ class ilFileVersionsGUI
         // no checkbox has been selected
         if (count($requested_deletion_version) < 1) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), $redirect);
-            if($redirect) {
+            if ($redirect) {
                 $this->ctrl->redirect($this, self::CMD_DEFAULT);
             }
         }
@@ -578,7 +585,7 @@ class ilFileVersionsGUI
         $remaining_versions = array_udiff(
             $existing_versions,
             $version_ids,
-            static function ($a, $b) {
+            static function ($a, $b): int|float {
                 if ($a instanceof ilObjFileVersion) {
                     $a = $a->getHistEntryId();
                 }
@@ -646,31 +653,34 @@ class ilFileVersionsGUI
             $this->lng->txt('take_over_structure_info'),
         );
 
-        // return form at this point if copyright selection is not enabled
-        if (!ilMDSettings::_getInstance()->isCopyrightSelectionActive()) {
+        if (!$this->lom_services->copyrightHelper()->isCopyrightSelectionActive()) {
             return $this->ui->factory()->input()->container()->form()->standard($form_action, $inputs);
         }
 
-        // add the option for letting all unzipped files inherit the copyright of their parent zip (if a copyright has been set for the zip)
-        $zip_md = new ilMD($this->file->getId(), 0, $this->file->getType());
-        $rights = $zip_md->getRights();
-        if ($rights !== null) {
-            $zip_copyright_description = $zip_md->getRights()->getDescription();
-            $zip_copyright_id = ilMDCopyrightSelectionEntry::_extractEntryId($zip_copyright_description);
+        $lom_reader = $this->lom_services->read($this->file->getId(), 0, $this->file->getType());
+        $lom_cp_helper = $this->lom_services->copyrightHelper();
+
+        if ($lom_cp_helper->hasPresetCopyright($lom_reader)) {
+            $zip_copyright = $lom_cp_helper->readPresetCopyright($lom_reader);
+            $zip_copyright_id = $zip_copyright->identifier();
+            $zip_copyright_title = $zip_copyright->title();
+        } else {
+            $zip_copyright_id = $zip_copyright_title = $lom_cp_helper->readCustomCopyright($lom_reader);
+        }
+        if ($zip_copyright_id !== '') {
             $copyright_inheritance_input = $this->ui->factory()->input()->field()->hidden()->withValue(
-                (string) $zip_copyright_id
+                $zip_copyright_id
             );
             $copyright_options[self::KEY_INHERIT_COPYRIGHT] = $this->ui->factory()->input()->field()->group(
                 [self::KEY_COPYRIGHT_ID => $copyright_inheritance_input],
                 $this->lng->txt("copyright_inherited"),
                 sprintf(
                     $this->lng->txt("copyright_inherited_info"),
-                    ilMDCopyrightSelectionEntry::lookupCopyyrightTitle($zip_copyright_description)
+                    $zip_copyright_title
                 )
             );
         }
 
-        // add the option to collectively select the copyright for all unzipped files independent of the original copyright of the zip
         $copyright_selection_input = $this->getCopyrightSelectionInput('set_license_for_all_files');
         $copyright_options[self::KEY_SELECT_COPYRIGHT] = $this->ui->factory()->input()->field()->group(
             [self::KEY_COPYRIGHT_ID => $copyright_selection_input],
@@ -717,7 +727,7 @@ class ilFileVersionsGUI
         );
     }
 
-    private function getIdentification(): ?\ILIAS\ResourceStorage\Identification\ResourceIdentification
+    private function getIdentification(): ?ResourceIdentification
     {
         return $this->storage->manage()->find($this->file->getResourceId());
     }

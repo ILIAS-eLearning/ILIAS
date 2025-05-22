@@ -17,32 +17,41 @@
  *********************************************************************/
 
 declare(strict_types=1);
-
-use ILIAS\Setup\ObjectiveConstructor;
-use ILIAS\Setup\Config;
-use ILIAS\Refinery\Factory;
-use ILIAS\Refinery;
-use ILIAS\Setup;
-use ILIAS\Setup\Objective;
 use ILIAS\Setup\Environment;
+use ILIAS\BookingManager\Setup\AccessRBACOperationClonedObjective;
+use ILIAS\File\Capabilities\Permissions;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class ilFileObjectRBACDatabase extends ilDatabaseUpdateStepsExecutedObjective
 {
+    #[\Override]
     public function getPreconditions(Environment $environment): array
     {
         return array_merge(
             parent::getPreconditions($environment),
             [
                 new ilAccessCustomRBACOperationAddedObjective(
-                    ilFileObjectRBACDatabaseSteps::EDIT_FILE,
+                    Permissions::EDIT_CONTENT->value,
                     "Edit File",
                     "object",
                     5990,
                     ["file"]
-                )
+                ),
+                new \ilAccessCustomRBACOperationAddedObjective(
+                    Permissions::VIEW_CONTENT->value,
+                    "View Content in external Editor",
+                    "object",
+                    2001,
+                    ["file"]
+                ),
+                new AccessRBACOperationClonedObjective(
+                    "file",
+                    Permissions::READ->value,
+                    Permissions::VIEW_CONTENT->value
+                ),
+
             ]
         );
     }

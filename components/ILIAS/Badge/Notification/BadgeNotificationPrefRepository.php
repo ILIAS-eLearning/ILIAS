@@ -27,7 +27,7 @@ class BadgeNotificationPrefRepository
 {
     protected \ilObjUser $user;
 
-    public function __construct(\ilObjUser $user = null)
+    public function __construct(?\ilObjUser $user = null)
     {
         global $DIC;
 

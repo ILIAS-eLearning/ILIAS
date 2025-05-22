@@ -24,7 +24,6 @@ use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Lock\LockingRepository;
-use ILIAS\ResourceStorage\Events\Subject;
 use ILIAS\ResourceStorage\Events\DataContainer;
 
 /**

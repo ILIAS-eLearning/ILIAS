@@ -16,9 +16,11 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Modal\InterruptiveItem\Standard;
 use ILIAS\AdministrativeNotification\Table;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Class ilADNNotificationGUI
@@ -39,8 +41,8 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
     public const CMD_DELETE = 'delete';
     public const CMD_RESET = 'reset';
     public const CMD_CONFIRM_DELETE = 'confirmDelete';
-    private \ILIAS\UI\Factory $ui_factory;
-    private \ILIAS\UI\Renderer $ui_renderer;
+    private readonly Factory $ui_factory;
+    private readonly Renderer $ui_renderer;
     protected Table $table;
 
     public function __construct(ilADNTabHandling $tab_handling)
@@ -191,12 +193,10 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
                     $this->lng->txt('action_confirm_delete_msg'),
                     $this->ctrl->getLinkTarget($this, self::CMD_DELETE)
                 )->withAffectedItems(
-                    array_map(function (ilADNNotification $adn) {
-                        return $this->ui_factory->modal()->interruptiveItem()->standard(
-                            $adn->getId(),
-                            $adn->getTitle()
-                        );
-                    }, $adns)
+                    array_map(fn(ilADNNotification $adn): Standard => $this->ui_factory->modal()->interruptiveItem()->standard(
+                        $adn->getId(),
+                        $adn->getTitle()
+                    ), $adns)
                 )
             )
         );
@@ -221,8 +221,12 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
         $field_ids = $query_params[$name] ?? []; // array of field ids
 
         // all objects
-        if ($field_ids[0] ?? null === 'ALL_OBJECTS') {
+        if (($field_ids[0] ?? null) === 'ALL_OBJECTS') {
             return ilADNNotification::get();
+        }
+        // check ilADNAbstractGUI::IDENTIFIER
+        if (($field_id = $this->http->request()->getQueryParams()[ilADNAbstractGUI::IDENTIFIER] ?? false)) {
+            return [ilADNNotification::findOrFail((int) $field_id)];
         }
 
         $return = [];

@@ -20,7 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class WebAccessChecker implements Component\Component
+use ILIAS\Component\Component;
+use ILIAS\Component\Resource\PublicAsset;
+use ILIAS\Component\Resource\Endpoint;
+
+class WebAccessChecker implements Component
 {
     public function init(
         array | \ArrayAccess &$define,
@@ -32,7 +36,7 @@ class WebAccessChecker implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\Endpoint($this, "wac.php");
+        $contribute[PublicAsset::class] = fn(): Endpoint =>
+            new Endpoint($this, "wac.php");
     }
 }

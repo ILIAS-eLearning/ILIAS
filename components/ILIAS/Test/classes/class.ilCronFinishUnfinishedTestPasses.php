@@ -18,35 +18,39 @@
 
 declare(strict_types=1);
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Test\Results\Data\StatusOfAttempt;
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
+use ILIAS\Test\TestDIC;
+use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * Class ilCronFinishUnfinishedTestPasses
  * @author Guido Vollbach <gvollbach@databay.de>
  */
-class ilCronFinishUnfinishedTestPasses extends ilCronJob
+class ilCronFinishUnfinishedTestPasses extends CronJob
 {
-    /**
-     * @var ilLogger|ilComponentLogger
-     */
-    protected $log;
+    protected readonly TestLogger $logger;
 
-    protected ilLanguage $lng;
-    protected ilDBInterface $db;
-    protected ilObjUser $user;
-    protected ilObjectDataCache $obj_data_cache;
+    protected readonly ilLanguage $lng;
+    protected readonly ilDBInterface $db;
+    protected readonly ilObjUser $user;
+    protected readonly ilObjectDataCache $obj_data_cache;
     protected int $now;
     protected array $unfinished_passes;
     protected array $test_ids;
     protected array $test_ending_times;
     protected ilTestProcessLockerFactory $processLockerFactory;
+    protected TestResultRepository $test_pass_result_repository;
 
     public function __construct()
     {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->log = ilLoggerFactory::getLogger('tst');
+        $this->logger = TestDIC::dic()['logging.logger'];
         $this->lng = $DIC['lng'];
         $this->user = $DIC['ilUser'];
         $this->lng->loadLanguageModule('assessment');
@@ -61,6 +65,8 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
             new ilSetting('assessment'),
             $this->db
         );
+
+        $this->test_pass_result_repository = TestDic::dic()['results.data.test_result_repository'];
     }
 
     public function getId(): string
@@ -78,9 +84,9 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         return $this->lng->txt('finish_unfinished_passes_desc');
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
+        return JobScheduleType::DAILY;
     }
 
     public function getDefaultScheduleValue(): int
@@ -103,24 +109,24 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         return true;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
-        $this->log->info('start inf cronjob...');
+        $this->logger->info('start inf cronjob...');
 
-        $result = new ilCronJobResult();
+        $result = new JobResult();
 
         $this->gatherUsersWithUnfinishedPasses();
         if (count($this->unfinished_passes) > 0) {
-            $this->log->info('found ' . count($this->unfinished_passes) . ' unfinished passes starting analyses.');
+            $this->logger->info('found ' . count($this->unfinished_passes) . ' unfinished passes starting analyses.');
             $this->getTestsFinishAndProcessingTime();
             $this->processPasses();
         } else {
-            $this->log->info('No unfinished passes found.');
+            $this->logger->info('No unfinished passes found.');
         }
 
-        $result->setStatus(ilCronJobResult::STATUS_OK);
+        $result->setStatus(JobResult::STATUS_OK);
 
-        $this->log->info(' ...finishing cronjob.');
+        $this->logger->info(' ...finishing cronjob.');
 
         return $result;
     }
@@ -160,54 +166,87 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         while ($row = $this->db->fetchAssoc($result)) {
             $this->test_ending_times[$row['test_id']] = $row;
         }
-        $this->log->info('Gathered data for ' . count($this->test_ids) . ' test id(s) => (' . implode(',', $this->test_ids) . ')');
+        $this->logger->info('Gathered data for ' . count($this->test_ids) . ' test id(s) => (' . implode(',', $this->test_ids) . ')');
     }
 
     protected function processPasses(): void
     {
-        $now = time();
-        foreach ($this->unfinished_passes as $key => $data) {
+        foreach ($this->unfinished_passes as $data) {
             $test_id = $data['test_fi'];
-            $can_not_be_finished = true;
-            if (array_key_exists($test_id, $this->test_ending_times)) {
-                if ($this->test_ending_times[$test_id]['ending_time_enabled'] == 1) {
-                    $this->log->info('Test (' . $test_id . ') has ending time (' . $this->test_ending_times[$test_id]['ending_time'] . ')');
-                    $ending_time = $this->test_ending_times[$test_id]['ending_time'];
-                    if ($ending_time < $now) {
-                        $this->finishPassForUser($data['active_id'], $this->test_ending_times[$test_id]['obj_fi']);
-                        $can_not_be_finished = false;
-                    } else {
-                        $this->log->info('Test (' . $test_id . ') ending time (' . $this->test_ending_times[$test_id]['ending_time'] . ') > now (' . $now . ') is not reached.');
-                    }
-                } else {
-                    $this->log->info('Test (' . $test_id . ') has no ending time.');
-                }
-                if ($this->test_ending_times[$test_id]['enable_processing_time'] == 1) {
-                    $this->log->info('Test (' . $test_id . ') has processing time (' . $this->test_ending_times[$test_id]['processing_time'] . ')');
-                    $obj_id = $this->test_ending_times[$test_id]['obj_fi'];
-                    if(ilObject::_exists($obj_id)) {
-                        $test_obj = new ilObjTest($obj_id, false);
-                        $startingTime = $test_obj->getStartingTimeOfUser($data['active_id']);
-                        $max_processing_time = $test_obj->isMaxProcessingTimeReached($startingTime, $data['active_id']);
-                        if ($max_processing_time) {
-                            $this->log->info('Max Processing time reached for user id (' . $data['usr_id'] . ') so test with active id (' . $data['active_id'] . ') will be finished.');
-                            $this->finishPassForUser($data['active_id'], $this->test_ending_times[$test_id]['obj_fi']);
-                            $can_not_be_finished = false;
-                        } else {
-                            $this->log->info('Max Processing time not reached for user id (' . $data['usr_id'] . ') in test with active id (' . $data['active_id'] . '). Starting time: ' . $startingTime . ' Processing time: ' . $test_obj->getProcessingTime() . ' / ' . $test_obj->getProcessingTimeInSeconds() . 's');
-                        }
-                    } else {
-                        $this->log->info('Test object with id (' . $obj_id . ') does not exist.');
-                    }
-                } else {
-                    $this->log->info('Test (' . $test_id . ') has no processing time.');
-                }
-
-                if ($can_not_be_finished) {
-                    $this->log->info('Test session with active id (' . $data['active_id'] . ') can not be finished by this cron job.');
-                }
+            if (!array_key_exists($test_id, $this->test_ending_times)) {
+                continue;
+            }
+            if (!$this->finishPassOnEndingTime($test_id, $data['active_id'])
+                && !$this->finishPassOnProcessingTime(
+                    $test_id,
+                    $data['usr_id'],
+                    $data['active_id']
+                )
+            ) {
+                $this->logger->info('Test session with active id ('
+                    . $data['active_id'] . ') can not be finished by this cron job.');
             }
         }
+
+    }
+
+    private function finishPassOnEndingTime(int $test_id, int $active_id): bool
+    {
+        $now = time();
+        if ($this->test_ending_times[$test_id]['ending_time_enabled'] !== 1) {
+            $this->logger->info('Test (' . $test_id . ') has no ending time.');
+            return false;
+        }
+
+        $this->logger->info('Test (' . $test_id . ') has ending time ('
+            . $this->test_ending_times[$test_id]['ending_time'] . ')');
+        $ending_time = $this->test_ending_times[$test_id]['ending_time'];
+        if ($ending_time >= $now) {
+            $this->logger->info('Test (' . $test_id . ') ending time ('
+                . $this->test_ending_times[$test_id]['ending_time']
+                . ') > now (' . $now . ') is not reached.');
+            return false;
+        }
+
+        $this->finishPassForUser($active_id, $this->test_ending_times[$test_id]['obj_fi']);
+        return true;
+    }
+
+    private function finishPassOnProcessingTime(
+        int $test_id,
+        int $usr_id,
+        int $active_id
+    ): bool {
+        if ($this->test_ending_times[$test_id]['enable_processing_time'] !== 1) {
+            $this->logger->info('Test (' . $test_id . ') has no processing time.');
+            return false;
+        }
+
+        $this->logger->info('Test (' . $test_id . ') has processing time (' . $this->test_ending_times[$test_id]['processing_time'] . ')');
+        $obj_id = $this->test_ending_times[$test_id]['obj_fi'];
+
+        if (!ilObject::_exists($obj_id)) {
+            $this->logger->info('Test object with id (' . $obj_id . ') does not exist.');
+            return false;
+        }
+
+        $test_obj = new ilObjTest($obj_id, false);
+        $startingTime = $test_obj->getStartingTimeOfUser($active_id);
+        $max_processing_time = $test_obj->isMaxProcessingTimeReached($startingTime, $active_id);
+        if (!$max_processing_time) {
+            $this->logger->info('Max Processing time not reached for user id ('
+                . $usr_id . ') in test with active id ('
+                . $active_id . '). Starting time: ' . $startingTime
+                . ' Processing time: ' . $test_obj->getProcessingTime() . ' / '
+                . $test_obj->getProcessingTimeInSeconds() . 's');
+            return false;
+        }
+
+        $this->logger->info('Max Processing time reached for user id ('
+            . $usr_id . ') so test with active id ('
+            . $active_id . ') will be finished.');
+        $this->finishPassForUser($active_id, $this->test_ending_times[$test_id]['obj_fi']);
+        return true;
     }
 
     protected function finishPassForUser($active_id, $obj_id): void
@@ -217,23 +256,24 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         $test_session = new ilTestSession($this->db, $this->user);
         $test_session->loadFromDb($active_id);
 
-        if(ilObject::_exists($obj_id)) {
+        if (ilObject::_exists($obj_id)) {
             $test = new ilObjTest($obj_id, false);
 
             $test->updateTestPassResults(
                 $active_id,
                 $test_session->getPass(),
-                $test->areObligationsEnabled(),
                 null,
                 $obj_id
             );
 
-            $pass_finisher = new ilTestPassFinishTasks($test_session, $obj_id);
-            $pass_finisher->performFinishTasks($processLocker);
-
-            $this->log->info('Test session with active id (' . $active_id . ') and obj_id (' . $obj_id . ') is now finished.');
+            (new ilTestPassFinishTasks(
+                $test_session,
+                $test,
+                $this->test_pass_result_repository
+            ))->performFinishTasks($processLocker, StatusOfAttempt::FINISHED_BY_CRONJOB);
+            $this->logger->info('Test session with active id (' . $active_id . ') and obj_id (' . $obj_id . ') is now finished.');
         } else {
-            $this->log->info('Test object with id (' . $obj_id . ') does not exist.');
+            $this->logger->info('Test object with id (' . $obj_id . ') does not exist.');
         }
     }
 }

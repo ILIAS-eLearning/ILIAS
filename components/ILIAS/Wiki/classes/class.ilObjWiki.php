@@ -23,6 +23,7 @@
  */
 class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 {
+    protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\Wiki\InternalDomainService $domain;
     protected bool $page_toc = false;
     protected int $style_id = 0;
@@ -54,6 +55,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         $this->user = $DIC->user();
         $this->type = "wiki";
         $this->setting = $DIC->settings();
+        $this->notes = $DIC->notes();
         parent::__construct($a_id, $a_call_by_reference);
 
         $this->content_style_service = $DIC
@@ -77,18 +79,23 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         $this->rating_overall = $a_rating;
     }
 
+    public function setRating(bool $a_rating): void     // this is called by ilObject->handleAutoRating
+    {
+        $this->setRatingOverall($a_rating);
+    }
+
     public function getRatingOverall(): bool
     {
         return $this->rating_overall;
     }
 
     // Set Enable Rating.
-    public function setRating(bool $a_rating): void
+    public function setRatingPages(bool $a_rating): void
     {
         $this->rating = $a_rating;
     }
 
-    public function getRating(): bool
+    public function getRatingPages(): bool
     {
         return $this->rating;
     }
@@ -205,7 +212,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             "is_online" => array("integer", (int) $this->getOnline()),
             "startpage" => array("text", $this->getStartPage()),
             "short" => array("text", $this->getShortTitle()),
-            "rating" => array("integer", (int) $this->getRating()),
+            "rating" => array("integer", (int) $this->getRatingPages()),
             "public_notes" => array("integer", (int) $this->getPublicNotes()),
             "introduction" => array("clob", $this->getIntroduction()),
             "empty_page_templ" => array("integer", (int) $this->getEmptyPageTemplate()),
@@ -218,6 +225,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             $start_page->setTitle($this->getStartPage());
             $start_page->create();
         }
+
+        $this->notes->domain()->activateComments($this->getId(), $this->getPublicNotes());
 
         return $id;
     }
@@ -236,7 +245,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             "startpage" => array("text", $this->getStartPage()),
             "short" => array("text", $this->getShortTitle()),
             "rating_overall" => array("integer", $this->getRatingOverall()),
-            "rating" => array("integer", $this->getRating()),
+            "rating" => array("integer", $this->getRatingPages()),
             "rating_side" => array("integer", $this->getRatingAsBlock()), // #13455
             "rating_new" => array("integer", $this->getRatingForNewPages()),
             "rating_ext" => array("integer", $this->getRatingCategories()),
@@ -259,6 +268,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             $start_page->create();
         }
 
+        $this->notes->domain()->activateComments($this->getId(), $this->getPublicNotes());
+
         return true;
     }
 
@@ -277,15 +288,16 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         $this->setStartPage((string) $rec["startpage"]);
         $this->setShortTitle((string) $rec["short"]);
         $this->setRatingOverall((bool) $rec["rating_overall"]);
-        $this->setRating((bool) $rec["rating"]);
+        $this->setRatingPages((bool) $rec["rating"]);
         $this->setRatingAsBlock((bool) $rec["rating_side"]);
         $this->setRatingForNewPages((bool) $rec["rating_new"]);
         $this->setRatingCategories((bool) $rec["rating_ext"]);
-        $this->setPublicNotes((bool) $rec["public_notes"]);
+        //$this->setPublicNotes((bool) $rec["public_notes"]);
         $this->setIntroduction((string) $rec["introduction"]);
         $this->setPageToc((bool) $rec["page_toc"]);
         $this->setEmptyPageTemplate((bool) $rec["empty_page_templ"]);
         $this->setLinkMetadataValues((bool) $rec["link_md_values"]);
+        $this->setPublicNotes($this->notes->domain()->commentsActive($this->getId()));
     }
 
 
@@ -504,7 +516,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         $new_obj->setStartPage($this->getStartPage());
         $new_obj->setShortTitle($this->getShortTitle());
         $new_obj->setRatingOverall($this->getRatingOverall());
-        $new_obj->setRating($this->getRating());
+        $new_obj->setRatingPages($this->getRatingPages());
         $new_obj->setRatingAsBlock($this->getRatingAsBlock());
         $new_obj->setRatingForNewPages($this->getRatingForNewPages());
         $new_obj->setRatingCategories($this->getRatingCategories());
@@ -512,7 +524,6 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         $new_obj->setIntroduction($this->getIntroduction());
         $new_obj->setPageToc($this->getPageToc());
         $new_obj->update();
-
         $this->content_style_service
             ->styleForRefId($this->getRefId())
             ->cloneTo($new_obj->getId());
@@ -632,7 +643,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         $page = new ilWikiPage();
         $page->setWikiId($this->getId());
         $page->setTitle(ilWikiUtil::makeDbTitle($a_page_title));
-        if ($this->getRating() && $this->getRatingForNewPages()) {
+        if ($this->getRatingPages() && $this->getRatingForNewPages()) {
             $page->setRating(true);
         }
 

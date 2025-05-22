@@ -24,7 +24,7 @@ use ILIAS\MyStaff\ilMyStaffAccess;
 
 final class EmployeeTalkUserActionProvider extends ilUserActionProvider
 {
-    public const JUMP_TO_USER_TALK_LIST = 'etal_jump_to_user_talks';
+    public const string JUMP_TO_USER_TALK_LIST = 'etal_jump_to_user_talks';
 
     private ilLanguage $language;
     private ilCtrl $controlFlow;

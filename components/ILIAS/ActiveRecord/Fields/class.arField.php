@@ -23,6 +23,7 @@
  */
 class arField
 {
+    public $not_null;
     protected bool $is_unique = false;
     public const FIELD_TYPE_TEXT = 'text'; // MySQL varchar, char
     public const FIELD_TYPE_INTEGER = 'integer'; // MySQL tinyint, smallint, mediumint, int, bigint

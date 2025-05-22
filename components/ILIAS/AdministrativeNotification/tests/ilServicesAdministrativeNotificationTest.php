@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,16 +16,19 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 
 class ilServicesAdministrativeNotificationTest extends TestCase
 {
-    private ?\ILIAS\DI\Container $dic_backup;
+    private ?Container $dic_backup;
     /**
-     * @var ilRbacReview|\PHPUnit\Framework\MockObject\MockObject
+     * @var ilRbacReview|MockObject
      */
-    protected $rbacreview_mock;
+    protected MockObject $rbacreview_mock;
 
     protected function setUp(): void
     {

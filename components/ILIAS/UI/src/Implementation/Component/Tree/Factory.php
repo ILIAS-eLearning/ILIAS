@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,24 +16,25 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Tree;
 
 use ILIAS\UI\Component\Tree as ITree;
 
 class Factory implements ITree\Factory
 {
-    /**
-     * @inheritdoc
-     */
-    public function node(): ITree\Node\Factory
-    {
-        return new Node\Factory();
+    public function __construct(
+        protected Node\Factory $node_factory,
+    ) {
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function expandable(string $label, ITree\TreeRecursion $recursion): ITree\Expandable
+    public function node(): Node\Factory
+    {
+        return $this->node_factory;
+    }
+
+    public function expandable(string $label, ITree\TreeRecursion $recursion): Expandable
     {
         return new Expandable($label, $recursion);
     }

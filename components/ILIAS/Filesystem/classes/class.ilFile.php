@@ -31,8 +31,8 @@ abstract class ilFile
     public function deleteTrailingSlash(string $a_path): string
     {
         // DELETE TRAILING '/'
-        if (substr($a_path, -1) == '/' or substr($a_path, -1) == "\\") {
-            $a_path = substr($a_path, 0, -1);
+        if (str_ends_with($a_path, '/') || str_ends_with($a_path, "\\")) {
+            return substr($a_path, 0, -1);
         }
 
         return $a_path;

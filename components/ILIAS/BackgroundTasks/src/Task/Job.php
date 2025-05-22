@@ -31,7 +31,7 @@ use ILIAS\BackgroundTasks\Value;
 interface Job extends Task
 {
     /**
-     * @param \ILIAS\BackgroundTasks\Value[] $input    This will be a list of Values hinted by
+     * @param Value[] $input This will be a list of Values hinted by
      *                                                 getInputTypes.
      * @param Observer                       $observer Notify the bucket about your progress!
      * @return Value                            The returned Value must be of the type hinted by

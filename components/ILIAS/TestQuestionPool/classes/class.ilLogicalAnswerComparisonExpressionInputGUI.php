@@ -24,42 +24,40 @@
  */
 class ilLogicalAnswerComparisonExpressionInputGUI extends ilAnswerWizardInputGUI
 {
-    public function setValues($modelValues): void
+    public function setValues($model_values): void
     {
-        $formValues = array();
-
-        foreach ($modelValues as $modelValue) {
-            $formValues[] = new ASS_AnswerSimple(
-                $modelValue->getExpression(),
-                $modelValue->getPoints(),
-                $modelValue->getOrderIndex() - 1,
+        $form_values = [];
+        foreach ($model_values as $model_value) {
+            $form_values[] = new ASS_AnswerSimple(
+                $model_value->getExpression(),
+                $model_value->getPoints(),
+                $model_value->getOrderIndex() - 1,
                 -1,
                 0
             );
         }
 
-        if (!count($formValues)) {
-            $formValues[] = new ASS_AnswerSimple('', 0, 1);
+        if ($form_values === []) {
+            $form_values[] = new ASS_AnswerSimple('', 0, 1);
         }
 
-        parent::setValues($formValues);
+        parent::setValues($form_values);
     }
 
     public function getValues(): array
     {
-        $formValues = parent::getValues();
+        $form_values = parent::getValues();
 
-        $modelValues = array();
-
-        foreach ($formValues as $formValue) {
+        $model_values = [];
+        foreach ($form_values as $form_value) {
             $expression = new ilAssQuestionSolutionComparisonExpression();
-            $expression->setExpression($formValue->getAnswertext());
-            $expression->setPoints($formValue->getPoints());
-            $expression->setOrderIndex($formValue->getOrder() + 1);
-            $modelValues[] = $expression;
+            $expression->setExpression($form_value->getAnswertext());
+            $expression->setPoints($form_value->getPoints());
+            $expression->setOrderIndex($form_value->getOrder() + 1);
+            $model_values[] = $expression;
         }
 
-        return $modelValues;
+        return $model_values;
     }
 
     /**
@@ -85,6 +83,24 @@ class ilLogicalAnswerComparisonExpressionInputGUI extends ilAnswerWizardInputGUI
      */
     protected function getTemplate(): string
     {
-        return "tpl.prop_lac_expression_input.html";
+        return 'tpl.prop_lac_expression_input.html';
+    }
+
+    public function getInput(): array
+    {
+        if (!$this->isRequestParamArray($this->getPostVar())) {
+            return [];
+        }
+        return $this->getRequestParam(
+            $this->getPostVar(),
+            $this->refinery->kindlyTo()->dictOf(
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->byTrying([
+                        $this->refinery->kindlyTo()->float(),
+                        $this->refinery->kindlyTo()->string()
+                    ])
+                )
+            )
+        );
     }
 }

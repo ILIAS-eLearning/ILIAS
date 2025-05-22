@@ -25,18 +25,6 @@ use ILIAS\HTTP\GlobalHttpState;
  */
 abstract class ilChatroomObjectGUI extends ilObjectGUI
 {
-    protected GlobalHttpState $http;
-
-    public function __construct($data, ?int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
-    {
-        /** @var $DIC \ILIAS\DI\Container */
-        global $DIC;
-
-        $this->http = $DIC->http();
-
-        parent::__construct($data, $id, $call_by_reference, $prepare_output);
-    }
-
     protected function dispatchCall(string $gui, string $method): bool
     {
         $definition = $this->getObjectDefinition();
@@ -79,7 +67,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
         }
 
         if ($this->tree->getSavedNodeData($this->object->getRefId())) {
-            $this->tabs_gui->addTarget('trash', $this->ctrl->getLinkTarget($this, 'trash'), 'trash', $this::class);
+            $this->tabs_gui->addTarget('trash', $this->ctrl->getLinkTarget($this, 'trash'), 'trash', static::class);
         }
     }
 }

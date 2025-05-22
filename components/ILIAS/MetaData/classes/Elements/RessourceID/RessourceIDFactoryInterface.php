@@ -27,4 +27,6 @@ interface RessourceIDFactoryInterface
         int $sub_id,
         string $type
     ): RessourceIDInterface;
+
+    public function null(): RessourceIDInterface;
 }

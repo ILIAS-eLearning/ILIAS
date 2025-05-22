@@ -119,11 +119,11 @@ class ilTestSkillLevelThresholdImportFails
         $msg = $lng->txt('tst_failed_imp_skl_thresholds');
 
         $msg .= '<ul>';
-        foreach ($this->getFailedImports() as $skillKey) {
-            list($skillBaseId, $skillTrefId) = explode(':', $skillKey);
-            $skillTitle = ilBasicSkill::_lookupTitle($skillBaseId, $skillTrefId);
+        foreach ($this->getFailedImports() as $skill_key) {
+            [$skill_base_id, $skill_tref_id] = explode(':', $skill_key);
+            $skill_title = ilBasicSkill::_lookupTitle((int) $skill_base_id, (int) $skill_tref_id);
 
-            $msg .= '<li>' . $skillTitle . '</li>';
+            $msg .= '<li>' . $skill_title . '</li>';
         }
         $msg .= '</ul>';
 

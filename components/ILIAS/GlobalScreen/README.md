@@ -41,9 +41,14 @@ The Scope Tool has a lot to do with the Scope MainBar, since the elements can be
 
 For more information see [Scope/Tools/README.md](Scope/Tool/README.md).
 
-# Scope Notifications
+## Scope Notifications
 
 For more information, see [Scope/Notification/README.md](Scope/Notification/README.md).
+
+## Scope Footer
+This scope allows components and plug-ins to add elements to the footer of ILIAS.
+
+For more information, see [Scope/Footer/README.md](Scope/Layout/README.md).
 
 ## Scope Layout
 
@@ -107,11 +112,16 @@ A Plugin-Class hat a new property `provider_collection` which accepts Instances 
         parent::__construct();
 
         global $DIC;
-        $this->provider_collection->setMainBarProvider(new MainBarProvider($DIC, $this));
-        $this->provider_collection->setMetaBarProvider(new MetaBarProvider($DIC, $this));
-        $this->provider_collection->setNotificationProvider(new NotificationProvider($DIC, $this));
-        $this->provider_collection->setModificationProvider(new ModificationProvider($DIC, $this));
-        $this->provider_collection->setToolProvider(new ToolProvider($DIC, $this));
+        if ($DIC->isDependencyAvailable('globalScreen')) { 
+        // there seem to be situations where plugins are loaded very early 
+        // when the GlobalScreen-Service is not yet available. Use the 
+        // isDependencyAvailable then.   
+            $this->provider_collection->setMainBarProvider(new MainBarProvider($DIC, $this));
+            $this->provider_collection->setMetaBarProvider(new MetaBarProvider($DIC, $this));
+            $this->provider_collection->setNotificationProvider(new NotificationProvider($DIC, $this));
+            $this->provider_collection->setModificationProvider(new ModificationProvider($DIC, $this));
+            $this->provider_collection->setToolProvider(new ToolProvider($DIC, $this));
+        }
     }
 ```
 
@@ -122,3 +132,50 @@ Providers yield Items for a certain Scope. Those Items carry all information nec
 On the other hand, alternative options for the UI Component are feasible if they manifest similar principles and can be derived from the same information. An example for this is the construction of a DrilldonwMenu based on ListItems, which will work fine for one level of items, but will not suffice for deeper structures as ListItems cannot provide those.
 
 In summary, you are generally warned about changing UI-Components for Items on GS-Provider level. Furthermore, your are encouraged to discuss your plans with people at the JourFixe _before_ embarking on a project. Finally, you MUST get the JourFix's approval for changing UI-Components for specific GS Items; this also holds true for changing appearance or behavior of the currently used Component. Probably it is best to actually create a new Item.
+
+# Decorating Items with (UI-)Topics
+
+The components in ILIAS often communicate with the GlobalScreen service to add elements to the global screen. The GlobalScreen service then converts this information from the component into UI components before rendering the page. To enable such UI components to be provided with topics, the items from the scopes Mainmenu and MetaBar (as of ILIAS 10) allow topics to be taken along, which are then passed to the corresponding UI components during renderi
+
+```php
+class SomeMainBarProvider extends AbstractStaticMainMenuProvider
+{
+    ...
+
+    public function getStaticSubItems(): array
+    {
+        return [
+            $this->mainmenu->link($this->if->identifier('...'))
+                // add one or more topics to the item
+                ->withTopics($this->dic->ui()->factory()->helpTopics('Some Help Topic for this entry'))
+    ...
+```
+
+If, in a rare case, all available items in a scope have to be provided with a topic (as is the case with online help, for example), this can be done as follows. However, this method should only be used in exceptional cases.
+
+```php
+class ilHelpViewLayoutProvider extends AbstractModificationProvider
+{
+    ... 
+    public function getMainBarModification(
+        CalledContexts $screen_context_stack
+    ): ?MainBarModification {
+        global $DIC;
+
+        ...
+
+        $this->globalScreen()->collector()->mainmenu()->collectOnce();
+        foreach ($this->globalScreen()->collector()->mainmenu()->getRawItems() as $item) {
+            if ($item instanceof isDecorateable) {
+                $p = $item->getProviderIdentification();
+                $item->withTopics($DIC->ui()->factory()->helpTopics($p->getInternalIdentifier()));
+            }
+        }
+
+        ...
+
+        return null;
+    }
+}
+
+```

@@ -9,14 +9,7 @@
     // globals from the browser environment.
     "document": "readonly",
     "window": "readonly",
-    "il": "writable",
-    // globals from the mocha testing framework.
-    "beforeEach": "readonly",
-    "afterEach": "readonly",
-    "describe": "readonly",
-    "before": "readonly",
-    "after": "readonly",
-    "it": "readonly"
+    "il": "writable"
   },
   // minified and bundled scripts are exempt from the
   // code-style.
@@ -53,6 +46,17 @@
       "error",
       {
         "devDependencies": true
+      }
+    ],
+    // enforce file extensions for Node.js compatibility
+    // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/extensions.md
+    "import/extensions": ["error", "ignorePackages"],
+    // allow to reassign argument properties for e.g. altering
+    // HTMLElement styles and state.
+    "no-param-reassign": [
+      "error",
+      {
+        "props": false
       }
     ]
   }

@@ -17,7 +17,6 @@
  *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
-
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\ArrayEnvironment;
 
@@ -108,11 +107,8 @@ class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
     public function testUsesExecutionLock(): void
     {
         $execution_log = new class ($this) implements ilDatabaseUpdateStepExecutionLog {
-            protected ilDatabaseUpdateStepsExecutedObjectiveTest $test;
-
-            public function __construct(ilDatabaseUpdateStepsExecutedObjectiveTest $test)
+            public function __construct(protected ilDatabaseUpdateStepsExecutedObjectiveTest $test)
             {
-                $this->test = $test;
             }
             public function started(string $class, int $step): void
             {

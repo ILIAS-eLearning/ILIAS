@@ -26,6 +26,7 @@ use ILIAS\LegalDocuments\Administration;
 use ilLegalDocumentsAdministrationGUI;
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\LegalDocuments\Value\Criterion;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class AdministrationEditLinksTest extends TestCase
 {
@@ -36,9 +37,7 @@ class AdministrationEditLinksTest extends TestCase
         $this->assertInstanceOf(AdministrationEditLinks::class, new AdministrationEditLinks($gui, $admin));
     }
 
-    /**
-     * @dataProvider methods
-     */
+    #[DataProvider('methods')]
     public function testMethods(string $method, string $target, int $argc): void
     {
         $admin = $this->getMockBuilder(Administration::class)->disableOriginalConstructor()->getMock();
@@ -60,9 +59,6 @@ class AdministrationEditLinksTest extends TestCase
     public static function methods(): array
     {
         return [
-            ['addCriterion', 'targetWithDoc', 1],
-            ['editDocument', 'targetWithDoc', 1],
-            ['deleteDocument', 'targetWithDoc', 1],
             ['editCriterion', 'targetWithDocAndCriterion', 2],
             ['deleteCriterion', 'targetWithDocAndCriterion', 2],
         ];

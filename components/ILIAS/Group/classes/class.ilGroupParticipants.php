@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 
 /**
 *
@@ -26,8 +25,6 @@ declare(strict_types=1);
 *
 * @ingroup components\ILIASGroup
 */
-
-
 class ilGroupParticipants extends ilParticipants
 {
     protected const COMPONENT_NAME = 'components/ILIAS/Group';

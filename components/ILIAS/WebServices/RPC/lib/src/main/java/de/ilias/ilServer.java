@@ -245,7 +245,12 @@ public class ilServer {
 			logger.debug("Start parsing");
 			parser = new CommonsIniFileParser();
 			logger.debug("Parser created");
-			parser.parseSettings(arguments[0], true);
+			try {
+				parser.parseSettings(arguments[0], true);
+			} catch (ConfigurationException e) {
+				System.err.println(e.getMessage());
+				System.exit(1);
+			}
 			logger.debug("Parser parsed");
 			settings = ServerSettings.getInstance();
 			client = initRpcClient();

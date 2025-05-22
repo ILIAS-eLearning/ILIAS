@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent;
 
+use ILIAS\Data\Meta\Html\OpenGraph\TagCollection;
+use ILIAS\Data\Meta\Html\Tag;
+use ILIAS\Data\Meta\Html\UserDefined;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Css;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\CssCollection;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\InlineCss;
@@ -33,9 +36,7 @@ use ILIAS\Data\Meta\Html\OpenGraph;
 use ILIAS\Data\Meta\Html;
 
 /**
- * Class MetaContent
- *
- * @package ILIAS\GlobalScreen\Scope\LayoutDefinition\MetaContent
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class MetaContent
 {
@@ -45,35 +46,54 @@ class MetaContent
     private OnLoadCodeCollection $on_load_code;
     private JsCollection $js;
     private CssCollection $css;
-    private ?OpenGraph\TagCollection $og_meta_data;
+    private ?TagCollection $og_meta_data = null;
     /**
      * @var Html\Tag[]
      */
-    private array $meta_data;
+    private array $meta_data = [];
     private string $base_url = "";
     private string $text_direction;
-    protected string $resource_version;
 
-    public function __construct(string $resource_version)
-    {
-        $this->resource_version = $resource_version;
-        $this->css = new CssCollection($resource_version);
-        $this->js = new JsCollection($resource_version);
-        $this->on_load_code = new OnLoadCodeCollection($resource_version);
-        $this->inline_css = new InlineCssCollection($resource_version);
-        $this->og_meta_data = null;
-        $this->meta_data = [];
+    public function __construct(
+        protected string $resource_version,
+        protected bool $append_resource_version = true,
+        protected bool $strip_queries = false,
+        protected bool $allow_external = true,
+        protected bool $allow_non_existing = false,
+    ) {
+        $this->reset();
     }
 
-    /**
-     * Reset
-     */
     public function reset(): void
     {
-        $this->css = new CssCollection($this->resource_version);
-        $this->js = new JsCollection($this->resource_version);
-        $this->on_load_code = new OnLoadCodeCollection($this->resource_version);
-        $this->inline_css = new InlineCssCollection($this->resource_version);
+        $this->css = new CssCollection(
+            $this->resource_version,
+            $this->append_resource_version,
+            $this->strip_queries,
+            $this->allow_external,
+            $this->allow_non_existing
+        );
+        $this->js = new JsCollection(
+            $this->resource_version,
+            $this->append_resource_version,
+            $this->strip_queries,
+            $this->allow_external,
+            $this->allow_non_existing
+        );
+        $this->on_load_code = new OnLoadCodeCollection(
+            $this->resource_version,
+            false,
+            true,
+            false,
+            false
+        );
+        $this->inline_css = new InlineCssCollection(
+            $this->resource_version,
+            false,
+            true,
+            false,
+            false
+        );
         $this->og_meta_data = null;
         $this->meta_data = [];
     }
@@ -98,14 +118,14 @@ class MetaContent
         $this->on_load_code->addItem(new OnLoadCode($content, $this->resource_version, $batch));
     }
 
-    public function addOpenGraphMetaDatum(OpenGraph\TagCollection $og_meta_data): void
+    public function addOpenGraphMetaDatum(TagCollection $og_meta_data): void
     {
         $this->og_meta_data = $og_meta_data;
     }
 
-    public function addMetaDatum(Html\Tag $meta_data): void
+    public function addMetaDatum(Tag $meta_data): void
     {
-        if ($meta_data instanceof OpenGraph\TagCollection || $meta_data instanceof OpenGraph\Tag) {
+        if ($meta_data instanceof TagCollection || $meta_data instanceof OpenGraph\Tag) {
             throw new \LogicException(
                 sprintf(
                     'Please use %s::addOpenGraphMetaDatum to add open-graph metadata.',
@@ -116,7 +136,7 @@ class MetaContent
 
         // keep user-defined keys unique, there should be no case where
         // multiple of the same keys are required.
-        if ($meta_data instanceof Html\UserDefined) {
+        if ($meta_data instanceof UserDefined) {
             $this->meta_data[$meta_data->getKey()] = $meta_data;
         } else {
             $this->meta_data[] = $meta_data;
@@ -143,7 +163,7 @@ class MetaContent
         return $this->css;
     }
 
-    public function getOpenGraphMetaData(): ?OpenGraph\TagCollection
+    public function getOpenGraphMetaData(): ?TagCollection
     {
         return $this->og_meta_data;
     }

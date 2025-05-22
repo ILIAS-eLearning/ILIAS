@@ -89,11 +89,6 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
         $this->editElementOrderEnabled = $editElementOrderEnabled;
     }
 
-    /**
-     * Check input, strip slashes etc. set alert, if input is not ok.
-     *fetchImageTitle
-     * @return	boolean		Input ok, true/false
-     */
     public function onCheckInput(): bool
     {
         $lng = $this->lng;
@@ -101,7 +96,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
         $submittedElements = $this->getInput();
 
         if ($submittedElements === [] && $this->getRequired()) {
-            $this->setAlert($lng->txt("msg_input_is_required"));
+            $this->setAlert($lng->txt('msg_input_is_required'));
             return false;
         }
 
@@ -124,10 +119,6 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
         return $this->checkSubItemsInput();
     }
 
-    /**
-     * @param string $mode
-     * @return string
-     */
     public function render(string $a_mode = ""): string
     {
         $tpl = new ilTemplate("tpl.prop_multi_text_inp.html", true, true, "components/ILIAS/TestQuestionPool");
@@ -184,8 +175,8 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
                 . '"reindexingRequiredElementsSelectors": ["input:text", "button"], '
                 . '"handleRowCleanUpCallback": function(rowElem) {$(rowElem).find("input:text").val("")}'
                 . '}';
-            $this->tpl->addJavascript("asserts/js/answerwizardinput.js");
-            $this->tpl->addJavascript("asserts/js/identifiedwizardinput.js");
+            $this->tpl->addJavascript("assets/js/answerwizardinput.js");
+            $this->tpl->addJavascript("assets/js/identifiedwizardinput.js");
             $this->tpl->addOnLoadCode("$.extend({}, AnswerWizardInput, IdentifiedWizardInput).init({$config});");
         }
 

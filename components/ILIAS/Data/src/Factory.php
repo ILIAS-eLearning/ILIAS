@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Data;
 
@@ -34,13 +34,13 @@ use ILIAS\Data\Meta;
  */
 class Factory
 {
-    /**
-     * cache for color factory.
-     */
+    // TODO: move this to proper dependency_injection
     private ?Color\Factory $colorfactory = null;
     private ?Dimension\Factory $dimensionfactory = null;
     private ?Meta\Html\Factory $html_metadata_factory = null;
     private ?Meta\Html\OpenGraph\Factory $open_graph_metadata_factory = null;
+    private ?Text\Factory $text_factory = null;
+
 
     /**
      * Get an ok result.
@@ -94,7 +94,7 @@ class Factory
      * @throw   \InvalidArgumentException if first argument is int and second is not a valid unit.
      * @throw   \InvalidArgumentException if string size can't be interpreted
      */
-    public function dataSize($size, string $unit = null): DataSize
+    public function dataSize($size, ?string $unit = null): DataSize
     {
         if (is_string($size)) {
             $match = [];
@@ -192,11 +192,12 @@ class Factory
     }
 
     /**
-     * @param array<string, Dimension\Dimension> $dimensions Dimensions with their names as keys
+     * @param array<string, Dimension\Dimension>      $dimensions Dimensions with their names as keys
+     * @param array<string, Dimension\DimensionGroup> $dimension_groups
      */
-    public function dataset(array $dimensions): Chart\Dataset
+    public function dataset(array $dimensions, array $dimension_groups = []): Chart\Dataset
     {
-        return new Chart\Dataset($dimensions);
+        return new Chart\Dataset($dimensions, $dimension_groups);
     }
 
     public function htmlMetadata(): Meta\Html\Factory
@@ -220,5 +221,20 @@ class Factory
     public function languageTag(string $language_tag): LanguageTag
     {
         return LanguageTag::fromString($language_tag);
+    }
+
+    public function text(): Text\Factory
+    {
+        if ($this->text_factory === null) {
+            $md_format = new \ILIAS\Refinery\String\MarkdownFormattingToHTML();
+            $this->text_factory = new \ILIAS\Data\Text\Factory(
+                new Text\MarkdownFactory(
+                    new Text\Shape\Markdown($md_format),
+                    new Text\Shape\SimpleDocumentMarkdown($md_format),
+                    new Text\Shape\WordOnlyMarkdown($md_format)
+                )
+            );
+        }
+        return $this->text_factory;
     }
 }

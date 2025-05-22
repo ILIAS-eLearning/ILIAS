@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Exercise\TutorFeedbackFile;
 
-use ILIAS\Exercise\IRSS\CollectionWrapper;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 

@@ -37,13 +37,13 @@ class ilAssGenFeedbackPageTest extends assBaseTestCase
 
         $this->addGlobal_objDefinition();
 
-//        $this->object = new ilAssGenFeedbackPage();
+        //        $this->object = new ilAssGenFeedbackPage();
     }
 
-//    public function testConstruct(): void
-//    {
-//        $this->assertInstanceOf(ilAssGenFeedbackPage::class, $this->object);
-//    }
+    //    public function testConstruct(): void
+    //    {
+    //        $this->assertInstanceOf(ilAssGenFeedbackPage::class, $this->object);
+    //    }
 
     public function testSuppressWarning(): void
     {

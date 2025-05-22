@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Interface ilMailMimeTransport
- */
 interface ilMailMimeTransport
 {
     public function send(ilMimeMail $mail): bool;

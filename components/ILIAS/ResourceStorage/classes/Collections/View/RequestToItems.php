@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Collections\View;
 
+use ILIAS\UI\Component\Item\Group;
 use ILIAS\UI\Factory;
 use ILIAS\components\ResourceStorage\Collections\DataProvider\TableDataProvider;
-use ILIAS\components\ResourceStorage\Collections\DataProvider\DataTableDataProviderAdapter;
 use ILIAS\HTTP\Services;
 use ILIAS\components\ResourceStorage\Resources\UI\RevisionToComponent;
 
@@ -49,7 +49,7 @@ class RequestToItems implements RequestToComponents
         $this->irss = $DIC->resourceStorage();
     }
 
-    protected function buildItemGroup(): \ILIAS\UI\Component\Item\Group
+    protected function buildItemGroup(): Group
     {
         $items = [];
         foreach ($this->data_provider->getIdentifications() as $resource_identification) {

@@ -24,13 +24,10 @@ use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
-use ILIAS\MyStaff\ilMyStaffAccess;
-use ILIAS\MyStaff\ilMyStaffCachedAccessDecorator;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopParentItemDrilldownRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
-use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Class StandardTopItemsProvider
@@ -91,9 +88,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
      */
     public function getStaticTopItems(): array
     {
-        $f = function ($id) {
-            return $this->dic->language()->txt($id);
-        };
+        $f = (fn($id): string => $this->dic->language()->txt($id));
 
         // Dashboard
         $title = $this->dic->language()->txt("mm_dashboard");
@@ -103,11 +98,9 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withTitle($title)
             ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToMemberships")
             ->withPosition(10)
-            ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
+            ->withNonAvailableReason($this->dic->ui()->factory()->legacy()->content("{$this->dic->language()->txt('component_not_active')}"))
             ->withAvailableCallable(
-                function () {
-                    return true;
-                }
+                fn(): true => true
             )
             ->withVisibilityCallable(
                 $this->basic_access_helper->isUserLoggedIn()
@@ -170,7 +163,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withVisibilityCallable($this->basic_access_helper->hasAdministrationAccess());
 
         $dd_renderer = new TopParentItemDrilldownRenderer();
-        $ti = new TypeInformation(get_class($administration), get_class($administration));
+        $ti = new TypeInformation($administration::class, $administration::class);
         $ti->setRenderer($dd_renderer);
         $administration = $administration->setTypeInformation($ti);
 
@@ -190,6 +183,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getProviderNameForPresentation(): string
     {
         return "Default";

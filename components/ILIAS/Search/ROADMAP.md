@@ -10,8 +10,19 @@ blocks without a functional ListGUI [2].
 
 ## Short Term
 
+### Clean up Abandon Advanced Search
+
+The following settings can be deleted:
+
+- module: `common`, keyword: `hide_adv_search`
+- everything in module `lucene_adv_search`
+
+The following rows from database tables can be deleted:
+
+- in `usr_search` where `search_type` is 1, 4, or 6
 
 ## Mid Term
+
 - Add subtypes to lucene index and extend the search result xml accordingly. 
 
 ## Long Term

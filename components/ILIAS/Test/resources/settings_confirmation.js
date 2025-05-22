@@ -1,10 +1,10 @@
 (() => {
     let confirmSettings = () => {
         let init = (id) => {
-            const form = id.getElementsByTagName('form')[0];
-            form.addEventListener('submit',  (e) => {
+            const submit = id.querySelector('input[type="submit"]');
+            submit.addEventListener('click',  (e) => {
                 e.preventDefault();
-                id.previousElementSibling.action = form.action;
+                id.previousElementSibling.action = e.target.form.action;
                 id.previousElementSibling.submit();
             });
         };

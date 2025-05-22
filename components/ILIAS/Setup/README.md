@@ -42,7 +42,7 @@ config is basically a glorified key-value map as a data type. It encapsulates
 defaults and checks for the values in the config and acts as an insurance to its
 users that the config has the expected shape. Also, it's a config for the setup
 process and not for the installed system. For an example, have a look into
-[`ilDatabaseSetupConfig`](Services/Database/classes/Setup/class.ilDatabaseSetupConfig.php).
+[`ilDatabaseSetupConfig`](components/ILIAS/Database/classes/Setup/class.ilDatabaseSetupConfig.php).
 
 A config-file, when used from the CLI, expects keys according to the array keys used
 for the construction of the AgentCollection in cli.php ($c["agent"] = ...).
@@ -64,7 +64,7 @@ as a registry for the services that are required and created during the setup
 process, e.g. the database. A complete environment for an ILIAS-installation is
 the ultimate goal of the setup process. Since the setup process starts with very
 little, the environment is designed as an extensible registry that will get
-filled during the setup process. Look into [`ilDatabaseExistsObjective::achieve`](Services/Database/classes/Setup/class.ilDatabaseExistsObjective.php)
+filled during the setup process. Look into [`ilDatabaseExistsObjective::achieve`](components/ILIAS/Database/classes/Setup/class.ilDatabaseExistsObjective.php)
 to see how the environment is used during the setup process.
 
 
@@ -74,7 +74,7 @@ An `Agent` is what every ILIAS-component needs to implement if it wants to take
 part in the setup process. An agent needs to tell how to build a configuration
 from an array or by an input from the UI framework. It also needs to provide an
 objective for the setup or for an update. As expected, the database-service
-provides an agent for the setup: [`ilDatabaseSetupAgent`](Services/Database/classes/Setup/class.ilDatabaseSetupAgent.php).
+provides an agent for the setup: [`ilDatabaseSetupAgent`](components/ILIAS/Database/classes/Setup/class.ilDatabaseSetupAgent.php).
 
 
 ### On Objective
@@ -85,15 +85,20 @@ applicable for the current state of the system, which means that it might not
 be required to be achieved. Any `Objective` may have preconditions, which are
 other objectives. Once the preconditions are achieved, the objective itself may
 be achieved. This might use stuff from the environment but also add stuff to
-the environment. The [agent from the database service](Services/Database/classes/Setup/class.ilDatabaseSetupAgent.php),
-for example, has the [objective to create a populated database](Services/Database/classes/Setup/class.ilDatabasePopulatedObjective.php).
-This has the precondition [that the database exists](Services/Database/classes/Setup/class.ilDatabaseExistsObjective.php),
-which in turn requires [that the database server is connectable](Services/Database/classes/Setup/class.ilDatabaseExistsObjective.php).
+the environment. The [agent from the database service](components/ILIAS/Database/classes/Setup/class.ilDatabaseSetupAgent.php),
+for example, has the [objective to create a populated database](components/ILIAS/Database/classes/Setup/class.ilDatabasePopulatedObjective.php).
+This has the precondition [that the database exists](components/ILIAS/Database/classes/Setup/class.ilDatabaseExistsObjective.php),
+which in turn requires [that the database server is connectable](components/ILIAS/Database/classes/Setup/class.ilDatabaseExistsObjective.php).
 
 This yields a directed graph of objectives, where (hopefully) some objectives do
 not have any preconditions. These can be achieved, which prepares the environment
 for other objectives to be achievable, until all objectives are achieved and the
 setup is completed.
+
+[`DBUpdateSteps`](components/ILIAS/Database/interfaces/Setup/interface.ilDatabaseUpdateSteps.php)
+are a special type of `Objective`. Their purpose is to change the database **structure**
+to a desired state, i.e. adding fields or changing field types. To change database
+**contents**, you can use `Migrations`.
 
 
 ### On Migration
@@ -102,7 +107,8 @@ Sometimes an update of an installation requires more work than simply downloadin
 fresh code and updating the database schema. When, e.g., the certificates where
 moved to a new persistant storage model, a lot of data needed to be shuffled around.
 This operation would potentially take a lot of time and thus was offloaded to be
-triggered by single users.
+triggered by single users. A `Migration` is the right tool for this case, as its
+purpose is to change the database **contents** to a desired state.
 
 The setup offers functionality for components to encapsulate these kind of operations
 to allow administrators to monitor and also run them in a principled way. `Agent`s
@@ -113,7 +119,14 @@ The general idea is, that a migration is an operation that can be broken into di
 steps which can be executed even if the installation is online after update again.
 These steps can then be triggered via the CLI and also be monitored there. It is well
 possible, that there are also other means to trigger the steps, such as an interaction
-by the user. The first user of the migrations is the [`FileObject`](Modules/File/classes/Setup/class.ilFileObjectToStorageMigration.php).
+by the user. The first user of the migrations is the [`FileObject`](components/ILIAS/File/classes/Setup/class.ilFileObjectToStorageMigration.php).
+
+Please keep in mind that a `Migration` should only have to be executed **once** to
+change existing data, which means that in parallel the code should be adapted so
+that any new content is already stored in the "new" state. Besides that, the code
+should also be able to handle date in the "old" state, as the `Migration` might
+still be running while the system is already active. These code parts can then
+safely be removed alongside the `Migration` itself with the next major version.
 
 
 ### On Artifact

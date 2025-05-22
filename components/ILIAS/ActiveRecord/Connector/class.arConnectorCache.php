@@ -121,14 +121,10 @@ class arConnectorCache extends arConnector implements Request
         if ($this->cache_container->has($key)) {
             $cached_value = $this->cache_container->get(
                 $key,
-                new Transformation(function ($value): ?array {
-                    return is_array($value) ? $value : null;
-                })
+                new Transformation(fn($value): ?array => is_array($value) ? $value : null)
             );
             if (is_array($cached_value)) {
-                return array_map(function ($result): \stdClass {
-                    return (object) $result;
-                }, $cached_value);
+                return array_map(fn($result): \stdClass => (object) $result, $cached_value);
             }
         }
 
@@ -136,9 +132,7 @@ class arConnectorCache extends arConnector implements Request
 
         $this->cache_container->set(
             $key,
-            array_map(function ($result): array {
-                return (array) $result;
-            }, $results)
+            array_map(fn($result): array => (array) $result, $results)
         );
 
         return $results;

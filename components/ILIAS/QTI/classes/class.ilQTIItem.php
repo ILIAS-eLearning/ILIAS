@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * QTI item class
@@ -45,6 +44,24 @@ class ilQTIItem
     public const QT_NUMERIC = "assNumeric";
     public const QT_FORMULA = "assFormulaQuestion";
     public const QT_TEXTSUBSET = "assTextSubset";
+
+    private const VALID_QUESTION_TYPES = [
+        self::QT_KPRIM_CHOICE,
+        self::QT_LONG_MENU,
+        self::QT_MULTIPLE_CHOICE_SR,
+        self::QT_MULTIPLE_CHOICE_MR,
+        self::QT_CLOZE,
+        self::QT_ERRORTEXT,
+        self::QT_MATCHING,
+        self::QT_ORDERING,
+        self::QT_ORDERING_HORIZONTAL,
+        self::QT_IMAGEMAP,
+        self::QT_TEXT,
+        self::QT_FILEUPLOAD,
+        self::QT_NUMERIC,
+        self::QT_FORMULA,
+        self::QT_TEXTSUBSET
+    ];
 
     public ?string $ident = null;
     public string $title = '';
@@ -124,11 +141,11 @@ class ilQTIItem
     public function setDuration(string $a_duration): void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
-            $this->duration = array(
+            $this->duration = [
                 "h" => $matches[4],
                 "m" => $matches[5],
                 "s" => $matches[6]
-            );
+            ];
         }
     }
 
@@ -220,6 +237,10 @@ class ilQTIItem
 
     public function determineQuestionType(): ?string
     {
+        if (in_array($this->questiontype, self::VALID_QUESTION_TYPES)) {
+            return $this->questiontype;
+        }
+
         switch ($this->questiontype) {
             case "ORDERING QUESTION":
                 return self::QT_ORDERING;
@@ -248,14 +269,15 @@ class ilQTIItem
             return self::QT_UNKNOWN;
         }
         foreach ($this->presentation->order as $entry) {
-            if ('response' === $entry["type"]) {
-                $result = $this->typeFromResponse($this->presentation->response[$entry["index"]]);
-                if (null !== $result) {
-                    return $result;
-                }
+            if ('response' !== $entry["type"]) {
+                continue;
+            }
+            $result = $this->typeFromResponse($this->presentation->response[$entry["index"]]);
+            if ($result !== null) {
+                return $result;
             }
         }
-        if (strlen($this->questiontype) == 0) {
+        if ($this->questiontype === '') {
             return self::QT_UNKNOWN;
         }
 
@@ -294,7 +316,7 @@ class ilQTIItem
 
     public function addSuggestedSolution(ilQTIMattext $a_solution, int $a_gap_index): void
     {
-        $this->suggested_solutions[] = array("solution" => $a_solution, "gap_index" => $a_gap_index);
+        $this->suggested_solutions[] = ["solution" => $a_solution, "gap_index" => $a_gap_index];
     }
 
     /**

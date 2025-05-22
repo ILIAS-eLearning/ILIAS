@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Persistence for View-States
@@ -116,7 +116,7 @@ class ilLSStateDB
         int $usr_id,
         int $ref_id,
         ILIAS\KioskMode\State $state,
-        int $current_item = null
+        ?int $current_item = null
     ): void {
         $insert_first = $this->entryExistsFor($lso_ref_id, $usr_id) === false;
         $states = $this->getStatesFor($lso_ref_id, [$usr_id]);

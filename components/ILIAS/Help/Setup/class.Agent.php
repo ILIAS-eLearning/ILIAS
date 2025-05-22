@@ -26,7 +26,7 @@ use ILIAS\Setup\Metrics;
 
 class Agent extends Setup\Agent\NullAgent
 {
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new \ilDatabaseUpdateStepsExecutedObjective(new ilHelpDBUpdateSteps());
     }
@@ -34,5 +34,10 @@ class Agent extends Setup\Agent\NullAgent
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
         return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilHelpDBUpdateSteps());
+    }
+
+    public function getBuildArtifactObjective(): Setup\Objective
+    {
+        return new \ilHelpBuildScreenIdMapObjective();
     }
 }

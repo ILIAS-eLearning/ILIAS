@@ -20,13 +20,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * Course/group notifications
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilMembershipCronNotifications extends ilCronJob
+class ilMembershipCronNotifications extends CronJob
 {
     protected ilLanguage $lng;
     protected ilDBInterface $db;
@@ -63,9 +65,9 @@ class ilMembershipCronNotifications extends ilCronJob
         return $this->lng->txt("enable_course_group_notifications_desc");
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
+        return JobScheduleType::DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -83,13 +85,13 @@ class ilMembershipCronNotifications extends ilCronJob
         return true;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
         global $DIC;
 
         $this->logger->debug("===Member Notifications=== start");
 
-        $status = ilCronJobResult::STATUS_NO_ACTION;
+        $status = JobResult::STATUS_NO_ACTION;
         $status_details = null;
 
         $setting = new ilSetting("cron");
@@ -132,7 +134,7 @@ class ilMembershipCronNotifications extends ilCronJob
                 $DIC->cron()->manager()->ping($this->getId());
             }
             // mails were sent - set cron job status accordingly
-            $status = ilCronJobResult::STATUS_OK;
+            $status = JobResult::STATUS_OK;
         }
 
         ilDatePresentation::setUseRelativeDates($old_dt);
@@ -141,7 +143,7 @@ class ilMembershipCronNotifications extends ilCronJob
 
         // save last run
         $setting->set(get_class($this), date("Y-m-d H:i:s"));
-        $result = new ilCronJobResult();
+        $result = new JobResult();
         $result->setStatus($status);
         if ($status_details) {
             $result->setMessage($status_details);
@@ -167,8 +169,9 @@ class ilMembershipCronNotifications extends ilCronJob
         global $DIC;
 
         $obj_definiton = $DIC["objDefinition"];
+        $lng = ilLanguageFactory::_getLanguageOfUser($a_user_id);
 
-        $this->lng->loadLanguageModule("news");
+        $lng->loadLanguageModule("news");
         $wrong_parent = (array_key_exists($a_item["id"], $a_filter_map) &&
             $a_parent_ref_id != $a_filter_map[$a_item["id"]]);
 
@@ -205,20 +208,25 @@ class ilMembershipCronNotifications extends ilCronJob
                 (string) $a_item["title"],
                 (bool) (int) $a_item["content_is_lang_var"],
                 (int) ($a_item["agg_ref_id"] ?? 0),
-                $a_item["aggregation"] ?? []
+                $a_item["aggregation"] ?? [],
+                $lng
             );
         } else {
             $title = ilNewsItem::determineNewsTitle(
                 $a_item["context_obj_type"],
                 (string) $a_item["title"],
-                (bool) (int) $a_item["content_is_lang_var"]
+                (bool) (int) $a_item["content_is_lang_var"],
+                0,
+                [],
+                $lng
             );
         }
 
         $content = ilNewsItem::determineNewsContent(
             $a_item["context_obj_type"],
             (string) $a_item["content"],
-            (bool) (int) $a_item["content_text_is_lang_var"]
+            (bool) (int) $a_item["content_text_is_lang_var"],
+            $lng
         );
 
         $title = trim($title);
@@ -230,7 +238,7 @@ class ilMembershipCronNotifications extends ilCronJob
         switch ($item_obj_type) {
             case "frm":
                 if (!$a_is_sub) {
-                    $res = $this->lng->txt("obj_" . $item_obj_type) .
+                    $res = $lng->txt("obj_" . $item_obj_type) .
                         ' "' . $item_obj_title . '": ' . $title;
                 } else {
                     $res .= '"' . $title . '": "' . $content . '"';
@@ -240,7 +248,7 @@ class ilMembershipCronNotifications extends ilCronJob
             case "file":
                 if (!isset($a_item["aggregation"]) ||
                     count($a_item["aggregation"]) === 1) {
-                    $res = $this->lng->txt("obj_" . $item_obj_type) .
+                    $res = $lng->txt("obj_" . $item_obj_type) .
                         ' "' . $item_obj_title . '" - ' . $title;
                 } else {
                     // if files were removed from aggregation update summary count
@@ -256,7 +264,7 @@ class ilMembershipCronNotifications extends ilCronJob
             default:
                 $type_txt = ($obj_definiton->isPlugin($item_obj_type))
                     ? ilObjectPlugin::lookupTxtById($item_obj_type, "obj_" . $item_obj_type)
-                    : $this->lng->txt("obj_" . $item_obj_type);
+                    : $lng->txt("obj_" . $item_obj_type);
                 $res = $type_txt .
                     ' "' . $item_obj_title . '"';
                 if ($title) {
@@ -271,7 +279,7 @@ class ilMembershipCronNotifications extends ilCronJob
         // comments
         $comments = $this->data->getComments((int) $a_item["id"], $a_user_id);
         if (count($comments) > 0) {
-            $res .= "\n" . $this->lng->txt("news_new_comments") . " (" . count($comments) . ")";
+            $res .= "\n" . $lng->txt("news_new_comments") . " (" . count($comments) . ")";
         }
         /** @var \ILIAS\Notes\Note $c */
         foreach ($comments as $c) {
@@ -285,7 +293,7 @@ class ilMembershipCronNotifications extends ilCronJob
         // likes
         $likes = $this->data->getLikes((int) $a_item["id"], $a_user_id);
         if (count($likes) > 0) {
-            $res .= "\n" . $this->lng->txt("news_new_reactions") . " (" . count($likes) . ")";
+            $res .= "\n" . $lng->txt("news_new_reactions") . " (" . count($likes) . ")";
         }
         foreach ($likes as $l) {
             $res .= "\n* " .

@@ -38,4 +38,9 @@ class NullUtilities implements UtilitiesInterface
     {
         return '';
     }
+
+    public function sanitizeForHTML(string $string): string
+    {
+        return '';
+    }
 }

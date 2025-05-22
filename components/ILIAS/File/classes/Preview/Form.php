@@ -18,6 +18,7 @@
 
 namespace ILIAS\components\File\Preview;
 
+use ILIAS\UI\Component\Input\Field\Factory;
 use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Component\Input\Field\Section;
 
@@ -27,7 +28,7 @@ use ILIAS\UI\Component\Input\Field\Section;
 class Form
 {
     private \ilLanguage $language;
-    private \ILIAS\UI\Component\Input\Field\Factory $field_factory;
+    private Factory $field_factory;
     private \ILIAS\Refinery\Factory $refinery;
 
     public function __construct(private Settings $settings)
@@ -103,12 +104,26 @@ class Form
                 })
             );
 
+        $tile_previews = $this->field_factory
+            ->checkbox(
+                $this->language->txt('previews_for_tiles'),
+                $this->language->txt('previews_for_tiles_info')
+            )
+            ->withDisabled(!$possible)
+            ->withValue($this->settings->hasTilePreviews())
+            ->withAdditionalTransformation(
+                $this->refinery->custom()->transformation(function ($v): void {
+                    $this->settings->setTilePreviews($v);
+                })
+            );
+
         return $this->field_factory->group(
             [
                 $activated,
                 $image_size,
                 $max_previews,
-                $persisting
+                $persisting,
+                $tile_previews
             ]
         );
     }

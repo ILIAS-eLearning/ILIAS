@@ -31,19 +31,17 @@ use ILIAS\ResourceStorage\Information\Information;
 class CloneRevision extends BaseRevision implements Revision
 {
     protected bool $available = true;
-    protected \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
+    protected ResourceIdentification $identification;
     protected int $version_number = 0;
-    protected ?\ILIAS\ResourceStorage\Information\Information $information = null;
+    protected ?Information $information = null;
     protected int $owner_id = 0;
     protected string $title = '';
-    protected FileRevision $revision_to_clone;
 
     /**
      * Revision constructor.
      */
-    public function __construct(ResourceIdentification $identification, FileRevision $revision_to_clone)
+    public function __construct(ResourceIdentification $identification, protected FileRevision $revision_to_clone)
     {
-        $this->revision_to_clone = $revision_to_clone;
         parent::__construct($identification);
     }
 

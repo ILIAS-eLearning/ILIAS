@@ -12,10 +12,10 @@ main commands to manage ILIAS installations:
 
 `install` and `update` also supply switches and options for a granular control of the inclusion of plugins:
 
-* `--skip 
-* There are also named objectives for **import** and **export**. <plugin name>` will exclude the named plugin from the command
-* `--no-plugins` will exclude all plugins from the command
-* `install <plugin name>` (or `update <plugin name>` respectively) will update or install the specified plugin
+* `--skip-legacy-plugin
+* There are also named objectives for **import** and **export**. <plugin name>` will exclude the named legacy plugin from the command
+* `--no-legacy-plugins` will exclude all plugins from the command
+* `install <legacy plugin name>` (or `update <legacy plugin name>` respectively) will update or install the specified legacy plugin
 
 `install` requires a [configuration file](#about-the-config-file) to do the job.
 `update` can be used without this file for updating the installation only, but is
@@ -59,9 +59,9 @@ configs without secrets.
 
 The setup will also install plugins of the installation, unless the plugin explicitely
 defines that it cannot be installed via CLI setup. If you still want to skip a plugin
-for installation, use the skip-option: `php cli/setup.php install --skip <plugin name> config.json`.
+for installation, use the skip-option: `php cli/setup.php install --skip-legacy-plugin <plugin name> config.json`.
 The option can be repeated to cover multiple plugins. If you want to skip plugins
-alltogether, use the `--no-plugins` option. If you only want to install a specific
+alltogether, use the `--no-legacy-plugins` option. If you only want to install a specific
 plugin, use `php cli/setup.php install config.json <plugin name>`.
 
 The install command also offers the option to import a zip file during setup. The 
@@ -86,8 +86,21 @@ where the plugins can be controlled with the same options as for `install`.
 Sometimes it might happen that the database update steps detect some edge case
 or warn about a possible loss of data. In this case the update is aborted with
 a message and can be resumed after the messages were read carefully and acted
-upon. You may use the `--ignore-db-update-messages` at your own risk if you want
+upon. 
+You may use the `--ignore-db-update-messages` at your own risk if you want
 to silence the messages.
+
+When an update step failed, you might get a message about inconsistent order 
+of already performed steps when resuming the setup:
+> step 2 was started last, but step 1 was finished last. 
+> Aborting because of that mismatch.
+
+You may reset the records for those steps by running:
+```
+php setup/setup.php achieve database.resetFailedSteps
+```
+However, be sure to understand the cause for the failing steps and tend to it before 
+resetting and re-running the update.
 
 ## Report Status of ILIAS
 
@@ -246,7 +259,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
         "max_number_of_concurrent_tasks" : 3
     },
     ``` 
-  * *type* (type: string) might be `async` or `sync`, defaults to `sync`
+  * *type* (type: string) might be `async` or `sync`, defaults to `sync`; async requires SOAP (c.f. webservices) to be enabled
   * *max_number_of_concurrent_tasks* (type: number) that all users can run together, defaults to `1`
 * **database** (type: object) is required to connect to the database, e.g.:
     ```
@@ -336,7 +349,12 @@ are printed bold**, all other fields might be omitted. A minimal example is
 		"proxy" : {
 			"host" : "webproxy.ilias.de",
 			"port" : "8088"
-		}
+		},
+		"allowed_hosts" : [
+			"red.ilias.de",
+			"blue.ilias.de",
+			"www.ilias.de"
+		]
     },
     ```
   * **path** (type: string) to your installation on the internet
@@ -347,6 +365,13 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *proxy* (type: object) for outgoing http connections
     * *host* (type: string) the proxy runs on
     * *port* (type: string or number) the proxy listens on
+  * *allowed_hosts* (type: an `array`/list of strings, or `null`) A list of valid hosts which is used to
+    validate the `HTTP_HOST` header of incoming web requests. If the host header does not match any of
+    the allowed hosts, the request is rejected. If `null` is set or an empty list is provided, the host
+    header is only validated against the host of the `path` setting
+    (stored in the "ilias.ini.php" as `http_path`), which is always considered allowed.
+    This also applies for the optionally configurable host used for the WSDL path definition
+    in the SOAP web service configuration and for "localhost".
 * *logging* (type: object) configuration if logging should be used
     ```
 	"logging" : {
@@ -358,7 +383,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *enable* (type: boolean) the logging, defaults to `false`
   * *path_to_logfile* (type: string) to be used for logging
   * *errorlog_dir* (type: string) to put error logs in
-* *mathjax* (type: object) contains settings for Services/MathJax
+* *mathjax* (type: object) contains settings for ILIAS/MathJax
     
     The MathJax settings can also be done manually in the ILIAS adminstration.  
     Settings included here will overwrite those at the next update.
@@ -390,14 +415,14 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *server_for_browser* (type: boolean) use the server for rendering in the browser
   * *server_for_export* (type: boolean) use the server for HTML exports
   * *server_for_pdf* (type: boolean) use the server for PDF generation
-* *preview* (type: object) contains settings for Services/Preview
+* *preview* (type: object) contains settings for ILIAS/Preview
     ```
 	"preview" : {
 		"path_to_ghostscript" : "/usr/bin/gs"
 	},
     ```
   * *path_to_ghostscript* (type: string) executable
-* *mediaobject* (type: object) contains settings for Services/MediaObjects
+* *mediaobject* (type: object) contains settings for ILIAS/MediaObjects
     ```
 	"mediaobject" : {
 		"path_to_ffmpeg" : "/usr/bin/ffmpeg"
@@ -413,7 +438,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
     ```
   * *manage_system_styles* (type: boolean) via a GUI in the installation, defaults to `false`
   * *path_to_scss* (type: string) to compile scss to css
-* **systemfolder** (type: object) settings for Module/SystemFolder
+* **systemfolder** (type: object) settings for ILIAS/SystemFolder
     ```
 	"systemfolder" : {
 		"client" : {
@@ -452,7 +477,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
     * *country* (type: string) of said person
     * *phone* (type: string) of said person
     * **email** (type: string) of said person
-* *utilities* (type: object) contains settings for Services/Utilities
+* *utilities* (type: object) contains settings for ILIAS/Utilities
     ```
 	"utilities" : {
 		"path_to_convert" : "/usr/bin/convert",
@@ -493,12 +518,14 @@ are printed bold**, all other fields might be omitted. A minimal example is
 	"privacysecurity" : {
 		"https_enabled" : true,
 		"auth_duration" : 3000,
-		"account_assistance_duration" : 3000
+		"account_assistance_duration" : 3000,
+		"registration_duration" : 3000,
 	},
     ```
   * *https_enabled* (type: boolean) forces https on login page, defaults to `false`
   * *auth_duration* (type: integer) stretches the auth-duration on logins to the given amount in ms, defaults to `null`
   * *account_assistance_duration* (type: integer) stretches the password- and username-assistance duration to the given amount in ms, defaults to `null`
+  * *registration_duration* (type: integer) stretches registration duration to the given amount in ms, defaults to `null`
 * *webservices* (type: object)
     ```
 	"webservices" : {
@@ -506,7 +533,11 @@ are printed bold**, all other fields might be omitted. A minimal example is
 		"soap_wsdl_path" : "https://test7.ilias.de/public/soap/server.php?wsdl",
 		"soap_connect_timeout" : 30,
 		"rpc_server_host" : "192.168.47.13",
-		"rpc_server_port" : "11112"
+		"rpc_server_port" : "11112",
+		"soap_internal_wsdl_path": "https://localhost/public/soap/server.php?wsdl",
+		"soap_internal_wsdl_verify_peer": false,
+		"soap_internal_wsdl_verify_peer_name": false,
+		"soap_internal_wsdl_allow_self_signed": false
 	},
     ```
   * *soap_user_administration* (type: boolean) enable administration per soap, defaults to `false`
@@ -514,7 +545,11 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *soap_connect_timeout* (type: number) maximum time in seconds until a connection attempt to the SOAP-Webservice is interrupted, defaults to `10`
   * *rpc_server_host* (type: string) Java-Server host (must be set too, if *rpc_server_port* is set)
   * *rpc_server_port* (type: string or number) Java-Server port (must be set too, if *rpc_server_host* is set)
-* *chatroom* (type: object) see also [Chat Server Setup](/Modules/Chatroom/README.md), eg.:
+  * *soap_internal_wsdl_path* (type: string) path to the ilias wsdl file for internal usage (for calls from ilias to ilias itself), default is *soap_wsdl_path*
+  * *soap_internal_wsdl_verify_peer* (type: bool) verify peer for calls from ilias to ilias itself (see https://www.php.net/manual/en/context.ssl.php for more information)
+  * *soap_internal_wsdl_verify_peer_name* (type: bool) verify peer name for calls from ilias to ilias itself (see https://www.php.net/manual/en/context.ssl.php)
+  * *soap_internal_wsdl_allow_self_signed* (type: bool) allow self signed certificates for calls from ilias to ilias itself (see https://www.php.net/manual/en/context.ssl.php)
+* *chatroom* (type: object) see also [Chat Server Setup](/components/ILIAS/Chatroom/README.md), eg.:
     ```
 	"chatroom" : {
 		"address" : "192.168.47.14",
@@ -559,3 +594,10 @@ are printed bold**, all other fields might be omitted. A minimal example is
     * *deletion_unit* (type: string) possible values are `days`, `weeks`, `months`, `years`
     * *deletion_value* (type: string or number) depending on `deletion_unit` possible values are `days max 31`, `weeks max 52`, `months max 12`, `years no max`
     * *deletion_time* (type: string) with format `HH:MM e.g. 23:30`
+* *authentication* (type: object)
+  ```
+  "authentication" : {
+    "session_max_idle": 1800
+  }
+  ```
+  * *session_max_idle* (type: number) maximum session idle (in seconds)

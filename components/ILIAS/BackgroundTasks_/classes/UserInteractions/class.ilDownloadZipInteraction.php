@@ -61,6 +61,7 @@ class ilDownloadZipInteraction extends AbstractUserInteraction
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getRemoveOption(): Option
     {
         return new UserInteractionOption('remove', self::OPTION_CANCEL);
@@ -99,14 +100,14 @@ class ilDownloadZipInteraction extends AbstractUserInteraction
         $this->logger->debug('User interaction download zip ' . $input[0]->getValue() . ' as '
             . $input[1]->getValue());
 
-        if ($user_selected_option->getValue() != self::OPTION_DOWNLOAD) {
+        if ($user_selected_option->getValue() !== self::OPTION_DOWNLOAD) {
             $this->logger->info('Download canceled');
             // delete zip file
             $filesystem = $DIC->filesystem()->temp();
 
             try {
                 $path = LegacyPathHelper::createRelativePath($zip_name->getValue());
-            } catch (InvalidArgumentException $e) {
+            } catch (InvalidArgumentException) {
                 $path = null;
             }
             if (!is_null($path) && $filesystem->has($path)) {
@@ -123,6 +124,7 @@ class ilDownloadZipInteraction extends AbstractUserInteraction
         return new ThunkValue();
     }
 
+    #[\Override]
     public function canBeSkipped(array $input): bool
     {
         return false;

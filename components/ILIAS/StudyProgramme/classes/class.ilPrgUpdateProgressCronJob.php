@@ -18,13 +18,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * This will set progresses to FAILED,
  * if they are past the deadline (and not successful, yet)
  */
-class ilPrgUpdateProgressCronJob extends ilCronJob
+class ilPrgUpdateProgressCronJob extends CronJob
 {
     private const ID = 'prg_update_progress';
 
@@ -71,9 +73,9 @@ class ilPrgUpdateProgressCronJob extends ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS;
+        return JobScheduleType::IN_DAYS;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -81,10 +83,10 @@ class ilPrgUpdateProgressCronJob extends ilCronJob
         return 1;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
-        $result = new ilCronJobResult();
-        $result->setStatus(ilCronJobResult::STATUS_NO_ACTION);
+        $result = new JobResult();
+        $result->setStatus(JobResult::STATUS_NO_ACTION);
 
         $now = new DateTimeImmutable();
 
@@ -96,7 +98,7 @@ class ilPrgUpdateProgressCronJob extends ilCronJob
             $this->assignment_repo->store($assignment);
         }
 
-        $result->setStatus(ilCronJobResult::STATUS_OK);
+        $result->setStatus(JobResult::STATUS_OK);
         return $result;
     }
 }

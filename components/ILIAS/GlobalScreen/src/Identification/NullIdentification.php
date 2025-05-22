@@ -26,15 +26,12 @@ namespace ILIAS\GlobalScreen\Identification;
  */
 class NullIdentification implements IdentificationInterface
 {
-    protected ?IdentificationInterface $wrapped_identification = null;
-
     /**
      * NullIdentification constructor.
      * @param IdentificationInterface $wrapped_identification
      */
-    public function __construct(IdentificationInterface $wrapped_identification = null)
+    public function __construct(protected ?IdentificationInterface $wrapped_identification = null)
     {
-        $this->wrapped_identification = $wrapped_identification;
     }
 
     /**

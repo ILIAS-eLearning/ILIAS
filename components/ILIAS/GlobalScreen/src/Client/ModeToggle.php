@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,8 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Client;
 
+use ILIAS\GlobalScreen\Services;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory;
 use ILIAS\HTTP\Cookies\CookieFactoryImpl;
@@ -37,7 +39,7 @@ class ModeToggle
     protected WrapperFactory $wrapper;
     protected Factory $refinery;
     protected \ilCtrlInterface $ctrl;
-    protected \ILIAS\GlobalScreen\Services $global_screen;
+    protected Services $global_screen;
     protected \ILIAS\HTTP\Services $http;
 
     public function __construct()
@@ -66,7 +68,7 @@ class ModeToggle
     public function toggle(): void
     {
         $current_mode = $this->getMode();
-        $new_mode = $current_mode == self::MODE1 ? self::MODE2 : self::MODE1;
+        $new_mode = $current_mode === self::MODE1 ? self::MODE2 : self::MODE1;
         $cookie_factory = new CookieFactoryImpl();
         $cookie = $cookie_factory->create(self::GS_MODE, $new_mode)
                                  ->withExpires(time() + 3600);

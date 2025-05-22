@@ -19,7 +19,7 @@ This component does currently not offer any public services.
 
 
 ## Survey Question Pool
-* **Code**: `Modules/SurveyQuestinoPool`
+* **Code**: `components/ILIAS/SurveyQuestinoPool`
 * **DB Tables**: `svy_qpl`
 
 ### Properties
@@ -32,7 +32,7 @@ This component does currently not offer any public services.
 
 
 ## Questions
-* **Code**: `Modules/SurveyQuestinoPool/Questions`
+* **Code**: `components/ILIAS/SurveyQuestinoPool/Questions`
 * **DB Tables**: `svy_question`
 
 ### Properties
@@ -50,10 +50,10 @@ This component does currently not offer any public services.
 
 
 ### Issues
-* If we do not save any answer and press "back to de Survey" or we leave this page without save. In the "svy_question" we have the records "title" and "questiontext" with NULL values and also "complete" and "tstamp" with value 0  (Look for services/cron which delete this rows).
+* If we do not save any answer and press "back to de Survey" or we leave this page without save. In the "svy_question" we have the records "title" and "questiontext" with NULL values and also "complete" and "tstamp" with value 0  (Look for ILIAS/Cron which delete this rows).
 
 ## Question Type
-* **Code**: `Modules/SurveyQuestinoPool/Questions`
+* **Code**: `components/ILIAS/SurveyQuestinoPool/Questions`
 * **DB Tables**: `svy_qtype`
 
 Can we get rid of legacy plugin architecture?
@@ -79,7 +79,7 @@ Can we get of the table completely?
 
 A question category is an answer option of a question. There are predefined answer options, and custom options which are created during question editing. The categories hold the answer texts, but not the scale values which are stored in the Variables (`svy_variable`).
 
-* **Code**: `Modules/SurveyQuestinoPool/Categories`
+* **Code**: `components/ILIAS/SurveyQuestinoPool/Categories`
 * **DB Tables**: `svy_category`
 
 [WIP]
@@ -102,7 +102,7 @@ A question category is an answer option of a question. There are predefined answ
     * ..
 
 ## Phrases
-* **Code**: `Modules/SurveyQuestinoPool/Phrases`
+* **Code**: `components/ILIAS/SurveyQuestinoPool/Phrases`
 * **DB Tables**: `svy_phrase`,`svy_phrase_cat`
 
 [WIP]
@@ -147,7 +147,7 @@ Answer options for each question. Hold Scale Values. Texts are in Question Categ
 
 
 ## Survey
-* **Code**: `Modules/Survey`
+* **Code**: `components/ILIAS/Survey`
 * **DB Tables**: `svy_svy`
 
 ### Properties
@@ -274,7 +274,7 @@ If the constraint is met, show the question.
     * rowvalue: Matrix question row, starting with 0
 
 ## Invitation
-* **Code**: `Modules/Survey/Participants`
+* **Code**: `components/ILIAS/Survey/Participants`
 * **DB Tables**: `svy_invitation`
 
 ### Properties

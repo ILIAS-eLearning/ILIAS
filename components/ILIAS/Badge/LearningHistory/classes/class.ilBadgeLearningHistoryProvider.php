@@ -16,36 +16,25 @@
  *
  *********************************************************************/
 
-/**
- * Learning history provider: Badges
- * @author killing@leifos.de
- */
 class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
 {
-    protected ilObjUser $current_user;
-    protected \ILIAS\DI\UIServices  $ui;
+    private ilObjUser $current_user;
+    private \ILIAS\DI\UIServices $ui;
 
     public function __construct(
         int $user_id,
         ilLearningHistoryFactory $factory,
         ilLanguage $lng,
-        ilTemplate $template = null,
-        ilObjUser $current_user = null,
-        \ILIAS\DI\UIServices $ui = null
+        ?ilTemplate $template = null,
+        ?ilObjUser $current_user = null,
+        ?\ILIAS\DI\UIServices $ui = null
     ) {
         global $DIC;
 
         parent::__construct($user_id, $factory, $lng, $template);
 
-        if (is_null($current_user)) {
-            $current_user = $DIC->user();
-        }
-        $this->current_user = $current_user;
-
-        if (is_null($ui)) {
-            $ui = $DIC->ui();
-        }
-        $this->ui = $ui;
+        $this->current_user = $current_user ?? $DIC->user();
+        $this->ui = $ui ?? $DIC->ui();
     }
 
     public function isActive(): bool
@@ -56,38 +45,42 @@ class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         return false;
     }
 
+    /**
+     * @return list<ilLearningHistoryEntry>
+     */
     public function getEntries(int $ts_start, int $ts_end): array
     {
         $lng = $this->getLanguage();
-        $lng->loadLanguageModule("badge");
+        $lng->loadLanguageModule('badge');
         $completions = ilBadgeAssignment::getBadgesForUser($this->getUserId(), $ts_start, $ts_end);
 
         $entries = [];
         foreach ($completions as $c) {
-            $title = $this->getEmphasizedTitle($c["title"]);
+            $title = $this->getEmphasizedTitle($c['title']);
             if ($this->current_user->getId() === $this->getUserId()) {
-                $title = $this->ui->renderer()->render($this->ui->factory()->link()->standard(
-                    $title,
-                    $url = ilLink::_getLink($this->getUserId(), "usr", array(), "_bdg")
-                ));
+                $title = $this->ui->renderer()->render(
+                    $this->ui->factory()->link()->standard(
+                        $title,
+                        $url = ilLink::_getLink($this->getUserId(), 'usr', [], '_bdg')
+                    )
+                );
             }
-            $text1 = str_replace("$3$", $title, $lng->txt("badge_lhist_badge_completed"));
-            $text2 = str_replace("$3$", $title, $lng->txt("badge_lhist_badge_completed_in"));
+            $text1 = str_replace('$3$', $title, $lng->txt('badge_lhist_badge_completed'));
+            $text2 = str_replace('$3$', $title, $lng->txt('badge_lhist_badge_completed_in'));
             $entries[] = $this->getFactory()->entry(
                 $text1,
                 $text2,
-                ilUtil::getImagePath("standard/icon_bdga.svg"),
-                $c["tstamp"],
-                $c["parent_id"]
+                ilUtil::getImagePath('standard/icon_bdga.svg'),
+                $c['tstamp'],
+                $c['parent_id']
             );
         }
+
         return $entries;
     }
 
     public function getName(): string
     {
-        $lng = $this->getLanguage();
-
-        return $lng->txt("obj_bdga");
+        return $this->getLanguage()->txt('obj_bdga');
     }
 }

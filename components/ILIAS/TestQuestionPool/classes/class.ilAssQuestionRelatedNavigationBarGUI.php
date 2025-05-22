@@ -33,75 +33,13 @@ class ilAssQuestionRelatedNavigationBarGUI
      * @var ilLanguage
      */
     protected $lng;
-
     protected $instantResponseCmd;
-
     protected $instantResponseEnabled;
-
-    protected $hintProvidingEnabled;
-
-    protected $hintRequestsPossible;
-
-    protected $hintRequestsExist;
-
-    protected $hintRequestCmd;
-
-    protected $hintListCmd;
 
     public function __construct(ilCtrl $ctrl, ilLanguage $lng)
     {
         $this->ctrl = $ctrl;
         $this->lng = $lng;
-    }
-
-    public function getHintListCmd()
-    {
-        return $this->hintListCmd;
-    }
-
-    public function setHintListCmd($hintListCmd): void
-    {
-        $this->hintListCmd = $hintListCmd;
-    }
-
-    public function getHintRequestCmd()
-    {
-        return $this->hintRequestCmd;
-    }
-
-    public function setHintRequestCmd($hintRequestCmd): void
-    {
-        $this->hintRequestCmd = $hintRequestCmd;
-    }
-
-    public function setHintRequestsExist($hintRequestsExist): void
-    {
-        $this->hintRequestsExist = $hintRequestsExist;
-    }
-
-    public function doesHintRequestsExist()
-    {
-        return $this->hintRequestsExist;
-    }
-
-    public function setHintRequestsPossible($hintRequestsPossible): void
-    {
-        $this->hintRequestsPossible = $hintRequestsPossible;
-    }
-
-    public function areHintRequestsPossible()
-    {
-        return $this->hintRequestsPossible;
-    }
-
-    public function setHintProvidingEnabled($hintProvidingEnabled): void
-    {
-        $this->hintProvidingEnabled = $hintProvidingEnabled;
-    }
-
-    public function isHintProvidingEnabled()
-    {
-        return $this->hintProvidingEnabled;
     }
 
     public function setInstantResponseEnabled($instantFeedbackEnabled): void
@@ -137,32 +75,6 @@ class ilAssQuestionRelatedNavigationBarGUI
             $navTpl->parseCurrentBlock();
 
             $parseQuestionRelatedNavigation = true;
-        }
-
-        if ($this->isHintProvidingEnabled()) {
-            if ($this->areHintRequestsPossible()) {
-                if ($this->doesHintRequestsExist()) {
-                    $buttonText = $this->lng->txt("button_request_next_question_hint");
-                } else {
-                    $buttonText = $this->lng->txt("button_request_question_hint");
-                }
-
-                $navTpl->setCurrentBlock("button_request_next_question_hint");
-                $navTpl->setVariable("CMD_REQUEST_NEXT_QUESTION_HINT", $this->getHintRequestCmd());
-                $navTpl->setVariable("TEXT_REQUEST_NEXT_QUESTION_HINT", $buttonText);
-                $navTpl->parseCurrentBlock();
-
-                $parseQuestionRelatedNavigation = true;
-            }
-
-            if ($this->doesHintRequestsExist()) {
-                $navTpl->setCurrentBlock("button_show_requested_question_hints");
-                $navTpl->setVariable("CMD_SHOW_REQUESTED_QUESTION_HINTS", $this->getHintListCmd());
-                $navTpl->setVariable("TEXT_SHOW_REQUESTED_QUESTION_HINTS", $this->lng->txt("show_requested_question_hints"));
-                $navTpl->parseCurrentBlock();
-
-                $parseQuestionRelatedNavigation = true;
-            }
         }
 
         if ($parseQuestionRelatedNavigation) {

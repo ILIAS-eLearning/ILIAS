@@ -22,7 +22,7 @@ namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 use ILIAS\GlobalScreen\isGlobalScreenItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Content;
 
 /**
  * Interface IFactory
@@ -66,12 +66,12 @@ interface isItem extends isGlobalScreenItem
      *      this will be something like in
      *      Services/Administration/templates/default/tpl.external_settings.html
      */
-    public function withNonAvailableReason(Legacy $element): isItem;
+    public function withNonAvailableReason(Content $element): isItem;
 
     /**
      * @return Legacy
      */
-    public function getNonAvailableReason(): Legacy;
+    public function getNonAvailableReason(): Content;
 
     /**
      * Return the default position for installation, this will be overridden by

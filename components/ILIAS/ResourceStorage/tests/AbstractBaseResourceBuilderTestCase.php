@@ -18,6 +18,9 @@
 
 namespace ILIAS\ResourceStorage;
 
+use PHPUnit\Framework\MockObject\MockObject;
+use ILIAS\ResourceStorage\Resource\ResourceBuilder;
+
 /** @noRector */
 require_once('AbstractTestBase.php');
 /** @noRector */
@@ -39,7 +42,6 @@ use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use Psr\Http\Message\UploadedFileInterface;
-use ILIAS\ResourceStorage\Resource\ResourceType;
 
 /**
  * Class AbstractBaseResourceBuilderTestCase
@@ -47,58 +49,59 @@ use ILIAS\ResourceStorage\Resource\ResourceType;
  */
 abstract class AbstractBaseResourceBuilderTestCase extends AbstractTestBase
 {
-    public $flavour_repository;
+    public MockObject $flavour_repository;
     /**
-     * @var Revision|\PHPUnit\Framework\MockObject\MockObject
+     * @var Revision|MockObject
      */
-    protected $revision;
+    protected MockObject $revision;
     /**
-     * @var Information|\PHPUnit\Framework\MockObject\MockObject
+     * @var Information|MockObject
      */
-    protected $information;
+    protected MockObject $information;
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|UploadedFileInterface
+     * @var MockObject|UploadedFileInterface
      */
     protected $upload_result;
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|InformationRepository
+     * @var MockObject|InformationRepository
      */
-    protected $information_repository;
+    protected MockObject $information_repository;
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|ResourceRepository
+     * @var MockObject|ResourceRepository
      */
-    protected $resource_repository;
+    protected MockObject $resource_repository;
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|CollectionRepository
+     * @var MockObject|CollectionRepository
      */
-    protected $collection_repository;
+    protected MockObject $collection_repository;
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|RevisionRepository
+     * @var MockObject|RevisionRepository
      */
-    protected $revision_repository;
+    protected MockObject $revision_repository;
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|StorageHandler
+     * @var MockObject|StorageHandler
      */
-    protected $storage_handler;
-    protected \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
+    protected MockObject $storage_handler;
+    protected ResourceBuilder $resource_builder;
     /**
-     * @var StakeholderRepository|\PHPUnit\Framework\MockObject\MockObject
+     * @var StakeholderRepository|MockObject
      */
-    protected $stakeholder_repository;
+    protected MockObject $stakeholder_repository;
     /**
-     * @var LockHandler|\PHPUnit\Framework\MockObject\MockObject
+     * @var LockHandler|MockObject
      */
-    protected $locking;
+    protected MockObject $locking;
     /**
-     * @var StorageHandlerFactory|\PHPUnit\Framework\MockObject\MockObject
+     * @var StorageHandlerFactory|MockObject
      */
-    protected $storage_handler_factory;
+    protected MockObject $storage_handler_factory;
     /**
      * @var StreamAccess|\PHPUnit\Framework\MockObject\MockObject|StreamAccess&\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $stream_access;
+    protected MockObject $stream_access;
     protected Repositories $repositories;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

@@ -471,11 +471,12 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
     public function getModalTemplate(): array
     {
         $ui = $this->ui;
-        $modal = $ui->factory()->modal()->roundtrip('#title#', $ui->factory()->legacy('#content#'))
+        $modal = $ui->factory()->modal()->roundtrip('#title#', $ui->factory()->legacy()->content('#content#'))
                     ->withActionButtons([
                         $ui->factory()->button()->standard('#button_title#', '#'),
                     ]);
         $modalt["signal"] = $modal->getShowSignal()->getId();
+        $modalt["closeSignal"] = $modal->getCloseSignal()->getId();
         $modalt["template"] = $ui->renderer()->renderAsync($modal);
 
         return $modalt;
@@ -505,7 +506,9 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
         );
         $content = $this->ui_wrapper->getRenderedAdapterForm(
             $this->getOverlayUploadFormAdapter(),
-            [["InteractiveImage", "overlay.upload", $this->lng->txt("add")]]
+            [["InteractiveImage", "overlay.upload", $this->lng->txt("add")]],
+            "",
+            true
         );
         $this->ctrl->setParameterByClass(
             \ilPCInteractiveImageGUI::class,
@@ -520,7 +523,9 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
         $iim_gui = $this->getPCInteractiveImageGUI();
         $content = $this->ui_wrapper->getRenderedAdapterForm(
             $iim_gui->getPopupFormAdapter(),
-            [["InteractiveImage", "popup.save", $this->lng->txt("save")]]
+            [["InteractiveImage", "popup.save", $this->lng->txt("save")]],
+            "",
+            true
         );
         return $content;
     }

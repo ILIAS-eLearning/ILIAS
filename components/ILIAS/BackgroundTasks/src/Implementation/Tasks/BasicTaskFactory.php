@@ -19,7 +19,6 @@
 namespace ILIAS\BackgroundTasks\Implementation\Tasks;
 
 use ILIAS\BackgroundTasks\Dependencies\Injector;
-use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BasicScalarValueFactory;
 use ILIAS\BackgroundTasks\Task;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
@@ -29,11 +28,8 @@ class BasicTaskFactory implements TaskFactory
 {
     use BasicScalarValueFactory;
 
-    protected \ILIAS\BackgroundTasks\Dependencies\Injector $injector;
-
-    public function __construct(Injector $injector)
+    public function __construct(protected Injector $injector)
     {
-        $this->injector = $injector;
     }
 
     /**
@@ -47,7 +43,7 @@ class BasicTaskFactory implements TaskFactory
         /** @var Task $task */
         $task = $this->injector->createInstance($class_name);
         if ($input) {
-            $wrappedInput = array_map(function ($i): \ILIAS\BackgroundTasks\Value {
+            $wrappedInput = array_map(function ($i): Value {
                 if ($i instanceof Task) {
                     return $i->getOutput();
                 }

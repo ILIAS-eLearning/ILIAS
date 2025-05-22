@@ -104,7 +104,7 @@ class ListValue extends AbstractValue
     }
 
     /**
-     * @return \ILIAS\BackgroundTasks\Types\Type[]
+     * @return Type[]
      */
     protected function getTypes(array $list): array
     {
@@ -138,7 +138,7 @@ class ListValue extends AbstractValue
      * @return void
      * @since 5.1.0
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         $this->list = unserialize($serialized);
         $this->type = $this->deriveType($this->list);
@@ -205,7 +205,7 @@ class ListValue extends AbstractValue
         }
 
         $hierarchy = [];
-        $class = get_class($object);
+        $class = $object::class;
 
         do {
             $hierarchy[] = $class;
@@ -214,6 +214,7 @@ class ListValue extends AbstractValue
         return $hierarchy;
     }
 
+    #[\Override]
     public function getType(): Type
     {
         return $this->type;

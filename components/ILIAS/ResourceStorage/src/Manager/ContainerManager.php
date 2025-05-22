@@ -42,7 +42,7 @@ final class ContainerManager extends BaseManager
     public function containerFromUpload(
         UploadResult $result,
         ResourceStakeholder $stakeholder,
-        string $revision_title = null
+        ?string $revision_title = null
     ): ResourceIdentification {
         // check if stream is a ZIP
         $this->checkZIP(mime_content_type($result->getMimeType()));
@@ -53,7 +53,7 @@ final class ContainerManager extends BaseManager
     public function containerFromStream(
         FileStream $stream,
         ResourceStakeholder $stakeholder,
-        string $revision_title = null
+        ?string $revision_title = null
     ): ResourceIdentification {
         // check if stream is a ZIP
         $this->checkZIP(mime_content_type($stream->getMetadata()['uri']));

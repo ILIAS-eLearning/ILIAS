@@ -1,20 +1,23 @@
 <?php
 
-use ILIAS\Setup;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\Setup;
+
 class ilHttpMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
     /**
@@ -110,6 +113,25 @@ class ilHttpMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
                 "proxy",
                 false,
                 "Does the server use a proxy for outgoing connections?"
+            );
+        }
+
+        if ($settings->get('allowed_hosts')) {
+            $storage->store(
+                'allowed_hosts',
+                new Setup\Metrics\Metric(
+                    Setup\Metrics\Metric::STABILITY_CONFIG,
+                    Setup\Metrics\Metric::TYPE_COLLECTION,
+                    array_map(
+                        static fn(string $host) => new Setup\Metrics\Metric(
+                            Setup\Metrics\Metric::STABILITY_CONFIG,
+                            Setup\Metrics\Metric::TYPE_TEXT,
+                            $host
+                        ),
+                        explode(',', $settings->get('allowed_hosts'))
+                    ),
+                    'Collection of configured allowed hosts.'
+                )
             );
         }
     }

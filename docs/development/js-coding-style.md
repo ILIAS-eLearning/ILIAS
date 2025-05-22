@@ -118,6 +118,19 @@ Airbnb requires ALL functions to be declared BEFORE they are used, which is unne
 functions are [hoisted](https://developer.mozilla.org/en-US/docs/Glossary/Hoisting), which makes this rule obsolete.
 Therefore, we do not require function declarations to be placed before they are used.
 
+#### 4. Parameter Properties Reassignment
+
+Airbnb does not allow to manipulate/reassign parameters completely. However, reassigning **parameter properties** of 
+e.g. `HTMLElement`s is a common use-case, which has led to many unnecessary variables being initialised to work around
+this code-style rule. Therefore we allow the manipulation/reassignment of **parameter properties**.
+
+#### 5. Import File Extensions
+
+Airbnb does not allow file extensions in ES6 import statements. However, in the Node.js environment [file extensions are
+always necessary for relative specifiers](https://nodejs.org/api/esm.html#esm_import_specifiers). This leads to problems
+when e.g. building bundles with Rollup.js. Therefore we adjust this rule and **enforce all ES6 import specifiers to
+include their file extension, except for depencendies which are resolved by other tools (Node.js, Rollup.js).**
+
 ## Applying Code Style
 
 ILIAS is using [ESLint](https://eslint.org/) to automatically check and/or fix JavaScript code according to the

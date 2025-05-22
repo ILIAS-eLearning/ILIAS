@@ -43,7 +43,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 
     private const CMD_VIEW = 'view';
     private const CMD_SAVE = 'save';
-    private const CMD_GET_ASYNC_MODAL = 'getAsyncModalOutput';
+    public const CMD_GET_ASYNC_MODAL = 'getAsyncModalOutput';
     private const CMD_DELETE = 'delete';
     private const CMD_DELETE_CONFIRMATION = 'deleteConfirmation';
     private const CMD_PROFILE_NOT_PUBLIC = 'profile_not_public';
@@ -145,7 +145,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
                 continue;
             }
             [$title, $link] = $this->getItemPath($ref_id);
-            $usr = $this->getUserRepresentation($ac->getLastEditorId()) ?? $this->ui_factory->legacy('-');
+            $usr = $this->getUserRepresentation($ac->getLastEditorId()) ?? $this->ui_factory->legacy()->content('-');
             $modal = $this->getModal($ref_id);
             $collected_modals[] = $modal;
             $actions = $this->getItemAction(
@@ -288,12 +288,12 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         return $this->object;
     }
 
-    protected function getModal(int $current_ref_id = null): RoundTrip
+    protected function getModal(?int $current_ref_id = null): RoundTrip
     {
         if (!is_null($current_ref_id)) {
             $this->ctrl->setParameter($this, self::CHECKBOX_CATEGORY_REF_IDS, (string) $current_ref_id);
         }
-        $link = $this->ctrl->getLinkTarget($this, "getAsyncModalOutput", "", true);
+        $link = $this->ctrl->getLinkTarget($this, self::CMD_GET_ASYNC_MODAL, "", true);
         $this->ctrl->setParameter($this, self::CHECKBOX_CATEGORY_REF_IDS, null);
         return $this->ui_factory->modal()->roundtrip(
             '',
@@ -322,17 +322,23 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         $modal = $this->ui_factory->modal()
             ->roundtrip(
                 $this->lng->txt('modal_categories_title'),
-                $this->ui_factory->legacy($form->getHtml())
+                $this->ui_factory->legacy()->content($form->getHtml())
             )
             ->withActionButtons([$submit])
             ->withAdditionalOnLoadCode(
                 function ($id) use ($form) {
                     $selector_post_var = self::F_CATEGORY_REF;
                     $js = $form->getItemByPostVar($selector_post_var)->getOnloadCode();
+                    $js[] = "
+                        document.getElementById('$id').onclose = ()=> {
+                            let smodal = document.querySelectorAll('body dialog')
+                              .item(document.querySelectorAll('body dialog').length-1);
+                            smodal?.remove();
+                        }
+                    ";
                     return implode(';', $js);
                 }
             );
-
 
         echo $this->ui_renderer->renderAsync($modal);
         exit;
@@ -357,11 +363,11 @@ class ilObjStudyProgrammeAutoCategoriesGUI
             $cat->setValue($current_ref_id);
         }
         $cat->getExplorerGUI()->setRootId(ROOT_FOLDER_ID);
-        $cat->getExplorerGUI()->setAjax(false);
+        $cat->getExplorerGUI()->setAjax(true);
         $form->addItem($cat);
 
         $hi = new ilHiddenInputGUI(self::F_CATEGORY_ORIGINAL_REF);
-        $hi->setValue((string)$current_ref_id ?? "");
+        $hi->setValue((string) $current_ref_id ?? "");
         $form->addItem($hi);
 
         return $form;
@@ -403,7 +409,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     protected function getUserRepresentation(int $usr_id): ?Link
     {
         $username = ilObjUser::_lookupName($usr_id);
-        if(array_filter($username) === []) {
+        if (array_filter($username) === []) {
             return null;
         }
 
@@ -431,7 +437,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 
         $hops = array_map(
             static function (array $c): string {
-                return ilObject::_lookupTitle((int)$c["obj_id"]);
+                return ilObject::_lookupTitle((int) $c["obj_id"]);
             },
             $this->tree->getPathFull($cat_ref_id)
         );

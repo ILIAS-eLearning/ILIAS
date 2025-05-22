@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Resources\DataSource;
 
+use ILIAS\ResourceStorage\Collection\Sorter\Sorter;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Services;
@@ -34,7 +35,7 @@ abstract class BaseTableDataSource implements TableDataSource
     protected \ilDBInterface $db;
     protected Services $irss;
     protected ResourceCollection $collection;
-    protected \ILIAS\ResourceStorage\Collection\Sorter\Sorter $sorter;
+    protected Sorter $sorter;
     protected int $filtered_amount_of_items = 0;
     protected int $offset = 0;
     protected int $limit = 50;

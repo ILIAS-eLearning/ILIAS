@@ -1,12 +1,26 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\DI\UIServices;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
-
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Add user to group from awareness tool
@@ -162,16 +176,16 @@ class ilGroupAddToGroupActionGUI
             );
         }
         if ($modal_exists) {
-            echo $this->ui->renderer()->renderAsync($this->ui->factory()->legacy($a_content));
+            echo $this->ui->renderer()->renderAsync($this->ui->factory()->legacy()->content($a_content));
         } else {
             $mtpl = new ilTemplate("tpl.grp_add_to_grp_modal_content.html", true, true, "./components/ILIAS/Group/UserActions");
             $mtpl->setVariable("CONTENT", $a_content);
-            $content = $this->ui->factory()->legacy($mtpl->get());
+            $content = $this->ui->factory()->legacy()->content($mtpl->get());
             $modal = $this->ui->factory()->modal()->roundtrip(
                 $lng->txt("grp_add_user_to_group"),
                 $content
             )->withOnLoadCode(function ($id) {
-                return "il.UI.modal.showModal('$id', {'ajaxRenderUrl':'','keyboard':true}, {id: '$id'});";
+                return "il.UI.modal.showModal(document.getElementById('$id'), {'ajaxRenderUrl':'','keyboard':true}, {id: '$id'});";
             });
             echo $this->ui->renderer()->renderAsync($modal);
         }
@@ -370,9 +384,24 @@ class ilGroupAddToGroupActionGUI
         $newObj->create();
 
         $group_gui->putObjectInTree($newObj, $ref_id);
+        $group_gui = new ilObjGroupGUI("", $group_gui->getRefId(), true);
+
 
         // apply didactic template?
-        $dtpl = $group_gui->getDidacticTemplateVar("dtpl");
+        $type = 'didactic_type';
+        $dtpl = 0;
+        if ($this->http->wrapper()->post()->has('didactic_type')) {
+            $var = $this->http->wrapper()->post()->retrieve(
+                'didactic_type',
+                $this->refinery->kindlyTo()->string()
+            );
+
+            if (substr($var, 0, strlen($type) + 1) != $type . "_") {
+                $dtpl = 0;
+            } else {
+                $dtpl = (int) substr($var, strlen($type) + 1);
+            }
+        }
         if ($dtpl) {
             $newObj->applyDidacticTemplate($dtpl);
         }

@@ -32,6 +32,8 @@ interface Standard extends Icon
     public const CRS = 'crs';	//Course object
     public const MOB = 'mob';	//Multimedia object
     public const MAIL = 'mail';	//Mailmodule object
+    public const MAILR = 'mailr'; //Read Mail
+    public const MAILU = 'mailu'; //Unread Mail
     public const SAHS = 'sahs';	//SCORM/AICC Learning Module
     public const ADM = 'adm';	//Administration Panel object
     public const USRF = 'usrf';	//User Folder object
@@ -142,7 +144,7 @@ interface Standard extends Icon
     public const NOTS = 'nots';	//Notes
     public const LHTS = 'lhts';	//Learning History
     public const COMS = 'coms';	//Comments
-    public const LTIS = 'ltis';	//LTI
+    public const LTIS = 'lti';	//LTI
     public const CMIS = 'cmis';	//xAPI/cmi5
     public const REP = 'rep';	//Repository
     public const TASK = 'task';   //Task
@@ -181,4 +183,5 @@ interface Standard extends Icon
     public const GCON = 'gcon';	    //Group Conversaion
     public const FILS = 'fils';	    //File System Service
     public const TALA = 'tala';	    //Employee Talk Template Admin
+    public const QST = 'ques';     //Question
 }

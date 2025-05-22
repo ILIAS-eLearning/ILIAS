@@ -48,7 +48,7 @@ class ExportHelperGUI
         $modal = $factory->modal()->roundtrip($title, [$mess]);
 
         $b1 = $factory->button()
-            ->standard($this->lng->txt("no"), "")
+            ->standard($this->lng->txt("no"), "#")
             ->withAdditionalOnLoadCode(static function ($id) use ($export_cmd, $js): string {
                 $cmd_js = ($js)
                     ? $export_cmd
@@ -59,9 +59,8 @@ class ExportHelperGUI
                     $cmd_js
                 });";
             });
-
         $b2 = $factory->button()
-            ->standard($this->lng->txt("yes"), "")
+            ->standard($this->lng->txt("yes"), "#")
             ->withAdditionalOnLoadCode(static function ($id) use ($export_with_comments_cmd, $js): string {
                 $cmd_js = ($js)
                     ? $export_with_comments_cmd

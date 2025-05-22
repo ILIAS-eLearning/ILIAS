@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * Formula Question Result
  * @author        Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -29,7 +31,8 @@ class assFormulaQuestionResult
     public const RESULT_FRAC = 2;
     public const RESULT_CO_FRAC = 3;
 
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
+    private Refinery $refinery;
 
     private $available_units = [];
     private ?float $range_min = null;
@@ -52,6 +55,7 @@ class assFormulaQuestionResult
     ) {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->refinery = $DIC->refinery();
         $this->setRangeMin($range_min_txt);
         $this->setRangeMax($range_max_txt);
 
@@ -94,7 +98,7 @@ class assFormulaQuestionResult
 
     public function calculateFormula($variables, $results, $question_id = 0, $use_precision = true)
     {
-        $resultunits = array();
+        $resultunits = [];
         if ($question_id > 0) {
             $resultunits = $this->getAvailableResultUnits($question_id);
         }
@@ -103,7 +107,7 @@ class assFormulaQuestionResult
         if (preg_match_all("/(\\\$v\\d+)/ims", $formula, $matches)) {
             foreach ($matches[1] as $variable) {
                 $varObj = $variables[$variable];
-                if (!is_object($varObj)) {
+                if (!is_object($varObj) || !is_numeric($varObj->getValue())) {
                     continue;
                 }
                 $value = $varObj->getBaseValue();
@@ -225,7 +229,7 @@ class assFormulaQuestionResult
         if (preg_match_all("/(\\\$v\\d+)/ims", $formula, $matches)) {
             foreach ($matches[1] as $variable) {
                 $varObj = $variables[$variable];
-                if (!is_object($varObj)) {
+                if (!is_object($varObj) || !is_numeric($varObj->getValue())) {
                     continue;
                 }
 
@@ -400,142 +404,111 @@ class assFormulaQuestionResult
             && $user_answer <= $upper_boundary;
     }
 
-    protected function checkSign($v1, $v2): bool
+    private function checkSign(float $v1, float $v2): bool
     {
-        if ((($v1 >= 0) && ($v2 >= 0)) || (($v1 <= 0) && ($v2 <= 0))) {
-            return true;
-        } else {
-            return false;
-        }
+        return ($v1 >= 0.0 && $v2 >= 0.0) || ($v1 <= 0.0 && $v2 <= 0.0);
     }
 
-    public function getReachedPoints($variables, $results, $value, $unit, $units)
-    {
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
+    /**
+     * @param assFormulaQuestionUnit[] $units
+     */
+    public function getReachedPoints(
+        array $variables,
+        array $results,
+        string $answer_value,
+        ?assFormulaQuestionUnit $answer_unit,
+        array $units
+    ): float {
         if ($this->getRatingSimple()) {
-            if ($this->isCorrect($variables, $results, $value, $units[$unit] ?? null)) {
-                return $this->getPoints();
-            } else {
-                return 0;
-            }
-        } else {
-            $points = 0;
-            $formula = $this->substituteFormula($variables, $results);
+            return $this->isCorrect($variables, $results, $answer_value, $answer_unit)
+            ? $this->getPoints()
+            : 0.0;
+        }
 
-            if (preg_match_all("/(\\\$v\\d+)/ims", $formula, $matches)) {
-                foreach ($matches[1] as $variable) {
-                    $varObj = $variables[$variable];
-                    if (!is_object($varObj)) {
-                        continue;
-                    }
-                    if ($varObj->getUnit() != null) {
-                        //convert unit and value to baseunit
-                        if ($varObj->getUnit()->getBaseUnit() != -1) {
-                            $tmp_value = $varObj->getValue() * $varObj->getUnit()->getFactor();
-                        } else {
-                            $tmp_value = $varObj->getValue();
-                        }
-                    } else {
-                        $tmp_value = $varObj->getValue();
-                    }
-                    $formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(" . $tmp_value . ")" . "\\1", $formula);
-                }
-            }
+        $result = $this->calculateCorrectResult($variables, $results);
+        $float_value = $this->transformAnswerValueAccordingToType($answer_value, $answer_unit);
 
-            $math = new EvalMath();
-            $math->suppress_errors = true;
-            $result = $math->evaluate($formula);
+        $points = 0.0;
+        if ($answer_unit instanceof assFormulaQuestionUnit && $answer_unit instanceof assFormulaQuestionUnit) {
+            $base1 = $units[$answer_unit->getBaseUnit()] ?? null;
+            $base2 = $units[$answer_unit->getBaseUnit()] ?? null;
+            if (
+                $base1 instanceof assFormulaQuestionUnit
+                && $base2 instanceof assFormulaQuestionUnit
+                && $base1->getId() === $base2->getId()
+            ) {
+                $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingUnit(), 100));
+            }
+        }
 
-            // result_type extension
-            switch ($this->getResultType()) {
-                case assFormulaQuestionResult::RESULT_DEC:
-                    if ((substr_count($value, '.') == 1) || (substr_count($value, ',') == 1)) {
-                        $exp_val = $value;
-                        $frac_value = str_replace(',', '.', $exp_val);
-                    } else {
-                        $frac_value = $value;
-                    }
-                    $check_fraction = true;
-                    break;
-                case assFormulaQuestionResult::RESULT_FRAC:
-                    $exp_val = explode('/', $value);
-                    if (count($exp_val) == 1) {
-                        $frac_value = ilMath::_div($exp_val[0], 1, $this->getPrecision());
-                        if (ilMath::_equals(abs($frac_value), abs($result), $this->getPrecision())) {
-                            $check_fraction = true;
-                        } else {
-                            $check_fraction = false;
-                        }
-                    } else {
-                        $frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
-                        if (ilMath::_equals(abs($frac_value), abs($result), $this->getPrecision())) {
-                            $check_fraction = true;
-                        }
-                    }
-                    break;
-                case assFormulaQuestionResult::RESULT_CO_FRAC:
-                    $exp_val = explode('/', $value);
-                    if (count($exp_val) == 1) {
-                        $check_fraction = false;
-                    } else {
-                        $frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
-                        if (self::isCoprimeFraction($exp_val[0], $exp_val[1])) {
-                            $check_fraction = true;
-                        }
-                    }
-                    break;
-                case assFormulaQuestionResult::RESULT_NO_SELECTION:
-                default:
-                    $check_fraction = true;
-                    break;
-            }
-
-            // result unit!!
-            if ($this->getUnit() !== null) {
-                // if expected resultunit != baseunit convert to resultunit
-                if ($this->getUnit()->getBaseUnit() != -1) {
-                    $result = ilMath::_div($result, $this->getUnit()->getFactor(), $this->getPrecision());
-                } else {
-                    //if resultunit == baseunit calculate to get correct precision
-                    $result = ilMath::_mul($result, $this->getUnit()->getFactor(), $this->getPrecision());
-                }
-            }
-
-            if (is_object($unit)) {
-                if (isset($frac_value)) {
-                    $value = ilMath::_mul($frac_value, $unit->getFactor(), 100);
-                }
-            }
-
-            if ($this->checkSign($result, $value)) {
-                $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingSign(), 100));
-            }
-
-            if ($this->isInTolerance(abs($value), abs($result), $this->getTolerance())) {
-                $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingValue(), 100));
-            }
-            if ($this->getUnit() !== null) {
-                $base1 = $units[$unit] ?? null;
-                if (is_object($base1)) {
-                    $base1 = $units[$base1->getBaseUnit()];
-                }
-                $base2 = $units[$this->getUnit()->getBaseUnit()];
-                if (is_object($base1) && is_object($base2) && $base1->getId() == $base2->getId()) {
-                    $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingUnit(), 100));
-                }
-            }
+        if ($float_value === null) {
             return $points;
         }
+
+        if ($this->checkSign($result, $float_value)) {
+            $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingSign(), 100));
+        }
+
+        if ($this->isInTolerance(abs($float_value), abs($result), $this->getTolerance())) {
+            $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingValue(), 100));
+        }
+
+        return $points;
+    }
+
+    private function calculateCorrectResult(array $variables, array $results): float
+    {
+        return round(
+            $this->calculateFormula($variables, $results),
+            $this->precision
+        );
+    }
+
+    private function transformAnswerValueAccordingToType(
+        string $value,
+        ?assFormulaQuestionUnit $unit
+    ): ?float {
+        switch ($this->getResultType()) {
+            case self::RESULT_DEC:
+                break;
+            case self::RESULT_FRAC:
+            case self::RESULT_CO_FRAC:
+                $exp_val = explode('/', $value);
+                $value = ilMath::_div(
+                    $exp_val[0],
+                    count($exp_val) === 1 ? 1 : $exp_val[1],
+                    $this->getPrecision()
+                );
+                break;
+            case self::RESULT_NO_SELECTION:
+            default:
+                $exp_val = explode('/', $value);
+
+                if (count($exp_val) === 2
+                    && (float) $exp_val[1] === 0.0) {
+                    return null;
+                }
+
+                $value = ilMath::_div(
+                    $exp_val[0],
+                    count($exp_val) === 1 ? 1 : $exp_val[1],
+                    100
+                );
+        }
+
+        return $this->refinery->byTrying([
+            $this->refinery->kindlyTo()->float(),
+            $this->refinery->always(null),
+        ])->transform(round($value, $this->precision));
     }
 
     public function getResultInfo($variables, $results, $value, $unit, $units): array
     {
         if ($this->getRatingSimple()) {
             if ($this->isCorrect($variables, $results, $value, $units[$unit] ?? null)) {
-                return array("points" => $this->getPoints());
+                return ["points" => $this->getPoints()];
             } else {
-                return array("points" => 0);
+                return ["points" => 0];
             }
         } else {
             $totalpoints = 0;
@@ -556,7 +529,7 @@ class assFormulaQuestionResult
                 $value = ilMath::_mul($value, $unit->getFactor(), 100);
             } else {
             }
-            $details = array();
+            $details = [];
             if ($this->checkSign($result, $value)) {
                 $points = ilMath::_mul($this->getPoints(), $this->getRatingSign() / 100);
                 $totalpoints += $points;
@@ -779,8 +752,8 @@ class assFormulaQuestionResult
 			FROM il_qpl_qst_fq_res
 			WHERE question_fi = %s
 			AND result = %s',
-            array('integer', 'text'),
-            array($a_qst_id, $a_result)
+            ['integer', 'text'],
+            [$a_qst_id, $a_result]
         );
 
         $row = $ilDB->fetchAssoc($res);
@@ -836,7 +809,7 @@ class assFormulaQuestionResult
         if ($to_string == $checkResult . '' || $checkResult . '' == $result) {
             return $result;
         } else {
-            return array($to_string,$result);
+            return [$to_string,$result];
         }
     }
 
@@ -860,8 +833,8 @@ class assFormulaQuestionResult
 			SELECT * FROM il_qpl_qst_fq_res_unit
 			WHERE question_fi = %s
 			ORDER BY result',
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
 
 

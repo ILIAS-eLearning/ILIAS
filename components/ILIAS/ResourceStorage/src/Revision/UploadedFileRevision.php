@@ -31,20 +31,17 @@ use ILIAS\ResourceStorage\Information\FileInformation;
  */
 class UploadedFileRevision extends FileRevision implements Revision
 {
-    private UploadResult $upload;
-
     /**
      * @inheritDoc
      */
-    public function __construct(ResourceIdentification $identification, UploadResult $upload)
+    public function __construct(ResourceIdentification $identification, private UploadResult $upload)
     {
-        $this->upload = $upload;
         parent::__construct($identification);
         $information = new FileInformation();
-        $information->setTitle($upload->getName());
-        $information->setMimeType($upload->getMimeType());
-        $information->setSuffix(pathinfo($upload->getName(), PATHINFO_EXTENSION));
-        $information->setSize($upload->getSize());
+        $information->setTitle($this->upload->getName());
+        $information->setMimeType($this->upload->getMimeType());
+        $information->setSuffix(pathinfo($this->upload->getName(), PATHINFO_EXTENSION));
+        $information->setSize($this->upload->getSize());
         $information->setCreationDate(new \DateTimeImmutable());
         $this->setInformation($information);
     }

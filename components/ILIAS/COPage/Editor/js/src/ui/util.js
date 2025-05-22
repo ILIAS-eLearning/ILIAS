@@ -99,8 +99,14 @@ export default class Util {
     }
   }
 
-  hideCurrentModal() {
-    $("#il-copg-ed-modal .modal").modal("hide");
+  hideModal(modalUiModel) {
+    $(document).trigger(
+      modalUiModel.closeSignal,
+      {
+        'id': modalUiModel.closeSignal,
+        'triggerer': $(this),
+        'options': JSON.parse('[]')
+      }
+    );
   }
-
 }

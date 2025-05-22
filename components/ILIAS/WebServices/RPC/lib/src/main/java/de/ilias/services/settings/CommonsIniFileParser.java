@@ -100,6 +100,17 @@ public class CommonsIniFileParser
                         else
                             nic = "0";
                         clientSettings = ClientSettings.getInstance(client, nic);
+                        if(sectionConfig.containsKey("IliasMajorVersion")) {
+                            int majorVersion = 0;
+                            try {
+                                majorVersion = Integer.parseInt(getConfig(ini, section, "IliasMajorVersion", true));
+                                clientSettings.setIliasMajorVersion(majorVersion);
+                                this.logger.info("Using major version: {}", majorVersion);
+                            } catch (NumberFormatException e) {
+                                this.logger.error("Invalid IliasMajorVersion given: {}", getConfig(ini, section, "IliasMajorVersion", true));
+                                throw new ConfigurationException("Parsing ilServer.ini failed with message: invalid IliasMajorVersion given: " + getConfig(ini, section, "IliasMajorVersion", true));
+                            }
+                        }
                         if(sectionConfig.containsKey("IliasIniPath")) {
                             clientSettings.setIliasIniFile(getConfig(ini, section, "IliasIniPath", false));
                             // Now parse the ilias.ini file
@@ -146,6 +157,13 @@ public class CommonsIniFileParser
 
             String dataName = getConfig(ini, "clients", "path", true);
             String iniFileName = getConfig(ini, "clients", "inifile", true);
+
+            if (
+                    clientSettings.getIliasMajorVersion() >= 10 && dataName.indexOf("public") != 0
+            ) {
+                logger.warn("Replaced datadir {} => {}", dataName, "public/" + dataName);
+                dataName = "public/" + dataName;
+            }
 
             clientSettings.setClientIniFile(clientSettings.getAbsolutePath().getCanonicalPath() +
                     System.getProperty("file.separator") +

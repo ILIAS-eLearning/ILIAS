@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,8 +15,6 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
-use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
 
 /**
 * Class for formula question question exports
@@ -124,11 +123,10 @@ class assFormulaQuestionExport extends assQuestionExport
         $this->addQTIMaterial($a_xml_writer, $this->object->getQuestion());
         // add answers to presentation
         $a_xml_writer->xmlEndTag("flow");
+        $a_xml_writer = $this->addSuggestedSolution($a_xml_writer);
         $a_xml_writer->xmlEndTag("presentation");
 
         $this->addGenericFeedback($a_xml_writer);
-
-        $a_xml_writer = $this->addSolutionHints($a_xml_writer);
 
         $a_xml_writer->xmlEndTag("item");
         $a_xml_writer->xmlEndTag("questestinterop");

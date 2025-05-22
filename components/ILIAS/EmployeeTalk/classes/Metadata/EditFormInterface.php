@@ -27,4 +27,9 @@ interface EditFormInterface
     public function updateMetadata(): void;
 
     public function render(): string;
+
+    /**
+     * Use this only for command forwarding via ctrl!
+     */
+    public function getFormGUI(): \ilPropertyFormGUI;
 }

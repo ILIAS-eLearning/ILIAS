@@ -26,7 +26,7 @@ This part of the documentation deals with concepts and business rules, for techn
 
 ## Question Answers
 
-* If we do not save any answer and press "back to de Survey" or we leave this page without save. In the "svy_question" we have the records "title" and "questiontext" with NULL values and also "complete" and "tstamp" with value 0  (Look for services/cron which delete this rows).
+* If we do not save any answer and press "back to de Survey" or we leave this page without save. In the "svy_question" we have the records "title" and "questiontext" with NULL values and also "complete" and "tstamp" with value 0  (Look for ILIAS/Cron which delete this rows).
 
 ## Codes
 

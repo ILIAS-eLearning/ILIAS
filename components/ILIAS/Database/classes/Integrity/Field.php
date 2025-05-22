@@ -22,7 +22,13 @@ namespace ILIAS\components\Database\Integrity;
 
 class Field
 {
+    /**
+     * @var string
+     */
     private const _AS = 'as';
+    /**
+     * @var string
+     */
     private const COMBINE_TABLE_AND_FIELD = '.';
     private string $original_table_name;
     private string $converted_table_name;

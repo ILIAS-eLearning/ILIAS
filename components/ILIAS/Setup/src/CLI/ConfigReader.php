@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Setup\CLI;
 
@@ -37,7 +37,7 @@ class ConfigReader
     protected JsonParser $json_parser;
     protected string $base_dir;
 
-    public function __construct(JsonParser $json_parser, string $base_dir = null)
+    public function __construct(JsonParser $json_parser, ?string $base_dir = null)
     {
         $this->json_parser = $json_parser;
         $this->base_dir = $base_dir ?? getcwd();

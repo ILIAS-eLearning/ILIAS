@@ -1,6 +1,7 @@
 @use "../../../010-settings/" as *;
 @use "../../../050-layout/basics" as *;
 @use "../../../070-components/UI-framework/Button/ui-component_button" as *;
+@use "../../../050-layout/layout_container-query" as container-query;
 
 
 //== View Control
@@ -12,6 +13,7 @@ $il-vc-mode-btn-active: $il-vc-glyph-hover-bg;
 $il-vc-pagination-btn-active-bg: $il-main-bg;
 
 // basic layout for all viewcontrol flex constructs
+.il-viewcontrol-sortation,
 .il-viewcontrol-section,
 .il-viewcontrol-pagination,
 .il-viewcontrol-mode,
@@ -22,6 +24,7 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 }
 
 // viewcontrols container bar to include set of inner buttons
+.il-viewcontrol-sortation,
 .il-viewcontrol-section,
 .il-viewcontrol-pagination,
 .il-viewcontrol-mode {
@@ -35,6 +38,7 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 }
 
 // buttons inside the container
+.il-viewcontrol-sortation,
 .il-viewcontrol-section,
 .il-viewcontrol-section .btn-group,
 .il-viewcontrol-pagination__sectioncontrol,
@@ -52,24 +56,34 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 		min-width: $il-btn-ctrl-inner-btn-height;
 		border-radius: $il-border-radius-secondary-large;
 	}
+
+	> .btn-ctrl:has(> .glyph.disabled) {
+		border:none;
+		cursor: default;
+		pointer-events: none;
+		background-color: $il-btn-ctrl-bg;
+	}
 }
 
 // viewcontrols as single buttons
 // should in the future be done by using btn-ctrl class on these buttons
+.il-viewcontrol-sortation,
 .il-viewcontrol-sortation .dropdown,
 .il-table-presentation-viewcontrols .l-bar__space-keeper .l-bar__group .l-bar__element {
 	> .btn-default.btn {
 		@extend .btn-ctrl;
 		border-radius: $il-border-radius-secondary-large;
 	}
-}
+	li .btn.btn-link {
+		padding-left: $il-padding-large-horizontal * 3;
+	}
 
-// centering browse next/previous arrows
-.il-viewcontrol-pagination__sectioncontrol,
-.il-viewcontrol-pagination,
-.il-viewcontrol-section {
-	.browse {
-		display: inline-block;
+	li.selected .btn::before {
+		position: absolute;
+		left: $il-margin-large-horizontal;
+		font-family: "Glyphicons Halflings";
+		color: $il-btn-ctrl-color;
+		content: "\e013";
 	}
 }
 
@@ -116,26 +130,21 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 }
 
 // strip normal form column layout from apply offest viewcontrol
-.il-viewcontrol-pagination__sectioncontrol .form-group.row {
-    align-items: center;
-    height: 100%;
-    margin: 0;
-    gap: 9px;
+.il-viewcontrol-pagination__sectioncontrol .c-input[data-il-ui-component="numeric-field-input"] {
+	border-radius: $il-border-radius-secondary-large;
 	label {
-		width: fit-content;
-		margin-left: 9px;
-		margin-bottom: 0;
-		// adding colon to label, so a cleanly defined translation string could be used
-		&:after {
-			content: ":"
-		}
+		text-align: right;
 	}
-	[class*="col-"] {
-		width: auto;
-		flex-grow: 1;
-		padding: 0;
+	.c-field-number {
+		width: 100%;
 	}
+
 	input[type="number"] {
 		width: 5rem;
 	}
+}
+
+// container queries - change design when viewcontrol is in a narrow toolbar
+.panel-viewcontrols {
+	z-index: $il-z-index-content;
 }

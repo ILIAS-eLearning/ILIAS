@@ -24,7 +24,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result\Ok;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Component\Input\InputData;
 use stdClass;
 use ILIAS\Refinery\Constraint;
 use InvalidArgumentException;

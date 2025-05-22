@@ -31,6 +31,9 @@ class General extends ilSetting implements Setting
     public const F_INLINE_FILE_EXTENSIONS = 'inline_file_extensions';
     public const F_SHOW_AMOUNT_OF_DOWNLOADS = 'show_amount_of_downloads';
     public const F_DOWNLOAD_ASCII_FILENAME = 'download_ascii_filename';
+    /**
+     * @var string
+     */
     private const SEPARATOR = ' ';
 
     private array $default_inline_extensions = [
@@ -69,9 +72,7 @@ class General extends ilSetting implements Setting
 
     public function setInlineFileExtensions(array $extensions): void
     {
-        $extensions = array_map(function (string $extension): string {
-            return strtolower(trim($extension, " \t\n\r\0\x0B,"));
-        }, $extensions);
+        $extensions = array_map(fn(string $extension): string => strtolower(trim($extension, " \t\n\r\0\x0B,")), $extensions);
 
         $this->set(self::F_INLINE_FILE_EXTENSIONS, $this->arrayToStr($extensions));
     }

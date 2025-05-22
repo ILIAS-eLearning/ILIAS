@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\COPage\PC\InteractiveImage\IIMManager;
+
 /**
  * TableGUI class for interactive image overlays
  *
@@ -23,6 +25,7 @@
  */
 class ilPCIIMOverlaysTableGUI extends ilTable2GUI
 {
+    protected IIMManager $iim_manager;
     protected ilObjMediaObject $mob;
     protected ilAccessHandler $access;
 
@@ -38,8 +41,7 @@ class ilPCIIMOverlaysTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
+        $this->iim_manager = $DIC->copage()->internal()->domain()->pc()->interactiveImage();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->mob = $a_mob;
@@ -59,7 +61,7 @@ class ilPCIIMOverlaysTableGUI extends ilTable2GUI
     public function getOverlays(): array
     {
         $ov = array();
-        $files = $this->mob->getFilesOfDirectory("overlays");
+        $files = $this->mob->getFilesOfDirectory("/overlays");
         foreach ($files as $f) {
             $ov[] = array("filename" => $f);
         }
@@ -68,14 +70,12 @@ class ilPCIIMOverlaysTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
-        $lng = $this->lng;
-
         $this->tpl->setVariable("FILENAME", $a_set["filename"]);
         $piname = pathinfo($a_set["filename"]);
-        $th_path = ilObjMediaObject::getThumbnailPath(
-            $this->mob->getId(),
+        $th_path = $this->iim_manager->getOverlayThumbnailPath(
+            $this->mob,
             basename($a_set["filename"], "." . $piname['extension']) . ".png"
-        );
+        ) ;
         if (!is_file($th_path)) {
             $this->mob->makeThumbnail(
                 "overlays/" . $a_set["filename"],

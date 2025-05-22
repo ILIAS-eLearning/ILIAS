@@ -207,11 +207,11 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                     $eval = new EvalMath();
                     $eval->suppress_errors = true;
 
-                    $mark_errors = array('answer' => false, 'lower' => false, 'upper' => false, 'points' => false);
-                    foreach (array(	'answer' => '_numeric',
+                    $mark_errors = ['answer' => false, 'lower' => false, 'upper' => false, 'points' => false];
+                    foreach ([	'answer' => '_numeric',
                                     'lower' => '_numeric_lower',
                                     'upper' => '_numeric_upper',
-                                    'points' => '_numeric_points') as $part => $suffix) {
+                                    'points' => '_numeric_points'] as $part => $suffix) {
                         $val = ilUtil::stripSlashes($this->raw('gap_' . $key . $suffix) ?? '', false);
                         $val = str_replace(',', '.', $val);
                         if ($eval->e($val) === false) {
@@ -238,7 +238,6 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                 }
             }
         }
-        //$_POST['gap_json_post'] = json_encode($json);
         return !$error;
     }
 
@@ -259,7 +258,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         $renderer = $DIC->ui()->renderer();
 
         $cloze_settings_js = 'ClozeSettings = {'
-            . ' gaps_php             : ' . json_encode(array($this->getValue()))
+            . ' gaps_php             : ' . json_encode([$this->getValue()])
             . ',gaps_combination     : ' . json_encode($this->getValueCombination())
             . ',gap_backup           : []'
             . ',unused_gaps_comb     : []'
@@ -283,7 +282,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         );
 
         $custom_template = new ilTemplate('tpl.il_as_cloze_gap_builder.html', true, true, 'components/ILIAS/TestQuestionPool');
-        $custom_template->setVariable('GAP_JSON', json_encode(array($this->getValue())));
+        $custom_template->setVariable('GAP_JSON', json_encode([$this->getValue()]));
         $custom_template->setVariable('GAP', $lng->txt('gap'));
         $custom_template->setVariable('GAP_COMBINATION_JSON', json_encode($this->getValueCombination()));
         $custom_template->setVariable('TEXT_GAP', $lng->txt('text_gap'));

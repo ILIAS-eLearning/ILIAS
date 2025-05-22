@@ -85,8 +85,6 @@ class ilQuestionPageParser extends ilMDSaxParser
         private readonly string $importdir
     ) {
         global $DIC;
-
-        $this->log = $DIC['ilLog'];
         $lng = $DIC->language();
         $tree = $DIC->repositoryTree();
 
@@ -121,12 +119,11 @@ class ilQuestionPageParser extends ilMDSaxParser
      */
     public function setHandlers($xml_parser): void
     {
-        xml_set_object($xml_parser, $this);
-        xml_set_element_handler($xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($xml_parser, 'handlerCharacterData');
+        xml_set_element_handler($xml_parser, $this->handlerBeginTag(...), $this->handlerEndTag(...));
+        xml_set_character_data_handler($xml_parser, $this->handlerCharacterData(...));
     }
 
-    public function setImportMapping(ilImportMapping $mapping = null): void
+    public function setImportMapping(?ilImportMapping $mapping = null): void
     {
         $this->mapping = $mapping;
     }
@@ -257,40 +254,10 @@ class ilQuestionPageParser extends ilMDSaxParser
                 }
 
                 // eventually correct links in questions to learning modules
-                if ($type_arr[0] == 'qst') {
-                    assQuestion::_resolveIntLinks($source['id']);
-                }
-                // eventually correct links in survey questions to learning modules
-                if ($type_arr[0] == 'sqst') {
-                    SurveyQuestion::_resolveIntLinks($source['id']);
+                if ($type_arr[0] === 'qst') {
+                    assQuestion::instantiateQuestion($source['id'])->resolveSuggestedSolutionLinks();
                 }
                 $done[$key] = $key;
-            }
-        }
-    }
-
-
-    /**
-     * copy multimedia object files from import zip file to mob directory
-     */
-    public function copyMobFiles(): void
-    {
-        foreach ($this->mob_mapping as $origin_id => $mob_id) {
-            if (empty($origin_id)) {
-                continue;
-            }
-
-            $obj_dir = $origin_id;
-            $source_dir = $this->importdir . DIRECTORY_SEPARATOR . 'objects' . DIRECTORY_SEPARATOR . $obj_dir;
-            $target_dir = ilFileUtils::getWebspaceDir() . DIRECTORY_SEPARATOR . 'mobs/mm_' . $mob_id;
-
-            if (is_dir($source_dir)) {
-                ilFileUtils::makeDir($target_dir);
-
-                if (is_dir($target_dir)) {
-                    ilLoggerFactory::getLogger('mob')->debug('s:-$source_dir-,t:-$target_dir-');
-                    ilFileUtils::rCopy(realpath($source_dir), realpath($target_dir));
-                }
             }
         }
     }
@@ -298,7 +265,7 @@ class ilQuestionPageParser extends ilMDSaxParser
     /**
      * copy files of file items
      */
-    public function copyFileItems(): void
+    private function copyFileItems(): void
     {
         foreach ($this->file_item_mapping as $origin_id => $file_id) {
             if (empty($origin_id)) {
@@ -432,11 +399,13 @@ class ilQuestionPageParser extends ilMDSaxParser
                 $this->media_meta_start = true;
                 $this->media_meta_cache = [];
                 $this->media_object = new ilObjMediaObject();
+                $this->media_object->create(true, false);
                 break;
 
             case 'MediaAlias':
                 $this->media_object->setAlias(true);
                 $this->media_object->setImportId($a_attribs['OriginId']);
+                $this->mob_mapping[$this->media_object->getImportId()] = $this->media_object->getId();
                 if (is_object($this->page_object)) {
                     $this->page_object->needsImportParsing(true);
                 }
@@ -497,6 +466,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                     $this->link_targets[$a_attribs["Id"]] = $a_attribs['Id'];
                 }
 
+                // no break
             case 'Definition':
                 $this->in_glossary_definition = true;
                 $this->page_object = new ilGlossaryDefPage();
@@ -1022,10 +992,33 @@ class ilQuestionPageParser extends ilMDSaxParser
 
                 break;
 
-            case 'MediaItem':
             case 'MediaAliasItem':
                 $this->in_media_item = false;
                 $this->media_object->addMediaItem($this->media_item);
+                break;
+            case 'MediaItem':
+                $this->in_media_item = false;
+                $import_dir = $this->importdir . DIRECTORY_SEPARATOR . 'objects' . DIRECTORY_SEPARATOR . $this->media_object->getImportId();
+                if (!file_exists($import_dir)
+                    || !is_dir($import_dir)) {
+                    $this->media_object->addMediaItem($this->media_item);
+                    break;
+                }
+
+                $dir_handle = opendir($import_dir);
+                while (($file = readdir($dir_handle)) !== false) {
+                    if ($file !== $this->media_item->getLocation()) {
+                        continue;
+                    }
+
+                    $this->media_object->addMediaItemFromLocalFile(
+                        $this->media_item->getPurpose(),
+                        $import_dir . DIRECTORY_SEPARATOR . $file,
+                        $file
+                    );
+                    break;
+                }
+                closedir($dir_handle);
                 break;
 
             case 'MapArea':

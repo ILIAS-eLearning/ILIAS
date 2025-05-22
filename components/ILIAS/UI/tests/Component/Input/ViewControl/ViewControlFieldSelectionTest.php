@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\UI\Implementation\Component\Input\ViewControl as Control;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Component\Input\InputData;
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Signal;
@@ -92,7 +92,7 @@ class ViewControlFieldSelectionTest extends ViewControlTestBase
 
         $expected = $this->brutallyTrimHTML('
 <div class="dropdown il-viewcontrol il-viewcontrol-fieldselection l-bar__element" id="id_3">
-    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="label_fieldselection" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_ctrl"><span class="caret"></span></button>
+    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="label_fieldselection" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_ctrl"><span class="glyphicon-columnSelection"></span></button>
         <ul id="id_3_ctrl" class="dropdown-menu">
             <li><input type="checkbox" value="opt1" id="id_1" /><label for="id_1">A</label></li>
             <li><input type="checkbox" value="opt2" id="id_2" /><label for="id_2">B</label></li>

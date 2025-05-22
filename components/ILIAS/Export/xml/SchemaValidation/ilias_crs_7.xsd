@@ -64,6 +64,7 @@
                 <xs:element minOccurs="1" maxOccurs="1" name="CancellationEnd" type="NullOrInteger"/>
                 <xs:element minOccurs="1" maxOccurs="1" name="MinMembers" type="xs:integer"/>
                 <xs:element minOccurs="1" maxOccurs="1" name="ViewMode" type="xs:integer"/>
+                <xs:element minOccurs="0" maxOccurs="1" ref="TutorialSupportBlock"/>
                 <xs:element minOccurs="0" maxOccurs="1" name="TimingMode" type="xs:integer"/>
                 <xs:element minOccurs="1" maxOccurs="1" ref="SessionLimit"/>
                 <xs:element minOccurs="1" maxOccurs="1" ref="WelcomeMail"/>
@@ -71,6 +72,12 @@
                 <xs:element minOccurs="1" maxOccurs="1" name="MailToMembersType" type="xs:integer"/>
                 <xs:element minOccurs="1" maxOccurs="1" ref="CourseMap"/>
             </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="TutorialSupportBlock">
+        <xs:complexType>
+            <xs:attribute name="active" type="xs:integer" use="required"/>
         </xs:complexType>
     </xs:element>
 
@@ -130,11 +137,13 @@
     </xs:complexType>
 
     <xs:complexType name="RegistrationAvailabilityStatus">
-        <xs:choice>
-            <xs:element minOccurs="0" maxOccurs="1" name="Disabled" type="xs:string"/>
+        <xs:sequence>
+            <xs:choice>
+                <xs:element minOccurs="0" maxOccurs="1" name="Disabled" type="xs:string"/>
+                <xs:group ref="AvailabilityBaseChoices"/>
+            </xs:choice>
             <xs:element minOccurs="0" maxOccurs="1" name="Password" type="xs:string"/>
-            <xs:group ref="AvailabilityBaseChoices"/>
-        </xs:choice>
+        </xs:sequence>
         <xs:attribute name="registrationType" type="registrationTypes" use="required"/>
         <xs:attribute name="notification" type="binaryChoiceString" use="required"/>
         <xs:attribute name="waitingList" type="binaryChoiceString" use="required"/>

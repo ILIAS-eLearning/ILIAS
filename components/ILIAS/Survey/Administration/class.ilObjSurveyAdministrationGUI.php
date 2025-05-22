@@ -72,7 +72,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
      * Display survey settings form
      */
     public function settingsObject(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;

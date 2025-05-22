@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Chart\Bar\Vertical;
@@ -8,6 +24,14 @@ use ILIAS\UI\Component\Chart\Bar\Bar;
 use ILIAS\UI\Component\Chart\Bar\BarConfig;
 use ILIAS\UI\Component\Chart\Bar\YAxis;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows a base column-chart but customized. The left is labeled with three coloured rectanlges and captions.
+ *   The x-axis is sectioned in three parts, each part consisting of three columns,
+ *   one for each dataset (set 2 of Item 2 has a value of 0, thus not showing a bar).
+ * ---
+ */
 function custom()
 {
     //Loading factories
@@ -53,11 +77,11 @@ function custom()
 
     //Generating Bar Configurations
     $b1 = new BarConfig();
-    $b1 = $b1->withColor($df->color("#d38000"));
+    $b1 = $b1->withColor($df->color("#12436D"));
     $b2 = new BarConfig();
-    $b2 = $b2->withColor($df->color("#307C88"));
+    $b2 = $b2->withColor($df->color("#28A197"));
     $b3 = new BarConfig();
-    $b3 = $b3->withColor($df->color("#557b2e"));
+    $b3 = $b3->withColor($df->color("#801650"));
 
     $bars = [
         "Dataset 1" => $b1,

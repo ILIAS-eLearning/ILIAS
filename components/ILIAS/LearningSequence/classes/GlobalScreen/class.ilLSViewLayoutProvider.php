@@ -29,9 +29,8 @@ use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\BreadCrumbsModification;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Content;
 use ILIAS\GlobalScreen\ScreenContext\AdditionalData\Collection;
-
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Builder\StandardPageBuilder;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
@@ -96,7 +95,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         }
         return $this->globalScreen()->layout()->factory()->metabar()
             ->withModification(
-                fn (?MetaBar $metabar): ?Metabar => $metabar !== null ? $metabar->withClearedEntries() : null
+                fn(?MetaBar $metabar): ?Metabar => $metabar !== null ? $metabar->withClearedEntries() : null
             )
             ->withHighPriority();
     }
@@ -109,7 +108,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
 
         return $this->globalScreen()->layout()->factory()->breadcrumbs()
             ->withModification(
-                fn (?Breadcrumbs $current): ?Breadcrumbs => null
+                fn(?Breadcrumbs $current): ?Breadcrumbs => null
             )
             ->withHighPriority();
     }
@@ -125,9 +124,9 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         // away the header here.
         return $this->globalScreen()->layout()->factory()->content()
             ->withModification(
-                function (?Legacy $content) use ($html): ?Legacy {
+                function (?Content $content) use ($html): ?Content {
                     $ui = $this->dic->ui();
-                    return $ui->factory()->legacy($html);
+                    return $ui->factory()->legacy()->content($html);
                 }
             )
             ->withHighPriority();

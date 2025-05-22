@@ -23,7 +23,6 @@ namespace ILIAS\Refinery\Encode\Transformation;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ValueError;
 
 /**
  * This class expects a valid UTF-8 string. Conversion between encodings is not the responsibility of this class.

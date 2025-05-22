@@ -40,7 +40,7 @@ class ilHelpDataSet extends ilDataSet
 
     public function getSupportedVersions(): array
     {
-        return array("4.3.0");
+        return array("10.0", "4.3.0");
     }
 
     protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
@@ -60,12 +60,22 @@ class ilHelpDataSet extends ilDataSet
                         "ScreenSubId" => "text",
                         "Perm" => "text"
                     );
+                case "10.0":
+                    return array(
+                        "Chap" => "integer",
+                        "Component" => "text",
+                        "ScreenId" => "text",
+                        "ScreenSubId" => "text",
+                        "Perm" => "text",
+                        "FullId" => "text"
+                    );
             }
         }
 
         if ($a_entity === "help_tooltip") {
             switch ($a_version) {
                 case "4.3.0":
+                case "10.0":
                     return array(
                         "Id" => "integer",
                         "TtText" => "text",
@@ -90,12 +100,19 @@ class ilHelpDataSet extends ilDataSet
                         "WHERE " .
                         $ilDB->in("chap", $a_ids, false, "integer"));
                     break;
+                case "10.0":
+                    $this->getDirectDataFromQuery("SELECT chap, component, screen_id, screen_sub_id, perm, full_id " .
+                        " FROM help_map " .
+                        "WHERE " .
+                        $ilDB->in("chap", $a_ids, false, "integer"));
+                    break;
             }
         }
 
         if ($a_entity === "help_tooltip") {
             switch ($a_version) {
                 case "4.3.0":
+                case "10.0":
                     $this->getDirectDataFromQuery("SELECT id, tt_text, tt_id, comp, lang FROM help_tooltip " .
                         " WHERE module_id = " . $ilDB->quote(0, "integer"));
                     break;
@@ -140,7 +157,8 @@ class ilHelpDataSet extends ilDataSet
                             $a_rec["ScreenId"],
                             $a_rec["ScreenSubId"],
                             $a_rec["Perm"],
-                            $module_id
+                            $module_id,
+                            $a_rec["FullId"] ?? ""
                         );
                     }
                 }

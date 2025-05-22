@@ -49,20 +49,6 @@ class UpdateSteps implements ilDatabaseUpdateSteps
         $this->dropTableWhenExists('chatroom_smilies');
     }
 
-    private function dropColumnWhenExists(string $table, string $column): void
-    {
-        if ($this->db->tableColumnExists($table, $column)) {
-            $this->db->dropTableColumn($table, $column);
-        }
-    }
-
-    private function dropTableWhenExists(string $table): void
-    {
-        if ($this->db->tableExists($table)) {
-            $this->db->dropTable($table);
-        }
-    }
-
     public function step_3(): void
     {
         $this->dropColumnWhenExists('chatroom_settings', 'restrict_history');
@@ -82,5 +68,45 @@ class UpdateSteps implements ilDatabaseUpdateSteps
             [ilDBConstants::T_TEXT],
             ['chtr']
         );
+    }
+
+    public function step_5(): void
+    {
+        $this->dropTableWhenExists('chatroom_uploads');
+        $this->db->manipulate('DELETE FROM chatroom_bans WHERE user_id NOT IN (SELECT usr_id FROM usr_data)');
+    }
+
+    public function step_6(): void
+    {
+        $replace = [
+            '&lt;' => '<',
+            '&gt;' => '>',
+            '&amp;' => '&',
+            '&quot;' => '"',
+        ];
+
+        $s = 'JSON_VALUE(message, "$.content")';
+        foreach ($replace as $from => $to) {
+            $s = sprintf('REPLACE(%s, %s, %s)', $s, $this->db->quote($from, ilDBConstants::T_TEXT), $this->db->quote($to, ilDBConstants::T_TEXT));
+        }
+
+        $this->db->manipulate(
+            'UPDATE chatroom_history SET message = JSON_SET(message, "$.content", ' . $s . ') ' .
+            'WHERE JSON_VALID(message) = 1 AND JSON_VALUE(message, "$.type") = ' . $this->db->quote('message', ilDBConstants::T_TEXT)
+        );
+    }
+
+    private function dropColumnWhenExists(string $table, string $column): void
+    {
+        if ($this->db->tableColumnExists($table, $column)) {
+            $this->db->dropTableColumn($table, $column);
+        }
+    }
+
+    private function dropTableWhenExists(string $table): void
+    {
+        if ($this->db->tableExists($table)) {
+            $this->db->dropTable($table);
+        }
     }
 }

@@ -43,13 +43,13 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     private const F_SOURCE_ID = 'f_sid';
     private const F_ORIGINAL_SOURCE_TYPE = 'f_st_org';
     private const F_ORIGINAL_SOURCE_ID = 'f_sid_org';
-
+    private const F_SEARCH_RECURSIVE = "f_search_recursive";
     private const CMD_VIEW = 'view';
     private const CMD_SAVE = 'save';
     private const CMD_DELETE = 'delete';
     private const CMD_DELETE_CONFIRMATION = 'deleteConfirmation';
-    private const CMD_GET_ASYNC_MODAL_OUTPUT = 'getAsynchModalOutput';
-    private const CMD_NEXT_STEP = 'nextStep';
+    public const CMD_GET_ASYNC_MODAL_OUTPUT = 'getAsynchModalOutput';
+    public const CMD_NEXT_STEP = 'nextStep';
     private const CMD_ENABLE = 'enable';
     private const CMD_DISABLE = 'disable';
     private const CMD_PROFILE_NOT_PUBLIC = 'profile_not_public';
@@ -103,6 +103,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             case self::CMD_PROFILE_NOT_PUBLIC:
                 $this->view(true);
                 break;
+            case 'handleExplorerCommand':
+                break;
             default:
                 throw new ilException("ilObjStudyProgrammeAutoMembershipsGUI: Command not supported: $cmd");
         }
@@ -139,7 +141,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
         $modal = $this->ui_factory->modal()->roundtrip(
             $this->txt('modal_member_auto_select_title'),
-            $this->ui_factory->legacy($form->getHtml())
+            $this->ui_factory->legacy()->content($form->getHtml())
         );
 
         $submit = $this->ui_factory->button()->primary($this->txt('add'), "#")->withOnLoadCode(
@@ -169,11 +171,10 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $data = [];
         foreach ($this->getObject()->getAutomaticMembershipSources() as $ams) {
             $title = $this->getTitleRepresentation($ams);
-            $usr = $this->getUserRepresentation($ams->getLastEditorId());
-            $modal = $this->getModal($ams->getSourceType(), $ams->getSourceId());
+            $usr = $this->getUserRepresentation($ams->getLastEditorId()) ?? $this->ui_factory->legacy()->content('-');
+            $modal = $this->getModal($ams->getSourceType(), $ams->getSourceId(), $ams->isSearchRecursive());
             $collected_modals[] = $modal;
-
-            $src_id = $ams->getSourceType() . '-' . $ams->getSourceId();
+            $src_id = $ams->getSourceType() . '-' . $ams->getSourceId() . '-' . $ams->isSearchRecursive();
             $actions = $this->getItemAction(
                 $src_id,
                 $modal->getShowSignal(),
@@ -203,7 +204,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $post = $this->request->getParsedBody();
         $form->setValuesByArray($post);
         $src_type = $post[self::F_SOURCE_TYPE];
-        $src_id = $post[self::F_SOURCE_ID . $src_type];
+        $src_id = $post[self::F_SOURCE_ID . $src_type] ?? null;
+        $search_recursive = (bool) ($post[self::F_SEARCH_RECURSIVE] ?? false);
 
         if (
             (is_null($src_type) || $src_type === "") ||
@@ -229,7 +231,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             );
         }
 
-        $this->getObject()->storeAutomaticMembershipSource($src_type, (int) $src_id);
+        $this->getObject()->storeAutomaticMembershipSource($src_type, (int) $src_id, $search_recursive);
         $this->tpl->setOnScreenMessage("success", $this->txt("auto_add_success"), true);
         $this->ctrl->redirect($this, self::CMD_VIEW);
     }
@@ -308,8 +310,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $get = $this->request->getQueryParams();
         $field = self::CHECKBOX_SOURCE_IDS;
         if (array_key_exists($field, $get)) {
-            [$type, $id] = explode('-', $get[$field]);
-            $this->getObject()->enableAutomaticMembershipSource((string) $type, (int) $id);
+            [$type, $id, $search_recursive] = explode('-', $get[$field]);
+            $this->getObject()->enableAutomaticMembershipSource((string) $type, (int) $id, (bool) $search_recursive);
         }
         $this->ctrl->redirect($this, self::CMD_VIEW);
     }
@@ -322,8 +324,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $get = $this->request->getQueryParams();
         $field = self::CHECKBOX_SOURCE_IDS;
         if (array_key_exists($field, $get)) {
-            [$type, $id] = explode('-', $get[$field]);
-            $this->getObject()->disableAutomaticMembershipSource((string) $type, (int) $id);
+            [$type, $id, $search_recursive] = explode('-', $get[$field]);
+            $this->getObject()->disableAutomaticMembershipSource((string) $type, (int) $id, (bool) $search_recursive);
         }
         $this->ctrl->redirect($this, self::CMD_VIEW);
     }
@@ -357,13 +359,18 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         return $this->object;
     }
 
-    protected function getModal(string $source_type = null, int $source_id = null): RoundTrip
-    {
+    protected function getModal(
+        ?string $source_type = null,
+        ?int $source_id = null,
+        bool $search_recursive = false
+    ): RoundTrip {
         $this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_TYPE, $source_type);
         $this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_ID, $source_id);
+        $this->ctrl->setParameter($this, self::F_SEARCH_RECURSIVE, $search_recursive);
         $link = $this->ctrl->getLinkTarget($this, "getAsynchModalOutput", "", true);
         $this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_TYPE, null);
         $this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_ID, null);
+        $this->ctrl->setParameter($this, self::F_SEARCH_RECURSIVE, null);
 
         return $this->ui_factory->modal()->roundtrip(
             '',
@@ -384,15 +391,19 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
         $current_src_id = null;
         if ($this->request_wrapper->has(self::F_ORIGINAL_SOURCE_ID)) {
-            $current_src_id = $this->request_wrapper->retrieve(self::F_ORIGINAL_SOURCE_ID, $this->refinery->to()->string());
+            $current_src_id = $this->request_wrapper->retrieve(self::F_ORIGINAL_SOURCE_ID, $this->refinery->kindlyTo()->int());
         }
 
-        $form = $this->getForm($current_src_type, $current_src_id);
+        $search_recursive = false;
+        if ($this->request_wrapper->has(self::F_SEARCH_RECURSIVE)) {
+            $search_recursive = $this->request_wrapper->retrieve(self::F_SEARCH_RECURSIVE, $this->refinery->kindlyTo()->bool());
+        }
+        $form = $this->getForm($current_src_type, $current_src_id, $search_recursive);
         $form_id = "form_" . $form->getId();
 
         $modal = $this->ui_factory->modal()->roundtrip(
             $this->txt('modal_member_auto_select_title'),
-            $this->ui_factory->legacy($form->getHtml())
+            $this->ui_factory->legacy()->content($form->getHtml())
         );
 
         $this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_TYPE, $current_src_type);
@@ -453,8 +464,11 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         exit;
     }
 
-    protected function getForm(string $source_type = null, ?string $source_id = ''): ilPropertyFormGUI
-    {
+    protected function getForm(
+        ?string $source_type = null,
+        ?int $source_id = null,
+        bool $search_recursive = false
+    ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
 
         if (is_null($source_type)) {
@@ -517,6 +531,11 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $orgu->getExplorerGUI()->setRootId(ilObjOrgUnit::getRootOrgRefId());
         $orgu->getExplorerGUI()->setAjax(false);
         $radio_orgu->addSubItem($orgu);
+
+        $recurse = new ilCheckboxInputGUI($this->txt('search_for_orgu_members_recursive'), self::F_SEARCH_RECURSIVE);
+        $recurse->setValue('1');
+        $recurse->setChecked($search_recursive);
+        $radio_orgu->addSubItem($recurse);
         $rgroup->addOption($radio_orgu);
         if (
             !is_null($source_type) &&
@@ -546,7 +565,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $form->addItem($hi);
 
         $hi = new ilHiddenInputGUI(self::F_ORIGINAL_SOURCE_ID);
-        $hi->setValue($source_id ?? '');
+        $hi->setValue((string) $source_id ?? '');
         $form->addItem($hi);
 
         return $form;
@@ -555,8 +574,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     protected function getSelectionForm(
         string $selected_source_type,
         string $selected_source,
-        string $source_type = null,
-        string $source_id = null
+        ?string $source_type = null,
+        ?string $source_id = null
     ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
@@ -689,7 +708,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             case ilStudyProgrammeAutoMembershipSource::TYPE_ROLE:
                 $title = ilObjRole::_lookupTitle($src_id) ?? "-";
 
-                if($this->rbac_review->isGlobalRole($src_id)) {
+                if ($this->rbac_review->isGlobalRole($src_id)) {
                     $parent_ref = self::ROLEFOLDER_REF_ID;
                     $path = ['ilAdministrationGUI'];
                     $this->ctrl->setParameterByClass('ilObjRoleGUI', 'admin_mode', 'settings');
@@ -697,7 +716,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
                     $parent_ref = $this->rbac_review->getObjectReferenceOfRole($src_id);
                     $parent_type = ilObject::_lookupType($parent_ref, true);
                     $path = ['ilRepositoryGUI','ilObjCategoryGUI'];
-                    if($parent_type == 'orgu') {
+                    if ($parent_type == 'orgu') {
                         $path = ['ilAdministrationGUI','ilObjOrgUnitGUI'];
                     }
                     $path[] = 'ilPermissionGUI';
@@ -727,7 +746,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             case ilStudyProgrammeAutoMembershipSource::TYPE_ORGU:
                 $hops = array_map(
                     static function (array $c): string {
-                        return ilObject::_lookupTitle((int)$c["obj_id"]);
+                        return ilObject::_lookupTitle((int) $c["obj_id"]);
                     },
                     $this->tree->getPathFull($src_id)
                 );

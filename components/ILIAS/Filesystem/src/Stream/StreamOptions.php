@@ -29,6 +29,9 @@ namespace ILIAS\Filesystem\Stream;
  */
 final class StreamOptions
 {
+    /**
+     * @var int
+     */
     public const UNKNOWN_STREAM_SIZE = -1;
 
     /**

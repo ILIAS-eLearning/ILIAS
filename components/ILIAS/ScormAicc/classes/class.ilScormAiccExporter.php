@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilScormAiccExporter extends ilXmlExporter
 {
     private ilScormAiccDataSet $dataset;
@@ -32,7 +33,7 @@ class ilScormAiccExporter extends ilXmlExporter
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
-        $this->dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->dataset->initByExporter($this);
         //using own getXmlRepresentation function in ilScormAiccDataSet
         return $this->dataset->getExtendedXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", false, true);
     }

@@ -28,7 +28,7 @@ class InvalidModification extends \InvalidArgumentException
     public function __construct(LayoutModification $modification, $message = "")
     {
         // Context
-        $modification_class = get_class($modification);
+        $modification_class = $modification::class;
         $closure_file = 'Unknown';
         $closure_line = 0;
         try {
@@ -36,7 +36,7 @@ class InvalidModification extends \InvalidArgumentException
             $reflection = new \ReflectionFunction($closure);
             $closure_file = $reflection->getClosureScopeClass()->getName();
             $closure_line = $reflection->getStartLine();
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             // ignore
         }
         $message = sprintf(

@@ -21,10 +21,6 @@ declare(strict_types=1);
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 
-/**
- * @author Jens Conze
- * @ingroup ServicesMail
- */
 class ilMailOptionsGUI
 {
     private readonly ilGlobalTemplateInterface $tpl;
@@ -38,13 +34,13 @@ class ilMailOptionsGUI
     protected ilMailOptions $mail_options;
 
     public function __construct(
-        ilGlobalTemplateInterface $tpl = null,
-        ilCtrlInterface $ctrl = null,
-        ilLanguage $lng = null,
-        ilObjUser $user = null,
-        GlobalHttpState $http = null,
-        Refinery $refinery = null,
-        ilMailOptions $mail_options = null
+        ?ilGlobalTemplateInterface $tpl = null,
+        ?ilCtrlInterface $ctrl = null,
+        ?ilLanguage $lng = null,
+        ?ilObjUser $user = null,
+        ?GlobalHttpState $http = null,
+        ?Refinery $refinery = null,
+        ?ilMailOptions $mail_options = null
     ) {
         global $DIC;
         $this->tpl = $tpl ?? $DIC->ui()->mainTemplate();
@@ -69,7 +65,7 @@ class ilMailOptionsGUI
                     $this->refinery->kindlyTo()->string()
                 );
             }
-            if (strtolower(ilPersonalSettingsGUI::class) === strtolower($referrer)) {
+            if (strtolower(ilPersonalSettingsGUI::class) === strtolower((string) $referrer)) {
                 $this->ctrl->redirectByClass(ilPersonalSettingsGUI::class);
             }
             $this->ctrl->redirectByClass(ilMailGUI::class);
@@ -108,7 +104,7 @@ class ilMailOptionsGUI
         $this->showOptions($form);
     }
 
-    protected function showOptions(ilMailOptionsFormGUI $form = null): void
+    protected function showOptions(?ilMailOptionsFormGUI $form = null): void
     {
         if (null === $form) {
             $form = $this->getForm();

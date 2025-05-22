@@ -194,7 +194,7 @@ class ilPCListGUI extends ilPageContentGUI
         $op1 = new ilRadioOption($lng->txt("cont_bullet_list"), "Unordered");
 
         // style of bullet list
-        $style = new ilAdvSelectInputGUI(
+        $style = new ilSelectInputGUI(
             $this->lng->txt("cont_style"),
             "bullet_style"
         );
@@ -206,6 +206,11 @@ class ilPCListGUI extends ilPageContentGUI
             $options[$this->content_obj->getStyleClass()] =
                     $this->content_obj->getStyleClass();
         }
+        if (count($options) > 1) {
+            $style->setValue("");
+            $style->setOptions($options);
+            $op1->addSubItem($style);
+        }
 
         $radg->addOption($op1);
 
@@ -213,7 +218,7 @@ class ilPCListGUI extends ilPageContentGUI
         $op2 = new ilRadioOption($lng->txt("cont_numbered_list"), "Ordered");
 
         // style of numbered list
-        $style = new ilAdvSelectInputGUI(
+        $style = new ilSelectInputGUI(
             $this->lng->txt("cont_style"),
             "number_style"
         );
@@ -232,9 +237,10 @@ class ilPCListGUI extends ilPageContentGUI
                 if ($k == "NumberedList") {
                     $k = "";
                 }
-                $style->addOption($k, $option, $html);
+                //$style->addOption($k, $option, $html);
             }
             $style->setValue("");
+            $style->setOptions($options);
             $op2->addSubItem($style);
         }
 
@@ -266,11 +272,11 @@ class ilPCListGUI extends ilPageContentGUI
         $this->getCharacteristicsOfCurrentStyle(["list_item"]);
         $options = $this->getCharacteristics();
         if (count($options) > 1) {
-            $style1 = new ilAdvSelectInputGUI(
+            $style1 = new ilSelectInputGUI(
                 $this->lng->txt("cont_list_item_style"),
                 "item_style_1"
             );
-            $style2 = new ilAdvSelectInputGUI(
+            $style2 = new ilSelectInputGUI(
                 $this->lng->txt("cont_list_item_style"),
                 "item_style_2"
             );
@@ -280,9 +286,11 @@ class ilPCListGUI extends ilPageContentGUI
                 if ($k == "BulletedList") {
                     $k = "";
                 }
-                $style1->addOption($k, $option, $html);
-                $style2->addOption($k, $option, $html);
+                //$style1->addOption($k, $option, $html);
+                //$style2->addOption($k, $option, $html);
             }
+            $style1->setOptions($options);
+            $style2->setOptions($options);
             $style1->setValue("StandardListItem");
             $style2->setValue("StandardListItem");
             $op1->addSubItem($style1);
@@ -305,7 +313,7 @@ class ilPCListGUI extends ilPageContentGUI
 
         // save and cancel commands
         if ($a_mode == "create") {
-            $this->form->addCommandButton("create_list", $lng->txt("save"));
+            $this->form->addCommandButton("create", $lng->txt("save"));
             $this->form->addCommandButton("cancelCreate", $lng->txt("cancel"));
             $this->form->setTitle($lng->txt("cont_insert_list"));
         } else {

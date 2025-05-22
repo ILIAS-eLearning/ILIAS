@@ -46,11 +46,9 @@ class RevisionDBRepository implements RevisionRepository
      * @var Revision[]
      */
     protected array $cache = [];
-    protected \ilDBInterface $db;
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(protected \ilDBInterface $db)
     {
-        $this->db = $db;
     }
 
     /**
@@ -168,12 +166,12 @@ class RevisionDBRepository implements RevisionRepository
         );
         while ($d = $this->db->fetchObject($r)) {
             $revision = new FileRevision(new ResourceIdentification($d->rid));
-            $revision->setVersionNumber((int)$d->version_number);
-            $revision->setOwnerId((int)$d->owner_id);
-            $revision->setTitle((string)$d->title);
-            $revision->setStatus(RevisionStatus::from((int)$d->status));
+            $revision->setVersionNumber((int) $d->version_number);
+            $revision->setOwnerId((int) $d->owner_id);
+            $revision->setTitle((string) $d->title);
+            $revision->setStatus(RevisionStatus::from((int) $d->status));
             $collection->add($revision);
-            $this->cache[$d->rid][(int)$d->version_number] = $revision;
+            $this->cache[$d->rid][(int) $d->version_number] = $revision;
         }
 
         return $collection;
@@ -211,10 +209,10 @@ class RevisionDBRepository implements RevisionRepository
     public function populateFromArray(array $data): void
     {
         $revision = new FileRevision(new ResourceIdentification($data['rid']));
-        $revision->setVersionNumber((int)$data['version_number']);
-        $revision->setOwnerId((int)$data['owner_id']);
-        $revision->setTitle((string)$data['revision_title']);
-        $revision->setStatus(RevisionStatus::from((int)$data['status']));
-        $this->cache[$data['rid']][(int)$data['version_number']] = $revision;
+        $revision->setVersionNumber((int) $data['version_number']);
+        $revision->setOwnerId((int) $data['owner_id']);
+        $revision->setTitle((string) $data['revision_title']);
+        $revision->setStatus(RevisionStatus::from((int) $data['status']));
+        $this->cache[$data['rid']][(int) $data['version_number']] = $revision;
     }
 }

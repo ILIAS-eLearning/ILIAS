@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Toast;
 
@@ -34,9 +34,6 @@ class Toast implements ComponentInterface\Toast
     use ComponentHelper;
     use JavaScriptBindable;
 
-    public const DEFAULT_VANISH_TIME = 5000;
-    public const DEFAULT_DELAY_TIME = 500;
-
     /**
      * @var string|Shy|Link
      */
@@ -48,8 +45,6 @@ class Toast implements ComponentInterface\Toast
     protected string $action = '';
     protected SignalGeneratorInterface $signal_generator;
     protected Signal $signal;
-    protected int $vanishTime = Toast::DEFAULT_VANISH_TIME;
-    protected int $delayTime = Toast::DEFAULT_DELAY_TIME;
 
     public function __construct($title, Icon $icon, SignalGeneratorInterface $signal_generator)
     {
@@ -125,29 +120,5 @@ class Toast implements ComponentInterface\Toast
     public function getShowSignal(): Signal
     {
         return $this->signal;
-    }
-
-    public function withVanishTime(int $vanishTime): Toast
-    {
-        $new = clone $this;
-        $new->vanishTime = $vanishTime;
-        return $new;
-    }
-
-    public function getVanishTime(): int
-    {
-        return $this->vanishTime;
-    }
-
-    public function withDelayTime(int $delayTime): Toast
-    {
-        $new = clone $this;
-        $new->delayTime = $delayTime;
-        return $new;
-    }
-
-    public function getDelayTime(): int
-    {
-        return $this->delayTime;
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,32 +16,33 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\RequestDataCollector;
+
 /**
  * Class ilUnitConfigurationGUI
  */
 abstract class ilUnitConfigurationGUI
 {
-    protected ilUnitConfigurationRepository $repository;
-    protected \ILIAS\TestQuestionPool\InternalRequestService $request;
+    protected RequestDataCollector $request;
     protected ?ilPropertyFormGUI $unit_cat_form = null;
     protected ?ilPropertyFormGUI $unit_form = null;
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected ilCtrlInterface $ctrl;
 
-    public function __construct(ilUnitConfigurationRepository $repository)
-    {
+    public function __construct(
+        protected ilUnitConfigurationRepository $repository
+    ) {
         global $DIC;
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->tpl = $DIC->ui()->mainTemplate();
 
-        $lng = $DIC->language();
-        $ilCtrl = $DIC->ctrl();
-        $tpl = $DIC->ui()->mainTemplate();
-        $this->request = $DIC->testQuestionPool()->internal()->request();
-
-        $this->repository = $repository;
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
-        $this->tpl = $tpl;
+        $local_dic = QuestionPoolDIC::dic();
+        $this->request = $local_dic['request_data_collector'];
 
         $this->lng->loadLanguageModule('assessment');
     }
@@ -109,7 +108,7 @@ abstract class ilUnitConfigurationGUI
      * @return void
      * @throws ilCtrlException
      */
-    protected function confirmDeleteUnits(array $unit_ids = null): void
+    protected function confirmDeleteUnits(?array $unit_ids = null): void
     {
         if (!$this->isCRUDContext()) {
             $this->showUnitsOfCategory();
@@ -372,8 +371,8 @@ abstract class ilUnitConfigurationGUI
     }
 
     protected function initUnitForm(
-        assFormulaQuestionUnitCategory $category = null,
-        assFormulaQuestionUnit $unit = null
+        ?assFormulaQuestionUnitCategory $category = null,
+        ?assFormulaQuestionUnit $unit = null
     ): ilPropertyFormGUI {
         if ($this->unit_form instanceof ilPropertyFormGUI) {
             return $this->unit_form;
@@ -530,7 +529,7 @@ abstract class ilUnitConfigurationGUI
      * @return void
      * @throws ilCtrlException
      */
-    protected function confirmDeleteCategories(array $category_ids = null): void
+    protected function confirmDeleteCategories(?array $category_ids = null): void
     {
         if (!$this->isCRUDContext()) {
             $this->{$this->getDefaultCommand()}();
@@ -670,7 +669,7 @@ abstract class ilUnitConfigurationGUI
         $this->{$this->getUnitCategoryOverviewCommand()}();
     }
 
-    protected function initUnitCategoryForm(assFormulaQuestionUnitCategory $cat = null): ilPropertyFormGUI
+    protected function initUnitCategoryForm(?assFormulaQuestionUnitCategory $cat = null): ilPropertyFormGUI
     {
         if ($this->unit_cat_form instanceof ilPropertyFormGUI) {
             return $this->unit_cat_form;

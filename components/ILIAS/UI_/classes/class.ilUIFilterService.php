@@ -14,12 +14,11 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Input\Container\Filter;
-use ILIAS\UI\Component\Input\Field\FilterInput;
+use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
 
 /**
  * Filter service. Wraps around KS filter container.

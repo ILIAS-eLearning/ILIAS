@@ -1,5 +1,7 @@
 # General Documentation
 
+This part of the documentation deals with concepts and business rules, for technical documentation see [README-technical.md](./README-technical.md).
+
 ## Business Rules
 
 - Item groups cannot be used in sessions. There is no concept how presentation should work yet.

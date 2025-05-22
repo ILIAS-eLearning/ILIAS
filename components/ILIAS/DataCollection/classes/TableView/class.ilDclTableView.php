@@ -69,41 +69,6 @@ class ilDclTableView extends ActiveRecord
      */
     protected int $tableview_order = 0;
     /**
-     * @var bool
-     * @db_has_field        true
-     * @db_fieldtype        integer
-     * @db_length           1
-     */
-    protected bool $step_vs = false;
-    /**
-     * @var bool
-     * @db_has_field        true
-     * @db_fieldtype        integer
-     * @db_length           1
-     */
-    protected bool $step_c = false;
-    /**
-     * @var bool
-     * @db_has_field        true
-     * @db_fieldtype        integer
-     * @db_length           1
-     */
-    protected bool $step_e = false;
-    /**
-     * @var bool
-     * @db_has_field        true
-     * @db_fieldtype        integer
-     * @db_length           1
-     */
-    protected bool $step_o = false;
-    /**
-     * @var bool
-     * @db_has_field        true
-     * @db_fieldtype        integer
-     * @db_length           1
-     */
-    protected bool $step_s = false;
-    /**
      * @var ilDclBaseFieldModel[]
      */
     protected array $visible_fields_cache = [];
@@ -175,56 +140,6 @@ class ilDclTableView extends ActiveRecord
     public function setTableviewOrder(int $tableview_order): void
     {
         $this->tableview_order = $tableview_order;
-    }
-
-    public function isStepVs(): bool
-    {
-        return $this->step_vs;
-    }
-
-    public function setStepVs(bool $step_vs): void
-    {
-        $this->step_vs = $step_vs;
-    }
-
-    public function isStepC(): bool
-    {
-        return $this->step_c;
-    }
-
-    public function setStepC(bool $step_c): void
-    {
-        $this->step_c = $step_c;
-    }
-
-    public function isStepE(): bool
-    {
-        return $this->step_e;
-    }
-
-    public function setStepE(bool $step_e): void
-    {
-        $this->step_e = $step_e;
-    }
-
-    public function isStepO(): bool
-    {
-        return $this->step_o;
-    }
-
-    public function setStepO(bool $step_o): void
-    {
-        $this->step_o = $step_o;
-    }
-
-    public function isStepS(): bool
-    {
-        return $this->step_s;
-    }
-
-    public function setStepS(bool $step_s): void
-    {
-        $this->step_s = $step_s;
     }
 
     public function getRoles(): array
@@ -337,12 +252,22 @@ class ilDclTableView extends ActiveRecord
      */
     public function getFieldSettings(): array
     {
-        return ilDclTableViewFieldSetting::where(
+        $settings = ilDclTableViewFieldSetting::where(
             [
                 'tableview_id' => $this->getId(),
                 'il_dcl_tfield_set.table_id' => $this->getTableId(),
             ]
         )->innerjoin('il_dcl_tfield_set', 'field', 'field', [])->orderBy('il_dcl_tfield_set.field_order')->get();
+
+        $result = [];
+        foreach ($settings as $setting) {
+            $datatype = $setting->getFieldObject()->getDatatypeId();
+            if ($datatype === null || in_array($datatype, array_keys(ilDclDatatype::getAllDatatype()))) {
+                $result[] = $setting;
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -423,11 +348,6 @@ class ilDclTableView extends ActiveRecord
         $this->setOrder($orig->getOrder());
         $this->setDescription($orig->getDescription());
         $this->setRoles($orig->getRoles());
-        $this->setStepVs($orig->isStepVs());
-        $this->setStepC($orig->isStepC());
-        $this->setStepE($orig->isStepE());
-        $this->setStepO($orig->isStepO());
-        $this->setStepS($orig->isStepS());
         $this->create(false); //create default setting, adjust them later
 
         //clone default values
@@ -457,6 +377,7 @@ class ilDclTableView extends ActiveRecord
                 $new_default_value->create();
             }
         }
+        $this->createFieldSetting('comments');
 
         //clone pageobject
         if (ilDclDetailedViewDefinition::exists($orig->getId())) {
@@ -473,7 +394,7 @@ class ilDclTableView extends ActiveRecord
      */
     public static function getAllForTableId(int $table_id): array
     {
-        return self::where(['table_id' => $table_id])->orderBy('tableview_order')->get();
+        return self::where(['table_id' => $table_id])->orderBy('title')->get();
     }
 
     public static function getCountForTableId(int $table_id): int
@@ -483,10 +404,9 @@ class ilDclTableView extends ActiveRecord
 
     /**
      * @param      $table_id
-     * @param bool $create_default_settings
      * @return ilDclTableView|ActiveRecord
      */
-    public static function createOrGetStandardView(int $table_id, bool $create_default_settings = true): ActiveRecord
+    public static function createOrGetStandardView(int $table_id): ActiveRecord
     {
         if ($standardview = self::where(['table_id' => $table_id])->orderBy('tableview_order')->first()) {
             return $standardview;
@@ -525,22 +445,8 @@ class ilDclTableView extends ActiveRecord
         $lng = $DIC['lng'];
         $view->setTitle($lng->txt('dcl_title_standardview'));
         $view->setTableviewOrder(10);
-        $view->setStepVs(true);
-        $view->setStepC(false);
-        $view->setStepE(false);
-        $view->setStepO(false);
-        $view->setStepS(false);
-        $view->create($create_default_settings);
+        $view->create();
 
         return $view;
-    }
-
-    /**
-     * Check if the configuration of the view is complete. The step "single" is
-     * optional and therefore omitted.
-     */
-    public function validateConfigCompletion(): bool
-    {
-        return $this->step_vs && $this->step_c && $this->step_e && $this->step_o;
     }
 }

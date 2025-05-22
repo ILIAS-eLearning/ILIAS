@@ -29,6 +29,7 @@ interface RepositoryInterface
     /**
      * The default entry is returned first, and the remaining
      * entries are returned according to their position.
+     * @return EntryInterface[]
      */
     public function getAllEntries(): \Generator;
 
@@ -36,6 +37,7 @@ interface RepositoryInterface
      * The default entry is returned first, and the remaining
      * entries are returned according to their position.
      * Outdated entries are skipped.
+     * @return EntryInterface[]
      */
     public function getActiveEntries(): \Generator;
 

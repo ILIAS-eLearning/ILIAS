@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,24 +20,19 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 {
     public function setValue($a_value): void
     {
-        $this->values = array();
-        if (is_array($a_value)) {
-            if (is_array($a_value['answer'])) {
-                foreach ($a_value['answer'] as $index => $value) {
-                    if (isset($a_value['points'])) {
-                        $pvalue = $a_value['points'][$index];
-                    } else {
-                        $value = 0.0;
-                    }
-                    if (isset($a_value['points_unchecked'])) {
-                        $value_unchecked = $a_value['points_unchecked'][$index];
-                    } else {
-                        $value_unchecked = 0.0;
-                    }
-                    $answer = new ASS_AnswerMultipleResponseImage($value, (float) $pvalue, $index, $value_unchecked);
-                    $this->values[] = $answer;
-                }
-            }
+        $answers = $this->forms_helper->transformArray($a_value, 'answer', $this->refinery->kindlyTo()->string());
+        $points = $this->forms_helper->transformPoints($a_value, 'points');
+        $points_unchecked = $this->forms_helper->transformPoints($a_value, 'points_unchecked');
+
+        $this->values = [];
+        foreach ($answers as $index => $value) {
+            $answer = new ASS_AnswerMultipleResponseImage(
+                $value,
+                $points[$index] ?? 0.0,
+                $index,
+                $points_unchecked[$index] ?? 0.0
+            );
+            $this->values[] = $answer;
         }
     }
 
@@ -46,49 +42,24 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
      */
     public function checkInput(): bool
     {
-        global $DIC;
-        $lng = $DIC['lng'];
+        $data = $this->raw($this->getPostVar());
 
-        if (is_array($_POST[$this->getPostVar()])) {
-            $foundvalues = ilArrayUtil::stripSlashesRecursive(
-                $_POST[$this->getPostVar()],
-                false,
-                ilObjAdvancedEditing::_getUsedHTMLTagsAsString(
-                    "assessment"
-                )
-            );
-        } else {
-            $foundvalues = $_POST[$this->getPostVar()];
+        if (!is_array($data)) {
+            $this->setAlert($this->lng->txt('msg_input_is_required'));
+            return false;
         }
-        if (is_array($foundvalues)) {
-            // check answers
-            if (is_array($foundvalues['answer'])) {
-                foreach ($foundvalues['answer'] as $aidx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && (!isset($foundvalues['imagename']) || strlen($foundvalues['imagename'][$aidx]) == 0)) {
-                        $this->setAlert($lng->txt("msg_input_is_required"));
-                        return false;
-                    }
-                }
-            }
-            // check points
-            $max = 0;
-            if (is_array($foundvalues['points'])) {
-                foreach ($foundvalues['points'] as $points) {
-                    if ($points > $max) {
-                        $max = $points;
-                    }
-                    if (((strlen($points)) == 0) || (!is_numeric($points))) {
-                        $this->setAlert($lng->txt("form_msg_numeric_value_required"));
-                        return false;
-                    }
-                }
-            }
-            if ($max == 0) {
-                $this->setAlert($lng->txt("enter_enough_positive_points"));
-                return false;
-            }
-        } else {
-            $this->setAlert($lng->txt("msg_input_is_required"));
+
+        // check answers
+        $answers = $this->checkAnswersInput($data);
+        if (!is_array($answers)) {
+            $this->setAlert($this->lng->txt($answers));
+            return false;
+        }
+
+        // check points
+        $result = $this->forms_helper->checkPointsInputEnoughPositive($data, true);
+        if (!is_array($result)) {
+            $this->setAlert($this->lng->txt($result));
             return false;
         }
 

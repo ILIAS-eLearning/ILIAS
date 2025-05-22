@@ -60,7 +60,7 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
     /**
      * Insert learning history form
      */
-    public function insert(ilPropertyFormGUI $a_form = null): void
+    public function insert(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -72,7 +72,7 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
         $tpl->setContent($a_form->getHTML());
     }
 
-    public function edit(ilPropertyFormGUI $a_form = null): void
+    public function edit(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -150,9 +150,11 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
         return $form;
     }
 
-    /**
-     * Create new learning history component
-     */
+    public function create_lhist(): void
+    {
+        $this->create();
+    }
+
     public function create(): void
     {
         $valid = false;

@@ -20,12 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen;
 
-use Closure;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 /**
- * Interface isGlobalScreenItem
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 interface isGlobalScreenItem
 {
@@ -34,14 +32,4 @@ interface isGlobalScreenItem
      */
     public function getProviderIdentification(): IdentificationInterface;
 
-    /**
-     * @param Closure $component_decorator
-     * @return isGlobalScreenItem
-     */
-    public function addComponentDecorator(Closure $component_decorator): isGlobalScreenItem;
-
-    /**
-     * @return Closure|null
-     */
-    public function getComponentDecorator(): ?Closure;
 }

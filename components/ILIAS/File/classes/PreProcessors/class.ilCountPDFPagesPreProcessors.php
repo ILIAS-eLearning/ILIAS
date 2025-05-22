@@ -37,7 +37,7 @@ class ilCountPDFPagesPreProcessors implements PreProcessor
         $this->page_counter = new ilCountPDFPages();
     }
 
-    public function process(FileStream $stream, Metadata $metadata): \ILIAS\FileUpload\DTO\ProcessingStatus
+    public function process(FileStream $stream, Metadata $metadata): ProcessingStatus
     {
         if (
             $this->page_counter->isAvailable()

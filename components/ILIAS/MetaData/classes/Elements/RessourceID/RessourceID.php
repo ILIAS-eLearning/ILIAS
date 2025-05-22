@@ -32,7 +32,7 @@ class RessourceID implements RessourceIDInterface
         string $type
     ) {
         $this->obj_id = $obj_id;
-        $this->sub_id =$sub_id;
+        $this->sub_id = $sub_id;
         $this->type = $type;
     }
 

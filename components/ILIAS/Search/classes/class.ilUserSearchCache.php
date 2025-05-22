@@ -1,49 +1,36 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
 /**
-* Class for storing search result. Allows paging of result sets
-*
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-*
-* @ilCtrl_Calls
-* @ingroup ServicesSearch
-*/
+ * Class for storing search result. Allows paging of result sets
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilUserSearchCache
 {
-    public const DEFAULT_SEARCH = 0;
-    public const ADVANCED_SEARCH = 1;
-    public const ADVANCED_MD_SEARCH = 4;
-    public const LUCENE_DEFAULT = 5;
-    public const LUCENE_ADVANCED = 6;
+    public const int DEFAULT_SEARCH = 0;
+    public const int LUCENE_DEFAULT = 5;
 
-    public const LAST_QUERY = 7;
+    public const int LAST_QUERY = 7;
 
-    public const LUCENE_USER_SEARCH = 8;
+    public const int LUCENE_USER_SEARCH = 8;
 
     private static ?ilUserSearchCache $instance = null;
     protected ilDBInterface $db;
@@ -133,7 +120,7 @@ class ilUserSearchCache
      * Set results
      *
      * @access public
-     * @param array(int => array(int,int,string)) array(ref_id => array(ref_id,obj_id,type))
+     * @param array $a_results (int => array(int,int,string)) array(ref_id => array(ref_id,obj_id,type))
      *
      */
     public function setResults(array $a_results): void
@@ -145,7 +132,7 @@ class ilUserSearchCache
      * Append result
      *
      * @access public
-     * @param array(int,int,string) array(ref_id,obj_id,type)
+     * @param array $a_result_item (int,int,string) array(ref_id,obj_id,type)
      *
      */
     public function addResult(array $a_result_item): bool
@@ -172,26 +159,11 @@ class ilUserSearchCache
         return in_array($a_ref_id, $this->failed);
     }
 
-    /**
-     * Append checked id
-     *
-     * @access public
-     * @param int checked reference id
-     * @param int checked obj_id
-     *
-     */
     public function appendToChecked(int $a_ref_id, int $a_obj_id): void
     {
         $this->checked[$a_ref_id] = $a_obj_id;
     }
 
-    /**
-     * Check if reference was already checked
-     *
-     * @access public
-     * @param int ref_id
-     *
-     */
     public function isChecked(int $a_ref_id): bool
     {
         return array_key_exists($a_ref_id, $this->checked) and $this->checked[$a_ref_id];
@@ -228,24 +200,13 @@ class ilUserSearchCache
         return $this->page_number ?: 1;
     }
 
-    /**
-     * set query
-     * @param mixed query string or array (for advanced search)
-     * @return void
-     */
-    public function setQuery($a_query): void
+    public function setQuery(string $a_query): void
     {
         $this->query = $a_query;
     }
 
-    /**
-     * @return string|array query string or array (for advanced search)
-     */
-    public function getQuery()
+    public function getQuery(): string
     {
-        if (is_array($this->query)) {
-            return $this->query;
-        }
         return $this->query ?? '';
     }
 
@@ -254,11 +215,6 @@ class ilUserSearchCache
      */
     public function getUrlEncodedQuery(): string
     {
-        if (is_array($this->getQuery())) {
-            $query = $this->getQuery();
-
-            return urlencode(str_replace('"', '.', $query['lom_content']));
-        }
         return urlencode(str_replace('"', '.', $this->getQuery()));
     }
 
@@ -270,10 +226,6 @@ class ilUserSearchCache
         $this->root = $a_root;
     }
 
-    /**
-     * get root node
-     * @return int
-     */
     public function getRoot(): int
     {
         return $this->root ?: ROOT_FOLDER_ID;
@@ -309,10 +261,6 @@ class ilUserSearchCache
         return $this->creation_filter;
     }
 
-
-    /**
-     * delete cached entries
-     */
     public function deleteCachedEntries(): void
     {
         if ($this->isAnonymous()) {
@@ -347,7 +295,8 @@ class ilUserSearchCache
                     'failed' => array('clob',serialize(array(0))),
                     'page' => array('integer',0),
                     'usr_id' => array('integer', $this->usr_id),
-                    'search_type' => array('integer', $this->search_type)
+                    'search_type' => array('integer', $this->search_type),
+                    'query' => array('clob',serialize(''))
             )
             );
         }
@@ -358,10 +307,6 @@ class ilUserSearchCache
         $this->failed = array();
     }
 
-    /**
-     * Delete cached entries for anonymous user
-     * @return bool
-     */
     public function deleteCachedEntriesAnonymous(): bool
     {
         $this->setResultPageNumber(1);
@@ -371,8 +316,6 @@ class ilUserSearchCache
 
         return true;
     }
-
-
 
     public function delete(): bool
     {
@@ -441,13 +384,6 @@ class ilUserSearchCache
         ilSession::set('usr_search_cache', $session_usr_search);
     }
 
-
-    /**
-     * Read user entries
-     *
-     * @access private
-     *
-     */
     private function read(): void
     {
         $this->failed = array();

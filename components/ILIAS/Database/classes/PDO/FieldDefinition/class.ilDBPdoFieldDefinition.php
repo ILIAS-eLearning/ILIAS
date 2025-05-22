@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilDBPdoFieldDefinition
@@ -68,7 +68,6 @@ abstract class ilDBPdoFieldDefinition
         "clob" => ["length", "notnull", "default"],
         "blob" => ["length", "notnull", "default"],
     ];
-    protected \ilDBInterface $db_instance;
     protected array $max_length = [
         self::T_INTEGER => [1, 2, 3, 4, 8],
         self::T_TEXT => 4000,
@@ -719,7 +718,7 @@ abstract class ilDBPdoFieldDefinition
     /**
      * @var string[]
      */
-    protected array $reserved_postgres = array(
+    protected array $reserved_postgres = [
         "ALL",
         "ANALYSE",
         "ANALYZE",
@@ -815,7 +814,7 @@ abstract class ilDBPdoFieldDefinition
         "WHEN",
         "WHERE",
         "WITH",
-    );
+    ];
     /**
      * @var
      */
@@ -824,9 +823,8 @@ abstract class ilDBPdoFieldDefinition
     /**
      * ilDBPdoFieldDefinition constructor.
      */
-    public function __construct(\ilDBInterface $ilDBInterface)
+    public function __construct(protected \ilDBInterface $db_instance)
     {
-        $this->db_instance = $ilDBInterface;
     }
 
     protected function getQueryUtils(): \ilMySQLQueryUtils
@@ -1067,10 +1065,10 @@ abstract class ilDBPdoFieldDefinition
                 if (array_key_exists($mapped_type, $types)) {
                     $types[$type] = $types[$mapped_type];
                 } elseif (!empty($db->options['datatype_map_callback'][$type])) {
-                    $parameter = array('type' => $type, 'mapped_type' => $mapped_type);
+                    $parameter = ['type' => $type, 'mapped_type' => $mapped_type];
                     $default = call_user_func_array(
                         $db->options['datatype_map_callback'][$type],
-                        array(&$db, __FUNCTION__, $parameter)
+                        [&$db, __FUNCTION__, $parameter]
                     );
                     $types[$type] = $default;
                 }
@@ -1086,18 +1084,18 @@ abstract class ilDBPdoFieldDefinition
      * @return mixed
      * @throws \ilDatabaseException
      */
-    public function getDeclaration(string $type, string $name, $field)
+    public function getDeclaration(string $type, string $name, array $field)
     {
         $db = $this->getDBInstance();
 
         if (!empty($db->options['datatype_map'][$type])) {
             $type = $db->options['datatype_map'][$type];
             if (!empty($db->options['datatype_map_callback'][$type])) {
-                $parameter = array('type' => $type, 'name' => $name, 'field' => $field);
+                $parameter = ['type' => $type, 'name' => $name, 'field' => $field];
 
                 return call_user_func_array(
                     $db->options['datatype_map_callback'][$type],
-                    array(&$db, __FUNCTION__, $parameter)
+                    [&$db, __FUNCTION__, $parameter]
                 );
             }
             $field['type'] = $type;
@@ -1287,11 +1285,11 @@ abstract class ilDBPdoFieldDefinition
             $db = $this->getDBInstance();
 
             if (!empty($db->options['datatype_map_callback'][$type])) {
-                $parameter = array('current' => $current, 'previous' => $previous);
+                $parameter = ['current' => $current, 'previous' => $previous];
 
                 return call_user_func_array(
                     $db->options['datatype_map_callback'][$type],
-                    array(&$db, __FUNCTION__, $parameter)
+                    [&$db, __FUNCTION__, $parameter]
                 );
             }
 
@@ -1333,7 +1331,7 @@ abstract class ilDBPdoFieldDefinition
      */
     protected function compareIntegerDefinition(array $current, array $previous): array
     {
-        $change = array();
+        $change = [];
         $previous_unsigned = empty($previous['unsigned']) ? false : $previous['unsigned'];
         $unsigned = empty($current['unsigned']) ? false : $current['unsigned'];
         if ($previous_unsigned != $unsigned) {
@@ -1353,7 +1351,7 @@ abstract class ilDBPdoFieldDefinition
      */
     protected function compareTextDefinition(array $current, array $previous): array
     {
-        $change = array();
+        $change = [];
         $previous_length = empty($previous['length']) ? 0 : $previous['length'];
         $length = empty($current['length']) ? 0 : $current['length'];
         if ($previous_length != $length) {
@@ -1386,32 +1384,32 @@ abstract class ilDBPdoFieldDefinition
 
     protected function compareDateDefinition(array $current, array $previous): array
     {
-        return array();
+        return [];
     }
 
     protected function compareTimeDefinition(array $current, array $previous): array
     {
-        return array();
+        return [];
     }
 
     protected function compareTimestampDefinition(array $current, array $previous): array
     {
-        return array();
+        return [];
     }
 
     protected function compareBooleanDefinition(array $current, array $previous): array
     {
-        return array();
+        return [];
     }
 
     protected function compareFloatDefinition(array $current, array $previous): array
     {
-        return array();
+        return [];
     }
 
     protected function compareDecimalDefinition(array $current, array $previous): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -1534,28 +1532,26 @@ abstract class ilDBPdoFieldDefinition
             $decimal = $this->quoteDecimal($matches[1], $quote, $escape_wildcards);
             $sign = $matches[2];
             $exponent = str_pad($matches[3], 2, '0', STR_PAD_LEFT);
-            $value = $decimal . 'E' . $sign . $exponent;
-        } else {
-            $value = $this->quoteDecimal($value, $quote, $escape_wildcards);
+            return $decimal . 'E' . $sign . $exponent;
         }
 
-        return $value;
+        return $this->quoteDecimal($value, $quote, $escape_wildcards);
     }
 
     protected function quoteDecimal(string $value, bool $quote, bool $escape_wildcards): ?string
     {
         $value = preg_replace('/[^\d\.,\-+eE]/', '', $value);
-        if (preg_match('/[^.0-9]/', $value) && strpos($value, ',')) {
+        if (preg_match('/[^.0-9]/', (string) $value) && strpos((string) $value, ',')) {
             // 1000,00
-            if (!strpos($value, '.')) {
+            if (!strpos((string) $value, '.')) {
                 // convert the last "," to a "."
-                $value = strrev(str_replace(',', '.', strrev($value)));
-            // 1.000,00
-            } elseif (strpos($value, '.') && strpos($value, '.') < strpos($value, ',')) {
+                $value = strrev(str_replace(',', '.', strrev((string) $value)));
+                // 1.000,00
+            } elseif (strpos((string) $value, '.') && strpos((string) $value, '.') < strpos((string) $value, ',')) {
                 $value = str_replace('.', '', $value);
                 // convert the last "," to a "."
                 $value = strrev(str_replace(',', '.', strrev($value)));
-            // 1,000.00
+                // 1,000.00
             } else {
                 $value = str_replace(',', '', $value);
             }
@@ -1604,7 +1600,7 @@ abstract class ilDBPdoFieldDefinition
 
     protected function readLOB(array $lob, int $length): string
     {
-        return substr($lob['value'], $lob['position'], $length);
+        return substr((string) $lob['value'], $lob['position'], $length);
     }
 
     /**
@@ -1640,7 +1636,7 @@ abstract class ilDBPdoFieldDefinition
 
         $match = '';
         if (!is_null($operator)) {
-            $operator = strtoupper($operator);
+            $operator = strtoupper((string) $operator);
             switch ($operator) {
                 // case insensitive
                 case 'ILIKE':
@@ -1664,7 +1660,7 @@ abstract class ilDBPdoFieldDefinition
                 $match .= $value;
             } else {
                 if ($operator === 'ILIKE') {
-                    $value = strtolower($value);
+                    $value = strtolower((string) $value);
                 }
                 $escaped = $db->escape($value);
                 $match .= $db->escapePattern($escaped);
@@ -1689,7 +1685,7 @@ abstract class ilDBPdoFieldDefinition
         $db = $this->getDBInstance();
         $db_type = strtok($field['type'], '(), ');
         if (!empty($db->options['nativetype_map_callback'][$db_type])) {
-            return call_user_func_array($db->options['nativetype_map_callback'][$db_type], array($db, $field));
+            return call_user_func_array($db->options['nativetype_map_callback'][$db_type], [$db, $field]);
         }
 
         return $this->mapNativeDatatypeInternal($field);
@@ -1710,11 +1706,11 @@ abstract class ilDBPdoFieldDefinition
         if (!empty($db->options['datatype_map'][$type])) {
             $type = $db->options['datatype_map'][$type];
             if (!empty($db->options['datatype_map_callback'][$type])) {
-                $parameter = array('type' => $type);
+                $parameter = ['type' => $type];
 
                 return call_user_func_array(
                     $db->options['datatype_map_callback'][$type],
-                    array(&$db, __FUNCTION__, $parameter)
+                    [&$db, __FUNCTION__, $parameter]
                 );
             }
         }

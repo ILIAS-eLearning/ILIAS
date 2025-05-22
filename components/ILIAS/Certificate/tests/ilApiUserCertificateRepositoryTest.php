@@ -18,11 +18,6 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\MockObject\MockObject;
-
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 {
     private \ilDBInterface&\PHPUnit\Framework\MockObject\MockObject $database;
@@ -66,7 +61,8 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                     'login' => 'breakdanceMcFunkyPants',
                     'email' => 'ilyas@ilias.de',
                     'second_email' => 'breakdance@funky.de'
-                ]
+                ],
+                null
             );
 
         $this->controller->method('getLinkTargetByClass')->willReturn('somewhere.php?goto=4');

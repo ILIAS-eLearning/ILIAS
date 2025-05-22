@@ -230,3 +230,6 @@ learning module can then look like this:
 ```
 http://trunk.ilias.localhost/src/FileDelivery/deliver.php/LY3NasMwEITy[...]RFiKcUmOmJx8Ac/index.html
 ```
+
+> Important: Do not combine the Singed Delivery with other mechanisms such 
+> as the [WebAcceessChecker](../WebAccessChecker/README.md) 

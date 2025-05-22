@@ -59,7 +59,7 @@ class ilPCProfileGUI extends ilPageContentGUI
     /**
      * Insert new personal data form.
      */
-    public function insert(ilPropertyFormGUI $a_form = null): void
+    public function insert(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -74,7 +74,7 @@ class ilPCProfileGUI extends ilPageContentGUI
     /**
      * Edit personal data form.
      */
-    public function edit(ilPropertyFormGUI $a_form = null): void
+    public function edit(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -146,7 +146,7 @@ class ilPCProfileGUI extends ilPageContentGUI
         $profile->showPublicProfileFields($form, $prefs, $mode_manual, $is_template);
 
         if ($a_insert) {
-            $form->addCommandButton("create_profile", $this->lng->txt("save"));
+            $form->addCommandButton("create", $this->lng->txt("save"));
             $form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
         } else {
             $form->addCommandButton("update", $this->lng->txt("save"));

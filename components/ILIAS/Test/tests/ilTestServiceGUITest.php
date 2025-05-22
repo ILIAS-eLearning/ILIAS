@@ -30,26 +30,14 @@ class ilTestServiceGUITest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->addGlobal_lng();
-        $this->addGlobal_ilAccess();
-        $this->addGlobal_tpl();
-        $this->addGlobal_ilCtrl();
-        $this->addGlobal_ilias();
-        $this->addGlobal_tree();
-        $this->addGlobal_ilDB();
-        $this->addGlobal_ilUser();
-        $this->addGlobal_ilComponentRepository();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilObjDataCache();
         $this->addGlobal_ilHelp();
-        $this->addGlobal_ilLog();
         $this->addGlobal_rbacsystem();
         $this->addGlobal_ilSetting();
         $this->addGlobal_ilToolbar();
         $this->addGlobal_GlobalScreenService();
         $this->addGlobal_ilNavigationHistory();
-        $this->addGlobal_uiFactory();
-        $this->addGlobal_uiRenderer();
 
         $this->testObj = new ilTestServiceGUI($this->getTestObjMock());
     }
@@ -80,12 +68,6 @@ class ilTestServiceGUITest extends ilTestBaseTestCase
         $mock = $this->createMock(ilTestObjectiveOrientedContainer::class);
         $this->testObj->setObjectiveOrientedContainer($mock);
         $this->assertEquals($mock, $this->testObj->getObjectiveOrientedContainer());
-    }
-
-    public function testGetCommand(): void
-    {
-        $cmd = 'testCmd';
-        $this->assertEquals($cmd, $this->testObj->getCommand($cmd));
     }
 
     /**

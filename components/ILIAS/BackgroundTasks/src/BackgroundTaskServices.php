@@ -31,11 +31,8 @@ use ILIAS\BackgroundTasks\Dependencies\Injector;
  */
 class BackgroundTaskServices
 {
-    protected Container $container;
-
-    public function __construct(Container $container)
+    public function __construct(protected Container $container)
     {
-        $this->container = $container;
     }
 
     public function taskFactory(): TaskFactory

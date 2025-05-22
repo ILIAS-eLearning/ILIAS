@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\components\Export\HTML;
 
@@ -41,26 +41,80 @@ class Util
     /**
      * Constructor
      */
-    public function __construct(string $export_dir, string $sub_dir)
-    {
+    public function __construct(
+        string $export_dir,
+        string $sub_dir,
+        protected ?ExportCollector $export_collector = null
+    ) {
         global $DIC;
 
         $this->export_dir = $export_dir;
         $this->sub_dir = $sub_dir;
         $this->target_dir = $export_dir . "/" . $sub_dir;
 
-        $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir);
+        $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir, null, 0, $export_collector);
         $this->global_screen = $DIC->globalScreen();
     }
 
     /**
      * Export system style
      */
-    public function exportSystemStyle(): void
-    {
-        // system style html exporter
-        $sys_style_html_export = new \ilSystemStyleHTMLExport($this->target_dir);
-        $sys_style_html_export->export();
+    public function exportSystemStyle(
+        array $standard_icons = []
+    ): void {
+        // legacy export
+        if (is_null($this->export_collector)) {
+            $sys_style_html_export = new \ilSystemStyleHTMLExport($this->target_dir);
+            $sys_style_html_export->export();
+        } else {
+
+            $asset_dirs = ["css", "fonts", "images/logo", "images/standard"];
+            foreach ($asset_dirs as $asset_dir) {
+
+                $asset_dir = "./assets/" . $asset_dir;
+
+                // export system style sheet
+                $iterator = new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator($asset_dir, \FilesystemIterator::SKIP_DOTS),
+                    \RecursiveIteratorIterator::SELF_FIRST
+                );
+                foreach ($iterator as $item) {
+                    if (!$item->isDir()) {
+                        if ($asset_dir === "./assets/images/standard" &&
+                            !in_array($iterator->getSubPathname(), $standard_icons)) {
+                            continue;
+                        }
+                        $this->export_collector->addFile(
+                            $item->getPathname(),
+                            $asset_dir . DIRECTORY_SEPARATOR . $iterator->getSubPathname()
+                        );
+                    }
+                }
+
+                /*
+                // export (icon) images
+                foreach (
+                    [
+                        ['file' => 'media/enlarge.svg', 'exp_file_name' => ''],
+                        ['file' => 'browser/blank.png', 'exp_file_name' => '/browser/plus.png'],
+                        ['file' => 'browser/blank.png', 'exp_file_name' => '/browser/minus.png'],
+                        ['file' => 'browser/blank.png', 'exp_file_name' => '/browser/blank.png'],
+                        ['file' => 'media/spacer.png', 'exp_file_name' => ''],
+                        ['file' => 'standard/icon_st.svg', 'exp_file_name' => ''],
+                        ['file' => 'standard/icon_pg.svg', 'exp_file_name' => ''],
+                        ['file' => 'standard/icon_lm.svg', 'exp_file_name' => ''],
+                    ] as $im) {
+                    $from = $to = $im['file'];
+                    if ($im['exp_file_name'] != '') {
+                        $to = $im['exp_file_name'];
+                    }
+                    $this->export_collector->addFile(
+                        \ilUtil::getImagePath($from, '', 'filesystem'),
+                        $img_dir . '/' . $to
+                    );
+                }*/
+            }
+        }
     }
 
     /**
@@ -72,7 +126,9 @@ class Util
 
         // init co page html exporter
         $this->co_page_html_export->setContentStyleId($style_sheet_id);
-        $this->co_page_html_export->createDirectories();
+        if (is_null($this->export_collector)) {
+            $this->co_page_html_export->createDirectories();
+        }
         $this->co_page_html_export->exportStyles();
         $this->co_page_html_export->exportSupportScripts();
     }
@@ -116,9 +172,13 @@ class Util
         }
         if (is_file($file)) {
             $dir = dirname($file);
-            ilFileUtils::makeDirParents($target_dir . "/" . $dir);
-            if (!is_file($target_dir . "/" . $file)) {
-                copy($file, $target_dir . "/" . $file);
+            if (is_null($this->export_collector)) {
+                ilFileUtils::makeDirParents($target_dir . "/" . $dir);
+                if (!is_file($target_dir . "/" . $file)) {
+                    copy($file, $target_dir . "/" . $file);
+                }
+            } else {
+                $this->export_collector->addFile($file, $file);
             }
         }
     }

@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\News\Service as News;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * Class ilObjGroupGUI
@@ -36,7 +36,7 @@ use ILIAS\News\Service as News;
  * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilObjectMetaDataGUI, ilObjectTranslationGUI, ilPropertyFormGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilObjectMetaDataGUI, ILIAS\ILIASObject\Properties\Translations\TranslationGUI, ilPropertyFormGUI
  *
  *
  *
@@ -46,7 +46,6 @@ class ilObjGroupGUI extends ilContainerGUI
 {
     protected bool $show_tracking = false;
 
-    private GlobalHttpState $http;
     protected Factory $refinery;
     protected ilRbacSystem $rbacsystem;
     protected News $news;
@@ -63,7 +62,6 @@ class ilObjGroupGUI extends ilContainerGUI
 
         $this->lng->loadLanguageModule('grp');
         $this->lng->loadLanguageModule('obj');
-        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->news = $DIC->news();
@@ -370,11 +368,23 @@ class ilObjGroupGUI extends ilContainerGUI
                 break;
 
 
-            case 'ilobjecttranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->checkPermissionBool("write");
                 $this->setSubTabs("settings");
                 $this->tabs->activateTab("settings");
-                $transgui = new ilObjectTranslationGUI($this);
+                $transgui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->access,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->http,
+                    $this->refinery,
+                    $this->toolbar
+                );
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
@@ -445,12 +455,6 @@ class ilObjGroupGUI extends ilContainerGUI
             'grp'
         );
 
-        ilMDUtils::_fillHTMLMetaTags(
-            $this->object->getId(),
-            $this->object->getId(),
-            'grp'
-        );
-
         if ($this->isActiveAdministrationPanel()) {
             parent::renderObject();
             $this->addAdoptContentLinkToToolbar();
@@ -458,13 +462,7 @@ class ilObjGroupGUI extends ilContainerGUI
         }
 
         if (!$this->checkAgreement()) {
-            $this->tabs_gui->setTabActive('view_content');
-            $this->ctrl->setReturn($this, 'view');
-            $agreement = new ilMemberAgreementGUI($this->object->getRefId());
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $this->ctrl->setCmdClass(get_class($agreement));
-            $this->ctrl->forwardCommand($agreement);
-            return;
+            $this->ctrl->redirectByClass(ilMemberAgreementGUI::class);
         }
 
         $this->tabs_gui->setTabActive('view_content');
@@ -546,7 +544,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
         $this->setSubTabs('settings');
         $this->tabs_gui->setTabActive('settings');
-        $this->tabs_gui->setSubTabActive('grp_settings');
+        $this->tabs_gui->setSubTabActive('general');
 
         if (!$a_form) {
             $a_form = $this->initForm('edit');
@@ -666,6 +664,16 @@ class ilObjGroupGUI extends ilContainerGUI
                     break;
             }
 
+            // activation
+            $property_online = $this->object->getObjectProperties()->getPropertyIsOnline();
+            $online = $form->getInput('activation_online') ?
+                $property_online->withOnline() :
+                $property_online->withOffline();
+            $this->object->getObjectProperties()->storePropertyIsOnline($online);
+
+            // update object settings
+            $this->object->update();
+
             // title icon visibility
             $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
 
@@ -680,10 +688,6 @@ class ilObjGroupGUI extends ilContainerGUI
 
             // list presentation
             $this->saveListPresentation($form);
-
-            // update object settings
-            $this->object->update();
-
 
             ilObjectServiceSettingsGUI::updateServiceSettingsForm(
                 $this->object->getId(),
@@ -904,7 +908,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->editInfoObject();
     }
 
-    public function readMemberData(array $ids, array $selected_columns = null): array
+    public function readMemberData(array $ids, ?array $selected_columns = null): array
     {
         $privacy = ilPrivacySettings::getInstance();
 
@@ -1206,12 +1210,6 @@ class ilObjGroupGUI extends ilContainerGUI
             $this->checkPermission('visible');
         }
 
-        ilMDUtils::_fillHTMLMetaTags(
-            $this->object->getId(),
-            $this->object->getId(),
-            'grp'
-        );
-
         $info = new ilInfoScreenGUI($this);
 
         if (strlen($this->object->getInformation())) {
@@ -1489,6 +1487,19 @@ class ilObjGroupGUI extends ilContainerGUI
             $cdur->setEnd($this->object->getEnd());
             $form->addItem($cdur);
 
+            // activation
+            $this->lng->loadLanguageModule('rep');
+
+            $section = new ilFormSectionHeaderGUI();
+            $section->setTitle($this->lng->txt('rep_activation_availability'));
+            $form->addItem($section);
+
+            $online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'), 'activation_online');
+            $online->setChecked(!$this->object->getOfflineStatus());
+            $online->setInfo($this->lng->txt('grp_activation_online_info'));
+            $form->addItem($online);
+
+
             // Group registration ############################################################
             $pres = new ilFormSectionHeaderGUI();
             $pres->setTitle($this->lng->txt('grp_setting_header_registration'));
@@ -1606,6 +1617,8 @@ class ilObjGroupGUI extends ilContainerGUI
                 $wait->setValue('2');
             } elseif ($this->object->isWaitingListEnabled()) {
                 $wait->setValue('1');
+            } else {
+                $wait->setValue('0');
             }
 
             $lim->addSubItem($wait);
@@ -1856,9 +1869,9 @@ class ilObjGroupGUI extends ilContainerGUI
 
                 $this->tabs_gui->addSubTabTarget(
                     "obj_multilinguality",
-                    $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""),
+                    $this->ctrl->getLinkTargetByClass(TranslationGUI::class, ""),
                     "",
-                    "ilobjecttranslationgui"
+                    TranslationGUI::class
                 );
 
 

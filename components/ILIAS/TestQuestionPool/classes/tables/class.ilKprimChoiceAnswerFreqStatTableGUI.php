@@ -26,38 +26,31 @@
  */
 class ilKprimChoiceAnswerFreqStatTableGUI extends ilAnswerFrequencyStatisticTableGUI
 {
-    protected function getTrueOptionLabel()
+    private function getTrueOptionLabel(): string
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
         return $this->question->getTrueOptionLabelTranslation(
-            $DIC->language(),
+            $this->language,
             $this->question->getOptionLabel()
         );
     }
 
-    protected function getFalseOptionLabel()
+    private function getFalseOptionLabel(): string
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
         return $this->question->getFalseOptionLabelTranslation(
-            $DIC->language(),
+            $this->language,
             $this->question->getOptionLabel()
         );
     }
-
 
     public function initColumns(): void
     {
-        $lng = $this->DIC->language();
-        $this->addColumn($lng->txt('tst_corr_answ_stat_tbl_header_answer'), '');
-        $this->addColumn($lng->txt('tst_corr_answ_stat_tbl_header_frequency') . ': ' . $this->getTrueOptionLabel(), '');
-        $this->addColumn($lng->txt('tst_corr_answ_stat_tbl_header_frequency') . ': ' . $this->getFalseOptionLabel(), '');
+        $this->addColumn($this->language->txt('tst_corr_answ_stat_tbl_header_answer'), '');
+        $this->addColumn($this->language->txt('tst_corr_answ_stat_tbl_header_frequency') . ': ' . $this->getTrueOptionLabel(), '');
+        $this->addColumn($this->language->txt('tst_corr_answ_stat_tbl_header_frequency') . ': ' . $this->getFalseOptionLabel(), '');
 
         foreach ($this->getData() as $row) {
             if (isset($row['addable'])) {
                 $this->setActionsColumnEnabled(true);
-                $this->addColumn('', '', '1%');
                 break;
             }
         }

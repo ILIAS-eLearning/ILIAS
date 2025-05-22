@@ -26,7 +26,7 @@ class arBuilder
     protected ActiveRecord $ar;
     protected ?int $step = null;
 
-    public function __construct(ActiveRecord $activeRecord, int $step = null)
+    public function __construct(ActiveRecord $activeRecord, ?int $step = null)
     {
         $this->setAr($activeRecord);
         $this->setStep($step ?? 0);

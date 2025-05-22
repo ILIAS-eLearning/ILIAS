@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 use ILIAS\Setup;
 
@@ -11,9 +25,9 @@ use ILIAS\Setup;
  */
 class ilWebServicesConfigStoredObjective implements Setup\Objective
 {
-    protected Setup\Config $config;
+    protected ilWebServicesSetupConfig $config;
 
-    public function __construct(Setup\Config $config)
+    public function __construct(ilWebServicesSetupConfig $config)
     {
         $this->config = $config;
     }
@@ -54,6 +68,11 @@ class ilWebServicesConfigStoredObjective implements Setup\Objective
         $settings->set("soap_response_timeout", (string) $this->config->getSoapResponseTimeout());
         $settings->set("rpc_server_host", $this->config->getRPCServerHost());
         $settings->set("rpc_server_port", (string) $this->config->getRPCServerPort());
+
+        $settings->set('soap_internal_wsdl_path', (string) $this->config->getSoapInternalWsdlPath());
+        $settings->set('soap_internal_wsdl_verify_peer', (string) $this->config->getSoapInternalWsdlVerifyPeer());
+        $settings->set('soap_internal_wsdl_verify_peer_name', (string) $this->config->getSoapInternalWsdlVerifyPeerName());
+        $settings->set('soap_internal_wsdl_allow_self_signed', (string) $this->config->getSoapInternalWsdlAllowSelfSigned());
 
         return $environment;
     }

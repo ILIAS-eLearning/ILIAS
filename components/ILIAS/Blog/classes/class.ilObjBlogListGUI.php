@@ -70,7 +70,6 @@ class ilObjBlogListGUI extends ilObjectListGUI
         string $onclick = ""
     ): void {
         $ctrl = $this->ctrl;
-
         if ($cmd === "export"
             && ilObjBlogAccess::isCommentsExportPossible($this->obj_id)
             && (bool) $this->settings->get('item_cmd_asynch')) {
@@ -103,7 +102,7 @@ class ilObjBlogListGUI extends ilObjectListGUI
                     $ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjBlogGUI::class], "exportWithComments")
                 );
                 $signal = $this->comment_modal->getShowSignal()->getId();
-                $this->current_selection_list->addItem(
+                /*$this->current_selection_list->addItem(
                     $text,
                     "",
                     $href,
@@ -113,7 +112,20 @@ class ilObjBlogListGUI extends ilObjectListGUI
                     "",
                     $prevent_background_click,
                     "( function() { $(document).trigger('" . $signal . "', {'id': '" . $signal . "','triggerer':$(this), 'options': JSON.parse('[]')}); return false;})()"
-                );
+                );*/
+
+                $action = $this->ui->factory()
+                                   ->button()
+                                   ->shy($text, $href);
+
+                if ($frame !== '') {
+                    $action = $this->ui->factory()->link()->standard($text, $href)->withOpenInNewViewport(true);
+                }
+
+                $action = $action->withAdditionalOnLoadCode(function ($id) use ($onclick, $signal): string {
+                    return "$('#$id').click(( function() { $(document).trigger('" . $signal . "', {'id': '" . $signal . "','triggerer':$(this), 'options': JSON.parse('[]')}); return false;})());";
+                });
+                $this->current_actions[] = $action;
             }
         }
     }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRepository
 {
@@ -224,10 +224,10 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         int $deadline_period,
         int $vq_period,
         int $vq_restart_period,
-        string $deadline_date = null,
-        string $vq_date = null,
-        int $rm_nr_by_usr_days = null,
-        int $proc_end_no_success = null,
+        ?string $deadline_date = null,
+        ?string $vq_date = null,
+        ?int $rm_nr_by_usr_days = null,
+        ?int $proc_end_no_success = null,
         bool $send_re_assigned_mail = false,
         bool $send_info_to_re_assign_mail = false,
         bool $send_risky_to_fail_mail = false,
@@ -426,10 +426,10 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         int $deadline_period,
         int $vq_period,
         int $vq_restart_period,
-        string $deadline_date = null,
-        string $vq_date = null,
-        int $rm_nr_by_usr_days = null,
-        int $proc_end_no_success = null,
+        ?string $deadline_date = null,
+        ?string $vq_date = null,
+        ?int $rm_nr_by_usr_days = null,
+        ?int $proc_end_no_success = null,
         bool $send_re_assigned_mail = false,
         bool $send_info_to_re_assign_mail = false,
         bool $send_risky_to_fail_mail = false,

@@ -18,13 +18,14 @@
 
 namespace ILIAS\ResourceStorage\Resource;
 
+use PHPUnit\Framework\MockObject\MockObject;
+
 require_once(__DIR__ . '/../DummyIDGenerator.php');
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
 use ILIAS\ResourceStorage\DummyIDGenerator;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Events\Subject;
 use ILIAS\ResourceStorage\Events\DataContainer;
 use ILIAS\ResourceStorage\Events\CollectionData;
 
@@ -34,8 +35,11 @@ use ILIAS\ResourceStorage\Events\CollectionData;
  */
 class CollectionRepositoryTest extends TestCase
 {
+    /**
+     * @var string
+     */
     private const TEST_RCID = 'test_rcid';
-    private \ilDBInterface|\PHPUnit\Framework\MockObject\MockObject $db_mock;
+    private \ilDBInterface|MockObject $db_mock;
     private CollectionDBRepository $repo;
     private DummyIDGenerator $rcid_generator;
 
@@ -74,15 +78,15 @@ class CollectionRepositoryTest extends TestCase
                       ->method('insert')
                       ->will(
                           $this->onConsecutiveCalls(
-                              $this->returnCallback(function ($table, $fields) {
+                              $this->returnCallback(function ($table, $fields): int {
                                   $this->assertEquals('il_resource_rca', $table);
                                   return 1;
                               }),
-                              $this->returnCallback(function ($table, $fields) {
+                              $this->returnCallback(function ($table, $fields): int {
                                   $this->assertEquals('il_resource_rca', $table);
                                   return 1;
                               }),
-                              $this->returnCallback(function ($table, $fields) {
+                              $this->returnCallback(function ($table, $fields): int {
                                   $this->assertEquals('il_resource_rc', $table);
                                   return 1;
                               })

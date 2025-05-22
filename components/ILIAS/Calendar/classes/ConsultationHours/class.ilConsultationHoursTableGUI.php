@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
 /**
@@ -29,15 +29,12 @@ use ILIAS\UI\Renderer as UIRenderer;
 class ilConsultationHoursTableGUI extends ilTable2GUI
 {
     private int $user_id = 0;
-    private bool $has_groups = false;
     private UIRenderer $renderer;
-    private UIImplementationFactory $uiFactory;
+    private UIFactory $uiFactory;
 
     public function __construct(object $a_gui, string $a_cmd, int $a_user_id)
     {
         $this->user_id = $a_user_id;
-
-        $this->has_groups = (bool) ilConsultationHourGroups::getCountGroupsOfUser($a_user_id);
 
         $this->setId('chtg_' . $this->getUserId());
         parent::__construct($a_gui, $a_cmd);
@@ -48,10 +45,6 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 
         $this->addColumn('', 'f', '1');
         $this->addColumn($this->lng->txt('appointment'), 'start');
-
-        if ($this->hasGroups()) {
-            $this->addColumn($this->lng->txt('cal_ch_grp_header'), 'group');
-        }
 
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('cal_ch_num_bookings'), 'num_bookings');
@@ -80,11 +73,6 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
         return $this->user_id;
     }
 
-    public function hasGroups(): bool
-    {
-        return $this->has_groups;
-    }
-
     /**
      * @inheritDoc
      */
@@ -93,11 +81,6 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('START', $a_set['start_p']);
         $this->tpl->setVariable('TITLE', $a_set['title']);
-
-        if ($this->hasGroups()) {
-            $this->tpl->setVariable('TITLE_GROUP', $a_set['group']);
-        }
-
         $this->tpl->setVariable('NUM_BOOKINGS', $a_set['num_bookings']);
 
         foreach ((array) ($a_set['target_links'] ?? []) as $link) {
@@ -177,10 +160,6 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
             $data[$counter]['num_bookings'] = $booking->getNumberOfBookings();
 
             $data[$counter]['group'] = '';
-            $group_id = $booking->getBookingGroup();
-            if ($this->hasGroups() && $group_id) {
-                $data[$counter]['group'] = ilConsultationHourGroups::lookupTitle($group_id);
-            }
 
             // obj assignments
             $refs_counter = 0;

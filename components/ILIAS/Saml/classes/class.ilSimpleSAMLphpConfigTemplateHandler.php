@@ -20,13 +20,9 @@ declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
 
-/**
- * Class ilSimpleSAMLphpConfigTemplateHandler
- * @author Michael Jansen <mjansen@databay.de>
- */
-final class ilSimpleSAMLphpConfigTemplateHandler
+final readonly class ilSimpleSAMLphpConfigTemplateHandler
 {
-    public function __construct(private readonly Filesystem $fs)
+    public function __construct(private Filesystem $fs)
     {
     }
 

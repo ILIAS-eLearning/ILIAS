@@ -25,15 +25,8 @@ use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
  */
 class DummyDefinition implements FlavourDefinition
 {
-    private string $id;
-    private string $machine_id;
-    private bool $persists = false;
-
-    public function __construct(string $id, string $machine_id, bool $persists = false)
+    public function __construct(private string $id, private string $machine_id, private bool $persists = false)
     {
-        $this->id = $id;
-        $this->machine_id = $machine_id;
-        $this->persists = $persists;
     }
 
     public function getId(): string

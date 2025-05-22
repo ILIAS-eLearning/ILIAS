@@ -26,11 +26,11 @@ declare(strict_types=1);
  */
 class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolbarGUI
 {
-    public ilCtrl $ctrl;
+    public ilCtrlInterface $ctrl;
     public ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI;
     public ilTestRandomQuestionSetConfig $questionSetConfig;
 
-    public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
+    public function __construct(ilCtrlInterface $ctrl, ilLanguage $lng, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
     {
         $this->ctrl = $ctrl;
         $this->lng = $lng;
@@ -51,7 +51,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolba
 
     private function buildSourcePoolSelectOptionsArray($availablePools): array
     {
-        $sourcePoolSelectOptionArray = array();
+        $sourcePoolSelectOptionArray = [];
 
         foreach ($availablePools as $poolId => $poolData) {
             $sourcePoolSelectOptionArray[$poolId] = $poolData['title'];

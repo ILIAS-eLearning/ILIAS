@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -22,7 +23,7 @@ namespace ILIAS\UI\Implementation\Component\Input\ViewControl;
 use ILIAS\UI\Component\Input\Group;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Result;
-use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 
 /**

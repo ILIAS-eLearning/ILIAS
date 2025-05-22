@@ -42,7 +42,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     /**
      * @inheritDoc
      */
-    public function add($left_operand, $right_operand, int $scale = null)
+    public function add($left_operand, $right_operand, ?int $scale = null)
     {
         $res = $this->normalize($left_operand) + $this->normalize($right_operand);
 
@@ -52,7 +52,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     /**
      * @inheritDoc
      */
-    public function sub($left_operand, $right_operand, int $scale = null)
+    public function sub($left_operand, $right_operand, ?int $scale = null)
     {
         $res = $this->normalize($left_operand) - $this->normalize($right_operand);
 
@@ -62,7 +62,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     /**
      * @inheritDoc
      */
-    public function mul($left_operand, $right_operand, int $scale = null)
+    public function mul($left_operand, $right_operand, ?int $scale = null)
     {
         try {
             $left_operand = $this->normalize($left_operand);
@@ -88,7 +88,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     /**
      * @inheritDoc
      */
-    public function div($left_operand, $right_operand, int $scale = null)
+    public function div($left_operand, $right_operand, ?int $scale = null)
     {
         if ($right_operand == 0) {
             throw new ilMathDivisionByZeroException(sprintf("Division of %s by %s not possible!", $left_operand, $right_operand));
@@ -131,7 +131,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     /**
      * @inheritDoc
      */
-    public function pow($left_operand, $right_operand, int $scale = null)
+    public function pow($left_operand, $right_operand, ?int $scale = null)
     {
         $res = pow($this->normalize($left_operand), $this->normalize($right_operand));
 
@@ -141,7 +141,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     /**
      * @inheritDoc
      */
-    public function sqrt($operand, int $scale = null)
+    public function sqrt($operand, ?int $scale = null)
     {
         $res = sqrt($this->normalize($operand));
 
@@ -151,7 +151,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     /**
      * @inheritDoc
      */
-    public function comp($left_operand, $right_operand, int $scale = null)
+    public function comp($left_operand, $right_operand, ?int $scale = null)
     {
         $left_operand = $this->normalize($left_operand);
         $right_operand = $this->normalize($right_operand);

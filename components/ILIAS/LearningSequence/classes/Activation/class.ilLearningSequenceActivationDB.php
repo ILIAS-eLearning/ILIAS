@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Persistence for online/activation period
@@ -148,8 +148,8 @@ class ilLearningSequenceActivationDB
         int $ref_id,
         bool $online = false,
         bool $effective_online = false,
-        \DateTime $activation_start = null,
-        \DateTime $activation_end = null
+        ?\DateTime $activation_start = null,
+        ?\DateTime $activation_end = null
     ): ilLearningSequenceActivation {
         return new ilLearningSequenceActivation(
             $ref_id,

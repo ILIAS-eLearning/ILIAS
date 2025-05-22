@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Component\Input\Field\Section;
@@ -145,6 +145,7 @@ class ilIndividualAssessmentUserGradingTest extends TestCase
         $event_time = new DateTimeImmutable();
         $notify = false;
         $finalized = false;
+        $record_template = "Record Template";
         $grading = new ilIndividualAssessmentUserGrading(
             $name,
             $record,
@@ -165,6 +166,7 @@ class ilIndividualAssessmentUserGradingTest extends TestCase
             $refinery,
             $file_handler,
             $df->dateFormat()->standard(),
+            $record_template,
             [
                 ilIndividualAssessmentMembers::LP_IN_PROGRESS,
                 ilIndividualAssessmentMembers::LP_FAILED,

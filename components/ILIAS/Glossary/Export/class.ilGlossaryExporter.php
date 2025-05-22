@@ -31,7 +31,7 @@ class ilGlossaryExporter extends ilXmlExporter
         global $DIC;
 
         $this->ds = new ilGlossaryDataSet();
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
         $this->metadata = $DIC->glossary()->internal()->domain()->metadata();
     }
@@ -42,13 +42,6 @@ class ilGlossaryExporter extends ilXmlExporter
         array $a_ids
     ): array {
         if ($a_entity == "glo") {
-            $md_ids = array();
-
-            // glo related ids
-            foreach ($a_ids as $id) {
-                $md_ids[] = $id . ":0:glo";
-            }
-
             // definition related ids
             $page_ids = array();
             foreach ($a_ids as $id) {
@@ -70,7 +63,6 @@ class ilGlossaryExporter extends ilXmlExporter
 
                 foreach ($terms as $t) {
                     $page_ids[] = "term:" . $t["id"];
-                    $md_ids[] = $id . ":" . $t["id"] . ":term";
                 }
             }
             // definition pages and their metadat
@@ -78,11 +70,7 @@ class ilGlossaryExporter extends ilXmlExporter
                 array(
                     "component" => "components/ILIAS/COPage",
                     "entity" => "pg",
-                    "ids" => $page_ids),
-                array(
-                    "component" => "components/ILIAS/MetaData",
-                    "entity" => "md",
-                    "ids" => $md_ids),
+                    "ids" => $page_ids)
             );
 
             // taxonomy
@@ -131,9 +119,21 @@ class ilGlossaryExporter extends ilXmlExporter
 
             // service settings
             $deps[] = array(
-                "component" => "components/ILIAS/Object",
+                "component" => "components/ILIAS/ILIASObject",
                 "entity" => "common",
                 "ids" => $a_ids);
+
+            $md_ids = [];
+            foreach ($a_ids as $crs_id) {
+                $md_ids[] = $crs_id . ":0:glo";
+            }
+            if ($md_ids !== []) {
+                $deps[] = [
+                    "component" => "components/ILIAS/MetaData",
+                    "entity" => "md",
+                    "ids" => $md_ids
+                ];
+            }
 
             return $deps;
         }

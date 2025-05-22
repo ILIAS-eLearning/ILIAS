@@ -16,7 +16,7 @@ class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
     {
         $tools = [];
         $iff = function ($id) { return $this->identification_provider->identifier($id); };
-        $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
+        $l = function (string $content) { return $this->dic->ui()->factory()->legacy()->content($content); };
 
         $additional_data = $called_contexts->getLast()->getAdditionalData();
         if ($additional_data->exists(self::SHOW_FOLDERS_TOOL) && $additional_data->get(self::SHOW_FOLDERS_TOOL) === true) {

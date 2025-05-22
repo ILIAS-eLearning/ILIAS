@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
@@ -26,8 +25,8 @@ use ILIAS\Setup\CLI\IOWrapper;
 
 class ilMDLOMConformanceMigration implements Setup\Migration
 {
-    protected const SELECT_LIMIT = 1000;
-    protected const MAX_LOOPS = 10000;
+    protected const int SELECT_LIMIT = 1000;
+    protected const int MAX_LOOPS = 10000;
 
     protected ilDBInterface $db;
     protected IOWrapper $io;

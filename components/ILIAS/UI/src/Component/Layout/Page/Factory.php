@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Layout\Page;
 
@@ -97,14 +97,14 @@ interface Factory
      */
     public function standard(
         array $content,
-        MetaBar $metabar = null,
-        MainBar $mainbar = null,
-        Breadcrumbs $locator = null,
-        Image $logo = null,
-        Image $responsive_logo = null,
+        ?MetaBar $metabar = null,
+        ?MainBar $mainbar = null,
+        ?Breadcrumbs $locator = null,
+        ?Image $logo = null,
+        ?Image $responsive_logo = null,
         string $favicon_path = '',
-        Container $overlay = null,
-        Footer $footer = null,
+        ?Container $overlay = null,
+        ?Footer $footer = null,
         string $title = '',
         string $short_title = '',
         string $view_title = ''

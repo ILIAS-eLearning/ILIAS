@@ -35,19 +35,13 @@ final class Init
 {
     public static function init(Container $c): void
     {
-        $c['static_url.request_builder'] = static function (Container $c): RequestBuilder {
-            return new BundledRequestBuilder();
-        };
+        $c['static_url.request_builder'] = (static fn(Container $c): RequestBuilder => new BundledRequestBuilder());
 
-        $c['static_url.context'] = static function (Container $c): Context {
-            return new Context($c);
-        };
+        $c['static_url.context'] = (static fn(Container $c): Context => new Context($c));
 
         $c['static_url.handler'] = static function (Container $c): HandlerService {
             $handlers = (require ArtifactObjective::PATH() ?? []);
-            $handlers = array_map(static function (string $handler): Handler {
-                return new $handler();
-            }, $handlers);
+            $handlers = array_map(static fn(string $handler): Handler => new $handler(), $handlers);
 
             return new HandlerService(
                 $c['static_url.request_builder'],
@@ -56,20 +50,16 @@ final class Init
             );
         };
 
-        $c['static_url.uri_builder'] = static function (Container $c): URIBuilder {
-            return new StandardURIBuilder(
-                ILIAS_HTTP_PATH,
-                \ilRobotSettings::getInstance()?->robotSupportEnabled() ?? false
-            );
-        };
+        $c['static_url.uri_builder'] = (static fn(Container $c): URIBuilder => new StandardURIBuilder(
+            ILIAS_HTTP_PATH,
+            \ilRobotSettings::getInstance()?->robotSupportEnabled() ?? false
+        ));
 
-        $c['static_url'] = static function (Container $c): \ILIAS\StaticURL\Services {
-            return new Services(
-                $c['static_url.handler'],
-                $c['static_url.uri_builder'],
-                $c['static_url.context']
-            );
-        };
+        $c['static_url'] = (static fn(Container $c): Services => new Services(
+            $c['static_url.handler'],
+            $c['static_url.uri_builder'],
+            $c['static_url.context']
+        ));
     }
 
 }

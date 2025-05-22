@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
@@ -52,6 +52,7 @@ class ilPluginInfoTest extends TestCase
             $this->pluginslot,
             "plg1",
             "Plugin1",
+            "Type1",
             true,
             $this->data_factory->version("1.0.0"),
             12,
@@ -72,6 +73,7 @@ class ilPluginInfoTest extends TestCase
         $this->assertEquals($this->component, $this->plugin->getComponent());
         $this->assertEquals("plg1", $this->plugin->getId());
         $this->assertEquals("Plugin1", $this->plugin->getName());
+        $this->assertEquals("Type1", $this->plugin->getType());
         $this->assertTrue($this->plugin->isActivated());
         $this->assertEquals($this->data_factory->version("1.0.0"), $this->plugin->getCurrentVersion());
         $this->assertEquals(12, $this->plugin->getCurrentDBVersion());
@@ -97,6 +99,7 @@ class ilPluginInfoTest extends TestCase
             $this->pluginslot,
             "plg1",
             "Plugin1",
+            "Type1",
             true,
             null,
             null,
@@ -125,6 +128,7 @@ class ilPluginInfoTest extends TestCase
             $this->pluginslot,
             "plg1",
             "Plugin1",
+            "Type1",
             true,
             null,
             null,
@@ -148,6 +152,7 @@ class ilPluginInfoTest extends TestCase
             $this->pluginslot,
             "plg1",
             "Plugin1",
+            "Type1",
             true,
             $this->data_factory->version("2.0.0"),
             11,
@@ -173,6 +178,7 @@ class ilPluginInfoTest extends TestCase
             $this->pluginslot,
             "plg1",
             "Plugin1",
+            "Type1",
             true,
             $this->data_factory->version("1.0.0"),
             12,
@@ -192,6 +198,7 @@ class ilPluginInfoTest extends TestCase
             $this->pluginslot,
             "plg1",
             "Plugin1",
+            "Type1",
             true,
             $this->data_factory->version("1.2.2"),
             12,
@@ -217,6 +224,7 @@ class ilPluginInfoTest extends TestCase
             $this->pluginslot,
             "plg1",
             "Plugin1",
+            "Type1",
             true,
             $this->data_factory->version("1.2.2"),
             12,
@@ -245,7 +253,7 @@ class ilPluginInfoTest extends TestCase
     public function testGetPath(): void
     {
         $this->assertEquals(
-            ilComponentRepository::PLUGIN_BASE_PATH . "/" . "components/ILIAS/Module1/Slot1/Plugin1",
+            ilComponentRepository::PLUGIN_BASE_PATH . "/Type1/Module1/Slot1/Plugin1",
             $this->plugin->getPath()
         );
     }

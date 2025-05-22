@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table;
 
-use ILIAS\UI\Component\Input\ViewControl\ViewControl;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
@@ -42,11 +41,6 @@ interface Data extends Table
      * column-titles (think of ordering...).
      */
     public function withRequest(ServerRequestInterface $request): static;
-
-    /**
-     * Number of Rows is the amount of rows shown per page
-     */
-    public function withNumberOfRows(int $number_of_rows): self;
 
     /**
      * Not all columns are neccessarily visible; "selected optional" is the

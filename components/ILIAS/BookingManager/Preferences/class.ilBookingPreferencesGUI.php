@@ -17,6 +17,9 @@
  *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Form;
+use ILIAS\BookingManager\Objects\ObjectsManager;
+use ILIAS\BookingManager\Access\AccessManager;
+use ILIAS\BookingManager\InternalService;
 
 /**
  * Booking preferences ui class
@@ -24,7 +27,9 @@ use ILIAS\UI\Component\Input\Container\Form;
  */
 class ilBookingPreferencesGUI
 {
-    protected \ILIAS\BookingManager\InternalService $service;
+    protected ObjectsManager $objects_manager;
+    protected AccessManager $access;
+    protected InternalService $service;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $main_tpl;
     protected ilObjBookingPool $pool;
@@ -33,7 +38,6 @@ class ilBookingPreferencesGUI
     protected \Psr\Http\Message\ServerRequestInterface $request;
     protected ilObjUser $user;
     protected ilBookingPreferencesDBRepository $repo;
-    protected ilAccessHandler $access;
 
     public function __construct(
         ilObjBookingPool $pool
@@ -49,7 +53,9 @@ class ilBookingPreferencesGUI
         $this->service = $DIC->bookingManager()->internal();
         $this->pool = $pool;
         $this->repo = $this->service->repo()->preferences();
-        $this->access = $DIC->access();
+        $this->access = $DIC->bookingManager()->internal()->domain()->access();
+        $this->objects_manager = $DIC->bookingManager()->internal()->domain()
+            ->objects($pool->getId());
     }
 
     public function executeCommand(): void
@@ -81,7 +87,7 @@ class ilBookingPreferencesGUI
     }
 
     protected function listPreferenceOptions(
-        Form\Standard $form = null
+        ?Form\Standard $form = null
     ): void {
         $ui = $this->ui;
         if (count(ilBookingObject::getList($this->pool->getId())) > 0) {
@@ -228,10 +234,11 @@ class ilBookingPreferencesGUI
         if (isset($bookings[$this->user->getId()])) {
             foreach ($bookings[$this->user->getId()] as $book_obj_id) {
                 $book_obj = new ilBookingObject($book_obj_id);
+                $post_file = $this->objects_manager->getBookingInfoFilename($book_obj_id);
 
                 // post info button
                 $post_info_button = "";
-                if ($book_obj->getPostFile() || $book_obj->getPostText()) {
+                if ($post_file || $book_obj->getPostText()) {
                     $ctrl->setParameterByClass("ilBookingObjectGUI", "object_id", $book_obj_id);
                     $b = $ui->factory()->button()->shy(
                         $lng->txt("book_post_booking_information"),
@@ -246,7 +253,7 @@ class ilBookingPreferencesGUI
         }
 
         // all users
-        if ($this->access->checkAccess("write", "", $this->pool->getRefId())) {
+        if ($this->access->canManageAllReservations($this->pool->getRefId())) {
             $info_gui->addSection($lng->txt("book_all_users"));
             $preferences = $repo->getPreferences($this->pool->getId());
             $preferences = $preferences->getPreferences();

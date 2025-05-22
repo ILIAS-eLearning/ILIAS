@@ -16,10 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\ResourceStorage\Policy\FileNamePolicy;
-use ILIAS\ResourceStorage\Policy\FileNamePolicyException;
 use ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor;
-use ILIAS\ResourceStorage\Policy\WhiteAndBlacklistedFileNamePolicy;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
@@ -31,16 +28,14 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
  */
 class ilFileServicesPreProcessor extends BlacklistExtensionPreProcessor
 {
-    private ilFileServicesSettings $settings;
-
     public function __construct(
-        ilFileServicesSettings $settings,
+        private ilFileServicesSettings $settings,
         string $reason = 'Extension is blacklisted.'
     ) {
-        $this->settings = $settings;
-        parent::__construct($settings->getBlackListedSuffixes(), $reason);
+        parent::__construct($this->settings->getBlackListedSuffixes(), $reason);
     }
 
+    #[\Override]
     public function process(FileStream $stream, Metadata $metadata): ProcessingStatus
     {
         if ($this->settings->isByPassAllowedForCurrentUser()) {

@@ -328,6 +328,10 @@ class SurveyMetricQuestion extends SurveyQuestion
             return $this->lng->txt("survey_question_obligatory");
         }
 
+        if (!is_numeric(trim($entered_value))) {
+            return $this->lng->txt("metric_question_not_a_value");
+        }
+
         if (strlen($this->getMinimum() ?? "")) {
             if ($entered_value < $this->getMinimum()) {
                 return $this->lng->txt("metric_question_out_of_bounds");

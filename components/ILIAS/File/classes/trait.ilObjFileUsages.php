@@ -38,7 +38,7 @@ trait ilObjFileUsages
 
         $file_ids = [];
         $set = $ilDB->query(
-            "SELECT id FROM file_usage" . " WHERE usage_type = "
+            'SELECT id FROM file_usage WHERE usage_type = '
             . $ilDB->quote($a_type, "text") . " AND usage_id= "
             . $ilDB->quote($a_id, "integer") . " AND usage_lang= "
             . $ilDB->quote($a_usage_lang, "text") . $and_hist
@@ -73,7 +73,7 @@ trait ilObjFileUsages
         $ilDB = $DIC['ilDB'];
 
         // check if file really exists
-        if (ilObject::_lookupType($a_file_id) != "file") {
+        if (ilObject::_lookupType($a_file_id) !== "file") {
             return;
         }
         // #15143
@@ -128,12 +128,12 @@ trait ilObjFileUsages
         $ilDB = $DIC['ilDB'];
 
         $lstr = "";
-        if ($a_usage_lang != "") {
+        if ($a_usage_lang !== "") {
             $lstr = "usage_lang = " . $ilDB->quote($a_usage_lang, "text") . " AND ";
         }
 
         // get usages in learning modules
-        $q = "SELECT * FROM file_usage WHERE " . "usage_id = " . $ilDB->quote($a_id, "integer")
+        $q = 'SELECT * FROM file_usage WHERE usage_id = ' . $ilDB->quote($a_id, "integer")
             . " AND " . "usage_type = " . $ilDB->quote($a_type, "text") . " AND " . $lstr
             . "usage_hist_nr = " . $ilDB->quote($a_usage_hist_nr, "integer");
         $file_set = $ilDB->query($q);

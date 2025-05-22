@@ -16,11 +16,10 @@
  *
  *********************************************************************/
 
+use Psr\Http\Message\StreamInterface;
 use ILIAS\FileDelivery\Delivery;
 use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Services;
-use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
-use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamInfoFactory;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\TokenFactory;
 
 /**
@@ -32,6 +31,7 @@ class ilWebAccessCheckerDelivery
 {
     private ilWebAccessChecker $wac;
     private Services $http;
+    private string $img_dir;
 
 
     public static function run(Services $httpState, CookieFactory $cookieFactory): void
@@ -48,6 +48,7 @@ class ilWebAccessCheckerDelivery
     {
         $this->wac = new ilWebAccessChecker($httpState, $cookieFactory);
         $this->http = $httpState;
+        $this->img_dir = realpath(__DIR__ . '/../templates/images');
     }
 
 
@@ -100,7 +101,7 @@ class ilWebAccessCheckerDelivery
 
     protected function deliverDummyImage(): void
     {
-        $ilFileDelivery = new Delivery('./components/ILIAS/WebAccessChecker/templates/images/access_denied.png', $this->http);
+        $ilFileDelivery = new Delivery($this->img_dir . '/access_denied.png', $this->http);
         $ilFileDelivery->setDisposition($this->wac->getDisposition());
         $ilFileDelivery->deliver();
     }
@@ -108,11 +109,18 @@ class ilWebAccessCheckerDelivery
 
     protected function deliverDummyVideo(): void
     {
-        $ilFileDelivery = new Delivery('./components/ILIAS/WebAccessChecker/templates/images/access_denied.mp4', $this->http);
+        $ilFileDelivery = new Delivery($this->img_dir . '/access_denied.mp4', $this->http);
         $ilFileDelivery->setDisposition($this->wac->getDisposition());
         $ilFileDelivery->stream();
     }
 
+    protected function handleNotFoundError(ilWACException $e): void
+    {
+        $response = $this->http
+            ->response()
+            ->withStatus(404);
+        $this->http->saveResponse($response);
+    }
 
     protected function handleAccessErrors(ilWACException $e): void
     {
@@ -139,10 +147,10 @@ class ilWebAccessCheckerDelivery
     protected function handleErrors(ilWACException $e): void
     {
         $response = $this->http->response()
-                               ->withStatus(500);
+            ->withStatus(500);
 
         /**
-         * @var \Psr\Http\Message\StreamInterface $stream
+         * @var StreamInterface $stream
          */
         $stream = $response->getBody();
         $stream->write($e->getMessage());

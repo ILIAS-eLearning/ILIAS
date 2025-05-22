@@ -18,7 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
 
 /**
  * Class ilCronFinishUnfinishedTestPassesTest
@@ -87,7 +88,7 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
 
     public function testGetDefaultScheduleType(): void
     {
-        $this->assertEquals(CronJobScheduleType::SCHEDULE_TYPE_DAILY, $this->test_obj->getDefaultScheduleType());
+        $this->assertEquals(JobScheduleType::DAILY, $this->test_obj->getDefaultScheduleType());
     }
 
     public function testHasAutoActivation(): void
@@ -108,6 +109,6 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
     public function testRun(): void
     {
         $this->markTestSkipped('Failed for some unknown reason.');
-        $this->assertInstanceOf(ilCronJobResult::class, $this->test_obj->run());
+        $this->assertInstanceOf(JobResult::class, $this->test_obj->run());
     }
 }

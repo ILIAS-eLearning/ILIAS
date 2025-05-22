@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Model for a calendar entry.
@@ -175,6 +175,7 @@ class ilCalendarEntry implements ilDatePeriod
                     if ($entry->isOwner()) {
                         $max = $entry->getNumberOfBookings();
                         $current = $entry->getCurrentNumberOfBookings($this->getEntryId());
+                        $free = (($max - $current) >= 0 ? ($max - $current) : 0);
                         if (!$current) {
                             $style = ';border-left-width: 5px; border-left-style: solid; border-left-color: green';
                             $title = $this->lng->txt('cal_book_free');
@@ -183,7 +184,7 @@ class ilCalendarEntry implements ilDatePeriod
                             $title = $this->lng->txt('cal_booked_out');
                         } else {
                             $style = ';border-left-width: 5px; border-left-style: solid; border-left-color: yellow';
-                            $title = $current . '/' . $max;
+                            $title = sprintf($this->lng->txt('cal_ch_booking_num_free_short'), $free);
                         }
                     } else {
                         $apps = ilConsultationHourAppointments::getAppointmentIds(
@@ -333,7 +334,7 @@ class ilCalendarEntry implements ilDatePeriod
              * The title needs to be truncated to fit into the table column. This is a pretty
              * brute force method for doing so, but right now I can't find a better place for it.
              */
-            "SET title = " . $this->db->quote(substr($this->getTitle(), 0, 128), 'text') . ", " .
+            "SET title = " . $this->db->quote(mb_substr($this->getTitle(), 0, 128), 'text') . ", " .
             "last_update = " . $this->db->quote($utc_timestamp, 'timestamp') . ", " .
             "subtitle = " . $this->db->quote($this->getSubtitle(), 'text') . ", " .
             "description = " . $this->db->quote($this->getDescription(), 'text') . ", " .
@@ -365,7 +366,7 @@ class ilCalendarEntry implements ilDatePeriod
              * The title needs to be truncated to fit into the table column. This is a pretty
              * brute force method for doing so, but right now I can't find a better place for it.
              */
-            $this->db->quote(substr($this->getTitle(), 0, 128), 'text') . ", " .
+            $this->db->quote(mb_substr($this->getTitle(), 0, 128), 'text') . ", " .
             $this->db->quote($utc_timestamp, 'timestamp') . ", " .
             $this->db->quote($this->getSubtitle(), 'text') . ", " .
             $this->db->quote($this->getDescription(), 'text') . ", " .

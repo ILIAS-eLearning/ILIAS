@@ -25,7 +25,7 @@ declare(strict_types=1);
  */
 class ilForumModerators
 {
-    private \ILIAS\DI\RBACServices $rbac;
+    private readonly \ILIAS\DI\RBACServices $rbac;
 
     public function __construct(private int $ref_id)
     {

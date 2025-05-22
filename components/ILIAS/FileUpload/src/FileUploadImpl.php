@@ -31,8 +31,6 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\FileUpload\Processor\PreProcessor;
 use ILIAS\FileUpload\Processor\PreProcessorManager;
-use ILIAS\HTTP\Services;
-use Psr\Http\Message\UploadedFileInterface;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 use ILIAS\HTTP\GlobalHttpState;
@@ -47,19 +45,16 @@ use ilFileUtils;
  */
 final class FileUploadImpl implements FileUpload
 {
-    private PreProcessorManager $processorManager;
-    private Filesystems $filesystems;
-    private GlobalHttpState $globalHttpState;
-    private bool $processed;
-    private bool $moved;
+    private bool $processed = false;
+    private bool $moved = false;
     /**
      * @var UploadResult[] $uploadResult
      */
-    private array $uploadResult;
+    private array $uploadResult = [];
     /**
      * @var UploadResult[] $uploadResult
      */
-    private array $rejectedUploadResult;
+    private array $rejectedUploadResult = [];
     /**
      * @var FileStream[] $uploadStreams The uploaded streams have their temp urls (->getMetadata('uri') as an identifier.
      */
@@ -75,22 +70,15 @@ final class FileUploadImpl implements FileUpload
      * @param Filesystems         $filesystems      The Filesystems implementation which should be used.
      * @param GlobalHttpState     $globalHttpState  The http implementation which should be used to detect the uploaded files.
      */
-    public function __construct(PreProcessorManager $processorManager, Filesystems $filesystems, GlobalHttpState $globalHttpState)
+    public function __construct(private PreProcessorManager $processorManager, private Filesystems $filesystems, private GlobalHttpState $globalHttpState)
     {
-        $this->processorManager = $processorManager;
-        $this->filesystems = $filesystems;
-        $this->globalHttpState = $globalHttpState;
-        $this->processed = false;
-        $this->moved = false;
-        $this->uploadResult = [];
-        $this->rejectedUploadResult = [];
     }
 
     /**
      * @description This is the very last thing we can do if a preprocessor DENIEs an upload. This is a hard removal,
      * not beautiful, but it works.
      */
-    private function hardRemoveUpload(string $identifier, ProcessingStatus $status): void
+    private function hardRemoveUpload(string $identifier, ProcessingStatus $status): never
     {
         // we delete the file from the temporary directory and remove it from the global $_FILES array
         $file_stream = $this->uploadStreams[$identifier];
@@ -221,18 +209,13 @@ final class FileUploadImpl implements FileUpload
      */
     private function selectFilesystem(int $location): Filesystem
     {
-        switch ($location) {
-            case Location::CUSTOMIZING:
-                return $this->filesystems->customizing();
-            case Location::STORAGE:
-                return $this->filesystems->storage();
-            case Location::WEB:
-                return $this->filesystems->web();
-            case Location::TEMPORARY:
-                return $this->filesystems->temp();
-            default:
-                throw new \InvalidArgumentException("No filesystem found for location code \"$location\"");
-        }
+        return match ($location) {
+            Location::CUSTOMIZING => $this->filesystems->customizing(),
+            Location::STORAGE => $this->filesystems->storage(),
+            Location::WEB => $this->filesystems->web(),
+            Location::TEMPORARY => $this->filesystems->temp(),
+            default => throw new \InvalidArgumentException("No filesystem found for location code \"$location\""),
+        };
     }
 
 
@@ -273,7 +256,7 @@ final class FileUploadImpl implements FileUpload
             $metadata = new Metadata($file->getClientFilename(), $file->getSize(), $file->getClientMediaType());
             try {
                 $stream = Streams::ofPsr7Stream($file->getStream());
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $this->rejectFailedUpload($metadata);
                 continue;
             }

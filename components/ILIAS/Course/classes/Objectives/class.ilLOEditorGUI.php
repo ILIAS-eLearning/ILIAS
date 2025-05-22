@@ -41,6 +41,7 @@ class ilLOEditorGUI
     private ilLogger $logger;
 
     private ilObject $parent_obj;
+    private ilObjCourseGUI $parent_gui;
     private ilLOSettings $settings;
     private ilLanguage $lng;
     private ilCtrlInterface $ctrl;
@@ -54,12 +55,13 @@ class ilLOEditorGUI
 
     private int $test_type = self::TEST_TYPE_UNDEFINED;
 
-    public function __construct(ilObject $a_parent_obj)
+    public function __construct(ilObjCourseGUI $parent_gui)
     {
         global $DIC;
 
         $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->parent_obj = $a_parent_obj;
+        $this->parent_obj = $parent_gui->getObject();
+        $this->parent_gui = $parent_gui;
         $this->settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
 
         $cs = $DIC->contentStyle();
@@ -222,6 +224,11 @@ class ilLOEditorGUI
     public function getParentObject(): ilObject
     {
         return $this->parent_obj;
+    }
+
+    public function getParentGUI(): ilObjCourseGUI
+    {
+        return $this->parent_gui;
     }
 
     public function getSettings(): ilLOSettings
@@ -434,7 +441,9 @@ class ilLOEditorGUI
         $type_qa->addSubItem($start_q);
 
         $passed_mode = new ilRadioGroupInputGUI($this->lng->txt('crs_loc_settings_passed_mode'), 'passed_mode');
-        $passed_mode->setValue((string) $this->getSettings()->getPassedObjectiveMode());
+        $passed_mode->setValue(
+            (string) ($this->getSettings()->getPassedObjectiveMode() ?: ilLOSettings::HIDE_PASSED_OBJECTIVE_QST)
+        );
 
         $passed_mode->addOption(
             new ilRadioOption(
@@ -475,21 +484,7 @@ class ilLOEditorGUI
     {
         $this->tabs->activateSubTab('materials');
 
-        $parent_ref_id = $this->getParentObject()->getRefId();
-        $parent_type = $this->getParentObject()->getType();
-        $parent_gui_class = 'ilObj' . $parent_type . 'GUI';
-        $parent_gui = new $parent_gui_class('', $parent_ref_id, true, false);
-
-        $createble_object_types = $parent_gui->getCreatableObjectTypes(
-            ilObjectDefinition::MODE_REPOSITORY,
-        );
-
-        unset($createble_object_types['itgr']);
-
-        $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
-            $parent_gui->buildAddNewItemElements($createble_object_types)
-        );
-        $gui->render();
+        $this->parent_gui->renderAddNewItem('itgr');
 
         $this->tpl->setOnScreenMessage(
             'info',
@@ -820,7 +815,7 @@ class ilLOEditorGUI
         $this->ctrl->redirect($this, 'testOverview');
     }
 
-    protected function testAssignment(ilPropertyFormGUI $form = null): void
+    protected function testAssignment(?ilPropertyFormGUI $form = null): void
     {
         if ($this->getTestType() === ilLOSettings::TYPE_TEST_UNDEFINED) {
             $this->setTestType($this->initTestTypeFromQuery());
@@ -849,7 +844,7 @@ class ilLOEditorGUI
         );
     }
 
-    protected function testSettings(ilPropertyFormGUI $form = null): void
+    protected function testSettings(?ilPropertyFormGUI $form = null): void
     {
         $this->ctrl->setParameter($this, 'tt', $this->getTestType());
         switch ($this->getTestType()) {
@@ -1045,7 +1040,7 @@ class ilLOEditorGUI
         $this->showStatus(ilLOEditorStatus::SECTION_OBJECTIVES);
     }
 
-    protected function showObjectiveCreation(ilPropertyFormGUI $form = null): void
+    protected function showObjectiveCreation(?ilPropertyFormGUI $form = null): void
     {
         $this->tabs->activateSubTab('objectives');
         if (!$form instanceof ilPropertyFormGUI) {

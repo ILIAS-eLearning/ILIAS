@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,33 +16,40 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Survey\Execution;
 
 use ILIAS\Survey\InternalGUIService;
 use ILIAS\Survey\InternalDomainService;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class GUIService
 {
-    protected InternalGUIService $ui_service;
-    protected \ilObjectService $object_service;
-    protected InternalDomainService $domain_service;
+    protected static array $instance = [];
 
     public function __construct(
-        InternalGUIService $ui_service,
-        InternalDomainService $domain_service
+        protected InternalGUIService $ui_service,
+        protected InternalDomainService $domain_service
     ) {
-        $this->ui_service = $ui_service;
-        $this->domain_service = $domain_service;
     }
 
     public function request(): ExecutionGUIRequest
     {
-        return new ExecutionGUIRequest(
-            $this->ui_service->http(),
-            $this->domain_service->refinery()
-        );
+        return self::$instance["ex_request"] ??
+            self::$instance["ex_request"] = new ExecutionGUIRequest(
+                $this->ui_service->http(),
+                $this->domain_service->refinery()
+            );
+    }
+
+    public function launchGUI(
+        \ilObjSurvey $survey
+    ): LaunchGUI {
+        return self::$instance["launch_gui"][$survey->getId()] ??
+            self::$instance["launch_gui"][$survey->getId()] = new LaunchGUI(
+                $this->domain_service,
+                $this->ui_service,
+                $survey
+            );
     }
 }

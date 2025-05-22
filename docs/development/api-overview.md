@@ -29,39 +29,39 @@ Services provide general functionalities used in the modules or in other service
 
 **Persistence**
 
-- [Database](../../Services/Database/README.md): Database Access
-- [ActiveRecord](../../Services/ActiveRecord/README.md): Active Record
+- [Database](../../components/ILIAS/Database/README.md): Database Access
+- [ActiveRecord](../../components/ILIAS/ActiveRecord/README.md): Active Record
 
 **Processing**
 
-- [Cron](../../Services/Cron/README.md): Cron Job Management
+- [Cron](../../components/ILIAS/Cron/README.md): Cron Job Management
 
 **Objects and Repository**
 
-- [Object](../../Services/Object/README.md): Objects Service
-- [Conditions](../../Services/Conditions/README.md): Pre-Conditions for Repository Objects
+- [Object](../../components/ILIAS/Object/README.md): Objects Service
+- [Conditions](../../components/ILIAS/Conditions/README.md): Pre-Conditions for Repository Objects
 
 **Content and Output**
 
-- [Template Engine](../../Services/UICore/template-engine.md): Core Template Engine
-- [UI Controller](../../Services/UICore/ilctrl.md): User Interface Control Flow Management
+- [Template Engine](../../components/ILIAS/UICore/template-engine.md): Core Template Engine
+- [UI Controller](../../components/ILIAS/UICore/ilctrl.md): User Interface Control Flow Management
 - [Legacy UI](https://docu.ilias.de/goto_docu_st_64268_42.html): Beside the current [UI framework](../../src/UI/README.md) you will still find some legacy UI components in ILIAS code. Their documentation is still available in the development guide.
-- [COPage](../../Services/COPage/README.md): Page Content Editor
-- [AdvancedMetadata](../../Services/AdvancedMetaData/README.md): Advanced Metadata
-- [Excel](../../Services/Excel/README.md): Spreadsheet Service
+- [COPage](../../components/ILIAS/COPage/README.md): Page Content Editor
+- [AdvancedMetadata](../../components/ILIAS/AdvancedMetaData/README.md): Advanced Metadata
+- [Excel](../../components/ILIAS/Excel/README.md): Spreadsheet Service
 
 **Communication and Information**
 
-- [Mail](../../Services/Mail/README.md): Mail Service
-- [News](../../Services/News/README.md): News Service
-- [Task](../../Services/Tasks/README.md): (Derived) Tasks Service
-- [Like](../../Services/Like/README.md): Like Service
+- [Mail](../../components/ILIAS/Mail/README.md): Mail Service
+- [News](../../components/ILIAS/News/README.md): News Service
+- [Task](../../components/ILIAS/Tasks/README.md): (Derived) Tasks Service
+- [Like](../../components/ILIAS/Like/README.md): Like Service
 
 **Learning Outcomes**
 
-- [Certificate](../../Services/Certificate/README.md): Certificate Management
-- [LearningHistory](../../Services/LearningHistory/README.md): Learning History
-- [Skill](../../Services/Skill/README.md#api): Competence Management
+- [Certificate](../../components/ILIAS/Certificate/README.md): Certificate Management
+- [LearningHistory](../../components/ILIAS/LearningHistory/README.md): Learning History
+- [Skill](../../components/ILIAS/Skill/README.md#api): Competence Management
 
 
 ## Domain APIs

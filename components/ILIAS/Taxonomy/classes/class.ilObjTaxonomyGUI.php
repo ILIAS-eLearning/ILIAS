@@ -154,17 +154,6 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         $this->$cmd();
     }
 
-    /**
-     * Init creation forms
-     */
-    protected function initCreationForms(string $a_new_type): array
-    {
-        return array(
-            self::CFORM_NEW => $this->initCreateForm("tax")
-        );
-    }
-
-
     ////
     //// Features that work on the base of an assigned object (AO)
     ////
@@ -617,7 +606,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
             );
             if (!$tax_exp->handleCommand()) {
                 //$tpl->setLeftNavContent($tax_exp->getHTML());
-                $tpl->setContent($tax_exp->getHTML() . "&nbsp;");
+                $tpl->setContent($tax_exp->getHTML(true) . "&nbsp;");
             }
         }
     }

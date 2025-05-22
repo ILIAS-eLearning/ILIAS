@@ -52,7 +52,7 @@ class ilMultipleNestedOrderingElementsAdditionalIndexLevelRemover implements ilF
     protected function fetchIndentationsFromSubmitValues($values): array
     {
         if ($this->hasContentSubLevel($values) && $this->hasIndentationsSubLevel($values)) {
-            $actualValues = array();
+            $actualValues = [];
 
             foreach ($values['content'] as $key => $value) {
                 if (!isset($values['indentation'][$key])) {

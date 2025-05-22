@@ -45,7 +45,7 @@ class ilRatingCategoryGUI
     public function __construct(
         int $a_parent_id,
         $a_export_callback = null,
-        string $a_export_subobj_title = null
+        ?string $a_export_subobj_title = null
     ) {
         global $DIC;
 
@@ -115,7 +115,7 @@ class ilRatingCategoryGUI
     }
 
 
-    protected function initCategoryForm(int $a_id = null): ilPropertyFormGUI
+    protected function initCategoryForm(?int $a_id = null): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -152,7 +152,7 @@ class ilRatingCategoryGUI
         return $form;
     }
 
-    protected function add(ilPropertyFormGUI $a_form = null): void
+    protected function add(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -184,7 +184,7 @@ class ilRatingCategoryGUI
         $this->add($form);
     }
 
-    protected function edit(ilPropertyFormGUI $a_form = null): void
+    protected function edit(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;

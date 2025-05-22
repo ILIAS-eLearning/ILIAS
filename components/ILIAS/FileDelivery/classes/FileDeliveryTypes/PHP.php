@@ -39,17 +39,15 @@ final class PHP implements ilFileDeliveryType
      * @var resource
      */
     protected $file;
-    protected \ILIAS\HTTP\Services $httpService;
 
 
     /**
      * PHP constructor.
      *
-     * @param Services $httpState
+     * @param Services $httpService
      */
-    public function __construct(Services $httpState)
+    public function __construct(protected Services $httpService)
     {
-        $this->httpService = $httpState;
     }
 
 
@@ -68,11 +66,7 @@ final class PHP implements ilFileDeliveryType
     public function prepare(string $path_to_file, ?FileStream $possible_stream): bool
     {
         set_time_limit(0);
-        if ($possible_stream !== null) {
-            $this->file = $possible_stream->detach();
-        } else {
-            $this->file = fopen($path_to_file, 'rb');
-        }
+        $this->file = $possible_stream !== null ? $possible_stream->detach() : fopen($path_to_file, 'rb');
         return true;
     }
 

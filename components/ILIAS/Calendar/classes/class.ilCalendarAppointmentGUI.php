@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -251,9 +251,11 @@ class ilCalendarAppointmentGUI
         $this->form->addItem($dur);
 
         // recurrence
-        $rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'), 'frequence');
-        $rec->setRecurrence($this->rec);
-        $this->form->addItem($rec);
+        if (!$a_edit_single_app) {
+            $rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'), 'frequence');
+            $rec->setRecurrence($this->rec);
+            $this->form->addItem($rec);
+        }
 
         // location
         $where = new ilTextInputGUI($this->lng->txt('cal_where'), 'location');
@@ -282,7 +284,7 @@ class ilCalendarAppointmentGUI
             );
             $notu->setMulti(true, true);
             $notu->setInfo($this->lng->txt('cal_user_notification_info'));
-            $notu->setDataSource($ajax_url, ',');
+            $notu->setDataSource($ajax_url);
 
             $values = [];
             foreach ($this->notification->getRecipients() as $rcp) {
@@ -362,8 +364,16 @@ class ilCalendarAppointmentGUI
                 $this->refinery->kindlyTo()->string()
             );
         }
+        if ($query === '') {
+            if ($this->http->wrapper()->query()->has('term')) {
+                $query = $this->http->wrapper()->query()->retrieve(
+                    'term',
+                    $this->refinery->kindlyTo()->string()
+                );
+            }
+        }
         echo $auto->getList($query);
-        return null;
+        exit;
     }
 
     /**
@@ -417,7 +427,7 @@ class ilCalendarAppointmentGUI
         } else {
             $this->form->setValuesByPost();
             if ($this->error->getMessage() !== '') {
-            $this->tpl->setOnScreenMessage('failure', $this->error->getMessage());
+                $this->tpl->setOnScreenMessage('failure', $this->error->getMessage());
             } else {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             }
@@ -536,7 +546,7 @@ class ilCalendarAppointmentGUI
     /**
      * edit appointment
      */
-    protected function edit(bool $a_edit_single_app = false, ilPropertyFormGUI $form = null): void
+    protected function edit(bool $a_edit_single_app = false, ?ilPropertyFormGUI $form = null): void
     {
         $this->help->setScreenIdComponent("cal");
         $this->help->setScreenId("app");
@@ -1139,18 +1149,22 @@ class ilCalendarAppointmentGUI
                 $this->ctrl->returnToParent($this);
             }
 
-            ilConsultationHourUtils::bookAppointment($this->user->getId(), $entry);
-            ilBookingEntry::writeBookingMessage($entry, $this->user->getId(), $form->getInput('comment'));
+            ilConsultationHourUtils::bookAppointment($this->user->getId(), $entry, $form->getInput('comment'));
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_booking_confirmed'), true);
         $this->ctrl->returnToParent($this);
+    }
+
+    protected function deleteBooking(): void
+    {
+        $this->cancelBooking(false);
     }
 
     /**
      * Confirmation screen to cancel consultation appointment or ressource booking
      * depends on calendar category
      */
-    public function cancelBooking(): void
+    public function cancelBooking(bool $send_mail = true): void
     {
         $entry = $this->getAppointmentIdFromQuery();
         $entry = new ilCalendarEntry($entry);
@@ -1158,11 +1172,10 @@ class ilCalendarAppointmentGUI
         $category = $this->calendarEntryToCategory($entry);
         if ($category->getType() == ilCalendarCategory::TYPE_CH) {
             $booking = new ilBookingEntry($entry->getContextId());
-            if (!$booking->hasBooked($entry->getEntryId())) {
+            if (!$booking->hasBooked($entry->getEntryId()) && !$booking->isOwner()) {
                 $this->ctrl->returnToParent($this);
                 return;
             }
-
             $entry_title = ' ' . $entry->getTitle() . " (" . ilObjUser::_lookupFullname($booking->getObjId()) . ')';
         } elseif ($category->getType() == ilCalendarCategory::TYPE_BOOK) {
             $entry_title = ' ' . $entry->getTitle();
@@ -1170,24 +1183,37 @@ class ilCalendarAppointmentGUI
             $this->ctrl->returnToParent($this);
             return;
         }
-
         $title = ilDatePresentation::formatPeriod($entry->getStart(), $entry->getEnd());
-
         $conf = new ilConfirmationGUI();
         $conf->setFormAction($this->ctrl->getFormAction($this));
-        $conf->setHeaderText($this->lng->txt('cal_cancel_booking_info'));
-        $conf->setConfirm($this->lng->txt('cal_cancel_booking'), 'cancelconfirmed');
+        $conf->setHeaderText(
+            $send_mail ?
+                $this->lng->txt('cal_cancel_booking_info') :
+                $this->lng->txt('cal_delete_booking_info')
+        );
+        $conf->setConfirm(
+            $send_mail ?
+                $this->lng->txt('cal_cancel_booking') :
+                $this->lng->txt('delete'),
+            $send_mail ?
+                'cancelConfirmed' :
+                'deleteConfirmed'
+        );
         $conf->setCancel($this->lng->txt('cancel'), 'cancel');
         $conf->addItem('app_id', (string) $entry->getEntryId(), $title . ' - ' . $entry_title);
-
         $this->tpl->setContent($conf->getHTML());
+    }
+
+    protected function deleteConfirmed(): void
+    {
+        $this->cancelConfirmed(false);
     }
 
     /**
      * Cancel consultation appointment or ressource booking, was confirmed
      * This will delete the calendar entry
      */
-    public function cancelConfirmed(): void
+    public function cancelConfirmed(bool $send_mail = true): void
     {
         $app_id = 0;
         if ($this->http->wrapper()->post()->has('app_id')) {
@@ -1198,7 +1224,16 @@ class ilCalendarAppointmentGUI
         }
         $entry = new ilCalendarEntry($app_id);
         $category = $this->calendarEntryToCategory($entry);
-        if ($category->getType() == ilCalendarCategory::TYPE_CH) {
+        $booking = new ilBookingEntry($entry->getContextId());
+        if ($category->getType() == ilCalendarCategory::TYPE_CH && $booking->isOwner()) {
+            foreach ($booking->getCurrentBookings($entry->getEntryId()) as $bookuser) {
+                ilConsultationHourUtils::cancelBooking(
+                    $bookuser,
+                    (int) $app_id,
+                    $send_mail
+                );
+            }
+        } elseif ($category->getType() == ilCalendarCategory::TYPE_CH) {
             // find cloned calendar entry in user calendar
             $apps = ilConsultationHourAppointments::getAppointmentIds(
                 $this->user->getId(),

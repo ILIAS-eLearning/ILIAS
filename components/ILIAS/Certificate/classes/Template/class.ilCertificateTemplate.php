@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -34,7 +36,9 @@ class ilCertificateTemplate
         private readonly int $createdTimestamp,
         private readonly bool $currentlyActive,
         private readonly string $backgroundImagePath = '',
-        private readonly string $thumbnailImagePath = '',
+        private readonly string $tile_image_path = '',
+        private readonly string $backgroundIdentification = '',
+        private readonly string $tile_image_identification = '',
         private readonly ?int $id = null,
         private readonly bool $deleted = false
     ) {
@@ -85,6 +89,19 @@ class ilCertificateTemplate
         return $this->id;
     }
 
+    public function getCurrentBackgroundImageUsed(): string
+    {
+        if ($this->getBackgroundImageIdentification() === '' || $this->getBackgroundImageIdentification() === '-') {
+            return $this->getBackgroundImagePath();
+        }
+        return $this->getBackgroundImageIdentification();
+    }
+
+    public function getBackgroundImageIdentification(): string
+    {
+        return $this->backgroundIdentification;
+    }
+
     public function getBackgroundImagePath(): string
     {
         return $this->backgroundImagePath;
@@ -100,8 +117,21 @@ class ilCertificateTemplate
         return $this->deleted;
     }
 
-    public function getThumbnailImagePath(): string
+    public function getCurrentTileImageUsed(): string
     {
-        return $this->thumbnailImagePath;
+        if ($this->getTileImageIdentification() === '' || $this->getTileImageIdentification() === '-') {
+            return $this->getTileImagePath();
+        }
+        return $this->getTileImageIdentification();
+    }
+
+    public function getTileImageIdentification(): string
+    {
+        return $this->tile_image_identification;
+    }
+
+    public function getTileImagePath(): string
+    {
+        return $this->tile_image_path;
     }
 }

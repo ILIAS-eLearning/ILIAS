@@ -22,15 +22,12 @@ namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
-use ILIAS\UI\Component\Input\ViewControl\Factory as ViewControlFactory;
-use ILIAS\UI\Component\Input\Container\ViewControl\Factory as ViewControlContainerFactory;
+use ILIAS\UI\Implementation\Component\Input\ViewControl\Factory as ViewControlFactory;
+use ILIAS\UI\Implementation\Component\Input\Container\ViewControl\Factory as ViewControlContainerFactory;
 use ILIAS\Data\Factory as DataFactory;
 use Closure;
 use ILIAS\Data\URI;
 
-/**
- * Implementation of factory for tables
- */
 class Factory implements T\Factory
 {
     public function __construct(
@@ -38,30 +35,24 @@ class Factory implements T\Factory
         protected ViewControlFactory $view_control_factory,
         protected ViewControlContainerFactory $view_control_container_factory,
         protected DataFactory $data_factory,
-        protected T\Column\Factory $column_factory,
-        protected T\Action\Factory $action_factory,
+        protected Column\Factory $column_factory,
+        protected Action\Factory $action_factory,
         protected \ArrayAccess $storage,
         protected DataRowBuilder $data_row_builder,
         protected OrderingRowBuilder $ordering_row_builder
     ) {
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function presentation(string $title, array $view_controls, Closure $row_mapping): T\Presentation
+    public function presentation(string $title, array $view_controls, Closure $row_mapping): Presentation
     {
         return new Presentation($title, $view_controls, $row_mapping, $this->signal_generator);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function data(
+        T\DataRetrieval $data_retrieval,
         string $title,
         array $columns,
-        T\DataRetrieval $data_retrieval
-    ): T\Data {
+    ): Data {
         return new Data(
             $this->signal_generator,
             $this->view_control_factory,
@@ -75,31 +66,22 @@ class Factory implements T\Factory
         );
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function column(): T\Column\Factory
+    public function column(): Column\Factory
     {
         return $this->column_factory;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function action(): T\Action\Factory
+    public function action(): Action\Factory
     {
         return $this->action_factory;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function ordering(
+        T\OrderingRetrieval $ordering_retrieval,
+        URI $target_url,
         string $title,
         array $columns,
-        T\OrderingBinding $binding,
-        URI $target_url
-    ): T\Ordering {
+    ): Ordering {
         return new Ordering(
             $this->signal_generator,
             $this->view_control_factory,
@@ -107,7 +89,7 @@ class Factory implements T\Factory
             $this->ordering_row_builder,
             $title,
             $columns,
-            $binding,
+            $ordering_retrieval,
             $target_url,
             $this->storage
         );

@@ -26,6 +26,7 @@ use ILIAS\Repository\Trash\TrashGUIRequest;
  */
 class ilRepositoryTrashGUI
 {
+    protected \ILIAS\Repository\Deletion\Deletion $deletion;
     protected ilLanguage $lng;
     protected ilSetting $settings;
     protected ilCtrl $ctrl;
@@ -61,6 +62,7 @@ class ilRepositoryTrashGUI
             ->gui()
             ->trash()
             ->request();
+        $this->deletion = $DIC->repository()->internal()->domain()->deletion();
     }
 
     /**
@@ -88,7 +90,7 @@ class ilRepositoryTrashGUI
     }
 
     public function restoreToNewLocation(
-        ilPropertyFormGUI $form = null
+        ?ilPropertyFormGUI $form = null
     ): void {
         $this->lng->loadLanguageModule('rep');
 
@@ -216,12 +218,11 @@ class ilRepositoryTrashGUI
                 ? $lng->txt("icon") . " " . ilObjectPlugin::lookupTxtById($type, "obj_" . $type)
                 : $lng->txt("icon") . " " . $lng->txt("obj_" . $type);
 
-            $title .= $this->handleMultiReferences($obj_id, $ref_id, $form_name);
-
             $cgui->addItem(
                 "id[]",
                 $ref_id,
-                ilUtil::stripSlashes($title),
+                ilUtil::stripSlashes($title) .
+                $this->handleMultiReferences($obj_id, $ref_id, $form_name),
                 ilObject::_getIcon($obj_id, "small", $type),
                 $alt
             );
@@ -333,7 +334,6 @@ class ilRepositoryTrashGUI
                 );
                 $tpl->parseCurrentBlock();
             }
-
             return $tpl->get();
         }
         return "";
@@ -412,7 +412,7 @@ class ilRepositoryTrashGUI
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
         } else {
             try {
-                ilRepUtil::deleteObjects($a_cur_ref_id, $a_ref_ids);
+                $this->deletion->deleteObjectsByRefIds($a_ref_ids);
                 if ($ilSetting->get('enable_trash')) {
                     $this->tpl->setOnScreenMessage('success', $lng->txt("info_deleted"), true);
                 } else {
@@ -471,11 +471,11 @@ class ilRepositoryTrashGUI
                     $path .= " &raquo; ";
                 }
                 if ((int) $ref_id !== (int) $data['ref_id']) {
-                    $path .= $data['title'];
+                    $path .= ilUtil::stripSlashes($data['title']);
                 } else {
                     $path .= ('<a target="_top" href="' .
                               ilLink::_getLink($data['ref_id'], $data['type']) . '">' .
-                              $data['title'] . '</a>');
+                              ilUtil::stripSlashes($data['title']) . '</a>');
                 }
             }
 

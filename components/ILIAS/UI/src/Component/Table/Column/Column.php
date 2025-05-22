@@ -35,8 +35,8 @@ interface Column extends \ILIAS\UI\Component\Component
      * you may add custom labels to overwrite auto-generated labels for SortationViewControl
      */
     public function withOrderingLabels(
-        string $asc_label = null,
-        string $desc_label = null
+        ?string $asc_label = null,
+        ?string $desc_label = null
     ): self;
 
     public function withIsOptional(bool $is_optional, bool $is_initially_visible = true): self;

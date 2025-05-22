@@ -48,7 +48,7 @@ class assFileUploadTest extends assBaseTestCase
         $this->setGlobalVariable('ilias', $this->getIliasMock());
         $this->setGlobalVariable('ilDB', $this->getDatabaseMock());
         $this->setGlobalVariable('resource_storage', $this->getIRSSMock());
-        $this->setGlobalVariable('file_delivery', $this->getFileDeliveryMock());
+        $this->setGlobalVariable('file_delivery', $this->getFileDelivery());
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

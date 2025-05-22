@@ -18,9 +18,11 @@
 
 declare(strict_types=1);
 
-use ILIAS\Cron\Schedule\CronJobScheduleType as CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType as CronJobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
-class ilCalendarCronRemoteReader extends ilCronJob
+class ilCalendarCronRemoteReader extends CronJob
 {
     private const DEFAULT_SYNC_HOURS = 1;
 
@@ -83,7 +85,7 @@ class ilCalendarCronRemoteReader extends ilCronJob
 
     public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return \ILIAS\Cron\Schedule\CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES;
+        return CronJobScheduleType::IN_MINUTES;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -94,30 +96,30 @@ class ilCalendarCronRemoteReader extends ilCronJob
         return $this->calendar_settings->getWebCalSyncHours();
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
-        $status = ilCronJobResult::STATUS_NO_ACTION;
+        $status = JobResult::STATUS_NO_ACTION;
 
         $counter = 0;
         foreach (ilCalendarCategories::lookupRemoteCalendars() as $remoteCalendar) {
-            $status = ilCronJobResult::STATUS_CRASHED;
+            $status = JobResult::STATUS_CRASHED;
 
             $reader = new ilCalendarRemoteReader($remoteCalendar->getRemoteUrl());
             $reader->setUser($remoteCalendar->getRemoteUser());
             $reader->setPass($remoteCalendar->getRemotePass());
             try {
-            $reader->read();
-            $reader->import($remoteCalendar);
+                $reader->read();
+                $reader->import($remoteCalendar);
             } catch (Exception $e) {
                 $this->logger->warning('Remote Calendar: ' . $remoteCalendar->getCategoryID());
                 $this->logger->warning('Reading remote calendar failed with message: ' . $e->getMessage());
             }
             $remoteCalendar->setRemoteSyncLastExecution(new ilDateTime(time(), IL_CAL_UNIX));
             $remoteCalendar->update();
-            $status = ilCronJobResult::STATUS_OK;
+            $status = JobResult::STATUS_OK;
             ++$counter;
         }
-        $result = new ilCronJobResult();
+        $result = new JobResult();
         $result->setStatus($status);
         return $result;
     }

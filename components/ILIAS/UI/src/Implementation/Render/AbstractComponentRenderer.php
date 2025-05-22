@@ -24,13 +24,14 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Triggerer;
-use ILIAS\UI\Factory;
+use ILIAS\UI\Implementation\FactoryInternal;
 use ILIAS\UI\HelpTextRetriever;
 use ILIAS\UI\Help;
-use ilLanguage;
+use ILIAS\Language\Language;
 use InvalidArgumentException;
 use LogicException;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\UI\Renderer;
 
 /**
  * Base class for all component renderers.
@@ -44,11 +45,10 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
     private static array $component_storage;
 
     final public function __construct(
-        private Factory $ui_factory,
+        private FactoryInternal $ui_factory,
         private TemplateFactory $tpl_factory,
-        private ilLanguage $lng,
+        private Language $lng,
         private JavaScriptBinding $js_binding,
-        private \ILIAS\Refinery\Factory $refinery,
         private ImagePathResolver $image_path_resolver,
         private DataFactory $data_factory,
         private HelpTextRetriever $help_text_retriever,
@@ -69,7 +69,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
      *
      * This could be used to create and render subcomponents like close buttons, etc.
      */
-    final protected function getUIFactory(): Factory
+    final protected function getUIFactory(): FactoryInternal
     {
         return $this->ui_factory;
     }
@@ -77,11 +77,6 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
     final protected function getDataFactory(): DataFactory
     {
         return $this->data_factory;
-    }
-
-    final protected function getRefinery(): \ILIAS\Refinery\Factory
-    {
-        return $this->refinery;
     }
 
     final protected function getUploadLimitResolver(): UploadLimitResolver
@@ -248,39 +243,19 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
     }
 
     /**
-     * Check if a given component fits this renderer and throw \LogicError if that is not
-     * the case.
-     *
-     * @throws	LogicException		if component does not fit.
+     * This method MUST be called by derived component renderers, if @see ComponentRenderer::render()
+     * cannot handle the provided component.
      */
-    final protected function checkComponent(Component $component): void
+    final protected function cannotHandleComponent(Component $component): never
     {
-        $interfaces = $this->getComponentInterfaceName();
-        if (!is_array($interfaces)) {
-            throw new LogicException(
-                "Expected array, found '" . (string) (null) . "' when rendering."
-            );
-        }
-
-        foreach ($interfaces as $interface) {
-            if ($component instanceof $interface) {
-                return;
-            }
-        }
-        $ifs = implode(", ", $interfaces);
         throw new LogicException(
-            "Expected $ifs, found '" . get_class($component) . "' when rendering."
+            sprintf(
+                "%s could not render component %s",
+                static::class,
+                get_class($component)
+            )
         );
     }
-
-    /**
-     * Get the name of the component-interface this renderer is supposed to render.
-     *
-     * ATTENTION: Fully qualified please!
-     *
-     * @return string[]
-     */
-    abstract protected function getComponentInterfaceName(): array;
 
     /**
      * @return mixed
@@ -332,5 +307,10 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
     protected function convertSpecialCharacters(string $value): string
     {
         return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
+    }
+
+    public function getComponentCanonicalNameAttribute(Component $component): string
+    {
+        return str_replace(' ', '-', strtolower($component->getCanonicalName()));
     }
 }

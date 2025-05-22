@@ -1,19 +1,22 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
+declare(strict_types=1);
 
 /**
  * Singleton class that stores all security settings
@@ -50,6 +53,7 @@ class ilSecuritySettings
     public const DEFAULT_PASSWORD_MAX_LENGTH = 0;
     public const DEFAULT_PASSWORD_MAX_AGE = 90;
     public const DEFAULT_LOGIN_MAX_ATTEMPTS = 5;
+    public const MAX_LOGIN_ATTEMPTS = 99;
 
     public const DEFAULT_PASSWORD_CHANGE_ON_FIRST_LOGIN_ENABLED = false;
     public const DEFAULT_PREVENT_SIMULTANEOUS_LOGINS = false;
@@ -343,7 +347,7 @@ class ilSecuritySettings
      * @param ilPropertyFormGUI|null $a_form
      * @return int|null 0, if everything is ok, an error code otherwise
      */
-    public function validate(ilPropertyFormGUI $a_form = null): ?int
+    public function validate(?ilPropertyFormGUI $a_form = null): ?int
     {
         $code = null;
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author       Alexander Killing <killing@leifos.de>
@@ -106,7 +106,7 @@ class ilSurveyRaterGUI
     }
 
     protected function add(
-        ilPropertyFormGUI $form = null
+        ?ilPropertyFormGUI $form = null
     ): void {
         $form_html = (!is_null($form))
             ? $form->getHTML()
@@ -120,7 +120,6 @@ class ilSurveyRaterGUI
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("components/ILIAS/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
 
         //
@@ -256,7 +255,7 @@ class ilSurveyRaterGUI
     }
 
 
-    public function mailRaters(ilPropertyFormGUI $a_form = null): void
+    public function mailRaters(?ilPropertyFormGUI $a_form = null): void
     {
         $appr_id = $this->parent->handleRatersAccess();
         $this->ctrl->setParameterByClass("ilSurveyParticipantsGUI", "appr_id", $appr_id);
@@ -402,7 +401,7 @@ class ilSurveyRaterGUI
         }
 
         $form->setValuesByPost();
-//        $this->mailRatersObject($form);
+        //        $this->mailRatersObject($form);
     }
 
     public function addExternalRater(ilPropertyFormGUI $form): void

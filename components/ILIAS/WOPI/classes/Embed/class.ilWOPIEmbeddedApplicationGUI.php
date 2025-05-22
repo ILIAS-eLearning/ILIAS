@@ -17,8 +17,9 @@
  *********************************************************************/
 
 declare(strict_types=1);
-
-use ILIAS\components\WOPI\Launcher\LauncherRequest;
+use ILIAS\GlobalScreen\Services;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\Refinery\Factory;
 use ILIAS\components\WOPI\Embed\EmbeddedApplication;
 use ILIAS\components\WOPI\Embed\Renderer;
 use ILIAS\components\WOPI\Embed\EmbeddedApplicationGSProvider;
@@ -29,16 +30,44 @@ use ILIAS\components\WOPI\Embed\EmbeddedApplicationGSProvider;
 class ilWOPIEmbeddedApplicationGUI
 {
     public const CMD_EDIT = 'edit';
+    public const CMD_VIEW = 'view';
     public const CMD_RETURN = 'return';
     public const P_RETURN_TO = 'return_to';
+    /**
+     * @readonly
+     */
     private ilGlobalTemplateInterface $main_tpl;
+    /**
+     * @readonly
+     */
     private ilTabsGUI $tabs;
-    private \ILIAS\GlobalScreen\Services $global_screen;
+    /**
+     * @readonly
+     */
+    private Services $global_screen;
+    /**
+     * @readonly
+     */
     private Renderer $renderer;
+    /**
+     * @readonly
+     */
     private \ILIAS\UI\Renderer $ui_renderer;
-    private \ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $http;
-    private \ILIAS\Refinery\Factory $refinery;
+    /**
+     * @readonly
+     */
+    private ArrayBasedRequestWrapper $http;
+    /**
+     * @readonly
+     */
+    private Factory $refinery;
+    /**
+     * @readonly
+     */
     private ilCtrlInterface $ctrl;
+    /**
+     * @readonly
+     */
     private ilLanguage $lng;
 
     public function __construct(
@@ -61,7 +90,9 @@ class ilWOPIEmbeddedApplicationGUI
 
     public function executeCommand(): void
     {
-        $this->tabs->clearTargets();
+        if (!$this->application->isInline()) {
+            $this->tabs->clearTargets();
+        }
         $this->global_screen->tool()->context()->current()->addAdditionalData(
             EmbeddedApplicationGSProvider::EMBEDDED_APPLICATION,
             $this->application
@@ -72,8 +103,16 @@ class ilWOPIEmbeddedApplicationGUI
         match ($this->ctrl->getCmd()) {
             default => $this->edit(),
             self::CMD_EDIT => $this->edit(),
+            self::CMD_VIEW => $this->view(),
             self::CMD_RETURN => $this->return(),
         };
+    }
+
+    private function view(): void
+    {
+        $this->main_tpl->setContent(
+            $this->ui_renderer->render($this->renderer->getComponent())
+        );
     }
 
     private function edit(): void
@@ -86,7 +125,7 @@ class ilWOPIEmbeddedApplicationGUI
     private function return(): void
     {
         $return_to = $this->http->has(self::P_RETURN_TO)
-            ? hex2bin($this->http->retrieve(self::P_RETURN_TO, $this->refinery->kindlyTo()->string()))
+            ? hex2bin((string) $this->http->retrieve(self::P_RETURN_TO, $this->refinery->kindlyTo()->string()))
             : null;
 
         if ($return_to === null) {

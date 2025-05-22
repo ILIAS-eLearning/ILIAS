@@ -37,7 +37,7 @@ class ilPageObjectGUI
     public const PREVIEW = "preview";
     public const OFFLINE = "offline";
     public const PRINTING = "print";
-    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    protected \ILIAS\TestQuestionPool\Questions\PublicInterface $questioninfo;
     protected \ILIAS\COPage\Page\PageManager $pm;
     protected \ILIAS\COPage\Link\LinkManager $link;
     protected \ILIAS\COPage\InternalGUIService $gui;
@@ -85,7 +85,6 @@ class ilPageObjectGUI
     public bool $output2template = false;
     public string $link_params = "";
     public string $sourcecode_download_script = "";
-    public bool $change_comments = false;
     public bool $activation = false;
     public bool $activated = true;
     public bool $editpreview = false;
@@ -178,7 +177,7 @@ class ilPageObjectGUI
             ->page()
             ->editRequest();
 
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $this->questioninfo = $DIC->testQuestion();
 
         $this->requested_old_nr = $this->request->getInt("old_nr");
         $this->requested_transl = $this->request->getString("transl");
@@ -214,7 +213,6 @@ class ilPageObjectGUI
         $this->output2template = true;
 
         $this->template_output_var = "PAGE_CONTENT";
-        $this->change_comments = false;
         $this->page_back_title = $this->lng->txt("page");
         $this->lng->loadLanguageModule("content");
         $this->lng->loadLanguageModule("copg");
@@ -526,16 +524,6 @@ class ilPageObjectGUI
         $this->int_link_return = $a_return;
     }
 
-    public function enableChangeComments(bool $a_enabled): void
-    {
-        $this->change_comments = $a_enabled;
-    }
-
-    public function isEnabledChangeComments(): bool
-    {
-        return $this->change_comments;
-    }
-
     public function enableNotes(bool $a_enabled, int $a_parent_id): void
     {
         $this->notes_enabled = $a_enabled;
@@ -765,7 +753,7 @@ class ilPageObjectGUI
         ilObject $a_rep_obj,
         string $a_type,
         int $a_sub_obj_id,
-        object $a_observer_obj = null,
+        ?object $a_observer_obj = null,
         string $a_observer_func = ""
     ): void {
         $this->use_meta_data = true;
@@ -944,18 +932,17 @@ class ilPageObjectGUI
 
                 // set context tabs
                 $questionGUI = assQuestionGUI::_getQuestionGUI(
-                    $this->questioninfo->getQuestionType(
+                    $this->questioninfo->getGeneralQuestionProperties(
                         $this->requested_q_id
-                    ),
+                    )->getClassName(),
                     $this->requested_q_id
                 );
-                $questionGUI->object->setObjId(0);
-                $questionGUI->object->setSelfAssessmentEditingMode(true);
-                $questionGUI->object->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
+                $questionGUI->getObject()->setObjId(0);
+                $questionGUI->getObject()->setSelfAssessmentEditingMode(true);
+                $questionGUI->getObject()->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
 
                 // forward to ilAssQuestionFeedbackGUI
-                $gui = new ilAssQuestionFeedbackEditingGUI($questionGUI, $this->ctrl, $this->access, $this->tpl, $this->tabs_gui, $this->lng);
-                $this->ctrl->forwardCommand($gui);
+                (new ilQuestionEditGUI())->forwardToFeedbackEditGUI($questionGUI);
                 break;
 
 
@@ -976,8 +963,7 @@ class ilPageObjectGUI
                     $this->tabs_gui->addNonTabbedLink(
                         "pres_view",
                         $this->getViewPageText(),
-                        $this->getViewPageLink(),
-                        $this->getViewPageTarget()
+                        $this->getViewPageLink()
                     );
                 }
                 $ret = $this->$cmd();
@@ -1071,17 +1057,17 @@ class ilPageObjectGUI
 
         // jquery and jquery ui are always provided for components
         iljQueryUtil::initjQuery();
-        iljQueryUtil::initjQueryUI();
 
         //		$this->initSelfAssessmentRendering();
         ilObjMediaObjectGUI::includePresentationJS($main_tpl);
 
-        $main_tpl->addJavaScript("components/ILIAS/COPage/js/ilCOPagePres.js");
+        $debug = false;
+        if ($debug) {
+            $main_tpl->addJavaScript("../components/ILIAS/COPage/js/ilCOPagePres.js");
+        } else {
+            $main_tpl->addJavaScript("components/ILIAS/COPage/js/ilCOPagePres.js");
+        }
 
-        // needed for overlays in iim
-        ilOverlayGUI::initJavascript();
-
-        //ilPlayerUtil::initMediaElementJs($main_tpl);
 
         // init template
         if ($this->getOutputMode() == "edit") {
@@ -1097,13 +1083,6 @@ class ilPageObjectGUI
             $tpl = new ilTemplate("tpl.page_edit_wysiwyg.html", true, true, "components/ILIAS/COPage");
             // to do: status dependent class
             $tpl->setVariable("CLASS_PAGE_TD", "ilc_Page");
-
-            // user comment
-            if ($this->isEnabledChangeComments()) {
-                $tpl->setCurrentBlock("change_comment");
-                $tpl->setVariable("TXT_ADD_COMMENT", $this->lng->txt("cont_add_change_comment"));
-                $tpl->parseCurrentBlock();
-            }
 
             if ($this->getPageConfig()->getUsePageContainer()) {
                 $tpl->setVariable("PAGE_CONTAINER_CLASS", "ilc_page_cont_PageContainer");
@@ -1376,7 +1355,8 @@ class ilPageObjectGUI
                 true,
                 $link_xml . $template_xml . $this->getComponentPluginsXML(),
                 false,
-                $this->getStyleId()
+                $this->getStyleId(),
+                $this->getOutputMode() === "offline"
             );
         }
 
@@ -1736,7 +1716,7 @@ class ilPageObjectGUI
         $a_anchors = false,
         $a_save_new = true,
         $a_user_links = false,
-        \ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper = null
+        ?\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper = null
     ): string {
         global $DIC;
 
@@ -1744,6 +1724,8 @@ class ilPageObjectGUI
         $lng->loadLanguageModule("copg");
         $ctrl = $DIC->ctrl();
         $ui = $DIC->ui();
+
+        $ui->renderer()->renderAsync($ui->factory()->legacy(""));
 
         $style_service = $DIC->contentStyle()->internal();
         $style_access_manager = $style_service->domain()->access(
@@ -1766,16 +1748,38 @@ class ilPageObjectGUI
         };
 
         // character styles
-        $chars = array(
-            "Comment" => array("code" => "com", "txt" => $f("Comment", "com")),
-            "Quotation" => array("code" => "quot", "txt" => $f("Quotation", "quot")),
-            "Accent" => array("code" => "acc", "txt" => $f("Accent", "acc")),
-            "Code" => array("code" => "code", "txt" => $f("Code", "code"))
-        );
-        foreach (ilPCParagraphGUI::_getTextCharacteristics($a_style_id) as $c) {
+        $chars = [];
+        if ($a_style_id === 0) {
+            $chars = array(
+                "Comment" => array("code" => "com", "txt" => $f("Comment", "com")),
+                "Quotation" => array("code" => "quot", "txt" => $f("Quotation", "quot")),
+                "Accent" => array("code" => "acc", "txt" => $f("Accent", "acc")),
+                "Code" => array("code" => "code", "txt" => $f("Code", "code"))
+            );
+        }
+        foreach (ilPCParagraphGUI::_getTextCharacteristics($a_style_id, true) as $c) {
+            if (in_array($c, ["Strong", "Important", "Emph"])) {
+                continue;
+            }
             if (!isset($chars[$c])) {
                 $title = $char_manager->getPresentationTitle("text_inline", $c);
-                $chars[$c] = array("code" => "", "txt" => $title);
+                switch ($c) {
+                    case "CodeInline":
+                        $chars["Code"] = array("code" => "code", "txt" => $f("Code", "code"));
+                        break;
+                    case "Comment":
+                        $chars["Comment"] = array("code" => "com", "txt" => $f("Comment", "com"));
+                        break;
+                    case "Quotation":
+                        $chars["Quotation"] = array("code" => "quot", "txt" => $f("Quotation", "quot"));
+                        break;
+                    case "Accent":
+                        $chars["Accent"] = array("code" => "acc", "txt" => $f("Accent", "acc"));
+                        break;
+                    default:
+                        $chars[$c] = array("code" => "", "txt" => $title);
+                        break;
+                }
             }
         }
         $char_formats = [];
@@ -1872,7 +1876,7 @@ class ilPageObjectGUI
                         "action" => $char_formats,
                         "aria-label" => $lng->txt("copg_more_character_formats")
         ];
-        $c_formats[] = ["text" => '<i><b><u>T</u></b><sub>x</sub></i>',
+        $c_formats[] = ["text" => '<i><strong><u>T</u></strong><sub>x</sub></i>',
                         "action" => "selection.removeFormat",
                         "data" => [],
                         "aria-label" => $lng->txt("copg_remove_formats")
@@ -2033,7 +2037,7 @@ class ilPageObjectGUI
             $btpl->setCurrentBlock("par_edit");
             $btpl->setVariable("TXT_PAR_FORMAT", $lng->txt("cont_par_format"));
 
-            $btpl->setVariable("STYLE_SELECTOR", $ui->renderer()->render($dd));
+            $btpl->setVariable("STYLE_SELECTOR", $ui->renderer()->renderAsync($dd));
 
             $btpl->parseCurrentBlock();
         }
@@ -2042,7 +2046,7 @@ class ilPageObjectGUI
         $sel = new \SectionStyleSelector($ui_wrapper, $a_style_id);
         $dd = $sel->getStyleSelector(" ", $type = "par-action", $action = "sec.class", $attr = "class", true);
         $btpl->setVariable("TXT_BLOCK", $lng->txt("cont_sur_block_format"));
-        $btpl->setVariable("BLOCK_STYLE_SELECTOR", $ui->renderer()->render($dd));
+        $btpl->setVariable("BLOCK_STYLE_SELECTOR", $ui->renderer()->renderAsync($dd));
 
 
         $btpl->setVariable("TINY_HEADER", $lng->txt("cont_text_editing"));
@@ -2059,11 +2063,6 @@ class ilPageObjectGUI
 
         $btpl->setVariable("TXT_SAVING", $lng->txt("cont_saving"));
         $btpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("media/loader.svg"));
-        ilTooltipGUI::addTooltip(
-            "ilAdvSelListAnchorElement_char_style_selection",
-            $lng->txt("cont_more_character_styles"),
-            "iltinymenu_bd"
-        );
 
         return $btpl->get();
     }
@@ -2149,7 +2148,7 @@ class ilPageObjectGUI
             $mode = "fullscreen";
         }
 
-        //echo "<b>XML:</b>".htmlentities($xml);
+        //echo "XML:".htmlentities($xml);
         // determine target frames for internal links
         $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $enlarge_path = ilUtil::getImagePath("media/enlarge.svg");
@@ -2245,7 +2244,7 @@ class ilPageObjectGUI
                 $h["text"] = str_replace($page_toc_ph, "", $h["text"]);
 
                 $listing->node(
-                    $this->ui->factory()->legacy("<a href='#" . $h["anchor"] . "' class='ilc_page_toc_PageTOCLink'>" . $h["text"] . "</a>"),
+                    $this->ui->factory()->legacy()->content("<a href='#" . $h["anchor"] . "' class='ilc_page_toc_PageTOCLink'>" . $h["text"] . "</a>"),
                     (string) $i,
                     (string) ($par)
                 );
@@ -2427,7 +2426,7 @@ class ilPageObjectGUI
         // @todo: solve this in a smarter way
         $this->tpl->addJavaScript("assets/js/AdvancedSelectionList.js");
         \ilCalendarUtil::initDateTimePicker();
-        ilModalGUI::initJS();
+        // ilModalGUI::initJS();        // due to permission repo picker in sections, waits for new tree/repo picker
     }
 
     protected function showEditLockInfo(): void
@@ -2556,7 +2555,7 @@ class ilPageObjectGUI
     public function displayValidationError($a_error): void
     {
         if (is_array($a_error)) {
-            $error_str = "<b>Error(s):</b><br>";
+            $error_str = "<strong>Error(s):</strong><br>";
             foreach ($a_error as $error) {
                 $err_mess = implode(" - ", $error);
                 if (!is_int(strpos($err_mess, ":0:"))) {
@@ -2925,11 +2924,11 @@ class ilPageObjectGUI
      * Get html for public and/or private notes
      */
     public function getNotesHTML(
-        object $a_content_object = null,
+        ?object $a_content_object = null,
         bool $a_enable_private_notes = true,
         bool $a_enable_public_notes = false,
         bool $a_enable_notes_deletion = false,
-        callable $a_callback = null,
+        ?callable $a_callback = null,
         bool $export = false
     ): string {
         // scorm 2004 page gui

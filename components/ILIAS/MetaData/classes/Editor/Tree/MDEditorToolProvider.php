@@ -97,7 +97,7 @@ class MDEditorToolProvider extends AbstractDynamicToolProvider
                     $lng->txt('meta_lom_short')
                 )
             )
-            ->withContent($this->services->dic()->ui()->factory()->legacy(
+            ->withContent($this->services->dic()->ui()->factory()->legacy()->content(
                 $this->services->dic()->ui()->renderer()->render($this->getUITree(
                     $set,
                     $path

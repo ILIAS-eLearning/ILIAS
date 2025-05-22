@@ -3,7 +3,9 @@
 declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
 * Class for indexing hmtl ,pdf, txt files and htlm Learning modules.
@@ -13,7 +15,7 @@ use ILIAS\Cron\Schedule\CronJobScheduleType;
 *
 * @package ServicesSearch
 */
-class ilLuceneIndexer extends ilCronJob
+class ilLuceneIndexer extends CronJob
 {
     protected int $timeout = 60;
 
@@ -43,9 +45,9 @@ class ilLuceneIndexer extends ilCronJob
         return $this->lng->txt("cron_lucene_index_info");
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
+        return JobScheduleType::DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -63,9 +65,9 @@ class ilLuceneIndexer extends ilCronJob
         return true;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
-        $status = ilCronJobResult::STATUS_NO_ACTION;
+        $status = JobResult::STATUS_NO_ACTION;
         $error_message = null;
 
         try {
@@ -83,13 +85,13 @@ class ilLuceneIndexer extends ilCronJob
             }
         }
 
-        $result = new ilCronJobResult();
+        $result = new JobResult();
         if ($error_message) {
             // #16035 - currently no way to discern the severity of the exception
             $result->setMessage($error_message);
-            $status = ilCronJobResult::STATUS_FAIL;
+            $status = JobResult::STATUS_FAIL;
         } else {
-            $status = ilCronJobResult::STATUS_OK;
+            $status = JobResult::STATUS_OK;
         }
         $result->setStatus($status);
         return $result;

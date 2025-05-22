@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -386,6 +387,8 @@ class ilAuthProviderECS extends ilAuthProvider
 
         // Create user in DB
         $userObj->setOwner(6);
+        $tmp_date = new ilDateTime(time(), IL_CAL_UNIX);
+        $userObj->setAgreeDate($tmp_date->get(IL_CAL_DATETIME));
         $userObj->create();
         $userObj->setActive(true);
         $userObj->saveAsNew();

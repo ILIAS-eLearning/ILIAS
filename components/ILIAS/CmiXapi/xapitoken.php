@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 chdir("../../../");
 require_once 'vendor/composer/vendor/autoload.php';
@@ -99,7 +99,9 @@ try {
 
 function send($response): void
 {
-    header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
+    if (isset($_SERVER["HTTP_ORIGIN"]) && $_SERVER["HTTP_ORIGIN"] != "") {
+        header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
+    }
     header('Access-Control-Allow-Credentials: true');
     header('Content-type:application/json;charset=utf-8');
     echo json_encode($response);

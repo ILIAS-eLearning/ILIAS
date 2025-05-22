@@ -24,7 +24,7 @@ class ilBookingPrefBasedBookGatewayRepository
 {
     protected ilDBInterface $db;
 
-    public function __construct(ilDBInterface $db = null)
+    public function __construct(?ilDBInterface $db = null)
     {
         global $DIC;
 

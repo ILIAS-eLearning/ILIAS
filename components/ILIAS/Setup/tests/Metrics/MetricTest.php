@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Tests\Setup\Metrics;
 
@@ -260,16 +260,23 @@ METRIC;
     {
         $factory = $this->createMock(Factory::class);
         $listing_f = new LF();
-        $panel_f = new PF($listing_f);
+        $panel_f = new PF(
+            $listing_f,
+            new \ILIAS\UI\Implementation\Component\Panel\Secondary\Factory(),
+        );
         $signal = new SignalGenerator();
-        $legacy_f = new \ILIAS\UI\Implementation\Component\Legacy\Factory($signal);
-        $legacy = $legacy_f->legacy("<pre>string</pre>");
+        $legacy_f = $this->createMock(\ILIAS\UI\Implementation\Component\Legacy\Factory::class);
+        $legacy = $legacy_f->content("<pre>string</pre>");
+
+        $legacy_f
+            ->expects($this->once())
+            ->method("content")
+            ->willReturn($legacy);
 
         $factory
             ->expects($this->once())
             ->method("legacy")
-            ->with("<pre>" . "string" . "</pre>")
-            ->willReturn($legacy)
+            ->willReturn($legacy_f)
         ;
 
         $factory

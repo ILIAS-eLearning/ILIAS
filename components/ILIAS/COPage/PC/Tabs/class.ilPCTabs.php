@@ -48,7 +48,7 @@ class ilPCTabs extends ilPageContent
     }
 
     /**
-     * @param	string		$a_type		("HorizontalTabs" | "Accordion")
+     * @param string $a_type ("HorizontalTabs" | "Accordion")
      */
     public function setTabType(
         string $a_type = "HorizontalTabs"
@@ -122,7 +122,10 @@ class ilPCTabs extends ilPageContent
                     }
                 }
                 $captions[] = array("pos" => $k,
-                    "caption" => $current_caption, "pc_id" => $pc_id, "hier_id" => $hier_id);
+                                    "caption" => $current_caption,
+                                    "pc_id" => $pc_id,
+                                    "hier_id" => $hier_id
+                );
                 $k++;
             }
         }
@@ -422,6 +425,19 @@ class ilPCTabs extends ilPageContent
             return $xml;
         }
         return "";
+    }
+
+    public function modifyPageContentPostXsl(
+        string $a_output,
+        string $a_mode,
+        bool $a_abstract_only = false
+    ): string {
+        $debug = "";
+        //$debug = ".";
+        if ($a_mode !== "edit") {
+            $a_output .= '<script type="module" src="' . $debug . './components/ILIAS/COPage/PC/Tabs/js/presentation.js"></script>';
+        }
+        return $a_output;
     }
 
 }

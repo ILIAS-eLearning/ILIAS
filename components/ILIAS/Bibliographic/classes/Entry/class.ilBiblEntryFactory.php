@@ -27,22 +27,16 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
     protected int $entry_id;
     protected string $type;
     protected array $attributes;
-    protected \ilBiblTypeInterface $file_type;
-    protected \ilBiblFieldFactoryInterface $field_factory;
-    protected \ilBiblOverviewModelFactoryInterface $overview_factory;
     protected ilDBInterface $db;
 
 
     /**
      * ilBiblEntryFactory constructor.
      */
-    public function __construct(ilBiblFieldFactoryInterface $field_factory, \ilBiblTypeInterface $file_type, ilBiblOverviewModelFactoryInterface $overview_factory)
+    public function __construct(protected \ilBiblFieldFactoryInterface $field_factory, protected \ilBiblTypeInterface $file_type, protected \ilBiblOverviewModelFactoryInterface $overview_factory)
     {
         global $DIC;
         $this->db = $DIC->database();
-        $this->file_type = $file_type;
-        $this->field_factory = $field_factory;
-        $this->overview_factory = $overview_factory;
     }
 
     /**
@@ -50,16 +44,11 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
      */
     public function loadParsedAttributesByEntryId(int $entry_id): array
     {
-        $ilBiblEntry = ilBiblEntry::where(array('id' => $entry_id))->first();
+        $ilBiblEntry = ilBiblEntry::where(['id' => $entry_id])->first();
         $attributes = $this->getAllAttributesByEntryId($entry_id);
 
-        if ($this->file_type->getId() == ilBiblTypeFactoryInterface::DATA_TYPE_RIS) {
-            //for RIS-Files also add the type;
-            $type = $ilBiblEntry->getType();
-        } else {
-            $type = 'default';
-        }
-        $parsed_attributes = array();
+        $type = $this->file_type->getId() == ilBiblTypeFactoryInterface::DATA_TYPE_RIS ? $ilBiblEntry->getType() : 'default';
+        $parsed_attributes = [];
         foreach ($attributes as $attribute) {
             $value = $this->secure($attribute->getValue());
             // surround links with <a href="">
@@ -83,7 +72,7 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
     public function findByIdAndTypeString(int $id, string $type_string): ilBiblEntryInterface
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return ilBiblEntry::where(array('id' => $id))->first();
+        return ilBiblEntry::where(['id' => $id])->first();
     }
 
     /**
@@ -92,7 +81,7 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
     public function findOrCreateEntry(int $id, int $bibliographic_obj_id, string $entry_type): \ilBiblEntryInterface
     {
         $inst = $this->getARInstance($id);
-        if (!$inst) {
+        if ($inst === null) {
             $inst = $this->createEntry($bibliographic_obj_id, $entry_type);
         }
         $inst->setDataId($bibliographic_obj_id);
@@ -129,7 +118,7 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
     /**
      * @return \ilBiblEntryInterface[]
      */
-    public function filterEntriesForTable(int $object_id, ilBiblTableQueryInfo $info = null): array
+    public function filterEntriesForTable(int $object_id, ?ilBiblTableQueryInfo $info = null): array
     {
         $entries = $this->filterEntryIdsForTableAsArray($object_id, $info);
         $entry_objects = [];
@@ -188,7 +177,7 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
 
     public function deleteEntryById(int $id): void
     {
-        $entry = ilBiblEntry::where(array('id' => $id))->first();
+        $entry = ilBiblEntry::where(['id' => $id])->first();
         if ($entry instanceof ilBiblEntry) {
             $entry->delete();
         }
@@ -204,7 +193,7 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
      */
     public function getAllAttributesByEntryId(int $id): array
     {
-        return ilBiblAttribute::where(array('entry_id' => $id))->get();
+        return ilBiblAttribute::where(['entry_id' => $id])->get();
     }
 
     public function getFileType(): \ilBiblTypeInterface

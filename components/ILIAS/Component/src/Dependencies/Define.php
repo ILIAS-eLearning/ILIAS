@@ -36,4 +36,8 @@ class Define implements Dependency
     {
         return (string) $this->name;
     }
+
+    public function resetResolutions(): void
+    {
+    }
 }

@@ -20,10 +20,6 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class ilWhiteListUrlValidatorTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 final class ilWhiteListUrlValidatorTest extends TestCase
 {
     public static function domainProvider(): array

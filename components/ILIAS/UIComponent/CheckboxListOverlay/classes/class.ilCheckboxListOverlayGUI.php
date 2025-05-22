@@ -131,9 +131,37 @@ class ilCheckboxListOverlayGUI
             true
         );
 
-        $this->main_tpl->addOnLoadCode("$('#chkbxlstovl_" . $this->getId() . "').click(function(event){
-			event.stopPropagation();
-		});");
+        $this->main_tpl->addOnLoadCode("
+            const o = document.getElementById('chkbxlstovl_{$this->getId()}');
+            o.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+            let b;
+            const close = () => {
+                b.parentNode.classList.remove('open');
+                b.area_expanded = 'false';
+                document.removeEventListener('click', close);
+            }
+            const closeOnEscape = (e) => {
+                if (e.key === 'Escape') {
+                    close();
+                    document.removeEventListener('keydown', closeOnEscape);
+                }
+            }
+            o.previousElementSibling.addEventListener('click', (e) => {
+                e.stopPropagation();
+                b = e.target.closest('button');
+                if (b.parentNode.classList.contains('open')) {
+                    close();
+                    return;
+                }
+                b.parentNode.classList.add('open');
+                b.area_expanded = 'true';
+                document.body.click();
+                document.addEventListener('click', close);
+                document.addEventListener('keydown', closeOnEscape);
+            });
+        ");
 
         $tpl->touchBlock("top_img");
 

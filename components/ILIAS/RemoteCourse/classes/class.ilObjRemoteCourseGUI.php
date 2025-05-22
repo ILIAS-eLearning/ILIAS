@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -69,7 +70,7 @@ class ilObjRemoteCourseGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCl
     protected function addCustomEditForm(ilPropertyFormGUI $a_form): void
     {
         $radio_grp = new ilRadioGroupInputGUI($this->lng->txt('crs_visibility'), 'activation_type');
-        $radio_grp->setValue($this->object->getAvailabilityType());
+        $radio_grp->setValue((string) $this->object->getAvailabilityType());
         $radio_grp->setDisabled(true);
 
         $radio_opt = new ilRadioOption(

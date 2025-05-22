@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -185,7 +185,7 @@ class ilMemberExportGUI
         return $form;
     }
 
-    public function initCSV(ilPropertyFormGUI $a_form = null): void
+    public function initCSV(?ilPropertyFormGUI $a_form = null): void
     {
         if (!$a_form) {
             $a_form = $this->initSettingsForm();
@@ -193,7 +193,7 @@ class ilMemberExportGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    public function initExcel(ilPropertyFormGUI $a_form = null): void
+    public function initExcel(?ilPropertyFormGUI $a_form = null): void
     {
         if (!$a_form) {
             $a_form = $this->initSettingsForm(true);

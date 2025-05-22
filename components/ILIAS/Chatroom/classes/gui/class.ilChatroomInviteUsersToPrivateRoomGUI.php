@@ -56,7 +56,7 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
         $room->sendInvitationNotification($this->gui, $chat_user, $invited_id);
 
         if ('asynch' === $this->getRequestValue('cmdMode', $this->refinery->kindlyTo()->string())) {
-            $this->sendResponse($response);
+            $this->sendResponse($response, 'application/json');
         }
         $this->ilCtrl->redirect($this->gui, 'view');
     }
@@ -87,6 +87,6 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
         $auto->setResultField('login');
         $auto->enableFieldSearchableCheck(true);
 
-        $this->sendResponse($auto->getList($query), true);
+        $this->sendResponse($auto->getList($query), 'application/json');
     }
 }

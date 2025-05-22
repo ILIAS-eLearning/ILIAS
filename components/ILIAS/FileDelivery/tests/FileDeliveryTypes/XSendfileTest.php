@@ -20,6 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\FileDelivery\FileDeliveryTypes;
 
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\BackupStaticProperties;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\HTTP\Services;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -29,16 +35,14 @@ use ILIAS\FileDelivery\FileDeliveryTypes\XSendfile;
  * Class XSendfile
  *
  * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
- *
- * @runInSeparateProcess
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
  */
+#[BackupGlobals(false)]
+#[BackupStaticProperties(false)]
+#[PreserveGlobalState(false)]
 class XSendfileTest extends TestCase
 {
     /**
-     * @var Services|\PHPUnit\Framework\MockObject\MockObject
+     * @var Services|MockObject
      */
     public Services $httpServiceMock;
 
@@ -52,9 +56,7 @@ class XSendfileTest extends TestCase
                                       ->getMock();
     }
 
-    /**
-     * @Test
-     */
+    #[Test]
     public function testSendFileWithXSendHeaderWhichShouldSucceed(): void
     {
         $expectedHeader = 'X-Sendfile';

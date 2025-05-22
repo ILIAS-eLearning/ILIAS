@@ -22,21 +22,19 @@ namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\TopLegacyItemRenderer;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Content;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
- * Class TopLegacyItem
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTitle, hasContentLanguage
 {
     use ContentLanguage;
-    use \ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
 
     protected ?Symbol $symbol = null;
     protected string $title = "";
-    protected ?Legacy $content = null;
+    protected ?Content $content = null;
 
     /**
      * @inheritDoc
@@ -93,7 +91,7 @@ class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
         return $this->title;
     }
 
-    public function withLegacyContent(Legacy $content): self
+    public function withLegacyContent(Content $content): self
     {
         $clone = clone $this;
         $clone->content = $content;
@@ -104,7 +102,7 @@ class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
     /**
      * @return Legacy
      */
-    public function getLegacyContent(): Legacy
+    public function getLegacyContent(): Content
     {
         return $this->content;
     }

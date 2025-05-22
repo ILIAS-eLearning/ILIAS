@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
@@ -30,14 +30,8 @@ class ilObjSystemCheckGUI extends ilObjectGUI
     protected const SECTION_MAIN = 'main';
     protected const SECTION_GROUP = 'group';
 
-    protected GlobalHttpState $http;
-    protected Factory $refinery;
-
     public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
     {
-        global $DIC;
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
         $this->type = 'sysc';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule('sysc');
@@ -175,7 +169,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         return true;
     }
 
-    protected function trash(ilPropertyFormGUI $form = null): void
+    protected function trash(?ilPropertyFormGUI $form = null): void
     {
         $this->checkPermission('write');
 

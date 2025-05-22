@@ -26,15 +26,11 @@ declare(strict_types=1);
  */
 class ilPDOStatement implements ilDBStatement
 {
-    protected \PDOStatement $pdo_statement;
-
-
     /**
      * @param $pdo_statement PDOStatement The PDO Statement to be wrapped.
      */
-    public function __construct(PDOStatement $pdo_statement)
+    public function __construct(protected \PDOStatement $pdo_statement)
     {
-        $this->pdo_statement = $pdo_statement;
     }
 
 
@@ -42,7 +38,7 @@ class ilPDOStatement implements ilDBStatement
      * @return mixed
      * @throws ilDatabaseException
      */
-    public function fetchRow(int $fetch_mode = ilDBConstants::FETCHMODE_ASSOC)
+    public function fetchRow(int $fetch_mode = ilDBConstants::FETCHMODE_ASSOC): mixed
     {
         if ($fetch_mode === ilDBConstants::FETCHMODE_ASSOC) {
             return $this->pdo_statement->fetch(PDO::FETCH_ASSOC);
@@ -59,7 +55,7 @@ class ilPDOStatement implements ilDBStatement
     /**
      * @return mixed
      */
-    public function fetch(int $fetch_mode = ilDBConstants::FETCHMODE_ASSOC)
+    public function fetch(int $fetch_mode = ilDBConstants::FETCHMODE_ASSOC): mixed
     {
         return $this->fetchRow($fetch_mode);
     }
@@ -98,7 +94,7 @@ class ilPDOStatement implements ilDBStatement
     }
 
 
-    public function execute(array $a_data = null): ilDBStatement
+    public function execute(?array $a_data = null): ilDBStatement
     {
         $this->pdo_statement->execute($a_data);
 

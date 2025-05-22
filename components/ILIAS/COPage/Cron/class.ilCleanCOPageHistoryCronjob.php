@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,13 +16,17 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\COPage\History\HistoryManager;
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilCleanCOPageHistoryCronjob extends ilCronJob
+class ilCleanCOPageHistoryCronjob extends CronJob
 {
     protected HistoryManager $history_manager;
     protected ilSetting $settings;
@@ -64,9 +66,9 @@ class ilCleanCOPageHistoryCronjob extends ilCronJob
         return $lng->txt("copg_history_cleanup_cron_info");
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
+        return JobScheduleType::DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -89,22 +91,22 @@ class ilCleanCOPageHistoryCronjob extends ilCronJob
         return true;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
         global $DIC;
 
         $log = ilLoggerFactory::getLogger("copg");
         $log->debug("----- Delete old page history entries, Start -----");
 
-        $status = ilCronJobResult::STATUS_NO_ACTION;
-        $result = new ilCronJobResult();
+        $status = JobResult::STATUS_NO_ACTION;
+        $result = new JobResult();
 
         $x_days = $this->getCronDays();
         $keep_entries = $this->getKeepEntries();
         $log->debug("... $x_days days, keep $keep_entries");
 
         if ($this->history_manager->deleteOldHistoryEntries($x_days, $keep_entries)) {
-            $status = ilCronJobResult::STATUS_OK;
+            $status = JobResult::STATUS_OK;
         }
 
         $log->debug("----- Delete old page history entries, End -----");

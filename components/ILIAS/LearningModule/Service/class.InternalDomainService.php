@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,39 +16,47 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\LearningModule;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
+use ilLMTree;
+use ILIAS\LearningModule\Table\SubObjectRetrieval;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalDomainService
 {
     use GlobalDICDomainServices;
 
-    protected InternalRepoService $repo_service;
-    protected InternalDataService $data_service;
+    protected static array $instance = [];
 
     public function __construct(
         Container $DIC,
-        InternalRepoService $repo_service,
-        InternalDataService $data_service
+        protected InternalRepoService $repo,
+        protected InternalDataService $data
     ) {
-        $this->repo_service = $repo_service;
-        $this->data_service = $data_service;
         $this->initDomainServices($DIC);
     }
 
-    /*
-    public function access(int $ref_id, int $user_id) : Access\AccessManager
+    public function lmTree(int $lm_id): \ilLMTree
     {
-        return new Access\AccessManager(
-            $this,
-            $this->access,
-            $ref_id,
-            $user_id
-        );
-    }*/
+        return self::$instance["tree"][$lm_id] ??= new \ilLMTree($lm_id);
+    }
+
+    public function subObjectRetrieval(
+        int $lm_id,
+        string $type,
+        int $current_node,
+        string $lang
+    ): SubObjectRetrieval {
+        return self::$instance["sub_obj_retrieval"][$lm_id][$type][$current_node] ??=
+            new SubObjectRetrieval(
+                $this->lmTree($lm_id),
+                $type,
+                $current_node,
+                $lang
+            );
+    }
+
 }

@@ -479,7 +479,7 @@ abstract class ilECSObjectSettings
      * @param array $a_mids
      * @throws ilECSConnectorException
      */
-    protected function doUpdate(ilECSSetting $a_server, ilECSExport $a_export_settings, array $a_mids = null): void
+    protected function doUpdate(ilECSSetting $a_server, ilECSExport $a_export_settings, ?array $a_mids = null): void
     {
         $econtent_id = $a_export_settings->getEContentId();
         if (!$econtent_id) {

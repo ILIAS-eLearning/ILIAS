@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,60 +16,52 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Style\Content;
 
 use ILIAS\DI\Container;
 
-/**
- * Content style internal service
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalService
 {
-    protected InternalDataService $data;
-    protected InternalRepoService $repo;
-    protected InternalDomainService $domain;
-    protected InternalGUIService $gui;
+    protected static array $instance = [];
+    protected Container $DIC;
 
     public function __construct(Container $DIC)
     {
-        $this->data = new InternalDataService();
-
-        $this->repo = new InternalRepoService(
-            $this->data(),
-            $DIC->database(),
-            $DIC->filesystem()->web(),
-            $DIC->upload()
-        );
-        $this->domain = new InternalDomainService(
-            $DIC,
-            $this->repo,
-            $this->data
-        );
-        $this->gui = new InternalGUIService(
-            $DIC,
-            $this->data,
-            $this->domain
-        );
+        $this->DIC = $DIC;
     }
 
     public function data(): InternalDataService
     {
-        return $this->data;
+        return self::$instance["data"] ??= new InternalDataService();
     }
 
     public function repo(): InternalRepoService
     {
-        return $this->repo;
+        return self::$instance["repo"] ??= new InternalRepoService(
+            $this->data(),
+            $this->DIC->database(),
+            $this->DIC->filesystem()->web(),
+            $this->DIC->upload()
+        );
     }
 
     public function domain(): InternalDomainService
     {
-        return $this->domain;
+        return self::$instance["domain"] ??= new InternalDomainService(
+            $this->DIC,
+            $this->repo(),
+            $this->data()
+        );
     }
 
     public function gui(): InternalGUIService
     {
-        return $this->gui;
+        return self::$instance["gui"] ??= new InternalGUIService(
+            $this->DIC,
+            $this->data(),
+            $this->domain()
+        );
     }
 }

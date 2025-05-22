@@ -37,7 +37,7 @@ class ilBuddySystemRelationStateFactory
         global $DIC;
 
         if (null === self::$instance) {
-            $lng = $lng ?? $DIC['lng'];
+            $lng ??= $DIC['lng'];
 
             self::$instance = new self($lng);
         }

@@ -1,30 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 /**
- * login script for ilias
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author Sascha Hofmann <saschahofmann@gmx.de>
- * @author Peter Gabriel <pgabriel@databay.de>
- * @version $Id$
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
- * @package ilias-layout
- */
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-require_once '../vendor/composer/vendor/autoload.php';
+declare(strict_types=1);
 
-// jump to setup if ILIAS3 is not installed
-if (!file_exists(getcwd() . "/../ilias.ini.php")) {
-    header("Location: ./cli/setup.php");
-    exit();
+if (!file_exists('../ilias.ini.php')) {
+    die('The ILIAS setup is not completed. Please run the setup routine.');
 }
 
-ilInitialisation::initILIAS();
+require_once '../vendor/composer/vendor/autoload.php';
+require_once __DIR__ . '/../artifacts/bootstrap_default.php';
+entry_point('ILIAS Legacy Initialisation Adapter');
 
-// @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-// $ilCtrl->setCmd('showLoginPageOrStartupPage');
-$ilCtrl->callBaseClass('ilStartUpGUI');
-$ilBench->save();
-
-exit;
+global $DIC;
+ilStartUpGUI::setForcedCommand('showLoginPageOrStartupPage');
+$DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
+$DIC['ilBench']->save();
+exit();

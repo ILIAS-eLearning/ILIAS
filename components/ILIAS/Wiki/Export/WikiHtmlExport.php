@@ -20,6 +20,7 @@ namespace ILIAS\Wiki\Export;
 
 use ILIAS\User\Export\UserHtmlExport;
 use ilFileUtils;
+use ILIAS\components\Export\HTML\ExportCollector;
 
 /**
  * Wiki HTML exporter class
@@ -31,6 +32,8 @@ class WikiHtmlExport
     public const MODE_COMMENTS = "html_comments";
     public const MODE_USER = "user_html";
     public const MODE_USER_COMMENTS = "user_html_comments";
+    protected \ILIAS\components\Export\HTML\ExportCollector $collector;
+    protected \ILIAS\Export\HTML\ExternalDomainService $html_export;
     protected \ILIAS\components\Export\HTML\Util $export_util;
 
     protected \ilDBInterface $db;
@@ -66,6 +69,7 @@ class WikiHtmlExport
             ->contentStyle()
             ->domain()
             ->styleForRefId($a_wiki->getRefId());
+        $this->html_export = $DIC->export()->domain()->html();
     }
 
     public function setMode(
@@ -84,7 +88,7 @@ class WikiHtmlExport
      * @throws \ilTemplateException
      * @throws \ilWikiExportException
      */
-    public function buildExportFile(bool $print_version = false): string
+    public function buildExportFile(bool $print_version = false): ExportCollector
     {
         $global_screen = $this->global_screen;
         $ilDB = $this->db;
@@ -100,14 +104,14 @@ class WikiHtmlExport
 
         $ascii_name = str_replace(" ", "_", ilFileUtils::getASCIIFilename($this->wiki->getTitle()));
 
-        // create export file
+        /*
         \ilExport::_createExportDirectory($this->wiki->getId(), $this->getMode(), "wiki");
         $exp_dir =
             \ilExport::_getExportDirectory($this->wiki->getId(), $this->getMode(), "wiki");
 
         if (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS])) {
             ilFileUtils::delDir($exp_dir, true);
-        }
+        }*/
 
         if (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS])) {
             $subdir = $ascii_name;
@@ -119,21 +123,34 @@ class WikiHtmlExport
             $subdir .= "print";
         }
 
-        $this->export_dir = $exp_dir . "/" . $subdir;
+        //$this->export_dir = $exp_dir . "/" . $subdir;
 
-        $this->export_util = new \ILIAS\components\Export\HTML\Util($exp_dir, $subdir);
+
+        $date = time();
+        $zip_file_name = (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS]))
+            ? $ascii_name . ".zip"
+            : $date . "__" . IL_INST_ID . "__" . $this->wiki->getType() . "_" . $this->wiki->getId() . ".zip";
+
+        $this->collector = $this->html_export->collector($this->wiki->getId());
+        $this->collector->init($zip_file_name);
+
+        $this->export_util = new \ILIAS\components\Export\HTML\Util("", "", $this->collector);
+        $this->co_page_html_export = new \ilCOPageHTMLExport("", null, 0, $this->collector);
 
         // initialize temporary target directory
-        ilFileUtils::delDir($this->export_dir);
-        ilFileUtils::makeDir($this->export_dir);
+        //ilFileUtils::delDir($this->export_dir);
+        //ilFileUtils::makeDir($this->export_dir);
 
-        $this->log->debug("export directory: " . $this->export_dir);
+        //$this->log->debug("export directory: " . $this->export_dir);
 
 
-        $this->export_util->exportSystemStyle();
+        $this->export_util->exportSystemStyle(
+            [
+                "icon_wiki.svg"
+            ]
+        );
         $eff_style_id = $this->content_style_domain->getEffectiveStyleId();
         $this->export_util->exportCOPageFiles($eff_style_id, "wiki");
-        $this->co_page_html_export = new \ilCOPageHTMLExport($this->export_dir);
         $this->co_page_html_export->setContentStyleId($eff_style_id);
 
         // export pages
@@ -150,16 +167,13 @@ class WikiHtmlExport
         } else {
             $this->exportHTMLPages();
         }
-        $this->exportUserImages();
+        //$this->exportUserImages();
 
         $this->export_util->exportResourceFiles();
 
-        $date = time();
-        $zip_file_name = (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS]))
-            ? $ascii_name . ".zip"
-            : $date . "__" . IL_INST_ID . "__" . $this->wiki->getType() . "_" . $this->wiki->getId() . ".zip";
 
         // zip everything
+        /*
         if (true) {
             // zip it all
             $zip_file = \ilExport::_getExportDirectory($this->wiki->getId(), $this->getMode(), "wiki") .
@@ -171,8 +185,8 @@ class WikiHtmlExport
             $this->log->debug("zip, export file: " . $zip_file);
             ilFileUtils::zip($this->export_dir, $zip_file);
             ilFileUtils::delDir($this->export_dir);
-        }
-        return $zip_file;
+        }*/
+        return $this->collector;
     }
 
     /**
@@ -231,19 +245,19 @@ class WikiHtmlExport
         $print_view = $wiki_gui->getPrintView(true);
         $print_view->setOffline(true);
         $html = $print_view->renderPrintView();
-        file_put_contents($this->export_dir . "/index.html", $html);
+        $this->collector->addString($html, "index.html");
     }
 
     /**
      * Export user images
      */
-    protected function exportUserImages(): void
+    /*protected function exportUserImages(): void
     {
         if (in_array($this->getMode(), [self::MODE_COMMENTS, self::MODE_USER_COMMENTS])) {
             $user_export = new \ILIAS\Notes\Export\UserImageExporter();
             $user_export->exportUserImagesForRepObjId($this->export_dir, $this->wiki->getId());
         }
-    }
+    }*/
 
     /**
      * Callback for updating the export status during elements export (media objects, files, ...)
@@ -273,12 +287,13 @@ class WikiHtmlExport
         $ilTabs->clearTargets();
 
         //$this->tpl->loadStandardTemplate();
-        $file = $this->export_dir . "/wpg_" . $a_page_id . ".html";
+        $file = "wpg_" . $a_page_id . ".html";
         // return if file is already existing
+        /*
         if (is_file($file)) {
             $this->log->debug("file already exists");
             return;
-        }
+        }*/
 
         // page
         $this->log->debug("init page gui");
@@ -321,24 +336,25 @@ class WikiHtmlExport
         $content = $tpl->printToString();
 
         // open file
-        $this->log->debug("write file: " . $file);
+        /*$this->log->debug("write file: " . $file);
         if (!($fp = fopen($file, 'wb+'))) {
             $this->log->error("Could not open " . $file . " for writing.");
             throw new \ilWikiExportException("Could not open \"" . $file . "\" for writing.");
-        }
+        }*/
 
         // set file permissions
-        $this->log->debug("set permissions");
-        chmod($file, 0770);
+        /*$this->log->debug("set permissions");
+        chmod($file, 0770);*/
 
         // write xml data into the file
-        fwrite($fp, $content);
+        //fwrite($fp, $content);
+        $this->collector->addString($content, $file);
 
         // close file
-        fclose($fp);
+        //fclose($fp);
 
         if ($this->wiki->getStartPage() === $wpg_gui->getPageObject()->getTitle()) {
-            copy($file, $this->export_dir . "/index.html");
+            $this->collector->addString($content, "index.html");
         }
     }
 

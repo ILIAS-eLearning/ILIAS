@@ -30,15 +30,9 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
-        global $DIC;
         parent::setUp();
 
-        $this->addGlobal_ilDB();
         $this->addGlobal_ilUser();
-        $this->addGlobal_lng();
-        $this->addGlobal_tpl();
-        $this->addGlobal_ilComponentRepository();
-        $this->addGlobal_ilComponentFactory();
 
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock
@@ -49,7 +43,13 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("ilCtrl", $ctrl_mock);
 
         $test_gui = $this->getMockBuilder(ilObjTestVerificationGUI::class)->disableOriginalConstructor()->getMock();
-        $this->tableGui = new ilTestVerificationTableGUI($test_gui, '', $DIC['ilDB'], $DIC['ilUser'], new NullLogger());
+        $this->tableGui = new ilTestVerificationTableGUI(
+            $test_gui,
+            '',
+            $this->createMock(ilDBInterface::class),
+            $this->createMock(ilObjUser::class),
+            $this->createMock(\ILIAS\Test\Logging\TestLogger::class)
+        );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

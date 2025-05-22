@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -36,19 +35,26 @@ class ilPollExporter extends ilXmlExporter
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
     public function getValidSchemaVersions(string $a_entity): array
     {
         return [
+            "10.0" => [
+                "namespace" => "http://www.ilias.de/Services/Modules/Poll/10_0",
+                "xsd_file" => "ilias_poll_10_0.xsd",
+                "uses_dataset" => true,
+                "min" => "10.0",
+                "max" => ""
+            ],
             "5.0.0" => [
                 "namespace" => "http://www.ilias.de/Services/Modules/Poll/5_0",
                 "xsd_file" => "ilias_poll_5_0.xsd",
                 "uses_dataset" => true,
                 "min" => "5.0.0",
-                "max" => ""
+                "max" => "9.99"
             ],
             "4.3.0" => [
                 "namespace" => "http://www.ilias.de/Services/Modules/Poll/4_3",

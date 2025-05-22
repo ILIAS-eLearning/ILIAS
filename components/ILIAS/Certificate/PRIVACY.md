@@ -10,13 +10,13 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
   can enable the "Certificate Service" globally.
 - If the "Certificate Service" is globally activated then the object types
 
-      - Modules/Course
-      - Modules/StudyProgramme
-      - Modules/Exercise
-      - Modules/Test
-      - Modules/ScormAicc
-      - Modules/CmiXapi
-      - Modules/LTIConsumer
+      - ILIAS/Course
+      - ILIAS/StudyProgramme
+      - ILIAS/Exercise
+      - ILIAS/Test
+      - ILIAS/ScormAicc
+      - ILIAS/CmiXapi
+      - ILIAS/LTIConsumer
 
   feature an additional sub-tab "Certificate" in the "Settings" tab.
 - Accounts with the permission "Edit Settings" for these particular objects can configure and activate certificates.

@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Util\Archive;
 
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\Filesystem\Stream\FileStream;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 
 /**
@@ -59,42 +56,42 @@ trait PathHelper
 
             return preg_replace("/\/+/", "/", "$a/$b");
         });
-        return trim($path, "/");
+        return trim((string) $path, "/");
     }
 
     protected function normalizePath($path, $separator = '\\/'): string
     {
         // if the ZIP name ist just a ../name.zip we stop here since it's hard to generate to real path for that.
         // consumers must adopt their code
-        if (str_starts_with($path, '..')) {
+        if (str_starts_with((string) $path, '..')) {
             throw new \InvalidArgumentException('The ZIP name must not start with ../. Please provide a real path for the output file.');
         }
 
         // we prepend a ./ to paths without a leading slash to make sure that the path is relative
-        if (!str_starts_with($path, './')) {
+        if (!str_starts_with((string) $path, './')) {
             $path = './' . $path;
         }
 
-        if (str_starts_with($path, './') && ($realpath = realpath($path)) !== false) {
+        if (str_starts_with((string) $path, './') && ($realpath = realpath($path)) !== false) {
             $path = $realpath;
         }
 
-        $normalized = preg_replace('#\p{C}+|^\./#u', '', $path);
-        $normalized = preg_replace('#/\.(?=/)|^\./|\./$#', '', $normalized);
+        $normalized = preg_replace('#\p{C}+|^\./#u', '', (string) $path);
+        $normalized = preg_replace('#/\.(?=/)|^\./|\./$#', '', (string) $normalized);
         $regex = '#\/*[^/\.]+/\.\.#Uu';
 
-        while (preg_match($regex, $normalized)) {
-            $normalized = preg_replace($regex, '', $normalized);
+        while (preg_match($regex, (string) $normalized)) {
+            $normalized = preg_replace($regex, '', (string) $normalized);
         }
 
-        if (preg_match('#/\.{2}|\.{2}/#', $normalized)) {
+        if (preg_match('#/\.{2}|\.{2}/#', (string) $normalized)) {
             throw new \LogicException(
                 'Path is outside of the defined root, path: [' . $path . '], resolved: [' . $normalized . ']'
             );
         }
 
         // We prepend a ./ to paths without a leading slash to make sure that the path is relative
-        if (!str_starts_with($normalized, './') && !str_starts_with($normalized, '/')) {
+        if (!str_starts_with((string) $normalized, './') && !str_starts_with((string) $normalized, '/')) {
             $normalized = './' . $normalized;
         }
 

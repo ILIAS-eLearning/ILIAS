@@ -26,6 +26,7 @@ use ILIAS\Survey\Code\CodeManager;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\Survey\Editing\EditManager;
 use ILIAS\Survey\Sequence\SequenceManager;
+use ILIAS\Survey\Metadata\MetadataManager;
 
 class InternalDomainService
 {
@@ -132,5 +133,10 @@ class InternalDomainService
             $survey_id,
             $survey
         );
+    }
+
+    public function metadata(): MetadataManager
+    {
+        return new MetadataManager($this->learningObjectMetadata());
     }
 }

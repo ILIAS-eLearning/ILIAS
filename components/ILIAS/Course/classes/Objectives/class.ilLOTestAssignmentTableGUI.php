@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,7 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
+declare(strict_types=0);
 /**
  * Class ilLOTestAssignmentTableGUI
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -240,8 +240,8 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
                 $list->loadDefinitions();
 
                 // tax translations
-                $translater = new ilTestQuestionFilterLabelTranslater($this->db, $this->lng);
-                $translater->loadLabels($list);
+                $translator = new ilTestQuestionFilterLabelTranslator($this->db, $this->lng);
+                $translator->loadLabels($list);
 
                 $tst_data['qst_info'] = $this->lng->txt('crs_loc_tst_qpls');
                 $num = 0;
@@ -249,8 +249,8 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
                     /** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
                     $title = $definition->getPoolTitle();
                     $filterTitle = array();
-                    $filterTitle[] = $translater->getTaxonomyFilterLabel($definition->getMappedTaxonomyFilter());
-                    $filterTitle[] = $translater->getTypeFilterLabel($definition->getTypeFilter());
+                    $filterTitle[] = $translator->getTaxonomyFilterLabel($definition->getMappedTaxonomyFilter());
+                    $filterTitle[] = $translator->getTypeFilterLabel($definition->getTypeFilter());
                     if (!empty($filterTitle)) {
                         $title .= ' -> ' . implode(' / ', $filterTitle);
                     }

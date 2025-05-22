@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\components\ResourceStorage\Collections\View;
 
 use ILIAS\UI\Factory;
-use ILIAS\UI\Component\Dropzone\File\File;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 
 /**

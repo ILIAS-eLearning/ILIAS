@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilStudyProgrammeCommonSettingsGUI
 {
@@ -69,7 +69,7 @@ class ilStudyProgrammeCommonSettingsGUI
         $this->object = $object;
     }
 
-    protected function editSettings(ilPropertyFormGUI $form = null): string
+    protected function editSettings(?ilPropertyFormGUI $form = null): string
     {
         if (is_null($form)) {
             $form = $this->buildForm();

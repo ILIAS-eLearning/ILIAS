@@ -18,37 +18,33 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilBaseMailAddressType
- * @author Michael Jansen <mjansen@databay.de>
- */
 abstract class ilBaseMailAddressType implements ilMailAddressType
 {
-    /** @var ilMailError[] */
+    /** @var list<ilMailError> */
     private array $errors = [];
 
     public function __construct(
-        protected ilMailAddressTypeHelper $typeHelper,
+        protected ilMailAddressTypeHelper $type_helper,
         protected ilMailAddress $address,
         protected ilLogger $logger
     ) {
     }
 
-    abstract protected function isValid(int $senderId): bool;
+    abstract protected function isValid(int $sender_id): bool;
 
-    public function validate(int $senderId): bool
+    public function validate(int $sender_id): bool
     {
         $this->resetErrors();
 
-        return $this->isValid($senderId);
+        return $this->isValid($sender_id);
     }
 
     /**
-     * @param string[] $placeHolderValues
+     * @param list<string> $place_holder_values
      */
-    protected function pushError(string $languageVariable, array $placeHolderValues = []): void
+    protected function pushError(string $language_variable, array $place_holder_values = []): void
     {
-        $this->errors[] = new ilMailError($languageVariable, $placeHolderValues);
+        $this->errors[] = new ilMailError($language_variable, $place_holder_values);
     }
 
     private function resetErrors(): void

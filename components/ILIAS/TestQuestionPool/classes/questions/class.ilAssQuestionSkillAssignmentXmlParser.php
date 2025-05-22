@@ -65,7 +65,7 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
         $this->curAssignment = null;
         $this->curExpression = null;
         $this->assignmentList = new ilAssQuestionSkillAssignmentImportList();
-        return parent::__construct($xmlFile);
+        parent::__construct($xmlFile);
     }
 
     public function isParsingActive(): bool
@@ -133,9 +133,8 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 
     public function setHandlers($a_xml_parser): void
     {
-        xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
+        xml_set_element_handler($a_xml_parser, $this->handlerBeginTag(...), $this->handlerEndTag(...));
+        xml_set_character_data_handler($a_xml_parser, $this->handlerCharacterData(...));
     }
 
     public function handlerBeginTag($xmlParser, $tagName, $tagAttributes): void

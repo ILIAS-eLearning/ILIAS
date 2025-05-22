@@ -1,25 +1,19 @@
 <?php
-/*
- +-----------------------------------------------------------------------------+
- | ILIAS open source                                                           |
- +-----------------------------------------------------------------------------+
- | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
- |                                                                             |
- | This program is free software; you can redistribute it and/or               |
- | modify it under the terms of the GNU General Public License                 |
- | as published by the Free Software Foundation; either version 2              |
- | of the License, or (at your option) any later version.                      |
- |                                                                             |
- | This program is distributed in the hope that it will be useful,             |
- | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
- | GNU General Public License for more details.                                |
- |                                                                             |
- | You should have received a copy of the GNU General Public License           |
- | along with this program; if not, write to the Free Software                 |
- | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
- +-----------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Soap object administration methods
@@ -28,7 +22,6 @@
  * @version $Id$
  * @package ilias
  */
-
 class ilSoapObjectAdministration extends ilSoapAdministration
 {
     /**
@@ -158,7 +151,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
     /**
      * @return soap_fault|SoapFault|string|null
      */
-    public function getObjectByReference(string $sid, int $a_ref_id, int $user_id)
+    public function getObjectByReference(string $sid, int $a_ref_id, ?int $user_id = null)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -176,7 +169,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         $xml_writer = new ilObjectXMLWriter();
         $xml_writer->enablePermissionCheck(true);
-        if ($user_id) {
+        if (is_int($user_id)) {
             $xml_writer->setUserId($user_id);
             $xml_writer->enableOperations(true);
         }
@@ -190,7 +183,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
     /**
      * @return soap_fault|SoapFault|string|null
      */
-    public function getObjectsByTitle(string $sid, string $a_title, int $user_id)
+    public function getObjectsByTitle(string $sid, string $a_title, ?int $user_id = null)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -244,7 +237,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         $xml_writer = new ilObjectXMLWriter();
         $xml_writer->enablePermissionCheck(true);
-        if ($user_id) {
+        if (is_int($user_id)) {
             $xml_writer->setUserId($user_id);
             $xml_writer->enableOperations(true);
         }
@@ -258,7 +251,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
     /**
      * @return soap_fault|SoapFault|string|null
      */
-    public function searchObjects(string $sid, array $types, string $key, string $combination, int $user_id)
+    public function searchObjects(string $sid, ?array $types, string $key, string $combination, ?int $user_id = null)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -329,7 +322,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             $object_search = new ilLikeObjectSearch($query_parser);
             $object_search->setFilter($types);
             $res = $object_search->performSearch();
-            if ($user_id) {
+            if (is_int($user_id)) {
                 $res->setUserId($user_id);
             }
             $res->setMaxHits(100);
@@ -373,7 +366,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
     /**
      * @return soap_fault|SoapFault|string|null
      */
-    public function getTreeChilds(string $sid, int $ref_id, array $types, int $user_id)
+    public function getTreeChilds(string $sid, int $ref_id, ?array $types = null, ?int $user_id = null)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -401,7 +394,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             );
         }
 
-        if (!$types) {
+        if (!is_array($types) || empty($types)) {
             $all = true;
         }
 
@@ -419,7 +412,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $xml_writer->enablePermissionCheck(true);
         $xml_writer->setObjects($objs);
         $xml_writer->enableOperations(true);
-        if ($user_id) {
+        if (is_int($user_id)) {
             $xml_writer->setUserId($user_id);
         }
 
@@ -432,7 +425,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
     /**
      * @return soap_fault|SoapFault|string|null
      */
-    public function getXMLTree(string $sid, int $ref_id, array $types, int $user_id)
+    public function getXMLTree(string $sid, int $ref_id, ?array $types = null, ?int $user_id = null)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -449,6 +442,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $nodedata = $tree->getNodeData($ref_id);
         $nodearray = $tree->getSubTree($nodedata);
 
+        $all = false;
+        if (!is_array($types) || empty($types)) {
+            $all = true;
+        }
+
         $filter = $types;
 
         global $DIC;
@@ -459,7 +457,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             if (
                 !$objDefinition->isAdministrationObject($node['type']) &&
                 !$objDefinition->isSystemObject($node['type']) &&
-                !in_array($node['type'], $filter, true) &&
+                ($all || !in_array($node['type'], $filter, true)) &&
                 $access->checkAccess("read", "", (int) $node['ref_id']) &&
                 ($tmp = ilObjectFactory::getInstanceByRefId($node['ref_id'], false))) {
                 $nodes[] = $tmp;
@@ -471,7 +469,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $xml_writer->setObjects($nodes);
         $xml_writer->enableOperations(false);
 
-        if ($user_id) {
+        if (is_int($user_id)) {
             $xml_writer->setUserId($user_id);
         }
 

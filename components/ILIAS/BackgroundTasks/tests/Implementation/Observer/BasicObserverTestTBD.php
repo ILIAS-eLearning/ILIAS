@@ -35,7 +35,7 @@ require_once("vendor/composer/vendor/autoload.php");
 
 class BasicObserverTest extends MockeryTestCase
 {
-    public function testCheckIntegrity()
+    public function testCheckIntegrity(): void
     {
         $this->expectException(Exception::class);
 

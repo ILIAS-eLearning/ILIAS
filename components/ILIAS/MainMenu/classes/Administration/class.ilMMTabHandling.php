@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,14 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMMTabHandling
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMTabHandling
 {
-    private int $ref_id;
-
     private ilRbacSystem $rbacsystem;
 
     private ilTabsGUI $tabs;
@@ -40,11 +38,9 @@ class ilMMTabHandling
      * ilMMTabHandling constructor.
      * @param int $ref_id
      */
-    public function __construct(int $ref_id)
+    public function __construct(private int $ref_id)
     {
         global $DIC;
-
-        $this->ref_id = $ref_id;
         $this->tabs = $DIC['ilTabs'];
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('mme');
@@ -76,21 +72,18 @@ class ilMMTabHandling
                 $this->lng->txt(ilObjMainMenuGUI::TAB_MAIN),
                 $this->ctrl->getLinkTargetByClass(ilObjMainMenuGUI::class, ilObjMainMenuGUI::TAB_MAIN)
             );
-            /** @noinspection PhpSwitchStatementWitSingleBranchInspection */
-            switch ($tab) {
-                case ilObjMainMenuGUI::TAB_MAIN:
-                    $this->tabs->addSubTab(
-                        ilMMTopItemGUI::CMD_VIEW_TOP_ITEMS,
-                        $this->lng->txt(ilMMTopItemGUI::CMD_VIEW_TOP_ITEMS),
-                        $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_VIEW_TOP_ITEMS)
-                    );
-                    $this->tabs->addSubTab(
-                        ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS,
-                        $this->lng->txt(ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS),
-                        $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS)
-                    );
-                    $this->tabs->activateSubTab($subtab);
-                    break;
+            if ($tab === ilObjMainMenuGUI::TAB_MAIN) {
+                $this->tabs->addSubTab(
+                    ilMMTopItemGUI::CMD_VIEW_TOP_ITEMS,
+                    $this->lng->txt(ilMMTopItemGUI::CMD_VIEW_TOP_ITEMS),
+                    $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_VIEW_TOP_ITEMS)
+                );
+                $this->tabs->addSubTab(
+                    ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS,
+                    $this->lng->txt(ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS),
+                    $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS)
+                );
+                $this->tabs->activateSubTab($subtab);
             }
             if ($subtab === null) {
                 $subtab = ilMMTopItemGUI::CMD_VIEW_TOP_ITEMS;
@@ -101,7 +94,7 @@ class ilMMTabHandling
             $this->tabs->addTab(
                 'perm_settings',
                 $this->lng->txt('perm_settings'),
-                $this->ctrl->getLinkTargetByClass(array(ilObjMainMenuGUI::class, ilPermissionGUI::class), 'perm')
+                $this->ctrl->getLinkTargetByClass([ilObjMainMenuGUI::class, ilPermissionGUI::class], 'perm')
             );
         }
         if ($backtab) {

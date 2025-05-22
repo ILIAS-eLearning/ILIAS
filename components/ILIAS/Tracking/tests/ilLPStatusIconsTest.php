@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ILIAS\UI\Renderer;
-use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Component\Symbol\Factory as SymbolFactory;
+use ILIAS\UI\Component\Symbol\Icon\Factory as IconFactory;
 use ILIAS\UI\Component\Symbol\Icon\Custom;
 
 /**
@@ -35,48 +36,60 @@ class ilLPStatusIconsTest extends TestCase
     protected $alt = 'alt';
     protected $size = Icon::SMALL;
 
+    protected function getUIFactory(): UIFactory
+    {
+        $custom_icon = $this->createMock(Custom::class);
+        $custom_icon->method('getIconPath')
+                    ->willReturn($this->path);
+        $custom_icon->method('getSize')
+                    ->willReturn($this->size);
+        $custom_icon->method('getLabel')
+                    ->willReturn($this->alt);
+
+        $icon_factory = $this->createMock(IconFactory::class);
+        $icon_factory->method('custom')
+                     ->willReturn($custom_icon);
+
+        $symbol_factory = $this->createMock(SymbolFactory::class);
+        $symbol_factory->method('icon')
+                       ->willReturn($icon_factory);
+
+        $factory = $this->createMock(UIFactory::class);
+        $factory->method('symbol')
+                ->willReturn($symbol_factory);
+
+        return $factory;
+    }
+
+    protected function getUIRenderer(): UIRenderer
+    {
+        $renderer = $this->createMock(UIRenderer::class);
+        $renderer->method('render')
+                 ->willReturnCallback(function ($arg) {
+                     return 'rendered: path(' . $arg->getIconPath() .
+                         '), alt(' . $arg->getLabel() .
+                         '), size(' . $arg->getSize() . ')';
+                 });
+
+        return $renderer;
+    }
+
     /**
      * @return array<string, ilLPStatusIcons>
      */
     public function testTripleton(): array
     {
-        $this->markTestSkipped('Data Provider needs to be revisited.');
+        $factory = $this->getUIFactory();
+        $renderer = $this->getUIRenderer();
 
-        $utilMock = Mockery::mock('alias:' . ilUtil::class);
-        $utilMock->shouldReceive('getImagePath')
-                 ->with(Mockery::type('string'))
-                 ->andReturnUsing(function ($arg) {
-                     return 'test/' . $arg;
-                 });
+        $long1 = ilLPStatusIconsMock::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG, $renderer, $factory);
+        $long2 = ilLPStatusIconsMock::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG, $renderer, $factory);
 
-        $renderer = Mockery::mock(Renderer::class);
-        $renderer->shouldReceive('render')
-                 ->andReturnUsing(function ($arg1) {
-                     return 'rendered: path(' . $arg1->getIconPath() .
-                         '), alt(' . $arg1->getLabel() .
-                         '), size(' . $arg1->getSize() . ')';
-                 });
+        $short1 = ilLPStatusIconsMock::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT, $renderer, $factory);
+        $short2 = ilLPStatusIconsMock::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT, $renderer, $factory);
 
-        $custom_icon = Mockery::mock(Custom::class);
-        $custom_icon->shouldReceive('getIconPath')
-                    ->andReturn($this->path);
-        $custom_icon->shouldReceive('getSize')
-                    ->andReturn($this->size);
-        $custom_icon->shouldReceive('getLabel')
-                    ->andReturn($this->alt);
-
-        $factory = Mockery::mock(Factory::class);
-        $factory->shouldReceive('symbol->icon->custom')
-                ->andReturn($custom_icon);
-
-        $long1 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG, $renderer, $factory);
-        $long2 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG, $renderer, $factory);
-
-        $short1 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT, $renderer, $factory);
-        $short2 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT, $renderer, $factory);
-
-        $scorm1 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM, $renderer, $factory);
-        $scorm2 = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM, $renderer, $factory);
+        $scorm1 = ilLPStatusIconsMock::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM, $renderer, $factory);
+        $scorm2 = ilLPStatusIconsMock::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM, $renderer, $factory);
 
         $this->assertSame($short1, $short2);
         $this->assertSame($long1, $long2);
@@ -91,11 +104,11 @@ class ilLPStatusIconsTest extends TestCase
 
     public function testGetInstanceForInvalidVariant(): void
     {
-        $renderer = $this->getMockBuilder(Renderer::class)
+        $renderer = $this->getMockBuilder(UIRenderer::class)
                          ->disableOriginalConstructor()
                          ->getMock();
 
-        $factory = $this->getMockBuilder(Factory::class)
+        $factory = $this->getMockBuilder(UIFactory::class)
                         ->disableOriginalConstructor()
                         ->getMock();
 
@@ -172,5 +185,16 @@ class ilLPStatusIconsTest extends TestCase
     {
         $this->expectException(ilLPException::class);
         $instances['scorm']->renderIcon('path', 'alt');
+    }
+}
+
+/**
+ * Mocks out calls to ilUtil::getImagePath
+ */
+class ilLPStatusIconsMock extends ilLPStatusIcons
+{
+    protected function buildImagePath(string $image_name): string
+    {
+        return 'test/' . $image_name;
     }
 }

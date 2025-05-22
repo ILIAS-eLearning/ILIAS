@@ -18,8 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\InternalRequestService;
-
+use ILIAS\Test\RequestDataCollector;
 use ILIAS\GlobalScreen\Services as GlobalScreen;
 
 /**
@@ -40,12 +39,12 @@ class ilTestPasswordProtectionGUI
     private string $next_command_cmd;
 
     public function __construct(
-        private ilCtrl $ctrl,
+        private ilCtrlInterface $ctrl,
         private ilGlobalTemplateInterface $tpl,
         private ilLanguage $lng,
         private ilTestPlayerAbstractGUI $parent_gui,
         private ilTestPasswordChecker $password_checker,
-        private InternalRequestService $testrequest,
+        private RequestDataCollector $testrequest,
         private GlobalScreen $global_screen
     ) {
     }
@@ -100,7 +99,7 @@ class ilTestPasswordProtectionGUI
     {
         $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
             ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
-            $this->parentGUI->getObject()->getTitle() . ' - ' . $this->lng->txt('tst_password_form')
+            $this->parent_gui->getObject()->getTitle() . ' - ' . $this->lng->txt('tst_password_form')
         );
 
         $this->tpl->setVariable(
@@ -111,7 +110,7 @@ class ilTestPasswordProtectionGUI
 
     private function saveEnteredPasswordCmd(): void
     {
-        $this->password_checker->setUserEnteredPassword($_POST["password"]);
+        $this->password_checker->setUserEnteredPassword($this->testrequest->strVal('password'));
 
         if (!$this->password_checker->isUserEnteredPasswordCorrect()) {
             $this->password_checker->logWrongEnteredPassword();
@@ -122,7 +121,7 @@ class ilTestPasswordProtectionGUI
 
     private function backToInfoScreenCmd(): void
     {
-        $this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+        $this->ctrl->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilInfoScreenGUI::class]);
     }
 
     private function setNextCommandClass(string $next_command_class): void

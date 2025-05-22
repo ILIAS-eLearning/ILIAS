@@ -34,7 +34,7 @@ trait GdImageToStreamTrait
      * Currently this is the only way to make a FileStream from a GD image resource.
      * As soon as this is possible diretly, we can just switch the implementation here.
      */
-    protected function to(\GdImage $image, int $quality = null): FileStream
+    protected function to(\GdImage $image, ?int $quality = null): FileStream
     {
         ob_start();
         imagejpeg($image, null, $quality ?? 75);
@@ -65,7 +65,7 @@ trait GdImageToStreamTrait
                 'image/webp' => imagecreatefromwebp($filename),
                 default => imagecreatefromstring((string) $stream)
             };
-        } catch (\Throwable $t) {
+        } catch (\Throwable) {
             return null;
         }
     }

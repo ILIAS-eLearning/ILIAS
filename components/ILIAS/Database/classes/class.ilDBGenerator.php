@@ -28,10 +28,10 @@ declare(strict_types=1);
 class ilDBGenerator
 {
     protected string $target_encoding = 'UTF-8';
-    protected array $whitelist = array();
-    protected array $blacklist = array();
-    protected array $tables = array();
-    protected array $filter = array();
+    protected array $whitelist = [];
+    protected array $blacklist = [];
+    protected array $tables = [];
+    protected array $filter = [];
     protected ilDBManager $manager;
     protected ilDBReverse $reverse;
     protected ilDBInterface $il_db;
@@ -65,7 +65,7 @@ class ilDBGenerator
 
         $query = "SELECT DISTINCT(table_name) FROM abstraction_progress ";
         $res = $ilDB->query($query);
-        $names = array();
+        $names = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $names[] = $row->table_name;
         }
@@ -73,7 +73,7 @@ class ilDBGenerator
         // tables that have been already created in an abstracted
         // way or tables that have been renamed after being abstracted
         // (see db_update script)
-        $abs_tables = array_merge($names, array(
+        $abs_tables = array_merge($names, [
             'acc_access_key',
             'acc_user_access_key',
             'ldap_rg_mapping',
@@ -120,7 +120,7 @@ class ilDBGenerator
             'tst_rnd_cpy',
             'tst_rnd_qpl_title',
             'qpl_a_mdef',
-        ));
+        ]);
 
         return $abs_tables;
     }
@@ -202,13 +202,8 @@ class ilDBGenerator
         if (in_array($a_table, $this->blacklist, true)) {
             return false;
         }
-
         // check white list
-        if (count($this->whitelist) > 0 && !in_array($a_table, $this->whitelist, true)) {
-            return false;
-        }
-
-        return true;
+        return !($this->whitelist !== [] && !in_array($a_table, $this->whitelist, true));
     }
 
     /**
@@ -218,7 +213,7 @@ class ilDBGenerator
     {
         $start = '';
         $file = fopen($a_path, 'wb');
-        $start .= "\t" . 'global $ilDB;' . "\n\n";
+        $start .= '	global $ilDB;' . "\n\n";
         fwrite($file, $start);
 
         return $file;
@@ -251,7 +246,7 @@ class ilDBGenerator
             $file = fopen($a_filename, 'wb');
 
             $start = '<?php' . "\n" . 'function setupILIASDatabase()' . "\n{\n";
-            $start .= "\t" . 'global $ilDB;' . "\n\n";
+            $start .= '	global $ilDB;' . "\n\n";
             fwrite($file, $start);
         } else {
             echo "<pre>";
@@ -282,14 +277,14 @@ class ilDBGenerator
                 // auto increment sequence
                 $this->buildCreateSequenceStatement($table, $file);
 
-                if (in_array($table, array('usr_session_stats', 'usr_session_raw', 'il_plugin'))) {
+                if (in_array($table, ['usr_session_stats', 'usr_session_raw', 'il_plugin'])) {
                     continue;
                 }
 
                 // inserts
                 if ($is_dir) {
                     $this->buildInsertStatement($table, $path);
-                #$this->buildInsertStatementsXML($table,$path);
+                    #$this->buildInsertStatementsXML($table,$path);
                 } else {
                     $this->buildInsertStatements($table, $file);
                 }
@@ -352,7 +347,7 @@ class ilDBGenerator
                     $a_sep = ",";
                 }
             }
-            $create_st .= "\t" . ')' . "\n";
+            $create_st .= '	)' . "\n";
         }
         $create_st .= ');' . "\n";
         $create_st .= '$ilDB->createTable("' . $a_table . '", $fields);' . "\n";
@@ -371,10 +366,10 @@ class ilDBGenerator
     {
         $pk = $this->analyzer->getPrimaryKeyInformation($a_table);
 
-        if (isset($pk["fields"]) && is_array($pk["fields"]) && count($pk["fields"]) > 0) {
+        if (isset($pk["fields"]) && is_array($pk["fields"]) && $pk["fields"] !== []) {
             $pk_st = "\n" . '$pk_fields = array(';
             $sep = "";
-            foreach ($pk["fields"] as $f => $pos) {
+            foreach (array_keys($pk["fields"]) as $f) {
                 $pk_st .= $sep . '"' . $f . '"';
                 $sep = ",";
             }
@@ -398,11 +393,7 @@ class ilDBGenerator
 
         if (is_array($ind)) {
             foreach ($ind as $i) {
-                if ($i["fulltext"]) {
-                    $ft = ", true";
-                } else {
-                    $ft = ", false";
-                }
+                $ft = $i["fulltext"] ? ", true" : ", false";
                 $in_st = "\n" . '$in_fields = array(';
                 $sep = "";
                 foreach ($i["fields"] as $f => $pos) {
@@ -514,16 +505,16 @@ class ilDBGenerator
 
         $filenum = 1;
         while ($rec = $this->il_db->fetchAssoc($set)) {
-            $values = array();
+            $values = [];
             foreach ($rec as $f => $v) {
                 if ($this->fields[$f]['type'] === 'text' && $this->fields[$f]['length'] >= 1000) {
                     $v = $this->shortenText($a_table, $f, $v, $this->fields[$f]['length']);
                 }
 
-                $values[$f] = array(
+                $values[$f] = [
                     $this->fields[$f]['type'],
                     $v,
-                );
+                ];
             }
 
             $rows[$a_table][$row++] = $values;
@@ -564,10 +555,10 @@ class ilDBGenerator
         $set = $this->il_db->query("SELECT * FROM " . $this->il_db->quoteIdentifier($a_table));
         $ins_st = "";
         while ($rec = $this->il_db->fetchAssoc($set)) {
-            $fields = array();
-            $types = array();
-            $values = array();
-            $i_str = array();
+            $fields = [];
+            $types = [];
+            $values = [];
+            $i_str = [];
             foreach ($rec as $f => $v) {
                 $v = str_replace('\\', '\\\\', $v);
                 $i_str[] = "'" . $f . "' => array('" . $this->fields[$f]["type"] . "', '" . str_replace(
@@ -602,7 +593,7 @@ class ilDBGenerator
         // Convert back to UTF-8
         $shortened = mb_convert_encoding($shortened, 'UTF-8', $this->getTargetEncoding());
 
-        if (strlen($a_value) != strlen($shortened)) {
+        if (strlen($a_value) !== strlen($shortened)) {
             $ilLogger->log('Table        : ' . $table);
             $ilLogger->log('Field        : ' . $field);
             $ilLogger->log('Type         : ' . $this->fields[$field]['type']);

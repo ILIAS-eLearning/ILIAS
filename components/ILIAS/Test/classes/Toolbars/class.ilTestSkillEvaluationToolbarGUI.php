@@ -26,44 +26,29 @@ declare(strict_types=1);
  */
 class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
 {
-    private array $availableSkillProfiles;
-    private bool $noSkillProfileOptionEnabled;
-    private int $selectedEvaluationMode;
+    private array $available_skill_profiles;
+    private bool $no_skill_profile_option_enabled;
+    private int $selected_evaluation_mode;
 
     public function __construct(
-        private ilCtrl $ctrl
+        private ilCtrlInterface $ctrl
     ) {
         parent::__construct();
     }
 
     public function setAvailableSkillProfiles(array $availableSkillProfiles): void
     {
-        $this->availableSkillProfiles = $availableSkillProfiles;
-    }
-
-    public function getAvailableSkillProfiles(): array
-    {
-        return $this->availableSkillProfiles;
+        $this->available_skill_profiles = $availableSkillProfiles;
     }
 
     public function setNoSkillProfileOptionEnabled(bool $noSkillProfileOptionEnabled): void
     {
-        $this->noSkillProfileOptionEnabled = $noSkillProfileOptionEnabled;
-    }
-
-    public function isNoSkillProfileOptionEnabled(): bool
-    {
-        return $this->noSkillProfileOptionEnabled;
+        $this->no_skill_profile_option_enabled = $noSkillProfileOptionEnabled;
     }
 
     public function setSelectedEvaluationMode(int $selectedEvaluationMode): void
     {
-        $this->selectedEvaluationMode = $selectedEvaluationMode;
-    }
-
-    public function getSelectedEvaluationMode(): int
-    {
-        return $this->selectedEvaluationMode;
+        $this->selected_evaluation_mode = $selectedEvaluationMode;
     }
 
     public function build(): void
@@ -72,7 +57,7 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
 
         $select = new ilSelectInputGUI($this->lng->txt('tst_analysis'), ilTestSkillEvaluationGUI::SKILL_PROFILE_PARAM);
         $select->setOptions($this->buildEvaluationModeOptionsArray());
-        $select->setValue($this->getSelectedEvaluationMode());
+        $select->setValue($this->selected_evaluation_mode);
         $this->addInputItem($select, true);
 
         $this->addFormButton($this->lng->txt('select'), ilTestSkillEvaluationGUI::CMD_SHOW);
@@ -80,14 +65,14 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
 
     private function buildEvaluationModeOptionsArray(): array
     {
-        $options = array();
+        $options = [];
 
-        if ($this->isNoSkillProfileOptionEnabled()) {
+        if ($this->no_skill_profile_option_enabled) {
             $options[0] = $this->lng->txt('tst_all_test_competences');
             ;
         }
 
-        foreach ($this->getAvailableSkillProfiles() as $skillProfileId => $skillProfileTitle) {
+        foreach ($this->available_skill_profiles as $skillProfileId => $skillProfileTitle) {
             $options[$skillProfileId] = "{$this->lng->txt('tst_gap_analysis')}: {$skillProfileTitle}";
         }
 

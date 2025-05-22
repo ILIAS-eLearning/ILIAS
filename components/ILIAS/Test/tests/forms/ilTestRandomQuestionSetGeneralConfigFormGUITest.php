@@ -40,13 +40,9 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable('lng', $lng_mock);
         $this->setGlobalVariable('ilCtrl', $ctrl_mock);
 
-        $testObject_mock = $this->createMock(ilObjTest::class);
         $questionSetConfigGui_mock = $this->createMock(ilTestRandomQuestionSetConfigGUI::class);
 
         $this->formGui = new ilTestRandomQuestionSetGeneralConfigFormGUI(
-            $ctrl_mock,
-            $lng_mock,
-            $testObject_mock,
             $questionSetConfigGui_mock,
             $this->createMock(ilTestRandomQuestionSetConfig::class)
         );

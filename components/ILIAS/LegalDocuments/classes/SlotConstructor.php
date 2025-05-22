@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments;
 
 use ILIAS\LegalDocuments\Value\DocumentContent;
-use ILIAS\LegalDocuments\ConditionDefinition;
 use Closure;
 use ILIAS\DI\Container;
 use ILIAS\LegalDocuments\Provide\ProvideDocument;
@@ -61,7 +60,7 @@ class SlotConstructor
 
     /**
      * @param SelectionMap<ConditionDefinition> $conditions
-     * @param array<string, Closure(DocumentContent): Component $content_as_component
+     * @param array<string, Closure(DocumentContent): Component> $content_as_component
      */
     public function document(DocumentRepository $document_repository, SelectionMap $conditions, array $content_as_component): ProvideDocument
     {

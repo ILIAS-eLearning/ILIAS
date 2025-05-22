@@ -35,7 +35,7 @@ class ilAssLacAbstractOperationTest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new class extends ilAssLacAbstractOperation{
+        $this->object = new class () extends ilAssLacAbstractOperation {
             public function getPattern(): string
             {
                 return '';

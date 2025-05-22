@@ -1,9 +1,11 @@
+@use "../050-layout/basics/_layout_spacing-variables.scss" as spacing;
+
 ul, ol, p {
 	margin: .8em 0;
 }
 
 ol, ul {
-	padding-left: 40px;
+	padding-left: spacing.$il-padding-xlarge-horizontal;
     list-style-image: none;//mantis #19613: stop the inheritance for nested list until specifically setted
 }
 

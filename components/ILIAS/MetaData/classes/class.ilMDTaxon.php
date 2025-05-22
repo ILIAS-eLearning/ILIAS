@@ -22,6 +22,7 @@ declare(strict_types=1);
  * Meta Data class (element taxon)
  * @package ilias-core
  * @version $Id$
+ * @deprecated will be removed with ILIAS 11, please use the new API (see {@see ../docs/api.md})
  */
 class ilMDTaxon extends ilMDBase
 {
@@ -139,12 +140,12 @@ class ilMDTaxon extends ilMDBase
 
     public function toXML(ilXmlWriter $writer): void
     {
-        $random = new \ilRandom();
+        $random = new \Random\Randomizer();
         $writer->xmlElement(
             'Taxon',
             array(
                 'Language' => $this->getTaxonLanguageCode() ?: 'en',
-                'Id' => $this->getTaxonId() ?: ("ID" . $random->int())
+                'Id' => $this->getTaxonId() ?: ("ID" . $random->nextInt())
             ),
             $this->getTaxon()
         );

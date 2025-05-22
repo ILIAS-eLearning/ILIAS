@@ -25,6 +25,9 @@ namespace ILIAS\Filesystem\Definitions;
  */
 final class SuffixDefinitions
 {
+    /**
+     * @var string
+     */
     public const SEC = ".sec";
     protected array $white_list = [];
 
@@ -64,11 +67,11 @@ final class SuffixDefinitions
         $pi = pathinfo($filename);
         // if extension is not in white list, remove all "." and add ".sec" extension
         $basename = str_replace(".", "", $pi["basename"]);
-        if (trim($basename) == "") {
+        if (trim($basename) === "") {
             throw new \RuntimeException("Invalid upload filename.");
         }
         $basename .= self::SEC;
-        if ($pi["dirname"] != "" && ($pi["dirname"] != "." || substr($filename, 0, 2) == "./")) {
+        if ($pi["dirname"] != "" && ($pi["dirname"] !== "." || str_starts_with($filename, "./"))) {
             return $pi["dirname"] . "/" . $basename;
         }
         return $basename;

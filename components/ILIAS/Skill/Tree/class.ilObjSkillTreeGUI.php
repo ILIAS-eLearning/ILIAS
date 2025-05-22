@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\DI\UIServices;
 use ILIAS\Skill\Service;
@@ -547,16 +546,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
 
         $ilTabs->activateTab("skills");
 
-        if ($this->requested_table_action === "editTree" && !empty($this->requested_table_tree_ids)) {
-            $node_id = (int) $this->requested_table_tree_ids[0];
-            $tree_id = $this->skill_tree_repo->getTreeIdForNodeId($node_id);
-            $tree_obj = $this->skill_tree_manager->getTree($tree_id);
-            $ilCtrl->setParameter($this, "ref_id", $tree_obj->getRefId());
-            $ilCtrl->setParameter($this, "node_id", $node_id);
-        } else {
-            $ilCtrl->setParameter($this, "node_id", $this->skill_tree->readRootId());
-        }
-
+        $ilCtrl->setParameterByClass(self::class, "node_id", $this->skill_tree->readRootId());
         $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
     }
 

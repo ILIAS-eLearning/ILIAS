@@ -20,10 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\Setup;
 
+use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\Metrics\Storage;
+use ILIAS\Setup\Objective\NullObjective;
 use ILIAS\Setup;
 use ILIAS\Setup\Objective;
 use ILIAS\Refinery\Transformation;
-use ILIAS\Setup\Metrics;
 use ILIAS\Setup\Config;
 
 /**
@@ -33,7 +35,7 @@ class Agent implements Setup\Agent
 {
     public function getBuildObjective(): Objective
     {
-        return new Setup\ObjectiveCollection(
+        return new ObjectiveCollection(
             'File StreamDelivery Artifacts',
             true,
             new KeyRotationObjective(),
@@ -57,19 +59,19 @@ class Agent implements Setup\Agent
         throw new LogicException("No Config");
     }
 
-    public function getInstallObjective(Config $config = null): Objective
+    public function getInstallObjective(?Config $config = null): Objective
     {
         return new DeliveryMethodObjective();
     }
 
-    public function getUpdateObjective(Config $config = null): Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
         return new DeliveryMethodObjective();
     }
 
-    public function getStatusObjective(Metrics\Storage $storage): Objective
+    public function getStatusObjective(Storage $storage): Objective
     {
-        return new Objective\NullObjective();
+        return new NullObjective();
     }
 
     public function getMigrations(): array

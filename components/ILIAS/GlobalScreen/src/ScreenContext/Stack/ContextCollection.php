@@ -29,22 +29,20 @@ use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
  */
 class ContextCollection
 {
-    protected ContextRepository $repo;
     /**
      * @var ScreenContext[]
      */
     protected array $stack = [];
 
-    public function __construct(ContextRepository $context_repository)
+    public function __construct(protected ContextRepository $repo)
     {
-        $this->repo = $context_repository;
     }
 
     public function push(ScreenContext $context): void
     {
         $current = end($this->stack);
         if ($current instanceof ScreenContext) {
-            if($current->hasReferenceId()) {
+            if ($current->hasReferenceId()) {
                 $reference_id = $current->getReferenceId();
                 $ref_id = $reference_id->toInt();
                 $context = $context->withReferenceId($reference_id);
@@ -84,13 +82,11 @@ class ContextCollection
 
     public function hasMatch(ContextCollection $other_collection): bool
     {
-        $mapper = static function (ScreenContext $c): string {
-            return $c->getUniqueContextIdentifier();
-        };
+        $mapper = (static fn(ScreenContext $c): string => $c->getUniqueContextIdentifier());
         $mine = array_map($mapper, $this->getStack());
         $theirs = array_map($mapper, $other_collection->getStack());
 
-        return (count(array_intersect($mine, $theirs)) > 0);
+        return (array_intersect($mine, $theirs) !== []);
     }
 
     public function main(): self

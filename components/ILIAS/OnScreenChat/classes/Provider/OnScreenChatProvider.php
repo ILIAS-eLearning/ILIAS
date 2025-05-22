@@ -126,7 +126,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                         )
                     ];
 
-                    return $this->dic->ui()->factory()->legacy($this->dic->ui()->renderer()->render($components));
+                    return $this->dic->ui()->factory()->legacy()->content($this->dic->ui()->renderer()->render($components));
                 })
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(40)

@@ -21,6 +21,8 @@ declare(strict_types=1);
 use ILIAS\UI\Component\Input\Factory;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as InputFieldFactory;
 use ILIAS\UI\Renderer;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * @ilCtrl_Calls ilObjStudyProgrammeSettingsGUI: ilStudyProgrammeCommonSettingsGUI
@@ -56,6 +58,7 @@ class ilObjStudyProgrammeSettingsGUI
     protected ilStudyProgrammeCommonSettingsGUI $common_settings_gui;
     protected ilTabsGUI $tabs;
     protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
+    protected LOMServices $lom_services;
 
     protected ?ilObjStudyProgramme $object;
     protected string $tmp_heading;
@@ -73,7 +76,8 @@ class ilObjStudyProgrammeSettingsGUI
         ilStudyProgrammeTypeRepository $type_repository,
         ilStudyProgrammeCommonSettingsGUI $common_settings_gui,
         ilTabsGUI $tabs,
-        ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper
+        ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper,
+        LOMServices $lom_services
     ) {
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
@@ -87,6 +91,7 @@ class ilObjStudyProgrammeSettingsGUI
         $this->common_settings_gui = $common_settings_gui;
         $this->tabs = $tabs;
         $this->request_wrapper = $request_wrapper;
+        $this->lom_services = $lom_services;
 
         $this->object = null;
 
@@ -126,15 +131,7 @@ class ilObjStudyProgrammeSettingsGUI
                 }
         }
 
-        if (!$this->ctrl->isAsynch()) {
-            $this->tpl->setContent($content);
-        } else {
-            $output_handler = new ilAsyncOutputHandler();
-            $heading = $this->tmp_heading ?? $this->lng->txt("prg_async_" . $this->ctrl->getCmd());
-            $output_handler->setHeading($heading);
-            $output_handler->setContent($content);
-            $output_handler->terminate();
-        }
+        $this->tpl->setContent($content);
     }
 
     protected function view(): string
@@ -155,35 +152,12 @@ class ilObjStudyProgrammeSettingsGUI
 
         $result = $form->getInputGroup()->getContent();
 
-        // This could further be improved by providing a new container for async-forms in the
-        // UI-Framework.
-
         if ($result->isOK()) {
             $result->value()->update();
             $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
-
-            if ($this->ctrl->isAsynch()) {
-                $response = ilAsyncOutputHandler::encodeAsyncResponse(
-                    array(
-                    "success" => true,
-                    "message" => $this->lng->txt("msg_obj_modified"))
-                );
-                return ilAsyncOutputHandler::handleAsyncOutput($this->renderer->render($form), $response, false);
-            }
-
             $this->ctrl->redirect($this);
         } else {
             $this->tpl->setOnScreenMessage("failure", $this->lng->txt("msg_form_save_error"));
-
-            if ($this->ctrl->isAsynch()) {
-                $response = ilAsyncOutputHandler::encodeAsyncResponse(
-                    array(
-                    "success" => false,
-                    "errors" => $form->getError())
-                );
-                return ilAsyncOutputHandler::handleAsyncOutput($this->renderer->render($form), $response, false);
-            }
-
             return $this->renderer->render($form);
         }
     }
@@ -229,7 +203,7 @@ class ilObjStudyProgrammeSettingsGUI
 
     protected function buildFormElements(
         InputFieldFactory $ff,
-        ilObjectTranslation $trans,
+        Translations $trans,
         array $sp_types,
         ilStudyProgrammeSettings $settings
     ): array {
@@ -261,10 +235,14 @@ class ilObjStudyProgrammeSettingsGUI
 
     protected function getEditSection(
         InputFieldFactory $ff,
-        ilObjectTranslation $trans
+        Translations $trans
     ): ILIAS\UI\Component\Input\Field\Section {
-        $languages = ilMDLanguageItem::_getLanguages();
-        $lang = array_key_exists($trans->getDefaultLanguage(), $languages) ? $languages[$trans->getDefaultLanguage()] : '?';
+        $lang = '?';
+        foreach ($this->lom_services->dataHelper()->getAllLanguages() as $language) {
+            if ($language->value() === $trans->getDefaultLanguage()) {
+                $lang = $language->presentableLabel();
+            }
+        }
         return $ff->section(
             [
                 self::PROP_TITLE =>
@@ -277,7 +255,7 @@ class ilObjStudyProgrammeSettingsGUI
             ],
             $this->txt("prg_edit"),
             $this->txt("language") . ": " . $lang .
-            ' <a href="' . $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "") .
+            ' <a href="' . $this->ctrl->getLinkTargetByClass(TranslationGUI::class, "") .
             '">&raquo; ' . $this->txt("obj_more_translations") . '</a>'
         );
     }

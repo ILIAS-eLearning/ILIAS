@@ -28,8 +28,8 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilForumExportGUI
 {
-    private const MODE_EXPORT_WEB = 1;
-    private const MODE_EXPORT_CLIENT = 2;
+    private const int MODE_EXPORT_WEB = 1;
+    private const int MODE_EXPORT_CLIENT = 2;
 
     public ilCtrlInterface $ctrl;
     public ilLanguage $lng;
@@ -39,10 +39,10 @@ class ilForumExportGUI
     public ilObjectDataCache $ilObjDataCache;
     protected bool $is_moderator = false;
     protected ilForum $frm;
-    private ilForumProperties $objProperties;
-    private GlobalHttpState $http;
-    private Refinery $refinery;
-    private int $ref_id;
+    private readonly ilForumProperties $objProperties;
+    private readonly GlobalHttpState $http;
+    private readonly Refinery $refinery;
+    private readonly int $ref_id;
 
     public function __construct()
     {

@@ -34,20 +34,23 @@ use ILIAS\HTTP\Services;
 final class XSendfile implements ilFileDeliveryType
 {
     use HeaderBasedDeliveryHelper;
+    /**
+     * @var string
+     */
     public const X_SENDFILE = 'X-Sendfile';
+    /**
+     * @var string
+     */
     public const X_SENDFILE_TEMPORARY = 'X-Sendfile-Temporary';
-    private \ILIAS\HTTP\Services $httpService;
 
 
     /**
      * PHP constructor.
      *
-     * @param Services $httpState
-     *
+     * @param Services $httpService
      */
-    public function __construct(Services $httpState)
+    public function __construct(private Services $httpService)
     {
-        $this->httpService = $httpState;
     }
 
 

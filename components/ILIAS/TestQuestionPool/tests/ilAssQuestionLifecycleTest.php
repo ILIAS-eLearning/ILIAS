@@ -35,8 +35,10 @@ class ilAssQuestionLifecycleTest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new class extends ilAssQuestionLifecycle{
-            public function __construct() {}
+        $this->object = new class () extends ilAssQuestionLifecycle {
+            public function __construct()
+            {
+            }
         };
     }
 

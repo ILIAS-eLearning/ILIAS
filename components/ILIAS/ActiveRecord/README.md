@@ -262,7 +262,13 @@ proper persistent layer access.
 | con_length     | Length of the field in the persistent layer                                                               | determines from the fieldtype. See 'Databse Access and Database Schema' for further information. |
 
 All this information is parsed from the PHPDoc once per ActiveRecord-Class and request and are cached for all other
-instances of this type. So there should not be a remarkable performance-drop. This is an Example for a primary key $id:
+instances of this type. So there should not be a remarkable performance-drop. 
+In order to work properly
+-  there may be any number and combination of blanks and tabs before the '*' (including zero characters)
+-  the '*' must be followed by exactky one space character
+-  there may be any number or combination of blanks and tabs between field name and value, but at least one separator character is required
+  
+This is an Example for a primary key $id:
 
 ```php
 /**
@@ -425,12 +431,13 @@ install the database on your own, ActiveRecord can install und update the table:
 
 Use the already known DB-Update-Steps to generate your AR-Databases. There is a Helper-Script to auto-generate a
 Installation-Updatestep. Implement these two lines with your ActiveRecord somewhere in ILIAS-Code and run the site. It
-generates and Downloads a tet-file with the installation-Step:
+generates and Downloads a php-file with the installation-Step:
 
 ```php
 $arBuilder = new arBuilder(new arMessage());
 $arBuilder->generateDBUpdateForInstallation();
 ```
+The downloaded file can be used to install the appropriate db-table.
 
 You can use these methods to delete or truncate your table even in dbupdate-Scripts:
 

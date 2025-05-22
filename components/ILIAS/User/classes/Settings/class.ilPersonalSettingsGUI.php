@@ -78,7 +78,6 @@ class ilPersonalSettingsGUI
         $this->starting_point_repository = new ilUserStartingPointRepository(
             $this->user,
             $DIC['ilDB'],
-            $DIC['tpl'],
             $DIC->logger(),
             $DIC['tree'],
             $DIC['rbacreview'],
@@ -224,7 +223,7 @@ class ilPersonalSettingsGUI
             $languages = $this->lng->getInstalledLanguages();
             $options = [];
             foreach ($languages as $lang_key) {
-                $options[$lang_key] = ilLanguage::_lookupEntry($lang_key, 'meta', 'meta_l_' . $lang_key);
+                $options[$lang_key] = $this->lng->txtlng('meta', 'meta_l_' . $lang_key, $lang_key);
             }
 
             $lang = new ilSelectInputGUI($this->lng->txt('language'), 'language');
@@ -266,25 +265,6 @@ class ilPersonalSettingsGUI
         // help tooltips
         $this->help->addPersonalSettingToLegacyForm($this->form);
 
-        // hits per page
-        if ($this->userSettingVisible('hits_per_page')) {
-            $si = new ilSelectInputGUI($this->lng->txt('hits_per_page'), 'hits_per_page');
-
-            $hits_options = [10, 15, 20, 30, 40, 50, 100, 9999];
-            $options = [];
-
-            foreach ($hits_options as $hits_option) {
-                $hstr = ($hits_option === 9999)
-                    ? $this->lng->txt('no_limit')
-                    : $hits_option;
-                $options[$hits_option] = $hstr;
-            }
-            $si->setOptions($options);
-            $si->setValue($this->user->prefs['hits_per_page']);
-            $si->setDisabled((bool) $this->settings->get('usr_settings_disable_hits_per_page'));
-            $this->form->addItem($si);
-        }
-
         $lv = new ilSelectInputGUI($this->lng->txt('user_store_last_visited'), 'store_last_visited');
         $options = [
             0 => $this->lng->txt('user_lv_keep_entries'),
@@ -296,46 +276,29 @@ class ilPersonalSettingsGUI
         $lv->setValue($last_visited);
         $this->form->addItem($lv);
 
-        if (ilSessionReminder::isGloballyActivated()) {
-            $cb = new ilCheckboxInputGUI($this->lng->txt('session_reminder'), 'session_reminder_enabled');
-            $cb->setInfo($this->lng->txt('session_reminder_info'));
-            $cb->setValue('1');
-            $cb->setChecked((bool) $this->user->getPref('session_reminder_enabled'));
-
-            $expires = ilSession::getSessionExpireValue();
-            $lead_time_gui = new ilNumberInputGUI(
-                $this->lng->txt('session_reminder_lead_time'),
+        if ($this->userSettingVisible('session_reminder')) {
+            $session_reminder = new ilNumberInputGUI(
+                $this->lng->txt('session_reminder_input'),
                 'session_reminder_lead_time'
             );
-            $lead_time_gui->setInfo(
+            $session_reminder_object = ilSessionReminder::byLoggedInUser();
+            $expires = ilSession::getSessionExpireValue();
+            $session_reminder->setInfo(
                 sprintf(
                     $this->lng->txt('session_reminder_lead_time_info'),
+                    ilSessionReminder::LEAD_TIME_DISABLED,
+                    ilSessionReminder::SUGGESTED_LEAD_TIME,
                     ilDatePresentation::secondsToString($expires, true)
                 )
             );
-
-            $min_value = ilSessionReminder::MIN_LEAD_TIME;
-            $max_value = max($min_value, ($expires / 60) - 1);
-
-            $current_user_value = $this->user->getPref('session_reminder_lead_time');
-            if ($current_user_value < $min_value || $current_user_value > $max_value) {
-                $current_user_value = ilSessionReminder::SUGGESTED_LEAD_TIME;
-            }
-            $value = min(
-                max(
-                    $min_value,
-                    $current_user_value
-                ),
-                $max_value
+            $session_reminder->setDisabled(!$this->workWithUserSetting('session_reminder'));
+            $session_reminder->setValue(
+                (string) $session_reminder_object->getEffectiveLeadTime()
             );
-
-            $lead_time_gui->setValue((string) $value);
-            $lead_time_gui->setSize(3);
-            $lead_time_gui->setMinValue($min_value);
-            $lead_time_gui->setMaxValue($max_value);
-            $cb->addSubItem($lead_time_gui);
-
-            $this->form->addItem($cb);
+            $session_reminder->setSize(3);
+            $session_reminder->setMinValue(ilSessionReminder::LEAD_TIME_DISABLED);
+            $session_reminder->setMaxValue($session_reminder_object->getMaxPossibleLeadTime());
+            $this->form->addItem($session_reminder);
         }
 
         // calendar settings (copied here to be reachable when calendar is inactive)
@@ -443,13 +406,6 @@ class ilPersonalSettingsGUI
                 $this->user->setLanguage($this->form->getInput('language'));
             }
 
-            // hits per page
-            if ($this->workWithUserSetting('hits_per_page')) {
-                if ($this->form->getInput('hits_per_page') != '') {
-                    $this->user->setPref('hits_per_page', $this->form->getInput('hits_per_page'));
-                }
-            }
-
             // help tooltips
             $this->help->savePersonalSettingFromLegacyForm($this->form);
 
@@ -461,8 +417,7 @@ class ilPersonalSettingsGUI
                 }
             }
 
-            if (ilSessionReminder::isGloballyActivated()) {
-                $this->user->setPref('session_reminder_enabled', $this->form->getInput('session_reminder_enabled'));
+            if ($this->workWithUserSetting('session_reminder')) {
                 $this->user->setPref(
                     'session_reminder_lead_time',
                     (string) $this->form->getInput('session_reminder_lead_time')

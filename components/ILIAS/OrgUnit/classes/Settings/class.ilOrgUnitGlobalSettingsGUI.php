@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -75,7 +75,7 @@ class ilOrgUnitGlobalSettingsGUI
 
         switch ($next_class) {
             default:
-                switch($cmd) {
+                switch ($cmd) {
                     case self::CMD_SAVE:
                         $this->save();
                         break;
@@ -99,12 +99,14 @@ class ilOrgUnitGlobalSettingsGUI
         $form = $this->getSettingsForm()->withRequest($this->request);
         $data = $form->getData();
 
-        if(!$data) {
+        if (!$data) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'), false);
             $this->tpl->setContent($this->ui_renderer->render($form));
         }
         $enable_my_staff = current(array_shift($data));
         $obj_settings = array_shift($data);
+
+        $this->settings->set("enable_my_staff", $enable_my_staff);
 
         $available_types = $this->object_definition->getOrgUnitPermissionTypes();
         foreach ($available_types as $object_type) {
@@ -112,13 +114,13 @@ class ilOrgUnitGlobalSettingsGUI
             $active = false;
             $changeable = false;
             $default = false;
-            if(!is_null($obj_settings[$object_type])) {
+            if (!is_null($obj_settings[$object_type])) {
                 list($active, $changeable, $default) = array_shift($obj_settings[$object_type]);
             }
             $obj_setting = new ilOrgUnitObjectTypePositionSetting($object_type);
             $obj_setting->setActive($active);
             $obj_setting->setChangeableForObject($changeable);
-            $obj_setting->setActivationDefault((int)$default);
+            $obj_setting->setActivationDefault((int) $default);
             $obj_setting->update();
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
@@ -157,7 +159,7 @@ class ilOrgUnitGlobalSettingsGUI
             }
 
             $changeable = [];
-            if($is_multi) {
+            if ($is_multi) {
                 $changeable[] = $this->ui_factory->input()->field()->switchableGroup(
                     [
                         $this->ui_factory->input()->field()->group(
@@ -166,7 +168,7 @@ class ilOrgUnitGlobalSettingsGUI
                                     $this->lng->txt('orgu_global_set_type_default'),
                                     $this->lng->txt('orgu_global_set_type_default_info'),
                                 )
-                                ->withValue((bool)$setting->getActivationDefault())
+                                ->withValue((bool) $setting->getActivationDefault())
                             ],
                             $this->lng->txt('orgu_global_set_type_changeable_object'),
                         )
@@ -187,10 +189,10 @@ class ilOrgUnitGlobalSettingsGUI
                     $this->refinery->custom()->transformation(
                         function ($v) {
                             $active = true;
-                            $changeable = !(bool)array_shift($v);
+                            $changeable = !(bool) array_shift($v);
                             $default = false;
-                            if($changeable) {
-                                $default = (bool)current(array_shift($v));
+                            if ($changeable) {
+                                $default = (bool) current(array_shift($v));
                             }
                             return [$active, $changeable, $default];
                         }
@@ -210,7 +212,7 @@ class ilOrgUnitGlobalSettingsGUI
                 $this->lng->txt('orgu_global_set_positions_type_active') . ' ' . $label
             );
 
-            if(!$setting->isActive()) {
+            if (!$setting->isActive()) {
                 $groups[$object_type] = $groups[$object_type]->withValue(null);
             }
         }

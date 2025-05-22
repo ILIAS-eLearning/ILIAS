@@ -125,17 +125,11 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
                     $id = $counter;
                 }
 
-                $icontype = "question.png";
-                if ($data["questionblock_id"] > 0) {
-                    $icontype = "questionblock.png";
-                }
-
                 $tbl_data[] = array(
                     "counter" => $counter,
                     "id" => $id,
                     "title" => $title,
                     "type" => $type,
-                    "icon" => ilUtil::getImagePath($icontype, "components/ILIAS/Survey"),
                     "content" => $content,
                     "constraints" => $parsed,
                     "conjunction" => $conjunction
@@ -171,7 +165,6 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("COUNTER", $a_set["counter"]);
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable("TYPE", $a_set["type"]);
-        $this->tpl->setVariable("ICON_HREF", $a_set["icon"]);
         $this->tpl->setVariable("ICON_ALT", $a_set["type"]);
         $this->tpl->setVariable("CONTENT", $a_set["content"]);
 

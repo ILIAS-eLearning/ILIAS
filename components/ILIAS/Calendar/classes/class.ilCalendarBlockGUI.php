@@ -268,25 +268,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
         return '';
     }
 
-    public function fillDataSection(): void
-    {
-        if ($this->display_mode != "mmon") {
-            $this->setRowTemplate("tpl.pd_event_list.html", "components/ILIAS/Calendar");
-
-            ilBlockGUI::fillDataSection();
-        } else {
-            $tpl = new ilTemplate(
-                "tpl.calendar_block.html",
-                true,
-                true,
-                "components/ILIAS/Calendar"
-            );
-
-            $this->addMiniMonth($tpl, true);
-            $this->setDataSection($tpl->get());
-        }
-    }
-
     public function getTargetGUIClassPath(): array
     {
         $target_class = array();
@@ -575,7 +556,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
         // workaround to include asynch code from ui only one time, see #20853
         if ($this->ctrl->isAsynch()) {
-            $f = $this->ui->factory()->legacy("");
+            $f = $this->ui->factory()->legacy()->content("");
             $ret .= $this->ui->renderer()->renderAsync($f);
         }
         if (count($this->modals) > 0) {
@@ -831,19 +812,13 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
                 $modal = $f->modal()->roundtrip(
                     ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),
-                    $f->legacy($content)
+                    $f->legacy()->content($content)
                 );
                 echo $r->renderAsync($modal);
             }
         }
         exit();
     }
-
-    //
-    // New rendering
-    //
-
-    protected bool $new_rendering = true;
 
     public function getViewControlsForPanel(): array
     {

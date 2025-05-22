@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\KioskMode\URLBuilder;
 
 class LSUrlBuilder implements URLBuilder
@@ -32,7 +32,7 @@ class LSUrlBuilder implements URLBuilder
         $this->base_url = $base_url;
     }
 
-    public function getURL(string $command, int $param = null): ILIAS\Data\URI
+    public function getURL(string $command, ?int $param = null): ILIAS\Data\URI
     {
         $query = $this->base_url->getQuery();
         if (!$query) {
@@ -50,7 +50,7 @@ class LSUrlBuilder implements URLBuilder
         return $this->base_url->withQuery(http_build_query($params));
     }
 
-    public function getHref(string $command, int $param = null): string
+    public function getHref(string $command, ?int $param = null): string
     {
         $url = $this->getURL($command, $param);
         return $url->getBaseURI() . '?' . $url->getQuery();

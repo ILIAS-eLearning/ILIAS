@@ -28,6 +28,6 @@ class ilChatroomPollGUI extends ilChatroomGUIHandler
 {
     public function executeDefault(string $requestedMethod): void
     {
-        $this->sendResponse(['success' => true]);
+        $this->sendJSONResponse(['success' => true]);
     }
 }

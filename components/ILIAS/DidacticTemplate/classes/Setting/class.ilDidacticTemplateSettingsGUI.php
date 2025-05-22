@@ -29,6 +29,9 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Export\ImportStatus\ilCollection as ilImportStatusCollection;
 use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
 use ILIAS\Export\ImportStatus\StatusType as ImportStatusType;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\StaticURL\Services as StaticURLService;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * Settings for a single didactic template
@@ -55,6 +58,9 @@ class ilDidacticTemplateSettingsGUI
     private ilGlobalTemplateInterface $tpl;
     private ilTabsGUI $tabs;
     private FileUpload $upload;
+    private LOMServices $lom_services;
+    protected StaticURLService $static_url;
+    protected DataFactory $data_factory;
 
     private int $ref_id;
 
@@ -75,6 +81,9 @@ class ilDidacticTemplateSettingsGUI
         $this->upload = $DIC->upload();
         $this->renderer = $DIC->ui()->renderer();
         $this->ui_factory = $DIC->ui()->factory();
+        $this->lom_services = $DIC->learningObjectMetadata();
+        $this->static_url = $DIC['static_url'];
+        $this->data_factory = new DataFactory();
     }
 
     protected function initReferenceFromRequest(): void
@@ -213,7 +222,9 @@ class ilDidacticTemplateSettingsGUI
             $filter,
             $this->lng,
             $this->ui_factory,
-            $this->renderer
+            $this->renderer,
+            $this->static_url,
+            $this->data_factory
         );
 
         $table = new ilDidacticTemplateSettingsTableGUI($this, $this->ref_id);
@@ -232,7 +243,7 @@ class ilDidacticTemplateSettingsGUI
         $this->overview();
     }
 
-    protected function showImportForm(ilPropertyFormGUI $form = null): void
+    protected function showImportForm(?ilPropertyFormGUI $form = null): void
     {
         $setting = $this->initTemplateFromRequest();
         if ($setting instanceof ilDidacticTemplateSetting) {
@@ -371,7 +382,7 @@ class ilDidacticTemplateSettingsGUI
         }
     }
 
-    protected function editTemplate(?int $template_id = null, ilPropertyFormGUI $form = null): void
+    protected function editTemplate(?int $template_id = null, ?ilPropertyFormGUI $form = null): void
     {
         $setting = null;
         if (is_null($template_id)) {
@@ -485,8 +496,13 @@ class ilDidacticTemplateSettingsGUI
             $def = $trans[0]; // default
 
             if (count($trans) > 1) {
-                $languages = ilMDLanguageItem::_getLanguages();
-                $title->setInfo($this->lng->txt("language") . ": " . $languages[$def["lang_code"]] .
+                $language = '';
+                foreach ($this->lom_services->dataHelper()->getAllLanguages() as $lom_lang) {
+                    if ($lom_lang->value() === ($def["lang_code"] ?? '')) {
+                        $language = $lom_lang->presentableLabel();
+                    }
+                }
+                $title->setInfo($this->lng->txt("language") . ": " . $language .
                     ' <a href="' . $this->ctrl->getLinkTargetByClass("ilmultilingualismgui", "listTranslations") .
                     '">&raquo; ' . $this->lng->txt("more_translations") . '</a>');
             }
@@ -746,7 +762,7 @@ class ilDidacticTemplateSettingsGUI
         }
     }
 
-    public function showEditImportForm(ilPropertyFormGUI $form = null): void
+    public function showEditImportForm(?ilPropertyFormGUI $form = null): void
     {
         $this->initTemplateFromRequest();
         $this->setEditTabs("import");

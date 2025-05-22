@@ -1,0 +1,82 @@
+<!-- BEGIN preconditions -->
+You are in the test installation in the section **Administration → Layout and Navigation → Layout → System Styles → Documentation**.
+<!-- END preconditions -->
+
+<!-- BEGIN steps_show -->
+1. ILIAS shows the tree with the UI components on the left.
+2. Click on the small triangle in front of {SECTION} and then continue to {CLICKPATH}.
+3. ILIAS opens the documentation of the UI component with the heading {TITLE}.
+4. Check the various sections with the heading &quot;Example&quot;.
+<!-- END steps_show -->
+
+<!-- BEGIN steps_validate -->
+1. ILIAS shows the tree with the UI components on the left.
+2. Click on the small triangle in front of {SECTION} and then continue to {CLICKPATH}.
+3. ILIAS opens the documentation of the UI component with the heading {TITLE}.
+4. Press **Ctrl + Shift + I**.
+5. Click on the **HTML-Validator Icon**. Click/select **W3C Online**. 
+6. Now the extension tunnels the HTML of the page to the official validator page and returns the results.
+<!-- END steps_validate -->
+
+<!-- BEGIN expected_show -->
+{EXAMPLE_COUNTER} examples are displayed.
+{EXPECTED}
+<!-- END expected_show -->
+
+<!-- BEGIN expected_validate -->
+* You do not receive any errors. You can ignore warnings, but you must not receive any errors.
+<!-- END expected_validate -->
+
+<!-- BEGIN suite_title -->
+UI-Service
+<!-- END suite_title -->
+
+<!-- BEGIN suite_description -->
+Current information on **responsible testers and authors** can be found on Github: 
+[maintenance.md](https://raw.githubusercontent.com/ILIAS-eLearning/ILIAS/trunk/docs/development/maintenance.md)
+---
+Test cases for Kitchen Sink elements.
+<!-- END suite_description -->
+
+<!-- BEGIN suite_case_open_title -->
+Open UI Components in the Administration
+<!-- END suite_case_open_title -->
+
+<!-- BEGIN suite_case_open_precond -->
+* You need administration rights for the &quot;Layout&quot; area. 
+  If necessary, please contact the Test Manager at: fabian@ilias.de
+<!-- END suite_case_open_precond -->
+
+<!-- BEGIN suite_case_open_steps -->
+1. Open the menu **Administration → Layout and Navigation → Layout**.
+2. ILIAS opens the **Layout** area in the **System Styles** tab.
+3. Open the **Actions** menu in the **Delos** line and click on the **Open Documentation** entry.
+<!-- END suite_case_open_steps -->
+
+<!-- BEGIN suite_case_open_expected -->
+* ILIAS opens the documentation of the UI Components. 
+* All test cases for the components are executed in this area. 
+  You always start running the test cases on this screen.
+<!-- END suite_case_open_expected -->
+
+<!-- BEGIN suite_case_validate_title -->
+Preliminary task: Set up HTML Validator
+<!-- END suite_case_validate_title -->
+
+<!-- BEGIN suite_case_validate_precond -->
+* You need administration rights for the &quot;Layout&quot; area. 
+  If necessary, please contact the Test Manager at: fabian@ilias.de
+<!-- END suite_case_validate_precond -->
+
+<!-- BEGIN suite_case_validate_steps -->
+1. Open Firefox. 
+2. Click on the action menu at the top right (three small lines) and then on the entry **Add-ons and themes**. 
+3. Search for HTML Validator (by Marc Gueury). 
+4. Add it to your Firefox. (Click on the title and then on the **Add to Firefox** button).
+5. Authorize the validator to access the files of the websites visited. 
+6. A small new icon will appear in the top right-hand corner of your browser.
+<!-- END suite_case_validate_steps -->
+
+<!-- BEGIN suite_case_validate_expected -->
+Once you have installed the Validtor extension, set this test case to passed.
+<!-- END suite_case_validate_expected -->

@@ -22,44 +22,74 @@ namespace ILIAS\MetaData\Editor\Presenter;
 
 use ILIAS\MetaData\Elements\Data\DataInterface as ElementsDataInterface;
 use ILIAS\MetaData\Elements\Data\Type;
+use ILIAS\MetaData\Presentation\UtilitiesInterface as BaseUtilities;
 use ILIAS\MetaData\Presentation\DataInterface as DataPresentation;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
+use ILIAS\MetaData\Vocabularies\Dispatch\Presentation\PresentationInterface as VocabulariesPresentation;
+use ILIAS\MetaData\Vocabularies\Dispatch\Presentation\LabelledValueInterface;
+use ILIAS\MetaData\Vocabularies\Dispatch\Presentation\LabelledValue;
 
 class Data implements DataInterface
 {
-    protected UtilitiesInterface $utilities;
+    protected BaseUtilities $utilities;
     protected DataPresentation $data_presentation;
+    protected VocabulariesPresentation $vocabularies_presentation;
 
     public function __construct(
-        UtilitiesInterface $utilities,
-        DataPresentation $data_presentation
+        BaseUtilities $utilities,
+        DataPresentation $data_presentation,
+        VocabulariesPresentation $vocabularies_presentation
     ) {
         $this->utilities = $utilities;
         $this->data_presentation = $data_presentation;
+        $this->vocabularies_presentation = $vocabularies_presentation;
     }
 
     public function dataValue(ElementsDataInterface $data): string
     {
-        return $this->data_presentation->dataValue($data);
+        return $this->utilities->sanitizeForHTML(
+            $this->data_presentation->dataValue($data)
+        );
     }
 
-    public function vocabularyValue(string $value): string
+    /**
+     * @return LabelledValueInterface[]
+     */
+    public function vocabularyValues(SlotIdentifier $slot, string ...$values): \Generator
     {
-        return $this->data_presentation->vocabularyValue($value);
+        $labels = $this->vocabularies_presentation->presentableLabels(
+            $this->utilities,
+            $slot,
+            true,
+            ...$values
+        );
+        foreach ($labels as $label) {
+            yield new LabelledValue(
+                $label->value(),
+                $this->utilities->sanitizeForHTML($label->label())
+            );
+        }
     }
 
     public function language(string $language): string
     {
-        return $this->data_presentation->language($language);
+        return $this->utilities->sanitizeForHTML(
+            $this->data_presentation->language($language)
+        );
     }
 
     public function datetime(string $datetime): string
     {
-        return $this->data_presentation->datetime($datetime);
+        return $this->utilities->sanitizeForHTML(
+            $this->data_presentation->datetime($datetime)
+        );
     }
 
     public function duration(string $duration): string
     {
-        return $this->data_presentation->duration($duration);
+        return $this->utilities->sanitizeForHTML(
+            $this->data_presentation->duration($duration)
+        );
     }
 
     /**

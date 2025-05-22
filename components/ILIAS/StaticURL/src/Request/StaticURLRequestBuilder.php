@@ -20,16 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS\StaticURL\Request;
 
+use ILIAS\HTTP\Services;
 use ILIAS\Data\ReferenceId;
 use ILIAS\Refinery\Factory;
-use ILIAS\StaticURL\Handler\LegacyGotoHandler;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class StaticURLRequestBuilder implements RequestBuilder
 {
-    public function buildRequest(\ILIAS\HTTP\Services $http, Factory $refinery, array $handlers): ?Request
+    public function buildRequest(Services $http, Factory $refinery, array $handlers): ?Request
     {
         // maybe we have a legacy parameter during transition phase
         $target = $http->wrapper()->query()->has("target")
@@ -39,14 +39,10 @@ class StaticURLRequestBuilder implements RequestBuilder
             )
             : null;
         if ($target !== null) {
-            $target_parts = explode('_', $target);
+            $target_parts = explode('_', (string) $target);
             $namespace = array_shift($target_parts);
 
-            if (is_numeric($target_parts[0])) {
-                $reference_id = new ReferenceId((int) array_shift($target_parts));
-            } else {
-                $reference_id = null;
-            }
+            $reference_id = is_numeric($target_parts[0]) ? new ReferenceId((int) array_shift($target_parts)) : null;
             $additional_parameters = [];
             foreach ($target_parts as $target_part) {
                 $additional_parameters[] = urldecode($target_part);

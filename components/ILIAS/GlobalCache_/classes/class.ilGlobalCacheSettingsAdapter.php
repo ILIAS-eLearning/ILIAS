@@ -25,10 +25,10 @@ use ILIAS\Cache\Nodes\Node;
  */
 class ilGlobalCacheSettingsAdapter implements Setup\Config
 {
-    private ?ilIniFile $client_ini;
-    private ?ilDBInterface $db;
-
-    private Config $config;
+    /**
+     * @readonly
+     */
+    private ?Config $config = null;
     private bool $active = true;
     private string $service = Config::PHPSTATIC;
     private array $components = [];
@@ -38,36 +38,47 @@ class ilGlobalCacheSettingsAdapter implements Setup\Config
     private array $nodes = [];
 
     public function __construct(
-        ?ilIniFile $client_ini = null,
-        ?ilDBInterface $db = null
+        private readonly ?ilIniFile $client_ini = null,
+        private readonly ?ilDBInterface $db = null
     ) {
-        $this->db = $db;
-        $this->client_ini = $client_ini;
-        if ($client_ini !== null) {
-            $this->readFromIniFile($client_ini);
+        if ($this->client_ini !== null) {
+            $this->readFromIniFile($this->client_ini);
         }
         $this->config = $this->toConfig();
     }
 
+    public function getConfig(): Config
+    {
+        return $this->config ?? $this->toConfig();
+    }
+
     public function toConfig(): Config
     {
-        $config = new Config(
+        return new Config(
             $this->service,
             $this->active,
             $this->components,
             $this->getNodesRepository()
         );
-        return $config;
     }
 
     public function readFromIniFile(ilIniFile $client_ini): bool
     {
         $this->active = (bool) $client_ini->readVariable('cache', 'activate_global_cache');
-        $this->service = $client_ini->readVariable('cache', 'global_cache_service_type');
+        $service_type = $client_ini->readVariable('cache', 'global_cache_service_type');
+        if(is_numeric($service_type)) {
+            $service_type = match ((int) $service_type) {
+                0 => Config::PHPSTATIC,
+                2 => Config::MEMCACHED,
+                3 => Config::APCU,
+                default => Config::PHPSTATIC,
+            };
+        }
+        $this->service = (string) $service_type;
         $read_group = $client_ini->readGroup('cache_activated_components');
 
         $this->components = array_unique(
-            array_map(function (string $component): string {
+            array_map(static function (string $component): string {
                 if ($component === 'all') {
                     return '*';
                 }
@@ -127,12 +138,12 @@ class ilGlobalCacheSettingsAdapter implements Setup\Config
         $this->nodes[] = $node;
     }
 
-    public function getMemcachedNodes()
+    public function getMemcachedNodes(): array
     {
         return $this->nodes;
     }
 
-    public function resetActivatedComponents()
+    public function resetActivatedComponents(): void
     {
         $this->components = [];
     }

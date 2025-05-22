@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Container;
 
 use ILIAS\DI;
 use ILIAS\Repository;
 use ILIAS\Container\Page\PageManager;
 use ILIAS\Container\Classification\ClassificationManager;
+use ILIAS\Container\Metadata\MetadataManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -56,12 +57,16 @@ class InternalDomainService
         );
     }
 
-    public function page(\ilContainer $container): Page\PageManager
-    {
+    public function page(
+        \ilContainer $container,
+        ?string $lang = null
+    ): Page\PageManager {
         return new PageManager(
+            $this->DIC->database(),
             $this,
             $this->content_style_domain,
-            $container
+            $container,
+            $lang
         );
     }
 
@@ -71,5 +76,10 @@ class InternalDomainService
             $this->repo_service->classification($base_ref_id),
             $base_ref_id
         );
+    }
+
+    public function metadata(): MetadataManager
+    {
+        return new MetadataManager($this->learningObjectMetadata());
     }
 }

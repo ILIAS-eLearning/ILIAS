@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,6 +16,10 @@
  *
  *********************************************************************/
 
+use ILIAS\components\File\Preview\Form;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\HTTP\Services;
 use ILIAS\File\Icon\ilObjFileIconsOverviewGUI;
 use ILIAS\components\File\Preview\Settings;
@@ -40,11 +45,10 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     public const CMD_SAVE_SETTINGS = 'saveSettings';
     public const CMD_VIEW = 'view';
     private ilLanguage $language;
-    private \ILIAS\components\File\Preview\Form $preview_settings;
+    private Form $preview_settings;
     private \ILIAS\components\File\Settings\Form $file_object_settings;
-    protected \ILIAS\UI\Factory $ui_factory;
-    protected \ILIAS\UI\Renderer $ui_renderer;
-    protected Services $http;
+    protected Factory $ui_factory;
+    protected Renderer $ui_renderer;
 
     /**
      * Constructor
@@ -56,9 +60,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         global $DIC;
         $this->type = "facs";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
-        $this->preview_settings = new ILIAS\components\File\Preview\Form(new Settings());
+        $this->preview_settings = new Form(new Settings());
         $this->file_object_settings = new \ILIAS\components\File\Settings\Form(new General());
-        $this->http = $DIC->http();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->language = $DIC->language();
@@ -74,7 +77,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         }
     }
 
-    private function buildForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
+    private function buildForm(): Standard
     {
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE_SETTINGS),
@@ -85,6 +88,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         );
     }
 
+    #[\Override]
     public function executeCommand(): void
     {
         $this->lng->loadLanguageModule("file");
@@ -126,6 +130,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         }
     }
 
+    #[\Override]
     public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
@@ -150,12 +155,12 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $this->tabs_gui->addSubTabTarget(
             "settings",
             $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS),
-            array(self::CMD_EDIT_SETTINGS, "view")
+            [self::CMD_EDIT_SETTINGS, "view"]
         );
         $this->tabs_gui->addSubTabTarget(
             self::SUBTAB_SUFFIX_SPECIFIC_ICONS,
             $this->ctrl->getLinkTargetByClass(ilObjFileIconsOverviewGUI::class, ilObjFileIconsOverviewGUI::CMD_INDEX),
-            array(ilObjFileIconsOverviewGUI::CMD_INDEX, "view")
+            [ilObjFileIconsOverviewGUI::CMD_INDEX, "view"]
         );
     }
 

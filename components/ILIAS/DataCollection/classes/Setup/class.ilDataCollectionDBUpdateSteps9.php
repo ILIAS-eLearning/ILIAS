@@ -102,11 +102,11 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
     public function step_6(): void
     {
         $this->db->insert("il_dcl_datatype", [
-            'id' => ['integer', ilDclDatatype::INPUTFORMAT_FILE],
-            'title' => ['text', 'file'],
-            'ildb_type' => ['text', 'text'],
-            'storage_location' => ['integer', 1], // string-storage location
-            'sort' => ['integer', 75], // legacy + 5
+            'id' => [ilDBConstants::T_INTEGER, ilDclDatatype::INPUTFORMAT_FILE],
+            'title' => [ilDBConstants::T_TEXT, 'file'],
+            'ildb_type' => [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+            'storage_location' => [ilDBConstants::T_INTEGER, 1],
+            'sort' => [ilDBConstants::T_INTEGER, 75],
         ]);
     }
 
@@ -114,7 +114,7 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
     {
         $this->db->manipulateF(
             "DELETE FROM il_dcl_datatype WHERE id = %s",
-            ['integer'],
+            [ilDBConstants::T_INTEGER],
             [defined(ilDclDatatype::class . '::INPUTFORMAT_FILEUPLOAD') ? ilDclDatatype::INPUTFORMAT_FILEUPLOAD : 6]
         );
     }
@@ -174,5 +174,202 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
             [ilDBConstants::T_INTEGER],
             [ilDclDatatype::INPUTFORMAT_MOB]
         );
+    }
+
+    public function step_12(): void
+    {
+        $this->db->manipulateF(
+            'UPDATE il_dcl_stloc1_value v ' .
+            'INNER JOIN il_dcl_record_field rf ON rf.id = v.record_field_id ' .
+            'INNER JOIN il_dcl_field f ON f.id = rf.field_id ' .
+            'SET v.value = REPLACE(v.value, "<br />", "\r\n") WHERE f.datatype_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [ilDclDatatype::INPUTFORMAT_TEXT]
+        );
+    }
+
+    public function step_13(): void
+    {
+        if ($this->db->tableColumnExists('il_dcl_tableview', 'step_vs')) {
+            $this->db->dropTableColumn('il_dcl_tableview', 'step_vs');
+        }
+        if ($this->db->tableColumnExists('il_dcl_tableview', 'step_c')) {
+            $this->db->dropTableColumn('il_dcl_tableview', 'step_c');
+        }
+        if ($this->db->tableColumnExists('il_dcl_tableview', 'step_e')) {
+            $this->db->dropTableColumn('il_dcl_tableview', 'step_e');
+        }
+        if ($this->db->tableColumnExists('il_dcl_tableview', 'step_o')) {
+            $this->db->dropTableColumn('il_dcl_tableview', 'step_o');
+        }
+        if ($this->db->tableColumnExists('il_dcl_tableview', 'step_s')) {
+            $this->db->dropTableColumn('il_dcl_tableview', 'step_s');
+        }
+    }
+
+    public function step_14(): void
+    {
+        $this->db->manipulate('UPDATE il_dcl_field_prop SET value = "" WHERE value IS NULL');
+    }
+
+    public function step_15(): void
+    {
+        if ($this->db->tableExists('il_dcl_field_prop_b')) {
+            $this->db->dropTable('il_dcl_field_prop_b');
+        }
+
+        if ($this->db->tableExists('il_dcl_field_prop_s_b')) {
+            $this->db->dropTable('il_dcl_field_prop_s_b');
+        }
+    }
+
+    public function step_16(): void
+    {
+        global $DIC;
+        $slot = $DIC['component.repository']->getPluginSlotById(ilDclFieldTypePlugin::SLOT_ID);
+        foreach ($slot->getPlugins() as $plugin) {
+            $plugin = $DIC['component.factory']->getPlugin($plugin->getId());
+            $field_type_name = ilDclFieldTypePlugin::getDataType($plugin->getId());
+
+            $field_ids = [];
+            $stmt = $this->db->queryF(
+                'SELECT field_id FROM il_dcl_field_prop WHERE name = "plugin_hook_name" AND value = %s',
+                [ilDBConstants::T_TEXT],
+                [$plugin->getPluginName()]
+            );
+            while ($row = $this->db->fetchAssoc($stmt)) {
+                $field_ids[] = (int) $row['field_id'];
+            }
+
+            $id = 0;
+            $stmt = $this->db->queryF('SELECT id FROM il_dcl_datatype WHERE title LIKE %s', [ilDBConstants::T_TEXT], [$field_type_name]);
+            while ($row = $this->db->fetchAssoc($stmt)) {
+                $id = (int) $row['id'];
+            }
+            if ($id === 0) {
+                $type = $plugin->getStorageLocation();
+                $field_model_class = 'il' . $plugin->getPluginName() . 'FieldModel';
+                $type = (new $field_model_class())->getStorageLocationOverride() ?? $plugin->getStorageLocation();
+
+                $this->db->manipulateF(
+                    'INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location, sort) SELECT GREATEST(MAX(id), 1000) + 1, %s, %s, %s, GREATEST(MAX(sort), 10000) + 10 FROM il_dcl_datatype;',
+                    [
+                        ilDBConstants::T_TEXT,
+                        ilDBConstants::T_TEXT,
+                        ilDBConstants::T_INTEGER
+                    ],
+                    [
+                        $field_type_name,
+                        ilDclFieldTypePlugin::DB_TYPES[$type],
+                        $type
+                    ]
+                );
+                $stmt = $this->db->queryF('SELECT id FROM il_dcl_datatype WHERE title LIKE %s', [ilDBConstants::T_TEXT], [$field_type_name]);
+                $id = (int) $this->db->fetchAssoc($stmt)['id'];
+            }
+
+            foreach ($field_ids as $field_id) {
+                $this->db->manipulateF(
+                    'UPDATE il_dcl_field SET datatype_id = %s WHERE id = %s',
+                    [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+                    [$id, $field_id]
+                );
+            }
+
+            $this->db->manipulateF(
+                'DELETE FROM il_dcl_field_prop WHERE name = "plugin_hook_name" AND value = %s',
+                [ilDBConstants::T_TEXT],
+                [$plugin->getPluginName()]
+            );
+        }
+        $this->db->manipulateF(
+            'DELETE FROM il_dcl_datatype WHERE id = %s',
+            [ilDBConstants::T_TEXT],
+            [12]
+        );
+    }
+
+    public function step_17(): void
+    {
+        $id = false;
+        $stmt = $this->db->queryF('SELECT id FROM il_dcl_datatype WHERE id LIKE %s', [ilDBConstants::T_INTEGER], [ilDclDatatype::INPUTFORMAT_COPY]);
+        if ($row = $this->db->fetchAssoc($stmt)) {
+            $id = true;
+        }
+
+        if (!$id) {
+            $this->db->insert(
+                'il_dcl_datatype',
+                [
+                    'id' => [ilDBConstants::T_INTEGER, ilDclDatatype::INPUTFORMAT_COPY],
+                    'title' => [ilDBConstants::T_TEXT, 'copy'],
+                    'ildb_type' => [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+                    'storage_location' => [ilDBConstants::T_INTEGER, 1],
+                    'sort' => [ilDBConstants::T_INTEGER, 85],
+                ]
+            );
+        }
+    }
+
+    public function step_18(): void
+    {
+        $stmt = $this->db->queryF(
+            'SELECT * FROM page_object INNER JOIN il_dcl_tableview ON page_id = id WHERE rendered_content IS NOT NULL AND parent_type = %s',
+            [ilDBConstants::T_TEXT],
+            [ilDclDetailedViewDefinition::PARENT_TYPE]
+        );
+
+        while ($row = $this->db->fetchAssoc($stmt)) {
+            $tableview = new ilDclTableView((int) $row['page_id']);
+            $content = $row['content'];
+            $rendered_content = $row['rendered_content'];
+
+            foreach (['id', 'create_date', 'last_update', 'owner', 'last_edit_by'] as $field) {
+                $content = str_replace('[' . $field . ']', '[[' . $field . ']]', $content);
+                $content = str_replace('[[[' . $field . ']]]', '[[' . $field . ']]', $content);
+                $rendered_content = str_replace('[' . $field . ']', '[[' . $field . ']]', $rendered_content);
+                $rendered_content = str_replace('[[[' . $field . ']]]', '[[' . $field . ']]', $rendered_content);
+            }
+
+            $sub_stmt = $this->db->queryF(
+                'SELECT * FROM il_dcl_field WHERE table_id = %s',
+                [ilDBConstants::T_INTEGER],
+                [(int) $row['table_id']]
+            );
+            while ($field = $this->db->fetchAssoc($sub_stmt)) {
+                $old = ['[' . $field['title'] . ']','[dclrefln field="' . $field['title'] . '"][/dclrefln]' ];
+                $content = str_replace($old, '[[' . $field['id'] . ']]', $content);
+                $rendered_content = str_replace($old, '[[' . $field['id'] . ']]', $rendered_content);
+            }
+
+            $this->db->manipulateF(
+                'UPDATE page_object SET content = %s, rendered_content = %s WHERE page_id = %s',
+                [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
+                [$content, $rendered_content, (int) $row['page_id']]
+            );
+        }
+    }
+
+    public function step_19(): void
+    {
+        if ($this->db->tableColumnExists('il_dcl_datatype', 'ildb_type')) {
+            $this->db->dropTableColumn('il_dcl_datatype', 'ildb_type');
+        }
+    }
+
+    public function step_20(): void
+    {
+        $stmt = $this->db->queryF(
+            'SELECT id FROM il_dcl_datatype WHERE id = %s AND title = %s',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT],
+            [ilDclDatatype::INPUTFORMAT_DATE, 'date']
+        );
+        if ($this->db->fetchAssoc($stmt) === null) {
+            $this->db->manipulateF(
+                'UPDATE il_dcl_datatype SET title = %s WHERE id = %s',
+                [ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
+                ['date', ilDclDatatype::INPUTFORMAT_DATE]
+            );
+        }
     }
 }

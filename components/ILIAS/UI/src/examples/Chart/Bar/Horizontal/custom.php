@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Chart\Bar\Horizontal;
@@ -8,6 +24,12 @@ use ILIAS\UI\Component\Chart\Bar\Bar;
 use ILIAS\UI\Component\Chart\Bar\BarConfig;
 use ILIAS\UI\Component\Chart\Bar\XAxis;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows a base horizontal bar chart but customized with e.g. different colors.
+ * ---
+ */
 function custom()
 {
     //Loading factories
@@ -144,13 +166,13 @@ function custom()
     $b1 = $b1->withColor($df->color("#000000"));
     $b2 = new BarConfig();
     $b2 = $b2->withRelativeWidth(0.6);
-    $b2 = $b2->withColor($df->color("#d38000"));
+    $b2 = $b2->withColor($df->color("#12436D"));
     $b3 = new BarConfig();
     $b3 = $b3->withRelativeWidth(0.6);
-    $b3 = $b3->withColor($df->color("#307C88"));
+    $b3 = $b3->withColor($df->color("#28A197"));
     $b4 = new BarConfig();
     $b4 = $b4->withRelativeWidth(0.6);
-    $b4 = $b4->withColor($df->color("#557b2e"));
+    $b4 = $b4->withColor($df->color("#801650"));
 
     $bars = [
         "Target" => $b1,

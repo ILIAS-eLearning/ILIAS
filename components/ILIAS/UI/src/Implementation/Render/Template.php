@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Render;
 
@@ -51,12 +51,5 @@ interface Template
     /**
      * Get the rendered template or a specific block.
      */
-    public function get(string $block = null): string;
-
-    /**
-     * Add some javascript to be executed on_load of the rendered page.
-     * TODO: This seems to be no rendering, but a javascript concern. We should
-     * revise this when introducing patterns for javascript.
-     */
-    public function addOnLoadCode(string $code): void;
+    public function get(?string $block = null): string;
 }

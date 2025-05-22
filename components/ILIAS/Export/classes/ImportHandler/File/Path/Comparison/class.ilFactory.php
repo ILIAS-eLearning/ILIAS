@@ -20,17 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\Path\Comparison;
 
-use ILIAS\Export\ImportHandler\File\Path\Comparison\ilHandler as ilFilePathComparisonHandler;
-use ILIAS\Export\ImportHandler\File\Path\Comparison\Operator as ilFilePathComparisonOperator;
-use ILIAS\Export\ImportHandler\I\File\Path\Comparison\ilFactoryInterface as ilFilePathComparisonFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\Path\Comparison\ilHandlerInterface as ilFilePathComparisonHandlerInterface;
-
-class ilFactory implements ilFilePathComparisonFactoryInterface
+/**
+ * For some reason the github pipeline expects this file.
+ */
+class ilFactory
 {
-    public function handler(
-        ilFilePathComparisonOperator $operator,
-        string $content
-    ): ilFilePathComparisonHandlerInterface {
-        return new ilFilePathComparisonHandler($operator, $content);
-    }
 }

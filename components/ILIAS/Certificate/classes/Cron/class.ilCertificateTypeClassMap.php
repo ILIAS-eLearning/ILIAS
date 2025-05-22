@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Exercise\Certificate\ExercisePlaceholderValues;
+use ILIAS\Course\Certificate\CoursePlaceholderValues;
 use ILIAS\StudyProgramme\Certificate\ilStudyProgrammePlaceholderValues;
 use ILIAS\Test\Certificate\TestPlaceholderValues;
 
@@ -30,9 +32,9 @@ class ilCertificateTypeClassMap
      * @var array<string, array{placeholder: string}>
      */
     private array $typeClassMap = [
-        'crs' => ['placeholder' => ilCoursePlaceholderValues::class],
+        'crs' => ['placeholder' => CoursePlaceholderValues::class],
         'tst' => ['placeholder' => TestPlaceholderValues::class],
-        'exc' => ['placeholder' => ilExercisePlaceholderValues::class],
+        'exc' => ['placeholder' => ExercisePlaceholderValues::class],
         'cmix' => ['placeholder' => ilCmiXapiPlaceholderValues::class],
         'lti' => ['placeholder' => ilLTIConsumerPlaceholderValues::class],
         'sahs' => ['placeholder' => ilScormPlaceholderValues::class],

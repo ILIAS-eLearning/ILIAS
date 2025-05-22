@@ -132,7 +132,7 @@ class ilConsultationHourUtils
      * @param int $a_app_id
      * @return bool
      */
-    public static function bookAppointment(int $a_usr_id, int $a_app_id): bool
+    public static function bookAppointment(int $a_usr_id, int $a_app_id, string $comment = ''): bool
     {
         global $DIC;
 
@@ -161,6 +161,40 @@ class ilConsultationHourUtils
         // book appointment
         $booking = new ilBookingEntry($app->getContextId());
         $booking->book($app->getEntryId(), $a_usr_id);
+        ilBookingEntry::writeBookingMessage(
+            $app->getEntryId(),
+            $a_usr_id,
+            $comment
+        );
+
+        $mail = new ilCalendarMailNotification();
+        $mail->setAppointmentId($app->getEntryId());
+        $mail->setRecipients([$a_usr_id]);
+        $mail->setType(ilCalendarMailNotification::TYPE_BOOKING_CONFIRMATION);
+        $mail->send();
+
+        $recipients = [$booking->getObjId()];
+        $mail = new ilCalendarMailNotification();
+        $mail->setAppointmentId($app->getEntryId());
+        $mail->setBookerID($a_usr_id);
+        $mail->setRecipients($recipients);
+        $mail->setType(ilCalendarMailNotification::TYPE_BOOKING_CONFIRMATION_MANAGER);
+        $mail->send();
+
+        $manager = ilConsultationHourAppointments::getManager(
+            false,
+            false,
+            $booking->getObjId()
+        );
+        if ($manager > 0) {
+            $recipients = [$manager];
+            $mail = new ilCalendarMailNotification();
+            $mail->setAppointmentId($app->getEntryId());
+            $mail->setBookerID($a_usr_id);
+            $mail->setRecipients($recipients);
+            $mail->setType(ilCalendarMailNotification::TYPE_BOOKING_CONFIRMATION_MANAGER);
+            $mail->send();
+        }
         return true;
     }
 
@@ -179,14 +213,6 @@ class ilConsultationHourUtils
             ilCalendarCategory::TYPE_CH,
             false
         );
-        foreach ($user_apps as $uapp_id) {
-            $uapp = new ilCalendarEntry($uapp_id);
-            $uapp->delete();
-
-            ilCalendarCategoryAssignments::_deleteByAppointmentId($uapp_id);
-
-            break;
-        }
 
         // Delete booking entries
         // Send notification
@@ -196,6 +222,16 @@ class ilConsultationHourUtils
         } else {
             $booking->deleteBooking($a_app_id, $a_usr_id);
         }
+
+        foreach ($user_apps as $uapp_id) {
+            $uapp = new ilCalendarEntry($uapp_id);
+            $uapp->delete();
+
+            ilCalendarCategoryAssignments::_deleteByAppointmentId($uapp_id);
+
+            break;
+        }
+
         return true;
     }
 

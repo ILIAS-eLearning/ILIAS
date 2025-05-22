@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Membership notification settings
@@ -243,17 +243,17 @@ class ilMembershipNotifications
         return array_intersect($all, $users);
     }
 
-    public function activateUser(int $a_user_id = null): bool
+    public function activateUser(?int $a_user_id = null): bool
     {
         return $this->toggleUser(true, $a_user_id);
     }
 
-    public function deactivateUser(int $a_user_id = null): bool
+    public function deactivateUser(?int $a_user_id = null): bool
     {
         return $this->toggleUser(false, $a_user_id);
     }
 
-    protected function getUser(int $a_user_id = null): ?ilObjUser
+    protected function getUser(?int $a_user_id = null): ?ilObjUser
     {
         if (
             $a_user_id === null ||
@@ -273,7 +273,7 @@ class ilMembershipNotifications
         return null;
     }
 
-    protected function toggleUser(bool $a_status, int $a_user_id = null): bool
+    protected function toggleUser(bool $a_status, ?int $a_user_id = null): bool
     {
         if (!self::isActive()) {
             return false;

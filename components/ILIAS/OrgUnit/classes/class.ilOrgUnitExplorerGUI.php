@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,9 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+ *********************************************************************/
 
 use ILIAS\UI\Component\Tree\TreeRecursion;
 
@@ -42,7 +41,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
      * @param $a_tree
      * @param $access
      */
-    public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree, \ilAccessHandler $access = null)
+    public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree, ?\ilAccessHandler $access = null)
     {
         global $DIC;
         parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree);
@@ -52,7 +51,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
         $this->access = $DIC->access();
         $this->settings = $DIC->settings();
         $this->http_post = $DIC->http()->wrapper()->post();
-        $this->http_query= $DIC->http()->wrapper()->query();
+        $this->http_query = $DIC->http()->wrapper()->query();
         $this->refinery = $DIC["refinery"];
     }
 

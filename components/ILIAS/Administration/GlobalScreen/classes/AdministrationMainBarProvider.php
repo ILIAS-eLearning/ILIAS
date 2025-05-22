@@ -101,7 +101,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                     ->withParent($top)
                     ->withPosition($position * 10)
                     ->withAlwaysAvailable(true)
-                    ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('item_must_be_always_active')}"))
+                    ->withNonAvailableReason($this->dic->ui()->factory()->legacy()->content("{$this->dic->language()->txt('item_must_be_always_active')}"))
                     ->withVisibilityCallable(
                         $access_helper->hasAdministrationAccess()
                     )->withAvailableCallable(
@@ -211,7 +211,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             "maintenance" =>
                 array("adm", "lngf", "hlps", "wfe", 'fils', 'logs', 'sysc', "recf", "root"),
             "layout_and_navigation" =>
-                array("mme", "dshs", "stys", "adve"),
+                array("mme", "gsfo", "dshs", "stys", "adve"),
             "repository_and_objects" =>
                 array("reps", "crss", "grps", "prgs", "bibs", "blga", "cpad", "chta", "facs", "frma", "lrss",
                       "mcts", "mobs", "svyf", "assf", "wbrs", 'lsos'),

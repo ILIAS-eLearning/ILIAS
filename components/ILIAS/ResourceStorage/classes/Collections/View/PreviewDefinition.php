@@ -38,6 +38,7 @@ final class PreviewDefinition extends PagesToExtract
         );
     }
 
+    #[\Override]
     public function getId(): string
     {
         return 'irc_preview';

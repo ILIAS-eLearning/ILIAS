@@ -62,9 +62,9 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_LENGTH)) {
             $input->setInfo($this->lng->txt("dcl_max_text_length") . ": " . $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
             if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_TEXTAREA)) {
-                $input->setMaxLength((int)$this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
+                $input->setMaxLength((int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
             } else {
-                $input->setMaxNumOfChars((int)$this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
+                $input->setMaxNumOfChars((int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
             }
         }
 
@@ -121,7 +121,15 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
             $this->lng->txt('dcl_link_detail_page'),
             $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT)
         );
+        $prop_page_details->setInfo($this->lng->txt('dcl_link_detail_page_desc'));
         $opt->addSubItem($prop_page_details);
+
+        $prop_unique = new ilDclCheckboxInputGUI(
+            $this->lng->txt('dcl_unique'),
+            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_UNIQUE)
+        );
+        $prop_unique->setInfo($this->lng->txt('dcl_unique_desc'));
+        $opt->addSubItem($prop_unique);
 
         return $opt;
     }

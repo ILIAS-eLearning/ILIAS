@@ -47,7 +47,7 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
         $this->addTextInputToForm(false);
     }
 
-    public function importFromPost(array $a_post = null): bool
+    public function importFromPost(?array $a_post = null): bool
     {
         $post = $this->extractPostValues($a_post);
 
@@ -123,8 +123,10 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
                 $a_adt->getTranslations() :
                 [$a_adt->getTextForLanguage($a_adt->getCopyOfDefinition()->getDefaultLanguage())];
 
-            foreach ($relevant_translation as $txt) {
-                if (str_contains(strtolower($txt), strtolower($this->getADT()->getText()))) {
+            foreach ($relevant_translation as $text) {
+                $search_term = strtolower(trim((string) $this->getADT()->getText()));
+                $text = strtolower(trim((string) $text));
+                if (str_contains($text, $search_term)) {
                     return true;
                 }
             }

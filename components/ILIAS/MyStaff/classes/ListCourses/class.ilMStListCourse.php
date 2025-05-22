@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\MyStaff\ListCourses;
@@ -28,9 +29,9 @@ use ilObjUser;
  */
 class ilMStListCourse
 {
-    public const MEMBERSHIP_STATUS_REQUESTED = 1;
-    public const MEMBERSHIP_STATUS_WAITINGLIST = 2;
-    public const MEMBERSHIP_STATUS_REGISTERED = 3;
+    public const int MEMBERSHIP_STATUS_REQUESTED = 1;
+    public const int MEMBERSHIP_STATUS_WAITINGLIST = 2;
+    public const int MEMBERSHIP_STATUS_REGISTERED = 3;
 
     protected int $crs_ref_id;
     protected string $crs_title;

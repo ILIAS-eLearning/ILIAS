@@ -130,6 +130,18 @@ class ilExcIndividualDeadline
         );
     }
 
+    public static function deleteForAssignment(int $ass_id): void
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $ilDB->manipulate(
+            "DELETE FROM exc_idl " .
+            " WHERE ass_id = " . $ilDB->quote($ass_id, "integer")
+        );
+    }
+
 
     /**
      * Get starting timestamp data for an assignment.

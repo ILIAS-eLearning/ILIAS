@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\Layout\Provider;
 
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ModificationFactory;
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\BreadCrumbsModification;
@@ -48,7 +49,7 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     /**
      * @var ToolFactory
      */
-    protected \ILIAS\GlobalScreen\Scope\Layout\Factory\ModificationFactory $factory;
+    protected ModificationFactory $factory;
 
     /**
      * @inheritDoc

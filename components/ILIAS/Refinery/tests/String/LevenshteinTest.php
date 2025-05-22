@@ -23,7 +23,6 @@ namespace ILIAS\src\Refinery\String;
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\String\Group;
 use PHPUnit\Framework\TestCase;
-use ILIAS\Language\Language;
 use InvalidArgumentException;
 
 class LevenshteinTest extends TestCase

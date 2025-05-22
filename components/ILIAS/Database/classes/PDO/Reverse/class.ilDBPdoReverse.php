@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,23 +16,21 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilDBPdoReverse
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilDBPdoReverse implements ilDBReverse
 {
-    protected \PDO $pdo;
-    protected \ilDBPdo $db_instance;
     protected ?\ilMySQLQueryUtils $query_utils = null;
 
     /**
      * ilDBPdoReverse constructor.
      */
-    public function __construct(\PDO $pdo, ilDBPdo $db_instance)
+    public function __construct(protected \PDO $pdo, protected \ilDBPdo $db_instance)
     {
-        $this->pdo = $pdo;
-        $this->db_instance = $db_instance;
     }
 
     public function getQueryUtils(): \ilMySQLQueryUtils
@@ -54,7 +50,7 @@ class ilDBPdoReverse implements ilDBReverse
         $table = $this->db_instance->quoteIdentifier($table_name);
         $query = "SHOW COLUMNS FROM $table LIKE " . $this->db_instance->quote($field_name);
         $res = $this->pdo->query($query);
-        $columns = array();
+        $columns = [];
         while ($data = $res->fetch(PDO::FETCH_ASSOC)) {
             $columns[] = $data;
         }
@@ -84,10 +80,10 @@ class ilDBPdoReverse implements ilDBReverse
                     $autoincrement = true;
                 }
 
-                $definition[0] = array(
+                $definition[0] = [
                     'notnull' => $notnull,
-                    'nativetype' => preg_replace('/^([a-z]+)[^a-z].*/i', '\\1', $column['type']),
-                );
+                    'nativetype' => preg_replace('/^([a-z]+)[^a-z].*/i', '\\1', (string) $column['type']),
+                ];
                 if (!is_null($length)) {
                     $definition[0]['length'] = $length;
                 }
@@ -138,7 +134,7 @@ class ilDBPdoReverse implements ilDBReverse
         $result = $this->db_instance->query(sprintf($query, $this->db_instance->quote($constraint_name)));
 
         $colpos = 1;
-        $definition = array();
+        $definition = [];
         while (is_object($row = $result->fetchObject())) {
             $row = array_change_key_case((array) $row, CASE_LOWER);
 
@@ -149,9 +145,9 @@ class ilDBPdoReverse implements ilDBReverse
                     throw new ilDatabaseException('it was not specified an existing table index');
                 }
                 $column_name = $row['column_name'];
-                $definition['fields'][$column_name] = array(
+                $definition['fields'][$column_name] = [
                     'position' => $colpos++,
-                );
+                ];
                 if (!empty($row['collation'])) {
                     $definition['fields'][$column_name]['sorting'] = ($row['collation'] === 'A' ? 'ascending' : 'descending');
                 }
@@ -189,20 +185,20 @@ class ilDBPdoReverse implements ilDBReverse
         $result = $this->db_instance->query(sprintf($query, $this->db_instance->quote($index_name)));
 
         $colpos = 1;
-        $definition = array();
+        $definition = [];
         while (is_object($row = $result->fetchObject())) {
             $row = (array) $row;
             $row = array_change_key_case($row, CASE_LOWER);
             $key_name = $row['key_name'];
             if ($this->db_instance->options['portability'] ?? null) {
-                $key_name = strtolower($key_name);
+                $key_name = strtolower((string) $key_name);
             }
-            $key_name = strtolower($key_name); // FSX fix
+            $key_name = strtolower((string) $key_name); // FSX fix
             if ($index_name === $key_name) {
                 if ($row['non_unique']) {
                     throw new ilDatabaseException(' is not an existing table constraint');
                 }
-                if (strtolower($row['key_name']) === 'primary') {
+                if (strtolower((string) $row['key_name']) === 'primary') {
                     $definition['primary'] = true;
                 } else {
                     $definition['unique'] = true;
@@ -210,14 +206,14 @@ class ilDBPdoReverse implements ilDBReverse
                 $column_name = $row['column_name'];
                 if ($this->db_instance->options['portability'] ?? null) {
                     if ($this->db_instance->options['field_case'] == CASE_LOWER) {
-                        $column_name = strtolower($column_name);
+                        $column_name = strtolower((string) $column_name);
                     } else {
-                        $column_name = strtoupper($column_name);
+                        $column_name = strtoupper((string) $column_name);
                     }
                 }
-                $definition['fields'][$column_name] = array(
+                $definition['fields'][$column_name] = [
                     'position' => $colpos++,
-                );
+                ];
                 if (!empty($row['collation'])) {
                     $definition['fields'][$column_name]['sorting'] = ($row['collation'] === 'A' ? 'ascending' : 'descending');
                 }

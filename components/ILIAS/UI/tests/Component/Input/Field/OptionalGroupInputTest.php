@@ -20,11 +20,12 @@ declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
+require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\UI\Implementation\Component\Input\Field\OptionalGroup;
 use ILIAS\UI\Implementation\Component\Input\Field\FormInput;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Component\Input\InputData;
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -38,6 +39,8 @@ abstract class Input12 extends FormInput
 
 class OptionalGroupInputTest extends ILIAS_UI_TestBase
 {
+    use CommonFieldRendering;
+
     /**
      * @var Input11|mixed|MockObject
      */
@@ -51,7 +54,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
     protected Data\Factory $data_factory;
 
     /**
-     * @var ilLanguage|mixed|MockObject
+     * @var ILIAS\Language\Language|mixed|MockObject
      */
     protected $language;
 
@@ -64,7 +67,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->child1 = $this->createMock(Input11::class);
         $this->child2 = $this->createMock(Input12::class);
         $this->data_factory = new Data\Factory();
-        $this->language = $this->createMock(ilLanguage::class);
+        $this->language = $this->createMock(ILIAS\Language\Language::class);
         $this->refinery = new ILIAS\Refinery\Factory($this->data_factory, $this->language);
 
         $this->child1
@@ -383,5 +386,24 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(OptionalGroup::class, $new_group);
         $this->assertNotSame($this->optional_group, $new_group);
         $this->assertEquals($this->data_factory->ok("result"), $new_group->getContent());
+    }
+
+    public function testCommonRendering(): void
+    {
+        $f = $this->getFieldFactory();
+        $label = "label";
+        $og = $f->optionalGroup(
+            [
+                "field_1" => $f->text("f"),
+                "field_2" => $f->text("f2")
+            ],
+            $label
+        )->withNameFrom((new DefNamesource()));
+
+        $this->testWithError($og);
+        $this->testWithNoByline($og);
+        $this->testWithRequired($og);
+        $this->testWithDisabled($og);
+        $this->testWithAdditionalOnloadCodeRendersId($og);
     }
 }

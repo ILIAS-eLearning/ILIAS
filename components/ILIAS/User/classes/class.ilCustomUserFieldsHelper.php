@@ -16,8 +16,12 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 // still needed, since constants are defined in ilUserDefinedFields
 require_once __DIR__ . '/class.ilUserDefinedFields.php';
+
+use ILIAS\Language\Language;
 
 /**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -25,7 +29,7 @@ require_once __DIR__ . '/class.ilUserDefinedFields.php';
 class ilCustomUserFieldsHelper
 {
     private static ?ilCustomUserFieldsHelper $instance = null;
-    private ilLanguage $lng;
+    private Language $lng;
     protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
 
@@ -65,10 +69,10 @@ class ilCustomUserFieldsHelper
     /**
      * Get plugin for udf type
      */
-    public function getPluginForType(string $a_type): ?ilUDFDefinitionPlugin
+    public function getPluginForType(int $type): ?ilUDFDefinitionPlugin
     {
         foreach ($this->getActivePlugins() as $plugin) {
-            if ($plugin->getDefinitionType() == $a_type) {
+            if ($plugin->getDefinitionType() === $type) {
                 return $plugin;
             }
         }

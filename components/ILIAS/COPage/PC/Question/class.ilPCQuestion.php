@@ -215,7 +215,7 @@ class ilPCQuestion extends ilPageContent
                 foreach ($q_ids as $q_id) {
                     $q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
                     // object check due to #16557
-                    if (is_object($q_gui->object) && !$q_gui->object->isComplete()) {
+                    if (is_object($q_gui->getObject()) && !$q_gui->getObject()->isComplete()) {
                         $a_output = str_replace(
                             "{{{{{Question;il__qst_" . $q_id . "}}}}}",
                             "<i>" . $lng->txt("cont_empty_question") . "</i>",
@@ -271,10 +271,12 @@ class ilPCQuestion extends ilPageContent
         $js_files = array();
 
         if ($this->getPage()->getPageConfig()->getEnableSelfAssessment()) {
-            $js_files[] = "./components/ILIAS/Scorm2004/scripts/questions/pure.js";
-            $js_files[] = "./components/ILIAS/Scorm2004/scripts/questions/question_handling.js";
-            $js_files[] = 'components/ILIAS/TestQuestionPool/js/ilAssMultipleChoice.js';
-            $js_files[] = "components/ILIAS/TestQuestionPool/js/ilMatchingQuestion.js";
+            $js_files[] = 'assets/js/pure_rendering.js';
+            $js_files[] = 'assets/js/question_handling.js';
+            $js_files[] = 'assets/js/matchinginput.js';
+            $js_files[] = 'assets/js/orderinghorizontal.js';
+            $js_files[] = 'assets/js/orderingvertical.js';
+            $js_files[] = 'assets/js/matching.js';
 
             foreach ($this->getQuestionIds() as $qId) {
                 $qstGui = assQuestionGUI::_getQuestionGUI('', $qId);
@@ -293,7 +295,7 @@ class ilPCQuestion extends ilPageContent
     public function getCssFiles(string $a_mode): array
     {
         if ($this->getPage()->getPageConfig()->getEnableSelfAssessment()) {
-            return array("./components/ILIAS/Scorm2004/templates/default/question_handling.css",
+            return array("./components/ILIAS/TestQuestionPool/resources/js/dist/question_handling.css",
                 "components/ILIAS/TestQuestionPool/templates/default/test_javascript.css");
         }
         return array();
@@ -471,7 +473,8 @@ class ilPCQuestion extends ilPageContent
             $path = "//Question";
             $nodes = $dom_util->path($a_domdoc, $path);
             foreach ($nodes as $node) {
-                $node->parentNode->removeChild($node);
+                $parent = $node->parentNode;
+                $parent->parentNode->removeChild($parent);
             }
         }
     }

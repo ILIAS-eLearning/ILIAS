@@ -19,18 +19,64 @@
 declare(strict_types=1);
 
 use ILIAS\Setup;
+use ILIAS\Setup\Config;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Metrics\Storage;
+use ILIAS\Setup\Objective\NullObjective;
+use ILIAS\Refinery\Transformation;
 
-class ilDataCollectionSetupAgent extends Setup\Agent\NullAgent
+class ilDataCollectionSetupAgent implements Setup\Agent
 {
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new ilDataCollectionDBUpdateSteps9());
+        return new Setup\ObjectiveCollection(
+            'DataCollection Update',
+            true,
+            new ilDataCollectionObjective(new ilDataCollectionDBUpdateSteps9()),
+            new ilDataCollectionObjective(new ilDataCollectionDBUpdateSteps11()),
+        );
     }
 
     public function getMigrations(): array
     {
         return [
-            new ilDataCollectionStorageMigration()
+            new ilDataCollectionStorageMigration(),
+            new ilDataCollectionInitLOMMigration()
         ];
+    }
+
+    public function hasConfig(): bool
+    {
+        return false;
+    }
+
+    public function getArrayToConfigTransformation(): Transformation
+    {
+        throw new LogicException(self::class . " has no config.");
+    }
+
+    public function getInstallObjective(?Config $config = null): Objective
+    {
+        return new NullObjective();
+    }
+
+    public function getBuildArtifactObjective(): Objective
+    {
+        return new NullObjective();
+    }
+
+    public function getStatusObjective(Storage $storage): Objective
+    {
+        return new NullObjective();
+    }
+
+    public function getNamedObjectives(?Config $config = null): array
+    {
+        return [];
+    }
+
+    public function getBuildObjective(): Objective
+    {
+        return new NullObjective();
     }
 }

@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Input\Container\Filter;
 
 use ILIAS\UI\Component\Input\Container\Filter as F;
-use ILIAS\UI\Component\Input\Field;
+use ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class Factory implements F\Factory
@@ -37,9 +37,6 @@ class Factory implements F\Factory
         $this->field_factory = $field_factory;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function standard(
         $toggle_action_on,
         $toggle_action_off,
@@ -51,7 +48,7 @@ class Factory implements F\Factory
         array $is_input_rendered,
         bool $is_activated = false,
         bool $is_expanded = false
-    ): F\Standard {
+    ): Standard {
         return new Standard(
             $this->signal_generator,
             $this->field_factory,

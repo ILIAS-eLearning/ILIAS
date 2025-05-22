@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,15 +16,16 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
+declare(strict_types=0);
+
 /**
  * Folder export
  * @author  Stefan Meyer <meyer@leifos.com>
- * @ingroup ServicesBooking
  */
 class ilCourseExporter extends ilXmlExporter
 {
-    public const ENTITY_OBJECTIVE = 'objectives';
-    public const ENTITY_MAIN = 'crs';
+    public const string ENTITY_OBJECTIVE = 'objectives';
+    public const string ENTITY_MAIN = 'crs';
 
     protected ilXmlWriter $writer;
     protected ilLogger $logger;
@@ -178,12 +178,26 @@ class ilCourseExporter extends ilXmlExporter
     public function getValidSchemaVersions(string $a_entity): array
     {
         return [
+            "11.0" => [
+                "namespace" => 'http://www.ilias.de/Modules/Course/crs/11',
+                "xsd_file" => 'ilias_crs_11_0.xsd',
+                "uses_dataset" => false,
+                "min" => "11.0",
+                "max" => ""
+            ],
+            "10.0" => [
+                "namespace" => 'http://www.ilias.de/Modules/Course/crs/10',
+                "xsd_file" => 'ilias_crs_10_0.xsd',
+                "uses_dataset" => false,
+                "min" => "10.0",
+                "max" => "10.999"
+            ],
             "9.0" => [
                 "namespace" => 'http://www.ilias.de/Modules/Course/crs/9',
                 "xsd_file" => 'ilias_crs_9_0.xsd',
                 "uses_dataset" => false,
                 "min" => "9.0",
-                "max" => ""
+                "max" => "9.999"
             ],
             "4.1.0" => [
                 "namespace" => "http://www.ilias.de/Modules/Course/crs/4_1",
@@ -197,7 +211,7 @@ class ilCourseExporter extends ilXmlExporter
                 "xsd_file" => "ilias_crs_5_0.xsd",
                 "uses_dataset" => false,
                 "min" => "5.0.0",
-                "max" => ""
+                "max" => "8.999"
             ]
         ];
     }

@@ -90,6 +90,14 @@ ILIAS 9 uses simplesamlphp v2.0 (prior v1.9). For a complete list of all changes
 
 The following changes must be made in the `$ILI_DATA/auth/saml/config/config.php`:
 
+The namespace path for the key `logging.level` may need to be changed.
+This was already the case at least since ILIAS 6 but the old namespace pathes where still valid until ILIAS 9.
+So old installations may still have `_` instead of `\\`.
+```diff
+-    'logging.level' => SimpleSAML_Logger::DEBUG,
++    'logging.level' => SimpleSAML\Logger::DEBUG,
+```
+
 The key `debug` is now not a boolean but an array value instead. New installations will have this value as default.
 ```diff
 -    'debug' => true,
@@ -103,7 +111,7 @@ The key `debug` is now not a boolean but an array value instead. New installatio
 The key `baseurlpath` must be changed to the following. New installations will have this value as default.
 ```diff
 - 'baseurlpath' => 'simplesaml/',
-+ 'baseurlpath' => 'Services/saml/lib/',
++ 'baseurlpath' => 'Services/Saml/lib/',
 ```
 
 If it does not already exist the key `module.enable` must be added with the following content. New installations will have this value as default.

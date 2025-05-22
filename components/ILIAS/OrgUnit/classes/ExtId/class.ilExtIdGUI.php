@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,9 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+ *********************************************************************/
 
 /**
  * Class ilExtIdGUI
@@ -47,7 +46,7 @@ class ilExtIdGUI
         $this->tabs_gui = $DIC->tabs();
         $this->toolbar = $DIC->toolbar();
         $this->lng = $DIC->language();
-        $this->ilAccess =  $DIC->access();
+        $this->ilAccess = $DIC->access();
         $this->lng->loadLanguageModule('user');
         if (!$this->ilAccess->checkaccess("write", "", $this->parent_gui->getObject()->getRefId())) {
             $main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);

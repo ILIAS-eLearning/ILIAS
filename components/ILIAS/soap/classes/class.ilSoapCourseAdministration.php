@@ -1,25 +1,20 @@
 <?php
-/*
- +-----------------------------------------------------------------------------+
- | ILIAS open source                                                           |
- +-----------------------------------------------------------------------------+
- | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
- |                                                                             |
- | This program is free software; you can redistribute it and/or               |
- | modify it under the terms of the GNU General Public License                 |
- | as published by the Free Software Foundation; either version 2              |
- | of the License, or (at your option) any later version.                      |
- |                                                                             |
- | This program is distributed in the hope that it will be useful,             |
- | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
- | GNU General Public License for more details.                                |
- |                                                                             |
- | You should have received a copy of the GNU General Public License           |
- | along with this program; if not, write to the Free Software                 |
- | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
- +-----------------------------------------------------------------------------+
-*/
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Soap course administration methods
@@ -27,13 +22,12 @@
  * @version $Id$
  * @package ilias
  */
-
 class ilSoapCourseAdministration extends ilSoapAdministration
 {
-    public const MEMBER = 1;
-    public const TUTOR = 2;
-    public const ADMIN = 4;
-    public const OWNER = 8;
+    public const int MEMBER = 1;
+    public const int TUTOR = 2;
+    public const int ADMIN = 4;
+    public const int OWNER = 8;
 
     /**
      * @return int|soap_fault|SoapFault|string|null
@@ -67,12 +61,13 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         $newObj->setType('crs');
         $newObj->setTitle('dummy');
         $newObj->setDescription("");
-        $newObj->create(true); // true for upload
+        $newObj->create(); // true for upload
         $newObj->createReference();
         $newObj->putInTree($target_id);
         $newObj->setPermissions($target_id);
 
         $xml_parser = new ilCourseXMLParser($newObj);
+        $xml_parser->setMode(ilCourseXMLParser::MODE_SOAP);
         $xml_parser->setXMLContent($crs_xml);
         $xml_parser->startParsing();
         return $newObj->getRefId() ?: "0";
@@ -369,17 +364,13 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $this->raiseError('Check access failed. No permission to write course', 'Server');
         }
 
-        // First delete old meta data
-
-        $md = new ilMD($tmp_course->getId(), 0, 'crs');
-        $md->deleteAll();
-
         ilCourseParticipants::_deleteAllEntries($tmp_course->getId());
 
         ilCourseWaitingList::_deleteAll($tmp_course->getId());
 
 
         $xml_parser = new ilCourseXMLParser($tmp_course);
+        $xml_parser->setMode(ilCourseXMLParser::MODE_SOAP);
         $xml_parser->setXMLContent($xml);
         $xml_parser->startParsing();
         $tmp_course->MDUpdateListener('General');

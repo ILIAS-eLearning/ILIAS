@@ -28,11 +28,10 @@ class Renderer extends AbstractComponentRenderer
 {
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
         if ($component instanceof Inline) {
             return $this->renderInline($component, $default_renderer);
         }
-        throw new LogicException("Cannot render: " . get_class($component));
+        $this->cannotHandleComponent($component);
     }
 
     public function renderInline(Inline $component, RendererInterface $default_renderer): string
@@ -66,7 +65,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         if (!$launchable) {
-            $start_button =$start_button->withUnavailableAction();
+            $start_button = $start_button->withUnavailableAction();
         }
         if ($status_icon = $component->getStatusIcon()) {
             $tpl->setVariable("STATUS_ICON", $default_renderer->render($status_icon));
@@ -78,12 +77,5 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("BUTTON", $default_renderer->render($start_button));
 
         return $tpl->get();
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Inline::class
-        ];
     }
 }

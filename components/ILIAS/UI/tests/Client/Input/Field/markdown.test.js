@@ -1,15 +1,24 @@
 /**
- * These tests describe the minimal functionalities of a
- * ILIAS\Component\Input\Field\Markdown input.
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author Thibeau Fuhrer <thibeau@sr.solutions>
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  */
 
-import { assert, expect } from 'chai';
+import { beforeEach, describe, it } from 'node:test';
+import { strict } from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
-import MarkdownFactory from '../../../../resources/js/Input/Field/src/Markdown/markdown.factory';
-import PreviewRenderer from '../../../../resources/js/Input/Field/src/Markdown/preview.renderer';
-import Markdown from '../../../../resources/js/Input/Field/src/Markdown/markdown.class';
+import MarkdownFactory from '../../../../resources/js/Input/Field/src/Markdown/markdown.factory.js';
+import PreviewRenderer from '../../../../resources/js/Input/Field/src/Markdown/preview.renderer.js';
+import Markdown from '../../../../resources/js/Input/Field/src/Markdown/markdown.class.js';
 
 /**
  * Input-ID that should be used to initialize instances, it will be used when
@@ -28,13 +37,13 @@ const test_input_id = 'test_input_id';
 function initMockedDom() {
   const dom = new JSDOM(
     `
-            <div class="c-input-markdown">
-                <div class="c-input-markdown__controls">
+            <div class="c-field-markdown">
+                <div class="c-field-markdown__controls">
                     <div class="btn-group il-viewcontrol-mode" aria-label="" role="group">
                         <button class="btn btn-default engaged" aria-label="edit" aria-pressed="true" data-action="#" id="view_control_edit">edit</button>
                         <button class="btn btn-default" aria-label="view" aria-pressed="false" data-action="#" id="view_control_view">view</button>
                     </div>
-                    <div class="c-input-markdown__actions">
+                    <div class="c-field-markdown__actions">
                         <span data-action="insert-heading"><button class="btn btn-default" data-action="#" id="action_heading">H</button></span>
                         <span data-action="insert-link"><button class="btn btn-default" data-action="#" id="action_link">L</button></span>
                         <span data-action="insert-bold"><button class="btn btn-default" data-action="#" id="action_bold">B</button></span>
@@ -43,10 +52,8 @@ function initMockedDom() {
                         <span data-action="insert-unordered-list"><button class="btn btn-default" data-action="#" id="action_unordered_list">UL</button></span>
                     </div>
                 </div>
-                <div class="ui-input-textarea">
-                    <textarea id="${test_input_id}" class="form-control form-control-sm" name="test_input_1"></textarea>
-                </div>
-                <div class="c-input-markdown__preview hidden"></div>
+                    <textarea id="${test_input_id}" class="c-field-textarea" name="test_input_1"></textarea>
+                <div class="c-field-markdown__preview hidden"></div>
             </div>
         `,
     {
@@ -94,9 +101,9 @@ describe('Markdown input', () => {
             + before_characters.length
             + selected_content.length;
 
-    assert.strictEqual(input.textarea.value, expected_content);
-    assert.strictEqual(input.textarea.selectionStart, expected_selection_start);
-    assert.strictEqual(input.textarea.selectionEnd, expected_selection_end);
+    strict.equal(input.textarea.value, expected_content);
+    strict.equal(input.textarea.selectionStart, expected_selection_start);
+    strict.equal(input.textarea.selectionEnd, expected_selection_end);
   });
 
   it('can toggle bullet-points of all currently selected lines.', () => {
@@ -123,12 +130,12 @@ describe('Markdown input', () => {
 
     input.applyTransformationToSelection(input.getBulletPointTransformation());
 
-    expect(input.getLinesBeforeSelection()).to.have.ordered.members([expected_line_1]);
-    expect(input.getLinesOfSelection()).to.have.ordered.members([expected_line_2, expected_line_3]);
-    expect(input.getLinesAfterSelection()).to.have.ordered.members([expected_line_4]);
+    strict.deepEqual(input.getLinesBeforeSelection(), [expected_line_1]);
+    strict.deepEqual(input.getLinesOfSelection(), [expected_line_2, expected_line_3]);
+    strict.deepEqual(input.getLinesAfterSelection(), [expected_line_4]);
 
-    assert.strictEqual(input.textarea.selectionStart, expected_selection_start);
-    assert.strictEqual(input.textarea.selectionEnd, expected_selection_end);
+    strict.equal(input.textarea.selectionStart, expected_selection_start);
+    strict.equal(input.textarea.selectionEnd, expected_selection_end);
   });
 
   it('can toggle the enumeration of all currently selected lines.', () => {
@@ -154,12 +161,12 @@ describe('Markdown input', () => {
 
     input.applyTransformationToSelection(input.getEnumerationTransformation());
 
-    expect(input.getLinesBeforeSelection()).to.have.ordered.members([expected_line_1]);
-    expect(input.getLinesOfSelection()).to.have.ordered.members([expected_line_2, expected_line_3]);
-    expect(input.getLinesAfterSelection()).to.have.ordered.members([expected_line_4]);
+    strict.deepEqual(input.getLinesBeforeSelection(), [expected_line_1]);
+    strict.deepEqual(input.getLinesOfSelection(), [expected_line_2, expected_line_3]);
+    strict.deepEqual(input.getLinesAfterSelection(), [expected_line_4]);
 
-    assert.strictEqual(input.textarea.selectionStart, expected_selection_start);
-    assert.strictEqual(input.textarea.selectionEnd, expected_selection_end);
+    strict.equal(input.textarea.selectionStart, expected_selection_start);
+    strict.equal(input.textarea.selectionEnd, expected_selection_end);
   });
 
   it('can insert a single enumeration on the current line.', () => {
@@ -184,12 +191,12 @@ describe('Markdown input', () => {
 
     input.insertSingleEnumeration();
 
-    expect(input.getLinesBeforeSelection()).to.have.ordered.members([expected_line_1]);
-    expect(input.getLinesOfSelection()).to.have.ordered.members([expected_line_2]);
-    expect(input.getLinesAfterSelection()).to.have.ordered.members([expected_line_3, expected_line_4]);
+    strict.deepEqual(input.getLinesBeforeSelection(), [expected_line_1]);
+    strict.deepEqual(input.getLinesOfSelection(), [expected_line_2]);
+    strict.deepEqual(input.getLinesAfterSelection(), [expected_line_3, expected_line_4]);
 
-    assert.strictEqual(input.textarea.selectionStart, expected_selection_start);
-    assert.strictEqual(input.textarea.selectionEnd, expected_selection_start);
+    strict.equal(input.textarea.selectionStart, expected_selection_start);
+    strict.equal(input.textarea.selectionEnd, expected_selection_start);
   });
 
   it('cannot insert any more characters if the max-limit is reached.', () => {
@@ -210,7 +217,7 @@ describe('Markdown input', () => {
 
     input.insertCharactersAroundSelection('a', 'b');
 
-    assert.strictEqual(input.textarea.value, content);
+    strict.equal(input.textarea.value, content);
   });
 });
 
@@ -222,7 +229,7 @@ describe('Markdown factory', () => {
 
     factory.init(test_input_id, null, null);
 
-    expect(factory.instances[test_input_id]).to.be.an.instanceOf(Markdown);
+    strict.equal(factory.instances[test_input_id] instanceof Markdown, true);
   });
 
   it('can only instantiate the same ID once.', () => {
@@ -230,9 +237,9 @@ describe('Markdown factory', () => {
 
     factory.init(test_input_id, null, null);
 
-    expect(() => {
+    strict.throws(() => {
       factory.init(test_input_id, null, null);
-    }).to.throw(Error);
+    }, Error);
   });
 
   it('can return an already created instance.', () => {
@@ -242,7 +249,7 @@ describe('Markdown factory', () => {
 
     const instance = factory.get(test_input_id);
 
-    expect(instance).to.be.an.instanceOf(Markdown);
+    strict.equal(instance instanceof Markdown, true);
   });
 });
 
@@ -253,6 +260,6 @@ describe('Markdown preview-renderer', () => {
 
     const preview_html = await renderer.getPreviewHtmlOf('');
 
-    assert.strictEqual(preview_html, '');
+    strict.equal(preview_html, '');
   });
 });

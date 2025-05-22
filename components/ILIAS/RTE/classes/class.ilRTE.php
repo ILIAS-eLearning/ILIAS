@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\Agent\AgentDetermination;
 
 /**
@@ -28,8 +28,6 @@ use ILIAS\HTTP\Agent\AgentDetermination;
  */
 class ilRTE
 {
-    public const ILIAS_IMG_MANAGER_PLUGIN = 'ilias_image_manager_plugin';
-
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrlInterface $ctrl;
     protected ilObjUser $user;
@@ -106,8 +104,7 @@ class ilRTE
         string $obj_type,
         string $a_module = '',
         bool $allowFormElements = false,
-        ?string $cfg_template = null,
-        bool $hide_switch = false
+        ?string $cfg_template = null
     ): void {
     }
 
@@ -144,11 +141,11 @@ class ilRTE
     public static function _cleanupMediaObjectUsage(string $a_text, string $a_usage_type, int $a_usage_id): void
     {
         $mobs = ilObjMediaObject::_getMobsOfObject($a_usage_type, $a_usage_id);
-        while (preg_match("/public\/data\/" . CLIENT_ID . "\/mobs\/mm_([0-9]+)/i", $a_text, $found)) {
+        while (preg_match('/src=".*" data-id="([0-9]+)"/', $a_text, $found)) {
             $a_text = str_replace($found[0], '', $a_text);
             $found_mob_id = (int) $found[1];
 
-            if (!in_array($found_mob_id, $mobs, true)) {
+            if (!in_array($found_mob_id, $mobs, true) && ilObjMediaObject::_exists($found_mob_id)) {
                 // save usage if missing
                 ilObjMediaObject::_saveUsage($found_mob_id, $a_usage_type, $a_usage_id);
             } else {
@@ -189,21 +186,18 @@ class ilRTE
 
         if ($a_direction === 0) {
             $a_text = preg_replace(
-                '/src="([^"]*?\/mobs\/mm_([0-9]+)\/.*?)\"/',
-                'src="il_' . $nic . '_mob_\\2"',
+                '/src=".*" data-id="([0-9]+)"/',
+                'src="il_' . $nic . '_mob_\\1"',
                 $a_text
             );
         } else {
             $resulttext = $a_text;
-            if (preg_match_all('/src="il_([0-9]+)_mob_([0-9]+)"/', $a_text, $matches)) {
+            if (preg_match_all('/src="(il_[0-9]+_mob_([0-9]+))"/', $a_text, $matches)) {
                 foreach ($matches[2] as $idx => $mob) {
                     if (ilObject::_lookupType((int) $mob) === 'mob') {
                         $mob_obj = new ilObjMediaObject((int) $mob);
-                        $replace = 'il_' . $matches[1][$idx] . '_mob_' . $mob;
-                        $path_to_file = ilWACSignedPath::signFile(
-                            ILIAS_HTTP_PATH . '/public/data/' . CLIENT_ID . '/mobs/mm_' . $mob . '/' . $mob_obj->getTitle()
-                        );
-                        $resulttext = str_replace("src=\"$replace\"", "src=\"" . $path_to_file . "\"", $resulttext);
+                        $path_to_file = $mob_obj->getStandardSrc();
+                        $resulttext = str_replace("src=\"{$matches[1][$idx]}\"", "src=\"{$path_to_file}\" data-id=\"{$matches[2][$idx]}\"", $resulttext);
                     }
                 }
             }
@@ -227,13 +221,13 @@ class ilRTE
 
         $mediaObjects = [];
         if ($a_direction === 0) {
-            $is_matching = preg_match_all('/src="([^"]*?\/mobs\/mm_([0-9]+)\/.*?)\"/', $a_text, $matches);
+            $is_matching = preg_match_all('/src=".*" data-id="([0-9]+)"/', $a_text, $matches);
         } else {
-            $is_matching = preg_match_all('/src="il_([0-9]+)_mob_([0-9]+)"/', $a_text, $matches);
+            $is_matching = preg_match_all('/src="il_[0-9]+_mob_([0-9]+)"/', $a_text, $matches);
         }
 
         if ($is_matching) {
-            foreach ($matches[2] as $idx => $mob) {
+            foreach ($matches[1] as $mob) {
                 $mob = (int) $mob;
 
                 if (ilObjMediaObject::_exists($mob) && !in_array($mob, $mediaObjects, true)) {

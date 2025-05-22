@@ -30,7 +30,7 @@ class ImplementationOfInterfaceFinder extends AbstractOfFinder
     public function getMatchingClassNames(
         string $interface,
         array $additional_ignore = [],
-        string $matching_path = null
+        ?string $matching_path = null
     ): \Iterator {
         yield from $this->genericGetMatchingClassNames(
             fn (\ReflectionClass $r) => $this->isClassMatching($interface, $r),

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,43 +16,35 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use Psr\Http\Message\RequestInterface;
 
 class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 {
-    protected ilWebDAVUriBuilder $webdav_uri_builder;
-    protected Factory $ui_factory;
-    protected Renderer $ui_renderer;
-    protected RequestInterface $request;
-    protected bool $is_editable = false;
     protected int $factor = 10;
     protected int $i = 1;
     protected int $num_rendered_criteria = 0;
     protected array $optional_columns;
     protected array $visible_optional_columns;
 
-    /** @var ILIAS\UI\Component\Component[] */
+    /** @var Component[] */
     protected array $ui_components = [];
 
     protected ?ilWebDAVMountInstructionsTableDataProvider $provider = null;
 
     public function __construct(
         ilWebDAVMountInstructionsUploadGUI $parent_obj,
-        ilWebDAVUriBuilder $webdav_uri_builder,
+        protected ilWebDAVUriBuilder $webdav_uri_builder,
         string $command,
-        Factory $ui_factory,
-        Renderer $ui_renderer,
-        RequestInterface $request,
-        bool $is_editable = false
+        protected Factory $ui_factory,
+        protected Renderer $ui_renderer,
+        protected RequestInterface $request,
+        protected bool $is_editable = false
     ) {
-        $this->webdav_uri_builder = $webdav_uri_builder;
-        $this->ui_factory = $ui_factory;
-        $this->ui_renderer = $ui_renderer;
-        $this->is_editable = $is_editable;
-        $this->request = $request;
-
         $this->setId('mount_instructions_documents');
         $this->setFormName('mount_instructions_documents');
 
@@ -105,7 +95,10 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 
     public function getSelectableColumns(): array
     {
-        $optional_columns = array_filter($this->getColumnDefinition(), fn ($column) => isset($column['optional']) && $column['optional']);
+        $optional_columns = array_filter(
+            $this->getColumnDefinition(),
+            fn($column): bool => isset($column['optional']) && $column['optional']
+        );
 
         $columns = [];
         foreach ($optional_columns as $column) {
@@ -279,7 +272,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
             return ilDatePresentation::formatDate(new ilDateTime($row[$column], IL_CAL_DATETIME));
         }
 
-        return trim($row[$column]);
+        return trim((string) $row[$column]);
     }
 
     protected function formatActions(string $column, array $row): string
@@ -333,7 +326,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
         $title_link = $this->ui_factory
             ->button()
             ->shy($row[$column], '#')
-            ->withAdditionalOnLoadCode(fn ($id) => "$('#$id').click(function(){ triggerWebDAVModal('$url');});");
+            ->withAdditionalOnLoadCode(fn($id): string => "$('#$id').click(function(){ triggerWebDAVModal('$url');});");
 
         return $this->ui_renderer->render([$title_link]);
     }

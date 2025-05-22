@@ -1,3 +1,18 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
 import View from 'ol/View';
 import Map from 'ol/Map';
 import TileLayer from 'ol/layer/Tile';
@@ -248,7 +263,7 @@ export default class ServiceOpenLayers {
         marker.setPosition(pos);
         this.map.addOverlay(marker);
 
-        element.innerHTML = "<img src='./components/ILIAS/Maps/images/mm_20_blue.png'>";
+        element.innerHTML = "<img src='./assets/images/standard/icon_mapm.svg'>";
     }
 
     /**

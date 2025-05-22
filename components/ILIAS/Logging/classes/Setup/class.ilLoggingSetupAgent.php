@@ -62,7 +62,7 @@ class ilLoggingSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Config $config = null): Objective
+    public function getInstallObjective(?Config $config = null): Objective
     {
         return new ilLoggingConfigStoredObjective($config);
     }
@@ -70,7 +70,7 @@ class ilLoggingSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Config $config = null): Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
         $objective = new Setup\Objective\NullObjective();
         if ($config !== null) {

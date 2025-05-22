@@ -6,7 +6,7 @@ ILIAS can be used in several contexts, with the web-application being the first 
 Every script - as in "entry point" - in ILIAS should set a specific context, e.g. `CONTEXT_WEB` or `CONTEXT_CRON`. This has to be done **before** calling `ilInitalisation` (either directly or through `inc.header.php`). If no specific context is set, `CONTEXT_WEB` is assumed.
 
 ```php
-include_once "Services/Context/classes/class.ilContext.php";
+include_once "components/ILIAS/Context/classes/class.ilContext.php";
 ilContext::init(ilContext::CONTEXT_CRON);
 ```
 

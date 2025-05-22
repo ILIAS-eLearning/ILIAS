@@ -27,8 +27,6 @@
 class SurveyTextQuestion extends SurveyQuestion
 {
     protected ?int $maxchars = null;
-    protected ?int $textwidth = null;
-    protected ?int $textheight = null;
 
     public function __construct(
         string $title = "",
@@ -43,8 +41,6 @@ class SurveyTextQuestion extends SurveyQuestion
         parent::__construct($title, $description, $author, $questiontext, $owner);
 
         $this->maxchars = 0;
-        $this->textwidth = 50;
-        $this->textheight = 5;
     }
 
     public function getQuestionDataArray(int $id): array
@@ -86,8 +82,6 @@ class SurveyTextQuestion extends SurveyQuestion
             $this->setOriginalId((int) $data["original_id"]);
 
             $this->setMaxChars((int) $data["maxchars"]);
-            $this->setTextWidth($data["width"] ? (int) $data["width"] : null);
-            $this->setTextHeight($data["height"] ? (int) $data["height"] : null);
         }
         parent::loadFromDb($question_id);
     }
@@ -127,9 +121,9 @@ class SurveyTextQuestion extends SurveyQuestion
                 array($this->getId())
             );
             $ilDB->manipulateF(
-                "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxchars, width, height) VALUES (%s, %s, %s, %s)",
-                array('integer', 'integer', 'integer', 'integer'),
-                array($this->getId(), $this->getMaxChars(), $this->getTextWidth(), $this->getTextHeight())
+                "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxchars) VALUES (%s, %s)",
+                array('integer', 'integer'),
+                array($this->getId(), $this->getMaxChars())
             );
         }
         return $affectedRows;
@@ -177,9 +171,7 @@ class SurveyTextQuestion extends SurveyQuestion
 
         $a_xml_writer->xmlStartTag("responses");
         $attrs = array(
-            "id" => "0",
-            "rows" => $this->getTextHeight(),
-            "columns" => $this->getTextWidth()
+            "id" => "0"
         );
         if ($this->getMaxChars() > 0) {
             $attrs["maxlength"] = $this->getMaxChars();
@@ -294,45 +286,11 @@ class SurveyTextQuestion extends SurveyQuestion
             if ($data["maxlength"] > 0) {
                 $this->setMaxChars($data["maxlength"]);
             }
-            if ($data["rows"] > 0) {
-                $this->setTextHeight($data["rows"]);
-            }
-            if ($data["columns"] > 0) {
-                $this->setTextWidth($data["columns"]);
-            }
         }
     }
 
     public function usableForPrecondition(): bool
     {
         return false;
-    }
-
-    public function getTextWidth(): ?int
-    {
-        return $this->textwidth;
-    }
-
-    public function getTextHeight(): ?int
-    {
-        return $this->textheight;
-    }
-
-    public function setTextWidth(?int $a_textwidth = null): void
-    {
-        if ($a_textwidth < 1) {
-            $this->textwidth = 50;
-        } else {
-            $this->textwidth = $a_textwidth;
-        }
-    }
-
-    public function setTextHeight(?int $a_textheight = null): void
-    {
-        if ($a_textheight < 1) {
-            $this->textheight = 5;
-        } else {
-            $this->textheight = $a_textheight;
-        }
     }
 }

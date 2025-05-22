@@ -18,6 +18,9 @@
 
 use ILIAS\News\StandardGUIRequest;
 use ILIAS\Repository\Filter\FilterAdapterGUI;
+use ILIAS\News\InternalDomainService;
+use ILIAS\News\Dashboard\DashboardNewsManager;
+use ILIAS\News\InternalGUIService;
 
 /**
  * News on PD
@@ -27,9 +30,10 @@ use ILIAS\Repository\Filter\FilterAdapterGUI;
  */
 class ilPDNewsGUI
 {
-    protected \ILIAS\News\Dashboard\DashboardNewsManager $dash_news_manager;
+    protected InternalDomainService $domain;
+    protected DashboardNewsManager $dash_news_manager;
     protected \ILIAS\News\Dashboard\DashboardSessionRepository $dash_news_repo;
-    protected \ILIAS\News\InternalGUIService $gui;
+    protected InternalGUIService $gui;
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
@@ -68,6 +72,9 @@ class ilPDNewsGUI
         $this->gui = $DIC->news()
             ->internal()
             ->gui();
+        $this->domain = $DIC->news()
+            ->internal()
+            ->domain();
         $this->dash_news_repo = $DIC->news()
             ->internal()
             ->repo()
@@ -81,6 +88,10 @@ class ilPDNewsGUI
     public function executeCommand(): bool
     {
         $next_class = $this->ctrl->getNextClass();
+
+        if (!$this->domain->settings()->get("block_activated_news")) {
+            return false;
+        }
 
         switch ($next_class) {
             case "ilnewstimelinegui":

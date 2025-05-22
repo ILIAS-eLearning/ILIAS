@@ -32,64 +32,64 @@ class TestQuestionPool implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilTestQuestionPoolSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'answerwizardinput.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/answerwizardinput.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'answerwizard.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/answerwizard.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'essaykeywordwizard.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/essaykeywordwizard.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'multiplechoicewizard.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/multiplechoicewizard.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'singlechoicewizard.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/singlechoicewizard.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'imagemap.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/imagemap.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'kprimchoicewizard.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/kprimchoicewizard.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'ilAssKprimChoice.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/ilAssKprimChoice.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'orderinghorizontal.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/orderinghorizontal.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'matchingpairwizard.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/orderingvertical.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'identifiedwizardinput.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/matching.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'ilMatchingQuestion.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/matchingpairwizard.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'ilAssMultipleChoice.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/identifiedwizardinput.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'nested_ordering.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/ilAssMultipleChoice.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'testQuestionPoolTagInput.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/testQuestionPoolTagInput.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'errortext.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/errortext.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'clozeQuestionGapBuilder.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/clozeQuestionGapBuilder.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'longMenuQuestionGapBuilder.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/longMenuQuestionGapBuilder.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'longMenuQuestion.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/longMenuQuestion.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'longMenuQuestionPlayer.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/longMenuQuestionPlayer.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'matchinginput.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/matchinginput.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'bootstrap-tagsinput_2015_25_03.js');
+            new Component\Resource\ComponentJS($this, 'js/dist/pure_rendering.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'typeahead_0.11.1.js');
-        /* This library was missing after discussing dependencies for ILIAS 10
+            new Component\Resource\ComponentJS($this, 'js/dist/question_handling.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\NodeModule('@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
-        */
-        /* This library was missing after discussing dependencies for ILIAS 10
+            new Component\Resource\ComponentJS($this, 'js/dist/bootstrap-tagsinput_2015_25_03.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\NodeModule('nestable2/dist/jquery.nestable.min.js');
-        */
+            new Component\Resource\ComponentJS($this, 'js/dist/typeahead_0.11.1.js');
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\ComponentCSS($this, 'css/lac_legend.css');
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\ComponentCSS($this, 'css/bootstrap-tagsinput_2015_25_03.css');
     }
 }

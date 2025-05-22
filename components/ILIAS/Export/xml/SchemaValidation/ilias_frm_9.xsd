@@ -54,6 +54,16 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:simpleType name="NullString">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NULL"/>
+			<xs:enumeration value="null"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="intOrNullString">
+		<xs:union memberTypes="xs:integer NullString" />
+	</xs:simpleType>
+
 	<xs:element name="Post">
 		<xs:complexType>
 			<xs:sequence>
@@ -71,7 +81,7 @@
 				<xs:element name="ImportName" type="xs:string" />
 				<xs:element name="Status" type="xs:integer" />
 				<xs:element name="Message" type="xs:string" />
-				<xs:element name="isAuthorModerator" type="xs:integer" />
+				<xs:element name="isAuthorModerator" type="intOrNullString" />
 				<xs:element ref="MessageMediaObjects" minOccurs="0" />
 				<xs:element name="Lft" type="xs:integer" />
 				<xs:element name="Rgt" type="xs:integer" />

@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery;
 
-use ILIAS\HTTP\Services;
-
 /**
  * Trait HttpServiceAware
  *

@@ -25,6 +25,8 @@ use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\Blog\Exercise\BlogExercise;
 use ILIAS\Blog\Access\BlogAccess;
 use ILIAS\Blog\ReadingTime\ReadingTimeManager;
+use ILIAS\Blog\Settings\SettingsManager;
+use ILIAS\Notes;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -33,17 +35,16 @@ class InternalDomainService
 {
     use GlobalDICDomainServices;
 
-    protected InternalRepoService $repo_service;
-    protected InternalDataService $data_service;
+    protected static array $instance = [];
+    protected Container $dic;
 
     public function __construct(
         Container $DIC,
-        InternalRepoService $repo_service,
-        InternalDataService $data_service
+        protected InternalRepoService $repo,
+        protected InternalDataService $data
     ) {
-        $this->repo_service = $repo_service;
-        $this->data_service = $data_service;
         $this->initDomainServices($DIC);
+        $this->dic = $DIC;
     }
 
     public function exercise(int $a_node_id): BlogExercise
@@ -74,6 +75,21 @@ class InternalDomainService
     public function readingTime(): ReadingTimeManager
     {
         return new ReadingTimeManager();
+    }
+
+    public function notes(): Notes\DomainService
+    {
+        return $this->dic->notes()->domain();
+    }
+
+    public function blogSettings(): SettingsManager
+    {
+        return self::$instance["settings"] ??
+            self::$instance["settings"] = new SettingsManager(
+                $this->data,
+                $this->repo,
+                $this
+            );
     }
 
 }

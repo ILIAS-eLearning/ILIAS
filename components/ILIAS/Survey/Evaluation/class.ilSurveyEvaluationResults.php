@@ -207,7 +207,7 @@ class ilSurveyEvaluationResults
     }
 
     protected function getCatTitle(
-        int $a_value
+        float $a_value
     ): string {
         if (!count($this->variables)) {
             return $a_value;

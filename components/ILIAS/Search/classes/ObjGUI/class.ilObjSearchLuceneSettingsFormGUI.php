@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,13 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\Refinery\Factory as RefFactory;
 use ILIAS\Refinery\Constraint;
-use ILIAS\UI\Implementation\Component\Input\Container\Form\Standard as StandardForm;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
 /**
  * @author Tim Schmitz <schmitz@leifos.com>
@@ -114,15 +114,14 @@ class ilObjSearchLuceneSettingsFormGUI
         $settings = $this->getSettings();
         $data = $form->getData()['section'];
 
+        $settings->enableLuceneUserSearch((bool) $data['user_search_enabled']);
         $settings->setFragmentCount((int) $data['fragmentCount']);
         $settings->setFragmentSize((int) $data['fragmentSize']);
         $settings->setMaxSubitems((int) $data['maxSubitems']);
-        $settings->showRelevance((bool) $data['relevance']);
         $settings->enableLuceneMimeFilter(!is_null($data['mime']));
         if (!is_null($data['mime'])) {
             $settings->setLuceneMimeFilter((array) $data['mime']);
         }
-        $settings->showSubRelevance((bool) ($data['relevance']['subrelevance'] ?? false));
         $settings->enablePrefixWildcardQuery((bool) $data['prefix']);
         $settings->setLastIndexTime(new ilDateTime(
             $data['last_index']->getTimestamp(),
@@ -136,7 +135,6 @@ class ilObjSearchLuceneSettingsFormGUI
                 $this->coordinator->refreshLuceneSettings();
             }
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-            ilSession::clear('search_last_class');
             $this->ctrl->redirect($this, 'edit');
         } catch (Exception $exception) {
             $this->tpl->setOnScreenMessage('failure', $exception->getMessage());
@@ -154,6 +152,12 @@ class ilObjSearchLuceneSettingsFormGUI
     {
         $settings = $this->getSettings();
         $field_factory = $this->factory->input()->field();
+
+        // User search
+        $user_search = $field_factory->checkbox(
+            $this->lng->txt('search_user_search_form'),
+            $this->lng->txt('search_user_search_info_form')
+        )->withValue($settings->isLuceneUserSearchEnabled());
 
         // Item filter
         $filter = $settings->getLuceneMimeFilter();
@@ -215,20 +219,6 @@ class ilObjSearchLuceneSettingsFormGUI
              $this->refinery->int()->isGreaterThanOrEqual(1)
          );
 
-        // Relevance
-        $subrel = $field_factory->checkbox(
-            $this->lng->txt('lucene_show_sub_relevance')
-        )->withValue($settings->isSubRelevanceVisible());
-
-        $relevance = $field_factory->optionalGroup(
-            ['subrelevance' => $subrel],
-            $this->lng->txt('lucene_relevance'),
-            $this->lng->txt('lucene_show_relevance_info')
-        );
-        if (!$settings->isRelevanceVisible()) {
-            $relevance = $relevance->withValue(null);
-        }
-
         // Last Index
         $timezone = $this->user->getTimeZone();
         $datetime = new DateTime(
@@ -250,12 +240,12 @@ class ilObjSearchLuceneSettingsFormGUI
          */
         $section = $this->factory->input()->field()->section(
             [
+                'user_search_enabled' => $user_search,
                 'mime' => $item_filter,
                 'prefix' => $prefix,
                 'fragmentCount' => $frag_count,
                 'fragmentSize' => $frag_size,
                 'maxSubitems' => $max_sub,
-                'relevance' => $relevance,
                 'last_index' => $last_index
             ],
             $this->lng->txt('lucene_settings_title')

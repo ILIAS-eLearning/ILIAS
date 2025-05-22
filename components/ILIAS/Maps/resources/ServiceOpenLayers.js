@@ -1,4 +1,19 @@
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
  * @module ol/events/Event
  */
 /**
@@ -21124,16 +21139,7 @@ var __extends$Y = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-/**
- * The attribution containing a link to the OpenStreetMap Copyright and License
- * page.
- * @const
- * @type {string}
- * @api
- */
-var ATTRIBUTION = '&#169; ' +
-    '<a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> ' +
-    'contributors.';
+
 /**
  * @typedef {Object} Options
  * @property {import("./Source.js").AttributionLike} [attributions] Attributions.
@@ -21174,9 +21180,6 @@ var OSM = /** @class */ (function (_super) {
         var attributions;
         if (options.attributions !== undefined) {
             attributions = options.attributions;
-        }
-        else {
-            attributions = [ATTRIBUTION];
         }
         var crossOrigin = options.crossOrigin !== undefined ? options.crossOrigin : 'anonymous';
         var url = options.url !== undefined
@@ -21442,7 +21445,7 @@ class ServiceOpenLayers {
         marker.setPosition(pos);
         this.map.addOverlay(marker);
 
-        element.innerHTML = "<img src='./components/ILIAS/Maps/images/mm_20_blue.png'>";
+        element.innerHTML = "<img src='./assets/images/standard/icon_mapm.svg'>";
     }
 
     /**

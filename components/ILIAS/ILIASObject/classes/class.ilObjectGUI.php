@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Factory as Refinery;
@@ -29,9 +30,10 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\UI\Component\Input\Field\Radio;
 use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\Object\ImplementsCreationCallback;
-use ILIAS\Object\CreationCallbackTrait;
-use ILIAS\Object\ilObjectDIC;
-use ILIAS\Object\Properties\MultiObjectPropertiesManipulator;
+use ILIAS\ILIASObject\Creation\CreationCallbackTrait;
+use ILIAS\ILIASObject\LocalDIC;
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory as CustomIconFactory;
+use ILIAS\ILIASObject\Properties\MultiPropertiesManipulator;
 use ILIAS\ILIASObject\Creation\AddNewItemElement;
 use ILIAS\ILIASObject\Creation\AddNewItemElementTypes;
 use ILIAS\Filesystem\Filesystem;
@@ -55,9 +57,10 @@ class ilObjectGUI implements ImplementsCreationCallback
     public const CFORM_NEW = 1;
     public const CFORM_IMPORT = 2;
     public const CFORM_CLONE = 3;
-    public const SUPPORTED_IMPORT_MIME_TYPES = [MimeType::APPLICATION__ZIP];
+    public const SUPPORTED_IMPORT_MIME_TYPES = [MimeType::APPLICATION__ZIP, MimeType::APPLICATION__X_ZIP_COMPRESSED];
     protected \ILIAS\Notes\Service $notes_service;
 
+    protected GlobalHttpState $http;
     protected ServerRequestInterface $request;
     protected ilLocatorGUI $locator;
     protected ilObjUser $user;
@@ -80,11 +83,11 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected RequestWrapper $request_wrapper;
     protected Refinery $refinery;
     protected ilFavouritesManager $favourites;
-    protected ilObjectCustomIconFactory $custom_icon_factory;
+    protected CustomIconFactory $custom_icon_factory;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
     private ilObjectRequestRetriever $retriever;
-    private MultiObjectPropertiesManipulator $multi_object_manipulator;
+    private MultiPropertiesManipulator $multi_object_manipulator;
     protected Filesystem $temp_file_system;
 
     protected ?ilObject $object = null;
@@ -112,6 +115,7 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected string $html = "";
 
     private ?RoundTrip $import_modal = null;
+    private ?RoundTrip $import_type_selector_modal = null;
 
     /**
      * @param mixed $data
@@ -125,47 +129,52 @@ class ilObjectGUI implements ImplementsCreationCallback
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->request = $DIC->http()->request();
-        $this->locator = $DIC["ilLocator"];
-        $this->user = $DIC->user();
-        $this->access = $DIC->access();
-        $this->settings = $DIC->settings();
-        $this->toolbar = $DIC->toolbar();
-        $this->rbac_admin = $DIC->rbac()->admin();
-        $this->rbac_system = $DIC->rbac()->system();
-        $this->rbac_review = $DIC->rbac()->review();
-        $this->object_service = $DIC->object();
-        $this->obj_definition = $DIC["objDefinition"];
-        $this->tpl = $DIC["tpl"];
-        $this->tree = $DIC->repositoryTree();
-        $this->ctrl = $DIC->ctrl();
-        $this->error = $DIC["ilErr"];
-        $this->lng = $DIC->language();
-        $this->tabs_gui = $DIC->tabs();
-        $this->ilias = $DIC["ilias"];
-        $this->post_wrapper = $DIC->http()->wrapper()->post();
-        $this->request_wrapper = $DIC->http()->wrapper()->query();
-        $this->refinery = $DIC->refinery();
-        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
-        $this->favourites = new ilFavouritesManager();
+        $this->http = $DIC['http'];
+        $this->locator = $DIC['ilLocator'];
+        $this->user = $DIC['ilUser'];
+        $this->access = $DIC['ilAccess'];
+        $this->settings = $DIC['ilSetting'];
+        $this->toolbar = $DIC['ilToolbar'];
+        $this->rbac_admin = $DIC['rbacadmin'];
+        $this->rbac_system = $DIC['rbacsystem'];
+        $this->rbac_review = $DIC['rbacreview'];
+        $this->obj_definition = $DIC['objDefinition'];
+        $this->tpl = $DIC['tpl'];
+        $this->tree = $DIC['tree'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->error = $DIC['ilErr'];
+        $this->lng = $DIC['lng'];
+        $this->tabs_gui = $DIC['ilTabs'];
+        $this->ilias = $DIC['ilias'];
+        $this->refinery = $DIC['refinery'];
         $this->custom_icon_factory = $DIC['object.customicons.factory'];
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
+        $this->object_service = $DIC->object();
         $this->temp_file_system = $DIC->filesystem()->temp();
+
+        $this->request = $this->http->request();
+        $this->post_wrapper = $this->http->wrapper()->post();
+        $this->request_wrapper = $this->http->wrapper()->query();
+
+        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
+        $this->favourites = new ilFavouritesManager();
 
         $this->data = $data;
         $this->id = $id;
         $this->call_by_reference = $call_by_reference;
         $this->prepare_output = $prepare_output;
 
-        $params = ["ref_id"];
+        $this->lng->loadLanguageModule('obj');
+
+        $params = ['ref_id'];
         if (!$call_by_reference) {
-            $params = ["ref_id","obj_id"];
+            $params = ['ref_id','obj_id'];
         }
         $this->ctrl->saveParameter($this, $params);
 
-        if ($this->request_wrapper->has("ref_id")) {
-            $this->requested_ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
+        if ($this->request_wrapper->has('ref_id')) {
+            $this->requested_ref_id = $this->request_wrapper->retrieve('ref_id', $this->refinery->kindlyTo()->int());
         }
 
         $this->obj_id = $this->id;
@@ -174,8 +183,8 @@ class ilObjectGUI implements ImplementsCreationCallback
         if ($call_by_reference) {
             $this->ref_id = $this->id;
             $this->obj_id = 0;
-            if ($this->request_wrapper->has("obj_id")) {
-                $this->obj_id = $this->request_wrapper->retrieve("obj_id", $this->refinery->kindlyTo()->int());
+            if ($this->request_wrapper->has('obj_id')) {
+                $this->obj_id = $this->request_wrapper->retrieve('obj_id', $this->refinery->kindlyTo()->int());
             }
         }
 
@@ -208,10 +217,10 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->notes_service = $DIC->notes();
     }
 
-    private function getMultiObjectPropertiesManipulator(): MultiObjectPropertiesManipulator
+    private function getMultiObjectPropertiesManipulator(): MultiPropertiesManipulator
     {
         if (!isset($this->multi_object_manipulator)) {
-            $this->multi_object_manipulator = ilObjectDIC::dic()['multi_object_properties_manipulator'];
+            $this->multi_object_manipulator = LocalDIC::dic()['properties.multi_manipulator'];
         }
         return $this->multi_object_manipulator;
     }
@@ -269,9 +278,8 @@ class ilObjectGUI implements ImplementsCreationCallback
     }
 
     /**
-    * if true, a creation screen is displayed
-    * the current [ref_id] don't belong
-    * to the current class!
+    * If true, a creation screen is displayed
+    * the current [ref_id] does belong to the parent class
     * The mode is determined in ilRepositoryGUI
     */
     public function setCreationMode(bool $mode = true): void
@@ -299,7 +307,6 @@ class ilObjectGUI implements ImplementsCreationCallback
     public function prepareOutput(bool $show_sub_objects = true): bool
     {
         $this->tpl->loadStandardTemplate();
-        // administration prepare output
         $base_class = $this->request_wrapper->retrieve("baseClass", $this->refinery->kindlyTo()->string());
         if (strtolower($base_class) == "iladministrationgui") {
             $this->addAdminLocatorItems();
@@ -405,9 +412,9 @@ class ilObjectGUI implements ImplementsCreationCallback
             $dispatcher->setSubObject($sub_type, $sub_id);
 
             ilObjectListGUI::prepareJsLinks(
-                $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
+                $this->ctrl->getLinkTarget($this, 'redrawHeaderAction', '', true),
                 "",
-                $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "iltagginggui"], "", "", true)
+                $this->ctrl->getLinkTargetByClass([ilCommonActionDispatcherGUI::class, ilTaggingGUI::class], '', '', true)
             );
 
             $lg = $dispatcher->initHeaderAction();
@@ -607,17 +614,53 @@ class ilObjectGUI implements ImplementsCreationCallback
     */
     public function confirmedDeleteObject(): void
     {
-        if ($this->post_wrapper->has('interruptive_items')) {
-            $ref_ids_to_be_deleted = $this->post_wrapper->retrieve(
-                'interruptive_items',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
+        if (!$this->request_wrapper->has('id')) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
+            $this->ctrl->returnToParent($this);
+        }
+
+        $data = $this->buildDeleletionModal(
+            explode(
+                ',',
+                $this->request_wrapper->retrieve(
+                    'id',
+                    $this->refinery->kindlyTo()->string()
+                )
+            )
+        )->withRequest($this->request)->getData();
+
+        if ($data === null) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
+            $this->ctrl->returnToParent($this);
         }
 
         $ru = new ilRepositoryTrashGUI($this);
-        $ru->deleteObjects($this->requested_ref_id, $ref_ids_to_be_deleted);
+        $ru->deleteObjects($this->requested_ref_id, $this->buildRefIdsFromData($data));
 
-        $this->ctrl->redirect($this);
+        $this->ctrl->redirectByClass(static::class);
+    }
+
+    private function buildRefIdsFromData(array $data): array
+    {
+        return array_reduce(
+            $data,
+            function (array $c, array|int|null $v): array {
+                if ($v === null) {
+                    return $c;
+                }
+
+                if (is_array($v)) {
+                    return array_merge(
+                        $c,
+                        $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())->transform($v)
+                    );
+                }
+
+                $c[] = $this->refinery->kindlyTo()->int()->transform($v);
+                return $c;
+            },
+            []
+        );
     }
 
     /**
@@ -648,25 +691,43 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->lng->loadLanguageModule($new_type);
         $this->ctrl->setParameter($this, 'new_type', $new_type);
 
+        $this->tpl->setTitleIcon(ilObject::getIconForType($this->requested_new_type));
+        $this->tpl->setTitle($this->getTitleForCreationFormPage());
         $create_form = $this->initCreateForm($new_type);
+        $this->tabs_gui->setBackTarget($this->lng->txt('cancel'), $this->ctrl->getLinkTargetByClass(static::class, 'cancel'));
         $this->tpl->setContent($this->getCreationFormsHTML($create_form));
     }
 
-    protected function getCreationFormsHTML(StandardForm|ilPropertyFormGUI $form): string
+    /**
+     * @param StandardForm|ilPropertyFormGUI|array<ilPropertyFormGUI> $form
+     */
+    protected function getCreationFormsHTML(StandardForm|ilPropertyFormGUI|array $form): string
     {
         $title = $this->getCreationFormTitle();
+
+        if (is_array($form)) {
+            throw new Exception('We do not deal with arrays here.');
+        }
 
         $content = $form;
         if ($form instanceof ilPropertyFormGUI) {
             $form->setTitle('');
             $form->setTitleIcon('');
-            $form->setTableWidth("100%");
-            $content = $this->ui_factory->legacy($form->getHTML());
+            $form->setTableWidth('100%');
+            $content = $this->ui_factory->legacy()->content($form->getHTML());
         }
 
-        $panel = $this->ui_factory->panel()->standard($title, $content);
+        return $this->ui_renderer->render(
+            $this->ui_factory->panel()->standard($title, $content)
+        );
+    }
 
-        return $this->ui_renderer->render($panel);
+    protected function getTitleForCreationFormPage(): string
+    {
+        if (!$this->obj_definition->isPlugin($this->requested_new_type)) {
+            return $this->lng->txt('obj_' . $this->requested_new_type);
+        }
+        return ilObjectPlugin::lookupTxtById($this->requested_new_type, "obj_{$this->requested_new_type}");
     }
 
     protected function getCreationFormTitle(): string
@@ -674,7 +735,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         return $this->lng->txt($this->requested_new_type . '_new');
     }
 
-    protected function initCreateForm(string $new_type): StandardForm|ilPropertyFormGUI
+    protected function initCreateForm(string $new_type): StandardForm|ilPropertyFormGUI|array
     {
         $form_fields['title_and_description'] = (new ilObject())->getObjectProperties()->getPropertyTitleAndDescription()->toForm(
             $this->lng,
@@ -691,7 +752,14 @@ class ilObjectGUI implements ImplementsCreationCallback
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'save'),
             $form_fields
-        )->withSubmitLabel($this->lng->txt($new_type . '_add'));
+        )->withSubmitLabel(
+            !$this->obj_definition->isPlugin($new_type)
+                ? $this->lng->txt($new_type . '_add')
+                : ilObjectPlugin::lookupTxtById(
+                    $this->requested_new_type,
+                    "{$this->requested_new_type}_add"
+                )
+        );
     }
 
     protected function didacticTemplatesToForm(): ?Radio
@@ -851,7 +919,9 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->tpl->setVariable(
             'IL_OBJECT_IMPORT_MODAL',
             $this->ui_renderer->render(
-                $modal
+                $this->import_type_selector_modal === null
+                    ? $modal
+                    : [$modal, $this->import_type_selector_modal]
             )
         );
     }
@@ -867,6 +937,27 @@ class ilObjectGUI implements ImplementsCreationCallback
             )->withSubmitLabel($this->lng->txt('import'));
     }
 
+    private function buildImportTypeSelectorModal(
+        ?string $file_to_import = null,
+        ?string $upload_file_name = null
+    ): Roundtrip {
+        return $this->ui_factory->modal()
+            ->roundtrip(
+                $this->lng->txt('select_object_type'),
+                [
+                    $this->ui_factory->messageBox()->info(
+                        $this->lng->txt('select_import_type_info')
+                    )
+                ],
+                $this->buildImportTypeSelectorInputs(
+                    $file_to_import,
+                    $upload_file_name
+                ),
+                $this->ctrl->getFormActionByClass(static::class, 'routeImportCmd')
+            )->withCloseWithKeyboard(false)
+            ->withSubmitLabel($this->lng->txt('import'));
+    }
+
     protected function addAvailabilityPeriodButtonToToolbar(ilToolbarGUI $toolbar): ilToolbarGUI
     {
         $toolbar->addSeparator();
@@ -879,11 +970,13 @@ class ilObjectGUI implements ImplementsCreationCallback
 
     public function editAvailabilityPeriodObject(): void
     {
-        if (!$this->checkPermissionBool('write')) {
+        $item_ref_ids = $this->retriever->getSelectedIdsFromObjectList();
+        if (!$this->checkPermissionBool('write')
+            && !$this->checkWritePermissionOnRefIdArray($item_ref_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_write'));
             return;
         }
-        $item_ref_ids = $this->retriever->getSelectedIdsFromObjectList();
+
         $availability_period_modal = $this->getMultiObjectPropertiesManipulator()->getEditAvailabilityPeriodPropertiesModal(
             $item_ref_ids,
             $this
@@ -903,13 +996,15 @@ class ilObjectGUI implements ImplementsCreationCallback
 
     public function saveAvailabilityPeriodObject(): void
     {
-        if (!$this->checkPermissionBool('write')) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_write'));
-            return;
-        }
-        $availability_period_modal = $this->getMultiObjectPropertiesManipulator()->saveEditAvailabilityPeriodPropertiesModal($this, $this->request);
-        if ($availability_period_modal === null) {
+        $availability_period_modal = $this->getMultiObjectPropertiesManipulator()->saveEditAvailabilityPeriodPropertiesModal(
+            $this,
+            fn($ref_ids): bool => $this->checkPermissionBool('write') || $this->checkWritePermissionOnRefIdArray($ref_ids),
+            $this->request
+        );
+        if ($availability_period_modal === true) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('availability_period_changed'));
+        } elseif ($availability_period_modal === false) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_write'));
         } else {
             $this->tpl->setVariable(
                 'IL_OBJECT_EPHEMRAL_MODALS',
@@ -956,13 +1051,13 @@ class ilObjectGUI implements ImplementsCreationCallback
         $new_obj = new $class_name();
         $new_obj->setType($this->requested_new_type);
         $new_obj->processAutoRating();
+        $new_obj->setTitle($data['title_and_description']->getTitle());
+        $new_obj->setDescription($data['title_and_description']->getDescription());
         $new_obj->create();
 
         $new_obj->getObjectProperties()->storePropertyTitleAndDescription(
             $data['title_and_description']
         );
-        $new_obj->setTitle($new_obj->getObjectProperties()->getPropertyTitleAndDescription()->getTitle());
-        $new_obj->setDescription($new_obj->getObjectProperties()->getPropertyTitleAndDescription()->getDescription());
 
         $this->putObjectInTree($new_obj);
 
@@ -977,18 +1072,31 @@ class ilObjectGUI implements ImplementsCreationCallback
 
     /**
      * Get didactic template setting from creation screen
+     *
+     * @deprecated 10 Will be removed with ILIAS 12
      */
     public function getDidacticTemplateVar(string $type): int
     {
-        if (!$this->post_wrapper->has("didactic_type")) {
+        $create_form = $this->initCreateForm($this->type);
+        if ($create_form instanceof StandardForm) {
+            try {
+                $data = $create_form->withRequest($this->request)->getData();
+                return isset($data['didactic_templates'])
+                    ? $this->parseDidacticTemplateVar($data['didactic_templates'], $type)
+                    : 0;
+            } catch (InvalidArgumentException $e) {
+            }
+        }
+
+        if (!$this->post_wrapper->has('didactic_type')) {
             return 0;
         }
 
-        $tpl = $this->post_wrapper->retrieve("didactic_type", $this->refinery->kindlyTo()->string());
+        $tpl = $this->post_wrapper->retrieve('didactic_type', $this->refinery->kindlyTo()->string());
         return $this->parseDidacticTemplateVar($tpl, $type);
     }
 
-    private function parseDidacticTemplateVar(string $var, string $type): int
+    protected function parseDidacticTemplateVar(string $var, string $type): int
     {
         if (substr($var, 0, strlen($type) + 1) != $type . "_") {
             return 0;
@@ -1000,7 +1108,7 @@ class ilObjectGUI implements ImplementsCreationCallback
     /**
      * Add object to tree at given position
      */
-    public function putObjectInTree(ilObject $obj, int $parent_node_id = null): void
+    public function putObjectInTree(ilObject $obj, ?int $parent_node_id = null): void
     {
         if (!$parent_node_id) {
             $parent_node_id = $this->requested_ref_id;
@@ -1126,9 +1234,9 @@ class ilObjectGUI implements ImplementsCreationCallback
 
         $form = $this->initEditForm();
         if ($form->checkInput() && $this->validateCustom($form)) {
-            $this->object->setTitle($form->getInput("title"));
-            $this->object->setDescription($form->getInput("desc"));
             $this->updateCustom($form);
+            $this->object->setTitle($form->getInput('title'));
+            $this->object->setDescription($form->getInput('desc'));
             $this->object->update();
 
             $this->afterUpdate();
@@ -1165,7 +1273,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->ctrl->redirect($this, "edit");
     }
 
-    protected function buildImportFormInputs(): array
+    private function buildImportFormInputs(): array
     {
         $trafo = $this->refinery->custom()->transformation(
             function ($vs): array {
@@ -1173,7 +1281,7 @@ class ilObjectGUI implements ImplementsCreationCallback
                     return null;
                 }
                 if (!isset($vs[1])) {
-                    return [self::UPLOAD_TYPE_LOCAL => $vs[0][0]];
+                    return [self::UPLOAD_TYPE_LOCAL => $vs[0]];
                 } elseif ((int) $vs[1][0] === self::UPLOAD_TYPE_LOCAL) {
                     return [self::UPLOAD_TYPE_LOCAL => $vs[1][0][0]];
                 } else {
@@ -1188,20 +1296,6 @@ class ilObjectGUI implements ImplementsCreationCallback
             }
         );
 
-        $constraint = $this->refinery->custom()->constraint(
-            function ($vs): bool {
-                $filename = $vs[self::UPLOAD_TYPE_LOCAL] ?? null;
-                if ($filename === null) {
-                    return $this->importFileOfValidType(basename($vs[self::UPLOAD_TYPE_UPLOAD_DIRECTORY]));
-                }
-                return $filename !== ''
-                    && $this->temp_file_system->hasDir($filename)
-                    && ($files = $this->temp_file_system->listContents($filename))
-                    && $this->importFileOfValidType(basename($files[0]->getPath()));
-            },
-            $this->lng->txt('import_file_not_valid_here')
-        );
-
         $import_directory_factory = new ilImportDirectoryFactory();
         $upload_files = $import_directory_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_EXPORT)
             ->getFilesFor($this->user->getId());
@@ -1210,6 +1304,7 @@ class ilObjectGUI implements ImplementsCreationCallback
 
         $file_upload_input = $field_factory->file(new \ImportUploadHandlerGUI(), $this->lng->txt('import_file'))
             ->withAcceptedMimeTypes(self::SUPPORTED_IMPORT_MIME_TYPES)
+            ->withRequired(true)
             ->withMaxFiles(1);
 
         if ($upload_files !== []) {
@@ -1232,30 +1327,60 @@ class ilObjectGUI implements ImplementsCreationCallback
 
         return [
             'upload' => $file_upload_input->withAdditionalTransformation($trafo)
-                ->withAdditionalTransformation($constraint)
+        ];
+    }
+
+    private function buildImportTypeSelectorInputs(
+        ?string $file_to_import = null,
+        ?string $file_name_in_temp_dir = null
+    ): array {
+        $ff = $this->ui_factory->input()->field();
+
+        $possible_sub_objects = array_map(
+            fn(array $v): string => $this->getTranslatedObjectTypeNameFromItemArray($v),
+            $this->object->getPossibleSubObjects()
+        );
+
+        asort($possible_sub_objects);
+
+        return [
+            'type' => $ff->select(
+                $this->lng->txt('select_object_type'),
+                $possible_sub_objects
+            )->withRequired(true),
+            'file_to_import' => $ff->hidden()->withValue($file_to_import),
+            'temp_file' => $ff->hidden()->withValue($file_name_in_temp_dir)
         ];
     }
 
     protected function routeImportCmdObject(): void
     {
-        $modal = $this->buildImportModal()->withRequest($this->request);
-        $data = $modal->getData();
+        if ($this->request_wrapper->has('step')) {
+            $data = $this->retrieveAndCheckImportTypeData();
+        } else {
+            $data = $this->retrieveAndCheckImportData();
+        }
 
         if ($data === null) {
-            $this->import_modal = $modal->withOnLoad($modal->getShowSignal());
             $this->viewObject();
             return;
         }
 
-        $file_to_import = $this->getFileToImportFromImportFormData($data);
-        $new_type = $this->extractFileTypeFromImportFilename(basename($file_to_import));
-        $path_to_uploaded_file_in_temp_dir = '';
-        if (array_key_first($data['upload']) === self::UPLOAD_TYPE_LOCAL) {
-            $path_to_uploaded_file_in_temp_dir = $data['upload'][self::UPLOAD_TYPE_LOCAL];
+        [$new_type, $file_to_import, $path_to_uploaded_file_in_temp_dir] = $this
+            ->retrieveFilesAndUploadTypeFromData($data);
+
+        if ($new_type === null) {
+            $this->showImportTypeSelectorModal(
+                basename($file_to_import),
+                $path_to_uploaded_file_in_temp_dir
+            );
+            return;
         }
 
         // create permission is already checked in createObject. This check here is done to prevent hacking attempts
-        if (!$this->checkPermissionBool('create', '', $new_type)) {
+        if (!$this->checkPermissionBool('create', '', $new_type)
+            || !in_array($new_type, $this->obj_definition->getAllObjects())
+            || !array_key_exists($new_type, $this->object->getPossibleSubObjects())) {
             $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_create_permission'));
             $this->viewObject();
@@ -1272,6 +1397,7 @@ class ilObjectGUI implements ImplementsCreationCallback
             $target = new $target_class(0, ilObject2GUI::REPOSITORY_NODE_ID, $this->getRefId());
         }
         $target->importFile($file_to_import, $path_to_uploaded_file_in_temp_dir);
+        $this->ctrl->clearParameterByClass(get_class($this), 'new_type');
         $this->viewObject();
     }
 
@@ -1294,7 +1420,6 @@ class ilObjectGUI implements ImplementsCreationCallback
             );
         } catch (ilException $e) {
             $this->tmp_import_dir = $imp->getTemporaryImportDir();
-            $this->lng->loadLanguageModule('obj');
             $this->tpl->setOnScreenMessage(
                 'failure',
                 $this->lng->txt('obj_import_file_error') . ' <br />' . $e->getMessage()
@@ -1305,7 +1430,7 @@ class ilObjectGUI implements ImplementsCreationCallback
 
         if ($new_id === null
             || $new_id === 0) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid_here'));
             $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
             return;
         }
@@ -1342,21 +1467,73 @@ class ilObjectGUI implements ImplementsCreationCallback
         }
     }
 
-    /**
-     * Check if filename matches a given type
-     */
-    private function importFileOfValidType(string $filename): bool
+    private function retrieveAndCheckImportData(): ?array
     {
-        $file_type = $this->extractFileTypeFromImportFilename($filename);
-        if ($file_type === null
-            || !in_array($file_type, $this->obj_definition->getAllObjects())
-            || !array_key_exists($file_type, $this->object->getPossibleSubObjects())) {
-            return false;
+        $modal = $this->buildImportModal()->withRequest($this->request);
+        $data = $modal->getData();
+
+        if ($data !== null) {
+            return $data;
         }
-        return true;
+
+        $this->import_modal = $modal->withOnLoad($modal->getShowSignal());
+        return null;
     }
 
-    protected function extractFileTypeFromImportFilename(string $filename): ?string
+    private function retrieveAndCheckImportTypeData(): ?array
+    {
+        $modal = $this->buildImportTypeSelectorModal()->withRequest($this->request);
+        $data = $modal->getData();
+
+        if ($data !== null) {
+            return $data;
+        }
+
+        $this->import_type_selector_modal = $modal->withOnLoad($modal->getShowSignal());
+        return null;
+    }
+
+    private function showImportTypeSelectorModal(
+        ?string $file_to_import = null,
+        ?string $path_to_uploaded_file_in_temp_dir = null
+    ): void {
+        $this->ctrl->setParameterByClass(static::class, 'step', 'select_type');
+        $modal = $this->buildImportTypeSelectorModal(
+            $file_to_import,
+            $path_to_uploaded_file_in_temp_dir
+        );
+        $this->ctrl->clearParameterByClass(static::class, 'step');
+        $this->import_type_selector_modal = $modal->withOnLoad($modal->getShowSignal());
+        $this->viewObject();
+        return;
+    }
+
+    private function retrieveFilesAndUploadTypeFromData(array $data): array
+    {
+        if (isset($data['type']) && isset($data['file_to_import']) && isset($data['temp_file'])) {
+            return [
+                $data['type'],
+                implode(
+                    DIRECTORY_SEPARATOR,
+                    [CLIENT_DATA_DIR, 'temp', $data['temp_file'], $data['file_to_import']]
+                ),
+                $data['temp_file']
+            ];
+        }
+        $file_to_import = $this->getFileToImportFromImportFormData($data);
+        $path_to_uploaded_file_in_temp_dir = '';
+        if (array_key_first($data['upload']) === self::UPLOAD_TYPE_LOCAL) {
+            $path_to_uploaded_file_in_temp_dir = $data['upload'][self::UPLOAD_TYPE_LOCAL];
+        }
+
+        return [
+            $this->extractFileTypeFromImportFilename(basename($file_to_import)),
+            $file_to_import,
+            $path_to_uploaded_file_in_temp_dir
+        ];
+    }
+
+    private function extractFileTypeFromImportFilename(string $filename): ?string
     {
         $matches = [];
         $result = preg_match('/[0-9]{10}__[0-9]{1,6}__([a-z]{1,4})_[0-9]{2,9}.zip/', $filename, $matches);
@@ -1368,7 +1545,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         return $matches[1];
     }
 
-    protected function getFileToImportFromImportFormData(array $data)
+    private function getFileToImportFromImportFormData(array $data)
     {
         $upload_data = $data['upload'];
         if (array_key_first($upload_data) === self::UPLOAD_TYPE_LOCAL
@@ -1511,46 +1688,26 @@ class ilObjectGUI implements ImplementsCreationCallback
     public function deleteObject(bool $error = false): void
     {
         $request_ids = [];
-        if ($this->post_wrapper->has("id")) {
+        if ($this->post_wrapper->has('id')) {
             $request_ids = $this->post_wrapper->retrieve(
-                "id",
+                'id',
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
         }
 
         if (
-            $this->request_wrapper->has("item_ref_id")
-            && $this->request_wrapper->retrieve("item_ref_id", $this->refinery->kindlyTo()->string()) !== ""
+            $this->request_wrapper->has('item_ref_id')
+            && $this->request_wrapper->retrieve('item_ref_id', $this->refinery->kindlyTo()->string()) !== ""
         ) {
-            $request_ids = [$this->request_wrapper->retrieve("item_ref_id", $this->refinery->kindlyTo()->int())];
+            $request_ids = [$this->request_wrapper->retrieve('item_ref_id', $this->refinery->kindlyTo()->int())];
         }
 
         if ($request_ids === []) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->returnToParent($this);
         }
 
-        $modal_factory = $this->ui_factory->modal();
-        $items = [];
-        foreach (array_unique($request_ids) as $ref_id) {
-            $items[] = $modal_factory->interruptiveItem()->standard(
-                (string) $ref_id,
-                ilObject::_lookupTitle(
-                    ilObject::_lookupObjId($ref_id)
-                )
-            );
-        }
-
-        $msg = $this->lng->txt("info_delete_sure");
-        if (!$this->settings->get('enable_trash')) {
-            $msg .= "<br/>" . $this->lng->txt("info_delete_warning_no_trash");
-        }
-
-        $modal = $modal_factory->interruptive(
-            $this->lng->txt('confirm'),
-            $msg,
-            $this->ctrl->getFormAction($this, 'confirmedDelete')
-        )->withAffectedItems($items);
+        $modal = $this->buildDeleletionModal(array_unique($request_ids));
         $this->tpl->setVariable(
             'IL_OBJECT_EPHEMRAL_MODALS',
             $this->ui_renderer->render(
@@ -1558,6 +1715,84 @@ class ilObjectGUI implements ImplementsCreationCallback
             )
         );
         $this->renderObject();
+    }
+
+    private function buildDeleletionModal(array $request_ids): \ILIAS\UI\Component\Modal\RoundTrip
+    {
+        [$listing_items, $inputs, $has_additional_references] = $this->buildDeletionModalItems($request_ids);
+
+        $msg = $this->lng->txt('info_delete_sure');
+        if (!$this->settings->get('enable_trash')) {
+            $msg .= "<br/>" . $this->lng->txt('info_delete_warning_no_trash');
+        }
+
+        $content = [
+            $this->ui_factory->messageBox()->confirmation($msg),
+            $this->ui_factory->listing()->unordered($listing_items)
+        ];
+
+        if ($has_additional_references) {
+            $content[] = $this->ui_factory->messageBox()->confirmation(
+                $this->lng->txt('multiple_reference_deletion_info') . ' '
+                . $this->lng->txt('rep_multiple_reference_deletion_instruction')
+            );
+        }
+
+        $this->ctrl->setParameterByClass(static::class, 'id', implode(',', $request_ids));
+        $target_url = $this->ctrl->getFormActionByClass(static::class, 'confirmedDelete');
+        $this->ctrl->clearParameterByClass(static::class, 'id');
+
+        return $this->ui_factory->modal()->roundtrip(
+            $this->lng->txt('confirm'),
+            $content,
+            $inputs,
+            $target_url
+        )->withSubmitLabel($this->lng->txt('delete'));
+    }
+
+    private function buildDeletionModalItems(array $ref_ids): array
+    {
+        $path_gui = new ilPathGUI();
+        $path_gui->enableTextOnly(true);
+        $path_gui->enableHideLeaf(false);
+        return array_reduce(
+            $ref_ids,
+            function (array $c, int $v) use ($path_gui): array {
+                $c[0][] = ilObject::_lookupTitle(
+                    ilObject::_lookupObjId($v)
+                );
+                $c[1][] = $this->ui_factory->input()->field()->hidden()->withValue($v);
+
+                $other_references = $this->buildInputsForAdditionalDeletionReferences($v, $path_gui);
+                if ($other_references !== []) {
+                    $c[1][] = $this->ui_factory->input()->field()->multiSelect(
+                        ilObject::_lookupTitle(
+                            ilObject::_lookupObjId($v)
+                        ),
+                        $other_references
+                    );
+                    $c[2] = true;
+                }
+                return $c;
+            },
+            [[], [], false]
+        );
+    }
+
+    private function buildInputsForAdditionalDeletionReferences(int $ref_id, ilPathGUI $path_gui): array
+    {
+        return array_reduce(
+            ilObject::_getAllReferences(ilObject::_lookupObjId($ref_id)),
+            function (array $c, int $v) use ($ref_id, $path_gui): array {
+                if ($v !== $ref_id
+                    && !$this->tree->isDeleted($v)
+                    && $this->access->checkAccess('delete', '', $v)) {
+                    $c[$v] = $path_gui->getPath(ROOT_FOLDER_ID, $v);
+                }
+                return $c;
+            },
+            []
+        );
     }
 
     /**
@@ -1707,16 +1942,20 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected function checkPermission(string $perm, string $cmd = "", string $type = "", ?int $ref_id = null): void
     {
         if (!$this->checkPermissionBool($perm, $cmd, $type, $ref_id)) {
-            if (!is_int(strpos($_SERVER["PHP_SELF"], "goto.php"))) {
-                if ($perm != "create" && !is_object($this->object)) {
+            if (!is_int(strpos($_SERVER['PHP_SELF'], 'goto.php'))) {
+                if ($perm != 'create' && !is_object($this->object)) {
                     return;
                 }
 
-                ilSession::clear("il_rep_ref_id");
+                ilSession::clear('il_rep_ref_id');
 
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_read'), true);
-                $parent_ref_id = (int) $this->tree->getParentNodeData($this->object->getRefId())['ref_id'];
-                $this->ctrl->redirectToURL(ilLink::_getLink($parent_ref_id));
+                $parent_ref_id = $this->tree->getParentId($this->object->getRefId());
+                if ($parent_ref_id > 0) {
+                    $this->ctrl->redirectToURL(ilLink::_getLink($parent_ref_id));
+                } else {
+                    $this->ctrl->redirectToURL('login.php?cmd=force_login');
+                }
             }
 
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_read'), true);
@@ -1726,7 +1965,7 @@ class ilObjectGUI implements ImplementsCreationCallback
 
     protected function checkPermissionBool(string $perm, string $cmd = "", string $type = "", ?int $ref_id = null): bool
     {
-        if ($perm == "create") {
+        if ($perm === "create") {
             if (!$ref_id) {
                 $ref_id = $this->requested_ref_id;
             }
@@ -1839,7 +2078,7 @@ class ilObjectGUI implements ImplementsCreationCallback
             return [];
         }
         if ($redirect_target_ref_id !== null) {
-            $this->ctrl->setParameterByClass(self::class, 'crtcb', (string) $redirect_target_ref_id);
+            $this->ctrl->setParameterByClass($create_target_class, 'crtcb', (string) $redirect_target_ref_id);
         }
 
         $elements = $this->initAddNewItemElementsFromNewItemGroups(
@@ -1897,6 +2136,8 @@ class ilObjectGUI implements ImplementsCreationCallback
         array $subtypes
     ): array {
         $add_new_item_elements = [];
+        $grouped_types = [];
+
         foreach ($default_groups['groups'] as $group_id => $group) {
             $obj_types_in_group = array_keys(
                 array_filter(
@@ -1904,6 +2145,7 @@ class ilObjectGUI implements ImplementsCreationCallback
                     fn($item_group_id) => $item_group_id === $group_id
                 )
             );
+            $grouped_types = array_merge($grouped_types, $obj_types_in_group);
 
             $group_element = $this->buildGroup(
                 $create_target_class,
@@ -1915,6 +2157,16 @@ class ilObjectGUI implements ImplementsCreationCallback
             if ($group_element !== null) {
                 $add_new_item_elements[$group['pos']] = $group_element;
             }
+        }
+
+        $ungrouped_types = array_diff(array_keys($subtypes), $grouped_types);
+        if ($ungrouped_types !== []) {
+            $add_new_item_elements[] = $this->buildGroup(
+                $create_target_class,
+                $ungrouped_types,
+                $this->lng->txt('rep_new_item_group_other'),
+                $subtypes
+            );
         }
 
         return $add_new_item_elements;
@@ -1949,7 +2201,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         array $subtypes
     ): array {
         $add_new_items_content_array = [];
-        foreach($obj_types_in_group as $type) {
+        foreach ($obj_types_in_group as $type) {
             if (!array_key_exists($type, $subtypes)) {
                 continue;
             }
@@ -1957,8 +2209,13 @@ class ilObjectGUI implements ImplementsCreationCallback
             $this->ctrl->setParameterByClass($create_target_class, 'new_type', $type);
             $add_new_items_content_array[$subitem['pos']] = new AddNewItemElement(
                 AddNewItemElementTypes::Object,
-                $this->lng->txt('obj_' . $type),
-                $this->ui_factory->symbol()->icon()->standard($type, ''),
+                $this->getTranslatedObjectTypeNameFromItemArray($subitem),
+                empty($subitem['plugin'])
+                    ? $this->ui_factory->symbol()->icon()->standard($type, '')
+                    : $this->ui_factory->symbol()->icon()->custom(
+                        ilObject::getIconForType($type),
+                        ''
+                    ),
                 new URI(
                     ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass($create_target_class, 'create')
                 )
@@ -1969,8 +2226,20 @@ class ilObjectGUI implements ImplementsCreationCallback
         return $add_new_items_content_array;
     }
 
-    private function maskTemplateMarkers(string $string): string
+    private function checkWritePermissionOnRefIdArray(array $ref_ids): bool
     {
-        return str_replace(['{', '}'], ['&#123;', '&#125;'], $string);
+        foreach ($ref_ids as $ref_id) {
+            if (!$this->access->checkAccess('write', '', $ref_id)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private function getTranslatedObjectTypeNameFromItemArray(array $item_array): string
+    {
+        return empty($item_array['plugin'])
+            ? $this->lng->txt('obj_' . $item_array['lng'])
+            : ilObjectPlugin::lookupTxtById($item_array['lng'], 'obj_' . $item_array['lng']);
     }
 }

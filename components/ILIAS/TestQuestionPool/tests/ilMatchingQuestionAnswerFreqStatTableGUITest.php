@@ -35,7 +35,11 @@ class ilMatchingQuestionAnswerFreqStatTableGUITest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new ilMatchingQuestionAnswerFreqStatTableGUI((object) [], '', $this->createMock(assQuestion::class));
+        $this->object = new ilMatchingQuestionAnswerFreqStatTableGUI(
+            $this->createMock(ilTestCorrectionsGUI::class),
+            '',
+            $this->createMock(assMatchingQuestion::class)
+        );
     }
 
     public function testConstruct(): void

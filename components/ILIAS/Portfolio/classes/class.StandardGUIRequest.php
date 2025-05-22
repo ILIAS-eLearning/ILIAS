@@ -174,11 +174,6 @@ class StandardGUIRequest
         return $this->str("fpage");
     }
 
-    public function getBlogTitle(): string
-    {
-        return $this->str("blog");
-    }
-
     public function getPortfolioTitle(): string
     {
         return trim($this->str("pt"));
@@ -223,5 +218,15 @@ class StandardGUIRequest
     public function getOwnerId(): int
     {
         return $this->int("owner_id");
+    }
+
+    public function getSignature(): bool
+    {
+        return (bool) $this->int("signature");
+    }
+
+    public function getIncludeDeclaration(): bool
+    {
+        return (bool) $this->int("decl_author");
     }
 }

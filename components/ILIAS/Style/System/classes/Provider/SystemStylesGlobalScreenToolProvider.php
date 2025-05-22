@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
-use  ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
+use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
 use ILIAS\UI\Component\Tree\Tree;
 use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntries as Entries;
 use ILIAS\Data\URI;
@@ -71,7 +71,7 @@ class SystemStylesGlobalScreenToolProvider extends AbstractDynamicToolProvider
             ->tool($id_generator('system_styles_tree'))
             ->withTitle($title)
             ->withSymbol($icon)
-            ->withContent($this->dic->ui()->factory()->legacy($this->dic->ui()->renderer()->render($this->getUITree())));
+            ->withContent($this->dic->ui()->factory()->legacy()->content($this->dic->ui()->renderer()->render($this->getUITree())));
     }
 
     protected function getUITree(): Tree

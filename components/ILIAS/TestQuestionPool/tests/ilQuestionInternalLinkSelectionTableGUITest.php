@@ -35,17 +35,22 @@ class ilQuestionInternalLinkSelectionTableGUITest extends assBaseTestCase
     {
         parent::setUp();
 
-        $object = new class {
-            public object $object;
+        $object = new class () {
+            protected object $object;
 
             public function __construct()
             {
-                $this->object = new class {
+                $this->object = new class () {
                     public function getId(): int
                     {
                         return 0;
                     }
                 };
+            }
+
+            public function getObject()
+            {
+                return $this->object;
             }
         };
 

@@ -38,27 +38,29 @@ class ilObjBibliographicAccess extends ilObjectAccess
      *    );
      * @return array<int, array<string, string>>|array<int, array<string, string|bool>>
      */
+    #[\Override]
     public static function _getCommands(): array
     {
-        return array(
-            array(
+        return [
+            [
                 "permission" => "read",
                 "cmd" => "render",
                 "lang_var" => "show",
                 "default" => true,
-            ),
-            array("permission" => "write", "cmd" => "view", "lang_var" => "edit_content"),
-            array("permission" => "write", "cmd" => "settings", "lang_var" => "settings"),
-        );
+            ],
+            ["permission" => "write", "cmd" => "view", "lang_var" => "edit_content"],
+            ["permission" => "write", "cmd" => "settings", "lang_var" => "settings"],
+        ];
     }
 
 
+    #[\Override]
     public static function _checkGoto(string $target): bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
         $t_arr = explode('_', $target);
-        if ($t_arr[0] != 'bibl' || ((int) $t_arr[1]) <= 0) {
+        if ($t_arr[0] !== 'bibl' || ((int) $t_arr[1]) <= 0) {
             return false;
         }
         return (bool) $ilAccess->checkAccess('read', '', $t_arr[1]);
@@ -69,6 +71,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
      * checks whether a user may invoke a command or not
      * (this method is called by ilAccessHandler::checkAccess)
      */
+    #[\Override]
     public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         global $DIC;
@@ -85,7 +88,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
                 ilObjBibliographicGUI::P_ENTRY_ID,
                 $DIC->refinery()->kindlyTo()->int()
             );
-            if (!self::checkEntryIdMatch($obj_id, $entry_id)) {
+            if (!$this->checkEntryIdMatch($obj_id, $entry_id)) {
                 return false;
             }
         }
@@ -126,7 +129,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
     }
 
 
-    private static function checkEntryIdMatch(int $obj_id, int $entry_id): bool
+    private function checkEntryIdMatch(int $obj_id, int $entry_id): bool
     {
         /**
          * @var ilBiblEntry $ilBiblEntry

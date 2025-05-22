@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * General purpose update steps for weblinks
@@ -37,5 +37,17 @@ class ilWebResourceDBUpdateSteps implements ilDatabaseUpdateSteps
         if (!$this->db->indexExistsByFields('webr_items', ['webr_id'])) {
             $this->db->addIndex('webr_items', ['webr_id'], 'i3');
         }
+    }
+
+    /**
+     * Increases the maximum length of object import-ids from 50 to 255 characters.
+     */
+    public function step_2(): void
+    {
+        $this->db->modifyTableColumn("object_data", "import_id", [
+            "type" => \ilDBConstants::T_TEXT,
+            "length" => 255,
+            "notnull" => false
+        ]);
     }
 }

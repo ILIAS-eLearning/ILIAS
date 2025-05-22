@@ -30,6 +30,7 @@ class ilFileDataImport extends ilFileData
         $this->initExportDirectory();
     }
 
+    #[\Override]
     public function getPath(): string
     {
         return $this->import_path;

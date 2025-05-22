@@ -35,7 +35,7 @@ class ilContextScorm implements ilContextTemplate
 
     public static function usesHTTP(): bool
     {
-        return false;
+        return true;
     }
 
     public static function hasHTML(): bool

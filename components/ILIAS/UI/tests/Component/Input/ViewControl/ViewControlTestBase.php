@@ -52,7 +52,7 @@ abstract class ViewControlTestBase extends ILIAS_UI_TestBase
     {
         return new Refinery(
             $this->buildDataFactory(),
-            $this->createMock(ilLanguage::class)
+            $this->createMock(ILIAS\Language\Language::class)
         );
     }
 
@@ -81,13 +81,16 @@ abstract class ViewControlTestBase extends ILIAS_UI_TestBase
     public function getUIFactory(): NoUIFactory
     {
         $factory = new class () extends NoUIFactory {
+            protected SignalGenerator $sig_gen;
+            public function __construct()
+            {
+                $this->sig_gen = new SignalGenerator();
+            }
             public function button(): I\Button\Factory
             {
-                return new I\Button\Factory(
-                    new SignalGenerator()
-                );
+                return new I\Button\Factory();
             }
-            public function symbol(): ILIAS\UI\Component\Symbol\Factory
+            public function symbol(): I\Symbol\Factory
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
@@ -96,7 +99,6 @@ abstract class ViewControlTestBase extends ILIAS_UI_TestBase
                 );
             }
         };
-        $factory->sig_gen = new SignalGenerator();
         return $factory;
     }
 

@@ -26,9 +26,7 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Provider\FileAccess;
 use ILIAS\Filesystem\Visibility;
-use League\Flysystem\FileExistsException;
 use League\Flysystem\FilesystemException;
-use League\Flysystem\FilesystemInterface;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\UnableToRetrieveMetadata;
 use League\Flysystem\UnableToDeleteFile;
@@ -93,7 +91,7 @@ class FlySystemFileAccess implements FileAccess
             $last_modified = (int) $this->flysystem_operator->lastModified($path);
 
             return new \DateTimeImmutable(date('Y-m-d H:i:s', $last_modified));
-        } catch (UnableToRetrieveMetadata $ex) {
+        } catch (UnableToRetrieveMetadata) {
             throw new IOException("Could not lookup timestamp of the file \"$path\".");
         } catch (FilesystemException $ex) {
             throw new FileNotFoundException("File \"$path\" not found.", 0, $ex);

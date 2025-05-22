@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\Stakeholder;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\DI\Container;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions.ch>
@@ -28,6 +29,27 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 abstract class AbstractResourceStakeholder implements ResourceStakeholder
 {
     private string $provider_name_cache = '';
+
+    protected int $default_owner;
+    protected int $current_user;
+
+    public function __construct(?int $user_id_of_owner = null)
+    {
+        global $DIC;
+
+        if ($user_id_of_owner === null) {
+            $user_id_of_owner = $DIC instanceof Container && $DIC->isDependencyAvailable('user')
+                ? $DIC->user()->getId()
+                : (defined('SYSTEM_USER_ID') ? (int) SYSTEM_USER_ID : 6);
+        }
+
+        $this->default_owner = $this->current_user = $user_id_of_owner;
+    }
+
+    public function setOwner(int $user_id_of_owner): void
+    {
+        $this->default_owner = $user_id_of_owner;
+    }
 
     public function getFullyQualifiedClassName(): string
     {
@@ -69,7 +91,7 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
             $after_components
         );
 
-        $parts = array_filter($parts, static function ($part) {
+        $parts = array_filter($parts, static function ($part): bool {
             $ignore = ['IRSS', 'Storage', 'ResourceStorage', 'classes'];
             return $part !== '' && !in_array($part, $ignore, true);
         });

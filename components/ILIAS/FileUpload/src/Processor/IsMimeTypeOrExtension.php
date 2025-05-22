@@ -18,7 +18,6 @@
 
 namespace ILIAS\FileUpload\Processor;
 
-use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 
 /**
@@ -38,15 +37,12 @@ trait IsMimeTypeOrExtension
             return true;
         }
         // is extension
-        if (substr_compare(
+        return substr_compare(
             $metadata->getFilename(),
             $extention,
             -strlen($extention),
             null,
             true
-        ) === 0) {
-            return true;
-        }
-        return false;
+        ) === 0;
     }
 }

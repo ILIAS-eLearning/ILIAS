@@ -407,7 +407,7 @@ class ilMembershipGUI
 
         // show member table
         $table = $this->initParticipantTableGUI();
-        $table->setTitle($this->lng->txt($this->getParentObject()->getType() . '_mem_tbl_header'));
+        $table->setTitle($this->getParticipantTableTitle());
         $table->setFormAction($this->ctrl->getFormAction($this));
         $table->parse();
 
@@ -416,6 +416,11 @@ class ilMembershipGUI
         $table->setResetCommand('participantsResetFilter');
 
         $this->tpl->setVariable('MEMBERS', $table->getHTML());
+    }
+
+    protected function getParticipantTableTitle(): string
+    {
+        return $this->lng->txt($this->getParentObject()->getType() . '_mem_tbl_header');
     }
 
     public function getAttendanceListUserData(int $user_id, array $filters = []): array
@@ -1582,6 +1587,10 @@ class ilMembershipGUI
         $waiting_list = $this->initWaitingList();
 
         if ($this instanceof ilSessionMembershipGUI) {
+            /*
+             * TODO this exact logic is also in ilSessionParticipantsTableGUI and ilSessionMembershipGUI,
+             *  should be centralized.
+             */
             $member_id = $DIC->repositoryTree()->checkForParentType(
                 $this->getParentObject()->getRefId(),
                 'grp'

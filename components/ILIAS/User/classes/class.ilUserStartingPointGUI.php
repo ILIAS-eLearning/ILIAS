@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\User\UserGUIRequest;
+
+use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer;
 
@@ -31,7 +33,7 @@ use ILIAS\UI\Renderer;
 class ilUserStartingPointGUI
 {
     private ilLogger $log;
-    private ilLanguage $lng;
+    private Language $lng;
     private ilSetting $settings;
     private ilGlobalTemplateInterface $tpl;
     private ilToolbarGUI $toolbar;
@@ -76,7 +78,6 @@ class ilUserStartingPointGUI
         $this->starting_point_repository = new ilUserStartingPointRepository(
             $this->user,
             $this->db,
-            $this->tpl,
             $DIC->logger(),
             $this->tree,
             $this->rbac_review,
@@ -124,7 +125,7 @@ class ilUserStartingPointGUI
         $this->tpl->setContent($tbl->getHTML());
     }
 
-    public function initUserStartingPointForm(ilPropertyFormGUI $form = null): void
+    public function initUserStartingPointForm(?ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getUserStartingPointForm();
@@ -132,7 +133,7 @@ class ilUserStartingPointGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function initRoleStartingPointForm(ilPropertyFormGUI $form = null): void
+    public function initRoleStartingPointForm(?ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getRoleStartingPointForm();
@@ -439,7 +440,7 @@ class ilUserStartingPointGUI
             $entries = $res->getEntries();
 
             if ($entries === []) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('obj_ref_id_not_exist'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_corresponding_roles'), true);
                 $form->setValuesByPost();
                 $this->tpl->setContent($form->getHTML());
                 return;

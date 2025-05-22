@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Render;
 
-use ilGlobalTemplateInterface;
 use InvalidArgumentException;
 
 /**
@@ -29,11 +28,9 @@ use InvalidArgumentException;
  */
 class ilResourceRegistry implements ResourceRegistry
 {
-    protected ilGlobalTemplateInterface $il_template;
-
-    public function __construct(ilGlobalTemplateInterface $il_template)
-    {
-        $this->il_template = $il_template;
+    public function __construct(
+        protected \ILIAS\UICore\GlobalTemplate $il_template,
+    ) {
     }
 
     /**

@@ -32,11 +32,11 @@ class DeckTest extends ILIAS_UI_TestBase
     public function getFactory(): NoUIFactory
     {
         return new class () extends NoUIFactory {
-            public function card(): C\Card\Factory
+            public function card(): I\Component\Card\Factory
             {
                 return new I\Component\Card\Factory();
             }
-            public function deck(array $cards): C\Deck\Deck
+            public function deck(array $cards): I\Component\Deck\Deck
             {
                 return new I\Component\Deck\Deck($cards, C\Deck\Deck::SIZE_S);
             }

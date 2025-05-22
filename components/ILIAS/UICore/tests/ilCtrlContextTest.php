@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
@@ -55,12 +69,12 @@ class ilCtrlContextTest extends TestCase
      * @param string|null $cid_path
      * @return ilCtrlPathInterface
      */
-    protected function getPath(string $cid_path = null): ilCtrlPathInterface
+    protected function getPath(?string $cid_path = null): ilCtrlPathInterface
     {
         return new class ($cid_path) extends ilCtrlAbstractPath {
             // override parent constructor, so we don't
             // have to mock the ilCtrlStructure.
-            public function __construct(string $cid_path = null)
+            public function __construct(?string $cid_path = null)
             {
                 $this->cid_path = $cid_path;
             }
@@ -71,7 +85,7 @@ class ilCtrlContextTest extends TestCase
      * @param array|null $request_values
      * @return ilCtrlContextInterface
      */
-    protected function getContextWithManualAdoption(array $request_values = null): ilCtrlContextInterface
+    protected function getContextWithManualAdoption(?array $request_values = null): ilCtrlContextInterface
     {
         $this->values = $request_values ?? [];
 

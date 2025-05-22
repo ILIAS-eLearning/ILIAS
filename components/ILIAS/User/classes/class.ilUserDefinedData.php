@@ -90,7 +90,7 @@ class ilUserDefinedData
     public function getAll(): array
     {
         return array_map(
-            static fn ($value): string => $value ?? '',
+            static fn($value): string => $value ?? '',
             $this->user_data
         );
     }

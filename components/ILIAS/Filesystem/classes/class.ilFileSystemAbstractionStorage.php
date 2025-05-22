@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\Filesystem\Filesystems;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\Filesystem\Filesystem;
@@ -31,11 +32,8 @@ abstract class ilFileSystemAbstractionStorage
     private const FACTOR = 100;
     private const MAX_EXPONENT = 3;
     private const SECURED_DIRECTORY = "sec";
-    private int $container_id;
-    private int $storage_type;
-    private bool $path_conversion = false;
     protected ?string $path = null;
-    protected \ILIAS\Filesystem\Filesystems $file_system_service;
+    protected Filesystems $file_system_service;
 
     /**
      * Constructor
@@ -47,12 +45,9 @@ abstract class ilFileSystemAbstractionStorage
      * @param $a_container_id    int (e.g file_id or mob_id)
      *
      */
-    public function __construct(int $a_storage_type, bool $a_path_conversion, int $a_container_id)
+    public function __construct(private int $storage_type, private bool $path_conversion, private int $container_id)
     {
         global $DIC;
-        $this->storage_type = $a_storage_type;
-        $this->path_conversion = $a_path_conversion;
-        $this->container_id = $a_container_id;
         $this->file_system_service = $DIC->filesystem();
 
         // Get path info
@@ -96,15 +91,15 @@ abstract class ilFileSystemAbstractionStorage
         $num = $a_container_id;
         $path_string = '';
         for ($i = self::MAX_EXPONENT; $i > 0; $i--) {
-            $factor = pow(self::FACTOR, $i);
+            $factor = self::FACTOR ** $i;
             if (($tmp = (int) ($num / $factor)) or $found) {
                 $path[] = $tmp;
-                $num = $num % $factor;
+                $num %= $factor;
                 $found = true;
             }
         }
 
-        if (count($path)) {
+        if ($path !== []) {
             $path_string = (implode('/', $path) . '/');
         }
 
@@ -187,9 +182,9 @@ abstract class ilFileSystemAbstractionStorage
         }
 
         if ($this->getStorageType() === self::STORAGE_DATA) {
-            return rtrim(CLIENT_DATA_DIR, '/') . '/' . ltrim($this->path, '/');
+            return rtrim(CLIENT_DATA_DIR, '/') . '/' . ltrim((string) $this->path, '/');
         }
-        return rtrim(CLIENT_WEB_DIR, '/') . '/' . ltrim($this->path, '/');
+        return rtrim(CLIENT_WEB_DIR, '/') . '/' . ltrim((string) $this->path, '/');
     }
 
     protected function init(): bool
@@ -219,7 +214,7 @@ abstract class ilFileSystemAbstractionStorage
     {
         try {
             $this->getFileSystemService()->deleteDir($this->getAbsolutePath());
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
 
@@ -267,7 +262,7 @@ abstract class ilFileSystemAbstractionStorage
             }
 
             return true;
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return false;
         }
     }
@@ -289,7 +284,7 @@ abstract class ilFileSystemAbstractionStorage
 
     private function createRelativePathForFileSystem(string $a_absolute_path): string
     {
-        $relative_path = ILIAS\Filesystem\Util\LegacyPathHelper::createRelativePath($a_absolute_path);
+        $relative_path = LegacyPathHelper::createRelativePath($a_absolute_path);
 
         return $relative_path;
     }

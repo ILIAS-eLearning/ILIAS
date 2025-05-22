@@ -20,6 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\FileDelivery\FileDeliveryTypes;
 
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\BackupStaticProperties;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\MockObject\MockObject;
 use ilException;
 use ILIAS\HTTP\Services;
 use PHPUnit\Framework\TestCase;
@@ -32,17 +38,15 @@ use ILIAS\FileDelivery\FileDeliveryTypes\PHPChunked;
  * Class FileDeliveryTypeFactoryTest
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- *
- * @runInSeparateProcess
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
  */
+#[BackupGlobals(false)]
+#[BackupStaticProperties(false)]
+#[PreserveGlobalState(false)]
 class FileDeliveryTypeFactoryTest extends TestCase
 {
-    private \ILIAS\FileDelivery\FileDeliveryTypes\FileDeliveryTypeFactory $subject;
+    private FileDeliveryTypeFactory $subject;
     /**
-     * @var Services|\PHPUnit\Framework\MockObject\MockObject
+     * @var Services|MockObject
      */
     private Services $http;
 
@@ -55,9 +59,7 @@ class FileDeliveryTypeFactoryTest extends TestCase
     }
 
 
-    /**
-     * @Test
-     */
+    #[Test]
     public function testCreatePHPFileDeliveryWhichShouldSucceed(): void
     {
         $result = $this->subject->getInstance(DeliveryMethod::PHP);
@@ -65,9 +67,7 @@ class FileDeliveryTypeFactoryTest extends TestCase
         $this->assertInstanceOf(PHP::class, $result);
     }
 
-    /**
-     * @Test
-     */
+    #[Test]
     public function testCreatePHPChunkedFileDeliveryWhichShouldSucceed(): void
     {
         $result = $this->subject->getInstance(DeliveryMethod::PHP_CHUNKED);
@@ -76,9 +76,7 @@ class FileDeliveryTypeFactoryTest extends TestCase
     }
 
 
-    /**
-     * @Test
-     */
+    #[Test]
     public function testCreatePHPFileDeliveryTypeWhichShouldYieldTheSameInstance(): void
     {
         //fetch the php file delivery type two times to check that only one instance is created.
@@ -88,9 +86,7 @@ class FileDeliveryTypeFactoryTest extends TestCase
         $this->assertEquals($firstResult, $secondResult);
     }
 
-    /**
-     * @Test
-     */
+    #[Test]
     public function testCreateAnUnknownFileDeliveryTypeWhichShouldFail(): void
     {
         //get instance should throw an exception if the file delivery type is not known.

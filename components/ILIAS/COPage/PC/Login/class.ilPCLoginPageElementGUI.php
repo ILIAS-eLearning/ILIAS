@@ -113,7 +113,7 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
 
         // save/cancel buttons
         if ($a_insert) {
-            $form->addCommandButton("create_login_page_element", $lng->txt("save"));
+            $form->addCommandButton("create", $lng->txt("save"));
             $form->addCommandButton("cancelCreate", $lng->txt("cancel"));
         } else {
             $form->addCommandButton("update_login_page_element", $lng->txt("save"));

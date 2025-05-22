@@ -24,7 +24,6 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Component\ViewControl\Mode;
 use ILIAS\UI\Component\Table\PresentationRow;
-use ILIAS\UI\Component\Table\Presentation;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Dropdown\Dropdown;
@@ -98,7 +97,7 @@ class UploadPoliciesTableUI
                     );
 
                 if (null !== ($dropdown = $actions[$record->getPolicyId()] ?? null)) {
-                    $row = $row->withAction($dropdown);
+                    return $row->withAction($dropdown);
                 }
 
                 return $row;
@@ -122,7 +121,7 @@ class UploadPoliciesTableUI
      */
     protected function buildPolicyActions(array $policies): array
     {
-        if(!$this->write_access) {
+        if (!$this->write_access) {
             return [];
         }
         $dropdowns = [];
@@ -246,16 +245,40 @@ class UploadPoliciesTableUI
             "policy_no_validity_limitation_set"
         );
 
-        $item_text = $this->language->txt('title') . $record->getTitle() . "<br/>"
-            . $this->language->txt('policy_upload_limit') . $upload_limit_text . "<br/>"
-            . $this->language->txt('policy_audience') . $audience_text . "<br/>"
-            . $this->language->txt('active') . $active_text . "<br/>"
-            . $this->language->txt('policy_scope') . $record->getScopeDefinition() . "<br/>"
-            . $this->language->txt('policy_valid_until') . $valid_until_text;
-
-        $deletion_item = $this->ui_factory->modal()->interruptiveItem()->standard(
+        $deletion_items[] = $this->ui_factory->modal()->interruptiveItem()->keyValue(
             (string) $record->getPolicyId(),
-            $item_text
+            $this->language->txt('title'),
+            $record->getTitle()
+        );
+
+        $deletion_items[] = $this->ui_factory->modal()->interruptiveItem()->keyValue(
+            (string) $record->getPolicyId(),
+            $this->language->txt('policy_upload_limit'),
+            $upload_limit_text
+        );
+
+        $deletion_items[] = $this->ui_factory->modal()->interruptiveItem()->keyValue(
+            (string) $record->getPolicyId(),
+            $this->language->txt('policy_audience'),
+            $audience_text
+        );
+
+        $deletion_items[] = $this->ui_factory->modal()->interruptiveItem()->keyValue(
+            (string) $record->getPolicyId(),
+            $this->language->txt('active'),
+            $active_text
+        );
+
+        $deletion_items[] = $this->ui_factory->modal()->interruptiveItem()->keyValue(
+            (string) $record->getPolicyId(),
+            $this->language->txt('policy_scope'),
+            $record->getScopeDefinition()
+        );
+
+        $deletion_items[] = $this->ui_factory->modal()->interruptiveItem()->keyValue(
+            (string) $record->getPolicyId(),
+            $this->language->txt('policy_valid_until'),
+            $valid_until_text
         );
 
         return $this->ui_factory->modal()->interruptive(
@@ -266,7 +289,7 @@ class UploadPoliciesTableUI
                 ilUploadLimitsOverviewGUI::CMD_DELETE_UPLOAD_POLICY
             )
         )->withAffectedItems(
-            [$deletion_item]
+            $deletion_items
         )->withActionButtonLabel($this->language->txt('delete'));
     }
 
@@ -278,7 +301,7 @@ class UploadPoliciesTableUI
         $policy_data = $this->upload_policy_db_repository->getAll();
 
         if ($this->http->wrapper()->query()->has(self::ACTIVE_FILTER_PARAM)) {
-            $policy_data = $this->filterData(
+            return $this->filterData(
                 $this->http->wrapper()->query()->retrieve(
                     self::ACTIVE_FILTER_PARAM,
                     $this->refinery->kindlyTo()->string()

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,28 +16,28 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author Tim Schmitz <schmitz@leifos.de>
  */
 class ilWebLinkDatabaseRepository implements ilWebLinkRepository
 {
-    public const ITEMS_TABLE = 'webr_items';
-    public const LISTS_TABLE = 'webr_lists';
-    public const PARAMS_TABLE = 'webr_params';
+    public const string ITEMS_TABLE = 'webr_items';
+    public const string LISTS_TABLE = 'webr_lists';
+    public const string PARAMS_TABLE = 'webr_params';
 
     protected int $webr_id;
     protected ilDBInterface $db;
     protected ilObjUser $user;
-    protected bool $update_history;
 
-    public function __construct(int $webr_id, bool $update_history = true)
+    public function __construct(int $webr_id)
     {
         global $DIC;
 
         $this->db = $DIC->database();
         $this->user = $DIC->user();
         $this->webr_id = $webr_id;
-        $this->update_history = $update_history;
     }
 
     public function createItem(ilWebLinkDraftItem $item): ilWebLinkItem
@@ -119,14 +117,6 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
             ]
         );
 
-        if ($this->isUpdateHistory()) {
-            ilHistory::_createEntry(
-                $this->getWebrId(),
-                "add",
-                [$new_item->getTitle()]
-            );
-        }
-
         return $new_item;
     }
 
@@ -152,14 +142,6 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
                                                       ->getTimestamp()],
             ]
         );
-
-        if ($this->isUpdateHistory()) {
-            ilHistory::_createEntry(
-                $this->getWebrId(),
-                "add",
-                [$new_list->getTitle()]
-            );
-        }
 
         return $new_list;
     }
@@ -425,14 +407,6 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
                 );
             }
         }
-
-        if ($this->isUpdateHistory()) {
-            ilHistory::_createEntry(
-                $this->getWebrId(),
-                "update",
-                [$item->getTitle()]
-            );
-        }
     }
 
     public function updateList(
@@ -456,14 +430,6 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
                 'webr_id' => ['integer', $list->getWebrId()]
             ]
         );
-
-        if ($this->isUpdateHistory()) {
-            ilHistory::_createEntry(
-                $this->getWebrId(),
-                "update",
-                [$list->getTitle()]
-            );
-        }
     }
 
     public function deleteAllItems(): void
@@ -481,10 +447,6 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
 
     public function deleteItemByLinkID(int $link_id): void
     {
-        if ($this->isUpdateHistory()) {
-            $title = $this->getItemByLinkId($link_id)->getTitle();
-        }
-
         $this->db->manipulate(
             "DELETE FROM " . $this->db->quoteIdentifier(self::ITEMS_TABLE) . " " .
             "WHERE webr_id = " . $this->db->quote($this->getWebrId(), 'integer') . " " .
@@ -496,14 +458,6 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
             "WHERE webr_id = " . $this->db->quote($this->getWebrId(), 'integer') . " " .
             "AND link_id = " . $this->db->quote($link_id, 'integer')
         );
-
-        if (isset($title)) {
-            ilHistory::_createEntry(
-                $this->getWebrId(),
-                "delete",
-                [$title]
-            );
-        }
     }
 
     public function deleteParameterByLinkIdAndParamId(
@@ -520,22 +474,10 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
 
     public function deleteList(): void
     {
-        if ($this->isUpdateHistory()) {
-            $title = $this->getList()->getTitle();
-        }
-
         $res = $this->db->manipulate(
             "DELETE FROM " . $this->db->quoteIdentifier(self::LISTS_TABLE) . " " .
             "WHERE webr_id = " . $this->db->quote($this->getWebrId(), 'integer')
         );
-
-        if (isset($title)) {
-            ilHistory::_createEntry(
-                $this->getWebrId(),
-                "delete",
-                [$title]
-            );
-        }
     }
 
     /**
@@ -551,7 +493,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
         $parameters = [];
 
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $parameters[] = new ilWebLinkParameter(
+            $parameter = new ilWebLinkParameter(
                 $this->user,
                 (int) $row->webr_id,
                 (int) $row->link_id,
@@ -559,6 +501,12 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
                 (int) $row->value,
                 (string) $row->name
             );
+            try {
+                $this->validateParameter($parameter);
+            } catch (Exception $e) {
+                continue;
+            }
+            $parameters[] = $parameter;
         }
 
         return $parameters;
@@ -586,7 +534,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
     {
         if (
             $item->isInternal() &&
-            !ilLinkInputGUI::isInternalLink($item->getTarget())
+            !$this->isInternalLink($item->getTarget())
         ) {
             throw new ilWebLinkDatabaseRepositoryException(
                 'The target of this internal link item is not internal.'
@@ -594,19 +542,14 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
         }
     }
 
+    protected function isInternalLink(string $value): bool
+    {
+        return ilLinkInputGUI::isInternalLink($value);
+    }
+
     public function getWebrId(): int
     {
         return $this->webr_id;
-    }
-
-    public function isUpdateHistory(): bool
-    {
-        return $this->update_history;
-    }
-
-    public function setUpdateHistory(bool $update_history): void
-    {
-        $this->update_history = $update_history;
     }
 
     protected function getCurrentTime(): int

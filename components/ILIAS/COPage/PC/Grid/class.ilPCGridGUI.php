@@ -137,7 +137,7 @@ class ilPCGridGUI extends ilPageContentGUI
         }
 
         // save/cancel buttons
-        $form->addCommandButton("create_grid", $this->lng->txt("save"));
+        $form->addCommandButton("create", $this->lng->txt("save"));
         $form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
 
         return $form;

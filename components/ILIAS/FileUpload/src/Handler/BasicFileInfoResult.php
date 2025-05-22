@@ -27,27 +27,11 @@ use ILIAS\UI\Component\Input\Field\UploadHandler;
  */
 final class BasicFileInfoResult implements FileInfoResult
 {
-    private string $mime_type;
-    private string $file_identifier;
-    private int $size;
-    private string $name;
-    private string $file_identification_key;
-
     /**
      * @param int    $size in Bytes, we will change this to DataSize in the future
      */
-    public function __construct(
-        string $file_identification_key,
-        string $file_identifier,
-        string $name,
-        int $size,
-        string $mime_type
-    ) {
-        $this->file_identification_key = $file_identification_key;
-        $this->file_identifier = $file_identifier;
-        $this->name = $name;
-        $this->size = $size;
-        $this->mime_type = $mime_type;
+    public function __construct(private string $file_identification_key, private string $file_identifier, private string $name, private int $size, private string $mime_type)
+    {
     }
 
 

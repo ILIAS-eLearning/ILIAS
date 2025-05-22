@@ -1,18 +1,25 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
 
 /**
-* Folder export
-*
 * @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ServicesBooking
 */
 class ilGroupExporter extends ilXmlExporter
 {
@@ -47,7 +54,7 @@ class ilGroupExporter extends ilXmlExporter
         );
     }
 
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $deps = [];
         $advmd_ids = [];
@@ -123,19 +130,22 @@ class ilGroupExporter extends ilXmlExporter
         return $active;
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function getValidSchemaVersions(string $a_entity): array
     {
         return [
+            "11.0" => [
+                "namespace" => 'http://www.ilias.de/Modules/Group/grp/11',
+                "xsd_file" => 'ilias_grp_11_0.xsd',
+                "uses_dataset" => false,
+                "min" => "11.0",
+                "max" => ""
+            ],
             "9.0" => [
                 "namespace" => 'http://www.ilias.de/Modules/Group/grp/9',
                 "xsd_file" => 'ilias_grp_9_0.xsd',
                 "uses_dataset" => false,
                 "min" => "9.0",
-                "max" => "9.99"
+                "max" => "10.99"
             ],
             "4.1.0" => [
                 "namespace" => "http://www.ilias.de/Modules/Group/grp/4_1",
@@ -149,7 +159,7 @@ class ilGroupExporter extends ilXmlExporter
                 "xsd_file" => "ilias_grp_5_0.xsd",
                 "uses_dataset" => false,
                 "min" => "5.0.0",
-                "max" => ""
+                "max" => "5.9.999"
             ]
         ];
     }

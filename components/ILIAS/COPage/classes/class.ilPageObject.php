@@ -42,6 +42,8 @@ define("IL_INSERT_CHILD", 2);
 
 */
 
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+
 /**
  * Class ilPageObject
  * Handles PageObjects of ILIAS Learning Modules (see ILIAS DTD)
@@ -66,6 +68,7 @@ abstract class ilPageObject
     protected ilObjUser $user;
     protected ilLanguage $lng;
     protected ilTree $tree;
+    protected LOMServices $lom_services;
     protected int $id;
     public ?DOMDocument $dom = null;
     public string $xml = "";
@@ -116,6 +119,7 @@ abstract class ilPageObject
         $this->lng = $DIC->language();
         $this->tree = $DIC->repositoryTree();
         $this->log = ilLoggerFactory::getLogger('copg');
+        $this->lom_services = $DIC->learningObjectMetadata();
 
         $this->reading_time_manager = new ILIAS\COPage\ReadingTime\ReadingTimeManager();
 
@@ -631,6 +635,14 @@ abstract class ilPageObject
                 array($a_id, $a_parent_type, $a_lang)
             );
             $rec = $db->fetchAssoc($set);
+            if (!$rec) {
+                return [
+                    "active" => 1,
+                    "activation_start" => null,
+                    "activation_end" => null,
+                    "show_activation_info" => 0
+                ];
+            }
         }
 
         return $rec;
@@ -841,7 +853,8 @@ s     */
         bool $a_append_bib = false,
         string $a_append_str = "",
         bool $a_omit_pageobject_tag = false,
-        int $style_id = 0
+        int $style_id = 0,
+        bool $offline = false
     ): string {
         if ($a_incl_head) {
             //echo "\n<br>#".$this->encoding."#";
@@ -852,7 +865,7 @@ s     */
                 $mobs = "";
                 $bibs = "";
                 if ($a_append_mobs) {
-                    $mobs = $this->getMultimediaXML();
+                    $mobs = $this->getMultimediaXML($offline);
                 }
                 if ($a_append_bib) {
                     // deprecated
@@ -1065,10 +1078,11 @@ s     */
      * get a xml string that contains all media object elements, that
      * are referenced by any media alias in the page
      */
-    public function getMultimediaXML(): string
-    {
+    public function getMultimediaXML(
+        bool $offline = false
+    ): string {
         $mob_manager = $this->pc_service->mediaObject();
-        return $mob_manager->getMultimediaXML($this->getDomDoc());
+        return $mob_manager->getMultimediaXML($this->getDomDoc(), $offline);
     }
 
     /**
@@ -1160,7 +1174,7 @@ s     */
      * Resolves all internal link targets of the page, if targets are available
      * (after import)
      */
-    public function resolveIntLinks(array $a_link_map = null): bool
+    public function resolveIntLinks(?array $a_link_map = null): bool
     {
         return $this->link->resolveIntLinks($this->getDomDoc(), $a_link_map);
     }
@@ -2983,12 +2997,32 @@ s     */
     public function getPCModel(): array
     {
         $model = [];
+        /*
+        $this->log->debug("--- Get page model start");
+        $model = [];
         foreach ($this->getAllPCIds() as $pc_id) {
             $co = $this->getContentObjectForPcId($pc_id);
             if ($co !== null) {
                 $co_model = $co->getModel();
                 if ($co_model !== null) {
                     $model[$pc_id] = $co_model;
+                }
+            }
+        }
+        $this->log->debug("--- Get page model end");
+        */
+
+        $config = $this->getPageConfig();
+        foreach ($this->pc_definition->getPCDefinitions() as $def) {
+            $model_provider = $this->pc_definition->getPCModelProviderByName($def["name"]);
+            if ($config->getEnablePCType($def["name"]) || $def["name"] === "PlaceHolder") {
+                if (!is_null($model_provider)) {
+                    foreach ($model_provider->getModels(
+                        $this->dom_util,
+                        $this
+                    ) as $pc_id => $co_model) {
+                        $model[$pc_id] = $co_model;
+                    }
                 }
             }
         }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\BookingManager\Objects;
 
@@ -43,8 +45,7 @@ class GUIService
 
     public function ilBookBulkCreationGUI(
         \ilObjBookingPool $pool
-    ) : \ilBookBulkCreationGUI
-    {
+    ): \ilBookBulkCreationGUI {
         return new \ilBookBulkCreationGUI(
             $this->domain_service,
             $this->gui_service,

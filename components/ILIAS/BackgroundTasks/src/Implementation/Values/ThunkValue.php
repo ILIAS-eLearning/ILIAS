@@ -32,6 +32,7 @@ class ThunkValue extends AbstractValue
 {
     protected Type $type;
 
+    #[\Override]
     public function getType(): Type
     {
         return $this->parentTask->getOutputType();

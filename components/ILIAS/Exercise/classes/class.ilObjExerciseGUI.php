@@ -18,6 +18,7 @@
 
 use ILIAS\Exercise\InternalService;
 use ILIAS\Exercise;
+use ILIAS\Exercise\Settings;
 
 /**
  * @author       Stefan Meyer <smeyer@databay.de>
@@ -28,6 +29,7 @@ use ILIAS\Exercise;
  * @ilCtrl_Calls ilObjExerciseGUI: ilCommonActionDispatcherGUI, ilCertificateGUI
  * @ilCtrl_Calls ilObjExerciseGUI: ilExAssignmentEditorGUI, ilAssignmentPresentationGUI
  * @ilCtrl_Calls ilObjExerciseGUI: ilExerciseManagementGUI, ilExcCriteriaCatalogueGUI, ilObjectMetaDataGUI, ilPortfolioExerciseGUI, ilExcRandomAssignmentGUI
+ * @ilCtrl_Calls ilObjExerciseGUI: ILIAS\Exercise\Settings\SettingsGUI
  */
 class ilObjExerciseGUI extends ilObjectGUI
 {
@@ -90,9 +92,9 @@ class ilObjExerciseGUI extends ilObjectGUI
         } elseif ($this->requested_ass_id > 0) {
             throw new ilExerciseException("Assignment ID does not match Exercise.");
         }
-
-        $this->lp_user_id = ($this->exercise_request->getUserId() > 0)
-            ?: $this->user->getId();
+        $this->lp_user_id = ($this->exercise_request->getUserId() > 0 && $this->access->checkAccess("read_learning_progress", "", $this->exercise_request->getRefId()))
+            ? $this->exercise_request->getUserId()
+            : $this->user->getId();
         $this->requested_sort_order = $this->exercise_request->getSortOrder();
         $this->requested_sort_by = $this->exercise_request->getSortBy();
         $this->requested_offset = $this->exercise_request->getOffset();
@@ -104,7 +106,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
         if ($this->object) {
             $this->ass_manager = $this->service->domain()->assignment()->assignments(
-                $this->object->getRefId(),
+                $this->object->getId(),
                 $this->user->getId()
             );
             $this->item_builder = $this->service->gui()->assignment()->itemBuilder(
@@ -248,6 +250,17 @@ class ilObjExerciseGUI extends ilObjectGUI
             case strtolower(ilAssignmentPresentationGUI::class):
                 $this->checkPermission("read");
                 $gui = $this->exercise_ui->assignment()->assignmentPresentationGUI($this->object);
+                $this->ctrl->forwardCommand($gui);
+                break;
+
+            case strtolower(Settings\SettingsGUI::class):
+                $this->checkPermission("write");
+                $ilTabs->activateTab("settings");
+                $this->setSettingsSubTabs();
+                $this->tabs_gui->activateSubTab("edit");
+                $gui = $this->gui->settings()->settingsGUI(
+                    $this->object->getId()
+                );
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -601,14 +614,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 
         // edit properties
         if ($this->checkPermissionBool("write")) {
-            /*$tabs_gui->addTab("assignments",
-                $lng->txt("exc_edit_assignments"),
-                $this->ctrl->getLinkTarget($this, 'listAssignments'));*/
-
             $this->tabs_gui->addTab(
                 "settings",
                 $lng->txt("settings"),
-                $this->ctrl->getLinkTarget($this, 'edit')
+                $this->ctrl->getLinkTargetByClass(Settings\SettingsGUI::class, "")
             );
         }
         if ($this->access->checkRbacOrPositionPermissionAccess(
@@ -811,9 +820,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
     public function editObject(): void
     {
-        $this->setSettingsSubTabs();
-        $this->tabs_gui->activateSubTab("edit");
-        parent::editObject();
+        $this->ctrl->redirectByClass(Settings\SettingsGUI::class, "");
     }
 
     protected function setSettingsSubTabs(): void
@@ -838,15 +845,6 @@ class ilObjExerciseGUI extends ilObjectGUI
                 $this->ctrl->getLinkTarget($this, "certificate")
             );
         }
-    }
-
-    public static function _goto(
-        string $a_target,
-        string $a_raw
-    ): void {
-        global $DIC;
-
-        $DIC->exercise()->internal()->gui()->permanentLink()->goto($a_target, $a_raw);
     }
 
     /**
@@ -961,7 +959,7 @@ class ilObjExerciseGUI extends ilObjectGUI
         )->withActive($am->getListModeLabel($this->getCurrentMode()));
 
         $html = "";
-        $l = $f->legacy("<br><br>");
+        $l = $f->legacy()->content("<br><br>");
         $html .= $r->render([$mode, $l, $panel]);
 
         $this->tpl->setContent(

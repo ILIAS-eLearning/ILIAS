@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -67,7 +67,7 @@ class ilIndividualAssessmentMembersTableGUI
     {
         $this->data = array_filter(
             $data,
-            fn ($record) =>
+            fn($record) =>
                  $this->iass_access->mayEditMembers()
                  || $this->iass_access->mayGradeUser($record->id())
                  || $this->iass_access->mayViewUser($record->id())
@@ -79,7 +79,7 @@ class ilIndividualAssessmentMembersTableGUI
      *
      * @param 	ILIAS\UI\Component\Component[] 	$view_constrols
      */
-    public function render(array $view_constrols, int $offset = 0, int $limit = null): string
+    public function render(array $view_constrols, int $offset = 0, ?int $limit = null): string
     {
         $ptable = $this->factory->table()->presentation(
             "",
@@ -155,16 +155,16 @@ class ilIndividualAssessmentMembersTableGUI
         }
 
         if (!ilObjUser::userExists([$graded_by_id])) {
-            return [$this->txt('iass_graded_by') . ":" => $this->txt("user_deleted")];
+            return [$this->txt('iass_graded_by') => $this->txt("user_deleted")];
         }
 
         $full_name = $this->getFullNameFor($graded_by_id);
         if (!$this->hasPublicProfile($graded_by_id)) {
-            return [$this->txt('iass_graded_by') . ":" => $full_name];
+            return [$this->txt('iass_graded_by') => $full_name];
         }
 
         return [
-            $this->txt('iass_graded_by') . ":" => $this->getProfileLink($full_name, $graded_by_id)
+            $this->txt('iass_graded_by') => $this->getProfileLink($full_name, $graded_by_id)
         ];
     }
 
@@ -293,7 +293,7 @@ class ilIndividualAssessmentMembersTableGUI
     /**
      * Returns readable status
      */
-    protected function getStatus(bool $finalized, int $status, int $examiner_id = null): string
+    protected function getStatus(bool $finalized, int $status, ?int $examiner_id = null): string
     {
         if ($status == 0) {
             $status = ilIndividualAssessmentMembers::LP_IN_PROGRESS;
@@ -317,13 +317,13 @@ class ilIndividualAssessmentMembersTableGUI
             return [];
         }
         $event_time_str = $this->date_formatter->format($this->current_user, $event_time, true);
-        return [$this->txt("iass_event_time") . ": " => $event_time_str];
+        return [$this->txt("iass_event_time") => $event_time_str];
     }
 
     /**
      * Returns login of examiner
      */
-    protected function getFullNameFor(int $user_id = null): string
+    protected function getFullNameFor(?int $user_id = null): string
     {
         if (is_null($user_id)) {
             return "";
@@ -361,8 +361,8 @@ class ilIndividualAssessmentMembersTableGUI
     protected function getLocationInfos(
         bool $finalized,
         int $usr_id,
-        string $location = null,
-        int $examiner_id = null
+        ?string $location = null,
+        ?int $examiner_id = null
     ): array {
         if (!$this->mayViewLocation($finalized, $usr_id, $examiner_id)) {
             return [];
@@ -394,7 +394,7 @@ class ilIndividualAssessmentMembersTableGUI
      *
      * @return string[]
      */
-    protected function getInternalRecordNote(string $internal_note = null): array
+    protected function getInternalRecordNote(?string $internal_note = null): array
     {
         if (is_null($internal_note)) {
             return [];
@@ -441,7 +441,7 @@ class ilIndividualAssessmentMembersTableGUI
     /**
      * Check user may view the location
      */
-    protected function mayViewLocation(bool $finalized, int $usr_id, int $examiner_id = null): bool
+    protected function mayViewLocation(bool $finalized, int $usr_id, ?int $examiner_id = null): bool
     {
         return
             $this->checkEditable($finalized, $usr_id, $examiner_id) ||
@@ -453,7 +453,7 @@ class ilIndividualAssessmentMembersTableGUI
     /**
      * Check the current user has edit permission on record
      */
-    protected function checkEditable(bool $finalized, int $usr_id, int $examiner_id = null): bool
+    protected function checkEditable(bool $finalized, int $usr_id, ?int $examiner_id = null): bool
     {
         if ($finalized) {
             return false;
@@ -497,7 +497,7 @@ class ilIndividualAssessmentMembersTableGUI
     /**
      * Check the current user is allowed to download the record file
      */
-    protected function checkDownloadFile(int $usr_id, string $file_name = null): bool
+    protected function checkDownloadFile(int $usr_id, ?string $file_name = null): bool
     {
         if ((!is_null($file_name) && $file_name !== '')
             && ($this->iass_access->isSystemAdmin() || $this->userMayDownloadAttachment($usr_id))
@@ -513,7 +513,7 @@ class ilIndividualAssessmentMembersTableGUI
         return $this->iass_access->mayViewUser($usr_id) || $this->iass_access->mayGradeUser($usr_id);
     }
 
-    protected function wasEditedByViewer(int $examiner_id = null): bool
+    protected function wasEditedByViewer(?int $examiner_id = null): bool
     {
         return $examiner_id === $this->current_user_id || null === $examiner_id;
     }

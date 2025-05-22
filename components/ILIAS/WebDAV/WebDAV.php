@@ -20,22 +20,24 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class WebDAV implements Component\Component
+use ILIAS\Component\Component;
+use ILIAS\Component\Resource\PublicAsset;
+use ILIAS\Component\Resource\Endpoint;
+
+class WebDAV implements Component
 {
     public function init(
-        array | \ArrayAccess &$define,
-        array | \ArrayAccess &$implement,
-        array | \ArrayAccess &$use,
-        array | \ArrayAccess &$contribute,
-        array | \ArrayAccess &$seek,
-        array | \ArrayAccess &$provide,
-        array | \ArrayAccess &$pull,
-        array | \ArrayAccess &$internal,
+        array|\ArrayAccess &$define,
+        array|\ArrayAccess &$implement,
+        array|\ArrayAccess &$use,
+        array|\ArrayAccess &$contribute,
+        array|\ArrayAccess &$seek,
+        array|\ArrayAccess &$provide,
+        array|\ArrayAccess &$pull,
+        array|\ArrayAccess &$internal,
     ): void {
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\Endpoint($this, "webdav.php");
+        $contribute[PublicAsset::class] = fn(): Endpoint => new Endpoint($this, "webdav.php");
 
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\Endpoint($this, "rootindex.php");
+        $contribute[PublicAsset::class] = fn(): Endpoint => new Endpoint($this, "rootindex.php");
     }
 }

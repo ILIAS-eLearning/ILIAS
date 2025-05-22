@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\ilTestLegacyFormsHelper;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 
@@ -28,13 +30,14 @@ use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 */
 class ilImagemapFileInputGUI extends ilImageFileInputGUI
 {
-    protected $areas = array();
+    protected $areas = [];
     protected $image_path = "";
     protected $image_path_web = "";
     protected $line_color = "";
 
     protected $pointsUncheckedFieldEnabled = false;
 
+    protected ilTestLegacyFormsHelper $forms_helper;
     protected GlyphFactory $glyph_factory;
     protected Renderer $renderer;
 
@@ -49,6 +52,8 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         parent::__construct($a_title, $a_postvar);
 
         global $DIC;
+
+        $this->forms_helper = new ilTestLegacyFormsHelper();
         $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
         $this->renderer = $DIC->ui()->renderer();
     }
@@ -101,7 +106,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
     public function setAreasByArray($a_areas): void
     {
         if (is_array($a_areas['name'])) {
-            $this->areas = array();
+            $this->areas = [];
             foreach ($a_areas['name'] as $idx => $name) {
                 if ($this->getPointsUncheckedFieldEnabled() && isset($a_areas['points_unchecked'])) {
                     $pointsUnchecked = $a_areas['points_unchecked'][$idx];
@@ -371,6 +376,8 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $template->setVariable("POST_VAR", $this->getPostVar());
         $template->setVariable("ID", $this->getFieldId());
         $template->setVariable("TXT_BROWSE", $lng->txt("select_file"));
+        $template->setVariable('MAX_SIZE_WARNING', $this->lng->txt('form_msg_file_size_exceeds'));
+        $template->setVariable('MAX_SIZE', $this->upload_limit->getPhpUploadLimitInBytes());
         $template->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice") . " " .
         $this->getMaxFileSizeString());
 
@@ -378,7 +385,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $a_tpl->setVariable("PROP_GENERIC", $template->get());
         $a_tpl->parseCurrentBlock();
 
-        $this->tpl->addJavascript("asserts/js/answerwizardinput.js");
-        $this->tpl->addJavascript("asserts/js/imagemap.js");
+        $this->tpl->addJavascript("assets/js/answerwizardinput.js");
+        $this->tpl->addJavascript("assets/js/imagemap.js");
     }
 }

@@ -81,6 +81,9 @@ final class Settings implements SettingsInterface
         return $this->select->typed('dpro_last_reset_date', fn(Marshal $m) => $m->dateTime());
     }
 
+    /**
+     * @return Setting<bool>
+     */
     public function noAcceptance(): Setting
     {
         return $this->select->typed('dpro_no_acceptance', $this->boolean(...));

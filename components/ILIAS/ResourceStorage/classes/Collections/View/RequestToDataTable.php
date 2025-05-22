@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Collections\View;
 
+use ILIAS\UI\Component\Table\Data;
 use ILIAS\UI\Factory;
 use ILIAS\components\ResourceStorage\Collections\DataProvider\TableDataProvider;
-use ILIAS\components\ResourceStorage\Collections\DataProvider\DataTableDataProviderAdapter;
 use ILIAS\Data\Range;
 use ILIAS\HTTP\Services;
 use ILIAS\components\ResourceStorage\BinToHexSerializer;
@@ -74,11 +74,12 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
     }
 
     /**
-     * @return \ILIAS\UI\Component\Table\Data
+     * @return Data
      */
-    protected function buildTable(): \ILIAS\UI\Component\Table\Data
+    protected function buildTable(): Data
     {
         return $this->ui_factory->table()->data(
+            $this,
             '', // $this->request->getTitle() we already have the title in the panel
             [
                 self::F_TITLE => $this->ui_factory->table()->column()->text(
@@ -95,13 +96,12 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
                     $this->language->txt(self::F_TYPE)
                 )->withIsSortable(false),
             ],
-            $this
         )->withRequest(
             $this->http->request()
         )->withActions(
             $this->action_builder->getActions()
-        )->withNumberOfRows(
-            $this->request->getItemsPerPage()
+        )->withRange(
+            new Range(0, $this->request->getItemsPerPage())
         );
     }
 
@@ -144,7 +144,7 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
 
         $start = $range->getStart();
         $length = $range->getLength();
-        $this->data_provider->getViewRequest()->setPage((int) round($start / $length, 0, PHP_ROUND_HALF_DOWN));
+        $this->data_provider->getViewRequest()->setPage((int) round($start / $length, 0, \RoundingMode::HalfTowardsZero));
         $this->data_provider->getViewRequest()->setItemsPerPage($length);
 
         switch ($sort_field . '_' . $sort_direction) {

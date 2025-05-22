@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -51,61 +52,61 @@ class assOrderingQuestionImport extends assQuestionImport
         $type = assOrderingQuestion::OQ_TERMS;
 
         foreach ($presentation->order as $entry) {
-            switch ($entry["type"]) {
-                case "response":
+            switch ($entry['type']) {
+                case 'response':
                     $response = $presentation->response[$entry["index"]];
                     $type = $response->getIdent();
-                    if ($response->getIdent() == 'OQP') {
+                    if ($response->getIdent() === 'OQP') {
                         $type = assOrderingQuestion::OQ_PICTURES;
-                    } elseif ($response->getIdent() == 'OQNP') {
+                    } elseif ($response->getIdent() === 'OQNP') {
                         $type = assOrderingQuestion::OQ_NESTED_PICTURES;
-                    } elseif ($response->getIdent() == 'OQNT') {
+                    } elseif ($response->getIdent() === 'OQNT') {
                         $type = assOrderingQuestion::OQ_NESTED_TERMS;
-                    } elseif ($response->getIdent() == 'OQT') {
+                    } elseif ($response->getIdent() === 'OQT') {
                         $type = assOrderingQuestion::OQ_TERMS;
                     }
 
                     $rendertype = $response->getRenderType();
-                    switch (strtolower(get_class($rendertype))) {
-                        case "ilqtirenderchoice":
+                    switch (get_class($rendertype)) {
+                        case ilQTIRenderChoice::class:
                             $shuffle = $rendertype->getShuffle();
                             $answerorder = 0;
                             foreach ($rendertype->response_labels as $response_label) {
                                 $ident = $response_label->getIdent();
-                                $answertext = "";
+                                $answertext = '';
                                 $answerimage = [];
                                 $answerdepth = 0;
                                 foreach ($response_label->material as $mat) {
                                     for ($m = 0; $m < $mat->getMaterialCount(); $m++) {
                                         $foundmat = $mat->getMaterial($m);
 
-                                        if (strcmp($foundmat["material"]->getLabel() ?? '', "answerdepth") == 0) {
-                                            $answerdepth = $foundmat["material"]->getContent();
+                                        if ($foundmat['material']->getLabel() === 'answerdepth') {
+                                            $answerdepth = $foundmat['material']->getContent();
                                         }
-                                        if (strcmp($foundmat["type"], "mattext") == 0
-                                        && strcmp($foundmat["material"]->getLabel() ?? '', "answerdepth") != 0) {
-                                            $answertext .= $foundmat["material"]->getContent();
+                                        if ($foundmat['type'] === 'mattext'
+                                            && $foundmat['material']->getLabel() !== 'answerdepth') {
+                                            $answertext .= $foundmat['material']->getContent();
                                         }
-                                        if (strcmp($foundmat["type"], "matimage") == 0
-                                            && strcmp($foundmat["material"]->getLabel(), "answerdepth") != 0) {
+                                        if ($foundmat['type'] === 'matimage'
+                                            && $foundmat['material']->getLabel() !== 'answerdepth') {
                                             $foundimage = true;
                                             $answerimage = [
-                                                "imagetype" => $foundmat["material"]->getImageType(),
-                                                "label" => $foundmat["material"]->getLabel(),
-                                                "content" => $foundmat["material"]->getContent()
+                                                'imagetype' => $foundmat['material']->getImageType(),
+                                                'label' => $foundmat['material']->getLabel(),
+                                                'content' => $foundmat['material']->getContent()
                                             ];
                                         }
                                     }
                                 }
                                 $answers[$answerorder] = [
                                     'ident' => $ident,
-                                    "answertext" => $answertext,
-                                    "answerimage" => $answerimage,
-                                    "points" => 0,
-                                    "answerorder" => $answerorder,
-                                    "answerdepth" => $answerdepth,
-                                    "correctness" => "",
-                                    "action" => ""
+                                    'answertext' => $answertext,
+                                    'answerimage' => $answerimage,
+                                    'points' => 0,
+                                    'answerorder' => $answerorder,
+                                    'answerdepth' => $answerdepth,
+                                    'correctness' => '',
+                                    'action' => ''
                                 ];
                                 $answerorder++;
                             }
@@ -122,13 +123,13 @@ class assOrderingQuestionImport extends assQuestionImport
                 $correctness = 1;
                 $conditionvar = $respcondition->getConditionvar();
                 foreach ($conditionvar->order as $order) {
-                    switch ($order["field"]) {
+                    switch ($order['field']) {
                         case "arr_not":
                             $correctness = 0;
                             break;
                         case "varequal":
-                            $ident = $conditionvar->varequal[$order["index"]]->getContent();
-                            $orderindex = $conditionvar->varequal[$order["index"]]->getIndex();
+                            $ident = $conditionvar->varequal[$order['index']]->getContent();
+                            $orderindex = $conditionvar->varequal[$order['index']]->getIndex();
                             break;
                     }
                 }
@@ -189,11 +190,12 @@ class assOrderingQuestionImport extends assQuestionImport
         $this->object->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setOrderingType($type);
         $this->object->setObjId($questionpool_id);
-        $thumb_size = (int) $item->getMetadataEntry("thumb_geometry");
-        if ($thumb_size !== null && $thumb_size >= $this->object->getMinimumThumbSize()) {
-            $this->object->setThumbSize($thumb_size);
-        }
-        $this->object->setElementHeight($item->getMetadataEntry("element_height") ? (int) $item->getMetadataEntry("element_height") : null);
+        $this->object->setThumbSize(
+            $this->deduceThumbSizeFromImportValue((int) $item->getMetadataEntry('thumb_geometry'))
+        );
+        $this->object->setElementHeight($item->getMetadataEntry('element_height')
+            ? (int) $item->getMetadataEntry('element_height')
+            : null);
         $this->object->setShuffle($shuffle);
         $this->object->setPoints(0);
         $this->object->saveQuestionDataToDb();
@@ -201,15 +203,15 @@ class assOrderingQuestionImport extends assQuestionImport
         $solanswers = [];
 
         foreach ($answers as $answer) {
-            if (isset($answer["solutionorder"])) {
-                $solanswers[$answer["solutionorder"]] = $answer;
+            if (isset($answer['solutionorder'])) {
+                $solanswers[$answer['solutionorder']] = $answer;
             }
         }
         ksort($solanswers);
         $position = 0;
         $element_list = $this->object->getOrderingElementList();
         foreach ($solanswers as $answer) {
-            $points += $answer["points"];
+            $points += $answer['points'];
 
             $element = new ilAssOrderingElement();
 
@@ -228,29 +230,20 @@ class assOrderingQuestionImport extends assQuestionImport
                     $element = $element->withContent($filename);
                 }
             } else {
-                $element = $element->withContent($answer["answertext"]);
+                $element = $element->withContent($answer['answertext']);
             }
 
             $element_list->addElement($element);
         }
         $this->object->setOrderingElementList($element_list);
-        $points = ($item->getMetadataEntry("points") > 0) ? $item->getMetadataEntry('points') : $points;
+        $points = ($item->getMetadataEntry('points') > 0) ? $item->getMetadataEntry('points') : $points;
         $this->object->setPoints($points);
         // additional content editing mode information
         $this->object->setAdditionalContentEditingMode(
             $this->fetchAdditionalContentEditingModeInformation($item)
         );
         $this->object->saveToDb();
-        if (count($item->suggested_solutions)) {
-            foreach ($item->suggested_solutions as $suggested_solution) {
-                $this->importSuggestedSolution(
-                    $this->object->getId(),
-                    $suggested_solution["solution"]->getContent(),
-                    $suggested_solution["gap_index"]
-                );
-            }
-        }
-
+        $this->importSuggestedSolutions($this->object->getId(), $item->suggested_solutions);
         foreach ($feedbacksgeneric as $correctness => $material) {
             $m = $this->QTIMaterialToString($material);
             $feedbacksgeneric[$correctness] = $m;
@@ -258,9 +251,9 @@ class assOrderingQuestionImport extends assQuestionImport
         $questiontext = $this->object->getQuestion();
 
         // handle the import of media objects in XHTML code
-        if (is_array(ilSession::get("import_mob_xhtml"))) {
-            foreach (ilSession::get("import_mob_xhtml") as $mob) {
-                $importfile = $importdirectory . DIRECTORY_SEPARATOR . $mob["uri"];
+        if (is_array(ilSession::get('import_mob_xhtml'))) {
+            foreach (ilSession::get('import_mob_xhtml') as $mob) {
+                $importfile = $importdirectory . DIRECTORY_SEPARATOR . $mob['uri'];
 
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
@@ -301,21 +294,12 @@ class assOrderingQuestionImport extends assQuestionImport
             );
         }
         $this->object->saveToDb();
-        if (isset($tst_id) && $tst_id !== $questionpool_id) {
-            $qplQid = $this->object->getId();
-            $tstQid = $this->object->duplicate(true, '', '', -1, $tst_id);
-            $tst_object->questions[$question_counter++] = $tstQid;
-            $import_mapping[$item->getIdent()] = ["pool" => $qplQid, "test" => $tstQid];
-            return $import_mapping;
-        }
-
-        if ($tst_id > 0) {
-            $tst_object->questions[$question_counter++] = $this->object->getId();
-            $import_mapping[$item->getIdent()] = ["pool" => 0, "test" => $this->object->getId()];
-            return $import_mapping;
-        }
-
-        $import_mapping[$item->getIdent()] = ["pool" => $this->object->getId(), "test" => 0];
+        $import_mapping[$item->getIdent()] = $this->addQuestionToParentObjectAndBuildMappingEntry(
+            $questionpool_id,
+            $tst_id,
+            $question_counter,
+            $tst_object
+        );
         return $import_mapping;
     }
 

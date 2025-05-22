@@ -18,16 +18,12 @@
 
 declare(strict_types=1);
 
-/**
- * Favourites UI
- *
- * @author Alexander Killing <killing@leifos.de>
- */
-class ilFavouritesListGUI
+class ilFavouritesListGUI extends ilSelectedItemsBlockGUI
 {
     protected ILIAS\DI\UIServices $ui;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
+    protected ilSelectedItemsBlockGUI $favoritesManager;
 
     public function __construct(?ilObjUser $user = null)
     {
@@ -42,16 +38,17 @@ class ilFavouritesListGUI
         $this->ui = $DIC->ui();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
+        $this->favoritesManager = new ilSelectedItemsBlockGUI();
         $this->lng->loadLanguageModule('rep');
+
     }
 
     public function render(): string
     {
-        $favoritesManager = new ilSelectedItemsBlockGUI();
         $f = $this->ui->factory();
         $item_groups = [];
         $ctrl = $this->ctrl;
-        foreach ($favoritesManager->getItemGroups() as $key => $group) {
+        foreach ($this->favoritesManager->getItemGroups() as $key => $group) {
             $items = [];
             foreach ($group as $item) {
                 $items[] = $f->item()->standard(
@@ -59,19 +56,15 @@ class ilFavouritesListGUI
                 )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon((int) $item->getObjId()), $item->getTitle()));
             }
             if (count($items) > 0) {
-                $item_groups[] = $f->item()->group($key, $items);
+                $item_groups[] = $f->item()->group((string) $key, $items);
             }
         }
         if (count($item_groups) > 0) {
-            $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, 'view', '0');
-            $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, 'col_side', 'center');
-            $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, 'block_type', 'pditems');
-            // see PR discussion at https://github.com/ILIAS-eLearning/ILIAS/pull/5247/files
-            $configureModal = $favoritesManager->getConfigureModal();
+            $configureModal = $this->favoritesManager->getRemoveModal();
 
             $config_item = $f->item()->standard(
                 $f->button()->shy(
-                    $this->lng->txt('rep_configure'),
+                    $this->favoritesManager->getRemoveMultipleActionText(),
                     $configureModal->getShowSignal()
                 )
             );
@@ -81,6 +74,6 @@ class ilFavouritesListGUI
             return $this->ui->renderer()->render([$panel, $configureModal]);
         }
 
-        return $favoritesManager->getNoItemFoundContent();
+        return $this->favoritesManager->getNoItemFoundContent();
     }
 }

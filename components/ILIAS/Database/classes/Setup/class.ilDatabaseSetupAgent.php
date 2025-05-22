@@ -18,19 +18,24 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup;
+use ILIAS\Setup\Agent;
+use ILIAS\Setup\Agent\HasNoNamedObjective;
+use ILIAS\Setup\Config;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Objective\NullObjective;
+use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\Metrics\Storage;
+use ILIAS\Setup\ilMysqlMyIsamToInnoDbMigration;
+use ILIAS\Setup\ObjectiveConstructor;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 
-class ilDatabaseSetupAgent implements Setup\Agent
+class ilDatabaseSetupAgent implements Agent
 {
-    use Setup\Agent\HasNoNamedObjective;
+    use HasNoNamedObjective;
 
-    protected Refinery $refinery;
-
-    public function __construct(Refinery $refinery)
+    public function __construct(protected Refinery $refinery)
     {
-        $this->refinery = $refinery;
     }
 
     /**
@@ -48,7 +53,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
     {
         // TODO: Migrate this to refinery-methods once possible.
         return $this->refinery->custom()->transformation(function ($data): \ilDatabaseSetupConfig {
-            $data["password"] = $data["password"] ?? null; // password can be empty
+            $data["password"] ??= null; // password can be empty
             $password = $this->refinery->to()->data("password");
             return new \ilDatabaseSetupConfig(
                 $data["type"] ?? "innodb",
@@ -67,12 +72,12 @@ class ilDatabaseSetupAgent implements Setup\Agent
     /**
      * @inheritdocs
      */
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Config $config = null): Objective
     {
         if (!$config instanceof \ilDatabaseSetupConfig) {
-            return new Setup\Objective\NullObjective();
+            return new NullObjective();
         }
-        return new Setup\ObjectiveCollection(
+        return new ObjectiveCollection(
             "Complete objectives from Services\Database",
             false,
             new ilDatabaseConfigStoredObjective($config),
@@ -84,12 +89,12 @@ class ilDatabaseSetupAgent implements Setup\Agent
     /**
      * @inheritdocs
      */
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
         $p = [];
         $p[] = new \ilDatabaseUpdatedObjective();
         $p[] = new ilDatabaseEnvironmentValidObjective();
-        return new Setup\ObjectiveCollection(
+        return new ObjectiveCollection(
             "Complete objectives from Services\Database",
             false,
             ...$p
@@ -99,15 +104,15 @@ class ilDatabaseSetupAgent implements Setup\Agent
     /**
      * @inheritdocs
      */
-    public function getBuildObjective(): Setup\Objective
+    public function getBuildObjective(): Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new NullObjective();
     }
 
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
+    public function getStatusObjective(Storage $storage): Objective
     {
         return new ilDatabaseMetricsCollectedObjective($storage);
     }
@@ -118,7 +123,17 @@ class ilDatabaseSetupAgent implements Setup\Agent
     public function getMigrations(): array
     {
         return [
-            new Setup\ilMysqlMyIsamToInnoDbMigration()
+            new ilMysqlMyIsamToInnoDbMigration()
+        ];
+    }
+
+    public function getNamedObjectives(?Config $config = null): array
+    {
+        return [
+            'resetFailedSteps' => new ObjectiveConstructor(
+                'reset null-states in il_db_steps',
+                static fn(): Objective => new ilDatabaseResetStepsObjective()
+            )
         ];
     }
 }

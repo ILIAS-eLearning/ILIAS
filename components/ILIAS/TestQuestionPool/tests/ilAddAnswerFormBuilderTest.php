@@ -39,7 +39,6 @@ class ilAddAnswerFormBuilderTest extends assBaseTestCase
         parent::setUp();
 
         $this->object = new ilAddAnswerFormBuilder(
-            $this->createMock(ilTestCorrectionsGUI::class),
             $this->createMock(UIFactory::class),
             $this->createMock(RefineryFactory::class),
             $this->createMock(ilLanguage::class),

@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Collections\View;
 
+use ILIAS\UI\Factory;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 
 /**
@@ -27,23 +29,62 @@ use ILIAS\ResourceStorage\Collection\ResourceCollection;
  */
 final class Request
 {
+    /**
+     * @var int
+     */
     public const MODE_AS_DATA_TABLE = 1;
+    /**
+     * @var int
+     */
     public const MODE_AS_PRESENTATION_TABLE = 2;
+    /**
+     * @var int
+     */
     public const MODE_AS_ITEMS = 3;
+    /**
+     * @var int
+     */
     public const MODE_AS_DECK = 4;
+    /**
+     * @var string
+     */
     public const P_PAGE = 'page';
+    /**
+     * @var string
+     */
     public const P_SORTATION = 'sort';
+    /**
+     * @var string
+     */
     public const BY_CREATION_DATE_DESC = 'by_creation_date_desc';
+    /**
+     * @var string
+     */
     public const BY_CREATION_DATE_ASC = 'by_creation_date_asc';
+    /**
+     * @var string
+     */
     public const BY_TITLE_DESC = 'by_title_desc';
+    /**
+     * @var string
+     */
     public const BY_TITLE_ASC = 'by_title_asc';
+    /**
+     * @var string
+     */
     public const BY_SIZE_DESC = 'by_size_desc';
+    /**
+     * @var string
+     */
     public const BY_SIZE_ASC = 'by_size_asc';
+    /**
+     * @var string
+     */
     public const P_MODE = 'mode';
     private Mode $mode;
     private int $page;
     private string $sortation;
-    private \ILIAS\UI\Factory $ui_factory;
+    private Factory $ui_factory;
     private array $actions = [];
     private \ilLanguage $language;
     private \ILIAS\Refinery\Factory $refinery;
@@ -51,7 +92,7 @@ final class Request
 
     public function __construct(
         private \ilCtrlInterface $ctrl,
-        private \ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $query,
+        private ArrayBasedRequestWrapper $query,
         private Configuration $view_configuration,
     ) {
         global $DIC;

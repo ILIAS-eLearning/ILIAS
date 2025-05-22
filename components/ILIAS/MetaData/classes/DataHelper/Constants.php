@@ -27,8 +27,8 @@ class Constants
      * and picks out the relevant numbers.
      * match 1: years, 2: months, 3: days, 4: hours, 5: minutes, 6: seconds
      */
-    public const DURATION_REGEX = '/^P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)D)' .
-    '?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)(?:.\d+)?S)?)?$/';
+    public const string DURATION_REGEX = '/^P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)D)' .
+        '?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)(?:.\d+)?S)?)?$/';
 
     /**
      * This monstrosity makes sure datetimes conform to the format given by LOM,
@@ -37,14 +37,14 @@ class Constants
      * digits for decimal fractions of seconds), 8: timezone, either Z for
      * UTC or +- hh:mm (mm is optional)
      */
-    protected const DATETIME_REGEX = '/^(\d{4})(?:-(\d{2})(?:-(\d{2})' .
-    '(?:T(\d{2})(?::(\d{2})(?::(\d{2})(?:\.(\d+)(Z|[+\-]' .
-    '\d{2}(?::\d{2})?)?)?)?)?)?)?)?$/';
+    protected const string DATETIME_REGEX = '/^(\d{4})(?:-(\d{2})(?:-(\d{2})' .
+        '(?:T(\d{2})(?::(\d{2})(?::(\d{2})(?:\.(\d+)(Z|[+\-]' .
+        '\d{2}(?::\d{2})?)?)?)?)?)?)?)?$/';
 
     /**
      * Note that 'xx' should be translated to 'none'
      */
-    protected const LANGUAGES = [
+    protected const array LANGUAGES = [
         "aa",
         "ab",
         "af",

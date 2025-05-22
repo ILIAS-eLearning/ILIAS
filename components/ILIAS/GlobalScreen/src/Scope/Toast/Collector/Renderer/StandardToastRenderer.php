@@ -36,17 +36,14 @@ class StandardToastRenderer implements ToastRenderer
 {
     use Hasher;
 
-    protected UIServices $ui;
-
-    public function __construct(UIServices $ui)
+    public function __construct(protected UIServices $ui)
     {
-        $this->ui = $ui;
     }
 
     public function getToastComponentForItem(isItem $item): Component
     {
         if (!$item instanceof isStandardItem) {
-            return $this->ui->factory()->legacy("Cannot render item of type " . get_class($item) . "");
+            return $this->ui->factory()->legacy()->content("Cannot render item of type " . $item::class . "");
         }
 
         // build empty UI\Toast
@@ -65,16 +62,14 @@ class StandardToastRenderer implements ToastRenderer
                 $item->getClosedAction()->getIdentifier(),
                 $item->getProviderIdentification()
             );
-            $toast = $toast->withAdditionalOnLoadCode(function ($id) use ($closed_action) {
-                return "
+            $toast = $toast->withAdditionalOnLoadCode(fn($id): string => "
                 $('#$id').on('removeToast', function() {
                     $.ajax({
                         async: false,
                         type: 'GET',
                         url: '$closed_action'
                       });
-                });";
-            });
+                });");
         }
 
         // on Show (there is currently no such event in the UI-Service)
@@ -83,16 +78,14 @@ class StandardToastRenderer implements ToastRenderer
                 $item->getShownAction()->getIdentifier(),
                 $item->getProviderIdentification()
             );
-            $toast = $toast->withAdditionalOnLoadCode(function ($id) use ($shown_action) {
-                return "
+            $toast = $toast->withAdditionalOnLoadCode(fn($id): string => "
                 $('#$id').on('showToast', function() {
                     $.ajax({
                         async: false,
                         type: 'GET',
                         url: '$shown_action'
                       });
-                });";
-            });
+                });");
         }
 
         // onVanish (there is currently no such event in the UI-Service)
@@ -101,16 +94,14 @@ class StandardToastRenderer implements ToastRenderer
                 $item->getVanishedAction()->getIdentifier(),
                 $item->getProviderIdentification()
             );
-            $toast = $toast->withAdditionalOnLoadCode(function ($id) use ($vanished_action) {
-                return "
+            $toast = $toast->withAdditionalOnLoadCode(fn($id): string => "
                 $('#$id').on('vanishToast', function() {
                     $.ajax({
                         async: false,
                         type: 'GET',
                         url: '$vanished_action'
                       });
-                });";
-            });
+                });");
         }
 
         // additional Actions
@@ -125,15 +116,6 @@ class StandardToastRenderer implements ToastRenderer
             );
 
             $toast = $toast->withAdditionalLink($link);
-        }
-
-        // Times (currently disbaled since these methods are not on the Interface of a Toast
-        if ($item->getVanishTime() !== null) {
-            // $toast = $toast->withVanishTime($item->getVanishTime());
-        }
-
-        if ($item->getDelayTime() !== null) {
-            // $toast = $toast->withDelayTime($item->getDelayTime());
         }
 
         return $toast;

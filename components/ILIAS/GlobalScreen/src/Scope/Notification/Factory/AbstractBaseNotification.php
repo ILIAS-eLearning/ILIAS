@@ -32,8 +32,6 @@ use Closure;
  */
 abstract class AbstractBaseNotification implements isStandardItem
 {
-    protected IdentificationInterface $provider_identification;
-
     /**
      * Callable to be executed, if the notification center has been opened.
      */
@@ -42,18 +40,16 @@ abstract class AbstractBaseNotification implements isStandardItem
     /**
      * Callable to be executed, if this specific item has been closed.
      */
-    protected ?Closure  $handle_closed = null;
+    protected ?Closure $handle_closed = null;
 
     /**
      * StandardNotification constructor.
-     * @param IdentificationInterface $identification
+     * @param IdentificationInterface $provider_identification
      */
-    public function __construct(IdentificationInterface $identification)
+    public function __construct(protected IdentificationInterface $provider_identification)
     {
         $this->handle_opened = function (): void {
         };
-
-        $this->provider_identification = $identification;
     }
 
     /**

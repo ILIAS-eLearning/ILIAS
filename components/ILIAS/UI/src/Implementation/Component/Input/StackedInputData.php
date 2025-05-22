@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input;
 
-use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Component\Input\InputData;
 use Psr\Http\Message\ServerRequestInterface;
 use LogicException;
 
@@ -43,8 +43,8 @@ class StackedInputData implements InputData
 
     public function get(string $name)
     {
-        foreach($this->stack as $input) {
-            if($input->has($name)) {
+        foreach ($this->stack as $input) {
+            if ($input->has($name)) {
                 return $input->get($name);
             }
         }
@@ -53,8 +53,8 @@ class StackedInputData implements InputData
 
     public function getOr(string $name, $default)
     {
-        foreach($this->stack as $input) {
-            if($input->has($name)) {
+        foreach ($this->stack as $input) {
+            if ($input->has($name)) {
                 return $input->get($name);
             }
         }
@@ -63,8 +63,8 @@ class StackedInputData implements InputData
 
     public function has($name): bool
     {
-        foreach($this->stack as $input) {
-            if($input->has($name)) {
+        foreach ($this->stack as $input) {
+            if ($input->has($name)) {
                 return true;
             }
         }

@@ -201,7 +201,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
 
         // save/cancel buttons
         if ($a_insert) {
-            $form->addCommandButton("create_resources", $lng->txt("save"));
+            $form->addCommandButton("create", $lng->txt("save"));
             $form->addCommandButton("cancelCreate", $lng->txt("cancel"));
         } else {
             $form->addCommandButton("update_resources", $lng->txt("save"));

@@ -18,10 +18,10 @@
 
 namespace ILIAS\Filesystem\Provider\FlySystem;
 
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\Small;
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 use ILIAS\Filesystem\FilesystemFacade;
-use League\Flysystem\Local\LocalFilesystemAdapter;
-use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 
@@ -33,7 +33,7 @@ class FlySystemLocalFilesystemFactoryTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private \ILIAS\Filesystem\Provider\FlySystem\FlySystemLocalFilesystemFactory $subject;
+    private FlySystemLocalFilesystemFactory $subject;
 
 
     /**
@@ -47,10 +47,8 @@ class FlySystemLocalFilesystemFactoryTest extends TestCase
         $this->subject = new FlySystemLocalFilesystemFactory();
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testCreationOfFilesystemWithLinkSkipBehaviourWhichShouldSucceed(): void
     {
         $rootPath = __DIR__;
@@ -76,10 +74,8 @@ class FlySystemLocalFilesystemFactoryTest extends TestCase
         $this->assertInstanceOf(FilesystemFacade::class, $filesystem, "Filesystem type must be " . FilesystemFacade::class);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testCreationOfFilesystemWithInvalidLinkBehaviourWhichShouldFail(): void
     {
         $rootPath = __DIR__;
@@ -108,10 +104,8 @@ class FlySystemLocalFilesystemFactoryTest extends TestCase
         $this->subject->getInstance($config);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testCreationOfFilesystemWithInvalidFileLockModeWhichShouldFail(): void
     {
         $rootPath = __DIR__;

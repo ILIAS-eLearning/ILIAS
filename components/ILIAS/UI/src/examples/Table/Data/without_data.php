@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Table\Data;
@@ -11,8 +27,14 @@ use ILIAS\Data\Order;
 use Generator;
 
 /**
- * Example showing a data table without any data and hence no entries, which
- * will automatically display an according message.
+ * ---
+ * description: >
+ *   Example showing a data table without any data and hence no entries, which
+ *   will automatically display an according message.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function without_data(): string
 {
@@ -41,6 +63,7 @@ function without_data(): string
     };
 
     $table = $factory->table()->data(
+        $empty_retrieval,
         'Empty Data Table',
         [
             'col1' => $factory->table()->column()->text('Column 1')
@@ -48,7 +71,6 @@ function without_data(): string
             'col2' => $factory->table()->column()->number('Column 2')
                 ->withIsSortable(false),
         ],
-        $empty_retrieval
     );
 
     return $renderer->render($table->withRequest($request));

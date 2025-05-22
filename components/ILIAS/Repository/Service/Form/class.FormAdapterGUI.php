@@ -22,12 +22,15 @@ namespace ILIAS\Repository\Form;
 
 use ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\Data\Factory;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
 class FormAdapterGUI
 {
+    use StdObjProperties;
+
     protected const DEFAULT_SECTION = "@internal_default_section";
     protected bool $in_modal = false;
     protected string $submit_caption = "";
@@ -41,7 +44,8 @@ class FormAdapterGUI
     protected \ILIAS\Refinery\Factory $refinery;
 
     protected string $title = "";
-
+    protected array $values = [];
+    protected array $disable = [];
 
     /**
      * @var mixed|null
@@ -62,6 +66,7 @@ class FormAdapterGUI
     protected int $async_mode = self::ASYNC_NONE;
     protected \ilGlobalTemplateInterface $main_tpl;
     protected ?array $current_switch = null;
+    protected ?array $current_optional = null;
     protected ?array $current_group = null;
     protected static bool $initialised = false;
 
@@ -81,12 +86,13 @@ class FormAdapterGUI
         $this->http = $DIC->http();
         $this->lng = $DIC->language();
         $this->refinery = $DIC->refinery();
-        $this->lng = $DIC->language();
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->user = $DIC->user();
         $this->data = new \ILIAS\Data\Factory();
         $this->submit_caption = $submit_caption;
         self::initJavascript();
+        $this->initStdObjProperties($DIC);
+        $this->lng->loadLanguageModule("rep");
     }
 
     public static function getOnLoadCode(): string
@@ -171,6 +177,7 @@ class FormAdapterGUI
         string $description = "",
         ?string $value = null
     ): self {
+        $this->values[$key] = $value;
         $field = $this->ui->factory()->input()->field()->text($title, $description);
         if (!is_null($value)) {
             $field = $field->withValue($value);
@@ -185,6 +192,7 @@ class FormAdapterGUI
         string $description = "",
         ?bool $value = null
     ): self {
+        $this->values[$key] = $value;
         $field = $this->ui->factory()->input()->field()->checkbox($title, $description);
         if (!is_null($value)) {
             $field = $field->withValue($value);
@@ -197,16 +205,34 @@ class FormAdapterGUI
         string $key,
         string $value
     ): self {
+        $this->values[$key] = $value;
         $field = $this->ui->factory()->input()->field()->hidden();
         $field = $field->withValue($value);
         $this->addField($key, $field);
         return $this;
     }
 
-    public function required(): self
+    public function required($required = true): self
     {
-        if ($field = $this->getLastField()) {
-            $field = $field->withRequired(true);
+        if ($required && ($field = $this->getLastField())) {
+            if ($field instanceof \ILIAS\UI\Component\Input\Field\Text) {
+                $field = $field->withRequired(true, new NotEmpty(
+                    new Factory(),
+                    $this->lng
+                ));
+            } else {
+                $field = $field->withRequired(true);
+            }
+            $this->replaceLastField($field);
+        }
+        return $this;
+    }
+
+    public function disabled($disabled = true): self
+    {
+        if ($disabled && ($field = $this->getLastField())) {
+            $field = $field->withDisabled(true);
+            $this->disable[$this->last_key] = true;
             $this->replaceLastField($field);
         }
         return $this;
@@ -218,6 +244,7 @@ class FormAdapterGUI
         string $description = "",
         ?string $value = null
     ): self {
+        $this->values[$key] = $value;
         $field = $this->ui->factory()->input()->field()->textarea($title, $description);
         if (!is_null($value)) {
             $field = $field->withValue($value);
@@ -234,6 +261,7 @@ class FormAdapterGUI
         ?int $min_value = null,
         ?int $max_value = null
     ): self {
+        $this->values[$key] = $value;
         $trans = [];
         if (!is_null($min_value)) {
             $trans[] = $this->refinery->int()->isGreaterThanOrEqual($min_value);
@@ -258,25 +286,11 @@ class FormAdapterGUI
         string $description = "",
         ?\ilDate $value = null
     ): self {
+        $this->values[$key] = $value;
         $field = $this->ui->factory()->input()->field()->dateTime($title, $description);
 
         $format = $this->user->getDateFormat();
         $dt_format = (string) $format;
-        /*
-        switch ((int) $this->user->getDateFormat()) {
-            case \ilCalendarSettings::DATE_FORMAT_DMY:
-                $format = $this->data->dateFormat()->germanShort();
-                $dt_format = "d.m.Y";
-                break;
-            case \ilCalendarSettings::DATE_FORMAT_MDY:
-                $format = $this->data->dateFormat()->custom()->month()->slash()->day()->slash()->year();
-                $dt_format = "m/d/Y";
-                break;
-            default:
-                $format = $this->data->dateFormat()->standard();
-                $dt_format = "Y-m-d";
-                break;
-        }*/
 
         $field = $field->withFormat($format);
         if (!is_null($value)) {
@@ -284,6 +298,72 @@ class FormAdapterGUI
                 (new \DateTime($value->get(IL_CAL_DATE)))->format($dt_format)
             );
         }
+        $this->addField($key, $field);
+        return $this;
+    }
+
+    public function dateTime(
+        string $key,
+        string $title,
+        string $description = "",
+        ?\ilDateTime $value = null
+    ): self {
+        $this->values[$key] = $value;
+        $field = $this->ui->factory()->input()->field()->dateTime($title, $description)->withUseTime(true);
+
+        if ((int) $this->user->getTimeFormat() === \ilCalendarSettings::TIME_FORMAT_12) {
+            $dt_format = $this->data->dateFormat()->withTime12($this->user->getDateFormat());
+        } else {
+            $dt_format = $this->data->dateFormat()->withTime24($this->user->getDateFormat());
+        }
+        $field = $field->withFormat($dt_format);
+        if (!is_null($value) && !is_null($value->get(IL_CAL_DATETIME))) {
+            $field = $field->withValue(
+                (new \DateTime($value->get(IL_CAL_DATETIME)))->format(
+                    ((string) $dt_format)
+                )
+            );
+        }
+        $this->addField($key, $field);
+        return $this;
+    }
+
+    public function dateTimeDuration(
+        string $key,
+        string $title,
+        string $description = "",
+        ?\ilDateTime $from = null,
+        ?\ilDateTime $to = null,
+        string $label_from = "",
+        string $label_to = ""
+    ): self {
+        $this->values[$key] = [$from, $to];
+        if ($label_from === "") {
+            $label_from = $this->lng->txt("rep_activation_limited_start");
+        }
+        if ($label_to === "") {
+            $label_to = $this->lng->txt("rep_activation_limited_end");
+        }
+        $field = $this->ui->factory()->input()->field()->duration($title, $description)->withUseTime(true)->withLabels($label_from, $label_to);
+
+        if ((int) $this->user->getTimeFormat() === \ilCalendarSettings::TIME_FORMAT_12) {
+            $dt_format = $this->data->dateFormat()->withTime12($this->user->getDateFormat());
+        } else {
+            $dt_format = $this->data->dateFormat()->withTime24($this->user->getDateFormat());
+        }
+        $field = $field->withFormat($dt_format);
+        $val_from = $val_to = null;
+        if (!is_null($from) && !is_null($from->get(IL_CAL_DATETIME))) {
+            $val_from = (new \DateTime(
+                $from->get(IL_CAL_DATETIME)
+            ))->format((string) $dt_format);
+        }
+        if (!is_null($to) && !is_null($to->get(IL_CAL_DATETIME))) {
+            $val_to = (new \DateTime(
+                $to->get(IL_CAL_DATETIME)
+            ))->format((string) $dt_format);
+        }
+        $field = $field->withValue([$val_from, $val_to]);
         $this->addField($key, $field);
         return $this;
     }
@@ -309,6 +389,7 @@ class FormAdapterGUI
         string $description = "",
         ?string $value = null
     ): self {
+        $this->values[$key] = $value;
         $field = $this->ui->factory()->input()->field()->select($title, $options, $description);
         if (!is_null($value)) {
             $field = $field->withValue($value);
@@ -326,6 +407,7 @@ class FormAdapterGUI
         string $description = "",
         ?string $value = null
     ): self {
+        $this->values[$key] = $value;
         $field = $this->ui->factory()->input()->field()->radio($title, $description);
         if (!is_null($value)) {
             $field = $field->withOption($value, "");    // dummy to prevent exception, will be overwritten by radioOption
@@ -353,6 +435,7 @@ class FormAdapterGUI
         string $description = "",
         ?string $value = null
     ): self {
+        $this->values[$key] = $value;
         $this->current_switch = [
             "key" => $key,
             "title" => $title,
@@ -363,13 +446,31 @@ class FormAdapterGUI
         return $this;
     }
 
-    public function group(string $key, string $title, string $description = ""): self
+    public function optional(
+        string $key,
+        string $title,
+        string $description = "",
+        ?bool $value = null
+    ): self {
+        $this->values[$key] = $value;
+        $this->current_optional = [
+            "key" => $key,
+            "title" => $title,
+            "description" => $description,
+            "value" => $value,
+            "group" => []
+        ];
+        return $this;
+    }
+
+    public function group(string $key, string $title, string $description = "", $disabled = false): self
     {
         $this->endCurrentGroup();
         $this->current_group = [
             "key" => $key,
             "title" => $title,
             "description" => $description,
+            "disabled" => $disabled,
             "fields" => []
         ];
         return $this;
@@ -379,11 +480,20 @@ class FormAdapterGUI
     {
         if (!is_null($this->current_group)) {
             if (!is_null($this->current_switch)) {
+                $fields = [];
+                foreach ($this->current_group["fields"] as $key) {
+                    $fields[$key] = $this->fields[$key];
+                }
                 $this->current_switch["groups"][$this->current_group["key"]] =
                     $this->ui->factory()->input()->field()->group(
-                        $this->current_group["fields"],
+                        $fields,
                         $this->current_group["title"]
                     )->withByline($this->current_group["description"]);
+                if ($this->current_group["disabled"]) {
+                    $this->current_switch["groups"][$this->current_group["key"]] =
+                        $this->current_switch["groups"][$this->current_group["key"]]
+                        ->withDisabled(true);
+                }
             }
         }
         $this->current_group = null;
@@ -399,10 +509,32 @@ class FormAdapterGUI
                 $this->current_switch["description"]
             );
             if (!is_null($this->current_switch["value"])) {
-                $field = $field->withValue($this->current_switch["value"]);
+                $cvalue = $this->current_switch["value"];
+                if (isset($this->current_switch["groups"][$cvalue])) {
+                    $field = $field->withValue($cvalue);
+                }
             }
             $key = $this->current_switch["key"];
             $this->current_switch = null;
+            $this->addField($key, $field);
+        }
+        if (!is_null($this->current_optional)) {
+            $field = $this->ui->factory()->input()->field()->optionalGroup(
+                $this->current_optional["fields"],
+                $this->current_optional["title"],
+                $this->current_optional["description"]
+            );
+            if ($this->current_optional["value"]) {
+                $value = [];
+                foreach ($this->current_optional["fields"] as $key => $input) {
+                    $value[$key] = $input->getValue();
+                }
+                $field = $field->withValue($value);
+            } else {
+                $field = $field->withValue(null);
+            }
+            $key = $this->current_optional["key"];
+            $this->current_optional = null;
             $this->addField($key, $field);
         }
         return $this;
@@ -425,6 +557,13 @@ class FormAdapterGUI
             $logger_id,
             $ctrl_path
         );
+
+        foreach (["application/x-compressed", "application/x-zip-compressed"] as $zipmime) {
+            if (in_array("application/zip", $mime_types) &&
+                !in_array($zipmime, $mime_types)) {
+                $mime_types[] = $zipmime;
+            }
+        }
 
         if (count($mime_types) > 0) {
             $description .= $this->lng->txt("rep_allowed_types") . ": " .
@@ -460,7 +599,7 @@ class FormAdapterGUI
     }
 
 
-    protected function addField(string $key, FormInput $field): void
+    protected function addField(string $key, FormInput $field, $supress_0_key = false): void
     {
         if ($key === "") {
             throw new \ilException("Missing Input Key: " . $key);
@@ -473,20 +612,29 @@ class FormAdapterGUI
             $field_path[] = $this->current_section;
         }
         if (!is_null($this->current_group)) {
-            $this->current_group["fields"][$key] = $field;
+            $this->current_group["fields"][] = $key;
             if (!is_null($this->current_switch)) {
                 $field_path[] = $this->current_switch["key"];
                 $field_path[] = 1;  // the value of subitems in SwitchableGroup are in the 1 key of the raw data
                 $field_path[] = $key;
             }
+        } elseif (!is_null($this->current_optional)) {
+            $field_path[] = $this->current_optional["key"];
+            $this->current_optional["fields"][$key] = $field;
+            $field_path[] = $key;
         } else {
             $this->sections[$this->current_section]["fields"][] = $key;
             $field_path[] = $key;
             if ($field instanceof \ILIAS\UI\Component\Input\Field\SwitchableGroup) {
                 $field_path[] = 0;      // the value of the SwitchableGroup is in the 0 key of the raw data
             }
+            if ($field instanceof \ILIAS\UI\Component\Input\Field\OptionalGroup) {
+                //$field_path[] = 0;      // the value of the SwitchableGroup is in the 0 key of the raw data
+            }
             if ($field instanceof \ILIAS\UI\Component\Input\Field\File) {
-                $field_path[] = 0;      // the value of File Inputs is in the 0 key of the raw data
+                if (!$supress_0_key) {      // needed for tiles, that come with a custom transformation omitting the 0
+                    $field_path[] = 0;      // the value of File Inputs is in the 0 key of the raw data
+                }
             }
         }
         $this->fields[$key] = $field;
@@ -582,7 +730,11 @@ class FormAdapterGUI
         $this->_getData();
 
         if (!isset($this->fields[$key])) {
-            throw new \ilException("Unknown Key: " . $key);
+            return null;
+        }
+
+        if (isset($this->disable[$key])) {
+            return $this->values[$key];
         }
 
         $value = $this->raw_data;
@@ -598,6 +750,18 @@ class FormAdapterGUI
         if ($field instanceof \ILIAS\UI\Component\Input\Field\DateTime) {
             /** @var \ILIAS\UI\Component\Input\Field\DateTime $field */
             $value = $this->getDateTimeData($value, $field->getUseTime());
+        }
+
+        if ($field instanceof \ILIAS\UI\Component\Input\Field\Duration) {
+            /** @var \ILIAS\UI\Component\Input\Field\DateTime $field */
+            $value = [
+                $this->getDateTimeData($value["start"], $field->getUseTime()),
+                $this->getDateTimeData($value["end"], $field->getUseTime()),
+            ];
+        }
+
+        if ($field instanceof \ILIAS\UI\Component\Input\Field\OptionalGroup) {
+            $value = is_array($value);
         }
 
         return $value;

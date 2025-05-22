@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Panel;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\ViewControl\HasViewControls;
 
 /**
  * Class Panel
@@ -29,6 +30,7 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  */
 class Report extends Panel implements C\Panel\Report
 {
+    use HasViewControls;
     use ComponentHelper;
 
     /**

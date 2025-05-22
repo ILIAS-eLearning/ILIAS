@@ -20,6 +20,11 @@ function Subscriber(id) {
 	 */
 	var _socketIds = [];
 
+        /**
+         * @type {boolean}
+         */
+        var _profile_picture_visible = false;
+
 	/**
 	 * @returns {number}
 	 */
@@ -64,6 +69,14 @@ function Subscriber(id) {
 			_socketIds.splice(_socketIds.indexOf(id), 1);
 		}
 	};
+
+        this.setProfilePictureVisible = function(visible) {
+          _profile_picture_visible = visible;
+        };
+
+        this.isProfilePictureVisible = function() {
+          return _profile_picture_visible;
+        };
 
 	/**
 	 * @returns {string}

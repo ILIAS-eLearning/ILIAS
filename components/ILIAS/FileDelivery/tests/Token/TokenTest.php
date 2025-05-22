@@ -18,6 +18,7 @@
 
 namespace ILIAS\Tests\FileDelivery\Token;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ILIAS\FileDelivery\Token\DataSigner;
 use ILIAS\FileDelivery\Token\Signer\Key\Secret\SecretKeyRotation;
@@ -26,7 +27,6 @@ use ILIAS\FileDelivery\Token\Signer\Salt\Salt;
 use ILIAS\FileDelivery\Token\Signer\KeyRotatingSigner;
 use ILIAS\FileDelivery\Token\Signer\NullSigner;
 use ILIAS\FileDelivery\Token\Signer\Key\Signing\ConcatSigningKeyGenerator;
-use ILIAS\FileDelivery\Token\Compression\GZipCompression;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions.ch>
@@ -81,10 +81,8 @@ class TokenTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providePayloads
-     */
-    public function testLargeAmountOfData($data): void
+    #[DataProvider('providePayloads')]
+    public function testLargeAmountOfData(string $data): void
     {
         $datasigner = new DataSigner(
             new SecretKeyRotation(

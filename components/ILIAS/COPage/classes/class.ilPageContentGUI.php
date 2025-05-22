@@ -18,7 +18,7 @@
 
 use ILIAS\COPage\PC\EditGUIRequest;
 use ILIAS\COPage\Editor\EditSessionRepository;
-
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 use ILIAS\Style;
 
 /**
@@ -38,6 +38,7 @@ class ilPageContentGUI
     public ilGlobalTemplateInterface $tpl;
     public ilLanguage $lng;
     public ilCtrl $ctrl;
+    protected LOMServices $lom_services;
     public ilPageObject $pg_obj;
     public string $hier_id = "";
     public DOMDocument $dom;
@@ -83,6 +84,7 @@ class ilPageContentGUI
         $this->lng = $lng;
         $this->pg_obj = $a_pg_obj;
         $this->ctrl = $ilCtrl;
+        $this->lom_services = $DIC->learningObjectMetadata();
         $this->content_obj = $a_content_obj;
         $service = $DIC->copage()->internal();
         $this->request = $service
@@ -245,7 +247,7 @@ class ilPageContentGUI
     public function displayValidationError(): void
     {
         if (is_array($this->updated)) {
-            $error_str = "<b>Error(s):</b><br>";
+            $error_str = "<strong>Error(s):</strong><br>";
             foreach ($this->updated as $error) {
                 $err_mess = implode(" - ", $error);
                 if (!is_int(strpos($err_mess, ":0:"))) {
@@ -254,7 +256,7 @@ class ilPageContentGUI
             }
             $this->tpl->setOnScreenMessage('failure', $error_str);
         } elseif ($this->updated != "" && $this->updated !== true) {
-            $this->tpl->setOnScreenMessage('failure', "<b>Error(s):</b><br />" .
+            $this->tpl->setOnScreenMessage('failure', "<strong>Error(s):</strong><br />" .
                 $this->updated);
         }
     }

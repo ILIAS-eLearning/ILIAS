@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,28 +16,20 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Image;
 
 use ILIAS\UI\Component\Image as I;
 
-/**
- * Class Factory
- * @package ILIAS\UI\Implementation\Component\Image
- */
 class Factory implements I\Factory
 {
-    /**
-     * @inheritdoc
-     */
-    public function standard(string $src, string $alt): I\Image
+    public function standard(string $src, string $alt): Image
     {
         return new Image(I\Image::STANDARD, $src, $alt);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function responsive(string $src, string $alt): I\Image
+    public function responsive(string $src, string $alt): Image
     {
         return new Image(I\Image::RESPONSIVE, $src, $alt);
     }

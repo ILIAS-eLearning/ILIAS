@@ -31,14 +31,14 @@ class ilTestSkillEvaluationGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->testObj = new ilTestSkillEvaluationGUI(
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $this->createMock(ilCtrl::class),
             $this->createMock(ilGlobalPageTemplate::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilDBInterface::class),
-            $this->createMock(\ILIAS\DI\LoggingServices::class),
+            $this->createMock(\ILIAS\Test\Logging\TestLogger::class),
             $this->createMock(ILIAS\Skill\Service\SkillService::class),
-            $this->createMock(ILIAS\Test\InternalRequestService::class)
+            $this->createMock(ILIAS\Test\RequestDataCollector::class)
         );
     }
 
@@ -66,28 +66,5 @@ class ilTestSkillEvaluationGUITest extends ilTestBaseTestCase
         $mock = $this->createMock(ilTestSession::class);
         $this->testObj->setTestSession($mock);
         $this->assertEquals($mock, $this->testObj->getTestSession());
-    }
-
-    public function testNoSkillProfileOptionEnabled(): void
-    {
-        $this->testObj->setNoSkillProfileOptionEnabled(false);
-        $this->assertFalse($this->testObj->isNoSkillProfileOptionEnabled());
-
-        $this->testObj->setNoSkillProfileOptionEnabled(true);
-        $this->assertTrue($this->testObj->isNoSkillProfileOptionEnabled());
-    }
-
-    public function testAvailableSkillProfiles(): void
-    {
-        $expected = ["test", "test2"];
-        $this->testObj->setAvailableSkillProfiles($expected);
-        $this->assertEquals($expected, $this->testObj->getAvailableSkillProfiles());
-    }
-
-    public function testAvailableSkills(): void
-    {
-        $expected = ["test", "test2"];
-        $this->testObj->setAvailableSkills($expected);
-        $this->assertEquals($expected, $this->testObj->getAvailableSkills());
     }
 }

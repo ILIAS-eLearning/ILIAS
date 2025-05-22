@@ -34,7 +34,7 @@ class ilExAssTypeBlog implements ilExAssignmentTypeInterface
      * @param ilSetting|null $a_setting
      * @param ilLanguage|null $a_lng
      */
-    public function __construct(ilSetting $a_setting = null, ilLanguage $a_lng = null)
+    public function __construct(?ilSetting $a_setting = null, ?ilLanguage $a_lng = null)
     {
         global $DIC;
 

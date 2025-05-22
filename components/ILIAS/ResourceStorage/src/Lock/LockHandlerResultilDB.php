@@ -26,14 +26,11 @@ namespace ILIAS\ResourceStorage\Lock;
  */
 class LockHandlerResultilDB implements LockHandlerResult
 {
-    protected \ilAtomQuery $atom;
-
     /**
      * LockHandlerResultilDB constructor.
      */
-    public function __construct(\ilAtomQuery $atom)
+    public function __construct(protected \ilAtomQuery $atom)
     {
-        $this->atom = $atom;
     }
 
     public function runAndUnlock(): void

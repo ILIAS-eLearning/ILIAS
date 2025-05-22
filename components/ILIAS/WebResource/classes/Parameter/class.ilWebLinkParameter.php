@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Immutable class for parameters attached to Web Link items
@@ -61,10 +61,6 @@ class ilWebLinkParameter extends ilWebLinkBaseParameter
                 ));
                 break;
 
-            case self::VALUES['session_id']:
-                $link .= (session_id());
-                break;
-
             case self::VALUES['user_id']:
                 $link .= ($this->user->getId());
                 break;
@@ -89,9 +85,6 @@ class ilWebLinkParameter extends ilWebLinkBaseParameter
         switch ($this->getValue()) {
             case self::VALUES['user_id']:
                 return $info . '=USER_ID';
-
-            case self::VALUES['session_id']:
-                return $info . '=SESSION_ID';
 
             case self::VALUES['login']:
                 return $info . '=LOGIN';

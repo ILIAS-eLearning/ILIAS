@@ -29,7 +29,7 @@ use ILIAS\Data\UUID\Factory;
  */
 trait UUIDStringTrait
 {
-    protected \ILIAS\Data\UUID\Factory $factory;
+    protected Factory $factory;
 
     /**
      * UniqueIDIdentificationGenerator constructor.

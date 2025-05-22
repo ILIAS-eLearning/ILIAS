@@ -18,18 +18,20 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\Filesystem;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use ILIAS\Filesystem\Filesystem;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
- * @ingroup           ServicesCertificate
- * @author            Niels Theen <ntheen@databay.de>
  * @ilCtrl_IsCalledBy ilUserCertificateGUI: ilAchievementsGUI
  */
 class ilUserCertificateGUI
 {
+    final public const SORTATION_SESSION_KEY = 'my_certificates_sorting';
+
     private readonly ilGlobalTemplateInterface $template;
     private readonly ilCtrlInterface $ctrl;
     private readonly ilLanguage $language;
@@ -37,11 +39,15 @@ class ilUserCertificateGUI
     private readonly ilObjUser $user;
     private readonly ServerRequestInterface $request;
     private readonly ilLogger $certificateLogger;
-    protected ilSetting $certificateSettings;
-    protected Factory $uiFactory;
-    protected Renderer $uiRenderer;
-    protected ilAccessHandler $access;
-    final public const SORTATION_SESSION_KEY = 'my_certificates_sorting';
+    private readonly Factory $uiFactory;
+    private readonly Renderer $uiRenderer;
+    private readonly ilAccessHandler $access;
+    private readonly ilHelpGUI $help;
+    private readonly ilDBInterface $db;
+
+    /**
+     * @var array<string, string>
+     */
     protected array $sortationOptions = [
         'title_ASC' => 'cert_sortable_by_title_asc',
         'title_DESC' => 'cert_sortable_by_title_desc',
@@ -59,75 +65,32 @@ class ilUserCertificateGUI
         ?ilUserCertificateRepository $userCertificateRepository = null,
         ?ServerRequestInterface $request = null,
         ?ilLogger $certificateLogger = null,
-        ?ilSetting $certificateSettings = null,
+        private readonly ilSetting $certificateSettings = new ilSetting('certificate'),
         ?Factory $uiFactory = null,
         ?Renderer $uiRenderer = null,
         ?ilAccessHandler $access = null,
-        ?Filesystem $filesystem = null
+        ?Filesystem $filesystem = null,
+        ?ilHelpGUI $help = null,
+        ?ilDBInterface $db = null,
+        private ?IRSS $irss = null
     ) {
         global $DIC;
 
-        if ($template === null) {
-            $template = $DIC->ui()->mainTemplate();
-        }
-        $this->template = $template;
+        $this->template = $template ?? $DIC->ui()->mainTemplate();
+        $this->ctrl = $ctrl ?? $DIC->ctrl();
+        $this->user = $user ?? $DIC->user();
+        $this->language = $language ?? $DIC->language();
+        $this->request = $request ?? $DIC->http()->request();
+        $this->certificateLogger = $certificateLogger ?? $DIC->logger()->cert();
+        $this->uiFactory = $uiFactory ?? $DIC->ui()->factory();
+        $this->uiRenderer = $uiRenderer ?? $DIC->ui()->renderer();
+        $this->access = $access ?? $DIC->access();
+        $this->filesystem = $filesystem ?? $DIC->filesystem()->web();
+        $this->userCertificateRepository = $userCertificateRepository ?? new ilUserCertificateRepository(null, $this->certificateLogger);
+        $this->help = $help ?? $DIC->help();
+        $this->db = $db ?? $DIC->database();
+        $this->irss = $irss ?? $DIC->resourceStorage();
 
-        if ($ctrl === null) {
-            $ctrl = $DIC->ctrl();
-        }
-        $this->ctrl = $ctrl;
-
-        if ($language === null) {
-            $language = $DIC->language();
-        }
-        $this->language = $language;
-
-        if ($user === null) {
-            $user = $DIC->user();
-        }
-        $this->user = $user;
-
-        if ($request === null) {
-            $request = $DIC->http()->request();
-        }
-        $this->request = $request;
-
-        if ($certificateLogger === null) {
-            $certificateLogger = $DIC->logger()->cert();
-        }
-        $this->certificateLogger = $certificateLogger;
-
-        if ($certificateSettings === null) {
-            $certificateSettings = new ilSetting("certificate");
-        }
-        $this->certificateSettings = $certificateSettings;
-
-        if (null === $uiFactory) {
-            $uiFactory = $DIC->ui()->factory();
-        }
-        $this->uiFactory = $uiFactory;
-
-        if (null === $uiRenderer) {
-            $uiRenderer = $DIC->ui()->renderer();
-        }
-        $this->uiRenderer = $uiRenderer;
-
-        if (null === $access) {
-            $access = $DIC->access();
-        }
-        $this->access = $access;
-
-        if (null === $filesystem) {
-            $filesystem = $DIC->filesystem()->web();
-        }
-        $this->filesystem = $filesystem;
-
-        if ($userCertificateRepository === null) {
-            $userCertificateRepository = new ilUserCertificateRepository(null, $this->certificateLogger);
-        }
-        $this->userCertificateRepository = $userCertificateRepository;
-
-        $this->language->loadLanguageModule('cert');
         $this->language->loadLanguageModule('cert');
     }
 
@@ -159,14 +122,14 @@ class ilUserCertificateGUI
      */
     public function listCertificates(): void
     {
-        global $DIC;
+        $this->help->setScreenIdComponent('cert');
 
         if (!$this->certificateSettings->get('active', '0')) {
             $this->ctrl->redirect($this);
         }
 
         $provider = new ilUserCertificateTableProvider(
-            $DIC->database(),
+            $this->db,
             $this->certificateLogger,
             $this->language->txt('certificate_no_object_title')
         );
@@ -194,23 +157,34 @@ class ilUserCertificateGUI
 
             $sortViewControl = $this->uiFactory
                 ->viewControl()
-                ->sortation($sortationOptions)
-                ->withLabel($this->language->txt($this->sortationOptions[$sorting]))
+                ->sortation($sortationOptions, $sorting)
                 ->withTargetURL($this->ctrl->getLinkTarget($this, 'applySortation'), 'sort_by');
+
             $uiComponents[] = $sortViewControl;
 
             foreach ($data['items'] as $certificateData) {
-                $thumbnailImagePath = $certificateData['thumbnail_image_path'];
-                $imagePath = ilFileUtils::getWebspaceDir() . $thumbnailImagePath;
-                if ($thumbnailImagePath === null
-                    || $thumbnailImagePath === ''
-                    || !$this->filesystem->has($thumbnailImagePath)
-                ) {
+                $tile_image_identification = $certificateData['tile_image_ident'] ?? '';
+                $imagePath = '';
+                if ($tile_image_identification === '' || $tile_image_identification === '-') {
+                    $tile_image_identification = $certificateData['tile_image_path'] ?? '';
+                    if ($tile_image_identification !== '' && $this->filesystem->has($tile_image_identification)) {
+                        $imagePath = ilWACSignedPath::signFile(
+                            ilFileUtils::getWebspaceDir() . $tile_image_identification
+                        );
+                    }
+                } else {
+                    $tile_image_rid = $this->irss->manage()->find($tile_image_identification);
+                    if ($tile_image_rid instanceof ResourceIdentification) {
+                        $imagePath = $this->irss->consume()->src($tile_image_rid)->getSrc(true);
+                    }
+                }
+
+                if ($imagePath === '') {
                     $imagePath = ilUtil::getImagePath('standard/icon_cert.svg');
                 }
 
                 $cardImage = $this->uiFactory->image()->standard(
-                    ilWACSignedPath::signFile($imagePath),
+                    $imagePath,
                     $certificateData['title']
                 );
 
@@ -234,7 +208,8 @@ class ilUserCertificateGUI
                 $objectTypeIcon = $this->uiFactory
                     ->symbol()
                     ->icon()
-                    ->standard($certificateData['obj_type'], $certificateData['obj_type']);
+                    ->standard($certificateData['obj_type'], $certificateData['obj_type'])
+                ;
 
                 $objectTitle = $certificateData['title'];
                 $refIds = ilObject::_getAllReferences((int) $certificateData['obj_id']);
@@ -243,6 +218,7 @@ class ilUserCertificateGUI
                         $objectTitle = $this->uiRenderer->render(
                             $this->uiFactory->link()->standard($objectTitle, ilLink::_getLink($refId))
                         );
+
                         break;
                     }
                 }
@@ -264,7 +240,8 @@ class ilUserCertificateGUI
                 $card = $this->uiFactory
                     ->card()
                     ->standard($certificateData['title'], $cardImage)
-                    ->withSections($sections);
+                    ->withSections($sections)
+                ;
 
                 $cards[] = $card;
             }
@@ -311,28 +288,20 @@ class ilUserCertificateGUI
      */
     public function download(): void
     {
-        global $DIC;
-
-        $user = $this->user;
-        $language = $DIC->language();
-
         $pdfGenerator = new ilPdfGenerator($this->userCertificateRepository);
 
         $userCertificateId = (int) $this->request->getQueryParams()['certificate_id'];
 
         try {
             $userCertificate = $this->userCertificateRepository->fetchCertificate($userCertificateId);
-            if ($userCertificate->getUserId() !== $user->getId()) {
-                throw new ilException(sprintf(
-                    'User "%s" tried to access certificate: "%s"',
-                    $user->getLogin(),
-                    $userCertificateId
-                ));
+            if ($userCertificate->getUserId() !== $this->user->getId()) {
+                throw new ilException(sprintf('User "%s" tried to access certificate: "%s"', $this->user->getLogin(), $userCertificateId));
             }
         } catch (ilException $exception) {
             $this->certificateLogger->warning($exception->getMessage());
-            $this->template->setOnScreenMessage('failure', $language->txt('cert_error_no_access'));
+            $this->template->setOnScreenMessage('failure', $this->language->txt('cert_error_no_access'));
             $this->listCertificates();
+
             return;
         }
 

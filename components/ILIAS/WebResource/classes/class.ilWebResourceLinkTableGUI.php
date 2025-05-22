@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
 /**
@@ -36,7 +36,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
     protected ilWebLinkRepository $web_link_repo;
 
     private UIRenderer $renderer;
-    private UIImplementationFactory $uiFactory;
+    private UIFactory $uiFactory;
 
     /**
      * TODO Move most of this stuff to an init method.

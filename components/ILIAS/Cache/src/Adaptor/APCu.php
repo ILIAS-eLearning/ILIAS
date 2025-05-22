@@ -32,7 +32,7 @@ class APCu extends BaseAdaptor implements Adaptor
 
     public function has(string $container, string $key): bool
     {
-        return apcu_exists($this->buildKey($container, $key)) === true;
+        return apcu_exists($this->buildKey($container, $key));
     }
 
     public function get(string $container, string $key): ?string

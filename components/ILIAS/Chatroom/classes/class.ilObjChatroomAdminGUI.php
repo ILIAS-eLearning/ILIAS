@@ -55,7 +55,7 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
 
     public function executeCommand(): void
     {
-        $next_class = strtolower($this->ctrl->getNextClass());
+        $next_class = strtolower($this->ctrl->getNextClass() ?? '');
 
         $tabFactory = new ilChatroomTabGUIFactory($this);
 

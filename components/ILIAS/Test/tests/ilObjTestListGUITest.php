@@ -25,14 +25,12 @@ class ilObjTestListGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->addGlobal_ilAccess();
-        $this->addGlobal_ilUser();
         $this->addGlobal_ilSetting();
         $this->addGlobal_rbacsystem();
-        $this->addGlobal_ilCtrl();
-        $this->addGlobal_ilLoggerFactory();
         $this->addGlobal_filesystem();
         $this->addGlobal_rbacreview();
         $this->addGlobal_ilObjDataCache();
+        $this->addGlobal_ilLoggerFactory();
 
         $this->testObj = new ilObjTestListGUI(1);
     }

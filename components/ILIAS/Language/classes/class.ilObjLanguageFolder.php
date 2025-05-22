@@ -298,7 +298,7 @@ class ilObjLanguageFolder extends ilObject
                         }
                         if ($double_checker[strtolower($separated[0])][strtolower($separated[1])] ?? false) {
                             $error_double = true;
-                            
+
                             $output .= "<br/><b/>" . $this->lng->txt("err_in_line") . " " . $double_checker[strtolower($separated[0])][strtolower($separated[1])] . " " . $this->lng->txt("and") . " " . $line . " !</b>&nbsp;&nbsp;";
                             $output .= $this->lng->txt("module") . ": " . $separated[0];
                             $output .= ", " . $this->lng->txt("identifier") . ": " . $separated[1];

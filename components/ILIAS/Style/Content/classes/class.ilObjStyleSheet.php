@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Style\Content\InternalDomainService;
 
 /**
@@ -28,6 +28,7 @@ use ILIAS\Style\Content\InternalDomainService;
 class ilObjStyleSheet extends ilObject
 {
     protected InternalDomainService $domain;
+    protected \ILIAS\Style\Content\InternalRepoService $repo;
     protected bool $is_3_10_skin = false;
     protected string $export_sub_dir = "";
     protected array $chars_by_type = [];
@@ -264,8 +265,8 @@ class ilObjStyleSheet extends ilObject
     // filter groups of properties that should only be
     // displayed with matching tag (group -> tags)
     public static array $filtered_groups =
-            array("ol" => array("ol"), "ul" => array("ul"),
-                "table" => array("table"), "positioning" => array("h1", "h2", "h3", "div", "img", "table", "a", "figure", "li", "p"));
+        array("ol" => array("ol"), "ul" => array("ul"),
+            "table" => array("table"), "positioning" => array("h1", "h2", "h3", "div", "img", "table", "a", "figure", "li", "p"));
 
     // style types and their super type
     public static array $style_super_types = array(
@@ -488,7 +489,7 @@ class ilObjStyleSheet extends ilObject
     // basic style xml file, image directory and dom
     protected static string $basic_style_file = "../vendor/ilias/Style/basic_style/style.xml";
     protected static string $basic_style_zip = "../vendor/ilias/Style/basic_style/style.zip";
-    protected static string $basic_style_image_dir = "../vendor/ilias/Style/basic_style/images";
+    protected static string $basic_style_image_dir = "./components/ILIAS/COPage/basic_style/images";
     protected static ?DOMDocument $basic_style_dom = null;
 
     public function __construct(
@@ -508,6 +509,7 @@ class ilObjStyleSheet extends ilObject
             $this->ilias->raiseError("Can't instantiate style object via reference id.", $this->ilias->error_obj->FATAL);
         }
         parent::__construct($a_id, false);
+        $this->repo = $DIC->contentStyle()->internal()->repo();
     }
 
     public static function getBasicZipPath(): string
@@ -785,24 +787,13 @@ class ilObjStyleSheet extends ilObject
 
         if ($a_from_style == 0) {
             if (!$a_import_mode) {
-                // copy styles from basic style
-                $this->createFromXMLFile(self::$basic_style_file, true);
-
-                // copy images from basic style
-                $this->createImagesDirectory();
-
-                // cross filesystem (lib -> web) rCopy
-                ilFileUtils::rCopy(
-                    self::$basic_style_image_dir,
-                    $this->getImagesDirectory()
-                );
+                throw new Exception("Can't create style without a from style in non-import mode.");
             } else {
                 // add style_data record
                 $q = "INSERT INTO style_data (id, uptodate, category) VALUES " .
                     "(" . $ilDB->quote($this->getId(), "integer") . ", 0," .
                     $ilDB->quote($this->getScope(), "integer") . ")";
                 $ilDB->manipulate($q);
-                ilObjStyleSheet::_createImagesDirectory($this->getId());
             }
         } else {
             // get style parameter records
@@ -816,14 +807,8 @@ class ilObjStyleSheet extends ilObject
                     "type" => $par_rec["type"], "mq_id" => $par_rec["mq_id"], "custom" => $par_rec["custom"]);
             }
 
-            // get style characteristics records
-            $chars = array();
-            $q = "SELECT * FROM style_char WHERE style_id = " .
-                $ilDB->quote($a_from_style, "integer");
-            $par_set = $ilDB->query($q);
-            while ($par_rec = $ilDB->fetchAssoc($par_set)) {
-                $chars[] = array("type" => $par_rec["type"], "characteristic" => $par_rec["characteristic"]);
-            }
+            $char_repo = $this->repo->characteristic();
+            $char_repo->cloneAllFromStyle($a_from_style, $this->getId());
 
 
             // copy media queries
@@ -853,15 +838,6 @@ class ilObjStyleSheet extends ilObject
                 $ilDB->manipulate($q);
             }
 
-            // insert style characteristics
-            foreach ($chars as $char) {
-                $q = "INSERT INTO style_char (style_id, type, characteristic) VALUES " .
-                    "(" . $ilDB->quote($this->getId(), "integer") . "," .
-                    $ilDB->quote($char["type"], "text") . "," .
-                    $ilDB->quote($char["characteristic"], "text") . ")";
-                $ilDB->manipulate($q);
-            }
-
             // add style_data record
             $q = "INSERT INTO style_data (id, uptodate, category) VALUES " .
                 "(" . $ilDB->quote($this->getId(), "integer") . ", 0," .
@@ -869,12 +845,7 @@ class ilObjStyleSheet extends ilObject
             $ilDB->manipulate($q);
 
             // copy images
-            $this->createImagesDirectory();
-            ilFileUtils::rCopy(
-                $from_style->getImagesDirectory(),
-                $this->getImagesDirectory()
-            );
-
+            $this->domain->style($this->getId())->cloneResourceContainer($from_style->getId());
             // copy colors
             $colors = $from_style->getColors();
             foreach ($colors as $c) {
@@ -922,17 +893,21 @@ class ilObjStyleSheet extends ilObject
     public function addCharacteristic(
         string $a_type,
         string $a_char,
-        bool $a_hidden = false
+        bool $a_hidden = false,
+        int $order_nr = 0,
+        bool $outdated = false
     ): void {
         $ilDB = $this->db;
 
         // delete characteristic record
-        $ilDB->manipulateF(
-            "INSERT INTO style_char (style_id, type, characteristic, hide)" .
-            " VALUES (%s,%s,%s,%s) ",
-            array("integer", "text", "text", "integer"),
-            array($this->getId(), $a_type, $a_char, $a_hidden)
-        );
+        $ilDB->insert("style_char", [
+            "style_id" => ["integer", $this->getId()],
+            "type" => ["text", $a_type],
+            "characteristic" => ["text", $a_char],
+            "hide" => ["integer", (int) $a_hidden],
+            "outdated" => ["integer", (int) $outdated],
+            "order_nr" => ["integer", $order_nr]
+        ]);
 
         $this->setUpToDate(false);
         $this->_writeUpToDate($this->getId(), false);
@@ -963,7 +938,7 @@ class ilObjStyleSheet extends ilObject
             foreach ($chars as $k => $char) {
                 if ($a_type == "" && $this->hidden_chars[$char["type"] . ":" . $char["class"]]) {
                     unset($chars[$k]);
-                } elseif ($this->hidden_chars[$a_type . ":" . $char]) {
+                } elseif ($this->hidden_chars[$a_type . ":" . $char] ?? false) {
                     unset($chars[$k]);
                 }
             }
@@ -1346,6 +1321,17 @@ class ilObjStyleSheet extends ilObject
         string $a_target_file = "",
         string $a_image_dir = ""
     ): void {
+
+        if (true) {
+            $style_manager = $this->domain->style($this->getId());
+            $style_manager->writeCss();
+
+            $this->setUpToDate();
+            $this->_writeUpToDate($this->getId(), true);
+
+            return;
+        }
+
         $style = $this->getStyle();
 
         if (!is_dir(ilFileUtils::getWebspaceDir() . "/css")) {
@@ -1387,10 +1373,10 @@ class ilObjStyleSheet extends ilObject
                 }
                 if (in_array($tag[0]["tag"], array("h1", "h2", "h3"))) {
                     fwrite($css_file, ",div.ilc_text_block_" . $tag[0]["class"] . "\n");
-                    fwrite($css_file, ",html.il-no-tiny-bg body#tinymce.ilc_text_block_" . $tag[0]["class"] . "\n");
+                    fwrite($css_file, ",html.il-no-tiny-bg body#tinymce.ilc_text_block_" . $tag[0]["class"] . " > p \n");
                 }
                 if ($tag[0]["type"] == "section") {	// sections can use a tags, if links are used
-                    fwrite($css_file, ",a.ilc_" . $tag[0]["type"] . "_" . $tag[0]["class"] . "\n");
+                    fwrite($css_file, ",div a.ilc_" . $tag[0]["type"] . "_" . $tag[0]["class"] . "\n");
                 }
                 if ($tag[0]["type"] == "strong") {
                     fwrite($css_file, ",span.ilc_text_inline_" . $tag[0]["class"] . "\n");
@@ -1399,7 +1385,28 @@ class ilObjStyleSheet extends ilObject
                     fwrite($css_file, ",span.ilc_text_inline_" . $tag[0]["class"] . "\n");
                 }
                 if ($tag[0]["type"] == "text_block") {
-                    fwrite($css_file, ",html.il-no-tiny-bg body#tinymce.ilc_text_block_" . $tag[0]["class"] . "\n");
+                    fwrite($css_file, ",html.il-no-tiny-bg body#tinymce.ilc_text_block_" . $tag[0]["class"] . " > p, #copg-editor-slate-content p.ilc_text_block_" . $tag[0]["class"] . "\n");
+                }
+                if ($tag[0]["class"] == "VAccordCntr") {
+                    fwrite($css_file, ",div.ilc_va_cntr_AccordCntr\n");
+                }
+                if ($tag[0]["class"] == "VAccordICntr") {
+                    fwrite($css_file, ",div.ilc_va_icntr_AccordICntr\n");
+                }
+                if ($tag[0]["class"] == "VAccordICont") {
+                    fwrite($css_file, ",div.ilc_va_icont_AccordICont\n");
+                }
+                if ($tag[0]["class"] == "VAccordIHead") {
+                    fwrite($css_file, ",div.ilc_va_ihead_AccordIHead\n");
+                }
+                if ($tag[0]["class"] == "VAccordIHead:hover") {
+                    fwrite($css_file, ",div.ilc_va_ihead_AccordIHead:hover\n");
+                }
+                if ($tag[0]["class"] == "VAccordIHeadActive") {
+                    fwrite($css_file, ",div.ilc_va_iheada_AccordIHeadActive\n");
+                }
+                if ($tag[0]["class"] == "VAccordIHeadActive:hover") {
+                    fwrite($css_file, ",div.ilc_va_iheada_AccordIHeadActive:hover\n");
                 }
                 fwrite($css_file, "{\n");
 
@@ -1407,8 +1414,8 @@ class ilObjStyleSheet extends ilObject
                 $t_border = array();
 
                 foreach ($tag as $par) {
-                    $cur_par = $par["parameter"];
-                    $cur_val = $par["value"];
+                    $cur_par = $par["parameter"] ?? '';
+                    $cur_val = $par["value"] ?? '';
 
                     // replace named colors
                     if (is_int(strpos($cur_par, "color")) && substr(trim($cur_val), 0, 1) == "!") {
@@ -1550,6 +1557,11 @@ class ilObjStyleSheet extends ilObject
         return array();
     }
 
+    public static function getExportContentStylePath(): string
+    {
+        return "content_style/style.css";
+    }
+
     /**
      * get content style path
      * static (to avoid full reading)
@@ -1560,12 +1572,10 @@ class ilObjStyleSheet extends ilObject
         bool $add_token = true
     ): string {
         global $DIC;
-
         $ilSetting = $DIC->settings();
 
-        $random = new \ilRandom();
-        $rand = $random->int(1, 999999);
-
+        $random = new \Random\Randomizer();
+        $rand = $random->getInt(1, 999999);
 
         // check global fixed content style
         $fixed_style = $ilSetting->get("fixed_content_style_id");
@@ -1585,14 +1595,8 @@ class ilObjStyleSheet extends ilObject
                 $style->writeCSSFile();
             }
 
-            $path = ilFileUtils::getWebspaceDir("output") . "/css/style_" . $a_style_id . ".css";
-            if ($add_random) {
-                $path .= "?dummy=$rand";
-            }
-            if ($add_token) {
-                $path = ilWACSignedPath::signFile($path);
-            }
-
+            $style_manager = $DIC->contentStyle()->internal()->domain()->style($a_style_id);
+            $path = $style_manager->getPath();
             return $path;
         } else {		// todo: work this out
             return "./components/ILIAS/COPage/css/content.css";
@@ -1826,8 +1830,8 @@ class ilObjStyleSheet extends ilObject
 
         // open file
         if (!($fp = fopen($file, 'wb'))) {
-            die("<b>Error</b>: Could not open \"" . $file . "\" for writing" .
-                    " in <b>" . __FILE__ . "</b> on line <b>" . __LINE__ . "</b><br />");
+            die("<strong>Error</strong>: Could not open \"" . $file . "\" for writing" .
+                    " in <strong>" . __FILE__ . "</strong> on line <strong>" . __LINE__ . "</strong><br />");
         }
 
         // set file permissions
@@ -1877,7 +1881,6 @@ class ilObjStyleSheet extends ilObject
     public function import($a_file): void
     {
         parent::create();
-
         $subdir = "";
         $im_dir = $this->createImportDirectory();
 
@@ -1911,15 +1914,6 @@ class ilObjStyleSheet extends ilObject
         // load information from xml file
         //echo "-$xml_file-";
         $this->createFromXMLFile($xml_file, true);
-
-        // copy images
-        $this->createImagesDirectory();
-        if (is_dir($im_dir . "/" . $subdir . "/images")) {
-            ilFileUtils::rCopy(
-                $im_dir . "/" . $subdir . "/images",
-                $this->getImagesDirectory()
-            );
-        }
 
         ilObjStyleSheet::_addMissingStyleClassesToStyle($this->getId());
         $this->read();
@@ -1958,6 +1952,10 @@ class ilObjStyleSheet extends ilObject
                     }
                 }
 
+                if ($tag["type"] === "text_block" && $tag["tag"] === "div") {
+                    $tag["tag"] = "p";
+                }
+
                 $q = "INSERT INTO style_parameter (id,style_id, tag, class, parameter, type, value, custom) VALUES " .
                     "(" .
                     $ilDB->quote($id, "integer") . "," .
@@ -1984,7 +1982,7 @@ class ilObjStyleSheet extends ilObject
                         array(
                             "style_id" => array("integer", $this->getId()),
                             "type" => array("text", $char["type"]),
-                            "characteristic" => array("text", $char["class"])),
+                            "characteristic" => array("text", ilStr::subStr($char["class"], 0, 30))),
                         array("hide" => array("integer", 0))
                     );
                     $this->is_3_10_skin = false;
@@ -2845,7 +2843,7 @@ class ilObjStyleSheet extends ilObject
      * Save media query order
      */
     public function saveMediaQueryOrder(
-        array $a_order_nr = null
+        ?array $a_order_nr = null
     ): void {
         $ilDB = $this->db;
 

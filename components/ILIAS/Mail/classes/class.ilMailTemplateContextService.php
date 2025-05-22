@@ -18,13 +18,10 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailTemplateContextService
- */
 class ilMailTemplateContextService
 {
     /**
-     * @param string[] $a_new_templates
+     * @param list<string> $a_new_templates
      */
     public static function clearFromXml(string $a_component, array $a_new_templates): void
     {
@@ -84,7 +81,7 @@ class ilMailTemplateContextService
         $contexts = self::getTemplateContexts([$a_id]);
         $first_context = current($contexts);
         if (!($first_context instanceof ilMailTemplateContext) || $first_context->getId() !== $a_id) {
-            throw new ilMailException(sprintf("Could not find a mail template context with id: %s", $a_id));
+            throw new ilMailException(sprintf('Could not find a mail template context with id: %s', $a_id));
         }
 
         return $first_context;
@@ -92,8 +89,8 @@ class ilMailTemplateContextService
 
     /**
      * Returns an array of mail template contexts, the key of each entry matches its id
-     * @param string[] $a_id
-     * @return ilMailTemplateContext[]
+     * @param list<string>|null $a_id
+     * @return array<string, ilMailTemplateContext>
      */
     public static function getTemplateContexts(?array $a_id = null): array
     {
@@ -102,7 +99,7 @@ class ilMailTemplateContextService
 
         $query = 'SELECT * FROM mail_tpl_ctx';
         $where = [];
-        if (is_array($a_id) && count($a_id)) {
+        if (is_array($a_id) && count($a_id) > 0) {
             $where[] = $DIC->database()->in('id', $a_id, false, 'text');
         }
         if ($where !== []) {
@@ -120,22 +117,20 @@ class ilMailTemplateContextService
         return $templates;
     }
 
-    protected static function getContextInstance(
+    /**
+     * @param class-string $a_class
+     */
+    private static function getContextInstance(
         string $a_component,
         string $a_id,
         string $a_class,
         ?string $a_path,
-        bool $isCreationContext = false
+        bool $is_creation_context = false
     ): ?ilMailTemplateContext {
-        if (!$a_path) {
-            $a_path = $a_component . '/classes/';
-        }
-        $class_file = $a_path . 'class.' . $a_class . '.php';
-
-        if (class_exists($a_class) && file_exists($class_file)) {
-            if ($isCreationContext) {
-                $reflClass = new ReflectionClass($a_class);
-                $context = $reflClass->newInstanceWithoutConstructor();
+        if (class_exists($a_class)) {
+            if ($is_creation_context) {
+                $class = new ReflectionClass($a_class);
+                $context = $class->newInstanceWithoutConstructor();
             } else {
                 $context = new $a_class();
             }
@@ -144,10 +139,14 @@ class ilMailTemplateContextService
                 return $context;
             }
         }
+
         return null;
     }
 
-    protected static function createEntry(
+    /**
+     * @param class-string $a_class
+     */
+    private static function createEntry(
         ilMailTemplateContext $a_context,
         string $a_component,
         string $a_class,
@@ -155,26 +154,26 @@ class ilMailTemplateContextService
     ): void {
         global $DIC;
 
-        $query = "SELECT id FROM mail_tpl_ctx WHERE id = %s";
+        $query = 'SELECT id FROM mail_tpl_ctx WHERE id = %s';
         $res = $DIC->database()->queryF($query, ['text'], [$a_context->getId()]);
         $row = $DIC->database()->fetchAssoc($res);
         $row_id = $row['id'] ?? null;
         $context_exists = ($row_id === $a_context->getId());
 
-        if (!$context_exists) {
-            $DIC->database()->insert('mail_tpl_ctx', [
-                'id' => ['text', $a_context->getId()],
-                'component' => ['text', $a_component],
-                'class' => ['text', $a_class],
-                'path' => ['text', $a_path]
-            ]);
-        } else {
+        if ($context_exists) {
             $DIC->database()->update('mail_tpl_ctx', [
                 'component' => ['text', $a_component],
                 'class' => ['text', $a_class],
                 'path' => ['text', $a_path]
             ], [
                 'id' => ['text', $a_context->getId()]
+            ]);
+        } else {
+            $DIC->database()->insert('mail_tpl_ctx', [
+                'id' => ['text', $a_context->getId()],
+                'component' => ['text', $a_component],
+                'class' => ['text', $a_class],
+                'path' => ['text', $a_path]
             ]);
         }
     }

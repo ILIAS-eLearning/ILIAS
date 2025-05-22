@@ -18,7 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\CLI\InstallCommand;
+use ILIAS\Setup\UnachievableException;
 use ILIAS\Setup\CLI\ImportFileUnzippedFileObjective;
 use ILIAS\Setup\Objective\ObjectiveWithPreconditions;
 
@@ -49,15 +51,15 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
     /**
      * @return \ilDatabaseExistsObjective[]
      */
-    public function getPreconditions(Setup\Environment $environment): array
+    public function getPreconditions(Environment $environment): array
     {
-        if ($environment->hasConfigFor(Setup\CLI\InstallCommand::IMPORT)) {
+        if ($environment->hasConfigFor(InstallCommand::IMPORT)) {
             return [new ObjectiveWithPreconditions(
                 new \ilDatabaseExistsObjective($this->config),
-                new ImportFileUnzippedFileObjective($environment->getConfigFor(Setup\CLI\InstallCommand::IMPORT))
+                new ImportFileUnzippedFileObjective($environment->getConfigFor(InstallCommand::IMPORT))
             )];
         }
-        if ($environment->getResource(Setup\Environment::RESOURCE_DATABASE)) {
+        if ($environment->getResource(Environment::RESOURCE_DATABASE)) {
             return [];
         }
         return [
@@ -65,14 +67,14 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
         ];
     }
 
-    public function achieve(Setup\Environment $environment): Setup\Environment
+    public function achieve(Environment $environment): Environment
     {
         /**
          * @var $db ilDBInterface
          * @var $io Setup\CLI\IOWrapper
          */
-        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
-        $io = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
+        $db = $environment->getResource(Environment::RESOURCE_DATABASE);
+        $io = $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION);
 
         // $this->setDefaultEngine($db); // maybe we could set the default?
         $default = $this->getDefaultEngine($db);
@@ -87,7 +89,7 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
                 break;
 
             default:
-                throw new Setup\UnachievableException(
+                throw new UnachievableException(
                     "Cannot determine database default engine, must be InnoDB, `$default` given."
                 );
         }
@@ -98,13 +100,13 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment): bool
+    public function isApplicable(Environment $environment): bool
     {
-        if ($environment->hasConfigFor(Setup\CLI\InstallCommand::IMPORT)) {
+        if ($environment->hasConfigFor(InstallCommand::IMPORT)) {
             return true;
         }
 
-        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $db = $environment->getResource(Environment::RESOURCE_DATABASE);
 
         return !$this->isDatabasePopulated($db);
     }
@@ -129,7 +131,7 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
         $path_to_db_dump = $this->config->getPathToDBDump();
         if (!is_file(realpath($path_to_db_dump) ?: '') ||
             !is_readable(realpath($path_to_db_dump) ?: '')) {
-            throw new Setup\UnachievableException(
+            throw new UnachievableException(
                 "Cannot read database dump file: $path_to_db_dump"
             );
         }
@@ -138,7 +140,7 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
                 $statement = $db->prepareManip($query);
                 $db->execute($statement);
             } catch (Throwable $e) {
-                throw new Setup\UnachievableException(
+                throw new UnachievableException(
                     "Cannot populate database with dump file: $path_to_db_dump. Query failed: $query wih message " . $e->getMessage(
                     )
                 );
@@ -194,13 +196,13 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
 
             $default = '';
             while ($d = $db->fetchObject($r)) {
-                if (strtoupper($d->Support) === 'DEFAULT') {
+                if (strtoupper((string) $d->Support) === 'DEFAULT') {
                     $default = $d->Engine;
                     break;
                 }
             }
-            return strtolower($default);
-        } catch (Throwable $e) {
+            return strtolower((string) $default);
+        } catch (Throwable) {
             return 'unknown';
         }
     }

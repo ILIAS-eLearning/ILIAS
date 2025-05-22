@@ -1,23 +1,26 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\FileUpload\DTO;
 
 use ILIAS\FileUpload\Collection\ImmutableStringMap;
 use ILIAS\FileUpload\ScalarTypeCheckAware;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class UploadResult
  *
@@ -36,8 +39,6 @@ final class UploadResult
     private string $name;
     private int $size;
     private string $mimeType;
-    private ImmutableStringMap $metaData;
-    private ProcessingStatus $status;
     private string $path;
 
 
@@ -54,7 +55,7 @@ final class UploadResult
      *
      * @since 5.3
      */
-    public function __construct(string $name, int $size, string $mimeType, ImmutableStringMap $metaData, ProcessingStatus $status, string $path)
+    public function __construct(string $name, int $size, string $mimeType, private ImmutableStringMap $metaData, private ProcessingStatus $status, string $path)
     {
         $this->stringTypeCheck($name, "name");
         $this->stringTypeCheck($mimeType, "mimeType");
@@ -64,8 +65,6 @@ final class UploadResult
         $this->name = $name;
         $this->size = $size;
         $this->mimeType = $mimeType;
-        $this->metaData = $metaData;
-        $this->status = $status;
         $this->path = $path;
     }
 

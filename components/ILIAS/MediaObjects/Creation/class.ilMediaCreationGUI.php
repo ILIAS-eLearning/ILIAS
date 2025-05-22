@@ -73,8 +73,8 @@ class ilMediaCreationGUI
         Closure $after_upload,
         Closure $after_url_saving,
         Closure $after_pool_insert,
-        Closure $finish_single_upload = null,
-        Closure $on_mob_update = null
+        ?Closure $finish_single_upload = null,
+        ?Closure $on_mob_update = null
     ) {
         global $DIC;
 
@@ -405,6 +405,13 @@ class ilMediaCreationGUI
         $mob->setDescription("");
         $mob->create();
 
+        $media_item = $mob->addMediaItemFromUpload(
+            "Standard",
+            $result,
+            $this->request->getUploadHash()
+        );
+
+        /*
         $mob->createDirectory();
         $media_item = new ilMediaItem();
         $mob->addMediaItem($media_item);
@@ -430,12 +437,9 @@ class ilMediaCreationGUI
         $media_item->setFormat($format);
         $media_item->setLocation($location);
         $media_item->setLocationType("LocalFile");
-        $media_item->setUploadHash($this->request->getUploadHash());
+        $media_item->setUploadHash($this->request->getUploadHash());*/
         $mob->update();
         $item_ids[] = $mob->getId();
-
-        $mob = new ilObjMediaObject($mob->getId());
-        $mob->generatePreviewPic(320, 240);
 
         // duration
         $med_item = $mob->getMediaItem("Standard");
@@ -577,7 +581,17 @@ class ilMediaCreationGUI
             $form->setValuesByPost();
             $this->main_tpl->setContent($form->getHTML());
         } else {
+            $locationType = "Reference";
+            $url = $form->getInput("url");
+            $url_pi = pathinfo(basename($url));
+            $title = str_replace("_", " ", $url_pi["filename"]);
+
+            /*
+             * Creating the MediaObject also creates a LOM set for it,
+             * and a LOM set can not be created without a title.
+             */
             $mob = new ilObjMediaObject();
+            $mob->setTitle($title);
             $mob->create();
 
             //handle standard purpose
@@ -590,10 +604,6 @@ class ilMediaCreationGUI
             if (!is_dir($mob_dir)) {
                 $mob->createDirectory();
             }
-            $locationType = "Reference";
-            $url = $form->getInput("url");
-            $url_pi = pathinfo(basename($url));
-            $title = str_replace("_", " ", $url_pi["filename"]);
 
             // get mime type, if not already set!
             $format = ilObjMediaObject::getMimeType($url, true);
@@ -611,7 +621,6 @@ class ilMediaCreationGUI
             $mediaItem->setLocation($url);
             $mediaItem->setLocationType("Reference");
             $mediaItem->setHAlign("Left");
-            $mob->setTitle($title);
             try {
                 $mob->getExternalMetadata();
             } catch (Exception $e) {

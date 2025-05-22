@@ -37,15 +37,15 @@ use ILIAS\MetaData\Editor\Digest\ContentType as DigestContentType;
 use ILIAS\MetaData\Editor\Full\Services\Tables\Table;
 use ILIAS\MetaData\Editor\Digest\DigestInitiator;
 use ILIAS\MetaData\Editor\Digest\Digest;
+use ILIAS\MetaData\XML\Writer\WriterInterface as XMLWriter;
 
 /**
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls ilMDEditorGUI: ilFormPropertyDispatchGUI
  */
 class ilMDEditorGUI
 {
-    public const SET_FOR_TREE = 'md_set_for_tree';
-    public const PATH_FOR_TREE = 'md_path_for_tree';
+    public const string SET_FOR_TREE = 'md_set_for_tree';
+    public const string PATH_FOR_TREE = 'md_path_for_tree';
 
     protected FullEditorInitiator $full_editor_initiator;
     protected DigestInitiator $digest_initiator;
@@ -62,6 +62,7 @@ class ilMDEditorGUI
     protected GlobalScreen $global_screen;
     protected ilTabsGUI $tabs;
     protected UIFactory $ui_factory;
+    protected XMLWriter $xml_writer;
 
     protected int $obj_id;
     protected int $sub_id;
@@ -87,6 +88,7 @@ class ilMDEditorGUI
         $this->global_screen = $services->dic()->globalScreen();
         $this->tabs = $services->dic()->tabs();
         $this->ui_factory = $services->dic()->ui()->factory();
+        $this->xml_writer = $services->xml()->standardWriter();
 
         $this->obj_id = $obj_id;
         $this->sub_id = $sub_id === 0 ? $obj_id : $sub_id;
@@ -110,12 +112,14 @@ class ilMDEditorGUI
 
     public function debug(): bool
     {
-        $xml_writer = new ilMD2XML($this->obj_id, $this->sub_id, $this->type);
-        $xml_writer->startExport();
+        $xml = $this->xml_writer->write($this->repository->getMD($this->obj_id, $this->sub_id, $this->type));
+        $dom = new DOMDocument('1.0');
+        $dom->formatOutput = true;
+        $dom->preserveWhiteSpace = false;
+        $dom->loadXML($xml->asXML());
 
-        $button = $this->renderButtonToFullEditor();
-
-        $this->tpl->setContent($button . htmlentities($xml_writer->getXML()));
+        $this->addButtonToFullEditor();
+        $this->tpl->setContent('<pre>' . htmlentities($dom->saveXML()) . '</pre>');
         return true;
     }
 
@@ -191,10 +195,8 @@ class ilMDEditorGUI
                     break;
             }
         }
-        $this->tpl->setContent(
-            $this->renderButtonToFullEditor() .
-            $this->ui_renderer->render($template_content)
-        );
+        $this->addButtonToFullEditor();
+        $this->tpl->setContent($this->ui_renderer->render($template_content));
     }
 
     protected function fullEditorCreate(): void
@@ -346,7 +348,7 @@ class ilMDEditorGUI
             switch ($type) {
                 case FullContentType::MAIN:
                     if ($entity instanceof Table) {
-                        $entity = $this->ui_factory->legacy(
+                        $entity = $this->ui_factory->legacy()->content(
                             $entity->getHTML()
                         );
                     }
@@ -382,29 +384,20 @@ class ilMDEditorGUI
         );
     }
 
-    protected function renderButtonToFullEditor(): string
+    protected function addButtonToFullEditor(): void
     {
-        $bulky = $this->ui_factory->button()->bulky(
-            $this->ui_factory->symbol()->icon()->standard(
-                'mds',
-                $this->presenter->utilities()->txt('meta_button_to_full_editor_label'),
-                'medium'
-            ),
+        $editor = $this->ui_factory->button()->standard(
             $this->presenter->utilities()->txt('meta_button_to_full_editor_label'),
             $this->ctrl->getLinkTarget($this, 'fullEditor')
         );
+        $this->toolbar->addComponent($editor);
         if (DEVMODE) {
-            $debug = $this->ui_factory->button()->bulky(
-                $this->ui_factory->symbol()->icon()->standard(
-                    'adm',
-                    'Debug'
-                ),
+            $debug = $this->ui_factory->button()->standard(
                 'Debug',
                 $this->ctrl->getLinkTarget($this, 'debug')
             );
+            $this->toolbar->addComponent($debug);
         }
-        return  $this->ui_renderer->render($bulky) .
-            (isset($debug) ? '</p>' . $this->ui_renderer->render($debug) : '');
     }
 
     protected function checkAccess(): void

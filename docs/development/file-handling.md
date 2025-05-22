@@ -12,13 +12,13 @@ In general, the following services are used in ILIAS to handle files:
 
 Old implementations like the following should no longer be used:
 - ilObjFile (as a Service)
-- Services/FileSystem
-- Services/FileServices/classes/class.ilFileUtils.php
+- ILIAS/FileSystem
+- components/ILIAS/FileServices/classes/class.ilFileUtils.php
 - Direct use of PHP functions for processing uploads (such as move_uploaded_file) or for reading and writing files (file_get_contents, fputs, ...)
 - Other implementations not listed above
 
 # How to handle files in ILIAS (Preferred way)
-For the following How-To, the ZIP available [here](code-examples/FileHandlingDemo.zip) can be downloaded, unzipped and placed in `./Services`. Then run a `composer dump-autoload`. Afterwards, the demo service can be reached via http://{YOUR_ILIAS_DEVELOPMENT_INSTANCE}/ilias.php?baseClass=ilfilehandlingdemogui.
+For the following How-To, the ZIP available [here](code-examples/FileHandlingDemo.zip) can be downloaded, unzipped and placed in `./components/ILIAS`. Then run a `composer dump-autoload`. Afterwards, the demo service can be reached via http://{YOUR_ILIAS_DEVELOPMENT_INSTANCE}/ilias.php?baseClass=ilfilehandlingdemogui.
 
 The sample code is not exhaustive or does not address guidelines.  For example, there is no permissions check, no UI components are used (except in the form), etc. It is only intended to provide a few approaches on how to work with files yourself.
 
@@ -49,7 +49,7 @@ We implement a method in the GUI that represents a form with a file input. File 
         );
     }
 ```
-A detailed description of an UploadHandler can be found here: [Services/FileServices/README.md](../../Services/FileServices/README.md). 
+A detailed description of an UploadHandler can be found here: [ILIAS/FileServices/README.md](../../components/ILIAS/FileServices/README.md). 
 
 In short, the `UploadHandler` takes care of receiving a users upload and processing it or passing it on to a service for storing the upload. In our example, we want to pass the upload to the Resource Storage Service and thus receive a `ResourceIdentification` that we can use to call up the file later. The storage of uploads in the Resource Storage Service is practically obligatory, as in the future all uploads are to be stored in this service.
 
@@ -62,7 +62,7 @@ We can simply extend an abstract class for this, but two things have to be imple
  * @ilCtrl_IsCalledBy ilFileHandlingDemoUploadHandlerGUI: ilFileHandlingDemoGUI
  */
 ```
-More information about ilCtrl: [Services/UICore/README.md](../../Services/UICore/README.md)
+More information about ilCtrl: [ILIAS/UICore/README.md](../../components/ILIAS/UICore/README.md)
 
 - We need to announce a `Stakeholder` to identify which component or UseCase the uploaded files "belong" to:
 ```php
@@ -71,7 +71,7 @@ More information about ilCtrl: [Services/UICore/README.md](../../Services/UICore
         return new ilFileHandlingDemoStakeholder();
     }
 ```
-More information about stakeholders: [components/ILIAS/ResourceStorage_/README.md](../../src/ResourceStorage/README.md)
+More information about stakeholders: [ILIAS/ResourceStorage_/README.md](../../components/ILIAS/ResourceStorage/README.md)
 
 After submitting the form, we receive the processed resource IDs already stored in the IRSS as a string:
 

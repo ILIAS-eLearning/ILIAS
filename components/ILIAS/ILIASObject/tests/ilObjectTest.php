@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
@@ -43,6 +43,17 @@ class ilObjectTest extends TestCase
         $DIC['tree'] = $this->createMock(ilTree::class);
         $DIC['ilAppEventHandler'] = $this->createMock(ilAppEventHandler::class);
         $DIC['ilUser'] = $this->createMock(ilObjUser::class);
+        $DIC['resource_storage'] = $this->createMock(ILIAS\ResourceStorage\Services::class);
+        $DIC['object.customicons.factory'] = $this->createMock(ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory::class);
+        $DIC['learning_object_metadata'] = $this->createMock(ILIAS\MetaData\Services\ServicesInterface::class);
+
+        if (!defined('ILIAS_LOG_DIR')) {
+            define('ILIAS_LOG_DIR', '/var/log');
+        }
+
+        if (!defined('ILIAS_LOG_ENABLED')) {
+            define('ILIAS_LOG_ENABLED', true);
+        }
     }
 
     protected function tearDown(): void

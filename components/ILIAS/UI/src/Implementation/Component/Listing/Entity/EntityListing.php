@@ -49,8 +49,8 @@ abstract class EntityListing implements I\EntityListing
      */
     public function getEntities(
         \ILIAS\UI\Factory $ui_factory,
-        Range $range = null,
-        array $additional_parameters = null
+        ?Range $range = null,
+        ?array $additional_parameters = null
     ): \Generator {
         $mapping = new class ($this->entity_mapping, $ui_factory) implements I\Mapping {
             public function __construct(

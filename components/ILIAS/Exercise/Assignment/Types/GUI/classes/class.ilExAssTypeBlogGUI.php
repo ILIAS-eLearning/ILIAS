@@ -25,6 +25,12 @@ class ilExAssTypeBlogGUI implements ilExAssignmentTypeGUIInterface
 {
     use ilExAssignmentTypeGUIBase;
 
+    public function __construct(
+        protected \ILIAS\Exercise\InternalDomainService $domain,
+        protected \ILIAS\Exercise\InternalGUIService $gui
+    ) {
+    }
+
     /**
      * @inheritdoc
      */
@@ -76,7 +82,7 @@ class ilExAssTypeBlogGUI implements ilExAssignmentTypeGUIInterface
         $valid_blog = false;
         $selected_blog = $submission->getSelectedObject();
         if ($selected_blog) {
-            $blog_id = (int) $selected_blog["filetitle"];
+            $blog_id = (int) $selected_blog->getTitle();
             $node = $wsp_tree->getNodeData($blog_id);
             if ($node["title"]) {
                 // #10116
@@ -110,10 +116,10 @@ class ilExAssTypeBlogGUI implements ilExAssignmentTypeGUIInterface
                 }
             }
             // remove invalid resource if no upload yet (see download below)
-            elseif (substr($selected_blog["filename"], -1) == "/") {
+            /*elseif (substr($selected_blog["filename"], -1) == "/") {
                 // #16887
                 $submission->deleteResourceObject();
-            }
+            }*/
         }
         if ($submission->canSubmit()) {
             if (!$valid_blog) {
@@ -152,7 +158,7 @@ class ilExAssTypeBlogGUI implements ilExAssignmentTypeGUIInterface
         }
 
         if ($submission->hasSubmitted()) {
-            $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "delivered", $selected_blog["returned_id"]);
+            $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "delivered", $selected_blog->getId());
             $dl_link = $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class, "ilExSubmissionGUI", "ilExSubmissionFileGUI"), "download");
             $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "delivered", "");
 

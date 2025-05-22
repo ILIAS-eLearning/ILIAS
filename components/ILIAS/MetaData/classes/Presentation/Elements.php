@@ -29,7 +29,7 @@ use ILIAS\MetaData\Paths\PathInterface;
 
 class Elements implements ElementsInterface
 {
-    protected const SEPARATOR = ': ';
+    protected const string SEPARATOR = ': ';
 
     protected UtilitiesInterface $utilities;
 

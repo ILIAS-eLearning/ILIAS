@@ -20,15 +20,22 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Elements\Data;
 
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
+
 class Data implements DataInterface
 {
     protected Type $type;
     protected string $value;
+    protected SlotIdentifier $vocabulary_slot;
 
-    public function __construct(Type $type, string $value)
-    {
+    public function __construct(
+        Type $type,
+        string $value,
+        SlotIdentifier $vocabulary_slot
+    ) {
         $this->type = $type;
         $this->value = $value;
+        $this->vocabulary_slot = $vocabulary_slot;
     }
 
     public function type(): Type
@@ -39,5 +46,10 @@ class Data implements DataInterface
     public function value(): string
     {
         return $this->value;
+    }
+
+    public function vocabularySlot(): SlotIdentifier
+    {
+        return $this->vocabulary_slot;
     }
 }

@@ -21,6 +21,8 @@ declare(strict_types=1);
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Signal;
+use ILIAS\MetaData\Copyright\RepositoryInterface;
+use ILIAS\MetaData\Copyright\RendererInterface;
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -29,7 +31,9 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 {
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
-    protected ilMDSettingsModalService $modal_service;
+    protected ilDBInterface $db;
+    protected RendererInterface $renderer;
+    protected RepositoryInterface $repository;
 
     protected bool $has_write;
 
@@ -41,7 +45,9 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
     protected array $edit_modal_signals = [];
 
     public function __construct(
-        ilMDCopyrightSelectionGUI $parent_obj,
+        RepositoryInterface $repository,
+        RendererInterface $renderer,
+        ilMDCopyrightConfigurationGUI $parent_obj,
         string $parent_cmd = '',
         bool $has_write = false
     ) {
@@ -49,9 +55,9 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
-        $this->modal_service = new ilMDSettingsModalService(
-            $this->ui_factory
-        );
+        $this->db = $DIC->database();
+        $this->repository = $repository;
+        $this->renderer = $renderer;
 
         $this->has_write = $has_write;
 
@@ -129,18 +135,20 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
     public function parseSelections(): void
     {
         // These entries are ordered by 1. is_default, 2. position
-        $entries = ilMDCopyrightSelectionEntry::_getEntries();
+        $entries = $this->repository->getAllEntries();
 
         $position = -10;
         $entry_arr = [];
         foreach ($entries as $entry) {
-            $tmp_arr['id'] = $entry->getEntryId();
-            $tmp_arr['title'] = $entry->getTitle();
-            $tmp_arr['description'] = $entry->getDescription();
-            $tmp_arr['used'] = $entry->getUsage();
-            $tmp_arr['preview'] = $entry->getCopyright();
-            $tmp_arr['default'] = $entry->getIsDefault();
-            $tmp_arr['status'] = $entry->getOutdated();
+            $tmp_arr['id'] = $entry->id();
+            $tmp_arr['title'] = $entry->title();
+            $tmp_arr['description'] = $entry->description();
+            $tmp_arr['used'] = $this->countUsagesForEntry($entry->id());
+            $tmp_arr['preview'] = $this->ui_renderer->render(
+                $this->renderer->toUIComponents($entry->copyrightData())
+            );
+            $tmp_arr['default'] = $entry->isDefault();
+            $tmp_arr['status'] = $entry->isOutdated();
             $tmp_arr['position'] = ($position += 10);
 
             $entry_arr[] = $tmp_arr;
@@ -180,5 +188,18 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
             ->standard($buttons)
             ->withLabel($this->lng->txt('actions'));
         return $this->ui_renderer->render($actions);
+    }
+
+    private function countUsagesForEntry(int $entry_id): int
+    {
+        $query = "SELECT count(meta_rights_id) used FROM il_meta_rights " .
+            "WHERE description = " . $this->db->quote(
+                'il_copyright_entry__' . IL_INST_ID . '__' . $entry_id,
+                'text'
+            );
+
+        $res = $this->db->query($query);
+        $row = $this->db->fetchObject($res);
+        return (int) $row->used;
     }
 }

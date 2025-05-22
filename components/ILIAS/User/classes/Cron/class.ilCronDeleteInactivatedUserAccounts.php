@@ -18,21 +18,24 @@
 
 declare(strict_types=1);
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Language\Language;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * This cron deletes user accounts by INACTIVATION period
  * @author Bjoern Heyser <bheyser@databay.de>
  * @package components/ILIAS/User
  */
-class ilCronDeleteInactivatedUserAccounts extends ilCronJob
+class ilCronDeleteInactivatedUserAccounts extends CronJob
 {
     private const DEFAULT_INACTIVITY_PERIOD = 365;
     private int $period;
     /** @var int[] */
     private array $include_roles;
     private ilSetting $settings;
-    private ilLanguage $lng;
+    private Language $lng;
     private ilRbacReview $rbac_review;
     private ilObjectDataCache $objectDataCache;
     private \ILIAS\HTTP\GlobalHttpState $http;
@@ -101,9 +104,9 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
         );
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
+        return JobScheduleType::DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -126,9 +129,9 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
         return true;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
-        $status = ilCronJobResult::STATUS_NO_ACTION;
+        $status = JobResult::STATUS_NO_ACTION;
 
         $usr_ids = ilObjUser::_getUserIdsByInactivationPeriod($this->period);
 
@@ -149,10 +152,10 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
         }
 
         if ($counter > 0) {
-            $status = ilCronJobResult::STATUS_OK;
+            $status = JobResult::STATUS_OK;
         }
 
-        $result = new ilCronJobResult();
+        $result = new JobResult();
         $result->setStatus($status);
 
         return $result;

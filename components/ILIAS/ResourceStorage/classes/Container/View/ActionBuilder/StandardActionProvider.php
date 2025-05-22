@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Container\View;
 
+use ILIAS\UI\Component\Modal\RoundTrip;
+use ILIAS\UI\Factory;
 use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\ActionProvider;
 use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\TopAction;
 use ILIAS\Data\URI;
@@ -31,14 +33,23 @@ use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\SingleAction;
  */
 final class StandardActionProvider implements ActionProvider
 {
+    /**
+     * @var string
+     */
     private const ACTION_UNZIP = 'unzip';
+    /**
+     * @var string
+     */
     private const ACTION_DOWNLOAD = 'download';
+    /**
+     * @var string
+     */
     private const ACTION_REMOVE = 'remove';
 
     private \ilLanguage $language;
     private \ilCtrlInterface $ctrl;
-    private \ILIAS\UI\Component\Modal\RoundTrip $add_directory_modal;
-    private \ILIAS\UI\Factory $ui_factory;
+    private RoundTrip $add_directory_modal;
+    private Factory $ui_factory;
     private bool $show_paths = false;
 
     public function __construct(
@@ -66,7 +77,7 @@ final class StandardActionProvider implements ActionProvider
         );
     }
 
-    public function getAddDirectoryModal(): \ILIAS\UI\Component\Modal\RoundTrip
+    public function getAddDirectoryModal(): RoundTrip
     {
         return $this->add_directory_modal;
     }

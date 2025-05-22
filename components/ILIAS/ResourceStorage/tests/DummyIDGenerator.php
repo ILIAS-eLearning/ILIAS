@@ -25,14 +25,11 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class DummyIDGenerator implements IdentificationGenerator, CollectionIdentificationGenerator
 {
-    private string $id = 'dummy';
-
     /**
      * DummyIDGenerator constructor.
      */
-    public function __construct(string $id = 'dummy')
+    public function __construct(private string $id = 'dummy')
     {
-        $this->id = $id;
     }
 
     public function getUniqueResourceIdentification(): ResourceIdentification

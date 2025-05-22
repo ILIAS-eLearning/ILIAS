@@ -70,7 +70,7 @@ class ModalAdapterGUI
 
     public function legacy(string $content): self
     {
-        $this->ui_content = [$this->ui->factory()->legacy($content)];
+        $this->ui_content = [$this->ui->factory()->legacy()->content($content)];
         $this->form = null;
         return $this;
     }
@@ -139,7 +139,7 @@ class ModalAdapterGUI
     {
         $modal = [];
         if (!is_null($this->form)) {
-            $this->ui_content = [$this->ui->factory()->legacy($this->form->render())];
+            $this->ui_content = [$this->ui->factory()->legacy()->content($this->form->render())];
         }
         $modal = $this->ui->factory()->modal()->roundtrip($this->getTitle(), $this->ui_content);
         if (count($this->action_buttons) > 0) {
@@ -174,7 +174,7 @@ class ModalAdapterGUI
     public function getAsyncTriggerButtonComponents(string $button_title, string $url, $shy = true): array
     {
         $ui = $this->ui;
-        $modal = $ui->factory()->modal()->roundtrip("", $ui->factory()->legacy(""));
+        $modal = $ui->factory()->modal()->roundtrip("", $ui->factory()->legacy()->content(""));
         $url .= '&replaceSignal=' . $modal->getReplaceSignal()->getId();
         $modal = $modal->withAsyncRenderUrl($url);
         if ($shy) {

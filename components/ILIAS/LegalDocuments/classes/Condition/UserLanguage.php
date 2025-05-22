@@ -39,7 +39,7 @@ class UserLanguage implements Condition
 
     public function asComponent(): Component
     {
-        return $this->create->legacy(sprintf(
+        return $this->create->legacy()->content(sprintf(
             '<div><b>%s</b><br/>%s</div>',
             $this->definition->translatedType(),
             $this->definition->translatedLanguage($this->criterion->arguments()['lng'])

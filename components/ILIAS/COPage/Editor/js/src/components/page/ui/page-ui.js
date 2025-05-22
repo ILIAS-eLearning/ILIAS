@@ -280,6 +280,7 @@ export default class PageUI {
             }
             li.querySelector('a').addEventListener('click', (event) => {
               event.isDropDownSelectionEvent = true;
+              this.hideAllAddDropdowns();
               dispatch.dispatch(action.page().editor().componentInsert(
                 cname,
                 area.dataset.pcid,
@@ -290,10 +291,27 @@ export default class PageUI {
             });
             ul.appendChild(li);
           }
+
+          if (ul.dataset.copgDDShown !== '1') {
+            this.hideAllAddDropdowns();
+            ul.style.display = 'block';
+            ul.dataset.copgDDShown = '1';
+          } else {
+            ul.style.display = 'none';
+            ul.dataset.copgDDShown = '0';
+          }
         });
       });
     });
     this.refreshAddButtonText();
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  hideAllAddDropdowns() {
+    document.querySelectorAll("[data-copg-ed-type='add-area'] ul.dropdown-menu").forEach((el) => {
+      el.style.display = 'none';
+      el.dataset.copgDDShown = '0';
+    });
   }
 
   /**
@@ -316,7 +334,7 @@ export default class PageUI {
       const originalHTML = area.innerHTML;
       area.innerHTML = uiModel.dropdown;
 
-      console.log(uiModel.dropdown);
+      this.log(uiModel.dropdown);
 
       const { model } = this;
 
@@ -359,7 +377,7 @@ export default class PageUI {
             li.querySelector('a').innerHTML = txt;
             li.querySelector('a').addEventListener('click', (event) => {
               event.isDropDownSelectionEvent = true;
-              console.log(area.dataset);
+              this.log(area.dataset);
               dispatch.dispatch(action.page().editor().editListItem(listCommand, area.dataset.pcid));
             });
             ul.appendChild(li);
@@ -421,7 +439,7 @@ export default class PageUI {
         if (event.shiftKey || event.ctrlKey || event.metaKey) {
           area.dispatchEvent(new Event('areaCmdClick'));
         } else {
-          console.log('*** DISPATCH areaClick');
+          this.log('*** DISPATCH areaClick');
           area.dispatchEvent(new Event('areaClick'));
         }
       });
@@ -430,7 +448,7 @@ export default class PageUI {
     // init add buttons
     document.querySelectorAll(coverSelector).forEach((cover) => {
       cover.addEventListener('click', (event) => {
-        console.log('---COVER CLICKED---');
+        this.log('---COVER CLICKED---');
         if (event.isDropDownToggleEvent === true
             || event.isDropDownSelectionEvent === true) {
           return;
@@ -509,6 +527,8 @@ export default class PageUI {
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
     const pageUI = this;
+    const scrollSpeed = 5;
+    const scrollThreshold = 40; // distance from the edge to start scrolling
 
     if (!draggableSelector) {
       draggableSelector = '.il_editarea, .il_editarea_disabled';
@@ -518,40 +538,79 @@ export default class PageUI {
       droppableSelector = '.il_droparea';
     }
 
-    $(draggableSelector).filter(function (index) {
-      return !pageUI.isProtectedElement(this);
-    }).draggable({
-      cursor: 'move',
-      revert: false,
-      scroll: true,
-      distance: 3,
-      cursorAt: { top: 5, left: 20 },
-      snap: true,
-      snapMode: 'outer',
-      start(event, ui) {
+    const mainElement = document.querySelector('main.il-layout-page-content');
+
+    function autoScroll(event) {
+      const rect = mainElement.getBoundingClientRect();
+
+      if (event.clientY < rect.top + scrollThreshold) {
+        mainElement.scrollBy(0, -scrollSpeed);
+      } else if (event.clientY > rect.bottom - scrollThreshold) {
+        mainElement.scrollBy(0, scrollSpeed);
+      }
+    }
+
+    let dragClone;
+
+    document.querySelectorAll(draggableSelector).forEach((draggableElement) => {
+      if (pageUI.isProtectedElement(draggableElement)) {
+        return;
+      }
+
+      draggableElement.setAttribute('draggable', true);
+
+      draggableElement.addEventListener('dragstart', (event) => {
+        event.dataTransfer.setData('text/plain', event.target.id);
+        event.dataTransfer.effectAllowed = 'move';
+        event.stopPropagation();
+        // Create a transparent clone for the drag image
+        dragClone = draggableElement.cloneNode(true);
+        dragClone.style.position = 'absolute';
+        dragClone.style.top = '-9999px'; // Move it offscreen
+        document.body.appendChild(dragClone);
+        event.dataTransfer.setDragImage(dragClone, 0, 0);
+
+        // event.target.classList.add('copg-dragging');
         dispatch.dispatch(action.page().editor().dndDrag());
-      },
-      stop(event, ui) {
+
+        mainElement.addEventListener('dragover', autoScroll);
+      });
+
+      draggableElement.addEventListener('dragend', (event) => {
+        // event.target.classList.remove('copg-dragging');
         dispatch.dispatch(action.page().editor().dndStopped());
-      },
-      helper: (() => $("<div class='il-copg-drag'>&nbsp;</div>")),		/* temp helper */
+        mainElement.removeEventListener('dragover', autoScroll);
+
+        // remove clone
+        if (dragClone) {
+          dragClone.remove();
+        }
+      });
     });
 
-    $(droppableSelector).droppable({
-      drop: (event, ui) => {
-        ui.draggable.draggable('option', 'revert', false);
+    document.querySelectorAll(droppableSelector).forEach((droppableElement) => {
+      droppableElement.addEventListener('dragover', (event) => {
+        event.preventDefault(); // Necessary to allow a drop
+        event.dataTransfer.dropEffect = "move";
+      });
 
-        // @todo: remove legacy
-        const target_id = event.target.id.substr(6);
-        const source_id = ui.draggable[0].id.substr(7);
+      droppableElement.addEventListener('dragenter', (event) => {
+        droppableElement.classList.add('il_editarea_selected');
+      });
 
-        dispatch.dispatch(action.page().editor().dndDrop(target_id, source_id));
-      },
+      droppableElement.addEventListener('dragleave', (event) => {
+        droppableElement.classList.remove('il_editarea_selected');
+      });
+
+      droppableElement.addEventListener('drop', (event) => {
+        event.preventDefault();
+        droppableElement.classList.remove('il_editarea_selected');
+        const sourceId = event.dataTransfer.getData('text/plain');
+        const targetId = event.target.id.substr(6); // Remove 'TARGET' prefix
+
+        dispatch.dispatch(action.page().editor().dndDrop(targetId, sourceId));
+      });
     });
-
-    // this is needed to make scrolling while dragging with helper possible
-    $('main.il-layout-page-content').css('position', 'relative');
-
     this.hideDropareas();
   }
 
@@ -738,8 +797,8 @@ export default class PageUI {
       .style.display = 'none';
     document.querySelector('#il-copg-format-media')
       .style.display = 'none';
-    console.log('***INIT FORMAT');
-    console.log(selected);
+    this.log('***INIT FORMAT');
+    this.log(selected);
     selected.forEach((id) => {
       cname = this.getCnameForPCID(id.split(':')[1]);
       switch (cname) {
@@ -845,17 +904,19 @@ export default class PageUI {
   //
 
   enableDragDrop() {
-    const pageUI = this;
-    $('.il_editarea').filter(function (index) {
-      return !pageUI.isProtectedElement(this);
-    }).draggable('enable');
+    document.querySelectorAll('.il_editarea').forEach((draggableElement) => {
+      if (!this.isProtectedElement(draggableElement)) {
+        draggableElement.setAttribute('draggable', true);
+      }
+    });
   }
 
   disableDragDrop() {
-    const pageUI = this;
-    $('.il_editarea').filter(function (index) {
-      return !pageUI.isProtectedElement(this);
-    }).draggable('disable');
+    document.querySelectorAll('.il_editarea').forEach((draggableElement) => {
+      if (!this.isProtectedElement(draggableElement)) {
+        draggableElement.removeAttribute('draggable');
+      }
+    });
   }
 
   showAddButtons() {
@@ -1012,7 +1073,7 @@ export default class PageUI {
   }
 
   hideDeleteConfirmation() {
-    this.util.hideCurrentModal();
+    this.util.hideModal(this.uiModel.modal);
   }
 
   //

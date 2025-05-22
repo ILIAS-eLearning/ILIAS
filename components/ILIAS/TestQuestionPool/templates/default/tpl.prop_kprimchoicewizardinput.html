@@ -23,7 +23,7 @@
 								<div class="input-group">
 									<span class="input-group-btn">
 										<span class="btn btn-default btn-file">
-											{IMAGE_BROWSE} <input class="upload" type="file" id="{IMAGE_ID}" name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="20" />
+											{IMAGE_BROWSE} <input class="upload" type="file" id="{IMAGE_ID}" name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="20" data-maxsize="{MAX_SIZE}" data-maxsize-warning="{MAX_SIZE_WARNING}" />
 										</span>
 									</span>
 									<input type="text" class="form-control" readonly="readonly">
@@ -44,7 +44,7 @@
 					<!-- END addimage -->
 				<!-- END singleline -->
 				<!-- BEGIN multiline -->
-					<textarea cols="60" rows="4" name="{MULTILINE_POST_VAR}[answer][{MULTILINE_ROW_NUMBER}]" id="{MULTILINE_ID}"{DISABLED_MULTILINE}>{PROPERTY_VALUE}</textarea>
+					<textarea class="RTEditor" cols="60" rows="4" name="{MULTILINE_POST_VAR}[answer][{MULTILINE_ROW_NUMBER}]" maxlength="{MAXLENGTH}" id="{MULTILINE_ID}"{DISABLED_MULTILINE}>{PROPERTY_VALUE}</textarea>
 				<!-- END multiline -->
 			</td>
 			<td class="correctness">

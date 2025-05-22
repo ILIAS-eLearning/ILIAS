@@ -31,11 +31,10 @@ use ILIAS\UI\Implementation\Component\Input\Container\Container;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation;
-use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\StackedInputData;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component as C;
-
 use ILIAS\UI\Implementation\Component\Input\ViewControl\HasInputGroup;
 
 abstract class ViewControl extends Container implements I\ViewControl
@@ -106,10 +105,10 @@ abstract class ViewControl extends Container implements I\ViewControl
     * @return array     with key input name and its current value
     */
     public function getComponentInternalValues(
-        C\Input\Group $component = null,
+        ?C\Input\Group $component = null,
         array $input_values = []
     ): array {
-        if(is_null($component)) {
+        if (is_null($component)) {
             $component = $this->getInputGroup();
         }
         foreach ($component->getInputs() as $input) {
@@ -119,7 +118,7 @@ abstract class ViewControl extends Container implements I\ViewControl
             if ($input instanceof HasInputGroup) {
                 $input_values = $this->getComponentInternalValues($input->getInputGroup(), $input_values);
             }
-            if($name = $input->getName()) {
+            if ($name = $input->getName()) {
                 $input_values[$input->getName()] = $input->getValue();
             }
         }

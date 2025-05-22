@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilCertificateTemplateTest extends ilCertificateBaseTestCase
 {
     public function testCreateCertificateTemplate(): void
@@ -38,7 +35,9 @@ class ilCertificateTemplateTest extends ilCertificateBaseTestCase
             $time,
             true,
             '/some/where/background.jpg',
-            '/some/where/thumbnail.svg',
+            '/some/where/tile_image.svg',
+            '-',
+            '-',
             555
         );
 
@@ -50,7 +49,8 @@ class ilCertificateTemplateTest extends ilCertificateBaseTestCase
         $this->assertSame('v5.4.0', $template->getIliasVersion());
         $this->assertSame($time, $template->getCreatedTimestamp());
         $this->assertTrue($template->isCurrentlyActive());
-        $this->assertSame('/some/where/background.jpg', $template->getBackgroundImagePath());
+        $this->assertSame('/some/where/background.jpg', $template->getCurrentBackgroundImageUsed());
+        $this->assertSame('/some/where/tile_image.svg', $template->getCurrentTileImageUsed());
         $this->assertSame(555, $template->getId());
     }
 }

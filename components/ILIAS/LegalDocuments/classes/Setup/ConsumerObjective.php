@@ -19,7 +19,6 @@
 namespace ILIAS\LegalDocuments\Setup;
 
 use ILIAS\LegalDocuments\Consumer;
-use ILIAS\LegalDocuments\Internal;
 use ILIAS\Setup\Artifact;
 use ILIAS\Setup\Artifact\ArrayArtifact;
 use ILIAS\Setup\Artifact\BuildArtifactObjective;
@@ -27,7 +26,6 @@ use ILIAS\Setup\ImplementationOfInterfaceFinder;
 
 class ConsumerObjective extends BuildArtifactObjective
 {
-
     public function getArtifactName(): string
     {
         return "legal_documents_consumer";

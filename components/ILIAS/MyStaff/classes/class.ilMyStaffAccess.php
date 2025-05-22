@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 namespace ILIAS\MyStaff;
 
@@ -31,19 +31,19 @@ use ilOrgUnitUserAssignmentQueries;
  */
 class ilMyStaffAccess extends ilObjectAccess
 {
-    public const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS = 'tmp_obj_spec_perm';
-    public const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS = 'tmp_obj_def_perm';
-    public const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS = 'tmp_orgu_def_perm';
-    public const TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS = 'tmp_crs_members';
-    public const TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS = 'tmp_orgu_members';
-    public const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX = 'tmp_obj_user_matr';
-    public const ACCESS_ENROLMENTS_ORG_UNIT_OPERATION = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
-    public const COURSE_CONTEXT = ilOrgUnitOperationContext::CONTEXT_CRS;
-    public const EXERCISE_CONTEXT = ilOrgUnitOperationContext::CONTEXT_EXC;
-    public const GROUP_CONTEXT = ilOrgUnitOperationContext::CONTEXT_GRP;
-    public const SURVEY_CONTEXT = ilOrgUnitOperationContext::CONTEXT_SVY;
-    public const TEST_CONTEXT = ilOrgUnitOperationContext::CONTEXT_TST;
-    public const EMPLOYEE_TALK_CONTEXT = ilOrgUnitOperationContext::CONTEXT_ETAL;
+    public const string TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS = 'tmp_obj_spec_perm';
+    public const string TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS = 'tmp_obj_def_perm';
+    public const string TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS = 'tmp_orgu_def_perm';
+    public const string TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS = 'tmp_crs_members';
+    public const string TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS = 'tmp_orgu_members';
+    public const string TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX = 'tmp_obj_user_matr';
+    public const string ACCESS_ENROLMENTS_ORG_UNIT_OPERATION = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
+    public const string COURSE_CONTEXT = ilOrgUnitOperationContext::CONTEXT_CRS;
+    public const string EXERCISE_CONTEXT = ilOrgUnitOperationContext::CONTEXT_EXC;
+    public const string GROUP_CONTEXT = ilOrgUnitOperationContext::CONTEXT_GRP;
+    public const string SURVEY_CONTEXT = ilOrgUnitOperationContext::CONTEXT_SVY;
+    public const string TEST_CONTEXT = ilOrgUnitOperationContext::CONTEXT_TST;
+    public const string EMPLOYEE_TALK_CONTEXT = ilOrgUnitOperationContext::CONTEXT_ETAL;
 
     protected static ?self $instance = null;
 
@@ -55,6 +55,10 @@ class ilMyStaffAccess extends ilObjectAccess
 
         if (self::$instance === null) {
             self::$instance = new self();
+
+            if (!self::isMyStaffActive()) {
+                return self::$instance;
+            }
 
             self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS . "_" . self::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION . "_"
                 . self::COURSE_CONTEXT);
@@ -75,11 +79,18 @@ class ilMyStaffAccess extends ilObjectAccess
     {
     }
 
+    public static function isMyStaffActive(): bool
+    {
+        global $DIC;
+
+        return (bool) $DIC->settings()->get('enable_my_staff');
+    }
+
     public function hasCurrentUserAccessToMyStaff(): bool
     {
         global $DIC;
 
-        if (!$DIC->settings()->get("enable_my_staff")) {
+        if (!self::isMyStaffActive()) {
             return false;
         }
 
@@ -110,7 +121,7 @@ class ilMyStaffAccess extends ilObjectAccess
     {
         global $DIC;
 
-        if (!$DIC->settings()->get("enable_my_staff")) {
+        if (!self::isMyStaffActive()) {
             return false;
         }
 
@@ -156,7 +167,7 @@ class ilMyStaffAccess extends ilObjectAccess
     {
         global $DIC;
 
-        if (!$DIC->settings()->get("enable_my_staff")) {
+        if (!self::isMyStaffActive()) {
             return false;
         }
 
@@ -197,7 +208,7 @@ class ilMyStaffAccess extends ilObjectAccess
     {
         global $DIC;
 
-        if (!$DIC->settings()->get("enable_my_staff")) {
+        if (!self::isMyStaffActive()) {
             return false;
         }
 
@@ -253,7 +264,7 @@ class ilMyStaffAccess extends ilObjectAccess
     {
         global $DIC;
 
-        if (!$DIC->settings()->get("enable_my_staff")) {
+        if (!self::isMyStaffActive()) {
             return false;
         }
 
@@ -279,7 +290,7 @@ class ilMyStaffAccess extends ilObjectAccess
     {
         global $DIC;
 
-        if (!$DIC->settings()->get("enable_my_staff")) {
+        if (!self::isMyStaffActive()) {
             return false;
         }
 

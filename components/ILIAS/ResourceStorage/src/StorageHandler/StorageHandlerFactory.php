@@ -22,7 +22,6 @@ namespace ILIAS\ResourceStorage\StorageHandler;
 
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Revision\Revision;
-use ILIAS\Data\Meta\Html\OpenGraph\Resource;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
@@ -36,16 +35,14 @@ class StorageHandlerFactory
      * @var StorageHandler[]
      */
     protected array $handlers = [];
-    protected ?\ILIAS\ResourceStorage\StorageHandler\StorageHandler $primary = null;
-    private string $base_dir;
+    protected ?StorageHandler $primary = null;
 
     /**
      * StorageHandlerFactory constructor.
      * @param StorageHandler[] $handlers
      */
-    public function __construct(array $handlers, string $base_dir)
+    public function __construct(array $handlers, private string $base_dir)
     {
-        $this->base_dir = $base_dir;
         foreach ($handlers as $handler) {
             $this->handlers[$handler->getID()] = $handler;
             if ($handler->isPrimary()) {
@@ -84,7 +81,7 @@ class StorageHandlerFactory
         throw new \LogicException("no StorageHandler for '$storage_id' available");
     }
 
-    public function getPrimary(): ?\ILIAS\ResourceStorage\StorageHandler\StorageHandler
+    public function getPrimary(): ?StorageHandler
     {
         return $this->primary;
     }

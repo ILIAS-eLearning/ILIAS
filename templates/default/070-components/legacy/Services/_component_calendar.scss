@@ -488,3 +488,14 @@ span.ilIcalIcon .btn {
 		padding-right: 4px;
 	}
 }
+
+// Hacky solution to make legacy recurrence inputs look okay, #42329
+
+.calrecurrenceinput.form-inline label {
+	padding-right: unset;
+	vertical-align: unset;
+}
+
+.calrecurrenceinput.form-inline .form-control {
+	vertical-align: middle;
+}

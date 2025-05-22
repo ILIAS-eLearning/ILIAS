@@ -69,12 +69,10 @@ class ChatMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withPosition(30)
                 ->withSymbol($icon)
                 ->withNonAvailableReason(
-                    $this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active'))
+                    $this->dic->ui()->factory()->legacy()->content($this->dic->language()->txt('component_not_active'))
                 )
                 ->withAvailableCallable(
-                    static function () use ($publicChatObjId): bool {
-                        return $publicChatObjId > 0;
-                    }
+                    static fn(): bool => $publicChatObjId > 0
                 )
                 ->withVisibilityCallable(
                     static function () use ($dic, $publicChatRefId): bool {

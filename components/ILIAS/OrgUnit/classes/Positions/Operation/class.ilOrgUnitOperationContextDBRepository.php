@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
 declare(strict_types=1);
 
 class ilOrgUnitOperationContextDBRepository implements OrgUnitOperationContextRepository
@@ -179,7 +180,7 @@ class ilOrgUnitOperationContextDBRepository implements OrgUnitOperationContextRe
     }
 
 
-    private function appendPath(ilOrgUnitOperationContext $operation_context, int $next = null): ilOrgUnitOperationContext
+    private function appendPath(ilOrgUnitOperationContext $operation_context, ?int $next = null): ilOrgUnitOperationContext
     {
         $parent_context_id = ($next >= 0) ? $next : $operation_context->getParentContextId();
         if ($parent_context_id > 0) {

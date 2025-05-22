@@ -45,7 +45,6 @@ use ILIAS\EmployeeTalk\Notification\NotificationType;
  */
 final class ilObjEmployeeTalkGUI extends ilObjectGUI
 {
-    protected HttpServices $http;
     protected Refinery $refinery;
     protected UIFactory $ui_factory;
     protected ilPropertyFormGUI $form;
@@ -60,7 +59,6 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $refId = $this->http->wrapper()->query()->retrieve(
             "ref_id",
@@ -149,6 +147,15 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
                     $this->object
                 );
                 $this->ctrl->forwardCommand($appointmentGUI);
+                break;
+            case strtolower(ilPropertyFormGUI::class):
+                /*
+                 * Only used for async loading of the repository tree in custom md
+                 * internal links (see #43636). This is necessary since EmployeeTalks don't
+                 * use ilObjectMetaDataGUI.
+                 */
+                $form = $this->getMetadataForm()->getFormGUI();
+                $this->ctrl->forwardCommand($form);
                 break;
             default:
                 parent::executeCommand();

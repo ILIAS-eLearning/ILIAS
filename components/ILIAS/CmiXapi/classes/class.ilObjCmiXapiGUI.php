@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+
 /**
  * Class ilObjCmiXapiGUI
  * @author       Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
@@ -56,9 +58,12 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     public const NEW_OBJ_TITLE = "";
 
     private ilCmiXapiAccess $cmixAccess;
+    private LOMServices $lom_services;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
+        global $DIC;
+
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
         if ($this->object instanceof ilObjCmiXapi) {
@@ -66,6 +71,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         }
 
         $this->lng->loadLanguageModule("cmix");
+        $this->lom_services = $DIC->learningObjectMetadata();
     }
 
     public function getType(): string
@@ -238,21 +244,9 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 
     public function initMetadata(ilObjCmiXapi $object): void
     {
-        $metadata = new ilMD($object->getId(), $object->getId(), $object->getType());
-
-        $generalMetadata = $metadata->getGeneral();
-
-        if (!$generalMetadata) {
-            $generalMetadata = $metadata->addGeneral();
-        }
-
-        $generalMetadata->setTitle($object->getTitle());
-        $generalMetadata->save();
-
-        $id = $generalMetadata->addIdentifier();
-        $id->setCatalog('ILIAS');
-        $id->setEntry('il__' . $object->getType() . '_' . $object->getId());
-        $id->save();
+        $this->lom_services->derive()
+                           ->fromBasicProperties($object->getTitle())
+                           ->forObject($object->getId(), $object->getId(), $object->getType());
     }
 
     protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null): ?ilObjectListGUI

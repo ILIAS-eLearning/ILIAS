@@ -84,7 +84,7 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
         }
         $stream = $consumer->getStream();
 
-        return dirname($stream->getMetadata('uri'));
+        return dirname((string) $stream->getMetadata('uri'));
     }
 
     public function sendFile(?int $a_hist_entry_id = null, bool $inline = true): void
@@ -140,17 +140,11 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
                 $v->setAction('draft');
             } else {
                 $version_number = $revision->getVersionNumber();
-                switch ($version_number) {
-                    case 1:
-                        $v->setAction('create');
-                        break;
-                    case $current_revision->getVersionNumber():
-                        $v->setAction('published_version');
-                        break;
-                    default:
-                        $v->setAction('intermediate_version');
-                        break;
-                }
+                match ($version_number) {
+                    1 => $v->setAction('create'),
+                    $current_revision->getVersionNumber() => $v->setAction('published_version'),
+                    default => $v->setAction('intermediate_version'),
+                };
             }
             $v->setTitle($revision->getTitle());
             $v->setDate($information->getCreationDate()->format(DATE_ATOM));
@@ -170,10 +164,14 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
 
     public function getVersion(bool $inclduing_drafts = false): int
     {
-        if ($inclduing_drafts) {
-            return $this->resource->getCurrentRevisionIncludingDraft()->getVersionNumber();
+        try {
+            if ($inclduing_drafts) {
+                return $this->resource->getCurrentRevisionIncludingDraft()->getVersionNumber();
+            }
+            return $this->resource->getCurrentRevision()->getVersionNumber();
+        } catch (Throwable) {
+            return 0;
         }
-        return $this->resource->getCurrentRevision()->getVersionNumber();
     }
 
     public function getMaxVersion(): int

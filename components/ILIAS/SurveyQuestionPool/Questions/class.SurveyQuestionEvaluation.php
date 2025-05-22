@@ -124,7 +124,7 @@ abstract class SurveyQuestionEvaluation
     protected function parseResults(
         ilSurveyEvaluationResults $a_results,
         array $a_answers,
-        SurveyCategories $a_categories = null
+        ?SurveyCategories $a_categories = null
     ): void {
         $num_users_answered = count($a_answers);
 
@@ -260,7 +260,7 @@ abstract class SurveyQuestionEvaluation
                     } elseif ($item[1]) {
                         $tmp = "\"" . nl2br($item[1]) . "\"";
                     }
-                    $parsed_results[$item[2]] = $tmp;
+                    $parsed_results[(int) $item[2]] = $tmp;
                 }
             }
         }

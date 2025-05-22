@@ -70,28 +70,7 @@
 		<div class="btn-group"><button class="btn btn-ctrl ilTableFilterActivator" id = "atfil_{FILA_ID}" onclick="return ilShowTableFilter('tfil_{FILA_ID}', '{SAVE_URLA}');">{TXT_ACTIVATE_FILTER}</button></div>
 	<!-- END filter_activation -->
 
-	{COLUMN_SELECTOR} {ROW_SELECTOR} {TEMPLATE_SELECTOR} {EXPORT_SELECTOR}
-
-	<!-- BEGIN template_editor -->
-	<div class="ilFloatRight">
-		<div id="{TEMPLATE_CREATE_ID}" class="ilOverlay" style="padding:10px; margin-top:27px;">
-			{TXT_TEMPLATE_CREATE}:<br />
-			<input type="text" id="{TEMPLATE_CREATE_ID}_name" name="tbltplcrt" style="width:150px" />
-			<input type="submit" class="btn btn-default" name="cmd[{TEMPLATE_CREATE_CMD}]" value="{TXT_TEMPLATE_CREATE_SUBMIT}" onclick="if (document.getElementById('{TEMPLATE_CREATE_ID}_name').value == '') { return false; }" />
-		</div>
-	</div>
-	<!-- END template_editor -->
-	<!-- BEGIN template_editor_delete -->
-	<div class="ilFloatRight">
-		<div id="{TEMPLATE_DELETE_ID}" class="ilOverlay" style="padding:10px; margin-top:27px;">
-			{TXT_TEMPLATE_DELETE}:<br />
-			<select name="tbltpldel" id="{TEMPLATE_DELETE_ID}_name" style="width:150px">
-			<!-- BEGIN template_editor_delete_item --><option value="{TEMPLATE_DELETE_OPTION_VALUE}">{TEMPLATE_DELETE_OPTION}</option><!-- END template_editor_delete_item -->
-			</select>
-			<input type="submit" class="btn btn-default" name="cmd[{TEMPLATE_DELETE_CMD}]" value="{TXT_TEMPLATE_DELETE_SUBMIT}" onclick="if (document.getElementById('{TEMPLATE_DELETE_ID}_name').value == '') { return false; }" />
-		</div>
-	</div>
-    <!-- END template_editor_delete -->
+	{COLUMN_SELECTOR} {ROW_SELECTOR} {EXPORT_SELECTOR}
 
 	</td>
 	</tr></table>

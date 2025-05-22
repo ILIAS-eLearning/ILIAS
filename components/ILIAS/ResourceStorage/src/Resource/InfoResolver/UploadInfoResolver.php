@@ -35,19 +35,17 @@ class UploadInfoResolver extends AbstractInfoResolver implements InfoResolver
     protected string $suffix;
     protected string $mime_type;
     protected \DateTimeImmutable $creation_date;
-    protected UploadResult $upload;
 
     public function __construct(
-        UploadResult $upload,
+        protected UploadResult $upload,
         int $next_version_number,
         int $revision_owner_id,
         string $revision_title
     ) {
-        $this->upload = $upload;
         parent::__construct($next_version_number, $revision_owner_id, $revision_title);
-        $this->file_name = $upload->getName();
+        $this->file_name = $this->upload->getName();
         $this->suffix = pathinfo($this->file_name, PATHINFO_EXTENSION);
-        $this->mime_type = $upload->getMimeType();
+        $this->mime_type = $this->upload->getMimeType();
         $this->creation_date = new \DateTimeImmutable();
     }
 

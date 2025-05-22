@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments;
 
+use Closure;
+
 interface Table
 {
     /**

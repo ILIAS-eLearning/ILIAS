@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer;
 
+use ILIAS\GlobalScreen\Services;
+use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\GlobalScreen\Client\Notifications as ClientNotifications;
 use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
@@ -35,7 +37,7 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
 {
     use isSupportedTrait;
 
-    private \ILIAS\GlobalScreen\Services $gs;
+    private Services $gs;
 
     private \ilLanguage $lng;
 
@@ -76,20 +78,18 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
      * center has been opened. This allows to take measures needed to be
      * handled, if the notifications in the center have been consulted.
      * @param Combined $center
-     * @return \ILIAS\UI\Component\JavaScriptBindable|Combined
+     * @return JavaScriptBindable|Combined
      */
-    protected function attachJSShowEvent(Combined $center): \ILIAS\UI\Component\MainControls\Slate\Combined
+    protected function attachJSShowEvent(Combined $center): Combined
     {
         $toggle_signal = $center->getToggleSignal();
         $url = ClientNotifications::NOTIFY_ENDPOINT . "?" . $this->buildShowQuery();
 
         $center = $center->withAdditionalOnLoadCode(
-            function ($id) use ($toggle_signal, $url) {
-                return "
+            fn($id): string => "
                 $(document).on('$toggle_signal', function(event, signalData) {
                     $.ajax({url: '$url'});
-                });";
-            }
+                });"
         );
 
         return $center;
@@ -99,15 +99,14 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
      * Attaches on load code for re-rendering the notification center. This allows to update the center with asynchronous
      * notifications.
      * @param Combined $center
-     * @return \ILIAS\UI\Component\JavaScriptBindable|Combined
+     * @return JavaScriptBindable|Combined
      */
-    protected function attachJSRerenderEvent(Combined $center): \ILIAS\UI\Component\MainControls\Slate\Combined
+    protected function attachJSRerenderEvent(Combined $center): Combined
     {
         $url = ClientNotifications::NOTIFY_ENDPOINT . "?" . $this->buildRerenderQuery();
 
         return $center->withAdditionalOnLoadCode(
-            function (string $id) use ($url): string {
-                return "document.addEventListener('rerenderNotificationCenter', () => {
+            fn(string $id): string => "document.addEventListener('rerenderNotificationCenter', () => {
                     let xhr = new XMLHttpRequest();
                     xhr.open('GET', '$url');
                     xhr.onload = () => {
@@ -123,8 +122,7 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
                         }
                     };
                     xhr.send();
-                });";
-            }
+                });"
         );
     }
 

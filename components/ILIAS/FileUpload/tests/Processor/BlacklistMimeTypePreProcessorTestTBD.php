@@ -1,6 +1,29 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\FileUpload\Processor;
+
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\BackupStaticProperties;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\Small;
 
 require_once('./vendor/composer/vendor/autoload.php');
 
@@ -14,19 +37,16 @@ use PHPUnit\Framework\TestCase;
  * Class BlacklistMimeTypePreProcessorTest
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- *
- * @runTestsInSeparateProcesses
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
  */
+#[BackupGlobals(false)]
+#[BackupStaticProperties(false)]
+#[PreserveGlobalState(false)]
+#[RunTestsInSeparateProcesses]
 class BlacklistMimeTypePreProcessorTest extends TestCase
 {
-    /**
-     * @Test
-     * @small
-     */
-    public function testProcessWithBlacklistedMimeTypeWhichShouldGetRejected()
+    #[Test]
+
+    public function testProcessWithBlacklistedMimeTypeWhichShouldGetRejected(): void
     {
         $blacklist = ['text/html', 'audio/ogg'];
         $subject = new BlacklistMimeTypePreProcessor($blacklist);
@@ -38,11 +58,9 @@ class BlacklistMimeTypePreProcessorTest extends TestCase
         $this->assertSame('The mime type ' . $metadata->getMimeType() . ' is blacklisted.', $result->getMessage());
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testProcessWithBlacklistedAnyKindOfTextMimeTypeWhichGetRejected()
+    #[Test]
+
+    public function testProcessWithBlacklistedAnyKindOfTextMimeTypeWhichGetRejected(): void
     {
         $blacklist = ['text/*', '*/ogg'];
         $subject = new BlacklistMimeTypePreProcessor($blacklist);
@@ -53,11 +71,9 @@ class BlacklistMimeTypePreProcessorTest extends TestCase
         $this->assertSame('The mime type ' . $metadata->getMimeType() . ' is blacklisted.', $result->getMessage());
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testProcessWithBlacklistedAnyKindOfOggMimeTypeWhichGetRejected()
+    #[Test]
+
+    public function testProcessWithBlacklistedAnyKindOfOggMimeTypeWhichGetRejected(): void
     {
         $blacklist = ['text/html', '*/ogg'];
         $subject = new BlacklistMimeTypePreProcessor($blacklist);
@@ -68,11 +84,9 @@ class BlacklistMimeTypePreProcessorTest extends TestCase
         $this->assertSame('The mime type ' . $metadata->getMimeType() . ' is blacklisted.', $result->getMessage());
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testCreateSubjectWithAnyKindOfMimeTypeWhichShouldFail()
+    #[Test]
+
+    public function testCreateSubjectWithAnyKindOfMimeTypeWhichShouldFail(): void
     {
         $blacklist = ['audio/ogg', '*/*'];
 

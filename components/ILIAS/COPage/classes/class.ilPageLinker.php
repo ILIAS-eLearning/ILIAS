@@ -31,7 +31,7 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
         string $cmd_gui_class,
         bool $offline = false,
         string $profile_back_url = "",
-        ilCtrl $ctrl = null
+        ?ilCtrl $ctrl = null
     ) {
         global $DIC;
 

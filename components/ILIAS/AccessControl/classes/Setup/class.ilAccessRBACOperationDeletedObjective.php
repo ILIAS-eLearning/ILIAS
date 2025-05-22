@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
@@ -44,7 +58,7 @@ class ilAccessRBACOperationDeletedObjective implements Setup\Objective
     {
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
 
-        $type_id = ilObject::_getObjectTypeIdByTitle($this->type);
+        $type_id = ilObject::_getObjectTypeIdByTitle($this->type, $db);
 
         $sql =
             "DELETE FROM rbac_ta" . PHP_EOL
@@ -57,7 +71,7 @@ class ilAccessRBACOperationDeletedObjective implements Setup\Objective
         $sql =
             "DELETE FROM rbac_templates" . PHP_EOL
             . "WHERE type = " . $db->quote($this->type, "text") . PHP_EOL
-            . "ops_id = " . $db->quote($this->ops_id, "integer") . PHP_EOL
+            . "AND ops_id = " . $db->quote($this->ops_id, "integer") . PHP_EOL
         ;
 
         $db->manipulate($sql);

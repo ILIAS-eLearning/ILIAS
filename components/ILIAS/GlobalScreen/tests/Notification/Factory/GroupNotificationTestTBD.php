@@ -104,9 +104,7 @@ class GroupNotificationTest extends BaseNotificationSetUp
 
     public function testWithOpenedCallable(): void
     {
-        $callable = function (): string {
-            return "something";
-        };
+        $callable = (fn(): string => "something");
         $standard_notification = $this->factory->standard($this->id);
         $this->assertEquals(function (): void {
         }, $standard_notification->getOpenedCallable());

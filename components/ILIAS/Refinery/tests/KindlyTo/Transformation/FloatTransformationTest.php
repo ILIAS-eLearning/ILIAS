@@ -23,6 +23,7 @@ namespace ILIAS\Tests\Refinery\KindlyTo\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\KindlyTo\Transformation\FloatTransformation;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class FloatTransformationTest extends TestCase
 {
@@ -33,23 +34,16 @@ class FloatTransformationTest extends TestCase
         $this->transformation = new FloatTransformation();
     }
 
-    /**
-     * @dataProvider FloatTestDataProvider
-     * @param mixed $originVal
-     * @param float $expectedVal
-     */
-    public function testFloatTransformation($originVal, float $expectedVal): void
+    #[DataProvider('FloatTestDataProvider')]
+    public function testFloatTransformation(mixed $originVal, float $expectedVal): void
     {
         $transformedValue = $this->transformation->transform($originVal);
         $this->assertIsFloat($transformedValue);
         $this->assertEquals($expectedVal, $transformedValue);
     }
 
-    /**
-     * @dataProvider FailingTransformationDataProvider
-     * @param mixed $failingVal
-     */
-    public function testFailingTransformations($failingVal): void
+    #[DataProvider('FailingTransformationDataProvider')]
+    public function testFailingTransformations(mixed $failingVal): void
     {
         $this->expectNotToPerformAssertions();
         try {

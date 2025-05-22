@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author Thomas Famula <famula@leifos.de>
@@ -30,7 +29,7 @@ class ilGlossaryAppEventListener implements ilAppEventListener
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         switch ($a_component) {
-            case "components/ILIAS/Object":
+            case "components/ILIAS/ILIASObject":
                 switch ($a_event) {
                     case "beforeDeletion":
                         $handler = new ilGlossaryObjDeletionHandler();

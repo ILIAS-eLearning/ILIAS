@@ -32,6 +32,7 @@ class ilBiblLibrary extends ActiveRecord implements ilBiblLibraryInterface
     }
 
 
+    #[\Override]
     public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;

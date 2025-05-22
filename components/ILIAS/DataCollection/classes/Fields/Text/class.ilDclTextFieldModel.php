@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 class ilDclTextFieldModel extends ilDclBaseFieldModel
@@ -53,70 +54,49 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
     /**
      * @throws ilDclInputException
      */
-    public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id = null): void
+    public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id): void
     {
-        $has_url_property = $this->getProperty(ilDclBaseFieldModel::PROP_URL);
-        if ($has_url_property) {
-            $values = [
+        if ($this->getProperty(ilDclBaseFieldModel::PROP_URL)) {
+            $value = [
                 'link' => $form->getInput("field_" . $this->getId()),
                 'title' => $form->getInput("field_" . $this->getId() . "_title"),
             ];
-            $this->checkValidityOfURLField($values, $record_id);
         } else {
-            parent::checkValidityFromForm($form, $record_id);
+            $value = $form->getInput('field_' . $this->getId());
         }
+        $this->checkValidity($value, $record_id);
     }
 
-    /**
-     * @param null|string|array $value
-     * @param null|int          $record_id
-     * @return bool
-     * @throws ilDclInputException
-     */
-    protected function checkValidityOfURLField($value, ?int $record_id): bool
+    public function checkValidity($value, ?int $record_id): bool
     {
-        //Don't check empty values
-        if (!$value['link']) {
-            return true;
-        }
-
-        // TODO: value should always be an array with url fields, can we remove the check & json_decode?
-        if (!is_array($value)) {
-            $value = ['link' => $value, 'title' => ''];
-        }
-
-        //check url/email
-        $link = (substr($value['link'], 0, 3) === 'www') ? 'https://' . $value['link'] : $value['link'];
-        if (!filter_var($link, FILTER_VALIDATE_URL) && !filter_var($link, FILTER_VALIDATE_EMAIL) && $link != '') {
-            throw new ilDclInputException(ilDclInputException::NOT_URL);
-        }
-
-        if ($this->isUnique()) {
-            $table = ilDclCache::getTableCache($this->getTableId());
-            foreach ($table->getRecords() as $record) {
-                if (($record->getId() !== $record_id) && !empty($record_id)) {
-                    $record_value = $record->getRecordFieldValue($this->getId());
-                    if (!empty($record_value['link']) && $record_value['link'] === $link) {
-                        throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
-                    }
-                }
+        $this->checkUnique($value, $record_id);
+        if (isset($value['link'])) {
+            $value = $value['link'];
+            $link = (substr($value, 0, 3) === 'www') ? 'https://' . $value : $value;
+            if (!filter_var($link, FILTER_VALIDATE_URL) && !filter_var($link, FILTER_VALIDATE_EMAIL) && $link != '') {
+                throw new ilDclInputException(ilDclInputException::NOT_URL);
             }
         }
+        $this->checkRegexAndLength($value);
+        return parent::checkValidity($value, $record_id);
+    }
 
-        return true;
+    protected function areEqual($value_1, $value_2): bool
+    {
+        return parent::areEqual($value_1['link'] ?? $value_1, $value_2['link'] ?? $value_2);
     }
 
     public function checkFieldCreationInput(ilPropertyFormGUI $form): bool
     {
-        $return = true;
-        // Additional check for text fields: The length property should be max 200 if the textarea option is not set
+        $return = $this->checkUniqueProp($form);
+
         if ((int) $form->getInput('prop_' . ilDclBaseFieldModel::PROP_LENGTH) > 200 && !$form->getInput('prop_' . ilDclBaseFieldModel::PROP_TEXTAREA)) {
             $inputObj = $form->getItemByPostVar('prop_' . ilDclBaseFieldModel::PROP_LENGTH);
             $inputObj->setAlert($this->lng->txt("form_msg_value_too_high"));
             $return = false;
         }
 
-        return $return;
+        return parent::checkFieldCreationInput($form) && $return;
     }
 
     /**
@@ -130,6 +110,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
             ilDclBaseFieldModel::PROP_URL,
             ilDclBaseFieldModel::PROP_TEXTAREA,
             ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT,
+            ilDclBaseFieldModel::PROP_UNIQUE,
         ];
     }
 

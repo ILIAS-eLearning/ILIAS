@@ -30,8 +30,6 @@ class ilObjTestXMLParserTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->addGlobal_ilComponentRepository();
-
         $this->testObj = new ilObjTestXMLParser();
     }
 
@@ -42,7 +40,7 @@ class ilObjTestXMLParserTest extends ilTestBaseTestCase
 
     public function testTestOBJ(): void
     {
-        $objTest_mock = $this->createMock(ilObjTest::class);
+        $objTest_mock = $this->getTestObjMock();
         $this->assertNull($this->testObj->getTestOBJ());
 
         $this->testObj->setTestOBJ($objTest_mock);

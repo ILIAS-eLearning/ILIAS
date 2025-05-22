@@ -23,7 +23,6 @@ namespace ILIAS\GlobalScreen\Scope\Layout;
 
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ModificationFactory;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
-use ILIAS\GlobalScreen\SingletonTrait;
 
 /**
  * Class LayoutServices
@@ -39,7 +38,13 @@ class LayoutServices
      */
     public function __construct(string $resource_version)
     {
-        $this->meta_content = new MetaContent($resource_version);
+        $this->meta_content = new MetaContent(
+            $resource_version,
+            false,
+            true,
+            true,
+            false
+        );
         $this->modification_factory = new ModificationFactory();
     }
 

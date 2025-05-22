@@ -79,14 +79,13 @@ export default class TableUIActionHandler {
     const client = this.client;
     let form_sent = false;
 
-    if (!this.tableUI.in_data_table) {
+    if (!this.tableUI.in_data_table && !this.tableUI.in_table) {
       return;
     }
     const params = action.getParams();
     if (action.getComponent() === "Paragraph") {
       this.tableUI.updateModelFromCell();
     }
-
     if (action.getComponent() === "Table") {
 
       switch (action.getType()) {
@@ -237,9 +236,13 @@ export default class TableUIActionHandler {
 
   sendTableModificationCommand(tablePcid, pcmodel, page_model, modification, nr, cellPcid, cnt) {
     const af = this.actionFactory;
+    let content = '';
+    if (this.tableUI.in_data_table) {
+      content = pcmodel.content;
+    }
     const update_action = af.table().command().modifyTable(
       tablePcid,
-      pcmodel.content,
+      content,
       modification,
       nr,
       cellPcid,

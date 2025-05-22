@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,14 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Repository;
 
 use ILIAS\Repository\Clipboard\ClipboardSessionRepository;
+use ILIAS\Repository\Deletion\TreeDBRepo;
 
-/**
- * Repository internal repo service
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalRepoService
 {
     protected InternalDataService $data;
@@ -37,17 +34,15 @@ class InternalRepoService
         $this->db = $db;
     }
 
-    /*
-    public function ...() : ...\RepoService
-    {
-        return new ...\RepoService(
-            $this->data,
-            $this->db
-        );
-    }*/
-
     public function clipboard(): ClipboardSessionRepository
     {
         return new ClipboardSessionRepository();
+    }
+
+    public function tree(): TreeDBRepo
+    {
+        return new TreeDBRepo(
+            $this->db
+        );
     }
 }

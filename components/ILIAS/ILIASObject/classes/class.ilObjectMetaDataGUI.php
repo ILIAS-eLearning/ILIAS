@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjectMetaDataGUI
@@ -70,9 +70,9 @@ class ilObjectMetaDataGUI
     private ilObjectRequestRetriever $retriever;
 
     public function __construct(
-        ilObject $object = null,
+        ?ilObject $object = null,
         $sub_type = null,
-        int $sub_id = null,
+        ?int $sub_id = null,
         bool $in_repository = true
     ) {
         global $DIC;
@@ -111,14 +111,12 @@ class ilObjectMetaDataGUI
                 }
             }
 
-            $md_obj = new ilMD($this->obj_id, (int) $this->sub_id, $this->getLOMType());
-
             if (!$this->in_workspace && $in_repository) {
                 // (parent) container taxonomies?
                 $this->tax_md_gui = new ilTaxMDGUI(
-                    $md_obj->getRBACId(),
-                    $md_obj->getObjId(),
-                    $md_obj->getObjType(),
+                    $this->obj_id,
+                    (int) $this->sub_id === 0 ? $this->obj_id : (int) $this->sub_id,
+                    $this->getLOMType(),
                     $this->ref_id
                 );
                 $tax_ids = $this->tax_md_gui->getSelectableTaxonomies();
@@ -296,16 +294,18 @@ class ilObjectMetaDataGUI
         return (
             ($this->obj_id || !$this->obj_type) &&
             in_array($type, [
+                'blog',
                 "crs",
                 'grp',
                 "file",
+                'dcl',
                 "glo",
-                "glo:term",
                 "svy",
                 "spl",
                 "tst",
                 "qpl",
                 ":mob",
+                'mcst',
                 "webr",
                 "htlm",
                 "lm",
@@ -319,6 +319,7 @@ class ilObjectMetaDataGUI
                 'exc',
                 'lti',
                 'cmix',
+                'mep',
                 'mep:mpg'
             ])
         );
@@ -368,7 +369,7 @@ class ilObjectMetaDataGUI
     /**
      * Get tab link if available
      */
-    public function getTab(string $base_class = null): ?string
+    public function getTab(?string $base_class = null): ?string
     {
         if (!$base_class) {
             $path = [];
@@ -478,7 +479,7 @@ class ilObjectMetaDataGUI
         return $form;
     }
 
-    protected function edit(ilPropertyFormGUI $a_form = null): void
+    protected function edit(?ilPropertyFormGUI $a_form = null): void
     {
         if (!$a_form) {
             $a_form = $this->initEditForm();

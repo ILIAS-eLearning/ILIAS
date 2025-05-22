@@ -18,15 +18,15 @@
 
 declare(strict_types=1);
 
+use ILIAS\Setup\Objective\DirectoryCreatedObjective;
+use ILIAS\Setup\Environment;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
-use ILIAS\Setup;
-use ILIAS\Setup\Objective;
 
 /**
  * Class ilStorageContainersExistingObjective
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
-class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObjective
+class ilStorageContainersExistingObjective extends DirectoryCreatedObjective
 {
     protected string $base_dir = StorageHandlerFactory::BASE_DIRECTORY;
 
@@ -37,16 +37,16 @@ class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObj
         'fsv2'
     ];
 
-    public function __construct(array $storage_handler_ids = null)
+    public function __construct(?array $storage_handler_ids = null)
     {
         parent::__construct(StorageHandlerFactory::BASE_DIRECTORY);
         $this->storage_handler_ids = $storage_handler_ids ?? $this->storage_handler_ids;
     }
 
-    protected function buildStorageBasePath(Setup\Environment $environment): string
+    protected function buildStorageBasePath(Environment $environment): string
     {
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
-        $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
+        $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
+        $client_id = $environment->getResource(Environment::RESOURCE_CLIENT_ID);
         return $ini->readVariable(
             'clients',
             'datadir'
@@ -56,7 +56,8 @@ class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObj
     /**
      * @return \ilFileSystemDirectoriesCreatedObjective[]|\ilIniFilesLoadedObjective[]
      */
-    public function getPreconditions(Setup\Environment $environment): array
+    #[\Override]
+    public function getPreconditions(Environment $environment): array
     {
         // case if it is a fresh ILIAS installation
         if ($environment->hasConfigFor("filesystem")) {
@@ -72,7 +73,8 @@ class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObj
         ];
     }
 
-    public function achieve(Setup\Environment $environment): Setup\Environment
+    #[\Override]
+    public function achieve(Environment $environment): Environment
     {
         $base_path = $this->buildStorageBasePath($environment);
         $this->path = $base_path;
@@ -88,7 +90,8 @@ class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObj
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment): bool
+    #[\Override]
+    public function isApplicable(Environment $environment): bool
     {
         $base_path = $this->buildStorageBasePath($environment);
         $this->path = $base_path;

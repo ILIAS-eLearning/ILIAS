@@ -81,7 +81,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
         switch ($permission) {
             case "read":
             case "visible":
-                if (!ilObjMediaCastAccess::_lookupOnline($obj_id) &&
+                if (self::_isOffline($obj_id) &&
                     (!$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id))) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;

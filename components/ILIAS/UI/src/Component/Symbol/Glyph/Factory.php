@@ -46,7 +46,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function settings(string $action = null): Glyph;
+    public function settings(?string $action = null): Glyph;
 
     /**
      * ---
@@ -74,7 +74,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function collapse(string $action = null): Glyph;
+    public function collapse(?string $action = null): Glyph;
 
     /**
      * ---
@@ -102,7 +102,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function expand(string $action = null): Glyph;
+    public function expand(?string $action = null): Glyph;
 
     /**
      * ---
@@ -138,7 +138,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function add(string $action = null): Glyph;
+    public function add(?string $action = null): Glyph;
 
     /**
      * ---
@@ -172,7 +172,7 @@ interface Factory
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function remove(string $action = null): Glyph;
+    public function remove(?string $action = null): Glyph;
 
     /**
      * ---
@@ -209,7 +209,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function up(string $action = null): Glyph;
+    public function up(?string $action = null): Glyph;
 
     /**
      * ---
@@ -246,7 +246,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function down(string $action = null): Glyph;
+    public function down(?string $action = null): Glyph;
 
     /**
      * ---
@@ -277,7 +277,7 @@ interface Factory
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function back(string $action = null): Glyph;
+    public function back(?string $action = null): Glyph;
 
     /**
      * ---
@@ -307,7 +307,7 @@ interface Factory
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function next(string $action = null): Glyph;
+    public function next(?string $action = null): Glyph;
 
     /**
      * ---
@@ -328,7 +328,7 @@ interface Factory
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function sortAscending(string $action = null): Glyph;
+    public function sortAscending(?string $action = null): Glyph;
 
     /**
      * ---
@@ -349,7 +349,7 @@ interface Factory
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function sortDescending(string $action = null): Glyph;
+    public function sortDescending(?string $action = null): Glyph;
 
     /**
      * ---
@@ -369,7 +369,7 @@ interface Factory
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function briefcase(string $action = null): Glyph;
+    public function briefcase(?string $action = null): Glyph;
 
     /**
      * ---
@@ -391,7 +391,7 @@ interface Factory
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function user(string $action = null): Glyph;
+    public function user(?string $action = null): Glyph;
 
     /**
      * ---
@@ -413,7 +413,7 @@ interface Factory
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function mail(string $action = null): Glyph;
+    public function mail(?string $action = null): Glyph;
 
     /**
      * ---
@@ -434,7 +434,7 @@ interface Factory
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function notification(string $action = null): Glyph;
+    public function notification(?string $action = null): Glyph;
 
     /**
      * ---
@@ -457,7 +457,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function tag(string $action = null): Glyph;
+    public function tag(?string $action = null): Glyph;
 
     /**
      * ---
@@ -480,7 +480,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function note(string $action = null): Glyph;
+    public function note(?string $action = null): Glyph;
 
     /**
      * ---
@@ -503,7 +503,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function comment(string $action = null): Glyph;
+    public function comment(?string $action = null): Glyph;
 
     /**
      * ---
@@ -529,7 +529,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function like(string $action = null): Glyph;
+    public function like(?string $action = null): Glyph;
 
     /**
      * ---
@@ -555,7 +555,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function love(string $action = null): Glyph;
+    public function love(?string $action = null): Glyph;
 
     /**
      * ---
@@ -581,7 +581,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function dislike(string $action = null): Glyph;
+    public function dislike(?string $action = null): Glyph;
 
     /**
      * ---
@@ -607,7 +607,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function laugh(string $action = null): Glyph;
+    public function laugh(?string $action = null): Glyph;
 
     /**
      * ---
@@ -633,7 +633,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function astounded(string $action = null): Glyph;
+    public function astounded(?string $action = null): Glyph;
 
     /**
      * ---
@@ -659,7 +659,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function sad(string $action = null): Glyph;
+    public function sad(?string $action = null): Glyph;
 
     /**
      * ---
@@ -685,8 +685,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function angry(string $action = null): Glyph;
-
+    public function angry(?string $action = null): Glyph;
 
     /**
      * ---
@@ -713,7 +712,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function eyeclosed(string $action = null): Glyph;
+    public function eyeclosed(?string $action = null): Glyph;
 
     /**
      * ---
@@ -740,7 +739,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function eyeopen(string $action = null): Glyph;
+    public function eyeopen(?string $action = null): Glyph;
 
     /**
      * ---
@@ -764,7 +763,7 @@ interface Factory
      * @param string|null $action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function attachment(string $action = null): Glyph;
+    public function attachment(?string $action = null): Glyph;
 
     /**
      * ---
@@ -798,7 +797,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function reset(string $action = null): Glyph;
+    public function reset(?string $action = null): Glyph;
 
     /**
      * ---
@@ -832,7 +831,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function apply(string $action = null): Glyph;
+    public function apply(?string $action = null): Glyph;
 
     /**
      * ---
@@ -857,7 +856,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function search(string $action = null): Glyph;
+    public function search(?string $action = null): Glyph;
 
     /**
      * ---
@@ -883,7 +882,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function help(string $action = null): Glyph;
+    public function help(?string $action = null): Glyph;
 
     /**
      * ---
@@ -906,7 +905,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function calendar(string $action = null): Glyph;
+    public function calendar(?string $action = null): Glyph;
 
     /**
      * ---
@@ -929,7 +928,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function time(string $action = null): Glyph;
+    public function time(?string $action = null): Glyph;
 
     /**
      * ---
@@ -950,7 +949,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function close(string $action = null): Glyph;
+    public function close(?string $action = null): Glyph;
 
     /**
      * ---
@@ -1008,7 +1007,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function more(string $action = null): Glyph;
+    public function more(?string $action = null): Glyph;
 
     /**
      * ---
@@ -1064,7 +1063,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function disclosure(string $action = null): Glyph;
+    public function disclosure(?string $action = null): Glyph;
 
     /**
      * ---
@@ -1125,7 +1124,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function login(string $action = null): Glyph;
+    public function login(?string $action = null): Glyph;
 
     /**
      * ---
@@ -1153,7 +1152,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function logout(string $action = null): Glyph;
+    public function logout(?string $action = null): Glyph;
 
     /**
      * ---
@@ -1179,7 +1178,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function bulletlist(string $action = null): Glyph;
+    public function bulletlist(?string $action = null): Glyph;
 
     /**
      * ---
@@ -1208,7 +1207,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function numberedlist(string $action = null): Glyph;
+    public function numberedlist(?string $action = null): Glyph;
 
     /**
      * ---
@@ -1235,7 +1234,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function listindent(string $action = null): Glyph;
+    public function listindent(?string $action = null): Glyph;
 
     /**
      * ---
@@ -1261,7 +1260,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function listoutdent(string $action = null): Glyph;
+    public function listoutdent(?string $action = null): Glyph;
 
     /**
      * ---
@@ -1286,7 +1285,7 @@ interface Factory
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function filter(string $action = null): Glyph;
+    public function filter(?string $action = null): Glyph;
 
     /**
      * ---
@@ -1319,7 +1318,7 @@ interface Factory
      * @param string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function collapseHorizontal(string $action = null): Glyph;
+    public function collapseHorizontal(?string $action = null): Glyph;
 
     /**
      * ---
@@ -1347,7 +1346,7 @@ interface Factory
      * @param string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function header(string $action = null): Glyph;
+    public function header(?string $action = null): Glyph;
 
     /**
      * ---
@@ -1375,7 +1374,7 @@ interface Factory
      * @param string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function italic(string $action = null): Glyph;
+    public function italic(?string $action = null): Glyph;
 
     /**
      * ---
@@ -1403,7 +1402,7 @@ interface Factory
      * @param string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function bold(string $action = null): Glyph;
+    public function bold(?string $action = null): Glyph;
 
     /**
      * ---
@@ -1432,8 +1431,7 @@ interface Factory
      * @param string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function link(string $action = null): Glyph;
-
+    public function link(?string $action = null): Glyph;
 
     /**
      * ---
@@ -1459,5 +1457,236 @@ interface Factory
      * @param   string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function launch(string $action = null): Glyph;
+    public function launch(?string $action = null): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Enlarge glyph indicates the possibility of enlarging the content to see more details or to improve the display.
+     *   composition: >
+     *      The Enlarge Glyph uses the glyphicon-enlarge.
+     *   effect: >
+     *      A click on the Enlarge glyph triggers an interaction that displays an enlarged version of the content just seen.
+     *      This can be a modal with an enlarged display of an image.
+     *   rivals:
+     *      Preview Glyph: >
+     *         The Preview Glyph shows a preview and therefore only a section of the content.
+     * context:
+     *    -  The Enlarge Glyph appears in close proximity to images and graphics.
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Enlarge'.
+     *   usage:
+     * ---
+     * @param   string|null $action
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function enlarge(?string $action = null): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The List View Glyph displays data stacked on top of each other in a list.
+     *      The glyph is suitable for views that are read from top to bottom and where the focus is on text.
+     *   composition: >
+     *      The List View Glyph uses the glyphicon-ListView.
+     *   effect: >
+     *      Clicking on the List View glyph displays the collection of data as a list.
+     *   rivals:
+     *      TileView Glyph: >
+     *         The Tile View Glyph will display data in a grid view.
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'List View'.
+     *   usage:
+     *       1: The List View Glyph SHOULD not come without a Tile View Glyph and vice versa.
+     * ---
+     * @param   string|null $action
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function listView(?string $action = null): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Preview Glyph indicates the possibility to display a preview or a short preview of a
+     *      content before the user performs a final action.
+     *   composition: >
+     *      The Preview Glyph uses the glyphicon-preview.
+     *   effect: >
+     *      When a user clicks on the "Preview" icon, a preview of the content is displayed without a permanent
+     *      change or a larger display. This can be a modal with several pages of a file preview.
+     *   rivals:
+     *      Enlarge Glyph: >
+     *         The Enlarge Glyph shows more details or improve the display of an information.
+     * context:
+     *    -  The Preview Glyph appears when previewing documents, files or thumbnails.
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Preview'.
+     * ---
+     * @param   string|null $action
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function preview(?string $action = null): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Sort Glyph indicates the possibility of changing the order of elements within a list, table or other structured data.
+     *   composition: >
+     *      The Sort Glyph uses the glyphicon-sort.
+     *   effect: >
+     *      When a user clicks on the "Sort" icon, all possible sorting options are displayed.
+     *      The elements will be reordered based on a specific criterion, such as alphabet, date or size.
+     *      The order of the elements is thus adjusted.
+     *
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Sort'.
+     *   usage:
+     *       1: The Sort Glyph SHOULD NOT be used to display the selected sort option.
+     * ---
+     * @param   string|null $action
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function sort(?string $action = null): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Column Selection Glyph shows the option of displaying or hiding columns in a table.
+     *   composition: >
+     *      The Column Selection Glyph uses the glyphicon-columnselection.
+     *   effect: >
+     *      If a user clicks on the Colum Selection symbol, an overview is displayed showing which columns are
+     *      already visible and which are hidden.
+     * context:
+     *    -  The Column Selection Glyph appears in tables.
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Column Selection'.
+     * ---
+     * @param   string|null $action
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function columnSelection(?string $action = null): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Tile View Glyph displays data in cells arrayed in vertical and horizontal layouts.
+     *      The glyph works well for collections that are read from side-to-side and where images are the main focus.
+     *   composition: >
+     *      The Tile View Glyph uses the glyphicon-TileView.
+     *   effect: >
+     *      When you click on the glyph, the displayed data is shown in a grid view.
+     *   rivals:
+     *      ListView Glyph: >
+     *         The List View Glyph will display data in a list view.
+     * context:
+     *    -  The Tile View Glyph appears in combination with other display variants, e.g. List View.
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Grid View'.
+     *   usage:
+     *       1: The Tile View Glyph SHOULD not come without a ListView Glyph and vice versa.
+     * ---
+     * @param   string|null $action
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function tileView(?string $action = null): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Drag Handle Glyph indicates that an element can be dragged by clicking or tapping, then holding and
+     *      moving the mouse or finger. When the hold is released, it's expected to drop the item at the nearest valid
+     *      position.
+     *      The glyph works best when there is a background or border indicating the dimension of the element that is
+     *      draggable.
+     *   composition: >
+     *      The cells of the Ordering Table use this glyph.
+     *   effect: >
+     *      When you click and hold on the glyph, the item it is on can be dragged and dropped.
+     *   rivals:
+     *      No glyph: >
+     *          In some instances the design and context of an element might already sufficiently indicate that it can
+     *          be dragged. However, if an element could be confused with a non-draggable counterpart or is draggable
+     *          only some of the time, you SHOULD use the glyph to indicate when it is draggable or otherwise change the
+     *          appearance to communicate the drag and drop functionality.
+     * context:
+     *    -  The Drag Glyph communicates the drag and drop feature on the Ordering Table cells.
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Draggable element'.
+     *   usage:
+     *       1: The Drag Glyph SHOULD be positioned near the corners of a draggable element.
+     * ---
+     * @param   string|null $action
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function dragHandle(?string $action = null): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Checked Glyph indicates a positive status (e.g. approved/complete/ok/yes/finished/passed)
+     *   composition: >
+     *      The Checked Glyph uses a checkmark.
+     * context:
+     *    - The Checked Glyph can be used in combination with the Unchecked Glyph to display binary states.
+     * rules:
+     *   accessibility:
+     *      1: >
+     *         The aria-label MUST be 'checked'.
+     *   style:
+     *      1: >
+     *         The Checked Glyph SHOULD display a checkmark in the geometric focus of a mono-colored symmetric shape
+     *   usage:
+     *      1: >
+     *         The Checked Glyph SHOULD be used to display a unary state or one option of a binary state.
+     * ---
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function checked(): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Unchecked Glyph indicates a negative status (e.g. disapproved/blocked/no/failed/rejected)
+     *   composition: >
+     *      The Unchecked Glyph uses a diagonal cross.
+     * context:
+     *    - The Unchecked Glyph can be used in combination with the Checked Glyph to display binary states.
+     * rules:
+     *   accessibility:
+     *      1: >
+     *         The aria-label MUST be 'unchecked'.
+     *   style:
+     *      1: >
+     *         The Unchecked Glyph SHOULD display a symmetric diagonal cross in the geometric focus of a mono-colored symmetric shape
+     *   usage:
+     *      1: >
+     *         The Unchecked Glyph SHOULD be used to display a unary state or one option of a binary state.
+     * ---
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function unchecked(): Glyph;
 }

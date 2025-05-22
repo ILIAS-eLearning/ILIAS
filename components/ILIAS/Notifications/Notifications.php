@@ -32,7 +32,7 @@ class Notifications implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilNotificationUpdateAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
@@ -40,7 +40,7 @@ class Notifications implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "notifications.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "browser_notifications.js");
+            new Component\Resource\ComponentJS($this, "js/dist/BrowserNotifications.min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentCSS($this, "osd.css");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>

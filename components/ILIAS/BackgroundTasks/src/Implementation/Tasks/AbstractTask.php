@@ -42,7 +42,7 @@ abstract class AbstractTask implements Task
      * @var Value[]
      */
     protected array $input = [];
-    protected \ILIAS\BackgroundTasks\Value $output;
+    protected Value $output;
 
     /**
      * @param Value[]|Task[] $values
@@ -53,7 +53,7 @@ abstract class AbstractTask implements Task
         $this->checkTypes($this->input);
     }
 
-    protected function checkTypes($values)
+    protected function checkTypes(array $values)
     {
         $expectedTypes = $this->getInputTypes();
 
@@ -99,7 +99,7 @@ abstract class AbstractTask implements Task
      * @param $values (Value|Task)[]
      * @return Value[]
      */
-    private function getValues($values): array
+    private function getValues(array $values): array
     {
         $inputs = [];
 
@@ -138,7 +138,7 @@ abstract class AbstractTask implements Task
     {
         $list = [$this];
         foreach ($this->getInput() as $input) {
-            if (is_a($input, ThunkValue::class)) {
+            if ($input instanceof ThunkValue) {
                 $list = array_merge($list, $input->getParentTask()->unfoldTask());
             }
         }

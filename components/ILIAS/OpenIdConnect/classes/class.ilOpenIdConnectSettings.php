@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-/**
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- */
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
 
@@ -44,10 +40,30 @@ class ilOpenIdConnectSettings
     public const VALIDATION_ISSUE_INVALID_SCOPE = 0;
     public const VALIDATION_ISSUE_DISCOVERY_ERROR = 1;
 
+    /** @var list<string> */
+    private const IGNORED_USER_FIELDS = [
+        'mail_incoming_mail',
+        'preferences',
+        'hide_own_online_status',
+        'show_users_online',
+        'roles',
+        'upload',
+        'password',
+        'username',
+        'language',
+        'skin_style',
+        'interests_general',
+        'interests_help_offered',
+        'interests_help_looking',
+        'bs_allow_to_contact_me',
+        'chat_osc_accept_msg',
+        'chat_broadcast_typing',
+    ];
+
     private static ?self $instance = null;
 
-    private ilSetting $storage;
-    private Filesystem $filesystem;
+    private readonly ilSetting $storage;
+    private readonly Filesystem $filesystem;
     private bool $active = false;
     private string $provider = '';
     private string $client_id = '';
@@ -59,8 +75,8 @@ class ilOpenIdConnectSettings
     private ?int $logout_scope = null;
     private bool $custom_session = false;
     private int $session_duration = 60;
-    private ?bool $allow_sync;
-    private ?int $role;
+    private ?bool $allow_sync = null;
+    private ?int $role = null;
     private string $uid = '';
     /** @var array<string, string> */
     private array $profile_map = [];
@@ -72,6 +88,8 @@ class ilOpenIdConnectSettings
     private array $additional_scopes = [];
     private int $validate_scopes = self::URL_VALIDATION_PROVIDER;
     private ?string $custom_discovery_url = null;
+    private ilLanguage $lng;
+    private ilUserDefinedFields $udf;
 
     private function __construct()
     {
@@ -79,6 +97,8 @@ class ilOpenIdConnectSettings
 
         $this->storage = new ilSetting(self::STORAGE_ID);
         $this->filesystem = $DIC->filesystem()->web();
+        $this->lng = $DIC->language();
+        $this->udf = ilUserDefinedFields::_getInstance();
         $this->load();
     }
 
@@ -155,7 +175,6 @@ class ilOpenIdConnectSettings
     {
         $this->login_element_text = $text;
     }
-
 
     public function getLoginElemenText(): string
     {
@@ -241,8 +260,7 @@ class ilOpenIdConnectSettings
     }
 
     /**
-     * @param string[] $additional_scopes
-     * @return void
+     * @param list<string> $additional_scopes
      */
     public function setAdditionalScopes(array $additional_scopes): void
     {
@@ -250,7 +268,7 @@ class ilOpenIdConnectSettings
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     public function getAllScopes(): array
     {
@@ -260,10 +278,6 @@ class ilOpenIdConnectSettings
         return $scopes;
     }
 
-    /**
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
-     */
     public function deleteImageFile(): void
     {
         if ($this->filesystem->has(self::FILE_STORAGE . '/' . $this->getLoginElementImage())) {
@@ -323,6 +337,10 @@ class ilOpenIdConnectSettings
         return false;
     }
 
+    /**
+     * @param list<string> $custom_scopes
+     * @return array{}|array{0: int, 1: list<string>}|array{0: int, 1: string}
+     */
     public function validateScopes(string $discoveryURL, array $custom_scopes): array
     {
         $result = [];
@@ -341,17 +359,57 @@ class ilOpenIdConnectSettings
                 $available_scopes = $decoded_response->scopes_supported;
                 array_unshift($custom_scopes, self::DEFAULT_SCOPE);
                 if (!empty(array_diff($custom_scopes, $available_scopes))) {
-                    $result = [self::VALIDATION_ISSUE_INVALID_SCOPE, array_diff($custom_scopes, $available_scopes)];
+                    $result = [
+                        self::VALIDATION_ISSUE_INVALID_SCOPE,
+                        array_diff($custom_scopes, $available_scopes)
+                    ];
                 }
             } else {
-                $result = [self::VALIDATION_ISSUE_DISCOVERY_ERROR, $response];
+                $result = [
+                    self::VALIDATION_ISSUE_DISCOVERY_ERROR,
+                    is_string($response) ? $response : var_export($response, true)
+                ];
             }
         } finally {
             if (isset($curl)) {
                 $curl->close();
             }
         }
+
         return $result;
+    }
+
+    public function getSupportedScopesFromUrl(string $discoveryURL): bool
+    {
+        try {
+            $curl = new ilCurlConnection($discoveryURL);
+            $curl->init();
+
+            $curl->setOpt(CURLOPT_HEADER, 0);
+            $curl->setOpt(CURLOPT_RETURNTRANSFER, true);
+            $curl->setOpt(CURLOPT_TIMEOUT, 4);
+
+            $response = $curl->exec();
+
+            if ($curl->getInfo(CURLINFO_RESPONSE_CODE) === 200) {
+                $decoded_response = json_decode($response, false, 512, JSON_THROW_ON_ERROR);
+
+                if (isset($decoded_response->scopes_supported) &&
+                    is_array($decoded_response->scopes_supported) &&
+                    $decoded_response->scopes_supported !== []) {
+                    $available_scopes = $decoded_response->scopes_supported;
+                    $this->setAdditionalScopes($available_scopes);
+
+                    return true;
+                }
+            }
+        } finally {
+            if (isset($curl)) {
+                $curl->close();
+            }
+        }
+
+        return false;
     }
 
     public function save(): void
@@ -372,7 +430,13 @@ class ilOpenIdConnectSettings
         $this->storage->set('role', (string) $this->getRole());
         $this->storage->set('uid', $this->getUidField());
 
-        foreach ($this->getProfileMappingFields() as $field => $lang_key) {
+        foreach ($this->getProfileMappingFields() as $field => $lng_key) {
+            $this->storage->set('pmap_' . $field, $this->getProfileMappingFieldValue($field));
+            $this->storage->set('pumap_' . $field, (string) ((int) $this->getProfileMappingFieldUpdate($field)));
+        }
+
+        foreach ($this->udf->getDefinitions() as $definition) {
+            $field = 'udf_' . $definition['field_id'];
             $this->storage->set('pmap_' . $field, $this->getProfileMappingFieldValue($field));
             $this->storage->set('pumap_' . $field, (string) ((int) $this->getProfileMappingFieldUpdate($field)));
         }
@@ -391,15 +455,22 @@ class ilOpenIdConnectSettings
             $this->profile_map[$field] = (string) $this->storage->get('pmap_' . $field, '');
             $this->profile_update_map[$field] = (bool) $this->storage->get('pumap_' . $field, '0');
         }
+        foreach ($this->udf->getDefinitions() as $definition) {
+            $field = 'udf_' . $definition['field_id'];
+            $this->profile_map[$field] = (string) $this->storage->get('pmap_' . $field, '');
+            $this->profile_update_map[$field] = (bool) $this->storage->get('pumap_' . $field, '0');
+        }
 
         $this->setActive((bool) $this->storage->get('active', '0'));
         $this->setProvider($this->storage->get('provider', ''));
         $this->setClientId($this->storage->get('client_id', ''));
         $this->setSecret($this->storage->get('secret', ''));
-        $this->setAdditionalScopes((array) unserialize(
-            $this->storage->get('scopes', serialize([])),
-            ['allowed_classes' => false]
-        ));
+        $this->setAdditionalScopes(
+            (array) unserialize(
+                $this->storage->get('scopes', serialize([])),
+                ['allowed_classes' => false]
+            )
+        );
         $this->setLoginElementImage($this->storage->get('le_img', ''));
         $this->setLoginElementText((string) $this->storage->get('le_text'));
         $this->setLoginElementType((int) $this->storage->get('le_type'));
@@ -410,10 +481,12 @@ class ilOpenIdConnectSettings
         $this->allowSync((bool) $this->storage->get('allow_sync', '0'));
         $this->setRole((int) $this->storage->get('role', '0'));
         $this->setUidField((string) $this->storage->get('uid', ''));
-        $this->setRoleMappings((array) unserialize(
-            $this->storage->get('role_mappings', serialize([])),
-            ['allowed_classes' => false]
-        ));
+        $this->setRoleMappings(
+            (array) unserialize(
+                $this->storage->get('role_mappings', serialize([])),
+                ['allowed_classes' => false]
+            )
+        );
         $this->setValidateScopes((int) $this->storage->get('validate_scopes', (string) self::URL_VALIDATION_PROVIDER));
         if (self::URL_VALIDATION_CUSTOM === $this->getValidateScopes()) {
             $this->setCustomDiscoveryUrl($this->storage->get('custom_discovery_url'));
@@ -423,6 +496,12 @@ class ilOpenIdConnectSettings
     public function getProfileMappingFieldValue(string $field): string
     {
         return (string) ($this->profile_map[$field] ?? '');
+    }
+
+    public function clearProfileMaps(): void
+    {
+        $this->profile_map = [];
+        $this->profile_update_map = [];
     }
 
     public function setProfileMappingFieldValue(string $field, string $value): void
@@ -459,16 +538,22 @@ class ilOpenIdConnectSettings
     {
         return $this->custom_discovery_url;
     }
+
     /**
      * @return array<string, string>
      */
     public function getProfileMappingFields(): array
     {
-        return [
-            'firstname' => 'firstname',
-            'lastname' => 'lastname',
-            'email' => 'email',
-            'birthday' => 'birthday'
-        ];
+        $mapping_fields = [];
+        $usr_profile = new ilUserProfile();
+
+        foreach ($usr_profile->getStandardFields() as $id => $definition) {
+            if (in_array($id, self::IGNORED_USER_FIELDS, true)) {
+                continue;
+            }
+            $mapping_fields[$id] = $this->lng->txt($id);
+        }
+
+        return $mapping_fields;
     }
 }

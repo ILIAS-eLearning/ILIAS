@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 /**
- * @ilCtrl_Calls ilAchievementsGUI: ilLearningProgressGUI, ilPersonalSkillsGUI, ilBadgeProfileGUI, ilLearningHistoryGUI
+ * @ilCtrl_Calls ilAchievementsGUI: ilPersonalSkillsGUI, ilBadgeProfileGUI, ilLearningHistoryGUI, ilLPPersonalGUI
  */
 class ilAchievementsGUI
 {
@@ -52,18 +52,21 @@ class ilAchievementsGUI
 
 
         switch ($next_class) {
-            case strtolower(ilLearningProgressGUI::class):
-                $main_tpl->setTitle($lng->txt('learning_progress'));
-                $main_tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_trac.svg'));
-                $new_gui = new ilLearningProgressGUI(ilLearningProgressBaseGUI::LP_CONTEXT_PERSONAL_DESKTOP, 0);
-                $ctrl->forwardCommand($new_gui);
-                break;
-
             case strtolower(ilLearningHistoryGUI::class):
                 $main_tpl->setTitle($lng->txt('lhist_learning_history'));
                 $main_tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_lhist.svg'));
                 $lhistgui = new ilLearningHistoryGUI();
                 $ctrl->forwardCommand($lhistgui);
+                $this->main_tpl->printToStdout();
+                break;
+
+            case strtolower(ilLPPersonalGUI::class):
+                $lng->loadLanguageModule("trac");
+                $main_tpl->setTitle($lng->txt("personal_learning_progress_view_title"));
+                $main_tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_trac.svg'));
+                $main_tpl->setDescription($lng->txt("personal_learning_progress_view_description"));
+                $plp_gui = new ilLPPersonalGUI();
+                $ctrl->forwardCommand($plp_gui);
                 $this->main_tpl->printToStdout();
                 break;
 

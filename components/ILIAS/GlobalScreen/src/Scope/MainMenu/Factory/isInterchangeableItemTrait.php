@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,9 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
+declare(strict_types=1);
 
-use ILIAS\GlobalScreen\Identification\NullIdentification;
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 /**
  * Interface isInterchangeableItem
@@ -33,7 +32,8 @@ trait isInterchangeableItemTrait
         $serialized_parent = $this->getParent()->serialize();
         if ($this instanceof isTopItem) {
             return $serialized_parent !== '';
-        } elseif ($this instanceof isChild) {
+        }
+        if ($this instanceof isChild) {
             return $serialized_parent === '';
         }
         return false;

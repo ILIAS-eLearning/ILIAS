@@ -32,7 +32,7 @@ class ilForumPostDraft
     private static array $drafts_settings_cache = [];
 
     public const NO_RCID = '-';
-    private ilDBInterface $db;
+    private readonly ilDBInterface $db;
     private int $draft_id = 0;
     private int $post_id = 0;
     private int $forum_id = 0;
@@ -63,7 +63,7 @@ class ilForumPostDraft
         }
     }
 
-    protected static function populateWithDatabaseRecord(ilForumPostDraft $draft, array $row): void
+    private static function populateWithDatabaseRecord(ilForumPostDraft $draft, array $row): void
     {
         $draft->setDraftId((int) $row['draft_id']);
         $draft->setForumId((int) $row['forum_id']);
@@ -79,7 +79,7 @@ class ilForumPostDraft
         $draft->setPostUserAlias((string) $row['post_user_alias']);
         $draft->setNotificationStatus((bool) $row['notify']);
         $draft->setPostNotificationStatus((bool) $row['post_notify']);
-        $draft->setRCID((string)($row['rcid']));
+        $draft->setRCID((string) ($row['rcid']));
     }
 
     public function getRCID(): string
@@ -261,10 +261,10 @@ class ilForumPostDraft
         ];
 
         while ($row = $ilDB->fetchAssoc($res)) {
-            $tmp_obj = new ilForumPostDraft();
-            self::populateWithDatabaseRecord($tmp_obj, $row);
-            self::$instances[$user_id][$row['thread_id']][$tmp_obj->getPostId()][] = $tmp_obj;
-            self::$instances[$user_id]['draft_ids'][$tmp_obj->getDraftId()] = $tmp_obj;
+            $draft = new ilForumPostDraft();
+            self::populateWithDatabaseRecord($draft, $row);
+            self::$instances[$user_id][$row['thread_id']][$draft->getPostId()][] = $draft;
+            self::$instances[$user_id]['draft_ids'][$draft->getDraftId()] = $draft;
         }
     }
 
@@ -314,7 +314,7 @@ class ilForumPostDraft
     }
 
     /**
-     * @return ilForumPostDraft[]
+     * @return array<int, ilForumPostDraft>
      */
     public static function getDraftInstancesByUserId(int $user_id): array
     {
@@ -427,10 +427,11 @@ class ilForumPostDraft
 
         foreach ($draft_ids as $draft_id) {
             self::deleteMobsOfDraft($draft_id);
-
-            $objFileDataForumDrafts = new ilFileDataForumDrafts(0, $draft_id);
-            $objFileDataForumDrafts->delete();
         }
+
+        $objFileDataForumDrafts = new ilFileDataForumDrafts();
+        $objFileDataForumDrafts->delete($draft_ids);
+
         $this->db->manipulate('DELETE FROM frm_drafts_history WHERE ' . $this->db->in(
             'draft_id',
             $draft_ids,
@@ -452,10 +453,11 @@ class ilForumPostDraft
     {
         foreach ($draft_ids as $draft_id) {
             self::deleteMobsOfDraft($draft_id);
-
-            $objFileDataForumDrafts = new ilFileDataForumDrafts(0, $draft_id);
-            $objFileDataForumDrafts->delete();
         }
+
+        $objFileDataForumDrafts = new ilFileDataForumDrafts();
+        $objFileDataForumDrafts->delete($draft_ids);
+
         $this->db->manipulate('DELETE FROM frm_drafts_history WHERE ' . $this->db->in(
             'draft_id',
             $draft_ids,
@@ -488,10 +490,10 @@ class ilForumPostDraft
 
         foreach ($draft_ids as $draft_id) {
             self::deleteMobsOfDraft($draft_id);
-
-            $objFileDataForumDrafts = new ilFileDataForumDrafts(0, $draft_id);
-            $objFileDataForumDrafts->delete();
         }
+
+        $objFileDataForumDrafts = new ilFileDataForumDrafts();
+        $objFileDataForumDrafts->delete($draft_ids);
 
         $ilDB->manipulate('DELETE FROM frm_drafts_history WHERE ' . $ilDB->in(
             'draft_id',

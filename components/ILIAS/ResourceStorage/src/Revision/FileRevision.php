@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Revision;
 
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Information\FileInformation;
 use ILIAS\ResourceStorage\Information\Information;
 
@@ -30,9 +31,9 @@ use ILIAS\ResourceStorage\Information\Information;
 class FileRevision extends BaseRevision implements Revision
 {
     protected bool $available = true;
-    protected \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
+    protected ResourceIdentification $identification;
     protected int $version_number = 0;
-    protected ?\ILIAS\ResourceStorage\Information\Information $information = null;
+    protected ?Information $information = null;
     protected int $owner_id = 0;
     protected string $title = '';
 

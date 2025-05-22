@@ -324,10 +324,10 @@ class ilIndividualAssessmentMembersGUI
     {
         $target = $this->ctrl->getLinkTargetByClass("ilIndividualAssessmentMembersGUI", "view");
         return $vc_factory->sortation(
-            $this->getSortOptions()
+            $this->getSortOptions(),
+            $this->getSortValue() ?? self::S_NAME_ASC
         )
-        ->withTargetURL($target, self::F_SORT)
-        ->withLabel($this->getSortOptions()[$this->getSortValue() ?? self::S_NAME_ASC]);
+        ->withTargetURL($target, self::F_SORT);
     }
 
     /**

@@ -88,19 +88,17 @@ abstract class ilAssQuestionFeedback
     public function getGenericFeedbackTestPresentation(int $question_id, bool $solution_completed): string
     {
         if ($this->page_obj_output_mode == "edit") {
-            return "";
+            return '';
         }
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-            $generic_feedback = $this->getPageObjectContent(
-                $this->getGenericFeedbackPageObjectType(),
-                $this->getGenericFeedbackPageObjectId($question_id, $solution_completed)
+            return $this->cleanupPageContent(
+                $this->getPageObjectContent(
+                    $this->getGenericFeedbackPageObjectType(),
+                    $this->getGenericFeedbackPageObjectId($question_id, $solution_completed)
+                )
             );
-
-            $generic_feedback_test_presentation_html = $this->cleanupPageContent($generic_feedback);
-        } else {
-            $generic_feedback_test_presentation_html = $this->getGenericFeedbackContent($question_id, $solution_completed);
         }
-        return $generic_feedback_test_presentation_html;
+        return $this->getGenericFeedbackContent($question_id, $solution_completed);
     }
 
     /**
@@ -156,7 +154,7 @@ abstract class ilAssQuestionFeedback
 
             $page_object_id = $this->getGenericFeedbackId($this->questionOBJ->getId(), true);
 
-            if($page_object_id === -1) {
+            if ($page_object_id === -1) {
                 $this->ctrl->setParameterByClass(ilAssQuestionFeedbackEditingGUI::class, 'feedback_type', $page_object_type);
                 $this->ctrl->setParameterByClass(ilAssQuestionFeedbackEditingGUI::class, 'fb_mode', 'complete');
                 $link = $this->ctrl->getLinkTargetByClass(ilAssQuestionFeedbackEditingGUI::class, 'createFeedbackPage');
@@ -255,10 +253,6 @@ abstract class ilAssQuestionFeedback
 
             if (!$this->questionOBJ->getPreventRteUsage()) {
                 $property->setUseRte(true);
-                $property->addPlugin("latex");
-                $property->addButton("latex");
-                $property->addButton("pastelatex");
-
                 $property->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
                 $property->setRTESupport($this->questionOBJ->getId(), "qpl", "assessment");
             } else {
@@ -336,7 +330,7 @@ abstract class ilAssQuestionFeedback
             $feedback_content = ilRTE::_replaceMediaObjectImageSrc($feedback_content, 0);
         }
 
-        if ($feedbackId != -1) {
+        if ($feedbackId !== -1) {
             $this->db->update(
                 $this->getGenericFeedbackTableName(),
                 [
@@ -370,6 +364,9 @@ abstract class ilAssQuestionFeedback
      */
     final public function deleteGenericFeedbacks(int $question_id, bool $isAdditionalContentEditingModePageObject): void
     {
+        if ($page_object_id === -1) {
+            return;
+        }
         if ($isAdditionalContentEditingModePageObject) {
             $this->ensurePageObjectDeleted(
                 $this->getGenericFeedbackPageObjectType(),
@@ -398,7 +395,7 @@ abstract class ilAssQuestionFeedback
     final public function duplicateFeedback(int $originalQuestionId, int $duplicateQuestionId): void
     {
         $this->duplicateGenericFeedback($originalQuestionId, $duplicateQuestionId);
-        $this->duplicateSpecificFeedback($originalQuestionId, $duplicateQuestionId);
+        $this->cloneSpecificFeedback($originalQuestionId, $duplicateQuestionId);
     }
 
     /**
@@ -426,7 +423,7 @@ abstract class ilAssQuestionFeedback
 
             if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
                 $page_object_type = $this->getGenericFeedbackPageObjectType();
-                $this->duplicatePageObject($page_object_type, $row['feedback_id'], $feedbackId, $duplicateQuestionId);
+                $this->clonePageObject($page_object_type, $row['feedback_id'], $feedbackId, $duplicateQuestionId);
             }
         }
     }
@@ -435,21 +432,21 @@ abstract class ilAssQuestionFeedback
      * duplicates the SPECIFIC feedback relating to the given original question id
      * and saves it for the given duplicate question id
      */
-    abstract protected function duplicateSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void;
+    abstract protected function cloneSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void;
 
     /**
      * syncs the feedback from a duplicated question back to the original question
      */
-    final public function syncFeedback(int $originalQuestionId, int $duplicateQuestionId): void
+    final public function cloneFeedback(int $originalQuestionId, int $duplicateQuestionId): void
     {
-        $this->syncGenericFeedback($originalQuestionId, $duplicateQuestionId);
-        $this->syncSpecificFeedback($originalQuestionId, $duplicateQuestionId);
+        $this->cloneGenericFeedback($originalQuestionId, $duplicateQuestionId);
+        $this->cloneSpecificFeedback($originalQuestionId, $duplicateQuestionId);
     }
 
     /**
      * syncs the GENERIC feedback from a duplicated question back to the original question
      */
-    private function syncGenericFeedback(int $originalQuestionId, int $duplicateQuestionId): void
+    private function cloneGenericFeedback(int $originalQuestionId, int $duplicateQuestionId): void
     {
         // delete generic feedback of the original question
         $this->db->manipulateF(
@@ -526,11 +523,6 @@ abstract class ilAssQuestionFeedback
 
         return false;
     }
-
-    /**
-     * syncs the SPECIFIC feedback from a duplicated question back to the original question
-     */
-    abstract protected function syncSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void;
 
     final protected function getGenericFeedbackTableName(): string
     {
@@ -636,16 +628,21 @@ abstract class ilAssQuestionFeedback
         $pageObject->createFromXML();
     }
 
-    final protected function duplicatePageObject(string $page_object_type, int $original_page_object_id, int $duplicate_page_object_id, int $duplicate_page_object_parent_id): void
-    {
-        $this->ensurePageObjectExists($page_object_type, $original_page_object_id);
+    final protected function clonePageObject(
+        string $page_object_type,
+        int $source_page_object_id,
+        int $target_page_object_id,
+        int $target_page_object_parent_id
+    ): void {
+        $this->ensurePageObjectExists($page_object_type, $source_page_object_id);
+        $this->ensurePageObjectExists($page_object_type, $target_page_object_id);
 
         $cl = $this->getClassNameByType($page_object_type);
 
-        $pageObject = new $cl($original_page_object_id);
-        $pageObject->setParentId($duplicate_page_object_parent_id);
-        $pageObject->setId($duplicate_page_object_id);
-        $pageObject->createFromXML();
+        $pageObject = new $cl($source_page_object_id);
+        $pageObject->setParentId($target_page_object_parent_id);
+        $pageObject->setId($target_page_object_id);
+        $pageObject->updateFromXML();
     }
 
     final protected function ensurePageObjectDeleted(string $page_object_type, int $page_object_id): void
@@ -731,7 +728,7 @@ abstract class ilAssQuestionFeedback
     public function importGenericFeedback(int $question_id, bool $solution_completed, string $feedback_content): void
     {
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-            $page_object_id = $this->getGenericFeedbackPageObjectId($question_id, $solution_completed);
+            $page_object_id = $this->saveGenericFeedbackContent($question_id, $solution_completed, '');
             $page_object_type = $this->getGenericFeedbackPageObjectType();
 
             $this->createPageObject($page_object_type, $page_object_id, $feedback_content);
@@ -760,7 +757,8 @@ abstract class ilAssQuestionFeedback
             $xpath = new DOMXPath($doc);
             $nodes_after_comments = $xpath->query('//comment()/following-sibling::*[1]');
             foreach ($nodes_after_comments as $node_after_comments) {
-                if (trim($node_after_comments->nodeValue) === '') {
+                if (trim($node_after_comments->nodeValue) === ''
+                    && $node_after_comments->childElementCount === 0) {
                     return '';
                 }
             }

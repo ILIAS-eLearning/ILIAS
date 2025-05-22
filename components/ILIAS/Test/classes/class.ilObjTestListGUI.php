@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Access\ParticipantAccess;
+use ILIAS\Test\TestDIC;
+use ILIAS\UI\Component\Card\RepositoryObject as RepositoryObjectCard;
 
 /**
  * Class ilObjTestListGUI
@@ -35,6 +37,7 @@ class ilObjTestListGUI extends ilObjectListGUI
 {
     protected $command_link_params = [];
     private ilTestAccess $test_access;
+    private ilObjTestAccess $obj_test_access;
 
     /**
     * initialisation
@@ -53,6 +56,7 @@ class ilObjTestListGUI extends ilObjectListGUI
 
         // general commands array
         $this->commands = ilObjTestAccess::_getCommands();
+        $this->obj_test_access = new ilObjTestAccess();
     }
 
     public function initItem(
@@ -63,42 +67,28 @@ class ilObjTestListGUI extends ilObjectListGUI
         string $description = ''
     ): void {
         try {
-            if (ilTestDIC::dic()['main_settings_repository']->getForObjFi($obj_id)
+            if (TestDIC::dic()['settings.main.repository']->getForObjFi($obj_id)
                 ->getAdditionalSettings()->getHideInfoTab()) {
                 $this->enableInfoScreen(false);
             }
         } catch (Exception $e) {
-
+            $this->disableTitleLink(true);
+            $this->enableInfoScreen(false);
+            $this->enableLearningProgress(false);
+            $this->enableLPSettingsCommand(false);
+            $this->enableTimings(false);
+            $this->enableLink(false);
+            $this->enableCut(false);
+            $this->enableCopy(false);
+            $this->enableComments(false);
+            $this->enableNotes(false);
+            $this->enableTags(false);
+            $this->enableSubscribe(false);
+            $this->enableMultiDownload(false);
         }
         $this->test_access = new ilTestAccess($ref_id);
         parent::initItem($ref_id, $obj_id, $type, $title, $description);
     }
-
-    /**
-    * Get command target frame
-    *
-    * @param	string		$cmd			command
-    *
-    * @return	string		command target frame
-    */
-    public function getCommandFrame(string $cmd): string
-    {
-        $frame = '';
-        switch ($cmd) {
-            case "":
-            case "infoScreen":
-            case "eval_a":
-            case "eval_stat":
-                $frame = ilFrameTargetInfo::_getFrame("MainContent");
-                break;
-
-            default:
-        }
-
-        return $frame;
-    }
-
-
 
     /**
     * Get item properties
@@ -117,12 +107,33 @@ class ilObjTestListGUI extends ilObjectListGUI
             $this->user->getId()
         );
 
-        if ($participant_access === ParticipantAccess::ALLOWED) {
+        if ($participant_access !== ParticipantAccess::ALLOWED) {
+            $props[] = ['alert' => true, 'property' => $this->lng->txt('status'),
+                'value' => $participant_access->getAccessForbiddenMessage($this->lng)];
             return $props;
         }
 
-        $props[] = ["alert" => true, "property" => $this->lng->txt("status"),
-            "value" => $this->lng->txt($participant_access->value)];
+        if ($this->obj_test_access->showCertificateFor($this->user->getId(), $this->obj_id)) {
+            $this->lng->loadLanguageModule('certificate');
+            $this->ctrl->setParameterByClass(ilTestEvaluationGUI::class, 'ref_id', $this->ref_id);
+            $props[] = [
+                'alert' => false,
+                'property' => $this->lng->txt('certificate'),
+                'value' => $this->ui->renderer()->render(
+                    $this->ui->factory()->link()->standard(
+                        $this->lng->txt('download_certificate'),
+                        $this->ctrl->getLinkTargetByClass(
+                            [
+                                ilObjTestGUI::class,
+                                ilTestEvaluationGUI::class
+                            ],
+                            'outCertificate'
+                        )
+                    )
+                )
+            ];
+            $this->ctrl->setParameterByClass(ilTestEvaluationGUI::class, 'ref_id', null);
+        }
 
         return $props;
     }
@@ -131,8 +142,8 @@ class ilObjTestListGUI extends ilObjectListGUI
     {
         $cmd = explode('::', $cmd);
 
-        if (count($cmd) == 2) {
-            $cmd_link = $this->ctrl->getLinkTargetByClass(['ilRepositoryGUI', 'ilObjTestGUI', $cmd[0]], $cmd[1]);
+        if (count($cmd) === 2) {
+            $cmd_link = $this->ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjTestGUI::class, $cmd[0]], $cmd[1]);
         } else {
             $cmd_link = $this->ctrl->getLinkTargetByClass('ilObjTestGUI', $cmd[0]);
         }
@@ -148,35 +159,14 @@ class ilObjTestListGUI extends ilObjectListGUI
 
     public function getCommands(): array
     {
+        if ($this->test_access->isParticipantAllowed($this->obj_id, $this->user->getId())
+            === ParticipantAccess::BROKEN_TEST) {
+            return [];
+        }
         $commands = parent::getCommands();
         if ($this->access->checkAccess('read', '', $this->ref_id)) {
-            $this->insertCommand($this->getCommandLink('testScreen'), $this->lng->txt('tst_start_test'));
+            $this->insertCommand($this->getCommandLink('ILIAS\Test\Presentation\TestScreenGUI::testScreen'), $this->lng->txt('tst_start_test'));
         }
-        return $this->handleUserResultsCommand($commands);
-    }
-
-    private function handleUserResultsCommand($commands)
-    {
-        if (!ilLOSettings::isObjectiveTest($this->ref_id)) {
-            return $this->removeUserResultsCommand($commands);
-        }
-
-        if (!ilObjTestAccess::visibleUserResultExists($this->obj_id, $this->user->getId())) {
-            return $this->removeUserResultsCommand($commands);
-        }
-
-        return $commands;
-    }
-
-    private function removeUserResultsCommand($commands)
-    {
-        foreach ($commands as $key => $command) {
-            if ($command['cmd'] == 'userResultsGateway') {
-                unset($commands[$key]);
-                break;
-            }
-        }
-
         return $commands;
     }
 
@@ -204,7 +194,22 @@ class ilObjTestListGUI extends ilObjectListGUI
         $this->command_link_params = $a_param;
     }
 
-    // begin-patch lok
+    public function getAsCard(
+        int $ref_id,
+        int $obj_id,
+        string $type,
+        string $title,
+        string $description
+    ): ?RepositoryObjectCard {
+        /** @var \ILIAS\UI\Component\Card\RepositoryObject $card */
+        $card = parent::getAsCard($ref_id, $obj_id, $type, $title, $description);
+        if ($this->obj_test_access->showCertificateFor($this->user->getId(), $obj_id)) {
+            $card = $card->withCertificateIcon(true);
+        }
+
+        return $card;
+    }
+
     protected function modifyTitleLink(string $default_link): string
     {
         if (!ilLOSettings::isObjectiveTest($this->ref_id)) {
@@ -220,14 +225,11 @@ class ilObjTestListGUI extends ilObjectListGUI
             }
         }
 
-        $this->ctrl->setParameterByClass("ilrepositorygui", 'ref_id', $parent_crs_ref_id);
-        $this->ctrl->setParameterByClass("ilrepositorygui", 'tid', $this->ref_id);
-        $cmd_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", 'redirectLocToTest');
-        $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
+        $this->ctrl->setParameterByClass(ilObjCourseGUI::class, 'ref_id', $parent_crs_ref_id);
+        $this->ctrl->setParameterByClass(ilObjCourseGUI::class, 'tid', $this->ref_id);
+        $cmd_link = $this->ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjCourseGUI::class], 'redirectLocToTest');
         $this->ctrl->clearParametersByClass('ilrepositorygui');
 
         return parent::modifyTitleLink($cmd_link);
     }
-
-    // end-patch lok
-} // END class.ilObjTestListGUI
+}

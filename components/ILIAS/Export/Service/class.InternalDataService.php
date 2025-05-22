@@ -20,13 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\Export;
 
-/**
- * Export internal data service
- * @author Alexander Killing <killing@leifos.de>
- */
+use ILIAS\Export\HTML;
+
 class InternalDataService
 {
+    protected static array $instance = [];
     public function __construct()
     {
+    }
+
+    public function html(): HTML\DataService
+    {
+        return self::$instance['html'] ??= new HTML\DataService();
     }
 }

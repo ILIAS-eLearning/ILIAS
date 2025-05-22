@@ -26,7 +26,7 @@ use ILIAS\components\ResourceStorage\Collections\View\Mode;
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
- * @ilCtrl_Calls ilExAssignmentEditorGUI: ilExAssignmentFileSystemGUI, ilExPeerReviewGUI, ilPropertyFormGUI
+ * @ilCtrl_Calls ilExAssignmentEditorGUI: ilExPeerReviewGUI, ilPropertyFormGUI
  * @ilCtrl_Calls ilExAssignmentEditorGUI: ilResourceCollectionGUI
  */
 class ilExAssignmentEditorGUI
@@ -66,7 +66,7 @@ class ilExAssignmentEditorGUI
     public function __construct(
         int $a_exercise_id,
         bool $a_enable_peer_review_completion_settings,
-        ilExAssignment $a_ass = null
+        ?ilExAssignment $a_ass = null
     ) {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
@@ -85,7 +85,7 @@ class ilExAssignmentEditorGUI
             ->gui();
         $this->enable_peer_review_completion = $a_enable_peer_review_completion_settings;
         $this->types = ilExAssignmentTypes::getInstance();
-        $this->type_guis = ilExAssignmentTypesGUI::getInstance();
+        $this->type_guis = $this->gui->assignment()->types();
         $request = $DIC->exercise()->internal()->gui()->request();
         $this->exc = $request->getExercise();
         $this->requested_ass_type = $request->getAssType();
@@ -139,20 +139,6 @@ class ilExAssignmentEditorGUI
                     );
                     $this->ctrl->forwardCommand($gui);
                 }
-                break;
-
-                // instruction files
-            case "ilexassignmentfilesystemgui":
-                $this->setAssignmentHeader();
-                $ilTabs->activateTab("ass_files");
-
-                $fstorage = new ilFSWebStorageExercise($this->exercise_id, $this->assignment->getId());
-                $fstorage->create();
-                $fs_gui = new ilExAssignmentFileSystemGUI($fstorage->getAbsolutePath());
-                $fs_gui->setTitle($lng->txt("exc_instruction_files"));
-                $fs_gui->setTableId("excassfil" . $this->assignment->getId());
-                $fs_gui->setAllowDirectories(false);
-                $ilCtrl->forwardCommand($fs_gui);
                 break;
 
             case "ilexpeerreviewgui":
@@ -505,10 +491,11 @@ class ilExAssignmentEditorGUI
         $form->addItem($rmd_grade);
 
         // relative deadline
-        $ti = new ilNumberInputGUI($lng->txt("exc_rem_time_after_start"), "relative_deadline");
+        $ti = new ilNumberInputGUI($lng->txt("exc_relative_date_period"), "relative_deadline");
         $ti->setSuffix($lng->txt("days"));
         $ti->setMaxLength(3);
         $ti->setSize(3);
+        $ti->setMinValue(1);
         $ti->setRequired(true);
         $op2->addSubItem($ti);
 
@@ -828,7 +815,6 @@ class ilExAssignmentEditorGUI
                 // files
                 if (isset($_FILES["files"])) {
                     // #15994 - we are keeping the upload files array structure
-                    // see ilFSStorageExercise::uploadAssignmentFiles()
                     $res["files"] = $_FILES["files"];
                 }
 
@@ -930,7 +916,6 @@ class ilExAssignmentEditorGUI
         } else {
             // remove global feedback file?
             if (!isset($a_input["fb"])) {
-                $a_ass->deleteGlobalFeedbackFile();
                 $a_ass->setFeedbackFile(null);
             }
 
@@ -1049,7 +1034,6 @@ class ilExAssignmentEditorGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-
         $ass_type_gui = $this->type_guis->getById($this->assignment->getType());
 
         $values = array();
@@ -1112,8 +1096,10 @@ class ilExAssignmentEditorGUI
 
         // global feedback
         if ($this->assignment->getFeedbackFile()) {
+            $sample_solution = $this->domain->assignment()->sampleSolution($this->assignment->getId());
             $a_form->getItemByPostVar("fb")->setChecked(true);
-            $a_form->getItemByPostVar("fb_file")->setValue(basename($this->assignment->getGlobalFeedbackFilePath()));
+
+            $a_form->getItemByPostVar("fb_file")->setValue($sample_solution->getFilename());
             $a_form->getItemByPostVar("fb_file")->setRequired(false); // #15467
             $a_form->getItemByPostVar("fb_file")->setInfo(
                 // #16400
@@ -1218,7 +1204,8 @@ class ilExAssignmentEditorGUI
             // if deadlines were changed
             if ($old_deadline != $new_deadline ||
                 $old_ext_deadline != $new_ext_deadline) {
-                $this->assignment->recalculateLateSubmissions();
+                $subm = $this->domain->submission($this->assignment->getId());
+                $subm->recalculateLateSubmissions();
             }
 
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
@@ -1266,11 +1253,10 @@ class ilExAssignmentEditorGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-
         $delete = false;
         foreach ($this->requested_ass_ids as $id) {
             $ass = new ilExAssignment(ilUtil::stripSlashes($id));
-            $ass->delete();
+            $ass->delete($this->exc);
             $delete = true;
         }
 
@@ -1500,7 +1486,7 @@ class ilExAssignmentEditorGUI
     /**
      * @throws ilDateTimeException
      */
-    public function editPeerReviewObject(ilPropertyFormGUI $a_form = null): void
+    public function editPeerReviewObject(?ilPropertyFormGUI $a_form = null): void
     {
         $ilTabs = $this->tabs;
         $tpl = $this->tpl;

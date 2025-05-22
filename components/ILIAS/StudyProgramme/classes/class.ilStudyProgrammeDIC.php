@@ -43,7 +43,7 @@ class ilStudyProgrammeDIC
                 ilOrgUnitGlobalSettings::getInstance(),
                 $DIC['ilObjDataCache'],
                 new ilOrgUnitPositionAccess($DIC['ilAccess']),
-                (int)$prg->getRefid()
+                (int) $prg->getRefid()
             );
         };
 
@@ -203,7 +203,8 @@ class ilStudyProgrammeDIC
                 $dic['model.Type.ilStudyProgrammeTypeRepository'],
                 $dic['ilStudyProgrammeCommonSettingsGUI'],
                 $DIC['ilTabs'],
-                $DIC->http()->wrapper()->query()
+                $DIC->http()->wrapper()->query(),
+                $DIC['learning_object_metadata']
             );
         $dic['PRGMessages'] = static fn($dic) =>
             new ilPRGMessagePrinter(
@@ -228,6 +229,8 @@ class ilStudyProgrammeDIC
                 $DIC->http()->wrapper(),
                 $DIC->refinery(),
                 $DIC['ui.factory'],
+                $DIC['ui.renderer'],
+                $DIC->http()->request(),
             );
         $dic['ilObjStudyProgrammeAutoMembershipsGUI'] = static fn($dic) =>
             new ilObjStudyProgrammeAutoMembershipsGUI(
@@ -244,22 +247,6 @@ class ilStudyProgrammeDIC
                 $DIC->http()->wrapper()->query(),
                 $DIC->refinery(),
                 $DIC['rbacreview']
-            );
-        $dic['ilObjStudyProgrammeTreeGUI'] = static fn($dic) =>
-            new ilObjStudyProgrammeTreeGUI(
-                $DIC['tpl'],
-                $DIC['ilCtrl'],
-                $DIC['ilAccess'],
-                $DIC['ilToolbar'],
-                $DIC['lng'],
-                $dic['Log'],
-                $DIC['ilias'],
-                $DIC['ilSetting'],
-                $DIC['tree'],
-                $DIC['rbacadmin'],
-                $DIC->http()->wrapper(),
-                $DIC->refinery(),
-                $DIC['ui.factory']
             );
         $dic['ilStudyProgrammeTypeGUI'] = static fn($dic): ilStudyProgrammeTypeGUI =>
             new ilStudyProgrammeTypeGUI(

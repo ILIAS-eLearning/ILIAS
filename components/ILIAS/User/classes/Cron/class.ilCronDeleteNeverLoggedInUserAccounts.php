@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,16 +16,20 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Refinery\ConstraintViolationException;
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+declare(strict_types=1);
 
-class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
+use ILIAS\Language\Language;
+use ILIAS\Refinery\ConstraintViolationException;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+
+class ilCronDeleteNeverLoggedInUserAccounts extends \ILIAS\Cron\CronJob
 {
     private const DEFAULT_CREATION_THRESHOLD = 365;
 
     private string $roleIdWhiteliste = '';
     private int $thresholdInDays = self::DEFAULT_CREATION_THRESHOLD;
-    private ilLanguage $lng;
+    private Language $lng;
     private ilSetting $settings;
     private ilRbacReview $rbacreview;
     private ilObjectDataCache $objectDataCache;
@@ -97,9 +99,9 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
         return $DIC->language()->txt('user_never_logged_in_info');
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
+        return JobScheduleType::DAILY;
     }
 
     public function getDefaultScheduleValue(): int
@@ -122,13 +124,13 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
         return true;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
         global $DIC;
 
-        $result = new ilCronJobResult();
+        $result = new JobResult();
 
-        $status = ilCronJobResult::STATUS_NO_ACTION;
+        $status = JobResult::STATUS_NO_ACTION;
         $message = 'No user deleted';
 
         $userIds = ilObjUser::getUserIdsNeverLoggedIn(
@@ -174,7 +176,7 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
         }
 
         if ($counter) {
-            $status = ilCronJobResult::STATUS_OK;
+            $status = JobResult::STATUS_OK;
             $message = sprintf('%s user(s) deleted', $counter);
         }
 

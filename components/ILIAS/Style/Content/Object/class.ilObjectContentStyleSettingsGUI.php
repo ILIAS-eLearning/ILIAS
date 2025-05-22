@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Style\Content\Object\ObjectManager;
 use ILIAS\Style\Content\Container\ContainerManager;
@@ -104,21 +104,8 @@ class ilObjectContentStyleSettingsGUI
     {
         $ilCtrl = $this->gui->ctrl();
         $lng = $this->domain->lng();
-        $tabs = $this->gui->tabs();
-        $settings = $this->domain->settings();
-        $mt = $this->gui->mainTemplate();
 
         $style_id = $this->current_style_id;
-        /*
-        if (ilObject::_lookupType($style_id) == "sty") {
-            $page_gui->setStyleId($style_id);
-        } else {
-            $style_id = 0;
-        }
-
-        $page_gui->setTabHook($this, "addPageTabs");
-        $ilCtrl->getHTML($page_gui);
-        $ilTabs->setTabActive("obj_sty");*/
 
         $lng->loadLanguageModule("style");
 
@@ -131,7 +118,11 @@ class ilObjectContentStyleSettingsGUI
         } else {
             $st_styles = $this->object_manager->getSelectableStyles();
 
-            $st_styles[0] = $lng->txt("default");
+            $default_title = "";
+            if ($this->object_manager->getGlobalDefaultTitle() !== "") {
+                $default_title = " (" . $this->object_manager->getGlobalDefaultTitle() . ")";
+            }
+            $st_styles[0] = $lng->txt("default") . $default_title;
             ksort($st_styles);
 
             // individual style

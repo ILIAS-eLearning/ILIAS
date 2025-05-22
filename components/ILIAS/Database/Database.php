@@ -20,7 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class Database implements Component\Component
+use ILIAS\Component\Component;
+use ILIAS\Setup\Agent;
+use ILIAS\Refinery\Factory;
+
+class Database implements Component
 {
     public function init(
         array | \ArrayAccess &$define,
@@ -32,9 +36,9 @@ class Database implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $contribute[Agent::class] = static fn(): \ilDatabaseSetupAgent =>
             new \ilDatabaseSetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
+                $pull[Factory::class]
             );
     }
 }

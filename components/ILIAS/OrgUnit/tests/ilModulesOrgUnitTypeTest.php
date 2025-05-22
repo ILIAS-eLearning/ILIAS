@@ -76,7 +76,7 @@ class ilModulesOrgUnitTypeTest extends TestCase
             ) {
             }
 
-            public function input(): ILIAS\UI\Component\Input\Factory
+            public function input(): Component\Input\Factory
             {
                 $signal_generator = new Component\SignalGenerator();
                 $data_factory = new \ILIAS\Data\Factory();
@@ -90,7 +90,8 @@ class ilModulesOrgUnitTypeTest extends TestCase
                 );
 
                 $form_factory = new Component\Input\Container\Form\Factory(
-                    $field_factory
+                    $field_factory,
+                    $signal_generator
                 );
                 $container_factory = new Component\Input\Container\Factory(
                     $form_factory,

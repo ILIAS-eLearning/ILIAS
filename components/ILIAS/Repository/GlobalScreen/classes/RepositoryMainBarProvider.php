@@ -35,7 +35,7 @@ use ILIAS\DI\Container;
 use ILIAS\Repository\StandardGUIRequest;
 use ilStr;
 use ilPDSelectedItemsBlockViewSettings;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Content;
 use ilFavouritesListGUI;
 
 /**
@@ -96,8 +96,8 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         $entries[]
             = $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
             ->withVisibilityCallable($access_helper->isRepositoryVisible())
-            ->withContentWrapper(function () use ($ref_id): Legacy {
-                return $this->dic->ui()->factory()->legacy($this->renderRepoTree($ref_id));
+            ->withContentWrapper(function () use ($ref_id): Content {
+                return $this->dic->ui()->factory()->legacy()->content($this->renderRepoTree($ref_id));
             })
             ->withSupportsAsynchronousLoading($asynch)
             ->withTitle($title)
@@ -116,8 +116,8 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withPosition(30)
             ->withSymbol($icon)
             ->withParent($top)
-            ->withContentWrapper(function () use ($p): Legacy {
-                return $this->dic->ui()->factory()->legacy($p->renderLastVisited());
+            ->withContentWrapper(function () use ($p): Content {
+                return $this->dic->ui()->factory()->legacy()->content($p->renderLastVisited());
             });
 
         $title = $this->dic->language()->txt("mm_favorites");
@@ -129,7 +129,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                                     ->withSymbol($icon)
                                     ->withContentWrapper(
                                         static fn(): Legacy =>
-                                            $f->legacy((new ilFavouritesListGUI())->render())
+                                            $f->legacy()->content((new ilFavouritesListGUI())->render())
                                     )
                                     ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
                                     ->withPosition(10)

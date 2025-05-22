@@ -25,6 +25,20 @@ class ilExAssTypeUploadGUI implements ilExAssignmentTypeGUIInterface
 {
     use ilExAssignmentTypeGUIBase;
 
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+
+    public function __construct(
+        protected \ILIAS\Exercise\InternalDomainService $domain,
+        protected \ILIAS\Exercise\InternalGUIService $gui
+    ) {
+        $this->lng = $domain->lng();
+        $this->ctrl = $gui->ctrl();
+        $this->ui = $gui->ui();
+    }
+
+
     /**
      * @inheritdoc
      */
@@ -56,16 +70,15 @@ class ilExAssTypeUploadGUI implements ilExAssignmentTypeGUIInterface
 
     public function buildSubmissionPropertiesAndActions(\ILIAS\Exercise\Assignment\PropertyAndActionBuilderUI $builder): void
     {
-        global $DIC;
-
-        $lng = $DIC->language();
-        $ctrl = $DIC->ctrl();
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
         $submission = $this->getSubmission();
-        $f = $DIC->ui()->factory();
+        $f = $this->ui->factory();
+        $subm = $this->domain->submission($this->ass_id);
 
         $titles = array();
-        foreach ($submission->getFiles() as $file) {
-            $titles[] = htmlentities($file["filetitle"]);
+        foreach ($subm->getSubmissionsOfUser($this->user_id) as $s) {
+            $titles[] = htmlentities($s->getTitle());
         }
         $files_str = implode("<br>", $titles);
         if ($files_str == "") {

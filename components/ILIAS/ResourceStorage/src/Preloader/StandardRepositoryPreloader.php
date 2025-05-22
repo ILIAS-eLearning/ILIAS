@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Preloader;
 
+use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
+use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
+use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
+use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Repositories;
 use ILIAS\ResourceStorage\Resource\Repository\FlavourRepository;
 
@@ -29,10 +33,10 @@ use ILIAS\ResourceStorage\Resource\Repository\FlavourRepository;
  */
 class StandardRepositoryPreloader implements RepositoryPreloader
 {
-    protected \ILIAS\ResourceStorage\Resource\Repository\ResourceRepository $resource_repository;
-    protected \ILIAS\ResourceStorage\Revision\Repository\RevisionRepository $revision_repository;
-    protected \ILIAS\ResourceStorage\Information\Repository\InformationRepository $information_repository;
-    protected \ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository $stakeholder_repository;
+    protected ResourceRepository $resource_repository;
+    protected RevisionRepository $revision_repository;
+    protected InformationRepository $information_repository;
+    protected StakeholderRepository $stakeholder_repository;
     protected FlavourRepository $flavour_repository;
 
     public function __construct(Repositories $repositories)

@@ -18,23 +18,8 @@
 
 declare(strict_types=1);
 
-class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
+class ilDclMobFieldRepresentation extends ilDclFileFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilFileInputGUI
-    {
-        $input = new ilFileInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-        $input->setSuffixes(ilDclMobFieldModel::$mob_suffixes);
-        $input->setAllowDeletion(true);
-
-        $this->requiredWorkaroundForInputField($input, $record_id);
-
-        return $input;
-    }
-
-    /**
-     * @return array|string|null
-     * @throws Exception
-     */
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
         $input = $table->addFilterItemByMetaType(
@@ -50,9 +35,6 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
         return $this->getFilterInputFieldValue($input);
     }
 
-    /**
-     * @param string $filter
-     */
     public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
@@ -70,19 +52,21 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
     {
         $opt = new ilRadioOption(
             $this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()),
-            (string)$this->getField()->getDatatypeId()
+            (string) $this->getField()->getDatatypeId()
         );
         $opt->setInfo($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle() . '_desc'));
 
-        $opt->setInfo(sprintf($opt->getInfo(), implode(", ", ilDclMobFieldModel::$mob_suffixes)));
+        $opt->setInfo(sprintf($opt->getInfo(), implode(", ", $this->getField()->getSupportedExtensions())));
 
         $prop_width = new ilNumberInputGUI($this->lng->txt('dcl_width'), 'prop_' . ilDclBaseFieldModel::PROP_WIDTH);
+        $prop_width->setInfo($this->lng->txt('dcl_width_desc'));
         $prop_width->setSize(5);
         $prop_width->setMaxValue(4000);
 
         $opt->addSubItem($prop_width);
 
         $prop_height = new ilNumberInputGUI($this->lng->txt('dcl_height'), 'prop_' . ilDclBaseFieldModel::PROP_HEIGHT);
+        $prop_height->setInfo($this->lng->txt('dcl_height_desc'));
         $prop_height->setSize(5);
         $prop_height->setMaxValue(4000);
 
@@ -92,6 +76,8 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
             $this->lng->txt('dcl_link_detail_page'),
             'prop_' . ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_MOB
         );
+        $prop_page_details->setInfo($this->lng->txt('dcl_link_detail_page_desc'));
+
         $opt->addSubItem($prop_page_details);
 
         return $opt;

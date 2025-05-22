@@ -202,7 +202,7 @@ class ilExcCriteriaGUI
         return $form;
     }
 
-    protected function add(ilPropertyFormGUI $a_form = null): void
+    protected function add(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -295,7 +295,7 @@ class ilExcCriteriaGUI
         return null;
     }
 
-    protected function edit(ilPropertyFormGUI $a_form = null): void
+    protected function edit(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 

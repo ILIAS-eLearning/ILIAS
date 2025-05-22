@@ -57,7 +57,7 @@ class MyChangeListener extends UserFieldAttributesChangeListener
 
     public function getComponentName() : string
     {
-        return 'Services/MyComponent';
+        return 'components/ILIAS/MyComponent';
     }
 }
 ```
@@ -69,7 +69,7 @@ After confirming the change and the
 consequences provided by the consumers, the event system of ILIAS will be used
 to emit a system event:
 
-* Component: `Services/User`
+* Component: `ILIAS/User`
 * Event: `onUserFieldAttributesChanged`
 * Parameters:
   * `array<string, ChangedUserFieldAttribute>`

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\ContainerReference\StandardGUIRequest;
 
@@ -134,7 +134,6 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-
     public function saveObject(): void
     {
         $ilAccess = $this->access;
@@ -154,7 +153,39 @@ class ilContainerReferenceGUI extends ilObjectGUI
             return;
         }
 
-        parent::saveObject();
+        if (!$this->checkPermissionBool("create", "", $this->requested_new_type)) {
+            $this->error->raiseError($this->lng->txt("no_create_permission"), $this->error->MESSAGE);
+        }
+
+        $this->lng->loadLanguageModule($this->requested_new_type);
+        $this->ctrl->setParameter($this, "new_type", $this->requested_new_type);
+
+        $form = $this->initCreateForm($this->requested_new_type);
+        if ($form->checkInput()) {
+            $this->ctrl->setParameter($this, "new_type", "");
+
+            $class_name = "ilObj" . $this->obj_definition->getClassName($this->requested_new_type);
+            $newObj = new $class_name();
+            $newObj->setType($this->requested_new_type);
+            $newObj->setTitle($form->getInput("title"));
+            $newObj->setDescription($form->getInput("desc"));
+            $newObj->processAutoRating();
+            $newObj->create();
+
+            $this->putObjectInTree($newObj);
+
+            if ($this->form->getInput('didactic_template')) {
+                $dtpl = $this->getDidacticTemplateVar("dtpl");
+                // Object calls initCreateForm again in getDidacticTemplateVar
+                $this->form->checkInput();
+                $newObj->applyDidacticTemplate($dtpl);
+            }
+
+            $this->afterSave($newObj);
+        }
+
+        $form->setValuesByPost();
+        $this->tpl->setContent($form->getHTML());
     }
 
     protected function initCreateForm(string $new_type): ilPropertyFormGUI
@@ -192,7 +223,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $this->editObject();
     }
 
-    public function editObject(ilPropertyFormGUI $form = null): void
+    public function editObject(?ilPropertyFormGUI $form = null): void
     {
         global $DIC;
 
@@ -264,7 +295,6 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $form->addItem($ttype);
 
         $repo = new ilRepositorySelector2InputGUI($this->lng->txt("objref_edit_ref"), "target_id");
-        //$repo->setParent($this);
         $repo->setRequired(true);
         $repo->getExplorerGUI()->setSelectableTypes([$this->getTargetType()]);
         $repo->getExplorerGUI()->setTypeWhiteList(
@@ -273,6 +303,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
                 ["root", "cat", "grp", "fold", "crs"]
             )
         );
+        $repo->getExplorerGUI()->setClickablePermission('visible');
         $repo->setInfo($this->lng->txt($this->getReferenceType() . '_edit_info'));
 
         if ($a_mode === self::MODE_EDIT) {

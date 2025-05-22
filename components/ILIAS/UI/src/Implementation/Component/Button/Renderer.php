@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -26,6 +26,9 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -34,8 +37,6 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Button\Close) {
             return $this->renderClose($component);
         } elseif ($component instanceof Component\Button\Minimize) {
@@ -44,12 +45,10 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderToggle($component);
         } elseif ($component instanceof Component\Button\Month) {
             return $this->renderMonth($component);
-        } else {
-            /**
-             * @var $component Component\Button\Button
-             */
+        } elseif ($component instanceof Component\Button\Button) {
             return $this->renderButton($component, $default_renderer);
         }
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer): string
@@ -82,10 +81,15 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $label = $component->getLabel();
-        if ($label !== null) {
-            $tpl->setVariable("LABEL", $component->getLabel());
+        $tpl->setVariable("LABEL", $component->getLabel());
+        $symbol = $component->getSymbol();
+        if ($symbol !== null) {
+            if ($component->getLabel() !== '') {
+                $symbol = $symbol->withLabel('');
+            }
+            $tpl->setVariable("SYMBOL", $default_renderer->render($symbol));
         }
+
         if ($component->isActive()) {
             // The actions might also be a list of signals, these will be appended by
             // bindJavascript in maybeRenderId.
@@ -94,9 +98,9 @@ class Renderer extends AbstractComponentRenderer
                     $action = str_replace("&amp;", "&", $action);
 
                     return "$('#$id').on('click', function(event) {
-							window.location = '$action';
-							return false;
-					});";
+                            window.location = '$action';
+                            return false;
+                    });";
                 });
             }
 
@@ -166,7 +170,6 @@ class Renderer extends AbstractComponentRenderer
         parent::registerResources($registry);
         $registry->register('assets/js/button.js');
         $registry->register("./assets/js/moment-with-locales.min.js");
-        $registry->register("./assets/js/bootstrap-datetimepicker.min.js");
     }
 
     protected function renderClose(Component\Button\Close $component): string
@@ -221,10 +224,13 @@ class Renderer extends AbstractComponentRenderer
         }
 
         if ($component->isActive()) {
-            $component = $component->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
-						il.UI.button.handleToggleClick(event, '$id', '$on_url', '$off_url', $signals);
-						return false; // stop event propagation
-				});");
+            $component = $component->withAdditionalOnLoadCode(
+                fn($id) =>
+                "$('#$id').on('click', function(event) {
+                    il.UI.button.handleToggleClick(event, '$id', '$on_url', '$off_url', $signals);
+                    return false; // stop event propagation
+                });"
+            );
             $tpl->setCurrentBlock("with_on_off_label");
             $tpl->setVariable("ON_LABEL", $this->txt("toggle_on"));
             $tpl->setVariable("OFF_LABEL", $this->txt("toggle_off"));
@@ -277,31 +283,15 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderMonth(Component\Button\Month $component): string
     {
-        $def = $component->getDefault();
-
-        for ($i = 1; $i <= 12; $i++) {
-            $this->toJS(array("month_" . str_pad((string) $i, 2, "0", STR_PAD_LEFT) . "_short"));
-        }
-
         $tpl = $this->getTemplate("tpl.month.html", true, true);
-
-        $month = explode("-", $def);
-        $tpl->setVariable("DEFAULT_LABEL", $this->txt("month_" . str_pad($month[0], 2, "0", STR_PAD_LEFT) . "_short") . " " . $month[1]);
-        $tpl->setVariable("DEF_DATE", $month[0] . "/1/" . $month[1]);
-        // see https://github.com/moment/moment/tree/develop/locale
-        $lang_key = in_array($this->getLangKey(), array("ar", "bg", "cs", "da", "de", "el", "en", "es", "et", "fa", "fr", "hu", "it",
-            "ja", "ka", "lt", "nl", "pl", "pt", "ro", "ru", "sk", "sq", "sr", "tr", "uk", "vi", "zh"))
-            ? $this->getLangKey()
-            : "en";
-        if ($lang_key == "zh") {
-            $lang_key = "zh-cn";
-        }
-        $tpl->setVariable("LANG", $lang_key);
 
         $component = $component->withAdditionalOnLoadCode(fn($id) => "il.UI.button.initMonth('$id');");
         $id = $this->bindJavaScript($component);
-
         $tpl->setVariable("ID", $id);
+
+        $def = $component->getDefault();
+        $value = implode('-', array_reverse(explode("-", $def)));
+        $tpl->setVariable("DEFAULT", $value);
 
         return $tpl->get();
     }
@@ -330,13 +320,6 @@ class Renderer extends AbstractComponentRenderer
         RendererInterface $default_renderer,
         Template $tpl
     ): void {
-        $renderer = $default_renderer->withAdditionalContext($component);
-        $tpl->setVariable("ICON_OR_GLYPH", $renderer->render($component->getIconOrGlyph()));
-        $label = $component->getLabel();
-        if ($label !== null) {
-            $tpl->setVariable("LABEL", $label);
-        }
-
         $aria_role = $component->getAriaRole();
         if ($aria_role != null) {
             $tpl->setCurrentBlock("with_aria_role");
@@ -357,22 +340,5 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->parseCurrentBlock();
             }
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Button\Primary::class
-        , Component\Button\Standard::class
-        , Component\Button\Close::class
-        , Component\Button\Minimize::class
-        , Component\Button\Shy::class
-        , Component\Button\Month::class
-        , Component\Button\Tag::class
-        , Component\Button\Bulky::class
-        , Component\Button\Toggle::class
-        );
     }
 }

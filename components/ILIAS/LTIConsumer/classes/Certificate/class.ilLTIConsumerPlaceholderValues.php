@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilLTIConsumerPlaceholderValues
@@ -144,8 +144,10 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
             $completionDate !== null &&
             $completionDate !== ''
         ) {
-            $placeHolders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate);
-            $placeHolders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
+            /** @var ilObjUser $user */
+            $user = $this->objectHelper->getInstanceByObjId($userId);
+            $placeHolders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate, $user);
+            $placeHolders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate, $user);
         }
 
         return $placeholders;

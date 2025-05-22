@@ -502,32 +502,32 @@ class ilTestSession
         ilSession::set('pw_checked_' . $this->active_id, $value);
     }
 
-    private ?bool $reportableResultsAvailable = null;
+    private ?bool $reportable_results_available = null;
 
-    public function reportableResultsAvailable(ilObjTest $testOBJ): ?bool
+    public function reportableResultsAvailable(ilObjTest $test_obj): ?bool
     {
-        if ($this->reportableResultsAvailable === null) {
-            $this->reportableResultsAvailable = true;
+        if ($this->reportable_results_available === null) {
+            $this->reportable_results_available = true;
 
             if (!$this->getActiveId()) {
-                $this->reportableResultsAvailable = false;
+                $this->reportable_results_available = false;
             }
 
-            if (!$testOBJ->canShowTestResults($this)) {
-                $this->reportableResultsAvailable = false;
+            if (!$test_obj->canShowTestResults($this)) {
+                $this->reportable_results_available = false;
             }
         }
 
-        return $this->reportableResultsAvailable;
+        return $this->reportable_results_available;
     }
 
     public function hasSinglePassReportable(ilObjTest $testObj): bool
     {
-        $testPassesSelector = new ilTestPassesSelector($this->db, $testObj);
-        $testPassesSelector->setActiveId($this->getActiveId());
-        $testPassesSelector->setLastFinishedPass($this->getLastFinishedPass());
+        $test_passes_selector = new ilTestPassesSelector($this->db, $testObj);
+        $test_passes_selector->setActiveId($this->getActiveId());
+        $test_passes_selector->setLastFinishedPass($this->getLastFinishedPass());
 
-        if (count($testPassesSelector->getReportablePasses()) == 1) {
+        if (count($test_passes_selector->getReportablePasses()) == 1) {
             return true;
         }
 

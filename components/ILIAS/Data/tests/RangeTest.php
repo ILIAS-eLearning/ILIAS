@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\Data\Range;
@@ -18,26 +34,20 @@ class RangeTest extends TestCase
         return $range;
     }
 
-    /**
-     * @depends testFactory
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testFactory')]
     public function testValues(Range $range): void
     {
         $this->assertEquals(1, $range->getStart());
         $this->assertEquals(2, $range->getLength());
     }
 
-    /**
-     * @depends testFactory
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testFactory')]
     public function testEndCalculation(Range $range): void
     {
         $this->assertEquals(3, $range->getEnd());
     }
 
-    /**
-     * @depends testFactory
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testFactory')]
     public function testWithLength(Range $range): Range
     {
         $range = $range->withLength(3);
@@ -47,9 +57,7 @@ class RangeTest extends TestCase
         return $range;
     }
 
-    /**
-     * @depends testWithLength
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testWithLength')]
     public function testWithStart(Range $range): Range
     {
         $range = $range->withStart(3);
@@ -59,9 +67,7 @@ class RangeTest extends TestCase
         return $range;
     }
 
-    /**
-     * @depends testWithStart
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testWithStart')]
     public function testUnpack(Range $range): void
     {
         $this->assertEquals(
@@ -70,18 +76,14 @@ class RangeTest extends TestCase
         );
     }
 
-    /**
-     * @depends testFactory
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testFactory')]
     public function testNegativeStart(Range $range): void
     {
         $this->expectException(InvalidArgumentException::class);
         $range = $range->withStart(-5);
     }
 
-    /**
-     * @depends testFactory
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testFactory')]
     public function testNegativeLength(Range $range): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -102,9 +104,7 @@ class RangeTest extends TestCase
         $range = $f->range(1, -2);
     }
 
-    /**
-     * @dataProvider cropCases
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('cropCases')]
     public function testCroppedTo($start, $length, $max, $has_changed): void
     {
         $f = new ILIAS\Data\Factory();

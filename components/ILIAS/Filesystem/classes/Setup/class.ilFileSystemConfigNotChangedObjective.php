@@ -16,16 +16,14 @@
  *
  *********************************************************************/
 
-use ILIAS\Setup;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\UnachievableException;
 
-class ilFileSystemConfigNotChangedObjective implements Setup\Objective
+class ilFileSystemConfigNotChangedObjective implements Objective
 {
-    protected \ilFileSystemSetupConfig $config;
-
-    public function __construct(
-        \ilFileSystemSetupConfig $config
-    ) {
-        $this->config = $config;
+    public function __construct(protected \ilFileSystemSetupConfig $config)
+    {
     }
 
     public function getHash(): string
@@ -46,7 +44,7 @@ class ilFileSystemConfigNotChangedObjective implements Setup\Objective
     /**
      * @return \ilFileSystemDirectoriesCreatedObjective[]|\ilIniFilesLoadedObjective[]
      */
-    public function getPreconditions(Setup\Environment $environment): array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -54,14 +52,14 @@ class ilFileSystemConfigNotChangedObjective implements Setup\Objective
         ];
     }
 
-    public function achieve(Setup\Environment $environment): Setup\Environment
+    public function achieve(Environment $environment): Environment
     {
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+        $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
 
         $current = $ini->readVariable("clients", "datadir");
         $new = $this->config->getDataDir();
         if ($current !== $new) {
-            throw new Setup\UnachievableException(
+            throw new UnachievableException(
                 "You seem to try to move the ILIAS data-directory from '$current' " .
                 "to '$new', the client.ini.php contains a different path then the " .
                 "config you are using. This is not supported by the setup."
@@ -74,9 +72,9 @@ class ilFileSystemConfigNotChangedObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment): bool
+    public function isApplicable(Environment $environment): bool
     {
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+        $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
 
         return $ini->readVariable("clients", "datadir") !== $this->config->getDataDir();
     }

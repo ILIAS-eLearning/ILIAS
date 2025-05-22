@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\Forbidden;
@@ -48,7 +48,7 @@ trait ilWebDAVAccessChildrenFunctionsTrait
                 if ($e->getMessage() === 'cannot read rource from resource storage server') {
                     $has_only_files_with_missing_storage = true;
                 }
-            } catch (ilWebDAVNotDavableException | Forbidden | NotFound $e) {
+            } catch (ilWebDAVNotDavableException|Forbidden|NotFound) {
             }
         }
 
@@ -71,8 +71,8 @@ trait ilWebDAVAccessChildrenFunctionsTrait
         ilWebDAVObjFactory $dav_object_factory,
         int $parent_ref_id
     ): array {
-        $child_nodes = array();
-        $already_seen_titles = array();
+        $child_nodes = [];
+        $already_seen_titles = [];
         $problem_info_file_needed = false;
 
         foreach ($repository_helper->getChildrenOfRefId($parent_ref_id) as $child_ref) {
@@ -91,7 +91,7 @@ trait ilWebDAVAccessChildrenFunctionsTrait
                     $e->getMessage() === ilWebDAVNotDavableException::OBJECT_TITLE_NOT_DAVABLE) {
                     $problem_info_file_needed = true;
                 }
-            } catch (NotFound | RuntimeException | Forbidden $e) {
+            } catch (NotFound|RuntimeException|Forbidden) {
             }
         }
 
@@ -119,7 +119,7 @@ trait ilWebDAVAccessChildrenFunctionsTrait
                 if ($child->getName() === $name) {
                     return true;
                 }
-            } catch (ilWebDAVNotDavableException | Forbidden | NotFound | RuntimeException $e) {
+            } catch (ilWebDAVNotDavableException|Forbidden|NotFound|RuntimeException) {
             }
         }
 

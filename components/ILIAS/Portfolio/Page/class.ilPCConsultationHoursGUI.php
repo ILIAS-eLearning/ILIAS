@@ -58,7 +58,7 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
     /**
      * Insert consultation hours form
      */
-    public function insert(ilPropertyFormGUI $a_form = null): void
+    public function insert(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -73,7 +73,7 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
     /**
      * Edit consultation hours form
      */
-    public function edit(ilPropertyFormGUI $a_form = null): void
+    public function edit(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -111,6 +111,9 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
         $opt_auto->setInfo($this->lng->txt("cont_cach_mode_automatic_info"));
         $mode->addOption($opt_auto);
 
+        // begin-abandon ch_groups
+        $mode->setValue('auto');
+        /*
         $opt_manual = new ilRadioOption($this->lng->txt("cont_cach_mode_manual"), "manual");
         $opt_manual->setInfo($this->lng->txt("cont_cach_mode_manual_info"));
         $mode->addOption($opt_manual);
@@ -132,6 +135,8 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
         } else {
             $opt_manual->setDisabled(true);
         }
+         */
+        // end-abandon ch_groups
 
         if ($a_insert) {
             $mode->setValue("auto");
@@ -139,7 +144,9 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
             $form->addCommandButton("create_consultation_hours", $this->lng->txt("select"));
             $form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
         } else {
+            // begin-abandon ch_groups
             // set values
+            /*
             $grp_ids = $this->content_obj->getGroupIds();
             if (count($grp_ids)) {
                 $mode->setValue("manual");
@@ -147,12 +154,19 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
             } else {
                 $mode->setValue("auto");
             }
+            */
+            // end-abandon ch_groups
 
             $form->addCommandButton("update", $this->lng->txt("select"));
             $form->addCommandButton("cancelUpdate", $this->lng->txt("cancel"));
         }
 
         return $form;
+    }
+
+    public function create_consultation_hours(): void
+    {
+        $this->create();
     }
 
     public function create(): void

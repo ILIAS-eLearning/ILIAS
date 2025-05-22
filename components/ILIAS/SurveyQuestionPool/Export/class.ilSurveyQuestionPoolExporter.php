@@ -34,10 +34,7 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
     ): string {
         $spl = new ilObjSurveyQuestionPool($a_id, false);
         $spl->loadFromDb();
-
-        $spl_exp = new ilSurveyQuestionpoolExport($spl, 'xml');
-        $spl_exp->buildExportFile();
-        return "";
+        return $spl->toXmlForExport();
     }
 
     public function getXmlExportTailDependencies(
@@ -45,16 +42,28 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
         string $a_target_release,
         array $a_ids
     ): array {
-        $deps = [];
+        $dependencies = [];
 
         // service settings
         $deps[] = [
-            "component" => "components/ILIAS/Object",
+            "component" => "components/ILIAS/ILIASObject",
             "entity" => "common",
             "ids" => $a_ids
         ];
 
-        return $deps;
+
+        $md_ids = [];
+        foreach ($a_ids as $spl_id) {
+            $md_ids[] = $spl_id . ":0:spl";
+        }
+        if ($md_ids !== []) {
+            $dependencies[] = [
+                "component" => "components/ILIAS/MetaData",
+                "entity" => "md",
+                "ids" => $md_ids
+            ];
+        }
+        return $dependencies;
     }
 
     public function getValidSchemaVersions(string $a_entity): array

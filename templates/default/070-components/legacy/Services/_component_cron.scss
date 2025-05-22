@@ -1,0 +1,7 @@
+/* Services/Cron */
+@use "../../../010-settings/" as *;
+@use "../../../050-layout/standardpage" as *;
+
+.cron-title {
+	scroll-margin-top: calc($il-standard-page-header-height + $il-standard-page-breadcrumbs-height);
+}

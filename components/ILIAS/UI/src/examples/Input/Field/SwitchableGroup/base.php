@@ -1,11 +1,71 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\SwitchableGroup;
 
 /**
- * Example showing how a dependant group (aka sub form) might be attached to a radio.
+ * ---
+ * description: >
+ *   Example showing how a dependent group (aka sub form) might be attached to a radio.
+ *
+ * expected output: >
+ *   ILIAS shows three radio button groups titled "Pick One", "Pick One*" and "Again, Pick One" with a byline each.
+ *   According to your selection of the radio button three input fields, one input field with a standard text or no
+ *   input field will be displayed. The second option in the third group is already activated.
+ *   Please select some radio buttons ("Pick One*" is required), fill out the input fields and click "Save". Afterwards
+ *   ILIAS will display following content in the box above:
+ *
+ *   Array
+ *   (
+ *      [switchable_group] => Array
+ *      (
+ *          [0] => 1
+ *          [1] => Array
+ *          (
+ *              [field_1_1] => Text 1
+ *              [field_1_2] => Text 2
+ *              [field_1_3] => DateTimeImmutable Object
+ *              (
+ *                  [date] => 2022-08-01 00:00:00.000000
+ *                  [timezone_type] => 3
+ *                  [timezone] => Europe/Berlin
+ *              )
+ *          )
+ *      )
+ *      [switchable_group_required] => Array
+ *      (
+ *          [0] => g2
+ *          [1] => Array
+ *          (
+ *              [field_2_1] => Verpflichtender Text
+ *          )
+ *      )
+ *      [switchable_group_preset] => Array
+ *      (
+ *          [0] => g3
+ *          [1] => Array
+ *          (
+ *          )
+ *      )
+ *   )
+ * ---
  */
 function base()
 {

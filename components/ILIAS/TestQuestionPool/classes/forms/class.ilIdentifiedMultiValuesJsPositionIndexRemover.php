@@ -30,7 +30,7 @@ class ilIdentifiedMultiValuesJsPositionIndexRemover implements ilFormValuesManip
 
     protected function brandIdentifiersWithIndicator(array $origValues): array
     {
-        $brandedValues = array();
+        $brandedValues = [];
 
         foreach ($origValues as $identifier => $val) {
             $brandedValues[$this->getIndicatorBrandedIdentifier($identifier)] = $val;
@@ -46,7 +46,6 @@ class ilIdentifiedMultiValuesJsPositionIndexRemover implements ilFormValuesManip
 
     public function manipulateFormSubmitValues(array $submitValues): array
     {
-        //$_POST['cmd'] = $this->cleanSubmitCommandFromPossibleIdentifierIndicators($_POST['cmd']);
         return $this->removePositionIndexLevels($submitValues);
     }
 

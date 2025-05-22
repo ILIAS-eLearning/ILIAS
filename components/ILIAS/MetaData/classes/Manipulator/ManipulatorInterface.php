@@ -47,6 +47,4 @@ interface ManipulatorInterface
         SetInterface $set,
         PathInterface $path
     ): SetInterface;
-
-    public function execute(SetInterface $set): void;
 }

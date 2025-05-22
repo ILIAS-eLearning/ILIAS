@@ -31,16 +31,12 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\LegalDocuments\PageFragment;
-use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Content;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\LegalDocuments\Provide;
-use ILIAS\Data\Clock\ClockInterface as Clock;
 use ILIAS\LegalDocuments\Internal;
-use ILIAS\LegalDocuments\test\ContainerMock;
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\Conductor;
@@ -50,6 +46,8 @@ use ilGlobalTemplateInterface;
 use ilObjUser;
 use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
 use ILIAS\Data\Result\Error;
+use Closure;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 require_once __DIR__ . '/ContainerMock.php';
 
@@ -68,30 +66,6 @@ class ConductorTest extends TestCase
         $this->assertInstanceOf(Provide::class, $instance->provide('foo'));
     }
 
-    public function testOnLogout(): void
-    {
-        $constraint = $this->mock(Constraint::class);
-        $called = false;
-
-        $ctrl = $this->mock(ilCtrl::class);
-        $ctrl->expects(self::once())->method('setParameterByClass')->with('dummy gui', 'withdraw_from', 'foo');
-
-        $container = $this->mockTree(Container::class, [
-            'refinery' => ['to' => ['string' => $constraint]],
-            'http' => ['wrapper' => ['query' => $this->mockMethod(ArrayBasedRequestWrapper::class, 'retrieve', ['withdraw_consent', $constraint], 'foo')]],
-            'ctrl' => $ctrl,
-        ]);
-
-        $internal = $this->mockMethod(Internal::class, 'get', ['logout', 'foo'], static function () use (&$called): void {
-            $called = true;
-        });
-
-        $instance = new Conductor($container, $internal, $this->mock(Routing::class));
-
-        $instance->onLogout('dummy gui');
-        $this->assertTrue($called);
-    }
-
     public function testLoginPageHTML(): void
     {
         $components = [
@@ -99,7 +73,7 @@ class ConductorTest extends TestCase
             $this->mock(Component::class),
         ];
 
-        $space = $this->mock(Legacy::class);
+        $space = $this->mock(Content::class);
 
         $container = $this->mockTree(Container::class, [
             'ui' => [
@@ -123,25 +97,34 @@ class ConductorTest extends TestCase
 
         $container = $this->mockTree(Container::class, [
             'refinery' => ['to' => ['string' => $constraint]],
-            'http' => ['wrapper' => ['query' => $this->mockMethod(ArrayBasedRequestWrapper::class, 'retrieve', ['withdraw_from', $constraint], 'foo')]],
+            'http' => ['wrapper' => ['query' => $this->mockMethod(ArrayBasedRequestWrapper::class, 'retrieve', ['withdraw_consent', $constraint], 'foo')]],
             'ui' => ['renderer' => $this->mockMethod(Renderer::class, 'render', [$component], 'rendered')],
         ]);
 
-        $internal = $this->mockMethod(Internal::class, 'get', ['logout-text', 'foo'], static function () use ($component): Component {
-            return $component;
+
+        $internal = $this->mock(Internal::class);
+        $internal->method('get')->willReturnCallback(function ($param1, $param2) use (&$called, $component) {
+            if ($param1 === 'logout-text' && $param2 === 'foo') {
+                return static function () use ($component): Component {
+                    return $component;
+                };
+            }
+
+            return null;
         });
 
         $instance = new Conductor($container, $internal, $this->mock(Routing::class));
 
-        $this->assertSame('rendered', $instance->logoutText());
-        ;
+        $logoutText = $instance->logoutText();
+
+        $this->assertSame('rendered', $logoutText);
     }
 
     public function testModifyFooter(): void
     {
-        $footer = $this->mock(Footer::class);
+        $footer = fn() => null;
 
-        $modify_footer = function (Footer $f) use ($footer) {
+        $modify_footer = function (Closure $f) use ($footer) {
             $this->assertSame($footer, $f);
             return $f;
         };
@@ -154,9 +137,7 @@ class ConductorTest extends TestCase
         $this->assertSame($footer, $instance->modifyFooter($footer));
     }
 
-    /**
-     * @dataProvider agreeTypes
-     */
+    #[DataProvider('agreeTypes')]
     public function testAgree(string $gui, string $key): void
     {
         $main_template = $this->mock(ilGlobalTemplateInterface::class);
@@ -164,9 +145,7 @@ class ConductorTest extends TestCase
         $this->agreement('agree', $gui, $key, $main_template);
     }
 
-    /**
-     * @dataProvider agreeTypes
-     */
+    #[DataProvider('agreeTypes')]
     public function testAgreeContent(string $gui, string $key): void
     {
         $this->assertSame('rendered', $this->agreement('agreeContent', $gui, $key));

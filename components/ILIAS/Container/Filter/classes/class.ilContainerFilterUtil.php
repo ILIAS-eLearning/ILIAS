@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Filter\Standard;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * Utilities for container filter
@@ -28,15 +29,18 @@ class ilContainerFilterUtil
     protected ilContainerFilterAdvMDAdapter $adv_adapter;
     protected ilLanguage $lng;
     protected ilContainerFilterService $service;
+    protected LOMServices $lom_services;
 
     public function __construct(
         ilContainerFilterService $service,
         ilContainerFilterAdvMDAdapter $adv_adapter,
-        ilLanguage $lng
+        ilLanguage $lng,
+        LOMServices $lom_services
     ) {
         $this->adv_adapter = $adv_adapter;
         $this->lng = $lng;
         $this->service = $service;
+        $this->lom_services = $lom_services;
     }
 
     /**
@@ -126,14 +130,9 @@ class ilContainerFilterUtil
                         $fields_act[] = false;
                         break;
                     case ilContainerFilterField::STD_FIELD_COPYRIGHT:
-                        $md_settings = ilMDSettings::_getInstance();
-                        $entries = ilMDCopyrightSelectionEntry::_getEntries();
-                        $use_selection = ($md_settings->isCopyrightSelectionActive() && count($entries));
                         $options = [];
-                        if ($use_selection) {
-                            foreach ($entries as $entry) {
-                                $options[$entry->getEntryId()] = $entry->getTitle();
-                            }
+                        foreach ($this->lom_services->copyrightHelper()->getAllCopyrightPresets() as $copyright) {
+                            $options[$copyright->identifier()] = $copyright->title();
                         }
                         $fields[$key] = $ui->input()->field()->select($title, $options);
                         $fields_act[] = false;

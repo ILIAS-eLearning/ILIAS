@@ -52,6 +52,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTestCase
     private StorableFileResource $resource_three;
     private Revision $revision_three;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

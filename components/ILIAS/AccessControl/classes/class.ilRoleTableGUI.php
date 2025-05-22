@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * TableGUI for the presentation og roles and role templates
@@ -106,8 +107,13 @@ class ilRoleTableGUI extends ilTable2GUI
             $a_set['obj_id'] != ANONYMOUS_ROLE_ID && $a_set['obj_id'] != SYSTEM_ROLE_ID && substr($a_set['title_orig'], 0, 3) != 'il_' || $this->getType() == self::TYPE_SEARCH) {
             $this->tpl->setVariable('VAL_ID', $a_set['obj_id']);
         }
-        $this->tpl->setVariable('VAL_TITLE_LINKED', $a_set['title']);
-        $this->tpl->setVariable('VAL_LINK', $link);
+
+        if ($this->system->checkAccess('write', $this->parent_obj->getRefId())) {
+            $this->tpl->setVariable('VAL_TITLE_LINKED', $a_set['title']);
+            $this->tpl->setVariable('VAL_LINK', $link);
+        } else {
+            $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
+        }
         if (strlen($a_set['description'])) {
             $this->tpl->setVariable('VAL_DESC', $a_set['description']);
         }
@@ -125,7 +131,7 @@ class ilRoleTableGUI extends ilTable2GUI
         if ($this->getType() == self::TYPE_VIEW and $a_set['obj_id'] != SYSTEM_ROLE_ID) {
             if ($this->system->checkAccess('write', $this->role_folder_id)) {
                 // Copy role
-                $this->tpl->setVariable('COPY_TEXT', $this->lng->txt('rbac_role_rights_copy'));
+                $this->tpl->setVariable('COPY_TEXT', $this->lng->txt('rbac_copy_role_copy'));
                 $this->ctrl->setParameter($this->getParentObject(), "csource", $a_set["obj_id"]);
                 $link = $this->ctrl->getLinkTarget($this->getParentObject(), 'roleSearch');
                 $this->tpl->setVariable(
@@ -170,7 +176,7 @@ class ilRoleTableGUI extends ilTable2GUI
                 $this->addColumn($this->lng->txt('search_title_description'), 'title', '30%');
                 $this->addColumn($this->lng->txt('type'), 'rtype', '20%');
                 $this->addColumn($this->lng->txt('context'), '', '50%');
-                $this->setTitle($this->lng->txt('rbac_role_rights_copy'));
+                $this->setTitle($this->lng->txt('rbac_select_roles'));
                 $this->addMultiCommand('chooseCopyBehaviour', $this->lng->txt('btn_next'));
                 $this->addCommandButton('roleSearch', $this->lng->txt('btn_previous'));
                 break;
@@ -183,7 +189,9 @@ class ilRoleTableGUI extends ilTable2GUI
         $this->path_gui = new ilPathGUI();
         $this->getPathGUI()->enableTextOnly(false);
         $this->getPathGUI()->enableHideLeaf(false);
-        $this->initFilter();
+        if ($this->type === self::TYPE_VIEW) {
+            $this->initFilter();
+        }
     }
 
     public function getType(): int
@@ -258,28 +266,16 @@ class ilRoleTableGUI extends ilTable2GUI
 
         $filter_orig = '';
         if ($this->getType() == self::TYPE_VIEW) {
-            $filter_orig = $title_filter = $this->filter[self::FILTER_TITLE];
+            $filter_orig = $this->filter[self::FILTER_TITLE];
             $type_filter = $this->filter[self::FILTER_ROLE_TYPE];
         } else {
-            $filter_orig = $title_filter = $this->getRoleTitleFilter();
+            $filter_orig = $this->getRoleTitleFilter();
             $type_filter = ilRbacReview::FILTER_ALL;
         }
 
-        // the translation must be filtered
-        if ($type_filter == ilRbacReview::FILTER_INTERNAL || $type_filter == ilRbacReview::FILTER_ALL) {
-            // roles like il_crs_... are filtered manually
-            $title_filter = '';
-        }
-
-        $role_list = $this->rbacreview->getRolesByFilter(
-            $type_filter,
-            0,
-            ''
-        );
-
         $counter = 0;
         $rows = [];
-        foreach ($role_list as $role) {
+        foreach ($this->rbacreview->getRolesByFilter($type_filter, 0, '') as $role) {
             if (
                 $role['parent'] and
                 (

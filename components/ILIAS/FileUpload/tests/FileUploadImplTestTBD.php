@@ -1,6 +1,29 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\FileUpload;
+
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\BackupStaticProperties;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\Small;
 
 require_once('./vendor/composer/vendor/autoload.php');
 
@@ -21,12 +44,11 @@ use Psr\Http\Message\UploadedFileInterface;
  * Class FileUploadImplTest
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- *
- * @runTestsInSeparateProcesses
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
  */
+#[BackupGlobals(false)]
+#[BackupStaticProperties(false)]
+#[PreserveGlobalState(false)]
+#[RunTestsInSeparateProcesses]
 class FileUploadImplTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
@@ -34,7 +56,7 @@ class FileUploadImplTest extends TestCase
     /**
      * @var FileUpload $subject
      */
-    private $subject;
+    private FileUploadImpl $subject;
     /**
      * @var MockInterface | PreProcessorManager $prePorcessorManagerMock
      */
@@ -49,11 +71,9 @@ class FileUploadImplTest extends TestCase
     private $globalHttpStateMock;
 
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testRegisterWhichShouldSucceed()
+    #[Test]
+
+    public function testRegisterWhichShouldSucceed(): void
     {
         $processorMock = \Mockery::mock(PreProcessor::class);
         $this->prePorcessorManagerMock->shouldReceive('with')
@@ -63,11 +83,9 @@ class FileUploadImplTest extends TestCase
         $this->subject->register($processorMock);
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testRegisterWithProcessedFilesWhichShouldFail()
+    #[Test]
+
+    public function testRegisterWithProcessedFilesWhichShouldFail(): void
     {
         $processorMock = \Mockery::mock(PreProcessor::class);
 
@@ -82,11 +100,9 @@ class FileUploadImplTest extends TestCase
         $this->subject->register($processorMock);
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testProcessWhichShouldSucceed()
+    #[Test]
+
+    public function testProcessWhichShouldSucceed(): void
     {
         $processingResult = new ProcessingStatus(ProcessingStatus::OK, 'All green!');
         $uploadedFile = Mockery::mock(UploadedFileInterface::class);
@@ -127,11 +143,9 @@ class FileUploadImplTest extends TestCase
         $this->subject->process();
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testProcessWithFailedUploadWhichShouldGetRejected()
+    #[Test]
+
+    public function testProcessWithFailedUploadWhichShouldGetRejected(): void
     {
         $uploadedFile = Mockery::mock(UploadedFileInterface::class);
         $uploadedFile
@@ -170,11 +184,9 @@ class FileUploadImplTest extends TestCase
     }
 
 
-    /**
-     * @test
-     * @small
-     */
-    public function testHasUploadsWithoutUploadedFiles()
+    #[Test]
+
+    public function testHasUploadsWithoutUploadedFiles(): void
     {
         // No File-Upload Element
         $this->globalHttpStateMock->shouldReceive('request->getUploadedFiles')
@@ -183,11 +195,9 @@ class FileUploadImplTest extends TestCase
         $this->assertFalse($this->subject->hasUploads());
     }
 
-    /**
-     * @test
-     * @small
-     */
-    public function testHasUploadsWithSingleUploadedFile()
+    #[Test]
+
+    public function testHasUploadsWithSingleUploadedFile(): void
     {
         $uploadedFile = Mockery::mock(UploadedFileInterface::class);
 
@@ -198,11 +208,9 @@ class FileUploadImplTest extends TestCase
         $this->assertTrue($this->subject->hasUploads());
     }
 
-    /**
-     * @test
-     * @small
-     */
-    public function testHasUploadsWithMultipleUploadedFile()
+    #[Test]
+
+    public function testHasUploadsWithMultipleUploadedFile(): void
     {
         $files = [];
         for ($i = 0; $i < 10; $i++) {

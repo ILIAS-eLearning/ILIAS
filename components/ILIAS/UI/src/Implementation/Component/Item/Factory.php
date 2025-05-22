@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Item;
 
 use ILIAS\UI\Component\Item;
@@ -25,34 +25,22 @@ use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 class Factory implements Item\Factory
 {
-    /**
-     * @inheritdoc
-     */
-    public function standard($title): Item\Standard
+    public function standard($title): Standard
     {
         return new Standard($title);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function shy(string $title): Item\Shy
+    public function shy(string $title): Shy
     {
         return new Shy($title);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function group(string $title, array $items): Item\Group
+    public function group(string $title, array $items): Group
     {
         return new Group($title, $items);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function notification($title, Icon $icon): Item\Notification
+    public function notification($title, Icon $icon): Notification
     {
         return new Notification($title, $icon);
     }

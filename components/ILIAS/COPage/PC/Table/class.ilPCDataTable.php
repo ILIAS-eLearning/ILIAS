@@ -50,9 +50,7 @@ class ilPCDataTable extends ilPCTable
     public function makeEmptyCell(DomNode $td_node): void
     {
         // delete children of paragraph node
-        foreach ($td_node->childNodes as $child) {
-            $td_node->removeChild($child);
-        }
+        $this->dom_util->deleteAllChilds($td_node);
 
         // create page content and paragraph node here.
         $pc_node = $this->getNewPageContentNode();
@@ -86,9 +84,7 @@ class ilPCDataTable extends ilPCTable
                         // remove all childs
                         if (empty($error) && !is_null($par_node)) {
                             // delete children of paragraph node
-                            foreach ($par_node->childNodes as $child) {
-                                $par_node->removeChild($child);
-                            }
+                            $this->dom_util->deleteAllChilds($par_node);
 
                             // copy new content children in paragraph node
                             $nodes = $this->dom_util->path(

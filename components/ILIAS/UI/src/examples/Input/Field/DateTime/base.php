@@ -1,11 +1,58 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\DateTime;
 
 /**
- * Base example showing how to plug date-inputs into a form
+ * ---
+ * description: >
+ *   Base example showing how to plug date-inputs into a form.
+ *
+ * expected output: >
+ *   ILIAS shows a group of date and time fields in the following format:
+ *
+ *   - YYYY-MM-DD
+ *   - DD.MM.YYYY
+ *   - HH:mm
+ *   - YYYY-MM-DD HH:mm
+ *   - YYYY-MM-DD HH:mm
+ *   - YYYY-MM-DD HH:mm (pre-filled: current date and time at the current location)
+ *   - YYYY-MM-DD HH:mm (pre-filled: current date and time in Tokyo)
+ *   - YYYY-MM-DD (pre-filled: current date at the current location)
+ *
+ *   A calendar glyph is displayed next to each field, except for the third line: there you can see a clock glyph.
+ *   Clicking the glyphs will display the following options:
+ *
+ *   - Line 1: Selection of any date in the future
+ *   - Line 2: Selection of a date in the future
+ *   - Line 3: Selection of any time
+ *   - Line 4: Selection of any date and any time
+ *   - Line 5: Selection of any date and any time
+ *   - Line 6: Selection of any date and any time
+ *   - Line 7: Selection of any date and any time
+ *   - Line 8: This field is disabled. No selection possible.
+ *
+ *   Now click "Save".
+ *   ILIAS reloads the page and displays the selection in an array. The outputs have to be the same as your selection.
+ *   Regarding pure date or time fields: the output might display the current date and time 00:00.
+ * ---
  */
 function base()
 {

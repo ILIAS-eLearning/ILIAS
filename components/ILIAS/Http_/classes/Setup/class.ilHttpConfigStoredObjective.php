@@ -1,20 +1,25 @@
 <?php
 
-use ILIAS\Setup;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\Setup;
+
 class ilHttpConfigStoredObjective implements Setup\Objective
 {
     protected \ilHttpSetupConfig $config;
@@ -92,6 +97,12 @@ class ilHttpConfigStoredObjective implements Setup\Objective
         $settings->set("proxy_host", (string) $this->config->getProxyHost());
         $settings->set("proxy_port", (string) $this->config->getProxyPort());
 
+        if (is_array($this->config->getAllowedHosts()) && $this->config->getAllowedHosts() !== []) {
+            $settings->set('allowed_hosts', implode(',', $this->config->getAllowedHosts()));
+        } else {
+            $settings->delete('allowed_hosts');
+        }
+
         return $environment;
     }
 
@@ -115,7 +126,8 @@ class ilHttpConfigStoredObjective implements Setup\Objective
             $ini->readVariable(ilHTTPS::SETTINGS_GROUP_HTTPS, ilHTTPS::SETTING_AUTO_HTTPS_DETECT_HEADER_VALUE) !== $this->config->getHeaderValue() ||
             $settings->get("proxy_status") !== (int) $this->config->isProxyEnabled() ||
             $settings->get("proxy_host") !== $this->config->getProxyHost() ||
-            $settings->get("proxy_port") !== $this->config->getProxyPort()
+            $settings->get("proxy_port") !== $this->config->getProxyPort() ||
+            $settings->get('allowed_hosts', '') !== implode(',', $this->config->getAllowedHosts() ?? [])
         ;
     }
 }

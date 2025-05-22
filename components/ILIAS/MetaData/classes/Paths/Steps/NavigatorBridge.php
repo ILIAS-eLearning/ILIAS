@@ -26,6 +26,7 @@ use ILIAS\MetaData\Elements\ElementInterface;
 use ILIAS\MetaData\Elements\Base\BaseElementInterface;
 use ILIAS\MetaData\Elements\Markers\MarkableInterface;
 use ILIAS\MetaData\Elements\Structure\StructureElement;
+use ILIAS\MetaData\Elements\Structure\StructureElementInterface;
 
 class NavigatorBridge
 {
@@ -117,11 +118,12 @@ class NavigatorBridge
         BaseElementInterface ...$elements
     ): \Generator {
         foreach ($elements as $element) {
+            if ($element instanceof StructureElementInterface) {
+                yield $element;
+                continue;
+            }
             $id = $element->getMDID();
             $id = is_int($id) ? (string) $id : $id->value;
-            if ($element instanceof StructureElement) {
-                yield $element;
-            }
             if (in_array($id, iterator_to_array($filter->values()), true)) {
                 yield $element;
             }
@@ -148,7 +150,8 @@ class NavigatorBridge
         foreach ($elements as $element) {
             if (
                 in_array($index, $filter_values, true) ||
-                ($select_last && array_key_last($elements) === $index)
+                ($select_last && array_key_last($elements) === $index) ||
+                $element instanceof StructureElementInterface
             ) {
                 yield $element;
             }
@@ -165,6 +168,7 @@ class NavigatorBridge
     ): \Generator {
         foreach ($elements as $element) {
             if (!($element instanceof ElementInterface)) {
+                yield $element;
                 continue;
             }
             $data = $element->getData()->value();

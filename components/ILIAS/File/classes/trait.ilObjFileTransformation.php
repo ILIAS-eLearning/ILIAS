@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -27,9 +28,7 @@ trait ilObjFileTransformation
 {
     public function getEmptyStringToNullTransformation(): Transformation
     {
-        return $this->getRefinery()->custom()->transformation(static function ($text) {
-            return (empty($text)) ? null : $text;
-        });
+        return $this->getRefinery()->custom()->transformation(static fn($text) => (empty($text)) ? null : $text);
     }
 
     abstract protected function getRefinery(): Factory;

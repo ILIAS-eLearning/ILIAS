@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 declare(strict_types=1);
 
 class ilObjDataCollection extends ilObject2
@@ -38,11 +37,11 @@ class ilObjDataCollection extends ilObject2
 
         $data = $this->db->fetchObject($result);
         if ($data) {
-            $this->setOnline((bool)$data->is_online);
-            $this->setRating((bool)$data->rating);
-            $this->setApproval((bool)$data->approval);
-            $this->setPublicNotes((bool)$data->public_notes);
-            $this->setNotification((bool)$data->notification);
+            $this->setOnline((bool) $data->is_online);
+            $this->setRating((bool) $data->rating);
+            $this->setApproval((bool) $data->approval);
+            $this->setPublicNotes((bool) $data->public_notes);
+            $this->setNotification((bool) $data->notification);
         }
     }
 
@@ -65,6 +64,8 @@ class ilObjDataCollection extends ilObject2
             $main_table->doCreate();
         }
 
+        $this->createMetaData();
+
         $this->db->insert(
             "il_dcl_data",
             [
@@ -84,12 +85,16 @@ class ilObjDataCollection extends ilObject2
             $table->doDelete(false, true);
         }
 
+        $this->deleteMetaData();
+
         $query = "DELETE FROM il_dcl_data WHERE id = " . $this->db->quote($this->getId(), "integer");
         $this->db->manipulate($query);
     }
 
     protected function doUpdate(): void
     {
+        $this->updateMetaData();
+
         $this->db->update(
             "il_dcl_data",
             [
@@ -174,7 +179,7 @@ class ilObjDataCollection extends ilObject2
                             $value = null;
                             if ($field->isStandardField()) {
                                 $value = $record->getStandardFieldPlainText($field->getId());
-                            } elseif ($record_field = $record->getRecordField((int)$field->getId())) {
+                            } elseif ($record_field = $record->getRecordField((int) $field->getId())) {
                                 $value = $record_field->getPlainText();
                             }
 
@@ -186,7 +191,7 @@ class ilObjDataCollection extends ilObject2
                     $message .= $this->prepareMessageText($t);
                 }
                 $message .= "------------------------------------\n";
-                $message .= $ulng->txt('dcl_changed_by') . ": " . $user->getFullname() . " " . ilUserUtil::getNamePresentation($user->getId())
+                $message .= $ulng->txt('dcl_changed_by') . ": " . ilUserUtil::getNamePresentation($user->getId())
                     . "\n\n";
                 $message .= $ulng->txt('dcl_change_notification_link') . ": " . $link . "\n\n";
 
@@ -260,6 +265,8 @@ class ilObjDataCollection extends ilObject2
         }
 
         $new_obj->cloneStructure($this->getRefId());
+
+        $this->cloneMetaData($new_obj);
     }
 
     /**
@@ -377,7 +384,7 @@ class ilObjDataCollection extends ilObject2
     public function getTables(): array
     {
         $query = "SELECT id FROM il_dcl_table WHERE obj_id = " . $this->db->quote($this->getId(), "integer") .
-            " ORDER BY -table_order DESC";
+            " ORDER BY title ASC";
         $set = $this->db->query($query);
         $tables = [];
 

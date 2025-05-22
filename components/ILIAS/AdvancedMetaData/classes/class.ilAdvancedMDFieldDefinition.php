@@ -236,7 +236,7 @@ abstract class ilAdvancedMDFieldDefinition
 
         $defs = [];
         foreach ($data as $datum) {
-            $defs[] = self::getInstanceWithData($datum);
+            $defs[$datum->id()] = self::getInstanceWithData($datum);
         }
 
         return $defs;
@@ -729,15 +729,24 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Create new field entry
      */
-    public function save(bool $a_keep_pos = false): void
+    public function save(bool $keep_pos_and_import_id = false, bool $keep_import_id = false): void
     {
         if ($this->getFieldId()) {
             $this->update();
             return;
         }
 
-        if ($a_keep_pos) {
+        /*
+         * This has to be set before update and creation here, the alternative
+         * would be to set this in all children of this class, everywhere
+         * where type-specific settings are set.
+         */
+        $this->generic_data->setFieldValues($this->getFieldDefinition());
+
+        if ($keep_pos_and_import_id) {
             $field_id = $this->db_gateway->create($this->generic_data);
+        } elseif ($keep_import_id) {
+            $field_id = $this->db_gateway->createWithNewPosition($this->generic_data);
         } else {
             $field_id = $this->db_gateway->createFromScratch($this->generic_data);
         }
@@ -754,6 +763,13 @@ abstract class ilAdvancedMDFieldDefinition
             $this->save();
             return;
         }
+
+        /*
+         * This has to be set before update and creation here, the alternative
+         * would be to set this in all children of this class, everywhere
+         * where type-specific settings are set.
+         */
+        $this->generic_data->setFieldValues($this->getFieldDefinition());
 
         $this->db_gateway->update($this->generic_data);
     }

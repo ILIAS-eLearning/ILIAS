@@ -70,7 +70,7 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider
         $result = $gui->getAwarenessList(true);
         $online = explode(":", $result["cnt"]);
         $online = (int) $online[0];
-        $content = $this->dic->ui()->factory()->legacy($result["html"]);
+        $content = $this->dic->ui()->factory()->legacy()->content($result["html"]);
         if ($online === 0) {
             $is_widget_visible = false;
         }

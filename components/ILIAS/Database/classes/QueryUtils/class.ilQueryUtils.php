@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,19 +16,18 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilQueryUtils
  */
 abstract class ilQueryUtils implements ilQueryUtilsInterface
 {
-    protected \ilDBInterface $db_instance;
-
     /**
      * ilMySQLQueryUtils constructor.
      */
-    public function __construct(ilDBInterface $ilDBInterface)
+    public function __construct(protected \ilDBInterface $db_instance)
     {
-        $this->db_instance = $ilDBInterface;
     }
 
     /**
@@ -74,7 +71,7 @@ abstract class ilQueryUtils implements ilQueryUtilsInterface
 
     abstract public function createDatabase(string $name, string $charset = "utf8", string $collation = ""): string;
 
-    abstract public function groupConcat(string $a_field_name, string $a_seperator = ",", string $a_order = null): string;
+    abstract public function groupConcat(string $a_field_name, string $a_seperator = ",", ?string $a_order = null): string;
 
     /**
      * @inheritdoc

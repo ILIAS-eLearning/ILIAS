@@ -49,23 +49,14 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
             public I\SignalGenerator $sig_gen;
             public I\Button\Factory $button_factory;
 
-            public function button(): C\Button\Factory
+            public function button(): I\Button\Factory
             {
                 return $this->button_factory;
             }
-            public function glyph(): C\Symbol\Glyph\Factory
-            {
-                return new I\Symbol\Glyph\Factory();
-            }
 
-            public function divider(): C\Divider\Factory
+            public function divider(): I\Divider\Factory
             {
                 return new I\Divider\Factory();
-            }
-
-            public function mainControls(): C\MainControls\Factory
-            {
-                return new I\MainControls\Factory($this->sig_gen);
             }
         };
         $factory->button_factory = $this->button_factory;

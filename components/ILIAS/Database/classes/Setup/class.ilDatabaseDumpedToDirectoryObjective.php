@@ -18,17 +18,13 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Environment;
 
-class ilDatabaseDumpedToDirectoryObjective implements Setup\Objective
+class ilDatabaseDumpedToDirectoryObjective implements Objective
 {
-    protected string $target;
-    protected MysqlDumper $dumper;
-
-    public function __construct(string $target, MysqlDumper $dumper)
+    public function __construct(protected string $target, protected MysqlDumper $dumper)
     {
-        $this->target = $target;
-        $this->dumper = $dumper;
     }
 
     /**
@@ -58,7 +54,7 @@ class ilDatabaseDumpedToDirectoryObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function getPreconditions(Setup\Environment $environment): array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -69,14 +65,14 @@ class ilDatabaseDumpedToDirectoryObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function achieve(Setup\Environment $environment): Setup\Environment
+    public function achieve(Environment $environment): Environment
     {
         if (file_exists($this->target)) {
             $this->deleteDirRecursive($this->target);
         }
         mkdir($this->target, 0755);
 
-        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+        $client_ini = $environment->getResource(Environment::RESOURCE_CLIENT_INI);
         $host = $client_ini->readVariable("db", "host");
         $user = $client_ini->readVariable("db", "user");
         $password = $client_ini->readVariable("db", "pass");
@@ -91,7 +87,7 @@ class ilDatabaseDumpedToDirectoryObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment): bool
+    public function isApplicable(Environment $environment): bool
     {
         return is_writable(pathinfo($this->target, PATHINFO_DIRNAME));
     }

@@ -16,21 +16,21 @@
  *
  *********************************************************************/
 
-use ILIAS\Setup;
-use ILIAS\Refinery;
-use ILIAS\Data;
-use ILIAS\UI;
+use ILIAS\Setup\Agent;
+use ILIAS\Setup\Agent\HasNoNamedObjective;
+use ILIAS\Refinery\Factory;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Setup\Config;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Objective\NullObjective;
+use ILIAS\Setup\Metrics\Storage;
 
-class ilFileSystemSetupAgent implements Setup\Agent
+class ilFileSystemSetupAgent implements Agent
 {
-    use Setup\Agent\HasNoNamedObjective;
+    use HasNoNamedObjective;
 
-    protected Refinery\Factory $refinery;
-
-    public function __construct(
-        Refinery\Factory $refinery
-    ) {
-        $this->refinery = $refinery;
+    public function __construct(protected Factory $refinery)
+    {
     }
 
     /**
@@ -44,7 +44,7 @@ class ilFileSystemSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation(): Refinery\Transformation
+    public function getArrayToConfigTransformation(): Transformation
     {
         return $this->refinery->custom()->transformation(fn($data): \ilFileSystemSetupConfig => new \ilFileSystemSetupConfig(
             $data["data_dir"]
@@ -54,7 +54,7 @@ class ilFileSystemSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Config $config = null): Objective
     {
         /** @noinspection PhpParamsInspection */
         return new ilFileSystemDirectoriesCreatedObjective($config);
@@ -63,27 +63,27 @@ class ilFileSystemSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
-        if ($config) {
+        if ($config !== null) {
             /** @noinspection PhpParamsInspection */
             return new ilFileSystemConfigNotChangedObjective($config);
         }
-        return new Setup\Objective\NullObjective();
+        return new NullObjective();
     }
 
     /**
      * @inheritdoc
      */
-    public function getBuildObjective(): Setup\Objective
+    public function getBuildObjective(): Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new NullObjective();
     }
 
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
+    public function getStatusObjective(Storage $storage): Objective
     {
         return new ilFileSystemMetricsCollectedObjective($storage);
     }

@@ -18,15 +18,17 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup;
-use ILIAS\DI;
+use ILIAS\Setup\Metrics\CollectedObjective;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\Metrics\Storage;
+use ILIAS\DI\Container;
 
-class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
+class ilDatabaseMetricsCollectedObjective extends CollectedObjective
 {
     /**
      * @return array<\ilDatabaseInitializedObjective|\ilIniFilesLoadedObjective>
      */
-    protected function getTentativePreconditions(Setup\Environment $environment): array
+    protected function getTentativePreconditions(Environment $environment): array
     {
         return [
             new \ilIniFilesLoadedObjective(),
@@ -34,9 +36,9 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         ];
     }
 
-    protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage): void
+    protected function collectFrom(Environment $environment, Storage $storage): void
     {
-        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+        $client_ini = $environment->getResource(Environment::RESOURCE_CLIENT_INI);
         if ($client_ini) {
             $storage->storeConfigText(
                 "type",
@@ -71,12 +73,12 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         }
 
 
-        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+        $db = $environment->getResource(Environment::RESOURCE_DATABASE);
+        $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
         if (!$db && !$ini) {
             return;
         }
-        $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
+        $client_id = $environment->getResource(Environment::RESOURCE_CLIENT_ID);
 
         // ATTENTION: This is a total abomination. It only exists to allow the db-
         // update to run. This is a memento to the fact, that dependency injection
@@ -84,7 +86,7 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         // locate the whole world via the global $DIC.
         $DIC = $GLOBALS["DIC"] ?? [];
         try {
-            $GLOBALS["DIC"] = new DI\Container();
+            $GLOBALS["DIC"] = new Container();
             $GLOBALS["DIC"]["ilDB"] = $db;
             $GLOBALS["DIC"]["ilBench"] = null;
             $GLOBALS["DIC"]["ilLog"] = new class () {
@@ -134,7 +136,7 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
                 define("SYSTEM_FOLDER_ID", (int) $client_ini->readVariable("system", "SYSTEM_FOLDER_ID"));
             }
 
-            $db_update = new  ilDBUpdate($db);
+            $db_update = new ilDBUpdate($db);
 
             $storage->storeStableCounter(
                 "custom_version",

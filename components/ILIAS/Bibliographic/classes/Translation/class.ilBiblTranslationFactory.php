@@ -16,23 +16,23 @@
  *
  *********************************************************************/
 
+use ILIAS\DI\Container;
+
 /**
  * Class ilBiblTranslationFactory
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
 {
-    protected \ILIAS\DI\Container $dic;
-    protected \ilBiblFieldFactoryInterface $field_factory;
+    protected Container $dic;
 
     /**
      * ilBiblTranslationFactory constructor.
      */
-    public function __construct(ilBiblFieldFactoryInterface $field_factory)
+    public function __construct(protected \ilBiblFieldFactoryInterface $field_factory)
     {
         global $DIC;
         $this->dic = $DIC;
-        $this->field_factory = $field_factory;
     }
 
     public function translate(ilBiblFieldInterface $field): string
@@ -45,7 +45,7 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
         }
 
         $core_translation = $this->translateInCore($field);
-        if (strpos($core_translation, "-") !== 0) {
+        if (!str_starts_with($core_translation, "-")) {
             return $core_translation;
         }
 

@@ -234,7 +234,7 @@ class ilWikiStatGUI
             $r = $this->gui->ui()->renderer();
             $p = $f->panel()->standard(
                 $lng->txt("statistics"),
-                $f->legacy($vtpl->get())
+                $f->legacy()->content($vtpl->get())
             );
             $tpl->setContent($r->render($p));
         }

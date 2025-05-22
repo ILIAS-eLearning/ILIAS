@@ -37,18 +37,9 @@ class Sorter
 
     protected int $sort_direction = self::SORT_ASC;
     private bool $sort_and_save = false;
-    protected ResourceBuilder $resource_builder;
-    protected CollectionBuilder $collection_builder;
-    protected ResourceCollection $collection;
 
-    public function __construct(
-        ResourceBuilder $resource_builder,
-        CollectionBuilder $collection_builder,
-        ResourceCollection $collection
-    ) {
-        $this->resource_builder = $resource_builder;
-        $this->collection_builder = $collection_builder;
-        $this->collection = $collection;
+    public function __construct(protected ResourceBuilder $resource_builder, protected CollectionBuilder $collection_builder, protected ResourceCollection $collection)
+    {
     }
 
     public function andSave(): self

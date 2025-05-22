@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 class ilArgon2idPasswordEncoder extends ilBasePasswordEncoder
 {
-    private const CONFIG_KEY_TIME_COST = 'time_cost';
-    private const CONFIG_KEY_MEMORY_COST = 'memory_cost';
-    private const CONFIG_KEY_THREADS = 'threads';
+    private const string CONFIG_KEY_TIME_COST = 'time_cost';
+    private const string CONFIG_KEY_MEMORY_COST = 'memory_cost';
+    private const string CONFIG_KEY_THREADS = 'threads';
 
     private ?int $memory_cost = null;
     private ?int $time_cost = null;

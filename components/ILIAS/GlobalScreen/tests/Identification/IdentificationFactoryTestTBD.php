@@ -1,7 +1,27 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\GlobalScreen\MainMenu;
 
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\BackupStaticProperties;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use ILIAS\GlobalScreen\Identification\CoreIdentification;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
@@ -12,7 +32,6 @@ use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use ilPlugin;
 use InvalidArgumentException;
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
@@ -24,15 +43,14 @@ require_once('./vendor/composer/vendor/autoload.php');
  * Class IdentificationFactoryTest
  *
  * @author                 Fabian Schmid <fs@studer-raimann.ch>
- *
- * @runTestsInSeparateProcesses
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
  */
+#[BackupGlobals(false)]
+#[BackupStaticProperties(false)]
+#[PreserveGlobalState(false)]
+#[RunTestsInSeparateProcesses]
 class IdentificationFactoryTest extends TestCase
 {
-    use MockeryPHPUnitIntegration;
+    //    use MockeryPHPUnitIntegration;
     public const MOCKED_PROVIDER_CLASSNAME = 'Mockery_1_ILIAS_GlobalScreen_Provider_Provider';
     /**
      * @var Mockery\MockInterface|ProviderFactory
@@ -113,7 +131,7 @@ class IdentificationFactoryTest extends TestCase
     {
         $identification = $this->identification->core($this->provider_mock)->identifier('dummy');
         $this->assertInstanceOf(Serializable::class, $identification);
-        $this->assertEquals($identification->serialize(), get_class($this->provider_mock) . "|dummy");
+        $this->assertEquals($identification->serialize(), $this->provider_mock::class . "|dummy");
     }
 
 

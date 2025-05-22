@@ -37,7 +37,7 @@ class ilBenchmark
 
     private bool $stop_db_recording = false;
 
-    private int $bench_max_records;
+    private int $bench_max_records = 2000;
 
     private ?bool $db_bechmark_enabled = null;
     private ?int $db_bechmark_user_id = null;
@@ -49,8 +49,7 @@ class ilBenchmark
     {
         global $DIC;
         $this->dic = $DIC;
-        $this->initSettins();
-        $this->bench_max_records = 2000;//(int) ($this->retrieveSetting("bench_max_records") ?? 0);
+        $this->initSettins();//(int) ($this->retrieveSetting("bench_max_records") ?? 0);
     }
 
     private function initSettins(): void

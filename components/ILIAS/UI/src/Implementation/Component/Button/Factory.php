@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component\Button as B;
@@ -27,80 +27,53 @@ use ILIAS\UI\NotImplementedException;
 
 class Factory implements B\Factory
 {
-    /**
-     * @inheritdoc
-     */
-    public function standard(string $label, $action): B\Standard
+    public function standard(string $label, $action): Standard
     {
         return new Standard($label, $action);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function primary(string $label, $action): B\Primary
+    public function primary(string $label, $action): Primary
     {
         return new Primary($label, $action);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function close(): B\Close
+    public function close(): Close
     {
         return new Close();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function minimize(): B\Minimize
+    public function minimize(): Minimize
     {
         return new Minimize();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function tag(string $label, $action): B\Tag
+    public function tag(string $label, $action): Tag
     {
         return new Tag($label, $action);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function shy(string $label, $action): B\Shy
+    public function shy(string $label, $action): Shy
     {
         return new Shy($label, $action);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function month(string $default): B\Month
+    public function month(string $default): Month
     {
         return new Month($default);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function bulky(Symbol $icon_or_glyph, string $label, string $action): B\Bulky
+    public function bulky(Symbol $symbol, string $label, string $action): Bulky
     {
-        return new Bulky($icon_or_glyph, $label, $action);
+        return (new Bulky($label, $action))->withSymbol($symbol);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function toggle(
         string $label,
         $on_action,
         $off_action,
         bool $is_on = false,
-        Signal $click_signal = null
-    ): B\Toggle {
+        ?Signal $click_signal = null
+    ): Toggle {
         return new Toggle($label, $on_action, $off_action, $is_on, $click_signal);
     }
 }

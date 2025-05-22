@@ -26,7 +26,6 @@ use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Data;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\ProblemBuilder;
-use ILIAS\Language\Language;
 
 class Constraint implements ConstraintInterface
 {

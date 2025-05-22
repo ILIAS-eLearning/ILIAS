@@ -28,11 +28,18 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 {
     public function saveGeneral(): void
     {
+        if (!ilChatroom::checkUserPermissions(['write'], $this->gui->getRefId())) {
+            $this->ilCtrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
+            $this->ilCtrl->redirectByClass(ilRepositoryGUI::class);
+        }
+
         $formFactory = new ilChatroomFormFactory();
 
         $settingsForm = $formFactory->getSettingsForm(
             $this->gui,
-            $this->ilCtrl
+            $this->ilCtrl,
+            null,
+            true
         );
 
         $result = (new \ILIAS\Data\Factory())->error($this->ilLng->txt('form_input_not_valid'));
@@ -67,7 +74,11 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
         }
 
         foreach ($mutated_settings as $setting => &$value) {
-            if (array_key_exists($setting, $values)) {
+            if ($setting === ilChatroomFormFactory::PROP_ALLOW_CUSTOM_NAMES) {
+                $value = is_array($values[$setting] ?? null);
+            } elseif ($setting === ilChatroomFormFactory::PROP_AUTOGEN_USERNAMES) {
+                $value = $values[ilChatroomFormFactory::PROP_ALLOW_CUSTOM_NAMES][ilChatroomFormFactory::PROP_AUTOGEN_USERNAMES] ?? '';
+            } elseif (array_key_exists($setting, $values)) {
                 $value = $values[$setting];
             }
         }
@@ -79,7 +90,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
         $this->ilCtrl->redirect($this->gui, 'settings-general');
     }
 
-    public function general(\ILIAS\UI\Component\Input\Container\Form\Form $settingsForm = null): void
+    public function general(?\ILIAS\UI\Component\Input\Container\Form\Form $settingsForm = null): void
     {
         if (!ilChatroom::checkUserPermissions(['visible', 'read'], $this->gui->getRefId())) {
             $this->ilCtrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
@@ -109,7 +120,8 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
             $settingsForm = $formFactory->getSettingsForm(
                 $this->gui,
                 $this->ilCtrl,
-                $settings
+                $settings,
+                ilChatroom::checkUserPermissions(['write'], $this->gui->getRefId(), false)
             );
         }
 

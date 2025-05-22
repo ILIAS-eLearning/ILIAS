@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Persistence of "monitored" sources for automatic membership
@@ -38,8 +38,8 @@ interface ilStudyProgrammeAutoMembershipsRepository
         string $source_type,
         int $source_id,
         bool $enabled,
-        int $last_edited_usr_id = null,
-        DateTimeImmutable $last_edited = null
+        ?int $last_edited_usr_id = null,
+        ?DateTimeImmutable $last_edited = null
     ): ilStudyProgrammeAutoMembershipSource;
 
     /**

@@ -61,6 +61,10 @@ class ilLDAPSettingsGUI
     private ?string $role_bind_pass = null;
     private bool $role_sync_active = false;
     private array $attribute_mappings = [];
+    private readonly \ILIAS\UI\Factory $ui_factory;
+    private readonly \ILIAS\UI\Renderer $ui_renderer;
+    private readonly \ILIAS\HTTP\GlobalHttpState $http;
+    private readonly \ILIAS\Refinery\Factory $refinery;
 
     /**
      * @throws ilCtrlException
@@ -73,6 +77,7 @@ class ilLDAPSettingsGUI
         $this->tabs_gui = $DIC->tabs();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('ldap');
+        $this->lng->loadLanguageModule('ui');
         $this->ilErr = $DIC['ilErr'];
         $this->ilAccess = $DIC->access();
         $this->component_repository = $DIC["component.repository"];
@@ -80,6 +85,10 @@ class ilLDAPSettingsGUI
         $this->rbacSystem = $DIC->rbac()->system();
         $this->toolbar = $DIC->toolbar();
         $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->http = $DIC->http();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->refinery = $DIC->refinery();
 
         $this->tpl = $DIC->ui()->mainTemplate();
 
@@ -96,12 +105,30 @@ class ilLDAPSettingsGUI
                 $refinery->kindlyTo()->int()
             );
         }
-        if ($http_wrapper->query()->has("ldap_server_id")) {
+
+        if ($http_wrapper->query()->has('ldap_server_id')) {
             $this->ldap_server_id = $http_wrapper->query()->retrieve(
-                "ldap_server_id",
+                'ldap_server_id',
                 $refinery->kindlyTo()->int()
             );
+        } elseif ($http_wrapper->query()->has('ldap_servers_server_id')) {
+            $this->ldap_server_id = $http_wrapper->query()->retrieve(
+                'ldap_servers_server_id',
+                $this->refinery->in()->series([
+                    $refinery->kindlyTo()->listOf(
+                        $refinery->kindlyTo()->int()
+                    ),
+                    $this->refinery->custom()->constraint(
+                        fn($value): bool => count($value) === 1,
+                        $this->lng->txt('select_one')
+                    ),
+                    $this->refinery->custom()->transformation(
+                        fn($value): int => $value[0]
+                    )
+                ])
+            );
         }
+
         if ($http_wrapper->query()->has("mapping_id")) {
             $this->mapping_id = $http_wrapper->query()->retrieve(
                 "mapping_id",
@@ -609,7 +636,7 @@ class ilLDAPSettingsGUI
         $this->rule->setMemberIsDN((bool) (ilUtil::stripSlashes($rule['isdn'] ?? false)));
         $this->rule->setAttributeName(ilUtil::stripSlashes($rule['name'] ?? ''));
         $this->rule->setAttributeValue(ilUtil::stripSlashes($rule['value'] ?? ''));
-        $this->rule->setPluginId((int) ilUtil::stripSlashes($rule['plugin'] ?? '0'));
+        $this->rule->setPluginId((int) ilUtil::stripSlashes((string) ($rule['plugin'] ?? '0')));
     }
 
     public function deleteRoleMapping(): bool
@@ -674,9 +701,27 @@ class ilLDAPSettingsGUI
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
     }
 
-    public function serverList(): void
+    private function handleServerTableActions(): void
     {
-        if (!$this->rbacSystem->checkAccess("visible,read", $this->ref_id)) {
+        $action = $this->http->wrapper()->query()->retrieve(
+            'ldap_servers_table_action',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always('')
+            ])
+        );
+        match ($action) {
+            'editServerSettings' => $this->editServerSettings(),
+            'activateServer' => $this->activateServer(),
+            'deactivateServer' => $this->deactivateServer(),
+            'confirmDeleteServerSettings' => $this->confirmDeleteServerSettings(),
+            default => $this->ctrl->redirect($this, 'serverList'),
+        };
+    }
+
+    private function serverList(): void
+    {
+        if (!$this->rbacSystem->checkAccess('visible,read', $this->ref_id)) {
             $this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilErr->WARNING);
         }
 
@@ -684,16 +729,27 @@ class ilLDAPSettingsGUI
             $this->main_tpl->setOnScreenMessage('failure', 'Missing LDAP libraries. Please ensure that the PHP LDAP module is installed on your server.');
         }
 
-        if ($this->rbacSystem->checkAccess("write", $this->ref_id)) {
+        if ($this->rbacSystem->checkAccess('write', $this->ref_id)) {
             $this->toolbar->addButton(
-                $this->lng->txt("add_ldap_server"),
-                $this->ctrl->getLinkTarget($this, "addServerSettings")
+                $this->lng->txt('add_ldap_server'),
+                $this->ctrl->getLinkTarget($this, 'addServerSettings')
             );
         }
 
-        $table = new ilLDAPServerTableGUI($this, "serverList");
+        $table = new \ILIAS\LDAP\Server\UI\ServerTable(
+            ilLDAPServer::_getAllServer(),
+            $this,
+            $this->ui_factory,
+            $this->ui_renderer,
+            $this->lng,
+            $this->ctrl,
+            $this->http->request(),
+            new \ILIAS\Data\Factory(),
+            'handleServerTableActions',
+            $this->rbacSystem->checkAccess('write', $this->ref_id)
+        );
 
-        $this->tpl->setContent($table->getHTML());
+        $this->tpl->setContent($this->ui_renderer->render($table->getComponent()));
     }
 
     public function setServerFormValues(): void
@@ -805,7 +861,7 @@ class ilLDAPSettingsGUI
         $pass = new ilPasswordInputGUI($this->lng->txt('ldap_server_bind_pass'), 'bind_pass');
         $pass->setSkipSyntaxCheck(true);
         $pass->setSize(12);
-        $pass->setMaxLength(36);
+        $pass->setMaxLength(100);
         $user->addSubItem($pass);
         $binding->addOption($user);
         $this->form_gui->addItem($binding);
@@ -1369,7 +1425,7 @@ class ilLDAPSettingsGUI
         $pass->setPostVar("role_bind_pass");
         $pass->setValue($this->server->getRoleBindPassword());
         $pass->setSize(12);
-        $pass->setMaxLength(36);
+        $pass->setMaxLength(100);
         $pass->setRetype(false);
         $binding->addCombinationItem("1", $pass, $this->lng->txt('ldap_role_bind_pass'));
 

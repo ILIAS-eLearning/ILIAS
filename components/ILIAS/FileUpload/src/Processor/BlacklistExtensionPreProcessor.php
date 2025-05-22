@@ -20,12 +20,6 @@ namespace ILIAS\FileUpload\Processor;
 
 class BlacklistExtensionPreProcessor extends AbstractRecursiveZipPreProcessor implements PreProcessor
 {
-    private string $reason;
-    /**
-     * @var string[]
-     */
-    private array $blacklist;
-
     /**
      * BlacklistExtensionPreProcessor constructor.
      * Example:
@@ -42,10 +36,8 @@ class BlacklistExtensionPreProcessor extends AbstractRecursiveZipPreProcessor im
      *
      * @param \string[] $blacklist The file extensions which should be blacklisted.
      */
-    public function __construct(array $blacklist, string $reason = 'Extension is blacklisted.')
+    public function __construct(private array $blacklist, private string $reason = 'Extension is blacklisted.')
     {
-        $this->blacklist = $blacklist;
-        $this->reason = $reason;
     }
 
     protected function checkPath(string $path): bool

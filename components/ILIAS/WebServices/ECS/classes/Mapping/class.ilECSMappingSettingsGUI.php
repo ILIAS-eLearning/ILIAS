@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -225,7 +226,7 @@ class ilECSMappingSettingsGUI
         $explorer->setPostVar('lnodes[]');
 
         $lnodes = (array) $_REQUEST['lnodes'];
-        $checked_node = array_pop($lnodes);
+        $checked_node = (int) array_pop($lnodes);
         if ((int) $_REQUEST['lid']) {
             $checked_node = (int) $_REQUEST['lid'];
         }
@@ -435,7 +436,7 @@ class ilECSMappingSettingsGUI
     /**
      * Show course allocation
      */
-    protected function cSettings(ilPropertyFormGUI $form = null): bool
+    protected function cSettings(?ilPropertyFormGUI $form = null): bool
     {
         $this->setSubTabs(self::TAB_COURSE);
         $this->tabs->activateTab('ecs_crs_allocation');
@@ -567,7 +568,7 @@ class ilECSMappingSettingsGUI
     /**
      * Show directory allocation
      */
-    protected function dSettings(ilPropertyFormGUI $form = null): bool
+    protected function dSettings(?ilPropertyFormGUI $form = null): bool
     {
         $this->setSubTabs(self::TAB_DIRECTORY);
         $this->tabs->activateTab('ecs_dir_allocation');
@@ -773,7 +774,7 @@ class ilECSMappingSettingsGUI
     /**
      * Edit directory tree assignments
      */
-    protected function dEditTree(ilPropertyFormGUI $form = null): void
+    protected function dEditTree(?ilPropertyFormGUI $form = null): void
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.ecs_edit_tree.html', 'components/ILIAS/WebServices/ECS');
 
@@ -807,7 +808,7 @@ class ilECSMappingSettingsGUI
     /**
      * Init form settings
      */
-    protected function dInitFormTreeSettings(ilPropertyFormGUI $form = null): \ilPropertyFormGUI
+    protected function dInitFormTreeSettings(?ilPropertyFormGUI $form = null): \ilPropertyFormGUI
     {
         if ($form instanceof ilPropertyFormGUI) {
             return $form;

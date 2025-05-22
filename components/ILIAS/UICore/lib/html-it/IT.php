@@ -19,10 +19,8 @@
 declare(strict_types=1);
 
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2005 Ulf Wendel, Pierre-Alain Joye                |
 // +----------------------------------------------------------------------+
 // | This source file is subject to the New BSD license, That is bundled  |
-// | with this package in the file LICENSE, and is available through      |
 // | the world-wide-web at                                                |
 // | http://www.opensource.org/licenses/bsd-license.php                   |
 // | If you did not receive a copy of the new BSD license and are unable  |
@@ -321,7 +319,7 @@ class HTML_Template_IT
      * @param string[] $options array of options.
      * @throws ilTemplateException
      */
-    public function __construct(string $root = '', array $options = null)
+    public function __construct(string $root = '', ?array $options = null)
     {
         global $DIC;
         $DIC = $DIC instanceof Container ? $DIC : new Container([]);

@@ -289,6 +289,7 @@ class DatabaseHistoryRepository implements HistoryRepository
 
     /**
      * @param array<string, mixed> $filter
+     * @param array<string, mixed> $order_by
      * @return array{0: string, 1: string}
      */
     private function filterAndJoin(array $filter, array $order_by = []): array

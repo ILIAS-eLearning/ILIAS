@@ -18,8 +18,6 @@
 
 namespace ILIAS\ResourceStorage\Revision;
 
-use ILIAS\ResourceStorage\Consumer\StreamAccess\Token;
-
 /**
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */

@@ -26,7 +26,7 @@ use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Button\Tag;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Content;
 use ILIAS\UI\Component\Listing\Property as PropertyListing;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 
@@ -42,7 +42,7 @@ interface Entity extends Component
      * some access restriction for the user on this object.
      */
     public function withBlockingAvailabilityConditions(
-        PropertyListing | StandardLink | Legacy ...$blocking_conditions
+        PropertyListing | StandardLink | Content ...$blocking_conditions
     ): self;
 
     /**
@@ -52,7 +52,7 @@ interface Entity extends Component
      * place.
      */
     public function withFeaturedProperties(
-        PropertyListing | StandardLink | Legacy ...$featured_props
+        PropertyListing | StandardLink | Content ...$featured_props
     ): self;
 
     /**
@@ -60,7 +60,7 @@ interface Entity extends Component
      * "Description" would be one of the most prominent examples.
      */
     public function withMainDetails(
-        PropertyListing | Legacy ...$main_details
+        PropertyListing | Content ...$main_details
     ): self;
 
     /**
@@ -86,7 +86,7 @@ interface Entity extends Component
      * you should place them into Blocking Availability Conditions.
      */
     public function withAvailability(
-        PropertyListing | StandardLink | Legacy ...$availability
+        PropertyListing | StandardLink | Content ...$availability
     ): self;
 
     /**
@@ -94,7 +94,7 @@ interface Entity extends Component
      * but not as significantly important than Main Details or Featured Properties.
      */
     public function withDetails(
-        PropertyListing | Legacy ...$details
+        PropertyListing | Content ...$details
     ): self;
 
     /**
@@ -109,6 +109,6 @@ interface Entity extends Component
      * the learning Progress of a Course.
      */
     public function withPersonalStatus(
-        PropertyListing | Legacy ...$personal_status
+        PropertyListing | Content ...$personal_status
     ): self;
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\EmployeeTalk\Talk;
 
 interface EmployeeTalkPositionAccessLevel
 {
-    public const VIEW = 'read_employee_talk';
-    public const EDIT = 'edit_employee_talk';
-    public const CREATE = 'create_employee_talk';
+    public const string VIEW = 'read_employee_talk';
+    public const string EDIT = 'edit_employee_talk';
+    public const string CREATE = 'create_employee_talk';
 }

@@ -37,7 +37,7 @@ class ilLearningSequenceAppEventListener
                         break;
                 }
                 break;
-            case "components/ILIAS/Object":
+            case "components/ILIAS/ILIASObject":
                 switch ($event) {
                     case "beforeDeletion":
                         self::onObjectDeletion($parameter);

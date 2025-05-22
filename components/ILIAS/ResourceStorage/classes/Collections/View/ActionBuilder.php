@@ -20,10 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Collections\View;
 
+use ILIAS\UI\URLBuilderToken;
+use ILIAS\UI\Implementation\Component\Dropdown\Standard;
 use ILIAS\UI\Factory;
 use ILIAS\Data\URI;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\UI\Component\Signal;
 use ILIAS\components\ResourceStorage\BinToHexSerializer;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\UI\Component\Modal\Modal;
@@ -36,17 +37,32 @@ final class ActionBuilder
 {
     use BinToHexSerializer;
 
+    /**
+     * @var string
+     */
     public const ACTION_UNZIP = 'unzip';
+    /**
+     * @var string
+     */
     private const ACTION_DOWNLOAD = 'download';
+    /**
+     * @var string
+     */
     private const ACTION_REMOVE = 'remove';
+    /**
+     * @var string
+     */
     private const ACTION_EDIT = 'edit';
+    /**
+     * @var string
+     */
     public const ACTION_NAMESPACE = 'rcgui';
     /**
      * @var Modal[]
      */
     private array $modals = [];
     private URLBuilder $url_builder;
-    private \ILIAS\UI\URLBuilderToken $url_token;
+    private URLBuilderToken $url_token;
 
     public function __construct(
         private Request $request,
@@ -82,7 +98,7 @@ final class ActionBuilder
         return $this->url_builder;
     }
 
-    public function getUrlToken(): \ILIAS\UI\URLBuilderToken
+    public function getUrlToken(): URLBuilderToken
     {
         return $this->url_token;
     }
@@ -133,7 +149,7 @@ final class ActionBuilder
 
     public function buildDropDownForResource(
         ResourceIdentification $rid
-    ): \ILIAS\UI\Implementation\Component\Dropdown\Standard {
+    ): Standard {
         $items = [];
         foreach ($this->getActions() as $index => $a) {
             $revision = $this->irss->manage()->getCurrentRevision($rid);

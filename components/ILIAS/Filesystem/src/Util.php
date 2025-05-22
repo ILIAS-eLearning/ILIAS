@@ -28,21 +28,33 @@ use ILIAS\Refinery\String\UTFNormal;
  */
 class Util
 {
+    /**
+     * @var string
+     */
     private const FUNKY_WHITESPACES = '#\p{C}+#u';
+    /**
+     * @var string
+     */
     private const ZERO_JOINER = '/\\x{00ad}|\\x{0083}|\\x{200c}|\\x{200d}|\\x{2062}|\\x{2063}/iu';
+    /**
+     * @var string
+     */
     private const SOFT_HYPHEN = "/\\x{00a0}/iu";
+    /**
+     * @var string
+     */
     private const CONTROL_CHARACTER = "/\\x{00a0}/iu";
 
     public static function sanitizeFileName(string $filename): string
     {
         // remove control characters
         $filename = preg_replace('/[\x00-\x1F\x7F]/u', '', $filename);
-        $filename = preg_replace(self::CONTROL_CHARACTER, '', $filename);
+        $filename = preg_replace(self::CONTROL_CHARACTER, '', (string) $filename);
 
         // remove other characters
-        $filename = preg_replace(self::FUNKY_WHITESPACES, '', $filename);
-        $filename = preg_replace(self::SOFT_HYPHEN, ' ', $filename);
-        $filename = preg_replace(self::ZERO_JOINER, '', $filename);
+        $filename = preg_replace(self::FUNKY_WHITESPACES, '', (string) $filename);
+        $filename = preg_replace(self::SOFT_HYPHEN, ' ', (string) $filename);
+        $filename = preg_replace(self::ZERO_JOINER, '', (string) $filename);
 
         // UTF normalization form C
         $form_c = (new UTFNormal())->formC();

@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Results\Data\StatusOfAttempt;
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
+
 /**
  * Class ilTestPassFinishTasks
  * @author Guido Vollbach <gvollbach@databay.de>
@@ -25,14 +28,17 @@ declare(strict_types=1);
 class ilTestPassFinishTasks
 {
     public function __construct(
-        private ilTestSession $test_session,
-        private int $obj_id
+        private readonly ilTestSession $test_session,
+        private readonly ilObjTest $obj_test,
+        private readonly TestResultRepository $test_pass_result_repository
     ) {
     }
 
-    public function performFinishTasks(ilTestProcessLocker $process_locker)
+    public function performFinishTasks(ilTestProcessLocker $process_locker, StatusOfAttempt $status_of_attempt)
     {
-        $process_locker->executeTestFinishOperation(function () {
+        $process_locker->executeTestFinishOperation(function () use ($status_of_attempt) {
+            $pass = $this->test_session->getPass();
+
             if (!$this->test_session->isSubmitted()) {
                 $this->test_session->setSubmitted();
                 $this->test_session->setSubmittedTimestamp();
@@ -51,7 +57,15 @@ class ilTestPassFinishTasks
                 $this->test_session->setLastFinishedPass($this->test_session->getPass());
                 $this->test_session->increaseTestPass(); // saves to db
             }
+
+            $this->test_pass_result_repository->finalizeTestPassResult(
+                $this->test_session->getActiveId(),
+                $pass,
+                $status_of_attempt
+            );
         });
+
+        $this->obj_test->updateTestResultCache($this->test_session->getActiveId(), null);
 
         $this->updateLearningProgressAfterPassFinishedIsWritten();
     }
@@ -59,30 +73,8 @@ class ilTestPassFinishTasks
     protected function updateLearningProgressAfterPassFinishedIsWritten()
     {
         ilLPStatusWrapper::_updateStatus(
-            $this->obj_id,
+            $this->obj_test->getId(),
             ilObjTestAccess::_getParticipantId($this->test_session->getActiveId())
         );
-
-        $caller = $this->getCaller();
-        $lp = ilLPStatus::_lookupStatus($this->obj_id, $this->test_session->getUserId());
-        $debug = "finPass={$this->test_session->getLastFinishedPass()} / Lp={$lp}";
-
-        ilObjAssessmentFolder::_addLog(
-            $this->test_session->getUserId(),
-            $this->obj_id,
-            "updateLearningProgressAfterPassFinishedIsWritten has been called from {$caller} ({$debug})",
-            true
-        );
-    }
-
-    protected function getCaller()
-    {
-        try {
-            throw new Exception();
-        } catch (Exception $e) {
-            $trace = $e->getTrace();
-        }
-
-        return $trace[3]['class'];
     }
 }

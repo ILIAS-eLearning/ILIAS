@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Class ilStudyProgrammeAutoMembershipSource
@@ -37,20 +37,14 @@ class ilStudyProgrammeAutoMembershipSource
         self::TYPE_ORGU => ilPRGAssignment::AUTO_ASSIGNED_BY_ORGU
     ];
 
-    protected int $prg_obj_id;
-    protected string $source_type;
-    protected int $source_id;
-    protected bool $enabled;
-    protected int $last_edited_usr_id;
-    protected DateTimeImmutable $last_edited;
-
     public function __construct(
-        int $prg_obj_id,
-        string $source_type,
-        int $source_id,
-        bool $enabled,
-        int $last_edited_usr_id,
-        DateTimeImmutable $last_edited
+        protected int $prg_obj_id,
+        protected string $source_type,
+        protected int $source_id,
+        protected bool $enabled,
+        protected int $last_edited_usr_id,
+        protected DateTimeImmutable $last_edited,
+        protected bool $search_recursive
     ) {
         if (!in_array($source_type, [
             self::TYPE_ROLE,
@@ -60,13 +54,6 @@ class ilStudyProgrammeAutoMembershipSource
         ])) {
             throw new InvalidArgumentException("Invalid source-type: " . $source_type, 1);
         }
-
-        $this->prg_obj_id = $prg_obj_id;
-        $this->source_type = $source_type;
-        $this->source_id = $source_id;
-        $this->enabled = $enabled;
-        $this->last_edited_usr_id = $last_edited_usr_id;
-        $this->last_edited = $last_edited;
     }
 
     public function getPrgObjId(): int
@@ -97,5 +84,10 @@ class ilStudyProgrammeAutoMembershipSource
     public function getLastEdited(): DateTimeImmutable
     {
         return $this->last_edited;
+    }
+
+    public function isSearchRecursive(): bool
+    {
+        return $this->search_recursive;
     }
 }

@@ -29,19 +29,12 @@ declare(strict_types=1);
  */
 class ilMailTemplateContextAdapter
 {
-    /** @var ilMailTemplateContext[] $contexts */
-    protected array $contexts = [];
-    protected array $context_parameter = [];
-    protected ?ilObjUser $recipient = null;
-
     public function __construct(
-        array $contexts,
-        array $context_parameters,
-        ilObjUser $recipient = null
+        /** @var ilMailTemplateContext[] $contexts */
+        protected array $contexts,
+        protected array $context_parameter,
+        protected ?ilObjUser $recipient = null
     ) {
-        $this->contexts = $contexts;
-        $this->context_parameter = $context_parameters;
-        $this->recipient = $recipient;
     }
 
     public function withContext(ilMailTemplateContext $context): self

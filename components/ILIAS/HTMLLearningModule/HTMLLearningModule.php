@@ -32,6 +32,9 @@ class HTMLLearningModule implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
+        new \ilHTLMSetupAgent(
+            $pull[\ILIAS\Refinery\Factory::class]
+        );
     }
 }

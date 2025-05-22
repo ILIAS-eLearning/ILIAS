@@ -46,19 +46,15 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
 {
     protected const DATA = 'data';
     public const FLAVOUR_PATH_PREFIX = 'fl';
-    protected \ILIAS\ResourceStorage\StorageHandler\PathGenerator\PathGenerator $path_generator;
-    protected \ILIAS\ResourceStorage\Identification\IdentificationGenerator $id;
+    protected PathGenerator $path_generator;
+    protected IdentificationGenerator $id;
     protected bool $links_possible = false;
-    protected Filesystem $fs;
-    protected int $location = Location::STORAGE;
 
     public function __construct(
-        Filesystem $fs,
-        int $location = Location::STORAGE,
+        protected Filesystem $fs,
+        protected int $location = Location::STORAGE,
         bool $determine_linking_possible = false
     ) {
-        $this->fs = $fs;
-        $this->location = $location;
         $this->id = new UniqueIDIdentificationGenerator();
         if ($determine_linking_possible) {
             $this->links_possible = $this->determineLinksPossible();
@@ -74,11 +70,11 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
         $cleaner = function () use ($original_filename, $linked_filename): void {
             try {
                 $this->fs->delete($original_filename);
-            } catch (\Throwable $exception) {
+            } catch (\Throwable) {
             }
             try {
                 $this->fs->delete($linked_filename);
-            } catch (\Throwable $exception) {
+            } catch (\Throwable) {
             }
         };
 
@@ -92,7 +88,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
 
             // determine absolute pathes
             $original_absolute_path = $stream->getMetadata('uri');
-            $linked_absolute_path = dirname($original_absolute_path) . "/" . $random_filename . '_link';
+            $linked_absolute_path = dirname((string) $original_absolute_path) . "/" . $random_filename . '_link';
 
             // try linking and unlinking
             /** @noinspection PhpUsageOfSilenceOperatorInspection */
@@ -106,7 +102,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
                 return true;
             }
             $cleaner();
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             return false;
         }
         return false;
@@ -180,7 +176,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
                 }
                 $revision->getStream()->close();
             }
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             return false;
         }
 
@@ -193,7 +189,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
         try {
             $this->fs->writeStream($this->getRevisionPath($revision) . '/' . self::DATA, $stream);
             $stream->close();
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             return false;
         }
 
@@ -210,7 +206,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
             }
             $this->fs->writeStream($path, $stream);
             $stream->close();
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             return false;
         }
 
@@ -224,7 +220,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
     {
         try {
             $this->fs->deleteDir($this->getRevisionPath($revision));
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
         }
     }
 
@@ -280,11 +276,11 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
     {
         try {
             $this->fs->deleteDir($this->getFullContainerPath($resource->getIdentification()));
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
         }
         try {
             $this->cleanUpContainer($resource);
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
         }
     }
 

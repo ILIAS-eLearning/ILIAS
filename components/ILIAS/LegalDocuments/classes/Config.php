@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments;
 
-use InvalidArgumentException;
-
 class Config
 {
     public function __construct(

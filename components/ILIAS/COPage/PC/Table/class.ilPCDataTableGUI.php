@@ -318,7 +318,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $form->addItem($rows);
 
         // table templates and table classes
-        $char_prop = new ilAdvSelectInputGUI(
+        $char_prop = new ilSelectInputGUI(
             $this->lng->txt("cont_table_style"),
             "characteristic"
         );
@@ -333,6 +333,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
                 );
             }
         }
+        $options = [];
         foreach ($chars as $k => $char) {
             if (strpos($k, ":") > 0) {
                 $t = explode(":", $k);
@@ -341,9 +342,11 @@ class ilPCDataTableGUI extends ilPCTableGUI
                 $html = '<table class="ilc_table_' . $k . '"><tr><td class="small">' .
                     $char . '</td></tr></table>';
             }
-            $char_prop->addOption($k, $char, $html);
+            //$char_prop->addOption($k, $char, $html);
+            $options[$k] = $char;
         }
         if (count($chars) > 1) {
+            $char_prop->setOptions($options);
             $char_prop->setValue("StandardTable");
             $form->addItem($char_prop);
         }
@@ -352,7 +355,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $cb = new ilCheckboxInputGUI($lng->txt("cont_has_row_header"), "has_row_header");
         $form->addItem($cb);
 
-        $form->addCommandButton("create_tab", $lng->txt("save"));
+        $form->addCommandButton("create", $lng->txt("save"));
         $form->addCommandButton("cancelCreate", $lng->txt("cancel"));
 
         return $form;
@@ -372,7 +375,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $form->setTitle($this->getFormTitle("edit"));
 
         // table templates and table classes
-        $char_prop = new ilAdvSelectInputGUI(
+        $char_prop = new ilSelectInputGUI(
             $this->lng->txt("cont_table_style"),
             "characteristic"
         );
@@ -387,6 +390,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
                 );
             }
         }
+        $options = [];
         foreach ($chars as $k => $char) {
             if (strpos($k, ":") > 0) {
                 $t = explode(":", $k);
@@ -395,8 +399,10 @@ class ilPCDataTableGUI extends ilPCTableGUI
                 $html = '<table class="ilc_table_' . $k . '"><tr><td class="small">' .
                     $char . '</td></tr></table>';
             }
-            $char_prop->addOption($k, $char, $html);
+            //$char_prop->addOption($k, $char, $html);
+            $options[$k] = $char;
         }
+        $char_prop->setOptions($options);
         if (count($chars) > 1) {
             if ($this->content_obj->getTemplate() !== "") {
                 $val = "t:" .
@@ -443,7 +449,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $form->addItem($import_data);
 
         // table templates and table classes
-        $char_prop = new ilAdvSelectInputGUI(
+        $char_prop = new ilSelectInputGUI(
             $this->lng->txt("cont_table_style"),
             "import_characteristic"
         );
@@ -458,6 +464,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
                 );
             }
         }
+        $options = [];
         foreach ($chars as $k => $char) {
             if (strpos($k, ":") > 0) {
                 $t = explode(":", $k);
@@ -466,9 +473,11 @@ class ilPCDataTableGUI extends ilPCTableGUI
                 $html = '<table class="ilc_table_' . $k . '"><tr><td class="small">' .
                     $char . '</td></tr></table>';
             }
-            $char_prop->addOption($k, $char, $html);
+            //$char_prop->addOption($k, $char, $html);
+            $options[$k] = $char;
         }
         if (count($chars) > 1) {
+            $char_prop->setOptions($options);
             $char_prop->setValue("StandardTable");
             $form->addItem($char_prop);
         }
@@ -478,7 +487,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $form->addItem($cb);
 
 
-        $form->addCommandButton("create_tab", $lng->txt("save"));
+        $form->addCommandButton("create", $lng->txt("save"));
         $form->addCommandButton("cancelCreate", $lng->txt("cancel"));
 
         return $form;
@@ -498,11 +507,11 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
         $style_cb = new ilCheckboxInputGUI($lng->txt("cont_change_style"), "style_cb");
 
-        $style = new ilAdvSelectInputGUI(
+        $style = new ilSelectInputGUI(
             $this->lng->txt("cont_style"),
             "style"
         );
-        $style->setPullRight(false);
+        //$style->setPullRight(false);
         $this->setBasicTableCellStyles();
         $this->getCharacteristicsOfCurrentStyle(["table_cell"]);	// scorm-2004
         $chars = $this->getCharacteristics();	// scorm-2004
@@ -510,10 +519,11 @@ class ilPCDataTableGUI extends ilPCTableGUI
         foreach ($options as $k => $option) {
             $html = '<table border="0" cellspacing="0" cellpadding="0"><tr><td class="ilc_table_cell_' . $k . '">' .
                 $option . '</td></tr></table>';
-            $style->addOption($k, $option, $html);
+            //$style->addOption($k, $option, $html);
         }
 
         if (count($options) > 1) {
+            $style->setOptions($options);
             $style_cb->addSubItem($style);
             $form->addItem($style_cb);
         }

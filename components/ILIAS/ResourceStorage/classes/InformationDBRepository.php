@@ -38,11 +38,9 @@ class InformationDBRepository implements InformationRepository
      * @var mixed[]
      */
     protected array $cache = [];
-    protected \ilDBInterface $db;
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(protected \ilDBInterface $db)
     {
-        $this->db = $db;
     }
 
     /**
@@ -183,11 +181,11 @@ class InformationDBRepository implements InformationRepository
     private function getFileInfoFromArrayData(array $data): FileInformation
     {
         $i = new FileInformation();
-        $i->setTitle((string)$data['title']);
-        $i->setSize((int)$data['size']);
-        $i->setMimeType((string)$data['mime_type']);
-        $i->setSuffix((string)$data['suffix']);
-        $i->setCreationDate((new \DateTimeImmutable())->setTimestamp((int)$data['creation_date'] ?? 0));
+        $i->setTitle((string) $data['title']);
+        $i->setSize((int) $data['size']);
+        $i->setMimeType((string) $data['mime_type']);
+        $i->setSuffix((string) $data['suffix']);
+        $i->setCreationDate((new \DateTimeImmutable())->setTimestamp((int) $data['creation_date'] ?? 0));
 
         return $i;
     }

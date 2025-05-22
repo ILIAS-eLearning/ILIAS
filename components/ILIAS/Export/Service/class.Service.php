@@ -25,12 +25,21 @@ namespace ILIAS\Export;
  */
 class Service
 {
+    protected static array $instance = [];
     public function __construct()
     {
     }
 
     public function internal(): InternalService
     {
-        return new InternalService();
+        return self::$instance["internal"] ??= new InternalService();
     }
+
+    public function domain(): ExternalDomainService
+    {
+        return self::$instance["domain"] ??= new ExternalDomainService(
+            $this->internal()->domain()
+        );
+    }
+
 }

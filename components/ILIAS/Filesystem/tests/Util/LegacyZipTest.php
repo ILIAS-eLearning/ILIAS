@@ -18,25 +18,25 @@
 
 namespace ILIAS\Filesystem\Util;
 
-use ILIAS\Filesystem\Stream\Streams;
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\BackupStaticProperties;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use ILIAS\Filesystem\Util\Archive\LegacyArchives;
-use ILIAS\Filesystem\Util\Archive\Unzip;
-use ILIAS\Filesystem\Util\Archive\UnzipOptions;
 use PHPUnit\Framework\TestCase;
-use ILIAS\Filesystem\Util\Archive\Zip;
-use ILIAS\Filesystem\Util\Archive\ZipOptions;
-use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 
 /**
  * @author                      Fabian Schmid <fabian@sr.solutions>
- *
- * @runTestsInSeparateProcesses // This is required for the test to work since we define some constants in the test
- * @preserveGlobalState         disabled
- * @backupGlobals               disabled
- * @backupStaticAttributes      disabled
  */
+#[BackupGlobals(false)]
+#[BackupStaticProperties(false)]
+#[PreserveGlobalState(false)]
+#[RunTestsInSeparateProcesses]
 class LegacyZipTest extends TestCase
 {
+    /**
+     * @var string
+     */
     private const DIR_TO_ZIP = __DIR__ . '/dir_zip/testing_001';
     public const ZIPPED_ZIP = 'zipped.zip';
     protected string $zips_dir = __DIR__ . '/zips/';
@@ -130,9 +130,7 @@ class LegacyZipTest extends TestCase
             array_values(
                 array_filter(
                     iterator_to_array($files),
-                    static function (\SplFileInfo $file) use ($ignore): bool {
-                        return !in_array($file->getFilename(), $ignore, true);
-                    }
+                    static fn(\SplFileInfo $file): bool => !in_array($file->getFilename(), $ignore, true)
                 )
             )
         );

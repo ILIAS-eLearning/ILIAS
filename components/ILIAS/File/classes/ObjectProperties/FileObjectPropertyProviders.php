@@ -18,25 +18,34 @@
 
 declare(strict_types=1);
 
-use ILIAS\Object\Properties\ObjectTypeSpecificProperties\ilObjectTypeSpecificPropertyProviders;
-use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageFlavourDefinition;
-use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\ILIASObject\Properties\ObjectTypeSpecificProperties\ObjectTypeSpecificPropertyProviders;
+use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\FlavourDefinition as TileImageFlavourDefinition;
+use ILIAS\UI\Component\Symbol\Icon\Custom as CustomIcon;
 use ILIAS\UI\Component\Symbol\Icon\Factory as IconFactory;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Image\Factory as ImageFactory;
 use ILIAS\ResourceStorage\Services as StorageService;
 use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
+use ILIAS\components\File\Preview\Settings;
+use ILIAS\Modules\File\Preview\SettingsFactory;
+use ILIAS\File\Icon\IconDatabaseRepository;
 
-class FileObjectPropertyProviders implements ilObjectTypeSpecificPropertyProviders
+class FileObjectPropertyProviders implements ObjectTypeSpecificPropertyProviders
 {
     private FlavourDefinition $crop_definition;
     private FlavourDefinition $extract_definition;
+    private Settings $settings;
+    private IconDatabaseRepository $icons;
+    private ilObjFileInfoRepository $info;
 
     public function __construct()
     {
-        $this->crop_definition = new ilObjectTileImageFlavourDefinition();
+        $this->crop_definition = new TileImageFlavourDefinition();
         $this->extract_definition = new FirstPageToTileImageFlavourDefinition();
+        $this->settings = (new SettingsFactory())->getSettings();
+        $this->info = new ilObjFileInfoRepository();
+        $this->icons = new IconDatabaseRepository();
     }
 
     public function getObjectTypeSpecificTileImage(
@@ -44,6 +53,10 @@ class FileObjectPropertyProviders implements ilObjectTypeSpecificPropertyProvide
         ImageFactory $factory,
         StorageService $irss
     ): ?Image {
+        if (!$this->settings->hasTilePreviews()) {
+            return null;
+        }
+
         $rid = (new ilObjFileInfoRepository())->getByObjectId($obj_id)->getRID();
 
         if ($rid === null) {
@@ -75,10 +88,14 @@ class FileObjectPropertyProviders implements ilObjectTypeSpecificPropertyProvide
         $available_widths = $this->crop_definition->getWidths();
         array_pop($available_widths);
 
+        if (!isset($urls[count($available_widths)])) {
+            return null;
+        }
+
         $image = $factory->responsive($urls[count($available_widths)], '');
         return array_reduce(
             $available_widths,
-            function ($carry, $size) use ($urls) {
+            function (array $carry, $size) use ($urls): array {
                 $image = $carry['image']->withAdditionalHighResSource($urls[$carry['counter']], $size / 2);
                 $counter = ++$carry['counter'];
                 return [
@@ -90,11 +107,17 @@ class FileObjectPropertyProviders implements ilObjectTypeSpecificPropertyProvide
         )['image'];
     }
 
-    public function getObjectTypeSpecificCustomIcon(
+    public function getObjectTypeSpecificIcon(
         int $obj_id,
         IconFactory $icon_factory,
         StorageService $irss
-    ): ?Icon {
+    ): ?CustomIcon {
+        $info = $this->info->getByObjectId($obj_id);
+        $path = $this->icons->getIconFilePathBySuffix($info->getSuffix());
+        if (($path !== '' && $path !== '0')) {
+            return $icon_factory->custom($path, $info->getSuffix());
+        }
+
         return null;
     }
 }

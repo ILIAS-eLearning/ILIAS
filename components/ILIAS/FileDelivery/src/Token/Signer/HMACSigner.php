@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\Token\Signer;
 
-use ILIAS\FileDelivery\Token\Signer\Key\DigestMethod\DigestMethod;
 use ILIAS\FileDelivery\Token\Signer\Algorithm\Algorithm;
 use ILIAS\FileDelivery\Token\Signer\Key\Signing\SigningKey;
 
@@ -62,10 +61,6 @@ class HMACSigner implements Signer
         if ($signature_check !== $signature) {
             return false;
         }
-        if ($validity > 0 && $validity < time()) {
-            return false;
-        }
-
-        return true;
+        return !($validity > 0 && $validity < time());
     }
 }

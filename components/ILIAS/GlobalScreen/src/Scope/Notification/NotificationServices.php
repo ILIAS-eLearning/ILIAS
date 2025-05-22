@@ -22,7 +22,6 @@ declare(strict_types=1);
 namespace ILIAS\GlobalScreen\Scope\Notification;
 
 use ILIAS\GlobalScreen\Scope\Notification\Factory\NotificationFactory;
-use ILIAS\GlobalScreen\SingletonTrait;
 
 /**
  * Class NotificationServices

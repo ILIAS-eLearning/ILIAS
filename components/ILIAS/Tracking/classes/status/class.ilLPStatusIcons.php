@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Caches and supplies the paths to the learning progress status images.
  * @author  Tim Schmitz <schmitz@leifos.de>
@@ -82,33 +84,38 @@ class ilLPStatusIcons
 
         switch ($variant) {
             case ilLPStatusIcons::ICON_VARIANT_SCORM:
-                $this->image_path_in_progress = ilUtil::getImagePath('scorm/incomplete.svg');
-                $this->image_path_completed = ilUtil::getImagePath('scorm/complete.svg');
-                $this->image_path_not_attempted = ilUtil::getImagePath('scorm/not_attempted.svg');
-                $this->image_path_failed = ilUtil::getImagePath('scorm/failed.svg');
-                $this->image_path_asset = ilUtil::getImagePath('scorm/asset.svg');
-                $this->image_path_running = ilUtil::getImagePath('scorm/running.svg');
+                $this->image_path_in_progress = $this->buildImagePath('scorm/incomplete.svg');
+                $this->image_path_completed = $this->buildImagePath('scorm/complete.svg');
+                $this->image_path_not_attempted = $this->buildImagePath('scorm/not_attempted.svg');
+                $this->image_path_failed = $this->buildImagePath('scorm/failed.svg');
+                $this->image_path_asset = $this->buildImagePath('scorm/asset.svg');
+                $this->image_path_running = $this->buildImagePath('scorm/running.svg');
                 break;
 
             case ilLPStatusIcons::ICON_VARIANT_SHORT:
-                $this->image_path_in_progress = ilUtil::getImagePath('learning_progress/short/in_progress.svg');
-                $this->image_path_completed = ilUtil::getImagePath('learning_progress/short/completed.svg');
-                $this->image_path_not_attempted = ilUtil::getImagePath('learning_progress/short/not_attempted.svg');
-                $this->image_path_failed = ilUtil::getImagePath('learning_progress/short/failed.svg');
-                $this->image_path_asset = ilUtil::getImagePath('learning_progress/short/asset.svg');
-                $this->image_path_running = ilUtil::getImagePath('learning_progress/short/running.svg');
+                $this->image_path_in_progress = $this->buildImagePath('learning_progress/short/in_progress.svg');
+                $this->image_path_completed = $this->buildImagePath('learning_progress/short/completed.svg');
+                $this->image_path_not_attempted = $this->buildImagePath('learning_progress/short/not_attempted.svg');
+                $this->image_path_failed = $this->buildImagePath('learning_progress/short/failed.svg');
+                $this->image_path_asset = $this->buildImagePath('learning_progress/short/asset.svg');
+                $this->image_path_running = $this->buildImagePath('learning_progress/short/running.svg');
                 break;
 
             case ilLPStatusIcons::ICON_VARIANT_LONG:
-                $this->image_path_in_progress = ilUtil::getImagePath('learning_progress/in_progress.svg');
-                $this->image_path_completed = ilUtil::getImagePath('learning_progress/completed.svg');
-                $this->image_path_not_attempted = ilUtil::getImagePath('learning_progress/not_attempted.svg');
-                $this->image_path_failed = ilUtil::getImagePath('learning_progress/failed.svg');
+                $this->image_path_in_progress = $this->buildImagePath('learning_progress/in_progress.svg');
+                $this->image_path_completed = $this->buildImagePath('learning_progress/completed.svg');
+                $this->image_path_not_attempted = $this->buildImagePath('learning_progress/not_attempted.svg');
+                $this->image_path_failed = $this->buildImagePath('learning_progress/failed.svg');
                 break;
 
             default:
                 throw new ilLPException("No such variant of the LP icons exists.");
         }
+    }
+
+    protected function buildImagePath(string $image_name): string
+    {
+        return ilUtil::getImagePath($image_name);
     }
 
     public function getImagePathInProgress(): string

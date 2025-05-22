@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,23 +16,39 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\MediaCast;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
+use ILIAS\MediaCast\Settings\Settings;
+
 class InternalDataService
 {
-    // protected ...\DataFactory ..._factory;
-
     public function __construct()
     {
-        //$this->..._factory = new ...\DataFactory();
     }
 
-    /*
-    public function ...() : ...\...
-    {
-        return $this->..._factory->...();
-    }*/
+    public function settings(
+        int $id,
+        bool $public_files,
+        bool $downloadable,
+        int $default_access,
+        int $sort_mode,
+        string $view_mode,
+        bool $autoplay_mode,
+        int $nr_initial_videos,
+        bool $new_items_in_lp
+    ): Settings {
+        return new Settings(
+            $id,
+            $public_files,
+            $downloadable,
+            $default_access,
+            $sort_mode,
+            $view_mode,
+            $autoplay_mode,
+            $nr_initial_videos,
+            $new_items_in_lp
+        );
+    }
 }

@@ -23,14 +23,14 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Implementation\Component\Input\DynamicInputDataIterator;
 use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Component\Input\InputData;
 use ILIAS\UI\Component\Input\Container\Form\FormInput as FormInputInterface;
 use ILIAS\UI\Component\Input\Field\HasDynamicInputs;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use InvalidArgumentException;
 use LogicException;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 /**
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
@@ -46,10 +46,10 @@ abstract class HasDynamicInputsBase extends FormInput implements HasDynamicInput
      */
     protected array $dynamic_inputs = [];
     protected FormInputInterface $dynamic_input_template;
-    protected ilLanguage $language;
+    protected Language $language;
 
     public function __construct(
-        ilLanguage $language,
+        Language $language,
         DataFactory $data_factory,
         Refinery $refinery,
         string $label,

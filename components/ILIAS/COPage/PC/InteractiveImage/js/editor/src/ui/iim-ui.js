@@ -616,7 +616,7 @@ export default class UI {
         switch (act) {
           case ACTIONS.E_SAVE_SETTINGS:
             event.preventDefault();
-            const form = document.querySelector('#copg-editor-slate-content form');
+            const form = document.querySelector('#copg-editor-slate-content .modal-body form');
             dispatch.dispatch(action.interactiveImage().editor().saveSettings(
               form,
             ));
@@ -639,7 +639,7 @@ export default class UI {
     this.initOverlayList();
     document.querySelectorAll("[data-copg-ed-type='button']").forEach((button) => {
       const act = button.dataset.copgEdAction;
-      button.addEventListener('click', (event) => {
+      button.addEventListener('click', () => {
         switch (act) {
           case ACTIONS.E_TRIGGER_OVERLAY_ADD:
             dispatch.dispatch(action.interactiveImage().editor().addTriggerOverlay());
@@ -671,12 +671,21 @@ export default class UI {
     this.fillItemList(items);
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  hideAllAddDropdowns() {
+    document.querySelectorAll('#copg-editor-slate-content ul.dropdown-menu').forEach((el) => {
+      el.style.display = 'none';
+      el.dataset.copgDDShown = '0';
+    });
+  }
+
   fillItemList(items) {
     let newNode; let newLiNode; let liTempl; let
       liParent;
     const dispatch = this.dispatcher;
     const templEl = document.querySelector('#copg-editor-slate-content .il-std-item-container');
     const parent = templEl.parentNode;
+
     items.forEach((item) => {
       newNode = templEl.cloneNode(true);
       for (const [key, value] of Object.entries(item.placeholders)) {
@@ -696,12 +705,28 @@ export default class UI {
         newLiNode = liParent.appendChild(newLiNode);
         newLiNode.addEventListener('click', () => {
           dispatch.dispatch(action.action);
+          this.hideAllAddDropdowns();
         });
       });
       liTempl.remove();
       parent.appendChild(newNode);
     });
     templEl.remove();
+
+    const ddButtons = parent.querySelectorAll('div.dropdown > button');
+    ddButtons.forEach((b) => {
+      b.addEventListener('click', () => {
+        const ul = b.parentNode.querySelector('ul');
+        if (ul.dataset.copgDDShown !== '1') {
+          this.hideAllAddDropdowns();
+          ul.style.display = 'block';
+          ul.dataset.copgDDShown = '1';
+        } else {
+          ul.style.display = 'none';
+          ul.dataset.copgDDShown = '0';
+        }
+      });
+    });
   }
 
   showPopups() {
@@ -755,7 +780,7 @@ export default class UI {
       this.uiModel.overlayUpload,
       il.Language.txt('add'),
       (e) => {
-        const form = document.querySelector('#il-copg-ed-modal form');
+        const form = document.querySelector('#il-copg-ed-modal .modal-body form');
 
         // after_pcid, pcid, component, data
         dispatch.dispatch(action.interactiveImage().editor().uploadOverlay(
@@ -777,7 +802,7 @@ export default class UI {
       this.uiModel.popupForm,
       il.Language.txt('save'),
       (e) => {
-        const form = document.querySelector('#il-copg-ed-modal form');
+        const form = document.querySelector('#il-copg-ed-modal  .modal-body form');
 
         // after_pcid, pcid, component, data
         dispatch.dispatch(action.interactiveImage().editor().savePopup(

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,17 +16,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /** @noRector */
 chdir("../../../");
 
 ilInitialisation::initILIAS();
 global $DIC;
 
-if (strtoupper($DIC->http()->request()->getMethod()) !== "GET") {
-    $DIC->http()->saveResponse(
-        $DIC->http()->response()
-            ->withStatus(400)
-    );
+if (!$DIC->user()->getId() || !ilLTIConsumerAccess::hasCustomProviderCreationAccess()) {
+    ilObjLTIConsumer::sendResponseError(401, "unauthorized");
 }
 
 $params = $DIC->http()->wrapper()->query();

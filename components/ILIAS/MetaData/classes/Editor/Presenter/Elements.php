@@ -30,8 +30,8 @@ use ILIAS\MetaData\Presentation\ElementsInterface as ElementsPresentation;
 
 class Elements implements ElementsInterface
 {
-    protected const SEPARATOR = ': ';
-    protected const DELIMITER = ', ';
+    protected const string SEPARATOR = ': ';
+    protected const string DELIMITER = ', ';
 
     protected DataInterface $data;
     protected DictionaryInterface $dictionary;

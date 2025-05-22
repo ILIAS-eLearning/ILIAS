@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * TableGUI class for role assignments
@@ -39,7 +39,7 @@ class ilCategoryAssignRoleTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        $this->addColumn("", "", "", true, "4%");
+        $this->addColumn("", "", "4%", true);
         $this->addColumn($lng->txt("title"), "title", "35%");
         $this->addColumn($lng->txt("description"), "desc", "45%");
         $this->addColumn($lng->txt("type"), "type", "16%");

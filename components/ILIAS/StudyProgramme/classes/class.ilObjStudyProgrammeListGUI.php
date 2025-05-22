@@ -22,7 +22,6 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI
 {
     public function __construct()
     {
-        global $DIC;
         parent::__construct();
         $this->lng->loadLanguageModule("prg");
     }
@@ -56,16 +55,6 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI
      */
     public function insertCommonSocialCommands($header_actions = false): void
     {
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getCommandLink(string $cmd): string
-    {
-        $this->ctrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $this->ref_id);
-
-        return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammegui", $cmd);
     }
 
     /**

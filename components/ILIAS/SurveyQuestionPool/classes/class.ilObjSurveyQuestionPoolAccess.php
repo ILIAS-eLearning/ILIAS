@@ -53,7 +53,7 @@ class ilObjSurveyQuestionPoolAccess extends ilObjectAccess
         global $DIC;
         $ilAccess = $DIC->access();
 
-        if (in_array($permission, ["read", "visible"]) && !ilObjSurveyQuestionPool::_lookupOnline(ilObject::_lookupObjId($ref_id))) {
+        if (in_array($permission, ["read", "visible"]) && self::_isOffline(ilObject::_lookupObjId($ref_id))) {
             if (!$ilAccess->checkAccessOfUser($user_id, "write", "", $ref_id)) {
                 return false;
             }

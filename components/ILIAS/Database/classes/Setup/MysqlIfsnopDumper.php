@@ -18,15 +18,14 @@
 
 declare(strict_types=1);
 
+use Ifsnop\Mysqldump\Mysqldump;
+
 class MysqlIfsnopDumper implements MysqlDumper
 {
     public const FILE_NAME = "dump.sql";
 
-    protected ?string $export_hooks_path;
-
-    public function __construct(?string $export_hooks_path)
+    public function __construct(protected ?string $export_hooks_path)
     {
-        $this->export_hooks_path = $export_hooks_path;
     }
 
     public function createDump(
@@ -42,7 +41,7 @@ class MysqlIfsnopDumper implements MysqlDumper
         }
 
         try {
-            $dumper = new Ifsnop\Mysqldump\Mysqldump(
+            $dumper = new Mysqldump(
                 "mysql:host=$host;port=$port;dbname=$name",
                 $user,
                 $password,
@@ -53,7 +52,7 @@ class MysqlIfsnopDumper implements MysqlDumper
             }
             $dumper->start($target . "/" . self::FILE_NAME);
         } catch (\Exception $e) {
-            throw new Exception("Error during sql dump: " . $e->getMessage());
+            throw new Exception("Error during sql dump: " . $e->getMessage(), $e->getCode(), $e);
         }
     }
 }

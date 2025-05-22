@@ -1,9 +1,31 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Launcher\Inline;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function base()
 {
     global $DIC;
@@ -21,7 +43,7 @@ function base()
 
     $icon = $ui_factory->symbol()->icon()->standard('ps', '', 'large');
 
-    $status_message =  $ui_factory->messageBox()->failure("You have to complete all preconditions first.")
+    $status_message = $ui_factory->messageBox()->failure("You have to complete all preconditions first.")
         ->withLinks([
             $ui_factory->link()->standard("Do this first", "#"),
             $ui_factory->link()->standard("And this is mandatory, too", "#")

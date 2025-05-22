@@ -18,7 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\UnachievableException;
 
 class ilDatabaseServerIsConnectableObjective extends \ilDatabaseObjective
 {
@@ -44,12 +45,12 @@ class ilDatabaseServerIsConnectableObjective extends \ilDatabaseObjective
         return true;
     }
 
-    public function getPreconditions(Setup\Environment $environment): array
+    public function getPreconditions(Environment $environment): array
     {
         return [];
     }
 
-    public function achieve(Setup\Environment $environment): Setup\Environment
+    public function achieve(Environment $environment): Environment
     {
         $db = \ilDBWrapperFactory::getWrapper($this->config->getType());
         $db->initFromIniFile($this->config->toMockIniFile());
@@ -65,7 +66,7 @@ class ilDatabaseServerIsConnectableObjective extends \ilDatabaseObjective
             $connect = true;
         }
         if (!$connect) {
-            throw new Setup\UnachievableException(
+            throw new UnachievableException(
                 "Database cannot be reached. Please check the credentials."
             );
         }
@@ -76,7 +77,7 @@ class ilDatabaseServerIsConnectableObjective extends \ilDatabaseObjective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment): bool
+    public function isApplicable(Environment $environment): bool
     {
         return true;
     }

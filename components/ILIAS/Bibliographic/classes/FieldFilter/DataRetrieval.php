@@ -61,10 +61,10 @@ class DataRetrieval implements I\DataRetrieval
         $this->info->setSortingColumn('id');
 
         $records = $this->facade->filterFactory()->filterItemsForTable($this->facade->iliasObjId(), $this->info);
-        [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-        usort($records, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
+        [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value): array => [$key, $value]);
+        usort($records, fn($a, $b): int => $a[$order_field] <=> $b[$order_field]);
         if ($order_direction === 'DESC') {
-            $records = array_reverse($records);
+            return array_reverse($records);
         }
         return $records;
     }

@@ -18,15 +18,11 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Environment;
 
-class ilFileSystemDirectoryCopiedRecursivelyObjective implements Setup\Objective
+class ilFileSystemDirectoryCopiedRecursivelyObjective implements Objective
 {
-    protected string $source_folder;
-    protected string $target_folder;
-    protected bool $data_dir;
-    protected bool $bare;
-
     /**
      * Copies a directory from ILIAS root or from the outer ILIAS data directory
      * depending on the flag $data_dir.
@@ -35,16 +31,8 @@ class ilFileSystemDirectoryCopiedRecursivelyObjective implements Setup\Objective
      * $target_folder should always be the path wehre to copy into.
      * Set the bare flag true to copy from $source_folder to $target_folder on whole filesystem.
      */
-    public function __construct(
-        string $source_folder,
-        string $target_folder,
-        bool $data_dir = false,
-        bool $bare = false
-    ) {
-        $this->source_folder = $source_folder;
-        $this->target_folder = $target_folder;
-        $this->data_dir = $data_dir;
-        $this->bare = $bare;
+    public function __construct(protected string $source_folder, protected string $target_folder, protected bool $data_dir = false, protected bool $bare = false)
+    {
     }
 
     /**
@@ -75,7 +63,7 @@ class ilFileSystemDirectoryCopiedRecursivelyObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function getPreconditions(Setup\Environment $environment): array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective()
@@ -85,13 +73,13 @@ class ilFileSystemDirectoryCopiedRecursivelyObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function achieve(Setup\Environment $environment): Setup\Environment
+    public function achieve(Environment $environment): Environment
     {
         $source = $this->source_folder;
 
         if (!$this->bare) {
             /** @var ilIniFile $ini */
-            $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+            $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
 
             $root = $ini->readVariable("server", "absolute_path");
 
@@ -128,13 +116,13 @@ class ilFileSystemDirectoryCopiedRecursivelyObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment): bool
+    public function isApplicable(Environment $environment): bool
     {
         $source = $this->source_folder;
 
         if (!$this->bare) {
             /** @var ilIniFile $ini */
-            $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+            $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
 
             $root = $ini->readVariable("server", "absolute_path");
             if ($this->data_dir) {

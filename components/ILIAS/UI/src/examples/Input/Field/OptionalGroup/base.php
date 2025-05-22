@@ -1,11 +1,51 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\OptionalGroup;
 
 /**
- * Example showing how a dependant group (aka sub form) might be attached to a checkbox.
+ * ---
+ * description: >
+ *   Example showing how a dependent group (aka sub form) might be attached to a checkbox.
+ *
+ * expected output: >
+ *   Next to the title "Optional Group" ILIAS displays a checkbox with a byline. If the checkbox is activated two input
+ *   fields "Item 1" and "Item 2" are displayed including a byline each. If the ckeckbox is deactivated those two input
+ *   fields are not visible.
+ *   If you activate the checkbox, fill out the text field and the date field and click "Save" the following output will
+ *   be displayed above the box:
+ *
+ *   Array
+ *   (
+ *      [0] => Array
+ *      (
+ *          [dependant_text] => MEINE EINGABE
+ *          [dependant_date] => DateTimeImmutable Object
+ *          (
+ *              [date] => EINGEGEBENES-DATUM-ALS-YYYY-MM-DD 00:00:00.000000
+ *              [timezone_type] => 3
+ *              [timezone] => Europe/Berlin
+ *          )
+ *       )
+ *   )
+ * ---
  */
 function base()
 {

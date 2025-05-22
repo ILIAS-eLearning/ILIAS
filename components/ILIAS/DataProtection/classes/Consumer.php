@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\DataProtection;
 
+use ilLink;
+use ILIAS\Data\URI;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
 use ilDBConstants;
@@ -35,16 +37,18 @@ use ILIAS\DI\Container;
 use Closure;
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\LegalDocuments\Value\Document;
+use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\PublicApi;
 
 final class Consumer implements ConsumerInterface
 {
     public const ID = 'dpro';
+    public const GOTO_NAME = 'data_protection';
 
     private readonly Container $container;
 
     public function __construct(?Container $container = null)
     {
-        $this->container = $container ?? $GLOBALS['DIC'];
+        $this->container = $container ?? $GLOBALS['DIC'] ?? new Container();
     }
 
     public function id(): string
@@ -56,36 +60,39 @@ final class Consumer implements ConsumerInterface
     {
         $blocks = new Blocks($this->id(), $this->container, $provide);
         $default = $blocks->defaultMappings();
-        $slot = $slot->hasDocuments($default->contentAsComponent(), $default->conditionDefinitions())
-                     ->hasHistory();
-
         $global_settings = new Settings($blocks->selectSettingsFrom($blocks->readOnlyStore($blocks->globalStore())));
-
-        if (!$global_settings->enabled()->value()) {
-            return $slot;
-        }
-
+        $is_active = $global_settings->enabled()->value();
         $build_user = fn(ilObjUser $user) => $blocks->user($global_settings, new UserSettings(
             $blocks->selectSettingsFrom($blocks->userStore($user))
         ), $user);
+        $public_api = new PublicApi($is_active, $build_user);
+        $slot = $slot->hasDocuments($default->contentAsComponent(), $default->conditionDefinitions())
+                     ->hasHistory()
+                     ->hasPublicApi($public_api);
+
+        if (!$is_active) {
+            return $slot->hasPublicPage($blocks->notAvailable(...), self::GOTO_NAME);
+        }
 
         $user = $build_user($this->container->user());
 
         $slot = $slot->showOnLoginPage($blocks->slot()->showOnLoginPage());
 
-        $agreement = $blocks->slot()->agreement($user, $global_settings);
+        $agreement = $blocks->slot()->agreement($user);
+        $constraint = $this->container->refinery()->custom()->constraint(...);
 
         if ($global_settings->noAcceptance()->value()) {
             $slot = $slot->showInFooter($this->showMatchingDocument($user, $blocks->ui(), $provide))
-                         ->hasPublicPage($agreement->showAgreement(...));
+                         ->hasPublicPage($agreement->showAgreement(...), self::GOTO_NAME);
         } else {
             $slot = $slot->canWithdraw($blocks->slot()->withdrawProcess($user, $global_settings, $this->userHasWithdrawn(...)))
-                         ->hasAgreement($agreement)
-                         ->showInFooter($blocks->slot()->modifyFooter($user))
+                         ->hasAgreement($agreement, self::GOTO_NAME)
+                         ->showInFooter($blocks->slot()->modifyFooter($user, self::GOTO_NAME))
                          ->onSelfRegistration($blocks->slot()->selfRegistration($user, $build_user))
                          ->hasOnlineStatusFilter($blocks->slot()->onlineStatusFilter($this->usersWhoDidntAgree($this->container->database())))
                          ->hasUserManagementFields($blocks->userManagementAgreeDateField($build_user, 'dpro_agree_date', 'dpro'))
-                         ->canReadInternalMails($blocks->slot()->canReadInternalMails($build_user));
+                         ->canReadInternalMails($blocks->slot()->canReadInternalMails($build_user))
+                         ->canUseSoapApi($constraint(fn($u) => !$public_api->needsToAgree($u), 'Data Protection not agreed.'));
         }
 
         return $slot;
@@ -93,15 +100,19 @@ final class Consumer implements ConsumerInterface
 
     private function showMatchingDocument(User $user, UI $ui, Provide $legal_documents): Closure
     {
-        return function ($footer) use ($user, $ui, $legal_documents) {
+        return function (Closure $footer) use ($user, $ui, $legal_documents) {
+            $in_footer = fn($v) => $footer('usr_agreement', $ui->txt('usr_agreement'), $v);
+            if (!$user->isLoggedIn()) {
+                return $in_footer(new URI(ilLink::_getLink(null, 'usr', [], self::GOTO_NAME)));
+            }
             if ($user->cannotAgree()) {
                 return $footer;
             }
 
-            $render = fn(Document $document): Footer => $footer->withAdditionalModalAndTrigger($ui->create()->modal()->roundtrip(
+            $render = fn(Document $document): Closure => $in_footer($ui->create()->modal()->roundtrip(
                 $document->content()->title(),
                 [$legal_documents->document()->contentAsComponent($document->content())]
-            ), $ui->create()->button()->shy($ui->txt('usr_agreement'), ''));
+            ));
 
             return $user->matchingDocument()
                         ->map($render)

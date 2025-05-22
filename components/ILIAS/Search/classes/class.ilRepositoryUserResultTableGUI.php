@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\DI\UIServices;
+use ILIAS\HTTP\Services as HTTP;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
 * TableGUI class user search results
@@ -28,6 +31,11 @@ declare(strict_types=1);
 */
 class ilRepositoryUserResultTableGUI extends ilTable2GUI
 {
+    /**
+     * Note that the external sortation should only be used in global search.
+     */
+    use ilSearchResultTableHelper;
+
     public const TYPE_STANDARD = 1;
     public const TYPE_GLOBAL_SEARCH = 2;
 
@@ -40,6 +48,9 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 
     protected ilObjUser $user;
     protected ilRbacReview $review;
+    protected UIServices $ui;
+    protected HTTP $http;
+    protected Refinery $refinery;
 
 
     public function __construct($a_parent_obj, $a_parent_cmd, $a_admin_mode = false, $a_type = self::TYPE_STANDARD)
@@ -48,6 +59,9 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 
         $this->user = $DIC->user();
         $this->review = $DIC->rbac()->review();
+        $this->ui = $DIC->ui();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->admin_mode = (bool) $a_admin_mode;
         $this->type = $a_type;
@@ -72,35 +86,24 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
         } else {
             $this->setRowTemplate("tpl.global_search_usr_result_row.html", "components/ILIAS/Search");
             $this->addColumn('', '', "110px");
+            $this->setExternalSorting(true);
         }
 
         $all_cols = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $col) {
-            $this->addColumn($all_cols[$col]['txt'], $col);
-        }
-
-        if ($this->getType() == self::TYPE_STANDARD) {
-        } else {
-            $this->addColumn($this->lng->txt('lucene_relevance_short'), 'relevance');
-            if (ilBuddySystem::getInstance()->isEnabled()) {
-                $this->addColumn('', '');
+            $sort_field = '';
+            if ($this->getType() == self::TYPE_STANDARD) {
+                $sort_field = $col;
             }
-            $this->setDefaultOrderField("relevance");
-            $this->setDefaultOrderDirection("desc");
+            $this->addColumn($all_cols[$col]['txt'], $sort_field);
         }
-    }
 
-    /**
-     * enable numeric ordering for relevance
-     * @param string $a_field
-     * @return boolean
-     */
-    public function numericOrdering(string $a_field): bool
-    {
-        if ($a_field == 'relevance') {
-            return true;
+        if (
+            $this->getType() != self::TYPE_STANDARD &&
+            ilBuddySystem::getInstance()->isEnabled()
+        ) {
+            $this->addColumn('', '');
         }
-        return parent::numericOrdering($a_field);
     }
 
     public function getType(): int
@@ -249,7 +252,6 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
         }
 
         if ($this->getType() == self::TYPE_GLOBAL_SEARCH) {
-            $this->tpl->setVariable('SEARCH_RELEVANCE', $this->getRelevanceHTML($a_set['relevance']));
             if (ilBuddySystem::getInstance()->isEnabled() && $a_set['usr_id'] != $this->user->getId()) {
                 $this->tpl->setVariable('CONTACT_ACTIONS', ilBuddySystemLinkButton::getInstanceByUserId((int) $a_set['usr_id'])->getHtml());
             } else {
@@ -351,22 +353,69 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
                 }
             }
         }
+        if ($this->getType() === self::TYPE_GLOBAL_SEARCH) {
+            $users = $this->applySortation($users);
+        }
         $this->setData($users);
         return true;
     }
 
-
-    public function getRelevanceHTML(float $a_rel): string
+    public function getHTML(): string
     {
-        $tpl = new ilTemplate('tpl.lucene_relevance.html', true, true, 'components/ILIAS/Search');
+        $html = parent::getHTML();
+        if ($this->getType() == self::TYPE_GLOBAL_SEARCH) {
+            $html = $this->ui->renderer()->render($this->buildSortationViewControl()) . $html;
+        }
+        return $html;
+    }
 
-        $pbar = ilProgressBar::getInstance();
-        $pbar->setCurrent($a_rel);
+    protected function applySortation(array $set): array
+    {
+        $sort = $this->getCurrentSortation();
 
-        $tpl->setCurrentBlock('relevance');
-        $tpl->setVariable('REL_PBAR', $pbar->render());
-        $tpl->parseCurrentBlock();
+        if ($sort === 'relevance') {
+            usort($set, function ($a, $b) {
+                return $b['relevance'] <=> $a['relevance'];
+            });
+            return $set;
+        }
 
-        return $tpl->get();
+        if (str_ends_with($sort, '_asc')) {
+            $col = substr($sort, 0, -4);
+            usort($set, function ($a, $b) use ($col) {
+                return [$a[$col], $b['relevance'] ?? ''] <=> [$b[$col], $a['relevance'] ?? ''];
+            });
+        } elseif (str_ends_with($sort, '_desc')) {
+            $col = substr($sort, 0, -5);
+            usort($set, function ($a, $b) use ($col) {
+                return [$b[$col], $b['relevance'] ?? ''] <=> [$a[$col], $a['relevance'] ?? ''];
+            });
+        }
+
+        return $set;
+    }
+
+    protected function getPossibleSortations(): array
+    {
+        $sorts = ['relevance' => $this->lng->txt('search_sort_relevance')];
+        $all_cols = $this->getSelectableColumns();
+        foreach ($this->getSelectedColumns() as $col) {
+            $sorts[$col . '_asc'] = sprintf(
+                $this->lng->txt('search_sort_generic_asc'),
+                $all_cols[$col]['txt']
+            );
+            $sorts[$col . '_desc'] = sprintf(
+                $this->lng->txt('search_sort_generic_desc'),
+                $all_cols[$col]['txt']
+            );
+        }
+        return $sorts;
+    }
+
+    protected function getDefaultSortation(): string
+    {
+        $lucene_enabled = ($this->getType() == self::TYPE_GLOBAL_SEARCH) &&
+            ($this->getLuceneResult() instanceof ilLuceneSearchResult);
+        return $lucene_enabled ? 'relevance' : 'login_asc';
     }
 }

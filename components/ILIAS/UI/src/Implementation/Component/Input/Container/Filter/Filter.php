@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Container\Filter;
@@ -27,6 +28,7 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Implementation\Component\Input\QueryParamsFromServerRequest;
+use ILIAS\UI\Component\Input\InputData;
 
 /**
  * This implements commonalities between all Filters.
@@ -243,7 +245,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
     /**
      * Extract post data from request.
      */
-    protected function extractParamData(ServerRequestInterface $request): CI\Input\InputData
+    protected function extractParamData(ServerRequestInterface $request): InputData
     {
         return new QueryParamsFromServerRequest($request);
     }

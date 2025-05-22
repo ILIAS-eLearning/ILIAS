@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\FileUpload\Location;
+use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\Data\DataSize;
@@ -53,7 +58,7 @@ class ilFileUtils
                 );
             }
 
-            if ($file != '.' && $file != '..') {
+            if ($file !== '.' && $file !== '..') {
                 $newpath = $dir . '/' . $file;
                 $level = explode('/', $newpath);
                 if (is_dir($newpath)) {
@@ -115,9 +120,9 @@ class ilFileUtils
      * @param boolean $preserveTimeAttributes if true, ctime will be kept.
      *
      * @return    boolean    TRUE for sucess, FALSE otherwise
-     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws DirectoryNotFoundException
+     * @throws FileNotFoundException
+     * @throws IOException
      * @access     public
      * @static
      *
@@ -153,7 +158,7 @@ class ilFileUtils
                 );
                 $stream = $sourceFS->readStream($item->getPath());
                 $targetFS->writeStream($itemPath, $stream);
-            } catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
+            } catch (FileAlreadyExistsException) {
                 // Do nothing with that type of exception
             }
         }
@@ -185,7 +190,7 @@ class ilFileUtils
         $dirs = [$a_dir];
         $a_dir = dirname($a_dir);
         $last_dirname = '';
-        while ($last_dirname != $a_dir) {
+        while ($last_dirname !== $a_dir) {
             array_unshift($dirs, $a_dir);
             $last_dirname = $a_dir;
             $a_dir = dirname($a_dir);
@@ -195,11 +200,13 @@ class ilFileUtils
         $reverse_paths = array_reverse($dirs, true);
         $found_index = -1;
         foreach ($reverse_paths as $key => $value) {
-            if ($found_index == -1) {
-                if (is_dir($value)) {
-                    $found_index = $key;
-                }
+            if ($found_index != -1) {
+                continue;
             }
+            if (!is_dir($value)) {
+                continue;
+            }
+            $found_index = $key;
         }
 
         $old_mask = umask(0000);
@@ -265,7 +272,13 @@ class ilFileUtils
             while (($dirfile = readdir($DIR)) !== false) {
                 if (is_link(
                     $directory . DIRECTORY_SEPARATOR . $dirfile
-                ) || $dirfile == '.' || $dirfile == '..') {
+                )) {
+                    continue;
+                }
+                if ($dirfile === '.') {
+                    continue;
+                }
+                if ($dirfile === '..') {
                     continue;
                 }
                 if (is_file($directory . DIRECTORY_SEPARATOR . $dirfile)) {
@@ -311,16 +324,20 @@ class ilFileUtils
         $a_dir = trim($a_dir);
 
         // remove trailing slash (bugfix for php 4.2.x)
-        if (substr($a_dir, -1) == "/") {
+        if (str_ends_with($a_dir, "/")) {
             $a_dir = substr($a_dir, 0, -1);
         }
 
         // check if a_dir comes with a path
-        if (!($path = substr(
+        if (($path = substr(
             $a_dir,
             0,
             strrpos($a_dir, "/") - strlen($a_dir)
-        ))) {
+        )) === '' || ($path = substr(
+            $a_dir,
+            0,
+            strrpos($a_dir, "/") - strlen($a_dir)
+        )) === '0') {
             $path = ".";
         }
 
@@ -331,40 +348,32 @@ class ilFileUtils
         $old_mask = umask(0000);
         $result = @mkdir($a_dir, fileperms($path));
         umask($old_mask);
-        
+
         return $result;
     }
 
     protected static function sanitateTargetPath(string $a_target): array
     {
-        switch (true) {
-            case strpos($a_target, 'public/' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
-            case strpos(
-                $a_target,
-                './public/' . ILIAS_WEB_DIR . '/' . CLIENT_ID
-            ) === 0:
-            case strpos($a_target, CLIENT_WEB_DIR) === 0:
-                $targetFilesystem = \ILIAS\FileUpload\Location::WEB;
-                break;
-            case strpos($a_target, CLIENT_DATA_DIR . "/temp") === 0:
-                $targetFilesystem = \ILIAS\FileUpload\Location::TEMPORARY;
-                break;
-            case strpos($a_target, CLIENT_DATA_DIR) === 0:
-                $targetFilesystem = \ILIAS\FileUpload\Location::STORAGE;
-                break;
-            case strpos($a_target, ILIAS_ABSOLUTE_PATH . '/Customizing') === 0:
-                $targetFilesystem = \ILIAS\FileUpload\Location::CUSTOMIZING;
-                break;
-            default:
-                throw new InvalidArgumentException(
-                    "Can not move files to \"$a_target\" because path can not be mapped to web, storage or customizing location."
-                );
-        }
+        $target_file_system = match (true) {
+            str_starts_with($a_target, 'public/' . ILIAS_WEB_DIR . '/' . CLIENT_ID),
+            str_starts_with($a_target, './public/' . ILIAS_WEB_DIR . '/' . CLIENT_ID),
+            str_starts_with($a_target, '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID),
+            str_starts_with($a_target, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID),
+            str_starts_with($a_target, CLIENT_WEB_DIR) => Location::WEB,
 
-        $absTargetDir = dirname($a_target);
-        $targetDir = LegacyPathHelper::createRelativePath($absTargetDir);
+            str_starts_with($a_target, CLIENT_DATA_DIR . "/temp") => Location::TEMPORARY,
+            str_starts_with($a_target, CLIENT_DATA_DIR) => Location::STORAGE,
 
-        return [$targetFilesystem, $targetDir];
+            str_starts_with($a_target, ILIAS_ABSOLUTE_PATH . '/public/Customizing') => Location::CUSTOMIZING,
+            default => throw new InvalidArgumentException(
+                "Can not move files to \"$a_target\" because path can not be mapped to web, storage or customizing location."
+            ),
+        };
+
+        $absolute_target_dir = dirname($a_target);
+        $target_dir = LegacyPathHelper::createRelativePath($absolute_target_dir);
+
+        return [$target_file_system, $target_dir];
     }
 
     /**
@@ -494,9 +503,9 @@ class ilFileUtils
         foreach ($files as $file) {
             if (is_dir(
                 $a_dir . "/" . $file
-            ) and ($file != "." and $file != "..")) {
+            ) && ($file !== "." && $file !== "..")) {
                 ilFileUtils::delDir($a_dir . "/" . $file);
-            } elseif ($file != "." and $file != "..") {
+            } elseif ($file !== "." && $file !== "..") {
                 unlink($a_dir . "/" . $file);
             }
         }
@@ -565,11 +574,12 @@ class ilFileUtils
         $subitems = [];
         while ($entry = readdir($current_dir)) {
             if (is_dir($a_dir . "/" . $entry)) {
-                $dirs[$entry] = ["type" => "dir",
-                                 "entry" => $entry,
-                                 "subdir" => $a_sub_dir
+                $dirs[$entry] = [
+                    "type" => "dir",
+                    "entry" => $entry,
+                    "subdir" => $a_sub_dir
                 ];
-                if ($a_rec && $entry != "." && $entry != "..") {
+                if ($a_rec && $entry !== "." && $entry !== "..") {
                     $si = ilFileUtils::getDir(
                         $a_dir,
                         true,
@@ -577,15 +587,14 @@ class ilFileUtils
                     );
                     $subitems = array_merge($subitems, $si);
                 }
-            } else {
-                if ($entry != "." && $entry != "..") {
-                    $size = filesize($a_dir . $a_sub_dir . "/" . $entry);
-                    $files[$entry] = ["type" => "file",
-                                      "entry" => $entry,
-                                      "size" => $size,
-                                      "subdir" => $a_sub_dir
-                    ];
-                }
+            } elseif ($entry !== "." && $entry !== "..") {
+                $size = filesize($a_dir . $a_sub_dir . "/" . $entry);
+                $files[$entry] = [
+                    "type" => "file",
+                    "entry" => $entry,
+                    "size" => $size,
+                    "subdir" => $a_sub_dir
+                ];
             }
         }
         ksort($dirs);
@@ -613,13 +622,11 @@ class ilFileUtils
     {
         if ($mode === "filesystem") {
             return "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID;
-        } else {
-            if (defined("ILIAS_MODULE")) {
-                return "../" . ILIAS_WEB_DIR . "/" . CLIENT_ID;
-            } else {
-                return "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID;
-            }
         }
+        if (defined("ILIAS_MODULE")) {
+            return "../" . ILIAS_WEB_DIR . "/" . CLIENT_ID;
+        }
+        return "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID;
     }
 
     /**
@@ -668,11 +675,7 @@ class ilFileUtils
      */
     public static function ilTempnam(?string $a_temp_path = null): string
     {
-        if ($a_temp_path === null) {
-            $temp_path = ilFileUtils::getDataDir() . "/temp";
-        } else {
-            $temp_path = $a_temp_path;
-        }
+        $temp_path = $a_temp_path ?? ilFileUtils::getDataDir() . "/temp";
 
         if (!is_dir($temp_path)) {
             ilFileUtils::createDirectory($temp_path);
@@ -692,7 +695,7 @@ class ilFileUtils
      */
     public static function unzip(string $a_file, bool $overwrite = false, bool $a_flat = false): bool
     {
-        if(defined('DEVMODE') && DEVMODE) {
+        if (defined('DEVMODE') && DEVMODE) {
             trigger_error('Deprecated method called: ' . __METHOD__, E_USER_DEPRECATED);
         }
 
@@ -723,15 +726,15 @@ class ilFileUtils
     }
 
     /**
-    * Renames all files with certain suffix and gives them a new suffix.
-    * This words recursively through a directory.
-    *
-    * @deprecated
-    */
+     * Renames all files with certain suffix and gives them a new suffix.
+     * This words recursively through a directory.
+     *
+     * @deprecated
+     */
     public static function rRenameSuffix(string $a_dir, string $a_old_suffix, string $a_new_suffix): bool
     {
-        if ($a_dir == "/" || $a_dir == "" || is_int(strpos($a_dir, ".."))
-            || trim($a_old_suffix) == "") {
+        if ($a_dir === "/" || $a_dir === "" || is_int(strpos($a_dir, ".."))
+            || trim($a_old_suffix) === "") {
             return false;
         }
 
@@ -761,7 +764,7 @@ class ilFileUtils
                     if (strrpos($file, '.') == (strlen($file) - 1)) {
                         try {
                             rename($a_dir . '/' . $file, substr($a_dir . '/' . $file, 0, -1));
-                        } catch (Throwable $t) {
+                        } catch (Throwable) {
                             // to avoid exploits we do delete this file and continue renaming
                             unlink($a_dir . '/' . $file);
                             continue;
@@ -829,7 +832,6 @@ class ilFileUtils
 
             return $value;
         };
-
 
         $uploadSizeLimitBytes = min(
             $convertPhpIniSizeValueToBytes(ini_get('post_max_size')),

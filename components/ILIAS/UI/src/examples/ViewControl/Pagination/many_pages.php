@@ -1,9 +1,36 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\ViewControl\Pagination;
 
+/**
+ * ---
+ * description: >
+ *   Example of rendering a pagination view control with a lot of pages
+ *
+ * expected output: >
+ *   ILIAS shows a series of numbers 1-500 in between the "Back" (<) and "Next" (>) glyph. The series of numbers is not
+ *   displayed completely as it is limited to six elements (e.g. 1, 2, 3, 4, 5, 500). Navigating through the pagination
+ *   does not differ from the base pagination.
+ * ---
+ */
 function many_pages()
 {
     global $DIC;

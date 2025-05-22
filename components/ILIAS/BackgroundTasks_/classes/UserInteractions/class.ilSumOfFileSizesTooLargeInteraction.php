@@ -31,6 +31,9 @@ use ILIAS\BackgroundTasks\Value;
  */
 class ilSumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
 {
+    /**
+     * @var string
+     */
     private const OPTION_OK = 'ok';
 
     protected ilLanguage $lng;
@@ -43,7 +46,7 @@ class ilSumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
     }
 
     /**
-     * @return \ILIAS\BackgroundTasks\Types\SingleType[]
+     * @return SingleType[]
      */
     public function getInputTypes(): array
     {
@@ -57,6 +60,7 @@ class ilSumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
         return new SingleType(ilCopyDefinition::class);
     }
 
+    #[\Override]
     public function getRemoveOption(): Option
     {
         return new UserInteractionOption('ok', self::OPTION_OK);
@@ -64,7 +68,7 @@ class ilSumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
 
     public function interaction(array $input, Option $user_selected_option, Bucket $bucket): Value
     {
-        if ($user_selected_option->getValue() == self::OPTION_OK) {
+        if ($user_selected_option->getValue() === self::OPTION_OK) {
             // Set state to finished to stop the BackgroundTask and remove it from the popover.
             $bucket->setState(3);
         }
@@ -77,33 +81,32 @@ class ilSumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
      */
     public function getOptions(array $input): array
     {
-        return array();
+        return [];
     }
 
+    #[\Override]
     public function getMessage(array $input): string
     {
         return $this->lng->txt('ui_msg_files_violate_maxsize');
     }
 
+    #[\Override]
     public function canBeSkipped(array $input): bool
     {
         $copy_definition = $input[0];
-        if ($copy_definition->getAdheresToLimit()->getValue()) {
-            // skip the user interaction if the adherence to the global limit for the sum of file sizes
-            // hasn't been violated (as this interaction is used as an error message and mustn't be
-            // shown when everything is fine))
-
-            return true;
-        } else {
-            return false;
-        }
+        // skip the user interaction if the adherence to the global limit for the sum of file sizes
+        // hasn't been violated (as this interaction is used as an error message and mustn't be
+        // shown when everything is fine))
+        return (bool) $copy_definition->getAdheresToLimit()->getValue();
     }
 
+    #[\Override]
     public function getSkippedValue(array $input): Value
     {
         return $input[0];
     }
 
+    #[\Override]
     public function isFinal(): bool
     {
         return false;

@@ -1,0 +1,15 @@
+<form id="{ID}" class="c-form c-form--horizontal" enctype="multipart/form-data" {NAME}<!-- BEGIN action --> action="{URL}"<!-- END action --> method="post">
+	<!-- BEGIN error -->
+	<div class="c-form__error-msg alert alert-danger"><span class="sr-only">{ERROR_LABEL}: </span>{ERROR}</div>
+	<!-- END error -->
+
+	{INPUTS}
+
+	<!-- BEGIN required_text -->
+	<div class="c-form__footer">
+		<div class="c-form__required">
+			<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED}</span>
+		</div>
+	</div>
+	<!-- END required_text -->
+</form>

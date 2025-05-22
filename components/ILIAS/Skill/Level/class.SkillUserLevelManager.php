@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Skill\Level;
 
@@ -32,9 +31,9 @@ class SkillUserLevelManager
     protected \ilSkillObjectAdapterInterface $obj_adapter;
 
     public function __construct(
-        \ilSkillLevelRepository $a_level_repo = null,
-        \ilSkillUserLevelRepository $a_user_level_repo = null,
-        \ilSkillObjectAdapterInterface $a_obj_adapter = null
+        ?\ilSkillLevelRepository $a_level_repo = null,
+        ?\ilSkillUserLevelRepository $a_user_level_repo = null,
+        ?\ilSkillObjectAdapterInterface $a_obj_adapter = null
     ) {
         global $DIC;
 

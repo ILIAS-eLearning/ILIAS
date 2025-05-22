@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\Data\Order;
@@ -18,9 +34,7 @@ class orderTest extends TestCase
         return $order;
     }
 
-    /**
-     * @depends testFactory
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testFactory')]
     public function testValues(Order $order): void
     {
         $this->assertEquals(
@@ -29,9 +43,7 @@ class orderTest extends TestCase
         );
     }
 
-    /**
-     * @depends testFactory
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testFactory')]
     public function testAppend(Order $order): Order
     {
         $order = $order->append('sub2', Order::DESC);
@@ -45,9 +57,7 @@ class orderTest extends TestCase
         return $order;
     }
 
-    /**
-     * @depends testFactory
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testFactory')]
     public function testJoinOne(Order $order): void
     {
         $this->assertEquals(
@@ -61,9 +71,7 @@ class orderTest extends TestCase
         );
     }
 
-    /**
-     * @depends testAppend
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testAppend')]
     public function testJoinMore(Order $order): void
     {
         $this->assertEquals(
@@ -77,18 +85,14 @@ class orderTest extends TestCase
         );
     }
 
-    /**
-     * @depends testFactory
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testFactory')]
     public function testInvalidDirection(Order $order): void
     {
         $this->expectException(TypeError::class);
         $order = $order->append('sub3', -1);
     }
 
-    /**
-     * @depends testFactory
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testFactory')]
     public function testInvalidSubject(Order $order): void
     {
         $this->expectException(InvalidArgumentException::class);

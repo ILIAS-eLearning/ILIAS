@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\FileDelivery\Delivery\ResponseBuilder;
 
 use Psr\Http\Message\ResponseInterface;
-use ILIAS\FileDelivery\Token\Data\Stream;
 use ILIAS\Filesystem\Stream\FileStream;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -39,6 +38,7 @@ interface ResponseBuilder
     ): ResponseInterface;
 
     public function supportStreaming(): bool;
+    public function supportPartial(): bool;
 
     public function supportFileDeletion(): bool;
 

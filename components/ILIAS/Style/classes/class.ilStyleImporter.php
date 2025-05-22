@@ -43,47 +43,12 @@ class ilStyleImporter extends ilXmlImporter
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         $this->log->debug("import xml " . $a_entity);
-
-        if (true) {
-            $parser = new ilDataSetImportParser(
-                $a_entity,
-                $this->getSchemaVersion(),
-                $a_xml,
-                $this->ds,
-                $a_mapping
-            );
-            return;
-        }
-
-        // see ilStyleExporter::getXmlRepresentation()
-        if (preg_match("/<StyleSheetExport><ImagePath>(.+)<\/ImagePath>/", $a_xml, $hits)) {
-            $path = $hits[1];
-            $a_xml = str_replace($hits[0], "", $a_xml);
-            $a_xml = str_replace("</StyleSheetExport>", "", $a_xml);
-        }
-
-        // temp xml-file
-        $tmp_file = $this->getImportDirectory() . "/sty_" . $a_id . ".xml";
-        file_put_contents($tmp_file, $a_xml);
-
-        $style = new ilObjStyleSheet();
-        $style->createFromXMLFile($tmp_file);
-        $new_id = $style->getId();
-
-        unlink($tmp_file);
-
-        // images
-        if ($path) {
-            $source = $this->getImportDirectory() . "/" . $path;
-            if (is_dir($source)) {
-                $target = $style->getImagesDirectory();
-                if (!is_dir($target)) {
-                    ilFileUtils::makeDirParents($target);
-                }
-                ilFileUtils::rCopy($source, $target);
-            }
-        }
-
-        $a_mapping->addMapping("components/ILIAS/Style", "sty", $a_id, $new_id);
+        $parser = new ilDataSetImportParser(
+            $a_entity,
+            $this->getSchemaVersion(),
+            $a_xml,
+            $this->ds,
+            $a_mapping
+        );
     }
 }

@@ -1,20 +1,23 @@
 <?php
 
-namespace ILIAS\HTTP\Cookies;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+namespace ILIAS\HTTP\Cookies;
+
 /**
  * Interface Cookie
  *
@@ -28,6 +31,10 @@ namespace ILIAS\HTTP\Cookies;
  */
 interface Cookie
 {
+    public const SAMESITE_NONE = 'None';
+    public const SAMESITE_LAX = 'Lax';
+    public const SAMESITE_STRICT = 'Strict';
+
     /**
      * Cookie name.
      */
@@ -76,13 +83,17 @@ interface Cookie
      */
     public function getHttpOnly(): bool;
 
+    /**
+     * Cookie samesite
+     */
+    public function getSamesite(): ?string;
 
     /**
      * Sets the cookie value.
      *
      * @param null|string $value The cookie value.
      */
-    public function withValue(string $value = null): Cookie;
+    public function withValue(?string $value = null): Cookie;
 
 
     /**
@@ -116,7 +127,7 @@ interface Cookie
      *
      * @param null|int $maxAge Lifetime in seconds.
      */
-    public function withMaxAge(int $maxAge = null): Cookie;
+    public function withMaxAge(?int $maxAge = null): Cookie;
 
 
     /**
@@ -124,7 +135,7 @@ interface Cookie
      *
      * @param null|string $path The cookie path.
      */
-    public function withPath(string $path = null): Cookie;
+    public function withPath(?string $path = null): Cookie;
 
 
     /**
@@ -132,7 +143,7 @@ interface Cookie
      *
      * @param null|string $domain Cookie domain.
      */
-    public function withDomain(string $domain = null): Cookie;
+    public function withDomain(?string $domain = null): Cookie;
 
 
     /**
@@ -140,7 +151,7 @@ interface Cookie
      *
      * @param null|bool $secure Secure flag.
      */
-    public function withSecure(bool $secure = null): Cookie;
+    public function withSecure(?bool $secure = null): Cookie;
 
 
     /**
@@ -148,8 +159,15 @@ interface Cookie
      *
      * @param null|bool $httpOnly http only flag.
      */
-    public function withHttpOnly(bool $httpOnly = null): Cookie;
+    public function withHttpOnly(?bool $httpOnly = null): Cookie;
 
+    /**
+     * Sets the samesite attribute.
+     *
+     * @param string $sameSite value of the samesite attribute.  Valid values are
+     *                           @const SAMESITE_LAX, @const SAMESITE_STRICT or @const SAMESITE_NONE
+     */
+    public function withSamesite(string $sameSite): Cookie;
 
     /**
      * Returns the string representation of the object.

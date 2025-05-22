@@ -138,4 +138,29 @@ class ImageMapGUIRequest
     {
         return $this->strArray("area");
     }
+
+    public function getOutEditProperty(): string
+    {
+        return $this->str("out_edit_property");
+    }
+
+    public function getOutAreaNr(): int
+    {
+        return $this->int("out_area_nr");
+    }
+
+    public function getOutOutputNewArea(): bool
+    {
+        return (bool) $this->int("out_output_new_area");
+    }
+
+    public function getOutAreaType(): string
+    {
+        return $this->str("out_area_type");
+    }
+
+    public function getOutCoords(): string
+    {
+        return $this->str("out_coords");
+    }
 }

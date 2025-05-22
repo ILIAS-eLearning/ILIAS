@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Forum listener. Listens to events of other components.
@@ -38,7 +38,7 @@ class ilTaggingAppEventListener
     ): void {
         // PHP8 Review: 'switch' with single 'case'
         switch ($a_component) {
-            case "components/ILIAS/Object":
+            case "components/ILIAS/ILIASObject":
                 switch ($a_event) {
                     case "toTrash":
                         if (!ilObject::_hasUntrashedReference($a_parameter["obj_id"])) {

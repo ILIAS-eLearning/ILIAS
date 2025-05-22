@@ -418,15 +418,15 @@ class ilObjLanguageExt extends ilObjLanguage
         $db_comments = self::_getRemarks($a_lang_key);
         $global_values = array_merge($db_values, $file_values);
         $global_comments = array_merge($db_comments, $file_comments);
-        
+
         // save the single translations in lng_data
         foreach ($a_values as $key => $value) {
             $keys = explode($lng->separator, $key);
-            
+
             if (count($keys) !== 2) {
                 continue;
             }
-            
+
             list($module, $topic) = $keys;
             $save_array[$module][$topic] = $value;
 
@@ -454,16 +454,40 @@ class ilObjLanguageExt extends ilObjLanguage
                 $ilDB->quote($module, "text")
             ));
             $row = $ilDB->fetchAssoc($set);
-
-            $arr = unserialize($row["lang_array"], ["allowed_classes" => false]);
-            if (is_array($arr)) {
-                $entries = array_merge($arr, $entries);
+            if (!$row) {
+                $DIC->logger()->root()->warning("Language module '{$module}' not found for language {$a_lang_key}.");
+                continue;
             }
+
+            $entries = self::_mergeLanguageEntriesFromRow($row, $entries);
+
             ilObjLanguage::replaceLangModule($a_lang_key, $module, $entries);
         }
 
         ilCachedLanguage::getInstance($a_lang_key)->flush();
     }
+
+    /**
+     * Merge language entries from a database row with existing entries
+     *
+     * $databaseRow     associative array representing a row from the database, may be null
+     * $entries         array of existing language entries to be merged
+     * Return array     merged array of language entries
+     */
+    private static function _mergeLanguageEntriesFromRow(?array $databaseRow, array $entries): array
+    {
+        if ($databaseRow === null || !isset($databaseRow["lang_array"])) {
+            return $entries;
+        }
+
+        $languageEntries = unserialize($databaseRow["lang_array"], ["allowed_classes" => false]);
+        if (!is_array($languageEntries)) {
+            return $entries;
+        }
+
+        return array_merge($languageEntries, $entries);
+    }
+
 
     /**
     * Delete a set of translation in the database

@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Cache;
 
-use org\bovigo\vfs\Issue104TestCase;
 use ILIAS\Cache\Nodes\NodeRepository;
 use ILIAS\Cache\Nodes\NullNodeRepository;
 

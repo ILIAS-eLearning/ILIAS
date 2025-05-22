@@ -1,22 +1,25 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\HTTP\Response\Sender;
 
 use Psr\Http\Message\ResponseInterface;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class DefaultResponseSenderStrategy
  *
@@ -27,9 +30,15 @@ use Psr\Http\Message\ResponseInterface;
  */
 class DefaultResponseSenderStrategy implements ResponseSenderStrategy
 {
+    /**
+     * @var string
+     */
     private const METHOD_FPASSTHRU = 'fpassthru';
+    /**
+     * @var string
+     */
     private const METHOD_READFILE = 'readfile';
-    private string $method;
+    private string $method = self::METHOD_FPASSTHRU;
     private int $chunk_size;
     private int $memory_limit;
 
@@ -37,7 +46,6 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy
     {
         $this->memory_limit = $this->initMemoryLimit();
         $this->chunk_size = $this->initChunkSize();
-        $this->method = self::METHOD_FPASSTHRU;
     }
 
     private function initMemoryLimit(): int
@@ -45,19 +53,12 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy
         $ini_memory_limit = ini_get('memory_limit');
         $memory_limit = null;
         if (preg_match('/^(\d+)(.)$/', $ini_memory_limit, $matches)) {
-            switch (($matches[2] ?? null)) {
-                case 'G':
-                    $memory_limit = (int) $matches[1] * 1024 * 1024 * 1024; // nnnG -> nnn GB
-                    break;
-                case 'M':
-                    $memory_limit = (int) $matches[1] * 1024 * 1024; // nnnM -> nnn MB
-                    break;
-                case 'K':
-                    $memory_limit = (int) $matches[1] * 1024; // nnnK -> nnn KB
-                    break;
-                default:
-                    $memory_limit = (int) $matches[1]; // nnn -> nnn B
-            }
+            $memory_limit = match ($matches[2] ?? null) {
+                'G' => (int) $matches[1] * 1024 * 1024 * 1024,
+                'M' => (int) $matches[1] * 1024 * 1024,
+                'K' => (int) $matches[1] * 1024,
+                default => (int) $matches[1],
+            };
         }
 
         return $memory_limit ?? 128 * 1024 * 1024;
@@ -87,7 +88,14 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy
 
         //render all headers
         foreach (array_keys($response->getHeaders()) as $key) {
-            header("$key: " . $response->getHeaderLine($key));
+            // See Mantis #37385.
+            if (strtolower($key) === 'set-cookie') {
+                foreach ($response->getHeader($key) as $header) {
+                    header("$key: " . $header, false);
+                }
+            } else {
+                header("$key: " . $response->getHeaderLine($key));
+            }
         }
 
         //rewind body stream
@@ -109,7 +117,7 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy
             set_time_limit(0);
             try {
                 ob_end_clean(); // see https://mantis.ilias.de/view.php?id=32046
-            } catch (\Throwable $t) {
+            } catch (\Throwable) {
             }
             switch ($this->method) {
                 case self::METHOD_FPASSTHRU:
@@ -121,13 +129,6 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy
                     while (!feof($resource)) {
                         echo $return = fread($resource, $this->chunk_size);
                         $sendStatus = $sendStatus && $return !== false;
-                        file_put_contents(
-                            'php://stderr',
-                            sprintf(
-                                "Memory E: %s\n",
-                                memory_get_peak_usage(true) / 1024 / 1024
-                            )
-                        );
 
                     }
                     break;

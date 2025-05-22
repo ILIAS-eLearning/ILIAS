@@ -27,18 +27,11 @@ namespace ILIAS\ResourceStorage\Resource\InfoResolver;
  */
 abstract class AbstractInfoResolver implements InfoResolver
 {
-    protected int $next_version_number;
-    protected int $revision_owner_id;
-    protected string $revision_title;
-
     /**
      * AbstractInfoResolver constructor.
      */
-    public function __construct(int $next_version_number, int $revision_owner_id, string $revision_title)
+    public function __construct(protected int $next_version_number, protected int $revision_owner_id, protected string $revision_title)
     {
-        $this->next_version_number = $next_version_number;
-        $this->revision_owner_id = $revision_owner_id;
-        $this->revision_title = $revision_title;
     }
 
     public function getNextVersionNumber(): int

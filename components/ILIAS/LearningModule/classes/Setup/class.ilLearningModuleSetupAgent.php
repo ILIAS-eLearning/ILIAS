@@ -46,7 +46,7 @@ class ilLearningModuleSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new ilFileSystemComponentDataDirectoryCreatedObjective(
             'lm_data',
@@ -57,7 +57,7 @@ class ilLearningModuleSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }

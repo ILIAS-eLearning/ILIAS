@@ -32,7 +32,7 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase
     public function getFactory(): NoUIFactory
     {
         return new class () extends NoUIFactory {
-            public function breadcrumbs(array $crumbs): C\Breadcrumbs\Breadcrumbs
+            public function breadcrumbs(array $crumbs): I\Component\Breadcrumbs\Breadcrumbs
             {
                 return new I\Component\Breadcrumbs\Breadcrumbs($crumbs);
             }
@@ -96,5 +96,35 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase
             . '</nav>';
 
         $this->assertHTMLEquals($expected, $html);
+    }
+
+    public function testRenderingWithSpecialCharacters(): void
+    {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+
+        $label = "label without special characters";
+        $label2 = "label with special characters + –...+}*@ç%#&/($";
+
+        $crumbs = [
+            new I\Component\Link\Standard($label, '#'),
+            new I\Component\Link\Standard($label2, '#')
+        ];
+        $c = $f->Breadcrumbs($crumbs);
+
+        $html = $this->brutallyTrimHTML($r->render($c));
+        $expected = '<nav aria-label="breadcrumbs_aria_label" class="breadcrumb_wrapper">'
+            . '	<div class="breadcrumb">'
+            . '		    <span class="crumb">'
+            . '			    <a href="#">label without special characters</a>'
+            . '		    </span>'
+            . '		    <span class="crumb">'
+            . '			    <a href="#">label with special characters + –...+}*@ç%#&/($</a>'
+            . '&lrm;'
+            . '		    </span>'
+            . '	</div>'
+            . '</nav>';
+
+        $this->assertEquals($this->brutallyTrimHTML($expected), $html);
     }
 }

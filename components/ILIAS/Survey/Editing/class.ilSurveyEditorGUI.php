@@ -226,17 +226,16 @@ class ilSurveyEditorGUI
                 "createQuestion"
             )->submit()->toToolbar(true);
 
-            if ($this->object->getPoolUsage()) {
-                $cmd = ((int) $ilUser->getPref('svy_insert_type') === 1 ||
-                    ($ilUser->getPref('svy_insert_type') ?? '') === '')
-                    ? 'browseForQuestions'
-                    : 'browseForQuestionblocks';
 
-                $this->gui->button(
-                    $this->lng->txt("browse_for_questions"),
-                    $this->ctrl->getLinkTarget($this, $cmd)
-                )->toToolbar(true);
-            }
+            $cmd = ((int) $ilUser->getPref('svy_insert_type') === 1 ||
+                ($ilUser->getPref('svy_insert_type') ?? '') === '')
+                ? 'browseForQuestions'
+                : 'browseForQuestionblocks';
+
+            $this->gui->button(
+                $this->lng->txt("browse_for_questions"),
+                $this->ctrl->getLinkTarget($this, $cmd)
+            )->toToolbar(true);
 
             if ($this->object->hasQuestions()) {
                 $ilToolbar->addSeparator();
@@ -587,64 +586,11 @@ class ilSurveyEditorGUI
     //
 
     public function createQuestionObject(
-        ilPropertyFormGUI $a_form = null,
+        ?ilPropertyFormGUI $a_form = null,
         $sel_question_types = null,
-        string $pgov_pos = null
+        ?string $pgov_pos = null
     ): ?ilPropertyFormGUI {
-        if (!$this->object->getPoolUsage()) {
-            $this->executeCreateQuestionObject(null, 1, $pgov_pos);
-            return null;
-        }
-
-        if (!$a_form) {
-            $this->questionsSubtabs("questions");
-            $form = new ilPropertyFormGUI();
-
-            if (is_null($sel_question_types)) {
-                $sel_question_types = $this->request->getSelectedQuestionTypes();
-            }
-            $this->ctrl->setParameter($this, "sel_question_types", $sel_question_types);
-            $form->setFormAction($this->ctrl->getFormAction($this, "executeCreateQuestion"));
-        } else {
-            $form = $a_form;
-        }
-
-        $usage = new ilRadioGroupInputGUI($this->lng->txt("survey_pool_selection"), "usage");
-        $usage->setRequired(true);
-        $no_pool = new ilRadioOption($this->lng->txt("survey_no_pool"), 1);
-        $usage->addOption($no_pool);
-        $existing_pool = new ilRadioOption($this->lng->txt("survey_existing_pool"), 3);
-        $usage->addOption($existing_pool);
-        $new_pool = new ilRadioOption($this->lng->txt("survey_new_pool"), 2);
-        $usage->addOption($new_pool);
-        $form->addItem($usage);
-
-        if ($this->edit_manager->getPoolChoice() > 0) {
-            $usage->setValue($this->edit_manager->getPoolChoice());
-        } else {
-            // default: no pool
-            $usage->setValue(1);
-        }
-
-        $questionpools = $this->object->getAvailableQuestionpools(false, true, true, "write");
-        $pools = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "sel_spl");
-        $pools->setOptions($questionpools);
-        $existing_pool->addSubItem($pools);
-
-        $name = new ilTextInputGUI($this->lng->txt("spl_new"), "name_spl"); // #11740
-        $name->setSize(50);
-        $name->setMaxLength(50);
-        $new_pool->addSubItem($name);
-
-        if ($a_form) {
-            return $a_form;
-        }
-
-        $form->addCommandButton("executeCreateQuestion", $this->lng->txt("submit"));
-        $form->addCommandButton("questions", $this->lng->txt("cancel"));
-
-        $this->tpl->setContent($form->getHTML());
-        return null;
+        $this->executeCreateQuestionObject(null, 1, $pgov_pos);
     }
 
     public function executeCreateQuestionObject(
@@ -666,30 +612,10 @@ class ilSurveyEditorGUI
         if (is_null($pool_usage)) {
             $pool_usage = $this->request->getPoolUsage();
         }
+        $pool_usage = 1;
 
         $obj_id = 0;
-
-        // no pool
-        if ($pool_usage == 1) {
-            $obj_id = $this->object->getId();
-        }
-        // existing pool
-        elseif ($pool_usage == 3 && $this->request->getSelectedPool() > 0) {
-            $obj_id = ilObject::_lookupObjId($this->request->getSelectedPool());
-        }
-        // new pool
-        elseif ($pool_usage == 2 && $this->request->getPoolName() !== "") {
-            $obj_id = $this->createQuestionPool($this->request->getPoolName());
-        } else {
-            if (!$pool_usage) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
-            } else {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("err_no_pool_name"), true);
-            }
-            $this->ctrl->setParameter($this, "sel_question_types", $q_type);
-            $this->ctrl->redirect($this, "createQuestion");
-        }
-
+        $obj_id = $this->object->getId();
 
         // create question and redirect to question form
 
@@ -878,7 +804,7 @@ class ilSurveyEditorGUI
     //
 
     public function editQuestionblockObject(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $block_id = $this->request->getBlockId();
         $this->ctrl->setParameter($this, "bl_id", $block_id);
@@ -892,7 +818,7 @@ class ilSurveyEditorGUI
     }
 
     public function createQuestionblockObject(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         if (!$a_form) {
             // gather questions from table selected
@@ -1030,12 +956,6 @@ class ilSurveyEditorGUI
         $heading = new ilTextAreaInputGUI($this->lng->txt("heading"), "heading");
         $heading->setRows(10);
         $heading->setCols(80);
-        if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
-            $heading->setUseRte(true);
-            $heading->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-            $heading->removePlugin(ilRTE::ILIAS_IMG_MANAGER_PLUGIN);
-            $heading->setRTESupport($this->object->getId(), "svy", "survey");
-        }
         $heading->setRequired(true);
         $form->addItem($heading);
 
@@ -1065,7 +985,7 @@ class ilSurveyEditorGUI
     }
 
     public function addHeadingObject(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $q_id = $this->request->getQuestionId();
         $this->ctrl->setParameter($this, "q_id", $q_id);
@@ -1080,7 +1000,7 @@ class ilSurveyEditorGUI
     }
 
     public function editHeadingObject(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $q_id = $this->request->getQuestionId();
         $this->ctrl->setParameter($this, "q_id", $q_id);

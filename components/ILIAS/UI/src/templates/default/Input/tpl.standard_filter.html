@@ -1,18 +1,26 @@
 <div class="il-filter <!-- BEGIN disabled -->disabled<!-- END disabled --><!-- BEGIN enabled -->enabled<!-- END enabled -->" id="{ID_FILTER}">
-    <form class="il-standard-form form-horizontal" enctype="multipart/form-data" method="get" novalidate="novalidate"<!-- BEGIN action --> data-cmd-{ACTION_NAME}="{ACTION}"<!-- END action -->>
-        <div class="il-filter-bar">
-            <div class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section"> {OPENER} </div>
-            <div class="il-filter-bar-toggle"> {TOGGLE} </div>
+    <form class="c-form il-standard-form form-horizontal" enctype="multipart/form-data" method="get"<!-- BEGIN action --> data-cmd-{ACTION_NAME}="{ACTION}"<!-- END action -->>
+    <div class="il-filter-bar">
+        <div class="il-filter-bar-opener">
+            <button type="button" aria-expanded="{ARIA_EXPANDED}" aria-controls="active_inputs_{ID_FILTER} section_inputs_{ID_FILTER}" id="opener_{ID_FILTER}">
+                    <span>
+                        <span data-collapse-glyph-visibility="{COLLAPSE_GLYPH_VISIBLE}">{COLLAPSE_GLYPH}</span>
+                        <span data-expand-glyph-visibility="{EXPAND_GLYPH_VISIBLE}">{EXPAND_GLYPH}</span>
+                        {TITLE_FILTER}
+                    </span>
+            </button>
         </div>
-        <!-- BEGIN active_inputs_section -->
-        <div class="il-filter-inputs-active clearfix collapse {INPUTS_ACTIVE_EXPANDED}"><!-- BEGIN active_inputs --> <span id="{ID_INPUT_ACTIVE}"> </span> <!-- END active_inputs --></div>
-        <!-- END active_inputs_section -->
-        <div class="il-filter-input-section row collapse {INPUTS_EXPANDED}">
-            {INPUTS}
-            <div class="il-filter-controls"> {APPLY} {RESET} </div>
-        </div>
-        <!-- BEGIN status -->
-        <input class="il-filter-field-status" type="hidden" name="__filter_status_{FIELD}" value="{VALUE}" />
-        <!-- END status -->
+        <div class="il-filter-bar-toggle"> {TOGGLE} </div>
+    </div>
+    <!-- BEGIN active_inputs_section -->
+    <div class="il-filter-inputs-active clearfix" id="active_inputs_{ID_FILTER_ACTIVE}" aria-labelledby="opener_{ID_FILTER_ACTIVE}" data-active-inputs-expanded="{ACTIVE_INPUTS_EXPANDED}"><!-- BEGIN active_inputs --> <span id="{ID_INPUT_ACTIVE}"> </span> <!-- END active_inputs --></div>
+    <!-- END active_inputs_section -->
+    <div class="il-filter-input-section row" id="section_inputs_{ID_FILTER}" aria-labelledby="opener_{ID_FILTER}" data-section-inputs-expanded="{SECTION_INPUTS_EXPANDED}">
+        {INPUTS}
+        <div class="il-filter-controls"> {APPLY} {RESET} </div>
+    </div>
+    <!-- BEGIN status -->
+    <input class="il-filter-field-status" type="hidden" name="__filter_status_{FIELD}" value="{VALUE}" />
+    <!-- END status -->
     </form>
 </div>

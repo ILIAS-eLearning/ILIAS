@@ -33,9 +33,4 @@ class NullPathUtilitiesFactory implements PathUtilitiesFactoryInterface
     {
         return new NullPathConditionsCollection();
     }
-
-    public function navigatorManager(): NavigatorManagerInterface
-    {
-        return new NullNavigatorManager();
-    }
 }

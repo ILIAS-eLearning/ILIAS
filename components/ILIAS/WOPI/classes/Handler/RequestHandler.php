@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\components\WOPI\Handler;
 
+use ILIAS\HTTP\Services;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileDelivery\Token\DataSigner;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
@@ -29,23 +31,49 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
  */
 final class RequestHandler
 {
+    /**
+     * @var string
+     */
     public const WOPI_BASE_URL = '/wopi/index.php/';
+    /**
+     * @var string
+     */
     public const NAMESPACE_FILES = 'files';
 
     // WOPI Header
+    /**
+     * @var string
+     */
     private const HEADER_X_REQUEST_ID = 'X-Request-ID';
+    /**
+     * @var string
+     */
     private const HEADER_AUTHORIZATION = 'Authorization';
+    /**
+     * @var string
+     */
     private const HEADER_AUTHORIZATION_BEARER = 'Bearer';
+    /**
+     * @var string
+     */
     public const HEADER_X_WOPI_OVERRIDE = 'X-WOPI-Override';
+    /**
+     * @var string
+     */
     public const HEADER_X_WOPI_LOCK = 'X-WOPI-Lock';
+    /**
+     * @var string
+     */
     public const HEADER_X_WOPI_FILE_CONVERSION = 'X-WOPI-FileConversion';
 
-    private \ILIAS\HTTP\Services $http;
+    private Services $http;
     private \ILIAS\ResourceStorage\Services $irss;
     private DataSigner $data_signer;
     private ?int $token_user_id = null;
     private ?string $token_resource_id = null;
     private ResourceStakeholder $stakeholder;
+    private int $saving_interval = 0;
+    private bool $editable = false;
 
     public function __construct()
     {
@@ -53,6 +81,7 @@ final class RequestHandler
         $this->http = $DIC->http();
         $this->data_signer = $DIC['file_delivery.data_signer'];
         $this->irss = $DIC->resourceStorage();
+        $this->saving_interval = (int) $DIC->settings()->get('saving_interval');
     }
 
     protected function checkAuth(): void
@@ -76,13 +105,14 @@ final class RequestHandler
         }
 
         $this->token_user_id = (int) ($token_data['user_id'] ?? 0);
-        $this->token_resource_id = ($token_data['resource_id'] ?? '');
+        $this->token_resource_id = (string) ($token_data['resource_id'] ?? '');
+        $this->editable = (bool) ($token_data['editable'] ?? '');
         $stakeholder = $token_data['stakeholder'] ?? null;
         if ($stakeholder !== null) {
             try {
                 $this->stakeholder = new WOPIStakeholderWrapper();
                 $this->stakeholder->init($stakeholder, $this->token_user_id);
-            } catch (\Throwable $t) {
+            } catch (\Throwable) {
                 $this->stakeholder = new WOPIUnknownStakeholder($this->token_user_id);
             }
         }
@@ -97,7 +127,7 @@ final class RequestHandler
             $this->checkAuth();
 
             $uri = $this->http->request()->getUri()->getPath();
-            $request = substr($uri, strlen(self::WOPI_BASE_URL));
+            $request = substr($uri, strpos($uri, self::WOPI_BASE_URL) + strlen(self::WOPI_BASE_URL));
             $request = explode('/', $request);
             $method = $this->http->request()->getMethod();
 
@@ -110,11 +140,11 @@ final class RequestHandler
             }
 
             $resource_id = $this->irss->manage()->find($resource_id);
-            if (!$resource_id instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
+            if (!$resource_id instanceof ResourceIdentification) {
                 $this->http->close();
             }
             $resource = $this->irss->manage()->getResource($resource_id);
-            $current_revision = $resource->getCurrentRevisionIncludingDraft();
+            $current_revision = $this->editable ? $resource->getCurrentRevisionIncludingDraft() : $resource->getCurrentRevision();
 
             $method_override = $this->http->request()->getHeader(self::HEADER_X_WOPI_OVERRIDE)[0] ?? null;
             $is_file_convertion = (bool) ($this->http->request()->getHeader(
@@ -129,7 +159,8 @@ final class RequestHandler
                             // CheckFileInfo
                             $response = new GetFileInfoResponse(
                                 $current_revision,
-                                $this->token_user_id
+                                $this->token_user_id,
+                                $this->editable
                             );
                             $this->http->saveResponse(
                                 $this->http->response()->withBody(
@@ -162,12 +193,25 @@ final class RequestHandler
                             $body_stream = $this->http->request()->getBody();
                             $body = $body_stream->getContents();
                             $file_stream = Streams::ofString($body);
+
+                            $draft = true;
+
+                            if ($this->saving_interval > 0) {
+                                $latest_revision = $resource->getCurrentRevision();
+                                $creation_time = $latest_revision->getInformation()->getCreationDate()->getTimestamp();
+                                $current_time = time();
+                                $time_diff = $current_time - $creation_time;
+                                if ($time_diff > $this->saving_interval) {
+                                    $this->irss->manage()->publish($resource_id);
+                                }
+                            }
+
                             $new_revision = $this->irss->manage()->appendNewRevisionFromStream(
                                 $resource_id,
                                 $file_stream,
                                 $this->stakeholder,
                                 $current_revision->getTitle(),
-                                true
+                                $draft
                             );
 
                             // CheckFileInfo
@@ -211,9 +255,7 @@ final class RequestHandler
             $message = $t->getMessage();
             // append simple stacktrace
             $trace = array_map(
-                static function ($trace): string {
-                    return $trace['file'] . ':' . $trace['line'];
-                },
+                static fn(array $trace): string => $trace['file'] . ':' . $trace['line'],
                 $t->getTrace()
             );
 

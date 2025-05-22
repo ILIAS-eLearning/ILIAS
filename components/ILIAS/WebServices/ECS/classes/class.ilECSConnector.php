@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -40,7 +41,7 @@ class ilECSConnector
 
     protected ilLogger $logger;
 
-    public function __construct(ilECSSetting $settings = null)
+    public function __construct(?ilECSSetting $settings = null)
     {
         global $DIC;
 
@@ -474,7 +475,8 @@ class ilECSConnector
             $this->curl->init(true);
             $this->curl->setOpt(CURLOPT_HTTPHEADER, array(0 => 'Accept: application/json'));
             $this->curl->setOpt(CURLOPT_RETURNTRANSFER, 1);
-            $this->curl->setOpt(CURLOPT_TIMEOUT_MS, 2000);
+            $this->curl->setOpt(CURLOPT_VERBOSE, 1);
+            $this->curl->setOpt(CURLOPT_TIMEOUT_MS, 90000);
             $this->curl->setOpt(CURLOPT_FORBID_REUSE, true);
             $this->curl->setOpt(CURLOPT_FRESH_CONNECT, true);
 

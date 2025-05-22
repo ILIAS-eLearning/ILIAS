@@ -70,33 +70,6 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         }
 
         switch ($next_class) {
-            // trigger editor
-            case "ilpciimtriggereditorgui":
-                $ilTabs->setTabActive("triggers");
-                /** @var ilPCInteractiveImage $iim */
-                $iim = $this->content_obj;
-                $image_map_edit = new ilPCIIMTriggerEditorGUI(
-                    $iim,
-                    $this->pg_obj,
-                    $this->request
-                );
-                $ret = $this->ctrl->forwardCommand($image_map_edit);
-                if ($ret != "") {
-                    $tpl->setContent($ret);
-                }
-                break;
-
-                /*
-            case "ilpageeditorserveradaptergui":
-                $adapter = new ilPageEditorServerAdapterGUI(
-                    $this->page_gui,
-                    $this->ctrl,
-                    $this->ui,
-                    $this->http_request
-                );
-                $this->ctrl->forwardCommand($adapter);
-                break;*/
-
             case strtolower(ilRepoStandardUploadHandlerGUI::class):
                 $this->forwardFormToUploadHandler();
                 break;
@@ -109,7 +82,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 
     protected function forwardFormToUploadHandler(): void
     {
-        switch($this->request->getString("mode")) {
+        switch ($this->request->getString("mode")) {
             case "overlayUpload":
                 $form = $this->getOverlayUploadFormAdapter();
                 $gui = $form->getRepoStandardUploadHandlerGUI("overlay_file");
@@ -152,7 +125,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
      */
     public function insert(
         string $a_post_cmd = "edpost",
-        string $a_submit_cmd = "create_mob",
+        string $a_submit_cmd = "",
         bool $a_input_error = false
     ): void {
         $tpl = $this->tpl;
@@ -236,73 +209,6 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         return $form;
     }
 
-    public function create(): void
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $tpl = $this->tpl;
-
-        $form = $this->initForm("create");
-        if (!$form->checkInput()) {
-            $this->displayValidationError();
-            $form->setValuesByPost();
-            $tpl->setContent($form->getHTML());
-            return;
-        }
-
-        $this->content_obj = new ilPCInteractiveImage($this->getPage());
-        $this->content_obj->createMediaObject();
-        $media_obj = $this->content_obj->getMediaObject();
-        $media_obj->setTitle($_FILES['image_file']['name']);
-        $media_obj->create();
-        $mob_dir = ilObjMediaObject::_getDirectory($media_obj->getId());
-        //		$media_obj->setStandardType("File");
-        $media_obj->createDirectory();
-        $media_item = new ilMediaItem();
-        $media_obj->addMediaItem($media_item);
-        $media_item->setPurpose("Standard");
-
-        $file = $mob_dir . "/" . $_FILES['image_file']['name'];
-        try {
-            ilFileUtils::moveUploadedFile(
-                $_FILES['image_file']['tmp_name'],
-                $_FILES['image_file']['name'],
-                $file
-            );
-        } catch (ilException $e) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("file_is_infected"), true);
-            return;
-        }
-        // get mime type
-        $format = ilObjMediaObject::getMimeType($file);
-        $location = $_FILES['image_file']['name'];
-
-        // set real meta and object data
-        $media_item->setFormat($format);
-        $media_item->setLocation($location);
-        $media_item->setLocationType("LocalFile");
-
-        ilFileUtils::renameExecutables($mob_dir);
-        $media_obj->update();
-
-        $this->content_obj->createAlias($this->pg_obj, $this->hier_id, $this->pc_id);
-        $this->updated = $this->pg_obj->update();
-        if ($this->updated === true) {
-            $this->pg_obj->stripHierIDs();
-            $this->pg_obj->addHierIDs();
-            $ilCtrl->setParameter($this, "hier_id", $this->content_obj->readHierId());
-            $ilCtrl->setParameter($this, "pc_id", $this->content_obj->readPCId());
-            $this->content_obj->setHierId($this->content_obj->readHierId());
-            $this->setHierId($this->content_obj->readHierId());
-            $this->content_obj->setPcId($this->content_obj->readPCId());
-            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_saved_interactive_image"), true);
-            $this->ctrl->redirectByClass("ilpcinteractiveimagegui", "edit");
-
-            //$this->ctrl->returnToParent($this, "jump".$this->hier_id);
-        } else {
-            $this->insert();
-        }
-    }
 
     /**
      * Update (base image)
@@ -465,7 +371,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         $tpl->setContent($tab->getHTML());
     }
 
-    public function addOverlayImages(ilPropertyFormGUI $a_form = null): void
+    public function addOverlayImages(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -728,7 +634,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         $this->iim_gui->editorInit()->initUI($this->tpl);
     }
 
-    public function getOverlayUploadFormAdapter(array $path = null): \ILIAS\Repository\Form\FormAdapterGUI
+    public function getOverlayUploadFormAdapter(?array $path = null): \ILIAS\Repository\Form\FormAdapterGUI
     {
         if (is_null($path)) {
             $path = [self::class];
@@ -772,7 +678,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         return $f;
     }
 
-    public function getBackgroundPropertiesFormAdapter(array $path = null): \ILIAS\Repository\Form\FormAdapterGUI
+    public function getBackgroundPropertiesFormAdapter(?array $path = null): \ILIAS\Repository\Form\FormAdapterGUI
     {
         if (is_null($path)) {
             $path = [self::class];

@@ -30,13 +30,8 @@ use ILIAS\BackgroundTasks\Task;
  */
 class PersistingObserver implements Observer
 {
-    protected \ILIAS\BackgroundTasks\Bucket $bucket;
-    protected \ILIAS\BackgroundTasks\Persistence $persistence;
-
-    public function __construct(Bucket $bucket, Persistence $persistence)
+    public function __construct(protected Bucket $bucket, protected Persistence $persistence)
     {
-        $this->bucket = $bucket;
-        $this->persistence = $persistence;
     }
 
     /**

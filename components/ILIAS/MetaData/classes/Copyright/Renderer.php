@@ -25,11 +25,11 @@ use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\UI\Component\Link\Relationship;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Content;
 
 class Renderer implements RendererInterface
 {
-    protected const FALLBACK_IMG = 'copyrights\all_rights_reserved.svg';
+    protected const string FALLBACK_IMG = 'copyrights\all_rights_reserved.svg';
 
     protected Factory $factory;
     protected IRSS $irss;
@@ -43,7 +43,7 @@ class Renderer implements RendererInterface
     }
 
     /**
-     * @return Icon[]|Link[]|Legacy[]
+     * @return Icon[]|Link[]|Content[]
      */
     public function toUIComponents(CopyrightDataInterface $copyright): array
     {
@@ -60,6 +60,22 @@ class Renderer implements RendererInterface
             $res[] = $this->textInLegacy($copyright->fullName());
         }
         return $res;
+    }
+
+    public function toString(CopyrightDataInterface $copyright): string
+    {
+        $full_name = $copyright->fullName();
+        $link = $copyright->link();
+
+        $res = [];
+        if ($full_name !== '') {
+            $res[] = $full_name;
+        }
+        if ($link !== null) {
+            $res[] = (string) $link;
+        }
+
+        return implode(' ', $res);
     }
 
     protected function buildIcon(CopyrightDataInterface $copyright): ?Icon
@@ -133,9 +149,9 @@ class Renderer implements RendererInterface
         return $this->factory->link()->standard($label, $action);
     }
 
-    protected function textInLegacy(string $text): Legacy
+    protected function textInLegacy(string $text): Content
     {
-        return $this->factory->legacy($text);
+        return $this->factory->legacy()->content($text);
     }
 
     protected function getSourceFromIRSS(string $string_id): string

@@ -22,25 +22,26 @@ namespace ILIAS\Export;
 
 use ILIAS\Repository\GlobalDICDomainServices;
 
-/**
- * Export internal domain service
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalDomainService
 {
     use GlobalDICDomainServices;
-
-    protected InternalRepoService $repo_service;
-    protected InternalDataService $data_service;
+    protected static array $instance = [];
 
     public function __construct(
-        InternalRepoService $repo_service,
-        InternalDataService $data_service
+        protected InternalRepoService $repo,
+        protected InternalDataService $data
     ) {
         global $DIC;
 
         $this->initDomainServices($DIC);
-        $this->repo_service = $repo_service;
-        $this->data_service = $data_service;
+    }
+
+    public function html(): HTML\DomainService
+    {
+        return self::$instance['html'] ??= new HTML\DomainService(
+            $this->data->html(),
+            $this->repo->html(),
+            $this
+        );
     }
 }

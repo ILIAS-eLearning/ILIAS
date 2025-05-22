@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 /**
  * @defgroup ServicesAdvancedMetaData Services/AdvancedMetaData
@@ -759,7 +773,7 @@ class ilAdvancedMDRecord
     public static function saveObjRecSelection(
         int $a_obj_id,
         string $a_sub_type = "",
-        array $a_records = null,
+        ?array $a_records = null,
         bool $a_delete_before = true
     ): void {
         global $DIC;
@@ -831,7 +845,7 @@ class ilAdvancedMDRecord
         return $recs;
     }
 
-    public function _clone(array &$a_fields_map, int $a_parent_obj_id = null): ilAdvancedMDRecord
+    public function _clone(array &$a_fields_map, ?int $a_parent_obj_id = null): ilAdvancedMDRecord
     {
         $new_obj = new self();
         $new_obj->setActive($this->isActive());

@@ -26,15 +26,12 @@ namespace ILIAS\ResourceStorage\Lock;
  */
 class LockHandlerilDB implements LockHandler
 {
-    protected \ilDBInterface $db;
-
     /**
      * LockHandlerilDB constructor.
      * @internal
      */
-    public function __construct(\ilDBInterface $db)
+    public function __construct(protected \ilDBInterface $db)
     {
-        $this->db = $db;
     }
 
     public function lockTables(array $table_names, callable $during): LockHandlerResult

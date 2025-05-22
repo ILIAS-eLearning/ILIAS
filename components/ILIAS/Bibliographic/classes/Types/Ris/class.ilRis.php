@@ -55,7 +55,7 @@ class ilRis implements ilBiblTypeInterface
      * @source https://en.wikipedia.org/wiki/RIS_(file_format)
      */
     protected static array $standard_fields
-        = array(
+        = [
             'A1',
             // First Author
             'A2',
@@ -212,9 +212,9 @@ class ilRis implements ilBiblTypeInterface
             // Primary Date
             'Y2',
             // Access Date
-        );
+        ];
     protected static array $entry_types
-        = array(
+        = [
             'ABST',
             'ADVS',
             'ART',
@@ -250,7 +250,7 @@ class ilRis implements ilBiblTypeInterface
             'UNBILl',
             'UNPB',
             'VIDEO',
-        );
+        ];
 
 
     public function isStandardField(string $field_name): bool

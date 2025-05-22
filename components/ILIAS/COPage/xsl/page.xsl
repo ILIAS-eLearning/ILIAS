@@ -160,7 +160,7 @@
 	<xsl:for-each select="//MediaItem">
 		<xsl:variable name="corig"><xsl:value-of select="../@Id"/></xsl:variable>
 		<xsl:variable name="corigp"><xsl:value-of select="@Purpose"/></xsl:variable>
-		
+
 			<!-- Maps for alias items -->
 			<xsl:for-each select="//MediaAlias[@OriginId = $corig]/../MediaAliasItem[@Purpose = $corigp]/MapArea[1]">
 				<map>
@@ -400,7 +400,7 @@
 	<xsl:param name="droparea">n</xsl:param>
 	<xsl:param name="type">default</xsl:param>
 	<xsl:param name="prevent_deletion">n</xsl:param>
-	
+
 	<xsl:if test = "$javascript = 'enable'">
 	<div class="ilOverlay il_editmenu ilNoDisplay">
 		<xsl:if test = "$droparea = 'n'">
@@ -431,7 +431,7 @@
 			</xsl:if>
 	</div>
 	</xsl:if>
-	
+
 	<xsl:if test="$javascript = 'disable'">
 		<select size="1" class="ilEditSelect">
 			<xsl:attribute name="name">command<xsl:value-of select="$hier_id"/></xsl:attribute>
@@ -456,7 +456,7 @@
 			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="$hier_id"/>:<xsl:value-of select="$pc_id"/>]</xsl:attribute>
 		</input>
 	</xsl:if>
-	
+
 </xsl:template>
 
 <!-- Edit Menu Items -->
@@ -485,13 +485,13 @@
 			<xsl:with-param name="langvar">ed_edit_multiple</xsl:with-param>
 		</xsl:call-template> -->
 	</xsl:if>
-	
+
 	<xsl:if test = "$javascript = 'disable'">
 		<xsl:call-template name="EditMenuInsertItems"/>
 	</xsl:if>
-	
+
 	<xsl:if test="$edit = 'y' or $edit = 'p' or $edit = 'd'">
-	
+
 		<!-- delete -->
 		<xsl:if test="$prevent_deletion = 'n'">
 			<xsl:call-template name="EditMenuItem">
@@ -507,7 +507,7 @@
 				<xsl:with-param name="langvar">ed_cut</xsl:with-param>
 			</xsl:call-template>
 		</xsl:if>
-		
+
 		<xsl:if test = "$javascript = 'enable' and $prevent_deletion = 'n'">
 			<xsl:call-template name="EditMenuItem">
 				<xsl:with-param name="command">deactivate</xsl:with-param>
@@ -517,12 +517,12 @@
 
 		<!-- move menu items -->
 		<xsl:call-template name="MoveMenuItems"/>
-		
+
 		<!-- split page menu items -->
 		<xsl:call-template name="SplitMenuItems">
 			<xsl:with-param name="hier_id" select="$hier_id"/>
 		</xsl:call-template>
-		
+
 	</xsl:if>
 </xsl:template>
 
@@ -555,7 +555,7 @@
 			<xsl:with-param name="command">moveAfter</xsl:with-param>
 			<xsl:with-param name="langvar">ed_moveafter</xsl:with-param>
 		</xsl:call-template>
-		
+
 		<!-- move before -->
 		<xsl:call-template name="EditMenuItem">
 			<xsl:with-param name="command">moveBefore</xsl:with-param>
@@ -716,7 +716,7 @@
 			<xsl:with-param name="langvar">ed_insert_profile</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
-	
+
 	<!-- insert verification -->
 	<xsl:if test = "$enable_verification = 'y'">
 		<xsl:call-template name="EditMenuItem">
@@ -724,7 +724,7 @@
 			<xsl:with-param name="langvar">ed_insert_verification</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
-	
+
 	<!-- insert blog -->
 	<xsl:if test = "$enable_blog = 'y'">
 		<xsl:call-template name="EditMenuItem">
@@ -732,7 +732,7 @@
 			<xsl:with-param name="langvar">ed_insert_blog</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
-	
+
 	<!-- question overview -->
 	<xsl:if test = "$enable_qover = 'y'">
 		<xsl:call-template name="EditMenuItem">
@@ -740,7 +740,7 @@
 			<xsl:with-param name="langvar">ed_insert_qover</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
-	
+
 	<!-- insert skills -->
 	<xsl:if test = "$enable_skills = 'y'">
 		<xsl:call-template name="EditMenuItem">
@@ -748,7 +748,7 @@
 			<xsl:with-param name="langvar">ed_insert_skills</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
-	
+
 	<!-- insert learning history -->
 	<xsl:if test = "$enable_learning_history = 'y'">
 		<xsl:call-template name="EditMenuItem">
@@ -764,7 +764,7 @@
 			<xsl:with-param name="langvar">ed_insert_consultation_hours</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
-	
+
 	<!-- insert my_courses -->
 	<xsl:if test = "$enable_my_courses = 'y'">
 		<xsl:call-template name="EditMenuItem">
@@ -772,7 +772,7 @@
 			<xsl:with-param name="langvar">ed_insert_my_courses</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
-	
+
 	<!-- insert amd_page_list -->
 	<xsl:if test = "$enable_amd_page_list = 'y'">
 		<xsl:call-template name="EditMenuItem">
@@ -780,7 +780,7 @@
 			<xsl:with-param name="langvar">ed_insert_amd_page_list</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
-	
+
 	<!-- paste from clipboard -->
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">pasteFromClipboard</xsl:with-param>
 	<xsl:with-param name="langvar">ed_paste_clip</xsl:with-param></xsl:call-template>
@@ -795,19 +795,19 @@
 		<xsl:with-param name="command">leftAlign</xsl:with-param>
 		<xsl:with-param name="langvar">ed_align_left</xsl:with-param>
 	</xsl:call-template>
-	
+
 	<!-- right align -->
 	<xsl:call-template name="EditMenuItem">
 		<xsl:with-param name="command">rightAlign</xsl:with-param>
 		<xsl:with-param name="langvar">ed_align_right</xsl:with-param>
 	</xsl:call-template>
-	
+
 	<!-- center align -->
 	<xsl:call-template name="EditMenuItem">
 		<xsl:with-param name="command">centerAlign</xsl:with-param>
 		<xsl:with-param name="langvar">ed_align_center</xsl:with-param>
 	</xsl:call-template>
-	
+
 	<!-- left float align -->
 	<xsl:call-template name="EditMenuItem">
 		<xsl:with-param name="command">leftFloatAlign</xsl:with-param>
@@ -828,7 +828,7 @@
 	<xsl:param name="command"/>
 	<xsl:param name="langvar"/>
 	<xsl:param name="text"/>
-	
+
 	<xsl:if test = "$javascript = 'disable'">
 		<option>
 			<xsl:attribute name="value"><xsl:value-of select="$command"/></xsl:attribute>
@@ -939,6 +939,20 @@
 			<xsl:comment>Break</xsl:comment>
 		</h3>
 		</xsl:when>
+		<xsl:when test="./SimpleBulletList or ./SimpleNumberedList">
+			<xsl:variable name="char_name">
+				<xsl:call-template name="CharacteristicName">
+					<xsl:with-param name="pctype">heading3</xsl:with-param>
+					<xsl:with-param name="characteristic"><xsl:value-of select="@Characteristic"/></xsl:with-param>
+				</xsl:call-template>
+			</xsl:variable>
+			<!-- Label -->
+			<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/>  <xsl:value-of select="$char_name"/></xsl:with-param></xsl:call-template>
+			<div>
+				<xsl:call-template name="ShowParagraph"/>
+				<xsl:comment>Break</xsl:comment>
+			</div>
+		</xsl:when>
 		<xsl:when test="not (@Characteristic) or @Characteristic != 'Code'">
 			<xsl:variable name="char_name">
 				<xsl:call-template name="CharacteristicName">
@@ -1004,7 +1018,7 @@
 	</xsl:choose>
 
 	<!-- command selectbox -->
-	<xsl:if test="$mode = 'edit'">
+	<!-- <xsl:if test="$mode = 'edit'">
 		<br />
 		<xsl:if test="((../../../../@DataTable != 'y' or not(../../../../@DataTable)))">
 			<xsl:if test="$javascript='disable'">
@@ -1020,7 +1034,7 @@
 				<xsl:with-param name="edit">y</xsl:with-param>
 			</xsl:call-template>
 		</xsl:if>
-	</xsl:if>
+	</xsl:if> -->
 </xsl:template>
 
 <xsl:template name="Sourcecode">
@@ -1048,7 +1062,7 @@
 							<xsl:with-param name="downloadtitle" select="$downloadtitle"/>
 							<xsl:with-param name="href" select="$href"/>
 							<xsl:with-param name="subchar" select="@SubCharacteristic"/>
-						</xsl:call-template>					
+						</xsl:call-template>
 					</xsl:when >
 				</xsl:choose>
 		</xsl:if>
@@ -1061,20 +1075,20 @@
 	<xsl:param name="downloadtitle" select="-1"/>
 	<xsl:param name="href" select="'-1'"/>
 	<xsl:param name="subchar" select="'-1'"/>
-	
+
 	<xsl:if test="$href != '-1'">
 		<tr><td colspan="2"><div>
 		<a href="{$href}"><xsl:value-of select="//LVs/LV[@name='download']/@value"/></a>
 
-		<xsl:if test="$paragraph_plugins != '-1' and $subchar != '-1'">		
+		<xsl:if test="$paragraph_plugins != '-1' and $subchar != '-1'">
 			<xsl:call-template name="plugins">
 				<xsl:with-param name="pluginsString" select="$paragraph_plugins"/>
 				<xsl:with-param name="subchar" select="@SubCharacteristic"/>
 				<xsl:with-param name="par_vars" select="concat('&amp;download=',$encoded_download_script,'&amp;downloadtitle=',$downloadtitle,'&amp;pg_id=',$pg_id,'&amp;par_id=',$p_id)"/>
 			</xsl:call-template>
 		</xsl:if>
-		
-		</div></td></tr>		
+
+		</div></td></tr>
 	</xsl:if>
 </xsl:template>
 
@@ -1083,43 +1097,43 @@
 		<xsl:param name="pluginsString" select="'-1'"/>
 		<xsl:param name="subchar" select="'-1'"/>
 		<xsl:param name="par_vars" select="''"/>
-		<xsl:choose>			
+		<xsl:choose>
 			<xsl:when test="string-length(substring-before($pluginsString,'|')) =0">
 				<xsl:call-template name="plugin">
-					<xsl:with-param name="pluginString" select="$pluginsString"/>								
+					<xsl:with-param name="pluginString" select="$pluginsString"/>
 					<xsl:with-param name="subchar" select="$subchar"/>
-					<xsl:with-param name="par_vars" select="$par_vars"/>					
+					<xsl:with-param name="par_vars" select="$par_vars"/>
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:call-template name="plugin">
-					<xsl:with-param name="pluginString" select="substring-before($pluginsString,'|')"/>								
-					<xsl:with-param name="subchar" select="$subchar"/>					
-					<xsl:with-param name="par_vars" select="$par_vars"/>										
+					<xsl:with-param name="pluginString" select="substring-before($pluginsString,'|')"/>
+					<xsl:with-param name="subchar" select="$subchar"/>
+					<xsl:with-param name="par_vars" select="$par_vars"/>
 				</xsl:call-template>
-				<xsl:variable name="restString" select="substring-after($pluginsString,'|')"/>			
+				<xsl:variable name="restString" select="substring-after($pluginsString,'|')"/>
 				<xsl:if test="string-length($restString)>0">
 					<xsl:call-template name="plugins">
 						<xsl:with-param name="pluginsString" select="$restString"/>
 						<xsl:with-param name="subchar" select="$subchar"/>
-					<xsl:with-param name="par_vars" select="$par_vars"/>											
+					<xsl:with-param name="par_vars" select="$par_vars"/>
 					</xsl:call-template>
 				</xsl:if>
 			</xsl:otherwise>
-		</xsl:choose>		
+		</xsl:choose>
 </xsl:template>
-	
+
 <!-- defines content plugin -->
 <xsl:template name="plugin">
-		<xsl:param name="pluginString" select="'-1'"/>		
-		<xsl:param name="subchar" select="'-1'"/>		
+		<xsl:param name="pluginString" select="'-1'"/>
+		<xsl:param name="subchar" select="'-1'"/>
 		<xsl:param name="par_vars" select="''"/>
-		
+
 		<xsl:variable name="filetype" select="substring-before($pluginString,'#')"/>
 		<xsl:variable name="rest1" select="substring-after($pluginString,'#')"/>
 		<xsl:variable name="title" select="substring-before($rest1,'#')"/>
 		<xsl:variable name="rest2" select="substring-after($rest1,'#')"/>
-	
+
 		<xsl:variable name="linkNode" >
 			<xsl:choose>
 				<xsl:when test="substring-before($rest2,'#')=''">
@@ -1129,11 +1143,11 @@
 					<xsl:value-of select="substring-before($rest2,'#')"/>
 				</xsl:otherwise>
 			</xsl:choose>
-		</xsl:variable>		
+		</xsl:variable>
 		<xsl:variable name="link" select="concat(string($linkNode),$par_vars)"/>
 		<xsl:variable name="image" select="substring-after($rest2,'#')"/>
 
-		
+
 <!--		<filetype><xsl:value-of select="$filetype"/></filetype>
 		<title><xsl:value-of select="$title"/></title>
 		<link><xsl:value-of select="$link"/></link>
@@ -1269,7 +1283,7 @@
 			<!-- determine location -->
 			<xsl:variable name="data">
 				<xsl:if test="$curType = 'LocalFile'">
-					<xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
+					<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
 				</xsl:if>
 				<xsl:if test="$curType = 'Reference'">
 					<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
@@ -1398,8 +1412,8 @@
 	</xsl:if>
 	<xsl:if test="@DataTable = 'y'">
 	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_dtab']/@value"/> <xsl:if test="@Template"> (<xsl:value-of select="@Template"/>)</xsl:if></xsl:with-param></xsl:call-template>
-	</xsl:if>	
-	
+	</xsl:if>
+
 	<!-- <xsl:value-of select="@HierId"/> -->
 	<xsl:if test="$mode = 'edit' and $javascript='disable'">
 		<br/>
@@ -1491,7 +1505,7 @@
 					<xsl:variable name = "colpos" select = "position()"/>
 					<xsl:choose>
 					<xsl:when test="../../@Template and
-						(//StyleTemplates/StyleTemplate[@Name=$ttemp and $headerrows >= $rowpos] or 
+						(//StyleTemplates/StyleTemplate[@Name=$ttemp and $headerrows >= $rowpos] or
 						//StyleTemplates/StyleTemplate[@Name=$ttemp and $headercols >= $colpos])">
 						<th>
 							<xsl:call-template name="TableDataContent">
@@ -1605,7 +1619,7 @@
 		<xsl:if test="../../@Border">border: solid <xsl:value-of select="../../@Border"/>;</xsl:if>
 	</xsl:attribute>
 	-->
-	
+
 	<!-- insert commands -->
 	<!-- <xsl:value-of select="@HierId"/> -->
 	<xsl:call-template name="EditReturnAnchors"/>
@@ -1766,7 +1780,7 @@
 
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">deleteItem</xsl:with-param>
 	<xsl:with-param name="langvar">ed_delete_item</xsl:with-param></xsl:call-template>
-	
+
 	<xsl:variable name="ni"><xsl:number level="single" count="ListItem|FileItem"/></xsl:variable>
 	<xsl:if test= "$ni != 1">
 		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveItemUp</xsl:with-param>
@@ -1777,7 +1791,7 @@
 		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveItemDown</xsl:with-param>
 		<xsl:with-param name="langvar">ed_item_down</xsl:with-param></xsl:call-template>
 	</xsl:if>
-	
+
 </xsl:template>
 
 <!-- SimpleBulletList -->
@@ -1857,13 +1871,13 @@
 	<xsl:if test = "$javascript = 'disable'">
 		<xsl:call-template name="EditMenuInsertItems"/>
 	</xsl:if>
-	
+
 	<!-- delete -->
 	<xsl:call-template name="EditMenuItem">
 		<xsl:with-param name="command">delete</xsl:with-param>
 		<xsl:with-param name="langvar">ed_delete</xsl:with-param>
 	</xsl:call-template>
-		
+
 	<!-- activate/deactivate -->
 	<xsl:if test = "$javascript = 'enable'">
 		<xsl:call-template name="EditMenuItem">
@@ -1874,7 +1888,7 @@
 
 	<!-- move menu items -->
 	<xsl:call-template name="MoveMenuItems"/>
-	
+
 	<!-- split page menu items -->
 	<xsl:call-template name="SplitMenuItems">
 		<xsl:with-param name="hier_id" select="$hier_id"/>
@@ -2094,7 +2108,12 @@
 			<xsl:choose>
 				<xsl:when test="$location_mode = 'curpurpose'">
 					<xsl:if test="$curType = 'LocalFile'">
-						<xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/>
+						<xsl:if test="starts-with(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location, 'http')">
+							<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/>
+						</xsl:if>
+						<xsl:if test="not(starts-with(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location, 'http'))">
+							<xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/>
+						</xsl:if>
 					</xsl:if>
 					<xsl:if test="$curType = 'Reference'">
 						<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/>
@@ -2309,10 +2328,10 @@
 	<xsl:if test = "$javascript = 'disable'">
 		<xsl:call-template name="EditMenuInsertItems"/>
 	</xsl:if>
-	
+
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">delete</xsl:with-param>
 	<xsl:with-param name="langvar">ed_delete</xsl:with-param></xsl:call-template>
-	
+
 	<xsl:if test = "$javascript = 'enable'">
 		<xsl:call-template name="EditMenuItem">
 			<xsl:with-param name="command">deactivate</xsl:with-param>
@@ -2329,12 +2348,12 @@
 	</xsl:call-template>
 
 	<xsl:call-template name="EditMenuAlignItems"/>
-	
+
 	<xsl:if test="(../../MediaObject)">
 		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">copyToClipboard</xsl:with-param>
 		<xsl:with-param name="langvar">ed_copy_clip</xsl:with-param></xsl:call-template>
 	</xsl:if>
-	
+
 </xsl:template>
 
 <!-- MOBs: Images -->
@@ -2560,16 +2579,18 @@
 		<xsl:when test = "substring-after($data,'youtube.com') != '' or substring-after($data,'youtu.be') != ''">
 			<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
 			<!-- see #bug12622 -->
-			<video style="max-width: 100%;" class="ilPageVideo" preload="auto">
+			<div class="il-video-container">
 				<xsl:if test="$width != ''">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				</xsl:if>
 				<xsl:if test="$height != ''">
 					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 				</xsl:if>
-				<!-- see #bug22632 -->
-				<xsl:attribute name="src"><xsl:value-of select="$httpprefix"/>//www.youtube.com/watch?v=<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" />&amp;controls=0</xsl:attribute>
-			</video>
+				<iframe allow="fullscreen; autoplay; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin">
+					<!-- see #bug22632 -->
+					<xsl:attribute name="src"><xsl:value-of select="$httpprefix"/>//www.youtube.com/embed/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" /></xsl:attribute>
+				</iframe>
+			</div>
 		</xsl:when>
 		<!--
 		<xsl:when test = "substring-after($data,'youtube.com') != '' or substring-after($data,'youtu.be') != ''">
@@ -2617,12 +2638,11 @@
 				</embed>
 			</object>
 		</xsl:when>
-		
+
 
 		<!-- mp3 (mediaelement.js) -->
 		<xsl:when test = "$type='audio/mpeg' and (substring-before($data,'.mp3') != '' or substring-before($data,'.MP3') != '')">
-			<audio class="ilPageAudio" preload="metadata">
-				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+			<div class="il-audio-container">
 				<xsl:if test="$width != ''">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 					<xsl:attribute name="height">40</xsl:attribute>
@@ -2630,6 +2650,8 @@
 				<xsl:if test="$width = '' and $height = ''">
 					<xsl:attribute name="style">max-width: 100%; width: 100%; max-height: 100%;</xsl:attribute>
 				</xsl:if>
+			<audio controls="controls" class="il-audio-player" id="" preload="metadata">
+				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 				<xsl:if test="$mode != 'edit' and
 					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
 					( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
@@ -2637,13 +2659,16 @@
 					<!-- <xsl:attribute name="autoplay">true</xsl:attribute> -->
 				</xsl:if>
 			</audio>
+			</div>
 		</xsl:when>
 
 		<!-- flv, mp4 (mediaelement.js) -->
 		<xsl:when test = "$type = 'video/mp4' or $type = 'video/webm'">
 			<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
 			<!-- see #bug12622 -->
-			<video class="ilPageVideo" controls="controls" preload="metadata">
+
+			<div class="il-video-container">
+			<video class="il-video-player ilPageVideo" controls="controls" preload="metadata">
 				<xsl:if test="$width != ''">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				</xsl:if>
@@ -2691,6 +2716,7 @@
 					</track>
 				</xsl:for-each>
 			</video>
+			</div>
 			<!-- subtitle workaround -->
 			<xsl:if test="$mode = 'offline'" >
 				<xsl:for-each select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Subtitle">
@@ -2704,21 +2730,23 @@
 		<xsl:when test = "$type = 'video/vimeo'">
 			<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
 			<!-- see #bug12622 -->
-			<video style="max-width: 100%;" class="ilPageVideo" preload="auto">
+			<div class="il-video-container">
 				<xsl:if test="$width != ''">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				</xsl:if>
 				<xsl:if test="$height != ''">
 					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 				</xsl:if>
+			<iframe allow="fullscreen; autoplay; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin">
 				<!-- see #bug22632 -->
-				<xsl:attribute name="src"><xsl:value-of select="$data"/>?controls=0</xsl:attribute>
-			</video>
+				<xsl:attribute name="src">//player.vimeo.com/video/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='id']/@Value" /></xsl:attribute>
+			</iframe>
+			</div>
 		</xsl:when>
 
 		<!-- svg -->
 		<xsl:when test="substring($type, 1, 9) = 'image/svg'">
-			<embed style="width:100%">
+			<embed style="width:100%; display:block;">
 				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 				<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
 				<xsl:if test="$width != ''">
@@ -2812,7 +2840,7 @@
 		<xsl:when test="$fullscreen_link = 'fullscreen.html'">
 			<a target="_blank">
 			<xsl:attribute name="href">fullscreen_<xsl:value-of select="substring-after($cmobid,'mob_')"/>.html</xsl:attribute>
-			<img style="float: right">
+			<img style="float: right; width: auto;">
 			<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
 			</img>
 			</a>
@@ -2820,7 +2848,7 @@
 		<xsl:otherwise>
 			<a target="_blank">
 			<xsl:attribute name="onclick">il.COPagePres.openFullScreenModal('<xsl:value-of select="$fullscreen_link"/>&amp;mob_id=<xsl:value-of select="substring-after($cmobid,'mob_')"/>&amp;pg_id=<xsl:value-of select="$pg_id"/>'); return false;</xsl:attribute>
-			<img style="float: right">
+			<img style="float: right; width: auto;">
 			<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
 			</img>
 			</a>
@@ -2884,7 +2912,7 @@
 	<xsl:if test="$mode = 'edit'">
 		<xsl:attribute name="style">border: 1px solid #000000; padding: 20px; margin-bottom:10px;</xsl:attribute>
 		<div style="margin-bottom:20px;">
-			<i><b><xsl:value-of select="@Title" /></b></i>
+			<i><strong><xsl:value-of select="@Title" /></strong></i>
 			<xsl:comment>Break</xsl:comment>
 		</div>
 	</xsl:if>
@@ -2916,8 +2944,9 @@
 <xsl:template match="Trigger">
 	<xsl:if test="@Overlay != ''">
 		<xsl:variable name="cur_nr" select="@Nr" />
+		<xsl:variable name="mobid" select="../MediaAlias/@OriginId" />
 		<img style="display:none;">
-		<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after(../MediaAlias[1]/@OriginId,'mob_')"/>/overlays/<xsl:value-of select="@Overlay"/></xsl:attribute>
+		<xsl:attribute name="src"><xsl:value-of select="//MediaObject[@Id=$mobid]/MediaItem[@Purpose = 'Standard']/Url/@Base"/>/overlays/<xsl:value-of select="@Overlay"/></xsl:attribute>
 		<xsl:attribute name="id">iim_ov_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
 		<xsl:if test="$mode != 'edit'">
 			<xsl:attribute name="usemap">#iim_ov_map_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
@@ -3131,6 +3160,7 @@
 
 	<!-- Resources -->
 <xsl:template match="Resources">
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_res']/@value"/> <xsl:if test="@Template"> (<xsl:value-of select="@Template"/>)</xsl:if></xsl:with-param></xsl:call-template>
 	<div>
 		<xsl:if test="./ResourceList">
 			[list-<xsl:value-of select="./ResourceList/@Type"/>]
@@ -3260,11 +3290,8 @@
 <!-- Tabs -->
 <xsl:template match="Tabs">
 	<!-- Label -->
-	<xsl:if test="@Type = 'VerticalAccordion'">
-	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_vacc']/@value"/> <xsl:if test="@Template != 'VerticalAccordion'"> (<xsl:value-of select="@Template"/>)</xsl:if></xsl:with-param></xsl:call-template>
-	</xsl:if>
-	<xsl:if test="@Type = 'HorizontalAccordion'">
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_hacc']/@value"/><xsl:if test="@Template != 'HorizontalAccordion'"> (<xsl:value-of select="@Template"/>)</xsl:if></xsl:with-param></xsl:call-template>
+	<xsl:if test="@Type = 'VerticalAccordion' or @Type = 'HorizontalAccordion'">
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_vacc']/@value"/> <xsl:if test="@Template != 'VerticalAccordion' and @Template != 'HorizontalAccordion'"> (<xsl:value-of select="@Template"/>)</xsl:if></xsl:with-param></xsl:call-template>
 	</xsl:if>
 	<xsl:if test="@Type = 'Carousel'">
 		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_carousel']/@value"/><xsl:if test="@Template != 'Carousel'"> (<xsl:value-of select="@Template"/>)</xsl:if></xsl:with-param></xsl:call-template>
@@ -3278,66 +3305,74 @@
 		<xsl:when test="@HorizontalAlign = 'RightFloat'">float:right; <xsl:if test="$disable_auto_margins != 'y'">margin-right:0px;</xsl:if></xsl:when>
 		<xsl:otherwise></xsl:otherwise>
 	</xsl:choose></xsl:variable>
+	<xsl:variable name="aheadclass">
+		<xsl:choose>
+			<xsl:when test="@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_iheada']/@Value">ilc_va_iheada_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_iheada']/@Value"/></xsl:when>
+			<xsl:otherwise>ilc_va_iheada_AccordIHeadActive</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
 	<div>
 		<xsl:variable name="cwidth">
 			<xsl:choose>
 			<xsl:when test="@ContentWidth and number(@ContentWidth) > 0"><xsl:value-of select="@ContentWidth" /></xsl:when>
-			<xsl:when test="@Type = 'HorizontalAccordion'">200</xsl:when>
 			<xsl:otherwise>null</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+		<!--
 		<xsl:if test="@Type = 'VerticalAccordion' and $cwidth != 'null'">
 			<xsl:attribute name="style">width: <xsl:value-of select="$cwidth" />px; <xsl:value-of select="$halign" /><xsl:if test="$mode='edit'"> background-color:white;</xsl:if></xsl:attribute>
-		</xsl:if>
+		</xsl:if>-->
 		<xsl:if test="@Type = 'Carousel'">
-			<xsl:choose>
+			<!-- <xsl:choose>
 				<xsl:when test="$cwidth != 'null'">
 					<xsl:attribute name="style">display: grid; width: <xsl:value-of select="$cwidth" />px; <xsl:value-of select="$halign" /></xsl:attribute>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:attribute name="style">display: grid;</xsl:attribute>
 				</xsl:otherwise>
-			</xsl:choose>
+			</xsl:choose> -->
 		</xsl:if>
-		<xsl:variable name="cheight">
-			<xsl:choose>
-			<xsl:when test="@ContentHeight and number(@ContentHeight) > 0"><xsl:value-of select="@ContentHeight" /></xsl:when>
-			<xsl:when test="@Type = 'HorizontalAccordion'">100</xsl:when>
-			<xsl:otherwise>null</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
+		<xsl:variable name="cheight">null</xsl:variable>
 		<div>
+		<xsl:attribute name="id">ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" /></xsl:attribute>
+		<xsl:attribute name="data-copg-tabs-type"><xsl:value-of select="@Type" /></xsl:attribute>
 		<xsl:choose>
 		<xsl:when test="$mode = 'edit' or $mode = 'print' or $compare_mode = 'y'">
-			<xsl:attribute name="class">ilc_va_cntr_VAccordCntr</xsl:attribute>
+			<xsl:attribute name="class">ilc_va_cntr_AccordCntr</xsl:attribute>
 		</xsl:when>
-		<xsl:when test="@Type = 'VerticalAccordion'">
-			<xsl:attribute name="class">ilc_va_cntr_VAccordCntr</xsl:attribute>
-			<xsl:attribute name="id">ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" /></xsl:attribute>
+		<xsl:when test="@Type = 'VerticalAccordion' or @Type = 'HorizontalAccordion'">
+			<xsl:variable name="beh">
+				<xsl:choose>
+					<xsl:when test="$mode = 'print'">ForceAllOpen</xsl:when>
+					<xsl:when test="$compare_mode = 'y'">ForceAllOpen</xsl:when>
+					<xsl:otherwise><xsl:value-of select="@Behavior"/></xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:attribute name="class">ilc_va_cntr_AccordCntr</xsl:attribute>
 			<xsl:if test="@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_cntr']/@Value">
 				<xsl:attribute name = "class">ilc_va_cntr_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_cntr']/@Value"/></xsl:attribute>
 			</xsl:if>
-		</xsl:when>
-		<xsl:when test="@Type = 'HorizontalAccordion'">
-			<xsl:attribute name="class">ilc_ha_cntr_HAccordCntr</xsl:attribute>
-			<xsl:attribute name="id">ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" /></xsl:attribute>
-			<xsl:if test="@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_cntr']/@Value">
-				<xsl:attribute name = "class">ilc_ha_cntr_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_cntr']/@Value"/></xsl:attribute>
-			</xsl:if>
+			<xsl:attribute name="data-copg-tabs-toggle-class">il_VAccordionToggleDef</xsl:attribute>
+			<xsl:attribute name="data-copg-tabs-toggle-act-class">il_VAccordionToggleActiveDef</xsl:attribute>
+			<xsl:attribute name="data-copg-tabs-content-class">il_VAccordionContentDef</xsl:attribute>
+			<xsl:attribute name="data-copg-tabs-behaviour"><xsl:value-of select = "$beh"/></xsl:attribute>
+			<xsl:attribute name="data-copg-tabs-save-url"><xsl:value-of select = "$acc_save_url"/></xsl:attribute>
+			<xsl:attribute name="data-copg-tabs-active-head-class"><xsl:value-of select = "$aheadclass"/></xsl:attribute>
 		</xsl:when>
 		<xsl:when test="@Type = 'Carousel'">
-			<xsl:attribute name="class">ilc_ca_cntr_CarouselCntr owl-carousel</xsl:attribute>
-			<xsl:attribute name="id">ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" /></xsl:attribute>
+			<xsl:attribute name="class">ilc_ca_cntr_CarouselCntr</xsl:attribute>
+			<xsl:attribute name="data-copg-tabs-auto-anim-wait"><xsl:value-of select = "number(@AutoAnimWait)"/></xsl:attribute>
+			<xsl:attribute name="data-copg-tabs-random-start"><xsl:value-of select = "number(@RandomStart)"/></xsl:attribute>
 			<xsl:if test="@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ca_cntr']/@Value">
 				<xsl:attribute name = "class">ilc_ca_cntr_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ca_cntr']/@Value"/> owl-carousel</xsl:attribute>
 			</xsl:if>
-			<xsl:attribute name="style">overflow: hidden;</xsl:attribute>
 		</xsl:when>
 		</xsl:choose>
 			<xsl:apply-templates select="Tab">
 				<xsl:with-param name="cwidth" select="$cwidth" />
 				<xsl:with-param name="cheight" select="$cheight" />
 				<xsl:with-param name="ttemp" select="$ttemp" />
+				<xsl:with-param name="aheadclass" select="$aheadclass" />
 			</xsl:apply-templates>
 			<xsl:if test="@Type != 'Carousel'">
 				<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
@@ -3369,83 +3404,7 @@
 					<xsl:otherwise><xsl:value-of select="@Behavior"/></xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			<xsl:if test="@Type = 'VerticalAccordion' and $mode != 'print' and $compare_mode = 'n'">
-				<xsl:variable name="aheadclass">
-					<xsl:choose>
-						<xsl:when test="@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_iheada']/@Value">ilc_va_iheada_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_iheada']/@Value"/></xsl:when>
-						<xsl:otherwise>ilc_va_iheada_VAccordIHeadActive</xsl:otherwise>
-					</xsl:choose>
-				</xsl:variable>
-				<script type="text/javascript">
-					if (typeof ilAccordionsInits === 'undefined') {
-						var ilAccordionsInits = [];
-					}
-					ilAccordionsInits.push({
-							id: 'ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
-							toggle_class: 'il_VAccordionToggleDef',
-							toggle_act_class: 'il_VAccordionToggleActiveDef',
-							content_class: 'il_VAccordionContentDef',
-							width: null,
-							height: null,
-							orientation: 'vertical',
-							behaviour: '<xsl:value-of select = "$beh"/>',
-							save_url: '<xsl:value-of select = "$acc_save_url"/>',
-							active_head_class: '<xsl:value-of select="$aheadclass"/>',
-							int_id: '',
-							multi: false
-							}
-					);
-				</script>
-			</xsl:if>
-			<xsl:if test="@Type = 'HorizontalAccordion' and $mode != 'print' and $compare_mode = 'n'">
-				<xsl:variable name="aheadclass">
-					<xsl:choose>
-						<xsl:when test="@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_iheada']/@Value">ilc_ha_iheada_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_iheada']/@Value"/></xsl:when>
-						<xsl:otherwise>ilc_ha_iheada_HAccordIHeadActive</xsl:otherwise>
-					</xsl:choose>
-				</xsl:variable>
-				<script type="text/javascript">
-					if (typeof ilAccordionsInits === 'undefined') {
-						var ilAccordionsInits = [];
-					}
-					ilAccordionsInits.push({
-							id: 'ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
-							toggle_class: 'il_HAccordionToggleDef',
-							toggle_act_class: 'il_HAccordionToggleActiveDef',
-							content_class: 'il_HAccordionContentDef',
-							width: <xsl:value-of select="$cwidth" />,
-							height: null,
-							orientation: 'horizontal',
-							behaviour: '<xsl:value-of select="@Behavior"/>',
-							save_url: '',
-							active_head_class: '<xsl:value-of select="$aheadclass"/>',
-							int_id: '',
-							multi: false
-						});
-				</script>
-			</xsl:if>
-			<xsl:if test="@Type = 'Carousel' and $mode != 'print' and $compare_mode = 'n'">
-				<script type="text/javascript">
-					if (typeof ilAccordionsInits === 'undefined') {
-						var ilAccordionsInits = [];
-					}
-					ilAccordionsInits.push({
-					id: 'ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
-					toggle_class: '',
-					toggle_act_class: '',
-					content_class: '',
-					width: <xsl:value-of select="$cwidth" />,
-					height: null,
-					orientation: 'carousel',
-					behaviour: 'Carousel',
-					save_url: '',
-					active_head_class: '',
-					int_id: '',
-					multi: false,
-					auto_anim_wait: <xsl:value-of select="number(@AutoAnimWait)" />,
-					random_start: <xsl:value-of select="number(@RandomStart)" />
-					});
-				</script>
+			<xsl:if test="(@Type = 'VerticalAccordion' or @Type = 'HorizonalAccordion') and $mode != 'print' and $compare_mode = 'n'">
 			</xsl:if>
 		</xsl:if>
 	</div>
@@ -3456,27 +3415,21 @@
 	<xsl:param name="cwidth"/>
 	<xsl:param name="cheight"/>
 	<xsl:param name="ttemp"/>
+	<xsl:param name="aheadclass"/>
 	<xsl:variable name="cstyle"><xsl:if test="$cheight != 'null' and $mode != 'edit' and $mode != 'print' and $compare_mode = 'n'">height: <xsl:value-of select="$cheight" />px;</xsl:if></xsl:variable>
 
 	<!-- TabContainer -->
 	<div>
 	<xsl:choose>
 	<xsl:when test="$mode = 'edit' or $mode = 'print' or $compare_mode = 'y'">
-		<xsl:attribute name="class">ilc_va_icntr_VAccordICntr</xsl:attribute>
+		<xsl:attribute name="class">ilc_va_icntr_AccordICntr</xsl:attribute>
 	</xsl:when>
-	<xsl:when test="../@Type = 'VerticalAccordion'">
-		<xsl:attribute name="class">ilc_va_icntr_VAccordICntr</xsl:attribute>
+	<xsl:when test="../@Type = 'VerticalAccordion' or ../@Type = 'HorizontalAccordion'">
+		<xsl:attribute name="class">ilc_va_icntr_AccordICntr</xsl:attribute>
 		<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_icntr']/@Value">
 			<xsl:attribute name = "class">ilc_va_icntr_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_icntr']/@Value"/></xsl:attribute>
 		</xsl:if>
 	</xsl:when>
-		<xsl:when test="../@Type = 'HorizontalAccordion'">
-			<xsl:attribute name="class">ilc_ha_icntr_HAccordICntr</xsl:attribute>
-			<xsl:attribute name="style">float:left;</xsl:attribute>
-			<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_icntr']/@Value">
-				<xsl:attribute name = "class">ilc_ha_icntr_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_icntr']/@Value"/></xsl:attribute>
-			</xsl:if>
-		</xsl:when>
 		<xsl:when test="../@Type = 'Carousel'">
 			<xsl:attribute name="class">ilc_ca_icntr_CarouselICntr</xsl:attribute>
 			<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ca_icntr']/@Value">
@@ -3484,33 +3437,28 @@
 			</xsl:if>
 		</xsl:when>
 	</xsl:choose>
-	
+
 	<!-- Caption -->
 	<div>
 	<xsl:choose>
-	<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit' or $mode = 'print' or $compare_mode = 'y'">
+	<xsl:when test="(../@Type = 'VerticalAccordion' or ../@Type = 'HorizontalAccordion') or $mode = 'edit' or $mode = 'print' or $compare_mode = 'y'">
 		<xsl:attribute name="class">il_VAccordionToggleDef</xsl:attribute>
-	</xsl:when>
-	<xsl:when test="../@Type = 'HorizontalAccordion'">
-		<xsl:attribute name="class">il_HAccordionToggleDef</xsl:attribute>
 	</xsl:when>
 	</xsl:choose>
 
 		<div tabindex="0" role="button" aria-expanded="false">
 		<xsl:choose>
 		<xsl:when test="$mode = 'edit' or $mode = 'print' or $compare_mode = 'y'">
-			<xsl:attribute name="class">ilc_va_ihead_VAccordIHead ilc_va_iheada_VAccordIHeadActive</xsl:attribute>
+			<xsl:attribute name="class">ilc_va_ihead_AccordIHead ilc_va_iheada_AccordIHeadActive</xsl:attribute>
 		</xsl:when>
-		<xsl:when test="../@Type = 'VerticalAccordion'">
-			<xsl:attribute name="class">ilc_va_ihead_VAccordIHead</xsl:attribute>
+		<xsl:when test="../@Type = 'VerticalAccordion' or ../@Type = 'HorizontalAccordion'">
+			<xsl:attribute name="class">ilc_va_ihead_AccordIHead
+				<xsl:if test="../@Behavior = 'ForceAllOpen'"><xsl:text> </xsl:text><xsl:value-of select="$aheadclass"/></xsl:if>
+			</xsl:attribute>
 			<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_ihead']/@Value">
-				<xsl:attribute name = "class">ilc_va_ihead_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_ihead']/@Value"/></xsl:attribute>
-			</xsl:if>
-		</xsl:when>
-		<xsl:when test="../@Type = 'HorizontalAccordion'">
-			<xsl:attribute name="class">ilc_ha_ihead_HAccordIHead</xsl:attribute>
-			<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_ihead']/@Value">
-				<xsl:attribute name = "class">ilc_ha_ihead_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_ihead']/@Value"/></xsl:attribute>
+				<xsl:attribute name = "class">ilc_va_ihead_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_ihead']/@Value"/>
+					<xsl:if test="../@Behavior = 'ForceAllOpen'"><xsl:text> </xsl:text><xsl:value-of select="$aheadclass"/></xsl:if>
+				</xsl:attribute>
 			</xsl:if>
 		</xsl:when>
 		<xsl:when test="../@Type = 'Carousel'">
@@ -3520,22 +3468,15 @@
 			</xsl:if>
 		</xsl:when>
 		</xsl:choose>
-		<xsl:attribute name="style"><xsl:if test="$cheight != 'null' and $mode != 'edit' and $mode != 'print' and $compare_mode = 'n' and ../@Type = 'HorizontalAccordion'">height: <xsl:value-of select="$cheight" />px;</xsl:if></xsl:attribute>
 		<div>
 			<xsl:choose>
 			<xsl:when test="$mode = 'edit' or $mode = 'print' or $compare_mode = 'y'">
-				<xsl:attribute name="class">ilc_va_ihcap_VAccordIHeadCap</xsl:attribute>
+				<xsl:attribute name="class">ilc_va_ihcap_AccordIHeadCap</xsl:attribute>
 			</xsl:when>
-			<xsl:when test="../@Type = 'VerticalAccordion'">
-				<xsl:attribute name="class">ilc_va_ihcap_VAccordIHeadCap</xsl:attribute>
+			<xsl:when test="../@Type = 'VerticalAccordion' or ../@Type = 'HorizontalAccordion'">
+				<xsl:attribute name="class">ilc_va_ihcap_AccordIHeadCap</xsl:attribute>
 				<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_ihcap']/@Value">
 					<xsl:attribute name = "class">ilc_va_ihead_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_ihcap']/@Value"/></xsl:attribute>
-				</xsl:if>
-			</xsl:when>
-			<xsl:when test="../@Type = 'HorizontalAccordion'">
-				<xsl:attribute name="class">ilc_ha_ihcap_HAccordIHeadCap</xsl:attribute>
-				<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_ihcap']/@Value">
-					<xsl:attribute name = "class">ilc_ha_ihcap_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_ihcap']/@Value"/></xsl:attribute>
 				</xsl:if>
 			</xsl:when>
 			</xsl:choose>
@@ -3545,35 +3486,23 @@
 		<xsl:comment>Break</xsl:comment>
 		</div>
 	</div>
-	
+
 	<!-- Content -->
 	<div>
 		<xsl:choose>
-		<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit' or $mode = 'print' or $compare_mode = 'y'">
+		<xsl:when test="(../@Type = 'VerticalAccordion' or ../@Type = 'HorizontalAccordion') or $mode = 'edit' or $mode = 'print' or $compare_mode = 'y'">
 			<xsl:attribute name="class">il_VAccordionContentDef <xsl:if test="$mode != 'edit' and $mode != 'print' and ../@Behavior != 'ForceAllOpen' and $compare_mode = 'n'">ilAccHideContent</xsl:if></xsl:attribute>
 		</xsl:when>
-		<xsl:when test="../@Type = 'HorizontalAccordion'">
-			<xsl:attribute name="class">il_HAccordionContentDef <xsl:if test="$mode != 'edit' and $mode != 'print' and ../@Behavior != 'ForceAllOpen' and $compare_mode = 'n'">ilAccHideContent</xsl:if></xsl:attribute>
-		</xsl:when>
 		</xsl:choose>
-		<xsl:if test="../@Type = 'HorizontalAccordion' and $mode != 'edit' and $mode != 'print' and ../@Behavior = 'ForceAllOpen'">
-			<xsl:attribute name="style">width:<xsl:value-of select = "$cwidth" />px;</xsl:attribute>
-		</xsl:if>
 		<div>
 			<xsl:choose>
 			<xsl:when test="$mode = 'edit' or $mode = 'print' or $compare_mode = 'y'">
 				<xsl:attribute name="class">ilEditVAccordICont</xsl:attribute>
 			</xsl:when>
-			<xsl:when test="../@Type = 'VerticalAccordion'">
-				<xsl:attribute name="class">ilc_va_icont_VAccordICont</xsl:attribute>
+			<xsl:when test="../@Type = 'VerticalAccordion' or ../@Type = 'HorizontalAccordion'">
+				<xsl:attribute name="class">ilc_va_icont_AccordICont</xsl:attribute>
 				<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_icont']/@Value">
 					<xsl:attribute name = "class">ilc_va_icont_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_icont']/@Value"/></xsl:attribute>
-				</xsl:if>
-			</xsl:when>
-			<xsl:when test="../@Type = 'HorizontalAccordion'">
-				<xsl:attribute name="class">ilc_ha_icont_HAccordICont</xsl:attribute>
-				<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_icont']/@Value">
-					<xsl:attribute name = "class">ilc_ha_icont_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_icont']/@Value"/></xsl:attribute>
 				</xsl:if>
 			</xsl:when>
 			<xsl:when test="../@Type = 'Carousel'">
@@ -3654,49 +3583,46 @@
 
 <!-- GridCell -->
 <xsl:template match="GridCell">
+	<xsl:variable name="container_edit_class"><xsl:if test="$mode = 'edit'"> copg-edit-container</xsl:if></xsl:variable>
 	<div>
 		<xsl:attribute name="class">
-			<xsl:if test="@WIDTH_S != ''"> col-xs-<xsl:value-of select="@WIDTH_S"/></xsl:if>
-			<xsl:if test="@WIDTH_M != ''"> col-sm-<xsl:value-of select="@WIDTH_M"/></xsl:if>
-			<xsl:if test="@WIDTH_L != ''"> col-md-<xsl:value-of select="@WIDTH_L"/></xsl:if>
-			<xsl:if test="@WIDTH_XL != ''"> col-lg-<xsl:value-of select="@WIDTH_XL"/></xsl:if>
-			<xsl:if test="@WIDTH_S = '' and @WIDTH_M = '' and @WIDTH_L = '' and @WIDTH_XL = ''">col-xs-12</xsl:if>
+			<xsl:if test="@WIDTH_S != ''"> col-sm-<xsl:value-of select="@WIDTH_S"/></xsl:if>
+			<xsl:if test="@WIDTH_M != ''"> col-md-<xsl:value-of select="@WIDTH_M"/></xsl:if>
+			<xsl:if test="@WIDTH_L != ''"> col-lg-<xsl:value-of select="@WIDTH_L"/></xsl:if>
+			<xsl:if test="@WIDTH_XL != ''"> col-xl-<xsl:value-of select="@WIDTH_XL"/></xsl:if>
+			<xsl:if test="@WIDTH_S = '' and @WIDTH_M = '' and @WIDTH_L = '' and @WIDTH_XL = ''">col-sm-12</xsl:if>
+			<xsl:value-of select="$container_edit_class"/>
 		</xsl:attribute>
-		<div class="flex-col flex-grow">
+		<div style="height:100%">	<!-- this div enforces margin collapsing, see bug 31536, for height see 32067 -->
 			<xsl:if test="$mode = 'edit'">
-				<xsl:attribute name="class">flex-col flex-grow copg-edit-container</xsl:attribute>
+				<xsl:call-template name="EditReturnAnchors"/>
 			</xsl:if>
-			<div style="height:100%">	<!-- this div enforces margin collapsing, see bug 31536, for height see 32067 -->
-				<xsl:if test="$mode = 'edit'">
-					<xsl:call-template name="EditReturnAnchors"/>
+			<!-- insert commands -->
+			<!-- <xsl:value-of select="@HierId"/> -->
+			<xsl:if test="$mode = 'edit'">
+				<!-- drop area (js) -->
+				<xsl:if test="$javascript = 'enable'">
+					<xsl:call-template name="DropArea">
+						<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+						<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
+					</xsl:call-template>
 				</xsl:if>
-				<!-- insert commands -->
-				<!-- <xsl:value-of select="@HierId"/> -->
-				<xsl:if test="$mode = 'edit'">
-					<!-- drop area (js) -->
-					<xsl:if test="$javascript = 'enable'">
-						<xsl:call-template name="DropArea">
-							<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
-							<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
-						</xsl:call-template>
-					</xsl:if>
-					<!-- insert dropdown (no js) -->
-					<xsl:if test= "$javascript = 'disable'">
-						<select size="1" class="ilEditSelect">
-							<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
-							</xsl:attribute>
-							<xsl:call-template name="EditMenuInsertItems"/>
-						</select>
-						<input class="ilEditSubmit" type="submit">
-							<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
-							<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
-						</input>
-						<br/>
-					</xsl:if>
+				<!-- insert dropdown (no js) -->
+				<xsl:if test= "$javascript = 'disable'">
+					<select size="1" class="ilEditSelect">
+						<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
+						</xsl:attribute>
+						<xsl:call-template name="EditMenuInsertItems"/>
+					</select>
+					<input class="ilEditSubmit" type="submit">
+						<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
+						<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
+					</input>
+					<br/>
 				</xsl:if>
-				<xsl:apply-templates select="PageContent"/>
-				<xsl:comment>End of Grid Cell</xsl:comment>
-			</div>
+			</xsl:if>
+			<xsl:apply-templates select="PageContent"/>
+			<xsl:comment>End of Grid Cell</xsl:comment>
 		</div>
 	</div>
 </xsl:template>
@@ -3809,7 +3735,7 @@
 				</xsl:if>
 				<xsl:if test = "@Width != ''">
 					width:<xsl:value-of select="@Width"/>;
-				</xsl:if>	
+				</xsl:if>
 			</xsl:attribute>
 			<xsl:if test = "$enable_placeholder != 'y'">
 				{{{{{PlaceHolder#<xsl:value-of select="../@PCID"/>#<xsl:value-of select="../@HierId"/>#<xsl:value-of select="@ContentClass"/>}}}}}
@@ -3817,9 +3743,9 @@
 			<xsl:if test = "$enable_placeholder = 'y'">
 				<xsl:value-of select="//LVs/LV[@name='media_placehl']/@value"/>
 			</xsl:if>
-		</div>	
+		</div>
 	</xsl:if>
-	
+
 	<xsl:if test="@ContentClass='Text'">
 		<div class="ilc_TextPlaceHolder">
 			<xsl:attribute name="style">
@@ -3838,7 +3764,7 @@
 			</xsl:if>
 		</div>
 	</xsl:if>
-	
+
 	<xsl:if test="@ContentClass='Question'">
 		<div class="ilc_QuestionPlaceHolder">
 				<xsl:attribute name="style">
@@ -3856,9 +3782,9 @@
 				<xsl:value-of select="//LVs/LV[@name='question_placehl']/@value"/>
 			</xsl:if>
 
-		</div>		
+		</div>
 	</xsl:if>
-	
+
 	<xsl:if test="@ContentClass='Verification'">
 		<div class="ilc_VerificationPlaceHolder">
 			<xsl:attribute name="style">
@@ -3877,7 +3803,7 @@
 			</xsl:if>
 		</div>
 	</xsl:if>
-	
+
 	<!-- command selectbox -->
 	<xsl:if test="$mode = 'edit'">
 		<br />
@@ -4064,7 +3990,7 @@
 <!-- Advanced MD Page List -->
 <xsl:template match="AMDPageList">
 	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_amdpl']/@value"/></xsl:with-param></xsl:call-template>
-	[[[[[AMDPageList;<xsl:value-of select="@Id"/>;<xsl:value-of select="@Mode"/>]]]]]	
+	[[[[[AMDPageList;<xsl:value-of select="@Id"/>;<xsl:value-of select="@Mode"/>]]]]]
 	<xsl:if test="$mode = 'edit'">
 		<!-- <xsl:value-of select="../@HierId"/> -->
 		<xsl:if test="$javascript='disable'">

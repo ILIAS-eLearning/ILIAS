@@ -18,14 +18,15 @@
 
 declare(strict_types=1);
 
-use Pimple\Container;
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * Re-assign users (according to restart-date).
  * This will result in a new/additional assignment
  */
-class ilPrgRestartAssignmentsCronJob extends ilCronJob
+class ilPrgRestartAssignmentsCronJob extends CronJob
 {
     private const ID = 'prg_restart_assignments_temporal_progress';
     private const ACTING_USR_ID = ilPRGAssignment::AUTO_ASSIGNED_BY_RESTART;
@@ -74,9 +75,9 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS;
+        return JobScheduleType::IN_DAYS;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -84,10 +85,10 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         return 1;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
-        $result = new ilCronJobResult();
-        $result->setStatus(ilCronJobResult::STATUS_NO_ACTION);
+        $result = new JobResult();
+        $result->setStatus(JobResult::STATUS_NO_ACTION);
 
         $programmes_to_reassign = $this->adapter->getRelevantProgrammeIds();
         if (count($programmes_to_reassign) === 0) {
@@ -136,7 +137,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
 
                 $this->adapter->actOnSingleAssignment($restarted);
 
-                $result->setStatus(ilCronJobResult::STATUS_OK);
+                $result->setStatus(JobResult::STATUS_OK);
             }
         }
 

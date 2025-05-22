@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Refinery\Factory;
+use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
@@ -35,28 +37,21 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     public const ENCODING_ISO_8859_1 = 'ISO-8859-1';
     protected string $file_content = '';
     protected string $path_to_file = '';
-    private \ILIAS\Refinery\Factory $refinery;
-    protected \ilBiblEntryFactoryInterface $entry_factory;
-    protected \ilBiblFieldFactoryInterface $field_factory;
-    protected \ilBiblAttributeFactoryInterface $attribute_factory;
+    private Factory $refinery;
 
-    protected \ILIAS\ResourceStorage\Services $storage;
+    protected Services $storage;
 
 
     /**
      * ilBiblFileReaderBase constructor.
      */
     public function __construct(
-        ilBiblEntryFactoryInterface $entry_factory,
-        ilBiblFieldFactoryInterface $field_factory,
-        ilBiblAttributeFactoryInterface $attribute_factory
+        protected \ilBiblEntryFactoryInterface $entry_factory,
+        protected \ilBiblFieldFactoryInterface $field_factory,
+        protected \ilBiblAttributeFactoryInterface $attribute_factory
     ) {
         global $DIC;
-
-        $this->entry_factory = $entry_factory;
         $this->refinery = $DIC->refinery();
-        $this->field_factory = $field_factory;
-        $this->attribute_factory = $attribute_factory;
         $this->storage = $DIC["resource_storage"];
     }
 
@@ -103,7 +98,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         foreach ($entries_from_file as $file_entry) {
             $type = null;
             $x = 0;
-            $parsed_entry = array();
+            $parsed_entry = [];
             foreach ($file_entry as $key => $attribute) {
                 $key = $this->secure($key);
                 if (is_string($attribute)) {
@@ -111,9 +106,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
                 }
                 // if the attribute is an array, make a comma separated string out of it
                 if (is_array($attribute)) {
-                    $attribute = array_map(function (string $a): string {
-                        return $this->secure($a);
-                    }, $attribute);
+                    $attribute = array_map(fn(string $a): string => $this->secure($a), $attribute);
                     $attribute = implode(", ", $attribute);
                 }
                 // reduce the attribute strings to a maximum of 4000 (ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) characters, in order to fit in the database

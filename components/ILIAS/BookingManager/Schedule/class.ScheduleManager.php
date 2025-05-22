@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\BookingManager\Schedule;
 
@@ -41,12 +46,12 @@ class ScheduleManager
         $this->pool_id = $pool_id;
     }
 
-    public function getScheduleList() : array
+    public function getScheduleList(): array
     {
         return $this->schedule_repo->getScheduleList($this->pool_id);
     }
 
-    public function hasSchedules() : bool
+    public function hasSchedules(): bool
     {
         return $this->schedule_repo->hasSchedules($this->pool_id);
     }
@@ -55,7 +60,7 @@ class ScheduleManager
      * @todo migrate to DTO
      * @deprecated
      */
-    public function getScheduleData() : array
+    public function getScheduleData(): array
     {
         return $this->schedule_repo->getScheduleData($this->pool_id);
     }

@@ -16,44 +16,30 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Refinery\Factory as RefineryFactory;
-use ILIAS\UI\Implementation\Component\Input\Container\Form\Standard as StandardForm;
-use Psr\Http\Message\RequestInterface;
+use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
 
-/**
- * Class ilAddAnswerModalFormGUI
- *
- * @author    Stephan Kergomard <webmaster@kergomard.ch>
- * @version    $Id$
- *
- * @package components\ILIAS/Test(QuestionPool)
- */
 class ilAddAnswerFormBuilder
 {
-    protected UIFactory $ui_factory;
-    protected RefineryFactory$refinery;
-    protected ilLanguage $language;
-    protected string $form_action;
-
-
-    public function __construct(ilTestCorrectionsGUI $parent_object, UIFactory $ui_factory, RefineryFactory $refinery, ilLanguage $language, ilCtrl $ctrl)
-    {
-        $this->ui_factory = $ui_factory;
-        $this->refinery = $refinery;
-        $this->language = $language;
-
-        $this->form_action = $ctrl->getFormAction(
-            $parent_object,
-            'addAnswer'
-        );
+    public function __construct(
+        private readonly UIFactory $ui_factory,
+        private readonly RefineryFactory $refinery,
+        private readonly ilLanguage $language,
+        private readonly ilCtrl $ctrl
+    ) {
     }
 
-    public function buildAddAnswerForm(array $data = []): StandardForm
+    public function buildAddAnswerModal(string $title, array $data = []): RoundTripModal
     {
-        $inputs = $this->buildInputs($data);
-
-        return $this->ui_factory->input()->container()->form()->standard($this->form_action, $inputs);
+        return $this->ui_factory->modal()->roundtrip(
+            $title,
+            null,
+            $this->buildInputs($data),
+            $this->ctrl->getFormActionByClass([ilObjTestGUI::class, ilTestCorrectionsGUI::class], 'addAnswer')
+        );
     }
 
     protected function buildInputs(array $data): array

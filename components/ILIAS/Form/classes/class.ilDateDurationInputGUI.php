@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * input GUI for a time span (start and end date)
@@ -77,7 +77,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
      *
      * 		$dt_form->setDate(new ilDate('2008-08-01',IL_CAL_DATE));
      */
-    public function setStart(ilDateTime $a_date = null): void
+    public function setStart(?ilDateTime $a_date = null): void
     {
         $this->start = $a_date;
     }
@@ -116,7 +116,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
      *
      * 		$dt_form->setDate(new ilDate('2008-08-01',IL_CAL_DATE));
      */
-    public function setEnd(ilDateTime $a_date = null): void
+    public function setEnd(?ilDateTime $a_date = null): void
     {
         $this->end = $a_date;
     }
@@ -134,11 +134,6 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
     public function getShowTime(): bool
     {
         return $this->showtime;
-    }
-
-    public function getShowSeconds(): bool
-    {
-        return false;
     }
 
     public function setStartYear(int $a_year): void
@@ -161,9 +156,12 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
         $this->minute_step_size = $a_step_size;
     }
 
+    /**
+     * Fixed to one minute increments, see https://mantis.ilias.de/view.php?id=42740
+     */
     public function getMinuteStepSize(): int
     {
-        return $this->minute_step_size;
+        return 1;
     }
 
     public function setValueByArray(array $a_values): void
@@ -234,14 +232,10 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
                 $this->setStart($parsed);
                 $valid_start = true;
             }
-        } else {
-            if (!$this->getRequired() && !trim($end)) {
-                $valid_start = true;
-            } else {
-                if ($this->openIntervalsAllowed() && !strlen(trim($start))) {
-                    $valid_start = true;
-                }
-            }
+        } elseif (!$this->getRequired() && !trim($end)) {
+            $valid_start = true;
+        } elseif ($this->openIntervalsAllowed() && !strlen(trim($start))) {
+            $valid_start = true;
         }
 
         $valid_end = false;
@@ -251,14 +245,10 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
                 $this->setEnd($parsed);
                 $valid_end = true;
             }
-        } else {
-            if (!$this->getRequired() && !trim($start)) {
-                $valid_end = true;
-            } else {
-                if ($this->openIntervalsAllowed() && !strlen(trim($end))) {
-                    $valid_end = true;
-                }
-            }
+        } elseif (!$this->getRequired() && !trim($start)) {
+            $valid_end = true;
+        } elseif ($this->openIntervalsAllowed() && !strlen(trim($end))) {
+            $valid_end = true;
         }
 
         if ($this->getStartYear()) {
@@ -307,14 +297,12 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
             if (!$this->getEnd()) {
                 $ret["end"] = null;
             }
-        } else {
-            if (
-                !$this->getStart() ||
-                !$this->getEnd()
-            ) {
-                $ret["start"] = null;
-                $ret["end"] = null;
-            }
+        } elseif (
+            !$this->getStart() ||
+            !$this->getEnd()
+        ) {
+            $ret["start"] = null;
+            $ret["end"] = null;
         }
         $ret["fullday"] = (bool) ($ret["tgl"] ?? false);
         return $ret;
@@ -322,22 +310,16 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 
     protected function getDatePickerTimeFormat(): int
     {
-        return (int) $this->getShowTime() + (int) $this->getShowSeconds();
+        return (int) $this->getShowTime();
     }
 
-    /**
-     * parse properties to datepicker config
-     */
-    protected function parseDatePickerConfig(): array
+    protected function getDatetimeFormatForInput(): string
     {
-        $config = null;
-        if ($this->getMinuteStepSize()) {
-            $config['stepping'] = $this->getMinuteStepSize();
+        $format = 'Y-m-d';
+        if ($this->getShowTime()) {
+            $format .= '\TH:i';
         }
-        if ($this->getStartYear()) {
-            $config['minDate'] = $this->getStartYear() . '-01-01';
-        }
-        return $config;
+        return $format;
     }
 
     public function render(): string
@@ -351,7 +333,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
         if ($this->enabledToggleFullTime()) {
             $this->setShowTime(true);
 
-            $toggle_id = md5($this->getPostVar() . '_fulltime'); // :TODO: unique?
+            $toggle_id = 't' . md5($this->getPostVar() . '_fulltime'); // :TODO: unique?
 
             $tpl->setCurrentBlock('toggle_fullday');
             $tpl->setVariable('DATE_TOGGLE_ID', $this->getPostVar() . '[tgl]');
@@ -365,25 +347,30 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
         // config picker
         if (!$this->getDisabled()) {
             // :TODO: unique?
-            $picker_start_id = md5($this->getPostVar() . '_start');
-            $picker_end_id = md5($this->getPostVar() . '_end');
+            $picker_start_id = 'p' . md5($this->getPostVar() . '_start');
+            $picker_end_id = 'p' . md5($this->getPostVar() . '_end');
 
             $tpl->setVariable('DATEPICKER_START_ID', $picker_start_id);
             $tpl->setVariable('DATEPICKER_END_ID', $picker_end_id);
 
-            ilCalendarUtil::addDateTimePicker(
-                $picker_start_id,
-                $this->getDatePickerTimeFormat(),
-                $this->parseDatePickerConfig(),
-                $picker_end_id,
-                $this->parseDatePickerConfig(),
-                $toggle_id,
-                "subform_" . $this->getPostVar()
+            $this->global_tpl->addOnLoadCode(
+                'il.Form.initDateDurationPicker("' .
+                $picker_start_id . '","' .
+                $picker_end_id . '","' .
+                $toggle_id .
+                '");'
             );
         } else {
             $tpl->setVariable('DATEPICKER_START_DISABLED', 'disabled="disabled" ');
             $tpl->setVariable('DATEPICKER_END_DISABLED', 'disabled="disabled" ');
         }
+
+        $type = 'date';
+        if ($this->getShowTime()) {
+            $type = 'datetime-local';
+        }
+        $tpl->setVariable('DATEPICKER_START_TYPE', $type);
+        $tpl->setVariable('DATEPICKER_END_TYPE', $type);
 
         $start_txt = $this->getStartText();
         if ($start_txt === null) {
@@ -409,33 +396,39 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
         $tpl->setVariable('DATE_START_ID', $this->getPostVar() . '[start]');
         $tpl->setVariable('DATE_END_ID', $this->getPostVar() . '[end]');
 
-        // placeholder
-        // :TODO: i18n?
-        $pl_format = ilCalendarUtil::getUserDateFormat($this->getDatePickerTimeFormat());
-        $tpl->setVariable('START_PLACEHOLDER', $pl_format);
-        $tpl->setVariable('END_PLACEHOLDER', $pl_format);
+        /*
+         * For date input, step is in days, for datetime-local
+         * it is in seconds.
+         */
+        $step_size = 60;
+        if (!$this->getShowTime()) {
+            $step_size = 1;
+        }
+        $tpl->setVariable('DATEPICKER_START_STEP', $step_size);
+        $tpl->setVariable('DATEPICKER_END_STEP', $step_size);
 
-        // accessibility description
-        $tpl->setVariable(
-            'DESCRIPTION',
-            ilLegacyFormElementsUtil::prepareFormOutput($lng->txt("form_date_aria_desc") . " " . $pl_format)
-        );
-
+        if ($this->getStartYear()) {
+            $min = DateTimeImmutable::createFromFormat(
+                'Y',
+                (string) $this->getStartYear()
+            )->format($this->getDatetimeFormatForInput());
+            $tpl->setVariable('DATEPICKER_START_MIN', $min);
+            $tpl->setVariable('DATEPICKER_END_MIN', $min);
+        }
 
         // values
 
-        $date_value = htmlspecialchars($this->invalid_input_start);
+        $out_format = $this->getDatetimeFormatForInput();
+        $date_value = $this->prepareInvalidInputAsValue($this->invalid_input_start);
         if (!$date_value &&
             $this->getStart()) {
-            $out_format = ilCalendarUtil::getUserDateFormat($this->getDatePickerTimeFormat(), true);
             $date_value = $this->getStart()->get(IL_CAL_FKT_DATE, $out_format, $ilUser->getTimeZone());
         }
         $tpl->setVariable('DATEPICKER_START_VALUE', $date_value);
 
-        $date_value = htmlspecialchars($this->invalid_input_end);
+        $date_value = $this->prepareInvalidInputAsValue($this->invalid_input_end);
         if (!$date_value &&
             $this->getEnd()) {
-            $out_format = ilCalendarUtil::getUserDateFormat($this->getDatePickerTimeFormat(), true);
             $date_value = $this->getEnd()->get(IL_CAL_FKT_DATE, $out_format, $ilUser->getTimeZone());
         }
         $tpl->setVariable('DATEPICKER_END_VALUE', $date_value);
@@ -446,6 +439,15 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
         }
 
         return $tpl->get();
+    }
+
+    protected function prepareInvalidInputAsValue(string $invalid_input): string
+    {
+        $timestamp = strtotime(htmlspecialchars($invalid_input));
+        if ($timestamp === false) {
+            return '';
+        }
+        return date($this->getDatetimeFormatForInput(), $timestamp);
     }
 
 

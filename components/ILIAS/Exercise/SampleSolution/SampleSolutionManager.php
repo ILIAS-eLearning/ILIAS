@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Exercise\SampleSolution;
 
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use ILIAS\Exercise\IRSS\ResourceInformation;
 use ILIAS\Exercise\InternalDomainService;
 
 class SampleSolutionManager
@@ -48,7 +47,7 @@ class SampleSolutionManager
         $this->domain = $domain;
     }
 
-    public function getStakeholder(): ResourceStakeholder
+    protected function getStakeholder(): ResourceStakeholder
     {
         return $this->stakeholder;
     }
@@ -70,13 +69,12 @@ class SampleSolutionManager
     {
         if ($this->repo->hasFile($this->ass_id)) {
             $this->repo->deliverFile($this->ass_id);
-        } else {
-            $ass = $this->domain->assignment()->getAssignment($this->ass_id);
-            \ilFileDelivery::deliverFileLegacy(
-                $ass->getGlobalFeedbackFilePath(),
-                $ass->getFeedbackFile()
-            );
         }
+    }
+
+    public function getFilename(): string
+    {
+        return $this->repo->getFilename($this->ass_id);
     }
 
     public function cloneTo(
@@ -85,16 +83,6 @@ class SampleSolutionManager
         // IRSS
         if ($this->repo->hasFile($this->ass_id)) {
             $this->repo->clone($this->ass_id, $to_ass_id);
-        } else { // NO IRSS
-            $old_exc_id = \ilExAssignment::lookupExerciseId($this->ass_id);
-            $new_exc_id = \ilExAssignment::lookupExerciseId($to_ass_id);
-
-            $old_storage = new \ilFSStorageExercise($old_exc_id, $this->ass_id);
-            $new_storage = new \ilFSStorageExercise($new_exc_id, $to_ass_id);
-            $new_storage->create();
-            if (is_dir($old_storage->getGlobalFeedbackPath())) {
-                \ilFileUtils::rCopy($old_storage->getGlobalFeedbackPath(), $new_storage->getGlobalFeedbackPath());
-            }
         }
     }
 

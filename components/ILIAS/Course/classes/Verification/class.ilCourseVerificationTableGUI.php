@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
+declare(strict_types=0);
+
 use ILIAS\DI\Container;
 
 /**
@@ -33,7 +33,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
     public function __construct(
         ilObjCourseVerificationGUI $a_parent_obj,
         string $a_parent_cmd = '',
-        ilUserCertificateRepository $userCertificateRepository = null
+        ?ilUserCertificateRepository $userCertificateRepository = null
     ) {
         global $DIC;
 

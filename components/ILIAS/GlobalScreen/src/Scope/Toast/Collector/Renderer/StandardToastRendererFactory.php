@@ -30,17 +30,15 @@ use ILIAS\GlobalScreen\Scope\Toast\Factory\StandardToastItem;
 class StandardToastRendererFactory implements ToastRendererFactory
 {
     protected array $renderers = [];
-    protected UIServices $ui;
 
-    public function __construct(UIServices $ui)
+    public function __construct(protected UIServices $ui)
     {
-        $this->ui = $ui;
     }
 
     public function getRenderer(string $fully_qualified): ToastRenderer
     {
         $renderer = $this->ensureRenderer($fully_qualified);
-        if (!$renderer instanceof \ILIAS\GlobalScreen\Scope\Toast\Collector\Renderer\ToastRenderer) {
+        if (!$renderer instanceof ToastRenderer) {
             throw new \InvalidArgumentException("Cannot render item of type " . $fully_qualified);
         }
         return $renderer;

@@ -18,16 +18,12 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilSimpleSAMLphpWrapper
- * @author Michael Jansen <mjansen@databay.de>
- */
-final class ilSimpleSAMLphpWrapper implements ilSamlAuth
+final readonly class ilSimpleSAMLphpWrapper implements ilSamlAuth
 {
-    private const ILIAS = 'ilias';
+    private const string ILIAS = 'ilias';
 
-    private readonly SimpleSAML\Configuration $config;
-    private readonly SimpleSAML\Auth\Simple $authSource;
+    private SimpleSAML\Configuration $config;
+    private SimpleSAML\Auth\Simple $authSource;
 
     public function __construct(string $authSourceName, string $configurationPath)
     {
@@ -50,7 +46,7 @@ final class ilSimpleSAMLphpWrapper implements ilSamlAuth
         global $DIC;
 
         $templateHandler = new ilSimpleSAMLphpConfigTemplateHandler($DIC->filesystem()->storage());
-        $templateHandler->copy('./components/ILIAS/Saml/lib/config.php.dist', 'auth/saml/config/config.php', [
+        $templateHandler->copy('../components/ILIAS/Saml/resources/config.php.dist', 'auth/saml/config/config.php', [
             'DB_PATH' => rtrim($configurationPath, '/') . '/ssphp.sq3',
             'SQL_INITIAL_PASSWORD' => static function (): string {
                 return substr(str_replace('+', '.', base64_encode(ilPasswordUtils::getBytes(20))), 0, 10);
@@ -58,7 +54,7 @@ final class ilSimpleSAMLphpWrapper implements ilSamlAuth
             'COOKIE_PATH' => IL_COOKIE_PATH,
             'LOG_DIRECTORY' => ilLoggingDBSettings::getInstance()->getLogDir()
         ]);
-        $templateHandler->copy('./components/ILIAS/Saml/lib/authsources.php.dist', 'auth/saml/config/authsources.php', [
+        $templateHandler->copy('../components/ILIAS/Saml/resources/authsources.php.dist', 'auth/saml/config/authsources.php', [
             'RELAY_STATE' => rtrim(ILIAS_HTTP_PATH, '/') . '/saml.php',
             'SP_ENTITY_ID' => rtrim(ILIAS_HTTP_PATH, '/') . '/metadata.php'
         ]);
@@ -74,7 +70,7 @@ final class ilSimpleSAMLphpWrapper implements ilSamlAuth
         $this->authSource->requireAuth();
     }
 
-    public function storeParam(string $key, $value): void
+    public function storeParam(string $key, mixed $value): void
     {
         $session = SimpleSAML\Session::getSessionFromRequest();
         $session->setData(self::ILIAS, $key, $value);

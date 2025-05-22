@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Identification;
 
@@ -46,7 +47,6 @@ use ILIAS\GlobalScreen\Provider\ProviderFactory;
  */
 class IdentificationFactory
 {
-    protected ProviderFactory $provider_factory;
     protected SerializerFactory $serializer_factory;
     protected IdentificationMap $map;
 
@@ -54,11 +54,10 @@ class IdentificationFactory
      * IdentificationFactory constructor.
      * @param ProviderFactory $provider_factory
      */
-    final public function __construct(ProviderFactory $provider_factory)
+    final public function __construct(protected ProviderFactory $provider_factory)
     {
         $this->serializer_factory = new SerializerFactory();
         $this->map = new IdentificationMap();
-        $this->provider_factory = $provider_factory;
     }
 
     /**

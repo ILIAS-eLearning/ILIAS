@@ -24,22 +24,26 @@ class shibUser extends ilObjUser
 {
     protected shibServerData $shibServerData;
 
-
+    /**
+     * @throws ilObjectNotFoundException
+     * @throws ilObjectTypeMismatchException
+     * @throws ilSystemStyleException
+     */
     public static function buildInstance(shibServerData $shibServerData): shibUser
     {
-        $shibUser = new self();
-        $shibUser->setLastPasswordChangeToNow();
-        $shibUser->shibServerData = $shibServerData;
-        $ext_id = $shibUser->shibServerData->getLogin();
-        $shibUser->setExternalAccount($ext_id);
+        $shib_user = new self();
+        $shib_user->setLastPasswordChangeToNow();
+        $shib_user->shibServerData = $shibServerData;
+        $ext_id = $shib_user->shibServerData->getLogin();
+        $shib_user->setExternalAccount($ext_id);
         $existing_usr_id = self::getUsrIdByExtId($ext_id);
         if ($existing_usr_id !== null) {
-            $shibUser->setId($existing_usr_id);
-            $shibUser->read();
+            $shib_user->setId($existing_usr_id);
+            $shib_user->read();
         }
-        $shibUser->setAuthMode('shibboleth');
+        $shib_user->setAuthMode('shibboleth');
 
-        return $shibUser;
+        return $shib_user;
     }
 
     public function updateFields(): void
@@ -55,7 +59,7 @@ class shibUser extends ilObjUser
             $this->setGender($this->shibServerData->getGender());
         }
         if ($shibConfig->getUpdateTitle()) {
-            $this->setTitle($this->shibServerData->getTitle());
+            $this->setUTitle($this->shibServerData->getTitle());
         }
         if ($shibConfig->getUpdateInstitution()) {
             $this->setInstitution($this->shibServerData->getInstitution());
@@ -105,10 +109,10 @@ class shibUser extends ilObjUser
         $this->setLastname($this->shibServerData->getLastname());
         $this->setLogin($this->returnNewLoginName());
         $array = ilSecuritySettingsChecker::generatePasswords(1);
-        $this->setPasswd(md5(end($array)), ilObjUser::PASSWD_CRYPTED);
+        $this->setPasswd(md5((string) end($array)), ilObjUser::PASSWD_CRYPTED);
         $this->setGender($this->shibServerData->getGender());
         $this->setExternalAccount($this->shibServerData->getLogin());
-        $this->setTitle($this->shibServerData->getTitle());
+        $this->setUTitle($this->shibServerData->getTitle());
         $this->setInstitution($this->shibServerData->getInstitution());
         $this->setDepartment($this->shibServerData->getDepartment());
         $this->setStreet($this->shibServerData->getStreet());
@@ -131,19 +135,21 @@ class shibUser extends ilObjUser
         $this->setActive(true);
     }
 
+    /**
+     * @throws ilUserException
+     */
+    #[\Override]
     public function create(): int
     {
         $c = shibConfig::getInstance();
         $registration_settings = new ilRegistrationSettings();
-        $recipients = array_filter($registration_settings->getApproveRecipients(), function ($v) {
-            return is_int($v);
-        });
-        if ($c->isActivateNew() && $recipients !== []) {
+        $recipients = array_filter($registration_settings->getApproveRecipients(), static fn($v): bool => is_int($v));
+        if ($recipients !== [] && $c->isActivateNew()) {
             $this->setActive(false);
             $mail = new ilRegistrationMailNotification();
             $mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_CONFIRMATION);
             $mail->setRecipients($registration_settings->getApproveRecipients());
-            $mail->setAdditionalInformation(array('usr' => $this));
+            $mail->setAdditionalInformation(['usr' => $this]);
             $mail->send();
         }
 
@@ -156,7 +162,7 @@ class shibUser extends ilObjUser
 
     protected function returnNewLoginName(): ?string
     {
-        $login = substr($this->cleanName($this->getFirstname()), 0, 1) . '.' . self::cleanName($this->getLastname());
+        $login = substr($this->cleanName($this->getFirstname()), 0, 1) . '.' . $this->cleanName($this->getLastname());
         //remove whitespaces see mantis 0023123: https://www.ilias.de/mantis/view.php?id=23123
         $login = preg_replace('/\s+/', '', $login);
         $appendix = null;
@@ -189,28 +195,28 @@ class shibUser extends ilObjUser
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
+        $db = $DIC->database();
 
-        $query = 'SELECT usr_id FROM usr_data WHERE login = ' . $ilDB->quote($login, 'text');
-        $query .= ' AND usr_id != ' . $ilDB->quote($usr_id, 'integer');
+        $query = 'SELECT usr_id FROM usr_data WHERE login = ' . $db->quote($login, 'text');
+        $query .= ' AND usr_id != ' . $db->quote($usr_id, 'integer');
 
-        return $ilDB->numRows($ilDB->query($query)) > 0;
+        return $db->numRows($db->query($query)) > 0;
     }
 
     protected static function getUsrIdByExtId(string $ext_id): ?int
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
+        $db = $DIC->database();
 
-        $query = 'SELECT usr_id FROM usr_data WHERE ext_account = ' . $ilDB->quote($ext_id, 'text');
-        $a_set = $ilDB->query($query);
-        if ($ilDB->numRows($a_set) === 0) {
+        $query = 'SELECT usr_id FROM usr_data WHERE ext_account = ' . $db->quote($ext_id, 'text');
+        $a_set = $db->query($query);
+        if ($db->numRows($a_set) === 0) {
             return null;
         }
 
-        $usr = $ilDB->fetchObject($a_set);
+        $usr = $db->fetchObject($a_set);
 
-        return isset($usr->usr_id) ? (int) $usr->usr_id : null;
+        return ($usr !== null && isset($usr->usr_id)) ? (int) $usr->usr_id : null;
     }
 }

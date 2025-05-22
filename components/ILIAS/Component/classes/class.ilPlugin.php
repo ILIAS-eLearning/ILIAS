@@ -299,7 +299,7 @@ abstract class ilPlugin
         $lng = $DIC->language();
 
         $dbupdate = new ilPluginDBUpdate(
-            $this->db,
+            $ilDB,
             $this->getPluginInfo()
         );
 

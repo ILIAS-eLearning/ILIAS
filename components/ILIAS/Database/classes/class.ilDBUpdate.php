@@ -28,12 +28,10 @@ declare(strict_types=1);
 class ilDBUpdate
 {
     protected string $updateMsg;
-    protected ilDBInterface $db;
-    protected ?ilIniFile $client_ini = null;
     protected Iterator $ctrl_structure_iterator;
 
     protected string $error;
-    protected string $PATH = './';
+    protected string $PATH = "./";
 
     protected array $filecontent;
 
@@ -43,12 +41,8 @@ class ilDBUpdate
     private ilSetting $custom_updates_setting;
     private array $custom_updates_content = [];
 
-    public function __construct(ilDBInterface $a_db_handler, ilIniFile $client_ini = null)
+    public function __construct(protected ilDBInterface $db, protected ?ilIniFile $client_ini = null)
     {
-        $this->client_ini = $client_ini;
-        $this->db = $a_db_handler;
-        $this->PATH = "./";
-
         $class_map = require ILIAS_ABSOLUTE_PATH . '/vendor/composer/vendor/composer/autoload_classmap.php';
         $this->ctrl_structure_iterator = new ilCtrlArrayIterator($class_map);
     }
@@ -61,12 +55,12 @@ class ilDBUpdate
             $sql[$i] = trim($statement);
             if ($statement !== "" && $statement[0] !== "#") {
                 //take line per line, until last char is ";"
-                if (substr($statement, -1) === ";") {
+                if (str_ends_with($statement, ";")) {
                     //query is complete
                     /** @noinspection PhpUndefinedVariableInspection */
                     $q .= " " . substr($statement, 0, -1);
                     $check = $this->checkQuery($q);
-                    if ($check === true) {
+                    if ($check) {
                         $db->query($q);
                     } else {
                         $this->error = (string) $check;
@@ -115,7 +109,7 @@ class ilDBUpdate
 
         $GLOBALS['ilCtrlStructureReader'] = $ilCtrlStructureReader;
 
-        if ($this->client_ini) {
+        if ($this->client_ini !== null) {
             $ilCtrlStructureReader->setIniFile($this->client_ini);
         }
         $ilDB = $DIC->database();
@@ -138,7 +132,7 @@ class ilDBUpdate
         $i = 0;
 
         //go through filecontent
-        while (!preg_match("/^\<\#" . $nr . ">/", $this->filecontent[$i]) && $i < count($this->filecontent)) {
+        while (!preg_match("/^\<\#" . $nr . ">/", (string) $this->filecontent[$i]) && $i < count($this->filecontent)) {
             $i++;
         }
 
@@ -153,8 +147,8 @@ class ilDBUpdate
 
         //update found, now extract this update to a new array
         $update = [];
-        while ($i < count($this->filecontent) && !preg_match("/^<#" . ($nr + 1) . ">/", $this->filecontent[$i])) {
-            $update[] = trim($this->filecontent[$i]);
+        while ($i < count($this->filecontent) && !preg_match("/^<#" . ($nr + 1) . ">/", (string) $this->filecontent[$i])) {
+            $update[] = trim((string) $this->filecontent[$i]);
             $i++;
         }
 
@@ -165,7 +159,7 @@ class ilDBUpdate
 
         foreach ($update as $row) {
             if (preg_match("/<\?php/", $row)) {
-                if (count($sql) > 0) {
+                if ($sql !== []) {
                     if ($this->execQuery($this->db, implode("\n", $sql)) === false) {
                         return false;
                     }
@@ -173,7 +167,7 @@ class ilDBUpdate
                 }
                 $mode = 'php';
             } elseif (preg_match("/\?>/", $row)) {
-                if (count($php) > 0) {
+                if ($php !== []) {
                     $code = implode("\n", $php);
                     if (eval($code) === false) {
                         $this->error = 'Parse error: ' . $code;
@@ -194,7 +188,7 @@ class ilDBUpdate
             }
         }
 
-        if ($mode === 'sql' && count($sql) > 0 && $this->execQuery($this->db, implode("\n", $sql)) === false) {
+        if ($mode === 'sql' && $sql !== [] && $this->execQuery($this->db, implode("\n", $sql)) === false) {
             $this->error = "dump_error: " . $this->error;
 
             return false;
@@ -241,7 +235,7 @@ class ilDBUpdate
         $regs = [];
         $version = 0;
         foreach ($a_file_content as $row) {
-            if (preg_match("/^<#([0-9]+)>/", $row, $regs)) {
+            if (preg_match("/^<#(\\d+)>/", (string) $row, $regs)) {
                 $version = $regs[1];
             }
         }

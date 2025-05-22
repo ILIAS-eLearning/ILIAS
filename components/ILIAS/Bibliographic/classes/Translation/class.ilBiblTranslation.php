@@ -29,6 +29,7 @@ class ilBiblTranslation extends ActiveRecord implements ilBiblTranslationInterfa
         return self::TABLE_NAME;
     }
 
+    #[\Override]
     public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;

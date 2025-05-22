@@ -20,21 +20,24 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Refinery\Factory;
+use ILIAS\Component;
+use ILIAS\Cloud\Agent as CloudSetupAgent;
+
 class Cloud implements Component\Component
 {
     public function init(
-        array | \ArrayAccess &$define,
-        array | \ArrayAccess &$implement,
-        array | \ArrayAccess &$use,
-        array | \ArrayAccess &$contribute,
-        array | \ArrayAccess &$seek,
-        array | \ArrayAccess &$provide,
-        array | \ArrayAccess &$pull,
-        array | \ArrayAccess &$internal,
+        array|\ArrayAccess &$define,
+        array|\ArrayAccess &$implement,
+        array|\ArrayAccess &$use,
+        array|\ArrayAccess &$contribute,
+        array|\ArrayAccess &$seek,
+        array|\ArrayAccess &$provide,
+        array|\ArrayAccess &$pull,
+        array|\ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
-            new \ilObjCloudModuleUpdateAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
-            );
+        $contribute[\ILIAS\Setup\Agent::class] = static fn(): \ILIAS\Setup\Agent => new CloudSetupAgent(
+            $pull[Factory::class]
+        );
     }
 }

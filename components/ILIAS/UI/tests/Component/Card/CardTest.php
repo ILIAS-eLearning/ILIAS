@@ -33,10 +33,9 @@ class CardTest extends ILIAS_UI_TestBase
     public function getFactory(): NoUIFactory
     {
         return new class () extends NoUIFactory {
-            public function legacy($content): C\Legacy\Legacy
+            public function legacy(): I\Component\Legacy\Factory
             {
-                $f = new I\Component\Legacy\Factory(new I\Component\SignalGenerator());
-                return $f->legacy($content);
+                return new I\Component\Legacy\Factory(new I\Component\SignalGenerator());
             }
         };
     }
@@ -138,7 +137,7 @@ class CardTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFactory();
         $c = $this->getBaseCard();
-        $content = $f->legacy("Random Content");
+        $content = $f->legacy()->content("Random Content");
         $c = $c->withSections(array($content));
 
         $this->assertEquals($c->getSections(), array($content));
@@ -148,7 +147,7 @@ class CardTest extends ILIAS_UI_TestBase
     {
         $r = $this->getDefaultRenderer();
         $c = $this->getBaseCard();
-        $content = $this->getFactory()->legacy("Random Content");
+        $content = $this->getfactory()->legacy()->content("Random Content");
 
         $c = $c->withSections(array($content));
 

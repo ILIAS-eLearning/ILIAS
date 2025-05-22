@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,7 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
 /**
@@ -30,7 +31,7 @@ class ilSCTaskTableGUI extends ilTable2GUI
 
     private ilAccess $access;
     private UIRenderer $renderer;
-    private UIImplementationFactory $uiFactory;
+    private UIFactory $uiFactory;
 
     public function __construct(int $a_group_id, object $a_parent_obj, string $a_parent_cmd = '')
     {

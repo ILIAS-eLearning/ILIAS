@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Chart;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -31,7 +31,9 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
+        if (!$component instanceof Component\Chart\ScaleBar) {
+            $this->cannotHandleComponent($component);
+        }
 
         $tpl = $this->getTemplate("tpl.scale_bar.html", true, true);
 
@@ -57,13 +59,5 @@ class Renderer extends AbstractComponentRenderer
         }
 
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Chart\ScaleBar::class);
     }
 }

@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\FileDelivery\Delivery\ResponseBuilder;
 
 use Psr\Http\Message\ResponseInterface;
-use ILIAS\FileDelivery\Token\Data\Stream;
 use ILIAS\Filesystem\Stream\FileStream;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -30,6 +29,9 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class XSendFileResponseBuilder implements ResponseBuilder
 {
+    /**
+     * @var string
+     */
     private const X_SENDFILE_HEADER = 'X-Sendfile';
 
     public function getName(): string
@@ -46,6 +48,11 @@ class XSendFileResponseBuilder implements ResponseBuilder
             self::X_SENDFILE_HEADER,
             $stream->getMetadata('uri')
         );
+    }
+
+    public function supportPartial(): bool
+    {
+        return true;
     }
 
     public function supportStreaming(): bool

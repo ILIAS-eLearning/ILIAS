@@ -23,19 +23,18 @@ namespace ILIAS\UI\Implementation\Render;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Factory as RootFactory;
+use ILIAS\UI\Implementation\FactoryInternal;
 use ILIAS\UI\HelpTextRetriever;
-use ilLanguage;
+use ILIAS\Language\Language;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 class DefaultRendererFactory implements RendererFactory
 {
     public function __construct(
-        protected RootFactory $ui_factory,
+        protected FactoryInternal $ui_factory,
         protected TemplateFactory $tpl_factory,
-        protected ilLanguage $lng,
+        protected Language $lng,
         protected JavaScriptBinding $js_binding,
-        protected Refinery $refinery,
         protected ImagePathResolver $image_path_resolver,
         protected DataFactory $data_factory,
         protected HelpTextRetriever $help_text_retriever,
@@ -54,7 +53,6 @@ class DefaultRendererFactory implements RendererFactory
             $this->tpl_factory,
             $this->lng,
             $this->js_binding,
-            $this->refinery,
             $this->image_path_resolver,
             $this->data_factory,
             $this->help_text_retriever,
@@ -71,13 +69,5 @@ class DefaultRendererFactory implements RendererFactory
         $parts = explode("\\", $class);
         $parts[count($parts) - 1] = "Renderer";
         return implode("\\", $parts);
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getJSBinding(): JavaScriptBinding
-    {
-        return $this->js_binding;
     }
 }

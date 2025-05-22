@@ -843,6 +843,10 @@ p#copg-auto-save {
 	text-align: center;
 	color: $il-text-light-color;
 	padding: 20px;
+
+	.icon {
+		filter: invert(50%);
+	}
 }
 
 .il-copg-drag {

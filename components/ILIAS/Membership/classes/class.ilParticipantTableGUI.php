@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
 /*
@@ -41,7 +41,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
     protected ilObject $rep_object;
 
     private UIRenderer $renderer;
-    private UIImplementationFactory $uiFactory;
+    private UIFactory $uiFactory;
 
     public function __construct(mixed $a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
     {
@@ -204,8 +204,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
             );
         }
 
-        $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
-                ->withLabel($this->lng->txt('actions'));
+        $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems);
         $this->tpl->setVariable('ACTION_USER', $this->renderer->render($dropDown));
     }
 }

@@ -22,8 +22,6 @@
  */
 class ilADNTabHandling
 {
-    private int $ref_id;
-
     private ilRbacSystem $rbacsystem;
 
     private ilTabsGUI $tabs;
@@ -37,11 +35,9 @@ class ilADNTabHandling
     /**
      * ilMMTabHandling constructor.
      */
-    public function __construct(int $ref_id)
+    public function __construct(private int $ref_id)
     {
         global $DIC;
-
-        $this->ref_id = $ref_id;
         $this->tabs = $DIC['ilTabs'];
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('adn');
@@ -50,7 +46,7 @@ class ilADNTabHandling
         $this->help = $DIC->help();
     }
 
-    public function initTabs(string $tab, string $subtab = null, bool $backtab = false): void
+    public function initTabs(string $tab, ?string $subtab = null, bool $backtab = false): void
     {
         $this->tabs->clearTargets(); // clears Help-ID
 
@@ -92,7 +88,7 @@ class ilADNTabHandling
             $this->tabs->addTab(
                 'perm_settings',
                 $this->lng->txt('perm_settings'),
-                $this->ctrl->getLinkTargetByClass(array(ilObjAdministrativeNotificationGUI::class, ilPermissionGUI::class), 'perm')
+                $this->ctrl->getLinkTargetByClass([ilObjAdministrativeNotificationGUI::class, ilPermissionGUI::class], 'perm')
             );
         }
         if ($backtab) {

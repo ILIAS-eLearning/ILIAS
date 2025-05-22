@@ -21,7 +21,6 @@
  * Date: 05.05.17
  * Time: 10:14
  */
-
 namespace ILIAS\BackgroundTasks;
 
 interface Persistence

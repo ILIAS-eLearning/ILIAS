@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Search\Provider;
@@ -55,7 +71,7 @@ class SearchMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
                 $html = $main_search->getHTML();
             }
 
-            return $this->dic->ui()->factory()->legacy($uip->getHTML($html))->withAdditionalOnLoadCode(
+            return $this->dic->ui()->factory()->legacy()->content($uip->getHTML($html))->withAdditionalOnLoadCode(
                 fn($id) => 'il.SearchMainMenu.init()'
             );
         };
@@ -67,7 +83,7 @@ class SearchMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
             ->withLegacyContent($content())
             ->withSymbol($this->dic->ui()->factory()->symbol()->glyph()->search())
             ->withTitle($this->dic->language()->txt("search"))
-            ->withPosition(1)
+            ->withPosition(2)
             ->withAvailableCallable(
                 function () {
                     return $this->dic->rbac()->system()->checkAccess('search', ilSearchSettings::_getSearchSettingRefId());

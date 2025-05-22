@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -205,16 +206,11 @@ class UploadPolicyFormUI
 
     protected function getAudienceTransformation(): Transformation
     {
-        return $this->refinery->custom()->transformation(function ($audience_section): array {
-            switch ($audience_section[self::INPUT_FIELD_AUDIENCE][0]) {
-                case self::INPUT_OPTION_GLOBAL_ROLES:
-                    $audience_type = UploadPolicy::AUDIENCE_TYPE_GLOBAL_ROLE;
-                    break;
-                case self::INPUT_OPTION_ALL_USERS:
-                default:
-                    $audience_type = UploadPolicy::AUDIENCE_TYPE_ALL_USERS;
-                    break;
-            }
+        return $this->refinery->custom()->transformation(function (array $audience_section): array {
+            $audience_type = match ($audience_section[self::INPUT_FIELD_AUDIENCE][0]) {
+                self::INPUT_OPTION_GLOBAL_ROLES => UploadPolicy::AUDIENCE_TYPE_GLOBAL_ROLE,
+                default => UploadPolicy::AUDIENCE_TYPE_ALL_USERS,
+            };
 
             return [
                 self::INPUT_FIELD_AUDIENCE_TYPE => $audience_type,

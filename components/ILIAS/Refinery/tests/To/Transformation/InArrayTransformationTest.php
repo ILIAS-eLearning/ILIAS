@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\Refinery\To\Transformation;
 
-use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\To\Transformation\InArrayTransformation;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Language\Language;
 use UnexpectedValueException;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class InArrayTransformationTest extends TestCase
 {
@@ -35,9 +35,7 @@ class InArrayTransformationTest extends TestCase
         $this->assertInstanceOf(InArrayTransformation::class, new InArrayTransformation([], $language));
     }
 
-    /**
-     * @dataProvider memberProvider
-     */
+    #[DataProvider('memberProvider')]
     public function testAccept(string $value, bool $successful): void
     {
         $language = $this->getMockBuilder(Language::class)->disableOriginalConstructor()->getMock();
@@ -46,9 +44,7 @@ class InArrayTransformationTest extends TestCase
         $this->assertSame($successful, $transformation->accepts($value));
     }
 
-    /**
-     * @dataProvider memberProvider
-     */
+    #[DataProvider('memberProvider')]
     public function testTransform(string $value, bool $successful): void
     {
         if (!$successful) {
@@ -61,9 +57,7 @@ class InArrayTransformationTest extends TestCase
         $this->assertSame($value, $transformation->transform($value));
     }
 
-    /**
-     * @dataProvider memberProvider
-     */
+    #[DataProvider('memberProvider')]
     public function testApplyTo(string $value, bool $successful): void
     {
         $language = $this->getMockBuilder(Language::class)->disableOriginalConstructor()->getMock();

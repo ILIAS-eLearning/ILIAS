@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Export table
@@ -48,7 +48,7 @@ class ilExportTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate('tpl.export_table_row.html', 'components/ILIAS/Export');
+        $this->setRowTemplate('tpl.export_table_row.html', 'Services/Export');
         $this->initMultiCommands();
     }
 
@@ -84,8 +84,8 @@ class ilExportTableGUI extends ilTable2GUI
     {
         $this->addColumn($a_txt);
         $this->custom_columns[] = array('txt' => $a_txt,
-                                        'obj' => $a_obj,
-                                        'func' => $a_func
+            'obj' => $a_obj,
+            'func' => $a_func
         );
     }
 

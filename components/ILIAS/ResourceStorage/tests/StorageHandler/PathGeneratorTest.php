@@ -22,8 +22,6 @@ require_once(__DIR__ . "/../AbstractTestBase.php");
 
 use ILIAS\ResourceStorage\AbstractTestBase;
 use ILIAS\ResourceStorage\Identification\UniqueIDIdentificationGenerator;
-use ILIAS\ResourceStorage\StorageHandler\FSV1PathGenerator;
-use ILIAS\ResourceStorage\StorageHandler\FSV2PathGenerator;
 use ILIAS\ResourceStorage\StorageHandler\PathGenerator\MaxNestingPathGenerator;
 use ILIAS\ResourceStorage\StorageHandler\PathGenerator\UUIDBasedPathGenerator;
 
@@ -53,7 +51,7 @@ class PathGeneratorTest extends AbstractTestBase
         $path = $path_generator->getPathFor($identification);
         $this->assertGreaterThanOrEqual(strlen($identification->serialize()), strlen($path));
         foreach ($this->prohibited as $value) {
-            $this->assertFalse(strpos($path, (string)$value));
+            $this->assertFalse(strpos($path, (string) $value));
         }
 
         $new_identification = $path_generator->getIdentificationFor($path);
@@ -69,7 +67,7 @@ class PathGeneratorTest extends AbstractTestBase
         $path = $path_generator->getPathFor($identification);
 
         foreach ($this->prohibited as $value) {
-            $this->assertFalse(strpos($path, (string)$value));
+            $this->assertFalse(strpos($path, (string) $value));
         }
 
         $new_identification = $path_generator->getIdentificationFor($path);

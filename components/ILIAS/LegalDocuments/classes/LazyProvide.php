@@ -25,6 +25,7 @@ use ILIAS\LegalDocuments\Provide\ProvidePublicPage;
 use ILIAS\LegalDocuments\Provide\ProvideDocument;
 use ILIAS\LegalDocuments\Provide\ProvideHistory;
 use ILIAS\LegalDocuments\Provide\ProvideWithdrawal;
+use ILIAS\LegalDocuments\ConsumerSlots\PublicApi;
 
 class LazyProvide extends Provide
 {
@@ -66,5 +67,15 @@ class LazyProvide extends Provide
     public function allowEditing(): Provide
     {
         return ($this->provide)()->allowEditing();
+    }
+
+    public function publicApi(): ?PublicApi
+    {
+        return ($this->provide)()->publicApi();
+    }
+
+    public function id(): string
+    {
+        return ($this->provide)()->id();
     }
 }

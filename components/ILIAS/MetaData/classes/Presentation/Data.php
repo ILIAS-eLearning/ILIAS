@@ -23,25 +23,31 @@ namespace ILIAS\MetaData\Presentation;
 use ILIAS\MetaData\Elements\Data\DataInterface as ElementsDataInterface;
 use ILIAS\MetaData\Elements\Data\Type;
 use ILIAS\MetaData\DataHelper\DataHelperInterface;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
+use ILIAS\MetaData\Vocabularies\Dispatch\Presentation\PresentationInterface as VocabulariesPresentation;
 
 class Data implements DataInterface
 {
     protected UtilitiesInterface $utilities;
     protected DataHelperInterface $data_helper;
+    protected VocabulariesPresentation $vocab_presentation;
 
     public function __construct(
         UtilitiesInterface $utilities,
-        DataHelperInterface $data_helper
+        DataHelperInterface $data_helper,
+        VocabulariesPresentation $vocab_presentation
     ) {
         $this->utilities = $utilities;
         $this->data_helper = $data_helper;
+        $this->vocab_presentation = $vocab_presentation;
     }
 
     public function dataValue(ElementsDataInterface $data): string
     {
         switch ($data->type()) {
             case Type::VOCAB_VALUE:
-                return $this->vocabularyValue($data->value());
+            case Type::STRING:
+                return $this->vocabularyValue($data->value(), $data->vocabularySlot());
 
             case Type::LANG:
                 return $this->language($data->value());
@@ -57,32 +63,16 @@ class Data implements DataInterface
         }
     }
 
-    public function vocabularyValue(string $value): string
-    {
-        $value = $this->camelCaseToSpaces($value);
-        $exceptions = [
-            'ispartof' => 'is_part_of', 'haspart' => 'has_part',
-            'isversionof' => 'is_version_of', 'hasversion' => 'has_version',
-            'isformatof' => 'is_format_of', 'hasformat' => 'has_format',
-            'references' => 'references',
-            'isreferencedby' => 'is_referenced_by',
-            'isbasedon' => 'is_based_on', 'isbasisfor' => 'is_basis_for',
-            'requires' => 'requires', 'isrequiredby' => 'is_required_by',
-            'graphical designer' => 'graphicaldesigner',
-            'technical implementer' => 'technicalimplementer',
-            'content provider' => 'contentprovider',
-            'technical validator' => 'technicalvalidator',
-            'educational validator' => 'educationalvalidator',
-            'script writer' => 'scriptwriter',
-            'instructional designer' => 'instructionaldesigner',
-            'subject matter expert' => 'subjectmatterexpert',
-            'diagram' => 'diagramm'
-        ];
-        if (array_key_exists($value, $exceptions)) {
-            $value = $exceptions[$value];
-        }
-
-        return $this->utilities->txt('meta_' . $this->fillSpaces($value));
+    public function vocabularyValue(
+        string $value,
+        SlotIdentifier $vocabulary_slot
+    ): string {
+        return $this->vocab_presentation->presentableLabels(
+            $this->utilities,
+            $vocabulary_slot,
+            false,
+            $value
+        )->current()->label();
     }
 
     public function language(string $language): string
@@ -117,17 +107,5 @@ class Data implements DataInterface
             }
         }
         return implode(', ', $res_array);
-    }
-
-    protected function fillSpaces(string $string): string
-    {
-        $string = str_replace(' ', '_', $string);
-        return strtolower($string);
-    }
-
-    protected function camelCaseToSpaces(string $string): string
-    {
-        $string = preg_replace('/(?<=[a-z])(?=[A-Z])/', ' ', $string);
-        return strtolower($string);
     }
 }

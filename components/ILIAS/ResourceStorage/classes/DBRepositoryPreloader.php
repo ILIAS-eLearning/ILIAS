@@ -33,14 +33,13 @@ class DBRepositoryPreloader extends StandardRepositoryPreloader implements Repos
      * @var mixed[]
      */
     protected array $preloaded = [];
-    protected \ilDBInterface $db;
 
-    public function __construct(\ilDBInterface $db, Repositories $repositories)
+    public function __construct(protected \ilDBInterface $db, Repositories $repositories)
     {
-        $this->db = $db;
         parent::__construct($repositories);
     }
 
+    #[\Override]
     public function preload(array $identification_strings): void
     {
         $requested = array_diff($identification_strings, $this->preloaded);

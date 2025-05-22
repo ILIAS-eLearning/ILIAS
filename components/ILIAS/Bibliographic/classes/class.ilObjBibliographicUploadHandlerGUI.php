@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -32,6 +33,7 @@ class ilObjBibliographicUploadHandlerGUI extends ilCtrlAwareStorageUploadHandler
         parent::__construct(new ilObjBibliographicStakeholder());
     }
 
+    #[\Override]
     protected function getUploadResult(): HandlerResult
     {
         $this->upload->process();

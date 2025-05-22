@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\HTTP\Wrapper;
 
 use ILIAS\Refinery\Transformation;
@@ -29,16 +29,12 @@ use ILIAS\Refinery\Transformation;
  */
 class ArrayBasedRequestWrapper implements RequestWrapper
 {
-    private array $raw_values;
-
-
     /**
      * GetRequestWrapper constructor.
      * @param mixed[] $raw_values
      */
-    public function __construct(array $raw_values)
+    public function __construct(private array $raw_values)
     {
-        $this->raw_values = $raw_values;
     }
 
 
@@ -57,5 +53,13 @@ class ArrayBasedRequestWrapper implements RequestWrapper
     public function has(string $key): bool
     {
         return isset($this->raw_values[$key]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function keys(): array
+    {
+        return array_keys($this->raw_values);
     }
 }

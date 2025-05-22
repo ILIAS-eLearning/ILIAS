@@ -48,8 +48,8 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("component.factory", $component_factory);
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
 
-        $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
-        $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->createMock(ilObjTest::class));
+        $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(['getObject'])->getMock();
+        $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->getTestObjMock());
         $this->tableGui = new ilTestPassDetailsOverviewTableGUI(
             $ctrl_mock,
             $this->createMock(ilTestServiceGUI::class),
@@ -78,15 +78,6 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
         $this->assertFalse($this->tableGui->getAnswerListAnchorEnabled());
         $this->tableGui->setAnswerListAnchorEnabled(true);
         $this->assertTrue($this->tableGui->getAnswerListAnchorEnabled());
-    }
-
-    public function testShowHintCount(): void
-    {
-        $this->assertIsBool($this->tableGui->getShowHintCount());
-        $this->tableGui->setShowHintCount(false);
-        $this->assertFalse($this->tableGui->getShowHintCount());
-        $this->tableGui->setShowHintCount(true);
-        $this->assertTrue($this->tableGui->getShowHintCount());
     }
 
     public function testShowSuggestedSolution(): void

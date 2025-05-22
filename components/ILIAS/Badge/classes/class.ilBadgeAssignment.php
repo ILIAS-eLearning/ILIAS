@@ -32,8 +32,8 @@ class ilBadgeAssignment
     protected bool $stored = false;
 
     public function __construct(
-        int $a_badge_id = null,
-        int $a_user_id = null
+        ?int $a_badge_id = null,
+        ?int $a_user_id = null
     ) {
         global $DIC;
 

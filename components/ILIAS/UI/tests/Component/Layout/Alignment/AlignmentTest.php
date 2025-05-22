@@ -33,8 +33,8 @@ class AlignmentTest extends ILIAS_UI_TestBase
     {
         $f = new C\Layout\Alignment\Factory();
         $blocks = [
-            new C\Legacy\Legacy('block', new C\SignalGenerator()),
-            new C\Legacy\Legacy('block', new C\SignalGenerator())
+            new C\Legacy\Content('block', new C\SignalGenerator()),
+            new C\Legacy\Content('block', new C\SignalGenerator())
         ];
         $vert = $f->vertical(...$blocks);
         $this->assertInstanceOf(I\Layout\Alignment\Alignment::class, $vert);
@@ -51,8 +51,8 @@ class AlignmentTest extends ILIAS_UI_TestBase
     {
         $f = new C\Layout\Alignment\Factory();
         $blocks = [
-            new C\Legacy\Legacy('block', new C\SignalGenerator()),
-            new C\Legacy\Legacy('block', new C\SignalGenerator())
+            new C\Legacy\Content('block', new C\SignalGenerator()),
+            new C\Legacy\Content('block', new C\SignalGenerator())
         ];
         $renderer = $this->getDefaultRenderer();
 
@@ -72,8 +72,8 @@ class AlignmentTest extends ILIAS_UI_TestBase
     {
         $f = new C\Layout\Alignment\Factory();
         $blocks = [
-            new C\Legacy\Legacy('block', new C\SignalGenerator()),
-            new C\Legacy\Legacy('block', new C\SignalGenerator())
+            new C\Legacy\Content('block', new C\SignalGenerator()),
+            new C\Legacy\Content('block', new C\SignalGenerator())
         ];
         $renderer = $this->getDefaultRenderer();
 
@@ -92,8 +92,8 @@ class AlignmentTest extends ILIAS_UI_TestBase
     {
         $f = new C\Layout\Alignment\Factory();
         $blocks = [
-            new C\Legacy\Legacy('block', new C\SignalGenerator()),
-            new C\Legacy\Legacy('block', new C\SignalGenerator())
+            new C\Legacy\Content('block', new C\SignalGenerator()),
+            new C\Legacy\Content('block', new C\SignalGenerator())
         ];
         $renderer = $this->getDefaultRenderer();
 

@@ -77,7 +77,7 @@ class Custom implements CustomInterface
 
                     $fields[] = new Field(
                         $title,
-                        $presentation_bridge->getSortable(),
+                        (string) $presentation_bridge->getSortable(),
                         $presentation_bridge->getHTML()
                     );
                 }

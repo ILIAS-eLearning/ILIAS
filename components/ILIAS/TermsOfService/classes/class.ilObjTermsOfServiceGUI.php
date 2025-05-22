@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Component\Component;
 use ILIAS\TermsOfService\Consumer;
 use ILIAS\TermsOfService\Settings;
 use ILIAS\LegalDocuments\Config;
@@ -26,6 +25,7 @@ use ILIAS\LegalDocuments\Legacy\Confirmation;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\ConsumerToolbox\Blocks;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Component\Input\Container\Form\Form;
 
 /**
  * @author            Michael Jansen <mjansen@databay.de>
@@ -44,7 +44,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
     private readonly UI $ui;
     private readonly Settings $tos_settings;
 
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
 
@@ -62,7 +62,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         }
         $this->config = $config;
         $this->legal_documents = new ilLegalDocumentsAdministrationGUI(self::class, $this->config, $this->afterDocumentDeletion(...));
-        $this->ui = new UI(Consumer::ID, $this->dic->ui()->factory(), $this->dic->ui()->mainTemplate(), $this->dic->language());
+        $this->ui = new UI(Consumer::ID, $this->dic->ui(), $this->dic->language());
         $this->tos_settings = $this->createSettings();
     }
 
@@ -77,8 +77,8 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
         $this->prepareOutput();
-        $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
+        $next_class = $this->ctrl->getNextClass($this) ?? '';
+        $cmd = $this->ctrl->getCmd() ?? '';
 
         switch (strtolower($next_class)) {
             case strtolower(ilLegalDocumentsAdministrationGUI::class):
@@ -94,6 +94,9 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
                 return;
             default:
                 switch ($cmd) {
+                    case 'documents':
+                        $this->ctrl->redirectByClass([self::class, ilLegalDocumentsAdministrationGUI::class], 'documents');
+                        return;
                     case 'confirmReset': $this->confirmReset();
                         return;
                     case 'resetNow': $this->resetNow();
@@ -122,9 +125,14 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         }
     }
 
-    public function form(): ILIAS\UI\Component\Input\Container\Form\Standard
+    public function form(): Form
     {
         $read_only = !$this->rbac_system->checkAccess('write', $this->object->getRefId());
+
+        $no_documents = $this->config->legalDocuments()->document()->repository()->countAll() === 0;
+        if ($no_documents) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tos_no_documents_exist'));
+        }
 
         $enabled = $this->dic->ui()->factory()->input()->field()->optionalGroup(
             [
@@ -145,11 +153,13 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         );
 
         if ($read_only) {
-            return $form;
+            $form = $form->withSubmitLabel($this->lng->txt('refresh'));
+            return $this->legal_documents->admin()->withFormData($form, function () {
+                $this->ctrl->redirect($this, 'settings');
+            });
         }
 
-        return $this->legal_documents->admin()->withFormData($form, function (array $data): void {
-            $no_documents = $this->config->legalDocuments()->document()->repository()->countAll() === 0;
+        return $this->legal_documents->admin()->withFormData($form, function (array $data) use ($no_documents): void {
             if ($no_documents && $data['enabled']) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tos_no_documents_exist_cant_save'), true);
                 $this->ctrl->redirect($this, 'settings');
@@ -220,7 +230,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         $in = $this->dic->database()->in('usr_id', [ANONYMOUS_USER_ID, SYSTEM_USER_ID], true, 'integer');
         $this->dic->database()->manipulate("UPDATE usr_data SET agree_date = NULL WHERE $in");
         $this->tos_settings->lastResetDate()->update((new DataFactory())->clock()->system()->now());
-        $this->dic->ctrl()->redirectByClass([self::class, get_class($this->legal_documents)], 'documents');
+        $this->dic->ctrl()->redirectByClass([self::class, $this->legal_documents::class], 'documents');
     }
 
     private function createSettings(): Settings

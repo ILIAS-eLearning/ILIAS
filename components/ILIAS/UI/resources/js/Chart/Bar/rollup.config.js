@@ -1,7 +1,7 @@
 export default {
   input: './src/bar.js',
   output: {
-    file: './dist/filter.js',
+    file: './dist/bar.js',
     format: 'es'
   }
 };

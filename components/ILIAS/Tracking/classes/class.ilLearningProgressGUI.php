@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * Class ilObjUserTrackingGUI
@@ -129,12 +129,15 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 
     public function __setCmdClass(string $a_class): void
     {
-        if (strcasecmp(ilLearningProgressGUI::class, $this->ctrl->getCmdClass()) === 0) {
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $this->ctrl->setCmdClass($a_class);
+        /**
+         * TODO: maybe this can be replaced by nextClass === ''?
+         */
+        if (
+            strtolower($this->ctrl->getCmdClass()) !== strtolower($a_class) &&
+            strtolower($this->ctrl->getNextClass()) !== strtolower($a_class)
+        ) {
+            $this->ctrl->redirectByClass($a_class);
         }
-        // note, this was removed prior to the deprecated ilCtrl methods already.
-        //$this->ctrl->setCmdClass($a_class);
     }
 
     public function __getNextClass(): string
@@ -151,9 +154,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
             return $next_class;
         }
         switch ($this->getMode()) {
-            case self::LP_CONTEXT_ADMINISTRATION:
-                return 'illplistofobjectsgui';
-
             case self::LP_CONTEXT_REPOSITORY:
                 $cmd = $this->ctrl->getCmd();
                 if (in_array(
@@ -187,10 +187,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                     return 'illplistofobjectsgui';
                 }
                 if (
-                ilLearningProgressAccess::checkPermission(
-                    'edit_learning_progress',
-                    $this->getRefId()
-                )) {
+                    ilLearningProgressAccess::checkPermission(
+                        'edit_learning_progress',
+                        $this->getRefId()
+                    )) {
                     return 'illplistofsettingsgui';
                 }
                 return 'illplistofprogressgui';
@@ -235,7 +235,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 // should not happen
                 ilUtil::redirect("ilias.php?baseClass=ilDashboardGUI");
 
-            // no break
+                // no break
             case self::LP_CONTEXT_USER_FOLDER:
             case self::LP_CONTEXT_ORG_UNIT:
                 if (ilObjUserTracking::_enabledUserRelatedData()) {
@@ -256,7 +256,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 ilObject::_lookupObjId($this->getRefId())
             );
             if ($olp->getCurrentMode(
-                ) == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
+            ) == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
                 $form = $this->initCollectionManualForm();
                 $this->tpl->setContent($form->getHTML());
             }
@@ -359,7 +359,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 ilObject::_lookupObjId($this->getRefId())
             );
             if ($olp->getCurrentMode(
-                ) == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
+            ) == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
                 $form = $this->initCollectionManualForm();
                 if ($form->checkInput()) {
                     $class = ilLPStatusFactory::_getClassById(

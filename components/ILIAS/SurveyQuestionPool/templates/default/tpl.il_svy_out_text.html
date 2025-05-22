@@ -4,20 +4,15 @@
 <!-- END questiontitle -->
 {ERROR_MESSAGE}
 <p>{QUESTIONTEXT}<span class="obligatory">{OBLIGATORY_TEXT}</span></p>
-<table class="nobackground">
-<tr>
-<td class="nobackground"><label for="{LABEL_QUESTION_ID}_text_question">{TEXT_ANSWER}</label>:</td>
-<td class="nobackground" colspan="4">
+<label for="{LABEL_QUESTION_ID}_text_question">{TEXT_ANSWER}</label>:
 <!-- BEGIN textarea -->
-	<textarea class="form-control" name="{QUESTION_ID}_text_question" cols="{WIDTH}" rows="{HEIGHT}" id="{QUESTION_ID}_text_question">{VALUE_ANSWER}</textarea>
+	<textarea class="form-control" name="{QUESTION_ID}_text_question" id="{QUESTION_ID}_text_question" rows="5">{VALUE_ANSWER}</textarea>
 <!-- END textarea -->
 <!-- BEGIN textinput -->
 	<input type="text" class="form-control" name="{QUESTION_ID}_text_question" size="{WIDTH}"{MAXLENGTH} id="{QUESTION_ID}_text_question"{VALUE_ANSWER} />
 <!-- END textinput -->
 	<br />
-	<span class="quote">{TEXT_MAXCHARS}</span></td>
-</tr>
-</table>
+	<span class="quote">{TEXT_MAXCHARS}</span>
 <!-- BEGIN material_text -->
 <p>
 {TEXT_MATERIAL}

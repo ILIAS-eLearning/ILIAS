@@ -35,10 +35,10 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        /**
-         * @var Component\Card\Card $component
-         */
-        $this->checkComponent($component);
+        if (!$component instanceof Component\Card\Card) {
+            $this->cannotHandleComponent($component);
+        }
+
         $tpl = $this->getTemplate("tpl.card.html", true, true);
 
         $title = $component->getTitle();
@@ -79,7 +79,7 @@ class Renderer extends AbstractComponentRenderer
 
         if ($component->getImage()) {
             $tpl->setVariable("IMAGE", $default_renderer->render(
-                $component->getImage()->withAlt($this->txt("open")." ".strip_tags($image_alt))
+                $component->getImage()->withAlt($this->txt("open") . " " . strip_tags($image_alt))
             ));
         }
 
@@ -123,13 +123,5 @@ class Renderer extends AbstractComponentRenderer
         }
 
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Card\Card::class);
     }
 }

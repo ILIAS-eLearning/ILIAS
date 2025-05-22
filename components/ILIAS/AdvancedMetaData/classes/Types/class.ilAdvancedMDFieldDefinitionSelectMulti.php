@@ -53,15 +53,37 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
 
     public function getValueForXML(ilADT $element): string
     {
+        $record = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordID());
+        if (!$record->getParentObject()) {
+            return $this->implodeValuesForXML((array) $element->getSelections());
+        }
+        /**
+         * Options of imported local fields don't keep their ID,
+         * but get assigned a new ID based on order. To conserve
+         * assigments, the same logic has to be applied here.
+         */
+        $index = 1;
+        $selections = [];
+        foreach ($this->options()->getOptions() as $option) {
+            if (in_array($option->optionID(), (array) $element->getSelections())) {
+                $selections[] = $index;
+            }
+            $index++;
+        }
+        return $this->implodeValuesForXML($selections);
+    }
+
+    protected function implodeValuesForXML(array $values): string
+    {
         return self::XML_SEPARATOR .
-            implode(self::XML_SEPARATOR, (array) $element->getSelections()) .
+            implode(self::XML_SEPARATOR, $values) .
             self::XML_SEPARATOR;
     }
 
     public function importValueFromXML(string $a_cdata): void
     {
         $values = [];
-        foreach (explode(self::XML_SEPARATOR, $a_cdata) as $value) {
+        foreach (explode(self::XML_SEPARATOR, trim($a_cdata, self::XML_SEPARATOR)) as $value) {
             $value = $this->translateLegacyImportValueFromXML($value);
             $values[] = $value;
         }

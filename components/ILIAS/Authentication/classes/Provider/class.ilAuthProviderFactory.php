@@ -46,7 +46,7 @@ class ilAuthProviderFactory
 
         $providers = [];
         foreach ($sequence as $position => $authmode) {
-            $provider = $this->getProviderByAuthMode($credentials, $authmode);
+            $provider = $this->getProviderByAuthMode($credentials, (string) $authmode);
             if ($provider instanceof ilAuthProviderInterface) {
                 $providers[] = $provider;
             }
@@ -76,10 +76,6 @@ class ilAuthProviderFactory
             case ilAuthUtils::AUTH_APACHE:
                 $this->logger->debug('Using apache authentication.');
                 return new ilAuthProviderApache($credentials);
-
-            case ilAuthUtils::AUTH_CAS:
-                $this->logger->debug('Using CAS authentication');
-                return new ilAuthProviderCAS($credentials);
 
             case ilAuthUtils::AUTH_SHIBBOLETH:
                 $this->logger->debug('Using shibboleth authentication.');

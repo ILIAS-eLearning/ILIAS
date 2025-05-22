@@ -32,7 +32,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactoryTest extends ilTestBaseT
 
         $this->testObj = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class)
+            $this->getTestObjMock()
         );
     }
 

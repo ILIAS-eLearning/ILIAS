@@ -18,6 +18,8 @@
 
 namespace ILIAS\FileUpload\Processor;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 require_once('./vendor/composer/vendor/autoload.php');
 
 use PHPUnit\Framework\TestCase;
@@ -57,7 +59,7 @@ class SVGPreProcessorTest extends TestCase
             [
                 '<svg width="100" height="100">
     <foreignObject width="100%" height="100%" onclick="alert(document.domain);">
-        
+
     </foreignObject>
 </svg>',
                 'onclick'
@@ -87,9 +89,7 @@ aWUpJwpvbmVuZD0nYWxlcnQoIm9uZW5kIiknIHRvPSIjMDBGIiBiZWdpbj0iMXMiIGR1cj0iNXMiIC
         ];
     }
 
-    /**
-     * @dataProvider maliciousSVGProvider
-     */
+    #[DataProvider('maliciousSVGProvider')]
     public function testMaliciousSVG(string $malicious_svg, string $type): void
     {
         $preProcessor = $this->getPreProcessor();
@@ -133,9 +133,7 @@ xmlns="http://www.w3.org/2000/svg">
         ];
     }
 
-    /**
-     * @dataProvider provideSomeComplexSaneSVG
-     */
+    #[DataProvider('provideSomeComplexSaneSVG')]
     public function testSomeComplexSaneSVG(string $path): void
     {
         $this->assertTrue(file_exists($path));

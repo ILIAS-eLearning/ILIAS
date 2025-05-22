@@ -20,6 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\File\Icon;
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use Psr\Http\Message\RequestInterface;
+use ILIAS\ResourceStorage\Services;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+
 /**
  * @property \ilFileServicesSettings $file_settings
  * @author Lukas Zehnder <lukas@sr.solutions>
@@ -38,13 +45,13 @@ class ilObjFileIconsOverviewGUI
     private \ilCtrl $ctrl;
     private \ilLanguage $lng;
     private \ilToolbarGUI $toolbar;
-    private \ILIAS\UI\Factory $ui_factory;
-    private \ILIAS\UI\Renderer $ui_renderer;
+    private Factory $ui_factory;
+    private Renderer $ui_renderer;
     private \ilGlobalTemplateInterface $main_tpl;
-    private \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
-    private \Psr\Http\Message\RequestInterface $http_request;
+    private WrapperFactory $wrapper;
+    private RequestInterface $http_request;
     private \ILIAS\Refinery\Factory $refinery;
-    private \ILIAS\ResourceStorage\Services $storage;
+    private Services $storage;
     private IconRepositoryInterface $icon_repo;
     private \ilFileServicesSettings $file_service_settings;
 
@@ -258,7 +265,7 @@ class ilObjFileIconsOverviewGUI
         // delete icon from irss
         $is_deleted_from_irss = false;
         $id = $this->storage->manage()->find($rid);
-        if ($id instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
+        if ($id instanceof ResourceIdentification) {
             $this->storage->manage()->remove($id, new ilObjFileIconStakeholder());
             $is_deleted_from_irss = true;
         }

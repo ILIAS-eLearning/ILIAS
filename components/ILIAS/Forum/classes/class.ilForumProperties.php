@@ -36,7 +36,7 @@ class ilForumProperties
     /** @var array<int, ilForumProperties> */
     private static array $instances = [];
 
-    private ilDBInterface $db;
+    private readonly ilDBInterface $db;
     private int $default_view = self::VIEW_DATE_ASC;
     private bool $anonymized = false;
     private bool $statistics_enabled = false;

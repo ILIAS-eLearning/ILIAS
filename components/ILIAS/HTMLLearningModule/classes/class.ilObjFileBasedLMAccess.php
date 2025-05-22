@@ -75,33 +75,58 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
-
-        if (isset(self::$startfile[$a_id])) {
-            $start_file = self::$startfile[$a_id];
-        } else {
-            $q = "SELECT startfile FROM file_based_lm WHERE id = " . $ilDB->quote($a_id, "integer");
-            $set = $ilDB->query($q);
-            $rec = $ilDB->fetchAssoc($set);
-            $start_file = $rec["startfile"];
-            self::$startfile[$a_id] = $start_file . "";
+        static $startfile = [];
+        if (isset($startfile[$a_id])) {
+            return $startfile[$a_id];
         }
 
+        $ilDB = $DIC->database();
+
+        $q = "SELECT startfile, rid FROM file_based_lm WHERE id = " . $ilDB->quote($a_id, "integer");
+        $set = $ilDB->query($q);
+        $rec = $ilDB->fetchAssoc($set);
+        $start_file = $rec["startfile"] ?? '';
+
+        // Migrated learning module
+        if (!empty($rec['rid'])) {
+            // check if the file is available in the container
+            $rid = $DIC->resourceStorage()->manageContainer()->find($rec['rid']);
+            if (!$rid) {
+                return $startfile[$a_id] = "";
+            }
+            $zip = $DIC->resourceStorage()->consume()->containerZIP($rid)->getZIP();
+            foreach ($zip->getFiles() as $file) {
+                if ($file === $start_file) {
+                    return $startfile[$a_id] = $start_file;
+                }
+            }
+            return $startfile[$a_id] = "";
+        }
+
+        // Old learning module
         $dir = realpath(__DIR__ . '/../../../../public/' . ilFileUtils::getWebspaceDir() . "/lm_data/lm_" . $a_id);
 
         if (($start_file !== "") && (is_file($dir . "/" . $start_file))) {
-            return  $dir . "/" . $start_file;
+            return $startfile[$a_id] = str_replace(
+                realpath(__DIR__ . '/../../../../public/'),
+                "",
+                $dir . "/" . $start_file
+            );
         }
 
         if (is_file($dir . "/index.html")) {
-            return  $dir . "/index.html";
+            return $startfile[$a_id] = str_replace(
+                realpath(__DIR__ . '/../../../../public/'),
+                "",
+                $dir . "/index.html"
+            );
         }
 
         if (is_file($dir . "/index.htm")) {
-            return  $dir . "/index.htm";
+            return $startfile[$a_id] = str_replace(realpath(__DIR__ . '/../../../../public/'), "", $dir . "/index.htm");
         }
 
-        return "";
+        return $startfile[$a_id] = "";
     }
 
     public static function _checkGoto(string $target): bool

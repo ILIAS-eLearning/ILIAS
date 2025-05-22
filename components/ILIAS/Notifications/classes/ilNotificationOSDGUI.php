@@ -24,7 +24,6 @@ use ilGlobalTemplateInterface;
 use iljQueryUtil;
 use ilLanguage;
 use ilObjUser;
-use ilPlayerUtil;
 use ilSetting;
 use ilTemplate;
 
@@ -51,6 +50,9 @@ class ilNotificationOSDGUI
         }
 
         $notificationSettings = new ilSetting('notifications');
+        if ($notificationSettings->get('enable_osd', '0') !== '1') {
+            return;
+        }
 
         $osdTemplate = new ilTemplate('tpl.osd_notifications.js', true, true, 'components/ILIAS/Notifications');
 
@@ -64,7 +66,6 @@ class ilNotificationOSDGUI
         );
 
         iljQueryUtil::initjQuery($this->page);
-        ilPlayerUtil::initMediaElementJs($this->page);
 
         $this->page->addJavaScript('assets/js/notifications.js');
         $this->page->addCSS('assets/css/osd.css');

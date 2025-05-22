@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -33,6 +34,7 @@ use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\ReplaceSignal;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Component\Input\InputData;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
@@ -218,6 +220,13 @@ abstract class File implements FileDropzone
         return $clone;
     }
 
+    public function withInput(InputData $input_data): self
+    {
+        $clone = clone $this;
+        $clone->modal = $clone->modal->withInput($request);
+        return $clone;
+    }
+
     public function withAdditionalTransformation(Transformation $trafo): self
     {
         $clone = clone $this;
@@ -264,5 +273,21 @@ abstract class File implements FileDropzone
     public function withDedicatedName(string $dedicated_name): self
     {
         return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPromptButtons(): array
+    {
+        return $this->buttons;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPromptTitle(): string
+    {
+        return $this->type;
     }
 }

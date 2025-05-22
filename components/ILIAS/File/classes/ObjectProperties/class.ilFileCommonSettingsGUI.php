@@ -23,47 +23,25 @@ class ilFileCommonSettingsGUI
 {
     public const CMD_EDIT = 'editSettings';
     public const CMD_SAVE = 'saveSettings';
-    private array $services;
+    private array $services = [
+        ilObjectServiceSettingsGUI::CUSTOM_METADATA
+    ];
 
-    protected ilObjFile $object;
-    protected ilCtrl $ctrl;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilLanguage $lng;
-    protected ilObjectService $object_service;
-
-    public function __construct(
-        ilObjFile $object,
-        ilCtrl $ctrl,
-        ilGlobalTemplateInterface $tpl,
-        ilLanguage $lng,
-        ilObjectService $object_service
-    ) {
-        $this->object = $object;
-        $this->ctrl = $ctrl;
-        $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->object_service = $object_service;
-        $this->services = [
-            ilObjectServiceSettingsGUI::CUSTOM_METADATA
-        ];
+    public function __construct(protected ilObjFile $object, protected ilCtrl $ctrl, protected ilGlobalTemplateInterface $tpl, protected ilLanguage $lng, protected ilObjectService $object_service)
+    {
     }
 
     public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
-        switch ($cmd) {
-            case self::CMD_EDIT:
-                $this->editSettings();
-                break;
-            case self::CMD_SAVE:
-                $this->saveSettings();
-                break;
-            default:
-                throw new Exception('Unknown command ' . $cmd);
-        }
+        match ($cmd) {
+            self::CMD_EDIT => $this->editSettings(),
+            self::CMD_SAVE => $this->saveSettings(),
+            default => throw new Exception('Unknown command ' . $cmd),
+        };
     }
 
-    protected function editSettings(ilPropertyFormGUI $form = null): void
+    protected function editSettings(?ilPropertyFormGUI $form = null): void
     {
         if (is_null($form)) {
             $form = $this->buildForm();

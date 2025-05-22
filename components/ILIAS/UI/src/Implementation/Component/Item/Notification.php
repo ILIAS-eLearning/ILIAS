@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Item;
 
 use ILIAS\UI\Component\Item\Notification as INotification;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Content;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Component\JavaScriptBindable as IJavaScriptBindable;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
@@ -33,7 +33,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
 {
     use JavaScriptBindable;
 
-    protected ?Legacy $additional_content = null;
+    protected ?Content $additional_content = null;
     protected Icon $lead_icon;
     protected ?string $close_action = null;
 
@@ -55,7 +55,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function withAdditionalContent(Legacy $additional_content): INotification
+    public function withAdditionalContent(Content $additional_content): INotification
     {
         $clone = clone $this;
         $clone->additional_content = $additional_content;
@@ -65,7 +65,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function getAdditionalContent(): ?Legacy
+    public function getAdditionalContent(): ?Content
     {
         return $this->additional_content;
     }

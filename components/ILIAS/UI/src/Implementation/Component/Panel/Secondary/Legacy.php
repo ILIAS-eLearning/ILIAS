@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Panel\Secondary;
 
 use ILIAS\UI\Component as C;
@@ -27,9 +27,9 @@ use ILIAS\UI\Component as C;
  */
 class Legacy extends Secondary implements C\Panel\Secondary\Legacy
 {
-    protected C\Legacy\Legacy $legacy;
+    protected C\Legacy\Content $legacy;
 
-    public function __construct(string $title, C\Legacy\Legacy $legacy)
+    public function __construct(string $title, C\Legacy\Content $legacy)
     {
         $this->title = $title;
         $this->legacy = $legacy;
@@ -38,7 +38,7 @@ class Legacy extends Secondary implements C\Panel\Secondary\Legacy
     /**
      * @inheritdoc
      */
-    public function getLegacyComponent(): C\Legacy\Legacy
+    public function getLegacyComponent(): C\Legacy\Content
     {
         return $this->legacy;
     }

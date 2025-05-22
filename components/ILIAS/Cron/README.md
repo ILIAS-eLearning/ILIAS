@@ -8,8 +8,8 @@ described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 **Table of Contents**
 * [Implementing and Configuring a Cron-Job](#implementing-and-configuring-a-cron-job)
   * [Providing a Cron-Job](#providing-a-cron-job)
-  * [ilCronJob](#ilcronjob)
-  * [ilCronJobResult](#ilCronJobResult)
+  * [ilCronJob](#iliascroncronjob)
+  * [ilCronJobResult](#iliascronjobjobresult)
   * [Schedule](#schedule)
   * [Settings](#settings)
   * [Customizing](#custimizing) 
@@ -47,7 +47,7 @@ module.xml or service.xml.
 There are 3 basic concepts: cron-job, schedule and cron-result. Using them as intended should make testing
 and/or debugging of cron-jobs far easier than before.
 
-### ilCronJob
+### \ILIAS\Cron\CronJob
 
 This base class must be extended by every cron-job. Besides the methods mentioned below `isDue()`
 is noteworthy as it is the central point by which the system decides if a cron-job is to be run or not.
@@ -62,9 +62,9 @@ Several abstract methods have to be implemented to make a new cron-job usable:
 - `getDefaultScheduleValue()`: see Schedule
 - `run()`: process the cron-job
 
-### ilCronJobResult
+### \ILIAS\Cron\Job\JobResult
 
-The class `ilCronJobResult` determines the status of a current cron job.
+The class `\ILIAS\Cron\Job\JobResult` determines the status of a current cron job.
 
 The status are:
 * `STATUS_INVALID_CONFIGURATION`
@@ -92,19 +92,19 @@ Possible reasons to set this action:
   job.
 
 Every `run()`-Method of a cron job MUST return
-an instance of `ilCronJobResult`
+an instance of `\ILIAS\Cron\Job\JobResult`
 and MUST set status before returned by a method.
 
 ```php
-public function run(): ilCronJobResult
+public function run(): \ILIAS\Cron\Job\JobResult
 {
-  $result = new ilCronJobResult();
+  $result = new \ILIAS\Cron\Job\JobResult();
 
   try {
     $procedure->execute();
-    $result->setStatus(ilCronJobResult::STATUS_OK);
+    $result->setStatus(JobResult::STATUS_OK);
   } catch (Exception $exception) {
-    $result->setStatus(ilCronJobResult::STATUS_FAIL);
+    $result->setStatus(JobResult::STATUS_FAIL);
     $result->setMessage($exception->getMessage());
   }
 
@@ -117,7 +117,7 @@ If given, this message will be displayed in the cron job overview table.
 
 ### Schedule
 
-As the cron-tab (for 4.4+) should be configured in a way that it runs every few minutes the schedule is
+As the cron-tab (for ILIAS 4.4+) should be configured in a way that it runs every few minutes the schedule is
 crucial to minimize system load by only running cron-jobs when really needed.
 
 The are several schedule types available. The most basic are daily, weekly, monthly, quarterly and yearly.
@@ -128,14 +128,14 @@ schedule type and value (see above) has to be given to give users a clue when a 
 Use the following enum cases to implement your desired schedule:
 
 ```php
-\ILIAS\Cron\Schedule\CronJobScheduleType::SCHEDULE_TYPE_DAILY;
-\ILIAS\Cron\Schedule\CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES;
-\ILIAS\Cron\Schedule\CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS;
-\ILIAS\Cron\Schedule\CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS;
-\ILIAS\Cron\Schedule\CronJobScheduleType::SCHEDULE_TYPE_WEEKLY;
-\ILIAS\Cron\Schedule\CronJobScheduleType::SCHEDULE_TYPE_MONTHLY;
-\ILIAS\Cron\Schedule\CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY;
-\ILIAS\Cron\Schedule\CronJobScheduleType::SCHEDULE_TYPE_YEARLY;
+\ILIAS\Cron\Job\Schedule\JobScheduleType::DAILY;
+\ILIAS\Cron\Job\Schedule\JobScheduleType::IN_MINUTES;
+\ILIAS\Cron\Job\Schedule\JobScheduleType::IN_HOURS;
+\ILIAS\Cron\Job\Schedule\JobScheduleType::IN_DAYS;
+\ILIAS\Cron\Job\Schedule\JobScheduleType::WEEKLY;
+\ILIAS\Cron\Job\Schedule\JobScheduleType::MONTHLY;
+\ILIAS\Cron\Job\Schedule\JobScheduleType::QUARTERLY;
+\ILIAS\Cron\Job\Schedule\JobScheduleType::YEARLY;
 ```
 
 ### Settings
@@ -184,7 +184,7 @@ The `<client_id>` MUST be the client id of the ILIAS installation.
 
 ## Permission Context
 
-Implementations of `ilCronJob` MUST NOT rely on specific permissions (e.g. RBAC).
+Implementations of `\ILIAS\Cron\CronJob` MUST NOT rely on specific permissions (e.g. RBAC).
 Generally said, there MUST NOT be any expectations regarding given permissions
 at all in the context of a cron job. Please keep this in mind when you structure
 your code layers.

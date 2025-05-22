@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * name table
@@ -35,6 +36,8 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
     protected array $subitem_ids = [];
     protected int $in_course = 0;
     protected int $in_group = 0;
+    protected int $in_course_ref_id = 0;
+    protected int $in_group_ref_id = 0;
     protected array $privacy_fields = [];
     protected array $privacy_cols = [];
     protected array $perc_map = [];
@@ -63,16 +66,16 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         $this->obj_id = ilObject::_lookupObjId($ref_id);
         $this->type = ilObject::_lookupType($this->obj_id); // #17188
 
-        $this->in_group = $this->tree->checkForParentType($this->ref_id, "grp");
-        if ($this->in_group) {
-            $this->in_group = ilObject::_lookupObjId($this->in_group);
+        $this->in_group_ref_id = $this->tree->checkForParentType($this->ref_id, "grp");
+        if ($this->in_group_ref_id) {
+            $this->in_group = ilObject::_lookupObjId($this->in_group_ref_id);
         } else {
-            $this->in_course = $this->tree->checkForParentType(
+            $this->in_course_ref_id = $this->tree->checkForParentType(
                 $this->ref_id,
                 "crs"
             );
-            if ($this->in_course) {
-                $this->in_course = ilObject::_lookupObjId($this->in_course);
+            if ($this->in_course_ref_id) {
+                $this->in_course = ilObject::_lookupObjId($this->in_course_ref_id);
             }
         }
 
@@ -93,7 +96,6 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         );
         $this->setDefaultOrderField("login");
         $this->setDefaultOrderDirection("asc");
-        $this->setShowTemplates(true);
 
         // see ilObjCourseGUI::addMailToMemberButton()
         $mail = new ilMail($DIC->user()->getId());
@@ -158,6 +160,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             );
         }
         $this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
+        $this->setSelectAllCheckbox('uid');
     }
 
     public function initFilter(): void
@@ -188,8 +191,8 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
     public function getSelectableColumns(): array
     {
         $user_cols = $this->getSelectableUserColumns(
-            $this->in_course,
-            $this->in_group
+            $this->in_course_ref_id,
+            $this->in_group_ref_id
         );
         $columns = [];
         if ($this->obj_ids === null) {
@@ -323,7 +326,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
     public function getItems(
         array $a_user_fields,
-        array $a_privary_fields = null
+        ?array $a_privary_fields = null
     ): array {
 
         // #17081
@@ -475,6 +478,21 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                             }
                         }
                     }
+                }
+            }
+
+            /*
+             * ilTrQuery does not read out any information about org units
+             * (nor should it), so it needs to be added here.
+             */
+            if (in_array('org_units', $a_user_fields)) {
+                foreach (($data['set'] ?? []) as $key => $usr_data) {
+                    if (!isset($usr_data['usr_id'])) {
+                        continue;
+                    }
+                    $usr_id = (int) $usr_data['usr_id'];
+                    $org_units = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($usr_id);
+                    $data["set"][$key]['org_units'] = $org_units;
                 }
             }
 

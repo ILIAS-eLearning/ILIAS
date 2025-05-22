@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer;
 
+use ILIAS\FileUpload\MimeType;
+use ILIAS\HTTP\Services;
+use ILIAS\FileDelivery\Delivery\StreamDelivery;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 use ILIAS\ResourceStorage\Resource\StorableResource;
@@ -31,12 +34,12 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
 abstract class BaseHTTPResponseBasedConsumer extends BaseConsumer implements DeliveryConsumer
 {
     // Firefox determines the content type from the file content anyway for some content.
-    private const NON_VALID_EXTENSION_MIME = \ILIAS\FileUpload\MimeType::APPLICATION__OCTET_STREAM;
-    private \ILIAS\HTTP\Services $http;
-    private \ILIAS\FileDelivery\Delivery\StreamDelivery $delivery;
+    private const NON_VALID_EXTENSION_MIME = MimeType::APPLICATION__OCTET_STREAM;
+    private Services $http;
+    private StreamDelivery $delivery;
 
     public function __construct(
-        \ILIAS\HTTP\Services $http,
+        Services $http,
         StorableResource $resource,
         StreamAccess $stream_access,
         FileNamePolicy $file_name_policy
@@ -62,23 +65,18 @@ abstract class BaseHTTPResponseBasedConsumer extends BaseConsumer implements Del
         // Build Response
         $revision = $this->stream_access->populateRevision($revision);
 
-        switch ($this->getDisposition()) {
-            case 'attachment':
-                $this->delivery->attached(
-                    $revision->maybeStreamResolver()?->getStream(),
-                    $file_name_for_consumer,
-                    $mime_type
-                );
-                break;
-            case 'inline':
-                $this->delivery->inline(
-                    $revision->maybeStreamResolver()?->getStream(),
-                    $file_name_for_consumer,
-                    $mime_type
-                );
-                break;
-            default:
-                throw new \InvalidArgumentException('Invalid disposition');
-        }
+        match ($this->getDisposition()) {
+            'attachment' => $this->delivery->attached(
+                $revision->maybeStreamResolver()?->getStream(),
+                $file_name_for_consumer,
+                $mime_type
+            ),
+            'inline' => $this->delivery->inline(
+                $revision->maybeStreamResolver()?->getStream(),
+                $file_name_for_consumer,
+                $mime_type
+            ),
+            default => throw new \InvalidArgumentException('Invalid disposition'),
+        };
     }
 }

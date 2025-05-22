@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilBuddySystemLinkButton
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
 {
     protected ilBuddyList $buddyList;
@@ -66,10 +62,8 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
         $relation = $this->buddyList->getRelationByUserId($this->getUsrId());
 
         // The ILIAS JF decided to add a new personal setting
-        if (
-            $relation->isUnlinked() &&
-            !ilUtil::yn2tf((string) ilObjUser::_lookupPref($this->getUsrId(), 'bs_allow_to_contact_me'))
-        ) {
+        if ($relation->isUnlinked() &&
+            !ilUtil::yn2tf((string) ilObjUser::_lookupPref($this->getUsrId(), 'bs_allow_to_contact_me'))) {
             return '';
         }
 
@@ -82,12 +76,12 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
         $buttonTemplate->setVariable(
             'BUTTON_HTML',
             ilBuddySystemRelationStateFactory::getInstance()->getStateButtonRendererByOwnerAndRelation(
-                (int) $this->user->getId(),
+                $this->user->getId(),
                 $relation
             )->getHtml()
         );
         $buttonTemplate->setVariable('BUTTON_BUDDY_ID', $this->getUsrId());
-        $buttonTemplate->setVariable('BUTTON_CSS_CLASS', 'ilBuddySystemLinkWidget');
+        $buttonTemplate->setVariable('BUTTON_CSS_CLASS', ilBuddySystemLinkButtonType::ROOT_CSS_CLASS);
         $buttonTemplate->setVariable('BUTTON_CURRENT_STATE', $relation->getState()::class);
 
         return $buttonTemplate->get();

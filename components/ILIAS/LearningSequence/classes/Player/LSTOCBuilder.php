@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\KioskMode\TOCBuilder;
 
@@ -40,7 +40,7 @@ class LSTOCBuilder implements TOCBuilder
     /**
      * LSControlBuilder|LSTOCBuilder 	$parent
      */
-    public function __construct($parent, string $command, string $label = '', int $parameter = null, $state = null)
+    public function __construct($parent, string $command, string $label = '', ?int $parameter = null, $state = null)
     {
         $this->structure = [
             'label' => $label,
@@ -72,7 +72,7 @@ class LSTOCBuilder implements TOCBuilder
     /**
      * @inheritdoc
      */
-    public function node(string $label, int $parameter = null, int $lp = null): TOCBuilder
+    public function node(string $label, ?int $parameter = null, ?int $lp = null): TOCBuilder
     {
         //build node
         $toc = new LSTOCBuilder($this, $this->command, $label, $parameter, $lp);

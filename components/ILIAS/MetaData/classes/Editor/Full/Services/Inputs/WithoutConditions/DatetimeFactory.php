@@ -28,6 +28,8 @@ use ILIAS\MetaData\Repository\Validation\Dictionary\DictionaryInterface as Const
 use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
 use ILIAS\MetaData\Elements\Data\DataInterface;
 use ILIAS\MetaData\DataHelper\DataHelperInterface;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
+use ILIAS\MetaData\Elements\Data\Type;
 
 class DatetimeFactory extends BaseFactory
 {
@@ -46,14 +48,29 @@ class DatetimeFactory extends BaseFactory
         $this->data_helper = $data_helper;
     }
 
+    public function getInput(
+        ElementInterface $element,
+        ElementInterface $context_element
+    ): FormInput {
+        return $this->rawInput($element, $context_element);
+    }
+
+    public function getInputInCondition(
+        ElementInterface $element,
+        ElementInterface $context_element,
+        SlotIdentifier $conditional_slot
+    ): FormInput {
+        return $this->rawInput($element, $context_element);
+    }
+
     protected function rawInput(
         ElementInterface $element,
         ElementInterface $context_element,
-        string $condition_value = ''
+        SlotIdentifier $conditional_slot = SlotIdentifier::NULL
     ): FormInput {
         $dh = $this->data_helper;
-        return $this->ui_factory
-            ->dateTime('placeholder')
+        $input = $this->ui_factory
+            ->dateTime($this->getInputLabelFromElement($this->presenter, $element, $context_element))
             ->withFormat($this->presenter->utilities()->getUserDateFormat())
             ->withAdditionalTransformation(
                 $this->refinery->custom()->transformation(
@@ -62,6 +79,11 @@ class DatetimeFactory extends BaseFactory
                     }
                 )
             );
+
+        if ($element->getData()->type() !== Type::NULL) {
+            $input = $input->withValue($this->dataValueForInput($element->getData()));
+        }
+        return $this->addConstraintsFromElement($this->constraint_dictionary, $element, $input);
     }
 
     protected function dataValueForInput(DataInterface $data): string

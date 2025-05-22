@@ -20,18 +20,26 @@ declare(strict_types=1);
 
 namespace ILIAS\Export;
 
-/**
- * Export internal data service
- * @author Alexander Killing <killing@leifos.de>
- */
+use ILIAS\Repository\RepoServiceBase;
+
 class InternalRepoService
 {
-    protected InternalDataService $data;
-    protected \ilDBInterface $db;
+    use RepoServiceBase;
 
-    public function __construct(InternalDataService $data, \ilDBInterface $db)
+    protected static array $instance = [];
+
+    public function __construct(
+        protected InternalDataService $data,
+        protected \ilDBInterface $db
+    ) {
+    }
+
+    public function html(): HTML\RepoService
     {
-        $this->data = $data;
-        $this->db = $db;
+        return self::$instance['html'] ??= new HTML\RepoService(
+            $this->data->html(),
+            $this->db,
+            $this->irss()
+        );
     }
 }

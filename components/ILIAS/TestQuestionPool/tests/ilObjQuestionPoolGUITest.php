@@ -40,13 +40,13 @@ class ilObjQuestionPoolGUITest extends assBaseTestCase
 
         $this->setGlobalVariable('ilLog', $this->createMock(ilComponentLogger::class));
 
-//        $this->object = new ilObjQuestionPoolGUI();
+        //        $this->object = new ilObjQuestionPoolGUI();
     }
 
-//    public function testConstruct(): void
-//    {
-//        $this->assertInstanceOf(ilObjQuestionPoolGUI::class, $this->object);
-//    }
+    //    public function testConstruct(): void
+    //    {
+    //        $this->assertInstanceOf(ilObjQuestionPoolGUI::class, $this->object);
+    //    }
 
     public function testSuppressWarning(): void
     {

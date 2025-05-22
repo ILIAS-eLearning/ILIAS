@@ -32,7 +32,7 @@ module.exports = function exports(req, res) {
 			room.subscriberLeft(subscriberId);
 
 			var userlistAction = UserlistAction.create(splitted[0], room.getJoinedSubscribers());
-			var notice = Notice.create('user_kicked', splitted[0], {user: subscriber.getName()});
+			var notice = Notice.create('user_banned', splitted[0], {user: subscriber.getName()});
 
 			subscriber.getSocketIds().forEach(
 				userBannedMessageCallbackFactory(namespace, room.getId())

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Style\Content\Access;
 
 use ilRbacSystem;
@@ -33,7 +33,7 @@ class StyleAccessManager
     protected int $user_id = 0;
     protected ilRbacSystem $rbacsystem;
 
-    public function __construct(ilRbacSystem $rbacsystem = null, int $ref_id = 0, int $user_id = 0)
+    public function __construct(?ilRbacSystem $rbacsystem = null, int $ref_id = 0, int $user_id = 0)
     {
         global $DIC;
 

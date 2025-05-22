@@ -67,7 +67,15 @@ class ilObjXXXGUI extends ilObject2GUI
 
 ```
 
-	
+### Known Issues
+
+Display options don't respect the scope of the Metadata set, the
+respective fields are also shown outside of the scope.
+
+Fixing this is risky in terms of performance, if this is fixed in
+the future the scope should probably be preloaded. See
+`ilAdvancedMDSubstitution::getParsedSubstitutions` and
+`ilAdvancedMDValues::preloadedRead`.
 
     
 

@@ -63,7 +63,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         $b = $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de");
         $this->assertEquals(
             $this->glyph,
-            $b->getIconOrGlyph()
+            $b->getSymbol()
         );
     }
 
@@ -72,7 +72,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         $b = $this->button_factory->bulky($this->icon, "label", "http://www.ilias.de");
         $this->assertEquals(
             $this->icon,
-            $b->getIconOrGlyph()
+            $b->getSymbol()
         );
     }
 

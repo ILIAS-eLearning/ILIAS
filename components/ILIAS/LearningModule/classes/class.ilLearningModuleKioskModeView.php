@@ -72,7 +72,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
     public function updateGet(
         State $state,
         string $command,
-        int $parameter = null
+        ?int $parameter = null
     ): State {
         switch ($command) {
             case "layout":
@@ -233,7 +233,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         State $state,
         Factory $factory,
         URLBuilder $url_builder,
-        array $post = null
+        ?array $post = null
     ): Component {
         $this->initLMService((int) $state->getValueFor("current_page"));
 
@@ -248,6 +248,6 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         $content = $this->uiRenderer->render($this->messages);
         $content .= $this->ctrl->getHTML($this->lm_pres, ["cmd" => "layout"], ["illmpresentationgui"]);
         $content .= $this->uiRenderer->render($additional_content);
-        return $factory->legacy($content);
+        return $factory->legacy()->content($content);
     }
 }

@@ -1,9 +1,47 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Examples\Entity\Standard;
 
+/**
+ * ---
+ * expected output: >
+ *   Entities arrange information about e.g. an object into semantic groups;
+ *   this example focusses on the possible contents of those groups and shows
+ *   a possible representation of a made up event.
+ *   From top to bottom, left to right:
+ *   - There is a precondition; it links to ilias.de.
+ *   - An action-dropdown is available with two entries linking to ilias/github.
+ *   - An icon indents the following.
+ *   - Prominently featured is the event's date proptery.
+ *   - Only after that, the title of the event is displayed in bold.
+ *   - A progress meter ("in progress") is followed by detailed properties:
+ *     - Room information
+ *     - Description
+ *     - in one line: Available seats and availability of the event
+ *     - in the next line: duration and the information of available redording
+ *   - The bottom "row" shows two tags on the left
+ *   - and two glyphs on the right, the first one with status counter, the second one with
+ *     both status- and novelty counter.
+ * ---
+ */
 function base()
 {
     global $DIC;
@@ -74,7 +112,7 @@ function base()
         ->withProperty('Recording', 'recording available', false)
     ;
 
-    $status = $f->legacy(
+    $status = $f->legacy()->content(
         $renderer->render($f->symbol()->icon()->custom('./assets/images/learning_progress/in_progress.svg', 'incomplete'))
         . ' in progress'
     );

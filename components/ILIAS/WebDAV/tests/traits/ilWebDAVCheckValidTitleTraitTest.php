@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
@@ -45,7 +45,7 @@ class ilWebDAVCheckValidTitleTraitTest extends TestCase
      */
     protected array $randomUnicodeStrings = [
         '斛翔簫輷㠋캍쵮읞㉡⚫ﴏ',
-                'ੳ卵Ὃ죿퐥㿼㘩輔푬㳟宵錠◷⻨돁',
+        'ੳ卵Ὃ죿퐥㿼㘩輔푬㳟宵錠◷⻨돁',
         '㿃㺝ᅴ㙂楳⦍텥鹰⍛合븺쑂瀎屴',
         '42342afafasfERf',
         'ADFsdf234df',

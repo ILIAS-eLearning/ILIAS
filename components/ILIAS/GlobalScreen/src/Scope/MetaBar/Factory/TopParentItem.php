@@ -25,13 +25,11 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\TopParentItemRenderer;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
- * Class BaseItem
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class TopParentItem extends AbstractBaseItem implements isItem, hasSymbol, hasTitle, isParent, hasContentLanguage
 {
     use ContentLanguage;
-    use \ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
 
     /**
      * @var isChild[]
@@ -129,6 +127,6 @@ class TopParentItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
      */
     public function hasChildren(): bool
     {
-        return count($this->children) > 0;
+        return $this->children !== [];
     }
 }

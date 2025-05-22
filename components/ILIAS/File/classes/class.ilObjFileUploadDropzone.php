@@ -18,9 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\Refinery\Factory;
 use ILIAS\UI\Component\Dropzone\File\File as FileDropzone;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\DI\UIServices;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
@@ -36,12 +38,10 @@ class ilObjFileUploadDropzone
     protected ilLanguage $language;
     protected ilAccess $access;
     protected UIServices $ui;
-    protected \ILIAS\Refinery\Factory $refinery;
+    protected Factory $refinery;
+    protected LOMServices $lom_services;
 
-    protected int $target_ref_id;
-    protected ?string $content;
-
-    public function __construct(int $target_ref_id, string $content = null)
+    public function __construct(protected int $target_ref_id, protected ?string $content = null)
     {
         global $DIC;
 
@@ -52,17 +52,16 @@ class ilObjFileUploadDropzone
         $this->ctrl = $DIC->ctrl();
         $this->ui = $DIC->ui();
         $this->refinery = $DIC->refinery();
+        $this->lom_services = $DIC->learningObjectMetadata();
 
         $this->upload_handler = new ilObjFileUploadHandlerGUI();
-        $this->target_ref_id = $target_ref_id;
-        $this->content = $content;
     }
 
     private function isCopyrightSelectionActive(): bool
     {
         static $active;
         if ($active === null) {
-            $active = ilMDSettings::_getInstance()->isCopyrightSelectionActive();
+            $active = $this->lom_services->copyrightHelper()->isCopyrightSelectionActive();
         }
         return $active;
     }
@@ -93,7 +92,6 @@ class ilObjFileUploadDropzone
         // reset new_type again
         $this->ctrl->clearParameterByClass(ilObjFileGUI::class, 'new_type');
 
-        // add input for copyright selection if enabled in the metadata settings
         $additional_input = null;
         if ($this->isCopyrightSelectionActive()) {
             $additional_input = $this->getCopyrightSelectionInput('set_license_for_all_files');
@@ -103,7 +101,7 @@ class ilObjFileUploadDropzone
         $dropzone = $this->ui->factory()->dropzone()->file()->wrapper(
             $this->language->txt('upload_files'),
             $post_url,
-            $this->ui->factory()->legacy($this->content ?? ''),
+            $this->ui->factory()->legacy()->content($this->content ?? ''),
             $this->ui->factory()->input()->field()->file(
                 $this->upload_handler,
                 $this->language->txt('upload_files'),
@@ -157,7 +155,7 @@ class ilObjFileUploadDropzone
         return $this->language;
     }
 
-    protected function getRefinery(): \ILIAS\Refinery\Factory
+    protected function getRefinery(): Factory
     {
         return $this->refinery;
     }

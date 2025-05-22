@@ -157,11 +157,6 @@ class ilObjForumListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getCommandFrame(string $cmd): string
-    {
-        return ilFrameTargetInfo::_getFrame('MainContent');
-    }
-
     public function getCommandLink(string $cmd): string
     {
         switch ($cmd) {

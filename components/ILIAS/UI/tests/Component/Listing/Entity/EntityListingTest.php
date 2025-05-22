@@ -40,11 +40,15 @@ class EntityListingTest extends ILIAS_UI_TestBase
     public function getUIFactory(): NoUIFactory
     {
         return new class () extends NoUIFactory {
-            public function listing(): I\Listing\Factory
+            public function listing(): Listing\Factory
             {
-                return new Listing\Factory();
+                return new Listing\Factory(
+                    new Listing\Workflow\Factory(),
+                    new Listing\CharacteristicValue\Factory(),
+                    new Listing\Entity\Factory(),
+                );
             }
-            public function entity(): I\Entity\Factory
+            public function entity(): Entity\Factory
             {
                 return new Entity\Factory();
             }

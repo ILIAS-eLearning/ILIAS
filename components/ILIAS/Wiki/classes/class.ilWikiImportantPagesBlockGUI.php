@@ -106,19 +106,6 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 
         return parent::getHTML();
     }
-
-    public function fillDataSection(): void
-    {
-        $this->setDataSection($this->getLegacyContent());
-    }
-
-    //
-    // New rendering
-    //
-
-    protected bool $new_rendering = true;
-
-
     protected function getLegacyContent(): string
     {
         $ilCtrl = $this->ctrl;

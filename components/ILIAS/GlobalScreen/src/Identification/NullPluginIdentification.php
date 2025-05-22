@@ -26,21 +26,14 @@ namespace ILIAS\GlobalScreen\Identification;
  */
 class NullPluginIdentification implements IdentificationInterface
 {
-    private string $internal_identifier;
-    private string $identification;
-    private string $plugin_id;
-
     /**
      * NullPluginIdentification constructor.
      * @param string $plugin_id
      * @param string $identification
      * @param string $internal_identifier
      */
-    public function __construct(string $plugin_id, string $identification = "", string $internal_identifier = "")
+    public function __construct(private string $plugin_id, private string $identification = "", private string $internal_identifier = "")
     {
-        $this->plugin_id = $plugin_id;
-        $this->identification = $identification;
-        $this->internal_identifier = $internal_identifier;
     }
 
     /**

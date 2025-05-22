@@ -22,7 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
 use ILIAS\UI\Implementation\Component\Input\Container\Container;
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Component\Input\InputData;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Implementation\Component\Input\PostDataFromServerRequest;
 use ILIAS\UI\Implementation\Component\Input\NameSource;

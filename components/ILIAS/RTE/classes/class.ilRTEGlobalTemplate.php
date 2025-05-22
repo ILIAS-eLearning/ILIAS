@@ -191,8 +191,6 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         iljQueryUtil::initjQuery();
         iljQueryUtil::initjQueryUI();
 
-        ilUIFramework::init();
-
         $this->addBlockFile('CONTENT', 'content', 'tpl.adm_content.html');
         $this->addBlockFile('STATUSLINE', 'statusline', 'tpl.statusline.html');
 
@@ -362,7 +360,7 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         return $this->template->parseCurrentBlock($block_name);
     }
 
-    public function addBlockFile(string $var, string $block, string $template_name, string $in_module = null): bool
+    public function addBlockFile(string $var, string $block, string $template_name, ?string $in_module = null): bool
     {
         return $this->template->addBlockFile($var, $block, $template_name, $in_module);
     }

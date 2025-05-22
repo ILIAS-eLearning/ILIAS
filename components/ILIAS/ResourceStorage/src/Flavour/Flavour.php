@@ -19,11 +19,9 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Flavour;
 
-use ILIAS\ResourceStorage\Consumer\StreamAccess\Token;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamResolver;
-use ILIAS\ResourceStorage\Revision\Revision;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -32,15 +30,9 @@ class Flavour
 {
     private array $streams = [];
     private array $stream_resolvers = [];
-    private FlavourDefinition $definition;
-    private ResourceIdentification $resource_id;
-    private int $revision;
 
-    public function __construct(FlavourDefinition $definition, ResourceIdentification $resource_id, int $revision)
+    public function __construct(private FlavourDefinition $definition, private ResourceIdentification $resource_id, private int $revision)
     {
-        $this->definition = $definition;
-        $this->resource_id = $resource_id;
-        $this->revision = $revision;
     }
 
     /**

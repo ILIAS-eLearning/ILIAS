@@ -16,7 +16,9 @@
  *
  *********************************************************************/
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * Cron for booking pools
@@ -24,7 +26,7 @@ use ILIAS\Cron\Schedule\CronJobScheduleType;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilBookingPrefBookCron extends ilCronJob
+class ilBookingPrefBookCron extends CronJob
 {
     protected ilLanguage $lng;
 
@@ -58,9 +60,9 @@ class ilBookingPrefBookCron extends ilCronJob
         return $lng->txt("book_pref_book_cron_info");
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
+        return JobScheduleType::DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -78,17 +80,17 @@ class ilBookingPrefBookCron extends ilCronJob
         return true;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
-        $cron_status = ilCronJobResult::STATUS_NO_ACTION;
+        $cron_status = JobResult::STATUS_NO_ACTION;
         $message = "";
 
         $auto_book = new ilBookingPrefAutoBooking();
         $auto_book->run();
 
-        $cron_status = ilCronJobResult::STATUS_OK;
+        $cron_status = JobResult::STATUS_OK;
 
-        $cron_result = new ilCronJobResult();
+        $cron_result = new JobResult();
         $cron_result->setStatus($cron_status);
 
         return $cron_result;

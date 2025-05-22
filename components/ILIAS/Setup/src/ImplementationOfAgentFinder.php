@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Setup;
 
 use ILIAS\Refinery\Factory as Refinery;
@@ -27,9 +27,6 @@ class ImplementationOfAgentFinder implements AgentFinder
 {
     protected array|AgentCollection $component_agents;
 
-    /**
-     * @var array<string, Agent> $predefined_agents
-     */
     public function __construct(
         protected Refinery $refinery,
         protected Data\Factory $data_factory,
@@ -98,7 +95,7 @@ class ImplementationOfAgentFinder implements AgentFinder
         // TODO: This seems to be something that rather belongs to Services/Component/
         // but we put it here anyway for the moment. This seems to be something that
         // could go away when we unify Services/Modules/Plugins to one common concept.
-        $path = "[/]Customizing/global/plugins/.*/.*/" . $name . "/.*";
+        $path = "[/]public/Customizing/global/plugins/.*/.*/" . $name . "/.*";
         $agent_classes = iterator_to_array($this->interface_finder->getMatchingClassNames(
             Agent::class,
             [],
@@ -163,13 +160,13 @@ class ImplementationOfAgentFinder implements AgentFinder
     {
         $directories =
             new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator(__DIR__ . "/../../../../Customizing/global/plugins/")
+                new \RecursiveDirectoryIterator(__DIR__ . "/../../../../public/Customizing/global/plugins")
             );
         $names = [];
         foreach ($directories as $dir) {
             $groups = [];
-            if (preg_match("%^" . __DIR__ . "/[.][.]/[.][.]/[.][.]/[.][.]/Customizing/global/plugins/((Modules)|(Services))/((\\w+/){2})([^/\.]+)(/|$)%", (string) $dir, $groups)) {
-                $name = $groups[6];
+            if (preg_match("%^" . __DIR__ . "/[.][.]/[.][.]/[.][.]/[.][.]/public/Customizing/global/plugins/(Services|Modules)/((\\w+/){2})([^/\.]+)(/|$)%", (string) $dir, $groups)) {
+                $name = $groups[4];
                 if (isset($names[$name])) {
                     continue;
                 }

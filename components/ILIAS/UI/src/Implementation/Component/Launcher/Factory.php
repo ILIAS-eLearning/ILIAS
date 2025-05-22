@@ -22,7 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Launcher;
 
 use ILIAS\Data\Link;
 use ILIAS\UI\Component\Launcher;
-use ILIAS\UI\Component\Modal;
+use ILIAS\UI\Implementation\Component\Modal;
 
 class Factory implements Launcher\Factory
 {
@@ -33,10 +33,7 @@ class Factory implements Launcher\Factory
         $this->modal_factory = $modal_factory;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function inline(Link $target): Launcher\Inline
+    public function inline(Link $target): Inline
     {
         return new Inline($this->modal_factory, $target);
     }

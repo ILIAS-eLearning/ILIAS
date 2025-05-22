@@ -208,8 +208,9 @@ EOT;
     }
 
     public function getDefaultRenderer(
-        JavaScriptBinding $js_binding = null,
-        array $with_stub_renderings = []
+        ?JavaScriptBinding $js_binding = null,
+        array $with_stub_renderings = [],
+        array $with_additional_contexts = [],
     ): TestDefaultRenderer {
         return parent::getDefaultRenderer(new class () implements JavaScriptBinding {
             public function createId(): string
@@ -240,7 +241,7 @@ EOT;
                 $this->sig_gen = new SignalGenerator();
             }
 
-            public function symbol(): ILIAS\UI\Component\Symbol\Factory
+            public function symbol(): ILIAS\UI\Implementation\Component\Symbol\Factory
             {
                 return new Factory(
                     new \ILIAS\UI\Implementation\Component\Symbol\Icon\Factory(),
@@ -249,7 +250,7 @@ EOT;
                 );
             }
 
-            public function mainControls(): \ILIAS\UI\Component\MainControls\Factory
+            public function mainControls(): \ILIAS\UI\Implementation\Component\MainControls\Factory
             {
                 return new \ILIAS\UI\Implementation\Component\MainControls\Factory(
                     $this->sig_gen,

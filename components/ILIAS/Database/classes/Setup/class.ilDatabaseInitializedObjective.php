@@ -18,9 +18,11 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\UnachievableException;
 
-class ilDatabaseInitializedObjective implements Setup\Objective
+class ilDatabaseInitializedObjective implements Objective
 {
     public function getHash(): string
     {
@@ -40,7 +42,7 @@ class ilDatabaseInitializedObjective implements Setup\Objective
     /**
      * @return array<\ilIniFilesLoadedObjective>|array<\ilDatabaseConfigStoredObjective|\ilDatabasePopulatedObjective>
      */
-    public function getPreconditions(Setup\Environment $environment): array
+    public function getPreconditions(Environment $environment): array
     {
         // If there is no config for the database the existing config seems
         // to be ok, and we can just connect.
@@ -57,13 +59,13 @@ class ilDatabaseInitializedObjective implements Setup\Objective
         ];
     }
 
-    public function achieve(Setup\Environment $environment): Setup\Environment
+    public function achieve(Environment $environment): Environment
     {
-        if ($environment->getResource(Setup\Environment::RESOURCE_DATABASE)) {
+        if ($environment->getResource(Environment::RESOURCE_DATABASE)) {
             return $environment;
         }
 
-        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+        $client_ini = $environment->getResource(Environment::RESOURCE_CLIENT_INI);
 
         $type = $client_ini->readVariable("db", "type");
         if ($type === "") {
@@ -74,19 +76,19 @@ class ilDatabaseInitializedObjective implements Setup\Objective
         $db->initFromIniFile($client_ini);
         $connect = $db->connect(true);
         if (!$connect) {
-            throw new Setup\UnachievableException(
+            throw new UnachievableException(
                 "Database cannot be connected."
             );
         }
 
-        return $environment->withResource(Setup\Environment::RESOURCE_DATABASE, $db);
+        return $environment->withResource(Environment::RESOURCE_DATABASE, $db);
     }
 
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment): bool
+    public function isApplicable(Environment $environment): bool
     {
-        return $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI) !== null;
+        return $environment->getResource(Environment::RESOURCE_CLIENT_INI) !== null;
     }
 }

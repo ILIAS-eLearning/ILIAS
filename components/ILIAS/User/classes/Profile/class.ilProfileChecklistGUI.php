@@ -16,6 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\User\Profile\ChecklistStatus;
+use ILIAS\User\Profile\Mode as ProfileMode;
+
+use ILIAS\Language\Language;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Listing\Workflow\Step;
 
 /**
@@ -23,25 +31,32 @@ use ILIAS\UI\Component\Listing\Workflow\Step;
  */
 class ilProfileChecklistGUI
 {
-    protected \ILIAS\DI\UIServices $ui;
-    protected ilProfileChecklistStatus $status;
-    protected ilLanguage $lng;
+    protected UIFactory $ui_factory;
+    private UIRenderer $ui_renderer;
+    protected ChecklistStatus $status;
+    protected Language $lng;
 
     public function __construct()
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->ui = $DIC->ui();
-        $this->status = new ilProfileChecklistStatus();
-        $this->lng = $DIC->language();
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
+        $this->lng = $DIC['lng'];
+
+        $this->status = new ChecklistStatus(
+            $this->lng,
+            $DIC['ilSetting'],
+            $DIC['ilUser'],
+            new ProfileMode($this->lng, $DIC['ilSetting'], $DIC['ilUser'])
+        );
     }
 
     public function render(int $active_step): string
     {
-        $ui = $this->ui;
-        $lng = $this->lng;
         $active_step_nr = 0;
-        $workflow_factory = $ui->factory()->listing()->workflow();
+        $workflow_factory = $this->ui_factory->listing()->workflow();
         $status = $this->status;
 
         //setup steps
@@ -58,11 +73,11 @@ class ilProfileChecklistGUI
         }
 
         //setup linear workflow
-        $wf = $workflow_factory->linear($lng->txt("user_privacy_checklist"), $steps)
+        $wf = $workflow_factory->linear($this->lng->txt("user_privacy_checklist"), $steps)
             ->withActive($active_step_nr);
 
         //render
-        return $ui->renderer()->render($wf);
+        return $this->ui_renderer->render($wf);
     }
 
     /**
@@ -71,9 +86,9 @@ class ilProfileChecklistGUI
     protected function getUIChecklistStatus(int $check_list_status): int
     {
         switch ($check_list_status) {
-            case ilProfileChecklistStatus::STATUS_NOT_STARTED: return Step::NOT_STARTED;
-            case ilProfileChecklistStatus::STATUS_IN_PROGRESS: return Step::IN_PROGRESS;
-            case ilProfileChecklistStatus::STATUS_SUCCESSFUL: return Step::SUCCESSFULLY;
+            case ChecklistStatus::STATUS_NOT_STARTED: return Step::NOT_STARTED;
+            case ChecklistStatus::STATUS_IN_PROGRESS: return Step::IN_PROGRESS;
+            case ChecklistStatus::STATUS_SUCCESSFUL: return Step::SUCCESSFULLY;
         }
         return 0;
     }

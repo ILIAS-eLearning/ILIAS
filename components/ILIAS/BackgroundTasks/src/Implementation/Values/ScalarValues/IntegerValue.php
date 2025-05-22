@@ -19,10 +19,10 @@
 namespace ILIAS\BackgroundTasks\Implementation\Values\ScalarValues;
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
-use ILIAS\BackgroundTasks\Value;
 
 class IntegerValue extends ScalarValue
 {
+    #[\Override]
     public function setValue($value): void
     {
         if (!is_int($value)) {

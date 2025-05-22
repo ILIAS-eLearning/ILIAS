@@ -1,9 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
-namespace ILIAS\Tagging\Provider;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +15,10 @@ namespace ILIAS\Tagging\Provider;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\Tagging\Provider;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
@@ -60,7 +60,7 @@ class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withContentWrapper(function () {
                     $tag_ui = new \ilTaggingSlateContentGUI();
 
-                    return $this->dic->ui()->factory()->legacy($tag_ui->render());
+                    return $this->dic->ui()->factory()->legacy()->content($tag_ui->render());
                 })
                 ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
                 ->withPosition(20),

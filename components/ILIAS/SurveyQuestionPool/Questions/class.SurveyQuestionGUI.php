@@ -230,23 +230,27 @@ abstract class SurveyQuestionGUI
 
         // title
         $title = new ilTextInputGUI($this->lng->txt("title"), "title");
+        $title->setMaxLength(200);
         $title->setRequired(true);
         $form->addItem($title);
 
         // label
         $label = new ilTextInputGUI($this->lng->txt("label"), "label");
         $label->setInfo($this->lng->txt("label_info"));
+        $title->setMaxLength(255);
         $label->setRequired(false);
         $form->addItem($label);
 
         // author
         $author = new ilTextInputGUI($this->lng->txt("author"), "author");
         $author->setRequired(true);
+        $title->setMaxLength(100);
         $form->addItem($author);
 
         // description
         $description = new ilTextInputGUI($this->lng->txt("description"), "description");
         $description->setRequired(false);
+        $title->setMaxLength(200);
         $form->addItem($description);
 
         // questiontext
@@ -256,11 +260,7 @@ abstract class SurveyQuestionGUI
         $question->setCols(80);
         if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
             $question->setUseRte(true);
-            $question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-            $question->addPlugin("latex");
-            $question->addButton("latex");
-            $question->addButton("pastelatex");
-            $question->setRTESupport($this->object->getId(), "spl", "survey");
+            $question->setRteTagSet("mini");
         }
         $form->addItem($question);
 
@@ -296,7 +296,7 @@ abstract class SurveyQuestionGUI
         }
     }
 
-    protected function editQuestion(ilPropertyFormGUI $a_form = null): void
+    protected function editQuestion(?ilPropertyFormGUI $a_form = null): void
     {
         $ilTabs = $this->tabs;
 
@@ -607,7 +607,7 @@ abstract class SurveyQuestionGUI
         $r = $this->gui->ui()->renderer();
         $p = $f->panel()->standard(
             "",
-            $f->legacy($tpl->get())
+            $f->legacy()->content($tpl->get())
         );
 
         $this->tpl->setContent($r->render($p));
@@ -619,11 +619,11 @@ abstract class SurveyQuestionGUI
     //
 
     abstract public function getWorkingForm(
-        array $working_data = null,
+        ?array $working_data = null,
         int $question_title = 1,
         bool $show_questiontext = true,
         string $error_message = "",
-        int $survey_id = null,
+        ?int $survey_id = null,
         bool $compress_view = false
     ): string;
 
@@ -631,7 +631,7 @@ abstract class SurveyQuestionGUI
     protected function renderStatisticsDetailsTable(
         array $a_head,
         array $a_rows,
-        array $a_foot = null
+        ?array $a_foot = null
     ): string {
         $html = array();
         $html[] = '<div class="ilTableOuter table-responsive">';

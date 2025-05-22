@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=0);
+
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpService;
 
@@ -409,22 +411,11 @@ class ilLPTableBaseGUI extends ilTable2GUI
         if ($this->filter["hide"]) {
             // create options from current value
             $types = $this->getCurrentFilter(true);
-            $type = $types["type"];
-            $options = array();
-            if ($type == 'lres') {
-                $type = array('lm', 'sahs', 'htlm');
-            } else {
-                $type = array($type);
-            }
+            $options = [];
             foreach ($this->filter["hide"] as $obj_id) {
-                if (in_array(
-                    $this->ilObjDataCache->lookupType((int) $obj_id),
-                    $type
-                )) {
-                    $options[$obj_id] = $this->ilObjDataCache->lookupTitle(
-                        (int) $obj_id
-                    );
-                }
+                $options[$obj_id] = $this->ilObjDataCache->lookupTitle(
+                    (int) $obj_id
+                );
             }
             $msi->setOptions($options);
         }
@@ -756,19 +747,21 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $mode = $olp->getCurrentMode();
         if (in_array(
             $mode,
-            array(ilLPObjSettings::LP_MODE_TLT,
-                         ilLPObjSettings::LP_MODE_VISITS,
-                         ilLPObjSettings::LP_MODE_SCORM,
-                         ilLPObjSettings::LP_MODE_LTI_OUTCOME,
-                         ilLPObjSettings::LP_MODE_CMIX_COMPLETED,
-                         ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED,
-                         ilLPObjSettings::LP_MODE_CMIX_PASSED,
-                         ilLPObjSettings::LP_MODE_CMIX_PASSED_WITH_FAILED,
-                         ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED,
-                         ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED,
-                         ilLPObjSettings::LP_MODE_VISITED_PAGES,
-                         ilLPObjSettings::LP_MODE_TEST_PASSED
-        )
+            [
+                ilLPObjSettings::LP_MODE_TLT,
+                ilLPObjSettings::LP_MODE_VISITS,
+                ilLPObjSettings::LP_MODE_SCORM,
+                ilLPObjSettings::LP_MODE_LTI_OUTCOME,
+                ilLPObjSettings::LP_MODE_CMIX_COMPLETED,
+                ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED,
+                ilLPObjSettings::LP_MODE_CMIX_PASSED,
+                ilLPObjSettings::LP_MODE_CMIX_PASSED_WITH_FAILED,
+                ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED,
+                ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED,
+                ilLPObjSettings::LP_MODE_VISITED_PAGES,
+                ilLPObjSettings::LP_MODE_TEST_PASSED,
+                ilLPObjSettings::LP_MODE_COLLECTION
+            ]
         )) {
             return true;
         }
@@ -1132,19 +1125,19 @@ class ilLPTableBaseGUI extends ilTable2GUI
             ($a_in_course || $a_in_group)) {
             // only show if export permission is granted
             if (ilPrivacySettings::getInstance()->checkExportAccess(
-                $this->ref_id
+                $a_in_group === 0 ? $a_in_course : $a_in_group
             )) {
                 // other user profile fields
                 foreach ($ufs as $f => $fd) {
                     if (!isset($cols[$f]) && $f != "username" && !($fd["lists_hide"] ?? false)) {
                         if ($a_in_course &&
-                            !(!($fd["course_export_fix_value"] ?? false) || $this->setting->get(
+                            !(($fd["course_export_fix_value"] ?? false) || $this->setting->get(
                                 "usr_settings_course_export_" . $f
                             ))) {
                             continue;
                         }
                         if ($a_in_group &&
-                            !(!($fd["group_export_fix_value"] ?? false) || $this->setting->get(
+                            !(($fd["group_export_fix_value"] ?? false) || $this->setting->get(
                                 "usr_settings_group_export_" . $f
                             ))) {
                             continue;

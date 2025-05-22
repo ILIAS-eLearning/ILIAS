@@ -18,11 +18,13 @@
 
 declare(strict_types=1);
 
-use ILIAS\components\Test\AccessFileUploadAnswer;
-use ILIAS\Modules\Test\AccessFileUploadPreview;
-use ILIAS\components\Test\AccessQuestionImage;
-use ILIAS\components\Test\SimpleAccess;
-use ILIAS\components\Test\Readable;
+use ILIAS\Test\Access\AccessFileUploadAnswer;
+use ILIAS\Test\Access\AccessFileUploadPreview;
+use ILIAS\Test\Access\AccessQuestionImage;
+use ILIAS\Test\Access\SimpleAccess;
+use ILIAS\Test\Access\Readable;
+use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
+use ILIAS\Test\Settings\ScoreReporting\ScoreReportingTypes;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Error;
 
@@ -45,6 +47,9 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     private ilLanguage $lng;
     private ilRbacSystem $rbac_system;
     private ilAccessHandler $access;
+
+    private static ?ilCertificateObjectsForUserPreloader $certificate_preloader = null;
+    private static array $settings_result_summaries_by_obj_id = [];
 
     public function __construct()
     {
@@ -85,7 +90,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     * Please do not check any preconditions handled by
     * ilConditionHandler here.
     */
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, int $user_id = null): bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         if (is_null($user_id)) {
             $user_id = $this->user->getId();
@@ -106,7 +111,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         }
 
         switch ($cmd) {
-            case "eval_a":
             case "eval_stat":
                 if (!ilObjTestAccess::_lookupCreationComplete($obj_id)) {
                     $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $this->lng->txt("tst_warning_test_not_complete"));
@@ -364,12 +368,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 
         $commands = [
             ["permission" => "write", "cmd" => "questionsTabGateway", "lang_var" => "tst_edit_questions"],
-            ["permission" => "write", "cmd" => "ilObjTestSettingsMainGUI::showForm", "lang_var" => "settings"],
-            ["permission" => "read", "cmd" => "testScreen", "lang_var" => "tst_run", "default" => true],
-            ["permission" => "tst_statistics", "cmd" => "outEvaluation", "lang_var" => "tst_statistical_evaluation"],
-            ["permission" => "read", "cmd" => "userResultsGateway", "lang_var" => "tst_user_results"],
-            ["permission" => "write", "cmd" => "testResultsGateway", "lang_var" => "results"],
-            ["permission" => "eval_a", "cmd" => "testResultsGateway", "lang_var" => "results"]
+            ["permission" => "write", "cmd" => "ILIAS\Test\Settings\MainSettings\SettingsMainGUI::showForm", "lang_var" => "settings"],
+            ["permission" => "read", "cmd" => "ILIAS\Test\Presentation\TestScreenGUI::testScreen", "lang_var" => "tst_run", "default" => true]
         ];
 
         return $commands;
@@ -535,25 +535,28 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $ilDB = $DIC['ilDB'];
 
         $result_active = $ilDB->queryF(
-            "SELECT * FROM tst_active WHERE active_id = %s",
-            ["integer"],
+            'SELECT * FROM tst_active WHERE active_id = %s',
+            ['integer'],
             [$active_id]
         );
         $row_active = $ilDB->fetchAssoc($result_active);
+        $importname = $row_active['importname'];
 
-        if ($row_active["user_fi"] === ANONYMOUS_USER_ID) {
+        if ($importname !== null
+            && $importname !== '') {
+            return $importname . ' (' . $lng->txt('imported') . ')';
+        }
+
+        if ($row_active['user_fi'] === ANONYMOUS_USER_ID) {
             return '';
         }
 
-        $uname = ilObjUser::_lookupName($row_active["user_fi"]);
-
-        $test_id = $row_active["test_fi"];
-        $importname = $row_active['importname'];
+        $uname = ilObjUser::_lookupName($row_active['user_fi']);
 
         $result_test = $ilDB->queryF(
             "SELECT obj_fi FROM tst_tests WHERE test_id = %s",
             ["integer"],
-            [$test_id]
+            [$row_active['test_fi']]
         );
         $row_test = $ilDB->fetchAssoc($result_test);
         $obj_id = $row_test["obj_fi"];
@@ -562,16 +565,11 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             return $lng->txt("anonymous");
         }
 
-        if ($importname !== null
-            && $importname !== '') {
-            return $importname . ' (' . $lng->txt('imported') . ')';
+        if ($uname['firstname'] . $uname['lastname'] === '') {
+            return $lng->txt('deleted_user');
         }
 
-        if (strlen($uname["firstname"] . $uname["lastname"]) === 0) {
-            return $lng->txt("deleted_user");
-        }
-
-        return trim($uname["lastname"] . ", " . $uname["firstname"]);
+        return trim($uname['lastname'] . ', ' . $uname['firstname']);
     }
 
     /**
@@ -583,16 +581,15 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     public static function _getParticipantId($active_id): int
     {
         global $DIC;
-        $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
 
         $result = $ilDB->queryF(
-            "SELECT user_fi FROM tst_active WHERE active_id = %s",
-            ["integer"],
+            'SELECT user_fi FROM tst_active WHERE active_id = %s',
+            ['integer'],
             [$active_id]
         );
         $row = $ilDB->fetchAssoc($result);
-        return $row["user_fi"];
+        return $row['user_fi'];
     }
 
 
@@ -727,5 +724,39 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $test_session = $test_session_factory->getSessionByUserId($user_id);
 
         return $test_obj->canShowTestResults($test_session);
+    }
+
+    public static function _preloadData($obj_ids, $ref_ids): void
+    {
+        global $DIC;
+        if ((new ilCertificateActiveValidator())->validate()) {
+            self::$certificate_preloader = new ilCertificateObjectsForUserPreloader(new ilUserCertificateRepository());
+            self::$certificate_preloader->preLoad($DIC['ilUser']->getId(), $obj_ids);
+            self::$settings_result_summaries_by_obj_id = (new ScoreSettingsDatabaseRepository($DIC['ilDB']))
+                ->getSettingsResultSummaryByObjIds($obj_ids);
+        }
+    }
+
+    public function showCertificateFor(int $user_id, int $obj_id): bool
+    {
+        if (self::$certificate_preloader === null
+            || !self::$certificate_preloader->isPreloaded($user_id, $obj_id)
+            || !isset(self::$settings_result_summaries_by_obj_id[$obj_id])
+            || self::$settings_result_summaries_by_obj_id[$obj_id]->getScoreReporting()
+                === ScoreReportingTypes::SCORE_REPORTING_DISABLED) {
+            return false;
+        }
+
+        $score_reporting = self::$settings_result_summaries_by_obj_id[$obj_id]->getScoreReporting();
+        if ($score_reporting === ScoreReportingTypes::SCORE_REPORTING_IMMIDIATLY) {
+            return true;
+        }
+
+        if ($score_reporting === ScoreReportingTypes::SCORE_REPORTING_DATE
+            && self::$settings_result_summaries_by_obj_id->getReportingDate() < new \DateTimeImmutable('now', new DateTimeZone('UTC'))) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -101,7 +101,7 @@ $info->enableBookingInfo(true);
 
 A booking pool is the main entity for managing booking objects (resources) and their usage (reservations).
 
-* **Code**: `Modules/BookingManager`
+* **Code**: `components/ILIAS/BookingManager`
 * **DB Tables**: `booking_settings`
 
 #### Properties
@@ -118,7 +118,7 @@ A booking pool is the main entity for managing booking objects (resources) and t
 
 ### Schedules
 
-* **Code**: `Modules/BookingManager/Schedule`
+* **Code**: `components/ILIAS/BookingManager/Schedule`
 * **DB Tables**: `booking_schedule`, `booking_schedule_slot`
 
 #### Properties
@@ -127,7 +127,7 @@ A booking pool is the main entity for managing booking objects (resources) and t
 
 ### Booking Objects
 
-* **Code**: `Modules/BookingManager/Objects`
+* **Code**: `components/ILIAS/BookingManager/Objects`
 * **DB Tables**: `booking_objects`
 
 #### Properties
@@ -146,7 +146,7 @@ A booking pool is the main entity for managing booking objects (resources) and t
 
 ### Reservations
 
-* **Code**: `Modules/BookingManager/Reservations`
+* **Code**: `components/ILIAS/BookingManager/Reservations`
 * **DB Tables**: `booking_reservation`
 
 #### Properties
@@ -161,7 +161,7 @@ A booking pool is the main entity for managing booking objects (resources) and t
 
 ### Participants
 
-* **Code**: `Modules/BookingManager/Participants`
+* **Code**: `components/ILIAS/BookingManager/Participants`
 * **DB Tables**: `booking_member`
 
 #### Properties

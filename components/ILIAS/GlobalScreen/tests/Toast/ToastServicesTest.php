@@ -17,6 +17,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Scope\Toast\ToastServices;
 use PHPUnit\Framework\TestCase;
 use ILIAS\GlobalScreen\Scope\Toast\Factory\ToastFactory;
@@ -27,7 +28,7 @@ class ToastServicesTest extends TestCase
 {
     public function testFactory(): void
     {
-        $ui_mock = $this->createMock(\ILIAS\DI\UIServices::class);
+        $ui_mock = $this->createMock(UIServices::class);
 
         $services = new ToastServices($ui_mock);
         $this->assertInstanceOf(ToastFactory::class, $services->factory());

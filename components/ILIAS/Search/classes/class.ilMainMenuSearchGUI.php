@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -106,21 +106,13 @@ class ilMainMenuSearchGUI
         }
         $this->tpl->setVariable(
             'FORMACTION',
-            $this->ctrl->getFormActionByClass(
-                ilSearchControllerGUI::class,
-                'remoteSearch'
-            )
+            $this->buildSearchLink('remoteSearch', false)
         );
         $this->tpl->setVariable('BTN_SEARCH', $this->lng->txt('search'));
         $this->tpl->setVariable('SEARCH_INPUT_LABEL', $this->lng->txt('search_field'));
         $this->tpl->setVariable(
             'AC_DATASOURCE',
-            $this->ctrl->getLinkTargetByClass(
-                ilSearchControllerGUI::class,
-                'autoComplete',
-                null,
-                true
-            )
+            $this->buildSearchLink('autoComplete', true)
         );
 
         $this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(
@@ -131,19 +123,39 @@ class ilMainMenuSearchGUI
         if ($this->user->getId() != ANONYMOUS_USER_ID) {
             $this->tpl->setVariable(
                 'HREF_SEARCH_LINK',
-                'ilias.php?baseClass=' . ilSearchControllerGUI::class
+                $this->buildSearchLink('', false)
             );
             $this->tpl->setVariable('TXT_SEARCH_LINK', $this->lng->txt("last_search_result"));
         }
-        // #10555 - we need the overlay for the autocomplete which is always active
         $this->tpl->setVariable('TXT_SEARCH', $this->lng->txt("search"));
-        $ov = new ilOverlayGUI("mm_search_menu");
-        //$ov->setTrigger("main_menu_search", "none",
-        //	"main_menu_search", "tr", "br");
-        //$ov->setAnchor("main_menu_search", "tr", "br");
-        $ov->setAutoHide(false);
-        $ov->add();
 
         return $this->tpl->get();
+    }
+
+    protected function buildSearchLink(string $cmd, bool $async): string
+    {
+        if (ilSearchSettings::getInstance()->enabledLucene()) {
+            $default = strtolower(ilLuceneSearchGUI::class);
+        } else {
+            $default = strtolower(ilSearchGUI::class);
+        }
+
+        $root_id = 0;
+        if ($this->http->wrapper()->post()->has('root_id')) {
+            $root_id = $this->http->wrapper()->post()->retrieve(
+                'root_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ($root_id == ilSearchControllerGUI::TYPE_USER_SEARCH) {
+            $default = strtolower(ilLuceneUserSearchGUI::class);
+        }
+
+        return $this->ctrl->getLinkTargetByClass(
+            [strtolower(ilSearchControllerGUI::class), $default],
+            $cmd,
+            null,
+            $async
+        );
     }
 }

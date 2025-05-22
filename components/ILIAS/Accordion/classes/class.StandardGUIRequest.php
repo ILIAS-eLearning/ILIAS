@@ -48,9 +48,9 @@ class StandardGUIRequest
         return $this->str("accordion_id");
     }
 
-    public function getTabNr(): int
+    public function getTabNr(): string
     {
-        return $this->int("tab_nr");
+        return $this->str("tab_nr");
     }
 
     public function getUserId(): int

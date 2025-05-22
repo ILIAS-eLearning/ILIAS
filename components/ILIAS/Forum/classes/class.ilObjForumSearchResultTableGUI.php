@@ -39,7 +39,6 @@ class ilObjForumSearchResultTableGUI extends ilRepositoryObjectSearchResultTable
             $DIC->ctrl()->setParameterByClass(ilObjForumGUI::class, 'thr_pk', $result_set['item_id']);
             $row['link'] = $DIC->ctrl()->getLinkTargetByClass(ilObjForumGUI::class, 'viewThread');
 
-            $row['relevance'] = (float) ($result_set['relevance'] ?? 0.0);
             $row['content'] = (string) ($result_set['content'] ?? '');
 
             $rows[] = $row;
@@ -52,10 +51,6 @@ class ilObjForumSearchResultTableGUI extends ilRepositoryObjectSearchResultTable
     {
         $this->tpl->setVariable('HREF_ITEM', $a_set['link']);
         $this->tpl->setVariable('TXT_ITEM_TITLE', $a_set['title']);
-
-        if ($this->getSettings()->enabledLucene()) {
-            $this->tpl->setVariable('RELEVANCE', $this->getRelevanceHTML($a_set['relevance']));
-        }
 
         if ($a_set['content'] !== '') {
             $this->tpl->setVariable('HIGHLIGHT_CONTENT', $a_set['content']);

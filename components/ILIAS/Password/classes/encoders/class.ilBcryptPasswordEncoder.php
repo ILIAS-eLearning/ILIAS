@@ -27,10 +27,10 @@ declare(strict_types=1);
 final class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 {
     /** @var int */
-    private const MIN_SALT_SIZE = 16;
+    private const int MIN_SALT_SIZE = 16;
 
     /** @var string */
-    public const SALT_STORAGE_FILENAME = 'pwsalt.txt';
+    public const string SALT_STORAGE_FILENAME = 'pwsalt.txt';
 
     private ?string $client_salt = null;
     private bool $is_security_flaw_ignored = false;
@@ -147,7 +147,7 @@ final class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
         $hashedPassword = hash_hmac(
             'whirlpool',
             str_pad($raw, strlen($raw) * 4, sha1($userSecret), STR_PAD_BOTH),
-            $clientSecret,
+            $clientSecret ?? '',
             true
         );
         $salt = substr(
@@ -187,7 +187,7 @@ final class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
         $hashedPassword = hash_hmac(
             'whirlpool',
             str_pad($raw, strlen($raw) * 4, sha1($salt), STR_PAD_BOTH),
-            $this->client_salt,
+            (string) $this->client_salt,
             true
         );
 

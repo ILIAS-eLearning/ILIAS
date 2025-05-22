@@ -30,7 +30,7 @@ use ILIAS\BackgroundTasks\Value;
 class ConcatenationJob extends AbstractJob
 {
     /**
-     * @param \ILIAS\BackgroundTasks\Value[] $input
+     * @param Value[] $input
      * @param Observer                       $observer Notify the bucket about your progress!
      */
     public function run(array $input, Observer $observer): Value
@@ -39,7 +39,7 @@ class ConcatenationJob extends AbstractJob
         $list = $input[0]->getList();
         /** @var ScalarValue[] $values */
         $values = array_map(
-            fn ($a) => $a->getValue(),
+            fn($a) => $a->getValue(),
             $list
         );
 

@@ -136,10 +136,10 @@ class ilLMPagesTableGUI extends ilTable2GUI
         // check whether page is header or footer
         $add_str = "";
         if ($a_set["obj_id"] == $this->lm->getHeaderPage()) {
-            $add_str = " <b>(" . $lng->txt("cont_header") . ")</b>";
+            $add_str = " <strong>(" . $lng->txt("cont_header") . ")</strong>";
         }
         if ($a_set["obj_id"] == $this->lm->getFooterPage()) {
-            $add_str .= " <b>(" . $lng->txt("cont_footer") . ")</b>";
+            $add_str .= " <strong>(" . $lng->txt("cont_footer") . ")</strong>";
         }
 
         $this->tpl->setVariable("USAGE", $path_str . $add_str);

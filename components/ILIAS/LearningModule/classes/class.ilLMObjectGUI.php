@@ -174,7 +174,7 @@ class ilLMObjectGUI
     /**
      * Confirm deletion screen (delete page or structure objects)
      */
-    public function delete(): void
+    public function delete(array $ids): void
     {
         $this->setTabs();
 
@@ -184,7 +184,7 @@ class ilLMObjectGUI
             true,
             false
         );
-        $cont_obj_gui->delete($this->obj->getId());
+        $cont_obj_gui->delete($ids);
     }
 
     public function setTabs(): void
@@ -192,7 +192,7 @@ class ilLMObjectGUI
     }
 
 
-        /**
+    /**
      * cancel deletion of page/structure objects
      */
     public function cancelDelete(): void

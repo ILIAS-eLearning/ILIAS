@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 
 /**
  * Model of calendar entry recurrcences
@@ -204,7 +203,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         return is_object($this->freq_until_date) ? $this->freq_until_date : null;
     }
 
-    public function setFrequenceUntilDate(ilDateTime $a_date = null): void
+    public function setFrequenceUntilDate(?ilDateTime $a_date = null): void
     {
         $this->freq_until_date = $a_date;
     }

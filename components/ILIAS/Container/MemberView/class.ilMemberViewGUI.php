@@ -43,27 +43,11 @@ class ilMemberViewGUI
             !$tree->checkForParentType($a_ref_id, 'grp')) {
             return false;
         }
-
         // TODO: check edit_permission
 
         $type = ilObject::_lookupType(ilObject::_lookupObjId($a_ref_id));
-
-        $isCourseOrGroupContentTab =
-            (
-                $ilCtrl->getCmd() === 'view' &&
-                ($type === 'crs' || $type === 'grp')
-            ) || (
-                $ilCtrl->getCmd() === '' &&
-                $type === 'crs' &&
-                strtolower($ilCtrl->getCmdClass()) === 'ilobjcoursegui'
-            ) || (
-                $ilCtrl->getCmd() === '' &&
-                $type === 'grp' &&
-                strtolower($ilCtrl->getCmdClass()) === 'ilobjgroupgui'
-            );
-
         if (
-            $isCourseOrGroupContentTab &&
+            in_array($type, ["crs", "grp"]) &&
             $ilAccess->checkAccess('write', '', $a_ref_id)
         ) {
             $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_ref_id);

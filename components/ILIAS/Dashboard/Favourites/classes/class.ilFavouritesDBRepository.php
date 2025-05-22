@@ -23,14 +23,14 @@ declare(strict_types=1);
  */
 class ilFavouritesDBRepository
 {
-    /** @var array<string, bool> */
+    /** @var array<bool> */
     public static array $is_desktop_item = [];
     protected ilDBInterface $db;
     protected ilTree $tree;
 
     public function __construct(
-        ilDBInterface $db = null,
-        ilTree $tree = null
+        ?ilDBInterface $db = null,
+        ?ilTree $tree = null
     ) {
         global $DIC;
 

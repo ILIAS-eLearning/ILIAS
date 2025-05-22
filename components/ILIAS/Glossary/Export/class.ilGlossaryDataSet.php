@@ -31,6 +31,7 @@ class ilGlossaryDataSet extends ilDataSet
 {
     protected int $old_glo_id;
     protected ilObjGlossary $current_obj;
+    protected array $used_term_ids = [];
     protected ilLogger $log;
 
     public function __construct()
@@ -279,9 +280,9 @@ class ilGlossaryDataSet extends ilDataSet
                 $newObj->setDescription($a_rec["Description"]);
                 $newObj->setVirtualMode($a_rec["Virtual"]);
                 $newObj->setPresentationMode($a_rec["PresMode"]);
-                $newObj->setSnippetLength($a_rec["SnippetLength"]);
-                $newObj->setActiveGlossaryMenu($a_rec["GloMenuActive"]);
-                $newObj->setShowTaxonomy($a_rec["ShowTax"]);
+                $newObj->setSnippetLength((int) ($a_rec["SnippetLength"] ?? 0));
+                $newObj->setActiveGlossaryMenu((bool) ($a_rec["GloMenuActive"] ?? false));
+                $newObj->setShowTaxonomy((bool) ($a_rec["ShowTax"] ?? false));
                 $newObj->setActiveFlashcards((bool) ($a_rec["FlashActive"] ?? false));
                 $newObj->setFlashcardsMode($a_rec["FlashMode"] ?? "");
                 if ($this->getCurrentInstallationId() > 0) {
@@ -292,7 +293,7 @@ class ilGlossaryDataSet extends ilDataSet
                 $this->current_obj = $newObj;
                 $this->old_glo_id = $a_rec["Id"];
                 $a_mapping->addMapping("components/ILIAS/Glossary", "glo", $a_rec["Id"], $newObj->getId());
-                $a_mapping->addMapping("components/ILIAS/Object", "obj", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/ILIASObject", "obj", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping(
                     "components/ILIAS/MetaData",
                     "md",
@@ -309,19 +310,15 @@ class ilGlossaryDataSet extends ilDataSet
                 $term_id = (int) $a_mapping->getMapping("Modules/Glossary", "term", $a_rec["TermId"]);
                 if ($term_id == 0) {
                     $this->log->debug("ERROR: Did not find glossary term glo_term id '" . $a_rec["TermId"] . "' for definition id '" . $a_rec["Id"] . "'.");
-                } else {
+                } elseif (!in_array($term_id, $this->used_term_ids)) {
                     $a_mapping->addMapping(
                         "Services/COPage",
                         "pg",
                         "gdf:" . $a_rec["Id"],
                         "term:" . $term_id
                     );
-                    $a_mapping->addMapping(
-                        "Services/MetaData",
-                        "md",
-                        $this->old_glo_id . ":" . $a_rec["Id"] . ":gdf",
-                        $this->current_obj->getId() . ":" . $term_id . ":term"
-                    );
+                    // use only first definition for term, because multiple definitons are abandoned since ILIAS 9
+                    $this->used_term_ids[] = $term_id;
                 }
                 break;
 

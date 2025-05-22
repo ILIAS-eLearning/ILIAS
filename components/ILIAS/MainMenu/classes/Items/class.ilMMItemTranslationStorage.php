@@ -77,7 +77,7 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
         /**
          * @var $item self
          */
-        if ($item = self::find($key)) {
+        if (($item = self::find($key)) !== null) {
             return $item->getTranslation();
         }
 
@@ -104,7 +104,7 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
         static $default_language;
         global $DIC;
         if (!isset($default_language)) {
-            $default_language = $DIC->language()->getDefaultLanguage() ? $DIC->language()->getDefaultLanguage() : "en";
+            $default_language = $DIC->language()->getDefaultLanguage() ?: "en";
         }
 
         return $default_language;
@@ -117,7 +117,7 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
      * @con_fieldtype  text
      * @con_length     64
      */
-    protected ?string $id;
+    protected ?string $id = null;
     /**
      * @con_has_field  true
      * @con_fieldtype  text

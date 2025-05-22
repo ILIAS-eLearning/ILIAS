@@ -1,8 +1,22 @@
-.il-input-radio {
-	.form-control.il-input-radiooption {
-		height: unset;
-		border: unset;
-		background-color: unset;
-		box-shadow: none;
+@use "../../../050-layout/basics" as l;
+
+.c-field-radio {
+	> .c-field-radio__item {
+		display: flex;
+		flex-wrap: wrap;
+		margin-top: l.$il-margin-large-vertical;
+		&:first-child {
+			margin-top: 0;
+		}
+		> input {
+			margin-right: l.$il-margin-base-horizontal;
+			width: auto;
+		}
+		> label {
+			flex-grow: 1;
+		}
+		> .c-input__help-byline {
+			width: 100%;
+		}
 	}
 }

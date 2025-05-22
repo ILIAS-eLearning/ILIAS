@@ -16,36 +16,37 @@
  *
  *********************************************************************/
 
-use ILIAS\Setup;
+use ILIAS\Setup\Objective\DirectoryCreatedObjective;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\UnachievableException;
 
-class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective\DirectoryCreatedObjective implements Setup\Objective
+class ilFileSystemComponentDataDirectoryCreatedObjective extends DirectoryCreatedObjective implements Objective
 {
     public const DATADIR = 1;
     public const WEBDIR = 2;
 
     protected string $component_dir;
 
-    protected int $base_location;
-
     public function __construct(
         string $component_dir,
-        int $base_location = self::DATADIR
+        protected int $base_location = self::DATADIR
     ) {
         parent::__construct($component_dir);
 
         $this->component_dir = $component_dir;
-        $this->base_location = $base_location;
     }
 
+    #[\Override]
     public function getHash(): string
     {
         return hash("sha256", self::class . "::" . $this->component_dir . $this->base_location);
     }
 
-    protected function buildPath(Setup\Environment $environment): string
+    protected function buildPath(Environment $environment): string
     {
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
-        $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
+        $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
+        $client_id = $environment->getResource(Environment::RESOURCE_CLIENT_ID);
 
         if ($this->base_location === self::DATADIR) {
             $data_dir = $ini->readVariable('clients', 'datadir');
@@ -64,7 +65,8 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
     /**
      * @return \ilFileSystemDirectoriesCreatedObjective[]|\ilIniFilesLoadedObjective[]
      */
-    public function getPreconditions(Setup\Environment $environment): array
+    #[\Override]
+    public function getPreconditions(Environment $environment): array
     {
         // case if it is a fresh ILIAS installation
         if ($environment->hasConfigFor("filesystem")) {
@@ -80,10 +82,11 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
         ];
     }
 
-    public function achieve(Setup\Environment $environment): Setup\Environment
+    #[\Override]
+    public function achieve(Environment $environment): Environment
     {
         if (!$this->checkEnvironment($environment)) {
-            throw new Setup\UnachievableException("Environment is not ready for this objective");
+            throw new UnachievableException("Environment is not ready for this objective");
         }
         $this->path = $this->buildPath($environment);
         return parent::achieve($environment);
@@ -92,7 +95,8 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment): bool
+    #[\Override]
+    public function isApplicable(Environment $environment): bool
     {
         if (!$this->checkEnvironment($environment)) {
             return false;
@@ -101,14 +105,11 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
         return parent::isApplicable($environment);
     }
 
-    private function checkEnvironment(Setup\Environment $environment): bool
+    private function checkEnvironment(Environment $environment): bool
     {
-        if (null === $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI)) {
+        if (null === $environment->getResource(Environment::RESOURCE_ILIAS_INI)) {
             return false;
         }
-        if (null === $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID)) {
-            return false;
-        }
-        return true;
+        return null !== $environment->getResource(Environment::RESOURCE_CLIENT_ID);
     }
 }

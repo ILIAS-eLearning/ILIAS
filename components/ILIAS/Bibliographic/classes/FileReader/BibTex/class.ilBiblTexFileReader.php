@@ -22,7 +22,7 @@
  */
 class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileReaderInterface
 {
-    protected static array $ignored_keywords = array('Preamble');
+    protected static array $ignored_keywords = ['Preamble'];
 
     /**
      * @inheritdoc
@@ -41,7 +41,7 @@ class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
             $objects = array_splice($objects, 2);
         }
         // some files lead to a empty first entry in the array with the fist bib-entry, we have to trow them away...
-        if (strlen($objects[0]) <= 3) {
+        if (strlen((string) $objects[0]) <= 3) {
             $objects = array_splice($objects, 1);
         }
 
@@ -49,10 +49,10 @@ class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
         foreach ($objects as $key => $object) {
             if ((int) $key % 2 == 0 || (int) $key == 0) {
                 $entry = [];
-                $entry['entryType'] = strtolower($object);
+                $entry['entryType'] = strtolower((string) $object);
             } else {
                 // Citation
-                preg_match("/^{(?<cite>.*),\\n/um", $object, $cite_matches);
+                preg_match("/^{(?<cite>.*),\\n/um", (string) $object, $cite_matches);
                 if ($cite_matches['cite'] ?? false) {
                     $entry['cite'] = $cite_matches['cite'];
                 }
@@ -60,7 +60,7 @@ class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
                 // Edit at regex101.com: (?<attr>[\w]*)\s*=\s*[{"]*(?<content>(.*?))\s*[}"]*?\s*[,]*?\s*\n
                 $re = "/(?<attr>[\\w]*)\\s*=\\s*[{\"]*(?<content>(.*?))\\s*[}\"]*?\\s*[,]*?\\s*\\n/";
 
-                preg_match_all($re, $object, $matches, PREG_SET_ORDER);
+                preg_match_all($re, (string) $object, $matches, PREG_SET_ORDER);
 
                 foreach ($matches as $match) {
                     $clean = $match['content'];
@@ -85,21 +85,21 @@ class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
         // remove emty newlines
         $result = preg_replace("/^\n/um", "", $result);
         // Remove lines with only whitespaces
-        $result = preg_replace("/^[\\s]*$/um", "\n", $result);
-        $result = preg_replace("/\\n\\n\\n/um", "\n\n", $result);
+        $result = preg_replace("/^[\\s]*$/um", "\n", (string) $result);
+        $result = preg_replace("/\\n\\n\\n/um", "\n\n", (string) $result);
 
         // remove comments
-        $result = preg_replace("/^%.*\\n/um", "", $result);
+        $result = preg_replace("/^%.*\\n/um", "", (string) $result);
 
         // Intend attributes with a tab
-        $result = preg_replace("/^[ ]+/um", "\t", $result);
-        $result = preg_replace("/^([\\w])/um", "\t$1", $result);
+        $result = preg_replace("/^[ ]+/um", "\t", (string) $result);
+        $result = preg_replace("/^([\\w])/um", "\t$1", (string) $result);
 
         // replace newline-braktes with brakets
-        $result = preg_replace('/\\n}/uimx', '}', $result);
+        $result = preg_replace('/\\n}/uimx', '}', (string) $result);
 
         // move last bracket on newline
-        $result = preg_replace("/}[\\s]*$/um", "\n}", $result);
+        $result = preg_replace("/}[\\s]*$/um", "\n}", (string) $result);
 
         // Support long lines (not working at the moment)
         //		$re = "/(\"[^\"\\n]*)\\r?\\n(?!(([^\"]*\"){2})*[^\"]*$)/";
@@ -178,8 +178,7 @@ class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
     {
         if (substr($s, 0, 3) === chr(hexdec('EF')) . chr(hexdec('BB')) . chr(hexdec('BF'))) {
             return substr($s, 3);
-        } else {
-            return $s;
         }
+        return $s;
     }
 }

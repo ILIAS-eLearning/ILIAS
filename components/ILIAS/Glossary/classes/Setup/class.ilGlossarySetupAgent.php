@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Refinery;
 use ILIAS\Setup;
@@ -39,14 +38,19 @@ final class ilGlossarySetupAgent implements Setup\Agent
         throw new LogicException("ilGlossarySetupAgent has no config.");
     }
 
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
 
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new ilGlossaryDBUpdateSteps());
+        return new Setup\ObjectiveCollection(
+            'Glossary',
+            false,
+            new ilDatabaseUpdateStepsExecutedObjective(new ilGlossaryDBUpdateSteps()),
+            new ilDatabaseUpdateStepsExecutedObjective(new ilGlossaryDBUpdateSteps11())
+        );
     }
 
     public function getBuildObjective(): Setup\Objective
@@ -56,7 +60,12 @@ final class ilGlossarySetupAgent implements Setup\Agent
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilGlossaryDBUpdateSteps());
+        return new Setup\ObjectiveCollection(
+            'Glossary',
+            true,
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilGlossaryDBUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilGlossaryDBUpdateSteps11()),
+        );
     }
 
     public function getMigrations(): array

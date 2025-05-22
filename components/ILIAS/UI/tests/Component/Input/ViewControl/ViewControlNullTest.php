@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Implementation\Component\Input\ViewControl as Control;
 use ILIAS\Data\Result;
-use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Component\Input\InputData;
 
 class ViewControlNullTest extends ViewControlTestBase
 {

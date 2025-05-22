@@ -24,17 +24,25 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Implementation\Component\Input;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Implementation\Component\Prompt\IsPromptContentInternal;
+use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable as JavaScriptBindableTrait;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * This implements a standard form.
  */
-class Standard extends Form implements C\Input\Container\Form\Standard
+class Standard extends Form implements C\Input\Container\Form\Standard, IsPromptContentInternal, JavaScriptBindable
 {
     use HasPostURL;
+    use JavaScriptBindableTrait;
 
     protected ?string $submit_caption = null;
+    protected Signal $submit_signal;
 
     public function __construct(
+        SignalGeneratorInterface $signal_generator,
         FieldFactory $field_factory,
         NameSource $name_source,
         string $post_url,
@@ -42,15 +50,16 @@ class Standard extends Form implements C\Input\Container\Form\Standard
     ) {
         parent::__construct($field_factory, $name_source, $inputs);
         $this->setPostURL($post_url);
+        $this->submit_signal = $signal_generator->create();
     }
 
     /**
      * @inheritDoc
      */
-    public function withSubmitLabel(string $caption): C\Input\Container\Form\Standard
+    public function withSubmitLabel(string $label): C\Input\Container\Form\Standard
     {
         $clone = clone $this;
-        $clone->submit_caption = $caption;
+        $clone->submit_caption = $label;
         return $clone;
     }
 
@@ -60,5 +69,20 @@ class Standard extends Form implements C\Input\Container\Form\Standard
     public function getSubmitLabel(): ?string
     {
         return $this->submit_caption;
+    }
+
+    public function getPromptButtons(): array
+    {
+        return [];
+    }
+
+    public function getPromptTitle(): string
+    {
+        return '';
+    }
+
+    public function getSubmitSignal(): Signal
+    {
+        return $this->submit_signal;
     }
 }

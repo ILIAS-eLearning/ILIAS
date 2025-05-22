@@ -41,19 +41,7 @@ class ilMMSubitemFormGUI
     public const F_ICON = "icon";
     public const F_ROLE_BASED_VISIBILITY = "role_based_visibility";
 
-    private ilMMItemRepository $repository;
-
     private Standard $form;
-
-    protected ilLanguage $lng;
-
-    protected ilCtrl $ctrl;
-
-    protected ILIAS\UI\Factory $ui_fa;
-
-    protected ILIAS\UI\Renderer $ui_re;
-
-    private ilMMItemFacadeInterface $item_facade;
 
     /**
      * ilMMSubitemFormGUI constructor.
@@ -61,23 +49,17 @@ class ilMMSubitemFormGUI
      * @param Factory                 $ui_fa
      * @param Renderer                $ui_re
      * @param ilLanguage              $lng
-     * @param ilMMItemFacadeInterface $item
+     * @param ilMMItemFacadeInterface $item_facade
      * @param ilMMItemRepository      $repository
      */
     public function __construct(
-        ilCtrl $ctrl,
-        Factory $ui_fa,
-        Renderer $ui_re,
-        ilLanguage $lng,
-        ilMMItemFacadeInterface $item,
-        ilMMItemRepository $repository
+        protected ilCtrl $ctrl,
+        protected ILIAS\UI\Factory $ui_fa,
+        protected Renderer $ui_re,
+        protected ilLanguage $lng,
+        private ilMMItemFacadeInterface $item_facade,
+        private ilMMItemRepository $repository
     ) {
-        $this->ctrl = $ctrl;
-        $this->ui_fa = $ui_fa;
-        $this->ui_re = $ui_re;
-        $this->lng = $lng;
-        $this->item_facade = $item;
-        $this->repository = $repository;
         if (!$this->item_facade->isEmpty()) {
             $this->ctrl->saveParameterByClass(ilMMSubItemGUI::class, ilMMAbstractItemGUI::IDENTIFIER);
         }
@@ -88,12 +70,8 @@ class ilMMSubitemFormGUI
     private function initForm(): void
     {
         // TITLE
-        $txt = function ($id): string {
-            return $this->lng->txt($id);
-        };
-        $f = function (): InputFactory {
-            return $this->ui_fa->input();
-        };
+        $txt = (fn($id): string => $this->lng->txt($id));
+        $f = (fn(): InputFactory => $this->ui_fa->input());
 
         $title = $f()->field()->text($txt('sub_title_default'), $txt('sub_title_default_byline'));
         if (!$this->item_facade->isEmpty()) {
@@ -200,7 +178,7 @@ class ilMMSubitemFormGUI
         if ($role_based_visibility) {
             $this->item_facade->setGlobalRoleIDs((array) $role_based_visibility[0]);
         }
-        if ((string) $data[0][self::F_PARENT]) {
+        if ((string) $data[0][self::F_PARENT] !== '' && (string) $data[0][self::F_PARENT] !== '0') {
             $this->item_facade->setParent((string) $data[0][self::F_PARENT]);
         }
         $this->item_facade->setIsTopItm(false);

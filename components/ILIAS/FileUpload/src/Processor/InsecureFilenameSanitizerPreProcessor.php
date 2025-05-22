@@ -35,7 +35,7 @@ final class InsecureFilenameSanitizerPreProcessor extends AbstractRecursiveZipPr
     {
         $path = str_replace('\\', '/', $path);
         $path = preg_replace('/\/+/', '/', $path);
-        $path = trim($path, '/');
+        $path = trim((string) $path, '/');
         $parts = explode('/', $path);
         foreach ($parts as $part) {
             if (in_array($part, $this->prohibited_names)) {

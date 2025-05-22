@@ -24,6 +24,8 @@ declare(strict_types=1);
  */
 class ilForumTopic
 {
+    private static array $possibleOrderDirections = ['ASC', 'DESC'];
+
     private int $forum_id = 0;
     private int $frm_obj_id = 0;
     private int $display_user_id = 0;
@@ -39,12 +41,11 @@ class ilForumTopic
     private bool $is_closed = false;
     private string $orderField = '';
     private ?ilForumPost $last_post = null;
-    private ilDBInterface $db;
+    private readonly ilDBInterface $db;
     private int $thr_author_id = 0;
     private float $average_rating = 0.0;
     private string $orderDirection = 'DESC';
-    protected static array $possibleOrderDirections = ['ASC', 'DESC'];
-    private ilObjUser $user;
+    private readonly ilObjUser $user;
     private int $num_unread_posts = 0;
     private bool $user_notification_enabled = false;
 
@@ -57,7 +58,7 @@ class ilForumTopic
      */
     public function __construct(
         private int $id = 0,
-        private bool $is_moderator = false,
+        private readonly bool $is_moderator = false,
         bool $preventImplicitRead = false
     ) {
         global $DIC;

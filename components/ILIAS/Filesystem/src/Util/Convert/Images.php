@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Filesystem\Util\Convert;
 
 use ILIAS\Filesystem\Stream\FileStream;
-use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -54,7 +53,7 @@ class Images
     public function thumbnail(
         FileStream $stream,
         int $fit_into_size,
-        ImageOutputOptions $image_output_options = null
+        ?ImageOutputOptions $image_output_options = null
     ): ImageConverter {
         return new ImageConverter(
             $this->conversion_options
@@ -73,7 +72,7 @@ class Images
     public function croppedSquare(
         FileStream $stream,
         int $square_size,
-        ImageOutputOptions $image_output_options = null
+        ?ImageOutputOptions $image_output_options = null
     ): ImageConverter {
         return new ImageConverter(
             $this->conversion_options
@@ -94,7 +93,7 @@ class Images
     public function resizeByWidth(
         FileStream $stream,
         int $width,
-        ImageOutputOptions $image_output_options = null
+        ?ImageOutputOptions $image_output_options = null
     ): ImageConverter {
         return new ImageConverter(
             $this->conversion_options
@@ -114,7 +113,7 @@ class Images
     public function resizeByHeight(
         FileStream $stream,
         int $height,
-        ImageOutputOptions $image_output_options = null
+        ?ImageOutputOptions $image_output_options = null
     ): ImageConverter {
         return new ImageConverter(
             $this->conversion_options
@@ -136,7 +135,7 @@ class Images
         int $width,
         int $height,
         bool $crop_or_otherwise_squeeze = true,
-        ImageOutputOptions $image_output_options = null
+        ?ImageOutputOptions $image_output_options = null
     ): ImageConverter {
         return new ImageConverter(
             $this->conversion_options
@@ -161,7 +160,7 @@ class Images
         string $to_format,
         ?int $width = null,
         ?int $height = null,
-        ImageOutputOptions $image_output_options = null
+        ?ImageOutputOptions $image_output_options = null
     ): ImageConverter {
         $conversion_options = $this->conversion_options
             ->withKeepAspectRatio(true)

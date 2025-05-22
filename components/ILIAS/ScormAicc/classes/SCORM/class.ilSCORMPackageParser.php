@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 /**
 * SCORM Package Parser
 *
@@ -64,9 +64,8 @@ class ilSCORMPackageParser extends ilSaxParser
      */
     public function setHandlers($a_xml_parser): void
     {
-        xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
+        xml_set_element_handler($a_xml_parser, $this->handlerBeginTag(...), $this->handlerEndTag(...));
+        xml_set_character_data_handler($a_xml_parser, $this->handlerCharacterData(...));
     }
 
     /**
@@ -221,7 +220,7 @@ class ilSCORMPackageParser extends ilSaxParser
                 $item = new ilSCORMItem();
                 $item->setSLMId($this->slm_object->getId());
                 $item->setImportId($a_attribs["identifier"]);
-                $item->setIdentifierRef($a_attribs["identifierref"]);
+                $item->setIdentifierRef((string) $a_attribs["identifierref"]);
                 if (isset($a_attribs["isvisible"])) {
                     if (strtolower((string) $a_attribs["isvisible"]) !== "false") {
                         $item->setVisible(true);
@@ -264,7 +263,9 @@ class ilSCORMPackageParser extends ilSaxParser
                 if (isset($a_attribs["xml:base"])) {
                     $resource->setXmlBase($a_attribs["xml:base"]);
                 }
-                $resource->setHRef($a_attribs["href"]);
+                if (isset($a_attribs["href"])) {
+                    $resource->setHRef($a_attribs["href"]);
+                }
                 $resource->create();
                 $this->current_resource = &$resource;
                 $this->sc_tree->insertNode($resource->getId(), $this->getCurrentParent());

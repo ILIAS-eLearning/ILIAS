@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 
 /**
  * Booking definition
  * @author  Stefan Meyer <meyer@leifos.com>
- * @ingroup ServicesBooking
  */
 class ilBookingEntry
 {
@@ -35,7 +33,6 @@ class ilBookingEntry
     private int $deadline = 0;
     private int $num_bookings = 1;
     private ?array $target_obj_ids = [];
-    private int $booking_group = 0;
 
     /**
      * Constructor
@@ -50,21 +47,6 @@ class ilBookingEntry
         if ($this->getId()) {
             $this->read();
         }
-    }
-
-    /**
-     * Reset booking group (in case of deletion)
-     */
-    public static function resetGroup(int $a_group_id): bool
-    {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $query = 'UPDATE booking_entry SET booking_group = ' . $ilDB->quote(0, 'integer') . ' ' .
-            'WHERE booking_group = ' . $ilDB->quote($a_group_id, 'integer');
-        $ilDB->manipulate($query);
-        return true;
     }
 
     /**
@@ -102,15 +84,6 @@ class ilBookingEntry
         return $this->id;
     }
 
-    public function setBookingGroup(int $a_id): void
-    {
-        $this->booking_group = $a_id;
-    }
-
-    public function getBookingGroup(): int
-    {
-        return $this->booking_group;
-    }
 
     public function setObjId(int $a_id): void
     {
@@ -175,13 +148,12 @@ class ilBookingEntry
     public function save(): void
     {
         $this->setId($this->db->nextId('booking_entry'));
-        $query = 'INSERT INTO booking_entry (booking_id,obj_id,deadline,num_bookings,booking_group) ' .
+        $query = 'INSERT INTO booking_entry (booking_id,obj_id,deadline,num_bookings) ' .
             "VALUES ( " .
             $this->db->quote($this->getId(), 'integer') . ', ' .
             $this->db->quote($this->getObjId(), 'integer') . ', ' .
             $this->db->quote($this->getDeadlineHours(), 'integer') . ', ' .
-            $this->db->quote($this->getNumberOfBookings(), 'integer') . ',' .
-            $this->db->quote($this->getBookingGroup(), 'integer') . ' ' .
+            $this->db->quote($this->getNumberOfBookings(), 'integer') . ' ' .
             ") ";
         $this->db->manipulate($query);
 
@@ -204,8 +176,7 @@ class ilBookingEntry
         $query = "UPDATE booking_entry SET " .
             " obj_id = " . $this->db->quote($this->getObjId(), 'integer') . ", " .
             " deadline = " . $this->db->quote($this->getDeadlineHours(), 'integer') . ", " .
-            " num_bookings = " . $this->db->quote($this->getNumberOfBookings(), 'integer') . ', ' .
-            'booking_group = ' . $this->db->quote($this->getBookingGroup(), 'integer') . ' ' .
+            " num_bookings = " . $this->db->quote($this->getNumberOfBookings(), 'integer') . ' ' .
             'WHERE booking_id = ' . $this->db->quote($this->getId(), 'integer');
         $this->db->manipulate($query);
 
@@ -247,7 +218,6 @@ class ilBookingEntry
             $this->setObjId((int) $row['obj_id']);
             $this->setDeadlineHours((int) $row['deadline']);
             $this->setNumberOfBookings((int) $row['num_bookings']);
-            $this->setBookingGroup((int) $row['booking_group']);
         }
 
         $query = 'SELECT * FROM booking_obj_assignment ' .
@@ -629,22 +599,6 @@ class ilBookingEntry
         if (ilDateTime::_after($dead_limit, $entry->getStart())) {
             return false;
         }
-
-        // Check group restrictions
-        if (!$this->getBookingGroup()) {
-            return true;
-        }
-        $group_apps = ilConsultationHourAppointments::getAppointmentIdsByGroup(
-            $this->getObjId(),
-            $this->getBookingGroup()
-        );
-
-        // Number of bookings in group
-        $bookings = self::lookupBookingsOfUser($group_apps, $a_user_id);
-
-        if (count($bookings) >= ilConsultationHourGroups::lookupMaxBookings($this->getBookingGroup())) {
-            return false;
-        }
         return true;
     }
 
@@ -661,12 +615,6 @@ class ilBookingEntry
             $this->db->manipulate('INSERT INTO booking_user (entry_id, user_id, tstamp)' .
                 ' VALUES (' . $this->db->quote($a_entry_id, 'integer') . ',' .
                 $this->db->quote($a_user_id, 'integer') . ',' . $this->db->quote(time(), 'integer') . ')');
-
-            $mail = new ilCalendarMailNotification();
-            $mail->setAppointmentId($a_entry_id);
-            $mail->setRecipients(array($a_user_id));
-            $mail->setType(ilCalendarMailNotification::TYPE_BOOKING_CONFIRMATION);
-            $mail->send();
         }
         return true;
     }

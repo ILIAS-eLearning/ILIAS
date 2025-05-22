@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\Token;
 
-use ILIAS\FileDelivery\Token\Compression\GZipCompression;
 use ILIAS\FileDelivery\Delivery\Disposition;
 use ILIAS\Filesystem\Stream\FileStream;
 

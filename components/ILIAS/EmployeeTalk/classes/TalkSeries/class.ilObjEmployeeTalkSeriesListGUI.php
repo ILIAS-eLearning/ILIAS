@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilTalkTemplateListGUI
@@ -48,29 +48,17 @@ final class ilObjEmployeeTalkSeriesListGUI extends ilObjectListGUI
         $this->commands = ilObjEmployeeTalkSeriesAccess::_getCommands();
     }
 
-    /**
-     * no timing commands needed in orgunits.
-     */
     public function insertTimingsCommand(): void
     {
     }
 
-    /**
-     * no social commands needed in orgunits.
-     * @param bool $a_header_actions
-     */
-    public function insertCommonSocialCommands(bool $a_header_actions = false): void
+    public function insertCommonSocialCommands(bool $header_actions = false): void
     {
     }
 
-    /**
-     * @param string $a_cmd
-     *
-     * @return string
-     */
-    public function getCommandLink(string $a_cmd): string
+    public function getCommandLink(string $cmd): string
     {
         $this->ctrl->setParameterByClass(strtolower(ilObjEmployeeTalkSeriesGUI::class), "ref_id", $this->ref_id);
-        return $this->ctrl->getLinkTargetByClass(strtolower(ilObjEmployeeTalkSeriesGUI::class), $a_cmd);
+        return $this->ctrl->getLinkTargetByClass(strtolower(ilObjEmployeeTalkSeriesGUI::class), $cmd);
     }
 }

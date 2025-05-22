@@ -16,9 +16,8 @@
  *
  *********************************************************************/
 
-/**
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- */
+declare(strict_types=1);
+
 class ilObjBadgeAdministrationAccess extends ilObjectAccess
 {
 }

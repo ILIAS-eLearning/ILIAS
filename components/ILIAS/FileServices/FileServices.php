@@ -20,7 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class FileServices implements Component\Component
+use ILIAS\Component\Component;
+use ILIAS\UI\Component\Input\Field\PhpUploadLimit;
+use ILIAS\FileServices\FileServicesLegacyInitialisationAdapter;
+use ILIAS\UI\Component\Input\Field\GlobalUploadLimit;
+use ILIAS\Setup\Agent;
+use ILIAS\Refinery\Factory;
+
+class FileServices implements Component
 {
     public function init(
         array | \ArrayAccess &$define,
@@ -32,9 +39,14 @@ class FileServices implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $implement[PhpUploadLimit::class] = static fn(): FileServicesLegacyInitialisationAdapter =>
+            new FileServicesLegacyInitialisationAdapter();
+        $implement[GlobalUploadLimit::class] = static fn(): FileServicesLegacyInitialisationAdapter =>
+            new FileServicesLegacyInitialisationAdapter();
+
+        $contribute[Agent::class] = static fn(): \ilFileServicesSetupAgent =>
             new \ilFileServicesSetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
+                $pull[Factory::class]
             );
     }
 }

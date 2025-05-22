@@ -28,15 +28,8 @@ use ILIAS\ResourceStorage\Resource\ResourceBuilder;
  */
 class Flavours
 {
-    protected FlavourBuilder $flavour_builder;
-    protected ResourceBuilder $resource_builder;
-
-    public function __construct(
-        FlavourBuilder $flavour_builder,
-        ResourceBuilder $resource_builder
-    ) {
-        $this->flavour_builder = $flavour_builder;
-        $this->resource_builder = $resource_builder;
+    public function __construct(protected FlavourBuilder $flavour_builder, protected ResourceBuilder $resource_builder)
+    {
     }
 
 

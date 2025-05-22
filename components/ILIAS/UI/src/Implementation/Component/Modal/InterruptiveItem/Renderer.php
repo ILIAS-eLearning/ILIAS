@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Modal\InterruptiveItem;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -31,15 +31,12 @@ class Renderer extends AbstractComponentRenderer
         Component $component,
         RendererInterface $default_renderer
     ): string {
-        $this->checkComponent($component);
-
         if ($component instanceof ItemInterface\Standard) {
             return $this->renderStandard($component, $default_renderer);
         } elseif ($component instanceof ItemInterface\KeyValue) {
             return $this->renderKeyValue($component, $default_renderer);
-        } else {
-            return '';
         }
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderStandard(
@@ -75,13 +72,5 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('ITEM_VALUE', $component->getValue());
         $tpl->setVariable('ITEM_ID', $component->getId());
         return $tpl->get();
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            ItemInterface\Standard::class,
-            ItemInterface\KeyValue::class
-        );
     }
 }

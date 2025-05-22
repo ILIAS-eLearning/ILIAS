@@ -73,7 +73,7 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 
             $clone_test_obj->questions[$key] = $question_orig->duplicate(true, '', '', -1, $clone_test_obj->getId());
 
-            $original_id = $this->questioninfo->getOriginalId($question_id);
+            $original_id = $this->questionrepository->getForQuestionId($question_id)->getOriginalId();
 
             $question_clone = assQuestion::instantiateQuestion($clone_test_obj->questions[$key]);
             $question_clone->saveToDb($original_id);
@@ -83,7 +83,7 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
             $original_key = $this->test_obj->getRefId() . '_question_' . $question_id;
             $mapped_key = $clone_test_obj->getRefId() . '_question_' . $clone_test_obj->questions[$key];
             $cwo->appendMapping($original_key, $mapped_key);
-            $this->log->write(__METHOD__ . ": Added question id mapping $original_key <-> $mapped_key");
+            $this->logger->info(__METHOD__ . ": Added question id mapping $original_key <-> $mapped_key");
         }
     }
 

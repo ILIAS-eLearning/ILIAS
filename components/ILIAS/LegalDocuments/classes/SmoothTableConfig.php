@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments;
 
 use ilTable2GUI;
+use Closure;
 
 /**
  * This class takes care of the order in which the methods must be called.
@@ -57,7 +58,7 @@ class SmoothTableConfig implements TableConfig
         $this->target->setDefaultOrderDirection($a_defaultorderdirection);
     }
 
-    public function setSelectableColumns(...$names): void
+    public function setSelectableColumns(string ...$names): void
     {
         $this->target->setSelectableColumns(...$names);
     }

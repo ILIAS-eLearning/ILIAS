@@ -25,8 +25,6 @@ use ILIAS\components\File\Settings\General;
  */
 class ilFileServicesSettings
 {
-    private ilSetting $settings;
-    private ilDBInterface $db;
     private array $white_list_default = [];
     private array $white_list_negative = [];
     private array $white_list_positive = [];
@@ -38,15 +36,12 @@ class ilFileServicesSettings
     protected int $file_admin_ref_id;
 
     public function __construct(
-        ilSetting $settings,
+        private ilSetting $settings,
         ilIniFile $client_ini,
-        ilDBInterface $db
+        private ilDBInterface $db
     ) {
-        $this->db = $db;
-
         $general_settings = new General();
         $this->convert_to_ascii = $general_settings->isDownloadWithAsciiFileName();
-        $this->settings = $settings;
         /** @noRector */
         $this->white_list_default = include __DIR__ . "/../defaults/default_whitelist.php";
         $this->file_admin_ref_id = $this->determineFileAdminRefId();
@@ -66,6 +61,7 @@ class ilFileServicesSettings
     {
         global $DIC;
         return $DIC->isDependencyAvailable('rbac')
+            && isset($DIC["rbacsystem"])
             && $DIC->rbac()->system()->checkAccess(
                 'upload_blacklisted_files',
                 $this->file_admin_ref_id
@@ -128,9 +124,7 @@ class ilFileServicesSettings
 
     private function getCleaner(): Closure
     {
-        return function (string $suffix): string {
-            return trim(strtolower($suffix));
-        };
+        return fn(string $suffix): string => trim(strtolower($suffix));
     }
 
     public function getWhiteListedSuffixes(): array
@@ -146,7 +140,7 @@ class ilFileServicesSettings
     /**
      * @internal
      */
-    public function getDefaultWhitelist()
+    public function getDefaultWhitelist(): array
     {
         return $this->white_list_default;
     }

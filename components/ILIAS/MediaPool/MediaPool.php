@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\MediaPool\Setup\Agent;
+
 class MediaPool implements Component\Component
 {
     public function init(
@@ -32,6 +34,10 @@ class MediaPool implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
+        new Agent(
+            $pull[\ILIAS\Refinery\Factory::class]
+        );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilMediaPool.js");
     }

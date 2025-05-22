@@ -29,13 +29,19 @@ use ILIAS\GlobalScreen\Scope\Toast\Collector\Renderer\ToastRenderer;
  */
 class StandardToastItem implements isStandardItem
 {
+    /**
+     * @var string
+     */
     private const ACTION_SHOWN = 'shown';
+    /**
+     * @var string
+     */
     private const ACTION_CLOSED = 'closed';
+    /**
+     * @var string
+     */
     private const ACTION_VANISHED = 'vanished';
-
-    protected string $title;
     protected ?string $description = null;
-    protected ?Icon $icon = null;
     protected array $additional_actions = [];
 
     /**
@@ -51,22 +57,9 @@ class StandardToastItem implements isStandardItem
      * Callable to be executed, if this specific item has vanished.
      */
     private ?ToastAction $handle_vanished = null;
-    protected IdentificationInterface $provider_identification;
-    protected ToastRenderer $renderer;
 
-    protected ?int $vanish_time = null;
-    protected ?int $delay_time = null;
-
-    public function __construct(
-        IdentificationInterface $provider_identification,
-        ToastRenderer $renderer,
-        string $title,
-        ?Icon $icon = null
-    ) {
-        $this->provider_identification = $provider_identification;
-        $this->renderer = $renderer;
-        $this->title = $title;
-        $this->icon = $icon;
+    public function __construct(protected IdentificationInterface $provider_identification, protected ToastRenderer $renderer, protected string $title, protected ?Icon $icon = null)
+    {
     }
 
     private function packClosure(?\Closure $closure, string $identifier, string $title): ?ToastAction
@@ -110,9 +103,7 @@ class StandardToastItem implements isStandardItem
             );
         }
 
-        $existing = array_map(function (ToastAction $action): string {
-            return $action->getIdentifier();
-        }, $this->additional_actions);
+        $existing = array_map(fn(ToastAction $action): string => $action->getIdentifier(), $this->additional_actions);
 
         if (in_array($action->getIdentifier(), $existing, true)) {
             throw new \InvalidArgumentException(
@@ -132,9 +123,7 @@ class StandardToastItem implements isStandardItem
         $actions[] = $this->handle_closed;
         $actions[] = $this->handle_vanished;
 
-        $actions = array_filter($actions, function (?ToastAction $action): bool {
-            return $action !== null;
-        });
+        $actions = array_filter($actions, fn(?ToastAction $action): bool => $action !== null);
 
         return $actions;
     }
@@ -225,30 +214,6 @@ class StandardToastItem implements isStandardItem
     public function hasVanishedAction(): bool
     {
         return $this->handle_vanished !== null;
-    }
-
-    public function withVanishTime(int $miliseconds): isStandardItem
-    {
-        $clone = clone $this;
-        $clone->vanish_time = $miliseconds;
-        return $clone;
-    }
-
-    public function getVanishTime(): ?int
-    {
-        return $this->vanish_time;
-    }
-
-    public function withDelayTime(int $miliseconds): isStandardItem
-    {
-        $clone = clone $this;
-        $clone->delay_time = $miliseconds;
-        return $clone;
-    }
-
-    public function getDelayTime(): ?int
-    {
-        return $this->delay_time;
     }
 
     final public function getRenderer(): ToastRenderer

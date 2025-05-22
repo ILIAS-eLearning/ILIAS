@@ -63,7 +63,7 @@ class ilStudyProgrammeAppEventListener
                         break;
                 }
                 break;
-            case "components/ILIAS/Object":
+            case "components/ILIAS/ILIASObject":
                 switch ($event) {
                     case "delete":
                     case "toTrash":

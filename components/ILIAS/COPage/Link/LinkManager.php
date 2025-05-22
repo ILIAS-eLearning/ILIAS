@@ -130,7 +130,7 @@ class LinkManager
      */
     public function resolveIntLinks(
         \DOMDocument $dom,
-        array $a_link_map = null
+        ?array $a_link_map = null
     ): bool {
         $changed = false;
         // resolve normal internal links

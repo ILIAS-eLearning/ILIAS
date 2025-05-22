@@ -18,6 +18,7 @@
 
 namespace ILIAS\Filesystem\Util;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Filesystem\Util;
 
@@ -40,9 +41,7 @@ class FilenameSanitizing extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideFilenames
-     */
+    #[DataProvider('provideFilenames')]
     public function testSanitize(string $filename, string $expected): void
     {
         $this->assertEquals($expected, Util::sanitizeFilename($filename));

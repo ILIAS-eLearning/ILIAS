@@ -411,7 +411,7 @@ class ilRegistrationSettingsGUI
         return true;
     }
 
-    public function editEmailAssignments(ilPropertyFormGUI $form = null): void
+    public function editEmailAssignments(?ilPropertyFormGUI $form = null): void
     {
         $this->checkAccess('write');
         $this->tabs->clearTargets();
@@ -468,7 +468,7 @@ class ilRegistrationSettingsGUI
         return $role_assignment_form;
     }
 
-    public function editRoleAccessLimitations(ilPropertyFormGUI $form = null): void
+    public function editRoleAccessLimitations(?ilPropertyFormGUI $form = null): void
     {
         global $DIC;
 
@@ -537,29 +537,66 @@ class ilRegistrationSettingsGUI
         $this->checkAccess('write');
         $this->initRoleAssignments();
         $form = $this->initEmailAssignmentForm();
-        if (!$form->checkInput()) {
-            $form->setValuesByPost();
+        $is_valid = $form->checkInput();
+        $form->setValuesByPost();
+        if (!$is_valid) {
             $this->editEmailAssignments($form);
             return false;
         }
-        $this->assignments_obj->deleteAll();
 
-        $counter = 0;
+        $assignments_by_domain = [];
+        $problems_domains_by_field_id = [];
         foreach ($this->rbacreview->getGlobalRoles() as $role_id) {
             if ($role_id === ANONYMOUS_ROLE_ID) {
                 continue;
             }
-            $domain_input = $form->getInput("domain_$role_id");
+
             $role_assigned_input = $form->getInput("role_assigned_$role_id");
-            if (!empty($role_assigned_input)) {
-                foreach ($domain_input as $domain) {
-                    if (!empty($domain)) {
-                        $this->assignments_obj->setDomain($counter, $domain);
-                        $this->assignments_obj->setRole($counter, $role_id);
-                        $counter++;
-                    }
-                }
+            if (!$role_assigned_input) {
+                continue;
             }
+
+            $domain_input = $form->getInput("domain_$role_id");
+            foreach ($domain_input as $domain) {
+                if (!is_string($domain) || $domain === '') {
+                    continue;
+                }
+
+                if (isset($assignments_by_domain[$domain])) {
+                    if (!isset($problems_domains_by_field_id["role_assigned_$role_id"])) {
+                        $problems_domains_by_field_id["role_assigned_$role_id"] = [];
+                    }
+
+                    $problems_domains_by_field_id["domain_$role_id"][$domain] = $domain;
+                    continue;
+                }
+
+                $assignments_by_domain[$domain] = $role_id;
+            }
+        }
+
+        if ($problems_domains_by_field_id !== []) {
+            foreach ($problems_domains_by_field_id as $field_id => $domains) {
+                $domain_string = implode(', ', $domains);
+                $alert = sprintf($this->lng->txt('reg_domain_already_assigned_p'), $domain_string);
+                if (count($domains) === 1) {
+                    $alert = sprintf($this->lng->txt('reg_domain_already_assigned_s'), $domain_string);
+                }
+                $form->getItemByPostVar($field_id)->setAlert($alert);
+            }
+
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+            $this->editEmailAssignments($form);
+            return false;
+        }
+
+        $this->assignments_obj->deleteAll();
+
+        $counter = 0;
+        foreach ($assignments_by_domain as $domain => $role_id) {
+            $this->assignments_obj->setDomain($counter, $domain);
+            $this->assignments_obj->setRole($counter, $role_id);
+            $counter++;
         }
         $default_role = $form->getInput("default_role");
         $this->assignments_obj->setDefaultRole((int) $default_role);
@@ -914,7 +951,7 @@ class ilRegistrationSettingsGUI
                         $date = serialize([
                             "d" => $date["dd"],
                             "m" => $date["MM"] % 12,
-                            "y" => floor($date["MM"] / 12)
+                            "y" => (int) floor($date["MM"] / 12)
                         ]);
                     }
                     break;
@@ -971,9 +1008,6 @@ class ilRegistrationSettingsGUI
     {
         $this->checkAccess("write");
 
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
         $ids = [];
         if ($this->http->wrapper()->post()->has('id')) {
             $ids = $this->http->wrapper()->post()->retrieve(
@@ -997,7 +1031,7 @@ class ilRegistrationSettingsGUI
 
         $data = ilRegistrationCode::loadCodesByIds($ids);
         foreach ($data as $code) {
-            $gui->addItem("id[]", $code["code_id"], $code["code"]);
+            $gui->addItem("id[]", (string) $code["code_id"], $code["code"]);
         }
         $this->tpl->setContent($gui->getHTML());
     }
@@ -1027,7 +1061,7 @@ class ilRegistrationSettingsGUI
 
         $codes = ilRegistrationCode::getCodesForExport(
             $utab->filter["code"],
-            $utab->filter["role"] ? (int)$utab->filter["role"] : null,
+            $utab->filter["role"] ? (int) $utab->filter["role"] : null,
             $utab->filter["generated"],
             $utab->filter["alimit"]
         );

@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Services as IRSS;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -25,7 +28,6 @@ class ilCertificateTemplatePreviewAction
 {
     private readonly ilObjUser $user;
     private readonly ilCertificateUtilHelper $utilHelper;
-    private readonly ilCertificateMathJaxHelper $mathJaxHelper;
     private readonly ilCertificateUserDefinedFieldsHelper $userDefinedFieldsHelper;
     private readonly ilCertificateRpcClientFactoryHelper $rpcClientFactoryHelper;
     private readonly ilCertificatePdfFileNameFactory $pdfFileNameFactory;
@@ -33,16 +35,15 @@ class ilCertificateTemplatePreviewAction
     public function __construct(
         private readonly ilCertificateTemplateRepository $templateRepository,
         private readonly ilCertificatePlaceholderValues $placeholderValuesObject,
+        private readonly IRSS $irss,
         private readonly string $rootDirectory = CLIENT_WEB_DIR,
         ?ilObjUser $user = null,
         ?ilCertificateUtilHelper $utilHelper = null,
-        ?ilCertificateMathJaxHelper $mathJaxHelper = null,
         ?ilCertificateUserDefinedFieldsHelper $userDefinedFieldsHelper = null,
         ?ilCertificateRpcClientFactoryHelper $rpcClientFactoryHelper = null,
         ?ilCertificatePdfFileNameFactory $pdfFileNameFactory = null
     ) {
         global $DIC;
-
         if (null === $user) {
             $user = $DIC->user();
         }
@@ -52,11 +53,6 @@ class ilCertificateTemplatePreviewAction
             $utilHelper = new ilCertificateUtilHelper();
         }
         $this->utilHelper = $utilHelper;
-
-        if (null === $mathJaxHelper) {
-            $mathJaxHelper = new ilCertificateMathJaxHelper();
-        }
-        $this->mathJaxHelper = $mathJaxHelper;
 
         if (null === $userDefinedFieldsHelper) {
             $userDefinedFieldsHelper = new ilCertificateUserDefinedFieldsHelper();
@@ -85,11 +81,9 @@ class ilCertificateTemplatePreviewAction
 
         $xslfo = $this->exchangeCertificateVariables($xslfo, $template, $objectId);
 
-        // render tex as fo graphics
-        $xlsfo = $this->mathJaxHelper->fillXlsFoContent($xslfo);
-
         $pdf_base64 = $this->rpcClientFactoryHelper
-            ->ilFO2PDF('RPCTransformationHandler', $xlsfo);
+            ->ilFO2PDF('RPCTransformationHandler', $xslfo)
+        ;
 
         $pdfPresentation = new ilUserCertificatePresentation(
             $template->getObjId(),
@@ -108,7 +102,7 @@ class ilCertificateTemplatePreviewAction
 
     /**
      * Exchanges the variables in the certificate text with given values
-     * @param string                $certificate_text The XSL-FO certificate text
+     * @param  string $certificate_text The XSL-FO certificate text
      * @return string XSL-FO code
      */
     private function exchangeCertificateVariables(
@@ -132,11 +126,14 @@ class ilCertificateTemplatePreviewAction
             $certificate_text
         );
 
-        $backgroundImagePath = $template->getBackgroundImagePath();
+        $identification = $this->irss->manage()->find($template->getBackgroundImageIdentification());
+        if ($identification instanceof ResourceIdentification) {
+            $backgroundImagePath = $this->irss->consume()->src($identification)->getSrc(true);
+        }
 
         return str_replace(
             '[BACKGROUND_IMAGE]',
-            'file://' . $this->rootDirectory . $backgroundImagePath,
+            $backgroundImagePath ?? '',
             $certificate_text
         );
     }

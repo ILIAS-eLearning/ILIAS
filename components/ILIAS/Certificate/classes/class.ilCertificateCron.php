@@ -18,15 +18,16 @@
 
 declare(strict_types=1);
 
-use ILIAS\Certificate\ValueObject\CertificateId;
-use ILIAS\Data\UUID\Factory;
 use ILIAS\DI\Container;
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobManager;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateCron extends ilCronJob
+class ilCertificateCron extends CronJob
 {
     protected ?ilLanguage $lng;
     private ?Container $dic;
@@ -41,7 +42,7 @@ class ilCertificateCron extends ilCronJob
         ?ilLanguage $language = null,
         private ?ilCertificateObjectHelper $objectHelper = null,
         private ?ilSetting $settings = null,
-        private ?ilCronManager $cronManager = null,
+        private ?JobManager $cronManager = null,
     ) {
         if (null === $dic) {
             global $DIC;
@@ -109,12 +110,12 @@ class ilCertificateCron extends ilCronJob
         }
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
         $this->init();
 
-        $result = new ilCronJobResult();
-        $result->setStatus(ilCronJobResult::STATUS_NO_ACTION);
+        $result = new JobResult();
+        $result->setStatus(JobResult::STATUS_NO_ACTION);
 
         $currentMode = $this->settings->get('persistent_certificate_mode', 'persistent_certificate_mode_cron');
         if ($currentMode !== 'persistent_certificate_mode_cron') {
@@ -122,6 +123,7 @@ class ilCertificateCron extends ilCronJob
                 'Will not start cron job, because the mode is not set as cron job. Current Mode in settings: "%s"',
                 $currentMode
             ));
+
             return $result;
         }
 
@@ -129,7 +131,7 @@ class ilCertificateCron extends ilCronJob
 
         $entries = $this->queueRepository->getAllEntriesFromQueue();
 
-        $status = ilCronJobResult::STATUS_OK;
+        $status = JobResult::STATUS_OK;
 
         $entryCounter = 0;
         $succeededGenerations = [];
@@ -155,17 +157,20 @@ class ilCertificateCron extends ilCronJob
                 $this->logger->warning('Due the error, the entry will now be removed from the queue.');
 
                 $this->queueRepository->removeFromQueue($entry->getId());
+
                 continue;
             }
         }
 
         $result->setStatus($status);
         if ($succeededGenerations !== []) {
-            $result->setMessage(sprintf(
+            $message = sprintf(
                 'Generated %s certificate(s) in run. Result: %s',
                 count($succeededGenerations),
                 implode(' | ', $succeededGenerations)
-            ));
+            );
+            $this->logger->info($message);
+            $result->setMessage(ilStr::subStr($message, 0, 400));
         } else {
             $result->setMessage('0 certificates generated in current run.');
         }
@@ -188,9 +193,9 @@ class ilCertificateCron extends ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES;
+        return JobScheduleType::IN_MINUTES;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -248,7 +253,7 @@ class ilCertificateCron extends ilCronJob
         $type = $object->getType();
 
         $userObject = $this->objectHelper->getInstanceByObjId($userId, false);
-        if (!($userObject instanceof ilObjUser)) {
+        if (!$userObject instanceof ilObjUser) {
             throw new ilCertificateOwnerNotFound('The given user id"' . $userId . '" could not be referred to an actual user');
         }
 
@@ -273,7 +278,6 @@ class ilCertificateCron extends ilCronJob
             $certificateContent,
         );
 
-        $thumbnailImagePath = $template->getThumbnailImagePath();
         $userCertificate = new ilUserCertificate(
             $template->getId(),
             $objId,
@@ -289,7 +293,9 @@ class ilCertificateCron extends ilCronJob
             true,
             $cert_id,
             $template->getBackgroundImagePath(),
-            $thumbnailImagePath,
+            $template->getTileImagePath(),
+            $template->getBackgroundImageIdentification(),
+            $template->getTileImageIdentification(),
             null,
         );
 

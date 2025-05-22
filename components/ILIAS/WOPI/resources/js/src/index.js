@@ -11,7 +11,7 @@ il.WOPI.bindCloseSignal = function (elementId, signalId) {
   $(`#${elementId}`).on(signalId, (e, options) => { // we need to use jQuery here since signals are working with jQuery
     const targetUrl = options.options.target_url || null;
     if (targetUrl === null) {
-      return true;
+      return false;
     }
 
     this.waitForSave().then(() => {
@@ -73,8 +73,34 @@ il.WOPI.save = function () {
   });
 };
 
+il.WOPI.fillParent = function () {
+  const variant = 'default';
+  if (variant === 'default') {
+    this.windowResize();
+  } else {
+    const parent = document.getElementById('mainspacekeeper');
+
+    // get the width and height of the parent container
+    const rect = parent.getBoundingClientRect();
+    // get the padding of the parent container
+    const computed = window.getComputedStyle(parent, null);
+    // calculate the available width inside the parent container
+
+    const parentWidth = rect.width
+        - parseInt(computed.getPropertyValue('padding-left'), 10)
+        - parseInt(computed.getPropertyValue('padding-right'), 10);
+    // calculate the available height inside the parent container
+    const parentHeight = rect.height
+        - parseInt(computed.getPropertyValue('padding-top'), 10)
+        - parseInt(computed.getPropertyValue('padding-bottom'), 10);
+
+    this.editorFrame.setAttribute('width', parentWidth);
+    this.editorFrame.setAttribute('height', parentHeight);
+  }
+};
+
 il.WOPI.windowResize = function () {
-  const iframeHeight = document.getElementById('mainspacekeeper').clientHeight - 5;
+  const iframeHeight = document.getElementById('mainspacekeeper').clientHeight - this.offset;
   const iframeWidth = this.editorFrame.parentElement.offsetWidth - 0;
 
   this.editorFrame.setAttribute('width', iframeWidth);
@@ -84,17 +110,23 @@ il.WOPI.windowResize = function () {
 il.WOPI.init = function () {
   // BUILD IFRAME
   const frameholder = document.getElementById('c-embedded-wopi');
-  frameholder.parentElement.style.position = 'absolute';
+
+  const inline = frameholder.getAttribute('data-inline') === '1';
+  if (!inline) {
+    frameholder.parentElement.style.position = 'absolute';
+    frameholder.parentElement.style.margin = '0';
+    frameholder.parentElement.style.padding = '0';
+  }
   frameholder.parentElement.style.top = '0';
   frameholder.parentElement.style.left = '0';
   frameholder.parentElement.style.width = '100%';
-  frameholder.parentElement.style.margin = '0';
-  frameholder.parentElement.style.padding = '0';
 
   // read ttl, token and editor URL from data attributes
   const token = frameholder.getAttribute('data-token');
   const editorUrl = frameholder.getAttribute('data-editor-url');
   const ttl = frameholder.getAttribute('data-ttl');
+
+  this.offset = inline ? 150 : 10;
 
   const editorFrame = document.createElement('iframe');
   editorFrame.name = 'editor_frame';
@@ -109,7 +141,8 @@ il.WOPI.init = function () {
   this.editorFrame = editorFrame;
   // eslint-disable-next-line max-len
   this.editorFrameWindow = editorFrame.contentWindow || (editorFrame.contentDocument.document || editorFrame.contentDocument);
-  this.windowResize();
+  this.inline = inline;
+  this.fillParent();
 
   // BUILD FORM
   const form = document.createElement('form');
@@ -167,13 +200,13 @@ il.WOPI.init = function () {
 
   // Add event listener to resize the editor iframe
   document.defaultView.addEventListener('resize', () => {
-    il.WOPI.windowResize(editorFrame);
+    il.WOPI.fillParent();
   });
 
   // resize after some time to make sure the editor is loaded and mainmenu has been collapsed
   setTimeout(
     () => {
-      il.WOPI.windowResize(editorFrame);
+      il.WOPI.fillParent();
     },
     200,
   );

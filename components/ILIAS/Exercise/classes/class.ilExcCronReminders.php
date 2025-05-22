@@ -16,7 +16,9 @@
  *
  *********************************************************************/
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * Cron for exercise reminders
@@ -24,7 +26,7 @@ use ILIAS\Cron\Schedule\CronJobScheduleType;
  * @author Jesús López <lopez@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilExcCronReminders extends ilCronJob
+class ilExcCronReminders extends CronJob
 {
     protected ilLanguage $lng;
 
@@ -58,9 +60,9 @@ class ilExcCronReminders extends ilCronJob
         return $lng->txt("exc_reminders_cron_info");
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
+        return JobScheduleType::DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -81,12 +83,12 @@ class ilExcCronReminders extends ilCronJob
     /**
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
         $log = ilLoggerFactory::getLogger("exc");
         $log->debug("--- Start Exercise Reminders Cron");
 
-        $cron_status = ilCronJobResult::STATUS_NO_ACTION;
+        $cron_status = JobResult::STATUS_NO_ACTION;
         $message = "";
         $reminder = new ilExAssignmentReminder();
         $num_reminders = $reminder->checkReminders();
@@ -94,11 +96,11 @@ class ilExcCronReminders extends ilCronJob
         $this->lng->loadLanguageModule("exc");
 
         if ($num_reminders !== 0) {
-            $cron_status = ilCronJobResult::STATUS_OK;
+            $cron_status = JobResult::STATUS_OK;
             $message = $this->lng->txt('exc_reminder_cron_ok');
         }
 
-        $cron_result = new ilCronJobResult();
+        $cron_result = new JobResult();
         $cron_result->setStatus($cron_status);
 
         if ($message != "") {

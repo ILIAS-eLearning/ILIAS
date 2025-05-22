@@ -18,10 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\Setup\Agent\HasNoNamedObjective;
+use ILIAS\Setup\Metrics\Storage;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Setup\Agent;
 use ILIAS\Setup\Config;
-use ILIAS\Setup\Metrics;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\ObjectiveCollection;
 
@@ -31,7 +32,7 @@ use ILIAS\Setup\ObjectiveCollection;
  */
 class ilResourceStorageSetupAgent implements Agent
 {
-    use Agent\HasNoNamedObjective;
+    use HasNoNamedObjective;
 
     public function hasConfig(): bool
     {
@@ -43,7 +44,7 @@ class ilResourceStorageSetupAgent implements Agent
         throw new \LogicException("Agent has no config.");
     }
 
-    public function getInstallObjective(Config $config = null): Objective
+    public function getInstallObjective(?Config $config = null): Objective
     {
         return new ObjectiveCollection(
             'IRSS Installation',
@@ -55,7 +56,7 @@ class ilResourceStorageSetupAgent implements Agent
         );
     }
 
-    public function getUpdateObjective(Config $config = null): Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
         return new ObjectiveCollection(
             'IRSS Update',
@@ -75,7 +76,7 @@ class ilResourceStorageSetupAgent implements Agent
         return new ilResourceStorageFlavourArtifact();
     }
 
-    public function getStatusObjective(Metrics\Storage $storage): Objective
+    public function getStatusObjective(Storage $storage): Objective
     {
         return new ObjectiveCollection(
             'Component ResourceStorage',

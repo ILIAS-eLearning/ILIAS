@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilDBConstants
@@ -93,7 +93,7 @@ class ilDBConstants
     /**
      * @var string[]
      */
-    protected static array $descriptions = array(
+    protected static array $descriptions = [
         // Main
         ilDBConstants::TYPE_MYSQL => "MySQL 5.7.x or higher with InnoDB-Engine",
         ilDBConstants::TYPE_MYSQLI => "MySQL 5.7.x or higher with InnoDB-Engine",
@@ -101,7 +101,7 @@ class ilDBConstants
         ilDBConstants::TYPE_GALERA => "Galera-Cluster (experimental)",
         // Development identifiers (will be removed in 5.3)
         ilDBConstants::TYPE_PDO_MYSQL_GALERA => "Galera-Cluster (experimental) [developers-identifier]",
-    );
+    ];
 
 
     /**
@@ -109,21 +109,21 @@ class ilDBConstants
      */
     public static function getInstallableTypes(): array
     {
-        return array(
+        return [
             // Main
             ilDBConstants::TYPE_MYSQL,
             ilDBConstants::TYPE_INNODB,
             // Experimental
             ilDBConstants::TYPE_GALERA,
             ilDBConstants::TYPE_GALERA,
-        );
+        ];
     }
 
     public static function getAvailableTypes(bool $with_descriptions = true): array
     {
         $types = self::getSupportedTypes();
         if ($with_descriptions) {
-            $return = array();
+            $return = [];
             foreach ($types as $type) {
                 $return [$type] = self::describe($type);
             }
@@ -136,11 +136,11 @@ class ilDBConstants
 
     public static function getSupportedTypes(): array
     {
-        return array(
+        return [
             ilDBConstants::TYPE_MYSQL,
             ilDBConstants::TYPE_INNODB,
             ilDBConstants::TYPE_GALERA,
-        );
+        ];
     }
 
     /**

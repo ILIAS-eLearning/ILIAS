@@ -18,6 +18,12 @@
 
 namespace ILIAS\Filesystem\Stream;
 
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\BackupStaticProperties;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\Small;
 use ILIAS\Filesystem\Util\PHPStreamFunctions;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -25,12 +31,11 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
  * @author                 Fabian Schmid <fabian@sr.solutions>
- *
- * @runTestsInSeparateProcesses
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
  */
+#[BackupGlobals(false)]
+#[BackupStaticProperties(false)]
+#[PreserveGlobalState(false)]
+#[RunTestsInSeparateProcesses]
 class StreamTest extends TestCase
 {
     /**
@@ -209,10 +214,8 @@ class StreamTest extends TestCase
         $subject->tell();
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testEofWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
@@ -228,10 +231,8 @@ class StreamTest extends TestCase
         $this->assertTrue($endOfFileReached);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testEofWithDetachedStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
@@ -248,10 +249,8 @@ class StreamTest extends TestCase
     }
 
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testSeekWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
@@ -265,10 +264,8 @@ class StreamTest extends TestCase
         $this->assertSame($offset, ftell($resource));
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testSeekWithDetachedStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
@@ -285,10 +282,8 @@ class StreamTest extends TestCase
         $subject->seek($offset);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testSeekWithNotSeekableStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
@@ -309,10 +304,8 @@ class StreamTest extends TestCase
         $subjectMock->seek($offset);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testSeekWithFseekFailureWhichShouldFail(): void
     {
         $content = 'awesome content stream';
@@ -340,10 +333,8 @@ class StreamTest extends TestCase
         $subject->seek($offset);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testReadWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
@@ -358,10 +349,8 @@ class StreamTest extends TestCase
         $this->assertSame($expectedResult, $text);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testReadWithZeroLengthWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
@@ -376,10 +365,8 @@ class StreamTest extends TestCase
         $this->assertSame($expectedResult, $text);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testReadWithDetachedStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
@@ -396,10 +383,8 @@ class StreamTest extends TestCase
         $subject->read($length);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testReadWithNegativeLengthWhichShouldFail(): void
     {
         $content = 'awesome content stream';
@@ -415,10 +400,8 @@ class StreamTest extends TestCase
         $subject->read($length);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testReadWithUnreadableStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
@@ -434,10 +417,8 @@ class StreamTest extends TestCase
         $subject->read($length);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testReadWithFailingFreadCallWhichShouldFail(): void
     {
         $content = 'awesome content stream';
@@ -465,10 +446,8 @@ class StreamTest extends TestCase
         $subject->read($length);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testGetContentsWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
@@ -481,10 +460,8 @@ class StreamTest extends TestCase
         $this->assertSame($content, $text);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testGetContentsWithDetachedStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
@@ -500,10 +477,8 @@ class StreamTest extends TestCase
         $subject->getContents();
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testGetContentsWithFailingStreamGetContentsCallWhichShouldFail(): void
     {
         $content = 'awesome content stream';
@@ -530,10 +505,8 @@ class StreamTest extends TestCase
         $subject->getContents();
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testToStringWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
@@ -546,12 +519,8 @@ class StreamTest extends TestCase
         $this->assertSame($content, $text);
     }
 
-    /**
-     * @Test
-     * @small
-     *
-     * to string must never fail
-     */
+    #[Test]
+
     public function testToStringWithErrorWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
@@ -570,10 +539,8 @@ class StreamTest extends TestCase
         $this->assertSame($expectedResult, $text);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testWriteWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
@@ -593,10 +560,8 @@ class StreamTest extends TestCase
         $this->assertGreaterThan($currentSize, $newSize, 'The new size must be grater than the old size because we wrote to the stream.');
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testWriteWithDetachedStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
@@ -613,10 +578,8 @@ class StreamTest extends TestCase
         $subject->write($newContent);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testWriteWithReadOnlyStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
@@ -632,10 +595,8 @@ class StreamTest extends TestCase
         $subject->write($newContent);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testWriteWithFailingFwriteCallWhichShouldFail(): void
     {
         $content = 'awesome content stream';

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,19 +16,19 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\Layout;
 
 use Closure;
 use ILIAS\GlobalScreen\Scope\Layout\Builder\DecoratedPageBuilder;
 use ILIAS\GlobalScreen\Scope\Layout\Builder\StandardPageBuilder;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\DecoratedPagePartProvider;
-use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\StandardPagePartProvider;
 use ILIAS\GlobalScreen\SingletonTrait;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
-use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Layout\Page\Page;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Content;
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
@@ -43,14 +42,8 @@ class ModificationHandler
 {
     use SingletonTrait;
 
-    /**
-     * @var DecoratedPageBuilder
-     */
-    private $current_page_builder;
-    /**
-     * @var PagePartProvider
-     */
-    private $current_page_part_provider;
+    private StandardPageBuilder|DecoratedPageBuilder $current_page_builder;
+    private StandardPagePartProvider|DecoratedPagePartProvider $current_page_part_provider;
 
     /**
      * LayoutServices constructor.
@@ -84,7 +77,7 @@ class ModificationHandler
      */
     public function modifyContentWithClosure(Closure $closure_returning_content): void
     {
-        $this->replaceWithAutoWiredInstance(Legacy::class, $closure_returning_content);
+        $this->replaceWithAutoWiredInstance(Content::class, $closure_returning_content);
     }
 
     /**
@@ -114,7 +107,7 @@ class ModificationHandler
         $this->replaceWithAutoWiredInstance(DecoratedPagePartProvider::PURPOSE_LOGO, $closure_returning_image);
     }
 
-    public function modifyResponsiveLogoWithClosure(Closure $closure_returning_image)
+    public function modifyResponsiveLogoWithClosure(Closure $closure_returning_image): void
     {
         $this->replaceWithAutoWiredInstance(
             DecoratedPagePartProvider::PURPOSE_RESPONSIVE_LOGO,

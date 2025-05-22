@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\Refinery;
 use ILIAS\Setup;
-use ILIAS\UI;
 use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Chatroom\Setup\UpdateSteps;
 
@@ -28,8 +27,8 @@ class ilChatroomSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    private const PORT_MIN = 1;
-    private const PORT_MAX = 65535;
+    private const int PORT_MIN = 1;
+    private const int PORT_MAX = 65535;
 
     /** @var string[] */
     public static array $LOG_LEVELS = [
@@ -61,7 +60,7 @@ class ilChatroomSetupAgent implements Setup\Agent
         return true;
     }
 
-    public function getConfigInput(Setup\Config $config = null): never
+    public function getConfigInput(?Setup\Config $config = null): never
     {
         throw new LogicException("Not yet implemented.");
     }
@@ -207,7 +206,7 @@ class ilChatroomSetupAgent implements Setup\Agent
         });
     }
 
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
     {
         // null would not be valid here, because this agents strictly wants to have
         // a config.
@@ -218,7 +217,7 @@ class ilChatroomSetupAgent implements Setup\Agent
         return new ilChatroomServerConfigStoredObjective($config);
     }
 
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         $objectives = [
             new ilDatabaseUpdateStepsExecutedObjective(new UpdateSteps())

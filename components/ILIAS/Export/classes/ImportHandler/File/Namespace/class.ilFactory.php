@@ -20,21 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\Namespace;
 
-use ILIAS\Export\ImportHandler\File\Namespace\ilCollection as ilParserNamespaceCollection;
-use ILIAS\Export\ImportHandler\File\Namespace\ilHandler as ilParserNamespaceHandler;
-use ILIAS\Export\ImportHandler\I\File\Namespace\ilCollectionInterface as ilParserNamespaceCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\Namespace\ilFactoryInterface as ilParserNamespaceFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\Namespace\ilHandlerInterface as ilParserNamespaceHandlerInterface;
-
-class ilFactory implements ilParserNamespaceFactoryInterface
+/**
+ * For some reason the github pipeline expects this file.
+ */
+class ilFactory
 {
-    public function handler(): ilParserNamespaceHandlerInterface
-    {
-        return new ilParserNamespaceHandler();
-    }
-
-    public function collection(): ilParserNamespaceCollectionInterface
-    {
-        return new ilParserNamespaceCollection();
-    }
 }

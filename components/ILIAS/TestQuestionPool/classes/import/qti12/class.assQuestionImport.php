@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,8 +16,11 @@
  *
  *********************************************************************/
 
-use ILIAS\TA\Questions\assQuestionSuggestedSolution;
-use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
+use ILIAS\Data\DataSize;
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
 
 /**
 * Class for question imports
@@ -34,6 +38,8 @@ class assQuestionImport
     */
     public $object;
 
+    private Filesystem $filesystem;
+
     /**
     * assQuestionImport constructor
     *
@@ -43,6 +49,10 @@ class assQuestionImport
     public function __construct($a_object)
     {
         $this->object = $a_object;
+
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        $this->filesystem = $DIC['filesystem']->web();
     }
 
     public function getQuestionId(): int
@@ -175,6 +185,7 @@ class assQuestionImport
         int &$question_counter,
         array $import_mapping
     ): array {
+        return [];
     }
 
     /**
@@ -258,28 +269,59 @@ class assQuestionImport
         return $additionalContentEditingMode;
     }
 
-    public function importSuggestedSolution(
+    public function importSuggestedSolutions(
         int $question_id,
-        string $value = "",
-        int $subquestion_index = 0
+        array $solution_from_import
     ): void {
-        $type = $this->findSolutionTypeByValue($value);
-        if (!$type) {
+        if (!$solution_from_import === []
+            || !isset($solution_from_import[0]['solution'])) {
             return;
         }
 
-        $repo = $this->getSuggestedSolutionsRepo();
+        $solution_item = $solution_from_import[0]['solution'];
+        $content = $solution_item->getContent();
+        if ($solution_item->getTexttype() === 'application/json') {
+            $content = json_decode($content, true);
+            if (!isset($content['type']) || !isset($content['value'])) {
+                return;
+            }
+            $type = $content['type'];
+        } else {
+            $type = $this->findSolutionTypeByValue($solution_item->getContent());
+            if ($type === null) {
+                return;
+            }
+        }
 
-        $nu_value = $this->object->resolveInternalLink($value);
-        $solution = $repo->create($question_id, $type)
-            ->withInternalLink($nu_value)
-            ->withImportId($value);
-        $repo->update([$solution]);
+        $repo = $this->getSuggestedSolutionsRepo();
+        $solution_object = $repo->create($question_id, $type);
+
+        if ($type !== SuggestedSolution::TYPE_FILE) {
+            $link = is_string($content) ? $content : $content['value'];
+            $adapted_link = $this->object->resolveInternalLink($link);
+            if ($adapted_link === '') {
+                return;
+            }
+            $solution_object = $solution_object
+                ->withInternalLink($adapted_link)
+                ->withImportId($link);
+        } else {
+            if (!isset($content['title']) || !isset($content['filename'])) {
+                return;
+            }
+            $path = str_replace(CLIENT_WEB_DIR . DIRECTORY_SEPARATOR, '', $this->object->getSuggestedSolutionPath() . $content['filename']);
+            $this->filesystem->put($path, base64_decode($content['value']));
+            $solution_object = $solution_object->withTitle($content['title'])
+                ->withFilename($content['filename'])
+                ->withSize((int) $this->filesystem->getSize($path, DataSize::Byte)->inBytes())
+                ->withMime($this->filesystem->getMimeType($path));
+        }
+        $repo->update([$solution_object]);
     }
 
     protected function findSolutionTypeByValue(string $value): ?string
     {
-        foreach (array_keys(assQuestionSuggestedSolution::TYPES) as $type) {
+        foreach (array_keys(SuggestedSolution::TYPES) as $type) {
             $search_type = '_' . $type . '_';
             if (strpos($value, $search_type) !== false) {
                 return $type;
@@ -289,11 +331,11 @@ class assQuestionImport
     }
 
 
-    protected ?assQuestionSuggestedSolutionsDatabaseRepository $suggestedsolution_repo = null;
-    protected function getSuggestedSolutionsRepo(): assQuestionSuggestedSolutionsDatabaseRepository
+    protected ?SuggestedSolutionsDatabaseRepository $suggestedsolution_repo = null;
+    protected function getSuggestedSolutionsRepo(): SuggestedSolutionsDatabaseRepository
     {
         if (is_null($this->suggestedsolution_repo)) {
-            $dic = ilQuestionPoolDIC::dic();
+            $dic = QuestionPoolDIC::dic();
             $this->suggestedsolution_repo = $dic['question.repo.suggestedsolutions'];
         }
         return $this->suggestedsolution_repo;
@@ -305,24 +347,60 @@ class assQuestionImport
      */
     public function QTIMaterialToString(ilQTIMaterial $a_material): string
     {
-        $result = "";
-        $mobs = [];
+        $result = '';
+        $mobs = ilSession::get('import_mob_xhtml') ?? [];
         for ($i = 0; $i < $a_material->getMaterialCount(); $i++) {
             $material = $a_material->getMaterial($i);
-            if (strcmp($material["type"], "mattext") === 0) {
-                $result .= $material["material"]->getContent();
-            }
-            if (strcmp($material["type"], "matimage") === 0) {
-                $matimage = $material["material"];
-                if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $matimage->getLabel(), $matches)) {
-                    $mobs[] = ["mob" => $matimage->getLabel(),
-                                    "uri" => $matimage->getUri()
-                    ];
-                }
+            switch ($material['type']) {
+                case 'mattext':
+                    $result .= $material['material']->getContent();
+                    break;
+                case 'matimage':
+                    $matimage = $material['material'];
+                    if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $matimage->getLabel(), $matches)) {
+                        $mobs[] = ["mob" => $matimage->getLabel(),
+                                        "uri" => $matimage->getUri()
+                        ];
+                    }
             }
         }
         ilSession::set('import_mob_xhtml', $mobs);
         return $result;
     }
 
+    protected function deduceThumbSizeFromImportValue(?int $size): int
+    {
+        if ($size === null) {
+            return $this->object->getThumbSize();
+        }
+
+        if ($size < $this->object->getMinimumThumbSize()) {
+            return $this->object->getMinimumThumbSize();
+        }
+
+        if ($size > $this->object->getMaximumThumbSize()) {
+            return $this->object->getMaximumThumbSize();
+        }
+
+        return $size;
+    }
+
+    protected function addQuestionToParentObjectAndBuildMappingEntry(
+        int $questionpool_id,
+        ?int $tst_id,
+        int &$question_counter,
+        ?ilObjTest &$tst_object
+    ): array {
+        if ($tst_id !== null && $tst_id === $questionpool_id) {
+            $tst_object->questions[$question_counter++] = $this->object->getId();
+            return ['pool' => 0, 'test' => $this->object->getId()];
+        }
+
+        if ($tst_id > 0) {
+            $question_id = $this->object->duplicate(true, '', '', -1, $tst_id);
+            $tst_object->questions[$question_counter++] = $question_id;
+            return ['pool' => $this->object->getId(), 'test' => $question_id];
+        }
+        return ['pool' => $this->object->getId(), 'test' => 0];
+    }
 }

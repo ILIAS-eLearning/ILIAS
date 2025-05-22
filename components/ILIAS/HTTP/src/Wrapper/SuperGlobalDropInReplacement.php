@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\HTTP\Wrapper;
 
 use ILIAS\Refinery\Factory;
@@ -32,14 +32,12 @@ use OutOfBoundsException;
  */
 class SuperGlobalDropInReplacement extends KeyValueAccess
 {
-    private bool $throwOnValueAssignment;
-
-    public function __construct(Factory $factory, array $raw_values, bool $throwOnValueAssignment = false)
+    public function __construct(Factory $factory, array $raw_values, private bool $throwOnValueAssignment = false)
     {
-        $this->throwOnValueAssignment = $throwOnValueAssignment;
         parent::__construct($raw_values, $factory->kindlyTo()->string());
     }
 
+    #[\Override]
     public function offsetSet(mixed $offset, mixed $value): void
     {
         if ($this->throwOnValueAssignment) {
@@ -49,6 +47,7 @@ class SuperGlobalDropInReplacement extends KeyValueAccess
         parent::offsetSet($offset, $value);
     }
 
+    #[\Override]
     public function offsetUnset(mixed $offset): void
     {
         throw new LogicException("Modifying global Request-Array such as \$_GET is not allowed!");

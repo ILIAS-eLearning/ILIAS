@@ -13,16 +13,19 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
 /**
-* @author Stefan Meyer <meyer@leifos.com>
-*/
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 {
     private ilLogger $logger;
+
+    public const TAB_ID_PERMISSIONS = "id_permissions";
 
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
@@ -115,9 +118,13 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
                 $this->ctrl->getLinkTarget($this, "edit")
             );
         }
-
-        // will add permissions if needed
-        parent::setTabs();
+        if ($this->checkPermissionBool("edit_permission")) {
+            $this->tabs_gui->addTab(
+                self::TAB_ID_PERMISSIONS,
+                $this->lng->txt("perm_settings"),
+                $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm")
+            );
+        }
     }
 
     /**
@@ -222,7 +229,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
     /**
      * Edit settings
      */
-    public function editObject(ilPropertyFormGUI $form = null): void
+    public function editObject(?ilPropertyFormGUI $form = null): void
     {
         if (!$this->access->checkAccess("write", "", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);

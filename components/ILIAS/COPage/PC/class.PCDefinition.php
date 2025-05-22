@@ -124,4 +124,16 @@ class PCDefinition
         }
         return null;
     }
+
+    public function getPCModelProviderByName(
+        string $a_name
+    ): ?\ILIAS\COPage\Editor\Components\PageComponentModelProvider {
+        $this->init();
+        $pc_def = $this->getPCDefinitionByName($a_name);
+        $pc_class = "ilPC" . $pc_def["name"] . "ModelProvider";
+        if (class_exists($pc_class)) {
+            return new $pc_class();
+        }
+        return null;
+    }
 }

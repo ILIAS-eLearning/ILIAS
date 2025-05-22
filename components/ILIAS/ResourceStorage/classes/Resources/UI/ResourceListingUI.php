@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Resources\UI;
 
+use ILIAS\UI\Factory;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\components\ResourceStorage\Resources\DataSource\TableDataSource;
 use ILIAS\components\ResourceStorage\Resources\Listing\SortDirection;
@@ -39,21 +42,19 @@ class ResourceListingUI
 
     private \ilUIFilterService $filter_service;
     private \ilCtrlInterface $ctrl;
-    private \ILIAS\UI\Factory $ui_factory;
+    private Factory $ui_factory;
     private \ILIAS\Refinery\Factory $refinery;
-    private \ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $query;
+    private ArrayBasedRequestWrapper $query;
     private \ilLanguage $language;
     private array $components = [];
-    private ActionGenerator $action_generator;
-    private \ILIAS\ResourceStorage\Services $irss;
+    private Services $irss;
 
     public function __construct(
         private ViewDefinition $view_definition,
         private TableDataSource $data_source,
-        ActionGenerator $action_generator = null
+        private ActionGenerator $action_generator = new NullActionGenerator()
     ) {
         global $DIC;
-        $this->action_generator = $action_generator ?? new NullActionGenerator();
         $this->ctrl = $DIC->ctrl();
         $this->storeRequestParameters();
         $this->language = $DIC->language();
@@ -85,9 +86,7 @@ class ResourceListingUI
                 $this->ctrl->getLinkTargetByClass($embedding_gui, $this->view_definition->getEmbeddingCmd()),
                 $filters,
                 array_map(
-                    function ($filter): bool {
-                        return true;
-                    },
+                    fn($filter): bool => true,
                     $filters
                 ),
                 true,
@@ -145,14 +144,14 @@ class ResourceListingUI
             $sortations[$sort_id] = $this->language->txt('sorting_' . $sort_id);
         }
 
-        $view_controls[] = $this->ui_factory->viewControl()->sortation($sortations)
+        $view_controls[] = $this->ui_factory->viewControl()->sortation($sortations, (string) $this->determineSortation())
             ->withTargetURL(
                 $this->ctrl->getLinkTargetByClass(
                     $this->view_definition->getEmbeddingGui(),
                     $this->view_definition->getEmbeddingCmd()
                 ),
                 self::P_SORTATION
-            )->withLabel($this->language->txt('sorting_' . $this->determineSortation()));
+            );
 
         // Pagination
         $count = $this->data_source->getFilteredAmountOfItems();

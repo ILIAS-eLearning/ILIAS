@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Administration\Setup;
 
 use ILIAS\Setup\Agent\NullAgent;
@@ -33,7 +33,7 @@ use ilDatabaseUpdateStepsMetricsCollectedObjective;
  */
 class ilAdministrationSetupAgent extends NullAgent
 {
-    public function getUpdateObjective(Config $config = null) : Objective
+    public function getUpdateObjective(?Config $config = null) : Objective
     {
         return new ilDatabaseUpdateStepsExecutedObjective(new ilAdministrationDBUpdateSteps());
     }

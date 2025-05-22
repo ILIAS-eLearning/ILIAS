@@ -35,7 +35,7 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
      *
      * @param ilLanguage|null $a_lng
      */
-    public function __construct(ilLanguage $a_lng = null)
+    public function __construct(?ilLanguage $a_lng = null)
     {
         global $DIC;
 
@@ -86,6 +86,7 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
     {
         $ass = new ilExAssignment($a_ass_id);
         $submission = new ilExSubmission($ass, $a_user_id);
+        $subm = $this->domain->submission($a_ass_id);
 
         if (!$submission->canSubmit()) {
             return;
@@ -94,29 +95,29 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
         $wiki = new ilObjWiki($a_wiki_ref_id);
         $exp = new WikiHtmlExport($wiki);
         //$exp->setMode(ilWikiHTMLExport::MODE_USER);
-        $file = $exp->buildExportFile();
-
+        $collector = $exp->buildExportFile();
+        $file = $collector->getFilePath();
         $size = filesize($file);
         if ($size) {
             $submission->deleteAllFiles();
 
-            $meta = array(
-                "name" => $a_wiki_ref_id . ".zip",
-                "tmp_name" => $file,
-                "size" => $size
+            $subm->addLocalFile(
+                $a_user_id,
+                $file,
+                $a_wiki_ref_id . ".zip"
             );
-            $submission->uploadFile($meta, true);
-
+            $collector->delete();
             // print version
-            $file = $file = $exp->buildExportFile(true);
+            $collector = $exp->buildExportFile(true);
+            $file = $collector->getFilePath();
             $size = filesize($file);
             if ($size) {
-                $meta = array(
-                    "name" => $a_wiki_ref_id . "print.zip",
-                    "tmp_name" => $file,
-                    "size" => $size
+                $subm->addLocalFile(
+                    $a_user_id,
+                    $file,
+                    $a_wiki_ref_id . "print.zip"
                 );
-                $submission->uploadFile($meta, true);
+                $collector->delete();
             }
 
             $this->handleNewUpload($ass, $submission);

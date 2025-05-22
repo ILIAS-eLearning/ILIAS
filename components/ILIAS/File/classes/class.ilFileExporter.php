@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Exporter class for files
@@ -38,6 +41,7 @@ class ilFileExporter extends ilXmlExporter
      * @param array        ids
      * @return        array        array of array with keys "component", entity", "ids"
      */
+    #[\Override]
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $md_ids = [];
@@ -52,7 +56,7 @@ class ilFileExporter extends ilXmlExporter
                 "ids" => $md_ids,
             ],
             [
-                "component" => "components/ILIAS/Object",
+                "component" => "components/ILIAS/ILIASObject",
                 "entity" => "common",
                 "ids" => $a_ids
             ]
@@ -69,22 +73,32 @@ class ilFileExporter extends ilXmlExporter
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         $xml = '';
-        if (ilObject::_lookupType($a_id) == "file") {
-            $file = new ilObjFile($a_id, false);
+        if (ilObject::_lookupType((int) $a_id) === 'file') {
+            $file = new ilObjFile((int) $a_id, false);
             $writer = new ilFileXMLWriter();
             $writer->setFile($file);
             $writer->setOmitHeader(true);
             $writer->setAttachFileContents(ilFileXMLWriter::$CONTENT_ATTACH_COPY);
-            ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
-            $writer->setFileTargetDirectories(
-                $this->getRelativeExportDirectory(),
-                $this->getAbsoluteExportDirectory()
-            );
+            $this->prepareExportDirectories($writer);
             $writer->start();
             $xml = $writer->getXml();
         }
-
         return $xml;
+    }
+
+    protected function prepareExportDirectories(
+        ilFileXMLWriter $writer
+    ): void {
+        $path = str_replace('\\', '/', $this->exp->getExportDirInContainer());
+        $segments = explode('/', $path);
+        array_shift($segments);
+        $target_dir_relative = implode('/', $segments) . '/expDir_1';
+        $target_dir_absolute = rtrim($this->getAbsoluteExportDirectory(), '/') . '/' . $target_dir_relative;
+        ilFileUtils::makeDirParents($target_dir_absolute);
+        $writer->setFileTargetDirectories(
+            $target_dir_relative,
+            $target_dir_absolute
+        );
     }
 
     /**

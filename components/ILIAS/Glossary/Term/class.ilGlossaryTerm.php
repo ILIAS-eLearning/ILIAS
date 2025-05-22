@@ -69,6 +69,8 @@ class ilGlossaryTerm
         $this->setImportId((string) $term_rec["import_id"]);
         $this->setLanguage((string) $term_rec["language"]);
         $this->setGlossaryId((int) $term_rec["glo_id"]);
+        $this->setShortText((string) $term_rec["short_text"]);
+        $this->setShortTextDirty((int) $term_rec["short_text_dirty"]);
 
         $this->page_object = new ilGlossaryDefPage($this->getId());
     }
@@ -232,8 +234,8 @@ class ilGlossaryTerm
             $ilDB->quote($this->getImportId(), "text") . ", " .
             $ilDB->now() . ", " .
             $ilDB->now() . ", " .
-            $ilDB->quote($this->getShortText()) . ", " .
-            $ilDB->quote($this->getShortTextDirty()) . ")");
+            $ilDB->quote($this->getShortText(), "text") . ", " .
+            $ilDB->quote($this->getShortTextDirty(), "integer") . ")");
 
         if (!$a_omit_page_creation) {
             $this->page_object = new ilGlossaryDefPage();
@@ -330,6 +332,8 @@ class ilGlossaryTerm
     /**
      * Set all short texts of glossary dirty
      * (e.g. if length is changed in settings)
+     *
+     * TODO: the new SettingsGUI doesn't use this, remove?
      */
     public static function setShortTextsDirty(int $a_glo_id): void
     {
@@ -458,7 +462,7 @@ class ilGlossaryTerm
         string $a_def = "",
         int $a_tax_node = 0,
         bool $a_add_amet_fields = false,
-        array $a_amet_filter = null,
+        ?array $a_amet_filter = null,
         bool $a_include_references = false
     ): array {
         global $DIC;
@@ -648,18 +652,6 @@ class ilGlossaryTerm
         $new_term->setShortText($old_term->getShortText());
         $new_term->setShortTextDirty($old_term->getShortTextDirty());
         $new_term->create();
-
-        // copy meta data
-        $md = new ilMD(
-            $old_term->getGlossaryId(),
-            $old_term->getPageObject()->getId(),
-            $old_term->getPageObject()->getParentType()
-        );
-        $new_md = $md->cloneMD(
-            $a_glossary_id,
-            $new_term->getPageObject()->getId(),
-            $old_term->getPageObject()->getParentType()
-        );
 
         $new_page = $new_term->getPageObject();
         $old_term->getPageObject()->copy($new_page->getId(), $new_page->getParentType(), $new_page->getParentId(), true);

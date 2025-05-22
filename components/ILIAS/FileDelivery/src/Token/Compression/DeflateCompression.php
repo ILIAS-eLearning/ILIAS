@@ -25,6 +25,9 @@ namespace ILIAS\FileDelivery\Token\Compression;
  */
 class DeflateCompression implements Compression
 {
+    /**
+     * @var int
+     */
     private const LEVEL = 9;
 
     /**

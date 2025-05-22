@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\ConsumerToolbox;
 
-use ilCtrl;
+use ilCtrlInterface;
 use Closure;
 
 class Routing
@@ -30,14 +30,14 @@ class Routing
      * @param Closure(): string $logout_url
      */
     public function __construct(
-        private readonly ilCtrl $ctrl,
+        private readonly ilCtrlInterface $ctrl,
         private readonly SelectSetting $session,
         private readonly Closure $redirect_to_starting_page,
         private readonly Closure $logout_url
     ) {
     }
 
-    public function ctrl(): ilCtrl
+    public function ctrl(): ilCtrlInterface
     {
         return $this->ctrl;
     }

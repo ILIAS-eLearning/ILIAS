@@ -32,18 +32,12 @@ class SrcConsumer
     use GetRevisionTrait;
 
     protected ?int $revision_number = null;
-    private SrcBuilder $src_builder;
-    private StorableResource $resource;
-    private StreamAccess $stream_access;
 
     /**
      * DownloadConsumer constructor.
      */
-    public function __construct(SrcBuilder $src_builder, StorableResource $resource, StreamAccess $stream_access)
+    public function __construct(private SrcBuilder $src_builder, private StorableResource $resource, private StreamAccess $stream_access)
     {
-        $this->src_builder = $src_builder;
-        $this->resource = $resource;
-        $this->stream_access = $stream_access;
     }
 
     public function getSrc(bool $signed = false): string
@@ -55,7 +49,7 @@ class SrcConsumer
                 60,
                 null
             );
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return '';
         }
 

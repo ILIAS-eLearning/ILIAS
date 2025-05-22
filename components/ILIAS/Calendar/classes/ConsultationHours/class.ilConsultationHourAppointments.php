@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Consultation hour appointments
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -30,7 +30,7 @@ class ilConsultationHourAppointments
      */
     public static function getAppointmentIds(
         int $a_user_id,
-        int $a_context_id = null,
+        ?int $a_context_id = null,
         ?ilDateTime $a_start = null,
         ?int $a_type = null,
         bool $a_check_owner = true
@@ -122,7 +122,7 @@ class ilConsultationHourAppointments
      * Get consultation hour manager for current user or specific user.
      * @return    int | string
      */
-    public static function getManager(bool $a_as_name = false, bool $a_full_name = false, int $a_user_id = null)
+    public static function getManager(bool $a_as_name = false, bool $a_full_name = false, ?int $a_user_id = null)
     {
         global $DIC;
 

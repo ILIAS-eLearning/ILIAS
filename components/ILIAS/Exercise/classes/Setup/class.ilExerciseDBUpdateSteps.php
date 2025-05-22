@@ -244,4 +244,83 @@ class ilExerciseDBUpdateSteps implements \ilDatabaseUpdateSteps
         $this->db->addPrimaryKey('exc_multi_feedback', ["tutor_id", "ass_id"]);
     }
 
+    public function step_18(): void
+    {
+        if (!$this->db->tableColumnExists('exc_returned', 'rid')) {
+            $this->db->addTableColumn(
+                'exc_returned',
+                'rid',
+                [
+                    'type' => 'text',
+                    'notnull' => false,
+                    'length' => 64,
+                    'default' => ''
+                ]
+            );
+        }
+    }
+
+    public function step_19(): void
+    {
+        if (!$this->db->tableExists('exc_crit_file')) {
+            $this->db->createTable(
+                'exc_crit_file',
+                [
+                    "ass_id" => [
+                        'type' => 'integer',
+                        'notnull' => true,
+                        'length' => 4,
+                        'default' => 0
+                    ],
+                    "giver_id" => [
+                        'type' => 'integer',
+                        'notnull' => true,
+                        'length' => 4,
+                        'default' => 0
+                    ],
+                    "peer_id" => [
+                        'type' => 'integer',
+                        'notnull' => true,
+                        'length' => 4,
+                        'default' => 0
+                    ],
+                    "criteria_id" => [
+                        'type' => 'integer',
+                        'notnull' => true,
+                        'length' => 4,
+                        'default' => 0
+                    ],
+                    "rid" => [
+                        'type' => 'text',
+                        'notnull' => true,
+                        'length' => 64,
+                        'default' => ""
+                    ],
+                ]
+            );
+            $this->db->addPrimaryKey('exc_crit_file', ['ass_id', 'giver_id','peer_id','criteria_id']);
+        }
+    }
+
+    public function step_20(): void
+    {
+        $this->db->manipulate("UPDATE exc_returned SET rid = NULL WHERE rid = " . $this->db->quote("", "text"));
+    }
+
+    public function step_21(): void
+    {
+        if (!$this->db->tableColumnExists('exc_assignment_peer', 'migrated')) {
+            $this->db->addTableColumn(
+                'exc_assignment_peer',
+                'migrated',
+                [
+                    'type' => 'integer',
+                    'notnull' => true,
+                    'length' => 1,
+                    'default' => 0
+                ]
+            );
+        }
+    }
+
 }

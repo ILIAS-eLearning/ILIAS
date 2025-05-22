@@ -18,7 +18,10 @@
 
 declare(strict_types=1);
 
-class ilAuthDestroyExpiredSessionsCron extends ilCronJob
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
+
+class ilAuthDestroyExpiredSessionsCron extends CronJob
 {
     protected ilLanguage $lng;
 
@@ -47,7 +50,7 @@ class ilAuthDestroyExpiredSessionsCron extends ilCronJob
 
     public function hasAutoActivation(): bool
     {
-        return true;
+        return false;
     }
 
     public function hasFlexibleSchedule(): bool
@@ -55,9 +58,17 @@ class ilAuthDestroyExpiredSessionsCron extends ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType(): ILIAS\Cron\Schedule\CronJobScheduleType
+    public function getValidScheduleTypes(): array
     {
-        return ILIAS\Cron\Schedule\CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS;
+        return [
+            \ILIAS\Cron\Job\Schedule\JobScheduleType::IN_MINUTES,
+            \ILIAS\Cron\Job\Schedule\JobScheduleType::IN_HOURS
+        ];
+    }
+
+    public function getDefaultScheduleType(): \ILIAS\Cron\Job\Schedule\JobScheduleType
+    {
+        return \ILIAS\Cron\Job\Schedule\JobScheduleType::IN_MINUTES;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -65,10 +76,15 @@ class ilAuthDestroyExpiredSessionsCron extends ilCronJob
         return 1;
     }
 
-    public function run(): ilCronJobResult
+    public function isManuallyExecutable(): bool
     {
-        $result = new ilCronJobResult();
-        $result->setStatus(ilCronJobResult::STATUS_OK);
+        return false;
+    }
+
+    public function run(): JobResult
+    {
+        $result = new JobResult();
+        $result->setStatus(JobResult::STATUS_OK);
 
         $num_destroyed_sessions = ilSession::_destroyExpiredSessions();
         ilSessionStatistics::aggretateRaw(time());

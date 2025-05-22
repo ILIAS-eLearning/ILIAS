@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Chart\Bar;
 
@@ -34,24 +34,13 @@ class Renderer extends AbstractComponentRenderer
 {
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        /**
-         * @var Bar\Bar $component
-         */
-        $this->checkComponent($component);
-
         if ($component instanceof Bar\Horizontal) {
-            /**
-             * @var Bar\Horizontal $component
-             */
             return $this->renderHorizontal($component, $default_renderer);
         } elseif ($component instanceof Bar\Vertical) {
-            /**
-             * @var Bar\Vertical $component
-             */
             return $this->renderVertical($component, $default_renderer);
         }
 
-        throw new LogicException("Cannot render: " . get_class($component));
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderHorizontal(
@@ -306,6 +295,15 @@ class Renderer extends AbstractComponentRenderer
         if ($x_axis->getMaxValue()) {
             $scales->x->max = $x_axis->getMaxValue();
         }
+        $dimension_groups = $component->getDataset()->getDimensionGroups();
+        foreach ($component->getGroupConfigs() as $group_name => $config) {
+            if (!isset($dimension_groups[$group_name]) || !$config->isStacked()) {
+                continue;
+            }
+            $scales->y->stacked = true;
+            $scales->x->stacked = true;
+            break;
+        }
 
         // hide pseudo y axes
         $dimension_scales = $component->getDataset()->getDimensions();
@@ -337,6 +335,15 @@ class Renderer extends AbstractComponentRenderer
         }
         if ($y_axis->getMaxValue()) {
             $scales->y->max = $y_axis->getMaxValue();
+        }
+        $dimension_groups = $component->getDataset()->getDimensionGroups();
+        foreach ($component->getGroupConfigs() as $group_name => $config) {
+            if (!isset($dimension_groups[$group_name]) || !$config->isStacked()) {
+                continue;
+            }
+            $scales->x->stacked = true;
+            $scales->y->stacked = true;
+            break;
         }
 
         // hide pseudo x axes
@@ -371,8 +378,20 @@ class Renderer extends AbstractComponentRenderer
     {
         $points_per_dimension = $component->getDataset()->getPointsPerDimension();
         $dimensions = $component->getDataset()->getDimensions();
+        $dimension_groups = $component->getDataset()->getDimensionGroups();
         $bar_configs = $component->getBarConfigs();
+        $group_configs = $component->getGroupConfigs();
         $data = [];
+        $stacking_groups = [];
+
+        foreach ($group_configs as $group_name => $config) {
+            if (!isset($dimension_groups[$group_name]) || !$config->isStacked()) {
+                continue;
+            }
+            foreach ($dimension_groups[$group_name]->getDimensionKeys() as $dimension_name) {
+                $stacking_groups[$dimension_name] = $group_name;
+            }
+        }
 
         foreach ($points_per_dimension as $dimension_name => $item_points) {
             $data[$dimension_name]["label"] = $dimension_name;
@@ -381,6 +400,9 @@ class Renderer extends AbstractComponentRenderer
             }
             if (isset($bar_configs[$dimension_name]) && $bar_configs[$dimension_name]->getRelativeWidth()) {
                 $data[$dimension_name]["barPercentage"] = $bar_configs[$dimension_name]->getRelativeWidth();
+            }
+            if (isset($stacking_groups[$dimension_name])) {
+                $data[$dimension_name]["stack"] = $stacking_groups[$dimension_name];
             }
 
             $points_as_objects = [];
@@ -416,12 +438,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./node_modules/chart.js/dist/chart.min.js');
+        $registry->register('assets/js/chart.umd.js');
         $registry->register('assets/js/bar.js');
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return [Bar\Bar::class];
     }
 }

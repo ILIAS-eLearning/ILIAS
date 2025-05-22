@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\FileUpload\Handler;
 
+use ILIAS\ResourceStorage\Services;
+use ILIAS\Filesystem\Filesystem;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\FileUpload\DTO\UploadResult;
 
@@ -32,9 +34,9 @@ abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploa
 {
     protected \ilFileServicesFilenameSanitizer $sanitizer;
     protected \ilLanguage $language;
-    protected \ILIAS\ResourceStorage\Services $irss;
+    protected Services $irss;
     protected ResourceStakeholder $stakeholder;
-    protected \ILIAS\Filesystem\Filesystem $temp_filesystem;
+    protected Filesystem $temp_filesystem;
     protected array $class_path;
 
     public function __construct()
@@ -123,16 +125,19 @@ abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploa
         );
     }
 
+    #[\Override]
     public function getUploadURL(): string
     {
         return $this->ctrl->getLinkTargetByClass($this->class_path, self::CMD_UPLOAD, null, true);
     }
 
+    #[\Override]
     public function getExistingFileInfoURL(): string
     {
         return $this->ctrl->getLinkTargetByClass($this->class_path, self::CMD_INFO, null, true);
     }
 
+    #[\Override]
     public function getFileRemovalURL(): string
     {
         return $this->ctrl->getLinkTargetByClass($this->class_path, self::CMD_REMOVE, null, true);
@@ -169,8 +174,6 @@ abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploa
 
     public function getInfoForExistingFiles(array $file_ids): array
     {
-        return array_map(function ($file_id): FileInfoResult {
-            return $this->getInfoResult($file_id);
-        }, $file_ids);
+        return array_map(fn($file_id): FileInfoResult => $this->getInfoResult($file_id), $file_ids);
     }
 }

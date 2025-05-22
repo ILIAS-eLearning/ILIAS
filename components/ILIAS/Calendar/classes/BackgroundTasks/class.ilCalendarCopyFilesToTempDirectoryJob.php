@@ -27,8 +27,6 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Types\ListType;
 use ILIAS\BackgroundTasks\Types\TupleType;
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 /**
  * Description of class class
  * @author Stefan Meyer <smeyer.ilias@gmx.de>

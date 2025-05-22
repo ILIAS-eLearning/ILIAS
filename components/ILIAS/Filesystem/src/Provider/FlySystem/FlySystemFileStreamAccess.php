@@ -26,8 +26,6 @@ use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Provider\FileStreamAccess;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
-use League\Flysystem\FileExistsException;
-use League\Flysystem\FilesystemInterface;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\UnableToWriteFile;
 use League\Flysystem\UnableToRetrieveMetadata;

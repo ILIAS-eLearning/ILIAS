@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
+require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
@@ -30,6 +31,8 @@ use ILIAS\UI\Implementation\Component\Symbol as S;
 
 class DateTimeInputTest extends ILIAS_UI_TestBase
 {
+    use CommonFieldRendering;
+
     protected DefNamesource $name_source;
     protected Data\Factory $data_factory;
     protected I\Input\Field\Factory $factory;
@@ -44,7 +47,7 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
     public function getUIFactory(): NoUIFactory
     {
         return new class () extends NoUIFactory {
-            public function symbol(): C\Symbol\Factory
+            public function symbol(): I\Symbol\Factory
             {
                 return new S\Factory(
                     new S\Icon\Factory(),
@@ -55,9 +58,9 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         };
     }
 
-    public function getLanguage(): ilLanguageMock
+    public function getLanguage(): LanguageMock
     {
-        return new class () extends ilLanguageMock {
+        return new class () extends LanguageMock {
             public function getLangKey(): string
             {
                 return 'en';
@@ -68,7 +71,7 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
     protected function buildFactory(): I\Input\Field\Factory
     {
         $df = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
+        $language = $this->createMock(ILIAS\Language\Language::class);
 
         return new I\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
@@ -165,5 +168,37 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         $this->expectException(InvalidArgumentException::class);
         $datetime = $this->factory->datetime('label', 'byline')
             ->withValue("this is no datetime...");
+    }
+
+    public function testRender(): void
+    {
+        $datetime = $this->factory->dateTime('label', 'byline');
+        $r = $this->getDefaultRenderer();
+        $html = $this->brutallyTrimHTML($r->render($datetime));
+
+        $expected = $this->brutallyTrimHTML('
+        <fieldset class="c-input" data-il-ui-component="date-time-field-input" data-il-ui-input-name="">
+            <label for="id_1">label</label>
+            <div class="c-input__field">
+                <div class="c-input-group">
+                    <input id="id_1" type="date" class="c-field-datetime" />
+                </div>
+            </div>
+            <div class="c-input__help-byline">byline</div>
+        </fieldset>
+        ');
+        $this->assertEquals($expected, $html);
+    }
+
+    public function testCommonRendering(): void
+    {
+        $datetime = $this->factory->dateTime('label')
+            ->withNameFrom($this->name_source);
+
+        $this->testWithError($datetime);
+        $this->testWithNoByline($datetime);
+        $this->testWithRequired($datetime);
+        $this->testWithDisabled($datetime);
+        $this->testWithAdditionalOnloadCodeRendersId($datetime);
     }
 }

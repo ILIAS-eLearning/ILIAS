@@ -12,12 +12,12 @@ are explained in [Usage](#usage).
 ## Short Term
 
 ### Outer Content (advanced, variable)
-This Component is basically what could be hooked into the [Standard Layout](Component/Layout/Page/Factory.php) as
+This Component is basically what could be hooked into the [Standard Layout](../src/Component/Layout/Page/Factory.php) as
 content (currently provided as array of Legacy Components). Most Probably it should be able to hold the title section 
 (not yet part of the UI Components, see below), the Tabs (not yet Part of the UI Components, see below) and the
 Inner Content holding the workspace for the current context (not yet Part of the UI Components, see below).
 
-Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen). 
+Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../../GlobalScreen). 
 
 ### Title Section (advanced, variable)
 This Component will probably hold the Icon, title, description and the actions (maybe along with the used glyphs) of the 
@@ -27,7 +27,7 @@ when to provide an Icon, restrictions of the Title (lengths, nouns vs verbs etc.
 subjects: [Feature Wiki](https://docu.ilias.de/goto_docu_wiki_wpage_6080_1357.html). 
 However, this has not been decided yet and is thus most certainly up for discussion.
 
-Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen).
+Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../../GlobalScreen).
 
 The need for a title section component was also discovered while discussing [this PR for the Test & Assessment kiosk mode header](https://github.com/ILIAS-eLearning/ILIAS/pull/7311). This shows that there are use cases beyond the content page title and actions that should be taken into account. Maybe the UI Entity could serve as inspiration for how properties and actions in a title sections could be arranged with effective visual weighting by relevance and semantic grouping.
 
@@ -37,7 +37,7 @@ Tabs and Sub Tabs (noun vs verbs, length, amount of words etc.) and rules for th
 in Forms shown in Tabs. Also, one would have to look into the issue that currently "<-- Back" actions are mixed into 
 the Tabs. We will need to decide, whether we will still use this concept in the future.
 
-Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen). 
+Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../../GlobalScreen). 
 
 ### Inner Content
 This will most probably mainly contain an array of Components used in the Content Section. An interesting 
@@ -244,7 +244,75 @@ manage these settings. There is already a
 [viable approach](https://github.com/ILIAS-eLearning/ILIAS/pull/6534) which needs
 to be refined once more.
 
+### Revise Dropdown.js to ensure but one open Dropdown
+Dropdown.js exposes il.UI.dropdown.opened to store the currently active dropdown
+and close it when another one opens.
+This should be updated to e.g. an event listener attached to the document, 
+which either calls the dropdown's show method if the event target is the desired 
+dropdown, or the hide method if the target is something else.
+
+### Remove jQuery from NotificationItem and Counter
+
+The notification-item and counter UI components heavily depend on jQuery, which makes
+them impossible to (unit) test. During the migration of the JavaScript unit tests to the 
+Node.js environment, we needed to disable their unit tests for this reason. The issue 
+can be resolved by removing jQuery from these components altogether, as the use of jQuery
+is prohibited by our code-style anyway.
+
+### Implement Toast as ES6 module
+
+The toast component is not yet implemented as an ES6 module, which makes it impossible to
+test. During the migration of the JavaScript unit tests to the Node.js environment, we
+needed to disable these unit tests for this reason. The issue can be resolved by implementing
+the component as an ES6 module, which can be imported using ES6 import specifiers.
+
 ## Long Term
+
+### Mark Some Components as Internal
+
+The creation of the UI framework has begun in 2016. The first components we have
+build aimed to replace simple thingies we already had in the legacy UI code.
+Stuff like Glyphs, Buttons, Modals. We then imagined that we would have a system
+where we build complex components from simple parts, like legos, someday. Over time
+we moved on to more complex components. We then found that these are in fact build
+from smaller parts, like legos. But other then initially imagined, this wasn't
+necessarily the best interface to provide to users of the UI framework. Also, the
+more complex components carry a specific semantic, but the actual legos we have
+built them from are design choices.
+
+Take, for example, the View Control Sortation. The semantic is something like:
+a control that allows a user to sort some data. When viewed as legos, we have
+a Dropdown, containing Links, attached to a Button. But this is neither the
+best interface to expose to other coders, nor is that specific structure essential
+to the component. So while the View Control Sortation is in fact build from these
+smaller components, the actual choices of them is neither interesting for the
+semantic of the component nor something we want to move to other coders.
+
+We also began to notice, that some components carry a semantic that actually
+tells a lot about the what and why of a component, with wording close to the users
+intentions and state of mind, while others simply encoded specific visual choices
+or simply bundled some code to be used in many places. We began to talk about the
+further components as having a "strong" semantic and the latter of having a "weak"
+semantic. We currently feel that working on components with a "strong" semantic
+allows us to make informed choices for implementation, now and in the future, while
+taking away mental burden from other coders that use these components. Components
+with a weak semantic, on the other hand, ask for one size fits many solutions and
+require other coders to think about a lot of tangential questions. We hence strive
+to build and propagate components with strong semantics whenever possible.
+
+This does not mean that we want to abandon components with weak semantics completely,
+though. We still need them to talk about how other components can be implemented,
+to actually implement these components and to make our code manageable. We also
+recognize that we will always have parts of the system, be it in the core we maintain
+together or in plugins maintained by others, that are not (yet?) ready to be displayed
+by components with a strong semantic. But we want to encourage everyone to use
+components with strong semantics whenever possible, for their ease of mind and our
+power to build a coherent and appealing UI.
+
+We hence are looking to create a category for "internal" components, to make this
+distinction and argumentation visible to the coders that use the components from
+the UI framework.
+
 
 ### Make Constraint in Tag Input Field work again
 
@@ -376,29 +444,6 @@ However, just building such a UI Component, would not do the trick. This needs
 to go hand in hand with a proper discussion on what a Notification Center should be
 and do for us. Current state, see: [FR: Notification Center](https://docu.ilias.de/goto_docu_wiki_wpage_5118_1357.html).
 
-### Introduce Modal Content component (beginner/advanced)
-
-Currently, Modals combine two things: Presentation of content and opening an
-overlay layer. With the separation of those we will gain several advantages:
-- the content-part could be more specific, as there should be variants for the
-  intended purpose/content
-- content-parts might be used without the modal; e.g., on mobile devices, you might
-  just want to change the page instead of using overlays
-- Modals could allow further Components as content by simply adding the Interface
-  For example, the Message Boxes are a good candidate
-- the content parts might be retrieved via AJAX-calls (and thus be build according 
-  to runtime-parameters)
-Especially (but not only) with the DataTable's async-Actions, this would allow to 
-better control the responses.
-
-### Improve async Modals(beginner/advanced)
-
-Along with the separation of Modal-layer and its contents (see above), the asynch
-abilities of Modals should be improved; it should be possible:
-- to replace the contents only (in order to stay in contexts of ids and JS)
-- alter the target-URL of the RPC-call by a previous response
-- probably alter the Labels and functions of Buttons
-
 ### Exchange webui-popover library (advanced)
 
 The current webui-popover library by Sandy Duan wasn't updated for quite a while now, 
@@ -449,6 +494,19 @@ To address this issue and streamline the examples, information like post-URLs sh
 functions in form of arguments. While at it, all other dependencies such as the `UI\Renderer` or `UI\Factory` should be
 injected this way too, ultimately getting rid of all the `$DIC` usages. To achieve this, we need to adjust every example
 function signature, as well as the Kitchensink where the examples are built.
+
+### Remove `LegacyInitialisation` class from unit tests (advanced, ~3d)
+
+As part of the component revision we have migrated the UI framework to the new bootstrap mechanism.
+This resulted in the removal of the `InitUIFramework` class inside the Init component, which was
+responsible for a full initialisation of the UI framework. Some unit tests however, mostly for example and
+T&A rendering tests, still rely on this.
+
+The problem is that we cannot properly inject the our components into unit tests using the bootstrap
+mechanism. This means, we either need a way to combine these two worlds, like we did with the "bridge" to the
+legacy initialisation of the Init component (see https://github.com/ILIAS-eLearning/ILIAS/pull/7969),
+or refactor our unit tests in a way where no fully initialised UI framework is required. For the time being
+we have moved a copy of the `InitUIFramework` into our `tests/` directory, so unit tests still pass.
 
 ## Ideas and Food for Thought
 

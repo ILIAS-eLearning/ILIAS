@@ -28,7 +28,7 @@ class ilAssFileUploadUploadsExporter
 {
     public const ZIP_FILE_MIME_TYPE = 'application/zip';
     public const ZIP_FILE_EXTENSION = '.zip';
-    private Closure $acces_filter;
+    private Closure $access_filter;
     private \ILIAS\ResourceStorage\Services $irss;
     private \ILIAS\Filesystem\Util\Archive\Archives $archive;
     private \ILIAS\FileDelivery\Services $file_delivery;
@@ -74,7 +74,7 @@ class ilAssFileUploadUploadsExporter
     ) {
         global $DIC;
         $f = new ilTestParticipantAccessFilterFactory($DIC->access());
-        $this->acces_filter = $f->getAccessStatisticsUserFilter($this->ref_id);
+        $this->access_filter = $f->getAccessStatisticsUserFilter($this->ref_id);
 
         $this->irss = $DIC->resourceStorage();
         $this->archive = $DIC->archives();
@@ -158,19 +158,19 @@ class ilAssFileUploadUploadsExporter
 
         $res = $this->db->queryF(
             $query,
-            array("integer", "integer"),
-            array($this->question->getId(), $this->getTestId())
+            ["integer", "integer"],
+            [$this->question->getId(), $this->getTestId()]
         );
 
-        $solutionData = array();
+        $solutionData = [];
 
         while ($row = $this->db->fetchAssoc($res)) {
             if (!isset($solutionData[$row['active_fi']])) {
-                $solutionData[ $row['active_fi'] ] = array();
+                $solutionData[ $row['active_fi'] ] = [];
             }
 
             if (!isset($solutionData[ $row['active_fi'] ][ $row['pass'] ])) {
-                $solutionData[ $row['active_fi'] ][ $row['pass'] ] = array();
+                $solutionData[ $row['active_fi'] ][ $row['pass'] ] = [];
             }
 
             $solutionData[ $row['active_fi'] ][ $row['pass'] ][] = $row;
@@ -181,7 +181,7 @@ class ilAssFileUploadUploadsExporter
 
     private function getParticipantData($solutionData): ilTestParticipantData
     {
-        $activeIds = array();
+        $activeIds = [];
 
         foreach ($solutionData as $activeId => $passes) {
             $activeIds[] = $activeId;
@@ -189,7 +189,7 @@ class ilAssFileUploadUploadsExporter
 
         $participantData = new ilTestParticipantData($this->db, $this->lng);
         $participantData->setActiveIdsFilter($activeIds);
-        $participantData->setParticipantAccessFilter($this->acces_filter);
+        $participantData->setParticipantAccessFilter($this->access_filter);
         $participantData->load($this->getTestId());
 
         return $participantData;

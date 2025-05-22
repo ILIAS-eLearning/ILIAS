@@ -161,15 +161,7 @@ class assTextQuestionImport extends assQuestionImport
             $this->fetchAdditionalContentEditingModeInformation($item)
         );
         $this->object->saveToDb();
-        if (count($item->suggested_solutions)) {
-            foreach ($item->suggested_solutions as $suggested_solution) {
-                $this->importSuggestedSolution(
-                    $this->object->getId(),
-                    $suggested_solution["solution"]->getContent(),
-                    $suggested_solution["gap_index"]
-                );
-            }
-        }
+        $this->importSuggestedSolutions($this->object->getId(), $item->suggested_solutions);
         foreach ($feedbacksgeneric as $correctness => $material) {
             $m = $this->QTIMaterialToString($material);
             $feedbacksgeneric[$correctness] = $m;
@@ -216,14 +208,12 @@ class assTextQuestionImport extends assQuestionImport
             );
         }
         $this->object->saveToDb();
-        if ($tst_id > 0) {
-            $q_1_id = $this->object->getId();
-            $question_id = $this->object->duplicate(true, "", "", -1, $tst_id);
-            $tst_object->questions[$question_counter++] = $question_id;
-            $import_mapping[$item->getIdent()] = ["pool" => $q_1_id, "test" => $question_id];
-        } else {
-            $import_mapping[$item->getIdent()] = ["pool" => $this->object->getId(), "test" => 0];
-        }
+        $import_mapping[$item->getIdent()] = $this->addQuestionToParentObjectAndBuildMappingEntry(
+            $questionpool_id,
+            $tst_id,
+            $question_counter,
+            $tst_object
+        );
         return $import_mapping;
     }
 

@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\File\Icon;
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 
@@ -42,22 +44,16 @@ class IconFormUI
     private \ilCtrl $ctrl;
     private \ilLanguage $lng;
     private \ilTabsGUI $tabs;
-    private \ILIAS\UI\Factory $ui_factory;
+    private Factory $ui_factory;
     private WrapperFactory $wrapper;
-    private \ILIAS\UI\Component\Input\Container\Form\Standard $icon_form;
+    private Standard $icon_form;
     private \ILIAS\Refinery\Factory $refinery;
-    private Icon $icon;
-    private string $mode;
-    private IconRepositoryInterface $icon_repo;
 
     public function __construct(
-        Icon $icon,
-        string $mode,
-        IconRepositoryInterface $icon_repo
+        private Icon $icon,
+        private string $mode,
+        private IconRepositoryInterface $icon_repo
     ) {
-        $this->icon = $icon;
-        $this->mode = $mode;
-        $this->icon_repo = $icon_repo;
         global $DIC;
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -79,7 +75,7 @@ class IconFormUI
         );
         $this->tabs->setBackTarget($this->lng->txt('back'), $back_target);
 
-        if ($this->mode == self::MODE_EDIT) {
+        if ($this->mode === self::MODE_EDIT) {
             $form_title = $this->lng->txt(self::FORM_ICON_UPDATING);
             $form_action = $this->ctrl->getFormActionByClass(
                 ilObjFileIconsOverviewGUI::class,
@@ -123,17 +119,11 @@ class IconFormUI
         )->withValue(
             $this->icon_repo->turnSuffixesArrayIntoString($this->icon->getSuffixes())
         )->withAdditionalTransformation(
-            $this->refinery->custom()->transformation(function ($suffixes_input): array {
-                return $this->icon_repo->turnSuffixesStringIntoArray($suffixes_input);
-            })
+            $this->refinery->custom()->transformation(fn($suffixes_input): array => $this->icon_repo->turnSuffixesStringIntoArray($suffixes_input))
         )->withAdditionalTransformation(
-            $this->refinery->custom()->constraint(function ($suffixes_input): bool {
-                return $this->icon_repo->hasSuffixInputOnlyAllowedCharacters($suffixes_input);
-            }, $this->lng->txt('msg_error_suffixes_with_forbidden_characters'))
+            $this->refinery->custom()->constraint(fn($suffixes_input): bool => $this->icon_repo->hasSuffixInputOnlyAllowedCharacters($suffixes_input), $this->lng->txt('msg_error_suffixes_with_forbidden_characters'))
         )->withAdditionalTransformation(
-            $this->refinery->custom()->constraint(function ($suffixes_input): bool {
-                return $this->icon_repo->hasSuffixInputNoDuplicatesToItsOwnEntries($suffixes_input);
-            }, $this->lng->txt('msg_error_duplicate_suffix_entries'))
+            $this->refinery->custom()->constraint(fn($suffixes_input): bool => $this->icon_repo->hasSuffixInputNoDuplicatesToItsOwnEntries($suffixes_input), $this->lng->txt('msg_error_duplicate_suffix_entries'))
         )->withAdditionalTransformation(
             $this->refinery->custom()->constraint(function ($suffixes_input): bool {
                 //retrieve the value of the active_input as it is needed for the causesNoActiveSuffixesConflict validation
@@ -141,9 +131,7 @@ class IconFormUI
                 $inputs = $section->getInputs();
                 $input_active = $inputs[self::INPUT_ACTIVE];
                 $field_is_active = $input_active->getName();
-                $to_bool = $this->refinery->custom()->transformation(function ($checkbox_input_value): bool {
-                    return $this->transformCheckboxInputValueToBool($checkbox_input_value);
-                });
+                $to_bool = $this->refinery->custom()->transformation(fn($checkbox_input_value): bool => $this->transformCheckboxInputValueToBool($checkbox_input_value));
                 $post_is_active_value = $this->wrapper->post()->retrieve($field_is_active, $to_bool);
 
                 return $this->icon_repo->causesNoActiveSuffixesConflict(
@@ -162,7 +150,7 @@ class IconFormUI
         $this->icon_form = $this->ui_factory->input()->container()->form()->standard($form_action, [$section]);
     }
 
-    public function getIconForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
+    public function getIconForm(): Standard
     {
         return $this->icon_form;
     }

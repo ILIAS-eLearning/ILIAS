@@ -20,6 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder;
 
+use ILIAS\Filesystem\Finder\Iterator\FileTypeFilterIterator;
+use ILIAS\Filesystem\Finder\Comparator\NumberComparator;
+use ILIAS\Filesystem\Finder\Comparator\DateComparator;
+use ILIAS\Filesystem\Finder\Iterator\RecursiveDirectoryIterator;
+use ILIAS\Filesystem\Finder\Iterator\ExcludeDirectoryFilterIterator;
+use ILIAS\Filesystem\Finder\Iterator\DepthRangeFilterIterator;
+use ILIAS\Filesystem\Finder\Iterator\DateRangeFilterIterator;
+use ILIAS\Filesystem\Finder\Iterator\SizeRangeFilterIterator;
 use AppendIterator;
 use ArrayIterator;
 use Closure;
@@ -43,7 +51,13 @@ use ILIAS\Filesystem\Finder\Iterator\SortableIterator;
  */
 final class Finder implements IteratorAggregate, Countable
 {
+    /**
+     * @var int
+     */
     private const IGNORE_VCS_FILES = 1;
+    /**
+     * @var int
+     */
     private const IGNORE_DOT_FILES = 2;
     /** @var string[] */
     private array $vcsPatterns = ['.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'];
@@ -54,7 +68,7 @@ final class Finder implements IteratorAggregate, Countable
     /** @var string[] */
     private array $exclude = [];
     private int $ignore = 0;
-    private int $mode = Iterator\FileTypeFilterIterator::ALL;
+    private int $mode = FileTypeFilterIterator::ALL;
     private bool $reverseSorting = false;
     /** @var Comparator\DateComparator[] */
     private array $dates = [];
@@ -67,13 +81,13 @@ final class Finder implements IteratorAggregate, Countable
 
     public function __construct(private Filesystem $filesystem)
     {
-        $this->ignore = self::IGNORE_VCS_FILES|self::IGNORE_DOT_FILES;
+        $this->ignore = self::IGNORE_VCS_FILES | self::IGNORE_DOT_FILES;
     }
 
     public function files(): self
     {
         $clone = clone $this;
-        $clone->mode = Iterator\FileTypeFilterIterator::ONLY_FILES;
+        $clone->mode = FileTypeFilterIterator::ONLY_FILES;
 
         return $clone;
     }
@@ -81,7 +95,7 @@ final class Finder implements IteratorAggregate, Countable
     public function directories(): self
     {
         $clone = clone $this;
-        $clone->mode = Iterator\FileTypeFilterIterator::ONLY_DIRECTORIES;
+        $clone->mode = FileTypeFilterIterator::ONLY_DIRECTORIES;
 
         return $clone;
     }
@@ -89,7 +103,7 @@ final class Finder implements IteratorAggregate, Countable
     public function allTypes(): self
     {
         $clone = clone $this;
-        $clone->mode = Iterator\FileTypeFilterIterator::ALL;
+        $clone->mode = FileTypeFilterIterator::ALL;
 
         return $clone;
     }
@@ -144,7 +158,7 @@ final class Finder implements IteratorAggregate, Countable
     public function depth(string|int $level): self
     {
         $clone = clone $this;
-        $clone->depths[] = new Comparator\NumberComparator((string) $level);
+        $clone->depths[] = new NumberComparator((string) $level);
 
         return $clone;
     }
@@ -167,7 +181,7 @@ final class Finder implements IteratorAggregate, Countable
     public function date(string $date): self
     {
         $clone = clone $this;
-        $clone->dates[] = new Comparator\DateComparator($date);
+        $clone->dates[] = new DateComparator($date);
 
         return $clone;
     }
@@ -192,7 +206,7 @@ final class Finder implements IteratorAggregate, Countable
         $clone = clone $this;
 
         foreach ($sizes as $size) {
-            $clone->sizes[] = new Comparator\NumberComparator((string) $size);
+            $clone->sizes[] = new NumberComparator((string) $size);
         }
 
         return $clone;
@@ -256,9 +270,9 @@ final class Finder implements IteratorAggregate, Countable
     public function sortByName(bool $useNaturalSort = false): self
     {
         $clone = clone $this;
-        $clone->sort = Iterator\SortableIterator::SORT_BY_NAME;
+        $clone->sort = SortableIterator::SORT_BY_NAME;
         if ($useNaturalSort) {
-            $clone->sort = Iterator\SortableIterator::SORT_BY_NAME_NATURAL;
+            $clone->sort = SortableIterator::SORT_BY_NAME_NATURAL;
         }
 
         return $clone;
@@ -267,7 +281,7 @@ final class Finder implements IteratorAggregate, Countable
     public function sortByType(): self
     {
         $clone = clone $this;
-        $clone->sort = Iterator\SortableIterator::SORT_BY_TYPE;
+        $clone->sort = SortableIterator::SORT_BY_TYPE;
 
         return $clone;
     }
@@ -275,7 +289,7 @@ final class Finder implements IteratorAggregate, Countable
     public function sortByTime(): self
     {
         $clone = clone $this;
-        $clone->sort = Iterator\SortableIterator::SORT_BY_TIME;
+        $clone->sort = SortableIterator::SORT_BY_TIME;
 
         return $clone;
     }
@@ -314,36 +328,36 @@ final class Finder implements IteratorAggregate, Countable
 
     private function searchInDirectory(string $dir): \Traversable
     {
-        if (self::IGNORE_VCS_FILES === (self::IGNORE_VCS_FILES&$this->ignore)) {
+        if (self::IGNORE_VCS_FILES === (self::IGNORE_VCS_FILES & $this->ignore)) {
             $this->exclude = array_merge($this->exclude, $this->vcsPatterns);
         }
 
-        $iterator = new Iterator\RecursiveDirectoryIterator($this->filesystem, $dir);
+        $iterator = new RecursiveDirectoryIterator($this->filesystem, $dir);
 
         if ($this->exclude) {
-            $iterator = new Iterator\ExcludeDirectoryFilterIterator($iterator, $this->exclude);
+            $iterator = new ExcludeDirectoryFilterIterator($iterator, $this->exclude);
         }
 
         $iterator = new RecursiveIteratorIterator($iterator, \RecursiveIteratorIterator::SELF_FIRST);
 
         if ($this->depths) {
-            $iterator = new Iterator\DepthRangeFilterIterator($iterator, $this->depths);
+            $iterator = new DepthRangeFilterIterator($iterator, $this->depths);
         }
 
         if ($this->mode !== 0) {
-            $iterator = new Iterator\FileTypeFilterIterator($iterator, $this->mode);
+            $iterator = new FileTypeFilterIterator($iterator, $this->mode);
         }
 
         if ($this->dates) {
-            $iterator = new Iterator\DateRangeFilterIterator($this->filesystem, $iterator, $this->dates);
+            $iterator = new DateRangeFilterIterator($this->filesystem, $iterator, $this->dates);
         }
 
         if ($this->sizes) {
-            $iterator = new Iterator\SizeRangeFilterIterator($this->filesystem, $iterator, $this->sizes);
+            $iterator = new SizeRangeFilterIterator($this->filesystem, $iterator, $this->sizes);
         }
 
         if ($this->sort || $this->reverseSorting) {
-            $iteratorAggregate = new Iterator\SortableIterator(
+            $iteratorAggregate = new SortableIterator(
                 $this->filesystem,
                 $iterator,
                 $this->sort,

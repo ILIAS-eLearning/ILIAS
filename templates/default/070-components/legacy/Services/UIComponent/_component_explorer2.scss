@@ -169,6 +169,10 @@ img.il_ExplorerIcon {
 
 .ilExplorerContainer .jstree-default .jstree-anchor {
 	height: auto;
+
+	.ilExp2NodeContent {
+		cursor: pointer;
+	}
 }
 
 .jstree-default .jstree-node, .jstree-default .jstree-anchor {

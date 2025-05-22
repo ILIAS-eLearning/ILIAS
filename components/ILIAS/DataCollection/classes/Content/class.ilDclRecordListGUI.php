@@ -55,6 +55,7 @@ class ilDclRecordListGUI
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
     protected \ILIAS\ResourceStorage\Services $irss;
+    protected bool $filter_changed = false;
 
     /**
      * @throws ilCtrlException
@@ -124,9 +125,6 @@ class ilDclRecordListGUI
         // whereas 'listRecords' handels the filters "normally", filling them from the POST-variable
         switch ($cmd) {
             case self::CMD_SHOW:
-                $this->setSubTabs($this->mode);
-                $this->listRecords(true);
-                break;
             case self::CMD_CANCEL_DELETE:
             case self::CMD_LIST_RECORDS:
                 $this->setSubTabs($this->mode);
@@ -149,9 +147,9 @@ class ilDclRecordListGUI
         }
     }
 
-    public function listRecords(bool $use_tableview_filter = false): void
+    public function listRecords(): void
     {
-        $list = $this->getRecordListTableGUI($use_tableview_filter);
+        $list = $this->getRecordListTableGUI();
 
         $this->createSwitchers();
 
@@ -199,12 +197,8 @@ class ilDclRecordListGUI
         $this->tpl->setPermanentLink("dcl", $this->parent_obj->getRefId(), $target);
 
         if ($desc = $this->table_obj->getDescription()) {
-            $ilSetting = new ilSetting('advanced_editing');
-            if ($ilSetting->get('advanced_editing_javascript_editor')) {
-                $desc = "<div class='ilDclTableDescription'>" . $desc . "</div>";
-            } else {
-                $desc = "<div class='ilDclTableDescription'>" . nl2br(ilUtil::stripSlashes($desc)) . "</div>";
-            }
+            $desc = $this->refinery->string()->markdown()->toHTML()->transform($desc);
+            $desc = '<div class="ilDclTableDescription">' . $desc . '</div>';
         }
         $this->tpl->setContent($desc . $list->getHTML());
     }
@@ -258,7 +252,7 @@ class ilDclRecordListGUI
             $file = $form->getInput("import_file");
             $file_location = $file["tmp_name"];
             $simulate = $form->getInput("simulate");
-            $this->importRecords($file_location, (bool)$simulate);
+            $this->importRecords($file_location, (bool) $simulate);
         } else {
             $this->showImportExcel($form);
         }
@@ -288,11 +282,7 @@ class ilDclRecordListGUI
             $output->setVariable("WARNING", $warning);
             $output->parseCurrentBlock();
         }
-        if (!count($warnings)) {
-            $output->setCurrentBlock("warnings");
-            $output->setVariable("WARNING", $this->lng->txt("dcl_no_warnings"));
-            $output->parseCurrentBlock();
-        }
+
         $output->setVariable("BACK_LINK", $this->ctrl->getLinkTargetByClass(ilDclRecordListGUI::class, "listRecords"));
         $output->setVariable("BACK", $this->lng->txt("back"));
         $this->tpl->setContent($output->get());
@@ -307,7 +297,8 @@ class ilDclRecordListGUI
         $table->initFilter();
         $table->resetOffset();
         $table->writeFilterToSession();
-        $this->ctrl->redirect($this, self::CMD_LIST_RECORDS);
+        $this->filter_changed = true;
+        $this->listRecords();
     }
 
     /**
@@ -319,7 +310,8 @@ class ilDclRecordListGUI
         $table->initFilter();
         $table->resetOffset();
         $table->resetFilter();
-        $this->ctrl->redirect($this, self::CMD_LIST_RECORDS);
+        $this->filter_changed = true;
+        $this->listRecords();
     }
 
     /**
@@ -408,9 +400,9 @@ class ilDclRecordListGUI
                     $record_data .= $field->getTitle() . ": " . $record_representation->getConfirmationHTML() . "<br />";
                 }
             }
-            $conf->addItem('record_ids[]', (string)$record->getId(), $record_data);
+            $conf->addItem('record_ids[]', (string) $record->getId(), $record_data);
         }
-        $conf->addHiddenItem('table_id', (string)$this->table_id);
+        $conf->addHiddenItem('table_id', (string) $this->table_id);
         $conf->setConfirm($this->lng->txt('dcl_delete_records'), self::CMD_DELETE_RECORDS);
         $conf->setCancel($this->lng->txt('cancel'), self::CMD_CANCEL_DELETE);
         $this->tpl->setContent($conf->getHTML());
@@ -493,43 +485,26 @@ class ilDclRecordListGUI
         $this->ctrl->clearParameters($this);
     }
 
-    protected function getRecordListTableGUI(bool $use_tableview_filter): ilDclRecordListTableGUI
+    protected function getRecordListTableGUI(): ilDclRecordListTableGUI
     {
         $table_obj = $this->table_obj;
 
         $list = new ilDclRecordListTableGUI($this, "listRecords", $table_obj, $this->tableview_id, $this->mode);
         $list->initFilter();
-        if ($use_tableview_filter) {
-            $list->initFilter();
-            $list->resetOffset();
-            $list->resetFilter();
-            $list->initFilterFromTableView();
-        }
 
         $list->setExternalSegmentation(true);
         $list->setExternalSorting(true);
         $list->determineOffsetAndOrder();
 
+        if ($this->filter_changed) {
+            $list->resetOffset();
+        }
+
         $limit = $list->getLimit();
         $offset = $list->getOffset();
 
-        $num_records = count($table_obj->getPartialRecords(
-            (string)$this->getRefId(),
-            $list->getOrderField(),
-            $list->getOrderDirection(),
-            $limit,
-            $offset,
-            $list->getFilter()
-        ));
-
-        // Fix no data found on new filter application when on a site other than the first
-        if ($num_records === 0) {
-            $list->resetOffset();
-            $offset = 0;
-        }
-
         $data = $table_obj->getPartialRecords(
-            (string)$this->getRefId(),
+            (string) $this->getRefId(),
             $list->getOrderField(),
             $list->getOrderDirection(),
             $limit,

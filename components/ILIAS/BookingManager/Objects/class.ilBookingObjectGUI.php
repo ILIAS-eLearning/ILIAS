@@ -23,15 +23,16 @@
  */
 class ilBookingObjectGUI
 {
+    protected \ILIAS\BookingManager\Objects\ObjectsManager $objects_manager;
     protected \ILIAS\BookingManager\Schedule\ScheduleManager $schedule_manager;
     protected ilBookBulkCreationGUI $bulk_creation_gui;
     protected ilObjBookingPool $pool;
     protected \ILIAS\BookingManager\InternalGUIService $gui;
+    protected \ILIAS\BookingManager\Access\AccessManager $access;
     protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
-    protected ilAccessHandler $access;
     protected ilTabsGUI $tabs;
     protected ilBookingHelpAdapter $help;
     protected ilObjectDataCache $obj_data_cache;
@@ -63,7 +64,7 @@ class ilBookingObjectGUI
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC["tpl"];
         $this->lng = $DIC->language();
-        $this->access = $DIC->access();
+        $this->access = $DIC->bookingManager()->internal()->domain()->access();
         $this->tabs = $DIC->tabs();
         $this->help = $help;
         $this->obj_data_cache = $DIC["ilObjDataCache"];
@@ -107,6 +108,7 @@ class ilBookingObjectGUI
         $this->ctrl->saveParameter($this, "object_id");
 
         $this->rsv_ids = array_map('intval', $this->book_request->getReservationIdsFromString());
+        $this->objects_manager = $DIC->bookingManager()->internal()->domain()->objects($this->pool->getId());
     }
 
     public function activateManagement(bool $a_val): void
@@ -232,11 +234,10 @@ class ilBookingObjectGUI
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        $ilAccess = $this->access;
 
         $bar = "";
 
-        if ($this->isManagementActivated() && $ilAccess->checkAccess('write', '', $this->getPoolRefId())) {
+        if ($this->isManagementActivated() && $this->access->canManageObjects($this->getPoolRefId())) {
             $bar = new ilToolbarGUI();
             $bar->addButton($lng->txt('book_add_object'), $ilCtrl->getLinkTarget($this, 'create'));
 
@@ -281,9 +282,9 @@ class ilBookingObjectGUI
     /**
      * Render creation form
      */
-    public function create(ilPropertyFormGUI $a_form = null): void
+    public function create(?ilPropertyFormGUI $a_form = null): void
     {
-        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->canManageObjects($this->ref_id)) {
             return;
         }
 
@@ -306,9 +307,9 @@ class ilBookingObjectGUI
     /**
      * Render edit form
      */
-    public function edit(ilPropertyFormGUI $a_form = null): void
+    public function edit(?ilPropertyFormGUI $a_form = null): void
     {
-        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->canManageObjects($this->ref_id)) {
             return;
         }
 
@@ -338,7 +339,7 @@ class ilBookingObjectGUI
      */
     public function initForm(
         string $a_mode = "create",
-        int $id = null
+        ?int $id = null
     ): ilPropertyFormGUI {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -417,8 +418,8 @@ class ilBookingObjectGUI
             $desc->setValue($obj->getDescription());
             $nr->setValue($obj->getNrOfItems());
             $pdesc->setValue($obj->getPostText());
-            $file->setValue($obj->getFile());
-            $pfile->setValue($obj->getPostFile());
+            $file->setValue($this->objects_manager->getObjectInfoFilename($id));
+            $pfile->setValue($this->objects_manager->getBookingInfoFilename($id));
 
             if (isset($schedule)) {
                 $schedule->setValue($obj->getScheduleId());
@@ -437,7 +438,7 @@ class ilBookingObjectGUI
 
     public function save(): void
     {
-        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->canManageObjects($this->ref_id)) {
             return;
         }
 
@@ -467,16 +468,16 @@ class ilBookingObjectGUI
 
                 $file = $form->getItemByPostVar("file");
                 if ($_FILES["file"]["tmp_name"]) {
-                    $obj->uploadFile($_FILES["file"]);
+                    $this->objects_manager->importObjectInfoFromLegacyUpload($obj->getId(), $_FILES["file"]);
                 } elseif ($file !== null && $file->getDeletionFlag()) {
-                    $obj->deleteFile();
+                    $this->objects_manager->deleteObjectInfo($obj->getId());
                 }
 
                 $pfile = $form->getItemByPostVar("post_file");
                 if ($_FILES["post_file"]["tmp_name"]) {
-                    $obj->uploadPostFile($_FILES["post_file"]);
+                    $this->objects_manager->importBookingInfoFromLegacyUpload($obj->getId(), $_FILES["post_file"]);
                 } elseif ($pfile !== null && $pfile->getDeletionFlag()) {
-                    $obj->deletePostFile();
+                    $this->objects_manager->deleteBookingInfo($obj->getId());
                 }
 
                 $obj->update();
@@ -496,7 +497,7 @@ class ilBookingObjectGUI
 
     public function update(): void
     {
-        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->canManageObjects($this->ref_id)) {
             return;
         }
 
@@ -520,16 +521,16 @@ class ilBookingObjectGUI
 
                 $file = $form->getItemByPostVar("file");
                 if ($_FILES["file"]["tmp_name"]) {
-                    $obj->uploadFile($_FILES["file"]);
+                    $this->objects_manager->importObjectInfoFromLegacyUpload($obj->getId(), $_FILES["file"]);
                 } elseif ($file !== null && $file->getDeletionFlag()) {
-                    $obj->deleteFile();
+                    $this->objects_manager->deleteObjectInfo($obj->getId());
                 }
 
                 $pfile = $form->getItemByPostVar("post_file");
                 if ($_FILES["post_file"]["tmp_name"]) {
-                    $obj->uploadPostFile($_FILES["post_file"]);
+                    $this->objects_manager->importBookingInfoFromLegacyUpload($obj->getId(), $_FILES["post_file"]);
                 } elseif ($pfile !== null && $pfile->getDeletionFlag()) {
-                    $obj->deletePostFile();
+                    $this->objects_manager->deleteBookingInfo($obj->getId());
                 }
 
                 if ($this->hasPoolSchedule()) {
@@ -543,7 +544,7 @@ class ilBookingObjectGUI
                 }
 
                 $this->tpl->setOnScreenMessage('success', $lng->txt("book_object_updated"), true);
-                $ilCtrl->redirect($this, "render");
+                $ilCtrl->redirect($this, "edit");
             }
         }
 
@@ -553,7 +554,7 @@ class ilBookingObjectGUI
 
     public function confirmDelete(): void
     {
-        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->canManageObjects($this->ref_id)) {
             return;
         }
 
@@ -579,7 +580,7 @@ class ilBookingObjectGUI
 
     public function delete(): void
     {
-        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->canManageObjects($this->ref_id)) {
             return;
         }
 
@@ -603,10 +604,6 @@ class ilBookingObjectGUI
             return;
         }
 
-        $obj = new ilBookingObject($id);
-        $file = $obj->getFileFullPath();
-        if ($file) {
-            ilFileDelivery::deliverFileLegacy($file, $obj->getFile());
-        }
+        $this->objects_manager->deliverObjectInfo($id);
     }
 }

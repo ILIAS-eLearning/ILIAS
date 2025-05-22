@@ -22,6 +22,7 @@ namespace ILIAS\LegalDocuments\Repository;
 
 use ILIAS\Data\Result;
 use ILIAS\LegalDocuments\Value\Document;
+use ILIAS\LegalDocuments\Value\DocumentContent;
 use ILIAS\LegalDocuments\Value\History;
 use ilObjUser;
 
@@ -38,7 +39,7 @@ interface HistoryRepository
      * @param array<string, mixed> $filter
      */
     public function countAll(array $filter = []): int;
-    public function acceptDocument(ilObjUser $user, Document $document);
+    public function acceptDocument(ilObjUser $user, Document $document): void;
     public function alreadyAccepted(ilObjUser $user, Document $document): bool;
 
     /**

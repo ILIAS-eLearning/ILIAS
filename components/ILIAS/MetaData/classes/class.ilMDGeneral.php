@@ -23,6 +23,7 @@ declare(strict_types=1);
  * @author  Stefan Meyer <meyer@leifos.com>
  * @package ilias-core
  * @version $Id$
+ * @deprecated will be removed with ILIAS 11, please use the new API (see {@see ../docs/api.md})
  */
 class ilMDGeneral extends ilMDBase
 {
@@ -414,12 +415,6 @@ class ilMDGeneral extends ilMDBase
         $languages = $this->getLanguageIds();
         foreach ($languages as $id) {
             $lan = $this->getLanguage($id);
-            $lan->toXML($writer);
-        }
-        if (!count($languages)) {
-            // Default
-
-            $lan = new ilMDLanguage($this->getRBACId(), $this->getObjId());
             $lan->toXML($writer);
         }
 

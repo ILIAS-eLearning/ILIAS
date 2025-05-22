@@ -27,13 +27,8 @@ use ILIAS\ResourceStorage\Flavour\Flavour;
  */
 class FlavourURLs
 {
-    private SrcBuilder $src_builder;
-    private Flavour $flavour;
-
-    public function __construct(SrcBuilder $src_builder, Flavour $flavour)
+    public function __construct(private SrcBuilder $src_builder, private Flavour $flavour)
     {
-        $this->src_builder = $src_builder;
-        $this->flavour = $flavour;
     }
 
     public function getURLs(bool $signed = false): \Generator

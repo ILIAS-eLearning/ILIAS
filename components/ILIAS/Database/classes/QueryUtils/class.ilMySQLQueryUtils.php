@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMySQLQueryUtils
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -29,13 +29,13 @@ class ilMySQLQueryUtils extends ilQueryUtils
      */
     public function in(string $field, array $values, bool $negate = false, string $type = ""): string
     {
-        if (!is_array($values) || count($values) === 0) {
+        if (!is_array($values) || $values === []) {
             // BEGIN fixed mantis #0014191:
             //return " 1=2 ";		// return a false statement on empty array
             return $negate ? ' 1=1 ' : ' 1=2 ';
             // END fixed mantis #0014191:
         }
-        if ($type == "") {        // untyped: used ? for prepare/execute
+        if ($type === "") {        // untyped: used ? for prepare/execute
             $str = $field . (($negate) ? " NOT" : "") . " IN (?" . str_repeat(",?", count($values) - 1) . ")";
         } else {                    // typed, use values for query/manipulate
             $str = $field . (($negate) ? " NOT" : "") . " IN (";
@@ -60,7 +60,7 @@ class ilMySQLQueryUtils extends ilQueryUtils
 
     public function concat(array $values, bool $allow_null = true): string
     {
-        if (count($values) === 0) {
+        if ($values === []) {
             return ' ';
         }
 
@@ -145,7 +145,7 @@ class ilMySQLQueryUtils extends ilQueryUtils
 
         $query = "CREATE  TABLE $name ($query_fields)";
 
-        $options_strings = array();
+        $options_strings = [];
 
         if (!empty($options['comment'])) {
             $options_strings['comment'] = 'COMMENT = ' . $this->quote($options['comment'], 'text');
@@ -178,11 +178,11 @@ class ilMySQLQueryUtils extends ilQueryUtils
      */
     public function like(string $column, string $type, string $value = "?", bool $case_insensitive = true): string
     {
-        if (!in_array($type, array(
+        if (!in_array($type, [
             ilDBConstants::T_TEXT,
             ilDBConstants::T_CLOB,
             "blob",
-        ), true)
+        ], true)
         ) {
             throw new ilDatabaseException("Like: Invalid column type '" . $type . "'.");
         }
@@ -252,25 +252,21 @@ class ilMySQLQueryUtils extends ilQueryUtils
     public function createDatabase(string $name, string $charset = "utf8", string $collation = ""): string
     {
         if ($collation !== "") {
-            $sql = "CREATE DATABASE `" . $name . "` CHARACTER SET " . $charset . " COLLATE " . $collation;
-        } else {
-            $sql = "CREATE DATABASE `" . $name . "` CHARACTER SET " . $charset;
+            return "CREATE DATABASE `" . $name . "` CHARACTER SET " . $charset . " COLLATE " . $collation;
         }
 
-        return $sql;
+        return "CREATE DATABASE `" . $name . "` CHARACTER SET " . $charset;
     }
 
-    public function groupConcat(string $field_name, string $seperator = ",", string $order = null): string
+    public function groupConcat(string $field_name, string $seperator = ",", ?string $order = null): string
     {
         if ($order === null) {
-            $sql = "GROUP_CONCAT(" . $field_name . " SEPARATOR " . $this->quote($seperator, "text") . ")";
-        } else {
-            $sql = "GROUP_CONCAT(" . $field_name . " ORDER BY " . $order . " SEPARATOR " . $this->quote(
-                $seperator,
-                "text"
-            ) . ")";
+            return "GROUP_CONCAT(" . $field_name . " SEPARATOR " . $this->quote($seperator, "text") . ")";
         }
-        return $sql;
+        return "GROUP_CONCAT(" . $field_name . " ORDER BY " . $order . " SEPARATOR " . $this->quote(
+            $seperator,
+            "text"
+        ) . ")";
     }
 
     /**

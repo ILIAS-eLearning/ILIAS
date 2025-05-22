@@ -56,7 +56,7 @@ class ilCopyDefinition extends AbstractValue
     /**
      * States if the sum of all file sizes adheres to the global limit.
      */
-    private ?BooleanValue $adheres_to_limit;
+    private ?BooleanValue $adheres_to_limit = null;
 
     /**
      * Get copy definitions
@@ -197,13 +197,13 @@ class ilCopyDefinition extends AbstractValue
      * Unserialize definitions
      * @param string $serialized
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         $elements = unserialize($serialized);
 
         $this->setCopyDefinitions($elements["copy_definition"]);
         $this->setTempDir($elements['temp_dir']);
-        $this->setObjectRefIds(explode(",", $elements["object_ref_ids"]));
+        $this->setObjectRefIds(explode(",", (string) $elements["object_ref_ids"]));
         $this->setNumFiles($elements["num_files"]);
         $this->setSumFileSizes($elements["sum_file_sizes"]);
         $this->setAdheresToLimit($elements["adheres_to_limit"]);

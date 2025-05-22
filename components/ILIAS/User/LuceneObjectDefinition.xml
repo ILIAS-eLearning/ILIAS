@@ -237,6 +237,6 @@
                 </DataSource>
 	</Document>
 	<Document type="subItem">
-		<xi:include href="../../Services/Mail/LuceneDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/Mail/LuceneDataSource.xml" />
 	</Document>
 </ObjectDefinition>

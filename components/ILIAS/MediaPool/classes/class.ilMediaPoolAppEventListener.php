@@ -36,7 +36,7 @@ class ilMediaPoolAppEventListener
         array $a_parameter
     ): void {
         switch ($a_component) {
-            case "components/ILIAS/Object":
+            case "components/ILIAS/ILIASObject":
                 switch ($a_event) {
                     case "update":
                         if ($a_parameter["obj_type"] === "mob") {

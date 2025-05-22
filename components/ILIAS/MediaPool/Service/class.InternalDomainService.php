@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,54 +16,41 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\MediaPool;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
-use ILIAS\MediaPool\Clipboard;
 use ILIAS\MediaPool\Tree\MediaPoolTree;
+use ILIAS\MediaPool\Metadata\MetadataManager;
+use ILIAS\MediaPool\Settings\SettingsManager;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalDomainService
 {
     use GlobalDICDomainServices;
-
-    protected InternalRepoService $repo_service;
-    protected InternalDataService $data_service;
+    protected static array $instance = [];
+    protected Container $dic;
 
     public function __construct(
         Container $DIC,
-        InternalRepoService $repo_service,
-        InternalDataService $data_service
+        protected InternalRepoService $repo_service,
+        protected InternalDataService $data_service
     ) {
-        $this->repo_service = $repo_service;
-        $this->data_service = $data_service;
+        $this->dic = $DIC;
         $this->initDomainServices($DIC);
     }
 
-    /*
-    public function access(int $ref_id, int $user_id) : Access\AccessManager
-    {
-        return new Access\AccessManager(
-            $this,
-            $this->access,
-            $ref_id,
-            $user_id
-        );
-    }*/
-
     public function clipboard(): Clipboard\ClipboardManager
     {
-        return new Clipboard\ClipboardManager(
+        return self::$instance["clipboard"] ??= new Clipboard\ClipboardManager(
             $this->repo_service->clipboard()
         );
     }
 
     public function mediapool(int $obj_id): MediaPoolManager
     {
-        return new MediaPoolManager(
+        return self::$instance["mediapool"][$obj_id] ??= new MediaPoolManager(
             $this,
             $obj_id
         );
@@ -73,7 +58,21 @@ class InternalDomainService
 
     public function tree(int $mep_obj_id): MediaPoolTree
     {
-        return new MediaPoolTree($mep_obj_id);
+        return self::$instance["tree"][$mep_obj_id] ??= new MediaPoolTree($mep_obj_id);
+    }
+
+    public function metadata(): MetadataManager
+    {
+        return self::$instance["metadata"] ??= new MetadataManager($this->learningObjectMetadata());
+    }
+
+    public function mediapoolSettings(): SettingsManager
+    {
+        return self::$instance["settings"] ??= new SettingsManager(
+            $this->data_service,
+            $this->repo_service,
+            $this
+        );
     }
 
 }

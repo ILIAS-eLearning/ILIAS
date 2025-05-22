@@ -37,21 +37,22 @@ use ILIAS\ResourceStorage\Events\Subject;
 class CollectionTest extends AbstractBaseResourceBuilderTestCase
 {
     /**
-     * @var \ILIAS\ResourceStorage\Collection\CollectionBuilder|mixed
+     * @var CollectionBuilder|mixed
      */
     public $collection_builder;
     /**
      * @var \ILIAS\ResourceStorage\Preloader\RepositoryPreloader&\PHPUnit\Framework\MockObject\MockObject|mixed
      */
-    public $preloader;
+    public MockObject $preloader;
     /**
-     * @var \ILIAS\ResourceStorage\Collection\Collections|mixed
+     * @var Collections|mixed
      */
     public $collections;
     public const DUMMY_RCID = 'dummy-rcid';
 
     protected CollectionIdentificationGenerator $rcid_generator;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -115,23 +116,6 @@ class CollectionTest extends AbstractBaseResourceBuilderTestCase
         $this->assertNotInstanceOf(MockObject::class, $collection);
         $this->assertEquals(self::DUMMY_RCID, $collection->getIdentification()->serialize());
         $this->assertEquals([], $collection->getResourceIdentifications());
-    }
-
-    public function testGetCollectionOfWrongUser(): void
-    {
-        $identifiation = new ResourceCollectionIdentification(self::DUMMY_RCID);
-
-        $this->collection_repository->method('existing')->with($identifiation)->willReturn(
-            new ResourceCollection($identifiation, 42, '')
-        );
-
-        $this->collection_repository->method('getResourceIdStrings')->with($identifiation)->willReturn(
-            $this->arrayAsGenerator([])
-        );
-
-        $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Invalid owner of collection');
-        $collection = $this->collections->get($identifiation, 84);
     }
 
     public function testIsIn(): void
@@ -277,7 +261,7 @@ class CollectionTest extends AbstractBaseResourceBuilderTestCase
             ->expects($this->exactly(3))
             ->method('has')
             ->willReturnCallback(
-                function ($rid) use (&$consecutive) {
+                function ($rid) use (&$consecutive): true {
                     $expected = array_shift($consecutive);
                     $this->assertEquals($expected, $rid);
                     return true;

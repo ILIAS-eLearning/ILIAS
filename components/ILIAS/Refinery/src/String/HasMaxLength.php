@@ -22,7 +22,6 @@ namespace ILIAS\Refinery\String;
 
 use ILIAS\Data;
 use ILIAS\Refinery\Custom\Constraint;
-use ILIAS\Language\Language;
 
 class HasMaxLength extends Constraint
 {

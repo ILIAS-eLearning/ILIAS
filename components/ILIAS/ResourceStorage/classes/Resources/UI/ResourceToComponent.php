@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Resources\UI;
 
+use ILIAS\ResourceStorage\Revision\Revision;
+use ILIAS\UI\Component\Item\Standard;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
@@ -32,7 +34,7 @@ use ILIAS\UI\Component\Table\PresentationRow;
  */
 class ResourceToComponent extends BaseToComponent implements ToComponent
 {
-    private \ILIAS\ResourceStorage\Revision\Revision $current_revision;
+    private Revision $current_revision;
     private RevisionToComponent $revision_to_component;
 
     public function __construct(
@@ -67,7 +69,7 @@ class ResourceToComponent extends BaseToComponent implements ToComponent
     }
 
 
-    public function getAsItem(bool $with_image): \ILIAS\UI\Component\Item\Standard
+    public function getAsItem(bool $with_image): Standard
     {
         $properties = array_merge(
             $this->getCommonProperties(),
@@ -94,9 +96,7 @@ class ResourceToComponent extends BaseToComponent implements ToComponent
     {
         $stakeholders = implode(
             ', ',
-            array_map(function (ResourceStakeholder $stakeholder): string {
-                return $stakeholder->getConsumerNameForPresentation();
-            }, $this->resource->getStakeholders())
+            array_map(fn(ResourceStakeholder $stakeholder): string => $stakeholder->getConsumerNameForPresentation(), $this->resource->getStakeholders())
         );
 
 
@@ -113,7 +113,7 @@ class ResourceToComponent extends BaseToComponent implements ToComponent
     {
         return array_merge(
             [
-                $this->language->txt('revisions') => (string)count($this->resource->getAllRevisionsIncludingDraft()),
+                $this->language->txt('revisions') => (string) count($this->resource->getAllRevisionsIncludingDraft()),
             ],
             $this->revision_to_component->getImportantProperties()
         );

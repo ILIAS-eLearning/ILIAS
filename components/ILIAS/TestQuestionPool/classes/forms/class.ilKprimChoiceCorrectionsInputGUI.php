@@ -41,18 +41,10 @@ class ilKprimChoiceCorrectionsInputGUI extends ilKprimChoiceWizardInputGUI
 
     public function checkInput(): bool
     {
-        global $DIC;
-        $lng = $DIC['lng'];
+        $data = $this->raw($this->getPostVar());
 
-        $foundvalues = $_POST[$this->getPostVar()];
-
-        if (is_array($foundvalues)) {
-            if (!isset($foundvalues['correctness']) || count($foundvalues['correctness']) < count($this->values)) {
-                $this->setAlert($lng->txt("msg_input_is_required"));
-                return false;
-            }
-        } else {
-            $this->setAlert($lng->txt("msg_input_is_required"));
+        if (!is_array($data['correctness']) || count($data['correctness']) < count($this->values)) {
+            $this->setAlert($this->lng->txt("msg_input_is_required"));
             return false;
         }
 

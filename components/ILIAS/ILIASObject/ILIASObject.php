@@ -32,8 +32,8 @@ class ILIASObject implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
-            new \ILIAS\Object\Setup\ilObjectSetupAgent(
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
+            new \ILIAS\ILIASObject\Setup\Agent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
     }

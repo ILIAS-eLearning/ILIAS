@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Input;
 
 use Psr\Http\Message\ServerRequestInterface;
 use LogicException;
+use ILIAS\UI\Component\Input\InputData;
 
 /**
  * Implements interaction of input element with post data from

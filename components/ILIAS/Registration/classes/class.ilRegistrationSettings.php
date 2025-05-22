@@ -54,7 +54,7 @@ class ilRegistrationSettings
 
     protected ilSetting $settings;
 
-    public function __construct(ilSetting $settings = null)
+    public function __construct(?ilSetting $settings = null)
     {
         global $DIC;
 

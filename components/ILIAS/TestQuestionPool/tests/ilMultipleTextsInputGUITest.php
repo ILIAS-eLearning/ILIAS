@@ -38,7 +38,7 @@ class ilMultipleTextsInputGUITest extends assBaseTestCase
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
 
-        $this->object = new class extends ilMultipleTextsInputGUI{};
+        $this->object = new class () extends ilMultipleTextsInputGUI {};
     }
 
     public function testConstruct(): void

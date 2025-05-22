@@ -61,8 +61,6 @@ class ilMediaCastManageTableGUI implements Table\DataRetrieval
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
         $this->request = $DIC->mediaCast()
             ->internal()
             ->gui()
@@ -241,7 +239,7 @@ class ilMediaCastManageTableGUI implements Table\DataRetrieval
         )->withAsync();
 
         $table = $f->table()
-                   ->data($this->lng->txt("mcst_items"), $this->getColumns(), $this)
+                   ->data($this, $this->lng->txt("mcst_items"), $this->getColumns())
                    ->withActions($actions)
                    ->withRequest($this->http->request());
         return $table;
@@ -315,20 +313,7 @@ class ilMediaCastManageTableGUI implements Table\DataRetrieval
                     ? $ilCtrl->getLinkTarget($this->parent_obj, "handlePlayerEvent", "", true, false)
                     : "";
                 if (!is_null($med)) {
-                    if ($med->getLocationType() === "Reference") {
-                        $file = $med->getLocation();
-                        if (in_array($med->getFormat(), ["video/vimeo", "video/youtube"])) {
-                            if (!is_int(strpos($file, "?"))) {
-                                $file .= "?controls=0";
-                            } else {
-                                $file .= "&controls=0";
-                            }
-                        }
-                    } else {
-                        $file = ilWACSignedPath::signFile(
-                            ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation()
-                        );
-                    }
+                    $file = $mob->getStandardSrc();
                     $comp = null;
                     if ($this->media_type->isAudio($med->getFormat())) {
                         $comp = $ui->factory()->player()->audio(

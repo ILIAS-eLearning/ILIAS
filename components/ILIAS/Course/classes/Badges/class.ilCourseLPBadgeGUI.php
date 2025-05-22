@@ -56,14 +56,14 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         }
         $exp->setTypeWhiteList($white);
         $subitems->setTitleModifier(function ($a_id): string {
-            $obj_id = ilObject::_lookupObjId((int)$a_id);
-            $olp = ilObjectLP::getInstance((int)$obj_id);
+            $obj_id = ilObject::_lookupObjId((int) $a_id);
+            $olp = ilObjectLP::getInstance((int) $obj_id);
             $invalid_modes = ilCourseLPBadgeGUI::getInvalidLPModes();
             $mode = $olp->getModeText($olp->getCurrentMode());
             if (in_array($olp->getCurrentMode(), $invalid_modes)) {
                 $mode = "<strong>$mode</strong>";
             }
-            return ilObject::_lookupTitle(ilObject::_lookupObjId((int)$a_id)) . " (" . $mode . ")";
+            return ilObject::_lookupTitle(ilObject::_lookupObjId((int) $a_id)) . " (" . $mode . ")";
         });
 
         $subitems->setRequired(true);
@@ -128,7 +128,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         // without active LP the following modes cannot be supported
         if (!ilObjUserTracking::_enabledLearningProgress()) {
             // status cannot be set without active LP
-            $invalid_modes[] = ilLPObjSettings::LP_MODE_MANUAL;
+            //$invalid_modes[] = ilLPObjSettings::LP_MODE_MANUAL;
             $invalid_modes[] = ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR;
             $invalid_modes[] = ilLPObjSettings::LP_MODE_COLLECTION_MANUAL;
 
@@ -147,10 +147,10 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         $invalid = array();
         $invalid_modes = self::getInvalidLPModes();
         foreach ($a_form->getInput("subitems") as $ref_id) {
-            $obj_id = ilObject::_lookupObjId((int)$ref_id);
-            $olp = ilObjectLP::getInstance((int)$obj_id);
+            $obj_id = ilObject::_lookupObjId((int) $ref_id);
+            $olp = ilObjectLP::getInstance((int) $obj_id);
             if (in_array($olp->getCurrentMode(), $invalid_modes)) {
-                $invalid[] = ilObject::_lookupTitle((int)$obj_id);
+                $invalid[] = ilObject::_lookupTitle((int) $obj_id);
             }
         }
         if ($invalid !== []) {

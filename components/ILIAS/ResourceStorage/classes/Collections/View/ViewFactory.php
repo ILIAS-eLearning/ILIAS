@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Collections\View;
 
+use ILIAS\HTTP\Services;
 use ILIAS\UI\Factory;
 use ILIAS\components\ResourceStorage\Collections\DataProvider\TableDataProvider;
-use ILIAS\components\ResourceStorage\Collections\DataProvider\DataTableDataProviderAdapter;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -31,7 +31,7 @@ final class ViewFactory
 {
     private Factory $ui_factory;
     private \ilLanguage $language;
-    private \ILIAS\HTTP\Services $http;
+    private Services $http;
 
     public function __construct(
         private TableDataProvider $data_provider,

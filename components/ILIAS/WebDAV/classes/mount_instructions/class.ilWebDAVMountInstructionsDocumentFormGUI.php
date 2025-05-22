@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
@@ -25,42 +25,21 @@ use ILIAS\FileUpload\Location;
 
 class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
 {
-    protected ilWebDAVMountInstructionsDocument $document;
-    protected ilWebDAVMountInstructionsRepository $mount_instructions_repository;
-    protected ilHtmlPurifierInterface $document_purifier;
-    protected ilObjUser $actor;
-    protected FileUpload $file_upload;
-    protected Filesystem $tmp_filesystem;
-    protected string $form_action;
-    protected string $save_command;
-    protected string $cancel_command;
-    protected bool $is_editable = false;
     protected string $translated_error = '';
     protected string $translated_info = '';
 
     public function __construct(
-        ilWebDAVMountInstructionsDocument $document,
-        ilWebDAVMountInstructionsRepository $mount_instructions_repository,
-        ?ilHtmlPurifierInterface $document_purifier,
-        ilObjUser $actor,
-        Filesystem $tmp_filesystem,
-        FileUpload $fileupload,
-        string $form_action,
-        string $save_command,
-        string $cancel_command,
-        bool $is_editable
+        protected ilWebDAVMountInstructionsDocument $document,
+        protected ilWebDAVMountInstructionsRepository $mount_instructions_repository,
+        protected ilHtmlPurifierInterface $document_purifier,
+        protected ilObjUser $actor,
+        protected Filesystem $tmp_filesystem,
+        protected FileUpload $file_upload,
+        protected string $form_action,
+        protected string $save_command,
+        protected string $cancel_command,
+        protected bool $is_editable
     ) {
-        $this->document = $document;
-        $this->mount_instructions_repository = $mount_instructions_repository;
-        $this->document_purifier = $document_purifier;
-        $this->actor = $actor;
-        $this->tmp_filesystem = $tmp_filesystem;
-        $this->file_upload = $fileupload;
-        $this->form_action = $form_action;
-        $this->save_command = $save_command;
-        $this->cancel_command = $cancel_command;
-        $this->is_editable = $is_editable;
-
         parent::__construct();
 
         $this->initForm();
@@ -172,8 +151,9 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         return $this->translated_error;
     }
 
-    protected function createFilledObject(ilWebDAVMountInstructionsDocument $document): ilWebDAVMountInstructionsDocument
-    {
+    protected function createFilledObject(
+        ilWebDAVMountInstructionsDocument $document
+    ): ilWebDAVMountInstructionsDocument {
         if (!$this->checkInput()) {
             throw new InvalidArgumentException($this->lng->txt('form_input_not_valid'));
         }
@@ -194,9 +174,12 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         $modification_ts = $document_already_exists ? ilUtil::now() : $creation_ts;
         $owner_id = $document_already_exists ? $document->getOwnerUsrId() : $this->actor->getId();
         $last_modified_usr_id = $this->actor->getId();
-        $sorting = $document_already_exists ? $document->getSorting() : $this->mount_instructions_repository->getHighestSortingNumber() + 1;
+        $sorting = $document_already_exists ? $document->getSorting(
+        ) : $this->mount_instructions_repository->getHighestSortingNumber() + 1;
 
-        $mount_instruction_for_language_exists = $this->mount_instructions_repository->doMountInstructionsExistByLanguage($language);
+        $mount_instruction_for_language_exists = $this->mount_instructions_repository->doMountInstructionsExistByLanguage(
+            $language
+        );
 
         if (!$document_already_exists && $mount_instruction_for_language_exists) {
             throw new InvalidArgumentException($this->lng->txt("webdav_choosen_language_already_used"));
@@ -213,7 +196,7 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
             $processed_mount_instructions = '';
         } else {
             $raw_mount_instructions = $this->getRawMountInstructionsFromFileUpload($upload_result);
-            $document_processor = $upload_result->getMimeType() == 'text/html'
+            $document_processor = $upload_result->getMimeType() === 'text/html'
                 ? new ilWebDAVMountInstructionsHtmlDocumentProcessor($this->document_purifier)
                 : new ilWebDAVMountInstructionsTextDocumentProcessor();
             $processed_mount_instructions = $document_processor->processMountInstructions($raw_mount_instructions);
@@ -272,11 +255,10 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
     {
         if (!$this->file_upload->hasUploads()) {
             throw new InvalidArgumentException("webdav_error_no_upload");
-        } elseif ($this->file_upload->hasBeenProcessed()) {
-            throw new InvalidArgumentException("webdav_error_upload_already_processed");
         }
-
-        $this->file_upload->process();
+        if (!$this->file_upload->hasBeenProcessed()) {
+            $this->file_upload->process();
+        }
 
         $upload_result = array_values($this->file_upload->getResults())[0];
 

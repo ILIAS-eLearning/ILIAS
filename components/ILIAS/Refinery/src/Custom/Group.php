@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\Custom;
 
 use ILIAS\Data\Factory;
-use ILIAS\Language\Language;
 use ILIAS\Refinery\Constraint as ConstraintInterface;
 use ILIAS\Refinery\Transformation as TransformationInterface;
 

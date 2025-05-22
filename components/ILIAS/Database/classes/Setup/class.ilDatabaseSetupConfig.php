@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup;
+use ILIAS\Setup\Config;
 use ILIAS\Data\Password;
 
-class ilDatabaseSetupConfig implements Setup\Config
+class ilDatabaseSetupConfig implements Config
 {
     public const DEFAULT_COLLATION = "utf8_general_ci";
     public const DEFAULT_PATH_TO_DB_DUMP = "./components/ILIAS/setup_/sql/ilias3.sql";
@@ -30,17 +30,11 @@ class ilDatabaseSetupConfig implements Setup\Config
 
     protected string $host;
 
-    protected ?int $port = null;
-
     protected string $database;
-
-    protected bool $create_database;
 
     protected string $collation;
 
     protected string $user;
-
-    protected ?\ILIAS\Data\Password $password = null;
 
     protected string $path_to_db_dump;
 
@@ -51,11 +45,11 @@ class ilDatabaseSetupConfig implements Setup\Config
         string $host,
         string $database,
         string $user,
-        Password $password = null,
-        bool $create_database = true,
-        string $collation = null,
-        int $port = null,
-        string $path_to_db_dump = null
+        protected ?Password $password = null,
+        protected bool $create_database = true,
+        ?string $collation = null,
+        protected ?int $port = null,
+        ?string $path_to_db_dump = null
     ) {
         if (!in_array($type, \ilDBConstants::getInstallableTypes())) {
             throw new \InvalidArgumentException(
@@ -71,10 +65,7 @@ class ilDatabaseSetupConfig implements Setup\Config
         $this->host = trim($host);
         $this->database = trim($database);
         $this->user = trim($user);
-        $this->password = $password;
-        $this->create_database = $create_database;
         $this->collation = $collation ? trim($collation) : self::DEFAULT_COLLATION;
-        $this->port = $port;
         $this->path_to_db_dump = $path_to_db_dump ?? self::DEFAULT_PATH_TO_DB_DUMP;
     }
 
@@ -129,7 +120,6 @@ class ilDatabaseSetupConfig implements Setup\Config
     public function toMockIniFile(): \ilIniFile
     {
         return new class ($this) extends \ilIniFile {
-            protected ilDatabaseSetupConfig $config;
             /**
              * reads a single variable from a group
              * @access	public
@@ -153,7 +143,7 @@ class ilDatabaseSetupConfig implements Setup\Config
                         return (string) $this->config->getPort();
                     case "pass":
                         $pw = $this->config->getPassword();
-                        return $pw ? $pw->toString() : "";
+                        return $pw !== null ? $pw->toString() : "";
                     case "name":
                         return $this->config->getDatabase();
                     case "type":
@@ -165,9 +155,8 @@ class ilDatabaseSetupConfig implements Setup\Config
                 }
             }
 
-            public function __construct(\ilDatabaseSetupConfig $config)
+            public function __construct(protected ilDatabaseSetupConfig $config)
             {
-                $this->config = $config;
             }
             public function read(): bool
             {
@@ -177,7 +166,7 @@ class ilDatabaseSetupConfig implements Setup\Config
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function fixIniFile(): void
+            public function fixIniFile(): never
             {
                 throw new \LogicException("Just a mock here...");
             }

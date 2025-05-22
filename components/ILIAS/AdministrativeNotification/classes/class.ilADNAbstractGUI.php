@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\DI\UIServices;
+use ILIAS\HTTP\Services;
+
 /**
  * Class ilADNAbstractGUI
  * @author            Fabian Schmid <fs@studer-raimann.ch>
@@ -24,12 +27,11 @@ abstract class ilADNAbstractGUI
 {
     public const IDENTIFIER = 'identifier';
 
-    protected \ILIAS\DI\UIServices $ui;
+    protected UIServices $ui;
 
-    protected \ILIAS\HTTP\Services $http;
+    protected Services $http;
 
     protected ilToolbarGUI $toolbar;
-    protected \ilADNTabHandling $tab_handling;
 
     protected ilTabsGUI $tabs;
 
@@ -45,11 +47,9 @@ abstract class ilADNAbstractGUI
     /**
      * ilADNAbstractGUI constructor.
      */
-    public function __construct(ilADNTabHandling $tab_handling)
+    public function __construct(protected \ilADNTabHandling $tab_handling)
     {
         global $DIC;
-
-        $this->tab_handling = $tab_handling;
         $this->tabs = $DIC['ilTabs'];
         $this->lng = $DIC->language();
         $this->ctrl = $DIC['ilCtrl'];

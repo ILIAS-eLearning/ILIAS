@@ -36,11 +36,6 @@ namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
         {
             return $this->getTemplate($a, $b, $c);
         }
-
-        protected function getComponentInterfaceName(): array
-        {
-            return ["\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph"];
-        }
     }
 
     class GlyphNonAbstractRendererWithJS extends GlyphNonAbstractRenderer
@@ -71,31 +66,10 @@ namespace ILIAS\UI\Implementation\Component\Counter {
         {
             return $this->getTemplate($a, $b, $c);
         }
-
-        protected function getComponentInterfaceName(): array
-        {
-            return ["\\ILIAS\\UI\\Component\\Counter\\Counter"];
-        }
     }
 }
 
 namespace {
-    /**
-     * This file is part of ILIAS, a powerful learning management system
-     * published by ILIAS open source e-Learning e.V.
-     *
-     * ILIAS is licensed with the GPL-3.0,
-     * see https://www.gnu.org/licenses/gpl-3.0.en.html
-     * You should have received a copy of said license along with the
-     * source code, too.
-     *
-     * If this is not the case or you just want to try ILIAS, you'll find
-     * us at:
-     * https://www.ilias.de
-     * https://github.com/ILIAS-eLearning
-     *
-     *********************************************************************/
-
     require_once(__DIR__ . "/../Base.php");
 
     use ILIAS\UI\Component as C;
@@ -108,6 +82,7 @@ namespace {
     use ILIAS\UI\Implementation\Component\Counter\CounterNonAbstractRenderer;
     use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphNonAbstractRendererWithJS;
     use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
+    use ILIAS\Language\Language;
 
     class NullTemplate implements Template
     {
@@ -130,7 +105,7 @@ namespace {
         {
         }
 
-        public function get(string $block = null): string
+        public function get(?string $block = null): string
         {
             return "";
         }
@@ -167,18 +142,13 @@ namespace {
         {
             return '';
         }
-
-        public function withAdditionalContext(C\Component $context): Renderer
-        {
-            return $this;
-        }
     }
 
     class AbstractRendererTest extends ILIAS_UI_TestBase
     {
         protected TemplateFactoryMock $tpl_factory;
         protected NoUIFactory $ui_factory;
-        protected ilLanguageMock $lng;
+        protected Language $lng;
         protected LoggingJavaScriptBinding $js_binding;
         /**
          * @var ImagePathResolver|mixed|MockObject
@@ -191,7 +161,7 @@ namespace {
             parent::setUp();
             $this->tpl_factory = new TemplateFactoryMock();
             $this->ui_factory = $this->getUIFactory(); //new NoUIFactory();
-            $this->lng = new ilLanguageMock();
+            $this->lng = new LanguageMock();
             $this->js_binding = new LoggingJavaScriptBinding();
             $this->image_path_resolver = $this->getMockBuilder(ILIAS\UI\Implementation\Render\ImagePathResolver::class)
                                               ->getMock();
@@ -205,7 +175,6 @@ namespace {
                 $this->tpl_factory,
                 $this->lng,
                 $this->js_binding,
-                $this->getRefinery(),
                 $this->image_path_resolver,
                 $this->getDataFactory(),
                 $this->help_text_retriever,
@@ -227,7 +196,6 @@ namespace {
                 $this->tpl_factory,
                 $this->lng,
                 $this->js_binding,
-                $this->getRefinery(),
                 $this->image_path_resolver,
                 $this->getDataFactory(),
                 $this->help_text_retriever,
@@ -250,7 +218,6 @@ namespace {
                 $this->tpl_factory,
                 $this->lng,
                 $this->js_binding,
-                $this->getRefinery(),
                 $this->image_path_resolver,
                 $this->getDataFactory(),
                 $this->help_text_retriever,
@@ -278,7 +245,6 @@ namespace {
                 $this->tpl_factory,
                 $this->lng,
                 $this->js_binding,
-                $this->getRefinery(),
                 $this->image_path_resolver,
                 $this->getDataFactory(),
                 $this->help_text_retriever,

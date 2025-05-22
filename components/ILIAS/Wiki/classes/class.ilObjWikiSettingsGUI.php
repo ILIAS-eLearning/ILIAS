@@ -84,7 +84,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         }
     }
 
-    protected function editSettings(ilPropertyFormGUI $form = null): void
+    protected function editSettings(?ilPropertyFormGUI $form = null): void
     {
         $ilTabs = $this->tabs;
         $tpl = $this->tpl;

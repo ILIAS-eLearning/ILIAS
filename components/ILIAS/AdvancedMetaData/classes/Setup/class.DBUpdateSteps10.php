@@ -18,6 +18,7 @@
 
 namespace ILIAS\AdvancedMetaData\Setup;
 
+use ilDBConstants;
 use ILIAS\Setup;
 
 class DBUpdateSteps10 implements \ilDatabaseUpdateSteps
@@ -40,5 +41,34 @@ class DBUpdateSteps10 implements \ilDatabaseUpdateSteps
             ];
             $this->db->addTableColumn('adv_mdf_enum', 'position', $field_infos);
         }
+    }
+
+    public function step_2(): void
+    {
+        $table_name = "adv_md_record_files";
+        if ($this->db->tableExists($table_name)) {
+            return;
+        }
+        $this->db->createTable($table_name, [
+            'object_id' => [
+                'type' => ilDBConstants::T_INTEGER,
+                'length' => 8,
+                'default' => 0,
+                'notnull' => true
+            ],
+            'rid' => [
+                'type' => ilDBConstants::T_TEXT,
+                'length' => 64,
+                'default' => '',
+                'notnull' => true
+            ],
+            'is_global' => [
+                'type' => ilDBConstants::T_INTEGER,
+                'length' => 1,
+                'default' => 0,
+                'notnull' => true
+            ]
+        ]);
+        $this->db->addPrimaryKey($table_name, ["object_id", "rid", "is_global"]);
     }
 }

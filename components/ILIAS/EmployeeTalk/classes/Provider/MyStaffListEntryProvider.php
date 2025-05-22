@@ -75,7 +75,7 @@ final class MyStaffListEntryProvider extends AbstractStaticMainMenuProvider
                                           return boolval($this->settings->get('enable_my_staff'));
                                       }
                                   )
-                                  ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('item_must_be_always_active')}"))
+                                  ->withNonAvailableReason($this->dic->ui()->factory()->legacy()->content("{$this->dic->language()->txt('item_must_be_always_active')}"))
                                   ->withParent($this->organisationIdentifier)
                                   ->withTitle($title)
                                   ->withSymbol($icon)

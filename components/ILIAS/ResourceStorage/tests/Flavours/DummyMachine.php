@@ -20,7 +20,6 @@ namespace ILIAS\ResourceStorage\Flavours;
 
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
-use ILIAS\ResourceStorage\Flavour\Engine\Engine;
 use ILIAS\ResourceStorage\Flavour\Engine\NoEngine;
 use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\AbstractMachine;
 use ILIAS\ResourceStorage\Flavour\Machine\FlavourMachine;
@@ -38,7 +37,7 @@ class DummyMachine extends AbstractMachine implements FlavourMachine
 
     public function load(
         string $id,
-        string $can_handle_definition_id = null,
+        ?string $can_handle_definition_id = null,
         string $depends_on_engine = NoEngine::class
     ): void {
         $this->id = $id;

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,14 +14,15 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
 {
     protected ilDBInterface $db;
 
-    public function __construct(ilDBInterface $db = null)
+    public function __construct(?ilDBInterface $db = null)
     {
         global $DIC;
 
@@ -159,7 +158,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
      */
     public function getNewAchievementsPerUser(
         string $a_timestamp,
-        string $a_timestamp_to = null,
+        ?string $a_timestamp_to = null,
         int $a_user_id = 0,
         int $a_self_eval = 0
     ): array {

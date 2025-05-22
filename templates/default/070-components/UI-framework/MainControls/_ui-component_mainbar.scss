@@ -11,19 +11,7 @@
 $il-mainbar-btn-padding: 0;
 $il-mainbar-btn-label-icon-gap: $il-padding-xs-vertical;
 
-$il-mainbar-btn-color: white;
-$il-mainbar-btn-bg-color: $il-neutral-color;
-$il-mainbar-btn-border-radius: null;
-
-$il-mainbar-btn-color-hover: $il-neutral-color;
-$il-mainbar-btn-bg-color-hover: $il-main-bg;
-
-$il-mainbar-btn-color-engaged: $il-neutral-color;
-$il-mainbar-btn-bg-color-engaged: $il-main-bg;
-
-$il-mainbar-btn-icon-filter: brightness(0) invert(1);
-$il-mainbar-btn-hover-icon-filter: invert(50%);
-$il-mainbar-btn-engaged-icon-filter: invert(50%);
+$il-mainbar-btn-border-radius: $il-border-radius-base;
 
 $il-mainbar-btn-border: 1px solid $il-standard-page-border-light-color;
 $il-mainbar-btn-label-size: $il-font-size-xsmall;
@@ -61,7 +49,7 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 
 //
 // ALL SQUARE BUTTONS
-// in mainbar, metabar und toolbar tabs
+// in mainbar und toolbar tabs
 //
 
 .il-mainbar-triggers,
@@ -76,8 +64,7 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 
 .il-mainbar-triggers,
 .il-mainbar-tools-button,
-.il-mainbar-tool-trigger-item,
-.il-maincontrols-metabar {
+.il-mainbar-tool-trigger-item {
 	.btn-bulky,
 	.il-link.link-bulky {
 		padding: $il-mainbar-btn-padding;
@@ -217,7 +204,7 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 		&:not(:hover) {
 			background: $il-main-dark-bg;
 		}
-	}
+}
 }
 
 .il-maincontrols-mainbar,

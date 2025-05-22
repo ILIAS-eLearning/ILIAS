@@ -30,21 +30,19 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
  */
 abstract class AbstractStorableResource implements StorableResource
 {
-    protected \ILIAS\ResourceStorage\Revision\RevisionCollection $revisions;
+    protected RevisionCollection $revisions;
     /**
      * @var ResourceStakeholder[]
      */
     protected array $stakeholders = [];
     protected string $storage_id = '';
-    protected ResourceIdentification $identification;
 
     /**
      * StorableFileResource constructor.
      */
-    public function __construct(ResourceIdentification $identification)
+    public function __construct(protected ResourceIdentification $identification)
     {
-        $this->identification = $identification;
-        $this->revisions = new RevisionCollection($identification);
+        $this->revisions = new RevisionCollection($this->identification);
     }
 
     public function getIdentification(): ResourceIdentification

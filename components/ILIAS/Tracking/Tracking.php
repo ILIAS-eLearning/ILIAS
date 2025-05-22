@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Tracking\Setup\Agent as SetupAgent;
+use ILIAS\Setup\Agent as SetupAgentInterface;
+use ILIAS\Refinery\Factory as Refinery;
+
 class Tracking implements Component\Component
 {
     public function init(
@@ -32,6 +36,11 @@ class Tracking implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
+        new \ilTrackingSetupAgent(
+            $pull[\ILIAS\Refinery\Factory::class]
+        );
+
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilObjStat.js");
     }

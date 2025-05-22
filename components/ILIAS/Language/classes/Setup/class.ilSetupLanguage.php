@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -55,7 +54,7 @@ class ilSetupLanguage extends ilLanguage
         $this->lang_key = $a_lang_key ?: $this->lang_default;
         $il_absolute_path = realpath(__DIR__ . "/../../../../../");
         $this->lang_path = $il_absolute_path . "/lang";
-        $this->cust_lang_path = $il_absolute_path . "/Customizing/global/lang";
+        $this->cust_lang_path = $il_absolute_path . "/lang/customizing";
     }
 
     /**
@@ -216,17 +215,17 @@ class ilSetupLanguage extends ilLanguage
     {
         global $ilDB;
 
-        $arr = array();
-
-        $query = "SELECT * FROM object_data " .
+        $arr = [];
+        if ($ilDB instanceof ilDBInterface) {
+            $query = "SELECT * FROM object_data " .
                 "WHERE type = " . $ilDB->quote("lng", "text") . " " .
                 "AND description = " . $ilDB->quote("installed_local", "text");
-        $r = $ilDB->query($query);
+            $r = $ilDB->query($query);
 
-        while ($row = $ilDB->fetchObject($r)) {
-            $arr[] = $row->title;
+            while ($row = $ilDB->fetchObject($r)) {
+                $arr[] = $row->title;
+            }
         }
-
         return $arr;
     }
 

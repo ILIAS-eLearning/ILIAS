@@ -20,26 +20,53 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Vocabularies;
 
-use ILIAS\MetaData\Vocabularies\Conditions\ConditionInterface;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
 
 class Vocabulary implements VocabularyInterface
 {
+    protected SlotIdentifier $slot;
+    protected Type $type;
+    protected string $id;
     protected string $source;
+    protected bool $is_active;
+    protected bool $allows_custom_inputs;
 
     /**
      * @var string[]
      */
     protected array $values;
-    protected ?ConditionInterface $condition;
 
     public function __construct(
+        SlotIdentifier $slot,
+        Type $type,
+        string $id,
         string $source,
-        ?ConditionInterface $condition = null,
+        bool $is_active = true,
+        bool $allows_custom_inputs = false,
         string ...$values
     ) {
+        $this->slot = $slot;
+        $this->type = $type;
+        $this->id = $id;
         $this->source = $source;
         $this->values = $values;
-        $this->condition = $condition;
+        $this->is_active = $is_active;
+        $this->allows_custom_inputs = $allows_custom_inputs;
+    }
+
+    public function slot(): SlotIdentifier
+    {
+        return $this->slot;
+    }
+
+    public function type(): Type
+    {
+        return $this->type;
+    }
+
+    public function id(): string
+    {
+        return $this->id;
     }
 
     public function source(): string
@@ -57,13 +84,13 @@ class Vocabulary implements VocabularyInterface
         }
     }
 
-    public function isConditional(): bool
+    public function isActive(): bool
     {
-        return isset($this->condition);
+        return $this->is_active;
     }
 
-    public function condition(): ?ConditionInterface
+    public function allowsCustomInputs(): bool
     {
-        return $this->condition;
+        return $this->allows_custom_inputs;
     }
 }

@@ -184,13 +184,13 @@ class MainBarTest extends ILIAS_UI_TestBase
     public function getUIFactory(): NoUIFactory
     {
         $factory = new class () extends NoUIFactory {
-            public C\Button\Factory $button_factory;
+            public I\Button\Factory $button_factory;
 
-            public function button(): C\Button\Factory
+            public function button(): I\Button\Factory
             {
                 return $this->button_factory;
             }
-            public function symbol(): C\Symbol\Factory
+            public function symbol(): I\Symbol\Factory
             {
                 $f_icon = new I\Symbol\Icon\Factory();
                 $f_glyph = new I\Symbol\Glyph\Factory();
@@ -198,7 +198,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 
                 return new I\Symbol\Factory($f_icon, $f_glyph, $f_avatar);
             }
-            public function mainControls(): C\MainControls\Factory
+            public function mainControls(): I\MainControls\Factory
             {
                 $sig_gen = new I\SignalGenerator();
                 $counter_factory = new I\Counter\Factory();
@@ -210,10 +210,10 @@ class MainBarTest extends ILIAS_UI_TestBase
                 $slate_factory = new I\MainControls\Slate\Factory($sig_gen, $counter_factory, $symbol_factory);
                 return new I\MainControls\Factory($sig_gen, $slate_factory);
             }
-            public function legacy(string $content): C\Legacy\Legacy
+            public function legacy(): I\Legacy\Factory
             {
                 $sig_gen = new I\SignalGenerator();
-                return new I\Legacy\Legacy($content, $sig_gen);
+                return new I\Legacy\Factory($sig_gen);
             }
         };
         $factory->button_factory = $this->button_factory;
@@ -234,7 +234,7 @@ class MainBarTest extends ILIAS_UI_TestBase
                     )
             );
 
-        $toolslate = $sf->legacy('Help', $icon, new I\Legacy\Legacy('Help', new I\SignalGenerator()));
+        $toolslate = $sf->legacy('Help', $icon, new I\Legacy\Content('Help', new I\SignalGenerator()));
 
         $mb = $this->factory->mainBar()
             ->withAdditionalEntry('test1', $this->getButton())

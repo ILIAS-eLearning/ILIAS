@@ -213,7 +213,7 @@ class ilMailSearchObjectMembershipsTableGUI extends ilTable2GUI
             if (
                 $a_set['members_id'] !== $this->user->getId() &&
                 $relation->isUnlinked() &&
-                ilUtil::yn2tf(ilObjUser::_lookupPref($a_set['members_id'], 'bs_allow_to_contact_me'))
+                ilUtil::yn2tf((string) ilObjUser::_lookupPref($a_set['members_id'], 'bs_allow_to_contact_me'))
             ) {
                 $this->ctrl->setParameterByClass(ilBuddySystemGUI::class, 'user_id', $a_set['members_id']);
                 $buttons[] = $this->ui_factory

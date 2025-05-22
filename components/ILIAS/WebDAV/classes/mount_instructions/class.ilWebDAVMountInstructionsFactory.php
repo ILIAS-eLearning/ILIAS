@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -26,18 +26,11 @@ use Psr\Http\Message\RequestInterface;
  */
 class ilWebDAVMountInstructionsFactory
 {
-    private ilWebDAVMountInstructionsRepositoryImpl $repo;
-    private RequestInterface $request;
-    private ilObjUser $user;
-
     public function __construct(
-        ilWebDAVMountInstructionsRepositoryImpl $a_repo,
-        RequestInterface $a_request,
-        ilObjUser $a_user
+        private ilWebDAVMountInstructionsRepositoryImpl $repo,
+        private RequestInterface $request,
+        private ilObjUser $user
     ) {
-        $this->repo = $a_repo;
-        $this->request = $a_request;
-        $this->user = $a_user;
     }
 
     public function getMountInstructionsObject(): ilWebDAVBaseMountInstructions
@@ -48,11 +41,13 @@ class ilWebDAVMountInstructionsFactory
         $splitted_uri = explode('/', $uri);
 
         // Remove path elements before and until webdav script
-        while (array_shift($splitted_uri) != 'webdav.php' && count($splitted_uri) > 0);
+        while (array_shift($splitted_uri) !== 'webdav.php' && $splitted_uri !== []) {
+            ;
+        }
 
-        $path_value = $splitted_uri[1];
+        $path_value = $splitted_uri[1] ?? '';
 
-        if (strlen($path_value) == 2) {
+        if (strlen($path_value) === 2) {
             return new ilWebDAVObjectlessMountInstructions(
                 $this->repo,
                 $uri_builder,
@@ -61,7 +56,7 @@ class ilWebDAVMountInstructionsFactory
             );
         }
 
-        if (substr($path_value, 0, 4) == 'ref_') {
+        if (str_starts_with($path_value, 'ref_')) {
             return new ilWebDAVObjectMountInstructions(
                 $this->repo,
                 $uri_builder,

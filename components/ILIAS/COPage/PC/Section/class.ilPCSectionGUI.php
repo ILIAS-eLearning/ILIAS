@@ -50,7 +50,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 
             $onload_code = [];
             $char = $form->getItemByPostVar("characteristic");
-            $onload_code = array_merge($onload_code, $char->getOnloadCode());
+            //$onload_code = array_merge($onload_code, $char->getOnloadCode());
 
             $from = $form->getItemByPostVar("active_from");
             $from->setSideBySide(false);
@@ -138,8 +138,25 @@ class ilPCSectionGUI extends ilPageContentGUI
             "AdvancedKnowledge" => $lng->txt("cont_AdvancedKnowledge"));
     }
 
-    public static function _getCharacteristics(string $a_style_id): array
+    public static function _getCharacteristics(int $a_style_id): array
     {
+        global $DIC;
+
+        $service = $DIC->contentStyle()->internal();
+        $request = $DIC->copage()->internal()
+                       ->gui()
+                       ->pc()
+                       ->editRequest();
+        $requested_ref_id = $request->getRefId();
+        $access_manager = $service->domain()->access(
+            $requested_ref_id,
+            $DIC->user()->getId()
+        );
+        $char_manager = $service->domain()->characteristic(
+            $a_style_id,
+            $access_manager
+        );
+
         $std_chars = ilPCSectionGUI::_getStandardCharacteristics();
         $chars = $std_chars;
         if ($a_style_id > 0 &&
@@ -148,6 +165,9 @@ class ilPCSectionGUI extends ilPageContentGUI
             $chars = $style->getCharacteristics("section");
             $new_chars = array();
             foreach ($chars as $char) {
+                if ($char_manager->isOutdated("section", $char)) {
+                    continue;
+                }
                 if (($std_chars[$char] ?? "") != "") {	// keep lang vars for standard chars
                     $new_chars[$char] = $std_chars[$char];
                 } else {
@@ -190,14 +210,14 @@ class ilPCSectionGUI extends ilPageContentGUI
         return $ret;
     }
 
-    public function insert(ilPropertyFormGUI $a_form = null): void
+    public function insert(?ilPropertyFormGUI $a_form = null): void
     {
         $this->edit(true, $a_form);
     }
 
     public function edit(
         bool $a_insert = false,
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $tpl = $this->tpl;
 
@@ -227,7 +247,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         }
 
         // characteristic selection
-        $char_prop = new ilAdvSelectInputGUI(
+        $char_prop = new ilSelectInputGUI(
             $this->lng->txt("cont_characteristic"),
             "characteristic"
         );
@@ -245,11 +265,11 @@ class ilPCSectionGUI extends ilPageContentGUI
             ? "Block"
             : $this->content_obj->getCharacteristic();
 
+        $options = [];
         foreach ($chars as $k => $char) {
-            $html = '<div class="ilCOPgEditStyleSelectionItem"><div class="ilc_section_' . $k . '" style="' . self::$style_selector_reset . '">' .
-                $char . '</div></div>';
-            $char_prop->addOption($k, $char, $html);
+            $options[$k] = $char;
         }
+        $char_prop->setOptions($options);
 
         $char_prop->setValue($selected);
         $form->addItem($char_prop);
@@ -364,7 +384,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 
         // save/cancel buttons
         if ($a_insert) {
-            $form->addCommandButton("create_section", $lng->txt("save"));
+            $form->addCommandButton("create", $lng->txt("save"));
             $form->addCommandButton("cancelCreate", $lng->txt("cancel"));
         } else {
             $form->addCommandButton("update", $lng->txt("save"));

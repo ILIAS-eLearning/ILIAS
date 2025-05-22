@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\HTTP\Services;
 use ILIAS\Bibliographic\Field\Table;
 
 /**
@@ -25,7 +26,6 @@ use ILIAS\Bibliographic\Field\Table;
  */
 abstract class ilBiblAdminFieldGUI
 {
-    public const CMD_INIT_DEFAULT_FIELDS_AND_SORTING = 'initDefaultFieldsAndSorting';
     public const SUBTAB_RIS = 'subtab_ris';
     public const SUBTAB_BIBTEX = 'subtab_bibtex';
     public const FIELD_IDENTIFIER = 'field_id';
@@ -34,35 +34,34 @@ abstract class ilBiblAdminFieldGUI
     public const CMD_CANCEL = 'cancel';
     public const CMD_EDIT = 'edit';
     public const CMD_UPDATE = 'update';
+    public const CMD_SAVE_ORDERING = 'saveOrdering';
     public const CMD_APPLY_FILTER = 'applyFilter';
     public const CMD_RESET_FILTER = 'resetFilter';
     public const CMD_SAVE = 'save';
-    private \ILIAS\HTTP\Services $http;
+    private Services $http;
     private ilCtrl $ctrl;
     private ilTabsGUI $tabs;
     private ilLanguage $lng;
-    private ilAccessHandler $access;
-    protected \ilBiblAdminFactoryFacadeInterface $facade;
+    protected ilAccessHandler $access;
     protected Table $table;
     private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * ilBiblAdminFieldGUI constructor.
      */
-    public function __construct(ilBiblAdminFactoryFacadeInterface $facade)
+    public function __construct(protected \ilBiblAdminFactoryFacadeInterface $facade)
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->facade = $facade;
-        $this->table = new Table(
-            $this,
-            $this->facade
-        );
         $this->http = $DIC['http'];
         $this->ctrl = $DIC['ilCtrl'];
         $this->tabs = $DIC['ilTabs'];
         $this->lng = $DIC['lng'];
-        $this->access = $DIC['ilAccess'];
+        $this->access = $DIC->access();
+        $this->table = new Table(
+            $this,
+            $this->facade
+        );
     }
 
     public function executeCommand(): void
@@ -101,6 +100,7 @@ abstract class ilBiblAdminFieldGUI
             case self::CMD_EDIT:
             case self::CMD_UPDATE:
             case self::CMD_SAVE:
+            case self::CMD_SAVE_ORDERING:
             case self::CMD_APPLY_FILTER:
             case self::CMD_RESET_FILTER:
                 if ($this->checkPermissionBoolAndReturn('write')) {
@@ -108,6 +108,18 @@ abstract class ilBiblAdminFieldGUI
                 }
                 break;
         }
+    }
+
+    protected function saveOrdering(): void
+    {
+        foreach ($this->table->getOrdering() as $position => $field_id) {
+            $field = $this->facade->fieldFactory()->findById($field_id);
+            $field->setPosition($position);
+            $field->store();
+        }
+
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('changes_successfully_saved'));
+        $this->ctrl->redirect($this, self::CMD_STANDARD);
     }
 
     protected function getFieldIdFromRequest(): int
@@ -146,10 +158,10 @@ abstract class ilBiblAdminFieldGUI
             self::SUBTAB_RIS,
             $this->lng->txt('ris'),
             $this->ctrl->getLinkTargetByClass(
-                array(
+                [
                     ilObjBibliographicAdminGUI::class,
                     ilBiblAdminRisFieldGUI::class,
-                ),
+                ],
                 ilBiblAdminRisFieldGUI::CMD_STANDARD
             )
         );
@@ -159,10 +171,10 @@ abstract class ilBiblAdminFieldGUI
             self::SUBTAB_BIBTEX,
             $this->lng->txt('bibtex'),
             $this->ctrl->getLinkTargetByClass(
-                array(
+                [
                     ilObjBibliographicAdminGUI::class,
                     ilBiblAdminBibtexFieldGUI::class,
-                ),
+                ],
                 ilBiblAdminBibtexFieldGUI::CMD_STANDARD
             )
         );
@@ -178,20 +190,7 @@ abstract class ilBiblAdminFieldGUI
 
     protected function save(): void
     {
-        // I currently did not find a way to use the wrapper here
-        $positions = $this->http->request()->getParsedBody()['position'];
-
-        foreach ($positions as $set) {
-            $field_id = (int) key($set);
-            $position = (int) current($set);
-
-            $ilBiblField = $this->facade->fieldFactory()->findById($field_id);
-            $ilBiblField->setPosition($position);
-            $ilBiblField->store();
-        }
-
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('changes_successfully_saved'));
-        $this->ctrl->redirect($this, self::CMD_STANDARD);
+        $this->saveOrdering();
     }
 
     protected function applyFilter(): void
@@ -218,6 +217,6 @@ abstract class ilBiblAdminFieldGUI
 
     public function checkPermissionBoolAndReturn(string $permission): bool
     {
-        return (bool) $this->access->checkAccess($permission, '', $this->http->request()->getQueryParams()['ref_id']);
+        return $this->access->checkAccess($permission, '', $this->http->request()->getQueryParams()['ref_id']);
     }
 }

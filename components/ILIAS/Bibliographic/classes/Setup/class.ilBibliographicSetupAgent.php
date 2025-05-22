@@ -16,16 +16,22 @@
  *
  *********************************************************************/
 
-use ILIAS\Refinery;
-use ILIAS\Setup;
+use ILIAS\Setup\Agent;
+use ILIAS\Setup\Agent\HasNoNamedObjective;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Setup\Config;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\Objective\NullObjective;
+use ILIAS\Setup\Metrics\Storage;
 
 /**
  * Class ilBibliographicSetupAgent
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-final class ilBibliographicSetupAgent implements Setup\Agent
+final class ilBibliographicSetupAgent implements Agent
 {
-    use Setup\Agent\HasNoNamedObjective;
+    use HasNoNamedObjective;
 
     /**
      * @var string component dir within ilias's data dir
@@ -43,7 +49,7 @@ final class ilBibliographicSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation(): Refinery\Transformation
+    public function getArrayToConfigTransformation(): Transformation
     {
         throw new LogicException("ilBibliographicSetupAgent has no config.");
     }
@@ -51,7 +57,7 @@ final class ilBibliographicSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Config $config = null): Objective
     {
         return new ilFileSystemComponentDataDirectoryCreatedObjective(
             self::COMPONENT_DIR,
@@ -62,9 +68,9 @@ final class ilBibliographicSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
-        return new Setup\ObjectiveCollection('Setup Bibliografic directories and database', true, ...[
+        return new ObjectiveCollection('Setup Bibliografic directories and database', true, ...[
             new ilDatabaseUpdateStepsExecutedObjective(
                 new ilBibliograficDB80()
             )
@@ -74,15 +80,15 @@ final class ilBibliographicSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildObjective(): Setup\Objective
+    public function getBuildObjective(): Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new NullObjective();
     }
 
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
+    public function getStatusObjective(Storage $storage): Objective
     {
         return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilBibliograficDB80());
     }

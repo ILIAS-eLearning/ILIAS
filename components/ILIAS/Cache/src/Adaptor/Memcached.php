@@ -27,6 +27,9 @@ use ILIAS\Cache\Config;
  */
 class Memcached extends BaseAdaptor implements Adaptor
 {
+    /**
+     * @var string
+     */
     private const PERSISTENT_ID = 'ilias_cache';
     private ?\Memcached $server = null;
 
@@ -60,7 +63,7 @@ class Memcached extends BaseAdaptor implements Adaptor
 
     public function set(string $container, string $key, string $value, int $ttl): void
     {
-        $this->server->set($this->buildKey($container, $key), $value);
+        $this->server->set($this->buildKey($container, $key), $value, $ttl);
     }
 
     public function delete(string $container, string $key): void
@@ -72,12 +75,12 @@ class Memcached extends BaseAdaptor implements Adaptor
     {
         $prefix = $this->buildContainerPrefix($container);
         foreach ($this->server->getAllKeys() as $key) {
-            if (str_starts_with($key, $prefix)) {
+            if (str_starts_with((string) $key, $prefix)) {
                 $this->server->set($key, false, 0);
             }
         }
         foreach ($this->server->getAllKeys() as $key) {
-            if (str_starts_with($key, $prefix)) {
+            if (str_starts_with((string) $key, $prefix)) {
                 $this->server->get(
                     $key
                 ); // invalidates the key, see https://www.php.net/manual/en/memcached.expiration.php

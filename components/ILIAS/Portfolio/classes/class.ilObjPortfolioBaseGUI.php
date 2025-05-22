@@ -39,7 +39,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     protected int $requested_user_page;
     protected string $requested_back_url = "";
     protected \ILIAS\DI\UIServices $ui;
-    protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
@@ -64,8 +63,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             ->internal()
             ->gui()
             ->standardRequest();
-
-        $this->http = $DIC->http();
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
@@ -111,9 +108,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         if ($this->page_id > 0) {
             $page = $this->getPageInstance($this->page_id);
             $title = $page->getTitle();
-            if ($page->getType() === ilPortfolioPage::TYPE_BLOG) {
-                $title = ilObject::_lookupTitle($title);
-            }
             $this->ctrl->setParameterByClass($this->getPageGUIClassName(), "ppage", $this->page_id);
             $ilLocator->addItem(
                 $title,
@@ -241,19 +235,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $a_form->addItem($ppic);
 
         $prfa_set = new ilSetting("prfa");
-        if ($prfa_set->get("banner")) {
-            $dimensions = " (" . $prfa_set->get("banner_width") . "x" .
-                $prfa_set->get("banner_height") . ")";
-
-            $img = new ilImageFileInputGUI($this->lng->txt("prtf_banner") . $dimensions, "banner");
-            $a_form->addItem($img);
-
-            // show existing file
-            $file = $this->object->getImageFullPath(true);
-            if ($file) {
-                $img->setImage(ilWACSignedPath::signFile($file));
-            }
-        }
 
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('obj_features'));
@@ -286,18 +267,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     {
         $this->object->setPublicComments($form->getInput("comments"));
         $this->object->setProfilePicture($form->getInput("ppic"));
-        /*
-        $this->object->setBackgroundColor($a_form->getInput("bg_color"));
-        $this->object->setFontcolor($a_form->getInput("font_color"));
-        */
-
         $prfa_set = new ilSetting("prfa");
-
-        if (isset($_FILES["banner"]) && $_FILES["banner"]["tmp_name"]) {
-            $this->object->uploadImage($_FILES["banner"]);
-        } elseif ($prfa_set->get('banner') && $form->getItemByPostVar("banner")->getDeletionFlag()) {
-            $this->object->deleteImage();
-        }
     }
 
 
@@ -335,13 +305,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $this->lng->txt("prtf_add_page"),
             $this->ctrl->getLinkTarget($this, "addPage")
         )->toToolbar(true);
-
-        if (!$ilSetting->get('disable_wsp_blogs')) {
-            $this->gui->button(
-                $this->lng->txt("prtf_add_blog"),
-                $this->ctrl->getLinkTarget($this, "addBlog")
-            )->toToolbar(true);
-        }
 
 
         // #16571
@@ -389,6 +352,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     public function getPrintView(): \ILIAS\Export\PrintProcessGUI
     {
         $obj_ids = $this->port_request->getObjIds();
+        $signature = $this->port_request->getSignature();
+        $declaration = $this->port_request->getIncludeDeclaration();
         if (count($obj_ids) === 0) {
             $obj_ids = null;
         }
@@ -398,8 +363,9 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $this->lng,
             $this->ctrl,
             $port,
-            false,
-            $obj_ids
+            $signature,
+            $obj_ids,
+            $declaration
         );
         $provider = $provider->withDeclarationOfAuthorship(
             new ilPortfolioDeclarationOfAuthorship(),
@@ -511,30 +477,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     }
 
     /**
-     * Show portfolio blog page creation form
-     */
-    protected function addBlog(): void
-    {
-        $ilHelp = $this->help;
-
-        $this->tabs_gui->clearTargets();
-        $this->tabs_gui->setBackTarget(
-            $this->lng->txt("back"),
-            $this->ctrl->getLinkTarget($this, "view")
-        );
-
-        $ilHelp->setScreenIdComponent("prtf");
-        $ilHelp->setScreenId("add_blog");
-
-        $form = $this->initBlogForm();
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    abstract protected function initBlogForm(): ilPropertyFormGUI;
-
-    abstract protected function saveBlog(): void;
-
-    /**
      * Save ordering of portfolio pages
      */
     public function savePortfolioPagesOrdering(): void
@@ -592,9 +534,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 }
 
                 $title = $page->getTitle();
-                if ($page->getType() === ilPortfolioPage::TYPE_BLOG) {
-                    $title = $this->lng->txt("obj_blog") . ": " . ilObject::_lookupTitle((int) $title);
-                }
                 $cgui->addItem("prtf_pages[]", $id, $title);
             }
 
@@ -679,17 +618,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         }
 
         // render tabs
-        $current_blog = null;
         if (count($pages) > 1) {
             foreach ($pages as $p) {
-                if ($p["type"] == ilPortfolioPage::TYPE_BLOG) {
-                    // needed for blog comments (see below)
-                    if ($p["id"] == $current_page) {
-                        $current_blog = (int) $p["title"];
-                    }
-                    $p["title"] = ilObjBlog::_lookupTitle($p["title"]);
-                }
-
                 $this->ctrl->setParameter($this, "user_page", $p["id"]);
                 $this->tabs_gui->addTab(
                     "user_page_" . $p["id"],
@@ -708,7 +638,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         // note: notes must be handled before the $this->ctrl->getHTML below, since
         // this messes up the path since ILIAS 8
         $notes = "";
-        if ($a_show_notes && $this->object->hasPublicComments() && !$current_blog && $current_page) {
+        if ($a_show_notes && $this->object->hasPublicComments() && $current_page) {
             $comment_gui = $this->getCommentGUI();
             $next_class = $this->ctrl->getNextClass($this);
             if ($next_class === "ilcommentgui") {
@@ -761,14 +691,12 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->ctrl->setParameter($this, "user_page", $this->page_id);
 
         // blog pages do their own (page) style handling
-        if (!$current_blog) {
-            $content = '<div id="ilCOPageContent" class="ilc_page_cont_PageContainer">' .
-                '<div class="ilc_page_Page">' .
-                    $content .
-                '</div></div>';
+        $content = '<div id="ilCOPageContent" class="ilc_page_cont_PageContainer">' .
+            '<div class="ilc_page_Page">' .
+                $content .
+            '</div></div>';
 
-            $this->setContentStyleSheet($this->tpl);
-        }
+        $this->setContentStyleSheet($this->tpl);
 
         $this->showEditButton($current_page);
 
@@ -858,9 +786,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         }
     }
 
-    /**
-     * Render banner, user name
-     */
     public static function renderFullscreenHeader(
         ilObjPortfolioBase $a_portfolio,
         ilGlobalTemplateInterface $a_tpl,
@@ -885,17 +810,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $name = ilObjUser::_lookupName($a_user_id);
         $name = $name["lastname"] . ", " . (($t = $name["title"]) ? $t . " " : "") . $name["firstname"];
 
-        // show banner?
-        $banner = $banner_width = $banner_height = false;
         $prfa_set = new ilSetting("prfa");
-        if ($prfa_set->get("banner")) {
-            $banner = ilWACSignedPath::signFile($a_portfolio->getImageFullPath());
-            $banner_width = $prfa_set->get("banner_width");
-            $banner_height = $prfa_set->get("banner_height");
-            if ($a_export) {
-                $banner = basename($banner);
-            }
-        }
 
         // profile picture
         $ppic = null;
@@ -909,7 +824,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $a_tpl->resetHeaderBlock(false);
         // $a_tpl->setBackgroundColor($a_portfolio->getBackgroundColor());
         // @todo fix this
-        $a_tpl->setBanner($banner);
         $a_tpl->setTitleIcon((string) $ppic);
         $a_tpl->setTitle($a_portfolio->getTitle());
         // $a_tpl->setTitleColor($a_portfolio->getFontColor());
@@ -927,9 +841,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     ): void {
         $port_export = new \ILIAS\Portfolio\Export\PortfolioHtmlExport($this);
         $port_export->includeComments($a_with_comments);
-        $zip = $port_export->exportHtml();
-
-        ilFileDelivery::deliverFileLegacy($zip, $this->object->getTitle() . ".zip", '', false, true);
+        $port_export->exportHtml();
+        $port_export->deliver($this->object->getTitle() . ".zip", true);
     }
 
     public function exportWithComments(): void
@@ -941,7 +854,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
      * Select target portfolio for page(s) copy
      */
     public function copyPageForm(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $prtf_pages = $this->port_request->getPortfolioPageIds();
 
@@ -1022,7 +935,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     ////
 
     public function setContentStyleSheet(
-        ilGlobalTemplateInterface $a_tpl = null
+        ?ilGlobalTemplateInterface $a_tpl = null
     ): void {
         $tpl = $this->tpl;
 

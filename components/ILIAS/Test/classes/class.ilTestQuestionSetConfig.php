@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Logging\TestLogger;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 /**
  * abstract parent class that manages/holds the data for a question set configuration
  * @author		Björn Heyser <bheyser@databay.de>
@@ -26,13 +29,13 @@ declare(strict_types=1);
 abstract class ilTestQuestionSetConfig
 {
     public function __construct(
-        protected ilTree $tree,
-        protected ilDBInterface $db,
-        protected ilLanguage $lng,
-        protected ilLogger $log,
-        protected ilComponentRepository $component_repository,
-        protected ilObjTest $test_obj,
-        protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
+        protected readonly ilTree $tree,
+        protected readonly ilDBInterface $db,
+        protected readonly ilLanguage $lng,
+        protected readonly TestLogger $logger,
+        protected readonly ilComponentRepository $component_repository,
+        protected readonly ilObjTest $test_obj,
+        protected readonly GeneralQuestionPropertiesRepository $questionrepository
     ) {
     }
 
@@ -40,36 +43,6 @@ abstract class ilTestQuestionSetConfig
     abstract public function saveToDb(): void;
     abstract public function cloneToDbForTestId(int $testId): void;
     abstract public function deleteFromDb(): void;
-
-    public function areDepenciesInVulnerableState(): bool
-    {
-        return false;
-    }
-
-    public function getDepenciesInVulnerableStateMessage(ilLanguage $lng): string
-    {
-        return '';
-    }
-
-    public function areDepenciesBroken(): bool
-    {
-        return false;
-    }
-
-    public function getDepenciesBrokenMessage(ilLanguage $lng): string
-    {
-        return '';
-    }
-
-    public function isValidRequestOnBrokenQuestionSetDepencies(string $next_class, string $cmd): bool
-    {
-        return true;
-    }
-
-    public function getHiddenTabsOnBrokenDepencies(): array
-    {
-        return [];
-    }
 
     abstract public function isQuestionSetConfigured(): bool;
     abstract public function doesQuestionSetRelatedDataExist(): bool;

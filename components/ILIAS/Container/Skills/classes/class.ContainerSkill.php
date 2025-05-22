@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Container\Skills;
 
@@ -40,7 +39,7 @@ class ContainerSkill implements GapAnalysisSkill
         int $tref_id,
         int $cont_obj_id,
         string $title = "",
-        SkillProfile $profile = null
+        ?SkillProfile $profile = null
     ) {
         $this->skill_id = $skill_id;
         $this->tref_id = $tref_id;

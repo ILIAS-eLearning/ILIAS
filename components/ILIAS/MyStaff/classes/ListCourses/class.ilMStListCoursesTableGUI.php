@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\MyStaff\ilMyStaffAccess;
@@ -380,8 +381,10 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         foreach (array_unique(ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($mst_lco_usr_id)) as $orgu_id) {
             if ($DIC->access()->checkAccess("read", "", $orgu_id) && !ilObject::_isInTrash($orgu_id)) {
                 $org_units = $this->getTextRepresentationOfOrgUnits();
-                $link = ilLink::_getStaticLink($orgu_id, 'orgu');
-                $actions[] = $this->ui_fac->link()->standard($org_units[$orgu_id], $link);
+                if (isset($org_units[$orgu_id])) {
+                    $link = ilLink::_getStaticLink($orgu_id, 'orgu');
+                    $actions[] = $this->ui_fac->link()->standard($org_units[$orgu_id], $link);
+                }
             }
         }
 

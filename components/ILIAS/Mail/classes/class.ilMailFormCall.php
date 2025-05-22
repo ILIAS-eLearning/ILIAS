@@ -18,19 +18,13 @@
 
 declare(strict_types=1);
 
-/**
- * Statically used helper class for generating links to the mail form user interface
- *
- * @version: $Id$
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailFormCall
 {
-    final public const SESSION_KEY = 'mail_transport';
-    final public const REFERER_KEY = 'r';
-    final public const SIGNATURE_KEY = 'sig';
-    final public const CONTEXT_PREFIX = 'ctx';
-    final public const CONTEXT_KEY = 'ctx_template';
+    final public const string SESSION_KEY = 'mail_transport';
+    final public const string REFERER_KEY = 'r';
+    final public const string SIGNATURE_KEY = 'sig';
+    final public const string CONTEXT_PREFIX = 'ctx';
+    final public const string CONTEXT_KEY = 'ctx_template';
 
     /**
      * @param object|string $gui
@@ -87,47 +81,47 @@ class ilMailFormCall
         }
 
         if (is_object($gui)) {
-            $ilCtrlTmp = clone $DIC->ctrl();
+            $ctrl_tmp = clone $DIC->ctrl();
             foreach ($gui_params as $key => $value) {
-                $ilCtrlTmp->setParameter($gui, $key, $value);
+                $ctrl_tmp->setParameter($gui, $key, $value);
             }
-            $referer = $ilCtrlTmp->getLinkTarget($gui, $cmd, '');
+            $referer = $ctrl_tmp->getLinkTarget($gui, $cmd, '');
         } elseif (is_string($gui)) {
             $referer = $gui;
         }
 
-        $referer = $argument_separator . self::REFERER_KEY . '=' . rawurlencode(base64_encode($referer));
+        $referer = $argument_separator . self::REFERER_KEY . '=' . rawurlencode(base64_encode((string) $referer));
 
         return 'ilias.php?baseClass=ilMailGUI' . $referer . $mparams;
     }
 
     /**
-     * @param array<string, mixed> $queryParameters
+     * @param array<string, mixed> $query_parameters
      */
-    public static function storeReferer(array $queryParameters): void
+    public static function storeReferer(array $query_parameters): void
     {
         $session = ilSession::get(self::SESSION_KEY);
 
-        if (isset($queryParameters[self::REFERER_KEY])) {
-            $session[self::REFERER_KEY] = base64_decode(rawurldecode($queryParameters[self::REFERER_KEY]));
+        if (isset($query_parameters[self::REFERER_KEY])) {
+            $session[self::REFERER_KEY] = base64_decode(rawurldecode((string) $query_parameters[self::REFERER_KEY]));
             $session[self::SIGNATURE_KEY] = base64_decode(
                 rawurldecode(
-                    $queryParameters[self::SIGNATURE_KEY] ?? ''
+                    $query_parameters[self::SIGNATURE_KEY] ?? ''
                 )
             );
 
-            $contextParameters = [];
-            foreach ($queryParameters as $key => $value) {
+            $context_parameters = [];
+            foreach ($query_parameters as $key => $value) {
                 $prefix = substr($key, 0, strlen(self::CONTEXT_PREFIX));
                 if ($prefix === self::CONTEXT_PREFIX) {
                     if ($key === self::CONTEXT_KEY) {
-                        $contextParameters[$key] = $value;
+                        $context_parameters[$key] = $value;
                     } else {
-                        $contextParameters[substr($key, strlen(self::CONTEXT_PREFIX . '_'))] = $value;
+                        $context_parameters[substr($key, strlen(self::CONTEXT_PREFIX . '_'))] = $value;
                     }
                 }
             }
-            $session[self::CONTEXT_PREFIX] = $contextParameters;
+            $session[self::CONTEXT_PREFIX] = $context_parameters;
         } else {
             if (isset($session[self::REFERER_KEY])) {
                 unset($session[self::REFERER_KEY]);

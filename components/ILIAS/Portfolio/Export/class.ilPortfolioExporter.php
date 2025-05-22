@@ -61,7 +61,7 @@ class ilPortfolioExporter extends ilXmlExporter
 
         // common object properties
         $deps[] = array(
-            "component" => "components/ILIAS/Object",
+            "component" => "components/ILIAS/ILIASObject",
             "entity" => "common",
             "ids" => $a_ids
         );
@@ -74,7 +74,7 @@ class ilPortfolioExporter extends ilXmlExporter
         string $a_schema_version,
         string $a_id
     ): string {
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
@@ -82,6 +82,12 @@ class ilPortfolioExporter extends ilXmlExporter
         string $a_entity
     ): array {
         return array(
+                "10.0" => array(
+                    "namespace" => "https://www.ilias.de/Modules/Portfolio/10",
+                    "xsd_file" => "ilias_portfolio_10.xsd",
+                    "uses_dataset" => true,
+                    "min" => "10.0",
+                    "max" => ""),
                 "4.4.0" => array(
                         "namespace" => "https://www.ilias.de/Modules/Portfolio/4_4",
                         "xsd_file" => "ilias_portfolio_4_4.xsd",
@@ -93,7 +99,7 @@ class ilPortfolioExporter extends ilXmlExporter
                         "xsd_file" => "ilias_portfolio_5_0.xsd",
                         "uses_dataset" => true,
                         "min" => "5.0.0",
-                        "max" => "")
+                        "max" => "9.99")
         );
     }
 }

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Container\View\ActionBuilder;
 
+use ILIAS\UI\Component\Component;
 use ILIAS\components\ResourceStorage\Container\View\Request;
 
 /**
@@ -28,7 +29,6 @@ use ILIAS\components\ResourceStorage\Container\View\Request;
  */
 interface ActionProvider
 {
-
     /**
      * @return TopAction[]
      */
@@ -40,7 +40,7 @@ interface ActionProvider
     public function getSingleActions(Request $view_request): array;
 
     /**
-     * @return \ILIAS\UI\Component\Component[]
+     * @return Component[]
      */
     public function getComponents(): array;
 }

@@ -1,17 +1,4 @@
 <?php
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Shibboleth role assignment rule
  *
@@ -24,14 +11,28 @@
  */
 class ilShibbolethRoleAssignmentRule
 {
+    /**
+     * @var string
+     */
     private const ERR_MISSING_NAME = 'shib_missing_attr_name';
+    /**
+     * @var string
+     */
     private const ERR_MISSING_VALUE = 'shib_missing_attr_value';
+    /**
+     * @var string
+     */
     private const ERR_MISSING_ROLE = 'shib_missing_role';
+    /**
+     * @var string
+     */
     private const ERR_MISSING_PLUGIN_ID = 'shib_missing_plugin_id';
+    /**
+     * @var string
+     */
     private const TABLE_NAME = 'shib_role_assignment';
 
     private ilDBInterface $db;
-    private int $rule_id;
     private int $role_id = 0;
     private string $attribute_name = '';
     private string $attribute_value = '';
@@ -40,12 +41,10 @@ class ilShibbolethRoleAssignmentRule
     private bool $remove_on_update = false;
     private ?string $plugin_id = null;
 
-    public function __construct(int $a_rule_id = 0)
+    public function __construct(private int $rule_id = 0)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $this->db = $ilDB;
-        $this->rule_id = $a_rule_id;
+        $this->db = $DIC->database();
         $this->read();
     }
 
@@ -177,7 +176,7 @@ class ilShibbolethRoleAssignmentRule
             . $this->db->quote($next_id, 'integer') . ', ' . $this->db->quote($this->getRoleId(), 'integer') . ', '
             . $this->db->quote($this->getName(), 'text') . ', ' . $this->db->quote($this->getValue(), 'text') . ', '
             . $this->db->quote((int) $this->isPluginActive(), 'integer') . ', ' . $this->db->quote(
-                $this->getPluginId() ?? 0,
+                $this->getPluginId() ?? '0',
                 'integer'
             ) . ', '
             . $this->db->quote((int) $this->isAddOnUpdateEnabled(), 'integer') . ', '
@@ -199,7 +198,7 @@ class ilShibbolethRoleAssignmentRule
                 'text'
             ) . ', ' . 'plugin = '
             . $this->db->quote((int) $this->isPluginActive(), 'integer') . ', ' . 'plugin_id = '
-            . $this->db->quote($this->getPluginId() ?? 0, 'integer') . ', ' . 'add_on_update = '
+            . $this->db->quote($this->getPluginId() ?? '0', 'integer') . ', ' . 'add_on_update = '
             . $this->db->quote((int) $this->isAddOnUpdateEnabled(), 'integer') . ', ' . 'remove_on_update = '
             . $this->db->quote((int) $this->isRemoveOnUpdateEnabled(), 'integer') . ' '
             . 'WHERE rule_id = ' . $this->db->quote($this->getRuleId(), 'integer');
@@ -255,7 +254,7 @@ class ilShibbolethRoleAssignmentRule
 
         $pattern = str_replace('*', '.*?', $this->getValue());
 
-        return (bool) preg_match('/^' . $pattern . '$/us', $values);
+        return (bool) preg_match('/^' . $pattern . '$/us', (string) $values);
     }
 
     private function read(): void
@@ -270,13 +269,13 @@ class ilShibbolethRoleAssignmentRule
         );
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setRoleId($row->role_id);
-            $this->setName($row->name);
-            $this->setValue($row->value);
-            $this->enablePlugin($row->plugin);
+            $this->setRoleId((int) $row->role_id);
+            $this->setName((string) $row->name);
+            $this->setValue((string) $row->value);
+            $this->enablePlugin((bool) $row->plugin);
             $this->setPluginId($row->plugin_id);
-            $this->enableAddOnUpdate($row->add_on_update);
-            $this->enableRemoveOnUpdate($row->remove_on_update);
+            $this->enableAddOnUpdate((bool) $row->add_on_update);
+            $this->enableRemoveOnUpdate((bool) $row->remove_on_update);
         }
     }
 }

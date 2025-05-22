@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Button;
 
@@ -35,7 +35,7 @@ class Toggle extends Button implements C\Button\Toggle
     protected ?string $action_off = null;
     protected ?string $action_on = null;
 
-    public function __construct(string $label, $action_on, $action_off, bool $is_on, Signal $click = null)
+    public function __construct(string $label, $action_on, $action_off, bool $is_on, ?Signal $click = null)
     {
         $this->checkStringOrSignalArg("action", $action_on);
         $this->checkStringOrSignalArg("action_off", $action_off);

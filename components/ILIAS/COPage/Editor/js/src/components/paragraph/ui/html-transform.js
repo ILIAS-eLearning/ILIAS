@@ -61,6 +61,27 @@ export default class HTMLTransform {
     return str;
   }
 
+  removeTagsExceptParagraphs(html) {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+
+    // Entfernt alle Tags außer <p>
+    tempDiv.querySelectorAll('*').forEach((node) => {
+      if (node.tagName.toLowerCase() !== 'p') {
+        node.replaceWith(...node.childNodes); // Ersetzt das Element mit seinem Inhalt
+      }
+    });
+    return tempDiv.innerHTML;
+  }
+
+  removeHtmlComments(html) {
+    return html.replace(/<!--[\s\S]*?-->/g, '');
+  }
+
+  removeNbsp(str) {
+    return str.replace(/&nbsp;/g, '');
+  }
+
   /**
    * convert <p> tags to <br />
    * @param {string} c

@@ -1,19 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -35,6 +38,7 @@ class ilBookingBulkCreationTableGUI extends ilTable2GUI
                                ->internal()
                                ->domain()
                                ->objects($pool_id);
+        $html_util = $DIC->bookingManager()->internal()->gui()->html();
 
         $ctrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -52,7 +56,10 @@ class ilBookingBulkCreationTableGUI extends ilTable2GUI
             "tpl.bulk_creation_row.html",
             "components/ILIAS/BookingManager/Objects"
         );
-        $this->addHiddenInput("data", $raw_data);
+        $this->addHiddenInput(
+            "bulk_data",
+            $html_util->escape($raw_data)
+        );
     }
 
     protected function fillRow(array $a_set): void

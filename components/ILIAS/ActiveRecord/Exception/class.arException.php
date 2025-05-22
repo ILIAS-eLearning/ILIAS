@@ -69,6 +69,6 @@ class arException extends ilException implements \Stringable
 
     public function __toString(): string
     {
-        return implode('<br>', [$this::class, $this->message]);
+        return implode('<br>', [static::class, $this->message]);
     }
 }

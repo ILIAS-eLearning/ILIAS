@@ -83,7 +83,7 @@ abstract class ilAdvancedMDTranslationGUI
     /**
      * show translation creation form
      */
-    protected function addTranslations(ilPropertyFormGUI $form = null)
+    protected function addTranslations(?ilPropertyFormGUI $form = null)
     {
         $this->tabs->activateTab(self::CMD_DEFAULT);
         if (!$form instanceof ilPropertyFormGUI) {

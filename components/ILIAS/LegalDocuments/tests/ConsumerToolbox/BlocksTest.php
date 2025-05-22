@@ -25,9 +25,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
-use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
@@ -51,6 +49,7 @@ use ilGlobalTemplateInterface;
 use ilCtrl;
 use stdClass;
 use DateTimeImmutable;
+use ILIAS\LegalDocuments\PageFragment\PageContent;
 
 require_once __DIR__ . '/../ContainerMock.php';
 
@@ -95,12 +94,7 @@ class BlocksTest extends TestCase
     public function testUi(): void
     {
         $container = $this->mock(Container::class);
-
-        $ui = $this->mock(UIServices::class);
-        $ui->expects(self::once())->method('factory')->willReturn($this->mock(UIFactory::class));
-        $ui->expects(self::once())->method('mainTemplate')->willReturn($this->mock(ilGlobalTemplateInterface::class));
-
-        $container->method('ui')->willReturn($ui);
+        $container->expects(self::once())->method('ui')->willReturn($this->mock(UIServices::class));
         $container->expects(self::once())->method('language')->willReturn($this->mock(ilLanguage::class));
 
         $instance = new Blocks(
@@ -218,5 +212,20 @@ class BlocksTest extends TestCase
         $instance = new Blocks('foo', $container, $this->mock(Provide::class));
         $result = $instance->withRequest($form, $this->fail(...));
         $this->assertSame($form, $result);
+    }
+
+    public function testNotAvailable(): void
+    {
+        $called = false;
+        $container = $this->mockTree(Container::class, []);
+
+        $instance = new Blocks('foo', $container, $this->mock(Provide::class), null, function () use (&$called): string {
+            $called = true;
+            return 'bar';
+        });
+
+        $result = $instance->notAvailable();
+        $this->assertInstanceOf(PageContent::class, $result);
+        $this->assertTrue($called);
     }
 }

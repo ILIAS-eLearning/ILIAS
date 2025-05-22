@@ -85,14 +85,6 @@ class ilSystemStyleConfigGUI
         $cmd = $this->ctrl->getCmd() ? $this->ctrl->getCmd() : 'edit';
         $style = $this->style_container->getSkin()->getStyle($this->style_id);
 
-        if ($style->isSubstyle()) {
-            if ($cmd == 'edit' || $cmd == 'view') {
-                $this->setSubStyleSubTabs('edit');
-            } else {
-                $this->setSubStyleSubTabs('assignStyle');
-            }
-        }
-
         $assign_gui = new ilSubStyleAssignmentGUI(
             $this,
             $this->ctrl,
@@ -126,22 +118,6 @@ class ilSystemStyleConfigGUI
                 $this->edit();
                 break;
         }
-    }
-
-    protected function setSubStyleSubTabs(string $active = ''): void
-    {
-        $this->tabs->addSubTab(
-            'edit',
-            $this->lng->txt('settings'),
-            $this->ctrl->getLinkTargetByClass('ilsystemstyleconfiggui')
-        );
-        $this->tabs->addSubTab(
-            'assignStyle',
-            $this->lng->txt('assignment'),
-            $this->ctrl->getLinkTargetByClass('ilsystemstyleconfiggui', 'assignStyle')
-        );
-
-        $this->tabs->activateSubTab($active);
     }
 
     protected function edit(): void

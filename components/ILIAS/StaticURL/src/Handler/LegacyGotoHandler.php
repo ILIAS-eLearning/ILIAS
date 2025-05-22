@@ -72,9 +72,9 @@ class LegacyGotoHandler implements Handler
             }
         }
 
-        $r_pos = strpos($requested_target, "_");
-        $rest = substr($requested_target, $r_pos + 1);
-        $target_arr = explode("_", $requested_target);
+        $r_pos = strpos((string) $requested_target, "_");
+        $rest = substr((string) $requested_target, $r_pos + 1);
+        $target_arr = explode("_", (string) $requested_target);
         $target_type = $target_arr[0];
         $target_id = $target_arr[1] ?? ''; // optional for plugins
         $additional = $target_arr[2] ?? '';        // optional for pages
@@ -115,7 +115,7 @@ class LegacyGotoHandler implements Handler
                 $DIC->ctrl()->redirectToURL($url);
             } else {
                 // message if target given but not accessible
-                $tarr = explode("_", $requested_target);
+                $tarr = explode("_", (string) $requested_target);
                 if ($tarr[0] !== "pg" && $tarr[0] !== "st" && isset($tarr[1]) && is_numeric($tarr[1]) && $tarr[1] > 0) {
                     $DIC->ui()->mainTemplate()->setOnScreenMessage(
                         'failure',
@@ -230,7 +230,7 @@ class LegacyGotoHandler implements Handler
                 global $objDefinition;
                 if (!$objDefinition->isPlugin($target_type)) {
                     $class_name = "ilObj" . $objDefinition->getClassName($target_type) . "GUI";
-                    if(class_exists($class_name)) {
+                    if (class_exists($class_name)) {
                         call_user_func([$class_name, "_goto"], $rest);
                     }
                 } else {

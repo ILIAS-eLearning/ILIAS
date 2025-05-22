@@ -47,7 +47,7 @@ interface AutoresponderCollection
     /** @return AutoresponderDto[] $*/
     public function getValues(): array;
     public function filter(callable $callable): self;
-    public function slice(int $offset, int $length = null): self;
+    public function slice(int $offset, ?int $length = null): self;
     /** @return AutoresponderDto[]|array<int|string, AutoresponderDto> */
     public function toArray(): array;
     public function equals($other): bool;

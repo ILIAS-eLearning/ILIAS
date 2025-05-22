@@ -115,12 +115,10 @@ class ilKSDocumentationEntryGUI
                 } catch (\ILIAS\UI\NotImplementedException $e) {
                     $example = "<div class='well'>This component is not yet fully implemented.</div>";
                 }
-                $content_part_1 = $this->f->legacy($example);
+                $content_part_1 = $this->f->legacy()->content($example);
                 $code = str_replace('<?php\n', '', file_get_contents($path));
-                $geshi = new GeSHi($code, 'php');
-                //@Todo: we need a code container UI Component
-                $code_html = "<div class='code-container'>" . $geshi->parse_code() . '</div>';
-                $content_part_2 = $this->f->legacy($code_html);
+                $code_html = "<div class='code-container'><pre><code>" . htmlspecialchars($code) . '</code></pre></div>';
+                $content_part_2 = $this->f->legacy()->content($code_html);
                 $content = [$content_part_1, $content_part_2];
                 $sub_panels[] = $this->f->panel()->sub($title, $content);
             }

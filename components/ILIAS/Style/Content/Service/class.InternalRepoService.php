@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,18 +16,20 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Style\Content;
 
 use ILIAS\Filesystem;
 use ILIAS\FileUpload\FileUpload;
 use ilDBInterface;
+use ILIAS\Style\Content\Style\StyleRepo;
+use ILIAS\Repository\RepoServiceBase;
 
-/**
- * Content style internal repo service
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalRepoService
 {
+    use RepoServiceBase;
+
     protected ilDBInterface $db;
     protected InternalDataService $data_factory;
     protected ColorDBRepo $color_repo;
@@ -59,7 +59,8 @@ class InternalRepoService
         $this->image_repo = new ImageFileRepo(
             $data_factory,
             $web_files,
-            $upload
+            $upload,
+            $this->irss()
         );
         $this->characteristic_copy_paste_repo =
             new CharacteristicCopyPasteSessionRepo();
@@ -102,4 +103,18 @@ class InternalRepoService
             $this->db
         );
     }
+
+    /**
+     * Objects without ref id (e.g. portfolios) can use
+     * the manager with a ref_id of 0, e.g. to get selectable styles
+     */
+    public function style(): StyleRepo
+    {
+        return new StyleRepo(
+            $this->db,
+            $this->data_factory,
+            $this->irss()
+        );
+    }
+
 }

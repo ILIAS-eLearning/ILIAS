@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 namespace ILIAS\OrgUnit\Provider;
 
@@ -69,7 +69,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
         $linkOrgUnit = $this->mainmenu->link($this->orgUnitIdentifier)
                                       ->withAlwaysAvailable(true)
                                       ->withAction($action)
-                                      ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('item_must_be_always_active')}"))
+                                      ->withNonAvailableReason($this->dic->ui()->factory()->legacy()->content("{$this->dic->language()->txt('item_must_be_always_active')}"))
                                       ->withParent($this->organisationIdentifier)
                                       ->withTitle($title)
                                       ->withSymbol($icon)
@@ -90,7 +90,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
         $linkEmployeeTalkTemplates = $this->mainmenu->link($this->employeeTalkTemplateIdentifier)
                                                     ->withAlwaysAvailable(true)
                                                     ->withAction($action)
-                                                    ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('item_must_be_always_active')}"))
+                                                    ->withNonAvailableReason($this->dic->ui()->factory()->legacy()->content("{$this->dic->language()->txt('item_must_be_always_active')}"))
                                                     ->withParent($this->organisationIdentifier)
                                                     ->withTitle($title)
                                                     ->withSymbol($icon)
@@ -100,7 +100,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
                                                             return $this->dic->access()->checkAccess(
                                                                 'read',
                                                                 '',
-                                                                ilObjOrgUnit::getRootOrgRefId()
+                                                                ilObjTalkTemplateAdministration::getRootRefId()
                                                             );
                                                         })
                                                     );
@@ -109,7 +109,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('org', $title);
         $items[] = $this->mainmenu->linkList($this->organisationIdentifier)
                                   ->withAlwaysAvailable(true)
-                                  ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('item_must_be_always_active')}"))
+                                  ->withNonAvailableReason($this->dic->ui()->factory()->legacy()->content("{$this->dic->language()->txt('item_must_be_always_active')}"))
                                   ->withParent($top)
                                   ->withTitle($title)
                                   ->withSymbol($icon)

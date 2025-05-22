@@ -107,63 +107,13 @@ class ilSurveyImporter extends ilXmlImporter
             $import->setSurveyObject($newObj);
             $import->startParsing();
 
-
-            // this is "written" by Services/Survey/classes/class.ilSurveyImportParser
-            $mobs = $this->spl_import_manager->getMobs();
-            if (count($mobs) > 0) {
-                foreach ($mobs as $mob) {
-                    $this->svy_log->debug("import mob xhtml, type: " . $mob["type"] . ", id: " . $mob["mob"]);
-
-                    if (!isset($mob["type"])) {
-                        $mob["type"] = "svy:html";
-                    }
-
-                    $importfile = dirname($xml_file) . "/" . $mob["uri"];
-                    $this->svy_log->debug("import file: " . $importfile);
-
-                    if (file_exists($importfile)) {
-                        $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
-
-                        // survey mob
-                        if ($mob["type"] === "svy:html") {
-                            ilObjMediaObject::_saveUsage($media_object->getId(), "svy:html", $newObj->getId());
-                            $this->svy_log->debug("old introduction: " . $newObj->getIntroduction());
-                            $newObj->setIntroduction(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $newObj->getIntroduction()));
-                            $newObj->setOutro(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $newObj->getOutro()));
-
-                            $this->svy_log->debug("new introduction: " . $newObj->getIntroduction());
-                        } elseif ($import->questions[$mob["id"]]) {
-                            $new_qid = $import->questions[$mob["id"]];
-                            ilObjMediaObject::_saveUsage($media_object->getId(), $mob["type"], $new_qid);
-                            $new_question = SurveyQuestion::_instanciateQuestion($new_qid);
-                            $qtext = $new_question->getQuestiontext();
-
-                            $this->svy_log->debug("old question text: " . $qtext);
-
-                            $qtext = ilRTE::_replaceMediaObjectImageSrc($qtext, 0);
-                            $qtext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $qtext);
-                            $qtext = ilRTE::_replaceMediaObjectImageSrc($qtext, 1);
-                            $new_question->setQuestiontext($qtext);
-                            $new_question->saveToDb();
-
-                            $this->svy_log->debug("new question text: " . $qtext);
-
-                            // also fix existing original in pool
-                            if ($new_question->getOriginalId()) {
-                                $pool_question = SurveyQuestion::_instanciateQuestion($new_question->getOriginalId());
-                                $pool_question->setQuestiontext($qtext);
-                                $pool_question->saveToDb();
-                            }
-                        }
-                    } else {
-                        $this->svy_log->error("Error: Could not open XHTML mob file for test introduction during test import. File $importfile does not exist!");
-                    }
-                }
-                $newObj->setIntroduction(ilRTE::_replaceMediaObjectImageSrc($newObj->getIntroduction(), 1));
-                $newObj->setOutro(ilRTE::_replaceMediaObjectImageSrc($newObj->getOutro(), 1));
-                $newObj->saveToDb();
-            }
             $a_mapping->addMapping("components/ILIAS/Survey", "svy", (int) $a_id, $newObj->getId());
+            $a_mapping->addMapping(
+                "components/ILIAS/MetaData",
+                "md",
+                $a_id . ":0:svy",
+                $newObj->getId() . ":0:svy"
+            );
         } else {
             $parser = new ilDataSetImportParser(
                 $a_entity,

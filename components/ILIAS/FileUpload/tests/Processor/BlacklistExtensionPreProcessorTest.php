@@ -18,6 +18,13 @@
 
 namespace ILIAS\FileUpload\Processor;
 
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\BackupStaticProperties;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\Small;
+
 require_once('./vendor/composer/vendor/autoload.php');
 
 use ILIAS\Filesystem\Stream\Streams;
@@ -29,18 +36,15 @@ use PHPUnit\Framework\TestCase;
  * Class BlacklistExtensionPreProcessorTest
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- *
- * @runTestsInSeparateProcesses
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
  */
+#[BackupGlobals(false)]
+#[BackupStaticProperties(false)]
+#[PreserveGlobalState(false)]
+#[RunTestsInSeparateProcesses]
 class BlacklistExtensionPreProcessorTest extends TestCase
 {
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testProcessWhichShouldSucceed(): void
     {
         $extensions = ['jpg', 'svg'];
@@ -54,10 +58,8 @@ class BlacklistExtensionPreProcessorTest extends TestCase
         $this->assertSame('Extension is not blacklisted.', $result->getMessage());
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testProcessWithBlacklistedEmptyExtensionWhichShouldGetRejected(): void
     {
         $extensions = ['jpg', ''];
@@ -71,10 +73,8 @@ class BlacklistExtensionPreProcessorTest extends TestCase
         $this->assertSame('Extension is blacklisted. (hello)', $result->getMessage());
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testProcessWithBlacklistedExtensionWhichShouldGetRejected(): void
     {
         $extensions = ['jpg', 'exe'];

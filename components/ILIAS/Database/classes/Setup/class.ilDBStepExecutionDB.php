@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * This logs the execution of database update steps.
  *
@@ -31,17 +31,14 @@ class ilDBStepExecutionDB implements ilDatabaseUpdateStepExecutionLog
     public const FIELD_STEP = "step";
     public const FIELD_STARTED = "started";
     public const FIELD_FINISHED = "finished";
-
-    protected ilDBInterface $db;
     protected $get_now;
 
     /**
      * @param   callable $get_now must return a DateTime object indicating the
      *                            very moment the callable was called.
      */
-    public function __construct(ilDBInterface $db, callable $get_now)
+    public function __construct(protected ilDBInterface $db, callable $get_now)
     {
-        $this->db = $db;
         $this->get_now = $get_now;
     }
 
@@ -86,7 +83,7 @@ class ilDBStepExecutionDB implements ilDatabaseUpdateStepExecutionLog
         $this->throwIfClassNameTooLong($class);
 
         $last_started_step = $this->getLastStartedStep($class);
-        if ($last_started_step != $step) {
+        if ($last_started_step !== $step) {
             throw new \RuntimeException(
                 "The step $step for $class is supposed to be finished, but" .
                 " $last_started_step was $step started last."

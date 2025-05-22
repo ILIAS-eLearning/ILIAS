@@ -20,7 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class BackgroundTasks implements Component\Component
+use ILIAS\Component\Component;
+use ILIAS\Setup\Agent;
+use ILIAS\Refinery\Factory;
+
+class BackgroundTasks implements Component
 {
     public function init(
         array | \ArrayAccess &$define,
@@ -32,9 +36,9 @@ class BackgroundTasks implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $contribute[Agent::class] = static fn(): \ilBackgroundTasksSetupAgent =>
             new \ilBackgroundTasksSetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
+                $pull[Factory::class]
             );
     }
 }

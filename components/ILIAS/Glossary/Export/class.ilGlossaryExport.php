@@ -23,19 +23,18 @@
  */
 class ilGlossaryExport
 {
-    protected ilXmlWriter $xml;
-    protected string $export_dir;
-    protected string $filename;
-    protected string $subdir;
+    protected string $export_dir = "";
+    protected string $filename = "";
+    protected string $subdir = "";
     protected string $mode;
     protected ilSetting $settings;
-    public ilDBInterface $db;
+    protected ilDBInterface $db;
     public ilObjGlossary $glo_obj;
     public int $inst_id;
 
     public function __construct(
         ilObjGlossary $a_glo_obj,
-        string $a_mode = "xml"
+        string $a_mode
     ) {
         global $DIC;
 
@@ -51,19 +50,10 @@ class ilGlossaryExport
         $this->inst_id = $settings["inst_id"] ? $settings['inst_id'] : 0;
 
         $date = time();
-        switch ($this->mode) {
-            case "xml":
-                $this->export_dir = $this->glo_obj->getExportDirectory();
-                $this->subdir = $date . "__" . $this->inst_id . "__" .
-                    $this->glo_obj->getType() . "_" . $this->glo_obj->getId();
-                $this->filename = $this->subdir . ".xml";
-                break;
-
-            case "html":
-                $this->export_dir = $this->glo_obj->getExportDirectory("html");
-                $this->subdir = $this->glo_obj->getType() . "_" . $this->glo_obj->getId();
-                $this->filename = $this->subdir . ".zip";
-                break;
+        if ($this->mode == "html") {
+            $this->export_dir = $this->glo_obj->getExportDirectory("html");
+            $this->subdir = $this->glo_obj->getType() . "_" . $this->glo_obj->getId();
+            $this->filename = $this->subdir . ".zip";
         }
     }
 
@@ -73,76 +63,9 @@ class ilGlossaryExport
     }
 
     /**
-     * build export file (complete zip file)
-     */
-    public function buildExportFile(): string
-    {
-        switch ($this->mode) {
-            case "html":
-                return $this->buildExportFileHTML();
-
-            default:
-                return $this->buildExportFileXML();
-        }
-    }
-
-    /**
-     * build export file (complete zip file)
-     */
-    public function buildExportFileXML(): string
-    {
-        $this->xml = new ilXmlWriter();
-
-        // set dtd definition
-        $this->xml->xmlSetDtdDef("<!DOCTYPE ContentObject SYSTEM \"https://www.ilias.uni-koeln.de/download/dtd/ilias_co_3_7.dtd\">");
-
-        // set generated comment
-        $this->xml->xmlSetGenCmt("Export of ILIAS Glossary " .
-            $this->glo_obj->getId() . " of installation " . $this->inst_id . ".");
-
-        // set xml header
-        $this->xml->xmlHeader();
-
-        // create directories
-        $this->glo_obj->createExportDirectory();
-        ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir);
-        ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir . "/objects");
-
-        // get Log File
-        $expDir = $this->glo_obj->getExportDirectory();
-        $expLog = new ilLog($expDir, "export.log");
-        $expLog->delete();
-        $expLog->setLogFormat("");
-        $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
-
-        // get xml content
-        $this->glo_obj->exportXML(
-            $this->xml,
-            $this->inst_id,
-            $this->export_dir . "/" . $this->subdir,
-            $expLog
-        );
-
-
-
-        // dump xml document to file
-        $this->xml->xmlDumpFile($this->export_dir . "/" . $this->subdir . "/" . $this->filename, false);
-
-        // zip the file
-        ilFileUtils::zip(
-            $this->export_dir . "/" . $this->subdir,
-            $this->export_dir . "/" . $this->subdir . ".zip"
-        );
-
-        $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
-
-        return $this->export_dir . "/" . $this->subdir . ".zip";
-    }
-
-    /**
      * build html export file
      */
-    public function buildExportFileHTML(): string
+    public function buildExportFileHTML(): void
     {
         // create directories
         $this->glo_obj->createExportDirectory("html");
@@ -153,6 +76,6 @@ class ilGlossaryExport
             $this->export_dir,
             $this->subdir
         );
-        return $exp->exportHTML();
+        $exp->exportHTML();
     }
 }

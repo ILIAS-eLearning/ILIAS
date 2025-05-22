@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-/**
- * Class ilRuntime
- * @author  Michael Jansen <mjansen@databay.de>
- * @package components/ILIAS/Environment
- */
-final class ilRuntime
+declare(strict_types=1);
+
+final class ilRuntime implements Stringable
 {
     private static ?self $instance = null;
 

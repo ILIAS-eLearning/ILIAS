@@ -3,13 +3,23 @@
 @use "../../../070-components/legacy/component_alert" as alert;
 
 /* not yet refactored code from former ta.css */
+$il-test-dropzone-bg-color: $il-main-dark-bg;
+$il-test-dropzone-bg-color-hover: $il-highlight-bg;
+$il-test-dropzone-border: $il-main-border;
+$il-test-term-bg-color: $il-highlight-bg;
+$il-test-term-disabled-bg-color: $il-disabled-btn-bg;
+$il-test-definition-bg-color: $il-main-darker-bg;
+$il-test-matching-padding: $il-padding-xs-horizontal;
+$il-test-longmenu-selectionlist-bg: $il-main-bg;
+$il-test-longmenu-selectionlist-bg-hover: $il-highlight-bg;
+$il-test-longmenu-selectionlist-border: $il-main-border;
+$il-test-longmenu-selectionlist-padding: $il-padding-xs-horizontal;
 
 .fullwidth_invisible {
 	background-color: transparent !important;
 }
 
 .feedback {
-/*	border:  1px solid gray;*/
 	padding: 4px;
 	display: block;
 	background: #EEEEEE;
@@ -597,3 +607,73 @@ div.ilc_Page.readonly textarea[disabled]
 	top: 40px;
 }
 
+/* 2024-10-23 skergomard: We use fixed margins from here on because of interactions with content.css */
+.c-test__dropzone {
+    display: none;
+    margin: 5px 10px 5px 0;
+    padding: 0;
+    background: $il-test-dropzone-bg-color;
+    border: $il-test-dropzone-border;
+
+    &.c-test__dropzone--hover {
+        background: $il-test-dropzone-bg-color-hover;
+    }
+
+    &.c-test__dropzone--active {
+        display: block;
+    }
+}
+
+.ilc_qordul_OrderListHorizontal .c-test__dropzone {
+    float: left;
+}
+
+.ilc_qordul_OrderList .c-test__dropzone {
+    width: 100%;
+}
+
+.c-test__definition {
+    border: $il-test-dropzone-border;
+    background-color: $il-test-definition-bg-color;
+    margin: 5px 10px 5px 0;
+    padding: $il-test-matching-padding;
+}
+
+.c-test__term {
+    border: $il-test-dropzone-border;
+    background-color: $il-test-term-bg-color;
+    margin: 5px 10px 5px 0;
+    padding: $il-test-matching-padding;
+    cursor: move;
+}
+
+.c-test__term, .dd-item {
+    .ilc_qimg_QuestionImage {
+        pointer-events: none;
+    }
+}
+
+.draggableDisabled {
+    background-color: $il-test-term-disabled-bg-color;
+}
+
+.c-test__longmenu__selectionlist {
+    position: relative;
+    display: inline-block;
+    & ul {
+        position: absolute;
+        background-color: $il-test-longmenu-selectionlist-bg;
+        border-left: $il-test-longmenu-selectionlist-border;
+        border-right: $il-test-longmenu-selectionlist-border;
+        border-bottom: $il-test-longmenu-selectionlist-border;
+        margin: 0;
+        min-width: 100%;
+        padding: $il-test-longmenu-selectionlist-padding;
+        list-style: none;
+        z-index: 1;
+        cursor: default;
+    }
+    & li:hover {
+        background-color: $il-test-longmenu-selectionlist-bg-hover;
+    }
+}

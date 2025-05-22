@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Repository\Filter;
 
@@ -82,7 +82,9 @@ class FilterAdapterGUI
     {
         $field = $this->ui->factory()->input()->field()->select($title, $options);
         if (!is_null($value)) {
-            $field = $field->withValue($value);
+            if (isset($options[$value])) {
+                $field = $field->withValue($value);
+            }
         }
         $this->addField(
             $key,

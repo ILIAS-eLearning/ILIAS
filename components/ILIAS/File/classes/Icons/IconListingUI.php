@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\File\Icon;
 
+use ILIAS\UI\Factory;
+use ILIAS\ResourceStorage\Services;
+use ILIAS\UI\Component\Panel\Listing\Standard;
 use ILIAS\UI\Component\Modal\Interruptive;
 
 /**
@@ -29,11 +32,11 @@ class IconListingUI
 {
     private \ilCtrl $ctrl;
     private \ilLanguage $lng;
-    private \ILIAS\UI\Factory $ui_factory;
+    private Factory $ui_factory;
     private \ILIAS\Refinery\Factory $refinery;
-    private \ILIAS\ResourceStorage\Services $storage;
+    private Services $storage;
     private array $deletion_modals = [];
-    private \ILIAS\UI\Component\Panel\Listing\Standard $icon_list;
+    private Standard $icon_list;
     private \ilUIFilterService $filter_service;
     private \ILIAS\UI\Component\Input\Container\Filter\Standard $filter;
     private \ILIAS\HTTP\Services $http;
@@ -166,7 +169,7 @@ class IconListingUI
         );
     }
 
-    public function getIconList(): \ILIAS\UI\Component\Panel\Listing\Standard
+    public function getIconList(): Standard
     {
         return $this->icon_list;
     }

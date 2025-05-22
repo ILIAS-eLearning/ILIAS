@@ -35,7 +35,6 @@ class ilLearningModuleLP extends ilObjectLP
 
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
-            ilLPObjSettings::LP_MODE_MANUAL,
             ilLPObjSettings::LP_MODE_QUESTIONS,
             ilLPObjSettings::LP_MODE_VISITED_PAGES
         );
@@ -43,15 +42,13 @@ class ilLearningModuleLP extends ilObjectLP
 
     public function getDefaultMode(): int
     {
-        return ilLPObjSettings::LP_MODE_MANUAL;
+        return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
 
     public function getValidModes(): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
-            ilLPObjSettings::LP_MODE_MANUAL,
-            ilLPObjSettings::LP_MODE_COLLECTION_MANUAL,
             ilLPObjSettings::LP_MODE_VISITS,
             ilLPObjSettings::LP_MODE_TLT,
             ilLPObjSettings::LP_MODE_COLLECTION_TLT,

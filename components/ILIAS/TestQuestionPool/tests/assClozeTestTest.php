@@ -165,7 +165,7 @@ class assClozeTestTest extends assBaseTestCase
     public function test_getAnswerTableName_shouldReturnAnswerTableName(): void
     {
         $instance = new assClozeTest();
-        $expected = array("qpl_a_cloze",'qpl_a_cloze_combi_res');
+        $expected = ["qpl_a_cloze",'qpl_a_cloze_combi_res'];
 
         $actual = $instance->getAnswerTableName();
 

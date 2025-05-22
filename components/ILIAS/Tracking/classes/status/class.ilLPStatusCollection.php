@@ -243,21 +243,24 @@ class ilLPStatusCollection extends ilLPStatus
         return $status_info;
     }
 
-    public static function _getTypicalLearningTime(int $a_obj_id): int
+    public static function _getTypicalLearningTime(string $type, int $obj_id, int $sub_id = 0): int
     {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
-        if ($ilObjDataCache->lookupType($a_obj_id) == 'sahs') {
-            return parent::_getTypicalLearningTime($a_obj_id);
+        if ($type == 'sahs') {
+            return parent::_getTypicalLearningTime($type, $obj_id);
         }
 
         $tlt = 0;
-        $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
+        $status_info = ilLPStatusWrapper::_getStatusInfo($obj_id);
         foreach ($status_info['collections'] as $item) {
+            $obj_id = $ilObjDataCache->lookupObjId((int) $item);
+            $type = $ilObjDataCache->lookupType($obj_id);
             $tlt += ilLPStatusWrapper::_getTypicalLearningTime(
-                $ilObjDataCache->lookupObjId((int) $item)
+                $type,
+                $obj_id
             );
         }
         return $tlt;
@@ -266,7 +269,7 @@ class ilLPStatusCollection extends ilLPStatus
     public function determineStatus(
         int $a_obj_id,
         int $a_usr_id,
-        object $a_obj = null
+        ?object $a_obj = null
     ): int {
         global $DIC;
 
@@ -452,6 +455,15 @@ class ilLPStatusCollection extends ilLPStatus
                     );
                     return $member_obj->getMembers();
                 }
+                if ($grp_id = $tree->checkForParentType(
+                    $folder_ref_id,
+                    'grp'
+                )) {
+                    $member_obj = ilGroupParticipants::_getInstanceByObjId(
+                        ilObject::_lookupObjId($grp_id)
+                    );
+                    return $member_obj->getMembers();
+                }
                 break;
 
             case 'lso':
@@ -523,5 +535,25 @@ class ilLPStatusCollection extends ilLPStatus
             self::LP_STATUS_IN_PROGRESS_NUM,
             $a_user_ids
         );
+    }
+
+    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null): int
+    {
+        $status_info = self::_getStatusInfo($a_obj_id);
+        if (empty($status_info)) {
+            return 0;
+        }
+        $passed = 0;
+        foreach ($status_info['collections'] as $item_ref_id) {
+            $obj_id = ilObject::_lookupObjId($item_ref_id);
+            if (ilLPStatusWrapper::_determineStatus($obj_id, $a_usr_id) === self::LP_STATUS_COMPLETED_NUM) {
+                $passed++;
+            }
+        }
+        $percentage = 0;
+        if ($status_info["num_collections"] > 0) {
+            $percentage = (int) ((100.0 / $status_info["num_collections"]) * $passed);
+        }
+        return $percentage;
     }
 }

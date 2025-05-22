@@ -455,7 +455,7 @@ class ilPCMediaObject extends ilPageContent
         $suffix = "-" . $page->getParentType() . "-" . $page->getId();
         $modal = $this->ui->factory()->modal()->roundtrip(
             $this->lng->txt("cont_fullscreen"),
-            $this->ui->factory()->legacy("<iframe class='il-copg-mob-fullscreen' id='il-copg-mob-fullscreen" . $suffix . "'></iframe>")
+            $this->ui->factory()->legacy()->content("<iframe class='il-copg-mob-fullscreen' id='il-copg-mob-fullscreen" . $suffix . "'></iframe>")
         );
         $show_signal = $modal->getShowSignal();
 
@@ -501,9 +501,7 @@ class ilPCMediaObject extends ilPageContent
     public function getCssFiles(
         string $a_mode
     ): array {
-        $js_files = ilPlayerUtil::getCssFilePaths();
-
-        return $js_files;
+        return [];
     }
 
     public function getStandardMediaAliasItem(): ilMediaAliasItem

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -267,7 +266,7 @@ class ilCalendarViewGUI
                 $modal_title = $this->getModalTitleByPlugins($modal_title);
                 $modal = $this->ui_factory->modal()->roundtrip(
                     $modal_title,
-                    $this->ui_factory->legacy($content)
+                    $this->ui_factory->legacy()->content($content)
                 )->withCancelButtonLabel($this->lng->txt("close"));
                 echo $this->ui_renderer->renderAsync($modal);
             }

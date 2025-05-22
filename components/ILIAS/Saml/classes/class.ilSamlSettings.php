@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilSamlSettings
- * @author Michael Jansen <mjansen@databay.de>
- */
 final class ilSamlSettings
 {
     private static ?self $instance = null;

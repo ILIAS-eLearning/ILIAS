@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\ilTestLegacyFormsHelper;
+
 /**
 * This class represents a key value pair wizard property in a property form.
 *
@@ -25,13 +28,15 @@
 */
 class ilErrorTextWizardInputGUI extends ilTextInputGUI
 {
-    protected $values = array();
+    protected $values = [];
     protected $key_size = 20;
     protected $value_size = 20;
     protected $key_maxlength = 255;
     protected $value_maxlength = 150;
     protected $key_name = "";
     protected $value_name = "";
+
+    protected ilTestLegacyFormsHelper $forms_helper;
 
     /**
     * Constructor
@@ -42,17 +47,21 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     public function __construct($a_title = "", $a_postvar = "")
     {
         parent::__construct($a_title, $a_postvar);
+        $this->forms_helper = new ilTestLegacyFormsHelper();
     }
 
     public function setValue($a_value): void
     {
-        $this->values = array();
-        if (is_array($a_value)) {
-            if (is_array($a_value['key'])) {
-                foreach ($a_value['key'] as $idx => $key) {
-                    $this->values[] = new assAnswerErrorText($key, $a_value['value'][$idx], (float) str_replace(",", ".", $a_value['points'][$idx]));
-                }
-            }
+        $keys = $this->forms_helper->transformArray($a_value, 'key', $this->refinery->kindlyTo()->string());
+        $points = $this->forms_helper->transformPoints($a_value);
+
+        $this->values = [];
+        foreach ($keys as $index => $key) {
+            $this->values[] = new assAnswerErrorText(
+                $key,
+                $a_value['value'][$index] ?? '',
+                $points[$index] ?? 0.0
+            );
         }
     }
 
@@ -202,55 +211,41 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     */
     public function checkInput(): bool
     {
-        global $DIC;
-        $lng = $DIC['lng'];
+        $kindlyTo = $this->refinery->kindlyTo();
+        $data = $this->raw($this->getPostVar());
 
-        if (isset($_POST[$this->getPostVar()]) && is_array($_POST[$this->getPostVar()])) {
-            $foundvalues = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
-        } else {
-            $foundvalues = $_POST[$this->getPostVar()] ?? null;
+        if (!is_array($data)) {
+            $this->setAlert($this->lng->txt('errortext_info'));
+            return false;
         }
-        $max_points = 0;
 
-        if (is_array($foundvalues) && count($foundvalues) > 0) {
-            // check answers
-            if (is_array($foundvalues['key']) && is_array($foundvalues['value'])) {
-                foreach ($foundvalues['key'] as $val) {
-                    if ($this->getRequired() && (strlen($val)) == 0) {
-                        $this->setAlert($lng->txt("msg_input_is_required"));
-                        return false;
-                    }
-                }
-                foreach ($foundvalues['value'] as $val) {
-                    if ($this->getRequired() && (strlen($val)) == 0) {
-                        $this->setAlert($lng->txt("msg_input_is_required"));
-                        return false;
-                    }
-                }
-                foreach ($foundvalues['points'] as $val) {
-                    $val_num = str_replace(",", ".", $val);
-                    if ($this->getRequired() && (strlen($val)) == 0) {
-                        $this->setAlert($lng->txt("msg_input_is_required"));
-                        return false;
-                    }
-                    if (!is_numeric($val_num)) {
-                        $this->setAlert($lng->txt("form_msg_numeric_value_required"));
-                        return false;
-                    }
-                    if ($val_num <= 0) {
-                        $this->setAlert($lng->txt("positive_numbers_required"));
-                        return false;
-                    }
-                }
-            } else {
-                if ($this->getRequired()) {
-                    $this->setAlert($lng->txt("msg_input_is_required"));
+        // check points
+        $points = $this->forms_helper->checkPointsInput($data, $this->getRequired());
+        if (!is_array($points)) {
+            $this->setAlert($this->lng->txt($points));
+            return false;
+        }
+        foreach ($points as $point) {
+            if ($point <= 0) {
+                $this->setAlert($this->lng->txt('positive_numbers_required'));
+                return false;
+            }
+        }
+
+        // check answers
+        $keys = $this->forms_helper->transformArray($data, 'key', $kindlyTo->string());
+        $values = $this->forms_helper->transformArray($data, 'value', $kindlyTo->string());
+        if (empty($keys) || empty($values)) {
+            $this->setAlert($this->lng->txt('msg_input_is_required'));
+            return false;
+        }
+        foreach ([$keys, $values] as $array) {
+            foreach ($array as $item) {
+                if ($item === '' && $this->getRequired()) {
+                    $this->setAlert($this->lng->txt('msg_input_is_required'));
                     return false;
                 }
             }
-        } else {
-            $this->setAlert($lng->txt('errortext_info'));
-            return false;
         }
 
         return $this->checkSubItemsInput();

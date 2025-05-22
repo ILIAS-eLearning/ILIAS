@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Skill\Table;
 
@@ -65,7 +64,7 @@ class TreeTable
         $data_retrieval = $this->getDataRetrieval();
 
         $table = $this->ui_fac->table()
-                              ->data($this->lng->txt("skmg_skill_trees"), $columns, $data_retrieval)
+                              ->data($data_retrieval, $this->lng->txt("skmg_skill_trees"), $columns)
                               ->withId(self::class)
                               ->withActions($actions)
                               ->withRequest($this->request);
@@ -76,7 +75,7 @@ class TreeTable
     protected function getColumns(): array
     {
         $columns = [
-            "title" => $this->ui_fac->table()->column()->text($this->lng->txt("title"))
+            "title" => $this->ui_fac->table()->column()->link($this->lng->txt("title"))
         ];
 
         return $columns;
@@ -85,17 +84,6 @@ class TreeTable
     protected function getActions(): array
     {
         $query_params_namespace = ["skl_tree_table"];
-
-        $uri_edit = $this->df->uri(
-            ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTargetByClass("ilobjskilltreegui", "editSkills")
-        );
-        $url_builder_edit = new UI\URLBuilder($uri_edit);
-        list($url_builder_edit, $action_parameter_token_edit, $row_id_token_edit) =
-            $url_builder_edit->acquireParameters(
-                $query_params_namespace,
-                "action",
-                "tree_ids"
-            );
 
         $uri_delete = $this->df->uri(
             ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTargetByClass("ilobjskilltreegui", "delete")
@@ -108,13 +96,7 @@ class TreeTable
                 "tree_ids"
             );
 
-        $actions = [
-            "edit" => $this->ui_fac->table()->action()->single(
-                $this->lng->txt("edit"),
-                $url_builder_edit->withParameter($action_parameter_token_edit, "editTree"),
-                $row_id_token_edit
-            )
-        ];
+        $actions = [];
         if ($this->skill_management_access_manager->hasCreateTreePermission()) {
             $actions["delete"] = $this->ui_fac->table()->action()->multi(
                 $this->lng->txt("delete"),
@@ -131,14 +113,18 @@ class TreeTable
         $data_retrieval = new class (
             $this->skill_manager,
             $this->skill_tree_manager,
-            $this->skill_tree_factory
+            $this->skill_tree_factory,
+            $this->ui_fac,
+            $this->ctrl
         ) implements UI\Component\Table\DataRetrieval {
             use TableRecords;
 
             public function __construct(
                 protected Service\SkillInternalManagerService $skill_manager,
                 protected Tree\SkillTreeManager $skill_tree_manager,
-                protected Tree\SkillTreeFactory $skill_tree_factory
+                protected Tree\SkillTreeFactory $skill_tree_factory,
+                protected UI\Factory $ui_fac,
+                protected \ilCtrl $ctrl
             ) {
             }
 
@@ -165,7 +151,7 @@ class TreeTable
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Range $range = null, Data\Order $order = null): array
+            protected function getRecords(?Data\Range $range = null, ?Data\Order $order = null): array
             {
                 $items = array_filter(array_map(
                     function (\ilObjSkillTree $skillTree): array {
@@ -187,7 +173,12 @@ class TreeTable
                     $tree_obj = $item["tree"];
                     $tree = $this->skill_tree_factory->getTreeById($tree_obj->getId());
                     $records[$i]["tree_id"] = $tree->readRootId();
-                    $records[$i]["title"] = $tree_obj->getTitle();
+                    $this->ctrl->setParameterByClass("ilobjskilltreegui", "ref_id", $tree_obj->getRefId());
+                    $records[$i]["title"] = $this->ui_fac->link()->standard(
+                        $tree_obj->getTitle(),
+                        $this->ctrl->getLinkTargetByClass("ilobjskilltreegui", "editSkills")
+                    );
+                    $this->ctrl->clearParameterByClass("ilobjskilltreegui", "ref_id");
                     $i++;
                 }
 

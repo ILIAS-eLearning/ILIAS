@@ -25,6 +25,8 @@ class ilPCInteractiveImage extends ilPageContent
 {
     public const AREA = "Area";
     public const MARKER = "Marker";
+    protected \ILIAS\MediaObjects\Thumbs\ThumbsManager $thumbs;
+    protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected DOMNode $mal_node;
     protected DOMNode $med_alias_node;
     protected \ILIAS\DI\UIServices $ui;
@@ -45,6 +47,8 @@ class ilPCInteractiveImage extends ilPageContent
         $this->manager = $DIC->copage()->internal()->domain()->pc()->interactiveImage();
         $this->htmlTransform = $DIC->copage()->internal()->domain()->htmlTransformUtil();
         $this->ui = $DIC->copage()->internal()->gui()->ui();
+        $this->xsl = $DIC->copage()->internal()->domain()->xsl();
+        $this->thumbs = $DIC->mediaObjects()->internal()->domain()->thumbs();
     }
 
     public function readMediaObject(int $a_mob_id = 0): void
@@ -110,7 +114,7 @@ class ilPCInteractiveImage extends ilPageContent
 
     public function getBaseThumbnailTarget(): string
     {
-        return $this->getMediaObject()->getMediaItem("Standard")->getThumbnailTarget();
+        return $this->thumbs->getThumbSrc($this->getMediaObject()->getId());
     }
 
     public function createAlias(
@@ -460,8 +464,8 @@ class ilPCInteractiveImage extends ilPageContent
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPCId());
         for ($i = 0; $i < count($tr_nodes); $i++) {
             $tr_node = $tr_nodes[$i];
-            if ($tr_node->get_attribute("Overlay") === $file) {
-                $tr_node->remove_attribute("Overlay");
+            if ($tr_node->getAttribute("Overlay") === $file) {
+                $tr_node->removeAttribute("Overlay");
             }
         }
     }
@@ -647,7 +651,7 @@ class ilPCInteractiveImage extends ilPageContent
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPCId());
         for ($i = 0; $i < count($tr_nodes); $i++) {
             $tr_node = $tr_nodes[$i];
-            if ($tr_node->get_attribute("Nr") == $nr) {
+            if ($tr_node->getAttribute("Nr") == $nr) {
                 return $tr_node;
             }
         }
@@ -661,30 +665,29 @@ class ilPCInteractiveImage extends ilPageContent
         if ($shape_type === "Marker") {
 
             // set marker properties
-            $tr_node->set_attribute("Type", "Marker");
-            $tr_node->set_attribute(
+            $tr_node->setAttribute("Type", "Marker");
+            $tr_node->setAttribute(
                 "Title",
                 $title
             );
             $coord_parts = explode(",", $coords);
-            $tr_node->set_attribute("MarkerX", ($coord_parts[0] ?? "0"));
-            $tr_node->set_attribute("MarkerY", ($coord_parts[1] ?? "0"));
+            $tr_node->setAttribute("MarkerX", ($coord_parts[0] ?? "0"));
+            $tr_node->setAttribute("MarkerY", ($coord_parts[1] ?? "0"));
 
             // remove area
-            $xpc = xpath_new_context($this->dom);
             $path = "//PageContent[@HierId = '" . $this->hier_id . "']/InteractiveImage/MediaAliasItem/MapArea[@Id='" . $nr . "']";
-            $res = xpath_eval($xpc, $path);
-            if (count($res->nodeset) > 0) {
-                $child = $res->nodeset[0];
-                $child->unlink($child);
+            $nodes = $this->dom_util->path($this->dom_doc, $path);
+            if (count($nodes) > 0) {
+                $child = $nodes->item(0);
+                $child->parentNode->removeChild($child);
             }
             return;
         }
 
         if ($tr_node) {
-            $tr_node->set_attribute("Type", "Area");
-            $tr_node->remove_attribute("MarkerX");
-            $tr_node->remove_attribute("MarkerY");
+            $tr_node->setAttribute("Type", "Area");
+            $tr_node->removeAttribute("MarkerX");
+            $tr_node->removeAttribute("MarkerY");
 
             $this->setMapAreaProperties(
                 $this->getStandardAliasItem(),
@@ -710,9 +713,9 @@ class ilPCInteractiveImage extends ilPageContent
             $c = explode(",", $coords);
             $x = (int) ($c[0] ?? 0);
             $y = (int) ($c[1] ?? 0);
-            $tr_node->set_attribute("Overlay", $overlay);
-            $tr_node->set_attribute("OverlayX", $x);
-            $tr_node->set_attribute("OverlayY", $y);
+            $tr_node->setAttribute("Overlay", $overlay);
+            $tr_node->setAttribute("OverlayX", $x);
+            $tr_node->setAttribute("OverlayY", $y);
         }
     }
 
@@ -720,9 +723,9 @@ class ilPCInteractiveImage extends ilPageContent
     {
         $tr_node = $this->getTriggerNode($nr);
         if ($tr_node) {
-            $tr_node->set_attribute("PopupNr", $popup);
-            $tr_node->set_attribute("PopupPosition", $position);
-            $tr_node->set_attribute("PopupSize", $size);
+            $tr_node->setAttribute("PopupNr", $popup);
+            $tr_node->setAttribute("PopupPosition", $position);
+            $tr_node->setAttribute("PopupSize", $size);
         }
     }
 
@@ -749,7 +752,7 @@ class ilPCInteractiveImage extends ilPageContent
                 $new_inner = $inner;
             } else {
                 $pop = $this->ui->factory()->popover()->standard(
-                    $this->ui->factory()->legacy("#####popovercontent#####")
+                    $this->ui->factory()->legacy()->content("#####popovercontent#####")
                 );
                 $signal_id = $pop->getShowSignal()->getId();
                 //$new_inner = $this->ui->renderer()->render($pop);
@@ -793,33 +796,19 @@ EOT;
     {
         $mob = $this->getMediaObject();
 
-        //$ilCtrl = $this->ctrl;
-
-        $st_item = $mob->getMediaItem("Standard");
-
         // output image map
         $xml = "<dummy>";
         $xml .= $mob->getXML(IL_MODE_ALIAS);
         $xml .= $mob->getXML(IL_MODE_OUTPUT);
         $xml .= "</dummy>";
-        $xsl = file_get_contents("./components/ILIAS/COPage/xsl/page.xsl");
-        //echo htmlentities($xml); exit;
-        $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
-        $xh = xslt_create();
         $wb_path = \ilFileUtils::getWebspaceDir("output") . "/";
-        $mode = "media";
-        //echo htmlentities($ilCtrl->getLinkTarget($this, "showImageMap"));
-
-        $random = new \ilRandom();
         $params = array(
             'media_mode' => 'enable',
             'pg_frame' => "",
             'enlarge_path' => \ilUtil::getImagePath("enlarge.svg"),
             'webspace_path' => $wb_path);
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        xslt_error($xh);
-        xslt_free($xh);
 
+        $output = $this->xsl->process($xml, $params);
         return $output;
     }
 

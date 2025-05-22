@@ -28,6 +28,7 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     }
 
 
+    #[\Override]
     public function getConnectorContainerName(): string
     {
         return 'il_bibl_attribute';

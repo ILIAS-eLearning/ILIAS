@@ -1,9 +1,34 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Modal\Interruptive;
 
+/**
+ * ---
+ * description: >
+ *   Example for rendering an interruptive modal by clicking a button. In the background an asynchronous action is running.
+ *
+ * expected output: >
+ *   ILIAS shows three buttons. A click onto the buttons will open a modal each.
+ * ---
+ */
 function show_modal_on_button_click_async_rendered()
 {
     global $DIC;
@@ -49,7 +74,7 @@ function show_modal_on_button_click_async_rendered()
     ) {
         $out[] = $post_wrapper->retrieve('interruptive_items', $refinery->custom()->transformation(
             function ($v) use ($factory, $post_wrapper, $items) {
-                return $factory->panel()->standard('Affected Item', $factory->legacy($items[$v[0]]));
+                return $factory->panel()->standard('Affected Item', $factory->legacy()->content($items[$v[0]]));
             }
         ));
     }

@@ -26,6 +26,8 @@ use ILIAS\MetaData\Paths\NullPath;
 use ILIAS\MetaData\Manipulator\NullManipulator as NullInternalManipulator;
 use ILIAS\MetaData\Elements\NullSet;
 use ILIAS\MetaData\Elements\SetInterface;
+use ILIAS\MetaData\Repository\RepositoryInterface;
+use ILIAS\MetaData\Repository\NullRepository;
 
 class ManipulatorTest extends TestCase
 {
@@ -38,16 +40,24 @@ class ManipulatorTest extends TestCase
         };
     }
 
-    protected function getManipulator(): Manipulator
+    protected function getManipulator(bool $throw_exception = false): Manipulator
     {
-        $internal_manipulator = new class () extends NullInternalManipulator {
+        $internal_manipulator = new class ($throw_exception) extends NullInternalManipulator {
             public array $executed_actions = [];
+
+            public function __construct(protected bool $throw_exception)
+            {
+            }
 
             public function prepareCreateOrUpdate(
                 SetInterface $set,
                 PathInterface $path,
                 string ...$values
             ): SetInterface {
+                if ($this->throw_exception) {
+                    throw new \ilMDPathException('failed');
+                }
+
                 $cloned_set = clone $set;
                 $cloned_set->actions[] = [
                     'action' => 'create or update',
@@ -62,6 +72,10 @@ class ManipulatorTest extends TestCase
                 PathInterface $path,
                 string ...$values
             ): SetInterface {
+                if ($this->throw_exception) {
+                    throw new \ilMDPathException('failed');
+                }
+
                 $cloned_set = clone $set;
                 $cloned_set->actions[] = [
                     'action' => 'force create',
@@ -82,22 +96,38 @@ class ManipulatorTest extends TestCase
                 ];
                 return $cloned_set;
             }
+        };
 
-            public function execute(SetInterface $set): void
+        $repository = new class ($throw_exception) extends NullRepository {
+            public array $executed_actions = [];
+
+            public function __construct(protected bool $throw_exception)
             {
-                $set->executed_actions = $set->actions;
+            }
+
+            public function manipulateMD(SetInterface $set): void
+            {
+                if ($this->throw_exception) {
+                    throw new \ilMDRepositoryException('failed');
+                }
+
+                $this->executed_actions[] = $set->actions;
             }
         };
 
         $set = new class () extends NullSet {
             public array $actions = [];
-            public array $executed_actions = [];
         };
 
-        return new class ($internal_manipulator, $set) extends Manipulator {
+        return new class ($internal_manipulator, $repository, $set) extends Manipulator {
             public function exposeSet(): SetInterface
             {
                 return $this->set;
+            }
+
+            public function exposeRepository(): RepositoryInterface
+            {
+                return $this->repository;
             }
         };
     }
@@ -139,7 +169,15 @@ class ManipulatorTest extends TestCase
         );
     }
 
-    public function testPrepareForce(): void
+    public function testPrepareCreateOrUpdateException(): void
+    {
+        $manipulator = $this->getManipulator(true);
+
+        $this->expectException(\ilMDServicesException::class);
+        $manipulator->prepareCreateOrUpdate($this->getPath('path'));
+    }
+
+    public function testPrepareForceCreate(): void
     {
         $exp1 = [
             'action' => 'force create',
@@ -174,6 +212,14 @@ class ManipulatorTest extends TestCase
             [$exp1, $exp2],
             $manipulator2->exposeSet()->actions
         );
+    }
+
+    public function testPrepareForceCreateException(): void
+    {
+        $manipulator = $this->getManipulator(true);
+
+        $this->expectException(\ilMDServicesException::class);
+        $manipulator->prepareForceCreate($this->getPath('path'));
     }
 
     public function testPrepareDelete(): void
@@ -246,19 +292,29 @@ class ManipulatorTest extends TestCase
             ->prepareDelete($this->getPath($exp3['path']))
             ->prepareCreateOrUpdate($this->getPath($exp4['path']), ...$exp4['values']);
         $manipulator->execute();
-        $manipulator5 = $manipulator
+        $manipulator = $manipulator
             ->prepareForceCreate($this->getPath($exp5['path']), ...$exp5['values'])
             ->prepareDelete($this->getPath($exp6['path']))
             ->prepareCreateOrUpdate($this->getPath($exp7['path']), ...$exp7['values']);
-        $manipulator5->execute();
+        $manipulator->execute();
 
+        $executed_actions = $manipulator->exposeRepository()->executed_actions;
+        $this->assertCount(2, $executed_actions);
         $this->assertSame(
             [$exp1, $exp2, $exp3, $exp4],
-            $manipulator->exposeSet()->executed_actions
+            $executed_actions[0]
         );
         $this->assertSame(
             [$exp1, $exp2, $exp3, $exp4, $exp5, $exp6, $exp7],
-            $manipulator5->exposeSet()->executed_actions
+            $executed_actions[1]
         );
+    }
+
+    public function testExecuteException(): void
+    {
+        $manipulator = $this->getManipulator(true);
+
+        $this->expectException(\ilMDServicesException::class);
+        $manipulator->execute();
     }
 }

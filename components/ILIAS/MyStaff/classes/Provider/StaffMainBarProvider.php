@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 namespace ILIAS\MyStaff\Provider;
 
@@ -52,6 +51,10 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
      */
     final public function getStaticSubItems(): array
     {
+        if (!ilMyStaffAccess::isMyStaffActive()) {
+            return [];
+        }
+
         $this->dic->language()->loadLanguageModule('mst');
         $dic = $this->dic;
         $items = [];
@@ -85,7 +88,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
                         new ilMyStaffCachedAccessDecorator($this->dic, ilMyStaffAccess::getInstance())
                     )->hasCurrentUserAccessToMyStaff();
                 }
-            )->withNonAvailableReason($dic->ui()->factory()->legacy("{$dic->language()->txt('component_not_active')}"));
+            )->withNonAvailableReason($dic->ui()->factory()->legacy()->content("{$dic->language()->txt('component_not_active')}"));
 
         $title = $this->dic->language()->txt("mm_enrolments");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(
@@ -115,7 +118,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
                         new ilMyStaffCachedAccessDecorator($this->dic, ilMyStaffAccess::getInstance())
                     )->hasCurrentUserAccessToCourseMemberships();
                 }
-            )->withNonAvailableReason($dic->ui()->factory()->legacy("{$dic->language()->txt('component_not_active')}"));
+            )->withNonAvailableReason($dic->ui()->factory()->legacy()->content("{$dic->language()->txt('component_not_active')}"));
 
         // My Certificates
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CERT, $title);
@@ -140,7 +143,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
                         new ilMyStaffCachedAccessDecorator($this->dic, ilMyStaffAccess::getInstance())
                     )->hasCurrentUserAccessToCertificates();
                 }
-            )->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt("component_not_active")}"));
+            )->withNonAvailableReason($this->dic->ui()->factory()->legacy()->content("{$this->dic->language()->txt("component_not_active")}"));
 
         // My Competences
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::SKMG, $title);
@@ -165,7 +168,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
                         new ilMyStaffCachedAccessDecorator($this->dic, ilMyStaffAccess::getInstance())
                     )->hasCurrentUserAccessToCompetences();
                 }
-            )->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt("component_not_active")}"));
+            )->withNonAvailableReason($this->dic->ui()->factory()->legacy()->content("{$this->dic->language()->txt("component_not_active")}"));
 
         return $items;
     }

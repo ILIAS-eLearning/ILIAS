@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -45,34 +46,27 @@ class ilBibliographicExporter extends ilXmlExporter
 
     public function getValidSchemaVersions(string $a_entity): array
     {
-        return array(
-            '4.5.0' => array(
-                'namespace' => 'http://www.ilias.de/Modules/DataCollection/dcl/4_5',
-                'xsd_file" => "ilias_dcl_4_5.xsd',
-                'uses_dataset' => true,
-                'min' => '4.5.0',
-                'max' => '',
-            ),
-        );
+        return ['4.5.0' => ['namespace' => 'http://www.ilias.de/Modules/DataCollection/dcl/4_5', 'xsd_file" => "ilias_dcl_4_5.xsd', 'uses_dataset' => true, 'min' => '4.5.0', 'max' => '']];
     }
 
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
-        $this->ds->exportLibraryFile($a_id);
+        $this->ds->initByExporter($this);
+        $this->ds->exportLibraryFile($a_id, $this->getAbsoluteExportDirectory());
 
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], '', true, true);
     }
 
+    #[\Override]
     public function getXmlExportTailDependencies(
         string $a_entity,
         string $a_target_release,
         array $a_ids
     ): array {
         $res = [];
-        if ($a_entity == "bibl") {
+        if ($a_entity === "bibl") {
             $res[] = [
                 "component" => "components/ILIAS/ILIASObject",
                 "entity" => "common",

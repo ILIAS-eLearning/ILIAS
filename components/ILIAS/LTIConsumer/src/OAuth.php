@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\LTIOAuth;
 
@@ -898,7 +898,7 @@ if (!class_exists('OAuthServer')) {
          * @param OAuthToken $token|null
          * @throws OAuthException
          */
-        private function checkSignature(OAuthRequest $request, OAuthConsumer $consumer, OAuthToken $token = null): void
+        private function checkSignature(OAuthRequest $request, OAuthConsumer $consumer, ?OAuthToken $token = null): void
         {
             // this should probably be in a different method
             $timestamp = (int) $request->get_parameter('oauth_timestamp');

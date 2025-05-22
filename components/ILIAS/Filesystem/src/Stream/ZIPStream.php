@@ -20,13 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Stream;
 
-use ILIAS\Filesystem\Util\PHPStreamFunctions;
-
 /**
  * @author                 Fabian Schmid <fabian@sr.solutions>
  */
 class ZIPStream extends Stream
 {
+    #[\Override]
     public function seek($offset, $whence = SEEK_SET): void
     {
         // zip streams are not seekable

@@ -105,7 +105,11 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         $this->insertAssignmentRowDB($row);
         $this->progresses = [];
 
-        $query = 'SELECT firstname, lastname, login, active, email, gender, title' . PHP_EOL
+        $user_data_fields = array_filter(
+            $this->user_data_fields,
+            static fn($field) => !str_starts_with($field, 'udf_') && $field !== 'org_units'
+        );
+        $query = 'SELECT ' . implode(',', $user_data_fields) . PHP_EOL
             . 'FROM usr_data WHERE usr_id = ' . $this->db->quote($usr_id, 'integer');
         $res = $this->db->query($query);
         $row = array_merge($row, $this->db->fetchAssoc($res));
@@ -200,8 +204,8 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
 
     public function getAllForNodeIsContained(
         int $prg_obj_id,
-        array $user_filter = null,
-        ilPRGAssignmentFilter $custom_filters = null
+        ?array $user_filter = null,
+        ?ilPRGAssignmentFilter $custom_filters = null
     ): array {
         $conditions = [
             'pgs.' . self::PROGRESS_FIELD_PRG_ID . ' = ' . $this->db->quote($prg_obj_id, 'integer')
@@ -221,8 +225,8 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
 
     public function countAllForNodeIsContained(
         int $prg_obj_id,
-        array $user_filter = null,
-        ilPRGAssignmentFilter $custom_filters = null
+        ?array $user_filter = null,
+        ?ilPRGAssignmentFilter $custom_filters = null
     ): int {
         $conditions = [
             'pgs.' . self::PROGRESS_FIELD_PRG_ID . ' = ' . $this->db->quote($prg_obj_id, 'integer')
@@ -236,7 +240,7 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         return $this->count($conditions);
     }
 
-    public function getAllForSpecificNode(int $prg_obj_id, array $user_filter = null): array
+    public function getAllForSpecificNode(int $prg_obj_id, ?array $user_filter = null): array
     {
         $conditions = [
             self::ASSIGNMENT_FIELD_ROOT_PRG_ID . ' = ' . $this->db->quote($prg_obj_id, 'integer')
@@ -615,9 +619,9 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         $udf_data = new ilUserDefinedData((int) $row[self::ASSIGNMENT_FIELD_USR_ID]);
         $user_data_values = [];
         foreach ($this->user_data_fields as $field) {
-            switch($field) {
+            switch ($field) {
                 case 'active':
-                    $user_data_values[$field] = (bool)$row[$field];
+                    $user_data_values[$field] = (bool) $row[$field];
                     break;
                 case 'org_units':
                     //$user_data_values[$field] = ilObjUser::lookupOrgUnitsRepresentation((int) $row[self::ASSIGNMENT_FIELD_USR_ID]);
@@ -798,7 +802,7 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
     public function getLatestAssignment(int $root_prg_obj_id, int $usr_id): ?ilPRGAssignment
     {
         $assignments = $this->getForUserOnNode($usr_id, $root_prg_obj_id);
-        if($assignments === []) {
+        if ($assignments === []) {
             return null;
         }
         usort(
@@ -813,18 +817,18 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
     public function getLongestValidAssignment(int $root_prg_obj_id, int $usr_id): ?ilPRGAssignment
     {
         $assignments = $this->getForUserOnNode($usr_id, $root_prg_obj_id);
-        if($assignments === []) {
+        if ($assignments === []) {
             return null;
         }
 
         $now = new \DateTimeImmutable();
         $valid = array_filter($assignments, fn($ass) => $ass->getProgressTree()->hasValidQualification($now));
-        if($valid === []) {
+        if ($valid === []) {
             return null;
         }
 
         $unlimited = array_filter($valid, fn($ass) => $ass->getProgressTree()->getValidityOfQualification() === null);
-        if($unlimited !== []) {
+        if ($unlimited !== []) {
             usort(
                 $unlimited,
                 fn(ilPRGAssignment $a, ilPRGAssignment $b)

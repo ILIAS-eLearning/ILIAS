@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Exercise\Submission\Submission;
+
 /**
  * Delivered files table
  *
@@ -30,14 +32,25 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
         string $a_parent_cmd,
         ilExSubmission $a_submission
     ) {
+        global $DIC;
+
         $this->submission = $a_submission;
+        $subm = $DIC->exercise()->internal()->domain()->submission(
+            $this->submission->getAssignment()->getId()
+        );
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $this->setData($this->submission->getFiles());
+        $data = [];
+        foreach ($subm->getSubmissionsOfUser($a_submission->getUserId()) as $s) {
+            $data[] = [
+                "submission" => $s
+            ];
+        }
+        $this->setData($data);
         $this->setTitle(
             $this->lng->txt("already_delivered_files") . " - " .
                 $this->submission->getAssignment()->getTitle()
@@ -81,28 +94,31 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
     {
         $ilCtrl = $this->ctrl;
 
-        $this->tpl->setVariable("FILE_ID", $a_set["returned_id"]);
-        $this->tpl->setVariable("DELIVERED_FILE", htmlentities($a_set["filetitle"]));
+        /** @var Submission $sub */
+        $sub = $a_set["submission"];
 
-        $date = new ilDateTime($a_set['timestamp14'], IL_CAL_TIMESTAMP);
+        $this->tpl->setVariable("FILE_ID", $sub->getId());
+        $this->tpl->setVariable("DELIVERED_FILE", htmlentities($sub->getTitle()));
+
+        $date = new ilDateTime($sub->getTimestamp14(), IL_CAL_TIMESTAMP);
         $this->tpl->setVariable("DELIVERED_DATE", ilDatePresentation::formatDate($date));
 
         if ($this->submission->getAssignment()->getAssignmentType()->usesTeams() &&
             $this->submission->getAssignment()->getAssignmentType()->usesFileUpload()) {
             $this->tpl->setVariable(
                 "DELIVERED_OWNER",
-                ilUserUtil::getNamePresentation($a_set["owner_id"])
+                ilUserUtil::getNamePresentation($sub->getUserId())
             );
         }
 
         if ($this->submission->getAssignment()->getExtendedDeadline()) {
-            $this->tpl->setVariable("DELIVERED_LATE", ($a_set["late"])
+            $this->tpl->setVariable("DELIVERED_LATE", ($sub->getLate())
                 ? '<span class="warning">' . $this->lng->txt("yes") . '</span>'
                 : $this->lng->txt("no"));
         }
 
         // #16164 - download
-        $ilCtrl->setParameter($this->getParentObject(), "delivered", $a_set["returned_id"]);
+        $ilCtrl->setParameter($this->getParentObject(), "delivered", $sub->getId());
         $url = $ilCtrl->getLinkTarget($this->getParentObject(), "download");
         $ilCtrl->setParameter($this->getParentObject(), "delivered", "");
         $this->tpl->setVariable("ACTION_TXT", $this->lng->txt("download"));

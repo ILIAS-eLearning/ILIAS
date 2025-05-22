@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Settings for an LSO (like abstract, extro)
@@ -44,8 +44,8 @@ class ilLearningSequenceSettings
         int $obj_id,
         string $abstract = '',
         string $extro = '',
-        string $abstract_image = null,
-        string $extro_image = null,
+        ?string $abstract_image = null,
+        ?string $extro_image = null,
         bool $members_gallery = false
     ) {
         $this->obj_id = $obj_id;
@@ -90,7 +90,7 @@ class ilLearningSequenceSettings
         return $this->abstract_image ?? '';
     }
 
-    public function withAbstractImage(string $path = null): ilLearningSequenceSettings
+    public function withAbstractImage(?string $path = null): ilLearningSequenceSettings
     {
         $clone = clone $this;
         $clone->abstract_image = $path;
@@ -102,7 +102,7 @@ class ilLearningSequenceSettings
         return $this->extro_image ?? '';
     }
 
-    public function withExtroImage(string $path = null): ilLearningSequenceSettings
+    public function withExtroImage(?string $path = null): ilLearningSequenceSettings
     {
         $clone = clone $this;
         $clone->extro_image = $path;

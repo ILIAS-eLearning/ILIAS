@@ -18,29 +18,25 @@
 
 declare(strict_types=1);
 
-/**
- * Interface ilMailAddressType
- * @author Michael Jansen <mjansen@databay.de>
- */
 interface ilMailAddressType
 {
     /**
      * Returns an array of resolved user ids based on an address instance.
-     * @return int[]
+     * @return list<int>
      */
     public function resolve(): array;
 
     /**
      * Validates the parsed recipients and set errors accordingly.
-     * @param int $senderId The id of the acting ILIAS user, can be used for permission checks etc.
+     * @param int $sender_id The id of the acting ILIAS user, can be used for permission checks etc.
      * @see ilMailAddressType::getErrors
      */
-    public function validate(int $senderId): bool;
+    public function validate(int $sender_id): bool;
 
     /**
      * Returns a list of errors determined in the validation process. The errors should be reset everytime the
      * validation is triggered.
-     * @return ilMailError[]
+     * @return list<ilMailError>
      * @see ilMailAddressType::validate
      */
     public function getErrors(): array;

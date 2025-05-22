@@ -2,7 +2,7 @@
 
 Disclaimer: This documentation does not warrant completeness or correctness. Please report any missing or wrong
 information using the [ILIAS issue tracker](https://mantis.ilias.de) or contribute a fix
-via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).
+via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 ## General Information
 
@@ -15,15 +15,15 @@ File Object itself.
 ## Services being used
 
 - The File Object employs the following services, please consult the respective PRIVACY.mds:
-    - [InfoScreen](../../Services/InfoScreen/PRIVACY.md)
-    - [Metadata](../../Services/MetaData/Privacy.md)
-    - [AccessControl](../../Services/AccessControl/PRIVACY.md)
+    - [InfoScreen](../../ILIAS/InfoScreen/PRIVACY.md)
+    - [Metadata](../../ILIAS/MetaData/Privacy.md)
+    - [AccessControl](../../ILIAS/AccessControl/PRIVACY.md)
     - ECS
-    - [IRSS](../../src/ResourceStorage/PRIVACY.md)
+    - [IRSS](../../ILIAS/ResourceStorage/docs/PRIVACY.md)
     - Learning Progress
-    - [News](../../Services/News/PRIVACY.md)
+    - [News](../../ILIAS/News/PRIVACY.md)
     - Object Service
-    - [Rating](../../Services/Rating/PRIVACY.md)
+    - [Rating](../../ILIAS/Rating/PRIVACY.md)
 
 ## Data being stored
 

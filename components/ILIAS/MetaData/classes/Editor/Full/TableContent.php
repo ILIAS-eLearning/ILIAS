@@ -51,7 +51,7 @@ class TableContent
             $request,
             ...$elements
         );
-        $builder =  $this->services->tableFactory()->table();
+        $builder = $this->services->tableFactory()->table();
         $delete_buttons = [];
         $update_buttons = [];
         foreach ($elements as $element) {

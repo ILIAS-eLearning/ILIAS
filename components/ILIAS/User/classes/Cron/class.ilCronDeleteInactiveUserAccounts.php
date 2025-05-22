@@ -16,7 +16,13 @@
  *
  *********************************************************************/
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+declare(strict_types=1);
+
+use ILIAS\Language\Language;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobRepository;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * This cron deletes user accounts by INACTIVITY period
@@ -24,7 +30,7 @@ use ILIAS\Cron\Schedule\CronJobScheduleType;
  * @author Guido Vollbach <gvollbach@databay.de>
  * @package ilias
  */
-class ilCronDeleteInactiveUserAccounts extends ilCronJob
+class ilCronDeleteInactiveUserAccounts extends CronJob
 {
     private const DEFAULT_INACTIVITY_PERIOD = 365;
     private const DEFAULT_REMINDER_PERIOD = 0;
@@ -39,13 +45,13 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
     private array $include_roles;
     private ilCronDeleteInactiveUserReminderMail $cron_delete_reminder_mail;
     private ilSetting $settings;
-    private ilLanguage $lng;
+    private Language $lng;
     private ilComponentLogger $log;
     private ilRbacReview $rbac_review;
     private ilObjectDataCache $objectDataCache;
     private \ILIAS\HTTP\GlobalHttpState $http;
     private \ILIAS\Refinery\Factory $refinery;
-    private ilCronJobRepository $cronRepository;
+    private JobRepository $cronRepository;
     private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
@@ -126,33 +132,33 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         return strpos($number_as_string, ',') || strpos($number_as_string, '.');
     }
 
-    protected function getTimeDifferenceBySchedule(CronJobScheduleType $schedule_time, int $multiplier): int
+    protected function getTimeDifferenceBySchedule(JobScheduleType $schedule_time, int $multiplier): int
     {
         $time_difference = 0;
 
         switch ($schedule_time) {
-            case CronJobScheduleType::SCHEDULE_TYPE_DAILY:
+            case JobScheduleType::DAILY:
                 $time_difference = 86400;
                 break;
-            case CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES:
+            case JobScheduleType::IN_MINUTES:
                 $time_difference = 60 * $multiplier;
                 break;
-            case CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS:
+            case JobScheduleType::IN_HOURS:
                 $time_difference = 3600 * $multiplier;
                 break;
-            case CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS:
+            case JobScheduleType::IN_DAYS:
                 $time_difference = 86400 * $multiplier;
                 break;
-            case CronJobScheduleType::SCHEDULE_TYPE_WEEKLY:
+            case JobScheduleType::WEEKLY:
                 $time_difference = 604800;
                 break;
-            case CronJobScheduleType::SCHEDULE_TYPE_MONTHLY:
+            case JobScheduleType::MONTHLY:
                 $time_difference = 2629743;
                 break;
-            case CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY:
+            case JobScheduleType::QUARTERLY:
                 $time_difference = 7889229;
                 break;
-            case CronJobScheduleType::SCHEDULE_TYPE_YEARLY:
+            case JobScheduleType::YEARLY:
                 $time_difference = 31556926;
                 break;
         }
@@ -175,9 +181,9 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         return $this->lng->txt("delete_inactive_user_accounts_desc");
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
+        return JobScheduleType::DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -200,9 +206,9 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         return true;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
-        $status = ilCronJobResult::STATUS_NO_ACTION;
+        $status = JobResult::STATUS_NO_ACTION;
         $check_mail = $this->delete_period - $this->reminder_period;
         $usr_ids = ilObjUser::getUserIdsByInactivityPeriod($check_mail);
         $counters = [
@@ -226,7 +232,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 
         if ($counters[self::ACTION_USER_REMINDER_MAIL_SENT] > 0
             || $counters[self::ACTION_USER_DELETED] > 0) {
-            $status = ilCronJobResult::STATUS_OK;
+            $status = JobResult::STATUS_OK;
         }
 
         $this->cron_delete_reminder_mail->removeEntriesFromTableIfLastLoginIsNewer();
@@ -236,7 +242,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
             . "mail to {$counters[self::ACTION_USER_REMINDER_MAIL_SENT]} User(s)"
         );
 
-        $result = new ilCronJobResult();
+        $result = new JobResult();
         $result->setStatus($status);
 
         return $result;
@@ -256,7 +262,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         if ($this->reminder_period > 0) {
             $timestamp_for_deletion = $timestamp_last_login - $grace_period_over;
             $account_will_be_deleted_on = $this->calculateDeletionData($timestamp_for_deletion);
-            if(
+            if (
                 $this->cron_delete_reminder_mail->sendReminderMailIfNeeded(
                     $user,
                     $this->reminder_period,
@@ -285,7 +291,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
                 $multiplier = (int) $cron_timing[0]['schedule_value'];
             }
             $time_difference = $this->getTimeDifferenceBySchedule(
-                CronJobScheduleType::from((int) $cron_timing[0]['schedule_type']),
+                JobScheduleType::from((int) $cron_timing[0]['schedule_type']),
                 $multiplier
             );
         }
@@ -357,7 +363,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 
         $valid = true;
 
-        $cron_period = CronJobScheduleType::from($this->http->wrapper()->post()->retrieve(
+        $cron_period = JobScheduleType::from($this->http->wrapper()->post()->retrieve(
             'type',
             $this->refinery->kindlyTo()->int()
         ));
@@ -434,27 +440,27 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
             );
         }
 
-        if ($cron_period->value >= CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS->value &&
-            $cron_period->value <= CronJobScheduleType::SCHEDULE_TYPE_YEARLY->value && $reminder_period > 0) {
+        if ($cron_period->value >= JobScheduleType::IN_DAYS->value &&
+            $cron_period->value <= JobScheduleType::YEARLY->value && $reminder_period > 0) {
             $logic = true;
             $check_window_logic = $delete_period - $reminder_period;
-            if ($cron_period === CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS) {
+            if ($cron_period === JobScheduleType::IN_DAYS) {
                 if ($check_window_logic < $cron_period_custom) {
                     $logic = false;
                 }
-            } elseif ($cron_period === CronJobScheduleType::SCHEDULE_TYPE_WEEKLY) {
+            } elseif ($cron_period === JobScheduleType::WEEKLY) {
                 if ($check_window_logic <= 7) {
                     $logic = false;
                 }
-            } elseif ($cron_period === CronJobScheduleType::SCHEDULE_TYPE_MONTHLY) {
+            } elseif ($cron_period === JobScheduleType::MONTHLY) {
                 if ($check_window_logic <= 31) {
                     $logic = false;
                 }
-            } elseif ($cron_period === CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY) {
+            } elseif ($cron_period === JobScheduleType::QUARTERLY) {
                 if ($check_window_logic <= 92) {
                     $logic = false;
                 }
-            } elseif ($cron_period === CronJobScheduleType::SCHEDULE_TYPE_YEARLY) {
+            } elseif ($cron_period === JobScheduleType::YEARLY) {
                 if ($check_window_logic <= 366) {
                     $logic = false;
                 }

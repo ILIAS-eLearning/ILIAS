@@ -48,9 +48,7 @@ class DataSizeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideDataSizes
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDataSizes')]
     public function testDifferentDataSizes(int $bytes, string $expected_representation): void
     {
         $datasize = new DataSize($bytes, DataSize::Byte);
@@ -58,9 +56,7 @@ class DataSizeTest extends TestCase
         $this->assertEquals($expected_representation, $datasize->__toString());
     }
 
-    /**
-     * @dataProvider tDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('tDataProvider')]
     public function test_normal($a, $b, $expected, $expected_in_bytes): void
     {
         $ds = new DataSize($a, $b);

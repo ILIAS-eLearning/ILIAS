@@ -33,34 +33,34 @@ class YUI implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         /* This library was missing after discussing dependencies for ILIAS 10
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("yui2/build/yahoo-dom-event/yahoo-dom-event.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("yui2/build/connection/connection-min.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("yui2/build/dragdrop/dragdrop-min.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("yui2/build/element/element-min.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("yui2/build/container/container-min.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("yui2/build/utilities/utilities.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("yui2/build/resize/resize-min.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("yui2/build/container/container_core-min.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("yui2/build/menu/menu-min.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("yui2/build/button/button-min.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("yui2/build/cookie/cookie.js");
 
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("yui2/build/container/assets/skins/sam/container.css");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("yui2/build/button/assets/skins/sam/button.css");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("yui2/build/menu/assets/skins/sam/menu.css");
         */
     }

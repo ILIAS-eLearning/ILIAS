@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\Questions\Presentation\QuestionTable;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Data\Factory as DataFactory;
@@ -42,38 +43,23 @@ class QuestionTableTest extends assBaseTestCase
     {
         parent::setUp();
 
-        $ui_factory = $this->createMock(UIFactory::class);
-        $ui_renderer = $this->createMock(UIRenderer::class);
-        $data_factory = $this->createMock(DataFactory::class);
-        $refinery = $this->createMock(ILIAS\Refinery\Factory::class);
-        $url_builder = $this->createMock(URLBuilder::class);
-        $action_parameter_token = $this->createMock(URLBuilderToken::class);
-        $row_id_token = $this->createMock(URLBuilderToken::class);
-        $db = $this->createMock(ilDBInterface::class);
-        $lng = $this->createMock(ilLanguage::class);
-        $component_repository = $this->createMock(ilComponentRepository::class);
-        $rbac = $this->createMock(ilRbacSystem::class);
-        $taxonomy = $this->createMock(TaxonomyService::class);
-        $notes_service = $this->createMock(ILIAS\Notes\Service::class);
-        $parent_obj_id = 0;
-        $request_ref_id = 0;
-
         $this->object = new QuestionTable(
-            $ui_factory,
-            $ui_renderer,
-            $data_factory,
-            $refinery,
-            $url_builder,
-            $action_parameter_token,
-            $row_id_token,
-            $db,
-            $lng,
-            $component_repository,
-            $rbac,
-            $taxonomy,
-            $notes_service,
-            $parent_obj_id,
-            $request_ref_id
+            $this->createMock(UIFactory::class),
+            $this->createMock(UIRenderer::class),
+            $this->createMock(DataFactory::class),
+            $this->createMock(ILIAS\Refinery\Factory::class),
+            $this->createMock(URLBuilder::class),
+            $this->createMock(URLBuilderToken::class),
+            $this->createMock(URLBuilderToken::class),
+            $this->createMock(ilDBInterface::class),
+            $this->createMock(ilLanguage::class),
+            $this->createMock(ilComponentRepository::class),
+            $this->createMock(ilRbacSystem::class),
+            $this->createMock(ilObjUser::class),
+            $this->createMock(TaxonomyService::class),
+            $this->createMock(ILIAS\Notes\Service::class),
+            0,
+            0
         );
     }
 

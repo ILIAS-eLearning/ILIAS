@@ -16,28 +16,29 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Glossary\Export;
 
 use ilFileUtils;
+use ILIAS\components\Export\HTML\Util;
+use ILIAS\components\Export\HTML\ExportCollector;
 
-/**
- * Glossary HTML Export
- *
- * @author Alexander Killing <killing@leifos.de>
- */
 class GlossaryHtmlExport
 {
+    protected ExportCollector $collector;
     protected \ilGlossaryPresentationGUI $glo_gui;
     protected \ilObjGlossary $glossary;
     protected string $export_dir;
     protected string $sub_dir;
     protected string $target_dir;
     protected \ILIAS\GlobalScreen\Services $global_screen;
-    protected \ILIAS\components\Export\HTML\Util $export_util;
+    protected Util $export_util;
     protected \ilCOPageHTMLExport $co_page_html_export;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style;
     protected \ILIAS\Glossary\InternalService $service;
     protected \ilPresentationFullGUI $glo_full_gui;
+    protected \ilPresentationTableGUI $glo_table_gui;
 
     public function __construct(
         \ilObjGlossary $glo,
@@ -54,8 +55,11 @@ class GlossaryHtmlExport
         $this->service = $DIC->glossary()
                              ->internal();
         $this->global_screen = $DIC->globalScreen();
-        $this->export_util = new \ILIAS\components\Export\HTML\Util($exp_dir, $sub_dir);
-        $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir);
+
+        $this->collector = $DIC->export()->domain()->html()->collector($glo->getId());
+        $this->collector->init();
+        $this->export_util = new Util("", "", $this->collector);
+        $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir, null, 0, $this->collector);
 
         // get glossary presentation gui classes
         $this->glo_gui = new \ilGlossaryPresentationGUI("html", $this->target_dir);
@@ -63,6 +67,10 @@ class GlossaryHtmlExport
                                 ->gui()
                                 ->presentation()
                                 ->PresentationFullGUI($this->glo_gui, $this->glossary, true);
+        $this->glo_table_gui = $this->service
+                                ->gui()
+                                ->presentation()
+                                ->PresentationTableGUI($this->glo_gui, $this->glossary, true);
 
         $this->global_screen->tool()->context()->current()->addAdditionalData(\ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING, true);
         $this->content_style = $DIC
@@ -71,17 +79,13 @@ class GlossaryHtmlExport
             ->styleForRefId($glo->getRefId());
     }
 
-    protected function initDirectories(): void
+    public function exportHTML(): void
     {
-        // initialize temporary target directory
-        ilFileUtils::delDir($this->target_dir);
-        ilFileUtils::makeDir($this->target_dir);
-    }
-
-    public function exportHTML(): string
-    {
-        $this->initDirectories();
-        $this->export_util->exportSystemStyle();
+        $this->export_util->exportSystemStyle(
+            [
+                "icon_glo.svg"
+            ]
+        );
         $this->export_util->exportCOPageFiles($this->content_style->getEffectiveStyleId(), "glo");
 
         // export terms
@@ -90,19 +94,6 @@ class GlossaryHtmlExport
         $this->export_util->exportResourceFiles();
 
         $this->co_page_html_export->exportPageElements();
-
-        return $this->zipPackage();
-    }
-
-    protected function zipPackage(): string
-    {
-        // zip it all
-        $date = time();
-        $zip_file = $this->glossary->getExportDirectory("html") . "/" . $date . "__" . IL_INST_ID . "__" .
-            $this->glossary->getType() . "_" . $this->glossary->getId() . ".zip";
-        ilFileUtils::zip($this->target_dir, $zip_file);
-        ilFileUtils::delDir($this->target_dir);
-        return $zip_file;
     }
 
     protected function getInitialisedTemplate(): \ilGlobalPageTemplate
@@ -164,25 +155,15 @@ class GlossaryHtmlExport
         if ($this->glossary->getPresentationMode() == "full_def") {
             $content = $this->glo_full_gui->renderPanelForOffline();
         } else {
-            $content = $this->glo_gui->listTerms();
+            $content = $this->glo_table_gui->renderPresentationTableForOffline();
         }
-        $file = $this->target_dir . "/index.html";
-
-        // open file
-        $fp = fopen($file, "w+");
-        fwrite($fp, $content);
-        fclose($fp);
+        $this->collector->addString($content, "index.html");
 
         $terms = $this->glossary->getTermList();
         foreach ($terms as $term) {
             $this->initScreen($term["id"]);
             $content = $this->glo_gui->listDefinitions($this->glossary->getRefId(), $term["id"], false);
-            $file = $this->target_dir . "/term_" . $term["id"] . ".html";
-
-            // open file
-            $fp = fopen($file, "w+");
-            fwrite($fp, $content);
-            fclose($fp);
+            $this->collector->addString($content, "term_" . $term["id"] . ".html");
 
             // store linked/embedded media objects of glosssary term
             $this->co_page_html_export->collectPageElements("term:pg", $term["id"], "");

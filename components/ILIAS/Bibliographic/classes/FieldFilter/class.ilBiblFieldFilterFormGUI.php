@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\components\OrgUnit\ARHelper\DIC;
+
 /**
  * Class ilBiblFieldFilterFormGUI
  *
@@ -23,26 +26,17 @@
  */
 class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
 {
-    use \ILIAS\components\OrgUnit\ARHelper\DIC;
+    use DIC;
     public const F_FIELD_ID = "field_id";
     public const F_FILTER_TYPE = "filter_type";
-    protected \ilBiblFactoryFacade $facade;
-    protected \ilBiblFieldFilterInterface $filter;
-    protected \ilBiblFieldFilterGUI $parent_gui;
     protected ?int $filter_id;
 
     /**
      * ilBiblFieldFilterFormGUI constructor.
      */
-    public function __construct(ilBiblFieldFilterGUI $parent_gui, ilBiblFieldFilterInterface $field_filter, ilBiblFactoryFacade $facade)
+    public function __construct(protected \ilBiblFieldFilterGUI $parent_gui, protected \ilBiblFieldFilterInterface $filter, protected \ilBiblFactoryFacade $facade)
     {
-        $this->facade = $facade;
-        $this->filter = $field_filter;
-        $this->parent_gui = $parent_gui;
-        $q = $this->http()->wrapper()->query();
-        $this->filter_id = $q->has(ilBiblFieldFilterGUI::FILTER_ID)
-            ? $q->retrieve(ilBiblFieldFilterGUI::FILTER_ID, $this->dic()->refinery()->kindlyTo()->int())
-            : null;
+        $this->filter_id = $this->filter->getId();
 
         $this->lng()->loadLanguageModule('bibl');
         $this->ctrl()->saveParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID);
@@ -57,24 +51,24 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
         $this->setTarget('_top');
 
         $available_fields_for_object = $this->facade->fieldFactory()->getAvailableFieldsForObjId($this->facade->iliasObjId());
-        if (null !== $this->filter_id) {
+        if (null !== $this->filter_id && $this->filter_id > 0) {
             $edited_filter = $this->facade->filterFactory()->findById($this->filter_id);
         }
 
+        $existing_fields_of_object = $this->facade->filterFactory()->getAllForObjectId($this->facade->iliasObjId());
+        $existing_field_ids = [];
+        foreach ($existing_fields_of_object as $existing_field) {
+            $existing_field_ids[] = $existing_field->getFieldId();
+        }
 
         //show only the fields as options which don't have already a filter
         $options = [];
         foreach ($available_fields_for_object as $available_field) {
-            if (empty($this->facade->filterFactory()->findByFieldId($available_field->getId()))
-                || (!empty($edited_filter)
-                    && $edited_filter->getFieldId() == $available_field->getId())
-            ) {
-                if (!empty($edited_filter)
-                    && $edited_filter->getFieldId() == $available_field->getId()
-                ) {
-                    array_unshift($options, $available_field);
-                    continue;
-                }
+            if (isset($edited_filter) && $edited_filter->getFieldId() === $available_field->getId()) {
+                array_unshift($options, $available_field);
+                continue;
+            }
+            if (!in_array($available_field->getId(), $existing_field_ids, false)) {
                 $options[] = $available_field;
             }
         }
@@ -118,7 +112,7 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
 
     public function fillForm(): void
     {
-        $array = array(self::F_FIELD_ID => $this->filter->getFieldId(), self::F_FILTER_TYPE => $this->filter->getFilterType(),);
+        $array = [self::F_FIELD_ID => $this->filter->getFieldId(), self::F_FILTER_TYPE => $this->filter->getFilterType(),];
         $this->setValuesByArray($array);
     }
 

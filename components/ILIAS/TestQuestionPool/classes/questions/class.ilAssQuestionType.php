@@ -26,97 +26,45 @@ class ilAssQuestionType
 {
     protected ilComponentRepository $component_repository;
 
-    /**
-     * @var integer
-     */
-    protected $id;
+    protected int $id;
+    protected string $tag = '';
+    protected bool $is_plugin;
+    protected ?string $plugin_name = null;
 
-    /**
-     * @var string
-     */
-    protected $tag;
-
-    /**
-     * @var bool
-     */
-    protected $plugin;
-
-    /**
-     * @var string
-     */
-    protected $pluginName;
-
-    /**
-     * ilAssQuestionType constructor.
-     */
     public function __construct()
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
+        global $DIC;
         $this->component_repository = $DIC['component.repository'];
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId($id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
     public function getTag(): string
     {
         return $this->tag;
     }
 
-    /**
-     * @param string $tag
-     */
-    public function setTag($tag): void
+    public function setTag(string $tag): void
     {
         $this->tag = $tag;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPlugin(): bool
+    public function setPlugin(bool $is_plugin): void
     {
-        return $this->plugin;
+        $this->is_plugin = $is_plugin;
     }
 
-    /**
-     * @param bool $plugin
-     */
-    public function setPlugin($plugin): void
+    public function setPluginName(?string $plugin_name): void
     {
-        $this->plugin = $plugin;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPluginName(): string
-    {
-        return $this->pluginName;
-    }
-
-    /**
-     * @param string $pluginName
-     */
-    public function setPluginName($pluginName): void
-    {
-        $this->pluginName = $pluginName;
+        $this->plugin_name = $plugin_name;
     }
 
     /**
@@ -124,15 +72,19 @@ class ilAssQuestionType
      */
     public function isImportable(): bool
     {
-        if (!$this->isPlugin()) {
+        if (!$this->is_plugin) {
             return true;
+        }
+
+        if (!isset($this->plugin_name)) {
+            return false;
         }
 
         // Plugins MAY overwrite this method an report back their activation status
         if (!$this->component_repository->getComponentByTypeAndName(
             ilComponentInfo::TYPE_MODULES,
             'TestQuestionPool'
-        )->getPluginSlotById('qst')->hasPluginName($this->getPluginName())) {
+        )->getPluginSlotById('qst')->hasPluginName($this->plugin_name)) {
             return false;
         }
 
@@ -145,14 +97,11 @@ class ilAssQuestionType
                 'qst'
             )
             ->getPluginByName(
-                $this->getPluginName()
+                $this->plugin_name
             )->isActive();
     }
 
-    /**
-     * @param array $questionTypeData
-     */
-    public static function completeMissingPluginName($question_type_data): array
+    public static function completeMissingPluginName(array $question_type_data): array
     {
         if ($question_type_data['plugin']
             && $question_type_data['plugin_name'] !== null

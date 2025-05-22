@@ -23,7 +23,7 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\Data\Result;
-use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Component\Input\InputData;
 
 class ViewControlGroupTest extends ViewControlTestBase
 {

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,19 +16,18 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
 
 /**
- * Class JsCollection
- * @package ILIAS\components\UICore\Page\Media
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class JsCollection extends AbstractCollection
 {
     protected array $path_storage = [];
 
-    /**
-     * @param Js $item
-     */
+
     public function addItem(Js $item): void
     {
         $basename = $this->stripPath($item->getContent());
@@ -51,9 +49,7 @@ class JsCollection extends AbstractCollection
         $this->path_storage[$strip_path] = $item->getBatch();
     }
 
-    /**
-     * @return Js[]
-     */
+    #[\Override]
     public function getItemsInOrderOfDelivery(): array
     {
         $ordered = [];

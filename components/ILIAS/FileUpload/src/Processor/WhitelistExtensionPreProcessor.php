@@ -1,25 +1,27 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\FileUpload\Processor;
 
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
-use Psr\Http\Message\StreamInterface;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class WhitelistExtensionPreProcessor
  *
@@ -31,12 +33,6 @@ use Psr\Http\Message\StreamInterface;
  */
 final class WhitelistExtensionPreProcessor implements PreProcessor
 {
-    /**
-     * @var string[]
-     */
-    private array $whitelist;
-
-
     /**
      * WhitelistExtensionPreProcessor constructor.
      *
@@ -55,9 +51,8 @@ final class WhitelistExtensionPreProcessor implements PreProcessor
      *
      * @param \string[] $whitelist The file extensions which should be whitelisted.
      */
-    public function __construct(array $whitelist)
+    public function __construct(private array $whitelist)
     {
-        $this->whitelist = $whitelist;
     }
 
 

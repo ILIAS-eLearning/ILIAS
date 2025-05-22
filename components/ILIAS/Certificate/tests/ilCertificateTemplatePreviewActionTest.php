@@ -18,9 +18,8 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
+use ILIAS\ResourceStorage\Services as IRSS;
+
 class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
 {
     public function testA(): void
@@ -38,6 +37,10 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
                 'USER_FULLNAME' => 'SomeFullName',
                 'USER_FIRSTNAME' => 'SomeFirstName'
             ]);
+
+        $irss = $this->getMockBuilder(IRSS::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $user = $this->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
@@ -61,12 +64,6 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
         $utilHelper
             ->expects($this->once())
             ->method('deliverData');
-
-        $mathJaxHelper = $this->getMockBuilder(ilCertificateMathJaxHelper::class)
-            ->getMock();
-
-        $mathJaxHelper->method('fillXlsFoContent')
-            ->willReturn('<xml> Some filled XML content </xml>');
 
         $userDefinedFieldsHelper = $this->getMockBuilder(ilCertificateUserDefinedFieldsHelper::class)
             ->getMock();
@@ -106,10 +103,10 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
         $previewAction = new ilCertificateTemplatePreviewAction(
             $templateRepository,
             $placeholderValuesObject,
+            $irss,
             'some/where/',
             $user,
             $utilHelper,
-            $mathJaxHelper,
             $userDefinedFieldsHelper,
             $rpcClientFactoryHelper,
             $pdfFileNameFactory

@@ -104,27 +104,5 @@ class ilTestPasswordChecker
 
     public function logWrongEnteredPassword()
     {
-        if (!ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-            return;
-        }
-
-        ilObjAssessmentFolder::_addLog(
-            $this->user->getId(),
-            $this->testOBJ->getId(),
-            $this->getWrongEnteredPasswordLogMsg(),
-            null,
-            null,
-            true,
-            $this->testOBJ->getRefId()
-        );
-    }
-
-    protected function getWrongEnteredPasswordLogMsg(): string
-    {
-        return $this->lng->txtlng(
-            'assessment',
-            'log_wrong_test_password_entered',
-            ilObjAssessmentFolder::_getLogLanguage()
-        );
     }
 }

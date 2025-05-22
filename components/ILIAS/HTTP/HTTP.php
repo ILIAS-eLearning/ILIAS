@@ -20,7 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class HTTP implements Component\Component
+use ILIAS\Component\Component;
+
+class HTTP implements Component
 {
     public function init(
         array | \ArrayAccess &$define,

@@ -133,7 +133,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_TEXTAREA)
             && !$this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)
         ) {
-            return nl2br($value);
+            return $value;
         }
 
         return $value;
@@ -154,5 +154,19 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         } else {
             return $value;
         }
+    }
+
+    public function deserializeData($value)
+    {
+        $value = (string) $value;
+        if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
+            $deserialize = json_decode($value, true);
+            return [
+                'title' => $deserialize['title'] ?? '',
+                'link' => $deserialize['link'] ?? '',
+            ];
+        }
+
+        return $value;
     }
 }

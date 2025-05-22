@@ -35,6 +35,12 @@ interface PathsInterface
     public function descriptions(): PathInterface;
 
     /**
+     * Path to general > description > string, restricted to the
+     * first description.
+     */
+    public function firstDescription(): PathInterface;
+
+    /**
      * Path to general > keyword > string.
      */
     public function keywords(): PathInterface;

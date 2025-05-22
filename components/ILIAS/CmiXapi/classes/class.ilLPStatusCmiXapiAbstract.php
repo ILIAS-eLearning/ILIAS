@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilLPStatusLTIConsumerAbstract
@@ -168,7 +168,7 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
     /**
      * @param object|null $a_obj
      */
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null): int
+    public function determineStatus(int $a_obj_id, int $a_usr_id, ?object $a_obj = null): int
     {
         $cmixUserResult = $this->getCmixUserResult($a_obj_id, $a_usr_id);
 

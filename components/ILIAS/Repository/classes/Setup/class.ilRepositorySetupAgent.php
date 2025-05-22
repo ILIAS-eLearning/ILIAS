@@ -25,7 +25,7 @@ class ilRepositorySetupAgent extends Setup\Agent\NullAgent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new \ilDatabaseUpdateStepsExecutedObjective(new ilRepository9DBUpdateSteps());
     }

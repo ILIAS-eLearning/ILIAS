@@ -16,14 +16,13 @@
  *
  *********************************************************************/
 
-use ILIAS\Filesystem\Stream\Streams;
-
 /**
  * Booking process ui class
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingProcess\BookingProcessGUI
 {
+    protected \ILIAS\BookingManager\Access\AccessManager $access;
     protected ilLogger $log;
     protected \ILIAS\BookingManager\BookingProcess\ObjectSelectionManager $object_selection;
     protected \ILIAS\BookingManager\Objects\ObjectsManager $object_manager;
@@ -45,7 +44,6 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
-    protected ilAccessHandler $access;
     protected ilTabsGUI $tabs_gui;
     protected ilObjUser $user;
     protected int $book_obj_id;
@@ -62,7 +60,6 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC["tpl"];
         $this->lng = $DIC->language();
-        $this->access = $DIC->access();
         $this->tabs_gui = $DIC->tabs();
         $this->user = $DIC->user();
         $this->http = $DIC->http();
@@ -105,6 +102,7 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
             $this->pool,
             $this
         );
+        $this->access = $DIC->bookingManager()->internal()->domain()->access();
     }
 
     public function executeCommand(): void
@@ -133,6 +131,11 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
         }
     }
 
+    protected function showNoPermission(): void
+    {
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
+        $this->back();
+    }
 
     //
     // Step 0 / week view
@@ -220,6 +223,10 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
 
         if ($this->user_id_to_book !== $this->user_id_assigner) {
             $this->ctrl->setParameter($this, 'bkusr', $this->user_id_to_book);
+        }
+
+        if (!$this->access->canManageReservationForUser($this->book_request->getRefId(), $this->user_id_to_book)) {
+            return;
         }
 
         $user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
@@ -466,6 +473,10 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
 
     protected function bookAvailableItems(?int $recurrence = null, ?ilDateTime $until = null): void
     {
+        if (!$this->access->canManageReservationForUser($this->pool->getRefId(), $this->user_id_to_book)) {
+            $this->showNoPermission();
+            return;
+        }
         $this->log->debug("bookAvailableItems");
         $obj_id = $this->book_request->getObjectId();
         $from = $this->book_request->getSlotFrom();

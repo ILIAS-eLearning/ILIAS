@@ -196,9 +196,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                         $out = [];
                         foreach ($completion_by_obj_ids as $completion_by_obj_id) {
                             $type = ilObject::_lookupType($completion_by_obj_id);
-                            if ($type === 'crsr') {
-                                $target_obj_id = ilContainerReference::_lookupTargetId($completion_by_obj_id);
-                                $out[] = $this->getCompletionLink($target_obj_id, $completion_by);
+                            if ($type === 'crs') {
+                                $out[] = $this->getCompletionLink($completion_by_obj_id, $completion_by);
                             } else {
                                 $target_obj_id = $completion_by_obj_id;
                                 $out[] = $this->getCompletionLink(
@@ -248,7 +247,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         }
         $actions = $this->getPossibleActions(
             $row->isRootProgress(),
-            $row->getStatusRaw()
+            $row->getStatusRaw(),
+            $row->getNodeLifecycleStatus()
         );
 
         $this->tpl->setVariable(
@@ -303,7 +303,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             $l[] = $this->ui_factory->button()->shy($this->lng->txt("prg_$action"), $target);
         }
         return $this->ui_renderer->render(
-            $this->ui_factory->dropdown()->standard($l)->withLabel($this->lng->txt('actions'))
+            $this->ui_factory->dropdown()->standard($l)
         );
     }
 
@@ -350,7 +350,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             'markAccreditedMulti' => $this->lng->txt('prg_multi_mark_accredited'),
             'unmarkAccreditedMulti' => $this->lng->txt('prg_multi_unmark_accredited'),
         ];
-        if($this->prg->isCertificateActive()) {
+        if ($this->prg->isCertificateActive()) {
             $permissions_for_edit_individual_plan['updateCertificateMulti'] = $this->lng->txt('prg_multi_update_certificate');
             $permissions_for_edit_individual_plan['removeCertificateMulti'] = $this->lng->txt('prg_multi_remove_certificate');
         }
@@ -407,7 +407,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
      */
     protected function getPossibleActions(
         bool $is_root,
-        int $status
+        int $status,
+        int $node_lifecyle_status
     ): array {
         $actions = [];
 
@@ -415,7 +416,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_SHOW_INDIVIDUAL_PLAN;
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_USER;
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_FROM_CURRENT_PLAN;
-            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_ACKNOWLEDGE_COURSES;
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_DEADLINE;
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_EXPIRE_DATE;
         }
@@ -425,6 +425,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         }
         if ($status == ilPRGProgress::STATUS_IN_PROGRESS) {
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_MARK_ACCREDITED;
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_ACKNOWLEDGE_COURSES;
         }
 
         if (! $is_root &&
@@ -433,7 +434,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         ) {
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_RELEVANT;
         }
-        if ($status == ilPRGProgress::STATUS_NOT_RELEVANT) {
+        if ($status == ilPRGProgress::STATUS_NOT_RELEVANT
+            && $node_lifecyle_status == ilStudyProgrammeAssessmentSettings::STATUS_ACTIVE
+        ) {
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_MARK_RELEVANT;
         }
         if ($status == ilPRGProgress::STATUS_COMPLETED ||

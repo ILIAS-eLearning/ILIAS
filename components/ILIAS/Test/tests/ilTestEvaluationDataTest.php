@@ -19,8 +19,7 @@
 declare(strict_types=1);
 
 /**
- * Class ilTestEvaluationDataTest
- * @author Marvin Beym <mbeym@databay.de>
+ * @deprecated 11; Result/EvaluationData will be refined.
  */
 class ilTestEvaluationDataTest extends ilTestBaseTestCase
 {
@@ -29,11 +28,11 @@ class ilTestEvaluationDataTest extends ilTestBaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        global $DIC;
-        $this->addGlobal_ilDB();
-
-        $this->testObj = new ilTestEvaluationData($DIC['ilDB']);
+        $user_data = [
+            new ilTestEvaluationUserData(0),
+            new ilTestEvaluationUserData(1),
+        ];
+        $this->testObj = new ilTestEvaluationData($user_data);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -46,22 +45,6 @@ class ilTestEvaluationDataTest extends ilTestBaseTestCase
         $expected = ['question_titles', 'participants', 'statistics', 'arr_filter', 'datasets', 'test'];
 
         $this->assertEquals($expected, $this->testObj->__sleep());
-    }
-
-    public function testAccessFilteredParticipantList(): void
-    {
-        $value_mock = $this->createMock(ilTestParticipantList::class);
-        $this->testObj->setAccessFilteredParticipantList($value_mock);
-
-        $this->assertEquals($value_mock, $this->testObj->getAccessFilteredParticipantList());
-    }
-
-    public function testTest(): void
-    {
-        $value_mock = $this->createMock(ilObjTest::class);
-        $this->testObj->setTest($value_mock);
-
-        $this->assertEquals($value_mock, $this->testObj->getTest());
     }
 
     public function testDatasets(): void
@@ -86,5 +69,86 @@ class ilTestEvaluationDataTest extends ilTestBaseTestCase
         }
 
         $this->assertEquals($expected, $this->testObj->getQuestionTitles());
+
+        $this->assertEquals($expected[2150], $this->testObj->getQuestionTitle(2150));
+    }
+
+    public function testEvaluationFactory(): void
+    {
+        $records = [];
+        $records[] = [
+            "active_id" => 7 ,
+            "question_fi" => 9,
+            "result_points" => 1.2,
+            "answered" => true,
+            "manual" => 1,
+            "original_id" => null,
+            "questiontitle" => "some title",
+            "qpl_maxpoints" => 2.4,
+            "submitted" => true,
+            "last_finished_pass" => 1,
+            "pass" => 1,
+            "points" => 10.3,
+            "maxpoints" => 32,
+            "questioncount" => 32,
+            "answeredquestions" => 1,
+            "workingtime" => 28,
+            "tstamp" => 1731941437,
+            "obligations_answered" => true,
+            "exam_id" => "I0_T355_A7_P1",
+            "usr_id" => 6,
+            "firstname" => "root",
+            "lastname" => "user",
+            "title" => "",
+            "login" => "root",
+            "finalized_by" => null
+        ];
+        $records[] = ['first_access' => '2024-12-11 17:54:26'];
+        $records[] = null;
+
+        $test_obj = $this->createMock(ilObjTest::class);
+        $test_obj
+            ->expects($this->once())
+            ->method('getPassScoring');
+        $test_obj
+            ->expects($this->once())
+            ->method('getAccessFilteredParticipantList')
+            ->willReturn(null);
+        $test_obj
+            ->expects($this->once())
+            ->method('getTestParticipants')
+            ->willReturn([7]);
+        $test_obj
+            ->expects($this->once())
+            ->method('getVisitingTimeOfParticipant')
+            ->willReturn(
+                [
+                    'first_access' => new \DateTimeImmutable(),
+                    'last_access' => new \DateTimeImmutable()
+                ]
+            );
+
+        $db = $this->createMock(ilDBInterface::class);
+        $db
+            ->expects($this->exactly(3))
+            ->method('fetchAssoc')
+            ->willReturnCallback(
+                function ($res) use (&$records) {
+                    return array_shift($records);
+                }
+            );
+
+        $factory = new ilTestEvaluationFactory($db, $test_obj);
+        $data = $factory->getEvaluationData();
+        $this->assertInstanceOf(ilTestEvaluationData::class, $data);
+
+        $this->assertEquals(
+            [7],
+            $data->getParticipantIds()
+        );
+        $this->assertInstanceOf(
+            ilTestEvaluationUserData::class,
+            $data->getParticipant(7)
+        );
     }
 }

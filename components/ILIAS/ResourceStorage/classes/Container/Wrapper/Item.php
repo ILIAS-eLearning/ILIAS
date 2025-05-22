@@ -24,9 +24,8 @@ namespace ILIAS\components\ResourceStorage\Container\Wrapper;
  * @author   Fabian Schmid <fabian@sr.solutions>
  * @internal This class is not part of the public API.
  */
-abstract class Item
+abstract class Item implements \Stringable
 {
-
     public function __construct(
         private string $path_inside_zip,
         private string $title,

@@ -27,16 +27,17 @@ use ilDateTime;
 
 class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
 {
-    private AttachmentManagement $mode;
-    private \ILIAS\UI\URLBuilder $url_builder;
-    private \ILIAS\UI\URLBuilderToken $action_parameter_token;
-    private \ILIAS\UI\URLBuilderToken $row_id_token;
+    private readonly \ILIAS\UI\URLBuilder $url_builder;
+    private readonly \ILIAS\UI\URLBuilderToken $action_parameter_token;
+    private readonly \ILIAS\UI\URLBuilderToken $row_id_token;
+    private readonly \ILIAS\Data\Factory $data_factory;
 
     /**
-     * @param list<array{"checked": bool, "filename": string, "filesize": int, "filecreatedate": int}> $records
+     * @param list<array{"filename": string, "filesize": int, "filecreatedate": int}> $records
      */
     public function __construct(
         private readonly \ilMailAttachmentGUI $parent_gui,
+        private readonly \ilObjUser $actor,
         private readonly array $records,
         private readonly \ILIAS\UI\Factory $ui_factory,
         private readonly \ILIAS\UI\Renderer $ui_renderer,
@@ -45,10 +46,8 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
         private readonly \Psr\Http\Message\ServerRequestInterface $http_request,
         private readonly \ILIAS\Data\Factory $df,
         private readonly string $parent_cmd,
-        AttachmentManagement $mode
+        private readonly AttachmentManagement $mode
     ) {
-        $this->mode = $mode;
-
         $form_action = $this->df->uri(
             \ilUtil::_getHttpPath() . '/' .
             $this->ctrl->getLinkTarget($this->parent_gui, $this->parent_cmd)
@@ -63,6 +62,8 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
             'table_action',
             'filename'
         );
+
+        $this->data_factory = new \ILIAS\Data\Factory();
     }
 
     public function get(): \ILIAS\UI\Component\Table\Data
@@ -70,11 +71,12 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
         return $this->ui_factory
             ->table()
             ->data(
+                $this,
                 $this->lng->txt('attachment'),
                 $this->getColumnDefinition(),
-                $this
             )
             ->withId(self::class . '_' . $this->mode->name)
+            ->withOrder(new \ILIAS\Data\Order('filename', \ILIAS\Data\Order::ASC))
             ->withActions($this->getActions())
             ->withRequest($this->http_request);
     }
@@ -84,6 +86,12 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
      */
     private function getColumnDefinition(): array
     {
+        if ((int) $this->actor->getTimeFormat() === \ilCalendarSettings::TIME_FORMAT_12) {
+            $date_format = $this->data_factory->dateFormat()->withTime12($this->actor->getDateFormat());
+        } else {
+            $date_format = $this->data_factory->dateFormat()->withTime24($this->actor->getDateFormat());
+        }
+
         return [
             'filename' => $this->ui_factory
                 ->table()
@@ -98,7 +106,7 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
             'filecreatedate' => $this->ui_factory
                 ->table()
                 ->column()
-                ->text($this->lng->txt('create_date'))
+                ->date($this->lng->txt('create_date'), $date_format)
                 ->withIsSortable(true),
         ];
     }
@@ -128,15 +136,13 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @return list<array{"checked": bool, "filename": string, "filesize": int, "filecreatedate": int}>
+     * @return list<array{"filename": string, "filesize": int, "filecreatedate": int}>
      */
     private function getRecords(\ILIAS\Data\Range $range, \ILIAS\Data\Order $order): array
     {
         $records = $this->records;
 
-        [$order_field, $order_direction] = $order->join([], static function ($ret, $key, $value) {
-            return [$key, $value];
-        });
+        [$order_field, $order_direction] = $order->join([], static fn($ret, $key, $value) => [$key, $value]);
 
         usort($records, static function (array $left, array $right) use ($order_field): int {
             if ($order_field === 'filename') {
@@ -150,7 +156,7 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
             $records = array_reverse($records);
         }
 
-        $records = array_slice($records, $range->getStart(), $range->getLength());
+        $records = \array_slice($records, $range->getStart(), $range->getLength());
 
         return $records;
     }
@@ -167,7 +173,9 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
             $record = [
                 'filename' => $item['filename'],
                 'filesize' => ilUtil::formatSize($item['filesize'], 'long'),
-                'filecreatedate' => ilDatePresentation::formatDate(new ilDateTime($item['filecreatedate'], IL_CAL_UNIX))
+                'filecreatedate' => (new \DateTimeImmutable('@' . $item['filecreatedate']))->setTimezone(
+                    new \DateTimeZone($this->actor->getTimeZone())
+                )
             ];
 
             yield $row_builder
@@ -177,6 +185,6 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
 
     public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
     {
-        return count($this->records);
+        return \count($this->records);
     }
 }

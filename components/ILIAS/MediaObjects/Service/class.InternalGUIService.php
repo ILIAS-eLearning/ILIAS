@@ -90,4 +90,13 @@ class InternalGUIService
             $this
         );
     }
+
+    public function thumbs(): Thumbs\ThumbsGUI
+    {
+        return new Thumbs\ThumbsGUI(
+            $this->domain_service,
+            $this
+        );
+    }
+
 }

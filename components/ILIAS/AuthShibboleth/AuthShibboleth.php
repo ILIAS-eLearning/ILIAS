@@ -20,7 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class AuthShibboleth implements Component\Component
+use ILIAS\Component\Component;
+use ILIAS\Component\Resource\PublicAsset;
+use ILIAS\Component\Resource\Endpoint;
+
+class AuthShibboleth implements Component
 {
     public function init(
         array | \ArrayAccess &$define,
@@ -32,10 +36,10 @@ class AuthShibboleth implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\Endpoint($this, "shib_login.php");
+        $contribute[PublicAsset::class] = fn(): Endpoint =>
+            new Endpoint($this, "shib_login.php");
 
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\Endpoint($this, "shib_logout.php");
+        $contribute[PublicAsset::class] = fn(): Endpoint =>
+            new Endpoint($this, "shib_logout.php");
     }
 }

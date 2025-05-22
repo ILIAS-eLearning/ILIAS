@@ -18,6 +18,12 @@
 
 namespace ILIAS\Filesystem\Util;
 
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\BackupStaticProperties;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\Small;
 use ILIAS\DI\Container;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Filesystems;
@@ -28,18 +34,18 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
  * @author                 Fabian Schmid <fabian@sr.solutions>
- *
- * @runTestsInSeparateProcesses
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
  */
+#[BackupGlobals(false)]
+#[BackupStaticProperties(false)]
+#[PreserveGlobalState(false)]
+#[RunTestsInSeparateProcesses]
 class LegacyPathHelperTest extends TestCase
 {
+    public $libsPath;
     private string $vendorPath;
     private string $storagePath;
     private string $webPath;
-    private \Mockery\MockInterface|\ILIAS\Filesystem\Filesystems $filesystemsMock;
+    private MockInterface|Filesystems $filesystemsMock;
 
 
     /**
@@ -77,10 +83,8 @@ class LegacyPathHelperTest extends TestCase
     }
 
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testDeriveFilesystemFromWithWebTargetWhichShouldSucceed(): void
     {
         $target = $this->webPath . '/testtarget';
@@ -95,10 +99,8 @@ class LegacyPathHelperTest extends TestCase
     }
 
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testDeriveFilesystemFromWithStorageTargetWhichShouldSucceed(): void
     {
         $target = $this->storagePath . '/testtarget';
@@ -113,10 +115,8 @@ class LegacyPathHelperTest extends TestCase
     }
 
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testDeriveFilesystemFromWithRelativeLibsTargetWhichShouldSucceed(): void
     {
         $target = './vendor/bower/bower_components/mediaelement/build';
@@ -130,10 +130,8 @@ class LegacyPathHelperTest extends TestCase
         $this->assertTrue($filesystem instanceof Filesystem, 'Expecting filesystem instance.');
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testDeriveFilesystemFromWithAbsoluteLibsTargetWhichShouldSucceed(): void
     {
         $target = $this->libsPath . 'vendor/bower/bower_components/mediaelement/build';
@@ -148,10 +146,8 @@ class LegacyPathHelperTest extends TestCase
     }
 
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testDeriveFilesystemFromWithInvalidTargetWhichShouldFail(): void
     {
         $target = '/invalid/path/to/testtarget';
@@ -163,10 +159,8 @@ class LegacyPathHelperTest extends TestCase
     }
 
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testCreateRelativePathWithWebTargetWhichShouldSucceed(): void
     {
         $expectedPath = 'testtarget/subdir';
@@ -177,10 +171,8 @@ class LegacyPathHelperTest extends TestCase
     }
 
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testCreateRelativePathWithStorageTargetWhichShouldSucceed(): void
     {
         $expectedPath = 'testtarget/subdir';
@@ -191,10 +183,8 @@ class LegacyPathHelperTest extends TestCase
     }
 
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testCreateRelativePathWithInvalidTargetWhichShouldFail(): void
     {
         $target = '/invalid/path/to/target';

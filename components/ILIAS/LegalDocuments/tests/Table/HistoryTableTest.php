@@ -22,8 +22,6 @@ namespace ILIAS\LegalDocuments\test\Table;
 
 use ILIAS\LegalDocuments\Value\History;
 use ILIAS\LegalDocuments\TableSelection;
-use ILIAS\DI\LoggingServices;
-use ILIAS\DI\Container;
 use ILIAS\LegalDocuments\TableFilter;
 use ILIAS\LegalDocuments\TableConfig;
 use ILIAS\LegalDocuments\test\ContainerMock;
@@ -33,7 +31,6 @@ use ILIAS\LegalDocuments\Provide\ProvideDocument;
 use ILIAS\LegalDocuments\Repository\HistoryRepository;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\Table\HistoryTable;
-use ilLogger;
 use ilDateTime;
 use DateTimeImmutable;
 

@@ -24,7 +24,7 @@ interface Consumer
 {
     /**
      * @template A
-     * @param UseSlot<A> $lens
+     * @param UseSlot<A> $slot
      * @return UseSlot<A>
      */
     public function uses(UseSlot $slot, LazyProvide $provide): UseSlot;

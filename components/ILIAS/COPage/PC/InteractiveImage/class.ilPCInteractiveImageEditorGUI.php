@@ -18,13 +18,8 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\COPage\PC\InteractiveImage;
-
 use ILIAS\COPage\Editor\Components\PageComponentEditor;
 use ILIAS\COPage\Editor\Server\UIWrapper;
-use ilLanguage;
-use ilPageObjectGUI;
-use ilPCInteractiveImageGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>

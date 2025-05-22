@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,33 +16,41 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
 
 /**
- * Class CssCollection
- * @package ILIAS\components\UICore\Page\Media
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class CssCollection extends AbstractCollection
 {
-    /**
-     * @param Css $item
-     */
     public function addItem(Css $item): void
     {
-        $real_path = realpath(parse_url($item->getContent(), PHP_URL_PATH));
+        $content = $item->getContent();
+
+        // Add external URLs to the collection if allowed
+        if ($this->allow_external && $this->isExternalURI($content)) {
+            $this->items[] = $item;
+            return;
+        }
+
+        if ($this->isURI($content)) {
+            $this->items[] = $item;
+            return;
+        }
+
+        // add item only if it is not already in the collection
+        $real_path = realpath(parse_url($content, PHP_URL_PATH));
+        if (!$this->allow_non_existing && $real_path === false) {
+            return;
+        }
         foreach ($this->getItems() as $css) {
-            if (realpath(parse_url($css->getContent(), PHP_URL_PATH)) === $real_path) {
+            if (!$this->allow_non_existing && realpath(parse_url((string) $css->getContent(), PHP_URL_PATH)) === $real_path) {
                 return;
             }
         }
         $this->items[] = $item;
     }
 
-    /**
-     * @return Css[]
-     */
-    public function getItemsInOrderOfDelivery(): array
-    {
-        return parent::getItemsInOrderOfDelivery();
-    }
 }

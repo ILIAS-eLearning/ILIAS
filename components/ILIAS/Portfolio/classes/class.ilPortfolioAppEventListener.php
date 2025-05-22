@@ -28,13 +28,6 @@ class ilPortfolioAppEventListener
         array $parameter
     ): void {
         switch ($component) {
-            case "components/ILIAS/Object":
-                switch ($event) {
-                    case "beforeDeletion":
-                        self::beforeDeletion($parameter);
-                        break;
-                }
-                break;
             case "components/ILIAS/User":
                 switch ($event) {
                     case "firstLogin":
@@ -42,20 +35,6 @@ class ilPortfolioAppEventListener
                         break;
                 }
                 break;
-        }
-    }
-
-    protected static function beforeDeletion(
-        array $parameter
-    ): void {
-        if (is_object($parameter["object"])) {
-            /** @var ilObject $obj */
-            $obj = $parameter["object"];
-            if ($obj instanceof \ilObjBlog) {
-                $blog_id = $obj->getId();
-                $action = new ilPortfolioPageAction();
-                $action->deletePagesOfBlog($blog_id);
-            }
         }
     }
 

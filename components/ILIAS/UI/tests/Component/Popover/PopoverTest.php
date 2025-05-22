@@ -36,10 +36,9 @@ class PopoverTest extends ILIAS_UI_TestBase
     public function getFactory(): NoUIFactory
     {
         return new class () extends NoUIFactory {
-            public function legacy(string $content): I\Component\Legacy\Legacy
+            public function legacy(): I\Component\Legacy\Factory
             {
-                $f = new I\Component\Legacy\Factory(new I\Component\SignalGenerator());
-                return $f->legacy($content);
+                return new I\Component\Legacy\Factory(new I\Component\SignalGenerator());
             }
         };
     }
@@ -76,7 +75,7 @@ class PopoverTest extends ILIAS_UI_TestBase
     public function testRenderStandard(): void
     {
         $factory = new I\Component\Popover\Factory(new I\Component\SignalGenerator());
-        $popover = $factory->standard($this->getFactory()->legacy('myContent'));
+        $popover = $factory->standard($this->getFactory()->legacy()->content('myContent'));
         $expected = $this->normalizeHTML($this->getExpectedStandardHTML('myContent'));
         $actual = $this->normalizeHTML($this->getDefaultRenderer()->render($popover));
         $this->assertEquals($expected, $actual);
@@ -91,7 +90,7 @@ class PopoverTest extends ILIAS_UI_TestBase
     public function testRenderAsync(): void
     {
         $factory = new I\Component\Popover\Factory(new I\Component\SignalGenerator());
-        $popover = $factory->standard($this->getFactory()->legacy('myContent'))->withAsyncContentUrl('/blub/');
+        $popover = $factory->standard($this->getFactory()->legacy()->content('myContent'))->withAsyncContentUrl('/blub/');
         $this->assertEquals('', $this->getDefaultRenderer()->render($popover));
     }
 

@@ -33,10 +33,10 @@ class ilForumTopicTableGUI extends ilTable2GUI
     private ForumDto $topicData;
     private ?ilForumTopic $merge_thread_obj = null;
     private int $position = 1;
-    private bool $is_post_draft_allowed;
-    private ilGlobalTemplateInterface $mainTemplate;
-    private ilObjUser $user;
-    private ilSetting $settings;
+    private readonly bool $is_post_draft_allowed;
+    private readonly ilGlobalTemplateInterface $mainTemplate;
+    private readonly ilObjUser $user;
+    private readonly ilSetting $settings;
 
     public function __construct(
         ilObjForumGUI $a_parent_obj,
@@ -66,7 +66,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->setExternalSegmentation(true);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->mainTemplate->addCss('./components/ILIAS/Forum/css/forum_table.css');
+        $this->mainTemplate->addCss('./assets/css/forum_table.css');
         $this->is_post_draft_allowed = ilForumPostDraft::isSavePostDraftAllowed();
     }
 
@@ -330,9 +330,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         }
 
         $this->setMaxCount($data['cnt']);
-        $this->setData(array_map(static function (ilForumTopic $thread): array {
-            return ['thread' => $thread];
-        }, $data['items']));
+        $this->setData(array_map(static fn(ilForumTopic $thread): array => ['thread' => $thread], $data['items']));
 
         $thread_ids = [];
         $user_ids = [];

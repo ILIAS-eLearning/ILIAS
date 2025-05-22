@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Survey\Evaluation;
 
@@ -74,7 +74,7 @@ class EvaluationManager
             case \ilObjSurvey::MODE_360:
                 return ($access->canEditSettings() ||
                     $survey->get360Results() === \ilObjSurvey::RESULTS_360_ALL);
-            // tutors can switch appraisees on detailed evaluation screen
+                // tutors can switch appraisees on detailed evaluation screen
             case \ilObjSurvey::MODE_IND_FEEDB:
                 return ($access->canEditSettings());
             case \ilObjSurvey::MODE_SELF_EVAL:

@@ -111,5 +111,5 @@ The http service has methods which would allow ILIAS to handle the files in a wa
 the file upload service.
 
 # Handle Files
-You find information how to handle File-Uploads in dropzones or Forms in [Services/FileServices/README.md](../../Services/FileServices/README.md) 
+You find information how to handle File-Uploads in dropzones or Forms in [ILIAS/FileServices/README.md](../../components/ILIAS/FileServices/README.md) 
 

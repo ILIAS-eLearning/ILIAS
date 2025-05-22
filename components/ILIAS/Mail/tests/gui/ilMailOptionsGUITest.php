@@ -22,18 +22,12 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 
-/**
- * Class ilMailOptionsGUITest
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailOptionsGUITest extends ilMailBaseTestCase
 {
-    /**
-     * @throws ReflectionException
-     */
     protected function getMailOptionsGUI(
-        GlobalHttpState $httpState,
+        GlobalHttpState $http_state,
         ilCtrlInterface $ctrl,
         ilMailOptions $mail_options
     ): ilMailOptionsGUI {
@@ -46,16 +40,13 @@ class ilMailOptionsGUITest extends ilMailBaseTestCase
             $ctrl,
             $lng,
             $user,
-            $httpState,
+            $http_state,
             new Factory(new \ILIAS\Data\Factory(), $lng),
             $mail_options
         );
     }
 
-    /**
-     * @doesNotPerformAssertions
-     * @throws ReflectionException
-     */
+    #[DoesNotPerformAssertions]
     public function testMailOptionsAreAccessibleIfGlobalAccessIsNotDenied(): void
     {
         $ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
@@ -92,9 +83,6 @@ class ilMailOptionsGUITest extends ilMailBaseTestCase
         $gui->executeCommand();
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testMailOptionsAreNotAccessibleIfGlobalAccessIsDeniedAndUserWillBeRedirectedToMailSystem(): void
     {
         $ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
@@ -133,9 +121,6 @@ class ilMailOptionsGUITest extends ilMailBaseTestCase
         $gui->executeCommand();
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testMailOptionsAreNotAccessibleIfGlobalAccessIsDeniedAndUserWillBeRedirectedToPersonalSettings(): void
     {
         $this->expectException(ilCtrlException::class);

@@ -19,20 +19,16 @@ declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\Toast\Provider;
 
+use ILIAS\UI\Factory;
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
-use ILIAS\UI\Component\Button\Shy;
-use ILIAS\UI\Component\Link\Link;
-use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ILIAS\UI\Component\Toast\Toast;
-use ILIAS\UI\Implementation\Component\Toast\Toast as IToast;
 use ILIAS\GlobalScreen\Scope\Toast\Factory\ToastFactory;
 
 abstract class AbstractToastProvider extends AbstractProvider implements ToastProvider
 {
     protected Container $dic;
-    protected \ILIAS\UI\Factory $ui_factory;
+    protected Factory $ui_factory;
     protected IdentificationProviderInterface $if;
     protected ToastFactory $toast_factory;
 

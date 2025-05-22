@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\ilTestLegacyFormsHelper;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 
@@ -28,7 +29,7 @@ use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 */
 class ilAnswerWizardInputGUI extends ilTextInputGUI
 {
-    protected $values = array();
+    protected $values = [];
     protected $allowMove = false;
     protected $allowAddRemove = true;
     protected $singleline = true;
@@ -36,6 +37,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     protected $minvalue = false;
     protected $minvalueShouldBeGreater = false;
 
+    protected ilTestLegacyFormsHelper $forms_helper;
     protected GlyphFactory $glyph_factory;
     protected Renderer $renderer;
 
@@ -50,6 +52,8 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
         parent::__construct($a_title, $a_postvar);
 
         global $DIC;
+
+        $this->forms_helper = new ilTestLegacyFormsHelper();
         $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
         $this->renderer = $DIC->ui()->renderer();
 
@@ -59,17 +63,25 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 
     public function setValue($a_value): void
     {
-        $this->values = array();
-        if (is_array($a_value)) {
-            if (is_array($a_value['answer'])) {
-                foreach ($a_value['answer'] as $index => $value) {
-                    $answer = new ASS_AnswerBinaryStateImage($value, $a_value['points'][$index], $index, true, null, -1);
-                    if (isset($a_value['imagename'][$index])) {
-                        $answer->setImage($a_value['imagename'][$index]);
-                    }
-                    array_push($this->values, $answer);
-                }
+        $this->values = [];
+
+        $answers = $this->forms_helper->transformArray($a_value, 'answer', $this->refinery->kindlyTo()->string());
+        $images = $this->forms_helper->transformArray($a_value, 'imagename', $this->refinery->kindlyTo()->string());
+        $points = $this->forms_helper->transformPoints($a_value);
+
+        foreach ($answers as $index => $value) {
+            $answer = new ASS_AnswerBinaryStateImage(
+                $value,
+                $points[$index] ?? 0.0,
+                $index,
+                true,
+                null,
+                -1
+            );
+            if ($this->forms_helper->inArray($images, $index)) {
+                $answer->setImage($images[$index]);
             }
+            $this->values[] = $answer;
         }
     }
 
@@ -213,58 +225,36 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     */
     public function checkInput(): bool
     {
-        global $DIC;
-        $lng = $DIC['lng'];
+        $data = $this->raw($this->getPostVar());
 
-        $foundvalues = $_POST[$this->getPostVar()];
-        if (is_array($foundvalues)) {
-            $foundvalues = ilArrayUtil::stripSlashesRecursive($foundvalues);
-            // check answers
-            if (is_array($foundvalues['answer'])) {
-                foreach ($foundvalues['answer'] as $aidx => $answervalue) {
-                    if ((strlen($answervalue)) == 0) {
-                        $this->setAlert($lng->txt("msg_input_is_required"));
-                        return false;
-                    }
+        if (!is_array($data)) {
+            $this->setAlert($this->lng->txt('msg_input_is_required'));
+            return false;
+        }
+
+        // check points
+        $points = $this->forms_helper->checkPointsInputEnoughPositive($data, true);
+        if (!is_array($points)) {
+            $this->setAlert($this->lng->txt($points));
+            return false;
+        }
+        foreach ($points as $value) {
+            if ($value !== 0.0 && $this->getMinValue() !== false) {
+                if (($this->minvalueShouldBeGreater() && $points <= $this->getMinValue()) ||
+                    (!$this->minvalueShouldBeGreater() && $points < $this->getMinValue())) {
+                    $this->setAlert($this->lng->txt('form_msg_value_too_low'));
+                    return false;
                 }
             }
-            // check points
-            $max = 0;
-            if (is_array($foundvalues['points'])) {
-                foreach ($foundvalues['points'] as $points) {
-                    if ($points > $max) {
-                        $max = $points;
-                    }
-                    if (((strlen($points)) == 0) || (!is_numeric($points))) {
-                        $this->setAlert($lng->txt("form_msg_numeric_value_required"));
-                        return false;
-                    }
-                    if ($this->minvalueShouldBeGreater()) {
-                        if (trim($points) != "" &&
-                            $this->getMinValue() !== false &&
-                            $points <= $this->getMinValue()) {
-                            $this->setAlert($lng->txt("form_msg_value_too_low"));
+        }
 
-                            return false;
-                        }
-                    } else {
-                        if (trim($points) != "" &&
-                            $this->getMinValue() !== false &&
-                            $points < $this->getMinValue()) {
-                            $this->setAlert($lng->txt("form_msg_value_too_low"));
-
-                            return false;
-                        }
-                    }
-                }
-            }
-            if ($max == 0) {
-                $this->setAlert($lng->txt("enter_enough_positive_points"));
+        // check answers
+        $answers = $this->forms_helper->transformArray($data, 'answer', $this->refinery->kindlyTo()->string());
+        foreach ($answers as $answer) {
+            if ($answer === '') {
+                $this->setAlert($this->lng->txt('msg_input_is_required'));
                 return false;
             }
-        } else {
-            $this->setAlert($lng->txt("msg_input_is_required"));
-            return false;
         }
 
         return $this->checkSubItemsInput();
@@ -272,9 +262,6 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 
     public function insert(ilTemplate $a_tpl): void
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
         $tpl = new ilTemplate($this->getTemplate(), true, true, "components/ILIAS/TestQuestionPool");
         $i = 0;
         foreach ($this->values as $value) {
@@ -359,9 +346,9 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
         }
 
         $tpl->setVariable("ELEMENT_ID", $this->getPostVar());
-        $tpl->setVariable("ANSWER_TEXT", $this->getTextInputLabel($lng));
-        $tpl->setVariable("POINTS_TEXT", $this->getPointsInputLabel($lng));
-        $tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
+        $tpl->setVariable("ANSWER_TEXT", $this->getTextInputLabel($this->lng));
+        $tpl->setVariable("POINTS_TEXT", $this->getPointsInputLabel($this->lng));
+        $tpl->setVariable("COMMANDS_TEXT", $this->lng->txt('actions'));
 
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
@@ -397,5 +384,20 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     protected function getTemplate(): string
     {
         return "tpl.prop_answerwizardinput.html";
+    }
+
+    protected function prepareFormOutput(float|string $input, bool $strip = false): string
+    {
+        $input_string = $this->refinery->kindlyTo()->string()->transform($input);
+        return str_replace(
+            ['{', '}', '\\'],
+            ['&#123;', '&#125;', '&#92;'],
+            htmlspecialchars(
+                $strip ? ilUtil::stripSlashes($input_string) : $input_string,
+                ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401,
+                null,
+                false
+            )
+        );
     }
 }

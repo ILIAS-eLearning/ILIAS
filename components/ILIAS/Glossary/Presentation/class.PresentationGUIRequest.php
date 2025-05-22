@@ -43,9 +43,17 @@ class PresentationGUIRequest
         return $this->int("mob_id");
     }
 
-    public function getExportType(): string
+    /**
+     * @return string[]
+     */
+    protected function getTableIds(string $key): array
     {
-        return $this->str("type");
+        return $this->strArray($key);
+    }
+
+    protected function getTableAction(string $key): string
+    {
+        return $this->str($key);
     }
 
     public function getFileId(): string
@@ -96,5 +104,15 @@ class PresentationGUIRequest
     public function getPageLength(): int
     {
         return $this->int("page_length");
+    }
+
+    public function getViewControlStart(): int
+    {
+        return $this->int("vc_start");
+    }
+
+    public function getViewControlLength(): int
+    {
+        return $this->int("vc_length");
     }
 }

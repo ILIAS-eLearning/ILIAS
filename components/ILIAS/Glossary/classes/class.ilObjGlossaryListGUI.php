@@ -68,33 +68,4 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
 
         return $cmd_link;
     }
-
-    public function getCommandFrame(string $cmd): string
-    {
-        switch ($cmd) {
-            case "view":
-            case "edit":
-            case "properties":
-                $frame = ilFrameTargetInfo::_getFrame("MainContent");
-                break;
-
-            default:
-                $frame = "";
-                break;
-        }
-
-        return $frame;
-    }
-
-
-    public function getProperties(): array
-    {
-        $lng = $this->lng;
-        $props = array();
-        if (!ilObjGlossaryAccess::_lookupOnline($this->obj_id)) {
-            $props[] = array("alert" => true, "property" => $lng->txt("status"),
-                "value" => $lng->txt("offline"));
-        }
-        return $props;
-    }
 }

@@ -24,40 +24,29 @@ use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Services;
 
 /**
- * Class AbstractProvider
- * @package ILIAS\GlobalScreen\Provider
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 abstract class AbstractProvider implements Provider
 {
-    protected Container $dic;
     private string $provider_name_cache = "";
 
-    /**
-     * @inheritDoc
-     */
-    public function __construct(Container $dic)
+    public function __construct(protected Container $dic)
     {
-        $this->dic = $dic;
     }
 
-    /**
-     * @return Services
-     */
+
     protected function globalScreen(): Services
     {
         return $this->dic->globalScreen();
     }
 
-    /**
-     * @inheritDoc
-     */
+
     final public function getFullyQualifiedClassName(): string
     {
         return self::class;
     }
 
     /**
-     * @return string
      * @throws \ReflectionException
      */
     public function getProviderNameForPresentation(): string
@@ -75,7 +64,7 @@ abstract class AbstractProvider implements Provider
             $after_components
         );
 
-        $parts = array_filter($parts, static function ($part) {
+        $parts = array_filter($parts, static function ($part): bool {
             $ignore = ['GlobalScreen', 'Provider', 'classes', 'GS'];
             return $part !== '' && !in_array($part, $ignore, true);
         });

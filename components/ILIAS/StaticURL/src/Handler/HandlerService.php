@@ -20,11 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\StaticURL\Handler;
 
+use ILIAS\StaticURL\Request\Request;
 use ILIAS\StaticURL\Request\RequestBuilder;
 use ILIAS\Data\URI;
 use ILIAS\StaticURL\Response\Factory;
 use ILIAS\StaticURL\Context;
 use ILIAS\StaticURL\Builder\StandardURIBuilder;
+use ILIAS\StaticURL\Response\MaybeCanHandlerAfterLogin;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -48,7 +50,10 @@ class HandlerService
         }
     }
 
-    public function performRedirect(URI $base_uri): never
+    /**
+     * @return never
+     */
+    public function performRedirect(URI $base_uri): void
     {
         $http = $this->context->http();
         $ctrl = $this->context->refinery();
@@ -58,12 +63,12 @@ class HandlerService
             $this->context->refinery(),
             $this->handlers
         );
-        if (!$request instanceof \ILIAS\StaticURL\Request\Request) {
+        if (!$request instanceof Request) {
             throw new \RuntimeException('No request could be built');
         }
 
         $handler = $this->handlers[$request->getNamespace()] ?? null;
-        if (!$handler instanceof \ILIAS\StaticURL\Handler\Handler) {
+        if (!$handler instanceof Handler) {
             throw new \InvalidArgumentException('No handler found for namespace ' . $request->getNamespace());
         }
         $response = $handler->handle($request, $this->context, $this->response_factory);
@@ -74,7 +79,10 @@ class HandlerService
         }
 
         // Check access to target
-        if (!$this->context->isUserLoggedIn() && !$this->context->isPublicSectionActive()) {
+        if (
+            $response instanceof MaybeCanHandlerAfterLogin
+            || (!$this->context->isUserLoggedIn() && !$this->context->isPublicSectionActive())
+        ) {
             $uri_builder = new StandardURIBuilder(ILIAS_HTTP_PATH, false);
             $target = $uri_builder->buildTarget(
                 $request->getNamespace(),
@@ -87,8 +95,10 @@ class HandlerService
             $full_uri = $this->appendUnknownParameters($this->context, $full_uri); // Read the comment below
         } else {
             // Perform Redirect
-            $uri_path = $response->getURIPath();
-            $full_uri = $base_uri . '/' . trim($uri_path, '/');
+            $uri_path = $response->getURIPath() ?? '';
+            $base_path = $base_uri->getPath() ?? '';
+            $uri_path = str_replace($base_path, '', $uri_path);
+            $full_uri = $base_uri . '/' . trim((string) $uri_path, '/');
         }
 
         $http->saveResponse(
@@ -105,7 +115,7 @@ class HandlerService
     private function appendUnknownParameters(Context $context, string $full_uri): string
     {
         if ($context->http()->wrapper()->query()->has('soap_pw')) {
-            $full_uri = \ilUtil::appendUrlParameterString(
+            return \ilUtil::appendUrlParameterString(
                 $full_uri,
                 'soap_pw=' . $context->http()->wrapper()->query()->retrieve(
                     'soap_pw',
@@ -114,7 +124,7 @@ class HandlerService
             );
         }
         if ($context->http()->wrapper()->query()->has('ext_uid')) {
-            $full_uri = ilUtil::appendUrlParameterString(
+            return ilUtil::appendUrlParameterString(
                 $full_uri,
                 'ext_uid=' . $context->http()->wrapper()->query()->retrieve(
                     'ext_uid',

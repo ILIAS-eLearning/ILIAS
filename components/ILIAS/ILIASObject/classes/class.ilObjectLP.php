@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,11 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\UI\Component\Input\Field\Group;
+use ILIAS\UI\Component\Input\Input;
 
 /**
  * Base class for object lp connectors
@@ -636,7 +639,7 @@ class ilObjectLP
 
     public static function supportsMatrixView(string $obj_type): bool
     {
-        $types = ['svy', 'tst', 'htlm', 'exc', 'sess', 'file', 'frm', 'prg', 'copa', 'cmix', 'lti','crsr'];
+        $types = ['svy', 'tst', 'htlm', 'exc', 'sess', 'file', 'frm', 'prg', 'copa', 'cmix', 'lti','crsr', 'iass'];
         return !in_array($obj_type, $types);
     }
 
@@ -695,8 +698,13 @@ class ilObjectLP
         return false;
     }
 
-    public function initInvidualModeOptions(ilRadioGroupInputGUI $modeRadio): void
+    /**
+     * Post vars for input groups is taken from array keys.
+     * @return Group[]
+     */
+    public function initInvidualModeOptions(): array
     {
+        return [];
     }
 
     public function shouldFetchIndividualModeFromFormSubmission(): bool
@@ -704,16 +712,33 @@ class ilObjectLP
         return false;
     }
 
-    public function fetchIndividualModeFromFormSubmission(ilPropertyFormGUI $form): int
-    {
+    /**
+     * @param string $selected_group post var of the selected group
+     * @param array  $group_data data of the that group as array, as processed by the KS
+     */
+    public function fetchIndividualModeFromFormSubmission(
+        string $selected_group,
+        array $group_data
+    ): int {
         return 0;
     }
 
-    public function appendModeConfiguration(int $mode, ilRadioOption $modeElement): void
+    /**
+     * @return array<string, Input> A map of Input elements mapped to a corresponding key
+     */
+    public function appendModeConfiguration(int $mode): array
     {
+        return [];
     }
 
-    public function saveModeConfiguration(ilPropertyFormGUI $form, bool &$modeChanged): void
-    {
+    /**
+     * @param string $selected_group post var of the selected group
+     * @param array<string, mixed> $group_data data of the that group as array, as processed by the KS
+     */
+    public function saveModeConfiguration(
+        string $selected_group,
+        array $group_data,
+        bool &$modeChanged
+    ): void {
     }
 }

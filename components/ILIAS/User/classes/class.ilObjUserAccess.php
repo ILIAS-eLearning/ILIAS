@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 /**
  * Class ilObjUserAccess
  * @author        Alex Killing <alex.killing@gmx.de>

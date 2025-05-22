@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,7 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
+declare(strict_types=0);
 /**
  * Settings for LO courses
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -140,7 +140,7 @@ class ilLOUtils
 
         $list->loadDefinitions();
 
-        $translator = new ilTestQuestionFilterLabelTranslater($DIC['ilDB'], $DIC['lng']);
+        $translator = new ilTestQuestionFilterLabelTranslator($DIC['ilDB'], $DIC['lng']);
         $translator->loadLabels($list);
 
         $title = '';
@@ -155,7 +155,7 @@ class ilLOUtils
 
     protected static function buildQplTitleByDefinition(
         ilTestRandomQuestionSetSourcePoolDefinition $def,
-        ilTestQuestionFilterLabelTranslater $trans
+        ilTestQuestionFilterLabelTranslator $trans
     ): string {
         $title = $def->getPoolTitle();
         $filterTitle = array();

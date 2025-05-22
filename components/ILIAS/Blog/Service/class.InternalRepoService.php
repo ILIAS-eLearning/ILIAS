@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,35 +16,27 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Blog;
 
-//use ILIAS\Portfolio\Access\AccessSessionRepository;
+use ILIAS\Blog\Settings\SettingsDBRepository;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalRepoService
 {
-    protected InternalDataService $data;
-    protected \ilDBInterface $db;
+    protected static array $instance = [];
 
-    public function __construct(InternalDataService $data, \ilDBInterface $db)
-    {
-        $this->data = $data;
-        $this->db = $db;
+    public function __construct(
+        protected InternalDataService $data,
+        protected \ilDBInterface $db
+    ) {
     }
 
-    /*
-    public function ...() : ...\RepoService
+    public function settings(): SettingsDBRepository
     {
-        return new ...\RepoService(
-            $this->data,
-            $this->db
+        return self::$instance["settings"] ??= new SettingsDBRepository(
+            $this->db,
+            $this->data
         );
-    }*/
-
-    /*public function accessSession() : AccessSessionRepository
-    {
-        return new AccessSessionRepository();
-    }*/
+    }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilSecuritySettingsChecker
 {
@@ -257,9 +257,9 @@ class ilSecuritySettingsChecker
             if ($min > $max) {
                 $max = $max + 1;
             }
-            $random = new ilRandom();
-            $length = $random->int($min, $max);
-            $next = $random->int(1, 2);
+            $random = new \Random\Randomizer();
+            $length = $random->getInt($min, $max);
+            $next = $random->getInt(1, 2);
             $vowels = "aeiou";
             $vowels_uc = strtoupper($vowels);
             $consonants = "bcdfghjklmnpqrstvwxyz";
@@ -272,12 +272,12 @@ class ilSecuritySettingsChecker
                 for ($j = 0; $j < $security->getPasswordNumberOfUppercaseChars(); $j++) {
                     switch ($next) {
                         case 1:
-                            $pw .= $consonants_uc[$random->int(0, strlen($consonants_uc) - 1)];
+                            $pw .= $consonants_uc[$random->getInt(0, strlen($consonants_uc) - 1)];
                             $next = 2;
                             break;
 
                         case 2:
-                            $pw .= $vowels_uc[$random->int(0, strlen($vowels_uc) - 1)];
+                            $pw .= $vowels_uc[$random->getInt(0, strlen($vowels_uc) - 1)];
                             $next = 1;
                             break;
                     }
@@ -285,23 +285,23 @@ class ilSecuritySettingsChecker
             }
 
             if ($security->isPasswordCharsAndNumbersEnabled()) {
-                $pw .= $numbers[$random->int(0, strlen($numbers) - 1)];
+                $pw .= $numbers[$random->getInt(0, strlen($numbers) - 1)];
             }
 
             if ($security->isPasswordSpecialCharsEnabled()) {
-                $pw .= $special[$random->int(0, strlen($special) - 1)];
+                $pw .= $special[$random->getInt(0, strlen($special) - 1)];
             }
 
             $num_lcase_chars = max($security->getPasswordNumberOfLowercaseChars(), $length - strlen($pw));
             for ($j = 0; $j < $num_lcase_chars; $j++) {
                 switch ($next) {
                     case 1:
-                        $pw .= $consonants[$random->int(0, strlen($consonants) - 1)];
+                        $pw .= $consonants[$random->getInt(0, strlen($consonants) - 1)];
                         $next = 2;
                         break;
 
                     case 2:
-                        $pw .= $vowels[$random->int(0, strlen($vowels) - 1)];
+                        $pw .= $vowels[$random->getInt(0, strlen($vowels) - 1)];
                         $next = 1;
                         break;
                 }

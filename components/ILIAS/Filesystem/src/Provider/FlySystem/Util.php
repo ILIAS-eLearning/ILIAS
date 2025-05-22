@@ -30,10 +30,10 @@ class Util // extends \League\Flysystem\Util
     public static function normalizeRelativePath(string $path): string
     {
         $path = preg_replace("#\\\\(?!['\\\])#m", '/', $path); // this only replaces backslashes
-        $path = preg_replace('#\p{C}+#u', '', $path);
+        $path = preg_replace('#\p{C}+#u', '', (string) $path);
         $parts = [];
 
-        foreach (explode('/', $path) as $part) {
+        foreach (explode('/', (string) $path) as $part) {
             switch ($part) {
                 case '':
                 case '.':

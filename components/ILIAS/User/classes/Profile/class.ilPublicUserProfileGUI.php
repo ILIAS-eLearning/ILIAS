@@ -18,7 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\User\ProfileGUIRequest;
+use ILIAS\User\Profile\GUIRequest;
+use ILIAS\User\Profile\VCard;
+use ILIAS\Language\Language;
 
 /**
  * GUI class for public user profile presentation.
@@ -29,7 +31,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
 {
     private bool $offline = false;
     private ilUserDefinedFields $user_defined_fields;
-    private ProfileGUIRequest $profile_request;
+    private GUIRequest $profile_request;
     private int $userid = 0;
     private string $backurl = '';
     private array $additional = []; // Missing array type.
@@ -41,7 +43,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     private ilTabsGUI $tabs;
     private ilGlobalTemplateInterface $tpl;
     private ilRbacSystem $rbac_system;
-    private ilLanguage $lng;
+    private Language $lng;
 
     public function __construct(int $a_user_id = 0)
     {
@@ -57,7 +59,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         $this->rbac_system = $DIC['rbacsystem'];
         $this->lng = $DIC['lng'];
 
-        $this->profile_request = new ProfileGUIRequest(
+        $this->profile_request = new GUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );
@@ -158,9 +160,15 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         $this->tpl->loadStandardTemplate();
 
         switch ($next_class) {
+            case 'ilbuddysystemgui':
+                $gui = new ilBuddySystemGUI();
+                $this->ctrl->setReturn($this, 'view');
+                $this->ctrl->forwardCommand($gui);
+                break;
             case 'ilobjportfoliogui':
                 $portfolio_id = $this->getProfilePortfolio();
-                if ($portfolio_id) {
+                if ($portfolio_id
+                    && $cmd !== 'deliverVCard') {
                     $gui = new ilObjPortfolioGUI($portfolio_id); // #11876
                     $gui->setAdditional($this->getAdditional());
                     $gui->setPermaLink($this->getUserId(), 'usr');
@@ -168,11 +176,6 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                     break;
                 }
                 // no break
-            case 'ilbuddysystemgui':
-                $gui = new ilBuddySystemGUI();
-                $this->ctrl->setReturn($this, 'view');
-                $this->ctrl->forwardCommand($gui);
-                break;
             default:
                 $ret = $this->$cmd();
                 $this->tpl->setContent($ret);
@@ -383,7 +386,9 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
 
                             case 'zipcode':
                             case 'city':
-                                $address[1] = ($address[1] ?? '') . $address_value;
+                                $address[1] = isset($address[1])
+                                    ? "{$address[1]} {$address_value}"
+                                    : $address_value;
                                 break;
 
                             case 'sel_country':
@@ -562,6 +567,8 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         }
 
         // badges
+        $this->tpl->addJavaScript('assets/js/PublicProfileBadges.js');
+        $this->tpl->addOnLoadCode('new BadgeToggle("ilbdgprcont", "ilbdgprfhdm", "ilbdgprfhdl", "ilNoDisplay");');
         $user_badges = ilBadgeAssignment::getInstancesByUserId($user->getId());
         if ($user_badges) {
             $has_public_badge = false;
@@ -577,13 +584,14 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                     $renderer = new ilBadgeRenderer($ass);
 
                     // limit to 20, [MORE] link
-                    if ($cnt <= $cut) {
-                        $tpl->setCurrentBlock('badge_bl');
-                        $tpl->setVariable('BADGE', $renderer->getHTML());
-                    } else {
-                        $tpl->setCurrentBlock('badge_hidden_item_bl');
-                        $tpl->setVariable('BADGE_HIDDEN', $renderer->getHTML());
+                    if ($cnt > $cut) {
+                        $tpl->setCurrentBlock('hidden_badge');
+                        $tpl->touchBlock('hidden_badge');
+                        $tpl->parseCurrentBlock();
                     }
+
+                    $tpl->setCurrentBlock('badge_bl');
+                    $tpl->setVariable('BADGE', $renderer->getHTML());
                     $tpl->parseCurrentBlock();
 
                     $has_public_badge = true;
@@ -594,7 +602,6 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                 $this->lng->loadLanguageModule('badge');
                 $tpl->setVariable('BADGE_HIDDEN_TXT_MORE', $this->lng->txt('badge_profile_more'));
                 $tpl->setVariable('BADGE_HIDDEN_TXT_LESS', $this->lng->txt('badge_profile_less'));
-                $tpl->touchBlock('badge_js_bl');
             }
 
             if ($has_public_badge) {
@@ -627,7 +634,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         }
         $user = new ilObjUser($this->getUserId());
 
-        $vcard = new ilvCard();
+        $vcard = new VCard();
 
         // ilsharedresourceGUI: embedded in shared portfolio
         if ($user->getPref('public_profile') != 'y' &&
@@ -681,16 +688,16 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                         $adr[6] = $user->$key();
                         break;
                     case 'phone_office':
-                        $vcard->setPhone($user->$key(), TEL_TYPE_WORK);
+                        $vcard->setPhone($user->$key(), VCard::TEL_TYPE_WORK);
                         break;
                     case 'phone_home':
-                        $vcard->setPhone($user->$key(), TEL_TYPE_HOME);
+                        $vcard->setPhone($user->$key(), VCard::TEL_TYPE_HOME);
                         break;
                     case 'phone_mobile':
-                        $vcard->setPhone($user->$key(), TEL_TYPE_CELL);
+                        $vcard->setPhone($user->$key(), VCard::TEL_TYPE_CELL);
                         break;
                     case 'fax':
-                        $vcard->setPhone($user->$key(), TEL_TYPE_FAX);
+                        $vcard->setPhone($user->$key(), VCard::TEL_TYPE_FAX);
                         break;
                     case 'email':
                         $vcard->setEmail($user->$key());

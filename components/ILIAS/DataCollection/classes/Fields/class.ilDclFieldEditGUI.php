@@ -29,6 +29,7 @@ class ilDclFieldEditGUI
     protected ilDclBaseFieldModel $field_obj;
     private ilGlobalTemplateInterface $main_tpl;
     private ilLanguage $lng;
+    protected ilHelpGUI $help;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
     protected int $field_id;
@@ -44,6 +45,7 @@ class ilDclFieldEditGUI
 
         $this->obj_id = $a_parent_obj->getObjId();
         $this->parent_obj = $a_parent_obj;
+        $this->help = $DIC->help();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->lng = $DIC->language();
@@ -118,11 +120,10 @@ class ilDclFieldEditGUI
      */
     public function create(): void
     {
-        global $DIC;
-        $tpl = $DIC['tpl'];
+        $this->help->setSubScreenId('create');
 
         $this->initForm();
-        $tpl->setContent($this->form->getHTML());
+        $this->main_tpl->setContent($this->form->getHTML());
     }
 
     /**
@@ -130,14 +131,11 @@ class ilDclFieldEditGUI
      */
     public function edit(): void
     {
-        global $DIC;
-        $tpl = $DIC['tpl'];
+        $this->help->setSubScreenId('edit');
 
         $this->initForm("edit");
-
         $this->field_obj->fillPropertiesForm($this->form);
-
-        $tpl->setContent($this->form->getHTML());
+        $this->main_tpl->setContent($this->form->getHTML());
     }
 
     /*
@@ -191,7 +189,7 @@ class ilDclFieldEditGUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
-        $this->table->deleteField((int)$this->field_obj->getId());
+        $this->table->deleteField((int) $this->field_obj->getId());
         $ilCtrl->redirectByClass("ildclfieldlistgui", "listFields");
     }
 
@@ -228,7 +226,7 @@ class ilDclFieldEditGUI
         } else {
             $this->form->setTitle($lng->txt('dcl_new_field'));
             $hidden_prop = new ilHiddenInputGUI("table_id");
-            $hidden_prop->setValue((string)$this->field_obj->getTableId());
+            $hidden_prop->setValue((string) $this->field_obj->getTableId());
             $this->form->addItem($hidden_prop);
 
             $this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -248,33 +246,27 @@ class ilDclFieldEditGUI
 
         // Description
         $text_prop = new ilTextAreaInputGUI($lng->txt("dcl_field_description"), "description");
+        $text_prop->setInfo($lng->txt('dcl_field_description_desc'));
         $this->form->addItem($text_prop);
 
         $edit_datatype = new ilRadioGroupInputGUI($lng->txt('dcl_datatype'), 'datatype');
 
-        foreach (ilDclDatatype::getAllDatatype() as $datatype) {
-            $model = new ilDclBaseFieldModel();
-            $model->setDatatypeId($datatype->getId());
-
-            if ($a_mode == 'edit' && $datatype->getId() == $this->field_obj->getDatatypeId()) {
-                $model = $this->field_obj;
-            }
-
-            $field_representation = ilDclFieldFactory::getFieldRepresentationInstance($model);
+        if ($a_mode === 'edit') {
+            $field_representation = ilDclFieldFactory::getFieldRepresentationInstance($this->field_obj);
             $field_representation->addFieldCreationForm($edit_datatype, $this->getDataCollectionObject(), $a_mode);
+            $edit_datatype->setDisabled(true);
+        } else {
+            foreach (ilDclDatatype::getAllDatatype() as $datatype) {
+                $model = new ilDclBaseFieldModel();
+                $model->setDatatypeId($datatype->getId());
+                $model = ilDclFieldFactory::getFieldModelInstanceByClass($model);
+                $field_representation = ilDclFieldFactory::getFieldRepresentationInstance($model);
+                $field_representation->addFieldCreationForm($edit_datatype, $this->getDataCollectionObject());
+            }
         }
         $edit_datatype->setRequired(true);
-
-        //you can't change type but we still need it in POST
-        if ($a_mode == "edit") {
-            $edit_datatype->setDisabled(true);
-        }
         $this->form->addItem($edit_datatype);
 
-        //Unique
-        $cb = new ilCheckboxInputGUI($lng->txt("dcl_unique"), "unique");
-        $cb->setInfo($lng->txt('dcl_unique_desc'));
-        $this->form->addItem($cb);
     }
 
     /**
@@ -307,8 +299,7 @@ class ilDclFieldEditGUI
 
             $this->field_obj->setTitle($title);
             $this->field_obj->setDescription($this->form->getInput("description"));
-            $this->field_obj->setDatatypeId((int)$this->form->getInput("datatype"));
-            $this->field_obj->setUnique((bool)$this->form->getInput("unique"));
+            $this->field_obj->setDatatypeId((int) $this->form->getInput("datatype"));
 
             if ($a_mode == "update") {
                 $this->field_obj->doUpdate();
@@ -347,22 +338,8 @@ class ilDclFieldEditGUI
         $lng = $DIC['lng'];
         $return = $this->form->checkInput();
 
-        //mantis 30758, 36585, jour fixe decision:
-        //uniqueness shall be changeable for all types of fields
-        if ($a_mode === 'update' && !$this->checkUniqueness()) {
+        if (!$this->field_obj->checkFieldCreationInput($this->form)) {
             $return = false;
-        }
-
-        // load specific model for input checking
-        $datatype_id = $this->form->getInput('datatype');
-        if ($datatype_id != null && is_numeric($datatype_id)) {
-            $base_model = new ilDclBaseFieldModel();
-            $base_model->setDatatypeId((int)$datatype_id);
-            $field_validation_class = ilDclFieldFactory::getFieldModelInstanceByClass($base_model);
-
-            if (!$field_validation_class->checkFieldCreationInput($this->form)) {
-                $return = false;
-            }
         }
 
         // Don't allow multiple fields with the same title in this table
@@ -392,7 +369,7 @@ class ilDclFieldEditGUI
             return ilObjDataCollectionAccess::hasAccessToField(
                 $this->getDataCollectionObject()->getRefId(),
                 $this->table_id,
-                (int)$field_id
+                (int) $field_id
             );
         } else {
             return ilObjDataCollectionAccess::hasAccessToFields(
@@ -400,44 +377,6 @@ class ilDclFieldEditGUI
                 $this->table_id
             );
         }
-    }
-
-    /**
-     * @return bool
-     */
-    protected function checkUniqueness(): bool
-    {
-        $this->field_obj->setUnique((bool)$this->form->getInput("unique"));
-        if (!$this->field_obj->isUnique()) {
-            return true;
-        }
-
-        $txt = $this->lng->txt("dcl_duplicate_non_unique_entries_exist");
-
-        //check validity of all available records
-        foreach ($this->table->getRecords() as $record) {
-
-            //except of formula field
-            if ((int) ($this->field_obj->getDatatypeId()) !== ilDclDatatype::INPUTFORMAT_FORMULA) {
-                //get field value
-                $value = $record->getRecordFieldValue($this->field_obj->getId());
-
-                //special for rating field: only voting of the current user
-                if ((int) ($this->field_obj->getDatatypeId()) === ilDclDatatype::INPUTFORMAT_RATING) {
-                    $value = $record->getRecordFieldValueForUser($this->field_obj->getId());
-                    $txt = "";
-                }
-                //validity of field content
-                try {
-                    $this->field_obj->checkValidity($value, $record->getId());
-                } catch (ilDclInputException $e) {
-                    $item = $this->form->getItemByPostVar('unique');
-                    $item->setAlert($txt);
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     /**

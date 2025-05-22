@@ -38,22 +38,12 @@ class Collections
 {
     private array $cache = [];
     private array $rid_cache = [];
-    private ResourceBuilder $resource_builder;
-    private CollectionBuilder $collection_builder;
-    private RepositoryPreloader $preloader;
 
     /**
      * Consumers constructor.
      */
-    public function __construct(
-        ResourceBuilder $resource_builder,
-        CollectionBuilder $collection_builder,
-        RepositoryPreloader $preloader,
-        private Subject $events
-    ) {
-        $this->resource_builder = $resource_builder;
-        $this->collection_builder = $collection_builder;
-        $this->preloader = $preloader;
+    public function __construct(private ResourceBuilder $resource_builder, private CollectionBuilder $collection_builder, private RepositoryPreloader $preloader, private Subject $events)
+    {
     }
 
     /**

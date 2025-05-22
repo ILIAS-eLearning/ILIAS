@@ -32,11 +32,11 @@ class AccessControl implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilAccessControlSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilAccessRBACSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );

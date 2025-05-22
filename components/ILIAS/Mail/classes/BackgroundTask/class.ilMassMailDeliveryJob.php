@@ -27,57 +27,54 @@ use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilMassMailDeliveryJob extends AbstractJob
 {
     private readonly ILIAS\DI\Container $dic;
-    private readonly ilMailValueObjectJsonService $mailJsonService;
+    private readonly ilMailValueObjectJsonService $mail_json_service;
 
     public function __construct()
     {
         global $DIC;
         $this->dic = $DIC;
 
-        $this->mailJsonService = new ilMailValueObjectJsonService();
+        $this->mail_json_service = new ilMailValueObjectJsonService();
     }
 
     public function run(array $input, Observer $observer): Value
     {
-        $mailValueObjects = $this->mailJsonService->convertFromJson((string) $input[1]->getValue());
+        $value_objects = $this->mail_json_service->convertFromJson((string) $input[1]->getValue());
 
-        foreach ($mailValueObjects as $mailValueObject) {
+        foreach ($value_objects as $value_object) {
             $mail = new ilMail((int) $input[0]->getValue());
 
-            $mail->setSaveInSentbox($mailValueObject->shouldSaveInSentBox());
-            $contextId = $input[2]->getValue();
+            $mail->setSaveInSentbox($value_object->shouldSaveInSentBox());
+            $context_id = $input[2]->getValue();
             $mail = $mail
-                ->withContextId((string) $contextId)
+                ->withContextId((string) $context_id)
                 ->withContextParameters((array) unserialize($input[3]->getValue(), ['allowed_classes' => false]));
 
-            $recipients = $mailValueObject->getRecipients();
-            $recipientsCC = $mailValueObject->getRecipientsCC();
-            $recipientsBCC = $mailValueObject->getRecipientsBCC();
+            $recipients = $value_object->getRecipients();
+            $recipients_cc = $value_object->getRecipientsCC();
+            $recipients_bcc = $value_object->getRecipientsBCC();
 
             $this->dic->logger()->mail()->info(
                 sprintf(
                     'Mail delivery to recipients: "%s" CC: "%s" BCC: "%s" From sender: "%s"',
                     $recipients,
-                    $recipientsCC,
-                    $recipientsBCC,
-                    $mailValueObject->getFrom()
+                    $recipients_cc,
+                    $recipients_bcc,
+                    $value_object->getFrom()
                 )
             );
 
             $mail_data = new MailDeliveryData(
                 $recipients,
-                $recipientsCC,
-                $recipientsBCC,
-                $mailValueObject->getSubject(),
-                $mailValueObject->getBody(),
-                $mailValueObject->getAttachments(),
-                $mailValueObject->isUsingPlaceholders()
+                $recipients_cc,
+                $recipients_bcc,
+                $value_object->getSubject(),
+                $value_object->getBody(),
+                $value_object->getAttachments(),
+                $value_object->isUsingPlaceholders()
             );
             $mail->sendMail($mail_data);
         }

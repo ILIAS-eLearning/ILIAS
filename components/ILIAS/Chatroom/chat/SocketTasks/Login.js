@@ -1,7 +1,7 @@
 var Container = require('../AppContainer');
 var ConnectAction = require('../Model/Messages/ConnectAction');
 
-module.exports = function(subscriberName, subscriberId)
+module.exports = function(subscriberName, subscriberId, profilePictureVisible)
 {
 	var namespace = Container.getNamespace(this.nsp.name);
 
@@ -17,6 +17,7 @@ module.exports = function(subscriberName, subscriberId)
 		}
 	} else {
 		var subscriber = namespace.getSubscriber(subscriberId);
+                subscriber.setProfilePictureVisible(profilePictureVisible);
 		subscriber.setName(subscriberName);
 		subscriber.addSocketId(this.id);
 

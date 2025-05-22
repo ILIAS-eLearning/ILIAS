@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\GlobalScreen\Scope\Layout;
 
 use PHPUnit\Framework\TestCase;
@@ -24,7 +40,13 @@ class MediaTest extends TestCase
     {
         parent::setUp();
         $this->version = '1.2.3.4.5.6.7.8.9';
-        $this->meta_content = new MetaContent($this->version);
+        $this->meta_content = new MetaContent(
+            $this->version,
+            true,
+            false,
+            true,
+            true
+        );
     }
 
     public function testAddCssFile(): void
@@ -33,7 +55,8 @@ class MediaTest extends TestCase
         $this->meta_content->addCss($path);
         $collection = $this->meta_content->getCss();
 
-        $first_item = iterator_to_array($collection->getItems())[0];
+        $iterator_to_array = iterator_to_array($collection->getItems());
+        $first_item = array_shift($iterator_to_array);
         $this->assertInstanceOf(Css::class, $first_item);
         $this->assertEquals($path . '?version=' . $this->version, $first_item->getContent());
         $this->assertEquals(MetaContent::MEDIA_SCREEN, $first_item->getMedia());
@@ -45,7 +68,8 @@ class MediaTest extends TestCase
         $this->meta_content->addCss($path);
         $collection = $this->meta_content->getCss();
 
-        $first_item = iterator_to_array($collection->getItems())[0];
+        $iterator_to_array = iterator_to_array($collection->getItems());
+        $first_item = array_shift($iterator_to_array);
         $this->assertInstanceOf(Css::class, $first_item);
         $this->assertEquals($path . '&version=' . $this->version, $first_item->getContent());
         $this->assertEquals(MetaContent::MEDIA_SCREEN, $first_item->getMedia());
@@ -69,7 +93,8 @@ class MediaTest extends TestCase
         $this->meta_content->addJs($path);
         $collection = $this->meta_content->getJs();
 
-        $first_item = iterator_to_array($collection->getItems())[$path];
+        $iterator_to_array = iterator_to_array($collection->getItems());
+        $first_item = $iterator_to_array[$path];
         $this->assertInstanceOf(Js::class, $first_item);
         $this->assertEquals($path . '?version=' . $this->version, $first_item->getContent());
         $this->assertEquals(2, $first_item->getBatch());

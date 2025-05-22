@@ -89,6 +89,16 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $this->setCharacteristics(self::_getStandardCharacteristics());
     }
 
+    protected function insert_applyFilter(): void
+    {
+        $this->insert();
+    }
+
+    protected function insert_resetFilter(): void
+    {
+        $this->insert();
+    }
+
     /**
      * Set table sub command
      */
@@ -196,7 +206,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
     public function insert(
         $a_post_cmd = "edpost",
-        $a_submit_cmd = "create_mob",
+        $a_submit_cmd = "",
         $a_input_error = false
     ): void {
         $ilTabs = $this->tabs;
@@ -239,9 +249,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                     $mob_gui->initForm("create");
                     $form = $mob_gui->getForm();
                 }
-                $form->setFormAction($ilCtrl->getFormAction($this, "create_mob"));
+                $form->setFormAction($ilCtrl->getFormAction($this, "create"));
                 $form->clearCommandButtons();
-                $form->addCommandButton("create_mob", $lng->txt("save"));
+                $form->addCommandButton("create", $lng->txt("save"));
                 $form->addCommandButton("cancelCreate", $lng->txt("cancel"));
 
                 $this->displayValidationError();
@@ -538,7 +548,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
         if (!$mob_gui->checkFormInput()) {
             $this->form = $mob_gui->getForm();
-            $this->insert("edpost", "create_mob", true);
+            $this->insert("edpost", "", true);
             return null;
         }
         // create dummy object in db (we need an id)
@@ -582,6 +592,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         return null;
     }
 
+    protected function create_mob(): void
+    {
+        $this->create();
+    }
 
     /**
      * edit properties form
@@ -1234,16 +1248,14 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
-
         $this->displayValidationError();
 
         // edit form
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($this->lng->txt("cont_edit_style"));
-
         // characteristic selection
-        $char_prop = new ilAdvSelectInputGUI(
+        $char_prop = new ilSelectInputGUI(
             $this->lng->txt("cont_characteristic"),
             "characteristic"
         );
@@ -1263,18 +1275,21 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
             $selected = "MediaContainer";
         }
 
+        $options = [];
         foreach ($chars as $k => $char) {
             $html = '<div class="ilCOPgEditStyleSelectionItem">' .
                 $char . '</div>';
-            $char_prop->addOption($k, $char, $html);
+            //$char_prop->addOption($k, $char, $html);
+            $options[$k] = $char;
         }
+        $char_prop->setOptions($options);
 
         $char_prop->setValue($selected);
         $form->addItem($char_prop);
 
 
         // caption style
-        $cap_style = new ilAdvSelectInputGUI(
+        $cap_style = new ilSelectInputGUI(
             $this->lng->txt("cont_caption_style"),
             "caption_style"
         );
@@ -1283,20 +1298,13 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $this->getCharacteristicsOfCurrentStyle(["media_caption"]);
         $chars = $this->getCharacteristics();
         $options = $chars;
-        //$options = array_merge(array("" => $this->lng->txt("none")), $chars);
-        foreach ($options as $k => $option) {
-            $html = '<table border="0" cellspacing="0" cellpadding="0"><tr><td class="ilc_table_cell_' . $k . '">' .
-                $option . '</td></tr></table>';
-            $cap_style->addOption($k, $option, $html);
-        }
+        $cap_style->setOptions($options);
 
         if (count($options) > 0) {
             $current_value = $this->content_obj->getCaptionClass() ?: "MediaCaption";
             $cap_style->setValue($current_value);
             $form->addItem($cap_style);
         }
-
-
 
         // save button
         $form->addCommandButton("saveStyle", $lng->txt("save"));
@@ -1305,10 +1313,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $tpl->setContent($html);
     }
 
-    public function getStyleInput(): ilAdvSelectInputGUI
+    public function getStyleInput(): ilSelectInputGUI
     {
         // characteristic selection
-        $char_prop = new ilAdvSelectInputGUI(
+        $char_prop = new ilSelectInputGUI(
             $this->lng->txt("cont_characteristic"),
             "characteristic"
         );
@@ -1320,7 +1328,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
         $chars = $this->getCharacteristics();
         if (is_object($this->content_obj)) {
-            if ($chars[$selected] == "" && ($this->content_obj->getClass() != "")) {
+            if (($chars[$selected] ?? "") == "" && ($this->content_obj->getClass() != "")) {
                 $chars = array_merge(
                     array($this->content_obj->getClass() => $this->content_obj->getClass()),
                     $chars
@@ -1328,12 +1336,14 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
             }
         }
 
+        $options = [];
         foreach ($chars as $k => $char) {
             $html = '<div class="ilCOPgEditStyleSelectionItem">' .
                 $char . '</div>';
-            $char_prop->addOption($k, $char, $html);
+            //$char_prop->addOption($k, $char, $html);
+            $options[$k] = $char;
         }
-
+        $char_prop->setOptions($options);
         $char_prop->setValue($selected);
 
         return $char_prop;

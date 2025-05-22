@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Refinery;
 
 use Closure;
-use InvalidArgumentException;
 
 trait ProblemBuilder
 {

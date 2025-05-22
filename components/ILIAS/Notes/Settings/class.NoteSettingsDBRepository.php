@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Notes;
 
@@ -93,7 +93,7 @@ class NoteSettingsDBRepository
             [
            "rep_obj_id" => ["integer", $obj_id],
            "obj_id" => ["integer", $sub_obj_id],
-           "obj_type" => ["integer", $obj_type],
+           "obj_type" => ["string", $obj_type],
         ],
             [
                 "activated" => ["integer", (int) $a_activate]

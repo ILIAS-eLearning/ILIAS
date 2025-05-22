@@ -1,23 +1,25 @@
 <?php
 
-declare(strict_types=1);
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
 
 exit;
-include_once './components/ILIAS/soap/lib/nusoap.php';
+require_once __DIR__ . '/../../soap/lib/nusoap.php';
 
 $server = $_GET["server"] ?: "http://localhost/Services/SOAPAuth/dummy_server.php";
 
@@ -39,7 +41,7 @@ echo '<form>' .
 echo "<br /><br />----------------------------------------------<br /><br /> Calling Server...";
 
 // initialize soap client
-require_once './components/ILIAS/soap/lib/nusoap.php';
+require_once __DIR__ . '/../../soap/lib/nusoap.php';
 $client = new nusoap_client($server);
 if ($err = $client->getError()) {
     echo '<h2>Constructor error</h2><pre>' . $err . '</pre>';

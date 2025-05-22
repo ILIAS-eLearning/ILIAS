@@ -27,10 +27,10 @@ use ILIAS\Setup\Metrics;
  */
 class Agent extends Setup\Agent\NullAgent
 {
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new Setup\ObjectiveCollection(
-            "Updates of Services/Skill",
+            "Updates of Wiki",
             false,
             ...$this->getObjectives()
         );
@@ -62,6 +62,7 @@ class Agent extends Setup\Agent\NullAgent
 
         // db update steps
         $objectives[] = new \ilDatabaseUpdateStepsExecutedObjective(new ilWikiDBUpdateSteps());
+        $objectives[] = new \ilDatabaseUpdateStepsExecutedObjective(new ilWiki8HotfixDBUpdateSteps());
 
         return $objectives;
     }

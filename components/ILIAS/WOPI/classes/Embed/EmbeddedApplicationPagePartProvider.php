@@ -23,7 +23,7 @@ namespace ILIAS\components\WOPI\Embed;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Content;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\MainControls\Footer;
@@ -35,27 +35,38 @@ use ILIAS\UI\Component\Toast\Container;
 class EmbeddedApplicationPagePartProvider implements PagePartProvider
 {
     public function __construct(
-        private PagePartProvider $page_part_provider
+        private readonly PagePartProvider $page_part_provider,
+        private readonly EmbeddedApplication $embedded_application
     ) {
     }
 
-    public function getContent(): ?Legacy
+    public function getContent(): ?Content
     {
         return $this->page_part_provider->getContent();
     }
 
     public function getMetaBar(): ?MetaBar
     {
+        if ($this->embedded_application->isInline()) {
+            return $this->page_part_provider->getMetaBar();
+        }
+
         return null;
     }
 
     public function getMainBar(): ?MainBar
     {
+        if ($this->embedded_application->isInline()) {
+            return $this->page_part_provider->getMainBar();
+        }
         return null;
     }
 
     public function getBreadCrumbs(): ?Breadcrumbs
     {
+        if ($this->embedded_application->isInline()) {
+            return $this->page_part_provider->getBreadCrumbs();
+        }
         return null;
     }
 
@@ -76,7 +87,7 @@ class EmbeddedApplicationPagePartProvider implements PagePartProvider
 
     public function getSystemInfos(): array
     {
-        return [];
+        return $this->page_part_provider->getSystemInfos();
     }
 
     public function getFooter(): ?Footer

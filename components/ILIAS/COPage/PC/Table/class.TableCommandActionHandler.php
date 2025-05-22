@@ -88,7 +88,11 @@ class TableCommandActionHandler implements Server\CommandActionHandler
 
         $tab = new \ilPCDataTable($page);
         $tab->create($page, $hier_id, $pc_id);
-        $tab->setLanguage($this->user->getLanguage());
+        $lang = $this->user->getLanguage();
+        if ($lang === "") {
+            $lang = "en";
+        }
+        $tab->setLanguage($lang);
 
 
         $tab->addRows(
@@ -104,7 +108,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
 
-    protected function setRowHeaderAndCharacteristic(\ilPCDataTable $tab, array $body): void
+    protected function setRowHeaderAndCharacteristic(\ilPCTable $tab, array $body): void
     {
         if ($body["has_row_header"] ?? false) {
             $tab->setHeaderRows(1);
@@ -223,7 +227,6 @@ class TableCommandActionHandler implements Server\CommandActionHandler
                         $updated = (!is_null($text));
                         $text = $text["text"];
                     }
-
                     if ($updated) {
                         $text = \ilPCParagraph::_input2xml(
                             $text,

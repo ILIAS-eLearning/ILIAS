@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Data;
@@ -121,7 +137,7 @@ class URI
     /**
      * Check port formating. Return it in case of success.
      */
-    protected function digestPort(int $port = null): ?int
+    protected function digestPort(?int $port = null): ?int
     {
         return $port ?? null;
     }
@@ -129,7 +145,7 @@ class URI
     /**
      * Check path formating. Return it in case of success.
      */
-    protected function digestPath(string $path = null): ?string
+    protected function digestPath(?string $path = null): ?string
     {
         if ($path === null) {
             return null;
@@ -144,7 +160,7 @@ class URI
     /**
      * Check query formating. Return it in case of success.
      */
-    protected function digestQuery(string $query = null): ?string
+    protected function digestQuery(?string $query = null): ?string
     {
         if ($query === null) {
             return null;
@@ -155,7 +171,7 @@ class URI
     /**
      * Check fragment formating. Return it in case of success.
      */
-    protected function digestFragment(string $fragment = null): ?string
+    protected function digestFragment(?string $fragment = null): ?string
     {
         if ($fragment === null) {
             return null;
@@ -229,7 +245,7 @@ class URI
     /**
      * Get URI with modified port
      */
-    public function withPort(int $port = null): URI
+    public function withPort(?int $port = null): URI
     {
         $port = $this->digestPort($port);
         $other = clone $this;
@@ -261,7 +277,7 @@ class URI
     /**
      * Get URI with modified path
      */
-    public function withPath(string $path = null): URI
+    public function withPath(?string $path = null): URI
     {
         $path = $this->digestPath($path);
         $other = clone $this;
@@ -277,7 +293,7 @@ class URI
     /**
      * Get URI with modified query
      */
-    public function withQuery(string $query = null): URI
+    public function withQuery(?string $query = null): URI
     {
         $query = $this->digestQuery($query);
         $other = clone $this;
@@ -293,7 +309,7 @@ class URI
     /**
      * Get URI with modified fragment
      */
-    public function withFragment(string $fragment = null): URI
+    public function withFragment(?string $fragment = null): URI
     {
         $fragment = $this->digestFragment($fragment);
         $other = clone $this;

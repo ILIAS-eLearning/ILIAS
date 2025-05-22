@@ -22,6 +22,9 @@ namespace ILIAS\MetaData\Presentation;
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\Data\DateFormat\DateFormat;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Encode\Group as EncodeGroup;
+use ILIAS\Refinery\Transformation;
 
 class UtilitiesTest extends TestCase
 {
@@ -44,7 +47,16 @@ class UtilitiesTest extends TestCase
         $user = $this->createMock(\ilObjUser::class);
         $user->method('getDateFormat')->willReturn($this->format);
 
-        $this->utilities = new Utilities($lng, $user);
+        $refinery = $this->createMock(Refinery::class);
+        $encoding_group = $this->createMock(EncodeGroup::class);
+        $transformation = $this->createMock(Transformation::class);
+        $transformation->method('transform')->willReturnCallback(function ($arg) {
+            return '~encoded:' . $arg . '~';
+        });
+        $encoding_group->method('htmlSpecialCharsAsEntities')->willReturn($transformation);
+        $refinery->method('encode')->willReturn($encoding_group);
+
+        $this->utilities = new Utilities($lng, $user, $refinery);
     }
 
     public function testGetUserDateFormat(): void
@@ -76,6 +88,14 @@ class UtilitiesTest extends TestCase
         $this->assertSame(
             'wrong key first, second',
             $this->utilities->txtFill('wrong key', 'first', 'second')
+        );
+    }
+
+    public function testSanitizeForHTML(): void
+    {
+        $this->assertSame(
+            '~encoded:some text~',
+            $this->utilities->sanitizeForHTML('some text')
         );
     }
 }

@@ -37,6 +37,7 @@
 @use "./UI-framework/Panel/_ui-component_panel.scss";
 @use "./UI-framework/Player/_ui-component_player.scss";
 @use "./UI-framework/Popover/_ui-component_popover.scss";
+@use "./UI-framework/Progress/_ui-component_progress_bar.scss";
 @use "./UI-framework/Symbol/_ui-component_symbol.scss";
 @use "./UI-framework/Table/_ui-component_table.scss";
 @use "./UI-framework/Toast/_ui-component_toast.scss";
@@ -54,7 +55,7 @@
 @use "./legacy/_component_LeftNavSpace.scss";
 @use "./legacy/_component_link.scss";
 @use "./legacy/_component_map.scss";
-@use "./legacy/component_media-object";
+@use "./legacy/_component_media-object";
 @use "./legacy/_component_overlay.scss";
 @use "./legacy/_component_rightPanel.scss";
 @use "./legacy/_component_delostable.scss";
@@ -63,11 +64,11 @@
 
 /* Adapted from Bootstrap 3 */
 
-@use "./legacy/component_animated-collapse-fade";
-@use "./legacy/component_btn-group";
-@use "./legacy/component_carousel";
-@use "./legacy/component_input-group";
-@use "./legacy/component_screen-reader-only";
+@use "./legacy/_component_animated-collapse-fade";
+@use "./legacy/_component_btn-group";
+@use "./legacy/_component_carousel";
+@use "./legacy/_component_input-group";
+@use "./legacy/_component_screen-reader-only";
 
 /* Legacy Modules & Services */
 
@@ -97,6 +98,7 @@
 @use "./legacy/Services/_component_accesscontrol.scss";
 @use "./legacy/Services/_component_accordion.scss";
 @use "./legacy/Services/_component_awareness.scss";
+@use "./legacy/Services/_component_cron.scss";
 @use "./legacy/Services/_component_badge.scss";
 @use "./legacy/Services/_component_block.scss";
 @use "./legacy/Services/_component_bookmarks.scss";
@@ -112,6 +114,7 @@
 @use "./legacy/Services/_component_learninghistory.scss";
 @use "./legacy/Services/_component_like.scss";
 @use "./legacy/Services/_component_mail.scss";
+@use "./legacy/Services/_component_openlayers.scss";
 @use "./legacy/Services/_component_mediaobjects.scss";
 @use "./legacy/Services/_component_membership.scss";
 @use "./legacy/Services/_component_navigation.scss";

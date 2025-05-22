@@ -107,7 +107,7 @@ class ilTestRandomQuestionSetQuestionCollection implements
 
     public function getUniqueQuestionCollection(): ilTestRandomQuestionSetQuestionCollection
     {
-        $uniqueQuestions = array();
+        $uniqueQuestions = [];
 
         foreach ($this->getQuestions() as $question) {
             /* @var ilTestRandomQuestionSetQuestion $question */
@@ -175,7 +175,7 @@ class ilTestRandomQuestionSetQuestionCollection implements
 
     public function getInvolvedQuestionIds(): array
     {
-        $questionIds = array();
+        $questionIds = [];
 
         foreach ($this->getQuestions() as $question) {
             $questionIds[] = $question->getQuestionId();
@@ -200,13 +200,13 @@ class ilTestRandomQuestionSetQuestionCollection implements
     private function getRandomArrayKeys($array, $numKeys)
     {
         if ($numKeys < 1) {
-            return array();
+            return [];
         }
 
         if ($numKeys > 1) {
             return array_rand($array, $numKeys);
         }
 
-        return array( array_rand($array, $numKeys) );
+        return [ array_rand($array, $numKeys) ];
     }
 }

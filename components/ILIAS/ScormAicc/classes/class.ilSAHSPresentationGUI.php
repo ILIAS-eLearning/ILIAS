@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Class ilSAHSPresentationGUI
@@ -91,24 +91,41 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 
         $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $this->refId, true, false);
 
+        # AXH: DEBUGGING!
+        $DIC->logger()->root()->info( '===== $next_class: ' . $next_class . ' =====' );
+        $DIC->logger()->root()->info( '===== $cmd: ' . $cmd . ' =====' );
+
         if ($next_class !== "ilinfoscreengui" &&
             $cmd !== "infoScreen" &&
             $next_class !== "ilobjscorm2004learningmodulegui" &&
             $next_class !== "ilobjscormlearningmodulegui" &&
+            $next_class !== "ilscorm13playergui" &&
+            $next_class !== "ilscormpresentationgui" &&
             $next_class !== "illearningprogressgui") {
             switch ($type) {
                 case "scorm2004":
                     // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
                     // $this->ctrl->setCmdClass("ilscorm13playergui");
+
+                    $this->ctrl->saveParameterByClass(ilSCORM13PlayerGUI::class, "ref_id");
+                    $this->ctrl->redirectByClass(ilSCORM13PlayerGUI::class, $this->ctrl->getCmd());
+
+                    # AXH: Verwendung unklar!
                     $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $this->refId, true, false);
                     break;
 
                 case "scorm":
                     // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
                     // $this->ctrl->setCmdClass("ilscormpresentationgui");
+
+                    $this->ctrl->saveParameterByClass(ilSCORMPresentationGUI::class, "ref_id");
+                    $this->ctrl->redirectByClass(ilSCORMPresentationGUI::class, $this->ctrl->getCmd());
+
+                    # AXH: Verwendung unklar!
                     $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $this->refId, true, false);
                     break;
             }
+            # AXH: Verwendung unklar!
             $next_class = $this->ctrl->getNextClass($this);
         }
 
@@ -174,9 +191,10 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
      */
     public function infoScreen(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd("showSummary");
-        // $this->ctrl->setCmdClass("ilinfoscreengui");
+        if (strtolower($this->ctrl->getCmd() ?? '') === 'infoscreen') {
+            $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
+        }
+
         $this->outputInfoScreen();
     }
 
@@ -250,20 +268,14 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
     {
         global $DIC;
         $ilAccess = $DIC->access();
-        $refId = $this->refId;//$this->slm_gui->object->getRefId();
-
-        //$this->tpl->setHeaderPageTitle("PAGETITLE", " - ".$this->lm->getTitle());
-
-        // set style sheets
-        //        $this->tpl->setStyleSheetLocation(ilUtil::getStyleSheetLocation());
-
+        $refId = $this->refId;
+        
         $this->setInfoTabs("info_short");
 
         $this->lng->loadLanguageModule("meta");
 
         $info = new ilInfoScreenGUI($this->slm_gui);
         $info->enablePrivateNotes();
-        //$info->enableLearningProgress();
 
         $info->enableNews();
         if ($ilAccess->checkAccess("write", "", $refId)) {
@@ -288,7 +300,6 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
             $this->slm_gui->getObject()->getType()
         );
 
-        // forward the command
         $this->ctrl->forwardCommand($info);
         $this->tpl->printToStdout();
     }

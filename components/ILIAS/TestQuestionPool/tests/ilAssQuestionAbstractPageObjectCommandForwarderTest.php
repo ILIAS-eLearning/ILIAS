@@ -40,12 +40,18 @@ class ilAssQuestionAbstractPageObjectCommandForwarderTest extends assBaseTestCas
         $tabs = $this->createMock(ilTabsGUI::class);
         $lng = $this->createMock(ilLanguage::class);
 
-        $this->object = new class ($questionOBJ, $ctrl, $tabs, $lng) extends ilAssQuestionAbstractPageObjectCommandForwarder{
-            public function forward(): void {}
+        $this->object = new class ($questionOBJ, $ctrl, $tabs, $lng) extends ilAssQuestionAbstractPageObjectCommandForwarder {
+            public function forward(): void
+            {
+            }
 
-            protected function ensurePageObjectExists($pageObjectType, $pageObjectId): void {}
+            protected function ensurePageObjectExists($pageObjectType, $pageObjectId): void
+            {
+            }
 
-            protected function getPageObjectGUI($pageObjectType, $pageObjectId): void {}
+            protected function getPageObjectGUI($pageObjectType, $pageObjectId): void
+            {
+            }
         };
     }
 

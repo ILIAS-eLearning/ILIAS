@@ -20,9 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Revision;
 
-use ILIAS\ResourceStorage\Consumer\StreamAccess\Token;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamResolver;
 
 /**
@@ -33,16 +31,14 @@ abstract class BaseRevision implements Revision
 {
     private ?string $storage_id = null;
     private ?StreamResolver $stream_resolver = null;
-    private ResourceIdentification $identification;
 
     protected RevisionStatus $status = RevisionStatus::PUBLISHED;
 
     /**
      * NullRevision constructor.
      */
-    public function __construct(ResourceIdentification $identification)
+    public function __construct(private ResourceIdentification $identification)
     {
-        $this->identification = $identification;
     }
 
     /**

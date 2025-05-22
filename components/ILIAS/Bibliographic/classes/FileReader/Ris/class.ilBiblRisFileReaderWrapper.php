@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-use LibRIS\RISReader;
-
 /**
  * Class ilBiblRisFileReaderWrapper
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -29,9 +27,9 @@ class ilBiblRisFileReaderWrapper
      */
     public function parseContent(string $content): array
     {
-        $RISReader = new RISReader();
+        $RISReader = new ilRisReader();
         $re = '/\n|\r/m';
-        $content = preg_replace($re, RISReader::RIS_EOL, $content);
+        $content = preg_replace($re, ilRisReader::RIS_EOL, $content);
         $RISReader->parseString($content);
 
         return $RISReader->getRecords();

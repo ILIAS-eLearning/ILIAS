@@ -43,7 +43,7 @@ class ilAssQuestionTypeOrderer
      *
      * @var array
      */
-    public static $fixQuestionTypeOrder = array(
+    public static $fixQuestionTypeOrder = [
         'assSingleChoice',
         'assMultipleChoice',
         'assKprimChoice',
@@ -63,14 +63,14 @@ class ilAssQuestionTypeOrderer
         'assTextQuestion',
         'assFileUpload',
         'assLongMenu'
-    );
+    ];
     private array $types;
 
     /**
      * @var array
      */
-    protected $deprecatedTypes = array(
-    );
+    protected $deprecatedTypes = [
+    ];
 
     /**
      * flipped question type order (used for determining order priority)
@@ -95,7 +95,7 @@ class ilAssQuestionTypeOrderer
         switch ($orderMode) {
             case self::ORDER_MODE_FIX:
 
-                uasort($this->types, array($this, 'fixQuestionTypeOrderSortCallback'));
+                uasort($this->types, [$this, 'fixQuestionTypeOrderSortCallback']);
                 break;
 
             case self::ORDER_MODE_ALPHA:
@@ -122,7 +122,7 @@ class ilAssQuestionTypeOrderer
             return $this->types;
         }
 
-        $types = array();
+        $types = [];
 
         foreach ($this->types as $translation => $typeData) {
             if (in_array($typeData['type_tag'], $this->deprecatedTypes)) {

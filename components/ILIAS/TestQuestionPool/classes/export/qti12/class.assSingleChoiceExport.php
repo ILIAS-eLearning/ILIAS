@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
-
 /**
 * Class for single choice question exports
 *
@@ -59,7 +57,7 @@ class assSingleChoiceExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "QUESTIONTYPE");
-        $a_xml_writer->xmlElement("fieldentry", null, QuestionIdentifiers::SINGLE_CHOICE_QUESTION_IDENTIFIER);
+        $a_xml_writer->xmlElement("fieldentry", null, $this->object->getQuestionType());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "AUTHOR");
@@ -100,10 +98,7 @@ class assSingleChoiceExport extends assQuestionExport
             "rcardinality" => "Single"
         ];
         $a_xml_writer->xmlStartTag("response_lid", $attrs);
-        $solution = $this->object->getSuggestedSolution(0);
-        if ($solution !== null) {
-            $a_xml_writer = $this->addSuggestedSolutionLink($a_xml_writer, $solution);
-        }
+        $a_xml_writer = $this->addSuggestedSolution($a_xml_writer);
         // shuffle output
         $attrs = [];
         if ($this->object->getShuffle()) {
@@ -116,7 +111,7 @@ class assSingleChoiceExport extends assQuestionExport
             ];
         }
         $a_xml_writer->xmlStartTag("render_choice", $attrs);
-        $answers = &$this->object->getAnswers();
+        $answers = $this->object->getAnswers();
         $akeys = array_keys($answers);
         if ($this->object->getShuffle() && $a_shuffle) {
             $akeys = shuffle($akeys);
@@ -315,8 +310,6 @@ class assSingleChoiceExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
-
-        $a_xml_writer = $this->addSolutionHints($a_xml_writer);
 
         $a_xml_writer->xmlEndTag("item");
         $a_xml_writer->xmlEndTag("questestinterop");

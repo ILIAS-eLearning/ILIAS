@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilDBPdoMySQLFieldDefinition
  *
@@ -25,6 +25,7 @@ declare(strict_types=1);
  */
 class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
 {
+    #[\Override]
     public function getTypeDeclaration(array $field): string
     {
         $db = $this->getDBInstance();
@@ -124,6 +125,7 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
     /**
      * @throws \ilDatabaseException
      */
+    #[\Override]
     protected function getIntegerDeclaration(string $name, array $field): string
     {
         $db = $this->getDBInstance();
@@ -153,7 +155,7 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
      */
     protected function mapNativeDatatypeInternal(array $field): array
     {
-        $db_type = strtolower($field['type']);
+        $db_type = strtolower((string) $field['type']);
         $db_type = strtok($db_type, '(), ');
         if ($db_type === 'national') {
             $db_type = strtok('(), ');
@@ -165,37 +167,37 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
             $length = strtok('(), ');
             $decimal = strtok('(), ');
         }
-        $type = array();
+        $type = [];
         $unsigned = $fixed = null;
         switch ($db_type) {
             case 'tinyint':
                 $type[] = 'integer';
                 $type[] = 'boolean';
-                if (preg_match('/^(is|has)/', $field['name'])) {
+                if (preg_match('/^(is|has)/', (string) $field['name'])) {
                     $type = array_reverse($type);
                 }
-                $unsigned = preg_match('/ unsigned/i', $field['type']);
+                $unsigned = preg_match('/ unsigned/i', (string) $field['type']);
                 $length = 1;
                 break;
             case 'smallint':
                 $type[] = 'integer';
-                $unsigned = preg_match('/ unsigned/i', $field['type']);
+                $unsigned = preg_match('/ unsigned/i', (string) $field['type']);
                 $length = 2;
                 break;
             case 'mediumint':
                 $type[] = 'integer';
-                $unsigned = preg_match('/ unsigned/i', $field['type']);
+                $unsigned = preg_match('/ unsigned/i', (string) $field['type']);
                 $length = 3;
                 break;
             case 'int':
             case 'integer':
                 $type[] = 'integer';
-                $unsigned = preg_match('/ unsigned/i', $field['type']);
+                $unsigned = preg_match('/ unsigned/i', (string) $field['type']);
                 $length = 4;
                 break;
             case 'bigint':
                 $type[] = 'integer';
-                $unsigned = preg_match('/ unsigned/i', $field['type']);
+                $unsigned = preg_match('/ unsigned/i', (string) $field['type']);
                 $length = 8;
                 break;
             case 'tinytext':
@@ -210,10 +212,10 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
                 $type[] = 'text';
                 if ($length == '1') {
                     $type[] = 'boolean';
-                    if (preg_match('/^(is|has)/', $field['name'])) {
+                    if (preg_match('/^(is|has)/', (string) $field['name'])) {
                         $type = array_reverse($type);
                     }
-                } elseif (strpos($db_type, 'text') !== false) {
+                } elseif (str_contains($db_type, 'text')) {
                     $type[] = 'clob';
                     if ($decimal === 'binary') {
                         $type[] = 'blob';
@@ -225,7 +227,7 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
                 break;
             case 'enum':
                 $type[] = 'text';
-                preg_match_all('/\'.+\'/U', $field['type'], $matches);
+                preg_match_all('/\'.+\'/U', (string) $field['type'], $matches);
                 $length = 0;
                 $fixed = false;
                 if (is_array($matches)) {
@@ -234,7 +236,7 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
                     }
                     if ($length == '1' && count($matches[0]) === 2) {
                         $type[] = 'boolean';
-                        if (preg_match('/^(is|has)/', $field['name'])) {
+                        if (preg_match('/^(is|has)/', (string) $field['name'])) {
                             $type = array_reverse($type);
                         }
                     }
@@ -263,13 +265,13 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
             case 'double':
             case 'real':
                 $type[] = 'float';
-                $unsigned = preg_match('/ unsigned/i', $field['type']);
+                $unsigned = preg_match('/ unsigned/i', (string) $field['type']);
                 break;
             case 'unknown':
             case 'decimal':
             case 'numeric':
                 $type[] = 'decimal';
-                $unsigned = preg_match('/ unsigned/i', $field['type']);
+                $unsigned = preg_match('/ unsigned/i', (string) $field['type']);
                 if ($decimal !== false) {
                     $length = $length . ',' . $decimal;
                 }
@@ -298,6 +300,6 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
             $length = null;
         }
 
-        return array( $type, $length, $unsigned, $fixed );
+        return [ $type, $length, $unsigned, $fixed ];
     }
 }

@@ -22,7 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Listing;
 
 use ILIAS\UI\Component\Listing as IListing;
 use ILIAS\UI\Component\Symbol\Symbol;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Content;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
@@ -35,7 +35,7 @@ class Property extends Listing implements IListing\Property
     use ComponentHelper;
     protected const ALLOWED_VALUE_TYPES = [
         Symbol::class,
-        Legacy::class,
+        Content::class,
         StandardLink::class
     ];
 
@@ -59,7 +59,7 @@ class Property extends Listing implements IListing\Property
 
     public function withProperty(
         string $label,
-        string | Symbol | Legacy | StandardLink $value,
+        string | Symbol | Content | StandardLink $value,
         bool $show_label = true
     ): self {
         if (is_array($value)) {

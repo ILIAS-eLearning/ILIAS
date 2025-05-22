@@ -2,17 +2,9 @@
 <div class="ilc_qtitle_Title">{QUESTIONTEXT}</div>
 
 <div class="ilc_answers answers ilClearFloat row" id="ilMatchingQuestionContainer_{QUESTION_ID}" data-type="ilMatchingQuestion" data-id="{QUESTION_ID}">
-
-<!-- fau: testNav - hide the reset button -->
-<!--
-	<div class="noprint" style="text-align: right; margin: 0 0 1em 0;">
-		<input id="ilMatchingResetButton_{QUESTION_ID}" type="button" class="btn btn-default" name="reset" value="{RESET_BUTTON}">
-	</div>
--->
-<!--fau. -->
-	<div id="targetArea" class="col-md-8">
+	<div class="target_area col-md-8">
 		<!-- BEGIN droparea -->
-		<div class="row droparea" id="definition_{ID_DROPAREA}" data-id="{ID_DROPAREA}" data-type="definition">
+		<div class="row c-test__definition" id="definition_{ID_DROPAREA}" data-id="{ID_DROPAREA}" data-type="definition">
 			<div class="ilMatchingQuestionDefinition col-md-6">
 				<!-- BEGIN definition_text -->
 				<div class="ilc_qanswer_Answer">{DEFINITION}</div>
@@ -21,56 +13,22 @@
 				<div class="ilc_qanswer_Answer thumbnail">
 					<img class="ilc_qimg_QuestionImage" border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
 					<div class="caption">
-						<a class="ilc_qimgd_ImageDetailsLink" target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_DEFINITION} <img border="0" align="right" src="{IMG_PREVIEW}" /></a>
+						<a class="ilc_qimgd_ImageDetailsLink" target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_DEFINITION} <img border="0" width="25px" align="right" src="{IMG_PREVIEW}" /></a>
 					</div>
 				</div>
 				<!-- END definition_picture -->
 			</div>
-			<div class="ilMatchingQuestionTerm col-md-6"></div>
+            <div class="ilMatchingQuestionTerm col-md-6">
+                {TERMS_PRESENTATION_ASSIGNED}
+                <div class = "c-test__dropzone"></div>
+            </div>
+            <input name="matching[{ID_DROPAREA}]" type="hidden" value='{ASSIGNED_TERMS}' >
 		</div>
 		<!-- END droparea -->
 	</div>
-	<div id="sourceArea" class="col-md-4">
-		<!-- BEGIN draggable -->
-		<div class="draggable row" id="term_{ID_DRAGGABLE}" data-id="{ID_DRAGGABLE}" data-type="term">
-			<!-- BEGIN term_text -->
-			<div class="ilc_qanswer_Answer">{TERM_TEXT}</div>
-			<!-- END term_text -->
-			<!-- BEGIN term_picture -->
-			<div class="ilc_qanswer_Answer thumbnail">
-				<img class="ilc_qimg_QuestionImage" border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
-				<div class="caption">
-					<a class="ilc_qimgd_ImageDetailsLink" target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_TERM} <img border="0" align="right" src="{IMG_PREVIEW}" /></a>
-				</div>
-			</div>
-			<!-- END term_picture -->
-		</div>
-		<!-- END draggable -->
+	<div class="source_area col-md-4">
+        <div class="c-test__dropzone"></div>
+		{TERMS_PRESENTATION_SOURCE}
 	</div>
 </div>
 </div>
-<script type="text/javascript">
-let ilMatchingQuestionInit =
-			function()
-			{
-				var question = $.fn.ilMatchingQuestionEngine({QUESTION_ID}, {
-					matchingContainer: '#ilMatchingResetButton_{QUESTION_ID}',
-					matchingMode: '{MATCHING_MODE}',
-					resetButtonId: '#ilMatchingResetButton_{QUESTION_ID}'
-				});
-
-				<!-- BEGIN definition_data -->
-				question.addDefinition('{DEFINITION_ID}');
-				<!-- END definition_data -->
-
-				<!-- BEGIN term_data -->
-				question.addTerm('{TERM_ID}');
-				<!-- END term_data -->
-
-				<!-- BEGIN matching_data -->
-				question.addMatching('{DEFINITION_ID}', '{TERM_ID}');
-				<!-- END matching_data -->
-
-				question.init();
-			}
-</script>

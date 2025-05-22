@@ -1,18 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" stopOnFailure="false" backupGlobals="false" bootstrap="./tests/bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-  <coverage>
-    <include>
-      <directory suffix=".php">classes</directory>
-      <directory suffix=".php">interfaces</directory>
-    </include>
-    <report>
-      <html outputDirectory="build/coverage" highLowerBound="80"/>
-    </report>
-  </coverage>
-  <testsuite name="ilModulesForumSuite">
-    <file>./tests/ilModulesForumSuite.php</file>
-  </testsuite>
-  <logging>
-    <testdoxHtml outputFile="build/dox.html"/>
-  </logging>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         colors="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         failOnDeprecation="true"
+         failOnNotice="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnSkippedTests="true"
+         backupGlobals="false"
+         bootstrap="./tests/bootstrap.php"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
+    <coverage>
+        <report>
+            <html outputDirectory="build/coverage" highLowerBound="80"/>
+        </report>
+    </coverage>
+    <testsuite name="unit">
+        <directory>./tests</directory>
+    </testsuite>
+    <logging>
+        <testdoxHtml outputFile="build/dox.html"/>
+    </logging>
+    <source>
+        <include>
+            <directory suffix=".php">classes</directory>
+            <directory suffix=".php">interfaces</directory>
+        </include>
+    </source>
 </phpunit>

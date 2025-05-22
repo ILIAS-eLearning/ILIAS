@@ -38,7 +38,7 @@ class ResourcesCollector
      */
     public function __construct(
         string $output_mode,
-        \ilPageObject $pg = null
+        ?\ilPageObject $pg = null
     ) {
         global $DIC;
 

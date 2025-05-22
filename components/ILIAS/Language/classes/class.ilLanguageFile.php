@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Class ilLanguageFile
@@ -207,7 +206,7 @@ class ilLanguageFile
             $this->params["created_by"] = $ilUser->getFullname() . " <" . $ilUser->getEmail() . ">";
 
             // build the header
-            $tpl = new ilTemplate("tpl.lang_file_header.html", true, true, "components/ILIAS/Language_");
+            $tpl = new ilTemplate("tpl.lang_file_header.html", true, true, "components/ILIAS/Language");
             foreach ($this->getAllParams() as $name => $value) {
                 $tabs = intval(ceil((20 - 3 - strlen($name)) / 4));
                 $tabs = $tabs > 0 ? $tabs : 1;

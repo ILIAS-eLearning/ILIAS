@@ -30,7 +30,7 @@ class ilExcCriteriaCatalogue
     protected ?string $title = null;
     protected int $pos = 0;
 
-    public function __construct(int $a_id = null)
+    public function __construct(?int $a_id = null)
     {
         global $DIC;
 
@@ -202,20 +202,6 @@ class ilExcCriteriaCatalogue
 
         $ilDB->manipulate("DELETE FROM exc_crit_cat" .
             " WHERE id = " . $ilDB->quote($this->id, "integer"));
-    }
-
-    public static function deleteByParent(int $a_parent_id): void
-    {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        if ($a_parent_id <= 0) {
-            return;
-        }
-
-        $ilDB->manipulate("DELETE FROM exc_crit" .
-            " WHERE parent = " . $ilDB->quote($a_parent_id, "integer"));
     }
 
     public function cloneObject(int $a_target_parent_id): int

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Data\Chart;
 
@@ -29,13 +28,15 @@ use ILIAS\Data\Dimension;
 class Dataset
 {
     protected array $dimensions = [];
+    protected array $dimension_groups = [];
     protected array $points = [];
     protected array $alternative_information = [];
 
     /**
-     * @param array<string, Dimension\Dimension> $dimensions Dimensions with their names as keys
+     * @param array<string, Dimension\Dimension>      $dimensions Dimensions with their names as keys
+     * @param array<string, Dimension\DimensionGroup> $dimension_groups
      */
-    public function __construct(array $dimensions)
+    public function __construct(array $dimensions, array $dimension_groups = [])
     {
         foreach ($dimensions as $name => $dimension) {
             if (!is_string($name)) {
@@ -45,16 +46,43 @@ class Dataset
             }
             if (!$dimension instanceof Dimension\Dimension) {
                 throw new \InvalidArgumentException(
-                    "Expected array value to be an instance of Dimension, '$dimension' is given."
+                    "Expected array value to be an instance of Dimension." .
+                    (is_object($dimension) ? get_class($dimension) : gettype($dimension)) . " is given."
                 );
             }
         }
         $this->dimensions = $dimensions;
+
+        foreach ($dimension_groups as $group_name => $group) {
+            if (!is_string($group_name)) {
+                throw new \InvalidArgumentException(
+                    "Expected array key to be a string, '$group_name' is given."
+                );
+            }
+            if (!$group instanceof Dimension\DimensionGroup) {
+                throw new \InvalidArgumentException(
+                    "Expected array value to be an instance of DimensionGroup. " .
+                    (is_object($group) ? get_class($group) : gettype($group)) . " is given."
+                );
+            }
+        }
+        $this->dimension_groups = $dimension_groups;
     }
 
+    /**
+     * @return Dimension\Dimension[]
+     */
     public function getDimensions(): array
     {
         return $this->dimensions;
+    }
+
+    /**
+     * @return Dimension\DimensionGroup[]
+     */
+    public function getDimensionGroups(): array
+    {
+        return $this->dimension_groups;
     }
 
     protected function checkDimensionCongruenceForValues(array $values): void

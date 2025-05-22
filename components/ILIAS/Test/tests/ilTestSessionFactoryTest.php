@@ -28,14 +28,12 @@ class ilTestSessionFactoryTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
-        global $DIC;
         parent::setUp();
-        $this->addGlobal_ilUser();
 
         $this->testObj = new ilTestSessionFactory(
-            $this->createMock(ilObjTest::class),
-            $DIC['ilDB'],
-            $DIC['ilUser']
+            $this->getTestObjMock(),
+            $this->createMock(ilDBInterface::class),
+            $this->createMock(ilObjUser::class)
         );
     }
 

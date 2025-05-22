@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,11 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\Tool\Collector\Renderer;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\Tool\Factory\TreeTool;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -35,6 +35,7 @@ class TreeToolItemRenderer extends BaseTypeRenderer
      * @param bool   $with_content
      * @return Component
      */
+    #[\Override]
     public function getComponentForItem(isItem $item, bool $with_content = false): Component
     {
         global $DIC;
@@ -44,6 +45,6 @@ class TreeToolItemRenderer extends BaseTypeRenderer
 
         $symbol = $this->getStandardSymbol($item);
 
-        return $this->ui_factory->mainControls()->slate()->legacy($item->getTitle(), $symbol, $this->ui_factory->legacy($DIC->ui()->renderer()->render([$item->getTree()])));
+        return $this->ui_factory->mainControls()->slate()->legacy($item->getTitle(), $symbol, $this->ui_factory->legacy()->content($DIC->ui()->renderer()->render([$item->getTree()])));
     }
 }

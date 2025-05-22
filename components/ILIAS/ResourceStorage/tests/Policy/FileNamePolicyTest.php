@@ -18,7 +18,6 @@
 
 namespace ILIAS\ResourceStorage\Policy;
 
-use ILIAS\MainMenu\Tests\DummyIDGenerator;
 use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTestCase;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 
@@ -40,14 +39,11 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTestCase
         );
     }
 
-    protected function getFileNamePolicy(string $denied_ending): \ILIAS\ResourceStorage\Policy\FileNamePolicy
+    protected function getFileNamePolicy(string $denied_ending): FileNamePolicy
     {
         return new class ($denied_ending) implements FileNamePolicy {
-            private string $denied_ending;
-
-            public function __construct(string $denied_ending)
+            public function __construct(private string $denied_ending)
             {
-                $this->denied_ending = $denied_ending;
             }
 
             public function check(string $extension): bool

@@ -45,7 +45,7 @@ class PrimitivesTest extends TestCase
         $intermediate->method('accept')->willReturn(new Ok($intermediate));
         $intermediate->method('reject')->willReturn(new Error('Failed'));
 
-        $result = $parse($intermediate, static fn (Result $x): Result => $x);
+        $result = $parse($intermediate, static fn(Result $x): Result => $x);
 
         $this->assertTrue($result->isOk());
         $this->assertEquals($intermediate, $result->value());
@@ -61,7 +61,7 @@ class PrimitivesTest extends TestCase
         $intermediate->expects(self::exactly(2))->method('value')->willReturnOnConsecutiveCalls(ord('a'), ord('d'));
         $intermediate->method('accept')->willReturn(new Ok($intermediate));
 
-        $result = $parse($intermediate, static fn (Result $x): Result => $x);
+        $result = $parse($intermediate, static fn(Result $x): Result => $x);
 
         $this->assertTrue($result->isOk());
         $this->assertEquals($intermediate, $result->value());
@@ -76,7 +76,7 @@ class PrimitivesTest extends TestCase
 
         $intermediate = $this->getMockBuilder(Intermediate::class)->disableOriginalConstructor()->getMock();
 
-        $result = $parser($intermediate, static fn (Result $x): Result => $x);
+        $result = $parser($intermediate, static fn(Result $x): Result => $x);
         $this->assertTrue($result->isOk());
         $this->assertEquals($intermediate, $result->value());
     }
@@ -177,7 +177,7 @@ class PrimitivesTest extends TestCase
 
         $parser = $primitives->parserFrom('hello');
 
-        $result = $parser($intermediate, static fn (Result $x): Result => $x);
+        $result = $parser($intermediate, static fn(Result $x): Result => $x);
         $this->assertTrue($result->isOk());
     }
 
@@ -192,7 +192,7 @@ class PrimitivesTest extends TestCase
 
         $parser = $primitives->parserFrom('');
 
-        $result = $parser($intermediate, fn ($x) => $x);
+        $result = $parser($intermediate, fn($x) => $x);
         $this->assertTrue($result->isOk());
         $this->assertEquals($intermediate, $result->value());
     }

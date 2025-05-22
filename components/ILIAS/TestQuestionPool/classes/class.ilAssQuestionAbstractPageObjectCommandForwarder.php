@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\RequestDataCollector;
+
 /**
  * abstract parent class for page object forwarders
  *
@@ -26,38 +29,7 @@
  */
 abstract class ilAssQuestionAbstractPageObjectCommandForwarder
 {
-    protected \ILIAS\TestQuestionPool\InternalRequestService $request;
-    /**
-     * object instance of current question
-     *
-     * @access protected
-     * @var assQuestion
-     */
-    protected $questionOBJ = null;
-
-    /**
-     * global $ilCtrl
-     *
-     * @access protected
-     * @var ilCtrl
-     */
-    protected $ctrl = null;
-
-    /**
-     * global $ilCtrl
-     *
-     * @access protected
-     * @var ilCtrl
-     */
-    protected $tabs = null;
-
-    /**
-     * global $ilCtrl
-     *
-     * @access protected
-     * @var ilCtrl
-     */
-    protected $lng = null;
+    protected RequestDataCollector $request;
 
     /**
      * Constructor
@@ -68,16 +40,15 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
      * @param ilTabsGUI $tabs
      * @param ilLanguage $lng
      */
-    public function __construct(assQuestion $questionOBJ, ilCtrl $ctrl, ilTabsGUI $tabs, ilLanguage $lng)
-    {
-        $this->questionOBJ = $questionOBJ;
+    public function __construct(
+        protected assQuestion $questionOBJ,
+        protected readonly ilCtrl $ctrl,
+        protected readonly ilTabsGUI $tabs,
+        protected ilLanguage $lng
+    ) {
+        $local_dic = QuestionPoolDIC::dic();
+        $this->request = $local_dic['request_data_collector'];
 
-        $this->ctrl = $ctrl;
-        $this->tabs = $tabs;
-        $this->lng = $lng;
-
-        global $DIC;
-        $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->tabs->clearTargets();
 
         $this->lng->loadLanguageModule('content');

@@ -30,11 +30,9 @@ class BasicScreenContext implements ScreenContext
 {
     protected ReferenceId $reference_id;
     protected Collection $additional_data;
-    protected string $context_identifier = '';
 
-    public function __construct(string $context_identifier)
+    public function __construct(protected string $context_identifier)
     {
-        $this->context_identifier = $context_identifier;
         $this->additional_data = new Collection();
         $this->reference_id = new ReferenceId(-1);
     }

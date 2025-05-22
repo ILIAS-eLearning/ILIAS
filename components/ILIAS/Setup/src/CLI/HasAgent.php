@@ -32,9 +32,9 @@ trait HasAgent
 
     protected function configureCommandForPlugins(): void
     {
-        $this->addOption("plugin", null, InputOption::VALUE_REQUIRED, "Name of the plugin to run the command for.");
-        $this->addOption("no-plugins", null, InputOption::VALUE_NONE, "Ignore all plugins when running the command.");
-        $this->addOption("skip", null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, "Skip plugin with the supplied <plugin-name> when running the command.");
+        $this->addOption("legacy-plugin", null, InputOption::VALUE_REQUIRED, "Name of the plugin to run the command for.");
+        $this->addOption("no-legacy-plugins", null, InputOption::VALUE_NONE, "Ignore all plugins when running the command.");
+        $this->addOption("skip-legacy-plugin", null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, "Skip plugin with the supplied <plugin-name> when running the command.");
     }
 
     protected function getRelevantAgent(InputInterface $input): Agent
@@ -45,21 +45,21 @@ trait HasAgent
             );
         }
 
-        if ($input->hasOption("no-plugins") && $input->getOption("no-plugins")) {
+        if ($input->hasOption("no-legacy-plugins") && $input->getOption("no-legacy-plugins")) {
             // The agents of the core are in all folders but the customizing folder.
             return $this->agent_finder->getComponentAgents();
         }
 
-        if ($input->hasOption("plugin")) {
-            $plugin_name = $input->getOption("plugin");
+        if ($input->hasOption("legacy-plugin")) {
+            $plugin_name = $input->getOption("legacy-plugin");
             if ($plugin_name) {
                 return $this->agent_finder->getPluginAgent($plugin_name);
             }
         }
 
         $agents = $this->agent_finder->getAgents();
-        if ($input->hasOption("skip")) {
-            foreach (($input->getOption("skip") ?? []) as $plugin_name) {
+        if ($input->hasOption("skip-legacy-plugin")) {
+            foreach (($input->getOption("skip-legacy-plugin") ?? []) as $plugin_name) {
                 $agents = $agents->withRemovedAgent($plugin_name);
             }
         }

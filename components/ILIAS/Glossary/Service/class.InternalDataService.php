@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,23 +16,62 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Glossary;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
+use ILIAS\Glossary\Settings\Settings;
+
 class InternalDataService
 {
-    // protected ...\DataFactory ..._factory;
+    protected Flashcard\DataFactory $flashcard_factory;
 
     public function __construct()
     {
-        //$this->..._factory = new ...\DataFactory();
+        $this->flashcard_factory = new Flashcard\DataFactory();
     }
 
-    /*
-    public function ...() : ...\...
-    {
-        return $this->..._factory->...();
-    }*/
+    public function flashcardTerm(
+        int $term_id,
+        int $user_id,
+        int $glo_id,
+        int $box_nr,
+        ?string $last_access = null
+    ): Flashcard\Term {
+        return $this->flashcard_factory->term($term_id, $user_id, $glo_id, $box_nr, $last_access);
+    }
+
+    public function flashcardBox(
+        int $box_nr,
+        int $user_id,
+        int $glo_id,
+        ?string $last_access = null
+    ): Flashcard\Box {
+        return $this->flashcard_factory->box($box_nr, $user_id, $glo_id, $last_access);
+    }
+
+    public function settings(
+        int $id,
+        bool $online,
+        string $virtual,
+        bool $glo_menu_active,
+        string $pres_mode,
+        int $show_tax,
+        int $snippet_length,
+        bool $flash_active,
+        string $flash_mode
+    ): Settings {
+        return new Settings(
+            $id,
+            $online,
+            $virtual,
+            $glo_menu_active,
+            $pres_mode,
+            $show_tax,
+            $snippet_length,
+            $flash_active,
+            $flash_mode
+        );
+    }
+
 }

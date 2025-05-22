@@ -32,7 +32,7 @@ use ILIAS\Setup;
  */
 abstract class BuildArtifactObjective implements Setup\Objective
 {
-    private const ARTIFACTS = __DIR__ . "/../../../../../artifacts";
+    protected const ARTIFACTS = __DIR__ . "/../../../../../artifacts";
 
     /**
      * @return string The path where the artifact should be stored. You can use this path to require the artifact.
@@ -110,6 +110,11 @@ abstract class BuildArtifactObjective implements Setup\Objective
         return true;
     }
 
+    protected function getPath(): string
+    {
+        return static::PATH();
+    }
+
     /**
      * Builds the artifact and puts it in its location.
      *
@@ -119,7 +124,7 @@ abstract class BuildArtifactObjective implements Setup\Objective
     {
         $artifact = $this->buildIn($environment);
 
-        $path = static::PATH();
+        $path = $this->getPath();
 
         $this->makeDirectoryFor($path);
 

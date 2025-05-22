@@ -17,27 +17,12 @@
  *********************************************************************/
 
 declare(strict_types=1);
-
-use ILIAS\Exercise\InternalService;
-use ILIAS\Exercise;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 class ilExcTutorFeedbackZipStakeholder extends AbstractResourceStakeholder
 {
-    protected int $owner = 6;
-    private int $current_user;
     protected ?ilDBInterface $database = null;
-
-    public function __construct(int $owner = 6)
-    {
-        global $DIC;
-        $this->current_user = (int) ($DIC->isDependencyAvailable('user')
-            ? $DIC->user()->getId()
-            : (defined('ANONYMOUS_USER_ID') ? ANONYMOUS_USER_ID : 6));
-        $this->owner = $owner;
-    }
 
     public function getId(): string
     {
@@ -46,7 +31,7 @@ class ilExcTutorFeedbackZipStakeholder extends AbstractResourceStakeholder
 
     public function getOwnerOfNewResources(): int
     {
-        return $this->owner;
+        return $this->default_owner;
     }
 
     public function canBeAccessedByCurrentUser(ResourceIdentification $identification): bool

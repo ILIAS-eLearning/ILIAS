@@ -96,4 +96,9 @@ class Out implements Dependency
     {
         $this->resolves[] = $in;
     }
+
+    public function resetResolutions(): void
+    {
+        $this->resolves = [];
+    }
 }

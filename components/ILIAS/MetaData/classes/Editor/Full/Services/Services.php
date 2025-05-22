@@ -89,25 +89,25 @@ class Services
         $refinery = $this->dic->refinery();
         $presenter = $this->editor_services->presenter();
         $path_factory = $this->path_services->pathFactory();
-        $vocabularies = $this->vocabularies_services->vocabularies();
+        $element_vocab_helper = $this->vocabularies_services->elementHelper();
         return $this->input_factory = new InputFactory(
             $field_factory,
             $refinery,
             $presenter,
             $path_factory,
-            $this->path_services->navigatorFactory(),
             $this->dataFinder(),
-            $vocabularies,
             $this->repository_services->databaseDictionary(),
             new FactoryWithConditionTypesService(
                 $field_factory,
                 $presenter,
                 $this->repository_services->constraintDictionary(),
-                $vocabularies,
                 $refinery,
                 $path_factory,
-                $this->data_helper_services->dataHelper()
-            )
+                $this->data_helper_services->dataHelper(),
+                $element_vocab_helper,
+                $this->vocabularies_services->slotHandler()
+            ),
+            $element_vocab_helper
         );
     }
 

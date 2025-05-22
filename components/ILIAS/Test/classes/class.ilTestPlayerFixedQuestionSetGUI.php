@@ -23,21 +23,19 @@ declare(strict_types=1);
  * @package components\ILIAS/Test
  * @ilCtrl_Calls ilTestPlayerFixedQuestionSetGUI: ilAssGenFeedbackPageGUI
  * @ilCtrl_Calls ilTestPlayerFixedQuestionSetGUI: ilAssSpecFeedbackPageGUI
- * @ilCtrl_Calls ilTestPlayerFixedQuestionSetGUI: ilAssQuestionHintRequestGUI
  * @ilCtrl_Calls ilTestPlayerFixedQuestionSetGUI: ilAssQuestionPageGUI
  * @ilCtrl_Calls ilTestPlayerFixedQuestionSetGUI: ilTestSubmissionReviewGUI
  * @ilCtrl_Calls ilTestPlayerFixedQuestionSetGUI: ilTestPasswordProtectionGUI
  * @ilCtrl_Calls ilTestPlayerFixedQuestionSetGUI: ilTestAnswerOptionalQuestionsConfirmationGUI
  * @ilCtrl_Calls ilTestPlayerFixedQuestionSetGUI: ilConfirmationGUI
  */
-class ilTestPlayerFixedQuestionSetGUI extends ilTestOutputGUI
+class ilTestPlayerFixedQuestionSetGUI extends ilTestPlayerAbstractGUI
 {
     protected function buildTestPassQuestionList(): ilAssQuestionList
     {
         $question_list = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
         $question_list->setParentObjId($this->object->getId());
-        $question_list->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
-
+        $question_list->setQuestionInstanceTypeFilter(null);
         return $question_list;
     }
 

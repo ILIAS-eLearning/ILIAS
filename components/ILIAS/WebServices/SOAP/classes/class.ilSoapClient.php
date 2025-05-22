@@ -1,9 +1,22 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
 /**
  * Wrapper class for soap_client
  * Extends built-in soap client and offers time (connect, response) settings
@@ -38,8 +51,8 @@ class ilSoapClient
             $this->connect_timeout = $timeout;
         }
         $this->connect_timeout = $timeout;
-        
-        $this->response_timeout = (int) $this->settings->get('soap_response_timeout',(string) self::DEFAULT_RESPONSE_TIMEOUT);
+
+        $this->response_timeout = (int) $this->settings->get('soap_response_timeout', (string) self::DEFAULT_RESPONSE_TIMEOUT);
     }
 
     public function getServer(): string
@@ -79,8 +92,11 @@ class ilSoapClient
 
     public function init(): bool
     {
+        $internal_path = $this->settings->get('soap_internal_wsdl_path');
         if (trim($this->getServer()) === '') {
-            if (trim($this->settings->get('soap_wsdl_path', '')) !== '') {
+            if ($internal_path) {
+                $this->uri = $internal_path;
+            } elseif (trim($this->settings->get('soap_wsdl_path', '')) !== '') {
                 $this->uri = $this->settings->get('soap_wsdl_path', '');
             } else {
                 $this->uri = ilUtil::_getHttpPath() . '/public/soap/server.php?wsdl';
@@ -97,7 +113,14 @@ class ilSoapClient
                 array(
                     'exceptions' => true,
                     'trace' => 1,
-                    'connection_timeout' => $this->getTimeout()
+                    'connection_timeout' => $this->getTimeout(),
+                    'stream_context' => $this->uri === $internal_path ? stream_context_create([
+                        'ssl' => [
+                            'verify_peer' => (bool) $this->settings->get('soap_internal_wsdl_verify_peer', '1'),
+                            'verify_peer_name' => (bool) $this->settings->get('soap_internal_wsdl_verify_peer_name', '1'),
+                            'allow_self_signed' => (bool) $this->settings->get('soap_internal_wsdl_allow_self_signed', ''),
+                        ]
+                    ]) : null
                 )
             );
             return true;

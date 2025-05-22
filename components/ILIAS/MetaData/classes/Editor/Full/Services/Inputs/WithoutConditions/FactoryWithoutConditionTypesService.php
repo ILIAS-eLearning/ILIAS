@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Editor\Full\Services\Inputs\WithoutConditions;
 
-use ILIAS\MetaData\Vocabularies\VocabulariesInterface;
 use ILIAS\UI\Component\Input\Field\Factory as UIFactory;
 use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
 use ILIAS\MetaData\Repository\Validation\Dictionary\DictionaryInterface as ConstraintDictionary;
@@ -28,6 +27,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\MetaData\Elements\Data\Type;
 use ILIAS\MetaData\Paths\FactoryInterface as PathFactory;
 use ILIAS\MetaData\DataHelper\DataHelperInterface;
+use ILIAS\MetaData\Vocabularies\ElementHelper\ElementHelperInterface;
 
 class FactoryWithoutConditionTypesService
 {
@@ -36,16 +36,16 @@ class FactoryWithoutConditionTypesService
     protected LangFactory $lang;
     protected NonNegIntFactory $non_neg_int;
     protected StringFactory $string;
-    protected VocabSourceFactory $vocab_source;
     protected VocabValueFactory $vocab_value;
 
     public function __construct(
         UIFactory $ui_factory,
         PresenterInterface $presenter,
         ConstraintDictionary $constraint_dictionary,
-        VocabulariesInterface $vocabularies,
         Refinery $refinery,
-        DataHelperInterface $data_helper
+        DataHelperInterface $data_helper,
+        ElementHelperInterface $element_vocab_helper,
+        PathFactory $path_factory
     ) {
         $this->datetime = new DatetimeFactory(
             $ui_factory,
@@ -76,18 +76,17 @@ class FactoryWithoutConditionTypesService
         $this->string = new StringFactory(
             $ui_factory,
             $presenter,
-            $constraint_dictionary
-        );
-        $this->vocab_source = new VocabSourceFactory(
-            $ui_factory,
-            $presenter,
-            $constraint_dictionary
+            $constraint_dictionary,
+            $element_vocab_helper,
+            $refinery
         );
         $this->vocab_value = new VocabValueFactory(
             $ui_factory,
             $presenter,
             $constraint_dictionary,
-            $vocabularies
+            $element_vocab_helper,
+            $refinery,
+            $path_factory
         );
     }
 
@@ -99,9 +98,6 @@ class FactoryWithoutConditionTypesService
 
             case Type::LANG:
                 return $this->lang;
-
-            case Type::VOCAB_SOURCE:
-                return $this->vocab_source;
 
             case Type::VOCAB_VALUE:
                 return $this->vocab_value;

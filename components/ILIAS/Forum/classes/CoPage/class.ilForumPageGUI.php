@@ -87,4 +87,23 @@ class ilForumPageGUI extends ilPageObjectGUI implements ilForumObjectConstants
             }
         }
     }
+
+    public function getAdditionalPageActions(): array
+    {
+        $this->ctrl->setParameterByClass(ilObjForumGUI::class, 'page_editor_style', '1');
+
+        $tabs = [
+            $this->ui->factory()->link()->standard(
+                $this->lng->txt('obj_sty'),
+                $this->ctrl->getLinkTargetByClass([
+                    ilRepositoryGUI::class,
+                    ilObjForumGUI::class
+                ], 'editStyleProperties')
+            )
+        ];
+
+        $this->ctrl->setParameterByClass(ilObjForumGUI::class, 'page_editor_style', null);
+
+        return $tabs;
+    }
 }

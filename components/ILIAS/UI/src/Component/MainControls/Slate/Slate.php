@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\MainControls\Slate;
 
 use ILIAS\UI\Component\Component;
@@ -25,11 +25,12 @@ use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Triggerer;
+use ILIAS\UI\Component\HasHelpTopics;
 
 /**
  * This describes a Slate
  */
-interface Slate extends Component, JavaScriptBindable, Triggerer
+interface Slate extends Component, JavaScriptBindable, Triggerer, HasHelpTopics
 {
     /**
      * Get the name of this slate

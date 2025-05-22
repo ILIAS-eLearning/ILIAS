@@ -16,23 +16,25 @@
  *
  *********************************************************************/
 
-use ILIAS\Setup;
+use ILIAS\Setup\Metrics\CollectedObjective;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\Metrics\Storage;
 
-class ilBackgroundTasksMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
+class ilBackgroundTasksMetricsCollectedObjective extends CollectedObjective
 {
     /**
      * @return \ilIniFilesLoadedObjective[]
      */
-    public function getTentativePreconditions(Setup\Environment $environment): array
+    public function getTentativePreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
 
-    public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage): void
+    public function collectFrom(Environment $environment, Storage $storage): void
     {
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+        $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
         if (!$ini) {
             return;
         }

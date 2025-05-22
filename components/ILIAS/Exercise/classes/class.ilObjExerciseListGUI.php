@@ -49,7 +49,8 @@ class ilObjExerciseListGUI extends ilObjectListGUI
      */
     public function getProperties(): array
     {
-        $props = array();
+        $props = parent::getProperties();
+
         $rem = ilObjExerciseAccess::_lookupRemainingWorkingTimeString($this->obj_id);
         if ($rem["mtime"] != "") {
             $props[] = array(

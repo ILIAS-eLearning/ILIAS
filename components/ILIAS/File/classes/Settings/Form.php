@@ -18,6 +18,7 @@
 
 namespace ILIAS\components\File\Settings;
 
+use ILIAS\UI\Component\Input\Field\Factory;
 use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Component\Input\Field\Section;
 
@@ -27,7 +28,7 @@ use ILIAS\UI\Component\Input\Field\Section;
 class Form
 {
     private \ilLanguage $language;
-    private \ILIAS\UI\Component\Input\Field\Factory $field_factory;
+    private Factory $field_factory;
     private \ILIAS\Refinery\Factory $refinery;
 
     public function __construct(private General $settings)

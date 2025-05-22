@@ -34,55 +34,28 @@ class ilWebDAVMountInstructionsUploadGUI
 {
     public const ACTION_SAVE_ADD_DOCUMENT_FORM = 'saveAddDocumentForm';
     public const ACTION_SAVE_EDIT_DOCUMENT_FORM = 'saveEditDocumentForm';
-
-    private ilGlobalTemplateInterface $tpl;
-    private ilObjUser $user;
-    private ilCtrlInterface $ctrl;
-    private ilLanguage $lng;
-    private ilRbacSystem $rbacsystem;
-    private ilErrorHandling $error;
-    private ilLogger $log;
-    private ilToolbarGUI $toolbar;
-    private Services $http;
-    private RefineryFactory $refinery;
     private UIFactory $ui_factory;
     private Renderer $ui_renderer;
-    private Filesystems $file_systems;
-    private FileUpload $file_upload;
-    private ilWebDAVMountInstructionsRepository $mount_instructions_repository;
     private int $webdav_object_ref_id;
 
     public function __construct(
-        ilGlobalTemplateInterface $tpl,
-        ilObjUser $user,
-        ilCtrlInterface $ctrl,
-        ilLanguage $lng,
-        ilRbacSystem $rbacsystem,
-        ilErrorHandling $error,
-        ilLogger $log,
-        ilToolbarGUI $toolbar,
-        Services $http,
-        RefineryFactory $refinery,
+        private ilGlobalTemplateInterface $tpl,
+        private ilObjUser $user,
+        private ilCtrlInterface $ctrl,
+        private ilLanguage $lng,
+        private ilRbacSystem $rbacsystem,
+        private ilErrorHandling $error,
+        private ilLogger $log,
+        private ilToolbarGUI $toolbar,
+        private Services $http,
+        private RefineryFactory $refinery,
         UIServices $ui,
-        Filesystems $file_systems,
-        FileUpload $file_upload,
-        ilWebDAVMountInstructionsRepository $mount_instructions_repository
+        private Filesystems $file_systems,
+        private FileUpload $file_upload,
+        private ilWebDAVMountInstructionsRepository $mount_instructions_repository
     ) {
-        $this->tpl = $tpl;
-        $this->ctrl = $ctrl;
-        $this->lng = $lng;
-        $this->rbacsystem = $rbacsystem;
-        $this->error = $error;
-        $this->user = $user;
-        $this->log = $log;
-        $this->toolbar = $toolbar;
-        $this->http = $http;
-        $this->refinery = $refinery;
         $this->ui_factory = $ui->factory();
         $this->ui_renderer = $ui->renderer();
-        $this->file_systems = $file_systems;
-        $this->file_upload = $file_upload;
-        $this->mount_instructions_repository = $mount_instructions_repository;
 
         $this->lng->loadLanguageModule('meta');
     }
@@ -136,14 +109,17 @@ class ilWebDAVMountInstructionsUploadGUI
             $this->http->request(),
             $this->rbacsystem->checkAccess('write', $this->webdav_object_ref_id)
         );
-        $document_tbl_gui->setProvider(new ilWebDAVMountInstructionsTableDataProvider($this->mount_instructions_repository));
+        $document_tbl_gui->setProvider(
+            new ilWebDAVMountInstructionsTableDataProvider($this->mount_instructions_repository)
+        );
         $document_tbl_gui->populate();
 
         $this->tpl->setContent($document_tbl_gui->getHTML());
     }
 
-    protected function getDocumentForm(ilWebDAVMountInstructionsDocument $a_document): ilWebDAVMountInstructionsDocumentFormGUI
-    {
+    protected function getDocumentForm(
+        ilWebDAVMountInstructionsDocument $a_document
+    ): ilWebDAVMountInstructionsDocumentFormGUI {
         if ($a_document->getId() > 0) {
             $this->ctrl->setParameter($this, 'doc_id', $a_document->getId());
 
@@ -226,7 +202,9 @@ class ilWebDAVMountInstructionsUploadGUI
         }
 
         $document_id = $this->http->wrapper()->query()->retrieve('document_id', $this->refinery->kindlyTo()->int());
-        $form = $this->getDocumentForm($this->mount_instructions_repository->getMountInstructionsDocumentById($document_id));
+        $form = $this->getDocumentForm(
+            $this->mount_instructions_repository->getMountInstructionsDocumentById($document_id)
+        );
         if ($form->updateObject()) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             if ($form->hasTranslatedInfo()) {
@@ -261,7 +239,7 @@ class ilWebDAVMountInstructionsUploadGUI
         }
 
         $sorting = $this->http->request()->getParsedBody()['sorting'] ?? [];
-        if (!is_array($sorting) || 0 === count($sorting)) {
+        if (!is_array($sorting) || [] === $sorting) {
             $this->showDocuments();
             return;
         }
@@ -270,7 +248,7 @@ class ilWebDAVMountInstructionsUploadGUI
         asort($sorting, SORT_NUMERIC);
 
         $position = 0;
-        foreach ($sorting as $document_id => $ignored_sort_value) {
+        foreach (array_keys($sorting) as $document_id) {
             // Only accept numbers
             if (!is_numeric($document_id)) {
                 continue;

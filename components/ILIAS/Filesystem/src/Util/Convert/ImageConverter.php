@@ -173,12 +173,13 @@ class ImageConverter
             self::RESOLUTION,
             self::RESOLUTION
         );
-        $this->image->resampleImage(
+        // High density images do not support Resampling, cache to small. we deactivate this
+        /*$this->image->resampleImage(
             self::RESOLUTION,
             self::RESOLUTION,
             \Imagick::FILTER_LANCZOS,
             1
-        );
+        );*/
         $quality = $this->output_options->getQuality();
 
         // if $this->output_options->getFormat() is 'keep', we map it to the original format
@@ -216,7 +217,7 @@ class ImageConverter
                     $this->image->setImageAlphaChannel(\Imagick::ALPHACHANNEL_ACTIVATE);
                 }
                 $this->image->setImageFormat('png');
-                $this->image->setOption('png:compression-level', (string)$png_compression_level);
+                $this->image->setOption('png:compression-level', (string) $png_compression_level);
                 break;
         }
         $this->image->stripImage();

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @defgroup ServicesCopyWizard Services/CopyWizard
@@ -242,6 +242,7 @@ class ilCopyWizardOptions
      */
     public function storeTree(int $a_source_id): void
     {
+        $this->tmp_tree = [];
         $this->readTree($a_source_id);
         $a_tree_structure = $this->tmp_tree;
 

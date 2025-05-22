@@ -18,7 +18,12 @@
 
 namespace ILIAS\Filesystem\Provider\FlySystem;
 
-\Hamcrest\Util::registerGlobalFunctions();
+use Hamcrest\Util;
+use Mockery\LegacyMockInterface;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\Small;
+
+Util::registerGlobalFunctions();
 
 use ILIAS\Filesystem\DTO\Metadata;
 use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
@@ -26,10 +31,8 @@ use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\MetadataType;
 use ILIAS\Filesystem\Visibility;
 use League\Flysystem\DirectoryListing;
-use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\FilesystemOperator;
-use League\Flysystem\RootViolationException;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery\MockInterface;
@@ -47,12 +50,12 @@ class FlySystemDirectoryAccessTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private \ILIAS\Filesystem\Provider\FlySystem\FlySystemDirectoryAccess|\Mockery\MockInterface $subject;
+    private FlySystemDirectoryAccess|MockInterface $subject;
     /**
      * @var FilesystemInterface | MockInterface $filesystemMock
      */
-    private \Mockery\LegacyMockInterface $filesystemMock;
-    private \ILIAS\Filesystem\Provider\FlySystem\FlySystemFileAccess|\Mockery\MockInterface $fileAccessMock;
+    private LegacyMockInterface $filesystemMock;
+    private FlySystemFileAccess|MockInterface $fileAccessMock;
 
     /**
      * @inheritDoc
@@ -67,10 +70,8 @@ class FlySystemDirectoryAccessTest extends TestCase
         $this->subject = new FlySystemDirectoryAccess($this->filesystemMock, $this->fileAccessMock);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testHasDirWhichShouldSucceed(): void
     {
         $path = '/path/to/dir';
@@ -84,10 +85,8 @@ class FlySystemDirectoryAccessTest extends TestCase
         $this->assertTrue($exists);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testHasDirWithFileTargetWhichShouldFail(): void
     {
         $path = '/path/to/file';
@@ -101,10 +100,8 @@ class FlySystemDirectoryAccessTest extends TestCase
         $this->assertFalse($exists);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testHasDirWithMissingDirWhichShouldSucceed(): void
     {
         $path = '/path/to/dir';
@@ -118,10 +115,8 @@ class FlySystemDirectoryAccessTest extends TestCase
         $this->assertFalse($exists);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testListContentsWhichShouldSucceed(): void
     {
         $path = '/path/to/dir';
@@ -163,10 +158,8 @@ class FlySystemDirectoryAccessTest extends TestCase
         $this->assertFalse($content[1]->isFile());
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testListContentsWithMissingRootDirectoryWhichShouldFail(): void
     {
         $path = '/path/to/dir';
@@ -182,10 +175,8 @@ class FlySystemDirectoryAccessTest extends TestCase
         $this->subject->listContents($path);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testListContentsWithInvalidMetadataWhichShouldFail(): void
     {
         $path = '/path/to/dir';
@@ -218,10 +209,8 @@ class FlySystemDirectoryAccessTest extends TestCase
         $this->subject->listContents($path);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testCreateDirWhichShouldSucceed(): void
     {
         $path = '/path/to/dir';
@@ -236,10 +225,8 @@ class FlySystemDirectoryAccessTest extends TestCase
         $this->subject->createDir($path, $access);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testCreateDirWithGeneralErrorWhichShouldFail(): void
     {
         $path = '/path/to/dir';
@@ -257,10 +244,8 @@ class FlySystemDirectoryAccessTest extends TestCase
         $this->subject->createDir($path, $access);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testCreateDirWithInvalidVisibilityWhichShouldFail(): void
     {
         $path = '/path/to/dir';
@@ -272,10 +257,8 @@ class FlySystemDirectoryAccessTest extends TestCase
         $this->subject->createDir($path, $access);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testCopyDirWhichShouldSucceed(): void
     {
         $srcPath = '/source/path/to/dir';
@@ -342,10 +325,8 @@ class FlySystemDirectoryAccessTest extends TestCase
         $subjectMock->copyDir($srcPath, $destPath);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testCopyDirWithDestinationListContentErrorWhichShouldSucceed(): void
     {
         $srcPath = '/source/path/to/dir';
@@ -410,10 +391,8 @@ class FlySystemDirectoryAccessTest extends TestCase
         $subjectMock->copyDir($srcPath, $destPath);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testCopyDirWithFullDestinationDirWhichShouldFail(): void
     {
         $srcPath = '/source/path/to/dir';
@@ -454,10 +433,8 @@ class FlySystemDirectoryAccessTest extends TestCase
         $subjectMock->copyDir($srcPath, $destPath);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testCopyDirWithMissingSourceDirWhichShouldFail(): void
     {
         $srcPath = '/source/path/to/dir';
@@ -479,10 +456,8 @@ class FlySystemDirectoryAccessTest extends TestCase
         $subjectMock->copyDir($srcPath, $destPath);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testDeleteDirWhichShouldSucceed(): void
     {
         $path = '/directory/which/should/be/removed';
@@ -500,10 +475,8 @@ class FlySystemDirectoryAccessTest extends TestCase
         $this->subject->deleteDir($path);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testDeleteDirWithRootViolationWhichShouldFail(): void
     {
         $path = '';
@@ -520,10 +493,8 @@ class FlySystemDirectoryAccessTest extends TestCase
         $this->subject->deleteDir($path);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testDeleteDirWithGeneralErrorWhichShouldFail(): void
     {
         $path = '/directory/which/should/be/removed';

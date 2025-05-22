@@ -36,8 +36,6 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof ViewControl\Standard) {
             if (!$component->getRequest()) {
                 throw new LogicException("No request was passed to the container. Please call 'withRequest' on the Container.");
@@ -45,7 +43,7 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderStandard($component, $default_renderer);
         }
 
-        throw new LogicException("Cannot render: " . get_class($component));
+        $this->cannotHandleComponent($component);
     }
 
 
@@ -112,15 +110,5 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("INPUTS", $default_renderer->render($inputs));
         $tpl->setVariable('ID', $id);
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Input\Container\ViewControl\Standard::class
-        ];
     }
 }

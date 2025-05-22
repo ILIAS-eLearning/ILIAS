@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
 /**
@@ -28,24 +28,18 @@ class ilMMTopItemTableGUI extends ilTable2GUI
 {
     use Hasher;
 
-    private ilMMItemRepository $item_repository;
-
-    private ilObjMainMenuAccess $access;
-
     /**
      * ilMMTopItemTableGUI constructor.
      * @param ilMMTopItemGUI      $a_parent_obj
      * @param ilMMItemRepository  $item_repository
      * @param ilObjMainMenuAccess $access
      */
-    public function __construct(ilMMTopItemGUI $a_parent_obj, ilMMItemRepository $item_repository, ilObjMainMenuAccess $access)
+    public function __construct(ilMMTopItemGUI $a_parent_obj, private ilMMItemRepository $item_repository, private ilObjMainMenuAccess $access)
     {
-        $this->access = $access;
         $this->setId(self::class);
         $this->setExternalSorting(true);
         $this->setExternalSegmentation(true);
         parent::__construct($a_parent_obj);
-        $this->item_repository = $item_repository;
         $this->lng = $this->parent_obj->lng;
         $this->setData($this->resolveData());
         $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
@@ -71,6 +65,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function fillRow(array $a_set): void
     {
         static $position;
@@ -113,7 +108,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI
             $rendered_modal = "";
             if ($item_facade->isDeletable()) {
                 $ditem = $factory->modal()->interruptiveItem()->standard($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
-                $action = $this->ctrl->getFormActionByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DELETE);
+                $action = $this->ctrl->getFormActionByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_DELETE);
                 $m = $factory->modal()
                                   ->interruptive($this->lng->txt(ilMMTopItemGUI::CMD_DELETE), $this->lng->txt(ilMMTopItemGUI::CMD_CONFIRM_DELETE), $action)
                                   ->withAffectedItems([$ditem]);

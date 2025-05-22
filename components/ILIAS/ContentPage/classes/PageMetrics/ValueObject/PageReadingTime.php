@@ -22,11 +22,6 @@ namespace ILIAS\ContentPage\PageMetrics\ValueObject;
 
 use ilException;
 
-/**
- * Class PageReadingTime
- * @package ILIAS\ContentPage\PageMetrics\ValueObject
- * @author Michael Jansen <mjansen@databay.de>
- */
 class PageReadingTime
 {
     private readonly int $minutes;

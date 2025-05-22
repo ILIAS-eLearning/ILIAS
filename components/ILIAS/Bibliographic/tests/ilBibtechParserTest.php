@@ -25,7 +25,7 @@ use ILIAS\Refinery\Factory;
 
 class ilBibtechParserTest extends TestCase
 {
-    private ?\ILIAS\DI\Container $dic_backup = null;
+    private ?Container $dic_backup = null;
 
     protected function setUp(): void
     {

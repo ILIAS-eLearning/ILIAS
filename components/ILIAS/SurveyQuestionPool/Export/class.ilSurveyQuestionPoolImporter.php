@@ -31,26 +31,33 @@ class ilSurveyQuestionPoolImporter extends ilXmlImporter
         // Container import => test object already created
         if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
-        } else {	// case ii, non container
-            // Shouldn't happen
-            $GLOBALS['ilLog']->write(__METHOD__ . ': Called in non container mode');
-            return;
+        } else { // case ii, non container
+            $newObj = new ilObjSurveyQuestionPool();
+            $new_id = $newObj->create();
         }
 
+        # Try legacy import
         $xml_file = $this->getXmlFileName();
-
-        if (!file_exists($xml_file)) {
+        if (file_exists($xml_file)) {
             $GLOBALS['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
-            return;
+            // import qti data
+            $newObj->importObject($xml_file);
         }
 
-        // import qti data
-        $newObj->importObject($xml_file);
+        $import = new SurveyImportParser($new_id, "", true);
+        $import->setXMLContent($a_xml);
+        $import->startParsing();
         $a_mapping->addMapping(
             "components/ILIAS/SurveyQuestionPool",
             "spl",
             $a_id,
             $newObj->getId()
+        );
+        $a_mapping->addMapping(
+            'components/ILIAS/MetaData',
+            'md',
+            $a_id . ':0:spl',
+            $newObj->getId() . ':0:spl'
         );
     }
 

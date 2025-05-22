@@ -1,6 +1,6 @@
 # Multilinguasm
 
-There is a high dependency of this component to Services/Object, especially the ObjectTranslation classes.
+There is a high dependency of this component to ILIAS/Object, especially the ObjectTranslation classes.
 
 ## Variants of support
 - Objects may not use any translations at all
@@ -23,7 +23,7 @@ The naming of variables/concepts has become inconsistent over time.
 
 ### Default Language
 
-- The `ilObjectTranslation` class contains methods to get the default language, description and title, as well to set the default title and description.
+- The `ILIAS\ILIASObject\Properties\Translations\Translations` class contains methods to get the default language, description and title, as well to set the default title and description.
 - Default language here means: Fallback language, if given, master language otherwise.
 
 ## Storing title/description

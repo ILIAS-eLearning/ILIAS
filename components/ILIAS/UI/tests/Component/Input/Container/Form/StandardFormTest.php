@@ -21,10 +21,11 @@ declare(strict_types=1);
 require_once(__DIR__ . "/../../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../../Base.php");
 require_once(__DIR__ . "/FormTest.php");
+require_once(__DIR__ . "/../../Field/CommonFieldRendering.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Data;
-use ILIAS\UI\Component\Button\Factory;
+use ILIAS\UI\Implementation\Component\Button\Factory;
 use ILIAS\UI\Implementation\Component as I;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Implementation\Component\Input\Container\Form;
@@ -71,21 +72,14 @@ class InputNameSource implements NameSource
  */
 class StandardFormTest extends ILIAS_UI_TestBase
 {
+    use CommonFieldRendering;
+
     protected function buildFactory(): I\Input\Container\Form\Factory
     {
-        return new I\Input\Container\Form\Factory($this->buildInputFactory());
-    }
 
-    protected function buildInputFactory(): I\Input\Field\Factory
-    {
-        $df = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
-        return new I\Input\Field\Factory(
-            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
-            new SignalGenerator(),
-            $df,
-            new \ILIAS\Refinery\Factory($df, $language),
-            $language
+        return new I\Input\Container\Form\Factory(
+            $this->getFieldFactory(),
+            new SignalGenerator()
         );
     }
 
@@ -102,16 +96,29 @@ class StandardFormTest extends ILIAS_UI_TestBase
     public function testGetPostURL(): void
     {
         $f = $this->buildFactory();
-        $if = $this->buildInputFactory();
+        $if = $this->getFieldFactory();
         $url = "MY_URL";
         $form = $f->standard($url, [$if->text("label")]);
         $this->assertEquals($url, $form->getPostURL());
     }
 
+    protected function getTextFieldHtml(): string
+    {
+        return $this->getFormWrappedHtml(
+            'text-field-input',
+            'label',
+            '<input id="id_1" type="text" name="form/input_0" class="c-field-text" />',
+            'byline',
+            'id_1',
+            null,
+            'form/input_0'
+        );
+    }
+
     public function testRender(): void
     {
         $f = $this->buildFactory();
-        $if = $this->buildInputFactory();
+        $if = $this->getFieldFactory();
 
         $url = "MY_URL";
         $form = $f->standard($url, [
@@ -119,24 +126,18 @@ class StandardFormTest extends ILIAS_UI_TestBase
             ]);
 
         $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($form));
+        $html = $this->getDefaultRenderer()->render($form);
 
         $expected = $this->brutallyTrimHTML('
-<form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
-   <div class="il-standard-form-header clearfix">
-      <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
-   </div>
-   <div class="form-group row">
-      <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-      <div class="col-sm-8 col-md-9 col-lg-10">
-         <input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm"/>
-         <div class="help-block">byline</div>
-      </div>
-   </div>
-   <div class="il-standard-form-footer clearfix">
-      <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
-   </div>
-</form>
+        <form class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post">
+           <div class="c-form__header">
+              <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
+           </div>'
+           . $this->getTextFieldHtml() .
+          '<div class="c-form__footer">
+              <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
+           </div>
+        </form>
         ');
         $this->assertHTMLEquals($expected, $html);
     }
@@ -144,7 +145,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
     public function testSubmitCaption(): void
     {
         $f = $this->buildFactory();
-        $if = $this->buildInputFactory();
+        $if = $this->getFieldFactory();
 
         $url = "MY_URL";
         $form = $f->standard($url, [
@@ -162,7 +163,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
     public function testSubmitCaptionRender(): void
     {
         $f = $this->buildFactory();
-        $if = $this->buildInputFactory();
+        $if = $this->getFieldFactory();
 
         $url = "MY_URL";
         $form = $f->standard($url, [
@@ -173,21 +174,15 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($form));
 
         $expected = $this->brutallyTrimHTML('
-<form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
-   <div class="il-standard-form-header clearfix">
-      <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">create</button></div>
-   </div>
-   <div class="form-group row">
-      <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-      <div class="col-sm-8 col-md-9 col-lg-10">
-         <input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm"/>
-         <div class="help-block">byline</div>
-      </div>
-   </div>
-   <div class="il-standard-form-footer clearfix">
-      <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">create</button></div>
-   </div>
-</form>
+        <form class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post">
+           <div class="c-form__header">
+              <div class="c-form__actions"><button class="btn btn-default" data-action="">create</button></div>
+           </div>'
+            . $this->getTextFieldHtml() .
+           '<div class="c-form__footer">
+              <div class="c-form__actions"><button class="btn btn-default" data-action="">create</button></div>
+           </div>
+        </form>
         ');
         $this->assertHTMLEquals($expected, $html);
     }
@@ -195,7 +190,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
     public function testRenderNoUrl(): void
     {
         $f = $this->buildFactory();
-        $if = $this->buildInputFactory();
+        $if = $this->getFieldFactory();
 
         $url = "";
         $form = $f->standard($url, [
@@ -206,21 +201,19 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($form));
 
         $expected = $this->brutallyTrimHTML('
-<form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
-   <div class="il-standard-form-header clearfix">
-      <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
-   </div>
-   <div class="form-group row">
-      <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-      <div class="col-sm-8 col-md-9 col-lg-10">
-         <input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm"/>
-         <div class="help-block">byline</div>
-      </div>
-   </div>
-   <div class="il-standard-form-footer clearfix">
-      <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
-   </div>
-</form>
+        <form class="c-form c-form--horizontal" enctype="multipart/form-data" method="post">
+            <div class="c-form__header">
+                <div class="c-form__actions">
+                    <button class="btn btn-default" data-action="">save</button>
+                </div>
+            </div>'
+           . $this->getTextFieldHtml() .
+           '<div class="c-form__footer">
+                <div class="c-form__actions">
+                    <button class="btn btn-default" data-action="">save</button>
+                </div>
+            </div>
+        </form>
         ');
         $this->assertHTMLEquals($expected, $html);
     }
@@ -230,7 +223,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
     {
         $r = $this->getDefaultRenderer();
         $df = new Data\Factory();
-        $language = $this->createMock(\ilLanguage::class);
+        $language = $this->createMock(\ILIAS\Language\Language::class);
         $language
             ->expects($this->once())
             ->method("txt")
@@ -253,7 +246,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $input = $input->withAdditionalTransformation($fail);
 
-        $form = new Form\Standard($if, new InputNameSource(), '', [$input]);
+        $form = new Form\Standard(new SignalGenerator(), $if, new InputNameSource(), '', [$input]);
 
         $request = $this->createMock(ServerRequestInterface::class);
         $request
@@ -268,26 +261,31 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $html = $this->brutallyTrimHTML($r->render($form));
         $expected = $this->brutallyTrimHTML('
-            <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
-                <div class="il-standard-form-header clearfix">
-                    <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
-                </div>
-
-                <div class="help-block alert alert-danger" role="alert">testing error message</div>
-
-                <div class="form-group row">
-                    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-                    <div class="col-sm-8 col-md-9 col-lg-10">
-                        <div class="help-block alert alert-danger" aria-describedby="id_1" role="alert">This is invalid...</div>
-                        <input id="id_1" type="text" name="form_0/input_1" class="form-control form-control-sm" />
-                        <div class="help-block">byline</div>
-                    </div>
-                </div>
-                <div class="il-standard-form-footer clearfix">
-                    <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
-                </div>
-            </form>
-        ');
+<form class="c-form c-form--horizontal" enctype="multipart/form-data" method="post">
+    <div class="c-form__header">
+        <div class="c-form__actions">
+            <button class="btn btn-default" data-action="">save</button>
+        </div>
+    </div>
+    <div class="c-form__error-msg alert alert-danger"><span class="sr-only">ui_error:</span>testing error
+        message
+    </div>
+    <fieldset class="c-input" data-il-ui-component="text-field-input" data-il-ui-input-name="form_0/input_1"
+              aria-describedby="id_2"><label for="id_1">label</label>
+        <div class="c-input__field"><input id="id_1" type="text" name="form_0/input_1" class="c-field-text" /></div>
+        <div class="c-input__error-msg alert alert-danger" id="id_2"><span class="sr-only">ui_error:</span>This is
+            invalid...
+        </div>
+        <div class="c-input__help-byline">byline</div>
+    </fieldset>
+    <div class="c-form__footer">
+        <div class="c-form__actions">
+            <button class="btn btn-default" data-action="">save</button>
+        </div>
+    </div>
+</form>
+');
+        $this->assertEquals($expected, $html);
         $this->assertHTMLEquals($expected, $html);
     }
 
@@ -296,7 +294,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
     {
         $r = $this->getDefaultRenderer();
         $df = new Data\Factory();
-        $language = $this->createMock(\ilLanguage::class);
+        $language = $this->createMock(\ILIAS\Language\Language::class);
         $refinery = new \ILIAS\Refinery\Factory($df, $language);
 
         $if = new ILIAS\UI\Implementation\Component\Input\Field\Factory(
@@ -312,7 +310,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         }, "This is a fail on form.");
         $input = $if->text("label", "byline");
 
-        $form = new Form\Standard($if, new InputNameSource(), '', [$input]);
+        $form = new Form\Standard(new SignalGenerator(), $if, new InputNameSource(), '', [$input]);
         $form = $form->withAdditionalTransformation($fail);
 
         $request = $this->createMock(ServerRequestInterface::class);
@@ -326,24 +324,27 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $form = $form->withRequest($request);
         $this->assertNull($form->getData());
 
+
+        $field_html = $this->getFormWrappedHtml(
+            'text-field-input',
+            'label',
+            '<input id="id_1" type="text" name="form_0/input_1" class="c-field-text"/>',
+            'byline',
+            'id_1',
+            null,
+            'form_0/input_1'
+        );
+
         $html = $this->brutallyTrimHTML($r->render($form));
         $expected = $this->brutallyTrimHTML('
-            <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
-                <div class="il-standard-form-header clearfix">
-                    <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
+            <form class="c-form c-form--horizontal" enctype="multipart/form-data" method="post">
+                <div class="c-form__header">
+                    <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
                 </div>
-
-                <div class="help-block alert alert-danger" role="alert">This is a fail on form.</div>
-
-                <div class="form-group row">
-                    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-                    <div class="col-sm-8 col-md-9 col-lg-10">
-                        <input id="id_1" type="text" name="form_0/input_1" class="form-control form-control-sm" />
-                        <div class="help-block">byline</div>
-                    </div>
-                </div>
-                <div class="il-standard-form-footer clearfix">
-                    <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
+                <div class="c-form__error-msg alert alert-danger"><span class="sr-only">ui_error:</span>This is a fail on form.</div>
+                ' . $field_html . '
+                <div class="c-form__footer">
+                    <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
                 </div>
             </form>
         ');
@@ -353,7 +354,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
     public function testStandardFormRenderWithRequired(): void
     {
         $f = $this->buildFactory();
-        $if = $this->buildInputFactory();
+        $if = $this->getFieldFactory();
 
         $url = "MY_URL";
         $form = $f->standard($url, [$if->text("label", "byline")->withRequired(true)]);
@@ -361,26 +362,30 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $html = $this->brutallyTrimHTML($r->render($form));
 
+        $field_html = $this->getFormWrappedHtml(
+            'text-field-input',
+            'label<span class="asterisk" aria-label="required_field">*</span>',
+            '<input id="id_1" type="text" name="form/input_0" class="c-field-text" />',
+            'byline',
+            'id_1',
+            null,
+            'form/input_0'
+        );
+
         $expected = $this->brutallyTrimHTML('
-<form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
-    <div class="il-standard-form-header clearfix">
-        <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
-        <div class="il-standard-form-required">
+<form class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post">
+    <div class="c-form__header">
+        <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
+        <div class="c-form__required">
             <span class="asterisk">*</span><span class="small"> required_field</span>
         </div>
     </div>
-    <div class="form-group row">
-        <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>
-        <div class="col-sm-8 col-md-9 col-lg-10">
-            <input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm"/>
-             <div class="help-block">byline</div>
+    ' . $field_html . '
+    <div class="c-form__footer">
+        <div class="c-form__required">
+            <span class="asterisk">*</span><span class="small"> required_field</span>
         </div>
-    </div>
-    <div class="il-standard-form-footer clearfix">
-        <span class="asterisk">*</span><span class="small"> required_field</span>
-    </div>
-   <div class="il-standard-form-footer clearfix">
-      <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
+      <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
    </div>
 </form>
         ');

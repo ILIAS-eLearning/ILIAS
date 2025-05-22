@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 2018 - Richard Klees <richard.klees@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
 
 namespace ILIAS\KioskMode;
 
@@ -29,7 +43,7 @@ interface ControlBuilder
      *
      * @throws \LogicException if view wants to introduce a second next button.
      */
-    public function next(string $command, int $parameter = null): ControlBuilder;
+    public function next(string $command, ?int $parameter = null): ControlBuilder;
 
     /**
      * A previous control allows the user to go back to the previous item in the object.
@@ -39,7 +53,7 @@ interface ControlBuilder
      *
      * @throws \LogicException if view wants to introduce a second previous button.
      */
-    public function previous(string $command, int $parameter = null): ControlBuilder;
+    public function previous(string $command, ?int $parameter = null): ControlBuilder;
 
     /**
      * A done control allows the user to mark the object as done.
@@ -49,7 +63,7 @@ interface ControlBuilder
      *
      * @throws \LogicException if view wants to introduce a second done button.
      */
-    public function done(string $command, int $parameter = null): ControlBuilder;
+    public function done(string $command, ?int $parameter = null): ControlBuilder;
 
     /**
      * A generic control needs to have a label that tells what it does.
@@ -57,7 +71,7 @@ interface ControlBuilder
      * The $parameter can be used to pass additional information to View::updateGet
      * if required, e.g. about a chapter in the content.
      */
-    public function generic(string $label, string $command, int $parameter = null): ControlBuilder;
+    public function generic(string $label, string $command, ?int $parameter = null): ControlBuilder;
 
     /**
      * A genericWithSignal will trigger the Signal rather than refreshing the View.
@@ -99,5 +113,5 @@ interface ControlBuilder
      * @param	mixed $state one of the STATE_ constants from TOCBuilder
      */
 
-    public function tableOfContent(string $label, string $command, int $parameter = null, $state = null): TOCBuilder;
+    public function tableOfContent(string $label, string $command, ?int $parameter = null, $state = null): TOCBuilder;
 }

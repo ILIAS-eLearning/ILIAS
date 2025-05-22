@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\MediaObjects\MediaObjectManager;
+
 const NEWS_NOTICE = 0;
 const NEWS_MESSAGE = 1;
 const NEWS_WARNING = 2;
@@ -40,6 +42,7 @@ const NEWS_PUBLIC = "public";
 class ilNewsItem
 {
     private int $mob_cnt_download = 0;
+    protected MediaObjectManager $media_manager;
     protected int $mob_cnt_play = 0;
     protected ilDBInterface $db;
     protected ilTree $tree;
@@ -91,6 +94,7 @@ class ilNewsItem
         }
         $this->limitation = true;
         $this->log = $DIC->logger()->news();
+        $this->media_manager = $DIC->mediaObjects()->internal()->domain()->mediaObject();
     }
 
     public function setId(int $a_id): void
@@ -614,7 +618,7 @@ class ilNewsItem
         bool $a_forum_group_sequences = false,
         bool $a_no_auto_generated = false,
         bool $a_ignore_date_filter = false,
-        int $a_user_id = null,
+        ?int $a_user_id = null,
         int $a_limit = 0,
         array $a_excluded = []
     ): array {
@@ -735,7 +739,7 @@ class ilNewsItem
         bool $a_prevent_aggregation = false,
         string $a_starting_date = "",
         bool $a_no_auto_generated = false,
-        int $a_user_id = null,
+        ?int $a_user_id = null,
         int $a_limit = 0,
         array $a_exclude = []
     ): array {
@@ -1215,7 +1219,7 @@ class ilNewsItem
         $a_time_period = 0,
         string $a_starting_date = "",
         bool $a_no_auto_generated = false,
-        int $a_user_id = null,
+        ?int $a_user_id = null,
         int $a_limit = 0,
         array $a_exclude = []
     ): array {
@@ -1629,11 +1633,14 @@ class ilNewsItem
         string $a_title,
         bool $a_content_is_lang_var,
         int $a_agg_ref_id = 0,
-        array $a_aggregation = []
+        array $a_aggregation = [],
+        ?ilLanguage $lng = null
     ): string {
         global $DIC;
 
-        $lng = $DIC->language();
+        if (is_null($lng)) {
+            $lng = $DIC->language();
+        }
         $obj_definition = $DIC["objDefinition"];
         $tit = "";
 
@@ -1691,11 +1698,14 @@ class ilNewsItem
     public static function determineNewsContent(
         string $a_context_obj_type,
         string $a_content,
-        bool $a_is_lang_var
+        bool $a_is_lang_var,
+        ?ilLanguage $lng = null
     ): string {
         global $DIC;
 
-        $lng = $DIC->language();
+        if (is_null($lng)) {
+            $lng = $DIC->language();
+        }
         $obj_definition = $DIC["objDefinition"];
 
         if ($a_is_lang_var) {
@@ -1914,15 +1924,10 @@ class ilNewsItem
 
         $m_item = $mob->getMediaItem($a_purpose);
         if ($m_item->getLocationType() !== "Reference") {
-            $file = $mob_dir . "/" . $m_item->getLocation();
-            if (file_exists($file) && is_file($file)) {
-                if ($a_increase_download_cnt) {
-                    $this->increaseDownloadCounter();
-                }
-                ilFileDelivery::deliverFileLegacy($file, $m_item->getLocation(), "", false, false, false);
-                return true;
+            $this->media_manager->deliverEntry($mob->getId(), "/" . $m_item->getLocation());
+            if ($a_increase_download_cnt) {
+                $this->increaseDownloadCounter();
             }
-
             $this->main_tpl->setOnScreenMessage('failure', "File not found!", true);
             return false;
         }

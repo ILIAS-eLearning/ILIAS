@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Table\Data;
@@ -11,6 +27,12 @@ use ILIAS\Data\Order;
 use ILIAS\UI\URLBuilder;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function base()
 {
     global $DIC;
@@ -35,8 +57,8 @@ function base()
         'achieve' => $f->table()->column()->statusIcon("progress")
             ->withIsOptional(true),
         'achieve_txt' => $f->table()->column()->status("success")
-            ->withIsSortable(false)
-            ->withIsOptional(true),
+            ->withIsSortable(true)
+            ->withIsOptional(true, false),
         'repeat' => $f->table()->column()->boolean("repeat", 'yes', 'no')
             ->withIsSortable(false),
         'fee' => $f->table()->column()->number("Fee")
@@ -157,10 +179,10 @@ function base()
                     $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_x.svg', '', 'small'),
                 ];
                 $icon = $icons[2];
-                if($record['achieve'] > 80) {
+                if ($record['achieve'] > 80) {
                     $icon = $icons[0];
                 }
-                if($record['achieve'] < 30) {
+                if ($record['achieve'] < 30) {
                     $icon = $icons[1];
                 }
                 $record['achieve'] = $icon;
@@ -178,7 +200,7 @@ function base()
             return count($this->getRecords());
         }
 
-        protected function getRecords(Range $range = null, Order $order = null): array
+        protected function getRecords(?Range $range = null, ?Order $order = null): array
         {
             $records = [
                 ['usr_id' => 123,'login' => 'superuser','email' => 'user@example.com',
@@ -224,9 +246,15 @@ function base()
      * with an ID for the table, parameters will be stored throughout url changes
      */
     $table = $f->table()
-            ->data('a data table', $columns, $data_retrieval)
+            ->data($data_retrieval, 'a data table', $columns)
             ->withId('example_base')
             ->withActions($actions)
+
+            //these are initial settings that apply if the according view control
+            //has not been operated, yet
+            ->withRange(new Range(0, 2))
+            ->withOrder(new Order('achieve', Order::DESC))
+
             ->withRequest($request);
 
     /**

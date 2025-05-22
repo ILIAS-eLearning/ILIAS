@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,14 +16,11 @@
  *
  *********************************************************************/
 
-/**
- * Class ilWACToken
- *
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 1.0.0
- */
 class ilWACToken
 {
+    /**
+     * @var string
+     */
     private const SALT_FILE_PATH = __DIR__ . '/../../../../public/data/wacsalt.php';
     protected static string $SALT = '';
     protected string $session_id = '';
@@ -63,12 +61,12 @@ class ilWACToken
     public function generateToken(): void
     {
         $this->initSalt();
-        $token = implode('-', array(
+        $token = implode('-', [
             self::getSALT(),
             $this->getClient(),
             $this->getTimestamp(),
             $this->getTTL(),
-        ));
+        ]);
         $this->setRawToken($token);
         $token = sha1($token);
         $this->setToken($token);
@@ -103,8 +101,8 @@ class ilWACToken
             unlink(self::SALT_FILE_PATH);
         }
         $template = file_get_contents(__DIR__ . '/../wacsalt.php.template');
-        $random = new \ilRandom();
-        $salt = md5(time() * $random->int(1000, 9999) . self::SALT_FILE_PATH);
+        $random = new \Random\Randomizer();
+        $salt = md5(time() * $random->getInt(1000, 9999) . self::SALT_FILE_PATH);
         self::setSALT($salt);
         $template = str_replace('INSERT_SALT', $salt, $template);
         if (is_writable(dirname(self::SALT_FILE_PATH))) {

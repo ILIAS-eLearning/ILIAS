@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Exercise\Assignment;
 
@@ -50,12 +50,12 @@ class DomainService
     }
 
 
-    public function assignments(int $ref_id, int $user_id): AssignmentManager
+    public function assignments(int $obj_id, int $user_id): AssignmentManager
     {
         return new AssignmentManager(
             $this->repo_service,
             $this->domain_service,
-            $ref_id,
+            $obj_id,
             $user_id
         );
     }
@@ -64,7 +64,7 @@ class DomainService
      * Get random assignment manager.
      * The manager is used if the "Pass Mode" is set to "Random Selection" in the exercise settings.
      */
-    public function randomAssignments(\ilObjExercise $exercise, \ilObjUser $user = null): Mandatory\RandomAssignmentsManager
+    public function randomAssignments(\ilObjExercise $exercise, ?\ilObjUser $user = null): Mandatory\RandomAssignmentsManager
     {
         if (!isset(self::$managers[Mandatory\RandomAssignmentsManager::class][$exercise->getId()])) {
             self::$managers[Mandatory\RandomAssignmentsManager::class][$exercise->getId()] =

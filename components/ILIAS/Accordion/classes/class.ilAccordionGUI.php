@@ -218,7 +218,7 @@ class ilAccordionGUI
     /**
     * Add javascript files that are necessary to run accordion
     */
-    public static function addJavaScript(ilGlobalTemplate $main_tpl = null): void
+    public static function addJavaScript(?ilGlobalTemplate $main_tpl = null): void
     {
         global $DIC;
 
@@ -253,6 +253,12 @@ class ilAccordionGUI
 
     public static function getLocalJavascriptFiles(): array
     {
+        $debug = false;
+        if ($debug) {
+            return array(
+                "../components/ILIAS/Accordion/resources/accordion.js"
+            );
+        }
         return array(
             "assets/js/accordion.js",
             "assets/js" . self::$owl_js_path

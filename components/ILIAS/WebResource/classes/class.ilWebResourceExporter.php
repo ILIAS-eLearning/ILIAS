@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
- * Booking definition
  * @author  Stefan Meyer <meyer@leifos.com>
- * @ingroup ServicesBooking
  */
 class ilWebResourceExporter extends ilXmlExporter
 {
@@ -70,10 +68,22 @@ class ilWebResourceExporter extends ilXmlExporter
         $deps = [];
         // service settings
         $deps[] = [
-            "component" => "components/ILIAS/Object",
+            "component" => "components/ILIAS/ILIASObject",
             "entity" => "common",
             "ids" => $a_ids
         ];
+
+        $md_ids = [];
+        foreach ($a_ids as $id) {
+            $md_ids[] = $id . ':0:webr';
+        }
+        if (!empty($md_ids)) {
+            $deps[] = [
+                'component' => 'components/ILIAS/MetaData',
+                'entity' => 'md',
+                'ids' => $md_ids,
+            ];
+        }
 
         return $deps;
     }

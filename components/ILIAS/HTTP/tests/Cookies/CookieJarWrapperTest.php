@@ -1,5 +1,21 @@
 <?php
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class CookieJarWrapperTest
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
@@ -7,41 +23,25 @@
 
 namespace ILIAS\HTTP\Cookies;
 
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\BackupStaticProperties;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class CookieWrapperTest
  *
  * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
- *
- * @runInSeparateProcess
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
  */
+#[BackupGlobals(false)]
+#[BackupStaticProperties(false)]
+#[PreserveGlobalState(false)]
 class CookieJarWrapperTest extends TestCase
 {
-    /**
-     * @var CookieFactory $cookieFactory
-     */
-    private static $cookieFactory;
-    /**
-     * @var CookieJarFactory $cookieJarFactory
-     */
-    private static $cookieJarFactory;
+    private static CookieFactoryImpl $cookieFactory;
+    private static CookieJarFactoryImpl $cookieJarFactory;
 
 
     public static function setUpBeforeClass(): void
@@ -52,10 +52,8 @@ class CookieJarWrapperTest extends TestCase
     }
 
 
-    /**
-     * @Test
-     */
-    public function testWithDoesNotChangeTheCurrentObject()
+    #[Test]
+    public function testWithDoesNotChangeTheCurrentObject(): void
     {
         $cookieName = "YummyCookie";
         $cookieValue = "MilkAndChocolate";
@@ -71,10 +69,8 @@ class CookieJarWrapperTest extends TestCase
     }
 
 
-    /**
-     * @Test
-     */
-    public function testWithoutDoesNotChangeTheCurrentObject()
+    #[Test]
+    public function testWithoutDoesNotChangeTheCurrentObject(): void
     {
         $cookieName = "YummyCookie";
         $cookieValue = "MilkAndChocolate";

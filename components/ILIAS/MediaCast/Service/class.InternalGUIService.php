@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\MediaCast;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
 use ILIAS\MediaCast\Comments;
+use ILIAS\MediaCast\Settings\GUIService;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -85,4 +86,14 @@ class InternalGUIService
             $this->notes_gui
         );
     }
+
+    public function settings(
+    ): GUIService {
+        return new GUIService(
+            $this->data_service,
+            $this->domain_service,
+            $this
+        );
+    }
+
 }

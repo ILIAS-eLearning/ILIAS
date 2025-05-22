@@ -34,25 +34,18 @@ class AssignmentManager
     protected InternalDomainService $domain;
     protected AssignmentsDBRepository $repo;
     protected int $obj_id;
-    protected int $ref_id;
 
     public function __construct(
         InternalRepoService $repo_service,
         InternalDomainService $domain_service,
-        int $ref_id,
+        int $obj_id,
         int $user_id
     ) {
-        $this->ref_id = $ref_id;
-        $this->obj_id = \ilObject::_lookupObjId($ref_id);
+        $this->obj_id = $obj_id;
         $this->domain = $domain_service;
         $this->repo = $repo_service->assignment()->assignments();
         $this->lng = $domain_service->lng();
         $this->user_id = $user_id;
-    }
-
-    protected function getExcRefId(): int
-    {
-        return $this->ref_id;
     }
 
     protected function getExcId(): int
@@ -100,6 +93,16 @@ class AssignmentManager
             if ($mode === self::TYPE_ONGOING && !$state->hasEnded() && !$state->isFuture()) {
                 yield $ass;
             }
+        }
+    }
+
+    /**
+     * @return iterable<Assignment>
+     */
+    public function getAll(): \Iterator
+    {
+        foreach ($this->repo->getList($this->getExcId()) as $ass) {
+            yield $ass;
         }
     }
 

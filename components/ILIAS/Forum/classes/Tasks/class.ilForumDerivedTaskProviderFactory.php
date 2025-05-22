@@ -31,10 +31,10 @@ class ilForumDerivedTaskProviderFactory implements ilDerivedTaskProviderFactory
 
     public function __construct(
         protected ilTaskService $taskService,
-        ilAccessHandler $accessHandler = null,
-        ilSetting $settings = null,
-        ilLanguage $lng = null,
-        ilCtrlInterface $ctrl = null
+        ?ilAccessHandler $accessHandler = null,
+        ?ilSetting $settings = null,
+        ?ilLanguage $lng = null,
+        ?ilCtrlInterface $ctrl = null
     ) {
         global $DIC;
         $this->accessHandler = is_null($accessHandler)

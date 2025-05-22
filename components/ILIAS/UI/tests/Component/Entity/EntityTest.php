@@ -24,7 +24,7 @@ use ILIAS\UI\Implementation\Component\Button;
 use ILIAS\UI\Implementation\Component\Link;
 use ILIAS\UI\Implementation\Component\Image;
 use ILIAS\UI\Implementation\Component\Dropdown;
-use ILIAS\UI\Implementation\Component\Legacy\Legacy;
+use ILIAS\UI\Implementation\Component\Legacy\Content;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Component as I;
 use ILIAS\UI\Factory as UIFactory;
@@ -36,9 +36,9 @@ class EntityTest extends ILIAS_UI_TestBase
         return new Entity\Factory();
     }
 
-    protected function legacy(string $string): Legacy
+    protected function legacy(string $string): Content
     {
-        return new Legacy($string, (new SignalGenerator()));
+        return new Content($string, (new SignalGenerator()));
     }
 
     public function testEntityFactory(): void
@@ -119,7 +119,7 @@ class EntityTest extends ILIAS_UI_TestBase
     public function getUIFactory(): NoUIFactory
     {
         return new class () extends NoUIFactory {
-            public function dropdown(): I\Dropdown\Factory
+            public function dropdown(): Dropdown\Factory
             {
                 return new Dropdown\Factory();
             }
@@ -147,8 +147,8 @@ class EntityTest extends ILIAS_UI_TestBase
 <div class="c-entity __container">
     <div class="c-entity __blocking-conditions">bc</div>
     <div class="c-entity __actions">
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_9" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_9_menu"><span class="caret"></span></button>
+        <div class="dropdown" id="id_9">
+            <button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_9_menu"><span class="caret"></span></button>
             <ul id="id_9_menu" class="dropdown-menu">
                 <li><button class="btn btn-link" data-action="#" id="id_7">shy</button></li>
                 <li><button class="btn btn-link" data-action="#" id="id_8">shy</button></li>

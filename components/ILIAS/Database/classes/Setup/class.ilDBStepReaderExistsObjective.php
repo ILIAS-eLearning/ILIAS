@@ -16,9 +16,10 @@
  *
  *********************************************************************/
 
-use ILIAS\Setup;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Environment;
 
-class ilDBStepReaderExistsObjective implements Setup\Objective
+class ilDBStepReaderExistsObjective implements Objective
 {
     public function getHash(): string
     {
@@ -35,14 +36,14 @@ class ilDBStepReaderExistsObjective implements Setup\Objective
         return true;
     }
 
-    public function getPreconditions(Setup\Environment $environment): array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilDatabaseUpdatedObjective()
         ];
     }
 
-    public function achieve(Setup\Environment $environment): Setup\Environment
+    public function achieve(Environment $environment): Environment
     {
         return $environment
             ->withResource(
@@ -54,7 +55,7 @@ class ilDBStepReaderExistsObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment): bool
+    public function isApplicable(Environment $environment): bool
     {
         $execution_db = $environment->getResource(ilDBStepReader::class);
         return is_null($execution_db);

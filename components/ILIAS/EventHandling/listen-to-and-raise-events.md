@@ -18,13 +18,13 @@ To register a component as a listener for an event, add the following code to yo
 <module ...>
    ...
    <events>     
-      <event type="listen" id="Services/Tracking" />
+      <event type="listen" id="components/ILIAS/Tracking" />
    </events>
    ...
 </module>
 ```
 
-The example above will register a module for **all** events issued by `Services/Tracking`.
+The example above will register a module for **all** events issued by `ILIAS/Tracking`.
  
 *There is currently no way to register for certain events of a component only, this has to be done in your `EventListener` class.*
 
@@ -36,7 +36,7 @@ If necessary, you can set the id of the component to register manually:
 <module ...>
    ...
    <events>     
-      <event type="listen" id="Services/Tracking" component="Module/Course" />
+      <event type="listen" id="components/ILIAS/Tracking" component="Module/Course" />
    </events>
    ...
 </module>
@@ -74,10 +74,10 @@ To raise an event use the following code (in your application layer):
   
 ```php
 global $ilAppEventHandler;
-$ilAppEventHandler->raise("Services/Tracking", "updateStatus", array(...));
+$ilAppEventHandler->raise("components/ILIAS/Tracking", "updateStatus", array(...));
 ```
 
-This way all registered listeners of the component `Services/Tracking` will be notified for the event `updateStatus`. You should add all relevant data for the event to the 3rd parameter.
+This way all registered listeners of the component `ILIAS/Tracking` will be notified for the event `updateStatus`. You should add all relevant data for the event to the 3rd parameter.
  
 *There is no information available to the calling component which or if any listeners are notified.*
 
@@ -101,7 +101,7 @@ If necessary, you can set the id of the (raising) component manually:
 <module ...>
    ...
    <events>    
-      <event type="raise" id="updateStatus" component="Services/Tracking" />
+      <event type="raise" id="updateStatus" component="components/ILIAS/Tracking" />
    </events>
    ...
 </module>

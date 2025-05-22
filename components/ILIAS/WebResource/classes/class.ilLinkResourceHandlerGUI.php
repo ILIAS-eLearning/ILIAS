@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\HTTP\Services as HTTPService;
 use ILIAS\Refinery\Factory as Refinery;
@@ -62,11 +62,6 @@ class ilLinkResourceHandlerGUI implements ilCtrlBaseClassInterface
             ) : 0;
 
         $next_class = $this->ctrl->getNextClass($this);
-        if ($next_class == "") {
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $this->ctrl->setCmdClass(ilObjLinkResourceGUI::class);
-            $next_class = $this->ctrl->getNextClass($this);
-        }
         if ($this->access->checkAccess("read", "", $ref_id)) {
             $this->navigationHistory->addItem(
                 $ref_id,
@@ -74,11 +69,18 @@ class ilLinkResourceHandlerGUI implements ilCtrlBaseClassInterface
                 "webr"
             );
         }
+        if ($next_class == "") {
+            $this->ctrl->saveParameter($this, 'ref_id');
+            $this->ctrl->redirectByClass(
+                ilObjLinkResourceGUI::class,
+                $this->ctrl->getCmd()
+            );
+        }
         switch ($next_class) {
-            case 'ilobjlinkresourcegui':
+            case strtolower(ilObjLinkResourceGUI::class):
                 $link_gui = new ilObjLinkResourceGUI(
                     $ref_id,
-                    ilObjLinkResourceGUI::REPOSITORY_NODE_ID
+                    ilObject2GUI::REPOSITORY_NODE_ID
                 );
                 $this->ctrl->forwardCommand($link_gui);
                 break;

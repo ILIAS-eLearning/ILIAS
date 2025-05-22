@@ -29,11 +29,8 @@ use ILIAS\UI\Component\Symbol\Icon\Icon;
  */
 class ToastFactory
 {
-    private ToastRendererFactory $renderer_factory;
-
-    public function __construct(ToastRendererFactory $renderer_factory)
+    public function __construct(private ToastRendererFactory $renderer_factory)
     {
-        $this->renderer_factory = $renderer_factory;
     }
 
     /**

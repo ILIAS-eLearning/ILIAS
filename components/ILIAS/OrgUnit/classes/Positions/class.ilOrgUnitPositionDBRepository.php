@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Table;
@@ -88,8 +89,8 @@ class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository, Table\
      * @return ilOrgUnitPosition[]
      */
     public function getAllPositions(
-        Range $range = null,
-        Order $order = null
+        ?Range $range = null,
+        ?Order $order = null
     ): array {
         $sql_order_part = $order ? $order->join('ORDER BY', fn(...$o) => implode(' ', $o)) : '';
         $sql_range_part = $range ? sprintf('LIMIT %2$s OFFSET %1$s', ...$range->unpack()) : '';
@@ -336,10 +337,10 @@ class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository, Table\
         ?array $additional_parameters
     ): \Generator {
         foreach ($this->getAllPositions($range, $order) as $pos) {
-            $row_id = (string)$pos->getId();
+            $row_id = (string) $pos->getId();
             $record = [
                 'title' => $pos->getTitle(),
-                'description' => $pos->getDescription() . 'dd',
+                'description' => $pos->getDescription(),
                 'authorities' => implode("<br>", $this->getAuthorityDescription($pos->getAuthorities())),
                 'is_core_position' => $pos->isCorePosition(),
             ];

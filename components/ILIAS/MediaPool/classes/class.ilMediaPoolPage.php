@@ -140,11 +140,16 @@ class ilMediaPoolPage extends ilPageObject
             case 'General':
 
                 // Update Title and description
-                $md = new ilMD($this->pool->getId(), $this->getId(), $this->getMetadataType());
-                $md_gen = $md->getGeneral();
+                $paths = $this->lom_services->paths();
+                $title = $this->lom_services->read(
+                    $this->pool->getId(),
+                    $this->getId(),
+                    $this->getMetadataType(),
+                    $paths->title()
+                )->firstData($paths->title())->value();
 
                 $item = new ilMediaPoolItem($this->getId());
-                $item->setTitle($md_gen->getTitle());
+                $item->setTitle($title);
                 $item->update();
 
                 break;
@@ -161,31 +166,28 @@ class ilMediaPoolPage extends ilPageObject
     {
         $ilUser = $this->user;
 
-        $md_creator = new ilMDCreator($pool_id, $this->getId(), $this->getMetadataType());
-        $md_creator->setTitle(self::lookupTitle($this->getId()));
-        $md_creator->setTitleLanguage($ilUser->getPref('language'));
-        $md_creator->setDescription("");
-        $md_creator->setDescriptionLanguage($ilUser->getPref('language'));
-        $md_creator->setKeywordLanguage($ilUser->getPref('language'));
-        $md_creator->setLanguage($ilUser->getPref('language'));
-        $md_creator->create();
+        $this->lom_services->derive()
+                           ->fromBasicProperties(
+                               self::lookupTitle($this->getId()),
+                               '',
+                               $ilUser->getPref('language')
+                           )->forObject($pool_id, $this->getId(), $this->getMetadataType());
 
         return true;
     }
 
     public function updateMetaData(): void
     {
-        $md = new ilMD($this->pool->getId(), $this->getId(), $this->getMetadataType());
-        $md_gen = $md->getGeneral();
-        $md_gen->setTitle(self::lookupTitle($this->getId()));
-        $md_gen->update();
+        $paths = $this->lom_services->paths();
+        $this->lom_services->manipulate($this->pool->getId(), $this->getId(), $this->getMetadataType())
+                           ->prepareCreateOrUpdate($paths->title(), self::lookupTitle($this->getId()))
+                           ->execute();
     }
 
 
     public function deleteMetaData(): void
     {
         // Delete meta data
-        $md = new ilMD($this->pool->getId(), $this->getId(), $this->getMetadataType());
-        $md->deleteAll();
+        $this->lom_services->deleteAll($this->pool->getId(), $this->getId(), $this->getMetadataType());
     }
 }

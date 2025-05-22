@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,18 +16,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
-* XML writer class
-*
-* Class for writing xml export versions of courses
-*
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id: class.ilGroupXMLWriter.php 16108 2008-02-28 17:36:41Z rkuester $
-*/class ilGroupXMLWriter extends ilXmlWriter
+*/
+class ilGroupXMLWriter extends ilXmlWriter
 {
-    public const MODE_SOAP = 1;
-    public const MODE_EXPORT = 2;
-    public const EXPORT_VERSION = 3;
+    public const int MODE_SOAP = 1;
+    public const int MODE_EXPORT = 2;
+    public const int EXPORT_VERSION = 3;
 
     private int $mode = self::MODE_SOAP;
 
@@ -69,7 +65,6 @@ declare(strict_types=1);
             $this->logger->debug('Using soap mode');
             $this->__buildHeader();
             $this->__buildGroup();
-            $this->__buildMetaData();
             $this->__buildAdvancedMetaData();
             $this->__buildTitleDescription();
             $this->__buildRegistration();
@@ -126,14 +121,6 @@ declare(strict_types=1);
         $this->xmlStartTag("group", $attrs);
     }
 
-    protected function __buildMetaData(): bool
-    {
-        $md2xml = new ilMD2XML($this->group_obj->getId(), $this->group_obj->getId(), 'grp');
-        $md2xml->startExport();
-        $this->appendXML($md2xml->getXML());
-        return true;
-    }
-
     private function __buildAdvancedMetaData(): void
     {
         ilAdvancedMDValues::_appendXMLByObjId($this, $this->group_obj->getId());
@@ -172,9 +159,7 @@ declare(strict_types=1);
         $this->xmlElement(
             'start',
             null,
-            $this->group_obj->getStart() ?
-                $this->group_obj->getStart()->get(IL_CAL_UNIX) :
-                null
+            $this->group_obj->getStart()?->get(IL_CAL_UNIX)
         );
         $this->xmlElement(
             'end',

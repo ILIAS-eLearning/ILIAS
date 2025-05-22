@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 
@@ -141,7 +141,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
             case "ilinfoscreengui":
                 $ilTabs->setTabActive('info_short');
-                $this->infoScreen();
+                $this->infoScreenForward();
                 break;
 
             case "ilcommonactiondispatchergui":
@@ -180,9 +180,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
     protected function infoScreen(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd("showSummary");
-        // $this->ctrl->setCmdClass("ilinfoscreengui");
+        if (strtolower($this->ctrl->getCmd() ?? '') === 'infoscreen') {
+            $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
+        }
+
         $this->infoScreenForward();
     }
 
@@ -428,7 +429,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $newObj->getDataDirectory(),
                 false,
                 false,
-                ZipDirectoryHandling::KEEP_STRUCTURE
+                true
             );
         }
         ilFileUtils::renameExecutables($newObj->getDataDirectory());
@@ -492,7 +493,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
             $ilLog->error('SCORM import of ILIAS exportfile not possible because parsing error');
             $ilLog->error($import_result->error());
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("import_file_not_valid"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("import_file_not_valid_here"), true);
             return;
         }
 

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified">
+
+    <xs:element name="Category">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="1" ref="Translations"/>
+                <xs:element minOccurs="0" ref="Sort"/>
+                <xs:element minOccurs="0" ref="ContainerSettings"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Translations">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="Translation" type="Translation"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="Translation">
+        <xs:all>
+            <xs:element name="Title" type="xs:string"/>
+            <xs:element name="Description" type="xs:string"/>
+        </xs:all>
+        <xs:attribute name="default">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="1"/>
+                    <xs:enumeration value="0"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="language">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="none"/>
+                    <xs:enumeration value="aa"/>
+                    <xs:enumeration value="ab"/>
+                    <xs:enumeration value="af"/>
+                    <xs:enumeration value="am"/>
+                    <xs:enumeration value="ar"/>
+                    <xs:enumeration value="as"/>
+                    <xs:enumeration value="ay"/>
+                    <xs:enumeration value="az"/>
+                    <xs:enumeration value="ba"/>
+                    <xs:enumeration value="be"/>
+                    <xs:enumeration value="bg"/>
+                    <xs:enumeration value="bh"/>
+                    <xs:enumeration value="bi"/>
+                    <xs:enumeration value="bn"/>
+                    <xs:enumeration value="bo"/>
+                    <xs:enumeration value="br"/>
+                    <xs:enumeration value="ca"/>
+                    <xs:enumeration value="co"/>
+                    <xs:enumeration value="cs"/>
+                    <xs:enumeration value="cy"/>
+                    <xs:enumeration value="da"/>
+                    <xs:enumeration value="de"/>
+                    <xs:enumeration value="dz"/>
+                    <xs:enumeration value="el"/>
+                    <xs:enumeration value="en"/>
+                    <xs:enumeration value="eo"/>
+                    <xs:enumeration value="es"/>
+                    <xs:enumeration value="et"/>
+                    <xs:enumeration value="eu"/>
+                    <xs:enumeration value="fa"/>
+                    <xs:enumeration value="fi"/>
+                    <xs:enumeration value="fj"/>
+                    <xs:enumeration value="fo"/>
+                    <xs:enumeration value="fr"/>
+                    <xs:enumeration value="fy"/>
+                    <xs:enumeration value="ga"/>
+                    <xs:enumeration value="gd"/>
+                    <xs:enumeration value="gl"/>
+                    <xs:enumeration value="gn"/>
+                    <xs:enumeration value="gu"/>
+                    <xs:enumeration value="ha"/>
+                    <xs:enumeration value="he"/>
+                    <xs:enumeration value="hi"/>
+                    <xs:enumeration value="hr"/>
+                    <xs:enumeration value="hu"/>
+                    <xs:enumeration value="hy"/>
+                    <xs:enumeration value="ia"/>
+                    <xs:enumeration value="ie"/>
+                    <xs:enumeration value="ik"/>
+                    <xs:enumeration value="id"/>
+                    <xs:enumeration value="is"/>
+                    <xs:enumeration value="it"/>
+                    <xs:enumeration value="iu"/>
+                    <xs:enumeration value="ja"/>
+                    <xs:enumeration value="jv"/>
+                    <xs:enumeration value="ka"/>
+                    <xs:enumeration value="kk"/>
+                    <xs:enumeration value="kl"/>
+                    <xs:enumeration value="km"/>
+                    <xs:enumeration value="kn"/>
+                    <xs:enumeration value="ko"/>
+                    <xs:enumeration value="ks"/>
+                    <xs:enumeration value="ku"/>
+                    <xs:enumeration value="ky"/>
+                    <xs:enumeration value="la"/>
+                    <xs:enumeration value="ln"/>
+                    <xs:enumeration value="lo"/>
+                    <xs:enumeration value="lt"/>
+                    <xs:enumeration value="lv"/>
+                    <xs:enumeration value="mg"/>
+                    <xs:enumeration value="mi"/>
+                    <xs:enumeration value="mk"/>
+                    <xs:enumeration value="ml"/>
+                    <xs:enumeration value="mn"/>
+                    <xs:enumeration value="mo"/>
+                    <xs:enumeration value="mr"/>
+                    <xs:enumeration value="ms"/>
+                    <xs:enumeration value="mt"/>
+                    <xs:enumeration value="my"/>
+                    <xs:enumeration value="na"/>
+                    <xs:enumeration value="ne"/>
+                    <xs:enumeration value="nl"/>
+                    <xs:enumeration value="no"/>
+                    <xs:enumeration value="oc"/>
+                    <xs:enumeration value="om"/>
+                    <xs:enumeration value="or"/>
+                    <xs:enumeration value="pa"/>
+                    <xs:enumeration value="pl"/>
+                    <xs:enumeration value="ps"/>
+                    <xs:enumeration value="pt"/>
+                    <xs:enumeration value="qu"/>
+                    <xs:enumeration value="rm"/>
+                    <xs:enumeration value="rn"/>
+                    <xs:enumeration value="ro"/>
+                    <xs:enumeration value="ru"/>
+                    <xs:enumeration value="rw"/>
+                    <xs:enumeration value="sa"/>
+                    <xs:enumeration value="sd"/>
+                    <xs:enumeration value="sg"/>
+                    <xs:enumeration value="sh"/>
+                    <xs:enumeration value="si"/>
+                    <xs:enumeration value="sk"/>
+                    <xs:enumeration value="sl"/>
+                    <xs:enumeration value="sm"/>
+                    <xs:enumeration value="sn"/>
+                    <xs:enumeration value="so"/>
+                    <xs:enumeration value="sq"/>
+                    <xs:enumeration value="sr"/>
+                    <xs:enumeration value="ss"/>
+                    <xs:enumeration value="st"/>
+                    <xs:enumeration value="su"/>
+                    <xs:enumeration value="sv"/>
+                    <xs:enumeration value="sw"/>
+                    <xs:enumeration value="ta"/>
+                    <xs:enumeration value="te"/>
+                    <xs:enumeration value="tg"/>
+                    <xs:enumeration value="th"/>
+                    <xs:enumeration value="ti"/>
+                    <xs:enumeration value="tk"/>
+                    <xs:enumeration value="tl"/>
+                    <xs:enumeration value="tn"/>
+                    <xs:enumeration value="to"/>
+                    <xs:enumeration value="tr"/>
+                    <xs:enumeration value="ts"/>
+                    <xs:enumeration value="tt"/>
+                    <xs:enumeration value="tw"/>
+                    <xs:enumeration value="ug"/>
+                    <xs:enumeration value="uk"/>
+                    <xs:enumeration value="ur"/>
+                    <xs:enumeration value="uz"/>
+                    <xs:enumeration value="vi"/>
+                    <xs:enumeration value="vo"/>
+                    <xs:enumeration value="wo"/>
+                    <xs:enumeration value="xh"/>
+                    <xs:enumeration value="yi"/>
+                    <xs:enumeration value="yo"/>
+                    <xs:enumeration value="za"/>
+                    <xs:enumeration value="zh"/>
+                    <xs:enumeration value="zu"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:element name="ContainerSettings">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="ContainerSetting" type="ContainerSetting"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="ContainerSetting">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="id" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:element name="Sort">
+        <xs:complexType>
+            <xs:attribute name="type" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Manual"/>
+                        <xs:enumeration value="Title"/>
+                        <xs:enumeration value="Activation"/>
+                        <xs:enumeration value="Creation"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="direction">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="ASC"/>
+                        <xs:enumeration value="DESC"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="position">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Top"/>
+                        <xs:enumeration value="Bottom"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="order">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="Title"/>
+                        <xs:enumeration value="Activation"/>
+                        <xs:enumeration value="Creation"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

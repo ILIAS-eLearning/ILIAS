@@ -1,9 +1,5 @@
 <?php
 
-/** @noinspection PhpDynamicFieldDeclarationInspection */
-
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +15,9 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+/** @noinspection PhpDynamicFieldDeclarationInspection */
+declare(strict_types=1);
 
 /**
  * Class ilObjSCORM2004LearningModule
@@ -38,9 +37,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
     protected string $imsmanifestFile;
 
-    public const CONVERT_XSL = './components/ILIAS/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
-    public const WRAPPER_HTML = './components/ILIAS/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
-    public const WRAPPER_JS = './components/ILIAS/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
+    public const CONVERT_XSL = '../components/ILIAS/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
+    public const WRAPPER_HTML = '../components/ILIAS/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
+    public const WRAPPER_JS = '../components/ILIAS/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
 
     /**
     * Constructor
@@ -487,8 +486,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $obj_id = $this->getID();
         $users = array();
         $usersToDelete = array();
-        $fields = fgetcsv($fhandle, 4096, ';');
-        while (($csv_rows = fgetcsv($fhandle, 4096, ";")) !== false) {
+        $fields = fgetcsv($fhandle, 4096, ';', '"', '\\');
+        while (($csv_rows = fgetcsv($fhandle, 4096, ";", '"', '\\')) !== false) {
             $user_id = 0;
             $data = array_combine($fields, $csv_rows);
             //no check the format - sufficient to import users
@@ -503,13 +502,11 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                 $user_id = (int) $data["user"];
             }
             if ($user_id > 0) {
-                $last_access = ilUtil::now();
-                if (isset($data['Date'])) {
-                    $date_ex = explode('.', $data['Date']);
-                    $last_access = implode('-', array($date_ex[2], $date_ex[1], $date_ex[0]));
-                }
-                if (isset($data['LastAccess'])) {
-                    $last_access = $data['LastAccess'];
+                $last_access = new DateTimeImmutable('now');
+                if (isset($data['LastAccess']) && $data['LastAccess']) {
+                    $last_access = $this->kindlyToDateTime('Y-m-d H:i:s', $data['LastAccess']);
+                } elseif (isset($data['Date']) && $data['Date']) {
+                    $last_access = $this->kindlyToDateTime('d.m.Y', $data['Date']);
                 }
 
                 $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
@@ -565,7 +562,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 							(cp_node_id,user_id,completion_status,c_timestamp,cmi_node_id) 
 							VALUES(%s,%s,%s,%s,%s)',
                                 array('integer','integer','text','timestamp','integer'),
-                                array($sco_id,$user_id,'completed',$last_access,$nextId)
+                                [$sco_id, $user_id, 'completed', $last_access?->format('Y-m-d H:i:s'), $nextId]
                             );
                         } else {
                             $doUpdate = false;
@@ -585,7 +582,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                                         'completion_status' => array('text', 'completed'),
                                         'success_status' => array('text', ''),
                                         'suspend_data' => array('text', ''),
-                                        'c_timestamp' => array('timestamp', $last_access)
+                                        'c_timestamp' => array('timestamp', $last_access?->format('Y-m-d H:i:s')),
                                     ),
                                     array(
                                         'user_id' => array('integer', $user_id),
@@ -956,7 +953,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                 $row = $ilDB->fetchAssoc($res);
                 if ($row['c_max'] != null) {
                     $set++;
-                    $max = $row['c_max'];
+                    $max = floatval($row['c_max']);
                 }
             }
         }

@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+class ilVirusScannerAntiVir extends ilVirusScanner
+{
+    public function __construct(string $scan_command, string $clean_command)
+    {
+        parent::__construct($scan_command, $clean_command);
+        $this->type = 'antivir';
+        $this->scanZipFiles = true;
+    }
+
+    public function scanFile(string $file_path, string $org_name = ''): string
+    {
+        $this->scanFilePath = $file_path;
+        $this->scanFileOrigName = $org_name;
+
+        // Call of antivir command
+        $a_filepath = realpath($file_path);
+        $cmd = ilShellUtil::escapeShellCmd($this->scanCommand);
+        $args = ilShellUtil::escapeShellArg(' ' . $a_filepath . ' ');
+        $out = ilShellUtil::execQuoted($cmd, $args);
+        $this->scanResult = implode("\n", $out);
+
+        // sophie could be called
+        if (str_contains($this->scanResult, 'ALERT:')) {
+            $this->scanFileIsInfected = true;
+            $this->logScanResult();
+            return $this->scanResult;
+        }
+
+        $this->scanFileIsInfected = false;
+        return '';
+    }
+}

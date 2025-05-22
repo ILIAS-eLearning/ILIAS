@@ -18,24 +18,25 @@
 
 declare(strict_types=1);
 
+use ILIAS\Setup\Agent;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\Objective\NullObjective;
+use ILIAS\Setup\Metrics\Storage;
 use ILIAS\Setup\ObjectiveConstructor;
 use ILIAS\Setup\Config;
 use ILIAS\Refinery\Factory;
-use ILIAS\Refinery;
-use ILIAS\Setup;
 use ILIAS\File\Icon\ilObjFileDefaultIconsObjective;
 
 /**
  * @author       Thibeau Fuhrer <thibeau@sr.solutions>
  * @noinspection AutoloadingIssuesInspection
  */
-class ilFileObjectAgent implements Setup\Agent
+class ilFileObjectAgent implements Agent
 {
-    protected Factory $refinery;
-
-    public function __construct(Factory $refinery)
+    public function __construct(protected Factory $refinery)
     {
-        $this->refinery = $refinery;
     }
 
     public function hasConfig(): bool
@@ -43,25 +44,25 @@ class ilFileObjectAgent implements Setup\Agent
         return false;
     }
 
-    public function getArrayToConfigTransformation(): Refinery\Transformation
+    public function getArrayToConfigTransformation(): Transformation
     {
         throw new \LogicException("Agent has no config.");
     }
 
-    public function getInstallObjective(Config $config = null): Setup\Objective
+    public function getInstallObjective(?Config $config = null): Objective
     {
-        return new \ILIAS\File\Icon\ilObjFileDefaultIconsObjective(true, true);
+        return new ilObjFileDefaultIconsObjective(true, true);
     }
 
-    public function getUpdateObjective(Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
-        return new Setup\ObjectiveCollection(
+        return new ObjectiveCollection(
             "",
             true,
             new ilDatabaseUpdateStepsExecutedObjective(
                 new ilFileObjectDatabaseObjective()
             ),
-            new \ILIAS\File\Icon\ilObjFileDefaultIconsObjective(false, false),
+            new ilObjFileDefaultIconsObjective(false, false),
             new ilFileObjectSettingsUpdatedObjective(),
             new ilFileObjectRBACDatabase(
                 new ilFileObjectRBACDatabaseSteps()
@@ -69,14 +70,14 @@ class ilFileObjectAgent implements Setup\Agent
         );
     }
 
-    public function getBuildObjective(): Setup\Objective
+    public function getBuildObjective(): Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new NullObjective();
     }
 
-    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
+    public function getStatusObjective(Storage $storage): Objective
     {
-        return new Setup\ObjectiveCollection(
+        return new ObjectiveCollection(
             'Component File',
             true,
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilFileObjectDatabaseObjective()),
@@ -96,9 +97,7 @@ class ilFileObjectAgent implements Setup\Agent
         return [
             'resetDefaultIcons' => new ObjectiveConstructor(
                 'resets the default suffix specific file icons.',
-                function (): \ILIAS\Setup\Objective {
-                    return new ilObjFileDefaultIconsObjective(true, false);
-                }
+                fn(): Objective => new ilObjFileDefaultIconsObjective(true, false)
             ),
         ];
     }

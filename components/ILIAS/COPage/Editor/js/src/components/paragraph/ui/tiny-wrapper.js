@@ -209,11 +209,12 @@ export default class TinyWrapper {
         statusbar: false,
         language: 'en',
         height: '100%',
-        plugins: 'save,paste,lists',
+        plugins: 'save,lists',
+        license_key: 'gpl',
         smart_paste: false,
         save_onsavecallback: 'saveParagraph',
         mode: 'exact',
-        elements: this.id,
+        selector: `#${this.id}`,
         content_css: this.content_css,
         fix_list_elements: true,
         valid_elements: 'p,br[_moz_dirty],span[class],code,sub[class],sup[class],ul[class],ol[class],li[class]',
@@ -269,7 +270,10 @@ export default class TinyWrapper {
       o.content = html.removeLineFeeds(o.content);
     }
     o.content = html.removeAttributesFromTag('p', o.content);
-    o.content = html.removeTag('div', o.content);
+    o.content = html.removeTagsExceptParagraphs(o.content);
+    o.content = html.removeHtmlComments(o.content);
+    o.content = html.removeNbsp(o.content);
+    // o.content = html.removeTag('div', o.content);
   }
 
   getTinyDomTransform() {
@@ -337,7 +341,7 @@ export default class TinyWrapper {
         cb();
       });
 
-      if (ev.key === "Escape") {
+      if (ev.key === 'Escape') {
         wrapper.getCallbacks(CB.ESCAPE).forEach((cb) => {
           cb();
         });
@@ -699,7 +703,7 @@ export default class TinyWrapper {
 
     if (this.ghost) {
       let cl = ed.dom.getRoot().className;
-      let c = html.p2br(ed.getContent());
+      let c = html.p2br(ed.getContent()); // the tag is added later
 
       if (this.getDataTableMode()) {
         cl = 'ilc_Paragraph ilc_text_block_TableContent';
@@ -720,12 +724,22 @@ export default class TinyWrapper {
           tag = 'h3';
           break;
         default:
-          tag = 'div';
+          tag = 'p';
           break;
+      }
+      if (this.getDataTableMode()) {
+        tag = 'div';
+      }
+
+      if (c.includes('</ul>') || c.includes('</ol>')) {
+        tag = 'div';
       }
 
       if (add_final_spacer) {
-        c += '<br />.';
+        //        c += '<br />.';
+      }
+      if (c.trim() === '') {
+        c = '<p>&nbsp;</p>';
       }
 
       let label = '';
@@ -739,10 +753,9 @@ export default class TinyWrapper {
       }
 
       c = `${label}<${tag} style='position:static;' class='${cl}'>${c}</${tag}>`;
-
       // we remove the first child div content div (edit label)
       this.ghost.querySelector('div').remove(); // edit label in case of paragraph, content div in case of td
-      const div2 = this.ghost.querySelector('div, h1, h2, h3'); // content element in case of paragraph
+      const div2 = this.ghost.querySelector('p, h1, h2, h3'); // content element in case of paragraph
       if (div2) {
         div2.remove();
       }
@@ -974,6 +987,7 @@ export default class TinyWrapper {
       t = 'mycode';
     }
     ed.execCommand('mceToggleFormat', false, t);
+    this.getTinyDomTransform().nestMultiClasses(`ilc_text_inline_${t}`);
     ed.focus();
     // ed.selection.collapse(false); // see #33963
     this.autoResize();

@@ -53,16 +53,16 @@ il.repository.ui = (function(il, $) {
     document.querySelectorAll("form[data-rep-modal-form='async']:not([data-rep-form-initialised='1'])").forEach(f => {
       f.addEventListener("submit", (event) => {
         event.preventDefault();
-        const modal = f.closest(".modal");
+        const modal = f.closest(".c-modal");
         sendAsync(f, modal);
       });
-      f.querySelectorAll(".il-standard-form-cmd").forEach(b => {
+      f.querySelectorAll(".c-form__actions").forEach(b => {
         b.style.display='none';
       });
       f.dataset.repFormInitialised = '1';
     });
     document.querySelectorAll("form[data-rep-modal-form='sync']:not([data-rep-form-initialised='1'])").forEach(f => {
-      f.querySelectorAll(".il-standard-form-cmd").forEach(b => {
+      f.querySelectorAll(".c-form__actions").forEach(b => {
         b.style.display='none';
       });
       f.dataset.repFormInitialised = '1';
@@ -75,9 +75,9 @@ il.repository.ui = (function(il, $) {
 
   const submitModalForm = function(event, sentAsync) {
     console.log("one");
-    const f = event.target.closest(".modal").querySelector("form");
+    const f = event.target.closest(".c-modal").querySelector(".modal-body").querySelector("form");
     console.log(f);
-    const modal = f.closest(".modal");
+    const modal = f.closest(".c-modal");
     if (sentAsync) {
       sendAsync(f, modal);
     } else {
@@ -227,11 +227,14 @@ il.repository.core = (function() {
     });
   }
 
-  function fetchReplaceInner(el, url = '', params = {}) {
+  function fetchReplaceInner(el, url = '', params = {}, cb = null) {
     fetchHtml(url, params)
-      .then(html => {
-          setInnerHTML(el, html)
-    }).catch();
+      .then((html) => {
+        setInnerHTML(el, html);
+        if (cb) {
+          cb();
+        }
+      }).catch();
   }
 
   function fetchReplace(el_id, url = '', params = {}) {
@@ -242,18 +245,26 @@ il.repository.core = (function() {
   }
 
   function fetchUrl(url = '', params = {}, args = {}, success_cb = null) {
-    _fetchHtml(url, params)
-    .then(response => {
+    let fetch_url = getFetchUrl(url);
+    let config = {
+      method: 'GET',
+      mode: 'same-origin',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      redirect: 'follow',
+      referrerPolicy: 'same-origin',
+    };
+    fetch(fetch_url.href, config).then(response => {
       if (response.ok) {
         //const statusText = response.statusText;
         response.text().then(text => {
-            if (success_cb) {
-              success_cb({
-                text: text,
-                args: args
-              });
-            }
+          if (success_cb) {
+            success_cb({
+              text: text,
+              args: args,
+            });
           }
+        },
         ).catch();
       }
     }).catch();
@@ -263,6 +274,7 @@ il.repository.core = (function() {
     setInnerHTML: setInnerHTML,
     setOuterHTML: setOuterHTML,
     fetchHtml: fetchHtml,
+    fetchUrl: fetchUrl,
     fetchReplace: fetchReplace,
     fetchReplaceInner: fetchReplaceInner,
     trigger: trigger,

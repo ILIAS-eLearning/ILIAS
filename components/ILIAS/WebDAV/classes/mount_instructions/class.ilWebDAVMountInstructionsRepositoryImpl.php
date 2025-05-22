@@ -1,8 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,15 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructionsRepository
 {
     public const TABLE_MOUNT_INSTRUCTIONS = 'webdav_instructions';
 
-    protected ilDBInterface $db;
-
-    public function __construct(ilDBInterface $a_db)
+    public function __construct(protected ilDBInterface $db)
     {
-        $this->db = $a_db;
     }
 
     public function createMountInstructionsDocumentEntry(ilWebDAVMountInstructionsDocument $document): void
@@ -37,18 +33,18 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
             self::TABLE_MOUNT_INSTRUCTIONS,
 
             // values
-            array(
-                'id' => array('int', $document->getId()),
-                'title' => array('text', $document->getTitle()),
-                'uploaded_instructions' => array('clob', $document->getUploadedInstructions()),
-                'processed_instructions' => array('clob', $document->getProcessedInstructions()),
-                'lng' => array('text', $document->getLanguage()),
-                'creation_ts' => array('timestamp', $document->getCreationTs()),
-                'modification_ts' => array('timestamp', $document->getModificationTs()),
-                'owner_usr_id' => array('int', $document->getOwnerUsrId()),
-                'last_modification_usr_id' => array('int', $document->getLastModificationUsrId()),
-                'sorting' => array('int', $document->getSorting())
-            )
+            [
+                'id' => ['int', $document->getId()],
+                'title' => ['text', $document->getTitle()],
+                'uploaded_instructions' => ['clob', $document->getUploadedInstructions()],
+                'processed_instructions' => ['clob', $document->getProcessedInstructions()],
+                'lng' => ['text', $document->getLanguage()],
+                'creation_ts' => ['timestamp', $document->getCreationTs()],
+                'modification_ts' => ['timestamp', $document->getModificationTs()],
+                'owner_usr_id' => ['int', $document->getOwnerUsrId()],
+                'last_modification_usr_id' => ['int', $document->getLastModificationUsrId()],
+                'sorting' => ['int', $document->getSorting()]
+            ]
         );
     }
 
@@ -105,7 +101,7 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         $query = "SELECT * FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS) . " ORDER BY sorting";
         $result = $this->db->query($query);
 
-        $document_list = array();
+        $document_list = [];
         while ($record = $this->db->fetchAssoc($result)) {
             $document_list[] = $this->buildDocumentFromDatabaseRecord($record);
         }
@@ -131,20 +127,20 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
             self::TABLE_MOUNT_INSTRUCTIONS,
 
             // values to update
-            array(
-                'title' => array('text', $document->getTitle()),
-                'lng' => array('text', $document->getLanguage()),
-                'creation_ts' => array('timestamp', $document->getCreationTs()),
-                'modification_ts' => array('timestamp', $document->getModificationTs()),
-                'owner_usr_id' => array('int', $document->getOwnerUsrId()),
-                'last_modification_usr_id' => array('int', $document->getLastModificationUsrId()),
-                'sorting' => array('int', $document->getSorting())
-            ),
+            [
+                'title' => ['text', $document->getTitle()],
+                'lng' => ['text', $document->getLanguage()],
+                'creation_ts' => ['timestamp', $document->getCreationTs()],
+                'modification_ts' => ['timestamp', $document->getModificationTs()],
+                'owner_usr_id' => ['int', $document->getOwnerUsrId()],
+                'last_modification_usr_id' => ['int', $document->getLastModificationUsrId()],
+                'sorting' => ['int', $document->getSorting()]
+            ],
 
             // which rows to update
-            array(
-                'id' => array('int', $document->getId()),
-            )
+            [
+                'id' => ['int', $document->getId()],
+            ]
         );
     }
 
@@ -155,14 +151,14 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
             self::TABLE_MOUNT_INSTRUCTIONS,
 
             // values to update
-            array(
-                'sorting' => array('int', $a_new_sorting_value)
-            ),
+            [
+                'sorting' => ['int', $a_new_sorting_value]
+            ],
 
             // which rows to update
-            array(
-                'id' => array('int', $id),
-            )
+            [
+                'id' => ['int', $id],
+            ]
         );
     }
 

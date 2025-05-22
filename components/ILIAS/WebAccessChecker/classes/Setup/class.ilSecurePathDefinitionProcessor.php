@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,14 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilSecurePathDefinitionProcessor implements ilComponentDefinitionProcessor
 {
-    protected \ilDBInterface $db;
     protected ?string $component = null;
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(protected \ilDBInterface $db)
     {
-        $this->db = $db;
     }
 
     public function purge(): void
@@ -49,7 +47,7 @@ class ilSecurePathDefinitionProcessor implements ilComponentDefinitionProcessor
 
         try {
             $ilWACSecurePath = ilWACSecurePath::findOrFail($attributes["path"]);
-        } catch (arException $e) {
+        } catch (arException) {
             $ilWACSecurePath = new ilWACSecurePath();
             $ilWACSecurePath->setPath($attributes["path"]);
             $ilWACSecurePath->create();

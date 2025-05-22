@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Survey\Settings;
 
@@ -42,7 +42,6 @@ class UIFactory
         $this->ui_service = $ui_service;
         $this->object_service = $object_service;
         $this->domain_service = $domain_service;
-
         $mode_ui_modifier = $ui_service->modeUIModifier($survey->getMode());
         $this->settings_form_gui = new SettingsFormGUI(
             $ui_service,

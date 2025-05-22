@@ -16,8 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\UI\Component\Deck\Deck;
-use ILIAS\UI\Component\Panel\Standard;
+use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Panel\Sub;
 
 /**
@@ -39,7 +38,7 @@ class ilBiblEntryDetailPresentationGUI
         protected ilLanguage $lng,
         protected ilGlobalTemplateInterface $main_tpl,
         protected ilTabsGUI $tabs,
-        protected \ILIAS\DI\UIServices $ui
+        protected UIServices $ui
     ) {
         $this->initHelp();
         $this->initTabs();
@@ -90,7 +89,7 @@ class ilBiblEntryDetailPresentationGUI
     private function getLibrariesDeck(): ?Sub
     {
         $settings = $this->facade->libraryFactory()->getAll();
-        if (count($settings) === 0) {
+        if ($settings === []) {
             return null;
         }
 

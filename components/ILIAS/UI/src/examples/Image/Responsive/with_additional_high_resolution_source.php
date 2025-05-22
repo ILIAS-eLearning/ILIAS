@@ -1,14 +1,43 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Image\Responsive;
 
 /**
- * Example showing different card sizes which use an image with additional
- * high resolution sources. The image defaults to the smallest version of
- * the image (144px wide) and loads the next bigger version for different
- * breakpoints (min-widths). The effect is best seen on desktop devices.
+ * ---
+ * description: >
+ *   Example for rendering a responsive image with additional high resolution sources.
+ *
+ * expected output: >
+ *   Example showing different card sizes which use an image with additional
+ *   high resolution sources. The selected version of the image depends on the
+ *   space available, meaning that the large image version is displayed on very
+ *   large screens (even if the browser does not use the entire screen width).
+ *   On very small screens, the small image version is displayed.
+ *   The effect is best seen on desktop devices:
+ *   Open the browser's developer tools ("Inspect" or F12). Select a screen
+ *   width (very small, medium, large, extra-large) one after the other, reload
+ *   the page each time and check the image source (img src) of the image.
+ *   Depending on the screen width, different versions of the image are loaded
+ *   here (144w, 301w, 602w, original).
+ * ---
  */
 function with_additional_high_resolution_source(): string
 {

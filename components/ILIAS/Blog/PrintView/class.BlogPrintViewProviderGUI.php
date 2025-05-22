@@ -122,7 +122,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 
         foreach ($postings as $p) {
             $nl->addListNode(
-                $p["id"],
+                (string) $p["id"],
                 $p["title"],
                 "0",
                 false,

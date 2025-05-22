@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Link;
 
 use ILIAS\UI\Component\Link as L;
@@ -26,18 +26,12 @@ use ILIAS\Data\URI;
 
 class Factory implements L\Factory
 {
-    /**
-     * @inheritdoc
-     */
-    public function standard(string $label, string $action): L\Standard
+    public function standard(string $label, string $action): Standard
     {
         return new Standard($label, $action);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function bulky(Symbol $symbol, string $label, URI $action): L\Bulky
+    public function bulky(Symbol $symbol, string $label, URI $action): Bulky
     {
         return new Bulky($symbol, $label, $action);
     }

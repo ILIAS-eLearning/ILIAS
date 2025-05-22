@@ -36,7 +36,7 @@ class Suite extends TestSuite
 
         foreach (self::collectTestFiles() as $file) {
             require_once $file->getRealPath();
-            $suite->addTestSuite($namespace . preg_replace('/.php$/', '', $file->getFileName()));
+            $suite->addTestSuite($namespace . preg_replace('/.php$/', '', (string) $file->getFileName()));
         }
 
         return $suite;

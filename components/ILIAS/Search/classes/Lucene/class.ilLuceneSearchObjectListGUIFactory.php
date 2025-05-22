@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * List GUI factory for lucene search results
@@ -48,7 +48,6 @@ class ilLuceneSearchObjectListGUIFactory
 
         $full_class = "ilObj" . $class . "ListGUI";
 
-        include_once($location . "/class." . $full_class . ".php");
         $item_list_gui = new $full_class(ilObjectListGUI::CONTEXT_SEARCH);
 
         $item_list_gui->setDetailsLevel(ilObjectListGUI::DETAILS_SEARCH);
@@ -59,7 +58,6 @@ class ilLuceneSearchObjectListGUIFactory
         $item_list_gui->enablePath(false);
         $item_list_gui->enableLinkedPath(true);
         $item_list_gui->enableSearchFragments(true);
-        $item_list_gui->enableRelevance(false);
 
         return self::$item_list_gui[$a_type] = $item_list_gui;
     }

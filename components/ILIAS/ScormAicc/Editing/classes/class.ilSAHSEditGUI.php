@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 /**
 * Class ilSAHSPresentationGUI
 *
@@ -87,11 +87,21 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
             "lm"
         );
 
-        $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
+        $next_class = $this->ctrl->getNextClass($this) ?? '';
+        $cmd = $this->ctrl->getCmd() ?? '';
 
         $obj_id = ilObject::_lookupObjectId($this->refId);
         $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
+
+        if ($next_class === '') {
+            switch ($type) {
+                case "scorm":
+                    $this->ctrl->redirectByClass(ilObjSCORMLearningModuleGUI::class);
+
+                case "scorm2004":
+                    $this->ctrl->redirectByClass(ilObjSCORM2004LearningModuleGUI::class);
+            }
+        }
 
         switch ($type) {
             case "scorm":
@@ -101,21 +111,6 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
             case "scorm2004":
                 $this->slm_gui = new ilObjSCORM2004LearningModuleGUI([], $this->refId, true, false);
                 break;
-        }
-
-        if ($next_class == "") {
-            switch ($type) {
-                case "scorm2004":
-                    // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-                    // $this->ctrl->setCmdClass("ilobjscorm2004learningmodulegui");
-                    break;
-
-                case "scorm":
-                    // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-                    // $this->ctrl->setCmdClass("ilobjscormlearningmodulegui");
-                    break;
-            }
-            $next_class = $this->ctrl->getNextClass($this);
         }
 
         switch ($next_class) {
@@ -148,8 +143,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
                         }
                     }
                 }
-                // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-                // $this->ctrl->setCmd("export");
+
                 ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&cmd=export&ref_id=" . $this->refId);
                 break;
 

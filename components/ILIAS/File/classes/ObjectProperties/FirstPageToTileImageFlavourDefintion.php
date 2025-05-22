@@ -18,22 +18,25 @@
 
 declare(strict_types=1);
 
-use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageFlavourDefinition;
+use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\FlavourDefinition;
 
-class FirstPageToTileImageFlavourDefinition extends ilObjectTileImageFlavourDefinition
+class FirstPageToTileImageFlavourDefinition extends FlavourDefinition
 {
     private const ID = 'b9b2f16325492412304989a9b3e32479e612957582f60ed667af31e7b36e50ed';
 
+    #[\Override]
     public function getId(): string
     {
         return self::ID;
     }
 
+    #[\Override]
     public function getFlavourMachineId(): string
     {
         return FirstPageToTileImageMachine::ID;
     }
 
+    #[\Override]
     public function getInternalName(): string
     {
         return 'first_page_tile_image';

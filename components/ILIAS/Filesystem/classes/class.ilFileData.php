@@ -27,11 +27,7 @@ class ilFileData extends ilFile
 
     public function checkPath(string $a_path): bool
     {
-        if (is_writable($a_path)) {
-            return true;
-        } else {
-            return false;
-        }
+        return is_writable($a_path);
     }
 
     public function getPath(): string

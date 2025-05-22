@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * QTI presentation class
@@ -112,12 +111,12 @@ class ilQTIPresentation
     public function addMaterial(ilQTIMaterial $a_material): void
     {
         $count = array_push($this->material, $a_material);
-        $this->order[] = array("type" => "material", "index" => $count - 1);
+        $this->order[] = ["type" => "material", "index" => $count - 1];
     }
 
     public function addResponse(ilQTIResponse $a_response): void
     {
         $count = array_push($this->response, $a_response);
-        $this->order[] = array("type" => "response", "index" => $count - 1);
+        $this->order[] = ["type" => "response", "index" => $count - 1];
     }
 }

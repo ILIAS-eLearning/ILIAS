@@ -36,10 +36,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
     public const F_TABLE_ONLY_ACTIVE_VALUE = 2;
     public const F_TABLE_ONLY_INACTIVE_VALUE = 3;
 
-    private ilObjMainMenuAccess $access;
-
     private array $filter;
-    private ilMMItemRepository $item_repository;
 
     /**
      * ilMMSubItemTableGUI constructor.
@@ -48,15 +45,13 @@ class ilMMSubItemTableGUI extends ilTable2GUI
      */
     public function __construct(
         ilMMSubItemGUI $a_parent_obj,
-        ilMMItemRepository $item_repository,
-        ilObjMainMenuAccess $access
+        private ilMMItemRepository $item_repository,
+        private ilObjMainMenuAccess $access
     ) {
-        $this->access = $access;
         $this->setId(self::class);
         $this->setExternalSorting(true);
         $this->setExternalSegmentation(true);
         parent::__construct($a_parent_obj);
-        $this->item_repository = $item_repository;
         $this->lng = $this->parent_obj->lng;
         $this->addFilterItems();
         $this->setData($this->resolveData());
@@ -75,11 +70,11 @@ class ilMMSubItemTableGUI extends ilTable2GUI
             self::F_TABLE_ENTRY_STATUS
         );
         $table_entry_status->setOptions(
-            array(
+            [
                 self::F_TABLE_ALL_VALUE => $this->lng->txt("all"),
                 self::F_TABLE_ONLY_ACTIVE_VALUE => $this->lng->txt("only_active"),
                 self::F_TABLE_ONLY_INACTIVE_VALUE => $this->lng->txt("only_inactive"),
-            )
+            ]
         );
         $this->addAndReadFilterItem($table_entry_status);
     }
@@ -91,11 +86,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         }
         $this->addFilterItem($field);
         $field->readFromSession();
-        if ($field instanceof ilCheckboxInputGUI) {
-            $this->filter[$field->getPostVar()] = $field->getChecked();
-        } else {
-            $this->filter[$field->getPostVar()] = $field->getValue();
-        }
+        $this->filter[$field->getPostVar()] = $field instanceof ilCheckboxInputGUI ? $field->getChecked() : $field->getValue();
     }
 
     private function initColumns(): void
@@ -113,6 +104,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function fillRow(array $a_set): void
     {
         static $position;
@@ -127,28 +119,25 @@ class ilMMSubItemTableGUI extends ilTable2GUI
          */
         $item_facade = $a_set['facade'];
 
-        if ($item_facade->isChild()) {
-            if (!$parent_identification_string ||
-                $parent_identification_string !== $item_facade->getParentIdentificationString()) {
-                $parent_identification_string = $item_facade->getParentIdentificationString();
-                $current_parent_identification = $this->item_repository->resolveIdentificationFromString(
-                    $parent_identification_string
-                );
-                $current_parent_item = $this->item_repository->getSingleItem($current_parent_identification);
-                $this->tpl->setVariable(
-                    "PARENT_TITLE",
-                    $current_parent_item instanceof hasTitle ? $current_parent_item->getTitle() : "-"
-                );
-                $this->tpl->setVariable(
-                    "NATIVE_PARENT_ID",
-                    $current_parent_item->getProviderIdentification()->serialize()
-                );
-                $this->tpl->setVariable(
-                    "PARENT_ID",
-                    $this->hash($current_parent_item->getProviderIdentification()->serialize())
-                );
-                $position = 1;
-            }
+        if ($item_facade->isChild() && (!$parent_identification_string || $parent_identification_string !== $item_facade->getParentIdentificationString())) {
+            $parent_identification_string = $item_facade->getParentIdentificationString();
+            $current_parent_identification = $this->item_repository->resolveIdentificationFromString(
+                $parent_identification_string
+            );
+            $current_parent_item = $this->item_repository->getSingleItem($current_parent_identification);
+            $this->tpl->setVariable(
+                "PARENT_TITLE",
+                $current_parent_item instanceof hasTitle ? $current_parent_item->getTitle() : "-"
+            );
+            $this->tpl->setVariable(
+                "NATIVE_PARENT_ID",
+                $current_parent_item->getProviderIdentification()->serialize()
+            );
+            $this->tpl->setVariable(
+                "PARENT_ID",
+                $this->hash($current_parent_item->getProviderIdentification()->serialize())
+            );
+            $position = 1;
         }
         $this->tpl->setVariable('IDENTIFIER', self::IDENTIFIER);
         $this->tpl->setVariable('ID', $this->hash($item_facade->getId()));
@@ -270,14 +259,14 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         $sub_items_for_table = $this->item_repository->getSubItemsForTable();
 
         // populate with facade
-        array_walk($sub_items_for_table, function (&$item) use ($DIC) {
+        array_walk($sub_items_for_table, function (array &$item) use ($DIC): void {
             $item_ident = $DIC->globalScreen()->identification()->fromSerializedIdentification($item['identification']);
             $item_facade = $this->item_repository->repository()->getItemFacade($item_ident);
             $item['facade'] = $item_facade;
         });
 
         // filter active/inactive
-        $sub_items_for_table = array_filter($sub_items_for_table, function ($item_facade) {
+        $sub_items_for_table = array_filter($sub_items_for_table, function (array $item_facade): bool {
             /**
              * @var $item_facade ilMMItemFacadeInterface
              */
@@ -285,16 +274,13 @@ class ilMMSubItemTableGUI extends ilTable2GUI
             if (!isset($this->filter[self::F_TABLE_ENTRY_STATUS])) {
                 return true;
             }
-            if (((int)$this->filter[self::F_TABLE_ENTRY_STATUS]) === self::F_TABLE_ALL_VALUE) {
+            if (((int) $this->filter[self::F_TABLE_ENTRY_STATUS]) === self::F_TABLE_ALL_VALUE) {
                 return true;
             }
-            if (((int) $this->filter[self::F_TABLE_ENTRY_STATUS]) === self::F_TABLE_ONLY_ACTIVE_VALUE && !($item_facade->isActivated() || $item_facade->isAlwaysAvailable())) {
+            if (((int) $this->filter[self::F_TABLE_ENTRY_STATUS]) === self::F_TABLE_ONLY_ACTIVE_VALUE && (!$item_facade->isActivated() && !$item_facade->isAlwaysAvailable())) {
                 return false;
             }
-            if (((int)$this->filter[self::F_TABLE_ENTRY_STATUS]) === self::F_TABLE_ONLY_INACTIVE_VALUE && $item_facade->isActivated()) {
-                return false;
-            }
-            return true;
+            return !((int) $this->filter[self::F_TABLE_ENTRY_STATUS] === self::F_TABLE_ONLY_INACTIVE_VALUE && $item_facade->isActivated());
         });
 
         return $sub_items_for_table;

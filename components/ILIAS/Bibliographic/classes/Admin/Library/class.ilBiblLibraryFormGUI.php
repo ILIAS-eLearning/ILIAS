@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\components\OrgUnit\ARHelper\DIC;
+
 /**
  * Bibliographic Libraries Form.
  *
@@ -25,17 +28,15 @@
  */
 class ilBiblLibraryFormGUI extends ilPropertyFormGUI
 {
-    use \ILIAS\components\OrgUnit\ARHelper\DIC;
-    protected \ilBiblLibraryInterface $object;
+    use DIC;
 
 
     /**
      * ilBiblLibraryFormGUI constructor.
      */
-    public function __construct(ilBiblLibraryInterface $library)
+    public function __construct(protected ilBiblLibraryInterface $object)
     {
-        $this->object = $library;
-        $this->ctrl()->saveParameterByClass(ilBiblLibraryGUI::class, ilBiblLibraryGUI::F_LIB_ID);
+        $this->ctrl()->setParameterByClass(ilBiblLibraryGUI::class, ilBiblLibraryGUI::F_LIB_ID, $this->object->getId());
         $this->initForm();
 
         if ($this->object->getId()) {
@@ -82,12 +83,12 @@ class ilBiblLibraryFormGUI extends ilPropertyFormGUI
 
     private function fillForm(): void
     {
-        $this->setValuesByArray(array(
+        $this->setValuesByArray([
             'name' => $this->object->getName(),
             'url' => $this->object->getUrl(),
             'img' => $this->object->getImg(),
             'show_in_list' => $this->object->isShownInList(),
-        ));
+        ]);
     }
 
 

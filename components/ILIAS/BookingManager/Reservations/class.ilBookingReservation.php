@@ -39,7 +39,7 @@ class ilBookingReservation
     protected \ILIAS\BookingManager\Reservations\ReservationDBRepository $repo;
 
     public function __construct(
-        int $a_id = null
+        ?int $a_id = null
     ) {
         global $DIC;
 

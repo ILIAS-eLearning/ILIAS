@@ -107,9 +107,8 @@ class ilFileXMLParser extends ilSaxParser
      */
     public function setHandlers($a_xml_parser): void
     {
-        xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
+        xml_set_element_handler($a_xml_parser, $this->handlerBeginTag(...), $this->handlerEndTag(...));
+        xml_set_character_data_handler($a_xml_parser, $this->handlerCharacterData(...));
     }
 
     /**
@@ -132,7 +131,7 @@ class ilFileXMLParser extends ilSaxParser
             case 'File':
                 if (isset($a_attribs["obj_id"])) {
                     $read_obj_id = ilUtil::__extractId($a_attribs["obj_id"], IL_INST_ID);
-                    if ($this->obj_id != -1 && (int) $read_obj_id != -1 && $this->obj_id != (int) $read_obj_id) {
+                    if ($this->obj_id != -1 && (int) $read_obj_id != -1 && $this->obj_id !== (int) $read_obj_id) {
                         throw new ilFileException(
                             "Object IDs (xml $read_obj_id and argument " . $this->obj_id . ") do not match!",
                             ilFileException::$ID_MISMATCH
@@ -213,12 +212,8 @@ class ilFileXMLParser extends ilSaxParser
                 $this->result = true;
                 break;
             case 'Filename':
-                if ($this->cdata === '') {
-                    throw new ilFileException("Filename ist missing!");
-                }
-
-                $this->file->setFilename($this->cdata);
-                $this->file->setTitle($this->cdata);
+                $this->file->setFilename($this->cdata ?? 'unkown');
+                $this->file->setTitle($this->cdata ?? 'unkown');
 
                 break;
             case 'Title':
@@ -283,7 +278,7 @@ class ilFileXMLParser extends ilSaxParser
                     }
 
                     // if no file type is given => lookup mime type
-                    if (!$this->file->getFileType()) {
+                    if ($this->file->getFileType() === '' || $this->file->getFileType() === '0') {
                         global $DIC;
                         $this->file->setFileType(MimeType::getMimeType($this->tmpFilename));
                     }
@@ -314,7 +309,7 @@ class ilFileXMLParser extends ilSaxParser
      */
     public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
-        if ($a_data != "\n") {
+        if ($a_data !== "\n") {
             // begin-patch fm
             if ($this->mode !== ilFileXMLParser::$CONTENT_COPY
                 && $this->mode !== ilFileXMLParser::$CONTENT_REST
@@ -342,9 +337,9 @@ class ilFileXMLParser extends ilSaxParser
                     continue;
                 }
                 // try to get first file of directory
-                $files = scandir(dirname($version["tmpFilename"]));
+                $files = scandir(dirname((string) $version["tmpFilename"]));
                 $version["tmpFilename"] = rtrim(
-                    dirname($version["tmpFilename"]),
+                    dirname((string) $version["tmpFilename"]),
                     "/"
                 ) . "/" . $files[2];// because [0] = "." [1] = ".."
                 if (!file_exists($version["tmpFilename"])) {
@@ -406,12 +401,12 @@ class ilFileXMLParser extends ilSaxParser
     {
         $path = str_replace('\\', '/', $path);
 
-        while (preg_match('#\p{C}+|^\./#u', $path)) {
-            $path = preg_replace('#\p{C}+|^\./#u', '', $path);
+        while (preg_match('#\p{C}+|^\./#u', (string) $path)) {
+            $path = preg_replace('#\p{C}+|^\./#u', '', (string) $path);
         }
 
         $parts = [];
-        foreach (explode('/', $path) as $part) {
+        foreach (explode('/', (string) $path) as $part) {
             switch ($part) {
                 case '':
                 case '.':

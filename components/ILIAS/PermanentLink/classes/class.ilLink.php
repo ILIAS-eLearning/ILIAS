@@ -57,6 +57,8 @@ class ilLink
                 $a_params
             );
         }
+
+        return '';
     }
 
     /**

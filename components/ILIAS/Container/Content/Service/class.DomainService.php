@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Container\Content;
 
@@ -97,14 +97,16 @@ class DomainService
     public function itemPresentation(
         \ilContainer $container,
         ?\ilContainerUserFilter $container_user_filter,
-        bool $include_empty_blocks = true
+        bool $include_empty_blocks = true,
+        ?string $lang = null
     ): ItemPresentationManager {
         return new ItemPresentationManager(
             $this->domain_service,
             $container,
             $container_user_filter,
             $this->repo_clipboard,
-            $include_empty_blocks
+            $include_empty_blocks,
+            $lang
         );
     }
 
@@ -113,14 +115,18 @@ class DomainService
      */
     public function itemSetFlat(
         int $ref_id,
-        ?\ilContainerUserFilter $user_filter
+        ?\ilContainerUserFilter $user_filter,
+        bool $force_session_order_by_date = true
     ): ItemSetManager {
         if (!isset(self::$flat_item_set_managers[$ref_id])) {
             self::$flat_item_set_managers[$ref_id] = new ItemSetManager(
                 $this->domain_service,
                 ItemSetManager::FLAT,
                 $ref_id,
-                $user_filter
+                $user_filter,
+                0,
+                false,
+                $force_session_order_by_date
             );
         }
         return self::$flat_item_set_managers[$ref_id];
@@ -218,7 +224,8 @@ class DomainService
             self::$mode_managers[$container->getId()] = new ModeManager(
                 $container,
                 $this->mode_repo,
-                $this->repo_clipboard
+                $this->repo_clipboard,
+                $this->domain_service->user()->getId()
             );
         }
         return self::$mode_managers[$container->getId()];
@@ -235,6 +242,7 @@ class DomainService
         return new FilterManager(
             $this,
             $this->repo_service->content(),
+            $this->domain_service->metadata(),
             $objects,
             $container_user_filter,
             $results_on_filter_only
@@ -245,7 +253,8 @@ class DomainService
         \ilContainer $container,
         BlockSequence $block_sequence,
         ItemSetManager $item_set_manager,
-        bool $include_empty_blocks = true
+        bool $include_empty_blocks = true,
+        ?string $lang = null
     ): ItemBlockSequenceGenerator {
         return new ItemBlockSequenceGenerator(
             $this->data_service->content(),
@@ -254,7 +263,8 @@ class DomainService
             $container,
             $block_sequence,
             $item_set_manager,
-            $include_empty_blocks
+            $include_empty_blocks,
+            $lang
         );
     }
 }

@@ -27,6 +27,8 @@ use ILIAS\Survey\Page\PageRenderer;
  */
 class ResultsPerUserPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 {
+    protected \ilTree $tree;
+    protected \ILIAS\Survey\InternalGUIService $gui;
     protected \ILIAS\Survey\Evaluation\EvaluationManager $evaluation_manager;
     protected \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request;
     protected \ILIAS\Survey\Access\AccessManager $access_manager;
@@ -64,6 +66,10 @@ class ResultsPerUserPrintViewProviderGUI extends Export\AbstractPrintViewProvide
                                              $this->request->getAppraiseeId(),
                                              $this->request->getRaterId()
                                          );
+        $this->gui = $DIC->survey()
+                         ->internal()
+                         ->gui();
+        $this->tree = $DIC->repositoryTree();
     }
 
     public function getTemplateInjectors(): array
@@ -133,8 +139,34 @@ class ResultsPerUserPrintViewProviderGUI extends Export\AbstractPrintViewProvide
 
         $table_gui->setData($filtered_data);
 
-        $print_pages[] = $table_gui->getHTML();
+        $print_pages[] = $this->getPrintHeader() .
+            $table_gui->getHTML();
 
         return $print_pages;
     }
+
+    protected function getPrintHeader(): string
+    {
+        $head = "<h2>" . $this->survey->getTitle() . "</h2>\n";
+        $path = "";
+        $path_full = $this->tree->getPathFull($this->survey->getRefId());
+        foreach ($path_full as $data) {
+            $path .= " &raquo; ";
+            $path .= $data['title'];
+        }
+
+        \ilDatePresentation::setUseRelativeDates(false);
+        $props = array(
+            $this->lng->txt("url") => \ilLink::_getStaticLink($this->survey->getRefId()),
+            $this->lng->txt("path") => $path,
+            $this->lng->txt("date") => \ilDatePresentation::formatDate(new \ilDateTime(time(), IL_CAL_UNIX)),
+        );
+
+        $f = $this->gui->ui()->factory();
+        $r = $this->gui->ui()->renderer();
+        $l = $f->listing()->descriptive($props);
+
+        return $head . $r->render($l);
+    }
+
 }

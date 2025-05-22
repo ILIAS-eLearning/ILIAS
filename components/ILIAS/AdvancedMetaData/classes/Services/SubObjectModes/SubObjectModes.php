@@ -23,8 +23,8 @@ namespace ILIAS\AdvancedMetaData\Services\SubObjectModes;
 use ILIAS\DI\Container;
 use ILIAS\AdvancedMetaData\Services\SubObjectIDInterface;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTable\SupplierInterface;
-use ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTable\Supplier;
+use ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTable;
+use ILIAS\AdvancedMetaData\Services\SubObjectModes\Filter;
 
 class SubObjectModes implements SubObjectModesInterface
 {
@@ -49,10 +49,24 @@ class SubObjectModes implements SubObjectModesInterface
         $this->ref_id = $ref_id;
         $this->sub_types = $sub_types;
     }
-    public function inDataTable(): SupplierInterface
+    public function inDataTable(): DataTable\SupplierInterface
     {
-        return new Supplier(
+        return new DataTable\Supplier(
             $this->dic->user(),
+            $this->dic->ui()->factory(),
+            new DataFactory(),
+            $this->dic['static_url'],
+            $this->type,
+            $this->ref_id,
+            ...$this->sub_types
+        );
+    }
+
+    public function inFilter(): Filter\SupplierInterface
+    {
+        return new Filter\Supplier(
+            $this->dic->user(),
+            $this->dic->language(),
             $this->dic->ui()->factory(),
             new DataFactory(),
             $this->dic['static_url'],

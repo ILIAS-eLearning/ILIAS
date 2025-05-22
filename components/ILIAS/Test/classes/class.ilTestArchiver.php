@@ -18,234 +18,137 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitleBuilder;
+use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Test\InternalRequestService;
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\UI\Component\Table\DataRetrieval;
+use ILIAS\UI\Component\Table\DataRowBuilder;
+use ILIAS\Data\Range;
+use ILIAS\Data\Order;
+use ILIAS\ResourceStorage\Services as IRSS;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Class ilTestArchiver
- *
- * Helper class to deal with the generation and maintenance of test archives.
- *
  * @author Maximilian Becker <mbecker@databay.de>
- *
- * @version $Id$
- *
- * @ingroup components\ILIASTest
  */
 class ilTestArchiver
 {
-    #region Constants / Config
-
-    public const DIR_SEP = '/';
-
-    public const HTML_SUBMISSION_FILENAME = 'test_submission.html';
-    public const PASS_MATERIALS_PATH_COMPONENT = 'materials';
-    public const QUESTION_PATH_COMPONENT_PREFIX = 'q_';
-
-    public const TEST_BEST_SOLUTION_PATH_COMPONENT = 'best_solution';
-    public const HTML_BEST_SOLUTION_FILENAME = 'best_solution.html';
-    public const TEST_MATERIALS_PATH_COMPONENT = 'materials';
-
-    protected const TEST_RESULT_FILENAME = 'test_result.html';
-
-    public const TEST_OVERVIEW_HTML_FILENAME = 'results_overview_html_v';
-    public const TEST_OVERVIEW_HTML_POSTFIX = '.html';
-
-    public const LOG_DTSGROUP_FORMAT = 'D M j G:i:s T Y';
-    public const LOG_ADDITION_STRING = ' Adding ';
-    public const LOG_CREATION_STRING = ' Creating ';
-    public const LOG_UPDATE_STRING = ' Updating ';
-    public const LOG_DELETION_STRING = ' Deleting ';
-
-    public const TEST_LOG_FILENAME = 'test.log';
-    public const DATA_INDEX_FILENAME = 'data_index.csv';
-    public const ARCHIVE_LOG = 'archive.log';
+    public const DIR_SEP = DIRECTORY_SEPARATOR;
 
     public const EXPORT_DIRECTORY = 'archive_exports';
 
-    #endregion
+    private const PASS_MATERIALS_PATH_COMPONENT = 'materials';
+    private const QUESTION_PATH_COMPONENT_PREFIX = 'q_';
 
-    /*
-     * Test-Archive Schema:
-     *
-     * <external directory>/<client>/tst_data/archive/tst_<obj_id>/
-     * 		- archive_data_index.dat
-     * 		- archive_log.log
-     *
-     * 		- test_log.log
-     *
-     * 		- test_results_v<n>.pdf
-     * 		- test_results_v<n>.csv
-     *
-     * 		-> best_solution/
-     * 			best_solution_v<n>.pdf
-     * 			-> /materials/q_<question_fi>/<n>_<filename>
-     *
-     * 		-> <year>/<month>/<day>/<ActiveFi>_<Pass>[_<Lastname>][_<Firstname>][_<Matriculation>]/
-     * 			-> test_submission.pdf
-     * 			-> test_submission.html
-     * 			-> test_submission.sig (et al)
-     * 			-> test_result_v<n>.pdf
-     * 			-> /materials_v<n>/<question_fi>/<n>_<filename>
-     */
+    private const TEST_BEST_SOLUTION_PATH_COMPONENT = 'best_solution';
+    private const HTML_BEST_SOLUTION_FILENAME = 'best_solution.html';
+    private const TEST_MATERIALS_PATH_COMPONENT = 'materials';
 
-    #region Properties
+    private const TEST_RESULT_FILENAME = 'test_result.html';
 
-    protected $external_directory_path;
-    protected $client_id;
-    protected $test_obj_id;
-    protected $test_ref_id;
-    protected $archive_data_index;
+    private const LOG_DTSGROUP_FORMAT = 'D M j G:i:s T Y';
+    private const LOG_ADDITION_STRING = ' Adding ';
 
-    protected ilLanguage $lng;
-    protected ilDBInterface $db;
-    protected ilCtrl $ctrl;
-    protected ilObjUser $user;
-    protected ilTabsGUI $tabs;
-    protected ilToolbarGUI $toolbar;
-    protected ilGlobalTemplateInterface $tpl;
-    protected UIFactory $ui_factory;
-    protected UIRenderer $ui_renderer;
-    protected ilAccess $access;
-    protected InternalRequestService $testrequest;
-    protected GlobalHttpState $http;
-    protected RefineryFactory $refinery;
+    private const TEST_LOG_FILENAME = 'test_log.xlsx';
+    private const DATA_INDEX_FILENAME = 'data_index.csv';
+    private const ARCHIVE_LOG = 'archive.log';
+
+    private string $external_directory_path;
+    private string $client_id = CLIENT_ID;
+    private $archive_data_index;
 
     protected ilTestHTMLGenerator $html_generator;
 
-    /**
-     * @var ilTestParticipantData
-     */
-    protected $participantData;
+    protected ?ilTestParticipantData $participant_data = null;
 
-    private \ILIAS\ResourceStorage\Services $irss;
-
-    #endregion
-
-    public function __construct(int $test_obj_id, ?int $test_ref_id = null)
-    {
+    public function __construct(
+        private readonly ilLanguage $lng,
+        private readonly ilDBInterface $db,
+        private readonly ilObjUser $user,
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
+        private readonly IRSS $irss,
+        private readonly ServerRequestInterface $request,
+        private readonly ilObjectDataCache $obj_cache,
+        private readonly ilTestParticipantAccessFilterFactory $participant_access_filter_factory,
+        private readonly TestLogViewer $log_viewer,
+        private readonly int $test_obj_id,
+        private ?int $test_ref_id = null
+    ) {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
-        $this->lng = $DIC['lng'];
-        $this->db = $DIC['ilDB'];
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->user = $DIC['ilUser'];
-        $this->tabs = $DIC['ilTabs'];
-        $this->toolbar = $DIC['ilToolbar'];
-        $this->tpl = $DIC['tpl'];
-        $this->ui_factory = $DIC['ui.factory'];
-        $this->ui_renderer = $DIC['ui.renderer'];
-        $this->access = $DIC['ilAccess'];
-        $this->testrequest = $DIC->test()->internal()->request();
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
-        $this->irss = $DIC->resourceStorage();
-
         $ilias = $DIC['ilias'];
 
         $this->html_generator = new ilTestHTMLGenerator();
-
         $this->external_directory_path = $ilias->ini_ilias->readVariable('clients', 'datadir');
-        $this->client_id = $ilias->client_id;
-        $this->test_obj_id = $test_obj_id;
-        $this->test_ref_id = $test_ref_id;
-
         $this->archive_data_index = $this->readArchiveDataIndex();
-
-        $this->participantData = null;
     }
 
-    /**
-     * @return ilTestParticipantData
-     */
     public function getParticipantData(): ?ilTestParticipantData
     {
-        return $this->participantData;
+        return $this->participant_data;
     }
 
-    /**
-     * @param ilTestParticipantData $participantData
-     */
-    public function setParticipantData($participantData)
+    public function setParticipantData(ilTestParticipantData $participant_data): void
     {
-        $this->participantData = $participantData;
+        $this->participant_data = $participant_data;
     }
 
-    #region API methods
-
-    /**
-     * Hands in a particpants question material, such as an upload or other binary content.
-     *
-     * @param $active_fi			integer Active-FI of the test participant
-     * @param $pass					integer	Pass-number of the actual test
-     * @param $question_fi			integer Question-FI of the question, the file is to be stored for.
-     * @param $original_filename	string  Original filename of the material to be stored.
-     * @param $file_path			string	Location of the file to be archived
-     */
-    public function handInParticipantQuestionMaterial($active_fi, $pass, $question_fi, $original_filename, $file_path)
-    {
+    public function handInParticipantQuestionMaterial(
+        int $active_fi,
+        int $pass,
+        int $question_fi,
+        string $original_filename,
+        string $file_path
+    ): void {
         $this->ensureTestArchiveIsAvailable();
         $this->ensurePassDataDirectoryIsAvailable($active_fi, $pass);
 
         $pass_question_directory = $this->getPassDataDirectory($active_fi, $pass)
-            . self::DIR_SEP . self::QUESTION_PATH_COMPONENT_PREFIX . $question_fi;
+            . DIRECTORY_SEPARATOR . self::QUESTION_PATH_COMPONENT_PREFIX . $question_fi;
         if (!is_dir($pass_question_directory)) {
             mkdir($pass_question_directory, 0777, true);
         }
 
-        copy($file_path, $pass_question_directory . self::DIR_SEP . $original_filename);
+        copy($file_path, $pass_question_directory . DIRECTORY_SEPARATOR . $original_filename);
 
         $this->logArchivingProcess(
             date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING
-            . $pass_question_directory . self::DIR_SEP . $original_filename
+            . $pass_question_directory . DIRECTORY_SEPARATOR . $original_filename
         );
     }
 
-    /**
-     * Hands in a participants file, which is relevant for archiving but an unspecified type.
-     *
-     * Examples for such are signature files, remarks, feedback or the like.
-     *
-     * @param $active_fi			integer Active-FI of the test participant
-     * @param $pass					integer	Pass-number of the actual test
-     * @param $original_filename	string  Original filename of the material to be stored.
-     * @param $file_path			string	Location of the file to be archived
-     */
-    public function handInParticipantMisc($active_fi, $pass, $original_filename, $file_path)
-    {
+    public function handInParticipantMisc(
+        int $active_fi,
+        int $pass,
+        string $original_filename,
+        string $file_path
+    ): void {
         $this->ensureTestArchiveIsAvailable();
         $this->ensurePassDataDirectoryIsAvailable($active_fi, $pass);
-        $new_path = $this->getPassDataDirectory($active_fi, $pass) . self::DIR_SEP . $original_filename;
+        $new_path = $this->getPassDataDirectory($active_fi, $pass) . DIRECTORY_SEPARATOR . $original_filename;
         copy($file_path, $new_path);
         $this->logArchivingProcess(date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING . $new_path);
     }
 
-    /**
-     * Hands in the best solution for a test.
-     *
-     * @param $html_string	string	HTML-string of the test submission
-     * @param $pdf_path		string	Path to a pdf representation of the test submission.
-     */
-    public function handInTestBestSolution($best_solution)
+    public function handInTestBestSolution(string $best_solution): void
     {
         $this->ensureTestArchiveIsAvailable();
 
-        $best_solution_path = $this->getTestArchive() . self::DIR_SEP . self::TEST_BEST_SOLUTION_PATH_COMPONENT;
+        $best_solution_path = $this->getTestArchive() . DIRECTORY_SEPARATOR . self::TEST_BEST_SOLUTION_PATH_COMPONENT;
         if (!is_dir($best_solution_path)) {
             mkdir($best_solution_path, 0777, true);
         }
 
         $this->html_generator->generateHTML(
             $best_solution,
-            $best_solution_path . self::DIR_SEP . self::HTML_BEST_SOLUTION_FILENAME
+            $best_solution_path . DIRECTORY_SEPARATOR . self::HTML_BEST_SOLUTION_FILENAME
         );
 
         $this->logArchivingProcess(
             date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING
-            . $best_solution_path . self::DIR_SEP . self::HTML_BEST_SOLUTION_FILENAME
+            . $best_solution_path . DIRECTORY_SEPARATOR . self::HTML_BEST_SOLUTION_FILENAME
         );
 
         $this->logArchivingProcess(
@@ -253,12 +156,11 @@ class ilTestArchiver
         );
     }
 
-    /**
-     * @param $active_fi
-     * @param $pass
-     * @return void
-     */
-    public function handInParticipantUploadedResults($active_fi, $pass, $tst_obj){
+    public function handInParticipantUploadedResults(
+        int $active_fi,
+        int $pass,
+        ilObjTest $tst_obj
+    ): void {
         $questions = $tst_obj->getQuestionsOfPass($active_fi, $pass);
         foreach ($questions as $question) {
             $question = $tst_obj->getQuestionDataset($question['question_fi']);
@@ -267,33 +169,16 @@ class ilTestArchiver
                 $this->ensurePassDataDirectoryIsAvailable($active_fi, $pass);
                 $this->ensurePassMaterialsDirectoryIsAvailable($active_fi, $pass);
                 $pass_material_directory = $this->getPassMaterialsDirectory($active_fi, $pass);
-                $archive_folder = $pass_material_directory . self::DIR_SEP . $question->question_id . self::DIR_SEP;
+                $archive_folder = $pass_material_directory . DIRECTORY_SEPARATOR . $question->question_id . DIRECTORY_SEPARATOR;
                 if (!file_exists($archive_folder)) {
                     mkdir($archive_folder, 0777, true);
                 }
-                // TODO old Filesystem remove on ILIAS 10
-                $local_folder = CLIENT_WEB_DIR . '/assessment/tst_' . $tst_obj->test_id . self::DIR_SEP . $active_fi . self::DIR_SEP . $question->question_id . '/files/';
-                if (file_exists($local_folder)) {
-                    $folder_content = scandir($local_folder);
-                    $folder_content = array_diff($folder_content, array('.', '..'));
-                    foreach ($folder_content as $file_name) {
-                        if (preg_match('/file_(\d+)_(\d+)_(\d+)/', $file_name, $matches)){
-                            if ($active_fi == intval($matches[1]) && $pass == $matches[2]){
-                                $local_file= $local_folder . $file_name;
-                                $target_destination = $archive_folder . $file_name;
-                                copy($local_file, $target_destination);
-                                $this->logArchivingProcess(date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING . $target_destination);
-                            }
-                        }
-                    }
-                }
-                // IRSS
                 $resource_id = $tst_obj->getTextAnswer($active_fi, $question->question_id, $pass);
-                if ($resource_id == ''){
+                if ($resource_id === '') {
                     continue;
                 }
                 $irss_unique_id = $this->irss->manage()->find($resource_id);
-                if ($irss_unique_id != null){
+                if ($irss_unique_id != null) {
                     $resource = $this->irss->manage()->getResource($irss_unique_id);
                     $information = $resource->getCurrentRevision()->getInformation();
                     $stream = $this->irss->consume()->stream($irss_unique_id);
@@ -308,102 +193,63 @@ class ilTestArchiver
         }
     }
 
-    /**
-     * Hands in a file related to a question in context of the best solution.
-     *
-     * @param $question_fi			integer QuestionFI of the question, material is to be stored for.
-     * @param $orginial_filename	string	Original filename of the material to be stored.
-     * @param $file_path			string  Path to the material to be stored.
-     */
-    public function handInBestSolutionQuestionMaterial($question_fi, $orginial_filename, $file_path)
-    {
+    public function handInBestSolutionQuestionMaterial(
+        int $question_fi,
+        string $orginial_filename,
+        string $file_path
+    ): void {
         $this->ensureTestArchiveIsAvailable();
 
-        $best_solution_path = $this->getTestArchive() . self::DIR_SEP . self::TEST_BEST_SOLUTION_PATH_COMPONENT;
+        $best_solution_path = $this->getTestArchive() . DIRECTORY_SEPARATOR . self::TEST_BEST_SOLUTION_PATH_COMPONENT;
         if (!is_dir($best_solution_path)) {
             mkdir($best_solution_path, 0777, true);
         }
 
-        $materials_path = $best_solution_path . self::DIR_SEP . self::TEST_MATERIALS_PATH_COMPONENT;
+        $materials_path = $best_solution_path . DIRECTORY_SEPARATOR . self::TEST_MATERIALS_PATH_COMPONENT;
         if (!is_dir($materials_path)) {
             mkdir($materials_path, 0777, true);
         }
 
-        $question_materials_path = $materials_path . self::DIR_SEP . self::QUESTION_PATH_COMPONENT_PREFIX . $question_fi;
+        $question_materials_path = $materials_path . DIRECTORY_SEPARATOR . self::QUESTION_PATH_COMPONENT_PREFIX . $question_fi;
         if (!is_dir($question_materials_path)) {
             mkdir($question_materials_path, 0777, true);
         }
 
-        copy($file_path, $question_materials_path . self::DIR_SEP . $orginial_filename);
+        copy($file_path, $question_materials_path . DIRECTORY_SEPARATOR . $orginial_filename);
 
         $this->logArchivingProcess(
             date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING
-            . $question_materials_path . self::DIR_SEP . $orginial_filename
+            . $question_materials_path . DIRECTORY_SEPARATOR . $orginial_filename
         );
     }
 
-    /**
-     * Hands in an individual test result for a pass.
-     *
-     * @param $active_fi	integer ActiveFI of the participant.
-     * @param $pass			integer	Pass of the test.
-     * @param $pdf_path		string 	Path to the PDF containing the result.
-     *
-     * @return void
-     */
-    public function handInTestResult($active_fi, $pass, $pdf_path)
+    public function handInTestResult(int $active_fi, int $pass, string $pdf_path): void
     {
         $this->ensureTestArchiveIsAvailable();
         $this->ensurePassDataDirectoryIsAvailable($active_fi, $pass);
-        $new_path = $this->getPassDataDirectory($active_fi, $pass) . self::DIR_SEP . self::TEST_RESULT_FILENAME;
+        $new_path = $this->getPassDataDirectory($active_fi, $pass) . DIRECTORY_SEPARATOR . self::TEST_RESULT_FILENAME;
         copy($pdf_path, $new_path);
         $this->logArchivingProcess(date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING . $new_path);
     }
 
-    #endregion
-
-    #region TestArchive
-    // The TestArchive lives here: <external directory>/<client>/tst_data/archive/tst_<obj_id>/
-
-    /**
-     * Returns if the archive directory structure for the test the object is created for exists.
-     *
-     * @return bool $hasTestArchive True, if the archive directory structure exists.
-     */
     protected function hasTestArchive(): bool
     {
         return is_dir($this->getTestArchive());
     }
 
-    /**
-     * Creates the directory for the test archive.
-     */
-    protected function createArchiveForTest()
+    protected function createArchiveForTest(): void
     {
         ilFileUtils::makeDirParents($this->getTestArchive());
-        //mkdir( $this->getTestArchive(), 0777, true );
     }
 
-    /**
-     * Returns the (theoretical) path to the archive directory of the test, this object is created for.
-     *
-     * @return string $test_archive Path to this tests archive directory.
-     */
     protected function getTestArchive(): string
     {
-        $test_archive_directory = $this->external_directory_path . self::DIR_SEP . $this->client_id . self::DIR_SEP . 'tst_data'
-            . self::DIR_SEP . 'archive' . self::DIR_SEP . 'tst_' . $this->test_obj_id;
+        $test_archive_directory = $this->external_directory_path . DIRECTORY_SEPARATOR . $this->client_id . DIRECTORY_SEPARATOR . 'tst_data'
+            . DIRECTORY_SEPARATOR . 'archive' . DIRECTORY_SEPARATOR . 'tst_' . $this->test_obj_id;
         return $test_archive_directory;
     }
 
-    /**
-     * Ensures the availability of the test archive directory.
-     *
-     * Checks if the directory exists and creates it if necessary.
-     *
-     * @return void
-     */
-    protected function ensureTestArchiveIsAvailable()
+    protected function ensureTestArchiveIsAvailable(): void
     {
         if (!$this->hasTestArchive()) {
             $this->createArchiveForTest();
@@ -411,22 +257,13 @@ class ilTestArchiver
         return;
     }
 
-    /**
-     * Replaces the test-log with the current one.
-     *
-     * @return void
-     */
-    public function updateTestArchive()
+    public function updateTestArchive(): void
     {
-        $query = 'SELECT * FROM ass_log WHERE obj_fi = ' . $this->db->quote($this->test_obj_id, 'integer');
-        $result = $this->db->query($query);
-
-        $outfile_lines = '';
-        /** @noinspection PhpAssignmentInConditionInspection */
-        while ($row = $this->db->fetchAssoc($result)) {
-            $outfile_lines .= "\r\n" . implode("\t", $row);
-        }
-        file_put_contents($this->getTestArchive() . self::DIR_SEP . self::TEST_LOG_FILENAME, $outfile_lines);
+        $this->log_viewer->getLogExportForRefjId(
+            $this->test_ref_id
+        )->writeToFile(
+            $this->getTestArchive() . DIRECTORY_SEPARATOR . self::TEST_LOG_FILENAME
+        );
 
         // Generate test pass overview
         $test = new ilObjTest($this->test_obj_id, false);
@@ -434,120 +271,64 @@ class ilTestArchiver
             $test->setRefId($this->test_ref_id);
         }
 
-        $gui = new ilParticipantsTestResultsGUI(
-            $this->ctrl,
-            $this->lng,
-            $this->db,
-            $this->user,
-            $this->tabs,
-            $this->toolbar,
-            $this->tpl,
-            $this->ui_factory,
-            $this->ui_renderer,
-            new ilTestParticipantAccessFilterFactory($this->access),
-            $this->testrequest,
-            $this->http,
-            $this->refinery
-        );
-        $gui->setTestObj($test);
-
-        $objectiveOrientedContainer = new ilTestObjectiveOrientedContainer();
-        $gui->setObjectiveParent($objectiveOrientedContainer);
-        $array_of_actives = array();
+        $array_of_actives = [];
         $participants = $test->getParticipants();
 
-        foreach ($participants as $key => $value) {
+        foreach (array_keys($participants) as $key) {
             $array_of_actives[] = $key;
         }
-        $output_template = $gui->createUserResults(true, false, true, $array_of_actives);
 
-        $filename = realpath($this->getTestArchive()) . self::DIR_SEP . 'participant_pass_overview.html';
-        $this->html_generator->generateHTML($output_template->get(), $filename);
-
-        return;
+        $filename = realpath($this->getTestArchive()) . DIRECTORY_SEPARATOR . 'participant_attempt_overview.html';
+        $this->html_generator->generateHTML(
+            $this->createUserResultsForArchive(
+                $test,
+                $array_of_actives
+            ),
+            $filename
+        );
     }
 
-    public function ensureZipExportDirectoryExists()
+    public function ensureZipExportDirectoryExists(): void
     {
         if (!$this->hasZipExportDirectory()) {
             $this->createZipExportDirectory();
         }
     }
 
-    /**
-     * Returns if the export directory for zips exists.
-     *
-     * @return bool
-     */
     public function hasZipExportDirectory(): bool
     {
         return is_dir($this->getZipExportDirectory());
     }
 
-    protected function createZipExportDirectory()
+    protected function createZipExportDirectory(): void
     {
         mkdir($this->getZipExportDirectory(), 0777, true);
     }
 
-    /**
-     * Return the export directory, where zips are placed.
-     *
-     * @return string
-     */
     public function getZipExportDirectory(): string
     {
-        return $this->external_directory_path . self::DIR_SEP . $this->client_id . self::DIR_SEP . 'tst_data'
-            . self::DIR_SEP . self::EXPORT_DIRECTORY . self::DIR_SEP . 'tst_' . $this->test_obj_id;
+        return $this->external_directory_path . DIRECTORY_SEPARATOR . $this->client_id . DIRECTORY_SEPARATOR . 'tst_data'
+            . DIRECTORY_SEPARATOR . self::EXPORT_DIRECTORY . DIRECTORY_SEPARATOR . 'tst_' . $this->test_obj_id;
     }
 
-    /**
-     * Generate the test archive for download.
-     *
-     * @return void
-     */
-    public function compressTestArchive()
+    public function compressTestArchive(): void
     {
         $this->updateTestArchive();
         $this->ensureZipExportDirectoryExists();
 
         $zip_output_path = $this->getZipExportDirectory();
-        $zip_output_filename = 'test_archive_obj_' . $this->test_obj_id . '_' . time() . '_.zip';
+        $zip_output_filename = 'test_archive_obj_' . $this->test_obj_id . '_' . time() . '.zip';
 
-        ilFileUtils::zip($this->getTestArchive(), $zip_output_path . self::DIR_SEP . $zip_output_filename, true);
+        ilFileUtils::zip($this->getTestArchive(), $zip_output_path . DIRECTORY_SEPARATOR . $zip_output_filename, true);
         return;
     }
 
-    #endregion
-
-    #region PassDataDirectory
-    // The pass data directory contains all data relevant for a participants pass.
-    // In addition to the test-archive-directory, this directory lives here:
-    // .../<year>/<month>/<day>/<ActiveFi>_<Pass>[_<Lastname>][_<Firstname>][_<Matriculation>]/
-    // Lastname, Firstname and Matriculation are not mandatory in the directory name.
-
-    /**
-     * Checks if the directory for pass data is available.
-     *
-     * @param $active_fi	integer ActiveFI of the pass.
-     * @param $pass			integer Pass-number of the pass.
-     *
-     * @return bool $hasPassDataDirectory True, if the pass data directory exists.
-     */
-    protected function hasPassDataDirectory($active_fi, $pass): bool
+    protected function hasPassDataDirectory(int $active_fi, int $pass): bool
     {
-        $pass_data_dir = $this->getPassDataDirectory($active_fi, $pass);
         return is_dir($this->getPassDataDirectory($active_fi, $pass));
     }
 
-    /**
-     * Creates pass data directory
-     *
-     * @param $active_fi integer ActiveFI of the participant.
-     * @param $pass		 integer Pass number of the test.
-     *
-     * @return void
-     */
-    protected function createPassDataDirectory($active_fi, $pass)
+    protected function createPassDataDirectory(int $active_fi, int $pass): void
     {
         mkdir($this->getPassDataDirectory($active_fi, $pass), 0777, true);
         return;
@@ -558,22 +339,14 @@ class ilTestArchiver
         foreach ($this->archive_data_index as $data_index_entry) {
             if ($data_index_entry != null && $data_index_entry['identifier'] == $active_fi . '|' . $pass) {
                 array_shift($data_index_entry);
-                return $this->getTestArchive() . self::DIR_SEP . implode(self::DIR_SEP, $data_index_entry);
+                return $this->getTestArchive() . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $data_index_entry);
             }
         }
 
         return null;
     }
 
-    /**
-     * Returns the pass data directory.
-     *
-     * @param $active_fi integer ActiveFI of the participant.
-     * @param $pass	     integer Pass number of the test.
-     *
-     * @return string $pass_data_directory Path to the pass data directory.
-     */
-    protected function getPassDataDirectory($active_fi, $pass): ?string
+    protected function getPassDataDirectory(int $active_fi, int $pass): ?string
     {
         $pass_data_dir = $this->buildPassDataDirectory($active_fi, $pass);
 
@@ -583,21 +356,18 @@ class ilTestArchiver
 
         $test_obj = new ilObjTest($this->test_obj_id, false);
         if ($test_obj->getAnonymity()) {
-            $firstname = 'anonym';
+            $firstname = $this->lng->txt('anonymous');
             $lastname = '';
-            $matriculation = '0';
+            $matriculation = '';
+        } elseif ($this->getParticipantData()) {
+            $usr_data = $this->getParticipantData()->getUserDataByActiveId($active_fi);
+            $firstname = $usr_data['firstname'] ?? $this->lng->txt('deleted_user');
+            $lastname = $usr_data['lastname'] ?? '';
+            $matriculation = $usr_data['matriculation'] ?? '';
         } else {
-            if ($this->getParticipantData()) {
-                $usr_data = $this->getParticipantData()->getUserDataByActiveId($active_fi);
-                $firstname = $usr_data['firstname'];
-                $lastname = $usr_data['lastname'];
-                $matriculation = $usr_data['matriculation'];
-            } else {
-
-                $firstname = $this->user->getFirstname();
-                $lastname = $this->user->getLastname();
-                $matriculation = $this->user->getMatriculation();
-            }
+            $firstname = $this->user->getFirstname();
+            $lastname = $this->user->getLastname();
+            $matriculation = $this->user->getMatriculation();
         }
 
         $this->appendToArchiveDataIndex(
@@ -612,17 +382,7 @@ class ilTestArchiver
         return $this->buildPassDataDirectory($active_fi, $pass);
     }
 
-    /**
-     * Ensures the availability of the participant data directory.
-     *
-     * Checks if the directory exists and creates it if necessary.
-     *
-     * @param $active_fi	integer Active-FI of the test participant
-     * @param $pass			integer Pass-number of the actual test
-     *
-     * @return void
-     */
-    protected function ensurePassDataDirectoryIsAvailable($active_fi, $pass)
+    protected function ensurePassDataDirectoryIsAvailable(int $active_fi, int $pass): void
     {
         if (!$this->hasPassDataDirectory($active_fi, $pass)) {
             $this->createPassDataDirectory($active_fi, $pass);
@@ -630,49 +390,29 @@ class ilTestArchiver
         return;
     }
 
-    #endregion
-
-    #region PassMaterialsDirectory
-
-    /**
-     * Returns if the pass materials directory exists for a given pass.
-     *
-     * @param $active_fi	integer ActiveFI for the participant.
-     * @param $pass			integer Pass number.
-     *
-     * @return bool			$hasPassmaterialsDirectory True, if the directory exists.
-     */
-    protected function hasPassMaterialsDirectory($active_fi, $pass): bool
+    protected function hasPassMaterialsDirectory(int $active_fi, int $pass): bool
     {
-        /** @noinspection PhpUsageOfSilenceOperatorInspection */
-        if (@is_dir($this->getPassMaterialsDirectory($active_fi, $pass))) {
+        if (is_dir($this->getPassMaterialsDirectory($active_fi, $pass))) {
             return true;
         }
         return false;
     }
 
-    /**
-     * Creates pass materials directory.
-     *
-     * @param $active_fi	integer	ActiveFI of the participant.
-     * @param $pass			integer Pass number of the test.
-     *
-     * @return string
-     */
-    protected function createPassMaterialsDirectory($active_fi, $pass): string
+    protected function createPassMaterialsDirectory(int $active_fi, int $pass): string
     {
-        // Data are taken from the current user as the implementation expects the first interaction of the pass
-        // takes place from the usage/behaviour of the current user.
-
+        /**
+         * Data is taken from the current user as the implementation expects the
+         * first interaction of the pass takes place from the usage/behaviour of
+         * the current user. (skergomard, 11.09.24: Whatever the f*** this means.)
+         */
         $user = $this->user;
 
         if ($this->getParticipantData()) {
             $usrData = $this->getParticipantData()->getUserDataByActiveId($active_fi);
             $user = new ilObjUser();
-            $user->setFirstname($usrData['firstname']);
-            $user->setLastname($usrData['lastname']);
-            $user->setMatriculation($usrData['matriculation']);
-            $user->setFirstname($usrData['firstname']);
+            $user->setFirstname($usrData['firstname'] ?? $this->lng->txt('deleted_user'));
+            $user->setLastname($usrData['lastname'] ?? '');
+            $user->setMatriculation($usrData['matriculation'] ?? '');
         }
 
         $this->appendToArchiveDataIndex(
@@ -688,52 +428,28 @@ class ilTestArchiver
         return $material_directory;
     }
 
-    /**
-     * Returns the pass materials directory.
-     *
-     * @param $active_fi	integer ActiveFI of the participant.
-     * @param $pass			integer Pass number.
-     *
-     * @return string $pass_materials_directory Path to the pass materials directory.
-     */
-    protected function getPassMaterialsDirectory($active_fi, $pass): string
+    protected function getPassMaterialsDirectory(int $active_fi, int $pass): string
     {
         $pass_data_directory = $this->getPassDataDirectory($active_fi, $pass);
-        return $pass_data_directory . self::DIR_SEP . self::PASS_MATERIALS_PATH_COMPONENT;
+        return $pass_data_directory . DIRECTORY_SEPARATOR . self::PASS_MATERIALS_PATH_COMPONENT;
     }
 
-    /**
-     * Ensures the availability of the pass materials directory.
-     *
-     * Checks if the directory exists and creates it if necessary.
-     *
-     * @param $active_fi	integer Active-FI of the test participant
-     * @param $pass			integer Pass-number of the actual test
-     *
-     */
-    protected function ensurePassMaterialsDirectoryIsAvailable($active_fi, $pass)
+    protected function ensurePassMaterialsDirectoryIsAvailable(int $active_fi, int $pass): void
     {
         if (!$this->hasPassMaterialsDirectory($active_fi, $pass)) {
             $this->createPassMaterialsDirectory($active_fi, $pass);
         }
     }
 
-    #endregion
-
-    /**
-     * Reads the archive data index.
-     *
-     * @return array[array] $archive_data_index Archive data index.
-     */
     protected function readArchiveDataIndex(): array
     {
         /**
          * The Archive Data Index is a csv-file containing the following columns
          * <active_fi>|<pass>|<yyyy>|<mm>|<dd>|<directory>
          */
-        $data_index_file = $this->getTestArchive() . self::DIR_SEP . self::DATA_INDEX_FILENAME;
+        $data_index_file = $this->getTestArchive() . DIRECTORY_SEPARATOR . self::DATA_INDEX_FILENAME;
 
-        $contents = array();
+        $contents = [];
 
         /** @noinspection PhpUsageOfSilenceOperatorInspection */
         if (@file_exists($data_index_file)) {
@@ -755,20 +471,14 @@ class ilTestArchiver
         return $contents;
     }
 
-    /**
-     * Appends a line to the archive data index.
-     *
-     * @param $date             string  Date for the directories path.
-     * @param $active_fi        integer ActiveFI of the participant.
-     * @param $pass             integer Pass number of the participant.
-     * @param $user_firstname	string	User firstname.
-     * @param $user_lastname	string  User lastname.
-     * @param $matriculation    string Matriculation number of the user.
-     *
-     * @return void
-     */
-    protected function appendToArchiveDataIndex($date, $active_fi, $pass, $user_firstname, $user_lastname, $matriculation)
-    {
+    protected function appendToArchiveDataIndex(
+        string $date,
+        int $active_fi,
+        int $pass,
+        string $user_firstname,
+        string $user_lastname,
+        string $matriculation
+    ): void {
         $line = $this->determinePassDataPath($date, $active_fi, $pass, $user_firstname, $user_lastname, $matriculation);
 
         $this->archive_data_index[] = $line;
@@ -781,50 +491,210 @@ class ilTestArchiver
             $output_contents .= implode('|', $line_data) . "\n";
         }
 
-        file_put_contents($this->getTestArchive() . self::DIR_SEP . self::DATA_INDEX_FILENAME, $output_contents);
+        file_put_contents($this->getTestArchive() . DIRECTORY_SEPARATOR . self::DATA_INDEX_FILENAME, $output_contents);
         $this->readArchiveDataIndex();
         return;
     }
 
-    /**
-     * Determines the pass data path.
-     *
-     * @param $date
-     * @param $active_fi
-     * @param $pass
-     * @param $user_firstname
-     * @param $user_lastname
-     * @param $matriculation
-     *
-     * @return array
-     */
-    protected function determinePassDataPath($date, $active_fi, $pass, $user_firstname, $user_lastname, $matriculation): array
-    {
-        $date = date_create_from_format('Y-m-d\TH:i:sP', $date);
-        if (!$date) {
+    private function determinePassDataPath(
+        string $date,
+        int $active_fi,
+        int $pass,
+        string $user_firstname,
+        string $user_lastname,
+        string $matriculation
+    ): array {
+        $parsed_date = date_create_from_format('Y-m-d\TH:i:sP', $date);
+        if (!$parsed_date) {
             throw new Exception('Invalid date format. Expected ISO 8601 format.');
         }
 
-        $line = array(
+        $line = [
             'identifier' => $active_fi . '|' . $pass,
-            'yyyy' => date_format($date, 'Y'),
-            'mm' => date_format($date, 'm'),
-            'dd' => date_format($date, 'd'),
+            'yyyy' => date_format($parsed_date, 'Y'),
+            'mm' => date_format($parsed_date, 'm'),
+            'dd' => date_format($parsed_date, 'd'),
             'directory' => $active_fi . '_' . $pass . '_' . $user_firstname . '_' . $user_lastname . '_' . $matriculation
-        );
+        ];
         return $line;
     }
 
-    /**
-     * Logs to the archive log.
-     *
-     * @param $message string Complete log message.
-     *
-     * @return void
-     */
-    protected function logArchivingProcess($message)
+    private function createUserResultsForArchive(
+        \ilObjTest $test_obj,
+        array $active_ids,
+    ): string {
+        $template = new ilTemplate('tpl.il_as_tst_participants_result_output.html', true, true, 'components/ILIAS/Test');
+
+        $participant_data = new ilTestParticipantData($this->db, $this->lng);
+        $participant_data->setParticipantAccessFilter(
+            $this->participant_access_filter_factory->getAccessResultsUserFilter($test_obj->getRefId())
+        );
+        $participant_data->setActiveIdsFilter($active_ids);
+        $participant_data->load($test_obj->getTestId());
+
+        $test_session_factory = new ilTestSessionFactory($test_obj, $this->db, $this->user);
+
+        $count = 0;
+        foreach ($active_ids as $active_id) {
+            if (!in_array($active_id, $participant_data->getActiveIds())) {
+                continue;
+            }
+
+            $count++;
+            $results = '';
+            if ($active_id > 0) {
+                $results = $this->getResultsOfUserOutput(
+                    $test_obj,
+                    $test_session_factory->getSession($active_id),
+                    $participant_data->getUserDataByActiveId($active_id),
+                    (int) $active_id,
+                    ilObjTest::_getResultPass($active_id)
+                );
+            }
+            if ($count < count($active_ids)) {
+                $template->touchBlock('break');
+            }
+            $template->setCurrentBlock('user_result');
+            $template->setVariable('USER_RESULT', $results);
+            $template->parseCurrentBlock();
+        }
+
+        return $template->get();
+    }
+
+    public function getResultsOfUserOutput(
+        \ilObjTest $test_obj,
+        ilTestSession $test_session,
+        array $participant_data,
+        int $active_id,
+        int $attempt
+    ): string {
+        $template = new ilTemplate('tpl.il_as_tst_results_participant.html', true, true, 'components/ILIAS/Test');
+
+        $uname = "{$participant_data['firstname']} {$participant_data['lastname']}";
+        if ($test_obj->getAnonymity()) {
+            $uname = $this->lng->txt('anonymous');
+        }
+
+        $test_result_title_builder = new ResultsTitleBuilder($this->lng, $this->obj_cache);
+
+        $result_array = $test_obj->getTestResult(
+            $active_id,
+            $attempt,
+            false,
+            true
+        );
+
+        $table = $this->ui_factory->table()->data(
+            $this->getDataRetrievalForAttemptOverviewTable($result_array),
+            $test_result_title_builder->getPassDetailsHeaderLabel($attempt + 1),
+            $this->getColumnsForAttemptOverviewTable(),
+        )->withRequest($this->request);
+        $template->setVariable(
+            'PASS_DETAILS',
+            $this->ui_renderer->render($table)
+        );
+
+        if ($test_obj->isShowExamIdInTestResultsEnabled()) {
+            $template->setCurrentBlock('exam_id_footer');
+            $template->setVariable('EXAM_ID_VAL', ilObjTest::lookupExamId(
+                $test_session->getActiveId(),
+                $attempt
+            ));
+            $template->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
+            $template->parseCurrentBlock();
+        }
+
+        $template->setCurrentBlock('participant_block_id');
+        $template->setVariable('PARTICIPANT_BLOCK_ID', "participant_active_{$active_id}");
+        $template->parseCurrentBlock();
+
+        $template->setVariable('TEXT_HEADING', sprintf($this->lng->txt('tst_result_user_name'), $uname));
+
+        if ($participant_data['matriculation'] !== '') {
+            $template->setVariable('USER_DATA', "{$this->lng->txt('matriculation')}: {$participant_data['matriculation']}");
+        }
+
+        $results = $test_obj->getResultsForActiveId($active_id);
+        $status = $this->lng->txt($results['passed'] ? 'passed_official' : 'failed_official');
+        $template->setVariable(
+            'GRADING_MESSAGE',
+            "{$this->lng->txt('passed_status')}: {$status}<br>"
+            . "{$this->lng->txt('tst_mark')}: {$results['mark_official']}"
+        );
+
+        $template->setVariable('PASS_FINISH_DATE_LABEL', $this->lng->txt('tst_pass_finished_on'));
+        $template->setVariable(
+            'PASS_FINISH_DATE_VALUE',
+            (new \DateTimeImmutable('@' . ilObjTest::lookupLastTestPassAccess($active_id, $attempt)))
+                ->setTimezone(new DateTimeZone($this->user->getTimeZone()))
+                ->format($this->user->getDateTimeFormat()->toString())
+        );
+
+        return $template->get();
+    }
+
+    private function getColumnsForAttemptOverviewTable(): array
     {
-        $archive = $this->getTestArchive() . self::DIR_SEP . self::ARCHIVE_LOG;
+        $cf = $this->ui_factory->table()->column();
+        $columns = [
+            'order' => $cf->number($this->lng->txt('order')),
+            'question_id' => $cf->number($this->lng->txt('question_id')),
+            'title' => $cf->text($this->lng->txt('tst_question_title')),
+            'reachable_points' => $cf->number($this->lng->txt('tst_maximum_points')),
+            'reached_points' => $cf->number($this->lng->txt('tst_reached_points'))
+        ];
+        $columns['solved'] = $cf->text($this->lng->txt('tst_percent_solved'));
+        return $columns;
+    }
+
+    private function getDataRetrievalForAttemptOverviewTable(array $result_data): DataRetrieval
+    {
+        return new class ($result_data) implements DataRetrieval {
+            public function __construct(
+                private readonly array $result_data
+            ) {
+            }
+
+            public function getRows(
+                DataRowBuilder $row_builder,
+                array $visible_column_ids,
+                Range $range,
+                Order $order,
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): \Generator {
+                $i = 1;
+                foreach ($this->result_data as $result) {
+                    if (!isset($result['qid'])) {
+                        continue;
+                    }
+                    yield $row_builder->buildDataRow(
+                        (string) $result['qid'],
+                        [
+                            'order' => $i++,
+                            'question_id' => $result['qid'],
+                            'title' => $result['title'],
+                            'reachable_points' => $result['max'],
+                            'reached_points' => $result['reached'],
+                            'solved' => $result['percent']
+                        ]
+                    );
+                }
+            }
+
+            public function getTotalRowCount(
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): ?int {
+                return count($this->result_data);
+            }
+        };
+    }
+
+    private function logArchivingProcess(string $message): void
+    {
+        $archive = $this->getTestArchive() . DIRECTORY_SEPARATOR . self::ARCHIVE_LOG;
         if (file_exists($archive)) {
             $content = file_get_contents($archive) . "\n" . $message;
         } else {
@@ -832,30 +702,5 @@ class ilTestArchiver
         }
 
         file_put_contents($archive, $content);
-    }
-
-    /**
-     * Returns the count of files in a directory, eventually matching the given, optional, pattern.
-     *
-     * @param      		  $directory
-     * @param null|string $pattern
-     *
-     * @return integer
-     */
-    protected function countFilesInDirectory($directory, $pattern = null): int
-    {
-        $filecount = 0;
-
-        /** @noinspection PhpAssignmentInConditionInspection */
-        if ($handle = opendir($directory)) {
-            while (($file = readdir($handle)) !== false) {
-                if (!in_array($file, array( '.', '..' )) && !is_dir($directory . $file)) {
-                    if ($pattern && strpos($file, $pattern) === 0) {
-                        $filecount++;
-                    }
-                }
-            }
-        }
-        return $filecount;
     }
 }

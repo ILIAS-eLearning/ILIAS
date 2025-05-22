@@ -1,14 +1,30 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
 var filter = function($) {
 
   //Init the Filter
   var init = function () {
     $("div.il-filter").each(function () {
       var $filter = this;
+      var $form = $($filter).find(".il-standard-form");
       var cnt_hid = 0;
       var cnt_bar = 1;
 
       //Set form action
-      $($filter).find(".il-standard-form").attr('action', window.location.pathname);
+      $form.attr('action', window.location.pathname);
 
       //Filter fields (hide hidden stuff)
       $($filter).find(".il-filter-field-status").each(function () {
@@ -21,13 +37,17 @@ var filter = function($) {
         cnt_hid++;
       });
 
-      $(".il-filter-bar-opener").find("button:first").hide();
-      $(".il-filter-bar-opener button").click(function() {
-        $(".il-filter-bar-opener button").toggle();
-        if ($(this).attr("aria-expanded") == "false") {
-          $(this).attr("aria-expanded", "true");
+      //Expand and collapse behaviour
+      var button = $filter.querySelector('.il-filter-bar-opener').querySelector('button');
+      button.addEventListener('click', () => {
+        if (button.getAttribute('aria-expanded') === 'false') {
+          button.setAttribute('aria-expanded', true);
+          showAndHideElementsForExpand($filter);
+          performAjaxCmd($form, 'expand');
         } else {
-          $(this).attr("aria-expanded", "false");
+          button.setAttribute('aria-expanded', false);
+          showAndHideElementsForCollapse($filter);
+          performAjaxCmd($form, 'collapse');
         }
       });
 
@@ -67,6 +87,20 @@ var filter = function($) {
       if (empty_list) {
         $(".btn-bulky").parents(".il-popover-container").hide();
       }
+
+      // Using Return while the focus is on an Input Field imitates a click on the Apply Button
+      $form.on("keydown", ":input:not(:button)", function(event) {
+        var key = event.which;
+        if ((key === 13)) {	// 13 = Return
+          var action = $form.attr("data-cmd-apply");
+          var url = parse_url(action);
+          var url_params = url['query_params'];
+          createHiddenInputs($(this), url_params);
+          $form.attr('action', url['path']);
+          $form.submit();
+          event.preventDefault();
+        }
+      });
 
       //Accessibility for complex Input Fields
       $(".il-filter-field").keydown(function (event) {
@@ -303,6 +337,41 @@ var filter = function($) {
   };
 
   /**
+   * @param filter
+   */
+  var showAndHideElementsForCollapse = function (filter) {
+    filter.querySelector('[data-collapse-glyph-visibility]').dataset.collapseGlyphVisibility = '0';
+    filter.querySelector('[data-expand-glyph-visibility]').dataset.expandGlyphVisibility = '1';
+    filter.querySelector('.il-filter-inputs-active').dataset.activeInputsExpanded = '1';
+    filter.querySelector('.il-filter-input-section').dataset.sectionInputsExpanded = '0';
+  };
+
+  /**
+   * @param filter
+   */
+  var showAndHideElementsForExpand = function (filter) {
+    filter.querySelector('[data-expand-glyph-visibility]').dataset.expandGlyphVisibility = '0';
+    filter.querySelector('[data-collapse-glyph-visibility]').dataset.collapseGlyphVisibility = '1';
+    filter.querySelector('.il-filter-inputs-active').dataset.activeInputsExpanded = '0';
+    filter.querySelector('.il-filter-input-section').dataset.sectionInputsExpanded = '1';
+  };
+
+  /**
+   * @param form
+   * @param cmd
+   */
+  var performAjaxCmd = function (form, cmd) {
+    //Get the URL for GET-request
+    var action = form.attr("data-cmd-" + cmd);
+    //Add the inputs to the URL (for correct rendering within the session) and perform the request as an Ajax-request
+    var formData = form.serialize();
+    $.ajax({
+      type: 'GET',
+      url: action + "&" + formData,
+    });
+  };
+
+  /**
    *
    * @param event
    * @param id
@@ -317,24 +386,6 @@ var filter = function($) {
     createHiddenInputs($el, url_params);
     $el.parents('form').attr('action', url['path']);
     $el.parents('form').submit();
-  };
-
-  /**
-   *
-   * @param event
-   * @param id
-   * @param cmd
-   */
-  var onAjaxCmd = function (event, id, cmd) {
-    //Get the URL for GET-request
-    var $el = $("#" + id);
-    var action = $el.parents('form').attr("data-cmd-" + cmd);
-    //Add the inputs to the URL (for correct rendering within the session) and perform the request as an Ajax-request
-    var formData = $el.parents('form').serialize();
-    $.ajax({
-      type: 'GET',
-      url: action + "&" + formData,
-    })
   };
 
   /**
@@ -392,8 +443,7 @@ var filter = function($) {
     onInputUpdate: onInputUpdate,
     onRemoveClick: onRemoveClick,
     onAddClick: onAddClick,
-    onCmd: onCmd,
-    onAjaxCmd: onAjaxCmd
+    onCmd: onCmd
   };
 
 };

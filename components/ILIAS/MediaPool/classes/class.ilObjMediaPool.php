@@ -122,6 +122,8 @@ class ilObjMediaPool extends ilObject implements ilAdvancedMetaDataSubItems
 
         $id = parent::create();
 
+        $this->createMetaData();
+
         $ilDB->manipulate("INSERT INTO mep_data " .
             "(id, default_width, default_height, for_translation) VALUES (" .
             $ilDB->quote($this->getId(), "integer") . ", " .
@@ -156,6 +158,8 @@ class ilObjMediaPool extends ilObject implements ilAdvancedMetaDataSubItems
             return false;
         }
 
+        $this->updateMetaData();
+
         // put here object specific stuff
         $ilDB->manipulate(
             "UPDATE mep_data SET " .
@@ -175,6 +179,8 @@ class ilObjMediaPool extends ilObject implements ilAdvancedMetaDataSubItems
         if (!parent::delete()) {
             return false;
         }
+
+        $this->deleteMetaData();
 
         // get childs
         $childs = $this->mep_tree->getSubTree($this->mep_tree->getNodeData($this->mep_tree->readRootId()));
@@ -445,6 +451,8 @@ class ilObjMediaPool extends ilObject implements ilAdvancedMetaDataSubItems
             $new_obj->getTree()->readRootId(),
             $this->getTree()->readRootId()
         );
+
+        $this->cloneMetaData($new_obj);
 
         return $new_obj;
     }

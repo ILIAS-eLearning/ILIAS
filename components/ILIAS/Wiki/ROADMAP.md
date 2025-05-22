@@ -1,6 +1,6 @@
 # Wiki Roadmap
 
-## Short Term
+## Mid Term
 
 ### Hiding/Showing Custom Metadata
 
@@ -28,5 +28,8 @@ declare(strict_types=1); should be added to all classes.
 
 ## Mid Term
 
+### Export Metadata Page List (Needs Funding)
+
+The export/import of wiki page lists using metadata is currently unsupported. Unfortunately the current data structure would make it complicated to support this, since it would require to parse all page XML to get IDs of lists. Additionally the metadata mapping would be required to fix the IDs. So the overall procedure would be quite complex to implement.
 
 ## Long Term

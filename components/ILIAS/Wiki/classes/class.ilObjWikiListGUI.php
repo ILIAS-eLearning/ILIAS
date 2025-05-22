@@ -43,27 +43,11 @@ class ilObjWikiListGUI extends ilObjectListGUI
         $this->commands = ilObjWikiAccess::_getCommands();
     }
 
-    public function getCommandFrame(string $cmd): string
-    {
-        switch ($cmd) {
-            default:
-                $frame = ilFrameTargetInfo::_getFrame("MainContent");
-                break;
-        }
-
-        return $frame;
-    }
-
     public function getProperties(): array
     {
         $lng = $this->lng;
 
-        $props = array();
-
-        if (!ilObjWikiAccess::_lookupOnline($this->obj_id)) {
-            $props[] = array("alert" => true, "property" => $lng->txt("status"),
-                "value" => $lng->txt("offline"));
-        }
+        $props = parent::getProperties();
 
         $lng->loadLanguageModule("wiki");
         $info = ilExcRepoObjAssignment::getInstance()->getAssignmentInfoOfObj($this->ref_id, $this->user->getId());

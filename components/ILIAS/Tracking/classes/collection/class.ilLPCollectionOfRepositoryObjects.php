@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=0);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=0);
 
 /**
  * LP collection of repository objects
@@ -256,20 +270,32 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         return $res->numRows() ? true : false;
     }
 
+    protected function getNonGroupedItems(array $a_item_ids): array
+    {
+        $grouped_item_ids = [];
+
+        $query = "SELECT item_id FROM ut_lp_collections" .
+            " WHERE obj_id = " . $this->db->quote($this->obj_id, ilDBConstants::T_INTEGER) .
+            " AND " . $this->db->in("item_id", $a_item_ids, false, ilDBConstants::T_INTEGER) .
+            " AND grouping_id > " . $this->db->quote(0, ilDBConstants::T_INTEGER);
+        $res = $this->db->query($query);
+        while ($row = $res->fetchObject()) {
+            $grouped_item_ids[] = $row->item_id;
+        }
+
+        return array_diff($a_item_ids, $grouped_item_ids);
+    }
+
     protected function getGroupingIds(array $a_item_ids): array
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $grouping_ids = array();
+        $grouping_ids = [];
 
         $query = "SELECT grouping_id FROM ut_lp_collections" .
-            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
-            " AND " . $this->db->in("item_id", $a_item_ids, false, "integer") .
-            " AND grouping_id > " . $this->db->quote(0, "integer");
+            " WHERE obj_id = " . $this->db->quote($this->obj_id, ilDBConstants::T_INTEGER) .
+            " AND " . $this->db->in("item_id", $a_item_ids, false, ilDBConstants::T_INTEGER) .
+            " AND grouping_id > " . $this->db->quote(0, ilDBConstants::T_INTEGER);
         $res = $this->db->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        while ($row = $res->fetchObject()) {
             $grouping_ids[] = $row->grouping_id;
         }
 
@@ -297,7 +323,9 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 
     public function activateEntries(array $a_item_ids): void
     {
-        parent::activateEntries($a_item_ids);
+        // 44683: only activate non-grouped items via parent
+        $non_grouped_ids = $this->getNonGroupedItems($a_item_ids);
+        parent::activateEntries($non_grouped_ids);
 
         $grouping_ids = $this->getGroupingIds($a_item_ids);
         if ($grouping_ids) {

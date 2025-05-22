@@ -49,6 +49,8 @@ class assFormulaQuestionGUITest extends assBaseTestCase
 
         $this->setGlobalVariable('ilias', $this->getIliasMock());
         $this->setGlobalVariable('ilDB', $this->getDatabaseMock());
+        $this->addGlobal_uiFactory();
+        $this->addGlobal_uiRenderer();
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

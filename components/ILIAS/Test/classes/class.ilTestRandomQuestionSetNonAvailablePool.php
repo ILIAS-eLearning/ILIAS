@@ -29,91 +29,50 @@ class ilTestRandomQuestionSetNonAvailablePool
     public const UNAVAILABILITY_STATUS_LOST = 'lost';
     public const UNAVAILABILITY_STATUS_TRASHED = 'trashed';
 
-    /**
-     * @var string
-     */
-    protected $unavailabilityStatus;
+    protected string $unavailability_status;
+    protected int $id;
+    protected ?int $ref_id = null;
+    protected string $title;
+    protected string $path;
 
-    /**
-     * @var integer
-     */
-    protected $id;
-
-    /** @var int|null */
-    protected $ref_id = null;
-
-    /**
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * @var string
-     */
-    protected $path;
-
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId($id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    /**
-     * @return string
-     */
     public function getPath(): string
     {
         return $this->path;
     }
 
-    /**
-     * @param string $path
-     */
-    public function setPath($path)
+    public function setPath(string $path): void
     {
         $this->path = $path;
     }
 
-    /**
-     * @return string
-     */
     public function getUnavailabilityStatus(): string
     {
-        return $this->unavailabilityStatus;
+        return $this->unavailability_status;
     }
 
-    /**
-     * @param string $unavailabilityStatus
-     */
-    public function setUnavailabilityStatus($unavailabilityStatus)
+    public function setUnavailabilityStatus(string $unavailability_status): void
     {
-        $this->unavailabilityStatus = $unavailabilityStatus;
+        $this->unavailability_status = $unavailability_status;
     }
 
     public function getRefId(): ?int
@@ -126,10 +85,7 @@ class ilTestRandomQuestionSetNonAvailablePool
         $this->ref_id = $ref_id;
     }
 
-    /**
-     * @param array $row
-     */
-    public function assignDbRow($row)
+    public function assignDbRow(array $row): void
     {
         foreach ($row as $field => $value) {
             switch ($field) {

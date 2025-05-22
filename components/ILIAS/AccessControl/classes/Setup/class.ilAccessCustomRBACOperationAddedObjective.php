@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
@@ -25,6 +24,8 @@ use ILIAS\DI;
 
 class ilAccessCustomRBACOperationAddedObjective implements Setup\Objective
 {
+    private const NO_DIC_FOUND = 'There is no $DIC.';
+
     protected string $id;
     protected string $title;
     protected string $class;
@@ -125,7 +126,7 @@ class ilAccessCustomRBACOperationAddedObjective implements Setup\Objective
             $db->insert("rbac_ta", $values);
         }
 
-        $GLOBALS["DIC"] = $dic;
+        $this->resetDIC($dic);
         return $environment;
     }
 
@@ -159,8 +160,7 @@ class ilAccessCustomRBACOperationAddedObjective implements Setup\Objective
             }
         }
 
-        $GLOBALS["DIC"] = $dic;
-
+        $this->resetDIC($dic);
         return count($this->types) && in_array($this->class, ['create', 'object', 'general']);
     }
 
@@ -172,17 +172,26 @@ class ilAccessCustomRBACOperationAddedObjective implements Setup\Objective
         // subcomponents of the various readers to run. This is a memento to the
         // fact, that dependency injection is something we want. Currently, every
         // component could just service locate the whole world via the global $DIC.
-        $DIC = [];
-        if (isset($GLOBALS["DIC"])) {
-            $DIC = $GLOBALS["DIC"];
+        $DIC = self::NO_DIC_FOUND;
+        if (array_key_exists('DIC', $GLOBALS)) {
+            $DIC = $GLOBALS['DIC'];
         }
-        $GLOBALS["DIC"] = new DI\Container();
-        $GLOBALS["DIC"]["ilDB"] = $db;
+        $GLOBALS['DIC'] = new DI\Container();
+        $GLOBALS['DIC']['ilDB'] = $db;
 
-        if (!defined("ILIAS_ABSOLUTE_PATH")) {
-            define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 6));
+        if (!defined('ILIAS_ABSOLUTE_PATH')) {
+            define('ILIAS_ABSOLUTE_PATH', dirname(__FILE__, 6));
         }
 
         return $DIC;
+    }
+
+    protected function resetDIC($dic): void
+    {
+        if ($dic !== self::NO_DIC_FOUND) {
+            $GLOBALS['DIC'] = $dic;
+            return;
+        }
+        unset($GLOBALS['DIC']);
     }
 }

@@ -418,8 +418,10 @@ div.ilTableCommandRowTop {
 	background-color: $il-data-table-bg;
 
 	tr {
-		th:first-child, td:first-child {
-			padding-left: $il-padding-xlarge-horizontal;
+		td:first-child {
+			input[type="checkbox"] {
+				margin-left: calc($il-padding-xlarge-horizontal - $il-padding-base);
+			}
 		}
 	}
 }

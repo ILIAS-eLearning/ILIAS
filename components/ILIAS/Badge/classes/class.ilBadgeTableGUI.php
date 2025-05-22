@@ -16,156 +16,336 @@
  *
  *********************************************************************/
 
-use ILIAS\DI\UIServices;
-use ILIAS\Badge\Tile;
+declare(strict_types=1);
 
-/**
- * TableGUI class for badge listing
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- */
-class ilBadgeTableGUI extends ilTable2GUI
+namespace ILIAS\Badge;
+
+use ILIAS\UI\Factory;
+use ILIAS\UI\URLBuilder;
+use ILIAS\Data\Order;
+use ILIAS\Data\Range;
+use ilLanguage;
+use ilGlobalTemplateInterface;
+use ILIAS\UI\Renderer;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\Services;
+use Psr\Http\Message\RequestInterface;
+use ILIAS\UI\Component\Table\DataRowBuilder;
+use Generator;
+use ILIAS\UI\Component\Table\DataRetrieval;
+use ILIAS\UI\URLBuilderToken;
+use ilBadge;
+use ilBadgeAuto;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\UI\Component\Table\Column\Column;
+
+class ilBadgeTableGUI implements DataRetrieval
 {
-    protected string $parent_type;
-    protected array $filter = [];
-    private readonly Tile $tile;
-    private readonly UIServices $ui;
+    private readonly Factory $factory;
+    private readonly Renderer $renderer;
+    private readonly \ILIAS\Refinery\Factory $refinery;
+    private readonly ServerRequestInterface|RequestInterface $request;
+    private readonly Services $http;
+    private readonly int $parent_id;
+    private readonly string $parent_type;
+    private readonly ilLanguage $lng;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private ilBadgeImage $badge_image_service;
+    /**
+     * @return null|list<array{
+     *     id: int,
+     *     badge: ilBadge,
+     *     active: bool,
+     *     type: string,
+     *     manual: bool,
+     *     image: string,
+     *     title: string,
+     *     title_sortable: string
+     * }>
+     */
+    private ?array $cached_records = null;
 
-    public function __construct(
-        object $a_parent_obj,
-        string $a_parent_cmd = "",
-        int $a_parent_obj_id = 0,
-        protected bool $has_write = false
-    ) {
+    public function __construct(int $parent_obj_id, string $parent_obj_type, protected bool $has_write = false)
+    {
         global $DIC;
 
-        $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
-        $this->ui = $DIC->ui();
-        $this->tile = new Tile($DIC);
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
+        $this->refinery = $DIC->refinery();
+        $this->request = $DIC->http()->request();
+        $this->http = $DIC->http();
 
-        $this->setId("bdgbdg");
-        $this->parent_type = ilObject::_lookupType($a_parent_obj_id);
-
-        parent::__construct($a_parent_obj, $a_parent_cmd);
-
-        $this->setLimit(9999);
-
-        $this->setTitle($lng->txt("obj_bdga"));
-
-        if ($this->has_write) {
-            $this->addColumn("", "", 1);
-        }
-
-        $this->addColumn($lng->txt("title"), "title");
-        $this->addColumn($lng->txt("type"), "type");
-        $this->addColumn($lng->txt("active"), "active");
-
-        if ($this->has_write) {
-            $this->addColumn($lng->txt("action"), "");
-
-            $lng->loadLanguageModule("content");
-            $this->addMultiCommand("copyBadges", $lng->txt("cont_copy_to_clipboard"));
-            $this->addMultiCommand("activateBadges", $lng->txt("activate"));
-            $this->addMultiCommand("deactivateBadges", $lng->txt("deactivate"));
-            $this->addMultiCommand("confirmDeleteBadges", $lng->txt("delete"));
-            $this->setSelectAllCheckbox("id");
-        }
-
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.badge_row.html", "components/ILIAS/Badge");
-        $this->setDefaultOrderField("title");
-
-        $this->setFilterCommand("applyBadgeFilter");
-        $this->setResetCommand("resetBadgeFilter");
-
-        $this->initFilter();
-
-        $this->getItems($a_parent_obj_id);
+        $this->parent_id = $parent_obj_id;
+        $this->parent_type = $parent_obj_type;
+        $this->badge_image_service = new ilBadgeImage(
+            $DIC->resourceStorage(),
+            $DIC->upload(),
+            $DIC->ui()->mainTemplate()
+        );
     }
 
-    public function initFilter(): void
+    /**
+     * @return list<array{
+     *     id: int,
+     *     badge: ilBadge,
+     *     active: bool,
+     *     type: string,
+     *     manual: bool,
+     *     image: string,
+     *     title: string,
+     *     title_sortable: string
+     * }>
+     */
+    private function getRecords(): array
     {
-        $lng = $this->lng;
+        if ($this->cached_records !== null) {
+            return $this->cached_records;
+        }
 
-        $title = $this->addFilterItemByMetaType("title", self::FILTER_TEXT, false, $lng->txt("title"));
-        $this->filter["title"] = $title->getValue();
+        $rows = [];
+        $modal_container = new ModalBuilder();
 
-        $handler = ilBadgeHandler::getInstance();
-        $valid_types = $handler->getAvailableTypesForObjType($this->parent_type);
-        if ($valid_types &&
-            count($valid_types) > 1) {
-            $lng->loadLanguageModule("search");
+        foreach (ilBadge::getInstancesByParentId($this->parent_id) as $badge) {
+            $images = [
+                'rendered' => null,
+                'large' => null,
+            ];
+            $image_src = $this->badge_image_service->getImageFromBadge($badge);
+            if ($image_src !== '') {
+                $images['rendered'] = $this->renderer->render(
+                    $this->factory->image()->responsive(
+                        $image_src,
+                        $badge->getTitle()
+                    )
+                );
 
-            $options = array("" => $lng->txt("search_any"));
-            foreach ($valid_types as $id => $type) {
-                $options[$id] = ilBadge::getExtendedTypeCaption($type);
+                $image_src_large = $this->badge_image_service->getImageFromBadge(
+                    $badge,
+                    ilBadgeImage::IMAGE_SIZE_XL
+                );
+                if ($image_src_large !== '') {
+                    $images['large'] = $this->factory->image()->responsive(
+                        $image_src_large,
+                        $badge->getTitle()
+                    );
+                }
             }
-            asort($options);
 
-            $type = $this->addFilterItemByMetaType("type", self::FILTER_SELECT, false, $lng->txt("type"));
-            $type->setOptions($options);
-            $this->filter["type"] = $type->getValue();
-        }
-    }
+            $modal = $modal_container->constructModal(
+                $images['large'],
+                $badge->getTitle(),
+                [
+                    'description' => $badge->getDescription(),
+                    'badge_criteria' => $badge->getCriteria(),
+                ]
+            );
 
-    public function getItems(int $a_parent_obj_id): void
-    {
-        $data = array();
-
-        foreach (ilBadge::getInstancesByParentId($a_parent_obj_id, $this->filter) as $badge) {
-            $data[] = array(
-                "id" => $badge->getId(),
-                "title" => $badge->getTitle(),
-                "active" => $badge->isActive(),
-                "type" => ($this->parent_type !== "bdga")
+            $rows[] = [
+                'id' => $badge->getId(),
+                'badge' => $badge,
+                'active' => $badge->isActive(),
+                'type' => $this->parent_type !== 'bdga'
                     ? ilBadge::getExtendedTypeCaption($badge->getTypeInstance())
                     : $badge->getTypeInstance()->getCaption(),
-                "manual" => (!$badge->getTypeInstance() instanceof ilBadgeAuto),
-                "renderer" => fn() => $this->tile->asTitle($this->tile->modalContent($badge)),
-            );
+                'manual' => !$badge->getTypeInstance() instanceof ilBadgeAuto,
+                'image' => $images['rendered'] ? ($modal_container->renderShyButton(
+                    $images['rendered'],
+                    $modal
+                ) . ' ') : '',
+                'title' => implode('', [
+                    $modal_container->renderShyButton($badge->getTitle(), $modal),
+                    $modal_container->renderModal($modal)
+                ]),
+                'title_sortable' => $badge->getTitle()
+            ];
         }
 
-        $this->setData($data);
+        $this->cached_records = $rows;
+
+        return $rows;
     }
 
-    protected function fillRow(array $a_set): void
-    {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
+    public function getRows(
+        DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        Range $range,
+        Order $order,
+        ?array $filter_data,
+        ?array $additional_parameters
+    ): Generator {
+        $records = $this->getRecords();
 
-        if ($this->has_write) {
-            $this->tpl->setVariable("VAL_ID", $a_set["id"]);
-        }
+        if ($order) {
+            [$order_field, $order_direction] = $order->join(
+                [],
+                fn($ret, $key, $value) => [$key, $value]
+            );
 
-        $this->tpl->setVariable("PREVIEW", $this->ui->renderer()->render($a_set["renderer"]()));
-        $this->tpl->setVariable("TXT_TYPE", $a_set["type"]);
-        $this->tpl->setVariable("TXT_ACTIVE", $a_set["active"]
-            ? $lng->txt("yes")
-            : $lng->txt("no"));
+            usort($records, static function (array $left, array $right) use ($order_field): int {
+                if (\in_array($order_field, ['title', 'type'], true)) {
+                    if ($order_field === 'title') {
+                        $order_field .= '_sortable';
+                    }
 
-        if ($this->has_write) {
-            $buttons = [];
+                    return \ilStr::strCmp(
+                        $left[$order_field],
+                        $right[$order_field]
+                    );
+                }
 
-            if ($a_set["manual"] && $a_set["active"]) {
-                $ilCtrl->setParameter($this->getParentObject(), "bid", $a_set["id"]);
-                $ilCtrl->setParameter($this->getParentObject(), "tgt", "bdgl");
-                $url = $ilCtrl->getLinkTarget($this->getParentObject(), "awardBadgeUserSelection");
-                $ilCtrl->setParameter($this->getParentObject(), "bid", "");
-                $ilCtrl->setParameter($this->getParentObject(), "tgt", "");
+                if ($order_field === 'active') {
+                    return $right[$order_field] <=> $left[$order_field];
+                }
 
-                $buttons[] = $this->ui->factory()->button()->shy($lng->txt("badge_award_badge"), $url);
+                return $left[$order_field] <=> $right[$order_field];
+            });
+
+            if ($order_direction === Order::DESC) {
+                $records = array_reverse($records);
             }
-
-            $ilCtrl->setParameter($this->getParentObject(), "bid", $a_set["id"]);
-            $url = $ilCtrl->getLinkTarget($this->getParentObject(), "editBadge");
-            $ilCtrl->setParameter($this->getParentObject(), "bid", "");
-
-            $buttons[] = $this->ui->factory()->button()->shy($lng->txt("edit"), $url);
-            $actions = $this->ui->factory()->dropdown()->standard($buttons)->withLabel($lng->txt("actions"));
-
-            $this->tpl->setVariable("ACTIONS", $this->ui->renderer()->render($actions));
         }
+
+        if ($range) {
+            $records = \array_slice($records, $range->getStart(), $range->getLength());
+        }
+
+        foreach ($records as $record) {
+            yield $row_builder
+                ->buildDataRow((string) $record['id'], $record)
+                ->withDisabledAction(
+                    'award_revoke_badge',
+                    !$record['manual'] || !$record['active']
+                );
+        }
+    }
+
+    public function getTotalRowCount(
+        ?array $filter_data,
+        ?array $additional_parameters
+    ): ?int {
+        return \count($this->getRecords());
+    }
+
+    /**
+     * @return array<string, Column>
+     */
+    private function getColumns(): array
+    {
+        return [
+            'image' => $this->factory->table()->column()->text($this->lng->txt('image'))->withIsSortable(false),
+            'title' => $this->factory->table()->column()->text($this->lng->txt('title')),
+            'type' => $this->factory->table()->column()->text($this->lng->txt('type')),
+            'active' => $this->factory->table()->column()->boolean(
+                $this->lng->txt('active'),
+                $this->lng->txt('yes'),
+                $this->lng->txt('no')
+            )->withOrderingLabels(
+                $this->lng->txt('badge_sort_active_badges_first'),
+                $this->lng->txt('badge_sort_active_badges_last')
+            )
+        ];
+    }
+
+    /**
+     * @return array<string, \ILIAS\UI\Component\Table\Action\Action>
+     */
+    private function getActions(
+        URLBuilder $url_builder,
+        URLBuilderToken $action_parameter_token,
+        URLBuilderToken $row_id_token,
+    ): array {
+        return $this->has_write ? [
+            'badge_table_activate' =>
+                $this->factory->table()->action()->multi(
+                    $this->lng->txt('activate'),
+                    $url_builder->withParameter($action_parameter_token, 'badge_table_activate'),
+                    $row_id_token
+                ),
+            'badge_table_deactivate' =>
+                $this->factory->table()->action()->multi(
+                    $this->lng->txt('deactivate'),
+                    $url_builder->withParameter($action_parameter_token, 'badge_table_deactivate'),
+                    $row_id_token
+                ),
+            'badge_table_edit' => $this->factory->table()->action()->single(
+                $this->lng->txt('edit'),
+                $url_builder->withParameter($action_parameter_token, 'badge_table_edit'),
+                $row_id_token
+            ),
+            'badge_table_delete' =>
+                $this->factory->table()->action()->standard(
+                    $this->lng->txt('delete'),
+                    $url_builder->withParameter($action_parameter_token, 'badge_table_delete'),
+                    $row_id_token
+                ),
+            'award_revoke_badge' =>
+                $this->factory->table()->action()->single(
+                    $this->lng->txt('badge_award_revoke'),
+                    $url_builder->withParameter($action_parameter_token, 'award_revoke_badge'),
+                    $row_id_token
+                )
+        ] : [];
+    }
+
+    public function renderTable(): void
+    {
+        $df = new \ILIAS\Data\Factory();
+
+        $table_uri = $df->uri($this->request->getUri()->__toString());
+        $url_builder = new URLBuilder($table_uri);
+        $query_params_namespace = ['tid'];
+
+        [$url_builder, $action_parameter_token, $row_id_token] = $url_builder->acquireParameters(
+            $query_params_namespace,
+            'table_action',
+            'id',
+        );
+
+        $table = $this->factory
+            ->table()
+            ->data($this, $this->lng->txt('obj_bdga'), $this->getColumns())
+            ->withId(self::class . '_' . $this->parent_id)
+            ->withOrder(new Order('title', Order::ASC))
+            ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token))
+            ->withRequest($this->request);
+        $out = [$table];
+
+        $query = $this->http->wrapper()->query();
+
+        if ($query->has($action_parameter_token->getName())) {
+            $action = $query->retrieve($action_parameter_token->getName(), $this->refinery->to()->string());
+            $ids = $query->retrieve($row_id_token->getName(), $this->refinery->custom()->transformation(fn($v) => $v));
+
+            if ($action === 'delete') {
+                $items = [];
+                foreach ($ids as $id) {
+                    $items[] = $this->factory->modal()->interruptiveItem()->keyValue(
+                        $id,
+                        $row_id_token->getName(),
+                        $id
+                    );
+                }
+
+                $this->http->saveResponse(
+                    $this->http
+                        ->response()
+                        ->withBody(
+                            Streams::ofString($this->renderer->renderAsync([
+                                $this->factory->modal()->interruptive(
+                                    $this->lng->txt('badge_deletion'),
+                                    $this->lng->txt('badge_deletion_confirmation'),
+                                    '#'
+                                )->withAffectedItems($items)
+                            ]))
+                        )
+                );
+                $this->http->sendResponse();
+                $this->http->close();
+            }
+        }
+
+        $this->tpl->setContent($this->renderer->render($out));
     }
 }

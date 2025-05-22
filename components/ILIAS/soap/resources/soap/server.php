@@ -1,53 +1,66 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 /**
- * SOAP server
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
- * @package ilias
- */
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-chdir("../..");
-const ILIAS_MODULE = "components/ILIAS/soap";
+declare(strict_types=1);
+
 const IL_SOAPMODE_NUSOAP = 0;
 const IL_SOAPMODE_INTERNAL = 1;
-
-// php7 only SOAPMODE_INTERNAL
 const IL_SOAPMODE = IL_SOAPMODE_INTERNAL;
+const ILIAS_MODULE = 'components/ILIAS/soap';
+
+chdir('../..');
+
+require_once 'vendor/composer/vendor/autoload.php';
+
+// Initialize the error_reporting level, until it will be overwritte when ILIAS gets initialized
+error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+
 ilContext::init(ilContext::CONTEXT_SOAP);
 
-require_once("./Services/Init/classes/class.ilIniFile.php");
-$ilIliasIniFile = new ilIniFile("./ilias.ini.php");
+$ilIliasIniFile = new ilIniFile('./ilias.ini.php');
 $ilIliasIniFile->read();
 
 if ($ilIliasIniFile->readVariable('https', 'auto_https_detect_enabled')) {
     $headerName = $ilIliasIniFile->readVariable('https', 'auto_https_detect_header_name');
     $headerValue = $ilIliasIniFile->readVariable('https', 'auto_https_detect_header_value');
 
-    $headerName = "HTTP_" . str_replace("-", "_", strtoupper($headerName));
+    $headerName = 'HTTP_' . str_replace('-', '_', strtoupper($headerName));
     if (strcasecmp($_SERVER[$headerName], $headerValue) === 0) {
         $_SERVER['HTTPS'] = 'on';
     }
 }
 
-if (IL_SOAPMODE === IL_SOAPMODE_INTERNAL && strcasecmp($_SERVER["REQUEST_METHOD"], "post") === 0) {
+if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') === 0) {
     // This is a SOAP request
-    include_once('components/ILIAS/soap/include/inc.soap_functions.php');
-    $uri = ilSoapFunctions::buildHTTPPath() . '/public/soap/server.php';
+    require_once './components/ILIAS/soap/include/inc.soap_functions.php';
+    $uri = ilSoapFunctions::buildHTTPPath(false) . '/server.php';
     if (isset($_GET['client_id'])) {
         $uri .= '?client_id=' . $_GET['client_id'];
         $wsdl = $uri . '&wsdl';
     } else {
         $wsdl = $uri . '?wsdl';
     }
-    $soapServer = new SoapServer($wsdl, array('uri' => $uri));
+
+    $soapServer = new SoapServer($wsdl, ['uri' => $uri]);
     $soapServer->setObject(new ilSoapFunctions());
     $soapServer->handle();
 } else {
     // This is a request to display the available SOAP methods or WSDL...
-    include('public/soap/nusoapserver.php');
+    ilInitialisation::initILIAS();
+    require './components/ILIAS/soap/nusoapserver.php';
 }

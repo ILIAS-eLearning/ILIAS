@@ -36,12 +36,33 @@ final class ilFileDelivery implements ilFileDeliveryService
 {
     use HttpServiceAware;
 
+    /**
+     * @var string
+     */
     public const DIRECT_PHP_OUTPUT = Delivery::DIRECT_PHP_OUTPUT;
+    /**
+     * @var string
+     */
     public const DELIVERY_METHOD_XSENDFILE = DeliveryMethod::XSENDFILE;
+    /**
+     * @var string
+     */
     public const DELIVERY_METHOD_XACCEL = DeliveryMethod::XACCEL;
+    /**
+     * @var string
+     */
     public const DELIVERY_METHOD_PHP = DeliveryMethod::PHP;
+    /**
+     * @var string
+     */
     public const DELIVERY_METHOD_PHP_CHUNKED = DeliveryMethod::PHP_CHUNKED;
+    /**
+     * @var string
+     */
     public const DISP_ATTACHMENT = Delivery::DISP_ATTACHMENT;
+    /**
+     * @var string
+     */
     public const DISP_INLINE = Delivery::DISP_INLINE;
     private Delivery $delivery;
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Skill\Table;
 
@@ -110,7 +109,7 @@ class ProfileTable
         }
 
         $table = $this->ui_fac->table()
-                              ->data($this->lng->txt("skmg_skill_profiles"), $columns, $data_retrieval)
+                              ->data($data_retrieval, $this->lng->txt("skmg_skill_profiles"), $columns)
                               ->withId(
                                   self::class . "_" .
                                   $this->skill_tree_id
@@ -124,7 +123,7 @@ class ProfileTable
     protected function getColumns(): array
     {
         $columns = [
-            "title" => $this->ui_fac->table()->column()->text($this->lng->txt("title")),
+            "title" => $this->ui_fac->table()->column()->link($this->lng->txt("title")),
             "context" => $this->ui_fac->table()->column()->text($this->lng->txt("context"))
                                       ->withIsSortable(false),
             "users" => $this->ui_fac->table()->column()->text($this->lng->txt("users"))
@@ -139,17 +138,6 @@ class ProfileTable
     protected function getActions(): array
     {
         $query_params_namespace = ["skl_profile_table"];
-
-        $uri_edit = $this->df->uri(
-            ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTargetByClass("ilskillprofilegui", "showLevelsWithTableContext")
-        );
-        $url_builder_edit = new UI\URLBuilder($uri_edit);
-        list($url_builder_edit, $action_parameter_token_edit, $row_id_token_edit) =
-            $url_builder_edit->acquireParameters(
-                $query_params_namespace,
-                "action",
-                "profile_ids"
-            );
 
         $url_builder_delete = new UI\URLBuilder($this->df->uri($this->request->getUri()->__toString()));
         list($url_builder_delete, $action_parameter_token_delete, $row_id_token_delete) =
@@ -170,13 +158,7 @@ class ProfileTable
                 "profile_ids"
             );
 
-        $actions = [
-            "edit" => $this->ui_fac->table()->action()->single(
-                $this->tree_access_manager->hasManageProfilesPermission() ? $this->lng->txt("edit") : $this->lng->txt("show"),
-                $url_builder_edit->withParameter($action_parameter_token_edit, "editProfile"),
-                $row_id_token_edit
-            )
-        ];
+        $actions = [];
         if ($this->tree_access_manager->hasManageProfilesPermission()) {
             $actions["delete"] = $this->ui_fac->table()->action()->multi(
                 $this->lng->txt("delete"),
@@ -199,14 +181,18 @@ class ProfileTable
         $data_retrieval = new class (
             $this->lng,
             $this->skill_tree_id,
-            $this->profile_manager
+            $this->profile_manager,
+            $this->ui_fac,
+            $this->ctrl
         ) implements UI\Component\Table\DataRetrieval {
             use TableRecords;
 
             public function __construct(
                 protected \ilLanguage $lng,
                 protected int $skill_tree_id,
-                protected Profile\SkillProfileManager $skill_profile_manager
+                protected Profile\SkillProfileManager $skill_profile_manager,
+                protected UI\Factory $ui_fac,
+                protected \ilCtrl $ctrl
             ) {
             }
 
@@ -233,7 +219,7 @@ class ProfileTable
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Range $range = null, Data\Order $order = null): array
+            protected function getRecords(?Data\Range $range = null, ?Data\Order $order = null): array
             {
                 if ($this->skill_tree_id) {
                     $profiles = $this->skill_profile_manager->getProfilesForSkillTree($this->skill_tree_id);
@@ -245,7 +231,12 @@ class ProfileTable
                 $i = 0;
                 foreach ($profiles as $profile) {
                     $records[$i]["profile_id"] = $profile->getId();
-                    $records[$i]["title"] = $profile->getTitle();
+                    $this->ctrl->setParameterByClass("ilskillprofilegui", "sprof_id", $profile->getId());
+                    $records[$i]["title"] = $this->ui_fac->link()->standard(
+                        $profile->getTitle(),
+                        $this->ctrl->getLinkTargetByClass("ilskillprofilegui", "showLevels")
+                    );
+                    $this->ctrl->clearParameterByClass("ilskillprofilegui", "sprof_id");
                     $profile_ref_id = $this->skill_profile_manager->lookupRefId($profile->getId());
                     $profile_obj_id = \ilContainerReference::_lookupObjectId($profile_ref_id);
                     $profile_obj_title = \ilObject::_lookupTitle($profile_obj_id);

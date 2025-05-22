@@ -17,6 +17,9 @@
  *********************************************************************/
 
 use ILIAS\LearningModule\Editing\EditingGUIRequest;
+use ILIAS\LearningModule\Editing\EditSubObjectsGUI;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * Class ilObjContentObjectGUI
@@ -26,11 +29,14 @@ use ILIAS\LearningModule\Editing\EditingGUIRequest;
  * @author Sascha Hofmann <saschahofmann@gmx.de>
  * @ilCtrl_Calls ilObjContentObjectGUI: ilLMPageObjectGUI, ilStructureObjectGUI, ilObjectContentStyleSettingsGUI, ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjContentObjectGUI: ilLearningProgressGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
- * @ilCtrl_Calls ilObjContentObjectGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPageMultiLangGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjContentObjectGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPageMultiLangGUI, ILIAS\ILIASObject\Properties\Translations\TranslationGUI
  * @ilCtrl_Calls ilObjContentObjectGUI: ilMobMultiSrtUploadGUI, ilLMImportGUI, ilLMEditShortTitlesGUI, ilLTIProviderObjectSettingGUI
+ * @ilCtrl_IsCalledBy ilObjContentObjectGUI: ilExportGUI
  */
 class ilObjContentObjectGUI extends ilObjectGUI
 {
+    protected \ILIAS\LearningModule\InternalGUIService $gui;
+    protected \ILIAS\LearningModule\InternalDomainService $domain;
     protected ilRbacSystem $rbacsystem;
     protected \ILIAS\LearningModule\ReadingTime\SettingsGUI $reading_time_gui;
     protected ilLMMenuEditor $lmme_obj;
@@ -142,6 +148,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
             ? $this->object->getId()
             : 0;
         $this->reading_time_gui = new \ILIAS\LearningModule\ReadingTime\SettingsGUI($id);
+        $this->domain = $DIC->learningModule()->internal()->domain();
+        $this->gui = $DIC->learningModule()->internal()->gui();
     }
 
     protected function checkCtrlPath(): void
@@ -194,7 +202,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
         } else {
             $cmd = $this->ctrl->getCmd("chapters");
         }
-
 
         switch ($next_class) {
             case 'illtiproviderobjectsettinggui':
@@ -314,6 +321,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
                 // infoscreen
             case 'ilinfoscreengui':
+                if (!$this->object->isInfoEnabled()) {
+                    return;
+                }
                 $this->addHeaderAction();
                 $this->addLocations(true);
                 $this->setTabs("info");
@@ -337,51 +347,45 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 break;
 
             case "ilexportgui":
-                // it is important to reset the "transl" parameter here
-                // otherwise it will effect the HTML export and overwrite the selected language
-                $this->ctrl->setParameterByClass(ilObjLearningModuleGUI::class, "transl", "");
-                $this->ctrl->setParameterByClass(ilLMEditorGUI::class, "transl", "");
-                $exp_gui = new ilExportGUI($this);
-                $exp_gui->addFormat("xml");
-                $ot = ilObjectTranslation::getInstance($this->lm->getId());
-                if ($ot->getContentActivated()) {
-                    $exp_gui->addFormat("xml_master", "XML (" . $lng->txt("cont_master_language_only") . ")", $this, "export");
-                    $exp_gui->addFormat("xml_masternomedia", "XML (" . $lng->txt("cont_master_language_only_no_media") . ")", $this, "export");
-
-                    $lng->loadLanguageModule("meta");
-                    $langs = $ot->getLanguages();
-                    foreach ($langs as $l => $ldata) {
-                        $exp_gui->addFormat("html_" . $l, "HTML (" . $lng->txt("meta_l_" . $l) . ")", $this, "exportHTML");
-                    }
-                    $exp_gui->addFormat("html_all", "HTML (" . $lng->txt("cont_all_languages") . ")", $this, "exportHTML");
-                } else {
-                    $exp_gui->addFormat("html", "", $this, "exportHTML");
+                switch ($cmd) {
+                    case "doExportXML":
+                    case "doExportHTML":
+                    case "showExportOptionsXML":
+                    case "showExportOptionsHTML":
+                        $this->$cmd();
+                        break;
+                    default:
+                        // it is important to reset the "transl" parameter here
+                        // otherwise it will effect the HTML export and overwrite the selected language
+                        $this->ctrl->setParameterByClass(ilObjLearningModuleGUI::class, "transl", "");
+                        $this->ctrl->setParameterByClass(ilLMEditorGUI::class, "transl", "");
+                        $exp_gui = new ilExportGUI($this);
+                        $this->ctrl->forwardCommand($exp_gui);
+                        $this->addHeaderAction();
+                        $this->addLocations(true);
+                        $this->setTabs("export");
                 }
-
-                $exp_gui->addCustomColumn(
-                    $lng->txt("cont_public_access"),
-                    $this,
-                    "getPublicAccessColValue"
-                );
-                $exp_gui->addCustomMultiCommand(
-                    $lng->txt("cont_public_access"),
-                    $this,
-                    "publishExportFile"
-                );
-                $this->ctrl->forwardCommand($exp_gui);
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt("lm_only_one_download_per_type"));
-                $this->addHeaderAction();
-                $this->addLocations(true);
-                $this->setTabs("export");
                 break;
 
-            case 'ilobjecttranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->addHeaderAction();
                 $this->addLocations(true);
                 $this->setTabs("settings");
                 $this->setSubTabs("obj_multilinguality");
-                $transgui = new ilObjectTranslationGUI($this);
-                $transgui->setTitleDescrOnlyMode(false);
+                $transgui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->access,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->http,
+                    $this->refinery,
+                    $this->toolbar
+                );
+                $transgui->forceContentTranslation();
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
@@ -431,6 +435,24 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($gui);
                 break;
 
+            case strtolower(EditSubObjectsGUI::class):
+                $this->addHeaderAction();
+                $this->addLocations(true);
+                $this->setTabs("content");
+                if ($this->edit_request->getSubType() === "pg") {
+                    $this->setContentSubTabs("sub_pages");
+                } else {
+                    $this->setContentSubTabs("sub_chapters");
+                }
+
+                $gui = $this->gui->editing()->editSubObjectsGUI(
+                    $this->edit_request->getSubType(),
+                    $this->lm,
+                    $this->lng->txt("cont_chapters")
+                );
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             default:
                 $new_type = $this->requested_new_type;
 
@@ -462,6 +484,120 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 }
                 break;
         }
+    }
+
+    protected function buildExportOptionsFormHTML(): ILIAS\UI\Component\Input\Container\Form\Standard
+    {
+        $this->lng->loadLanguageModule('exp');
+        $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
+        $items = [];
+        if ($ot->getContentTranslationActivated()) {
+            $this->lng->loadLanguageModule("meta");
+            $langs = $ot->getLanguages();
+            foreach ($langs as $l => $ldata) {
+                $items["html_" . $l] = $this->lng->txt("meta_l_" . $l);
+            }
+            $items["html_all"] = $this->lng->txt("cont_all_languages");
+        }
+        if (!$ot->getContentTranslationActivated()) {
+            $items["exportHTML"] = "HTML";
+        }
+        $select = $this->ui->factory()->input()->field()->select($this->lng->txt("language"), $items)
+            ->withRequired(true);
+        $section = $this->ui->factory()->input()->field()->section(
+            [$select],
+            $this->lng->txt("export_options")
+        );
+        return $this->ui->factory()->input()->container()->form()->standard(
+            $this->ctrl->getLinkTargetByClass(ilObjContentObjectGUI::class, "doExportHTML"),
+            [$section]
+        )->withSubmitLabel($this->lng->txt("export"));
+    }
+
+    protected function buildExportOptionsFormXML(): ILIAS\UI\Component\Input\Container\Form\Standard
+    {
+        $this->lng->loadLanguageModule('exp');
+        $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
+        $items = [];
+        if ($ot->getContentTranslationActivated()) {
+            $items["xml_master"] = $this->lng->txt("cont_master_language_only");
+            $items["xml_masternomedia"] = $this->lng->txt("cont_master_language_only_no_media");
+            $this->lng->loadLanguageModule("meta");
+            $langs = $ot->getLanguages();
+        }
+        $select = $this->ui->factory()->input()->field()->select($this->lng->txt("export_type"), $items)
+            ->withRequired(true);
+        $section = $this->ui->factory()->input()->field()->section(
+            [$select],
+            $this->lng->txt("export_options")
+        );
+        return $this->ui->factory()->input()->container()->form()->standard(
+            $this->ctrl->getLinkTargetByClass(ilObjContentObjectGUI::class, "doExportXML"),
+            [$section]
+        )->withSubmitLabel($this->lng->txt("export"));
+    }
+
+    protected function showExportOptionsXML(): void
+    {
+        $this->addHeaderAction();
+        $this->addLocations(true);
+        $this->setTabs("export");
+        $this->ui->mainTemplate()->setContent($this->ui->renderer()->render($this->buildExportOptionsFormXML()));
+    }
+
+    protected function showExportOptionsHTML(): void
+    {
+        $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
+        if ($ot->getContentTranslationActivated()) {
+            $this->addHeaderAction();
+            $this->addLocations(true);
+            $this->setTabs("export");
+            $this->ui->mainTemplate()->setContent($this->ui->renderer()->render($this->buildExportOptionsFormHTML()));
+        }
+        if (!$ot->getContentTranslationActivated()) {
+            $this->doExportHTML();
+        }
+    }
+
+    protected function doExportXML(): void
+    {
+        $form = $this->buildExportOptionsFormXML()->withRequest($this->request);
+        $format = "";
+        if (!is_null($form->getData())) {
+            $format = explode("_", $form->getData()[0][0]);
+        }
+        if (is_null($form->getData())) {
+            $this->addHeaderAction();
+            $this->addLocations(true);
+            $this->setTabs("export");
+            $this->ui->mainTemplate()->setContent($this->ui->renderer()->render($form));
+            return;
+        }
+        $opt = ilUtil::stripSlashes($format[1]);
+        $cont_exp = new ilContObjectExport($this->lm);
+        $cont_exp->buildExportFile($opt);
+        $this->ctrl->redirectByClass(ilExportGUI::class, ilExportGUI::CMD_LIST_EXPORT_FILES);
+    }
+
+    protected function doExportHTML(): void
+    {
+        $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
+        $form = $this->buildExportOptionsFormHTML()->withRequest($this->request);
+        $lang = "";
+        if ($ot->getContentTranslationActivated() and !is_null($form->getData())) {
+            $format = explode("_", $form->getData()[0][0]);
+            $lang = ilUtil::stripSlashes($format[1]);
+        }
+        if ($ot->getContentTranslationActivated() and is_null($form->getData())) {
+            $this->addHeaderAction();
+            $this->addLocations(true);
+            $this->setTabs("export");
+            $this->ui->mainTemplate()->setContent($this->ui->renderer()->render($form));
+            return;
+        }
+        $cont_exp = new ilContObjectExport($this->lm, "html", $lang);
+        $cont_exp->buildExportFile();
+        $this->ctrl->redirectByClass(ilExportGUI::class, ilExportGUI::CMD_LIST_EXPORT_FILES);
     }
 
     /**
@@ -593,11 +729,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $this->form->addItem($pub_nodes);
         }
 
-        // history user comments
-        $com = new ilCheckboxInputGUI($lng->txt("enable_hist_user_comments"), "cobj_user_comments");
-        $com->setInfo($this->lng->txt("enable_hist_user_comments_desc"));
-        $this->form->addItem($com);
-
         // rating
         $this->lng->loadLanguageModule('rating');
         $rate = new ilCheckboxInputGUI($this->lng->txt('rating_activate_rating'), 'rating');
@@ -630,8 +761,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $title = $this->lm->getTitle();
         $description = $this->lm->getLongDescription();
-        $ot = ilObjectTranslation::getInstance($this->lm->getId());
-        if ($ot->getContentActivated()) {
+        $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
+        if ($ot->getContentTranslationActivated()) {
             $title = $ot->getDefaultTitle();
             $description = $ot->getDefaultDescription();
         }
@@ -652,9 +783,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
         }
         if ($this->lm->cleanFrames()) {
             $values["cobj_clean_frames"] = true;
-        }
-        if ($this->lm->isActiveHistoryUserComments()) {
-            $values["cobj_user_comments"] = true;
         }
         //$values["layout_per_page"] = $this->lm->getLayoutPerPage();
         $values["rating"] = $this->lm->hasRating();
@@ -690,11 +818,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->initPropertiesForm();
         $form = $this->form;
         if ($form->checkInput()) {
-            $ot = ilObjectTranslation::getInstance($this->lm->getId());
-            if ($ot->getContentActivated()) {
-                $ot->setDefaultTitle($form->getInput('title'));
-                $ot->setDefaultDescription($form->getInput('description'));
-                $ot->save();
+            $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
+            if ($ot->getContentTranslationActivated()) {
+                $this->lm->getObjectProperties()->storePropertyTranslations(
+                    $ot->withDefaultTitle($form->getInput('title'))
+                        ->withDefaultDescription($form->getInput('description'))
+                );
             }
 
             $this->lm->setTitle($form->getInput('title'));
@@ -707,7 +836,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
             if (!$ilSetting->get('disable_comments')) {
                 $this->lm->setPublicNotes($form->getInput("cobj_pub_notes"));
             }
-            $this->lm->setHistoryUserComments((bool) $form->getInput("cobj_user_comments"));
             $this->lm->setRating((bool) $form->getInput("rating"));
             $this->lm->setRatingPages((bool) $form->getInput("rating_pages"));
             $this->lm->setDisableDefaultFeedback((int) $form->getInput("disable_def_feedback"));
@@ -802,29 +930,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $hhfp->setChecked($this->lm->getHideHeaderFooterPrint());
         $print->addSubItem($hhfp);
 
-        // downloads
-        $no_download_file_available =
-            " " . $lng->txt("cont_no_download_file_available") .
-            " <a href='" . $ilCtrl->getLinkTargetByClass("ilexportgui", "") . "'>" . $lng->txt("change") . "</a>";
-        $types = array("xml", "html");
-        foreach ($types as $type) {
-            if ($this->lm->getPublicExportFile($type) != "") {
-                if (is_file($this->lm->getExportDirectory($type) . "/" .
-                    $this->lm->getPublicExportFile($type))) {
-                    $no_download_file_available = "";
-                }
-            }
-        }
-        $dl = new ilCheckboxInputGUI($this->lng->txt("cont_downloads"), "cobj_act_downloads");
-        $dl->setInfo($this->lng->txt("cont_downloads_desc") . $no_download_file_available);
-        $dl->setChecked($this->lm->isActiveDownloads());
-        $form->addItem($dl);
-
-        // downloads in public area
-        $pdl = new ilCheckboxInputGUI($this->lng->txt("cont_downloads_public_desc"), "cobj_act_downloads_public");
-        $pdl->setChecked($this->lm->isActiveDownloadsPublic());
-        $dl->addSubItem($pdl);
-
         $form->addCommandButton("saveMenuProperties", $lng->txt("save"));
 
         $form->setTitle($lng->txt("cont_lm_menu"));
@@ -871,8 +976,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $this->lm->setActivePrintView((int) $form->getInput("cobj_act_print"));
             $this->lm->setActivePreventGlossaryAppendix((int) $form->getInput("cobj_act_print_prev_glo"));
             $this->lm->setHideHeaderFooterPrint((int) $form->getInput("hide_head_foot_print"));
-            $this->lm->setActiveDownloads((int) $form->getInput("cobj_act_downloads"));
-            $this->lm->setActiveDownloadsPublic((int) $form->getInput("cobj_act_downloads_public"));
             $this->lm->updateProperties();
         }
 
@@ -915,43 +1018,120 @@ class ilObjContentObjectGUI extends ilObjectGUI
     }
 
     /**
+     * confirm deletion screen for free pages (other usages do not apply anymore)
+     */
+    public function delete(int $a_parent_subobj_id = 0): void
+    {
+        $ids = $this->edit_request->getIds();
+
+        if (count($ids) == 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
+            $this->cancelDelete();
+        }
+
+        if (count($ids) == 1 && $ids[0] == ilTree::POS_FIRST_NODE) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_item"), true);
+            $this->cancelDelete();
+        }
+
+        if ($a_parent_subobj_id == 0) {
+            $this->setTabs("content");
+        }
+
+        if ($a_parent_subobj_id != 0) {
+            $this->ctrl->setParameterByClass("ilStructureObjectGUI", "backcmd", $this->requested_backcmd);
+            $this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $a_parent_subobj_id);
+            $form_action = $this->ctrl->getFormActionByClass("ilStructureObjectGUI");
+        } else {
+            $this->ctrl->setParameter($this, "backcmd", $this->requested_backcmd);
+            $form_action = $this->ctrl->getFormAction($this);
+        }
+
+        // display confirmation message
+        $cgui = new ilConfirmationGUI();
+        $cgui->setFormAction($form_action);
+        $cgui->setHeaderText($this->lng->txt("info_delete_sure"));
+        $cgui->setCancel($this->lng->txt("cancel"), "cancelDelete");
+        $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDelete");
+
+        foreach ($ids as $id) {
+            if ($id != ilTree::POS_FIRST_NODE) {
+                $obj = new ilLMObject($this->lm, $id);
+                $caption = $obj->getTitle();
+
+                $cgui->addItem("id[]", $id, $caption);
+            }
+        }
+
+        $this->tpl->setContent($cgui->getHTML());
+    }
+
+    public function cancelDelete(): void
+    {
+        $this->ctrl->redirect($this, $this->requested_backcmd);
+    }
+
+    /**
+     * delete page object or structure objects
+     *
+     * @param	int		$a_parent_subobj_id		id of parent object (structure object)
+     *											of the objects, that should be deleted
+     *											(or no parent object id for top level)
+     */
+    public function confirmedDelete(int $a_parent_subobj_id = 0): void
+    {
+        $tree = new ilLMTree($this->lm->getId());
+
+        $ids = $this->edit_request->getIds();
+
+        // check number of objects
+        if (count($ids) == 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
+            $this->ctrl->redirect($this, "cancelDelete");
+        }
+
+        // delete all selected objects
+        foreach ($ids as $id) {
+            if ($id != ilTree::POS_FIRST_NODE) {
+                $obj = ilLMObjectFactory::getInstance($this->lm, $id, false);
+                $node_data = $tree->getNodeData($id);
+                if (is_object($obj)) {
+                    $obj->setLMId($this->lm->getId());
+
+                    ilHistory::_createEntry(
+                        $this->lm->getId(),
+                        "delete_" . $obj->getType(),
+                        array(ilLMObject::_lookupTitle($id), $id),
+                        $this->lm->getType()
+                    );
+
+                    $obj->delete();
+                }
+                if ($tree->isInTree($id)) {
+                    $tree->deleteTree($node_data);
+                }
+            }
+        }
+
+        // check the tree
+        $this->lm->checkTree();
+
+        // feedback
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("info_deleted"), true);
+
+        if ($a_parent_subobj_id == 0) {
+            $this->ctrl->redirect($this, $this->requested_backcmd);
+        }
+    }
+
+
+    /**
      * show chapters
      */
     public function chapters(): void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
-        $this->setTabs();
-        $this->setContentSubTabs("chapters");
-
-        $ilCtrl->setParameter($this, "backcmd", "chapters");
-
-        $form_gui = new ilChapterHierarchyFormGUI($this->lm->getType(), $this->requested_transl);
-        $form_gui->setFormAction($ilCtrl->getFormAction($this));
-        $form_gui->setTitle($this->lm->getTitle());
-        $form_gui->setIcon(ilUtil::getImagePath("standard/icon_lm.svg"));
-        $form_gui->setTree($this->lm_tree);
-        $form_gui->setMaxDepth(0);
-        $this->tree->readRootId();
-        $form_gui->setCurrentTopNodeId($this->tree->getRootId());
-        $form_gui->addMultiCommand($lng->txt("delete"), "delete");
-        $form_gui->addMultiCommand($lng->txt("cut"), "cutItems");
-        $form_gui->addMultiCommand($lng->txt("copy"), "copyItems");
-        if ($this->lm->getLayoutPerPage()) {
-            $form_gui->addMultiCommand($lng->txt("cont_set_layout"), "setPageLayoutInHierarchy");
-        }
-        $form_gui->setDragIcon(ilUtil::getImagePath("standard/icon_st.svg"));
-        $form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
-        $up_gui = "ilobjlearningmodulegui";
-
-        $ctpl = new ilTemplate("tpl.chap_and_pages.html", true, true, "components/ILIAS/LearningModule");
-        $ctpl->setVariable("HIERARCHY_FORM", $form_gui->getHTML());
-        $ilCtrl->setParameter($this, "obj_id", null);
-
-        $ml_head = self::getMultiLangHeader($this->lm->getId(), $this);
-
-        $this->tpl->setContent($ml_head . $ctpl->get());
+        $this->gui->ctrl()->setParameterByClass(EditSubObjectsGUI::class, "sub_type", "st");
+        $this->gui->ctrl()->redirectByClass(EditSubObjectsGUI::class);
     }
 
     public static function getMultiLangHeader(
@@ -963,6 +1143,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
+        $ilDB = $DIC->database();
 
         $edit_request = $DIC
             ->learningModule()
@@ -980,8 +1161,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ml_head = "";
 
         // multi language
-        $ot = ilObjectTranslation::getInstance($a_lm_id);
-        if ($ot->getContentActivated()) {
+        $ot = (new TranslationsRepository($ilDB))->getFor($a_lm_id);
+        if ($ot->getContentTranslationActivated()) {
             $ilCtrl->setParameter($a_gui_class, "lang_switch_mode", $a_mode);
             $lng->loadLanguageModule("meta");
 
@@ -994,7 +1175,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
             // language switch
             $entries = false;
             if (!in_array($requested_transl, array("", "-"))) {
-                $l = $ot->getMasterLanguage();
+                $l = $ot->getBaseLanguage();
                 $actions[] = $ui_factory->link()->standard(
                     $lng->txt("cont_edit_language_version") . ": " .
                     $lng->txt("meta_l_" . $l),
@@ -1005,7 +1186,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
             foreach ($ot->getLanguages() as $al => $lang) {
                 if ($requested_transl != $al &&
-                    $al != $ot->getMasterLanguage()) {
+                    $al != $ot->getBaseLanguage()) {
                     $ilCtrl->setParameter($a_gui_class, "totransl", $al);
                     $actions[] = $ui_factory->link()->standard(
                         $lng->txt("cont_edit_language_version") . ": " .
@@ -1173,116 +1354,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "pages");
     }
 
-    /**
-     * confirm deletion screen for page object and structure object deletion
-     * @param int $a_parent_subobj_id id of parent object (structure object)
-     *								  of the objects, that should be deleted
-     *								  (or no parent object id for top level)
-     */
-    public function delete(int $a_parent_subobj_id = 0): void
-    {
-        $ids = $this->edit_request->getIds();
-
-        if (count($ids) == 0) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
-            $this->cancelDelete();
-        }
-
-        if (count($ids) == 1 && $ids[0] == ilTree::POS_FIRST_NODE) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_item"), true);
-            $this->cancelDelete();
-        }
-
-        if ($a_parent_subobj_id == 0) {
-            $this->setTabs("content");
-        }
-
-        if ($a_parent_subobj_id != 0) {
-            $this->ctrl->setParameterByClass("ilStructureObjectGUI", "backcmd", $this->requested_backcmd);
-            $this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $a_parent_subobj_id);
-            $form_action = $this->ctrl->getFormActionByClass("ilStructureObjectGUI");
-        } else {
-            $this->ctrl->setParameter($this, "backcmd", $this->requested_backcmd);
-            $form_action = $this->ctrl->getFormAction($this);
-        }
-
-        // display confirmation message
-        $cgui = new ilConfirmationGUI();
-        $cgui->setFormAction($form_action);
-        $cgui->setHeaderText($this->lng->txt("info_delete_sure"));
-        $cgui->setCancel($this->lng->txt("cancel"), "cancelDelete");
-        $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDelete");
-
-        foreach ($ids as $id) {
-            if ($id != ilTree::POS_FIRST_NODE) {
-                $obj = new ilLMObject($this->lm, $id);
-                $caption = $obj->getTitle();
-
-                $cgui->addItem("id[]", $id, $caption);
-            }
-        }
-
-        $this->tpl->setContent($cgui->getHTML());
-    }
-
-    public function cancelDelete(): void
-    {
-        $this->ctrl->redirect($this, $this->requested_backcmd);
-    }
-
-    /**
-     * delete page object or structure objects
-     *
-     * @param	int		$a_parent_subobj_id		id of parent object (structure object)
-     *											of the objects, that should be deleted
-     *											(or no parent object id for top level)
-     */
-    public function confirmedDelete(int $a_parent_subobj_id = 0): void
-    {
-        $tree = new ilLMTree($this->lm->getId());
-
-        $ids = $this->edit_request->getIds();
-
-        // check number of objects
-        if (count($ids) == 0) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
-            $this->ctrl->redirect($this, "cancelDelete");
-        }
-
-        // delete all selected objects
-        foreach ($ids as $id) {
-            if ($id != ilTree::POS_FIRST_NODE) {
-                $obj = ilLMObjectFactory::getInstance($this->lm, $id, false);
-                $node_data = $tree->getNodeData($id);
-                if (is_object($obj)) {
-                    $obj->setLMId($this->lm->getId());
-
-                    ilHistory::_createEntry(
-                        $this->lm->getId(),
-                        "delete_" . $obj->getType(),
-                        array(ilLMObject::_lookupTitle($id), $id),
-                        $this->lm->getType()
-                    );
-
-                    $obj->delete();
-                }
-                if ($tree->isInTree($id)) {
-                    $tree->deleteTree($node_data);
-                }
-            }
-        }
-
-        // check the tree
-        $this->lm->checkTree();
-
-        // feedback
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("info_deleted"), true);
-
-        if ($a_parent_subobj_id == 0) {
-            $this->ctrl->redirect($this, $this->requested_backcmd);
-        }
-    }
-
     public function getContextPath(
         int $a_endnode_id,
         int $a_startnode_id = 1
@@ -1422,9 +1493,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
     public function export(): void
     {
-        $ot = ilObjectTranslation::getInstance($this->lm->getId());
+        $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
         $opt = "";
-        if ($ot->getContentActivated()) {
+        if ($ot->getContentTranslationActivated()) {
             $format = explode("_", $this->edit_request->getFormat());
             $opt = ilUtil::stripSlashes($format[1]);
         }
@@ -1432,61 +1503,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $cont_exp = new ilContObjectExport($this->lm);
         $cont_exp->buildExportFile($opt);
-    }
-
-    /**
-     * Get public access value for export table
-     */
-    public function getPublicAccessColValue(
-        string $a_type,
-        string $a_file
-    ): string {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $add = "";
-
-        $changelink = "<a href='" . $ilCtrl->getLinkTarget($this, "editMenuProperties") . "'>" . $lng->txt("change") . "</a>";
-        if (!$this->lm->isActiveLMMenu()) {
-            $add = "<br />" . $lng->txt("cont_download_no_menu") . " " . $changelink;
-        } elseif (!$this->lm->isActiveDownloads()) {
-            $add = "<br />" . $lng->txt("cont_download_no_download") . " " . $changelink;
-        }
-
-        $basetype = explode("_", $a_type);
-        $basetype = $basetype[0];
-
-        if ($this->lm->getPublicExportFile($basetype) == $a_file) {
-            return $lng->txt("yes") . $add;
-        }
-
-        return " ";
-    }
-
-    public function publishExportFile(
-        ?array $a_files
-    ): void {
-        $ilCtrl = $this->ctrl;
-
-        if (!isset($a_files)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
-        } else {
-            foreach ($a_files as $f) {
-                $file = explode(":", $f);
-                if (is_int(strpos($file[0], "_"))) {
-                    $file[0] = explode("_", $file[0])[0];
-                }
-                $export_dir = $this->lm->getExportDirectory($file[0]);
-
-                if ($this->lm->getPublicExportFile($file[0]) ==
-                    $file[1]) {
-                    $this->lm->setPublicExportFile($file[0], "");
-                } else {
-                    $this->lm->setPublicExportFile($file[0], $file[1]);
-                }
-            }
-            $this->lm->update();
-        }
-        $ilCtrl->redirectByClass("ilexportgui");
     }
 
     public function fixTreeConfirm(): void
@@ -1517,9 +1533,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
     public function exportHTML(): void
     {
-        $ot = ilObjectTranslation::getInstance($this->lm->getId());
+        $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
         $lang = "";
-        if ($ot->getContentActivated()) {
+        if ($ot->getContentTranslationActivated()) {
             $format = explode("_", $this->edit_request->getFormat());
             $lang = ilUtil::stripSlashes($format[1]);
         }
@@ -1695,11 +1711,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $lm_set = new ilSetting("lm");
 
         // chapters
+        $this->ctrl->setParameterByClass(static::class, "sub_type", "st");
         $ilTabs->addSubTab(
-            "chapters",
-            $lng->txt("cont_chapters"),
-            $ilCtrl->getLinkTarget($this, "chapters")
+            "sub_chapters",
+            $lng->txt("objs_st"),
+            $this->ctrl->getLinkTargetByClass(EditSubObjectsGUI::class)
         );
+
 
         // all pages
         $ilTabs->addSubTab(
@@ -1745,12 +1763,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
             "internal_links",
             $lng->txt("cont_internal_links"),
             $ilCtrl->getLinkTarget($this, "listLinks")
-        );
-
-        $ilTabs->addSubTab(
-            "history",
-            $lng->txt("history"),
-            $this->ctrl->getLinkTarget($this, "history")
         );
 
         // maintenance
@@ -1807,11 +1819,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilTabs = $this->tabs;
         $lng = $this->lng;
 
-        // content
+        // content -> pages
+        $this->ctrl->setParameterByClass(static::class, "sub_type", "st");
         $ilTabs->addTab(
             "content",
             $lng->txt("content"),
-            $this->ctrl->getLinkTarget($this, "chapters")
+            $this->ctrl->getLinkTargetByClass(EditSubObjectsGUI::class)
         );
 
         // info
@@ -1881,8 +1894,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilTabs->addNonTabbedLink(
             "pres_mode",
             $lng->txt("cont_presentation_view"),
-            "ilias.php?baseClass=ilLMPresentationGUI&ref_id=" . $this->lm->getRefId(),
-            "_top"
+            "ilias.php?baseClass=ilLMPresentationGUI&ref_id=" . $this->lm->getRefId()
         );
     }
 
@@ -1929,19 +1941,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 ""
             );
 
-            if ($ilSetting->get("pub_section")) {
-                // public section
-                $ilTabs->addSubTabTarget(
-                    "public_section",
-                    $this->ctrl->getLinkTarget($this, 'editPublicSection'),
-                    "",
-                    ""
-                );
-            }
-
             $ilTabs->addSubTabTarget(
                 "obj_multilinguality",
-                $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "")
+                $this->ctrl->getLinkTargetByClass(TranslationGUI::class, "")
             );
 
             $lti_settings = new ilLTIProviderObjectSettingGUI($this->lm->getRefId());
@@ -1954,118 +1956,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
             $ilTabs->setSubTabActive($a_active);
         }
-    }
-
-    public function editPublicSection(): void
-    {
-        $ilTabs = $this->tabs;
-        $ilToolbar = $this->toolbar;
-        $ilAccess = $this->access;
-
-
-        if (!$ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", $this->lm->getRefId())) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_anonymous_user_missing_perm"));
-        }
-
-        $this->setTabs();
-        $this->setSubTabs("public_section");
-        $ilTabs->setTabActive("settings");
-
-        $this->tpl->addBlockFile(
-            "ADM_CONTENT",
-            "adm_content",
-            "tpl.lm_public_selector.html",
-            "components/ILIAS/LearningModule"
-        );
-
-        // get learning module object
-        $this->lm_obj = new ilObjLearningModule($this->ref_id, true);
-
-
-        // public mode
-        $modes = array("complete" => $this->lng->txt("all_pages"), "selected" => $this->lng->txt("selected_pages_only"));
-        $si = new ilSelectInputGUI($this->lng->txt("choose_public_mode"), "lm_public_mode");
-        $si->setOptions($modes);
-        $si->setValue($this->lm->getPublicAccessMode());
-        $ilToolbar->addInputItem($si, true);
-        $ilToolbar->addFormButton($this->lng->txt("save"), "savePublicSectionAccess");
-        $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "savePublicSectionAccess"));
-
-        if ($this->lm->getPublicAccessMode() == "selected") {
-            $this->tpl->setCurrentBlock("select_pages");
-            $this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "savePublicSectionPages"));
-
-            $tree = new ilPublicSectionExplorerGUI(
-                $this,
-                "editPublicSection",
-                $this->lm_obj,
-                $this->edit_request->getTranslation()
-            );
-            $tree->setSelectMode("pages", true);
-            $tree->setSkipRootNode(true);
-
-            $this->tpl->setVariable("EXPLORER", $tree->getHTML());
-            $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-
-            $this->tpl->parseCurrentBlock();
-        }
-    }
-
-    public function savePublicSection(): void
-    {
-        $this->lm->setPublicAccessMode(
-            $this->edit_request->getLMPublicMode()
-        );
-        $this->lm->updateProperties();
-        ilLMObject::_writePublicAccessStatus(
-            $this->edit_request->getPublicPages(),
-            $this->lm->getId()
-        );
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-        $this->ctrl->redirect($this, "editPublicSection");
-    }
-
-    /**
-     * Saves lm access mode
-     */
-    public function savePublicSectionAccess(): void
-    {
-        $this->lm->setPublicAccessMode(
-            $this->edit_request->getLMPublicMode()
-        );
-        $this->lm->updateProperties();
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-        $this->ctrl->redirect($this, "editPublicSection");
-    }
-
-    /**
-     * Saves public lm pages
-     */
-    public function savePublicSectionPages(): void
-    {
-        ilLMObject::_writePublicAccessStatus(
-            $this->edit_request->getPublicPages(),
-            $this->lm->getId()
-        );
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-        $this->ctrl->redirect($this, "editPublicSection");
-    }
-
-    public function history(): void
-    {
-        $this->setTabs("content");
-        $this->setContentSubTabs("history");
-
-        $hist_gui = new ilHistoryTableGUI(
-            $this,
-            "history",
-            $this->lm->getId(),
-            $this->lm->getType()
-        );
-        $hist_gui->initTable();
-        $hist_gui->setCommentVisibility($this->lm->isActiveHistoryUserComments());
-
-        $this->tpl->setContent($hist_gui->getHTML());
     }
 
     public function __initLMMenuEditor(): void
@@ -2345,86 +2235,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "chapters");
     }
 
-    /**
-     * Insert (multiple) chapters at node
-     */
-    public function insertChapter(): void
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $num = ilChapterHierarchyFormGUI::getPostMulti();
-        $node_id = ilChapterHierarchyFormGUI::getPostNodeId();
-
-        if (!ilChapterHierarchyFormGUI::getPostFirstChild()) {	// insert after node id
-            $parent_id = $this->lm_tree->getParentId($node_id);
-            $target = $node_id;
-        } else {													// insert as first child
-            $parent_id = $node_id;
-            $target = ilTree::POS_FIRST_NODE;
-        }
-
-        for ($i = 1; $i <= $num; $i++) {
-            $chap = new ilStructureObject($this->lm);
-            $chap->setType("st");
-            $chap->setTitle($lng->txt("cont_new_chap"));
-            $chap->setLMId($this->lm->getId());
-            $chap->create();
-            ilLMObject::putInTree($chap, $parent_id, $target);
-        }
-
-        $ilCtrl->redirect($this, "chapters");
-    }
-
-    /**
-     * Insert Chapter from clipboard
-     */
-    public function insertChapterClip(): void
-    {
-        $ilUser = $this->user;
-        $ilCtrl = $this->ctrl;
-        $ilLog = $this->log;
-
-        $node_id = ilChapterHierarchyFormGUI::getPostNodeId();
-        $first_child = ilChapterHierarchyFormGUI::getPostFirstChild();
-
-        if (!$first_child) {	// insert after node id
-            $parent_id = $this->lm_tree->getParentId($node_id);
-            $target = $node_id;
-        } else {													// insert as first child
-            $parent_id = $node_id;
-            $target = ilTree::POS_FIRST_NODE;
-        }
-
-        // copy and paste
-        $chapters = $ilUser->getClipboardObjects("st", true);
-        $copied_nodes = array();
-        foreach ($chapters as $chap) {
-            $ilLog->write("Call pasteTree, Target LM: " . $this->lm->getId() . ", Chapter ID: " . $chap["id"]
-                . ", Parent ID: " . $parent_id . ", Target: " . $target);
-            $cid = ilLMObject::pasteTree(
-                $this->lm,
-                $chap["id"],
-                $parent_id,
-                $target,
-                (string) ($chap["insert_time"] ?? ""),
-                $copied_nodes,
-                (ilEditClipboard::getAction() == "copy")
-            );
-            $target = $cid;
-        }
-        ilLMObject::updateInternalLinks($copied_nodes);
-
-        if (ilEditClipboard::getAction() == "cut") {
-            $ilUser->clipboardDeleteObjectsOfType("pg");
-            $ilUser->clipboardDeleteObjectsOfType("st");
-            ilEditClipboard::clear();
-        }
-
-        $this->lm->checkTree();
-        $ilCtrl->redirect($this, "chapters");
-    }
-
     public static function _goto(string $a_target): void
     {
         global $DIC;
@@ -2457,15 +2267,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
     }
 
-    public function cutItems(string $a_return = "chapters"): void
+    public function cutItems(array $ids): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $ids = $this->edit_request->getIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
-            $ilCtrl->redirect($this, $a_return);
+            $ilCtrl->redirect($this, $this->edit_request->getBackCmd());
         }
 
         $todel = array();			// delete IDs < 0 (needed for non-js editing)
@@ -2481,18 +2290,17 @@ class ilObjContentObjectGUI extends ilObjectGUI
         ilEditClipboard::setAction("cut");
         $this->tpl->setOnScreenMessage('info', $lng->txt("cont_selected_items_have_been_cut"), true);
 
-        $ilCtrl->redirect($this, $a_return);
+        $ilCtrl->redirect($this, $this->edit_request->getBackCmd());
     }
 
     /**
      * Copy items to clipboard
      */
-    public function copyItems(): void
+    public function copyItems(array $ids): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $ids = $this->edit_request->getIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "chapters");
@@ -2738,9 +2546,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
             if (is_file($im = ilUtil::getImagePath("layout_" . $a_def_option . ".png"))) {
                 $im_tag = ilUtil::img($im, $a_def_option);
             }
-            $layout->addOption(new ilRadioOption("<table><tr><td>" . $im_tag . "</td><td><b>" .
+            $layout->addOption(new ilRadioOption("<table><tr><td>" . $im_tag . "</td><td><strong>" .
                 $lng->txt("cont_lm_default_layout") .
-                "</b>: " . $lng->txt("cont_layout_" . $a_def_option) .
+                "</strong>: " . $lng->txt("cont_layout_" . $a_def_option) .
                 "</td></tr></table>", ""));
         }
         foreach (ilObjContentObject::getAvailableLayouts() as $l) {
@@ -2749,7 +2557,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 $im_tag = ilUtil::img($im, $l);
             }
             $layout->addOption(new ilRadioOption("<table><tr><td style='padding: 0px 5px 5px;'>" .
-                $im_tag . "</td><td style='padding:5px;'><b>" . $lng->txt("cont_layout_" . $l) . "</b>: " .
+                $im_tag . "</td><td style='padding:5px;'><strong>" . $lng->txt("cont_layout_" . $l) . "</strong>: " .
                 $lng->txt("cont_layout_" . $l . "_desc") . "</td></tr></table>", $l));
         }
 

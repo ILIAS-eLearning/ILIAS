@@ -18,6 +18,8 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
+use ILIAS\Cron\Job\JobManager;
+
 /**
  * Class ilObjectStatisticsGUI
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -28,7 +30,7 @@ declare(strict_types=0);
  */
 class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 {
-    protected ilCronManager $cronManager;
+    protected JobManager $cronManager;
 
     public function __construct(int $a_mode, int $a_ref_id = 0)
     {

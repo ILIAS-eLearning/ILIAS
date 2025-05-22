@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
@@ -37,50 +37,32 @@ class Factory implements IMainControls\Factory
         $this->slate_factory = $slate_factory;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function metaBar(): IMainControls\MetaBar
+    public function metaBar(): MetaBar
     {
         return new MetaBar($this->signal_generator);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function mainBar(): IMainControls\MainBar
+    public function mainBar(): MainBar
     {
         return new MainBar($this->signal_generator);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function slate(): IMainControls\Slate\Factory
+    public function slate(): Slate\Factory
     {
         return $this->slate_factory;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function footer(array $links, string $text = ''): IMainControls\Footer
+    public function footer(): Footer
     {
-        return new Footer($links, $text);
+        return new Footer();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function modeInfo(string $title, URI $close_action): IMainControls\ModeInfo
+    public function modeInfo(string $title, URI $close_action): ModeInfo
     {
         return new ModeInfo($title, $close_action);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function systemInfo(string $headline, string $information_text): IMainControls\SystemInfo
+    public function systemInfo(string $headline, string $information_text): SystemInfo
     {
         return new SystemInfo(
             $this->signal_generator,

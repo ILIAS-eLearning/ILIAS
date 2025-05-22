@@ -33,9 +33,21 @@ final class SVGWhitelistPreProcessor implements PreProcessor
 {
     use IsMimeTypeOrExtension;
 
+    /**
+     * @var string
+     */
     private const SVG_MIME_TYPE = 'image/svg+xml';
+    /**
+     * @var string
+     */
     private const REGEX_SCRIPT = '/<script/m';
+    /**
+     * @var string
+     */
     private const REGEX_BASE64 = '/data:.*;base64/m';
+    /**
+     * @var string
+     */
     private const SVG = 'svg';
     private string $rejection_message = 'The SVG file contains possibily malicious code.';
     private string $ok_message = 'SVG OK';
@@ -94,7 +106,7 @@ final class SVGWhitelistPreProcessor implements PreProcessor
         return true;
     }
 
-    private static $whitelist = [
+    private static array $whitelist = [
         'a' =>
             [
                 'class',

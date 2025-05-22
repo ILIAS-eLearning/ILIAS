@@ -29,7 +29,6 @@ use ILIAS\LegalDocuments\test\ContainerMock;
 use ILIAS\LegalDocuments\Provide;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
-use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\SelfRegistration;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/../../ContainerMock.php';
@@ -107,6 +106,32 @@ class SelfRegistrationTest extends TestCase
         $user = $this->mock(ilObjUser::class);
         $ldoc_user = $this->mock(User::class);
         $ldoc_user->expects(self::once())->method('acceptMatchingDocument');
+
+        $instance = new SelfRegistration(
+            'foo',
+            $this->mock(UI::class),
+            $this->mock(User::class),
+            $this->mock(Provide::class),
+            $this->fail(...),
+            function (ilObjUser $u) use ($user, $ldoc_user): User {
+                $this->assertSame($user, $u);
+                return $ldoc_user;
+            },
+            $this->fail(...)
+        );
+
+        $instance->userCreation($user);
+    }
+
+    public function testUserCreationFailed(): void
+    {
+        $user = $this->mock(ilObjUser::class);
+        $ldoc_user = $this->mock(User::class);
+        $ldoc_user->expects(self::once())->method('acceptMatchingDocument')->willReturnCallback(function () {
+            throw new \ILIAS\Data\NotOKException('This is not ok.');
+        });
+
+        $ldoc_user->expects(self::once())->method('acceptAnyDocument');
 
         $instance = new SelfRegistration(
             'foo',

@@ -20,14 +20,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * Cron for course/group minimum members
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesMembership
  */
-class ilMembershipCronMinMembers extends ilCronJob
+class ilMembershipCronMinMembers extends CronJob
 {
     protected ilLanguage $lng;
 
@@ -53,9 +55,9 @@ class ilMembershipCronMinMembers extends ilCronJob
         return $this->lng->txt("mem_cron_min_members_info");
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
+        return JobScheduleType::DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -73,9 +75,9 @@ class ilMembershipCronMinMembers extends ilCronJob
         return false;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
-        $status = ilCronJobResult::STATUS_NO_ACTION;
+        $status = JobResult::STATUS_NO_ACTION;
         $message = '';
 
         $recipients_map = array();
@@ -87,11 +89,11 @@ class ilMembershipCronMinMembers extends ilCronJob
             foreach ($recipients_map as $reci_id => $items) {
                 $this->sendMessage($reci_id, $items);
             }
-            $status = ilCronJobResult::STATUS_OK;
+            $status = JobResult::STATUS_OK;
             $message = count($recipients_map) . " notifications sent";
         }
 
-        $result = new ilCronJobResult();
+        $result = new JobResult();
         $result->setStatus($status);
         $result->setMessage($message);
 

@@ -38,7 +38,7 @@ abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDe
         return $def;
     }
 
-    public function setOptions(array $a_values = null): void
+    public function setOptions(?array $a_values = null): void
     {
         if ($a_values !== null) {
             foreach ($a_values as $idx => $value) {
@@ -60,8 +60,8 @@ abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDe
 
     protected function importFieldDefinition(array $a_def): void
     {
-        $this->setOptions($a_def["options"]);
-        $this->complex = $a_def["complex"];
+        $this->setOptions($a_def["options"] ?? []);
+        $this->complex = $a_def["complex"] ?? [];
     }
 
     protected function getFieldDefinition(): array

@@ -152,11 +152,11 @@ class Mail_RFC822
      *                       for instance.
      */
     public function __construct(
-        string $address = null,
-        string $default_domain = null,
-        bool $nest_groups = null,
-        bool $validate = null,
-        int $limit = null
+        ?string $address = null,
+        ?string $default_domain = null,
+        ?bool $nest_groups = null,
+        ?bool $validate = null,
+        ?int $limit = null
     ) {
         if (isset($address)) {
             $this->address = $address;
@@ -187,11 +187,11 @@ class Mail_RFC822
      * @return array A structured array of addresses.
      */
     public function parseAddressList(
-        string $address = null,
-        string $default_domain = null,
-        bool $nest_groups = null,
-        bool $validate = null,
-        int $limit = null
+        ?string $address = null,
+        ?string $default_domain = null,
+        ?bool $nest_groups = null,
+        ?bool $validate = null,
+        ?int $limit = null
     ): array {
         if (!isset($this, $this->mailRFC822)) {
             $obj = new Mail_RFC822($address, $default_domain, $nest_groups, $validate, $limit);

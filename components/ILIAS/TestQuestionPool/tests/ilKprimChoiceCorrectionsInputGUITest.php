@@ -37,6 +37,7 @@ class ilKprimChoiceCorrectionsInputGUITest extends assBaseTestCase
 
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
+        $this->addGlobal_uiUploadLimitResolver();
 
         $this->object = new ilKprimChoiceCorrectionsInputGUI();
     }

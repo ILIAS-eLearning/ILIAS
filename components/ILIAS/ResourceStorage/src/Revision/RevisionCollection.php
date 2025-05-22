@@ -28,20 +28,12 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 class RevisionCollection
 {
-    private ResourceIdentification $identification;
-    /**
-     * @var FileRevision[]
-     */
-    private array $revisions = [];
-
     /**
      * RevisionCollection constructor.
      * @param FileRevision[] $revisions
      */
-    public function __construct(ResourceIdentification $identification, array $revisions = [])
+    public function __construct(private ResourceIdentification $identification, private array $revisions = [])
     {
-        $this->identification = $identification;
-        $this->revisions = $revisions;
     }
 
     public function add(Revision $revision): void
@@ -96,17 +88,13 @@ class RevisionCollection
         $v = $this->revisions;
 
         if (!$including_drafts) {
-            $v = array_filter($v, static function (Revision $revision): bool {
-                return $revision->getStatus() === RevisionStatus::PUBLISHED;
-            });
+            $v = array_filter($v, static fn(Revision $revision): bool => $revision->getStatus() === RevisionStatus::PUBLISHED);
         }
-        usort($v, static function (Revision $a, Revision $b): int {
-            return $a->getVersionNumber() <=> $b->getVersionNumber();
-        });
+        usort($v, static fn(Revision $a, Revision $b): int => $a->getVersionNumber() <=> $b->getVersionNumber());
 
         $current = end($v);
         if (!$current instanceof Revision) {
-            $current = new NullRevision($this->identification);
+            return new NullRevision($this->identification);
         }
 
         return $current;
@@ -117,12 +105,10 @@ class RevisionCollection
      */
     public function getAll(bool $including_drafts): array
     {
-        if($including_drafts) {
+        if ($including_drafts) {
             return $this->revisions;
         }
-        return array_filter($this->revisions, static function (Revision $revision): bool {
-            return $revision->getStatus() === RevisionStatus::PUBLISHED;
-        });
+        return array_filter($this->revisions, static fn(Revision $revision): bool => $revision->getStatus() === RevisionStatus::PUBLISHED);
     }
 
     public function getMax(bool $including_drafts): int

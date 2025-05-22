@@ -19,8 +19,6 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\UI\Component\Input\Field\UploadHandler;
-use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>

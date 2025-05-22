@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\MediaObjects;
 
 use ILIAS\DI\Container;
@@ -25,6 +25,8 @@ use ILIAS\MediaObjects\ImageMap\ImageMapManager;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\MediaObjects\MediaType\MediaTypeManager;
 use ILIAS\MediaObjects\Tracking\TrackingManager;
+use ILIAS\MediaObjects\Metadata\MetadataManager;
+use ILIAS\MediaObjects\Thumbs\ThumbsManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -33,29 +35,25 @@ class InternalDomainService
 {
     use GlobalDICDomainServices;
 
-    protected InternalRepoService $repo_service;
-    protected InternalDataService $data_service;
+    protected static array $instance = [];
 
     public function __construct(
         Container $DIC,
-        InternalRepoService $repo_service,
-        InternalDataService $data_service
+        protected InternalRepoService $repo_service,
+        protected InternalDataService $data_service
     ) {
-        $this->repo_service = $repo_service;
-        $this->data_service = $data_service;
         $this->initDomainServices($DIC);
     }
 
-    /*
-    public function access(int $ref_id, int $user_id) : Access\AccessManager
+    public function mediaObject(): MediaObjectManager
     {
-        return new Access\AccessManager(
+        return self::$instance["mob"] ??= new MediaObjectManager(
+            $this->data_service,
+            $this->repo_service,
             $this,
-            $this->access,
-            $ref_id,
-            $user_id
+            new \ilMobStakeholder()
         );
-    }*/
+    }
 
     public function imageMap(): ImageMapManager
     {
@@ -75,4 +73,18 @@ class InternalDomainService
             $this
         );
     }
+
+    public function metadata(): MetadataManager
+    {
+        return new MetadataManager($this->learningObjectMetadata());
+    }
+
+    public function thumbs(): ThumbsManager
+    {
+        return new ThumbsManager(
+            $this->data_service,
+            $this
+        );
+    }
+
 }

@@ -25,6 +25,9 @@ namespace ILIAS\ResourceStorage\Flavour\Engine;
  */
 class ImagickEngineWithOptionalFFMpeg extends ImagickEngine
 {
+    /**
+     * @readonly
+     */
     private FFMpegEngine $ffmpeg;
 
     protected array $supported;
@@ -35,6 +38,7 @@ class ImagickEngineWithOptionalFFMpeg extends ImagickEngine
         $this->ffmpeg = new FFMpegEngine();
     }
 
+    #[\Override]
     public function supports(string $suffix): bool
     {
         if ($this->ffmpeg->isRunning() && $this->ffmpeg->supports($suffix)) {

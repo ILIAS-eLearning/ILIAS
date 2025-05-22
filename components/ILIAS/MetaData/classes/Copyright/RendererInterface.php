@@ -22,13 +22,15 @@ namespace ILIAS\MetaData\Copyright;
 
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Link\Link;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Content;
 
 interface RendererInterface
 {
     /**
      * Returns a string in a legacy UI component if only a string can be returned.
-     * @return Image[]|Link[]|Legacy[]
+     * @return Image[]|Link[]|Content[]
      */
-    public function toUIComponents(CopyrightData $copyright): array;
+    public function toUIComponents(CopyrightDataInterface $copyright): array;
+
+    public function toString(CopyrightDataInterface $copyright): string;
 }

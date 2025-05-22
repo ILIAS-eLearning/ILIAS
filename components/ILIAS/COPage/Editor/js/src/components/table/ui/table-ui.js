@@ -107,6 +107,7 @@ export default class TableUI {
     this.autoSave = paragraphUI.autoSave;
     this.tableModel = tableModel;
     this.in_data_table = false;
+    this.in_table = false;
     this.head_selection_initialised = false;
   }
 
@@ -140,7 +141,12 @@ export default class TableUI {
       pageModel.setCurrentPageComponent('DataTable', uiModel.initialPCId, '');
     }
 
-    if (!this.in_data_table) {
+    if (uiModel.initialComponent === 'Table') {
+      this.in_table = true;
+      pageModel.setCurrentPageComponent('Table', uiModel.initialPCId, '');
+    }
+
+    if (!this.in_data_table && !this.in_table) {
       return;
     }
 
@@ -208,6 +214,15 @@ export default class TableUI {
     this.head_selection_initialised = true;
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  hideAllDropdowns() {
+    const selector = "[data-copg-ed-type='data-column-head'] ul,[data-copg-ed-type='data-row-head'] ul";
+
+    document.querySelectorAll(selector).forEach((el) => {
+      el.style.display = 'none';
+    });
+  }
+
   /**
    * Init add buttons
    */
@@ -244,6 +259,13 @@ export default class TableUI {
           ul = b.parentNode.querySelector('ul');
           li_templ = ul.querySelector('li').cloneNode(true);
           ul.innerHTML = '';
+
+          if (ul.style.display !== 'block') {
+            this.hideAllDropdowns();
+            ul.style.display = 'block';
+          } else {
+            ul.style.display = 'none';
+          }
 
           if (headType === 'data-column-head') {
             const th = b.closest('th');
@@ -312,6 +334,7 @@ export default class TableUI {
               this.addDropdownAction(li_templ, ul, 'cont_ed_delete_row', af.rowDelete(nr, cellPcid, tablePcid));
             }
           }
+
         });
       });
     });
@@ -323,6 +346,7 @@ export default class TableUI {
 
     li.querySelector('a').innerHTML = il.Language.txt(txtKey);
     li.querySelector('a').addEventListener('click', (event) => {
+      this.hideAllDropdowns();
       dispatch.dispatch(action);
     });
     ul.appendChild(li);
@@ -334,6 +358,7 @@ export default class TableUI {
 
     li.querySelector('a').innerHTML = il.Language.txt(txtKey);
     li.querySelector('a').addEventListener('click', (event) => {
+      this.hideAllDropdowns();
       this.showNumberModal(txtKey, txtKeyProp, nr, cellPcid, tablePcid, func);
     });
     ul.appendChild(li);
@@ -355,7 +380,7 @@ export default class TableUI {
     const modalFormSubmit = modalEl.querySelector('.modal-footer button');
 
     // hide standard form buttons
-    modalEl.querySelectorAll('form button').forEach((b) => { b.style.display = 'none'; });
+    modalEl.querySelectorAll('.modal-body button').forEach((b) => { b.style.display = 'none'; });
     const closeEl = modalEl.querySelector('.modal-header button');
     const af = this.actionFactory.table().editor();
 
@@ -402,12 +427,14 @@ export default class TableUI {
       el.addEventListener('click', (event) => {
         if (tableModel.getState() !== tableModel.STATE_CELLS
           && tableModel.getState() !== tableModel.STATE_MERGE) {
-          dispatch.dispatch(action.table().editor().editCell(
-            table_pcid,
-            table_hierid,
-            row,
-            column,
-          ));
+          if (this.in_data_table) {
+            dispatch.dispatch(action.table().editor().editCell(
+              table_pcid,
+              table_hierid,
+              row,
+              column,
+            ));
+          }
         } else {
           event.stopPropagation();
           event.preventDefault();

@@ -26,27 +26,22 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field as I;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
-use ilLanguage;
+use ILIAS\Language\Language;
 
-/**
- * Class Factory
- *
- * @package ILIAS\UI\Implementation\Component\Input\Field
- */
 class Factory implements I\Factory
 {
     protected UploadLimitResolver $upload_limit_resolver;
     protected Data\Factory $data_factory;
     protected SignalGeneratorInterface $signal_generator;
     private \ILIAS\Refinery\Factory $refinery;
-    protected ilLanguage $lng;
+    protected Language $lng;
 
     public function __construct(
         UploadLimitResolver $upload_limit_resolver,
         SignalGeneratorInterface $signal_generator,
         Data\Factory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
-        ilLanguage $lng
+        Language $lng,
     ) {
         $this->upload_limit_resolver = $upload_limit_resolver;
         $this->signal_generator = $signal_generator;
@@ -55,135 +50,87 @@ class Factory implements I\Factory
         $this->lng = $lng;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function text(string $label, ?string $byline = null): I\Text
+    public function text(string $label, ?string $byline = null): Text
     {
         return new Text($this->data_factory, $this->refinery, $label, $byline);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function numeric(string $label, ?string $byline = null): I\Numeric
+    public function numeric(string $label, ?string $byline = null): Numeric
     {
         return new Numeric($this->data_factory, $this->refinery, $label, $byline);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function group(array $inputs, string $label = '', ?string $byline = null): I\Group
+    public function group(array $inputs, string $label = '', ?string $byline = null): Group
     {
         return new Group($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function optionalGroup(array $inputs, string $label, ?string $byline = null): I\OptionalGroup
+    public function optionalGroup(array $inputs, string $label, ?string $byline = null): OptionalGroup
     {
         return new OptionalGroup($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function switchableGroup(array $inputs, string $label, ?string $byline = null): I\SwitchableGroup
+    public function switchableGroup(array $inputs, string $label, ?string $byline = null): SwitchableGroup
     {
         return new SwitchableGroup($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function section(array $inputs, string $label, ?string $byline = null): I\Section
+    public function section(array $inputs, string $label, ?string $byline = null): Section
     {
         return new Section($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function checkbox(string $label, ?string $byline = null): I\Checkbox
+    public function checkbox(string $label, ?string $byline = null): Checkbox
     {
         return new Checkbox($this->data_factory, $this->refinery, $label, $byline);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function tag(string $label, array $tags, ?string $byline = null): I\Tag
+    public function tag(string $label, array $tags, ?string $byline = null): Tag
     {
         return new Tag($this->data_factory, $this->refinery, $label, $byline, $tags);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function password(string $label, ?string $byline = null): I\Password
+    public function password(string $label, ?string $byline = null): Password
     {
         return new Password($this->data_factory, $this->refinery, $label, $byline, $this->signal_generator);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function select(string $label, array $options, ?string $byline = null): I\Select
+    public function select(string $label, array $options, ?string $byline = null): Select
     {
         return new Select($this->data_factory, $this->refinery, $label, $options, $byline);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function textarea(string $label, ?string $byline = null): I\Textarea
+    public function textarea(string $label, ?string $byline = null): Textarea
     {
         return new Textarea($this->data_factory, $this->refinery, $label, $byline);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function radio(string $label, ?string $byline = null): I\Radio
+    public function radio(string $label, ?string $byline = null): Radio
     {
         return new Radio($this->data_factory, $this->refinery, $label, $byline);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function multiSelect(string $label, array $options, ?string $byline = null): I\MultiSelect
+    public function multiSelect(string $label, array $options, ?string $byline = null): MultiSelect
     {
         return new MultiSelect($this->data_factory, $this->refinery, $label, $options, $byline);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function dateTime(string $label, ?string $byline = null): I\DateTime
+    public function dateTime(string $label, ?string $byline = null): DateTime
     {
         return new DateTime($this->data_factory, $this->refinery, $label, $byline);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function duration(string $label, ?string $byline = null): I\Duration
+    public function duration(string $label, ?string $byline = null): Duration
     {
         return new Duration($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function file(
         UploadHandler $handler,
         string $label,
         ?string $byline = null,
-        FormInput $metadata_input = null
-    ): I\File {
+        ?FormInput $metadata_input = null
+    ): File {
         return new File(
             $this->lng,
             $this->data_factory,
@@ -196,50 +143,32 @@ class Factory implements I\Factory
         );
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function url(string $label, ?string $byline = null): I\Url
+    public function url(string $label, ?string $byline = null): Url
     {
         return new Url($this->data_factory, $this->refinery, $label, $byline);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function link(string $label, ?string $byline = null): I\Link
+    public function link(string $label, ?string $byline = null): Link
     {
         return new Link($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function hidden(): I\Hidden
+    public function hidden(): Hidden
     {
         return new Hidden($this->data_factory, $this->refinery);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function colorpicker(string $label, ?string $byline = null): I\ColorPicker
+    public function colorSelect(string $label, ?string $byline = null): ColorSelect
     {
-        return new ColorPicker($this->data_factory, $this->refinery, $label, $byline);
+        return new ColorSelect($this->data_factory, $this->refinery, $label, $byline);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function markdown(I\MarkdownRenderer $md_renderer, string $label, string $byline = null): I\Markdown
+    public function markdown(I\MarkdownRenderer $md_renderer, string $label, ?string $byline = null): Markdown
     {
         return new Markdown($this->data_factory, $this->refinery, $md_renderer, $label, $byline);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function rating(string $label, string $byline = null): I\Rating
+    public function rating(string $label, ?string $byline = null): Rating
     {
         return new Rating($this->data_factory, $this->refinery, $label, $byline);
     }

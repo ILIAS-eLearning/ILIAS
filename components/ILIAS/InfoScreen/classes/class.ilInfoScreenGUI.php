@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\InfoScreen\StandardGUIRequest;
-use ILIAS\MetaData\Services\Services as Metadata;
+use ILIAS\MetaData\Services\ServicesInterface as Metadata;
+use ILIAS\Export\ExportHandler\Factory as ExportServices;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * Class ilInfoScreenGUI
@@ -41,6 +43,7 @@ class ilInfoScreenGUI
     protected ilTree $tree;
     protected ilSetting $settings;
     protected Metadata $metadata;
+    protected DataFactory $data_factory;
     public ilLanguage $lng;
     public ilCtrl $ctrl;
     public ?object $gui_object;
@@ -94,6 +97,7 @@ class ilInfoScreenGUI
         $this->ui = $DIC->ui();
         $this->request = $DIC->infoScreen()->internal()->gui()->standardRequest();
         $this->html = $DIC->infoScreen()->internal()->gui()->html();
+        $this->data_factory = new DataFactory();
     }
 
     /**
@@ -322,14 +326,14 @@ class ilInfoScreenGUI
         $lng = $this->lng;
 
         $lng->loadLanguageModule("meta");
+        $lng->loadLanguageModule('export');
 
         $md_reader = $this->metadata->read($a_rep_obj_id, $a_obj_id, $a_type);
         $md_paths = $this->metadata->paths();
         $md_data_helper = $this->metadata->dataHelper();
+        $md_copyright_helper = $this->metadata->copyrightHelper();
 
         // general
-        $description = $md_reader->firstData($md_paths->descriptions())->value();
-
         $lang_data = $md_reader->allData($md_paths->languages());
         $langs = $md_data_helper->makePresentableAsList(', ', ...$lang_data);
 
@@ -340,59 +344,105 @@ class ilInfoScreenGUI
         $author_data = $md_reader->allData($md_paths->authors());
         $author = $md_data_helper->makePresentableAsList(', ', ...$author_data);
 
-        // copyright
-        $copyright_description = $md_reader->firstData($md_paths->copyright())->value();
-        if ($copyright_description) {
-            $copyright = ilMDUtils::_parseCopyright($copyright_description);
-        } else {
-            $copyright = ilMDUtils::_getDefaultCopyright();
-        }
-
         // learning time
         $learning_time_data = $md_reader->firstData($md_paths->firstTypicalLearningTime());
         $learning_time = $md_data_helper->makePresentable($learning_time_data);
 
-        // output
+        // copyright
+        $copyright = '';
+        if ($md_copyright_helper->hasPresetCopyright($md_reader)) {
+            $copyright = $this->ui->renderer()->render(
+                $md_copyright_helper->readPresetCopyright($md_reader)->presentAsUIComponents()
+            );
+        } else {
+            $copyright = $md_copyright_helper->readCustomCopyright($md_reader);
+        }
 
-        // description
-        /* see https://mantis.ilias.de/view.php?id=39079
-        if ($description != "") {
-            $this->addSection($lng->txt("description"));
-            $this->addProperty("", nl2br($description));
-        }*/
+        // public access export
+        $public_access_export = $this->buildPublicAccessExportButton($a_rep_obj_id, $a_obj_id);
+
+        // output
 
         // general section
         $this->addSection($lng->txt("meta_general"));
         if ($langs != "") {	// language
             $this->addProperty(
                 $lng->txt("language"),
-                $langs
+                $this->html->escape($langs)
             );
         }
         if ($keywords != "") {	// keywords
             $this->addProperty(
                 $lng->txt("keywords"),
-                $keywords
+                $this->html->escape($keywords)
             );
         }
         if ($author != "") {		// author
             $this->addProperty(
                 $lng->txt("author"),
-                $author
-            );
-        }
-        if ($copyright != "") {		// copyright
-            $this->addProperty(
-                $lng->txt("meta_copyright"),
-                $copyright
+                $this->html->escape($author)
             );
         }
         if ($learning_time != "") {		// typical learning time
             $this->addProperty(
                 $lng->txt("meta_typical_learning_time"),
-                $learning_time
+                $this->html->escape($learning_time)
             );
         }
+
+        // licence and use section
+        if ($copyright === '' && $public_access_export === '') {
+            return;
+        }
+        $this->addSection($lng->txt('meta_info_licence_section'));
+
+        if ($public_access_export !== '') {		// public access export
+            $this->addProperty(
+                $lng->txt('export_info_public_access'),
+                $public_access_export
+            );
+        }
+
+        if ($copyright !== '') {		// copyright
+            $this->addProperty(
+                $lng->txt("meta_copyright"),
+                $copyright
+            );
+        }
+    }
+
+    protected function buildPublicAccessExportButton(int $rep_obj_id, int $obj_id): string
+    {
+        /*
+         * This should be replaced by a proper export API
+         * when it is available.
+         */
+        $export_services = new ExportServices();
+        $public_access = $export_services->publicAccess()->handler();
+
+        /*
+         * Make sure we are not in a subobject, and that we will get
+         * the ref_id via the GUI from the correct object.
+         */
+        if (
+            $rep_obj_id !== $this->gui_object->getObject()->getId() ||
+            ($obj_id !== 0 && $obj_id !== $rep_obj_id)
+        ) {
+            return '';
+        }
+
+        if (!$public_access->hasPublicAccessFile($this->data_factory->objId($rep_obj_id))) {
+            return '';
+        }
+
+        $ref_id = $this->gui_object->getObject()->getRefId();
+
+        return $this->ui->renderer()->render(
+            $this->ui->factory()->button()->standard(
+                $this->lng->txt('export_info_public_access_download'),
+                $public_access->downloadLinkOfPublicAccessFile($this->data_factory->refId($ref_id))
+            )
+        );
     }
 
     /**
@@ -750,17 +800,11 @@ class ilInfoScreenGUI
             $tpl->parseCurrentBlock();
         }
 
-        // tagging
         if (
             isset($this->gui_object) &&
             method_exists($this->gui_object, "getObject") &&
             is_object($this->gui_object->getObject())
         ) {
-            $tags_set = new ilSetting("tags");
-            if ($tags_set->get("enable") && $ilUser->getId() != ANONYMOUS_USER_ID) {
-                $this->addTagging();
-            }
-
             $this->addObjectSections();
         }
 
@@ -1014,46 +1058,6 @@ class ilInfoScreenGUI
     }
 
 
-    public function addTagging(): void
-    {
-        $lng = $this->lng;
-
-        $lng->loadLanguageModule("tagging");
-        $tags_set = new ilSetting("tags");
-
-        $tagging_gui = new ilTaggingGUI();
-        $tagging_gui->setObject(
-            $this->gui_object->getObject()->getId(),
-            $this->gui_object->getObject()->getType()
-        );
-
-        $this->addSection($lng->txt("tagging_tags"));
-
-        if ($tags_set->get("enable_all_users")) {
-            $this->addProperty(
-                $lng->txt("tagging_all_users"),
-                $tagging_gui->getAllUserTagsForObjectHTML()
-            );
-        }
-
-        $this->addProperty(
-            $lng->txt("tagging_my_tags"),
-            $tagging_gui->getTaggingInputHTML()
-        );
-    }
-
-    public function saveTags(): void
-    {
-        $tagging_gui = new ilTaggingGUI();
-        $tagging_gui->setObject(
-            $this->gui_object->getObject()->getId(),
-            $this->gui_object->getObject()->getType()
-        );
-        $tagging_gui->saveInput();
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-        $this->ctrl->redirect($this, ""); // #14993
-    }
 
     public function hideFurtherSections(bool $a_add_toggle = true): void
     {

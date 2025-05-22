@@ -1,11 +1,40 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\Group;
 
 /**
- * Example showing how disabled groups can be used.
+ * ---
+ * description: >
+ *   Example showing how disabled groups can be used.
+ *
+ * expected output: >
+ *   ILIAS shows a group of two input fields titled "Left" and "Right". The number "5" is already displayed in both fields
+ *   and cannot get changed, because the fields are deactivated. Clicking "Save" will reload the page and ILIAS displays
+ *   following above the box:
+ *
+ *   Array
+ *   (
+ *     [custom_group] => 10
+ *   )
+ * ---
  */
 function disabled()
 {

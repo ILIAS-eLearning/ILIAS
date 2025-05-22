@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\ObjectId;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Renderer;
@@ -58,6 +59,7 @@ class ilAdvancedMDSettingsGUI
     protected Renderer $ui_renderer;
     protected ilToolbarGUI $toolbar;
     protected ilLogger $logger;
+    protected ilObjUser $user;
 
     protected ilAdvancedMDPermissionHelper $permissions;
     protected ?ilAdvancedMDRecord $record = null;
@@ -92,6 +94,7 @@ class ilAdvancedMDSettingsGUI
         $this->request = $DIC->http()->request();
         $this->http = $DIC->http();
         $this->db = $DIC->database();
+        $this->user = $DIC->user();
 
         /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->amet();
@@ -167,7 +170,7 @@ class ilAdvancedMDSettingsGUI
                 $this->http->wrapper()->post()->retrieve(
                     'file_id',
                     $this->refinery->kindlyTo()->dictOf(
-                        $this->refinery->kindlyTo()->int()
+                        $this->refinery->kindlyTo()->string()
                     )
                 )
             );
@@ -384,7 +387,11 @@ class ilAdvancedMDSettingsGUI
             $this->ctrl->redirect($this, "showPresentation");
         }
 
-        foreach (ilAdvancedMDRecord::_getActivatedObjTypes() as $obj_type) {
+        if (!$visible_records = ilAdvancedMDRecord::_getAllRecordsByObjectType()) {
+            return;
+        }
+
+        foreach ($visible_records as $obj_type => $record) {
             $perm = null;
 
             if (in_array($obj_type, $this->permissions->getAllowedObjectTypes())) {
@@ -499,9 +506,10 @@ class ilAdvancedMDSettingsGUI
         $xml_writer->write();
 
         $export_files = new ilAdvancedMDRecordExportFiles(
-            $this->context === self::CONTEXT_ADMINISTRATION ? null : $this->obj_id
+            $this->user->getId(),
+            $this->context === self::CONTEXT_ADMINISTRATION ? null : new ObjectId($this->obj_id)
         );
-        $export_files->create($xml_writer->xmlDumpMem());
+        $export_files->create($xml_writer->xmlDumpMem(false));
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('md_adv_records_exported'));
         $this->showFiles();
@@ -516,7 +524,8 @@ class ilAdvancedMDSettingsGUI
         $this->tabs_gui->setSubTabActive('md_adv_file_list');
 
         $files = new ilAdvancedMDRecordExportFiles(
-            $this->context === self::CONTEXT_ADMINISTRATION ? null : $this->obj_id
+            $this->user->getId(),
+            $this->context === self::CONTEXT_ADMINISTRATION ? null : new ObjectId($this->obj_id)
         );
         $file_data = $files->readFilesInfo();
 
@@ -547,10 +556,10 @@ class ilAdvancedMDSettingsGUI
             return;
         }
         $files = new ilAdvancedMDRecordExportFiles(
-            $this->context === self::CONTEXT_ADMINISTRATION ? null : $this->obj_id
+            $this->user->getId(),
+            $this->context === self::CONTEXT_ADMINISTRATION ? null : new ObjectId($this->obj_id)
         );
-        $abs_path = $files->getAbsolutePathByFileId($file_ids[0]);
-        ilFileDelivery::deliverFileLegacy($abs_path, 'ilias_meta_data_record.xml', 'application/xml');
+        $files->download($file_ids[0], 'ilias_meta_data_record.xml');
     }
 
     /**
@@ -573,7 +582,8 @@ class ilAdvancedMDSettingsGUI
         $c_gui->setConfirm($this->lng->txt("confirm"), "deleteFiles");
 
         $files = new ilAdvancedMDRecordExportFiles(
-            $this->context === self::CONTEXT_ADMINISTRATION ? null : $this->obj_id
+            $this->user->getId(),
+            $this->context === self::CONTEXT_ADMINISTRATION ? null : new ObjectId($this->obj_id)
         );
         $file_data = $files->readFilesInfo();
 
@@ -609,10 +619,14 @@ class ilAdvancedMDSettingsGUI
         }
 
         $files = new ilAdvancedMDRecordExportFiles(
-            $this->context === self::CONTEXT_ADMINISTRATION ? null : $this->obj_id
+            $this->user->getId(),
+            $this->context === self::CONTEXT_ADMINISTRATION ? null : new ObjectId($this->obj_id)
         );
         foreach ($file_ids as $file_id) {
-            $files->deleteByFileId((int) $file_id);
+            $files->deleteByFileId(
+                $this->user->getId(),
+                $file_id
+            );
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('md_adv_deleted_files'));
         $this->showFiles();
@@ -881,7 +895,7 @@ class ilAdvancedMDSettingsGUI
         $this->ctrl->redirect($this, "editFields");
     }
 
-    public function editRecord(ilPropertyFormGUI $form = null): void
+    public function editRecord(?ilPropertyFormGUI $form = null): void
     {
         $record_id = $this->getRecordIdFromQuery();
         if (!$record_id) {
@@ -1078,7 +1092,7 @@ class ilAdvancedMDSettingsGUI
      * @access public
      * @param
      */
-    public function createRecord(ilPropertyFormGUI $form = null): void
+    public function createRecord(?ilPropertyFormGUI $form = null): void
     {
         $this->initRecordObject();
         $this->setRecordSubTabs();
@@ -1256,7 +1270,7 @@ class ilAdvancedMDSettingsGUI
      * Edit field
      * @access public
      */
-    public function editField(ilPropertyFormGUI $a_form = null): void
+    public function editField(?ilPropertyFormGUI $a_form = null): void
     {
         $record_id = $this->getRecordIdFromQuery();
         $field_id = $this->getFieldIdFromQuery();
@@ -1335,7 +1349,7 @@ class ilAdvancedMDSettingsGUI
      * Show field type selection
      * @access public
      */
-    public function createField(ilPropertyFormGUI $a_form = null): void
+    public function createField(?ilPropertyFormGUI $a_form = null): void
     {
         $record_id = $this->getRecordIdFromQuery();
         $field_type = $this->getFieldTypeFromPost();
@@ -2035,7 +2049,7 @@ class ilAdvancedMDSettingsGUI
         }
 
         $scopes = $form->getInput('scope');
-        $scopes_selection = $form->getInput('scope_containers_sel');
+        $scopes_selection = $form->getInput('scope_containers');
         if ($scopes && is_array($scopes_selection)) {
             $this->record->enableScope(true);
             $this->record->setScopes(
@@ -2242,7 +2256,7 @@ class ilAdvancedMDSettingsGUI
     // complex options
     //
 
-    public function editComplexOption(ilPropertyFormGUI $a_form = null): void
+    public function editComplexOption(?ilPropertyFormGUI $a_form = null): void
     {
         $field_id = $this->getFieldIdFromQuery();
         if (!$field_id) {

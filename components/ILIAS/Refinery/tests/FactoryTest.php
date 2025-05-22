@@ -37,7 +37,6 @@ use ILIAS\Refinery\String\Group as StringGroup;
 use ILIAS\Refinery\To\Group as ToGroup;
 use ILIAS\Refinery\URI\Group as URIGroup;
 use ILIAS\Refinery\Encode\Group as EncodeGroup;
-use ILIAS\Language\Language;
 use PHPUnit\Framework\TestCase;
 
 class FactoryTest extends TestCase

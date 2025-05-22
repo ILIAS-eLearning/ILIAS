@@ -16,21 +16,18 @@
  *
  *********************************************************************/
 
-/**
- * logout script for ilias
- *
- * @author Sascha Hofmann <shofmann@databay.de>
- * @version $Id$
- *
- * @package ilias-core
- */
+declare(strict_types=1);
 
-require_once("../vendor/composer/vendor/autoload.php");
-ilInitialisation::initILIAS();
+if (!file_exists('../ilias.ini.php')) {
+    die('The ILIAS setup is not completed. Please run the setup routine.');
+}
 
-// @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-// $ilCtrl->setCmd('doLogout');
-$ilCtrl->callBaseClass('ilStartUpGUI');
-$ilBench->save();
+require_once '../vendor/composer/vendor/autoload.php';
+require_once __DIR__ . '/../artifacts/bootstrap_default.php';
+entry_point('ILIAS Legacy Initialisation Adapter');
 
-exit;
+global $DIC;
+ilStartUpGUI::setForcedCommand('doLogout');
+$DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
+$DIC['ilBench']->save();
+exit();

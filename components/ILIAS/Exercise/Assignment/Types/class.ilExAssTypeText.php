@@ -23,14 +23,14 @@
  */
 class ilExAssTypeText implements ilExAssignmentTypeInterface
 {
-    protected ilLanguage$lng;
+    protected ilLanguage $lng;
 
     /**
      * Constructor
      *
      * @param ilLanguage|null $a_lng
      */
-    public function __construct(ilLanguage $a_lng = null)
+    public function __construct(?ilLanguage $a_lng = null)
     {
         global $DIC;
 

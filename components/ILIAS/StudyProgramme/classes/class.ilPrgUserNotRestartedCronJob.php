@@ -18,12 +18,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * Inform a user, that her qualification is about to expire
  */
-class ilPrgUserNotRestartedCronJob extends ilCronJob
+class ilPrgUserNotRestartedCronJob extends CronJob
 {
     private const ID = 'prg_user_not_restarted';
 
@@ -69,9 +71,9 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS;
+        return JobScheduleType::IN_DAYS;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -79,10 +81,10 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
         return 1;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
-        $result = new ilCronJobResult();
-        $result->setStatus(ilCronJobResult::STATUS_NO_ACTION);
+        $result = new JobResult();
+        $result->setStatus(JobResult::STATUS_NO_ACTION);
 
         $programmes_to_send = $this->adapter->getRelevantProgrammeIds();
         if (count($programmes_to_send) == 0) {
@@ -115,7 +117,7 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
             $this->adapter->actOnSingleAssignment($ass);
             $this->assignment_repo->storeExpiryInfoSentFor($ass);
         }
-        $result->setStatus(ilCronJobResult::STATUS_OK);
+        $result->setStatus(JobResult::STATUS_OK);
         return $result;
     }
 

@@ -18,13 +18,9 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilSimpleSAMLphplIdpDiscovery
- * @author Michael Jansen <mjansen@databay.de>
- */
 final class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML\XHTML\IdPDisco implements ilSamlIdpDiscovery
 {
-    private const METADATA_DIRECTORY = 'auth/saml/metadata';
+    private const string METADATA_DIRECTORY = 'auth/saml/metadata';
 
     public function __construct()
     {

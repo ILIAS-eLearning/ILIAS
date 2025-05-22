@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -42,7 +42,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         bool $a_show_learning_progress = false,
         bool $a_show_timings = false,
         bool $a_show_lp_status_sync = false,
-        ilCertificateUserForObjectPreloader $preloader = null
+        ?ilCertificateUserForObjectPreloader $preloader = null
     ) {
         global $DIC;
 

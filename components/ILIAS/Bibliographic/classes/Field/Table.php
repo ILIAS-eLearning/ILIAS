@@ -18,8 +18,10 @@
 
 namespace ILIAS\Bibliographic\Field;
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Table\Ordering;
 use ilBiblAdminFieldGUI;
-use ilBiblAdminRisFieldGUI;
 use ilBiblTranslationGUI;
 use ILIAS\Bibliographic\Field\DataRetrieval;
 use ILIAS\Data\URI;
@@ -32,12 +34,13 @@ use ILIAS\UI\URLBuilderToken;
  */
 class Table
 {
-    private \ILIAS\UI\Factory $ui_factory;
-    private \ILIAS\UI\Renderer $ui_renderer;
+    private Factory $ui_factory;
+    private Renderer $ui_renderer;
     private \ilCtrlInterface $ctrl;
     private \ilLanguage $lng;
     private URLBuilder $url_builder;
     private URLBuilderToken $id_token;
+    private Ordering $table;
 
     protected array $components = [];
 
@@ -46,7 +49,7 @@ class Table
      */
     public function __construct(
         private \ilBiblAdminFieldGUI $calling_gui,
-        private \ilBiblAdminFactoryFacadeInterface $facade
+        \ilBiblAdminFactoryFacadeInterface $facade
     ) {
         global $DIC;
         $this->ui_factory = $DIC['ui.factory'];
@@ -58,13 +61,17 @@ class Table
         $columns = $this->initColumns();
         $actions = $this->initActions();
         $data_retrieval = new DataRetrieval(
-            $facade
+            $facade,
+            $calling_gui->checkPermissionBoolAndReturn('write')
         );
 
-        $this->components[] = $this->ui_factory->table()->data(
+        $this->components[] = $this->table = $this->ui_factory->table()->ordering(
+            $data_retrieval,
             $this->lng->txt('filter'),
             $columns,
-            $data_retrieval
+            new URI(
+                ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this->calling_gui, \ilBiblAdminFieldGUI::CMD_SAVE_ORDERING)
+            )
         )->withActions($actions)->withRequest(
             $DIC->http()->request()
         );
@@ -132,6 +139,11 @@ class Table
     public function getHTML(): string
     {
         return $this->ui_renderer->render($this->components);
+    }
+
+    public function getOrdering(): array
+    {
+        return $this->table->getData();
     }
 
     public function getUrlBuilder(): URLBuilder

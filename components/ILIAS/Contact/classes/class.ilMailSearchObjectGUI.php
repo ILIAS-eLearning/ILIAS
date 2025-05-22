@@ -624,7 +624,7 @@ abstract class ilMailSearchObjectGUI
 
     public function executeCommand(): bool
     {
-        $forward_class = $this->ctrl->getNextClass($this);
+        $forward_class = $this->ctrl->getNextClass($this) ?? '';
         switch (strtolower($forward_class)) {
             case strtolower(ilBuddySystemGUI::class):
                 if (!ilBuddySystem::getInstance()->isEnabled()) {

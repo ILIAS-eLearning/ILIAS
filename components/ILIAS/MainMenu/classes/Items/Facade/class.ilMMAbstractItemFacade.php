@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
@@ -37,8 +53,6 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     protected ilMMItemStorage $mm_item;
     protected isItem $filtered_item;
     protected isItem $raw_item;
-
-    protected IdentificationInterface $identification;
     protected string $default_title = "-";
 
     /**
@@ -48,13 +62,12 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
      * @throws Throwable
      */
     public function __construct(
-        IdentificationInterface $identification,
+        protected IdentificationInterface $identification,
         Main $collector
     ) {
-        $this->identification = $identification;
-        $this->raw_item = $collector->getSingleItemFromRaw($identification);
-        $this->filtered_item = $collector->getSingleItemFromFilter($identification);
-        $this->type_information = $collector->getTypeInformationCollection()->get(get_class($this->raw_item));
+        $this->raw_item = $collector->getSingleItemFromRaw($this->identification);
+        $this->filtered_item = $collector->getSingleItemFromFilter($this->identification);
+        $this->type_information = $collector->getTypeInformationCollection()->get($this->raw_item::class);
         $this->mm_item = ilMMItemStorage::register($this->raw_item);
     }
 
@@ -116,7 +129,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
      */
     public function isEmpty(): bool
     {
-        return $this->mm_item->getIdentification() == '';
+        return $this->mm_item->getIdentification() === '';
     }
 
     /**
@@ -155,7 +168,10 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
 
     public function isAvailable(): bool
     {
-        return $this->filtered_item->isAvailable() || $this->filtered_item->isAlwaysAvailable();
+        if ($this->filtered_item->isAvailable()) {
+            return true;
+        }
+        return $this->filtered_item->isAlwaysAvailable();
     }
 
     /**
@@ -163,7 +179,10 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
      */
     public function isActivated(): bool
     {
-        return $this->mm_item->isActive() && $this->getRawItem()->isAvailable() || $this->getRawItem()->isAlwaysAvailable();
+        if ($this->mm_item->isActive() && $this->getRawItem()->isAvailable()) {
+            return true;
+        }
+        return $this->getRawItem()->isAlwaysAvailable();
     }
 
     /**
@@ -191,7 +210,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
         if ($default_translation !== "") {
             return $default_translation;
         }
-        if ($this->default_title == "-" && $this->raw_item instanceof hasTitle) {
+        if ($this->default_title === "-" && $this->raw_item instanceof hasTitle) {
             $this->default_title = $this->raw_item->getTitle();
         }
 
@@ -259,13 +278,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
             TopLinkItem::class,
             TopParentItem::class,
         ];
-        foreach ($known_core_types as $known_core_type) {
-            if (get_class($this->raw_item) === $known_core_type) {
-                return false;
-            }
-        }
-
-        return true;
+        return !in_array($this->raw_item::class, $known_core_types, true);
     }
 
     /**

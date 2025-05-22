@@ -25,6 +25,7 @@
  */
 class ilFileNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
+    #[\Override]
     public function getTimelineActions(): array
     {
         $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->news_ref_id);

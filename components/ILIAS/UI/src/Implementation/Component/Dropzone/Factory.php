@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,18 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Dropzone;
 
 use ILIAS\UI\Component\Dropzone as D;
 
 /**
- * Class Factory
- *
- * Default implementation for File Dropzone factory.
- *
  * @author  nmaerchy <nm@studer-raimann.ch>
- *
- * @package UI\Implementation\Component\Dropzone
  */
 class Factory implements D\Factory
 {
@@ -40,10 +34,7 @@ class Factory implements D\Factory
         $this->file_factory = $file_factory;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function file(): D\File\Factory
+    public function file(): File\Factory
     {
         return $this->file_factory;
     }

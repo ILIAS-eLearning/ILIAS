@@ -13,14 +13,11 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
-/**
- * Class ilAuthProviderSoap
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilAuthProviderSoap extends ilAuthProvider
 {
     protected string $server_host = '';
@@ -67,7 +64,7 @@ class ilAuthProviderSoap extends ilAuthProvider
             $this->uri .= ('/' . $this->server_uri);
         }
 
-        require_once './components/ILIAS/soap/lib/nusoap.php';
+        require_once __DIR__ . '/../../soap/lib/nusoap.php';
         $this->client = new nusoap_client($this->uri);
     }
 
@@ -81,6 +78,7 @@ class ilAuthProviderSoap extends ilAuthProvider
             $this->handleSoapAuth($status);
         } catch (Exception $e) {
             $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
             $status->setTranslatedReason($e->getMessage());
         }
 

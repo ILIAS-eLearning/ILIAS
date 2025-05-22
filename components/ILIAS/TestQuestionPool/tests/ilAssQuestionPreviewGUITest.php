@@ -42,23 +42,30 @@ class ilAssQuestionPreviewGUITest extends assBaseTestCase
         $ctrl = $this->createMock(ilCtrl::class);
         $rbac_system = $this->createMock(ilRbacSystem::class);
         $tabs = $this->createMock(ilTabsGUI::class);
+        $toolbar = $this->createMock(ilToolbarGUI::class);
         $tpl = $this->createMock(ilGlobalTemplateInterface::class);
+        $ui_factory = $this->createMock(ILIAS\UI\Factory::class);
         $lng = $this->createMock(ilLanguage::class);
         $db = $this->createMock(ilDBInterface::class);
-        $user = $this->createMock(ilObjUser::class);
         $random_group = $this->createMock(RandomGroup::class);
         $global_screen = $this->createMock(ILIAS\GlobalScreen\Services::class);
+        $refinery = $this->createMock(ILIAS\Refinery\Factory::class);
+        $http = $this->createMock(ILIAS\HTTP\Services::class);
 
         $this->object = new ilAssQuestionPreviewGUI(
             $ctrl,
             $rbac_system,
             $tabs,
+            $toolbar,
             $tpl,
+            $ui_factory,
             $lng,
             $db,
-            $user,
             $random_group,
-            $global_screen
+            $global_screen,
+            $http,
+            $refinery,
+            0
         );
     }
 

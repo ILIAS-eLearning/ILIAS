@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\Toast\Collector\ToastCollector;
-use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 require_once(__DIR__ . "/../BaseToastSetUp.php");

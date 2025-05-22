@@ -24,25 +24,12 @@ class ilPortfolioPageAction
 {
     protected ilObjUser $actor;
 
-    public function __construct(ilObjUser $actor = null)
+    public function __construct(?ilObjUser $actor = null)
     {
         global $DIC;
         if (is_null($actor)) {
             $actor = $DIC->user();
         }
         $this->actor = $actor;
-    }
-
-    /**
-     * Delete pages of blog
-     */
-    public function deletePagesOfBlog(int $a_blog_id): void
-    {
-        $pages = ilPortfolioPage::getPagesForBlog($a_blog_id);
-        foreach ($pages as $page) {
-            if (ilObject::_lookupOwner($page->getPortfolioId()) === $this->actor->getId()) {
-                $page->delete();
-            }
-        }
     }
 }

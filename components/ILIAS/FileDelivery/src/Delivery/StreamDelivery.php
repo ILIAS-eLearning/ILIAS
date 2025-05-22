@@ -20,13 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\Delivery;
 
+use ILIAS\HTTP\Services;
+use Psr\Http\Message\ResponseInterface;
+use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use ILIAS\FileDelivery\Token\DataSigner;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
-use ILIAS\FileDelivery\Token\Data\Stream;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileDelivery\Token\Signer\Payload\FilePayload;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\FileDelivery\Delivery\ResponseBuilder\PHPResponseBuilder;
 use ILIAS\FileDelivery\Token\Signer\Payload\ShortFilePayload;
 use ILIAS\Filesystem\Stream\ZIPStream;
 
@@ -35,22 +36,26 @@ use ILIAS\Filesystem\Stream\ZIPStream;
  */
 final class StreamDelivery extends BaseDelivery
 {
+    /**
+     * @var string
+     */
     public const SUBREQUEST_SEPARATOR = '/-/';
 
     public function __construct(
         private DataSigner $data_signer,
-        \ILIAS\HTTP\Services $http,
-        ResponseBuilder $response_builder
+        Services $http,
+        ResponseBuilder $response_builder,
+        ResponseBuilder $fallback_response_builder,
     ) {
-        parent::__construct($http, $response_builder);
+        parent::__construct($http, $response_builder, $fallback_response_builder);
     }
 
     /**
-     * @param \Psr\Http\Message\ResponseInterface $r
+     * @param ResponseInterface $r
      * @return void
-     * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
+     * @throws ResponseSendingException
      */
-    protected function notFound(\Psr\Http\Message\ResponseInterface $r): void
+    protected function notFound(ResponseInterface $r): void
     {
         $this->http->saveResponse($r->withStatus(404));
         $this->http->sendResponse();
@@ -93,7 +98,7 @@ final class StreamDelivery extends BaseDelivery
         $uri = $stream->getMetadata()['uri'];
 
         if ($stream instanceof ZIPStream || $stream->getMetadata()['uri'] === 'php://memory') {
-            $this->response_builder = new PHPResponseBuilder();
+            $this->response_builder = $this->fallback_response_builder;
         }
 
         $r = $this->setGeneralHeaders(
@@ -166,7 +171,13 @@ final class StreamDelivery extends BaseDelivery
             $sub_request = urldecode($sub_request);
             // remove query
             $sub_request = explode('?', $sub_request)[0];
-            $file_inside_zip_uri = "zip://$requested_zip#$sub_request";
+
+            try {
+                $file_inside_ZIP = Streams::ofFileInsideZIP($requested_zip, $sub_request);
+            } catch (\Throwable) {
+                $this->notFound($r);
+            }
+            $file_inside_zip_uri = $file_inside_ZIP->getMetadata()['uri'];
             $file_inside_zip_stream = fopen($file_inside_zip_uri, 'rb');
 
             if ($file_inside_zip_stream === false) {
@@ -174,7 +185,7 @@ final class StreamDelivery extends BaseDelivery
             }
 
             // we must use PHPResponseBuilder here, because the streams inside zips cant be delivered using XSendFile or others
-            $this->response_builder = new PHPResponseBuilder();
+            $this->response_builder = $this->fallback_response_builder;
 
             $mime_type = $this->determineMimeType($file_inside_zip_uri);
             $r = $this->setGeneralHeaders(
@@ -185,11 +196,12 @@ final class StreamDelivery extends BaseDelivery
                 Disposition::INLINE // subrequests are always inline per default, browsers may change this to download
             );
 
+
             $this->http->saveResponse(
                 $this->response_builder->buildForStream(
                     $this->http->request(),
                     $r,
-                    Streams::ofResource($file_inside_zip_stream, true)
+                    $file_inside_ZIP
                 )
             );
         }

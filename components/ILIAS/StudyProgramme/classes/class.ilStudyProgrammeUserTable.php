@@ -142,9 +142,9 @@ class ilStudyProgrammeUserTable
         int $prg_id,
         ?array $valid_user_ids,
         Order $order,
-        ilPRGAssignmentFilter $custom_filters = null,
-        int $limit = null,
-        int $offset = null
+        ?ilPRGAssignmentFilter $custom_filters = null,
+        ?int $limit = null,
+        ?int $offset = null
     ): array {
         $data = $this->assignment_repo->getAllForNodeIsContained(
             $prg_id,
@@ -199,6 +199,8 @@ class ilStudyProgrammeUserTable
             $points_reachable = (string) $pgs->getAmountOfPoints();
         }
 
+        $prg_lifecycle_status = $prg_node->getStatus();
+
         $row = $row
             ->withUserActiveRaw($ass->getUserInformation()->isActive())
             ->withUserActive($this->activeToRepresent($ass->getUserInformation()->isActive()))
@@ -238,6 +240,7 @@ class ilStudyProgrammeUserTable
             )
             ->withValidity($show_lp ? $this->validToRepresent($pgs) : '')
             ->withRestartDate($ass->getRestartDate() ? $ass->getRestartDate()->format($this->getUserDateFormat()) : '')
+            ->withNodeLifecycleStatus($prg_lifecycle_status)
         ;
         return $row;
     }
@@ -340,16 +343,15 @@ class ilStudyProgrammeUserTable
                 return ilObject::_lookupTitle($obj_id);
             case 'prg':
                 $title = ilObject::_lookupTitle($obj_id);
-                if(ilObject::_isInTrash(ilObjStudyProgramme::getRefIdFor($obj_id))) {
+                if (ilObject::_isInTrash(ilObjStudyProgramme::getRefIdFor($obj_id))) {
                     return sprintf('(%s)', $title);
                 }
                 return $title;
-            case 'crsr':
-                $title = ilContainerReference::_lookupTitle($obj_id);
-                $target_obj_id = ilContainerReference::_lookupTargetId($obj_id);
-                $refs = ilObject::_getAllReferences($target_obj_id);
+            case 'crs':
+                $title = ilObject::_lookupTitle($obj_id);
+                $refs = ilObject::_getAllReferences($obj_id);
                 $target_ref_id = array_shift($refs) ?? null;
-                if($target_ref_id === null || ilObject::_isInTrash($target_ref_id)) {
+                if ($target_ref_id === null || ilObject::_isInTrash($target_ref_id)) {
                     return sprintf('(%s)', $title);
                 }
                 return $title;

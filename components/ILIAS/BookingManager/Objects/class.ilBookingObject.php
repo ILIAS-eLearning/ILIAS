@@ -22,6 +22,7 @@
  */
 class ilBookingObject
 {
+    protected \ILIAS\BookingManager\Objects\ObjectsManager $objects_manager;
     protected \ILIAS\BookingManager\InternalRepoService $repo;
     protected ilDBInterface $db;
     protected int $id = 0;
@@ -35,7 +36,7 @@ class ilBookingObject
     protected string $post_file = "";
 
     public function __construct(
-        int $a_id = null
+        ?int $a_id = null
     ) {
         global $DIC;
 
@@ -43,6 +44,7 @@ class ilBookingObject
         $this->id = (int) $a_id;
         $this->read();
         $this->repo = $DIC->bookingManager()->internal()->repo();
+        $this->objects_manager = $DIC->bookingManager()->internal()->domain()->objects($this->getPoolId());
     }
 
     public function getId(): int
@@ -113,46 +115,9 @@ class ilBookingObject
     public function getFileFullPath(): string
     {
         if ($this->id && $this->info_file) {
-            $path = self::initStorage($this->id, "file");
-            return $path . $this->info_file;
+            return $this->objects_manager->getObjectInfoPath($this->id);
         }
         return "";
-    }
-
-    /**
-     * Upload new info file
-     */
-    public function uploadFile(array $a_upload): bool
-    {
-        if (!$this->id) {
-            return false;
-        }
-
-        $this->deleteFile();
-
-        $path = self::initStorage($this->id, "file");
-        $original = $a_upload["name"];
-        if (ilFileUtils::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original)) {
-            chmod($path . $original, 0770);
-
-            $this->setFile($original);
-            return true;
-        }
-        return false;
-    }
-
-    // remove existing info file
-    public function deleteFile(): void
-    {
-        if ($this->id) {
-            $path = $this->getFileFullPath();
-            if ($path) {
-                if (is_file($path)) {
-                    unlink($path);
-                }
-                $this->setFile("");
-            }
-        }
     }
 
     public function setPostText(string $a_value): void
@@ -178,55 +143,17 @@ class ilBookingObject
     public function getPostFileFullPath(): string
     {
         if ($this->id && $this->post_file) {
-            $path = self::initStorage($this->id, "post");
-            return $path . $this->post_file;
+            return $this->objects_manager->getBookingInfoPath($this->id);
         }
         return "";
     }
 
-    /**
-     * Upload new post file
-     */
-    public function uploadPostFile(array $a_upload): bool
-    {
-        if (!$this->id) {
-            return false;
-        }
-
-        $this->deletePostFile();
-
-        $path = self::initStorage($this->id, "post");
-        $original = $a_upload["name"];
-
-        if (ilFileUtils::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original)) {
-            chmod($path . $original, 0770);
-
-            $this->setPostFile($original);
-            return true;
-        }
-        return false;
-    }
-
-    // remove existing post file
-    public function deletePostFile(): void
-    {
-        if ($this->id) {
-            $path = $this->getPostFileFullPath();
-            if ($path) {
-                if (is_file($path)) {
-                    unlink($path);
-                }
-                $this->setPostFile("");
-            }
-        }
-    }
 
     public function deleteFiles(): void
     {
         if ($this->id) {
-            $storage = new ilFSStorageBooking($this->id);
-            $storage->delete();
-
+            $this->objects_manager->deleteObjectInfo($this->id);
+            $this->objects_manager->deleteBookingInfo($this->id);
             $this->setFile("");
             $this->setPostFile("");
         }
@@ -235,25 +162,6 @@ class ilBookingObject
     /**
      * Init file system storage
      */
-    public static function initStorage(
-        int $a_id,
-        string $a_subdir = ""
-    ): string {
-        $storage = new ilFSStorageBooking($a_id);
-        $storage->create();
-
-        $path = $storage->getAbsolutePath() . "/";
-
-        if ($a_subdir) {
-            $path .= $a_subdir . "/";
-
-            if (!is_dir($path) && !mkdir($path)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $path));
-            }
-        }
-
-        return $path;
-    }
 
     protected function read(): void
     {
@@ -330,7 +238,7 @@ class ilBookingObject
      */
     public static function getList(
         int $a_pool_id,
-        string $a_title = null
+        ?string $a_title = null
     ): array {
         global $DIC;
 
@@ -451,7 +359,7 @@ class ilBookingObject
 
     public function doClone(
         int $a_pool_id,
-        array $a_schedule_map = null
+        ?array $a_schedule_map = null
     ): void {
         $new_obj = new self();
         $new_obj->setPoolId($a_pool_id);
@@ -465,16 +373,13 @@ class ilBookingObject
         if ($a_schedule_map) {
             $schedule_id = $this->getScheduleId();
             if ($schedule_id) {
-                $new_obj->setScheduleId($a_schedule_map[$schedule_id]);
+                $new_obj->setScheduleId($a_schedule_map[$schedule_id] ?? null);
             }
         }
 
         $new_obj->save();
 
-        // files
-        $source = self::initStorage($this->getId());
-        $target = $new_obj::initStorage($new_obj->getId());
-        ilFileUtils::rCopy($source, $target);
+        $this->objects_manager->cloneTo($this->getId(), $new_obj->getId());
     }
 
     public static function lookupPoolId(int $object_id): int

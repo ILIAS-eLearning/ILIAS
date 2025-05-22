@@ -26,7 +26,6 @@
 * @version	$Id$
 * @ingroup components\ILIASTestQuestionPool
 */
-
 class assClozeSelectGap extends assClozeGap
 {
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -24,21 +25,9 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 class ilObjFileStakeholder extends AbstractResourceStakeholder
 {
-    private int $current_user;
     protected ?ilDBInterface $database = null;
 
-    /**
-     * ilObjFileStakeholder constructor.
-     */
-    public function __construct(protected int $owner = 6)
-    {
-        global $DIC;
-        $this->current_user = (int) ($DIC->isDependencyAvailable('user') ? $DIC->user()->getId() : ANONYMOUS_USER_ID);
-    }
 
-    /**
-     * @inheritDoc
-     */
     public function getId(): string
     {
         return 'file_obj';
@@ -46,9 +35,10 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
 
     public function getOwnerOfNewResources(): int
     {
-        return $this->owner;
+        return $this->default_owner;
     }
 
+    #[\Override]
     public function canBeAccessedByCurrentUser(ResourceIdentification $identification): bool
     {
         global $DIC;
@@ -81,6 +71,7 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
         return (isset($d->file_id) ? (int) $d->file_id : null);
     }
 
+    #[\Override]
     public function resourceHasBeenDeleted(ResourceIdentification $identification): bool
     {
         $object_id = $this->resolveObjectId($identification);

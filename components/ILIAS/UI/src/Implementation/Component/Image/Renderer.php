@@ -36,10 +36,10 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        /**
-         * @var Component\Image\Image $component
-         */
-        $this->checkComponent($component);
+        if (!$component instanceof Component\Image\Image) {
+            $this->cannotHandleComponent($component);
+        }
+
         $tpl = $this->getTemplate("tpl.image.html", true, true);
 
         if (($sources = $component->getAdditionalHighResSources()) !== []) {
@@ -91,14 +91,6 @@ class Renderer extends AbstractComponentRenderer
         }
 
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [Component\Image\Image::class];
     }
 
     /**

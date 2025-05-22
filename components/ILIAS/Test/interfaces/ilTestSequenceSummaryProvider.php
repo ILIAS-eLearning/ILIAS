@@ -27,5 +27,5 @@
 interface ilTestSequenceSummaryProvider
 {
     public function getActiveId(): int;
-    public function getSequenceSummary(bool $obligationsFilterEnabled = false): array;
+    public function getSequenceSummary(): array;
 }

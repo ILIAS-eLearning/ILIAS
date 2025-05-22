@@ -164,7 +164,6 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         if (($a_set["default"] ?? "") != "") {
             switch ($a_set["input"]) {
                 case "selection":
-                case "hitsperpage":
                     $selected_option = $ilSetting->get($field);
                     if ($selected_option == "") {
                         $selected_option = $a_set["default"];
@@ -175,9 +174,6 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
                         $text = ($a_set["input"] == "selection")
                             ? $lng->txt($v)
                             : $v;
-                        if ($a_set["input"] == "hitsperpage" && $k == 9999) {
-                            $text = $lng->txt("no_limit");
-                        }
                         if ($selected_option == $k) {
                             $this->tpl->setVariable(
                                 "OPTION_SELECTED",
@@ -190,6 +186,18 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
                     $this->tpl->setCurrentBlock("def_selection");
                     $this->tpl->setVariable("PROFILE_OPTION_DEFAULT_VALUE", "default_" . $field);
                     $this->tpl->parseCurrentBlock();
+                    break;
+                case 'numeric':
+                    $this->tpl->setCurrentBlock('def_input');
+
+                    $this->tpl->setVariable('PROFILE_OPTION_DEFAULT_VALUE', 'default_' . $field);
+                    $session_reminder = ilSessionReminder::byLoggedInUser();
+                    $this->tpl->setVariable('CURRENT_OPTION_VISIBLE', $session_reminder->getGlobalSessionReminderLeadTime());
+                    $this->tpl->setVariable('CURRENT_OPTION_MAXIMUM', $session_reminder->getMaxPossibleLeadTime());
+                    $this->tpl->setVariable('CURRENT_OPTION_MINIMUM', ilSessionReminder::LEAD_TIME_DISABLED);
+
+                    $this->tpl->parseCurrentBlock();
+
                     break;
             }
             $this->tpl->setCurrentBlock("default");

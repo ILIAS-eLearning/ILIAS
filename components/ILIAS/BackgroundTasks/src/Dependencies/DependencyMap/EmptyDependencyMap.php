@@ -38,9 +38,8 @@ class EmptyDependencyMap implements DependencyMap
         $result = $map($DIC, $fullyQualifiedDomainName, $for);
         if ($result) {
             return $result;
-        } else {
-            return $this->getDependency($DIC, $fullyQualifiedDomainName, $for);
         }
+        return $this->getDependency($DIC, $fullyQualifiedDomainName, $for);
     }
 
     /**

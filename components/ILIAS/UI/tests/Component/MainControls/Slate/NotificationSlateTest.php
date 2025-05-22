@@ -47,11 +47,11 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
         $factory = new class () extends NoUIFactory {
             public I\SignalGenerator $sig_gen;
 
-            public function button(): C\Button\Factory
+            public function button(): I\Button\Factory
             {
                 return new I\Button\Factory();
             }
-            public function symbol(): ILIAS\UI\Component\Symbol\Factory
+            public function symbol(): I\Symbol\Factory
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
@@ -59,11 +59,11 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
                     new I\Symbol\Avatar\Factory()
                 );
             }
-            public function item(): C\Item\Factory
+            public function item(): I\Item\Factory
             {
                 return new I\Item\Factory();
             }
-            public function mainControls(): C\MainControls\Factory
+            public function mainControls(): I\MainControls\Factory
             {
                 return new I\MainControls\Factory(
                     $this->sig_gen,

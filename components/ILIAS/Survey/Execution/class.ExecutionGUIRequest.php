@@ -59,6 +59,12 @@ class ExecutionGUIRequest
         return $this->str("accesscode");
     }
 
+    // todo: check relationg to accesscode parameter above
+    public function getAnonymousId(): string
+    {
+        return $this->str("anonymous_id");
+    }
+
     public function getDirection(): int
     {
         return $this->int("direction");

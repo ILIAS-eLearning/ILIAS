@@ -18,10 +18,8 @@
 
 declare(strict_types=1);
 
-class ilDclMobFieldModel extends ilDclFileuploadFieldModel
+class ilDclMobFieldModel extends ilDclFileFieldModel
 {
-    public static array $mob_suffixes = ['jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv'];
-
     public function getValidFieldProperties(): array
     {
         return [
@@ -31,8 +29,8 @@ class ilDclMobFieldModel extends ilDclFileuploadFieldModel
         ];
     }
 
-    public function allowFilterInListView(): bool
+    public function getSupportedExtensions(): array
     {
-        return false;
+        return ['jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv'];
     }
 }

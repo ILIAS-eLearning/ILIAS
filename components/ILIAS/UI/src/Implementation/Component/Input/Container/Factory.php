@@ -38,26 +38,17 @@ class Factory implements I\Container\Factory
         $this->view_control_factory = $view_control_factory;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function form(): I\Container\Form\Factory
+    public function form(): Form\Factory
     {
         return $this->form_factory;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function filter(): I\Container\Filter\Factory
+    public function filter(): Filter\Factory
     {
         return $this->filter_factory;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function viewControl(): I\Container\ViewControl\Factory
+    public function viewControl(): ViewControl\Factory
     {
         return $this->view_control_factory;
     }

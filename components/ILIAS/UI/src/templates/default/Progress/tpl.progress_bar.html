@@ -1,0 +1,12 @@
+<div class="c-progress c-progress-bar">
+    <div class="c-progress-bar__label">
+        <label for="{ID}">{LABEL}</label>
+        <span data-status="success" class="c-progress-bar--success hidden">{SUCCESS_GLYPH}</span>
+        <span data-status="failure" class="c-progress-bar--failure hidden">{FAILURE_GLYPH}</span>
+    </div>
+
+    <progress id="{ID}" class="c-progress-bar__progress" value="{VALUE}" max="{MAX_VALUE}"
+        <!-- BEGIN with_async_url -->data-url="{ASYNC_URL}"<!-- END with_async_url -->></progress>
+
+    <div class="c-progress-bar__message text-left invisible" aria-live="polite"></div>
+</div>

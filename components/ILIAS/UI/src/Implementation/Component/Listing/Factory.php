@@ -22,58 +22,46 @@ namespace ILIAS\UI\Implementation\Component\Listing;
 
 use ILIAS\UI\Component\Listing as L;
 
-/**
- * Class Factory
- * @package ILIAS\UI\Implementation\Component\Listing
- */
 class Factory implements L\Factory
 {
-    /**
-     * @inheritdoc
-     */
-    public function unordered(array $items): L\Unordered
+    public function __construct(
+        protected Workflow\Factory $workflow_factory,
+        protected CharacteristicValue\Factory $characteristiv_value_factory,
+        protected Entity\Factory $entity_factory,
+    ) {
+    }
+
+    public function unordered(array $items): Unordered
     {
         return new Unordered($items);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function ordered(array $items): L\Ordered
+    public function ordered(array $items): Ordered
     {
         return new Ordered($items);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function descriptive(array $items): L\Descriptive
+    public function descriptive(array $items): Descriptive
     {
         return new Descriptive($items);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function workflow(): L\Workflow\Factory
+    public function workflow(): Workflow\Factory
     {
-        return new Workflow\Factory();
+        return $this->workflow_factory;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function characteristicValue(): L\CharacteristicValue\Factory
+    public function characteristicValue(): CharacteristicValue\Factory
     {
-        return new CharacteristicValue\Factory();
+        return $this->characteristiv_value_factory;
     }
 
-    public function entity(): L\Entity\Factory
+    public function entity(): Entity\Factory
     {
-        return new Entity\Factory();
+        return $this->entity_factory;
     }
 
-    public function property(): L\Property
+    public function property(): Property
     {
         return new Property();
     }

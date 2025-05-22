@@ -24,12 +24,12 @@
  */
 class ilBookingScheduleGUI
 {
+    protected \ILIAS\BookingManager\Access\AccessManager $access;
     protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
     protected ilGlobalTemplateInterface $tpl;
     protected ilTabsGUI $tabs;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
-    protected ilAccessHandler $access;
     protected ilHelpGUI $help;
     protected ilObjectDataCache $obj_data_cache;
     protected int $schedule_id;
@@ -44,7 +44,7 @@ class ilBookingScheduleGUI
         $this->tabs = $DIC->tabs();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
-        $this->access = $DIC->access();
+        $this->access = $DIC->bookingManager()->internal()->domain()->access();
         $this->help = $DIC["ilHelp"];
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $this->ref_id = $a_parent_obj->getRefId();
@@ -78,12 +78,10 @@ class ilBookingScheduleGUI
         $tpl = $this->tpl;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
-
         $table = new ilBookingSchedulesTableGUI($this, 'render', $this->ref_id);
 
         $bar = "";
-        if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
+        if ($this->access->canManageSettings($this->ref_id)) {
             // if we have schedules but no objects - show info
             if (count($table->getData())) {
                 if (!count(ilBookingObject::getList(ilObject::_lookupObjId($this->ref_id)))) {

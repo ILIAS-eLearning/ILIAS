@@ -25,7 +25,7 @@ export default class DomUtil {
   //debug = true;
 
   constructor() {
-    this.debug = true;
+    this.debug = false;
   }
 
   /**
@@ -70,7 +70,7 @@ export default class DomUtil {
       b = p[1] + node.offsetHeight,
       l = p[0];
     const reg = this.region(t,r,b,l);
-    console.log(reg);
+    // console.log(reg);
     return reg;
   };
 

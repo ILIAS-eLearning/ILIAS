@@ -34,7 +34,9 @@ class ilHtmlImageMapFileInputGUITest extends assBaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
+        $this->addGlobal_uiUploadLimitResolver();
+
         $this->object = new ilHtmlImageMapFileInputGUI();
     }
 

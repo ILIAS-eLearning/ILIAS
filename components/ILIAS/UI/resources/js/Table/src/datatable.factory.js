@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import DataTable from './datatable.class';
+import DataTable from './datatable.class.js';
 
 export default class DataTableFactory {
   /**

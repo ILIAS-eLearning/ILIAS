@@ -18,17 +18,16 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\CLI\InstallCommand;
 
-class ilFileSystemClientDirectoryRenamedObjective implements Setup\Objective
+class ilFileSystemClientDirectoryRenamedObjective implements Objective
 {
     public const DEFAULT_CLIENT_ID = "default";
 
-    protected string $path;
-
-    public function __construct(string $path)
+    public function __construct(protected string $path)
     {
-        $this->path = $path;
     }
 
     public function getHash(): string
@@ -46,21 +45,21 @@ class ilFileSystemClientDirectoryRenamedObjective implements Setup\Objective
         return true;
     }
 
-    public function getPreconditions(Setup\Environment $environment): array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesPopulatedObjective()
         ];
     }
 
-    public function achieve(Setup\Environment $environment): Setup\Environment
+    public function achieve(Environment $environment): Environment
     {
-        $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
+        $client_id = $environment->getResource(Environment::RESOURCE_CLIENT_ID);
 
         $old_name = $this->path . DIRECTORY_SEPARATOR . $client_id;
         $new_name = $this->path . DIRECTORY_SEPARATOR . self::DEFAULT_CLIENT_ID;
 
-        if ($environment->hasConfigFor(Setup\CLI\InstallCommand::IMPORT)) {
+        if ($environment->hasConfigFor(InstallCommand::IMPORT)) {
             $old_name = $this->path . DIRECTORY_SEPARATOR . self::DEFAULT_CLIENT_ID;
             $new_name = $this->path . DIRECTORY_SEPARATOR . $client_id;
         }
@@ -73,7 +72,7 @@ class ilFileSystemClientDirectoryRenamedObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment): bool
+    public function isApplicable(Environment $environment): bool
     {
         return true;
     }

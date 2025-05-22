@@ -69,11 +69,11 @@ For best results we recommend:
 
   * a current version of Debian GNU Linux, Ubuntu or RHEL
   * MySQL 5.7.x or MariaDB 10.2
-  * PHP 8.2
+  * PHP 8.4
   * Apache 2.4.x with `mod_php`
   * php-gd, php-xml, php-mysql, php-mbstring, php-imagick, php-zip, php-intl
-  * OpenJDK 11
-  * Node.js: 20-LTS (and 21)
+  * OpenJDK 17
+  * Node.js: 23
   * git
   * composer v2
   * a contemporary browser supporting ES6, CSS3 and HTML 5
@@ -109,15 +109,15 @@ The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows
 
 | Package        | Version          |
 |----------------|------------------|
-| Distribution   | Ubuntu 20.04 LTS |
-| MariaDB        | 10.0.38          |
-| PHP            | 8.2              |
-| Apache2        | 2.4.18           |
-| JDK            | OpenJDK 8        |
-| Node.js        | 10.23.0          |
-| wkhtmltopdf    | 0.12.5           |
-| Ghostscript    | 9.26             |
-| Imagemagick    | 6.9.11-60 Q16    |
+| Distribution   | Ubuntu 22.04 LTS |
+| MariaDB        | 10.6.18          |
+| PHP            | 8.4              |
+| Apache2        | 2.4.52           |
+| JDK            | OpenJDK 17       |
+| Node.js        | 16.20            |
+| wkhtmltopdf    | 0.12.6           |
+| Ghostscript    | 9.55             |
+| Imagemagick    | 6.9.11           |
 | MathJax        | 2.7.9            |
 
 <a name="other-platforms"></a>
@@ -160,7 +160,7 @@ on Debian). A minimal configuration may look as follows:
 
     DocumentRoot /var/www/html/
     <Directory /var/www/html/>
-        Options FollowSymLinks -Indexes
+        Options +FollowSymLinks -Indexes
         AllowOverride All
         Require all granted
     </Directory>
@@ -202,8 +202,8 @@ systemctl restart httpd.service
 <a name="php-installation"></a>
 ### PHP Installation and Configuration
 
-Refer to the to documentation of your installation to install PHP 8.1
-to PHP 8.2 including packages for imagick, gd, mysql, mbstring, curl, dom, zip, intl, and xml.
+Refer to the to documentation of your installation to install PHP 8.3
+to PHP 8.4 including packages for imagick, gd, mysql, mbstring, curl, dom, zip, intl, and xml.
 
 To check if the installation was successfull create the file `/var/www/html/phpinfo.php`
 with the following contents:
@@ -326,17 +326,17 @@ after several days of using ILIAS in production.
 ### Install other Dependencies
 
 ```
-apt-get install imagemagick openjdk-7-jdk
+apt-get install zip unzip imagemagick openjdk-17-jdk
 ```
 
 On Debian/Ubuntu execute:
 ```
-apt-get install imagemagick openjdk-8-jdk
+apt-get install zip unzip imagemagick openjdk-17-jdk
 ```
 
 On RHEL/CentOS execute:
 ```
-yum install libxslt ImageMagick java-1.8.0-openjdk
+yum install libxslt ImageMagick java-17-openjdk
 ```
 
 Restart the apache webserver after you installed dependencies!
@@ -346,10 +346,10 @@ Restart the apache webserver after you installed dependencies!
 
 Depending on your use case, you MAY want to install further dependencies (exact package names vary by distribution and PHP version you are using):
 
-* php8.2-curl
-* php8.2-xmlrpc
-* php8.2-soap
-* php8.2-ldap
+* php8.3-curl
+* php8.3-xmlrpc
+* php8.3-soap
+* php8.3-ldap
 * ffmpeg
 * mimetex
 
@@ -399,9 +399,15 @@ Create a directory outside the web servers docroot (e.g. `/var/www/files`). Make
 of the files and directories that were created by changing the group and owner to www-data (on Debian/Ubuntu) or
 apache (on RHEL).
 
+In addition to the file folder, ILIAS also needs a place to create the log files
+(e.g. `/var/www/logs`). The 'ilias.log' can be viewed there later, as well as all
+error_log files, which are created in case of errors and are referenced in ILIAS by
+an errorcode.
+
 ```
-chown www-data:www-data `/var/www/html
-chown www-data:www-data `/var/www/files
+chown www-data:www-data /var/www/html
+chown www-data:www-data /var/www/files
+chown www-data:www-data /var/www/logs
 ```
 
 The commands above will directly serve ILIAS from the docroot.
@@ -478,7 +484,7 @@ according to your needs.
 
 The ILIAS Java RPC server is used for certain optional functions as Lucene Search
 or generating PDF Certificates. To enable the RPC server you need to place a
-configuration file in `<YOUR_ILIAS_DIR>/Services/WebServices/RPC/lib/ilServer.properties`:
+configuration file in `<YOUR_ILIAS_DIR>/components/ILIAS/WebServices/RPC/lib/ilServer.properties`:
 
 ```
 [Server]
@@ -505,7 +511,7 @@ file manually.
 
 You may use the following systemd service description to start the RPC server.
 If you still use SysV-Initscripts you can find one in the
-[Lucene RPC-Server](../../Services/WebServices/RPC/lib/README.md) documentation.
+[Lucene RPC-Server](../../components/ILIAS/WebServices/RPC/lib/README.md) documentation.
 
 ```
 [Unit]
@@ -514,8 +520,8 @@ After=network.target
 
 [Service]
 Environment=JAVA_OPTS="-Dfile.encoding=UTF-8"
-Environment=ILSERVER_JAR="/var/www/html/ilias/Services/WebServices/RPC/lib/ilServer.jar"
-Environment=ILSERVER_INI="/var/www/html/ilias/Services/WebServices/RPC/lib/ilServer.properties"
+Environment=ILSERVER_JAR="/var/www/html/ilias/components/ILIAS/WebServices/RPC/lib/ilServer.jar"
+Environment=ILSERVER_INI="/var/www/html/ilias/components/ILIAS/WebServices/RPC/lib/ilServer.properties"
 
 ExecStart=-/usr/bin/java $JAVA_OPTS -jar $ILSERVER_JAR $ILSERVER_INI start
 ExecStop=/usr/bin/java $JAVA_OPTS -jar $ILSERVER_JAR $ILSERVER_INI stop
@@ -526,7 +532,7 @@ WantedBy=multi-user.target
 
 At this point the RPC server will generate PDF certificates, but to use Lucence
 search further step are needed. See
-[Lucene RPC-Server](../../Services/WebServices/RPC/lib/README.md) for details.
+[Lucene RPC-Server](../../components/ILIAS/WebServices/RPC/lib/README.md) for details.
 
 <a name="e-mail-configuration"></a>
 ## Configure E-Mail (optional)
@@ -578,7 +584,7 @@ FromLineOverride=YES
 The recommended webserver configuration is either **Apache with mod_php** or
 **Nginx with PHP-FPM (> 1.3.8)**. Do NOT use **Apache with PHP-FPM** if you
 want to use WebDAV. Find more information about the configuration of WebDAV
-in the [WebDAV Readme](../../Services/WebDAV/README.md).
+in the [WebDAV Readme](../../components/ILIAS/WebDAV/README.md).
 
 
 <a name="install-plugins-and-styles"></a>
@@ -711,6 +717,20 @@ to manage and monitor your ILIAS installation.
 To check which update step gets currently executed run the following SQL-Statement
 on your ILIAS database: `SELECT * FROM `settings` WHERE keyword = "db_update_running"`.
 
+Database updates are performed in steps; it might happen that a step fails, e.g. due
+to some edge case or inconsistency in existing data, files, etc.
+In this case, a concecutive command `php setup/setup.php update` will error with 
+a message like 
+> step 2 was started last, but step 1 was finished last. 
+> Aborting because of that mismatch.
+
+You may reset the records for those steps by running:
+```
+php setup/setup.php achieve database.resetFailedSteps
+```
+However, be sure to understand the cause for the failing steps and tend to it before 
+resetting and running update again.
+
 
 ## Information on Updates
 
@@ -730,6 +750,8 @@ each ILIAS release.
 
 | ILIAS Version  | PHP Version                 |
 |----------------|-----------------------------|
+| 11.x           | 8.3.x, 8.4.x                |
+| 10.x           | 8.2.x, 8.3.x                |
 | 9.x            | 8.1.x, 8.2.x                |
 | 8.x            | 7.4.x, 8.0.x                |
 | 7.x            | 7.3.x, 7.4.x                |
@@ -751,7 +773,6 @@ We strongly recommend using MariaDB instead of MySQL due to performance, licensi
 
 | ILIAS Version | MySQL Version                       | MariaDB Version        |
 |---------------|-------------------------------------|------------------------|
-| 10.0 - 10.x   | 8.0.x                               | 10.5 - 10.11           |
 | 9.0 - 9.x     | 8.0.x                               | 10.3, 10.4, 10.5, 10.6 |
 | 8.0 - 8.x     | 5.7.x, 8.0.x                        | 10.2, 10.3, 10.4       |
 | 7.0 - 7.x     | 5.7.x, 8.0.x                        | 10.1, 10.2, 10.3       |

@@ -20,14 +20,11 @@ declare(strict_types=1);
 
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
-use ILIAS\LegalDocuments\Conductor;
 
-/**
- * Class ilCertificateBaseTestCase
- * @author Michael Jansen <mjansen@databay.de>
- */
 abstract class ilCertificateBaseTestCase extends TestCase
 {
+    protected ?Container $dic;
+
     protected function setUp(): void
     {
         if (!defined('ANONYMOUS_USER_ID')) {
@@ -43,7 +40,7 @@ abstract class ilCertificateBaseTestCase extends TestCase
         parent::setUp();
     }
 
-    protected function setGlobalVariable(string $name, $value): void
+    protected function setGlobalVariable(string $name, mixed $value): void
     {
         global $DIC;
 

@@ -26,8 +26,10 @@ use ILIAS\Certificate\ValueObject\CertificateId;
 class ilUserCertificate
 {
     private readonly int $validUntil;
+    private readonly ?string $backgroundImageIdentification;
+    private readonly ?string $tile_image_identification;
     private readonly ?string $backgroundImagePath;
-    private readonly ?string $thumbnailImagePath;
+    private readonly ?string $tile_image_path;
 
     public function __construct(
         private readonly int $patternCertificateId,
@@ -44,12 +46,16 @@ class ilUserCertificate
         private readonly bool $currentlyActive,
         private readonly CertificateId $certificate_id,
         ?string $backgroundImagePath = null,
-        ?string $thumbnailImagePath = null,
+        ?string $tile_image_path = null,
+        ?string $backgroundImageIdentification = null,
+        ?string $tile_image_identification = null,
         private ?int $id = null
     ) {
         $this->validUntil = (int) $validUntil;
         $this->backgroundImagePath = (string) $backgroundImagePath;
-        $this->thumbnailImagePath = (string) $thumbnailImagePath;
+        $this->tile_image_path = (string) $tile_image_path;
+        $this->backgroundImageIdentification = (string) $backgroundImageIdentification;
+        $this->tile_image_identification = (string) $tile_image_identification;
     }
 
     public function withId(int $id): self
@@ -133,14 +139,40 @@ class ilUserCertificate
         return $this->id;
     }
 
-    public function getBackgroundImagePath(): ?string
+    public function getBackgroundImagePath(): string
     {
         return $this->backgroundImagePath;
     }
 
-    public function getThumbnailImagePath(): string
+    public function getBackgroundImageIdentification(): string
     {
-        return $this->thumbnailImagePath;
+        return $this->backgroundImageIdentification;
+    }
+
+    public function getCurrentBackgroundImageUsed(): string
+    {
+        if ($this->getBackgroundImageIdentification() === '' || $this->getBackgroundImageIdentification() === '-') {
+            return $this->getBackgroundImagePath();
+        }
+        return $this->getBackgroundImageIdentification();
+    }
+
+    public function getTileImagePath(): string
+    {
+        return $this->tile_image_path;
+    }
+
+    public function getTileImageIdentification(): string
+    {
+        return $this->tile_image_identification;
+    }
+
+    public function getCurrentTileImageUsed(): string
+    {
+        if ($this->getTileImageIdentification() === '' || $this->getTileImageIdentification() === '-') {
+            return $this->getTileImagePath();
+        }
+        return $this->getTileImageIdentification();
     }
 
     public function getCertificateId(): CertificateId

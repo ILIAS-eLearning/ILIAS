@@ -27,6 +27,7 @@ use ILIAS\Survey\Page\PageRenderer;
  */
 class ResultsDetailsPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 {
+    protected \ilTree $tree;
     protected \ILIAS\Survey\InternalGUIService $gui;
     protected \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request;
     protected \ILIAS\Survey\Mode\UIModifier $ui_modifier;
@@ -68,6 +69,7 @@ class ResultsDetailsPrintViewProviderGUI extends Export\AbstractPrintViewProvide
         $this->gui = $DIC->survey()
             ->internal()
             ->gui();
+        $this->tree = $DIC->repositoryTree();
     }
 
     public function getTemplateInjectors(): array
@@ -129,6 +131,7 @@ class ResultsDetailsPrintViewProviderGUI extends Export\AbstractPrintViewProvide
         $selection = $this->request->getPrintSelection();
         $qids = $this->request->getQuestionIds();
 
+        $first = true;
         foreach ($this->survey->getSurveyQuestions() as $qdata) {
             $q_eval = \SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);
 
@@ -141,11 +144,45 @@ class ResultsDetailsPrintViewProviderGUI extends Export\AbstractPrintViewProvide
                 $this->request,
                 $q_eval
             );
-            $panel_report = $this->gui->ui()->factory()->panel()->report("", $panels);
-            $print_pages[] = $this->gui->ui()->renderer()->render($panel_report);
+            $panel_report = $this->gui->ui()->factory()->panel()->report(
+                $this->lng->txt("svy_eval_detail"),
+                $panels
+            );
+            $head = "";
+            if ($first) {
+                $head = $this->getPrintHeader();
+                $first = false;
+            }
+            $print_pages[] = $head . $this->gui->ui()->renderer()->render(
+                $panel_report
+            );
             //$print_pages[] = $this->gui->ui()->renderer()->render($panels);
         }
         return $print_pages;
+    }
+
+    protected function getPrintHeader(): string
+    {
+        $head = "<h2>" . $this->survey->getTitle() . "</h2>\n";
+        $path = "";
+        $path_full = $this->tree->getPathFull($this->survey->getRefId());
+        foreach ($path_full as $data) {
+            $path .= " &raquo; ";
+            $path .= $data['title'];
+        }
+
+        \ilDatePresentation::setUseRelativeDates(false);
+        $props = array(
+            $this->lng->txt("url") => \ilLink::_getStaticLink($this->survey->getRefId()),
+            $this->lng->txt("path") => $path,
+            $this->lng->txt("date") => \ilDatePresentation::formatDate(new \ilDateTime(time(), IL_CAL_UNIX)),
+        );
+
+        $f = $this->gui->ui()->factory();
+        $r = $this->gui->ui()->renderer();
+        $l = $f->listing()->descriptive($props);
+
+        return $head . $r->render($l);
     }
 
     public function autoPageBreak(): bool

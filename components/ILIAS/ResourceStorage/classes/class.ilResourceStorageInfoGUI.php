@@ -16,7 +16,8 @@
  *
  *********************************************************************/
 
-use ILIAS\DI\Container;
+use ILIAS\ResourceStorage\Services;
+use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
@@ -26,8 +27,8 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 class ilResourceStorageInfoGUI
 {
     protected ?ResourceIdentification $identification = null;
-    protected \ILIAS\ResourceStorage\Services $storage;
-    protected \ILIAS\ResourceStorage\Resource\StorableResource $resource;
+    protected Services $storage;
+    protected StorableResource $resource;
     protected ilLanguage $language;
     protected bool $is_storage = true;
 

@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=0);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+declare(strict_types=0);
 /**
  * Class ilObjUserTrackingGUI
  * @author       Alex Killing <alex.killing@gmx.de>
@@ -42,14 +56,6 @@ class ilObjUserTrackingGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
-                break;
-
-            case 'illearningprogressgui':
-                $this->tabs_gui->setTabActive('learning_progress');
-                $lp_gui = new ilLearningProgressGUI(
-                    ilLearningProgressGUI::LP_CONTEXT_ADMINISTRATION
-                );
-                $this->ctrl->forwardCommand($lp_gui);
                 break;
 
             case 'illpobjectstatisticsgui':
@@ -103,18 +109,6 @@ class ilObjUserTrackingGUI extends ilObjectGUI
                     ),
                     "",
                     "illpobjectstatisticsgui"
-                );
-            }
-
-            if (ilObjUserTracking::_enabledLearningProgress()) {
-                $this->tabs_gui->addTarget(
-                    "learning_progress",
-                    $this->ctrl->getLinkTargetByClass(
-                        "illearningprogressgui",
-                        "show"
-                    ),
-                    "",
-                    "illearningprogressgui"
                 );
             }
 

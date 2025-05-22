@@ -25,7 +25,7 @@ class ilBookingInfoListItemPropertiesAdapter
     protected \ILIAS\BookingManager\Reservations\ReservationDBRepository $repo;
 
     public function __construct(
-        \ILIAS\BookingManager\Reservations\ReservationDBRepository $repo = null
+        ?\ILIAS\BookingManager\Reservations\ReservationDBRepository $repo = null
     ) {
         $this->repo = $repo;
     }

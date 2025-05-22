@@ -33,9 +33,21 @@ final class SVGBlacklistPreProcessor implements PreProcessor
 {
     use IsMimeTypeOrExtension;
 
+    /**
+     * @var string
+     */
     private const SVG_MIME_TYPE = 'image/svg+xml';
+    /**
+     * @var string
+     */
     private const REGEX_SCRIPT = '/<script/m';
+    /**
+     * @var string
+     */
     private const REGEX_BASE64 = '/data:.*;base64/m';
+    /**
+     * @var string
+     */
     private const SVG = 'svg';
     private string $rejection_message = 'The SVG file contains possibily malicious code.';
     private string $rejection_message_script;
@@ -154,7 +166,7 @@ final class SVGBlacklistPreProcessor implements PreProcessor
         $dom = new \DOMDocument();
         try {
             $dom->loadXML($raw_svg_content, LIBXML_NOWARNING | LIBXML_NOERROR);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
         $errors = libxml_get_errors();
@@ -185,14 +197,8 @@ final class SVGBlacklistPreProcessor implements PreProcessor
 
         // loop through all attributes of elements recursively and check for event attributes
         $looper = $this->getDOMAttributesLooper();
-        $prohibited_attributes = function (string $name): bool {
-            return in_array(strtolower($name), $this->svg_event_lists, true);
-        };
-        if ($looper($dom, $prohibited_attributes) === false) {
-            return false;
-        }
-
-        return true;
+        $prohibited_attributes = (fn(string $name): bool => in_array(strtolower($name), $this->svg_event_lists, true));
+        return $looper($dom, $prohibited_attributes) !== false;
     }
 
     private function hasContentScriptTag(string $raw_svg_content): bool
@@ -226,10 +232,8 @@ final class SVGBlacklistPreProcessor implements PreProcessor
                     }
                 }
                 foreach ($node->childNodes as $child) {
-                    if ($child instanceof \DOMElement) {
-                        if(!$attributes_looper($child, $closure)) {
-                            return false;
-                        }
+                    if ($child instanceof \DOMElement && !$attributes_looper($child, $closure)) {
+                        return false;
                     }
                 }
                 return true;

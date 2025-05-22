@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Wiki\Wiki;
 
 use ILIAS\Wiki\InternalGUIService;
 use ILIAS\Wiki\InternalDomainService;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -51,16 +52,12 @@ class GUIService
         );
     }
 
-    public function translation(int $wiki_ref_id = 0): \ilObjectTranslation
+    public function translation(int $wiki_ref_id = 0): Translations
     {
         if ($wiki_ref_id === 0) {
             $wiki_ref_id = $this->gui_service->request()->getRefId();
         }
-        return $this->domain_service->wiki()->translation(
-            $this->domain_service->wiki()->getObjId(
-                $wiki_ref_id
-            )
-        );
+        return $this->domain_service->wiki()->translation($wiki_ref_id);
     }
 
 

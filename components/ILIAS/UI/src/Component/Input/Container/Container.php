@@ -24,6 +24,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input\Input;
+use ILIAS\UI\Component\Input\InputData;
 
 /**
  * This describes commonalities between all Containers for Inputs, such as Forms.
@@ -40,9 +41,21 @@ interface Container extends Component
     /**
      * Get a form like this where data from the request is attached.
      *
+     * This calls `withInputData` with a properly wrapped request.
+     *
      * @return static
      */
     public function withRequest(ServerRequestInterface $request): self;
+
+    /**
+     * Get a form like this where some input data is attached.
+     *
+     * This is a more powerful version of `withRequest` that allows to provide
+     * data from arbitrary to the form. This is one piece that turns the inputs
+     * from the UI framework into a truly generic input description that can be
+     * used in various contexts.
+     */
+    public function withInput(InputData $input_data): self;
 
     /**
      * Apply a transformation to the data of the form.

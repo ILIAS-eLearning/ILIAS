@@ -25,6 +25,7 @@ use PHPUnit\Framework\TestCase;
 use org\bovigo\vfs\vfsStreamWrapper;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class HTMLPurifierTest extends TestCase
 {
@@ -39,9 +40,7 @@ class HTMLPurifierTest extends TestCase
         $this->assertInstanceOf(HTMLPurifier::class, new HTMLPurifier([], vfsStream::url('root/HTMLPurifier')));
     }
 
-    /**
-     * @dataProvider documents
-     */
+    #[DataProvider('documents')]
     public function testPurify(string $input, string $expected): void
     {
         $this->skipIfvfsStreamNotSupported();

@@ -28,13 +28,12 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
-use ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
 
 /**
  * Class Link
  * Attention: This is not the same as the \ILIAS\UI\Component\Link\Link. Please
  * read the difference between GlobalScreen and UI in the README.md of the GlobalScreen Service.
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class Link extends AbstractChildItem implements
     hasTitle,
@@ -43,7 +42,6 @@ class Link extends AbstractChildItem implements
     isInterchangeableItem,
     isChild
 {
-    use SymbolDecoratorTrait;
     use hasSymbolTrait;
     use isInterchangeableItemTrait;
 

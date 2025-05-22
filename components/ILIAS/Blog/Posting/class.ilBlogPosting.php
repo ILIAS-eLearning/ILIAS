@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilBlogPosting
@@ -252,19 +252,14 @@ class ilBlogPosting extends ilPageObject
         global $DIC;
 
         $ilDB = $DIC->database();
+        $lom_services = $DIC->learningObjectMetadata();
 
         $query = "SELECT * FROM il_blog_posting" .
             " WHERE blog_id = " . $ilDB->quote($a_blog_id, "integer");
         $set = $ilDB->query($query);
         while ($rec = $ilDB->fetchAssoc($set)) {
-            // delete all md keywords
-            $md_obj = new ilMD($a_blog_id, $rec["id"], "blp");
-            if (is_object($md_section = $md_obj->getGeneral())) {
-                foreach ($md_section->getKeywordIds() as $id) {
-                    $md_key = $md_section->getKeyword($id);
-                    $md_key->delete();
-                }
-            }
+            // delete lom
+            $lom_services->deleteAll($a_blog_id, $rec["id"], "blp");
 
             $post = new ilBlogPosting($rec["id"]);
             $post->delete();
@@ -410,36 +405,33 @@ class ilBlogPosting extends ilPageObject
 
 
     // keywords
-
-    public function getMDSection(): ?ilMDGeneral
-    {
-        // general section available?
-        $md_obj = new ilMD($this->getBlogId(), $this->getId(), "blp");
-        if (!is_object($md_section = $md_obj->getGeneral())) {
-            $md_section = $md_obj->addGeneral();
-            $md_section->save();
-            return $md_section;
-        }
-        return $md_section;
-    }
-
     public function updateKeywords(
         array $keywords
     ): void {
-        $ilUser = $this->user;
-
-        // language is not "used" anywhere
-        $ulang = $ilUser->getLanguage();
-        $keywords = array($ulang => $keywords);
-
-        ilMDKeyword::updateKeywords($this->getMDSection(), $keywords);
+        $this->lom_services->manipulate($this->getBlogId(), $this->getId(), "blp")
+                           ->prepareDelete($this->lom_services->paths()->keywords())
+                           ->prepareCreateOrUpdate($this->lom_services->paths()->keywords(), ...$keywords)
+                           ->execute();
     }
 
     public static function getKeywords(
         int $a_obj_id,
         int $a_posting_id
     ): array {
-        return ilMDKeyword::lookupKeywords($a_obj_id, $a_posting_id);
+        global $DIC;
+
+        $lom_services = $DIC->learningObjectMetadata();
+
+        $result = [];
+        $keywords = $lom_services->read($a_obj_id, $a_posting_id, "blp")
+                                 ->allData($lom_services->paths()->keywords());
+        foreach ($keywords as $keyword) {
+            if ($keyword->value() !== "") {
+                $result[] = $keyword->value();
+            }
+        }
+
+        return $result;
     }
 
     /**

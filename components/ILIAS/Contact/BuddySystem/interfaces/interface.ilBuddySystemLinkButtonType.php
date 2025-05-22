@@ -18,12 +18,10 @@
 
 declare(strict_types=1);
 
-/**
- * Interface ilBuddySystemLinkButtonType
- * @author Guido Vollbach <gvollbach@databay.de>
- */
 interface ilBuddySystemLinkButtonType
 {
+    public const ROOT_CSS_CLASS = 'ilBuddySystemLinkWidget';
+
     public function getHTML(): string;
 
     public function getUsrId(): int;

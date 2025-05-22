@@ -222,8 +222,8 @@ class ilPRGProgress extends Node
     }
 
     public function withCompletion(
-        int $usr_or_obj_id = null,
-        \DateTimeImmutable $completion_date = null
+        ?int $usr_or_obj_id = null,
+        ?\DateTimeImmutable $completion_date = null
     ): self {
         $clone = clone $this;
         $clone->completion_by = $usr_or_obj_id;
@@ -248,7 +248,7 @@ class ilPRGProgress extends Node
         return $this->vq_date;
     }
 
-    public function withValidityOfQualification(\DateTimeImmutable $date = null): self
+    public function withValidityOfQualification(?\DateTimeImmutable $date = null): self
     {
         $clone = clone $this;
         $clone->vq_date = $date;

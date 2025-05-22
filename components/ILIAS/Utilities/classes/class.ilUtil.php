@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +19,7 @@
 use ILIAS\FileDelivery\Delivery;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Cookies\CookieFactoryImpl;
+use ILIAS\HTTP\Cookies\Cookie;
 
 /**
  * Util class
@@ -85,13 +87,13 @@ class ilUtil
 
         if ($use_custom_skin) {
             $filename =
-                "./Customizing/global/skin/"
+                "./Customizing/skin/"
                 . ilStyleDefinition::getCurrentSkin() . "/"
                 . ilStyleDefinition::getCurrentStyle() . "/"
                 . (!is_object($styleDefinition) ? "images" : $styleDefinition->getImageDirectory(ilStyleDefinition::getCurrentStyle())) . "/"
                 . $image_name;
 
-            if ($file_exists("./public/" . $filename)) {
+            if (file_exists($filename)) {
                 return $filename;
             }
         }
@@ -145,7 +147,7 @@ class ilUtil
 
         if ($use_custom_skin) {
             $filename =
-                "./Customizing/global/skin/"
+                "./Customizing/skin/"
                 . ilStyleDefinition::getCurrentSkin() . "/"
                 . ilStyleDefinition::getCurrentStyle() . "/"
                 . $stylesheet_name;
@@ -184,7 +186,7 @@ class ilUtil
             $in_style = "./templates/" . ilStyleDefinition::getCurrentSkin() . "/"
                 . ilStyleDefinition::getCurrentStyle() . "_cont.css";
         } else {
-            $in_style = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin() . "/"
+            $in_style = "./Customizing/skin/" . ilStyleDefinition::getCurrentSkin() . "/"
                 . ilStyleDefinition::getCurrentStyle() . "_cont.css";
         }
 
@@ -270,7 +272,7 @@ class ilUtil
      */
     public static function is_email(
         string $a_email,
-        ilMailRfc822AddressParserFactory $mailAddressParserFactory = null
+        ?ilMailRfc822AddressParserFactory $mailAddressParserFactory = null
     ): bool {
         if ($mailAddressParserFactory === null) {
             $mailAddressParserFactory = new ilMailRfc822AddressParserFactory();
@@ -1303,6 +1305,12 @@ class ilUtil
                                  ->withHttpOnly(defined('IL_COOKIE_HTTPONLY') ? IL_COOKIE_HTTPONLY : false);
 
 
+        if (
+            defined('IL_COOKIE_SECURE') && IL_COOKIE_SECURE &&
+            (!isset(session_get_cookie_params()['samesite']) || strtolower(session_get_cookie_params()['samesite']) !== 'strict')
+        ) {
+            $cookie = $cookie->withSamesite(Cookie::SAMESITE_LAX);
+        }
         $jar = $cookie_jar->with($cookie);
         $response = $jar->renderIntoResponseHeader($http->response());
         $http->saveResponse($response);
@@ -1371,8 +1379,8 @@ class ilUtil
     protected static function fmtFloat(
         float $a_float,
         int $a_decimals = 0,
-        string $a_dec_point = null,
-        string $a_thousands_sep = null,
+        ?string $a_dec_point = null,
+        ?string $a_thousands_sep = null,
         bool $a_suppress_dot_zero = false
     ): string {
         global $DIC;

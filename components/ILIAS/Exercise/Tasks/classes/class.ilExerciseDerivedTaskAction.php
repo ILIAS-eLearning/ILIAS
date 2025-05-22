@@ -24,7 +24,7 @@
  */
 class ilExerciseDerivedTaskAction
 {
-    protected \ILIAS\Exercise\Submission\SubmissionDBRepository $submission_repo;
+    protected \ILIAS\Exercise\Submission\SubmissionRepository $submission_repo;
     protected ilExcMemberRepository $exc_mem_repo;
     protected ilExcAssMemberStateRepository $state_repo;
     protected ilExcTutorRepository $tutor_repo;
@@ -33,7 +33,7 @@ class ilExerciseDerivedTaskAction
         ilExcMemberRepository $exc_mem_repo,
         ilExcAssMemberStateRepository $state_repo,
         ilExcTutorRepository $tutor_repo,
-        \ILIAS\Exercise\Submission\SubmissionDBRepository $submission_repo
+        \ILIAS\Exercise\Submission\SubmissionRepository $submission_repo
     ) {
         $this->exc_mem_repo = $exc_mem_repo;
         $this->state_repo = $state_repo;

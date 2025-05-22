@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 /**
  * Calendar schedule filter for consultation hour bookings
@@ -12,16 +26,14 @@ declare(strict_types=1);
 class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
 {
     protected int $user_id;
-    protected ?array $group_ids = [];
     protected ilCalendarCategories $cats;
     protected ilObjUser $user;
 
-    public function __construct(int $a_user_id, ?array $a_consultation_hour_group_ids = null)
+    public function __construct(int $a_user_id)
     {
         global $DIC;
 
         $this->user_id = $a_user_id;
-        $this->group_ids = $a_consultation_hour_group_ids;
         $this->cats = ilCalendarCategories::_getInstance();
         $this->user = $DIC->user();
     }
@@ -44,19 +56,14 @@ class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
         if ($booking->getObjId() != $this->user_id) {
             return null;
         }
-        // portfolio embedded: filter by consultation hour groups?
-        if (!is_array($this->group_ids) ||
-            in_array($booking->getBookingGroup(), $this->group_ids)) {
-            // do not filter against course/group in portfolio
-            if ($this->cats->getMode() == ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION) {
-                $booking->setTargetObjIds(null);
-            }
+        if ($this->cats->getMode() == ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION) {
+            $booking->setTargetObjIds(null);
+        }
 
-            if (($this->user_id == $this->user->getId() ||
-                    !$booking->isBookedOut($a_event->getEntryId(), true)) &&
-                $booking->isTargetObjectVisible($this->cats->getTargetRefId())) {
-                return $a_event;
-            }
+        if (($this->user_id == $this->user->getId() ||
+                !$booking->isBookedOut($a_event->getEntryId(), true)) &&
+            $booking->isTargetObjectVisible($this->cats->getTargetRefId())) {
+            return $a_event;
         }
         return null;
     }

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery;
 
+use ILIAS\FileUpload\MimeType;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\HTTP\Services;
 use ILIAS\FileDelivery\FileDeliveryTypes\DeliveryMethod;
@@ -37,9 +38,21 @@ use ILIAS\HTTP\Response\ResponseHeader;
  */
 final class Delivery
 {
+    /**
+     * @var string
+     */
     public const DIRECT_PHP_OUTPUT = 'php://output';
+    /**
+     * @var string
+     */
     public const DISP_ATTACHMENT = 'attachment';
+    /**
+     * @var string
+     */
     public const DISP_INLINE = 'inline';
+    /**
+     * @var string
+     */
     public const EXPIRES_IN = '+5 days';
     private static ?string $delivery_type_static = null;
     private string $delivery_type = DeliveryMethod::PHP;
@@ -57,7 +70,6 @@ final class Delivery
     private bool $hash_filename = false;
     private bool $delete_file = false;
     private static bool $DEBUG = false;
-    private Services $http;
     private FileDeliveryTypeFactory $factory;
     private ?FileStream $resource = null;
 
@@ -66,9 +78,8 @@ final class Delivery
      * @param string|FileStream   $path_to_file
      * @param Services $http
      */
-    public function __construct($input, Services $http)
+    public function __construct($input, private Services $http)
     {
-        $this->http = $http;
         if ($input instanceof FileStream) {
             $this->resource = $input;
             $this->path_to_file = $input->getMetadata('uri');
@@ -83,7 +94,7 @@ final class Delivery
         $this->determineDownloadFileName();
 
         $this->setHasContext(\ilContext::getType() !== null);
-        $this->factory = new FileDeliveryTypeFactory($http);
+        $this->factory = new FileDeliveryTypeFactory($this->http);
     }
 
 
@@ -181,8 +192,8 @@ final class Delivery
 
     private function determineMimeType(): void
     {
-        $info = \ILIAS\FileUpload\MimeType::lookupMimeType($this->getPathToFile(), \ILIAS\FileUpload\MimeType::APPLICATION__OCTET_STREAM);
-        if ($info) {
+        $info = MimeType::lookupMimeType($this->getPathToFile(), MimeType::APPLICATION__OCTET_STREAM);
+        if ($info !== '' && $info !== '0') {
             $this->setMimeType($info);
 
             return;
@@ -200,7 +211,7 @@ final class Delivery
 
     private function determineDownloadFileName(): void
     {
-        if (!$this->getDownloadFileName()) {
+        if ($this->getDownloadFileName() === '' || $this->getDownloadFileName() === '0') {
             $download_file_name = basename($this->getPathToFile());
             $this->setDownloadFileName($download_file_name);
         }
@@ -221,9 +232,9 @@ final class Delivery
             $this->setDeliveryType(DeliveryMethod::XSENDFILE);
         }
 
-//        if (function_exists('apache_get_version') && strpos(apache_get_version(), '2.4.') !== false) {
-//            $this->setDeliveryType(DeliveryMethod::XSENDFILE);
-//        }
+        //        if (function_exists('apache_get_version') && strpos(apache_get_version(), '2.4.') !== false) {
+        //            $this->setDeliveryType(DeliveryMethod::XSENDFILE);
+        //        }
 
         if (is_file('./components/ILIAS/FileDelivery/classes/override.php')) {
             $override_delivery_type = false;
@@ -241,7 +252,7 @@ final class Delivery
         }
 
         if ($this->getDeliveryType() === DeliveryMethod::XACCEL
-            && strpos($this->getPathToFile(), './public/data') !== 0
+            && !str_starts_with($this->getPathToFile(), './public/data')
         ) {
             $this->setDeliveryType(DeliveryMethod::PHP);
         }
@@ -408,7 +419,7 @@ final class Delivery
 
     private function sendEtagHeader(): void
     {
-        if ($this->getEtag()) {
+        if ($this->getEtag() !== '' && $this->getEtag() !== '0') {
             $response = $this->http->response()->withHeader('ETag', $this->getEtag());
             $this->http->saveResponse($response);
         }
@@ -463,7 +474,7 @@ final class Delivery
             }
             ob_end_clean(); // fixed 0016469, 0016467, 0016468
             return true;
-        } catch (\Throwable $t) {
+        } catch (\Throwable) {
             return false;
         }
     }
@@ -513,13 +524,13 @@ final class Delivery
 
         $ascii_filename = htmlentities($original_filename, ENT_NOQUOTES, 'UTF-8');
         $ascii_filename = preg_replace('/\&(.)[^;]*;/', '\\1', $ascii_filename);
-        $ascii_filename = preg_replace('/[\x7f-\xff]/', '_', $ascii_filename);
+        $ascii_filename = preg_replace('/[\x7f-\xff]/', '_', (string) $ascii_filename);
 
         // OS do not allow the following characters in filenames: \/:*?"<>|
         $ascii_filename = preg_replace(
             '/[:\x5c\/\*\?\"<>\|]/',
             '_',
-            $ascii_filename
+            (string) $ascii_filename
         );
         return $ascii_filename;
     }

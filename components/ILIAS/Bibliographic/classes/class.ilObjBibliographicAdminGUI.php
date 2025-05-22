@@ -48,7 +48,6 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
     public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
-        $this->type = 'bibs';
         $this->lng->loadLanguageModule('bibl');
         // Check Permissions globally for all SubGUIs. We check read-permission first
         $this->checkPermission('read');
@@ -58,6 +57,7 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
+    #[\Override]
     public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -98,6 +98,7 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
     }
 
 
+    #[\Override]
     public function getAdminTabs(): void
     {
         global $DIC;
@@ -106,20 +107,20 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
          * @var $rbacsystem ilRbacSystem
          */
         if ($rbacsystem->checkAccess('write', $this->object->getRefId())) {
-            $this->tabs_gui->addTab('fields', $this->lng->txt('fields'), $this->ctrl->getLinkTargetByClass(array(
+            $this->tabs_gui->addTab('fields', $this->lng->txt('fields'), $this->ctrl->getLinkTargetByClass([
                 ilObjBibliographicAdminGUI::class,
                 ilBiblAdminRisFieldGUI::class,
-            ), ilBiblAdminRisFieldGUI::CMD_STANDARD));
+            ], ilBiblAdminRisFieldGUI::CMD_STANDARD));
         }
 
         if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
-            $this->tabs_gui->addTab(self::TAB_SETTINGS, $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass(array(
+            $this->tabs_gui->addTab(self::TAB_SETTINGS, $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass([
                 ilObjBibliographicAdminGUI::class,
                 ilBiblLibraryGUI::class,
-            ), ilBiblLibraryGUI::CMD_INDEX));
+            ], ilBiblLibraryGUI::CMD_INDEX));
         }
         if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
-            $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'), array(), 'ilpermissiongui');
+            $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'), [], 'ilpermissiongui');
         }
     }
 

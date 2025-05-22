@@ -68,7 +68,7 @@ class TupleType implements Type
     }
 
     /**
-     * @return \ILIAS\BackgroundTasks\Types\Type[]
+     * @return Type[]
      */
     public function getTypes(): array
     {

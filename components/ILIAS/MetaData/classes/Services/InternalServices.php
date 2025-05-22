@@ -30,6 +30,9 @@ use ILIAS\MetaData\Manipulator\Services\Services as ManipulatorServices;
 use ILIAS\MetaData\Copyright\Services\Services as CopyrightServices;
 use ILIAS\MetaData\DataHelper\Services\Services as DataHelperServices;
 use ILIAS\MetaData\Presentation\Services\Services as PresentationServices;
+use ILIAS\MetaData\XML\Services\Services as XMLServices;
+use ILIAS\MetaData\OERHarvester\Services\Services as OERHarvesterServices;
+use ILIAS\MetaData\Search\Services\Services as SearchServices;
 
 class InternalServices
 {
@@ -43,6 +46,9 @@ class InternalServices
     protected EditorServices $editor_services;
     protected ManipulatorServices $manipulator_services;
     protected CopyrightServices $copyright_services;
+    protected XMLServices $xml_services;
+    protected OERHarvesterServices $oer_harvester_services;
+    protected SearchServices $search_services;
 
     public function __construct(GlobalContainer $dic)
     {
@@ -52,24 +58,34 @@ class InternalServices
             $this->structure_services
         );
         $this->data_helper_services = new DataHelperServices();
-        $this->presentation_services = new PresentationServices(
-            $this->dic,
-            $this->data_helper_services
-        );
-        $this->vocabularies_services = new VocabulariesServices(
+        $this->search_services = new SearchServices();
+        $this->manipulator_services = new ManipulatorServices(
             $this->path_services,
             $this->structure_services
+        );
+        $this->copyright_services = new CopyrightServices(
+            $this->dic,
+            $this->search_services,
+            $this->path_services
+        );
+        $this->vocabularies_services = new VocabulariesServices(
+            $this->dic,
+            $this->path_services,
+            $this->structure_services,
+            $this->copyright_services
+        );
+        $this->presentation_services = new PresentationServices(
+            $this->dic,
+            $this->data_helper_services,
+            $this->vocabularies_services
         );
         $this->repository_services = new RepositoryServices(
             $this->dic,
             $this->path_services,
             $this->structure_services,
             $this->vocabularies_services,
-            $this->data_helper_services
-        );
-        $this->manipulator_services = new ManipulatorServices(
-            $this->path_services,
-            $this->repository_services
+            $this->data_helper_services,
+            $this->manipulator_services
         );
         $this->editor_services = new EditorServices(
             $this->dic,
@@ -77,9 +93,17 @@ class InternalServices
             $this->structure_services,
             $this->repository_services,
             $this->manipulator_services,
-            $this->presentation_services
+            $this->presentation_services,
+            $this->vocabularies_services
         );
-        $this->copyright_services = new CopyrightServices(
+        $this->xml_services = new XMLServices(
+            $this->dic,
+            $this->path_services,
+            $this->structure_services,
+            $this->manipulator_services,
+            $this->copyright_services
+        );
+        $this->oer_harvester_services = new OERHarvesterServices(
             $this->dic
         );
     }
@@ -132,5 +156,20 @@ class InternalServices
     public function copyright(): CopyrightServices
     {
         return $this->copyright_services;
+    }
+
+    public function xml(): XMLServices
+    {
+        return $this->xml_services;
+    }
+
+    public function OERHarvester(): OERHarvesterServices
+    {
+        return $this->oer_harvester_services;
+    }
+
+    public function search(): SearchServices
+    {
+        return $this->search_services;
     }
 }

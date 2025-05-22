@@ -255,7 +255,7 @@ class ilMathJax
     /**
      * Include the Mathjax javascript(s) in the page template
      */
-    public function includeMathJax(ilGlobalTemplateInterface $a_tpl = null): ilMathJax
+    public function includeMathJax(?ilGlobalTemplateInterface $a_tpl = null): ilMathJax
     {
         if ($this->config->isClientEnabled()) {
             $tpl = $a_tpl ?? $this->factory->template();

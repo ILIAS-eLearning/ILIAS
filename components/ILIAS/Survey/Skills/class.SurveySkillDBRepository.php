@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Survey\Skills;
 
@@ -29,7 +28,7 @@ class SurveySkillDBRepository
     protected \ilDBInterface $db;
 
     public function __construct(
-        \ilDBInterface $db = null
+        ?\ilDBInterface $db = null
     ) {
         global $DIC;
 

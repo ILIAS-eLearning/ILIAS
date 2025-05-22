@@ -38,22 +38,22 @@ class PanelSecondaryListingTest extends ILIAS_UI_TestBase
                 return new I\Component\Panel\Secondary\Factory();
             }
 
-            public function dropdown(): C\Dropdown\Factory
+            public function dropdown(): I\Component\Dropdown\Factory
             {
                 return new I\Component\Dropdown\Factory();
             }
 
-            public function viewControl(): C\ViewControl\Factory
+            public function viewControl(): I\Component\ViewControl\Factory
             {
                 return new I\Component\ViewControl\Factory(new SignalGenerator());
             }
 
-            public function button(): C\Button\Factory
+            public function button(): I\Component\Button\Factory
             {
                 return new I\Component\Button\Factory();
             }
 
-            public function symbol(): C\Symbol\Factory
+            public function symbol(): I\Component\Symbol\Factory
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
@@ -154,7 +154,7 @@ class PanelSecondaryListingTest extends ILIAS_UI_TestBase
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-controls">
-            <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+            <div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
                 <ul id="id_3_menu" class="dropdown-menu">
                     <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
                     <li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">Github</button></li>
@@ -178,7 +178,7 @@ EOT;
             'a' => 'A',
             'b' => 'B'
         );
-        $sortation = $this->getUIFactory()->viewControl()->sortation($sort_options);
+        $sortation = $this->getUIFactory()->viewControl()->sortation($sort_options, 'a');
         $sec = $this->getUIFactory()->panelSecondary()->listing("Title", array())
             ->withViewControls([$sortation]);
 
@@ -188,17 +188,16 @@ EOT;
 <div class="panel panel-secondary panel-flex">
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
-        <div class="panel-viewcontrols l-bar__space-keeper">
-            <div class="il-viewcontrol-sortation l-bar__element" id="id_1">
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_4" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu">
-                        <span class="caret"></span>
-                    </button>
-                    <ul id="id_4_menu" class="dropdown-menu">
-                        <li><button class="btn btn-link" data-action="?sortation=a" id="id_2">A</button></li>
-                        <li><button class="btn btn-link" data-action="?sortation=b" id="id_3">B</button></li>
-                    </ul>
-                </div>
+        <div class="panel-viewcontrols  l-bar__space-keeper">
+            <div class="dropdown il-viewcontrol  il-viewcontrol-sortation l-bar__element" id="id_1">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="id_1_ctrl">
+                    <span class="label">vc_sort A</span>
+                    <span class="glyphicon-sort"></span>
+                </button>
+                <ul id="id_1_ctrl" class="dropdown-menu">
+                    <li class="selected"><button class="btn btn-link" data-action="?sortation=a" id="id_2">A</button></li>
+                    <li><button class="btn btn-link" data-action="?sortation=b" id="id_3">B</button></li>
+                </ul>
             </div>
         </div>
         <div class="panel-controls"></div>
@@ -314,8 +313,8 @@ EOT;
 
 EOT;
         $this->assertHTMLEquals(
-            $this->cleanHTML($expected_html),
-            $this->cleanHTML($html)
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
         );
     }
 

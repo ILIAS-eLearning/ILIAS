@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * This class represents a text property in a property form.
@@ -155,6 +155,15 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
         ) {
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
+        }
+
+        foreach (['top', 'right', 'bottom', 'left'] as $side) {
+            $value = $val[$this->getPostVar() . '_' . $side];
+
+            if (($this->getRequired() || $value !== "") && !preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0).*?$/si', $value)) {
+                $this->setAlert($lng->txt('msg_invalid_value_css_rect_input'));
+                return false;
+            }
         }
 
         if ($this->useUnits()) {

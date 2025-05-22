@@ -23,8 +23,6 @@ namespace ILIAS\MetaData\Repository\Services;
 use ILIAS\MetaData\Repository\RepositoryInterface;
 use ILIAS\MetaData\Repository\LOMDatabaseRepository;
 use ILIAS\MetaData\Elements\RessourceID\RessourceIDFactory;
-use ILIAS\MetaData\Repository\Utilities\ScaffoldProvider;
-use ILIAS\MetaData\Elements\Scaffolds\ScaffoldFactory;
 use ILIAS\MetaData\Elements\Data\DataFactory;
 use ILIAS\MetaData\Repository\Utilities\DatabaseManipulator;
 use ILIAS\MetaData\Repository\Dictionary\LOMDictionaryInitiator as RepositoryDictionaryInitiator;
@@ -34,7 +32,7 @@ use ILIAS\MetaData\Structure\Services\Services as StructureServices;
 use ILIAS\MetaData\Repository\Dictionary\TagFactory as RepositoryTagFactory;
 use ILIAS\MetaData\Repository\Utilities\DatabaseReader;
 use ILIAS\MetaData\Elements\Factory as ElementFactory;
-use ILIAS\MetaData\Repository\Validation\Cleaner;
+use ILIAS\MetaData\Repository\Validation\Processor;
 use ILIAS\DI\Container as GlobalContainer;
 use ILIAS\MetaData\Repository\Validation\Data\DataValidator;
 use ILIAS\MetaData\Repository\Validation\Data\DataValidatorService;
@@ -46,6 +44,11 @@ use ILIAS\MetaData\DataHelper\Services\Services as DataHelperServices;
 use ILIAS\MetaData\Repository\Utilities\Queries\DatabaseQuerier;
 use ILIAS\MetaData\Repository\Utilities\Queries\Results\ResultFactory;
 use ILIAS\MetaData\Repository\Utilities\Queries\Assignments\AssignmentFactory;
+use ILIAS\MetaData\Repository\Utilities\Queries\DatabaseSearcher;
+use ILIAS\MetaData\Repository\Utilities\Queries\Paths\DatabasePathsParserFactory;
+use ILIAS\MetaData\Repository\IdentifierHandler\IdentifierHandler;
+use ILIAS\MetaData\Manipulator\Services\Services as ManipulatorServices;
+use ILIAS\MetaData\Elements\Markers\MarkerFactory;
 
 class Services
 {
@@ -59,19 +62,22 @@ class Services
     protected StructureServices $structure_services;
     protected VocabulariesServices $vocabularies_services;
     protected DataHelperServices $data_helper_services;
+    protected ManipulatorServices $manipulator_services;
 
     public function __construct(
         GlobalContainer $dic,
         PathServices $path_services,
         StructureServices $structure_services,
         VocabulariesServices $vocabularies_services,
-        DataHelperServices $data_helper_services
+        DataHelperServices $data_helper_services,
+        ManipulatorServices $manipulator_services
     ) {
         $this->dic = $dic;
         $this->path_services = $path_services;
         $this->structure_services = $structure_services;
         $this->vocabularies_services = $vocabularies_services;
         $this->data_helper_services = $data_helper_services;
+        $this->manipulator_services = $manipulator_services;
     }
 
     public function constraintDictionary(): ValidationDictionary
@@ -114,13 +120,7 @@ class Services
         );
         $element_factory = new ElementFactory($data_factory);
         return $this->repository = new LOMDatabaseRepository(
-            new RessourceIDFactory(),
-            new ScaffoldProvider(
-                new ScaffoldFactory($data_factory),
-                $this->path_services->pathFactory(),
-                $this->path_services->navigatorFactory(),
-                $this->structure_services->structure()
-            ),
+            $ressource_id_factory = new RessourceIDFactory(),
             new DatabaseManipulator(
                 $this->databaseDictionary(),
                 $querier,
@@ -132,20 +132,34 @@ class Services
                 $this->structure_services->structure(),
                 $this->databaseDictionary(),
                 $this->path_services->navigatorFactory(),
+                $this->path_services->pathFactory(),
                 $querier,
                 $logger
             ),
-            new Cleaner(
+            new DatabaseSearcher(
+                $ressource_id_factory,
+                new DatabasePathsParserFactory(
+                    $this->dic->database(),
+                    $this->structure_services->structure(),
+                    $this->databaseDictionary(),
+                    $this->path_services->navigatorFactory()
+                ),
+                $this->dic->database()
+            ),
+            new Processor(
                 $element_factory,
+                new MarkerFactory(),
                 $this->structure_services->structure(),
                 new DataValidator(
-                    new DataValidatorService(
-                        $this->vocabularies_services->vocabularies(),
-                        $this->data_helper_services->dataHelper()
-                    )
+                    new DataValidatorService($this->data_helper_services->dataHelper())
                 ),
                 $this->constraintDictionary(),
+                $this->vocabularies_services->elementHelper(),
                 $logger
+            ),
+            new IdentifierHandler(
+                $this->manipulator_services->manipulator(),
+                $this->path_services->pathFactory()
             )
         );
     }

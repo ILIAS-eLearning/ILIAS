@@ -35,7 +35,7 @@ class ilDBAnalyzer
 
     protected ilDBReverse $reverse;
 
-    protected ilDBInterface$il_db;
+    protected ilDBInterface $il_db;
 
     protected array $allowed_attributes;
 
@@ -46,7 +46,7 @@ class ilDBAnalyzer
      *
      * @deprecated Use global ilDB only. If something is missing there, please contact fs@studer-raimann.ch
      */
-    public function __construct(ilDBInterface $ilDBInterface = null)
+    public function __construct(?ilDBInterface $ilDBInterface = null)
     {
         if (!$ilDBInterface instanceof ilDBInterface) {
             global $DIC;
@@ -69,7 +69,7 @@ class ilDBAnalyzer
     public function getFieldInformation(string $a_table, bool $a_remove_not_allowed_attributes = false): array
     {
         $fields = $this->manager->listTableFields($a_table);
-        $inf = array();
+        $inf = [];
         foreach ($fields as $field) {
             $rdef = $this->reverse->getTableFieldDefinition($a_table, $field);
             // is this possible?
@@ -88,7 +88,7 @@ class ilDBAnalyzer
                 }
             }
 
-            $inf[$field] = array(
+            $inf[$field] = [
                 "notnull" => $rdef[$best_alt]["notnull"] ?? null,
                 "nativetype" => $rdef[$best_alt]["nativetype"] ?? null,
                 "length" => $rdef[$best_alt]["length"] ?? null,
@@ -98,7 +98,7 @@ class ilDBAnalyzer
                 "autoincrement" => $rdef[$best_alt]["autoincrement"] ?? null,
                 "type" => $rdef[$best_alt]["type"] ?? null,
                 "alt_types" => $alt_types,
-            );
+            ];
 
             if ($a_remove_not_allowed_attributes) {
                 foreach (array_keys($inf[$field]) as $k) {
@@ -116,10 +116,10 @@ class ilDBAnalyzer
     /**
      * @return int|string
      */
-    public function getBestDefinitionAlternative(array $a_def)
+    public function getBestDefinitionAlternative(array $a_def): int|string
     {
         // determine which type to choose
-        $car = array(
+        $car = [
             "boolean" => 10,
             "integer" => 20,
             "decimal" => 30,
@@ -130,7 +130,7 @@ class ilDBAnalyzer
             "text" => 80,
             "clob" => 90,
             "blob" => 100,
-        );
+        ];
 
         $cur_car = 0;
         $best_alt = 0;    // best alternatice
@@ -182,10 +182,10 @@ class ilDBAnalyzer
             if ($info["primary"]) {
                 $pk["name"] = $c;
                 foreach ($info["fields"] as $k => $f) {
-                    $pk["fields"][$k] = array(
+                    $pk["fields"][$k] = [
                         "position" => $f["position"],
                         "sorting" => $f["sorting"],
-                    );
+                    ];
                 }
             }
         }
@@ -207,7 +207,7 @@ class ilDBAnalyzer
         $indexes = $this->manager->listTableIndexes($a_table);
 
         // get additional information if database is MySQL
-        $mysql_info = array();
+        $mysql_info = [];
 
         $set = $this->il_db->query("SHOW INDEX FROM " . $a_table);
         while ($rec = $this->il_db->fetchAssoc($set)) {
@@ -219,11 +219,11 @@ class ilDBAnalyzer
         }
 
 
-        $ind = array();
+        $ind = [];
         foreach ($indexes as $c) {
             $info = $this->reverse->getTableIndexDefinition($a_table, $c);
 
-            $i = array();
+            $i = [];
             if (!$info["primary"]) {
                 $i["name"] = $c;
                 $i["fulltext"] = false;
@@ -236,10 +236,10 @@ class ilDBAnalyzer
                     $i["fulltext"] = true;
                 }
                 foreach ($info["fields"] as $k => $f) {
-                    $i["fields"][$k] = array(
+                    $i["fields"][$k] = [
                         "position" => $f["position"],
                         "sorting" => $f["sorting"],
-                    );
+                    ];
                 }
                 $ind[] = $i;
             }
@@ -260,18 +260,18 @@ class ilDBAnalyzer
     {
         $constraints = $this->manager->listTableConstraints($a_table);
 
-        $cons = array();
+        $cons = [];
         foreach ($constraints as $c) {
             $info = $this->reverse->getTableConstraintDefinition($a_table, $c);
-            $i = array();
+            $i = [];
             if ($info["unique"] ?? null) {
                 $i["name"] = $c;
                 $i["type"] = "unique";
                 foreach ($info["fields"] as $k => $f) {
-                    $i["fields"][$k] = array(
+                    $i["fields"][$k] = [
                         "position" => $f["position"],
                         "sorting" => $f["sorting"],
-                    );
+                    ];
                 }
                 $cons[] = $i;
             }
@@ -289,7 +289,7 @@ class ilDBAnalyzer
      * @throws \ilDatabaseException
      * @deprecated Please do not use since this method will lead to a ilDatabaseException. Will be removed later
      */
-    public function hasSequence(string $a_table)
+    public function hasSequence(string $a_table): int|float|false
     {
         $seq = $this->manager->listSequences();
         if (is_array($seq) && in_array($a_table, $seq)) {

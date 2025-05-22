@@ -65,7 +65,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     /**
      * @inheritDoc
      */
-    public function __construct(Container $dic, \ilMainMenuAccess $access = null)
+    public function __construct(Container $dic, ?\ilMainMenuAccess $access = null)
     {
         parent::__construct($dic);
         $this->mm_access = $access ?? new ilObjMainMenuAccess();
@@ -117,9 +117,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         $item = $item->withVisibilityCallable(
             $this->mm_access->isCurrentUserAllowedToSeeCustomItem(
                 $storage,
-                function () use ($item) {
-                    return $item->isVisible();
-                }
+                fn(): bool => $item->isVisible()
             )
         );
 
@@ -136,7 +134,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
                 $parent_identification = $mm_item->getParentIdentification();
             }
 
-            if ($parent_identification) {
+            if ($parent_identification !== '' && $parent_identification !== '0') {
                 $item = $item->withParent(
                     $this->globalScreen()
                          ->identification()
@@ -155,6 +153,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function provideTypeInformation(): TypeInformationCollection
     {
         $c = new TypeInformationCollection();
@@ -243,7 +242,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     private function translateType(string $type): string
     {
         $last_part = substr(strrchr($type, "\\"), 1);
-        $last_part = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $last_part));
+        $last_part = strtolower((string) preg_replace('/(?<!^)[A-Z]/', '_$0', $last_part));
 
         return $this->dic->language()->txt("type_" . strtolower($last_part));
     }
@@ -255,7 +254,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     private function translateByline(string $type): string
     {
         $last_part = substr(strrchr($type, "\\"), 1);
-        $last_part = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $last_part));
+        $last_part = strtolower((string) preg_replace('/(?<!^)[A-Z]/', '_$0', $last_part));
 
         return $this->dic->language()->txt("type_" . strtolower($last_part) . "_info");
     }
@@ -263,6 +262,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getProviderNameForPresentation(): string
     {
         return "Custom";

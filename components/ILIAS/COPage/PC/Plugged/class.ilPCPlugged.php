@@ -162,6 +162,7 @@ class ilPCPlugged extends ilPageContent
         DOMDocument $a_domdoc
     ): void {
         global $DIC;
+        $dom_util = $DIC->copage()->internal()->domain()->domUtil();
         $component_repository = $DIC['component.repository'];
         $component_factory = $DIC['component.factory'];
 
@@ -187,9 +188,7 @@ class ilPCPlugged extends ilPageContent
                 // and allow it to modify the saved parameters
                 $plugin_obj->onClone($properties, $plugin_version);
 
-                foreach ($node->childNodes as $child) {
-                    $node->removeChild($child);
-                }
+                $dom_util->deleteAllChilds($node);
                 foreach ($properties as $name => $value) {
                     $child = new DOMElement(
                         'PluggedProperty',
@@ -208,6 +207,9 @@ class ilPCPlugged extends ilPageContent
     public static function afterRepositoryCopy(ilPageObject $page, array $mapping, int $source_ref_id): void
     {
         global $DIC;
+
+        $dom_util = $DIC->copage()->internal()->domain()->domUtil();
+
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
 
         /** @var ilComponentFactory $component_factory */
@@ -238,9 +240,7 @@ class ilPCPlugged extends ilPageContent
                 // and allow it to modify the saved parameters
                 $plugin_obj->afterRepositoryCopy($properties, $mapping, $source_ref_id, $plugin_version);
 
-                foreach ($node->childNodes as $child) {
-                    $node->removeChild($child);
-                }
+                $dom_util->deleteAllChilds($node);
                 foreach ($properties as $name => $value) {
                     $child = new DOMElement(
                         'PluggedProperty',
@@ -322,6 +322,12 @@ class ilPCPlugged extends ilPageContent
                 $plugin_obj->setPageObj($this->getPage());
                 $gui_obj = $plugin_obj->getUIClassInstance();
                 $plugin_html = $gui_obj->getElementHTML($a_mode, $properties, $plugin_version);
+            } else {
+                if ($a_mode === "edit") {
+                    $plugin_html = sprintf($this->lng->txt("copg_plugin_not_avail"), $plugin_name);
+                } else {
+                    $plugin_html = " ";
+                }
             }
 
             $a_output = substr($a_output, 0, $start) .

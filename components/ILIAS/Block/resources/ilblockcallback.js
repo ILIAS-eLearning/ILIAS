@@ -50,7 +50,12 @@ function ilBlockJSHandler(block_id, sUrl) {
 	  argument: { block_id },
   };
 
-  const request = YAHOO.util.Connect.asyncRequest('GET', sUrl, ilBlockCallback);
+  $.get(sUrl, {}, (response) => {
+    if (typeof response !== 'undefined') {
+      $(`#${block_id}`).html(response);
+      il.UICore.initDropDowns(`#${block_id}`);
+    }
+  });
 
   obj = document.getElementById(`${block_id}_loader`);
   if (obj) {

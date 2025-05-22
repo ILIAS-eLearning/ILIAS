@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Item\Item;
+use ILIAS\HTTP\Services;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 use ILIAS\components\WOPI\Discovery\Crawler;
 use ILIAS\Data\URI;
 use ILIAS\components\WOPI\Discovery\AppDBRepository;
@@ -39,7 +43,7 @@ class ilWOPIAdministrationGUI
     public const CMD_SHOW = 'show';
     private ilCtrlInterface $ctrl;
     private ilAccessHandler $access;
-    private \ILIAS\HTTP\Services $http;
+    private Services $http;
     private ilLanguage $lng;
     private ilGlobalTemplateInterface $maint_tpl;
     private ilSetting $settings;
@@ -47,8 +51,8 @@ class ilWOPIAdministrationGUI
     private ?int $ref_id = null;
     private ActionRepository $action_repo;
     private AppRepository $app_repo;
-    private \ILIAS\UI\Factory $ui_factory;
-    private \ILIAS\UI\Renderer $ui_renderer;
+    private Factory $ui_factory;
+    private Renderer $ui_renderer;
 
     public function __construct()
     {
@@ -93,21 +97,32 @@ class ilWOPIAdministrationGUI
     private function index(): void
     {
         $supported_suffixes = $this->getSupportedSuffixes();
+        $info = '';
         if (!empty($supported_suffixes)) {
-            $this->maint_tpl->setOnScreenMessage(
-                'info',
-                sprintf(
-                    $this->lng->txt("currently_supported"),
-                    implode(", ", $supported_suffixes)
+            $listing = $this->ui_factory->panel()->secondary()->legacy(
+                $this->lng->txt("currently_supported"),
+                $this->ui_factory->legacy(
+                    $this->ui_renderer->render(
+                        $this->ui_factory->listing()->descriptive([
+                            $this->lng->txt('action_edit') => implode(", ", $supported_suffixes[ActionTarget::EDIT->value]),
+                            $this->lng->txt('action_view') => implode(", ", $supported_suffixes[ActionTarget::VIEW->value]),
+                        ])
+                    )
                 )
             );
+            $info = $this->ui_renderer->render($listing);
         }
 
-        $form = new ilWOPISettingsForm($this->settings);
+        $form = new ilWOPISettingsForm(
+            $this->settings,
+            $this->access->checkAccess("write", "", $this->ref_id)
+        );
 
         $this->maint_tpl->setContent(
             $form->getHTML()
         );
+
+        $this->maint_tpl->setRightContent($info);
     }
 
     private function getSupportedSuffixes(): array
@@ -116,18 +131,19 @@ class ilWOPIAdministrationGUI
         if (!$wopi_activated) {
             return [];
         }
-        return $this->action_repo->getSupportedSuffixes(ActionTarget::EDIT);
+        return [
+            ActionTarget::EDIT->value => $this->action_repo->getSupportedSuffixes(ActionTarget::EDIT),
+            ActionTarget::VIEW->value => $this->action_repo->getSupportedSuffixes(ActionTarget::VIEW),
+        ];
     }
 
     private function show(): void
     {
         $actions = array_map(
-            function (Action $action) {
-                return $this->ui_factory->item()->standard($action->getExtension())->withProperties([
-                    $this->lng->txt('launcher_url') => (string) $action->getLauncherUrl(),
-                    $this->lng->txt('action') => $action->getName()
-                ]);
-            },
+            fn(Action $action): Item => $this->ui_factory->item()->standard($action->getExtension())->withProperties([
+                $this->lng->txt('launcher_url') => (string) $action->getLauncherUrl(),
+                $this->lng->txt('action') => $action->getName()
+            ]),
             $this->action_repo->getActionsForTargets(ActionTarget::EDIT, ActionTarget::EMBED_EDIT)
         );
 
@@ -143,7 +159,15 @@ class ilWOPIAdministrationGUI
 
     private function store(): void
     {
-        $form = new ilWOPISettingsForm($this->settings);
+        if (!$this->access->checkAccess("write", "", $this->ref_id)) {
+            $this->maint_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
+            $this->ctrl->redirect($this, self::CMD_DEFAULT);
+        }
+
+        $form = new ilWOPISettingsForm(
+            $this->settings,
+            $this->access->checkAccess("write", "", $this->ref_id)
+        );
 
         if ($form->proceed($this->http->request())) {
             global $DIC;

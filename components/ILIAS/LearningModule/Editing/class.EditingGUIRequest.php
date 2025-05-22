@@ -273,4 +273,25 @@ class EditingGUIRequest
     {
         return (bool) $this->int("first_child");
     }
+
+    public function getSubType(): string
+    {
+        return $this->str("sub_type");
+    }
+
+    public function getEditId(): int
+    {
+        return $this->int("edit_id");
+    }
+
+    public function getTargetId(): int
+    {
+        return $this->int("target_id");
+    }
+
+    public function getBefore(): bool
+    {
+        return (bool) $this->int("before");
+    }
+
 }

@@ -136,6 +136,7 @@ class ilIndividualAssessmentUserGrading
         Refinery $refinery,
         AbstractCtrlAwareUploadHandler $file_handler,
         \ILIAS\Data\DateFormat\DateFormat $date_format,
+        string $record_template,
         array $grading_options,
         bool $may_be_edited = true,
         bool $place_required = false,
@@ -150,7 +151,7 @@ class ilIndividualAssessmentUserGrading
 
         $record = $input
             ->textarea($lng->txt('iass_record'), $lng->txt('iass_record_info'))
-            ->withValue($this->getRecord())
+            ->withValue($this->getRecord() ? "" : $record_template)
             ->withDisabled(!$may_be_edited)
         ;
 

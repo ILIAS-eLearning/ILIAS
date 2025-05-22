@@ -15,14 +15,15 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\Filesystem\Util\Archive\LegacyArchives;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\DTO\UploadResult;
-use ILIAS\FileUpload\Location;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
-
 use ILIAS\ResourceStorage\Preloader\SecureString;
-use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 
 /**
  * File System Explorer GUI class
@@ -44,9 +45,9 @@ class ilFileSystemGUI
     public const POST_PARAM_NEW_DIR = "new_dir";
     public const POST_PARAM_UPLOADED_FILE = "uploaded_file";
     public const CMD_UNZIP_FILE = "unzipFile";
-    private \ILIAS\UI\Factory $ui_factory;
-    private \ILIAS\UI\Renderer $ui_renderer;
-    protected \ILIAS\Filesystem\Util\Archive\LegacyArchives $unzip;
+    private Factory $ui_factory;
+    private Renderer $ui_renderer;
+    protected LegacyArchives $unzip;
     protected ilCtrlInterface $ctrl;
     protected bool $use_upload_directory = false;
     protected array $allowed_suffixes = [];
@@ -64,7 +65,7 @@ class ilFileSystemGUI
     protected string $label_header = '';
     protected bool $directory_creation = false;
     protected bool $file_creation = false;
-    protected \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
+    protected WrapperFactory $wrapper;
     protected \ILIAS\Refinery\Factory $refinery;
 
     /**
@@ -137,10 +138,7 @@ class ilFileSystemGUI
         if (is_array($this->getAllowedSuffixes()) && in_array($a_suffix, $this->getAllowedSuffixes())) {
             return true;
         }
-        if (!is_array($this->getAllowedSuffixes()) || count($this->getAllowedSuffixes()) == 0) {
-            return true;
-        }
-        return false;
+        return !is_array($this->getAllowedSuffixes()) || count($this->getAllowedSuffixes()) == 0;
     }
 
     public function setAllowDirectories(bool $a_val): void
@@ -226,8 +224,8 @@ class ilFileSystemGUI
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("listFiles");
-        if (substr($cmd, 0, 11) == "extCommand_") {
-            $ret = $this->extCommand(substr($cmd, 11, strlen($cmd) - 11));
+        if (str_starts_with((string) $cmd, "extCommand_")) {
+            $ret = $this->extCommand(substr((string) $cmd, 11, strlen((string) $cmd) - 11));
         } else {
             $ret = $this->$cmd();
         }
@@ -290,20 +288,14 @@ class ilFileSystemGUI
 
         if ($new_subdir === "..") {
             $cur_subdir = substr($cur_subdir, 0, strrpos($cur_subdir, "/"));
-        } else {
-            if (!empty($new_subdir)) {
-                if (!empty($cur_subdir)) {
-                    $cur_subdir = $cur_subdir . "/" . $new_subdir;
-                } else {
-                    $cur_subdir = $new_subdir;
-                }
-            }
+        } elseif (!empty($new_subdir)) {
+            $cur_subdir = empty($cur_subdir) ? $new_subdir : $cur_subdir . "/" . $new_subdir;
         }
 
         $cur_subdir = str_replace("..", "", $cur_subdir);
-        $cur_dir = (!empty($cur_subdir))
-            ? $this->main_absolute_dir . "/" . $cur_subdir
-            : $this->main_absolute_dir;
+        $cur_dir = (empty($cur_subdir))
+            ? $this->main_absolute_dir
+            : $this->main_absolute_dir . "/" . $cur_subdir;
 
         return [
             "dir" => realpath($cur_dir),
@@ -320,26 +312,27 @@ class ilFileSystemGUI
 
         $entries = (is_dir($a_dir))
             ? ilFileUtils::getDir($a_dir)
-            : array(array("type" => "dir", "entry" => ".."));
+            : [["type" => "dir", "entry" => ".."]];
 
-        $items = array();
+        $items = [];
         foreach ($entries as $e) {
-            if (($e["entry"] == ".") ||
-                ($e["entry"] == ".." && empty($a_subdir))) {
+            if ($e["entry"] == ".") {
                 continue;
             }
+            if ($e["entry"] == ".." && empty($a_subdir)) {
+                continue;
+            }
+            $cfile = (empty($a_subdir))
+                ? $e["entry"]
+                : $a_subdir . "/" . $e["entry"];
 
-            $cfile = (!empty($a_subdir))
-                ? $a_subdir . "/" . $e["entry"]
-                : $e["entry"];
-
-            $items[] = array(
+            $items[] = [
                 self::POST_PARAM_FILE => $cfile,
                 "entry" => $e["entry"],
                 "type" => $e["type"],
                 "size" => $e["size"] ?? 0,
-                "hash" => md5($e["entry"])
-            );
+                "hash" => md5((string) $e["entry"])
+            ];
         }
 
         return $items;
@@ -388,7 +381,7 @@ class ilFileSystemGUI
     {
         $selected = $this->getIncomingFiles();
 
-        if (!count($selected)) {
+        if ($selected === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "listFiles");
         }
@@ -402,12 +395,12 @@ class ilFileSystemGUI
         $cur_subdir = $this->sanitizeCurrentDirectory();
 
         // collect files and
-        $files = array();
+        $files = [];
         foreach ($selected as $file) {
             $file = ilUtil::stripSlashes($file);
-            $file = (!empty($cur_subdir))
-                ? $cur_subdir . "/" . $file
-                : $file;
+            $file = (empty($cur_subdir))
+                ? $file
+                : $cur_subdir . "/" . $file;
 
             // check wether selected item is a directory
             if (is_dir($this->main_absolute_dir . "/" . $file) &&
@@ -497,7 +490,7 @@ class ilFileSystemGUI
 
         $fs_table = $this->getTable($dir["dir"], $dir["subdir"]);
 
-        if ($this->getTitle() != "") {
+        if ($this->getTitle() !== "") {
             $fs_table->setTitle($this->getTitle());
         }
         if (
@@ -577,9 +570,9 @@ class ilFileSystemGUI
         }
 
         $cur_subdir = $this->sanitizeCurrentDirectory();
-        $dir = (!empty($cur_subdir))
-            ? $this->main_absolute_dir . "/" . $cur_subdir . "/"
-            : $this->main_absolute_dir . "/";
+        $dir = (empty($cur_subdir))
+            ? $this->main_absolute_dir . "/"
+            : $this->main_absolute_dir . "/" . $cur_subdir . "/";
 
         $old_name = $this->wrapper->query()->has(self::PARAM_OLD_NAME)
             ? $this->wrapper->query()->retrieve(self::PARAM_OLD_NAME, $this->refinery->to()->string())
@@ -588,7 +581,7 @@ class ilFileSystemGUI
         // check if this path is inside $dir
         $old_name = ilUtil::stripSlashes($old_name);
         $realpath = realpath($dir . $old_name);
-        if (strpos($realpath, realpath($dir)) !== 0) {
+        if (!str_starts_with($realpath, realpath($dir))) {
             throw new ilException($this->lng->txt("no_permission"));
         }
 
@@ -619,9 +612,9 @@ class ilFileSystemGUI
                 $this->lng->txt("cont_file_renamed"),
                 true
             );
-            $this->setPerformedCommand("rename_file", array(self::PARAM_OLD_NAME => $old_name,
+            $this->setPerformedCommand("rename_file", [self::PARAM_OLD_NAME => $old_name,
                                                             self::POST_PARAM_NEW_NAME => $new_name
-            ));
+            ]);
         }
         $this->ctrl->redirect($this, "listFiles");
     }
@@ -638,9 +631,9 @@ class ilFileSystemGUI
 
         // determine directory
         $cur_subdir = $this->sanitizeCurrentDirectory();
-        $cur_dir = (!empty($cur_subdir))
-            ? $this->main_absolute_dir . "/" . $cur_subdir
-            : $this->main_absolute_dir;
+        $cur_dir = (empty($cur_subdir))
+            ? $this->main_absolute_dir
+            : $this->main_absolute_dir . "/" . $cur_subdir;
 
         $new_dir = $this->wrapper->post()->has(self::POST_PARAM_NEW_DIR)
             ? $this->wrapper->post()->retrieve(self::POST_PARAM_NEW_DIR, $this->refinery->to()->string())
@@ -653,7 +646,7 @@ class ilFileSystemGUI
             ilFileUtils::makeDir($cur_dir . "/" . $new_dir);
             if (is_dir($cur_dir . "/" . $new_dir)) {
                 $this->tpl->setOnScreenMessage('success', $lng->txt("cont_dir_created"), true);
-                $this->setPerformedCommand("create_dir", array("name" => $new_dir));
+                $this->setPerformedCommand("create_dir", ["name" => $new_dir]);
             }
         } else {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_enter_a_dir_name"), true);
@@ -669,13 +662,13 @@ class ilFileSystemGUI
 
         // determine directory
         $cur_subdir = $this->sanitizeCurrentDirectory();
-        $cur_dir = (!empty($cur_subdir))
-            ? $this->main_absolute_dir . "/" . $cur_subdir
-            : $this->main_absolute_dir;
+        $cur_dir = (empty($cur_subdir))
+            ? $this->main_absolute_dir
+            : $this->main_absolute_dir . "/" . $cur_subdir;
 
         $tgt_file = null;
 
-        $pi = pathinfo($_FILES["new_file"]["name"]);
+        $pi = pathinfo((string) $_FILES["new_file"]["name"]);
         $suffix = $pi["extension"] ?? "";
         if (!$this->isValidSuffix($suffix)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("file_no_valid_file_type") . " ($suffix)", true);
@@ -733,13 +726,13 @@ class ilFileSystemGUI
                 // copy uploaded file to data directory
                 ilUploadFiles::_copyUploadFile($uploaded_file, $tgt_file);
             }
-        } elseif (trim($_FILES["new_file"]["name"]) == "") {
+        } elseif (trim((string) $_FILES["new_file"]["name"]) === "") {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_enter_a_file"), true);
         }
 
         if ($tgt_file && is_file($tgt_file)) {
             $unzip = null;
-            if (MimeType::getMimeType($tgt_file) == "application/zip") {
+            if (MimeType::getMimeType($tgt_file) === "application/zip") {
                 $this->ctrl->setParameter($this, self::PARAM_UPFILE, basename($tgt_file));
                 $url = $this->ctrl->getLinkTarget($this, self::CMD_UNZIP_FILE);
                 $this->ctrl->setParameter($this, self::PARAM_UPFILE, "");
@@ -756,7 +749,7 @@ class ilFileSystemGUI
 
             $this->setPerformedCommand(
                 "create_file",
-                array("name" => substr($tgt_file, strlen($this->main_absolute_dir) + 1))
+                ["name" => substr($tgt_file, strlen($this->main_absolute_dir) + 1)]
             );
         }
 
@@ -802,16 +795,16 @@ class ilFileSystemGUI
             )
         );
         foreach ($postfiles as $post_file) {
-            if (ilUtil::stripSlashes($post_file) == "..") {
+            if (ilUtil::stripSlashes($post_file) === "..") {
                 throw new LogicException($this->lng->txt("no_checkbox"));
                 break;
             }
 
             $cur_subdir = $this->sanitizeCurrentDirectory();
-            $cur_dir = (!empty($cur_subdir))
-                ? $this->main_absolute_dir . "/" . $cur_subdir
-                : $this->main_absolute_dir;
-            $pi = pathinfo($post_file);
+            $cur_dir = (empty($cur_subdir))
+                ? $this->main_absolute_dir
+                : $this->main_absolute_dir . "/" . $cur_subdir;
+            $pi = pathinfo((string) $post_file);
             $file = $cur_dir . "/" . ilUtil::stripSlashes($pi["basename"]);
 
             if (is_file($file)) {
@@ -829,13 +822,13 @@ class ilFileSystemGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_dir_deleted"), true);
             $this->setPerformedCommand(
                 "delete_dir",
-                array("name" => ilUtil::stripSlashes($post_file))
+                ["name" => ilUtil::stripSlashes($post_file)]
             );
         } else {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_file_deleted"), true);
             $this->setPerformedCommand(
                 "delete_file",
-                array("name" => ilUtil::stripSlashes($post_file))
+                ["name" => ilUtil::stripSlashes($post_file)]
             );
         }
         $this->ctrl->redirect($this, 'listFiles');
@@ -848,13 +841,13 @@ class ilFileSystemGUI
             ? $this->wrapper->query()->retrieve(self::PARAM_UPFILE, $this->refinery->to()->string())
             : null;
         if (is_null($a_file) && $upname !== null) {
-            $a_file = basename($upname);
+            $a_file = basename((string) $upname);
         }
 
         $cur_subdir = $this->sanitizeCurrentDirectory();
-        $cur_dir = (!empty($cur_subdir))
-            ? $this->main_absolute_dir . "/" . $cur_subdir
-            : $this->main_absolute_dir;
+        $cur_dir = (empty($cur_subdir))
+            ? $this->main_absolute_dir
+            : $this->main_absolute_dir . "/" . $cur_subdir;
         $a_file = $this->main_absolute_dir . "/" . $a_file;
 
         if (is_file($a_file)) {
@@ -876,7 +869,7 @@ class ilFileSystemGUI
             $diff_r = array_diff($new_files_r, $cur_files_r);
 
             // unlink forbidden file types
-            foreach ($diff_r as $f => $d) {
+            foreach (array_keys($diff_r) as $f) {
                 $pi = pathinfo($f);
                 if (!is_dir($f) && !$this->isValidSuffix(strtolower($pi["extension"] ?? ''))) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("file_some_invalid_file_types_removed") . " (" . $pi["extension"] . ")", true);
@@ -884,9 +877,9 @@ class ilFileSystemGUI
                 }
             }
 
-            if (sizeof($diff)) {
+            if ($diff !== []) {
                 if ($this->getAllowDirectories()) {
-                    $new_files = array();
+                    $new_files = [];
 
                     foreach ($diff as $new_item) {
                         if (is_dir($cur_dir . "/" . $new_item)) {
@@ -896,7 +889,7 @@ class ilFileSystemGUI
 
                     if (isset($new_files["path"])) {
                         foreach ($new_files["path"] as $idx => $path) {
-                            $path = substr($path, strlen($this->main_absolute_dir) + 1);
+                            $path = substr((string) $path, strlen($this->main_absolute_dir) + 1);
                             $diff[] = $path . $new_files[self::POST_PARAM_FILE][$idx];
                         }
                     }
@@ -904,8 +897,8 @@ class ilFileSystemGUI
 
                 $this->setPerformedCommand(
                     "unzip_file",
-                    array("added" => $diff
-                    )
+                    ["added" => $diff
+                    ]
                 );
             }
         }
@@ -924,10 +917,9 @@ class ilFileSystemGUI
         if (is_file($file) && !(is_dir($file))) {
             ilFileDelivery::deliverFileLegacy($file, basename($a_file));
             exit;
-        } else {
-            $this->ctrl->saveParameter($this, self::PARAMETER_CDIR);
-            $this->ctrl->redirect($this, "listFiles");
         }
+        $this->ctrl->saveParameter($this, self::PARAMETER_CDIR);
+        $this->ctrl->redirect($this, "listFiles");
     }
 
     /**
@@ -940,38 +932,38 @@ class ilFileSystemGUI
 
     public function defineCommands(): void
     {
-        $this->commands = array(
-            0 => array(
+        $this->commands = [
+            0 => [
                 "object" => $this,
                 "method" => "downloadFile",
                 "name" => $this->lng->txt("download"),
                 "int" => true,
                 "single" => true
-            ),
-            1 => array(
+            ],
+            1 => [
                 "object" => $this,
                 "method" => "confirmDeleteFile",
                 "name" => $this->lng->txt("delete"),
                 "allow_dir" => true,
                 "int" => true
-            ),
-            2 => array(
+            ],
+            2 => [
                 "object" => $this,
                 "method" => self::CMD_UNZIP_FILE,
                 "name" => $this->lng->txt("unzip"),
                 "allow_dir" => true,
                 "int" => true,
                 "single" => true
-            ),
-            3 => array(
+            ],
+            3 => [
                 "object" => $this,
                 "method" => "renameFileForm",
                 "name" => $this->lng->txt("rename"),
                 "allow_dir" => true,
                 "int" => true,
                 "single" => true
-            ),
-        );
+            ],
+        ];
     }
 
     private function sanitizeCurrentDirectory(): string

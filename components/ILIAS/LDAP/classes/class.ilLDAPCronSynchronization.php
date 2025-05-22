@@ -18,17 +18,20 @@
 
 declare(strict_types=1);
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobManager;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
 */
-class ilLDAPCronSynchronization extends ilCronJob
+class ilLDAPCronSynchronization extends CronJob
 {
     private ilLanguage $lng;
     private ilLogger $logger;
-    private ilCronManager $cronManager;
+    private JobManager $cronManager;
 
     private int $counter = 0;
 
@@ -57,9 +60,9 @@ class ilLDAPCronSynchronization extends ilCronJob
         return $this->lng->txt("ldap_user_sync_cron_info");
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
+        return JobScheduleType::DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -77,9 +80,9 @@ class ilLDAPCronSynchronization extends ilCronJob
         return false;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
-        $status = ilCronJobResult::STATUS_NO_ACTION;
+        $status = JobResult::STATUS_NO_ACTION;
 
         $messages = array();
         foreach (ilLDAPServer::_getCronServerIds() as $server_id) {
@@ -127,9 +130,9 @@ class ilLDAPCronSynchronization extends ilCronJob
         }
 
         if ($this->counter) {
-            $status = ilCronJobResult::STATUS_OK;
+            $status = JobResult::STATUS_OK;
         }
-        $result = new ilCronJobResult();
+        $result = new JobResult();
         if (count($messages)) {
             $result->setMessage(implode("\n", $messages));
         }

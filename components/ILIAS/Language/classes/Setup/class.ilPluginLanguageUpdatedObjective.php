@@ -188,7 +188,7 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
         }
 
         if (!defined("ILIAS_WEB_DIR")) {
-            define('ILIAS_WEB_DIR', "public/data/");
+            define('ILIAS_WEB_DIR', $ini->readVariable('clients', 'path'));
         }
 
         return [$ORIG_DIC, $ORIG_ilDB];

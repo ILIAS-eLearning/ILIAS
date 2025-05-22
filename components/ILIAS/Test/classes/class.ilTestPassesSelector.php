@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Settings\ScoreReporting\ScoreReportingTypes;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -157,7 +159,7 @@ class ilTestPassesSelector
         $reportable_passes = [];
 
         foreach ($existing_passes as $pass) {
-            if ($this->isReportablePass($last_pass, $pass)) {
+            if ($this->isReportableAttempt($last_pass, $pass)) {
                 $reportable_passes[] = $pass;
             }
         }
@@ -191,31 +193,32 @@ class ilTestPassesSelector
         return $last_pass;
     }
 
-    private function isReportablePass(int $last_pass, int $pass): bool
+    private function isReportableAttempt(int $last_attempt, int $attempt): bool
     {
-        switch ($this->test_obj->getScoreReporting()) {
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_IMMIDIATLY:
+        switch ($this->test_obj->getScoreSettings()->getResultSummarySettings()->getScoreReporting()) {
+            case ScoreReportingTypes::SCORE_REPORTING_IMMIDIATLY:
                 return true;
 
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_DATE:
+            case ScoreReportingTypes::SCORE_REPORTING_DATE:
                 return $this->isReportingDateReached();
 
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_FINISHED:
-                if ($pass < $last_pass) {
+            case ScoreReportingTypes::SCORE_REPORTING_FINISHED:
+                if ($attempt < $last_attempt) {
                     return true;
                 }
 
-                return $this->isClosedPass($pass);
+                return $this->isClosedPass($attempt);
 
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_AFTER_PASSED:
+            case ScoreReportingTypes::SCORE_REPORTING_AFTER_PASSED:
                 if (!$this->hasTestPassedOnce($this->getActiveId())) {
                     return false;
                 }
 
-                return $this->isClosedPass($pass);
-        }
+                return $this->isClosedPass($attempt);
 
-        return false;
+            default:
+                return false;
+        }
     }
 
     private function checkLastFinishedPassInitialised()
@@ -242,17 +245,8 @@ class ilTestPassesSelector
 
     private function isReportingDateReached(): bool
     {
-        $reg = '/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/';
-        $date = $this->test_obj->getReportingDate();
-        $matches = null;
-
-        if (!preg_match($reg, $date, $matches)) {
-            return false;
-        }
-
-        $repTS = mktime((int) $matches[4], (int) $matches[5], (int) $matches[6], (int) $matches[2], (int) $matches[3], (int) $matches[1]);
-
-        return time() >= $repTS;
+        $reporting_date = $this->test_obj->getScoreSettings()->getResultSummarySettings()->getReportingDate();
+        return $reporting_date <= new DateTimeImmutable('now', new DateTimeZone('UTC'));
     }
 
     private function isProcessingTimeReached(int $pass): bool
@@ -278,7 +272,7 @@ class ilTestPassesSelector
         }
 
         $passes = $this->getLazyLoadedPasses();
-        if(! isset($passes[$last_finished_pass])) {
+        if (!isset($passes[$last_finished_pass])) {
             return null;
         }
         return $passes[$last_finished_pass]['tstamp'];

@@ -69,15 +69,6 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
         $this->assertEquals($passScoring, $this->testObj->getPassScoring());
     }
 
-    public function testPassed(): void
-    {
-        $this->testObj->setPassed(true);
-        $this->assertTrue($this->testObj->getPassed());
-
-        $this->testObj->setPassed(false);
-        $this->assertFalse($this->testObj->getPassed());
-    }
-
     public function testName(): void
     {
         $name = 'testName';
@@ -101,20 +92,13 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
         $this->assertFalse($this->testObj->isSubmitted());
     }
 
-    public function testSetReached(): void
-    {
-        $reached = 220.55;
-        $this->testObj->setReached($reached);
-        $this->assertEquals($reached, $this->testObj->reached);
-    }
-
     public function testGetReached(): void
     {
         $reachedPoints = 20;
         $testEvaluationPassData = new ilTestEvaluationPassData();
         $testEvaluationPassData->setReachedPoints($reachedPoints);
 
-        $this->testObj->passes = [$testEvaluationPassData];
+        $this->testObj->addPass(0, $testEvaluationPassData);
 
         $this->assertEquals($reachedPoints, $this->testObj->getReached());
     }
@@ -125,16 +109,9 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
         $testEvaluationPassData = new ilTestEvaluationPassData();
         $testEvaluationPassData->setMaxPoints($maxpoints);
 
-        $this->testObj->passes = [$testEvaluationPassData];
+        $this->testObj->addPass(0, $testEvaluationPassData);
 
         $this->assertEquals($maxpoints, $this->testObj->getMaxpoints());
-    }
-
-    public function testSetMaxpoints(): void
-    {
-        $max_points = 220.55;
-        $this->testObj->setMaxpoints($max_points);
-        $this->assertEquals($max_points, $this->testObj->maxpoints);
     }
 
     public function testGetReachedPointsInPercent(): void
@@ -145,14 +122,14 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
         $testEvaluationPassData->setReachedPoints($reachedpoints);
         $testEvaluationPassData->setMaxPoints($maxpoints);
 
-        $this->testObj->passes = [$testEvaluationPassData];
+        $this->testObj->addPass(0, $testEvaluationPassData);
 
         $this->assertEquals(($reachedpoints / $maxpoints) * 100, $this->testObj->getReachedPointsInPercent());
     }
 
     public function testMark(): void
     {
-        $a_mark = 'testMark';
+        $a_mark = new \ILIAS\Test\Scoring\Marks\Mark('testMark');
         $this->testObj->setMark($a_mark);
         $this->assertEquals($a_mark, $this->testObj->getMark());
     }
@@ -167,16 +144,9 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
         $testEvaluationPassData->setMaxPoints($maxpoints);
         $testEvaluationPassData->setNrOfAnsweredQuestions($nrOfAnsweredQuestions);
 
-        $this->testObj->passes = [$testEvaluationPassData];
+        $this->testObj->addPass(0, $testEvaluationPassData);
 
         $this->assertEquals($nrOfAnsweredQuestions, $this->testObj->getQuestionsWorkedThrough());
-    }
-
-    public function testSetQuestionsWorkedThrough(): void
-    {
-        $nr = 215;
-        $this->testObj->setQuestionsWorkedThrough($nr);
-        $this->assertEquals($nr, $this->testObj->questionsWorkedThrough);
     }
 
     public function testGetNumberOfQuestions(): void
@@ -185,16 +155,9 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
         $testEvaluationPassData = new ilTestEvaluationPassData();
         $testEvaluationPassData->setQuestionCount($questioncount);
 
-        $this->testObj->passes = [$testEvaluationPassData];
+        $this->testObj->addPass(0, $testEvaluationPassData);
 
         $this->assertEquals($questioncount, $this->testObj->getNumberOfQuestions());
-    }
-
-    public function testSetNumberOfQuestions(): void
-    {
-        $nr = 215;
-        $this->testObj->setNumberOfQuestions($nr);
-        $this->assertEquals($nr, $this->testObj->numberOfQuestions);
     }
 
     public function testGetQuestionsWorkedThroughInPercent(): void
@@ -205,12 +168,12 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
         $testEvaluationPassData->setQuestionCount($questioncount);
         $testEvaluationPassData->setNrOfAnsweredQuestions($nrOfAnsweredQuestions);
 
-        $this->testObj->passes = [$testEvaluationPassData];
+        $this->testObj->addPass(0, $testEvaluationPassData);
 
         $this->assertEquals(($nrOfAnsweredQuestions / $questioncount) * 100, $this->testObj->getQuestionsWorkedThroughInPercent());
     }
 
-    public function testGetTimeOfWork(): void
+    public function testGetTimeOnTask(): void
     {
         $workingtime1 = 5;
         $data1 = new ilTestEvaluationPassData();
@@ -220,24 +183,15 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
         $data2 = new ilTestEvaluationPassData();
         $data2->setWorkingTime($workingtime2);
 
-        $this->testObj->passes = [
-            $data1,
-            $data2
-        ];
+        $this->testObj->addPass(0, $data1);
+        $this->testObj->addPass(1, $data2);
 
-        $this->assertEquals($workingtime1 + $workingtime2, $this->testObj->getTimeOfWork());
-    }
-
-    public function testSetTimeOfWork(): void
-    {
-        $time_of_work = '215';
-        $this->testObj->setTimeOfWork($time_of_work);
-        $this->assertEquals($time_of_work, $this->testObj->timeOfWork);
+        $this->assertEquals($workingtime1 + $workingtime2, $this->testObj->getTimeOnTask());
     }
 
     public function testFirstVisit(): void
     {
-        $time = 2125;
+        $time = new \DateTimeImmutable();
         $this->testObj->setFirstVisit($time);
 
         $this->assertEquals($time, $this->testObj->getFirstVisit());
@@ -245,7 +199,7 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
 
     public function testLastVisit(): void
     {
-        $time = 2125;
+        $time = new \DateTimeImmutable();
         $this->testObj->setLastVisit($time);
 
         $this->assertEquals($time, $this->testObj->getLastVisit());
@@ -261,10 +215,8 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
         $data2 = new ilTestEvaluationPassData();
         $data2->setWorkingTime($workingtime2);
 
-        $this->testObj->passes = [
-            $data1,
-            $data2
-        ];
+        $this->testObj->addPass(0, $data1);
+        $this->testObj->addPass(1, $data2);
 
         $this->assertEquals([$data1, $data2], $this->testObj->getPasses());
     }
@@ -411,12 +363,5 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
         $user_id = 120;
         $this->testObj->setUserID($user_id);
         $this->assertEquals($user_id, $this->testObj->getUserID());
-    }
-
-    public function testMarkOfficial(): void
-    {
-        $a_mark_official = 'test';
-        $this->testObj->setMarkOfficial($a_mark_official);
-        $this->assertEquals($a_mark_official, $this->testObj->getMarkOfficial());
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\ViewControl;
 
 use ILIAS\UI\Component\Component;
@@ -31,21 +31,16 @@ use ILIAS\UI\Component\Triggerer;
 interface Sortation extends Component, JavaScriptBindable, Triggerer
 {
     /**
-     * Set the initial, non-functional entry
+     * Set the prefix of the label
      */
-    public function withLabel(string $label): Sortation;
-
-    /**
-     * Get the label.
-     */
-    public function getLabel(): string;
+    public function withLabelPrefix(string $label_prefix): self;
 
     /**
      * Get a Sortation with this target-url.
      * Shy-Buttons in this control will link to this url
      * and add $parameter_name with the selected value.
      */
-    public function withTargetURL(string $url, string $parameter_name): Sortation;
+    public function withTargetURL(string $url, string $parameter_name): self;
 
     /**
      * Get the url this instance should trigger.
@@ -69,10 +64,15 @@ interface Sortation extends Component, JavaScriptBindable, Triggerer
      *
      * @param Signal $signal A signal of another component
      */
-    public function withOnSort(Signal $signal): Sortation;
+    public function withOnSort(Signal $signal): self;
 
     /**
      * Get the Signal for the selection of a option
      */
     public function getSelectSignal(): Signal;
+
+    /**
+     * Set the selected option.
+     */
+    public function withSelected(string $selected_option): self;
 }

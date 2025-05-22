@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,35 +16,25 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Chart\ProgressMeter;
 
 use ILIAS\UI\Component\Chart\ProgressMeter;
 
-/**
- * Class Factory
- * @package ILIAS\UI\Implementation\Component\Chart\ProgressMeter
- */
 class Factory implements ProgressMeter\Factory
 {
-    /**
-     * @inheritdoc
-     */
-    public function standard($maximum, $main, $required = null, $comparison = null): ProgressMeter\Standard
+    public function standard($maximum, $main, $required = null, $comparison = null): Standard
     {
         return new Standard($maximum, $main, $required, $comparison);
     }
-    /**
-     * @inheritdoc
-     */
-    public function fixedSize($maximum, $main, $required = null, $comparison = null): ProgressMeter\FixedSize
+
+    public function fixedSize($maximum, $main, $required = null, $comparison = null): FixedSize
     {
         return new FixedSize($maximum, $main, $required, $comparison);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function mini($maximum, $main, $required = null): ProgressMeter\Mini
+    public function mini($maximum, $main, $required = null): Mini
     {
         return new Mini($maximum, $main, $required);
     }

@@ -200,11 +200,6 @@ class Container extends \Pimple\Container
         return $this['ilHelp'];
     }
 
-    public function question(): \ilAsqFactory
-    {
-        return new \ilAsqFactory();
-    }
-
     /**
      * Get conditions service
      */
@@ -332,14 +327,9 @@ class Container extends \Pimple\Container
         return new \ILIAS\SurveyQuestionPool\Service($this);
     }
 
-    public function test(): \ILIAS\Test\Service
+    public function testQuestion(): \ILIAS\TestQuestionPool\Questions\PublicInterface
     {
-        return new \ILIAS\Test\Service($this);
-    }
-
-    public function testQuestionPool(): \ILIAS\TestQuestionPool\Service
-    {
-        return new \ILIAS\TestQuestionPool\Service($this);
+        return new \ILIAS\TestQuestionPool\Questions\PublicInterface($this);
     }
 
     public function workflowEngine(): \ILIAS\WorkflowEngine\Service
@@ -453,9 +443,9 @@ class Container extends \Pimple\Container
         return new \ILIAS\Notifications\Service($this);
     }
 
-    public function cron(): \ilCronServices
+    public function cron(): \ILIAS\Cron\CronServices
     {
-        return new \ilCronServicesImpl($this);
+        return new \ILIAS\Cron\Services\ServicesImpl($this);
     }
 
     public function mail(): \ILIAS\Mail\Service\MailService
@@ -475,8 +465,14 @@ class Container extends \Pimple\Container
 
     public function learningObjectMetadata(): \ILIAS\MetaData\Services\ServicesInterface
     {
-        return new \ILIAS\MetaData\Services\Services($this);
+        return $this['learning_object_metadata'] ?? new \ILIAS\MetaData\Services\Services($this);
     }
+
+    public function like(): \ILIAS\Like\Service
+    {
+        return new \ILIAS\Like\Service($this);
+    }
+
 
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,

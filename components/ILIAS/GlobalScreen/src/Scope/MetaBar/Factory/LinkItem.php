@@ -25,14 +25,12 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\LinkItemRenderer;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
- * Class LinkItem
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol, isChild, hasContentLanguage, hasLanguageForTargetedResource
 {
     use ContentLanguage;
     use LanguageForTargetedResource;
-    use \ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
 
     protected ?Symbol $symbol = null;
     protected string $title = "";

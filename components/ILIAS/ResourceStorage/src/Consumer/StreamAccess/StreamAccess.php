@@ -32,13 +32,9 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 class StreamAccess
 {
     public const PHP_MEMORY = 'php://memory';
-    private StorageHandlerFactory $storage_handler_factory;
 
-    public function __construct(
-        string $storage_base_path,
-        StorageHandlerFactory $storage_handler_factory
-    ) {
-        $this->storage_handler_factory = $storage_handler_factory;
+    public function __construct(string $storage_base_path, private StorageHandlerFactory $storage_handler_factory)
+    {
     }
 
     public function populateRevision(Revision $revision): Revision

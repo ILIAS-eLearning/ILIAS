@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Collections\View;
 
+use ILIAS\ResourceStorage\Manager\Manager;
+use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\UI\Factory;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\UI\Component\Input\Field\Section;
@@ -33,8 +35,8 @@ final class EditForm
 {
     private Factory $ui_factory;
     private \ilLanguage $lng;
-    private \ILIAS\ResourceStorage\Manager\Manager $manager;
-    private \ILIAS\ResourceStorage\Revision\Revision $revision;
+    private Manager $manager;
+    private Revision $revision;
     private \ILIAS\Refinery\Factory $refinery;
 
     public function __construct(
@@ -74,7 +76,7 @@ final class EditForm
                         $new_title = empty($value) ? $this->revision->getInformation()->getTitle() : $value;
                         $new_title_without_suffix = preg_replace('/\.\w+$/', '', $new_title);
                         $new_title_with_suffix = $new_title_without_suffix . '.' . $this->revision->getInformation(
-                            )->getSuffix();
+                        )->getSuffix();
 
                         $this->revision->getInformation()->setTitle(
                             $new_title_with_suffix
@@ -94,7 +96,7 @@ final class EditForm
             $this->lng->txt('edit')
         )->withAdditionalTransformation(
             $this->customTrafo(
-                fn(array $values) => $this->manager->updateRevision($this->revision)
+                fn(array $values): bool => $this->manager->updateRevision($this->revision)
             )
         );
     }
@@ -106,7 +108,7 @@ final class EditForm
             $this->getFields()
         )->withAdditionalTransformation(
             $this->customTrafo(
-                fn(array $values) => $this->manager->updateRevision($this->revision)
+                fn(array $values): bool => $this->manager->updateRevision($this->revision)
             )
         );
     }

@@ -38,7 +38,7 @@ final class Streams
      *
      * @return FileStream The newly created in memory stream.
      */
-    public static function ofString(string $string): \ILIAS\Filesystem\Stream\Stream
+    public static function ofString(string $string): Stream
     {
         if (!is_string($string)) {
             throw new \InvalidArgumentException(
@@ -61,18 +61,46 @@ final class Streams
      *
      * @see fopen()
      */
-    public static function ofResource($resource, bool $inside_zip = false): \ILIAS\Filesystem\Stream\Stream
+    public static function ofResource($resource): Stream
     {
         if (!is_resource($resource)) {
             throw new \InvalidArgumentException(
                 'The argument $resource must be of type resource but was "' . gettype($resource) . '"'
             );
         }
-
-        if ($inside_zip) {
-            return new ZIPStream($resource);
-        }
         return new Stream($resource);
+    }
+
+    public static function ofReattachableResource($resource): ReattachableStream
+    {
+        if (!is_resource($resource)) {
+            throw new \InvalidArgumentException(
+                'The argument $resource must be of type resource but was "' . gettype($resource) . '"'
+            );
+        }
+        return new ReattachableStream($resource);
+    }
+
+    public static function ofFileInsideZIP(string $path_to_zip, string $path_inside_zip): ZIPStream
+    {
+        // we try to open the zip file with the path inside the zip file, once with a leading slash and once without
+        try {
+            $resource = fopen('zip://' . $path_to_zip . '#/' . $path_inside_zip, 'rb');
+        } catch (\Throwable) {
+            $resource = null;
+        }
+        try {
+            $resource = $resource ?: fopen('zip://' . $path_to_zip . '#' . $path_inside_zip, 'rb');
+        } catch (\Throwable) {
+            $resource = null;
+        }
+
+        if (!is_resource($resource)) {
+            throw new \InvalidArgumentException(
+                'The argument $path_to_zip must be an existing zip file path and $path_inside_zip must be a valid path inside the zip file.'
+            );
+        }
+        return new ZIPStream($resource);
     }
 
     /**
@@ -82,7 +110,7 @@ final class Streams
      * @param StreamInterface $stream The stream which should be parsed into a FileStream.
      * @return FileStream               The newly created stream.
      */
-    public static function ofPsr7Stream(StreamInterface $stream): \ILIAS\Filesystem\Stream\Stream
+    public static function ofPsr7Stream(StreamInterface $stream): Stream
     {
         $resource = $stream->detach();
         return self::ofResource($resource);

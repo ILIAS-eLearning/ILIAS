@@ -115,7 +115,7 @@ class ilObjStudyProgrammeAdminGUI extends ilMembershipAdministrationGUI
         }
     }
 
-    public function editSettings(ilPropertyFormGUI $form = null): void
+    public function editSettings(?ilPropertyFormGUI $form = null): void
     {
         $this->tabs_gui->activateTab('settings');
         if (is_null($form)) {

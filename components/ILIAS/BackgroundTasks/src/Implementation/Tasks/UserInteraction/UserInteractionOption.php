@@ -22,16 +22,11 @@ use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 
 class UserInteractionOption implements Option
 {
-    protected string $lang_var;
-    protected string $value;
-
     /**
      * UserInteractionOption constructor.
      */
-    public function __construct(string $lang_var, string $value)
+    public function __construct(protected string $lang_var, protected string $value)
     {
-        $this->lang_var = $lang_var;
-        $this->value = $value;
     }
 
 

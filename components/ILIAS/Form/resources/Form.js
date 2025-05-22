@@ -14,6 +14,7 @@
  *
  ******************************************************************** */
 
+/* eslint-disable */
 il.Form = {
 
   duration: 150,
@@ -48,10 +49,27 @@ il.Form = {
     // see http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/
 
     // trigger event on fileselect
-    $(document).on('change', `${selectorPrefix}.btn-file :file`, function () {
+    $(document).on('change', `${selectorPrefix}.btn-file :file`, function (e) {
       const input = $(this);
+      const dt = new DataTransfer();
+      let label = '';
+
+      input.parents('.input-group').next().addClass('help-block').removeClass('ui-input-file-input-error-msg');
+      input.get(0).files.forEach(
+        (item) => {
+          if (item.size <= input.attr('data-maxsize')) {
+            dt.items.add(item);
+          } else {
+            label = input.attr('data-maxsize-warning');
+            input.parents('.input-group').next().removeClass('help-block').addClass('ui-input-file-input-error-msg');
+            e.stopImmediatePropagation();
+          }
+        }
+      );
+      input.get(0).files = dt.files;
+
       const numFiles = input.get(0).files ? input.get(0).files.length : 1;
-      const label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+      label += input.val().replace(/\\/g, '/').replace(/.*\//, '');
       input.trigger('fileselect', [numFiles, label]);
     });
 
@@ -254,151 +272,105 @@ il.Form = {
   // ilDateDurationInputGUI
   //
 
-  initDateDurationPicker(picker_id, picker2_id, toggle_id, subform_id) {
-    const el = $(`#${picker_id}`);
-    const dp = $(el).data('DateTimePicker');
-    const el2 = $(`#${picker2_id}`);
-    const dp2 = $(el2).data('DateTimePicker');
-    const txt = $(el).find('input:text');
-    const txt2 = $(el2).find('input:text');
+  initDateDurationPicker(picker_id, picker2_id, toggle_id) {
+    const dp = document.querySelector(`#${picker_id} input[type=datetime-local]`);
+    const dp2 = document.querySelector(`#${picker2_id} input[type=datetime-local]`);
 
     // init
 
     // set limit by current date of other picker
-    /*
-		if(dp2.date())
-		{
-			dp.maxDate(dp2.date());
-		}
-		*/
-    if (dp.date()) {
-      dp2.minDate(dp.date());
+    if (dp.value) {
+      dp2.min = dp.value;
 
       // store current value for diff magic
-      $(el).data('DateTimePickerOld', dp.date());
+      dp.dataset.current_value = dp.value;
     }
 
     // onchange
 
-    $(el).on('dp.change', function (e) {
+    dp.addEventListener('change', (e) => {
       // limit to value of end picker
-      dp2.minDate(e.date);
+      dp2.min = dp.value;
 
       // keep diff the same
-      const old = $(this).data('DateTimePickerOld');
+      const old_dp = dp.dataset.current_value;
 
-      if (old && dp2.date() && e.date) {
-        const diff = dp2.date().diff(old);
-        dp2.date(e.date.clone().add(diff));
+      if (old_dp && dp2.value && dp.value) {
+        const old_dp_timestamp = Date.parse(`${old_dp}Z`);
+        const dp_timestamp = Date.parse(`${dp.value}Z`);
+        const dp2_timestamp = Date.parse(`${dp2.value}Z`);
+
+        const new_dp2_date = new Date(dp2_timestamp - old_dp_timestamp + dp_timestamp);
+        if (dp2.type == 'datetime-local') {
+          dp2.value = new_dp2_date.toISOString().slice(0, 16);
+        } else if (dp2.type == 'date') {
+          dp2.value = new_dp2_date.toISOString().slice(0, 10);
+        }
       }
 
       // keep current date for diff parsing (see above);
-      $(this).data('DateTimePickerOld', e.date);
-
-      if (subform_id !== undefined) {
-        il.Form.handleDateDurationPickerSubForm(txt, txt2, subform_id);
-      }
+      dp.dataset.current_value = dp.value;
     });
-
-    $(el2).on('dp.change', (e) => {
-      /*
-			// limit to value of start picker
-			dp.maxDate(e.date);
-			*/
-
-		    if (subform_id !== undefined) {
-        il.Form.handleDateDurationPickerSubForm(txt, txt2, subform_id);
-      }
-    });
-
-    // subform
-
-    if (subform_id !== undefined) {
-      $(el).on('dp.hide', (e) => {
-        il.Form.handleDateDurationPickerSubForm(txt, txt2, subform_id);
-      });
-
-      $(el2).on('dp.hide', (e) => {
-        il.Form.handleDateDurationPickerSubForm(txt, txt2, subform_id);
-      });
-
-      $(txt).on('input', (e) => {
-        il.Form.handleDateDurationPickerSubForm(txt, txt2, subform_id);
-      });
-
-      $(txt2).on('input', (e) => {
-        il.Form.handleDateDurationPickerSubForm(txt, txt2, subform_id);
-      });
-    }
 
     // toggle
 
     if (toggle_id) {
-      const toggle = $(`#${toggle_id}`);
-      const full_format = dp.format();
+      const toggle = document.querySelector(`#${toggle_id}`);
 
       // init
 
-      if ($(toggle).prop('checked')) {
-        let format = dp.format();
-        dp.format(format.substr(0, 10));
-        format = dp2.format();
-        dp2.format(format.substr(0, 10));
+      if (toggle.checked) {
+        il.Form.removeTimeFromDatetimeInput(dp);
+        il.Form.removeTimeFromDatetimeInput(dp2);
       }
 
       // onchange
 
-      $(toggle).change(function (e) {
-        if (!$(this).prop('checked')) {
-          dp.format(full_format);
-          dp2.format(full_format);
+      toggle.addEventListener('change', (e) => {
+        if (!toggle.checked) {
+          il.Form.addTimeToDatetimeInput(dp);
+          il.Form.addTimeToDatetimeInput(dp2);
         } else {
-          const short_format = full_format.substr(0, 10);
-          dp.format(short_format);
-          dp2.format(short_format);
+          il.Form.removeTimeFromDatetimeInput(dp);
+          il.Form.removeTimeFromDatetimeInput(dp2);
         }
+        // update current date for diff parsing (see above);
+        dp.dataset.current_value = dp.value;
       });
     }
   },
 
-  handleDateDurationPickerSubForm(el, el2, subform_id) {
-    if ($(el).val() || $(el2).val()) {
-      $(`#${subform_id}`).show();
-    } else {
-      $(`#${subform_id}`).hide();
-    }
+  addTimeToDatetimeInput(input) {
+    // read out relevant values before changing type
+    // toggleable duration inputs always start with time, so dataset should be filled
+    const date_value = input.value + input.dataset.valuetime;
+    const min_value = input.min + input.dataset.mintime;
+
+    // change type
+    input.type = 'datetime-local';
+
+    // restore relevant attributes
+    input.step = 60;
+    input.value = date_value;
+    input.min = min_value;
   },
 
-  initDatePicker(picker_id, subform_id) {
-    const el = $(`#${picker_id}`);
-    const dp = $(el).data('DateTimePicker');
-    const txt = $(el).find('input:text');
+  removeTimeFromDatetimeInput(input) {
+    // read out relevant values before changing type
+    const date_value = input.value.slice(0, 10);
+    const min_value = input.min.slice(0, 10);
 
-    // onchange
-    $(el).on('dp.change', (e) => {
-      if (subform_id !== undefined) {
-        il.Form.handleDatePickerSubForm(txt, subform_id);
-      }
-    });
+    // store relevant attributes so they can be restored on retoggle
+    input.dataset.valuetime = input.value.slice(-6);
+    input.dataset.mintime = input.min.slice(-6);
 
-    // subform
-    if (subform_id !== undefined) {
-      $(el).on('dp.hide', (e) => {
-        il.Form.handleDatePickerSubForm(txt, subform_id);
-      });
+    // change type
+    input.type = 'date';
 
-      $(txt).on('input', (e) => {
-        il.Form.handleDatePickerSubForm(txt, subform_id);
-      });
-    }
-  },
-
-  handleDatePickerSubForm(el, subform_id) {
-    if ($(el).val()) {
-      $(`#${subform_id}`).show();
-    } else {
-      $(`#${subform_id}`).hide();
-    }
+    // set attributes so they apply to date input
+    input.step = 1;
+    input.value = date_value;
+    input.min = min_value;
   },
 
   // Tiny textarea char. counter

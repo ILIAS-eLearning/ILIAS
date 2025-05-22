@@ -52,4 +52,15 @@ class ilPortfolioDBUpdateSteps implements \ilDatabaseUpdateSteps
             $db->addPrimaryKey('prtf_role_assignment', ['role_id', 'template_ref_id']);
         }
     }
+
+    public function step_2(): void
+    {
+        $db = $this->db;
+        $db->manipulateF(
+            "DELETE FROM usr_portfolio_page WHERE " .
+              " type = %s",
+            ["integer"],
+            [2]
+        );
+    }
 }

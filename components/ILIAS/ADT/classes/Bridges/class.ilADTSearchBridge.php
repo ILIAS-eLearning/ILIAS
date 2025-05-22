@@ -217,7 +217,7 @@ abstract class ilADTSearchBridge
      * @param array $a_post
      * @return mixed
      */
-    protected function extractPostValues(array $a_post = null)
+    protected function extractPostValues(?array $a_post = null)
     {
         $element_id = $this->getElementId();
         $multi = strpos($this->getElementId(), "[");
@@ -241,7 +241,7 @@ abstract class ilADTSearchBridge
     /**
      * @todo make post required
      */
-    abstract public function importFromPost(array $a_post = null): bool;
+    abstract public function importFromPost(?array $a_post = null): bool;
 
     /**
      * Validate current data

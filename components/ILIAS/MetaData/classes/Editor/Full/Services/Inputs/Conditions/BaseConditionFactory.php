@@ -26,9 +26,13 @@ use ILIAS\MetaData\Editor\Full\Services\Inputs\WithoutConditions\FactoryWithoutC
 use ILIAS\UI\Component\Input\Field\Factory as UIFactory;
 use ILIAS\MetaData\Repository\Validation\Dictionary\DictionaryInterface as ConstraintDictionary;
 use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
+use ILIAS\MetaData\Editor\Full\Services\Inputs\WithoutConditions\InputHelper;
 
 abstract class BaseConditionFactory
 {
+    use InputHelper;
+
     protected UIFactory $ui_factory;
     protected PresenterInterface $presenter;
     protected ConstraintDictionary $constraint_dictionary;
@@ -46,49 +50,22 @@ abstract class BaseConditionFactory
         $this->types = $types;
     }
 
-    abstract protected function conditionInput(
+    abstract public function getConditionInput(
         ElementInterface $element,
         ElementInterface $context_element,
-        ElementInterface ...$conditional_elements
+        ElementInterface $conditional_element
     ): FormInput;
 
-    final public function getConditionInput(
+    protected function getInputInCondition(
         ElementInterface $element,
         ElementInterface $context_element,
-        ElementInterface ...$conditional_elements
-    ): FormInput {
-        $input = $this->conditionInput(
-            $element,
-            $context_element,
-            ...$conditional_elements
-        );
-
-        return $this->finishInput($element, $context_element, $input);
-    }
-
-    final protected function getInputInCondition(
-        ElementInterface $element,
-        ElementInterface $context_element,
-        string $condition_value
+        SlotIdentifier $conditional_slot
     ): FormInput {
         $input_factory = $this->types->factory($element->getDefinition()->dataType());
         return $input_factory->getInputInCondition(
             $element,
             $context_element,
-            $condition_value
-        );
-    }
-
-    final protected function finishInput(
-        ElementInterface $element,
-        ElementInterface $context_element,
-        FormInput $input
-    ): FormInput {
-        $input_factory = $this->types->factory($element->getDefinition()->dataType());
-        return $input_factory->finishInput(
-            $element,
-            $context_element,
-            $input
+            $conditional_slot
         );
     }
 }

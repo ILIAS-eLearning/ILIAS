@@ -27,26 +27,13 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
  */
 class ilObjFileIconStakeholder extends AbstractResourceStakeholder
 {
-    /**
-     * ilObjFileIconStakeholder constructor.
-     */
-    public function __construct(protected int $owner = 6)
-    {
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getId(): string
     {
         return 'file_icon';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getOwnerOfNewResources(): int
     {
-        return $this->owner;
+        return $this->default_owner;
     }
 }

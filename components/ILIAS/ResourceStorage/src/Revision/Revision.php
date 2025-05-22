@@ -18,10 +18,8 @@
 
 namespace ILIAS\ResourceStorage\Revision;
 
-use ILIAS\ResourceStorage\Consumer\StreamAccess\Token;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Information\Information;
-use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamResolver;
 
 /**

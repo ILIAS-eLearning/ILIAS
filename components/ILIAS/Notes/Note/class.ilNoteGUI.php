@@ -636,9 +636,9 @@ class ilNoteGUI
         $select_option = (true)
             ? 'asc'
             : 'desc';
-        $s = $this->ui->factory()->viewControl()->sortation($options)
-                      ->withTargetURL($this->ctrl->getLinkTarget($this, "setSortation"), 'sortation')
-                      ->withLabel($options[$select_option]);*/
+        $s = $this->ui->factory()->viewControl()->sortation($options, $select_option)
+                      ->withTargetURL($this->ctrl->getLinkTarget($this, "setSortation"), 'sortation');
+        */
         $dd_buttons = [];
         if ($this->manager->getSortAscending()) {
             $dd_buttons[] = $this->getShyButton(
@@ -833,7 +833,7 @@ class ilNoteGUI
     protected function getNoteForm(
         string $mode,
         int $type,
-        Note $note = null
+        ?Note $note = null
     ): \ILIAS\Repository\Form\FormAdapterGUI {
         global $DIC;
 
@@ -1177,7 +1177,7 @@ class ilNoteGUI
      */
     public static function getListNotesJSCall(
         string $a_hash,
-        string $a_update_code = null
+        ?string $a_update_code = null
     ): string {
         if ($a_update_code === null) {
             $a_update_code = "null";
@@ -1193,7 +1193,7 @@ class ilNoteGUI
      */
     public static function getListCommentsJSCall(
         string $a_hash,
-        string $a_update_code = null
+        ?string $a_update_code = null
     ): string {
         if ($a_update_code === null) {
             $a_update_code = "null";

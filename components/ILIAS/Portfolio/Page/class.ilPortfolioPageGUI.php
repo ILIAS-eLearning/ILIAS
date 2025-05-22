@@ -20,7 +20,7 @@
  * Portfolio page gui class
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilPortfolioPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI, ilObjBlogGUI, ilBlogPostingGUI, ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI, ilPublicUserProfileGUI
  * @ilCtrl_Calls ilPortfolioPageGUI: ilCalendarMonthGUI, ilConsultationHoursGUI, ilLearningHistoryGUI
  */
 class ilPortfolioPageGUI extends ilPageObjectGUI
@@ -117,18 +117,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
-            case "ilobjbloggui":
-                // #12879 - we need the wsp-id for the keywords
-                $wsp_tree = new ilWorkspaceTree($ilUser->getId());
-                $blog_obj_id = (int) $this->getPageObject()->getTitle();
-                $blog_node_id = $wsp_tree->lookupNodeId($blog_obj_id);
-
-                $blog_gui = new ilObjBlogGUI($blog_node_id, ilObject2GUI::WORKSPACE_NODE_ID);
-                $blog_gui->disableNotes(!$this->enable_comments);
-                $blog_gui->prtf_embed = true; // disables prepareOutput()/getStandardTemplate() in blog
-                $ilCtrl->forwardCommand($blog_gui);
-                return $blog_gui->getRenderedContent();
-
             case "ilcalendarmonthgui":
                 $this->ctrl->saveParameter($this, "chuid");
                 // booking action
@@ -168,10 +156,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
         if (!$this->getPageObject()) {
             return "";
-        }
-
-        if ($this->getPageObject()->getType() === ilPortfolioPage::TYPE_BLOG) {
-            return $this->renderBlog($ilUser->getId(), (int) $this->getPageObject()->getTitle());
         }
 
         $this->setTemplateOutput(false);
@@ -324,7 +308,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     protected function renderProfile(
         int $a_user_id,
         string $a_type,
-        array $a_fields = null
+        ?array $a_fields = null
     ): string {
         $ilCtrl = $this->ctrl;
 
@@ -486,54 +470,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         }
     }
 
-    protected function renderBlog(
-        int $a_user_id,
-        int $a_blog_id,
-        array $a_posting_ids = null
-    ): string {
-        $ilCtrl = $this->ctrl;
-
-        // not used
-        // $user_id = $this->getPageContentUserId($a_user_id);
-
-        // full blog (separate tab/page)
-        if (!$a_posting_ids) {
-            if (ilObject::_lookupType($a_blog_id) !== "blog") {
-                return "";
-            }
-            $blog = new ilObjBlogGUI($a_blog_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
-            $blog->disableNotes(!$this->enable_comments);
-            $blog->setContentStyleSheet();
-
-            if ($this->getOutputMode() !== "offline") {
-                return $ilCtrl->getHTML($blog);
-            }
-        }
-        // embedded postings
-        else {
-            $html = array();
-
-            $html[] = ilObjBlog::_lookupTitle($a_blog_id);
-
-            foreach ($a_posting_ids as $post) {
-                $page = new ilBlogPostingGUI(0, null, $post);
-                if ($this->getOutputMode() !== "offline") {
-                    $page->setOutputMode(ilPageObjectGUI::PREVIEW);
-                } else {
-                    $page->setOutputMode("offline");
-                }
-                $html[] = $page->showPage();
-            }
-
-            return implode("\n", $html);
-        }
-        return "";
-    }
-
     protected function renderBlogTeaser(
         int $a_user_id,
         int $a_blog_id,
-        array $a_posting_ids = null
+        ?array $a_posting_ids = null
     ): string {
         // not used
         // $user_id = $this->getPageContentUserId($a_user_id);
@@ -592,7 +532,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         if ($a_mode === "auto") {
             $mode = $this->lng->txt("cont_cach_mode_automatic");
             $groups = null;
-        } else {
+        }
+        // begin-abandon ch_groups
+        /*
+        else {
             $mode = $this->lng->txt("cont_cach_mode_manual");
 
             $groups = array();
@@ -601,6 +544,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             }
             $groups = " (" . implode(", ", $groups) . ")";
         }
+        */
+        // end-abandon ch_groups
 
         $this->lng->loadLanguageModule("dateplaner");
         return $this->renderTeaser(
@@ -664,7 +609,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         $month_gui->setConsulationHoursUserId($user_id);
 
         // custom schedule filter: handle booking group ids
-        $filter = new ilCalendarScheduleFilterBookings($user_id, $a_group_ids);
+        $filter = new ilCalendarScheduleFilterBookings($user_id);
         $month_gui->addScheduleFilter($filter);
 
         $this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem', 'delos.css'));

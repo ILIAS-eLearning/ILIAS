@@ -29,37 +29,12 @@ class ilMediaImageUtil
      */
     public static function getImageSize(string $a_location): ?array
     {
-        if (substr($a_location, 0, 4) == "http") {
-            if (ilCurlConnection::_isCurlExtensionLoaded()) {
-                $dir = ilFileUtils::getDataDir() . "/temp/mob/remote_img";
-                ilFileUtils::makeDirParents($dir);
-                $filename = $dir . "/" . uniqid();
-                $file = fopen($filename, "w");
-                $c = new ilCurlConnection($a_location);
-                $c->init();
-                $c->setOpt(CURLOPT_SSL_VERIFYHOST, 0);
-                $c->setOpt(CURLOPT_SSL_VERIFYPEER, 0);
-                $c->setOpt(CURLOPT_MAXREDIRS, 3);
-                $c->setOpt(CURLOPT_HEADER, 0);
-                $c->setOpt(CURLOPT_RETURNTRANSFER, 1);
-                $c->setOpt(CURLOPT_FILE, $file);
-                try {
-                    $c->exec();
-                    $size = getimagesize($filename);
-                } catch (ilCurlConnectionException $e) {
-                    $size = null;
-                }
-                $c->close();
-                fclose($file);
-                unlink($filename);
-            } else {
-                $size = getimagesize($a_location);
-            }
-        } else {
-            if (is_file($a_location)) {
-                $size = getimagesize($a_location);
-            }
+        try {
+            $size = getimagesizefromstring(file_get_contents($a_location));
+        } catch (Exception $e) {
+            $size = false;
         }
+
         if (!isset($size) || $size === false) {
             $size = [0,0];
         }

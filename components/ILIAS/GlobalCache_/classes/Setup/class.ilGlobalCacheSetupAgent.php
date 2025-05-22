@@ -18,20 +18,21 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup;
-use ILIAS\Refinery;
+use ILIAS\Setup\Agent;
+use ILIAS\Refinery\Factory;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\UnachievableException;
+use ILIAS\Setup\Objective\NullObjective;
+use ILIAS\Setup\Metrics\Storage;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\ObjectiveConstructor;
 use ILIAS\Cache\Nodes\Node;
 
-class ilGlobalCacheSetupAgent implements Setup\Agent
+class ilGlobalCacheSetupAgent implements Agent
 {
-    protected \ILIAS\Refinery\Factory $refinery;
-
-    public function __construct(
-        Refinery\Factory $refinery
-    ) {
-        $this->refinery = $refinery;
+    public function __construct(protected Factory $refinery)
+    {
     }
 
     /**
@@ -45,7 +46,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation(): Refinery\Transformation
+    public function getArrayToConfigTransformation(): Transformation
     {
         return $this->refinery->custom()->transformation(function ($data): \ilGlobalCacheSettingsAdapter {
             $settings = new \ilGlobalCacheSettingsAdapter();
@@ -110,10 +111,10 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Config $config = null): Objective
     {
         if (!$config instanceof ilGlobalCacheSettingsAdapter) {
-            throw new Setup\UnachievableException('wrong config type, expected ilGlobalCacheSettings');
+            throw new UnachievableException('wrong config type, expected ilGlobalCacheSettings');
         }
         return new ilGlobalCacheConfigStoredObjective($config);
     }
@@ -121,26 +122,26 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
         if ($config instanceof ilGlobalCacheSettingsAdapter) {
             return new ilGlobalCacheConfigStoredObjective($config);
         }
-        return new Setup\Objective\NullObjective();
+        return new NullObjective();
     }
 
     /**
      * @inheritdoc
      */
-    public function getBuildObjective(): Setup\Objective
+    public function getBuildObjective(): Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new NullObjective();
     }
 
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
+    public function getStatusObjective(Storage $storage): Objective
     {
         return new ilGlobalCacheMetricsCollectedObjective($storage);
     }
@@ -155,13 +156,11 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
 
     public function getNamedObjectives(?Config $config = null): array
     {
-        $config = $config ?? new ilGlobalCacheSettingsAdapter();
+        $config ??= new ilGlobalCacheSettingsAdapter();
         return [
             'flushAll' => new ObjectiveConstructor(
                 'flushes all GlobalCaches.',
-                function () use ($config) {
-                    return new ilGlobalCacheAllFlushedObjective($config);
-                }
+                fn(): \ilGlobalCacheAllFlushedObjective => new ilGlobalCacheAllFlushedObjective($config)
             )
         ];
     }

@@ -2,6 +2,7 @@
 @use "../../../030-tools/tool_screen-reader-only" as *;
 @use "../../../050-layout/basics" as *;
 @use "../../../050-layout/standardpage/" as *;
+@use "../../../030-tools/tool_focus-outline" as f;
 
 //== metabar
 $il-metabar-glyph-color: $il-neutral-light-color;
@@ -64,6 +65,7 @@ $il-metabar-small-glyph-size: 1.25rem;
 	}
 
 	 > li > .btn.btn-bulky, > li > a.il-link.link-bulky {
+		@include f.il-focus-border-only();
 		border: $il-metabar-entry-border;
 		background-color: transparent;
 		height: $il-metabar-entry-height;

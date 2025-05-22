@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\DI\UIServices;
@@ -40,8 +40,6 @@ abstract class ilMMAbstractItemGUI
 
     protected ilToolbarGUI $toolbar;
 
-    protected ilMMTabHandling $tab_handling;
-
     protected ilTabsGUI $tabs;
 
     public ilLanguage $lng;
@@ -59,12 +57,11 @@ abstract class ilMMAbstractItemGUI
      * @param ilMMTabHandling $tab_handling
      * @throws Throwable
      */
-    public function __construct(ilMMTabHandling $tab_handling)
+    public function __construct(protected ilMMTabHandling $tab_handling)
     {
         global $DIC;
 
         $this->repository = new ilMMItemRepository();
-        $this->tab_handling = $tab_handling;
         $this->tabs = $DIC['ilTabs'];
         $this->lng = $DIC->language();
         $this->ctrl = $DIC['ilCtrl'];
@@ -95,13 +92,11 @@ abstract class ilMMAbstractItemGUI
         $r = $this->http->request();
         $post = $r->getParsedBody();
 
-        if ($cmd == "" && isset($post['interruptive_items'])) {
-            $cmd = $delete;
-        } else {
-            $cmd = $standard;
+        if ($cmd === "" && isset($post['interruptive_items'])) {
+            return $delete;
         }
 
-        return $cmd;
+        return $standard;
     }
 
     /**

@@ -34,7 +34,7 @@ class PaginationTest extends ILIAS_UI_TestBase
     public function getUIFactory(): NoUIFactory
     {
         return new class () extends NoUIFactory {
-            public function symbol(): C\Symbol\Factory
+            public function symbol(): IC\Symbol\Factory
             {
                 return new IC\Symbol\Factory(
                     new IC\Symbol\Icon\Factory(),
@@ -42,11 +42,11 @@ class PaginationTest extends ILIAS_UI_TestBase
                     new IC\Symbol\Avatar\Factory()
                 );
             }
-            public function button(): C\Button\Factory
+            public function button(): IC\Button\Factory
             {
                 return new IC\Button\Factory();
             }
-            public function dropdown(): C\Dropdown\Factory
+            public function dropdown(): IC\Dropdown\Factory
             {
                 return new IC\Dropdown\Factory();
             }
@@ -284,8 +284,8 @@ EOT;
 		</a>
 	</span>
 
-	<div class="dropdown">
-		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_4" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu" >pagination_label_x_of_y<span class="caret"></span></button>
+	<div class="dropdown" id="id_4">
+		<button class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu" >pagination_label_x_of_y<span class="caret"></span></button>
 		<ul id="id_4_menu" class="dropdown-menu">
 			<li><button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button></li>
 			<li><button class="btn btn-link" data-action="?pagination_offset=1" id="id_2">2</button></li>

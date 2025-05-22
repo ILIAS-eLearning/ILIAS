@@ -22,7 +22,6 @@ namespace ILIAS\Refinery\Numeric;
 
 use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
-use ILIAS\Language\Language;
 
 class IsNumeric extends Constraint
 {

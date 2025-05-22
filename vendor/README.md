@@ -15,12 +15,12 @@ responsibility of the corresponding maintainer.
 No other external dependencies are allowed in ILIAS. Should you find an older
 dependency in the folder of your [component](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/components-and-directories.md)
 you MUST remove it immediately and either replace it by the corresponding version
-from one of the officially allowed dependeny managers (subject to approval by
+from one of the officially allowed dependency managers (subject to approval by
 the Jour Fixe, see below) or provide the corresponding functionality yourself.
 
 ## Adding a New Dependency to ILIAS
 Adding new dependencies to ILIAS depends on the approval of the Jour Fixe and
-all dependencies MUST be reaproved for every new ILIAS version.
+all dependencies MUST be reapproved for every new ILIAS version.
 If you want to add a new dependency to ILIAS:
 * Provide a PR against the corresponding file (`composer.json`, `package.json`) in
 the trunk-branch of ILIAS. Make sure to fill in all required information (see below).
@@ -72,6 +72,6 @@ Technical Board replaces the `composer.json` and `packages.json` file in the
 
 ## Deprecated Locations
 
-- **Deprecated**: PHP libraries installad manually, located in some /Services/\*/libs and /Modules/\*/libs directories
+- **Deprecated**: PHP libraries installad manually, located in some /components/ILIAS/\*/libs and /components/ILIAS/\*/libs directories
 - **Deprecated**: JS- and client-side libraries installed using bower, see [bower-readme](bower/README.md)
-- **Deprecated**: JS- and client-side libraries installed manually, currently also located in /Services\/* and /Modules\/*
+- **Deprecated**: JS- and client-side libraries installed manually, currently also located in /components/ILIAS\/*

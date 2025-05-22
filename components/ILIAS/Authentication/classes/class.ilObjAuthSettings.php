@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * @author Sascha Hofmann <saschahofmann@gmx.de>
@@ -71,5 +71,14 @@ class ilObjAuthSettings extends ilObject
         $this->ilias->setSetting('script_active', "1");
 
         return true;
+    }
+
+    public static function getAuthSettingsRefId(): int
+    {
+        $auth_settings_objects = ilObject::_getObjectsByType('auth');
+        $auth_settings_obj_id = (int) reset($auth_settings_objects)['obj_id'];
+        $auth_settings_ref_ids = ilObject::_getAllReferences($auth_settings_obj_id);
+
+        return (int) reset($auth_settings_ref_ids);
     }
 }

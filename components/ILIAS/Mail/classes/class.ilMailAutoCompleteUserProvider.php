@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailAutoCompleteUserProvider
- */
 class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 {
     /**
@@ -50,7 +47,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         $select_part = $this->getSelectPart();
         $where_part = $this->getWherePart($this->quoted_term);
         $order_by_part = $this->getOrderByPart();
-        $query = implode(" ", [
+        $query = implode(' ', [
             'SELECT ' . $select_part,
             'FROM ' . $this->getFromPart(),
             $where_part !== '' ? 'WHERE ' . $where_part : '',
@@ -75,7 +72,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
                 $this->db->quote('g', 'text')
             ),
             sprintf(
-                "(CASE WHEN (email IS NOT NULL AND (profpref.value = %s OR profpref.value = %s) " .
+                '(CASE WHEN (email IS NOT NULL AND (profpref.value = %s OR profpref.value = %s) ' .
                 "AND pubemail.value = %s) THEN email ELSE '' END) email",
                 $this->db->quote('y', 'text'),
                 $this->db->quote('g', 'text'),

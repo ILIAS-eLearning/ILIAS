@@ -23,7 +23,6 @@ namespace ILIAS\Refinery\Logical;
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Refinery\Constraint as ConstraintInterface;
-use ILIAS\Language\Language;
 
 class Group
 {

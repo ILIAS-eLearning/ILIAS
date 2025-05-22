@@ -121,9 +121,9 @@ class ForumDraftsTable implements DataRetrieval
         return $this->ui_factory
             ->table()
             ->data(
+                $this,
                 $this->lng->txt('drafts'),
                 $this->getColumns(),
-                $this
             )
             ->withId(
                 'frm_drafts_' . substr(

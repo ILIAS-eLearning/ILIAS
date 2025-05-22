@@ -58,9 +58,10 @@ class ilMMItemStorage extends CachedActiveRecord
 
 
 
+    #[\Override]
     public function create(): void
     {
-        if (self::find($this->getIdentification())) {
+        if (self::find($this->getIdentification()) !== null) {
             $this->update();
         } else {
             parent::create();
@@ -75,7 +76,7 @@ class ilMMItemStorage extends CachedActiveRecord
      * @con_fieldtype  text
      * @con_length     64
      */
-    protected ?string $identification;
+    protected ?string $identification = null;
     /**
      * @con_has_field  true
      * @con_fieldtype  integer
@@ -118,7 +119,7 @@ class ilMMItemStorage extends CachedActiveRecord
     /**
      * @param string $identification
      */
-    public function setIdentification(string $identification)
+    public function setIdentification(string $identification): void
     {
         $this->identification = $identification;
     }
@@ -136,7 +137,7 @@ class ilMMItemStorage extends CachedActiveRecord
     /**
      * @param bool $active
      */
-    public function setActive(bool $active)
+    public function setActive(bool $active): void
     {
         $this->active = $active;
     }
@@ -154,7 +155,7 @@ class ilMMItemStorage extends CachedActiveRecord
     /**
      * @param int $position
      */
-    public function setPosition(int $position)
+    public function setPosition(int $position): void
     {
         $this->position = $position;
     }
@@ -172,7 +173,7 @@ class ilMMItemStorage extends CachedActiveRecord
     /**
      * @param string $parent_identification
      */
-    public function setParentIdentification(string $parent_identification)
+    public function setParentIdentification(string $parent_identification): void
     {
         $this->parent_identification = $parent_identification;
     }

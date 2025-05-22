@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * Class ilObjCourseListGUI
@@ -82,19 +82,6 @@ class ilObjCourseListGUI extends ilObjectListGUI
         global $DIC;
 
         $props = parent::getProperties();
-
-        // check activation
-        if (
-            !ilObjCourseAccess::_isActivated($this->obj_id) &&
-            !ilObject::lookupOfflineStatus($this->obj_id)
-        ) {
-            $showRegistrationInfo = false;
-            $props[] = array(
-                "alert" => true,
-                "property" => $this->lng->txt("status"),
-                "value" => $this->lng->txt("offline")
-            );
-        }
 
         // blocked
         $members = ilCourseParticipant::_getInstanceByObjId($this->obj_id, $this->user->getId());

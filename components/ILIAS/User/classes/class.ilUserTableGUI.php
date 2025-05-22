@@ -47,13 +47,10 @@ class ilUserTableGUI extends ilTable2GUI
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-
-
         $this->user_folder_id = $a_parent_obj->getObject()->getRefId();
 
-        if ($DIC['rbacsystem']->checkAccess('write', $this->user_folder_id)
+        if ($DIC['ilAccess']->checkPositionAccess(ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->user_folder_id)
+            || $DIC['rbacsystem']->checkAccess('write', $this->user_folder_id)
             || $DIC['rbacsystem']->checkAccess('cat_administrate_users', $this->user_folder_id)) {
             $this->with_write_access = true;
         }
@@ -87,7 +84,7 @@ class ilUserTableGUI extends ilTable2GUI
         $this->setExternalSegmentation(true);
         $this->setEnableHeader(true);
 
-        $this->setFormAction($ilCtrl->getFormAction($this->parent_obj, "applyFilter"));
+        $this->setFormAction($DIC['ilCtrl']->getFormAction($this->parent_obj, "applyFilter"));
         $this->setRowTemplate("tpl.user_list_row.html", "components/ILIAS/User");
         //$this->disable("footer");
         $this->setEnableTitle(true);
@@ -112,7 +109,7 @@ class ilUserTableGUI extends ilTable2GUI
                 $this->addMultiCommand($cmd, $caption);
             }
         } else {
-            $this->addMultiCommand("deleteUsers", $lng->txt("delete"));
+            $this->addMultiCommand("deleteUsers", $DIC['lng']->txt("delete"));
         }
 
         if ($a_load_items) {
@@ -142,6 +139,11 @@ class ilUserTableGUI extends ilTable2GUI
     {
         $user_defined_fields = ilUserDefinedFields::_getInstance();
         foreach ($user_defined_fields->getDefinitions() as $field => $definition) {
+            if ($this->mode === self::MODE_LOCAL_USER
+                && $definition['visib_lua'] === '0') {
+                continue;
+            }
+
             $this->udf_fields["udf_" . $field] = [
                 "txt" => $definition["field_name"],
                 "default" => false,
@@ -204,7 +206,9 @@ class ilUserTableGUI extends ilTable2GUI
             "txt" => $lng->txt("approve_date")];
         $cols["agree_date"] = [
             "txt" => $lng->txt("agree_date")];
-        if ($this->getMode() === self::MODE_LOCAL_USER) {
+        $cols['dpro_agreed_on'] = [
+            'txt' => $lng->txt('dpro_agreed_on')];
+        if ($this->getMode() === self::MODE_USER_FOLDER) {
             $ufs = $up->getStandardFields();
         } else {
             $ufs = $up->getLocalUserAdministrationFields();
@@ -240,12 +244,8 @@ class ilUserTableGUI extends ilTable2GUI
             "txt" => $lng->txt("auth_mode"),
             "default" => false];
 
-
-        // custom user fields
-        if ($this->getMode() == self::MODE_USER_FOLDER) {
-            foreach ($this->udf_fields as $k => $field) {
-                $cols[$k] = $field;
-            }
+        foreach ($this->udf_fields as $k => $field) {
+            $cols[$k] = $field;
         }
 
         // fields that are always shown
@@ -525,9 +525,8 @@ class ilUserTableGUI extends ilTable2GUI
         // global roles
         $options = [
             "" => $lng->txt("user_any"),
-            ];
-        $roles = $rbacreview->getRolesByFilter(2, $ilUser->getId());
-        foreach ($roles as $role) {
+        ];
+        foreach ($rbacreview->getRolesByFilter(2, $ilUser->getId()) as $role) {
             $options[$role["rol_id"]] = $role["title"];
         }
         $si = new ilSelectInputGUI($this->lng->txt("user_global_role"), "global_role");
@@ -655,6 +654,9 @@ class ilUserTableGUI extends ilTable2GUI
                             // $val = ilDatePresentation::formatDate(new ilDateTime($val,IL_CAL_DATETIME));
                             $val = ilDatePresentation::formatDate(new ilDate($val, IL_CAL_DATE));
                             break;
+                        case 'dpro_agreed_on':
+                            $val = ilDatePresentation::formatDate(new ilDate($val, IL_CAL_UNIX));
+                            break;
                     }
                 }
                 $this->tpl->setVariable("VAL_UF", $val);
@@ -671,7 +673,7 @@ class ilUserTableGUI extends ilTable2GUI
         }
 
         if ($this->with_write_access
-            && ($this->getMode() == self::MODE_USER_FOLDER
+            && ($this->getMode() === self::MODE_USER_FOLDER
                 || $a_set['time_limit_owner'] == $this->getUserFolderId())) {
             $this->tpl->setVariable("VAL_LOGIN", $a_set["login"]);
             $ilCtrl->setParameterByClass("ilobjusergui", "obj_id", $a_set["usr_id"]);

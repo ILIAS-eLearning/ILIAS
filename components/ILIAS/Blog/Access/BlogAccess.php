@@ -59,7 +59,7 @@ class BlogAccess
 
     public function mayEditPosting(
         int $a_posting_id,
-        int $a_author_id = null
+        ?int $a_author_id = null
     ): bool {
         // single author blog (owner) in personal workspace
         if ($this->id_type === \ilObject2GUI::WORKSPACE_NODE_ID) {

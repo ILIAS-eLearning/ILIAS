@@ -29,7 +29,7 @@ use ILIAS\MetaData\Structure\Definitions\DefinitionInterface;
 use ILIAS\MetaData\Elements\Markers\MarkerInterface;
 use ILIAS\MetaData\Elements\Data\DataInterface;
 use ILIAS\MetaData\Elements\Markers\Action;
-use ILIAS\MetaData\Repository\Utilities\ScaffoldProviderInterface;
+use ILIAS\MetaData\Manipulator\ScaffoldProvider\ScaffoldProviderInterface;
 
 class Element extends BaseElement implements ElementInterface
 {
@@ -112,6 +112,14 @@ class Element extends BaseElement implements ElementInterface
         }
     }
 
+    public function unmark(): void
+    {
+        $this->setMarker(null);
+        foreach ($this->getSubElements() as $sub_element) {
+            $sub_element->unmark();
+        }
+    }
+
     protected function setMarker(?MarkerInterface $marker): void
     {
         $this->marker = $marker;
@@ -120,11 +128,12 @@ class Element extends BaseElement implements ElementInterface
     public function addScaffoldsToSubElements(
         ScaffoldProviderInterface $scaffold_provider
     ): void {
-        foreach ($scaffold_provider->getScaffoldsForElement($this) as $insert_before => $scaffold) {
+        foreach ($scaffold_provider->getScaffoldsForElement($this) as $scaffold) {
             if ($scaffold->getSubElements()->current() !== null) {
                 throw new \ilMDElementsException('Can only add scaffolds with no sub-elements.');
             }
-            $this->addSubElement($scaffold, $insert_before);
+            $this->addSubElement($scaffold);
+            $this->orderSubElements(...$scaffold_provider->getPossibleSubElementNamesForElementInOrder($this));
         }
     }
 
@@ -132,12 +141,13 @@ class Element extends BaseElement implements ElementInterface
         ScaffoldProviderInterface $scaffold_provider,
         string $name
     ): ?ElementInterface {
-        foreach ($scaffold_provider->getScaffoldsForElement($this) as $insert_before => $scaffold) {
+        foreach ($scaffold_provider->getScaffoldsForElement($this) as $scaffold) {
             if (strtolower($scaffold->getDefinition()->name()) === strtolower($name)) {
                 if ($scaffold->getSubElements()->current() !== null) {
                     throw new \ilMDElementsException('Can only add scaffolds with no sub-elements.');
                 }
-                $this->addSubElement($scaffold, $insert_before);
+                $this->addSubElement($scaffold);
+                $this->orderSubElements(...$scaffold_provider->getPossibleSubElementNamesForElementInOrder($this));
                 return $scaffold;
             }
         }

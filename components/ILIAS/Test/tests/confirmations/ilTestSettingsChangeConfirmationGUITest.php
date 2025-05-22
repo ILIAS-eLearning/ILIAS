@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\DI\Container;
+use ILIAS\Test\RequestDataCollector;
 
 /**
  * Class ilTestSettingsChangeConfirmationGUITest
@@ -28,29 +28,14 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
 {
     private ilTestSettingsChangeConfirmationGUI $testSettingsChangeConfirmationGUI;
 
-    private Container $backup_dic;
-
     protected function setUp(): void
     {
         parent::setUp();
-        global $DIC;
-
-        $this->backup_dic = $DIC;
-        $DIC = new Container([
-            'tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock()
-        ]);
-
-        $this->setGlobalVariable('lng', $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock());
 
         $this->testSettingsChangeConfirmationGUI = new ilTestSettingsChangeConfirmationGUI(
-            $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock()
+            $this->createMock(RequestDataCollector::class),
+            $this->createMock(ilObjTest::class)
         );
-    }
-
-    protected function tearDown(): void
-    {
-        global $DIC;
-        $DIC = $this->backup_dic;
     }
 
     public function testSetAndGetOldQuestionSetType(): void

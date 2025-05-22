@@ -18,55 +18,51 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilMailValueObjectJsonService
 {
     /**
-     * @param ilMailValueObject[] $mailValueObjects
+     * @param list<ilMailValueObject> $mail_value_objects
      */
-    public function convertToJson(array $mailValueObjects): string
+    public function convertToJson(array $mail_value_objects): string
     {
-        $mailArray = [];
-        foreach ($mailValueObjects as $mailValueObject) {
-            $array = [];
+        $records = [];
+        foreach ($mail_value_objects as $mail_value_object) {
+            $mail_data = [];
+            $mail_data['from'] = $mail_value_object->getFrom();
+            $mail_data['recipients'] = $mail_value_object->getRecipients();
+            $mail_data['recipients_cc'] = $mail_value_object->getRecipientsCC();
+            $mail_data['recipients_bcc'] = $mail_value_object->getRecipientsBCC();
+            $mail_data['attachments'] = $mail_value_object->getAttachments();
+            $mail_data['body'] = $mail_value_object->getBody();
+            $mail_data['subject'] = $mail_value_object->getSubject();
+            $mail_data['is_using_placholders'] = $mail_value_object->isUsingPlaceholders();
+            $mail_data['should_save_in_sent_box'] = $mail_value_object->shouldSaveInSentBox();
 
-            $array['from'] = $mailValueObject->getFrom();
-            $array['recipients'] = $mailValueObject->getRecipients();
-            $array['recipients_cc'] = $mailValueObject->getRecipientsCC();
-            $array['recipients_bcc'] = $mailValueObject->getRecipientsBCC();
-            $array['attachments'] = $mailValueObject->getAttachments();
-            $array['body'] = $mailValueObject->getBody();
-            $array['subject'] = $mailValueObject->getSubject();
-            $array['is_using_placholders'] = $mailValueObject->isUsingPlaceholders();
-            $array['should_save_in_sent_box'] = $mailValueObject->shouldSaveInSentBox();
-
-            $mailArray[] = $array;
+            $records[] = $mail_data;
         }
 
-        return json_encode($mailArray, JSON_THROW_ON_ERROR);
+        return json_encode($records, JSON_THROW_ON_ERROR);
     }
 
     /**
-     * @return ilMailValueObject[]
+     * @return list<ilMailValueObject>
      */
     public function convertFromJson(string $json): array
     {
         $result = [];
         $array = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
-        foreach ($array as $objectValues) {
+        foreach ($array as $object_values) {
             $result[] = new ilMailValueObject(
-                $objectValues['from'],
-                $objectValues['recipients'],
-                $objectValues['recipients_cc'],
-                $objectValues['recipients_bcc'],
-                ilStr::strLen($objectValues['subject']) > 255 ? ilStr::substr($objectValues['subject'], 0, 255) : $objectValues['subject'],
-                $objectValues['body'],
-                $objectValues['attachments'],
-                $objectValues['is_using_placholders'],
-                $objectValues['should_save_in_sent_box']
+                $object_values['from'],
+                $object_values['recipients'],
+                $object_values['recipients_cc'],
+                $object_values['recipients_bcc'],
+                ilStr::strLen($object_values['subject']) > 255 ? ilStr::substr($object_values['subject'], 0, 255) : $object_values['subject'],
+                $object_values['body'],
+                $object_values['attachments'],
+                $object_values['is_using_placholders'],
+                $object_values['should_save_in_sent_box']
             );
         }
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,28 +16,20 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Panel\Secondary;
 
 use ILIAS\UI\Component as C;
 
-/**
- * Class Factory
- * @package ILIAS\UI\Implementation\Component\Panel
- */
 class Factory implements C\Panel\Secondary\Factory
 {
-    /**
-     * @inheritdoc
-     */
-    public function listing(string $title, array $item_groups): C\Panel\Secondary\Listing
+    public function listing(string $title, array $item_groups): Listing
     {
         return new Listing($title, $item_groups);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function legacy(string $title, C\Legacy\Legacy $legacy): C\Panel\Secondary\Legacy
+    public function legacy(string $title, C\Legacy\Content $legacy): Legacy
     {
         return new Legacy($title, $legacy);
     }

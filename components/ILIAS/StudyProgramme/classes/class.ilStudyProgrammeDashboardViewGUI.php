@@ -65,7 +65,7 @@ class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
             ) {
                 $properties[$this->lng->txt('prg_dash_label_valid')] = $row->getExpiryDate() ?: $row->getValidity();
 
-                if($cert_link = $this->maybeGetCertificateLink($this->user->getId(), $prg->getId(), $prg->getRefId())) {
+                if ($cert_link = $this->maybeGetCertificateLink($this->user->getId(), $prg->getId(), $prg->getRefId())) {
                     $properties[$this->lng->txt('certificate')] = $cert_link;
                 }
             } else {
@@ -110,10 +110,6 @@ class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
     public function getBlockType(): string
     {
         return 'pdprg';
-    }
-
-    public function confirmedRemoveObject(): void
-    {
     }
 
     public function removeMultipleEnabled(): bool

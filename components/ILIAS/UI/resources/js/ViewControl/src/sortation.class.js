@@ -58,7 +58,17 @@ export default class Sortation {
     // close dropdown and set current value
     dd.parentNode.classList.remove('open');
     dd.childNodes[0].data = `${signalData.triggerer.contents()[0].data} `;
-
+    const label = signalData.triggerer.contents()[0].data;
+    dd.parentNode.querySelectorAll('li').forEach(
+      (li) => {
+        const node = li;
+        if (node.getElementsByTagName('button')[0].innerHTML === label) {
+          node.classList.add('selected');
+        } else {
+          node.classList.remove('selected');
+        }
+      },
+    );
     this.#eventDispatcher.dispatch(this.#component, signal, sigdata);
   }
 }

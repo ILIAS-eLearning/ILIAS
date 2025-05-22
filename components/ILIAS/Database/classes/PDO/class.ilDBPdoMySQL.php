@@ -36,6 +36,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo
         'NO_ENGINE_SUBSTITUTION',
     ];
 
+    #[\Override]
     public function supportsTransactions(): bool
     {
         return false;
@@ -53,6 +54,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo
         $this->pdo->exec("SET SESSION sql_mode = '" . implode(",", $this->modes) . "';");
     }
 
+    #[\Override]
     public function supportsEngineMigration(): bool
     {
         return true;
@@ -61,12 +63,13 @@ abstract class ilDBPdoMySQL extends ilDBPdo
     /**
      * @return array<int, int|bool>
      */
+    #[\Override]
     protected function getAdditionalAttributes(): array
     {
-        return array(
+        return [
             PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
             PDO::ATTR_TIMEOUT => 300 * 60,
-        );
+        ];
     }
 
     public function migrateTableToEngine(string $table_name, string $engine = ilDBConstants::MYSQL_ENGINE_INNODB): void
@@ -77,13 +80,14 @@ abstract class ilDBPdoMySQL extends ilDBPdo
                 $this->pdo->exec("ALTER TABLE {$table_name}_seq ENGINE={$engine}");
             }
         } catch (PDOException $e) {
-            throw new ilDatabaseException($e->getMessage());
+            throw new ilDatabaseException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
     /**
      * @return array<int|string, string>
      */
+    #[\Override]
     public function migrateAllTablesToEngine(string $engine = ilDBConstants::MYSQL_ENGINE_INNODB): array
     {
         $engines = $this->queryCol('SHOW ENGINES');
@@ -116,7 +120,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo
         $q = "ALTER TABLE {$this->quoteIdentifier($table_name)} CONVERT TO CHARACTER SET {$character} COLLATE {$collate};";
         try {
             $this->pdo->exec($q);
-        } catch (PDOException $e) {
+        } catch (PDOException) {
             return false;
         }
         return true;
@@ -125,6 +129,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function migrateAllTablesToCollation(string $collation = ilDBConstants::MYSQL_COLLATION_UTF8MB4): array
     {
         $manager = $this->loadModule(ilDBConstants::MODULE_MANAGER);
@@ -141,6 +146,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function supportsCollationMigration(): bool
     {
         return true;
@@ -153,7 +159,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo
         $query = "INSERT INTO $sequence_name ($seqcol_name) VALUES (NULL)";
         try {
             $this->pdo->exec($query);
-        } catch (PDOException $e) {
+        } catch (PDOException) {
             // no such table check
         }
 
@@ -171,6 +177,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function doesCollationSupportMB4Strings(): bool
     {
         // Currently ILIAS does not support utf8mb4, after that ilDB could check like this:

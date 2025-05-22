@@ -36,7 +36,7 @@ In general the old string manipulations should be replaced by DOM manipulations 
 
 ### Clarify dependency/relation with Style/Content component
 
-See roadmap in [Content Style](../../Services/Style/Content/ROADMAP.md).
+See roadmap in [Content Style](../../components/ILIAS/Style/Content/ROADMAP.md).
 
 Similar to the system style concepts the small less dependency (css/content.less) should be migrated to sass.
 
@@ -71,7 +71,7 @@ E.g.
 
 Apr. 2019:
 ```
-> phploc Services/COPage
+> phploc components/ILIAS/COPage
 ...
 Cyclomatic Complexity
   Average Complexity per LLOC                     0.25
@@ -107,15 +107,15 @@ Note this is an older entry. Should be done with integration of the question ser
 #### Render page questions
 
 - ilPCQuestion::getJavascriptFiles loads
-  - ./Modules/Scorm2004/scripts/questions/pure.js 
-  - ./Modules/Scorm2004/scripts/questions/question_handling.js 
-  - Modules/TestQuestionPool/js/ilAssMultipleChoice.js
-  - Modules/TestQuestionPool/js/ilMatchingQuestion.js
-  - (./components/ILIAS/COPage/js/ilCOPageQuestionHandler.js)
+  - components/ILIAS/Scorm2004/scripts/questions/pure.js 
+  - components/ILIAS/Scorm2004/scripts/questions/question_handling.js 
+  - components/ILIAS/TestQuestionPool/js/ilAssMultipleChoice.js
+  - components/ILIAS/TestQuestionPool/js/ilMatchingQuestion.js
+  - (components/ILIAS/COPage/js/ilCOPageQuestionHandler.js)
 - ilPCQuestion::getJSTextInitCode loads
   - ilias.question.txt... strings
 - ilPCQuestion::getQuestionJsOfPage
-  - uses Services/COPage/templates/default/tpl.question_export.html
+  - uses components/ILIAS/COPage/templates/default/tpl.question_export.html
   - returns basix HTML of question (qtitle content)
   - adds function renderILQuestion<NR>
     - this function is declared early here, BUT not called yet
@@ -136,7 +136,7 @@ Saving of page question answers is quite strange and includes dependencies to th
 
 **Clicking Answer**
 
-* Modules/Scorm2004/scripts/questions/question_handling.js
+* components/ILIAS/Scorm2004/scripts/questions/question_handling.js
 	* ilias.questions.checkAnswers
     * calls ilias.questions.<questiontype>(), e.g. ilias.questions.assMultipleChoice()
 * -> ilCOPageQuestionHandler.js

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Flavour;
 
+use ILIAS\ResourceStorage\Flavour\Machine\FlavourMachine;
+use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
@@ -30,6 +34,9 @@ use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Resource\ResourceNotFoundException;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
+use ILIAS\ResourceStorage\Events\Subject;
+use ILIAS\ResourceStorage\Events\Event;
+use ILIAS\ResourceStorage\Events\FlavourData;
 
 /**
  * @author   Fabian Schmid <fabian@sr.solutions>
@@ -40,24 +47,15 @@ class FlavourBuilder
     public const VARIANT_NAME_MAX_LENGTH = 768;
     private array $current_revision_cache = [];
     private array $resources_cache = [];
-    private FlavourRepository $flavour_resource_repository;
-    private Factory $flavour_machine_factory;
-    private ResourceBuilder $resource_builder;
-    private StorageHandlerFactory $storage_handler_factory;
-    private StreamAccess $stream_access;
 
     public function __construct(
-        FlavourRepository $flavour_resource_repository,
-        Factory $flavour_machine_factory,
-        ResourceBuilder $resource_builder,
-        StorageHandlerFactory $storage_handler_factory,
-        StreamAccess $stream_access
+        private readonly FlavourRepository $flavour_resource_repository,
+        private readonly Factory $flavour_machine_factory,
+        private readonly ResourceBuilder $resource_builder,
+        private readonly StorageHandlerFactory $storage_handler_factory,
+        private readonly StreamAccess $stream_access,
+        private readonly Subject $events
     ) {
-        $this->flavour_resource_repository = $flavour_resource_repository;
-        $this->flavour_machine_factory = $flavour_machine_factory;
-        $this->resource_builder = $resource_builder;
-        $this->storage_handler_factory = $storage_handler_factory;
-        $this->stream_access = $stream_access;
     }
 
     public function has(
@@ -123,12 +121,10 @@ class FlavourBuilder
             $storage = $this->getStorageHandler($flavour);
             $storage->deleteFlavour($current_revision, $flavour);
             // run Machine
-            $flavour = $this->runMachine($rid, $definition, $flavour);
-        } else {
-            $flavour = $this->populateFlavourWithExistingStreams($flavour);
+            return $this->runMachine($rid, $definition, $flavour);
         }
 
-        return $flavour;
+        return $this->populateFlavourWithExistingStreams($flavour);
     }
 
     private function new(FlavourDefinition $definition, ResourceIdentification $rid): Flavour
@@ -197,7 +193,7 @@ class FlavourBuilder
     }
 
     // DEFINITIONS AND MACHINES
-    private function checkDefinitionForMachine(FlavourDefinition $definition, Machine\FlavourMachine $machine): void
+    private function checkDefinitionForMachine(FlavourDefinition $definition, FlavourMachine $machine): void
     {
         if (!$machine->canHandleDefinition($definition)) {
             throw new \InvalidArgumentException("FlavourDefinition not supported by machine");
@@ -222,7 +218,7 @@ class FlavourBuilder
             $this->checkDefinition($definition);
             $machine = $this->flavour_machine_factory->get($definition);
             $this->checkDefinitionForMachine($definition, $machine);
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return false;
         }
         if ($machine instanceof NullMachine) {
@@ -235,7 +231,7 @@ class FlavourBuilder
         $current_revision = $this->getResource($rid)->getCurrentRevision();
         $suffix = $current_revision->getInformation()->getSuffix();
         $size = $current_revision->getInformation()->getSize();
-        if($size > $engine->getSizeLimitInBytes()) {
+        if ($size > $engine->getSizeLimitInBytes()) {
             return false;
         }
 
@@ -255,8 +251,9 @@ class FlavourBuilder
         try {
             $stream = $this->resource_builder->extractStream($revision);
             $stream->rewind();
-        } catch (\Throwable $t) {
+        } catch (\Throwable) {
             // error while reading file stream, cannot process
+            $this->events->notify(Event::FLAVOUR_BUILD_FAILED, new FlavourData($rid, $definition, $flavour, $t));
             return $flavour;
         }
 
@@ -266,32 +263,40 @@ class FlavourBuilder
 
         // Run Machine and get Streams
         $storable_streams = [];
-        foreach (
-            $machine->processStream(
-                $revision->getInformation(),
-                $stream,
-                $definition
-            ) as $result
-        ) {
-            $generated_stream = $result->getStream();
-            if ($result->isStoreable()) {
-                // Collect Streams to store persistently
-                $storable_streams[$result->getIndex()] = $generated_stream;
+        try {
+            foreach (
+                $machine->processStream(
+                    $revision->getInformation(),
+                    $stream,
+                    $definition
+                ) as $result
+            ) {
+                $generated_stream = $result->getStream();
+                if ($result->isStoreable()) {
+                    // Collect Streams to store persistently
+                    $storable_streams[$result->getIndex()] = $generated_stream;
+                }
+
+                $cloned_stream = Streams::ofString((string) $generated_stream);
+
+                $flavour = $this->stream_access->populateFlavour(
+                    $flavour,
+                    $cloned_stream,
+                    $result->getIndex()
+                );
             }
-
-            $cloned_stream = Streams::ofString((string) $generated_stream);
-
-            $flavour = $this->stream_access->populateFlavour(
-                $flavour,
-                $cloned_stream,
-                $result->getIndex()
-            );
+        } catch (\Throwable $t) {
+            // error while processing stream, cannot process
+            $this->events->notify(Event::FLAVOUR_BUILD_FAILED, new FlavourData($rid, $definition, $flavour, $t));
+            return $flavour;
         }
 
         // Store Streams persistently if needed
         if ($definition->persist()) {
             $this->storeFlavourStreams($flavour, $storable_streams);
         }
+
+        $this->events->notify(Event::FLAVOUR_BUILD_SUCCESS, new FlavourData($rid, $definition, $flavour));
 
         return $flavour;
     }
@@ -308,21 +313,20 @@ class FlavourBuilder
         return $this->current_revision_cache[$rid] = $this->getResourceOfFlavour($flavour)->getCurrentRevision();
     }
 
-    private function getResource(ResourceIdentification $rid): \ILIAS\ResourceStorage\Resource\StorableResource
+    private function getResource(ResourceIdentification $rid): StorableResource
     {
         $rid_string = $rid->serialize();
-        if (isset($this->resources_cache[$rid_string])) {
-            return $this->resources_cache[$rid_string];
-        }
-        return $this->resources_cache[$rid_string] = $this->resource_builder->get($rid);
+        return $this->resources_cache[$rid_string] ?? ($this->resources_cache[$rid_string] = $this->resource_builder->get(
+            $rid
+        ));
     }
 
-    private function getResourceOfFlavour(Flavour $flavour): \ILIAS\ResourceStorage\Resource\StorableResource
+    private function getResourceOfFlavour(Flavour $flavour): StorableResource
     {
         return $this->getResource($flavour->getResourceID());
     }
 
-    private function getStorageHandler(Flavour $flavour): \ILIAS\ResourceStorage\StorageHandler\StorageHandler
+    private function getStorageHandler(Flavour $flavour): StorageHandler
     {
         return $this->storage_handler_factory->getHandlerForResource($this->getResourceOfFlavour($flavour));
     }

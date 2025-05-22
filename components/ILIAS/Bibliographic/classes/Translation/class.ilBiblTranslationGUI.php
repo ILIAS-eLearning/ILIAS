@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\components\OrgUnit\ARHelper\DIC;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * Class ilBiblTranslationGUI
@@ -35,32 +36,27 @@ class ilBiblTranslationGUI
     public const CMD_DELETE_TRANSLATIONS = "deleteTranslations";
     public const CMD_DEFAULT = 'index';
     private ilCtrlInterface $ctrl;
-    protected \ilBiblAdminFactoryFacadeInterface $facade;
-    protected \ilBiblFieldInterface $field;
     private \ilGlobalTemplateInterface $main_tpl;
+    private LOMServices $lom_services;
 
 
     /**
      * ilBiblTranslationGUI constructor.
      */
-    public function __construct(ilBiblAdminFactoryFacadeInterface $facade, \ilBiblFieldInterface $field)
+    public function __construct(protected \ilBiblAdminFactoryFacadeInterface $facade, protected \ilBiblFieldInterface $field)
     {
         global $DIC;
         $DIC->language()->loadLanguageModule('obj');
         $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->facade = $facade;
-        $this->field = $field;
         $this->ctrl = $DIC['ilCtrl'];
+        $this->lom_services = $DIC->learningObjectMetadata();
     }
 
 
     public function executeCommand(): void
     {
-        switch ($this->ctrl->getNextClass()) {
-            default:
-                $cmd = $this->ctrl->getCmd(self::CMD_DEFAULT);
-                $this->{$cmd}();
-        }
+        $cmd = $this->ctrl->getCmd(self::CMD_DEFAULT);
+        $this->{$cmd}();
     }
 
 
@@ -147,8 +143,11 @@ class ilBiblTranslationGUI
         //		$form->addItem($si);
 
         // additional languages
-        $options = ilMDLanguageItem::_getLanguages();
-        $options = array("" => $this->lng()->txt("please_select")) + $options;
+        $options = [];
+        foreach ($this->lom_services->dataHelper()->getAllLanguages() as $language) {
+            $options[$language->value()] = $language->presentableLabel();
+        }
+        $options = ["" => $this->lng()->txt("please_select")] + $options;
         $si = new ilSelectInputGUI($this->lng()->txt("obj_additional_langs"), "additional_langs");
         $si->setOptions($options);
         $si->setMulti(true);

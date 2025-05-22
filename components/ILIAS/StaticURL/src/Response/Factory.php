@@ -27,6 +27,10 @@ class Factory
     {
         return new CannotHandle();
     }
+    public function loginFirst(): MaybeCanHandlerAfterLogin
+    {
+        return new MaybeCanHandlerAfterLogin();
+    }
 
     public function can(string $uri_path): CanHandleWithURIPath
     {

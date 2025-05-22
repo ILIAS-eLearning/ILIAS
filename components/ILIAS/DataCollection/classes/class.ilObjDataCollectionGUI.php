@@ -18,9 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Input\Container\Form\Form;
+
 /**
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilPermissionGUI, ilObjectCopyGUI, ilDclExportGUI
+ * @ilCtrl_Calls ilObjDataCollectionGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordListGUI, ilDclRecordEditGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclDetailedViewGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTableListGUI, ilObjFileGUI
@@ -28,6 +30,9 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilRatingGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilPropertyFormGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclPropertyFormGUI
+ * @ilCtrl_Calls ilObjDataCollectionGUI: ilObjectMetaDataGUI
+ * @ilCtrl_Calls ilObjDataCollectionGUI: ilObjectContentStyleSettingsGUI
+
  */
 class ilObjDataCollectionGUI extends ilObject2GUI
 {
@@ -38,6 +43,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     public const TAB_EDIT_DCL = 'settings';
     public const TAB_LIST_TABLES = 'dcl_tables';
+    public const TAB_META_DATA = 'meta_data';
     public const TAB_EXPORT = 'export';
     public const TAB_LIST_PERMISSIONS = 'perm_settings';
     public const TAB_INFO = 'info_short';
@@ -48,7 +54,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
-    protected ILIAS\HTTP\Services $http;
     protected ilTabsGUI $tabs;
     protected int $table_id;
 
@@ -58,7 +63,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
-        $this->http = $DIC->http();
         $this->tabs = $DIC->tabs();
         $this->notes = $DIC->notes();
 
@@ -96,11 +100,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     private function addJavaScript(): void
     {
-        $this->notes->gui()->initJavascript();
-        ilYuiUtil::initConnection();
-        ilOverlayGUI::initJavascript();
-        // # see  https://mantis.ilias.de/view.php?id=26463
-        $this->tpl->addJavaScript("assets/js/LegacyModal.js");
         $this->tpl->addJavaScript("assets/js/datacollection.js");
     }
 
@@ -122,8 +121,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         global $DIC;
 
         $ilNavigationHistory = $DIC['ilNavigationHistory'];
-        $ilHelp = $DIC['ilHelp'];
-        $ilHelp->setScreenIdComponent('bibl');
+        $DIC->help()->setScreenIdComponent('dcl');
 
         // Navigation History
         $link = $this->ctrl->getLinkTarget($this, "render");
@@ -207,14 +205,13 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
                 $rgui->setObject($record_id, "dcl_record", $field_id, "dcl_field");
                 $rgui->executeCommand();
-                $this->listRecords();
+                $this->ctrl->redirectToURL($this->http->request()->getServerParams()['HTTP_REFERER']);
                 break;
 
             case strtolower(ilDclDetailedViewGUI::class):
                 $this->prepareOutput();
                 $recordview_gui = new ilDclDetailedViewGUI($this, $this->getTableViewId());
                 $this->ctrl->forwardCommand($recordview_gui);
-                $this->tabs->clearTargets();
                 $this->tabs->setBackTarget(
                     $this->lng->txt("back"),
                     $this->ctrl->getLinkTargetByClass(
@@ -231,7 +228,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 $this->tabs->clearTargets();
                 $this->tabs->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, ""));
                 break;
-            case strtolower(ilDclExportGUI::class):
+            case strtolower(ilExportGUI::class):
+                $this->prepareOutput();
                 $this->handleExport();
                 break;
 
@@ -243,34 +241,47 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($form);
                 break;
 
+            case strtolower(ilObjectMetaDataGUI::class):
+                $this->checkPermission('write');
+                $this->prepareOutput();
+                $this->tabs->activateTab(self::TAB_META_DATA);
+                $gui = new ilObjectMetaDataGUI($this->object);
+                $this->ctrl->forwardCommand($gui);
+                break;
+
+            case strtolower(ilObjectContentStyleSettingsGUI::class):
+                $this->prepareOutput();
+                $this->setEditTabs();
+                $this->tabs->activateTab('settings');
+                $this->tabs->activateSubTab('cont_style');
+                global $DIC;
+                $settings_gui = $DIC->contentStyle()->gui()->objectSettingsGUIForRefId(null, $this->ref_id);
+                $this->ctrl->forwardCommand($settings_gui);
+                break;
+
             default:
-                switch ($cmd) {
-                    case 'edit': // this is necessary because ilObjectGUI only calls its own editObject (why??)
-                        $this->prepareOutput();
-                        $this->editObject();
-                        break;
-                    case 'export':
-                        $this->handleExport(true);
-                        break;
-                    default:
-                        parent::executeCommand();
-                }
+                parent::executeCommand();
         }
     }
 
-    protected function handleExport(bool $do_default = false)
+    protected function handleExport(bool $do_default = false): void
     {
-        $this->prepareOutput();
         $this->tabs->setTabActive(self::TAB_EXPORT);
-        $exp_gui = new ilDclExportGUI($this);
-        $exporter = new ilDclContentExporter($this->object->getRefId(), $this->table_id);
-        $exp_gui->addFormat("xlsx", $this->lng->txt('dlc_xls_async_export'), $exporter, 'exportAsync');
-        $exp_gui->addFormat("xml");
+        $exp_gui = new ilExportGUI($this);
         if ($do_default) {
             $exp_gui->listExportFiles();
         } else {
             $this->ctrl->forwardCommand($exp_gui);
         }
+    }
+
+    protected function handleExportAsync(): void
+    {
+        $this->tabs->setTabActive(self::TAB_EXPORT);
+        $exp_gui = new ilExportGUI($this);
+        $exporter = new ilDclContentExporter($this->object->getRefId(), null);
+        $exporter->exportAsync();
+        $this->ctrl->redirect($exp_gui);
     }
 
     protected function getTableViewId(): int
@@ -291,6 +302,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         if (!$tableview_id) {
             $table_obj = ilDclCache::getTableCache($this->table_id);
             $tableview_id = $table_obj->getFirstTableViewId($this->getRefId());
+        }
+        if ($tableview_id === null) {
+            throw new InvalidArgumentException('No visible tableview configured!');
         }
         return $tableview_id;
     }
@@ -421,11 +435,16 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         // write permission
         if ($this->access->checkAccess('write', "", $ref_id) === true) {
             // settings
-            $this->addTab(self::TAB_EDIT_DCL, $this->ctrl->getLinkTarget($this, "editObject"));
+            $this->addTab(self::TAB_EDIT_DCL, $this->ctrl->getLinkTarget($this, 'edit'));
             // list tables
             $this->addTab(self::TAB_LIST_TABLES, $this->ctrl->getLinkTargetByClass(ilDclTableListGUI::class, "listTables"));
+            // metadata
+            $mdgui = new ilObjectMetaDataGUI($this->object);
+            if ($mdtab = $mdgui->getTab()) {
+                $this->tabs_gui->addTab(self::TAB_META_DATA, $this->lng->txt('meta_data'), $mdtab);
+            }
             // export
-            $this->addTab(self::TAB_EXPORT, $this->ctrl->getLinkTargetByClass(ilDclExportGUI::class, ""));
+            $this->addTab(self::TAB_EXPORT, $this->ctrl->getLinkTargetByClass(ilExportGUI::class, ""));
         }
 
         // edit permissions
@@ -443,72 +462,94 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->tabs->addTab($langKey, $this->lng->txt($langKey), $link);
     }
 
-    /**
-     * edit object
-     * @access    public
-     */
-    public function editObject(): void
+    protected function initForm(): Form
     {
-        $dataCollectionTemplate = $this->tpl;
+        $inputs = [];
 
-        $ref_id = $this->object->getRefId();
-        if ($this->access->checkAccess('write', "", $ref_id) === false) {
-            $this->error->raiseError($this->lng->txt("msg_no_perm_write"), null);
-        }
+        $edit = [];
+        $edit['title'] = $this->ui_factory->input()->field()->text($this->lng->txt('title'))->withRequired(true);
+        $edit['description'] = $this->ui_factory->input()->field()->textarea($this->lng->txt('description'));
+        $edit['notification'] = $this->ui_factory->input()->field()->checkbox(
+            $this->lng->txt('dcl_activate_notification'),
+            $this->lng->txt('dcl_notification_info')
+        );
+        $inputs['edit'] = $this->ui_factory->input()->field()->section($edit, $this->lng->txt($this->type . '_edit'))
+            ->withValue([
+                'title' => $this->object->getTitle(),
+                'description' => $this->object->getLongDescription(),
+                'notification' => $this->object->getNotification(),
+            ]);
 
-        $this->tabs->activateTab(self::TAB_EDIT_DCL);
+        $availability = [];
+        $availability['online'] = $this->ui_factory->input()->field()->checkbox(
+            $this->lng->txt('online'),
+            $this->lng->txt('dcl_online_info')
+        );
+        $inputs['availability'] = $this->ui_factory->input()->field()->section($availability, $this->lng->txt('obj_activation_list_gui'))
+            ->withValue(['online' => $this->object->getOnline(),]);
 
-        $form = $this->initEditForm();
-        $values = $this->getEditFormValues();
-        if ($values) {
-            $form->setValuesByArray($values, true);
-        }
+        $presentation = [];
+        $presentation['tile_image'] = $this->object->getObjectProperties()->getPropertyTileImage()->toForm(
+            $this->lng,
+            $this->ui_factory->input()->field(),
+            $this->refinery
+        );
+        $inputs['presentation'] = $this->ui_factory->input()->field()->section($presentation, $this->lng->txt('cont_presentation'));
 
-        $this->addExternalEditFormCustom($form);
-
-        $dataCollectionTemplate->setContent($form->getHTML());
+        return $this->ui_factory->input()->container()->form()->standard($this->ctrl->getFormAction($this, 'update'), $inputs);
     }
 
-    protected function initEditForm(): ilPropertyFormGUI
+    public function edit(): void
     {
+        if (!$this->checkPermissionBool('write')) {
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('permission_denied'));
+        }
+
+        $this->setEditTabs();
         $this->tabs->activateTab(self::TAB_EDIT_DCL);
 
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, "update"));
-        $form->setTitle($this->lng->txt($this->object->getType() . "_edit"));
+        $this->tpl->setContent($this->ui_renderer->render($this->initForm()));
+    }
 
-        // title
-        $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
-        $ti->setSize(min(40, ilObject::TITLE_LENGTH));
-        $ti->setMaxLength(ilObject::TITLE_LENGTH);
-        $ti->setRequired(true);
-        $form->addItem($ti);
+    public function update(): void
+    {
+        if (!$this->checkPermissionBool('write')) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
 
-        // description
-        $ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
-        $ta->setCols(40);
-        $ta->setRows(2);
-        $form->addItem($ta);
+        $this->setEditTabs();
+        $this->tabs->activateTab(self::TAB_EDIT_DCL);
 
-        // is_online
-        $cb = new ilCheckboxInputGUI($this->lng->txt("online"), "is_online");
-        $cb->setInfo($this->lng->txt("dcl_online_info"));
-        $form->addItem($cb);
+        $form = $this->initForm()->withRequest($this->http->request());
+        $data = $form->getData();
 
-        // Notification
-        $cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_notification"), "notification");
-        $cb->setInfo($this->lng->txt("dcl_notification_info"));
-        $form->addItem($cb);
+        if ($data !== null) {
+            $this->object->setTitle($data['edit']['title']);
+            $this->object->setDescription($data['edit']['description']);
+            $this->object->setNotification($data['edit']['notification']);
+            $this->object->setOnline($data['availability']['online']);
+            $this->object->getObjectProperties()->storePropertyTileImage($data['presentation']['tile_image']);
+            $this->object->update();
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+        }
 
-        // tile img upload
-        $section_appearance = new ilFormSectionHeaderGUI();
-        $section_appearance->setTitle($this->lng->txt('cont_presentation'));
-        $form->addItem($section_appearance);
-        $form = $this->object_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
+        $this->tpl->setContent($this->ui_renderer->render($form));
+    }
 
-        $form->addCommandButton("update", $this->lng->txt("save"));
+    protected function setEditTabs(): void
+    {
+        $this->tabs->addSubTab(
+            'general',
+            $this->lng->txt('general'),
+            $this->ctrl->getLinkTargetByClass(self::class, 'edit')
+        );
+        $this->tabs->addSubTab(
+            'cont_style',
+            $this->lng->txt('cont_style'),
+            $this->ctrl->getLinkTargetByClass(ilObjectContentStyleSettingsGUI::class)
+        );
 
-        return $form;
+        $this->tabs->activateSubTab('general');
     }
 
     final public function listRecords(): void

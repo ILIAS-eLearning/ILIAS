@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\ILIASObject\Properties\CoreProperties\Online;
 
 class ilObjLearningSequenceSettingsGUI
 {
@@ -236,7 +237,7 @@ class ilObjLearningSequenceSettingsGUI
 
             $status = ilObjLearningSequenceAccess::isOffline($lso->getRefId());
             $lso->getObjectProperties()->storePropertyIsOnline(
-                new ilObjectPropertyIsOnline(! $status)
+                new Online(! $status)
             );
 
             $lso->getObjectProperties()->storePropertyTitleAndIconVisibility($values['common']['icon']);

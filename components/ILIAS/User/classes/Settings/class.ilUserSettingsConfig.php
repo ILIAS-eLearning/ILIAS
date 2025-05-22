@@ -31,7 +31,7 @@ class ilUserSettingsConfig
     protected ?ilSetting $settings;
 
     public function __construct(
-        ilSetting $settings = null
+        ?ilSetting $settings = null
     ) {
         global $DIC;
 
@@ -56,8 +56,8 @@ class ilUserSettingsConfig
     public function isVisible(
         string $field
     ): bool {
-        return (!(isset($this->setting[self::HIDE_PREFIX . $field]) &&
-            $this->setting[self::HIDE_PREFIX . $field] == 1));
+        return !isset($this->setting[self::HIDE_PREFIX . $field]) ||
+            $this->setting[self::HIDE_PREFIX . $field] !== '1';
     }
 
     /**

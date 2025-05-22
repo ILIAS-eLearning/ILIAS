@@ -41,7 +41,7 @@ class Role implements Condition
 
     public function asComponent(): Component
     {
-        return $this->create->legacy(sprintf(
+        return $this->create->legacy()->content(sprintf(
             '<div><b>%s</b><br/>%s</div>',
             $this->definition->translatedType(),
             $this->definition->translatedRole((int) $this->criterion->arguments()['role_id'])

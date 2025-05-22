@@ -30,9 +30,8 @@ class ilStyleDefinition
 
     /**
      * Skins available, used for caching
-     * @var ilSkin[]
      */
-    public static array $skins = [];
+    public static ?array $skins = null;
 
     /**
      * Sets the current skin. This is used by the global instance of this class.
@@ -56,7 +55,7 @@ class ilStyleDefinition
      * ilStyleDefinition constructor.
      * @throws ilSystemStyleException
      */
-    public function __construct(string $skin_id = '', ilSystemStyleConfig $system_style_config = null)
+    public function __construct(string $skin_id = '', ?ilSystemStyleConfig $system_style_config = null)
     {
         global $DIC;
 
@@ -283,7 +282,7 @@ class ilStyleDefinition
                             $DIC->refinery()->kindlyTo()->string()
                         );
                         $target_arr = explode('_', $target);
-                        $ref_id = $target_arr[1];
+                        $ref_id = $target_arr[1] ?? '';
                     }
 
                     // check whether any ref id assigns a new style

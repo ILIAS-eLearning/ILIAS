@@ -18,22 +18,18 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailAddressTypeHelper
- * @author Michael Jansen <mjansen@databay.de>
- */
 interface ilMailAddressTypeHelper
 {
     public function doesGroupNameExists(string $name): bool;
 
     public function getGroupObjIdByTitle(string $title): int;
 
-    public function getInstanceByRefId(int $refId): ilObject;
+    public function getInstanceByRefId(int $ref_id): ilObject;
 
     /**
      * @return int[]
      */
-    public function getAllRefIdsForObjId(int $objId): array;
+    public function getAllRefIdsForObjId(int $obj_id): array;
 
     public function getUserIdByLogin(string $login): int;
 
@@ -41,5 +37,5 @@ interface ilMailAddressTypeHelper
 
     public function getGlobalMailSystemId(): int;
 
-    public function receivesInternalMailsOnly(int $usrId): bool;
+    public function receivesInternalMailsOnly(int $usr_id): bool;
 }

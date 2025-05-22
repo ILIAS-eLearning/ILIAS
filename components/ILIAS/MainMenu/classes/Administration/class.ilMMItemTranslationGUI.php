@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\components\OrgUnit\ARHelper\DIC;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * Class ilMMItemTranslationGUI
@@ -36,32 +37,25 @@ class ilMMItemTranslationGUI
     public const CMD_DELETE_TRANSLATIONS = "deleteTranslations";
     public const CMD_DEFAULT = 'index';
     public const IDENTIFIER = 'identifier';
-
-    private ilMMItemRepository $repository;
-
-    private ilMMItemFacadeInterface $item_facade;
     private ilGlobalTemplateInterface $main_tpl;
+    private LOMServices $lom_services;
 
     /**
      * ilMMItemTranslationGUI constructor.
      */
-    public function __construct(ilMMItemFacadeInterface $item_facade, ilMMItemRepository $repository)
+    public function __construct(private ilMMItemFacadeInterface $item_facade, private ilMMItemRepository $repository)
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->item_facade = $item_facade;
-        $this->repository = $repository;
+        $this->lom_services = $DIC->learningObjectMetadata();
         $this->lng()->loadLanguageModule("mme");
     }
 
     public function executeCommand(): void
     {
         $this->ctrl()->saveParameter($this, self::IDENTIFIER);
-        switch ($this->ctrl()->getNextClass()) {
-            default:
-                $cmd = $this->ctrl()->getCmd(self::CMD_DEFAULT);
-                $this->{$cmd}();
-        }
+        $cmd = $this->ctrl()->getCmd(self::CMD_DEFAULT);
+        $this->{$cmd}();
     }
 
     protected function index(): void
@@ -144,8 +138,11 @@ class ilMMItemTranslationGUI
         $form->setFormAction($this->ctrl()->getFormAction($this));
 
         // additional languages
-        $options = ilMDLanguageItem::_getLanguages();
-        $options = array("" => $this->lng()->txt("please_select")) + $options;
+        $options = [];
+        foreach ($this->lom_services->dataHelper()->getAllLanguages() as $language) {
+            $options[$language->value()] = $language->presentableLabel();
+        }
+        $options = ["" => $this->lng()->txt("please_select")] + $options;
         $si = new ilSelectInputGUI($this->lng()->txt("additional_langs"), "additional_langs");
         $si->setOptions($options);
         $si->setMulti(true);

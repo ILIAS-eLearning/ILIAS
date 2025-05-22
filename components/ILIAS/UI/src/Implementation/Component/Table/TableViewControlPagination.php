@@ -31,7 +31,7 @@ trait TableViewControlPagination
 
     protected function initViewControlpagination(): void
     {
-        $this->range = $this->data_factory->range(0, $this->number_of_rows);
+        $this->range = $this->getRange();
     }
 
     protected function getViewControlPagination(?int $total_count = null): ViewControl\Pagination|ViewControl\Group
@@ -51,18 +51,6 @@ trait TableViewControlPagination
             $this->view_control_factory->nullControl(),
             $this->view_control_factory->nullControl()
         ]);
-    }
-
-    public function withNumberOfRows(int $number_of_rows): self
-    {
-        $clone = clone $this;
-        $clone->number_of_rows = $number_of_rows;
-        return $clone;
-    }
-
-    public function getNumberOfRows(): int
-    {
-        return $this->number_of_rows;
     }
 
     public function withRange(?Range $range): self

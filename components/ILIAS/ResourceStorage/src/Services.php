@@ -27,7 +27,6 @@ use ILIAS\ResourceStorage\Consumer\Consumers;
 use ILIAS\ResourceStorage\Consumer\InlineSrcBuilder;
 use ILIAS\ResourceStorage\Consumer\SrcBuilder;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
-use ILIAS\ResourceStorage\Consumer\StreamAccess\TokenFactory;
 use ILIAS\ResourceStorage\Flavour\FlavourBuilder;
 use ILIAS\ResourceStorage\Flavour\Flavours;
 use ILIAS\ResourceStorage\Flavour\Machine\Factory;
@@ -39,7 +38,6 @@ use ILIAS\ResourceStorage\Policy\FileNamePolicyStack;
 use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
 use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Events\Subject;
 use ILIAS\ResourceStorage\Manager\ContainerManager;
@@ -52,12 +50,12 @@ use ILIAS\ResourceStorage\Manager\ContainerManager;
 class Services
 {
     protected Subject $events;
-    protected \ILIAS\ResourceStorage\Manager\Manager $manager;
+    protected Manager $manager;
     protected ContainerManager $container_manager;
-    protected \ILIAS\ResourceStorage\Consumer\Consumers $consumers;
-    protected \ILIAS\ResourceStorage\Collection\Collections $collections;
-    protected \ILIAS\ResourceStorage\Flavour\Flavours $flavours;
-    protected \ILIAS\ResourceStorage\Preloader\RepositoryPreloader $preloader;
+    protected Consumers $consumers;
+    protected Collections $collections;
+    protected Flavours $flavours;
+    protected RepositoryPreloader $preloader;
 
     /**
      * Services constructor.
@@ -70,8 +68,8 @@ class Services
         FileNamePolicy $file_name_policy,
         StreamAccess $stream_access,
         Factory $machine_factory,
-        SrcBuilder $src_builder = null,
-        RepositoryPreloader $preloader = null
+        ?SrcBuilder $src_builder = null,
+        ?RepositoryPreloader $preloader = null
     ) {
         $this->events = new Subject();
         $src_builder ??= new InlineSrcBuilder();
@@ -123,7 +121,8 @@ class Services
             $machine_factory,
             $resource_builder,
             $storage_handler_factory,
-            $stream_access
+            $stream_access,
+            $this->events
         );
 
         $this->flavours = new Flavours(

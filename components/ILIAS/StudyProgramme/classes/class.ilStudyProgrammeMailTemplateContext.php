@@ -24,29 +24,46 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
 {
     public const ID = 'prg_context_manual';
 
-    private const TITLE = "study_programme_title";
-    private const DESCRIPTION = "study_programme_description";
-    private const TYPE = "study_programme_type";
-    private const LINK = "study_programme_link";
-    private const ORG_UNIT = "study_programme_org_units";
-    private const STATUS = "study_programme_status";
-    private const COMPLETION_DATE = "study_programme_completion_date";
-    private const COMPLETED_BY = "study_programme_completion_by";
-    private const POINTS_REQUIRED = "study_programme_points_required";
-    private const POINTS_CURRENT = "study_programme_points_current";
-    private const DEADLINE = "study_programme_deadline";
-    private const EXPIRE_DATE = "study_programme_expire_date";
-    private const VALIDITY = "study_programme_validity";
+    //placeholder(ids)
+    private const TITLE = 'STUDY_PROGRAMME_TITLE';
+    private const DESCRIPTION = 'STUDY_PROGRAMME_DESCRIPTION';
+    private const TYPE = 'STUDY_PROGRAMME_TYPE';
+    private const LINK = 'STUDY_PROGRAMME_LINK';
+    private const ORG_UNIT = 'STUDY_PROGRAMME_ORG_UNITS';
+    private const STATUS = 'STUDY_PROGRAMME_STATUS';
+    private const COMPLETION_DATE = 'STUDY_PROGRAMME_COMPLETION_DATE';
+    private const COMPLETED_BY = 'STUDY_PROGRAMME_COMPLETED_BY';
+    private const POINTS_REQUIRED = 'STUDY_PROGRAMME_POINTS_REQUIRED';
+    private const POINTS_CURRENT = 'STUDY_PROGRAMME_POINTS_CURRENT';
+    private const DEADLINE = 'STUDY_PROGRAMME_DEADLINE';
+    private const EXPIRE_DATE = 'STUDY_PROGRAMME_EXPIRE_DATE';
+    private const VALIDITY = 'STUDY_PROGRAMME_VALIDITY';
+
+    private const PLACEHOLDER_TRANSLATIONS = [
+        self::TITLE => 'prg_title',
+        self::DESCRIPTION => 'prg_description',
+        self::TYPE => 'prg_type',
+        self::LINK => 'prg_link',
+        self::ORG_UNIT => 'prg_orgus',
+        self::STATUS => 'prg_status',
+        self::COMPLETION_DATE => 'prg_completion_date',
+        self::COMPLETED_BY => 'prg_completion_by',
+        self::POINTS_REQUIRED => 'prg_points_required',
+        self::POINTS_CURRENT => 'prg_points_current',
+        self::DEADLINE => 'prg_deadline',
+        self::EXPIRE_DATE => 'prg_expiry_date',
+        self::VALIDITY => 'prg_validity',
+    ];
 
     private const DATE_FORMAT = 'd.m.Y';
 
     protected ilLanguage $lng;
 
     public function __construct(
-        OrgUnitUserService $orgUnitUserService = null,
-        ilMailEnvironmentHelper $envHelper = null,
-        ilMailUserHelper $usernameHelper = null,
-        ilMailLanguageHelper $languageHelper = null
+        ?OrgUnitUserService $orgUnitUserService = null,
+        ?ilMailEnvironmentHelper $envHelper = null,
+        ?ilMailUserHelper $usernameHelper = null,
+        ?ilMailLanguageHelper $languageHelper = null
     ) {
         parent::__construct(
             $orgUnitUserService,
@@ -82,72 +99,12 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
     public function getSpecificPlaceholders(): array
     {
         $placeholders = [];
-
-        $placeholders[self::TITLE] = [
-            'placeholder' => 'STUDY_PROGRAMME_TITLE',
-            'label' => $this->lng->txt(self::TITLE)
-        ];
-
-        $placeholders[self::DESCRIPTION] = [
-            'placeholder' => 'STUDY_PROGRAMME_DESCRIPTION',
-            'label' => $this->lng->txt(self::DESCRIPTION)
-        ];
-
-        $placeholders[self::TYPE] = [
-            'placeholder' => 'STUDY_PROGRAMME_TYPE',
-            'label' => $this->lng->txt(self::TYPE)
-        ];
-
-        $placeholders[self::LINK] = [
-            'placeholder' => 'STUDY_PROGRAMME_LINK',
-            'label' => $this->lng->txt(self::LINK)
-        ];
-
-        $placeholders[self::ORG_UNIT] = [
-            'placeholder' => 'STUDY_PROGRAMME_ORG_UNITS',
-            'label' => $this->lng->txt(self::ORG_UNIT)
-        ];
-
-        $placeholders[self::STATUS] = [
-            'placeholder' => 'STUDY_PROGRAMME_STATUS',
-            'label' => $this->lng->txt(self::STATUS)
-        ];
-
-        $placeholders[self::COMPLETION_DATE] = [
-            'placeholder' => 'STUDY_PROGRAMME_COMPLETION_DATE',
-            'label' => $this->lng->txt(self::COMPLETION_DATE)
-        ];
-
-        $placeholders[self::COMPLETED_BY] = [
-            'placeholder' => 'STUDY_PROGRAMME_COMPLETED_BY',
-            'label' => $this->lng->txt(self::COMPLETED_BY)
-        ];
-
-        $placeholders[self::POINTS_REQUIRED] = [
-            'placeholder' => 'STUDY_PROGRAMME_POINTS_REQUIRED',
-            'label' => $this->lng->txt(self::POINTS_REQUIRED)
-        ];
-
-        $placeholders[self::POINTS_CURRENT] = [
-            'placeholder' => 'STUDY_PROGRAMME_POINTS_CURRENT',
-            'label' => $this->lng->txt(self::POINTS_CURRENT)
-        ];
-
-        $placeholders[self::DEADLINE] = [
-            'placeholder' => 'STUDY_PROGRAMME_DEADLINE',
-            'label' => $this->lng->txt(self::DEADLINE)
-        ];
-
-        $placeholders[self::EXPIRE_DATE] = [
-            'placeholder' => 'STUDY_PROGRAMME_EXPIRE_DATE',
-            'label' => $this->lng->txt(self::EXPIRE_DATE)
-        ];
-
-        $placeholders[self::VALIDITY] = [
-            'placeholder' => 'STUDY_PROGRAMME_VALIDITY',
-            'label' => $this->lng->txt(self::VALIDITY)
-        ];
-
+        foreach (self::PLACEHOLDER_TRANSLATIONS as $id => $label) {
+            $placeholders[$id] = [
+                'placeholder' => $id,
+                'label' => $this->lng->txt($label)
+            ];
+        }
         return $placeholders;
     }
 
@@ -157,32 +114,20 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null
+        ?ilObjUser $recipient = null
     ): string {
+
         if (is_null($recipient)) {
             return '';
         }
 
-        if (!in_array($placeholder_id, [
-            self::TITLE,
-            self::DESCRIPTION,
-            self::TYPE,
-            self::LINK,
-            self::ORG_UNIT,
-            self::STATUS,
-            self::COMPLETION_DATE,
-            self::COMPLETED_BY,
-            self::POINTS_REQUIRED,
-            self::POINTS_CURRENT,
-            self::DEADLINE,
-            self::EXPIRE_DATE,
-            self::VALIDITY
-        ])) {
+        $placeholder_id = strtoupper($placeholder_id);
+        if (! array_key_exists($placeholder_id, self::PLACEHOLDER_TRANSLATIONS)) {
             return '';
         }
 
         /** @var ilObjStudyProgramme $obj */
-        $prg = ilObjectFactory::getInstanceByRefId((int)$context_parameters['ref_id']);
+        $prg = ilObjectFactory::getInstanceByRefId((int) $context_parameters['ref_id']);
         $assignments = $prg->getAssignmentsOfSingleProgramForUser($recipient->getId());
         $latest = $this->getLatestAssignment($assignments);
         $latest_successful = $this->getLatestSuccessfulAssignment($assignments);
@@ -201,7 +146,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 }
                 break;
             case self::LINK:
-                $string = ilLink::_getLink((int)$context_parameters['ref_id'], 'prg') . ' ';
+                $string = ilLink::_getLink((int) $context_parameters['ref_id'], 'prg') . ' ';
                 break;
             case self::ORG_UNIT:
                 $string = ilObjUser::lookupOrgUnitsRepresentation($recipient->getId());
@@ -326,8 +271,8 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
     }
 
     protected function date2String(
-        DateTimeImmutable $date_time = null,
-        ilObjUser $user = null
+        ?DateTimeImmutable $date_time = null,
+        ?ilObjUser $user = null
     ): string {
         if (is_null($date_time)) {
             return '';

@@ -21,9 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer;
 
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopParentItem;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\MainControls\Slate\Slate;
 
 /**
  * Class TopParentItemRenderer

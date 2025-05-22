@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Input\ViewControl;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use LogicException;
@@ -32,10 +33,10 @@ class Renderer extends AbstractComponentRenderer
     public const DEFAULT_SORTATION_DROPDOWN_LABEL = 'label_sortation';
     public const DEFAULT_DROPDOWN_LABEL_OFFSET = 'label_pagination_offset';
     public const DEFAULT_DROPDOWN_LABEL_LIMIT = 'label_pagination_limit';
+    public const DEFAULT_MODE_LABEL = 'label_modeviewcontrol';
 
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
         switch (true) {
             case ($component instanceof FieldSelection):
                 return $this->renderFieldSelection($component, $default_renderer);
@@ -47,21 +48,12 @@ class Renderer extends AbstractComponentRenderer
                 return $default_renderer->render($component->getInputs());
             case ($component instanceof Component\Input\ViewControl\NullControl):
                 return '';
+            case ($component instanceof Component\Input\ViewControl\Mode):
+                return $this->renderMode($component, $default_renderer);
 
             default:
-                throw new LogicException("Cannot render '" . get_class($component) . "'");
+                $this->cannotHandleComponent($component);
         }
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Input\ViewControl\FieldSelection::class,
-            Component\Input\ViewControl\Sortation::class,
-            Component\Input\ViewControl\Pagination::class,
-            Component\Input\ViewControl\Group::class,
-            Component\Input\ViewControl\NullControl::class,
-        ];
     }
 
     protected function renderFieldSelection(FieldSelection $component, RendererInterface $default_renderer): string
@@ -92,31 +84,23 @@ class Renderer extends AbstractComponentRenderer
         $param_name = $component->getName();
         if ($container_submit_signal = $component->getOnChangeSignal()) {
             $component = $component->withAdditionalOnLoadCode(
-                fn($id) => "$(document).on('{$internal_signal}', 
-                    function(event, signal_data) {
-                        var container = event.target.closest('.il-viewcontrol-fieldselection'),
-                            checkbox = container.querySelectorAll('input[type=checkbox]'),
-                            value = Object.values(checkbox).map(o => o.checked ? o.value : ''),
-                            value_container = container.querySelector('.il-viewcontrol-value');
-
-                        value_container.innerHTML = '';
-                        value.forEach(function(v){
-                            let element = document.createElement('input');
-                            element.type = 'hidden';
-                            element.name = '{$param_name}[]';
-                            element.value = v;
-                            value_container.appendChild(element);
-                        });
-                        $(event.target).trigger('{$container_submit_signal}');
-                        return false;
-                    });"
+                fn($id) => "il.UI.Input.Viewcontrols.FieldSelection.init(
+                    document.getElementById('{$id}'),
+                    '{$internal_signal}',
+                    '{$container_submit_signal}',
+                    '{$param_name}'
+                );"
             );
         }
 
-        $component = $component->withAdditionalOnLoadCode(
-            fn($id) => "$('#{$id} > .dropdown-menu')
-                .on('click', (event) =>  event.stopPropagation());"
-        );
+        $component = $component
+            ->withAdditionalOnLoadCode(
+                fn($id) =>
+                "$('#{$id} > .dropdown-menu').on('click', (event) =>  event.stopPropagation());"
+            )->withAdditionalOnLoadCode(
+                fn($id) =>
+                "il.UI.dropdown.init(document.getElementById('{$id}'));"
+            );
 
         $id = $this->bindJavaScript($component);
         $container_submit_signal = $component->getOnChangeSignal();
@@ -139,13 +123,14 @@ class Renderer extends AbstractComponentRenderer
         $ui_factory = $this->getUIFactory();
 
         foreach ($component->getOptions() as $opt_label => $order) {
-            $opt_value = $order->join(':', fn($ret, $key, $value) => implode($ret, [$key, $value]));
+            $opt_value = $order->join(':', fn($ret, $key, $value) => [$key, $value]);
             $internal_signal = $component->getInternalSignal();
             $internal_signal->addOption('value', $opt_value);
             $item = $ui_factory->button()->shy((string) $opt_label, '#')
                 ->withOnClick($internal_signal);
             $tpl->setCurrentBlock("option");
             $tpl->setVariable("OPTION", $default_renderer->render($item));
+
             if ($opt_value === $component->getValue()) {
                 $tpl->touchBlock("selected");
                 $tpl->setCurrentBlock("option");
@@ -155,26 +140,18 @@ class Renderer extends AbstractComponentRenderer
 
         if ($container_submit_signal = $component->getOnChangeSignal()) {
             $component = $component->withAdditionalOnLoadCode(
-                fn($id) => "$(document).on('{$internal_signal}', 
-                    function(event, signal_data) { 
-                        let container;
-                        if(signal_data.options.parent_container) {
-                            container =  document.querySelector(
-                                '#' + signal_data.options.parent_container 
-                                + ' .il-viewcontrol-sortation'
-                            );
-                        } else {
-                             container = event.target.closest('.il-viewcontrol-sortation');
-                        }
-                        let inputs = container.querySelectorAll('.il-viewcontrol-value > input');
-                        let val = signal_data.options.value.split(':');
-                        inputs[0].value = val[0];
-                        inputs[1].value = val[1];
-                        $(event.target).trigger('{$container_submit_signal}');
-                        return false;
-                    });"
+                fn($id) => "il.UI.Input.Viewcontrols.Sortation.init(
+                    document.getElementById('{$id}'),
+                    '{$internal_signal}',
+                    '{$container_submit_signal}',
+                );"
             );
         }
+
+        $component = $component->withAdditionalOnLoadCode(
+            fn($id) => "il.UI.dropdown.init(document.getElementById('{$id}'));"
+        );
+
         $id = $this->bindJavaScript($component);
 
         $tpl->setVariable('ID', $id);
@@ -258,6 +235,7 @@ class Renderer extends AbstractComponentRenderer
 
         list(Pagination::FNAME_OFFSET => $offset, Pagination::FNAME_LIMIT => $limit) = array_map('intval', $component->getValue());
         $limit = $limit > 0 ? $limit : reset($limit_options);
+        $offset = $offset > $total_count ? 0 : $offset;
 
         if (! $total_count) {
             $input = $ui_factory->input()->field()->numeric('offset')->withValue($offset);
@@ -295,31 +273,29 @@ class Renderer extends AbstractComponentRenderer
                 }
             }
 
-            $icon_left = $ui_factory->symbol()->glyph()->back();
+            $signal = null;
             if ($current > 0 && count($entries) > 1) {
                 $range = $ranges[$current - 1];
                 $signal = clone $internal_signal;
                 $signal->addOption('offset', $range->getStart());
                 $signal->addOption('limit', $limit);
-                $icon_left = $icon_left ->withOnClick($signal);
-            } else {
-                $icon_left = $icon_left->withUnavailableAction();
-                $tpl->touchBlock('left_disabled');
             }
-            $tpl->setVariable("LEFT", $default_renderer->render($icon_left));
+            $btn_left = $ui_factory->button()->shy('', $signal ?? '#')
+                ->withSymbol($ui_factory->symbol()->glyph()->back())
+                ->withUnavailableAction($signal === null);
+            $tpl->setVariable("LEFT_ROCKER", $default_renderer->render($btn_left));
 
-            $icon_right = $ui_factory->symbol()->glyph()->next();
+            $signal = null;
             if ($current < count($ranges) - 1) {
                 $range = $ranges[$current + 1];
                 $signal = clone $internal_signal;
                 $signal->addOption('offset', $range->getStart());
                 $signal->addOption('limit', $limit);
-                $icon_right = $icon_right ->withOnClick($signal);
-            } else {
-                $icon_right = $icon_right->withUnavailableAction();
-                $tpl->touchBlock('right_disabled');
             }
-            $tpl->setVariable("RIGHT", $default_renderer->render($icon_right));
+            $btn_right = $ui_factory->button()->shy('', $signal ?? '#')
+                ->withSymbol($ui_factory->symbol()->glyph()->next())
+                ->withUnavailableAction($signal === null);
+            $tpl->setVariable("RIGHT_ROCKER", $default_renderer->render($btn_right));
         }
 
         foreach ($component->getLimitOptions() as $option) {
@@ -341,19 +317,23 @@ class Renderer extends AbstractComponentRenderer
 
         if ($container_submit_signal = $component->getOnChangeSignal()) {
             $component = $component->withAdditionalOnLoadCode(
-                fn($id) => "$(document).on('{$internal_signal}',
-                    function(event, signal_data) {
-                        let inputs = event.target
-                            .closest('.il-viewcontrol-pagination')
-                            .querySelectorAll('.il-viewcontrol-value input');
-                        inputs[0].value = signal_data.options.offset;
-                        inputs[1].value = signal_data.options.limit;
-
-                        $(event.target).trigger('{$container_submit_signal}');
-                        return false;
-                    });"
+                fn($id) => "il.UI.Input.Viewcontrols.Pagination.init(
+                    document.getElementById('{$id}'),
+                    '{$internal_signal}',
+                    '{$container_submit_signal}',
+                );"
             );
         }
+
+        $component = $component->withAdditionalOnLoadCode(
+            fn($id) => "
+                il.UI.dropdown.init(
+                    document.getElementById('{$id}').querySelector(
+                        '.dropdown.il-viewcontrol-pagination__num-of-items'
+                    )
+                );
+            "
+        );
         $id = $this->bindJavaScript($component);
 
         $tpl->setVariable('ID', $id);
@@ -370,5 +350,47 @@ class Renderer extends AbstractComponentRenderer
         );
 
         return $tpl->get();
+    }
+
+
+    protected function renderMode(Mode $component, RendererInterface $default_renderer): string
+    {
+        $tpl = $this->getTemplate("tpl.viewcontrol_mode.html", true, true);
+        $ui_factory = $this->getUIFactory();
+
+        $container_submit_signal = $component->getOnChangeSignal();
+        $options = $component->getOptions();
+        $set_value = $component->getValue() ?? array_key_first($options);
+
+        $out = [];
+        foreach ($options as $opt_value => $opt_label) {
+            $out[] = $ui_factory->button()->standard($opt_label, '#')
+                ->withEngagedState($opt_value === $set_value)
+                ->withOnLoadCode(
+                    static fn($id): string =>
+                    "il.UI.Input.Viewcontrols.Mode.init(
+                        document.getElementById('{$id}'),
+                        '{$opt_value}',
+                        '{$container_submit_signal}',
+                    );"
+                );
+        }
+        $tpl->setVariable('BUTTONS', $default_renderer->render($out));
+        $tpl->setVariable('VALUE', $set_value);
+        $tpl->setVariable("NAME", $component->getName());
+        $tpl->setVariable("ARIA_LABEL", $this->txt(self::DEFAULT_MODE_LABEL));
+
+        $id = $this->bindJavaScript($component);
+        return $tpl->get();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function registerResources(ResourceRegistry $registry): void
+    {
+        parent::registerResources($registry);
+        $registry->register('assets/js/dropdown.js');
+        $registry->register('assets/js/input.viewcontrols.min.js');
     }
 }

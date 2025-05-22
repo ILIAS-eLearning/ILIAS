@@ -115,8 +115,7 @@ class ilObjUserFolder extends ilObject
 
     protected function escapeXML(string $value): string
     {
-        $value = str_replace(["&", "<", ">"], ["&amp;", "&lt;", "&gt;"], $value);
-        return $value;
+        return str_replace(['&', '<', '>'], ['&amp;', '&lt;', '&gt;'], $value);
     }
 
     protected function createXMLExport(
@@ -124,39 +123,23 @@ class ilObjUserFolder extends ilObject
         array $data,
         string $filename
     ): void {
-        global $DIC;
+        $xml_writer = new ilUserXMLWriter();
+        $xml_writer->setObjects($data);
+        $xml_writer->setSettings($settings);
+        $xml_writer->setAttachRoles(true);
 
-        $rbacreview = $DIC['rbacreview'];
-        $ilDB = $DIC['ilDB'];
-        $log = $DIC['log'];
-
-        $file = fopen($filename, 'wb');
-
-        if (is_array($data)) {
-            $xmlWriter = new ilUserXMLWriter();
-            $xmlWriter->setObjects($data);
-            $xmlWriter->setSettings($settings);
-            $xmlWriter->setAttachRoles(true);
-
-            if ($xmlWriter->start()) {
-                fwrite($file, $xmlWriter->getXML());
-            }
+        if ($xml_writer->start()) {
+            fwrite(fopen($filename, 'wb'), $xml_writer->getXML());
         }
     }
 
-
-    /**
-     * Get all exportable user defined fields
-     */
     protected function getUserDefinedExportFields(): array // Missing array type.
     {
-        $udf_obj = ilUserDefinedFields::_getInstance();
-
         $udf_ex_fields = [];
-        foreach ($udf_obj->getDefinitions() as $definition) {
-            if ($definition["export"] != false) {
-                $udf_ex_fields[] = ["name" => $definition["field_name"],
-                    "id" => $definition["field_id"]];
+        foreach (ilUserDefinedFields::_getInstance()->getDefinitions() as $definition) {
+            if ($definition['export'] != false) {
+                $udf_ex_fields[] = ['name' => $definition['field_name'],
+                    'id' => $definition['field_id']];
             }
         }
 
@@ -168,7 +151,6 @@ class ilObjUserFolder extends ilObject
         array $data,
         string $filename
     ): void {
-        // header
         $headerrow = [];
         $udf_ex_fields = $this->getUserDefinedExportFields();
         foreach ($settings as $value) {	// standard fields

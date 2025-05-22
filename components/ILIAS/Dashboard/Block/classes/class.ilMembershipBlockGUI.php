@@ -38,7 +38,7 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
         return $this->renderer->render(
             $this->factory->panel()->standard(
                 $this->getTitle(),
-                $this->factory->legacy($this->lng->txt('rep_mo_mem_dash'))
+                $this->factory->legacy()->content($this->lng->txt('rep_mo_mem_dash'))
             )
         );
     }
@@ -69,18 +69,13 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
         return 'pdmem';
     }
 
-    public function confirmedRemoveObject(): void
+    public function confirmedRemove(array $ids): void
     {
-        $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
-        if ($refIds === []) {
-            $this->ctrl->redirect($this, 'manage');
-        }
-
-        foreach ($refIds as $ref_id) {
-            if ($this->access->checkAccess('leave', '', (int) $ref_id)) {
-                switch (ilObject::_lookupType((int) $ref_id, true)) {
+        foreach ($ids as $ref_id) {
+            if ($this->access->checkAccess('leave', '', $ref_id)) {
+                switch (ilObject::_lookupType($ref_id, true)) {
                     case 'crs':
-                        $members = new ilCourseParticipants(ilObject::_lookupObjId((int) $ref_id));
+                        $members = new ilCourseParticipants(ilObject::_lookupObjId($ref_id));
                         $members->delete($this->user->getId());
 
                         $members->sendUnsubscribeNotificationToAdmins($this->user->getId());
@@ -91,7 +86,7 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
                         break;
 
                     case 'grp':
-                        $members = new ilGroupParticipants(ilObject::_lookupObjId((int) $ref_id));
+                        $members = new ilGroupParticipants(ilObject::_lookupObjId($ref_id));
                         $members->delete($this->user->getId());
 
                         $members->sendNotification(
@@ -107,7 +102,7 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
                         continue 2;
                 }
 
-                ilForumNotification::checkForumsExistsDelete((int) $ref_id, $this->user->getId());
+                ilForumNotification::checkForumsExistsDelete($ref_id, $this->user->getId());
             }
         }
 

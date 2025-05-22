@@ -50,12 +50,24 @@ class ilObjLearningSequenceContentGUI
 
     public function executeCommand(): void
     {
+        if (!$this->access->checkAccess("read", '', $this->parent_gui->getRefId())) {
+            $this->tpl->setOnScreenMessage('info', sprintf(
+                $this->lng->txt('msg_no_perm_read_item'),
+                $this->parent_gui->getObjTitle()
+            ), true);
+
+            $this->ctrl->redirect($this->parent_gui, 'view');
+        }
+
         $cmd = $this->ctrl->getCmd();
 
         switch ($cmd) {
             case self::CMD_CANCEL:
                 $this->ctrl->redirect($this, self::CMD_MANAGE_CONTENT);
                 break;
+            case 'view':
+                $cmd = self::CMD_MANAGE_CONTENT;
+                // no break
             case self::CMD_MANAGE_CONTENT:
             case self::CMD_SAVE:
             case self::CMD_DELETE:

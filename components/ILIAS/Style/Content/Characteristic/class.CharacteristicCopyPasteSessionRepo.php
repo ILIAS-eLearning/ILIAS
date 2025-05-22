@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Style\Content;
 
 use ilSession;
@@ -32,7 +32,7 @@ class CharacteristicCopyPasteSessionRepo
 
     protected Session $session;
 
-    public function __construct(Session $session = null)
+    public function __construct(?Session $session = null)
     {
         $this->session = ($session)
             ?: new class () implements Session {

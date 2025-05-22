@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Counter;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -32,7 +32,9 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
+        if (!$component instanceof Component\Counter\Counter) {
+            $this->cannotHandleComponent($$component);
+        }
 
         $tpl = $this->getTemplate("tpl.counter.html", true, true);
         if ($component->getNumber() === 0) {
@@ -51,13 +53,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('assets/js/counter.js');
-    }
-
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Counter\Counter::class);
     }
 }

@@ -150,7 +150,8 @@ var Room = function Room(id)
 			if(this.subscriberHasJoined(key)) {
 				jsonSubscribers[key] = {
 					id: _subscribers[key].getId(),
-					username: _subscribers[key].getName()
+					username: _subscribers[key].getName(),
+                                        profile_picture_visible: _subscribers[key].isProfilePictureVisible(),
 				};
 			}
 		}

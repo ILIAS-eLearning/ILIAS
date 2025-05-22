@@ -25,22 +25,21 @@ class ilDclDatatype
     public const INPUTFORMAT_TEXT = 2;
     public const INPUTFORMAT_REFERENCE = 3;
     public const INPUTFORMAT_BOOLEAN = 4;
-    public const INPUTFORMAT_DATETIME = 5;
+    public const INPUTFORMAT_DATE = 5;
     public const INPUTFORMAT_FILEUPLOAD = 6;
     public const INPUTFORMAT_RATING = 7;
     public const INPUTFORMAT_ILIAS_REF = 8;
     public const INPUTFORMAT_MOB = 9;
     public const INPUTFORMAT_REFERENCELIST = 10;
     public const INPUTFORMAT_FORMULA = 11;
-    public const INPUTFORMAT_PLUGIN = 12;
     public const INPUTFORMAT_TEXT_SELECTION = 14;
     public const INPUTFORMAT_DATE_SELECTION = 15;
     public const INPUTFORMAT_FILE = 16;
+    public const INPUTFORMAT_COPY = 17;
 
     protected int $id = 0;
-    protected string $title = "";
+    protected string $title = "unknown";
     protected int $storageLocation = 0;
-    protected string $dbType;
     /**
      * @var ilDclDatatype[]
      */
@@ -89,11 +88,6 @@ class ilDclDatatype
         return $this->storageLocation;
     }
 
-    public function getDbType(): string
-    {
-        return $this->dbType;
-    }
-
     /**
      * Read Datatype
      */
@@ -115,7 +109,7 @@ class ilDclDatatype
     /**
      * Get all possible Datatypes
      */
-    public static function getAllDatatype(): array
+    public static function getAllDatatype(bool $force = false): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -130,7 +124,14 @@ class ilDclDatatype
                 $instance = new ilDclDatatype();
                 $instance->loadDatatype($rec);
 
-                self::$datatype_cache[$rec['id']] = $instance;
+                if (
+                    $force ||
+                    !ilDclFieldTypePlugin::isPluginDatatype($instance->getTitle()) ||
+                    $DIC['component.repository']->hasActivatedPlugin(ilDclFieldTypePlugin::getPluginId($instance->getTitle()))
+                ) {
+                    self::$datatype_cache[$rec['id']] = $instance;
+                }
+
             }
         }
 
@@ -140,7 +141,6 @@ class ilDclDatatype
     protected function loadDatatype(array $rec): void
     {
         $this->id = $rec['id'];
-        $this->dbType = $rec["ildb_type"];
 
         $this->setTitle($rec["title"]);
         $this->setStorageLocation($rec["storage_location"]);

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,11 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
+declare(strict_types=0);
+
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
+use ILIAS\Tracking\View\Factory as ViewFactory;
+use ILIAS\Tracking\View\ProgressBlock\Settings\RepositoryInterface as ProgressBlockSettings;
 
 /**
  * Class ilLPListOfSettingsGUI
@@ -29,6 +32,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 {
     protected ilLPObjSettings $obj_settings;
     protected ilObjectLP $obj_lp;
+    protected ProgressBlockSettings $progress_block_settings;
 
     public function __construct(int $a_mode, int $a_ref_id)
     {
@@ -36,6 +40,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
         $this->obj_settings = new ilLPObjSettings($this->getObjId());
         $this->obj_lp = ilObjectLP::getInstance($this->getObjId());
+        $this->progress_block_settings = (new ViewFactory())->progressBlock()->settings()->repository();
     }
 
     /**
@@ -77,87 +82,117 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         $form = $this->initFormSettings();
         $this->tpl->setContent(
             $this->handleLPUsageInfo() .
-            $form->getHTML() .
+            $this->ui_renderer->render($form) .
             $this->getTableByMode()
         );
     }
 
-    protected function initFormSettings(): ilPropertyFormGUI
+    protected function initFormSettings(): StandardForm
     {
-        $form = new ilPropertyFormGUI();
-        $form->setTitle($this->lng->txt('tracking_settings'));
-        $form->setFormAction($this->ctrl->getFormAction($this));
-
-        // Mode
-        $mod = new ilRadioGroupInputGUI($this->lng->txt('trac_mode'), 'modus');
-        $mod->setRequired(true);
-        $mod->setValue((string) $this->obj_lp->getCurrentMode());
-        $form->addItem($mod);
-
+        $mode_groups = [];
         if ($this->obj_lp->hasIndividualModeOptions()) {
-            $this->obj_lp->initInvidualModeOptions($mod);
+            $mode_groups = $this->obj_lp->initInvidualModeOptions();
         } else {
             foreach ($this->obj_lp->getValidModes() as $mode_key) {
-                $opt = new ilRadioOption(
-                    $this->obj_lp->getModeText($mode_key),
-                    (string) $mode_key,
-                    $this->obj_lp->getModeInfoText($mode_key)
-                );
-                $opt->setValue((string) $mode_key);
-                $mod->addOption($opt);
+                $mode_config_inputs = [];
 
-                // :TODO: Subitem for visits ?!
                 if ($mode_key == ilLPObjSettings::LP_MODE_VISITS) {
-                    $vis = new ilNumberInputGUI(
+                    $mode_config_inputs['visits'] = $this->ui_factory->input()->field()->numeric(
                         $this->lng->txt('trac_visits'),
-                        'visits'
-                    );
-                    $vis->setSize(3);
-                    $vis->setMaxLength(4);
-                    $vis->setInfo(
                         sprintf(
                             $this->lng->txt('trac_visits_info'),
                             (string) ilObjUserTracking::_getValidTimeSpan()
                         )
-                    );
-                    $vis->setRequired(true);
-                    $vis->setValue((string) $this->obj_settings->getVisits());
-                    $opt->addSubItem($vis);
+                    )->withRequired(true)
+                     ->withAdditionalTransformation(
+                         $this->refinery->in()->series([
+                             $this->refinery->int()->isGreaterThanOrEqual(1),
+                             $this->refinery->int()->isLessThanOrEqual(99999)
+                         ])
+                     )->withValue($this->obj_settings->getVisits());
                 }
-                $this->obj_lp->appendModeConfiguration((int) $mode_key, $opt);
+
+                if ($mode_key == ilLPObjSettings::LP_MODE_COLLECTION) {
+                    $mode_config_inputs['show_block'] = $this->ui_factory->input()->field()->checkbox(
+                        $this->lng->txt('trac_show_progress_block'),
+                    )->withValue(
+                        $this->progress_block_settings->isBlockShownForObject($this->getObjId())
+                    );
+                }
+
+                $mode_config_inputs = array_merge(
+                    $mode_config_inputs,
+                    $this->obj_lp->appendModeConfiguration($mode_key)
+                );
+
+                $mode_groups[$mode_key] = $this->ui_factory->input()->field()->group(
+                    $mode_config_inputs,
+                    $this->obj_lp->getModeText($mode_key),
+                    $this->obj_lp->getModeInfoText($mode_key)
+                );
             }
         }
-        $form->addCommandButton('saveSettings', $this->lng->txt('save'));
-        return $form;
+
+        $mode = $this->ui_factory->input()->field()->switchableGroup(
+            $mode_groups,
+            $this->lng->txt('trac_mode')
+        )->withRequired(true)
+         ->withValue((string) $this->obj_lp->getCurrentMode());
+
+        $section = $this->ui_factory->input()->field()->section(
+            ['modus' => $mode],
+            $this->lng->txt('tracking_settings')
+        );
+
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getLinkTarget($this, 'saveSettings'),
+            ['main' => $section]
+        );
     }
 
     protected function saveSettings(): void
     {
-        $form = $this->initFormSettings();
-        if ($form->checkInput()) {
-            // anything changed?
+        $form = $this->initFormSettings()
+                     ->withRequest($this->http->request());
+        if ($data = $form->getData()) {
+            $selected_mode = (string) $data['main']['modus'][0];
+            $mode_data = $data['main']['modus'][1];
 
             // mode
             if ($this->obj_lp->shouldFetchIndividualModeFromFormSubmission()) {
                 $new_mode = $this->obj_lp->fetchIndividualModeFromFormSubmission(
-                    $form
+                    $selected_mode,
+                    $mode_data
                 );
             } else {
-                $new_mode = (int) $form->getInput('modus');
+                $new_mode = (int) $selected_mode;
             }
             $old_mode = $this->obj_lp->getCurrentMode();
+            // anything changed?
             $mode_changed = ($old_mode != $new_mode);
 
             // visits
             $new_visits = null;
             $visits_changed = null;
             if ($new_mode == ilLPObjSettings::LP_MODE_VISITS) {
-                $new_visits = (int) $form->getInput('visits');
+                $new_visits = (int) $mode_data['visits'];
                 $old_visits = $this->obj_settings->getVisits();
                 $visits_changed = ($old_visits != $new_visits);
             }
 
-            $this->obj_lp->saveModeConfiguration($form, $mode_changed);
+            // progress block
+            if ($new_mode == ilLPObjSettings::LP_MODE_COLLECTION) {
+                $this->progress_block_settings->setShowBlockForObject(
+                    $this->getObjId(),
+                    (bool) $mode_data['show_block']
+                );
+            }
+
+            $this->obj_lp->saveModeConfiguration(
+                $selected_mode,
+                $mode_data,
+                $mode_changed
+            );
 
             if ($mode_changed) {
                 // delete existing collection
@@ -196,11 +231,9 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             $this->ctrl->redirect($this, 'show');
         }
 
-        $form->setValuesByPost();
-
         $this->tpl->setContent(
             $this->handleLPUsageInfo() .
-            $form->getHTML() .
+            $this->ui_renderer->render($form) .
             $this->getTableByMode()
         );
     }
@@ -409,21 +442,24 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
      */
     protected function updateTLT(): void
     {
+        $paths = $this->lom_services->paths();
+        $data_helper = $this->lom_services->dataHelper();
+
         $tlt = (array) ($this->http->request()->getParsedBody()['tlt'] ?? []);
         foreach ($tlt as $item_id => $item) {
-            $md_obj = new ilMD($this->getObjId(), $item_id, 'st');
-            if (!is_object($md_section = $md_obj->getEducational())) {
-                $md_section = $md_obj->addEducational();
-                $md_section->save();
-            }
-            $md_section->setPhysicalTypicalLearningTime(
+            $lom_duration = $data_helper->durationFromIntegers(
+                null,
                 (int) $item['mo'],
                 (int) $item['d'],
                 (int) $item['h'],
                 (int) $item['m'],
-                0
+                null
             );
-            $md_section->update();
+            $this->lom_services->manipulate($this->getObjId(), $item_id, 'st')
+                               ->prepareCreateOrUpdate(
+                                   $paths->firstTypicalLearningTime(),
+                                   $lom_duration
+                               )->execute();
         }
 
         // refresh learning progress
@@ -574,14 +610,12 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                 );
             }
 
-            $panel = ilPanelGUI::getInstance();
-            $panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
-            $panel->setHeading(
-                $this->lng->txt("trac_lp_settings_info_parent_container")
+            $panel = $this->ui_factory->panel()->secondary()->legacy(
+                $this->lng->txt("trac_lp_settings_info_parent_container"),
+                $this->ui_factory->legacy()->content($tpl->get())
             );
-            $panel->setBody($tpl->get());
 
-            return $panel->getHTML();
+            return $this->ui_renderer->render($panel);
         }
         return '';
     }

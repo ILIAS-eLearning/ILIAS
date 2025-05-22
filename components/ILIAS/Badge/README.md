@@ -25,7 +25,7 @@ The respective interfaces are ilBadgeType, ilBadgeTypeGUI and ilBadgeAuto.
 
 The auto badges supply an "evaluate"-method which decides if a badge assignment has to be done and is triggered by the event handler (see ilBadgeAppEventListener).
 
-Examples of badges can be found in /Modules/Course/ and /Services/User/.
+Examples of badges can be found in /ILIAS/Course/ and /ILIAS/User/.
 
 ## Export
 

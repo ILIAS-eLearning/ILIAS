@@ -19,6 +19,12 @@
 declare(strict_types=1);
 
 use ILIAS\DI\Container;
+use ILIAS\Exercise\Certificate\ExercisePlaceholderValues;
+use ILIAS\Exercise\Certificate\ExercisePlaceholderDescription;
+use ILIAS\Exercise\Certificate\CertificateSettingsExerciseRepository;
+use ILIAS\Course\Certificate\CoursePlaceholderValues;
+use ILIAS\Course\Certificate\CoursePlaceholderDescription;
+use ILIAS\Course\Certificate\CertificateSettingsCourseFormRepository;
 use ILIAS\StudyProgramme\Certificate\ilStudyProgrammePlaceholderValues;
 use ILIAS\StudyProgramme\Certificate\ilStudyProgrammePlaceholderDescription;
 use ILIAS\StudyProgramme\Certificate\ilCertificateSettingsStudyProgrammeFormRepository;
@@ -83,10 +89,10 @@ class ilCertificateGUIFactory
 
                 break;
             case 'crs':
-                $placeholderDescriptionObject = new ilCoursePlaceholderDescription($objectId);
-                $placeholderValuesObject = new ilCoursePlaceholderValues();
+                $placeholderDescriptionObject = new CoursePlaceholderDescription($objectId);
+                $placeholderValuesObject = new CoursePlaceholderValues();
 
-                $formFactory = new ilCertificateSettingsCourseFormRepository(
+                $formFactory = new CertificateSettingsCourseFormRepository(
                     $object,
                     $certificatePath,
                     false,
@@ -99,10 +105,10 @@ class ilCertificateGUIFactory
 
                 break;
             case 'exc':
-                $placeholderDescriptionObject = new ilExercisePlaceholderDescription();
-                $placeholderValuesObject = new ilExercisePlaceholderValues();
+                $placeholderDescriptionObject = new ExercisePlaceholderDescription();
+                $placeholderValuesObject = new ExercisePlaceholderValues();
 
-                $formFactory = new ilCertificateSettingsExerciseRepository(
+                $formFactory = new CertificateSettingsExerciseRepository(
                     $object,
                     $certificatePath,
                     false,

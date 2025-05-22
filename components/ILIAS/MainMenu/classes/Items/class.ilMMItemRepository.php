@@ -18,12 +18,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\Cache\Container\Container;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
@@ -44,7 +45,7 @@ class ilMMItemRepository implements Request
 
     private MainMenuMainCollector $main_collector;
 
-    private \ILIAS\Cache\Container\Container $cache;
+    private Container $cache;
 
     /**
      * ilMMItemRepository constructor.
@@ -175,7 +176,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
      * @return ilMMItemFacadeInterface
      * @throws Throwable
      */
-    public function getItemFacade(IdentificationInterface $identification = null): ilMMItemFacadeInterface
+    public function getItemFacade(?IdentificationInterface $identification = null): ilMMItemFacadeInterface
     {
         if ($identification === null || $identification instanceof NullIdentification || $identification instanceof NullPluginIdentification) {
             return new ilMMNullItemFacade($identification ?: new NullIdentification(), $this->main_collector);
@@ -204,7 +205,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
         static $parents;
         if ($parents === null) {
             $parents = [];
-            foreach ($this->getTopItems() as $top_item_identification => $data) {
+            foreach (array_keys($this->getTopItems()) as $top_item_identification) {
                 $identification = $this->services->identification()->fromSerializedIdentification($top_item_identification);
                 $item = $this->getSingleItem($identification);
                 if ($item instanceof TopParentItem) {
@@ -218,7 +219,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
     }
 
     /**
-     * @return \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation[]
+     * @return TypeInformation[]
      */
     public function getPossibleSubItemTypesWithInformation(): array
     {
@@ -239,7 +240,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
     }
 
     /**
-     * @return \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation[]
+     * @return TypeInformation[]
      */
     public function getPossibleTopItemTypesWithInformation(bool $new): array
     {

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Listing\Workflow;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -33,12 +33,10 @@ class Renderer extends AbstractComponentRenderer
 {
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Linear) {
             return $this->render_linear($component, $default_renderer);
         }
-        throw new LogicException("Cannot render: " . get_class($component));
+        $this->cannotHandleComponent($component);
     }
 
     protected function render_linear(Linear $component, RendererInterface $default_renderer): string
@@ -104,12 +102,5 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
         return $tpl->get();
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Listing\Workflow\Workflow::class
-        ];
     }
 }

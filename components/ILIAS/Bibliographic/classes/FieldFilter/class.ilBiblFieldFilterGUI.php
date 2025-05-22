@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\components\OrgUnit\ARHelper\DIC;
+use ILIAS\HTTP\Services;
 use ILIAS\Bibliographic\FieldFilter\Table;
 
 /**
@@ -26,7 +28,7 @@ use ILIAS\Bibliographic\FieldFilter\Table;
  */
 class ilBiblFieldFilterGUI
 {
-    use \ILIAS\components\OrgUnit\ARHelper\DIC;
+    use DIC;
 
     public const FILTER_ID = 'filter_id';
     public const CMD_STANDARD = 'index';
@@ -39,23 +41,21 @@ class ilBiblFieldFilterGUI
     public const CMD_RENDER_INTERRUPTIVE = 'renderInterruptiveModal';
     public const CMD_APPLY_FILTER = 'applyFilter';
     public const CMD_RESET_FILTER = 'resetFilter';
-    private \ILIAS\HTTP\Services $http;
+    private Services $http;
     private ilCtrl $ctrl;
     private ilLanguage $lng;
     private ilTabsGUI $tabs;
     private ilAccessHandler $access;
-    protected \ilBiblFactoryFacade $facade;
     protected Table $table;
     protected \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * ilBiblFieldFilterGUI constructor.
      */
-    public function __construct(ilBiblFactoryFacade $facade)
+    public function __construct(protected \ilBiblFactoryFacade $facade)
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->facade = $facade;
         $this->table = new Table(
             $this,
             $this->facade
@@ -99,11 +99,8 @@ class ilBiblFieldFilterGUI
     {
         $this->saveFieldIdsInRequest();
         $next_class = $this->ctrl->getNextClass();
-        switch ($next_class) {
-            default:
-                $this->tabs->activateTab(ilObjBibliographicGUI::TAB_SETTINGS);
-                $this->performCommand();
-        }
+        $this->tabs->activateTab(ilObjBibliographicGUI::TAB_SETTINGS);
+        $this->performCommand();
     }
 
     protected function performCommand(): void
@@ -246,7 +243,10 @@ class ilBiblFieldFilterGUI
         $token = $table->getIdToken()->getName();
         if (isset($this->http->request()->getQueryParams()[$token])) {
             $field_id = $this->http->request()->getQueryParams()[$token] ?? null;
-            return $this->facade->filterFactory()->findById($field_id[0] ?? 0);
+            if (is_array($field_id)) {
+                $field_id = $field_id[0];
+            }
+            return $this->facade->filterFactory()->findById($field_id ?? 0);
         }
 
         $field = $this->http->request()->getQueryParams()[self::FILTER_ID];

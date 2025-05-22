@@ -18,6 +18,8 @@
 
 namespace ILIAS\BackgroundTasks\Dependencies\DependencyMap;
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 use ILIAS\BackgroundTasks\Dependencies\Injector;
 use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
@@ -34,9 +36,7 @@ class BaseDependencyMap extends EmptyDependencyMap
 
     public function __construct()
     {
-        $this->maps = [function (\ILIAS\DI\Container $DIC, $fullyQualifiedDomainName, $for) {
-            return $this->resolveBaseDependencies($DIC, $fullyQualifiedDomainName, $for);
-        }];
+        $this->maps = [fn(Container $DIC, $fullyQualifiedDomainName, $for) => $this->resolveBaseDependencies($DIC, $fullyQualifiedDomainName, $for)];
     }
 
     protected function resolveBaseDependencies(Container $DIC, $fullyQualifiedDomainName, $for)
@@ -74,9 +74,9 @@ class BaseDependencyMap extends EmptyDependencyMap
                 return $DIC->backgroundTasks()->injector();
             case \ilSetting::class:
                 return $DIC->settings();
-            case \ILIAS\UI\Factory::class:
+            case Factory::class:
                 return $DIC->ui()->factory();
-            case \ILIAS\UI\Renderer::class:
+            case Renderer::class:
                 return $DIC->ui()->renderer();
             case \ilTemplate::class:
                 return $DIC->ui()->mainTemplate();

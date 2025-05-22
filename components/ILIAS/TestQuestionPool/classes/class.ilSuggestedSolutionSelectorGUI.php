@@ -159,24 +159,16 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     */
     public function checkInput(): bool
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
-        $_POST[$this->getPostVar()] =
-            ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-        if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "") {
-            $this->setAlert($lng->txt("msg_input_is_required"));
-
+        if ($this->getRequired() && $this->str($this->getPostVar()) === '') {
+            $this->setAlert($this->lng->txt('msg_input_is_required'));
             return false;
         }
+
         return $this->checkSubItemsInput();
     }
 
     public function insert($a_tpl): void
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
         $template = new ilTemplate("tpl.prop_suggestedsolutionselector.html", true, true, "components/ILIAS/TestQuestionPool");
 
         foreach ($this->getOptions() as $option_value => $option_text) {
@@ -193,7 +185,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
         }
         if ($this->getInternalLink()) {
             $template->setCurrentBlock("delete_internallink");
-            $template->setVariable("TEXT_DELETE_INTERNALLINK", $lng->txt("remove_solution"));
+            $template->setVariable("TEXT_DELETE_INTERNALLINK", $this->lng->txt("remove_solution"));
             $template->setVariable("POST_VAR", $this->getPostVar());
             $template->parseCurrentBlock();
             $template->setCurrentBlock("internal_link");
@@ -209,7 +201,10 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
                 " disabled=\"disabled\""
             );
         }
-        $template->setVariable("TEXT_ADD_INTERNALLINK", ($this->getInternalLink()) ? $lng->txt("change") : $lng->txt("add"));
+        $template->setVariable(
+            "TEXT_ADD_INTERNALLINK",
+            ($this->getInternalLink()) ? $this->lng->txt("change") : $this->lng->txt("add")
+        );
         $template->setVariable("CMD_ADD_INTERNALLINK", $this->getAddCommand());
         $template->parseCurrentBlock();
         $a_tpl->setCurrentBlock("prop_generic");

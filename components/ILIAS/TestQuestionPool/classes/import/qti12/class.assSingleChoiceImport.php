@@ -64,7 +64,7 @@ class assSingleChoiceImport extends assQuestionImport
                                         if (strcmp($foundmat["type"], "mattext") == 0) {
                                         }
                                         if (strcmp($foundmat["type"], "matimage") == 0) {
-                                            if (strlen($foundmat["material"]->getEmbedded())) {
+                                            if ($foundmat["material"]->getEmbedded()) {
                                                 $embedded = true;
                                             }
                                         }
@@ -200,10 +200,10 @@ class assSingleChoiceImport extends assQuestionImport
         $this->object->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
         $this->object->setShuffle($shuffle);
-        $thumb_size = (int) $item->getMetadataEntry("thumb_size");
-        if ($thumb_size !== null && $thumb_size >= $this->object->getMinimumThumbSize()) {
-            $this->object->setThumbSize($thumb_size);
-        }
+        $this->object->setIsSingleline(false);
+        $this->object->setThumbSize(
+            $this->deduceThumbSizeFromImportValue((int) $item->getMetadataEntry('thumb_size'))
+        );
         foreach ($answers as $answer) {
             if ($item->getMetadataEntry('singleline') || (is_array($answer["imagefile"]) && count($answer["imagefile"]) > 0)) {
                 $this->object->setIsSingleline(true);
@@ -260,7 +260,7 @@ class assSingleChoiceImport extends assQuestionImport
         }
         // handle the import of media objects in XHTML code
         $questiontext = $this->object->getQuestion();
-        $answers = &$this->object->getAnswers();
+        $answers = $this->object->getAnswers();
         if (is_array(ilSession::get("import_mob_xhtml"))) {
             foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 $importfile = $importdirectory . DIRECTORY_SEPARATOR . $mob["uri"];
@@ -269,7 +269,7 @@ class assSingleChoiceImport extends assQuestionImport
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
 
                 $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
-                ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
+                ilObjMediaObject::_saveUsage($media_object->getId(), 'qpl:html', $this->object->getId());
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
                 foreach ($answers as $key => $value) {
                     $answer_obj = $answers[$key];
@@ -304,23 +304,13 @@ class assSingleChoiceImport extends assQuestionImport
             );
         }
         $this->object->saveToDb();
-        if (count($item->suggested_solutions)) {
-            foreach ($item->suggested_solutions as $suggested_solution) {
-                $this->importSuggestedSolution(
-                    $this->object->getId(),
-                    $suggested_solution["solution"]->getContent(),
-                    $suggested_solution["gap_index"]
-                );
-            }
-        }
-        if ($tst_id > 0) {
-            $q_1_id = $this->object->getId();
-            $question_id = $this->object->duplicate(true, "", "", -1, $tst_id);
-            $tst_object->questions[$question_counter++] = $question_id;
-            $import_mapping[$item->getIdent()] = ["pool" => $q_1_id, "test" => $question_id];
-        } else {
-            $import_mapping[$item->getIdent()] = ["pool" => $this->object->getId(), "test" => 0];
-        }
+        $this->importSuggestedSolutions($this->object->getId(), $item->suggested_solutions);
+        $import_mapping[$item->getIdent()] = $this->addQuestionToParentObjectAndBuildMappingEntry(
+            $questionpool_id,
+            $tst_id,
+            $question_counter,
+            $tst_object
+        );
         return $import_mapping;
     }
 }

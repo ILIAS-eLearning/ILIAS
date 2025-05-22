@@ -48,7 +48,7 @@ abstract class TableTestBase extends ILIAS_UI_TestBase
     {
         return new Refinery(
             new \ILIAS\Data\Factory(),
-            $this->createMock(ilLanguage::class)
+            $this->createMock(ILIAS\Language\Language::class)
         );
     }
 

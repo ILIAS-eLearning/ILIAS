@@ -16,10 +16,14 @@
  *
  *********************************************************************/
 
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\BackupStaticProperties;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use ILIAS\BackgroundTasks\Implementation\TaskManager\SyncTaskManager;
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Implementation\Bucket\BucketMock;
-use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
 use ILIAS\BackgroundTasks\Implementation\TaskManager\MockObserver;
 use ILIAS\BackgroundTasks\Implementation\Tasks\Aggregation\ConcatenationJob;
 use ILIAS\BackgroundTasks\Implementation\Tasks\PlusJob;
@@ -39,16 +43,16 @@ require_once("vendor/composer/vendor/autoload.php");
 /**
  * Class BackgroundTaskTest
  *
- * @runTestsInSeparateProcesses
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
  *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  */
+#[BackupGlobals(false)]
+#[BackupStaticProperties(false)]
+#[PreserveGlobalState(false)]
+#[RunTestsInSeparateProcesses]
 class TaskTest extends TestCase
 {
-    public function testPlusTask()
+    public function testPlusTask(): void
     {
         $dic = new Container();
 
@@ -71,37 +75,33 @@ class TaskTest extends TestCase
 
         $this->assertTrue($t2->getOutputType()->equals(new SingleType(IntegerValue::class)));
 
-        $taskManager = new \ILIAS\BackgroundTasks\Implementation\TaskManager\SyncTaskManager(Mockery::mock(Persistence::class));
+        $taskManager = new SyncTaskManager(Mockery::mock(Persistence::class));
         /** @var IntegerValue $finalValue */
         $finalValue = $taskManager->executeTask($t2, new MockObserver());
         $this->assertEquals($finalValue->getValue(), 6);
     }
 
-    public function testValueWrapper()
+    public function testValueWrapper(): void
     {
         $dic = new Container();
-        $dic[Bucket::class] = function ($c) {
-            return new BucketMock();
-        };
+        $dic[Bucket::class] = (fn($c): BucketMock => new BucketMock());
         $factory = new Injector($dic, new BaseDependencyMap());
 
         $t = $factory->createInstance(PlusJob::class);
         $t->setInput([1, 4]);
 
-        $taskManager = new \ILIAS\BackgroundTasks\Implementation\TaskManager\SyncTaskManager(Mockery::mock(Persistence::class));
+        $taskManager = new SyncTaskManager(Mockery::mock(Persistence::class));
         /** @var IntegerValue $finalValue */
         $finalValue = $taskManager->executeTask($t, new MockObserver());
         $this->assertEquals($finalValue->getValue(), 5);
     }
 
-    public function testTypeCheck()
+    public function testTypeCheck(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         $dic = new Container();
-        $dic[Bucket::class] = function ($c) {
-            return new BucketMock();
-        };
+        $dic[Bucket::class] = (fn($c): BucketMock => new BucketMock());
         $factory = new Injector($dic, new BaseDependencyMap());
 
         $a = new IntegerValue(1);
@@ -112,7 +112,7 @@ class TaskTest extends TestCase
         $t1->setInput([$a, $b]);
     }
 
-    public function testAggregation()
+    public function testAggregation(): void
     {
         $dic = new Container();
         $factory = new Injector($dic, new BaseDependencyMap());
@@ -128,12 +128,10 @@ class TaskTest extends TestCase
         $this->assertEquals($output->getValue(), "1, hello, 3");
     }
 
-    public function testUnfoldTask()
+    public function testUnfoldTask(): void
     {
         $dic = new Container();
-        $dic[Bucket::class] = function ($c) {
-            return new BasicBucket();
-        };
+        $dic[Bucket::class] = (fn($c): BasicBucket => new BasicBucket());
 
         $factory = new Injector($dic, new BaseDependencyMap());
 
@@ -161,7 +159,7 @@ class TaskTest extends TestCase
         $this->assertEquals($list, [$t2, $t1, $t0, $t25]);
 
         /** @var IntegerValue $finalValue */
-        $taskManager = new \ILIAS\BackgroundTasks\Implementation\TaskManager\SyncTaskManager(Mockery::mock(Persistence::class));
+        $taskManager = new SyncTaskManager(Mockery::mock(Persistence::class));
         /** @var IntegerValue $finalValue */
         $finalValue = $taskManager->executeTask($t2, new MockObserver());
         $this->assertEquals($finalValue->getValue(), 8);

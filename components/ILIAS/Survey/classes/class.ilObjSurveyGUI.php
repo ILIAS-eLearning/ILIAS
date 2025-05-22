@@ -17,12 +17,9 @@
  *********************************************************************/
 
 use ILIAS\Survey\Participants;
+use ILIAS\Survey\InternalGUIService;
 
 /**
- * Class ilObjSurveyGUI
- *
- * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
- *
  * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEvaluationGUI, ilSurveyExecutionGUI
  * @ilCtrl_Calls ilObjSurveyGUI: ilObjectMetaDataGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjSurveyGUI: ilInfoScreenGUI, ilObjectCopyGUI
@@ -31,9 +28,11 @@ use ILIAS\Survey\Participants;
  * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEditorGUI, ilSurveyConstraintsGUI
  * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyParticipantsGUI, ilLearningProgressGUI
  * @ilCtrl_Calls ilObjSurveyGUI: ilExportGUI, ilLTIProviderObjectSettingGUI
+ * @ilCtrl_Calls ilObjSurveyGUI: ILIAS\Survey\Execution\LaunchGUI
  */
 class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
+    protected InternalGUIService $gui;
     protected \ILIAS\Survey\Execution\ExecutionGUIRequest $execution_request;
     protected ?\ILIAS\Survey\Editing\EditingGUIRequest $edit_request;
     protected ilNavigationHistory $nav_history;
@@ -56,6 +55,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         $this->user = $DIC->user();
         $this->survey_service = $DIC->survey()->internal();
+        $this->gui = $this->survey_service->gui();
 
         $this->lng = $DIC->language();
         $this->nav_history = $DIC["ilNavigationHistory"];
@@ -66,7 +66,6 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $this->tpl = $DIC["tpl"];
         $this->toolbar = $DIC->toolbar();
         $this->access = $DIC->access();
-        $this->locator = $DIC["ilLocator"];
         $this->senderFactory = $DIC->mail()->mime()->senderFactory();
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
@@ -275,6 +274,15 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand($exp_gui);
                 break;
 
+            case strtolower(\ILIAS\Survey\Execution\LaunchGUI::class):
+                $ilTabs->activateTab("run");
+                $this->ctrl->forwardCommand(
+                    $this->gui->execution()->launchGUI(
+                        $this->survey
+                    )
+                );
+                break;
+
             default:
                 $this->addHeaderAction();
                 $cmd .= "Object";
@@ -342,15 +350,21 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
     protected function afterSave(ilObject $new_object): void
     {
+        $form = $this
+            ->initCreateForm($this->requested_new_type)
+            ->withRequest($this->request);
+        $data = $form->getData();
+        $dtemplate = $data["didactic_templates"];
+
         // #16446
         $new_object->loadFromDb();
 
-        //set the mode depending on didactic template
-        if ($this->getDidacticTemplateVar("svy360")) {
+        // set the mode depending on didactic template
+        if (str_starts_with($dtemplate, "svy360_")) {
             $new_object->setMode(ilObjSurvey::MODE_360);
-        } elseif ($this->getDidacticTemplateVar("svyselfeval")) {
+        } elseif (str_starts_with($dtemplate, "svyselfeval_")) {
             $new_object->setMode(ilObjSurvey::MODE_SELF_EVAL);
-        } elseif ($this->getDidacticTemplateVar("individfeedb")) {
+        } elseif (str_starts_with($dtemplate, "individfeedb_")) {
             $new_object->setMode(ilObjSurvey::MODE_IND_FEEDB);
         }
 
@@ -386,6 +400,14 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         }
 
         $ilHelp->setScreenIdComponent("svy");
+
+        if ($this->checkPermissionBool("read")) {
+            $this->tabs_gui->addTab(
+                "run",
+                $this->lng->txt("obj_svy"),
+                $this->ctrl->getLinkTarget($this, 'run')
+            );
+        }
 
         if ($this->checkPermissionBool("write")) {
             $this->tabs_gui->addTab(
@@ -457,7 +479,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             } else {
                 $this->tabs_gui->addTab(
                     "maintenance",
-                    $this->lng->txt("maintenance"),
+                    $this->lng->txt("svy_participants"),
                     $this->ctrl->getLinkTargetByClass('ilsurveyparticipantsgui', 'maintenance')
                 );
             }
@@ -569,7 +591,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
      * Display the properties form
      */
     public function propertiesObject(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $ilTabs = $this->tabs;
         $ilHelp = $this->help;
@@ -683,7 +705,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
     protected function addLocatorItems(): void
     {
-        $ilLocator = $this->locator;
+        $ilLocator = $this->gui->locator();
         switch ($this->ctrl->getCmd()) {
             case "next":
             case "previous":
@@ -734,7 +756,6 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     ): void {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
-
         $request = $DIC->survey()->internal()->gui()->execution()->request();
         $a_access_code = $request->getAccessCode();
 
@@ -759,7 +780,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         // write permission -> info screen
         if ($ilAccess->checkAccess("write", "", $ref_id)) {
             $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
-            $ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
+            $ctrl->redirectByClass("ilObjSurveyGUI", "run");
         }
 
         // read permission, evaluation access and finished run -> evaluation
@@ -773,9 +794,8 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
                 $ctrl->redirectByClass(["ilObjSurveyGUI", "ilSurveyEvaluationGUI"], "openEvaluation");
             }
-
             $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
-            $ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
+            $ctrl->redirectByClass("ilObjSurveyGUI", "run");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
@@ -1032,6 +1052,13 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $a_rbac_permission,
             $a_position_permission,
             $this->object->getRefId()
+        );
+    }
+
+    protected function runObject(): void
+    {
+        $this->ctrl->redirectByClass(
+            \ILIAS\Survey\Execution\LaunchGUI::class
         );
     }
 }

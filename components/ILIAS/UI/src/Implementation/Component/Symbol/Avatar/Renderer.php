@@ -28,7 +28,10 @@ class Renderer extends AbstractComponentRenderer
 {
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
+        if (!$component instanceof Component\Symbol\Avatar\Avatar) {
+            $this->cannotHandleComponent($component);
+        }
+
         $tpl = null;
 
         $label = $this->convertSpecialCharacters($component->getLabel());
@@ -53,13 +56,5 @@ class Renderer extends AbstractComponentRenderer
         }
 
         return $tpl->get();
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            Component\Symbol\Avatar\Letter::class,
-            Component\Symbol\Avatar\Picture::class,
-        );
     }
 }

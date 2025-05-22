@@ -23,7 +23,6 @@ namespace ILIAS\FileDelivery\Token;
 use ILIAS\FileDelivery\Token\Serializer\Serializer;
 use ILIAS\FileDelivery\Token\Signer\Payload\Payload;
 use ILIAS\FileDelivery\Token\Signer\Payload\StructuredPayload;
-use ILIAS\FileDelivery\Token\Compression\GZipCompression;
 use ILIAS\FileDelivery\Token\Compression\Compression;
 use ILIAS\FileDelivery\Token\Transport\Transport;
 use ILIAS\FileDelivery\Token\Signer\KeyRotatingSigner;
@@ -36,6 +35,9 @@ use ILIAS\FileDelivery\Token\Signer\Salt\Salt;
  */
 final class SigningSerializer
 {
+    /**
+     * @var string
+     */
     private const SEPARATOR = '<<>>';
 
     public function __construct(
@@ -72,7 +74,7 @@ final class SigningSerializer
             $decompressed_payload = $this->compression->decompress(
                 $this->transport->readFromTransport($data)
             );
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return null;
         }
 

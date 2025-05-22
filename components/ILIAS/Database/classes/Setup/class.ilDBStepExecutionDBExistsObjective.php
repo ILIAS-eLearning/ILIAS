@@ -16,10 +16,10 @@
  *
  *********************************************************************/
 
-use ILIAS\Setup;
-use ILIAS\DI;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Environment;
 
-class ilDBStepExecutionDBExistsObjective implements Setup\Objective
+class ilDBStepExecutionDBExistsObjective implements Objective
 {
     public function getHash(): string
     {
@@ -36,23 +36,23 @@ class ilDBStepExecutionDBExistsObjective implements Setup\Objective
         return true;
     }
 
-    public function getPreconditions(Setup\Environment $environment): array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new \ilDatabaseUpdatedObjective()
         ];
     }
 
-    public function achieve(Setup\Environment $environment): Setup\Environment
+    public function achieve(Environment $environment): Environment
     {
-        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $db = $environment->getResource(Environment::RESOURCE_DATABASE);
 
         return $environment
             ->withResource(
                 \ilDatabaseUpdateStepExecutionLog::class,
                 new \ilDBStepExecutionDB(
                     $db,
-                    fn() => new \DateTime()
+                    fn(): \DateTime => new \DateTime()
                 )
             );
     }
@@ -60,7 +60,7 @@ class ilDBStepExecutionDBExistsObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment): bool
+    public function isApplicable(Environment $environment): bool
     {
         $execution_db = $environment->getResource(\ilDatabaseUpdateStepExecutionLog::class);
         return is_null($execution_db);

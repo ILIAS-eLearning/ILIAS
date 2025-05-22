@@ -33,16 +33,12 @@ class FileStreamConsumer implements StreamConsumer
     use GetRevisionTrait;
 
     protected ?int $revision_number = null;
-    private StorableResource $resource;
-    private StreamAccess $stream_access;
 
     /**
      * DownloadConsumer constructor.
      */
-    public function __construct(StorableResource $resource, StreamAccess $stream_access)
+    public function __construct(private StorableResource $resource, private StreamAccess $stream_access)
     {
-        $this->resource = $resource;
-        $this->stream_access = $stream_access;
     }
 
     public function getStream(): FileStream

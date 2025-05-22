@@ -32,9 +32,9 @@ class ilObjFileUnzipRecursiveProcessor extends ilObjFileAbstractZipProcessor
 
     public function process(
         ResourceIdentification $rid,
-        string $title = null,
-        string $description = null,
-        int $copyright_id = null
+        ?string $title = null,
+        ?string $description = null,
+        ?string $copyright_id = null
     ): void {
         $this->openZip($rid);
         $base_node = $this->gui_object->getParentId();

@@ -23,8 +23,6 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Item\Item;
 
 /**
- * BlockGUI class for Personal Desktop Mail block
- * @author			Alex Killing <alex.killing@gmx.de>
  * @ilCtrl_IsCalledBy ilPDMailBlockGUI: ilColumnGUI
  */
 class ilPDMailBlockGUI extends ilBlockGUI
@@ -33,7 +31,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
     private readonly GlobalHttpState $http;
     private readonly Refinery $refinery;
-    private int $requestMailObjId = 0;
     protected ilRbacSystem $rbacsystem;
     protected ilSetting $setting;
     /** @var string[] */
@@ -51,7 +48,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-        $this->new_rendering = true;
 
         parent::__construct();
 
@@ -121,56 +117,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->max_count = count($this->mails);
     }
 
-    public function fillDataSection(): void
-    {
-        if ($this->mails !== []) {
-            $this->setRowTemplate('tpl.pd_mail_row.html', 'components/ILIAS/Mail');
-            parent::fillDataSection();
-        } else {
-            $this->setEnableNumInfo(false);
-            $this->setDataSection($this->getOverview());
-        }
-    }
-
-    public function fillRow(array $a_set): void
-    {
-        $user = ilMailUserCache::getUserObjectById((int) $a_set['sender_id']);
-
-        $this->tpl->touchBlock('usr_image_space');
-        if ($user && $user->getId() !== ANONYMOUS_USER_ID) {
-            $this->tpl->setVariable('PUBLIC_NAME_LONG', $user->getPublicName());
-            $this->tpl->setVariable('IMG_SENDER', $user->getPersonalPicturePath('xxsmall'));
-            $this->tpl->setVariable('ALT_SENDER', htmlspecialchars($user->getPublicName()));
-        } elseif (!$user instanceof ilObjUser) {
-            $this->tpl->setVariable(
-                'PUBLIC_NAME_LONG',
-                trim(($a_set['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')')
-            );
-
-            $this->tpl->setCurrentBlock('image_container');
-            $this->tpl->touchBlock('image_container');
-            $this->tpl->parseCurrentBlock();
-        } else {
-            $this->tpl->setVariable('PUBLIC_NAME_LONG', ilMail::_getIliasMailerName());
-            $this->tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('logo/HeaderIconAvatar.svg'));
-            $this->tpl->setVariable('ALT_SENDER', htmlspecialchars(ilMail::_getIliasMailerName()));
-        }
-
-        $this->tpl->setVariable(
-            'NEW_MAIL_DATE',
-            ilDatePresentation::formatDate(new ilDate($a_set['send_time'], IL_CAL_DATE))
-        );
-
-        $this->tpl->setVariable(
-            'NEW_MAIL_SUBJ',
-            htmlentities($a_set['m_subject'], ENT_NOQUOTES, 'UTF-8')
-        );
-        $this->ctrl->setParameter($this, 'mobj_id', $this->inbox);
-        $this->ctrl->setParameter($this, 'mail_id', $a_set['mail_id']);
-        $this->tpl->setVariable('NEW_MAIL_LINK_READ', $this->ctrl->getLinkTarget($this, 'showMail'));
-        $this->ctrl->clearParameters($this);
-    }
-
     protected function getOverview(): string
     {
         return '<div class="small">' . (count($this->mails)) . ' ' . $this->lng->txt('mails_pl') . '</div>';
@@ -195,18 +141,18 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
         $user = ilMailUserCache::getUserObjectById($data['sender_id']);
 
+        $avatar = null;
         if ($user && $user->getId() !== ANONYMOUS_USER_ID) {
-            $img_sender = $user->getPersonalPicturePath('xxsmall');
-            $alt_sender = htmlspecialchars($user->getPublicName());
+            $avatar = $user->getAvatar();
             $public_name_long = $user->getPublicName();
-        } elseif (!$user instanceof ilObjUser) {
-            $img_sender = '';
-            $alt_sender = '';
-            $public_name_long = trim(($data['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')');
-        } else {
-            $img_sender = ilUtil::getImagePath('logo/HeaderIconAvatar.svg');
-            $alt_sender = htmlspecialchars(ilMail::_getIliasMailerName());
+        } elseif ($user) {
+            $avatar = $this->ui->factory()
+                ->symbol()
+                ->avatar()
+                ->picture(ilUtil::getImagePath('logo/ilias_logo_centered.png'), ilMail::_getIliasMailerName());
             $public_name_long = ilMail::_getIliasMailerName();
+        } else {
+            $public_name_long = trim(($data['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')');
         }
 
         $new_mail_subj = htmlentities($data['m_subject'], ENT_NOQUOTES, 'UTF-8');
@@ -218,13 +164,13 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $button = $f->link()->standard($new_mail_subj, $new_mail_link);
 
         $item = $f->item()->standard($button);
-        if ($img_sender !== '') {
-            $item = $item->withLeadImage($f->image()->standard($img_sender, $alt_sender));
+        if ($avatar !== null) {
+            $item = $item->withLeadAvatar($avatar);
         }
 
         $item = $item->withProperties([
             $this->lng->txt('from') => $public_name_long,
-            $this->lng->txt('date') => ilDatePresentation::formatDate(new ilDateTime($data['send_time'], IL_CAL_DATE)),
+            $this->lng->txt('mail_sent_datetime') => ilDatePresentation::formatDate(new ilDateTime($data['send_time'], IL_CAL_DATE)),
         ]);
 
         return $item;

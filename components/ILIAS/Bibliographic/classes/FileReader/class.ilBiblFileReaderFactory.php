@@ -28,13 +28,10 @@ class ilBiblFileReaderFactory implements ilBiblFileReaderFactoryInterface
         ilBiblFieldFactoryInterface $field_factory,
         ilBiblAttributeFactoryInterface $attribute_factory
     ): ilBiblFileReaderInterface {
-        switch ($type) {
-            case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
-                return new ilBiblTexFileReader($entry_factory, $field_factory, $attribute_factory);
-            case ilBiblTypeFactoryInterface::DATA_TYPE_RIS:
-                return new ilBiblRisFileReader($entry_factory, $field_factory, $attribute_factory);
-            default:
-                throw new ilException("bibliografic type not found");
-        }
+        return match ($type) {
+            ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX => new ilBiblTexFileReader($entry_factory, $field_factory, $attribute_factory),
+            ilBiblTypeFactoryInterface::DATA_TYPE_RIS => new ilBiblRisFileReader($entry_factory, $field_factory, $attribute_factory),
+            default => throw new ilException("bibliografic type not found"),
+        };
     }
 }

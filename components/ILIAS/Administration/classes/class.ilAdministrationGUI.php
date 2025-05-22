@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Administration\AdminGUIRequest;
 
@@ -38,7 +38,7 @@ use ILIAS\Administration\AdminGUIRequest;
 * @ilCtrl_Calls ilAdministrationGUI: ilObjLanguageFolderGUI, ilObjMailGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjObjectFolderGUI, ilObjRecoveryFolderGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjSearchSettingsGUI, ilObjStyleSettingsGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjAssessmentFolderGUI, ilObjExternalToolsSettingsGUI, ilObjUserTrackingGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjTestFolderGUI, ilObjExternalToolsSettingsGUI, ilObjUserTrackingGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjAdvancedEditingGUI, ilObjPrivacySecurityGUI, ilObjNewsSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjMediaCastGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjLanguageExtGUI, ilObjMDSettingsGUI, ilObjComponentSettingsGUI
@@ -76,6 +76,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
     protected int $requested_obj_id = 0;
     protected AdminGUIRequest $request;
     protected ilObjectGUI $gui_obj;
+    private readonly ilErrorHandling $error;
 
     public function __construct()
     {
@@ -90,6 +91,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         $rbacsystem = $DIC->rbac()->system();
         $objDefinition = $DIC["objDefinition"];
         $ilCtrl = $DIC->ctrl();
+        $this->error = $DIC['ilErr'];
 
         $this->lng = $lng;
         $this->lng->loadLanguageModule('administration');
@@ -142,11 +144,12 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         // permission checks
         if (!$rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID) &&
                 !$rbacsystem->checkAccess("read", SYSTEM_FOLDER_ID)) {
-            throw new ilPermissionException($this->lng->txt('permission_denied'));
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
         // check creation mode
         // determined by "new_type" parameter
+        // e.g. creation of a new role, user org unit, talk template
         $new_type = $this->request->getNewType();
         if ($new_type) {
             $this->creation_mode = true;
@@ -156,8 +159,6 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
             $obj_type = $new_type;
             $class_name = $this->objDefinition->getClassName($obj_type);
             $next_class = strtolower("ilObj" . $class_name . "GUI");
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $this->ctrl->setCmdClass($next_class);
         }
 
         // set next_class directly for page translations
@@ -175,9 +176,6 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
             $obj_type = ilObject::_lookupType($this->cur_ref_id, true);
             $class_name = $this->objDefinition->getClassName($obj_type);
             $next_class = strtolower("ilObj" . $class_name . "GUI");
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $this->ctrl->setCmdClass($next_class);
-            // $this->ctrl->setCmd("view");
         }
 
         $cmd = $this->ctrl->getCmd("forward");

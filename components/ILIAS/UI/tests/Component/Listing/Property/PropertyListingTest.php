@@ -25,7 +25,11 @@ class PropertyListingTest extends ILIAS_UI_TestBase
 {
     protected function getListingFactory(): Listing\Factory
     {
-        return new Listing\Factory();
+        return new Listing\Factory(
+            new Listing\Workflow\Factory(),
+            new Listing\CharacteristicValue\Factory(),
+            new Listing\Entity\Factory(),
+        );
     }
 
     public function testPropertyListingConstruction(): void

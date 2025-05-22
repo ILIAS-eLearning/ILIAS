@@ -49,7 +49,7 @@ class ilPluginDBUpdate extends ilDBUpdate
         $this->db = $db;
         $this->plugin = $plugin;
 
-        $this->db_update_file = $this->PATH . $this->getDBUpdateScriptName();
+        $this->db_update_file = $this->getDBUpdateScriptName();
 
         $this->current_version = $plugin->getCurrentDBVersion() ?? 0;
 

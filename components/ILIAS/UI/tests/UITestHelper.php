@@ -32,51 +32,53 @@ use ILIAS\Data\Factory as DataFactory;
  * factory and renderer into some classes to be unit tested.
  * See UITestHelperTest for an example of how this can be used.
  */
-class UITestHelper
+trait UITestHelper
 {
-    protected Container $dic;
+    protected Container $dic_with_ui;
 
-    public function init(Container $dic = null): Container
+    public function init(?Container $dic = null): Container
     {
         if ($dic) {
-            $this->dic = $dic;
+            $this->dic_with_ui = $dic;
         } else {
-            $this->dic = new Container();
+            $this->dic_with_ui = new Container();
         }
 
         $tpl_fac = new ilIndependentTemplateFactory();
-        $this->dic["tpl"] = $tpl_fac->getTemplate("tpl.main.html", false, false);
-        $this->dic["lng"] = new ilLanguageMock();
+        $this->dic_with_ui["tpl"] = $tpl_fac->getTemplate("tpl.main.html", false, false);
+        $this->dic_with_ui["lng"] = new LanguageMock();
         $data_factory = new DataFactory();
-        $this->dic["refinery"] = new RefinaryFactory($data_factory, $this->dic["lng"]);
-        (new InitUIFramework())->init($this->dic);
-        $this->dic["ui.template_factory"] = new ilIndependentTemplateFactory();
-        $this->dic["help.text_retriever"] = new ILIAS\UI\Help\TextRetriever\Echoing();
+        $this->dic_with_ui["refinery"] = new RefinaryFactory($data_factory, $this->dic_with_ui["lng"]);
 
-        return $this->dic;
+        (new InitUIFramework())->init($this->dic_with_ui);
+
+        $this->dic_with_ui["ui.template_factory"] = new ilIndependentTemplateFactory();
+        $this->dic_with_ui["help.text_retriever"] = new ILIAS\UI\Help\TextRetriever\Echoing();
+
+        return $this->dic_with_ui;
     }
 
     public function factory(): Factory
     {
-        if (!isset($this->dic)) {
+        if (!isset($this->dic_with_ui)) {
             $this->init();
         }
-        return $this->dic->ui()->factory();
+        return $this->dic_with_ui->ui()->factory();
     }
 
     public function renderer(): Renderer
     {
-        if (!isset($this->dic)) {
+        if (!isset($this->dic_with_ui)) {
             $this->init();
         }
-        return $this->dic->ui()->renderer();
+        return $this->dic_with_ui->ui()->renderer();
     }
 
     public function mainTemplate(): ilGlobalTemplateInterface
     {
-        if (!isset($this->dic)) {
+        if (!isset($this->dic_with_ui)) {
             $this->init();
         }
-        return $this->dic->ui()->mainTemplate();
+        return $this->dic_with_ui->ui()->mainTemplate();
     }
 }

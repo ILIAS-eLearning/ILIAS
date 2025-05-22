@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
+
 /**
  * Handles StructureObjects of ILIAS Learning Modules (see ILIAS DTD)
  *
@@ -24,6 +27,7 @@
 class ilStructureObject extends ilLMObject
 {
     protected \ILIAS\Help\Map\MapManager $help_map;
+    protected LOMServices $lom_services;
     public string $origin_id;
     public ilLMTree $tree;
 
@@ -37,6 +41,7 @@ class ilStructureObject extends ilLMObject
         parent::__construct($a_content_obj, $a_id);
         $this->tree = new ilLMTree($this->getLMId());
         $this->help_map = $DIC->help()->internal()->domain()->map();
+        $this->lom_services = $DIC->learningObjectMetadata();
     }
 
     public function delete(bool $a_delete_meta_data = true): void
@@ -90,8 +95,9 @@ class ilStructureObject extends ilLMObject
         $a_copied_nodes[$this->getId()] = $chap->getId();
 
         // copy meta data
-        $md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
-        $new_md = $md->cloneMD($a_target_lm->getId(), $chap->getId(), $this->getType());
+        $this->lom_services->derive()
+                           ->fromObject($this->getLMId(), $this->getId(), $this->getType())
+                           ->forObject($a_target_lm->getId(), $chap->getId(), $this->getType());
 
         // copy translations
         ilLMObjTranslation::copy($this->getId(), $chap->getId());
@@ -124,10 +130,17 @@ class ilStructureObject extends ilLMObject
     public function exportXMLMetaData(
         ilXmlWriter $a_xml_writer
     ): void {
-        $md2xml = new ilMD2XML($this->getLMId(), $this->getId(), $this->getType());
+        /*
+         * As far as I can tell, this is unused.
+         *
+         * I traced usages of this method up to ilObjContentObjectGUI::export and
+         * ilObjMediaPoolGUI::export (both via ilObjContentObject::exportXML), which have
+         * both been made redundant by the usual export mechanisms.
+         */
+        /*$md2xml = new ilMD2XML($this->getLMId(), $this->getId(), $this->getType());
         $md2xml->setExportMode(true);
         $md2xml->startExport();
-        $a_xml_writer->appendXML($md2xml->getXML());
+        $a_xml_writer->appendXML($md2xml->getXML());*/
     }
 
     public function modifyExportIdentifier(
@@ -173,11 +186,9 @@ class ilStructureObject extends ilLMObject
             $title = ilLMObject::_lookupTitle($a_st_id);
         }
 
-        // this is also optimized since ilObjectTranslation re-uses instances for one lm
-        $ot = ilObjectTranslation::getInstance($a_lm_id);
-        $languages = $ot->getLanguages();
+        $ot = (new TranslationsRepository($ilDB))->getFor($a_lm_id);
 
-        if ($a_lang != "-" && $ot->getContentActivated()) {
+        if ($a_lang != "-" && $ot->getContentTranslationActivated()) {
             $lmobjtrans = new ilLMObjTranslation($a_st_id, $a_lang);
             $trans_title = "";
             if ($a_include_short) {
@@ -187,7 +198,7 @@ class ilStructureObject extends ilLMObject
                 $trans_title = $lmobjtrans->getTitle();
             }
             if ($trans_title == "") {
-                $lmobjtrans = new ilLMObjTranslation($a_st_id, $ot->getFallbackLanguage());
+                $lmobjtrans = new ilLMObjTranslation($a_st_id, $ot->getDefaultLanguage());
                 $trans_title = $lmobjtrans->getTitle();
             }
             if ($trans_title != "") {

@@ -1,11 +1,45 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\MultiSelect;
 
 /**
- * Base example showing how to plug a Multi-Select into a form
+ * ---
+ * description: >
+ *   Base example showing how to plug a Multi-Select into a form.
+ *
+ * expected output: >
+ *   ILIAS shows a grouped titled "Take your picks" with checkboxes. You can activate one or more checkboxes. After saving
+ *   your selection ILIAS will display your selection in the following format:
+ *
+ *   Array
+ *   (
+ *      [multi] => Array
+ *      (
+ *          [0] => 2
+ *          [1] => 3
+ *      )
+ *   )
+ *
+ *   If you click "Save" without selecting a checkbox ILIAS will display a error message below the group.
+ * ---
  */
 function base()
 {

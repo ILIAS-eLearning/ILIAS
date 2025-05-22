@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilRepositoryObjectSearchBlockGUI
@@ -49,7 +49,6 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
 
         $this->setTitle($a_title);
         $this->allow_moving = false;
-        $this->new_rendering = true;
     }
 
     /**
@@ -87,16 +86,6 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
             default:
                 $this->$cmd();
         }
-    }
-
-    public function getHTML(): string
-    {
-        return parent::getHTML();
-    }
-
-    public function fillDataSection(): void
-    {
-        $this->setDataSection($this->getLegacyContent());
     }
 
     /**

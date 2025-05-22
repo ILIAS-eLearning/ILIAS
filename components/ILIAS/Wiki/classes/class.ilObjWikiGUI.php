@@ -19,6 +19,9 @@
 use ILIAS\Wiki\Export;
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 use ILIAS\Wiki\WikiGUIRequest;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
+use ILIAS\Wiki\Settings\SettingsGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -31,7 +34,8 @@ use ILIAS\Wiki\WikiGUIRequest;
  * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilSettingsPermissionGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI, ilObjectCopyGUI, ilObjNotificationSettingsGUI
- * @ilCtrl_Calls ilObjWikiGUI: ilLTIProviderObjectSettingGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjWikiGUI: ilLTIProviderObjectSettingGUI, ILIAS\ILIASObject\Properties\Translations\TranslationGUI
+ * @ilCtrl_Calls ilObjWikiGUI: ILIAS\Wiki\Settings\SettingsGUI
  */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -40,8 +44,6 @@ class ilObjWikiGUI extends ilObjectGUI
     protected \ILIAS\Wiki\Content\GUIService $content_gui;
     protected \ILIAS\Wiki\Navigation\ImportantPageManager $imp_pages;
     protected \ILIAS\Wiki\Page\PageManager $pm;
-    protected ilObjectTranslation $ot;
-    protected \ILIAS\HTTP\Services $http;
     protected string $requested_page;
     protected ilPropertyFormGUI $form_gui;
     protected ilTabsGUI $tabs;
@@ -72,8 +74,6 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->tabs = $gui->tabs();
         $this->help = $gui->help();
         $this->locator = $gui->locator();
-        $this->http = $gui->http();
-        $this->ot = $gui->wiki()->translation();
 
         $this->type = "wiki";
 
@@ -152,13 +152,25 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
 
-            case 'ilobjecttranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->checkPermission("read");
                 $this->addHeaderAction();
                 $ilTabs->activateTab("settings");
                 $this->setSettingsSubTabs("obj_multilinguality");
-                $transgui = new ilObjectTranslationGUI($this);
-                $transgui->setTitleDescrOnlyMode(false);
+                $transgui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->access,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->http,
+                    $this->refinery,
+                    $this->toolbar
+                );
+                $transgui->forceContentTranslation();
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
@@ -227,11 +239,6 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->addHeaderAction();
                 $ilTabs->activateTab("export");
                 $exp_gui = new ilExportGUI($this);
-                $exp_gui->addFormat("xml");
-                $exp_gui->addFormat("html", "", $this, "exportHTML");
-                if ($this->object->isCommentsExportPossible()) {
-                    $exp_gui->addFormat("html_comments", "HTML (" . $this->lng->txt("wiki_incl_comments") . ")", $this, "exportHTML");
-                }
                 $this->ctrl->forwardCommand($exp_gui);
                 break;
 
@@ -283,6 +290,8 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->setSideBlock();
                 $ilTabs->setTabActive("wiki_search_results");
                 $ilCtrl->setReturn($this, 'view');
+                $ilCtrl->setParameterByClass(ilWikiPageGUI::class, "wpg_id", null);
+                $ilCtrl->setParameterByClass(ilObjWikiGUI::class, "wpg_id", null);
                 $search_gui = new ilRepositoryObjectSearchGUI(
                     $this->object->getRefId(),
                     $this,
@@ -307,6 +316,18 @@ class ilObjWikiGUI extends ilObjectGUI
                 $lti_gui->setCustomRolesForSelection($GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->object->getRefId()));
                 $lti_gui->offerLTIRolesForSelection(false);
                 $this->ctrl->forwardCommand($lti_gui);
+                break;
+
+            case strtolower(SettingsGUI::class):
+                $this->addHeaderAction();
+                $ilTabs->activateTab("settings");
+                $this->setSettingsSubTabs("general_settings");
+                $this->getTabs();
+                $gui = $this->gui->settings()->settingsGUI(
+                    $this->object->getId(),
+                    $this->object->getRefId()
+                );
+                $this->ctrl->forwardCommand($gui);
                 break;
 
             default:
@@ -335,72 +356,42 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->gotoStartPageObject();
     }
 
-    protected function initCreateForm(string $new_type): ilPropertyFormGUI
+    protected function initCreateForm(string $new_type): StandardForm
     {
-        $this->initSettingsForm("create");
-        $this->getSettingsFormValues("create");
-
-        return $this->form_gui;
-    }
-
-    public function saveObject(): void
-    {
-        $tpl = $this->tpl;
+        $f = $this->gui->ui()->factory();
         $lng = $this->lng;
-
-        if (!$this->checkPermissionBool("create", "", "wiki", $this->requested_ref_id)) {
-            throw new ilPermissionException($this->lng->txt("permission_denied"));
-        }
-
-        $this->initSettingsForm("create");
-        if ($this->form_gui->checkInput()) {
-            if (!ilObjWiki::checkShortTitleAvailability($this->form_gui->getInput("shorttitle"))) {
-                $short_item = $this->form_gui->getItemByPostVar("shorttitle");
-                $short_item->setAlert($lng->txt("wiki_short_title_already_in_use"));
-            } else {
-                $new_obj = new ilObjWiki();
-                $new_obj->setType($this->requested_new_type);
-                $new_obj->processAutoRating();
-                $new_obj->setTitle($this->form_gui->getInput('title'));
-                $new_obj->setDescription($this->form_gui->getInput('description'));
-                $new_obj->create();
-
-                $this->putObjectInTree($new_obj);
-                $this->afterSave($new_obj);
-                return;
-            }
-        }
-
-        $this->form_gui->setValuesByPost();
-        $tpl->setContent($this->getCreationFormsHTML($this->form_gui));
+        $form = parent::initCreateForm($new_type);
+        $inputs = $form->getInputs();
+        $inputs["start_page"] = $f->input()->field()->text(
+            $lng->txt("wiki_start_page")
+        )->withRequired(true);
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'save'),
+            $inputs
+        )->withSubmitLabel($this->lng->txt($new_type . '_add'));
     }
 
     protected function afterSave(ilObject $new_object): void
     {
-        $ilSetting = $this->settings;
-
-        $new_object->setIntroduction($this->form_gui->getInput("intro"));
-        $new_object->setStartPage($this->form_gui->getInput("startpage"));
-        $new_object->setShortTitle((string) $this->form_gui->getInput("shorttitle"));
-        $new_object->setRating($this->form_gui->getInput("rating"));
-        // $new_object->setRatingAsBlock($this->form_gui->getInput("rating_side"));
-        $new_object->setRatingForNewPages($this->form_gui->getInput("rating_new"));
-        $new_object->setRatingCategories($this->form_gui->getInput("rating_ext"));
-
-        $new_object->setRatingOverall($this->form_gui->getInput("rating_overall"));
-        $new_object->setPageToc($this->form_gui->getInput("page_toc"));
-
-
-
-        if (!$ilSetting->get("disable_comments")) {
-            $new_object->setPublicNotes($this->form_gui->getInput("public_notes"));
-        }
-        $new_object->setOnline($this->form_gui->getInput("online"));
+        $form = $this
+            ->initCreateForm($this->requested_new_type)
+            ->withRequest($this->request);
+        $data = $form->getData();
+        $new_object->setStartPage($data["start_page"]);
         $new_object->update();
 
         // always send a message
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
-        ilUtil::redirect(self::getGotoLink($new_object->getRefId()));
+        $this->ctrl->setParameterByClass(
+            static::class,
+            "ref_id",
+            $new_object->getRefId()
+        );
+        $this->ctrl->redirectByClass([
+            ilWikiHandlerGUI::class,
+            ilObjWikiGUI::class,
+            SettingsGUI::class
+        ]);
     }
 
     /**
@@ -566,11 +557,13 @@ class ilObjWikiGUI extends ilObjectGUI
         $ilHelp->setScreenIdComponent("wiki");
 
         // wiki tabs
-        if (in_array(strtolower($ilCtrl->getCmdClass()), array("", "ilobjectcontentstylesettingsgui", "ilobjwikigui",
+        if (in_array(strtolower($ilCtrl->getNextClass($this)), [strtolower(SettingsGUI::class)]) ||
+            in_array(
+                strtolower($ilCtrl->getCmdClass()),
+                array("", "ilobjectcontentstylesettingsgui", "ilobjwikigui",
             "ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui", "ilobjnotificationsettingsgui", "iltaxmdgui",
-            "ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui',
-            'ilobjecttranslationgui'
-            ), true) || $ilCtrl->getNextClass() === "ilpermissiongui") {
+            "ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui')
+            ) || in_array($ilCtrl->getNextClass(), ["ilpermissiongui", strtolower(TranslationGUI::class)])) {
             if ($this->requested_page !== "") {
                 $page_id = ($this->edit_request->getWikiPageId() > 0)
                     ? $this->edit_request->getWikiPageId()
@@ -618,7 +611,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->tabs_gui->addTab(
                     "settings",
                     $lng->txt("settings"),
-                    $this->ctrl->getLinkTarget($this, "editSettings")
+                    $this->ctrl->getLinkTargetByClass(SettingsGUI::class)
                 );
 
                 // metadata
@@ -722,7 +715,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 );
 
                 // rating categories
-                if ($this->object->getRating() && $this->object->getRatingCategories()) {
+                if ($this->object->getRatingPages() && $this->object->getRatingCategories()) {
                     $lng->loadLanguageModule("rating");
                     $ilTabs->addSubTab(
                         "rating_categories",
@@ -740,7 +733,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 $ilTabs->addSubTab(
                     'obj_multilinguality',
                     $lng->txt("obj_multilinguality"),
-                    $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "")
+                    $this->ctrl->getLinkTargetByClass(TranslationGUI::class, "")
                 );
             }
 
@@ -759,252 +752,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
     public function editSettingsObject(): void
     {
-        $tpl = $this->tpl;
-
-        $this->checkPermission("write");
-
-        $this->setSettingsSubTabs("general_settings");
-
-        $this->initSettingsForm();
-        $this->getSettingsFormValues();
-
-        // Edit ecs export settings
-        $ecs = new ilECSWikiSettings($this->object);
-        $ecs->addSettingsToForm($this->form_gui, 'wiki');
-
-        $tpl->setContent($this->form_gui->getHTML());
-        $this->setSideBlock();
-    }
-
-    public function initSettingsForm(string $a_mode = "edit"): void
-    {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
-        $ilSetting = $this->settings;
-        $obj_service = $this->object_service;
-
-        $lng->loadLanguageModule("wiki");
-        $ilTabs->activateTab("settings");
-
-        $this->form_gui = new ilPropertyFormGUI();
-
-        // Title
-        $tit = new ilTextInputGUI($lng->txt("title"), "title");
-        $tit->setRequired(true);
-        $this->form_gui->addItem($tit);
-
-        // Description
-        $des = new ilTextAreaInputGUI($lng->txt("description"), "description");
-        $this->form_gui->addItem($des);
-
-        // Introduction
-        $intro = new ilTextAreaInputGUI($lng->txt("wiki_introduction"), "intro");
-        $intro->setCols(40);
-        $intro->setRows(4);
-        $this->form_gui->addItem($intro);
-
-        // Start Page
-        $options = [];
-        if ($a_mode === "edit") {
-            foreach ($this->pm->getWikiPages() as $page) {
-                $options[$page->getId()] = ilStr::shortenTextExtended($page->getTitle(), 60, true);
-            }
-            $si = new ilSelectInputGUI($lng->txt("wiki_start_page"), "startpage_id");
-            $si->setOptions($options);
-            $this->form_gui->addItem($si);
-        } else {
-            $sp = new ilTextInputGUI($lng->txt("wiki_start_page"), "startpage");
-            if ($a_mode === "edit") {
-                $sp->setInfo($lng->txt("wiki_start_page_info"));
-            }
-            $sp->setMaxLength(200);
-            $sp->setRequired(true);
-            $this->form_gui->addItem($sp);
-        }
-
-        // Online
-        $online = new ilCheckboxInputGUI($lng->txt("online"), "online");
-        $this->form_gui->addItem($online);
-
-
-        // rating
-
-        $lng->loadLanguageModule('rating');
-        $rate = new ilCheckboxInputGUI($lng->txt('rating_activate_rating'), 'rating_overall');
-        $rate->setInfo($lng->txt('rating_activate_rating_info'));
-        $this->form_gui->addItem($rate);
-
-        $rating = new ilCheckboxInputGUI($lng->txt("wiki_activate_rating"), "rating");
-        $this->form_gui->addItem($rating);
-
-        /* always active
-        $side = new ilCheckboxInputGUI($lng->txt("wiki_activate_sideblock_rating"), "rating_side");
-        $rating->addSubItem($side);
-        */
-
-        $new = new ilCheckboxInputGUI($lng->txt("wiki_activate_new_page_rating"), "rating_new");
-        $rating->addSubItem($new);
-
-        $extended = new ilCheckboxInputGUI($lng->txt("wiki_activate_extended_rating"), "rating_ext");
-        $rating->addSubItem($extended);
-
-
-        // public comments
-        if (!$ilSetting->get("disable_comments")) {
-            $comments = new ilCheckboxInputGUI($lng->txt("wiki_public_comments"), "public_notes");
-            $this->form_gui->addItem($comments);
-        }
-
-        // important pages
-        //		$imp_pages = new ilCheckboxInputGUI($lng->txt("wiki_important_pages"), "imp_pages");
-        //		$this->form_gui->addItem($imp_pages);
-
-        // page toc
-        $page_toc = new ilCheckboxInputGUI($lng->txt("wiki_page_toc"), "page_toc");
-        $page_toc->setInfo($lng->txt("wiki_page_toc_info"));
-        $this->form_gui->addItem($page_toc);
-
-        if ($a_mode === "edit") {
-            // advanced metadata auto-linking
-            if (count(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->object->getRefId(), "wpg")) > 0) {
-                $link_md = new ilCheckboxInputGUI($lng->txt("wiki_link_md_values"), "link_md_values");
-                $link_md->setInfo($lng->txt("wiki_link_md_values_info"));
-                $this->form_gui->addItem($link_md);
-            }
-
-
-            $section = new ilFormSectionHeaderGUI();
-            $section->setTitle($this->lng->txt('obj_presentation'));
-            $this->form_gui->addItem($section);
-
-            // tile image
-            $obj_service->commonSettings()->legacyForm($this->form_gui, $this->object)->addTileImage();
-
-
-            // additional features
-            $feat = new ilFormSectionHeaderGUI();
-            $feat->setTitle($this->lng->txt('obj_features'));
-            $this->form_gui->addItem($feat);
-
-            ilObjectServiceSettingsGUI::initServiceSettingsForm(
-                $this->object->getId(),
-                $this->form_gui,
-                array(
-                        ilObjectServiceSettingsGUI::CUSTOM_METADATA
-                    )
-            );
-        }
-
-        // :TODO: sorting
-
-        // Form action and save button
-        $this->form_gui->setTitleIcon(ilUtil::getImagePath("standard/icon_wiki.svg"));
-        if ($a_mode !== "create") {
-            $this->form_gui->setTitle($lng->txt("wiki_settings"));
-            $this->form_gui->addCommandButton("saveSettings", $lng->txt("save"));
-        } else {
-            $this->form_gui->setTitle($lng->txt("wiki_new"));
-            $this->form_gui->addCommandButton("save", $lng->txt("wiki_add"));
-            $this->form_gui->addCommandButton("cancel", $lng->txt("cancel"));
-        }
-
-        // set values
-        if ($a_mode === "create") {
-            $ilCtrl->setParameter($this, "new_type", "wiki");
-        }
-
-        $this->form_gui->setFormAction($ilCtrl->getFormAction($this, "saveSettings"));
-    }
-
-    public function getSettingsFormValues(string $a_mode = "edit"): void
-    {
-        // set values
-        if ($a_mode === "create") {
-            $values["rating_new"] = true;
-
-            $parent = ilObjectFactory::getInstanceByRefId($this->requested_ref_id);
-            $values["rating_overall"] = $parent->selfOrParentWithRatingEnabled();
-        } else {
-            $values["online"] = $this->object->getOnline();
-            $values["title"] = $this->object->getTitle();
-            //$values["startpage"] = $this->object->getStartPage();
-            $values["startpage_id"] = ilWikiPage::_getPageIdForWikiTitle($this->object->getId(), $this->object->getStartPage());
-            $values["shorttitle"] = $this->object->getShortTitle();
-            $values["description"] = $this->object->getLongDescription();
-            $values["rating_overall"] = $this->object->getRatingOverall();
-            $values["rating"] = $this->object->getRating();
-            $values["rating_new"] = $this->object->getRatingForNewPages();
-            $values["rating_ext"] = $this->object->getRatingCategories();
-            $values["public_notes"] = $this->object->getPublicNotes();
-            $values["intro"] = $this->object->getIntroduction();
-            $values["page_toc"] = $this->object->getPageToc();
-            $values["link_md_values"] = $this->object->getLinkMetadataValues();
-
-            // only set given values (because of adv. metadata)
-        }
-        $this->form_gui->setValuesByArray($values, true);
-    }
-
-
-    public function saveSettingsObject(): void
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilSetting = $this->settings;
-        $obj_service = $this->object_service;
-
-        $this->checkPermission("write");
-
-        $this->initSettingsForm();
-
-        if ($this->form_gui->checkInput()) {
-            if (!ilObjWiki::checkShortTitleAvailability($this->form_gui->getInput("shorttitle")) &&
-                $this->form_gui->getInput("shorttitle") !== $this->object->getShortTitle()) {
-                $short_item = $this->form_gui->getItemByPostVar("shorttitle");
-                $short_item->setAlert($lng->txt("wiki_short_title_already_in_use"));
-            } else {
-                $this->object->setTitle($this->form_gui->getInput("title"));
-                $this->object->setDescription($this->form_gui->getInput("description"));
-                $this->object->setOnline($this->form_gui->getInput("online"));
-                $this->object->setStartPage(ilWikiPage::lookupTitle($this->form_gui->getInput("startpage_id")));
-                $this->object->setShortTitle((string) $this->form_gui->getInput("shorttitle"));
-                $this->object->setRatingOverall($this->form_gui->getInput("rating_overall"));
-                $this->object->setRating($this->form_gui->getInput("rating"));
-                // $this->object->setRatingAsBlock($this->form_gui->getInput("rating_side"));
-                $this->object->setRatingForNewPages($this->form_gui->getInput("rating_new"));
-                $this->object->setRatingCategories($this->form_gui->getInput("rating_ext"));
-
-                if (!$ilSetting->get("disable_comments")) {
-                    $this->object->setPublicNotes($this->form_gui->getInput("public_notes"));
-                }
-                $this->object->setIntroduction($this->form_gui->getInput("intro"));
-                $this->object->setPageToc($this->form_gui->getInput("page_toc"));
-                $this->object->setLinkMetadataValues($this->form_gui->getInput("link_md_values"));
-                $this->object->update();
-
-                // tile image
-                $obj_service->commonSettings()->legacyForm($this->form_gui, $this->object)->saveTileImage();
-
-                ilObjectServiceSettingsGUI::updateServiceSettingsForm(
-                    $this->object->getId(),
-                    $this->form_gui,
-                    array(
-                        ilObjectServiceSettingsGUI::CUSTOM_METADATA
-                    )
-                );
-
-                // Update ecs export settings
-                $ecs = new ilECSWikiSettings($this->object);
-                if ($ecs->handleSettingsUpdate($this->form_gui)) {
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                    $ilCtrl->redirect($this, "editSettings");
-                }
-            }
-        }
-
-        $this->form_gui->setValuesByPost();
-        $this->tpl->setContent($this->form_gui->getHTML());
+        $this->ctrl->redirectByClass(SettingsGUI::class);
     }
 
     public function listContributorsObject(): void
@@ -1389,7 +1137,7 @@ class ilObjWikiGUI extends ilObjectGUI
         }
         $append = " '" . $this->edit_request->getPage() . "'";
         $append .= " (" . $this->lng->txt("meta_l_" . $this->edit_request->getTranslation()) . ")";
-        $append2 = " (" . $this->lng->txt("meta_l_" . $this->ot->getMasterLanguage()) . ")";
+        $append2 = " (" . $this->lng->txt("meta_l_" . $this->object->getObjectProperties()->getPropertyTranslations()->getBaseLanguage()) . ")";
         $form = $this->gui->form([self::class], "createNewTranslatedPage")
             ->section("sec", $this->lng->txt("wiki_translation_page") . $append)
             ->switch("type", $this->lng->txt("wiki_page_in_master_language") . $append2, "", "existing")
@@ -2064,7 +1812,7 @@ class ilObjWikiGUI extends ilObjectGUI
             $submission = new ilExSubmission($ass, $this->user->getId());
             if ($submission->hasSubmitted()) {
                 $submitted = $submission->getSelectedObject();
-                if ($submitted["ts"] != "") {
+                if ($submitted?->getTimestamp() != "") {
                     $ilCtrl->setParameterByClass("ilwikipagegui", "ass", $ass->getId());
                 }
                 $dl_link = $ilCtrl->getLinkTargetByClass("ilwikipagegui", "downloadExcSubFile");

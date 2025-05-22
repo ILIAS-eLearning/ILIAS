@@ -26,31 +26,15 @@ declare(strict_types=1);
  */
 class ilTestGradingMessageBuilder
 {
-    private $tpl;
+    private ilTemplate $tpl;
+    private array $resultData;
+    private int $activeId;
 
     /**
-     * @var array
-     */
-    private $resultData;
-
-    /**
-     * @var integer
-     */
-    private $activeId;
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    private $container;
-
-    /**
-     * @var string[] $messageText
+     * @var array<string> $messageText
      */
     private array $messageText = [];
 
-    /**
-     * @param ilLanguage $lng
-     * @param ilObjTest $testOBJ
-     */
     public function __construct(
         private ilLanguage $lng,
         private ilGlobalTemplateInterface $main_tpl,
@@ -165,11 +149,6 @@ class ilTestGradingMessageBuilder
         return $this->resultData['max_points'];
     }
 
-    private function areObligationsAnswered(): bool
-    {
-        return (bool) $this->resultData['obligations_answered'];
-    }
-
     public function buildList()
     {
         $this->loadResultData();
@@ -182,19 +161,6 @@ class ilTestGradingMessageBuilder
             $this->populateListEntry(
                 $this->lng->txt('passed_status'),
                 $this->lng->txt($passedStatusLangVar)
-            );
-        }
-
-        if ($this->testOBJ->areObligationsEnabled()) {
-            if ($this->areObligationsAnswered()) {
-                $obligAnsweredStatusLangVar = 'grading_obligations_answered_listentry';
-            } else {
-                $obligAnsweredStatusLangVar = 'grading_obligations_missing_listentry';
-            }
-
-            $this->populateListEntry(
-                $this->lng->txt('grading_obligations_listlabel'),
-                $this->lng->txt($obligAnsweredStatusLangVar)
             );
         }
 

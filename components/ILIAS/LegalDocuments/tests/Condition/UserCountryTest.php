@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments\test\Condition;
 
 use ILIAS\LegalDocuments\Condition;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy;
 use ILIAS\LegalDocuments\test\ContainerMock;
 use ILIAS\LegalDocuments\Value\CriterionContent;
 use ILIAS\LegalDocuments\Condition\Definition\UserCountryDefinition;
@@ -47,12 +47,17 @@ class UserCountryTest extends TestCase
 
     public function testAsComponent(): void
     {
-        $legacy = $this->mock(Legacy::class);
+        $legacy = $this->mock(Legacy\Content::class);
+        $legacy_factory = $this->mock(Legacy\Factory::class);
+        $legacy_factory
+            ->expects($this->once())
+            ->method('content')
+            ->willReturn($legacy);
 
         $instance = new UserCountry(
             $this->mockTree(CriterionContent::class, ['arguments' => ['country' => 'foo']]),
             $this->mock(UserCountryDefinition::class),
-            $this->mockTree(UIFactory::class, ['legacy' => $legacy])
+            $this->mockTree(UIFactory::class, ['legacy' => $legacy_factory])
         );
 
         $this->assertSame($legacy, $instance->asComponent());

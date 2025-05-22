@@ -56,62 +56,12 @@ class assKprimChoiceTest extends assBaseTestCase
         $this->assertEquals('qpl_a_kprim', $obj->getAnswerTableName());
     }
 
-    /* Removed by @kergomard 17 NOV 2022, we should introduce this again
-    public function test_isCompleteWithoutAnswer_shouldReturnTrue(): void
-    {
-        $obj = new assKprimChoice();
-        $this->assertEquals(false, $obj->isComplete());
-        $obj->setTitle('Tilte');
-        $obj->setAuthor('Me or another');
-        $obj->setQuestion('My great Question.');
-        $this->assertEquals(false, $obj->isComplete());
-        $obj->setPoints(1);
-        $this->assertEquals(true, $obj->isComplete());
-    }
-
-    public function test_isCompleteWithAnswer_shouldReturnTrue(): void
-    {
-        $obj = new assKprimChoice();
-        $this->assertEquals(false, $obj->isComplete());
-        $obj->setTitle('Tilte');
-        $obj->setAuthor('Me or another');
-        $obj->setQuestion('My great Question.');
-        $obj->setPoints(1);
-        $ans = new ilAssKprimChoiceAnswer();
-        $obj->addAnswer($ans);
-        $this->assertEquals(false, $obj->isComplete());
-        $ans->setCorrectness(true);
-        $obj->addAnswer($ans);
-        $this->assertEquals(false, $obj->isComplete());
-        $ans->setAnswertext('Text');
-        $obj->addAnswer($ans);
-        $this->assertEquals(true, $obj->isComplete());
-    } */
-
     public function test_isValidOptionLabel_shouldReturnTrue(): void
     {
         $obj = new assKprimChoice();
         $this->assertEquals(false, $obj->isValidOptionLabel('not valid'));
         $this->assertEquals(true, $obj->isValidOptionLabel($obj::OPTION_LABEL_RIGHT_WRONG));
     }
-
-    public function test_isObligationPossible_shouldReturnTrue(): void
-    {
-        $obj = new assKprimChoice();
-        $this->assertEquals(true, $obj->isObligationPossible(1));
-    }
-
-    /* Removed by @kergomard 17 NOV 2022, we should introduce this again
-    public function test_getAnswer_shouldReturnAnswer(): void
-    {
-        $obj = new assKprimChoice();
-        $ans = new ilAssKprimChoiceAnswer();
-        $ans->setCorrectness(true);
-        $ans->setAnswertext('Text');
-        $obj->addAnswer($ans);
-        $this->assertInstanceOf('ilAssKprimChoiceAnswer', $obj->getAnswer(0));
-        $this->assertEquals(null, $obj->getAnswer(1));
-    } */
 
     public function test_isValidAnswerType_shouldReturnTrue(): void
     {

@@ -38,8 +38,8 @@ class ilTestQuestionRelatedObjectivesList
 
     public function __construct()
     {
-        $this->objectivesByQuestion = array();
-        $this->objectivesTitles = array();
+        $this->objectivesByQuestion = [];
+        $this->objectivesTitles = [];
     }
 
     /**
@@ -90,12 +90,14 @@ class ilTestQuestionRelatedObjectivesList
      */
     public function getQuestionRelatedObjectiveTitles($questionId): string
     {
-        $titles = array();
+        if (!isset($this->objectivesByQuestion[$questionId])
+            || !is_array($this->objectivesByQuestion[$questionId])) {
+            return '';
+        }
 
-        if (isset($this->objectivesByQuestion[$questionId])) {
-            foreach ((array) $this->objectivesByQuestion[$questionId] as $objectiveId) {
-                $titles[] = $this->objectivesTitles[$objectiveId];
-            }
+        $titles = [];
+        foreach ($this->objectivesByQuestion[$questionId] as $objectiveId) {
+            $titles[] = $this->objectivesTitles[$objectiveId];
         }
 
         return implode(', ', $titles);
@@ -108,7 +110,7 @@ class ilTestQuestionRelatedObjectivesList
 
     public function getUniqueObjectivesStringForQuestions($questionIds): string
     {
-        $objectiveTitles = array();
+        $objectiveTitles = [];
 
         foreach ($this->objectivesByQuestion as $questionId => $objectiveIds) {
             if (!in_array($questionId, $questionIds)) {
@@ -135,6 +137,11 @@ class ilTestQuestionRelatedObjectivesList
 
     public function isQuestionRelatedToObjective($questionId, $objectiveId): bool
     {
+        if (!isset($this->objectivesByQuestion[$questionId])
+            || !is_array($this->objectivesByQuestion[$questionId])) {
+            return false;
+        }
+
         foreach ($this->objectivesByQuestion[$questionId] as $relatedObjectiveId) {
             if ($relatedObjectiveId == $objectiveId) {
                 return true;
@@ -146,7 +153,7 @@ class ilTestQuestionRelatedObjectivesList
 
     public function filterResultsByObjective($testResults, $objectiveId): array
     {
-        $filteredResults = array();
+        $filteredResults = [];
 
         foreach ($testResults as $questionId => $resultData) {
             if (!$this->isQuestionRelatedToObjective($questionId, $objectiveId)) {

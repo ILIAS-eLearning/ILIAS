@@ -23,16 +23,16 @@ declare(strict_types=1);
  */
 class ilForumMailEventNotificationSender extends ilMailNotification
 {
-    private const TYPE_THREAD_DELETED = 54;
-    private const TYPE_POST_NEW = 60;
-    private const TYPE_POST_ACTIVATION = 61;
-    private const TYPE_POST_UPDATED = 62;
-    private const TYPE_POST_CENSORED = 63;
-    private const TYPE_POST_DELETED = 64;
-    private const TYPE_POST_ANSWERED = 65;
-    private const TYPE_POST_UNCENSORED = 66;
-    private const PERMANENT_LINK_POST = 'PL_Post';
-    private const PERMANENT_LINK_FORUM = 'PL_Forum';
+    private const int TYPE_THREAD_DELETED = 54;
+    private const int TYPE_POST_NEW = 60;
+    private const int TYPE_POST_ACTIVATION = 61;
+    private const int TYPE_POST_UPDATED = 62;
+    private const int TYPE_POST_CENSORED = 63;
+    private const int TYPE_POST_DELETED = 64;
+    private const int TYPE_POST_ANSWERED = 65;
+    private const int TYPE_POST_UNCENSORED = 66;
+    private const string PERMANENT_LINK_POST = 'PL_Post';
+    private const string PERMANENT_LINK_FORUM = 'PL_Forum';
     protected bool $is_cronjob = false;
 
     public function __construct(protected ilForumNotificationMailData $provider, protected ilLogger $logger)
@@ -309,7 +309,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
 
     private function getPostMessage(): string
     {
-        $pos_message = $this->provider->getPostMessage();
+        $pos_message = $this->provider->getPostMessage() ?? '';
         if (strip_tags($pos_message) !== $pos_message) {
             $pos_message = preg_replace("/\n/i", "", $pos_message);
             $pos_message = preg_replace("/<li([^>]*)>/i", "\n<li$1>", $pos_message);

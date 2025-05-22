@@ -22,60 +22,23 @@
  */
 class ilObjPortfolio extends ilObjPortfolioBase implements ilAdvancedMetaDataSubItems
 {
-    protected bool $default = false;
-
     protected function initType(): void
     {
         $this->type = "prtf";
     }
 
-    //
-    // PROPERTIES
-    //
-
-    public function setDefault(bool $a_value): void
-    {
-        $this->default = $a_value;
-    }
-
-    public function isDefault(): bool
-    {
-        return $this->default;
-    }
-
-
-    //
-    // CRUD
-    //
-
-    protected function doReadCustom(array $a_row): void
-    {
-        $this->setDefault((bool) $a_row["is_default"]);
-    }
-
-    protected function doUpdate(): void
-    {
-        // must be online to be default
-        if (!$this->isOnline() && $this->isDefault()) {
-            $this->setDefault(false);
-        }
-
-        parent::doUpdate();
-    }
-
-    protected function doUpdateCustom(array &$a_fields): void
-    {
-        $a_fields["is_default"] = array("integer", $this->isDefault());
-    }
 
     protected function deleteAllPages(): void
     {
         // delete pages
         $pages = ilPortfolioPage::getAllPortfolioPages($this->id);
         foreach ($pages as $page) {
-            $page_obj = new ilPortfolioPage($page["id"]);
-            $page_obj->setPortfolioId($this->id);
-            $page_obj->delete();
+            try {
+                $page_obj = new ilPortfolioPage($page["id"]);
+                $page_obj->setPortfolioId($this->id);
+                $page_obj->delete();
+            } catch (Exception $e) {
+            }
         }
     }
 
@@ -84,33 +47,6 @@ class ilObjPortfolio extends ilObjPortfolioBase implements ilAdvancedMetaDataSub
     // HELPER
     //
 
-    /**
-     * Set the user default portfolio
-     */
-    public static function setUserDefault(
-        int $a_user_id,
-        ?int $a_portfolio_id = null
-    ): void {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $all = array();
-        foreach (self::getPortfoliosOfUser($a_user_id) as $item) {
-            $all[] = $item["id"];
-        }
-        if ($all) {
-            $ilDB->manipulate("UPDATE usr_portfolio" .
-                " SET is_default = " . $ilDB->quote(false, "integer") .
-                " WHERE " . $ilDB->in("id", $all, "", "integer"));
-        }
-
-        if ($a_portfolio_id) {
-            $ilDB->manipulate("UPDATE usr_portfolio" .
-                " SET is_default = " . $ilDB->quote(true, "integer") .
-                " WHERE id = " . $ilDB->quote($a_portfolio_id, "integer"));
-        }
-    }
 
     /**
      * Get portfolios of user
@@ -137,27 +73,10 @@ class ilObjPortfolio extends ilObjPortfolioBase implements ilAdvancedMetaDataSub
     }
 
     /**
-     * Get default portfolio of user
+     * @deprecated
      */
     public static function getDefaultPortfolio(int $a_user_id): ?int
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-        $ilSetting = $DIC->settings();
-
-        if (!$ilSetting->get('user_portfolios')) {
-            return null;
-        }
-
-        $set = $ilDB->query("SELECT up.id FROM usr_portfolio up" .
-            " JOIN object_data od ON (up.id = od.obj_id)" .
-            " WHERE od.owner = " . $ilDB->quote($a_user_id, "integer") .
-            " AND up.is_default = " . $ilDB->quote(1, "integer"));
-        $res = $ilDB->fetchAssoc($set);
-        if ($res && $res["id"]) {
-            return (int) $res["id"];
-        }
         return null;
     }
 
@@ -179,27 +98,6 @@ class ilObjPortfolio extends ilObjPortfolioBase implements ilAdvancedMetaDataSub
         }
     }
 
-    public function deleteImage(): void
-    {
-        if ($this->id) {
-            parent::deleteImage();
-            $this->handleQuotaUpdate();
-        }
-    }
-
-    public function uploadImage(array $a_upload): bool
-    {
-        if (parent::uploadImage($a_upload)) {
-            $this->handleQuotaUpdate();
-            return true;
-        }
-        return false;
-    }
-
-    protected function handleQuotaUpdate(): void
-    {
-    }
-
     public static function getAvailablePortfolioLinksForUserIds(
         array $a_owner_ids,
         ?string $a_back_url = null
@@ -210,8 +108,9 @@ class ilObjPortfolio extends ilObjPortfolioBase implements ilAdvancedMetaDataSub
 
         $params = null;
         if ($a_back_url) {
-            $params = array("back_url" => rawurlencode($a_back_url));
+            //$params = array("back_url" => rawurlencode($a_back_url));
         }
+        $params = [];
 
         foreach ($access_handler->getShardObjectsDataForUserIds($a_owner_ids) as $owner_id => $items) {
             foreach ($items as $id => $title) {

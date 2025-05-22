@@ -32,8 +32,8 @@ abstract class ilExplorerBaseGUI
     protected ilCtrl $ctrl;
     protected ?ilGlobalTemplateInterface $tpl;
 
-    protected static string $js_tree_path = "./assets/js/jstree.js";
-    protected static string $js_tree_path_css = "./assets/css/style.min.css";
+    protected static string $js_tree_path = "./node_modules/jstree/dist/jstree.js";
+    protected static string $js_tree_path_css = "./node_modules/jstree/dist/themes/default/style.min.css";
 
     protected static string $js_expl_path = "assets/js/Explorer2.js";
     protected bool $skip_root_node = false;
@@ -116,7 +116,7 @@ abstract class ilExplorerBaseGUI
         return $this->search_term;
     }
 
-    public function setMainTemplate(ilGlobalTemplateInterface $a_main_tpl = null): void
+    public function setMainTemplate(?ilGlobalTemplateInterface $a_main_tpl = null): void
     {
         $this->tpl = $a_main_tpl;
     }
@@ -595,7 +595,7 @@ abstract class ilExplorerBaseGUI
 
 
     // Init JS/CSS
-    public static function init(ilGlobalTemplateInterface $a_main_tpl = null): void
+    public static function init(?ilGlobalTemplateInterface $a_main_tpl = null): void
     {
         global $DIC;
 

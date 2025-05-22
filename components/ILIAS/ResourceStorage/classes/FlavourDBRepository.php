@@ -22,7 +22,6 @@ namespace ILIAS\ResourceStorage\Resource\Repository;
 
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Flavour\Flavour;
-use ILIAS\ResourceStorage\Flavour\FlavourIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
@@ -36,11 +35,9 @@ class FlavourDBRepository implements FlavourRepository
     protected const F_DEFINITION = 'definition_id';
     protected const F_VARIANT = 'variant';
     private array $results_cache = [];
-    private \ilDBInterface $db;
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(private \ilDBInterface $db)
     {
-        $this->db = $db;
     }
 
 

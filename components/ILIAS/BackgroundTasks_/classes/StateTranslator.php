@@ -29,18 +29,13 @@ trait StateTranslator
 {
     public function translateState(int $state, \ilLanguage $lng): string
     {
-        switch ($state) {
-            case State::SCHEDULED:
-                return $lng->txt("observer_state_scheduled");
-            case State::RUNNING:
-                return $lng->txt("observer_state_running");
-            case State::USER_INTERACTION:
-                return $lng->txt("observer_state_user_interaction");
-            case State::FINISHED:
-                return $lng->txt("observer_state_finished");
-            case State::ERROR:
-                return $lng->txt("observer_state_error");
-        }
-        return '';
+        return match ($state) {
+            State::SCHEDULED => $lng->txt("observer_state_scheduled"),
+            State::RUNNING => $lng->txt("observer_state_running"),
+            State::USER_INTERACTION => $lng->txt("observer_state_user_interaction"),
+            State::FINISHED => $lng->txt("observer_state_finished"),
+            State::ERROR => $lng->txt("observer_state_error"),
+            default => '',
+        };
     }
 }

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\Signal as SignalImplementation;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Button\Button;
@@ -35,89 +37,18 @@ class ilTestQuestionNavigationGUI
     public const CSS_CLASS_SUBMIT_BUTTONS = 'ilc_qsubmit_Submit';
     private \ILIAS\DI\UIServices $ui;
 
-    /**
-     * @var string
-     */
-    private $editSolutionCommand = '';
-
-    /**
-     * @var bool
-     */
-    private $questionWorkedThrough = false;
-
-    /**
-     * @var string
-     */
-    private $submitSolutionCommand = '';
-
-    // fau: testNav - new variable for 'revert changes' link target
-    /**
-     * @var string
-     */
-    private $revertChangesLinkTarget = '';
-    // fau.
-
-    /**
-     * @var bool
-     */
-    private $discardSolutionButtonEnabled = false;
-
-    /**
-     * @var string
-     */
-    private $skipQuestionLinkTarget = '';
-
-    /**
-     * @var string
-     */
-    private $instantFeedbackCommand = '';
-
-    /**
-     * @var bool
-     */
-    private $answerFreezingEnabled = false;
-
-    /**
-     * @var bool
-     */
-    private $forceInstantResponseEnabled = false;
-
-    /**
-     * @var string
-     */
-    private $requestHintCommand = '';
-
-    /**
-     * @var string
-     */
-    private $showHintsCommand = '';
-
-    /**
-     * @var bool
-     */
-    private $hintRequestsExist = false;
-
-    // fau: testNav - change question mark command to link target
-    /**
-     * @var string
-     */
-    private $questionMarkLinkTarget = '';
-    // fau.
-
-    /**
-     * @var bool
-     */
-    private $questionMarked = false;
-
-    /**
-     * @var bool
-     */
-    private $anythingRendered = false;
-
-    /**
-     * @param ilLanguage $lng
-     */
-
+    private string $edit_solution_command = '';
+    private bool $question_worked_through = false;
+    private string $revert_changes_link_target = '';
+    private bool $discard_solution_button_enabled = false;
+    private string $skip_question_link_target = '';
+    private string $instant_feedback_command = '';
+    private bool $answer_freezing_enabled = false;
+    private bool $force_instant_response_enabled = false;
+    private string $question_mark_link_target = '';
+    private bool $question_marked = false;
+    private bool $anything_rendered = false;
+    private ?Signal $show_discard_modal_signal = null;
 
     public function __construct(
         protected ilLanguage $lng,
@@ -126,248 +57,69 @@ class ilTestQuestionNavigationGUI
     ) {
     }
 
-    /**
-     * @return string
-     */
-    public function getEditSolutionCommand(): string
+    public function setEditSolutionCommand(string $edit_solution_command): void
     {
-        return $this->editSolutionCommand;
+        $this->edit_solution_command = $edit_solution_command;
     }
 
-    /**
-     * @param string $editSolutionCommand
-     */
-    public function setEditSolutionCommand($editSolutionCommand)
+    public function setQuestionWorkedThrough(bool $question_worked_through): void
     {
-        $this->editSolutionCommand = $editSolutionCommand;
+        $this->question_worked_through = $question_worked_through;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isQuestionWorkedThrough(): bool
+    public function setRevertChangesLinkTarget(string $revert_changes_link_target): void
     {
-        return $this->questionWorkedThrough;
+        $this->revert_changes_link_target = $revert_changes_link_target;
     }
 
-    /**
-     * @param boolean $questionWorkedThrough
-     */
-    public function setQuestionWorkedThrough($questionWorkedThrough)
+    public function setDiscardSolutionButtonEnabled(bool $discard_solution_button_enabled): void
     {
-        $this->questionWorkedThrough = $questionWorkedThrough;
+        $this->discard_solution_button_enabled = $discard_solution_button_enabled;
     }
 
-    /**
-     * @return string
-     */
-    public function getSubmitSolutionCommand(): string
+    public function setSkipQuestionLinkTarget(string $skip_question_link_target): void
     {
-        return $this->submitSolutionCommand;
+        $this->skip_question_link_target = $skip_question_link_target;
     }
 
-    /**
-     * @param string $submitSolutionCommand
-     */
-    public function setSubmitSolutionCommand($submitSolutionCommand)
+    public function setInstantFeedbackCommand(string $instant_feedback_command): void
     {
-        $this->submitSolutionCommand = $submitSolutionCommand;
+        $this->instant_feedback_command = $instant_feedback_command;
     }
 
-    // fau: testNav - get/set revertChangesCommand
-    /**
-     * @return string
-     */
-    public function getRevertChangesLinkTarget(): string
+    public function setForceInstantResponseEnabled(bool $force_instant_response_enabled): void
     {
-        return $this->revertChangesLinkTarget;
+        $this->force_instant_response_enabled = $force_instant_response_enabled;
     }
 
-    /**
-     * @param string
-     */
-    public function setRevertChangesLinkTarget($revertChangesLinkTarget)
+    public function setAnswerFreezingEnabled(bool $answer_freezing_enabled): void
     {
-        $this->revertChangesLinkTarget = $revertChangesLinkTarget;
-    }
-    // fau.
-
-    /**
-     * @return bool
-     */
-    public function isDiscardSolutionButtonEnabled(): bool
-    {
-        return $this->discardSolutionButtonEnabled;
+        $this->answer_freezing_enabled = $answer_freezing_enabled;
     }
 
-    /**
-     * @param bool $discardSolutionButtonEnabled
-     */
-    public function setDiscardSolutionButtonEnabled($discardSolutionButtonEnabled)
+    public function setQuestionMarkLinkTarget(string $question_mark_link_target): void
     {
-        $this->discardSolutionButtonEnabled = $discardSolutionButtonEnabled;
+        $this->question_mark_link_target = $question_mark_link_target;
     }
 
-    /**
-     * @return string
-     */
-    public function getSkipQuestionLinkTarget(): string
+    public function setQuestionMarked(bool $question_marked): void
     {
-        return $this->skipQuestionLinkTarget;
+        $this->question_marked = $question_marked;
     }
 
-    /**
-     * @param string $skipQuestionLinkTarget
-     */
-    public function setSkipQuestionLinkTarget($skipQuestionLinkTarget)
+    public function setAnythingRendered(): void
     {
-        $this->skipQuestionLinkTarget = $skipQuestionLinkTarget;
+        $this->anything_rendered = true;
     }
 
-    /**
-     * @return string
-     */
-    public function getInstantFeedbackCommand(): string
+    public function setShowDiscardModalSignal(Signal $signal): void
     {
-        return $this->instantFeedbackCommand;
+        $this->show_discard_modal_signal = $signal;
     }
 
-    /**
-     * @param string $instantFeedbackCommand
-     */
-    public function setInstantFeedbackCommand($instantFeedbackCommand)
+    private function getShowDiscardModalSignal(): Signal
     {
-        $this->instantFeedbackCommand = $instantFeedbackCommand;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isAnswerFreezingEnabled(): bool
-    {
-        return $this->answerFreezingEnabled;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isForceInstantResponseEnabled(): bool
-    {
-        return $this->forceInstantResponseEnabled;
-    }
-
-    /**
-     * @param boolean $forceInstantResponseEnabled
-     */
-    public function setForceInstantResponseEnabled($forceInstantResponseEnabled)
-    {
-        $this->forceInstantResponseEnabled = $forceInstantResponseEnabled;
-    }
-
-    /**
-     * @param boolean $answerFreezingEnabled
-     */
-    public function setAnswerFreezingEnabled($answerFreezingEnabled)
-    {
-        $this->answerFreezingEnabled = $answerFreezingEnabled;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRequestHintCommand(): string
-    {
-        return $this->requestHintCommand;
-    }
-
-    /**
-     * @param string $requestHintCommand
-     */
-    public function setRequestHintCommand($requestHintCommand)
-    {
-        $this->requestHintCommand = $requestHintCommand;
-    }
-
-    /**
-     * @return string
-     */
-    public function getShowHintsCommand(): string
-    {
-        return $this->showHintsCommand;
-    }
-
-    /**
-     * @param string $showHintsCommand
-     */
-    public function setShowHintsCommand($showHintsCommand)
-    {
-        $this->showHintsCommand = $showHintsCommand;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function hintRequestsExist(): bool
-    {
-        return $this->hintRequestsExist;
-    }
-
-    /**
-     * @param boolean $hintRequestsExist
-     */
-    public function setHintRequestsExist($hintRequestsExist)
-    {
-        $this->hintRequestsExist = $hintRequestsExist;
-    }
-
-    // fau: testNav - change setter/getter of question mark command to link target
-    /**
-     * @return string
-     */
-    public function getQuestionMarkLinkTarget(): string
-    {
-        return $this->questionMarkLinkTarget;
-    }
-
-    /**
-     * @param string $questionMarkLinkTarget
-     */
-    public function setQuestionMarkLinkTarget($questionMarkLinkTarget)
-    {
-        $this->questionMarkLinkTarget = $questionMarkLinkTarget;
-    }
-    // fau.
-
-    /**
-     * @return boolean
-     */
-    public function isQuestionMarked(): bool
-    {
-        return $this->questionMarked;
-    }
-
-    /**
-     * @param boolean $questionMarked
-     */
-    public function setQuestionMarked($questionMarked)
-    {
-        $this->questionMarked = $questionMarked;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isAnythingRendered(): bool
-    {
-        return $this->anythingRendered;
-    }
-
-    /**
-     * @param boolean $buttonRendered
-     */
-    public function setAnythingRendered()
-    {
-        $this->anythingRendered = true;
+        return $this->show_discard_modal_signal ?? new SignalImplementation('');
     }
 
     public function getActionsHTML(): string
@@ -375,14 +127,14 @@ class ilTestQuestionNavigationGUI
         $tpl = $this->getTemplate('actions');
         $actions = [];
 
-        if ($this->getQuestionMarkLinkTarget()) {
+        if ($this->question_mark_link_target) {
             $this->renderActionsIcon(
                 $tpl,
                 $this->getQuestionMarkIconSource(),
                 $this->getQuestionMarkIconLabel(),
                 'ilTestMarkQuestionIcon'
             );
-            $target = $this->getQuestionMarkLinkTarget();
+            $target = $this->question_mark_link_target;
             $actions[] = $this->ui_factory->button()->shy(
                 $this->getQuestionMarkActionLabel(),
                 ''
@@ -396,10 +148,10 @@ class ilTestQuestionNavigationGUI
             );
         }
 
-        if ($this->getSkipQuestionLinkTarget()) {
+        if ($this->skip_question_link_target) {
             $actions[] = $this->ui_factory->button()->shy(
                 $this->lng->txt('postpone_question'),
-                $this->getSkipQuestionLinkTarget()
+                $this->skip_question_link_target
             );
         }
 
@@ -409,77 +161,44 @@ class ilTestQuestionNavigationGUI
 
         $actions[] = $this->ui_factory->button()->shy(
             $this->lng->txt('tst_revert_changes'),
-            $this->getRevertChangesLinkTarget()
-        )->withUnavailableAction(!$this->getRevertChangesLinkTarget());
+            $this->revert_changes_link_target
+        )->withUnavailableAction(!$this->revert_changes_link_target);
 
-        $actions[] = $this->ui_factory->button()->shy(
-            $this->lng->txt('discard_answer'),
-            '#'
-        )
-        ->withUnavailableAction(!$this->isDiscardSolutionButtonEnabled())
-        ->withAdditionalOnLoadCode(
-            fn($id) => "document.getElementById('$id').addEventListener(
-                'click',
-                 ()=>$('#tst_discard_solution_modal').modal('show')
-            )"
-        );
+        if ($this->question_worked_through) {
+            $actions[] = $this->ui_factory->button()->shy(
+                $this->lng->txt('discard_answer'),
+                '#'
+            )->withUnavailableAction(!$this->discard_solution_button_enabled)
+                ->withOnClick($this->getShowDiscardModalSignal());
+        }
 
-        $list = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt("actions"));
+        $list = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
         $tpl->setVariable('ACTION_MENU', $this->ui_renderer->render($list));
 
         return $tpl->get();
     }
 
-
-    /**
-     * @return string
-     */
     public function getHTML(): string
     {
-        // fau: testNav - add parameter for toolbar template purpose
         $tpl = $this->getTemplate('toolbar');
-        // fau.
-        if ($this->getEditSolutionCommand()) {
+        if ($this->edit_solution_command) {
             $this->renderSubmitButton(
                 $tpl,
-                $this->getEditSolutionCommand(),
+                $this->edit_solution_command,
                 $this->getEditSolutionButtonLabel()
             );
         }
 
-        // fau: testNav - don't show the standard submit button.
-        // fau: testNav - discard answer is moved to the actions menu.
-        // fau: testNav - skip question (postpone) is moved to the actions menu.
-
-        if ($this->getInstantFeedbackCommand()) {
+        if ($this->instant_feedback_command === ilTestPlayerCommands::SHOW_INSTANT_RESPONSE) {
             $this->renderInstantFeedbackButton(
                 $tpl,
-                $this->getInstantFeedbackCommand(),
+                $this->instant_feedback_command,
                 $this->getCheckButtonLabel(),
-                $this->isForceInstantResponseEnabled()
+                $this->force_instant_response_enabled
             );
         }
 
-        if ($this->getRequestHintCommand()) {
-            $this->renderSubmitButton(
-                $tpl,
-                $this->getRequestHintCommand(),
-                $this->getRequestHintButtonLabel()
-            );
-        }
-
-        if ($this->getShowHintsCommand()) {
-            $this->renderSubmitButton(
-                $tpl,
-                $this->getShowHintsCommand(),
-                $this->lng->txt('show_requested_question_hints')
-            );
-        }
-
-        // fau: testNav - question mark is moved to the actions menu.
-        // fau: testNav - char selector is moved to the actions menu.
-
-        if ($this->isAnythingRendered()) {
+        if ($this->anything_rendered) {
             $this->parseNavigation($tpl);
         }
 
@@ -488,7 +207,7 @@ class ilTestQuestionNavigationGUI
 
     private function getEditSolutionButtonLabel(): string
     {
-        if ($this->isQuestionWorkedThrough()) {
+        if ($this->question_worked_through) {
             return $this->lng->txt('edit_answer');
         }
 
@@ -497,26 +216,16 @@ class ilTestQuestionNavigationGUI
 
     private function getCheckButtonLabel(): string
     {
-        if ($this->isAnswerFreezingEnabled()) {
+        if ($this->answer_freezing_enabled) {
             return $this->lng->txt('submit_and_check');
         }
 
         return $this->lng->txt('check');
     }
 
-    private function getRequestHintButtonLabel(): string
-    {
-        if ($this->hintRequestsExist()) {
-            return $this->lng->txt('button_request_next_question_hint');
-        }
-
-        return $this->lng->txt('button_request_question_hint');
-    }
-
-    // fau: testNav - adjust mark icon and action labels
     private function getQuestionMarkActionLabel(): string
     {
-        if ($this->isQuestionMarked()) {
+        if ($this->question_marked) {
             return $this->lng->txt('tst_remove_mark');
         }
 
@@ -526,29 +235,22 @@ class ilTestQuestionNavigationGUI
 
     private function getQuestionMarkIconLabel(): string
     {
-        if ($this->isQuestionMarked()) {
+        if ($this->question_marked) {
             return $this->lng->txt('tst_question_marked');
         }
 
         return$this->lng->txt('tst_question_not_marked');
     }
-    // fau.
 
     private function getQuestionMarkIconSource(): string
     {
-        if ($this->isQuestionMarked()) {
+        if ($this->question_marked) {
             return ilUtil::getImagePath('object/marked.svg');
         }
 
         return ilUtil::getImagePath('object/marked_.svg');
     }
 
-    // fau: testNav - add parameter for template purpose
-    /**
-     * Get the template
-     * @param	string	$a_purpose ('toolbar' | 'actions')
-     * @return ilTemplate
-     */
     private function getTemplate($a_purpose = 'toolbar'): ilTemplate
     {
         switch ($a_purpose) {
@@ -569,46 +271,29 @@ class ilTestQuestionNavigationGUI
                 );
         }
     }
-    // fau.
 
-    /**
-     * @param ilTemplate $tpl
-     */
-    private function parseNavigation(ilTemplate $tpl)
+    private function parseNavigation(ilTemplate $tpl): void
     {
         $tpl->setCurrentBlock('question_related_navigation');
         $tpl->parseCurrentBlock();
     }
 
-    /**
-     * @param ilTemplate $tpl
-     */
-    private function parseButtonsBlock(ilTemplate $tpl)
+    private function parseButtonsBlock(ilTemplate $tpl): void
     {
         $tpl->setCurrentBlock('buttons');
         $tpl->parseCurrentBlock();
     }
 
-    /**
-     * @param ilTemplate $tpl
-     * @param $button
-     */
-    private function renderButtonInstance(ilTemplate $tpl, Button $button)
+    private function renderButtonInstance(ilTemplate $tpl, Button $button): void
     {
-        $tpl->setCurrentBlock("button_instance");
-        $tpl->setVariable("BUTTON_INSTANCE", $this->ui_renderer->render($button));
+        $tpl->setCurrentBlock('button_instance');
+        $tpl->setVariable('BUTTON_INSTANCE', $this->ui_renderer->render($button));
         $tpl->parseCurrentBlock();
 
         $this->parseButtonsBlock($tpl);
         $this->setAnythingRendered();
     }
 
-    /**
-     * @param ilTemplate $tpl
-     * @param $command
-     * @param $label
-     * @param bool|false $primary
-     */
     private function renderSubmitButton(
         ilTemplate $tpl,
         string $command,
@@ -653,34 +338,16 @@ class ilTestQuestionNavigationGUI
         };
     }
 
-    /**
-     * @param ilTemplate $tpl
-     * @param $command
-     * @param $iconSrc
-     * @param $label
-     * @param $cssClass
-     */
-    private function renderIcon(ilTemplate $tpl, $command, $iconSrc, $label, $cssClass)
-    {
-        $tpl->setCurrentBlock("submit_icon");
-        $tpl->setVariable("SUBMIT_ICON_CMD", $command);
-        $tpl->setVariable("SUBMIT_ICON_SRC", $iconSrc);
-        $tpl->setVariable("SUBMIT_ICON_TEXT", $label);
-        $tpl->setVariable("SUBMIT_ICON_CLASS", $cssClass);
-        $tpl->parseCurrentBlock();
-
-        $this->parseButtonsBlock($tpl);
-        $this->setAnythingRendered();
-    }
-
-    // fau: testNav - render an icon beneath the actions menu
-    private function renderActionsIcon(ilTemplate $tpl, $iconSrc, $label, $cssClass)
-    {
-        $tpl->setCurrentBlock("actions_icon");
-        $tpl->setVariable("ICON_SRC", $iconSrc);
-        $tpl->setVariable("ICON_TEXT", $label);
-        $tpl->setVariable("ICON_CLASS", $cssClass);
+    private function renderActionsIcon(
+        ilTemplate $tpl,
+        string $icon_src,
+        string $label,
+        string $css_class
+    ): void {
+        $tpl->setCurrentBlock('actions_icon');
+        $tpl->setVariable('ICON_SRC', $icon_src);
+        $tpl->setVariable('ICON_TEXT', $label);
+        $tpl->setVariable('ICON_CLASS', $css_class);
         $tpl->parseCurrentBlock();
     }
-    // fau.
 }

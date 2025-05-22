@@ -6,16 +6,16 @@ var ilFileWizardInputTemplate = {
 
 	initEvents: function (rootel) {
 		let that = this;
-		$(rootel).find('span.' + this.tag_button + '_add a').click(function (e) {
+		$(rootel).find('span.' + this.tag_button + '_add').click(function (e) {
 			that.addRow(e);
 		});
-		$(rootel).find('span.' + this.tag_button + '_remove a').click(function (e) {
+		$(rootel).find('span.' + this.tag_button + '_remove').click(function (e) {
 			that.removeRow(e);
 		});
-		$(rootel).find('span.' + this.tag_button + '_up a').click(function (e) {
+		$(rootel).find('span.' + this.tag_button + '_up').click(function (e) {
 			that.moveRowUp(e);
 		});
-		$(rootel).find('span.' + this.tag_button + '_down a').click(function (e) {
+		$(rootel).find('span.' + this.tag_button + '_down').click(function (e) {
 			that.moveRowDown(e);
 		});
 	},

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,13 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
 
 use LogicException;
 
 /**
- * Class Css
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class Css extends AbstractMediaWithPath
 {
@@ -34,11 +34,7 @@ class Css extends AbstractMediaWithPath
 
     private string $media = self::MEDIA_SCREEN;
 
-    /**
-     * Css constructor.
-     * @param string $content
-     * @param string $media
-     */
+
     public function __construct(string $content, string $version, string $media = self::MEDIA_SCREEN)
     {
         if (!in_array($media, [self::MEDIA_ALL, self::MEDIA_PRINT, self::MEDIA_SCREEN, self::MEDIA_SPEECH])) {
@@ -48,9 +44,6 @@ class Css extends AbstractMediaWithPath
         $this->media = $media;
     }
 
-    /**
-     * @return string
-     */
     public function getMedia(): string
     {
         return $this->media;

@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\Delivery;
 
-use ILIAS\FileDelivery\Token\Data\Stream;
 use ILIAS\Filesystem\Stream\Streams;
 
 /**

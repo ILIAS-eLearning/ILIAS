@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Resources\DataSource;
 
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\components\ResourceStorage\Resources\Listing\SortDirection;
 use ILIAS\UI\Implementation\Component\Input\Container\Filter\Standard;
 
@@ -72,8 +73,9 @@ class CollectionDataSource extends BaseTableDataSource implements TableDataSourc
     }
 
     /**
-     * @return \ILIAS\ResourceStorage\Identification\ResourceIdentification[]
+     * @return ResourceIdentification[]
      */
+    #[\Override]
     public function getResourceIdentifications(): array
     {
         return $this->irss->collection()->rangeAsArray(

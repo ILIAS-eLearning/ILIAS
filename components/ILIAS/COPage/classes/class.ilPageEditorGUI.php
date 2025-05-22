@@ -213,7 +213,7 @@ class ilPageEditorGUI
 
         // Step CS (strip base command)
         $com = null;
-        if ($cmdClass != "ilfilesystemgui") {
+        if ($cmdClass != "ilcontainerresourcegui") {
             $com = explode("_", $cmd);
             $cmd = $com[0];
         }
@@ -224,14 +224,12 @@ class ilPageEditorGUI
         $next_class = $this->ctrl->getNextClass($this);
         $this->log->debug("step NC: next class: " . $next_class);
 
-
         // Step PH (placeholder handling, placeholders from preview mode come without hier_id)
         if ($next_class == "ilpcplaceholdergui" && $hier_id == "" && $this->requested_pl_pc_id != "") {
             $hid = $this->page->getHierIdsForPCIds(array($this->requested_pl_pc_id));
             $hier_id = $hid[$this->requested_pl_pc_id];
         }
         $this->log->debug("step PH: next class: " . $next_class);
-
         if (!is_null($com) && ($com[0] == "insert" || $com[0] == "create")) {
             // Step CM (creation mode handling)
             $cmd = $com[0];
@@ -258,7 +256,7 @@ class ilPageEditorGUI
                 $cmd != "delete" && $cmd != "paste" &&
                 $cmd != "cancelDeleteSelected" && $cmd != "confirmedDeleteSelected" &&
                 $cmd != "copy" && $cmd != "cut" &&
-                ($cmd != "displayPage" || $this->request->getString("editImagemapForward_x") != "") &&
+                ($cmd != "displayPage" || $this->request->getString("editImagemapForward_x") != "" || $cmdClass == "ilcontainerresourcegui") &&
                 $cmd != "activate" && $cmd != "characteristic" &&
                 $cmd != "assignCharacteristic" &&
                 $cmdClass != "ilrepositoryselector2inputgui" &&
@@ -283,7 +281,7 @@ class ilPageEditorGUI
             }
             $pc_id = $this->requested_pc_id;
             $hier_id = $this->requested_hier_id;
-            if (!in_array($cmd, ["insert", "create"])) {
+            if (!in_array($cmd, ["insert", "create", "upload"])) {
                 $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
             }
         }
@@ -299,14 +297,19 @@ class ilPageEditorGUI
 
         $this->cont_obj = $cont_obj;
 
-
         $this->ctrl->setParameter($this, "hier_id", $hier_id);
         $this->ctrl->setParameter($this, "pc_id", $pc_id);
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd($cmd);
+
         if ($next_class == "") {
             $pc_def = $this->pc_definition->getPCDefinitionByType($ctype);
             if (is_array($pc_def)) {
+                if ($ctype === "plug") {
+                    $this->ctrl->setParameterByClass(
+                        $pc_def["pc_gui_class"],
+                        "pluginName",
+                        $this->request->getString("pluginName")
+                    );
+                }
                 $this->ctrl->redirectByClass($pc_def["pc_gui_class"], $this->ctrl->getCmd());
             }
             $next_class = $this->ctrl->getNextClass($this);
@@ -315,12 +318,11 @@ class ilPageEditorGUI
 
         // ... do not do this while imagemap editing is ongoing
         // Step IM (handle image map editing)
-        if ($cmd == "displayPage" &&
+        if ($cmd == "displayPage" && $next_class !== "ilpcmediaobjectgui" &&
             $this->request->getString("editImagemapForward_x") == ""
             && $this->request->getString("imagemap_x") == "") {
             $next_class = "";
         }
-
 
         switch ($next_class) {
             case "ilinternallinkgui":
@@ -514,23 +516,6 @@ class ilPageEditorGUI
     {
         $this->ctrl->setParameterByClass("ilmediapooltargetselector", "mob_id", $this->requested_mob_id);
         $this->ctrl->redirectByClass("ilmediapooltargetselector", "listPools");
-    }
-
-    /**
-     * add change comment to history
-     */
-    public function addChangeComment(): void
-    {
-        ilHistory::_createEntry(
-            $this->page->getId(),
-            "update",
-            [],
-            $this->page->getParentType() . ":pg",
-            $this->request->getString("change_comment"),
-            true
-        );
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_added_comment"), true);
-        $this->ctrl->returnToParent($this);
     }
 
     /**

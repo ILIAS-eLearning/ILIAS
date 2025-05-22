@@ -25,13 +25,9 @@ use ILIAS\LegalDocuments\Intercept\NullIntercept;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
-use ILIAS\UI\NotImplementedException;
 use ILIAS\Init\StartupSequence\StartUpSequenceStep;
 use ilCtrl;
-use ilObjLegalDocumentsGUI;
-use ILIAS\UI\Component\Component;
 use Closure;
-use ilRepositoryGUI;
 
 class StartUpStep extends StartUpSequenceStep
 {
@@ -65,7 +61,7 @@ class StartUpStep extends StartUpSequenceStep
     public function isInFulfillment(): bool
     {
         return in_array(
-            strtolower($this->ctrl->getCmdClass()),
+            strtolower($this->ctrl->getCmdClass() ?? ''),
             $this->allInterceptingPaths(),
             true
         );
@@ -82,7 +78,7 @@ class StartUpStep extends StartUpSequenceStep
         );
     }
 
-    private function findCurrent()
+    private function findCurrent(): Intercept
     {
         return $this->find(
             fn($x) => $x->intercept(),
@@ -92,7 +88,14 @@ class StartUpStep extends StartUpSequenceStep
         )->value();
     }
 
-    private function find($predicate, $array)
+    /**
+     * @template A
+     * @param Closure(A): bool $predicate
+     * @param A[] $array
+     *
+     * @return Result<A>
+     */
+    private function find(Closure $predicate, array $array): Result
     {
         foreach ($array as $x) {
             if ($predicate($x)) {

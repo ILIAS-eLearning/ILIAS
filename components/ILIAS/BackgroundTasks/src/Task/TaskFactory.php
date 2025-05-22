@@ -19,7 +19,6 @@
 namespace ILIAS\BackgroundTasks\Task;
 
 use ILIAS\BackgroundTasks\Task;
-use ILIAS\BackgroundTasks\Value;
 
 interface TaskFactory
 {

@@ -23,8 +23,8 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\Filesystem\Util\Archive\Unzip;
 use ILIAS\Filesystem\Util\Archive\UnzipOptions;
-use ILIAS\Export\ImportHandler\File\XML\Manifest\ilExportObjectType;
-use ILIAS\Export\ImportHandler\ilFactory as ilImportFactory;
+use ILIAS\Export\ImportHandler\File\XML\Manifest\ExportObjectType;
+use ILIAS\Export\ImportHandler\Factory as ilImportFactory;
 use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
 use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
 use ILIAS\Export\ImportStatus\StatusType;
@@ -78,7 +78,7 @@ class ilImport
         }
         // create instance of export config object
         $comp_arr = explode("/", $a_comp);
-        $a_class = "il" . $comp_arr[1] . "ImportConfig";
+        $a_class = "il" . ($comp_arr[2] ?? $comp_arr[1]) . "ImportConfig";
         $imp_config = new $a_class();
         $this->configs[$a_comp] = $imp_config;
         return $imp_config;
@@ -175,7 +175,7 @@ class ilImport
     protected function validateXMLFiles(SplFileInfo $manifest_spl): ilImportStatusHandlerCollectionInterface
     {
         $export_files = $this->import->file()->xml()->export()->collection();
-        $manifest_handlers = $this->import->file()->xml()->manifest()->handlerCollection();
+        $manifest_handlers = $this->import->file()->xml()->manifest()->collection();
         $statuses = $this->import_status->collection();
         // Find export xmls
         try {
@@ -184,19 +184,19 @@ class ilImport
             );
             // VALIDATE 1st manifest file, can be either export-set or export-file
             $statuses = $manifest_handlers->validateElements();
-            if($statuses->hasStatusType(StatusType::FAILED)) {
+            if ($statuses->hasStatusType(StatusType::FAILED)) {
                 return $statuses;
             }
             // If export set look for the export file manifests + VALIDATE
-            if ($manifest_handlers->containsExportObjectType(ilExportObjectType::EXPORT_SET)) {
+            if ($manifest_handlers->containsExportObjectType(ExportObjectType::EXPORT_SET)) {
                 $manifest_handlers = $manifest_handlers->findNextFiles();
                 $statuses = $manifest_handlers->validateElements();
             }
-            if($statuses->hasStatusType(StatusType::FAILED)) {
+            if ($statuses->hasStatusType(StatusType::FAILED)) {
                 return $statuses;
             }
             // If export file look for the export xmls
-            if ($manifest_handlers->containsExportObjectType(ilExportObjectType::EXPORT_FILE)) {
+            if ($manifest_handlers->containsExportObjectType(ExportObjectType::EXPORT_FILE)) {
                 foreach ($manifest_handlers as $manfiest_file_handler) {
                     $export_files = $export_files->withMerged($manfiest_file_handler->findXMLFileHandlers());
                 }
@@ -205,12 +205,12 @@ class ilImport
             $this->checkStatuses($e->getStatuses());
         }
         // VALIDATE export xmls
-        $path_to_export_item_child = $this->import->file()->path()->handler()
+        $path_to_export_item_child = $this->import->path()->handler()
             ->withStartAtRoot(true)
-            ->withNode($this->import->file()->path()->node()->simple()->withName('exp:Export'))
-            ->withNode($this->import->file()->path()->node()->simple()->withName('exp:ExportItem'))
-            ->withNode($this->import->file()->path()->node()->anyNode());
-        $component_tree = $this->import->file()->xml()->node()->info()->tree();
+            ->withNode($this->import->path()->node()->simple()->withName('exp:Export'))
+            ->withNode($this->import->path()->node()->simple()->withName('exp:ExportItem'))
+            ->withNode($this->import->path()->node()->anyNode());
+        $component_tree = $this->import->parser()->nodeInfo()->tree()->handler();
         foreach ($export_files as $export_file) {
             if ($export_file->isContainerExportXML()) {
                 $component_tree = $component_tree->withRootInFile($export_file, $path_to_export_item_child);
@@ -220,7 +220,7 @@ class ilImport
         foreach ($export_files as $export_file) {
             $found_statuses = $export_file->buildValidationSets();
             if (!$found_statuses->hasStatusType(StatusType::FAILED)) {
-                $found_statuses = $this->import->file()->validation()->handler()->validateSets(
+                $found_statuses = $this->import->validation()->handler()->validateSets(
                     $export_file->getValidationSets()
                 );
             }

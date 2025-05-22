@@ -29,13 +29,11 @@ class WOPIStakeholderWrapper extends AbstractResourceStakeholder
     private ?int $user_id = null;
     private ?ResourceStakeholder $stakeholder = null;
 
-    public function __construct()
-    {
-    }
 
     public function init(ResourceStakeholder $stakeholder, int $user_id): void
     {
         $this->user_id = $user_id;
+        $this->setOwner($user_id);
         $this->stakeholder = $stakeholder;
     }
 
@@ -49,31 +47,37 @@ class WOPIStakeholderWrapper extends AbstractResourceStakeholder
         return $this->user_id ?? $this->stakeholder->getOwnerOfNewResources();
     }
 
+    #[\Override]
     public function getFullyQualifiedClassName(): string
     {
         return $this->stakeholder->getFullyQualifiedClassName();
     }
 
+    #[\Override]
     public function isResourceInUse(ResourceIdentification $identification): bool
     {
         return $this->stakeholder->isResourceInUse($identification);
     }
 
+    #[\Override]
     public function canBeAccessedByCurrentUser(ResourceIdentification $identification): bool
     {
         return $this->stakeholder->canBeAccessedByCurrentUser($identification);
     }
 
+    #[\Override]
     public function resourceHasBeenDeleted(ResourceIdentification $identification): bool
     {
         return $this->stakeholder->resourceHasBeenDeleted($identification);
     }
 
+    #[\Override]
     public function getOwnerOfResource(ResourceIdentification $identification): int
     {
         return $this->stakeholder->getOwnerOfResource($identification);
     }
 
+    #[\Override]
     public function getConsumerNameForPresentation(): string
     {
         return $this->stakeholder->getConsumerNameForPresentation();

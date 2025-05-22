@@ -99,6 +99,7 @@ class ilBadgeBackpack
                     "title" => $badge->name,
                     "description" => $badge->description,
                     "image_url" => $badge->image,
+                    "image_rid" => $badge->image_rid,
                     "criteria_url" => $badge->criteria,
                     "issuer_name" => $badge->issuer->name,
                     "issuer_url" => $badge->issuer->origin,
@@ -131,8 +132,8 @@ class ilBadgeBackpack
             $curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
 
             $curl->setOpt(CURLOPT_HTTPHEADER, array(
-                    "Accept: application/json",
-                    "Expect:"
+                "Accept: application/json",
+                "Expect:"
             ));
 
             if ($a_is_post) {

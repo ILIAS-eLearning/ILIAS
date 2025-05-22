@@ -53,14 +53,14 @@ interface ilBiblFieldFactoryInterface
      *
      * @return \ilBiblField[]
      */
-    public function filterAllFieldsForType(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null): array;
+    public function filterAllFieldsForType(ilBiblTypeInterface $type, ?ilBiblTableQueryInfoInterface $queryInfo = null): array;
 
 
     /**
      * @param \ilBiblTableQueryInfoInterface|null $queryInfo
      *
      */
-    public function filterAllFieldsForTypeAsArray(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null): array;
+    public function filterAllFieldsForTypeAsArray(ilBiblTypeInterface $type, ?ilBiblTableQueryInfoInterface $queryInfo = null): array;
 
 
     public function getType(): ilBiblTypeInterface;

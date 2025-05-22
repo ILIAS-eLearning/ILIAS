@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Filter;
 use Psr\Http\Message\ServerRequestInterface;

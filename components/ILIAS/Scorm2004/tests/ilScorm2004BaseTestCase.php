@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,13 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\DI\Container;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\HTTP\Services;
-use ILIAS\UI\Implementation\Factory;
+use ILIAS\UI\Implementation\FactoryInternal;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 
@@ -213,7 +213,7 @@ class ilScorm2004BaseTestCase extends TestCase
 
     protected function addGlobal_uiFactory(): void
     {
-        $this->setGlobalVariable("ui.factory", $this->createMock(Factory::class));
+        $this->setGlobalVariable("ui.factory", $this->createMock(FactoryInternal::class));
     }
 
     protected function addGlobal_uiRenderer(): void

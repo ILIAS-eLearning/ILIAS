@@ -32,11 +32,11 @@ class ilBookingSchedule
     protected int $auto_break = 0;
     protected int $deadline = 0;
     protected array $definition;
-    protected ?ilDateTime $av_from;
-    protected ?ilDateTime $av_to;
+    protected ?ilDateTime $av_from = null;
+    protected ?ilDateTime $av_to = null;
 
     public function __construct(
-        int $a_id = null
+        ?int $a_id = null
     ) {
         global $DIC;
 
@@ -179,8 +179,8 @@ class ilBookingSchedule
                 ' FROM booking_schedule' .
                 ' WHERE booking_schedule_id = ' . $ilDB->quote($this->id, 'integer'));
             $row = $ilDB->fetchAssoc($set);
-            $this->setTitle($row['title']);
-            $this->setDeadline($row['deadline']);
+            $this->setTitle($row['title'] ?? "");
+            $this->setDeadline($row['deadline'] ?? 0);
             $this->setAvailabilityFrom($row['av_from'] ? new ilDateTime($row['av_from'], IL_CAL_UNIX) : null);
             $this->setAvailabilityTo($row['av_to'] ? new ilDateTime($row['av_to'], IL_CAL_UNIX) : null);
             if ($row['raster']) {
@@ -202,12 +202,12 @@ class ilBookingSchedule
         }
     }
 
-    public function save(): bool
+    public function save(): ?int
     {
         $ilDB = $this->db;
 
         if ($this->id) {
-            return false;
+            return null;
         }
 
         $this->id = $ilDB->nextId('booking_schedule');
@@ -264,7 +264,7 @@ class ilBookingSchedule
         return true;
     }
 
-    public function doClone(int $a_pool_id): bool
+    public function doClone(int $a_pool_id): int
     {
         $new_obj = new self();
         $new_obj->setPoolId($a_pool_id);

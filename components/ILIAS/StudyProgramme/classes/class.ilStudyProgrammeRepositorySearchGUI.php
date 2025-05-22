@@ -47,7 +47,7 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
      */
     public static function fillAutoCompleteToolbar(
         $parent_object,
-        ilToolbarGUI $toolbar = null,
+        ?ilToolbarGUI $toolbar = null,
         $a_options = array(),
         $a_sticky = false
     ): ilToolbarGUI {

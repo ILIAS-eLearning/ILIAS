@@ -30,7 +30,7 @@ interface Radio extends FormInput
     /**
      * Add an option-entry to the radio-input.
      */
-    public function withOption(string $value, string $label, string $byline = null): Radio;
+    public function withOption(string $value, string $label, ?string $byline = null): Radio;
 
     /**
      * Get all options as value=>label.

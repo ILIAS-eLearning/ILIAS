@@ -136,14 +136,41 @@ class ilPCParagraphGUI extends ilPageContentGUI
         int $a_style_id,
         bool $a_include_core = false
     ): array {
+        global $DIC;
+
         $chars = array();
+
+        $service = $DIC->contentStyle()->internal();
+        $request = $DIC->copage()->internal()
+                       ->gui()
+                       ->pc()
+                       ->editRequest();
+        $requested_ref_id = $request->getRefId();
 
         if ($a_style_id > 0 &&
             ilObject::_lookupType($a_style_id) == "sty") {
+
+            $access_manager = $service->domain()->access(
+                $requested_ref_id,
+                $DIC->user()->getId()
+            );
+            $char_manager = $service->domain()->characteristic(
+                $a_style_id,
+                $access_manager
+            );
+
             $style = new ilObjStyleSheet($a_style_id);
-            $types = array("text_inline");
-            foreach ($types as $t) {
-                $chars = array_merge($chars, $style->getCharacteristics($t, false, $a_include_core));
+            /*$ti_chars = $style->getCharacteristics("text_inline", false, $a_include_core);*/
+            $ti_chars = $char_manager->getByTypes(
+                ["text_inline", "code_inline"],
+                false,
+                false
+            );
+            /** @var Style\Content\Characteristic $v */
+            foreach ($ti_chars as $k => $v) {
+                if (!$char_manager->isOutdated("text_inline", $v->getCharacteristic())) {
+                    $chars[] = $v->getCharacteristic();
+                }
             }
         } else {
             return self::_getStandardTextCharacteristics();
@@ -198,7 +225,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
                 }
             }
         } else {
-            if ($cmd == "create_par") {
+            if ($cmd == "create") {
                 $s_char = $this->request->getString("par_characteristic");
             } else {
                 $s_char = "Standard";
@@ -420,7 +447,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
         $lng = $this->lng;
 
         $a_tpl->setCurrentBlock("help_item");
-        $a_tpl->setVariable("TXT_HELP", "<b>" . $lng->txt("cont_syntax_help") . "</b>");
+        $a_tpl->setVariable("TXT_HELP", "<strong>" . $lng->txt("cont_syntax_help") . "</strong>");
         $a_tpl->parseCurrentBlock();
         $a_tpl->setCurrentBlock("help_item");
         $a_tpl->setVariable("TXT_HELP", "* " . $lng->txt("cont_bullet_list"));

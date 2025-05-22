@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Cache;
 
 use ILIAS\Cache\Adaptor\Adaptor;
-use ILIAS\Cache\Adaptor\AvailableAdaptors;
 use ILIAS\Cache\Adaptor\Factory;
 use ILIAS\Cache\Container\ActiveContainer;
 use ILIAS\Cache\Container\Request;
@@ -69,9 +68,9 @@ class Services
         }
 
         if (
-            !in_array($for_container->getContainerKey(), $this->config->getActivatedContainerKeys(), true)
+            $for_container->isForced() === false
             && !in_array(Config::ALL, $this->config->getActivatedContainerKeys(), true)
-            && $for_container->isForced() === false
+            && !in_array($for_container->getContainerKey(), $this->config->getActivatedContainerKeys(), true)
         ) {
             return new VoidContainer($for_container);
         }

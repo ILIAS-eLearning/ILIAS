@@ -16,7 +16,11 @@
  *
  *********************************************************************/
 
-use ILIAS\HTTP\Cookies\Cookie;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use org\bovigo\vfs\vfsStream;
+use ILIAS\DI\Container;
+use Psr\Http\Message\RequestInterface;
+use PHPUnit\Framework\Attributes\Test;
 use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Cookies\CookieFactoryImpl;
 use ILIAS\HTTP\Cookies\CookieJar;
@@ -34,11 +38,11 @@ use Dflydev\FigCookies\SetCookie;
  * @author                 Fabian Schmid <fs@studer-raimann.ch>
  * @version                1.0.0
  *
- * @runTestsInSeparateProcesses
  * @preserveGlobalState    disabled
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
+#[RunTestsInSeparateProcesses]
 class ilWACTokenTest extends MockeryTestCase
 {
     public const ADDITIONAL_TIME = 1;
@@ -94,22 +98,22 @@ class ilWACTokenTest extends MockeryTestCase
     {
         parent::setUp();
 
-        $this->root = vfs\vfsStream::setup('ilias.de');
-        $this->file_one = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/dummy.jpg')
+        $this->root = vfsStream::setup('ilias.de');
+        $this->file_one = vfsStream::newFile('data/client_name/mobs/mm_123/dummy.jpg')
                                        ->at($this->root)->setContent('dummy');
-        $this->file_one_subfolder = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/mobile/dummy.jpg')
+        $this->file_one_subfolder = vfsStream::newFile('data/client_name/mobs/mm_123/mobile/dummy.jpg')
                                                  ->at($this->root)->setContent('dummy');
-        $this->file_one_subfolder_two = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/mobile/device/dummy.jpg')
+        $this->file_one_subfolder_two = vfsStream::newFile('data/client_name/mobs/mm_123/mobile/device/dummy.jpg')
                                                      ->at($this->root)->setContent('dummy');
-        $this->file_two = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/dummy2.jpg')
+        $this->file_two = vfsStream::newFile('data/client_name/mobs/mm_123/dummy2.jpg')
                                        ->at($this->root)->setContent('dummy2');
-        $this->file_three = vfs\vfsStream::newFile('data/client_name/mobs/mm_124/dummy.jpg')
+        $this->file_three = vfsStream::newFile('data/client_name/mobs/mm_124/dummy.jpg')
                                          ->at($this->root)->setContent('dummy');
-        $this->file_four = vfs\vfsStream::newFile('data/client_name/sec/ilBlog/mm_124/dummy.jpg')
+        $this->file_four = vfsStream::newFile('data/client_name/sec/ilBlog/mm_124/dummy.jpg')
                                         ->at($this->root)->setContent('dummy');
 
         //setup container for HttpServiceAware classes
-        $container = new \ILIAS\DI\Container();
+        $container = new Container();
         $container['http'] = fn($c) => Mockery::mock(GlobalHttpState::class);
 
         $this->http = $container['http'];
@@ -145,7 +149,7 @@ class ilWACTokenTest extends MockeryTestCase
             ->withNoArgs()
             ->andReturn($cookieJar);
 
-        $request = Mockery::mock(Psr\Http\Message\RequestInterface::class);
+        $request = Mockery::mock(RequestInterface::class);
         $request->shouldReceive('getCookieParams')
                 ->andReturn([]);
 
@@ -272,9 +276,7 @@ class ilWACTokenTest extends MockeryTestCase
 
 
 
-    /**
-     * @Test
-     */
+    #[Test]
     public function testModifiedTimestampNoMod(): void
     {
         $this->markTestSkipped("Failed for some unknown reason.");
@@ -286,9 +288,7 @@ class ilWACTokenTest extends MockeryTestCase
     }
 
 
-    /**
-     * @Test
-     */
+    #[Test]
     public function testModifiedTimestampAddTime(): void
     {
         $this->markTestSkipped("Failed for some unknown reason.");
@@ -357,7 +357,7 @@ class ilWACTokenTest extends MockeryTestCase
         $path = $parts['path'];
         $query = $parts['query'];
         parse_str($query, $query_array);
-        $token = $override_token ? $override_token : $query_array['il_wac_token'];
+        $token = $override_token ?: $query_array['il_wac_token'];
         $ttl = (int) $query_array['il_wac_ttl'];
         $ts = (int) $query_array['il_wac_ts'];
         $path_with_token = $path . '?il_wac_token=' . $token;

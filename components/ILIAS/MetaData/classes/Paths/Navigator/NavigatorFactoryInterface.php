@@ -41,7 +41,7 @@ interface NavigatorFactoryInterface
      * Used to navigate on a metadata set structure along the given path.
      * If the path is relative, navigation starts at the given
      * element, otherwise it starts at the root of the set the
-     * element is in.
+     * element is in. Path filters are ignored during navigation.
      */
     public function structureNavigator(
         PathInterface $path,

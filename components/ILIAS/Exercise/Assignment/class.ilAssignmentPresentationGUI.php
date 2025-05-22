@@ -51,7 +51,7 @@ class ilAssignmentPresentationGUI
         $this->exc = $exc;
         $this->user = $domain_service->user();
         $this->ass_manager = $domain_service->assignment()->assignments(
-            $exc->getRefId(),
+            $exc->getId(),
             $this->user->getId()
         );
         $this->panel_builder = $gui_service->assignment()->panelBuilder(

@@ -21,19 +21,23 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Presentation;
 
 use ILIAS\Data\DateFormat\DateFormat;
+use ILIAS\Refinery\Factory as Refinery;
 
 class Utilities implements UtilitiesInterface
 {
     protected \ilLanguage $lng;
     protected \ilObjUser $user;
+    protected Refinery $refinery;
 
     public function __construct(
         \ilLanguage $lng,
         \ilObjUser $user,
+        Refinery $refinery
     ) {
         $this->lng = $lng;
         $this->lng->loadLanguageModule('meta');
         $this->user = $user;
+        $this->refinery = $refinery;
     }
 
     public function getUserDateFormat(): DateFormat
@@ -52,5 +56,10 @@ class Utilities implements UtilitiesInterface
             return sprintf($this->lng->txt($key), ...$values);
         }
         return $key . ' ' . implode(', ', $values);
+    }
+
+    public function sanitizeForHTML(string $string): string
+    {
+        return $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($string);
     }
 }

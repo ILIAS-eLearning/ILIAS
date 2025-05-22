@@ -47,8 +47,10 @@ class SingleType implements Type, Ancestors
         if (!$type instanceof SingleType) {
             return false;
         }
-
-        return $this->type->isSubclassOf($type->__toString()) || $this->__toString() === $type->__toString();
+        if ($this->type->isSubclassOf($type->__toString())) {
+            return true;
+        }
+        return $this->__toString() === $type->__toString();
     }
 
     /**

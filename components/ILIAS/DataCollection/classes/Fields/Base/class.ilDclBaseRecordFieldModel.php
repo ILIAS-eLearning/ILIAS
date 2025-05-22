@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 declare(strict_types=1);
 
 class ilDclBaseRecordFieldModel
@@ -104,7 +103,7 @@ class ilDclBaseRecordFieldModel
 
         if ($storage_location != 0) {
             $query = "DELETE FROM il_dcl_stloc" . $storage_location . "_value WHERE record_field_id = "
-                . $this->db->quote($this->id, "integer");
+                . $this->db->quote($this->id, ilDBConstants::T_INTEGER);
             $this->db->manipulate($query);
 
             $next_id = $this->db->nextId("il_dcl_stloc" . $storage_location . "_value");
@@ -116,12 +115,26 @@ class ilDclBaseRecordFieldModel
             }
 
             $insert_params = [
-                "value" => [$datatype->getDbType(), $value],
-                "record_field_id" => ["integer", $this->getId()],
-                "id" => ["integer", $next_id],
+                'value' => [$this->getDbType($storage_location), $value],
+                'record_field_id' => [ilDBConstants::T_INTEGER, $this->getId()],
+                'id' => [ilDBConstants::T_INTEGER, $next_id],
             ];
 
             $this->db->insert("il_dcl_stloc" . $storage_location . "_value", $insert_params);
+        }
+    }
+
+    private function getDBType(int $storage_location): string
+    {
+        switch ($storage_location) {
+            case 1:
+                return ilDBConstants::T_TEXT;
+            case 2:
+                return ilDBConstants::T_INTEGER;
+            case 3:
+                return ilDBConstants::T_DATE;
+            default:
+                throw new InvalidArgumentException('Unsupported storage_location: ' . $storage_location);
         }
     }
 
@@ -154,14 +167,6 @@ class ilDclBaseRecordFieldModel
     }
 
     /**
-     * @return array|string
-     */
-    public function getValueForRepresentation()
-    {
-        return $this->getValue();
-    }
-
-    /**
      * Serialize data before storing to db
      * @param mixed $value
      * @return mixed
@@ -182,7 +187,7 @@ class ilDclBaseRecordFieldModel
      */
     public function deserializeData($value)
     {
-        $deserialize = json_decode((string)$value, true);
+        $deserialize = json_decode((string) $value, true);
         if (is_array($deserialize)) {
             return $deserialize;
         }
@@ -218,7 +223,7 @@ class ilDclBaseRecordFieldModel
 
     public function getFormulaValue(): string
     {
-        return (string)$this->getExportValue();
+        return (string) $this->getExportValue();
     }
 
     /**
@@ -236,7 +241,7 @@ class ilDclBaseRecordFieldModel
      */
     public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
-        return (string)$excel->getCell($row, $col);
+        return (string) $excel->getCell($row, $col);
     }
 
     /**
@@ -285,12 +290,11 @@ class ilDclBaseRecordFieldModel
      */
     public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation)
     {
-        ;
         if (!is_array($this->getValue())) {
-            $confirmation->addHiddenItem('field_' . $this->field->getId(), (string)$this->getValue());
+            $confirmation->addHiddenItem('field_' . $this->field->getId(), (string) $this->getValue());
         } else {
             foreach ($this->getValue() as $key => $value) {
-                $confirmation->addHiddenItem('field_' . $this->field->getId() . "[$key]", $value);
+                $confirmation->addHiddenItem('field_' . $this->field->getId() . "[$key]", (string) $value);
             }
         }
     }

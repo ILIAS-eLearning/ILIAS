@@ -31,8 +31,8 @@ use ILIAS\UI\Component\Table\Column\Column;
 
 class MailMemberSearchTable implements UI\Component\Table\DataRetrieval
 {
-    private ServerRequestInterface $request;
-    private Data\Factory $data_factory;
+    private readonly ServerRequestInterface $request;
+    private readonly Data\Factory $data_factory;
     /** @var list<array<string, mixed>>|null */
     private ?array $records = null;
 
@@ -56,11 +56,12 @@ class MailMemberSearchTable implements UI\Component\Table\DataRetrieval
         return $this->ui_factory
             ->table()
             ->data(
+                $this,
                 $this->lng->txt('members'),
                 $columns,
-                $this
             )
             ->withId(self::class . '_' . $this->ref_id)
+            ->withOrder(new \ILIAS\Data\Order('login', \ILIAS\Data\Order::ASC))
             ->withActions($actions)
             ->withRequest($this->request);
     }
@@ -163,7 +164,7 @@ class MailMemberSearchTable implements UI\Component\Table\DataRetrieval
     ): ?int {
         $this->initRecords();
 
-        return count($this->records);
+        return \count($this->records);
     }
 
     /**
@@ -195,6 +196,6 @@ class MailMemberSearchTable implements UI\Component\Table\DataRetrieval
      */
     private function limitRecords(array $records, Data\Range $range): array
     {
-        return array_slice($records, $range->getStart(), $range->getLength());
+        return \array_slice($records, $range->getStart(), $range->getLength());
     }
 }

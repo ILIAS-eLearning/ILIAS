@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\BookingManager\BookingProcess;
 
@@ -51,13 +56,13 @@ class SlotGUI
         $this->color_nr = $color_nr;
     }
 
-    public function render() : string
+    public function render(): string
     {
         global $DIC;
         $ui = $DIC->ui();
         $tpl = new \ilTemplate("tpl.slot.html", true, true, "components/ILIAS/BookingManager/BookingProcess");
 
-        $modal = $ui->factory()->modal()->roundtrip("", $ui->factory()->legacy(""));
+        $modal = $ui->factory()->modal()->roundtrip("", $ui->factory()->legacy()->content(""));
         $url = $this->link . '&replaceSignal=' . $modal->getReplaceSignal()->getId();
         $modal = $modal->withAsyncRenderUrl($url);
         $button = $ui->factory()->button()->shy($this->title, "#")

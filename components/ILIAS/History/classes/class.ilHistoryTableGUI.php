@@ -34,7 +34,7 @@ class ilHistoryTableGUI extends ilTable2GUI
         object $a_parent_obj,
         string $a_parent_cmd,
         int $a_obj_id,
-        string $a_obj_type = null
+        ?string $a_obj_type = null
     ) {
         global $DIC;
 

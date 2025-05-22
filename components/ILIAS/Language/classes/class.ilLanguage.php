@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * language handling
@@ -83,7 +82,7 @@ class ilLanguage implements \ILIAS\Language\Language
         $this->usage_log_enabled = self::isUsageLogEnabled();
 
         $this->lang_path = ILIAS_ABSOLUTE_PATH . "/lang";
-        $this->cust_lang_path = ILIAS_ABSOLUTE_PATH . "/Customizing/global/lang";
+        $this->cust_lang_path = ILIAS_ABSOLUTE_PATH . "/lang/customizing";
 
         $this->lang_default = $client_ini->readVariable("language", "default") ?? 'en';
         $this->lang_user = $this->lang_default;
@@ -410,7 +409,7 @@ class ilLanguage implements \ILIAS\Language\Language
             $language_detection = new ilLanguageDetection();
             $language = $language_detection->detect();
 
-            $ilUser->setPref("language", $language);
+            ilSession::set("lang", $language);
         }
 
         $post_change_lang_to = [];
@@ -427,7 +426,7 @@ class ilLanguage implements \ILIAS\Language\Language
         // Added check for ilUser->getId > 0 because it is 0 when the language is changed and
         // the terms of service should be displayed
         if ($ilUser instanceof ilObjUser &&
-            (($ilUser->getId() && !$ilUser->isAnonymous()) || !$isset_get_lang)
+            (($ilUser->getId() && !$ilUser->isAnonymous()))
         ) {
             ilSession::set("lang", $ilUser->getPref("language"));
         }
@@ -461,7 +460,7 @@ class ilLanguage implements \ILIAS\Language\Language
      * $a_lang_key language key string or array of language keys
      */
 
-    public function toJS($a_lang_key, ilGlobalTemplateInterface $a_tpl = null): void
+    public function toJS($a_lang_key, ?ilGlobalTemplateInterface $a_tpl = null): void
     {
         global $DIC;
         $tpl = $DIC["tpl"];
@@ -486,7 +485,7 @@ class ilLanguage implements \ILIAS\Language\Language
      *
      * $a_map array of key value pairs (key is text string, value is content)
      */
-    public function toJSMap(array $a_map, ilGlobalTemplateInterface $a_tpl = null): void
+    public function toJSMap(array $a_map, ?ilGlobalTemplateInterface $a_tpl = null): void
     {
         global $DIC;
         $tpl = $DIC["tpl"];

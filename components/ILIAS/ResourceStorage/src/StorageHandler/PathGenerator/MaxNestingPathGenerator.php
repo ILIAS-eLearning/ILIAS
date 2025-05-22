@@ -29,8 +29,17 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 class MaxNestingPathGenerator implements PathGenerator
 {
+    /**
+     * @var int
+     */
     private const MAX_NESTING_256 = 256;
+    /**
+     * @var int
+     */
     private const MAX_NESTING_4096 = 4096;
+    /**
+     * @var int
+     */
     private const MAX_NESTING_65536 = 65536;
 
     protected int $max_nesting = self::MAX_NESTING_4096;
@@ -42,17 +51,11 @@ class MaxNestingPathGenerator implements PathGenerator
      */
     public function __construct()
     {
-        switch ($this->max_nesting) {
-            case self::MAX_NESTING_4096:
-                $this->splitter = 3;
-                break;
-            case self::MAX_NESTING_65536:
-                $this->splitter = 4;
-                break;
-            default:
-                $this->splitter = 2;
-                break;
-        }
+        $this->splitter = match ($this->max_nesting) {
+            self::MAX_NESTING_4096 => 3,
+            self::MAX_NESTING_65536 => 4,
+            default => 2,
+        };
     }
 
     public function getPathFor(ResourceIdentification $i): string

@@ -23,7 +23,6 @@ namespace ILIAS\OnScreenChat\Repository;
 use ilDBInterface;
 use ilObjUser;
 use ilUserUtil;
-use ilWACException;
 use ilWACSignedPath;
 
 /**

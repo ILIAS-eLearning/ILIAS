@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,8 +15,6 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
-use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
 
 class assLongMenuExport extends assQuestionExport
 {
@@ -53,7 +52,7 @@ class assLongMenuExport extends assQuestionExport
         $xml->xmlEndTag("qtimetadatafield");
         $xml->xmlStartTag("qtimetadatafield");
         $xml->xmlElement("fieldlabel", null, "QUESTIONTYPE");
-        $xml->xmlElement("fieldentry", null, QuestionIdentifiers::LONG_MENU_QUESTION_IDENTIFIER);
+        $xml->xmlElement("fieldentry", null, $this->object->getQuestionType());
         $xml->xmlEndTag("qtimetadatafield");
         $xml->xmlStartTag("qtimetadatafield");
         $xml->xmlElement("fieldlabel", null, "AUTHOR");
@@ -116,6 +115,7 @@ class assLongMenuExport extends assQuestionExport
             $xml->xmlEndTag("response_str");
         }
         $xml->xmlEndTag("flow");
+        $xml = $this->addSuggestedSolution($xml);
         $xml->xmlEndTag("presentation");
 
         $xml->xmlStartTag("resprocessing");
@@ -244,8 +244,6 @@ class assLongMenuExport extends assQuestionExport
             $xml->xmlEndTag("flow_mat");
             $xml->xmlEndTag("itemfeedback");
         }
-
-        $xml = $this->addSolutionHints($xml);
 
         $xml->xmlEndTag("item");
         $xml->xmlEndTag("questestinterop");

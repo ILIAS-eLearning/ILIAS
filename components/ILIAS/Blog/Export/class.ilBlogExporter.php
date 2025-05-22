@@ -64,7 +64,7 @@ class ilBlogExporter extends ilXmlExporter
         // style
         $style_ids = array();
         foreach ($a_ids as $id) {
-            $style_id = $this->content_style_domain->styleForObjId((int) $id)->getStyleId();
+            $style_id = $this->content_style_domain->styleForObjId((int) $id)->getExportStyleId();
             if ($style_id > 0) {
                 $style_ids[] = $style_id;
             }
@@ -84,6 +84,18 @@ class ilBlogExporter extends ilXmlExporter
             "ids" => $a_ids
         );
 
+        $md_ids = [];
+        foreach ($a_ids as $id) {
+            $md_ids[] = $id . ':0:blog';
+        }
+        if (!empty($md_ids)) {
+            $res[] = [
+                'component' => 'components/ILIAS/MetaData',
+                'entity' => 'md',
+                'ids' => $md_ids,
+            ];
+        }
+
         return $res;
     }
 
@@ -92,7 +104,7 @@ class ilBlogExporter extends ilXmlExporter
         string $a_schema_version,
         string $a_id
     ): string {
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 

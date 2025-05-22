@@ -111,7 +111,7 @@ abstract class AbstractLayoutModification implements LayoutModification
         try {
             return $this->checkClosure();
         } catch (\Throwable $e) {
-            if (defined('DEVMODE') && ((bool) DEVMODE) === true) {
+            if (defined('DEVMODE') && (bool) DEVMODE) {
                 throw $e;
             }
             return false;
@@ -169,7 +169,7 @@ abstract class AbstractLayoutModification implements LayoutModification
             if ($this->returnTypeAllowsNull() && !$r->getReturnType()->allowsNull()) {
                 throw new InvalidModification($this, "Modification's return type must be nullable");
             }
-        } catch (ReflectionException $e) {
+        } catch (ReflectionException) {
             throw new InvalidModification($this, "Modification threw an exception while checking the closure");
         }
 

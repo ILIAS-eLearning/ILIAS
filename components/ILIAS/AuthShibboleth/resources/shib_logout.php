@@ -1,17 +1,20 @@
 <?php
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /** @noRector */
 require_once("../vendor/composer/vendor/autoload.php");
 global $DIC;
@@ -123,7 +126,7 @@ WSDL;
 
 /******************************************************************************/
 /// This function does the actual logout
-function LogoutNotification($SessionID)
+function LogoutNotification($SessionID): ?\SoapFault
 {
     // Delete session of user using $SessionID to locate the user's session file
     // on the file system or in the database
@@ -142,27 +145,28 @@ function LogoutNotification($SessionID)
         // Look for session with matching Shibboleth session id
         // and then delete this ilias session
         foreach ($user_session as $user_session_entry) {
-            if (is_array($user_session_entry)
-                && array_key_exists('shibboleth_session_id', $user_session_entry)
-                && $user_session_entry['shibboleth_session_id'] == $SessionID
+            // Delete this session entry
+            if (is_array($user_session_entry) && array_key_exists('shibboleth_session_id', $user_session_entry) && $user_session_entry['shibboleth_session_id'] == $SessionID && !ilSession::_destroy($session_entry['session_id'])
             ) {
-                // Delete this session entry
-                if (ilSession::_destroy($session_entry['session_id']) !== true) {
-                    return new SoapFault('LogoutError', 'Could not delete session entry in database.');
-                }
+                return new SoapFault('LogoutError', 'Could not delete session entry in database.');
             }
         }
     }
     // If no SoapFault is returned, all is fine
+    return null;
 }
 
 /******************************************************************************/
 // Deserializes session data and returns it in a hash array of arrays
-function unserializesession($serialized_string)
+/**
+ * @return mixed[]
+ */
+function unserializesession($serialized_string): array
 {
-    $variables = array();
-    $a = preg_split("/(\w+)\|/", $serialized_string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-    for ($i = 0; $i < count($a); $i = $i + 2) {
+    $variables = [];
+    $a = preg_split("/(\w+)\|/", (string) $serialized_string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+    $counter = count($a);
+    for ($i = 0; $i < $counter; $i += 2) {
         $variables[$a[$i]] = unserialize($a[$i + 1]);
     }
 

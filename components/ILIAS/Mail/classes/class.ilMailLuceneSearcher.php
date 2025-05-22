@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Michael Jansen <mjansen@databay.de>
- * @ingroup ServicesMail
- */
 class ilMailLuceneSearcher
 {
     protected ilSetting $settings;
@@ -39,12 +35,7 @@ class ilMailLuceneSearcher
         }
 
         try {
-            $xml = ilRpcClientFactory::factory('RPCSearchHandler')->searchMail(
-                CLIENT_ID . '_' . $this->settings->get('inst_id', '0'),
-                $user_id,
-                $this->query_parser->getQuery(),
-                $mail_folder_id
-            );
+            $xml = ilRpcClientFactory::factory('RPCSearchHandler')->searchMail();
         } catch (Exception $e) {
             ilLoggerFactory::getLogger('mail')->critical($e->getMessage());
             throw $e;

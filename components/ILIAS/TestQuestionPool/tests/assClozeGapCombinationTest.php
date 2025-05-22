@@ -34,8 +34,8 @@ class assClozeGapCombinationTest extends assBaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
-        $this->object = new assClozeGapCombination();
+
+        $this->object = new assClozeGapCombination($this->createMock(ilDBInterface::class));
     }
 
     public function testConstruct(): void

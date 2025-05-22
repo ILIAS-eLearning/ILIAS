@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,16 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\Data;
 
 class ilNullPluginStateDBTest extends TestCase
 {
+    protected ilPluginStateDB $db;
+    protected Data\Factory $data_factory;
+
     protected function setUp(): void
     {
         $this->db = new \ilNullPluginStateDB();

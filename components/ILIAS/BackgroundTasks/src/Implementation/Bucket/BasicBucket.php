@@ -18,6 +18,8 @@
 
 namespace ILIAS\BackgroundTasks\Implementation\Bucket;
 
+use ILIAS\BackgroundTasks\Task\Job;
+use ILIAS\BackgroundTasks\Task\UserInteraction;
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Exceptions\Exception;
 use ILIAS\BackgroundTasks\Implementation\Values\ThunkValue;
@@ -88,7 +90,7 @@ class BasicBucket implements Bucket
          * @var $task Task\UserInteraction\
          */
         foreach ($this->tasks as $task) {
-            if ($task instanceof Task\Job) {
+            if ($task instanceof Job) {
                 $countable_tasks++;
             }
         }
@@ -130,7 +132,7 @@ class BasicBucket implements Bucket
     {
         if ($this->getUserId() === 0) {
             foreach ($this->getTask()->unfoldTask() as $task) {
-                if ($task instanceof Task\UserInteraction) {
+                if ($task instanceof UserInteraction) {
                     throw new Exception("Your task contains user interactions and thus needs a user that observes the task.");
                 }
             }
@@ -149,7 +151,7 @@ class BasicBucket implements Bucket
         if ($this->getState() != State::USER_INTERACTION) {
             throw new Exception("Cannot continue a task that is not in the state 'user interaction'");
         }
-        if (!$currentTask instanceof Task\UserInteraction) {
+        if (!$currentTask instanceof UserInteraction) {
             // TODO: Maybe cleanup task?
             throw new Exception("Observer is in an invalid state! state: userInteraction but current task is not a user interaction!");
         }
@@ -205,7 +207,7 @@ class BasicBucket implements Bucket
 
     public function setDescription(string $description): void
     {
-        $this->description = $description;
+        $this->description = mb_substr($description, 0, 255);
     }
 
     /**

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilSkillLevelDBRepository
@@ -27,7 +26,7 @@ class ilSkillLevelDBRepository implements ilSkillLevelRepository
     protected ilDBInterface $db;
     protected ilSkillTreeRepository $tree_repo;
 
-    public function __construct(ilSkillTreeRepository $tree_repo, ilDBInterface $db = null)
+    public function __construct(ilSkillTreeRepository $tree_repo, ?ilDBInterface $db = null)
     {
         global $DIC;
 

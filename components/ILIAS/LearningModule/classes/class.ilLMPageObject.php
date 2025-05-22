@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
+
 /**
  * Handles Page Objects of ILIAS Learning Modules
  *
@@ -113,8 +115,9 @@ class ilLMPageObject extends ilLMObject
         }
 
         // copy meta data
-        $md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
-        $new_md = $md->cloneMD($a_target_lm->getId(), $lm_page->getId(), $this->getType());
+        $this->lom_services->derive()
+                           ->fromObject($this->getLMId(), $this->getId(), $this->getType())
+                           ->forObject($a_target_lm->getId(), $lm_page->getId(), $this->getType());
 
         // check whether export id already exists in the target lm
         if ($del_exp_id) {
@@ -157,8 +160,9 @@ class ilLMPageObject extends ilLMObject
         $a_copied_nodes[$this->getId()] = $lm_page->getId();
 
         // copy meta data
-        $md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
-        $new_md = $md->cloneMD($a_cont_obj->getId(), $lm_page->getId(), $this->getType());
+        $this->lom_services->derive()
+                           ->fromObject($this->getLMId(), $this->getId(), $this->getType())
+                           ->forObject($a_cont_obj->getId(), $lm_page->getId(), $this->getType());
 
         // copy page content
         $page = $lm_page->getPageObject();
@@ -235,6 +239,9 @@ class ilLMPageObject extends ilLMObject
         string $a_lang = "-",
         bool $a_include_short = false
     ): string {
+        global $DIC;
+        $ilDB = $DIC->database();
+
         if ($a_mode == self::NO_HEADER && !$a_force_content) {
             return "";
         }
@@ -258,11 +265,9 @@ class ilLMPageObject extends ilLMObject
             $title = ilLMObject::_lookupTitle($a_pg_id);
         }
 
-        // this is also optimized since ilObjectTranslation re-uses instances for one lm
-        $ot = ilObjectTranslation::getInstance($a_lm_id);
-        $languages = $ot->getLanguages();
+        $ot = (new TranslationsRepository($ilDB))->getFor($a_lm_id);
 
-        if ($a_lang != "-" && $ot->getContentActivated()) {
+        if ($a_lang != "-" && $ot->getContentTranslationActivated()) {
             $lmobjtrans = new ilLMObjTranslation($a_pg_id, $a_lang);
             $trans_title = "";
             if ($a_include_short) {
@@ -272,7 +277,7 @@ class ilLMPageObject extends ilLMObject
                 $trans_title = $lmobjtrans->getTitle();
             }
             if ($trans_title == "") {
-                $lmobjtrans = new ilLMObjTranslation($a_pg_id, $ot->getFallbackLanguage());
+                $lmobjtrans = new ilLMObjTranslation($a_pg_id, $ot->getDefaultLanguage());
                 $trans_title = $lmobjtrans->getTitle();
             }
             if ($trans_title != "") {
@@ -385,10 +390,17 @@ class ilLMPageObject extends ilLMObject
     public function exportXMLMetaData(
         ilXmlWriter $a_xml_writer
     ): void {
-        $md2xml = new ilMD2XML($this->getLMId(), $this->getId(), $this->getType());
+        /*
+         * As far as I can tell, this is unused.
+         *
+         * I traced usages of this method up to ilObjContentObjectGUI::export and
+         * ilObjMediaPoolGUI::export (both via ilObjContentObject::exportXML), which have
+         * both been made redundant by the usual export mechanisms.
+         */
+        /*$md2xml = new ilMD2XML($this->getLMId(), $this->getId(), $this->getType());
         $md2xml->setExportMode(true);
         $md2xml->startExport();
-        $a_xml_writer->appendXML($md2xml->getXML());
+        $a_xml_writer->appendXML($md2xml->getXML());*/
     }
 
     public function modifyExportIdentifier(

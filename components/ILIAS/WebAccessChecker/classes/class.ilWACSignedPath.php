@@ -19,7 +19,6 @@
 // declare(strict_types=1);
 use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Cookies\CookieFactoryImpl;
-use ILIAS\HTTP\Services;
 use ILIAS\WebAccessChecker\PathType;
 use ILIAS\HTTP\GlobalHttpState;
 
@@ -44,17 +43,13 @@ class ilWACSignedPath
     protected static int $token_max_lifetime_in_seconds = 5;
     protected static int $cookie_max_lifetime_in_seconds = 300;
     protected bool $checked = false;
-    private GlobalHttpState $httpService;
-    private CookieFactory $cookieFactory;
 
     /**
      * ilWACSignedPath constructor.
      */
-    public function __construct(ilWACPath $ilWACPath, GlobalHttpState $httpState, CookieFactory $cookieFactory)
+    public function __construct(ilWACPath $ilWACPath, private GlobalHttpState $httpService, private CookieFactory $cookieFactory)
     {
         $this->setPathObject($ilWACPath);
-        $this->httpService = $httpState;
-        $this->cookieFactory = $cookieFactory;
     }
 
     /**
@@ -166,12 +161,8 @@ class ilWACSignedPath
         foreach ($jar->getAll() as $cookie) {
             setcookie(
                 $cookie->getName(),
-                $cookie->getValue(),
-                $cookie->getExpires(),
-                $cookie->getPath() ?? '/',
-                $cookie->getDomain() ?? $_SERVER['REQUEST_URI'],
-                $cookie->getSecure(),
-                $cookie->getHttpOnly()
+                (string) $cookie->getValue(),
+                ['expires' => $cookie->getExpires(), 'path' => $cookie->getPath() ?? '/', 'domain' => $cookie->getDomain() ?? $_SERVER['REQUEST_URI'], 'secure' => $cookie->getSecure(), 'httponly' => $cookie->getHttpOnly()]
             );
         }
     }
@@ -309,14 +300,10 @@ class ilWACSignedPath
             throw new ilWACException(ilWACException::CODE_NO_TYPE);
         }
 
-        switch ($this->getType()) {
-            case PathType::FOLDER:
-                $path = $this->getPathObject()->getSecurePath();
-                break;
-            default:
-                $path = $this->getPathObject()->getPathWithoutQuery();
-                break;
-        }
+        $path = match ($this->getType()) {
+            PathType::FOLDER => $this->getPathObject()->getSecurePath(),
+            default => $this->getPathObject()->getPathWithoutQuery(),
+        };
 
         $client = $this->getPathObject()->getClient();
         $timestamp = $timestamp !== 0 ? $timestamp : $this->getPathObject()->getTimestamp();
@@ -375,17 +362,11 @@ class ilWACSignedPath
         if ($request_ttl > 0) {
             return $request_ttl;
         }
-        switch ($this->getType()) {
-            case PathType::FOLDER:
-                $life_time = self::getCookieMaxLifetimeInSeconds();
-                break;
-            case PathType::FILE:
-                $life_time = self::getTokenMaxLifetimeInSeconds();
-                break;
-            default:
-                $life_time = 0;
-                break;
-        }
+        $life_time = match ($this->getType()) {
+            PathType::FOLDER => self::getCookieMaxLifetimeInSeconds(),
+            PathType::FILE => self::getTokenMaxLifetimeInSeconds(),
+            default => 0,
+        };
 
         return $life_time;
     }

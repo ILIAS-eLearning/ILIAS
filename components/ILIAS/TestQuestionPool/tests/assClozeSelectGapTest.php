@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 use ILIAS\Refinery\Transformation;
 
 /**
@@ -113,7 +114,7 @@ class assClozeSelectGapTest extends assBaseTestCase
 
         $instance->setType(false);
 
-        $expected = array($item1, $item2, $item3, $item4);
+        $expected = [$item1, $item2, $item3, $item4];
         $transformationMock = $this->getMockBuilder(Transformation::class)->getMock();
         $transformationMock->expects(self::once())->method('transform')->willReturnCallback(function ($value) {
             return $value;

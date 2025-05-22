@@ -76,33 +76,34 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         return $this->ignoreMissingUploadsEnabled;
     }
 
-    public function setValue($value): void
+    public function setValue($a_value): void
     {
         $this->values = [];
 
-        $is_rte = isset($_POST["answer_type"]) && $_POST["answer_type"] == "multiLine";
-        $a_value = $this->cleanupAnswerText($value, $is_rte);
+        $answer_type = $this->str('answer_type');
+        $a_value = $this->cleanupAnswerText($a_value, $answer_type === 'multiLine');
+        $answers = $this->forms_helper->transformArray($a_value, 'answer', $this->refinery->kindlyTo()->string());
+        $imagename = $this->forms_helper->transformArray($a_value, 'imagename', $this->refinery->kindlyTo()->string());
+        $correctness = $this->forms_helper->transformArray($a_value, 'correctness', $this->refinery->kindlyTo()->bool());
 
-        if (is_array($a_value) && is_array($a_value['answer'])) {
-            foreach ($a_value['answer'] as $index => $value) {
-                $answer = new ilAssKprimChoiceAnswer();
+        foreach ($answers as $index => $value) {
+            $answer = new ilAssKprimChoiceAnswer();
 
-                $answer->setPosition($index);
-                $answer->setAnswertext($value);
-                if (isset($a_value['imagename'])) {
-                    $answer->setImageFile($a_value['imagename'][$index] ?? '');
-                }
+            $answer->setPosition($index);
+            $answer->setAnswertext($value);
+            $answer->setThumbPrefix($this->qstObject->getThumbPrefix());
+            $answer->setImageFsDir($this->qstObject->getImagePath());
+            $answer->setImageWebDir($this->qstObject->getImagePathWeb());
 
-                if (isset($a_value['correctness']) && isset($a_value['correctness'][$index]) && strlen($a_value['correctness'][$index])) {
-                    $answer->setCorrectness((bool) $a_value['correctness'][$index]);
-                }
-
-                $answer->setThumbPrefix($this->qstObject->getThumbPrefix());
-                $answer->setImageFsDir($this->qstObject->getImagePath());
-                $answer->setImageWebDir($this->qstObject->getImagePathWeb());
-
-                $this->values[] = $answer;
+            if ($this->forms_helper->inArray($imagename, $index)) {
+                $answer->setImageFile($imagename[$index]);
             }
+
+            if (isset($correctness[$index])) {
+                $answer->setCorrectness($correctness[$index]);
+            }
+
+            $this->values[] = $answer;
         }
 
         #vd($this->values);
@@ -110,42 +111,28 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
     public function checkInput(): bool
     {
-        global $DIC;
-        $lng = $DIC['lng'];
+        $data = $this->raw($this->getPostVar());
 
-        if (is_array($_POST[$this->getPostVar()])) {
-            $foundvalues = ilArrayUtil::stripSlashesRecursive(
-                $_POST[$this->getPostVar()],
-                false,
-                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
-            );
-        } else {
-            $foundvalues = $_POST[$this->getPostVar()];
+        if (!is_array($data)) {
+            $this->setAlert($this->lng->txt('msg_input_is_required'));
+            return false;
         }
 
-        if (is_array($foundvalues)) {
-            // check answers
-            if (is_array($foundvalues['answer'])) {
-                foreach ($foundvalues['answer'] as $aidx => $answervalue) {
-                    $hasImage = isset($foundvalues['imagename']) ? true : false;
-                    if (((strlen($answervalue)) == 0) && !$hasImage) {
-                        $this->setAlert($lng->txt("msg_input_is_required"));
-                        return false;
-                    }
-                }
-            }
+        // check answers
+        $answers = $this->checkAnswersInput($data);
+        if (!is_array($answers)) {
+            $this->setAlert($this->lng->txt($answers));
+            return false;
+        }
 
-            // check correctness
-            if (!isset($foundvalues['correctness']) || count($foundvalues['correctness']) < count($foundvalues['answer'])) {
-                $this->setAlert($lng->txt("msg_input_is_required"));
-                return false;
-            }
+        // check correctness
+        $correctness = $this->forms_helper->transformArray($data, 'correctness', $this->refinery->kindlyTo()->bool());
+        if (count($answers) !== count($correctness)) {
+            $this->setAlert($this->lng->txt('msg_input_is_required'));
+            return false;
+        }
 
-            if (!$this->checkUploads($foundvalues)) {
-                return false;
-            }
-        } else {
-            $this->setAlert($lng->txt("msg_input_is_required"));
+        if (!$this->checkUploads($data)) {
             return false;
         }
 
@@ -160,10 +147,6 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $tpl = new ilTemplate("tpl.prop_kprimchoicewizardinput.html", true, true, "components/ILIAS/TestQuestionPool");
 
         foreach ($this->values as $value) {
-            /**
-             * @var ilAssKprimChoiceAnswer $value
-             */
-
             if ($this->getSingleline()) {
                 if (!$this->hideImages) {
                     if ($value->getImageFile() !== null
@@ -191,6 +174,8 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     $tpl->setCurrentBlock('addimage');
                     $tpl->setVariable("IMAGE_BROWSE", $this->lng->txt('select_file'));
                     $tpl->setVariable("IMAGE_ID", $this->getPostVar() . "[image][{$value->getPosition()}]");
+                    $tpl->setVariable('MAX_SIZE_WARNING', $this->lng->txt('form_msg_file_size_exceeds'));
+                    $tpl->setVariable('MAX_SIZE', $this->upload_limit->getPhpUploadLimitInBytes());
                     $tpl->setVariable("IMAGE_SUBMIT", $this->lng->txt("upload"));
                     $tpl->setVariable("IMAGE_ROW_NUMBER", $value->getPosition());
                     $tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
@@ -223,6 +208,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $tpl->setVariable("MULTILINE_ID", $this->getPostVar() . "[answer][{$value->getPosition()}]");
                 $tpl->setVariable("MULTILINE_ROW_NUMBER", $value->getPosition());
                 $tpl->setVariable("MULTILINE_POST_VAR", $this->getPostVar());
+                $tpl->setVariable("MAXLENGTH", $this->getMaxLength());
                 if ($this->getDisabled()) {
                     $tpl->setVariable("DISABLED_MULTILINE", " disabled=\"disabled\"");
                 }
@@ -444,13 +430,13 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 continue;
             }
 
-            $this->files[$index] = array(
+            $this->files[$index] = [
                 'position' => $index,
                 'tmp_name' => $_FILES[$this->getPostVar()]['tmp_name']['image'][$index],
                 'name' => $_FILES[$this->getPostVar()]['name']['image'][$index],
                 'type' => $_FILES[$this->getPostVar()]['type']['image'][$index],
                 'size' => $_FILES[$this->getPostVar()]['size']['image'][$index]
-            );
+            ];
         }
     }
 

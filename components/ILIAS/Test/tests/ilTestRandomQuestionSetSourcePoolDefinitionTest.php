@@ -32,7 +32,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class)
+            $this->getTestObjMock()
         );
     }
 

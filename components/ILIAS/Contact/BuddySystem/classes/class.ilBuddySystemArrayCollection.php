@@ -150,7 +150,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
         return new static(array_filter($this->elements, $callable));
     }
 
-    public function slice(int $offset, int $length = null): self
+    public function slice(int $offset, ?int $length = null): self
     {
         return new static(array_slice($this->elements, $offset, $length, true));
     }

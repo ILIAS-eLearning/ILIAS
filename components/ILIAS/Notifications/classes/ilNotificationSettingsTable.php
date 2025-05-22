@@ -43,7 +43,7 @@ class ilNotificationSettingsTable extends ilTable2GUI
         private readonly array $channels,
         private readonly array $usr_data,
         private readonly bool $adminMode = false,
-        ilLanguage $language = null
+        ?ilLanguage $language = null
     ) {
         if ($language === null) {
             global $DIC;

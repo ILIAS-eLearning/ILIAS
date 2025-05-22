@@ -18,9 +18,11 @@
 
 namespace ILIAS\StaticURL\Tests;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-abstract class Base extends \PHPUnit\Framework\TestCase
+abstract class Base extends TestCase
 {
 }

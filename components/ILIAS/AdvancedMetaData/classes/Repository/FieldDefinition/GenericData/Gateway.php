@@ -36,6 +36,13 @@ interface Gateway
      */
     public function createFromScratch(GenericData $data): int;
 
+    /**
+     * Inserts the data, but replaces position by the next
+     * position in the record. Import ID is not replaced.
+     * Returns the field ID of the created data.
+     */
+    public function createWithNewPosition(GenericData $data): int;
+
     public function readByID(int $field_id): ?GenericData;
 
     /**

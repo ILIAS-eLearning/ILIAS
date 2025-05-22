@@ -37,16 +37,9 @@ class ResourceCollection
      * @readonly
      */
     private string $title = 'default';
-    private ResourceCollectionIdentification $identification;
-    private int $owner;
 
-    public function __construct(
-        ResourceCollectionIdentification $identification,
-        int $owner,
-        string $title // currently unused
-    ) {
-        $this->identification = $identification;
-        $this->owner = $owner;
+    public function __construct(private ResourceCollectionIdentification $identification, private int $owner, string $title)
+    {
     }
 
     public function getIdentification(): ResourceCollectionIdentification

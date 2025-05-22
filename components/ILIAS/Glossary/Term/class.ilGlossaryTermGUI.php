@@ -149,7 +149,7 @@ class ilGlossaryTermGUI
     }
 
     public function editTerm(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $ilTabs = $this->tabs_gui;
         $ilCtrl = $this->ctrl;
@@ -182,7 +182,7 @@ class ilGlossaryTermGUI
 
         $lang = new ilSelectInputGUI($this->lng->txt("language"), "term_language");
         $lang->setRequired(true);
-        $lang->setOptions(ilMDLanguageItem::_getLanguages());
+        $lang->setOptions($this->domain->metadata()->getLOMLanguagesForSelectInputs());
         $lang->setValue($this->term->getLanguage());
         $form->addItem($lang);
 
@@ -284,7 +284,7 @@ class ilGlossaryTermGUI
      */
     public function output(
         bool $a_offline = false,
-        ilGlobalTemplateInterface $a_tpl = null,
+        ?ilGlobalTemplateInterface $a_tpl = null,
         string $a_outputmode = "presentation"
     ): void {
         if ($a_tpl != null) {
@@ -395,8 +395,7 @@ class ilGlossaryTermGUI
                 ILIAS_HTTP_PATH .
                 "/goto.php?target=" .
                 "git" .
-                "_" . $term_id . "_" . $this->request->getRefId() . "&client_id=" . CLIENT_ID,
-                "_top"
+                "_" . $term_id . "_" . $this->request->getRefId() . "&client_id=" . CLIENT_ID
             );
         }
 

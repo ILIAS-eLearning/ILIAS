@@ -115,7 +115,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
     {
         $this->setMin(isset($a_def["min"]) ? (int) $a_def["min"] : null);
         $this->setMax(isset($a_def["max"]) ? (int) $a_def["max"] : null);
-        $this->setSuffix($a_def["suffix"]);
+        $this->setSuffix($a_def["suffix"] ?? null);
         $this->setSuffixTranslations($a_def['suffix_translations'] ?? []);
     }
 

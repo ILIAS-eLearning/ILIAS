@@ -29,7 +29,6 @@ use ILIAS\ResourceStorage\Collection\Collections;
 use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Events\Subject;
-use ILIAS\ResourceStorage\Events\DataContainer;
 
 /**
  * Class CollectionBuilderTest
@@ -98,7 +97,7 @@ class CollectionBuilderTest extends TestCase
             ->expects($this->exactly(6))
             ->method('has')
             ->willReturnCallback(
-                function ($rid) use (&$consecutive) {
+                function ($rid) use (&$consecutive): true {
                     $this->assertEquals(array_shift($consecutive), $rid);
                     return true;
                 }

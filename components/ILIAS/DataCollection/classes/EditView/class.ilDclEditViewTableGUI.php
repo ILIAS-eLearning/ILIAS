@@ -43,7 +43,6 @@ class ilDclEditViewTableGUI extends ilTable2GUI
         $this->setTopCommands(true);
         $this->setEnableHeader(true);
         $this->setShowRowsSelector(false);
-        $this->setShowTemplates(false);
         $this->setEnableHeader(true);
         $this->setEnableTitle(true);
         $this->setDefaultOrderDirection('asc');

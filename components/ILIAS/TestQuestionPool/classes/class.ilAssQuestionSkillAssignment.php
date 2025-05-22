@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Skill\Service\SkillTreeService;
 
 /**
@@ -31,57 +33,17 @@ class ilAssQuestionSkillAssignment
     public const EVAL_MODE_BY_QUESTION_RESULT = 'result';
     public const EVAL_MODE_BY_QUESTION_SOLUTION = 'solution';
 
+    private ilDBInterface $db;
+    private int $parent_obj_id;
+    private int $question_id;
+    private int $skill_base_id;
+    private int $skill_tref_id;
+    private int $skill_points;
+    private string $skill_title = '';
+    private string $skill_path = '';
+    private string $eval_mode;
 
-    /**
-     * @var ilDBInterface
-     */
-    private $db;
-
-    /**
-     * @var integer
-     */
-    private $parentObjId;
-
-    /**
-     * @var integer
-     */
-    private $questionId;
-
-    /**
-     * @var integer
-     */
-    private $skillBaseId;
-
-    /**
-     * @var integer
-     */
-    private $skillTrefId;
-
-    /**
-     * @var integer
-     */
-    private $skillPoints;
-
-    /**
-     * @var string
-     */
-    private $skillTitle;
-
-    /**
-     * @var string
-     */
-    private $skillPath;
-
-    /**
-     * @var string
-     */
-    private $evalMode;
-
-    /**
-     * @var ilAssQuestionSolutionComparisonExpressionList
-     */
-    private $solutionComparisonExpressionList;
-
+    private ilAssQuestionSolutionComparisonExpressionList $solution_comparison_expression_list;
     private SkillTreeService $skill_tree_service;
 
     public function __construct(ilDBInterface $db)
@@ -90,7 +52,7 @@ class ilAssQuestionSkillAssignment
 
         $this->db = $db;
 
-        $this->solutionComparisonExpressionList = new ilAssQuestionSolutionComparisonExpressionList($this->db);
+        $this->solution_comparison_expression_list = new ilAssQuestionSolutionComparisonExpressionList($this->db);
         $this->skill_tree_service = $DIC->skills()->tree();
     }
 
@@ -107,8 +69,8 @@ class ilAssQuestionSkillAssignment
 
         $res = $this->db->queryF(
             $query,
-            array('integer', 'integer', 'integer', 'integer'),
-            array($this->getParentObjId(), $this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId())
+            ['integer', 'integer', 'integer', 'integer'],
+            [$this->parent_obj_id, $this->question_id, $this->skill_base_id, $this->skill_tref_id]
         );
 
         $row = $this->db->fetchAssoc($res);
@@ -126,7 +88,7 @@ class ilAssQuestionSkillAssignment
     public function loadComparisonExpressions(): void
     {
         $this->initSolutionComparisonExpressionList();
-        $this->solutionComparisonExpressionList->load();
+        $this->solution_comparison_expression_list->load();
     }
 
     public function saveToDb(): void
@@ -134,26 +96,26 @@ class ilAssQuestionSkillAssignment
         if ($this->dbRecordExists()) {
             $this->db->update(
                 'qpl_qst_skl_assigns',
-                array(
-                    'skill_points' => array('integer', $this->getSkillPoints()),
-                    'eval_mode' => array('text', $this->getEvalMode())
-                ),
-                array(
-                    'obj_fi' => array('integer', $this->getParentObjId()),
-                    'question_fi' => array('integer', $this->getQuestionId()),
-                    'skill_base_fi' => array('integer', $this->getSkillBaseId()),
-                    'skill_tref_fi' => array('integer', $this->getSkillTrefId())
-                )
+                [
+                    'skill_points' => ['integer', $this->getSkillPoints()],
+                    'eval_mode' => ['text', $this->getEvalMode()]
+                ],
+                [
+                    'obj_fi' => ['integer', $this->getParentObjId()],
+                    'question_fi' => ['integer', $this->getQuestionId()],
+                    'skill_base_fi' => ['integer', $this->getSkillBaseId()],
+                    'skill_tref_fi' => ['integer', $this->getSkillTrefId()]
+                ]
             );
         } else {
-            $this->db->insert('qpl_qst_skl_assigns', array(
-                'obj_fi' => array('integer', $this->getParentObjId()),
-                'question_fi' => array('integer', $this->getQuestionId()),
-                'skill_base_fi' => array('integer', $this->getSkillBaseId()),
-                'skill_tref_fi' => array('integer', $this->getSkillTrefId()),
-                'skill_points' => array('integer', $this->getSkillPoints()),
-                'eval_mode' => array('text', $this->getEvalMode())
-            ));
+            $this->db->insert('qpl_qst_skl_assigns', [
+                'obj_fi' => ['integer', $this->getParentObjId()],
+                'question_fi' => ['integer', $this->getQuestionId()],
+                'skill_base_fi' => ['integer', $this->getSkillBaseId()],
+                'skill_tref_fi' => ['integer', $this->getSkillTrefId()],
+                'skill_points' => ['integer', $this->getSkillPoints()],
+                'eval_mode' => ['text', $this->getEvalMode()]
+            ]);
         }
 
         if ($this->getEvalMode() == self::EVAL_MODE_BY_QUESTION_SOLUTION) {
@@ -164,7 +126,7 @@ class ilAssQuestionSkillAssignment
     public function saveComparisonExpressions(): void
     {
         $this->initSolutionComparisonExpressionList();
-        $this->solutionComparisonExpressionList->save();
+        $this->solution_comparison_expression_list->save();
     }
 
     public function deleteFromDb(): void
@@ -179,8 +141,8 @@ class ilAssQuestionSkillAssignment
 
         $this->db->manipulateF(
             $query,
-            array('integer', 'integer', 'integer', 'integer'),
-            array($this->getParentObjId(), $this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId())
+            ['integer', 'integer', 'integer', 'integer'],
+            [$this->getParentObjId(), $this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId()]
         );
 
         $this->deleteComparisonExpressions();
@@ -189,7 +151,7 @@ class ilAssQuestionSkillAssignment
     public function deleteComparisonExpressions(): void
     {
         $this->initSolutionComparisonExpressionList();
-        $this->solutionComparisonExpressionList->delete();
+        $this->solution_comparison_expression_list->delete();
     }
 
     public function dbRecordExists(): bool
@@ -205,8 +167,8 @@ class ilAssQuestionSkillAssignment
 
         $res = $this->db->queryF(
             $query,
-            array('integer', 'integer', 'integer', 'integer'),
-            array($this->getParentObjId(), $this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId())
+            ['integer', 'integer', 'integer', 'integer'],
+            [$this->getParentObjId(), $this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId()]
         );
 
         $row = $this->db->fetchAssoc($res);
@@ -226,8 +188,8 @@ class ilAssQuestionSkillAssignment
 
         $res = $this->db->queryF(
             $query,
-            array('integer', 'integer', 'integer'),
-            array($this->getParentObjId(), $this->getSkillBaseId(), $this->getSkillTrefId())
+            ['integer', 'integer', 'integer'],
+            [$this->getParentObjId(), $this->getSkillBaseId(), $this->getSkillTrefId()]
         );
 
         $row = $this->db->fetchAssoc($res);
@@ -235,84 +197,54 @@ class ilAssQuestionSkillAssignment
         return $row['cnt'] > 0;
     }
 
-    /**
-     * @param int $skillPoints
-     */
-    public function setSkillPoints($skillPoints): void
+    public function setSkillPoints(int $skillPoints): void
     {
-        $this->skillPoints = $skillPoints;
+        $this->skill_points = $skillPoints;
     }
 
-    /**
-     * @return int
-     */
     public function getSkillPoints(): int
     {
-        return $this->skillPoints;
+        return $this->skill_points;
     }
 
-    /**
-     * @param int $questionId
-     */
-    public function setQuestionId($questionId): void
+    public function setQuestionId(int $questionId): void
     {
-        $this->questionId = $questionId;
+        $this->question_id = $questionId;
     }
 
-    /**
-     * @return int
-     */
     public function getQuestionId(): int
     {
-        return $this->questionId;
+        return $this->question_id;
     }
 
-    /**
-     * @param int $skillBaseId
-     */
-    public function setSkillBaseId($skillBaseId): void
+    public function setSkillBaseId(int $skillBaseId): void
     {
-        $this->skillBaseId = $skillBaseId;
+        $this->skill_base_id = $skillBaseId;
     }
 
-    /**
-     * @return int
-     */
     public function getSkillBaseId(): int
     {
-        return $this->skillBaseId;
+        return $this->skill_base_id;
     }
 
-    /**
-     * @param int $skillTrefId
-     */
-    public function setSkillTrefId($skillTrefId): void
+    public function setSkillTrefId(int $skillTrefId): void
     {
-        $this->skillTrefId = $skillTrefId;
+        $this->skill_tref_id = $skillTrefId;
     }
 
-    /**
-     * @return int
-     */
     public function getSkillTrefId(): int
     {
-        return $this->skillTrefId;
+        return $this->skill_tref_id;
     }
 
-    /**
-     * @param int $parentObjId
-     */
-    public function setParentObjId($parentObjId): void
+    public function setParentObjId(int $parentObjId): void
     {
-        $this->parentObjId = $parentObjId;
+        $this->parent_obj_id = $parentObjId;
     }
 
-    /**
-     * @return int
-     */
     public function getParentObjId(): int
     {
-        return $this->parentObjId;
+        return $this->parent_obj_id;
     }
 
     public function loadAdditionalSkillData(): void
@@ -326,75 +258,85 @@ class ilAssQuestionSkillAssignment
             $this->getSkillTrefId()
         );
 
-        $nodes = array();
+        $nodes = [];
         foreach ($path as $node) {
+            if ($node['title'] === "Skill Tree Root Node") {
+                continue;
+            }
+
             if ($node['child'] > 1 && $node['skill_id'] != $this->getSkillBaseId()) {
                 $nodes[] = $node['title'];
             }
         }
+
+        $root_node = reset($path);
+        array_unshift(
+            $nodes,
+            $this->skill_tree_service->getObjSkillTreeById($root_node['skl_tree_id'])->getTitleForHTMLOutput()
+        );
 
         $this->setSkillPath(implode(' > ', $nodes));
     }
 
     public function setSkillTitle($skillTitle): void
     {
-        $this->skillTitle = $skillTitle;
+        $this->skill_title = $skillTitle;
     }
 
     public function getSkillTitle(): ?string
     {
-        return $this->skillTitle;
+        return $this->skill_title;
     }
 
     public function setSkillPath($skillPath): void
     {
-        $this->skillPath = $skillPath;
+        $this->skill_path = $skillPath;
     }
 
     public function getSkillPath(): ?string
     {
-        return $this->skillPath;
+        return $this->skill_path;
     }
 
     public function getEvalMode(): string
     {
-        return $this->evalMode;
+        return $this->eval_mode;
     }
 
-    public function setEvalMode($evalMode): void
+    public function setEvalMode(string $evalMode): void
     {
-        $this->evalMode = $evalMode;
+        $this->eval_mode = $evalMode;
     }
 
     public function hasEvalModeBySolution(): bool
     {
-        return $this->getEvalMode() == self::EVAL_MODE_BY_QUESTION_SOLUTION;
+        return $this->eval_mode === self::EVAL_MODE_BY_QUESTION_SOLUTION;
     }
 
     public function initSolutionComparisonExpressionList(): void
     {
-        $this->solutionComparisonExpressionList->setQuestionId($this->getQuestionId());
-        $this->solutionComparisonExpressionList->setSkillBaseId($this->getSkillBaseId());
-        $this->solutionComparisonExpressionList->setSkillTrefId($this->getSkillTrefId());
+        $this->solution_comparison_expression_list->setQuestionId($this->getQuestionId());
+        $this->solution_comparison_expression_list->setSkillBaseId($this->getSkillBaseId());
+        $this->solution_comparison_expression_list->setSkillTrefId($this->getSkillTrefId());
     }
 
     public function getSolutionComparisonExpressionList(): ilAssQuestionSolutionComparisonExpressionList
     {
-        return $this->solutionComparisonExpressionList;
+        return $this->solution_comparison_expression_list;
     }
 
     public function getMaxSkillPoints(): int
     {
         if ($this->hasEvalModeBySolution()) {
-            $maxPoints = 0;
+            $max_points = 0;
 
-            foreach ($this->solutionComparisonExpressionList->get() as $expression) {
-                if ($expression->getPoints() > $maxPoints) {
-                    $maxPoints = $expression->getPoints();
+            foreach ($this->solution_comparison_expression_list->get() as $expression) {
+                if ($expression->getPoints() > $max_points) {
+                    $max_points = $expression->getPoints();
                 }
             }
 
-            return $maxPoints;
+            return $max_points;
         }
 
         return $this->getSkillPoints();
@@ -402,13 +344,12 @@ class ilAssQuestionSkillAssignment
 
     /**
      * @param mixed $skillPoints
-     * @return bool
      */
     public function isValidSkillPoint($skillPoints): bool
     {
         return (
             is_numeric($skillPoints) &&
-            str_replace(array('.', ','), '', $skillPoints) == $skillPoints &&
+            str_replace(['.', ','], '', $skillPoints) == $skillPoints &&
             $skillPoints > 0
         );
     }

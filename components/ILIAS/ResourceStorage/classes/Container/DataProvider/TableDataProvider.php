@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Container\DataProvider;
 
+use ILIAS\ResourceStorage\Services;
 use ILIAS\components\ResourceStorage\Container\View\Request;
-use ILIAS\components\ResourceStorage\Container\ContainerResourceManager;
 use ILIAS\components\ResourceStorage\Container\Wrapper\Dir;
 use ILIAS\components\ResourceStorage\Container\Wrapper\File;
 
@@ -30,7 +30,7 @@ use ILIAS\components\ResourceStorage\Container\Wrapper\File;
  */
 final class TableDataProvider
 {
-    private \ILIAS\ResourceStorage\Services $irss;
+    private Services $irss;
 
     public function __construct(
         private Request $view_request,
@@ -62,12 +62,28 @@ final class TableDataProvider
         $current_level = $this->view_request->getPath();
 
         $entries_at_current_level = iterator_to_array(
-            $this->view_request->getWrapper()->getEntries(
-                $current_level
-            )
+            $this->view_request->getWrapper()->getEntries()
         );
 
-        // Currently no sorting is implemented
+        /** @var Dir[]|File[] $entries_at_current_level */
+        usort($entries_at_current_level, function (File|Dir $a, File|Dir $b): int {
+            $size_a = $a instanceof Dir ? 0 : $a->getSize();
+            $size_b = $b instanceof Dir ? 0 : $b->getSize();
+            $type_a = $a instanceof Dir ? '' : $a->getMimeType();
+            $type_b = $b instanceof Dir ? '' : $b->getMimeType();
+            return match ($this->view_request->getSortation()) {
+                Request::BY_CREATION_DATE_DESC => $b->getModificationDate()->getTimestamp() <=> $a->getModificationDate()->getTimestamp(),
+                Request::BY_CREATION_DATE_ASC => $b->getModificationDate()->getTimestamp() <=> $a->getModificationDate()->getTimestamp(),
+                Request::BY_SIZE_DESC => $size_a - $size_b,
+                Request::BY_SIZE_ASC => $size_b - $size_a,
+                Request::BY_TITLE_DESC => strcasecmp($b->getTitle(), $a->getTitle()),
+                Request::BY_TITLE_ASC => strcasecmp($a->getTitle(), $b->getTitle()),
+                Request::BY_TYPE_DESC => strcasecmp($type_a, $type_b),
+                Request::BY_TYPE_ASC => strcasecmp($type_b, $type_a),
+                default => strcasecmp($a->getTitle(), $b->getTitle()),
+            };
+        });
+
         return $entries_at_current_level;
     }
 

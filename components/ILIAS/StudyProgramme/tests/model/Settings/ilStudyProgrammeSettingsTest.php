@@ -21,11 +21,12 @@ declare(strict_types=1);
 class ilStudyProgrammeSettingsTest extends \PHPUnit\Framework\TestCase
 {
     protected $backupGlobals = false;
+    protected int $id = 123;
+    protected ilStudyProgrammeSettings $prg_settings;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->id = 123;
         $this->prg_settings = new ilStudyProgrammeSettings(
             $this->id,
             $this->createMock(ilStudyProgrammeTypeSettings::class),

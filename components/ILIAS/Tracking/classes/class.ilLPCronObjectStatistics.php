@@ -18,14 +18,17 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobManager;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * Cron for lp object statistics
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesTracking
  */
-class ilLPCronObjectStatistics extends ilCronJob
+class ilLPCronObjectStatistics extends CronJob
 {
     protected int $date = 0;
 
@@ -33,7 +36,7 @@ class ilLPCronObjectStatistics extends ilCronJob
     protected ilDBInterface $db;
     protected ilTree $tree;
     protected ilLogger $logger;
-    protected ilCronManager $cron_manager;
+    protected JobManager $cron_manager;
 
     public function __construct()
     {
@@ -62,9 +65,9 @@ class ilLPCronObjectStatistics extends ilCronJob
         return $this->lng->txt("trac_object_statistics_info");
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
+        return JobScheduleType::DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -82,13 +85,13 @@ class ilLPCronObjectStatistics extends ilCronJob
         return false;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
         // all date related operations are based on this timestamp
         // should be midnight of yesterday (see gatherUserData()) to always have full day
         $this->date = strtotime("yesterday");
 
-        $status = ilCronJobResult::STATUS_NO_ACTION;
+        $status = JobResult::STATUS_NO_ACTION;
         $message = array();
 
         $count = 0;
@@ -97,10 +100,10 @@ class ilLPCronObjectStatistics extends ilCronJob
         $count += $this->gatherUserData();
 
         if ($count) {
-            $status = ilCronJobResult::STATUS_OK;
+            $status = JobResult::STATUS_OK;
         }
 
-        $result = new ilCronJobResult();
+        $result = new JobResult();
         $result->setStatus($status);
 
         return $result;

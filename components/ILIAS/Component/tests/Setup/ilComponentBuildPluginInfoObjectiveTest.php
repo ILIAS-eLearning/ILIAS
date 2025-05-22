@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -34,7 +35,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
         $this->files = [];
         $this->added = [];
         $this->builder = new class ($this) extends ilComponentBuildPluginInfoObjective {
-            protected const BASE_PATH = "";
+            protected const BASE_PATH = "plugins/";
             protected ilComponentBuildPluginInfoObjectiveTest $test;
             public function __construct($test)
             {
@@ -85,7 +86,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     {
         $this->builder->build();
 
-        $expected = ["components/ILIAS"];
+        $expected = ["plugins/Modules/", "plugins/Services/"];
         sort($expected);
         sort($this->scanned);
         $this->assertEquals($expected, $this->scanned);
@@ -94,15 +95,22 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     public function testScanningComplete(): void
     {
         $this->dirs = [
-            "components/ILIAS" => ["Module1", "Module2"],
-            "components/ILIAS/Module1" => ["Slot1", "Slot2"],
-            "components/ILIAS/Module2" => []
+            "plugins/" => ["Services"],
+            "plugins/Services/" => ["Module1", "Module2"],
+            "plugins/Services/Module1" => ["Slot1", "Slot2"],
+            "plugins/Services/Module2" => []
         ];
 
         $this->builder->build();
 
-        $expected = ["components/ILIAS", "components/ILIAS/Module1", "components/ILIAS/Module2",
-            "components/ILIAS/Module1/Slot1", "components/ILIAS/Module1/Slot2"];
+        $expected = [
+            "plugins/Modules/",
+            "plugins/Services/",
+            "plugins/Services/Module1",
+            "plugins/Services/Module1/Slot1",
+            "plugins/Services/Module1/Slot2",
+            "plugins/Services/Module2",
+        ];
         sort($expected);
         sort($this->scanned);
         $this->assertEquals($expected, $this->scanned);
@@ -111,16 +119,17 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     public function testPluginsAdded(): void
     {
         $this->dirs = [
-            "components/ILIAS" => ["Module1"],
-            "components/ILIAS/Module1" => ["Slot1"],
-            "components/ILIAS/Module1/Slot1" => ["Plugin1", "Plugin2"]
+            "plugins/" => ["Services"],
+            "plugins/Services/" => ["Module1"],
+            "plugins/Services/Module1" => ["Slot1"],
+            "plugins/Services/Module1/Slot1" => ["Plugin1", "Plugin2"],
         ];
 
         $this->builder->build();
 
         $expected = [
-            "components/ILIAS/Module1/Slot1/Plugin1",
-            "components/ILIAS/Module1/Slot1/Plugin2"
+            "Services/Module1/Slot1/Plugin1",
+            "Services/Module1/Slot1/Plugin2"
         ];
         sort($expected);
         sort($this->added);
@@ -158,12 +167,12 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     public function testAddPlugins(): void
     {
         $data = [];
-        $this->files["components/ILIAS/Module1/Slot1/Plugin1/"] = __DIR__ . "/";
-        $this->builder->_addPlugin($data, "components/ILIAS", "Module1", "Slot1", "Plugin1");
+        $this->files["plugins/Type1/Module1/Slot1/Plugin1/"] = __DIR__ . "/";
+        $this->builder->_addPlugin($data, "Type1", "Module1", "Slot1", "Plugin1");
 
         $expected = [
             "tstplg" => [
-                "components/ILIAS",
+                "Type1",
                 "Module1",
                 "Slot1",
                 "Plugin1",
@@ -182,6 +191,6 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
 
     public function testBuildPluginPath(): void
     {
-        $this->assertEquals("TYPE/COMPONENT/SLOT/PLUGIN/", $this->builder->_buildPluginPath("TYPE", "COMPONENT", "SLOT", "PLUGIN"));
+        $this->assertEquals("plugins/TYPE/COMPONENT/SLOT/PLUGIN/", $this->builder->_buildPluginPath("TYPE", "COMPONENT", "SLOT", "PLUGIN"));
     }
 }

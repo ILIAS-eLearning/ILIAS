@@ -20,7 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class FileUpload implements Component\Component
+use ILIAS\Component\Component;
+
+class FileUpload implements Component
 {
     public function init(
         array | \ArrayAccess &$define,

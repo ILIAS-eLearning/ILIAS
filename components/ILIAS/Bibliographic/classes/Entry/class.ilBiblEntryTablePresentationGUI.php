@@ -23,17 +23,13 @@
  */
 class ilBiblEntryTablePresentationGUI
 {
-    protected \ilBiblEntry $entry;
     protected string $html = '';
-    protected \ilBiblFactoryFacadeInterface $facade;
 
     /**
      * ilBiblEntryTablePresentationGUI constructor.
      */
-    public function __construct(ilBiblEntry $entry, ilBiblFactoryFacadeInterface $facade)
+    public function __construct(protected \ilBiblEntry $entry, protected \ilBiblFactoryFacadeInterface $facade)
     {
-        $this->entry = $entry;
-        $this->facade = $facade;
         $this->render();
     }
 
@@ -71,9 +67,9 @@ class ilBiblEntryTablePresentationGUI
                     . $cuts[2], $single_entry);
                 // replace the <emph> tags with a span, in order to make text italic by css
                 do {
-                    $first_sign_after_begin_emph_tag = strpos(strtolower($single_entry), '<emph>')
+                    $first_sign_after_begin_emph_tag = stripos($single_entry, '<emph>')
                         + 6;
-                    $last_sign_after_end_emph_tag = strpos(strtolower($single_entry), '</emph>');
+                    $last_sign_after_end_emph_tag = stripos($single_entry, '</emph>');
                     $italic_text_length = $last_sign_after_end_emph_tag
                         - $first_sign_after_begin_emph_tag;
                     //would not be true if there is no <emph> tag left

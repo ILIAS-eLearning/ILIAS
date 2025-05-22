@@ -105,4 +105,43 @@ class ilWikiDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
+    public function step_6(): void
+    {
+        $db = $this->db;
+        $set = $db->queryF(
+            "SELECT * FROM il_wiki_data " .
+            " WHERE public_notes = %s ",
+            ["integer"],
+            [1]
+        );
+        while ($rec = $db->fetchAssoc($set)) {
+            $set2 = $db->queryF(
+                "SELECT * FROM note_settings " .
+                " WHERE rep_obj_id = %s AND obj_id = %s",
+                ["integer", "integer"],
+                [$rec["id"], 0]
+            );
+            if ($rec2 = $db->fetchAssoc($set2)) {
+                $db->update(
+                    "note_settings",
+                    [
+                    "activated" => ["integer", 1]
+                ],
+                    [    // where
+                        "rep_obj_id" => ["integer", $rec["id"]],
+                        "obj_id" => ["integer", 0]
+                    ]
+                );
+            } else {
+                $db->insert("note_settings", [
+                    "rep_obj_id" => ["integer", $rec["id"]],
+                    "obj_id" => ["integer", 0],
+                    "activated" => ["integer", 1],
+                    "obj_type" => ["text", "wiki"]
+                ]);
+            }
+        }
+
+    }
+
 }

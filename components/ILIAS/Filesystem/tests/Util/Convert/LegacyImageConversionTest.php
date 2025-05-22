@@ -18,10 +18,7 @@
 
 namespace ILIAS\Filesystem\Util;
 
-use ILIAS\Filesystem\Stream\FileStream;
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\Filesystem\Util\Convert\ImageOutputOptions;
-use ILIAS\Filesystem\Util\Convert\Images;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ILIAS\Filesystem\Util\Convert\LegacyImages;
 use PHPUnit\Framework\TestCase;
 
@@ -54,9 +51,7 @@ class LegacyImageConversionTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider someDefinitions
-     */
+    #[DataProvider('someDefinitions')]
     public function testImageThumbnailActualImage(
         int $expected_height,
         int $expected_quality,
@@ -87,7 +82,7 @@ class LegacyImageConversionTest extends TestCase
 
         $this->assertEquals($expected_quality, $test_image->getImageCompressionQuality());
         $this->assertEquals($expected_height, $test_image->getImageHeight());
-        $this->assertEquals((int)round($expected_height * 0.75), $test_image->getImageWidth());
+        $this->assertEquals((int) round($expected_height * 0.75), $test_image->getImageWidth());
         unlink($temp_file);
     }
 

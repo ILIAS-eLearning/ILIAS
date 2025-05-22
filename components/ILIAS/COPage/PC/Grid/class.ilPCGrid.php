@@ -180,7 +180,6 @@ class ilPCGrid extends ilPageContent
     ): void {
         $new_item = $this->dom_doc->createElement("GridCell");
         $new_item = $this->getChildNode()->appendChild($new_item);
-        //$new_item->set_attribute("xs", $a_xs);
         $new_item->setAttribute("WIDTH_XS", "");
         $new_item->setAttribute("WIDTH_S", $a_s);
         $new_item->setAttribute("WIDTH_M", $a_m);

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,11 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use ILIAS\UI\Implementation\Component\Input\Container\Form\Standard as StandardForm;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
 /**
 * @author Tim Schmitz <schmitz@leifos.com>
@@ -104,11 +105,13 @@ class ilObjSearchSettingsFormGUI
         }
 
         $settings = $this->getSettings();
-        $data = $form->getData()['section'];
 
-        $settings->setMaxHits((int) $data['max_hits']);
+        $main_data = $form->getData()['section'];
+        $user_data = $form->getData()['user_section'];
 
-        switch ((int) $data['search_type']) {
+        $settings->setMaxHits((int) $main_data['max_hits']);
+
+        switch ((int) $main_data['search_type']) {
             case ilSearchSettings::LIKE_SEARCH:
                 $settings->enableLucene(false);
                 break;
@@ -116,17 +119,15 @@ class ilObjSearchSettingsFormGUI
                 $settings->enableLucene(true);
                 break;
         }
-        $settings->setDefaultOperator((int) $data['operator']);
-        $settings->enableLuceneItemFilter(!is_null($data['filter']));
-        if (!is_null($data['filter'])) {
-            $settings->setLuceneItemFilter((array) $data['filter']);
+        $settings->setDefaultOperator((int) $main_data['operator']);
+        $settings->enableLuceneItemFilter(!is_null($main_data['filter']));
+        if (!is_null($main_data['filter'])) {
+            $settings->setLuceneItemFilter((array) $main_data['filter']);
         }
-        $settings->setHideAdvancedSearch((bool) $data['hide_adv_search']);
-        $settings->setAutoCompleteLength((int) $data['auto_complete_length']);
-        $settings->showInactiveUser((bool) $data['inactive_user']);
-        $settings->showLimitedUser((bool) $data['limited_user']);
-        $settings->enableDateFilter((bool) $data['cdate']);
-        $settings->enableLuceneUserSearch((bool) $data['user_search_enabled']);
+        $settings->enableDateFilter((bool) $main_data['cdate']);
+        $settings->setAutoCompleteLength((int) $user_data['auto_complete_length']);
+        $settings->showInactiveUser((bool) $user_data['inactive_user']);
+        $settings->showLimitedUser((bool) $user_data['limited_user']);
         $settings->update();
 
         // refresh lucene server
@@ -135,7 +136,6 @@ class ilObjSearchSettingsFormGUI
                 $this->coordinator->refreshLuceneSettings();
             }
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-            ilSession::clear('search_last_class');
             $this->ctrl->redirect($this, 'edit');
         } catch (Exception $exception) {
             $this->tpl->setOnScreenMessage('failure', $exception->getMessage());
@@ -198,12 +198,6 @@ class ilObjSearchSettingsFormGUI
         )->withRequired(true)
          ->withValue((string) $settings->getDefaultOperator());
 
-        // User search
-        $user_search = $field_factory->checkbox(
-            $this->lng->txt('search_user_search_form'),
-            $this->lng->txt('search_user_search_info_form')
-        )->withValue($settings->isLuceneUserSearchEnabled());
-
         // Item filter
         $filter = $settings->getLuceneItemFilter();
         $checks = [];
@@ -227,11 +221,6 @@ class ilObjSearchSettingsFormGUI
             $this->lng->txt('search_cdate_filter'),
             $this->lng->txt('search_cdate_filter_info')
         )->withValue($settings->isDateFilterEnabled());
-
-        // hide advanced search
-        $hide_adv = $field_factory->checkbox(
-            $this->lng->txt('search_hide_adv_search')
-        )->withValue($settings->getHideAdvancedSearch());
 
         // number of auto complete entries
         $options = [
@@ -268,15 +257,19 @@ class ilObjSearchSettingsFormGUI
                 'max_hits' => $hits,
                 'search_type' => $type,
                 'operator' => $operator,
-                'user_search_enabled' => $user_search,
                 'filter' => $item_filter,
-                'cdate' => $cdate,
-                'hide_adv_search' => $hide_adv,
+                'cdate' => $cdate
+            ],
+            $this->lng->txt('seas_settings')
+        )->withDisabled($read_only);
+
+        $user_section = $this->factory->input()->field()->section(
+            [
                 'auto_complete_length' => $auto_complete,
                 'inactive_user' => $inactive_user,
                 'limited_user' => $limited_user
             ],
-            $this->lng->txt('seas_settings')
+            $this->lng->txt('user_search_settings_section')
         )->withDisabled($read_only);
 
         if ($read_only) {
@@ -287,7 +280,10 @@ class ilObjSearchSettingsFormGUI
 
         return $this->factory->input()->container()->form()->standard(
             $action,
-            ['section' => $section]
+            [
+                'section' => $section,
+                'user_section' => $user_section,
+            ]
         );
     }
 

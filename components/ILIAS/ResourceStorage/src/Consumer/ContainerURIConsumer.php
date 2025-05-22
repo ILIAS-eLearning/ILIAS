@@ -18,15 +18,11 @@
 
 namespace ILIAS\ResourceStorage\Consumer;
 
+use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
-use ILIAS\ResourceStorage\Resource\StorableContainerResource;
-use ILIAS\Filesystem\Util\Archive\Unzip;
-use ILIAS\Filesystem\Util\Archive\UnzipOptions;
 use ILIAS\Data\URI;
 use ILIAS\FileDelivery\Delivery\StreamDelivery;
-
-use function ILIAS\UI\examples\Deck\base;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions.ch>
@@ -35,41 +31,44 @@ class ContainerURIConsumer implements ContainerConsumer
 {
     use GetRevisionTrait;
 
-    private \ILIAS\Filesystem\Util\Archive\Archives $archives;
+    private Archives $archives;
     protected ?int $revision_number = null;
-    private StorableResource $resource;
-    private StreamAccess $stream_access;
 
     /**
      * DownloadConsumer constructor.
      */
     public function __construct(
         private SrcBuilder $src_builder,
-        StorableContainerResource $resource,
-        StreamAccess $stream_access,
+        private StorableResource $resource,
+        private StreamAccess $stream_access,
         private string $start_file,
         private float $valid_for_at_least_minutes = 60.0
     ) {
         global $DIC;
-        $this->resource = $resource;
         $this->archives = $DIC->archives();
-        $this->stream_access = $stream_access;
     }
 
-    public function getURI(): URI
+    public function getURI(): ?URI
     {
         $filename = basename($this->start_file);
         if ($filename === '') {
             $filename = null;
         }
 
+        $startfile = urlencode($this->start_file); // e.g. for files with " " (spaces)
+        $startfile = str_replace(urlencode("/"), "/", $startfile); // we must keep directory sepparators
+
         $uri_string = $this->src_builder->getRevisionURL(
             $this->stream_access->populateRevision($this->getRevision()),
             true,
             $this->valid_for_at_least_minutes,
             $filename
-        ) . StreamDelivery::SUBREQUEST_SEPARATOR . $this->start_file;
+        ) . StreamDelivery::SUBREQUEST_SEPARATOR . $startfile;
 
-        return new URI($uri_string);
+        try {
+            return new URI($uri_string);
+        } catch (\Throwable) {
+            return null;
+        }
     }
 }

@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Resources\UI;
 
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+use ILIAS\UI\Component\Item\Standard;
 use ILIAS\UI\Component\Card\Card;
 
 /**
@@ -28,7 +28,7 @@ use ILIAS\UI\Component\Card\Card;
  */
 interface ToComponent
 {
-    public function getAsItem(bool $with_image): \ILIAS\UI\Component\Item\Standard;
+    public function getAsItem(bool $with_image): Standard;
 
     public function getAsCard(): Card;
 

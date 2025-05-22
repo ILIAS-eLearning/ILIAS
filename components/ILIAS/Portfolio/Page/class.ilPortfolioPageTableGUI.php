@@ -24,7 +24,6 @@
 class ilPortfolioPageTableGUI extends ilTable2GUI
 {
     protected \ILIAS\Portfolio\InternalGUIService $gui;
-    protected array $blogs;
     protected ilObjUser $user;
     protected ilObjPortfolioBase $portfolio;
     protected bool $is_template;
@@ -73,8 +72,6 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         );
 
         $this->getItems();
-
-        $lng->loadLanguageModule("blog");
     }
 
     public function getItems(): void
@@ -84,19 +81,6 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         $data = ilPortfolioPage::getAllPortfolioPages($this->portfolio->getId());
         $this->setData($data);
 
-        if (!$this->is_template) {
-            $this->blogs = array();
-            $tree = new ilWorkspaceTree($ilUser->getId());
-            $root = $tree->readRootId();
-            if ($root) {
-                $root = $tree->getNodeData($root);
-                foreach ($tree->getSubTree($root) as $node) {
-                    if ($node["type"] == "blog") {
-                        $this->blogs[$node["obj_id"]] = $node["wsp_id"];
-                    }
-                }
-            }
-        }
     }
 
     protected function fillRow(array $a_set): void
@@ -129,51 +113,6 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
                 $this->tpl->setVariable("TYPE", $lng->txt("page"));
                 break;
 
-            case ilPortfolioPage::TYPE_BLOG:
-                if (!$this->is_template) {
-                    $this->tpl->setCurrentBlock("title_static");
-                    $this->tpl->setVariable("VAL_TITLE_STATIC", ilObjBlog::_lookupTitle($a_set["title"]));
-                    $this->tpl->parseCurrentBlock();
-
-                    $obj_id = (int) $a_set["title"];
-                    if (isset($this->blogs[$obj_id])) {
-                        $node_id = $this->blogs[$obj_id];
-                        $link = ilWorkspaceAccessHandler::getGotoLink($node_id, $obj_id);
-
-                        // #11519
-                        $ilCtrl->setParameterByClass(
-                            $this->page_gui,
-                            "ppage",
-                            $a_set["id"]
-                        );
-                        $link = $ilCtrl->getLinkTargetByClass(array($this->page_gui, "ilobjbloggui"), "render");
-
-                        /*$action_item = ilLinkButton::getInstance();
-                        $action_item->setCaption('blog_edit');
-                        $action_item->setUrl($link);
-                        $action_items[] = $action_item;*/
-                        $action_items[] = $f->button()->shy(
-                            $lng->txt('blog_edit'),
-                            $link
-                        );
-                    }
-                    $this->tpl->setVariable("TYPE", $lng->txt("obj_blog"));
-                }
-                break;
-
-            case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
-                if ($this->is_template) {
-                    $this->tpl->setCurrentBlock("title_field");
-                    $this->tpl->setVariable("ID", $a_set["id"]);
-                    $this->tpl->setVariable("VAL_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["title"]));
-                    $this->tpl->parseCurrentBlock();
-
-                    $this->tpl->setCurrentBlock("title_static");
-                    //$this->tpl->setVariable("VAL_TITLE_STATIC", $lng->txt("obj_blog"));
-                    $this->tpl->parseCurrentBlock();
-                    $this->tpl->setVariable("TYPE", $lng->txt("obj_blog"));
-                }
-                break;
         }
 
         $ilCtrl->setParameter($this->parent_obj, "prtf_page", $a_set["id"]);
@@ -182,22 +121,12 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         //$action_item = ilLinkButton::getInstance();
         if ((int) $a_set["type"] === ilPortfolioPage::TYPE_PAGE) {
             $txt = $lng->txt('prtf_copy_pg');
-        } else {
-            $txt = $lng->txt('prtf_copy_blog_pg');
         }
-        //$action_item->setUrl($ilCtrl->getLinkTarget($this->parent_obj, "copyPageForm"));
-        //$action_items[] = $action_item;
         $action_items[] = $f->button()->shy(
             $txt,
             $ilCtrl->getLinkTarget($this->parent_obj, "copyPageForm")
         );
 
-
-        // delete
-        //$action_item = ilLinkButton::getInstance();
-        //$action_item->setCaption('delete');
-        //$action_item->setUrl($ilCtrl->getLinkTarget($this->parent_obj, "confirmPortfolioPageDeletion"));
-        //$action_items[] = $action_item;
         $action_items[] = $f->button()->shy(
             $lng->txt("delete"),
             $ilCtrl->getLinkTarget($this->parent_obj, "confirmPortfolioPageDeletion")

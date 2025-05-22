@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Client;
 
@@ -35,7 +36,6 @@ class ItemState
 
     public const LEVEL_OF_TOOL = 1;
     public const COOKIE_NS_GS = 'gs_active_items';
-    private IdentificationInterface $identification;
     private array $storage;
 
     protected WrapperFactory $wrapper;
@@ -46,9 +46,8 @@ class ItemState
      *
      * @param IdentificationInterface $identification
      */
-    public function __construct(IdentificationInterface $identification)
+    public function __construct(private IdentificationInterface $identification)
     {
-        $this->identification = $identification;
         $this->storage = $this->getStorage();
         \ilInitialisation::initILIAS();
         global $DIC;
@@ -75,7 +74,7 @@ class ItemState
                 ? $this->wrapper->cookie()->retrieve(self::COOKIE_NS_GS, $this->refinery->to()->string())
                 : '{}';
 
-            $json_decode = json_decode($cookie_value, true);
+            $json_decode = json_decode((string) $cookie_value, true);
             $json_decode = is_array($json_decode) ? $json_decode : [];
         }
 

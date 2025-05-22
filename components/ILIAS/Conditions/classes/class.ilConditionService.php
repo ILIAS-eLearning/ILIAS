@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Condition service
@@ -36,7 +36,7 @@ class ilConditionService
         }
     }
 
-    public static function getInstance(ilConditionObjectAdapterInterface $cond_obj_adapter = null): ilConditionService
+    public static function getInstance(?ilConditionObjectAdapterInterface $cond_obj_adapter = null): ilConditionService
     {
         return new self($cond_obj_adapter);
     }

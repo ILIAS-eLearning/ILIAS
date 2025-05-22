@@ -1,49 +1,45 @@
 <?php
 
-declare(strict_types=1);
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
-/**
- * SOAP dummy authentication server
- *
- * @author Alex Killing <alex.killing@gmx.de>
- */
+declare(strict_types=1);
 
-include_once './components/ILIAS/soap/lib/nusoap.php';
+require_once __DIR__ . '/../../soap/lib/nusoap.php';
 
 function isValidSession(string $ext_uid, string $soap_pw, bool $new_user): array
 {
     $ret = [
-        "firstname" => "",
-        "lastname" => "",
-        "email" => ""
+        'firstname' => '',
+        'lastname' => '',
+        'email' => ''
     ];
 
     // generate some dummy values
     if ($new_user) {
-        $ret["firstname"] = "first " . $ext_uid;
-        $ret["lastname"] = "last " . $ext_uid;
-        $ret["email"] = $ext_uid . "@de.de";
+        $ret['firstname'] = 'first ' . $ext_uid;
+        $ret['lastname'] = 'last ' . $ext_uid;
+        $ret['email'] = $ext_uid . '@de.de';
     }
 
     // return valid authentication if user id equals soap password
     if ($ext_uid === $soap_pw) {
-        $ret["valid"] = true;
+        $ret['valid'] = true;
     } else {
-        $ret["valid"] = false;
+        $ret['valid'] = false;
     }
 
     return $ret;
@@ -53,8 +49,7 @@ class ilSoapDummyAuthServer
 {
     public ?soap_server $server = null;
 
-
-    public function __construct($a_use_wsdl = true)
+    public function __construct(bool $a_use_wsdl = true)
     {
         define('SERVICE_NAME', 'ILIAS SOAP Dummy Authentication Server');
         define('SERVICE_NAMESPACE', 'urn:ilSoapDummyAuthServer');
@@ -72,7 +67,7 @@ class ilSoapDummyAuthServer
 
     public function start(): void
     {
-        $postdata = file_get_contents("php://input");
+        $postdata = file_get_contents('php://input');
         $this->server->service($postdata);
         exit();
     }
@@ -110,7 +105,6 @@ class ilSoapDummyAuthServer
             'xsd:string'
         );
 
-        // isValidSession()
         $this->server->register(
             'isValidSession',
             [

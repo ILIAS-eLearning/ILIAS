@@ -79,9 +79,8 @@ class ilLearningSequenceXMLParser extends ilSaxParser
 
     public function setHandlers($a_xml_parser): void
     {
-        xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, "handleBeginTag", "handleEndTag");
-        xml_set_character_data_handler($a_xml_parser, 'handleCharacterData');
+        xml_set_element_handler($a_xml_parser, $this->handleBeginTag(...), $this->handleEndTag(...));
+        xml_set_character_data_handler($a_xml_parser, $this->handleCharacterData(...));
     }
 
     public function handleBeginTag(
@@ -103,7 +102,7 @@ class ilLearningSequenceXMLParser extends ilSaxParser
                 break;
 
             case Writer::TAG_LSITEM:
-                $this->counter = (int)$attributes["ref_id"];
+                $this->counter = (int) $attributes["ref_id"];
                 $this->ls_item_data[$this->counter]["ref_id"] = $attributes["ref_id"];
                 break;
 

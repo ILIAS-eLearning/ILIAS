@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,7 +22,7 @@ use ILIAS\Cron\Schedule\CronJobScheduleType;
  *
  *********************************************************************/
 
-class ilLoggerCronCleanErrorFiles extends ilCronJob
+class ilLoggerCronCleanErrorFiles extends CronJob
 {
     protected const DEFAULT_VALUE_OLDER_THAN = 31;
 
@@ -53,9 +55,9 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
         return $this->lng->txt("log_error_file_cleanup_info");
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS;
+        return JobScheduleType::IN_DAYS;
     }
 
     public function getDefaultScheduleValue(): int
@@ -78,12 +80,12 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
         return true;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
-        $result = new ilCronJobResult();
+        $result = new JobResult();
         $folder = $this->error_settings->folder();
         if (!is_dir($folder)) {
-            $result->setStatus(ilCronJobResult::STATUS_OK);
+            $result->setStatus(JobResult::STATUS_OK);
             $result->setMessage($this->lng->txt("log_error_path_not_configured_or_wrong"));
             return $result;
         }
@@ -107,7 +109,7 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
             }
         }
 
-        $result->setStatus(ilCronJobResult::STATUS_OK);
+        $result->setStatus(JobResult::STATUS_OK);
         return $result;
     }
 

@@ -19,7 +19,6 @@
 /**
  * User Interface for Table Editing
  * @author Alexander Killing <killing@leifos.de>
-
  * See https://mantis.ilias.de/view.php?id=32856
  * @ilCtrl_Calls ilPCTableGUI: ilAssGenFeedbackPageGUI
  */
@@ -256,7 +255,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $this->form->addItem($spacing);*/
 
         // table templates and table classes
-        $char_prop = new ilAdvSelectInputGUI(
+        $char_prop = new ilSelectInputGUI(
             $this->lng->txt("cont_characteristic_table"),
             "characteristic"
         );
@@ -271,6 +270,7 @@ class ilPCTableGUI extends ilPageContentGUI
                 );
             }
         }
+        $options = [];
         foreach ($chars as $k => $char) {
             if (strpos($k, ":") > 0) {
                 $t = explode(":", $k);
@@ -279,8 +279,10 @@ class ilPCTableGUI extends ilPageContentGUI
                 $html = '<table class="ilc_table_' . $k . '"><tr><td class="small">' .
                     $char . '</td></tr></table>';
             }
-            $char_prop->addOption($k, $char, $html);
+            //$char_prop->addOption($k, $char, $html);
+            $options[$k] = $char;
         }
+        $char_prop->setOptions($options);
         $char_prop->setValue("StandardTable");
         $this->form->addItem($char_prop);
 
@@ -315,7 +317,7 @@ class ilPCTableGUI extends ilPageContentGUI
 
         if ($a_mode == "create") {
             // first row style
-            $fr_style = new ilAdvSelectInputGUI(
+            $fr_style = new ilSelectInputGUI(
                 $this->lng->txt("cont_first_row_style"),
                 "first_row_style"
             );
@@ -323,11 +325,7 @@ class ilPCTableGUI extends ilPageContentGUI
             $this->getCharacteristicsOfCurrentStyle(["table_cell"]);
             $chars = $this->getCharacteristics();
             $options = array_merge(array("" => $this->lng->txt("none")), $chars);
-            foreach ($options as $k => $option) {
-                $html = '<table border="0" cellspacing="0" cellpadding="0"><tr><td class="ilc_table_cell_' . $k . '">' .
-                    $option . '</td></tr></table>';
-                $fr_style->addOption($k, $option, $html);
-            }
+            $fr_style->setOptions($options);
 
             $fr_style->setValue("");
             $this->form->addItem($fr_style);
@@ -382,14 +380,17 @@ class ilPCTableGUI extends ilPageContentGUI
         } else {
             $s_lang = $ilUser->getLanguage();
         }
-        $lang = ilMDLanguageItem::_getLanguages();
+        $languages = [];
+        foreach ($this->lom_services->dataHelper()->getAllLanguages() as $language) {
+            $languages[$language->value()] = $language->presentableLabel();
+        }
         $language = new ilSelectInputGUI($this->lng->txt("language"), "language");
-        $language->setOptions($lang);
+        $language->setOptions($languages);
         $language->setValue($s_lang);
         $this->form->addItem($language);
 
         if ($a_mode == "create") {
-            $this->form->addCommandButton("create_tab", $lng->txt("save"));
+            $this->form->addCommandButton("create", $lng->txt("save"));
             $this->form->addCommandButton("cancelCreate", $lng->txt("cancel"));
         } else {
             $this->form->addCommandButton("saveProperties", $lng->txt("save"));
@@ -462,9 +463,9 @@ class ilPCTableGUI extends ilPageContentGUI
         string $content,
         string $a_mode = "table_edit",
         string $a_submode = "",
-        ilPCTable $a_table_obj = null,
+        ?ilPCTable $a_table_obj = null,
         bool $unmask = true,
-        ilPageObject $page_object = null
+        ?ilPageObject $page_object = null
     ): string {
         global $DIC;
 
@@ -659,7 +660,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $form->setTitle($this->lng->txt("cont_table_cell_properties"));
 
         // first row style
-        $style = new ilAdvSelectInputGUI(
+        $style = new ilSelectInputGUI(
             $this->lng->txt("cont_style"),
             "style"
         );
@@ -667,11 +668,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $this->getCharacteristicsOfCurrentStyle(["table_cell"]);	// scorm-2004
         $chars = $this->getCharacteristics();	// scorm-2004
         $options = array_merge(array("" => $this->lng->txt("none")), $chars);	// scorm-2004
-        foreach ($options as $k => $option) {
-            $html = '<table border="0" cellspacing="0" cellpadding="0"><tr><td class="ilc_table_cell_' . $k . '">' .
-                $option . '</td></tr></table>';
-            $style->addOption($k, $option, $html);
-        }
+        $style->setOptions($options);
 
         $style->setValue("");
         $style->setInfo($lng->txt("cont_set_tab_style_info"));
@@ -1031,7 +1028,6 @@ class ilPCTableGUI extends ilPageContentGUI
         $this->setTabs();
 
         $this->displayValidationError();
-
         $this->initEditor();
         $this->tpl->addJavaScript("assets/js/AdvancedSelectionList.js");
         $this->tpl->addCss(ilObjStyleSheet::getBaseContentStylePath());
@@ -1137,11 +1133,11 @@ class ilPCTableGUI extends ilPageContentGUI
 
                 // cell
                 if ($node2->getAttribute("Hidden") != "Y") {
-                    if ($this->content_obj->getType() == "dtab") {
-                        $dtpl->touchBlock("cell_type");
-                        //$dtpl->setCurrentBlock("cell_type");
-                        //$dtpl->parseCurrentBlock();
-                    }
+                    //if ($this->content_obj->getType() == "dtab") {
+                    $dtpl->touchBlock("cell_type");
+                    //$dtpl->setCurrentBlock("cell_type");
+                    //$dtpl->parseCurrentBlock();
+                    //}
 
                     $dtpl->setCurrentBlock("cell");
 
@@ -1178,8 +1174,15 @@ class ilPCTableGUI extends ilPageContentGUI
                     );
 
                     $cs = $node2->getAttribute("ColSpan");
+                    $width = (int) $node2->getAttribute("Width");
                     $rs = $node2->getAttribute("RowSpan");
-                    $dtpl->setVariable("WIDTH", "140");
+                    if ($width > 0) {
+                        $dtpl->setVariable("WIDTH", $width);
+                    }
+                    $align = (string) $node2->getAttribute("HorizontalAlign");
+                    if ($align !== "") {
+                        $dtpl->setVariable("ALIGN", $align);
+                    }
                     $dtpl->setVariable("HEIGHT", "80");
                     if ($cs > 1) {
                         $dtpl->setVariable("COLSPAN", 'colspan="' . $cs . '"');
@@ -1197,7 +1200,6 @@ class ilPCTableGUI extends ilPageContentGUI
             $dtpl->parseCurrentBlock();
             $i++;
         }
-
         $dtpl->setVariable("TXT_ACTION", $this->lng->txt("cont_table"));
 
         // add int link parts

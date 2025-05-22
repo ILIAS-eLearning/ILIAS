@@ -16,10 +16,9 @@
  *
  *********************************************************************/
 
-use ILIAS\Setup;
-use ILIAS\Data\Password;
+use ILIAS\Setup\Config;
 
-class ilBackgroundTasksSetupConfig implements Setup\Config
+class ilBackgroundTasksSetupConfig implements Config
 {
     public const TYPE_SYNCHRONOUS = "sync";
     public const TYPE_ASYNCHRONOUS = "async";

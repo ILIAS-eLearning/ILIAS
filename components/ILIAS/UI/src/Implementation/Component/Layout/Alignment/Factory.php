@@ -24,18 +24,12 @@ use ILIAS\UI\Component\Layout\Alignment as I;
 
 class Factory implements I\Factory
 {
-    /**
-     * @inheritdoc
-     */
-    public function horizontal(): I\Horizontal\Factory
+    public function horizontal(): Horizontal\Factory
     {
         return new Horizontal\Factory();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function vertical(I\Block ...$blocks): I\Vertical
+    public function vertical(I\Block ...$blocks): Vertical
     {
         return new Vertical(...$blocks);
     }

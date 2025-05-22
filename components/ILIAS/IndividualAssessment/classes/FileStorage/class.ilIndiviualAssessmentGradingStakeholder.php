@@ -24,10 +24,6 @@ class ilIndividualAssessmentGradingStakeholder extends AbstractResourceStakehold
 {
     private const ID = 'IASSGrading';
 
-    public function __construct(
-        protected int $owner = 6
-    ) {
-    }
 
     public function getId(): string
     {
@@ -36,6 +32,6 @@ class ilIndividualAssessmentGradingStakeholder extends AbstractResourceStakehold
 
     public function getOwnerOfNewResources(): int
     {
-        return $this->owner;
+        return $this->default_owner;
     }
 }

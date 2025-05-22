@@ -32,8 +32,8 @@ class ChartScaleBarTest extends ILIAS_UI_TestBase
     protected function getFactory(): C\Chart\Factory
     {
         return new I\Component\Chart\Factory(
-            $this->createMock(C\Chart\ProgressMeter\Factory::class),
-            $this->createMock(C\Chart\Bar\Factory::class)
+            $this->createMock(I\Component\Chart\ProgressMeter\Factory::class),
+            $this->createMock(I\Component\Chart\Bar\Factory::class)
         );
     }
 

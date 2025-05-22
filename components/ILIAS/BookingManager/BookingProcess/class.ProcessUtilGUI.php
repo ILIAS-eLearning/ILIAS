@@ -1,32 +1,34 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\BookingManager\BookingProcess;
 
 use ILIAS\BookingManager\InternalDomainService;
 use ILIAS\BookingManager\InternalGUIService;
+use ILIAS\BookingManager\Objects\ObjectsManager;
+use ILIAS\BookingManager\StandardGUIRequest;
 
-/**
- * Common functions for process GUI classes
- * @author Alexander Killing <killing@leifos.de>
- */
 class ProcessUtilGUI
 {
-    protected \ILIAS\BookingManager\StandardGUIRequest $request;
+    protected ObjectsManager $objects_manager;
+    protected StandardGUIRequest $request;
     protected \ilCtrl $ctrl;
     protected \ilLogger $log;
     protected \ilObjBookingPool $pool;
@@ -49,6 +51,7 @@ class ProcessUtilGUI
         $this->pool = $pool;
         $this->ctrl = $this->gui->ctrl();
         $this->request = $this->gui->standardRequest();
+        $this->objects_manager = $domain_service->objects($pool->getId());
     }
 
     // Back to parent
@@ -60,6 +63,8 @@ class ProcessUtilGUI
         if ($retCmd !== "") {
             $this->ctrl->redirectByClass(get_class($this->parent_gui), $retCmd);
         } else {
+            //var_dump(get_class($this->parent_gui));
+            //exit;
             $this->ctrl->returnToParent($this->parent_gui);
         }
     }
@@ -109,7 +114,7 @@ class ProcessUtilGUI
     public function handleBookingSuccess(
         int $a_obj_id,
         string $post_info_cmd,
-        array $a_rsv_ids = null
+        ?array $a_rsv_ids = null
     ): void {
         $this->log->debug("handleBookingSuccess");
         $main_tpl = $this->gui->mainTemplate();
@@ -121,7 +126,7 @@ class ProcessUtilGUI
 
         // show post booking information?
         $obj = new \ilBookingObject($a_obj_id);
-        $pfile = $obj->getPostFile();
+        $pfile = $this->objects_manager->getBookingInfoFilename($a_obj_id);
         $ptext = $obj->getPostText();
 
         if (trim($ptext) || $pfile) {
@@ -220,7 +225,7 @@ class ProcessUtilGUI
         */
 
         $obj = new \ilBookingObject($id);
-        $pfile = $obj->getPostFile();
+        $pfile = $this->objects_manager->getBookingInfoFilename($id);
         $ptext = $obj->getPostText();
 
         $mytpl = new \ilTemplate('tpl.booking_reservation_post.html', true, true, 'components/ILIAS/BookingManager/BookingProcess');
@@ -271,11 +276,7 @@ class ProcessUtilGUI
             return;
         }
 
-        $obj = new \ilBookingObject($id);
-        $file = $obj->getPostFileFullPath();
-        if ($file) {
-            \ilFileDelivery::deliverFileLegacy($file, $obj->getPostFile());
-        }
+        $this->domain->objects($this->pool->getId())->deliverBookingInfo($id);
     }
 
 }

@@ -32,31 +32,12 @@ class ilDclDetailedViewDefinition extends ilPageObject
     }
 
     /**
-     * Get all placeholders for table id
+     * @return ilDclBaseFieldModel[]
      */
     public function getAvailablePlaceholders(): array
     {
-        $all = [];
-
         $tableview = new ilDclTableView($this->getId());
-        $table_id = $tableview->getTableId();
-        $objTable = ilDclCache::getTableCache($table_id);
-        $fields = $objTable->getRecordFields();
-        $standardFields = $objTable->getStandardFields();
-
-        foreach ($fields as $field) {
-            $all[] = "[" . $field->getTitle() . "]";
-
-            if ($field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_REFERENCE) {
-                $all[] = '[dclrefln field="' . $field->getTitle() . '"][/dclrefln]';
-            }
-        }
-
-        foreach ($standardFields as $field) {
-            $all[] = "[" . $field->getId() . "]";
-        }
-
-        return $all;
+        return ilDclCache::getTableCache($tableview->getTableId())->getFields();
     }
 
     public static function exists(int $id): bool
@@ -64,11 +45,13 @@ class ilDclDetailedViewDefinition extends ilPageObject
         return parent::_exists(self::PARENT_TYPE, $id);
     }
 
-    public static function isActive(int $id): bool
+    public function isActive(): bool
     {
-        if (!parent::_exists(self::PARENT_TYPE, $id)) {
-            return false;
+        foreach ($this->getAllPCIds() as $id) {
+            if ($this->getContentObjectForPcId($id)->isEnabled()) {
+                return parent::_lookupActive($this->getId(), self::PARENT_TYPE);
+            }
         }
-        return parent::_lookupActive($id, self::PARENT_TYPE);
+        return false;
     }
 }

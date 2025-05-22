@@ -4,6 +4,6 @@ This scope takes care of the MetaBar elements in the upper right corner of ILIAS
 
 # General Information
 
-- Implement a provider: [src/GlobalScreen/README.md](../../README.md) How to implement your provider
-- Available elements: [src/GlobalScreen/Scope/MetaBar/Factory/MetaBarItemFactory.php](Factory/MetaBarItemFactory.php)
-- Example: Services/User/classes/Provider/UserMetaBarProvider.php
+- Implement a provider: [components/ILIAS/GlobalScreen/README.md](../../README.md) How to implement your provider
+- Available elements: [components/ILIAS/GlobalScreen/Scope/MetaBar/Factory/MetaBarItemFactory.php](Factory/MetaBarItemFactory.php)
+- Example: ILIAS/User/classes/Provider/UserMetaBarProvider.php

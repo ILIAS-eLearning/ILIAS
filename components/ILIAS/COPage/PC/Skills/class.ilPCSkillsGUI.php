@@ -57,7 +57,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
         }
     }
 
-    public function insert(ilPropertyFormGUI $a_form = null): void
+    public function insert(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -79,7 +79,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
         }
     }
 
-    public function edit(ilPropertyFormGUI $a_form = null): void
+    public function edit(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -135,7 +135,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
         $form->addItem($obj);
 
         if ($a_insert) {
-            $form->addCommandButton("create_skill", $this->lng->txt("select"));
+            $form->addCommandButton("create", $this->lng->txt("select"));
             $form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
         } else {
             $obj->setValue($this->content_obj->getSkillId());

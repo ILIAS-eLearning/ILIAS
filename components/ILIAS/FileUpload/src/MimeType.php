@@ -1,20 +1,22 @@
 <?php
 
-namespace ILIAS\FileUpload;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+namespace ILIAS\FileUpload;
 
 /**
  * Mime type determination.
@@ -499,7 +501,7 @@ class MimeType
     protected function __construct(string $path_to_file)
     {
         /** @noinspection HttpUrlsUsage */
-        if (strpos($path_to_file, 'http://') !== false || strpos($path_to_file, 'https://') !== false) {
+        if (str_contains($path_to_file, 'http://') || str_contains($path_to_file, 'https://')) {
             $this->setExternal(true);
         }
         $parts = parse_url($path_to_file);
@@ -570,9 +572,8 @@ class MimeType
         if ($this->getSuffix() !== '' && $this->getSuffix() !== '0' && isset($suffix_map[$this->getSuffix()])) {
             if (!is_array($suffix_map[$this->getSuffix()])) {
                 return $suffix_map[$this->getSuffix()];
-            } else {
-                return $suffix_map[$this->getSuffix()][0];
             }
+            return $suffix_map[$this->getSuffix()][0];
         }
         if (extension_loaded('Fileinfo') && is_file($this->getPath())) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);

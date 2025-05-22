@@ -49,13 +49,6 @@ class ilObjForumSubItemListGUI extends ilSubItemListGUI
             $this->tpl->setVariable('LINK', $this->getItemListGUI()->getCommandLink('thread'));
             $this->tpl->setVariable('TARGET', $this->getItemListGUI()->getCommandFrame(''));
             $this->tpl->setVariable('TITLE', ilObjForum::_lookupThreadSubject($sub_item));
-
-            // begin-patch mime_filter
-            if (count($this->getSubItemIds(true)) > 1) {
-                $this->parseRelevance($sub_item);
-            }
-            // end-patch mime_filter
-
             $this->tpl->parseCurrentBlock();
         }
 

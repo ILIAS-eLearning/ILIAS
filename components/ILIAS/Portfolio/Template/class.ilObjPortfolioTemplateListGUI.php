@@ -36,21 +36,4 @@ class ilObjPortfolioTemplateListGUI extends ilObjectListGUI
         // general commands array
         $this->commands = ilObjPortfolioTemplateAccess::_getCommands();
     }
-
-    public function getProperties(): array
-    {
-        $lng = $this->lng;
-
-        $props = array();
-
-        if (!ilObjPortfolioTemplateAccess::_lookupOnline($this->obj_id)) {
-            $props[] = array(
-                "alert" => true,
-                "property" => $lng->txt("status"),
-                "value" => $lng->txt("offline")
-            );
-        }
-
-        return $props;
-    }
 }

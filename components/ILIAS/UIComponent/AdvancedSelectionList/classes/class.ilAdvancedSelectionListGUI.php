@@ -581,16 +581,6 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
                 }
 
                 $tpl->setVariable("ID_ITEM_TR", $this->getId() . "_" . $item["value"] . "_tr");
-                if ($item["ttip"] != "") {
-                    ilTooltipGUI::addTooltip(
-                        $this->getId() . "_" . $item["value"] . "_tr",
-                        $item["ttip"],
-                        "",
-                        $item["tt_my"],
-                        $item["tt_at"],
-                        $item["tt_use_htmlspecialchars"]
-                    );
-                }
 
                 $tpl->parseCurrentBlock();
 

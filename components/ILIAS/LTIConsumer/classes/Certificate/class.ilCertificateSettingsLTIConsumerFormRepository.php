@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilCertificateSettingsLTIConsumerFormRepository
@@ -43,7 +43,7 @@ class ilCertificateSettingsLTIConsumerFormRepository implements ilCertificateFor
         ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-        ilCertificateSettingsFormRepository $settingsFormRepository = null
+        ?ilCertificateSettingsFormRepository $settingsFormRepository = null
     ) {
         //        $this->object = $object;
         //        $this->language = $language;

@@ -34,7 +34,7 @@ class ilErrorTextWizardInputGUITest extends assBaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->object = new ilErrorTextWizardInputGUI();
     }
 

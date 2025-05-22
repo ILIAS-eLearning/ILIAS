@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 require_once("vendor/composer/vendor/autoload.php");
@@ -16,17 +32,13 @@ class UuidTest extends TestCase
     private const UUID4 = 'f47ac10b-58cc-4372-a567-0e02b2c3d479';
     private const NO_UUID = 'lorem ipsum dolor';
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function test_init(): Factory
     {
         return new Factory();
     }
 
-    /**
-     * @depends test_init
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('test_init')]
     public function test_uuid4(): void
     {
         $factory = new Factory();
@@ -35,9 +47,7 @@ class UuidTest extends TestCase
         $this->assertMatchesRegularExpression(self::VALID_UUID4, $uuid->toString());
     }
 
-    /**
-     * @depends test_init
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('test_init')]
     public function test_uuid4_string(): void
     {
         $factory = new Factory();
@@ -47,9 +57,7 @@ class UuidTest extends TestCase
         $this->assertMatchesRegularExpression(self::VALID_UUID4, $uuid);
     }
 
-    /**
-     * @depends test_init
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('test_init')]
     public function test_from_string(): void
     {
         $factory = new Factory();
@@ -59,9 +67,7 @@ class UuidTest extends TestCase
         $this->assertEquals(self::UUID4, $uuid->toString());
     }
 
-    /**
-     * @depends test_init
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('test_init')]
     public function test_from_illegal_string(): void
     {
         $this->expectException(InvalidUuidStringException::class);

@@ -154,7 +154,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
     }
 
     public function getParsedAnswers(
-        array $a_working_data = null,
+        ?array $a_working_data = null,
         $a_only_user_anwers = false
     ): array {
         if (is_array($a_working_data)) {
@@ -214,7 +214,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                 foreach ($options as $option) {
                     if ($option["other"]) {
                         $template->setCurrentBlock("other_row");
-                        $template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_" . $option["checked"] . ".png")));
+                        $template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("object/checkbox_" . $option["checked"] . ".png")));
                         $template->setVariable("ALT_CHECKBOX", $this->lng->txt($option["checked"]));
                         $template->setVariable("TITLE_CHECKBOX", $this->lng->txt($option["checked"]));
                         $template->setVariable(
@@ -226,7 +226,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                             : "&nbsp;");
                     } else {
                         $template->setCurrentBlock("mc_row");
-                        $template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_" . $option["checked"] . ".png")));
+                        $template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("object/checkbox_" . $option["checked"] . ".png")));
                         $template->setVariable("ALT_CHECKBOX", $this->lng->txt($option["checked"]));
                         $template->setVariable("TITLE_CHECKBOX", $this->lng->txt($option["checked"]));
                         $template->setVariable("TEXT_MC", ilLegacyFormElementsUtil::prepareFormOutput($option["title"]));
@@ -238,7 +238,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                 // horizontal orientation
                 foreach ($options as $option) {
                     $template->setCurrentBlock("checkbox_col");
-                    $template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_" . $option["checked"] . ".png")));
+                    $template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("object/checkbox_" . $option["checked"] . ".png")));
                     $template->setVariable("ALT_CHECKBOX", $this->lng->txt($option["checked"]));
                     $template->setVariable("TITLE_CHECKBOX", $this->lng->txt($option["checked"]));
                     $template->parseCurrentBlock();
@@ -292,11 +292,11 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
      * Creates the question output form for the learner
      */
     public function getWorkingForm(
-        array $working_data = null,
+        ?array $working_data = null,
         int $question_title = 1,
         bool $show_questiontext = true,
         string $error_message = "",
-        int $survey_id = null,
+        ?int $survey_id = null,
         bool $compress_view = false
     ): string {
         $template = new ilTemplate("tpl.il_svy_out_mc.html", true, true, "components/ILIAS/SurveyQuestionPool");

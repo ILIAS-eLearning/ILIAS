@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Modal\Lightbox;
@@ -25,24 +25,18 @@ use ILIAS\UI\Component\Modal\Lightbox;
 class ilWebDAVMountInstructionsModalGUI
 {
     private const MOUNT_INSTRUCTIONS_CONTENT_ID = 'webdav_mount_instructions_content';
-
-    protected ilWebDAVMountInstructionsRepositoryImpl $repository;
-    protected Factory $ui_factory;
-    protected Renderer $ui_renderer;
-    protected ilLanguage $lng;
     private Lightbox $modal;
 
-    private function __construct(ilWebDAVMountInstructionsRepositoryImpl $repository, Factory $ui_factory, Renderer $ui_renderer, ilLanguage $lng)
-    {
-        $this->repository = $repository;
-        $this->ui_factory = $ui_factory;
-        $this->ui_renderer = $ui_renderer;
-        $this->lng = $lng;
-
+    private function __construct(
+        protected ilWebDAVMountInstructionsRepositoryImpl $repository,
+        protected Factory $ui_factory,
+        protected Renderer $ui_renderer,
+        protected ilLanguage $lng
+    ) {
         try {
             $document = $this->repository->getMountInstructionsByLanguage($this->lng->getUserLanguage());
             $title = $document->getTitle();
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             $title = $this->lng->txt('webfolder_instructions_titletext');
         }
 
@@ -71,10 +65,16 @@ class ilWebDAVMountInstructionsModalGUI
 
         global $DIC;
         $repository = new ilWebDAVMountInstructionsRepositoryImpl($DIC->database());
-        $instance = new ilWebDAVMountInstructionsModalGUI($repository, $DIC->ui()->factory(), $DIC->ui()->renderer(), $DIC->language());
+        $instance = new ilWebDAVMountInstructionsModalGUI(
+            $repository,
+            $DIC->ui()->factory(),
+            $DIC->ui()->renderer(),
+            $DIC->language()
+        );
 
         self::$modal_already_rendered = true;
-        $js_function = '<script>function triggerWebDAVModal(api_url){ $.ajax(api_url).done(function(data){ $(document).trigger("' . $instance->getModalShowSignalId() . '", "{}"); $("#' . self::MOUNT_INSTRUCTIONS_CONTENT_ID . '").html(data);}) }</script>';
+        $js_function = '<script>function triggerWebDAVModal(api_url){ $.ajax(api_url).done(function(data){ $(document).trigger("' . $instance->getModalShowSignalId(
+        ) . '", "{}"); $("#' . self::MOUNT_INSTRUCTIONS_CONTENT_ID . '").html(data);}) }</script>';
 
         $webdav_modal_html = $instance->getRenderedModal() . $js_function;
 

@@ -190,7 +190,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
      */
     public function getGlobalRoleIDs(): array
     {
-        return array_map("intval", explode(",", $this->global_role_ids));
+        return array_map("intval", explode(",", (string) $this->global_role_ids));
     }
 
 

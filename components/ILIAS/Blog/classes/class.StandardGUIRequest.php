@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Blog;
 
@@ -45,14 +45,9 @@ class StandardGUIRequest
         return $this->int("ref_id");
     }
 
-    public function getGotoPage(): int
+    public function getWspId(): int
     {
-        return $this->int("gtp");
-    }
-
-    public function getEditing(): string
-    {
-        return $this->str("edt");
+        return $this->int("wsp_id");
     }
 
     public function getBlogPage(): int
@@ -108,11 +103,6 @@ class StandardGUIRequest
     public function getAuthor(): int
     {
         return $this->int("ath");
-    }
-
-    public function getPrtId(): int
-    {
-        return $this->int("prt_id");
     }
 
     public function getAssId(): int

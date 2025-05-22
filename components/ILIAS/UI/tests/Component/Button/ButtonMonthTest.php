@@ -58,16 +58,13 @@ class ButtonMonthTest extends ILIAS_UI_TestBase
         $html = $r->render($c);
 
         $expected_html = <<<EOT
-		<div id="id_1" class="btn-group il-btn-month">
-	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-		<span class="il-current-month">month_02_short 2017</span>
-		<span class="caret"></span>
-	</button>
-	<div class="dropdown-menu" data-default-date="02/1/2017" data-lang="en">
-		<div class="inline-picker"></div>
-	</div>
-</div>
+            <div id="id_1" class="btn-group il-btn-month">
+                <input type="month" class="btn btn-default" value="2017-02" />
+            </div>
 EOT;
-        $this->assertHTMLEquals("<div>" . $expected_html . "</div>", "<div>" . $html . "</div>");
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
+        );
     }
 }

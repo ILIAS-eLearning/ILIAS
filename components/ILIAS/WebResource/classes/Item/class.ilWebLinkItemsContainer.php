@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Immutable container class for Web Link items
@@ -46,9 +46,7 @@ class ilWebLinkItemsContainer extends ilWebLinkBaseItemsContainer
      */
     public function sort(): self
     {
-        $mode = ilContainerSortingSettings::_lookupSortMode(
-            $this->getWebrId()
-        );
+        $mode = $this->lookupSortMode($this->getWebrId());
 
         if ($mode == ilContainer::SORT_TITLE) {
             $items_arr = [];
@@ -59,12 +57,10 @@ class ilWebLinkItemsContainer extends ilWebLinkBaseItemsContainer
                 $items_arr[$link_id]['item'] = $item;
             }
 
-            $items_arr = ilArrayUtil::sortArray(
+            $items_arr = $this->sortArray(
                 $items_arr,
                 'title',
-                'asc',
-                false,
-                true
+                false
             );
 
             $result = [];
@@ -76,9 +72,7 @@ class ilWebLinkItemsContainer extends ilWebLinkBaseItemsContainer
 
         $sorted = $unsorted = [];
         if ($mode == ilContainer::SORT_MANUAL) {
-            $pos = ilContainerSorting::lookupPositions(
-                $this->getWebrId()
-            );
+            $pos = $this->lookupManualPositions($this->getWebrId());
             foreach ($this->getItems() as $item) {
                 $link_id = $item->getLinkId();
                 if (isset($pos[$link_id])) {
@@ -90,19 +84,15 @@ class ilWebLinkItemsContainer extends ilWebLinkBaseItemsContainer
                     $unsorted[$link_id]['item'] = $item;
                 }
             }
-            $sorted = ilArrayUtil::sortArray(
+            $sorted = $this->sortArray(
                 $sorted,
                 'position',
-                'asc',
-                true,
                 true
             );
-            $unsorted = ilArrayUtil::sortArray(
+            $unsorted = $this->sortArray(
                 $unsorted,
                 'title',
-                'asc',
-                false,
-                true
+                false
             );
 
             $result = [];
@@ -113,6 +103,30 @@ class ilWebLinkItemsContainer extends ilWebLinkBaseItemsContainer
         }
 
         return $this;
+    }
+
+    protected function lookupSortMode(int $webr_id): int
+    {
+        return ilContainerSortingSettings::_lookupSortMode($webr_id);
+    }
+
+    /**
+     * @return int[]
+     */
+    protected function lookupManualPositions(int $webr_id): array
+    {
+        return ilContainerSorting::lookupPositions($webr_id);
+    }
+
+    protected function sortArray(array $array, string $sort_by_key, bool $numeric): array
+    {
+        return ilArrayUtil::sortArray(
+            $array,
+            $sort_by_key,
+            'asc',
+            $numeric,
+            true
+        );
     }
 
     /**

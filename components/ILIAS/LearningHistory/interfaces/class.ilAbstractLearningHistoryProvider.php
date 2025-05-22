@@ -31,7 +31,7 @@ abstract class ilAbstractLearningHistoryProvider //TODO-PHP8-REVIEW please add t
         int $user_id,
         ilLearningHistoryFactory $factory,
         ilLanguage $lng,
-        ilTemplate $template = null
+        ?ilTemplate $template = null
     ) {
         $this->user_id = $user_id;
         $this->factory = $factory;

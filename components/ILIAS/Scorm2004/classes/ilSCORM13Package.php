@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author Alex Killing <alex.killing@gmx.de>
  * @author Hendrik Holtmann <holtmann@mac.com>
@@ -25,13 +25,13 @@ declare(strict_types=1);
 */
 class ilSCORM13Package
 {
-    public const DB_ENCODE_XSL = './components/ILIAS/Scorm2004/templates/xsl/op/op-scorm13.xsl';
-    public const CONVERT_XSL = './components/ILIAS/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
-    public const DB_DECODE_XSL = './components/ILIAS/Scorm2004/templates/xsl/op/op-scorm13-revert.xsl';
-    public const VALIDATE_XSD = './vendor/ilias/Scorm2004/xsd/op/op-scorm13.xsd';
+    public const DB_ENCODE_XSL = '../components/ILIAS/Scorm2004/templates/xsl/op/op-scorm13.xsl';
+    public const CONVERT_XSL = '../components/ILIAS/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
+    public const DB_DECODE_XSL = '../components/ILIAS/Scorm2004/templates/xsl/op/op-scorm13-revert.xsl';
+    public const VALIDATE_XSD = '../vendor/ilias/Scorm2004/xsd/op/op-scorm13.xsd';
 
-    public const WRAPPER_HTML = './components/ILIAS/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
-    public const WRAPPER_JS = './components/ILIAS/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
+    public const WRAPPER_HTML = '../components/ILIAS/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
+    public const WRAPPER_JS = '../components/ILIAS/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
 
 
     private string $packageFolder;
@@ -162,27 +162,6 @@ class ilSCORM13Package
             }
         }
         $this->dbImport($this->manifest);
-
-        if (file_exists($this->packageFolder . '/' . 'index.xml')) {
-            $doc = simplexml_load_file($this->packageFolder . '/' . 'index.xml');//PHP8Review: This may cause no trouble here but i still worth a look: https://bugs.php.net/bug.php?id=62577
-            $l = $doc->xpath("/ContentObject/MetaData");
-            if ($l[0]) {
-                $mdxml = new ilMDXMLCopier($l[0]->asXML(), $packageId, $packageId, ilObject::_lookupType($packageId));
-                $mdxml->startParsing();
-                $mdo = $mdxml->getMDObject();
-                if ($mdo) {
-                    $mdo->update();
-                }
-            }
-        } else {
-            $importer = new ilSCORM13MDImporter($this->imsmanifest, $packageId);
-            $importer->import();
-            $title = $importer->getTitle();
-            $description = $importer->getDescription();
-            if ($description != "") {
-                ilObject::_writeDescription($packageId, $description);
-            }
-        }
 
         //step 5
         $x = simplexml_load_string($this->manifest->saveXML());

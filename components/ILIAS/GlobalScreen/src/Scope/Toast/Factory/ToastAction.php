@@ -25,15 +25,8 @@ namespace ILIAS\GlobalScreen\Scope\Toast\Factory;
  */
 class ToastAction
 {
-    private string $identifier;
-    private string $title;
-    private \Closure $action;
-
-    public function __construct(string $identifier, string $title, \Closure $action)
+    public function __construct(private string $identifier, private string $title, private \Closure $action)
     {
-        $this->identifier = $identifier;
-        $this->title = $title;
-        $this->action = $action;
     }
 
     public function getIdentifier(): string

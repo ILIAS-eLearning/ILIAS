@@ -40,4 +40,19 @@ class ilCourseObjectiveDBUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->addIndex('loc_settings', ['qtest'], 'i2');
         }
     }
+
+    public function step_3(): void
+    {
+        if (
+            $this->db->tableExists('crs_settings') &&
+            !$this->db->tableColumnExists('crs_settings', 'tutorial_support_block')
+        ) {
+            $this->db->addTableColumn('crs_settings', 'tutorial_support_block', [
+                    'type' => 'integer',
+                    'notnull' => true,
+                    'length' => 1,
+                    'default' => 0
+            ]);
+        }
+    }
 }

@@ -18,8 +18,11 @@
 
 declare(strict_types=1);
 
-use ILIAS\Object\ilObjectDIC;
+use ILIAS\ILIASObject\LocalDIC;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
+use ILIAS\ILIASObject\Properties\Aggregator;
+use ILIAS\ILIASObject\Properties\Translations\Language;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 
 /**
  * Object data set class
@@ -32,9 +35,10 @@ use ILIAS\ResourceStorage\Services as ResourceStorage;
  */
 class ilObjectDataSet extends ilDataSet
 {
-    protected ilObjectDIC $obj_dic;
+    protected LocalDIC $obj_dic;
     protected ResourceStorage $storage;
-    protected ilObjectPropertiesAgregator $object_properties_agregator;
+    protected Aggregator $properties_aggregator;
+    protected TranslationsRepository $translations_repository;
 
     public function __construct()
     {
@@ -42,8 +46,9 @@ class ilObjectDataSet extends ilDataSet
         global $DIC;
         $this->storage = $DIC->resourceStorage();
 
-        $obj_dic = ilObjectDIC::dic();
-        $this->object_properties_agregator = $obj_dic['object_properties_agregator'];
+        $object_dic = LocalDIC::dic();
+        $this->properties_aggregator = $object_dic['properties.aggregator'];
+        $this->translations_repository = $object_dic['properties.translations.repository'];
 
         parent::__construct();
     }
@@ -155,9 +160,10 @@ class ilObjectDataSet extends ilDataSet
                 case '5.2.0':
                 case '5.4.0':
                     $this->getDirectDataFromQuery(
-                        'SELECT obj_id, master_lang' . PHP_EOL
-                        . 'FROM obj_content_master_lng' . PHP_EOL
+                        'SELECT obj_id, lang_code' . PHP_EOL
+                        . 'FROM object_translation' . PHP_EOL
                         . 'WHERE ' . $this->db->in('obj_id', $ids, false, 'integer') . PHP_EOL
+                        . 'AND lang_base = 1'
                     );
                     break;
             }
@@ -210,7 +216,7 @@ class ilObjectDataSet extends ilDataSet
         if ($entity == "tile") {
             $this->data = [];
             foreach ($ids as $id) {
-                $rid = $this->object_properties_agregator->getFor((int) $id)
+                $rid = $this->properties_aggregator->getFor((int) $id)
                     ->getPropertyTileImage()->getTileImage()->getRid();
                 if ($rid === null) {
                     continue;
@@ -297,24 +303,27 @@ class ilObjectDataSet extends ilDataSet
             case 'transl_entry':
                 $new_id = $this->getNewObjId($mapping, $rec['ObjId']);
                 if ($new_id > 0) {
-                    $transl = ilObjectTranslation::getInstance($new_id);
-                    $transl->addLanguage(
-                        $rec['LangCode'],
-                        $rec['Title'],
-                        $rec['Description'],
-                        (bool) $rec['LangDefault'],
-                        true
+                    $transl = $this->translations_repository->getFor($new_id);
+                    $this->translations_repository->store(
+                        $transl->withLanguage(
+                            new Language(
+                                $rec['LangCode'],
+                                $rec['Title'],
+                                $rec['Description'],
+                                (bool) $rec['LangDefault']
+                            )
+                        )
                     );
-                    $transl->save();
                 }
                 break;
 
             case 'transl':
                 $new_id = $this->getNewObjId($mapping, $rec['ObjId']);
                 if ($new_id > 0) {
-                    $transl = ilObjectTranslation::getInstance($new_id);
-                    $transl->setMasterLanguage($rec['MasterLang']);
-                    $transl->save();
+                    $transl = $this->translations_repository->getFor($new_id);
+                    $this->translations_repository->store(
+                        $transl->withBaseLanguage($rec['MasterLang'])
+                    );
                 }
                 break;
 
@@ -355,7 +364,7 @@ class ilObjectDataSet extends ilDataSet
                 $dir = str_replace('..', '', $rec['Dir']);
                 if ($new_id > 0 && $dir != '' && $this->getImportDirectory() != '') {
                     $source_dir = $this->getImportDirectory() . '/' . $dir;
-                    $object_properties = $this->object_properties_agregator->getFor($new_id);
+                    $object_properties = $this->properties_aggregator->getFor($new_id);
                     $ti = $object_properties->getPropertyTileImage()->getTileImage();
                     $ti->createFromImportDir($source_dir);
                     $object_properties->storePropertyTileImage(
@@ -382,7 +391,7 @@ class ilObjectDataSet extends ilDataSet
         }
         if (!$new_id) {
             foreach ($mapping->getAllMappings() as $k => $m) {
-                if (substr($k, 0, 8) == 'components/ILIAS/') {
+                if (substr($k, 0, 17) == 'components/ILIAS/') {
                     foreach ($m as $type => $map) {
                         if (!$new_id) {
                             if ($objDefinition->isRBACObject($type)) {

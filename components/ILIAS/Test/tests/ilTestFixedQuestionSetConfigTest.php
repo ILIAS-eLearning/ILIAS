@@ -28,21 +28,17 @@ class ilTestFixedQuestionSetConfigTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
-        global $DIC;
         parent::setUp();
 
-        $this->addGlobal_lng();
-        $this->addGlobal_ilLog();
-        $this->addGlobal_ilComponentRepository();
-
+        $test_logger = $this->createMock(ILIAS\Test\Logging\TestLogger::class);
         $this->testObj = new ilTestFixedQuestionSetConfig(
-            $DIC['tree'],
-            $DIC['ilDB'],
-            $DIC['lng'],
-            $DIC['ilLog'],
-            $DIC['component.repository'],
-            $this->createMock(ilObjTest::class),
-            $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class),
+            $this->createMock(ilTree::class),
+            $this->createMock(ilDBInterface::class),
+            $this->createMock(ilLanguage::class),
+            $test_logger,
+            $this->createMock(ilComponentRepository::class),
+            $this->getTestObjMock(),
+            $this->createMock(\ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
         );
     }
 

@@ -86,6 +86,7 @@ class SurveyImportParser extends ilSaxParser
         global $DIC;
 
         parent::__construct($a_xml_file);
+        $this->activequestion = null;
         $this->spl_id = $a_spl_id;
         $this->has_error = false;
         $this->characterbuffer = "";
@@ -130,9 +131,8 @@ class SurveyImportParser extends ilSaxParser
 
     public function setHandlers($a_xml_parser): void
     {
-        xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
+        xml_set_element_handler($a_xml_parser, $this->handlerBeginTag(...), $this->handlerEndTag(...));
+        xml_set_character_data_handler($a_xml_parser, $this->handlerCharacterData(...));
     }
 
     /**
@@ -212,9 +212,14 @@ class SurveyImportParser extends ilSaxParser
                         case "online":
                             if ($this->spl_id > 0) {
                                 $spl = new ilObjSurveyQuestionPool($this->spl_id, false);
-                                $spl->setOnline($value);
+                                $spl->setOfflineStatus(!$value);
                                 $spl->saveToDb();
                             }
+                            break;
+                        case "label":
+                            $spl = new ilObjSurveyQuestionPool($this->spl_id, false);
+                            $spl->setTitle($value);
+                            $spl->saveToDb();
                             break;
                     }
                 }
@@ -285,17 +290,13 @@ class SurveyImportParser extends ilSaxParser
                         break;
                 }
                 if (strlen($type ?? "")) {
-                    if (SurveyQuestion::_includeClass($type)) {
-                        $this->activequestion = new $type();
-
-                        // if no pool is given, question will reference survey
-                        $q_obj_id = $this->spl_id;
-                        if ($this->spl_id < 0) {
-                            $q_obj_id = $this->survey->getId();
-                        }
-
-                        $this->activequestion->setObjId($q_obj_id);
+                    $this->activequestion = new $type();
+                    // if no pool is given, question will reference survey
+                    $q_obj_id = $this->spl_id;
+                    if ($this->spl_id < 0) {
+                        $q_obj_id = $this->survey->getId();
                     }
+                    $this->activequestion->setObjId($q_obj_id);
                 } else {
                     $this->activequestion = null;
                 }
@@ -413,8 +414,12 @@ class SurveyImportParser extends ilSaxParser
         $a_data = $this->characterbuffer;
     }
 
-    protected function getCharacterBuffer(): string
+    protected function getCharacterBuffer($use_purifier = false): string
     {
+        if ($use_purifier) {
+            $purifier = new ilSvyStandardPurifier();
+            return $purifier->purify((string) $this->characterbuffer);
+        }
         return $this->trimAndStrip((string) $this->characterbuffer);
     }
 
@@ -541,7 +546,7 @@ class SurveyImportParser extends ilSaxParser
                 }
                 break;
             case "mattext":
-                $this->material[count($this->material) - 1]["text"] = $this->getCharacterBuffer();
+                $this->material[count($this->material) - 1]["text"] = $this->getCharacterBuffer(true);
                 break;
             case "matimage":
                 $this->material[count($this->material) - 1]["image"] = $this->getCharacterBuffer();
@@ -620,9 +625,6 @@ class SurveyImportParser extends ilSaxParser
                                 break;
                             case "pool_usage":
                                 $this->survey->setPoolUsage($value["entry"]);
-                                break;
-                            case "own_results_view":
-                                $this->survey->setViewOwnResults($value["entry"]);
                                 break;
                             case "own_results_mail":
                                 $this->survey->setMailOwnResults($value["entry"]);
@@ -788,7 +790,9 @@ class SurveyImportParser extends ilSaxParser
     {
         $ret = [];
         foreach ($attribs as $k => $v) {
-            $ret[$k] = $this->trimAndStrip((string) $v);
+            $ret[$k] = ((string) $v !== "<>")
+                ? $this->trimAndStrip((string) $v)
+                : "<>";
         }
         return $ret;
     }

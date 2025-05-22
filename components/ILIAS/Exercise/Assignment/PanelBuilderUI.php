@@ -64,7 +64,7 @@ class PanelBuilderUI
         // schedule card
         $sections = [];
         foreach ($pb->getProperties($pb::SEC_SCHEDULE) as $prop) {
-            $sections[] = $this->ui_factory->legacy($prop["prop"] . ": " . $prop["val"]);
+            $sections[] = $this->ui_factory->legacy()->content($prop["prop"] . ": " . $prop["val"]);
         }
         $schedule_card = $this->ui_factory->card()->standard($this->lng->txt("exc_schedule"))
             ->withSections($sections);
@@ -111,7 +111,7 @@ class PanelBuilderUI
 
             $sub_panel = $this->ui_factory->panel()->sub(
                 $title,
-                $this->ui_factory->legacy($ctpl->get())
+                $this->ui_factory->legacy()->content($ctpl->get())
             );
             if ($sec === $pb::SEC_INSTRUCTIONS && !$pb->getInstructionsHidden()) {
                 $sub_panel = $sub_panel->withFurtherInformation($schedule_card);

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,7 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
+declare(strict_types=0);
 /**
  * Handle user timings
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -136,7 +136,7 @@ class ilTimingsUser
      *
      * @param int[]  $a_user_ids
      */
-    public static function lookupTimings(array $a_user_ids, array &$a_meta = null, bool $a_only_exceeded = true): array
+    public static function lookupTimings(array $a_user_ids, ?array &$a_meta = null, bool $a_only_exceeded = true): array
     {
         global $DIC;
 
@@ -313,7 +313,7 @@ class ilTimingsUser
      * Check object LP modes
      * @param int[]  $a_ref_ids
      */
-    public static function getObjectsWithInactiveLP(array $a_ref_ids, array &$a_obj_map = null): array
+    public static function getObjectsWithInactiveLP(array $a_ref_ids, ?array &$a_obj_map = null): array
     {
         global $DIC;
 

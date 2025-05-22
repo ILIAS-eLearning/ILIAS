@@ -28,64 +28,30 @@ class ilAssClozeTestCombinationVariantsInputGUI extends ilAnswerWizardInputGUI
 {
     public function setValue($a_value): void
     {
-        foreach ($this->values as $index => $value) {
-            $this->values[$index]['points'] = $a_value['points'][$index];
+        foreach ($this->forms_helper->transformPoints($a_value) as $index => $value) {
+            $this->values[$index]['points'] = $value;
         }
     }
 
     public function checkInput(): bool
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $lng = $DIC->language();
-
-        $values = $_POST[$this->getPostVar()];
-
-        $max = 0;
-        if (is_array($values['points'])) {
-            foreach ($values['points'] as $points) {
-                if ($points > $max) {
-                    $max = $points;
-                }
-                if (((strlen($points)) == 0) || (!is_numeric($points))) {
-                    $this->setAlert($lng->txt("form_msg_numeric_value_required"));
-                    return false;
-                }
-                if ($this->minvalueShouldBeGreater()) {
-                    if (trim($points) != "" &&
-                        $this->getMinValue() !== false &&
-                        $points <= $this->getMinValue()) {
-                        $this->setAlert($lng->txt("form_msg_value_too_low"));
-
-                        return false;
-                    }
-                } else {
-                    if (trim($points) != "" &&
-                        $this->getMinValue() !== false &&
-                        $points < $this->getMinValue()) {
-                        $this->setAlert($lng->txt("form_msg_value_too_low"));
-
-                        return false;
-                    }
-                }
-            }
-        }
-        if ($max == 0) {
-            $this->setAlert($lng->txt("enter_enough_positive_points"));
+        // check points
+        $points = $this->forms_helper->checkPointsInputEnoughPositive($this->raw($this->getPostVar()), true);
+        if (!is_array($points)) {
+            $this->setAlert($this->lng->txt($points));
             return false;
         }
-
         return true;
     }
 
     public function insert(ilTemplate $a_tpl): void
     {
         $tpl = new ilTemplate('tpl.prop_gap_combi_answers_input.html', true, true, 'components/ILIAS/TestQuestionPool');
+        $gaps = [];
 
-        $gaps = array();
-
-        foreach ($this->values as $varId => $variant) {
-            foreach ($variant['gaps'] as $gapIndex => $answer) {
-                $gaps[$gapIndex] = $gapIndex;
+        foreach ($this->values as $variant) {
+            foreach ($variant['gaps'] as $gap_index => $answer) {
+                $gaps[$gap_index] = $gap_index;
 
                 $tpl->setCurrentBlock('gap_answer');
                 $tpl->setVariable('GAP_ANSWER', $answer);
@@ -98,16 +64,16 @@ class ilAssClozeTestCombinationVariantsInputGUI extends ilAnswerWizardInputGUI
             $tpl->parseCurrentBlock();
         }
 
-        foreach ($gaps as $gapIndex) {
+        foreach ($gaps as $gap_index) {
             $tpl->setCurrentBlock('gap_header');
-            $tpl->setVariable('GAP_HEADER', 'Gap ' . ($gapIndex + 1));
+            $tpl->setVariable('GAP_HEADER', 'Gap ' . ($gap_index + 1));
             $tpl->parseCurrentBlock();
         }
 
         $tpl->setVariable('POINTS_HEADER', 'Points');
 
-        $a_tpl->setCurrentBlock("prop_generic");
-        $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
+        $a_tpl->setCurrentBlock('prop_generic');
+        $a_tpl->setVariable('PROP_GENERIC', $tpl->get());
         $a_tpl->parseCurrentBlock();
     }
 }

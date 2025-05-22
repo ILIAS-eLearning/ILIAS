@@ -36,7 +36,7 @@ class ilAnswerFrequencyStatisticTableGUITest extends assBaseTestCase
         parent::setUp();
 
         $this->object = new ilAnswerFrequencyStatisticTableGUI(
-            (object) [],
+            $this->createMock(ilTestCorrectionsGUI::class),
             '',
             $this->createMock(assQuestion::class)
         );

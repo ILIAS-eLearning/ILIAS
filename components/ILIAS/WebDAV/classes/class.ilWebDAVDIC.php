@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use Pimple\Container;
 use ILIAS\DI\Container as ILIASContainer;
 use Sabre\DAV\Auth\Plugin as AuthPlugin;
 use Sabre\DAV\Locks\Plugin as LocksPlugin;
+use Sabre\DAV\Browser\Plugin as BrowserPlugin;
 use Sabre\DAV\Auth\Backend\BasicCallBack;
 
 class ilWebDAVDIC extends Container
@@ -42,10 +43,13 @@ class ilWebDAVDIC extends Container
             $DIC->access(),
             $DIC->repositoryTree(),
             new ilRepUtil(),
-            $c['locks.repository']
+            $c['locks.repository'],
+            new ilObjFileInfoRepository()
         );
 
-        $this['uriresolver'] = fn($c): ilWebDAVLockUriPathResolver => new ilWebDAVLockUriPathResolver($c['repository.helper']);
+        $this['uriresolver'] = fn($c): ilWebDAVLockUriPathResolver => new ilWebDAVLockUriPathResolver(
+            $c['repository.helper']
+        );
 
         $this['davobj.factory'] = fn($c): ilWebDAVObjFactory => new ilWebDAVObjFactory(
             $c['repository.helper'],
@@ -65,9 +69,13 @@ class ilWebDAVDIC extends Container
             $DIC->user()
         );
 
-        $this['mountinstructions.repository'] = fn($c): ilWebDAVMountInstructionsRepository => new ilWebDAVMountInstructionsRepositoryImpl($DIC->database());
+        $this['mountinstructions.repository'] = fn(
+            $c
+        ): ilWebDAVMountInstructionsRepository => new ilWebDAVMountInstructionsRepositoryImpl($DIC->database());
 
-        $this['mountinstructions.facory'] = fn($c): ilWebDAVMountInstructionsFactory => new ilWebDAVMountInstructionsFactory(
+        $this['mountinstructions.facory'] = fn(
+            $c
+        ): ilWebDAVMountInstructionsFactory => new ilWebDAVMountInstructionsFactory(
             $c['mountinstructions.repository'],
             $DIC->http()->request(),
             $DIC->user()
@@ -80,7 +88,9 @@ class ilWebDAVDIC extends Container
             $DIC->http()
         );
 
-        $this['mountinstructions.uploadgui'] = fn($c): ilWebDAVMountInstructionsUploadGUI => new ilWebDAVMountInstructionsUploadGUI(
+        $this['mountinstructions.uploadgui'] = fn(
+            $c
+        ): ilWebDAVMountInstructionsUploadGUI => new ilWebDAVMountInstructionsUploadGUI(
             $DIC->ui()->mainTemplate(),
             $DIC->user(),
             $DIC->ctrl(),
@@ -98,14 +108,24 @@ class ilWebDAVDIC extends Container
         );
 
         $this['sabre.authplugin'] = function ($c) use ($DIC): AuthPlugin {
-            $webdav_auth = new ilWebDAVAuthentication($DIC->user(), $DIC['ilAuthSession'], ilLoggerFactory::getLogger('webdav'));
-            $auth_callback_class = new BasicCallBack(array($webdav_auth, 'authenticate'));
+            $webdav_auth = new ilWebDAVAuthentication(
+                $DIC->user(),
+                $DIC['ilAuthSession'],
+                ilLoggerFactory::getLogger('webdav')
+            );
+            $auth_callback_class = new BasicCallBack(
+                fn($username, $password): bool => $webdav_auth->authenticate($username, $password)
+            );
+
             return new AuthPlugin($auth_callback_class);
         };
 
         $this['sabre.locksplugin'] = fn($c): LocksPlugin => new LocksPlugin($c['locks.backend']);
 
-        $this['sabre.browserplugin'] = fn($c): ilWebDAVSabreBrowserPlugin => new ilWebDAVSabreBrowserPlugin($DIC->ctrl(), $DIC->http()->request()->getUri());
+        $this['sabre.browserplugin'] = fn($c): ilWebDAVSabreBrowserPlugin => new ilWebDAVSabreBrowserPlugin(
+            $DIC->ctrl(),
+            $DIC->http()->request()->getUri()
+        );
     }
 
     public function dav_settings(): ilSetting
@@ -143,8 +163,8 @@ class ilWebDAVDIC extends Container
         return $this['sabre.locksplugin'];
     }
 
-    public function browserplugin(): LocksPlugin
+    public function browserplugin(): BrowserPlugin
     {
-        return $this['sabre.locksplugin'];
+        return $this['sabre.browserplugin'];
     }
 }

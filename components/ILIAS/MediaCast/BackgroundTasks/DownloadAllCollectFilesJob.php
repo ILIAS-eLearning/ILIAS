@@ -121,8 +121,14 @@ class DownloadAllCollectFilesJob extends AbstractJob
                 $resource = $med->getLocation();
                 copy($resource, $target_dir . DIRECTORY_SEPARATOR . $str_cnt . basename($resource));
             } else {
-                $path_to_file = \ilObjMediaObject::_getDirectory($mob->getId()) . "/" . $med->getLocation();
-                copy($path_to_file, $target_dir . DIRECTORY_SEPARATOR . $str_cnt . $med->getLocation());
+                try {   // this skips broken objects
+                    $stream = $med->getLocationStream();
+                    file_put_contents(
+                        $target_dir . DIRECTORY_SEPARATOR . $str_cnt . $med->getLocation(),
+                        $stream->getContents()
+                    );
+                } catch (\Exception $e) {
+                }
             }
         }
     }

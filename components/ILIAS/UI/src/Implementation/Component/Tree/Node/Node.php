@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
@@ -46,7 +46,7 @@ abstract class Node implements INode
     protected bool $expanded = false;
     protected bool $highlighted = false;
 
-    public function __construct(string $label, URI $link = null)
+    public function __construct(string $label, ?URI $link = null)
     {
         $this->label = $label;
         $this->link = $link;

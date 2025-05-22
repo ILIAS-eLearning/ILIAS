@@ -44,7 +44,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         object $a_parent_obj,
         string $a_parent_cmd,
         $a_handler,
-        int $a_parent_node_id = null,
+        ?int $a_parent_node_id = null,
         bool $a_load_data = false
     ) {
         global $DIC;

@@ -21,6 +21,7 @@
 	</objects>
 	<events>
 		<event type="raise" id="chatSettingsChanged" />
+		<event type="listen" id="components/ILIAS/User" />
 	</events>
 	<logging />
 	<web_access_checker>

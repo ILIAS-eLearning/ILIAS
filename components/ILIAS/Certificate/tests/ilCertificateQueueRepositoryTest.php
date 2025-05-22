@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
 {
     public function testEntryCanBeAddedToQueue(): void
@@ -134,7 +131,8 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
                     'state' => 'SomeState',
                     'template_id' => 1000,
                     'started_timestamp' => 123_456_789
-                ]
+                ],
+                null
             );
 
         $repository = new ilCertificateQueueRepository($databaseMock, $loggerMock);

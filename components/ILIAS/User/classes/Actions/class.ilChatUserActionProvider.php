@@ -29,10 +29,13 @@ class ilChatUserActionProvider extends ilUserActionProvider
     protected int $pub_ref_id = 0;
     protected bool $chat_enabled = false;
     protected bool $osc_enabled = false;
+    protected ilCtrlInterface $ctrl;
 
     public function __construct()
     {
         parent::__construct();
+
+        global $DIC;
 
         $this->pub_ref_id = ilObjChatroom::_getPublicRefId();
 
@@ -41,6 +44,7 @@ class ilChatUserActionProvider extends ilUserActionProvider
         $this->osc_enabled = (bool) $chatSettings->get('enable_osc');
 
         $this->lng->loadLanguageModule('chatroom');
+        $this->ctrl = $DIC->ctrl();
     }
 
     public function getComponentId(): string
@@ -95,7 +99,9 @@ class ilChatUserActionProvider extends ilUserActionProvider
                 $f = new ilUserAction();
                 $f->setType("invite");
                 $f->setText($this->lng->txt('chat_user_action_invite_public_room'));
-                $f->setHref('./ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=' . $this->pub_ref_id . '&amp;usr_id=' . $a_target_user . '&amp;cmd=inviteUsersToPrivateRoom-byId&amp;sub=0&amp;user=' . $a_target_user);
+                $this->ctrl->setParameterByClass(ilObjChatroomGUI::class, 'ref_id', $this->pub_ref_id);
+                $this->ctrl->setParameterByClass(ilObjChatroomGUI::class, 'user', $a_target_user);
+                $f->setHref($this->ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjChatroomGUI::class], 'inviteUsersToPrivateRoom-byId'));
                 $coll->addAction($f);
             }
         }

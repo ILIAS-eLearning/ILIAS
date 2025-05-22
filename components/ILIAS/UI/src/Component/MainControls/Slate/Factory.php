@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\MainControls\Slate;
 
@@ -47,13 +47,13 @@ interface Factory
      * ----
      * @param string $name
      * @param \ILIAS\UI\Component\Symbol\Symbol $symbol
-     * @param \ILIAS\UI\Component\Legacy\Legacy $content
+     * @param \ILIAS\UI\Component\Legacy\Content $content
      * @return \ILIAS\UI\Component\MainControls\Slate\Legacy
      */
     public function legacy(
         string $name,
         Symbol $symbol,
-        \ILIAS\UI\Component\Legacy\Legacy $content
+        \ILIAS\UI\Component\Legacy\Content $content
     ): Legacy;
 
 

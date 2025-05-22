@@ -33,7 +33,7 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
     /**
      * @var ilNumberInputGUI[]
      */
-    protected array $input_elements_by_id = array();
+    protected array $input_elements_by_id = [];
 
     public function setSkillLevelThresholdList(ilTestSkillLevelThresholdList $skillLevelThresholdList): void
     {
@@ -55,7 +55,7 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
         $this->questionAssignmentColumnsEnabled = $questionAssignmentColumnsEnabled;
     }
 
-    public function __construct($parentOBJ, $testId, $parentCmd, ilCtrl $ctrl, ilLanguage $lng)
+    public function __construct($parentOBJ, $testId, $parentCmd, ilCtrlInterface $ctrl, ilLanguage $lng)
     {
         $this->setId('tst_skl_lev_thr_' . $testId);
         parent::__construct($parentOBJ, $parentCmd);
@@ -158,7 +158,7 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
      */
     public function getInputElements(array $idFilter): array
     {
-        $elements = array();
+        $elements = [];
 
         foreach ($this->getData() as $data) {
             $id = $this->buildUniqueRecordIdentifier($data);
@@ -205,7 +205,7 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
         $value->setRequired(true);
 
         if (!isset($this->input_elements_by_id[$skillKey])) {
-            $this->input_elements_by_id[$skillKey] = array();
+            $this->input_elements_by_id[$skillKey] = [];
         }
 
         $this->input_elements_by_id[$skillKey][$skillLevelId] = $value;

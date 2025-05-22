@@ -54,7 +54,7 @@ final class FilenameSanitizerPreProcessor implements PreProcessor
         $path = preg_replace('#\p{C}+#u', '', $path);
         $parts = [];
 
-        foreach (explode('/', $path) as $part) {
+        foreach (explode('/', (string) $path) as $part) {
             switch ($part) {
                 case '':
                 case '.':

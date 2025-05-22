@@ -53,6 +53,6 @@ _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 This method should check the object status-related conditions and return true if everything is OK or false if not.
 
 #### Related classes:
-- `ilAccessHandler` (Services/AccessControl/classes/class.ilAccessHandler.php)
+- `ilAccessHandler` (components/ILIAS/AccessControl/classes/class.ilAccessHandler.php)
 - `ilObjectAccess` (classes/class.ilObjectAccess)
 

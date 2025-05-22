@@ -107,8 +107,8 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
     public static function createDBField(
         int $a_type,
         string $a_title,
-        array $a_access = null,
-        array $a_options = null
+        ?array $a_access = null,
+        ?array $a_options = null
     ): ?int {
         global $DIC;
 
@@ -147,8 +147,8 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
     public static function updateDBField(
         int $a_field_id,
         string $a_title,
-        array $a_access = null,
-        array $a_options = null
+        ?array $a_access = null,
+        ?array $a_options = null
     ): bool {
         global $DIC;
 

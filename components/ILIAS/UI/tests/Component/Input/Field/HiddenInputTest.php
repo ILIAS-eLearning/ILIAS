@@ -21,6 +21,7 @@ declare(strict_types=1);
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
+require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\Refinery\Factory as Refinery;
@@ -28,6 +29,8 @@ use ILIAS\Data;
 
 class HiddenInputTest extends ILIAS_UI_TestBase
 {
+    use CommonFieldRendering;
+
     protected DefNamesource $name_source;
     protected I\Input\Field\Hidden $input;
 
@@ -38,7 +41,7 @@ class HiddenInputTest extends ILIAS_UI_TestBase
             new Data\Factory(),
             new Refinery(
                 new Data\Factory(),
-                $this->createMock(ilLanguage::class)
+                $this->createMock(ILIAS\Language\Language::class)
             )
         );
     }
@@ -82,5 +85,27 @@ class HiddenInputTest extends ILIAS_UI_TestBase
             <input id="id_1" type="hidden" name="name_0" value="some_value" />
         ');
         $this->assertEquals($expected, $html);
+    }
+
+    public function testCommonRendering(): void
+    {
+        $f = $this->getFieldFactory();
+        $hidden = $f->hidden()->withNameFrom($this->name_source);
+
+        $this->testWithNoByline($hidden);
+        $this->testWithAdditionalOnloadCodeRendersId($hidden);
+    }
+
+    public function testRenderEscaped(): void
+    {
+        $expected = $this->brutallyTrimHTML('
+            <input id="id_1" type="hidden" name="name_0" value="&lt;script&gt;alert(&quot;XSS&quot;);&lt;/script&gt;" />
+        ');
+        $actual = $this->brutallyTrimHTML(
+            $this->getDefaultRenderer()->render(
+                $this->input->withNameFrom($this->name_source)->withValue('<script>alert("XSS");</script>')
+            )
+        );
+        $this->assertEquals($expected, $actual);
     }
 }

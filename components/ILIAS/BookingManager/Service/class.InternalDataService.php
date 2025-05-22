@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\BookingManager;
 
 use ilBookingPreferences;
 use ilBookingPreferencesFactory;
 use ILIAS\BookingManager\BookingProcess\WeekGridEntry;
+use ILIAS\BookingManager\Settings\Settings;
 
 /**
  * Repository internal data service
@@ -47,11 +48,37 @@ class InternalDataService
         int $start,
         int $end,
         string $html
-    ) : WeekGridEntry {
+    ): WeekGridEntry {
         return new WeekGridEntry(
             $start,
             $end,
             $html
+        );
+    }
+
+    public function settings(
+        int $id,
+        bool $public_log,
+        int $schedule_type,
+        int $overall_limit = 0,
+        int $reservation_period = 0,
+        bool $reminder_status = false,
+        int $reminder_day = 1,
+        int $pref_deadline = 0,
+        int $preference_nr = 0,
+        bool $messages = false
+    ): Settings {
+        return new Settings(
+            $id,
+            $public_log,
+            $schedule_type,
+            $overall_limit,
+            $reservation_period,
+            $reminder_status,
+            $reminder_day,
+            $pref_deadline,
+            $preference_nr,
+            $messages
         );
     }
 }

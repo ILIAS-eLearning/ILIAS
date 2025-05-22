@@ -36,9 +36,17 @@ class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI
 
     public static function _goto(string $target): void
     {
-        $target = (int) $target;
-        $target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId($target));
-        ilObjStudyProgrammeGUI::_goto($target_ref_id . "_");
+        global $DIC;
+        $access = $DIC['ilAccess'];
+        if ($access->checkAccess('write', '', (int) $target)) {
+            $ilCtrl = $DIC['ilCtrl'];
+            $ilCtrl->setTargetScript('ilias.php');
+            $ilCtrl->setParameterByClass(self::class, "ref_id", $target);
+            $ilCtrl->redirectByClass([ilRepositoryGUI::class, self::class], "view");
+        } else {
+            $target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId((int) $target));
+            ilObjStudyProgrammeGUI::_goto((string) $target_ref_id);
+        }
     }
 
     public function saveObject(): void

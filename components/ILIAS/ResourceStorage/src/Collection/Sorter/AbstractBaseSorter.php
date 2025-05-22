@@ -31,13 +31,8 @@ use ILIAS\ResourceStorage\Resource\ResourceBuilder;
  */
 abstract class AbstractBaseSorter implements CollectionSorter
 {
-    protected ResourceBuilder $resource_builder;
-    protected int $direction = SORT_ASC;
-
-    public function __construct(ResourceBuilder $resource_builder, int $direction = SORT_ASC)
+    public function __construct(protected ResourceBuilder $resource_builder, protected int $direction = SORT_ASC)
     {
-        $this->resource_builder = $resource_builder;
-        $this->direction = $direction;
     }
 
     abstract protected function sortResourceIdentification(array $identifications): array;

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\File\Capabilities\Permissions;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
@@ -65,10 +67,16 @@ class ilFileObjectRBACDatabaseSteps implements ilDatabaseUpdateSteps
             if (in_array(4, $ops_ids, false) && !in_array($edit_file_ops_id, $ops_ids, false)) {
                 $ops_ids[] = $edit_file_ops_id;
                 $ops_ids = array_unique($ops_ids);
+                $new_ops_ids = serialize($ops_ids);
                 $this->database->update(
                     "rbac_pa",
-                    ['ops_id' => serialize($ops_ids)],
-                    ['rol_id' => ['integer', $row['rol_id']], 'ref_id' => ['integer', $row['ref_id']]]
+                    [
+                        'ops_id' => ['text', $new_ops_ids]
+                    ],
+                    [
+                        'rol_id' => ['integer', $row['rol_id']],
+                        'ref_id' => ['integer', $row['ref_id']]
+                    ]
                 );
             }
         }
@@ -101,5 +109,27 @@ class ilFileObjectRBACDatabaseSteps implements ilDatabaseUpdateSteps
             } catch (Throwable) {
             };
         }
+    }
+
+    public function step_3(): void
+    {
+        $read_position = $this->database->fetchAssoc(
+            $this->database->queryF(
+                "SELECT op_order FROM rbac_operations WHERE operation = %s",
+                ['text'],
+                [Permissions::READ->value]
+            )
+        )['op_order'] ?? 2000;
+
+        // update position of view_content operation
+        $this->database->update(
+            "rbac_operations",
+            [
+                'op_order' => ['integer', $read_position + 1]
+            ],
+            [
+                'operation' => ['text', Permissions::VIEW_CONTENT->value]
+            ]
+        );
     }
 }

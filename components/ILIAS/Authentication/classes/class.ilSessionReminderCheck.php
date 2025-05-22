@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Data\Clock\ClockInterface;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\ResponseHeader;
@@ -27,57 +27,53 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class ilSessionReminderCheck
 {
-    private GlobalHttpState $http;
-    private Refinery $refinery;
-    private ilLanguage $lng;
-    private ilDBInterface $db;
-    private ilIniFile $clientIni;
-    private ilLogger $logger;
-    private ClockInterface $clock;
-
     public function __construct(
-        GlobalHttpState $http,
-        Refinery $refinery,
-        ilLanguage $lng,
-        ilDBInterface $db,
-        ilIniFile $clientIni,
-        ilLogger $logger,
-        ClockInterface $utcClock
+        private GlobalHttpState $http,
+        private Refinery $refinery,
+        private ilLanguage $lng,
+        private ilDBInterface $db,
+        private ilIniFile $client_ini,
+        private ilLogger $logger,
+        private ClockInterface $clock,
+        private ilSetting $settings
     ) {
-        $this->http = $http;
-        $this->refinery = $refinery;
-        $this->lng = $lng;
-        $this->db = $db;
-        $this->clientIni = $clientIni;
-        $this->logger = $logger;
-        $this->clock = $utcClock;
     }
 
     public function handle(): ResponseInterface
     {
-        $sessionIdHash = ilUtil::stripSlashes(
+        $hash = ilUtil::stripSlashes(
             $this->http->wrapper()->post()->retrieve(
                 'hash',
                 $this->refinery->kindlyTo()->string()
             )
         );
 
-        $this->logger->debug('Session reminder call for session id hash: ' . $sessionIdHash);
+        $this->logger->debug('Session reminder call for session id hash: ' . $hash);
 
         // disable session writing and extension of expiration time
         ilSession::enableWebAccessWithoutSession(true);
 
         $response = ['remind' => false];
 
+        $concat = $this->db->concat(
+            [
+                ['usess.session_id'],
+                ['usess.user_id'],
+                ['od.create_date']
+            ]
+        );
         $res = $this->db->queryF(
-            'SELECT expires, user_id, data FROM usr_session WHERE MD5(session_id) = %s',
-            ['text'],
-            [$sessionIdHash]
+            'SELECT usess.expires, usess.user_id, usess.data ' .
+            'FROM usr_session usess ' .
+            'INNER JOIN object_data od ON od.obj_id = usess.user_id ' .
+            "WHERE SHA2($concat, 256) = %s",
+            [ilDBConstants::T_TEXT],
+            [$hash]
         );
 
         $num = $this->db->numRows($res);
 
-        if (0 === $num) {
+        if ($num === 0) {
             $response['message'] = 'ILIAS could not determine the session data.';
             return $this->toJsonResponse($response);
         }
@@ -93,13 +89,14 @@ class ilSessionReminderCheck
             return $this->toJsonResponse($response);
         }
 
-        $expirationTime = (int) $data['expires'];
-        if (null === $expirationTime) {
+        $expiration_time = $data['expires'];
+        if ($expiration_time === null) {
             $response['message'] = 'ILIAS could not determine the expiration time from the session data.';
             return $this->toJsonResponse($response);
         }
+        $expiration_time = (int) $data['expires'];
 
-        if ($this->isSessionAlreadyExpired($expirationTime)) {
+        if ($this->isSessionAlreadyExpired($expiration_time)) {
             $response['message'] = 'The session is already expired. The client should have received a remind command before.';
             return $this->toJsonResponse($response);
         }
@@ -111,18 +108,20 @@ class ilSessionReminderCheck
             return $this->toJsonResponse($response);
         }
 
-        $reminderTime = $expirationTime - ((int) max(
-            ilSessionReminder::MIN_LEAD_TIME,
-            (float) $ilUser->getPref('session_reminder_lead_time')
-        )) * 60;
-        if ($reminderTime > $this->clock->now()->getTimestamp()) {
+        $session_reminder = new ilSessionReminder(
+            $ilUser,
+            $this->clock,
+            $this->settings
+        );
+        $reminder_time = $expiration_time - ($session_reminder->getEffectiveLeadTime() * 60);
+        if ($reminder_time > $this->clock->now()->getTimestamp()) {
             // session will expire in <lead_time> minutes
             $response['message'] = 'Lead time not reached, yet. Current time: ' .
-                date('Y-m-d H:i:s') . ', Reminder time: ' . date('Y-m-d H:i:s', $reminderTime);
+                date('Y-m-d H:i:s') . ', Reminder time: ' . date('Y-m-d H:i:s', $reminder_time);
             return $this->toJsonResponse($response);
         }
 
-        $dateTime = new ilDateTime($expirationTime, IL_CAL_UNIX);
+        $dateTime = new ilDateTime($expiration_time, IL_CAL_UNIX);
         switch ($ilUser->getTimeFormat()) {
             case ilCalendarSettings::TIME_FORMAT_12:
                 $formatted_expiration_time = $dateTime->get(IL_CAL_FKT_DATE, 'g:ia', $ilUser->getTimeZone());
@@ -135,15 +134,15 @@ class ilSessionReminderCheck
         }
 
         $response = [
-            'extend_url' => './ilias.php?baseClass=ilDashboardGUI',
+            'extend_url' => './ilias.php?baseClass=' . ilDashboardGUI::class,
             'txt' => str_replace(
                 "\\n",
                 '%0A',
                 sprintf(
                     $this->lng->txt('session_reminder_alert'),
-                    ilDatePresentation::secondsToString($expirationTime - $this->clock->now()->getTimestamp()),
+                    ilDatePresentation::secondsToString($expiration_time - $this->clock->now()->getTimestamp()),
                     $formatted_expiration_time,
-                    $this->clientIni->readVariable('client', 'name') . ' | ' . ilUtil::_getHttpPath()
+                    $this->client_ini->readVariable('client', 'name') . ' | ' . ilUtil::_getHttpPath()
                 )
             ),
             'remind' => true

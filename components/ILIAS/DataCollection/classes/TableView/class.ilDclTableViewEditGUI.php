@@ -34,6 +34,7 @@ class ilDclTableViewEditGUI
     protected ilDclTableViewEditFieldsTableGUI $table_gui;
     protected ilTabsGUI $tabs_gui;
     public ilDclTable $table;
+    protected ilHelpGUI $help;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
 
@@ -52,6 +53,7 @@ class ilDclTableViewEditGUI
         $this->parent_obj = $parent_obj;
         $this->tableview = $tableview;
         $this->tabs_gui = $ilTabs;
+        $this->help = $DIC->help();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
@@ -85,40 +87,25 @@ class ilDclTableViewEditGUI
 
         switch ($next_class) {
             case 'ildcldetailedviewdefinitiongui':
+                $this->help->setSubScreenId('detailed_view');
                 $this->setTabs('detailed_view');
                 $recordedit_gui = new ilDclDetailedViewDefinitionGUI($this->tableview->getId());
                 $ret = $this->ctrl->forwardCommand($recordedit_gui);
                 if ($ret != "") {
                     $this->tpl->setContent($ret);
                 }
-                global $DIC;
-                $ilTabs = $DIC['ilTabs'];
-                $ilTabs->removeTab('edit');
-                $ilTabs->removeTab('history');
-                $ilTabs->removeTab('clipboard'); // Fixme
-                $ilTabs->removeTab('pg');
                 break;
             case 'ildclcreateviewdefinitiongui':
+                $this->help->setSubScreenId('record_create');
                 $this->setTabs('create_view');
                 $creation_gui = new ilDclCreateViewDefinitionGUI($this->tableview->getId());
                 $this->ctrl->forwardCommand($creation_gui);
-                global $DIC;
-                $ilTabs = $DIC['ilTabs'];
-                $ilTabs->removeTab('edit');
-                $ilTabs->removeTab('history');
-                $ilTabs->removeTab('clipboard'); // Fixme
-                $ilTabs->removeTab('pg');
                 break;
             case 'ildcleditviewdefinitiongui':
+                $this->help->setSubScreenId('record_edit');
                 $this->setTabs('edit_view');
                 $edit_gui = new ilDclEditViewDefinitionGUI($this->tableview->getId());
                 $this->ctrl->forwardCommand($edit_gui);
-                global $DIC;
-                $ilTabs = $DIC['ilTabs'];
-                $ilTabs->removeTab('edit');
-                $ilTabs->removeTab('history');
-                $ilTabs->removeTab('clipboard'); // Fixme
-                $ilTabs->removeTab('pg');
                 break;
             default:
                 switch ($cmd) {
@@ -130,51 +117,18 @@ class ilDclTableViewEditGUI
                         }
                         break;
                     case 'add':
+                        $this->help->setSubScreenId('create');
                         $ilDclTableViewEditFormGUI = new ilDclTableViewEditFormGUI($this, $this->tableview);
                         $this->tpl->setContent($ilDclTableViewEditFormGUI->getHTML());
                         break;
                     case 'editGeneralSettings':
-                        $settings_tpl = new ilTemplate("tpl.dcl_settings.html", true, true, 'components/ILIAS/DataCollection');
-
+                        $this->help->setSubScreenId('edit');
                         $this->setTabs('general_settings');
                         $ilDclTableViewEditFormGUI = new ilDclTableViewEditFormGUI($this, $this->tableview);
-
-                        global $DIC;
-                        $f = $DIC->ui()->factory()->listing()->workflow();
-                        $renderer = $DIC->ui()->renderer();
-
-                        // Set Workflow flag to true
-                        $view = ilDclTableView::getCollection()->where(["id" => filter_input(
-                            INPUT_GET,
-                            "tableview_id"
-                        )
-                        ])->first();
-                        if (!is_null($view)) {
-                            //setup steps
-                            $step = $f->step('');
-                            $steps = [
-                                $f->step($this->lng->txt('dcl_view_settings'))
-                                  ->withAvailability($step::AVAILABLE)->withStatus(4), //$view->getStepVs() ? 3 : 4
-                                $f->step($this->lng->txt('dcl_create_entry_rules'))
-                                  ->withAvailability($step::AVAILABLE)->withStatus(4), //$view->getStepC() ? 3 : 4
-                                $f->step($this->lng->txt('dcl_edit_entry_rules'))
-                                  ->withAvailability($step::AVAILABLE)->withStatus(4), //$view->getStepE() ? 3 : 4
-                                $f->step($this->lng->txt('dcl_list_visibility_and_filter'))
-                                  ->withAvailability($step::AVAILABLE)->withStatus(4), //$view->getStepO() ? 3 : 4
-                                $f->step($this->lng->txt('dcl_detailed_view'))
-                                  ->withAvailability($step::AVAILABLE)->withStatus(1), //$view->getStepS() ? 3 : 1
-                            ];
-
-                            //setup linear workflow
-                            $wf = $f->linear($this->lng->txt('dcl_view_configuration'), $steps);
-                            $settings_tpl->setVariable("WORKFLOW", $renderer->render($wf));
-                        }
-
-                        $settings_tpl->setVariable("SETTINGS", $ilDclTableViewEditFormGUI->getHTML());
-
-                        $this->tpl->setContent($settings_tpl->get());
+                        $this->tpl->setContent($ilDclTableViewEditFormGUI->getHTML());
                         break;
                     case 'editFieldSettings':
+                        $this->help->setSubScreenId('overview');
                         $this->setTabs('field_settings');
                         $this->initTableGUI();
                         $this->tpl->setContent($this->table_gui->getHTML());
@@ -286,13 +240,6 @@ class ilDclTableViewEditGUI
             $setting->update();
         }
 
-        // Set Workflow flag to true
-        $view = ilDclTableView::getCollection()->where(["id" => filter_input(INPUT_GET, "tableview_id")])->first();
-        if (!is_null($view)) {
-            $view->setStepO(true);
-            $view->save();
-        }
-
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableview_updated'), true);
         $this->ctrl->saveParameter($this->parent_obj, 'tableview_id');
         $this->ctrl->redirect($this, 'editFieldSettings');
@@ -346,7 +293,7 @@ class ilDclTableViewEditGUI
 
     protected function checkAccess(string $cmd): bool
     {
-        if (in_array($cmd, ['add', 'create'])) {
+        if (in_array($cmd, ['add', 'create', 'cancel'])) {
             return ilObjDataCollectionAccess::hasAccessToEditTable(
                 $this->parent_obj->getParentObj()->getDataCollectionObject()->getRefId(),
                 $this->table->getId()

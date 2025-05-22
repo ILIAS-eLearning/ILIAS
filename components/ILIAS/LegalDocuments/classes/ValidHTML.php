@@ -26,6 +26,7 @@ use ErrorException;
 use RecursiveIteratorIterator;
 use LibXMLError;
 use Throwable;
+use DOMNode;
 
 class ValidHTML
 {
@@ -80,7 +81,7 @@ class ValidHTML
             }
 
             return false;
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             $errors = libxml_get_errors();
             libxml_clear_errors();
             libxml_use_internal_errors($error_state);

@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments;
 
-use DateTimeImmutable;
 use ILIAS\Data\Clock\ClockInterface as Clock;
 use ILIAS\LegalDocuments\Value\Edit;
 use ilObjUser;

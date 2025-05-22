@@ -243,6 +243,7 @@ class ilUserAutoComplete
             }
             $recs[$rec['usr_id']] = $rec;
             $usrIds[] = $rec['usr_id'];
+            $cnt++;
         }
         $callable_name = null;
         if (is_callable($this->user_filter, true, $callable_name)) {

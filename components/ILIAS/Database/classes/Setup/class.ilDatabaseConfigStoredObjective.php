@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Setup;
+declare(strict_types=1);
+
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\NotExecutableException;
+use ILIAS\Setup\UnachievableException;
 
 class ilDatabaseConfigStoredObjective extends ilDatabaseObjective
 {
@@ -40,7 +42,7 @@ class ilDatabaseConfigStoredObjective extends ilDatabaseObjective
     /**
      * @return array<int, \ilDatabaseExistsObjective|\ilIniFilesLoadedObjective>
      */
-    public function getPreconditions(Setup\Environment $environment): array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -48,14 +50,14 @@ class ilDatabaseConfigStoredObjective extends ilDatabaseObjective
         ];
     }
 
-    public function achieve(Setup\Environment $environment): Setup\Environment
+    public function achieve(Environment $environment): Environment
     {
-        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+        $client_ini = $environment->getResource(Environment::RESOURCE_CLIENT_INI);
 
         $type = $this->config->getType();
 
         if ($type === 'postgres' || $type === 'pdo-postgre') {
-            throw new Setup\NotExecutableException('ILIAS 8 no longer Supports POSTGRES');
+            throw new NotExecutableException('ILIAS 8 no longer Supports POSTGRES');
         }
 
         $client_ini->setVariable("db", "type", $type);
@@ -67,26 +69,33 @@ class ilDatabaseConfigStoredObjective extends ilDatabaseObjective
         $client_ini->setVariable("db", "pass", $pw !== null ? $pw->toString() : "");
 
         if (!$client_ini->write()) {
-            throw new Setup\UnachievableException("Could not write client.ini.php");
+            throw new UnachievableException("Could not write client.ini.php");
         }
 
         return $environment;
     }
 
-    public function isApplicable(Setup\Environment $environment): bool
+    public function isApplicable(Environment $environment): bool
     {
-        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+        $client_ini = $environment->getResource(Environment::RESOURCE_CLIENT_INI);
 
         $port = $this->config->getPort() ?? "";
         $pass = $this->config->getPassword() !== null ? $this->config->getPassword()->toString() : "";
-
-        return
-            $client_ini->readVariable("db", "type") !== $this->config->getType() ||
-            $client_ini->readVariable("db", "host") !== $this->config->getHost() ||
-            $client_ini->readVariable("db", "name") !== $this->config->getDatabase() ||
-            $client_ini->readVariable("db", "user") !== $this->config->getUser() ||
-            $client_ini->readVariable("db", "port") !== $port ||
-            $client_ini->readVariable("dv", "pass") !== $pass
-        ;
+        if ($client_ini->readVariable("db", "type") !== $this->config->getType()) {
+            return true;
+        }
+        if ($client_ini->readVariable("db", "host") !== $this->config->getHost()) {
+            return true;
+        }
+        if ($client_ini->readVariable("db", "name") !== $this->config->getDatabase()) {
+            return true;
+        }
+        if ($client_ini->readVariable("db", "user") !== $this->config->getUser()) {
+            return true;
+        }
+        if ($client_ini->readVariable("db", "port") !== $port) {
+            return true;
+        }
+        return $client_ini->readVariable("dv", "pass") !== $pass;
     }
 }

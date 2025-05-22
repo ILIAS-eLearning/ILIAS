@@ -86,7 +86,7 @@ class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
         $r = $this->ui->renderer();
         $p = $f->panel()->standard(
             $this->lng->txt("adm_support_contacts"),
-            $f->legacy($html)
+            $f->legacy()->content($html)
         );
 
         $this->tpl->setContent($r->render($p));

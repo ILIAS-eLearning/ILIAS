@@ -15,8 +15,8 @@
  ******************************************************************** */
 
 import terser from '@rollup/plugin-terser';
-import copyright from '../../../../../../scripts/Copyright-Checker/copyright';
-import preserveCopyright from '../../../../../../scripts/Copyright-Checker/preserveCopyright';
+import copyright from '../../../../../../scripts/Copyright-Checker/copyright.js';
+import preserveCopyright from '../../../../../../scripts/Copyright-Checker/preserveCopyright.js';
 
 export default [
   {
@@ -24,6 +24,7 @@ export default [
     output: {
       file: './dist/mainbar.js',
       format: 'es',
+      banner: copyright,
     },
   },
 
@@ -48,4 +49,23 @@ export default [
     external: ['il', 'jquery'],
   },
 
+  {
+    input: './src/footer.js',
+    output: {
+      file: './dist/footer.min.js',
+      format: 'iife',
+      banner: copyright,
+      plugins: [
+        terser({
+          format: {
+            comments: preserveCopyright,
+          },
+        }),
+      ],
+      globals: {
+        il: 'il',
+      },
+    },
+    external: ['il'],
+  },
 ];

@@ -1,12 +1,35 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\Tag;
 
 /**
- * Example show how to create and render a disabled tag input field and attach it to a
- * form. This example does not contain any data processing.
+ * ---
+ * description: >
+ *   The example shows how to create and render a disabled tag input field and attach
+ *   it to a form. This example does not contain any data processing.
+ *
+ * expected output: >
+ *   ILIAS shows an input field titled "Basic TagInput". The Tags "Boring" and "Animating" are already displayed. Changing
+ *   the input is not possible.
+ * ---
  */
 function disabled()
 {

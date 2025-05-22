@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\File\Icon;
 
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
 use ILIAS\FileUpload\Handler\BasicFileInfoResult;
@@ -124,7 +125,7 @@ class ilIconUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     public function getInfoResult(string $rid): ?FileInfoResult
     {
         $id = $this->storage->manage()->find($rid);
-        if (!$id instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
+        if (!$id instanceof ResourceIdentification) {
             return new BasicFileInfoResult($this->getFileIdentifierParameterName(), 'unknown', 'unknown', 0, 'unknown');
         }
         $r = $this->storage->manage()->getCurrentRevision($id)->getInformation();
@@ -139,14 +140,14 @@ class ilIconUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     }
 
     /**
-     * @return \ILIAS\FileUpload\Handler\BasicFileInfoResult[]
+     * @return BasicFileInfoResult[]
      */
     public function getInfoForExistingFiles(array $resource_identifiers): array
     {
         $infos = [];
         foreach ($resource_identifiers as $rid) {
             $id = $this->storage->manage()->find($rid);
-            if (!$id instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
+            if (!$id instanceof ResourceIdentification) {
                 continue;
             }
             $r = $this->storage->manage()->getCurrentRevision($id)->getInformation();

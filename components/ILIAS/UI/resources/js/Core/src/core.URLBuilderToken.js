@@ -14,9 +14,9 @@
  *
  ********************************************************************
  */
+import createRandomString from './createRandomString.js';
 
 const URLBuilderTokenSeparator = '_';
-const URLBuilderTokenLength = 24;
 
 export default class URLBuilderToken {
   /**
@@ -49,7 +49,7 @@ export default class URLBuilderToken {
     this.#parameterName = parameterName;
     this.#token = token;
     if (this.#token === null) {
-      this.#token = URLBuilderToken.createToken();
+      this.#token = createRandomString();
     }
     this.#name = this.#namespace.join(URLBuilderTokenSeparator) + URLBuilderTokenSeparator;
     this.#name += this.#parameterName;
@@ -67,18 +67,5 @@ export default class URLBuilderToken {
      */
   getName() {
     return this.#name;
-  }
-
-  /**
-     * @returns {string}
-     */
-  static createToken() {
-    let token = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    while (token.length < URLBuilderTokenLength) {
-      token += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return token;
   }
 }

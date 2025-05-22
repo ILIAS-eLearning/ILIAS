@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Setup;
+declare(strict_types=1);
+
+use ILIAS\Setup\Metrics\CollectedObjective;
+use ILIAS\Setup\Environment;
 use ILIAS\Setup\Metrics\Metric;
 use ILIAS\Setup\Metrics\Storage;
 
-class ilDatabaseUpdateStepsMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
+class ilDatabaseUpdateStepsMetricsCollectedObjective extends CollectedObjective
 {
     public const STEP_METHOD_PREFIX = "step_";
 
@@ -31,10 +32,10 @@ class ilDatabaseUpdateStepsMetricsCollectedObjective extends Setup\Metrics\Colle
     public function __construct(Storage $storage, ilDatabaseUpdateSteps $steps)
     {
         parent::__construct($storage);
-        $this->step_class = get_class($steps);
+        $this->step_class = $steps::class;
     }
 
-    protected function collectFrom(Setup\Environment $environment, Storage $storage): void
+    protected function collectFrom(Environment $environment, Storage $storage): void
     {
         $execution_log = $environment->getResource(ilDatabaseUpdateStepExecutionLog::class);
         $step_reader = $environment->getResource(ilDBStepReader::class);
@@ -73,7 +74,7 @@ class ilDatabaseUpdateStepsMetricsCollectedObjective extends Setup\Metrics\Colle
         $storage->store($this->step_class, $collection);
     }
 
-    protected function getTentativePreconditions(Setup\Environment $environment): array
+    protected function getTentativePreconditions(Environment $environment): array
     {
         return [
             new ilDatabaseInitializedObjective(),
@@ -82,11 +83,13 @@ class ilDatabaseUpdateStepsMetricsCollectedObjective extends Setup\Metrics\Colle
         ];
     }
 
+    #[\Override]
     public function getHash(): string
     {
         return hash("sha256", static::class . $this->step_class);
     }
 
+    #[\Override]
     public function getLabel(): string
     {
         return "Status of database update steps in " . $this->step_class;

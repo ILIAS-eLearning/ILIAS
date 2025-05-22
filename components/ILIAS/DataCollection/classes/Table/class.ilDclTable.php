@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Math\Functions;
+use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Math\Operators;
+
 class ilDclTable
 {
     protected int $id = 0;
@@ -75,6 +78,7 @@ class ilDclTable
     protected ILIAS\Refinery\Factory $refinery;
     protected ilObjUser $user;
     protected ilDBInterface $db;
+    protected bool $show_invalid = false;
 
     public function __construct(int $a_id = 0)
     {
@@ -104,27 +108,27 @@ class ilDclTable
         if (null !== $rec["title"]) {
             $this->setTitle($rec["title"]);
         }
-        $this->setAddPerm((bool)$rec["add_perm"]);
-        $this->setEditPerm((bool)$rec["edit_perm"]);
-        $this->setDeletePerm((bool)$rec["delete_perm"]);
-        $this->setEditByOwner((bool)$rec["edit_by_owner"]);
+        $this->setAddPerm((bool) $rec["add_perm"]);
+        $this->setEditPerm((bool) $rec["edit_perm"]);
+        $this->setDeletePerm((bool) $rec["delete_perm"]);
+        $this->setEditByOwner((bool) $rec["edit_by_owner"]);
         if (null !== $rec["export_enabled"]) {
             $this->setExportEnabled((bool) $rec["export_enabled"]);
         }
-        $this->setImportEnabled((bool)$rec["import_enabled"]);
-        $this->setLimited((bool)$rec["limited"]);
-        $this->setLimitStart((string)$rec["limit_start"]);
-        $this->setLimitEnd((string)$rec["limit_end"]);
-        $this->setIsVisible((bool)$rec["is_visible"]);
+        $this->setImportEnabled((bool) $rec["import_enabled"]);
+        $this->setLimited((bool) $rec["limited"]);
+        $this->setLimitStart((string) $rec["limit_start"]);
+        $this->setLimitEnd((string) $rec["limit_end"]);
+        $this->setIsVisible((bool) $rec["is_visible"]);
         if (null !== $rec['description']) {
             $this->setDescription($rec['description']);
         }
-        $this->setDefaultSortField((string)$rec['default_sort_field_id']);
+        $this->setDefaultSortField((string) $rec['default_sort_field_id']);
         $this->setDefaultSortFieldOrder($rec['default_sort_field_order']);
-        $this->setPublicCommentsEnabled((bool)$rec['public_comments']);
-        $this->setViewOwnRecordsPerm((bool)$rec['view_own_records_perm']);
-        $this->setDeleteByOwner((bool)$rec['delete_by_owner']);
-        $this->setSaveConfirmation((bool)$rec['save_confirmation']);
+        $this->setPublicCommentsEnabled((bool) $rec['public_comments']);
+        $this->setViewOwnRecordsPerm((bool) $rec['view_own_records_perm']);
+        $this->setDeleteByOwner((bool) $rec['delete_by_owner']);
+        $this->setSaveConfirmation((bool) $rec['save_confirmation']);
         if (null !== $rec['table_order']) {
             $this->setOrder($rec['table_order']);
         }
@@ -390,7 +394,9 @@ class ilDclTable
             $fields = [];
             while ($rec = $this->db->fetchAssoc($set)) {
                 $field = ilDclCache::buildFieldFromRecord($rec);
-                $fields[] = $field;
+                if ($this->show_invalid || in_array($field->getDatatypeId(), array_keys(ilDclDatatype::getAllDatatype()))) {
+                    $fields[] = $field;
+                }
             }
             $this->fields = $fields;
 
@@ -438,7 +444,7 @@ class ilDclTable
     /**
      * @param ilDclTableView[] $tableviews
      */
-    public function sortTableViews(array $tableviews = null): void
+    public function sortTableViews(?array $tableviews = null): void
     {
         if ($tableviews == null) {
             $tableviews = $this->getTableViews();
@@ -498,7 +504,8 @@ class ilDclTable
         $visible_views = [];
         foreach ($this->getTableViews() as $tableView) {
             if (ilObjDataCollectionAccess::hasAccessToTableView($tableView, $user_id)) {
-                if (!$with_active_detailedview || ilDclDetailedViewDefinition::isActive($tableView->getId())) {
+                $page = new ilDclDetailedViewDefinitionGUI($tableView->getId());
+                if (!$with_active_detailedview || $page->getPageObject()->isActive()) {
                     $visible_views[] = $tableView;
                 }
             }
@@ -525,23 +532,18 @@ class ilDclTable
      */
     public function getFieldsForFormula(): array
     {
-        $unsupported = [
-            ilDclDatatype::INPUTFORMAT_ILIAS_REF,
-            ilDclDatatype::INPUTFORMAT_FORMULA,
-            ilDclDatatype::INPUTFORMAT_MOB,
-            ilDclDatatype::INPUTFORMAT_REFERENCELIST,
-            ilDclDatatype::INPUTFORMAT_REFERENCE,
-            ilDclDatatype::INPUTFORMAT_FILEUPLOAD,
-            ilDclDatatype::INPUTFORMAT_RATING,
-        ];
-
-        $this->loadCustomFields();
-        $return = $this->getStandardFields();
-        /**
-         * @var $field ilDclBaseFieldModel
-         */
-        foreach ($this->fields as $field) {
-            if (!in_array($field->getDatatypeId(), $unsupported)) {
+        $syntax_chars = array_merge(
+            array_map(static fn(Operators $function): string => $function->value, Operators::cases()),
+            array_map(static fn(Functions $function): string => $function->value, Functions::cases()),
+            ['(', ')', ',']
+        );
+        foreach ($this->getFields() as $field) {
+            if (in_array($field->getDatatypeId(), ilDclFormulaFieldModel::SUPPORTED_FIELDS)) {
+                foreach ($syntax_chars as $element) {
+                    if (str_contains($field->getTitle(), $element)) {
+                        continue 2;
+                    }
+                }
                 $return[] = $field;
             }
         }
@@ -1067,7 +1069,7 @@ class ilDclTable
             }
         }
 
-        $this->setDefaultSortField((string)$default_sort_field);
+        $this->setDefaultSortField((string) $default_sort_field);
         $this->doUpdate();
 
         // Clone Records with recordfields
@@ -1307,6 +1309,16 @@ class ilDclTable
             $total_record_ids = $sort_query_object->applyCustomSorting($sort_field, $total_record_ids, $direction);
         }
 
+        if ($sort === 'n_comments') {
+            global $DIC;
+            $comments_nr = [];
+            foreach ($total_record_ids as $id) {
+                $comments_nr[$id] = $DIC->notes()->domain()->getNrOfCommentsForContext($DIC->notes()->data()->context($this->getObjId(), $id, 'dcl'));
+            }
+            uasort($comments_nr, static fn($a, $b) => ($direction === 'asc' ? 1 : -1) * ($a <=> $b));
+            $total_record_ids = array_keys($comments_nr);
+        }
+
         // Now slice the array to load only the needed records in memory
         $record_ids = array_slice($total_record_ids, $offset, $limit);
 
@@ -1316,5 +1328,10 @@ class ilDclTable
         }
 
         return ['records' => $records, 'total' => count($total_record_ids)];
+    }
+
+    public function showInvalidFields(bool $value): void
+    {
+        $this->show_invalid = $value;
     }
 }

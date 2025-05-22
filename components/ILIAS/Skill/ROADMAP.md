@@ -28,9 +28,9 @@ e.g.
 * $DIC->skills()->ui()->getGapUI($user_id, $profile_id, ...);
 * $DIC->skills()->user($id)->writeSkillLevel(...);
 
-An example on how to implement such a service could be found in Services/Object/Service the way ilObjectService implements ilObjectServiceInterface. But insted of the "il" prefix namespaces should be used.
+An example on how to implement such a service could be found in ILIAS/Object/Service the way ilObjectService implements ilObjectServiceInterface. But insted of the "il" prefix namespaces should be used.
 
-The skill service may include an internal part that does not serve as an external API but as an internal service, e.g. to provide access to internal repo objects. An example can be found in Modules/BookingManager/Service.
+The skill service may include an internal part that does not serve as an external API but as an internal service, e.g. to provide access to internal repo objects. An example can be found in ILIAS/BookingManager/Service.
 
 E.g.
 

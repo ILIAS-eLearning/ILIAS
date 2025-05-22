@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Skill\Personal;
 
@@ -32,8 +31,8 @@ class AssignedMaterialManager implements Usage\SkillUsageInfo
     protected PersonalSkillDBRepository $personal_repo;
 
     public function __construct(
-        AssignedMaterialDBRepository $ass_mat_repo = null,
-        PersonalSkillDBRepository $personal_repo = null
+        ?AssignedMaterialDBRepository $ass_mat_repo = null,
+        ?PersonalSkillDBRepository $personal_repo = null
     ) {
         global $DIC;
 

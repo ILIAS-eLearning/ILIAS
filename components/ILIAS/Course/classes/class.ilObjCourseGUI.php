@@ -18,9 +18,9 @@
 
 declare(strict_types=0);
 
-use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\News\Service as News;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * Class ilObjCourseGUI
@@ -40,7 +40,7 @@ use ILIAS\News\Service as News;
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilMemberExportSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ilObjectTranslationGUI, ilBookingGatewayGUI, ilRepositoryTrashGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ILIAS\ILIASObject\Properties\Translations\TranslationGUI, ilBookingGatewayGUI, ilRepositoryTrashGUI
  * @extends      ilContainerGUI
  */
 class ilObjCourseGUI extends ilContainerGUI
@@ -54,7 +54,6 @@ class ilObjCourseGUI extends ilContainerGUI
     private ?ilContainerStartObjects $start_obj = null;
 
     private ilLogger $logger;
-    protected GlobalHttpState $http;
     protected Factory $refinery;
     protected ilHelpGUI $help;
     protected ilNavigationHistory $navigation_history;
@@ -74,7 +73,6 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->lng->loadLanguageModule('cert');
         $this->lng->loadLanguageModule('obj');
 
-        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->news = $DIC->news();
     }
@@ -100,8 +98,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
     public function renderObject(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd("view");
         $this->viewObject();
     }
 
@@ -120,9 +116,6 @@ class ilObjCourseGUI extends ilContainerGUI
             return;
         }
 
-        // Fill meta header tags
-        ilMDUtils::_fillHTMLMetaTags($this->object->getId(), $this->object->getId(), 'crs');
-
         // Trac access
         if ($this->ctrl->getNextClass() != "ilcolumngui") {
             ilLearningProgress::_tracProgress(
@@ -134,13 +127,7 @@ class ilObjCourseGUI extends ilContainerGUI
         }
 
         if (!$this->checkAgreement()) {
-            $this->tabs_gui->clearTargets();
-            $this->ctrl->setReturn($this, 'view_content');
-            $agreement = new ilMemberAgreementGUI($this->object->getRefId());
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $this->ctrl->setCmdClass(get_class($agreement));
-            $this->ctrl->forwardCommand($agreement);
-            return;
+            $this->ctrl->redirectByClass(ilMemberAgreementGUI::class);
         }
 
         if (!$this->__checkStartObjects()) {
@@ -160,11 +147,6 @@ class ilObjCourseGUI extends ilContainerGUI
             $this->object->getViewMode() == ilContainer::VIEW_OBJECTIVE
         ) {
             parent::renderObject();
-        } else {
-            $course_content_obj = new ilCourseContentGUI($this);
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $this->ctrl->setCmdClass(get_class($course_content_obj));
-            $this->ctrl->forwardCommand($course_content_obj);
         }
 
         if ($this->isActiveAdministrationPanel()) {
@@ -191,10 +173,10 @@ class ilObjCourseGUI extends ilContainerGUI
      */
     public function infoScreenObject(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd("showSummary");
-        // $this->ctrl->setCmdClass("ilinfoscreengui");
-        $this->infoScreen();
+        $this->ctrl->redirectByClass([
+            static::class,
+            ilInfoScreenGUI::class
+        ]);
     }
 
     public function infoScreen(): void
@@ -202,9 +184,6 @@ class ilObjCourseGUI extends ilContainerGUI
         if (!$this->checkPermissionBool('read')) {
             $this->checkPermission('visible');
         }
-
-        // Fill meta header tags
-        ilMDUtils::_fillHTMLMetaTags($this->object->getId(), $this->object->getId(), 'crs');
 
         $this->tabs_gui->setTabActive('info_short');
         $files = ilCourseFile::_readFilesByCourse($this->object->getId());
@@ -297,10 +276,20 @@ class ilObjCourseGUI extends ilContainerGUI
             );
         }
         if ($this->object->getContactEmail()) {
+            /* needs to be rbacsystem, does not work with ilAccess */
+            $has_mail_access = $this->rbacsystem->checkAccessOfUser(
+                $this->user->getId(),
+                'internal_mail',
+                ilMailGlobalServices::getMailObjectRefId()
+            );
             $emails = explode(",", $this->object->getContactEmail());
             $mailString = '';
             foreach ($emails as $email) {
                 $email = trim($email);
+                if (!$has_mail_access) {
+                    $mailString .= $email . "<br />";
+                    continue;
+                }
                 $etpl = new ilTemplate("tpl.crs_contact_email.html", true, true, 'components/ILIAS/Course');
                 $etpl->setVariable(
                     "EMAIL_LINK",
@@ -472,7 +461,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->ctrl->redirect($this, "");
     }
 
-    public function editInfoObject(ilPropertyFormGUI $a_form = null): void
+    public function editInfoObject(?ilPropertyFormGUI $a_form = null): void
     {
         $this->checkPermission('write');
         $this->setSubTabs('properties');
@@ -752,6 +741,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $GLOBALS['DIC']->language()->txt('crs_tile_and_objective_view_not_supported')
             );
             $this->editObject($form);
+            return;
         }
 
         // Additional checks: both tile and session limitation activated (not supported)
@@ -865,6 +855,13 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->object->setTimingMode((int) $form->getInput('timing_mode'));
         $this->object->setOrderType((int) $form->getInput('sorting'));
         $this->saveSortingSettings($form);
+
+        $this->log->debug(
+            "\n\n\nValue: " . (int) $form->getInput('tutorial_support_block_checkbox') . "\n\n\n"
+        );
+        $this->object->setTutorialSupportBlockSettingValue(
+            (int) $form->getInput('tutorial_support_block_checkbox')
+        );
 
         $this->object->setAboStatus((bool) $form->getInput('abo'));
         $this->object->setShowMembers((bool) $form->getInput('show_members'));
@@ -991,10 +988,10 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->ctrl->redirect($this, "edit");
     }
 
-    public function editObject(ilPropertyFormGUI $form = null): void
+    public function editObject(?ilPropertyFormGUI $form = null): void
     {
         $this->setSubTabs('properties');
-        $this->tabs_gui->setSubTabActive('crs_settings');
+        $this->tabs_gui->setSubTabActive('general');
 
         if ($form instanceof ilPropertyFormGUI) {
             $GLOBALS['DIC']['tpl']->setContent($form->getHTML());
@@ -1364,6 +1361,15 @@ class ilObjCourseGUI extends ilContainerGUI
             )
         );
 
+        $tutorial_support_panel_checkbox = new ilCheckboxInputGUI(
+            $this->lng->txt('tutorial_support_block_setting_title'),
+            'tutorial_support_block_checkbox'
+        );
+        //$tutorial_support_panel_checkbox->setValue($this->object->getTutorialSupportBlockSettingValue());
+        $tutorial_support_panel_checkbox->setChecked((bool) $this->object->getTutorialSupportBlockSettingValue());
+        $tutorial_support_panel_checkbox->setInfo($this->lng->txt('tutorial_support_block_byline'));
+        $form->addItem($tutorial_support_panel_checkbox);
+
         // lp vs. course status
         if (ilObjUserTracking::_enabledLearningProgress()) {
             $olp = ilObjectLP::getInstance($this->object->getId());
@@ -1563,9 +1569,9 @@ class ilObjCourseGUI extends ilContainerGUI
                 }
                 $this->tabs_gui->addSubTabTarget(
                     "obj_multilinguality",
-                    $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""),
+                    $this->ctrl->getLinkTargetByClass(TranslationGUI::class, ""),
                     "",
-                    "ilobjecttranslationgui"
+                    TranslationGUI::class
                 );
                 break;
         }
@@ -1581,10 +1587,19 @@ class ilObjCourseGUI extends ilContainerGUI
             !$this->isActiveAdministrationPanel()) {
             return;
         }
+        $this->renderAddNewItem();
+    }
+
+    public function renderAddNewItem(string ...$disabled_object_types): void
+    {
+        $createble_object_types = $this->getCreatableObjectTypes();
+
+        foreach ($disabled_object_types as $type) {
+            unset($createble_object_types[$type]);
+        }
+
         $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
-            $this->buildAddNewItemElements(
-                $this->getCreatableObjectTypes()
-            )
+            $this->buildAddNewItemElements($createble_object_types)
         );
         $gui->render();
     }
@@ -1614,7 +1629,7 @@ class ilObjCourseGUI extends ilContainerGUI
         ));
     }
 
-    public function readMemberData(array $ids, array $selected_columns = null, bool $skip_names = false): array
+    public function readMemberData(array $ids, ?array $selected_columns = null, bool $skip_names = false): array
     {
         $show_tracking =
             (
@@ -2279,7 +2294,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 #$this->tabs_gui->setBackTarget($this->lng->txt('back'),$this->ctrl->getLinkTarget($this,''));
                 $this->tabs_gui->activateTab('crs_objectives');
 
-                $editor = new ilLOEditorGUI($this->object);
+                $editor = new ilLOEditorGUI($this);
                 $this->ctrl->forwardCommand($editor);
                 if (strtolower($this->ctrl->getCmdClass()) === "illopagegui") {
                     $header_action = false;
@@ -2404,12 +2419,24 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-            case 'ilobjecttranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->checkPermissionBool("write");
                 $this->setSubTabs("properties");
                 $this->tabs_gui->activateTab("settings");
                 $this->tabs_gui->activateSubTab("obj_multilinguality");
-                $transgui = new ilObjectTranslationGUI($this);
+                $transgui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->access,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->http,
+                    $this->refinery,
+                    $this->toolbar
+                );
                 $this->ctrl->forwardCommand($transgui);
                 break;
 

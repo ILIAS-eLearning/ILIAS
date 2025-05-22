@@ -47,7 +47,7 @@ class ilTaxonomySettingsGUI
         int $rep_obj_id,
         string $list_info = "",
         bool $multiple = true,
-        \ILIAS\Taxonomy\Settings\ModifierGUIInterface $modifier = null
+        ?\ILIAS\Taxonomy\Settings\ModifierGUIInterface $modifier = null
     ) {
         $this->domain = $domain;
         $this->gui = $gui;

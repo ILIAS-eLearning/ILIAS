@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\BookingManager\Setup;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class ilBookingManagerDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
@@ -53,7 +50,7 @@ class ilBookingManagerDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_4() : void
+    public function step_4(): void
     {
         $db = $this->db;
         if (!$db->tableExists("book_sel_object")) {
@@ -76,7 +73,7 @@ class ilBookingManagerDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_5() : void
+    public function step_5(): void
     {
         $db = $this->db;
         if (!$db->tableColumnExists("book_sel_object", "pool_id")) {
@@ -89,7 +86,7 @@ class ilBookingManagerDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_6() : void
+    public function step_6(): void
     {
         $db = $this->db;
         if (!$db->tableColumnExists("booking_settings", "messages")) {
@@ -102,7 +99,7 @@ class ilBookingManagerDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_7() : void
+    public function step_7(): void
     {
         $db = $this->db;
         if (!$db->tableColumnExists("booking_reservation", "message")) {
@@ -114,4 +111,37 @@ class ilBookingManagerDBUpdateSteps implements \ilDatabaseUpdateSteps
             ]);
         }
     }
+
+    public function step_8(): void
+    {
+        if (!$this->db->tableColumnExists('booking_object', 'obj_info_rid')) {
+            $this->db->addTableColumn(
+                'booking_object',
+                'obj_info_rid',
+                [
+                    'type' => 'text',
+                    'notnull' => false,
+                    'length' => 64,
+                    'default' => null
+                ]
+            );
+        }
+    }
+
+    public function step_9(): void
+    {
+        if (!$this->db->tableColumnExists('booking_object', 'book_info_rid')) {
+            $this->db->addTableColumn(
+                'booking_object',
+                'book_info_rid',
+                [
+                    'type' => 'text',
+                    'notnull' => false,
+                    'length' => 64,
+                    'default' => null
+                ]
+            );
+        }
+    }
+
 }

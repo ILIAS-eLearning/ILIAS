@@ -31,13 +31,17 @@ class ilStudyProgrammeSetupAgent extends NullAgent
 {
     use HasNoNamedObjective;
 
-    public function getUpdateObjective(Config $config = null): Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
         return new ObjectiveCollection(
             'Database is updated for component/ILIAS/StudyProgramme',
             false,
+            // ILIAS 10
             new ilDatabaseUpdateStepsExecutedObjective(
                 new ilMigrateStudyProgrammeCertificateProviderDBUpdateSteps()
+            ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilStudyProgrammeAutoMembershipTableUpdateSteps()
             ),
         );
     }
@@ -47,9 +51,14 @@ class ilStudyProgrammeSetupAgent extends NullAgent
         return new ObjectiveCollection(
             'Database is updated for component/ILIAS/StudyProgramme',
             true,
+            // ILIAS 10
             new ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,
                 new ilMigrateStudyProgrammeCertificateProviderDBUpdateSteps()
+            ),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective(
+                $storage,
+                new ilStudyProgrammeAutoMembershipTableUpdateSteps()
             ),
         );
     }
@@ -64,7 +73,7 @@ class ilStudyProgrammeSetupAgent extends NullAgent
         throw new LogicException('Agent has no config.');
     }
 
-    public function getInstallObjective(Config $config = null): Objective
+    public function getInstallObjective(?Config $config = null): Objective
     {
         return new NullObjective();
     }

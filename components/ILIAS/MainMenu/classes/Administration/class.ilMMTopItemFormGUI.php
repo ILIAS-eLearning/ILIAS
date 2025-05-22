@@ -35,25 +35,14 @@ class ilMMTopItemFormGUI
 {
     use Hasher;
 
+    /**
+     * @var string
+     */
     private const F_ICON = 'icon';
-
-    private Services $http;
-
-    private ilMMItemRepository $repository;
 
     private Standard $form;
 
-    private ilMMItemFacadeInterface $item_facade;
-
     private ilObjMainMenuAccess $access;
-
-    protected ilLanguage $lng;
-
-    protected ilCtrl $ctrl;
-
-    protected ILIAS\UI\Factory $ui_fa;
-
-    protected ILIAS\UI\Renderer $ui_re;
     /**
      * ilMMTopItemFormGUI constructor.
      * @param ilCtrl   $ctrl
@@ -66,21 +55,14 @@ class ilMMTopItemFormGUI
     public const F_ROLE_BASED_VISIBILITY = "role_based_visibility";
 
     public function __construct(
-        ilCtrl $ctrl,
-        Factory $ui_fa,
-        Renderer $ui_re,
-        ilLanguage $lng,
-        Services $http,
-        ilMMItemFacadeInterface $item,
-        ilMMItemRepository $repository
+        protected ilCtrl $ctrl,
+        protected ILIAS\UI\Factory $ui_fa,
+        protected Renderer $ui_re,
+        protected ilLanguage $lng,
+        private Services $http,
+        private ilMMItemFacadeInterface $item_facade,
+        private ilMMItemRepository $repository
     ) {
-        $this->repository = $repository;
-        $this->http = $http;
-        $this->ctrl = $ctrl;
-        $this->ui_fa = $ui_fa;
-        $this->ui_re = $ui_re;
-        $this->lng = $lng;
-        $this->item_facade = $item;
         $this->access = new ilObjMainMenuAccess();
         if (!$this->item_facade->isEmpty()) {
             $this->ctrl->saveParameterByClass(ilMMTopItemGUI::class, ilMMAbstractItemGUI::IDENTIFIER);
@@ -91,12 +73,8 @@ class ilMMTopItemFormGUI
 
     private function initForm(): void
     {
-        $txt = function ($key) {
-            return $this->lng->txt($key);
-        };
-        $f = function (): InputFactory {
-            return $this->ui_fa->input();
-        };
+        $txt = (fn($key): string => $this->lng->txt($key));
+        $f = (fn(): InputFactory => $this->ui_fa->input());
 
         // TITLE
         $title = $f()->field()->text($txt('topitem_title_default'), $txt('topitem_title_default_byline'))
@@ -195,7 +173,7 @@ class ilMMTopItemFormGUI
         $this->item_facade->setActiveStatus((bool) $data[0][self::F_ACTIVE]);
         if ($this->item_facade->supportsRoleBasedVisibility()) {
             $this->item_facade->setRoleBasedVisibility((bool) $data[0][self::F_ROLE_BASED_VISIBILITY]);
-            if ($data[0][self::F_ROLE_BASED_VISIBILITY] and !empty($data[0][self::F_ROLE_BASED_VISIBILITY])) {
+            if ($data[0][self::F_ROLE_BASED_VISIBILITY] && !empty($data[0][self::F_ROLE_BASED_VISIBILITY])) {
                 $this->item_facade->setGlobalRoleIDs((array) $data[0][self::F_ROLE_BASED_VISIBILITY][0]);
             }
         }

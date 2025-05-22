@@ -139,7 +139,7 @@ class ilObjIndividualAssessment extends ilObject
      *
      * @return	ilIndividualAssessmentMember[]
      */
-    public function loadMembersAsSingleObjects(string $filter = null, string $sort = null): array
+    public function loadMembersAsSingleObjects(?string $filter = null, ?string $sort = null): array
     {
         return $this->members_storage->loadMembersAsSingleObjects($this, $filter, $sort);
     }

@@ -31,15 +31,12 @@ use ILIAS\HTTP\GlobalHttpState;
  */
 class ilObjContentPageAdministrationGUI extends ilObjectGUI
 {
-    private const CMD_VIEW = 'view';
-    private const CMD_EDIT = 'edit';
-    private const CMD_SAVE = 'save';
-    private const F_READING_TIME = 'reading_time';
+    private const string CMD_VIEW = 'view';
+    private const string CMD_EDIT = 'edit';
+    private const string CMD_SAVE = 'save';
+    private const string F_READING_TIME = 'reading_time';
 
-    private readonly GlobalHttpState $http;
-    private readonly Factory $uiFactory;
-    private readonly Renderer $uiRenderer;
-    private readonly Storage $settingsStorage;
+    private readonly Storage $settings_storage;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
@@ -49,10 +46,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule($this->type);
 
-        $this->uiFactory = $DIC->ui()->factory();
-        $this->uiRenderer = $DIC->ui()->renderer();
-        $this->http = $DIC->http();
-        $this->settingsStorage = new StorageImpl($DIC->settings());
+        $this->settings_storage = new StorageImpl($DIC->settings());
     }
 
     public function getAdminTabs(): void
@@ -77,8 +71,8 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
-        $nextClass = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
+        $nextClass = $this->ctrl->getNextClass($this) ?? '';
+        $cmd = $this->ctrl->getCmd() ?? '';
         $this->prepareOutput();
 
         switch (strtolower($nextClass)) {
@@ -89,42 +83,42 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
                 break;
 
             default:
-                switch ($cmd) {
-                    case self::CMD_VIEW:
-                    case self::CMD_EDIT:
-                        $this->edit();
-                        break;
-                    case self::CMD_SAVE:
-                        $this->save();
-                        break;
-                    default:
-                        throw new RuntimeException(__METHOD__ . ' :: Unknown command ' . $cmd);
-                }
+                match ($cmd) {
+                    self::CMD_VIEW, self::CMD_EDIT => $this->edit(),
+                    self::CMD_SAVE => $this->save(),
+                    default => throw new RuntimeException(__METHOD__ . ' :: Unknown command ' . $cmd),
+                };
         }
     }
 
     private function getForm(array $values = []): Form
     {
-        $action = $this->ctrl->getLinkTargetByClass(self::class, self::CMD_SAVE);
+        $may_write = $this->rbac_system->checkAccess('write', $this->object->getRefId());
 
-        $readingTimeStatus = $this->uiFactory
+        $action = $this->ctrl->getLinkTargetByClass(self::class, self::CMD_SAVE);
+        if (!$may_write) {
+            $action = $this->ctrl->getLinkTargetByClass(self::class, self::CMD_VIEW);
+        }
+
+        $readingTimeStatus = $this->ui_factory
             ->input()
             ->field()
             ->checkbox(
                 $this->lng->txt('cpad_reading_time_status'),
                 $this->lng->txt('cpad_reading_time_status_desc')
-            );
+            )
+            ->withDisabled(!$may_write);
 
         if (isset($values[self::F_READING_TIME])) {
             $readingTimeStatus = $readingTimeStatus->withValue($values[self::F_READING_TIME]);
         }
 
-        $section = $this->uiFactory->input()->field()->section(
+        $section = $this->ui_factory->input()->field()->section(
             [self::F_READING_TIME => $readingTimeStatus],
             $this->lng->txt('settings')
-        );
+        )->withDisabled(!$may_write);
 
-        return $this->uiFactory
+        $form = $this->ui_factory
             ->input()
             ->container()
             ->form()
@@ -132,22 +126,28 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
             ->withAdditionalTransformation($this->refinery->custom()->transformation(static function ($values): array {
                 return array_merge(...$values);
             }));
+
+        if (!$may_write) {
+            $form = $form->withSubmitLabel($this->lng->txt('refresh'));
+        }
+
+        return $form;
     }
 
     /**
-     * @param Component[] $components
+     * @param list<Component> $components
      */
-    protected function show(array $components): void
+    private function show(array $components): void
     {
         $this->tpl->setContent(
-            $this->uiRenderer->render($components)
+            $this->ui_renderer->render($components)
         );
     }
 
-    protected function edit(): void
+    private function edit(): void
     {
         $values = [
-            self::F_READING_TIME => $this->settingsStorage->getSettings()->isReadingTimeEnabled(),
+            self::F_READING_TIME => $this->settings_storage->getSettings()->isReadingTimeEnabled(),
         ];
 
         $form = $this->getForm($values);
@@ -155,26 +155,30 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
         $this->show([$form]);
     }
 
-    protected function save(): void
+    private function save(): void
     {
-        if (!$this->checkPermissionBool('write')) {
-            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        if (!$this->rbac_system->checkAccess('write', $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
         $form = $this->getForm()->withRequest($this->http->request());
         $data = $form->getData();
-        if ($data) {
-            $readingTime = $data[self::F_READING_TIME];
-            $settings = $this->settingsStorage->getSettings()
-                ->withDisabledReadingTime();
-            if ($readingTime) {
-                $settings = $settings->withEnabledReadingTime();
-            }
-            $this->settingsStorage->store($settings);
+
+        if ($data === null || $this->request->getMethod() !== 'POST') {
+            $this->show([$form]);
+            return;
         }
 
-        $this->show(
-            [$this->uiFactory->messageBox()->success($this->lng->txt('saved_successfully')), $form]
-        );
+        $readingTime = $data[self::F_READING_TIME];
+        $settings = $this->settings_storage
+            ->getSettings()
+            ->withDisabledReadingTime();
+        if ($readingTime) {
+            $settings = $settings->withEnabledReadingTime();
+        }
+        $this->settings_storage->store($settings);
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        $this->ctrl->redirect($this, self::CMD_EDIT);
     }
 }

@@ -17,13 +17,14 @@
  *********************************************************************/
 
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
+use ILIAS\Portfolio\Settings\SettingsGUI;
+use ILIAS\Repository\Form\FormAdapterGUI;
 
 /**
- * Portfolio view gui class
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjPortfolioGUI: ilPortfolioPageGUI, ilPageObjectGUI
  * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilCommentGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjPortfolioGUI: ilObjectContentStyleSettingsGUI, ilPortfolioExerciseGUI
+ * @ilCtrl_Calls ilObjPortfolioGUI: ILIAS\Portfolio\Settings\SettingsGUI
  */
 class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 {
@@ -83,19 +84,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("view");
 
-        // we have to init the note js handling here, might go to
-        // a better place in the future
-        /*
-        $this->notes_gui->initJavascript(
-            $this->ctrl->getLinkTargetByClass(
-                array("ilnotegui"),
-                "",
-                "",
-                true,
-                false
-            )
-        );*/
-
         // trigger assignment tool
         $this->triggerAssignmentTool();
         switch ($next_class) {
@@ -130,31 +118,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-                /*
-        case "ilobjstylesheetgui":
-                $this->ctrl->setReturn($this, "editStyleProperties");
-                $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
-                $style_gui->enableWrite(true);
-                $style_gui->omitLocator();
-                if ($cmd == "create" || $this->port_request->getNewType() == "sty") {
-                    $style_gui->setCreationMode(true);
-                }
-
-                if ($cmd == "confirmedDelete") {
-                    $this->object->setStyleSheetId(0);
-                    $this->object->update();
-                }
-
-                $ret = $this->ctrl->forwardCommand($style_gui);
-
-                if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle") {
-                    $style_id = $ret;
-                    $this->object->setStyleSheetId($style_id);
-                    $this->object->update();
-                    $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
-                }
-                break;*/
-
             case "ilobjectcontentstylesettingsgui":
                 $this->checkPermission("write");
                 $this->addLocator();
@@ -175,6 +138,19 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                 $this->ctrl->forwardCommand($gui);
                 break;
 
+            case strtolower(SettingsGUI::class):
+                $this->checkPermission("write");
+                $this->addLocator();
+                $this->setTabs();
+                $this->tabs_gui->activateTab("settings");
+                $this->setSettingsSubTabs("properties");
+                $gui = $this->gui->settings()->settingsGUI(
+                    $this->object->getId(),
+                    false
+                );
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             default:
 
                 if ($cmd !== "preview") {
@@ -184,6 +160,11 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                 $this->$cmd();
                 break;
         }
+    }
+
+    public function edit(): void
+    {
+        $this->ctrl->redirectByClass(SettingsGUI::class);
     }
 
     protected function triggerAssignmentTool(): void
@@ -220,7 +201,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
             $this->tabs_gui->addTab(
                 "settings",
                 $this->lng->txt("settings"),
-                $this->ctrl->getLinkTarget($this, "edit")
+                $this->ctrl->getLinkTargetByClass(SettingsGUI::class)
             );
 
             $this->tabs_gui->addNonTabbedLink(
@@ -296,13 +277,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
             $this->lng->loadLanguageModule($new_type);
             $this->ctrl->setParameter($this, "new_type", $new_type);
 
-            $forms = $this->initCreationForms($new_type);
+            $form = $this->getCreationForm();
 
-            // copy form validation error: do not show other creation forms
-            if ($this->port_request->getCopyFormProcess() && isset($forms[self::CFORM_CLONE])) {
-                $forms = array(self::CFORM_CLONE => $forms[self::CFORM_CLONE]);
-            }
-            $tpl->setContent($this->getCreationFormsHTML($forms));
+            $tpl->setContent($form->render());
         }
     }
 
@@ -336,67 +313,20 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         $ilSetting = $DIC->settings();
 
         $message = "";
-        // page type: blog
-        if (!$ilSetting->get('disable_wsp_blogs')) {
-            $options = array();
-            $tree = new ilWorkspaceTree($this->user_id);
-            $root = $tree->readRootId();
-            if ($root) {
-                $root = $tree->getNodeData($root);
-                foreach ($tree->getSubTree($root) as $node) {
-                    if ($node["type"] == "blog") {
-                        $options[$node["obj_id"]] = $node["title"];
-                    }
-                }
-                asort($options);
-            }
-            if (!count($options)) {
-                // #18147
-                $this->lng->loadLanguageModule('pd');
-                $url = $this->ctrl->getLinkTargetByClass("ilDashboardGUI", "jumpToWorkspace");
-                $text = $this->lng->txt("mm_personal_and_shared_r");
-
-                $text = sprintf($this->lng->txt("prtf_no_blogs_info"), $text);
-
-                $mbox = $ui->factory()->messageBox()->info($text)
-                    ->withLinks([$ui->factory()->link()->standard(
-                        $this->lng->txt("mm_personal_and_shared_r"),
-                        $url
-                    )]);
-
-                $message = $ui->renderer()->render($mbox);
-            }
-        }
         return $message;
     }
 
-
-    protected function initCreationForms(string $new_type): array
-    {
-        return array(self::CFORM_NEW => $this->initCreateForm($new_type));
-    }
-
-    protected function initCreateForm(string $new_type): ilPropertyFormGUI
+    protected function getCreationForm(): FormAdapterGUI
     {
         $ilSetting = $this->settings;
-
         $this->ctrl->setParameter($this, "new_type", $this->getType());
 
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this));
-
-        // title
-        $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
-        $ti->setSize(min(40, ilObject::TITLE_LENGTH));
-        $ti->setMaxLength(ilObject::TITLE_LENGTH);
-        $ti->setRequired(true);
-        $form->addItem($ti);
-
-        $form->setTitle($this->lng->txt("prtf_create_portfolio"));
-        $form->addCommandButton("save", $this->lng->txt("create"));
-        $form->addCommandButton("toRepository", $this->lng->txt("cancel"));
-
-        return $form;
+        return $this->gui->form([static::class], "save")
+            ->section("prop", $this->lng->txt("prtf_create_portfolio"))
+            ->addStdTitle(
+                0,
+                "prtf"
+            );
     }
 
     protected function initCreateFromTemplateForm(): ilPropertyFormGUI
@@ -439,8 +369,15 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
     public function save(): void
     {
-        $form = $this->initCreateForm("prtf");
-        parent::save();
+        $form = $this->getCreationForm();
+        if ($form->isValid()) {
+            $port = new ilObjPortfolio();
+            $port->setTitle($form->getData("title"));
+            $port->create();
+            $this->ctrl->setParameter($this, "prt_id", $port->getId());
+            $this->ctrl->redirect($this, "view");
+        }
+        $this->tpl->setContent($form->render());
     }
 
     public function saveFromTemplate(): void
@@ -600,117 +537,11 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
 
     //
-    // BLOG
-    //
-
-    protected function initBlogForm(): ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this));
-
-        $options = array();
-        $tree = new ilWorkspaceTree($this->user_id);
-        $root = $tree->readRootId();
-        if ($root) {
-            $root = $tree->getNodeData($root);
-            foreach ($tree->getSubTree($root, true, ["blog"]) as $node) {
-                $options[$node["obj_id"]] = $node["title"];
-            }
-            asort($options);
-        }
-
-        // add blog
-        $radg = new ilRadioGroupInputGUI($this->lng->txt("obj_blog"), "creation_mode");
-        $radg->setInfo($this->lng->txt(""));
-        $radg->setValue("new");
-        $radg->setInfo($this->lng->txt(""));
-
-        $op1 = new ilRadioOption($this->lng->txt("prtf_add_new_blog"), "new", $this->lng->txt("prtf_add_new_blog_info"));
-        $radg->addOption($op1);
-        $form->addItem($radg);
-
-        // Blog title
-        $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
-        $ti->setRequired(true);
-        $op1->addSubItem($ti);
-
-
-        if (count($options)) {
-            $op2 = new ilRadioOption($this->lng->txt("prtf_add_existing_blog"), "existing");
-            $radg->addOption($op2);
-
-            $obj = new ilSelectInputGUI($this->lng->txt("obj_blog"), "blog");
-            $obj->setOptions($options);
-            $op2->addSubItem($obj);
-        }
-
-        $form->setTitle($this->lng->txt("prtf_add_blog") . ": " .
-            $this->object->getTitle());
-        $form->addCommandButton("saveBlog", $this->lng->txt("save"));
-        $form->addCommandButton("view", $this->lng->txt("cancel"));
-
-        return $form;
-    }
-
-    /**
-     * Create new portfolio blog page
-     */
-    protected function saveBlog(): void
-    {
-        global $DIC;
-
-        $ilUser = $DIC->user();
-
-        $form = $this->initBlogForm();
-        if ($form->checkInput() && $this->checkPermissionBool("write")) {
-            if ($form->getInput("creation_mode") == "existing") {
-                $page = $this->getPageInstance();
-                $page->setType(ilPortfolioPage::TYPE_BLOG);
-                $page->setTitle($form->getInput("blog"));
-            } else {
-                $blog = new ilObjBlog();
-                $blog->setTitle($form->getInput("title"));
-                $blog->create();
-
-                $tree = new ilWorkspaceTree($ilUser->getId());
-
-                // @todo: see also e.g. ilExSubmissionObjectGUI->getOverviewContentBlog, this needs refactoring, consumer should not
-                // be responsibel to handle this
-                if (!$tree->getRootId()) {
-                    $tree->createTreeForUser($ilUser->getId());
-                }
-
-                $access_handler = new ilWorkspaceAccessHandler($tree);
-                $node_id = $tree->insertObject($tree->readRootId(), $blog->getId());
-                $access_handler->setPermissions($tree->readRootId(), $node_id);
-
-                $page = $this->getPageInstance();
-                $page->setType(ilPortfolioPage::TYPE_BLOG);
-                $page->setTitle($blog->getId());
-            }
-            $page->create(false);
-
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_blog_page_created"), true);
-            $this->ctrl->redirect($this, "view");
-        }
-
-        $this->tabs_gui->clearTargets();
-        $this->tabs_gui->setBackTarget(
-            $this->lng->txt("back"),
-            $this->ctrl->getLinkTarget($this, "view")
-        );
-
-        $form->setValuesByPost();
-        $this->tpl->setContent($form->getHTML());
-    }
-
-
-    //
     // CREATE FROM TEMPLATE
     //
 
     protected function createPortfolioFromTemplate(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $title = $this->port_request->getPortfolioTitle();
         $prtt_id = $this->port_request->getPortfolioTemplate();
@@ -741,8 +572,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         $ilSetting = $this->settings;
         $ilUser = $this->user;
 
-        $blog_options = [];
-
         $exc_id = $this->port_request->getExerciseRefId();
         $ass_id = $this->port_request->getExcAssId();
         if ($exc_id > 0) {
@@ -761,20 +590,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         $title->setValue($a_title);
         $form->addItem($title);
 
-        // gather user blogs
-        if (!$ilSetting->get('disable_wsp_blogs')) {
-            $blog_options = array();
-            $tree = new ilWorkspaceTree($this->user_id);
-            $root = $tree->readRootId();
-            if ($root) {
-                $root = $tree->getNodeData($root);
-                foreach ($tree->getSubTree($root, true, ["blog"]) as $node) {
-                    $blog_options[$node["obj_id"]] = $node["title"];
-                }
-                asort($blog_options);
-            }
-        }
-
         $has_form_content = false;
 
         $pskills = array_keys($this->skill_personal_service->getSelectedUserSkills($ilUser->getId()));
@@ -790,39 +605,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
                     if (count($skill_ids)) {
                         $has_form_content = true;
-                    }
-                    break;
-
-                case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
-                    if (!$ilSetting->get('disable_wsp_blogs')) {
-                        $has_form_content = true;
-
-                        $field_id = "blog_" . $page["id"];
-
-                        $blog = new ilRadioGroupInputGUI($this->lng->txt("obj_blog") . ": " .
-                            $page["title"], $field_id);
-                        $blog->setRequired(true);
-                        $blog->setValue("blog_create");
-                        $form->addItem($blog);
-
-                        $new_blog = new ilRadioOption($this->lng->txt("prtf_template_import_blog_create"), "blog_create");
-                        $blog->addOption($new_blog);
-
-                        $title = new ilTextInputGUI($this->lng->txt("title"), $field_id . "_create_title");
-                        $title->setRequired(true);
-                        $new_blog->addSubItem($title);
-
-                        if (count($blog_options)) {
-                            $reuse_blog = new ilRadioOption($this->lng->txt("prtf_template_import_blog_reuse"), "blog_resuse");
-                            $blog->addOption($reuse_blog);
-
-                            $obj = new ilSelectInputGUI($this->lng->txt("obj_blog"), $field_id . "_reuse_blog");
-                            $obj->setRequired(true);
-                            $obj->setOptions(array("" => $this->lng->txt("please_select")) + $blog_options);
-                            $reuse_blog->addSubItem($obj);
-                        }
-
-                        $blog->addOption(new ilRadioOption($this->lng->txt("prtf_template_import_blog_ignore"), "blog_ignore"));
                     }
                     break;
             }
@@ -871,30 +653,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
             $form = $this->initCreatePortfolioFromTemplateForm($prtt_id, $title);
             if ($form->checkInput()) {
-                foreach (ilPortfolioTemplatePage::getAllPortfolioPages($prtt_id) as $page) {
-                    if (($page["type"] == ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE) && !$ilSetting->get('disable_wsp_blogs')) {
-                        $field_id = "blog_" . $page["id"];
-                        switch ($form->getInput($field_id)) {
-                            case "blog_create":
-                                $recipe[$page["id"]] = array("blog",
-                                                             "create",
-                                                             trim($form->getInput($field_id . "_create_title"))
-                                );
-                                break;
-
-                            case "blog_resuse":
-                                $recipe[$page["id"]] = array("blog",
-                                                             "reuse",
-                                                             (int) $form->getInput($field_id . "_reuse_blog")
-                                );
-                                break;
-
-                            case "blog_ignore":
-                                $recipe[$page["id"]] = array("blog", "ignore");
-                                break;
-                        }
-                    }
-                }
 
                 $recipe["skills"] = (array) $form->getInput("skill_ids");
             } else {
@@ -1010,11 +768,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
             $recipe = array();
             foreach (ilPortfolioTemplatePage::getAllPortfolioPages($prtt_id) as $page) {
                 switch ($page["type"]) {
-                    case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
-                        if (!$ilSetting->get('disable_wsp_blogs')) {
-                            $recipe[$page["id"]] = array("blog", "create", $page['title']);
-                        }
-                        break;
                     case ilPortfolioPage::TYPE_PAGE:
                         $source_page = new ilPortfolioTemplatePage($page["id"]);
                         $source_page->buildDom(true);

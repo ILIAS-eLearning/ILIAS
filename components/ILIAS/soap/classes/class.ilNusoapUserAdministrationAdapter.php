@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -21,7 +22,6 @@
  * @version $Id$
  * @package ilias
  */
-
 use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
 use ILIAS\OrgUnit\Webservices\SOAP\AddUserIdToPositionInOrgUnit;
 use ILIAS\OrgUnit\Webservices\SOAP\Base;
@@ -35,8 +35,8 @@ use ILIAS\OrgUnit\Webservices\SOAP\SuperiorPositionId;
 use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPosition;
 use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPositionAndOrgUnit;
 
-include_once './components/ILIAS/soap/lib/nusoap.php';
-include_once './components/ILIAS/soap/include/inc.soap_functions.php';
+require_once __DIR__ . '/../lib/nusoap.php';
+require_once __DIR__ . '/../include/inc.soap_functions.php';
 
 class ilNusoapUserAdministrationAdapter
 {
@@ -53,7 +53,8 @@ class ilNusoapUserAdministrationAdapter
         $this->server->class = "ilSoapFunctions";
 
         if ($a_use_wsdl) {
-            $this->enableWSDL();
+            global $DIC;
+            $this->enableWSDL($DIC->settings());
         }
 
         $this->registerMethods();
@@ -66,9 +67,13 @@ class ilNusoapUserAdministrationAdapter
         exit();
     }
 
-    private function enableWSDL(): void
+    private function enableWSDL(ilSetting $setting): void
     {
         $this->server->configureWSDL(SERVICE_NAME, SERVICE_NAMESPACE);
+        $internal_path = $setting->get('soap_internal_wsdl_path', '');
+        if ($internal_path) {
+            $this->server->addInternalPort(SERVICE_NAME, $internal_path);
+        }
     }
 
     private function registerMethods(): void
@@ -209,7 +214,9 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_NAMESPACE . '#addCourse',
             SERVICE_STYLE,
             SERVICE_USE,
-            'ILIAS addCourse(). Course import. See ilias_course_0_1.dtd for details about course xml structure'
+            'ILIAS addCourse(). Course import. See ' .
+            'components/ILIAS/Export/xml/SchemaValidation/ilias_ws_crs_11_0.xsd ' .
+            'for details about course xml structure'
         );
 
         // deleteCourse()

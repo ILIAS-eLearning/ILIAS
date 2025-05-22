@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Interface ilBiblEntryFactoryInterface
@@ -39,7 +39,7 @@ interface ilBiblEntryFactoryInterface
      * @param \ilBiblTableQueryInfo|null $info
      * @return \ilBiblEntryInterface[]
      */
-    public function filterEntriesForTable(int $object_id, ilBiblTableQueryInfo $info = null): array;
+    public function filterEntriesForTable(int $object_id, ?ilBiblTableQueryInfo $info = null): array;
 
     public function filterEntryIdsForTableAsArray(int $object_id, ?ilBiblTableQueryInfo $info = null): array;
 

@@ -38,7 +38,6 @@ class ilChatroom
     private static string $userTable = 'chatroom_users';
     private static string $sessionTable = 'chatroom_sessions';
     private static string $banTable = 'chatroom_bans';
-    private static string $uploadTable = 'chatroom_uploads';
     private array $settings = [];
     /**
      * Each value of this array describes a setting with the internal type.
@@ -293,7 +292,8 @@ class ilChatroom
 
         $userdata = [
             'login' => $user->getUsername(),
-            'id' => $user->getUserId()
+            'id' => $user->getUserId(),
+            'profile_picture_visible' => $user->isProfilePictureVisible(),
         ];
 
         $query = 'SELECT user_id FROM ' . self::$userTable . ' WHERE room_id = %s AND user_id = %s';
@@ -332,7 +332,7 @@ class ilChatroom
         $users = [];
 
         while ($row = $DIC->database()->fetchAssoc($rset)) {
-            $users[] = $only_data ? json_decode($row['userdata'], false, 512, JSON_THROW_ON_ERROR) : $row;
+            $users[] = $only_data ? json_decode($row['userdata'], true, 512, JSON_THROW_ON_ERROR) : $row;
         }
 
         return $users;
@@ -404,9 +404,9 @@ class ilChatroom
     }
 
     public function getHistory(
-        ilDateTime $from = null,
-        ilDateTime $to = null,
-        int $restricted_session_userid = null,
+        ?ilDateTime $from = null,
+        ?ilDateTime $to = null,
+        ?int $restricted_session_userid = null,
         bool $respect_target = true
     ): array {
         global $DIC;
@@ -469,24 +469,6 @@ class ilChatroom
     public function getRoomId(): int
     {
         return $this->roomId;
-    }
-
-    public function saveFileUploadToDb(int $user_id, string $filename, string $type): void
-    {
-        global $DIC;
-
-        $upload_id = $DIC->database()->nextId(self::$uploadTable);
-        $DIC->database()->insert(
-            self::$uploadTable,
-            [
-                'upload_id' => [ilDBConstants::T_INTEGER, $upload_id],
-                'room_id' => [ilDBConstants::T_INTEGER, $this->roomId],
-                'user_id' => [ilDBConstants::T_INTEGER, $user_id],
-                'filename' => [ilDBConstants::T_TEXT, $filename],
-                'filetype' => [ilDBConstants::T_TEXT, $type],
-                'timestamp' => [ilDBConstants::T_INTEGER, time()]
-            ]
-        );
     }
 
     public function banUser(int $user_id, int $actor_id, string $comment = ''): void
@@ -776,16 +758,18 @@ class ilChatroom
         // by sql. So we fetch twice as much as we need and hope that there
         // are not more than $number private messages.
         $DIC->database()->setLimit($number);
-        $rset = $DIC->database()->query(
+        $rset = $DIC->database()->queryF(
             'SELECT *
 			FROM ' . self::$historyTable . '
-			WHERE room_id = ' . $DIC->database()->quote($this->roomId, ilDBConstants::T_INTEGER) . '
+			WHERE room_id = %s
 			AND (
-				(' . $DIC->database()->like('message', ilDBConstants::T_TEXT, '%"type":"message"%') . ' AND NOT ' . $DIC->database()->like('message', ilDBConstants::T_TEXT, '%"public":0%') . ')
-		  		OR ' . $DIC->database()->like('message', ilDBConstants::T_TEXT, '%"target":{%"id":"' . $chatuser->getUserId() . '"%') . '
-				OR ' . $DIC->database()->like('message', ilDBConstants::T_TEXT, '%"from":{"id":' . $chatuser->getUserId() . '%') . '
+                (JSON_VALUE(message, "$.type") = "message" AND (NOT JSON_CONTAINS_PATH(message, "one", "$.target.public") OR JSON_VALUE(message, "$.target.public") <> 0))
+		  		OR JSON_VALUE(message, "$.target.id") = %s
+				OR JSON_VALUE(message, "$.from.id") = %s
 			)
-			ORDER BY timestamp DESC'
+			ORDER BY timestamp DESC',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$this->roomId, $chatuser->getUserId(), $chatuser->getUserId()]
         );
 
         $result_count = 0;
@@ -808,7 +792,7 @@ class ilChatroom
                 'SELECT *
                  FROM ' . self::$historyTable . '
                  WHERE room_id = %s
-                 AND ' . $DIC->database()->like('message', ilDBConstants::T_TEXT, '%%"type":"notice"%%') . '
+                 AND JSON_VALUE(message, "$.type") = "notice"
                  AND timestamp <= %s AND timestamp >= %s
                  ORDER BY timestamp DESC',
                 [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
@@ -822,8 +806,8 @@ class ilChatroom
         }
 
         usort($results, static function (stdClass $a, stdClass $b): int {
-            $a_timestamp = strlen((string) $a->timestamp) === 13 ? ((int) substr($a->timestamp, 0, -3)) : $a->timestamp;
-            $b_timestamp = strlen((string) $b->timestamp) === 13 ? ((int) substr($b->timestamp, 0, -3)) : $b->timestamp;
+            $a_timestamp = strlen((string) $a->timestamp) === 13 ? ((int) substr((string) $a->timestamp, 0, -3)) : $a->timestamp;
+            $b_timestamp = strlen((string) $b->timestamp) === 13 ? ((int) substr((string) $b->timestamp, 0, -3)) : $b->timestamp;
 
             return $b_timestamp - $a_timestamp;
         });

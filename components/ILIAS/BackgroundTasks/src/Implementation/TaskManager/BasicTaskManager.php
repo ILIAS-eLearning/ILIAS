@@ -18,6 +18,8 @@
 
 namespace ILIAS\BackgroundTasks\Implementation\TaskManager;
 
+use ILIAS\BackgroundTasks\Task\Job;
+use ILIAS\BackgroundTasks\Task\UserInteraction;
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Exceptions\Exception;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
@@ -44,11 +46,8 @@ use ILIAS\BackgroundTasks\Value;
  */
 abstract class BasicTaskManager implements TaskManager
 {
-    protected Persistence $persistence;
-
-    public function __construct(Persistence $persistence)
+    public function __construct(protected Persistence $persistence)
     {
-        $this->persistence = $persistence;
     }
 
     /**
@@ -62,7 +61,7 @@ abstract class BasicTaskManager implements TaskManager
         $final_values = [];
         $replace_thunk_values = false;
         foreach ($values as $value) {
-            if (is_a($value, ThunkValue::class)) {
+            if ($value instanceof ThunkValue) {
                 $value = $this->executeTask($value->getParentTask(), $observer);
                 $replace_thunk_values = true;
             }
@@ -73,7 +72,7 @@ abstract class BasicTaskManager implements TaskManager
             $task->setInput($final_values);
         }
 
-        if (is_a($task, Task\Job::class)) {
+        if ($task instanceof Job) {
             /** @var Task\Job $job */
             $job = $task;
             $observer->notifyCurrentTask($job);
@@ -89,7 +88,7 @@ abstract class BasicTaskManager implements TaskManager
             return $value;
         }
 
-        if (is_a($task, Task\UserInteraction::class)) {
+        if ($task instanceof UserInteraction) {
             /** @var Task\UserInteraction $user_interaction */
             $user_interaction = $task;
 

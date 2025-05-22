@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\ResourceStorage\Services;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
@@ -27,7 +28,10 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 class ilCountPDFPages
 {
-    private \ILIAS\ResourceStorage\Services $irss;
+    /**
+     * @readonly
+     */
+    private Services $irss;
     private bool $postscript_available = false;
     private bool $imagick_available = false;
 
@@ -69,11 +73,11 @@ class ilCountPDFPages
         if ($this->imagick_available) {
             $pages = null;
             try {
-                $imagick = new Imagick($path_to_pdf);
-                $pages = $imagick->getNumberImages();
+                $imagick = new Imagick();
+                $imagick->pingImage($path_to_pdf);
 
-                return $pages;
-            } catch (Throwable $e) {
+                return $imagick->getNumberImages();
+            } catch (Throwable) {
                 // Imagick is not available or another error occured
             }
         }

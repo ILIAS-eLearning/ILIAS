@@ -171,9 +171,9 @@ class ReservationDBRepository
      */
     public function getListByDate(
         bool $a_has_schedule,
-        array $a_object_ids = null,
-        array $filter = null,
-        array $a_pool_ids = null
+        ?array $a_object_ids = null,
+        ?array $filter = null,
+        ?array $a_pool_ids = null
     ): array {
         $ilDB = $this->db;
 

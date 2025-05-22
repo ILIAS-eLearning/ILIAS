@@ -1,22 +1,22 @@
 {FORM}
 <script>
-document.addEventListener("DOMContentLoaded", (event) => {
-    (function ($) {
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('form_{FORM_ID}');
 
-        var $form = $('#form_{FORM_ID}');
+    const handleEnterKey = (event) => {
+        if (event.which === 13) {
+            const target = event.target;
+            const tagName = target.tagName.toLowerCase();
+            const type = target.type;
 
-        $form.on('keyup keydown keypress', function (event) {
-            if (event.which == 13) {
-                if ($(event.target).prop("tagName").toLowerCase() != "textarea" &&
-                    (
-                        $(event.target).prop("tagName").toLowerCase() != "input"
-                        ||
-                        $(event.target).prop("type") != "submit"
-                    )) {
-                    event.preventDefault();
-                }
+            if (tagName !== 'textarea' && (tagName !== 'input' || type !== 'submit')) {
+                event.preventDefault();
             }
-        });
-    })(jQuery);
+        }
+    };
+
+    ['keyup', 'keydown', 'keypress'].forEach((eventType) => {
+        form.addEventListener(eventType, handleEnterKey);
+    });
 });
 </script>

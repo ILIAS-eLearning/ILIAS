@@ -867,7 +867,7 @@ class ilValidator
      * @return bool true if any ID were removed / false on error or clean mode disabled
      */
     public function removeInvalidReferences(
-        array $a_invalid_refs = null
+        ?array $a_invalid_refs = null
     ): bool {
         $ilLog = $this->log;
         $ilDB = $this->db;
@@ -931,7 +931,7 @@ class ilValidator
      * @return bool true if any ID were removed / false on error or clean mode disabled
      */
     public function removeInvalidChilds(
-        array $a_invalid_childs = null
+        ?array $a_invalid_childs = null
     ): bool {
         $ilLog = $this->log;
 
@@ -992,7 +992,7 @@ class ilValidator
      * remove mode disabled
      */
     public function removeInvalidRolefolders(
-        array $a_invalid_rolefolders = null
+        ?array $a_invalid_rolefolders = null
     ): bool {
         $ilLog = $this->log;
 
@@ -1062,7 +1062,7 @@ class ilValidator
      * @throws ilObjectNotFoundException
      */
     public function restoreMissingObjects(
-        array $a_missing_objects = null
+        ?array $a_missing_objects = null
     ): bool {
         $rbacadmin = $this->rbacadmin;
         $ilLog = $this->log;
@@ -1169,7 +1169,7 @@ class ilValidator
      * @return bool false on error or restore mode disabled
      */
     public function restoreUnboundObjects(
-        array $a_unbound_objects = null
+        ?array $a_unbound_objects = null
     ): bool {
         $ilLog = $this->log;
 
@@ -1207,7 +1207,7 @@ class ilValidator
      * @return  bool false on error or restore mode disabled
      */
     public function restoreTrash(
-        array $a_deleted_objects = null
+        ?array $a_deleted_objects = null
     ): bool {
         $ilLog = $this->log;
 
@@ -1411,7 +1411,7 @@ class ilValidator
      * @return bool true on success
      */
     public function purgeTrash(
-        array $a_nodes = null
+        ?array $a_nodes = null
     ): bool {
         $ilLog = $this->log;
 
@@ -1441,7 +1441,7 @@ class ilValidator
      * @return bool true on success
      */
     public function purgeUnboundObjects(
-        array $a_nodes = null
+        ?array $a_nodes = null
     ): bool {
         $ilLog = $this->log;
 
@@ -1472,7 +1472,7 @@ class ilValidator
      * @return bool true on success
      */
     public function purgeMissingObjects(
-        array $a_nodes = null
+        ?array $a_nodes = null
     ): bool {
         $ilLog = $this->log;
 

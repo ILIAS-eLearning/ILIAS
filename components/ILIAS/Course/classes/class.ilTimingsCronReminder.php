@@ -1,9 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
-use ILIAS\Cron\Schedule\CronJobScheduleType;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -20,7 +16,13 @@ use ILIAS\Cron\Schedule\CronJobScheduleType;
  *
  *********************************************************************/
 
-class ilTimingsCronReminder extends ilCronJob
+declare(strict_types=1);
+
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
+
+class ilTimingsCronReminder extends CronJob
 {
     private static array $objects_information;
 
@@ -68,9 +70,9 @@ class ilTimingsCronReminder extends ilCronJob
         return $this->lng->txt('timings_reminder_notifications_info');
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
+        return JobScheduleType::DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -93,18 +95,18 @@ class ilTimingsCronReminder extends ilCronJob
         return false;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
         $this->log->debug('Start.');
 
-        $result = new ilCronJobResult();
+        $result = new JobResult();
 
         $this->gatherUsers();
         $this->gatherUsersWithExceededTimings();
         $this->getNewExceededObjectForUser();
         $this->getFreshlyStartedObjectsForUser();
 
-        $result->setStatus(ilCronJobResult::STATUS_OK);
+        $result->setStatus(JobResult::STATUS_OK);
 
         $this->log->debug('End');
 

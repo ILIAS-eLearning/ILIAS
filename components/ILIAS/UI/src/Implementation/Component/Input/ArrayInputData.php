@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Input;
 
 use LogicException;
+use ILIAS\UI\Component\Input\InputData;
 
 /**
  * @author  Thibeau Fuhrer <thf@studer-raimann.ch>

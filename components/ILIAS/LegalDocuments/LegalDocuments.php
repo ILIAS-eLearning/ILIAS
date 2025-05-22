@@ -32,7 +32,7 @@ class LegalDocuments implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[Setup\Agent::class] = fn() =>
+        $contribute[Setup\Agent::class] = static fn() =>
             new LegalDocuments\Setup\Agent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );

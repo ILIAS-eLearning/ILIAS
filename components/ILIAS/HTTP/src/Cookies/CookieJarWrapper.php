@@ -1,23 +1,26 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\HTTP\Cookies;
 
 use Dflydev\FigCookies\SetCookies;
 use Psr\Http\Message\ResponseInterface;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class CookieJarWrapper
  *
@@ -30,15 +33,11 @@ use Psr\Http\Message\ResponseInterface;
  */
 class CookieJarWrapper implements CookieJar
 {
-    private SetCookies $cookies;
-
-
     /**
      * CookieJarWrapper constructor.
      */
-    public function __construct(SetCookies $cookies)
+    public function __construct(private SetCookies $cookies)
     {
-        $this->cookies = $cookies;
     }
 
 
@@ -54,7 +53,7 @@ class CookieJarWrapper implements CookieJar
     /**
      * @inheritDoc
      */
-    public function get(string $name): ?\ILIAS\HTTP\Cookies\Cookie
+    public function get(string $name): ?Cookie
     {
         $cookie = $this->cookies->get($name);
 

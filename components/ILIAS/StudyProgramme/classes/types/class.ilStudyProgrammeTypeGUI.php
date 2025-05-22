@@ -109,7 +109,7 @@ class ilStudyProgrammeTypeGUI
         throw new \Exception('No type id found in query.');
     }
 
-    protected function getUrl(string $action, int $type_id = null): string
+    protected function getUrl(string $action, ?int $type_id = null): string
     {
         $url_builder = $this->url_builder->withParameter($this->action_token, $action);
         if($type_id) {
@@ -223,8 +223,8 @@ class ilStudyProgrammeTypeGUI
     }
 
     protected function getIconForm(
-        string $section_title = null,
-        string $current_identifier = null
+        ?string $section_title = null,
+        ?string $current_identifier = null
     ): StandardForm {
         $handler_gui = new ilStudyProgrammeTypeUploadHandlerGUI();
 
@@ -490,7 +490,7 @@ class ilStudyProgrammeTypeGUI
         return $this->input_factory->field()->section(['default_lang' => $select], $title);
     }
 
-    protected function buildLanguagesForms(ilStudyProgrammeType $type = null): InputField
+    protected function buildLanguagesForms(?ilStudyProgrammeType $type = null): InputField
     {
         $return = [];
         foreach ($this->getInstalledLanguages() as $lng_code) {

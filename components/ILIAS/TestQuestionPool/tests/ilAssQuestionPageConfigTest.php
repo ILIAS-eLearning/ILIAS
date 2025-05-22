@@ -35,13 +35,13 @@ class ilAssQuestionPageConfigTest extends assBaseTestCase
     {
         parent::setUp();
 
-//        $this->object = new ilAssQuestionPageConfig();
+        //        $this->object = new ilAssQuestionPageConfig();
     }
 
-//    public function testConstruct(): void
-//    {
-//        $this->assertInstanceOf(ilAssQuestionPageConfig::class, $this->object);
-//    }
+    //    public function testConstruct(): void
+    //    {
+    //        $this->assertInstanceOf(ilAssQuestionPageConfig::class, $this->object);
+    //    }
 
     public function testSuppressWarning(): void
     {

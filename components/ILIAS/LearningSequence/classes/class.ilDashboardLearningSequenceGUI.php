@@ -21,10 +21,6 @@ declare(strict_types=1);
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ILIAS\components\Dashboard\Block\BlockDTO;
 
-/**
- * @ilCtrl_IsCalledBy ilDashboardLearningSequenceGUI: ilColumnGUI
- * @ilCtrl_Calls      ilDashboardLearningSequenceGUI: ilCommonActionDispatcherGUI
- */
 class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI
 {
     protected function getIcon(string $title): Standard
@@ -111,23 +107,18 @@ class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI
         return 'pdlern';
     }
 
-    public function confirmedRemoveObject(): void
+    public function confirmedRemove(array $ids): void
     {
-        $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
-        if ($refIds === []) {
-            $this->ctrl->redirect($this, 'manage');
-        }
-
-        foreach ($refIds as $ref_id) {
-            if ($this->access->checkAccess('leave', '', (int) $ref_id)) {
-                if (ilObject::_lookupType((int) $ref_id, true) === 'lso') {
-                    $lso = ilObjLearningSequence::getInstanceByRefId((int) $ref_id);
+        foreach ($ids as $ref_id) {
+            if ($this->access->checkAccess('leave', '', $ref_id)) {
+                if (ilObject::_lookupType($ref_id, true) === 'lso') {
+                    $lso = ilObjLearningSequence::getInstanceByRefId($ref_id);
                     if ($lso instanceof ilObjLearningSequence) {
                         $lso->getLSRoles()->leave($this->user->getId());
                     }
                 }
 
-                ilForumNotification::checkForumsExistsDelete((int) $ref_id, $this->user->getId());
+                ilForumNotification::checkForumsExistsDelete($ref_id, $this->user->getId());
             }
         }
 

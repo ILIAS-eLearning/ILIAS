@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,47 +16,41 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Portfolio;
 
 use ILIAS\DI\Container;
 //use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\Repository\GlobalDICDomainServices;
+use ILIAS\Portfolio\Settings\SettingsManager;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalDomainService
 {
     use GlobalDICDomainServices;
-
-    protected InternalRepoService $repo_service;
-    protected InternalDataService $data_service;
+    protected static array $instance = [];
+    protected Container $dic;
 
     public function __construct(
         Container $DIC,
-        InternalRepoService $repo_service,
-        InternalDataService $data_service
+        protected InternalRepoService $repo_service,
+        protected InternalDataService $data_service
     ) {
-        $this->repo_service = $repo_service;
-        $this->data_service = $data_service;
         $this->initDomainServices($DIC);
+        $this->dic = $DIC;
     }
 
-    /*
-    public function access(int $ref_id, int $user_id) : Access\AccessManager
+    public function portfolioSettings(): SettingsManager
     {
-        return new Access\AccessManager(
-            $this,
-            $this->access,
-            $ref_id,
-            $user_id
+        return self::$instance["settings"] ??= new SettingsManager(
+            $this->data_service,
+            $this->repo_service,
+            $this
         );
-    }*/
+    }
 
-    /*public function clipboard() : ClipboardManager
+    public function notes(): \ILIAS\Notes\DomainService
     {
-        return new ClipboardManager(
-            $this->repo_service->clipboard()
-        );
-    }*/
+        return $this->dic->notes()->domain();
+    }
 }

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,41 +16,31 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
 
 /**
- * Class Js
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class Js extends AbstractMediaWithPath
 {
-    private bool $add_version_number;
-    private int $batch;
-
-    /**
-     * Js constructor.
-     * @param string $content
-     * @param bool   $add_version_number
-     * @param int    $batch
-     */
-    public function __construct(string $content, string $version, bool $add_version_number = true, int $batch = 2)
-    {
+    public function __construct(
+        string $content,
+        string $version,
+        private bool $add_version_number = true,
+        private int $batch = 2
+    ) {
         parent::__construct($content, $version);
-        $this->add_version_number = $add_version_number;
-        $this->batch = $batch;
     }
 
-    /**
-     * @return bool
-     */
+
     public function addVersionNumber(): bool
     {
         return $this->add_version_number;
     }
 
-    /**
-     * @return int
-     */
+
     public function getBatch(): int
     {
         return $this->batch;

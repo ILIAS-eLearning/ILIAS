@@ -99,7 +99,7 @@ class ilPCLayoutTemplateGUI extends ilPageContentGUI
             }
         }
 
-        $form->addCommandButton("create_templ", $lng->txt("insert"));
+        $form->addCommandButton("create", $lng->txt("insert"));
         $form->addCommandButton("cancelCreate", $lng->txt("cancel"));
 
         return $form;

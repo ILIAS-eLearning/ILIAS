@@ -31,10 +31,12 @@ final class LocalConfig
     /**
      * This is the default behaviour because links violate the root filesystem constraint.
      * Throws an exception if an link is encountered.
+     * @var int
      */
     public const DISALLOW_LINKS = 1;
     /**
      * Skip encountered links.
+     * @var int
      */
     public const SKIP_LINKS = 2;
 

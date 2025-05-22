@@ -23,6 +23,7 @@ use ILIAS\Contact\MemberSearch\MailMemberSearchTable;
 use ILIAS\Refinery\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\HTTP\Services;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
 class ilMailMemberSearchGUI
 {
@@ -34,10 +35,10 @@ class ilMailMemberSearchGUI
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilLanguage $lng;
     private readonly ilAccessHandler $access;
-    private \ILIAS\UI\Factory $ui_factory;
-    private Services $http;
-    private Renderer $ui_renderer;
-    private Factory $refinery;
+    private readonly \ILIAS\UI\Factory $ui_factory;
+    private readonly Services $http;
+    private readonly Renderer $ui_renderer;
+    private readonly Factory $refinery;
 
     /**
      * @param ilObjGroupGUI|ilObjCourseGUI|ilMembershipGUI $gui
@@ -75,15 +76,10 @@ class ilMailMemberSearchGUI
                 $this->refinery->always('')
             ])
         );
-        switch ($action) {
-            case 'sendMailToSelectedUsers':
-                $this->sendMailToSelectedUsers();
-                break;
-
-            default:
-                $this->ctrl->redirect($this, 'showSelectableUsers');
-                break;
-        }
+        match ($action) {
+            'sendMailToSelectedUsers' => $this->sendMailToSelectedUsers(),
+            default => $this->ctrl->redirect($this, 'showSelectableUsers'),
+        };
     }
 
     public function executeCommand(): bool
@@ -162,14 +158,18 @@ class ilMailMemberSearchGUI
     protected function nextMailForm(): void
     {
         $form = $this->initMailToMembersForm();
-        if ($form->checkInput()) {
-            if ($form->getInput('mail_member_type') === 'mail_member_roles') {
-                if (is_array($form->getInput('roles')) && $form->getInput('roles') !== []) {
+        $form = $form->withRequest($this->http->request());
+        if (!$form->getError()) {
+            $data = $form->getData();
+
+            if (isset($data['mail_member_type']) && $data['mail_member_type'][0] === 'mail_member_roles') {
+                if ($data['mail_member_type'][1]) {
                     $role_mail_boxes = [];
-                    $roles = $form->getInput('roles');
-                    foreach ($roles as $role_id) {
-                        $mailbox = $this->objMailMemberRoles->getMailboxRoleAddress((int) $role_id);
-                        $role_mail_boxes[] = $mailbox;
+                    $roles = $data['mail_member_type'][1];
+                    foreach ($roles as $role_id => $enabled) {
+                        if ($enabled) {
+                            $role_mail_boxes[] = $this->objMailMemberRoles->getMailboxRoleAddress((int) $role_id);
+                        }
                     }
 
                     ilSession::set('mail_roles', $role_mail_boxes);
@@ -188,19 +188,19 @@ class ilMailMemberSearchGUI
                         )
                     );
                 } else {
-                    $form->setValuesByPost();
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'));
-                    $this->showSearchForm();
+                    $this->showSearchForm($form);
+
                     return;
                 }
             } else {
                 $this->showSelectableUsers();
+
                 return;
             }
         }
 
-        $form->setValuesByPost();
-        $this->showSearchForm();
+        $this->showSearchForm($form);
     }
 
     protected function generateContextArray(): array
@@ -256,18 +256,30 @@ class ilMailMemberSearchGUI
         $selected_user_ids = $this->http->wrapper()->query()->retrieve(
             'contact_search_members_user_ids',
             $this->refinery->byTrying([
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
                 $this->refinery->always([])
             ])
         );
 
+        if ((string) current($selected_user_ids) === 'ALL_OBJECTS') {
+            $selected_user_ids = [];
+            $provider = new ilMailMemberSearchDataProvider($this->getObjParticipants(), $this->ref_id);
+            $entries = $provider->getData();
+
+            foreach ($entries as $entry) {
+                $selected_user_ids[] = (int) $entry['user_id'];
+            }
+        } else {
+            $selected_user_ids = array_map(intval(...), $selected_user_ids);
+        }
+
         $rcps = [];
         foreach ($selected_user_ids as $usr_id) {
-            $rcps[] = ilObjUser::_lookupLogin((int) $usr_id);
+            $rcps[] = ilObjUser::_lookupLogin($usr_id);
         }
 
         if (array_filter($rcps) === []) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'));
             $this->showSelectableUsers();
             return;
         }
@@ -288,12 +300,14 @@ class ilMailMemberSearchGUI
         );
     }
 
-    protected function showSearchForm(): void
+    protected function showSearchForm(?StandardForm $form = null): void
     {
         $this->storeReferer();
 
-        $form = $this->initMailToMembersForm();
-        $this->tpl->setContent($form->getHTML());
+        if (!$form instanceof StandardForm) {
+            $form = $this->initMailToMembersForm();
+        }
+        $this->tpl->setContent($this->ui_renderer->render($form));
     }
 
     protected function getObjParticipants(): ?ilParticipants
@@ -306,22 +320,16 @@ class ilMailMemberSearchGUI
         $this->objParticipants = $objParticipants;
     }
 
-    protected function initMailToMembersForm(): ilPropertyFormGUI
+    protected function initMailToMembersForm(): StandardForm
     {
         $this->lng->loadLanguageModule('mail');
 
-        $form = new ilPropertyFormGUI();
-        $form->setTitle($this->lng->txt('mail_members'));
-
-        $form->setFormAction($this->ctrl->getFormAction($this, 'nextMailForm'));
-
-        $radio_grp = $this->getMailRadioGroup();
-
-        $form->addItem($radio_grp);
-        $form->addCommandButton('nextMailForm', $this->lng->txt('mail_members_search_continue'));
-        $form->addCommandButton('cancel', $this->lng->txt('cancel'));
-
-        return $form;
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'nextMailForm'),
+            [
+                'mail_member_type' => $this->getMailRadioGroup()
+            ]
+        );
     }
 
     /**
@@ -332,31 +340,36 @@ class ilMailMemberSearchGUI
         return $this->mail_roles;
     }
 
-    protected function getMailRadioGroup(): ilRadioGroupInputGUI
+    protected function getMailRadioGroup(): ILIAS\UI\Component\Input\Field\SwitchableGroup
     {
         $mail_roles = $this->getMailRoles();
 
-        $radio_grp = new ilRadioGroupInputGUI($this->lng->txt('mail_sel_label'), 'mail_member_type');
-
-        $radio_sel_users = new ilRadioOption($this->lng->txt('mail_sel_users'), 'mail_sel_users');
-
-        $radio_roles = new ilRadioOption($this->objMailMemberRoles->getRadioOptionTitle(), 'mail_member_roles');
+        $sub_items = [];
+        $values = [];
         foreach ($mail_roles as $role) {
-            $chk_role = new ilCheckboxInputGUI($role['form_option_title'], 'roles[' . $role['role_id'] . ']');
-
+            $chk_role = $this->ui_factory->input()->field()->checkbox($role['form_option_title'], $role['mailbox']);
+            $sub_items[$role['role_id']] = $chk_role;
             if (isset($role['default_checked']) && $role['default_checked']) {
-                $chk_role->setChecked(true);
+                $values[$role['role_id']] = true;
+            } else {
+                $values[$role['role_id']] = false;
             }
-            $chk_role->setValue((string) $role['role_id']);
-            $chk_role->setInfo($role['mailbox']);
-            $radio_roles->addSubItem($chk_role);
         }
 
-        $radio_grp->setValue('mail_member_roles');
-
-        $radio_grp->addOption($radio_sel_users);
-        $radio_grp->addOption($radio_roles);
-
-        return $radio_grp;
+        return $this->ui_factory->input()->field()->switchableGroup(
+            [
+                'mail_sel_users' => $this->ui_factory->input()->field()->group([], $this->lng->txt('mail_sel_users')),
+                'mail_member_roles' => $this->ui_factory->input()->field()->group(
+                    $sub_items,
+                    $this->objMailMemberRoles->getRadioOptionTitle()
+                )
+            ],
+            $this->lng->txt('mail_sel_label')
+        )->withValue(
+            [
+                'mail_member_roles',
+                $values
+            ]
+        );
     }
 }

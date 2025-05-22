@@ -30,7 +30,13 @@ use ILIAS\Filesystem\Util\Archive\Zip;
  */
 final class ZipReader
 {
+    /**
+     * @var string
+     */
     private const BASE = '/';
+    /**
+     * @var string
+     */
     private const APPLICATION_OCTET_STREAM = 'application/octet-stream';
     private array $ignored = ['.', '..', '__MACOSX', '.info', '.DS_Store', Zip::DOT_EMPTY];
     private \ZipArchive $zip;
@@ -64,7 +70,7 @@ final class ZipReader
                 continue;
             }
 
-            $is_dir = (substr($path, -1) === '/' || substr($path, -1) === '\\');
+            $is_dir = (str_ends_with($path, '/') || str_ends_with($path, '\\'));
 
             $stats = $this->zip->statIndex($i, \ZipArchive::FL_UNCHANGED);
 
@@ -80,7 +86,7 @@ final class ZipReader
                     $mime_type = finfo_buffer($finfo, $fread);
                     fclose($stream);
                     $size = (int) ($stats['size'] ?? 0);
-                } catch (\Throwable $e) {
+                } catch (\Throwable) {
                     // ignore
                     $mime_type = self::APPLICATION_OCTET_STREAM;
                 }
@@ -115,16 +121,16 @@ final class ZipReader
     /**
      * @param array|null $structure pass the existing structure to avoid re-reading the ZIP. pass null to read the ZIP
      */
-    public function getItem(string $path_inside_zip, array $structure = null): array
+    public function getItem(string $path_inside_zip, ?array $structure = null): array
     {
-        $structure = $structure ?? $this->getStructure();
+        $structure ??= $this->getStructure();
         $info = $structure[$path_inside_zip] ?? [];
 
         //$stream = Streams::ofString($this->zip->getFromName($path_inside_zip));
 
-        $stream = Streams::ofResource(
-            fopen('zip://' . $this->stream->getMetadata()['uri'] . '#' . $path_inside_zip, 'rb'),
-            true
+        $stream = Streams::ofFileInsideZIP(
+            $this->stream->getMetadata()['uri'],
+            $path_inside_zip
         );
 
         return [$stream, $info];

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\DI\UIServices;
@@ -28,8 +29,6 @@ use ILIAS\DI\UIServices;
 */
 class ilObjSearchSettingsGUI extends ilObjectGUI
 {
-    private GlobalHttpState $http;
-    protected Factory $refinery;
     protected UIServices $ui;
     protected ilLogger $src_logger;
     protected ilObjUser $user;
@@ -40,8 +39,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
         $this->ui = $DIC->ui();
         $this->src_logger = $DIC->logger()->src();
         $this->user = $DIC->user();
@@ -106,10 +103,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
             case 'luceneSettings':
                 $this->redirectToLuceneSettings();
-                break;
-
-            case 'advancedLuceneSettings':
-                $this->advancedLuceneSettingsObject();
                 break;
 
             default:
@@ -177,14 +170,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
         if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTab(
-                'lucene_advanced_settings',
-                $this->lng->txt('lucene_advanced_settings'),
-                $this->ctrl->getLinkTarget($this, 'advancedLuceneSettings')
-            );
-        }
-
-        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
-            $this->tabs_gui->addTab(
                 'lucene_settings_tab',
                 $this->lng->txt('lucene_settings_tab'),
                 $this->ctrl->getLinkTarget($this, 'luceneSettings')
@@ -201,40 +186,5 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
                 ),
             );
         }
-    }
-
-    protected function advancedLuceneSettingsObject(): void
-    {
-        $this->tabs_gui->setTabActive('lucene_advanced_settings');
-
-        $table = new ilLuceneAdvancedSearchActivationTableGUI($this, 'advancedLuceneSettings');
-        $table->setTitle($this->lng->txt('lucene_advanced_settings_table'));
-        $table->parse(ilLuceneAdvancedSearchSettings::getInstance());
-
-        $this->tpl->setContent($table->getHTML());
-    }
-
-    protected function saveAdvancedLuceneSettingsObject(): void
-    {
-        if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->ctrl->redirect($this, 'settings');
-        }
-
-        $enabled_md_ids = new SplFixedArray(0);
-        if ($this->http->wrapper()->post()->has('fid')) {
-            $enabled_md_ids = $this->http->wrapper()->post()->retrieve(
-                'fid',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
-            );
-        }
-
-        $settings = ilLuceneAdvancedSearchSettings::getInstance();
-        foreach (ilLuceneAdvancedSearchFields::getFields() as $field => $translation) {
-            $settings->setActive($field, in_array($field, (array) $enabled_md_ids));
-        }
-        $settings->save();
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-        $this->ctrl->redirect($this, 'advancedLuceneSettings');
     }
 }

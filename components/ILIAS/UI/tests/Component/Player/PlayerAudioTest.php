@@ -23,7 +23,7 @@ require_once(__DIR__ . "/../../Base.php");
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation as I;
-use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -33,24 +33,24 @@ class PlayerAudioTest extends ILIAS_UI_TestBase
     public function getUIFactory(): NoUIFactory
     {
         return new class (
-            $this->createMock(C\Modal\InterruptiveItem\Factory::class),
+            $this->createMock(I\Component\Modal\InterruptiveItem\Factory::class),
             $this->createMock(FieldFactory::class),
         ) extends NoUIFactory {
             public function __construct(
-                protected C\Modal\InterruptiveItem\Factory $item_factory,
+                protected I\Component\Modal\InterruptiveItem\Factory $interruptive_item_factory,
                 protected FieldFactory $field_factory,
             ) {
             }
 
-            public function modal(): C\Modal\Factory
+            public function modal(): I\Component\Modal\Factory
             {
                 return new I\Component\Modal\Factory(
                     new I\Component\SignalGenerator(),
-                    $this->item_factory,
+                    $this->interruptive_item_factory,
                     $this->field_factory,
                 );
             }
-            public function button(): C\Button\Factory
+            public function button(): I\Component\Button\Factory
             {
                 return new I\Component\Button\Factory();
             }

@@ -1,17 +1,18 @@
 /**
-* This file is part of ILIAS, a powerful learning management system
-* published by ILIAS open source e-Learning e.V.
-*
-* ILIAS is licensed with the GPL-3.0,
-* see https://www.gnu.org/licenses/gpl-3.0.en.html
-* You should have received a copy of said license along with the
-* source code, too.
-*
-* If this is not the case or you just want to try ILIAS, you'll find
-* us at:
-* https://www.ilias.de
-* https://github.com/ILIAS-eLearning
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ******************************************************************** */
 
 export default class Drilldown {
   /**
@@ -31,12 +32,13 @@ export default class Drilldown {
 
   /**
    * @param {jQuery} $
+   * @param {Document} document
    * @param {DrilldownPersistence} persistence
    * @param {DrilldownModel} model
    * @param {DrilldownMapping} mapping
    * @param {string} backSignal
    */
-  constructor($, persistence, model, mapping, backSignal) {
+  constructor($, document, persistence, model, mapping, backSignal) {
     this.#persistence = persistence;
     this.#model = model;
     this.#mapping = mapping;
@@ -44,9 +46,12 @@ export default class Drilldown {
     $(document).on(backSignal, () => { this.#upLevel(); });
     this.#mapping.setFilterHandler(
       (e) => {
-        this.#filter(e);
+        if (e.key !== 'Tab' && e.key !== 'Shift') {
+          this.#filter(e);
+        }
       },
     );
+    this.#mapping.setResizeHandler(() => { this.#apply(); });
     this.#mapping.parseLevel(
       (headerDisplayElement, parent, leaves) => this.#model
         .addLevel(headerDisplayElement, parent, leaves),

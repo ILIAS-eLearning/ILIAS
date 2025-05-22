@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="svy">
 	<Document type="default">
-		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
-		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
-		<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/ILIASObject/LuceneDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/Tagging/LuceneDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/MetaData/LuceneDataSource.xml" />
 	</Document>
 </ObjectDefinition>

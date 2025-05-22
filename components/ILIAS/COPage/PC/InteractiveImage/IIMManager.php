@@ -29,6 +29,7 @@ use ILIAS\FileUpload\Handler\HandlerResult;
 
 class IIMManager
 {
+    protected \ILIAS\MediaObjects\MediaObjectManager $media_manager;
     protected \ilLogger $log;
     protected InternalDomainService $domain;
     protected \ILIAS\COPage\Dom\DomUtil $dom_util;
@@ -42,12 +43,13 @@ class IIMManager
         if (isset($DIC['ilLoggerFactory'])) {
             $this->log = $domain->log();
         }
+        $this->media_manager = $DIC->mediaObjects()->internal()->domain()->mediaObject();
     }
 
     public function handleUploadResult(
         FileUpload $upload,
         UploadResult $result,
-        \ilObjMediaObject $mob = null
+        ?\ilObjMediaObject $mob = null
     ): BasicHandlerResult {
         $this->log->debug("Handle mob upload");
         $title = $result->getName();
@@ -60,36 +62,17 @@ class IIMManager
             $mob->setDescription("");
             $mob->create();
 
-            $mob->createDirectory();
-            $media_item = new \ilMediaItem();
-            $mob->addMediaItem($media_item);
-            $media_item->setPurpose("Standard");
+            $media_item = $mob->addMediaItemFromUpload(
+                "Standard",
+                $result
+            );
         } else {
             $this->log->debug("Update...");
-            $media_item = $mob->getMediaItem("Standard");
+            $media_item = $mob->replaceMediaItemFromUpload(
+                "Standard",
+                $result
+            );
         }
-
-        $mob_dir = \ilObjMediaObject::_getRelativeDirectory($mob->getId());
-        $file_name = \ilObjMediaObject::fixFilename($title);
-        $file = $mob_dir . "/" . $file_name;
-
-        $this->log->debug("Move file to: " . $mob_dir . ", " . $file_name);
-        $upload->moveOneFileTo(
-            $result,
-            $mob_dir,
-            Location::WEB,
-            $file_name,
-            true
-        );
-
-        // get mime type
-        $format = \ilObjMediaObject::getMimeType($file);
-        $location = $file_name;
-
-        // set real meta and object data
-        $media_item->setFormat($format);
-        $media_item->setLocation($location);
-        $media_item->setLocationType("LocalFile");
         $mob->update();
 
         return new BasicHandlerResult(
@@ -106,13 +89,12 @@ class IIMManager
         UploadResult $result
     ): BasicHandlerResult {
         $mob->addAdditionalFileFromUpload(
-            $upload,
             $result,
             "overlays"
         );
         $mob->makeThumbnail(
             "overlays/" . $result->getName(),
-            $this->getOverlayThumbnailName($result->getName())
+            "thumb/" . $this->getOverlayThumbnailName($result->getName())
         );
         return new BasicHandlerResult(
             "mob_id",
@@ -124,15 +106,12 @@ class IIMManager
 
     public function getOverlayWebPath(\ilObjMediaObject $mob, string $file): string
     {
-        return \ilObjMediaObject::_getURL($mob->getId()) . "/overlays/" . $file;
+        return $this->media_manager->getLocalSrc($mob->getId(), "/overlays/" . $file);
     }
 
     public function getOverlayThumbnailPath(\ilObjMediaObject $mob, string $file): string
     {
-        return \ilObjMediaObject::getThumbnailPath(
-            $mob->getId(),
-            $this->getOverlayThumbnailName($file)
-        );
+        return $this->media_manager->getLocalSrc($mob->getId(), "/thumb/" . $file);
     }
 
     protected function getOverlayThumbnailName(string $file): string
@@ -143,16 +122,16 @@ class IIMManager
 
     public function getOverlays(\ilObjMediaObject $mob): array
     {
-        return array_map(
-            function ($file) use ($mob) {
-                return [
-                    "name" => $file,
-                    "thumbpath" => $this->getOverlayThumbnailPath($mob, $file),
-                    "webpath" => $this->getOverlayWebPath($mob, $file)
-                ];
-            },
-            $mob->getFilesOfDirectory("overlays")
-        );
+        $overlays = [];
+        foreach ($mob->getFilesOfDirectory("/overlays") as $file) {
+            $file = $file["basename"];
+            $overlays[] = [
+                "name" => $file,
+                "thumbpath" => $this->getOverlayThumbnailPath($mob, $file),
+                "webpath" => $this->getOverlayWebPath($mob, $file)
+            ];
+        }
+        return $overlays;
     }
 
     /**

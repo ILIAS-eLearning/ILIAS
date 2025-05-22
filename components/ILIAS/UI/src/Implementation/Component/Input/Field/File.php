@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -28,7 +29,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component as C;
 use ILIAS\Refinery\Constraint;
 use Closure;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 /**
  * Class File
@@ -50,7 +51,7 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
     protected int $max_file_size_in_bytes;
 
     public function __construct(
-        ilLanguage $language,
+        Language $language,
         DataFactory $data_factory,
         Refinery $refinery,
         UploadLimitResolver $upload_limit_resolver,

@@ -48,6 +48,8 @@ interface BuilderInterface
      *
      * Multiple values in the same filter are treated as OR,
      * multiple filters at the same step are treated as AND.
+     *
+     * @throws \ilMDServicesException if there is no step in the path yet
      */
     public function withAdditionalFilterAtCurrentStep(
         FilterType $type,
@@ -55,8 +57,10 @@ interface BuilderInterface
     ): BuilderInterface;
 
     /**
-     * Get the path as constructed. Throws an error if the path
-     * is invalid, e.g. because the name of a step was misspelled.
+     * Get the path as constructed.
+     *
+     * @throws \ilMDServicesException if the path is invalid,
+     * e.g. because the name of a step was misspelled.
      */
     public function get(): PathInterface;
 }

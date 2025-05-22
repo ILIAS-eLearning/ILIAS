@@ -32,7 +32,7 @@ class ilWorkspaceFolderUserSettingsRepository
      */
     public function __construct(
         int $user_id,
-        ilDBInterface $db = null
+        ?ilDBInterface $db = null
     ) {
         global $DIC;
 

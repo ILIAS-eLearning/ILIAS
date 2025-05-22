@@ -17,22 +17,12 @@
  *********************************************************************/
 
 declare(strict_types=1);
-
-use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
-use ILIAS\FileUpload\Handler\HandlerResult;
-use ILIAS\FileUpload\Handler\FileInfoResult;
-use ILIAS\FileUpload\DTO\UploadResult;
-use ILIAS\FileUpload\Handler\BasicHandlerResult;
-use ILIAS\FileUpload\Handler\BasicFileInfoResult;
-use ILIAS\ResourceStorage\Services;
-use ILIAS\Filesystem\Filesystem;
-use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareIRSSUploadHandler;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
  * @author            Thibeau Fuhrer <thf@studer-raimann.ch>
- * @ilCtrl_isCalledBy ilObjFileUploadHandlerGUI: ilObjFileGUI, ilRepositoryGUI, ilDashboardGUI
+ * @ilCtrl_isCalledBy ilObjFileUploadHandlerGUI: ilObjFileGUI, ilRepositoryGUI, ilDashboardGUI, ilAdministrationGUI
  */
 class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareIRSSUploadHandler
 {
@@ -47,6 +37,7 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareIRSSUploadHandler
         return [self::class];
     }
 
+    #[\Override]
     public function supportsChunkedUploads(): bool
     {
         return true;

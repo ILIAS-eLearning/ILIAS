@@ -38,8 +38,8 @@ class ilLDAPRoleAssignmentRule
     private int $rule_id;
 
     private int $server_id = 0;
-    private bool$add_on_update = false;
-    private bool$remove_on_update = false;
+    private bool $add_on_update = false;
+    private bool $remove_on_update = false;
     private int $plugin_id = 0;
     private string $attribute_value = '';
     private string $attribute_name = '';
@@ -125,9 +125,26 @@ class ilLDAPRoleAssignmentRule
     protected function wildcardCompare(string $a_str1, string $a_str2): bool
     {
         $pattern = str_replace('*', '.*?', $a_str1);
-        $this->logger->debug(': Replace pattern:' . $pattern . ' => ' . $a_str2);
-        return preg_match('/^' . $pattern . '$/i', $a_str2) === 1;
+
+        foreach (ilAuthUtils::REGEX_DELIMITERS as $delimiter) {
+            $this->logger->debug('Trying pattern to match attribute value:' . $pattern . ' => ' . $a_str2);
+
+            set_error_handler(static function (int $severity, string $message, string $file, int $line): never {
+                throw new ErrorException($message, $severity, $severity, $file, $line);
+            });
+
+            try {
+                return preg_match($delimiter . "^" . $pattern . '$' . $delimiter . 'i', $a_str2) === 1;
+            } catch (Exception $ex) {
+                $this->logger->warning('Error occurred in preg_match Ex.: ' . $ex->getMessage());
+            } finally {
+                restore_error_handler();
+            }
+        }
+
+        return false;
     }
+
 
     /**
      * Check if user is member of specific group

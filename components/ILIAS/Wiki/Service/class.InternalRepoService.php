@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,29 +16,31 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Wiki;
 
 use ILIAS\Wiki\Page\PageDBRepository;
 use ILIAS\Wiki\Navigation\ImportantPageDBRepository;
 use ILIAS\Wiki\Links\MissingPageDBRepository;
+use ILIAS\Wiki\Settings\SettingsDBRepository;
 
 /**
  * Wiki repo service
  */
 class InternalRepoService
 {
-    protected InternalDataService $data;
-    protected \ilDBInterface $db;
+    protected static array $instance = [];
 
-    public function __construct(InternalDataService $data, \ilDBInterface $db)
-    {
-        $this->data = $data;
-        $this->db = $db;
+    public function __construct(
+        protected InternalDataService $data,
+        protected \ilDBInterface $db
+    ) {
     }
 
     public function page(): PageDBRepository
     {
-        return new PageDBRepository(
+        return self::$instance["page"] ??= new PageDBRepository(
             $this->data,
             $this->db
         );
@@ -48,7 +48,7 @@ class InternalRepoService
 
     public function importantPage(): ImportantPageDBRepository
     {
-        return new ImportantPageDBRepository(
+        return self::$instance["imp_page"] ??= new ImportantPageDBRepository(
             $this->data,
             $this->db
         );
@@ -56,9 +56,18 @@ class InternalRepoService
 
     public function missingPage(): MissingPageDBRepository
     {
-        return new MissingPageDBRepository(
+        return self::$instance["missing_page"] ??= new MissingPageDBRepository(
             $this->data,
             $this->db
         );
     }
+
+    public function settings(): SettingsDBRepository
+    {
+        return self::$instance["settings"] ??= new SettingsDBRepository(
+            $this->db,
+            $this->data
+        );
+    }
+
 }

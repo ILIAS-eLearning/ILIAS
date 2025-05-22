@@ -130,11 +130,13 @@
     </xs:complexType>
 
     <xs:complexType name="RegistrationAvailabilityStatus">
-        <xs:choice>
-            <xs:element minOccurs="0" maxOccurs="1" name="Disabled" type="xs:string"/>
+        <xs:sequence>
+            <xs:choice>
+                <xs:element minOccurs="0" maxOccurs="1" name="Disabled" type="xs:string"/>
+                <xs:group ref="AvailabilityBaseChoices"/>
+            </xs:choice>
             <xs:element minOccurs="0" maxOccurs="1" name="Password" type="xs:string"/>
-            <xs:group ref="AvailabilityBaseChoices"/>
-        </xs:choice>
+        </xs:sequence>
         <xs:attribute name="registrationType" type="registrationTypes" use="required"/>
         <xs:attribute name="notification" type="binaryChoiceString" use="required"/>
         <xs:attribute name="waitingList" type="binaryChoiceString" use="required"/>

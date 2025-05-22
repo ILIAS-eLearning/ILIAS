@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-/**
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- */
 class ilBadgeWAC implements ilWACCheckingClass
 {
     public function canBeDelivered(ilWACPath $ilWACPath): bool

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Tree\Node;
 
@@ -55,7 +55,7 @@ interface Factory
      * @param URI|null                                  $uri
      * @return \ILIAS\UI\Component\Tree\Node\Simple
      */
-    public function simple(string $label, Icon $icon = null, URI $uri = null): Simple;
+    public function simple(string $label, ?Icon $icon = null, ?URI $uri = null): Simple;
 
     /**
      * ---
@@ -78,7 +78,7 @@ interface Factory
      * @param \ILIAS\UI\Component\Symbol\Icon\Icon|null $icon
      * @return \ILIAS\UI\Component\Tree\Node\Bylined
      */
-    public function bylined(string $label, string $byline, Icon $icon = null) : Bylined;
+    public function bylined(string $label, string $byline, ?Icon $icon = null): Bylined;
 
     /**
      * ---
@@ -109,5 +109,5 @@ interface Factory
      * @param \ILIAS\UI\Component\Symbol\Icon\Icon|null $icon
      * @return \ILIAS\UI\Component\Tree\Node\KeyValue
      */
-    public function keyValue(string $label, string $value, Icon $icon = null) : KeyValue;
+    public function keyValue(string $label, string $value, ?Icon $icon = null): KeyValue;
 }

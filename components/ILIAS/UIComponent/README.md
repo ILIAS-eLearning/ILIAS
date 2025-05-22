@@ -7,7 +7,7 @@ This plugin slot has been published as stable with ILIAS 4.2. The goal of the us
  modifications of standard components of the ILIAS user interface. The slot is defined by the UIComponent Service of ILIAS
  and named "UserInterfaceHook". This means all plugins have to be installed into directories at:
 
-`Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/<Plugin_Name>`
+`Customizing/global/plugins/components/ILIAS/UIComponent/UserInterfaceHook/<Plugin_Name>`
 
 The ID of the UIComponent Service is "ui", the ID of the slot is "uihk". These are used as prefixes together with your
 plugin id for database tables and for language variable identifiers:
@@ -152,7 +152,7 @@ class ilPluginNameUIHookGUI extends ilUIHookPluginGUI
 	 * by Global Screen and UI Components instead.
 	 *
 	 * In ILIAS 6.0 still working for working for:
-	 * - $a_comp="Services/Ini" ; $a_part="init_style"
+	 * - $a_comp="components/ILIAS/Ini" ; $a_part="init_style"
 	 * - $a_comp="" ; $a_part="tabs"
 	 * - $a_comp="" ; $a_part="sub_tabs"
 	 *

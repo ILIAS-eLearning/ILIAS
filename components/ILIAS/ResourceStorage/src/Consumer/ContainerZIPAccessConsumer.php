@@ -18,12 +18,11 @@
 
 namespace ILIAS\ResourceStorage\Consumer;
 
+use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
-use ILIAS\ResourceStorage\Resource\StorableContainerResource;
 use ILIAS\Filesystem\Util\Archive\Unzip;
 use ILIAS\Filesystem\Util\Archive\UnzipOptions;
-use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions.ch>
@@ -32,23 +31,19 @@ class ContainerZIPAccessConsumer implements ContainerConsumer
 {
     use GetRevisionTrait;
 
-    private \ILIAS\Filesystem\Util\Archive\Archives $archives;
+    private Archives $archives;
     protected ?int $revision_number = null;
-    private StorableResource $resource;
-    private StreamAccess $stream_access;
 
     /**
      * DownloadConsumer constructor.
      */
-    public function __construct(StorableContainerResource $resource, StreamAccess $stream_access)
+    public function __construct(private StorableResource $resource, private StreamAccess $stream_access)
     {
         global $DIC;
-        $this->resource = $resource;
         $this->archives = $DIC->archives();
-        $this->stream_access = $stream_access;
     }
 
-    public function getZIP(UnzipOptions $unzip_options = null): Unzip
+    public function getZIP(?UnzipOptions $unzip_options = null): Unzip
     {
         $revision = $this->getRevision();
         $revision = $this->stream_access->populateRevision($revision);

@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Table\Ordering;
@@ -8,6 +24,16 @@ use ILIAS\UI\Implementation\Component\Table as T;
 use ILIAS\UI\Component\Table as I;
 use ILIAS\Data\URI;
 
+/**
+ * ---
+ * description: >
+ *   Example showing an Ordering Table.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ *   You may NOT drag any row; there are no Number Inputs for row-positions.
+ * ---
+ */
 function disabled()
 {
     global $DIC;
@@ -30,7 +56,7 @@ function disabled()
             ->withHighlight(true)
     ];
 
-    $data_retrieval = new class ($f, $r) implements I\OrderingBinding {
+    $data_retrieval = new class ($f, $r) implements I\OrderingRetrieval {
         protected array $records;
 
         public function __construct(
@@ -61,7 +87,7 @@ function disabled()
      * Disable the ordering (e.g. due to missing permissions)
      */
     $target = (new URI((string) $request->getUri()));
-    $table = $f->table()->ordering('ordering table with disabled ordering', $columns, $data_retrieval, $target)
+    $table = $f->table()->ordering($data_retrieval, $target, 'ordering table with disabled ordering', $columns)
         ->withOrderingDisabled(true)
         ->withRequest($request);
 

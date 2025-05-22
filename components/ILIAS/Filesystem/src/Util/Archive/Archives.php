@@ -22,7 +22,6 @@ namespace ILIAS\Filesystem\Util\Archive;
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Stream\FileStream;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 
 /**
  * @author      Fabian Schmid <fabian@sr.solutions>

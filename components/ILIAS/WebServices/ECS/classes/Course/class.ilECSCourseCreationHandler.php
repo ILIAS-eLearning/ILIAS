@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -200,7 +201,7 @@ class ilECSCourseCreationHandler
         foreach ($matching_rules as $matching_rule) {
             $this->logger->debug('Handling matching rule: ' . $matching_rule);
             $parent_refs = ilECSCourseMappingRule::doMappings(
-                (int) $course,
+                $course,
                 $this->getServer()->getServerId(),
                 $this->getMid(),
                 $matching_rule
@@ -364,7 +365,7 @@ class ilECSCourseCreationHandler
     {
         // Check if course is already created
         $course_id = $course->lectureID;
-        $this->course_url->setCmsLectureId($course_id);
+        $this->course_url->setCmsLectureId((string) $course_id);
 
         $obj_id = $this->getImportId((int) $course_id);
 
@@ -576,7 +577,7 @@ class ilECSCourseCreationHandler
      * Return 0 if object isn't imported.
      * Searches for the (hopefully) unique content id of an imported object
      */
-    protected function getImportId(int $a_content_id, string $a_sub_id = null): int
+    protected function getImportId(int $a_content_id, ?string $a_sub_id = null): int
     {
         return ilECSImportManager::getInstance()->lookupObjIdByContentId(
             $this->getServer()->getServerId(),

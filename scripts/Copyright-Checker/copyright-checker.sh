@@ -62,12 +62,9 @@ function is_copyright_valid() {
   local file_extension="${file##*.}"
   local offset=1
 
-  # since PSR-12 the php files will contain the copyright license as
-  # document-level comment, which starts on line 3.
-  if [ "php" = "${file_extension}" ]; then
+  if [ "php" = ${file_extension} ]; then
     offset=3
   fi
-
   for copyright_line in "${COPYRIGHT_LINES[@]}"; do
     local line_to_check="$(sed "${offset}q;d" "${file}")"
     if ! [ "${copyright_line}" = "${line_to_check}" ]; then
@@ -93,26 +90,6 @@ function get_supported_files_of_dir() {
   fi
 
   find "${directory}" \( -name "*.php" -or -name "*.js" \) ! -path "*/node_modules/*" ! -path "*/vendor/*"
-}
-
-# DESC: returns 0 if the given path is located in the examples
-#       directory, 1 otherwise
-#
-# ARGS: [<string>] file path to check
-function is_ui_example() {
-  local file="${1}"
-
-  if ! [ -f "${file}" ]; then
-    printf "Internal Error (is_ui_example): ${file} is not a valid file.\n"
-    exit 1
-  fi
-
-  file="$(realpath ${file})"
-  if [[ "${file}" == *"components/ILIAS/UI/src/examples"* ]]; then
-    return 0
-  fi
-
-  return 1
 }
 
 # DESC: main function of this script, which executes the copyright-
@@ -156,17 +133,12 @@ function perform_copyright_check() {
     is_copyright_valid "${file}"
     local is_valid="${?}"
 
-    is_ui_example "${file}"
-    local is_example="${?}"
-
-    # invert the copyright-check for UI examples, because we
-    # don't want them to have too much content.
-    if ([ 0 -eq ${is_example} ] && [ 0 -eq ${is_valid} ]) ||
-      ([ 1 -eq ${is_example} ] && [ 1 -eq ${is_valid} ]); then
+    if [ 1 -eq ${is_valid} ]; then
       printf "copyright is not as expected in %s\n" "${file}"
       exit_status=1
     fi
   done
+
 
   return ${exit_status}
 }

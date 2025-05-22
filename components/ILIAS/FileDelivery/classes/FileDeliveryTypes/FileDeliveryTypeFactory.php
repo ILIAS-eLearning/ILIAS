@@ -37,8 +37,7 @@ final class FileDeliveryTypeFactory
     /**
      * @var ilFileDeliveryType[]
      */
-    private static array $instances = array();
-    private \ILIAS\HTTP\Services $http;
+    private static array $instances = [];
 
 
     /**
@@ -46,9 +45,8 @@ final class FileDeliveryTypeFactory
      *
      * @param Services $http
      */
-    public function __construct(Services $http)
+    public function __construct(private Services $http)
     {
-        $this->http = $http;
     }
 
 
@@ -62,28 +60,19 @@ final class FileDeliveryTypeFactory
      *
      * @see DeliveryMethod
      */
-    public function getInstance(string $type): \ILIAS\FileDelivery\ilFileDeliveryType
+    public function getInstance(string $type): ilFileDeliveryType
     {
         assert(is_string($type));
         if (isset(self::$instances[$type])) {
             return self::$instances[$type];
         }
-        switch ($type) {
-            case DeliveryMethod::PHP:
-                self::$instances[$type] = new PHP($this->http);
-                break;
-            case DeliveryMethod::XSENDFILE:
-                self::$instances[$type] = new XSendfile($this->http);
-                break;
-            case DeliveryMethod::XACCEL:
-                self::$instances[$type] = new XAccel($this->http);
-                break;
-            case DeliveryMethod::PHP_CHUNKED:
-                self::$instances[$type] = new PHPChunked($this->http);
-                break;
-            default:
-                throw new \ilException("Unknown file delivery type \"$type\"");
-        }
+        self::$instances[$type] = match ($type) {
+            DeliveryMethod::PHP => new PHP($this->http),
+            DeliveryMethod::XSENDFILE => new XSendfile($this->http),
+            DeliveryMethod::XACCEL => new XAccel($this->http),
+            DeliveryMethod::PHP_CHUNKED => new PHPChunked($this->http),
+            default => throw new \ilException("Unknown file delivery type \"$type\""),
+        };
 
         return self::$instances[$type];
     }

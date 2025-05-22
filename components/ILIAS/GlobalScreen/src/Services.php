@@ -31,18 +31,17 @@ use ILIAS\GlobalScreen\Scope\Notification\NotificationServices;
 use ILIAS\GlobalScreen\Scope\Toast\ToastServices;
 use ILIAS\GlobalScreen\Scope\Tool\ToolServices;
 use ILIAS\DI\UIServices;
+use ILIAS\GlobalScreen\Scope\Footer\Factory\FooterItemFactory;
 
 /**
- * Class Services
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
+ *     TODO: Remove SingletonTrait
  */
 class Services
 {
     use SingletonTrait;
 
     private static ?Services $instance = null;
-
-    private ProviderFactory $provider_factory;
     private ToastServices $toast_services;
 
     public string $resource_version = '';
@@ -53,31 +52,29 @@ class Services
      * @param string          $resource_version
      */
     public function __construct(
-        ProviderFactory $provider_factory,
+        private ProviderFactory $provider_factory,
         ?UIServices $ui = null,
         string $resource_version = ''
     ) {
         global $DIC;
-        $this->provider_factory = $provider_factory;
         $this->resource_version = urlencode($resource_version);
         $this->toast_services = new ToastServices($ui ?? $DIC->ui());
     }
 
-    /**
-     * @return MainMenuItemFactory
-     * @see MainMenuItemFactory
-     */
     public function mainBar(): MainMenuItemFactory
     {
         return $this->get(MainMenuItemFactory::class);
     }
 
-    /**
-     * @return MetaBarItemFactory
-     */
+
     public function metaBar(): MetaBarItemFactory
     {
         return $this->get(MetaBarItemFactory::class);
+    }
+
+    public function footer(): FooterItemFactory
+    {
+        return $this->get(FooterItemFactory::class);
     }
 
     /**

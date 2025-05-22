@@ -34,7 +34,7 @@ class ilWorkspaceAccessHandler
     protected ?ilTree $tree;
 
     public function __construct(
-        ilTree $a_tree = null
+        ?ilTree $a_tree = null
     ) {
         global $DIC;
 
@@ -186,7 +186,7 @@ class ilWorkspaceAccessHandler
     public function addPermission(
         int $a_node_id,
         int $a_object_id,
-        string $a_extended_data = null
+        ?string $a_extended_data = null
     ): bool {
         $ilDB = $this->db;
         $ilUser = $this->user;
@@ -210,7 +210,7 @@ class ilWorkspaceAccessHandler
      */
     public function removePermission(
         int $a_node_id,
-        int $a_object_id = null
+        ?int $a_object_id = null
     ): int {
         $ilDB = $this->db;
 
@@ -370,9 +370,9 @@ class ilWorkspaceAccessHandler
     }
 
     public function findSharedObjects(// PHP8-Review: Method return type and parameters have no value type specified in iterable type array.
-        array $a_filter = null,
-        array $a_crs_ids = null,
-        array $a_grp_ids = null
+        ?array $a_filter = null,
+        ?array $a_crs_ids = null,
+        ?array $a_grp_ids = null
     ): array {
         $ilDB = $this->db;
         $ilUser = $this->user;

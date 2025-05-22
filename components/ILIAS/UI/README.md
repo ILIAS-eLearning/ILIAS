@@ -87,7 +87,7 @@ If you would like to implement a new component for the framework, you should per
     * @param   string $content
     * @return \ILIAS\UI\Component\Demo\Demo
     **/
-    public function demo($content);
+    public function demo($content): ILIAS\UI\Component\Demo\Demo;
     ```
 
 3. This freshly added function in the factory leads to an error as soon as ILIAS is opened, since the implementation
@@ -212,10 +212,15 @@ If you would like to implement a new component for the framework, you should per
         }
     }
     ```
-9. Next, make the factory return the new component (change demo() of src/UI/Implementation/Factory.php):
+9. Next, make the factory return the new component (change demo() of src/UI/Implementation/Factory.php) and
+   add the return **concrete** type declaration. Please make sure you have read about the
+   [interface segregation and covariance](./docs/segregation-and-covariance.md) and understand it:
 
     ```php
-    return new Component\Demo\Demo($content);
+    public function demo($content): Component\Demo\Demo
+    {
+        return new Component\Demo\Demo($content);
+    }
     ```
 
 10. Then, implement the renderer at src/UI/Implementation/Component/Demo/Demo.php:
@@ -234,18 +239,17 @@ If you would like to implement a new component for the framework, you should per
         /**
          * @inheritdocs
          */
-        public function render(Component\Component $component, RendererInterface $default_renderer) {
-            $this->checkComponent($component);
+        public function render(Component\Component $component, RendererInterface $default_renderer): string 
+        {
+            // if this is not our component, call cannotHandleComponent($component)
+            // to throw a unified exception. 
+            if (!$component instanceof Component\Demo\Demo) {
+                $this->cannotHandleComponent($component);
+            }
+    
             $tpl = $this->getTemplate("tpl.demo.html", true, true);
             $tpl->setVariable("CONTENT",$component->getContent());
             return $tpl->get();
-        }
-
-        /**
-         * @inheritdocs
-         */
-        protected function getComponentInterfaceName() {
-            return array(Component\Demo\Demo::class);
         }
     }
     ```
@@ -286,7 +290,7 @@ If you would like to implement a new component for the framework, you should per
     interaction. Post the the link to this test-case in a comment/the description of your PR.
 17. Optional: If your component introduces a new factory, do not forget to wire it up in the according
     location of the initialisation. Have a look into `ilInitialisation::initUIFramework` in
-    `Services/Init/class/class.ilInitialisation.php`.
+    `components/ILIAS/Init/class/class.ilInitialisation.php`.
 
 ### How to write unit tests for a Component?
 
@@ -417,20 +421,20 @@ components which may be rendered and checked in your rendering tests. For our de
 class DemoTest extends ILIAS_UI_TestBase
 {
     // ...
-    protected \ILIAS\UI\Component\Button\Factory $button_factory;
-    protected \ILIAS\UI\Component\Button\Standard $button_stub;
+    protected \ILIAS\UI\Implementation\Component\Button\Factory $button_factory;
+    protected \ILIAS\UI\Implementation\Component\Button\Standard $button_stub;
     protected string $button_html;
     
     /** Sets up the button stub which will be rendered internally */
     public function setUp() : void
     {
         // setup the button stub similar to the previous example.
-        $this->button_stub = $this->createMock(\ILIAS\UI\Component\Button\Standard::class);
-        $this->button_html = sha1(\ILIAS\UI\Component\Button\Standard::class);
+        $this->button_stub = $this->createMock(\ILIAS\UI\Implementation\Component\Button\Standard::class);
+        $this->button_html = sha1(\ILIAS\UI\Implementation\Component\Button\Standard::class);
         $this->button_stub->method('getCanonicalName')->willReturn($this->button_html);
     
         // setup the factory so it will return the button stub.
-        $this->button_factory = $this->createMock(\ILIAS\UI\Component\Button\Factory::class);
+        $this->button_factory = $this->createMock(\ILIAS\UI\Implementation\Component\Button\Factory::class);
         $this->button_factory->method('standard')->willReturn($this->button_stub);
         
         // don't forget to call our parent!
@@ -442,11 +446,11 @@ class DemoTest extends ILIAS_UI_TestBase
     {
         return new class ($this->button_factory) extends NoUIFactory {
             public function __construct(
-                protected \ILIAS\UI\Component\Button\Factory $button_factory,
+                protected \ILIAS\UI\Implementation\Component\Button\Factory $button_factory,
             ) {
             }
             
-            public function button(): \ILIAS\UI\Component\Button\Factory
+            public function button(): \ILIAS\UI\Implementation\Component\Button\Factory
             {
                 return $this->button_factory;
             }
@@ -481,6 +485,30 @@ EOT;
     }
 }
 ```
+
+### How can I make my component look different in some context?
+
+For some use cases you might get to the point where you want to know where your
+component is rendered to emit different HTML in your renderer. A general idea of
+the UI framework is that components have their unique look that is recognisable
+throughout the system, which is the exact reason you could not find a simple way
+to get to know where your component is being rendered.
+
+There still might be circumstances where a context dependent rendering is indeed
+required. A context can be understood as a collection or stack of all other surrounding
+UI components. This means, if e.g. a Page component is rendered which needs to render
+a Dropdown component somewhere that features some further Shy button compoennt, the 
+rendering stack or context when the button is rendered would be "Page -> Dropdown -> Shy".
+The [DefaultRenderer](./src/Implementation/DefaultRenderer.php) orchestrates this process
+and is responsible to remember this context at any time during the entire rendering
+process. Component renderers are able to react to this context using a `RendererFactory`,
+which receives the current context as an argument when loading the renderer of some
+component. The [FSLoader](./src/UI/Implementation/Render/FSLoader.php) contains directions
+on how to introduce new renderers for different contexts in your component.
+
+**Before using this mechanism, please consider if you really require a different look in a
+different context and, and if thats the case, whether you could achieve the same effect using
+CSS or not.**
 
 ### How to Change an Existing Component?
 
@@ -522,7 +550,7 @@ This code snippet shows how to open a modal by clicking on a button:
 ```php
 global $DIC;
 $factory = $DIC->ui()->factory();
-$modal = $factory->modal()->roundtrip('Title', $factory->legacy('Hello World'));
+$modal = $factory->modal()->roundtrip('Title', $factory->legacy()->content('Hello World'));
 $button = $factory->button()->standard('Open Modal', '#')
   ->withOnClick($modal->getShowSignal());
 ```
@@ -537,7 +565,7 @@ This means that a cloned component may trigger the same signals as the original.
  ```php
 global $DIC;
 $factory = $DIC->ui()->factory();
-$modal = $factory->modal()->roundtrip('Title', $factory->legacy('Hello World'));
+$modal = $factory->modal()->roundtrip('Title', $factory->legacy()->content('Hello World'));
 $button1 = $factory->button()->standard('Open Modal', '#')
   ->withOnClick($modal->getShowSignal());
 $button2 = $button1->withLabel('Open the same Modal');   
@@ -650,8 +678,6 @@ npm i -D "eslint" "eslint-config-airbnb-base" "eslint-plugin-import"
 
 ```
 
-
-
 ## FAQ
 
 ### There are so many rules, is that really necessary?
@@ -663,23 +689,6 @@ GUI of ILIAS is no option for several reasons and the current state (without rul
 is anarchy, rules seem to be the only sensible option to get some structure. All
 existing rules have a purpose, but there might be a more terse way to explain
 them. If you have found it, we'll be glad to accept your PR.
-
-### How do I know where my component is rendered?
-
-For some use cases you might get to the point where you want to know where your
-component is rendered to emit different HTML in your renderer. A general idea of
-the UI framework is that components have their unique look that is recognisable
-throughout the system, which is the exact reason you could not find a simple way
-to get to know where your component is rendered.
-
-There still might be circumstances where a context dependent rendering is indeed
-required. The [Renderer](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/src/UI/Renderer.php)
-offers a `withAdditionalContext` method for that purpose, which can be used to
-alter the selection of the renderer for your component. Before using it, consider
-if you really require a different look in a different context and, if that is indeed
-the case, whether you could achieve the same effect by using CSS. The class [FSLoader](src/UI/Implementation/Render/FSLoader.php)
-contains directions how to introduce new renderers for different contexts in your
-component.
 
 ### I don't understand that stuff, is there anyone who can explain it to me?
 

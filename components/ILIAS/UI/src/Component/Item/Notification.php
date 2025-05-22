@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Item;
 
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Content;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Dropdown\Standard as DropdownStandard;
 
@@ -36,12 +36,12 @@ interface Notification extends Item
      * needs to hold legacy content that currently does not have a place in the
      * UI components.
      */
-    public function withAdditionalContent(Legacy $component): Notification;
+    public function withAdditionalContent(Content $component): Notification;
 
     /**
      * Get the additional content of the item or null.
      */
-    public function getAdditionalContent(): ?Legacy;
+    public function getAdditionalContent(): ?Content;
 
     /**
      * Get an Item like this with an url to consulted async, when to close button is pressed.

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Cache class. The cache class stores key/value pairs. Since the primary
@@ -173,8 +176,8 @@ class ilCache
             ));
 
         // In 1/2000 times, delete old entries
-        $random = new \ilRandom();
-        $num = $random->int(1, 2000);
+        $random = new \Random\Randomizer();
+        $num = $random->getInt(1, 2000);
         if ($num == 500) {
             $ilDB->manipulate(
                 "DELETE FROM $table WHERE " .

@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Test;
 
-use ilDBInterface;
-
 /**
  * Class TestManScoringDoneHelper
  * @package ILIAS\Test
@@ -29,10 +27,10 @@ use ilDBInterface;
  */
 class TestManScoringDoneHelper
 {
-    private ?ilDBInterface $db;
+    private ?\ilDBInterface $db;
     private const TABLE_NAME = "manscoring_done";
 
-    public function __construct(?ilDBInterface $db = null)
+    public function __construct(?\ilDBInterface $db = null)
     {
         if (!$db) {
             global $DIC;

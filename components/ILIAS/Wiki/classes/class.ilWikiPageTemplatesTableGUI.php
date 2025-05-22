@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Properties\Translations\Translations;
+
 /**
  * TableGUI class for wiki page templates
  *
@@ -24,7 +26,7 @@
 class ilWikiPageTemplatesTableGUI extends ilTable2GUI
 {
     protected \ILIAS\Wiki\Page\PageManager $pm;
-    protected ilObjectTranslation $ot;
+    protected Translations $ot;
     protected ilAccessHandler $access;
 
     public function __construct(
@@ -40,7 +42,7 @@ class ilWikiPageTemplatesTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         $service = $DIC->wiki()->internal();
-        $this->ot = $service->domain()->wiki()->translation($a_wiki_id);
+        $this->ot = $service->domain()->wiki()->translation($service->gui()->request()->getRefId());
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $templates = new ilWikiPageTemplate($a_wiki_id);
@@ -49,7 +51,7 @@ class ilWikiPageTemplatesTableGUI extends ilTable2GUI
 
         $this->addColumn($this->lng->txt(""), "", "1");
         $this->addColumn($this->lng->txt("title"), "title");
-        if ($this->ot->getContentActivated()) {
+        if ($this->ot->getContentTranslationActivated()) {
             $this->addColumn($this->lng->txt("wiki_translations"));
         }
         $this->addColumn($this->lng->txt("wiki_templ_new_pages"), "");
@@ -70,7 +72,7 @@ class ilWikiPageTemplatesTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
-        if ($this->ot->getContentActivated()) {
+        if ($this->ot->getContentTranslationActivated()) {
             $this->tpl->setCurrentBlock("trans");
             $this->tpl->setVariable("TRANSLATIONS", implode(", ", $this->pm->getLanguages($a_set["wpage_id"])));
             $this->tpl->parseCurrentBlock();

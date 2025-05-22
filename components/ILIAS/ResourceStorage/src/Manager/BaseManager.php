@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Manager;
 
+use ILIAS\ResourceStorage\Policy\FileNamePolicyException;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\ResourceStorage\Collection\CollectionBuilder;
@@ -39,21 +40,11 @@ use ILIAS\ResourceStorage\Revision\RevisionStatus;
  */
 abstract class BaseManager
 {
-    protected ResourceBuilder $resource_builder;
-    protected CollectionBuilder $collection_builder;
-    protected RepositoryPreloader $preloader;
-
     /**
      * Manager constructor.
      */
-    public function __construct(
-        ResourceBuilder $resource_builder,
-        CollectionBuilder $collection_builder,
-        RepositoryPreloader $preloader
-    ) {
-        $this->resource_builder = $resource_builder;
-        $this->collection_builder = $collection_builder;
-        $this->preloader = $preloader;
+    public function __construct(protected ResourceBuilder $resource_builder, protected CollectionBuilder $collection_builder, protected RepositoryPreloader $preloader)
+    {
     }
 
     /**
@@ -89,7 +80,7 @@ abstract class BaseManager
         FileStream $stream,
         ResourceStakeholder $stakeholder,
         ResourceType $type,
-        string $revision_title = null
+        ?string $revision_title = null
     ): ResourceIdentification {
         $info_resolver = new StreamInfoResolver(
             $stream,
@@ -156,7 +147,7 @@ abstract class BaseManager
         ResourceIdentification $identification,
         UploadResult $result,
         ResourceStakeholder $stakeholder,
-        string $revision_title = null,
+        ?string $revision_title = null,
         bool $draft = false
     ): Revision {
         if ($result->isOK()) {
@@ -193,7 +184,7 @@ abstract class BaseManager
     }
 
     /**
-     * @throws \ILIAS\ResourceStorage\Policy\FileNamePolicyException if the filename is not allowed
+     * @throws FileNamePolicyException if the filename is not allowed
      * @throws \LogicException if the resource is not found
      * @throws \LogicException if the resource is a container and the stream is not a ZIP
      * @throws \LogicException if the latest revision is a DRAFT
@@ -202,7 +193,7 @@ abstract class BaseManager
         ResourceIdentification $identification,
         UploadResult $result,
         ResourceStakeholder $stakeholder,
-        string $revision_title = null
+        ?string $revision_title = null
     ): Revision {
         if ($result->isOK()) {
             if (!$this->resource_builder->has($identification)) {
@@ -249,7 +240,7 @@ abstract class BaseManager
         ResourceIdentification $identification,
         FileStream $stream,
         ResourceStakeholder $stakeholder,
-        string $revision_title = null,
+        ?string $revision_title = null,
         bool $draft = false
     ): Revision {
         if (!$this->resource_builder->has($identification)) {
@@ -285,7 +276,7 @@ abstract class BaseManager
     }
 
     /**
-     * @throws \ILIAS\ResourceStorage\Policy\FileNamePolicyException if the filename is not allowed
+     * @throws FileNamePolicyException if the filename is not allowed
      * @throws \LogicException if the resource is not found
      * @throws \LogicException if the resource is a container and the stream is not a ZIP
      * @throws \LogicException if the latest revision is a DRAFT
@@ -294,7 +285,7 @@ abstract class BaseManager
         ResourceIdentification $identification,
         FileStream $stream,
         ResourceStakeholder $stakeholder,
-        string $revision_title = null
+        ?string $revision_title = null
     ): Revision {
         if (!$this->resource_builder->has($identification)) {
             throw new \LogicException(

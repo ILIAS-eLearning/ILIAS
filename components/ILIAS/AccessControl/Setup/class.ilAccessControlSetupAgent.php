@@ -22,7 +22,7 @@ use ILIAS\Setup\Metrics;
 
 class ilAccessControlSetupAgent extends NullAgent
 {
-    public function getUpdateObjective(ILIAS\Setup\Config $config = null): ILIAS\Setup\Objective
+    public function getUpdateObjective(?ILIAS\Setup\Config $config = null): ILIAS\Setup\Objective
     {
         return new ilDatabaseUpdateStepsExecutedObjective(new ilAccessControl8DBUpdateSteps());
     }

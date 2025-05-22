@@ -1,17 +1,19 @@
 <?php
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * Class ilShibbolethPluginWrapper
@@ -27,9 +29,8 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
     protected function __construct()
     {
         global $DIC;
-        $ilLog = $DIC['ilLog'];
-        $this->log = $ilLog;
         $this->component_factory = $DIC["component.factory"];
+        $this->log = $DIC['ilLog'];
     }
 
     public static function getInstance(): self
@@ -41,9 +42,6 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
         return self::$cache;
     }
 
-    /**
-     * @return ilShibbolethAuthenticationPlugin[]
-     */
     protected function getPluginObjects(): Iterator
     {
         return $this->component_factory->getActivePluginsInSlot('shibhk');
@@ -102,7 +100,7 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
 
     public function afterLogout(ilObjUser $user): ilObjUser
     {
-        $this->log->write('afterlogout');
+        $this->log->log('afterlogout');
         foreach ($this->getPluginObjects() as $pl) {
             $user = $pl->afterLogout($user);
         }

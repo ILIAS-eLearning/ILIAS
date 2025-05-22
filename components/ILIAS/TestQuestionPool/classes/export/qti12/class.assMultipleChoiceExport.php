@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
-
 /**
 * Class for multiple choice question exports
 *
@@ -60,7 +58,7 @@ class assMultipleChoiceExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "QUESTIONTYPE");
-        $a_xml_writer->xmlElement("fieldentry", null, QuestionIdentifiers::MULTIPLE_CHOICE_QUESTION_IDENTIFIER);
+        $a_xml_writer->xmlElement("fieldentry", null, $this->object->getQuestionType());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "AUTHOR");
@@ -101,10 +99,7 @@ class assMultipleChoiceExport extends assQuestionExport
             "rcardinality" => "Multiple"
         ];
         $a_xml_writer->xmlStartTag("response_lid", $attrs);
-        $solution = $this->object->getSuggestedSolution(0);
-        if ($solution !== null) {
-            $a_xml_writer = $this->addSuggestedSolutionLink($a_xml_writer, $solution);
-        }
+        $a_xml_writer = $this->addSuggestedSolution($a_xml_writer);
         // shuffle output and max choice
         $attrs = ['shuffle' => $this->object->getShuffle() ? 'Yes' : 'No'];
         if ($this->object->getSelectionLimit()) {
@@ -112,7 +107,7 @@ class assMultipleChoiceExport extends assQuestionExport
             $attrs['maxnumber'] = (string) $this->object->getSelectionLimit();
         }
         $a_xml_writer->xmlStartTag("render_choice", $attrs);
-        $answers = &$this->object->getAnswers();
+        $answers = $this->object->getAnswers();
         $akeys = array_keys($answers);
         if ($this->object->getShuffle() && $a_shuffle) {
             $akeys = shuffle($akeys);
@@ -332,8 +327,6 @@ class assMultipleChoiceExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
-
-        $a_xml_writer = $this->addSolutionHints($a_xml_writer);
 
         $a_xml_writer->xmlEndTag("item");
         $a_xml_writer->xmlEndTag("questestinterop");

@@ -55,7 +55,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
             return $this->identification_provider->contextAwareIdentifier($id);
         };
         $l = function (string $content) {
-            return $this->dic->ui()->factory()->legacy($content);
+            return $this->dic->ui()->factory()->legacy()->content($content);
         };
 
         if ($additional_data->is(self::SHOW_TOC_TOOL, true)) {
@@ -171,7 +171,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
             return $this->identification_provider->contextAwareIdentifier($id);
         };
         $l = function (string $content) {
-            return $this->dic->ui()->factory()->legacy($content);
+            return $this->dic->ui()->factory()->legacy()->content($content);
         };
 
         $title = $lng->txt("cont_toc");

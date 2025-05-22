@@ -20,9 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Certificate\Overview;
 
-use DateTime;
+use DateInterval;
 use DateTimeImmutable;
-use Exception;
 use Generator;
 use ilAccessHandler;
 use ilCalendarSettings;
@@ -48,21 +47,23 @@ use ilUserCertificateRepository;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Table\Action\Action;
+use Throwable;
 
 class CertificateOverviewTable implements DataRetrieval
 {
-    private ilUserCertificateRepository $repo;
-    private ilUIService $ui_service;
-    private Factory $ui_factory;
-    private ilLanguage $lng;
-    private ServerRequestInterface $request;
-    private \ILIAS\Data\Factory $data_factory;
-    private ilCtrl|ilCtrlInterface $ctrl;
-    private \ILIAS\UI\Component\Input\Container\Filter\Standard $filter;
-    private Data $table;
-    private Renderer $ui_renderer;
-    private ilAccessHandler $access;
-    private ilObjUser $user;
+    private readonly ilUserCertificateRepository $repo;
+    private readonly ilUIService $ui_service;
+    private readonly Factory $ui_factory;
+    private readonly ilLanguage $lng;
+    private readonly ServerRequestInterface $request;
+    private readonly \ILIAS\Data\Factory $data_factory;
+    private readonly ilCtrl|ilCtrlInterface $ctrl;
+    private readonly \ILIAS\UI\Component\Input\Container\Filter\Standard $filter;
+    private readonly Data $table;
+    private readonly Renderer $ui_renderer;
+    private readonly ilAccessHandler $access;
+    private readonly ilObjUser $user;
+    private readonly \DateTimeZone $user_timezone;
 
     public function __construct(
         ?Factory $ui_factory = null,
@@ -87,6 +88,7 @@ class CertificateOverviewTable implements DataRetrieval
         $this->ui_renderer = $ui_renderer ?: $DIC->ui()->renderer();
         $this->access = $access ?: $DIC->access();
         $this->user = $user ?: $DIC->user();
+        $this->user_timezone = new \DateTimeZone($this->user->getTimeZone());
 
         $this->filter = $this->buildFilter();
         $this->table = $this->buildTable();
@@ -101,20 +103,11 @@ class CertificateOverviewTable implements DataRetrieval
         ?array $additional_parameters
     ): Generator {
         /**
-         * @var array{certificate_id: null|string, issue_date: null|DateTime, object: null|string, owner: null|string} $filter_data
+         * @var array{certificate_id: null|string, issue_date: null|DateTimeImmutable, object: null|string, owner: null|string} $filter_data
          */
-        $ui_filter_data = $this->ui_service->filter()->getData($this->filter);
         [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
 
-        if (isset($ui_filter_data['issue_date']) && $ui_filter_data['issue_date'] !== '') {
-            try {
-                $ui_filter_data['issue_date'] = new DateTime($ui_filter_data['issue_date']);
-            } catch (Exception) {
-                $ui_filter_data['issue_date'] = null;
-            }
-        } else {
-            $ui_filter_data['issue_date'] = null;
-        }
+        $ui_filter_data = $this->mapUiFilterData($this->ui_service->filter()->getData($this->filter));
 
         $table_rows = $this->buildTableRows($this->repo->fetchCertificatesForOverview(
             $this->user->getLanguage(),
@@ -125,27 +118,51 @@ class CertificateOverviewTable implements DataRetrieval
         ));
 
         foreach ($table_rows as $row) {
-            $row['issue_date'] = DateTimeImmutable::createFromMutable((new DateTime())->setTimestamp($row['issue_date']));
+            $row['issue_date'] = (new DateTimeImmutable())
+                ->setTimestamp($row['issue_date'])
+                ->setTimezone($this->user_timezone);
             yield $row_builder->buildDataRow((string) $row['id'], $row);
         }
     }
 
+    /**
+     * @param array{certificate_id: null|string, issue_date: string[], object: null|string, owner: null|string} $filter_data
+     * @return array{certificate_id: null|string, issue_date: array{from: null|DateTimeImmutable, to: null|DateTimeImmutable}, object: null|string, owner: null|string} $filter_data
+     */
+    private function mapUiFilterData(array $filter_data): array
+    {
+        if (isset($filter_data['issue_date']) && $filter_data['issue_date'] !== '') {
+            try {
+                $from = new DateTimeImmutable($filter_data['issue_date'][0], $this->user_timezone);
+            } catch (Throwable) {
+                $from = null;
+            }
+
+            try {
+                $to = new DateTimeImmutable($filter_data['issue_date'][1], $this->user_timezone);
+                $seconds_to_add = 59 - (int) $to->format('s');
+                $to = $to->modify("+$seconds_to_add seconds");
+            } catch (Throwable) {
+                $to = null;
+            }
+
+            $filter_data['issue_date'] = [
+                'from' => $from,
+                'to' => $to
+            ];
+        } else {
+            $filter_data['issue_date'] = [
+                'from' => null,
+                'to' => null
+            ];
+        }
+
+        return $filter_data;
+    }
+
     public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
     {
-        /**
-         * @var array{certificate_id: null|string, issue_date: null|DateTime, object: null|string, owner: null|string} $filter_data
-         */
-        $ui_filter_data = $this->ui_service->filter()->getData($this->filter);
-
-        if (isset($ui_filter_data['issue_date']) && $ui_filter_data['issue_date'] !== '') {
-            try {
-                $ui_filter_data['issue_date'] = new DateTime($ui_filter_data['issue_date']);
-            } catch (Exception) {
-                $ui_filter_data['issue_date'] = null;
-            }
-        } else {
-            $ui_filter_data['issue_date'] = null;
-        }
+        $ui_filter_data = $this->mapUiFilterData($this->ui_service->filter()->getData($this->filter));
 
         return $this->repo->fetchCertificatesForOverviewCount($ui_filter_data);
     }
@@ -153,6 +170,12 @@ class CertificateOverviewTable implements DataRetrieval
 
     private function buildFilter(): \ILIAS\UI\Component\Input\Container\Filter\Standard
     {
+        if ((int) $this->user->getTimeFormat() === ilCalendarSettings::TIME_FORMAT_12) {
+            $date_format = $this->data_factory->dateFormat()->withTime12($this->user->getDateFormat());
+        } else {
+            $date_format = $this->data_factory->dateFormat()->withTime24($this->user->getDateFormat());
+        }
+
         return $this->ui_service->filter()->standard(
             'certificates_overview_filter',
             $this->ctrl->getLinkTargetByClass(
@@ -161,7 +184,10 @@ class CertificateOverviewTable implements DataRetrieval
             ),
             [
                 'certificate_id' => $this->ui_factory->input()->field()->text($this->lng->txt('certificate_id')),
-                'issue_date' => $this->ui_factory->input()->field()->text($this->lng->txt('certificate_issue_date')),
+                'issue_date' => $this->ui_factory->input()->field()
+                    ->duration($this->lng->txt('certificate_issue_date'))
+                    ->withFormat($date_format)
+                    ->withUseTime(true),
                 'object' => $this->ui_factory->input()->field()->text($this->lng->txt('obj')),
                 'obj_id' => $this->ui_factory->input()->field()->text($this->lng->txt('object_id')),
                 'owner' => $this->ui_factory->input()->field()->text($this->lng->txt('owner')),
@@ -181,8 +207,8 @@ class CertificateOverviewTable implements DataRetrieval
         } else {
             $date_format = $this->data_factory->dateFormat()->withTime24($this->user->getDateFormat());
         }
-
         return $ui_table->data(
+            $this,
             $this->lng->txt('certificates'),
             [
                 'certificate_id' => $ui_table->column()->text($this->lng->txt('certificate_id')),
@@ -191,7 +217,6 @@ class CertificateOverviewTable implements DataRetrieval
                 'obj_id' => $ui_table->column()->text($this->lng->txt('object_id')),
                 'owner' => $ui_table->column()->text($this->lng->txt('owner'))
             ],
-            $this
         )
             ->withOrder(new Order('issue_date', Order::DESC))
             ->withId('certificateOverviewTable')
@@ -244,25 +269,43 @@ class CertificateOverviewTable implements DataRetrieval
     {
         $table_rows = [];
 
+        $ref_id_cache = [];
+        $owner_cache = [];
+        $object_title_cache = [];
+
         foreach ($certificates as $certificate) {
-            $refIds = ilObject::_getAllReferences($certificate->getObjId());
-            $objectTitle = ilObject::_lookupTitle($certificate->getObjId());
-            foreach ($refIds as $refId) {
-                if ($this->access->checkAccess('read', '', $refId)) {
-                    $objectTitle = $this->ui_renderer->render(
-                        $this->ui_factory->link()->standard($objectTitle, ilLink::_getLink($refId))
-                    );
-                    break;
+            if (!isset($ref_id_cache[$certificate->getObjId()])) {
+                $ref_id_cache[$certificate->getObjId()] = ilObject::_getAllReferences($certificate->getObjId());
+            }
+            $ref_ids = $ref_id_cache[$certificate->getObjId()];
+
+            if (!isset($object_title_cache[$certificate->getObjId()])) {
+                $object_title = ilObject::_lookupTitle($certificate->getObjId());
+                foreach ($ref_ids as $refId) {
+                    if ($this->access->checkAccess('read', '', $refId)) {
+                        $object_title = $this->ui_renderer->render(
+                            $this->ui_factory->link()->standard($object_title, ilLink::_getLink($refId))
+                        );
+                        break;
+                    }
                 }
+
+                $object_title_cache[$certificate->getObjId()] = $object_title;
+            }
+
+
+
+            if (!isset($owner_cache[$certificate->getUserId()])) {
+                $owner_cache[$certificate->getUserId()] = ilObjUser::_lookupLogin($certificate->getUserId());
             }
 
             $table_rows[] = [
                 'id' => $certificate->getId(),
                 'certificate_id' => $certificate->getCertificateId()->asString(),
                 'issue_date' => $certificate->getAcquiredTimestamp(),
-                'object' => $objectTitle,
+                'object' => $object_title_cache[$certificate->getObjId()],
                 'obj_id' => (string) $certificate->getObjId(),
-                'owner' => ilObjUser::_lookupLogin($certificate->getUserId()),
+                'owner' => $owner_cache[$certificate->getUserId()],
             ];
         }
 

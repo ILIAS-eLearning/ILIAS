@@ -20,7 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class BackgroundTasks_ implements Component\Component
+use ILIAS\Component\Component;
+use ILIAS\Component\Resource\PublicAsset;
+use ILIAS\Component\Resource\ComponentJS;
+
+class BackgroundTasks_ implements Component
 {
     public function init(
         array | \ArrayAccess &$define,
@@ -32,7 +36,7 @@ class BackgroundTasks_ implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "background_task_refresh.js");
+        $contribute[PublicAsset::class] = fn(): ComponentJS =>
+            new ComponentJS($this, "background_task_refresh.js");
     }
 }

@@ -27,4 +27,5 @@ interface ConditionDefinition
 {
     public function formGroup(array $arguments = []): Group;
     public function withCriterion(CriterionContent $criterion): Condition;
+    public function translatedType(): string;
 }

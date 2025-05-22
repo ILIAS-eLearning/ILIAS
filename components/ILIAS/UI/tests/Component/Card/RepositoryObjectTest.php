@@ -36,28 +36,27 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
     public function getFactory()
     {
         $mocks = [
-            'button' => $this->createMock(C\Button\Factory::class),
-            'divider' => $this->createMock(C\Divider\Factory::class),
+            'button' => $this->createMock(I\Component\Button\Factory::class),
+            'divider' => $this->createMock(I\Component\Divider\Factory::class),
         ];
         $factory = new class ($mocks) extends NoUIFactory {
             public function __construct(
                 protected array $mocks
             ) {
             }
-            public function legacy($content): C\Legacy\Legacy
+            public function legacy(): I\Component\Legacy\Factory
             {
-                $f = new I\Component\Legacy\Factory(new I\Component\SignalGenerator());
-                return $f->legacy($content);
+                return new I\Component\Legacy\Factory(new I\Component\SignalGenerator());
             }
-            public function button(): C\Button\Factory
+            public function button(): I\Component\Button\Factory
             {
                 return $this->mocks['button'];
             }
-            public function divider(): C\Divider\Factory
+            public function divider(): I\Component\Divider\Factory
             {
                 return $this->mocks['divider'];
             }
-            public function symbol(): C\Symbol\Factory
+            public function symbol(): I\Component\Symbol\Factory
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
@@ -272,8 +271,8 @@ EOT);
                     <div></div>
                     <div></div>
                     <div class="il-card-repository-dropdown">
-                        <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+                        <div class="dropdown" id="id_3">
+                            <button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
                             <ul id="id_3_menu" class="dropdown-menu">
                                 <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_2">Visit ILIAS</button></li>
                             </ul>

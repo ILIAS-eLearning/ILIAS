@@ -17,6 +17,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ILIAS\GlobalScreen\Scope\Toast\Factory\StandardToastItem;
 use ILIAS\GlobalScreen\Scope\Toast\Factory\ToastAction;
 
@@ -24,9 +26,9 @@ require_once(__DIR__ . "/BaseToastSetUp.php");
 
 class StandardToastTest extends BaseToastSetUp
 {
-    public function testStandardToast()
+    public function testStandardToast(): void
     {
-        $id = $this->createMock(\ILIAS\GlobalScreen\Identification\IdentificationInterface::class);
+        $id = $this->createMock(IdentificationInterface::class);
 
         $standard_toast = $this->factory->standard(
             $id,
@@ -39,9 +41,7 @@ class StandardToastTest extends BaseToastSetUp
         $this->assertCount(0, $standard_toast->getAllToastActions());
         $this->assertCount(0, $standard_toast->getAdditionalToastActions());
 
-        $handle = function () {
-            return true;
-        };
+        $handle = (fn(): true => true);
 
         $standard_toast = $standard_toast->withShownCallable($handle);
         $this->assertCount(1, $standard_toast->getAllToastActions());
@@ -70,9 +70,7 @@ class StandardToastTest extends BaseToastSetUp
 
     public static function reservedActionsProvider(): array
     {
-        $action = function () {
-            return true;
-        };
+        $action = (fn(): true => true);
 
         return [
             [new ToastAction('shown', 'shown', $action)],
@@ -81,12 +79,10 @@ class StandardToastTest extends BaseToastSetUp
         ];
     }
 
-    /**
-     * @dataProvider reservedActionsProvider
-     */
+    #[DataProvider('reservedActionsProvider')]
     public function testReservedActions(ToastAction $action): void
     {
-        $id = $this->createMock(\ILIAS\GlobalScreen\Identification\IdentificationInterface::class);
+        $id = $this->createMock(IdentificationInterface::class);
 
         $standard_toast = $this->factory->standard(
             $id,

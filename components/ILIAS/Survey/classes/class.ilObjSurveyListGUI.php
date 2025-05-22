@@ -122,6 +122,14 @@ class ilObjSurveyListGUI extends ilObjectListGUI
                 "questions"
             );
         }
+        if ($cmd === "run") {
+            $link = $this->ctrl->getLinkTargetByClass(
+                [
+                    "ilObjSurveyGUI"
+                ],
+                "run"
+            );
+        }
         $this->ctrl->setParameterByClass(
             "ilObjSurveyGUI",
             "ref_id",

@@ -84,8 +84,10 @@ class MediaObjectManager
      * get a xml string that contains all media object elements, that
      * are referenced by any media alias in the page
      */
-    public function getMultimediaXML(\DOMDocument $dom): string
-    {
+    public function getMultimediaXML(
+        \DOMDocument $dom,
+        bool $offline = false
+    ): string {
         $mob_ids = $this->collectMediaObjects($dom);
 
         // get xml of corresponding media objects
@@ -93,7 +95,7 @@ class MediaObjectManager
         foreach ($mob_ids as $mob_id => $dummy) {
             if (\ilObject::_lookupType((int) $mob_id) === "mob") {
                 $mob_obj = new \ilObjMediaObject($mob_id);
-                $mobs_xml .= $mob_obj->getXML(IL_MODE_OUTPUT, $a_inst = 0, true);
+                $mobs_xml .= $mob_obj->getXML(IL_MODE_OUTPUT, $a_inst = 0, true, $offline);
             }
         }
         return $mobs_xml;

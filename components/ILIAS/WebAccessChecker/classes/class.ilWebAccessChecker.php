@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,11 +16,8 @@
  *
  *********************************************************************/
 
-// declare(strict_types=1);
 use ILIAS\HTTP\Cookies\CookieFactory;
-use ILIAS\HTTP\Cookies\CookieWrapper;
 use ILIAS\HTTP\Services;
-use Psr\Http\Message\UriInterface;
 
 /**
  * Class ilWebAccessChecker
@@ -49,17 +47,12 @@ class ilWebAccessChecker
      * @var int[]
      */
     protected array $applied_checking_methods = [];
-    private Services $http;
-    private CookieFactory $cookieFactory;
 
     /**
      * ilWebAccessChecker constructor.
      */
-    public function __construct(Services $httpState, CookieFactory $cookieFactory)
+    public function __construct(private Services $http, private CookieFactory $cookieFactory)
     {
-        $this->setPathObject(new ilWACPath($httpState->request()->getRequestTarget()));
-        $this->http = $httpState;
-        $this->cookieFactory = $cookieFactory;
     }
 
     /**
@@ -67,12 +60,11 @@ class ilWebAccessChecker
      */
     public function check(): bool
     {
-        if ($this->getPathObject() === null) {
-            throw new ilWACException(ilWACException::CODE_NO_PATH);
-        }
+        $path_object = new ilWACPath($this->http->request()->getRequestTarget());
+        $this->setPathObject($path_object);
 
         // Check if Path has been signed with a token
-        $ilWACSignedPath = new ilWACSignedPath($this->getPathObject(), $this->http, $this->cookieFactory);
+        $ilWACSignedPath = new ilWACSignedPath($path_object, $this->http, $this->cookieFactory);
         if ($ilWACSignedPath->isSignedPath()) {
             $this->addAppliedCheckingMethod(self::CM_FILE_TOKEN);
             if ($ilWACSignedPath->isSignedPathValid()) {
@@ -101,11 +93,11 @@ class ilWebAccessChecker
         $this->initILIAS();
 
         // Check if Path is within accepted paths
-        if ($this->getPathObject()->getModuleType() !== 'rs') {
-            $clean_path = $this->getPathObject()->getCleanURLdecodedPath();
+        if ($path_object->getModuleType() !== 'rs') {
+            $clean_path = $path_object->getCleanURLdecodedPath();
             $path = realpath(__DIR__ . '/../../../../public/' . $clean_path);
             $data_dir = realpath(CLIENT_WEB_DIR);
-            if (strpos($path, $data_dir) !== 0) {
+            if (!str_starts_with($path, $data_dir)) {
                 return false;
             }
             if (dirname($path) === $data_dir && is_file($path)) {
@@ -113,11 +105,11 @@ class ilWebAccessChecker
             }
         }
 
-        if (ilWACSecurePath::hasCheckingInstanceRegistered($this->getPathObject())) {
+        if (ilWACSecurePath::hasCheckingInstanceRegistered($path_object)) {
             // Maybe the path has been registered, lets check
-            $checkingInstance = ilWACSecurePath::getCheckingInstance($this->getPathObject());
+            $checkingInstance = ilWACSecurePath::getCheckingInstance($path_object);
             $this->addAppliedCheckingMethod(self::CM_CHECKINGINSTANCE);
-            $canBeDelivered = $checkingInstance->canBeDelivered($this->getPathObject());
+            $canBeDelivered = $checkingInstance->canBeDelivered($path_object);
             if ($canBeDelivered) {
                 $this->sendHeader('checked using fallback');
                 if ($ilWACSignedPath->isFolderSigned() && $this->isRevalidateFolderTokens()) {
@@ -131,7 +123,7 @@ class ilWebAccessChecker
         // none of the checking mechanisms could have been applied. no access
         $this->setChecked(true);
         $this->addAppliedCheckingMethod(self::CM_SECFOLDER);
-        return !$this->getPathObject()->isInSecFolder();
+        return !$path_object->isInSecFolder();
     }
 
     protected function sendHeader(string $message): void
@@ -330,12 +322,11 @@ class ilWebAccessChecker
         global $DIC;
         session_destroy();
         ilContext::init(ilContext::CONTEXT_WAC);
-        ilInitialisation::reinitILIAS();
+        ilInitialisation::reInitUser();
         /**
-         * @var $ilAuthSession \ilAuthSession
+         * @var ilAuthSession $ilAuthSession
          */
         $ilAuthSession = $DIC['ilAuthSession'];
-        $ilAuthSession->init();
         $ilAuthSession->regenerateId();
         $ilAuthSession->setUserId(ANONYMOUS_USER_ID);
         $ilAuthSession->setAuthenticated(false, ANONYMOUS_USER_ID);

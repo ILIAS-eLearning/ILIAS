@@ -40,7 +40,7 @@ class GUIService
         int $rep_obj_id,
         string $list_info = "",
         bool $multiple = true,
-        \ILIAS\Taxonomy\Settings\ModifierGUIInterface $modifier = null
+        ?\ILIAS\Taxonomy\Settings\ModifierGUIInterface $modifier = null
     ): \ilTaxonomySettingsGUI {
         return new \ilTaxonomySettingsGUI(
             $this->domain,

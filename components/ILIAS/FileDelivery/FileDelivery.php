@@ -20,7 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class FileDelivery implements Component\Component
+use ILIAS\Component\Component;
+use ILIAS\Setup\Agent;
+use ILIAS\Refinery\Factory;
+use ILIAS\Component\Resource\PublicAsset;
+use ILIAS\Component\Resource\Endpoint;
+
+class FileDelivery implements Component
 {
     public function init(
         array | \ArrayAccess &$define,
@@ -32,12 +38,12 @@ class FileDelivery implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $contribute[Agent::class] = static fn(): \ILIAS\FileDelivery\Setup\Agent =>
             new \ILIAS\FileDelivery\Setup\Agent(
-                $pull[\ILIAS\Refinery\Factory::class]
+                $pull[Factory::class]
             );
 
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\Endpoint($this, "deliver.php");
+        $contribute[PublicAsset::class] = fn(): Endpoint =>
+            new Endpoint($this, "deliver.php");
     }
 }

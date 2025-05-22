@@ -30,19 +30,14 @@ use ILIAS\ResourceStorage\Information\FileInformation;
  */
 class FileStreamRevision extends FileRevision implements Revision
 {
-    private FileStream $stream;
-    protected bool $keep_original = false;
-
     /**
      * @inheritDoc
      */
     public function __construct(
         ResourceIdentification $identification,
-        FileStream $stream,
-        bool $keep_original = false
+        private FileStream $stream,
+        protected bool $keep_original = false
     ) {
-        $this->stream = $stream;
-        $this->keep_original = $keep_original;
         parent::__construct($identification);
         $information = new FileInformation();
         $this->setInformation($information);

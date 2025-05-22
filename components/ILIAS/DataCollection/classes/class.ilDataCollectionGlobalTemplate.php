@@ -16,12 +16,11 @@
  *
  *********************************************************************/
 
-
 declare(strict_types=1);
 
 class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 {
-    private ilLanguage$lng;
+    private ilLanguage $lng;
     private ilLocatorGUI $locator;
     private ilTabsGUI $tabs;
     private ilToolbarGUI $toolbar;
@@ -475,9 +474,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         // always load jQuery
         iljQueryUtil::initjQuery();
         iljQueryUtil::initjQueryUI();
-
-        // always load ui framework
-        ilUIFramework::init();
 
         $this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
         $this->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -1269,7 +1265,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         return $this->template->parseCurrentBlock($block_name);
     }
 
-    public function addBlockFile(string $var, string $block, string $template_name, string $in_module = null): bool
+    public function addBlockFile(string $var, string $block, string $template_name, ?string $in_module = null): bool
     {
         return $this->template->addBlockFile($var, $block, $template_name, $in_module);
     }

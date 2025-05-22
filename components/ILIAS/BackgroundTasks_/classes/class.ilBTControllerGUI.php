@@ -120,7 +120,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
      */
     public static function hash($url): string
     {
-        return base64_encode($url);
+        return base64_encode((string) $url);
     }
 
 
@@ -129,6 +129,6 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
      */
     public static function unhash($url): string
     {
-        return base64_decode($url);
+        return base64_decode((string) $url);
     }
 }

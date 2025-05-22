@@ -21,9 +21,6 @@ declare(strict_types=1);
 use ILIAS\components\Dashboard\Block\BlockDTO;
 use ILIAS\UI\Component\Modal\RoundTrip;
 
-/**
- * @ilCtrl_IsCalledBy ilSelectedItemsBlockGUI: ilColumnGUI
- */
 class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
 {
     public function initViewSettings(): void
@@ -58,7 +55,7 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
         return $this->renderer->render(
             $this->factory->panel()->standard(
                 $this->getTitle(),
-                $this->factory->legacy($this->renderer->render($mbox))
+                $this->factory->legacy()->content($this->renderer->render($mbox))
             )
         );
     }
@@ -90,15 +87,10 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
         return 'pditems';
     }
 
-    public function confirmedRemoveObject(): void
+    public function confirmedRemove(array $ids): void
     {
-        $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
-        if ($refIds === []) {
-            $this->ctrl->redirect($this, 'manage');
-        }
-
-        foreach ($refIds as $ref_id) {
-            $this->favourites_manager->remove($this->user->getId(), (int) $ref_id);
+        foreach ($ids as $ref_id) {
+            $this->favourites_manager->remove($this->user->getId(), $ref_id);
         }
 
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('pd_remove_multi_confirm'), true);
@@ -113,29 +105,5 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
     public function getRemoveMultipleActionText(): string
     {
         return $this->lng->txt('pd_remove_multiple');
-    }
-
-    public function getConfigureModal(): RoundTrip
-    {
-        $roundtrip_modal = $this->ui->factory()->modal()->roundtrip(
-            $this->lng->txt('rep_configure'),
-            $this->ui->factory()->legacy('PH')
-        )->withAdditionalOnLoadCode(function ($id) {
-            return "document.body.appendChild(document.getElementById('$id'));
-                        let configure_modal_script = document.body.appendChild(document.createElement('script'));
-                        configure_modal_script.src = 'Services/Dashboard/Block/js/ReplaceModalContent.js';
-                        document.body.appendChild(configure_modal_script);
-                        let modal_js_script = document.body.appendChild(document.createElement('script'));
-                        modal_js_script.src = 'src/UI/templates/js/Modal/modal.js';
-                        document.body.appendChild(modal_js_script);
-                ";
-        });
-
-        return $roundtrip_modal->withAsyncRenderUrl(
-            $this->ctrl->getLinkTargetByClass(
-                [ilDashboardGUI::class, ilColumnGUI::class, $this::class],
-                'removeFromDeskRoundtrip'
-            ) . '&page=manage&replaceSignal=' . $roundtrip_modal->getReplaceSignal()->getId()
-        );
     }
 }

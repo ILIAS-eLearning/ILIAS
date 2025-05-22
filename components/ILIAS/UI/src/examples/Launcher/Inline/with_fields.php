@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Launcher\Inline;
@@ -9,8 +25,12 @@ use ILIAS\Data\Result;
 use ILIAS\UI\Component\Launcher\Launcher;
 
 /**
- * In this example, the Launcher is configured with inputs;
- * a Modal containing a Form will open upon clicking the launch-button.
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ *   In this example, the Launcher is configured with inputs;
+ *   a Modal containing a Form will open upon clicking the launch-button.
+ * ---
  */
 function with_fields()
 {
@@ -34,7 +54,7 @@ function with_fields()
     $evaluation = function (Result $result, Launcher &$launcher) use ($ctrl, $ui_factory) {
         if ($result->isOK() && $result->value()[0]) {
             $ctrl->redirectToURL(
-                (string)$launcher->getTarget()->getURL()->withParameter('launcher_redirect', 'terms accepted (' . $launcher->getButtonLabel() . ')')
+                (string) $launcher->getTarget()->getURL()->withParameter('launcher_redirect', 'terms accepted (' . $launcher->getButtonLabel() . ')')
             );
         }
         $launcher = $launcher->withStatusMessageBox($ui_factory->messageBox()->failure('You must accept the conditions.'));
@@ -77,7 +97,7 @@ function with_fields()
     $evaluation = function (Result $result, Launcher &$launcher) use ($ctrl, $ui_factory) {
         if ($result->isOK() && $result->value()[0]->toString() === 'ilias') {
             $ctrl->redirectToURL(
-                (string)$launcher->getTarget()->getURL()->withParameter('launcher_redirect', 'password protected')
+                (string) $launcher->getTarget()->getURL()->withParameter('launcher_redirect', 'password protected')
             );
         }
         $launcher = $launcher->withStatusMessageBox($ui_factory->messageBox()->failure('nope. wrong pass.'));

@@ -26,23 +26,12 @@ namespace ILIAS\ResourceStorage\Policy;
 abstract class WhiteAndBlacklistedFileNamePolicy implements FileNamePolicy
 {
     /**
-     * @var string[]
-     */
-    protected array $blacklisted = [];
-    /**
-     * @var string[]
-     */
-    protected array $whitelisted = [];
-
-    /**
      * WhiteAndBlacklistedFileNamePolicy constructor.
      * @param string[] $blacklisted
      * @param string[] $whitelisted
      */
-    public function __construct(array $blacklisted = [], array $whitelisted = [])
+    public function __construct(protected array $blacklisted = [], protected array $whitelisted = [])
     {
-        $this->blacklisted = $blacklisted;
-        $this->whitelisted = $whitelisted;
     }
 
     public function isValidExtension(string $extension): bool

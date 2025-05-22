@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -18,17 +18,7 @@
 
 declare(strict_types=1);
 
-use Closure;
-use ilObjUser;
-use ilSession;
-use ilLanguage;
-use ilAuthUtils;
-use ilCtrlInterface;
-use ilErrorHandling;
 use ILIAS\Data\Password;
-use ilDAVActivationChecker;
-use ilGlobalTemplateInterface;
-use ilSecuritySettingsChecker;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
@@ -87,9 +77,9 @@ class ilLocalUserPasswordSettingsGUI
     }
 
     public function showPassword(
-        Form $form = null,
+        ?Form $form = null,
         bool $hide_form = false,
-        MessageBox $message_box = null
+        ?MessageBox $message_box = null
     ): void {
         // check whether password of user have to be changed
         // due to first login or password of user is expired
@@ -114,7 +104,7 @@ class ilLocalUserPasswordSettingsGUI
     }
 
     public function getPasswordForm(
-        ServerRequestInterface $request = null,
+        ?ServerRequestInterface $request = null,
         array $errors = []
     ): Form {
         $items = [];
@@ -203,14 +193,6 @@ class ilLocalUserPasswordSettingsGUI
 
                     break;
                 case ilAuthUtils::AUTH_SHIBBOLETH:
-                case ilAuthUtils::AUTH_CAS:
-                    if (ilDAVActivationChecker::_isActive()) {
-                        $title = $this->lng->txt('chg_ilias_and_webfolder_password');
-                    } else {
-                        $title = $this->lng->txt('chg_ilias_password');
-                    }
-
-                    break;
                 default:
                     $title = $this->lng->txt('chg_ilias_password');
 
@@ -237,17 +219,17 @@ class ilLocalUserPasswordSettingsGUI
         $form = $this->getPasswordForm()->withRequest($this->request);
         $section = $form->getInputs()['password'];
         /**
-         * @var PasswordInput $cp
+         * @var ?PasswordInput $cp
          * @var PasswordInput $np
          */
-        $cp = $section->getInputs()[self::CURRENT_PASSWORD];
+        $cp = $section->getInputs()[self::CURRENT_PASSWORD] ?? null;
         $np = $section->getInputs()[self::NEW_PASSWORD];
         $errors = [self::CURRENT_PASSWORD => [], self::NEW_PASSWORD => []];
 
         if (!$form->getError()) {
             $data = $form->getData();
             $error = false;
-            if ($cp->getError()) {
+            if ($cp && $cp->getError()) {
                 $error = true;
                 $errors[self::CURRENT_PASSWORD][] = $cp->getError();
             }
@@ -256,7 +238,7 @@ class ilLocalUserPasswordSettingsGUI
                 $errors[self::NEW_PASSWORD][] = $np->getError();
             }
 
-            $entered_current_password = $cp->getValue();
+            $entered_current_password = $cp ? $cp->getValue() : '';
             $entered_new_password = $np->getValue();
 
             if (

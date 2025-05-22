@@ -49,7 +49,7 @@ class ilCOPageEditGSToolProvider extends AbstractDynamicToolProvider
                 return $this->identification_provider->contextAwareIdentifier($id);
             };
             $l = function (string $content) {
-                return $this->dic->ui()->factory()->legacy($content);
+                return $this->dic->ui()->factory()->legacy()->content($content);
             };
             $identification = $iff("copg_editor");
             $hashed = $this->hash($identification->serialize());

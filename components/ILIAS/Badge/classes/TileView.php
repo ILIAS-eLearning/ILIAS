@@ -107,9 +107,8 @@ class TileView
         return $this->container->ui()
                                ->factory()
                                ->viewControl()
-                               ->sortation(array_map($txt, $sort->options()))
-                               ->withTargetURL($link, 'sort')
-                               ->withLabel($txt($sort->label()));
+                               ->sortation(array_map($txt, $sort->options()), $sort->key())
+                               ->withTargetURL($link, 'sort');
     }
 
     /**

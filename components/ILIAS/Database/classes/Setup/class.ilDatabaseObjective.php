@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,14 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Setup;
+declare(strict_types=1);
 
-abstract class ilDatabaseObjective implements Setup\Objective
+use ILIAS\Setup\Objective;
+
+abstract class ilDatabaseObjective implements Objective
 {
-    protected \ilDatabaseSetupConfig $config;
-
-    public function __construct(\ilDatabaseSetupConfig $config)
+    public function __construct(protected \ilDatabaseSetupConfig $config)
     {
-        $this->config = $config;
     }
 }

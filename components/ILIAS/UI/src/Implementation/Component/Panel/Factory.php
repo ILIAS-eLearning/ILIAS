@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,59 +16,41 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Panel;
 
 use ILIAS\UI\Component\Panel as P;
 
-/**
- * Class Factory
- * @package ILIAS\UI\Implementation\Component\Panel
- */
 class Factory implements P\Factory
 {
-    protected P\Listing\Factory $listing_factory;
-
-    public function __construct(P\Listing\Factory $listing_factory)
-    {
-        $this->listing_factory = $listing_factory;
+    public function __construct(
+        protected Listing\Factory $listing_factory,
+        protected Secondary\Factory $secondary_factory,
+    ) {
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function standard(string $title, $content): P\Standard
+    public function standard(string $title, $content): Standard
     {
         return new Standard($title, $content);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function sub(string $title, $content): P\Sub
+    public function sub(string $title, $content): Sub
     {
         return new Sub($title, $content);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function report(string $title, $sub_panels): P\Report
+    public function report(string $title, $sub_panels): Report
     {
         return new Report($title, $sub_panels);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function secondary(): P\Secondary\Factory
+    public function secondary(): Secondary\Factory
     {
-        return new Secondary\Factory();
+        return $this->secondary_factory;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function listing(): P\Listing\Factory
+    public function listing(): Listing\Factory
     {
         return $this->listing_factory;
     }

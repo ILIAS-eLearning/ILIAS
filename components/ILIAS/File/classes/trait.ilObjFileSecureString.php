@@ -36,7 +36,7 @@ trait ilObjFileSecureString
 
     protected function stripSuffix(string $title, ?string $suffix = null): string
     {
-        $suffix = $suffix ?? $this->extractSuffixFromFilename($title);
+        $suffix ??= $this->extractSuffixFromFilename($title);
 
         if ($suffix !== null && ($length = strrpos($title, "." . $suffix)) > 0) {
             $title = substr($title, 0, $length);
@@ -48,21 +48,21 @@ trait ilObjFileSecureString
     protected function ensureSuffix(string $title, ?string $suffix = null): string
     {
         $title = $this->stripSuffix($title, $suffix);
-        $suffix = $suffix ?? $this->extractSuffixFromFilename($title);
+        $suffix ??= $this->extractSuffixFromFilename($title);
 
-        if ($suffix !== null && strrpos($title, "." . $suffix) === false) {
+        if ($suffix !== null && strrpos((string) $title, "." . $suffix) === false) {
             $title .= "." . $suffix;
         }
 
-        return $this->secure(rtrim($title, "."));
+        return $this->secure(rtrim((string) $title, "."));
     }
 
     protected function ensureSuffixInBrackets(string $title, ?string $suffix = null): string
     {
         $title = $this->stripSuffix($title, $suffix);
-        $suffix = $suffix ?? $this->extractSuffixFromFilename($title);
+        $suffix ??= $this->extractSuffixFromFilename($title);
 
-        if ($suffix !== null && strrpos($title, "." . $suffix) === false) {
+        if ($suffix !== null && strrpos((string) $title, "." . $suffix) === false) {
             $title .= " (" . $suffix . ")";
         }
 

@@ -15,7 +15,7 @@ for 'Certificates' to their component.
   * [Java Server](#java-server)
   * [Certificate Settings](#certificate-settings)
 * [GUI](#gui)
-* [Implementation for new Services/Module](#implementation-for-new-services-module)
+* [Implementation for new components](#implementation-for-new-components)
   * [Placeholder Description](#placeholder-description)
     * [Methods](#methods)
   * [Placeholder Values](#placeholder-values)
@@ -58,7 +58,7 @@ If the ILIAS system will be upgraded from a ILIAS version <=5.3.0
 a migration MUST be executed.
 See the [migration](#migration) chapter for more information.
 
-Currently only a the newest version of a user certificate will
+Currently only the newest version of a user certificate will
 be shown in the GUI.
 Previous certificate are also stored in the database,
 but are not displayed in the GUI.
@@ -71,9 +71,9 @@ with a delay.
   Due to the fact that learning progress events can be raised for different users
   and different context objects in a very short amount of time
   this can lead to response delays in the GUI.
-* Creating user certificates via the cron job is recommended for sytems
+* Creating user certificates via the cron job is recommended for systems
   with a high user workload.
-  This approach stores an reminder of the learning progress event into a
+  This approach stores a reminder of the learning progress event into a
   queue.
   The cron job will process the queue on execution.
   To avoid high latencies we recommend to execute the cron job in a
@@ -88,7 +88,7 @@ and the [Java Server](#java-server) must be configured.
 A default background image can be added that will be used as default
 image for every certificate authority.
 
-Additionally the `Learning Progress` MUST be activated for the Module/Service
+Additionally, the `Learning Progress` MUST be activated for the Module/Service
 to create new user certificates.
 
 ### Java Server
@@ -135,7 +135,7 @@ in a separated tab in `Learning History`.
 The subtab `Certificate` is only visible when certificates
 are activates via the [certificate settings](#certificate-settings).
 
-## Implementation for new Services/Module
+## Implementation for new components
 
 A new/separate case MUST be added in the following classes:
 * [`ilCertificateGUIFactory::create`](classes/Gui/class.ilCertificateGUIFactory.php)
@@ -339,7 +339,7 @@ $version              = 2;
 $iliasVerion          = 'v5.4.0';
 $createdTimestamp     = time();
 $currentlyActive      = true;
-$backgroundImagePath  = '/data/somone/certifcates/course/200/background_2.jpg';
+$backgroundImageIdentification  = 'a_id'
 
 $template = new ilCertificateTemplate(
 	$obj_id,
@@ -351,7 +351,7 @@ $template = new ilCertificateTemplate(
 	$iliasVersion,
 	$createdTimestamp,
 	$currentlyActive,
-	$backgroundImagePath
+	$backgroundImageIdentification
 );
 
 $repository = new ilCertificateTemplateDatabaseRepository($database);
@@ -400,7 +400,7 @@ copy process of an Service/Module.
 
 #### Delete
 
-The delete action will activated via a button
+The delete action will be activated via a button
 in the template form.
 
 Custom delete action can be created by implementing
@@ -425,9 +425,9 @@ certificates to the cron job queue.
 There are a few possible events the certificate service is
 listening to:
 
-| Event            | Component            | Explanation                                           |
-|------------------|----------------------|-------------------------------------------------------|
-| updateStatus     | Services/Tracking    | This event will be thrown by the Learning Progress    |
+| Event            | Component          | Explanation                                           |
+|------------------|--------------------|-------------------------------------------------------|
+| updateStatus     | ILIAS/Tracking     | This event will be thrown by the Learning Progress    |
 
 #### updateStatus
 
@@ -435,8 +435,8 @@ On an update status event (performed by the Learning Progress)
 a possible new user certificate will be added directly to the queue.
 
 If the Learning Progress is globally deactivated, the administrator
-can enter particular Modules/Services for Learning Progress.
-The course is NOT supported for this behaviour, but Modules/Services
+can enter particular components for Learning Progress.
+The course is NOT supported for this behaviour, but components
 can be added via the certificates template settings UI.
 Completing all of the selected events will add the user
 into the [queue](#cron-queue-classes).
@@ -444,7 +444,7 @@ into the [queue](#cron-queue-classes).
 ## API
 
 This service also provides an API to fetch data related to the certificates.
-Currently an endpoint is provided to fetch user certificate related data.
+Currently, an endpoint is provided to fetch user certificate related data.
 
 Public API classes:
 * `Certificate\API\UserCertificateAPI`

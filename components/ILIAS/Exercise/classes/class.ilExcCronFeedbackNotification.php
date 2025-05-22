@@ -16,7 +16,9 @@
  *
  *********************************************************************/
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * Cron for exercise feedback notification
@@ -24,7 +26,7 @@ use ILIAS\Cron\Schedule\CronJobScheduleType;
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilExcCronFeedbackNotification extends ilCronJob
+class ilExcCronFeedbackNotification extends CronJob
 {
     protected ilLanguage $lng;
 
@@ -57,9 +59,9 @@ class ilExcCronFeedbackNotification extends ilCronJob
         return $lng->txt("exc_global_feedback_file_cron_info");
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
+        return JobScheduleType::DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -80,9 +82,9 @@ class ilExcCronFeedbackNotification extends ilCronJob
     /**
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
-        $status = ilCronJobResult::STATUS_NO_ACTION;
+        $status = JobResult::STATUS_NO_ACTION;
 
         $count = 0;
 
@@ -93,10 +95,10 @@ class ilExcCronFeedbackNotification extends ilCronJob
         }
 
         if ($count !== 0) {
-            $status = ilCronJobResult::STATUS_OK;
+            $status = JobResult::STATUS_OK;
         }
 
-        $result = new ilCronJobResult();
+        $result = new JobResult();
         $result->setStatus($status);
 
         return $result;

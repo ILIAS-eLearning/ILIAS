@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-/**
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- */
 class ilFSStorageBadgeImageTemplate extends ilFileSystemAbstractionStorage
 {
     public function __construct(int $a_container_id = 0)

@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\test\Provide;
 
+use ilCtrl;
+use ILIAS\HTTP\Services;
 use ILIAS\UI\Component\Component;
 use ILIAS\LegalDocuments\Value\DocumentContent;
 use ILIAS\UI\Component\Input\Field\Group;
@@ -29,20 +31,23 @@ use ILIAS\LegalDocuments\ConditionDefinition;
 use ILIAS\LegalDocuments\Value\Criterion;
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\LegalDocuments\EditLinks;
-use ILIAS\LegalDocuments\Table\EditableDocumentTable;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\LegalDocuments\Legacy\Table as LegacyTable;
 use ILIAS\LegalDocuments\Table as TableInterface;
 use ILIAS\LegalDocuments\Table\DocumentTable;
+use ILIAS\UI\Component\Table\Action\Factory;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\LegalDocuments\test\ContainerMock;
 use ILIAS\DI\Container;
 use ILIAS\LegalDocuments\Repository\DocumentRepository;
+use ILIAS\UI\Implementation\Component\Table\Action\Multi;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\Provide\ProvideDocument;
 use ILIAS\LegalDocuments\SelectionMap;
 use ilGlobalTemplateInterface;
 use ilLanguage;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
 use stdClass;
 use ilObjUser;
 
@@ -59,58 +64,54 @@ class ProvideDocumentTest extends TestCase
             $this->mock(DocumentRepository::class),
             new SelectionMap(),
             [],
-            $this->mock(Container::class)
+            $this->mockTree(Container::class, ['user' => ['getTimeZone' => 'europe/berlin']])
         ));
     }
 
     public function testTableReadOnly(): void
     {
         $dummy_gui = new stdClass();
-        $legacy = $this->mock(Legacy::class);
+
+        $uri = 'http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g:qo:gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50';
 
         $container = $this->mockTree(Container::class, [
             'ui' => [
-                'factory' => $this->mockMethod(UIFactory::class, 'legacy', ['table html'], $legacy),
-                'mainTemplate' => $this->mock(ilGlobalTemplateInterface::class),
+                'factory' => [],
+                'mainTemplate' => [],
             ],
-            'language' => $this->mock(ilLanguage::class),
+            'language' => [],
+            'http' => ['request' => ['getUri' => ['__toString' => $uri]]],
+            'ctrl' => [],
+            'user' => ['getTimeZone' => 'europe/berlin'],
         ]);
 
-        $table = $this->mockMethod(LegacyTable::class, 'getHTML', [], 'table html');
-        $create_table_gui = function ($gui, string $command, TableInterface $t) use ($dummy_gui, $table): LegacyTable {
-            $this->assertSame($dummy_gui, $gui);
-            $this->assertSame('dummy command', $command);
-            $this->assertInstanceOf(DocumentTable::class, $t);
-            return $table;
-        };
-
-        $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap(), [], $container, $create_table_gui);
-        $this->assertSame($legacy, $instance->table($dummy_gui, 'dummy command'));
+        $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap(), [], $container);
+        $this->assertInstanceOf(DocumentTable::class, $instance->table($dummy_gui));
     }
 
     public function testTableEditable(): void
     {
+        if (!defined('ILIAS_HTTP_PATH')) {
+            define('ILIAS_HTTP_PATH', 'http://localhost');
+        }
+
         $dummy_gui = new stdClass();
-        $legacy = $this->mock(Legacy::class);
+
+        $uri = 'http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g:qo:gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50';
 
         $container = $this->mockTree(Container::class, [
             'ui' => [
-                'factory' => $this->mockMethod(UIFactory::class, 'legacy', ['table html'], $legacy),
-                'mainTemplate' => $this->mock(ilGlobalTemplateInterface::class),
+                'factory' => ['table' => ['action' => ['multi' => []]]],
+                'mainTemplate' => [],
             ],
-            'language' => $this->mock(ilLanguage::class),
+            'language' => [],
+            'http' => ['request' => ['getUri' => ['__toString' => $uri]]],
+            'ctrl' => [],
+            'user' => ['getTimeZone' => 'europe/berlin'],
         ]);
 
-        $table = $this->mockMethod(LegacyTable::class, 'getHTML', [], 'table html');
-        $create_table_gui = function ($gui, string $command, TableInterface $t) use ($dummy_gui, $table): LegacyTable {
-            $this->assertSame($dummy_gui, $gui);
-            $this->assertSame('dummy command', $command);
-            $this->assertInstanceOf(EditableDocumentTable::class, $t);
-            return $table;
-        };
-
-        $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap(), [], $container, $create_table_gui);
-        $this->assertSame($legacy, $instance->table($dummy_gui, 'dummy command', $this->mock(EditLinks::class)));
+        $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap(), [], $container);
+        $this->assertInstanceOf(DocumentTable::class, $instance->table($dummy_gui, $this->mock(EditLinks::class)));
     }
 
     public function testChooseDocumentFor(): void
@@ -260,7 +261,7 @@ class ProvideDocumentTest extends TestCase
         $existing_content = new CriterionContent('hoo', ['haz']);
 
         $condition = $this->mock(Condition::class);
-        $condition->expects(self::once(1))->method('knownToNeverMatchWith')->with($condition)->willReturn(true);
+        $condition->expects(self::once())->method('knownToNeverMatchWith')->with($condition)->willReturn(true);
 
         $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap([
             'hoo' => $this->mockMethod(ConditionDefinition::class, 'withCriterion', [$existing_content], $condition),

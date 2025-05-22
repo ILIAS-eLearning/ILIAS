@@ -26,6 +26,7 @@ class ilFileLP extends ilObjectLP
     /**
      * @return int[]
      */
+    #[\Override]
     public static function getDefaultModes(bool $a_lp_active): array
     {
         return [
@@ -35,11 +36,13 @@ class ilFileLP extends ilObjectLP
         ];
     }
 
+    #[\Override]
     public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
 
+    #[\Override]
     public function getValidModes(): array
     {
         return [

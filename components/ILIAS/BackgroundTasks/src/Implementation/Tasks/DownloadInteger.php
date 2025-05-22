@@ -55,7 +55,7 @@ class DownloadInteger extends AbstractUserInteraction
         $integerValue = $input[0];
         global $DIC;
 
-        if ($user_selected_option->getValue() == "download") {
+        if ($user_selected_option->getValue() === "download") {
             $outputter = new \ilPHPOutputDelivery();
             $outputter->start("IntegerFile");
             echo $integerValue->getValue();

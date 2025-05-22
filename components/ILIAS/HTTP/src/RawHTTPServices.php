@@ -35,33 +35,18 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class RawHTTPServices implements GlobalHttpState
 {
-    private \ILIAS\HTTP\Response\Sender\ResponseSenderStrategy $sender;
-    private \ILIAS\HTTP\Cookies\CookieJarFactory $cookieJarFactory;
-    private \ILIAS\HTTP\Request\RequestFactory $requestFactory;
-    private \ILIAS\HTTP\Response\ResponseFactory $responseFactory;
-    private \ILIAS\HTTP\Duration\DurationFactory $durationFactory;
-    private ?\Psr\Http\Message\ServerRequestInterface $request = null;
-    private ?\Psr\Http\Message\ResponseInterface $response = null;
+    private ?ServerRequestInterface $request = null;
+    private ?ResponseInterface $response = null;
 
 
     /**
      * RawHTTPServices constructor.
      *
-     * @param ResponseSenderStrategy $senderStrategy   A response sender strategy.
+     * @param ResponseSenderStrategy $sender A response sender strategy.
      * @param CookieJarFactory       $cookieJarFactory Cookie Jar implementation.
      */
-    public function __construct(
-        ResponseSenderStrategy $senderStrategy,
-        CookieJarFactory $cookieJarFactory,
-        RequestFactory $requestFactory,
-        ResponseFactory $responseFactory,
-        DurationFactory $durationFactory
-    ) {
-        $this->sender = $senderStrategy;
-        $this->cookieJarFactory = $cookieJarFactory;
-        $this->requestFactory = $requestFactory;
-        $this->responseFactory = $responseFactory;
-        $this->durationFactory = $durationFactory;
+    public function __construct(private ResponseSenderStrategy $sender, private CookieJarFactory $cookieJarFactory, private RequestFactory $requestFactory, private ResponseFactory $responseFactory, private DurationFactory $durationFactory)
+    {
     }
 
     public function durations(): DurationFactory
@@ -87,7 +72,7 @@ class RawHTTPServices implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function request(): \Psr\Http\Message\RequestInterface
+    public function request(): ServerRequestInterface
     {
         if ($this->request === null) {
             $this->request = $this->requestFactory->create();

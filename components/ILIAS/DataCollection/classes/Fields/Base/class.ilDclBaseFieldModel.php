@@ -26,7 +26,6 @@ class ilDclBaseFieldModel
     protected string $description = "";
     protected int $datatype_id = 0;
     protected ?int $order = null;
-    protected bool $unique;
     /** @var ilDclFieldProperty[] */
     protected array $property = [];
     protected bool $exportable = false;
@@ -44,6 +43,7 @@ class ilDclBaseFieldModel
     public const PROP_URL = "url";
     public const PROP_TEXTAREA = "text_area";
     public const PROP_REFERENCE_LINK = "reference_link";
+    public const PROP_UNIQUE = "unique";
     public const PROP_WIDTH = "width";
     public const PROP_HEIGHT = "height";
     public const PROP_LEARNING_PROGRESS = "learning_progress";
@@ -69,7 +69,7 @@ class ilDclBaseFieldModel
         $this->lng = $DIC->language();
 
         if ($a_id != 0) {
-            $this->id = (string)$a_id;
+            $this->id = (string) $a_id;
             $this->doRead();
         }
     }
@@ -109,7 +109,7 @@ class ilDclBaseFieldModel
      */
     public function setId($a_id): void
     {
-        $this->id = (string)$a_id;
+        $this->id = (string) $a_id;
     }
 
     /**
@@ -194,16 +194,6 @@ class ilDclBaseFieldModel
         return $this->datatype_id;
     }
 
-    public function isUnique(): bool
-    {
-        return $this->unique;
-    }
-
-    public function setUnique(?bool $unique): void
-    {
-        $this->unique = (bool) $unique;
-    }
-
     public function getDatatype(): ilDclDatatype
     {
         $this->loadDatatype();
@@ -214,8 +204,17 @@ class ilDclBaseFieldModel
     public function getDatatypeTitle(): string
     {
         $this->loadDatatype();
-
         return $this->datatype->getTitle();
+    }
+
+    public function getPresentationTitle(): string
+    {
+        return $this->lng->txt('dcl_' . $this->getDatatypeTitle());
+    }
+
+    public function getPresentationDescription(): string
+    {
+        return $this->lng->txt('dcl_' . $this->getDatatypeTitle() . '_desc');
     }
 
     /**
@@ -300,7 +299,6 @@ class ilDclBaseFieldModel
                 $this->setDescription($rec["description"]);
             }
             $this->setDatatypeId($rec["datatype_id"]);
-            $this->setUnique((bool)$rec["is_unique"]);
         }
 
         $this->loadProperties();
@@ -317,7 +315,6 @@ class ilDclBaseFieldModel
         $this->setTitle($rec["title"]);
         $this->setDescription($rec["description"]);
         $this->setDatatypeId($rec["datatype_id"]);
-        $this->setUnique($rec["is_unique"] ?? null);
     }
 
     public function doCreate(): void
@@ -328,13 +325,13 @@ class ilDclBaseFieldModel
 
         $id = $this->db->nextId("il_dcl_field");
         $this->setId($id);
-        $query = "INSERT INTO il_dcl_field (" . "id" . ", table_id" . ", datatype_id" . ", title" . ", description" . ", is_unique"
+        $query = "INSERT INTO il_dcl_field (" . "id" . ", table_id" . ", datatype_id" . ", title" . ", description"
             . " ) VALUES (" . $this->db->quote($this->getId(), "integer") . "," . $this->db->quote(
                 $this->getTableId(),
                 "integer"
             ) . ","
             . $this->db->quote($this->getDatatypeId(), "integer") . "," . $this->db->quote($this->getTitle(), "text") . ","
-            . $this->db->quote($this->getDescription(), "text") . "," . $this->db->quote($this->isUnique(), "integer") . ")";
+            . $this->db->quote($this->getDescription(), "text") . ")";
         $this->db->manipulate($query);
 
         $this->updateTableFieldSetting();
@@ -372,10 +369,6 @@ class ilDclBaseFieldModel
                 "description" => [
                     "text",
                     $this->getDescription(),
-                ],
-                "is_unique" => [
-                    "integer",
-                    $this->isUnique(),
                 ],
             ],
             [
@@ -439,7 +432,6 @@ class ilDclBaseFieldModel
 
     public function getViewSetting(int $tableview_id): ilDclTableViewFieldSetting
     {
-        ilDclTableViewFieldSetting::getTableViewFieldSetting($this->getId(), $tableview_id);
         return ilDclTableViewFieldSetting::getTableViewFieldSetting($this->getId(), $tableview_id);
     }
 
@@ -500,7 +492,7 @@ class ilDclBaseFieldModel
         } else {
             $property = new ilDclFieldProperty();
             $property->setName($key);
-            $property->setFieldId((int)$this->getId());
+            $property->setFieldId((int) $this->getId());
             $property->setValue($value);
 
             $this->property[$key] = $property;
@@ -517,7 +509,7 @@ class ilDclBaseFieldModel
         return [];
     }
 
-    public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id = null): void
+    public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id): void
     {
         $value = $form->getInput('field_' . $this->getId());
         $this->checkValidity($value, $record_id);
@@ -528,25 +520,14 @@ class ilDclBaseFieldModel
      * @param float|int|string|array|null $value
      * @throws ilDclInputException
      */
-    public function checkValidity($value, ?int $record_id = null): bool
+    public function checkValidity($value, ?int $record_id): bool
     {
-        //Don't check empty values
-        if (!isset($value)) {
-            return true;
-        }
-
-        if ($this->isUnique()) {
-            $table = ilDclCache::getTableCache($this->getTableId());
-            foreach ($table->getRecords() as $record) {
-                if ($record->getId() !== $record_id || $record_id === 0) {
-                    if ($this->normalizeValue($record->getRecordFieldValue($this->getId())) === $this->normalizeValue($value)) {
-                        throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
-                    }
-                }
-            }
-        }
-
         return true;
+    }
+
+    protected function areEqual($value_1, $value_2): bool
+    {
+        return $this->normalizeValue($value_1) === $this->normalizeValue($value_2);
     }
 
     protected function normalizeValue(mixed $value)
@@ -568,13 +549,12 @@ class ilDclBaseFieldModel
         $this->setDatatypeId($original->getDatatypeId());
         $this->setDescription($original->getDescription());
         $this->setOrder($original->getOrder());
-        $this->setUnique($original->isUnique());
         $this->setExportable($original->getExportable());
         $this->doCreate();
         $this->cloneProperties($original);
 
         // mandatory for all cloning functions
-        ilDclCache::setCloneOf($original_id, (int)$this->getId(), ilDclCache::TYPE_FIELD);
+        ilDclCache::setCloneOf($original_id, (int) $this->getId(), ilDclCache::TYPE_FIELD);
     }
 
     public function afterClone(array $records)
@@ -592,7 +572,7 @@ class ilDclBaseFieldModel
         }
         foreach ($orgProps as $prop_name) {
             $fieldprop_obj = new ilDclFieldProperty();
-            $fieldprop_obj->setFieldId((int)$this->getId());
+            $fieldprop_obj->setFieldId((int) $this->getId());
             $fieldprop_obj->setName($prop_name);
 
             $value = $originalField->getProperty($prop_name);
@@ -683,11 +663,51 @@ class ilDclBaseFieldModel
         return true;
     }
 
+    public function checkUniqueProp(ilPropertyFormGUI $form): bool
+    {
+        if ($this->getId() !== '' && $form->getInput('prop_' . ilDclBaseFieldModel::PROP_UNIQUE) === '1') {
+            $values = [];
+            foreach (ilDclCache::getTableCache($this->getTableId())->getRecords() as $record) {
+                $new = $record->getRecordFieldValue($this->getId());
+                foreach ($values as $value) {
+                    if ($this->areEqual($new, $value)) {
+                        $form->getItemByPostVar('prop_' . ilDclBaseFieldModel::PROP_UNIQUE)->setAlert($this->lng->txt('duplicate_entries_exist'));
+                        return false;
+                    }
+                }
+                $values[] = $new;
+            }
+        }
+        return true;
+    }
+
+    public function checkUnique($value, ?int $record_id): bool
+    {
+        if ($value && $this->getProperty(ilDclBaseFieldModel::PROP_UNIQUE) === '1') {
+            foreach (ilDclCache::getTableCache($this->getTableId())->getRecords() as $record) {
+                if ($record->getId() !== $record_id) {
+                    $x = $record->getRecordFieldValue($this->getId());
+                    if ($this->areEqual($record->getRecordFieldValue($this->getId()), $value)) {
+                        throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @deprecated
+     */
     public function getStorageLocationOverride(): ?int
     {
         return $this->storage_location_override;
     }
 
+    /**
+     * @deprecated override ilDclFieldTypePlugin::getStorageLocation() instead
+     */
     public function setStorageLocationOverride(?int $storage_location_override): void
     {
         $this->storage_location_override = $storage_location_override;
@@ -740,7 +760,6 @@ class ilDclBaseFieldModel
             'title' => $this->getTitle(),
             'datatype' => $this->getDatatypeId(),
             'description' => $this->getDescription(),
-            'unique' => $this->isUnique(),
         ];
 
         $properties = $this->getValidFieldProperties();
@@ -774,7 +793,6 @@ class ilDclBaseFieldModel
         $ilConfirmationGUI->addHiddenItem('title', $form->getInput('title'));
         $ilConfirmationGUI->addHiddenItem('description', $form->getInput('description'));
         $ilConfirmationGUI->addHiddenItem('datatype', $form->getInput('datatype'));
-        $ilConfirmationGUI->addHiddenItem('unique', $form->getInput('unique'));
         $ilConfirmationGUI->setConfirm($this->lng->txt('dcl_update_field'), 'update');
         $ilConfirmationGUI->setCancel($this->lng->txt('cancel'), 'edit');
 

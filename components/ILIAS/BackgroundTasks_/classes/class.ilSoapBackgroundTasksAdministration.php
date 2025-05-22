@@ -20,7 +20,6 @@
 require_once __DIR__ . "/../../../../vendor/composer/vendor/autoload.php";
 
 use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
-use ILIAS\BackgroundTasks\Persistence;
 
 class ilSoapBackgroundTasksAdministration extends ilSoapAdministration
 {
@@ -34,6 +33,8 @@ class ilSoapBackgroundTasksAdministration extends ilSoapAdministration
      */
     public function runAsync(string $sid)
     {
+        ignore_user_abort(true);
+
         $this->initAuth($sid);
         $this->initIlias();
 

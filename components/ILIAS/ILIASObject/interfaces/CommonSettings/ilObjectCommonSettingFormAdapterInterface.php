@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  *
  * @depricated 11: This interface will be remove with ILIAS 11. Please use the
- * corresponding implementation of `ilObjectProperty` instead.
+ * corresponding implementation of `ILIAS\ILIASObject\Properties\Property` instead.
  *
  * @author killing@leifos.de
  * @ingroup ServicesObject

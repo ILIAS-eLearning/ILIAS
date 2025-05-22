@@ -53,7 +53,7 @@ class ilBibTex implements ilBiblTypeInterface
 
 
     protected static array $standard_fields
-        = array(
+        = [
             'address',
             'annote',
             'author',
@@ -80,9 +80,9 @@ class ilBibTex implements ilBiblTypeInterface
             'url',
             'volume',
             'year',
-        );
+        ];
     protected static array $entry_types
-        = array(
+        = [
             'article',
             'book',
             'booklet',
@@ -97,7 +97,7 @@ class ilBibTex implements ilBiblTypeInterface
             'proceedings',
             'techreport',
             'unpublished',
-        );
+        ];
 
 
     /**

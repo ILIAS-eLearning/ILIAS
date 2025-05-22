@@ -28,6 +28,7 @@ class ilBiblField extends ActiveRecord implements ilBiblFieldInterface
         return self::TABLE_NAME;
     }
 
+    #[\Override]
     public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;
@@ -83,7 +84,7 @@ class ilBiblField extends ActiveRecord implements ilBiblFieldInterface
 
     public function getIdentifier(): string
     {
-        return trim($this->identifier);
+        return trim((string) $this->identifier);
     }
 
     public function setIdentifier(string $identifier): void

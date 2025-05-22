@@ -126,7 +126,7 @@ class ilLearningSequenceRoles
         return $this->join($user_id, $role);
     }
 
-    public function join(int $user_id, int $role = null): bool
+    public function join(int $user_id, ?int $role = null): bool
     {
         if (is_null($role)) {
             $role = $this->getDefaultMemberRole();
@@ -199,7 +199,7 @@ class ilLearningSequenceRoles
      * @param string[] $columns
      * @return array<int|string, array>
      */
-    public function readMemberData(array $user_ids, array $selected_columns = null): array
+    public function readMemberData(array $user_ids, ?array $selected_columns = null): array
     {
         $portfolio_enabled = $this->isPortfolio($selected_columns);
         $tracking_enabled = $this->isTrackingEnabled();
@@ -287,7 +287,7 @@ class ilLearningSequenceRoles
         ;
     }
 
-    protected function isPortfolio(array $columns = null): bool
+    protected function isPortfolio(?array $columns = null): bool
     {
         if (is_null($columns)) {
             return false;

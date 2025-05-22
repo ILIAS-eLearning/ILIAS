@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   elementFormDefault="qualified">
+
+	<!-- Poll -->
+	<xs:element name='Poll'>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref='Id' minOccurs='1' maxOccurs='1'/>
+				<xs:element ref='Title' minOccurs='1' maxOccurs='1'/>
+				<xs:element ref='Description' minOccurs='1' maxOccurs='1'/>
+				<xs:element ref='Question' minOccurs='1' maxOccurs='1'/>
+				<xs:element ref='Image' minOccurs='1' maxOccurs='1'/>
+				<xs:element ref='ViewResults' minOccurs='1' maxOccurs='1'/>
+				<xs:element ref='Dir' minOccurs='1' maxOccurs='1'/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name='Id' type='xs:integer' />
+	<xs:element name='Title' type='xs:string' />
+	<xs:element name='Description' type='xs:string' />
+	<xs:element name='Question' type='xs:string' />
+	<xs:element name='Image' type='xs:string' />
+	<xs:element name='ViewResults' type='xs:integer' />
+	<xs:element name='Dir' type='xs:string' />
+
+	<!-- PollAnswer -->
+	<xs:element name='PollAnswer'>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref='Id' minOccurs='1' maxOccurs='1'/>
+				<xs:element ref='PollId' minOccurs='1' maxOccurs='1'/>
+				<xs:element ref='Answer' minOccurs='1' maxOccurs='1'/>
+				<xs:element ref='Pos' minOccurs='1' maxOccurs='1'/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name='PollId' type='xs:integer' />
+	<xs:element name='Answer' type='xs:string' />
+	<xs:element name='Pos' type='xs:integer' />
+
+</xs:schema>

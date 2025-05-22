@@ -64,7 +64,7 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
         $this->addToParentElement($text);
     }
 
-    public function importFromPost(array $a_post = null): bool
+    public function importFromPost(?array $a_post = null): bool
     {
         $post = $this->extractPostValues($a_post);
 
@@ -139,9 +139,9 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
     public function isInCondition(ilADT $a_adt): bool
     {
         if ($this->getADT()->getCopyOfDefinition()->isComparableTo($a_adt)) {
-            if (str_contains(strtolower($a_adt->getText()), strtolower($this->getADT()->getText()))) {
-                return true;
-            }
+            $search_term = strtolower(trim((string) $this->getADT()->getText()));
+            $text = strtolower(trim((string) $a_adt->getText()));
+            return str_contains($text, $search_term);
         }
         return false;
     }

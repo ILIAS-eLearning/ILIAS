@@ -15,6 +15,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Filesystem\Util\Archive\Archives;
+use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Types\SingleType;
@@ -30,7 +32,7 @@ use ILIAS\BackgroundTasks\Value;
 class ilZipJob extends AbstractJob
 {
     private ?ilLogger $logger;
-    private \ILIAS\Filesystem\Util\Archive\Archives $archives;
+    private Archives $archives;
 
     /**
      * Construct
@@ -77,12 +79,12 @@ class ilZipJob extends AbstractJob
      * @inheritDoc
      * @todo use filsystem service
      */
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer): Value
+    public function run(array $input, Observer $observer): Value
     {
         $this->logger->debug('Start zipping input dir!');
         $this->logger->dump($input);
         $string = $input[0]->getValue();
-        $tmpdir = rtrim($string, "/");
+        $tmpdir = rtrim((string) $string, "/");
         $this->logger->debug('Zipping directory:' . $tmpdir);
         $zip_name = $tmpdir . '.zip';
 

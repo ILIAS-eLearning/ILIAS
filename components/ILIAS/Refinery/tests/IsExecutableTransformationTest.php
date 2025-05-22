@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\Refinery;
 
-use ILIAS\Data\Result\Ok;
-use ILIAS\Data\Result\Error;
 use ILIAS\Refinery\IsExecutableTransformation;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Language\Language;

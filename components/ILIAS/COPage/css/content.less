@@ -1,6 +1,6 @@
 /* this should be derived from zip in libs/ilias/Style */
 
-@image_path: '../../../vendor/ilias/Style/basic_style/images/';
+@image_path: '../basic_style/images/';
 
 a.ilc_qetitem_ErrorTextItem
 {
@@ -292,8 +292,6 @@ div.ilc_qanswer_Answer
 {
 	padding-right: 10px;
 	border-radius: 5px;
-	margin: 3px;
-	padding-left: 10px;
 }
 
 div.ilc_section_Attention
@@ -1011,7 +1009,7 @@ div.ilc_question_Standard
 	margin-top: 20px;
 	margin-bottom: 10px;
 	padding-top: 30px;
-	padding-right: 160px;
+	padding-right: 30px;
 }
 
 div.ilc_qover_StatusMessage
@@ -1038,11 +1036,6 @@ div.ilc_sco_title_Title
 }
 
 
-div.ilc_va_ihead_VAccordIHead:hover
-{
-	background-color: #E2E8EF;
-	background-position: 15px center;
-}
 
 em.ilc_em_Emph, span.ilc_text_inline_Emph
 {
@@ -1081,7 +1074,7 @@ figure.ilc_media_cont_MediaContainerSeparated
 
 h1.ilc_glo_ovtitle_GlossaryOvTitle
 ,div.ilc_text_block_GlossaryOvTitle
-,html.il-no-tiny-bg body#tinymce.ilc_text_block_GlossaryOvTitle
+,html.il-no-tiny-bg body#tinymce.ilc_text_block_GlossaryOvTitle p
 {
 	margin-bottom: 10px;
 	font-size: 1.5em;
@@ -1091,7 +1084,7 @@ h1.ilc_glo_ovtitle_GlossaryOvTitle
 
 h1.ilc_heading1_Headline1
 ,div.ilc_text_block_Headline1
-,html.il-no-tiny-bg body#tinymce.ilc_text_block_Headline1
+,html.il-no-tiny-bg body#tinymce.ilc_text_block_Headline1 p
 {
 	padding-top: 10px;
 	margin-bottom: 15px;
@@ -1102,7 +1095,7 @@ h1.ilc_heading1_Headline1
 
 h1.ilc_page_title_PageTitle
 ,div.ilc_text_block_PageTitle
-,html.il-no-tiny-bg body#tinymce.ilc_text_block_PageTitle
+,html.il-no-tiny-bg body#tinymce.ilc_text_block_PageTitle p
 {
 	font-weight: 600;
 	border-bottom-width: 1px;
@@ -1118,7 +1111,7 @@ h1.ilc_page_title_PageTitle
 
 h2.ilc_heading2_Headline2
 ,div.ilc_text_block_Headline2
-,html.il-no-tiny-bg body#tinymce.ilc_text_block_Headline2
+,html.il-no-tiny-bg body#tinymce.ilc_text_block_Headline2 p
 {
 	font-weight: 600;
 	font-size: 1.5em;
@@ -1128,7 +1121,7 @@ h2.ilc_heading2_Headline2
 
 h3.ilc_heading3_Headline3
 ,div.ilc_text_block_Headline3
-,html.il-no-tiny-bg body#tinymce.ilc_text_block_Headline3
+,html.il-no-tiny-bg body#tinymce.ilc_text_block_Headline3 p
 {
 	font-weight: 600;
 	margin-top: 15px;
@@ -1551,46 +1544,46 @@ ol.ilc_list_o_NumberedListNoStyle
 }
 
 p.ilc_text_block_Book
-,html.il-no-tiny-bg body#tinymce.ilc_text_block_Book
+,html.il-no-tiny-bg body#tinymce.ilc_text_block_Book p
 {
 	hyphens: auto;
 	text-align: justify;
 }
 
 p.ilc_text_block_Button:hover
-,html.il-no-tiny-bg body#tinymce.ilc_text_block_Button:hover
+,html.il-no-tiny-bg body#tinymce.ilc_text_block_Button:hover p
 {
 	background-color: #5774A0;
 }
 
 p.ilc_text_block_List
-,html.il-no-tiny-bg body#tinymce.ilc_text_block_List
+,html.il-no-tiny-bg body#tinymce.ilc_text_block_List p
 {
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
 
 p.ilc_text_block_Numbers
-,html.il-no-tiny-bg body#tinymce.ilc_text_block_Numbers
+,html.il-no-tiny-bg body#tinymce.ilc_text_block_Numbers p
 {
 	text-align: right;
 }
 
 p.ilc_text_block_Standard
-,html.il-no-tiny-bg body#tinymce.ilc_text_block_Standard
+,html.il-no-tiny-bg body#tinymce.ilc_text_block_Standard p
 {
 	margin-bottom: 10px;
 	margin-top: 10px;
 }
 
 p.ilc_text_block_StandardLarge
-,html.il-no-tiny-bg body#tinymce.ilc_text_block_StandardLarge
+,html.il-no-tiny-bg body#tinymce.ilc_text_block_StandardLarge p
 {
 	font-size: 1.115rem;
 }
 
 p.ilc_text_block_TableContent
-,html.il-no-tiny-bg body#tinymce.ilc_text_block_TableContent
+,html.il-no-tiny-bg body#tinymce.ilc_text_block_TableContent p
 {
 	line-height: 1.8em;
 	padding-bottom: 10px;
@@ -1604,7 +1597,7 @@ p.ilc_text_block_TableContent
 }
 
 p.ilc_text_block_Verse
-,html.il-no-tiny-bg body#tinymce.ilc_text_block_Verse
+,html.il-no-tiny-bg body#tinymce.ilc_text_block_Verse p
 {
 	text-align: center;
 }
@@ -1620,17 +1613,17 @@ pre.ilc_code_block_Code
 
 span.ilc_text_inline_Accent
 {
-	color: #6EA03C;
+	color: #087e0a;
 }
 
 span.ilc_text_inline_Attention
 {
-	color: #FA8228;
+	color: #CB4D16;
 }
 
 span.ilc_text_inline_Comment
 {
-	color: #F3DE2C;
+	color: #b31bff;
 }
 
 span.ilc_qetcorr_ErrorTextCorrected
@@ -1655,7 +1648,7 @@ span.ilc_text_inline_Quotation
 	letter-spacing: 0.2px;
 	font-style: italic;
 	font-family: serif;
-	color: #CDDC39;
+	color: #1B5FFF;
 	font-size: 114%;
 }
 

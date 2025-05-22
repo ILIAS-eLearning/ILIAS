@@ -28,21 +28,25 @@ use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 use ILIAS\MetaData\Paths\PathInterface;
 use ILIAS\MetaData\Repository\RepositoryInterface;
 use ilMDPathException;
+use ILIAS\MetaData\Manipulator\ScaffoldProvider\ScaffoldProviderInterface;
 
 class Manipulator implements ManipulatorInterface
 {
     protected BaseManipulator $base_manipulator;
     protected NavigatorFactoryInterface $navigator_factory;
     protected RepositoryInterface $repository;
+    protected ScaffoldProviderInterface $scaffold_provider;
 
     public function __construct(
         BaseManipulator $base_manipulator,
         NavigatorFactoryInterface $navigator_factory,
-        RepositoryInterface $repository
+        RepositoryInterface $repository,
+        ScaffoldProviderInterface $scaffold_provider
     ) {
         $this->base_manipulator = $base_manipulator;
         $this->navigator_factory = $navigator_factory;
         $this->repository = $repository;
+        $this->scaffold_provider = $scaffold_provider;
     }
 
     /**
@@ -66,7 +70,7 @@ class Manipulator implements ManipulatorInterface
                 if (!($element instanceof ScaffoldableInterface)) {
                     continue;
                 }
-                $element->addScaffoldsToSubElements($this->repository->scaffolds());
+                $element->addScaffoldsToSubElements($this->scaffold_provider);
                 $next = array_merge(
                     $next,
                     iterator_to_array($element->getSubElements())
@@ -102,7 +106,7 @@ class Manipulator implements ManipulatorInterface
 
     public function execute(SetInterface $set): void
     {
-        $this->base_manipulator->execute($set);
+        $this->repository->manipulateMD($set);
     }
 
     /**

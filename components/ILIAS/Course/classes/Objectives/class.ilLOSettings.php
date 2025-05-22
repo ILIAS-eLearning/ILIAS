@@ -1,6 +1,4 @@
 <?php
-
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +14,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * Settings for LO courses
@@ -451,7 +451,27 @@ class ilLOSettings
         if ($this->tree->isDeleted($this->getQualifiedTest())) {
             $this->setQualifiedTest(0);
         }
+        $this->purgeReferences();
     }
+
+    protected function purgeReferences(): void
+    {
+        if ($this->getInitialTest() > 0) {
+            $obj = ilObjectFactory::getInstanceByRefId($this->getInitialTest(), false);
+            if (!$obj instanceof ilObjTest) {
+                $this->setInitialTest(0);
+                $this->update();
+            }
+        }
+        if ($this->getQualifiedTest() > 0) {
+            $obj = ilObjectFactory::getInstanceByRefId($this->getQualifiedTest(), false);
+            if (!$obj instanceof ilObjTest) {
+                $this->setQualifiedTest(0);
+                $this->update();
+            }
+        }
+    }
+
 
     public function toXml(ilXmlWriter $writer): void
     {

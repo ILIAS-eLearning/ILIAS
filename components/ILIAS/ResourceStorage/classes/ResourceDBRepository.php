@@ -35,14 +35,12 @@ class ResourceDBRepository implements ResourceRepository
     public const IDENTIFICATION = 'rid';
 
     /**
-     * @var \ILIAS\ResourceStorage\Resource\StorableResource[]
+     * @var StorableResource[]
      */
     protected array $cache = [];
-    protected \ilDBInterface $db;
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(protected \ilDBInterface $db)
     {
-        $this->db = $db;
     }
 
     /**
@@ -98,7 +96,7 @@ class ResourceDBRepository implements ResourceRepository
         $q = "SELECT " . self::IDENTIFICATION . " FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s";
         $r = $this->db->queryF($q, ['text'], [$identification->serialize()]);
 
-        return (bool)$r->numRows() > 0;
+        return (bool) $r->numRows() > 0;
     }
 
     /**

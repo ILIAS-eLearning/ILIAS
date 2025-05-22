@@ -95,9 +95,12 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
                 $path = null;
             }
             $this->logger->debug("Path: " . $path);
-            if (!is_null($path) && $filesystem->has($path)) {
-                $this->logger->debug("Delete dir: " . dirname($path));
-                $filesystem->deleteDir(dirname($path));
+            try {
+                if (!is_null($path) && $filesystem->has($path)) {
+                    $this->logger->debug("Delete dir: " . dirname($path));
+                    $filesystem->deleteDir(dirname($path));
+                }
+            } catch (Exception $e) {
             }
 
             return $download_name;

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Builds the overview (curriculum) of a LearningSequence.
@@ -34,7 +34,7 @@ class ilLSCurriculumBuilder
         ILIAS\UI\Factory $ui_factory,
         ilLanguage $language,
         string $goto_command,
-        LSUrlBuilder $url_builder = null
+        ?LSUrlBuilder $url_builder = null
     ) {
         $this->ls_items = $ls_items;
         $this->ui_factory = $ui_factory;

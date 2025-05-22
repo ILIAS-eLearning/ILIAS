@@ -20,29 +20,55 @@ declare(strict_types=1);
 
 namespace ILIAS\Cache\Container;
 
+use ILIAS\Data\Factory;
 use ILIAS\Cache\Adaptor\Adaptor;
 use ILIAS\Cache\Config;
 use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\Factory;
 use ILIAS\Refinery\ByTrying;
-use ILIAS\Refinery\To\Transformation\FloatTransformation;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 final class ActiveContainer implements Container
 {
+    /**
+     * @var string
+     */
     private const LOCK_UNTIL = '_lock_until';
+    /**
+     * @var string
+     */
     private const GLUE = '|||||';
+    /**
+     * @var string
+     */
     private const STRING_PREFIX = 'string';
+    /**
+     * @var string
+     */
     private const ARRAY_PREFIX = 'array';
+    /**
+     * @var string
+     */
     private const INT_PREFIX = 'int';
+    /**
+     * @var string
+     */
     private const BOOL_PREFIX = 'bool';
+    /**
+     * @var string
+     */
     private const NULL_PREFIX = 'null';
+    /**
+     * @var string
+     */
     private const TRUE = 'true';
+    /**
+     * @var string
+     */
     private const FALSE = 'false';
 
-    private \ILIAS\Data\Factory $data_factory;
+    private Factory $data_factory;
     private $null_trafo;
     private string $prefix_pattern;
 
@@ -51,11 +77,9 @@ final class ActiveContainer implements Container
         private Adaptor $adaptor,
         private Config $config
     ) {
-        $this->data_factory = new \ILIAS\Data\Factory();
+        $this->data_factory = new Factory();
         // see comment in buildFinalTransformation why this is not a good solution.
-        $this->null_trafo = new \ILIAS\Refinery\Custom\Transformation(function ($value) {
-            return null;
-        });
+        $this->null_trafo = new \ILIAS\Refinery\Custom\Transformation(fn($value): null => null);
         $this->prefix_pattern = '(' . implode('|', [
                 preg_quote(self::STRING_PREFIX, '/'),
                 preg_quote(self::ARRAY_PREFIX, '/'),
@@ -93,11 +117,7 @@ final class ActiveContainer implements Container
     private function packRecursive(array $value): array
     {
         array_walk($value, function (&$item): void {
-            if (is_array($item)) {
-                $item = $this->packRecursive($item);
-            } else {
-                $item = $this->pack($item);
-            }
+            $item = is_array($item) ? $this->packRecursive($item) : $this->pack($item);
         });
         return $value;
     }
@@ -131,7 +151,7 @@ final class ActiveContainer implements Container
             case self::BOOL_PREFIX:
                 return $unprefixed_value === self::TRUE;
             case self::ARRAY_PREFIX:
-                $unprefixed_value = json_decode($unprefixed_value, true, 512);
+                $unprefixed_value = json_decode((string) $unprefixed_value, true, 512);
                 if (!is_array($unprefixed_value)) {
                     return null;
                 }
@@ -149,16 +169,12 @@ final class ActiveContainer implements Container
     private function unpackRecursive(array $value): array
     {
         array_walk($value, function (&$item): void {
-            if (is_array($item)) {
-                $item = $this->unpackRecursive($item);
-            } else {
-                $item = $this->unpack($item);
-            }
+            $item = is_array($item) ? $this->unpackRecursive($item) : $this->unpack($item);
         });
         return $value;
     }
 
-    protected function buildFinalTransformation(Transformation $transformation): \ILIAS\Refinery\ByTrying
+    protected function buildFinalTransformation(Transformation $transformation): ByTrying
     {
         // This is a workaround for the fact that the ByTrying transformation cannot be created by
         // $DIC->refinery()->byTrying() since we are in a hell of dependencies. E.g. we cant instantiate the
@@ -211,16 +227,18 @@ final class ActiveContainer implements Container
         return $this->buildFinalTransformation($transformation)->transform($unpacked_values);
     }
 
-    public function set(string $key, string|int|array|bool|null $value): void
+    public function set(string $key, string|int|array|bool|null $value, ?int $ttl = null): void
     {
         if ($this->isLocked()) {
             return;
         }
+        $ttl = $ttl ?? $this->config->getDefaultTTL();
+
         $this->adaptor->set(
             $this->request->getContainerKey(),
             $key,
             $this->pack($value),
-            $this->config->getDefaultTTL()
+            $ttl
         );
     }
 

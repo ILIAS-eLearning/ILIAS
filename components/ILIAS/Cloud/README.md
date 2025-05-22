@@ -1,12 +1,69 @@
-# Cloud
+# Former Cloud Module
 
-As of ILIAS 8 the Cloud Module has been abandoned. See: https://docu.ilias.de/goto_docu_wiki_wpage_7296_1357.html
+This component only exists to provide a corresponding agent and DB updates to remove cloud data from ILIAS.
 
-For ILIAS 8:
-- By updating to ILIAS 8, the creation of new Cloud Object will no longer be possible.
-- By updating to ILIAS 8 no data of existing Cloud Objects will be deleted, to make a later migration e.g. to a plugin possible.
-- Existing Cloud objects can only be deleted. It will not perform any other action with it.
-- A migration is available for ILIAS 8 to permanently delete all existing cloud objects in the repository.
+## TODOs
 
-For ILIAS 9:
-- All remaining code including the migration will be removed from the core.
+Remove more Data from Database, see https://github.com/ILIAS-eLearning/ILIAS/pull/7605
+
+----
+
+1. Remove objects from the repository
+
+Build a sub-query:
+
+```sql
+SELECT ref_id
+FROM object_data od
+INNER JOIN object_reference objr ON objr.obj_id = od.obj_id
+WHERE od.type = 'cld';
+```
+
+Use this query as sub-select for the following queries:
+
+```sql
+DELETE FROM tree WHERE child IN (?);
+DELETE FROM object_reference WHERE ref_id IN (?);
+```
+
+**TODO: Afterwards, delete object type specific tables ...**
+
+2. Remove object-type-based data
+
+Determine the object type id and use it for ?:
+
+```sql
+SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'cld';
+```
+
+```sql
+DELETE FROM rbac_ta WHERE typ_id = ?;
+```
+
+3. Clean up RBAC
+
+Determine the operation id and use it for ?:
+
+```sql
+SELECT ops_id FROM rbac_operations WHERE class = 'create' AND operation = 'create_cld';
+```
+
+```sql
+DELETE FROM rbac_operations WHERE ops_id = ?;
+DELETE FROM rbac_templates WHERE ops_id = ?;
+DELETE FROM rbac_ta WHERE ops_id = ?;
+```
+
+4. Remove object related settings
+
+```sql
+DELETE FROM settings WHERE keyword = 'obj_dis_creation_cld';
+DELETE FROM settings WHERE keyword = 'obj_add_new_pos_cld';
+DELETE FROM settings WHERE keyword = 'obj_add_new_pos_grp_cld';
+```
+
+5. Finally, delete the type
+
+```sql
+DELETE FROM object_data WHERE type = 'typ' AND title = 'cld';
+```

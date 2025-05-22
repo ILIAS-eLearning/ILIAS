@@ -76,7 +76,7 @@ class MailNotification extends ilMimeMailNotification
     public function appendOrphanedMailsBody(): void
     {
         $additional_information = $this->getAdditionalInformation();
-        /** @var FolderDto[] $mail_folders */
+        /** @var array<int, FolderDto> $mail_folders */
         $mail_folders = $additional_information['mail_folders'];
 
         $folder_rendered = false;
@@ -89,7 +89,7 @@ class MailNotification extends ilMimeMailNotification
             $this->appendBody($this->buildFolderTitle($folder_object) . ':');
             $this->appendBody("\n");
             foreach ($folder_object->getOrphanedMailObjects() as $mail_object) {
-                $this->appendBody('- ' . $mail_object->getMailSubject() ?? $this->getLanguage()->txt('not_available'));
+                $this->appendBody('- ' . ($mail_object->getMailSubject() ?? $this->getLanguage()->txt('not_available')));
                 $this->appendBody("\n");
             }
 

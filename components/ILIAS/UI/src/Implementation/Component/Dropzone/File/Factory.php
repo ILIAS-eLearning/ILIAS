@@ -23,9 +23,7 @@ namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 use ILIAS\UI\Implementation\Component\Input\FormInputNameSource;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component\Dropzone\File\Factory as FileDropzoneFactory;
-use ILIAS\UI\Component\Dropzone\File\Standard as StandardDropzone;
-use ILIAS\UI\Component\Dropzone\File\Wrapper as WrapperDropzone;
-use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\File as FileInput;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
@@ -43,16 +41,13 @@ class Factory implements FileDropzoneFactory
         $this->field_factory = $field_factory;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function standard(
         string $title,
         string $message,
         string $post_url,
         FileInput $file_input,
         ?FormInput $additional_input = null,
-    ): StandardDropzone {
+    ): Standard {
         return new Standard(
             $this->signal_generator,
             $this->field_factory,
@@ -65,16 +60,13 @@ class Factory implements FileDropzoneFactory
         );
     }
 
-    /**
-     * @inheritDoc
-     */
     public function wrapper(
         string $title,
         string $post_url,
         $content,
         FileInput $file_input,
         ?FormInput $additional_input = null,
-    ): WrapperDropzone {
+    ): Wrapper {
         return new Wrapper(
             $this->signal_generator,
             $this->field_factory,

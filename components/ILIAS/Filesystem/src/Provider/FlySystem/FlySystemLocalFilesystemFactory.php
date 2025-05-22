@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider\FlySystem;
 
+use League\Flysystem\Filesystem;
 use ILIAS\Filesystem\FilesystemFacade;
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
-use League\Flysystem\Adapter\Local;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 
@@ -32,9 +32,21 @@ use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
  */
 final class FlySystemLocalFilesystemFactory
 {
+    /**
+     * @var string
+     */
     public const PRIVATE_ACCESS_KEY = 'private';
+    /**
+     * @var string
+     */
     public const PUBLIC_ACCESS_KEY = 'public';
+    /**
+     * @var string
+     */
     public const FILE_ACCESS_KEY = 'file';
+    /**
+     * @var string
+     */
     public const DIRECTORY_ACCESS_KEY = 'dir';
 
     /**
@@ -42,7 +54,7 @@ final class FlySystemLocalFilesystemFactory
      *
      * @param LocalConfig $config The configuration which should be used to initialise the adapter.
      */
-    public function getInstance(LocalConfig $config): \ILIAS\Filesystem\FilesystemFacade
+    public function getInstance(LocalConfig $config): FilesystemFacade
     {
         $this->validateFileLockMode($config->getLockMode());
 
@@ -60,7 +72,7 @@ final class FlySystemLocalFilesystemFactory
             $this->mapConfigLinkToLocalLinks($config->getLinkBehaviour())
         );
 
-        $filesystem = new \League\Flysystem\Filesystem($adapter);
+        $filesystem = new Filesystem($adapter);
 
         $fileAccess = new FlySystemFileAccess($filesystem);
 

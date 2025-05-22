@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 declare(strict_types=1);
 
 abstract class ilDclBaseFieldRepresentation
@@ -135,29 +134,23 @@ abstract class ilDclBaseFieldRepresentation
         string $mode = "create"
     ): void {
         $opt = $this->buildFieldCreationInput($dcl, $mode);
-
-        if ($mode != 'create' && $this->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
-            $new_plugin_title = $opt->getTitle();
-            $plugin_name = ilDclFieldFactory::getPluginNameFromFieldModel($this->getField());
-            if ($plugin_name !== "DclBase") {
-                $new_plugin_title .= ': ' . $plugin_name;
-            }
-            $opt->setTitle($new_plugin_title);
+        if ($opt !== null) {
+            $form->addOption($opt);
         }
-
-        $form->addOption($opt);
     }
 
     /**
      * Build the creation-input-field
      */
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ?ilRadioOption
     {
-        $opt = new ilRadioOption(
-            $this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()),
-            (string)$this->getField()->getDatatypeId()
-        );
-        $opt->setInfo($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle() . '_desc'));
+        $opt = null;
+        if ($this->getField()->getDatatypeId() !== null) {
+            $title = $this->field->getPresentationTitle();
+            $info = $this->field->getPresentationDescription();
+            $opt = new ilRadioOption($title, (string) $this->getField()->getDatatypeId());
+            $opt->setInfo($info);
+        }
 
         return $opt;
     }

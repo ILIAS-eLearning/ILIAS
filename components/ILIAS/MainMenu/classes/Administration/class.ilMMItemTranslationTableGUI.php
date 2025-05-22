@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 /**
@@ -8,20 +24,17 @@ declare(strict_types=1);
  */
 class ilMMItemTranslationTableGUI extends ilTable2GUI
 {
-    private ilMMItemFacadeInterface $item_facade;
-
-//    private ilCtrl $ctrl;
-//    private ilLanguage $lng;
+    //    private ilCtrl $ctrl;
+    //    private ilLanguage $lng;
 
     /**
      * ilMMItemTranslationTableGUI constructor.
      * @param ilMMItemTranslationGUI  $a_parent_obj
      * @param ilMMItemFacadeInterface $item_facade
      */
-    public function __construct(ilMMItemTranslationGUI $a_parent_obj, ilMMItemFacadeInterface $item_facade)
+    public function __construct(ilMMItemTranslationGUI $a_parent_obj, private ilMMItemFacadeInterface $item_facade)
     {
         $table_id = self::class;
-        $this->item_facade = $item_facade;
         $this->setId($table_id);
         $this->setPrefix($table_id);
         $this->setFormName($table_id);
@@ -73,6 +86,7 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function fillRow(array $a_set): void
     {
         /**

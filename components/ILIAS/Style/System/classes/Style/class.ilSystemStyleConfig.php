@@ -58,7 +58,7 @@ class ilSystemStyleConfig
     /**
      * Path to images directory of delos
      */
-    protected string $default_images_path = '../assets/images/';
+    protected string $default_images_path = './assets/images/';
 
     /**
      * Path to fonts directory of delos
@@ -78,7 +78,7 @@ class ilSystemStyleConfig
     /**
      * Customizing skin path to place folders for custom skins into
      */
-    protected string $customizing_skin_path = '../../Customizing/global/skin/';
+    protected string $customizing_skin_path = './Customizing/skin/';
 
     public function getDefaultSkinId(): string
     {

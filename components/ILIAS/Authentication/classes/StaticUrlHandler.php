@@ -48,10 +48,10 @@ class StaticUrlHandler extends BaseHandler implements Handler
 
     public function handle(Request $request, Context $context, Factory $response_factory): Response
     {
-        $additional_params = join('/', $request->getAdditionalParameters() ?? []);
+        $additional_params = implode('/', $request->getAdditionalParameters() ?? []);
 
         return match ($additional_params) {
-            'login' => $response_factory->can(rtrim(ILIAS_HTTP_PATH, '/') . '/login.php?' . http_build_query([
+            'login' => $response_factory->can('login.php?' . http_build_query([
                 'cmd' => 'force_login',
                 'lang' => $this->language->getLangKey(),
             ])),

@@ -60,15 +60,13 @@ The use of the [Toast](../../src/GlobalScreen/Scope/Toast/README.md) is mandator
 
 ### General Settings
 
-#### On-Screen Notifications
+#### Toasts
 
 If enabled, users will be notified of certain events by pop-up notifications in the form of toasts.
 
 Further all numeric values have to be set and the sum of **Presentation Time** and **Presentation Delay** must be less than **Refreshinterval**.
 Otherwise the setting will not be saved and an error will occur.
 The **Play a Sound** will only be effective if it has not been disabled by the user in their personal settings.
-
-![OSD Settings](./docu/images/settings_enable_osd_en.png)
 
 If disabled, all sub.settings will be removed and all existing On-Screen Notifications will be cleared.
 

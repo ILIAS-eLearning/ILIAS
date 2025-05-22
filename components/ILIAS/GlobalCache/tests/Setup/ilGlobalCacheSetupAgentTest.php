@@ -18,6 +18,7 @@
 
 namespace ILIAS\Tests\GlobalCache\Setup;
 
+use ILIAS\Cache\Nodes\Node;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
@@ -26,7 +27,7 @@ use ILIAS\Cache\Config;
 
 class TestObj extends \ilGlobalCacheSetupAgent
 {
-    public function getMServer(array $node)
+    public function getMServer(array $node): Node
     {
         return $this->convertNode($node);
     }

@@ -18,6 +18,12 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\ResourceStorage\Services as IRSS;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -29,10 +35,17 @@ class ilTestArchiveService
     protected ?ilTestParticipantData $participantData = null;
 
     public function __construct(
-        protected ilObjTest $test_obj,
-        protected ilLanguage $lng,
-        protected ilObjectDataCache $obj_cache,
-        protected ilTestHTMLGenerator $html_generator
+        private readonly ilObjTest $test_obj,
+        private readonly ilLanguage $lng,
+        private readonly ilDBInterface $db,
+        private readonly ilObjUser $user,
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
+        private readonly IRSS $irss,
+        private readonly ServerRequestInterface $request,
+        private readonly ilObjectDataCache $obj_cache,
+        private readonly ilTestParticipantAccessFilterFactory $participant_access_filter_factory,
+        private readonly ilTestHTMLGenerator $html_generator
     ) {
         $this->participantData = null;
     }
@@ -61,7 +74,19 @@ class ilTestArchiveService
         $content = $this->renderOverviewContent($active_id, $pass);
         $filename = $this->buildOverviewFilename($active_id, $pass);
         $this->html_generator->generateHTML($content, $filename);
-        $archiver = new ilTestArchiver($this->test_obj->getId());
+        $archiver = new ilTestArchiver(
+            $this->lng,
+            $this->db,
+            $this->user,
+            $this->ui_factory,
+            $this->ui_renderer,
+            $this->irss,
+            $this->request,
+            $this->obj_cache,
+            $this->participant_access_filter_factory,
+            $this->test_obj->getTestLogViewer(),
+            $this->test_obj->getId()
+        );
         $archiver->setParticipantData($this->getParticipantData());
         $archiver->handInTestResult($active_id, $pass, $filename);
         $archiver->handInParticipantUploadedResults($active_id, $pass, $this->test_obj);
@@ -82,7 +107,7 @@ class ilTestArchiveService
         );
 
         $gui = new ilTestServiceGUI($this->test_obj);
-        $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $this->obj_cache);
+        $testResultHeaderLabelBuilder = new ResultsTitlesBuilder($this->lng, $this->obj_cache);
 
         return $gui->getPassListOfAnswers(
             $results,

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Render;
 
 use ilGlobalTemplateInterface;
@@ -28,13 +28,9 @@ use ilTemplate;
  */
 class ilTemplateWrapper implements Template
 {
-    protected ilGlobalTemplateInterface $global_tpl;
-    private ilTemplate $tpl;
-
-    final public function __construct(ilGlobalTemplateInterface $global_tpl, ilTemplate $tpl)
-    {
-        $this->global_tpl = $global_tpl;
-        $this->tpl = $tpl;
+    final public function __construct(
+        private ilTemplate $tpl,
+    ) {
     }
 
     /**
@@ -72,19 +68,11 @@ class ilTemplateWrapper implements Template
     /**
      * @inheritdocs
      */
-    public function get(string $block = null): string
+    public function get(?string $block = null): string
     {
         if ($block === null) {
             $block = "__global__";
         }
         return $this->tpl->get($block);
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function addOnLoadCode(string $code): void
-    {
-        $this->global_tpl->addOnLoadCode($code);
     }
 }

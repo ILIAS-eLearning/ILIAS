@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Util\Convert;
 
+use ILIAS\Filesystem\Stream\Stream;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
 
@@ -192,7 +193,7 @@ class LegacyImages
         return $path;
     }
 
-    private function buildStream(string $path_to_original): \ILIAS\Filesystem\Stream\Stream|FileStream
+    private function buildStream(string $path_to_original): Stream|FileStream
     {
         return Streams::ofResource(fopen($path_to_original, 'rb'));
     }

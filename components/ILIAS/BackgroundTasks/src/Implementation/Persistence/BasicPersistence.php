@@ -33,7 +33,6 @@ class BasicPersistence implements Persistence
 {
     protected static BasicPersistence $instance;
     protected static array $buckets = [];
-    protected \ilDBInterface $db;
     protected \SplObjectStorage $bucketHashToObserverContainerId;
     protected \SplObjectStorage $taskHashToTaskContainerId;
     protected \SplObjectStorage $valueHashToValueContainerId;
@@ -49,9 +48,8 @@ class BasicPersistence implements Persistence
         return self::$instance;
     }
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(protected \ilDBInterface $db)
     {
-        $this->db = $db;
         $this->valueHashToValueContainerId = new \SplObjectStorage();
         $this->bucketHashToObserverContainerId = new \SplObjectStorage();
         $this->taskHashToTaskContainerId = new \SplObjectStorage();
@@ -59,11 +57,59 @@ class BasicPersistence implements Persistence
 
     protected function gc(): void
     {
-        $this->db->manipulateF(
-            "DELETE FROM il_bt_bucket WHERE user_id = %s AND (state = %s OR state = %s)",
-            ['integer', 'integer', 'integer'],
-            [defined('ANONYMOUS_USER_ID') ? \ANONYMOUS_USER_ID : 13, State::FINISHED, State::USER_INTERACTION]
-        );
+        $atom = $this->db->buildAtomQuery();
+
+        $atom->addTableLock('il_bt_bucket');
+        $atom->addTableLock('il_bt_task');
+        $atom->addTableLock('il_bt_value');
+        $atom->addTableLock('il_bt_value_to_task');
+        $atom->addQueryCallable(function (\ilDBInterface $db): void {
+            $this->db->manipulateF(
+                "DELETE FROM il_bt_bucket WHERE user_id = %s AND (state = %s OR state = %s) AND last_heartbeat < %s AND last_heartbeat > 0",
+                ['integer', 'integer', 'integer', 'integer'],
+                [
+                    defined('ANONYMOUS_USER_ID') ? \ANONYMOUS_USER_ID : 13,
+                    State::FINISHED,
+                    State::USER_INTERACTION,
+                    time() - 1 * 60 * 24 * 30
+                ]
+            );
+
+            // remove old finished buckets
+            $this->db->manipulateF(
+                "DELETE FROM il_bt_bucket WHERE state = %s AND last_heartbeat < %s AND last_heartbeat > 0",
+                ['integer', 'integer'],
+                [State::FINISHED, time() - 60 * 60 * 24 * 30] // older than 30 days
+            );
+
+            // remove old buckets with other states
+            $this->db->manipulateF(
+                "DELETE FROM il_bt_bucket WHERE state != %s AND last_heartbeat < %s AND last_heartbeat > 0",
+                ['integer', 'integer'],
+                [State::FINISHED, time() - 60 * 60 * 24 * 180] // older than 180 days
+            );
+
+            // remove tasks without a bucket
+            $this->db->manipulate(
+                "DELETE il_bt_task FROM il_bt_task LEFT JOIN il_bt_bucket ON il_bt_bucket.id = il_bt_task.bucket_id WHERE il_bt_bucket.id IS NULL;"
+            );
+
+            // remove value to bucket links without a bucket
+            $this->db->manipulate(
+                "DELETE il_bt_value_to_task FROM il_bt_value_to_task LEFT JOIN il_bt_bucket ON il_bt_bucket.id = il_bt_value_to_task.bucket_id WHERE il_bt_bucket.id IS NULL;"
+            );
+
+            // remove value to bucket links without a task
+            $this->db->manipulate(
+                "DELETE il_bt_value_to_task FROM il_bt_value_to_task LEFT JOIN il_bt_task ON il_bt_task.id = il_bt_value_to_task.task_id WHERE il_bt_task.id IS NULL;"
+            );
+
+            // remove values without a task
+            $this->db->manipulate(
+                "DELETE il_bt_value FROM il_bt_value LEFT JOIN il_bt_value_to_task ON il_bt_value_to_task.value_id = il_bt_value.id WHERE il_bt_value_to_task.id IS NULL;"
+            );
+        });
+        $atom->run();
     }
 
     public function setConnector(\arConnector $c): void
@@ -110,7 +156,11 @@ class BasicPersistence implements Persistence
     public function getBucketIdsOfUser(int $user_id, string $order_by = "id", string $order_direction = "ASC"): array
     {
         // Garbage Collection
-        $this->gc();
+        $random = new \Random\Randomizer();
+
+        if($random->getInt(1, 100) === 1) {
+            $this->gc();
+        }
 
         return BucketContainer::where(['user_id' => $user_id])
                               ->orderBy($order_by, $order_direction)
@@ -124,7 +174,7 @@ class BasicPersistence implements Persistence
     {
         $buckets = BucketContainer::where(['user_id' => $user_id])->get();
 
-        return array_map(function (BucketContainer $bucketContainer): \ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucketMeta {
+        return array_map(function (BucketContainer $bucketContainer): BasicBucketMeta {
             $bucketMeta = new BasicBucketMeta();
 
             $bucketMeta->setUserId($bucketContainer->getUserId());
@@ -144,7 +194,7 @@ class BasicPersistence implements Persistence
     {
         $buckets = BucketContainer::where(['state' => $state])->get();
 
-        return array_map(fn (BucketContainer $bucket_container): int => $bucket_container->getId(), $buckets);
+        return array_map(fn(BucketContainer $bucket_container): int => $bucket_container->getId(), $buckets);
     }
 
     /**
@@ -204,8 +254,8 @@ class BasicPersistence implements Persistence
         // The basic information about the task.
         $taskContainer->setType($task->getType());
         $taskContainer->setBucketId($bucketId);
-        $reflection = new \ReflectionClass(get_class($task));
-        $taskContainer->setClassName(get_class($task));
+        $reflection = new \ReflectionClass($task::class);
+        $taskContainer->setClassName($task::class);
 
         // Recursivly save the inputs and link them to this task.
         foreach ($task->getInput() as $k => $input) {
@@ -263,7 +313,7 @@ class BasicPersistence implements Persistence
         } else {
             $valueContainer = new ValueContainer(0, $this->connector);
         }
-        $valueContainer->setClassName(get_class($value));
+        $valueContainer->setClassName($value::class);
         // bugfix mantis 23503
         // $absolute_class_path = $reflection->getFileName();
         // $relative_class_path = str_replace(ILIAS_ABSOLUTE_PATH,".",$absolute_class_path);
@@ -323,11 +373,11 @@ class BasicPersistence implements Persistence
                 . print_r($value, true));
         }
 
-        return (int )$this->valueHashToValueContainerId[$value];
+        return (int) $this->valueHashToValueContainerId[$value];
     }
 
     /**
-     * @throws \ILIAS\BackgroundTasks\Exceptions\BucketNotFoundException
+     * @throws BucketNotFoundException
      */
     public function loadBucket(int $bucket_container_id): Bucket
     {
@@ -362,7 +412,7 @@ class BasicPersistence implements Persistence
      * @param BucketContainer $bucketContainer Needed because we need the current tasks container
      *                                         id for correct linking.
      */
-    private function loadTask(int $taskContainerId, Bucket $bucket, BucketContainer $bucketContainer): \ILIAS\BackgroundTasks\Task
+    private function loadTask(int $taskContainerId, Bucket $bucket, BucketContainer $bucketContainer): Task
     {
         global $DIC;
         $factory = $DIC->backgroundTasks()->taskFactory();
@@ -393,7 +443,7 @@ class BasicPersistence implements Persistence
         return $task;
     }
 
-    private function loadValue($valueContainerId, Bucket $bucket, BucketContainer $bucketContainer): \ILIAS\BackgroundTasks\Value
+    private function loadValue($valueContainerId, Bucket $bucket, BucketContainer $bucketContainer): Value
     {
         global $DIC;
         $factory = $DIC->backgroundTasks()->injector();
@@ -452,7 +502,7 @@ class BasicPersistence implements Persistence
     }
 
     /**
-     * @return \ILIAS\BackgroundTasks\Bucket[]
+     * @return Bucket[]
      */
     public function loadBuckets(array $bucket_container_ids): array
     {
@@ -460,7 +510,7 @@ class BasicPersistence implements Persistence
         foreach ($bucket_container_ids as $bucket_id) {
             try {
                 $buckets[] = $this->loadBucket($bucket_id);
-            } catch (\Throwable $t) {
+            } catch (\Throwable) {
                 // there seem to be a problem with this container, we must delete it
                 $this->deleteBucketById($bucket_id);
             }

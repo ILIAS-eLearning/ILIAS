@@ -93,6 +93,9 @@ class ilPCSourceCode extends ilPCParagraph
                 $plain_content
             );
             //$content = utf8_encode($this->highlightText($plain_content, $subchar));
+            if ($subchar === "") {
+                $subchar = "other";
+            }
             $content = $this->highlightText($plain_content, $subchar);
 
             $content = str_replace("&amp;lt;", "&lt;", $content);
@@ -157,12 +160,18 @@ class ilPCSourceCode extends ilPCParagraph
         string $a_text,
         string $proglang
     ): string {
-        $proglang = ilSyntaxHighlighter::getNewLanguageId($proglang);
-        if (ilSyntaxHighlighter::isSupported($proglang)) {
-            $highl = ilSyntaxHighlighter::getInstance($proglang);
-            $a_text = $highl->highlight($a_text);
+        $map = ["php3" => "php",
+        "java122" => "java",
+        "html" => "html4strict"];
+        if (isset($map[$proglang])) {
+            $proglang = $map[$proglang];
         }
-        return $a_text;
+
+        $geshi = new GeSHi(html_entity_decode($a_text), $proglang);
+        $a_code = $geshi->parse_code();
+        $a_code = substr($a_code, strpos($a_code, ">") + 1);
+        $a_code = substr($a_code, 0, strrpos($a_code, "<"));
+        return $a_code;
     }
 
     public function importFile(string $tmpname): void

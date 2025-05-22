@@ -37,10 +37,10 @@ class ViewDefinition
         private string $embedding_cmd,
         private string $title,
         private int $items_per_page = 50,
-        private ?\ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder $stakeholder = null,
+        private ?ResourceStakeholder $stakeholder = null,
         private bool $enable_upload = false
     ) {
-        if ($this->enable_upload && !$this->stakeholder instanceof \ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder) {
+        if ($this->enable_upload && !$this->stakeholder instanceof ResourceStakeholder) {
             throw new \InvalidArgumentException('If upload is enabled, a stakeholder must be provided');
         }
     }

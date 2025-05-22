@@ -1,13 +1,43 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\Group;
 
 /**
- * Example showing how groups can be used to attach transformation and constraints on
- * multiple fields at once. Note that groups do not have a defined way of outputting
- * validations errors. This is context dependant.
+ * ---
+ * description: >
+ *   Example showing how groups can be used to attach transformation and constraints on
+ *   multiple fields at once. Note that groups do not have a defined way of outputting
+ *   validation errors. This is context dependent.
+ *
+ * expected output: >
+ *   ILIAS shows a group of two input fields titled "Left" and "Right". You can insert numbers. Clicking "Save" reloads
+ *   the page. If the addition of both the inserted numbers equals 10 ILIAS will display following:
+ *
+ *   Array
+ *   (
+ *      [custom_group] => 10
+ *   )
+ *
+ *   Else the error message "The sum must equal ten." will be displayed.
+ * ---
  */
 function base()
 {

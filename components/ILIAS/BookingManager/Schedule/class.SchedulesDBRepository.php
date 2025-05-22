@@ -3,14 +3,17 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
 
 namespace ILIAS\BookingManager\Schedule;
@@ -32,7 +35,7 @@ class SchedulesDBRepository
         $this->db = $db;
     }
 
-    public function loadDataOfPool(int $pool_id) : void
+    public function loadDataOfPool(int $pool_id): void
     {
         $db = $this->db;
 
@@ -67,19 +70,19 @@ class SchedulesDBRepository
 
     protected function getScheduleDataForPool(
         int $pool_id
-    ) : array {
+    ): array {
         $this->loadDataOfPool($pool_id);
         return self::$pool_schedules[$pool_id] ?? [];
     }
 
     public function hasSchedules(
         int $pool_id
-    ) : bool {
+    ): bool {
         $this->loadDataOfPool($pool_id);
         return count(self::$pool_schedules[$pool_id] ?? []) > 0;
     }
 
-    public function getScheduleList(int $pool_id) : array
+    public function getScheduleList(int $pool_id): array
     {
         $list = [];
         foreach ($this->getScheduleDataForPool($pool_id) as $data) {
@@ -88,7 +91,7 @@ class SchedulesDBRepository
         return $list;
     }
 
-    public function getScheduleData(int $pool_id) : array
+    public function getScheduleData(int $pool_id): array
     {
         $schedules = [];
         foreach ($this->getScheduleDataForPool($pool_id) as $data) {

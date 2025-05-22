@@ -151,7 +151,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
     public function getRenderedUploadForm(
         UIWrapper $ui_wrapper,
         ilLanguage $lng,
-        ilPropertyFormGUI $form = null
+        ?ilPropertyFormGUI $form = null
     ): string {
         if (!$form) {
             $form = $this->getUploadForm($lng);
@@ -203,7 +203,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
     public function getRenderedUrlForm(
         UIWrapper $ui_wrapper,
         ilLanguage $lng,
-        ilPropertyFormGUI $form = null
+        ?ilPropertyFormGUI $form = null
     ): string {
         if (!$form) {
             $form = $this->getUrlForm($lng);

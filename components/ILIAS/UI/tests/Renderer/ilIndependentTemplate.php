@@ -42,7 +42,7 @@ class ilIndependentGlobalTemplate extends ilGlobalTemplate implements \ILIAS\UI\
 
     // Small adjustment to fit \ILIAS\UI\Implementation\Template and call to
     public function get(
-        string $part = null,
+        ?string $part = null,
         bool $add_error_mess = false,
         bool $handle_referer = false,
         bool $add_ilias_footer = false,
@@ -111,7 +111,7 @@ class ilIndependantTemplate extends ilTemplate
     }
 
     // Small adjustment to fit \ILIAS\UI\Implementation\Template and call to
-    public function get(string $part = null): string
+    public function get(?string $part = null): string
     {
         if ($part === null) {
             $part = self::IT_DEFAULT_BLOCK;

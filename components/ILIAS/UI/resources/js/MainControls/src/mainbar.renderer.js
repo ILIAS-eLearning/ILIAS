@@ -1,4 +1,20 @@
-var renderer = function($) {
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ******************************************************************** */
+
+ var renderer = function($) {
     var css = {
         engaged: 'engaged'
         ,disengaged: 'disengaged'
@@ -292,16 +308,35 @@ var renderer = function($) {
                     .children().first();
             someting_to_focus_on_if_listing = someting_to_focus_on.children().first().children().first();
             if(someting_to_focus_on[0]) {
-                if(!someting_to_focus_on.is(":focusable")) { //cannot focus w/o index
+                if(!actions.isFocusable(someting_to_focus_on[0])) {
                     someting_to_focus_on.attr('tabindex', '-1');
                     if(someting_to_focus_on_if_listing[0]
-                      && someting_to_focus_on_if_listing.is(":focusable")) { //cannot focus w/o index
+                      && actions.isFocusable(someting_to_focus_on_if_listing[0])) {
                         someting_to_focus_on_if_listing[0].focus();
                     }
                 } else {
                     someting_to_focus_on[0].focus();
                 }
             }
+        },
+
+        /**
+         * this replaces the :focusable selector from https://api.jqueryui.com/focusable-selector/
+         */
+        isFocusable: function(element) {
+            return (
+                (   element instanceof HTMLInputElement
+                    || element instanceof HTMLSelectElement
+                    || element instanceof HTMLTextAreaElement
+                    || element instanceof HTMLButtonElement
+                )
+                && element.getAttribute('disabled') === null
+            )
+            || element.getAttribute('href') !== null
+            || (
+                element.getAttribute('tabindex') !== null
+                && element.getAttribute('tabindex') !== -1
+            );
         },
         focusTopentry: function(top_entry_id) {
             var  triggerer = dom_references[top_entry_id];

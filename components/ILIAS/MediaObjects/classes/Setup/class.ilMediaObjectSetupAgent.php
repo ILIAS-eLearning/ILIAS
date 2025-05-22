@@ -48,7 +48,7 @@ class ilMediaObjectSetupAgent implements Setup\Agent
         });
     }
 
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
     {
         $dir_objective = new ilFileSystemComponentDataDirectoryCreatedObjective(
             'mobs',
@@ -64,7 +64,7 @@ class ilMediaObjectSetupAgent implements Setup\Agent
         );
     }
 
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         /** @var ilMediaObjectSetupConfig $config */
         if ($config !== null) {
@@ -90,6 +90,8 @@ class ilMediaObjectSetupAgent implements Setup\Agent
 
     public function getMigrations(): array
     {
-        return [];
+        return [
+            new ilMobMigration()
+        ];
     }
 }

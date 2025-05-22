@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Skill\Profile;
 
@@ -36,10 +35,10 @@ class SkillProfileManager implements Usage\SkillUsageInfo
     protected \ilLanguage $lng;
 
     public function __construct(
-        \ILIAS\Skill\Profile\SkillProfileDBRepository $profile_repo = null,
-        \ILIAS\Skill\Profile\SkillProfileLevelsDBRepository $profile_levels_repo = null,
-        \ILIAS\Skill\Profile\SkillProfileUserDBRepository $profile_user_repo = null,
-        \ILIAS\Skill\Profile\SkillProfileRoleDBRepository $profile_role_repo = null
+        ?SkillProfileDBRepository $profile_repo = null,
+        ?SkillProfileLevelsDBRepository $profile_levels_repo = null,
+        ?SkillProfileUserDBRepository $profile_user_repo = null,
+        ?SkillProfileRoleDBRepository $profile_role_repo = null
     ) {
         global $DIC;
 

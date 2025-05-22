@@ -18,8 +18,6 @@
 
 namespace ILIAS\FileUpload\DTO;
 
-use ILIAS\FileUpload\ScalarTypeCheckAware;
-
 /**
  * Class ProcessingStatus
  *
@@ -37,36 +35,39 @@ final class ProcessingStatus
 {
     /**
      * Upload is ok
+     * @var int
      */
     public const OK = 1;
     /**
      * Upload got rejected by a processor
+     * @var int
      */
     public const REJECTED = 2;
     /**
      * Upload is pending
+     * @var int
      */
     public const PENDING = 3;
     /**
      * Upload got denied by a processor, the upload will be removed immediately
+     * @var int
      */
     public const DENIED = 4;
 
     private int $code;
-    private string $message;
 
     /**
      * ProcessingStatus constructor.
      *
      * @param int    $code   The code OK or REJECTED.
-     * @param string $reason The message which should be set to make the rejection more
+     * @param string $message The message which should be set to make the rejection more
      *                       understandable for other developers.
      *
      * @throws \InvalidArgumentException Thrown if the given code is not OK or REJECTED. The
      *                                   exception can also be thrown if the given arguments are not
      *                                   of the correct type.
      */
-    public function __construct(int $code, string $reason)
+    public function __construct(int $code, private string $message)
     {
         if (!in_array($code, [self::OK, self::REJECTED, self::DENIED, self::PENDING], true)) {
             throw new \InvalidArgumentException(
@@ -75,7 +76,6 @@ final class ProcessingStatus
         }
 
         $this->code = $code;
-        $this->message = $reason;
     }
 
     public function getCode(): int

@@ -77,7 +77,7 @@ class ilKioskPageRenderer
         return $this->ui_factory->maincontrols()->slate()->legacy(
             $this->lng->txt('lso_mainbar_button_label_toc'),
             $icon->withSize("small"),
-            $this->ui_factory->legacy($html)
+            $this->ui_factory->legacy()->content($html)
         );
     }
 

@@ -1,11 +1,41 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\Select;
 
 /**
- * Base example showing how to plug a Select into a form
+ * ---
+ * description: >
+ *   Base example showing how to plug a Select into a form.
+ *
+ * expected output: >
+ *   ILIAS shows a button titled "Choose an Option". No option is selected. If you choose an option and save your selection
+ *   ILIAS will show you your selection in the following format:
+ *
+ *   Array
+ *   (
+ *       [0] => 2
+ *   )
+ *
+ *   You can use the save function without selecting any options.
+ * ---
  */
 function base()
 {

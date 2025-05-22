@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Survey\Mode;
 
@@ -367,7 +367,7 @@ abstract class AbstractUIModifier implements UIModifier
         // Question title anchor
         $anchor_id = "svyrdq" . $question->getId();
         $title = "<span id='$anchor_id'>$qst_title</span>";
-        $panel_qst_card = $ui_factory->panel()->sub($title, $ui_factory->legacy($svy_text))
+        $panel_qst_card = $ui_factory->panel()->sub($title, $ui_factory->legacy()->content($svy_text))
             ->withFurtherInformation($this->getPanelCard($question_res));
 
         $panels[] = $panel_qst_card;
@@ -390,7 +390,7 @@ abstract class AbstractUIModifier implements UIModifier
         ));
 
 
-        $panels[] = $ui_factory->panel()->sub("", $ui_factory->legacy($a_tpl->get()));
+        $panels[] = $ui_factory->panel()->sub("", $ui_factory->legacy()->content($a_tpl->get()));
         return $panels;
     }
 
@@ -558,7 +558,7 @@ abstract class AbstractUIModifier implements UIModifier
         return $ui_factory->card()
                           ->standard($svy_type_title)
                           ->withSections(
-                              array($ui_factory->legacy($card_table_tpl->get()))
+                              array($ui_factory->legacy()->content($card_table_tpl->get()))
                           );
     }
 }

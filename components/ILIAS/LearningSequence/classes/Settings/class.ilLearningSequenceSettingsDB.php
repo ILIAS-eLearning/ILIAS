@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Persistence for Settings (like abstract, extro)
@@ -124,8 +124,8 @@ class ilLearningSequenceSettingsDB
         int $obj_id,
         string $abstract = '',
         string $extro = '',
-        string $abstract_image = null,
-        string $extro_image = null,
+        ?string $abstract_image = null,
+        ?string $extro_image = null,
         bool $gallery = false
     ): ilLearningSequenceSettings {
         return new ilLearningSequenceSettings(

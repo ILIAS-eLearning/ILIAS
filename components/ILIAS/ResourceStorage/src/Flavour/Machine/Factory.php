@@ -19,6 +19,7 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Flavour\Machine;
 
+use ILIAS\ResourceStorage\Flavour\Engine\Engine;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\DefaultMachines;
 
@@ -35,15 +36,13 @@ class Factory
      * @var FlavourMachine[]
      */
     protected array $machines_instances = [];
-    private \ILIAS\ResourceStorage\Flavour\Engine\Factory $engines;
 
     public function __construct(
-        \ILIAS\ResourceStorage\Flavour\Engine\Factory $engine_factory,
+        private \ILIAS\ResourceStorage\Flavour\Engine\Factory $engines,
         array $machines_string = []
     ) {
         $default_machines = new DefaultMachines();
         $this->machines_string = array_merge($default_machines->get(), $machines_string);
-        $this->engines = $engine_factory;
     }
 
     public function get(FlavourDefinition $definition): FlavourMachine
@@ -60,7 +59,7 @@ class Factory
         }
         try {
             $machine = new $machine_string();
-        } catch (\Throwable $t) {
+        } catch (\Throwable) {
             return $null_machine->withReason('Could not instantiate machine ' . $machine_string);
         }
 
@@ -70,7 +69,7 @@ class Factory
 
         $engine = $this->engines->get($machine);
 
-        if (!$engine instanceof \ILIAS\ResourceStorage\Flavour\Engine\Engine || !$engine->isRunning()) {
+        if (!$engine instanceof Engine || !$engine->isRunning()) {
             return $null_machine->withReason(
                 'Machine ' . $machine_string . ' depends on engine ' .
                 $machine->dependsOnEngine()

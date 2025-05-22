@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
 {
     public function testCloneCertificate(): void
@@ -58,7 +55,9 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         123_456_789,
                         true,
                         '/some/where/background.jpg',
-                        '/some/where/card_thumb.jpg',
+                        '/some/where/card_tile_image.jpg',
+                        '-',
+                        '-',
                         null
                     ),
                     new ilCertificateTemplate(
@@ -72,7 +71,9 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         123_456_789,
                         true,
                         '/some/where/background.jpg',
-                        '/some/where/card_thumb.jpg',
+                        '/some/where/card_tile_image.jpg',
+                        '-',
+                        '-',
                         null
                     ),
                     new ilCertificateTemplate(
@@ -86,7 +87,9 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         123_456_789,
                         true,
                         '/certificates/default/background.jpg',
-                        '/some/where/card_thumb.jpg',
+                        '/some/where/card_tile_image.jpg',
+                        '-',
+                        '-',
                         null
                     )
                 ]
@@ -95,16 +98,6 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
         $templateRepository
             ->expects($this->exactly(3))
             ->method('save');
-
-        $fileSystem = $this->getMockBuilder(\ILIAS\Filesystem\Filesystem::class)
-            ->getMock();
-
-        $fileSystem->method('has')
-            ->willReturn(true);
-
-        $fileSystem
-            ->expects($this->exactly(7))
-            ->method('copy');
 
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
@@ -120,11 +113,8 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
             $database,
             new ilCertificatePathFactory(),
             $templateRepository,
-            'some/web/directory',
-            $fileSystem,
             $objectHelper,
-            $global_certificate_settings,
-            '/certificates/default/background.jpg'
+            $global_certificate_settings
         );
 
         $oldObject = $this->getMockBuilder(ilObject::class)

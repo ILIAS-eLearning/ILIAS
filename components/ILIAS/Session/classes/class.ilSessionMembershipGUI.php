@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * GUI class for membership features
@@ -180,6 +179,33 @@ class ilSessionMembershipGUI extends ilMembershipGUI
         );
         $table->init();
         return $table;
+    }
+
+    protected function getParticipantTableTitle(): string
+    {
+        /*
+         * TODO this exact logic is also in ilSessionParticipantsTableGUI and ilMembershipGUI,
+         *  should be centralized.
+         */
+        if ($member_ref = $this->tree->checkForParentType(
+            $this->getParentObject()->getRefId(),
+            'grp'
+        )) {
+            $member_ref_id = $member_ref;
+        } elseif ($member_ref = $this->tree->checkForParentType(
+            $this->getParentObject()->getRefId(),
+            'crs'
+        )) {
+            $member_ref_id = $member_ref;
+        } else {
+            $this->logger->warning('Cannot find parent course or group for ref_id: ' . $this->getParentObject()->getRefId());
+            $member_ref_id = $this->getParentObject()->getRefId();
+        }
+
+        return sprintf(
+            $this->lng->txt('sess_mem_tbl_header'),
+            ilObjectFactory::getInstanceByRefId($member_ref_id)->getTitle(),
+        );
     }
 
     protected function initSubscriberTable(): ilSubscriberTableGUI

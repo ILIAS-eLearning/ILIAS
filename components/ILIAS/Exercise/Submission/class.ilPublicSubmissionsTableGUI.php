@@ -23,6 +23,7 @@
  */
 class ilPublicSubmissionsTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\Exercise\InternalDomainService $domain;
     protected \ILIAS\Exercise\InternalGUIService $gui;
     protected ilExAssignment $ass;
 
@@ -58,6 +59,7 @@ class ilPublicSubmissionsTableGUI extends ilTable2GUI
         //$this->disable("footer");
         $this->setEnableTitle(true);
         $this->gui = $DIC->exercise()->internal()->gui();
+        $this->domain = $DIC->exercise()->internal()->domain();
     }
 
     /**
@@ -91,12 +93,9 @@ class ilPublicSubmissionsTableGUI extends ilTable2GUI
         );
         $this->tpl->setVariable("USR_ALT", $lng->txt("personal_picture"));
 
-        $sub = new ilExSubmission($this->ass, $member_id);
-
-        // submission:
-
         // nr of submitted files
-        $sub_cnt = count($sub->getFiles());
+        $subs = $this->domain->submission($this->ass->getId())->getSubmissionsOfUser($member_id);
+        $sub_cnt = count(iterator_to_array($subs));
 
         $this->tpl->setVariable("TXT_SUBMITTED_FILES", $lng->txt("exc_files_returned"));
         $this->tpl->setVariable("VAL_SUBMITTED_FILES", $sub_cnt);

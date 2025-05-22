@@ -35,7 +35,7 @@ class assClozeGapTest extends assBaseTestCase
 
         parent::setUp();
 
-        $util_mock = $this->createMock('ilUtil', array('stripSlashes'), array(), '', false);
+        $util_mock = $this->createMock('ilUtil', ['stripSlashes'], [], '', false);
         $util_mock->expects($this->any())->method('stripSlashes')->will($this->returnArgument(0));
         $this->setGlobalVariable('ilUtils', $util_mock);
     }
@@ -84,8 +84,8 @@ class assClozeGapTest extends assBaseTestCase
     {
         $instance = new assClozeGap(0); // 0 - text gap
 
-        $the_unexpected = array('Killing', 'Kunkel', 'Luetzenkirchen',
-            'Meyer', 'Jansen', 'Heyser', 'Becker');
+        $the_unexpected = ['Killing', 'Kunkel', 'Luetzenkirchen',
+            'Meyer', 'Jansen', 'Heyser', 'Becker'];
         $instance->items = $the_unexpected;
         $instance->setShuffle(true);
         $theExpected = ['hua', 'haaa', 'some random values'];
@@ -162,7 +162,7 @@ class assClozeGapTest extends assBaseTestCase
         $item3 = new assAnswerCloze('Karl', 1.0, 2);
         $item4 = new assAnswerCloze('Esther', 1.0, 3);
         $instance->setShuffle(false);
-        $expected = array($item1, $item2, $item3, $item4);
+        $expected = [$item1, $item2, $item3, $item4];
         $instance->addItem($item1);
         $instance->addItem($item2);
         $instance->addItem($item3);
@@ -209,7 +209,7 @@ class assClozeGapTest extends assBaseTestCase
         $item2 = new assAnswerCloze('Fred', 1.0, 1);
         $item3 = new assAnswerCloze('Karl', 1.0, 2);
         $item4 = new assAnswerCloze('Esther', 1.0, 3);
-        $expected = array($item1, $item2, $item3, $item4);
+        $expected = [$item1, $item2, $item3, $item4];
 
         $instance->addItem($item1);
         $instance->addItem($item2);
@@ -262,7 +262,7 @@ class assClozeGapTest extends assBaseTestCase
         $instance->addItem($item1);
         $instance->addItem($item2);
 
-        $expected = array('1' => $item2);
+        $expected = ['1' => $item2];
 
         $instance->deleteItem(0);
 
@@ -391,7 +391,7 @@ class assClozeGapTest extends assBaseTestCase
         $instance->addItem($item3);
         $instance->addItem($item4);
 
-        $expected = array( 0 => 3 );
+        $expected = [ 0 => 3 ];
 
         $actual = $instance->getBestSolutionIndexes();
 
@@ -406,7 +406,7 @@ class assClozeGapTest extends assBaseTestCase
         $item3 = new assAnswerCloze('Karl', 3.0, 1);
         $item4 = new assAnswerCloze('Esther', 4.0, 3);
 
-        $lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
+        $lng_mock = $this->createMock('ilLanguage', ['txt'], [], '', false);
         $lng_mock->expects($this->any())->method('txt')->will($this->returnValue('Test'));
         global $DIC;
         unset($DIC['lng']);
@@ -433,7 +433,7 @@ class assClozeGapTest extends assBaseTestCase
         $item3 = new assAnswerCloze('Karl', 4, 1);
         $item4 = new assAnswerCloze('Esther', 4, 3);
 
-        $lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
+        $lng_mock = $this->createMock('ilLanguage', ['txt'], [], '', false);
         $lng_mock->expects($this->any())->method('txt')->will($this->returnValue('or'));
         global $DIC;
         unset($DIC['lng']);
@@ -462,7 +462,7 @@ class assClozeGapTest extends assBaseTestCase
         $item3 = new assAnswerCloze(30, 3.0, 1);
         $item4 = new assAnswerCloze(100, 4.0, 3);
 
-        $lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
+        $lng_mock = $this->createMock('ilLanguage', ['txt'], [], '', false);
         $lng_mock->expects($this->any())->method('txt')->will($this->returnValue('Test'));
         global $DIC;
         unset($DIC['lng']);
@@ -489,7 +489,7 @@ class assClozeGapTest extends assBaseTestCase
         $item3 = new assAnswerCloze(30, 3.0, 1);
         $item4 = new assAnswerCloze(100, 4.0, 3);
 
-        $lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
+        $lng_mock = $this->createMock('ilLanguage', ['txt'], [], '', false);
         $lng_mock->expects($this->any())->method('txt')->will($this->returnValue('Test'));
         global $DIC;
         unset($DIC['lng']);

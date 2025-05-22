@@ -37,41 +37,26 @@ class ilAssMatchingPairCorrectionsInputGUI extends ilMatchingPairWizardInputGUI
     {
         $this->path_including_prefix = $path_including_prefix;
     }
-
     public function setValue($a_value): void
     {
-        if (is_array($a_value)) {
-            if (is_array($a_value['points'])) {
-                foreach ($a_value['points'] as $idx => $term) {
-                    $this->pairs[$idx]->withPoints($a_value['points'][$idx]);
-                }
-            }
+        foreach ($this->forms_helper->transformPoints($a_value) as $index => $value) {
+            $this->pairs[$index] = $this->pairs[$index]->withPoints($value);
         }
     }
 
     public function checkInput(): bool
     {
-        $foundvalues = $_POST[$this->getPostVar()];
-        if (is_array($foundvalues)) {
-            $max = 0;
-            foreach ($foundvalues['points'] as $val) {
-                if ($val > 0) {
-                    $max += $val;
-                }
-                if ($this->getRequired() && (strlen($val)) == 0) {
-                    $this->setAlert($this->lng->txt("msg_input_is_required"));
-                    return false;
-                }
-            }
-            if ($max <= 0) {
-                $this->setAlert($this->lng->txt("enter_enough_positive_points"));
-                return false;
-            }
-        } else {
-            if ($this->getRequired()) {
-                $this->setAlert($this->lng->txt("msg_input_is_required"));
-                return false;
-            }
+        $data = $this->raw($this->getPostVar());
+        $result = $this->forms_helper->checkPointsInput($data, $this->getRequired());
+
+        if (!is_array($result)) {
+            $this->setAlert($this->lng->txt($result));
+            return false;
+        }
+
+        if (max($result) <= 0) {
+            $this->setAlert($this->lng->txt('enter_enough_positive_points'));
+            return false;
         }
 
         return $this->checkSubItemsInput();
@@ -79,7 +64,7 @@ class ilAssMatchingPairCorrectionsInputGUI extends ilMatchingPairWizardInputGUI
 
     public function insert(ilTemplate $a_tpl): void
     {
-        $tpl = new ilTemplate("tpl.prop_matchingpaircorrection_input.html", true, true, "components/ILIAS/TestQuestionPool");
+        $tpl = new ilTemplate('tpl.prop_matchingpaircorrection_input.html', true, true, 'components/ILIAS/TestQuestionPool');
         $i = 0;
         $term_ids = [];
         $definition_ids = [];

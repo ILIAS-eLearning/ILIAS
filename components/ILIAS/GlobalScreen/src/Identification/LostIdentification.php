@@ -26,15 +26,12 @@ namespace ILIAS\GlobalScreen\Identification;
  */
 class LostIdentification implements IdentificationInterface
 {
-    private string $serialized_string;
-
     /**
      * NullIdentification constructor.
      * @param IdentificationInterface $wrapped_identification
      */
-    public function __construct(string $serialized_string = null)
+    public function __construct(private ?string $serialized_string = null)
     {
-        $this->serialized_string = $serialized_string;
     }
 
     /**

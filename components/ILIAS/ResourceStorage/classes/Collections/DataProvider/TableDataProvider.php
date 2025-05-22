@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Collections\DataProvider;
 
+use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\components\ResourceStorage\Collections\View\Request;
 
@@ -28,7 +29,7 @@ use ILIAS\components\ResourceStorage\Collections\View\Request;
  */
 final class TableDataProvider
 {
-    private \ILIAS\ResourceStorage\Services $irss;
+    private Services $irss;
 
     public function __construct(
         private Request $view_request,

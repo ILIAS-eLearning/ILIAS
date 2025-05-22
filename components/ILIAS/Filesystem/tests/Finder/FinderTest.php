@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\MockObject;
+use ILIAS\Filesystem\DTO\Metadata;
+use PHPUnit\Framework\Attributes\Depends;
 use ILIAS\Data\DataSize;
 use ILIAS\Filesystem;
 use ILIAS\Filesystem\Finder\Finder;
@@ -33,20 +36,20 @@ class FinderTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    private function getFlatFileSystemStructure(): \PHPUnit\Framework\MockObject\MockObject
+    private function getFlatFileSystemStructure(): MockObject
     {
         $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
 
         $metadata = [
-            new Filesystem\DTO\Metadata('file_1.txt', MetadataType::FILE),
-            new Filesystem\DTO\Metadata('file_2.mp3', MetadataType::FILE),
-            new Filesystem\DTO\Metadata('dir_1', MetadataType::DIRECTORY),
+            new Metadata('file_1.txt', MetadataType::FILE),
+            new Metadata('file_2.mp3', MetadataType::FILE),
+            new Metadata('dir_1', MetadataType::DIRECTORY),
         ];
 
         $fileSystem
             ->expects($this->atLeast(1))
             ->method('listContents')
-            ->willReturnCallback(function ($path) use ($metadata) {
+            ->willReturnCallback(function ($path) use ($metadata): array {
                 if ('/' === $path) {
                     return $metadata;
                 }
@@ -60,31 +63,31 @@ class FinderTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    private function getNestedFileSystemStructure(): \PHPUnit\Framework\MockObject\MockObject
+    private function getNestedFileSystemStructure(): MockObject
     {
         $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
 
         $rootMetadata = [
-            new Filesystem\DTO\Metadata('file_1.txt', MetadataType::FILE),
-            new Filesystem\DTO\Metadata('file_2.mp3', MetadataType::FILE),
-            new Filesystem\DTO\Metadata('dir_1', MetadataType::DIRECTORY),
+            new Metadata('file_1.txt', MetadataType::FILE),
+            new Metadata('file_2.mp3', MetadataType::FILE),
+            new Metadata('dir_1', MetadataType::DIRECTORY),
         ];
 
         $level1Metadata = [
-            new Filesystem\DTO\Metadata('dir_1/file_3.log', MetadataType::FILE),
-            new Filesystem\DTO\Metadata('dir_1/file_4.php', MetadataType::FILE),
-            new Filesystem\DTO\Metadata('dir_1/dir_1_1', MetadataType::DIRECTORY),
-            new Filesystem\DTO\Metadata('dir_1/dir_1_2', MetadataType::DIRECTORY),
+            new Metadata('dir_1/file_3.log', MetadataType::FILE),
+            new Metadata('dir_1/file_4.php', MetadataType::FILE),
+            new Metadata('dir_1/dir_1_1', MetadataType::DIRECTORY),
+            new Metadata('dir_1/dir_1_2', MetadataType::DIRECTORY),
         ];
 
         $level11Metadata = [
-            new Filesystem\DTO\Metadata('dir_1/dir_1_1/file_5.cpp', MetadataType::FILE),
+            new Metadata('dir_1/dir_1_1/file_5.cpp', MetadataType::FILE),
         ];
 
         $level12Metadata = [
-            new Filesystem\DTO\Metadata('dir_1/dir_1_2/file_6.py', MetadataType::FILE),
-            new Filesystem\DTO\Metadata('dir_1/dir_1_2/file_7.cpp', MetadataType::FILE),
-            new Filesystem\DTO\Metadata('dir_1/dir_1_2/dir_1_2_1', MetadataType::DIRECTORY),
+            new Metadata('dir_1/dir_1_2/file_6.py', MetadataType::FILE),
+            new Metadata('dir_1/dir_1_2/file_7.cpp', MetadataType::FILE),
+            new Metadata('dir_1/dir_1_2/dir_1_2_1', MetadataType::DIRECTORY),
         ];
 
         $fileSystem
@@ -95,15 +98,17 @@ class FinderTest extends TestCase
                 $level1Metadata,
                 $level11Metadata,
                 $level12Metadata
-            ) {
+            ): array {
                 if ('/' === $path) {
                     return $rootMetadata;
                 }
                 if ('dir_1' === $path) {
                     return $level1Metadata;
-                } elseif ('dir_1/dir_1_1' === $path) {
+                }
+                if ('dir_1/dir_1_1' === $path) {
                     return $level11Metadata;
-                } elseif ('dir_1/dir_1_2' === $path) {
+                }
+                if ('dir_1/dir_1_2' === $path) {
                     return $level12Metadata;
                 }
 
@@ -222,17 +227,15 @@ class FinderTest extends TestCase
         $fs
             ->expects($this->atLeast(1))
             ->method('getTimestamp')
-            ->willReturnCallback(function ($path) use ($now): \DateTimeImmutable {
-                return match ($path) {
-                    'file_1.txt' => $now,
-                    'file_2.mp3' => $now->modify('+1 hour'),
-                    'dir_1/file_3.log' => $now->modify('+2 hour'),
-                    'dir_1/file_4.php' => $now->modify('+3 hour'),
-                    'dir_1/dir_1_1/file_5.cpp' => $now->modify('+4 hour'),
-                    'dir_1/dir_1_2/file_6.py' => $now->modify('+5 hour'),
-                    'dir_1/dir_1_2/file_7.cpp' => $now->modify('+6 hour'),
-                    default => new \DateTimeImmutable('now'),
-                };
+            ->willReturnCallback(fn($path): \DateTimeImmutable => match ($path) {
+                'file_1.txt' => $now,
+                'file_2.mp3' => $now->modify('+1 hour'),
+                'dir_1/file_3.log' => $now->modify('+2 hour'),
+                'dir_1/file_4.php' => $now->modify('+3 hour'),
+                'dir_1/dir_1_1/file_5.cpp' => $now->modify('+4 hour'),
+                'dir_1/dir_1_2/file_6.py' => $now->modify('+5 hour'),
+                'dir_1/dir_1_2/file_7.cpp' => $now->modify('+6 hour'),
+                default => new \DateTimeImmutable('now'),
             });
 
         $finder = (new Finder($fs))->in(['/']);
@@ -260,17 +263,15 @@ class FinderTest extends TestCase
 
         $fs->expects($this->atLeast(1))
             ->method('getSize')
-            ->willReturnCallback(function ($path): \ILIAS\Data\DataSize {
-                return match ($path) {
-                    'file_1.txt' => new DataSize(PHP_INT_MAX, DataSize::Byte),
-                    'file_2.mp3' => new DataSize(1024, DataSize::Byte),
-                    'dir_1/file_3.log' => new DataSize(1024 * 1024 * 1024, DataSize::Byte),
-                    'dir_1/file_4.php' => new DataSize(1024 * 1024 * 127, DataSize::Byte),
-                    'dir_1/dir_1_1/file_5.cpp' => new DataSize(1024 * 7, DataSize::Byte),
-                    'dir_1/dir_1_2/file_6.py' => new DataSize(1024 * 100, DataSize::Byte),
-                    'dir_1/dir_1_2/file_7.cpp' => new DataSize(1, DataSize::Byte),
-                    default => new DataSize(0, DataSize::Byte),
-                };
+            ->willReturnCallback(fn($path): DataSize => match ($path) {
+                'file_1.txt' => new DataSize(PHP_INT_MAX, DataSize::Byte),
+                'file_2.mp3' => new DataSize(1024, DataSize::Byte),
+                'dir_1/file_3.log' => new DataSize(1024 * 1024 * 1024, DataSize::Byte),
+                'dir_1/file_4.php' => new DataSize(1024 * 1024 * 127, DataSize::Byte),
+                'dir_1/dir_1_1/file_5.cpp' => new DataSize(1024 * 7, DataSize::Byte),
+                'dir_1/dir_1_2/file_6.py' => new DataSize(1024 * 100, DataSize::Byte),
+                'dir_1/dir_1_2/file_7.cpp' => new DataSize(1, DataSize::Byte),
+                default => new DataSize(0, DataSize::Byte),
             });
 
         $finder = (new Finder($fs))->in(['/']);
@@ -285,9 +286,7 @@ class FinderTest extends TestCase
         $this->assertCount(2, $finder->size('>= 1Gi')->files());
     }
 
-    /**
-     * @depends testFinderWillFilterFilesAndFoldersByCreationTimestamp
-     */
+    #[Depends('testFinderWillFilterFilesAndFoldersByCreationTimestamp')]
     public function testSortingWorksAsExpected(Filesystem\Filesystem $fs): void
     {
         $finder = (new Finder($fs))->in(['/']);
@@ -304,7 +303,7 @@ class FinderTest extends TestCase
         $this->assertEquals('dir_1', $finder->sortByType()->getIterator()->current()->getPath());
         $this->assertEquals('file_2.mp3', $finder->sortByType()->reverseSorting()->getIterator()->current()->getPath());
 
-        $customSortFinder = $finder->sort(function (Filesystem\DTO\Metadata $left, Filesystem\DTO\Metadata $right): int {
+        $customSortFinder = $finder->sort(function (Metadata $left, Metadata $right): int {
             if ('dir_1/dir_1_1/file_5.cpp' === $left->getPath()) {
                 return -1;
             }

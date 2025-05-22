@@ -81,17 +81,30 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
 
         $mob_gui = new \ilObjMediaObjectGUI("");
         $mob_gui->initForm("create");
+        $ok = false;
+        $error = "";
         if ($mob_gui->checkFormInput()) {
-            $mob_gui->setObjectPerCreationForm($mob);
+            $ok = true;
+            try {
+                $mob_gui->setObjectPerCreationForm($mob);
+            } catch (\Exception $e) {
+                $ok = false;
+                $error = $e->getMessage();
+            }
             $media_item = $mob->getMediaItem("Standard");
             if (!is_null($media_item)) {
                 $pc_media->createAlias($page, $hier_id, $pc_id);
             }
             $updated = $page->update();
-        } else {
+        }
+        if (!$ok) {
             if ($mob_gui->getForm()->getInput("standard_type") === "File") {
                 $edit_gui = new \ilPCMediaObjectEditorGUI();
                 $form = $edit_gui->getUploadForm($lng);
+                if ($error !== "") {
+                    $input = $form->getItemByPostVar("standard_file");
+                    $input->setAlert($error);
+                }
                 $form->checkInput();
                 $form->setValuesByPost();
                 $rendered_form = $edit_gui->getRenderedUploadForm(

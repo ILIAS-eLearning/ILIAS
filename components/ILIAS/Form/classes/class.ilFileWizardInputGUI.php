@@ -256,6 +256,6 @@ class ilFileWizardInputGUI extends ilFileInputGUI
 
         $main_tpl = $this->tpl;
         $main_tpl->addJavascript("assets/js/ServiceFormWizardInput.js");
-        $main_tpl->addJavascript("assets/filewizard.js");
+        $main_tpl->addJavascript("assets/js/filewizard.js");
     }
 }

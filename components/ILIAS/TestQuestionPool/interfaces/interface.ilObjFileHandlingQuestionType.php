@@ -23,5 +23,5 @@ interface ilObjFileHandlingQuestionType
 {
     public function hasFileUploads(int $test_id): bool;
     public function deliverFileUploadZIPFile(int $ref_id, int $test_id, string $test_title);
-    public function getFileUploadPath(int $test_id, int $active_id, int $question_id = null): string;
+    public function getFileUploadPath(int $test_id, int $active_id, ?int $question_id = null): string;
 }

@@ -16,14 +16,13 @@
  *
  *********************************************************************/
 
+use ILIAS\File\Capabilities\CapabilityCollection;
 use ILIAS\File\Icon\IconDatabaseRepository;
-use ILIAS\ResourceStorage\Flavour\Definition\CropToRectangle;
-use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
-use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 use ILIAS\ResourceStorage\Services;
-use ILIAS\Data\DataSize;
 use ILIAS\components\WOPI\Discovery\ActionDBRepository;
-use ILIAS\components\WOPI\Discovery\ActionTarget;
+use ILIAS\File\Capabilities\Capabilities;
+use ILIAS\File\Capabilities\CapabilityBuilder;
+use ILIAS\File\Capabilities\Context;
 
 /**
  * Class ilObjFileListGUI
@@ -37,19 +36,41 @@ class ilObjFileListGUI extends ilObjectListGUI
     use ilObjFileSecureString;
 
     private ilObjFileInfoRepository $file_info;
+    private CapabilityBuilder $capability_builder;
+    private ?CapabilityCollection $capabilities = null;
+    private Context $capability_context;
     protected string $title;
     private IconDatabaseRepository $icon_repo;
-    private ActionDBRepository $action_repo;
     private Services $irss;
 
     public function __construct(int $context = self::CONTEXT_REPOSITORY)
     {
+        global $DIC;
+        $this->capability_context = new Context(
+            0,
+            0,
+            ($context === self::CONTEXT_REPOSITORY) ? Context::CONTEXT_REPO : Context::CONTEXT_WORKSPACE
+        );
+
         parent::__construct($context);
 
-        global $DIC;
         $DIC->language()->loadLanguageModule('wopi');
-        $this->action_repo = new ActionDBRepository($DIC->database());
         $this->file_info = new ilObjFileInfoRepository();
+        $this->capability_builder = new CapabilityBuilder(
+            $this->file_info,
+            $this->access,
+            $this->ctrl,
+            new ActionDBRepository($DIC->database()),
+            $DIC->http(),
+            $DIC['static_url.uri_builder']
+        );
+    }
+
+    protected function updateContext(): void
+    {
+        $this->capability_context = $this->capability_context
+            ->withCallingId($this->ref_id ?? 0)
+            ->withObjectId($this->obj_id ?? 0);
     }
 
     /**
@@ -59,9 +80,11 @@ class ilObjFileListGUI extends ilObjectListGUI
     public function insertCommands(): void
     {
     }
+
     /**
      * initialisation
      */
+    #[\Override]
     public function init(): void
     {
         $this->delete_enabled = true;
@@ -69,7 +92,7 @@ class ilObjFileListGUI extends ilObjectListGUI
         $this->copy_enabled = true;
         $this->subscribe_enabled = true;
         $this->link_enabled = true;
-        $this->info_screen_enabled = true;
+        $this->info_screen_enabled = false;
         $this->type = ilObjFile::OBJECT_TYPE;
         $this->gui_class_name = ilObjFileGUI::class;
         $this->icon_repo = new IconDatabaseRepository();
@@ -80,8 +103,77 @@ class ilObjFileListGUI extends ilObjectListGUI
         }
 
         $this->commands = ilObjFileAccess::_getCommands();
+        $this->updateContext();
     }
 
+    #[\Override]
+    public function getCommands(): array
+    {
+        $this->updateContext();
+        $this->capabilities = $this->capability_builder->get($this->capability_context);
+
+        $best = $this->capabilities->getBest();
+
+        $default_key = null;
+
+        foreach ($this->commands as $key => $command) {
+            if ($command['cmd'] === $best->getCapability()->value) {
+                $default_key = $key;
+                $this->commands[$key]['default'] = true;
+            }
+        }
+
+        // we put a copy of the default command to the array, since otherwise its not rendered in the dropdown
+        if ($default_key !== null) {
+            $command_copy = $this->commands[$default_key];
+            $command_copy['default'] = false;
+
+            $commands = [];
+
+            foreach ($this->commands as $key => $command) {
+                if ($key === $default_key) {
+                    $commands[] = $command_copy;
+                }
+                $commands[] = $command;
+            }
+            $this->commands = $commands;
+        }
+
+        return parent::getCommands();
+    }
+
+    #[\Override]
+    public function getCommandLink(string $cmd): string
+    {
+        $this->updateContext();
+        $this->capabilities = $this->capability_builder->get($this->capability_context);
+
+        $needed_capability = Capabilities::fromCommand($cmd);
+        $capability = $this->capabilities->get($needed_capability);
+        if ($capability === false || !$capability->isUnlocked()) {
+            return '';
+        }
+
+        switch ($this->context) {
+            case self::CONTEXT_REPOSITORY:
+                return (string) $capability->getURI();
+            case self::CONTEXT_WORKSPACE:
+                $this->ctrl->setParameterByClass(ilObjFileGUI::class, 'wsp_id', $this->ref_id);
+                if ($cmd === "sendfile" && !ilObjFileAccess::_shouldDownloadDirectly($this->obj_id)) {
+                    return $this->ctrl->getLinkTargetByClass(
+                        ilObjFileGUI::class,
+                        Capabilities::INFO_PAGE->value
+                    );
+                }
+                break;
+        }
+
+        return parent::getCommandLink($cmd);
+    }
+
+
+
+    #[\Override]
     public function getTitle(): string
     {
         return $this->file_info->getByObjectId($this->obj_id)->getListTitle();
@@ -92,28 +184,17 @@ class ilObjFileListGUI extends ilObjectListGUI
         return $this->secure(preg_replace('/\.[^.]*$/', '', $a_title));
     }
 
-    /**
-     * Get command target frame
-     */
+    #[\Override]
     public function getCommandFrame(string $cmd): string
     {
+        $this->updateContext();
         $info = $this->file_info->getByObjectId($this->obj_id);
 
-        $frame = "";
-        switch ($cmd) {
-            case 'sendfile':
-                if ($info->shouldDeliverInline()) {
-                    $frame = '_blank';
-                }
-                break;
-            case "":
-                $frame = ilFrameTargetInfo::_getFrame("RepositoryContent");
-                break;
-
-            default:
+        if ($cmd === Capabilities::DOWNLOAD->value) {
+            return $info->shouldDeliverInline() ? '_blank' : '';
         }
 
-        return $frame;
+        return '';
     }
 
     /**
@@ -123,13 +204,13 @@ class ilObjFileListGUI extends ilObjectListGUI
      * e.g. 'crs_offline', and/or to express a specific kind of object, e.g.
      * 'file_inline'.
      */
+    #[\Override]
     public function getIconImageType(): string
     {
         return $this->file_info->getByObjectId($this->obj_id)->shouldDeliverInline()
             ? $this->type . '_inline'
             : $this->type;
     }
-
 
     /**
      * Get item properties
@@ -138,15 +219,16 @@ class ilObjFileListGUI extends ilObjectListGUI
      *                        "property" (string) => property name
      *                        "value" (string) => property value
      */
+    #[\Override]
     public function getProperties(): array
     {
         global $DIC;
 
+        $this->capabilities = $this->capability_builder->get($this->capability_context);
+
         $props = parent::getProperties();
 
         $info = $this->file_info->getByObjectId($this->obj_id);
-
-        $revision = $info->getVersion();
 
         $props[] = [
             "alert" => false,
@@ -165,7 +247,7 @@ class ilObjFileListGUI extends ilObjectListGUI
         $version = $info->getVersion();
         if ($version > 1) {
             // add versions link
-            if (parent::checkCommandAccess("write", "versions", $this->ref_id, $this->type)) {
+            if ($this->capabilities->get(Capabilities::MANAGE_VERSIONS)->isUnlocked()) {
                 $link = $this->getCommandLink("versions");
                 $value = "<a href=\"$link\">" . $DIC->language()->txt("version") . ": $version</a>";
             } else {
@@ -203,11 +285,13 @@ class ilObjFileListGUI extends ilObjectListGUI
     /**
      * Get command icon image
      */
+    #[\Override]
     public function getCommandImage($a_cmd): string
     {
         return "";
     }
 
+    #[\Override]
     public function checkCommandAccess(
         string $permission,
         string $cmd,
@@ -215,18 +299,21 @@ class ilObjFileListGUI extends ilObjectListGUI
         string $type,
         ?int $obj_id = null
     ): bool {
+        $this->updateContext();
+
+        $this->capability_context = $this->capability_context
+            ->withCallingId($ref_id)
+            ->withObjectId($obj_id ?? $this->capability_context->getObjectId());
 
         // LP settings only in repository
         if ($this->context !== self::CONTEXT_REPOSITORY && $permission === "edit_learning_progress") {
             return false;
         }
-        $info = $this->file_info->getByObjectId($this->obj_id);
 
-        $additional_check = match ($cmd) {
-            ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION => $info->isZip(),
-            'editExternal' => $this->action_repo->hasEditActionForSuffix($info->getSuffix()),
-            default => true,
-        };
+        $this->capabilities = $this->capability_builder->get($this->capability_context);
+
+        $capability = Capabilities::fromCommand($cmd);
+        $additional_check = $this->capabilities->get($capability)->isUnlocked();
 
         return $additional_check && parent::checkCommandAccess(
             $permission,
@@ -237,53 +324,4 @@ class ilObjFileListGUI extends ilObjectListGUI
         );
     }
 
-    public function getCommandLink(string $cmd): string
-    {
-        $info = $this->file_info->getByObjectId($this->obj_id);
-        $infoscreen = function (): string {
-            $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);
-            return $this->ctrl->getLinkTargetByClass(
-                ilRepositoryGUI::class,
-                'infoScreen'
-            );
-        };
-
-        switch ($this->context) {
-            case self::CONTEXT_REPOSITORY:
-                // only create permalink for repository
-                if ($cmd === "sendfile") {
-                    if (ilObjFileAccess::_shouldDownloadDirectly($this->obj_id)) {
-                        // return the perma link for downloads
-                        return ilObjFileAccess::_getPermanentDownloadLink($this->ref_id);
-                    }
-
-                    return $infoscreen();
-                }
-                if (ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION === $cmd) {
-                    if ($info->isZip()) {
-                        $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);
-                        $cmd_link = $this->ctrl->getLinkTargetByClass(
-                            ilRepositoryGUI::class,
-                            ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION
-                        );
-                        $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->requested_ref_id);
-                    } else {
-                        $access_granted = false;
-                    }
-                }
-                return parent::getCommandLink($cmd);
-            case self::CONTEXT_WORKSPACE:
-                $this->ctrl->setParameterByClass(ilObjFileGUI::class, 'wsp_id', $this->ref_id);
-                if ($cmd === "sendfile" && !ilObjFileAccess::_shouldDownloadDirectly($this->obj_id)) {
-                    return $this->ctrl->getLinkTargetByClass(
-                        ilObjFileGUI::class,
-                        'infoScreen'
-                    );
-                }
-                break;
-
-        }
-
-        return parent::getCommandLink($cmd);
-    }
 }

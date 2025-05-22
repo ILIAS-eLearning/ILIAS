@@ -34,7 +34,6 @@ use ILIAS\HTTP\Response\ResponseHeader;
  */
 final class PHPChunked implements ilFileDeliveryType
 {
-    private \ILIAS\HTTP\Services $httpService;
     /**
      * @var resource|null
      */
@@ -44,11 +43,10 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * PHP constructor.
      *
-     * @param Services $httpState
+     * @param Services $httpService
      */
-    public function __construct(Services $httpState)
+    public function __construct(private Services $httpService)
     {
-        $this->httpService = $httpState;
     }
 
 
@@ -119,9 +117,9 @@ final class PHPChunked implements ilFileDeliveryType
             $c_end = $end;
 
             // Extract the range string
-            [, $range] = explode('=', $server['HTTP_RANGE'], 2);
+            [, $range] = explode('=', (string) $server['HTTP_RANGE'], 2);
             // Make sure the client hasn't sent us a multibyte range
-            if (strpos($range, ',') !== false) {
+            if (str_contains($range, ',')) {
                 // (?) Shoud this be issued here, or should the first
                 // range be used? Or should the header be ignored and
                 // we output the whole content?
@@ -220,7 +218,7 @@ final class PHPChunked implements ilFileDeliveryType
     }
 
 
-    private function close(): void
+    private function close(): never
     {
         //render response
         $this->httpService->sendResponse();

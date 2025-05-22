@@ -72,11 +72,11 @@ class BadgeParent
                                            ->link()
                                            ->standard($meta_data['title'], ($this->link_to)($parent_ref_id));
         } else {
-            $parent_link = $this->container->ui()->factory()->legacy($meta_data['title']);
+            $parent_link = $this->container->ui()->factory()->legacy()->content($meta_data['title']);
         }
 
         return $this->container->ui()->factory()->listing()->descriptive([
-            $this->container->language()->txt('object') => $this->container->ui()->factory()->legacy(
+            $this->container->language()->txt('object') => $this->container->ui()->factory()->legacy()->content(
                 $this->container->ui()->renderer()->render([$parent_icon, $parent_link])
             )
         ]);

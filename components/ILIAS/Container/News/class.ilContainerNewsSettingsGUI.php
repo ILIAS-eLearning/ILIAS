@@ -148,9 +148,8 @@ class ilContainerNewsSettingsGUI
 
             $dt_prop = new ilDateTimeInputGUI($this->lng->txt("news_hide_news_date"), "hide_news_date");
             $dt_prop->setRequired(true);
-
-            if ($hide_news_date != "") {
-                $dt_prop->setDate(new ilDateTime($hide_news_date[0] . ' ' . $hide_news_date[1], IL_CAL_DATETIME));
+            if (is_array($hide_news_date)) {
+                $dt_prop->setDate(new ilDateTime($hide_news_date[0] . ' ' . ($hide_news_date[1] ?? "12:00:00"), IL_CAL_DATETIME));
             }
 
             $dt_prop->setShowTime(true);

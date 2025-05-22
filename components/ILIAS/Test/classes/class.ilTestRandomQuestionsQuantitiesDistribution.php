@@ -158,11 +158,9 @@ class ilTestRandomQuestionsQuantitiesDistribution
 
     protected function getSrcPoolDefQuestionCombinationCollection(): ilTestRandomQuestionSetQuestionCollection
     {
-        $defQstCombinationCollection = $this->question_collection_provider->getSrcPoolDefListRelatedQuestCombinationCollection(
+        return $this->question_collection_provider->getSrcPoolDefListRelatedQuestCombinationCollection(
             $this->source_pool_definition_list
         );
-
-        return $defQstCombinationCollection;
     }
 
     protected function getExclusiveQuestionCollection(int $definition_id): ilTestRandomQuestionSetQuestionCollection

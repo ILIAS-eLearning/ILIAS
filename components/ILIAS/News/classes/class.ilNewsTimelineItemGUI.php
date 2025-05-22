@@ -307,7 +307,6 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         //$html .= $this->ctrl->getHTML($comments_gui);
 
         $this->ctrl->setParameterByClass("ilnewstimelinegui", "news_id", $this->std_request->getNewsId());
-
         return $html . $this->renderMediaModal($i);
     }
 
@@ -316,12 +315,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $media_path = "";
         if ($i->getMobId() > 0) {
             $mob = new ilObjMediaObject($i->getMobId());
-            $med = $mob->getMediaItem("Standard");
-            if (strcasecmp("Reference", $med->getLocationType()) === 0) {
-                $media_path = $med->getLocation();
-            } else {
-                $media_path = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
-            }
+            $media_path = $mob->getStandardSrc();
         }
         return $media_path;
     }

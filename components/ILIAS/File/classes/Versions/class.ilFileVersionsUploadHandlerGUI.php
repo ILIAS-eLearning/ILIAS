@@ -59,11 +59,13 @@ class ilFileVersionsUploadHandlerGUI extends AbstractCtrlAwareIRSSUploadHandler
         return [self::class];
     }
 
+    #[\Override]
     public function supportsChunkedUploads(): bool
     {
         return true;
     }
 
+    #[\Override]
     protected function getUploadResult(): HandlerResult
     {
         $this->upload->register(new ilCountPDFPagesPreProcessors());
@@ -99,6 +101,7 @@ class ilFileVersionsUploadHandlerGUI extends AbstractCtrlAwareIRSSUploadHandler
         );
     }
 
+    #[\Override]
     protected function processChunckedUpload(UploadResult $result): HandlerResult
     {
         $temp_path = "$this->chunk_id/{$result->getName()}";

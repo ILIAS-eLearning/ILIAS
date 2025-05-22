@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjContentObjectAccess
@@ -66,7 +66,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
      *    );
      * @return array<int, array>
      */
-    public static function _getCommands(int $a_obj_id = null): array
+    public static function _getCommands(?int $a_obj_id = null): array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true),

@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\User\UserGUIRequest;
+use ILIAS\Language\Language;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\ResourceStorage\Services as ResourceStorageServices;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
@@ -359,7 +360,7 @@ class ilObjUserGUI extends ilObjectGUI
 
         $this->initCreate();
         $this->initForm('create');
-        $this->tpl->setContent($this->form_gui->getHTML());
+        $this->renderForm();
     }
 
     /**
@@ -383,7 +384,7 @@ class ilObjUserGUI extends ilObjectGUI
 
         if (!$this->form_gui->checkInput()) {
             $this->form_gui->setValuesByPost();
-            $this->tpl->setContent($this->form_gui->getHTML());
+            $this->renderForm();
             return;
         }
 
@@ -427,8 +428,8 @@ class ilObjUserGUI extends ilObjectGUI
                 $user_object->setPref('style', $sknst[1]);
             }
         }
-        if ($this->isSettingChangeable('hits_per_page')) {
-            $user_object->setPref('hits_per_page', $this->form_gui->getInput('hits_per_page'));
+        if ($this->isSettingChangeable('session_reminder')) {
+            $user_object->setPref('session_reminder_lead_time', (string) $this->form_gui->getInput('session_reminder_lead_time'));
         }
         if ($this->isSettingChangeable('hide_own_online_status')) {
             $user_object->setPref(
@@ -454,12 +455,6 @@ class ilObjUserGUI extends ilObjectGUI
                 $this->form_gui->getInput('chat_broadcast_typing') ? 'y' : 'n'
             );
         }
-        if ($this->settings->get('session_reminder_enabled') === '1') {
-            $user_object->setPref(
-                'session_reminder_enabled',
-                $this->form_gui->getInput('session_reminder_enabled')
-            );
-        }
         $user_object->writePrefs();
 
         //set role entries
@@ -480,7 +475,7 @@ class ilObjUserGUI extends ilObjectGUI
         $this->object = $user_object;
 
         if ($this->isSettingChangeable('upload')) {
-            $this->uploadUserPictureObject();
+            $this->uploadUserPicture();
         }
 
         if ($profile_maybe_incomplete
@@ -527,7 +522,7 @@ class ilObjUserGUI extends ilObjectGUI
         // get form
         $this->initForm('edit');
         $this->getValues();
-        $this->tpl->setContent($this->form_gui->getHTML());
+        $this->renderForm();
     }
 
     protected function loadValuesFromForm(string $a_mode = 'create'): ilObjUser
@@ -723,7 +718,7 @@ class ilObjUserGUI extends ilObjectGUI
             } catch (ilUserException $e) {
                 $this->tpl->setOnScreenMessage('failure', $e->getMessage());
                 $this->form_gui->setValuesByPost();
-                $this->tpl->setContent($this->form_gui->getHTML());
+                $this->renderForm();
                 return;
             }
 
@@ -744,9 +739,11 @@ class ilObjUserGUI extends ilObjectGUI
                     $this->object->setPref('style', $sknst[1]);
                 }
             }
-            if ($this->isSettingChangeable('hits_per_page')) {
-                $this->object->setPref('hits_per_page', $this->form_gui->getInput('hits_per_page'));
+
+            if ($this->isSettingChangeable('session_reminder')) {
+                $this->object->setPref('session_reminder_lead_time', (string) $this->form_gui->getInput('session_reminder_lead_time'));
             }
+
             if ($this->isSettingChangeable('hide_own_online_status')) {
                 $this->object->setPref(
                     'hide_own_online_status',
@@ -776,13 +773,6 @@ class ilObjUserGUI extends ilObjectGUI
             // this ts is needed by ilSecuritySettings
             $this->object->setLastPasswordChangeTS(time());
 
-            if ($this->settings->get('session_reminder_enabled') === '1') {
-                $this->object->setPref(
-                    'session_reminder_enabled',
-                    $this->form_gui->getInput('session_reminder_enabled')
-                );
-            }
-
             // #10054 - profile may have been completed, check below is only for incomplete
             $this->object->setProfileIncomplete(false);
 
@@ -804,7 +794,7 @@ class ilObjUserGUI extends ilObjectGUI
 
             // same personal image
             if ($this->isSettingChangeable('upload')) {
-                $this->uploadUserPictureObject();
+                $this->uploadUserPicture();
             }
 
             if ($profile_maybe_incomplete) {
@@ -899,12 +889,13 @@ class ilObjUserGUI extends ilObjectGUI
 
         $data['language'] = $this->object->getLanguage();
         $data['skin_style'] = $this->object->skin . ':' . $this->object->prefs['style'];
-        $data['hits_per_page'] = $this->object->prefs['hits_per_page'] ?? '';
+        $data['session_reminder_lead_time'] =
+            $this->object->prefs['session_reminder_lead_time'] ??
+            ilSessionReminder::byLoggedInUser()->getGlobalSessionReminderLeadTime();
         $data['hide_own_online_status'] = $this->object->prefs['hide_own_online_status'] ?? '';
         $data['bs_allow_to_contact_me'] = ($this->object->prefs['bs_allow_to_contact_me'] ?? '') == 'y';
         $data['chat_osc_accept_msg'] = ($this->object->prefs['chat_osc_accept_msg'] ?? '') == 'y';
         $data['chat_broadcast_typing'] = ($this->object->prefs['chat_broadcast_typing'] ?? '') == 'y';
-        $data['session_reminder_enabled'] = (int) ($this->object->prefs['session_reminder_enabled'] ?? 0);
 
         $data['send_mail'] = (($this->object->prefs['send_info_mails'] ?? '') == 'y');
 
@@ -1253,11 +1244,11 @@ class ilObjUserGUI extends ilObjectGUI
         if ($a_mode == 'create'
             || $this->isSettingChangeable('language')
             || $this->isSettingChangeable('skin_style')
-            || $this->isSettingChangeable('hits_per_page')
             || $this->isSettingChangeable('hide_own_online_status')
             || $this->isSettingChangeable('bs_allow_to_contact_me')
             || $this->isSettingChangeable('chat_osc_accept_msg')
             || $this->isSettingChangeable('chat_broadcast_typing')
+            || ($this->isSettingChangeable('session_reminder'))
         ) {
             $sec_st = new ilFormSectionHeaderGUI();
             $sec_st->setTitle($this->lng->txt('settings'));
@@ -1323,26 +1314,6 @@ class ilObjUserGUI extends ilObjectGUI
             $this->form_gui->addItem($sk);
         }
 
-        if ($this->isSettingChangeable('hits_per_page')) {
-            $hpp = new ilSelectInputGUI(
-                $this->lng->txt('hits_per_page'),
-                'hits_per_page'
-            );
-            $options = [
-                10 => 10,
-                15 => 15,
-                20 => 20,
-                30 => 30,
-                40 => 40,
-                50 => 50,
-                100 => 100,
-                9999 => $this->lng->txt('no_limit')
-            ];
-            $hpp->setOptions($options);
-            $hpp->setValue($this->settings->get('hits_per_page'));
-            $this->form_gui->addItem($hpp);
-        }
-
         if ($this->isSettingChangeable('hide_own_online_status')) {
             $this->lng->loadLanguageModule('awrn');
 
@@ -1379,10 +1350,28 @@ class ilObjUserGUI extends ilObjectGUI
             $this->form_gui->addItem($chat_osc_acm);
         }
 
-        if ((int) $this->settings->get('session_reminder_enabled')) {
-            $cb = new ilCheckboxInputGUI($this->lng->txt('session_reminder'), 'session_reminder_enabled');
-            $cb->setValue('1');
-            $this->form_gui->addItem($cb);
+        if ($this->isSettingChangeable('session_reminder')) {
+            $session_reminder = new ilNumberInputGUI(
+                $this->lng->txt('session_reminder_input'),
+                'session_reminder_lead_time'
+            );
+            $expires = ilSession::getSessionExpireValue();
+            $session_reminder_object = ilSessionReminder::byLoggedInUser();
+            $session_reminder->setInfo(
+                sprintf(
+                    $this->lng->txt('session_reminder_lead_time_info'),
+                    ilSessionReminder::LEAD_TIME_DISABLED,
+                    ilSessionReminder::SUGGESTED_LEAD_TIME,
+                    ilDatePresentation::secondsToString($expires, true)
+                )
+            );
+            $session_reminder->setValue(
+                (string) $session_reminder_object->getGlobalSessionReminderLeadTime()
+            );
+            $session_reminder->setSize(3);
+            $session_reminder->setMinValue(ilSessionReminder::LEAD_TIME_DISABLED);
+            $session_reminder->setMaxValue($session_reminder_object->getMaxPossibleLeadTime());
+            $this->form_gui->addItem($session_reminder);
         }
 
         if ($this->isSettingChangeable('send_mail')) {
@@ -1429,23 +1418,9 @@ class ilObjUserGUI extends ilObjectGUI
      * upload user image
      * (original method by ratana ty)
      */
-    public function uploadUserPictureObject(): void
+    protected function uploadUserPicture(): void
     {
-        if ($this->usrf_ref_id == USER_FOLDER_ID and
-            !$this->rbac_system->checkAccess('visible,read', $this->usrf_ref_id)) {
-            $this->ilias->raiseError($this->lng->txt('msg_no_perm_modify_user'), $this->ilias->error_obj->MESSAGE);
-        }
-        // if called from local administration $this->usrf_ref_id is category id
-        // Todo: this has to be fixed. Do not mix user folder id and category id
-        if ($this->usrf_ref_id != USER_FOLDER_ID) {
-            // check if user is assigned to category
-            if (!$this->rbac_system->checkAccess('cat_administrate_users', $this->object->getTimeLimitOwner())) {
-                $this->ilias->raiseError($this->lng->txt('msg_no_perm_modify_user'), $this->ilias->error_obj->MESSAGE);
-            }
-        }
-
         $userfile_input = $this->form_gui->getItemByPostVar('userfile');
-
         if ($_FILES['userfile']['tmp_name'] == '') {
             if ($userfile_input->getDeletionFlag()) {
                 $this->object->removeUserPicture();
@@ -1456,11 +1431,6 @@ class ilObjUserGUI extends ilObjectGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_file'));
         } else {
             $store_file = 'usr_' . $this->object->getId() . '.' . 'jpg';
-
-
-            // Store profile picture
-            // This part can be changed when using new Inputs: Currently we map the $_FILES array to get the 'correct' upload as it was before
-            $this->uploads->process();
 
             $rid = $this->moveFileToStorage();
 
@@ -1872,15 +1842,6 @@ class ilObjUserGUI extends ilObjectGUI
         /** @var ilCtrl $ilCtrl */
         $ilCtrl = $DIC['ilCtrl'];
 
-        if (strstr($a_target, ilPersonalProfileGUI::CHANGE_EMAIL_CMD) === $a_target
-            && $ilUser->getId() !== ANONYMOUS_USER_ID) {
-            $class = ilPersonalProfileGUI::class;
-            $cmd = ilPersonalProfileGUI::CHANGE_EMAIL_CMD;
-            $ilCtrl->clearParametersByClass($class);
-            $ilCtrl->setParameterByClass($class, 'token', str_replace($cmd, '', $a_target));
-            $ilCtrl->redirectByClass(['ildashboardgui', $class], $cmd);
-        }
-
         // #10888
         if ($a_target == md5('usrdelown')) {
             if ($ilUser->getId() != ANONYMOUS_USER_ID &&
@@ -1906,6 +1867,9 @@ class ilObjUserGUI extends ilObjectGUI
             $target = $DIC['legalDocuments']->findGotoLink($a_target);
             if ($target->isOK()) {
                 $ilCtrl->setTargetScript('ilias.php');
+                foreach ($target->value()->queryParams() as $key => $value) {
+                    $ilCtrl->setParameterByClass($target->value()->guiName(), (string) $key, $value);
+                }
                 $ilCtrl->redirectByClass($target->value()->guiPath(), $target->value()->command());
             }
         }
@@ -1969,7 +1933,7 @@ class ilObjUserGUI extends ilObjectGUI
 
     private function checkUserWriteRight(): void
     {
-        if ($this->usrf_ref_id == USER_FOLDER_ID
+        if ($this->usrf_ref_id === USER_FOLDER_ID
             && (
                 !$this->rbac_system->checkAccess('visible,read', $this->usrf_ref_id)
                 || !$this->rbac_system->checkAccess('write', $this->usrf_ref_id)
@@ -1996,5 +1960,10 @@ class ilObjUserGUI extends ilObjectGUI
             && !$this->rbac_system->checkAccess('cat_administrate_users', $this->object->getTimeLimitOwner())) {
             $this->ilias->raiseError($this->lng->txt('msg_no_perm_modify_user'), $this->ilias->error_obj->MESSAGE);
         }
+    }
+
+    private function renderForm(): void
+    {
+        $this->tpl->setContent($this->legal_documents->userManagementModals() . $this->form_gui->getHTML());
     }
 }

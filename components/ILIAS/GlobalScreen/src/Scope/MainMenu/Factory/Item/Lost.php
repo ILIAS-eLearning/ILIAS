@@ -32,19 +32,22 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
-use ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
 
 /**
- * Class Lost
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
-class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, isChild, hasTitle, hasAction, hasSymbol
+class Lost extends AbstractBaseItem implements
+    hasContent,
+    isTopItem,
+    isParent,
+    isChild,
+    hasTitle,
+    hasAction,
+    hasSymbol
 {
-    use SymbolDecoratorTrait;
-
     private array $children = [];
     private IdentificationInterface $parent;
     private string $title = '';
@@ -99,7 +102,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     {
         global $DIC;
 
-        return $DIC->ui()->factory()->legacy("");
+        return $DIC->ui()->factory()->legacy()->content("");
     }
 
     /**
@@ -172,9 +175,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
      */
     public function removeChild(isItem $child): isParent
     {
-        $this->children = array_filter($this->children, static function (isItem $item) use ($child): bool {
-            return $item->getProviderIdentification()->serialize() !== $child->getProviderIdentification()->serialize();
-        });
+        $this->children = array_filter($this->children, static fn(isItem $item): bool => $item->getProviderIdentification()->serialize() !== $child->getProviderIdentification()->serialize());
 
         return $this;
     }
@@ -184,7 +185,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
      */
     public function hasChildren(): bool
     {
-        return count($this->children) > 0;
+        return $this->children !== [];
     }
 
     /**

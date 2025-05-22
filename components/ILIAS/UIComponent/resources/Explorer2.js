@@ -138,7 +138,8 @@ il.Explorer2 = {
     if (id != '') {
       url = `${url}&exp_cont=${container_id}&${t.configs[container_id].node_par_name}=${id}`;
     }
-    il.Util.sendAjaxGetRequestToUrl(url, {}, {}, null);
+    il.repository.core.fetchHtml(url, {})
+      .then().catch();
   },
 
   //
@@ -146,11 +147,12 @@ il.Explorer2 = {
   //
 
   // init select input
-  initSelect(id) {
+  initSelect(id, renderedModal, showSignal, closeSignal) {
+    this.insertModalIntoDocument(renderedModal);
+
     $(`#${id}_select`).on('click', (ev) => {
-      il.UICore.unloadWrapperFromRightPanel();
-      il.UICore.showRightPanel();
-      il.UICore.loadWrapperToRightPanel(`${id}_expl_wrapper`);
+      $(`#${id}_expl_wrapper`).children().appendTo(`#${id}_expl_marker`);
+      this.triggerSignal($(`#${id}_select`), showSignal, ev);
       return false;
     });
     $(`#${id}_reset`).on('click', (ev) => {
@@ -177,7 +179,7 @@ il.Explorer2 = {
         }
       });
       $(`#${id}_expl_content input[type="radio"]`).each(function () {
-        const n = this.name.substr(0, this.name.length - 4);
+        const n = `${this.name.substr(0, this.name.length - 4)}`;
         const ni = `<input type='hidden' name='${n}' value='${this.value}' />`;
         if (this.checked) {
           t = t + sep + $(this).parent().find('span.ilExp2NodeContent').html();
@@ -186,13 +188,26 @@ il.Explorer2 = {
         }
       });
       $(`#${id}_cont_txt`).html(t);
-      il.UICore.hideRightPanel();
-
+      this.triggerSignal($(`#${id}_expl_content a.ilExplSelectInputButS`), closeSignal, ev);
       return false;
     });
     $(`#${id}_expl_content a.ilExplSelectInputButC`).on('click', (ev) => {
-      il.UICore.hideRightPanel();
+      this.triggerSignal($(`#${id}_expl_content a.ilExplSelectInputButC`), closeSignal, ev);
       return false;
+    });
+  },
+
+  insertModalIntoDocument(renderedModal) {
+    $('body').append(JSON.parse(renderedModal));
+    document.querySelector('body > dialog:last-of-type .modal-header').remove();
+    document.querySelector('body > dialog:last-of-type .modal-footer').remove();
+  },
+
+  triggerSignal(triggerer, signal, event) {
+    triggerer.trigger(signal, {
+      'id': signal,
+      'event': event,
+      'triggerer': triggerer
     });
   },
 

@@ -16,7 +16,8 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\Test\RequestDataCollector;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
  * Class ilTestSkillAdministrationGUITest
@@ -33,16 +34,17 @@ class ilTestSkillAdministrationGUITest extends ilTestBaseTestCase
         $this->testObj = new ilTestSkillAdministrationGUI(
             $this->createMock(ilCtrl::class),
             $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilTabsGUI::class),
+            $this->createMock(ILIAS\Test\Presentation\TabsManager::class),
             $this->createMock(ilGlobalPageTemplate::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ILIAS\Refinery\Factory::class),
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilLogger::class),
+            $this->createMock(ILIAS\Test\Logging\TestLogger::class),
             $this->createMock(ilTree::class),
             $this->createMock(ilComponentRepository::class),
-            $this->createMock(ilObjTest::class),
-            $this->createMock(QuestionInfoService::class),
+            $this->getTestObjMock(),
+            $this->createMock(GeneralQuestionPropertiesRepository::class),
+            $this->createMock(RequestDataCollector::class),
             201
         );
     }

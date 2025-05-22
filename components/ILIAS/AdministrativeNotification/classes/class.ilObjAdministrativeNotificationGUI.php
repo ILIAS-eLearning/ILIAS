@@ -50,6 +50,7 @@ class ilObjAdministrativeNotificationGUI extends ilObject2GUI
         $this->assignObject();
     }
 
+    #[\Override]
     public function executeCommand(): void
     {
         $this->admin_notification_access->checkAccessAndThrowException("visible,read");

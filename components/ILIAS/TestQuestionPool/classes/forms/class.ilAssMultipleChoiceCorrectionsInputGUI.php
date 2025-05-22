@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -32,52 +33,28 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
 
     public function setValue($a_value): void
     {
-        if (is_array($a_value)) {
-            if (is_array($a_value['points']) && is_array($a_value['points_unchecked'])) {
-                foreach ($this->values as $index => $value) {
-                    $this->values[$index]->setPoints($a_value['points'][$index]);
-                    $this->values[$index]->setPointsUnchecked($a_value['points_unchecked'][$index]);
-                }
-            }
+        $points = $this->forms_helper->transformPoints($a_value, 'points');
+        $points_unchecked = $this->forms_helper->transformPoints($a_value, 'points_unchecked');
+
+        foreach ($this->values as $index => $value) {
+            $this->values[$index]->setPoints($points[$index] ?? 0.0);
+            $this->values[$index]->setPointsUnchecked($points_unchecked[$index] ?? 0.0);
         }
     }
 
     public function checkInput(): bool
     {
-        global $DIC;
-        $lng = $DIC['lng'];
+        $data = $this->raw($this->getPostVar());
 
-        $foundvalues = $_POST[$this->getPostVar()];
-        if (is_array($foundvalues)) {
-            // check points
-            $max = 0;
-            if (is_array($foundvalues['points'])) {
-                foreach ($foundvalues['points'] as $points) {
-                    $points = str_replace(',', '.', $points);
-                    if ($points > $max) {
-                        $max = $points;
-                    }
-                    if (((strlen($points)) == 0) || (!is_numeric($points))) {
-                        $this->setAlert($lng->txt("form_msg_numeric_value_required"));
-                        return false;
-                    }
-                }
-                foreach ($foundvalues['points_unchecked'] as $points) {
-                    if ($points > $max) {
-                        $max = $points;
-                    }
-                    if (((strlen($points)) == 0) || (!is_numeric($points))) {
-                        $this->setAlert($lng->txt("form_msg_numeric_value_required"));
-                        return false;
-                    }
-                }
-            }
-            if ($max == 0) {
-                $this->setAlert($lng->txt("enter_enough_positive_points"));
-                return false;
-            }
-        } else {
-            $this->setAlert($lng->txt("msg_input_is_required"));
+        $result = $this->forms_helper->checkPointsInputEnoughPositive($data, $this->getRequired(), 'points');
+        if (!is_array($result)) {
+            $this->setAlert($this->lng->txt($result));
+            return false;
+        }
+
+        $result = $this->forms_helper->checkPointsInput($data, $this->getRequired(), 'points_unchecked');
+        if (!is_array($result)) {
+            $this->setAlert($this->lng->txt($result));
             return false;
         }
 
@@ -86,19 +63,15 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
 
     public function insert(ilTemplate $a_tpl): void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $lng = $DIC->language();
-
         $tpl = new ilTemplate("tpl.prop_multiplechoicecorrection_input.html", true, true, "components/ILIAS/TestQuestionPool");
 
         $i = 0;
-
         foreach ($this->values as $value) {
             if ($this->qstObject->isSingleline()) {
                 if ($value->hasImage()) {
                     $imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
                     if (($this->getSingleline()) && ($this->qstObject->getThumbSize())) {
-                        if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage())) {
+                        if (file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage())) {
                             $imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->getImage();
                         }
                     }
@@ -137,18 +110,18 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
 
         if ($this->qstObject->isSingleline()) {
             $tpl->setCurrentBlock("image_heading");
-            $tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
+            $tpl->setVariable("ANSWER_IMAGE", $this->lng->txt('answer_image'));
             $tpl->setVariable("TXT_MAX_SIZE", ilFileUtils::getFileSizeInfo());
             $tpl->parseCurrentBlock();
         }
 
         $tpl->setCurrentBlock("points_heading");
-        $tpl->setVariable("POINTS_CHECKED_TEXT", $lng->txt('points_checked'));
-        $tpl->setVariable("POINTS_UNCHECKED_TEXT", $lng->txt('points_unchecked'));
+        $tpl->setVariable("POINTS_CHECKED_TEXT", $this->lng->txt('points_checked'));
+        $tpl->setVariable("POINTS_UNCHECKED_TEXT", $this->lng->txt('points_unchecked'));
         $tpl->parseCurrentBlock();
 
         $tpl->setVariable("ELEMENT_ID", $this->getPostVar());
-        $tpl->setVariable("ANSWER_TEXT", $lng->txt('answer_text'));
+        $tpl->setVariable("ANSWER_TEXT", $this->lng->txt('answer_text'));
 
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());

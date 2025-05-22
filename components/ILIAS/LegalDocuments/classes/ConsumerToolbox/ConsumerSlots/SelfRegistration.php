@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots;
 
+use ILIAS\Data\NotOKException;
 use ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration as SelfRegistrationInterface;
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
@@ -32,13 +33,14 @@ use ilObjUser;
 use ILIAS\LegalDocuments\Provide;
 use ILIAS\Data\Result\Ok;
 use Closure;
+use ILIAS\UI\Component\Component;
+use ilFormPropertyGUI;
 
 final class SelfRegistration implements SelfRegistrationInterface
 {
     private readonly Closure $create_input;
 
     /**
-     * @param Closure(ilObjUser $user): User
      * @param Closure(list<Component>|Component): string $render
      * @param Closure(ilObjUser): User $build_user
      * @param Closure(string): object $create_input
@@ -83,9 +85,17 @@ final class SelfRegistration implements SelfRegistrationInterface
     public function userCreation(ilObjUser $user): void
     {
         // This will accept the document as the USER and NOT as anonymous. If the document is different thats not handled.
-        ($this->build_user)($user)->acceptMatchingDocument();
+        $user = ($this->build_user)($user);
+        try {
+            $user->acceptMatchingDocument();
+        } catch (NotOKException) {
+            $user->acceptAnyDocument();
+        }
     }
 
+    /**
+     * @return array<ilFormPropertyGUI|ilFormSectionHeaderGUI>
+     */
     private function guis(Document $document): array
     {
         $header = ($this->create_input)(ilFormSectionHeaderGUI::class);

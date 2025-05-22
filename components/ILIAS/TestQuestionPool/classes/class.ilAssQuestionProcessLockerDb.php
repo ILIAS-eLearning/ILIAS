@@ -24,50 +24,11 @@
  */
 class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 {
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
+    protected ?ilAtomQuery $atom_query = null;
 
-    /**
-     * @var ilAtomQuery|null
-     */
-    protected $atom_query;
-
-    /**
-     * @var bool
-     */
-    private $assessmentLogEnabled = false;
-
-    /**
-     * @param ilDBInterface $db
-     */
-    public function __construct(ilDBInterface $db)
+    public function __construct(private ilDBInterface $db)
     {
         $this->db = $db;
-    }
-
-    public function isAssessmentLogEnabled(): bool
-    {
-        return $this->assessmentLogEnabled;
-    }
-
-    public function setAssessmentLogEnabled($assessmentLogEnabled): void
-    {
-        $this->assessmentLogEnabled = $assessmentLogEnabled;
-    }
-
-    /**
-     * @return array
-     */
-    private function getTablesUsedDuringAssessmentLog(): array
-    {
-        return array(
-            array('name' => 'qpl_questions', 'sequence' => false),
-            array('name' => 'tst_tests', 'sequence' => false),
-            array('name' => 'tst_active', 'sequence' => false),
-            array('name' => 'ass_log', 'sequence' => true)
-        );
     }
 
     private function getTablesUsedDuringSolutionUpdate(): array
@@ -78,26 +39,16 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
         ];
     }
 
-    /**
-     * @return array
-     */
     private function getTablesUsedDuringResultUpdate(): array
     {
-        return array(
-            array('name' => 'tst_test_result', 'sequence' => true)
-        );
+        return [
+            ['name' => 'tst_test_result', 'sequence' => true]
+        ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function onBeforeExecutingUserSolutionUpdateOperation(): void
     {
         $tables = $this->getTablesUsedDuringSolutionUpdate();
-
-        if ($this->isAssessmentLogEnabled()) {
-            $tables = array_merge($tables, $this->getTablesUsedDuringAssessmentLog());
-        }
 
         $this->atom_query = $this->db->buildAtomQuery();
         foreach ($tables as $table) {
@@ -105,9 +56,6 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function onBeforeExecutingUserQuestionResultUpdateOperation(): void
     {
         $this->atom_query = $this->db->buildAtomQuery();
@@ -116,9 +64,6 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function onBeforeExecutingUserSolutionAdoptOperation(): void
     {
         $this->atom_query = $this->db->buildAtomQuery();
@@ -130,9 +75,6 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function onBeforeExecutingUserTestResultUpdateOperation(): void
     {
         $this->atom_query = $this->db->buildAtomQuery();
@@ -141,12 +83,9 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
         $this->atom_query->addTableLock('tst_solutions')->lockSequence(true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function executeOperation(callable $operation): void
     {
-        if ($this->atom_query) {
+        if ($this->atom_query !== null) {
             $this->atom_query->addQueryCallable(function (ilDBInterface $ilDB) use ($operation) {
                 $operation();
             });

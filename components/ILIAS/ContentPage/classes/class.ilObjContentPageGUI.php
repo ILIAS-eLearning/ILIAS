@@ -23,10 +23,12 @@ use ILIAS\ContentPage\PageMetrics\PageMetricsService;
 use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
 use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
 use ILIAS\DI\Container;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Translations\Language;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
- * Class ilObjContentPageGUI
  * @ilCtrl_isCalledBy ilObjContentPageGUI: ilRepositoryGUI
  * @ilCtrl_isCalledBy ilObjContentPageGUI: ilAdministrationGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilPermissionGUI
@@ -37,22 +39,23 @@ use ILIAS\HTTP\GlobalHttpState;
  * @ilCtrl_Calls      ilObjContentPageGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilContentPagePageGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectContentStyleSettingsGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectTranslationGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ILIAS\ILIASObject\Properties\Translations\TranslationGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilPageMultiLangGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilMDEditorGUI
  */
 class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectConstants, ilDesktopItemHandling
 {
-    protected GlobalHttpState $http;
-    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
-    protected \ILIAS\Style\Content\GUIService $content_style_gui;
+    private ?\ILIAS\Style\Content\Object\ObjectFacade $content_style_domain = null;
+    private readonly \ILIAS\Style\Content\GUIService $content_style_gui;
     private readonly ilNavigationHistory $navHistory;
     private readonly Container $dic;
     private bool $infoScreenEnabled = false;
-    private PageMetricsService $pageMetricsService;
-    private ilHelpGUI $help;
-    private \ILIAS\DI\UIServices $uiServices;
+    private readonly PageMetricsService $pageMetricsService;
+    private readonly ilHelpGUI $help;
+    private readonly \ILIAS\DI\UIServices $uiServices;
     private readonly bool $in_page_editor_style_context;
+    private readonly LOMServices $lom_services;
+    private readonly Translations $translation;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
@@ -61,11 +64,11 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
         $this->dic = $DIC;
-        $this->http = $this->dic->http();
         $this->settings = $this->dic->settings();
         $this->navHistory = $this->dic['ilNavigationHistory'];
         $this->help = $DIC['ilHelp'];
         $this->uiServices = $DIC->ui();
+        $this->lom_services = $DIC->learningObjectMetadata();
 
         $this->lng->loadLanguageModule('copa');
         $this->lng->loadLanguageModule('style');
@@ -88,6 +91,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->content_style_gui = $cs->gui();
         if (is_object($this->object)) {
             $this->content_style_domain = $cs->domain()->styleForRefId($this->object->getRefId());
+            $this->translation = $this->object->getObjectProperties()->getPropertyTranslations();
         }
 
         $this->in_page_editor_style_context = $this->http->wrapper()->query()->has(
@@ -210,41 +214,57 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
     public function executeCommand(): void
     {
-        $nextClass = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd(self::UI_CMD_VIEW);
+        $nextClass = $this->ctrl->getNextClass($this) ?? '';
+        $cmd = $this->ctrl->getCmd(self::UI_CMD_VIEW) ?? '';
 
         $this->addToNavigationHistory();
 
-        if (
-            !$this->in_page_editor_style_context &&
+        if (!$this->in_page_editor_style_context &&
             strtolower($nextClass) !== strtolower(ilObjectContentStyleSettingsGUI::class) &&
             (strtolower($cmd) !== strtolower(self::UI_CMD_EDIT) || strtolower($nextClass) !== strtolower(
                 ilContentPagePageGUI::class
-            ))
-        ) {
+            ))) {
             $this->renderHeaderActions();
         }
 
         switch (strtolower($nextClass)) {
-            case strtolower(ilObjectTranslationGUI::class):
+            case strtolower(TranslationGUI::class):
                 $this->checkPermission('write');
 
                 $this->prepareOutput();
                 $this->tabs_gui->activateTab(self::UI_TAB_ID_SETTINGS);
                 $this->setSettingsSubTabs(self::UI_TAB_ID_I18N);
 
-                $transgui = new ilObjectTranslationGUI($this);
+                $transgui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->access,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->http,
+                    $this->refinery,
+                    $this->toolbar
+                );
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
             case strtolower(ilObjectContentStyleSettingsGUI::class):
                 $this->checkPermission('write');
                 $this->prepareOutput();
-                $this->setLocator();
-                if (!$this->in_page_editor_style_context) {
+
+                if ($this->in_page_editor_style_context) {
+                    $this->tabs_gui->setBackTarget(
+                        $this->lng->txt('back'),
+                        $this->ctrl->getLinkTarget(new ilContentPagePageGUI($this->object->getId()), 'edit')
+                    );
+                } else {
                     $this->tabs_gui->activateTab(self::UI_TAB_ID_SETTINGS);
                     $this->setSettingsSubTabs(self::UI_TAB_ID_STYLE);
                 }
+
                 $settings_gui = $this->content_style_gui
                     ->objectSettingsGUIForRefId(
                         null,
@@ -287,6 +307,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                     $this->tabs_gui,
                     $this->lng,
                     $obj,
+                    $this->translation,
                     $this->user,
                     $this->refinery,
                     $this->content_style_domain
@@ -374,7 +395,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->tabs_gui->activateTab(self::UI_TAB_ID_EXPORT);
 
                 $gui = new ilExportGUI($this);
-                $gui->addFormat('xml');
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -437,6 +457,10 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
+        if (strtolower($this->ctrl->getCmd() ?? '') === 'infoscreen') {
+            $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
+        }
+
         $this->tabs_gui->activateTab(self::UI_TAB_ID_INFO);
 
         $info = new ilInfoScreenGUI($this);
@@ -452,7 +476,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         if ($this->checkPermissionBool('write')) {
             $this->tabs_gui->addSubTab(
                 self::UI_TAB_ID_SETTINGS,
-                $this->lng->txt('settings'),
+                $this->lng->txt('general'),
                 $this->ctrl->getLinkTarget($this, self::UI_CMD_EDIT)
             );
 
@@ -465,7 +489,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             $this->tabs_gui->addSubTab(
                 self::UI_TAB_ID_I18N,
                 $this->lng->txt('obj_multilinguality'),
-                $this->ctrl->getLinkTargetByClass(ilObjectTranslationGUI::class)
+                $this->ctrl->getLinkTargetByClass(TranslationGUI::class)
             );
 
             $this->tabs_gui->activateSubTab($activeTab);
@@ -486,10 +510,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
     public function infoScreen(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd('showSummary');
-        // $this->ctrl->setCmdClass(ilInfoScreenGUI::class);
-
         $this->infoScreenForward();
     }
 
@@ -536,6 +556,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->tabs_gui,
                 $this->lng,
                 $this->object,
+                $this->translation,
                 $this->user,
                 $this->refinery,
                 $this->content_style_domain
@@ -558,14 +579,16 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
     protected function afterSave(ilObject $new_object): void
     {
-        $new_object->getObjectTranslation()->addLanguage(
-            $this->lng->getDefaultLanguage(),
-            $new_object->getTitle(),
-            $new_object->getDescription(),
-            true,
-            true
+        $new_object->getObjectProperties()->storePropertyTranslations(
+            $new_object->getObjectTranslation()->withLanguage(
+                new Language(
+                    $this->lng->getDefaultLanguage(),
+                    $new_object->getTitle(),
+                    $new_object->getDescription(),
+                    true
+                )
+            )
         );
-        $new_object->getObjectTranslation()->save();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
         $this->ctrl->redirect($this, 'edit');
@@ -603,14 +626,19 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         );
 
         if ($this->getCreationMode() !== true && count($this->object->getObjectTranslation()->getLanguages()) > 1) {
-            $languages = ilMDLanguageItem::_getLanguages();
+            $language = '';
+            foreach ($this->lom_services->dataHelper()->getAllLanguages() as $lom_lang) {
+                if ($lom_lang->value() === $this->object->getObjectTranslation()->getDefaultLanguage()) {
+                    $language = $lom_lang->presentableLabel();
+                }
+            }
             $a_form->getItemByPostVar('title')
                    ->setInfo(
                        implode(
                            ': ',
                            [
                                $this->lng->txt('language'),
-                               $languages[$this->object->getObjectTranslation()->getDefaultLanguage()]
+                               $language
                            ]
                        )
                    );

@@ -59,35 +59,6 @@ class ilChatroomFormFactory
         );
     }
 
-    /**
-     * Instantiates and returns ilPropertyFormGUI containing ilTextInputGUI
-     * and ilTextAreaInputGUI
-     * @deprecated replaced by default creation screens
-     */
-    public function getCreationForm(): ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-        $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
-        $title->setRequired(true);
-        $form->addItem($title);
-
-        $description = new ilTextAreaInputGUI($this->lng->txt('description'), 'desc');
-        $form->addItem($description);
-
-        return $this->addDefaultBehaviour($form);
-    }
-
-    /**
-     * Adds 'create-save' and 'cancel' button to given $form and returns it.
-     */
-    private function addDefaultBehaviour(ilPropertyFormGUI $form): ilPropertyFormGUI
-    {
-        $form->addCommandButton('create-save', $this->lng->txt('create'));
-        $form->addCommandButton('cancel', $this->lng->txt('cancel'));
-
-        return $form;
-    }
-
     private function mergeValuesTrafo(): \ILIAS\Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(static fn(array $values): array => array_merge(...$values));
@@ -113,7 +84,8 @@ class ilChatroomFormFactory
     public function getSettingsForm(
         ilChatroomObjectGUI $gui,
         ilCtrlInterface $ctrl,
-        ?array $values = null
+        ?array $values = null,
+        bool $may_write = false
     ): \ILIAS\UI\Component\Input\Container\Form\Form {
         $this->lng->loadLanguageModule('obj');
         $this->lng->loadLanguageModule('rep');
@@ -205,15 +177,31 @@ class ilChatroomFormFactory
             ),
         ];
 
-        return $this->ui_factory->input()
-                                ->container()
-                                ->form()
-                                ->standard(
-                                    $ctrl->getFormAction($gui, 'settings-saveGeneral'),
-                                    $sections
-                                )
-                                ->withAdditionalTransformation($this->mergeValuesTrafo())
-                                ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
+        $action = $ctrl->getFormAction($gui, 'settings-saveGeneral');
+        if (!$may_write) {
+            $action = $ctrl->getFormAction($gui, 'settings-general');
+        }
+
+        if (!$may_write) {
+            $sections = array_map(static fn($x) => $x->withDisabled(true), $sections);
+        }
+
+        $form = $this->ui_factory
+            ->input()
+            ->container()
+            ->form()
+            ->standard(
+                $action,
+                $sections
+            )
+            ->withAdditionalTransformation($this->mergeValuesTrafo())
+            ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
+
+        if (!$may_write) {
+            $form = $form->withSubmitLabel($this->lng->txt('refresh'));
+        }
+
+        return $form;
     }
 
     public function getPeriodForm(): ilPropertyFormGUI

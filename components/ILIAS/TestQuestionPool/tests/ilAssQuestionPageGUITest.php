@@ -37,13 +37,13 @@ class ilAssQuestionPageGUITest extends assBaseTestCase
 
         $this->addGlobal_ilToolbar();
 
-//        $this->object = new ilAssQuestionPageGUI();
+        //        $this->object = new ilAssQuestionPageGUI();
     }
 
-//    public function testConstruct(): void
-//    {
-//        $this->assertInstanceOf(ilAssQuestionPageGUI::class, $this->object);
-//    }
+    //    public function testConstruct(): void
+    //    {
+    //        $this->assertInstanceOf(ilAssQuestionPageGUI::class, $this->object);
+    //    }
 
     public function testSuppressWarning(): void
     {

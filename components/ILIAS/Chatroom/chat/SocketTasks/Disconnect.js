@@ -38,8 +38,6 @@ module.exports = function()
 				var userListAction = UserlistAction.create(splitIds[0], room.getJoinedSubscribers());
 				var notice = Notice.create('disconnected', splitIds[0], {username: subscriber.getName()});
 
-				namespace.getDatabase().addHistory(notice);
-
 				Container.getLogger().info('Disconnected %s from %s of namespace %s', subscriberId, room.getId(), namespace.getName());
 				Container.getLogger().info('Updated user list for room %s of namespace %s', room.getId(), namespace.getName());
 

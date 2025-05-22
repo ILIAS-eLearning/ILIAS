@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use Sabre\DAV\Locks\LockInfo;
 
 /**
@@ -27,33 +27,16 @@ use Sabre\DAV\Locks\LockInfo;
  */
 class ilWebDAVLockObject
 {
-    protected string $token;
-    protected int $obj_id;
-    protected int $ilias_owner;
-    protected string $dav_owner;
-    protected int $expires;
-    protected int $depth;
-    protected string $type;
-    protected int $scope;
-
     public function __construct(
-        string $token,
-        int $obj_id,
-        int $ilias_owner,
-        string $dav_owner,
-        int $expires,
-        int $depth,
-        string $type,
-        int $scope
+        protected string $token,
+        protected int $obj_id,
+        protected int $ilias_owner,
+        protected string $dav_owner,
+        protected int $expires,
+        protected int $depth,
+        protected string $type,
+        protected int $scope
     ) {
-        $this->token = $token;
-        $this->obj_id = $obj_id;
-        $this->ilias_owner = $ilias_owner;
-        $this->dav_owner = $dav_owner;
-        $this->expires = $expires;
-        $this->depth = $depth;
-        $this->type = $type;
-        $this->scope = $scope;
     }
 
     public function getToken(): string

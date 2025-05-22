@@ -114,16 +114,11 @@ class ilDashboardRecommendedContentGUI extends ilDashboardBlockGUI
         );
     }
 
-    public function confirmedRemoveObject(): void
+    public function confirmedRemove(array $ids): void
     {
         $rec_manager = new ilRecommendedContentManager();
-        $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
-        if ($refIds === []) {
-            $this->ctrl->redirect($this, 'manage');
-        }
-
-        foreach ($refIds as $ref_id) {
-            $rec_manager->declineObjectRecommendation($this->user->getId(), (int) $ref_id);
+        foreach ($ids as $ref_id) {
+            $rec_manager->declineObjectRecommendation($this->user->getId(), $ref_id);
         }
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('pd_remove_multi_confirm'), true);
         $this->ctrl->returnToParent($this);

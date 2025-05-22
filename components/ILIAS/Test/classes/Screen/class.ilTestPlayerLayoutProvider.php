@@ -19,17 +19,16 @@
 declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification;
-use ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
-
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\Footer;
@@ -87,7 +86,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
                 $tools_button = $f->button()->bulky($icon, $lng->txt("tools"), "#")
                     ->withEngagedState(true);
 
-                $question_listing = $f->legacy($r->render($question_listing));
+                $question_listing = $f->legacy()->content($r->render($question_listing));
 
                 $label = $lng->txt('mainbar_button_label_questionlist');
                 $entry = $f->maincontrols()->slate()->legacy(
@@ -187,5 +186,17 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
                     return $title;
                 }
             )->withPriority(self::MODIFICATION_PRIORITY);
+    }
+
+    public function getLogoModification(CalledContexts $called_contexts): ?LogoModification
+    {
+        if (!$this->isKioskModeEnabled($called_contexts)) {
+            return null;
+        }
+        return $this->globalScreen()->layout()->factory()->logo()->withModification(
+            static function (?Image $logo): ?Image {
+                return $logo->withAction('');
+            }
+        )->withPriority(self::MODIFICATION_PRIORITY);
     }
 }

@@ -17,6 +17,10 @@
  *********************************************************************/
 
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
+use ILIAS\ResourceStorage\Resource\StorableContainerResource;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\Dataset\IRSSContainerExportConfig;
 
 /**
  * A dataset contains in data in a common structure that can be
@@ -57,11 +61,11 @@ abstract class ilDataSet
     protected string $import_directory = "";
     protected string $entity = "";
     protected string $schema_version = "";
-    protected string $relative_export_dir = "";
-    protected string $absolute_export_dir = "";
+    protected string $component_export_dir = "";
     protected string $ds_prefix = "ds";
     protected string $version = "";
     protected ilSurveyImporter $import;
+    protected ilExport $export;
 
     public function __construct()
     {
@@ -114,10 +118,9 @@ abstract class ilDataSet
         array $a_ids
     ): void;
 
-    public function setExportDirectories(string $a_relative, string $a_absolute): void
+    public function initByExporter(ilXmlExporter $xml_exporter): void
     {
-        $this->relative_export_dir = $a_relative;
-        $this->absolute_export_dir = $a_absolute;
+        $this->export = $xml_exporter->getExport();
     }
 
     public function setImportDirectory(string $a_val): void
@@ -267,6 +270,19 @@ abstract class ilDataSet
         return $writer->xmlDumpMem(false);
     }
 
+    protected function getExportDirInContainer(string $exp_dir): string
+    {
+        // note, the export returns in ILIAS 10 (Jan 2024) something like
+        // 1737382047__0__cat_436/components/ILIAS/Style/set_0/dsDir_1
+        // whereas ILIAS 9 returned
+        // Services/Style/set_1/expDir_1/dsDir_1
+        // thus we skip the 1737382047__0__cat_436/ part since it would be redundant
+        // an make import fail
+        if (str_contains($exp_dir, "components/")) {
+            $exp_dir = substr($exp_dir, strpos($exp_dir, "components/"));
+        }
+        return $exp_dir;
+    }
 
     public function addRecordsXml(
         ilXmlWriter $a_writer,
@@ -277,7 +293,6 @@ abstract class ilDataSet
         ?string $a_field = ""
     ): void {
         $types = $this->getXmlTypes($a_entity, $a_schema_version);
-
         $this->ds_log->debug("...read data");
         $this->readData($a_entity, $a_schema_version, $a_ids);
         $this->ds_log->debug("...data: " . print_r($this->data, true));
@@ -289,36 +304,42 @@ abstract class ilDataSet
             $a_writer->xmlStartTag($this->getXMLEntityTag($a_entity, ''));
             $rec = $this->getXmlRecord($a_entity, $a_schema_version, $d);
             foreach ($rec as $f => $c) {
-                if ($this->absolute_export_dir !== "" && $this->relative_export_dir !== "") {
-                    if (($types[$f] ?? "") === "directory") {
-                        ilFileUtils::makeDirParents($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
-                        $sdir = realpath($c);
-                        $tdir = realpath($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
-                        try {
-                            ilFileUtils::rCopy($sdir, $tdir);
-                        } catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
-                            $this->ds_log->error($e->getMessage());
-                        }
-                        $c = $this->relative_export_dir . "/dsDir_" . $this->dircnt;
-                        $this->dircnt++;
+                if (isset($this->export) and ($types[$f] ?? "") === "directory") {
+                    $sdir = realpath($c);
+                    $path_in_container = $this->export->getPathToComponentExpDirInContainer() . "/dsDir_" . $this->dircnt;
+                    $this->export->getExportWriter()->writeDirectory(
+                        $sdir,
+                        $path_in_container
+                    );
+                    $c = $this->getExportDirInContainer($path_in_container);  // note: this corrects the path, see above
+                    $this->dircnt++;
+                }
+                if (isset($this->export) and ($types[$f] ?? "") === "rscollection") {
+                    $path_in_container = $this->export->getPathToComponentExpDirInContainer() . "/dsDir_" . $this->dircnt;
+                    $collection = $this->getCollection($rec, $a_entity, $a_schema_version, $f, $c);
+                    if (!is_null($collection)) {
+                        $this->export->getExportWriter()->writeFilesByResourceCollection(
+                            $collection,
+                            $path_in_container
+                        );
                     }
-                    if (($types[$f] ?? "") === "rscollection") {
-                        $tdir = $this->absolute_export_dir . "/dsDir_" . $this->dircnt;
-                        ilFileUtils::makeDirParents($tdir);
-                        $tdir = realpath($tdir);
-                        if ($collection = $this->getCollection($rec, $a_entity, $a_schema_version, $f, $c)) {
-                            foreach ($collection->getResourceIdentifications() as $rid) {
-                                $info = $this->irss->manage()->getResource($rid)
-                                                   ->getCurrentRevision()
-                                                   ->getInformation();
-                                $stream = $this->irss->consume()->stream($rid);
-                                $name = $tdir . "/" . $info->getTitle();
-                                file_put_contents($name, $stream->getStream()->getContents());
-                            }
-                        }
-                        $c = $this->relative_export_dir . "/dsDir_" . $this->dircnt;
-                        $this->dircnt++;
+
+                    $c = $this->getExportDirInContainer($path_in_container);  // note: this corrects the path, see above
+                    $this->dircnt++;
+                }
+                if (isset($this->export) and ($types[$f] ?? "") === "rscontainer") {
+                    $path_in_container = $this->export->getPathToComponentExpDirInContainer() . "/dsDir_" . $this->dircnt;
+                    if ($config = $this->getContainerExportConfig($rec, $a_entity, $a_schema_version, $f, $c)) {
+                        $this->export->getExportWriter()->writeFilesByResourceContainer(
+                            $this->getIRSSContainerExportConfig(
+                                $config->getSourceContainer(),
+                                $config->getSourcePath(),
+                                $path_in_container
+                            )
+                        );
                     }
+                    $c = $this->getExportDirInContainer($path_in_container);  // note: this corrects the path, see above
+                    $this->dircnt++;
                 }
                 // this changes schema/dtd
                 //$a_writer->xmlElement($a_prefixes[$a_entity].":".$f,
@@ -343,6 +364,18 @@ abstract class ilDataSet
                 $this->addRecordsXml($a_writer, $a_prefixes, $dp, $a_schema_version, $ids, $par["field"] ?? null);
             }
         }
+    }
+
+    protected function getIRSSContainerExportConfig(
+        StorableResource $source_container,
+        string $source_path,
+        string $target_path = ""
+    ): IRSSContainerExportConfig {
+        return new IRSSContainerExportConfig(
+            $source_container,
+            $source_path,
+            $target_path
+        );
     }
 
     protected function getDependencies(
@@ -538,6 +571,16 @@ abstract class ilDataSet
         string $field,
         string $value
     ): ?ResourceCollection {
+        return null;
+    }
+
+    public function getContainerExportConfig(
+        array $record,
+        string $entity,
+        string $schema_version,
+        string $field,
+        string $value
+    ): ?IRSSContainerExportConfig {
         return null;
     }
 

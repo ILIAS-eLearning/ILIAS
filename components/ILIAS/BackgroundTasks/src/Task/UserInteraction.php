@@ -57,7 +57,7 @@ interface UserInteraction extends Task
     public function isFinal(): bool;
 
     /**
-     * @param \ILIAS\BackgroundTasks\Value[] $input                The input value of this task.
+     * @param Value[] $input The input value of this task.
      * @param Option                         $user_selected_option The Option the user chose.
      * @param Bucket                         $bucket               Notify the bucket about your
      *                                                             progress!

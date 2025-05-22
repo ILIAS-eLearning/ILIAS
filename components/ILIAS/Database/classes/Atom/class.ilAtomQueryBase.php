@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilAtomQuery
  * Use ilAtomQuery to fire Database-Actions which have to be done without beeing influenced by other queries or which can influence other queries as
@@ -30,59 +30,57 @@ abstract class ilAtomQueryBase
     /**
      * @var int[]
      */
-    protected static array $available_isolations_levels = array(
+    protected static array $available_isolations_levels = [
         ilAtomQuery::ISOLATION_READ_UNCOMMITED,
         ilAtomQuery::ISOLATION_READ_COMMITED,
         ilAtomQuery::ISOLATION_REPEATED_READ,
         ilAtomQuery::ISOLATION_SERIALIZABLE,
-    );
+    ];
     /**
      * @var int[]
      */
-    protected static array $possible_anomalies = array(
+    protected static array $possible_anomalies = [
         ilAtomQuery::ANO_LOST_UPDATES,
         ilAtomQuery::ANO_DIRTY_READ,
         ilAtomQuery::ANO_NON_REPEATED_READ,
         ilAtomQuery::ANO_PHANTOM,
-    );
+    ];
     /**
      * @var int[][]
      */
-    protected static array $anomalies_map = array(
-        ilAtomQuery::ISOLATION_READ_UNCOMMITED => array(
+    protected static array $anomalies_map = [
+        ilAtomQuery::ISOLATION_READ_UNCOMMITED => [
             ilAtomQuery::ANO_LOST_UPDATES,
             ilAtomQuery::ANO_DIRTY_READ,
             ilAtomQuery::ANO_NON_REPEATED_READ,
             ilAtomQuery::ANO_PHANTOM,
-        ),
-        ilAtomQuery::ISOLATION_READ_COMMITED => array(
+        ],
+        ilAtomQuery::ISOLATION_READ_COMMITED => [
             ilAtomQuery::ANO_NON_REPEATED_READ,
             ilAtomQuery::ANO_PHANTOM,
-        ),
-        ilAtomQuery::ISOLATION_REPEATED_READ => array(
+        ],
+        ilAtomQuery::ISOLATION_REPEATED_READ => [
             ilAtomQuery::ANO_PHANTOM,
-        ),
-        ilAtomQuery::ISOLATION_SERIALIZABLE => array(),
-    );
+        ],
+        ilAtomQuery::ISOLATION_SERIALIZABLE => [],
+    ];
     protected int $isolation_level = ilAtomQuery::ISOLATION_SERIALIZABLE;
     /**
      * @var ilTableLock[]
      */
-    protected array $tables = array();
+    protected array $tables = [];
     /**
      * @var callable
      */
     protected $query;
-    protected \ilDBInterface $ilDBInstance;
 
     /**
      * ilAtomQuery constructor.
      * @param int $isolation_level currently only ISOLATION_SERIALIZABLE is available
      */
-    public function __construct(ilDBInterface $ilDBInstance, int $isolation_level = ilAtomQuery::ISOLATION_SERIALIZABLE)
+    public function __construct(protected \ilDBInterface $ilDBInstance, int $isolation_level = ilAtomQuery::ISOLATION_SERIALIZABLE)
     {
         static::checkIsolationLevel($isolation_level);
-        $this->ilDBInstance = $ilDBInstance;
         $this->isolation_level = $isolation_level;
     }
 
@@ -192,11 +190,11 @@ abstract class ilAtomQueryBase
     public static function checkIsolationLevel(int $isolation_level): void
     {
         // The following Isolations are currently not supported
-        if (in_array($isolation_level, array(
+        if (in_array($isolation_level, [
             ilAtomQuery::ISOLATION_READ_UNCOMMITED,
             ilAtomQuery::ISOLATION_READ_COMMITED,
             ilAtomQuery::ISOLATION_REPEATED_READ,
-        ))) {
+        ])) {
             throw new ilAtomQueryException('Level: ' . $isolation_level, ilAtomQueryException::DB_ATOM_ISO_WRONG_LEVEL);
         }
         // Check if a available Isolation level is selected
@@ -220,7 +218,7 @@ abstract class ilAtomQueryBase
      */
     protected function checkQueries(): void
     {
-        if (!($this->query instanceof \Traversable) && (is_array($this->query) && 0 === count($this->query))) {
+        if (!($this->query instanceof \Traversable) && (is_array($this->query) && [] === $this->query)) {
             throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_CLOSURE_NONE);
         }
 
@@ -299,7 +297,7 @@ abstract class ilAtomQueryBase
             throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_LOCK_WRONG_LEVEL);
         }
 
-        if (count($this->tables) === 0) {
+        if ($this->tables === []) {
             throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_LOCK_NO_TABLE);
         }
     }

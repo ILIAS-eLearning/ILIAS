@@ -34,22 +34,16 @@ abstract class BaseConsumer implements DeliveryConsumer
 
     protected ?int $revision_number = null;
     protected string $file_name = '';
-    protected StorableResource $resource;
-    protected StreamAccess $stream_access;
-    protected FileNamePolicy $file_name_policy;
 
     /**
      * DownloadConsumer constructor.
      */
     public function __construct(
-        StorableResource $resource,
-        StreamAccess $stream_access,
-        FileNamePolicy $file_name_policy
+        protected StorableResource $resource,
+        protected StreamAccess $stream_access,
+        protected FileNamePolicy $file_name_policy
     ) {
-        $this->resource = $resource;
-        $this->stream_access = $stream_access;
-        $this->file_name_policy = $file_name_policy;
-        $this->file_name = $resource->getCurrentRevision()->getInformation()->getTitle();
+        $this->file_name = $this->resource->getCurrentRevision()->getInformation()->getTitle();
     }
 
     abstract public function run(): void;

@@ -67,7 +67,7 @@ class ilSurveyQuestionpoolExport
      * build export file (complete zip file)
      */
     public function buildExportFile(
-        array $questions = null
+        ?array $questions = null
     ): string {
         switch ($this->mode) {
             default:
@@ -79,7 +79,7 @@ class ilSurveyQuestionpoolExport
      * build xml export file
      */
     public function buildExportFileXML(
-        array $questions = null
+        ?array $questions = null
     ): string {
         // create directories
         $this->spl_obj->createExportDirectory();
@@ -99,6 +99,10 @@ class ilSurveyQuestionpoolExport
             $this->export_dir . "/" . $this->subdir,
             $this->export_dir . "/" . $this->subdir . ".zip"
         );
+
+        // remove created files
+        unlink($this->export_dir . "/" . $this->subdir . "/" . $this->filename);
+        rmdir($this->export_dir . "/" . $this->subdir);
 
         $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
 

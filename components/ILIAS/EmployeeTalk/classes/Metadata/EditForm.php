@@ -95,4 +95,12 @@ class EditForm implements EditFormInterface
     {
         return $this->form->getHTML();
     }
+
+    /**
+     * Use this only for command forwarding via ctrl!
+     */
+    public function getFormGUI(): \ilPropertyFormGUI
+    {
+        return $this->form;
+    }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * This class represents an image file property in a property form.
@@ -162,9 +162,11 @@ class ilImageFileInputGUI extends ilFileInputGUI
             $i_tpl->parseCurrentBlock();
         }
 
+        $i_tpl->setVariable('MAX_SIZE_WARNING', $this->lng->txt('form_msg_file_size_exceeds'));
+        $i_tpl->setVariable('MAX_SIZE', $this->upload_limit->getPhpUploadLimitInBytes());
         $i_tpl->setVariable("POST_VAR", $this->getPostVar());
         $i_tpl->setVariable("ID", $this->getFieldId());
-
+        $i_tpl->setVariable("LABEL_SELECTED_FILES_INPUT", $this->lng->txt('selected_files'));
 
         /* experimental: bootstrap'ed file upload */
         $i_tpl->setVariable("TXT_BROWSE", $lng->txt("select_file"));

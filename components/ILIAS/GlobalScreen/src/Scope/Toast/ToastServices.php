@@ -26,11 +26,9 @@ use ILIAS\GlobalScreen\Scope\Toast\Collector\Renderer\StandardToastRendererFacto
 class ToastServices
 {
     private ToastFactory $toast_factory;
-    private UIServices $ui;
 
-    public function __construct(UIServices $ui)
+    public function __construct(private UIServices $ui)
     {
-        $this->ui = $ui;
         $this->toast_factory = new ToastFactory(new StandardToastRendererFactory($this->ui));
     }
 

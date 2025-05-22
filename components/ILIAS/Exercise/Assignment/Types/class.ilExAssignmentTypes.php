@@ -28,7 +28,7 @@ class ilExAssignmentTypes
 {
     protected Exercise\InternalService $service;
 
-    protected function __construct(Exercise\InternalService $service = null)
+    protected function __construct(?Exercise\InternalService $service = null)
     {
         global $DIC;
 

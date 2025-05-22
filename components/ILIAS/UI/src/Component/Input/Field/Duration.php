@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\Field;
 
-use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
 use ILIAS\Data\DateFormat\DateFormat;
 use DateTimeImmutable;
 
 /**
  * This describes the duration input.
  */
-interface Duration extends Group
+interface Duration extends Group, FilterInput
 {
     /**
      * Get an input like this using the given format.

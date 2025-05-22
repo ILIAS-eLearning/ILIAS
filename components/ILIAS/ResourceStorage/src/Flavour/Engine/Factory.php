@@ -53,7 +53,7 @@ class Factory
 
         try {
             $engine = $this->engines[$depends_on] = new $depends_on();
-        } catch (\Throwable $t) {
+        } catch (\Throwable) {
             return null;
         }
         return $engine;

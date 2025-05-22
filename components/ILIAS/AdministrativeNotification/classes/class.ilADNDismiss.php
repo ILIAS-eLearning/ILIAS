@@ -25,6 +25,7 @@ class ilADNDismiss extends ActiveRecord
 {
     public const TABLE_NAME = 'il_adn_dismiss';
 
+    #[\Override]
     public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;
@@ -38,17 +39,17 @@ class ilADNDismiss extends ActiveRecord
         return self::TABLE_NAME;
     }
 
-    protected static array $request_cache = array();
+    protected static array $request_cache = [];
 
     public static function hasDimissed(ilObjUser $ilObjUser, ilADNNotification $ilADNNotification): bool
     {
         $not_id = $ilADNNotification->getId();
         $usr_id = $ilObjUser->getId();
         if (!isset(self::$request_cache[$usr_id][$not_id])) {
-            self::$request_cache[$usr_id][$not_id] = self::where(array(
+            self::$request_cache[$usr_id][$not_id] = self::where([
                 'usr_id' => $usr_id,
                 'notification_id' => $not_id,
-            ))->hasSets();
+            ])->hasSets();
         }
 
         return (bool) self::$request_cache[$usr_id][$not_id];
@@ -69,7 +70,7 @@ class ilADNDismiss extends ActiveRecord
         /**
          * @var ilADNDismiss $dismiss
          */
-        foreach (self::where(array('notification_id' => $ilADNNotification->getId())) as $dismiss) {
+        foreach (self::where(['notification_id' => $ilADNNotification->getId()]) as $dismiss) {
             $dismiss->delete();
         }
     }

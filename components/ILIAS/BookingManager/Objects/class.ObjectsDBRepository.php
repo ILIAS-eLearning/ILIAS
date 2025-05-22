@@ -18,6 +18,9 @@
 
 namespace ILIAS\BookingManager\Objects;
 
+use ILIAS\Repository\IRSS\IRSSWrapper;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+
 /**
  * Repo class for booking objects
  * @author Alexander Killing <killing@leifos.de>
@@ -27,17 +30,16 @@ class ObjectsDBRepository
     protected const NR_OF_COLORS = 9;
     protected static $color_number = [];
     protected static $pool_objects = [];
-    protected \ilDBInterface $db;
     protected static array $raw_data = [];
     protected static array $pool_loaded = [];
 
     public function __construct(
-        \ilDBInterface $db
+        protected IRSSWrapper $wrapper,
+        protected \ilDBInterface $db
     ) {
-        $this->db = $db;
     }
 
-    public function loadDataOfPool(int $pool_id) : void
+    public function loadDataOfPool(int $pool_id): void
     {
         $db = $this->db;
 
@@ -62,7 +64,7 @@ class ObjectsDBRepository
         self::$pool_loaded[$pool_id] = true;
     }
 
-    public function getNrOfItemsForObject(int $book_obj_id) : int
+    public function getNrOfItemsForObject(int $book_obj_id): int
     {
         if (!isset(self::$raw_data[$book_obj_id])) {
             throw new \ilBookingPoolException("Data for booking object $book_obj_id not loaded.");
@@ -70,7 +72,7 @@ class ObjectsDBRepository
         return (int) self::$raw_data[$book_obj_id]["nr_of_items"];
     }
 
-    public function getColorNrForObject(int $book_obj_id) : int
+    public function getColorNrForObject(int $book_obj_id): int
     {
         if (!isset(self::$raw_data[$book_obj_id])) {
             throw new \ilBookingPoolException("Data for booking object $book_obj_id not loaded.");
@@ -80,9 +82,188 @@ class ObjectsDBRepository
 
     public function getObjectDataForPool(
         int $pool_id
-    ) : array {
+    ): array {
         $this->loadDataOfPool($pool_id);
         return self::$pool_objects[$pool_id] ?? [];
     }
 
+    //
+    // Object and booking irss resrouces
+    //
+
+    protected function getObjectInfoRidForBookingObjectId(int $booking_object_id): string
+    {
+        $set = $this->db->queryF(
+            "SELECT obj_info_rid FROM booking_object " .
+            " WHERE booking_object_id = %s ",
+            ["integer"],
+            [$booking_object_id]
+        );
+        $rec = $this->db->fetchAssoc($set);
+        return ($rec["obj_info_rid"] ?? "");
+    }
+
+    public function hasObjectInfo(int $booking_object_id): bool
+    {
+        $rid = $this->getObjectInfoRidForBookingObjectId($booking_object_id);
+        return ($rid !== "");
+    }
+
+    public function deleteObjectInfo(int $booking_object_id): bool
+    {
+        $rid = $this->getObjectInfoRidForBookingObjectId($booking_object_id);
+        if ($rid === "") {
+            $this->wrapper->deleteResource($rid);
+        }
+    }
+
+    public function getObjectInfoPath(int $booking_object_id): void
+    {
+        $rid = $this->getObjectInfoRidForBookingObjectId($booking_object_id);
+        $this->wrapper->getResourcePath($rid);
+    }
+
+    public function deliverObjectInfo(int $booking_object_id): void
+    {
+        $rid = $this->getObjectInfoRidForBookingObjectId($booking_object_id);
+        $this->wrapper->deliverFile($rid);
+    }
+
+    public function getObjectInfoFilename(int $booking_object_id): string
+    {
+        $rid = $this->getObjectInfoRidForBookingObjectId($booking_object_id);
+        if ($rid !== "") {
+            $info = $this->wrapper->getResourceInfo($rid);
+            return $info->getTitle();
+        }
+        return "";
+    }
+
+
+    public function importObjectInfoFromLegacyUpload(
+        int $booking_object_id,
+        array $file_input,
+        ResourceStakeholder $stakeholder
+    ): string {
+        $rcid = $this->wrapper->importFileFromLegacyUpload(
+            $file_input,
+            $stakeholder
+        );
+        if ($rcid !== "") {
+            $this->db->update(
+                "booking_object",
+                [
+                    "obj_info_rid" => ["text", $rcid]
+                ],
+                [    // where
+                     "booking_object_id" => ["integer", $booking_object_id]
+                ]
+            );
+        }
+        return $rcid;
+    }
+
+    protected function getBookingInfoRidForBookingObjectId(int $booking_object_id): string
+    {
+        $set = $this->db->queryF(
+            "SELECT book_info_rid FROM booking_object " .
+            " WHERE booking_object_id = %s ",
+            ["integer"],
+            [$booking_object_id]
+        );
+        $rec = $this->db->fetchAssoc($set);
+        return ($rec["book_info_rid"] ?? "");
+    }
+
+    public function hasBookingInfo(int $booking_object_id): bool
+    {
+        $rid = $this->getBookingInfoRidForBookingObjectId($booking_object_id);
+        return ($rid !== "");
+    }
+
+    public function deleteBookingInfo(int $booking_object_id): bool
+    {
+        $rid = $this->getBookingInfoRidForBookingObjectId($booking_object_id);
+        if ($rid === "") {
+            $this->wrapper->deleteResource($rid);
+        }
+    }
+
+    public function deliverBookingInfo(int $booking_object_id): void
+    {
+        $rid = $this->getBookingInfoRidForBookingObjectId($booking_object_id);
+        $this->wrapper->deliverFile($rid);
+    }
+
+    public function getBookingInfoPath(int $booking_object_id): void
+    {
+        $rid = $this->getBookingInfoRidForBookingObjectId($booking_object_id);
+        $this->wrapper->getResourcePath($rid);
+    }
+
+    public function getBookingInfoFilename(int $booking_object_id): string
+    {
+        $rid = $this->getBookingInfoRidForBookingObjectId($booking_object_id);
+        if ($rid !== "") {
+            $info = $this->wrapper->getResourceInfo($rid);
+            return $info->getTitle();
+        }
+        return "";
+    }
+
+
+    public function importBookingInfoFromLegacyUpload(
+        int $booking_object_id,
+        array $file_input,
+        ResourceStakeholder $stakeholder
+    ): string {
+        $rcid = $this->wrapper->importFileFromLegacyUpload(
+            $file_input,
+            $stakeholder
+        );
+        if ($rcid !== "") {
+            $this->db->update(
+                "booking_object",
+                [
+                    "book_info_rid" => ["text", $rcid]
+                ],
+                [    // where
+                     "booking_object_id" => ["integer", $booking_object_id]
+                ]
+            );
+        }
+        return $rcid;
+    }
+
+    public function clone(
+        int $from_id,
+        int $to_id
+    ): void {
+        $from_rid = $this->getObjectInfoRidForBookingObjectId($from_id);
+        $to_rid = $this->wrapper->cloneResource($from_rid);
+        if ($to_rid !== "") {
+            $this->db->update(
+                "booking_object",
+                [
+                    "obj_info_rid" => ["text", $to_rid]
+                ],
+                [    // where
+                     "booking_object_id" => ["integer", $to_id]
+                ]
+            );
+        }
+        $from_rid = $this->getBookingInfoRidForBookingObjectId($from_id);
+        $to_rid = $this->wrapper->cloneResource($from_rid);
+        if ($to_rid !== "") {
+            $this->db->update(
+                "booking_object",
+                [
+                    "book_info_rid" => ["text", $to_rid]
+                ],
+                [    // where
+                     "booking_object_id" => ["integer", $to_id]
+                ]
+            );
+        }
+    }
 }

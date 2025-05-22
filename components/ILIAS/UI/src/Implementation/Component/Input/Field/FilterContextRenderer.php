@@ -30,28 +30,28 @@ use ILIAS\UI\Implementation\Component\Input\Container\Filter\ProxyFilterField;
 use LogicException;
 use Closure;
 use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
  * Class FilterContextRenderer
  * @package ILIAS\UI\Implementation\Component\Input
  */
-class FilterContextRenderer extends AbstractComponentRenderer
+class FilterContextRenderer extends Renderer
 {
-    /**
-     * @inheritdoc
-     */
+    protected RendererInterface $original_default_renderer;
+
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        /**
-         * @var $component FilterInput
-         */
-        $this->checkComponent($component);
-
-        if (!$component instanceof F\Group) {
+        if ($component instanceof FilterInput) {
             $component = $this->setSignals($component);
         }
 
+        $this->original_default_renderer = $default_renderer;
+
         switch (true) {
+            case ($component instanceof F\Duration):
+                return $this->renderDurationField($component, $default_renderer);
+
             case ($component instanceof F\Group):
                 return $this->renderFieldGroups($component, $default_renderer);
 
@@ -67,10 +67,19 @@ class FilterContextRenderer extends AbstractComponentRenderer
             case ($component instanceof F\MultiSelect):
                 return $this->renderMultiSelectField($component, $default_renderer);
 
+            case ($component instanceof F\DateTime):
+                return $this->renderDateTimeField($component, $default_renderer);
+
             default:
-                throw new LogicException("Cannot render '" . get_class($component) . "'");
+                $this->cannotHandleComponent($component);
         }
     }
+
+    protected function getOriginalDefaultRenderer(): RendererInterface
+    {
+        return $this->original_default_renderer;
+    }
+
 
     protected function renderFieldGroups(Group $group, RendererInterface $default_renderer): string
     {
@@ -99,7 +108,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
 				});");
         }
         $add_tpl->setVariable("LIST", $default_renderer->render($f->listing()->unordered($links)));
-        $list = $f->legacy($add_tpl->get());
+        $list = $f->legacy()->content($add_tpl->get());
         $popover = $f->popover()->standard($list)->withVerticalPosition();
         $tpl->setVariable("POPOVER", $default_renderer->render($popover));
         $add = $f->button()->bulky($f->symbol()->glyph()->add(), "", "")->withOnClick($popover->getShowSignal());
@@ -111,11 +120,22 @@ class FilterContextRenderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
+    protected function wrapInFormContext(
+        FormInput $component,
+        string $label,
+        string $input_html,
+        ?string $id_for_label = null,
+        ?string $dependant_group_html = null
+    ): string {
+        return $this->wrapInFilterContext($component, $input_html, $this->getOriginalDefaultRenderer(), $id_for_label);
+    }
+
     protected function wrapInFilterContext(
-        FilterInput $component,
+        FormInput $component,
         string $input_html,
         RendererInterface $default_renderer,
-        string $id_pointing_to_input = ''
+        ?string $id_pointing_to_input = null,
+        string $dependant_group_html = ''
     ): string {
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.context_filter.html", true, true);
@@ -131,7 +151,9 @@ class FilterContextRenderer extends AbstractComponentRenderer
         $tpl->setCurrentBlock("addon_left");
         $tpl->setVariable("LABEL", $component->getLabel());
         if ($id_pointing_to_input) {
+            $tpl->setCurrentBlock("for");
             $tpl->setVariable("ID", $id_pointing_to_input);
+            $tpl->parseCurrentBlock();
         }
         $tpl->parseCurrentBlock();
         $tpl->setCurrentBlock("filter_field");
@@ -148,6 +170,11 @@ class FilterContextRenderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
+    protected function maybeDisable(FormInput $component, Template $tpl): void
+    {
+        // Do nothing, because Filter Inputs should not be deactivatable
+    }
+
     protected function renderProxyField(
         string $input_html,
         RendererInterface $default_renderer
@@ -155,7 +182,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.filter_field.html", true, true);
 
-        $popover = $f->popover()->standard($f->legacy($input_html))->withVerticalPosition();
+        $popover = $f->popover()->standard($f->legacy()->content($input_html))->withVerticalPosition();
         $tpl->setVariable("POPOVER", $default_renderer->render($popover));
 
         $prox = new ProxyFilterField();
@@ -166,170 +193,29 @@ class FilterContextRenderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function applyName(FilterInput $component, Template $tpl): ?string
+    protected function renderDurationField(F\Duration $component, RendererInterface $default_renderer): string
     {
-        $name = $component->getName();
-        $tpl->setVariable("NAME", $name);
-        return $name;
-    }
+        $inputs = $component->getInputs();
 
-    protected function bindJSandApplyId($component, Template $tpl): string
-    {
-        $id = $this->bindJavaScript($component) ?? $this->createId();
-        $tpl->setVariable("ID", $id);
-        return $id;
-    }
+        $input = array_shift($inputs); //from
+        list($input, $tpl) = $this->internalRenderDateTimeField($input, $default_renderer);
+        $first_input_id = $this->bindJSandApplyId($input, $tpl);
+        $input_html = $default_renderer->render($input);
 
-    /**
-     * Escape values for rendering with a Callable "$escape"
-     * In order to prevent XSS-attacks, values need to be stripped of
-     * special chars (such as quotes or tags).
-     * Needs vary according to the type of component, i.e.the html generated
-     * for this specific component and the placement of {VALUE} in its template.
-     * Please note: this may not work for customized templates!
-     */
-    protected function applyValue(FilterInput $component, Template $tpl, callable $escape = null): void
-    {
-        $value = $component->getValue();
-        if (!is_null($escape)) {
-            $value = $escape($value);
-        }
-        if ($value) {
-            $tpl->setVariable("VALUE", $value);
-        }
-    }
+        $input = array_shift($inputs) //until
+        ->withAdditionalPickerconfig(['useCurrent' => false]);
+        $input_html .= $default_renderer->render($input);
 
-    protected function escapeSpecialChars(): Closure
-    {
-        return fn($v) => htmlspecialchars((string) $v, ENT_QUOTES);
-    }
-
-    protected function renderTextField(F\Text $component, RendererInterface $default_renderer): string
-    {
-        $tpl = $this->getTemplate("tpl.text.html", true, true);
-        $this->applyName($component, $tpl);
-
-        if ($component->getMaxLength()) {
-            $tpl->setVariable("MAX_LENGTH", $component->getMaxLength());
-        }
-
-        $this->applyValue($component, $tpl, $this->escapeSpecialChars());
+        $tpl = $this->getTemplate("tpl.duration.html", true, true);
         $id = $this->bindJSandApplyId($component, $tpl);
-        return $this->wrapInFilterContext($component, $tpl->get(), $default_renderer, $id);
+        $tpl->setVariable('DURATION', $input_html);
+
+        return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get());
     }
 
-    protected function renderNumericField(F\Numeric $component, RendererInterface $default_renderer): string
-    {
-        $tpl = $this->getTemplate("tpl.numeric.html", true, true);
-        $this->applyName($component, $tpl);
-        $this->applyValue($component, $tpl, $this->escapeSpecialChars());
-        $id = $this->bindJSandApplyId($component, $tpl);
-        return $this->wrapInFilterContext($component, $tpl->get(), $default_renderer, $id);
-    }
-
-    public function renderSelectField(F\Select $component, RendererInterface $default_renderer): string
-    {
-        $tpl = $this->getTemplate("tpl.select.html", true, true);
-        $this->applyName($component, $tpl);
-
-        $value = $component->getValue();
-        //disable first option if required.
-        $tpl->setCurrentBlock("options");
-        if (!$value) {
-            $tpl->setVariable("SELECTED", 'selected="selected"');
-        }
-        if ($component->isRequired()) {
-            $tpl->setVariable("DISABLED_OPTION", "disabled");
-            $tpl->setVariable("HIDDEN", "hidden");
-        }
-        $tpl->setVariable("VALUE", null);
-        $tpl->setVariable("VALUE_STR", "-");
-        $tpl->parseCurrentBlock();
-
-        foreach ($component->getOptions() as $option_key => $option_value) {
-            $tpl->setCurrentBlock("options");
-            if ($value == $option_key) {
-                $tpl->setVariable("SELECTED", 'selected="selected"');
-            }
-            $tpl->setVariable("VALUE", $option_key);
-            $tpl->setVariable("VALUE_STR", $option_value);
-            $tpl->parseCurrentBlock();
-        }
-
-        $id = $this->bindJSandApplyId($component, $tpl);
-
-        return $this->wrapInFilterContext($component, $tpl->get(), $default_renderer, $id);
-    }
-
-    protected function renderMultiSelectField(F\MultiSelect $component, RendererInterface $default_renderer): string
-    {
-        $tpl = $this->getTemplate("tpl.multiselect.html", true, true);
-        $name = $this->applyName($component, $tpl);
-
-        $value = $component->getValue();
-        $tpl->setVariable("VALUE", $value);
-
-        $id = $this->bindJSandApplyId($component, $tpl);
-        $tpl->setVariable("ID", $id);
-
-        foreach ($component->getOptions() as $opt_value => $opt_label) {
-            $tpl->setCurrentBlock("option");
-            $tpl->setVariable("NAME", $name);
-            $tpl->setVariable("VALUE", $opt_value);
-            $tpl->setVariable("LABEL", $opt_label);
-
-            if ($value && in_array($opt_value, $value)) {
-                $tpl->setVariable("CHECKED", 'checked="checked"');
-            }
-
-            $tpl->parseCurrentBlock();
-        }
-
-        return $this->wrapInFilterContext($component, $tpl->get(), $default_renderer);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('assets/js/filter.js');
-        $registry->register('assets/js/input.js');
-        $registry->register('assets/js/groups.js');
-    }
-
-    protected function setSignals(FilterInput $input): FilterInput
-    {
-        $signals = null;
-        foreach ($input->getTriggeredSignals() as $s) {
-            $signals[] = [
-                "signal_id" => $s->getSignal()->getId(),
-                "event" => $s->getEvent(),
-                "options" => $s->getSignal()->getOptions()
-            ];
-        }
-        if ($signals !== null) {
-            $signals = json_encode($signals);
-
-            $input = $input->withAdditionalOnLoadCode(fn($id) => "il.UI.input.setSignalsForId('$id', $signals);");
-
-            $input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
-        }
-        return $input;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Input\Field\Text::class,
-            Component\Input\Field\Numeric::class,
-            Component\Input\Field\Group::class,
-            Component\Input\Field\Select::class,
-            Component\Input\Field\MultiSelect::class
-        ];
     }
 }

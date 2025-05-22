@@ -15,12 +15,13 @@
  *
  *********************************************************************/
 
+use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
-use ILIAS\Modules\File\Settings\General;
+use ILIAS\components\File\Settings\General;
 
 /**
  * Description of class class
@@ -30,7 +31,7 @@ use ILIAS\Modules\File\Settings\General;
  */
 class ilCheckSumOfFileSizesJob extends AbstractJob
 {
-    private ?ilLogger $logger;
+    private readonly ?ilLogger $logger;
     protected \ilSetting $settings;
 
 
@@ -79,7 +80,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
      * @inheritDoc
      * @todo use filesystem service
      */
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer): Value
+    public function run(array $input, Observer $observer): Value
     {
         $this->logger->debug('Start checking adherence to maxsize!');
         $this->logger->dump($input);
@@ -128,9 +129,9 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
             switch (ilObject::_lookupType($ref_id, true)) {
                 case "fold":
                     // get child objects
-                    $subtree = $tree->getChildsByTypeFilter($ref_id, array("fold", "file"));
+                    $subtree = $tree->getChildsByTypeFilter($ref_id, ["fold", "file"]);
                     if (count($subtree) > 0) {
-                        $child_ref_ids = array();
+                        $child_ref_ids = [];
                         foreach ($subtree as $child) {
                             $child_ref_ids[] = $child["ref_id"];
                         }

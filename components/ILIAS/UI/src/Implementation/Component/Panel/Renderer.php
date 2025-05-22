@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Panel;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\Template as Template;
 
 /**
  * Class Renderer
@@ -35,26 +36,14 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        /**
-         * @var Component\Panel\Panel $component
-         */
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Panel\Standard) {
-            /**
-             * @var Component\Panel\Standard $component
-             */
             return $this->renderStandard($component, $default_renderer);
         } elseif ($component instanceof Component\Panel\Sub) {
-            /**
-             * @var Component\Panel\Sub $component
-             */
             return $this->renderSub($component, $default_renderer);
+        } elseif ($component instanceof Component\Panel\Report) {
+            return $this->renderReport($component, $default_renderer);
         }
-        /**
-         * @var Component\Panel\Report $component
-         */
-        return $this->renderReport($component, $default_renderer);
+        $this->cannotHandleComponent($component);
     }
 
     protected function getContentAsString(Component\Component $component, RendererInterface $default_renderer): string
@@ -69,23 +58,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderStandard(Component\Panel\Standard $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.standard.html", true, true);
-
-        $view_controls = $component->getViewControls();
-        if ($view_controls) {
-            foreach ($view_controls as $view_control) {
-                $tpl->setCurrentBlock("view_controls");
-                $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
-                $tpl->parseCurrentBlock();
-            }
-        }
-
-        // actions
-        $actions = $component->getActions();
-        if ($actions !== null) {
-            $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
-        }
-
-        $tpl->setVariable("TITLE", $component->getTitle());
+        $tpl = $this->parseHeader($component, $default_renderer, $tpl);
         $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
         return $tpl->get();
     }
@@ -126,16 +99,32 @@ class Renderer extends AbstractComponentRenderer
     protected function renderReport(Component\Panel\Report $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.report.html", true, true);
-        $tpl->setVariable("TITLE", $component->getTitle());
+        $tpl = $this->parseHeader($component, $default_renderer, $tpl);
         $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
         return $tpl->get();
     }
 
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [Component\Panel\Panel::class];
+    protected function parseHeader(
+        Component\Panel\Standard|Component\Panel\Report $component,
+        RendererInterface $default_renderer,
+        Template $tpl
+    ): Template {
+        $view_controls = $component->getViewControls();
+        if ($view_controls) {
+            foreach ($view_controls as $view_control) {
+                $tpl->setCurrentBlock("view_controls");
+                $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
+                $tpl->parseCurrentBlock();
+            }
+        }
+
+        $actions = $component->getActions();
+        if ($actions !== null) {
+            $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+        }
+
+        $tpl->setVariable("TITLE", $component->getTitle());
+
+        return $tpl;
     }
 }

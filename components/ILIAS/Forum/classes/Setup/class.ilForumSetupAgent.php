@@ -35,7 +35,7 @@ class ilForumSetupAgent implements Setup\Agent
         throw new LogicException("Agent has no config.");
     }
 
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new ilFileSystemComponentDataDirectoryCreatedObjective(
             'forum',
@@ -43,7 +43,7 @@ class ilForumSetupAgent implements Setup\Agent
         );
     }
 
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new Setup\ObjectiveCollection(
             'Forum',
@@ -74,9 +74,6 @@ class ilForumSetupAgent implements Setup\Agent
 
     public function getMigrations(): array
     {
-        return [
-            new ilForumPostingFilesMigration(),
-            new ilForumDraftsFilesMigration()
-        ];
+        return [];
     }
 }

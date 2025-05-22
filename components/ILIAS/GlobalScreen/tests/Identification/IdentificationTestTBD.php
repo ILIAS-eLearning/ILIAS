@@ -18,6 +18,10 @@
 
 namespace ILIAS\GlobalScreen\MainMenu;
 
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\BackupStaticProperties;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Identification\Serializer\CoreSerializer;
 use ILIAS\GlobalScreen\Identification\Serializer\SerializerInterface;
@@ -35,12 +39,11 @@ require_once('./vendor/composer/vendor/autoload.php');
  * Class IdentificationFactoryTest
  *
  * @author                 Fabian Schmid <fs@studer-raimann.ch>
- *
- * @runTestsInSeparateProcesses
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
  */
+#[BackupGlobals(false)]
+#[BackupStaticProperties(false)]
+#[PreserveGlobalState(false)]
+#[RunTestsInSeparateProcesses]
 class IdentificationTest extends TestCase
 {
     use MockeryPHPUnitIntegration;

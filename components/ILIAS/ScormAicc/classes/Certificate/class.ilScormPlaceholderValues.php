@@ -104,7 +104,7 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
         }
 
         $max_points = $object->getMaxPoints();
-        $txtMaxPoints = $max_points;
+        $txtMaxPoints = (string) $max_points;
         if (is_null($max_points)) {
             $txtMaxPoints = $this->language->txt('certificate_points_notavailable');
         } elseif ($max_points != floor($max_points)) {

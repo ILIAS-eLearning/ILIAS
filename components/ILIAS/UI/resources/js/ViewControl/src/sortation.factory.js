@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import Sortation from './sortation.class';
+import Sortation from './sortation.class.js';
 
 export default class SortationFactory {
   /**
@@ -29,8 +29,7 @@ export default class SortationFactory {
   /**
    * @param {JQueryEventDispatcher} eventDispatcher
    */
-  constructor(eventDispatcher)
-  {
+  constructor(eventDispatcher) {
     this.#eventDispatcher = eventDispatcher;
   }
 

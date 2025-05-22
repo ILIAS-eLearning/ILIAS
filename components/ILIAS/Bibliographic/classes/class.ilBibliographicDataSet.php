@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,17 +16,9 @@
  *
  *********************************************************************/
 
-use ILIAS\Filesystem\Provider\FlySystem\FlySystemFilesystemFactory;
-use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
-use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
-use ILIAS\FileUpload\Location;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
-use ILIAS\ResourceStorage\Information\Repository\InformationARRepository;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
-use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
+use ILIAS\ResourceStorage\Services;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\ILIASObject\Properties\CoreProperties\Online;
 
 /**
  * Bibliographic dataset class
@@ -36,7 +29,15 @@ use ILIAS\Filesystem\Stream\Streams;
 class ilBibliographicDataSet extends ilDataSet
 {
     /**
-     * @var \ILIAS\ResourceStorage\Services
+     * @var string
+     */
+    private const EXP_DIRECTORY = "/Modules/Bibliographic/set_1/expDir_1/";
+    /**
+     * @var string
+     */
+    private const EXP_DIRECTORY_NEW = "/components/ILIAS/Bibliographic/set_1/expDir_1/";
+    /**
+     * @var Services
      */
     protected $storage;
     protected \ilObjBibliographicStakeholder $stakeholder;
@@ -48,8 +49,8 @@ class ilBibliographicDataSet extends ilDataSet
      * @var ilObjUser
      */
     protected $user;
-    protected array $import_temp_refs = array();
-    protected array $import_temp_refs_props = array();
+    protected array $import_temp_refs = [];
+    protected array $import_temp_refs_props = [];
 
 
     public function __construct()
@@ -66,9 +67,10 @@ class ilBibliographicDataSet extends ilDataSet
     }
 
 
+
     public function getSupportedVersions(): array
     {
-        return array('4.5.0');
+        return ['4.5.0'];
     }
 
 
@@ -85,30 +87,28 @@ class ilBibliographicDataSet extends ilDataSet
         ilImportMapping $a_mapping,
         string $a_schema_version
     ): void {
-        switch ($a_entity) {
-            case 'bibl':
-                if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['id'])) {
-                    // container content
-                    $new_obj = ilObjectFactory::getInstanceByObjId($new_id, false);
-                } else {
-                    $new_obj = new ilObjBibliographic();
-                }
-                /**
-                 * @var $new_obj ilObjBibliographic
-                 */
-                $new_obj->setTitle($a_rec['title']);
-                $new_obj->setDescription($a_rec['description']);
-                $new_obj->setFilename($a_rec['fileName']);
-                if (!$new_obj->getId()) {
-                    $new_obj->create();
-                }
-                $new_obj->getObjectProperties()->storePropertyIsOnline(
-                    new ilObjectPropertyIsOnline(false)
-                );
-                $this->import_bib_object = $new_obj;
-                $a_mapping->addMapping('components/ILIAS/Bibliographic', 'bibl', $a_rec['id'], $new_obj->getId());
-                $this->importLibraryFile($a_mapping);
-                break;
+        if ($a_entity === 'bibl') {
+            if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['id'])) {
+                // container content
+                $new_obj = ilObjectFactory::getInstanceByObjId($new_id, false);
+            } else {
+                $new_obj = new ilObjBibliographic();
+            }
+            /**
+             * @var $new_obj ilObjBibliographic
+             */
+            $new_obj->setTitle($a_rec['title']);
+            $new_obj->setDescription($a_rec['description']);
+            $new_obj->setFilename($a_rec['fileName']);
+            if ($new_obj->getId() === 0) {
+                $new_obj->create();
+            }
+            $new_obj->getObjectProperties()->storePropertyIsOnline(
+                new Online(false)
+            );
+            $this->import_bib_object = $new_obj;
+            $a_mapping->addMapping('components/ILIAS/Bibliographic', 'bibl', $a_rec['id'], $new_obj->getId());
+            $this->importLibraryFile($a_mapping);
         }
     }
 
@@ -118,17 +118,10 @@ class ilBibliographicDataSet extends ilDataSet
      */
     protected function getTypes(string $a_entity, string $a_version): array
     {
-        switch ($a_entity) {
-            case 'bibl':
-                return array(
-                    "id" => "integer",
-                    "title" => "text",
-                    "description" => "text",
-                    "filename" => "text"
-                );
-            default:
-                return array();
-        }
+        return match ($a_entity) {
+            'bibl' => ["id" => "integer", "title" => "text", "description" => "text", "filename" => "text"],
+            default => [],
+        };
     }
 
 
@@ -136,6 +129,7 @@ class ilBibliographicDataSet extends ilDataSet
      * Return dependencies form entities to other entities (in our case these are all the DB
      * relations)
      */
+    #[\Override]
     protected function getDependencies(
         string $a_entity,
         string $a_version,
@@ -148,9 +142,9 @@ class ilBibliographicDataSet extends ilDataSet
 
     public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
-        $this->data = array();
+        $this->data = [];
         if (!is_array($a_ids)) {
-            $a_ids = array($a_ids);
+            $a_ids = [$a_ids];
         }
         $this->_readData($a_entity, $a_ids);
     }
@@ -166,12 +160,7 @@ class ilBibliographicDataSet extends ilDataSet
                 foreach ($a_ids as $bibl_id) {
                     if (ilObject::_lookupType($bibl_id) === 'bibl') {
                         $obj = new ilObjBibliographic($bibl_id);
-                        $data = array(
-                            'id' => $bibl_id,
-                            'title' => $obj->getTitle(),
-                            'description' => $obj->getDescription(),
-                            'fileName' => $obj->getFilename()
-                        );
+                        $data = ['id' => $bibl_id, 'title' => $obj->getTitle(), 'description' => $obj->getDescription(), 'fileName' => $obj->getFilename()];
                         $this->data[] = $data;
                     }
                 }
@@ -181,11 +170,15 @@ class ilBibliographicDataSet extends ilDataSet
     }
 
 
-    public function exportLibraryFile(int $a_id): void
+    public function exportLibraryFile(int $a_id, string $absolute_export_dir): void
     {
         $obj = new ilObjBibliographic($a_id);
-        $fileAbsolutePath = $obj->getLegacyAbsolutePath();
-        copy($fileAbsolutePath, $this->absolute_export_dir . "/" . $obj->getFilename());
+        if (($rid = $obj->getResourceId()) === null) {
+            return;
+        }
+        $fileAbsolutePath = $this->irss->consume()->stream($rid)->getStream()->getMetadata()['uri'] ?? null;
+        ilFileUtils::makeDirParents($absolute_export_dir . self::EXP_DIRECTORY_NEW);
+        copy($fileAbsolutePath, $absolute_export_dir . self::EXP_DIRECTORY_NEW . $obj->getFilename());
     }
 
 
@@ -196,10 +189,20 @@ class ilBibliographicDataSet extends ilDataSet
     {
         $bib_id = $this->import_bib_object->getId();
         $filename = $this->import_bib_object->getFilename();
-        $import_path = $this->getImportDirectory() . "/Modules/Bibliographic/set_1/expDir_1/" . $filename;
+        $import_path_legacy = $this->getImportDirectory() . self::EXP_DIRECTORY . $filename;
+        $import_path_new = $this->getImportDirectory() . self::EXP_DIRECTORY_NEW . $filename;
+        if (file_exists($import_path_legacy)) {
+            $import_path = $import_path_legacy;
+        } elseif (file_exists($import_path_new)) {
+            $import_path = $import_path_new;
+        } else {
+            return;
+        }
 
         // create new resource from stream
-        $stream = Streams::ofResource(@fopen($import_path, 'rb'));
+        $resource = @fopen($import_path, 'rb');
+
+        $stream = Streams::ofResource($resource);
         $identification = $this->storage->manage()->stream($stream, $this->stakeholder, $filename);
 
         // insert rid of the new resource into the data table
@@ -211,5 +214,9 @@ class ilBibliographicDataSet extends ilDataSet
                 $bib_id,
             ]
         );
+        $this->import_bib_object->setResourceId($identification);
+        $this->import_bib_object->setMigrated(true);
+        $this->import_bib_object->update();
+        $this->import_bib_object->parseFileToDatabase();
     }
 }

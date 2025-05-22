@@ -14,15 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-
+ *********************************************************************/
 
 declare(strict_types=1);
 
-/**
- * @ilCtrl_Calls ilDateTime
- */
 class ilDclFieldListTableGUI extends ilTable2GUI
 {
     private ?int $order = null;
@@ -44,6 +39,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI
 
         $this->parent_obj = $a_parent_obj;
         $this->table = ilDclCache::getTableCache($table_id);
+        $this->table->showInvalidFields(true);
 
         $this->setId('dcl_field_list');
         $this->addColumn('', '', '1', true);
@@ -52,7 +48,6 @@ class ilDclFieldListTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('dcl_in_export'), '', '30px');
         $this->addColumn($this->lng->txt('dcl_description'), '', 'auto');
         $this->addColumn($this->lng->txt('dcl_field_datatype'), '', 'auto');
-        $this->addColumn($this->lng->txt('dcl_unique'), '', 'auto');
         $this->addColumn($this->lng->txt('actions'), '', '');
         // Only add mutli command for custom fields
         if (count($this->table->getRecordFields())) {
@@ -76,7 +71,6 @@ class ilDclFieldListTableGUI extends ilTable2GUI
         $this->setTopCommands(true);
         $this->setEnableHeader(true);
         $this->setShowRowsSelector(false);
-        $this->setShowTemplates(false);
         $this->setEnableHeader(true);
         $this->setEnableTitle(true);
         $this->setDefaultOrderDirection('asc');
@@ -242,18 +236,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable('TITLE', $a_set->getTitle());
         $this->tpl->setVariable('DESCRIPTION', $a_set->getDescription());
-        $this->tpl->setVariable('DATATYPE', $a_set->getDatatypeTitle());
-
-        if (!$a_set->isStandardField()) {
-            if ($a_set->isUnique()) {
-                $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_ok_monochrome.svg'), $this->lng->txt("yes"));
-            } else {
-                $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_not_ok_monochrome.svg'), $this->lng->txt("no"));
-            }
-            $this->tpl->setVariable('ICON_UNIQUE', $this->renderer->render($icon));
-        } else {
-            $this->tpl->setVariable('NO_UNIQUE');
-        }
+        $this->tpl->setVariable('DATATYPE', $a_set->getPresentationTitle());
 
         $this->ctrl->setParameterByClass('ildclfieldeditgui', 'field_id', $a_set->getId());
 
@@ -263,10 +246,12 @@ class ilDclFieldListTableGUI extends ilTable2GUI
                 $this->table->getId()
             )) {
                 $dropdown_items = [];
-                $dropdown_items[] = $this->ui_factory->link()->standard(
-                    $this->lng->txt('edit'),
-                    $this->ctrl->getLinkTargetByClass(ilDclFieldEditGUI::class, 'edit')
-                );
+                if (in_array($a_set->getDatatypeId(), array_keys(ilDclDatatype::getAllDatatype()))) {
+                    $dropdown_items[] = $this->ui_factory->link()->standard(
+                        $this->lng->txt('edit'),
+                        $this->ctrl->getLinkTargetByClass(ilDclFieldEditGUI::class, 'edit')
+                    );
+                }
                 $dropdown_items[] = $this->ui_factory->link()->standard(
                     $this->lng->txt('delete'),
                     $this->ctrl->getLinkTargetByClass(ilDclFieldEditGUI::class, 'confirmDelete')

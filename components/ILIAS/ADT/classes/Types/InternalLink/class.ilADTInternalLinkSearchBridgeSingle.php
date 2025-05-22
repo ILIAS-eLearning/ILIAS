@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * external link search bridge
@@ -70,7 +70,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         }
     }
 
-    public function importFromPost(array $a_post = null): bool
+    public function importFromPost(?array $a_post = null): bool
     {
         $post = $this->extractPostValues($a_post);
 
@@ -132,8 +132,11 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     {
         if ($this->getADT()->getCopyOfDefinition()->isComparableTo($a_adt)) {
             $ref_id = $a_adt->getTargetRefId();
-            $title = ilObject::_lookupTitle((int) ilObject::_lookupObjId((int) $ref_id));
-            return strcasecmp($title, $this->getTitleQuery()) === 0;
+            $title = strtolower(trim(
+                ilObject::_lookupTitle((int) ilObject::_lookupObjId((int) $ref_id))
+            ));
+            $query = strtolower(trim($this->getTitleQuery()));
+            return str_contains($title, $query);
         }
         return false;
     }

@@ -20,14 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Util\Archive;
 
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
-use ILIAS\ResourceStorage\Revision\Revision;
-use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\Filesystem\Stream\Stream;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Stream\FileStream;
-use ILIAS\Filesystem\Util\Archive\BaseZip;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -52,32 +47,24 @@ class Zip
         protected ZipOptions $options,
         ...$streams
     ) {
-        $this->streams = array_filter($streams, function ($stream): bool {
-            return $stream instanceof FileStream;
-        });
+        $this->streams = array_filter($streams, fn($stream): bool => $stream instanceof FileStream);
 
         if ($options->getZipOutputPath() !== null && $options->getZipOutputName() !== null) {
             $this->zip_output_file = $this->ensureDirectorySeperator(
                 $options->getZipOutputPath()
             ) . $options->getZipOutputName();
         } else {
-            $this->zip_output_file = is_writable('php://temp') ? 'php://temp' : $this->buildTempPath();
+            $this->zip_output_file = $this->buildTempPath();
             $this->registerShutdownFunction(function (): void {
-                if (file_exists($this->zip_output_file)) {
-                    unlink($this->zip_output_file);
-                }
+                $this->destroy();
             });
         }
         $system_limit = (int) shell_exec('ulimit -n') ?: 0;
 
-        if ($system_limit < 10) { //  aka we cannot determine the system limit properly
-            $this->iteration_limit = 100;
-        } else {
-            $this->iteration_limit = min(
-                $system_limit / 2,
-                5000
-            );
-        }
+        $this->iteration_limit = $system_limit < 10 ? 100 : min(
+            $system_limit / 2,
+            5000
+        );
 
         $this->zip = new \ZipArchive();
         if (!file_exists($this->zip_output_file)) {
@@ -90,7 +77,8 @@ class Zip
 
     private function buildTempPath(): string
     {
-        $tempnam = tempnam(sys_get_temp_dir(), 'zip');
+        $directory = defined('CLIENT_DATA_DIR') ? \CLIENT_DATA_DIR . '/temp' : sys_get_temp_dir();
+        $tempnam = tempnam($directory, 'zip');
         if (is_file($tempnam)) {
             return $tempnam;
         }
@@ -114,7 +102,7 @@ class Zip
                 $this->zip->open($this->zip_output_file);
             }
             if (is_int($path_inside_zip)) {
-                $path_inside_zip = basename($path);
+                $path_inside_zip = basename((string) $path);
             }
 
             if ($path === 'php://memory') {
@@ -139,18 +127,25 @@ class Zip
         }
     }
 
-    public function get(): \ILIAS\Filesystem\Stream\Stream
+    public function get(): Stream
     {
-        // we can remove the .empty file if there are more than one files in the ZIP
-        if (count($this->streams) > 1 && isset($this->streams[self::DOT_EMPTY])) {
-            unset($this->streams[self::DOT_EMPTY]);
-        }
-
         $this->storeZIPtoFilesystem();
 
         $this->zip->close();
 
         return Streams::ofResource(fopen($this->zip_output_file, 'rb'));
+    }
+
+    /**
+     * @description Explicitly close the zip file and remove the file from the filesystem. In general, temp
+     * files are deleted whyle destroying the object. but in cases like migrations, you should call this method explicitly.
+     * Please note that also explicitly set paths (non-temp) are deleted if you call this method.
+     */
+    public function destroy(): void
+    {
+        if (file_exists($this->zip_output_file)) {
+            unlink($this->zip_output_file);
+        }
     }
 
     /**
@@ -161,7 +156,7 @@ class Zip
      */
     public function addPath(string $path, ?string $path_inside_zip = null): void
     {
-        $path_inside_zip = $path_inside_zip ?? basename($path);
+        $path_inside_zip ??= basename($path);
 
         // create directory if it does not exist
         $this->zip->addEmptyDir(rtrim(dirname($path_inside_zip), '/') . '/');
@@ -174,6 +169,11 @@ class Zip
 
     public function addStream(FileStream $stream, string $path_inside_zip): void
     {
+        // we remove the "empty zip file" now if possible
+        if (count($this->streams) === 1 && isset($this->streams[self::DOT_EMPTY])) {
+            unset($this->streams[self::DOT_EMPTY]);
+        }
+
         // we must store the ZIP to e temporary files every 1000 files, otherwise we will get a Too Many Open Files error
         $this->streams[$path_inside_zip] = $stream;
 
@@ -204,7 +204,6 @@ class Zip
             \RecursiveIteratorIterator::SELF_FIRST
         );
 
-
         switch ($this->options->getDirectoryHandling()) {
             case ZipDirectoryHandling::KEEP_STRUCTURE:
                 $pattern = null;
@@ -216,23 +215,19 @@ class Zip
                 break;
         }
 
-
         foreach ($files as $file) {
             $pathname = $file->getPathname();
             $path_inside_zip = str_replace($directory_to_zip . '/', '', $pathname);
             if ($pattern !== null) {
                 $path_inside_zip = $prefix . preg_replace($pattern, '', $path_inside_zip);
             }
-            /** @var $file \SplFileInfo */
-            // skip . and .. directories
-            if (in_array($file->getBasename(), ['.', '..'], true)) {
-                continue;
-            }
 
+            /** @var $file \SplFileInfo */
             if ($file->isDir()) {
                 // add directory to zip if it's empty
-                if (count(scandir($pathname)) === 2) {
-                    $this->zip->addEmptyDir(rtrim($path_inside_zip, '/') . '/');
+                $sub_items = array_filter(scandir($pathname), static fn($d): bool => !str_contains((string) $d, '.DS_Store'));
+                if (count($sub_items) === 2) {
+                    $this->zip->addEmptyDir($path_inside_zip);
                 }
                 continue;
             }

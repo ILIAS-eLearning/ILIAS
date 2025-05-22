@@ -31,10 +31,10 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
     private readonly ilObjUser $user;
 
     public function __construct(
-        ilChatroomObjectGUI $gui,
-        ilCtrlInterface $controller = null,
-        ilLanguage $language = null,
-        ilObjUser $user = null
+        ?ilChatroomObjectGUI $gui,
+        ?ilCtrlInterface $controller = null,
+        ?ilLanguage $language = null,
+        ?ilObjUser $user = null
     ) {
         if ($controller === null) {
             global $DIC;
@@ -57,7 +57,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         parent::__construct($gui);
     }
 
-    private function handleTableActions(): void
+    public function handleTableActions(): void
     {
         $action = $this->http->wrapper()->query()->retrieve(
             'chat_ban_table_action',
@@ -66,15 +66,10 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
                 $this->refinery->always('')
             ])
         );
-        switch ($action) {
-            case 'delete':
-                $this->delete();
-                break;
-
-            default:
-                $this->ilCtrl->redirect($this, 'show');
-                break;
-        }
+        match ($action) {
+            'delete' => $this->delete(),
+            default => $this->ilCtrl->redirect($this, 'show'),
+        };
     }
 
     public function delete(): void
@@ -118,9 +113,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         $this->exitIfNoRoomExists($room);
 
         $data = $room->getBannedUsers();
-        $actorId = array_filter(array_map(static function (array $row): int {
-            return (int) $row['actor_id'];
-        }, $data));
+        $actorId = array_filter(array_map(static fn(array $row): int => (int) $row['actor_id'], $data));
 
         $sortable_names = ilUserUtil::getNamePresentation($actorId);
         $names = ilUserUtil::getNamePresentation($actorId, false, false, '', false, false, false);
@@ -136,6 +129,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         });
 
         $tbl = new \ILIAS\Chatroom\Bans\BannedUsersTable(
+            $this->user,
             $room->getRoomId(),
             $data,
             $this->ilCtrl,
@@ -164,6 +158,6 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
             $room->disconnectUser($userToBan);
         }
 
-        $this->sendResponse($response);
+        $this->sendResponse($response, 'application/json');
     }
 }

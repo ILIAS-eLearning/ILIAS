@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\components\ILIAS\Glossary\Table;
 
@@ -54,14 +53,6 @@ class TableManager
         \ilObjGlossary $glossary
     ): TermDefinitionBulkCreationTable {
         return new TermDefinitionBulkCreationTable($raw_data, $glossary);
-    }
-
-    public function getPresentationListTable(
-        \ilObjGlossary $glossary,
-        bool $offline,
-        int $tax_node
-    ): PresentationListTable {
-        return new PresentationListTable($glossary, $offline, $tax_node);
     }
 
     public function getTermListTable(

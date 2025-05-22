@@ -28,6 +28,7 @@ class ilBiblFieldFilter extends ActiveRecord implements ilBiblFieldFilterInterfa
         return self::TABLE_NAME;
     }
 
+    #[\Override]
     public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;

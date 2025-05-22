@@ -37,25 +37,24 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
         );
         $selection_type->setRequired(true);
 
-        $option_1 = new ilRadioOption(
-            $this->lng->txt('dcl_' . ilDclSelectionFieldModel::SELECTION_TYPE_SINGLE),
-            ilDclSelectionFieldModel::SELECTION_TYPE_SINGLE
-        );
-        $selection_type->addOption($option_1);
-
-        $option_2 = new ilRadioOption(
-            $this->lng->txt('dcl_' . ilDclSelectionFieldModel::SELECTION_TYPE_MULTI),
+        $options = [
+            ilDclSelectionFieldModel::SELECTION_TYPE_SINGLE,
+            ilDclSelectionFieldModel::SELECTION_TYPE_COMBOBOX,
             ilDclSelectionFieldModel::SELECTION_TYPE_MULTI
-        );
-        $selection_type->addOption($option_2);
+        ];
 
-        $option_3 = new ilRadioOption(
-            $this->lng->txt('dcl_' . ilDclSelectionFieldModel::SELECTION_TYPE_COMBOBOX),
-            ilDclSelectionFieldModel::SELECTION_TYPE_COMBOBOX
-        );
-        $selection_type->addOption($option_3);
+        foreach ($options as $option) {
+            $selection_type->addOption(new ilRadioOption($this->lng->txt('dcl_' . $option), $option));
+        }
 
         $opt->addSubItem($selection_type);
+
+        $prop_unique = new ilDclCheckboxInputGUI(
+            $this->lng->txt('dcl_unique'),
+            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_UNIQUE)
+        );
+        $prop_unique->setInfo($this->lng->txt('dcl_unique_desc'));
+        $opt->addSubItem($prop_unique);
 
         return $opt;
     }
@@ -66,7 +65,7 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
     public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilFormPropertyGUI
     {
         /** @var ilDclSelectionOption[] $options */
-        $options = ilDclSelectionOption::getAllForField((int)$this->getField()->getId());
+        $options = ilDclSelectionOption::getAllForField((int) $this->getField()->getId());
         switch ($this->getField()->getProperty(static::PROP_SELECTION_TYPE)) {
             case ilDclSelectionFieldModel::SELECTION_TYPE_MULTI:
                 $input = new ilMultiSelectInputGUI(
@@ -97,9 +96,9 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
             default:
                 $input = new ilRadioGroupInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
                 foreach ($options as $opt) {
-                    $input->addOption(new ilRadioOption($opt->getValue(), (string)$opt->getOptId()));
+                    $input->addOption(new ilRadioOption($opt->getValue(), (string) $opt->getOptId()));
                 }
-                $input->setValue((string)array_keys($options)[0]);
+                $input->setValue((string) array_keys($options)[0]);
                 break;
         }
         $this->setupInputField($input, $this->getField());
@@ -120,7 +119,7 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
             $this->getField()->getId()
         );
 
-        $options = ilDclSelectionOption::getAllForField((int)$this->getField()->getId());
+        $options = ilDclSelectionOption::getAllForField((int) $this->getField()->getId());
         $array = ['' => $this->lng->txt('dcl_all_entries')];
         foreach ($options as $opt) {
             $array[$opt->getOptId()] = $opt->getValue();

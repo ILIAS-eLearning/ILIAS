@@ -29,14 +29,11 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface
     public function getInstanceForType(int $type): ilBiblTypeInterface
     {
         assert(is_int($type));
-        switch ($type) {
-            case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
-                return new ilBibTex();
-            case ilBiblTypeFactoryInterface::DATA_TYPE_RIS:
-                return new ilRis();
-            default:
-                throw new ilException("bibliografic type not found");
-        }
+        return match ($type) {
+            ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX => new ilBibTex(),
+            ilBiblTypeFactoryInterface::DATA_TYPE_RIS => new ilRis(),
+            default => throw new ilException("bibliografic type not found"),
+        };
     }
 
 
@@ -46,8 +43,8 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface
     public function getInstanceForFileName(string $filename): ilBiblTypeInterface
     {
         //return bib for filetype .bibtex:
-        if (strtolower(substr($filename, -6)) == "bibtex"
-            || strtolower(substr($filename, -3)) == "bib"
+        if (strtolower(substr($filename, -6)) === "bibtex"
+            || strtolower(substr($filename, -3)) === "bib"
         ) {
             return $this->getInstanceForType(ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX);
         }
@@ -62,14 +59,11 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface
      */
     public function getInstanceForString(string $string): ilBiblTypeInterface
     {
-        switch ($string) {
-            case "bib":
-                return new ilBibTex();
-            case "ris":
-                return new ilRis();
-            default:
-                throw new ilException("bibliografic type not found");
-        }
+        return match ($string) {
+            "bib" => new ilBibTex(),
+            "ris" => new ilRis(),
+            default => throw new ilException("bibliografic type not found"),
+        };
     }
 
 
@@ -78,14 +72,11 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface
      */
     public function convertFileEndingToDataType(string $file_ending): int
     {
-        switch ($file_ending) {
-            case "ris":
-                return ilBiblTypeFactoryInterface::DATA_TYPE_RIS;
-            case "bib":
-                return ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX;
-            default:
-                throw new ilException("no data type found for this file ending");
-        }
+        return match ($file_ending) {
+            "ris" => ilBiblTypeFactoryInterface::DATA_TYPE_RIS,
+            "bib" => ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX,
+            default => throw new ilException("no data type found for this file ending"),
+        };
     }
 
 

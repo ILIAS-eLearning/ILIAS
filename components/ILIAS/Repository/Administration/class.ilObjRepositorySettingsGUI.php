@@ -38,7 +38,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     protected AdministrationGUIRequest $admin_gui_request;
     protected ilErrorHandling $error;
     protected ilSetting $folder_settings;
-    protected GlobalHttpState $http;
     protected UIFactory $factory;
     protected UIRenderer $renderer;
     protected RefFactory $refinery;
@@ -56,7 +55,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->settings = $DIC->settings();
         $this->folder_settings = new ilSetting('fold');
-        $this->http = $DIC->http();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->toolbar = $DIC->toolbar();
@@ -135,7 +133,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         }
     }
 
-    public function view(StandardForm $a_form = null): void
+    public function view(?StandardForm $a_form = null): void
     {
         $this->tabs_gui->activateTab("settings");
 
@@ -313,7 +311,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $fav = $f->checkbox(
             $this->lng->txt("rep_favourites"),
             $this->lng->txt("rep_favourites_info")
-        )->withValue((bool) $ilSetting->get("rep_favourites"));
+        )->withValue($ilSetting->get("rep_favourites", "0") === "1");
 
         //TODO split this up into two sections
         $settings = $f->section(
@@ -415,7 +413,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
             $ilSetting->set(
                 "rep_favourites",
-                (string) $data["rep_favourites"]
+                $data["rep_favourites"] ? "1" : "0"
             );
 
             if ($data["rep_export_limitation"][0] === 'rep_export_unlimited') {
@@ -515,7 +513,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->view($form);
     }
 
-    public function customIcons(StandardForm $a_form = null): void
+    public function customIcons(?StandardForm $a_form = null): void
     {
         $this->tabs_gui->activateTab("icons");
 
@@ -735,7 +733,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         return $form;
     }
 
-    protected function addNewItemGroup(ilPropertyFormGUI $a_form = null): void
+    protected function addNewItemGroup(?ilPropertyFormGUI $a_form = null): void
     {
         if (!$a_form) {
             $a_form = $this->initNewItemGroupForm();
@@ -763,7 +761,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->addNewItemGroup($form);
     }
 
-    protected function editNewItemGroup(ilPropertyFormGUI $a_form = null): void
+    protected function editNewItemGroup(?ilPropertyFormGUI $a_form = null): void
     {
         $grp_id = $this->admin_gui_request->getNewItemGroupId();
         if (!$grp_id) {
@@ -814,7 +812,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
             $grp_pos_map = [];
             foreach (ilObjRepositorySettings::getNewItemGroups() as $item) {
-                $grp_pos_map[$item["id"]] = str_pad($item["pos"], 4, "0", STR_PAD_LEFT);
+                $grp_pos_map[$item["id"]] = str_pad((string) $item["pos"], 4, "0", STR_PAD_LEFT);
             }
 
             // update order of assigned objects

@@ -29,11 +29,8 @@ use ILIAS\BackgroundTasks\Task;
  */
 class NonPersistingObserver implements Observer
 {
-    protected \ILIAS\BackgroundTasks\Bucket $bucket;
-
-    public function __construct(Bucket $bucket)
+    public function __construct(protected Bucket $bucket)
     {
-        $this->bucket = $bucket;
     }
 
     /**

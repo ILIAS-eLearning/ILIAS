@@ -9,67 +9,50 @@ content.
 ## Custom Styles
 
 System Styles may be customized by creating custom System Styles. Custom styles have
-to be placed in the `./Customizing/global/skin` directory to be active. One may have
+to be placed in the `./public/Customizing/skin` directory to be active. One may have
 multiple substyles which may be active for different branches of the repository.
-
-A GitHub Repo for a custom System Style based on the default Delos will be available
-soon.
 
 ### Tools
 
-To generate a customized System Style, first install the necessary tools to your
-server. These tools include nodejs and the node packet manager. After that you
-can install the sass compiler that is used to turn SCSS into CSS using:
+The ILIAS default system style called Delos is written in SCSS, which has to be
+compiled using the SASS pre-processor to a CSS file that the browser can read.
 
-```
-npm install -g sass
-```
+For any larger scale styling project, we recommend that you consider using SASS as
+well. This way, you can build on and modify all the work that has been done by the
+community to style the many views and components used in ILIAS.
 
-or
+You may want to use the same version of SASS that is referenced in the NPM
+package.json and automatically installed to `node_modules/` when using `npm install`.
+This specific SASS version can be executed like this from the ILIAS root:
+`node_modules/.bin/sass`
 
-Download [Dart SASS from Github](https://github.com/sass/dart-sass/releases/) and add it to the machine's PATH.
+Alternatively, you can install the latest version of SASS globally with
+`npm install sass -g`.
 
-If you want to create system styles throught frontend, make sure, that your webserver
-has the permission to read and execute your newly installed sass compiler.
+You can find a starting point for a custom System Style based on the default Delos
+system style here: [Delos Repository](https://github.com/ILIAS-eLearning/delos)
 
-### How-To 1 (Through Frontend)
+At the point of writing, it does require modification to be recognized as a custom
+System Style as outlined later in this document.
 
-#### Step 1: Activate "Manage System Styles"
-
-1. Open the ilias.ini.php file in your ILIAS Administration.
-2. Make sure that in the Section [tools] the setting enable_system_styles_management is activated.
-3. Make sure, that a lessc is set to your lessc installation:
-```
-enable_system_styles_management = "1"
-lessc = "/usr/local/bin/lessc"
-```
-
-#### Step 2: Create new System Style
+### Access available Styles through Frontend
 
 1. Navigate to "Administration -> Layout and Styles" of you ILIAS Installation.
-2. Add a new System Style and activate it.
-3. Optional: Add a new Sub Style for the created System Style through the
-frontend
-4. Optional: Change the SCSS variables for the new System Style through the
-frontend
-5. Optional: Change the Icon colors of the new System Style through the frontend
-6. Optional: Manually add template files for the new System Style (see "Change
-Layout" below)
+2. In a table you see all available System Styles. 
+3. You may assign users to styles via Actions Dropdown
+4. You may set Sub Styles for certain sections of the repository via Actions Dropdown
 
-### How-To 2 (Manually)
+### How-To 
 
 #### Step 1: Create skin directory
 
 To create a new skin, first add a new subdirectory to directory
-`Customizing/global/skin`, e.g. `Customizing/global/skin/myskin`.
-
-In the future, we will provide a base System Style based on the
-default Delos that you can download from Github and place here.
+`./public/Customizing/skin`, e.g. `./public/Customizing/skin/myskin/`.
 
 #### Step 2: Create template.xml File
 
 One file that must exist in every skin is the file template.xml. E.g.
-`Customizing/global/skin/myskin/template.xml`:
+`./public/Customizing/skin/myskin/template.xml`:
 
 ```
 <?xml version = "1.0" encoding = "UTF-8"?>
@@ -79,55 +62,64 @@ One file that must exist in every skin is the file template.xml. E.g.
 ```
 
 Every skin can contain multiple styles. This example defines one style called
-MyStyle. This skin/style combination will be listed as MySkin/MyStyle in the
-ILIAS Style and Layout administration. The ILIAS administration is the place
-where you can activate/deactivate styles, and where you can assign users from
-one skin to another.
+MyStyle.
 
-#### Step 2: Create main CSS File
+This skin/style combination will be listed as MySkin/MyStyle in the
+ILIAS Style and Layout administration. The style's files are now expected
+to be located in `./public/Customizing/skin/myskin/mystyle/`:
+
+The ILIAS administration is the place where you can activate/deactivate styles,
+and where you can assign users from one skin to another.
+
+#### Step 3.1: Create main CSS File
 
 The `id` attribute of the style tag defines the name of the corresponding style
-sheet (CSS) file. This CSS file must also be added to the skin directory (here:
-`Customizing/global/skin/myskin/mystyle/mystyle.css`). You should start with a copy of
-the default CSS file located at `templates/default/delos.css`. The best way to
-see which styles are used on a given ILIAS screen is to open the HTML source of
-the screen.
+sheet (CSS) file, in our example `./public/Customizing/skin/myskin/mystyle/mystyle.css`.
+
+The easiest (but not recommended) ways to get a working skin quickly are to
+* copy and rename the default CSS file located at `templates/default/delos.css`
+  to `./public/Customizing/skin/myskin/mystyle/mystyle.css`
+* or create `./public/Customizing/skin/myskin/mystyle/` and import delos in the
+  top line of your css like so: `@import url("../../../../assets/css/delos.css");`
 
 If your CSS file contains references to (background) images, these images must
 be present at their defined locations. If you copied the default CSS file, the
 image paths will not be correct anymore. You can either copy them to your skin
 directory, change the CSS definitions or provide your own image files.
 
-#### Step 2: Alternative
+#### Step 3.2: Better Alternative
 
 To have a working directory for your skin, you can also copy the complete folder
 templates/default of your ilias installation to a new folder below
-`Customizing/global/skin` within that directory, edit the file `template.xml` to
-have an unique Style Name and id. This is needed to identify the new skin in
-ILIAS' administration. Then copy the standard `delos.css` file to "your-id.css".
-Take care: the main CSS-File must reflect the id in its name (see above).
+`./public/Customizing/skin/myskin` within that directory, edit the file
+`template.xml` to have an unique Style Name and id. This is needed to identify the
+new skin in ILIAS' administration. Compile `delos.scss` or copy/rename the
+standard `delos.css` file to `./public/Customizing/skin/myskin/mystyle/mystyle.css`.
+Take care: the main CSS-File must reflect the style id in its name (see above).
 
-#### Step 3: Sass (Optional)
+However, best use the stand alone skin [delos](https://github.com/ILIAS-eLearning/delos)
+git repo, which is always an up-to-date copy of the delos skin from the main repo.
+Clone it into your `./public/Customizing/skin/myskin` folder, make your changes and
+merge important fixes and updates to delos into your skin.
 
-Best use the stand alone skin [delos](https://github.com/ILIAS-eLearning/delos) 
-git repo, which is always an up-to-date copy of the delos skin from the main repo. 
-Clone it into your `Customizing/global/skin` folder, make your changes and keep it always
-up-to-date for fixes from the main repo.
+With this approach, you should not modify the css file, but work entirely in the scss files.
 
-Do not froget to re-compile the scss-file after each change:
+#### Step 3.3 Sass
+
+Do not forget to re-compile the scss-file after each change. Switch to the root of your style 
+and execute:
 
 ```
-sass delos.scss mystyle.css
+./node_modules/.bin/sass delos.scss mystyle.css
 ```
 
 or
 
 ```
-sass --style=compressed delos.scss mystyle.css
+./node_modules/.bin/sass  --style=compressed delos.scss mystyle.css
 ```
 
 for a minified CSS version.
-
 
 #### Step 4: Add Icons (Optional)
 
@@ -139,7 +131,13 @@ named like the `image_directory` attribute of the style tag in the
 E.g. if you want to replace the default icon for categories
 `public/assets/images/standard/icon_cat.sfg`, and your template file defines
 `image_directory = "images"` as in the example above, the new version must be
-stored as `Customizing/global/skin/myskin/mystyle/images/icon_cat.svg`.
+stored as `./public/Customizing/skin/myskin/mystyle/images/icon_cat.svg`.
+
+Note: Since v9 ILIAS supports suffix-specific file icons. See: https://docu.ilias.de/go/wiki/wpage_7496_1357
+These files cannot be changed via the style however. If you would like to change them you can access and change/override
+all of them via the ILIAS administration:
+
+Administration / Repository and Objects / Files / File Objects: Suffix-Specific Icons
 
 #### Step 5: Change Layout (Optional)
 
@@ -159,34 +157,29 @@ are located in src/UI. To overwrite those you need to add the respective tpl fil
 in your skins folder. 
 
 Examples:
-* `Module/Service` related template files must be stored in a similar
+* `components` related template files must be stored in a similar
 subdirectory structure (omit the `templates` subdirectory). E.g. to replace the
-template file `Services/XYZ/templates/tpl.xyz.html` create a new
-version at `Customizing/global/skin/myskin/Services/XYZ/tpl.xyz.html`. A template of a UI Component located in 
+template file `components/ILIAS/XYZ/templates/tpl.xyz.html` create a new
+version at `./public/Customizing/skin/myskin/components/ILIAS/XYZ/tpl.xyz.html`. A template of a UI Component located in 
 `src/UI/templates/default/XYZ/tpl.xyz.html` can be customized by creating a 
-`Customizing/global/skin/myskin/UI/XYZ/tpl.xyz.html` file.
+`./public/Customizing/skin/myskin/UI/XYZ/tpl.xyz.html` file.
 
 The following list contains some standard template files, that are often changed in
 skins:
 
-- [Standard Layout](https://test6.ilias.de/goto_test6_stys_21_LayoutPageStandardStandard_default_delos.html?), 
-template file: src/UI/templates/default/Layout/tpl.standardpage.html, the frame of the DOM for the complete ILIAS page. 
+- Standard Layout: components/ILIAS/UI/templates/default/Layout/tpl.standardpage.html, the frame of the DOM for the complete ILIAS page. 
 Also checkout the according scss variable under section Layout (UI Layout Page).
-- [Meta Bar](https://test6.ilias.de/goto_test6_stys_21_MainControlsMetaBarMetaBar_default_delos.html?) 
-template file: src/UI/templates/default/MainControls/tpl.metabar.html, the Bar on the top holding Notification, Search User Avatar, etc.
+- Meta Bar: components/ILIAS/UI/templates/default/MainControls/tpl.metabar.html, the Bar on the top holding Notification, Search User Avatar, etc.
 Also checkout the according metabar scss variables.
-- [Main Bar](https://test6.ilias.de/goto_test6_stys_21_MainControlsMainBarMainBar_default_delos.html?) 
-template directory: src/UI/templates/default/MainControls/tpl.mainbar.html, the Bar on the left holding triggers for opening the slates for
+- Main Bar: components/ILIAS/UI/templates/default/MainControls/tpl.mainbar.html, the Bar on the left holding triggers for opening the slates for
 accessing Repository, Dasbhoard etc. Content.
 Also checkout the according mainbar scss variables.
-- [Slate](https://test6.ilias.de/goto_test6_stys_21_MainControlsSlateFactorySlate_default_delos.html?) 
-template directory: src/UI/templates/default/MainControls/Slate/tpl.slate.html, the Slates triggered by opening items of the Main Bar.
+- Slate: components/ILIAS/UI/templates/default/MainControls/Slate/tpl.slate.html, the Slates triggered by opening items of the Main Bar.
 Also checkout the according slate scss variables.
-- [Breadcrumbs](https://test6.ilias.de/goto_test6_stys_21_BreadcrumbsBreadcrumbsBreadcrumbs_default_delos.html?)
-template directory: src/UI/templates/default/Breadcrumbs/tpl.breadcrumbs.html, Breadcrumbs working as locator on the top of the page.
+- Breadcrumbs: components/ILIAS/UI/templates/default/Breadcrumbs/tpl.breadcrumbs.html, Breadcrumbs working as locator on the top of the page.
 Also checkout the breadcrumb scss variables.
 
-* Startup Screens (Login, Registration, ...): `Services/Init/templates/default/tpl .startup_screen.html`
+* Startup Screens (Login, Registration, ...): `components/ILIAS/Init/templates/default/tpl .startup_screen.html`
 
 
 #### Step 6: Change the ILIAS Icon
@@ -200,45 +193,6 @@ may refer to:
 [Installation and Maintenance » Change the ILIAS
 icon](http://www.ilias.de/docu/goto_docu_pg_68691_367.html)
 
-
-#### Optional: Configuring lessc on OSX with MAMP
-
-This exlpains how to adjust your MAMP installation to work with System Styles in Ilias on OSX.
-
-First you have to Install Xcode Command Line Tools. Then execute:
-```
-xcode-select --install
-Install Node.js 
-cd /Applications/MAMP/
-git clone https://github.com/nodejs/node.git
-cd node
-./configure
-make
-sudo make install
-Install Sass
-sudo npm install -g sass
-```
-
-Edit the File Applications/MAMP/Library/bin/envars.
-Add the line export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin" to the envars file. 
-Make sure that all the other lines are commented (an # is added in front of the line).
-
-Edit the file Applications/MAMP/Library/bin/envars_std
-Make sure that every line is commented. (an # is added in front of the line).
-
-Change the rights on the files. Open a Terminal and execute:
-```
-chmod -R 777 /Application/MAMP/Library/bin
-```
-
-Note that this is only a good option for a local test environment in some protected enironment. Give more sensitive
-Permission rights if there is possible access from the outsite.
-
-Activate System Styles in Ilias
-In a Browser go to localhost:8888/cli/setup.php and Login using the Master-Password. Under “Basic Settings” activate “Manage System Styles”.
-Set the lessc Path to /usr/local/bin/lessc
-
-
 ### Migration
 
 There might be changes you need to consider if updating to a new ILIAS version.
@@ -248,6 +202,11 @@ version you might find helpful information by consulting:
 
 [Installation and Maintenance » Prepare for a new
 skin](https://www.ilias.de/docu/goto_docu_pg_68693_367.html)
+
+#### ILIAS 10
+- **Important**: The location of the skin was moved to `./public/Customizing/skin`
+- System style Management through GUI has been abandoned, see: https://docu.ilias.de/go/wiki/wpage_1_1357
+- Sass is no shipped with NPM, see: https://github.com/ILIAS-eLearning/ILIAS/pull/8115
 
 #### ILIAS 9
 A proposal for better structuring the System Styles has been provided and accepted by the JF in 2021, 

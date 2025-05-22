@@ -25,7 +25,7 @@ use ilLanguage;
 
 class MailSignatureInstallationNamePlaceholder extends AbstractPlaceholderHandler
 {
-    public function __construct(ilLanguage $lng, private readonly ilIniFile $clientIniFile)
+    public function __construct(ilLanguage $lng, private readonly ilIniFile $client_ini_file)
     {
         parent::__construct($lng);
     }
@@ -37,7 +37,7 @@ class MailSignatureInstallationNamePlaceholder extends AbstractPlaceholderHandle
 
     public function addPlaceholder(array $placeholder): array
     {
-        $placeholder[$this->getId()] = $this->clientIniFile->readVariable('client', 'name');
+        $placeholder[$this->getId()] = $this->client_ini_file->readVariable('client', 'name');
 
         return $placeholder;
     }

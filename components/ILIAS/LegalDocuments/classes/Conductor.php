@@ -20,7 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments;
 
-use ILIAS\LegalDocuments\PageFragment;
+use ilNonEditableValueGUI;
+use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\DI\Container;
 use ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration;
 use ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration\Bundle;
@@ -28,7 +29,6 @@ use Closure;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
-use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\Refinery\Transformation;
 use ilStartUpGUI;
 use ilObjUser;
@@ -40,14 +40,22 @@ use ILIAS\LegalDocuments\ConsumerToolbox\SelectSetting;
 use ILIAS\LegalDocuments\ConsumerToolbox\KeyValueStore\SessionStore;
 use ILIAS\LegalDocuments\ConsumerToolbox\Marshal;
 use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
+use ILIAS\components\Authentication\Logout\LogoutTarget;
+use ILIAS\LegalDocuments\Value\Target;
 
 class Conductor
 {
     private readonly Internal $internal;
     private readonly Routing $routing;
 
-    public function __construct(private readonly Container $container, ?Internal $internal = null, Routing $routing = null)
-    {
+    /** @var Modal[] */
+    private array $modals = [];
+
+    public function __construct(
+        private readonly Container $container,
+        ?Internal $internal = null,
+        ?Routing $routing = null
+    ) {
         $this->internal = $internal ?? $this->createInternal();
         $this->routing = $routing ?? new Routing(
             $this->container->ctrl(),
@@ -62,21 +70,6 @@ class Conductor
         return new Provide($id, $this->internal, $this->container);
     }
 
-    public function onLogout(string $gui): void
-    {
-        try {
-            $id = $this->container->http()->wrapper()->query()->retrieve('withdraw_consent', $this->container->refinery()->to()->string());
-        } catch (Exception $e) {
-            return;
-        }
-
-        $logout = $this->internal->get('logout', $id);
-        if (null !== $logout) {
-            $this->container->ctrl()->setParameterByClass($gui, 'withdraw_from', $id);
-            $logout();
-        }
-    }
-
     public function loginPageHTML(string $id): string
     {
         $create = $this->internal->get('show-on-login-page', $id);
@@ -89,8 +82,11 @@ class Conductor
     public function logoutText(): string
     {
         try {
-            $id = $this->container->http()->wrapper()->query()->retrieve('withdraw_from', $this->container->refinery()->to()->string());
-        } catch (Exception $e) {
+            $id = $this->container->http()->wrapper()->query()->retrieve(
+                'withdraw_consent',
+                $this->container->refinery()->to()->string()
+            );
+        } catch (Exception) {
             return '';
         }
 
@@ -99,9 +95,18 @@ class Conductor
         return null === $logout_text ? '' : $this->container->ui()->renderer()->render($logout_text());
     }
 
-    public function modifyFooter(Footer $footer): Footer
+    public function logoutTarget(LogoutTarget $target): LogoutTarget
     {
-        return array_reduce($this->internal->all('footer'), fn($footer, Closure $proc) => $proc($footer), $footer);
+        return new WithdrawalAcknowledgementLogoutTarget(
+            $target,
+            $this->container->http()->wrapper()->query()->has('withdraw_consent'),
+            $this->container->ctrl()
+        );
+    }
+
+    public function modifyFooter(Closure $footer): Closure
+    {
+        return array_reduce($this->internal->all('footer'), fn(Closure $footer, Closure $proc) => $proc($footer), $footer);
     }
 
     public function agree(string $gui, string $cmd): void
@@ -158,6 +163,9 @@ class Conductor
         array_map(fn($proc) => $proc(), $this->internal->all('after-login'));
     }
 
+    /**
+     * @return Result<Target>
+     */
     public function findGotoLink(string $goto_target): Result
     {
         return $this->find(
@@ -166,6 +174,9 @@ class Conductor
         )->map(fn($goto_link) => $goto_link->target());
     }
 
+    /**
+     * @return list<Intercept>
+     */
     public function intercepting(): array
     {
         return $this->internal->all('intercept');
@@ -176,13 +187,35 @@ class Conductor
         return new Bundle($this->internal->all('self-registration'));
     }
 
+    /**
+     * @return array<string|int, string>
+     */
     public function userManagementFields(ilObjUser $user): array
     {
+        $this->modals = [];
         return array_reduce(
             $this->internal->all('user-management-fields'),
-            static fn(array $prev, callable $f): array => [...$prev, ...$f($user)],
+            fn(array $prev, callable $f): array => [
+                ...$prev,
+                ...array_map(function ($val) {
+                    if (is_array($val)) {
+                        $this->find(fn($x) => $x instanceof Modal, $val)
+                             ->map(fn($modal) => array_push($this->modals, $modal));
+                        return $this->find(fn($x) => $x instanceof ilNonEditableValueGUI, $val)->value();
+                    }
+                    return $val;
+                }, $f($user))
+            ],
             []
         );
+    }
+
+    public function userManagementModals(): string
+    {
+        $string = $this->container->ui()->renderer()->render($this->modals);
+        $this->modals = [];
+
+        return $string;
     }
 
     /**
@@ -228,7 +261,7 @@ class Conductor
     {
         try {
             $id = $this->container->http()->wrapper()->query()->retrieve('id', $this->container->refinery()->to()->string());
-        } catch (Exception $e) {
+        } catch (Exception) {
             return new Error('No provider ID given.');
         }
 
@@ -244,7 +277,7 @@ class Conductor
     }
 
     /**
-     * @return Closure(Closure(string, string): Result<PageFragment>): string
+     * @return Closure(Closure(string, string): Result<PageFragment>): Result<string>
      */
     private function renderPageFragment(string $gui, string $cmd): Closure
     {

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\LearningModule\Setup;
 
@@ -55,4 +55,29 @@ class LearningModuleDBUpdateSteps implements \ilDatabaseUpdateSteps
             ));
         }
     }
+
+    public function step_3(): void
+    {
+        $this->db->update(
+            "ut_lp_settings",
+            [
+            "u_mode" => ["integer", 0]
+        ],
+            [    // where
+                "obj_type" => ["text", "lm"],
+                "u_mode" => ["integer", 3],
+            ]
+        );
+        $this->db->update(
+            "ut_lp_settings",
+            [
+            "u_mode" => ["integer", 0]
+        ],
+            [    // where
+                "obj_type" => ["text", "lm"],
+                "u_mode" => ["integer", 16],
+            ]
+        );
+    }
+
 }

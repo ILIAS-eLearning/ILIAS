@@ -34,6 +34,6 @@ class ilUserAvatarFile extends ilUserAvatarBase
 
     public function getUrl(): string
     {
-        return ilWACSignedPath::signFile(\ilUtil::getImagePath('no_photo_' . $this->size . '.jpg'));
+        return \ilUtil::getImagePath('placeholder/no_photo_' . $this->size . '.jpg');
     }
 }

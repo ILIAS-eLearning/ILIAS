@@ -35,24 +35,11 @@ use ILIAS\ResourceStorage\Resource\StorableContainerResource;
  */
 class Consumers
 {
-    private ConsumerFactory $consumer_factory;
-    private ResourceBuilder $resource_builder;
-    private CollectionBuilder $collection_builder;
-    private ?SrcBuilder $src_builder = null;
-
     /**
      * Consumers constructor.
      */
-    public function __construct(
-        ConsumerFactory $consumer_factory,
-        ResourceBuilder $resource_builder,
-        CollectionBuilder $collection_builder,
-        ?SrcBuilder $src_builder = null
-    ) {
-        $this->consumer_factory = $consumer_factory;
-        $this->resource_builder = $resource_builder;
-        $this->collection_builder = $collection_builder;
-        $this->src_builder = $src_builder ?? new InlineSrcBuilder();
+    public function __construct(private ConsumerFactory $consumer_factory, private ResourceBuilder $resource_builder, private CollectionBuilder $collection_builder, private SrcBuilder $src_builder = new InlineSrcBuilder())
+    {
     }
 
     public function download(ResourceIdentification $identification): DownloadConsumer

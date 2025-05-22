@@ -11,7 +11,7 @@ function get_changed_files() {
     CHANGED_FILES=$(git diff-tree --name-only --diff-filter=ACMRT --no-commit-id -r ${GH_SHA} | grep -e '.php$' -e '.js$')
   else
     URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/files"
-    CHANGED_FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename' | grep -e '\.php$' -e '\.js$')
+    CHANGED_FILES=$(curl -s -X GET -G $URL | jq -r '.[] | select(.status != "removed") | .filename' | grep -e '\.php$' -e '\.js$')
   fi
   printf "${CHANGED_FILES[*]}"
 }

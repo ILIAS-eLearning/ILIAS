@@ -18,13 +18,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * Purge trash by cron
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-class ilSCCronTrash extends ilCronJob
+class ilSCCronTrash extends CronJob
 {
     protected ilLanguage $lng;
     protected ilTree $tree;
@@ -55,19 +57,19 @@ class ilSCCronTrash extends ilCronJob
         return $this->lng->txt('sysc_cron_empty_trash_desc');
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_WEEKLY;
+        return JobScheduleType::WEEKLY;
     }
 
     public function getValidScheduleTypes(): array
     {
         return [
-            CronJobScheduleType::SCHEDULE_TYPE_DAILY,
-            CronJobScheduleType::SCHEDULE_TYPE_WEEKLY,
-            CronJobScheduleType::SCHEDULE_TYPE_MONTHLY,
-            CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY,
-            CronJobScheduleType::SCHEDULE_TYPE_YEARLY
+            JobScheduleType::DAILY,
+            JobScheduleType::WEEKLY,
+            JobScheduleType::MONTHLY,
+            JobScheduleType::QUARTERLY,
+            JobScheduleType::YEARLY
         ];
     }
 
@@ -162,7 +164,7 @@ class ilSCCronTrash extends ilCronJob
         return true; // #18579
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
         $trash = new ilSystemCheckTrash();
         $trash->setMode(ilSystemCheckTrash::MODE_TRASH_REMOVE);
@@ -180,8 +182,8 @@ class ilSCCronTrash extends ilCronJob
         }
         $trash->start();
 
-        $result = new ilCronJobResult();
-        $result->setStatus(ilCronJobResult::STATUS_OK);
+        $result = new JobResult();
+        $result->setStatus(JobResult::STATUS_OK);
         return $result;
     }
 }

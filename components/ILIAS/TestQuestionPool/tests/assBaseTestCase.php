@@ -42,6 +42,8 @@ abstract class assBaseTestCase extends TestCase
 
         $this->addGlobal_tpl();
         $this->addGlobal_lng();
+        $this->addGlobal_objectService();
+        $this->addGlobal_objectMetadata();
         $this->addGlobal_ilObjDataCache();
         $this->addGlobal_ilAccess();
         $this->addGlobal_ilHelp();
@@ -57,28 +59,16 @@ abstract class assBaseTestCase extends TestCase
         $this->addGlobal_http();
         $this->addGlobal_upload();
         $this->addGlobal_ilCtrl();
+        $this->addGlobal_resourceStorage();
+        $this->addGlobal_filesystem();
+        $this->addGlobal_static_url();
+        $this->addGlobal_ilIliasIniFile();
+        $this->addGlobal_ilSetting();
+        $this->addGlobal_uiFactory();
+        $this->addGlobal_uiRenderer();
 
-        if (!defined("ILIAS_HTTP_PATH")) {
-            define("ILIAS_HTTP_PATH", "http://localhost");
-        }
-        if (!defined("CLIENT_DATA_DIR")) {
-            define("CLIENT_DATA_DIR", "/var/iliasdata");
-        }
-        if (!defined("ANONYMOUS_USER_ID")) {
-            define("ANONYMOUS_USER_ID", 13);
-        }
-        if (!defined("ROOT_FOLDER_ID")) {
-            define("ROOT_FOLDER_ID", 8);
-        }
-        if (!defined("ILIAS_LOG_ENABLED")) {
-            define("ILIAS_LOG_ENABLED", true);
-        }
-        if (!defined("ILIAS_LOG_DIR")) {
-            define("ILIAS_LOG_DIR", '/var/log');
-        }
-        if (!defined("ILIAS_LOG_FILE")) {
-            define("ILIAS_LOG_FILE", '/var/log/ilias.log');
-        }
+        $this->defineGlobalConstants();
+
         parent::setUp();
     }
 
@@ -94,10 +84,5 @@ abstract class assBaseTestCase extends TestCase
     protected function getIRSSMock()
     {
         return $this->getMockBuilder(Services::class)->disableOriginalConstructor()->getMock();
-    }
-
-    protected function getFileDeliveryMock()
-    {
-        return $this->getMockBuilder(\ILIAS\FileDelivery\Services::class)->disableOriginalConstructor()->getMock();
     }
 }

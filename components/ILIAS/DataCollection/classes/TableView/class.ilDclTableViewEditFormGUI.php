@@ -63,7 +63,7 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
         foreach ($rbacreview->getParentRoleIds($ref_id) as $role_array) {
             $option = new ilCheckboxOption(ilObjRole::_getTranslation($role_array['title']));
-            $option->setValue((string)$role_array['obj_id']);
+            $option->setValue((string) $role_array['obj_id']);
             $checkbox_group_input_gui->addOption($option);
         }
 
@@ -95,11 +95,6 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         $this->tableview->setDescription($this->getInput('description'));
         $this->tableview->setRoles((array) $this->getInput('roles'));
         $this->tableview->setTableId($this->table->getId());
-        $this->tableview->setStepVs(true);
-        $this->tableview->setStepE(false);
-        $this->tableview->setStepC(false);
-        $this->tableview->setStepO(false);
-        $this->tableview->setStepS(false);
         $this->tableview->setOrder($this->table->getNewTableviewOrder());
         $this->tableview->create();
 

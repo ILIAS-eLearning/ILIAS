@@ -55,7 +55,7 @@ class ilMediaObjectsExporter extends ilXmlExporter
         string $a_id
     ): string {
         ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
@@ -66,6 +66,12 @@ class ilMediaObjectsExporter extends ilXmlExporter
         string $a_entity
     ): array {
         return array(
+            "10.0" => array(
+                "namespace" => "https://www.ilias.de/Services/MediaObjects/mob/10",
+                "xsd_file" => "ilias_mob_10.xsd",
+                "uses_dataset" => true,
+                "min" => "10.0",
+                "max" => ""),
             "5.1.0" => array(
                 "namespace" => "https://www.ilias.de/Services/MediaObjects/mob/5_1",
                 "xsd_file" => "ilias_mob_5_1.xsd",

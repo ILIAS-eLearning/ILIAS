@@ -14,49 +14,18 @@ var horizontal = function() {
   return {
     init: init
   };
-}
-
-var vertical = function() {
-
-  var init = function(element, preferences, series, yLabels, tooltips){
-    determineYLabels(preferences, yLabels);
-    determineToolTipYLabels(preferences, yLabels, tooltips);
-
-    var chart = new Chart(document.getElementById(element.id), {
-      type: 'bar',
-      data: series,
-      options: preferences,
-    });
-  };
-
-  return {
-    init: init
-  };
-}
+};
 
 function determineXLabels(preferences, xLabels) {
   // Replace labels on x-axes with custom values if defined. If not, use default numeric values.
   if (Object.keys(xLabels).length != 0) {
     preferences.scales.x.ticks.callback = function (value, index, values) {
       return xLabels[index];
-    }
+    };
   } else {
     preferences.scales.x.ticks.callback = function (value, index, values) {
       return value;
-    }
-  }
-}
-
-function determineYLabels(preferences, yLabels) {
-  // Replace labels on x-axes with custom values if defined. If not, use default numeric values.
-  if (Object.keys(yLabels).length != 0) {
-    preferences.scales.y.ticks.callback = function (value, index, values) {
-      return yLabels[index];
-    }
-  } else {
-    preferences.scales.y.ticks.callback = function (value, index, values) {
-      return value;
-    }
+    };
   }
 }
 
@@ -76,6 +45,37 @@ function determineToolTipXLabels(preferences, axisLabels, tooltips) {
       label = label + context.formattedValue;
     }
     return label;
+  };
+}
+
+var vertical = function() {
+
+  var init = function(element, preferences, series, yLabels, tooltips){
+    determineYLabels(preferences, yLabels);
+    determineToolTipYLabels(preferences, yLabels, tooltips);
+
+    var chart = new Chart(document.getElementById(element.id), {
+      type: 'bar',
+      data: series,
+      options: preferences,
+    });
+  };
+
+  return {
+    init: init
+  };
+};
+
+function determineYLabels(preferences, yLabels) {
+  // Replace labels on x-axes with custom values if defined. If not, use default numeric values.
+  if (Object.keys(yLabels).length != 0) {
+    preferences.scales.y.ticks.callback = function (value, index, values) {
+      return yLabels[index];
+    };
+  } else {
+    preferences.scales.y.ticks.callback = function (value, index, values) {
+      return value;
+    };
   }
 }
 
@@ -95,9 +95,8 @@ function determineToolTipYLabels(preferences, axisLabels, tooltips) {
       label = label + context.formattedValue;
     }
     return label;
-  }
+  };
 }
-
 
 il = il || {};
 il.UI = il.UI || {};

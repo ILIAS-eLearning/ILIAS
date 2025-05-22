@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,7 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
+declare(strict_types=0);
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup components\ILIASCourse
@@ -81,6 +81,7 @@ class ilCourseImporter extends ilXmlImporter
             $this->course->update();
 
             $a_mapping->addMapping('components/ILIAS/Course', 'crs', $a_id, (string) $this->course->getId());
+            $a_mapping->addMapping('components/ILIAS/AdvancedMetaData', 'parent', $a_id, (string) $this->course->getId());
 
             // workaround for ilImportContainer::createDummy which creates Metadata via create(true)
             $this->course->deleteMetaData();

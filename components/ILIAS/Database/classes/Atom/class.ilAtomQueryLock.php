@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilAtomQueryLock
@@ -71,7 +71,7 @@ class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery
      */
     protected function getLocksForDBInstance(): array
     {
-        $locks = array();
+        $locks = [];
         foreach ($this->tables as $table) {
             $full_name = $table->getTableName() . $table->getAlias();
             if (in_array($full_name, $this->locked_table_full_names, true)) {
@@ -80,14 +80,14 @@ class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery
             $this->locked_table_full_names[] = $full_name;
 
             if (!in_array($table->getTableName(), $this->locked_table_names, true)) {
-                $locks[] = array( 'name' => $table->getTableName(), 'type' => $table->getLockLevel() );
+                $locks[] = [ 'name' => $table->getTableName(), 'type' => $table->getLockLevel() ];
                 $this->locked_table_names[] = $table->getTableName();
                 if ($table->isLockSequence() && $this->ilDBInstance->sequenceExists($table->getTableName())) {
-                    $locks[] = array( 'name' => $table->getTableName(), 'type' => $table->getLockLevel(), 'sequence' => true );
+                    $locks[] = [ 'name' => $table->getTableName(), 'type' => $table->getLockLevel(), 'sequence' => true ];
                 }
             }
             if ($table->getAlias() !== '') {
-                $locks[] = array( 'name' => $table->getTableName(), 'type' => $table->getLockLevel(), 'alias' => $table->getAlias() );
+                $locks[] = [ 'name' => $table->getTableName(), 'type' => $table->getLockLevel(), 'alias' => $table->getAlias() ];
             }
         }
 

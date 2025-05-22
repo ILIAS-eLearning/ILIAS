@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Search Auto Completion Application Class
@@ -114,7 +114,7 @@ class ilSearchAutoComplete
                 $rec["keyword"] = '"' . $rec["keyword"] . '"';
             }
             if (!in_array($rec["keyword"], $list) && !in_array($rec["rbac_id"], $checked)) {
-                if (ilSearchAutoComplete::checkObjectPermission($rec["rbac_id"])) {
+                if (ilSearchAutoComplete::checkObjectPermission((int) $rec["rbac_id"])) {
                     $list[] = $lim . $rec["keyword"];
                     $cnt++;
                 }

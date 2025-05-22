@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Collections\View;
 
+use ILIAS\UI\Component\Table\Presentation;
 use ILIAS\UI\Factory;
 use ILIAS\components\ResourceStorage\Collections\DataProvider\TableDataProvider;
-use ILIAS\components\ResourceStorage\Collections\DataProvider\DataTableDataProviderAdapter;
 use ILIAS\HTTP\Services;
 use ILIAS\components\ResourceStorage\Resources\UI\RevisionToComponent;
 use ILIAS\UI\Component\Table\PresentationRow;
@@ -51,7 +51,7 @@ class RequestToPresentationTable implements RequestToComponents
         $this->irss = $DIC->resourceStorage();
     }
 
-    private function buildTable(): \ILIAS\UI\Component\Table\Presentation
+    private function buildTable(): Presentation
     {
         return $this->ui_factory->table()->presentation(
             '',

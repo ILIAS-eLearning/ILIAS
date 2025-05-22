@@ -18,18 +18,17 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\MockObject;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 use ILIAS\MainMenu\Provider\CustomMainBarProvider;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
-use ILIAS\GlobalScreen\Scope\MetaBar\Factory\LinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
-use ILIAS\GlobalScreen\MainMenu\IdentificationTest;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TypeRenderer;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopParentItemRenderer;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
@@ -45,14 +44,14 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 class ilServicesMainMenuTest extends TestCase
 {
-    private ?\ILIAS\DI\Container $dic_backup;
+    private ?Container $dic_backup;
     /**
-     * @var ProviderFactory|(ProviderFactory&object&\PHPUnit\Framework\MockObject\MockObject)|(ProviderFactory&\PHPUnit\Framework\MockObject\MockObject)|(object&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+     * @var ProviderFactory|ProviderFactory&object&MockObject|ProviderFactory&MockObject|object&MockObject|MockObject
      */
-    private ProviderFactory|\PHPUnit\Framework\MockObject\MockObject $provider_factory_mock;
+    private ProviderFactory|MockObject $provider_factory_mock;
     private Services $gs_mock;
     /**
-     * @var ilDBInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var ilDBInterface|MockObject
      */
     protected ilDBInterface $db_mock;
     protected Container $dic_mock;
@@ -78,8 +77,8 @@ class ilServicesMainMenuTest extends TestCase
         $this->dic_mock['ilSetting'] = $DIC['ilSetting'] = $this->createMock(ilSetting::class);
         $this->dic_mock['rbacsystem'] = $DIC['rbacsystem'] = $this->createMock(ilRbacSystem::class);
         $this->dic_mock['lng'] = $DIC['lng'] = $this->createMock(ilLanguage::class);
-        $this->dic_mock['ui.factory'] = $DIC['ui.factory'] = $this->createMock(\ILIAS\UI\Factory::class);
-        $this->dic_mock['ui.renderer'] = $DIC['ui.renderer'] = $this->createMock(\ILIAS\UI\Renderer::class);
+        $this->dic_mock['ui.factory'] = $DIC['ui.factory'] = $this->createMock(Factory::class);
+        $this->dic_mock['ui.renderer'] = $DIC['ui.renderer'] = $this->createMock(Renderer::class);
         $this->dic_mock['objDefinition'] = $DIC['objDefinition'] = $this->createMock(ilObjectDefinition::class);
     }
 

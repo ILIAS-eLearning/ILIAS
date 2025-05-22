@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -24,5 +23,11 @@ namespace ILIAS\Language;
 interface Language
 {
     public function txt(string $a_topic, string $a_default_lang_fallback_mod = ""): string;
+
     public function loadLanguageModule(string $a_module): void;
+
+    public function getLangKey(): string;
+
+    /** @param $key string|string[] */
+    public function toJS($key): void;
 }

@@ -18,11 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\Exercise\Certificate\ExercisePlaceholderValues;
+use ILIAS\Course\Certificate\CoursePlaceholderValues;
 use ILIAS\Test\Certificate\TestPlaceholderValues;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
 {
     private ilCertificateTypeClassMap $classMap;
@@ -36,7 +35,7 @@ class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
     {
         $class = $this->classMap->getPlaceHolderClassNameByType('crs');
 
-        $this->assertSame(ilCoursePlaceholderValues::class, $class);
+        $this->assertSame(CoursePlaceholderValues::class, $class);
     }
 
     public function testFetchTestPlaceHolderClass(): void
@@ -50,7 +49,7 @@ class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
     {
         $class = $this->classMap->getPlaceHolderClassNameByType('exc');
 
-        $this->assertSame(ilExercisePlaceholderValues::class, $class);
+        $this->assertSame(ExercisePlaceholderValues::class, $class);
     }
 
     public function testFetchScormPlaceHolderClass(): void

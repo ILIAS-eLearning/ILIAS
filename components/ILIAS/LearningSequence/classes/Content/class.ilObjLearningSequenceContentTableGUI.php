@@ -41,7 +41,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         $this->lng->loadLanguageModule('trac');
 
         $this->setTitle($this->lng->txt("table_sequence_content"));
-        $this->setRowTemplate("tpl.content_table.html", "Modules/LearningSequence");
+        $this->setRowTemplate("tpl.content_table.html", "components/ILIAS/LearningSequence");
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         $this->setExternalSorting(true);
         $this->setEnableAllCommand(true);

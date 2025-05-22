@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
- */
 class ilMailTemplatePlaceholderToEmptyResolver
 {
     public function resolve(
@@ -28,7 +25,7 @@ class ilMailTemplatePlaceholderToEmptyResolver
     ): string {
         return preg_replace(
             "/({{)(\w+)(}})/",
-            "$2",
+            '$2',
             $message
         );
     }

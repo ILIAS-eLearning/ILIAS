@@ -400,7 +400,7 @@ class ilLegacyFormElementsUtil
         bool $checked,
         string $varname,
         string $value,
-        string $onclick = null,
+        ?string $onclick = null,
         bool $disabled = false
     ): string {
         $str = '<input ';

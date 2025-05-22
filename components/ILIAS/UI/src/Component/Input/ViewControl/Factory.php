@@ -126,7 +126,33 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Input\ViewControl\NullControl
      */
-
     public function nullControl(): NullControl;
+
+
+    /**
+    * ---
+     * description:
+     *   purpose: >
+     *      The mode view controls offers a mutually exclusive selection to
+     *      display data according to the chosen aspect.
+     *   composition: >
+     *      This view control renders a stateful button for each option.
+     *   effect: >
+     *      When clicking a button of the control, the corresponding view is
+     *      changed immediately; the clicked button is engaged while all others
+     *      are not.
+     * rules:
+     *   usage:
+     *      1: Mode view control MUST contain more than one option.
+     *      2: Exactly one Button MUST always be active/engaged.
+     *   accessibility:
+     *      1: The HTML container enclosing the buttons of the Mode View Control MUST carry the role-attribute "group".
+     *      2: The HTML container enclosing the buttons of the Mode View Control MUST set an aria-label describing the element.
+     *      3: The options of the Mode View Control MUST be clearly labeled, describing what the button shows if clicked, e.g. "List View", "Month View", ...
+     * ---
+     * @param array<string, string> $options
+     * @return \ILIAS\UI\Component\Input\ViewControl\Mode
+     */
+    public function mode(array $options): Mode;
 
 }

@@ -81,10 +81,6 @@ class ilSessionTest extends TestCase
         $settings = $this->getMockBuilder(ilSetting::class)->getMock();
         $settings->method('get')->willReturnCallback(
             function ($arg) {
-                if ($arg === 'session_handling_type') {
-                    return (string) ilSession::SESSION_HANDLING_FIXED;
-                }
-
                 if ($arg === 'session_statistics') {
                     return '0';
                 }
@@ -210,7 +206,7 @@ class ilSessionTest extends TestCase
             1
         );
 
-        $cron_manager = $this->createMock(ilCronManager::class);
+        $cron_manager = $this->createMock(\ILIAS\Cron\Job\JobManager::class);
         $cron_manager->method('isJobActive')->with($this->isType('string'))->willReturn(true);
         $this->setGlobalVariable(
             'cron.manager',
@@ -248,7 +244,7 @@ class ilSessionTest extends TestCase
 
     public function testPasswordAssisstanceSession(): void
     {
-        $result = '';
+        $actual = '';
         $usr_id = 4711;
 
         try {
@@ -334,38 +330,36 @@ SQL;
             return $res;
         });
 
-        $this->setGlobalVariable(
-            'ilDB',
-            $db
+        $pwa_repository = new \ILIAS\Init\PasswordAssitance\Repository\PasswordAssistanceDbRepository(
+            $db,
+            (new \ILIAS\Data\Factory())->clock()->system()
         );
 
-        require_once __DIR__ . '/../../../../cli/inc.pwassist_session_handler.php';
+        $hash = new \ILIAS\Init\PasswordAssitance\ValueObject\PasswordAssistanceHash(
+            'ae869e66007cc9812f1752f7a3a59f07d3e28bed8361827d0a05563e5c2f4b11'
+        );
+        $session = $pwa_repository->createSession(
+            $hash,
+            (new \ILIAS\Data\Factory())->objId($usr_id)
+        );
 
-        // write session
-        db_pwassist_session_write('12345', 60, $usr_id);
-
-        // find
-        $res = db_pwassist_session_find($usr_id);
-        if ($res['pwassist_id'] === '12345') {
-            $result .= 'find-';
+        $result = $pwa_repository->getSessionByUsrId($session->usrId());
+        if ($result->value()->hash()->value() === $session->hash()->value()) {
+            $actual .= 'find-';
         }
 
-        // read
-        $res = db_pwassist_session_read('12345');
-        if ((int) $res['user_id'] === $usr_id) {
-            $result .= 'read-';
+        $result = $pwa_repository->getSessionByHash($session->hash());
+        if ($result->value()->usrId()->toInt() === $usr_id) {
+            $actual .= 'read-';
         }
 
-        // destroy
-        db_pwassist_session_destroy('12345');
-        $res = db_pwassist_session_read('12345');
-        if (!$res) {
-            $result .= 'destroy-';
+        $pwa_repository->deleteSession($session);
+        $result = $pwa_repository->getSessionByHash($session->hash());
+        if ($result->isError()) {
+            $actual .= 'destroy-';
         }
 
-        db_pwassist_session_gc();
-
-        $this->assertEquals('find-read-destroy-', $result);
+        $this->assertEquals('find-read-destroy-', $actual);
 
         $sqlite = null;
     }

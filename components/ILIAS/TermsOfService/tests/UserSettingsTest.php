@@ -84,7 +84,7 @@ class UserSettingsTest extends TestCase
             ->method('transform')
             ->willReturnCallback(
                 function ($in) use (&$consecutive) {
-                    list($expected, $ret) = array_shift($consecutive);
+                    [$expected, $ret] = array_shift($consecutive);
                     $this->assertEquals($expected, $in);
                     return $ret;
                 }

@@ -18,6 +18,9 @@
 
 namespace ILIAS\StaticURL\Tests;
 
+use PHPUnit\Framework\MockObject\MockObject;
+use ILIAS\HTTP\Services;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ILIAS\StaticURL\Handler\LegacyGotoHandler;
 use ILIAS\StaticURL\Request\LegacyRequestBuilder;
 use Psr\Http\Message\ServerRequestInterface;
@@ -34,22 +37,22 @@ require_once "Base.php";
  */
 class LegacyGotoHandlerTest extends Base
 {
-    public $request_mock;
-    public $component_factory_mock;
+    public MockObject $request_mock;
+    public MockObject $component_factory_mock;
     public $refinery;
     public $request_builder;
-    private \ilCtrlInterface|\PHPUnit\Framework\MockObject\MockObject $ctrl;
+    private \ilCtrlInterface|MockObject $ctrl;
     private LegacyGotoHandler $subject;
     /**
-     * @var \ILIAS\HTTP\Services|(\ILIAS\HTTP\Services&object&\PHPUnit\Framework\MockObject\MockObject)|(\ILIAS\HTTP\Services&\PHPUnit\Framework\MockObject\MockObject)|(object&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+     * @var Services|Services&object&MockObject|Services&MockObject|object&MockObject|MockObject
      */
-    private \ILIAS\HTTP\Services|\PHPUnit\Framework\MockObject\MockObject $http_mock;
+    private Services|MockObject $http_mock;
     private array $dic_backup = [];
 
     protected function setUp(): void
     {
         $this->ctrl = $this->createMock(\ilCtrlInterface::class);
-        $this->http_mock = $this->createMock(\ILIAS\HTTP\Services::class);
+        $this->http_mock = $this->createMock(Services::class);
         $this->request_mock = $this->createMock(ServerRequestInterface::class);
         $this->http_mock->method('request')->willReturn($this->request_mock);
 
@@ -89,9 +92,7 @@ class LegacyGotoHandlerTest extends Base
         ];
     }
 
-    /**
-     * @dataProvider urlProvider
-     */
+    #[DataProvider('urlProvider')]
     public function testBase(string $called_url, string $target): void
     {
         $this->http_mock->request()->method('getUri')->willReturn(new \GuzzleHttp\Psr7\Uri($called_url));
@@ -114,7 +115,7 @@ class LegacyGotoHandlerTest extends Base
 
     }
 
-    private function insertDIC(string $key, $value): void
+    private function insertDIC(string $key, object $value): void
     {
         global $DIC;
         $DIC = $DIC instanceof Container ? $DIC : new Container();
@@ -123,9 +124,7 @@ class LegacyGotoHandlerTest extends Base
         }
         $GLOBALS[$key] = $value;
         $DIC->offsetUnset($key);
-        $DIC[$key] = static function () use ($value) {
-            return $value;
-        };
+        $DIC[$key] = (static fn(): \ilCtrlInterface|Services|MockObject => $value);
     }
 
     protected function tearDown(): void

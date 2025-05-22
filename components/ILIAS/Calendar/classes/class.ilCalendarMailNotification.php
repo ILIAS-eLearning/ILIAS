@@ -35,7 +35,11 @@ class ilCalendarMailNotification extends ilMailNotification
     public const TYPE_USER_ANONYMOUS = 8;
     public const TYPE_BOOKING_REMINDER = 9;
 
+    public const TYPE_BOOKING_CONFIRMATION_MANAGER = 10;
+
     private ?int $appointment_id = null;
+
+    private int $booker_id = 0;
     private ?ilCalendarEntry $appointment = null;
 
     protected ilLanguage $lng;
@@ -54,6 +58,16 @@ class ilCalendarMailNotification extends ilMailNotification
     {
         $this->appointment_id = $a_id;
         $this->appointment = new ilCalendarEntry($this->getAppointmentId());
+    }
+
+    public function setBookerID(int $id): void
+    {
+        $this->booker_id = $id;
+    }
+
+    public function getBookerID(): int
+    {
+        return $this->booker_id;
     }
 
     public function getAppointment(): ?ilCalendarEntry
@@ -287,21 +301,85 @@ class ilCalendarMailNotification extends ilMailNotification
                 $this->appendBody("\n\n");
                 $this->appendAppointmentDetails();
 
-                /*
-                $this->appendBody("\n\n");
-                $this->appendBody($this->getLanguageText('cal_booking_confirmation_link'));
-                $this->appendBody("\n\n");
-                $this->appendBody($this->createPermanentLink());
-                 */
+                $comment = ilBookingEntry::lookupBookingMessage($entry->getEntryId(), $user_id);
+                if ($comment !== '') {
+                    $this->appendBody("\n\n");
+                    $this->appendBody(
+                        $this->getLanguageText('cal_ch_booking_your_comment') . ' "' .
+                        $comment
+                        . '"'
+                    );
+                    $this->appendBody("\n\n");
+                }
                 $this->getMail()->appendInstallationSignature(true);
-
                 $this->sendMail(array($user_id), true);
+                break;
 
+            case self::TYPE_BOOKING_CONFIRMATION_MANAGER:
+
+                $rcps = $this->getRecipients();
+                $user_id = array_pop($rcps);
+                $entry = new ilCalendarEntry($this->getAppointmentId());
+                $booking = new ilBookingEntry($entry->getContextId());
+
+                $this->initLanguage($user_id);
+                $this->getLanguage()->loadLanguageModule('dateplaner');
+                $this->initMail();
+                $this->setSubject(
+                    sprintf($this->getLanguageText('cal_booking_confirmation_subject'), $entry->getTitle())
+                );
+                $this->setBody(ilMail::getSalutation($user_id, $this->getLanguage()));
                 $this->appendBody("\n\n");
-                $this->appendBody($this->getLanguageText('cal_booking_confirmation_user') . "\n");
-                $this->appendBody(ilObjUser::_lookupFullname($user_id));
+                if ($user_id == $booking->getObjId()) {
+                    $message = sprintf(
+                        $this->getLanguageText('cal_booking_owner_confirmation_body'),
+                        ilObjUser::_lookupFullname($this->getBookerID())
+                    );
+                } else {
+                    $message = sprintf(
+                        $this->getLanguageText('cal_booking_manager_confirmation_body'),
+                        ilObjUser::_lookupFullname($this->getBookerID()),
+                        ilObjUser::_lookupFullname($booking->getObjId())
+                    );
+                }
+                $this->appendBody($message);
+                $this->appendBody("\n\n");
+                $this->appendAppointmentDetails();
 
-                $this->sendMail(array($booking->getObjId()), true);
+                $comment = ilBookingEntry::lookupBookingMessage($entry->getEntryId(), $this->getBookerID());
+                if ($comment !== '') {
+                    $this->appendBody("\n\n");
+                    $this->appendBody(
+                        $this->getLanguageText('cal_ch_booking_comment') . ' "' .
+                        $comment
+                        . '"'
+                    );
+                    $this->appendBody("\n\n");
+                }
+
+                $participants = [];
+                foreach ($booking->getCurrentBookings($entry->getEntryId()) as $bookusers) {
+                    if ($bookusers === $this->getBookerID()) {
+                        continue;
+                    }
+                    $participants[] = ilObjUser::_lookupFullname($bookusers);
+                }
+                if ($participants !== []) {
+                    $this->appendBody(
+                        $this->getLanguageText('cal_ch_booking_other_participants') . ' ' .
+                        implode(', ', $participants)
+                    );
+                }
+
+                $static_url = new \ILIAS\Calendar\URL\CalendarStaticURLHandler();
+                $uri = $static_url->buildConsultationHoursURI();
+                $this->appendBody("\n\n");
+                $this->appendBody(
+                    $this->getLanguageText('cal_ch_booking_link') . ' ' . $uri
+                );
+
+                $this->getMail()->appendInstallationSignature(true);
+                $this->sendMail(array($user_id), true);
                 break;
 
             case self::TYPE_BOOKING_CANCELLATION:
@@ -381,17 +459,15 @@ class ilCalendarMailNotification extends ilMailNotification
         $export->setAppointments([(int) $this->getAppointmentId()]);
         $export->export();
 
+        $ics_filename = 'appointment_' . (new DateTimeImmutable('now'))->format('Ymd_His_u') . '.ics';
+
         $attachment = new ilFileDataMail($this->getSender());
-        $attachment->storeAsAttachment(
-            'appointment.ics',
+        $effective_ics_filename = $attachment->storeAsAttachment(
+            $ics_filename,
             $export->getExportString()
         );
 
-        $this->setAttachments(
-            array(
-                'appointment.ics'
-            )
-        );
+        $this->setAttachments([$effective_ics_filename]);
     }
 
     protected function deleteAttachments(): void

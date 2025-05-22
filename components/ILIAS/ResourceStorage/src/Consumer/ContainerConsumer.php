@@ -18,14 +18,9 @@
 
 namespace ILIAS\ResourceStorage\Consumer;
 
-use ILIAS\Filesystem\Stream\FileStream;
-use ILIAS\Filesystem\Filesystem;
-use ILIAS\Filesystem\Util\Archive\Unzip;
-
 /**
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 interface ContainerConsumer
 {
-
 }

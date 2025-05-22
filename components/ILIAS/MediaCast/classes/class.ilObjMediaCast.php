@@ -229,6 +229,8 @@ class ilObjMediaCast extends ilObject
 
         $id = parent::create();
 
+        $this->createMetaData();
+
         $query = "INSERT INTO il_media_cast_data (" .
             " id" .
             ", is_online" .
@@ -263,6 +265,8 @@ class ilObjMediaCast extends ilObject
         if (!parent::update()) {
             return false;
         }
+
+        $this->updateMetaData();
 
         // update media cast data
         $query = "UPDATE il_media_cast_data SET " .
@@ -318,6 +322,8 @@ class ilObjMediaCast extends ilObject
         if (!parent::delete()) {
             return false;
         }
+
+        $this->deleteMetaData();
 
         // delete all items
         $med_items = $this->getItemsArray();
@@ -459,6 +465,8 @@ class ilObjMediaCast extends ilObject
             $collection->cloneCollection($new_obj->getRefId(), $cp_options->getCopyId());
         }
 
+        $this->cloneMetaData($new_obj);
+
         return $new_obj;
     }
 
@@ -481,10 +489,10 @@ class ilObjMediaCast extends ilObject
             $mc_item->setContextObjId($a_new_obj->getId());
             $mc_item->setContextObjType($a_new_obj->getType());
             $mc_item->setUserId($ilUser->getId());
-            $mc_item->setPlaytime($item["playtime"]);
-            $mc_item->setTitle($item["title"]);
-            $mc_item->setContent($item["content"]);
-            $mc_item->setVisibility($item["visibility"]);
+            $mc_item->setPlaytime($item["playtime"] ?? "");
+            $mc_item->setTitle($item["title"] ?? "");
+            $mc_item->setContent($item["content"] ?? "");
+            $mc_item->setVisibility($item["visibility"] ?? "users");
             $mc_item->create();
             $this->mob_mapping[$mob_id] = $new_mob->getId();
             $item_mapping[$item["id"]] = $mc_item->getId();

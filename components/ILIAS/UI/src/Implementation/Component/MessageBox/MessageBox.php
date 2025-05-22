@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\MessageBox;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\Prompt\IsPromptContentInternal;
 
-class MessageBox implements C\MessageBox\MessageBox
+class MessageBox implements C\MessageBox\MessageBox, IsPromptContentInternal
 {
     use ComponentHelper;
 
@@ -106,4 +107,22 @@ class MessageBox implements C\MessageBox\MessageBox
         $clone->links = $links;
         return $clone;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPromptButtons(): array
+    {
+        return $this->buttons;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPromptTitle(): string
+    {
+        return $this->type;
+    }
+
+
 }

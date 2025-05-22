@@ -1,0 +1,101 @@
+@use "../../../010-settings/" as *;
+@use "../../../050-layout/basics/" as *;
+
+//== Progress Bar
+
+.c-progress-bar {
+  width: 100%;
+  height: auto;
+
+  &__label {
+    font-size: $il-font-size-large;
+    width: 100%;
+
+    .glyph {
+      @include ilFloatRight;
+    }
+  }
+
+  &__progress {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: $il-padding-base 0;
+    background: none;
+    border: none;
+    width: 100%;
+    height: 25px;
+
+    // styling for webkit browsers (selectors MUST NOT be merged!):
+    &[value]::-webkit-progress-bar {
+      background: $il-main-darker-bg;
+      border-radius: $il-border-radius-large;
+    }
+    &[value]::-webkit-progress-value {
+      background: $il-main-color;
+    }
+    &:not([value])::-webkit-progress-bar {
+      width: 100%;
+      background: $il-neutral-light-color;
+    }
+
+    // styling for mozilla browsers (selectors MUST NOT be merged!):
+    &[value]::-moz-progress-bar {
+      background: $il-main-color;
+      border-radius: $il-border-radius-large;
+    }
+    &:not([value])::-moz-progress-bar {
+      width: 100%;
+      background: $il-neutral-light-color;
+    }
+  }
+
+  &--success {
+    & .glyph {
+      color: $il-success-color;
+      &:hover, &:focus {
+        color: $il-success-color;
+      }
+    }
+
+    // styling for webkit browsers (selectors MUST NOT be merged!):
+    &[value]::-webkit-progress-value {
+      background: $il-success-color;
+    }
+
+    // styling for mozilla browsers (selectors MUST NOT be merged!):
+    &[value]::-moz-progress-bar {
+      background: $il-success-color;
+    }
+  }
+
+  &--failure {
+    & .glyph {
+      color: $il-danger-color;
+      &:hover, &:focus {
+        color: $il-danger-color;
+      }
+    }
+
+    // styling for webkit browsers (selectors MUST NOT be merged!):
+    &[value]::-webkit-progress-value {
+      background: $il-danger-color;
+    }
+
+    // styling for mozilla browsers (selectors MUST NOT be merged!):
+    &[value]::-moz-progress-bar {
+      background: $il-danger-color;
+    }
+  }
+
+  &__message {
+    font-size: $il-font-size-small;
+    padding: 0 0 $il-padding-base 0;
+    width: 100%;
+
+    &::before {
+      content: '';
+      display: inline-block;
+    }
+  }
+}

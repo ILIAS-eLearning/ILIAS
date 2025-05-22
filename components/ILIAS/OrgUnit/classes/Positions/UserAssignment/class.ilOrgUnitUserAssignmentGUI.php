@@ -14,12 +14,11 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\components\OrgUnit\ARHelper\BaseCommands;
-
 use ILIAS\UI\Component\Table;
 
 /**
@@ -101,11 +100,14 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
 
         $types = $this->positionRepo->getArray('id', 'title');
         $this->ctrl->setParameterByClass(ilRepositorySearchGUI::class, 'addusertype', 'staff');
-        ilRepositorySearchGUI::fillAutoCompleteToolbar($this, $this->toolbar, array(
-            'auto_complete_name' => $this->lng->txt('user'),
-            'user_type' => $types,
-            'submit_name' => $this->lng->txt('add'),
-        ));
+
+        if ($this->access->checkAccess("write", "", $this->getParentRefId())) {
+            ilRepositorySearchGUI::fillAutoCompleteToolbar($this, $this->toolbar, array(
+                'auto_complete_name' => $this->lng->txt('user'),
+                'user_type' => $types,
+                'submit_name' => $this->lng->txt('add'),
+            ));
+        }
 
         $tables = [];
         foreach ($this->positionRepo->getPositionsForOrgUnit($this->getParentRefId()) as $ilOrgUnitPosition) {
@@ -247,7 +249,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         ];
 
         $remove_cmd = self::CMD_REMOVE_CONFIRM;
-        if($recursive) {
+        if ($recursive) {
             $remove_cmd = self::CMD_REMOVE_RECURSIVELY_CONFIRM;
             $columns['orgu_title'] = $this->ui_factory->table()->column()->text($this->lng->txt("obj_orgu"));
         }
@@ -272,13 +274,14 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         );
 
         return $this->ui_factory->table()
-            ->data($position->getTitle(), $columns, $this->assignmentRepo)
+            ->data($this->assignmentRepo, $position->getTitle(), $columns)
             ->withId(implode('.', ['orgustaff',$this->getParentRefId(),$position->getId()]))
             ->withActions($actions)
             ->withAdditionalParameters([
                 'position_id' => $position->getId(),
                 'orgu_ids' => $orgu_ids,
-                'lp_visible_ref_ids' => $lp_visible
+                'lp_visible_ref_ids' => $lp_visible,
+                'write_access' => $this->access->checkAccess("write", "", $this->getParentRefId())
             ])
             ->withRequest($this->request);
     }
@@ -288,7 +291,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
      */
     protected function getPositionAndUserIdFromTableQuery(): array
     {
-        if($this->query->has($this->row_id_token->getName())) {
+        if ($this->query->has($this->row_id_token->getName())) {
             return $this->query->retrieve(
                 $this->row_id_token->getName(),
                 $this->refinery->custom()->transformation(

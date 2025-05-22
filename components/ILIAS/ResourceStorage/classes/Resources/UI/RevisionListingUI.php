@@ -20,13 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Resources\UI;
 
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Component\Item\Item;
+use ILIAS\UI\Component\Card\Card;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Revision\Revision;
-use ILIAS\components\ResourceStorage\Resources\DataSource\TableDataSource;
 use ILIAS\components\ResourceStorage\Resources\Listing\ViewDefinition;
-use ILIAS\components\ResourceStorage\Resources\UI\Actions\ActionGenerator;
-use ILIAS\components\ResourceStorage\Resources\UI\Actions\NullActionGenerator;
 use ILIAS\UI\Component\Table\PresentationRow;
 
 /**
@@ -35,7 +34,7 @@ use ILIAS\UI\Component\Table\PresentationRow;
 class RevisionListingUI
 {
     protected array $components = [];
-    private \ILIAS\UI\Factory $ui_factory;
+    private Factory $ui_factory;
     private \ilLanguage $language;
 
     public function __construct(
@@ -46,25 +45,17 @@ class RevisionListingUI
         $this->language = $DIC->language();
         $this->language->loadLanguageModule('irss');
         $this->ui_factory = $DIC->ui()->factory();
-        switch ($view_definition->getMode()) {
-            case ViewDefinition::MODE_AS_TABLE:
-                $this->initTable();
-                break;
-            case ViewDefinition::MODE_AS_ITEMS:
-                $this->initItems();
-                break;
-            case ViewDefinition::MODE_AS_DECK:
-                $this->initDeck();
-                break;
-            default:
-                $this->initTable();
-                break;
-        }
+        match ($view_definition->getMode()) {
+            ViewDefinition::MODE_AS_TABLE => $this->initTable(),
+            ViewDefinition::MODE_AS_ITEMS => $this->initItems(),
+            ViewDefinition::MODE_AS_DECK => $this->initDeck(),
+            default => $this->initTable(),
+        };
     }
 
     private function initItems(): void
     {
-        $this->components = array_map(function (Revision $revision): \ILIAS\UI\Component\Item\Item {
+        $this->components = array_map(function (Revision $revision): Item {
             $revision_to_component = new RevisionToComponent(
                 $revision
             );
@@ -77,7 +68,7 @@ class RevisionListingUI
     {
         $this->components[] = $this->ui_factory->deck(
             array_map(
-                function (Revision $revision) {
+                function (Revision $revision): Card {
                     $revision_to_component = new RevisionToComponent(
                         $revision
                     );

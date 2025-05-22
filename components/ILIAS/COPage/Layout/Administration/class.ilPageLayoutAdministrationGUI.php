@@ -50,6 +50,7 @@ class ilPageLayoutAdministrationGUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
         $this->tabs = $DIC->tabs();
+        $this->lng->loadLanguageModule("style");
 
         $this->settings = new ilContentStyleSettings();
         $this->admin_request = $DIC
@@ -223,7 +224,7 @@ class ilPageLayoutAdministrationGUI
         $this->ctrl->redirect($this, "listLayouts");
     }
 
-    public function addPageLayout(ilPropertyFormGUI $a_form = null): void
+    public function addPageLayout(?ilPropertyFormGUI $a_form = null): void
     {
         if (!$a_form) {
             $a_form = $this->initAddPageLayoutForm();
@@ -341,6 +342,7 @@ class ilPageLayoutAdministrationGUI
     {
         $this->checkPermission("sty_write_page_layout");
 
+        $this->ctrl->saveParameterByClass(ilPageLayoutGUI::class, "obj_id");
         $this->ctrl->redirectByClass(ilPageLayoutGUI::class, "edit");
         $this->executeCommand();
     }

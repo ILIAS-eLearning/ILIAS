@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\BookingManager\BookingProcess;
 
@@ -43,7 +48,7 @@ class ObjectSelectionManager
         $this->pool_id = $pool_id;
     }
 
-    public function getSelectedObjects(int $user_id = 0) : array
+    public function getSelectedObjects(int $user_id = 0): array
     {
         if ($user_id === 0) {
             $user_id = $this->domain->user()->getId();
@@ -57,7 +62,7 @@ class ObjectSelectionManager
         );
     }
 
-    public function setSelectedObjects(array $obj_ids, int $user_id = 0) : void
+    public function setSelectedObjects(array $obj_ids, int $user_id = 0): void
     {
         if ($user_id === 0) {
             $user_id = $this->domain->user()->getId();

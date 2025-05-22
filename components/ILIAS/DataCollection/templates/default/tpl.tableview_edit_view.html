@@ -13,19 +13,23 @@
 
 <tr class="{CSS_ROW}" id="{ID}">
     <td class="name">{TITLE}</td>
-    <td class="std">
-        <input style="margin-top: -3px; vertical-align: middle" type="radio" id="v_{FIELD_ID}"
-               name="RadioGroup_{FIELD_ID}" value="VisibleEdit_{FIELD_ID}" {HIDDEN} {IS_VISIBLE}>
-        <label style="margin-top: 4px; margin-right: 10px" for="v_{FIELD_ID}" {HIDDEN}>{TEXT_VISIBLE}</label>
-        <input style="margin-top: -3px; vertical-align: middle" type="radio" id="rv_{FIELD_ID}"
-               name="RadioGroup_{FIELD_ID}" value="RequiredEdit_{FIELD_ID}" {HIDDEN} {IS_REQUIRED}>
-        <label style="margin-top: 4px; margin-right: 10px" for="rv_{FIELD_ID}" {HIDDEN}>{TEXT_REQUIRED_VISIBLE}</label>
-        <input style="margin-top: -3px; vertical-align: middle" type="radio" id="lv_{FIELD_ID}"
-               name="RadioGroup_{FIELD_ID}" value="LockedEdit_{FIELD_ID}" {HIDDEN} {IS_LOCKED}>
-        <label style="margin-top: 4px; margin-right: 10px" for="lv_{FIELD_ID}" {HIDDEN}>{TEXT_LOCKED_VISIBLE}</label>
-        <input style="margin-top: -3px; vertical-align: middle" type="radio" id="nv_{FIELD_ID}"
-               name="RadioGroup_{FIELD_ID}" value="NotVisibleEdit_{FIELD_ID}" {HIDDEN} {IS_NOT_VISIBLE}>
-        <label style="margin-top: 4px; margin-right: 10px" for="nv_{FIELD_ID}" {HIDDEN}>{TEXT_NOT_VISIBLE}</label>
+    <td class="std" style="display: flex;gap: 14px";>
+        <label for="v_{FIELD_ID}" {HIDDEN}>
+            <input type="radio" id="v_{FIELD_ID}" name="RadioGroup_{FIELD_ID}" value="VisibleEdit_{FIELD_ID}" {HIDDEN} {IS_VISIBLE}>
+            {TEXT_VISIBLE}
+        </label>
+        <label for="rv_{FIELD_ID}" {HIDDEN}>
+            <input type="radio" id="rv_{FIELD_ID}" name="RadioGroup_{FIELD_ID}" value="RequiredEdit_{FIELD_ID}" {HIDDEN} {IS_REQUIRED}>
+            {TEXT_REQUIRED_VISIBLE}
+        </label>
+        <label for="lv_{FIELD_ID}" {HIDDEN}>
+            <input type="radio" id="lv_{FIELD_ID}" name="RadioGroup_{FIELD_ID}" value="LockedEdit_{FIELD_ID}" {HIDDEN} {IS_LOCKED}>
+            {TEXT_LOCKED_VISIBLE}
+        </label>
+        <label for="nv_{FIELD_ID}" {HIDDEN}>
+            <input type="radio" id="nv_{FIELD_ID}" name="RadioGroup_{FIELD_ID}" value="NotVisibleEdit_{FIELD_ID}" {HIDDEN} {IS_NOT_VISIBLE}>
+            {TEXT_NOT_VISIBLE}
+        </label>
     </td>
 </tr>
 

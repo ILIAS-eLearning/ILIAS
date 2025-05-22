@@ -44,7 +44,7 @@ class ilWebServicesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null): UI\Component\Input\Container\Form\FormInput
+    public function getConfigInput(?Setup\Config $config = null): UI\Component\Input\Container\Form\FormInput
     {
         throw new \LogicException("Not yet implemented.");
     }
@@ -62,6 +62,10 @@ class ilWebServicesSetupAgent implements Setup\Agent
                 (int) ($data["soap_response_timeout"] ?? ilSoapClient::DEFAULT_RESPONSE_TIMEOUT),
                 $data["rpc_server_host"] ?? "",
                 (int) ($data["rpc_server_port"] ?? 0),
+                (string) ($data['soap_internal_wsdl_path'] ?? ''),
+                (bool) ($data['soap_internal_wsdl_verify_peer'] ?? true),
+                (bool) ($data['soap_internal_wsdl_verify_peer_name'] ?? true),
+                (bool) ($data['soap_internal_wsdl_allow_self_signed'] ?? false),
             );
         });
     }
@@ -69,7 +73,7 @@ class ilWebServicesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new ilWebServicesConfigStoredObjective($config);
     }
@@ -77,7 +81,7 @@ class ilWebServicesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         $wsrv_objective = new Setup\Objective\NullObjective();
         if (!is_null($config)) {

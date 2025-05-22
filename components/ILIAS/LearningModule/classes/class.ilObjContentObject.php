@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+
 /**
  * @author Alex Killing <alex.killing@gmx.de>
  * @author Sascha Hofmann <saschahofmann@gmx.de>
@@ -32,15 +34,12 @@ class ilObjContentObject extends ilObject
     protected bool $user_comments = false;
     protected bool $clean_frames = false;
     protected bool $pub_notes = false;
-    protected bool $downloads_public_active = false;
-    protected bool $downloads_active = false;
     protected bool $hide_header_footer_print = false;
     protected bool $prevent_glossary_appendix_active = false;
     protected bool $print_view_active = false;
     protected bool $numbering = false;
     protected bool $toc_active = false;
     protected bool $lm_menu_active = false;
-    protected string $public_access_mode = '';
     protected string $toc_mode = '';
     protected bool $restrict_forw_nav = false;
     protected bool $store_tries = false;
@@ -62,6 +61,7 @@ class ilObjContentObject extends ilObject
     protected ilObjLearningModule $lm;
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
     private \ilGlobalTemplateInterface $main_tpl;
+    protected LOMServices $lom_services;
 
     public function __construct(
         int $a_id = 0,
@@ -78,7 +78,7 @@ class ilObjContentObject extends ilObject
         if (isset($DIC["ilLocator"])) {
             $this->locator = $DIC["ilLocator"];
         }
-
+        $this->lom_services = $DIC->learningObjectMetadata();
         $this->notes = $DIC->notes();
 
         // this also calls read() method! (if $a_id is set)
@@ -728,14 +728,6 @@ class ilObjContentObject extends ilObject
     }
 
     /**
-     * get public access mode ("complete" | "selected")
-     */
-    public function getPublicAccessMode(): string
-    {
-        return $this->public_access_mode;
-    }
-
-    /**
      * set toc mode
      * @param string $a_toc_mode		"chapters" | "pages"
      */
@@ -807,26 +799,6 @@ class ilObjContentObject extends ilObject
         return $this->hide_header_footer_print;
     }
 
-    public function setActiveDownloads(bool $a_down): void
-    {
-        $this->downloads_active = $a_down;
-    }
-
-    public function isActiveDownloads(): bool
-    {
-        return $this->downloads_active;
-    }
-
-    public function setActiveDownloadsPublic(bool $a_down): void
-    {
-        $this->downloads_public_active = $a_down;
-    }
-
-    public function isActiveDownloadsPublic(): bool
-    {
-        return $this->downloads_public_active;
-    }
-
     public function setPublicNotes(bool $a_pub_notes): void
     {
         $this->pub_notes = $a_pub_notes;
@@ -845,21 +817,6 @@ class ilObjContentObject extends ilObject
     public function cleanFrames(): bool
     {
         return $this->clean_frames;
-    }
-
-    public function setHistoryUserComments(bool $a_comm): void
-    {
-        $this->user_comments = $a_comm;
-    }
-
-    public function setPublicAccessMode(string $a_mode): void
-    {
-        $this->public_access_mode = $a_mode;
-    }
-
-    public function isActiveHistoryUserComments(): bool
-    {
-        return $this->user_comments;
     }
 
     public function setHeaderPage(int $a_pg): void
@@ -898,16 +855,10 @@ class ilObjContentObject extends ilObject
         $this->setActivePrintView(ilUtil::yn2tf($lm_rec["print_view_active"]));
         $this->setActivePreventGlossaryAppendix(ilUtil::yn2tf($lm_rec["no_glo_appendix"]));
         $this->setHideHeaderFooterPrint((bool) $lm_rec["hide_head_foot_print"]);
-        $this->setActiveDownloads(ilUtil::yn2tf($lm_rec["downloads_active"]));
-        $this->setActiveDownloadsPublic(ilUtil::yn2tf($lm_rec["downloads_public_active"]));
         $this->setActiveLMMenu(ilUtil::yn2tf($lm_rec["lm_menu_active"]));
         $this->setCleanFrames(ilUtil::yn2tf($lm_rec["clean_frames"]));
         $this->setHeaderPage((int) $lm_rec["header_page"]);
         $this->setFooterPage((int) $lm_rec["footer_page"]);
-        $this->setHistoryUserComments(ilUtil::yn2tf($lm_rec["hist_user_comments"]));
-        $this->setPublicAccessMode((string) $lm_rec["public_access_mode"]);
-        $this->setPublicExportFile("xml", (string) $lm_rec["public_xml_file"]);
-        $this->setPublicExportFile("html", (string) $lm_rec["public_html_file"]);
         $this->setLayoutPerPage((bool) $lm_rec["layout_per_page"]);
         $this->setRating((bool) $lm_rec["rating"]);
         $this->setRatingPages((bool) $lm_rec["rating_pages"]);
@@ -940,13 +891,7 @@ class ilObjContentObject extends ilObject
             " print_view_active = " . $ilDB->quote(ilUtil::tf2yn($this->isActivePrintView()), "text") . "," .
             " no_glo_appendix = " . $ilDB->quote(ilUtil::tf2yn($this->isActivePreventGlossaryAppendix()), "text") . "," .
             " hide_head_foot_print = " . $ilDB->quote($this->getHideHeaderFooterPrint(), "integer") . "," .
-            " downloads_active = " . $ilDB->quote(ilUtil::tf2yn($this->isActiveDownloads()), "text") . "," .
-            " downloads_public_active = " . $ilDB->quote(ilUtil::tf2yn($this->isActiveDownloadsPublic()), "text") . "," .
             " clean_frames = " . $ilDB->quote(ilUtil::tf2yn($this->cleanFrames()), "text") . "," .
-            " hist_user_comments = " . $ilDB->quote(ilUtil::tf2yn($this->isActiveHistoryUserComments()), "text") . "," .
-            " public_access_mode = " . $ilDB->quote($this->getPublicAccessMode(), "text") . "," .
-            " public_xml_file = " . $ilDB->quote($this->getPublicExportFile("xml"), "text") . "," .
-            " public_html_file = " . $ilDB->quote($this->getPublicExportFile("html"), "text") . "," .
             " header_page = " . $ilDB->quote($this->getHeaderPage(), "integer") . "," .
             " footer_page = " . $ilDB->quote($this->getFooterPage(), "integer") . "," .
             " lm_menu_active = " . $ilDB->quote(ilUtil::tf2yn($this->isActiveLMMenu()), "text") . ", " .
@@ -1428,10 +1373,17 @@ class ilObjContentObject extends ilObject
     public function exportXMLMetaData(
         ilXmlWriter $a_xml_writer
     ): void {
-        $md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
+        /*
+         * As far as I can tell, this is unused.
+         *
+         * I traced usages of this method up to ilObjContentObjectGUI::export and
+         * ilObjMediaPoolGUI::export (both via ilObjContentObject::exportXML), which have
+         * both been made redundant by the usual export mechanisms.
+         */
+        /*$md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
         $md2xml->setExportMode(true);
         $md2xml->startExport();
-        $a_xml_writer->appendXML($md2xml->getXML());
+        $a_xml_writer->appendXML($md2xml->getXML());*/
     }
 
     public function exportXMLStructureObjects(
@@ -1587,11 +1539,6 @@ class ilObjContentObject extends ilObject
             ilUtil::tf2yn($this->publicNotes()));
         $a_xml_writer->xmlElement("Property", $attrs);
 
-        // History comments for authors activation
-        $attrs = array("Name" => "HistoryUserComments", "Value" =>
-            ilUtil::tf2yn($this->isActiveHistoryUserComments()));
-        $a_xml_writer->xmlElement("Property", $attrs);
-
         // Rating
         $attrs = array("Name" => "Rating", "Value" =>
             ilUtil::tf2yn($this->hasRating()));
@@ -1681,54 +1628,6 @@ class ilObjContentObject extends ilObject
         return $file;
     }
 
-    /**
-     * specify public export file for type
-     */
-    public function setPublicExportFile(
-        string $a_type,
-        string $a_file
-    ): void {
-        $this->public_export_file[$a_type] = $a_file;
-    }
-
-    public function getPublicExportFile(string $a_type): string
-    {
-        return $this->public_export_file[$a_type] ?? "";
-    }
-
-    public function getOfflineFiles(
-        string $dir
-    ): array {
-        // quit if offline dir not available
-        if (!is_dir($dir) or
-            !is_writeable($dir)) {
-            return array();
-        }
-
-        // open directory
-        $dir = dir($dir);
-
-        // initialize array
-        $file = array();
-
-        // get files and save the in the array
-        while ($entry = $dir->read()) {
-            if ($entry != "." and
-                $entry != ".." and
-                substr($entry, -4) == ".pdf" and
-                preg_match("~^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.pdf\$~", $entry)) {
-                $file[] = $entry;
-            }
-        }
-
-        // close import directory
-        $dir->close();
-
-        // sort files
-        sort($file);
-        return $file;
-    }
-
     public function executeDragDrop(
         int $source_id,
         int $target_id,
@@ -1763,19 +1662,6 @@ class ilObjContentObject extends ilObject
                     $parent_id = $lmtree->getParentId($source_obj->getId());
                     $lmtree->deleteTree($node_data);
 
-                    // write history entry
-                    ilHistory::_createEntry(
-                        $source_obj->getId(),
-                        "cut",
-                        array(ilLMObject::_lookupTitle($parent_id), $parent_id),
-                        $this->getType() . ":pg"
-                    );
-                    ilHistory::_createEntry(
-                        $parent_id,
-                        "cut_page",
-                        array(ilLMObject::_lookupTitle($source_obj->getId()), $source_obj->getId()),
-                        $this->getType() . ":st"
-                    );
                 } else {
                     // copy page
                     $new_page = $source_obj->copy($this->lm);
@@ -1807,22 +1693,6 @@ class ilObjContentObject extends ilObject
                         $target_pos
                     );
 
-                    // write history entry
-                    if ($movecopy == "move") {
-                        // write history comments
-                        ilHistory::_createEntry(
-                            $source_obj->getId(),
-                            "paste",
-                            array(ilLMObject::_lookupTitle($parent), $parent),
-                            $this->getType() . ":pg"
-                        );
-                        ilHistory::_createEntry(
-                            $parent,
-                            "paste_page",
-                            array(ilLMObject::_lookupTitle($source_obj->getId()), $source_obj->getId()),
-                            $this->getType() . ":st"
-                        );
-                    }
                 }
             }
         }
@@ -1946,12 +1816,8 @@ class ilObjContentObject extends ilObject
         $new_obj->setActiveNumbering($this->isActiveNumbering());
         $new_obj->setActivePrintView($this->isActivePrintView());
         $new_obj->setActivePreventGlossaryAppendix($this->isActivePreventGlossaryAppendix());
-        $new_obj->setActiveDownloads($this->isActiveDownloads());
-        $new_obj->setActiveDownloadsPublic($this->isActiveDownloadsPublic());
         $new_obj->setPublicNotes($this->publicNotes());
         $new_obj->setCleanFrames($this->cleanFrames());
-        $new_obj->setHistoryUserComments($this->isActiveHistoryUserComments());
-        $new_obj->setPublicAccessMode($this->getPublicAccessMode());
         $new_obj->setPageHeader($this->getPageHeader());
         $new_obj->setRating($this->hasRating());
         $new_obj->setRatingPages($this->hasRatingPages());
@@ -1989,8 +1855,7 @@ class ilObjContentObject extends ilObject
         unset($obj_settings);
 
         // copy (page) multilang settings
-        $ot = ilObjectTranslation::getInstance($this->getId());
-        $ot->copy($new_obj->getId());
+        $this->getObjectProperties()->clonePropertyTranslations($new_obj->getId());
 
         // copy lm menu
         $menu = new ilLMMenuEditor();
@@ -2176,66 +2041,26 @@ class ilObjContentObject extends ilObject
                 break;
 
             case 'General':
-
                 // Update Title and description
-                $md = new ilMD($this->getId(), 0, $this->getType());
-                if (!is_object($md_gen = $md->getGeneral())) {
+                $ot = $this->getObjectProperties()->getPropertyTranslations();
+                if (!$ot->getContentTranslationActivated()) {
                     return;
                 }
 
-                $ot = ilObjectTranslation::getInstance($this->getId());
-                if ($ot->getContentActivated()) {
-                    $ot->setDefaultTitle($md_gen->getTitle());
+                $paths = $this->lom_services->paths();
+                $reader = $this->lom_services->read(
+                    $this->getId(),
+                    0,
+                    $this->getType(),
+                    $paths->custom()->withNextStep('general')->get()
+                );
 
-                    foreach ($md_gen->getDescriptionIds() as $id) {
-                        $md_des = $md_gen->getDescription($id);
-                        $ot->setDefaultDescription($md_des->getDescription());
-                        break;
-                    }
-                    $ot->save();
-                }
+                $this->getObjectProperties()->storePropertyTranslations(
+                    $ot->withDefaultTitle($reader->firstData($paths->title())->value())
+                        ->withDefaultDescription($reader->firstData($paths->firstDescription())->value())
+                );
                 break;
         }
-    }
-
-    /**
-     * Get public export files
-     *
-     * @return array array of arrays with keys "type" (html, scorm or xml), "file" (filename) and "size" in bytes, "dir_type" detailed directory type, e.g. html_de
-     */
-    public function getPublicExportFiles(): array
-    {
-        $dirs = array("xml");
-        $export_files = array();
-
-        $ot = ilObjectTranslation::getInstance($this->getId());
-        if ($ot->getContentActivated()) {
-            $langs = $ot->getLanguages();
-            foreach ($langs as $l => $ldata) {
-                $dirs[] = "html_" . $l;
-            }
-            $dirs[] = "html_all";
-        } else {
-            $dirs[] = "html";
-        }
-
-        foreach ($dirs as $dir) {
-            $type = explode("_", $dir);
-            $type = $type[0];
-            if ($this->getPublicExportFile($type) != "") {
-                if (is_file($this->getExportDirectory($dir) . "/" .
-                    $this->getPublicExportFile($type))) {
-                    $size = filesize($this->getExportDirectory($dir) . "/" .
-                        $this->getPublicExportFile($type));
-                    $export_files[] = array("type" => $type,
-                        "dir_type" => $dir,
-                        "file" => $this->getPublicExportFile($type),
-                        "size" => $size);
-                }
-            }
-        }
-
-        return $export_files;
     }
 
     public function isInfoEnabled(): bool

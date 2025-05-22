@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Implementation\Render;
+declare(strict_types=1);
 
-use ilGlobalTemplateInterface;
+namespace ILIAS\UI\Implementation\Render;
 
 /**
  * Wraps global ilTemplate to provide JavaScriptBinding.
@@ -29,16 +27,14 @@ class ilJavaScriptBinding implements JavaScriptBinding
 {
     public const PREFIX = "il_ui_fw_";
 
-    private ilGlobalTemplateInterface $global_tpl;
-
     /**
      * Cache for all registered JS code
      */
     protected array $code = array();
 
-    public function __construct(ilGlobalTemplateInterface $global_tpl)
-    {
-        $this->global_tpl = $global_tpl;
+    public function __construct(
+        private \ILIAS\UICore\GlobalTemplate $global_tpl,
+    ) {
     }
 
     /**

@@ -34,6 +34,7 @@ During editing footnotes are not replaced with the numbering scheme, since this 
 ## Pasting Text
 
 - Pasting text from external sources most probably will lose format information, since ILIAS reduces formats to a basic set and uses its own span classes for styling characters. E.g. it is not advisable to paste anything from MS Word directly into the editor, since the formats will not but compatible. Most times converting to plain text first will be the most efficient procedure.
+- TinyMCE removed the "paste" plugin with version 7 from the opensource solution. ILIAS 10+ only provides a basic procedure that tries to preserve paragraphs. Other formatting will most probable get lost.
 
 ## Copying Content
 

@@ -16,16 +16,15 @@
  *
  *********************************************************************/
 
+use ILIAS\ResourceStorage\Services;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\DI\Container;
 use ILIAS\Services\Badge\BadgeException;
 
-/**
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- */
 class ilBadge
 {
-    protected ilLanguage $lng;
+    private ilLogger $log;
     protected ilDBInterface $db;
-
     protected int $id = 0;
     protected int $parent_id = 0;
     protected string $type_id = "";
@@ -33,17 +32,26 @@ class ilBadge
     protected string $title = "";
     protected string $desc = "";
     protected string $image = "";
+    protected ?string $image_rid = null;
     protected string $valid = "";
     protected ?array $config = null;
     protected string $criteria = "";
 
-    public function __construct(
-        int $a_id = null
-    ) {
-        global $DIC;
+    private ?Services $resource_storage;
 
-        $this->lng = $DIC->language();
-        $this->db = $DIC->database();
+    public function __construct(
+        ?int $a_id = null,
+        ?Container $container = null
+    ) {
+
+        if ($container === null) {
+            global $DIC;
+            $container = $DIC;
+        }
+
+        $this->db = $container->database();
+        $this->resource_storage = $container->resourceStorage();
+        $this->log = $container->logger()->root();
         if ($a_id) {
             $this->read($a_id);
         }
@@ -55,7 +63,7 @@ class ilBadge
      */
     public static function getInstancesByParentId(
         int $a_parent_id,
-        array $a_filter = null
+        ?array $a_filter = null
     ): array {
         global $DIC;
 
@@ -116,14 +124,14 @@ class ilBadge
         $this->setActive(false);
 
         if ($this->getId()) {
-            $img = $this->getImagePath();
-
-            $this->setId(0);
-            $this->create();
-
-            if ($img) {
-                // see uploadImage()
-                copy($img, $this->getImagePath());
+            if ($this->getImageRid()) {
+                $current_collection_id = new ResourceIdentification($this->getImageRid());
+                $new_collection_id = $this->resource_storage->manage()->clone($current_collection_id);
+                $this->setId(0);
+                $this->setImageRid($new_collection_id);
+                $this->create();
+            } else {
+                $this->log->warning('Please run the "Migration of files of badges to the resource storage service" job, before working with badges.');
             }
         }
     }
@@ -138,84 +146,93 @@ class ilBadge
     }
 
     public function copy(
-        int $a_new_parent_id
+        int $a_new_parent_id,
+        string $copy_suffix
     ): void {
-        $lng = $this->lng;
-
-        $this->setTitle($this->getTitle() . " " . $lng->txt("copy_of_suffix"));
+        $this->setTitle($this->getTitle() . " " . $copy_suffix);
         $this->setParentId($a_new_parent_id);
         $this->setActive(false);
 
         if ($this->getId()) {
-            $img = $this->getImagePath();
-
             $this->setId(0);
+            $old_rid = $this->getImageRid();
             $this->create();
-
-            if ($img) {
-                // see uploadImage()
-                copy($img, $this->getImagePath());
+            if ($old_rid !== null) {
+                $new_rid = $this->resource_storage->manage()->clone(new ResourceIdentification($old_rid));
+                $this->setImageRid($new_rid);
+                $this->update();
             }
         }
     }
 
     /**
-     * @param array<string, mixed>|null $a_filter
-     * @return array[]
+     * @param array{type: string, title: string, object: string}|null $filter
+     * @return list<array{
+     *     id: int,
+     *     parent_id: int,
+     *     type_id: string,
+     *     active: int,
+     *     title: ?string,
+     *     descr: ?string,
+     *     conf: ?string,
+     *     image: ?string,
+     *     valid: ?string,
+     *     crit: ?string,
+     *     image_rid: ?string,
+     *     parent_title: ?string,
+     *     parent_type: ?string,
+     *     deleted: bool
+     * }>
      */
     public static function getObjectInstances(
-        array $a_filter = null
+        ?array $filter = null
     ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
 
-        $res = $raw = [];
+        $rows = [];
 
-        $where = "";
+        $where = '';
 
-        if ($a_filter["type"]) {
-            $where .= " AND bb.type_id = " . $ilDB->quote($a_filter["type"], "text");
+        if ($filter['type']) {
+            $where .= ' AND bb.type_id = ' . $ilDB->quote($filter['type'], ilDBConstants::T_TEXT);
         }
-        if ($a_filter["title"]) {
-            $where .= " AND " . $ilDB->like("bb.title", "text", "%" . $a_filter["title"] . "%");
+        if ($filter['title']) {
+            $where .= ' AND ' . $ilDB->like('bb.title', ilDBConstants::T_TEXT, '%' . $filter['title'] . '%');
         }
-        if ($a_filter["object"]) {
-            $where .= " AND " . $ilDB->like("od.title", "text", "%" . $a_filter["object"] . "%");
+        if ($filter['object']) {
+            $where .= ' AND ' . $ilDB->like('od.title', ilDBConstants::T_TEXT, '%' . $filter['object'] . '%');
         }
 
-        $set = $ilDB->query("SELECT bb.*, od.title parent_title, od.type parent_type" .
-            " FROM badge_badge bb" .
-            " JOIN object_data od ON (bb.parent_id = od.obj_id)" .
-            " WHERE od.type <> " . $ilDB->quote("bdga", "text") .
+        $set = $ilDB->query('SELECT bb.*, od.title parent_title, od.type parent_type' .
+            ' FROM badge_badge bb' .
+            ' INNER JOIN object_data od ON bb.parent_id = od.obj_id' .
+            ' WHERE od.type != ' . $ilDB->quote('bdga', ilDBConstants::T_TEXT) .
             $where);
         while ($row = $ilDB->fetchAssoc($set)) {
-            $raw[] = $row;
+            $row['deleted'] = false;
+            $rows[] = $row;
         }
 
-        $set = $ilDB->query("SELECT bb.*, od.title parent_title, od.type parent_type" .
-            " FROM badge_badge bb" .
-            " JOIN object_data_del od ON (bb.parent_id = od.obj_id)" .
-            " WHERE od.type <> " . $ilDB->quote("bdga", "text") .
+        $set = $ilDB->query('SELECT bb.*, od.title parent_title, od.type parent_type' .
+            ' FROM badge_badge bb' .
+            ' INNER JOIN object_data_del od ON bb.parent_id = od.obj_id' .
+            ' WHERE od.type != ' . $ilDB->quote('bdga', ilDBConstants::T_TEXT) .
             $where);
         while ($row = $ilDB->fetchAssoc($set)) {
-            $row["deleted"] = true;
-            $raw[] = $row;
+            $row['deleted'] = true;
+            $rows[] = $row;
         }
 
-        foreach ($raw as $row) {
-            $res[] = $row;
-        }
-
-        return $res;
+        return $rows;
     }
-
 
     //
     // setter/getter
     //
 
-    protected function setId(int $a_id): void
+    public function setId(int $a_id): void
     {
         $this->id = $a_id;
     }
@@ -295,7 +312,7 @@ class ilBadge
         return $this->valid;
     }
 
-    public function setConfiguration(array $a_value = null): void
+    public function setConfiguration(?array $a_value = null): void
     {
         if (is_array($a_value) && !count($a_value)) {
             $a_value = null;
@@ -308,9 +325,11 @@ class ilBadge
         return $this->config;
     }
 
-    protected function setImage(string $a_value): void
+    public function setImage(?string $a_value): void
     {
-        $this->image = trim($a_value);
+        if ($a_value !== null) {
+            $this->image = trim($a_value);
+        }
     }
 
     public function getImage(): string
@@ -369,12 +388,13 @@ class ilBadge
 
             return "img" . $this->getId() . "." . $suffix;
         }
+
         return "";
     }
 
     protected function getFilePath(
         int $a_id,
-        string $a_subdir = null
+        ?string $a_subdir = null
     ): string {
         $storage = new ilFSStorageBadge($a_id);
         $storage->create();
@@ -420,10 +440,11 @@ class ilBadge
         $this->setDescription($a_row["descr"]);
         $this->setCriteria($a_row["crit"]);
         $this->setImage($a_row["image"]);
+        $this->setImageRid($a_row["image_rid"]);
         $this->setValid($a_row["valid"]);
         $this->setConfiguration($a_row["conf"]
-                ? unserialize($a_row["conf"], ["allowed_classes" => false])
-                : null);
+            ? unserialize($a_row["conf"], ["allowed_classes" => false])
+            : null);
     }
 
     public function create(): void
@@ -473,8 +494,12 @@ class ilBadge
             return;
         }
 
-        if (file_exists($this->getImagePath())) {
-            unlink($this->getImagePath());
+        if ($this->getImageRid()) {
+            try {
+                $this->resource_storage->manage()->remove(new ResourceIdentification($this->getImageRid()), new ilBadgeFileStakeholder());
+            } catch (Exception $e) {
+                $this->log->warning(sprintf('There was an exception, while deleting the badge with id %s. Exception: %s', $this->getId(), $e->getMessage()));
+            }
         }
 
         $this->deleteStaticFiles();
@@ -496,6 +521,7 @@ class ilBadge
             "descr" => ["text", $this->getDescription()],
             "crit" => ["text", $this->getCriteria()],
             "image" => ["text", $this->getImage()],
+            "image_rid" => ["text", $this->getImageRid()],
             "valid" => ["text", $this->getValid()],
             "conf" => [
                 "text", $this->getConfiguration() ? serialize($this->getConfiguration()) : null
@@ -579,5 +605,15 @@ class ilBadge
             ($a_type instanceof ilBadgeAuto
                 ? $lng->txt("badge_subtype_auto")
                 : $lng->txt("badge_subtype_manual")) . ")";
+    }
+
+    public function getImageRid(): ?string
+    {
+        return $this->image_rid;
+    }
+
+    public function setImageRid(?string $image_rid): void
+    {
+        $this->image_rid = $image_rid;
     }
 }

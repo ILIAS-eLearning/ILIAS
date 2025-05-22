@@ -16,14 +16,11 @@
  *
  *********************************************************************/
 
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-
 /**
  * Class ilBiblData
  *
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
-
 class ilBiblData extends ActiveRecord implements ilBiblDataInterface
 {
     public const TABLE_NAME = 'il_bibl_data';
@@ -35,6 +32,7 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
     }
 
 
+    #[\Override]
     public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;

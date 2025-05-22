@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilLTIConsumeProviderList
@@ -342,9 +342,9 @@ class ilLTIConsumeProviderList implements Iterator
 			ON oref.obj_id = oset.obj_id
 			AND oref.deleted IS NULL
 			GROUP BY oset.provider_id
-			
+
 			UNION
-			
+
 			SELECT 'trashed' query, oset.provider_id, COUNT(oset.obj_id) cnt
 			FROM lti_consumer_settings oset
 			INNER JOIN object_reference oref
@@ -390,8 +390,8 @@ class ilLTIConsumeProviderList implements Iterator
             $tblRow = array();
 
             $tblRow['id'] = $provider->getId();
-            $tblRow['title'] = $provider->getTitle();
-            $tblRow['description'] = $provider->getDescription();
+            $tblRow['title'] = htmlspecialchars($provider->getTitle());
+            $tblRow['description'] = htmlspecialchars($provider->getDescription());
             $tblRow['category'] = $provider->getCategory();
             $tblRow['keywords'] = $this->getKeywordsFormatted($provider->getKeywordsArray());
             $tblRow['outcome'] = $provider->getHasOutcome();
@@ -473,7 +473,7 @@ class ilLTIConsumeProviderList implements Iterator
     /**
      * @return false|ilLTIConsumeProvider|mixed
      */
-    public function current()
+    public function current(): mixed
     {
         return current($this->providers);
     }

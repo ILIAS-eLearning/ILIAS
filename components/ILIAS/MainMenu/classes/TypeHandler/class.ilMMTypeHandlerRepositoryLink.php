@@ -49,7 +49,7 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
             $ref_id = (int) $this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION];
             $item = $item->withRefId($ref_id)
                 ->withVisibilityCallable(
-                    function () use ($DIC, $ref_id, $item) {
+                    function () use ($DIC, $ref_id, $item): bool {
                         $is_visible_parent = $item->isVisible();
                         $has_access = $DIC->access()->checkAccess('join', '', $ref_id)
                             || $DIC->access()->checkAccess('read', '', $ref_id);
@@ -67,15 +67,14 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
     /**
      * @inheritdoc
      */
+    #[\Override]
     public function getAdditionalFieldsForSubForm(IdentificationInterface $identification): array
     {
         global $DIC;
         $url = $DIC->ui()->factory()->input()->field()->numeric($this->getFieldTranslation())
                    ->withAdditionalTransformation(
                        $DIC->refinery()->custom()->constraint(
-                           function ($value) use ($DIC): bool {
-                               return !$DIC->repositoryTree()->isGrandChild(SYSTEM_FOLDER_ID, $value);
-                           },
+                           fn($value): bool => !$DIC->repositoryTree()->isGrandChild(SYSTEM_FOLDER_ID, $value),
                            $DIC->language()->txt("msg_ref_id_not_callable")
                        )
                    );

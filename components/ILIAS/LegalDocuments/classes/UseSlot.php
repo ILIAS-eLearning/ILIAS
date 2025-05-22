@@ -24,10 +24,13 @@ use ILIAS\LegalDocuments\ConsumerSlots\Agreement;
 use ILIAS\LegalDocuments\ConsumerSlots\CriterionToCondition;
 use ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration;
 use ILIAS\LegalDocuments\ConsumerSlots\WithdrawProcess;
+use ILIAS\LegalDocuments\ConsumerSlots\PublicApi;
 use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Component\MainControls\Footer;
 use ilObjUser;
 use ilNonEditableValueGUI;
+use ILIAS\UI\Component\Component;
+use ILIAS\LegalDocuments\Value\DocumentContent;
 
 interface UseSlot
 {
@@ -66,10 +69,11 @@ interface UseSlot
     /**
      * @param callable(string, string): PageFragment $public_page
      */
-    public function hasPublicPage(callable $public_page): self;
-    public function hasAgreement(Agreement $on_login): self;
+    public function hasPublicPage(callable $public_page, ?string $goto_name = null): self;
+    public function hasAgreement(Agreement $on_login, ?string $goto_name = null): self;
     public function hasHistory(): self;
     public function onSelfRegistration(SelfRegistration $self_registration): self;
     public function canReadInternalMails(Constraint $constraint): self;
     public function canUseSoapApi(Constraint $constraint): self;
+    public function hasPublicApi(PublicApi $api): self;
 }

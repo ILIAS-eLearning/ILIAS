@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Style\Content\Access;
 use ILIAS\Style\Content;
 
@@ -29,6 +29,7 @@ use ILIAS\Style\Content;
  */
 class ilObjStyleSheetGUI extends ilObjectGUI
 {
+    protected Content\InternalDomainService $domain;
     protected ilPropertyFormGUI $form_gui;
     protected ilPropertyFormGUI $form;
     protected Content\StandardGUIRequest $style_request;
@@ -98,6 +99,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             $style_id,
             $this->access_manager
         );
+        $this->domain = $this->service->domain();
     }
 
     /**
@@ -190,8 +192,53 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $forms[] = $this->getImportForm();
         $forms[] = $this->getCloneForm();
 
-        $tpl->setContent($this->getCreationFormsHTML($forms));
+        $tpl->setContent($this->getRenderedCreationFormsHTML($forms));
     }
+
+    protected function getRenderedCreationFormsHTML(array $forms): string
+    {
+        // #13168- sanity check
+        foreach ($forms as $id => $form) {
+            if (!$form instanceof ilPropertyFormGUI) {
+                unset($forms[$id]);
+            }
+        }
+
+        $acc = new ilAccordionGUI();
+        $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
+        $cnt = 1;
+        foreach ($forms as $form_type => $cf) {
+            $htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "components/ILIAS/ILIASObject");
+
+            // using custom form titles (used for repository plugins)
+            $form_title = "";
+            if (method_exists($this, "getCreationFormTitle")) {
+                //$form_title = $this->getCreationFormTitle($form_type);
+            }
+            if (!$form_title) {
+                $form_title = $cf->getTitle();
+            }
+
+            // move title from form to accordion
+            $htpl->setVariable("TITLE", $this->lng->txt("option") . " " . $cnt . ": " . $form_title);
+            $cf->setTitle('');
+            $cf->setTitleIcon('');
+            $cf->setTableWidth("100%");
+
+            $acc->addItem($htpl->get(), $cf->getHTML());
+
+            $cnt++;
+        }
+
+        return "<div class='ilCreationFormSection'>" . $acc->getHTML() . "</div>";
+    }
+
+
+    protected function getCreationFormTitle(): string
+    {
+        return $this->lng->txt("sty_create_new_stylesheet");
+    }
+
 
     protected function getCreateForm(): ilPropertyFormGUI
     {
@@ -424,6 +471,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             $newObj = new ilObjStyleSheet($new_id);
         } else {
             // ... import from basic zip file
+            // called from creation in the administration
+            // or creation in a repository object
             $imp = new ilImport();
             $style_id = $imp->importObject(
                 null,
@@ -541,6 +590,21 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         }
         $this->object = $newObj;
         return $newObj->getId();
+    }
+
+    public function handleImport(
+        \ILIAS\FileUpload\FileUpload $upload,
+        \ILIAS\FileUpload\DTO\UploadResult $result
+    ): \ILIAS\FileUpload\Handler\BasicHandlerResult {
+        $new_id = $this->domain->style(0)->importFromUploadResult(
+            $result
+        );
+        return new \ILIAS\FileUpload\Handler\BasicHandlerResult(
+            'obj_id',
+            \ILIAS\FileUpload\Handler\HandlerResult::STATUS_OK,
+            (string) $new_id,
+            ''
+        );
     }
 
 
@@ -1526,7 +1590,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                     $cl_str = '<div style="padding-left:30px;" class="small">' .
                         "<div><i>" . $lng->txt("sty_style_class") . "</i></div>" . $cl_str . "</div>";
                 }
-                $cgui->addItem("tid[]", $tid, $this->object->lookupTemplateName($tid) . $cl_str);
+                $cgui->addItem("tid[]", (string) $tid, $this->object->lookupTemplateName($tid) . $cl_str);
             }
 
             $cgui->addButton($lng->txt("sty_del_template_keep_classes"), "deleteTemplateKeepClasses");

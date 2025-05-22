@@ -1,9 +1,38 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\ViewControl\Pagination;
 
+/**
+ * ---
+ * description: >
+ *   Example of rendering a pagination view control with many pages as dropdown
+ *
+ * expected output: >
+ *   ILIAS shows two dropdown fields in between the "Back" (<) and "Next" (>) glyph. Clicking onto one of the dropdown fields
+ *   will open a list of numbers. You can navigate to other pages through clicking the number in the dropdown control. If
+ *   a number was clicked you will get redirected to the specific page and the number appears also in the label of the second
+ *   dropdown. You can also use the glyphs to navigate through the pages, but please note that the "Back" glyph can't be used
+ *   on the first page and the "Next" glyph can't be used on the last page.
+ * ---
+ */
 function many_pages_dropdown()
 {
     global $DIC;

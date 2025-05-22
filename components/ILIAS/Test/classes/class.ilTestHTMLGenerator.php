@@ -110,7 +110,8 @@ class ilTestHTMLGenerator
             }
 
             if (stripos($src, ILIAS_HTTP_PATH) !== false
-                && stripos($src, 'templates') === false) {
+                && stripos($src, 'assets') === false
+                && file_exists($src)) {
                 $src = ILIAS_HTTP_PATH . substr(ilWACSignedPath::signFile($src), 1);
             }
 
@@ -151,13 +152,13 @@ class ilTestHTMLGenerator
     private function getTemplatePath($a_filename, $module_path = 'components/ILIAS/Test/'): string
     {
         $fname = '';
-        if (ilStyleDefinition::getCurrentSkin() != "default") {
-            $fname = "./Customizing/global/skin/" .
-                    ilStyleDefinition::getCurrentSkin() . "/" . $module_path . basename($a_filename);
+        if (ilStyleDefinition::getCurrentSkin() !== 'default') {
+            $fname = './Customizing/skin/' .
+                    ilStyleDefinition::getCurrentSkin() . '/' . $module_path . basename($a_filename);
         }
 
-        if ($fname == "" || !file_exists($fname)) {
-            $fname = "./" . $module_path . "templates/default/" . basename($a_filename);
+        if ($fname == '' || !file_exists($fname)) {
+            $fname = './' . $module_path . 'assets/css/' . basename($a_filename);
         }
         return $fname;
     }

@@ -67,19 +67,19 @@ There are three requirements up to now that cannot be handled by any concrete an
 ## Authoring Consume
 
 Usage examples can be viewed within the file:  
-* Services/AssessmentQuestion/examples/class.exObjQuestionPoolGUI.php
-* Services/AssessmentQuestion/examples/class.exQuestionsTableGUI.php
-* Services/AssessmentQuestion/examples/class.exQuestionPoolExporter.php
+* components/ILIAS/AssessmentQuestion/examples/class.exObjQuestionPoolGUI.php
+* components/ILIAS/AssessmentQuestion/examples/class.exQuestionsTableGUI.php
+* components/ILIAS/AssessmentQuestion/examples/class.exQuestionPoolExporter.php
 
 ## Presentation Consume
 
 Usage examples can be viewed within the file:  
-* Services/AssessmentQuestion/examples/class.exTestPlayerGUI.php
+* components/ILIAS/AssessmentQuestion/examples/class.exTestPlayerGUI.php
 
 ## Offline Export Consume
 
 Usage examples can be viewed within the file:  
-* Services/AssessmentQuestion/examples/class.exPageContentQuestions.php
+* components/ILIAS/AssessmentQuestion/examples/class.exPageContentQuestions.php
 
 # Decoupled Database
 

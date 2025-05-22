@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id$
@@ -25,12 +28,14 @@ declare(strict_types=1);
 class ilRoleSelectionTableGUI extends ilTable2GUI
 {
     protected ilRbacReview $review;
+    protected Refinery $refinery;
 
     public function __construct(object $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
 
-        $this->review = $DIC->rbac()->review();
+        $this->review = $DIC['rbacreview'];
+        $this->refinery = $DIC['refinery'];
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->addColumn('', 'f', (string) 1);
@@ -57,10 +62,17 @@ class ilRoleSelectionTableGUI extends ilTable2GUI
     {
         $records_arr = [];
         foreach ($entries as $entry) {
+            $role = new ilObjRole($entry['obj_id'], false);
             $tmp_arr['id'] = $entry['obj_id'];
-            $tmp_arr['title'] = ilObjRole::_getTranslation(ilObject::_lookupTitle($entry['obj_id']));
-            $tmp_arr['description'] = ilObject::_lookupDescription($entry['obj_id']);
-            $tmp_arr['context'] = ilObject::_lookupTitle($this->review->getObjectOfRole((int) $entry['obj_id']));
+            $tmp_arr['title'] = $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                $role->getPresentationTitle()
+            );
+            $tmp_arr['description'] = $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                $role->getDescription()
+            );
+            $tmp_arr['context'] = $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                ilObject::_lookupTitle($this->review->getObjectOfRole((int) $entry['obj_id']))
+            );
 
             $records_arr[] = $tmp_arr;
         }

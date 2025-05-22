@@ -50,15 +50,12 @@ class FileTypeFilterIterator extends \FilterIterator
     {
         /** @var Metadata $metadata */
         $metadata = $this->current();
-        if (self::ONLY_DIRECTORIES === (self::ONLY_DIRECTORIES&$this->mode) && $metadata->isFile()) {
+        if (self::ONLY_DIRECTORIES === (self::ONLY_DIRECTORIES & $this->mode) && $metadata->isFile()) {
             return false;
         }
-        if (self::ONLY_FILES !== (self::ONLY_FILES&$this->mode)) {
+        if (self::ONLY_FILES !== (self::ONLY_FILES & $this->mode)) {
             return true;
         }
-        if (!$metadata->isDir()) {
-            return true;
-        }
-        return false;
+        return !$metadata->isDir();
     }
 }

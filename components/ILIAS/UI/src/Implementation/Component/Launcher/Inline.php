@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Launcher;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\Data\Link;
+use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Component\MessageBox;
@@ -35,14 +36,14 @@ class Inline implements C\Launcher\Inline
 {
     use ComponentHelper;
 
-    protected Modal\Factory $modal_factory;
+    protected I\Modal\Factory $modal_factory;
     protected Link $target;
     protected string $label;
     protected string $description = '';
     protected ?string $error_note = null;
     protected null | Icon | ProgressMeter $status_icon = null;
     protected bool $launchable = true;
-    protected ?Modal\Roundtrip $modal = null;
+    protected ?I\Modal\Roundtrip $modal = null;
     protected \Closure $evaluation;
     protected ?MessageBox\MessageBox $instruction = null;
     protected ?MessageBox\MessageBox $status_message = null;
@@ -51,7 +52,7 @@ class Inline implements C\Launcher\Inline
     protected ?string $modal_cancel_label = null;
 
     public function __construct(
-        Modal\Factory $modal_factory,
+        I\Modal\Factory $modal_factory,
         Link $target
     ) {
         $this->modal_factory = $modal_factory;
@@ -117,7 +118,7 @@ class Inline implements C\Launcher\Inline
         return $this->launchable;
     }
 
-    public function withInputs(Group $fields, \Closure $evaluation, MessageBox\MessageBox $instruction = null): self
+    public function withInputs(Group $fields, \Closure $evaluation, ?MessageBox\MessageBox $instruction = null): self
     {
         $modal = $this->modal_factory->roundtrip(
             $this->getButtonLabel(),
@@ -148,7 +149,7 @@ class Inline implements C\Launcher\Inline
         return null;
     }
 
-    public function getModal(): ?Modal\Roundtrip
+    public function getModal(): ?I\Modal\Roundtrip
     {
         return $this->modal;
     }

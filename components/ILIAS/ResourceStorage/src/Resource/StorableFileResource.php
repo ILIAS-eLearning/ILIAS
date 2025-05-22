@@ -20,11 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Resource;
 
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Revision\Revision;
-use ILIAS\ResourceStorage\Revision\RevisionCollection;
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-
 /**
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */

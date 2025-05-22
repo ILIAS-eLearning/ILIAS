@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilCmiXapiPlaceholderValues
@@ -56,13 +56,13 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
      * @param ilDatePresentation|null $dateHelper
      */
     public function __construct(
-        ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
-        ilLanguage $language = null,
-        ilCertificateObjectHelper $objectHelper = null,
-        ilCertificateUserObjectHelper $userObjectHelper = null,
-        ilCertificateLPStatusHelper $lpStatusHelper = null,
-        ilCertificateUtilHelper $utilHelper = null,
-        ilCertificateDateHelper $dateHelper = null
+        ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
+        ?ilLanguage $language = null,
+        ?ilCertificateObjectHelper $objectHelper = null,
+        ?ilCertificateUserObjectHelper $userObjectHelper = null,
+        ?ilCertificateLPStatusHelper $lpStatusHelper = null,
+        ?ilCertificateUtilHelper $utilHelper = null,
+        ?ilCertificateDateHelper $dateHelper = null
     ) {
         if (null === $language) {
             global $DIC;

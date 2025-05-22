@@ -1,30 +1,31 @@
 {CONTENT}
 <script>
-document.addEventListener("DOMContentLoaded", (event) => {
-    (function ($) {
-        var fields = {FIELDS};
+document.addEventListener('DOMContentLoaded', (event) => {
+  const fields = {FIELDS};
 
-        $('#{ID}').on("change", function () {
-            var $elm = $(this),
-                val = $elm.val();
+  document.getElementById('{ID}').addEventListener('change', function () {
+    const elm = this,
+        val = elm.value.trim();
 
-            if ($.trim(val).length > 0) {
-                var p = $.ajax({
-                    url: "{URL}",
-                    dataType: "json",
-                    data: {
-                        template_id: $elm.val()
-                    }
-                });
-                p.success(function (response) {
-                    for (const fieldId of Object.keys(fields)) {
-                        if ($("#" + fieldId).val().length === 0 || fields[fieldId]) {
-                            $("#" + fieldId).val(response[fieldId]);
-                        }
-                    }
-                });
+    if (val.length > 0) {
+      const url = '{URL}',
+          separator = url.includes('?') ? '&' : '?';
+      fetch(`${url + separator}template_id=${encodeURIComponent(elm.value)}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          for (const fieldId of Object.keys(fields)) {
+            const fieldElement = document.getElementById(fieldId);
+            if (fieldElement.value.length === 0 || fields[fieldId]) {
+              fieldElement.value = data[fieldId];
             }
+          }
         });
-    })(jQuery);
+    }
+  });
 });
 </script>

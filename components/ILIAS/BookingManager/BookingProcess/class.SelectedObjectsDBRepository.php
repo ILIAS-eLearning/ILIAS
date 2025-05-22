@@ -31,12 +31,12 @@ class SelectedObjectsDBRepository
         $this->db = $db;
     }
 
-    public function getSelectedObjects(int $pool_id, int $user_id) : array
+    public function getSelectedObjects(int $pool_id, int $user_id): array
     {
         $db = $this->db;
         $set = $db->queryF(
             "SELECT * FROM book_sel_object " .
-            " WHERE user_id = %s ".
+            " WHERE user_id = %s " .
             " AND pool_id = %s ",
             ["integer", "integer"],
             [$user_id, $pool_id]
@@ -48,7 +48,7 @@ class SelectedObjectsDBRepository
         return $obj_ids;
     }
 
-    public function setSelectedObjects(int $pool_id, int $user_id, array $obj_ids) : void
+    public function setSelectedObjects(int $pool_id, int $user_id, array $obj_ids): void
     {
         $db = $this->db;
         $this->deleteSelectedObjects($pool_id, $user_id);
@@ -61,12 +61,12 @@ class SelectedObjectsDBRepository
         }
     }
 
-    protected function deleteSelectedObjects(int $pool_id, int $user_id) : void
+    protected function deleteSelectedObjects(int $pool_id, int $user_id): void
     {
         $db = $this->db;
         $db->manipulateF(
             "DELETE FROM book_sel_object WHERE " .
-            " user_id = %s".
+            " user_id = %s" .
             " AND pool_id = %s",
             ["integer", "integer"],
             [$user_id, $pool_id]

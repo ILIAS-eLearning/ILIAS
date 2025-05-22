@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,27 +16,18 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
 
 /**
- * Class InlineCssCollection
- * @package ILIAS\components\UICore\Page\Media
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class InlineCssCollection extends AbstractCollection
 {
-    /**
-     * @param InlineCss $item
-     */
     public function addItem(InlineCss $item): void
     {
         $this->items[] = $item;
     }
 
-    /**
-     * @return InlineCss[]
-     */
-    public function getItemsInOrderOfDelivery(): array
-    {
-        return parent::getItemsInOrderOfDelivery();
-    }
 }

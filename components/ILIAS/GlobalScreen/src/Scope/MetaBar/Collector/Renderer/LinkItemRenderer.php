@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer;
 
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\MetaBar\Factory\LinkItem;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -49,7 +48,7 @@ class LinkItemRenderer extends AbstractMetaBarItemRenderer
         }
 
         if (null !== $item->getLanguageForTargetedResource()) {
-            $link = $link->withLanguageOfReferencedContent($item->getLanguageForTargetedResource());
+            return $link->withLanguageOfReferencedContent($item->getLanguageForTargetedResource());
         }
 
         return $link;

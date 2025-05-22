@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\Agent\AgentDetermination;
 use ILIAS\Container\Content\ItemPresentationManager;
+use ILIAS\Tracking\View\Factory as TrackingView;
 
 define("IL_COL_LEFT", "left");
 define("IL_COL_RIGHT", "right");
@@ -73,6 +74,7 @@ class ilColumnGUI
     protected static array $locations = array(
         "ilNewsForContextBlockGUI" => "components/ILIAS/News/",
         "ilCalendarBlockGUI" => "components/ILIAS/Calendar/",
+        "ilTutorialSupportBlockGUI" => "components/ILIAS/Course/",
         "ilPDCalendarBlockGUI" => "components/ILIAS/Calendar/",
         "ilConsultationHoursCalendarBlockGUI" => "components/ILIAS/Calendar/",
         "ilPDTasksBlockGUI" => "components/ILIAS/Tasks/",
@@ -83,6 +85,7 @@ class ilColumnGUI
         'ilClassificationBlockGUI' => 'components/ILIAS/Classification/',
         "ilPDStudyProgrammeSimpleListGUI" => "components/ILIAS/StudyProgramme/",
         "ilPDStudyProgrammeExpandableListGUI" => "components/ILIAS/StudyProgramme/",
+        "ilLPProgressBlockGUI" => "components/ILIAS/Tracking/"
     );
 
     protected static array $block_types = array(
@@ -91,6 +94,7 @@ class ilColumnGUI
         "ilPDNewsBlockGUI" => 'pd' . ilDashboardSidePanelSettingsRepository::NEWS,
         "ilNewsForContextBlockGUI" => "news",
         "ilCalendarBlockGUI" => "cal",
+        "ilTutorialSupportBlockGUI" => "tusu",
         "ilPDCalendarBlockGUI" => 'pd' . ilDashboardSidePanelSettingsRepository::CALENDAR,
         "ilConsultationHoursCalendarBlockGUI" => "chcal",
         "ilSelectedItemsBlockGUI" => "pditems",
@@ -98,6 +102,7 @@ class ilColumnGUI
         'ilClassificationBlockGUI' => 'clsfct',
         "ilPDStudyProgrammeSimpleListGUI" => "prgsimplelist",
         "ilPDStudyProgrammeExpandableListGUI" => "prgexpandablelist",
+        "ilLPProgressBlockGUI" => "lpprogress"
     );
 
 
@@ -109,15 +114,21 @@ class ilColumnGUI
         "crs" => array(
             "ilNewsForContextBlockGUI" => IL_COL_RIGHT,
             "ilCalendarBlockGUI" => IL_COL_RIGHT,
+            "ilTutorialSupportBlockGUI" => IL_COL_RIGHT,
             "ilConsultationHoursCalendarBlockGUI" => IL_COL_RIGHT,
-            "ilClassificationBlockGUI" => IL_COL_RIGHT
+            "ilClassificationBlockGUI" => IL_COL_RIGHT,
+            "ilLPProgressBlockGUI" => IL_COL_RIGHT
             ),
         "grp" => array(
             "ilNewsForContextBlockGUI" => IL_COL_RIGHT,
             "ilCalendarBlockGUI" => IL_COL_RIGHT,
             "ilConsultationHoursCalendarBlockGUI" => IL_COL_RIGHT,
-            "ilClassificationBlockGUI" => IL_COL_RIGHT
+            "ilClassificationBlockGUI" => IL_COL_RIGHT,
+            "ilLPProgressBlockGUI" => IL_COL_RIGHT
             ),
+        "fold" => array(
+            "ilLPProgressBlockGUI" => IL_COL_RIGHT
+        ),
         "frm" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
         "root" => array(),
         "info" => array(
@@ -152,13 +163,15 @@ class ilColumnGUI
         array("news" => true,
             "cal" => true,
             "chcal" => true,
+            "tusu" => true,
             "pd" . ilDashboardSidePanelSettingsRepository::CALENDAR => true,
             "pd" . ilDashboardSidePanelSettingsRepository::NEWS => true,
             "pdtag" => true,
             "pd" . ilDashboardSidePanelSettingsRepository::MAIL => true,
             "pd" . ilDashboardSidePanelSettingsRepository::TASKS => true,
             "tagcld" => true,
-            "clsfct" => true);
+            "clsfct" => true,
+            "lpprogress" => true);
 
     protected array $check_nr_limit =
         array("pdfeed" => true);
@@ -590,11 +603,17 @@ class ilColumnGUI
                     if ($type == "chcal") {         // consultation hours always directly below calendar
                         $nr = -7;
                     }
+                    if ($type == "tusu") {          // tutorial support below calendar
+                        $nr = -6;
+                    }
                     if ($type == "pdfeedb") {		// always show feedback request second
                         $nr = -10;
                     }
                     if ($type == "clsfct") {		// mkunkel wants to have this on top
                         $nr = -16;
+                    }
+                    if ($type == "lpprogress") {		// learning progress above news
+                        $nr = -17;
                     }
                     $side = ilBlockSetting::_lookupSide($type, $user_id);
                     if (is_null($side) || $side === "") {
@@ -759,6 +778,16 @@ class ilColumnGUI
                 }
                 $tags_active = new ilSetting("tags");		// tags presentation in classification block
                 return (bool) $tags_active->get("enable", "0");
+            } elseif (
+                $a_type === "tusu" &&
+                ilObjCourse::lookupTutorialBlockSettingEabled($ilCtrl->getContextObjId())
+            ) {
+                return true;
+            } elseif ($a_type === "lpprogress") {
+                $obj_lp = ilObjectLP::getInstance($ilCtrl->getContextObjId());
+                $progress_block_settings = (new TrackingView())->progressBlock()->settings()->repository();
+                return $obj_lp->getCurrentMode() === ilLPObjSettings::LP_MODE_COLLECTION &&
+                    $progress_block_settings->isBlockShownForObject($ilCtrl->getContextObjId());
             }
             return false;
         }

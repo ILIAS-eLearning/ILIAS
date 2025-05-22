@@ -30,7 +30,6 @@ use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
 use ILIAS\LegalDocuments\test\ContainerMock;
-use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\WithdrawProcess;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/../../ContainerMock.php';
@@ -100,7 +99,9 @@ class WithdrawProcessTest extends TestCase
             $this->fail(...)
         );
 
-        $instance->withdrawalRequested();
+        $reflection = new \ReflectionClass($instance);
+        $method = $reflection->getMethod('withdrawalRequested');
+        $method->invoke($instance);
     }
 
     public function testWithdrawalRequestedWithInvalidUser(): void
@@ -115,7 +116,9 @@ class WithdrawProcessTest extends TestCase
             $this->fail(...)
         );
 
-        $instance->withdrawalRequested();
+        $reflection = new \ReflectionClass($instance);
+        $method = $reflection->getMethod('withdrawalRequested');
+        $method->invoke($instance);
         $this->assertTrue(true);
     }
 

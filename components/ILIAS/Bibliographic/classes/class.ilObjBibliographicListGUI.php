@@ -27,6 +27,7 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
     /**
      * initialisation
      */
+    #[\Override]
     public function init(): void
     {
         $this->lng->loadLanguageModule('bibl');
@@ -50,12 +51,13 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
      *                    "property" (string) => property name
      *                    "value" (string) => property value
      */
+    #[\Override]
     public function getProperties(): array
     {
         global $DIC;
         $lng = $DIC['lng'];
 
-        $props = array();
+        $props = [];
         $obj = new ilObjBibliographic($this->obj_id);
         if (!$obj->isMigrated()) {
             $props[] = [
@@ -66,12 +68,12 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
             ];
         }
         if (!ilObjBibliographicAccess::_lookupOnline($this->obj_id)) {
-            $props[] = array(
+            $props[] = [
                 "alert" => true,
                 "property" => $lng->txt("status"),
                 "value" => $lng->txt("offline"),
                 "newline" => true
-            );
+            ];
         }
 
         return $props;

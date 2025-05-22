@@ -21,14 +21,15 @@
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilExPeerReviewGUI: ilFileSystemGUI, ilRatingGUI, ilExSubmissionTextGUI, ilInfoScreenGUI
+ * @ilCtrl_Calls ilExPeerReviewGUI: ilRatingGUI, ilExSubmissionTextGUI, ilInfoScreenGUI
  * @ilCtrl_Calls ilExPeerReviewGUI: ilMessageGUI
  */
 class ilExPeerReviewGUI
 {
+    protected \ILIAS\Exercise\PeerReview\Criteria\CriteriaFileManager $criteria_file;
+    protected \ILIAS\Exercise\Submission\SubmissionManager $subm;
     protected int $requested_giver_id;
     protected \ILIAS\Exercise\Notification\NotificationManager $notification;
-    protected ilFSStorageExercise $fstorage;
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\Exercise\InternalGUIService $gui;
     protected \ILIAS\Exercise\InternalDomainService $domain;
@@ -47,7 +48,7 @@ class ilExPeerReviewGUI
 
     public function __construct(
         ilExAssignment $a_ass,
-        ilExSubmission $a_submission = null
+        ?ilExSubmission $a_submission = null
     ) {
         global $DIC;
 
@@ -74,6 +75,8 @@ class ilExPeerReviewGUI
         $this->notes = $DIC->notes();
         $this->ctrl->saveParameter($this, array("peer_id"));
         $this->notification = $this->domain->notification($request->getRefId());
+        $this->subm = $this->domain->submission($a_ass->getId());
+        $this->criteria_file = $this->domain->peerReview()->criteriaFile($a_ass->getId());
     }
 
     /**
@@ -93,47 +96,6 @@ class ilExPeerReviewGUI
         $cmd = $ilCtrl->getCmd("showpeerreviewoverview");
 
         switch ($class) {
-            case "ilfilesystemgui":
-                $ilCtrl->saveParameter($this, array("fu"));
-
-                // see self::downloadPeerReview()
-                $giver_id = $this->requested_review_giver_id;
-                $peer_id = $this->requested_review_peer_id;
-
-                if (!$this->canGive()) {
-                    $this->returnToParentObject();
-                }
-
-                $valid = false;
-                $peer_items = $this->submission->getPeerReview()->getPeerReviewsByPeerId($peer_id, true);
-                if (is_array($peer_items)) {
-                    foreach ($peer_items as $item) {
-                        if ($item["giver_id"] == $giver_id) {
-                            $valid = true;
-                        }
-                    }
-                }
-                if (!$valid) {
-                    $ilCtrl->redirect($this, "editPeerReview");
-                }
-
-                $ilTabs->clearTargets();
-                $ilTabs->setBackTarget(
-                    $lng->txt("back"),
-                    $ilCtrl->getLinkTarget($this, "editPeerReview")
-                );
-
-                $fstorage = new ilFSStorageExercise($this->ass->getExerciseId(), $this->ass->getId());
-                $fstorage->create();
-
-                $fs_gui = new ilFileSystemGUI($fstorage->getPeerReviewUploadPath($peer_id, $giver_id));
-                $fs_gui->setTableId("excfbpeer");
-                $fs_gui->setAllowDirectories(false);
-                $fs_gui->setTitle($this->ass->getTitle() . ": " .
-                    $lng->txt("exc_peer_review") . " - " .
-                    $lng->txt("exc_peer_review_give"));
-                $this->ctrl->forwardCommand($fs_gui);
-                break;
 
             case "ilratinggui":
                 $peer_review = new ilExPeerReview($this->ass);
@@ -690,7 +652,7 @@ class ilExPeerReviewGUI
 
         return $f->panel()->sub(
             $title,
-            $f->legacy($tpl->get() . $mess_html)
+            $f->legacy()->content($tpl->get() . $mess_html)
         );
     }
 
@@ -700,8 +662,8 @@ class ilExPeerReviewGUI
         $lng = $this->lng;
 
         // #18966 - late files info
-        foreach ($a_submission->getFiles() as $file) {
-            if ($file["late"]) {
+        foreach ($this->subm->getSubmissionsOfUser($a_submission->getUserId()) as $sub) {
+            if ($sub->getLate()) {
                 return '<div class="warning">' . $lng->txt("exc_late_submission") . '</div>';
             }
         }
@@ -740,13 +702,6 @@ class ilExPeerReviewGUI
             }
         }
 
-        /*$tbl = new ilExAssignmentPeerReviewTableGUI(
-            $this,
-            "editPeerReview",
-            $this->ass,
-            $this->submission->getUserId(),
-            $peer_items
-        );*/
         $panel = $this->getPeerReviewReceiverPanel(
             $this->ass,
             $this->submission->getUserId(),
@@ -760,10 +715,6 @@ class ilExPeerReviewGUI
         int $user_id,
         array $peer_data
     ): \ILIAS\UI\Component\Panel\Listing\Standard {
-        if ($ass->hasPeerReviewFileUpload()) {
-            $this->fstorage = new ilFSStorageExercise($ass->getExerciseId(), $ass->getId());
-            $this->fstorage->create();
-        }
         $personal = $ass->hasPeerReviewPersonalized();
         $f = $this->gui->ui()->factory();
         $lng = $this->lng;
@@ -853,7 +804,7 @@ class ilExPeerReviewGUI
     }
 
     public function editPeerReviewItemObject(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $tpl = $this->tpl;
 
@@ -894,7 +845,7 @@ class ilExPeerReviewGUI
     {
         $this->ctrl->setParameter($this, "giver_id", $giver_id);
         $this->ctrl->setParameter($this, "peer_id", $peer_id);
-        $pr = $this->domain->peerReview($this->ass);
+        $pr = $this->domain->peerReview()->exPeerReview($this->ass);
         $gui = $this->notes->gui()->getMessagesGUI(
             $peer_id,
             $this->ass->getExerciseId(),
@@ -975,12 +926,11 @@ class ilExPeerReviewGUI
             return "";
         }
 
-        $text = $a_submission->getFiles();
-        if ($text !== []) {
-            $text = array_shift($text);
-            if (trim($text["atext"]) !== '' && trim($text["atext"]) !== '0') {
+        $sub = $this->subm->getSubmissionsOfUser($a_submission->getUserId())->current();
+        if ($sub) {
+            if (trim($sub->getText()) !== '' && trim($sub->getText()) !== '0') {
                 // mob id to mob src
-                return nl2br(ilRTE::_replaceMediaObjectImageSrc($text["atext"], 1));
+                return nl2br(ilRTE::_replaceMediaObjectImageSrc($sub->getText(), 1));
             }
         }
         return "";
@@ -1050,6 +1000,7 @@ class ilExPeerReviewGUI
         $form->addItem($input);
 
         $values = $this->submission->getPeerReview()->getPeerReviewValues($this->submission->getUserId(), $a_peer_id);
+        // the values only contain text/selection values not files
 
         foreach ($this->ass->getPeerReviewCriteriaCatalogueItems() as $item) {
             $crit_id = $item->getId()
@@ -1179,17 +1130,22 @@ class ilExPeerReviewGUI
         $giver_id = $this->requested_review_giver_id;
         $peer_id = $this->requested_review_peer_id;
         $crit_id = $this->requested_review_crit_id;
-
         if (!is_numeric($crit_id)) {
             $crit = ilExcCriteria::getInstanceByType($crit_id);
+            $file_crit_id = 0;
         } else {
             $crit = ilExcCriteria::getInstanceById($crit_id);
+            $file_crit_id = $crit_id;
         }
 
         $crit->setPeerReviewContext($this->ass, $giver_id, $peer_id);
         $file = $crit->getFileByHash();
         if ($file) {
-            ilFileDelivery::deliverFileLegacy($file, basename($file));
+            $this->criteria_file->deliverFileOfReview(
+                $giver_id,
+                $peer_id,
+                $file_crit_id
+            );
         }
 
         $ilCtrl->redirect($this, "returnToParent");
@@ -1236,7 +1192,7 @@ class ilExPeerReviewGUI
             $r = $this->gui->ui()->renderer();
             $p = $f->panel()->standard(
                 $this->lng->txt("exc_peer_review_overview_invalid_users"),
-                $f->legacy($ptpl->get())
+                $f->legacy()->content($ptpl->get())
             );
 
             $panel = $r->render($p);

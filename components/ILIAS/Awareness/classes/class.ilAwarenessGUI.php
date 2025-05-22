@@ -41,9 +41,9 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
     protected ilUserActionGUI $user_action_gui;
 
     public function __construct(
-        InternalDataService $data_service = null,
-        InternalDomainService $domain_service = null,
-        InternalGUIService $gui_service = null
+        ?InternalDataService $data_service = null,
+        ?InternalDomainService $domain_service = null,
+        ?InternalGUIService $gui_service = null
     ) {
         global $DIC;
 
@@ -93,6 +93,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
     {
         $ilUser = $this->user;
         // init js
+        //$this->main_tpl->addJavaScript("../components/ILIAS/Awareness/resources/Awareness.js");
         $this->main_tpl->addJavaScript("./assets/js/Awareness.js");
         $this->ctrl->setParameter($this, "ref_id", $this->ref_id);
         $this->main_tpl->addOnLoadCode("il.Awareness.setBaseUrl('" . $this->ctrl->getLinkTarget(

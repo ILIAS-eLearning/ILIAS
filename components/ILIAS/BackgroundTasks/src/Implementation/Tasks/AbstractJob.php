@@ -30,6 +30,7 @@ abstract class AbstractJob extends AbstractTask implements Job
     /**
      * @inheritdoc
      */
+    #[\Override]
     public function getInput(): array
     {
         return $this->input;

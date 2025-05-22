@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilLTIConsumerSettingsFormGUI
@@ -57,7 +57,7 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
 
         $item = new ilNonEditableValueGUI($DIC->language()->txt('provider_info'));
         $item->setValue($this->object->getProvider()->getTitle());
-        $item->setInfo($this->object->getProvider()->getDescription());
+        $item->setInfo(htmlspecialchars($this->object->getProvider()->getDescription()));
         $this->addItem($item);
 
         $item = new ilTextInputGUI($DIC->language()->txt('title'), 'title');

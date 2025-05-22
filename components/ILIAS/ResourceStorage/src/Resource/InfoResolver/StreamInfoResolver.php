@@ -23,6 +23,7 @@ namespace ILIAS\ResourceStorage\Resource\InfoResolver;
 use DateTimeImmutable;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\MimeType;
+use ILIAS\Filesystem\Stream\ZIPStream;
 
 /**
  * Class StreamInfoResolver
@@ -46,11 +47,21 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
         string $revision_title,
         ?string $file_name = null
     ) {
-        $this->file_stream = $file_stream;
+        $metadata = $file_stream->getMetadata();
+        $uri = $metadata['uri'];
+
+        if ($file_stream instanceof ZIPStream) {
+            // ZIPStreams are not seekable and rewindable, we need to wrap them in another ZIPStream to
+            // be able to read(255) and get the mime-type without loosing the 255 bytes
+            $this->file_stream = new ZIPStream(fopen($uri, 'rb'));
+        } else {
+            $this->file_stream = $file_stream;
+        }
+
         parent::__construct($next_version_number, $revision_owner_id, $revision_title);
-        $this->path = $file_stream->getMetadata('uri');
+        $this->path = $uri;
         $this->initFileName($file_name);
-        $this->suffix = pathinfo($this->file_name, PATHINFO_EXTENSION);
+        $this->suffix = pathinfo((string) $this->file_name, PATHINFO_EXTENSION);
         $this->initSize();
         $this->initMimeType();
         $this->initCreationDate();
@@ -86,7 +97,7 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
         $this->size = 0;
         try {
             $this->size = $this->file_stream->getSize();
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             $mb_strlen_exists = function_exists('mb_strlen');
             //We only read one MB at a time as this radically reduces RAM-Usage
             while ($content = $this->file_stream->read(1_048_576)) {
@@ -118,7 +129,8 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
             return;
         }
         $this->file_name = basename($this->path);
-        if ($this->file_name === 'memory' || $this->file_name === 'input') { // in case the stream is ofString or of php://input
+        // in case the stream is ofString or of php://input, php://memory or php://input
+        if ($this->file_name === 'memory' || $this->file_name === 'input' || $this->file_name === 'temp') {
             $this->file_name = $this->getRevisionTitle();
         }
     }

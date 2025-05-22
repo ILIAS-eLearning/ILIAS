@@ -39,6 +39,7 @@ class Tile
     private readonly Modal $modal;
     /** @var Closure(int): string */
     private readonly Closure $format_date;
+    private readonly ilBadgeImage $badge_image_service;
 
     /**
      * @param Closure(string): string $sign_file
@@ -46,10 +47,10 @@ class Tile
      */
     public function __construct(
         private readonly Container $container,
-        BadgeParent $parent = null,
-        Modal $modal = null,
+        ?BadgeParent $parent = null,
+        ?Modal $modal = null,
         $sign_file = [ilWACSignedPath::class, 'signFile'],
-        Closure $format_date = null,
+        ?Closure $format_date = null,
     ) {
         $this->parent = $parent ?? new BadgeParent($this->container);
         $this->modal = $modal ?? new Modal($this->container);
@@ -61,6 +62,7 @@ class Tile
             );
         }
         $this->format_date = $format_date;
+        $this->badge_image_service = new ilBadgeImage($container->resourceStorage(), $container->upload(), $container->ui()->mainTemplate());
     }
 
     /**
@@ -89,12 +91,25 @@ class Tile
     /**
      * @return list<Component>
      */
-    public function asImage(ModalContent $content): array
+    public function asTitleWithLeadingImage(ModalContent $content): array
     {
         $modal = $this->modal($this->card($content));
         return [
             $modal,
             $this->image($modal, $content->badge()),
+            $this->title($modal, $content->badge()),
+        ];
+    }
+
+    /**
+     * @return list<Component>
+     */
+    public function asImage(ModalContent $content, int $size = ilBadgeImage::IMAGE_SIZE_M): array
+    {
+        $modal = $this->modal($this->card($content));
+        return [
+            $modal,
+            $this->image($modal, $content->badge(), $size),
         ];
     }
 
@@ -106,12 +121,11 @@ class Tile
         $modal = $this->modal($this->card($content));
         return [
             $modal,
-            $this->image($modal, $content->badge()),
             $this->title($modal, $content->badge()),
         ];
     }
 
-    private function card(ModalContent $content)
+    private function card(ModalContent $content): Component
     {
         return $this->container
             ->ui()
@@ -128,21 +142,24 @@ class Tile
         );
     }
 
-    private function image(Component $modal, ilBadge $badge): Component
+    private function image(Component $modal, ilBadge $badge, int $size = ilBadgeImage::IMAGE_SIZE_M): Component
     {
-        return $this->container->ui()
-                               ->factory()
-                               ->image()
-                               ->responsive(($this->sign_file)($badge->getImagePath()), $badge->getImage())
-                               ->withAction($modal->getShowSignal());
+        $image_src = $this->badge_image_service->getImageFromBadge($badge, $size);
+        return $this->container
+            ->ui()
+            ->factory()
+            ->image()
+            ->responsive($image_src, $badge->getTitle())
+            ->withAction($modal->getShowSignal());
     }
 
     private function title(Component $modal, ilBadge $badge): Component
     {
-        return $this->container->ui()
-                               ->factory()
-                               ->button()
-                               ->shy($badge->getTitle(), $modal->getShowSignal());
+        return $this->container
+            ->ui()
+            ->factory()
+            ->button()
+            ->shy($badge->getTitle(), $modal->getShowSignal());
     }
 
     public function modalContent(ilBadge $badge): ModalContent
@@ -150,7 +167,7 @@ class Tile
         $awarded_by = $this->parent->asProperty($badge);
         return new ModalContent($badge, [
             $this->txt('criteria') => $badge->getCriteria(),
-            ...(null !== $awarded_by ? [$this->txt('awarded_by') => $awarded_by] : []),
+            ...($awarded_by !== null ? [$this->txt('awarded_by') => $awarded_by] : []),
             $this->txt('valid_until') => $this->tryFormating($badge->getValid()),
         ]);
     }
@@ -163,7 +180,7 @@ class Tile
     public function addAssignment(ModalContent $content, ilBadgeAssignment $assignment): ModalContent
     {
         return $content->withAdditionalProperties([
-            $this->txt('issued_on') => ($this->format_date)($assignment->getTimestamp()),
+            $this->txt('badge_issued_on') => ($this->format_date)($assignment->getTimestamp()),
         ]);
     }
 
@@ -177,9 +194,10 @@ class Tile
         if (!$valid) {
             return $this->txt('endless');
         }
+
         try {
             return ($this->format_date)($valid, IL_CAL_DATE);
-        } catch (ilDateTimeException $x) {
+        } catch (ilDateTimeException) {
             return $valid;
         }
     }

@@ -507,7 +507,7 @@
 		<xsl:attribute name="space-after">1em</xsl:attribute>
 	</xsl:attribute-set>
 
-	<xsl:template match="ul">
+	<xsl:template match="ul[*]">
 		<fo:list-block xsl:use-attribute-sets="ul" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 			<xsl:apply-templates select="node()"/>
 		</fo:list-block>
@@ -746,7 +746,7 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
+
 	<xsl:template name="getColor">
 		<xsl:param name="s"/>
 		<xsl:value-of select="$s" />

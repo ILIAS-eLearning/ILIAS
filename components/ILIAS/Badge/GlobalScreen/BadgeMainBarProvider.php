@@ -44,7 +44,7 @@ class BadgeMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withPosition(40)
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
                 ->withSymbol($icon)
-                ->withNonAvailableReason($this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active')))
+                ->withNonAvailableReason($this->dic->ui()->factory()->legacy()->content($this->dic->language()->txt('component_not_active')))
                 ->withAvailableCallable(
                     function () {
                         return ilBadgeHandler::getInstance()->isActive();

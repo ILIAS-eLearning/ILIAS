@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Client;
 
+use ILIAS\GlobalScreen\Scope\Toast\Factory\isStandardItem;
 use ILIAS\DI\Container;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
@@ -82,7 +83,7 @@ class Notifications
     protected ?string $single_identifier_to_handle = null;
     protected array $administrative_notifications = [];
     /**
-     * @var \ILIAS\GlobalScreen\Scope\Toast\Factory\isStandardItem[]
+     * @var isStandardItem[]
      */
     private array $toasts = [];
 

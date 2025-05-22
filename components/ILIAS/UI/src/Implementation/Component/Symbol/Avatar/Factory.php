@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,21 +16,21 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Symbol\Avatar;
 
 use ILIAS\UI\Component\Symbol\Avatar as A;
-use ILIAS\UI\Component\Symbol\Avatar\Picture;
-use ILIAS\UI\Component\Symbol\Avatar\Letter;
 
 class Factory implements A\Factory
 {
     public function picture(string $path_to_user_picture, string $username): Picture
     {
-        return new \ILIAS\UI\Implementation\Component\Symbol\Avatar\Picture($path_to_user_picture, $username);
+        return new Picture($path_to_user_picture, $username);
     }
 
     public function letter(string $username): Letter
     {
-        return new \ILIAS\UI\Implementation\Component\Symbol\Avatar\Letter($username);
+        return new Letter($username);
     }
 }

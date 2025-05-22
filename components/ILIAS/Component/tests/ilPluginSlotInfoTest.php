@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -44,7 +44,7 @@ class ilPluginSlotInfoTest extends TestCase
         );
 
         $v = $this->createMock(\ILIAS\Data\Version::class);
-        $this->plugin1 = new class ($v, $this->pluginslot, "plg1", "Plugin1", true, $v, 0, $v, $v, $v, "", "", false, false, false) extends ilPluginInfo {
+        $this->plugin1 = new class ($v, $this->pluginslot, "plg1", "Plugin1", "Type1", true, $v, 0, $v, $v, $v, "", "", false, false, false) extends ilPluginInfo {
             public function isActive(): bool
             {
                 return true;
@@ -52,7 +52,7 @@ class ilPluginSlotInfoTest extends TestCase
         };
         $plugins["plg1"] = $this->plugin1;
 
-        $this->plugin2 = new class ($v, $this->pluginslot, "plg2", "Plugin2", true, $v, 0, $v, $v, $v, "", "", false, false, false) extends ilPluginInfo {
+        $this->plugin2 = new class ($v, $this->pluginslot, "plg2", "Plugin2", "Type2", true, $v, 0, $v, $v, $v, "", "", false, false, false) extends ilPluginInfo {
             public function isActive(): bool
             {
                 return false;
@@ -114,14 +114,6 @@ class ilPluginSlotInfoTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->pluginslot->getPluginByName("Plugin3");
-    }
-
-    public function testGetPath(): void
-    {
-        $this->assertEquals(
-            ilComponentRepository::PLUGIN_BASE_PATH . "/" . "components/ILIAS/Module1/Slot1",
-            $this->pluginslot->getPath()
-        );
     }
 
     public function testGetActivePlugins(): void

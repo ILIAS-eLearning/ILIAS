@@ -13,7 +13,7 @@ objects or other objects being derived from `ilObject`.
 
 # Export Entities
 
-The object component "Services/Object" provides the following entities, which
+The object component "ILIAS/Object" provides the following entities, which
 should be added as tail dependency, if the corresponding features are used.
 All of them need the general object IDs to be passed.
 
@@ -89,7 +89,7 @@ public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_id
         $res = [];
         ...
         $res[] = array(
-            "component" => "Services/Object",
+            "component" => "components/ILIAS/Object",
             "entity" => "common",
             "ids" => $a_ids);
         return $res;

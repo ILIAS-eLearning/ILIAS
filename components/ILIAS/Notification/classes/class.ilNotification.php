@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -145,7 +148,6 @@ class ilNotification
 
         $log->debug("Step 1 recipients: " . print_r($recipients, true));
 
-
         // remove all users that deactivated the feature
         if ($setting->getMode() === ilObjNotificationSettings::MODE_DEF_ON_OPT_OUT) {
             $sql = "SELECT user_id FROM notification" .
@@ -157,29 +159,6 @@ class ilNotification
             while ($rec = $ilDB->fetchAssoc($set)) {
                 unset($recipients[$rec["user_id"]]);
                 $log->debug("Remove due to deactivation: " . $rec["user_id"]);
-            }
-        }
-
-        // remove all users that got a mail
-        // see #22773
-        //if ($setting->getMode() !== ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION && !$ignore_threshold) {
-        if (!$ignore_threshold) {
-            $sql = "SELECT user_id FROM notification" .
-                " WHERE type = " . $ilDB->quote($type, "integer") .
-                " AND id = " . $ilDB->quote($id, "integer") .
-                " AND " . $ilDB->in("user_id", $recipients, false, "integer");
-            $sql .= " AND (last_mail > " . $ilDB->quote(date(
-                "Y-m-d H:i:s",
-                strtotime("-" . self::THRESHOLD . "minutes")
-            ), "timestamp");
-            if ($page_id) {
-                $sql .= " AND page_id = " . $ilDB->quote($page_id, "integer");
-            }
-            $sql .= ")";
-            $set = $ilDB->query($sql);
-            while ($rec = $ilDB->fetchAssoc($set)) {
-                unset($recipients[$rec["user_id"]]);
-                $log->debug("Remove due to got mail: " . $rec["user_id"]);
             }
         }
 
@@ -206,6 +185,47 @@ class ilNotification
                 $log->debug("Adding single subscription: " . $row["user_id"]);
             }
         }
+
+        // remove all users that got a mail
+        // see #22773
+        //if ($setting->getMode() !== ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION && !$ignore_threshold) {
+        if (!$ignore_threshold) {
+            $sql = "SELECT user_id FROM notification" .
+                " WHERE type = " . $ilDB->quote($type, "integer") .
+                " AND id = " . $ilDB->quote($id, "integer") .
+                " AND " . $ilDB->in("user_id", $recipients, false, "integer");
+            $sql .= " AND (last_mail > " . $ilDB->quote(date(
+                "Y-m-d H:i:s",
+                strtotime("-" . self::THRESHOLD . "minutes")
+            ), "timestamp");
+            if ($page_id) {
+                $sql .= " AND page_id = " . $ilDB->quote($page_id, "integer");
+            }
+            $sql .= ")";
+            $set = $ilDB->query($sql);
+            while ($rec = $ilDB->fetchAssoc($set)) {
+                unset($recipients[$rec["user_id"]]);
+                $log->debug("Remove due to got mail: " . $rec["user_id"]);
+            }
+
+            if ($type === self::TYPE_WIKI) {
+                $sql = "SELECT user_id FROM notification" .
+                    " WHERE type = " . $ilDB->quote(self::TYPE_WIKI_PAGE, "integer") .
+                    " AND id = " . $ilDB->quote($page_id, "integer") .
+                    " AND " . $ilDB->in("user_id", $recipients, false, "integer");
+                $sql .= " AND (last_mail > " . $ilDB->quote(date(
+                    "Y-m-d H:i:s",
+                    strtotime("-" . self::THRESHOLD . "minutes")
+                ), "timestamp");
+                $sql .= ")";
+                $set = $ilDB->query($sql);
+                while ($rec = $ilDB->fetchAssoc($set)) {
+                    unset($recipients[$rec["user_id"]]);
+                    $log->debug("Remove due to got mail: " . $rec["user_id"]);
+                }
+            }
+        }
+
 
         return $recipients;
     }
@@ -238,7 +258,8 @@ class ilNotification
         int $type,
         int $id,
         array $user_ids,
-        ?int $page_id = null
+        ?int $page_id = null,
+        bool $activate_new_entries = true
     ): void {
         global $DIC;
 
@@ -246,7 +267,7 @@ class ilNotification
 
         // create initial entries, if not existing
         // see #22773, currently only done for wiki, might be feasible for other variants
-        if (in_array($type, [self::TYPE_WIKI, self::TYPE_BLOG])) {
+        if (in_array($type, [self::TYPE_WIKI_PAGE, self::TYPE_WIKI, self::TYPE_BLOG])) {
             $set = $ilDB->queryF(
                 "SELECT user_id FROM notification " .
                 " WHERE type = %s AND id = %s AND " .
@@ -265,7 +286,7 @@ class ilNotification
                         "id" => ["integer", $id],
                         "user_id" => ["integer", $user_id],
                         "page_id" => ["integer", (int) $page_id],
-                        "activated" => ["integer", 1]
+                        "activated" => ["integer", (int) $activate_new_entries]
                     ]);
                 }
             }

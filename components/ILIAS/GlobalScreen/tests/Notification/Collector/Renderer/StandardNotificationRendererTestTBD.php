@@ -29,6 +29,7 @@ class StandardNotificationRendererTest extends BaseNotificationSetUp
     use Hasher;
 
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

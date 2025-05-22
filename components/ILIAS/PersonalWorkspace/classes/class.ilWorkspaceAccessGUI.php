@@ -316,7 +316,7 @@ class ilWorkspaceAccessGUI
         return $form;
     }
 
-    protected function showPasswordForm(ilPropertyFormGUI $a_form = null): void
+    protected function showPasswordForm(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 

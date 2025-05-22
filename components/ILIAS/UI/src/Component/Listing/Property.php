@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Listing;
 
 use ILIAS\UI\Component\Symbol\Symbol;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Content;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 
 /**
@@ -32,7 +32,7 @@ interface Property extends Listing
 {
     public function withProperty(
         string $label,
-        string | Symbol | Legacy | StandardLink $value,
+        string | Symbol | Content | StandardLink $value,
         bool $show_label = true
     ): self;
 }

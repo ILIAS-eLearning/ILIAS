@@ -27,21 +27,8 @@ use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
  */
 class Result
 {
-    protected FlavourDefinition $definition;
-    protected FileStream $stream;
-    protected int $index = 0;
-    protected bool $storeable = true;
-
-    public function __construct(
-        FlavourDefinition $definition,
-        FileStream $stream,
-        int $index = 0,
-        bool $storeable = true
-    ) {
-        $this->definition = $definition;
-        $this->stream = $stream;
-        $this->index = $index;
-        $this->storeable = $storeable;
+    public function __construct(protected FlavourDefinition $definition, protected FileStream $stream, protected int $index = 0, protected bool $storeable = true)
+    {
     }
 
     public function getIndex(): int

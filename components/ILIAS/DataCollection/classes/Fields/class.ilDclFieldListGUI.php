@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 declare(strict_types=1);
 
 class ilDclFieldListGUI
@@ -54,6 +53,8 @@ class ilDclFieldListGUI
         $this->toolbar = $DIC->toolbar();
         $this->ui_factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
+
+        $DIC->help()->setScreenId('dcl_fields');
 
         $this->ctrl->saveParameterByClass(ilDclTableEditGUI::class, 'table_id');
         $locator->addItem(
@@ -125,7 +126,7 @@ class ilDclFieldListGUI
         foreach ($field_ids as $field_id) {
             /** @var ilDclBaseFieldModel $field */
             $field = ilDclCache::getFieldCache($field_id);
-            $conf->addItem('dcl_field_ids[]', (string)$field_id, $field->getTitle());
+            $conf->addItem('dcl_field_ids[]', (string) $field_id, $field->getTitle());
         }
 
         $conf->setConfirm($this->lng->txt('delete'), 'deleteFields');

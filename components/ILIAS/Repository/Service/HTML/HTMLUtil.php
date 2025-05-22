@@ -32,7 +32,11 @@ class HTMLUtil
 
     public function escape(string $input): string
     {
-        return htmlentities($input);
+        return htmlspecialchars(
+            $input,
+            ENT_QUOTES | ENT_SUBSTITUTE,
+            'utf-8'
+        );
     }
 
     public function strip(string $input): string

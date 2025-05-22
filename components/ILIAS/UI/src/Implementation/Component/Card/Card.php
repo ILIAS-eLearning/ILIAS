@@ -63,7 +63,7 @@ class Card implements C\Card
      * @param string|Shy$title
      * @param Image|null $image
      */
-    public function __construct($title, Image $image = null)
+    public function __construct($title, ?Image $image = null)
     {
         if (!$title instanceof Shy) {
             $this->checkStringArg("title", $title);

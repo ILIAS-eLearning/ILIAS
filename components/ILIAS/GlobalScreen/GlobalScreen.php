@@ -20,7 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class GlobalScreen implements Component\Component
+use ILIAS\Component\Component;
+use ILIAS\Setup\Agent;
+use ILIAS\Refinery\Factory;
+use ILIAS\Component\Resource\PublicAsset;
+use ILIAS\Component\Resource\Endpoint;
+use ILIAS\Component\Resource\ComponentJS;
+
+class GlobalScreen implements Component
 {
     public function init(
         array | \ArrayAccess &$define,
@@ -32,21 +39,21 @@ class GlobalScreen implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $contribute[Agent::class] = static fn(): \ilGlobalScreenSetupAgent =>
             new \ilGlobalScreenSetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
+                $pull[Factory::class]
             );
 
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\Endpoint($this, "gs_content.php");
+        $contribute[PublicAsset::class] = fn(): Endpoint =>
+            new Endpoint($this, "gs_content.php");
 
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\Endpoint($this, "callback_handler.php");
+        $contribute[PublicAsset::class] = fn(): Endpoint =>
+            new Endpoint($this, "callback_handler.php");
 
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\Endpoint($this, "notify.php");
+        $contribute[PublicAsset::class] = fn(): Endpoint =>
+            new Endpoint($this, "notify.php");
 
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "GS.js");
+        $contribute[PublicAsset::class] = fn(): ComponentJS =>
+            new ComponentJS($this, "GS.js");
     }
 }

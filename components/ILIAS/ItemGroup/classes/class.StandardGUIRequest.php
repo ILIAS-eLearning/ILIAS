@@ -43,4 +43,10 @@ class StandardGUIRequest
     {
         return $this->intArray("items");
     }
+
+    public function getDidactivTemplateId(): int
+    {
+        return $this->int("didactic_type");
+    }
+
 }

@@ -95,7 +95,7 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
 
     public function updateDocumentOrder(DocumentId $document_id, int $order): void
     {
-        $this->updateDocument($document_id, ['sorting' => $order]);
+        $this->updateDocument($document_id, ['sorting' => $order], true);
     }
 
     public function updateCriterionContent(int $criterion_id, CriterionContent $content): void
@@ -112,13 +112,13 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
     }
 
     /**
-     * @param array<string, string> $fields_and_values
+     * @param array<string|int, string|int> $fields_and_values
      */
-    private function updateDocument(DocumentId $document_id, array $fields_and_values): void
+    private function updateDocument(DocumentId $document_id, array $fields_and_values, bool $silent = false): void
     {
-        match (get_class($document_id)) {
-            HashId::class => $this->lazyDocFields($fields_and_values, $document_id->hash()),
-            NumberId::class => $this->setDocFields($fields_and_values, $document_id->number()),
+        match ($document_id::class) {
+            HashId::class => $this->lazyDocFields($fields_and_values, $document_id->hash(), $silent),
+            NumberId::class => $this->setDocFields($fields_and_values, $document_id->number(), $silent),
         };
     }
 
@@ -160,7 +160,7 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
 
     public function findId(DocumentId $document_id): Result
     {
-        return match (get_class($document_id)) {
+        return match ($document_id::class) {
             HashId::class => $this->findHash($document_id->hash()),
             NumberId::class => $this->find($document_id->number()),
         };
@@ -176,6 +176,7 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
      *     sorting: string,
      *     text: ?string,
      *     title: ?string,
+     *     type: string,
      * } $row
      * @param list<Criterion> $criteria
      */
@@ -204,13 +205,15 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
     /**
      * @param array<string, string> $fields_and_values
      */
-    private function setDocFields(array $fields_and_values, int $doc_id): void
+    private function setDocFields(array $fields_and_values, int $doc_id, bool $silent): void
     {
         $modification = $this->action->modifiedNow();
         $this->database->update($this->documentTable(), $this->deriveFieldTypes([
-            'modification_ts' => $modification->time(),
-            'last_modified_usr_id' => $modification->user(),
             ...$fields_and_values,
+            ...($silent ? [] : [
+                'modification_ts' => $modification->time(),
+                'last_modified_usr_id' => $modification->user(),
+            ]),
         ]), $this->deriveFieldTypes([
             'id' => $doc_id,
             'provider' => $this->id,
@@ -220,13 +223,15 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
     /**
      * @param array<string, string> $fields_and_values
      */
-    private function lazyDocFields(array $fields_and_values, string $hash): void
+    private function lazyDocFields(array $fields_and_values, string $hash, bool $silent): void
     {
         $modification = $this->action->modifiedNow();
         $affected_rows = $this->database->update($this->documentTable(), $this->deriveFieldTypes([
             ...$fields_and_values,
-            'modification_ts' => $modification->time(),
-            'last_modified_usr_id' => $modification->user(),
+            ...($silent ? [] : [
+                'modification_ts' => $modification->time(),
+                'last_modified_usr_id' => $modification->user(),
+            ]),
         ]), $this->deriveFieldTypes([
             'hash' => $hash,
             'provider' => $this->id,
@@ -246,6 +251,9 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
         }
     }
 
+    /**
+     * @return array<string, string>
+     */
     private function criterionFields(CriterionContent $content): array
     {
         return [
@@ -254,6 +262,9 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
         ];
     }
 
+    /**
+     * @return Document[]
+     */
     private function queryDocuments(string $where = '1', string $limit = ''): array
     {
         $doc_table = $this->documentTable();

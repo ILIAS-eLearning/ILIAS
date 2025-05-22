@@ -28,7 +28,7 @@ class Factory implements I\Factory
     /**
      * @inheritdoc
      */
-    public function evenlyDistributed(Block ...$blocks): I\EvenlyDistributed
+    public function evenlyDistributed(Block ...$blocks): EvenlyDistributed
     {
         return new EvenlyDistributed(...$blocks);
     }
@@ -36,7 +36,7 @@ class Factory implements I\Factory
     /**
      * @inheritdoc
      */
-    public function dynamicallyDistributed(Block ...$blocks): I\DynamicallyDistributed
+    public function dynamicallyDistributed(Block ...$blocks): DynamicallyDistributed
     {
         return new DynamicallyDistributed(...$blocks);
     }

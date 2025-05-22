@@ -33,7 +33,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
     public function __construct(
         $a_parent_obj,
         $a_parent_cmd,
-        array $a_preselect = null,
+        ?array $a_preselect = null,
         $a_load_items = true
     ) {
         $this->preselected = $a_preselect;

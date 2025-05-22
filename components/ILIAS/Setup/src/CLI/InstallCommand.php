@@ -82,7 +82,7 @@ class InstallCommand extends Command
             define("ILIAS_SETUP_IGNORE_DB_UPDATE_STEP_MESSAGES", true);
         }
 
-        if ($input->hasOption('plugin') && $input->getOption('plugin') != "") {
+        if ($input->hasOption('legacy-plugin') && $input->getOption('legacy-plugin') != "") {
             list($objective, $environment, $io) = $this->preparePluginInstallation($input, $output);
         } else {
             list($objective, $environment, $io) = $this->prepareILIASInstallation($input, $output);
@@ -177,7 +177,7 @@ class InstallCommand extends Command
 
         $agent = $this->getRelevantAgent($input);
 
-        $config = $this->readAgentConfig($agent, $input, $input->getOption("plugin"));
+        $config = $this->readAgentConfig($agent, $input, $input->getOption("legacy-plugin"));
 
         $objective = new ObjectiveCollection(
             "Install and Update ILIAS Plugin",

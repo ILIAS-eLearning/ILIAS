@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,22 +16,22 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Blog;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
-use ILIAS\Blog\Contributor;
-use ILIAS\Blog\Exercise;
+use ILIAS\PermanentLink\PermanentLinkManager;
+use ILIAS\Blog\ReadingTime\GUIService;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalGUIService
 {
     use GlobalDICGUIServices;
 
     protected InternalDataService $data_service;
     protected InternalDomainService $domain_service;
+    protected static array $instance = [];
 
     public function __construct(
         Container $DIC,
@@ -85,5 +83,37 @@ class InternalGUIService
             $this->domain_service,
             $this
         );
+    }
+
+    public function permanentLink(
+        int $ref_id = 0,
+        int $wsp_id = 0
+    ): PermanentLinkManager {
+        return new PermanentLinkManager(
+            $this->domain_service->staticUrl(),
+            $this,
+            $ref_id,
+            $wsp_id
+        );
+    }
+
+    public function settings(): Settings\GUIService
+    {
+        return self::$instance["settings"] ??
+            self::$instance["settings"] = new Settings\GUIService(
+                $this->data_service,
+                $this->domain_service,
+                $this
+            );
+    }
+
+    public function readingTime(): GUIService
+    {
+        return self::$instance["reading_time"] ??
+            self::$instance["reading_time"] = new ReadingTime\GUIService(
+                $this->data_service,
+                $this->domain_service,
+                $this
+            );
     }
 }

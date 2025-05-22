@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
 
@@ -54,18 +54,11 @@ final class ilObjTalkTemplateAdministrationAccess extends ilObjectAccess
         return $commands;
     }
 
-
-
-    /**
-     * @param string $a_target check whether goto script will succeed
-     *
-     * @return bool
-     */
-    public static function _checkGoto(string $a_target): bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
-        $t_arr = explode('_', $a_target);
+        $t_arr = explode('_', $target);
         if ($t_arr[0] !== 'tala' || ((int) $t_arr[1]) <= 0) {
             return false;
         }

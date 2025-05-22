@@ -27,13 +27,8 @@ namespace ILIAS\ResourceStorage;
  */
 class Artifacts
 {
-    private array $flavour_machines;
-    private array $flavour_definitions;
-
-    public function __construct(array $flavour_machines, array $flavour_definitions)
+    public function __construct(private array $flavour_machines, private array $flavour_definitions)
     {
-        $this->flavour_machines = $flavour_machines;
-        $this->flavour_definitions = $flavour_definitions;
     }
 
     public function getFlavourMachines(): array

@@ -21,7 +21,6 @@ declare(strict_types=1);
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
 *
 * @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilMembershipMailGUI
@@ -36,7 +35,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected ilAppEventHandler $event;
     protected \ILIAS\FileUpload\FileUpload $upload;
     protected ilHelpGUI $help;
-    protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\Refinery\Factory $refinery;
 
     public ilLanguage $lng;
@@ -56,7 +54,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected int $container_ref_id = 0;
     protected int $container_obj_id = 0;
     protected ?ilPropertyFormGUI $form = null;
-    protected ilAdvancedMDRecordGUI $record_gui;
+    protected ?ilAdvancedMDRecordGUI $record_gui = null;
     protected ?ilEventRecurrence $rec = null;
     protected ?ilEventItems $event_items = null;
     protected ?ilEventParticipants $event_part = null;
@@ -88,7 +86,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->event = $DIC->event();
         $this->upload = $DIC->upload();
         $this->help = $DIC->help();
-        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
         $this->type = "sess";
@@ -276,11 +273,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         $this->addHeaderAction();
-    }
-
-    protected function renderObject(): void
-    {
-        $this->infoScreenObject();
     }
 
     protected function membersObject(): void
@@ -494,10 +486,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     */
     public function infoScreenObject(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd("showSummary");
-        // $this->ctrl->setCmdClass("ilinfoscreengui");
-        $this->infoScreen();
+        $this->ctrl->redirectByClass(
+            [self::class, ilInfoScreenGUI::class],
+            'showSummary'
+        );
     }
 
     public function modifyItemGUI(ilObjectListGUI $a_item_list_gui, array $a_item_data, bool $a_show_path): void
@@ -1116,6 +1108,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $parent_ref_id = $this->tree->getParentId($this->object->getRefId());
         $parent_type = ilObject::_lookupType($parent_ref_id, true);
         $parent_gui_class = 'ilObj' . $this->obj_definition->getClassName($parent_type) . 'GUI';
+        $this->ctrl->setParameterByClass($parent_gui_class, 'ref_id', $parent_ref_id);
         $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
             $this->buildAddNewItemElements(
                 $this->getCreatableObjectTypes(),
@@ -1124,6 +1117,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             )
         );
         $gui->render();
+        $this->ctrl->clearParameterByClass($parent_gui_class, 'ref_id');
 
         $this->event_items = new ilEventItems($this->object->getId());
 
@@ -1348,7 +1342,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $tbl->setOrderColumn($this->requested_sort_by);
         $tbl->setOrderDirection($this->requested_sort_order);
         $tbl->setOffset($this->requested_offset);
-        $tbl->setLimit((int) $ilUser->getPref("hits_per_page"));
         $tbl->setMaxCount(count($members));
         $tbl->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
 

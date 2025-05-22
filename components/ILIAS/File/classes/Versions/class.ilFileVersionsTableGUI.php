@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ResourceStorage\Services;
+use ILIAS\DI\UIServices;
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\Data\DataSize;
@@ -30,10 +32,10 @@ class ilFileVersionsTableGUI extends ilTable2GUI
     private Container $dic;
     private int $current_version;
     private \ilObjFile $file;
-    private \ILIAS\ResourceStorage\Services $irss;
+    private Services $irss;
     private bool $current_version_is_draft;
     private int $amount_of_versions;
-    protected \ILIAS\DI\UIServices $ui;
+    protected UIServices $ui;
     protected bool $has_been_migrated = false;
 
     /**
@@ -117,6 +119,7 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $this->setMaxCount(is_array($versions) ? count($versions) : 0);
     }
 
+    #[\Override]
     protected function fillRow(array $a_set): void
     {
         $action_entries = [];
@@ -243,6 +246,7 @@ class ilFileVersionsTableGUI extends ilTable2GUI
      * Since modals can contain forms as well, this would lead to invalid HTML
      * markup.
      */
+    #[\Override]
     public function getHTML(): string
     {
         return parent::getHTML() . $this->ui->renderer()->render($this->modals);

@@ -262,7 +262,6 @@ class ObjectiveRenderer
         }
 
         $node_data['title'] = $title;
-
         return "<div class='ilContObjectivesViewTestItem'>" . $this->renderer->getItemRenderer()->renderItem($node_data) . "</div>";
     }
 
@@ -413,8 +412,8 @@ class ObjectiveRenderer
     protected function renderObjective(
         int $a_objective_id,
         bool &$a_has_lo_page,
-        \ilAccordionGUI $a_accordion = null,
-        array $a_lo_result = null
+        ?\ilAccordionGUI $a_accordion = null,
+        ?array $a_lo_result = null
     ): string {
         $ilUser = $this->domain->user();
         $lng = $this->domain->lng();
@@ -648,8 +647,8 @@ class ObjectiveRenderer
      * @param int|null    $a_compare_value
      * @param string|null $a_caption
      * @param string|null $a_url
-     * @param string|null $a_tt_id
-     * @param string|null $a_tt_txt
+     * @param string|null $a_tt_id (deprecated, does not seem to be used)
+     * @param string|null $a_tt_txt (deprecated, does not seem to be used)
      * @param string|null $a_next_step
      * @param bool        $a_sub
      * @param int         $a_sub_style
@@ -658,14 +657,14 @@ class ObjectiveRenderer
      * @return string
      */
     public static function renderProgressMeter(
-        int $a_perc_result = null,
-        int $a_perc_limit = null,
-        int $a_compare_value = null,
-        string $a_caption = null,
-        string $a_url = null,
-        string $a_tt_id = null,
-        string $a_tt_txt = null,
-        string $a_next_step = null,
+        ?int $a_perc_result = null,
+        ?int $a_perc_limit = null,
+        ?int $a_compare_value = null,
+        ?string $a_caption = null,
+        ?string $a_url = null,
+        ?string $a_tt_id = null,
+        ?string $a_tt_txt = null,
+        ?string $a_next_step = null,
         bool $a_sub = false,
         int $a_sub_style = 30,
         string $a_main_text = '',
@@ -712,11 +711,6 @@ class ObjectiveRenderer
             //$tpl->setCurrentBlock("nstep_bl");
             $tpl->setVariable("TXT_NEXT_STEP", $a_next_step);
             //$tpl->parseCurrentBlock();
-        }
-
-        if ($a_tt_id &&
-            $a_tt_txt) {
-            \ilTooltipGUI::addTooltip($a_tt_id, $a_tt_txt);
         }
 
         if ($a_sub) {
@@ -791,7 +785,7 @@ class ObjectiveRenderer
         array $a_lo_result,
         bool $a_list_mode = false,
         bool $a_sub = false,
-        string $a_tt_suffix = null
+        ?string $a_tt_suffix = null
     ): string {
         global $DIC;
 
@@ -899,7 +893,7 @@ class ObjectiveRenderer
 
     protected function buildAccordionTitle(
         \ilCourseObjective $a_objective,
-        array $a_lo_result = null
+        ?array $a_lo_result = null
     ): string {
         global $DIC;
 
@@ -926,8 +920,8 @@ class ObjectiveRenderer
         $initial_lim = null;
         if ($this->loc_settings->worksWithInitialTest()) {
             if (array_key_exists('initial', $a_lo_result)) {
-                $initial_res = (int) $a_lo_result['initial']['result_perc'];
-                $initial_lim = (int) $a_lo_result['initial']['limit_perc'];
+                $initial_res = (int) ($a_lo_result['initial']['result_perc'] ?? 0);
+                $initial_lim = (int) ($a_lo_result['initial']['limit_perc'] ?? 100);
             }
             if (
                 ($a_lo_result['type'] ?? \ilLOUserResults::TYPE_UNDEFINED) == \ilLOUserResults::TYPE_INITIAL &&

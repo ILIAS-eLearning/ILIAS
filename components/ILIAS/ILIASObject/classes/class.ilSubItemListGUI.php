@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Base class for all sub item list gui's
@@ -152,25 +152,6 @@ abstract class ilSubItemListGUI
         $this->tpl->setVariable('LUC_NUM_HITS', sprintf($this->lng->txt('lucene_more_hits_link'), $additional));
         $this->tpl->parseCurrentBlock();
     }
-
-    // begin-patch mime_filter
-    protected function parseRelevance(int $sub_item): void
-    {
-        if (
-            !ilSearchSettings::getInstance()->isSubRelevanceVisible() ||
-            !ilSearchSettings::getInstance()->enabledLucene()
-        ) {
-            return;
-        }
-
-        $relevance = $this->getHighlighter()->getRelevance($this->getObjId(), $sub_item);
-
-        $pbar = ilProgressBar::getInstance();
-        $pbar->setCurrent($relevance);
-
-        $this->tpl->setVariable('REL_PBAR', $pbar->render());
-    }
-    // end-patch mime_filter
 
     abstract public function getHTML(): string;
 }

@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Container\View;
 
+use ILIAS\UI\URLBuilderToken;
+use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\ExternalSingleAction;
 use ILIAS\UI\Factory;
 use ILIAS\Data\URI;
 use ILIAS\components\ResourceStorage\URLSerializer;
@@ -36,16 +38,28 @@ final class ActionBuilder
 {
     use URLSerializer;
 
+    /**
+     * @var string
+     */
     private const ACTION_UNZIP = 'unzip';
+    /**
+     * @var string
+     */
     private const ACTION_DOWNLOAD = 'download';
+    /**
+     * @var string
+     */
     private const ACTION_REMOVE = 'remove';
+    /**
+     * @var string
+     */
     public const ACTION_NAMESPACE = 'rcgui';
     /**
      * @var Modal[]
      */
     private array $modals = [];
     private URLBuilder $url_builder;
-    private \ILIAS\UI\URLBuilderToken $url_token;
+    private URLBuilderToken $url_token;
     private array $single_actions;
 
     private array $appended_tokens = [];
@@ -104,7 +118,7 @@ final class ActionBuilder
         return $this->url_builder;
     }
 
-    public function getUrlToken(): \ILIAS\UI\URLBuilderToken
+    public function getUrlToken(): URLBuilderToken
     {
         return $this->url_token;
     }
@@ -117,7 +131,7 @@ final class ActionBuilder
         $actions = [];
 
         foreach ($this->single_actions as $key => $single_action) {
-            if ($single_action instanceof ActionBuilder\ExternalSingleAction) {
+            if ($single_action instanceof ExternalSingleAction) {
                 $this->url_builder = $this->appendNamespaceToURIBuilder(
                     $single_action->getParameterNamespace(),
                     $single_action->getPathParameterName()

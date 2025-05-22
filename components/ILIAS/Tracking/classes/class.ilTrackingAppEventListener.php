@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,7 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
+declare(strict_types=0);
 
 /**
  * Update lp data from Services/Object events
@@ -40,7 +39,7 @@ class ilTrackingAppEventListener implements ilAppEventListener
     ): void {
         $obj_id = $a_parameter['obj_id'] ?? null;
         switch ($a_component) {
-            case 'components/ILIAS/Object':
+            case 'components/ILIAS/ILIASObject':
                 switch ($a_event) {
                     case 'toTrash':
                         $olp = ilObjectLP::getInstance($obj_id);

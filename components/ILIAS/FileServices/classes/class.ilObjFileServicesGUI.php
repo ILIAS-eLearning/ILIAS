@@ -42,7 +42,6 @@ class ilObjFileServicesGUI extends ilObject2GUI
     protected ilSetting $settings;
     public ilGlobalTemplateInterface $tpl;
     protected Factory $refinery;
-    protected WrapperFactory $http;
     protected ilFileServicesSettings $file_service_settings;
 
     /**
@@ -65,8 +64,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
         $this->tree = $DIC['tree'];
         $this->settings = $DIC['ilSetting'];
         $this->error_handling = $DIC["ilErr"];
-        $this->http = $DIC->http()->wrapper();
-        $this->ref_id = $this->http->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
+        $this->ref_id = $this->request_wrapper->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
         $this->refinery = $DIC->refinery();
         $this->file_service_settings = $DIC->fileServiceSettings();
     }
@@ -95,6 +93,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
      * Execute command
      * @access public
      */
+    #[\Override]
     public function executeCommand(): void
     {
         $this->lng->loadLanguageModule("fils");
@@ -133,6 +132,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
     /**
      * Get tabs
      */
+    #[\Override]
     public function getAdminTabs(): void
     {
         // General Settings for File-Services
@@ -185,6 +185,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
         }
     }
 
+    #[\Override]
     public function setTitleAndDescription(): void
     {
         parent::setTitleAndDescription();
@@ -281,11 +282,9 @@ class ilObjFileServicesGUI extends ilObject2GUI
         // get form
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
-            $trafo = function (string $id): ?string {
-                return $this->http->post()->has($id)
-                    ? $this->http->post()->retrieve($id, $this->refinery->to()->string())
-                    : null;
-            };
+            $trafo = (fn(string $id): ?string => $this->post_wrapper->has($id)
+                ? $this->post_wrapper->retrieve($id, $this->refinery->to()->string())
+                : null);
 
 
             $this->settings->set("suffix_repl_additional", $trafo("suffix_repl_additional"));

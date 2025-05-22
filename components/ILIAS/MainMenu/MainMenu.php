@@ -20,7 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class MainMenu implements Component\Component
+use ILIAS\Component\Component;
+
+class MainMenu implements Component
 {
     public function init(
         array | \ArrayAccess &$define,

@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Tests\UI\Component\Input;
 
 use ILIAS\UI\Implementation\Component\Input\DynamicInputDataIterator;
-use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Component\Input\InputData;
 use PHPUnit\Framework\TestCase;
 use LogicException;
 use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;

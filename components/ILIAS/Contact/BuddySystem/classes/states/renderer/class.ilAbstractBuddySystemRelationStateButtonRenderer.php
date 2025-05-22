@@ -18,17 +18,16 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilAbstractBuddySystemRelationStateButtonRenderer
- * @author Michael Jansen <mjansen@databay.de>
- */
 abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBuddySystemRelationStateButtonRenderer
 {
     protected ilTemplate $tpl;
     protected ilLanguage $lng;
 
-    public function __construct(protected int $usrId, protected ilBuddySystemRelation $relation, ilLanguage $lng = null)
-    {
+    public function __construct(
+        protected int $usrId,
+        protected ilBuddySystemRelation $relation,
+        ?ilLanguage $lng = null
+    ) {
         global $DIC;
 
         $this->tpl = new ilTemplate(
@@ -37,6 +36,8 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
             true,
             'components/ILIAS/Contact/BuddySystem'
         );
+
+        $this->tpl->setVariable('MENU_ID', uniqid('buddy-system-menu', true));
 
         $this->lng = $lng ?? $DIC['lng'];
     }

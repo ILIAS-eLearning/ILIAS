@@ -125,4 +125,48 @@ class PublicAssetManagerTest extends TestCase
         $this->assertEquals(["/public", "/public/second"], $this->manager->madeDir);
         $this->assertEquals([["/base/source1", "/public/target1"], ["/base/source2", "/public/second/target"]], $this->manager->copied);
     }
+
+    public function testValidFolderPaths(): void
+    {
+        $this->expectNotToPerformAssertions();
+
+        $this->manager->buildPublicFolder("/base", "/public");
+        $this->manager->buildPublicFolder("/srv/demo10-ilias", "/public");
+        $this->manager->buildPublicFolder("/srv/demo10.ilias.de", "/public");
+    }
+
+    /**
+     * @dataProvider provideInvalidFolderPathData
+     */
+    public function testInvalidFolderPaths(string $ilias_base, string $target): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->manager->buildPublicFolder($ilias_base, $target);
+    }
+
+    public static function provideInvalidFolderPathData(): array
+    {
+        return [
+            'base - missing leading slash' => ['base', '/public'],
+            'base - extra trailing slash' => ['/base/', '/public'],
+            'base - dot only' => ['.', '/public'],
+            'base - dash only' => ['-', '/public'],
+            'base - invalid trailing dash' => ['/base/demo-', '/public'],
+            'base - invalid trailing dot' => ['/base/demo.', '/public'],
+            'base - invalid leading dash' => ['/base/.demo', '/public'],
+            'base - invalid leading dot' => ['/base/-demo', '/public'],
+            'base - invalid dot sub directory' => ['/./test', '/public'],
+            'base - invalid dash sub directory' => ['/-/test', '/public'],
+            'target - missing leading slash' => ['/base', 'public'],
+            'target - extra trailing slash' => ['/base', '/public/'],
+            'target - dot only' => ['/base', '.'],
+            'target - dash only' => ['/base', '-'],
+            'target - invalid trailing dash' => ['/base', '/public.'],
+            'target - invalid trailing dot' => ['/base', '/public-'],
+            'target - invalid leading dash' => ['/base', '/.public'],
+            'target - invalid leading dot' => ['/base', '/-public'],
+            'target - invalid dot sub directory' => ['/base', '/./public'],
+            'target - invalid dash sub directory' => ['/base', '/-/public'],
+        ];
+    }
 }

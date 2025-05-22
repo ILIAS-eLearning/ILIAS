@@ -18,16 +18,11 @@
 
 declare(strict_types=1);
 
-chdir(__DIR__);
-
-while (!is_file('ilias.ini.php')) {
-    chdir('..');
-    if (getcwd() === '/') {
-        die('Please ensure ILIAS is installed!');
-    }
+if (!file_exists('../ilias.ini.php')) {
+    die('The ILIAS setup is not completed. Please run the setup routine.');
 }
 
-require_once('libs/composer/vendor/autoload.php');
+require_once '../vendor/composer/vendor/autoload.php';
 
 ilContext::init(ilContext::CONTEXT_SAML);
 ilInitialisation::initILIAS();

@@ -28,6 +28,7 @@ use ILIAS\Exercise\InternalDomainService;
 use ILIAS\Exercise\Assignment;
 use ILIAS\Exercise\PeerReview;
 use ILIAS\Exercise\PermanentLink\PermanentLinkManager;
+use ILIAS\Exercise\Settings\GUIService;
 
 /**
  * Exercise UI frontend presentation service class
@@ -119,7 +120,7 @@ class InternalGUIService
         return new \ilObjExerciseGUI([], $ref_id, true);
     }
 
-    public function getRandomAssignmentGUI(\ilObjExercise $exc = null): \ilExcRandomAssignmentGUI
+    public function getRandomAssignmentGUI(?\ilObjExercise $exc = null): \ilExcRandomAssignmentGUI
     {
         if ($exc === null) {
             $exc = $this->request()->getExercise();
@@ -134,8 +135,8 @@ class InternalGUIService
     }
 
     public function getSubmissionGUI(
-        \ilObjExercise $exc = null,
-        \ilExAssignment $ass = null,
+        ?\ilObjExercise $exc = null,
+        ?\ilExAssignment $ass = null,
         $member_id = null
     ): \ilExSubmissionGUI {
         if ($exc === null) {
@@ -172,4 +173,14 @@ class InternalGUIService
             $notification
         );
     }
+
+    public function settings(
+    ): GUIService {
+        return new GUIService(
+            $this->data_service,
+            $this->domain_service,
+            $this
+        );
+    }
+
 }

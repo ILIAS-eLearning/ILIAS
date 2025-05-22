@@ -20,6 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Resource;
 
+use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
+use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
+use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
+use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
+use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
+use ILIAS\ResourceStorage\Policy\FileNamePolicyException;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\DTO\UploadResult;
@@ -55,29 +61,25 @@ class ResourceBuilder
     /**
      * @readonly
      */
-    private \ILIAS\ResourceStorage\Information\Repository\InformationRepository $information_repository;
+    private InformationRepository $information_repository;
     /**
      * @readonly
      */
-    private \ILIAS\ResourceStorage\Resource\Repository\ResourceRepository $resource_repository;
+    private ResourceRepository $resource_repository;
     /**
      * @readonly
      */
-    private \ILIAS\ResourceStorage\Revision\Repository\RevisionRepository $revision_repository;
+    private RevisionRepository $revision_repository;
     /**
      * @readonly
      */
-    private \ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository $stakeholder_repository;
+    private StakeholderRepository $stakeholder_repository;
 
     /**
      * @var StorableResource[]
      */
     protected array $resource_cache = [];
-    protected \ILIAS\ResourceStorage\Policy\FileNamePolicy $file_name_policy;
-    protected \ILIAS\ResourceStorage\StorageHandler\StorageHandler $primary_storage_handler;
-    private StorageHandlerFactory $storage_handler_factory;
-    private LockHandler $lock_handler;
-    private StreamAccess $stream_access;
+    protected StorageHandler $primary_storage_handler;
     private bool $auto_migrate = true;
 
     /**
@@ -85,21 +87,17 @@ class ResourceBuilder
      * @param FileNamePolicy|null $file_name_policy
      */
     public function __construct(
-        StorageHandlerFactory $storage_handler_factory,
+        private StorageHandlerFactory $storage_handler_factory,
         Repositories $repositories,
-        LockHandler $lock_handler,
-        StreamAccess $stream_access,
-        FileNamePolicy $file_name_policy = null
+        private LockHandler $lock_handler,
+        private StreamAccess $stream_access,
+        protected FileNamePolicy $file_name_policy = new NoneFileNamePolicy()
     ) {
-        $this->storage_handler_factory = $storage_handler_factory;
-        $this->lock_handler = $lock_handler;
-        $this->stream_access = $stream_access;
-        $this->primary_storage_handler = $storage_handler_factory->getPrimary();
+        $this->primary_storage_handler = $this->storage_handler_factory->getPrimary();
         $this->revision_repository = $repositories->getRevisionRepository();
         $this->resource_repository = $repositories->getResourceRepository();
         $this->information_repository = $repositories->getInformationRepository();
         $this->stakeholder_repository = $repositories->getStakeholderRepository();
-        $this->file_name_policy = $file_name_policy ?? new NoneFileNamePolicy();
     }
 
     //
@@ -345,7 +343,7 @@ class ResourceBuilder
 
     /**
      * @description after you have modified a resource, you can store it here
-     * @throws \ILIAS\ResourceStorage\Policy\FileNamePolicyException
+     * @throws FileNamePolicyException
      */
     public function store(StorableResource $resource): void
     {
@@ -364,7 +362,7 @@ class ResourceBuilder
                 $this->resource_repository->store($resource);
 
                 foreach ($resource->getAllRevisionsIncludingDraft() as $revision) {
-                    $this->storeRevision($revision);
+                    $this->storeRevision($revision, $resource);
                 }
 
                 foreach ($resource->getStakeholders() as $stakeholder) {
@@ -381,7 +379,7 @@ class ResourceBuilder
      */
     public function clone(StorableResource $resource): StorableResource
     {
-        $new_resource = $this->newBlank();
+        $new_resource = $this->newBlank($resource->getType());
         foreach ($resource->getStakeholders() as $stakeholder) {
             $stakeholder = clone $stakeholder;
             $new_resource->addStakeholder($stakeholder);
@@ -415,9 +413,9 @@ class ResourceBuilder
 
     /**
      * @description  Store one Revision
-     * @throws \ILIAS\ResourceStorage\Policy\FileNamePolicyException
+     * @throws FileNamePolicyException
      */
-    public function storeRevision(Revision $revision): void
+    public function storeRevision(Revision $revision, ?StorableResource $resource = null): void
     {
         $storage_handler = empty($revision->getStorageID())
             ? $this->primary_storage_handler
@@ -439,6 +437,19 @@ class ResourceBuilder
         }
         $this->revision_repository->store($revision);
         $this->information_repository->store($revision->getInformation(), $revision);
+
+        // we replace the revision with the populated one
+        if ($resource !== null) {
+            $replace_revision = new FileRevision($revision->getIdentification());
+            $replace_revision->setVersionNumber($revision->getVersionNumber());
+            $replace_revision->setOwnerId($revision->getOwnerId());
+            $replace_revision->setTitle($revision->getTitle());
+            $replace_revision->setStatus($revision->getStatus());
+            $replace_revision->setInformation($revision->getInformation());
+            $replace_revision->setStorageID($revision->getStorageID());
+
+            $resource->replaceRevision($replace_revision);
+        }
     }
 
     /**
@@ -493,9 +504,9 @@ class ResourceBuilder
     {
         switch (true) {
             case $revision instanceof FileStreamRevision:
-                return $revision->getStream();
+                return Streams::ofReattachableResource($revision->getStream()->detach());
             case $revision instanceof UploadedFileRevision:
-                return Streams::ofResource(fopen($revision->getUpload()->getPath(), 'rb'));
+                return Streams::ofReattachableResource(fopen($revision->getUpload()->getPath(), 'rb'));
             case $revision instanceof CloneRevision:
                 return $revision->getRevisionToClone()->getStream();
             case $revision instanceof FileRevision:
@@ -518,7 +529,7 @@ class ResourceBuilder
      * @param ResourceStakeholder|null $stakeholder
      * @return bool whether ResourceStakeholders handled this successful
      */
-    public function remove(StorableResource $resource, ResourceStakeholder $stakeholder = null): bool
+    public function remove(StorableResource $resource, ?ResourceStakeholder $stakeholder = null): bool
     {
         $sucessful = true;
         if ($stakeholder instanceof ResourceStakeholder) {
@@ -573,7 +584,7 @@ class ResourceBuilder
             $this->storeRevision($revision);
 
             return true;
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             return false;
         }
     }
@@ -615,7 +626,7 @@ class ResourceBuilder
             }
         }
 
-        return rtrim($path_inside_container, '/') . '/' . $filename;
+        return rtrim((string) $path_inside_container, '/') . '/' . $filename;
     }
 
     public function removePathInsideContainer(
@@ -637,7 +648,7 @@ class ResourceBuilder
                 if ($path === false) {
                     continue;
                 }
-                if (strpos($path, $path_inside_container) === 0) {
+                if (str_starts_with($path, $path_inside_container)) {
                     $zip->deleteIndex($i);
                 }
             }
@@ -650,7 +661,7 @@ class ResourceBuilder
             $this->storeRevision($revision);
 
             return $return;
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             $this->storage_handler_factory->getHandlerForRevision($revision)->clearFlavours($revision);
             return false;
         }
@@ -685,7 +696,7 @@ class ResourceBuilder
             $this->storeRevision($revision);
 
             return $return;
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             return false;
         }
 
@@ -718,7 +729,7 @@ class ResourceBuilder
             $this->storeRevision($revision);
 
             return $return;
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             return false;
         }
 
@@ -729,7 +740,7 @@ class ResourceBuilder
     {
         try {
             $this->storage_handler_factory->getHandlerForResource($resource)->deleteRevision($revision);
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
         }
 
         $this->information_repository->delete($revision->getInformation(), $revision);

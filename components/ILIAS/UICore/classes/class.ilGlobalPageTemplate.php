@@ -36,6 +36,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 {
     protected HTTPServices $http;
     protected Services $gs;
+    protected ilLoggerFactory $logger_factory;
     protected UIServices $ui;
     protected PageContentGUI $legacy_content_template;
     protected ilLanguage $lng;
@@ -62,6 +63,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->lng = $DIC->language();
         $this->ui = $ui;
         $this->gs = $gs;
+        $this->logger_factory = $DIC['ilLoggerFactory'];
         $this->http = $http;
         $this->legacy_content_template = new PageContentGUI("tpl.page_content.html", true, true);
         $this->il_settings = $DIC->settings();
@@ -98,7 +100,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         iljQueryUtil::initjQuery($this);
         iljQueryUtil::initjQueryUI($this);
         $this->gs->layout()->meta()->addJs("assets/js/Basic.js", true, 1);
-        ilUIFramework::init($this);
         ilBuddySystemGUI::initializeFrontend($this);
         ilOnScreenChatGUI::initializeFrontend($this);
         GlobalPageHandler::initPage($this);
@@ -106,7 +107,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $sessionReminder = new ilSessionReminderGUI(
             ilSessionReminder::byLoggedInUser(),
             $this,
-            $this->lng
+            $this->lng,
+            $this->logger_factory
         );
 
         $sessionReminder->populatePage();
@@ -319,7 +321,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         throw new ilTemplateException("block " . var_export($blockname, true) . " not found");
     }
 
-    public function addBlockFile(string $var, string $block, string $template_name, string $in_module = null): bool
+    public function addBlockFile(string $var, string $block, string $template_name, ?string $in_module = null): bool
     {
         if ($this->blockExists($block)) {
             $this->legacy_content_template->removeBlockData($block);

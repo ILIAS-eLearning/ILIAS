@@ -46,7 +46,7 @@ final class ilEmployeeTalkSetupAgent implements Setup\Agent
         );
     }
 
-    public function getInstallObjective(Config $config = null): Objective
+    public function getInstallObjective(?Config $config = null): Objective
     {
         return new \ilTreeAdminNodeAddedObjective('tala', '__TalkTemplateAdministration');
     }
@@ -72,7 +72,7 @@ final class ilEmployeeTalkSetupAgent implements Setup\Agent
     }
 
 
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new Setup\ObjectiveCollection(
             'Employee Talks',

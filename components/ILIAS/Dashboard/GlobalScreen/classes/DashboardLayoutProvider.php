@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
@@ -29,6 +30,12 @@ use ILIAS\GlobalScreen\ScreenContext\AdditionalData\Collection;
 class DashboardLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {
     protected ?Collection $data_collection;
+
+    public function __construct(Container $dic)
+    {
+        $dic->ui()->mainTemplate()->addJavaScript('assets/js/modal-confirmation.js');
+        parent::__construct($dic);
+    }
 
     public function isInterestedInContexts(): ContextCollection
     {

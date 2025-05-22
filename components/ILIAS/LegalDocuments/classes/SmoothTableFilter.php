@@ -22,6 +22,7 @@ namespace ILIAS\LegalDocuments;
 
 use ilTableFilterItem;
 use ilTable2GUI;
+use Closure;
 
 class SmoothTableFilter implements TableFilter
 {

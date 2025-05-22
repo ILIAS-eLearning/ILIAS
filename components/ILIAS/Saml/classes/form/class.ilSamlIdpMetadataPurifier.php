@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilSamlIdpMetadataPurifier
- * @author Michael Jansen <mjansen@databay.de>
- */
 final class ilSamlIdpMetadataPurifier implements ilHtmlPurifierInterface
 {
     public function purify(string $html): string

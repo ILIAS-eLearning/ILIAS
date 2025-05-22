@@ -18,6 +18,7 @@
 
 namespace ILIAS\ResourceStorage\Flavours;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\AbstractTestBase;
@@ -64,10 +65,11 @@ class FlavourMachineTest extends AbstractTestBase
     /**
      * @var \ILIAS\ResourceStorage\Flavour\Engine\Factory|MockObject
      */
-    private \PHPUnit\Framework\MockObject\MockObject $engine_factory_mock;
+    private MockObject $engine_factory_mock;
 
     private array $engine_mocks = [];
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->engine_factory_mock = $this->createMock(\ILIAS\ResourceStorage\Flavour\Engine\Factory::class);
@@ -114,9 +116,7 @@ class FlavourMachineTest extends AbstractTestBase
     }
 
 
-    /**
-     * @dataProvider definitionsToMachines
-     */
+    #[DataProvider('definitionsToMachines')]
     public function testDefaultMachines(FlavourDefinition $d, string $machine): void
     {
         $factory = new Factory($this->engine_factory_mock);
@@ -140,9 +140,7 @@ class FlavourMachineTest extends AbstractTestBase
         ];
     }
 
-    /**
-     * @dataProvider machinesToEngines
-     */
+    #[DataProvider('machinesToEngines')]
     public function testDefaultMachineEngines(string $machine, string $engine): void
     {
         $factory = new \ILIAS\ResourceStorage\Flavour\Engine\Factory();
@@ -150,9 +148,7 @@ class FlavourMachineTest extends AbstractTestBase
         $this->assertInstanceOf($engine, $engine_instance);
     }
 
-    /**
-     * @dataProvider definitionsToMachines
-     */
+    #[DataProvider('definitionsToMachines')]
     public function testNullMachineFallback(FlavourDefinition $d, string $machine, string $engine): void
     {
         $factory = new Factory($this->engine_factory_mock);
@@ -196,20 +192,15 @@ class FlavourMachineTest extends AbstractTestBase
         $this->assertEquals(
             '<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 155 155"><defs><style>.cls-1{fill:blue;}</style></defs><g><g><rect class="cls-1" x="3" y="3" width="150" height="150"/><path d="M151.14,6V151.14H6V6H151.14m6-6H0V157.14H157.14V0h0Z"/></g></g></svg>',
-            (string)$result_one->getStream()
+            (string) $result_one->getStream()
         );
     }
 
     private function createSVGColorChangeDefinition(string $color, string $to_color): FlavourDefinition
     {
         return new class ($color, $to_color) extends DummyDefinition {
-            private string $color;
-            private string $to_color;
-
-            public function __construct(string $color, string $to_color)
+            public function __construct(private string $color, private string $to_color)
             {
-                $this->color = $color;
-                $this->to_color = $to_color;
                 parent::__construct(
                     'svg_color_changer',
                     'svg_color_changing_machine'

@@ -90,6 +90,7 @@ abstract class ilContainerContentGUI
         $this->container_obj = $obj;
 
         $tpl->addJavaScript("assets/js/Container.js");
+        $tpl->addJavaScript("assets/js/repository.js");
 
         $this->log = ilLoggerFactory::getLogger('cont');
 
@@ -499,7 +500,6 @@ abstract class ilContainerContentGUI
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
         $ilCtrl = $this->ctrl;
-
         // Pass type, obj_id and tree to checkAccess method to improve performance
         if (!$ilAccess->checkAccess('visible', '', $a_item_data['ref_id'], $a_item_data['type'], $a_item_data['obj_id'], $a_item_data['tree'])) {
             return '';
@@ -574,7 +574,6 @@ abstract class ilContainerContentGUI
             $this->getContainerGUI()->isActiveItemOrdering()
         )) {
             $pos = 1;
-
             $items = ilObjectActivation::getItemsByEvent($a_item_data['obj_id']);
             $items = ilContainerSorting::_getInstance($this->getContainerObject()->getId())->sortSubItems('sess', $a_item_data['obj_id'], $items);
             $items = ilContainer::getCompleteDescriptions($items);
@@ -746,41 +745,8 @@ abstract class ilContainerContentGUI
 
                 if (!$this->renderer->hasItem($item_ref_id)) {
                     $html = $this->renderItem($item_data, $position++);
+
                     if ($html != "") {
-
-                        $unique_id = $this->getUniqueItemId($item_data);
-                        // workaround for legacy adv selection lists asynch loading start...
-                        $js_tpl = new ilTemplate(
-                            "tpl.adv_selection_list_js_init.js",
-                            true,
-                            true,
-                            "Services/UIComponent/AdvancedSelectionList",
-                            "DEFAULT",
-                            false,
-                            true
-                        );
-                        $this->ctrl->setParameter($this->container_gui, "cmdrefid", $item_data['ref_id']);
-                        $asynch_url = $this->ctrl->getLinkTarget(
-                            $this->container_gui,
-                            "getAsynchItemList",
-                            "",
-                            true,
-                            false
-                        );
-                        $this->ctrl->setParameter($this->container_gui, "cmdrefid", "");
-                        $unique_id = 'act_' . $unique_id;
-                        $js_tpl->setVariable("ID", $unique_id);
-                        $js_tpl->setCurrentBlock("asynch_bl");
-                        $js_tpl->setVariable("ASYNCH_URL", $asynch_url);
-                        $js_tpl->setVariable("ASYNCH_ID", $unique_id);
-                        $js_tpl->setVariable("ASYNCH_TRIGGER_ID", $unique_id);
-                        $js_tpl->parseCurrentBlock();
-                        if (is_string($html)) {
-                            $html .= "<script>" . $js_tpl->get() . "</script>";
-                        }
-                        // ...end
-
-
                         $counter++;
                         $this->renderer->addItemToBlock($type, $item_data["type"], $item_ref_id, $html);
                     }

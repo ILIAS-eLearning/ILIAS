@@ -16,10 +16,10 @@
  *
  *********************************************************************/
 
-use ILIAS\Setup;
+use ILIAS\Setup\Objective;
 use ILIAS\Setup\Environment;
 
-class ilFileObjectSettingsUpdatedObjective implements Setup\Objective
+class ilFileObjectSettingsUpdatedObjective implements Objective
 {
     public function getHash(): string
     {
@@ -53,8 +53,8 @@ class ilFileObjectSettingsUpdatedObjective implements Setup\Objective
          * @var $db         ilDBInterface
          * @var $client_ini ilIniFile
          */
-        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
-        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+        $db = $environment->getResource(Environment::RESOURCE_DATABASE);
+        $client_ini = $environment->getResource(Environment::RESOURCE_CLIENT_INI);
 
         $use_ascii_characters_only = $client_ini->readVariable(
             'file_access',
@@ -82,7 +82,7 @@ class ilFileObjectSettingsUpdatedObjective implements Setup\Objective
         /**
          * @var $client_ini ilIniFile
          */
-        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+        $client_ini = $environment->getResource(Environment::RESOURCE_CLIENT_INI);
 
         return $client_ini->groupExists("file_access");
     }

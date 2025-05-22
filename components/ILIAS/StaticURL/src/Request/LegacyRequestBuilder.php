@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\StaticURL\Request;
 
+use ILIAS\HTTP\Services;
 use ILIAS\StaticURL\Handler\LegacyGotoHandler;
 use ILIAS\Refinery\Factory;
 use ILIAS\StaticURL\Builder\StandardURIBuilder;
@@ -30,7 +31,7 @@ use ILIAS\Data\ReferenceId;
  */
 class LegacyRequestBuilder implements RequestBuilder
 {
-    public function buildRequest(\ILIAS\HTTP\Services $http, Factory $refinery, array $handlers): ?Request
+    public function buildRequest(Services $http, Factory $refinery, array $handlers): ?Request
     {
         // try to get target from query
         $target = $http->wrapper()->query()->has("target")
@@ -40,7 +41,7 @@ class LegacyRequestBuilder implements RequestBuilder
             )
             : null;
         if ($target !== null) {
-            $target_parts = explode('_', $target);
+            $target_parts = explode('_', (string) $target);
             if (isset($target_parts[0]) && array_key_exists($target_parts[0], $handlers)) {
                 return null;
             }

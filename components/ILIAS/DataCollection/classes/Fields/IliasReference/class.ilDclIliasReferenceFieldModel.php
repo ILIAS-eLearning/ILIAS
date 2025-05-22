@@ -46,7 +46,7 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
         $sql_obj = new ilDclRecordQueryObject();
         $sql_obj->setSelectStatement($select_str);
         $sql_obj->setJoinStatement($join_str);
-        $sql_obj->setOrderStatement("field_{$this->getId()} " . $direction. ", ID ASC");
+        $sql_obj->setOrderStatement("field_{$this->getId()} " . $direction . ", ID ASC");
 
         return $sql_obj;
     }
@@ -77,9 +77,22 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
 
     public function getValidFieldProperties(): array
     {
-        return [ilDclBaseFieldModel::PROP_LEARNING_PROGRESS,
-                ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK,
-                ilDclBaseFieldModel::PROP_DISPLAY_COPY_LINK_ACTION_MENU
+        return [
+            ilDclBaseFieldModel::PROP_LEARNING_PROGRESS,
+            ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK,
+            ilDclBaseFieldModel::PROP_DISPLAY_COPY_LINK_ACTION_MENU,
+            ilDclBaseFieldModel::PROP_UNIQUE
         ];
+    }
+
+    public function checkFieldCreationInput(ilPropertyFormGUI $form): bool
+    {
+        return $this->checkUniqueProp($form) && parent::checkFieldCreationInput($form);
+    }
+
+    public function checkValidity($value, ?int $record_id): bool
+    {
+        $this->checkUnique($value, $record_id);
+        return parent::checkValidity($value, $record_id);
     }
 }

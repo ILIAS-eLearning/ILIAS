@@ -39,7 +39,7 @@ class ilDerivedTasksGUI implements ilCtrlBaseClassInterface
      * Constructor
      * @param Container|null $dic
      */
-    public function __construct(Container $di_container = null)
+    public function __construct(?Container $di_container = null)
     {
         global $DIC;
 

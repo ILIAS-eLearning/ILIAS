@@ -31,6 +31,7 @@ class GetFileInfoResponse extends Response
     public function __construct(
         Revision $revision,
         int $current_user_id,
+        bool $editable = false
     ) {
         $URI = new URI(ILIAS_HTTP_PATH);
         $origin = $URI->getSchema() . '://' . $URI->getHost();
@@ -48,11 +49,11 @@ class GetFileInfoResponse extends Response
             self::SUPPORTS_CONTAINERS => false,
             self::SUPPORTS_DELETE_FILE => false,
             self::SUPPORTS_UPDATE => true,
-            self::READ_ONLY => false,
+            self::READ_ONLY => !$editable,
             self::RESTRICTED_WEB_VIEW_ONLY => true,
-            self::USER_CAN_WRITE => true,
+            self::USER_CAN_WRITE => $editable,
             self::USER_FRIENDLY_NAME => $lookup_name['firstname'] . ' ' . $lookup_name['lastname'],
-            self::USER_CAN_ATTEND => false,
+            self::USER_CAN_ATTEND => true,
             self::LAST_MODIFIED_TIME => $revision->getInformation()->getCreationDate()->format(DATE_ATOM),
             self::USER_CAN_NOT_WRITE_RELATIVE => true,
             self::POST_MESSAGE_ORIGIN => $origin,

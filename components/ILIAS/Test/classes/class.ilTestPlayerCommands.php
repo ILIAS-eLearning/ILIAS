@@ -57,12 +57,7 @@ class ilTestPlayerCommands
     public const SKIP_QUESTION = 'skipQuestion';
     public const SHOW_INSTANT_RESPONSE = 'showInstantResponse';
 
-    public const CONFIRM_HINT_REQUEST = 'confirmHintRequest';
-    public const SHOW_REQUESTED_HINTS_LIST = 'showRequestedHintList';
-
     public const QUESTION_SUMMARY = 'outQuestionSummary';
-    public const QUESTION_SUMMARY_INC_OBLIGATIONS = 'outQuestionSummaryWithObligationsInfo';
-    public const QUESTION_SUMMARY_OBLIGATIONS_ONLY = 'outObligationsOnlySummary';
     public const TOGGLE_SIDE_LIST = 'toggleSideList';
 
     public const SHOW_QUESTION_SELECTION = 'showQuestionSelection';
@@ -71,6 +66,7 @@ class ilTestPlayerCommands
     public const AUTO_SAVE = 'autosave';
     public const AUTO_SAVE_ON_TIME_LIMIT = 'autosaveOnTimeLimit';
     public const REDIRECT_ON_TIME_LIMIT = 'redirectAfterAutosave';
+    public const REDIRECT_AFTER_QUESTION_LIST = 'redirectAfterQuestionList';
 
     public const SUSPEND_TEST = 'suspendTest';
     public const FINISH_TEST = 'finishTest';
@@ -83,13 +79,15 @@ class ilTestPlayerCommands
     /**
      * @var array
      */
-    private static $nonExecutionCommands = array(
-// fau: testNav - declare DETECT_CHANGES as non execution command
+    private static $nonExecutionCommands = [
         self::DETECT_CHANGES,
-// fau.
-        self::AUTO_SAVE, self::AUTO_SAVE_ON_TIME_LIMIT, self::REDIRECT_ON_TIME_LIMIT,
-        self::AFTER_TEST_PASS_FINISHED, self::SHOW_FINAL_STATMENT
-    );
+        self::AUTO_SAVE,
+        self::AUTO_SAVE_ON_TIME_LIMIT,
+        self::REDIRECT_ON_TIME_LIMIT,
+        self::AFTER_TEST_PASS_FINISHED,
+        self::SHOW_FINAL_STATMENT,
+        self::REDIRECT_AFTER_QUESTION_LIST
+    ];
 
     /**
      * @param $cmd

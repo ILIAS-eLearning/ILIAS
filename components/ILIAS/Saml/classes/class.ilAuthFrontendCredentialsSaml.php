@@ -20,10 +20,6 @@ declare(strict_types=1);
 
 use Psr\Http\Message\ServerRequestInterface;
 
-/**
- * Class ilAuthFrontendCredentialsSaml
- * @author Michael Jansen <mjansen@databay.de>
- */
 final class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials
 {
     private string $return_to = '';

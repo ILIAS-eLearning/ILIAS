@@ -113,7 +113,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
                 "mep_folder",
                 ilMediaPoolTableGUI::IL_MEP_SELECT_CONTENT
             );
-            $mpool_table->setInsertCommand("create_incl");
+            $mpool_table->setInsertCommand("create");
 
             $html .= $mpool_table->getHTML();
 

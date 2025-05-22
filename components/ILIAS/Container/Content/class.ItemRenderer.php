@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Containter\Content;
 
@@ -38,6 +38,7 @@ class ItemRenderer
     protected string $view_mode;
     protected InternalGUIService $gui;
     protected InternalDomainService $domain;
+    protected ?\Closure $item_modifier_closure = null;
     protected array $list_gui = [];
 
     public function __construct(
@@ -80,7 +81,6 @@ class ItemRenderer
         if (!$ilAccess->checkAccess('visible', '', $a_item_data['ref_id'], $a_item_data['type'], $a_item_data['obj_id'], $a_item_data['tree'])) {
             return '';
         }*/
-
         $view_mode = $this->view_mode;
         if ($item_group_list_presentation != "") {
             $view_mode = ($item_group_list_presentation === "tile")
@@ -104,7 +104,7 @@ class ItemRenderer
             $item_list_gui->enableDownloadCheckbox((int) $a_item_data["ref_id"]);
         }
 
-        if ($item_ordering && $a_item_data['type'] !== 'sess') {
+        if ($item_ordering) {
             $item_list_gui->setPositionInputField(
                 $a_pos_prefix . "[" . $a_item_data["ref_id"] . "]",
                 sprintf('%d', $a_position * 10)
@@ -141,8 +141,9 @@ class ItemRenderer
             }
         }
 
-        if (method_exists($this, "addItemDetails")) {
-            $this->addItemDetails($item_list_gui, $a_item_data);
+        if ($this->item_modifier_closure instanceof \Closure) {
+            $c = $this->item_modifier_closure;
+            $c($item_list_gui, $a_item_data);
         }
 
         // show subitems of sessions
@@ -238,6 +239,11 @@ class ItemRenderer
         );
 
         return $html;
+    }
+
+    public function setItemModifierClosure(\Closure $f): void
+    {
+        $this->item_modifier_closure = $f;
     }
 
     public function renderCard(

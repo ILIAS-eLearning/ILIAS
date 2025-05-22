@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Setup\Agent as SetupAgent;
+use ILIAS\Refinery\Factory as RefineryFactory;
+
 class Poll implements Component\Component
 {
     public function init(
@@ -34,5 +37,6 @@ class Poll implements Component\Component
     ): void {
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilPoll.js");
+        $contribute[SetupAgent::class] = fn() => new \ilPollSetupAgent($pull[RefineryFactory::class]);
     }
 }

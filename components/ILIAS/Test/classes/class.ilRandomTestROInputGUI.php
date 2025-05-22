@@ -27,7 +27,7 @@ declare(strict_types=1);
 */
 class ilRandomTestROInputGUI extends ilSubEnabledFormPropertyGUI
 {
-    protected $values = array();
+    protected $values = [];
 
     /**
     * Constructor

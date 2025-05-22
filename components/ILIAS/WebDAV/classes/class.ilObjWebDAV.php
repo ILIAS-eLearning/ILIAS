@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
- * @author Lukas Zehnder <lz@studer-raimann.ch>
+ * @author  Lukas Zehnder <lz@studer-raimann.ch>
  * @package WebDAV
  */
 class ilObjWebDAV extends ilObject
@@ -33,11 +33,13 @@ class ilObjWebDAV extends ilObject
         parent::__construct($id, $call_by_reference);
     }
 
+    #[\Override]
     public function getPresentationTitle(): string
     {
         return $this->lng->txt("webdav");
     }
 
+    #[\Override]
     public function getLongDescription(): string
     {
         return $this->lng->txt("webdav_description");
@@ -63,6 +65,7 @@ class ilObjWebDAV extends ilObject
         return $this->webdavVersioningEnabled;
     }
 
+    #[\Override]
     public function create(): int
     {
         $id = parent::create();
@@ -70,6 +73,7 @@ class ilObjWebDAV extends ilObject
         return $id;
     }
 
+    #[\Override]
     public function update(): bool
     {
         parent::update();
@@ -85,6 +89,7 @@ class ilObjWebDAV extends ilObject
         $settings->set('webdav_versioning_enabled', $this->webdavVersioningEnabled ? '1' : '0');
     }
 
+    #[\Override]
     public function read(): void
     {
         parent::read();
@@ -106,7 +111,7 @@ class ilObjWebDAV extends ilObject
 
         $status = ilAuthUtils::supportsLocalPasswordValidation($ilUser->getAuthMode(true));
         $cmd = 'mount_webfolder';
-        if ($status === ilAuthUtils::LOCAL_PWV_USER && strlen($ilUser->getPasswd()) === 0) {
+        if ($status === ilAuthUtils::LOCAL_PWV_USER && (string) $ilUser->getPasswd() === '') {
             $cmd = 'showPasswordInstruction';
         }
 

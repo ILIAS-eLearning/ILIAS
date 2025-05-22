@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\ResourceStorage\Policy\FileNamePolicy;
-use ILIAS\ResourceStorage\Policy\FileNamePolicyException;
-use ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor;
 use ILIAS\ResourceStorage\Policy\WhiteAndBlacklistedFileNamePolicy;
 
 /**
@@ -43,13 +40,11 @@ class ilFileServicesPolicy extends WhiteAndBlacklistedFileNamePolicy
     ];
     protected int $file_admin_ref_id;
     protected bool $as_ascii = true;
-    protected ilFileServicesSettings $settings;
     protected ilFileServicesFilenameSanitizer $sanitizer;
     protected ?bool $bypass = null;
 
-    public function __construct(ilFileServicesSettings $settings)
+    public function __construct(protected ilFileServicesSettings $settings)
     {
-        $this->settings = $settings;
         parent::__construct($this->settings->getBlackListedSuffixes(), $this->settings->getWhiteListedSuffixes());
         $this->sanitizer = new ilFileServicesFilenameSanitizer($this->settings);
         $this->as_ascii = $this->settings->isASCIIConvertionEnabled();
@@ -75,17 +70,18 @@ class ilFileServicesPolicy extends WhiteAndBlacklistedFileNamePolicy
 
         $ascii_filename = htmlentities($filename, ENT_NOQUOTES, 'UTF-8');
         $ascii_filename = preg_replace('/\&(.)[^;]*;/', '\\1', $ascii_filename);
-        $ascii_filename = preg_replace('/[\x7f-\xff]/', '_', $ascii_filename);
+        $ascii_filename = preg_replace('/[\x7f-\xff]/', '_', (string) $ascii_filename);
 
         // OS do not allow the following characters in filenames: \/:*?"<>|
         $ascii_filename = preg_replace(
             '/[:\x5c\/\*\?\"<>\|]/',
             '_',
-            $ascii_filename
+            (string) $ascii_filename
         );
         return $ascii_filename;
     }
 
+    #[\Override]
     public function isBlockedExtension(string $extension): bool
     {
         if ($this->settings->isByPassAllowedForCurrentUser()) {

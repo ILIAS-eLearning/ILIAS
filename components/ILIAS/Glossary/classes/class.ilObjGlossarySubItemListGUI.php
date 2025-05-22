@@ -62,13 +62,6 @@ class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
 
             $this->tpl->setVariable('TARGET', $this->getItemListGUI()->getCommandFrame(''));
             $this->tpl->setVariable('TITLE', ilGlossaryTerm::_lookGlossaryTerm($sub_item));
-
-            // begin-patch mime_filter
-            if (count($this->getSubItemIds(true)) > 1) {
-                $this->parseRelevance($sub_item);
-            }
-            // end-patch mime_filter
-
             $this->tpl->parseCurrentBlock();
         }
 

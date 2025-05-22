@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * This class represents a text wizard property in a property form.
@@ -84,6 +84,9 @@ class ilTextWizardInputGUI extends ilTextInputGUI
                         $this->setAlert($lng->txt("msg_wrong_format"));
                         return false;
                     }
+                } elseif ($this->getMaxLength() && mb_strlen($value) > $this->getMaxLength()) {
+                    $this->setAlert($lng->txt("msg_input_char_limit_max"));
+                    return false;
                 }
             }
         } elseif ($this->getRequired()) {

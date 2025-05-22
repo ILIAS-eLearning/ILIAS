@@ -18,6 +18,13 @@
 
 namespace ILIAS\AdministrativeNotification;
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ilCtrlInterface;
+use ilLanguage;
+use ilADNNotificationGUI;
+use ilObjAdministrativeNotificationAccess;
+use ilBiblFieldFilterGUI;
 use ilADNAbstractGUI;
 use ILIAS\UI\URLBuilder;
 use ILIAS\Data\URI;
@@ -28,17 +35,21 @@ use ILIAS\UI\URLBuilderToken;
  */
 class Table
 {
-    private \ILIAS\UI\Factory $ui_factory;
-    private \ILIAS\UI\Renderer $ui_renderer;
-    private \ilCtrlInterface $ctrl;
-    private \ilLanguage $lng;
+    public const ACTION_EDIT = 'edit';
+    public const ACTION_DELETE = 'delete';
+    public const ACTION_RESET = 'reset';
+    public const ACTION_DUPLICATE = 'duplicate';
+    private Factory $ui_factory;
+    private Renderer $ui_renderer;
+    private ilCtrlInterface $ctrl;
+    private ilLanguage $lng;
     private URLBuilder $url_builder;
     private URLBuilderToken $id_token;
 
     protected array $components = [];
 
     public function __construct(
-        private \ilADNNotificationGUI $calling_gui,
+        private ilADNNotificationGUI $calling_gui,
     ) {
         global $DIC;
         $this->ui_factory = $DIC['ui.factory'];
@@ -49,7 +60,9 @@ class Table
         $this->url_builder = $this->initURIBuilder();
         $columns = $this->initColumns();
         $actions = $this->initActions();
-        $data_retrieval = new DataRetrieval();
+        $data_retrieval = new DataRetrieval(
+            (new ilObjAdministrativeNotificationAccess())->hasUserPermissionTo('write')
+        );
 
         $this->components[] = $this->ui_factory->table()->data(
             $this->lng->txt('notifications'),
@@ -63,7 +76,7 @@ class Table
     private function initURIBuilder(): URLBuilder
     {
         $url_builder = new URLBuilder(
-            $this->getURI(\ilBiblFieldFilterGUI::CMD_STANDARD)
+            $this->getURI(ilBiblFieldFilterGUI::CMD_STANDARD)
         );
 
         // these are the query parameters this instance is controlling
@@ -92,30 +105,28 @@ class Table
 
     protected function initActions(): array
     {
-        $actions = [
-            'edit' => $this->ui_factory->table()->action()->single(
+        return [
+            self::ACTION_EDIT => $this->ui_factory->table()->action()->single(
                 $this->lng->txt("btn_edit"),
-                $this->url_builder->withURI($this->getURI(\ilADNNotificationGUI::CMD_EDIT)),
+                $this->url_builder->withURI($this->getURI(ilADNNotificationGUI::CMD_EDIT)),
                 $this->id_token
             ),
-            'delete' => $this->ui_factory->table()->action()->standard(
+            self::ACTION_DELETE => $this->ui_factory->table()->action()->standard(
                 $this->lng->txt("btn_delete"),
-                $this->url_builder->withURI($this->getURI(\ilADNNotificationGUI::CMD_CONFIRM_DELETE)),
+                $this->url_builder->withURI($this->getURI(ilADNNotificationGUI::CMD_CONFIRM_DELETE)),
                 $this->id_token
             )->withAsync(true),
-            'reset' => $this->ui_factory->table()->action()->standard(
+            self::ACTION_RESET => $this->ui_factory->table()->action()->standard(
                 $this->lng->txt("btn_reset"),
-                $this->url_builder->withURI($this->getURI(\ilADNNotificationGUI::CMD_RESET)),
+                $this->url_builder->withURI($this->getURI(ilADNNotificationGUI::CMD_RESET)),
                 $this->id_token
             ),
-            'duplicate' => $this->ui_factory->table()->action()->single(
+            self::ACTION_DUPLICATE => $this->ui_factory->table()->action()->single(
                 $this->lng->txt("btn_duplicate"),
-                $this->url_builder->withURI($this->getURI(\ilADNNotificationGUI::CMD_DUPLICATE)),
+                $this->url_builder->withURI($this->getURI(ilADNNotificationGUI::CMD_DUPLICATE)),
                 $this->id_token
             ),
         ];
-
-        return $actions;
     }
 
     /**

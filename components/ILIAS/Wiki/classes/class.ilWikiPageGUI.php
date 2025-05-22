@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\UICore\PageContentProvider;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * Class ilWikiPage GUI class
@@ -30,9 +31,10 @@ use ILIAS\UICore\PageContentProvider;
  */
 class ilWikiPageGUI extends ilPageObjectGUI
 {
+    protected \ILIAS\Exercise\InternalDomainService $exc_domain;
     protected \ILIAS\Wiki\InternalDomainService $domain;
     protected \ILIAS\Wiki\Page\PageManager $wiki_pm;
-    protected ilObjectTranslation $ot;
+    protected Translations $ot;
     protected \ILIAS\Wiki\InternalGUIService $wiki_gui;
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\HTTP\Services $http;
@@ -49,6 +51,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         int $a_wiki_ref_id = 0,
         string $lang = "-"
     ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $service = $DIC->wiki()->internal();
@@ -70,8 +73,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $this->wiki_request = $gui->request();
         $this->notes = $DIC->notes();
         $this->wiki_gui = $gui;
-        $this->ot = $gui->wiki()->translation($a_wiki_ref_id);
+        $this->ot = $gui->wiki()->translation($this->getWikiRefId());
         $this->wiki_pm = $this->domain->page()->page($this->getWikiRefId());
+        $this->exc_domain = $DIC->exercise()->internal()->domain();
     }
 
     public function setScreenIdComponent(): void
@@ -193,7 +197,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
                     self::initEditingJS($this->tpl);
                 }
 
-                if ($this->wiki_request->getNotification() > 0) {
+                if ($this->wiki_request->getNotification() > 0
+                    && $ilUser->getId() !== ANONYMOUS_USER_ID) {
                     switch ($this->wiki_request->getNotification()) {
                         case 1:
                             ilNotification::setNotification(ilNotification::TYPE_WIKI, $ilUser->getId(), $this->getPageObject()->getParentId(), false);
@@ -484,10 +489,10 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         $this->ctrl->setParameterByClass(self::class, "wpg_id", $this->getId());
         $this->ctrl->setParameterByClass(self::class, "page", null);
-        if ($this->ot->getContentActivated()) {
+        if ($this->ot->getContentTranslationActivated()) {
             $actions = [];
             foreach ($this->ot->getLanguages() as $language) {
-                $lang_code = ($language->getLanguageCode() === $this->ot->getMasterLanguage())
+                $lang_code = ($language->getLanguageCode() === $this->ot->getBaseLanguage())
                     ? "-"
                     : $language->getLanguageCode();
                 $exists = $this->wiki_pm->exists($this->getId(), $lang_code);
@@ -523,7 +528,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
     protected function getLanguageLabelForCode(string $code): string
     {
         if ($code === "-") {
-            $code = $this->ot->getMasterLanguage();
+            $code = $this->ot->getBaseLanguage();
         }
         return $this->lng->txt("language") . ": " . $this->lng->txt("meta_l_" . $code);
     }
@@ -1029,7 +1034,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
     }
 
     public function editAdvancedMetaData(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $ilTabs = $this->tabs_gui;
         $lng = $this->lng;
@@ -1278,16 +1283,24 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         $ass_id = $this->wiki_request->getAssignmentId();
         $ass = new ilExAssignment($ass_id);
-        $submission = new ilExSubmission($ass, $ilUser->getId());
-        $submitted = $submission->getFiles();
-        if (count($submitted) > 0) {
-            $submitted = array_pop($submitted);
 
-            $user_data = ilObjUser::_lookupName($submitted["user_id"]);
-            $title = ilObject::_lookupTitle($submitted["obj_id"]) . " - " .
-                $ass->getTitle() . " (Team " . $submission->getTeam()->getId() . ").zip";
+        $sub_manager = $this->exc_domain->submission($ass_id);
+        $sub = $sub_manager->getSubmissionsOfUser($ilUser->getId())->current();
+        $team_id = $this->exc_domain->team()->getTeamForMember(
+            $ass->getId(),
+            $ilUser->getId()
+        );
 
-            ilFileDelivery::deliverFileLegacy($submitted["filename"], $title);
+        if ($sub) {
+            $user_data = ilObjUser::_lookupName($sub->getUserId());
+            $title = ilObject::_lookupTitle($ass->getExerciseId()) . " - " .
+                $ass->getTitle() . " (Team " . $team_id . ").zip";
+
+            $sub_manager->deliverFile(
+                $ilUser->getId(),
+                $sub->getRid(),
+                $title
+            );
         }
     }
 

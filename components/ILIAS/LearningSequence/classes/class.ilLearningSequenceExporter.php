@@ -93,7 +93,7 @@ class ilLearningSequenceExporter extends ilXmlExporter
         if ($a_entity == "lso") {
             // service settings
             $res[] = [
-                "component" => "components/ILIAS/Object",
+                "component" => "components/ILIAS/ILIASObject",
                 "entity" => "common",
                 "ids" => $a_ids
             ];
@@ -103,7 +103,7 @@ class ilLearningSequenceExporter extends ilXmlExporter
         foreach ($a_ids as $id) {
             if (ilContainerPage::_exists(LSOPageType::INTRO->value, (int) $id)) {
                 $res[] = [
-                    "component" => "Services/COPage",
+                    "component" => "components/ILIAS/COPage",
                     "entity" => "pg",
                     "ids" => [LSOPageType::INTRO->value . ":" . $id]
                 ];
@@ -111,7 +111,7 @@ class ilLearningSequenceExporter extends ilXmlExporter
 
             if (ilContainerPage::_exists(LSOPageType::EXTRO->value, (int) $id)) {
                 $res[] = [
-                    "component" => "Services/COPage",
+                    "component" => "components/ILIAS/COPage",
                     "entity" => "pg",
                     "ids" => [LSOPageType::EXTRO->value . ":" . $id]
                 ];

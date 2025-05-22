@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Factory for importer/exporter implementers
@@ -87,6 +87,10 @@ class ilImportExportFactory
      */
     public static function getImporterClass(string $a_component): string
     {
+        # Compatibility with older exports
+        # Object changed to ILIASObject with the component revision
+        $a_component = ($a_component === "components/ILIAS/Object") ? "components/ILIAS/ILIASObject" : $a_component;
+        $a_component = ($a_component === "Services/Object") ? "components/ILIAS/ILIASObject" : $a_component;
         /**
          * @var $objDefinition ilObjectDefinition
          */
@@ -95,7 +99,7 @@ class ilImportExportFactory
 
         $parts = explode('/', $a_component);
         $component_type = $parts[0];
-        $component = $parts[1];
+        $component = $parts[2] ?? $parts[1];
         $class = '';
         if ($component_type == self::PLUGINS_DIR &&
             $objDefinition->isPlugin($component)) {

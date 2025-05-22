@@ -360,9 +360,8 @@ class ilPDNotesGUI
         $select_option = ($this->notes_manager->getSortAscending())
             ? 'asc'
             : 'desc';
-        $s = $this->ui->factory()->viewControl()->sortation($options)
-               ->withTargetURL($ctrl->getLinkTarget($this, "setSortation"), 'sortation')
-               ->withLabel($options[$select_option]);
+        $s = $this->ui->factory()->viewControl()->sortation($options, $select_option)
+               ->withTargetURL($ctrl->getLinkTarget($this, "setSortation"), 'sortation');
         $this->toolbar->addComponent($s);
 
         // print selection

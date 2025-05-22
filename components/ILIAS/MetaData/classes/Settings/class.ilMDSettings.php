@@ -18,15 +18,21 @@
 
 declare(strict_types=1);
 
+use ILIAS\MetaData\Settings\SettingsInterface;
+
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  */
-class ilMDSettings
+class ilMDSettings implements SettingsInterface
 {
     protected static ?self $instance = null;
 
     protected ilSetting $settings;
     private bool $copyright_selection_active = false;
+    private bool $oai_pmh_active = false;
+    private string $oai_repository_name = '';
+    private string $oai_identifier_prefix = '';
+    private string $oai_contact_mail = '';
 
     private function __construct()
     {
@@ -46,14 +52,54 @@ class ilMDSettings
         return $this->copyright_selection_active;
     }
 
-    public function activateCopyrightSelection(bool $a_status): void
+    public function activateCopyrightSelection(bool $status): void
     {
-        $this->copyright_selection_active = $a_status;
+        $this->copyright_selection_active = $status;
+        $this->settings->set('copyright_selection_active', (string) $status);
     }
 
-    public function save(): void
+    public function isOAIPMHActive(): bool
     {
-        $this->settings->set('copyright_selection_active', (string) $this->isCopyrightSelectionActive());
+        return $this->oai_pmh_active;
+    }
+
+    public function activateOAIPMH(bool $status): void
+    {
+        $this->oai_pmh_active = $status;
+        $this->settings->set('oai_pmh_active', (string) $status);
+    }
+
+    public function getOAIRepositoryName(): string
+    {
+        return $this->oai_repository_name;
+    }
+
+    public function saveOAIRepositoryName(string $oai_repository_name): void
+    {
+        $this->oai_repository_name = $oai_repository_name;
+        $this->settings->set('oai_repository_name', $oai_repository_name);
+    }
+
+    public function getOAIIdentifierPrefix(): string
+    {
+        return $this->oai_identifier_prefix;
+    }
+
+    public function saveOAIIdentifierPrefix(string $oai_identifier_prefix): void
+    {
+        $this->oai_identifier_prefix = $oai_identifier_prefix;
+        $this->settings->set('oai_identifier_prefix', $oai_identifier_prefix);
+    }
+
+    public function getOAIContactMail(): string
+    {
+        return $this->oai_contact_mail;
+    }
+
+    public function saveOAIContactMail(string $oai_contact_mail): void
+    {
+        $this->oai_contact_mail = $oai_contact_mail;
+        $this->settings->set('oai_contact_mail', $oai_contact_mail);
     }
 
     private function read(): void
@@ -61,5 +107,9 @@ class ilMDSettings
         $this->settings = new ilSetting('md_settings');
 
         $this->copyright_selection_active = (bool) $this->settings->get('copyright_selection_active', '0');
+        $this->oai_pmh_active = (bool) $this->settings->get('oai_pmh_active', '0');
+        $this->oai_repository_name = (string) $this->settings->get('oai_repository_name', '');
+        $this->oai_identifier_prefix = (string) $this->settings->get('oai_identifier_prefix', '');
+        $this->oai_contact_mail = (string) $this->settings->get('oai_contact_mail', '');
     }
 }

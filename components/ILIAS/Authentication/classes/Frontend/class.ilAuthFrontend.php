@@ -234,6 +234,7 @@ class ilAuthFrontend
     {
         $user = ilObjectFactory::getInstanceByObjId($this->getStatus()->getAuthenticatedUserId(), false);
 
+        $this->getStatus()->setReason('auth_err_invalid_user_account');
         // reset expired status
         $this->getAuthSession()->setExpired(false);
 
@@ -241,7 +242,6 @@ class ilAuthFrontend
             $this->logger->error('Cannot instantiate user account with id: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
-            $this->getStatus()->setReason('auth_err_invalid_user_account');
             return false;
         }
 
@@ -249,7 +249,6 @@ class ilAuthFrontend
             $this->logger->info('Authentication failed for inactive user with id and too may login attempts: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
-            $this->getStatus()->setReason('auth_err_login_attempts_deactivation');
             return false;
         }
 
@@ -257,7 +256,6 @@ class ilAuthFrontend
             $this->logger->info('Authentication failed for inactive user with id: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
-            $this->getStatus()->setReason('err_inactive');
             return false;
         }
 
@@ -273,7 +271,6 @@ class ilAuthFrontend
                 $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
                 $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
             }
-            $this->getStatus()->setReason('time_limit_reached');
             return false;
         }
 
@@ -282,13 +279,6 @@ class ilAuthFrontend
             $this->logger->info('Authentication failed (wrong ip) for user with id: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
-
-            $this->getStatus()->setTranslatedReason(
-                sprintf(
-                    $this->lng->txt('wrong_ip_detected'),
-                    $_SERVER['REMOTE_ADDR']
-                )
-            );
             return false;
         }
 
@@ -298,7 +288,6 @@ class ilAuthFrontend
             $this->logger->info('Authentication failed: simultaneous logins forbidden for user: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
-            $this->getStatus()->setReason('simultaneous_login_detected');
             return false;
         }
 
@@ -368,6 +357,7 @@ class ilAuthFrontend
                 'username' => $user->getLogin())
         );
 
+        $this->getStatus()->setReason('');
         return true;
     }
 
@@ -439,29 +429,87 @@ class ilAuthFrontend
             ilObjUser::hasActiveSession($user->getId(), $this->getAuthSession()->getId()));
     }
 
-    /**
-     * Handle failed authenication
-     */
     protected function handleAuthenticationFail(): bool
     {
         $this->logger->debug('Authentication failed for all authentication methods.');
 
-        $user_id = ilObjUser::_lookupId($this->getCredentials()->getUsername());
-        if (is_int($user_id) && $user_id !== ANONYMOUS_USER_ID) {
-            ilObjUser::_incrementLoginAttempts($user_id);
-            $login_attempts = ilObjUser::_getLoginAttempts($user_id);
+        $this->handleLoginAttempts();
 
-            $this->logger->notice('Increased login attempts for user: ' . $this->getCredentials()->getUsername());
+        return false;
+    }
 
-            $security = ilSecuritySettings::_getInstance();
-            $max_attempts = $security->getLoginMaxAttempts();
+    protected function handleLoginAttempts(): void
+    {
+        $security = ilSecuritySettings::_getInstance();
+        $max_attempts = $security->getLoginMaxAttempts();
+        if ($max_attempts < 1) {
+            return;
+        }
 
-            if ($max_attempts && $login_attempts >= $max_attempts) {
-                $this->getStatus()->setReason('auth_err_login_attempts_deactivation');
-                $this->logger->warning('User account set to inactive due to exceeded login attempts.');
-                ilObjUser::_setUserInactive($user_id);
+        $auth_determination = ilAuthModeDetermination::_getInstance();
+        if ($this->getCredentials()->getAuthMode() !== '') {
+            $auth_modes = [
+                $this->getCredentials()->getAuthMode()
+            ];
+        } else {
+            $auth_modes = $auth_determination->getAuthModeSequence($this->getCredentials()->getUsername());
+        }
+
+        $usr_id_candidates = [];
+        foreach (array_filter($auth_modes) as $auth_mode) {
+            if ((int) $auth_mode === ilAuthUtils::AUTH_LOCAL) {
+                $usr_id_candidates[] = ilObjUser::_lookupId($this->getCredentials()->getUsername());
+                continue;
+            }
+
+            $login = ilObjUser::_checkExternalAuthAccount(
+                ilAuthUtils::_getAuthModeName($auth_mode),
+                $this->getCredentials()->getUsername(),
+                false
+            );
+            if (!is_string($login) || $login === '') {
+                continue;
+            }
+
+            $usr_id_candidates[] = ilObjUser::_lookupId($login);
+        }
+
+        $usr_id_candidates = array_values(array_unique(array_filter($usr_id_candidates, intval(...))));
+        $num_deacticated_accounts = 0;
+        foreach ($usr_id_candidates as $usr_id) {
+            if ($usr_id === ANONYMOUS_USER_ID) {
+                continue;
+            }
+
+            $num_login_attempts = ilObjUser::_getLoginAttempts($usr_id);
+
+            if ($num_login_attempts <= $max_attempts) {
+                ilObjUser::_incrementLoginAttempts($usr_id);
+                $this->logger->notice(
+                    sprintf(
+                        'Incremented login attempts for user %s with id %s.',
+                        $this->getCredentials()->getUsername(),
+                        $usr_id
+                    )
+                );
+            }
+
+            if ($num_login_attempts >= $max_attempts) {
+                ilObjUser::_setUserInactive($usr_id);
+
+                ++$num_deacticated_accounts;
+                $this->logger->warning(
+                    sprintf(
+                        'User account %s with id %s set to inactive due to exceeded login attempts.',
+                        $this->getCredentials()->getUsername(),
+                        $usr_id
+                    )
+                );
             }
         }
-        return false;
+
+        if ($num_deacticated_accounts > 0) {
+            $this->getStatus()->setReason('auth_err_login_attempts_deactivation');
+        }
     }
 }

@@ -27,72 +27,48 @@ import java.io.FileFilter;
 import java.util.HashMap;
 import java.util.Vector;
 
+import de.ilias.services.settings.ClientSettings;
 import org.apache.logging.log4j.LogManager;
 
 import de.ilias.services.settings.ConfigurationException;
 import org.apache.logging.log4j.Logger;
 
-/**
- * 
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
- */
 public class ObjectDefinitionReader {
 
-	
 	private static final Logger logger = LogManager.getLogger(ObjectDefinitionReader.class);
 	private static final HashMap<File, ObjectDefinitionReader> instances = new HashMap<File, ObjectDefinitionReader>();
 	
 	public static final String objectPropertyName = "LuceneObjectDefinition.xml";
 	public static final String pluginPath = "Customizing/global/plugins";
-
+	public static final String componentPath = "components";
 
 	private final Vector<File> objectPropertyFiles = new Vector<File>();
 	
 
 	File absolutePath;
+	ClientSettings clientSettings;
 	
-	/**
-	 * Singleton constructor 
-	 * @throws ConfigurationException 
-	 */
-	private ObjectDefinitionReader(File absolutePath) throws ConfigurationException {
-		this.absolutePath = absolutePath;
+	private ObjectDefinitionReader(ClientSettings settings) throws ConfigurationException {
+		this.clientSettings = settings;
+		this.absolutePath = settings.getAbsolutePath();
 		read();
 	}
-	
-	/**
-	 * 
-	 * @param absolutePath
-	 * @return
-	 * @throws ConfigurationException 
-	 */
-	public static ObjectDefinitionReader getInstance(File absolutePath) throws ConfigurationException {
-		
-		if(instances.containsKey(absolutePath)) {
-			logger.debug("Using cached properties.");
-			return instances.get(absolutePath);
+
+	public static ObjectDefinitionReader getInstance(ClientSettings settings) throws ConfigurationException {
+		if (instances.containsKey(settings.getAbsolutePath())) {
+			return instances.get(settings.getAbsolutePath());
 		}
-		instances.put(absolutePath, new ObjectDefinitionReader(absolutePath));
-		return instances.get(absolutePath);
+		instances.put(settings.getAbsolutePath(), new ObjectDefinitionReader(settings));
+		return instances.get(settings.getAbsolutePath());
 	}
-	
+
 	/**
 	 * @return the absolutePath
 	 */
 	public File getAbsolutePath() {
-		return absolutePath;
+		return clientSettings.getAbsolutePath();
 	}
 
-
-	/**
-	 * @param absolutePath the absolutePath to set
-	 */
-	public void setAbsolutePath(File absolutePath) {
-		this.absolutePath = absolutePath;
-	}
-	
 	/**
 	 * @return the objectPropertyFiles
 	 */
@@ -110,7 +86,19 @@ public class ObjectDefinitionReader {
 		if(!absolutePath.isDirectory()) {
 			throw new ConfigurationException("Absolute path required. Path: " + absolutePath.getAbsolutePath());
 		}
-		
+		traverseByVersion();
+	}
+
+	private void traverseByVersion() {
+		if (clientSettings.getIliasMajorVersion() == 0 || clientSettings.getIliasMajorVersion() >= 10) {
+			traverseByVersion10();
+		} else {
+			traverseByVersion8();
+		}
+	}
+
+	private void traverseByVersion8() {
+
 		// Traverse through Modules
 		File start = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + "Modules");
 		logger.debug("Start path is : " + start.getAbsoluteFile());
@@ -126,11 +114,14 @@ public class ObjectDefinitionReader {
 		logger.debug("Start path is : " + plugin.getAbsoluteFile());
 		traverse(plugin);
 	}
+
+	private void traverseByVersion10() {
+		// Traverse through Plugins
+		File plugin = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + ObjectDefinitionReader.componentPath);
+		logger.debug("Start path is : " + plugin.getAbsoluteFile());
+		traverse(plugin);
+	}
 	
-	/**
-	 * 
-	 * @param dir
-	 */
 	private void traverse(File dir) {
 		
 		if(dir == null) {

@@ -21,24 +21,31 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Manipulator\Services;
 
 use ILIAS\MetaData\Paths\Services\Services as PathServices;
-use ILIAS\MetaData\Repository\Services\Services as RepositoryServices;
+use ILIAS\MetaData\Structure\Services\Services as StructureServices;
 use ILIAS\MetaData\Manipulator\Path\PathUtilitiesFactory;
 use ILIAS\MetaData\Elements\Markers\MarkerFactory;
 use ILIAS\MetaData\Manipulator\ManipulatorInterface;
 use ILIAS\MetaData\Manipulator\Manipulator;
+use ILIAS\MetaData\Manipulator\ScaffoldProvider\ScaffoldProviderInterface;
+use ILIAS\MetaData\Manipulator\ScaffoldProvider\ScaffoldProvider;
+use ILIAS\MetaData\Elements\Scaffolds\ScaffoldFactory;
+use ILIAS\MetaData\Elements\Data\DataFactory;
+use ILIAS\MetaData\Elements\RessourceID\RessourceIDFactory;
 
 class Services
 {
     protected ManipulatorInterface $manipulator;
+    protected ScaffoldProviderInterface $scaffold_provider;
+
     protected PathServices $path_services;
-    protected RepositoryServices $repository_services;
+    protected StructureServices $structure_services;
 
     public function __construct(
         PathServices $path_services,
-        RepositoryServices $repository_services
+        StructureServices $structure_services
     ) {
         $this->path_services = $path_services;
-        $this->repository_services = $repository_services;
+        $this->structure_services = $structure_services;
     }
 
     public function manipulator(): ManipulatorInterface
@@ -47,13 +54,29 @@ class Services
             return $this->manipulator;
         }
         return $this->manipulator = new Manipulator(
-            $this->repository_services->repository(),
+            $this->scaffoldProvider(),
             new MarkerFactory(),
             $this->path_services->navigatorFactory(),
             $this->path_services->pathFactory(),
             new PathUtilitiesFactory(
                 $this->path_services,
             )
+        );
+    }
+
+    public function scaffoldProvider(): ScaffoldProviderInterface
+    {
+        if (isset($this->scaffold_provider)) {
+            return $this->scaffold_provider;
+        }
+        return $this->scaffold_provider = new ScaffoldProvider(
+            new ScaffoldFactory(
+                new DataFactory(),
+                new RessourceIDFactory()
+            ),
+            $this->path_services->pathFactory(),
+            $this->path_services->navigatorFactory(),
+            $this->structure_services->structure()
         );
     }
 }

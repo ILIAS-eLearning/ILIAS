@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,24 +16,20 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Divider;
 
 use ILIAS\UI\Component\Divider as D;
 
 class Factory implements D\Factory
 {
-    /**
-     * @inheritdoc
-     */
-    public function horizontal(): D\Horizontal
+    public function horizontal(): Horizontal
     {
         return new Horizontal();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function vertical(): D\Vertical
+    public function vertical(): Vertical
     {
         return new Vertical();
     }

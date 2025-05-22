@@ -28,7 +28,7 @@ use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 
 class LOMDictionaryInitiator extends BaseDictionaryInitiator
 {
-    protected const MD_SCHEMA = 'LOMv1.0';
+    protected const string MD_SCHEMA = 'LOMv1.0';
 
     protected TagFactory $tag_factory;
 
@@ -126,7 +126,7 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
     protected function addTag(
         StructureElementInterface $element,
         Restriction $restriction,
-        int $index = null
+        ?int $index = null
     ): void {
         if (is_null($index)) {
             $tag = $this->tag_factory->tag(

@@ -16,19 +16,17 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Portfolio\Export;
 
-use ILIAS\Blog\Export\BlogHtmlExport;
 use ilFileUtils;
 use ILIAS\Portfolio\InternalDomainService;
+use ILIAS\components\Export\HTML\Util;
 
-/**
- * Portfolio HTML export
- *
- * @author killing@leifos.de
- */
 class PortfolioHtmlExport
 {
+    protected \ILIAS\components\Export\HTML\ExportCollector $collector;
     protected InternalDomainService $domain;
     protected \ilObjPortfolio $portfolio;
     protected \ilObjPortfolioBaseGUI $portfolio_gui;
@@ -36,15 +34,16 @@ class PortfolioHtmlExport
     protected string $sub_dir = "";
     protected string $target_dir = "";
     protected \ILIAS\GlobalScreen\Services $global_screen;
-    protected \ILIAS\components\Export\HTML\Util $export_util;
+    protected Util $export_util;
     protected \ilCOPageHTMLExport $co_page_html_export;
     protected \ilLanguage $lng;
     protected array $tabs = [];
-    protected array  $export_material = [];
+    protected array $export_material = [];
     protected string $active_tab = "";
     protected bool $include_comments = false;
     protected bool $print_version = false;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
+    protected static bool $gs_initialized = false;
 
     public function __construct(
         \ilObjPortfolioBaseGUI $portfolio_gui
@@ -56,14 +55,16 @@ class PortfolioHtmlExport
         $portfolio = $portfolio_gui->getObject();
         $this->portfolio = $portfolio;
 
-
         $this->global_screen = $DIC->globalScreen();
         $this->lng = $DIC->language();
 
-        $this->global_screen->tool()->context()->current()->addAdditionalData(
-            \ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING,
-            true
-        );
+        if (!self::$gs_initialized) {
+            $this->global_screen->tool()->context()->current()->addAdditionalData(
+                \ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING,
+                true
+            );
+            self::$gs_initialized = true;
+        }
 
         $this->content_style_domain = $DIC
             ->contentStyle()
@@ -73,14 +74,13 @@ class PortfolioHtmlExport
 
     protected function init(): void
     {
-        $this->export_dir = \ilExport::_getExportDirectory($this->portfolio->getId(), "html", "prtf");
-        $this->sub_dir = $this->portfolio->getType() . "_" . $this->portfolio->getId();
-        if ($this->print_version) {
-            $this->sub_dir .= "print";
-        }
+        global $DIC;
+
+        $this->collector = $DIC->export()->domain()->html()->collector($this->portfolio->getId());
+        $this->collector->init();
+        $this->export_util = new Util("", "", $this->collector);
         $this->target_dir = $this->export_dir . "/" . $this->sub_dir;
-        $this->export_util = new \ILIAS\components\Export\HTML\Util($this->export_dir, $this->sub_dir);
-        $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir);
+        $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir, null, 0, $this->collector);
     }
 
     public function includeComments(bool $a_include_comments): void
@@ -94,63 +94,21 @@ class PortfolioHtmlExport
     }
 
     /**
-     * Initialize directories
-     */
-    protected function initDirectories(): void
-    {
-        // create export file
-        \ilExport::_createExportDirectory($this->portfolio->getId(), "html", "prtf");
-
-        // initialize temporary target directory
-        ilFileUtils::delDir($this->target_dir);
-        ilFileUtils::makeDir($this->target_dir);
-    }
-
-    /**
-     * Export banner
-     */
-    protected function exportBanner(): void
-    {
-        // banner
-        $prfa_set = new \ilSetting("prfa");
-        if ($prfa_set->get("banner")) {
-            $banner = $this->portfolio->getImageFullPath();
-            if ($banner) { // #16096
-                copy($banner, $this->target_dir . "/" . basename($banner));
-            }
-        }
-        // page element: profile picture
-        \ilObjUser::copyProfilePicturesToDirectory($this->portfolio->getOwner(), $this->target_dir);
-        /*
-        $ppic = \ilObjUser::_getPersonalPicturePath($this->portfolio->getOwner(), "big", true, true);
-        if ($ppic) {
-            $ppic = array_shift(explode("?", $ppic));
-            copy($ppic, $this->target_dir . "/" . basename($ppic));
-        }
-        // header image: profile picture
-        $ppic = \ilObjUser::_getPersonalPicturePath($this->portfolio->getOwner(), "xsmall", true, true);
-        if ($ppic) {
-            $ppic = array_shift(explode("?", $ppic));
-            copy($ppic, $this->target_dir . "/" . basename($ppic));
-        }*/
-    }
-
-
-    /**
      * Build export file
      */
-    public function exportHtml(): string
+    public function exportHtml(): void
     {
         $this->init();
-        $this->initDirectories();
 
-        $this->export_util->exportSystemStyle();
+        $this->export_util->exportSystemStyle(
+            [
+                "icon_prtf.svg"
+            ]
+        );
         $this->export_util->exportCOPageFiles(
             $this->content_style_domain->getEffectiveStyleId(),
             $this->portfolio->getType()
         );
-
-        $this->exportBanner();
 
         // export pages
         if ($this->print_version) {
@@ -159,7 +117,8 @@ class PortfolioHtmlExport
             $this->exportHTMLPages();
         }
 
-        $this->exportUserImages();
+        //$this->exportUserImages();
+        //\ilObjUser::copyProfilePicturesToDirectory($this->portfolio->getOwner(), $this->target_dir);
 
         // add js/images/file to zip
         // note: only files are still used for certificate files
@@ -171,45 +130,15 @@ class PortfolioHtmlExport
         }
         foreach (array_unique($files) as $file) {
             if (is_file($file)) {
-                copy($file, $this->target_dir . "/files/" . basename($file));
+                //copy($file, $this->target_dir . "/files/" . basename($file));
             }
         }
 
         $this->export_util->exportResourceFiles();
         $this->co_page_html_export->exportPageElements();
 
-        return $this->zipPackage();
+        //return $this->zipPackage();
     }
-
-    /**
-     * Export user images
-     */
-    protected function exportUserImages(): void
-    {
-        if ($this->include_comments) {
-            $user_export = new \ILIAS\Notes\Export\UserImageExporter();
-            $user_export->exportUserImagesForRepObjId($this->target_dir, $this->portfolio->getId());
-        }
-    }
-
-    /**
-     * Zip
-     *
-     * @return string
-     */
-    public function zipPackage(): string
-    {
-        // zip it all
-        $date = time();
-        $zip_file = \ilExport::_getExportDirectory($this->portfolio->getId(), "html", "prtf") .
-            "/" . $date . "__" . IL_INST_ID . "__" .
-            $this->portfolio->getType() . "_" . $this->portfolio->getId() . ".zip";
-        $this->domain->resources()->zip()->zipDirectoryToFile($this->target_dir, $zip_file);
-        ilFileUtils::delDir($this->target_dir);
-
-        return $zip_file;
-    }
-
 
     /**
      * Export all pages
@@ -223,42 +152,21 @@ class PortfolioHtmlExport
 
         $this->tabs = [];
         foreach ($pages as $page) {
-            // substitute blog id with title
-            if ($page["type"] == \ilPortfolioPage::TYPE_BLOG) {
-                $page["title"] = \ilObjBlog::_lookupTitle((int) $page["title"]);
-            }
-
             $this->tabs[$page["id"]] = $page["title"];
         }
-
-        // for sub-pages, e.g. blog postings
-        $tpl_callback = function (array $js_files = []): \ilGlobalPageTemplate {
-            return $this->getInitialisedTemplate($js_files);
-        };
 
         $has_index = false;
         foreach ($pages as $page) {
             if (\ilPortfolioPage::_exists("prtf", $page["id"])) {
                 $this->active_tab = "user_page_" . $page["id"];
 
-                if ($page["type"] == \ilPortfolioPage::TYPE_BLOG) {
-                    $link_template = "prtf_" . $page["id"] . "_bl{TYPE}_{ID}.html";
+                $tpl = $this->getInitialisedTemplate();
+                $tpl->setContent($this->renderPage((int) $page["id"]));
+                $this->writeExportFile("prtf_" . $page["id"] . ".html", $tpl->printToString());
+                $this->co_page_html_export->collectPageElements("prtf:pg", $page["id"]);
 
-                    $blog_gui = new \ilObjBlogGUI((int) $page["title"], \ilObject2GUI::WORKSPACE_OBJECT_ID);
-                    $blog_export = new BlogHtmlExport($blog_gui, $this->export_dir, $this->sub_dir, false);
-                    $blog_export->exportHTMLPages($link_template, $tpl_callback, $this->co_page_html_export, "prtf_" . $page["id"] . ".html");
-                } else {
-                    $tpl = $this->getInitialisedTemplate();
-                    $tpl->setContent($this->renderPage($page["id"]));
-                    $this->writeExportFile("prtf_" . $page["id"] . ".html", $tpl->printToString());
-                    $this->co_page_html_export->collectPageElements("prtf:pg", $page["id"]);
-                }
-
-                if (!$has_index && is_file($this->target_dir . "/prtf_" . $page["id"] . ".html")) {	// #20144
-                    copy(
-                        $this->target_dir . "/prtf_" . $page["id"] . ".html",
-                        $this->target_dir . "/index.html"
-                    );
+                if (!$has_index) {	// #20144
+                    $this->collector->addString($tpl->printToString(), "index.html");
                     $has_index = true;
                 }
             }
@@ -274,13 +182,7 @@ class PortfolioHtmlExport
         $pages = \ilPortfolioPage::getAllPortfolioPages($this->portfolio->getId());
         foreach ($pages as $page) {
             if (\ilPortfolioPage::_exists("prtf", $page["id"])) {
-                if ($page["type"] == \ilPortfolioPage::TYPE_BLOG) {
-                    $blog_gui = new \ilObjBlogGUI((int) $page["title"], \ilObject2GUI::WORKSPACE_OBJECT_ID);
-                    $blog_export = new BlogHtmlExport($blog_gui, $this->export_dir, $this->sub_dir, false);
-                    $blog_export->collectAllPagesPageElements($this->co_page_html_export);
-                } else {
-                    $this->co_page_html_export->collectPageElements("prtf:pg", $page["id"]);
-                }
+                $this->co_page_html_export->collectPageElements("prtf:pg", $page["id"]);
             }
         }
 
@@ -288,7 +190,8 @@ class PortfolioHtmlExport
         $print_view = $this->portfolio_gui->getPrintView();
         $print_view->setOffline(true);
         $html = $print_view->renderPrintView();
-        file_put_contents($this->target_dir . "/index.html", $html);
+        //file_put_contents($this->target_dir . "/index.html", $html);
+        $this->collector->addString($html, "index.html");
     }
 
     /**
@@ -304,9 +207,7 @@ class PortfolioHtmlExport
         $location_stylesheet = \ilUtil::getStyleSheetLocation();
         $this->global_screen->layout()->meta()->addCss($location_stylesheet);
         $this->global_screen->layout()->meta()->addCss(
-            \ilObjStyleSheet::getContentStylePath(
-                $this->content_style_domain->getEffectiveStyleId()
-            )
+            \ilObjStyleSheet::getExportContentStylePath()
         );
         \ilPCQuestion::resetInitialState();
 
@@ -345,11 +246,13 @@ class PortfolioHtmlExport
     ): string {
         $file = $this->target_dir . "/" . $a_file;
         // return if file is already existing
+        /*
         if (is_file($file)) {
             return "";
-        }
+        }*/
 
-        file_put_contents($file, $content);
+        //file_put_contents($file, $content);
+        $this->collector->addString($content, $a_file);
 
         return $file;
     }
@@ -358,7 +261,7 @@ class PortfolioHtmlExport
      * Render page
      */
     public function renderPage(
-        string $a_post_id
+        int $a_post_id
     ): string {
         // page
         $pgui = new \ilPortfolioPageGUI($this->portfolio->getId(), $a_post_id);
@@ -383,5 +286,21 @@ class PortfolioHtmlExport
         $this->export_material[] = $material;
 
         return $ep_tpl->get();
+    }
+
+    public function deliver(string $filename, bool $remove = false): void
+    {
+        $this->collector->deliver($filename);
+        $this->delete();
+    }
+
+    public function delete(): void
+    {
+        $this->collector->delete();
+    }
+
+    public function getFilePath(): string
+    {
+        return $this->collector->getFilePath();
     }
 }

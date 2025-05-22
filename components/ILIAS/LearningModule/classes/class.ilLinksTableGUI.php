@@ -105,7 +105,7 @@ class ilLinksTableGUI extends ilTable2GUI
                         } else {
                             $this->tpl->setVariable(
                                 "TXT_MISSING",
-                                "<b>" . $lng->txt("cont_target_missing") . " [" . $target_id . "]" . "</b>"
+                                "<strong>" . $lng->txt("cont_target_missing") . " [" . $target_id . "]" . "</strong>"
                             );
                         }
                         $this->tpl->parseCurrentBlock();
@@ -126,7 +126,7 @@ class ilLinksTableGUI extends ilTable2GUI
                         } else {
                             $this->tpl->setVariable(
                                 "TXT_MISSING",
-                                "<b>" . $lng->txt("cont_target_missing") . " [" . $target_id . "]" . "</b>"
+                                "<strong>" . $lng->txt("cont_target_missing") . " [" . $target_id . "]" . "</strong>"
                             );
                         }
                         $this->tpl->parseCurrentBlock();
@@ -143,7 +143,7 @@ class ilLinksTableGUI extends ilTable2GUI
                         } else {
                             $this->tpl->setVariable(
                                 "TXT_MISSING",
-                                "<b>" . $lng->txt("cont_target_missing") . " [" . $target_id . "]" . "</b>"
+                                "<strong>" . $lng->txt("cont_target_missing") . " [" . $target_id . "]" . "</strong>"
                             );
                         }
                         $this->tpl->parseCurrentBlock();
@@ -160,7 +160,7 @@ class ilLinksTableGUI extends ilTable2GUI
                         } else {
                             $this->tpl->setVariable(
                                 "TXT_MISSING",
-                                "<b>" . $lng->txt("cont_target_missing") . " [" . $target_id . "]" . "</b>"
+                                "<strong>" . $lng->txt("cont_target_missing") . " [" . $target_id . "]" . "</strong>"
                             );
                         }
                         $this->tpl->parseCurrentBlock();
@@ -181,7 +181,7 @@ class ilLinksTableGUI extends ilTable2GUI
                         } else {
                             $this->tpl->setVariable(
                                 "TXT_MISSING",
-                                "<b>" . $lng->txt("cont_target_missing") . " [" . $target_id . "]" . "</b>"
+                                "<strong>" . $lng->txt("cont_target_missing") . " [" . $target_id . "]" . "</strong>"
                             );
                         }
                         $this->tpl->parseCurrentBlock();
@@ -211,7 +211,7 @@ class ilLinksTableGUI extends ilTable2GUI
                 $this->tpl->setCurrentBlock("link");
                 $this->tpl->setVariable(
                     "TXT_MISSING",
-                    "<b>" . $lng->txt("cont_target_missing") . " [" . $target . "]" . "</b>"
+                    "<strong>" . $lng->txt("cont_target_missing") . " [" . $target . "]" . "</strong>"
                 );
                 $this->tpl->parseCurrentBlock();
             }

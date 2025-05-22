@@ -147,8 +147,8 @@ class ilBenchmarkTableGUI extends ilTable2GUI
         foreach ($a_records as $r) {
             $table = $this->extractFirstTableFromSQL($r["sql"]);
             $data[$table]["table"] = $table;
-            $data[$table]["cnt"]++;
-            $data[$table]["time"] += $r["time"];
+            $data[$table]["cnt"] = isset($data[$table]["cnt"]) ? $data[$table]["cnt"] + 1 : 1;
+            $data[$table]["time"] = isset($data[$table]["time"]) ? $data[$table]["time"] + $r["time"] : $r["time"];
         }
         if (count($data) > 0) {
             $data = ilArrayUtil::sortArray($data, "time", "desc", true);

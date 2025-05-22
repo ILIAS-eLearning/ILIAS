@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
@@ -28,7 +29,7 @@ class ilWACSignedResourceStorage implements ilWACCheckingClass
 {
     private StreamAccess $stream_access;
     private StorageHandlerFactory $storage_handlers;
-    private \ILIAS\ResourceStorage\Manager\Manager $manager;
+    private Manager $manager;
 
     public function __construct()
     {

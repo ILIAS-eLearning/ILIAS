@@ -28,11 +28,12 @@ class ilTestSessionTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
-        global $DIC;
         parent::setUp();
-        $this->addGlobal_ilUser();
 
-        $this->testObj = new ilTestSession($DIC['ilDB'], $DIC['ilUser']);
+        $this->testObj = new ilTestSession(
+            $this->createMock(ilDBInterface::class),
+            $this->createMock(ilObjUser::class)
+        );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

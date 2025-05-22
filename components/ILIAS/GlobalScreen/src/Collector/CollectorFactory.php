@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 /** @noinspection PhpIncompatibleReturnTypeInspection */
 
 namespace ILIAS\GlobalScreen\Collector;
@@ -31,25 +31,25 @@ use ILIAS\GlobalScreen\Scope\Tool\Collector\MainToolCollector;
 use ILIAS\GlobalScreen\SingletonTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 use Throwable;
+use ILIAS\GlobalScreen\Scope\Footer\Collector\FooterMainCollector;
 
 /**
- * Class CollectorFactory
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
+ *
+ *         TODO: remove SingletonTrait
  */
 class CollectorFactory
 {
     use SingletonTrait;
 
     protected static array $instances = [];
-    private ProviderFactory $provider_factory;
 
     /**
      * CollectorFactory constructor.
      * @param ProviderFactory $provider_factory
      */
-    public function __construct(ProviderFactory $provider_factory)
+    public function __construct(private ProviderFactory $provider_factory)
     {
-        $this->provider_factory = $provider_factory;
     }
 
     /**
@@ -78,6 +78,23 @@ class CollectorFactory
     public function metaBar(): MetaBarMainCollector
     {
         return $this->getWithArgument(MetaBarMainCollector::class, $this->provider_factory->getMetaBarProvider());
+    }
+    public function footer(): FooterMainCollector
+    {
+        if (!$this->has(FooterMainCollector::class)) {
+            $providers = $this->provider_factory->getFooterProvider();
+            $information = $this->provider_factory->getFooterItemInformation();
+
+            return $this->getWithMultipleArguments(
+                FooterMainCollector::class,
+                [
+                    $providers,
+                    $information
+                ]
+            );
+        }
+
+        return $this->get(FooterMainCollector::class);
     }
 
     public function tool(): MainToolCollector

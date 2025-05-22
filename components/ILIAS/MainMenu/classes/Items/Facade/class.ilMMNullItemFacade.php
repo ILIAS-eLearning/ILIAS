@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
@@ -32,6 +48,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function isTopItem(): bool
     {
         return $this->top_item;
@@ -41,6 +58,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function setIsTopItm(bool $top_item): void
     {
         $this->top_item = $top_item;
@@ -50,6 +68,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function isEmpty(): bool
     {
         return true;
@@ -59,6 +78,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function setActiveStatus(bool $status): void
     {
         $this->active_status = $status;
@@ -68,12 +88,14 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function setParent(string $parent): void
     {
         $this->parent_identification = $parent;
     }
 
 
+    #[\Override]
     public function create(): void
     {
         $s = new ilMMCustomItemStorage();
@@ -109,6 +131,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     }
 
 
+    #[\Override]
     public function isAvailable(): bool
     {
         return false;
@@ -118,6 +141,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function isAlwaysAvailable(): bool
     {
         return false;
@@ -127,6 +151,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getProviderNameForPresentation(): string
     {
         return $this->identification->getProviderNameForPresentation();
@@ -136,6 +161,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function isDeletable(): bool
     {
         return true;
@@ -145,6 +171,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function supportsRoleBasedVisibility(): bool
     {
         return true;

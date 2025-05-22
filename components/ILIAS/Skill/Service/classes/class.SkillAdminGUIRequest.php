@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Skill\Service;
 
@@ -225,19 +224,6 @@ class SkillAdminGUIRequest extends SkillGUIRequest
     public function getTableProfileIds(): array
     {
         return $this->getTableIds("skl_profile_table_profile_ids");
-    }
-
-    public function getTableProfileLevelAssignmentAction(): string
-    {
-        return $this->getTableAction("skl_profile_level_assignment_table_action");
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getTableProfileLevelAssignmentIds(): array
-    {
-        return $this->getTableIds("skl_profile_level_assignment_table_level_ids");
     }
 
     public function getTableProfileUserAssignmentAction(): string

@@ -39,7 +39,7 @@ class ilTaskService
         ilLanguage $lng,
         UIServices $ui,
         ilAccessHandler $access,
-        array $derived_task_provider_factories = null
+        ?array $derived_task_provider_factories = null
     ) {
         $derived_task_provider_master_factory = new ilDerivedTaskProviderMasterFactory($this, $derived_task_provider_factories);
         $this->_deps = new ilTaskServiceDependencies($user, $lng, $ui, $access, $derived_task_provider_master_factory);

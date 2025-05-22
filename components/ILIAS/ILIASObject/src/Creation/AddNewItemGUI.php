@@ -50,20 +50,16 @@ class AddNewItemGUI
     ) {
         global $DIC;
 
-        $this->lng = $DIC->language();
-        $this->lng->loadLanguageModule('wsp');
-        $this->obj_definition = $DIC["objDefinition"];
-        $this->settings = $DIC->settings();
-        $this->access = $DIC->access();
-        $this->ctrl = $DIC->ctrl();
-        $this->toolbar = $DIC->toolbar();
-        $this->tpl = $DIC["tpl"];
+        $this->lng = $DIC['lng'];
+        $this->toolbar = $DIC['ilToolbar'];
+        $this->tpl = $DIC['tpl'];
 
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
 
-        $this->lng->loadLanguageModule("rep");
-        $this->lng->loadLanguageModule("cntr");
+        $this->lng->loadLanguageModule('wsp');
+        $this->lng->loadLanguageModule('rep');
+        $this->lng->loadLanguageModule('cntr');
     }
 
     /**
@@ -74,11 +70,20 @@ class AddNewItemGUI
         if ($this->elements === []) {
             return;
         }
-        $content = $this->ui_factory->menu()->drilldown($this->lng->txt('cntr_add_new_item'), $this->buildAddNewItemsMenu($this->elements));
-        $modal = $this->ui_factory->modal()->roundtrip($this->lng->txt('cntr_add_new_item'), $content);
-        $button = $this->ui_factory->button()->primary($this->lng->txt('cntr_add_new_item'), $modal->getShowSignal());
+        $modal = $this->ui_factory->modal()->roundtrip(
+            $this->lng->txt('cntr_add_new_item'),
+            $this->ui_factory->menu()->drilldown(
+                $this->lng->txt('object_list'),
+                $this->buildAddNewItemsMenu($this->elements)
+            )
+        );
 
-        $this->toolbar->addComponent($button);
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->primary(
+                $this->lng->txt('cntr_add_new_item'),
+                $modal->getShowSignal()
+            )
+        );
         $this->tpl->setVariable(
             'IL_OBJECT_ADD_NEW_ITEM_MODAL',
             $this->ui_renderer->render($modal)

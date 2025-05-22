@@ -193,23 +193,13 @@ class ilUserImportParser extends ilSaxParser
      */
     public array $parentRolesCache;
 
-    public string $skin;
-    public string $style;
+    public string $skin = '';
+    public string $style = '';
 
     /**
      * User assigned styles
      */
     public array $userStyles; // Missing array type.
-
-    /**
-     * Indicates if the skins are hidden
-     */
-    public bool $hideSkin;
-
-    /**
-     * Indicates if the skins are enabled
-     */
-    public bool $disableSkin;
 
     public int $user_id;
 
@@ -275,9 +265,6 @@ class ilUserImportParser extends ilSaxParser
             }
         }
 
-        $this->hideSkin = (!$this->user_settings_config->isVisible('skin_style'));
-        $this->disableSkin = (!$this->user_settings_config->isChangeable('skin_style'));
-
         $this->acc_mail = new ilAccountMail();
         $this->acc_mail->setAttachConfiguredFiles(true);
         $this->acc_mail->useLangVariablesAsFallback(true);
@@ -316,9 +303,8 @@ class ilUserImportParser extends ilSaxParser
     */
     public function setHandlers($a_xml_parser): void
     {
-        xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
+        xml_set_element_handler($a_xml_parser, $this->handlerBeginTag(...), $this->handlerEndTag(...));
+        xml_set_character_data_handler($a_xml_parser, $this->handlerCharacterData(...));
     }
 
     /**
@@ -334,7 +320,7 @@ class ilUserImportParser extends ilSaxParser
     /**
      * generate a tag with given name and attributes
      */
-    public function buildTag(string $type, string $name, array $attr = null): string // Missing array type.
+    public function buildTag(string $type, string $name, ?array $attr = null): string // Missing array type.
     {
         $tag = '<';
 
@@ -511,7 +497,6 @@ class ilUserImportParser extends ilSaxParser
                         case 'local':
                         case 'shibboleth':
                         case 'script':
-                        case 'cas':
                         case 'soap':
                         case 'openid':
                             // begin-patch auth_plugin
@@ -586,12 +571,12 @@ class ilUserImportParser extends ilSaxParser
                 $this->containedTags = [];
                 $this->userObj = new ilObjUser();
                 $this->userObj->setLanguage($a_attribs['Language'] ?? '');
-                $this->userObj->setImportId($a_attribs['Id']);
+                $this->userObj->setImportId($a_attribs['Id'] ?? '');
                 $this->currentPrefKey = null;
                 // if we have an object id, store it
                 $this->user_id = -1;
 
-                if (!is_null($a_attribs['Id']) && $this->getUserMappingMode() === self::IL_USER_MAPPING_ID) {
+                if (isset($a_attribs['Id']) && $this->getUserMappingMode() === self::IL_USER_MAPPING_ID) {
                     if (is_numeric($a_attribs['Id'])) {
                         $this->user_id = (int) $a_attribs['Id'];
                     } elseif (($id = (int) ilUtil::__extractId($a_attribs['Id'], (int) IL_INST_ID)) > 0) {
@@ -599,7 +584,7 @@ class ilUserImportParser extends ilSaxParser
                     }
                 }
 
-                $this->action = (is_null($a_attribs['Action'])) ? 'Insert' : $a_attribs['Action'];
+                $this->action = !isset($a_attribs['Action']) ? 'Insert' : $a_attribs['Action'];
                 if ($this->action !== 'Insert'
                 && $this->action !== 'Update'
                 && $this->action !== 'Delete') {
@@ -643,7 +628,6 @@ class ilUserImportParser extends ilSaxParser
                         case 'local':
                         case 'shibboleth':
                         case 'script':
-                        case 'cas':
                         case 'soap':
                         case 'openid':
                             // begin-patch auth_plugin
@@ -831,13 +815,19 @@ class ilUserImportParser extends ilSaxParser
     ): void {
         $this->rbac_admin->deassignUser($a_role_id, $a_user_obj->getId());
 
-        if (substr(ilObject::_lookupTitle($a_role_id), 0, 6) === 'il_crs' ||
-            substr(ilObject::_lookupTitle($a_role_id), 0, 6) === 'il_grp') {
-            $obj = $this->rbac_review->getObjectOfRole($a_role_id);
-            $ref = ilObject::_getAllReferences($obj);
-            $ref_id = end($ref);
-            $this->recommended_content_manager->removeObjectRecommendation($a_user_obj->getId(), $ref_id);
+        if (substr(ilObject::_lookupTitle($a_role_id), 0, 6) !== 'il_crs'
+            && substr(ilObject::_lookupTitle($a_role_id), 0, 6) !== 'il_grp') {
+            return;
         }
+
+        $ref = ilObject::_getAllReferences(
+            $this->rbac_review->getObjectOfRole($a_role_id)
+        );
+        $ref_id = end($ref);
+        if (!$ref_id) {
+            return;
+        }
+        $this->recommended_content_manager->removeObjectRecommendation($a_user_obj->getId(), $ref_id);
     }
 
     protected function tagContained(string $tagname): bool
@@ -1061,9 +1051,6 @@ class ilUserImportParser extends ilSaxParser
                             //insert user data in table user_data
                             $this->userObj->saveAsNew();
 
-                            // Set default prefs
-                            $this->userObj->setPref('hits_per_page', $this->settings->get('hits_per_page', '30'));
-
                             if (count($this->prefs)) {
                                 foreach ($this->prefs as $key => $value) {
                                     if ($key !== 'mail_incoming_type' &&
@@ -1075,13 +1062,13 @@ class ilUserImportParser extends ilSaxParser
                                 }
                             }
 
-                            if (!is_array($this->prefs) || !in_array('chat_osc_accept_msg', $this->prefs)) {
+                            if (!is_array($this->prefs) || !array_key_exists('chat_osc_accept_msg', $this->prefs)) {
                                 $this->userObj->setPref('chat_osc_accept_msg', $this->settings->get('chat_osc_accept_msg', 'n'));
                             }
-                            if (!is_array($this->prefs) || !in_array('chat_broadcast_typing', $this->prefs)) {
+                            if (!is_array($this->prefs) || !array_key_exists('chat_broadcast_typing', $this->prefs)) {
                                 $this->userObj->setPref('chat_broadcast_typing', $this->settings->get('chat_broadcast_typing', 'n'));
                             }
-                            if (!is_array($this->prefs) || !in_array('bs_allow_to_contact_me', $this->prefs)) {
+                            if (!is_array($this->prefs) || !array_key_exists('bs_allow_to_contact_me', $this->prefs)) {
                                 $this->userObj->setPref('bs_allow_to_contact_me', $this->settings->get('bs_allow_to_contact_me', 'n'));
                             }
 
@@ -1503,7 +1490,7 @@ class ilUserImportParser extends ilSaxParser
             case 'TimeLimitUntil':
                 if (is_numeric($this->cdata)) {
                     // Treat cdata as a unix timestamp
-                    $this->userObj->setTimeLimitUntil((int)$this->cdata);
+                    $this->userObj->setTimeLimitUntil((int) $this->cdata);
                 } else {
                     // Try to convert cdata into unix timestamp, or ignore it
                     $timestamp = strtotime($this->cdata);
@@ -1560,15 +1547,12 @@ class ilUserImportParser extends ilSaxParser
 
             case 'Look':
                 $this->updateLookAndSkin = false;
-                if (!$this->hideSkin) {
-                    // TODO: what to do with disabled skins? is it possible to change the skin via import?
-                    if ((strlen($this->skin) > 0) && (strlen($this->style) > 0)) {
-                        if (is_array($this->userStyles)) {
-                            if (in_array($this->skin . ':' . $this->style, $this->userStyles)) {
-                                $this->userObj->setPref('skin', $this->skin);
-                                $this->userObj->setPref('style', $this->style);
-                                $this->updateLookAndSkin = true;
-                            }
+                if ($this->skin !== '' && $this->style !== '') {
+                    if (is_array($this->userStyles)) {
+                        if (in_array($this->skin . ':' . $this->style, $this->userStyles)) {
+                            $this->userObj->setPref('skin', $this->skin);
+                            $this->userObj->setPref('style', $this->style);
+                            $this->updateLookAndSkin = true;
                         }
                     }
                 }
@@ -1786,6 +1770,12 @@ class ilUserImportParser extends ilSaxParser
                 break;
 
             case 'SelCountry':
+                if (mb_strlen($this->cdata) !== 2) {
+                    $this->logFailure(
+                        $this->userObj->getLogin(),
+                        sprintf($this->lng->txt('usrimport_xml_element_content_illegal'), 'SelCountry', $this->stripTags($this->cdata))
+                    );
+                }
                 $this->userObj->setSelectedCountry($this->cdata);
                 break;
 
@@ -2176,11 +2166,6 @@ class ilUserImportParser extends ilSaxParser
     {
         switch ($key) {
             case 'mail_linebreak':
-            case 'hits_per_page':
-                if (!is_numeric($value) || $value < 0) {
-                    $this->logFailure('---', "Wrong value '{$this->stripTags($value)}': Positiv numeric value expected for preference {$this->stripTags($key)}.");
-                }
-                break;
             case 'language':
             case 'skin':
             case 'style':

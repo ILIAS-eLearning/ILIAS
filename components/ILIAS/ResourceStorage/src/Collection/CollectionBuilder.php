@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Collection;
 
+use ILIAS\ResourceStorage\Collection\Repository\CollectionRepository;
+use ILIAS\ResourceStorage\Lock\LockHandler;
 use ILIAS\ResourceStorage\Identification\CollectionIdentificationGenerator;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -39,20 +41,9 @@ class CollectionBuilder
 {
     use SecureString;
 
-    private Repository\CollectionRepository $collection_repository;
-    private ?CollectionIdentificationGenerator $id_generator = null;
-    private ?\ILIAS\ResourceStorage\Lock\LockHandler $lock_handler = null;
 
-
-    public function __construct(
-        Repository\CollectionRepository $collection_repository,
-        private Subject $events,
-        ?CollectionIdentificationGenerator $id_generator = null,
-        ?\ILIAS\ResourceStorage\Lock\LockHandler $lock_handler = null
-    ) {
-        $this->collection_repository = $collection_repository;
-        $this->lock_handler = $lock_handler;
-        $this->id_generator = $id_generator ?? new UniqueIDCollectionIdentificationGenerator();
+    public function __construct(private CollectionRepository $collection_repository, private Subject $events, private CollectionIdentificationGenerator $id_generator = new UniqueIDCollectionIdentificationGenerator(), private ?LockHandler $lock_handler = null)
+    {
     }
 
     public function has(ResourceCollectionIdentification $identification): bool
@@ -100,7 +91,12 @@ class CollectionBuilder
         if ($existing->hasSpecificOwner()
             && $existing->getOwner() !== $owner
         ) {
-            throw new \InvalidArgumentException('Invalid owner of collection');
+            // The original plan was that collections could be explicitly assigned to a user as an option.
+            // Such collections can then only be read by that user. However, the concept was never described
+            // and the check has therefore now been deactivated.
+            // See, for example, https://mantis.ilias.de/view.php?id=42127#c112463
+            // throw new \InvalidArgumentException('Invalid owner of collection');
+
         }
         return $existing;
     }
@@ -121,7 +117,7 @@ class CollectionBuilder
         }
 
         // notify about the change. we must do this after the lock is released
-        foreach($event_data_container->get() as $event_data) {
+        foreach ($event_data_container->get() as $event_data) {
             $this->events->notify(Event::COLLECTION_RESOURCE_ADDED, $event_data);
         }
 

@@ -47,6 +47,58 @@ export default class TinyDomTransform {
     });
   }
 
+  /**
+   * This transforms multiple classes on a span into multiple spans with only one class.
+   * Note: If you have nested a > b on a selction and b completely "overwrites a" another
+   * application if a on the same selection will remove it (since it is already applied)
+   * this might be an "invisible" effect, result: b only
+   */
+  nestMultiClasses(addedClass) {
+    const r = this.tiny.dom.getRoot();
+    const spans = Array.from(r.querySelectorAll('span'));
+
+    spans.forEach((originalSpan) => {
+      // Split the classes on whitespace
+      const classList = originalSpan.className.split(/\s+/);
+
+      // ensure, that the new class is always "at the end"
+      const specialIndex = classList.indexOf(addedClass);
+      if (specialIndex !== -1) {
+        // Remove 'specialClass' from its current position
+        classList.splice(specialIndex, 1);
+        // Add 'specialClass' at the end
+        classList.push(addedClass);
+      }
+      console.log(classList);
+
+      // Only transform if more than one class
+      if (classList.length > 1) {
+        // Create the outermost span for the first class
+        const newSpan = document.createElement('span');
+        newSpan.className = classList[0];
+
+        // We'll build nested spans inside it
+        let current = newSpan;
+
+        // For each additional class, create a nested span
+        for (let i = 1; i < classList.length; i++) {
+          const innerSpan = document.createElement('span');
+          innerSpan.className = classList[i];
+          current.appendChild(innerSpan);
+          current = innerSpan;
+        }
+
+        // Move over all child nodes from the original to the innermost span
+        while (originalSpan.firstChild) {
+          current.appendChild(originalSpan.firstChild);
+        }
+
+        // Finally, replace the original span with our newly built nested structure
+        originalSpan.replaceWith(newSpan);
+      }
+    });
+  }
+
   replaceBoldUnderlineItalic(node) {
     this.replaceTag(node, 'b', 'span', { class: 'ilc_text_inline_Strong' });
     this.replaceTag(node, 'u', 'span', { class: 'ilc_text_inline_Important' });
@@ -55,7 +107,7 @@ export default class TinyDomTransform {
 
   removeIds(node) {
     const { dom } = this.tiny;
-    tinyMCE.each(dom.select('*[id!=""]', node), (el) => {
+    tinyMCE.each(dom.select('[id]', node), (el) => {
       el.id = '';
     });
   }

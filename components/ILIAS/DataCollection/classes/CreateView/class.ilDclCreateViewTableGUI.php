@@ -49,7 +49,6 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
         $this->setTopCommands(true);
         $this->setEnableHeader(true);
         $this->setShowRowsSelector(false);
-        $this->setShowTemplates(false);
         $this->setEnableHeader(true);
         $this->setEnableTitle(true);
         $this->setDefaultOrderDirection('asc');
@@ -182,9 +181,9 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
 
         if (!is_null($match)) {
             if ($item instanceof ilDclCheckboxInputGUI) {
-                $item->setChecked((bool)$match->getValue());
+                $item->setChecked((bool) $match->getValue());
             } else {
-                $item->setValue((string)$match->getValue());
+                $item->setValue((string) $match->getValue());
             }
         }
 

@@ -49,7 +49,7 @@ class ilPCBlog extends ilPageContent
      */
     public function setData(
         int $a_blog_id,
-        array $a_posting_ids = null
+        ?array $a_posting_ids = null
     ): void {
         $ilUser = $this->user;
 
@@ -59,9 +59,7 @@ class ilPCBlog extends ilPageContent
         // remove all children first
         $children = $this->getChildNode()->childNodes;
         if ($children) {
-            foreach ($children as $child) {
-                $this->getChildNode()->removeChild($child);
-            }
+            $this->dom_util->deleteAllChilds($this->getChildNode());
         }
 
         if (count($a_posting_ids)) {

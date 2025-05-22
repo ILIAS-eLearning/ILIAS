@@ -348,32 +348,55 @@ il.Object = {
   },
 
   saveRating(mark) {
-    il.Util.sendAjaxGetRequestToUrl(`${this.url_rating}&rating=${mark}`, {}, { url_redraw: this.url_redraw_ah }, this.redrawAfterRating);
-  },
-
-  redrawAfterRating(o) {
-    const ah = document.getElementById('il_head_action');
-    if (ah !== null) {
-      il.Util.ajaxReplaceInner(o.argument.url_redraw, 'il_head_action');
-      if (typeof WebuiPopovers !== 'undefined') {
-        WebuiPopovers.hideAll();
-      }
-    }
-  },
-
-  saveRatingFromListGUI(ref_id, hash, mark) {
-    il.Util.sendAjaxGetRequestToUrl(`${this.url_rating}&rating=${mark}&child_ref_id=${ref_id}&cadh= ${hash}`, {}, { url_redraw: this.url_redraw_li, ref_id }, this.redrawAfterRatingFromListGUI);
-  },
-
-  redrawAfterRatingFromListGUI(o) {
-    $(`div[id^=lg_div_${o.argument.ref_id}_pref_]`).each(function () {
-      const id = $(this).attr('id');
-      const parent = id.split('_').pop();
-      il.Util.ajaxReplace(`${o.argument.url_redraw}&child_ref_id=${o.argument.ref_id}&parent_ref_id=${parent}`, id);
+    const urlRedraw = this.url_redraw_ah;
+    // eslint-disable-next-line no-undef
+    $.ajax({
+      url: `${this.url_rating}&rating=${mark}`,
+      type: 'GET',
+      success() {
+        if (typeof WebuiPopovers !== 'undefined') {
+          WebuiPopovers.hideAll();
+        }
+        if (urlRedraw) {
+          // eslint-disable-next-line no-undef
+          $.ajax({
+            url: `${urlRedraw}`,
+            type: 'GET',
+            success(response) {
+              $('#il_head_action').html(response);
+            },
+          });
+        }
+      },
     });
-    if (typeof WebuiPopovers !== 'undefined') {
-      WebuiPopovers.hideAll();
-    }
+  },
+
+  saveRatingFromListGUI(refId, hash, mark) {
+    const urlRedraw = this.url_redraw_li;
+    // eslint-disable-next-line no-undef
+    $.ajax({
+      url: `${this.url_rating}&rating=${mark}&child_ref_id=${refId}&cadh= ${hash}`,
+      type: 'GET',
+      success() {
+        if (typeof WebuiPopovers !== 'undefined') {
+          WebuiPopovers.hideAll();
+        }
+        $(`div[id^=lg_div_${refId}_pref_]`).each(function () {
+          const id = $(this).attr('id');
+          const parent = id.split('_').pop();
+          if (urlRedraw) {
+            // eslint-disable-next-line no-undef
+            $.ajax({
+              url: `${urlRedraw}&child_ref_id=${refId}&parent_ref_id=${parent}`,
+              type: 'GET',
+              success(response) {
+                $(`#${id}`).replaceWith(response);
+              },
+            });
+          }
+        });
+      },
+    });
   },
 };
 
@@ -574,6 +597,34 @@ il.UICore = {
     }
   },
 
+
+  initLastTabDropdown() {
+    const toggle = document.querySelector('#ilLastTab > .dropdown-toggle');
+    const toggler = (e) => {
+      const lastTab = e.target.parentElement;
+      const dropdown = e.target.nextElementSibling;
+
+      if (lastTab.classList.contains('open')) {
+        lastTab.classList.remove('open');
+        lastTab.style.removeProperty('left');
+        return;
+      }
+      lastTab.classList.add('open');
+      const dropdownRight = dropdown?.getBoundingClientRect().right;
+      if (dropdownRight > window.innerWidth) {
+        dropdown.style.left = (window.innerWidth - dropdownRight - 10) + 'px';
+      }
+    };
+    toggle.addEventListener('click', toggler);
+    toggle.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        toggler(e);
+      }
+    });
+  },
+
   initFixedDropDowns() {
     $('.ilMainMenu.ilTopFixed .dropdown').on('shown.bs.dropdown', function () {
       const el = $(this).children('.dropdown-menu')[0];
@@ -619,47 +670,7 @@ il.UICore = {
         il.Util.fixPosition(this);
       });
     });
-  },
-
-  showRightPanel() {
-    this.right_panel = il.Modal.dialogue({
-      id: 'il_right_panel',
-      show: true,
-      body: "<div id='ilRightPanel'></div>",
-      buttons: {
-      },
-    });
-  },
-
-  setRightPanelContent(c) {
-    $('div#ilRightPanel').html(c);
-  },
-
-  // load content from wrapper element into right panel
-  loadWrapperToRightPanel(wrapper_id) {
-    this.right_panel_wrapper = wrapper_id;
-    $(`#${wrapper_id}`).children().appendTo('#ilRightPanel');
-  },
-
-  // move the right panel content back to wrapper
-  unloadWrapperFromRightPanel() {
-    if (this.right_panel_wrapper != '') {
-      $('#ilRightPanel').children().appendTo(`#${this.right_panel_wrapper}`);
-    }
-    this.right_panel_wrapper = '';
-  },
-
-  hideRightPanel() {
-    il.UICore.unloadWrapperFromRightPanel();
-
-    if (this.right_panel) {
-      this.right_panel.hide();
-    }
-    return;
-
-    il.Overlay.hide(null, 'ilRightPanel');
-  },
-
+  }
 };
 
 $(document).on('visibilitychange', () => {

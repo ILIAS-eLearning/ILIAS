@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Resource\InfoResolver;
 
+use ILIAS\ResourceStorage\Information\Information;
 use DateTimeImmutable;
 use ILIAS\ResourceStorage\Revision\FileRevision;
 
@@ -30,18 +31,14 @@ use ILIAS\ResourceStorage\Revision\FileRevision;
  */
 class ClonedRevisionInfoResolver implements InfoResolver
 {
-    protected \ILIAS\ResourceStorage\Information\Information $info;
-    protected int $next_version_number;
-    protected FileRevision $existing_revision;
+    protected Information $info;
 
     /**
      * ClonedRevisionInfoResolver constructor.
      */
-    public function __construct(int $next_version_number, FileRevision $existing_revision)
+    public function __construct(protected int $next_version_number, protected FileRevision $existing_revision)
     {
-        $this->next_version_number = $next_version_number;
-        $this->existing_revision = $existing_revision;
-        $this->info = $existing_revision->getInformation();
+        $this->info = $this->existing_revision->getInformation();
     }
 
     public function getNextVersionNumber(): int

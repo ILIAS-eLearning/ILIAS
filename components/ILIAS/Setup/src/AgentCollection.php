@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Setup;
 
@@ -105,7 +105,7 @@ class AgentCollection implements Agent
     /**
      * @inheritdocs
      */
-    public function getInstallObjective(Config $config = null): Objective
+    public function getInstallObjective(?Config $config = null): Objective
     {
         if (!is_null($config)) {
             $this->checkConfig($config);
@@ -131,7 +131,7 @@ class AgentCollection implements Agent
     /**
      * @inheritdocs
      */
-    public function getUpdateObjective(Config $config = null): Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
         if ($config !== null) {
             $this->checkConfig($config);

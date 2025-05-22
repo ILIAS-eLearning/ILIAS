@@ -53,14 +53,17 @@ class ilMDCopyrightMigration implements Setup\Migration
     public function step(Environment $environment): void
     {
         $res = $this->db->query(
-            'SELECT entry_id, copyright FROM il_md_cpr_selections WHERE migrated = 0 LIMIT 1'
+            'SELECT entry_id, title, copyright FROM il_md_cpr_selections WHERE migrated = 0 LIMIT 1'
         );
 
         if ($row = $this->db->fetchAssoc($res)) {
             if (!isset($row['entry_id'])) {
                 return;
             }
-            $fields = $this->extractFields((string) ($row['copyright'] ?? ''));
+            $fields = $this->extractFields(
+                (string) ($row['title'] ?? ''),
+                (string) ($row['copyright'] ?? '')
+            );
             $fields['migrated'] = [\ilDBConstants::T_INTEGER, 1];
             $this->db->update(
                 'il_md_cpr_selections',
@@ -80,8 +83,10 @@ class ilMDCopyrightMigration implements Setup\Migration
         return (int) $row['count'];
     }
 
-    protected function extractFields(string $copyright): array
-    {
+    protected function extractFields(
+        string $title,
+        string $copyright
+    ): array {
         $full_name = '';
         $link = '';
         $image_link = '';
@@ -110,8 +115,11 @@ class ilMDCopyrightMigration implements Setup\Migration
         }
 
         $image_link = $this->translatePreInstalledLinksToSVG($image_link);
+        $full_name = $this->cleanupPreInstalledPublicDomainFullName($full_name);
+        $title = $this->updatePreInstalledTitles($link, $title);
 
         return [
+            'title' => [\ilDBConstants::T_TEXT, $title],
             'full_name' => [\ilDBConstants::T_TEXT, $full_name],
             'link' => [\ilDBConstants::T_TEXT, $link],
             'image_link' => [\ilDBConstants::T_TEXT, $image_link],
@@ -142,5 +150,47 @@ class ilMDCopyrightMigration implements Setup\Migration
             return $mapping[$image_link];
         }
         return $image_link;
+    }
+
+    /**
+     * see https://mantis.ilias.de/view.php?id=41301
+     */
+    protected function updatePreInstalledTitles(string $link, string $title): string
+    {
+        $old_titles_by_link = [
+            'http://creativecommons.org/licenses/by-nc-nd/4.0/' => 'Attribution Non-commercial No Derivatives (by-nc-nd)',
+            'http://creativecommons.org/licenses/by-nc-sa/4.0/' => 'Attribution Non-commercial Share Alike (by-nc-sa)',
+            'http://creativecommons.org/licenses/by-nc/4.0/' => 'Attribution Non-commercial (by-nc)',
+            'http://creativecommons.org/licenses/by-nd/4.0/' => 'Attribution No Derivatives (by-nd)',
+            'http://creativecommons.org/licenses/by-sa/4.0/' => 'Attribution Share Alike (by-sa)',
+            'http://creativecommons.org/licenses/by/4.0/' => 'Attribution (by)'
+        ];
+        $new_titles_by_link = [
+            'http://creativecommons.org/licenses/by-nc-nd/4.0/' => 'Attribution Non-commercial No Derivatives (BY-NC-ND) 4.0',
+            'http://creativecommons.org/licenses/by-nc-sa/4.0/' => 'Attribution Non-commercial Share Alike (BY-NC-SA) 4.0',
+            'http://creativecommons.org/licenses/by-nc/4.0/' => 'Attribution Non-commercial (BY-NC) 4.0',
+            'http://creativecommons.org/licenses/by-nd/4.0/' => 'Attribution No Derivatives (BY-ND) 4.0',
+            'http://creativecommons.org/licenses/by-sa/4.0/' => 'Attribution Share Alike (BY-SA) 4.0',
+            'http://creativecommons.org/licenses/by/4.0/' => 'Attribution (BY) 4.0'
+        ];
+        if (
+            key_exists($link, $old_titles_by_link) &&
+            $old_titles_by_link[$link] === $title &&
+            key_exists($link, $new_titles_by_link)
+        ) {
+            return $new_titles_by_link[$link];
+        }
+        return $title;
+    }
+
+    /**
+     * see https://mantis.ilias.de/view.php?id=41301
+     */
+    protected function cleanupPreInstalledPublicDomainFullName(string $full_name): string
+    {
+        if ($full_name === 'This work has all rights reserved by the owner.') {
+            return 'All rights reserved';
+        }
+        return $full_name;
     }
 }

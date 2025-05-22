@@ -49,7 +49,7 @@ class ScalarValue extends AbstractValue
      * @return void
      * @since 5.1.0
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         $this->value = unserialize($serialized);
     }

@@ -24,42 +24,24 @@ declare(strict_types=1);
  */
 class ilTestRandomQuestionSetPoolDeriverTest extends ilTestBaseTestCase
 {
-    private ilTestRandomQuestionSetPoolDeriver $testObj;
+    private ilTestRandomQuestionSetPoolDeriver $test_obj;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->testObj = new ilTestRandomQuestionSetPoolDeriver(
+        $this->test_obj = new ilTestRandomQuestionSetPoolDeriver(
             $this->createMock(ilDBInterface::class),
             $this->createMock(ilComponentRepository::class),
-            $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock()
+            $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock(),
+            $this->createMock(ilTestRandomQuestionSetSourcePoolDefinitionList::class),
+            2,
+            125
         );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestRandomQuestionSetPoolDeriver::class, $this->testObj);
-    }
-
-    public function testTargetContainerRef(): void
-    {
-        $targetContainerRef = 125;
-        $this->testObj->setTargetContainerRef($targetContainerRef);
-        $this->assertEquals($targetContainerRef, $this->testObj->getTargetContainerRef());
-    }
-
-    public function testOwnerId(): void
-    {
-        $ownerId = 125;
-        $this->testObj->setOwnerId($ownerId);
-        $this->assertEquals($ownerId, $this->testObj->getOwnerId());
-    }
-
-    public function testSourcePoolDefinitionList(): void
-    {
-        $mock = $this->createMock(ilTestRandomQuestionSetSourcePoolDefinitionList::class);
-        $this->testObj->setSourcePoolDefinitionList($mock);
-        $this->assertEquals($mock, $this->testObj->getSourcePoolDefinitionList());
+        $this->assertInstanceOf(ilTestRandomQuestionSetPoolDeriver::class, $this->test_obj);
     }
 }

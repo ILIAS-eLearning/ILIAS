@@ -36,7 +36,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        $this->setRowTemplate("tpl.lang_items_row.html", "components/ILIAS/Language_");
+        $this->setRowTemplate("tpl.lang_items_row.html", "components/ILIAS/Language");
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setDisableFilterHiding(true);
 

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,9 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\Layout\Factory;
 
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Content;
 
 /**
  * Class ContentModification
@@ -30,6 +31,7 @@ class ContentModification extends AbstractLayoutModification implements LayoutMo
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function isFinal(): bool
     {
         return false;
@@ -40,7 +42,7 @@ class ContentModification extends AbstractLayoutModification implements LayoutMo
      */
     public function getClosureFirstArgumentType(): string
     {
-        return Legacy::class;
+        return Content::class;
     }
 
     /**
@@ -48,7 +50,7 @@ class ContentModification extends AbstractLayoutModification implements LayoutMo
      */
     public function getClosureReturnType(): string
     {
-        return Legacy::class;
+        return Content::class;
     }
 
     /**

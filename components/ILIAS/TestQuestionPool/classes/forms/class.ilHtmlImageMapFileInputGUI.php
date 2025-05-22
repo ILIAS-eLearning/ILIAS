@@ -24,7 +24,7 @@ class ilHtmlImageMapFileInputGUI extends ilFileInputGUI
     /**
      * @var ASS_AnswerImagemap[]
      */
-    protected $shapes = array();
+    protected $shapes = [];
 
     /**
      * {@inheritdoc}
@@ -73,7 +73,7 @@ class ilHtmlImageMapFileInputGUI extends ilFileInputGUI
                 return false;
             }
 
-            $this->shapes[] = new ASS_AnswerImagemap($alt[1], 0.0, $i, $coords[1], $shape[1]);
+            $this->shapes[] = new ASS_AnswerImagemap($alt[1] ?? '', 0.0, $i, $coords[1], $shape[1]);
         }
 
         return true;

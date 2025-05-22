@@ -37,6 +37,7 @@ class ilAssOrderingImagesInputGUITest extends assBaseTestCase
 
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
+        $this->addGlobal_uiUploadLimitResolver();
 
         $this->object = new ilAssOrderingImagesInputGUI($this->createMock(ilAssOrderingFormValuesObjectsConverter::class), '');
     }

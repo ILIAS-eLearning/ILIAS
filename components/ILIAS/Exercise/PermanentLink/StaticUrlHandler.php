@@ -37,9 +37,10 @@ class StaticURLHandler extends BaseHandler implements Handler
     public function handle(Request $request, Context $context, Factory $response_factory): Response
     {
         global $DIC;
-
         $main_tpl = $DIC->ui()->mainTemplate();
         $lng = $DIC->language();
+        $uri = null;
+        $exc_domain = $DIC->exercise()->internal()->domain();
 
         $ref_id = $request->getReferenceId()?->toInt() ?? 0;
         $additional_params = $request->getAdditionalParameters() ?? [];
@@ -135,14 +136,14 @@ class StaticURLHandler extends BaseHandler implements Handler
                 [\ilExerciseHandlerGUI::class, \ilObjExerciseGUI::class],
                 "infoScreen"
             );
-        } elseif ($context->checkPermission("read", ROOT_FOLDER_ID)) {
-            $main_tpl->setOnScreenMessage('failure', sprintf(
-                $lng->txt("msg_no_perm_read_item"),
-                \ilObject::_lookupTitle(\ilObject::_lookupObjId($ref_id))
-            ), true);
-            \ilObjectGUI::_gotoRepositoryRoot();
         }
-
+        if (is_null($uri)) {
+            if ($exc_domain->user()->isAnonymous() || $exc_domain->user()->getId() == 0) {
+                return $response_factory->loginFirst();
+            } else {
+                return $response_factory->cannot();
+            }
+        }
         return $response_factory->can($uri);
     }
 

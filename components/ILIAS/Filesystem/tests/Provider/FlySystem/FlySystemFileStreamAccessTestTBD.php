@@ -18,14 +18,18 @@
 
 namespace Filesystem\Provider\FlySystem;
 
-\Hamcrest\Util::registerGlobalFunctions();
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use Hamcrest\Util;
+use Mockery\LegacyMockInterface;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\Small;
+
+Util::registerGlobalFunctions();
 
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Provider\FlySystem\FlySystemFileStreamAccess;
 use ILIAS\Filesystem\Stream\Streams;
-use League\Flysystem\FileExistsException;
-use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\FilesystemOperator;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
@@ -45,8 +49,8 @@ class FlySystemFileStreamAccessTest extends TestCase
     /**
      * @var FilesystemInterface | MockInterface
      */
-    private \Mockery\LegacyMockInterface $filesystemMock;
-    private \ILIAS\Filesystem\Provider\FlySystem\FlySystemFileStreamAccess $subject;
+    private LegacyMockInterface $filesystemMock;
+    private FlySystemFileStreamAccess $subject;
 
 
     /**
@@ -61,10 +65,8 @@ class FlySystemFileStreamAccessTest extends TestCase
         $this->subject = new FlySystemFileStreamAccess($this->filesystemMock);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testReadStreamWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
@@ -81,10 +83,8 @@ class FlySystemFileStreamAccessTest extends TestCase
         $this->assertSame($fileContent, $wrappedStream->getContents());
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testReadStreamWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
@@ -94,16 +94,14 @@ class FlySystemFileStreamAccessTest extends TestCase
             ->with($path)
             ->andThrow(UnableToReadFile::class);
 
-        $this->expectException(\ILIAS\Filesystem\Exception\FileNotFoundException::class);
+        $this->expectException(FileNotFoundException::class);
         $this->expectExceptionMessage("File \"$path\" not found.");
 
         $this->subject->readStream($path);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testReadStreamWithGeneralFailureWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
@@ -119,10 +117,8 @@ class FlySystemFileStreamAccessTest extends TestCase
         $this->subject->readStream($path);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testWriteStreamWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
@@ -142,10 +138,8 @@ class FlySystemFileStreamAccessTest extends TestCase
         $this->subject->writeStream($path, $stream);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testWriteStreamWithDetachedStreamWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
@@ -159,10 +153,8 @@ class FlySystemFileStreamAccessTest extends TestCase
         $this->subject->writeStream($path, $stream);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testWriteStreamWithExistingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
@@ -180,10 +172,8 @@ class FlySystemFileStreamAccessTest extends TestCase
         $this->subject->writeStream($path, $stream);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testWriteStreamWithFailingAdapterWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
@@ -206,10 +196,8 @@ class FlySystemFileStreamAccessTest extends TestCase
         $this->subject->writeStream($path, $stream);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testPutStreamWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
@@ -224,10 +212,8 @@ class FlySystemFileStreamAccessTest extends TestCase
         $this->subject->putStream($path, $stream);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testPutStreamWithGeneralFailureWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
@@ -245,10 +231,8 @@ class FlySystemFileStreamAccessTest extends TestCase
         $this->subject->putStream($path, $stream);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testPutStreamWithDetachedStreamWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
@@ -262,10 +246,8 @@ class FlySystemFileStreamAccessTest extends TestCase
         $this->subject->putStream($path, $stream);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testUpdateStreamWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
@@ -280,10 +262,8 @@ class FlySystemFileStreamAccessTest extends TestCase
         $this->subject->updateStream($path, $stream);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testUpdateStreamWithDetachedStreamWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
@@ -297,10 +277,8 @@ class FlySystemFileStreamAccessTest extends TestCase
         $this->subject->updateStream($path, $stream);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testUpdateStreamWithGeneralFailureWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
@@ -319,10 +297,8 @@ class FlySystemFileStreamAccessTest extends TestCase
         $this->subject->updateStream($path, $stream);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+    #[Test]
+
     public function testUpdateStreamWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
@@ -335,7 +311,7 @@ class FlySystemFileStreamAccessTest extends TestCase
             ->withArgs([$path, \resourceValue()])
             ->andThrow(UnableToWriteFile::class);
 
-        $this->expectException(\ILIAS\Filesystem\Exception\FileNotFoundException::class);
+        $this->expectException(FileNotFoundException::class);
         $this->expectExceptionMessage("Unable to update Stream in \"$path\".");
 
         $this->subject->updateStream($path, $stream);

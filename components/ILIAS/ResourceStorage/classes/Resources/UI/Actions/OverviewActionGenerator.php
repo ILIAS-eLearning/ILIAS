@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Resources\UI\Actions;
 
+use ILIAS\UI\Factory;
+use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\UI\Component\Modal\Modal;
 
@@ -30,11 +32,11 @@ use ILIAS\UI\Component\Modal\Modal;
  */
 class OverviewActionGenerator implements ActionGenerator
 {
-    private \ILIAS\UI\Factory $ui_factory;
+    private Factory $ui_factory;
     private \ilLanguage $language;
     private \ilCtrlInterface $ctrl;
     private array $collected_modals = [];
-    private \ILIAS\ResourceStorage\Services $irss;
+    private Services $irss;
 
     public function __construct()
     {

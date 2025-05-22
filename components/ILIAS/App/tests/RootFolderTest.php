@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,22 +16,18 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\App\tests;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class RootFolderTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 final class RootFolderTest extends TestCase
 {
-    private const ALLOWED_ROOT_FOLDER_FILES = [
-        '.babelrc.json',
+    private const array ALLOWED_ROOT_FOLDER_FILES = [
         '.eslintrc.json',
         '.gitignore',
         '.htaccess',
-        '.mocharc.json',
         '.phpunit.result.cache',
         'captainhook.local.json',
         'phpstan.local.neon',
@@ -49,6 +43,7 @@ final class RootFolderTest extends TestCase
         'LICENSE',
         'package-lock.json',
         'package.json',
+        'package_new.json',
         'README.md',
         'unzip_test_file.zip',
         '.DS_Store',
@@ -56,14 +51,13 @@ final class RootFolderTest extends TestCase
         '.project'
     ];
 
-    private const ALLOWED_ROOT_FOLDER_DIRS = [
+    private const array ALLOWED_ROOT_FOLDER_DIRS = [
         '.git',
         '.github',
         '.idea',
         'artifacts',
         'cli',
         'components',
-        'Customizing',
         'docs',
         'extern',
         'lang',
@@ -120,7 +114,7 @@ final class RootFolderTest extends TestCase
 
         $this->assertEmpty(
             $unexpected_files,
-            sprintf(
+            \sprintf(
                 'The following files are not expected in the ILIAS root folder: %s',
                 implode(', ', $unexpected_files)
             )
@@ -146,7 +140,7 @@ final class RootFolderTest extends TestCase
 
         $this->assertEmpty(
             $unexpected_directories,
-            sprintf(
+            \sprintf(
                 'The following directories are not expected in the ILIAS root folder: %s',
                 implode(', ', $unexpected_directories)
             )

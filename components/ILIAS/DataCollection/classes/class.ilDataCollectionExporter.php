@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-
-
 declare(strict_types=1);
 
 class ilDataCollectionExporter extends ilXmlExporter
@@ -46,6 +44,13 @@ class ilDataCollectionExporter extends ilXmlExporter
                 'xsd_file" => "ilias_dcl_4_5.xsd',
                 'uses_dataset' => true,
                 'min' => '4.5.0',
+                'max' => '8.12',
+            ],
+            '8.13' => [
+                'namespace' => 'https://www.ilias.de/Modules/DataCollection/dcl/4_5',
+                'xsd_file" => "ilias_dcl_4_5.xsd',
+                'uses_dataset' => true,
+                'min' => '8.13',
                 'max' => '',
             ],
         ];
@@ -54,7 +59,7 @@ class ilDataCollectionExporter extends ilXmlExporter
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
 
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], '', true, true);
     }
@@ -122,6 +127,7 @@ class ilDataCollectionExporter extends ilXmlExporter
      */
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
+        $deps = [];
         $page_object_ids = [];
         foreach ($a_ids as $dcl_obj_id) {
             // If a DCL table has a detail view, we need to export the associated page objects!
@@ -136,15 +142,25 @@ class ilDataCollectionExporter extends ilXmlExporter
             }
         }
         if (count($page_object_ids)) {
-            return [
-                [
-                    'component' => 'components/ILIAS/COPage',
-                    'entity' => 'pg',
-                    'ids' => $page_object_ids,
-                ],
+            $deps[] = [
+                'component' => 'components/ILIAS/COPage',
+                'entity' => 'pg',
+                'ids' => $page_object_ids
             ];
         }
 
-        return [];
+        $md_ids = [];
+        foreach ($a_ids as $id) {
+            $md_ids[] = $id . ':0:dcl';
+        }
+        if ($md_ids !== []) {
+            $deps[] = [
+                'component' => 'components/ILIAS/MetaData',
+                'entity' => 'md',
+                'ids' => $md_ids,
+            ];
+        }
+
+        return $deps;
     }
 }

@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 
 /**
@@ -33,7 +34,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
     private ?InterruptiveModal $finish_test_modal = null;
 
     public function __construct(
-        protected ilTestOutputGUI $test_output_gui,
+        protected ilTestPlayerAbstractGUI $test_player_gui,
         ilObjTest $testOBJ,
         protected ilTestSession $testSession
     ) {
@@ -92,7 +93,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         $toolbar->setId($toolbarId);
 
         $back_url = $this->ctrl->getLinkTarget(
-            $this->test_output_gui,
+            $this->test_player_gui,
             $this->object->getListOfQuestionsEnd() ?
             ilTestPlayerCommands::QUESTION_SUMMARY : ilTestPlayerCommands::BACK_FROM_FINISHING
         );
@@ -102,9 +103,9 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         );
 
         if ($this->finish_test_modal === null) {
-            $class = get_class($this->test_output_gui);
+            $class = get_class($this->test_player_gui);
             $this->ctrl->setParameterByClass($class, 'reviewed', 1);
-            $this->finish_test_modal = $this->test_output_gui->buildFinishTestModal();
+            $this->finish_test_modal = $this->test_player_gui->buildFinishTestModal();
             $this->ctrl->setParameterByClass($class, 'reviewed', 0);
         }
 
@@ -117,12 +118,12 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 
     protected function buildUserReviewOutput(): string
     {
-        $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $this->obj_cache);
+        $testResultHeaderLabelBuilder = new ResultsTitlesBuilder($this->lng, $this->obj_cache);
 
         $objectivesList = null;
 
         if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
-            $testSequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($this->testSession->getActiveId(), $this->testSession->getPass());
+            $testSequence = $this->test_sequence_factory->getSequenceByActiveIdAndPass($this->testSession->getActiveId(), $this->testSession->getPass());
             $testSequence->loadFromDb();
             $testSequence->loadQuestions();
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Show glossary terms
@@ -70,10 +70,6 @@ class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
             );
             $this->tpl->setVariable('TARGET', '_blank');
             $this->tpl->setVariable('TITLE', $item->getTitle());
-
-            if (count($this->getSubItemIds(true)) > 1) {
-                $this->parseRelevance($sub_item);
-            }
             $this->tpl->parseCurrentBlock();
         }
 

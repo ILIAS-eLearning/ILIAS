@@ -18,10 +18,13 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup;
-use ILIAS\DI;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\Objective\ClientIdReadObjective;
+use ILIAS\DI\Container;
+use ILIAS\Setup\UnachievableException;
 
-class ilDatabaseUpdatedObjective implements Setup\Objective
+class ilDatabaseUpdatedObjective implements Objective
 {
     public function getHash(): string
     {
@@ -39,25 +42,20 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
     }
 
     /**
-     * @return \ilDatabaseInitializedObjective[]|\ILIAS\Setup\Objective\ClientIdReadObjective[]|\ilIniFilesPopulatedObjective[]
+     * @return \ilDatabaseInitializedObjective[]|ClientIdReadObjective[]|\ilIniFilesPopulatedObjective[]
      */
-    public function getPreconditions(Setup\Environment $environment): array
+    public function getPreconditions(Environment $environment): array
     {
-        $preconditions = [];
-        $preconditions[] = new Setup\Objective\ClientIdReadObjective();
-        $preconditions[] = new ilIniFilesPopulatedObjective();
-        $preconditions[] = new ilDatabaseInitializedObjective();
-
-        return $preconditions;
+        return [new ClientIdReadObjective(), new ilIniFilesPopulatedObjective(), new ilDatabaseInitializedObjective()];
     }
 
-    public function achieve(Setup\Environment $environment): Setup\Environment
+    public function achieve(Environment $environment): Environment
     {
-        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
-        $io = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
-        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
-        $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
+        $db = $environment->getResource(Environment::RESOURCE_DATABASE);
+        $io = $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION);
+        $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
+        $client_ini = $environment->getResource(Environment::RESOURCE_CLIENT_INI);
+        $client_id = $environment->getResource(Environment::RESOURCE_CLIENT_ID);
 
         // ATTENTION: This is a total abomination. It only exists to allow the db-
         // update to run. This is a memento to the fact, that dependency injection
@@ -65,15 +63,13 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
         // locate the whole world via the global $DIC.
         /** @noRector */
         $DIC = $GLOBALS["DIC"] ?? [];
-        $GLOBALS["DIC"] = new DI\Container();
+        $GLOBALS["DIC"] = new Container();
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["ilDB"] = $db;
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["ilLog"] = new class ($io) {
-            protected $io;
-            public function __construct($io)
+            public function __construct(protected $io)
             {
-                $this->io = $io;
             }
 
             public function write(): void
@@ -89,9 +85,9 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
                 $this->io->inform($msg);
             }
 
-            public function error($msg): void
+            public function error($msg): never
             {
-                throw new Setup\UnachievableException(
+                throw new UnachievableException(
                     "Problem in DB-Update: $msg"
                 );
             }
@@ -149,7 +145,7 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment): bool
+    public function isApplicable(Environment $environment): bool
     {
         return true;
     }

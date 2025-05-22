@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,23 +16,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 abstract class ilWebDAVBaseMountInstructions
 {
-    protected ilWebDAVMountInstructionsRepository $repo;
-    protected ilWebDAVUriBuilder $uri_builder;
-    protected ilSetting $settings;
-    protected string $language;
-
     public function __construct(
-        ilWebDAVMountInstructionsRepository $repo,
-        ilWebDAVUriBuilder $uri_builder,
-        ilSetting $settings,
-        string $language
+        protected ilWebDAVMountInstructionsRepository $repo,
+        protected ilWebDAVUriBuilder $uri_builder,
+        protected ilSetting $settings,
+        protected string $language
     ) {
-        $this->repo = $repo;
-        $this->uri_builder = $uri_builder;
-        $this->settings = $settings;
-        $this->language = $language;
     }
 
     public function getMountInstructionsAsArray(array $mount_instructions = []): array
@@ -48,5 +39,5 @@ abstract class ilWebDAVBaseMountInstructions
         return $this->fillPlaceholdersForMountInstructions($mount_instructions);
     }
 
-    abstract protected function fillPlaceholdersForMountInstructions(array $mount_instructions): array ;
+    abstract protected function fillPlaceholdersForMountInstructions(array $mount_instructions): array;
 }

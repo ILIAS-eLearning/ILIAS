@@ -18,11 +18,10 @@
 
 namespace ILIAS\ResourceStorage\Flavours;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\AbstractTestBase;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
-use ILIAS\ResourceStorage\Consumer\StreamAccess\Token;
-use ILIAS\ResourceStorage\Consumer\StreamAccess\TokenStream;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Flavour\FlavourBuilder;
@@ -35,8 +34,8 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Revision\FileRevision;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
-use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamResolver;
+use ILIAS\ResourceStorage\Events\Subject;
 
 /**
  * Class FlavorTest
@@ -46,17 +45,21 @@ require_once __DIR__ . '/../AbstractTestBase.php';
 
 class FlavourTest extends AbstractTestBase
 {
-    public $resource_builder;
+    public MockObject $resource_builder;
+    /**
+     * @var string
+     */
     private const BASE_DIR = '/var';
     private Factory $machine_factory;
     private StorageHandler $storage_handler_mock;
     /**
-     * @var StorageHandlerFactory|\PHPUnit\Framework\MockObject\MockObject
+     * @var StorageHandlerFactory|MockObject
      */
     protected $storage_handler_factory;
     private FlavourRepository $flavour_repo;
     private StreamAccess $stream_access;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->machine_factory = new Factory(new \ILIAS\ResourceStorage\Flavour\Engine\Factory());
@@ -78,7 +81,8 @@ class FlavourTest extends AbstractTestBase
             $this->machine_factory,
             $this->resource_builder,
             $this->storage_handler_factory,
-            $this->stream_access
+            $this->stream_access,
+            new Subject()
         );
 
         // Length OK
@@ -116,7 +120,8 @@ class FlavourTest extends AbstractTestBase
             $this->machine_factory,
             $this->resource_builder,
             $this->storage_handler_factory,
-            $this->stream_access
+            $this->stream_access,
+            new Subject()
         );
 
         // Expectations
@@ -135,7 +140,7 @@ class FlavourTest extends AbstractTestBase
             ->method('has')
             ->willReturnCallback(
                 function ($rid, $mid, $def) use (&$consecutive) {
-                    list($expected, $ret) = array_shift($consecutive);
+                    [$expected, $ret] = array_shift($consecutive);
                     $this->assertEquals($expected, [$rid, $mid, $def]);
                     return $ret;
                 }
@@ -165,7 +170,8 @@ class FlavourTest extends AbstractTestBase
             $this->machine_factory,
             $this->resource_builder,
             $this->storage_handler_factory,
-            $this->stream_access
+            $this->stream_access,
+            new Subject()
         );
 
         // Expectations
@@ -221,6 +227,6 @@ class FlavourTest extends AbstractTestBase
         $first_stream_access = $stream_resolvers[0];
         $this->assertInstanceOf(StreamResolver::class, $first_stream_access);
         $resolved_stream = $first_stream_access->getStream();
-        $this->assertEquals('empty', (string)$resolved_stream);
+        $this->assertEquals('empty', (string) $resolved_stream);
     }
 }

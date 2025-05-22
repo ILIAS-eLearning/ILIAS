@@ -32,14 +32,40 @@ class Authentication implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        // currently this is will be a session storage because we cannot store
+        // data on the client, see https://mantis.ilias.de/view.php?id=38503.
+        // @todo: this should be implemented by some proper key-value storage (or service).
+        $implement[UI\Storage::class] = static fn() =>
+            new class () implements UI\Storage {
+                public function offsetExists(mixed $offset): bool
+                {
+                    return \ilSession::has($offset);
+                }
+                public function offsetGet(mixed $offset): mixed
+                {
+                    return \ilSession::get($offset);
+                }
+                public function offsetSet(mixed $offset, mixed $value): void
+                {
+                    if (!is_string($offset)) {
+                        throw new \InvalidArgumentException('Offset needs to be of type string.');
+                    }
+                    \ilSession::set($offset, $value);
+                }
+                public function offsetUnset(mixed $offset): void
+                {
+                    \ilSession::clear($offset);
+                }
+            };
+
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilAuthenticationSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\Endpoint($this, "sessioncheck.php");
+            new Component\Resource\Endpoint($this, 'sessioncheck.php');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "session_reminder.js");
+            new Component\Resource\ComponentJS($this, 'js/dist/SessionReminder.min.js');
     }
 }

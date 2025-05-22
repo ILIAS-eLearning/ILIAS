@@ -35,6 +35,9 @@
 
 .il_VAccordionContent, .il_HAccordionContent {
 	padding-top: $il-padding-xlarge-vertical;
+	>.c-form.c-form--horizontal {
+		padding: 0px $il-padding-xlarge-horizontal;
+	}
 }
 .il_HAccordionHeadActive, .il_VAccordionHeadActive {
 	background-image: url("#{$il-background-images-path}nav/tree_exp.svg");

@@ -30,7 +30,7 @@ namespace ILIAS\BackgroundTasks\Types;
  */
 class ListType implements Type, Ancestors
 {
-    protected \ILIAS\BackgroundTasks\Types\Type $type;
+    protected Type $type;
 
     /**
      * SingleType constructor.
@@ -71,7 +71,7 @@ class ListType implements Type, Ancestors
         return $this->type->isExtensionOf($type->getContainedType());
     }
 
-    public function getContainedType(): \ILIAS\BackgroundTasks\Types\Type
+    public function getContainedType(): Type
     {
         return $this->type;
     }

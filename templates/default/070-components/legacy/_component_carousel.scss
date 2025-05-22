@@ -8,14 +8,16 @@
 $carousel-text-shadow:                        0 1px 2px rgba(0,0,0,.6) !default;
 
 $carousel-control-color:                      $il-link-color !default;
-$carousel-control-width:                      15% !default;
 $carousel-control-opacity:                    .5 !default;
 $carousel-control-font-size:                  20px !default;
+$carousel-control-width:                      $carousel-control-font-size !default;
 
 $carousel-indicator-active-bg:                $il-link-hover-color !default;
 $carousel-indicator-border-color:             $il-link-color !default;
 
 $carousel-caption-color:                      $il-link-color !default;
+
+$carousel-inner-padding:                      0px 24px !default;
 
 // section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
 
@@ -29,6 +31,7 @@ $carousel-caption-color:                      $il-link-color !default;
     overflow: hidden;
     width: 100%;
     min-height: 400px;
+    padding: $carousel-inner-padding;
 
     .item:not(.text-only) .item-content {
         display: flex;
@@ -73,6 +76,9 @@ $carousel-caption-color:                      $il-link-color !default;
         &.active {
           @include translate3d(0, 0, 0);
           left: 0;
+          &.text-only {
+            padding: 0 15px;
+          }
         }
       }
     }

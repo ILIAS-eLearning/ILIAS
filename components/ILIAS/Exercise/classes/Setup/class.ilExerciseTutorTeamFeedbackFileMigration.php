@@ -59,10 +59,10 @@ class ilExerciseTutorTeamFeedbackFileMigration implements Migration
             "SELECT ass.id, ass.exc_id, ob.owner, te.id team_id FROM exc_assignment ass JOIN object_data ob ON ass.exc_id = ob.obj_id JOIN il_exc_team te ON te.ass_id = ass.id JOIN exc_team_data td ON te.id = td.id WHERE td.feedback_rcid IS NULL OR td.feedback_rcid = '' LIMIT 1;"
         );
         $d = $this->helper->getDatabase()->fetchObject($r);
-        $exec_id = (int)$d->exc_id;
-        $assignment_id = (int)$d->id;
-        $resource_owner_id = (int)$d->owner;
-        $team_id = (int)$d->team_id;
+        $exec_id = (int) $d->exc_id;
+        $assignment_id = (int) $d->id;
+        $resource_owner_id = (int) $d->owner;
+        $team_id = (int) $d->team_id;
         $base_path = $this->buildAbsolutPath($exec_id, $assignment_id, $team_id);
         if (is_dir($base_path)) {
             $collection_id = $this->helper->moveFilesOfPathToCollection(
@@ -95,7 +95,7 @@ class ilExerciseTutorTeamFeedbackFileMigration implements Migration
         );
         $d = $this->helper->getDatabase()->fetchObject($r);
 
-        return (int)$d->amount;
+        return (int) $d->amount;
     }
 
     protected function buildAbsolutPath(int $exec_id, int $assignment_id, int $user_id): string

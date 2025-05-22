@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Menu;
 
@@ -37,13 +37,14 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Menu\Drilldown) {
             return $this->renderDrilldownMenu($component, $default_renderer);
         }
+        if ($component instanceof Menu\Menu) {
+            return $this->renderStandardMenu($component, $default_renderer);
+        }
 
-        return $this->renderStandardMenu($component, $default_renderer);
+        $this->cannotHandleComponent($component);
     }
 
     /**
@@ -130,15 +131,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('assets/js/drilldown.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            Menu\Menu::class
-        );
     }
 }

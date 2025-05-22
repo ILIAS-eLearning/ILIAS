@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input;
 
-use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Component\Input\InputData;
 use ILIAS\UI\Component\Input\Input;
 use ILIAS\Data\Result;
 use ILIAS\UI\Implementation\Component\Input\NameSource;

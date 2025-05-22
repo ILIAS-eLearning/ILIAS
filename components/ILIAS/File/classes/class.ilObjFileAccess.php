@@ -16,8 +16,8 @@
  *
  *********************************************************************/
 
-use ILIAS\FileUpload\MimeType;
-use ILIAS\components\File\Settings\General;
+use ILIAS\File\Capabilities\Capabilities;
+use ILIAS\File\Capabilities\Permissions;
 
 /**
  * Access class for file objects.
@@ -53,6 +53,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         return false;
     }
 
+    #[\Override]
     public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
         return false;
@@ -69,33 +70,49 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      *    );
      * @return array<int, mixed[]>
      */
+    #[\Override]
     public static function _getCommands(): array
     {
         return [
             [
-                "permission" => "read",
-                "cmd" => "sendfile",
+                "permission" => Permissions::READ->value,
+                "cmd" => Capabilities::DOWNLOAD->value,
                 "lang_var" => "download",
-                "default" => true,
+                // "default" => true, // we decide the best matching capability later in ListGUI
             ],
             [
-                "permission" => "write",
-                "cmd" => ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION,
+                "permission" => Permissions::VISIBLE->value,
+                "cmd" => Capabilities::INFO_PAGE->value,
+                "lang_var" => "info",
+            ],
+            [
+                "permission" => Permissions::VISIBLE->value,
+                "cmd" => Capabilities::FORCED_INFO_PAGE->value,
+                "lang_var" => "info",
+            ],
+            [
+                "permission" => Permissions::WRITE->value,
+                "cmd" => Capabilities::UNZIP->value,
                 "lang_var" => "unzip",
             ],
             [
-                "permission" => "edit_file",
-                "cmd" => 'editExternal',
+                "permission" => Permissions::EDIT_CONTENT->value,
+                "cmd" => Capabilities::EDIT_EXTERNAL->value,
                 "lang_var" => "open_external_editor",
             ],
             [
-                "permission" => "write",
-                "cmd" => "versions",
+                "permission" => Permissions::VIEW_CONTENT->value,
+                "cmd" => Capabilities::VIEW_EXTERNAL->value,
+                "lang_var" => "open_external_viewer",
+            ],
+            [
+                "permission" => Permissions::WRITE->value,
+                "cmd" => Capabilities::MANAGE_VERSIONS->value,
                 "lang_var" => "versions",
             ],
             [
-                "permission" => "write",
-                "cmd" => "edit",
+                "permission" => Permissions::WRITE->value,
+                "cmd" => Capabilities::EDIT_SETTINGS->value,
                 "lang_var" => "settings"
             ]
         ];
@@ -105,6 +122,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      * checks whether a user may invoke a command or not
      * (this method is called by ilAccessHandler::checkAccess)
      */
+    #[\Override]
     public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         global $DIC;
@@ -127,7 +145,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
                 }
                 break;
                 // for permission query feature
-            case "infoScreen":
+            case Capabilities::INFO_PAGE->value:
                 if (!self::_lookupOnline($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                 } else {
@@ -154,6 +172,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     /**
      * check whether goto script will succeed
      */
+    #[\Override]
     public static function _checkGoto(string $a_target): bool
     {
         global $DIC;
@@ -162,10 +181,10 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         $t_arr = explode("_", $a_target);
 
         // personal workspace context: do not force normal login
-        if (isset($t_arr[2]) && $t_arr[2] == "wsp") {
+        if (isset($t_arr[2]) && $t_arr[2] === "wsp") {
             return ilSharedResourceGUI::hasAccess($t_arr[1]);
         }
-        if ($t_arr[0] != "file") {
+        if ($t_arr[0] !== "file") {
             return false;
         }
         if (((int) $t_arr[1]) <= 0) {
@@ -203,14 +222,10 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     {
         try {
             $info_repo = new ilObjFileInfoRepository();
-            if ($by_reference) {
-                $info = $info_repo->getByRefId($a_id);
-            } else {
-                $info = $info_repo->getByObjId($a_id);
-            }
+            $info = $by_reference ? $info_repo->getByRefId($a_id) : $info_repo->getByObjectId($a_id);
 
-            return $info->getFileSize()->inBytes();
-        } catch (Throwable $t) {
+            return (int) $info->getFileSize()->inBytes();
+        } catch (Throwable) {
             return 0;
         }
     }
@@ -242,7 +257,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     {
         return str_starts_with($a_file_name, '.') || str_ends_with($a_file_name, '~')
             || str_starts_with($a_file_name, '~$')
-            || $a_file_name == 'Thumbs.db';
+            || $a_file_name === 'Thumbs.db';
     }
 
     /**
@@ -284,20 +299,20 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             ' '
             . $lng->txt('copy_n_of_suffix')
         );
-        $nthCopyRegex = '/' . preg_replace('/%1\\\\\$s/', '([0-9]+)', $nthCopyRegex) . '$/';
+        $nthCopyRegex = '/' . preg_replace('/%1\\\\\$s/', '(\d+)', (string) $nthCopyRegex) . '$/';
 
         // Get the filename without any previously added number of copy.
         // Determine the number of copy, if it has not been specified.
-        if (preg_match($nthCopyRegex, $filenameWithoutExtension, $matches)) {
+        if (preg_match($nthCopyRegex, (string) $filenameWithoutExtension, $matches)) {
             // this is going to be at least the third copy of the filename
-            $filenameWithoutCopy = substr($filenameWithoutExtension, 0, -strlen($matches[0]));
+            $filenameWithoutCopy = substr((string) $filenameWithoutExtension, 0, -strlen($matches[0]));
             if ($nth_copy == null) {
                 $nth_copy = $matches[1] + 1;
             }
-        } elseif (str_ends_with($filenameWithoutExtension, ' ' . $lng->txt('copy_of_suffix'))) {
+        } elseif (str_ends_with((string) $filenameWithoutExtension, ' ' . $lng->txt('copy_of_suffix'))) {
             // this is going to be the second copy of the filename
             $filenameWithoutCopy = substr(
-                $filenameWithoutExtension,
+                (string) $filenameWithoutExtension,
                 0,
                 -strlen(
                     ' '

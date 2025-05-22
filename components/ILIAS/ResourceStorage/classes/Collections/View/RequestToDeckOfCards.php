@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Collections\View;
 
+use ILIAS\UI\Component\Deck\Deck;
 use ILIAS\UI\Factory;
 use ILIAS\components\ResourceStorage\Collections\DataProvider\TableDataProvider;
-use ILIAS\components\ResourceStorage\Collections\DataProvider\DataTableDataProviderAdapter;
 use ILIAS\HTTP\Services;
 use ILIAS\components\ResourceStorage\Resources\UI\RevisionToComponent;
 
@@ -49,7 +49,7 @@ class RequestToDeckOfCards implements RequestToComponents
         $this->irss = $DIC->resourceStorage();
     }
 
-    protected function buildDeck(): \ILIAS\UI\Component\Deck\Deck
+    protected function buildDeck(): Deck
     {
         $this->initCardsPerPage();
 

@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+declare(strict_types=1);
 use ILIAS\AdvancedMetaData\Data\FieldDefinition\GenericData\GenericData;
 
 /**
@@ -12,6 +26,8 @@ use ILIAS\AdvancedMetaData\Data\FieldDefinition\GenericData\GenericData;
  */
 class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionInteger
 {
+    private const MIN_DECIMALS = 1;
+
     protected int $decimals;
 
     public function __construct(GenericData $generic_data, string $language = '')
@@ -52,7 +68,7 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
      */
     public function setDecimals($a_value)
     {
-        $this->decimals = max(1, abs((int) $a_value));
+        $this->decimals = max(self::MIN_DECIMALS, abs((int) $a_value));
     }
 
     /**
@@ -72,7 +88,7 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
     protected function importFieldDefinition(array $a_def): void
     {
         parent::importFieldDefinition($a_def);
-        $this->setDecimals($a_def["decimals"]);
+        $this->setDecimals($a_def["decimals"] ?? self::MIN_DECIMALS);
     }
 
     protected function getFieldDefinition(): array

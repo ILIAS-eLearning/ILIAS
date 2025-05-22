@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\Extract;
 
-use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 use ILIAS\Filesystem\Stream\Stream;
 

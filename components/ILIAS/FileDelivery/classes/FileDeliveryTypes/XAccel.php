@@ -35,20 +35,27 @@ use ILIAS\HTTP\Response\ResponseHeader;
 final class XAccel implements ilFileDeliveryType
 {
     use  HeaderBasedDeliveryHelper;
+    /**
+     * @var string
+     */
     public const DATA = 'data';
+    /**
+     * @var string
+     */
     public const SECURED_DATA = 'secured-data';
-    private \ILIAS\HTTP\Services $httpService;
+    /**
+     * @var string
+     */
     public const X_ACCEL_REDIRECT = 'X-Accel-Redirect';
 
 
     /**
      * PHP constructor.
      *
-     * @param Services $httpState
+     * @param Services $httpService
      */
-    public function __construct(Services $httpState)
+    public function __construct(private Services $httpService)
     {
-        $this->httpService = $httpState;
     }
 
     /**
@@ -80,7 +87,7 @@ final class XAccel implements ilFileDeliveryType
     public function deliver(string $path_to_file, bool $file_marked_to_delete): void
     {
         // There is currently no way to delete the file after delivery
-        if (strpos($path_to_file, './' . self::DATA . '/') === 0) {
+        if (str_starts_with($path_to_file, './' . self::DATA . '/')) {
             $path_to_file = str_replace('./' . self::DATA . '/', '/' . self::SECURED_DATA
                                                                  . '/', $path_to_file);
         }

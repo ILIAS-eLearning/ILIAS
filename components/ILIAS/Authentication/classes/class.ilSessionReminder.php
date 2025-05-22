@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,21 +16,30 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Data\Factory as DataFactory;
+declare(strict_types=1);
+
 use ILIAS\Data\Clock\ClockInterface;
+use ILIAS\Data\Factory as DataFactory;
 
 class ilSessionReminder
 {
-    public const MIN_LEAD_TIME = 2;
+    public const LEAD_TIME_DISABLED = 0;
+    public const MIN_LEAD_TIME = 1;
     public const SUGGESTED_LEAD_TIME = 5;
 
-    private ClockInterface $clock;
-    private ilObjUser $user;
     private int $lead_time = self::SUGGESTED_LEAD_TIME;
     private int $expiration_time = 0;
     private int $current_time = 0;
     private int $seconds_until_expiration = 0;
     private int $seconds_until_reminder = 0;
+
+    public function __construct(
+        private ilObjUser $user,
+        private ClockInterface $clock,
+        private ilSetting $settings
+    ) {
+        $this->init();
+    }
 
     public static function byLoggedInUser(): self
     {
@@ -47,49 +54,63 @@ class ilSessionReminder
 
         $reminder = new self(
             $user,
-            (new DataFactory())->clock()->utc()
+            (new DataFactory())->clock()->utc(),
+            $DIC->settings()
         );
 
         return $reminder;
     }
 
-    public static function isGloballyActivated(): bool
+    public function getGlobalSessionReminderLeadTime(): int
     {
-        /** @var ilSetting $ilSetting */
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-
-        $isSessionReminderEnabled = (bool) $ilSetting->get('session_reminder_enabled', null);
-        $sessionHandlingMode = (int) $ilSetting->get(
-            'session_handling_type',
-            (string) ilSession::SESSION_HANDLING_FIXED
-        );
-
-        return (
-            $isSessionReminderEnabled &&
-            $sessionHandlingMode === ilSession::SESSION_HANDLING_FIXED
+        return $this->buildValidLeadTime(
+            (int) $this->settings->get('session_reminder_lead_time')
         );
     }
 
-    public function __construct(ilObjUser $user, ClockInterface $clock)
+    private function buildValidLeadTime(int $lead_time): int
     {
-        $this->user = $user;
-        $this->clock = $clock;
+        $min_value = self::MIN_LEAD_TIME;
+        $max_value = $this->getMaxPossibleLeadTime();
 
-        $this->init();
+        if ($lead_time !== self::LEAD_TIME_DISABLED &&
+            ($lead_time < $min_value || $lead_time > $max_value)) {
+            $lead_time = self::SUGGESTED_LEAD_TIME;
+        }
+
+        return $lead_time !== self::LEAD_TIME_DISABLED ? min(
+            max(
+                $min_value,
+                $lead_time
+            ),
+            $max_value
+        ) : self::LEAD_TIME_DISABLED;
+    }
+
+    public function getEffectiveLeadTime(): int
+    {
+        return $this->buildValidLeadTime(
+            (int) ilObjUser::_lookupPref(
+                $this->getUser()->getId(),
+                'session_reminder_lead_time'
+            ) ?: $this->getGlobalSessionReminderLeadTime()
+        );
+    }
+
+    public function getMaxPossibleLeadTime(): int
+    {
+        $expires = ilSession::getSessionExpireValue();
+
+        return max(self::MIN_LEAD_TIME, ($expires / 60) - 1);
     }
 
     private function init(): void
     {
         $this->setLeadTime(
-            ((int) max(
-                self::MIN_LEAD_TIME,
-                (float) $this->getUser()->getPref('session_reminder_lead_time')
-            )) * 60
+            $this->getEffectiveLeadTime() * 60
         );
 
-        $this->setExpirationTime(ilSession::getIdleValue(true) + $this->clock->now()->getTimestamp());
+        $this->setExpirationTime(ilSession::getIdleValue() + $this->clock->now()->getTimestamp());
         $this->setCurrentTime($this->clock->now()->getTimestamp());
 
         $this->calculateSecondsUntilExpiration();
@@ -113,13 +134,11 @@ class ilSessionReminder
 
     public function isActive(): bool
     {
-        return (
-            self::isGloballyActivated() &&
+        return
             !$this->getUser()->isAnonymous() &&
             $this->getUser()->getId() > 0 &&
-            (int) $this->getUser()->getPref('session_reminder_enabled') &&
-            $this->isEnoughTimeLeftForReminder()
-        );
+            $this->getEffectiveLeadTime() !== self::LEAD_TIME_DISABLED &&
+            $this->isEnoughTimeLeftForReminder();
     }
 
     public function setUser(ilObjUser $user): self

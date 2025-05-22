@@ -22,7 +22,6 @@ use ilDatabaseInitializedObjective;
 use ilDatabaseUpdatedObjective;
 use ilDBConstants;
 use ilException;
-use ILIAS\Setup;
 use ilIniFilesLoadedObjective;
 
 class ilMysqlMyIsamToInnoDbMigration implements Migration

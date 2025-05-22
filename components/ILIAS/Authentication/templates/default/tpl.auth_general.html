@@ -1,15 +1,5 @@
 <form action="{FORMACTION}" name="AuthOptions" method="post">
 	<table class="fullwidth">
-		<tr class="tbltitle">
-			<td colspan="4">
-				<table class="fullwidth_invisible">
-					<tr class="tbltitle">
-						<td class="tbltitle" align="left">&nbsp;{TXT_AUTH_TITLE}</td>
-						<td align="right">&nbsp;</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
 		<tr class="tblheader">
 			<td class="std">{TXT_AUTH_MODE}</td>
 			<td class="std">{TXT_AUTH_DEFAULT}</td>
@@ -35,46 +25,4 @@
 		</tr>
 		<!-- END auth_mode_submit -->
 	</table>
-</form>
-<br/>
-{TABLE_AUTH_DETERMINATION}
-<br/>
-<form action="{FORMACTION_ROLES}" name="AuthRoles" method="post">
-<table class="fullwidth">
-<tr class="tbltitle">
-  <td colspan="2">
-  <table class="fullwidth_invisible">
-    <tr class="tbltitle">
-	  <td class="tbltitle" align="left">&nbsp;{TXT_AUTH_ROLES}</td>
-	  <td align="right">&nbsp;</td>
-	</tr>
-  </table>
-  </td>
-</tr>
-  <tr class="tblheader">
-    <td class="std" >{TXT_ROLE}</td>
-    <td class="std" >{TXT_ROLE_AUTH_MODE}</td>
-  </tr>
-<!-- BEGIN roles -->
-  <tr>
-	<td class="option">{ROLE}</td>
-	<td class="option_value">
-	<select name="Fobject[{ROLE_ID}]">
-<!-- BEGIN auth_mode_selection -->
-		<option {SELECTED_AUTH_MODE} value="{AUTH_MODE}">{AUTH_MODE_NAME}</option>
-<!-- END auth_mode_selection -->
-	</select>
-	</td>
-  </tr>
-<!-- END roles -->
-<!-- BEGIN auth_determination_submit -->
-  <tr>
-	<td class="submit" colspan="3" align="left">
-  <div align="right">
-	<input class="submit btn btn-default" type="submit" name="cmd[{CMD_SUBMIT_ROLES}]" value="{BTN_SUBMIT_ROLES}" />
-  </div>
-	</td>
-  </tr>
-<!-- END auth_determination_submit -->
-</table>
 </form>

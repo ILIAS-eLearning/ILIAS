@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\components\Export\HTML\ExportCollector;
+
 /**
  * HTML export class for pages
  *
@@ -23,9 +25,9 @@
  */
 class ilCOPageHTMLExport
 {
+    protected \ILIAS\MediaObjects\MediaObjectManager $media_manager;
+    protected \ILIAS\Style\Content\InternalDomainService $content_style;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
-    protected string $mp3_dir = "";
-    protected string $flv_dir = "";
     protected string $css_dir = "";
     protected string $js_yahoo_dir = "";
     protected string $js_dir = "";
@@ -54,11 +56,11 @@ class ilCOPageHTMLExport
 
     public function __construct(
         string $a_exp_dir,
-        \ILIAS\COPage\PageLinker $linker = null,
-        int $ref_id = 0
+        ?\ILIAS\COPage\PageLinker $linker = null,
+        int $ref_id = 0,
+        protected ?ExportCollector $export_collector = null
     ) {
         global $DIC;
-
         $this->log = ilLoggerFactory::getLogger('copg');
         $this->user = $DIC->user();
         $this->global_screen = $DIC->globalScreen();
@@ -78,13 +80,13 @@ class ilCOPageHTMLExport
 
         $this->services_dir = $a_exp_dir . "/components/ILIAS";
         $this->media_service_dir = $this->services_dir . "/MediaObjects";
-        $this->flv_dir = $a_exp_dir . "/" . ilPlayerUtil::getMediaPlayerDirectory();
-        $this->mp3_dir = $this->media_service_dir . "/flash_mp3_player";
 
         $this->js_dir = $a_exp_dir . '/js';
         $this->js_yahoo_dir = $a_exp_dir . '/js/yahoo';
         $this->css_dir = $a_exp_dir . '/css';
         $this->xsl = $DIC->copage()->internal()->domain()->xsl();
+        $this->content_style = $DIC->contentStyle()->internal()->domain();
+        $this->media_manager = $DIC->mediaObjects()->internal()->domain()->mediaObject();
     }
 
     public function setContentStyleId(int $a_val): void
@@ -106,8 +108,6 @@ class ilCOPageHTMLExport
         ilFileUtils::makeDir($this->content_style_img_dir);
         ilFileUtils::makeDir($this->services_dir);
         ilFileUtils::makeDir($this->media_service_dir);
-        ilFileUtils::makeDirParents($this->flv_dir);
-        ilFileUtils::makeDirParents($this->mp3_dir);
 
         ilFileUtils::makeDirParents($this->js_dir);
         ilFileUtils::makeDirParents($this->js_yahoo_dir);
@@ -127,19 +127,44 @@ class ilCOPageHTMLExport
 
         // export content style sheet
         if ($this->getContentStyleId() < 1) {     // basic style
-            ilFileUtils::rCopy(
-                ilObjStyleSheet::getBasicImageDir(),
-                $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir()
-            );
-            ilFileUtils::makeDirParents($this->exp_dir . "/components/ILIAS/COPage/css");
-            copy("components/ILIAS/COPage/resources/content.css", $this->exp_dir . "/components/ILIAS/COPage/css/content.css");
+            if (is_null($this->export_collector)) {
+                ilFileUtils::rCopy(
+                    ilObjStyleSheet::getBasicImageDir(),
+                    $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir()
+                );
+                ilFileUtils::makeDirParents($this->exp_dir . "/components/ILIAS/COPage/css");
+                copy(
+                    "../components/ILIAS/COPage/resources/content.css",
+                    $this->exp_dir . "/components/ILIAS/COPage/css/content.css"
+                );
+            } else {
+                $this->export_collector->addDirectory(
+                    ilObjStyleSheet::getBasicImageDir(),
+                    "/basic_style/images"
+                );
+                $this->export_collector->addFile(
+                    "../components/ILIAS/COPage/css/content.css",
+                    ilObjStyleSheet::getExportContentStylePath()
+                );
+            }
         } else {
             $style = new ilObjStyleSheet($this->getContentStyleId());
-            $style->copyImagesToDir($this->exp_dir . "/" . $style->getImagesDirectory());
-            $this->exportResourceFile(
-                $this->exp_dir,
-                ilObjStyleSheet::getContentStylePath($this->getContentStyleId(), false, false)
-            );
+            if (is_null($this->export_collector)) {
+                $style->copyImagesToDir($this->exp_dir . "/" . $style->getImagesDirectory());
+                $this->exportResourceFile(
+                    $this->exp_dir,
+                    ilObjStyleSheet::getContentStylePath($this->getContentStyleId(), false, false)
+                );
+            } else {
+                $res_id = $this->content_style->style($this->getContentStyleId())->getResourceIdentification();
+                if ($res_id) {
+                    $this->export_collector->addContainerDirectory(
+                        $res_id->serialize(),
+                        "",
+                        "content_style"
+                    );
+                }
+            }
         }
 
         // export syntax highlighting style
@@ -169,8 +194,6 @@ class ilCOPageHTMLExport
         foreach ($collector->getCssFiles() as $css) {
             $this->exportResourceFile($this->exp_dir, $css);
         }
-        // mediaelement.js
-        ilPlayerUtil::copyPlayerFilesToTargetDirectory($this->flv_dir);
     }
 
     protected function exportResourceFile(
@@ -181,16 +204,20 @@ class ilCOPageHTMLExport
             $file = substr($file, 0, strpos($file, "?"));
         }
         if (is_file($file)) {
-            $dir = dirname($file);
-            ilFileUtils::makeDirParents($target_dir . "/" . $dir);
-            if (!is_file($target_dir . "/" . $file)) {
-                copy($file, $target_dir . "/" . $file);
+            if (is_null($this->export_collector)) {
+                $dir = dirname($file);
+                ilFileUtils::makeDirParents($target_dir . "/" . $dir);
+                if (!is_file($target_dir . "/" . $file)) {
+                    copy($file, $target_dir . "/" . $file);
+                }
+            } else {
+                $this->export_collector->addFile($file, $file);
             }
         }
     }
 
     public function getPreparedMainTemplate(
-        ilGlobalTemplateInterface $a_tpl = null
+        ?ilGlobalTemplateInterface $a_tpl = null
     ): ilGlobalTemplateInterface {
         global $DIC;
         $this->log->debug("get main template");
@@ -219,7 +246,8 @@ class ilCOPageHTMLExport
         */
 
         $tpl->addCss(\ilUtil::getStyleSheetLocation());
-        $tpl->addCss(ilObjStyleSheet::getContentStylePath($this->getContentStyleId()));
+        // important, we pass 0 here, since the export will use the standard directory
+        $tpl->addCss(ilObjStyleSheet::getExportContentStylePath());
         $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
 
         $resource_injector->inject($tpl);
@@ -403,7 +431,7 @@ class ilCOPageHTMLExport
      * Export page elements
      */
     public function exportPageElements(
-        callable $a_update_callback = null
+        ?callable $a_update_callback = null
     ): void {
         $this->log->debug("export page elements");
 
@@ -475,10 +503,21 @@ class ilCOPageHTMLExport
     ): void {
         $this->log->debug("export html mobs");
 
-        $source_dir = ilFileUtils::getWebspaceDir() . "/mobs/mm_" . $a_mob_id;
-        if (is_dir($source_dir)) {
-            ilFileUtils::makeDir($this->mobs_dir . "/mm_" . $a_mob_id);
-            ilFileUtils::rCopy($source_dir, $this->mobs_dir . "/mm_" . $a_mob_id);
+        if (is_null($this->export_collector)) {
+            $source_dir = ilFileUtils::getWebspaceDir() . "/mobs/mm_" . $a_mob_id;
+            if (is_dir($source_dir)) {
+                ilFileUtils::makeDir($this->mobs_dir . "/mm_" . $a_mob_id);
+                ilFileUtils::rCopy($source_dir, $this->mobs_dir . "/mm_" . $a_mob_id);
+            }
+        } else {
+            $mob_res_id = $this->media_manager->getContainerResourceId($a_mob_id);
+            if ($mob_res_id) {
+                $this->export_collector->addContainerDirectory(
+                    $mob_res_id->serialize(),
+                    "",
+                    "/mobs/mm_" . $a_mob_id,
+                );
+            }
         }
 
         $mob_obj = new ilObjMediaObject($a_mob_id);
@@ -500,22 +539,30 @@ class ilCOPageHTMLExport
 
         $tpl->setVariable("MEDIA_CONTENT", $this->renderMob($mob_obj, $link_xml, $params));
         $html = $tpl->printToString();
-        $file = $this->exp_dir . "/media_" . $a_mob_id . ".html";
-        $fp = fopen($file, "w+");
-        fwrite($fp, $html);
-        fclose($fp);
-        unset($fp);
+        if (is_null($this->export_collector)) {
+            $file = $this->exp_dir . "/media_" . $a_mob_id . ".html";
+            $fp = fopen($file, "w+");
+            fwrite($fp, $html);
+            fclose($fp);
+            unset($fp);
+        } else {
+            $this->export_collector->addString($html, "/media_" . $a_mob_id . ".html");
+        }
 
         if ($mob_obj->hasFullscreenItem()) {
             $tpl = $this->initResourceTemplate("tpl.fullscreen.html");
             $params["mode"] = "fullscreen";
             $tpl->setVariable("MEDIA_CONTENT", $this->renderMob($mob_obj, $link_xml, $params));
             $html = $tpl->printToString();
-            $file = $this->exp_dir . "/fullscreen_" . $a_mob_id . ".html";
-            $fp = fopen($file, "w+");
-            fwrite($fp, $html);
-            fclose($fp);
-            unset($fp);
+            if (is_null($this->export_collector)) {
+                $file = $this->exp_dir . "/fullscreen_" . $a_mob_id . ".html";
+                $fp = fopen($file, "w+");
+                fwrite($fp, $html);
+                fclose($fp);
+                unset($fp);
+            } else {
+                $this->export_collector->addString($html, "/fullscreen_" . $a_mob_id . ".html");
+            }
         }
 
         $linked_mobs = $mob_obj->getLinkedMediaObjects();

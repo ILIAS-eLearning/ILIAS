@@ -22,7 +22,6 @@ namespace ILIAS\GlobalScreen\ScreenContext\Stack;
 
 use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
 use LogicException;
-use ILIAS\GlobalScreen\ScreenContext\ContextRepository;
 
 /**
  * @internal
@@ -36,6 +35,7 @@ final class CalledContexts extends ContextCollection
         return $this->getLast();
     }
 
+    #[\Override]
     public function push(ScreenContext $context): void
     {
         $this->claim(
@@ -44,6 +44,7 @@ final class CalledContexts extends ContextCollection
         ); // external can be claimed multiple times
     }
 
+    #[\Override]
     public function external(): ContextCollection
     {
         $this->claim($this->repo->external(), true);

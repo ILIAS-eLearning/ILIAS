@@ -18,7 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\UnachievableException;
 
 class ilDatabaseCreatedObjective extends ilDatabaseObjective
 {
@@ -45,21 +46,21 @@ class ilDatabaseCreatedObjective extends ilDatabaseObjective
     /**
      * @return \ilDatabaseServerIsConnectableObjective[]
      */
-    public function getPreconditions(Setup\Environment $environment): array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new \ilDatabaseServerIsConnectableObjective($this->config)
         ];
     }
 
-    public function achieve(Setup\Environment $environment): Setup\Environment
+    public function achieve(Environment $environment): Environment
     {
         $c = $this->config;
         $db = \ilDBWrapperFactory::getWrapper($this->config->getType());
         $db->initFromIniFile($c->toMockIniFile());
 
         if (!$db->createDatabase($c->getDatabase(), "utf8", $c->getCollation())) {
-            throw new Setup\UnachievableException(
+            throw new UnachievableException(
                 "Database cannot be created."
             );
         }
@@ -70,7 +71,7 @@ class ilDatabaseCreatedObjective extends ilDatabaseObjective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment): bool
+    public function isApplicable(Environment $environment): bool
     {
         $c = $this->config;
         $db = \ilDBWrapperFactory::getWrapper($this->config->getType());

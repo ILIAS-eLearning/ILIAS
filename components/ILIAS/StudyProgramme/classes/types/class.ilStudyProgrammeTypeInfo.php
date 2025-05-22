@@ -29,9 +29,9 @@ class ilStudyProgrammeTypeInfo
     protected ?string $lng_code;
 
     public function __construct(
-        string $title = null,
-        string $description = null,
-        string $lng_code = null
+        ?string $title = null,
+        ?string $description = null,
+        ?string $lng_code = null
     ) {
         $this->title = $title;
         $this->description = $description;

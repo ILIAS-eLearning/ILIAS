@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Dropdown;
 
@@ -34,12 +34,11 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
+        if ($component instanceof Component\Dropdown\Dropdown) {
+            return $this->renderDropdown($component, $default_renderer);
+        }
 
-        /**
-         * @var $component Dropdown
-         */
-        return $this->renderDropdown($component, $default_renderer);
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderDropdown(Dropdown $component, RendererInterface $default_renderer): string
@@ -73,6 +72,11 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ARIA_LABEL", $aria_label);
             $tpl->parseCurrentBlock();
         }
+
+        $component = $component->withAdditionalOnLoadCode(
+            fn($id) =>
+            "il.UI.dropdown.init(document.getElementById(\"$id\"));"
+        );
 
         $this->renderId($component, $tpl);
 
@@ -109,13 +113,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('assets/js/dropdown.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Dropdown\Standard::class);
     }
 }

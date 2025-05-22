@@ -184,7 +184,15 @@ class ilImageMapEditorGUI
 
     public function showImageMap(): void
     {
-        $item = new ilMediaItem($this->request->getItemId());
+        $item = $this->makeMapWorkCopy(
+            $this->request->getOutEditProperty(),
+            $this->request->getOutAreaNr(),
+            $this->request->getOutOutputNewArea(),
+            $this->request->getOutAreaType(),
+            $this->request->getOutCoords()
+        );
+
+        //$item = new ilMediaItem($this->request->getItemId());
         $item->outputMapWorkCopy();
     }
 
@@ -400,19 +408,18 @@ class ilImageMapEditorGUI
             $this->tpl->setVariable("FORM", $form->getHTML());
         }
 
-        $this->makeMapWorkCopy(
-            $a_edit_property,
-            $a_area_nr,
-            $a_output_new_area,
-            $area_type,
-            $coords
-        );
+        $ilCtrl->setParameter($this, "out_edit_property", $a_edit_property);
+        $ilCtrl->setParameter($this, "out_area_nr", $a_area_nr);
+        $ilCtrl->setParameter($this, "out_output_new_area", (int) $a_output_new_area);
+        $ilCtrl->setParameter($this, "out_area_type", $area_type);
+        $ilCtrl->setParameter($this, "out_coords", $coords);
 
         $edit_mode = ($a_get_next_coordinate)
             ? "get_coords"
             : (($a_output_new_area)
                 ? "new_area"
                 : "");
+
         $output = $this->getImageMapOutput($edit_mode);
         $this->tpl->setVariable("IMAGE_MAP", $output);
 
@@ -512,7 +519,7 @@ class ilImageMapEditorGUI
         bool $a_output_new_area = false,
         string $a_area_type = "",
         string $a_coords = ""
-    ): void {
+    ): ilMediaItem {
         // create/update imagemap work copy
         $st_item = $this->media_object->getMediaItem("Standard");
 
@@ -525,6 +532,8 @@ class ilImageMapEditorGUI
         if ($a_output_new_area) {
             $st_item->addAreaToMapWorkCopy($a_area_type, $a_coords);
         }
+
+        return $st_item;
     }
 
     /**
@@ -548,14 +557,14 @@ class ilImageMapEditorGUI
         $mode = "media";
         //echo htmlentities($ilCtrl->getLinkTarget($this, "showImageMap"));
 
-        $random = new \ilRandom();
+        $random = new \Random\Randomizer();
         $params = array('map_edit_mode' => $a_map_edit_mode,
             'map_item' => $st_item->getId(),
             'map_mob_id' => $this->media_object->getId(),
             'mode' => $mode,
             'media_mode' => 'enable',
             'image_map_link' => $ilCtrl->getLinkTarget($this, "showImageMap", "", false, false),
-            'link_params' => "ref_id=" . $this->request->getRefId() . "&rand=" . $random->int(1, 999999),
+            'link_params' => "ref_id=" . $this->request->getRefId() . "&rand=" . $random->getInt(1, 999999),
             'ref_id' => $this->request->getRefId(),
             'pg_frame' => "",
             'enlarge_path' => ilUtil::getImagePath("media/enlarge.svg"),
@@ -642,6 +651,13 @@ class ilImageMapEditorGUI
                     $link_str = "";
                 }
                 break;
+
+            case "WikiPage":
+                $wpg = new ilWikiPage($t_arr[count($t_arr) - 1]);
+                $link_str = $lng->txt("cont_wiki_page") .
+                    ": " . $wpg->getTitle() . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
+                break;
+
         }
 
         return $link_str;

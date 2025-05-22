@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 /**
  * Abstract class for component tasks
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -29,7 +29,7 @@ abstract class ilSCComponentTaskGUI
 
     protected ?ilSCTask $task;
 
-    public function __construct(ilSCTask $task = null)
+    public function __construct(?ilSCTask $task = null)
     {
         global $DIC;
         $this->task = $task;

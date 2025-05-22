@@ -20,15 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Resources\UI;
 
+use ILIAS\ResourceStorage\Information\Information;
+use ILIAS\ResourceStorage\Services;
+use ILIAS\UI\Component\Item\Standard;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Revision\Revision;
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\components\ResourceStorage\Resources\UI\Actions\ActionGenerator;
 use ILIAS\UI\Component\Card\Card;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Table\PresentationRow;
-use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\ExtractPages;
-use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 use ILIAS\components\ResourceStorage\Collections\View\PreviewDefinition;
 
 /**
@@ -36,9 +36,9 @@ use ILIAS\components\ResourceStorage\Collections\View\PreviewDefinition;
  */
 class RevisionToComponent extends BaseToComponent implements ToComponent
 {
-    private \ILIAS\ResourceStorage\Information\Information $information;
-    private \ILIAS\ResourceStorage\Services $irss;
-    private $preview_definition;
+    private Information $information;
+    private Services $irss;
+    private PreviewDefinition $preview_definition;
 
     public function __construct(
         private Revision $revision,
@@ -51,7 +51,7 @@ class RevisionToComponent extends BaseToComponent implements ToComponent
         $this->preview_definition = new PreviewDefinition();
     }
 
-    public function getAsItem(bool $with_image): \ILIAS\UI\Component\Item\Standard
+    public function getAsItem(bool $with_image): Standard
     {
         $properties = array_merge(
             $this->getCommonProperties(),
@@ -62,7 +62,7 @@ class RevisionToComponent extends BaseToComponent implements ToComponent
                                  ->withProperties($properties);
 
         if ($with_image) {
-            $item = $item->withLeadImage($this->getImage());
+            return $item->withLeadImage($this->getImage());
         }
         return $item;
     }

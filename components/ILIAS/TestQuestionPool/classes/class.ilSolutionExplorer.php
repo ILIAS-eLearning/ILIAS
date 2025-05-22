@@ -23,8 +23,7 @@
 * @version $Id$
 *
 * @ingroup components\ILIASTestQuestionPool
- */
-
+*/
 class ilSolutionExplorer extends ilExplorer
 {
     /**
@@ -82,7 +81,7 @@ class ilSolutionExplorer extends ilExplorer
         $tree = $DIC['tree'];
 
         if (ilSession::get($this->expand_variable) == null) {
-            ilSession::set($this->expand_variable, array());
+            ilSession::set($this->expand_variable, []);
         }
 
         $path = $tree->getPathId($ref_id);

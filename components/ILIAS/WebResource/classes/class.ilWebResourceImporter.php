@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
- * Webresource xml importer
  * @author  Stefan Meyer <meyer@leifos.com>
- * @ingroup components\ILIASWebResource
  */
 class ilWebResourceImporter extends ilXmlImporter
 {
@@ -60,7 +58,7 @@ class ilWebResourceImporter extends ilXmlImporter
         } else {
             $this->link = new ilObjLinkResource();
             $this->link->setType('webr');
-            $this->link->create(true);
+            $this->link->create();
         }
 
         try {
@@ -72,6 +70,13 @@ class ilWebResourceImporter extends ilXmlImporter
                 'webr',
                 $a_id,
                 (string) $this->link->getId()
+            );
+
+            $a_mapping->addMapping(
+                'components/ILIAS/MetaData',
+                'md',
+                $a_id . ':0:webr',
+                $this->link->getId() . ':0:webr'
             );
         } catch (ilSaxParserException $e) {
             $this->logger->error(

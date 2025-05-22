@@ -22,6 +22,7 @@ declare(strict_types=1);
  * Meta Data class (element rights)
  * @package ilias-core
  * @version $Id$
+ * @deprecated will be removed with ILIAS 11, please use the new API (see {@see ../docs/api.md})
  */
 class ilMDRights extends ilMDBase
 {
@@ -230,14 +231,14 @@ class ilMDRights extends ilMDBase
             [
                 'Language' => $this->getDescriptionLanguageCode() ?: 'en'
             ],
-            ilMDCopyrightSelectionEntry::_lookupCopyright($this->getDescription(), true)
+            ilMDCopyrightSelectionEntry::_lookupCopyrightForExport($this->getDescription())
         );
         $writer->xmlEndTag('Rights');
     }
 
     public function parseDescriptionFromImport(string $a_description): void
     {
-        $entry_id = ilMDCopyrightSelectionEntry::lookupCopyrightByText($a_description);
+        $entry_id = ilMDCopyrightSelectionEntry::lookupCopyrightFromImport($a_description);
         if (!$entry_id) {
             $this->setDescription($a_description);
         } else {

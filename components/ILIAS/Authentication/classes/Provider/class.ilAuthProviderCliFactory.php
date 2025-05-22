@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Cron\CronException;
+
 class ilAuthProviderCliFactory extends ilAuthProviderFactory
 {
     public function getProviders(ilAuthCredentials $credentials): array
@@ -36,7 +38,7 @@ class ilAuthProviderCliFactory extends ilAuthProviderFactory
                 return $provider->withoutPasswordVerification();
 
             default:
-                throw new ilCronException("The cron CLI script supports local authentication only.");
+                throw new CronException("The cron CLI script supports local authentication only.");
         }
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilGitInformation
@@ -48,19 +48,19 @@ class ilGitInformation implements ilVersionControlInformation
             $version_number = ilShellUtil::execQuoted('git rev-list --count HEAD');
             $line = ilShellUtil::execQuoted('git log -1');
 
-            if ($origin[0]) {
+            if (!empty($origin[0])) {
                 $origin = $origin[0];
             }
 
-            if ($branch[0]) {
+            if (!empty($branch[0])) {
                 $branch = $branch[0];
             }
 
-            if ($version_number[0]) {
+            if (!empty($version_number[0])) {
                 $version_number = $version_number[0];
             }
 
-            if ($version_mini_hash[0]) {
+            if (!empty($version_mini_hash[0])) {
                 $version_mini_hash = $version_mini_hash[0];
             }
 

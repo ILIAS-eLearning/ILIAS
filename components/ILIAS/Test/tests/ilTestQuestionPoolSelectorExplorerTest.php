@@ -34,7 +34,7 @@ class ilTestQuestionPoolSelectorExplorerTest extends ilTestBaseTestCase
 
         $this->addGlobal_ilSetting();
         $this->addGlobal_ilAccess();
-        $this->addGlobal_ilCtrl();
+        $this->addGlobal_ilLog();
 
         $this->testObj = new ilTestQuestionPoolSelectorExplorer(
             $this->createMock(ilTestRandomQuestionSetConfigGUI::class),

@@ -20,9 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\AdvancedMetaData\Services\SubObjectModes;
 
-use ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTable\SupplierInterface;
+use ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTable;
+use ILIAS\AdvancedMetaData\Services\SubObjectModes\Filter;
 
 interface SubObjectModesInterface
 {
-    public function inDataTable(): SupplierInterface;
+    public function inDataTable(): DataTable\SupplierInterface;
+
+    public function inFilter(): Filter\SupplierInterface;
 }

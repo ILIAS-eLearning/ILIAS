@@ -20,15 +20,18 @@ declare(strict_types=1);
 
 namespace ILIAS\File\Icon;
 
+use ILIAS\Setup\Objective;
 use ILIAS\Setup\Environment;
 use ilResourceStorageMigrationHelper;
-use ilDBInterface;
 
 /**
  * @author Lukas Zehnder <lukas@sr.solutions>
  */
-class ilObjFileDefaultIconsObjective implements \ILIAS\Setup\Objective
+class ilObjFileDefaultIconsObjective implements Objective
 {
+    /**
+     * @var string
+     */
     private const PATH_DEFAULT_ICON_DIR = __DIR__ . "/../../../../../public/assets/images/default_file_icons/";
 
     public function __construct(
@@ -44,7 +47,7 @@ class ilObjFileDefaultIconsObjective implements \ILIAS\Setup\Objective
     {
         return hash(
             "sha256",
-            get_class($this)
+            static::class
         );
     }
 

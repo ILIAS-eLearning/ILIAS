@@ -102,6 +102,7 @@ class ConversationRepositoryTest extends ilOnScreenChatBaseTestCase
             $conversations_fixture[2]['conversation'],
             $conversations_fixture[2]['messages'][0],
             $conversations_fixture[3]['conversation'],
+            null,
             null
         );
 

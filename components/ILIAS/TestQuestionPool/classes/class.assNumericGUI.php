@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -73,17 +74,11 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         return 1;
     }
 
-    /**
-     * Creates an output of the edit form for the question
-     *
-     * @param bool $checkonly
-     *
-     * @return bool
-     */
-    public function editQuestion($checkonly = false): bool
-    {
-        $save = $this->isSaveCommand();
-        $this->getQuestionTemplate();
+    public function editQuestion(
+        bool $checkonly = false,
+        ?bool $is_save_cmd = null
+    ): bool {
+        $save = $is_save_cmd ?? $this->isSaveCommand();
 
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
@@ -110,7 +105,15 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
             $lower = $form->getItemByPostVar('lowerlimit');
             $upper = $form->getItemByPostVar('upperlimit');
 
-            if (!$this->checkRange($lower->getValue(), $upper->getValue())) {
+            $to_float_trafo = $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->float(),
+                $this->refinery->always(0.0)
+            ]);
+
+            if (!$this->checkRange(
+                $to_float_trafo->transform($lower->getValue()),
+                $to_float_trafo->transform($upper->getValue())
+            )) {
                 global $DIC;
                 $lower->setAlert($DIC->language()->txt('qpl_numeric_lower_needs_valid_lower_alert'));
                 $upper->setAlert($DIC->language()->txt('qpl_numeric_upper_needs_valid_upper_alert'));
@@ -124,19 +127,12 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         }
 
         if (!$checkonly) {
-            $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+            $this->renderEditForm($form);
         }
         return $errors;
     }
 
-    /**
-    * Checks the range limits
-    *
-    * Checks the Range limits Upper and Lower for their correctness
-    *
-    * @return boolean
-    */
-    public function checkRange($lower, $upper): bool
+    public function checkRange(float $lower, float $upper): bool
     {
         $eval = new EvalMath();
         $eval->suppress_errors = true;
@@ -150,44 +146,67 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         return false;
     }
 
-    /**
-     * Get the question solution output
-     * @param integer $active_id             The active user id
-     * @param integer $pass                  The test pass
-     * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
-     * @param boolean $result_output         Show the reached points for parts of the question
-     * @param boolean $show_question_only    Show the question without the ILIAS content around
-     * @param boolean $show_feedback         Show the question feedback
-     * @param boolean $show_correct_solution Show the correct solution instead of the user solution
-     * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
-     * @param bool    $show_question_text
-     * @return string The solution output of the question as HTML code
-     */
     public function getSolutionOutput(
-        $active_id,
-        $pass = null,
-        $graphicalOutput = false,
-        $result_output = false,
-        $show_question_only = true,
-        $show_feedback = false,
-        $show_correct_solution = false,
-        $show_manual_scoring = false,
-        $show_question_text = true
+        int $active_id,
+        ?int $pass = null,
+        bool $graphical_output = false,
+        bool $result_output = false,
+        bool $show_question_only = true,
+        bool $show_feedback = false,
+        bool $show_correct_solution = false,
+        bool $show_manual_scoring = false,
+        bool $show_question_text = true,
+        bool $show_inline_feedback = true
     ): string {
         // get the solution of the user for the active pass or from the last pass if allowed
-        $solutions = array();
+        $solutions = [];
         if (($active_id > 0) && (!$show_correct_solution)) {
             $solutions = $this->object->getSolutionValues($active_id, $pass);
         } else {
-            array_push($solutions, array("value1" => sprintf($this->lng->txt("value_between_x_and_y"), $this->object->getLowerLimit(), $this->object->getUpperLimit())));
+            array_push($solutions, [
+                'value1' => sprintf(
+                    $this->lng->txt("value_between_x_and_y"),
+                    $this->object->getLowerLimit(),
+                    $this->object->getUpperLimit()
+                )
+            ]);
         }
 
-        // generate the question output
+        return $this->renderSolutionOutput(
+            $solutions,
+            $active_id,
+            $pass,
+            $graphical_output,
+            $result_output,
+            $show_question_only,
+            $show_feedback,
+            $show_correct_solution,
+            $show_manual_scoring,
+            $show_question_text,
+            false,
+            $show_inline_feedback
+        );
+    }
+
+    public function renderSolutionOutput(
+        mixed $user_solutions,
+        int $active_id,
+        ?int $pass,
+        bool $graphical_output = false,
+        bool $result_output = false,
+        bool $show_question_only = true,
+        bool $show_feedback = false,
+        bool $show_correct_solution = false,
+        bool $show_manual_scoring = false,
+        bool $show_question_text = true,
+        bool $show_autosave_title = false,
+        bool $show_inline_feedback = false,
+    ): ?string {
         $template = new ilTemplate("tpl.il_as_qpl_numeric_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
-        if (is_array($solutions)) {
+        if (is_array($user_solutions)) {
             if (($active_id > 0) && (!$show_correct_solution)) {
-                if ($graphicalOutput) {
+                if ($graphical_output) {
                     if ($this->object->getStep() === null) {
                         $reached_points = $this->object->getReachedPoints($active_id, $pass);
                     } else {
@@ -203,10 +222,10 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
                     $template->parseCurrentBlock();
                 }
             }
-            foreach ($solutions as $solution) {
-                $template->setVariable("NUMERIC_VALUE", $solution["value1"]);
+            foreach ($user_solutions as $solution) {
+                $template->setVariable("NUMERIC_VALUE", $solution['value1']);
             }
-            if (count($solutions) == 0) {
+            if (count($user_solutions) == 0) {
                 $template->setVariable("NUMERIC_VALUE", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
             }
         }
@@ -237,13 +256,10 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         return $solutionoutput;
     }
 
-    /**
-     * @param bool $show_question_only
-     *
-     * @return string
-     */
-    public function getPreview($show_question_only = false, $showInlineFeedback = false): string
-    {
+    public function getPreview(
+        bool $show_question_only = false,
+        bool $show_inline_feedback = false
+    ): string {
         // generate the question output
         $template = new ilTemplate("tpl.il_as_qpl_numeric_output.html", true, true, "components/ILIAS/TestQuestionPool");
         if (is_object($this->getPreviewSession())) {
@@ -259,25 +275,20 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         return $questionoutput;
     }
 
-    /**
-     * @param integer		$active_id
-     * @param integer|null	$pass
-     * @param bool			$is_postponed
-     * @param bool			$use_post_solutions
-     *
-     * @return string
-     */
-    // hey: prevPassSolutions - pass will be always available from now on
-    public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $inlineFeedback = false): string
-    // hey.
-    {
+    public function getTestOutput(
+        int $active_id,
+        int $pass,
+        bool $is_question_postponed = false,
+        array|bool $user_post_solutions = false,
+        bool $show_specific_inline_feedback = false
+    ): string {
         $solutions = null;
         // get the solution of the user for the active pass or from the last pass if allowed
-        if ($use_post_solutions !== false) {
+        if ($user_post_solutions !== false) {
             /** @noinspection PhpArrayAccessOnIllegalTypeInspection */
-            $solutions = array(
-                array('value1' => $use_post_solutions['numeric_result'])
-            );
+            $solutions = [
+                ['value1' => $user_post_solutions['numeric_result']]
+            ];
         } elseif ($active_id) {
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
         }
@@ -286,13 +297,13 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         $template = new ilTemplate("tpl.il_as_qpl_numeric_output.html", true, true, "components/ILIAS/TestQuestionPool");
         if (is_array($solutions)) {
             foreach ($solutions as $solution) {
-                $template->setVariable("NUMERIC_VALUE", " value=\"" . $solution["value1"] . "\"");
+                $template->setVariable("NUMERIC_VALUE", " value=\"" . $solution['value1'] . "\"");
             }
         }
         $template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
         $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $questionoutput = $template->get();
-        $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
+        $pageoutput = $this->outQuestionPage("", $is_question_postponed, $active_id, $questionoutput);
         return $pageoutput;
     }
 
@@ -309,14 +320,14 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
-        $this->object->setMaxChars($_POST["maxchars"]);
+        $this->object->setMaxChars($this->request_data_collector->int('maxchars') ?? 6);
     }
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
     {
-        $this->object->setLowerLimit($_POST['lowerlimit']);
-        $this->object->setUpperLimit($_POST['upperlimit']);
-        $this->object->setPoints((float) str_replace(',', '.', $_POST['points']));
+        $this->object->setLowerLimit($this->request_data_collector->float('lowerlimit'));
+        $this->object->setUpperLimit($this->request_data_collector->float('upperlimit'));
+        $this->object->setPoints($this->request_data_collector->float('points'));
     }
 
     public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI
@@ -388,7 +399,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      */
     public function getAfterParticipationSuppressionAnswerPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -402,71 +413,18 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      */
     public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
-        return array();
-    }
-
-    /**
-     * Returns an html string containing a question specific representation of the answers so far
-     * given in the test for use in the right column in the scoring adjustment user interface.
-     * @param array $relevant_answers
-     * @return string
-     */
-    public function getAggregatedAnswersView(array $relevant_answers): string
-    {
-        return  $this->renderAggregateView(
-            $this->aggregateAnswers($relevant_answers)
-        )->get();
-    }
-
-    public function aggregateAnswers($relevant_answers_chosen): array
-    {
-        $aggregate = array();
-
-        foreach ($relevant_answers_chosen as $relevant_answer) {
-            if (array_key_exists($relevant_answer['value1'], $aggregate)) {
-                $aggregate[$relevant_answer['value1']]++;
-            } else {
-                $aggregate[$relevant_answer['value1']] = 1;
-            }
-        }
-        return $aggregate;
-    }
-
-    /**
-     * @param $aggregate
-     *
-     * @return ilTemplate
-     */
-    public function renderAggregateView($aggregate): ilTemplate
-    {
-        $tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "components/ILIAS/TestQuestionPool");
-
-        $tpl->setCurrentBlock('headercell');
-        $tpl->setVariable('HEADER', $this->lng->txt('tst_answer_aggr_answer_header'));
-        $tpl->parseCurrentBlock();
-
-        $tpl->setCurrentBlock('headercell');
-        $tpl->setVariable('HEADER', $this->lng->txt('tst_answer_aggr_frequency_header'));
-        $tpl->parseCurrentBlock();
-
-        foreach ($aggregate as $key => $value) {
-            $tpl->setCurrentBlock('aggregaterow');
-            $tpl->setVariable('OPTION', $key);
-            $tpl->setVariable('COUNT', $value);
-            $tpl->parseCurrentBlock();
-        }
-        return $tpl;
+        return [];
     }
 
     public function getAnswersFrequency($relevantAnswers, $questionIndex): array
     {
-        $answers = array();
+        $answers = [];
 
         foreach ($relevantAnswers as $ans) {
             if (!isset($answers[$ans['value1']])) {
-                $answers[$ans['value1']] = array(
+                $answers[$ans['value1']] = [
                     'answer' => $ans['value1'], 'frequency' => 0
-                );
+                ];
             }
 
             $answers[$ans['value1']]['frequency']++;

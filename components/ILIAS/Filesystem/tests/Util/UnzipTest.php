@@ -18,23 +18,25 @@
 
 namespace ILIAS\Filesystem\Util;
 
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\BackupStaticProperties;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Util\Archive\LegacyArchives;
 use ILIAS\Filesystem\Util\Archive\Unzip;
 use ILIAS\Filesystem\Util\Archive\UnzipOptions;
 use PHPUnit\Framework\TestCase;
-use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\Filesystem\Stream\Stream;
-use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 
 /**
  * @author                      Fabian Schmid <fabian@sr.solutions>
- *
- * @runTestsInSeparateProcesses // This is required for the test to work since we define some constants in the test
- * @preserveGlobalState         disabled
- * @backupGlobals               disabled
- * @backupStaticAttributes      disabled
  */
+#[BackupGlobals(false)]
+#[BackupStaticProperties(false)]
+#[PreserveGlobalState(false)]
+#[RunTestsInSeparateProcesses]
 class UnzipTest extends TestCase
 {
     protected string $zips_dir = __DIR__ . '/zips/';
@@ -48,10 +50,10 @@ class UnzipTest extends TestCase
     }
 
     /**
-     * @dataProvider getZips
      * @param mixed[] $expected_directories
      * @param mixed[] $expected_files
      */
+    #[DataProvider('getZips')]
     public function testUnzip(
         string $zip,
         bool $has_multiple_root_entries,
@@ -97,10 +99,10 @@ class UnzipTest extends TestCase
     }
 
     /**
-     * @dataProvider getZips
      * @param mixed[] $expected_directories
      * @param mixed[] $expected_files
      */
+    #[DataProvider('getZips')]
     public function testLegacyUnzip(
         string $zip,
         bool $has_multiple_root_entries,

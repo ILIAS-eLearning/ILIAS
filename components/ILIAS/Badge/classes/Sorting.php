@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Badge;
 
-use ILIAS\DI\Container;
 use Closure;
 use ilBadge;
 use ilBadgeAssignment;

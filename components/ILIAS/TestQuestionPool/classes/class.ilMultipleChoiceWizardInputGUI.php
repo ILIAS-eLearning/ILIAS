@@ -17,12 +17,12 @@
  *********************************************************************/
 
 /**
-* This class represents a multiple choice wizard property in a property form.
-*
-* @author Helmut Schottmüller <ilias@aurealis.de>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents a multiple choice wizard property in a property form.
+ *
+ * @author Helmut Schottmüller <ilias@aurealis.de>
+ * @version $Id$
+ * @ingroup    ServicesForm
+ */
 class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 {
     private string $pending;
@@ -30,173 +30,151 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
     public function setValue($a_value): void
     {
         $this->values = [];
-        if (is_array($a_value) && isset($a_value['answer']) && is_array($a_value['answer'])) {
-            foreach ($a_value['answer'] as $index => $value) {
-                $answer = new ASS_AnswerMultipleResponseImage($value, (float) ($a_value['points'][$index] ?? 0), $index);
-                $answer->setPointsChecked((float) ($a_value['points'][$index] ?? 0));
-                $answer->setPointsUnchecked((float) ($a_value['points_unchecked'][$index] ?? 0));
-                if (isset($a_value['imagename'][$index])) {
-                    $answer->setImage($a_value['imagename'][$index]);
-                }
-                $this->values[] = $answer;
+
+        $answers = $this->forms_helper->transformArray($a_value, 'answer', $this->refinery->kindlyTo()->string());
+        $points = $this->forms_helper->transformPoints($a_value);
+        $points_unchecked = $this->forms_helper->transformPoints($a_value, 'points_unchecked');
+        $images = $this->forms_helper->transformArray($a_value, 'imagename', $this->refinery->kindlyTo()->string());
+
+        foreach ($answers as $index => $value) {
+            $answer = new ASS_AnswerMultipleResponseImage($value, $points[$index] ?? 0.0, $index);
+            $answer->setPointsChecked($points[$index] ?? 0.0);
+            $answer->setPointsUnchecked($points_unchecked[$index] ?? 0.0);
+
+            if ($this->forms_helper->inArray($images, $index)) {
+                $answer->setImage($images[$index]);
             }
+
+            $this->values[] = $answer;
         }
     }
 
     /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    * @return	boolean		Input ok, true/false
-    */
+     * Check input, strip slashes etc. set alert, if input is not ok.
+     * @return    boolean        Input ok, true/false
+     */
     public function checkInput(): bool
     {
-        global $DIC;
-        $lng = $DIC['lng'];
+        $data = $this->raw($this->getPostVar());
 
-        $post_var = $this->getPostVar();
-        if (!$this->post_wrapper->has($post_var)) {
+        if (!is_array($data)) {
+            $this->setAlert($this->lng->txt('msg_input_is_required'));
             return false;
         }
 
-        $values = $this->post_wrapper->retrieve($post_var, $this->refinery->custom()->transformation(fn($v) => $v));
-
-        $values = ilArrayUtil::stripSlashesRecursive( //TODO: move into transform
-            $values,
-            false,
-            ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
-        );
-
-        $foundvalues = $values;
-
-        if (is_array($foundvalues)) {
-            // check answers
-            if (is_array($foundvalues['answer'])) {
-                foreach ($foundvalues['answer'] as $aidx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && (!isset($foundvalues['imagename']) || !isset($foundvalues['imagename'][$aidx]) || strlen($foundvalues['imagename'][$aidx]) == 0)) {
-                        $this->setAlert($lng->txt("msg_input_is_required"));
-                        return false;
-                    }
-                }
-            }
-            // check points
-            $max = 0;
-            if (is_array($foundvalues['points'])) {
-                foreach ($foundvalues['points'] as $points) {
-                    $points = str_replace(',', '.', $points);
-                    if ($points > $max) {
-                        $max = $points;
-                    }
-                    if (((strlen($points)) == 0) || (!is_numeric($points))) {
-                        $this->setAlert($lng->txt("form_msg_numeric_value_required"));
-                        return false;
-                    }
-                }
-                foreach ($foundvalues['points_unchecked'] as $points) {
-                    $points = str_replace(',', '.', $points);
-                    if (((strlen($points)) == 0) || (!is_numeric($points))) {
-                        $this->setAlert($lng->txt("form_msg_numeric_value_required"));
-                        return false;
-                    }
-                }
-            }
-            if ($max == 0) {
-                $this->setAlert($lng->txt("enter_enough_positive_points_checked"));
-                return false;
-            }
-
-            if (is_array($_FILES) && count($_FILES) && $this->getSingleline()) {
-                if (!$this->hideImages) {
-                    if (is_array($_FILES[$this->getPostVar()]['error']['image'])) {
-                        foreach ($_FILES[$this->getPostVar()]['error']['image'] as $index => $error) {
-                            // error handling
-                            if ($error > 0) {
-                                switch ($error) {
-                                    case UPLOAD_ERR_FORM_SIZE:
-                                    case UPLOAD_ERR_INI_SIZE:
-                                        $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
-                                        return false;
-                                        break;
-
-                                    case UPLOAD_ERR_PARTIAL:
-                                        $this->setAlert($lng->txt("form_msg_file_partially_uploaded"));
-                                        return false;
-                                        break;
-
-                                    case UPLOAD_ERR_NO_FILE:
-                                        if ($this->getRequired()) {
-                                            if (isset($a_value['imagename']) && (!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index]))) {
-                                                $this->setAlert($lng->txt("form_msg_file_no_upload"));
-                                                return false;
-                                            }
-                                        }
-                                        break;
-
-                                    case UPLOAD_ERR_NO_TMP_DIR:
-                                        $this->setAlert($lng->txt("form_msg_file_missing_tmp_dir"));
-                                        return false;
-                                        break;
-
-                                    case UPLOAD_ERR_CANT_WRITE:
-                                        $this->setAlert($lng->txt("form_msg_file_cannot_write_to_disk"));
-                                        return false;
-                                        break;
-
-                                    case UPLOAD_ERR_EXTENSION:
-                                        $this->setAlert($lng->txt("form_msg_file_upload_stopped_ext"));
-                                        return false;
-                                        break;
-                                }
-                            }
-                        }
-                    } else {
-                        if ($this->getRequired()) {
-                            $this->setAlert($lng->txt("form_msg_file_no_upload"));
-                            return false;
-                        }
-                    }
-
-                    if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image'])) {
-                        foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname) {
-                            $filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
-                            $filename_arr = pathinfo($filename);
-                            if (isset($filename_arr["extension"])) {
-                                $suffix = $filename_arr["extension"];
-                                $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-                                $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
-                                // check suffixes
-                                if (strlen($tmpname) && is_array($this->getSuffixes())) {
-                                    if (!in_array(strtolower($suffix), $this->getSuffixes())) {
-                                        $this->setAlert($lng->txt("form_msg_file_wrong_file_type"));
-                                        return false;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image'])) {
-                        foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname) {
-                            $filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
-                            $filename_arr = pathinfo($filename);
-                            if (isset($filename_arr["extension"])) {
-                                $suffix = $filename_arr["extension"];
-                                $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-                                $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
-                                // virus handling
-                                if (strlen($tmpname)) {
-                                    $vir = ilVirusScanner::virusHandling($tmpname, $filename);
-                                    if ($vir[0] == false) {
-                                        $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
-                                        return false;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            $this->setAlert($lng->txt("msg_input_is_required"));
+        // check points
+        $points = $this->forms_helper->checkPointsInputEnoughPositive($data, true);
+        if (!is_array($points)) {
+            $this->setAlert($this->lng->txt($points));
             return false;
+        }
+        $points_unchecked = $this->forms_helper->checkPointsInput($data, true, 'points_unchecked');
+        if (!is_array($points_unchecked)) {
+            $this->setAlert($this->lng->txt($points_unchecked));
+            return false;
+        }
+
+        // check answers
+        $answers = $this->checkAnswersInput($data);
+        if (!is_array($answers)) {
+            $this->setAlert($this->lng->txt($answers));
+            return false;
+        }
+        $image_names = $this->forms_helper->transformArray($data, 'imagename', $this->refinery->kindlyTo()->string());
+
+        // check upload
+        if (is_array($_FILES) && count($_FILES) && $this->getSingleline()) {
+            if (!$this->hideImages) {
+                if (is_array($_FILES[$this->getPostVar()]['error']['image'])) {
+                    foreach ($_FILES[$this->getPostVar()]['error']['image'] as $index => $error) {
+                        // error handling
+                        if ($error > 0) {
+                            switch ($error) {
+                                case UPLOAD_ERR_FORM_SIZE:
+                                case UPLOAD_ERR_INI_SIZE:
+                                    $this->setAlert($this->lng->txt('form_msg_file_size_exceeds'));
+                                    return false;
+                                    break;
+
+                                case UPLOAD_ERR_PARTIAL:
+                                    $this->setAlert($this->lng->txt('form_msg_file_partially_uploaded'));
+                                    return false;
+                                    break;
+
+                                case UPLOAD_ERR_NO_FILE:
+                                    if (
+                                        !$this->forms_helper->inArray($image_names, $index)
+                                        && !$this->forms_helper->inArray($answers, $index)
+                                        && $this->getRequired()
+                                    ) {
+                                        $this->setAlert($this->lng->txt('form_msg_file_no_upload'));
+                                        return false;
+                                    }
+                                    break;
+
+                                case UPLOAD_ERR_NO_TMP_DIR:
+                                    $this->setAlert($this->lng->txt('form_msg_file_missing_tmp_dir'));
+                                    return false;
+                                    break;
+
+                                case UPLOAD_ERR_CANT_WRITE:
+                                    $this->setAlert($this->lng->txt('form_msg_file_cannot_write_to_disk'));
+                                    return false;
+                                    break;
+
+                                case UPLOAD_ERR_EXTENSION:
+                                    $this->setAlert($this->lng->txt('form_msg_file_upload_stopped_ext'));
+                                    return false;
+                                    break;
+                            }
+                        }
+                    }
+                } else {
+                    if ($this->getRequired()) {
+                        $this->setAlert($this->lng->txt('form_msg_file_no_upload'));
+                        return false;
+                    }
+                }
+
+                if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image'])) {
+                    foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname) {
+                        $filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
+                        $filename_arr = pathinfo($filename);
+                        if (isset($filename_arr['extension'])) {
+                            $suffix = $filename_arr['extension'];
+                            $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
+                            $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
+                            // check suffixes
+                            if (strlen($tmpname) && is_array($this->getSuffixes())) {
+                                if (!in_array(strtolower($suffix), $this->getSuffixes())) {
+                                    $this->setAlert($this->lng->txt('form_msg_file_wrong_file_type'));
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image'])) {
+                    foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname) {
+                        $filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
+                        $filename_arr = pathinfo($filename);
+                        if (isset($filename_arr['extension'])) {
+                            $suffix = $filename_arr['extension'];
+                            $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
+                            $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
+                            // virus handling
+                            if (strlen($tmpname)) {
+                                $vir = ilVirusScanner::virusHandling($tmpname, $filename);
+                                if ($vir[0] == false) {
+                                    $this->setAlert($this->lng->txt('form_msg_file_virus_found') . '<br />' . $vir[1]);
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         return $this->checkSubItemsInput();
@@ -238,6 +216,8 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     $tpl->setCurrentBlock('addimage');
                     $tpl->setVariable("IMAGE_BROWSE", $lng->txt('select_file'));
                     $tpl->setVariable("IMAGE_ID", $this->getPostVar() . "[image][$i]");
+                    $tpl->setVariable('MAX_SIZE_WARNING', $this->lng->txt('form_msg_file_size_exceeds'));
+                    $tpl->setVariable('MAX_SIZE', $this->upload_limit->getPhpUploadLimitInBytes());
                     $tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
                     $tpl->setVariable("IMAGE_ROW_NUMBER", $i);
                     $tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
@@ -303,6 +283,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $tpl->setVariable("MULTILINE_ID", $this->getPostVar() . "[answer][$i]");
                 $tpl->setVariable("MULTILINE_ROW_NUMBER", $i);
                 $tpl->setVariable("MULTILINE_POST_VAR", $this->getPostVar());
+                $tpl->setVariable("MAXLENGTH", $this->getMaxLength());
                 if ($this->getDisabled()) {
                     $tpl->setVariable("DISABLED_MULTILINE", " disabled=\"disabled\"");
                 }

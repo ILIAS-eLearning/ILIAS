@@ -24,11 +24,9 @@ class ilObjTestVerificationGUITest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->addGlobal_ilLoggerFactory();
-        $this->addGlobal_ilCtrl();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilLocator();
-        $this->addGlobal_ilUser();
+        ;
         $this->addGlobal_ilAccess();
         $this->addGlobal_ilToolbar();
         $this->addGlobal_ilRbacAdmin();
@@ -37,6 +35,7 @@ class ilObjTestVerificationGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilObjDataCache();
         $this->addGlobal_ilSetting();
         $this->addGlobal_filesystem();
+        $this->addGlobal_http();
     }
 
     public function testConstruct(): void

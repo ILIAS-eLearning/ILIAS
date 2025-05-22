@@ -45,6 +45,7 @@ public class ClientSettings {
 	private String client;
 	private String nic;
 	private File iliasIniFile;
+	private int iliasMajorVersion;
 	private File dataDirectory;
 	private File clientIniFile;
 	private File absolutePath;
@@ -61,6 +62,7 @@ public class ClientSettings {
 		
 		this.client = client;
 		this.nic = nic;
+		this.iliasMajorVersion = 0;
 	}
 
 	public static synchronized ClientSettings getInstance(String client, String nic) throws ConfigurationException {
@@ -143,6 +145,14 @@ public class ClientSettings {
 	public File getIliasIniFile() {
 		return iliasIniFile;
 	}
+
+	public void setIliasMajorVersion(int majorVersion) {
+		this.iliasMajorVersion = majorVersion;
+	}
+
+	public int getIliasMajorVersion() {
+		return iliasMajorVersion;
+	}
 	
 	/**
 	 * @return the dataDirectory
@@ -192,8 +202,6 @@ public class ClientSettings {
 		return clientIniFile;
 	}
 
-	/**
-     */
 	public void setClientIniFile(String clientIniPath) throws ConfigurationException {
 		
 		this.clientIniFile = new File(clientIniPath);

@@ -29,13 +29,10 @@ use Serializable;
  *
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-abstract class AbstractIdentification implements Serializable
+abstract class AbstractIdentification implements Serializable, \Stringable
 {
-    private string $unique_id;
-
-    final public function __construct(string $unique_id)
+    final public function __construct(private string $unique_id)
     {
-        $this->unique_id = $unique_id;
     }
 
 

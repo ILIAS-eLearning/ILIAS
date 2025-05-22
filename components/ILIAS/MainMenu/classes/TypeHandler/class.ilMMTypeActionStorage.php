@@ -32,7 +32,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
      * @con_fieldtype  text
      * @con_length     64
      */
-    protected ?string $identification;
+    protected ?string $identification = null;
     /**
      * @con_has_field  true
      * @con_fieldtype  text
@@ -121,7 +121,8 @@ class ilMMTypeActionStorage extends CachedActiveRecord
     /**
      * @return ilMMTypeActionStorage
      */
-    public static function find($primary_key, array $add_constructor_args = array()): ilMMTypeActionStorage
+    #[\Override]
+    public static function find($primary_key, array $add_constructor_args = []): ilMMTypeActionStorage
     {
         $parent = parent::find($primary_key, $add_constructor_args);
         if ($parent === null) {

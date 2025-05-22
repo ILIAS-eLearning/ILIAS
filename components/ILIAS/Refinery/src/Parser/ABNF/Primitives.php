@@ -74,8 +74,8 @@ class Primitives
 
     private function or2(Closure $f, Closure $g): Closure
     {
-        return static fn (Intermediate $x, Closure $cc): Result => (
-            $f($x, $cc)->except(static fn (): Result => $g($x, $cc))
+        return static fn(Intermediate $x, Closure $cc): Result => (
+            $f($x, $cc)->except(static fn(): Result => $g($x, $cc))
         );
     }
 
@@ -86,11 +86,11 @@ class Primitives
      */
     private function seq(Closure $f, Closure $g): Closure
     {
-        return static fn (Intermediate $x, Closure $cc): Result => $f(
+        return static fn(Intermediate $x, Closure $cc): Result => $f(
             $x,
-            static fn (Result $x): Result => (
-                $x->then(static fn (Intermediate $x): Result => $g($x, $cc))
-                  ->except(static fn ($error): Result => $cc(new Error($error)))
+            static fn(Result $x): Result => (
+                $x->then(static fn(Intermediate $x): Result => $g($x, $cc))
+                  ->except(static fn($error): Result => $cc(new Error($error)))
             )
         );
     }
@@ -101,7 +101,7 @@ class Primitives
      */
     private function eq(int $atom): Closure
     {
-        return static fn (Intermediate $x, Closure $cc): Result => $cc(
+        return static fn(Intermediate $x, Closure $cc): Result => $cc(
             $atom === $x->value() ? $x->accept() : $x->reject()
         );
     }
@@ -141,14 +141,14 @@ class Primitives
      */
     private function nop(): Closure
     {
-        return static fn (Intermediate $x, Closure $cc): Result => (
+        return static fn(Intermediate $x, Closure $cc): Result => (
             $cc(new Ok($x))
         );
     }
 
     private function lazy(callable $call, ...$arguments): Closure
     {
-        return static fn (Intermediate $x, Closure $cc): Result => (
+        return static fn(Intermediate $x, Closure $cc): Result => (
             ($call(...$arguments))($x, $cc)
         );
     }

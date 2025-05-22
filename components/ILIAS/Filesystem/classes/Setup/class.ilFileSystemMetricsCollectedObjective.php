@@ -16,24 +16,25 @@
  *
  *********************************************************************/
 
-use ILIAS\Setup;
+use ILIAS\Setup\Metrics\CollectedObjective;
+use ILIAS\Setup\Environment;
 use ILIAS\Setup\Metrics\Storage;
 
-class ilFileSystemMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
+class ilFileSystemMetricsCollectedObjective extends CollectedObjective
 {
     /**
      * @return \ilIniFilesLoadedObjective[]
      */
-    protected function getTentativePreconditions(Setup\Environment $environment): array
+    protected function getTentativePreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
 
-    protected function collectFrom(Setup\Environment $environment, Storage $storage): void
+    protected function collectFrom(Environment $environment, Storage $storage): void
     {
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+        $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
         if ($ini) {
             $storage->storeConfigText(
                 "data_dir",

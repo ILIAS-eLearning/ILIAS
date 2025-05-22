@@ -22,7 +22,7 @@
  */
 class ilAccordionPropertiesStorageGUI implements ilCtrlBaseClassInterface
 {
-    protected int $tab_nr;
+    protected string $tab_nr;
     protected string $req_acc_id;
     protected int $user_id;
     protected \ILIAS\Accordion\StandardGUIRequest $request;

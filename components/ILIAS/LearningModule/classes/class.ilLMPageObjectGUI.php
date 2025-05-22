@@ -109,7 +109,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                 $link_xml = $this->getLinkXML($int_links);
                 $page_gui->setLinkXml($link_xml);
 
-                $page_gui->enableChangeComments($this->content_object->isActiveHistoryUserComments());
                 $page_gui->setFileDownloadLink("ilias.php?cmd=downloadFile&ref_id=" . $this->requested_ref_id . "&baseClass=ilLMPresentationGUI");
                 $page_gui->setFullscreenLink("ilias.php?cmd=fullscreen&ref_id=" . $this->requested_ref_id . "&baseClass=ilLMPresentationGUI");
                 $page_gui->setLinkParams("ref_id=" . $this->content_object->getRefId());
@@ -118,7 +117,11 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                     ilLMPageObject::_getPresentationTitle(
                         $this->obj->getId(),
                         $this->content_object->getPageHeader(),
-                        $this->content_object->isActiveNumbering()
+                        $this->content_object->isActiveNumbering(),
+                        false,
+                        false,
+                        0,
+                        $page_gui->getLanguage()
                     )
                 );
                 //$page_gui->setLocator($contObjLocator);
@@ -264,7 +267,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                         $obj_type = ilObject::_lookupType((int) $target_id, true);
                         $obj_id = ilObject::_lookupObjId((int) $target_id);
                         $href = "./goto.php?target=" . $obj_type . "_" . $target_id;
-                        $t_frame = ilFrameTargetInfo::_getFrame("MainContent", $obj_type);
+                        $t_frame = ilFrameTargetInfo::_getFrame("MainContent");
                         $ltarget = $t_frame;
                         break;
 
@@ -326,21 +329,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         }
         $link_info .= "</IntLinkInfos>";
         return $link_info;
-    }
-
-    /**
-     * update history
-     */
-    public function updateHistory(): void
-    {
-        ilHistory::_createEntry(
-            $this->obj->getId(),
-            "update",
-            [],
-            $this->content_object->getType() . ":pg",
-            "",
-            true
-        );
     }
 
     /**
@@ -453,9 +441,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         if (is_file($im = ilUtil::getImagePath("layout_" . $this->content_object->getLayout() . ".png"))) {
             $im_tag = ilUtil::img($im, $this->content_object->getLayout());
         }
-        $layout->addOption(new ilRadioOption("<table><tr><td>" . $im_tag . "</td><td><b>" .
+        $layout->addOption(new ilRadioOption("<table><tr><td>" . $im_tag . "</td><td><strong>" .
             $lng->txt("cont_lm_default_layout") .
-            "</b>: " . $lng->txt("cont_layout_" . $this->content_object->getLayout()) .
+            "</strong>: " . $lng->txt("cont_layout_" . $this->content_object->getLayout()) .
             "</td></tr></table>", ""));
 
         foreach (ilObjContentObject::getAvailableLayouts() as $l) {
@@ -463,8 +451,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
             if (is_file($im = ilUtil::getImagePath("layout_" . $l . ".png"))) {
                 $im_tag = ilUtil::img($im, $l);
             }
-            $layout->addOption(new ilRadioOption("<table><tr><td>" . $im_tag . "</td><td><b>" .
-                $lng->txt("cont_layout_" . $l) . "</b>: " . $lng->txt("cont_layout_" . $l . "_desc") .
+            $layout->addOption(new ilRadioOption("<table><tr><td>" . $im_tag . "</td><td><strong>" .
+                $lng->txt("cont_layout_" . $l) . "</strong>: " . $lng->txt("cont_layout_" . $l . "_desc") .
                 "</td></tr></table>", $l));
         }
 

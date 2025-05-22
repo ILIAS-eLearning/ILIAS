@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Immutable class for external Web Link items
@@ -38,9 +38,6 @@ class ilWebLinkItemExternal extends ilWebLinkItem
         }
 
         foreach ($this->getParameters() as $parameter) {
-            if ($parameter->getValue() === ilWebLinkBaseParameter::VALUES[ilWebLinkBaseParameter::SESSION_ID_NAME]) {
-                continue;
-            }
             $link = $parameter->appendToLink($link);
         }
 

@@ -86,7 +86,7 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
 
     public function getAdditionalPageActions(): array
     {
-        $this->ctrl->setParameterByClass(ilObjContentPageGUI::class, 'page_editor_style', '1');
+        $this->ctrl->setParameterByClass(ilObjContentPageGUI::class, self::HTTP_PARAM_PAGE_EDITOR_STYLE_CONTEXT, '1');
 
         $tabs = [
             $this->ui->factory()->link()->standard(
@@ -98,7 +98,7 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
             )
         ];
 
-        $this->ctrl->setParameterByClass(ilObjContentPageGUI::class, 'page_editor_style', null);
+        $this->ctrl->setParameterByClass(ilObjContentPageGUI::class, self::HTTP_PARAM_PAGE_EDITOR_STYLE_CONTEXT, null);
 
         return $tabs;
     }

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\DI\Container;
+use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Provider\NullProviderFactory;
@@ -25,8 +27,6 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
-use ILIAS\UI\Component as C;
-
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Counter\Factory;
@@ -60,7 +60,6 @@ abstract class BaseNotificationSetUp extends TestCase
      */
     protected $factory;
 
-
     /**
      * @inheritDoc
      */
@@ -80,11 +79,12 @@ abstract class BaseNotificationSetUp extends TestCase
     public function getUIFactory(): NoUIFactory
     {
         $factory = new class () extends NoUIFactory {
-            public function item(): ILIAS\UI\Component\Item\Factory
+            public function item(): I\Item\Factory
             {
                 return new I\Item\Factory();
             }
-            public function symbol(): ILIAS\UI\Component\Symbol\Factory
+
+            public function symbol(): I\Symbol\Factory
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
@@ -92,7 +92,8 @@ abstract class BaseNotificationSetUp extends TestCase
                     new I\Symbol\Avatar\Factory()
                 );
             }
-            public function mainControls(): C\MainControls\Factory
+
+            public function mainControls(): I\MainControls\Factory
             {
                 return new I\MainControls\Factory(
                     $this->sig_gen,
@@ -114,14 +115,14 @@ abstract class BaseNotificationSetUp extends TestCase
         return $factory;
     }
 
-    public function getDIC(): ILIAS\DI\Container
+    public function getDIC(): Container
     {
         $mocks = [
-            'ui' => $this->createMock(\ILIAS\DI\UIServices::class),
+            'ui' => $this->createMock(UIServices::class),
             'ui.factory' => $this->createMock(\ILIAS\UI\Factory::class),
             'provider_factory' => $this->createMock(ProviderFactory::class),
         ];
-        return new class ($mocks) extends ILIAS\DI\Container {
+        return new class ($mocks) extends Container {
             public function globalScreen(): Services
             {
                 return new Services($this['provider_factory'], $this['ui']);
@@ -134,6 +135,7 @@ abstract class BaseNotificationSetUp extends TestCase
         $dic = $this->getDIC();
         $provider = new class ($dic) extends AbstractNotificationProvider {
             public array $notifications = [];
+
             public function getNotifications(): array
             {
                 return $this->notifications;

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\News\Dashboard;
 
@@ -89,9 +89,9 @@ class DashboardNewsManager
         $default_per = \ilNewsItem::_lookupDefaultPDPeriod();
 
         $options = [
-            7 => $lng->txt("news_period_1_week"),
-            30 => $lng->txt("news_period_1_month"),
-            366 => $lng->txt("news_period_1_year")
+            "7" => $lng->txt("news_period_1_week"),
+            "30" => $lng->txt("news_period_1_month"),
+            "366" => $lng->txt("news_period_1_year")
         ];
 
         return $options;

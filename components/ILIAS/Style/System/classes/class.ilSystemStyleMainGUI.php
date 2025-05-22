@@ -30,8 +30,7 @@ use ILIAS\FileUpload\FileUpload;
 /**
  * Settings UI class for system styles. Acts as main router for the systems styles and handles permissions checks,
  * sets tabs and title as well as description of the content section.
- * @ilCtrl_Calls ilSystemStyleMainGUI: ilSystemStyleOverviewGUI,ilSystemStyleConfigGUI
- * @ilCtrl_Calls ilSystemStyleMainGUI: ilSystemStyleScssGUI,ilSystemStyleIconsGUI,ilSystemStyleDocumentationGUI
+ * @ilCtrl_Calls ilSystemStyleMainGUI: ilSystemStyleOverviewGUI,ilSystemStyleConfigGUI,ilSystemStyleDocumentationGUI
  */
 class ilSystemStyleMainGUI
 {
@@ -112,10 +111,6 @@ class ilSystemStyleMainGUI
 
         $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'skin_id', $skin_id);
         $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'style_id', $style_id);
-        $this->ctrl->setParameterByClass(ilSystemStyleScssGUI::class, 'skin_id', $skin_id);
-        $this->ctrl->setParameterByClass(ilSystemStyleScssGUI::class, 'style_id', $style_id);
-        $this->ctrl->setParameterByClass(ilSystemStyleIconsGUI::class, 'skin_id', $skin_id);
-        $this->ctrl->setParameterByClass(ilSystemStyleIconsGUI::class, 'style_id', $style_id);
         $this->ctrl->setParameterByClass(ilSystemStyleDocumentationGUI::class, 'skin_id', $skin_id);
         $this->ctrl->setParameterByClass(ilSystemStyleDocumentationGUI::class, 'style_id', $style_id);
 
@@ -125,7 +120,7 @@ class ilSystemStyleMainGUI
                     $this->help->setSubScreenId('settings');
                     $this->checkPermission('sty_management');
                     $this->setUnderworldTabs($skin_id, 'settings');
-                    $this->setUnderworldTitle($skin_id, $style_id);
+                    $this->setUnderworldTitle($skin_id, $style_id, 'settings');
                     $system_styles_settings = new ilSystemStyleConfigGUI(
                         $this->ctrl,
                         $this->lng,
@@ -145,53 +140,11 @@ class ilSystemStyleMainGUI
                     );
                     $this->ctrl->forwardCommand($system_styles_settings);
                     break;
-                case strtolower(ilSystemStyleScssGUI::class):
-                    $this->help->setSubScreenId('scss');
-                    $this->checkPermission('sty_management');
-                    $this->setUnderworldTabs($skin_id, 'scss');
-                    $this->setUnderworldTitle($skin_id, $style_id);
-                    $system_styles_scss = new ilSystemStyleScssGUI(
-                        $this->ctrl,
-                        $this->lng,
-                        $this->tpl,
-                        $this->ui_factory,
-                        $this->renderer,
-                        $this->request,
-                        $this->toolbar,
-                        $this->refinery,
-                        $skin_factory,
-                        $skin_id,
-                        $style_id
-                    );
-                    $this->ctrl->forwardCommand($system_styles_scss);
-                    break;
-                case strtolower(ilSystemStyleIconsGUI::class):
-                    $this->help->setSubScreenId('icons');
-                    $this->checkPermission('sty_management');
-                    $this->setUnderworldTabs($skin_id, 'icons');
-                    $this->setUnderworldTitle($skin_id, $style_id);
-                    $system_styles_icons = new ilSystemStyleIconsGUI(
-                        $this->ctrl,
-                        $this->lng,
-                        $this->tpl,
-                        $this->ui_factory,
-                        $this->renderer,
-                        $this->request_wrapper,
-                        $this->toolbar,
-                        $this->refinery,
-                        $skin_factory,
-                        $this->tabs,
-                        $this->upload,
-                        $skin_id,
-                        $style_id
-                    );
-                    $this->ctrl->forwardCommand($system_styles_icons);
-                    break;
                 case strtolower(ilSystemStyleDocumentationGUI::class):
+                    $this->setTabs($skin_id, $style_id);
+                    $this->tabs->activateSubTab('documentation');
                     $this->help->setSubScreenId('documentation');
                     $read_only = !$this->checkPermission('sty_management', false);
-                    $this->setUnderworldTabs($skin_id, 'documentation', $read_only);
-                    $this->setUnderworldTitle($skin_id, $style_id, $read_only);
                     $node_id = '';
                     if ($this->request_wrapper->query()->has('node_id')) {
                         $node_id = $this->request_wrapper->query()->retrieve(
@@ -233,9 +186,11 @@ class ilSystemStyleMainGUI
     protected function executeDefaultCommand(ilSkinFactory $skin_factory, string $skin_id, string $style_id): void
     {
         $this->help->setSubScreenId('overview');
+        $this->setTabs($skin_id, $style_id);
+        $this->tabs->activateSubTab('overview');
         $this->checkPermission('visible,read');
         $read_only = !$this->checkPermission('sty_write_system', false);
-        $management_enabled = $this->checkPermission('sty_management', false);
+        $management_enabled = true;//$this->checkPermission('sty_management', false);
         $system_styles_overview = new ilSystemStyleOverviewGUI(
             $this->ctrl,
             $this->lng,
@@ -260,31 +215,12 @@ class ilSystemStyleMainGUI
     }
 
     /**
-     * Checks permission for system styles. Permissions work on two levels, ordinary rbac and the
-     * 'enable_system_styles_management' setting in the tools section of the ilias.ini.php
-     * @throws ilObjectException
-     */
+     * Checks permission for system styles.
+     * **/
+
     public function checkPermission(string $a_perm, bool $a_throw_exc = true): bool
     {
-        $has_perm = true;
-
-        $config = new ilSystemStyleConfig();
-        if ($a_perm == 'sty_management') {
-            $has_perm = $this->ilIniFile->readVariable('tools', 'enable_system_styles_management') == '1';
-            $a_perm = 'sty_write_system';
-            if ($has_perm && !is_writable($config->getCustomizingSkinPath())) {
-                $this->message_stack->addMessage(new ilSystemStyleMessage(
-                    $this->lng->txt('enable_system_styles_management_no_write_perm'),
-                    ilSystemStyleMessage::TYPE_ERROR
-                ));
-                $this->message_stack->sendMessages();
-                $has_perm = false;
-            }
-        }
-
-        if ($has_perm) {
-            $has_perm = $this->rbacsystem->checkAccess($a_perm, (int) $this->ref_id);
-        }
+        $has_perm = $this->rbacsystem->checkAccess($a_perm, (int) $this->ref_id);
 
         if (!$has_perm) {
             if ($a_throw_exc) {
@@ -295,6 +231,20 @@ class ilSystemStyleMainGUI
         return true;
     }
 
+    protected function setTabs(string $skin_id, string $style_id, string $active = '') {
+        $this->ctrl->setParameterByClass(ilSystemStyleDocumentationGUI::class, 'skin_id', $skin_id);
+        $this->ctrl->setParameterByClass(ilSystemStyleDocumentationGUI::class, 'style_id', $style_id);
+
+        $this->tabs->addSubTab(
+            'overview',
+            $this->lng->txt('overview'),
+            $this->ctrl->getLinkTargetByClass(self::class), 'documentation');
+        $this->tabs->addSubTab('documentation',
+            $this->lng->txt('documentation'),
+            $this->ctrl->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, 'entries')
+        );
+
+    }
     /**
      * Sets the tab correctly if one system style is open (navigational underworld opened)
      * @throws ilCtrlException
@@ -309,35 +259,14 @@ class ilSystemStyleMainGUI
             return;
         }
 
-        /**
-         * Since clearTargets also clears the help screen ids
-         */
         $this->help->setScreenIdComponent('sty');
         $this->help->setScreenId('system_styles');
         $this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this));
-        $config = new ilSystemStyleConfig();
-        if ($sking_id != $config->getDefaultSkinId()) {
-            $this->tabs->addTab(
-                'settings',
-                $this->lng->txt('settings'),
-                $this->ctrl->getLinkTargetByClass('ilsystemstyleconfiggui')
-            );
-            $this->tabs->addTab(
-                'scss',
-                $this->lng->txt('scss'),
-                $this->ctrl->getLinkTargetByClass('ilsystemstylescssgui')
-            );
-            $this->tabs->addTab(
-                'icons',
-                $this->lng->txt('icons'),
-                $this->ctrl->getLinkTargetByClass('ilsystemstyleiconsgui')
-            );
-        }
 
         $this->tabs->addTab(
-            'documentation',
-            $this->lng->txt('documentation'),
-            $this->ctrl->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class)
+            'settings',
+            $this->lng->txt('settings'),
+            $this->ctrl->getLinkTargetByClass('ilsystemstyleconfiggui')
         );
 
         $this->tabs->activateTab($active);
@@ -347,42 +276,23 @@ class ilSystemStyleMainGUI
      * Sets title correctly if one system style is opened
      * @throws ilSystemStyleException
      */
-    protected function setUnderworldTitle(string $skin_id, string $style_id, bool $read_only = false): void
+    protected function setUnderworldTitle(string $skin_id, string $style_id, string $active): void
     {
         $skin = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack)->getSkin();
         $style = $skin->getStyle($style_id);
 
-        if ($read_only) {
-            $this->tpl->setTitle($this->lng->txt('documentation'));
-
-            if ($style->isSubstyle()) {
-                $this->tpl->setDescription(
-                    $this->lng->txt('ks_documentation_of_substyle')
-                    . " '"
-                    . $style->getName() . "' " .
-                    $this->lng->txt('of_parent') . " '" . $skin->getStyle($style->getSubstyleOf())->getName() . "' " .
-                    $this->lng->txt('from_skin') . ' ' . $skin->getName()
-                );
-            } else {
-                $this->tpl->setDescription(
-                    $this->lng->txt('ks_documentation_of_style') . " '" . $style->getName() . "' " .
-                    $this->lng->txt('from_skin') . " '" . $skin->getName() . "'"
-                );
-            }
+        $this->tpl->setTitle($style->getName());
+        if ($style->isSubstyle()) {
+            $this->tpl->setDescription(
+                $this->lng->txt('settings_of_substyle') . " '" . $style->getName() . "' " .
+                $this->lng->txt('of_parent') . " '" . $skin->getStyle($style->getSubstyleOf())->getName() . "' " .
+                $this->lng->txt('from_skin') . ' ' . $skin->getName()
+            );
         } else {
-            $this->tpl->setTitle($style->getName());
-            if ($style->isSubstyle()) {
-                $this->tpl->setDescription(
-                    $this->lng->txt('settings_of_substyle') . " '" . $style->getName() . "' " .
-                    $this->lng->txt('of_parent') . " '" . $skin->getStyle($style->getSubstyleOf())->getName() . "' " .
-                    $this->lng->txt('from_skin') . ' ' . $skin->getName()
-                );
-            } else {
-                $this->tpl->setDescription(
-                    $this->lng->txt('settings_of_style') . " '" . $style->getName() . "' " .
-                    $this->lng->txt('from_skin') . " '" . $skin->getName() . "'"
-                );
-            }
+            $this->tpl->setDescription(
+                $this->lng->txt('settings_of_style') . " '" . $style->getName() . "' " .
+                $this->lng->txt('from_skin') . " '" . $skin->getName() . "'"
+            );
         }
     }
 }

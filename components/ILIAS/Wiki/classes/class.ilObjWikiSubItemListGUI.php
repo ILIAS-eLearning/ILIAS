@@ -74,11 +74,6 @@ class ilObjWikiSubItemListGUI extends ilSubItemListGUI
                 $this->tpl->setVariable('TITLE', ilObject::_lookupTitle($sub_item));
             }
             $this->tpl->parseCurrentBlock();
-
-            if (count($this->getSubItemIds(true)) > 1) {
-                $this->parseRelevance($sub_item);
-            }
-
             $this->tpl->parseCurrentBlock();
         }
 

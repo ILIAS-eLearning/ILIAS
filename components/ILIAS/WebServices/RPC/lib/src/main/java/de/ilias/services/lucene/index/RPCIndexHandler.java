@@ -89,7 +89,7 @@ public class RPCIndexHandler {
 			client = ClientSettings.getInstance(LocalSettings.getClientKey());
 			server = ServerSettings.getInstance();
 			
-			properties = ObjectDefinitionReader.getInstance(client.getAbsolutePath());
+			properties = ObjectDefinitionReader.getInstance(client);
 			parser = new ObjectDefinitionParser(properties.getObjectPropertyFiles());
 			parser.parse();
 			
@@ -170,11 +170,10 @@ public class RPCIndexHandler {
 				IndexHolder.deleteIndex();
 			}
 			
-			properties = ObjectDefinitionReader.getInstance(client.getAbsolutePath());
+			properties = ObjectDefinitionReader.getInstance(client);
 			parser = new ObjectDefinitionParser(properties.getObjectPropertyFiles());
 			parser.parse();
 			
-			//controller = CommandController.getInstance();
 			controller = new CommandController();
 			if(incremental) {
 				controller.initRefresh();

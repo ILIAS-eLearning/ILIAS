@@ -37,15 +37,14 @@ class IconDatabaseRepository extends IconAbstractRepository
     public const SUFFIX = 'suffix';
     public const SUFFIXES = 'suffixes';
 
-    private \ilDBInterface $db;
-    private Services $irss;
-
-    public function __construct()
-    {
+    public function __construct(
+        private ?\ilDBInterface $db = null,
+        private ?Services $irss = null
+    ) {
         global $DIC;
         parent::__construct();
-        $this->db = $DIC->database();
-        $this->irss = $DIC->resourceStorage();
+        $this->db ??= $DIC->database();
+        $this->irss ??= $DIC->resourceStorage();
     }
 
     public function createIcon(string $a_rid, bool $a_active, bool $a_is_default_icon, array $a_suffixes): Icon
@@ -71,9 +70,20 @@ class IconDatabaseRepository extends IconAbstractRepository
         return $icon;
     }
 
+
     public function getIconsForFilter(array $filter): array
     {
         $icons = [];
+
+        $rid_filter = null;
+        // due to the database schema, the suffixes filter has to be handled separately
+        if ($filter !== [] && ($filter['suffixes'] ?? null) !== null && $filter['suffixes'] !== '') {
+            $suffixes = explode(',', (string) $filter['suffixes']);
+            $suffixes = array_map(fn($suffix): string => $this->db->quote(trim((string) $suffix), 'text'), $suffixes);
+            $q = "SELECT rid FROM " . self::SUFFIX_TABLE_NAME . " WHERE suffix IN (" . implode(',', $suffixes) . ")";
+            $rid_filter = $this->db->fetchAll($this->db->query($q));
+            $rid_filter = array_map(fn($row) => $row['rid'], $rid_filter);
+        }
 
         $query = "SELECT i." . self::ICON_RESOURCE_IDENTIFICATION
             . ", i." . self::ICON_ACTIVE
@@ -89,8 +99,9 @@ class IconDatabaseRepository extends IconAbstractRepository
                 $query .= " AND i.active = " . $this->db->quote($filter['active'], 'integer');
             }
 
-            if (($filter['suffixes'] ?? null) !== null && $filter['suffixes'] !== '') {
-                $query .= " AND s.suffix LIKE " . $this->db->quote('%' . $filter['suffixes'] . '%', 'text');
+            if ($rid_filter) {
+                $rid_filter = array_map(fn($rid): string => $this->db->quote(trim((string) $rid), 'text'), $rid_filter);
+                $query .= " AND i.rid IN (" . implode(',', $rid_filter) . ")";
             }
 
             if (($filter['is_default_icon'] ?? null) !== null && $filter['is_default_icon'] !== '') {
@@ -116,7 +127,7 @@ class IconDatabaseRepository extends IconAbstractRepository
     }
 
     /**
-     * @return array<int|string, \ILIAS\File\Icon\CustomIcon>
+     * @return array<int|string, CustomIcon>
      */
     public function getIcons(): array
     {

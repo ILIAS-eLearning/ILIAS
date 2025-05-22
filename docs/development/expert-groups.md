@@ -54,3 +54,12 @@ email address (ux@lists.ilias.de).
 The Security Expert Group can be reached through its own email address (security@lists.ilias.de).
 More information on the Security Expert Group can be found in the
 [Documentation of the Security Group](security.md).
+
+### Privacy Expert Group
+The Privacy Expert Group provides specialized expertise to help solve specific data privacy problems as well as assist with general data privacy-related issues. The group can be reached directly via email at privacy@lists.ilias.de.
+
+* The role of the Privacy Expert Group is to make their expert knowledge available for both specific problem-orientated cases and general inquiries. 
+* The Privacy Experts cannot give legal advice or assess individual installations.
+* The goal of the Privacy Experts is to make “privacy by design” a reality by suggesting ways to systematically integrate this principle into the development process.
+* Members regularly participate in the Jour Fixe meetings, providing feedback and comments on Feature Wiki entries.
+* The group collaborates with the SIG Law & E-Learning and other relevant initiatives in the field of data privacy.

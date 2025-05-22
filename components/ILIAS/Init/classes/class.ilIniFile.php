@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * INIFile Parser
@@ -102,7 +102,7 @@ class ilIniFile
     public function parse(): bool
     {
         try {
-            $ini_file_readable= is_readable($this->INI_FILE_NAME);
+            $ini_file_readable = is_readable($this->INI_FILE_NAME);
             if (!$ini_file_readable) {
                 $this->error("file_not_accessible");
                 return false;

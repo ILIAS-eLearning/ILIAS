@@ -25,6 +25,7 @@ declare(strict_types=1);
  * Inserts Meta data from XML into ILIAS db
  * @extends ilSaxParser
  * @package ilias-core
+ * @deprecated will be removed with ILIAS 11, LOM should only be exported as a tail dependency
  */
 class ilMDSaxParser extends ilSaxParser
 {
@@ -110,9 +111,8 @@ class ilMDSaxParser extends ilSaxParser
      */
     public function setHandlers($a_xml_parser): void
     {
-        xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
+        xml_set_element_handler($a_xml_parser, $this->handlerBeginTag(...), $this->handlerEndTag(...));
+        xml_set_character_data_handler($a_xml_parser, $this->handlerCharacterData(...));
     }
 
     /**

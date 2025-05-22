@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
 /**
@@ -32,7 +32,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
     protected ilObjUser $user;
 
     private UIRenderer $renderer;
-    private UIImplementationFactory $uiFactory;
+    private UIFactory $ui_factory;
 
     public function __construct(object $a_parent_obj)
     {
@@ -43,7 +43,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 
         $this->user = $DIC->user();
         $this->renderer = $DIC->ui()->renderer();
-        $this->uiFactory = $DIC->ui()->factory();
+        $this->ui_factory = $DIC->ui()->factory();
 
         $this->actions = ilCalendarActions::getInstance();
         $this->lng->loadLanguageModule('dateplaner');
@@ -87,7 +87,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
         // edit
         if ($this->actions->checkSettingsCal($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'edit');
-            $dropDownItems[] = $this->uiFactory->button()->shy(
+            $dropDownItems[] = $this->ui_factory->button()->shy(
                 $this->lng->txt('settings'),
                 $url
             );
@@ -96,7 +96,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
         // import (ics appointments)
         if ($this->actions->checkAddEvent($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'importAppointments');
-            $dropDownItems[] = $this->uiFactory->button()->shy(
+            $dropDownItems[] = $this->ui_factory->button()->shy(
                 $this->lng->txt('cal_import_appointments'),
                 $url
             );
@@ -105,7 +105,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
         // unshare
         if ($this->actions->checkUnshareCal($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'unshare');
-            $dropDownItems[] = $this->uiFactory->button()->shy(
+            $dropDownItems[] = $this->ui_factory->button()->shy(
                 $this->lng->txt('cal_unshare'),
                 $url
             );
@@ -114,7 +114,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
         // share
         if ($this->actions->checkShareCal($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'shareSearch');
-            $dropDownItems[] = $this->uiFactory->button()->shy(
+            $dropDownItems[] = $this->ui_factory->button()->shy(
                 $this->lng->txt('cal_share'),
                 $url
             );
@@ -123,7 +123,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
         // synchronize
         if ($this->actions->checkSynchronizeCal($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'synchroniseCalendar');
-            $dropDownItems[] = $this->uiFactory->button()->shy(
+            $dropDownItems[] = $this->ui_factory->button()->shy(
                 $this->lng->txt('cal_cal_synchronize'),
                 $url
             );
@@ -132,7 +132,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
         // delete
         if ($this->actions->checkDeleteCal($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDelete');
-            $dropDownItems[] = $this->uiFactory->button()->shy(
+            $dropDownItems[] = $this->ui_factory->button()->shy(
                 $this->lng->txt('delete'),
                 $url
             );
@@ -187,9 +187,13 @@ class ilCalendarManageTableGUI extends ilTable2GUI
                 ''
             )
         );
+        $this->ctrl->clearParameterByClass(
+            "ilcalendarpresentationgui",
+            'category_id'
+        );
 
-        $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
-                ->withLabel($this->lng->txt("actions"));
+        $dropDown = $this->ui_factory->dropdown()->standard($dropDownItems)
+                                     ->withLabel($this->lng->txt("actions"));
 
         $this->tpl->setVariable('BGCOLOR', $a_set['color']);
         $this->tpl->setVariable("ACTIONS", $this->renderer->render($dropDown));

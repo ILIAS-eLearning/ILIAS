@@ -23,36 +23,37 @@ namespace ILIAS\UI\Implementation\Component\Table\Column;
 use ILIAS\UI\Component\Table\Column as I;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
+use ILIAS\Language\Language;
 
 class Factory implements I\Factory
 {
     public function __construct(
-        protected \ilLanguage $lng
+        protected Language $lng
     ) {
     }
 
-    public function text(string $title): I\Text
+    public function text(string $title): Text
     {
         return new Text($this->lng, $title);
     }
 
     public function number(
         string $title
-    ): I\Number {
+    ): Number {
         return new Number($this->lng, $title);
     }
 
-    public function date(string $title, \ILIAS\Data\DateFormat\DateFormat $format): I\Date
+    public function date(string $title, \ILIAS\Data\DateFormat\DateFormat $format): Date
     {
         return new Date($this->lng, $title, $format);
     }
 
-    public function status(string $title): I\Status
+    public function status(string $title): Status
     {
         return new Status($this->lng, $title);
     }
 
-    public function statusIcon(string $title): I\StatusIcon
+    public function statusIcon(string $title): StatusIcon
     {
         return new StatusIcon($this->lng, $title);
     }
@@ -61,26 +62,26 @@ class Factory implements I\Factory
         string $title,
         string|Icon|Glyph $true,
         string|Icon|Glyph $false
-    ): I\Boolean {
+    ): Boolean {
         return new Boolean($this->lng, $title, $true, $false);
     }
 
-    public function eMail(string $title): I\EMail
+    public function eMail(string $title): EMail
     {
         return new EMail($this->lng, $title);
     }
 
-    public function timeSpan(string $title, \ILIAS\Data\DateFormat\DateFormat $format): I\TimeSpan
+    public function timeSpan(string $title, \ILIAS\Data\DateFormat\DateFormat $format): TimeSpan
     {
         return new TimeSpan($this->lng, $title, $format);
     }
 
-    public function link(string $title): I\Link
+    public function link(string $title): Link
     {
         return new Link($this->lng, $title);
     }
 
-    public function linkListing(string $title): I\LinkListing
+    public function linkListing(string $title): LinkListing
     {
         return new LinkListing($this->lng, $title);
     }

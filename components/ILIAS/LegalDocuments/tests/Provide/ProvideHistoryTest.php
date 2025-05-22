@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments\test\Provide;
 
 use ILIAS\Data\Result;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy;
 use ILIAS\LegalDocuments\Legacy\Table as LegacyTable;
 use ILIAS\LegalDocuments\Table as TableInterface;
 use ILIAS\LegalDocuments\Table\HistoryTable;
@@ -53,7 +53,12 @@ class ProvideHistoryTest extends TestCase
     public function testTable(): void
     {
         $dummy_gui = new stdClass();
-        $legacy = $this->mock(Legacy::class);
+        $legacy = $this->mock(Legacy\Content::class);
+        $legacy_factory = $this->mock(Legacy\Factory::class);
+        $legacy_factory
+            ->expects($this->once())
+            ->method('content')
+            ->willReturn($legacy);
 
         $table = $this->mockMethod(LegacyTable::class, 'getHTML', [], 'table html');
 
@@ -61,7 +66,7 @@ class ProvideHistoryTest extends TestCase
             'ctrl' => $this->mock(ilCtrl::class),
             'language' => $this->mock(ilLanguage::class),
             'ui' => [
-                'factory' => $this->mockMethod(UIFactory::class, 'legacy', ['table html'], $legacy),
+                'factory' => $this->mockMethod(UIFactory::class, 'legacy', [], $legacy_factory),
                 'mainTemplate' => $this->mock(ilGlobalTemplateInterface::class)
             ],
         ]);

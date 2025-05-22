@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Export;
 
@@ -55,7 +55,7 @@ class PrintProcessGUI
         \ILIAS\HTTP\Services $http,
         UIServices $ui,
         \ilLanguage $lng,
-        string $body_class = null
+        ?string $body_class = null
     ) {
         global $DIC;
 
@@ -92,7 +92,7 @@ class PrintProcessGUI
         $ui->mainTemplate()->addJavaScript("assets/js/Form.js");
         $modal = $ui->factory()->modal()->roundtrip(
             $this->lng->txt("exp_print_pdf"),
-            $ui->factory()->legacy('some modal')
+            $ui->factory()->legacy()->content('some modal')
         )->withAsyncRenderUrl($selection_action);
         $print_button = $ui->factory()->button()->standard(
             $this->lng->txt("exp_print_pdf"),
@@ -119,7 +119,7 @@ class PrintProcessGUI
         $tpl->setVariable("ON_SUBMIT_CODE", $this->provider->getOnSubmitCode());
         $modal = $this->ui->factory()->modal()->roundtrip(
             $this->lng->txt("exp_print_pdf"),
-            $this->ui->factory()->legacy(
+            $this->ui->factory()->legacy()->content(
                 $this->ui->renderer()->render($mb) .
                 $tpl->get()
             )

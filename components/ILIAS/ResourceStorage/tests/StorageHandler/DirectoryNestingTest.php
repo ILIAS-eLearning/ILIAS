@@ -18,6 +18,8 @@
 
 namespace ILIAS\ResourceStorage\Revision;
 
+use PHPUnit\Framework\MockObject\MockObject;
+
 require_once(__DIR__ . "/../AbstractTestBase.php");
 
 use ILIAS\Filesystem\Filesystem;
@@ -32,21 +34,44 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
  */
 class DirectoryNestingTest extends AbstractTestBase
 {
-    private const NESTING_256 = 256; // 16^2
-    private const NESTING_4096 = 4096; // 16^3
-    private const NESTING_65536 = 65536; // 16^4
-    private const NESTING_4294967296 = 4_294_967_296; // 16^8
-    private const NESTING_281474976710656 = 281_474_976_710_656; // 16^12
-
-    private const MAX_NESTING = self::NESTING_65536;
-    private const MIN_NESTING = self::NESTING_256;
-    private const COMBINATIONS = 16; // 0-9a-f
-
     /**
-     * @var Filesystem|\PHPUnit\Framework\MockObject\MockObject
+     * @var int
      */
-    protected $file_system_mock;
+    private const NESTING_256 = 256; // 16^2
+    /**
+     * @var int
+     */
+    private const NESTING_4096 = 4096; // 16^3
+    /**
+     * @var int
+     */
+    private const NESTING_65536 = 65536; // 16^4
+    /**
+     * @var int
+     */
+    private const NESTING_4294967296 = 4_294_967_296; // 16^8
+    /**
+     * @var int
+     */
+    private const NESTING_281474976710656 = 281_474_976_710_656; // 16^12
+    /**
+     * @var int
+     */
+    private const MAX_NESTING = self::NESTING_65536;
+    /**
+     * @var int
+     */
+    private const MIN_NESTING = self::NESTING_256;
+    /**
+     * @var int
+     */
+    private const COMBINATIONS = 16; // 0-9a-f
+    /**
+     * @var Filesystem|MockObject
+     */
+    protected MockObject $file_system_mock;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

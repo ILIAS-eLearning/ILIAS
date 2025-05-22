@@ -81,9 +81,7 @@ class StandardNotificationTest extends BaseNotificationSetUp
 
     public function testWithOpenedCallable(): void
     {
-        $callable = function (): string {
-            return "something";
-        };
+        $callable = (fn(): string => "something");
         $standard_notification = $this->factory->standard($this->id);
         $this->assertEquals(function (): void {
         }, $standard_notification->getOpenedCallable());
@@ -92,9 +90,7 @@ class StandardNotificationTest extends BaseNotificationSetUp
     }
     public function testWithClosedCallable(): void
     {
-        $callable = function (): string {
-            return "something";
-        };
+        $callable = (fn(): string => "something");
         $standard_notification = $this->factory->standard($this->id);
         $this->assertNull($standard_notification->getClosedCallable());
         $standard_notification = $standard_notification->withClosedCallable($callable);
@@ -102,9 +98,7 @@ class StandardNotificationTest extends BaseNotificationSetUp
     }
     public function testHasClosedCallable(): void
     {
-        $callable = function (): string {
-            return "something";
-        };
+        $callable = (fn(): string => "something");
         $standard_notification = $this->factory->standard($this->id);
         $this->assertFalse($standard_notification->hasClosedCallable());
         $standard_notification = $standard_notification->withClosedCallable($callable);

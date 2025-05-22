@@ -12,8 +12,8 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
   - The **Object** service stores the account which created the
     object as it's owner and creation and update timestamps for the
     object.
-  - [AccessControl](../../Services/AccessControl/PRIVACY.md)
-  - [Info Screen Service](../../Services/InfoScreen/PRIVACY.md)
+  - [AccessControl](../../components/ILIAS/AccessControl/PRIVACY.md)
+  - [Info Screen Service](../../components/ILIAS/InfoScreen/PRIVACY.md)
 
 ## Data being stored
 

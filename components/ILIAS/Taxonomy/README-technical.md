@@ -80,7 +80,6 @@ class ilPresentationListTableGUI extends ilTable2GUI
     function initFilter()
     {
         ...
-        include_once("./components/ILIAS/Taxonomy/classes/class.ilTaxSelectInputGUI.php");
         $tax = new ilTaxSelectInputGUI($this->tax_id, "tax_node", true);
         $this->addFilterItem($tax);
         $tax->readFromSession();
@@ -130,7 +129,6 @@ class ilGlossaryPresentationGUI
  
     function getPresentationTable()
     {
-        include_once("./Modules/Glossary/classes/class.ilPresentationListTableGUI.php");
         $table = new ilPresentationListTableGUI($this, "listTerms", $this->glossary,
             $this->offlineMode(), $this->tax_node, $this->glossary->getTaxonomyId());
         return $table;

@@ -27,6 +27,9 @@ use ILIAS\FileDelivery\Setup\BaseDirObjective;
  */
 class ShortFilePayload extends StructuredPayload
 {
+    public $mime_type;
+    public $disposition;
+    public $user_id;
     public function __construct(
         private string $uri,
         private string $file_name
@@ -57,7 +60,7 @@ class ShortFilePayload extends StructuredPayload
         // try to expand uri
         $base = BaseDirObjective::get();
         if ($base !== null) {
-            $uri = $base . $uri;
+            return $base . $uri;
         }
 
         return $uri;

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Style\Content\Object;
 
@@ -77,6 +77,14 @@ class ObjectFacade
     public function getStyleId(): int
     {
         return $this->object_manager->getStyleId();
+    }
+
+    /**
+     * This is the ID of the style that will be exported with the content object
+     */
+    public function getExportStyleId(): int
+    {
+        return $this->object_manager->getEffectiveStyleId();
     }
 
     /**

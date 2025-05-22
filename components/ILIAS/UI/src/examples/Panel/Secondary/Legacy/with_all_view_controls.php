@@ -1,9 +1,34 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Panel\Secondary\Legacy;
 
+/**
+ * ---
+ * description: >
+ *   Example for rendering a secondary legacy panel listing with all view controls.
+ *
+ * expected output: >
+ *   ILIAS shows a panel with a title, some content and (sub-)items. Additionally view controls are displayed.
+ * ---
+ */
 function with_all_view_controls(): string
 {
     global $DIC;
@@ -28,9 +53,8 @@ function with_all_view_controls(): string
         'date' => 'Sort by Date',
         'location' => 'Sort by Location'
     ];
-    $sortation = $f->viewControl()->sortation($sortation_options)
-                   ->withTargetURL($url, "sort")
-                   ->withLabel($sortation_options[$current_sortation]);
+    $sortation = $f->viewControl()->sortation($sortation_options, $current_sortation)
+                   ->withTargetURL($url, "sort");
 
     $current_presentation = 'list';
     if ($request_wrapper->has('mode')) {
@@ -109,7 +133,7 @@ function with_all_view_controls(): string
 
     $std_list = $f->panel()->secondary()->legacy(
         "List Title",
-        $f->legacy(
+        $f->legacy()->content(
             $renderer->render([
                 $f->item()->group("Subtitle 1", [
                     $item1,

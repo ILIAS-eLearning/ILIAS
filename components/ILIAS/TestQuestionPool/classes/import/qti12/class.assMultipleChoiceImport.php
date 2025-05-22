@@ -206,10 +206,10 @@ class assMultipleChoiceImport extends assQuestionImport
         $this->object->setObjId($questionpool_id);
         $this->object->setShuffle($shuffle);
         $this->object->setSelectionLimit($selectionLimit);
-        $thumb_size = (int) $item->getMetadataEntry("thumb_size");
-        if ($thumb_size !== null && $thumb_size >= $this->object->getMinimumThumbSize()) {
-            $this->object->setThumbSize($thumb_size);
-        }
+        $this->object->setIsSingleline(false);
+        $this->object->setThumbSize(
+            $this->deduceThumbSizeFromImportValue((int) $item->getMetadataEntry('thumb_size'))
+        );
 
         foreach ($answers as $answer) {
             if ($item->getMetadataEntry('singleline') || (is_array($answer["imagefile"]) && count($answer["imagefile"]) > 0)) {
@@ -217,8 +217,8 @@ class assMultipleChoiceImport extends assQuestionImport
             }
             $this->object->addAnswer(
                 $answer["answertext"],
-                $answer["points"],
-                $answer["points_unchecked"],
+                (float) $answer["points"],
+                (float) $answer["points_unchecked"],
                 $answer["answerorder"],
                 $answer["imagefile"]["label"] ?? null
             );
@@ -264,7 +264,7 @@ class assMultipleChoiceImport extends assQuestionImport
             $feedbacksgeneric[$correctness] = $m;
         }
         $questiontext = $this->object->getQuestion();
-        $answers = &$this->object->getAnswers();
+        $answers = $this->object->getAnswers();
         if (is_array(ilSession::get("import_mob_xhtml"))) {
             foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 $importfile = $importdirectory . DIRECTORY_SEPARATOR . $mob["uri"];
@@ -308,23 +308,13 @@ class assMultipleChoiceImport extends assQuestionImport
             );
         }
         $this->object->saveToDb();
-        if (count($item->suggested_solutions)) {
-            foreach ($item->suggested_solutions as $suggested_solution) {
-                $this->importSuggestedSolution(
-                    $this->object->getId(),
-                    $suggested_solution["solution"]->getContent(),
-                    $suggested_solution["gap_index"]
-                );
-            }
-        }
-        if ($tst_id > 0) {
-            $q_1_id = $this->object->getId();
-            $question_id = $this->object->duplicate(true, "", "", -1, $tst_id);
-            $tst_object->questions[$question_counter++] = $question_id;
-            $import_mapping[$item->getIdent()] = ["pool" => $q_1_id, "test" => $question_id];
-        } else {
-            $import_mapping[$item->getIdent()] = ["pool" => $this->object->getId(), "test" => 0];
-        }
+        $this->importSuggestedSolutions($this->object->getId(), $item->suggested_solutions);
+        $import_mapping[$item->getIdent()] = $this->addQuestionToParentObjectAndBuildMappingEntry(
+            $questionpool_id,
+            $tst_id,
+            $question_counter,
+            $tst_object
+        );
         return $import_mapping;
     }
 }

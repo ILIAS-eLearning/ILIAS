@@ -1,11 +1,38 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\MainControls\MetaBar;
 
 use ILIAS\DI\Container;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows a link "See UI in fullscreen-mode".
+ *   On clicking the link, a new page opens.
+ *   The page has no entries in the mainbar and very(!) little content, but shows
+ *   four icons in the metabar: search, help, notes and user.
+ *   Only the notes-glyph is operable, it shows a little overlay with "some content"
+ *   when clicked.
+ * ---
+ */
 function base_metabar(): string
 {
     global $DIC;
@@ -13,7 +40,7 @@ function base_metabar(): string
     $renderer = $DIC->ui()->renderer();
 
     $url = $DIC->http()->request()->getUri()->__toString() . '&new_metabar_ui=1';
-    $txt = $f->legacy('<p>
+    $txt = $f->legacy()->content('<p>
             The Metabar Example opens in Fullscreen to showcase the behaviour of the metabar best.
             Note, an comprensive example for developers on how to access the JS API of the Metabar
             feature bellow in the second example.
@@ -36,7 +63,7 @@ function buildMetabar(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\Me
     $notes = $f->mainControls()->slate()->legacy(
         'Notification',
         $f->symbol()->glyph()->notification(),
-        $f->legacy('some content')
+        $f->legacy()->content('some content')
     );
 
     return $f->mainControls()->metaBar()
@@ -95,7 +122,7 @@ function pageMetabarDemoContent(\ILIAS\UI\Factory $f): array
     return [
         $f->panel()->standard(
             'All about the Meta Bar',
-            $f->legacy(
+            $f->legacy()->content(
                 "See above"
             )
         ),
@@ -115,7 +142,6 @@ function pageMetabarDemoMainbar(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainC
 function pageMetabarDemoFooter(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\Footer
 {
     $text = 'Footer';
-    $links = [];
 
-    return $f->mainControls()->footer($links, $text);
+    return $f->mainControls()->footer()->withAdditionalText($text);
 }

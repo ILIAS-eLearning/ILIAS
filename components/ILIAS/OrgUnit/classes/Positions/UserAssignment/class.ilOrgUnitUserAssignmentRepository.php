@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 namespace OrgUnit\Positions\UserAssignment;
 
@@ -104,7 +104,7 @@ class ilOrgUnitUserAssignmentRepository
     {
         $assignment = $this->getAssignmentRepo()->get($user_id, $position_id, $orgu_id);
         if (!$assignment) {
-            throw new  ilException('UserAssignment not found');
+            throw new ilException('UserAssignment not found');
         }
         return $assignment;
     }

@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Editor\Full\Services\Inputs\Conditions;
 
-use ILIAS\MetaData\Vocabularies\VocabulariesInterface;
 use ILIAS\UI\Component\Input\Field\Factory as UIFactory;
 use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
 use ILIAS\MetaData\Repository\Validation\Dictionary\DictionaryInterface as ConstraintDictionary;
@@ -30,6 +29,8 @@ use ILIAS\MetaData\Paths\FactoryInterface as PathFactory;
 use ILIAS\MetaData\Editor\Full\Services\Inputs\WithoutConditions\FactoryWithoutConditionTypesService;
 use ILIAS\MetaData\Editor\Full\Services\Inputs\WithoutConditions\BaseFactory;
 use ILIAS\MetaData\DataHelper\DataHelperInterface;
+use ILIAS\MetaData\Vocabularies\ElementHelper\ElementHelperInterface;
+use ILIAS\MetaData\Vocabularies\Slots\HandlerInterface as VocabSlotHandler;
 
 class FactoryWithConditionTypesService
 {
@@ -40,26 +41,29 @@ class FactoryWithConditionTypesService
         UIFactory $ui_factory,
         PresenterInterface $presenter,
         ConstraintDictionary $constraint_dictionary,
-        VocabulariesInterface $vocabularies,
         Refinery $refinery,
         PathFactory $path_factory,
-        DataHelperInterface $data_helper
+        DataHelperInterface $data_helper,
+        ElementHelperInterface $element_vocab_helper,
+        VocabSlotHandler $vocab_slot_handler
     ) {
         $this->types_without_conditions = new FactoryWithoutConditionTypesService(
             $ui_factory,
             $presenter,
             $constraint_dictionary,
-            $vocabularies,
             $refinery,
-            $data_helper
+            $data_helper,
+            $element_vocab_helper,
+            $path_factory
         );
         $this->vocab_value = new VocabValueConditionFactory(
             $ui_factory,
             $presenter,
             $constraint_dictionary,
             $this->types_without_conditions,
-            $vocabularies,
-            $path_factory
+            $path_factory,
+            $element_vocab_helper,
+            $vocab_slot_handler
         );
     }
 

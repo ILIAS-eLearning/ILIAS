@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="vocabulary">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="appliesTo"/>
+                <xs:element name="source" type="xs:string"/>
+                <xs:element ref="values"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="appliesTo">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="pathToElement"/>
+                <xs:element ref="condition" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="pathToElement">
+        <xs:complexType>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element name="step" type="xs:string"/>
+                <xs:element name="stepToSuper"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="condition">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="pathToElement"/>
+            </xs:sequence>
+            <xs:attribute name="value" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="values">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="value" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="value">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="label" type="xs:string" use="optional"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

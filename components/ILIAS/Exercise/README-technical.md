@@ -89,6 +89,22 @@ Manages a number of properties that are attached to members during an assignment
 
 ## Submission
 
+* DB Table: `exc_returned`
+ 
+* Entry ID (`exc_returned.id`)
+* Exercise Obj ID (`exc_returned.obj_id`)
+* Assignment ID (`exc_returned.ass_id`)
+* User ID
+* Team ID
+* Filename (`exc_returned.filename`): Set for file submissions (zip and print zip for submitted objects)
+* Filetitle (`exc_returned.filetitle`): Filetitle or Object ID (if only selected, not submitted)
+* Mime Type (`exc_returned.mimetype`)
+* Late Submission (`exc_returned.late`)
+* Web Dir Access Time (`exc_returned.web_dir_access_time`)
+
+- Selecting a blog/portfolio/wiki will add a record with filename and atext NULL. The filetitle is set to the object ID.
+- If something is submitted, filename or atext is set and the ts timestamp is set.
+
 ## Peer Review
 
 ## Criteria Catalog

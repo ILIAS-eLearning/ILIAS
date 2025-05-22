@@ -46,7 +46,7 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
 
 
     /**
-     * @return \ILIAS\BackgroundTasks\Types\SingleType[]
+     * @return SingleType[]
      */
     public function getInputTypes(): array
     {
@@ -119,7 +119,7 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
     }
 
 
-    protected function createTargetDirectory($a_tmpdir): string
+    protected function createTargetDirectory(string $a_tmpdir): string
     {
         $final_dir = $a_tmpdir . "/" . $this->target_directory;
         ilFileUtils::makeDirParents($final_dir);

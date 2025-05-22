@@ -23,7 +23,6 @@
 *
 * @ingroup components\ILIASQuestionPool
 */
-
 class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 {
     protected $outputmode;
@@ -96,30 +95,30 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
     {
         global $DIC;
         $lng = $DIC['lng'];
-        $cols["description"] = array(
+        $cols["description"] = [
             "txt" => $lng->txt("description"),
             "default" => true
-        );
-        $cols["author"] = array(
+        ];
+        $cols["author"] = [
             "txt" => $lng->txt("author"),
             "default" => true
-        );
-        $cols["ttype"] = array(
+        ];
+        $cols["ttype"] = [
             "txt" => $lng->txt("question_type"),
             "default" => true
-        );
-        $cols["points"] = array(
+        ];
+        $cols["points"] = [
             "txt" => $lng->txt("points"),
             "default" => true
-        );
-        $cols["created"] = array(
+        ];
+        $cols["created"] = [
             "txt" => $lng->txt("create_date"),
             "default" => true
-        );
-        $cols["updated"] = array(
+        ];
+        $cols["updated"] = [
             "txt" => $lng->txt("last_update"),
             "default" => true
-        );
+        ];
         return $cols;
     }
 
@@ -194,7 +193,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
      */
     public function numericOrdering(string $a_field): bool
     {
-        if (in_array($a_field, array('points', 'created', 'updated'))) {
+        if (in_array($a_field, ['points', 'created', 'updated'])) {
             return true;
         }
 

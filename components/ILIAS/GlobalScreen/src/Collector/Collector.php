@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,11 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Collector;
 
 /**
- * Interface Collector
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 interface Collector
 {
@@ -31,8 +31,15 @@ interface Collector
      */
     public function collectOnce(): void;
 
-    /**
-     * @return bool
-     */
     public function hasBeenCollected(): bool;
+
+    public function collectStructure(): void;
+
+    public function prepareItemsForUIRepresentation(): void;
+
+    public function filterItemsByVisibilty(): void;
+
+    public function cleanupItemsForUIRepresentation(): void;
+
+    public function sortItemsForUIRepresentation(): void;
 }

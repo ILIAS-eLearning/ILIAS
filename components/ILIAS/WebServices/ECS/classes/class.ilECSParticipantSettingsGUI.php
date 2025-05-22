@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -102,7 +103,7 @@ class ilECSParticipantSettingsGUI
     /**
      * Settings
      */
-    private function settings(ilPropertyFormGUI $form = null): void
+    private function settings(?ilPropertyFormGUI $form = null): void
     {
         $this->renderConsentToolbar();
 

@@ -75,4 +75,9 @@ class In implements Dependency
     {
         return $this->resolved_by;
     }
+
+    public function resetResolutions(): void
+    {
+        $this->resolved_by = [];
+    }
 }

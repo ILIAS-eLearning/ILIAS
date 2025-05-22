@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\components\Test\test;
+namespace ILIAS\Test\Access\test;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\components\Test\Readable;
+use ILIAS\Test\Access\Readable;
 use ILIAS\DI\Container;
 use ilAccessHandler;
 
@@ -48,7 +48,7 @@ class ReadableTest extends TestCase
 
         $access->method('checkAccess')->with('read', '', 456)->willReturn(true);
 
-        $references_of = fn(int $object_id) => $this->assertSame(123, $object_id) ?: [456];
+        $references_of = fn(int $object_id) => 123 !== $object_id ?: [456];
 
         $this->assertTrue((new Readable($access, $references_of))->objectId(123));
     }

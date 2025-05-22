@@ -42,31 +42,23 @@ class ilWebLinkItemInternal extends ilWebLinkItem
 
         switch ($type) {
             case 'wpage':
-                $link = ilLink::_getStaticLink(
-                    0,
-                    'wiki',
-                    true
-                );
+                $link = $this->getStaticLink(0, 'wiki');
                 $link = $this->appendParameter($link, 'target', 'wiki_wpage_' . $ref_id);
                 break;
 
             case 'term':
                 // #16894
-                $link = ilLink::_getStaticLink(
-                    0,
-                    "git",
-                    true
-                );
+                $link = $this->getStaticLink(0, "git");
                 $link = $this->appendParameter($link, 'target', 'git_' . $ref_id);
                 break;
 
             case 'page':
                 $type = "pg";
-                $link = ilLink::_getStaticLink($ref_id, $type);
+                $link = $this->getStaticLink($ref_id, $type);
                 break;
 
             default:
-                $link = ilLink::_getStaticLink($ref_id, $type);
+                $link = $this->getStaticLink($ref_id, $type);
         }
 
         if (!$with_parameters) {
@@ -78,6 +70,11 @@ class ilWebLinkItemInternal extends ilWebLinkItem
         }
 
         return $link;
+    }
+
+    protected function getStaticLink(int $ref_id, string $type): string
+    {
+        return ilLink::_getStaticLink($ref_id, $type);
     }
 
     protected function appendParameter(string $link, string $key, string $value): string

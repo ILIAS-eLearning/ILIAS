@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,95 +16,111 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Exercise;
 
-use ILIAS\Exercise\IRSS\CollectionWrapper;
 use ILIAS\Exercise\InstructionFile\InstructionFileRepository;
 use ILIAS\Exercise\SampleSolution\SampleSolutionRepository;
 use ILIAS\Exercise\Team\TeamDBRepository;
-use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackFileRepositoryInterface;
 use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackFileRepository;
 use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackFileTeamRepository;
 use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackZipRepository;
+use ILIAS\Exercise\Settings\SettingsDBRepository;
+use ILIAS\Repository\RepoServiceBase;
 
-/**
- * Internal repo factory
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalRepoService
 {
-    protected CollectionWrapper $collection_wrapper;
-    protected InternalDataService $data;
-    protected \ilDBInterface $db;
-    protected Submission\SubmissionDBRepository $submission_repo;
+    use RepoServiceBase;
 
-    public function __construct(InternalDataService $data, \ilDBInterface $db)
+    protected static array $instance = [];
+
+    public function __construct(
+        protected InternalDataService $data,
+        protected \ilDBInterface $db
+    ) {
+    }
+
+    public function settings(): SettingsDBRepository
     {
-        $this->data = $data;
-        $this->db = $db;
-        $this->submission_repo = new Submission\SubmissionDBRepository($db);
-        $this->collection_wrapper = new CollectionWrapper($data);
+        return self::$instance["settings"] ??= new SettingsDBRepository(
+            $this->db,
+            $this->data
+        );
     }
 
     public function assignment(): Assignment\RepoService
     {
-        return new Assignment\RepoService(
+        return self::$instance["assignment"] ??= new Assignment\RepoService(
             $this->data,
             $this->db
         );
     }
 
+    public function peerReview(): PeerReview\RepoService
+    {
+        return self::$instance["peer_review"] ??= new PeerReview\RepoService(
+            $this->irss(),
+            $this->data,
+            $this->db
+        );
+    }
+
+
     public function submission(): Submission\SubmissionRepositoryInterface
     {
-        return $this->submission_repo;
+        return self::$instance["submission"] ??= new Submission\SubmissionRepository(
+            $this->irss(),
+            $this->data,
+            $this->db
+        );
     }
 
     public function instructionFiles(): InstructionFileRepository
     {
-        return new InstructionFileRepository(
-            $this->collection_wrapper,
+        return self::$instance["instruction"] ??= new InstructionFileRepository(
+            $this->irss(),
             $this->db
         );
     }
 
     public function sampleSolution(): SampleSolutionRepository
     {
-        return new SampleSolutionRepository(
-            $this->collection_wrapper,
+        return self::$instance["sample_sol"] ??= new SampleSolutionRepository(
+            $this->irss(),
             $this->db
         );
     }
 
     public function tutorFeedbackFile(): TutorFeedbackFileRepository
     {
-        return new TutorFeedbackFileRepository(
-            $this->collection_wrapper,
+        return self::$instance["tutor_feedback"] ??= new TutorFeedbackFileRepository(
+            $this->irss(),
             $this->db
         );
     }
 
     public function tutorFeedbackFileTeam(): TutorFeedbackFileTeamRepository
     {
-        return new TutorFeedbackFileTeamRepository(
-            $this->collection_wrapper,
+        return self::$instance["tutor_feedback_team"] ??= new TutorFeedbackFileTeamRepository(
+            $this->irss(),
             $this->db
         );
     }
 
     public function tutorFeedbackZip(): TutorFeedbackZipRepository
     {
-        return new TutorFeedbackZipRepository(
-            $this->collection_wrapper,
+        return self::$instance["tutor_feedback_zip"] ??= new TutorFeedbackZipRepository(
+            $this->irss(),
             $this->db
         );
     }
 
     public function team(): TeamDBRepository
     {
-        return new TeamDBRepository(
+        return self::$instance["team"] ??= new TeamDBRepository(
             $this->db,
             $this->data
         );
     }
-
 }

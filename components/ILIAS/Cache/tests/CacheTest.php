@@ -18,6 +18,8 @@
 
 namespace ILIAS\Cache;
 
+use ILIAS\Refinery\Factory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ILIAS\Cache\Adaptor\APCu;
 use ILIAS\Cache\Adaptor\Memcached;
 use ILIAS\Cache\Config;
@@ -29,7 +31,6 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\Cache\Container\VoidContainer;
 use ILIAS\Cache\Adaptor\PHPStatic;
 use ILIAS\Cache\Container\BaseRequest;
-use ILIAS\Cache\Nodes\NodeRepository;
 use ILIAS\Cache\Nodes\NullNodeRepository;
 
 require_once(__DIR__ . '/../../../../vendor/composer/vendor/autoload.php');
@@ -41,15 +42,15 @@ class CacheTest extends TestCase
 {
     public const TEST_CONTAINER = 'test_container';
     /**
-     * @var \ilLanguage|(\ilLanguage&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+     * @var \ilLanguage|\ilLanguage&MockObject|MockObject
      */
     private \ilLanguage $language_mock;
-    private \ILIAS\Refinery\Factory $refinery;
+    private Factory $refinery;
 
     protected function setUp(): void
     {
         $this->language_mock = $this->createMock(\ilLanguage::class);
-        $this->refinery = new \ILIAS\Refinery\Factory(
+        $this->refinery = new Factory(
             new \ILIAS\Data\Factory(),
             $this->language_mock
         );
@@ -181,9 +182,7 @@ class CacheTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getInvalidLockTimes
-     */
+    #[DataProvider('getInvalidLockTimes')]
     public function testInvalidLockTimes(float|int $time): void
     {
         $services = new Services($this->getConfig());
@@ -401,12 +400,7 @@ class CacheTest extends TestCase
 
         $trafo = $this->refinery->to()->dictOf(
             $this->refinery->custom()->transformation(
-                function ($value) {
-                    return $value;
-                },
-                function ($value) {
-                    return $value;
-                }
+                fn($value) => $value
             )
         );
 

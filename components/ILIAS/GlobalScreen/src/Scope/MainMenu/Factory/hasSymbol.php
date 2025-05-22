@@ -22,39 +22,20 @@ namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 use Closure;
 use ILIAS\UI\Component\Symbol\Symbol;
-use ILIAS\GlobalScreen\isGlobalScreenItem;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
 
 /**
- * Interface hasSymbol
- * Methods for Entries with Symbols
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 interface hasSymbol extends isItem
 {
-    /**
-     * @param Symbol $symbol
-     * @return hasSymbol
-     */
     public function withSymbol(Symbol $symbol): hasSymbol;
 
-    /**
-     * @return Symbol
-     */
     public function getSymbol(): Symbol;
 
-    /**
-     * @return bool
-     */
     public function hasSymbol(): bool;
 
-    /**
-     * @param Closure $symbol_decorator
-     * @return hasSymbol
-     */
-    public function addSymbolDecorator(Closure $symbol_decorator): isGlobalScreenItem;
+    public function addSymbolDecorator(Closure $symbol_decorator): isDecorateable;
 
-    /**
-     * @return Closure|null
-     */
     public function getSymbolDecorator(): ?Closure;
 }

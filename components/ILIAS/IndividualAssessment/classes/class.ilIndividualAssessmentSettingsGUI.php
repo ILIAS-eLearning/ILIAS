@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Container\Form;
@@ -88,7 +89,7 @@ class ilIndividualAssessmentSettingsGUI
     {
         $tabs->addSubTab(
             self::TAB_EDIT,
-            $this->lng->txt("edit"),
+            $this->lng->txt("general"),
             $this->ctrl->getLinkTarget($this, 'edit')
         );
         $tabs->addSubTab(

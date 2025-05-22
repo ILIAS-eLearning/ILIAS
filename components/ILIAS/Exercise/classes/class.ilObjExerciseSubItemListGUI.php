@@ -70,11 +70,6 @@ class ilObjExerciseSubItemListGUI extends ilSubItemListGUI
 
             $this->tpl->setVariable('LINK', 'ilias.php?baseClass=ilExerciseHandlerGUI&cmd=showOverview&ref_id=' . $this->getRefId() . '&ass_id=' . $sub_item);
             $this->tpl->setVariable('TITLE', ilExAssignment::lookupTitle($sub_item));
-
-            if (count($this->getSubItemIds(true)) > 1) {
-                $this->parseRelevance($sub_item);
-            }
-
             $this->tpl->parseCurrentBlock();
         }
 

@@ -25,6 +25,7 @@ use ILIAS\MetaData\Elements\Data\DataFactoryInterface;
 use ILIAS\MetaData\Elements\NoID;
 use ILIAS\MetaData\Structure\Definitions\DefinitionInterface;
 use ILIAS\MetaData\Elements\RessourceID\RessourceIDInterface;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
 
 class Factory
 {
@@ -40,12 +41,13 @@ class Factory
         int $md_id,
         DefinitionInterface $definition,
         string $data_value,
+        SlotIdentifier $vocab_slot = SlotIdentifier::NULL,
         Element ...$sub_elements
     ): Element {
         return new Element(
             $md_id,
             $definition,
-            $this->data_factory->data($definition->dataType(), $data_value),
+            $this->data_factory->data($definition->dataType(), $data_value, $vocab_slot),
             ...$sub_elements
         );
     }

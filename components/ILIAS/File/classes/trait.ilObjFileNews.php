@@ -25,7 +25,7 @@ trait ilObjFileNews
     protected bool $just_notified = false;
     protected bool $notify = false;
 
-    public function notifyCreation(int $obj_id, string $additional_message = null): void
+    public function notifyCreation(int $obj_id, ?string $additional_message = null): void
     {
         $this->addNewsNotification($obj_id, 'file_created', $additional_message);
         $this->just_notified = true;
@@ -38,7 +38,7 @@ trait ilObjFileNews
 
     public function notifyUpdate(
         int $obj_id,
-        string $additional_message = null
+        ?string $additional_message = null
     ): void {
         if (!$this->notify) {
             return;
@@ -49,7 +49,7 @@ trait ilObjFileNews
         }
     }
 
-    protected function addNewsNotification(int $obj_id, string $a_lang_var, string $description = null): void
+    protected function addNewsNotification(int $obj_id, string $a_lang_var, ?string $description = null): void
     {
         global $DIC;
 

@@ -28,7 +28,6 @@ use ILIAS\LegalDocuments\Provide\ProvideDocument;
 use ILIAS\LegalDocuments\Provide\ProvideHistory;
 use ILIAS\LegalDocuments\UserAction;
 use ILIAS\DI\Container;
-use ILIAS\LegalDocuments\test\ContainerMock;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\SlotConstructor;
 use ILIAS\LegalDocuments\SelectionMap;

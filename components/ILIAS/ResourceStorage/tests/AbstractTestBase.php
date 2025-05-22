@@ -18,6 +18,8 @@
 
 namespace ILIAS\ResourceStorage;
 
+use PHPUnit\Framework\MockObject\MockObject;
+
 /** @noRector */
 require_once('DummyIDGenerator.php');
 
@@ -36,11 +38,11 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class AbstractTestBase extends TestCase
 {
-    protected \ILIAS\ResourceStorage\DummyIDGenerator $id_generator;
+    protected DummyIDGenerator $id_generator;
     /**
-     * @var \ilDBInterface|mixed|\PHPUnit\Framework\MockObject\MockObject
+     * @var \ilDBInterface|mixed|MockObject
      */
-    protected $db_mock;
+    protected MockObject $db_mock;
 
     /**
      * @inheritDoc
@@ -69,7 +71,7 @@ abstract class AbstractTestBase extends TestCase
         return Streams::ofString('dummy_content');
     }
 
-    protected function getDummyFileRevision(ResourceIdentification $id): \ILIAS\ResourceStorage\Revision\FileRevision
+    protected function getDummyFileRevision(ResourceIdentification $id): FileRevision
     {
         return new FileRevision($id);
     }

@@ -26,8 +26,6 @@ use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Result\Result\I
 
 class ResultFormatter
 {
-    use \ilDclDatetimeRecordDateFormatter;
-
     private const N_DECIMALS = 1;
     private const SCIENTIFIC_NOTATION_UPPER = 1000000000000;
     private const SCIENTIFIC_NOTATION_LOWER = 0.000000001;
@@ -56,25 +54,9 @@ class ResultFormatter
         return $result->getValue();
     }
 
-    protected function getUserDateFormat(): string
-    {
-        return (string) $this->user->getDateFormat();
-    }
-
     protected function formatDateFromString(Result\DateResult $result): string
     {
-        // depending on the function, we need to format the date differently or return nothing
         $calculated_timestamp = (int) $result->getValue();
-        switch ($result->getFromFunction()) {
-            case Functions::MAX:
-            case Functions::MIN:
-            case Functions::AVERAGE:
-                return $this->formatDateFromInt($calculated_timestamp);
-            case Functions::SUM:
-                return '';
-        }
-
-        // depending on the operator, we need to format the date differently or return nothing
         switch ($result->getFromOperator()) {
             case Operators::SUBTRACTION:
                 $presentation = function ($value, $factor, $unit) {
@@ -109,9 +91,17 @@ class ResultFormatter
             case Operators::MULTIPLICATION:
             case Operators::DIVISION:
             case Operators::POWER:
-                return ''; // currently no output for these operators
+                return '';
             default:
-                return $calculated_timestamp;
+                switch ($result->getFromFunction()) {
+                    case Functions::MAX:
+                    case Functions::MIN:
+                    case Functions::AVERAGE:
+                        return date($this->user->getDateFormat()->toString(), $calculated_timestamp);
+                    case Functions::SUM:
+                    default:
+                        return '';
+                }
         }
     }
 

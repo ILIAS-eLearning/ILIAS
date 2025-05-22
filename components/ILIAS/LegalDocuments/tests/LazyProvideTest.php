@@ -21,9 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments\test;
 
 use ILIAS\LegalDocuments\Provide;
-use ILIAS\LegalDocuments\test\ContainerMock;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\LazyProvide;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 require_once __DIR__ . '/ContainerMock.php';
 
@@ -36,13 +36,11 @@ class LazyProvideTest extends TestCase
         $this->assertInstanceOf(LazyProvide::class, new LazyProvide($this->fail(...)));
     }
 
-    /**
-     * @dataProvider methods
-     */
-    public function testMethods(string $method): void
+    #[DataProvider('methods')]
+    public function testMethods(string $method, $return = []): void
     {
         $called = false;
-        $provide = $this->mockTree(Provide::class, [$method => []]);
+        $provide = $this->mockTree(Provide::class, [$method => $return]);
 
         $create = function () use (&$called, $provide) {
             $called = true;
@@ -63,6 +61,8 @@ class LazyProvideTest extends TestCase
             ['document'],
             ['history'],
             ['allowEditing'],
+            ['publicApi'],
+            ['id', ''],
         ];
     }
 }

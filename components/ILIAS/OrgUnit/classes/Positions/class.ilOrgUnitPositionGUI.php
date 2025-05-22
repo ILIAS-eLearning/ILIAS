@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -155,7 +154,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
     {
         $form = $this->getDefaultPermissionsForm($this->getRowIdFromQuery())
             ->withRequest($this->request);
-        if($form->getData()) {
+        if ($form->getData()) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_success_permission_saved'), true);
             $this->defaultPermissions();
         } else {
@@ -178,7 +177,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         foreach ($permissions as $perm) {
             $fields = [];
             $operations = $perm->getPossibleOperations();
-            foreach($operations as $operation) {
+            foreach ($operations as $operation) {
                 $fields[$operation->getOperationId()] = $this->ui_factory->input()->field()
                     ->checkbox($this->lng->txt("org_op_{$operation->getOperationString()}"))
                     ->withValue(
@@ -220,14 +219,14 @@ class ilOrgUnitPositionGUI extends BaseCommands
 
     protected function redirectIfCancelled()
     {
-        if($this->post->has('cmd')) {
+        if ($this->post->has('cmd')) {
             $cmd = $this->post->retrieve(
                 'cmd',
                 $this->refinery->custom()->transformation(
                     fn($v) => array_key_first($v)
                 )
             );
-            if($cmd === self::CMD_CANCEL) {
+            if ($cmd === self::CMD_CANCEL) {
                 $url = $this->url_builder
                     ->withParameter($this->action_token, self::CMD_INDEX)
                     ->buildURI()
@@ -237,9 +236,9 @@ class ilOrgUnitPositionGUI extends BaseCommands
         }
     }
 
-    protected function assign(): void
+    protected function assign(int $position_id): void
     {
-        $position = $this->getPositionFromRequest();
+        $position = $this->positionRepo->getSingle($position_id, 'id');
         if ($position->isCorePosition()) {
             $this->cancel();
         }
@@ -294,11 +293,31 @@ class ilOrgUnitPositionGUI extends BaseCommands
 
     protected function delete(): void
     {
-        if ($_POST['assign_users']) {
-            $this->assign();
+        $position_id = $this->post->retrieve(
+            self::AR_ID,
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always(null)
+            ])
+        );
+
+        if ($position_id === null) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_position_delete_fail'), true);
+            $this->ctrl->redirect($this, self::CMD_INDEX);
         }
-        $position = $this->getPositionFromRequest();
-        $this->positionRepo->delete($position->getId());
+
+        if ($this->post->has('assign_users')
+            && $this->post->retrieve(
+                'assign_users',
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->bool(),
+                    $this->refinery->always(false)
+                ])
+            )
+        ) {
+            $this->assign($position_id);
+        }
+        $this->positionRepo->delete($position_id);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_deleted'), true);
         $this->ctrl->redirect($this, self::CMD_INDEX);
     }
@@ -314,7 +333,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         return $this->positionRepo->getSingle($id, 'id');
     }
 
-    public function getSinglePosLinkTarget(string $action, int $pos_id = null): string
+    public function getSinglePosLinkTarget(string $action, ?int $pos_id = null): string
     {
         $target_id = $pos_id !== null ? [$pos_id] : [$this->getRowIdFromQuery()];
         return $this->url_builder
@@ -358,7 +377,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         ];
 
         return $this->ui_factory->table()
-            ->data('', $columns, $this->positionRepo)
+            ->data($this->positionRepo, '', $columns)
             ->withId('orgu_positions')
             ->withActions($actions);
     }

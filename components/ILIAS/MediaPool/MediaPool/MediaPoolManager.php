@@ -160,8 +160,14 @@ class MediaPoolManager
                 $target_child_id
             );
 
-            $md = new \ilMD($source_pool_id, $source_child_id, "mpg");
-            $new_md = $md->cloneMD($target_pool_id, $target_child_id, "mpg");
+            $this->domain->metadata()->cloneLOM(
+                $source_pool_id,
+                $source_child_id,
+                "mpg",
+                $target_pool_id,
+                $target_child_id,
+                "mpg"
+            );
         }
     }
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
@@ -45,7 +45,7 @@ class MetaBar implements MainControls\MetaBar
     /**
      * @var array<string, Button\Bulky|Link\Bulky|Slate>
      */
-    protected array $entries;
+    protected array $entries = [];
 
     public function __construct(SignalGeneratorInterface $signal_generator)
     {

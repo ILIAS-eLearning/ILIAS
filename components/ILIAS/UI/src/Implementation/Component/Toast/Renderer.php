@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Toast;
 
@@ -35,8 +35,6 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Toast\Toast) {
             return $this->renderToast($component, $default_renderer);
         }
@@ -44,7 +42,7 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderContainer($component, $default_renderer);
         }
 
-        throw new LogicException("Cannot render: " . get_class($component));
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderToast(Component\Toast\Toast $component, RendererInterface $default_renderer): string
@@ -59,8 +57,6 @@ class Renderer extends AbstractComponentRenderer
         }
         $tpl->setVariable("TITLE", $title);
 
-        $tpl->setVariable("TOAST_DELAY", $component->getDelayTime());
-        $tpl->setVariable("TOAST_VANISH", $component->getVanishTime());
         $tpl->setVariable("VANISH_ASYNC", $component->getAction());
 
         $desc = htmlentities($component->getDescription());
@@ -82,10 +78,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("ICON", $default_renderer->render($component->getIcon()));
         $tpl->setVariable("CLOSE", $default_renderer->render($this->getUIFactory()->button()->close()));
 
-        $component = $component->withAdditionalOnLoadCode(fn($id) => "
-                il.UI.toast.setToastSettings($id);
-                il.UI.toast.showToast($id);
-            ");
+        $component = $component->withAdditionalOnLoadCode(fn($id) => "il.UI.toast.showToast($id);");
 
         $tpl->setCurrentBlock("id");
         $tpl->setVariable('ID', $this->bindJavaScript($component));
@@ -105,16 +98,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('assets/js/toast.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Toast\Toast::class,
-            Component\Toast\Container::class
-        ];
     }
 }

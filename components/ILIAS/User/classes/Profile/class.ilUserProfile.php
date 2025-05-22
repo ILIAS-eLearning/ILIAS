@@ -16,7 +16,10 @@
  *
  *********************************************************************/
 
-use ILIAS\User\Profile\ilUserProfileDefaultFields;
+declare(strict_types=1);
+
+use ILIAS\User\Profile\DefaultFields;
+use ILIAS\Language\Language;
 
 /**
  * Class ilUserProfile
@@ -30,7 +33,7 @@ class ilUserProfile
     private int $mode = self::MODE_DESKTOP;
 
     private ilSetting $settings;
-    private ilLanguage $lng;
+    private Language $lng;
     private ilRbacReview $rbac_review;
 
     private array $user_fields;
@@ -48,7 +51,7 @@ class ilUserProfile
         $this->lng = $DIC['lng'];
         $this->rbac_review = $DIC['rbacreview'];
 
-        $this->user_fields = (new ilUserProfileDefaultFields())->getDefaultProfileFields();
+        $this->user_fields = (new DefaultFields())->getDefaultProfileFields();
         $this->user_settings_config = new ilUserSettingsConfig();
 
         $this->skip_groups = [];
@@ -101,7 +104,7 @@ class ilUserProfile
         array $custom_fields = []
     ): void {
         $registration_settings = null;
-        if ($this->mode == self::MODE_REGISTRATION) {
+        if ($this->mode === self::MODE_REGISTRATION) {
             $registration_settings = new ilRegistrationSettings();
             $this->addRegistrationFieldsToFieldArray();
         }
@@ -303,12 +306,23 @@ class ilUserProfile
 
             case 'second_email':
             case 'email':
-                if (!$this->userSettingVisible($field_id)) {
+                $email_mandatory = $this->mode === self::MODE_REGISTRATION
+                    && $field_definition['input'] === 'email'
+                    && $registration_settings !== null
+                    && $registration_settings->passwordGenerationEnabled();
+
+                if (!$email_mandatory && !$this->userSettingVisible($field_id)) {
                     break;
                 }
 
                 $form->addItem(
-                    $this->getEmailInput($field_id, $method, $lang_var, $user)
+                    $this->getEmailInput(
+                        $field_id,
+                        $method,
+                        $lang_var,
+                        $email_mandatory,
+                        $user
+                    )
                 );
                 break;
 
@@ -342,7 +356,7 @@ class ilUserProfile
                 break;
 
             case 'noneditable':
-                if ($this->mode !== self::MODE_DESKTOP || $this->userSettingVisible($field_id)) {
+                if ($this->mode !== self::MODE_DESKTOP || !$this->userSettingVisible($field_id)) {
                     break;
                 }
 
@@ -363,6 +377,7 @@ class ilUserProfile
         ?ilObjUser $user
     ): ilFormPropertyGUI {
         $text_input = new ilTextInputGUI($this->lng->txt($lang_var), 'usr_' . $field_id);
+        $text_input->setValue('');
         if ($user !== null) {
             $text_input->setValue($user->$method() ?? '');
         }
@@ -558,7 +573,7 @@ class ilUserProfile
             if (count($options) === 1) {
                 $roles_input = new ilHiddenInputGUI('usr_' . $field_id);
                 $keys = array_keys($options);
-                $roles_input->setValue(array_shift($keys));
+                $roles_input->setValue((string) array_shift($keys));
                 return $roles_input;
             }
 
@@ -579,17 +594,18 @@ class ilUserProfile
         string $field_id,
         string $method,
         string $lang_var,
+        bool $email_mandatory,
         ?ilObjUser $user
     ): ilFormPropertyGUI {
         $email_input = new ilEMailInputGUI($this->lng->txt($lang_var), 'usr_' . $field_id);
         if ($user) {
             $email_input->setValue($user->$method());
         }
-        $email_input->setRequired((bool) $this->settings->get('require_' . $field_id));
+        $email_input->setRequired($email_mandatory || $this->settings->get('require_' . $field_id));
         if (!$email_input->getRequired() || $email_input->getValue()) {
             $email_input->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $field_id));
         }
-        if (self::MODE_REGISTRATION == $this->mode) {
+        if (self::MODE_REGISTRATION === $this->mode) {
             $email_input->setRetype(true);
         }
         return $email_input;
@@ -710,7 +726,7 @@ class ilUserProfile
             }
 
             if ($this->settings->get('require_' . $field) && $definition['method']
-                && $user->{$definition['method']}() === '') {
+                && empty($user->{$definition['method']}())) {
                 return true;
             }
         }

@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\test;
 
-use ILIAS\LegalDocuments\test\ContainerMock;
 use ILIAS\Data\Clock\ClockInterface as Clock;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\UserAction;

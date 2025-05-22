@@ -67,7 +67,7 @@ class ilPCBlogGUI extends ilPageContentGUI
         return (string) $ret;
     }
 
-    public function insert(ilPropertyFormGUI $a_form = null): void
+    public function insert(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -79,7 +79,7 @@ class ilPCBlogGUI extends ilPageContentGUI
         $tpl->setContent($a_form->getHTML());
     }
 
-    public function edit(ilPropertyFormGUI $a_form = null): void
+    public function edit(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -118,7 +118,7 @@ class ilPCBlogGUI extends ilPageContentGUI
         $form->addItem($obj);
 
         if ($a_insert) {
-            $form->addCommandButton("create_blog", $this->lng->txt("select"));
+            $form->addCommandButton("create", $this->lng->txt("select"));
             $form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
         } else {
             $obj->setValue($this->content_obj->getBlogId());
@@ -197,7 +197,7 @@ class ilPCBlogGUI extends ilPageContentGUI
      */
     public function insertPosting(
         int $a_blog_id,
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $tpl = $this->tpl;
 
@@ -214,7 +214,7 @@ class ilPCBlogGUI extends ilPageContentGUI
      */
     public function editPosting(
         int $a_blog_id,
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $tpl = $this->tpl;
 
@@ -272,7 +272,7 @@ class ilPCBlogGUI extends ilPageContentGUI
         $form->addItem($blog_id);
 
         if ($a_insert) {
-            $form->addCommandButton("create_blog", $this->lng->txt("save"));
+            $form->addCommandButton("create", $this->lng->txt("save"));
             $form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
         } else {
             $obj->setValue($this->content_obj->getPostings());

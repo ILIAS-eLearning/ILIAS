@@ -67,6 +67,7 @@ class ilContainerRenderer
     protected ?Closure $block_prefix_closure = null;
     protected ?Closure $block_postfix_closure = null;
     protected ?Closure $item_hidden_closure = null;
+    protected ?Closure $item_modifier_closure = null;
     protected \ILIAS\Container\Content\BlockSessionRepository $block_repo;
 
     public function __construct(
@@ -145,6 +146,12 @@ class ilContainerRenderer
         $this->item_hidden_closure = $f;
     }
 
+    public function setItemModifierClosure(Closure $f): void
+    {
+        $this->item_renderer->setItemModifierClosure($f);
+        $this->item_modifier_closure = $f;
+    }
+
     protected function getViewMode(): int
     {
         return $this->view_mode;
@@ -156,8 +163,8 @@ class ilContainerRenderer
 
     public function addTypeBlock(
         string $a_type,
-        string $a_prefix = null,
-        string $a_postfix = null
+        ?string $a_prefix = null,
+        ?string $a_postfix = null
     ): bool {
         if ($a_type !== "itgr" &&
             !$this->hasTypeBlock($a_type)) {
@@ -182,7 +189,7 @@ class ilContainerRenderer
     public function addCustomBlock(
         $a_id,
         string $a_caption,
-        string $a_actions = null,
+        ?string $a_actions = null,
         array $a_data = []
     ): bool {
         if (!$this->hasCustomBlock($a_id)) {
@@ -514,6 +521,13 @@ class ilContainerRenderer
         }
         return $view_mode;
     }
+
+    protected function getListPresentationOfItemGroup(int $ref_id): string
+    {
+        $item_group = new ilObjItemGroup($ref_id);
+        return $item_group->getListPresentation();
+    }
+
     /**
      * @param mixed $a_block_id
      */
@@ -671,7 +685,7 @@ class ilContainerRenderer
         ilTemplate $a_tpl,
         string $a_type = "",
         string $a_text = "",
-        array $a_types_in_block = null,
+        ?array $a_types_in_block = null,
         string $a_commands_html = "",
         string $a_order_id = "",
         array $a_data = []
@@ -731,11 +745,20 @@ class ilContainerRenderer
         }
 
         if ($a_order_id !== "") {
+            /* blocks are ordered in page editor
             $a_tpl->setVariable("BLOCK_HEADER_ORDER_NAME", "position[blocks][" . $a_order_id . "]");
             $a_tpl->setVariable("BLOCK_HEADER_ORDER_NUM", (++$this->order_cnt) * 10);
+            */
         }
 
-        $a_tpl->setVariable("BLOCK_HEADER_CONTENT", $title);
+        $presentation_title = $title;
+        $sr_only = "";
+        if (trim($title) === "") {
+            $presentation_title = $this->lng->txt("cont_no_title");
+            $sr_only = "sr-only";
+        }
+        $a_tpl->setVariable("BLOCK_HEADER_CONTENT", $presentation_title);
+        $a_tpl->setVariable("SR_ONLY", $sr_only);
         $a_tpl->setVariable("CHR_COMMANDS", $a_commands_html);
         $a_tpl->parseCurrentBlock();
     }
@@ -837,7 +860,7 @@ class ilContainerRenderer
         $block_tpl = $this->initBlockTemplate();
 
         $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);
-        foreach($this->item_presentation->getAllRefIds() as $ref_id) {
+        foreach ($this->item_presentation->getAllRefIds() as $ref_id) {
             $rd = $this->item_presentation->getRawDataByRefId($ref_id);
             $preloader->addItem($rd["obj_id"], $rd["type"], $ref_id);
             if ($rd["type"] === "sess") {
@@ -909,12 +932,19 @@ class ilContainerRenderer
                 $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_NONE;
                 if ($this->container_gui->isActiveAdministrationPanel()) {
                     $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_ADMIN;
+                } elseif ($this->container_gui->isMultiDownloadEnabled()) {
+                    $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_DOWNLOAD;
                 }
                 $item_group_list_presentation = "";
                 if ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock) {
-                    if ($this->getViewModeOfItemGroup((int) $block_id) === ilContainerContentGUI::VIEW_MODE_TILE) {
+                    if ($this->getListPresentationOfItemGroup((int) $block_id) === "tile") {
                         if (!$this->admin_panel && !$this->active_block_ordering) {
                             $item_group_list_presentation = "tile";
+                        }
+                    }
+                    if ($this->getListPresentationOfItemGroup((int) $block_id) === "list") {
+                        if (!$this->admin_panel && !$this->active_block_ordering) {
+                            $item_group_list_presentation = "list";
                         }
                     }
                 }
@@ -925,7 +955,7 @@ class ilContainerRenderer
                     $pos_prefix,
                     $item_group_list_presentation,
                     $checkbox,
-                    $this->item_presentation->isActiveItemOrdering(),
+                    $this->item_presentation->isActiveItemOrdering($item_data["type"]),
                     $this->getDetailsLevel($item_data["obj_id"])
                 );
                 if ($html != "") {

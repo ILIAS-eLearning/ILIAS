@@ -179,14 +179,14 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         foreach ($options->getOptions() as $option) {
             $position_identifiers[(string) ($option->getPosition() + 1)] = sprintf(
                 $this->lng->txt('meta_advmd_select_position_identifier'),
-                $option->getTranslationInLanguage($this->default_language)->getValue()
+                $option->getTranslationInLanguage($this->default_language)?->getValue() ?? ''
             );
         }
 
         $disabled_checkbox_overwrites = [];
 
         foreach ($options->getOptions() as $option) {
-            $option_value = $option->getTranslationInLanguage($this->default_language)->getValue();
+            $option_value = $option->getTranslationInLanguage($this->default_language)?->getValue() ?? '';
             $hidden = $this->addRadioToEntriesGroup(
                 $entries,
                 $position_identifiers,
@@ -694,9 +694,9 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         parent::delete();
     }
 
-    public function save(bool $a_keep_pos = false): void
+    public function save(bool $keep_pos_and_import_id = false, bool $keep_import_id = false): void
     {
-        parent::save($a_keep_pos);
+        parent::save($keep_pos_and_import_id, $keep_import_id);
         $this->saveOptions();
     }
 
@@ -840,7 +840,23 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
     public function getValueForXML(ilADT $element): string
     {
-        return $element->getSelection();
+        $record = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordID());
+        if (!$record->getParentObject()) {
+            return (string) $element->getSelection();
+        }
+        /**
+         * Options of imported local fields don't keep their ID,
+         * but get assigned a new ID based on order. To conserve
+         * assigments, the same logic has to be applied here.
+         */
+        $index = 1;
+        foreach ($this->options()->getOptions() as $option) {
+            if ($option->optionID() === (int) $element->getSelection()) {
+                return (string) $index;
+            }
+            $index++;
+        }
+        return '';
     }
 
     public function importValueFromXML(string $a_cdata): void
@@ -866,7 +882,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
         $default_language = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId())->getDefaultLanguage();
         foreach ($this->options()->getOptions() as $option) {
-            if ($value = $option->getTranslationInLanguage($default_language)) {
+            if ($value === $option->getTranslationInLanguage($default_language)) {
                 return (string) $option->optionID();
             }
         }

@@ -108,7 +108,7 @@ abstract class ilChatroomGUIHandler
     {
         $this->ilLng->loadLanguageModule('chatroom');
 
-        if (method_exists($this, $method)) {
+        if (is_callable([$this, $method])) {
             $this->$method();
             return;
         }
@@ -157,7 +157,7 @@ abstract class ilChatroomGUIHandler
     protected function exitIfNoRoomExists(?ilChatroom $room): void
     {
         if (null === $room) {
-            $this->sendResponse([
+            $this->sendJSONResponse([
                 'success' => false,
                 'reason' => 'unknown room',
             ]);
@@ -165,15 +165,22 @@ abstract class ilChatroomGUIHandler
     }
 
     /**
-     * Sends a json encoded response and exits the php process
-     * @param mixed $response
+     * Sends a json encoded response and exits the php process.
      */
-    public function sendResponse($response, bool $isJson = false): void
+    protected function sendJSONResponse($response): void
+    {
+        $this->sendResponse(json_encode($response), 'application/json');
+    }
+
+    /**
+     * Sends a response and exits the php process.
+     */
+    protected function sendResponse(string $content, string $type): void
     {
         $this->http->saveResponse(
             $this->http->response()
-                ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
-                ->withBody(Streams::ofString($isJson ? $response : json_encode($response, JSON_THROW_ON_ERROR)))
+                ->withHeader(ResponseHeader::CONTENT_TYPE, $type)
+                ->withBody(Streams::ofString($content))
         );
         $this->http->sendResponse();
         $this->http->close();

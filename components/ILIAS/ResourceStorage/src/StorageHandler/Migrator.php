@@ -31,24 +31,12 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
 class Migrator
 {
     protected bool $clean_up = true;
-    private StorageHandlerFactory $handler_factory;
-    protected ResourceBuilder $resource_builder;
-    private \ilDBInterface $database;
-    protected string $filesystem_base_path;
 
     /**
      * Migrator constructor.
      */
-    public function __construct(
-        StorageHandlerFactory $handler_factory,
-        ResourceBuilder $resource_builder,
-        \ilDBInterface $database,
-        string $filesystem_base_path
-    ) {
-        $this->handler_factory = $handler_factory;
-        $this->resource_builder = $resource_builder;
-        $this->database = $database;
-        $this->filesystem_base_path = $filesystem_base_path;
+    public function __construct(private StorageHandlerFactory $handler_factory, protected ResourceBuilder $resource_builder, private \ilDBInterface $database, protected string $filesystem_base_path)
+    {
     }
 
     public function migrate(StorableResource $resource, string $to_handler_id): bool
@@ -110,10 +98,12 @@ class Migrator
         $dir = opendir($path_to_source_dir);
 
         while (($name = readdir($dir)) !== false) {
-            if ($name === '.' || $name === '..') {
+            if ($name === '.') {
                 continue;
             }
-
+            if ($name === '..') {
+                continue;
+            }
             $src_path = $path_to_source_dir . '/' . $name;
             $dest_path = $path_to_destination_dir . '/' . $name;
 

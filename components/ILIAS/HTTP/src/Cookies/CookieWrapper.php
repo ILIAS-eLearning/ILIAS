@@ -1,22 +1,26 @@
 <?php
 
-namespace ILIAS\HTTP\Cookies;
-
-use Dflydev\FigCookies\SetCookie;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+namespace ILIAS\HTTP\Cookies;
+
+use Dflydev\FigCookies\SetCookie;
+use Dflydev\FigCookies\Modifier\SameSite;
+
 /**
  * Class CookieWrapper
  * Facade class for the FigCookies SetCookie class.
@@ -27,14 +31,11 @@ use Dflydev\FigCookies\SetCookie;
  */
 class CookieWrapper implements Cookie
 {
-    private SetCookie $cookie;
-
     /**
      * CookieFacade constructor.
      */
-    public function __construct(SetCookie $cookie)
+    public function __construct(private SetCookie $cookie)
     {
-        $this->cookie = $cookie;
     }
 
     /**
@@ -101,10 +102,16 @@ class CookieWrapper implements Cookie
         return $this->cookie->getHttpOnly();
     }
 
+    public function getSamesite(): ?string
+    {
+        $samesite = $this->cookie->getSameSite();
+        return is_null($samesite) ? null : $samesite->asString();
+    }
+
     /**
      * @inheritDoc
      */
-    public function withValue(string $value = null): Cookie
+    public function withValue(?string $value = null): Cookie
     {
         $clone = clone $this;
         $clone->cookie = $this->cookie->withValue($value);
@@ -148,7 +155,7 @@ class CookieWrapper implements Cookie
     /**
      * @inheritDoc
      */
-    public function withMaxAge(int $maxAge = null): Cookie
+    public function withMaxAge(?int $maxAge = null): Cookie
     {
         $clone = clone $this;
         $clone->cookie = $this->cookie->withMaxAge($maxAge);
@@ -159,7 +166,7 @@ class CookieWrapper implements Cookie
     /**
      * @inheritDoc
      */
-    public function withPath(string $path = null): Cookie
+    public function withPath(?string $path = null): Cookie
     {
         $clone = clone $this;
         $clone->cookie = $this->cookie->withPath($path);
@@ -170,7 +177,7 @@ class CookieWrapper implements Cookie
     /**
      * @inheritDoc
      */
-    public function withDomain(string $domain = null): Cookie
+    public function withDomain(?string $domain = null): Cookie
     {
         $clone = clone $this;
         $clone->cookie = $this->cookie->withDomain($domain);
@@ -181,7 +188,7 @@ class CookieWrapper implements Cookie
     /**
      * @inheritDoc
      */
-    public function withSecure(bool $secure = null): Cookie
+    public function withSecure(?bool $secure = null): Cookie
     {
         $clone = clone $this;
         $clone->cookie = $this->cookie->withSecure($secure);
@@ -192,10 +199,18 @@ class CookieWrapper implements Cookie
     /**
      * @inheritDoc
      */
-    public function withHttpOnly(bool $httpOnly = null): Cookie
+    public function withHttpOnly(?bool $httpOnly = null): Cookie
     {
         $clone = clone $this;
         $clone->cookie = $this->cookie->withHttpOnly($httpOnly);
+
+        return $clone;
+    }
+
+    public function withSamesite(string $sameSite): Cookie
+    {
+        $clone = clone $this;
+        $clone->cookie = $this->cookie->withSameSite(SameSite::fromString($sameSite));
 
         return $clone;
     }

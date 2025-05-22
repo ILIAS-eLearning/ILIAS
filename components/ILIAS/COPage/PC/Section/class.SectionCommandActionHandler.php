@@ -79,6 +79,8 @@ class SectionCommandActionHandler implements Server\CommandActionHandler
         $sec = new \ilPCSection($page);
         $sec->create($page, $hier_id, $pc_id);
         $sec_gui = new \ilPCSectionGUI($page, $sec, "", "");
+        $sec_gui->setStyleId($this->page_gui->getStyleId());
+        $sec_gui->getCharacteristicsOfCurrentStyle(["section"]);
         $sec_gui->setPageConfig($page->getPageConfig());
 
         $form = $sec_gui->initForm(true);
@@ -114,6 +116,7 @@ class SectionCommandActionHandler implements Server\CommandActionHandler
         $sec = $page->getContentObjectForPcId($body["pcid"]);
         $sec_gui = new \ilPCSectionGUI($page, $sec, $hier_id, $body["pcid"]);
         $sec_gui->setStyleId($this->page_gui->getStyleId());
+        $sec_gui->getCharacteristicsOfCurrentStyle(["section"]);
         $sec_gui->setPageConfig($page->getPageConfig());
 
         $form = $sec_gui->initForm(false);

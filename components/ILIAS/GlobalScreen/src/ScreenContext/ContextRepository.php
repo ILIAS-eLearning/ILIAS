@@ -23,7 +23,6 @@ namespace ILIAS\GlobalScreen\ScreenContext;
 use ILIAS\Data\ReferenceId;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory;
-use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 /**
  * The Collection of all available Contexts in the System. You can use them in
@@ -35,10 +34,25 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 final class ContextRepository
 {
     private array $contexts = [];
+    /**
+     * @var string
+     */
     private const C_MAIN = 'main';
+    /**
+     * @var string
+     */
     private const C_DESKTOP = 'desktop';
+    /**
+     * @var string
+     */
     private const C_REPO = 'repo';
+    /**
+     * @var string
+     */
     private const C_ADMINISTRATION = 'administration';
+    /**
+     * @var string
+     */
     private const C_LTI = 'lti';
 
     protected WrapperFactory $wrapper;
@@ -78,7 +92,7 @@ final class ContextRepository
             ? $this->wrapper->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int())
             : null;
         if ($ref_id) {
-            $context = $context->withReferenceId(new ReferenceId($ref_id));
+            return $context->withReferenceId(new ReferenceId($ref_id));
         }
 
         return $context;

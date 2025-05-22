@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\FileDelivery\Delivery\ResponseBuilder;
 
 use Psr\Http\Message\ResponseInterface;
-use ILIAS\FileDelivery\Token\Data\Stream;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\HTTP\Response\ResponseHeader;
 use Psr\Http\Message\ServerRequestInterface;
@@ -43,7 +42,8 @@ class PHPResponseBuilder implements ResponseBuilder
         FileStream $stream,
     ): ResponseInterface {
         $response = $this->buildHeaders($response, $stream);
-        if (isset($request->getServerParams()['HTTP_RANGE'])) {
+        $server_params = $request->getServerParams();
+        if (isset($server_params['HTTP_RANGE']) && $this->supportPartial()) {
             return $this->deliverPartial($request, $response, $stream);
         }
         return $this->deliverFull($response, $stream);
@@ -54,8 +54,10 @@ class PHPResponseBuilder implements ResponseBuilder
         FileStream $stream
     ): ResponseInterface {
         $uri = $stream->getMetadata('uri');
+        if ($this->supportPartial()) {
+            $response = $response->withHeader(ResponseHeader::ACCEPT_RANGES, 'bytes');
+        }
 
-        $response = $response->withHeader(ResponseHeader::ACCEPT_RANGES, 'bytes');
         $response = $response->withHeader(ResponseHeader::CONTENT_LENGTH, $stream->getSize());
         try {
             $response = $response->withHeader(
@@ -65,13 +67,14 @@ class PHPResponseBuilder implements ResponseBuilder
         } catch (\Throwable) {
         }
 
-        return $response->withHeader(ResponseHeader::ETAG, md5($uri));
+        return $response->withHeader(ResponseHeader::ETAG, md5((string) $uri));
     }
 
     protected function deliverFull(
         ResponseInterface $response,
         FileStream $stream,
     ): ResponseInterface {
+        $stream->rewind();
         return $response->withBody($stream);
     }
 
@@ -80,7 +83,7 @@ class PHPResponseBuilder implements ResponseBuilder
         ResponseInterface $response,
         FileStream $stream,
     ): ResponseInterface {
-        if (!$this->support_partial) {
+        if (!$this->supportPartial()) {
             return $response;
         }
         $server_params = $request->getServerParams();
@@ -88,17 +91,22 @@ class PHPResponseBuilder implements ResponseBuilder
         $byte_offset = 0;
         $byte_length = $content_length = $stream->getSize();
 
-        if (isset($server_params['HTTP_RANGE']) && preg_match('%bytes=(\d+)-(\d+)?%i', $server['HTTP_RANGE'], $match)) {
+        if (isset($server_params['HTTP_RANGE']) && preg_match(
+            '%bytes=(\d+)-(\d+)?%i',
+            (string) $server_params['HTTP_RANGE'],
+            $match
+        )) {
             $byte_offset = (int) $match[1];
             if (isset($match[2])) {
                 $finish_bytes = (int) $match[2];
                 $byte_length = $finish_bytes + 1;
             } else {
-                $finish_bytes = $content_length - 1;
+                $finish_bytes = $content_length;
             }
             $response = $response->withStatus(206, 'Partial Content');
             $response = $response->withHeader(
-                ResponseHeader::CONTENT_RANGE, "bytes {$byte_offset}-{$finish_bytes}/{$content_length}"
+                ResponseHeader::CONTENT_RANGE,
+                "bytes {$byte_offset}-{$finish_bytes}/{$content_length}"
             );
         }
 
@@ -126,6 +134,11 @@ class PHPResponseBuilder implements ResponseBuilder
         }
 
         return $response;
+    }
+
+    public function supportPartial(): bool
+    {
+        return true;
     }
 
     public function supportStreaming(): bool

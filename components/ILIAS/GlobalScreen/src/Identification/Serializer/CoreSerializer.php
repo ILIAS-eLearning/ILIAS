@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Identification\Serializer;
 
@@ -51,7 +52,7 @@ class CoreSerializer implements SerializerInterface
      */
     public function unserialize(string $serialized_string, IdentificationMap $map, ProviderFactory $provider_factory): IdentificationInterface
     {
-        list($class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
+        [$class_name, $internal_identifier] = explode(self::DIVIDER, $serialized_string);
 
         if (!$provider_factory->isInstanceCreationPossible($class_name) || !$provider_factory->isRegistered($class_name)) {
             return new LostIdentification($serialized_string);

@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
+use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
 
@@ -34,9 +37,21 @@ use ILIAS\Refinery\Random\Seed\RandomSeed;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
+class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable
 {
+    public const MT_TERMS_PICTURES = 0;
+    public const MT_TERMS_DEFINITIONS = 1;
+
+    public const MATCHING_MODE_1_ON_1 = '1:1';
+    public const MATCHING_MODE_N_ON_N = 'n:n';
+
+    public int $thumb_geometry = 100;
     private int $shufflemode = 0;
+    public int $element_height;
+    public int $matching_type;
+    protected string $matching_mode = self::MATCHING_MODE_1_ON_1;
+
+    private RandomGroup $randomGroup;
 
     /**
     * The possible matching pairs of the matching question
@@ -46,47 +61,16 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @var array
     */
     public $matchingpairs;
-    /**
-    * Type of matching question
-    *
-    * There are two possible types of matching questions: Matching terms and definitions (=1)
-    * and Matching terms and pictures (=0).
-    *
-    * @var integer
-    */
-    public $matching_type;
 
     /**
-    * The terms of the matching question
-    *
-    * @var assAnswerMatchingTerm[]
+    * @var array<assAnswerMatchingTerm>
     */
     protected array $terms = [];
 
-    protected $definitions;
     /**
-    * Maximum thumbnail geometry
-    *
-    * @var integer
+    * @var array<assAnswerMatchingDefinition>
     */
-    public $thumb_geometry = 100;
-
-    /**
-    * Minimum element height
-    *
-    * @var integer
-    */
-    public $element_height;
-
-    public const MT_TERMS_PICTURES = 0;
-    public const MT_TERMS_DEFINITIONS = 1;
-
-    public const MATCHING_MODE_1_ON_1 = '1:1';
-    public const MATCHING_MODE_N_ON_N = 'n:n';
-
-    protected $matchingMode = self::MATCHING_MODE_1_ON_1;
-
-    private RandomGroup $randomGroup;
+    protected array $definitions = [];
 
     /**
      * assMatchingQuestion constructor
@@ -128,11 +112,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->shufflemode = $shuffle;
     }
 
-    /**
-    * Returns true, if a matching question is complete for use
-    *
-    * @return boolean True, if the matching question is complete for use, otherwise false
-    */
     public function isComplete(): bool
     {
         if (strlen($this->title)
@@ -146,20 +125,9 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return false;
     }
 
-    /**
-     * Saves a assMatchingQuestion object to a database
-     *
-     * @param string $original_id
-     *
-     */
-    public function saveToDb($original_id = ""): void
+    public function saveToDb(?int $original_id = null): void
     {
-        if ($original_id == "") {
-            $this->saveQuestionDataToDb();
-        } else {
-            $this->saveQuestionDataToDb($original_id);
-        }
-
+        $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
         $this->saveAnswerSpecificDataToDb();
 
@@ -275,19 +243,19 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         if ($result->numRows() == 1) {
             $data = $this->db->fetchAssoc($result);
-            $this->setId((int)$question_id);
-            $this->setObjId((int)$data["obj_fi"]);
+            $this->setId((int) $question_id);
+            $this->setObjId((int) $data["obj_fi"]);
             $this->setTitle((string) $data["title"]);
             $this->setComment((string) $data["description"]);
-            $this->setOriginalId((int)$data["original_id"]);
-            $this->setNrOfTries((int)$data['nr_of_tries']);
+            $this->setOriginalId((int) $data["original_id"]);
+            $this->setNrOfTries((int) $data['nr_of_tries']);
             $this->setAuthor($data["author"]);
-            $this->setPoints((float)$data["points"]);
-            $this->setOwner((int)$data["owner"]);
+            $this->setPoints((float) $data["points"]);
+            $this->setOwner((int) $data["owner"]);
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
-            $this->setThumbGeometry((int)$data["thumb_geometry"]);
+            $this->setThumbGeometry((int) $data["thumb_geometry"]);
             $this->setShuffle($data["shuffle"] != '0');
-            $this->setShuffleMode((int)$data['shuffle']);
+            $this->setShuffleMode((int) $data['shuffle']);
             $this->setMatchingMode($data['matching_mode'] === null ? self::MATCHING_MODE_1_ON_1 : $data['matching_mode']);
 
             try {
@@ -311,7 +279,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->terms = [];
         if ($result->numRows() > 0) {
             while ($data = $this->db->fetchAssoc($result)) {
-                $term = $this->createMatchingTerm($data['term'] ?? '', $data['picture'] ?? '', (int)$data['ident']);
+                $term = $this->createMatchingTerm($data['term'] ?? '', $data['picture'] ?? '', (int) $data['ident']);
                 $this->terms[] = $term;
                 $termids[$data['term_id']] = $term;
             }
@@ -327,7 +295,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->definitions = [];
         if ($result->numRows() > 0) {
             while ($data = $this->db->fetchAssoc($result)) {
-                $definition = $this->createMatchingDefinition($data['definition'] ?? '', $data['picture'] ?? '', (int)$data['ident']);
+                $definition = $this->createMatchingDefinition($data['definition'] ?? '', $data['picture'] ?? '', (int) $data['ident']);
                 array_push($this->definitions, $definition);
                 $definitionids[$data['def_id']] = $definition;
             }
@@ -344,212 +312,75 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 $pair = $this->createMatchingPair(
                     $termids[$data['term_fi']],
                     $definitionids[$data['definition_fi']],
-                    (float)$data['points']
+                    (float) $data['points']
                 );
                 array_push($this->matchingpairs, $pair);
             }
         }
-        parent::loadFromDb((int)$question_id);
+        parent::loadFromDb((int) $question_id);
     }
 
+    protected function cloneQuestionTypeSpecificProperties(
+        \assQuestion $target
+    ): \assQuestion {
+        $target->cloneImages($this->getId(), $this->getObjId(), $target->getId(), $target->getObjId());
+        return $target;
+    }
 
-    /**
-    * Duplicates an assMatchingQuestion
-    */
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
-    {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return -1;
-        }
-        // duplicate the question in database
-        $this_id = $this->getId();
-        $thisObjId = $this->getObjId();
+    private function cloneImages(
+        int $source_question_id,
+        int $source_parent_id,
+        int $target_question_id,
+        int $target_parent_id
+    ): void {
+        $image_source_path = $this->getImagePath($source_question_id, $source_parent_id);
+        $image_target_path = $this->getImagePath($target_question_id, $target_parent_id);
 
-        $clone = $this;
-
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-
-        if ((int) $testObjId > 0) {
-            $clone->setObjId($testObjId);
-        }
-
-        if ($title) {
-            $clone->setTitle($title);
-        }
-        if ($author) {
-            $clone->setAuthor($author);
-        }
-        if ($owner) {
-            $clone->setOwner((int) $owner);
-        }
-        if ($for_test) {
-            $clone->saveToDb($original_id);
+        if (!file_exists($image_target_path)) {
+            ilFileUtils::makeDirParents($image_target_path);
         } else {
-            $clone->saveToDb();
-        }
-
-        // copy question page content
-        $clone->copyPageOfQuestion($this_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($this_id);
-        // duplicate the image
-        $clone->duplicateImages($this_id, $thisObjId, $clone->getId(), $testObjId);
-
-        $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
-    /**
-    * Copies an assMatchingQuestion
-    */
-    public function copyObject($target_questionpool_id, $title = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-        // duplicate the question in database
-        $clone = $this;
-
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-        $source_questionpool_id = $this->getObjId();
-        $clone->setObjId($target_questionpool_id);
-        if ($title) {
-            $clone->setTitle($title);
-        }
-        $clone->saveToDb();
-        // copy question page content
-        $clone->copyPageOfQuestion($original_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
-        // duplicate the image
-        $clone->copyImages($original_id, $source_questionpool_id);
-
-        $clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-
-        $sourceQuestionId = $this->id;
-        $sourceParentId = $this->getObjId();
-
-        // duplicate the question in database
-        $clone = $this;
-        $clone->id = -1;
-
-        $clone->setObjId($targetParentId);
-
-        if ($targetQuestionTitle) {
-            $clone->setTitle($targetQuestionTitle);
-        }
-
-        $clone->saveToDb();
-        // copy question page content
-        $clone->copyPageOfQuestion($sourceQuestionId);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($sourceQuestionId);
-        // duplicate the image
-        $clone->copyImages($sourceQuestionId, $sourceParentId);
-
-        $clone->onCopy($sourceParentId, $sourceQuestionId, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
-    public function duplicateImages($question_id, $objectId = null): void
-    {
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
-        $imagepath = $this->getImagePath();
-        $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
-
-        if ((int) $objectId > 0) {
-            $imagepath_original = str_replace("/$this->obj_id/", "/$objectId/", $imagepath_original);
+            $this->removeAllImageFiles($image_target_path);
         }
 
         foreach ($this->terms as $term) {
-            if (strlen($term->getPicture())) {
-                $filename = $term->getPicture();
-                if (!file_exists($imagepath)) {
-                    ilFileUtils::makeDirParents($imagepath);
-                }
-                if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
-                    $ilLog->write("matching question image could not be duplicated: $imagepath_original$filename");
-                }
-                if (@file_exists($imagepath_original . $this->getThumbPrefix() . $filename)) {
-                    if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
-                        $ilLog->write("matching question image thumbnail could not be duplicated: $imagepath_original" . $this->getThumbPrefix() . $filename);
-                    }
-                }
+            if ($term->getPicture() === '') {
+                continue;
+            }
+
+            $filename = $term->getPicture();
+            if (!file_exists($image_source_path . $filename)
+                || !copy($image_source_path . $filename, $image_target_path . $filename)) {
+                $this->log->root()->warning('matching question image could not be copied: '
+                    . $image_source_path . $filename);
+            }
+            if (!file_exists($image_source_path . $this->getThumbPrefix() . $filename)
+                || !copy(
+                    $image_source_path . $this->getThumbPrefix() . $filename,
+                    $image_target_path . $this->getThumbPrefix() . $filename
+                )) {
+                $this->log->root()->warning('matching question image thumbnail could not be copied: '
+                    . $image_source_path . $this->getThumbPrefix() . $filename);
             }
         }
         foreach ($this->definitions as $definition) {
-            if (strlen($definition->getPicture())) {
-                $filename = $definition->getPicture();
-                if (!file_exists($imagepath)) {
-                    ilFileUtils::makeDirParents($imagepath);
-                }
-                if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
-                    $ilLog->write("matching question image could not be duplicated: $imagepath_original$filename");
-                }
-                if (@file_exists($imagepath_original . $this->getThumbPrefix() . $filename)) {
-                    if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
-                        $ilLog->write("matching question image thumbnail could not be duplicated: $imagepath_original" . $this->getThumbPrefix() . $filename);
-                    }
-                }
+            if ($definition->getPicture() === '') {
+                continue;
             }
-        }
-    }
+            $filename = $definition->getPicture();
 
-    public function copyImages($question_id, $source_questionpool): void
-    {
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
-
-        $imagepath = $this->getImagePath();
-        $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
-        $imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
-        foreach ($this->terms as $term) {
-            if (strlen($term->getPicture())) {
-                if (!file_exists($imagepath)) {
-                    ilFileUtils::makeDirParents($imagepath);
-                }
-                $filename = $term->getPicture();
-                if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
-                    $ilLog->write("matching question image could not be copied: $imagepath_original$filename");
-                }
-                if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
-                    $ilLog->write("matching question image thumbnail could not be copied: $imagepath_original" . $this->getThumbPrefix() . $filename);
-                }
+            if (!file_exists($image_source_path . $filename)
+                || !copy($image_source_path . $filename, $image_target_path . $filename)) {
+                $this->log->root()->warning('matching question image could not be copied: '
+                    . $image_source_path . $filename);
             }
-        }
-        foreach ($this->definitions as $definition) {
-            if (strlen($definition->getPicture())) {
-                $filename = $definition->getPicture();
-                if (!file_exists($imagepath)) {
-                    ilFileUtils::makeDirParents($imagepath);
-                }
 
-                if (assQuestion::isFileAvailable($imagepath_original . $filename)) {
-                    copy($imagepath_original . $filename, $imagepath . $filename);
-                } else {
-                    $ilLog->write("matching question image could not be copied: $imagepath_original$filename");
-                }
-
-                if (assQuestion::isFileAvailable($imagepath_original . $this->getThumbPrefix() . $filename)) {
-                    copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename);
-                } else {
-                    $ilLog->write("matching question image thumbnail could not be copied: $imagepath_original" . $this->getThumbPrefix() . $filename);
-                }
+            if (!file_exists($image_source_path . $this->getThumbPrefix() . $filename)
+                || !copy(
+                    $image_source_path . $this->getThumbPrefix() . $filename,
+                    $image_target_path . $this->getThumbPrefix() . $filename
+                )) {
+                $this->log->root()->warning('matching question image thumbnail could not be copied: '
+                    . $image_source_path . $this->getThumbPrefix() . $filename);
             }
         }
     }
@@ -588,7 +419,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      *
      * @see $matchingpairs
      */
-    public function addMatchingPair(assAnswerMatchingTerm $term = null, assAnswerMatchingDefinition $definition = null, $points = 0.0): void
+    public function addMatchingPair(?assAnswerMatchingTerm $term = null, ?assAnswerMatchingDefinition $definition = null, $points = 0.0): void
     {
         $pair = $this->createMatchingPair($term, $definition, $points);
         array_push($this->matchingpairs, $pair);
@@ -761,7 +592,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param string $term The text of the term
     * @see $terms
     */
-    public function insertTerm($position, assAnswerMatchingTerm $term = null): void
+    public function insertTerm($position, ?assAnswerMatchingTerm $term = null): void
     {
         if (is_null($term)) {
             $term = $this->createMatchingTerm();
@@ -781,7 +612,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param object $definition The definition
     * @see $definitions
     */
-    public function insertDefinition($position, assAnswerMatchingDefinition $definition = null): void
+    public function insertDefinition($position, ?assAnswerMatchingDefinition $definition = null): void
     {
         if (is_null($definition)) {
             $definition = $this->createMatchingDefinition();
@@ -849,35 +680,26 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->terms[$index] = $term;
     }
 
-    /**
-     * Returns the points, a learner has reached answering the question.
-     * The points are calculated from the given answers.
-     *
-     * @access public
-     * @param integer $active_id
-     * @param integer $pass
-     * @param boolean $returndetails (deprecated !!)
-     * @return integer/array $points/$details (array $details is deprecated !!)
-     */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
-    {
-        if ($returndetails) {
-            throw new ilTestException('return details not implemented for ' . __METHOD__);
-        }
-
+    public function calculateReachedPoints(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized_solution = true
+    ): float {
         $found_values = [];
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
-        $result = $this->getCurrentSolutionResultSet($active_id, (int)$pass, $authorizedSolution);
+        $result = $this->getCurrentSolutionResultSet($active_id, (int) $pass, $authorized_solution);
         while ($data = $this->db->fetchAssoc($result)) {
-            if (strcmp($data["value1"], "") != 0) {
-                if (!isset($found_values[$data['value2']])) {
-                    $found_values[$data['value2']] = [];
-                }
-
-                $found_values[$data['value2']][] = $data['value1'];
+            if ($data['value1'] === '') {
+                continue;
             }
+
+            if (!isset($found_values[$data['value2']])) {
+                $found_values[$data['value2']] = [];
+            }
+
+            $found_values[$data['value2']][] = $data['value1'];
         }
 
         $points = $this->calculateReachedPointsForSolution($found_values);
@@ -1019,64 +841,50 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $result;
     }
 
-    /**
-    * Sets the image file and uploads the image to the object's image directory.
-    *
-    * @param string $image_filename Name of the original image file
-    * @param string $image_tempfilename Name of the temporary uploaded image file
-    * @return integer An errorcode if the image upload fails, 0 otherwise
-    * @access public
-    */
-    public function setImageFile($image_tempfilename, $image_filename, $previous_filename = '')
-    {
+    public function setImageFile(
+        string $image_tempfilename,
+        string $image_filename,
+        string $previous_filename = ''
+    ): bool {
         $result = true;
-        if (strlen($image_tempfilename)) {
-            $image_filename = str_replace(" ", "_", $image_filename);
-            $imagepath = $this->getImagePath();
-            if (!file_exists($imagepath)) {
-                ilFileUtils::makeDirParents($imagepath);
-            }
-            $savename = $image_filename;
-            if (!ilFileUtils::moveUploadedFile($image_tempfilename, $savename, $imagepath . $savename)) {
-                $result = false;
-            } else {
-                // create thumbnail file
-                $thumbpath = $imagepath . $this->getThumbPrefix() . $savename;
-                ilShellUtil::convertImage($imagepath . $savename, $thumbpath, "JPEG", (string)$this->getThumbGeometry());
-            }
-            if ($result && (strcmp($image_filename, $previous_filename) != 0) && (strlen($previous_filename))) {
-                $this->deleteImagefile($previous_filename);
-            }
+        if ($image_tempfilename === '') {
+            return true;
+        }
+
+        $image_filename = str_replace(' ', '_', $image_filename);
+        $imagepath = $this->getImagePath();
+        if (!file_exists($imagepath)) {
+            ilFileUtils::makeDirParents($imagepath);
+        }
+
+        if (!ilFileUtils::moveUploadedFile(
+            $image_tempfilename,
+            $image_filename,
+            $imagepath . $image_filename
+        )
+        ) {
+            return false;
+        }
+
+        // create thumbnail file
+        $thumbpath = $imagepath . $this->getThumbPrefix() . $image_filename;
+        ilShellUtil::convertImage(
+            $imagepath . $image_filename,
+            $thumbpath,
+            'JPEG',
+            (string) $this->getThumbGeometry()
+        );
+
+        if ($result
+            && $image_filename !== $previous_filename
+            && $previous_filename !== ''
+        ) {
+            $this->deleteImagefile($previous_filename);
         }
         return $result;
     }
 
-    private function fetchSubmittedMatchingsFromPost(): array
-    {
-        $request = $this->dic->testQuestionPool()->internal()->request();
-        $post = $request->getParsedBody();
-
-        $matchings = [];
-        if (array_key_exists('matching', $post)) {
-            $postData = $post['matching'][$this->getId()];
-            foreach ($this->getDefinitions() as $definition) {
-                if (isset($postData[$definition->getIdentifier()])) {
-                    foreach ($this->getTerms() as $term) {
-                        if (isset($postData[$definition->getIdentifier()][$term->getIdentifier()])) {
-                            if (!is_array($postData[$definition->getIdentifier()])) {
-                                $postData[$definition->getIdentifier()] = [];
-                            }
-                            $matchings[$definition->getIdentifier()][] = $term->getIdentifier();
-                        }
-                    }
-                }
-            }
-        }
-
-        return $matchings;
-    }
-
-    private function checkSubmittedMatchings($submittedMatchings): bool
+    private function checkSubmittedMatchings(array $submitted_matchings): bool
     {
         if ($this->getMatchingMode() == self::MATCHING_MODE_N_ON_N) {
             return true;
@@ -1084,7 +892,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $handledTerms = [];
 
-        foreach ($submittedMatchings as $definition => $terms) {
+        foreach ($submitted_matchings as $terms) {
             if (count($terms) > 1) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("multiple_matching_values_selected"), true);
                 return false;
@@ -1103,67 +911,40 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return true;
     }
 
-    /**
-     * Saves the learners input of the question to the database.
-     *
-     * @access public
-     * @param integer $active_id Active id of the user
-     * @param integer $pass Test pass
-     * @return boolean $status
-     */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
-    {
-        $submittedMatchings = $this->fetchSubmittedMatchingsFromPost();
-        $submittedMatchingsValid = $this->checkSubmittedMatchings($submittedMatchings);
+    public function saveWorkingData(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized = true
+    ): bool {
+        if ($pass === null) {
+            $pass = ilObjTest::_getPass($active_id);
+        }
 
-        $matchingsExist = false;
+        $submitted_matchings = $this->questionpool_request->getMatchingPairs();
+        if (!$this->checkSubmittedMatchings($submitted_matchings)) {
+            return false;
+        }
 
-        if ($submittedMatchingsValid) {
-            if (is_null($pass)) {
-                $pass = ilObjTest::_getPass($active_id);
-            }
-
-            $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$matchingsExist, $submittedMatchings, $active_id, $pass, $authorized) {
+        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
+            function () use ($submitted_matchings, $active_id, $pass, $authorized) {
                 $this->removeCurrentSolution($active_id, $pass, $authorized);
-
-                foreach ($submittedMatchings as $definition => $terms) {
+                foreach ($submitted_matchings as $definition => $terms) {
                     foreach ($terms as $i => $term) {
                         $this->saveCurrentSolution($active_id, $pass, $term, $definition, $authorized);
-                        $matchingsExist = true;
                     }
                 }
-            });
-
-            $saveWorkingDataResult = true;
-        } else {
-            $saveWorkingDataResult = false;
-        }
-
-        if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-            if ($matchingsExist) {
-                assQuestion::logAction($this->lng->txtlng(
-                    "assessment",
-                    "log_user_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()
-                ), $active_id, $this->getId());
-            } else {
-                assQuestion::logAction($this->lng->txtlng(
-                    "assessment",
-                    "log_user_not_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()
-                ), $active_id, $this->getId());
             }
-        }
+        );
 
-        return $saveWorkingDataResult;
+        return true;
     }
 
     protected function savePreviewData(ilAssQuestionPreviewSession $previewSession): void
     {
-        $submittedMatchings = $this->fetchSubmittedMatchingsFromPost();
+        $submitted_matchings = $this->questionpool_request->getMatchingPairs();
 
-        if ($this->checkSubmittedMatchings($submittedMatchings)) {
-            $previewSession->setParticipantsSolution($submittedMatchings);
+        if ($this->checkSubmittedMatchings($submitted_matchings)) {
+            $previewSession->setParticipantsSolution($submitted_matchings);
         }
     }
 
@@ -1221,48 +1002,9 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
     * Returns the matchingpairs array
     */
-    public function &getMatchingPairs(): array
+    public function getMatchingPairs(): array
     {
         return $this->matchingpairs;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setExportDetailsXLSX(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
-    {
-        parent::setExportDetailsXLSX($worksheet, $startrow, $col, $active_id, $pass);
-
-        $solutions = $this->getSolutionValues($active_id, $pass);
-
-        $imagepath = $this->getImagePath();
-        $i = 1;
-        foreach ($solutions as $solution) {
-            $matches_written = false;
-            foreach ($this->getMatchingPairs() as $idx => $pair) {
-                if (!$matches_written) {
-                    $worksheet->setCell($startrow + $i, $col + 1, $this->lng->txt("matches"));
-                }
-                $matches_written = true;
-                if ($pair->getDefinition()->getIdentifier() == $solution["value2"]) {
-                    if (strlen($pair->getDefinition()->getText())) {
-                        $worksheet->setCell($startrow + $i, $col, $pair->getDefinition()->getText());
-                    } else {
-                        $worksheet->setCell($startrow + $i, $col, $pair->getDefinition()->getPicture());
-                    }
-                }
-                if ($pair->getTerm()->getIdentifier() == $solution["value1"]) {
-                    if (strlen($pair->getTerm()->getText())) {
-                        $worksheet->setCell($startrow + $i, $col + 2, $pair->getTerm()->getText());
-                    } else {
-                        $worksheet->setCell($startrow + $i, $col + 2, $pair->getTerm()->getPicture());
-                    }
-                }
-            }
-            $i++;
-        }
-
-        return $startrow + $i + 1;
     }
 
     /**
@@ -1373,7 +1115,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = $this->getTitle();
+        $result['title'] = $this->getTitleForHTMLOutput();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = $this->getNrOfTries();
         $result['matching_mode'] = $this->getMatchingMode();
@@ -1393,6 +1135,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             ];
         }
         $result['terms'] = $terms;
+
+        $this->setShuffler($this->randomGroup->shuffleArray(new RandomSeed()));
 
         $definitions = [];
         foreach ($this->getShuffler()->transform($this->getDefinitions()) as $def) {
@@ -1437,24 +1181,20 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return json_encode($result);
     }
 
-    public function setMatchingMode($matchingMode): void
+    public function setMatchingMode(string $matching_mode): void
     {
-        $this->matchingMode = $matchingMode;
+        $this->matching_mode = $matching_mode;
     }
 
     public function getMatchingMode(): string
     {
-        return $this->matchingMode;
+        return $this->matching_mode;
     }
 
-    /**
-     * @param $found_values
-     * @return float
-     */
-    protected function calculateReachedPointsForSolution($found_values): float
+    protected function calculateReachedPointsForSolution(?array $found_values): float
     {
-        $points = 0;
-        if (! is_array($found_values)) {
+        $points = 0.0;
+        if (!is_array($found_values)) {
             return $points;
         }
         foreach ($found_values as $definition => $terms) {
@@ -1463,7 +1203,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
             foreach ($terms as $term) {
                 foreach ($this->matchingpairs as $pair) {
-                    if ($pair->getDefinition()->getIdentifier() == $definition && $pair->getTerm()->getIdentifier() == $term) {
+                    if ($pair->getDefinition()->getIdentifier() == $definition
+                        && $pair->getTerm()->getIdentifier() == $term) {
                         $points += $pair->getPoints();
                     }
                 }
@@ -1472,23 +1213,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $points;
     }
 
-    /**
-     * Get all available operations for a specific question
-     *
-     * @param $expression
-     *
-     * @internal param string $expression_type
-     * @return array
-     */
-    public function getOperators($expression): array
+    public function getOperators(string $expression): array
     {
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
     }
 
-    /**
-     * Get all available expression types for a specific question
-     * @return array
-     */
     public function getExpressionTypes(): array
     {
         return [
@@ -1498,16 +1227,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             iQuestionCondition::EmptyAnswerExpression,
         ];
     }
-    /**
-    * Get the user solution for a question by active_id and the test pass
-    *
-    * @param int $active_id
-    * @param int $pass
-    *
-    * @return ilUserQuestionResult
-    */
-    public function getUserQuestionResult($active_id, $pass): ilUserQuestionResult
-    {
+
+    public function getUserQuestionResult(
+        int $active_id,
+        int $pass
+    ): ilUserQuestionResult {
         $result = new ilUserQuestionResult($this, $active_id, $pass);
 
         $data = $this->db->queryF(
@@ -1582,17 +1306,21 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
      * {@inheritdoc}
      */
-    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId): void
-    {
-        parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
+    protected function afterSyncWithOriginal(
+        int $original_question_id,
+        int $clone_question_id,
+        int $original_parent_id,
+        int $clone_parent_id
+    ): void {
+        parent::afterSyncWithOriginal($original_question_id, $clone_question_id, $original_parent_id, $clone_parent_id);
 
-        $origImagePath = $this->questionFilesService->buildImagePath($origQuestionId, $origParentObjId);
-        $dupImagePath = $this->questionFilesService->buildImagePath($dupQuestionId, $dupParentObjId);
+        $original_image_path = $this->question_files->buildImagePath($original_question_id, $original_parent_id);
+        $clone_image_path = $this->question_files->buildImagePath($clone_question_id, $clone_parent_id);
 
-        ilFileUtils::delDir($origImagePath);
-        if (is_dir($dupImagePath)) {
-            ilFileUtils::makeDirParents($origImagePath);
-            ilFileUtils::rCopy($dupImagePath, $origImagePath);
+        ilFileUtils::delDir($original_image_path);
+        if (is_dir($clone_image_path)) {
+            ilFileUtils::makeDirParents($original_image_path);
+            ilFileUtils::rCopy($clone_image_path, $original_image_path);
         }
     }
 
@@ -1605,12 +1333,94 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return new assAnswerMatchingDefinition($term, $picture, $identifier);
     }
     protected function createMatchingPair(
-        assAnswerMatchingTerm $term = null,
-        assAnswerMatchingDefinition $definition = null,
+        ?assAnswerMatchingTerm $term = null,
+        ?assAnswerMatchingDefinition $definition = null,
         float $points = 0.0
     ): assAnswerMatchingPair {
         $term = $term ?? $this->createMatchingTerm();
         $definition = $definition ?? $this->createMatchingDefinition();
         return new assAnswerMatchingPair($term, $definition, $points);
+    }
+
+    public function toLog(AdditionalInformationGenerator $additional_info): array
+    {
+        $result = [
+            AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitleForHTMLOutput(),
+            AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
+            AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS => $additional_info
+                ->getTrueFalseTagForBool($this->getShuffle()),
+            'qpl_qst_inp_matching_mode' => $this->getMatchingMode() === self::MATCHING_MODE_1_ON_1 ? '{{ qpl_qst_inp_matching_mode_one_on_one }}' : '{{ qpl_qst_inp_matching_mode_all_on_all }}',
+            AdditionalInformationGenerator::KEY_FEEDBACK => [
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_INCOMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_COMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            ]
+        ];
+
+        foreach ($this->getTerms() as $term) {
+            $result[AdditionalInformationGenerator::KEY_QUESTION_MATCHING_TERMS][] = $term->getText();
+        }
+
+        foreach ($this->getDefinitions() as $definition) {
+            $result[AdditionalInformationGenerator::KEY_QUESTION_MATCHING_DEFINITIONS][] = $this->formatSAQuestion((string) $definition->getText());
+        }
+
+        // #10353
+        $matching_pairs = [];
+        $i = 1;
+        foreach ($this->getMatchingPairs() as $pair) {
+            $matching_pairs[$i++] = [
+                AdditionalInformationGenerator::KEY_QUESTION_MATCHING_TERM => $pair->getTerm()->getText(),
+                AdditionalInformationGenerator::KEY_QUESTION_MATCHING_DEFINITION => $this->formatSAQuestion((string) $pair->getDefinition()->getText()),
+                AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS => (int) $pair->getPoints()
+            ];
+        }
+
+        $result[AdditionalInformationGenerator::KEY_QUESTION_CORRECT_ANSWER_OPTIONS] = $matching_pairs;
+        return $result;
+    }
+
+    protected function solutionValuesToLog(
+        AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): array {
+        return $this->solutionValuesToText($solution_values);
+    }
+
+    public function solutionValuesToText(array $solution_values): array
+    {
+        $reducer = static function (array $c, assAnswerMatchingTerm|assAnswerMatchingDefinition $v): array {
+            $c[$v->getIdentifier()] = $v->getText() !== ''
+                ? $v->getPicture()
+                : $v->getText();
+            return $c;
+        };
+
+        $terms_by_identifier = array_reduce(
+            $this->getTerms(),
+            $reducer,
+            []
+        );
+
+        $definitions_by_identifier = array_reduce(
+            $this->getDefinitions(),
+            $reducer,
+            []
+        );
+
+        return array_map(
+            static fn(array $v): string => $definitions_by_identifier[$v['value2']]
+                . ':' . $terms_by_identifier[$v['value1']],
+            $solution_values
+        );
+    }
+
+    public function getCorrectSolutionForTextOutput(int $active_id, int $pass): array
+    {
+        return array_map(
+            fn(assAnswerMatchingPair $v): string => $v->getDefinition()->getText() . ': '
+                . $v->getTerm()->getText(),
+            $this->getMatchingPairs()
+        );
     }
 }

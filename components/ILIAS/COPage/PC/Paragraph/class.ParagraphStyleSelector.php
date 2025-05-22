@@ -56,7 +56,7 @@ class ParagraphStyleSelector
         $buttons = [];
         foreach ($a_chars as $char => $char_lang) {
             $t = "text_block";
-            $tag = "div";
+            $tag = "p";
             switch ($char) {
                 case "Headline1": $t = "heading1";
                     $tag = "h1";

@@ -20,12 +20,13 @@ declare(strict_types=1);
 
 namespace Filesystem\tests;
 
+use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 use ilFileData;
 
 class ilServicesFileSystemTest extends TestCase
 {
-    private ?\ILIAS\DI\Container $dic_backup;
+    private ?Container $dic_backup = null;
 
     public function testTrailingSlashes(): void
     {

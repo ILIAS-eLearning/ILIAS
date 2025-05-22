@@ -245,7 +245,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
         $questionSetBuilder = ilTestRandomQuestionSetBuilder::getInstance(
             $this->db,
             $this->lng,
-            $this->log,
+            $this->logger,
             $this->test_obj,
             $this,
             $sourcePoolDefinitionList,
@@ -279,7 +279,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 
         $stagingPool = new ilTestRandomQuestionSetStagingPoolBuilder(
             $this->db,
-            $this->log,
+            $this->logger,
             $this->test_obj
         );
         $stagingPool->reset();
@@ -319,29 +319,25 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
             $originalKey = $this->test_obj->getRefId() . '_rndSelDef_' . $originalDefinitionId;
             $mappedKey = $cloneTestOBJ->getRefId() . '_rndSelDef_' . $cloneDefinitionId;
             $cwo->appendMapping($originalKey, $mappedKey);
-            $this->log->write(__METHOD__ . ": Added random selection definition id mapping $originalKey <-> $mappedKey");
+            $this->logger->info(__METHOD__ . ": Added random selection definition id mapping $originalKey <-> $mappedKey");
         }
     }
 
     private function buildSourcePoolDefinitionList(ilObjTest $test_obj): ilTestRandomQuestionSetSourcePoolDefinitionList
     {
-        $sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
-            $this->db,
-            $test_obj
-        );
-
-        $sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList(
+        return new ilTestRandomQuestionSetSourcePoolDefinitionList(
             $this->db,
             $test_obj,
-            $sourcePoolDefinitionFactory
+            new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
+                $this->db,
+                $test_obj
+            )
         );
-
-        return $sourcePoolDefinitionList;
     }
 
     private function buildStagingPoolBuilder(ilObjTest $test_obj): ilTestRandomQuestionSetStagingPoolBuilder
     {
-        $stagingPool = new ilTestRandomQuestionSetStagingPoolBuilder($this->db, $this->log, $test_obj);
+        $stagingPool = new ilTestRandomQuestionSetStagingPoolBuilder($this->db, $this->logger, $test_obj);
 
         return $stagingPool;
     }
@@ -378,48 +374,6 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
     public function doesSelectableQuestionPoolsExist(): bool
     {
         return (bool) count($this->getSelectableQuestionPools());
-    }
-
-    public function areDepenciesBroken(): bool
-    {
-        return $this->test_obj->isTestFinalBroken();
-    }
-
-    public function getDepenciesBrokenMessage(ilLanguage $lng): string
-    {
-        return $lng->txt('tst_old_style_rnd_quest_set_broken');
-    }
-
-    public function isValidRequestOnBrokenQuestionSetDepencies(string $next_class, string $cmd): bool
-    {
-        switch ($next_class) {
-            case 'ilobjectmetadatagui':
-            case 'ilpermissiongui':
-
-                return true;
-
-            case 'ilobjtestgui':
-            case '':
-
-                $cmds = [
-                    'infoScreen', 'participants', 'npSetFilter', 'npResetFilter',
-                ];
-
-                if (in_array($cmd, $cmds)) {
-                    return true;
-                }
-
-                break;
-        }
-
-        return false;
-    }
-
-    public function getHiddenTabsOnBrokenDepencies(): array
-    {
-        return [
-            'assQuestions', 'settings', 'manscoring', 'scoringadjust', 'statistics', 'history', 'export'
-        ];
     }
 
     public function getCommaSeparatedSourceQuestionPoolLinks(): string

@@ -290,8 +290,8 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
                 break;
         }
 
-        if (trim($value)) {
-            $this->getADT()->setText($value);
+        if (trim((string) $value)) {
+            $this->getADT()->setText(is_null($value) ? null : (string) $value);
             return true;
         }
         return false;

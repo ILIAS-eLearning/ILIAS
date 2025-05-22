@@ -363,7 +363,7 @@ class ilWikiDataSet extends ilDataSet
                 $newObj->setShortTitle($a_rec["Short"]);
                 $newObj->setStartPage($a_rec["StartPage"]);
                 $newObj->setRatingOverall($a_rec["RatingOverall"]);
-                $newObj->setRating($a_rec["Rating"]);
+                $newObj->setRatingPages($a_rec["Rating"]);
                 $newObj->setIntroduction($a_rec["Introduction"]);
                 $newObj->setPublicNotes($a_rec["PublicNotes"]);
 
@@ -380,7 +380,7 @@ class ilWikiDataSet extends ilDataSet
                 $newObj->update(true);
                 $this->current_obj = $newObj;
                 $a_mapping->addMapping("components/ILIAS/Wiki", "wiki", $a_rec["Id"], $newObj->getId());
-                $a_mapping->addMapping("components/ILIAS/Object", "obj", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/ILIASObject", "obj", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping("components/ILIAS/Rating", "rating_category_parent_id", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping("components/ILIAS/AdvancedMetaData", "parent", $a_rec["Id"], $newObj->getId());
                 break;

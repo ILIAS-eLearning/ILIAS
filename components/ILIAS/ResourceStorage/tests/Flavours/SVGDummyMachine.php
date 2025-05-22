@@ -38,12 +38,13 @@ class SVGDummyMachine extends DummyMachine
     }
 
 
+    #[\Override]
     public function processStream(
         FileInformation $information,
         FileStream $stream,
         FlavourDefinition $for_definition
     ): \Generator {
-        $content = (string)$stream;
+        $content = (string) $stream;
 
         $from_color = ':' . $for_definition->getColor() . ';';
         $to_color = ':' . $for_definition->getToColor() . ';';

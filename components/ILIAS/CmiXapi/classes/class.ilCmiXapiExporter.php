@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilCmiXapiExporter
@@ -39,7 +39,7 @@ class ilCmiXapiExporter extends ilXmlExporter
     {
         parent::__construct();
         $this->_dataset = new ilCmiXapiDataSet();
-        $this->_dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->_dataset->initByExporter($this);
         $this->_dataset->setDSPrefix("ds");
 
         /*
@@ -60,6 +60,28 @@ class ilCmiXapiExporter extends ilXmlExporter
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         return $this->_dataset->getCmiXapiXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
+    }
+
+    public function getXmlExportTailDependencies(
+        string $a_entity,
+        string $a_target_release,
+        array $a_ids
+    ): array {
+        $dependencies = [];
+
+        $md_ids = [];
+        foreach ($a_ids as $id) {
+            $md_ids[] = $id . ":0:cmix";
+        }
+        if ($md_ids !== []) {
+            $dependencies[] = [
+                "component" => "components/ILIAS/MetaData",
+                "entity" => "md",
+                "ids" => $md_ids
+            ];
+        }
+
+        return $dependencies;
     }
 
     /**

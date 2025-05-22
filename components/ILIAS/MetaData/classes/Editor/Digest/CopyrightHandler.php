@@ -20,47 +20,53 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Editor\Digest;
 
-use ILIAS\MetaData\Copyright\RepositoryInterface;
+use ILIAS\MetaData\Copyright\RepositoryInterface as CopyrightRepository;
 use ILIAS\MetaData\Copyright\EntryInterface;
+use ILIAS\MetaData\Settings\SettingsInterface as Settings;
+use ILIAS\MetaData\OERHarvester\Settings\SettingsInterface as OERHarvesterSettings;
+use ILIAS\MetaData\OERHarvester\ResourceStatus\RepositoryInterface as HarvestStatusRepository;
+use ILIAS\MetaData\Copyright\Identifiers\HandlerInterface as CopyrightIDHandler;
 
 class CopyrightHandler
 {
-    protected RepositoryInterface $repository;
+    protected CopyrightRepository $repository;
+    protected Settings $settings;
+    protected OERHarvesterSettings $harvester_settings;
+    protected HarvestStatusRepository $harvest_status_repo;
+    protected CopyrightIDHandler $copyright_id_handler;
 
     /**
      * @var EntryInterface[]
      */
     protected array $entries;
 
-    /**
-     * @var \ilOerHarvesterObjectStatus[]
-     */
-    protected array $statuses = [];
-
-    public function __construct(RepositoryInterface $repository)
-    {
+    public function __construct(
+        CopyrightRepository $repository,
+        Settings $settings,
+        OERHarvesterSettings $harvester_settings,
+        HarvestStatusRepository $harvest_status_repo,
+        CopyrightIDHandler $copyright_id_handler
+    ) {
         $this->repository = $repository;
+        $this->settings = $settings;
+        $this->harvester_settings = $harvester_settings;
+        $this->harvest_status_repo = $harvest_status_repo;
+        $this->copyright_id_handler = $copyright_id_handler;
     }
 
     public function isCPSelectionActive(): bool
     {
-        $settings = \ilMDSettings::_getInstance();
-        return $settings->isCopyrightSelectionActive() && $this->hasCPEntries();
+        return $this->settings->isCopyrightSelectionActive() && $this->hasCPEntries();
     }
 
-    protected function getOerHarvesterSettings(): \ilOerHarvesterSettings
+    public function isObjectTypeHarvested(string $type): bool
     {
-        return \ilOerHarvesterSettings::getInstance();
-    }
-
-    public function doesObjectTypeSupportHarvesting(string $type): bool
-    {
-        return $this->getOerHarvesterSettings()->supportsHarvesting($type);
+        return $this->harvester_settings->isObjectTypeSelectedForHarvesting($type);
     }
 
     public function isCopyrightTemplateActive(EntryInterface $entry): bool
     {
-        return $this->getOerHarvesterSettings()->isActiveCopyrightTemplate($entry->id());
+        return $this->harvester_settings->isCopyrightEntryIDSelectedForHarvesting($entry->id());
     }
 
     protected function hasCPEntries(): bool
@@ -87,34 +93,23 @@ class CopyrightHandler
 
     public function extractCPEntryID(string $description): int
     {
-        return \ilMDCopyrightSelectionEntry::_extractEntryId($description);
+        return $this->copyright_id_handler->parseEntryIDFromIdentifier($description);
     }
 
     public function createIdentifierForID(int $entry_id): string
     {
-        return \ilMDCopyrightSelectionEntry::createIdentifier($entry_id);
+        return $this->copyright_id_handler->buildIdentifierFromEntryID($entry_id);
     }
 
     public function isOerHarvesterBlocked(int $obj_id): bool
     {
-        $status = $this->getHarvesterStatus($obj_id);
-        return $status->isBlocked();
+        return $this->harvest_status_repo->isHarvestingBlocked($obj_id);
     }
 
     public function setOerHarvesterBlocked(
         int $obj_id,
         bool $is_blocked
     ): void {
-        $status = $this->getHarvesterStatus($obj_id);
-        $status->setBlocked($is_blocked);
-        $status->save();
-    }
-
-    protected function getHarvesterStatus(int $obj_id): \ilOerHarvesterObjectStatus
-    {
-        if (isset($this->statuses[$obj_id])) {
-            return $this->statuses[$obj_id];
-        }
-        return $this->statuses[$obj_id] = new \ilOerHarvesterObjectStatus($obj_id);
+        $this->harvest_status_repo->setHarvestingBlocked($obj_id, $is_blocked);
     }
 }

@@ -34,16 +34,17 @@ class arHaving extends arStatement
     protected string $glue = 'AND';
 
     /**
+     * @param ilDBInterface $db
      * @description Build WHERE Statement
      * @throws arException
      */
-    public function asSQLStatement(ActiveRecord $activeRecord): string
+    public function asSQLStatement(ActiveRecord $activeRecord, ilDBInterface $db): string
     {
         $statement = '';
         if ($this->getTableName() !== '' && $this->getTableName() !== '0') {
             $statement .= $this->getTableName() . '.';
         }
-        $statement .= $this->getFieldname() . ' ' . $this->getOperator() . ' "' . $this->getValue() . '"';
+        $statement .= $db->quoteIdentifier($this->getFieldname()) . ' ' . $this->getOperator() . ' ' . $db->quote($this->getValue()) . '';
         $this->setStatement($statement);
 
         return $this->getStatement();

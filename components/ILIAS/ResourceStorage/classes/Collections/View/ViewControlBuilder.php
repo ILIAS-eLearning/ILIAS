@@ -57,14 +57,17 @@ final class ViewControlBuilder
 
     public function getSortation(): Sortation
     {
-        return $this->ui_factory->viewControl()->sortation([
+        return $this->ui_factory->viewControl()->sortation(
+            [
             Request::BY_TITLE_ASC => $this->language->txt(Request::BY_TITLE_ASC),
             Request::BY_TITLE_DESC => $this->language->txt(Request::BY_TITLE_DESC),
             Request::BY_CREATION_DATE_ASC => $this->language->txt(Request::BY_CREATION_DATE_ASC),
             Request::BY_CREATION_DATE_DESC => $this->language->txt(Request::BY_CREATION_DATE_DESC),
             Request::BY_SIZE_ASC => $this->language->txt(Request::BY_SIZE_ASC),
             Request::BY_SIZE_DESC => $this->language->txt(Request::BY_SIZE_DESC),
-        ])->withTargetURL(
+        ],
+            Request::BY_TITLE_ASC
+        )->withTargetURL(
             $this->ctrl->getLinkTargetByClass(
                 \ilResourceCollectionGUI::class,
                 \ilResourceCollectionGUI::CMD_INDEX

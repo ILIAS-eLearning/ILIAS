@@ -41,24 +41,32 @@ use ilDatePresentation;
 use DateTimeImmutable;
 use ILIAS\Data\Factory as DataFactory;
 use ilStartUpGUI;
+use ILIAS\LegalDocuments\PageFragment;
+use ILIAS\LegalDocuments\PageFragment\PageContent;
+use ilSystemSupportContacts;
 
 class Blocks
 {
     /** @var Closure(DateTimeImmutable): string */
     private readonly Closure $format_date;
+    /** @var Closure(): string */
+    private readonly Closure $mail_contact;
 
     /**
      * @param null|Closure(DateTimeImmutable): string $format_date
+     * @param null|Closure(): string $mail_contact
      */
     public function __construct(
         private readonly string $id,
         private readonly Container $container,
         private readonly Provide $provide,
-        ?Closure $format_date = null
+        ?Closure $format_date = null,
+        ?Closure $mail_contact = null
     ) {
         $this->format_date = $format_date ?? fn(DateTimeImmutable $date): string => ilDatePresentation::formatDate(
             new ilDateTime($date->getTimestamp(), IL_CAL_UNIX)
         );
+        $this->mail_contact = $mail_contact ?? ilSystemSupportContacts::getMailsToAddress(...);
     }
 
     public function slot(): Slot
@@ -108,7 +116,7 @@ class Blocks
 
     public function ui(): UI
     {
-        return new UI($this->id, $this->container->ui()->factory(), $this->container->ui()->mainTemplate(), $this->container->language());
+        return new UI($this->id, $this->container->ui(), $this->container->language());
     }
 
     public function user(Settings $global_settings, UserSettings $user_settings, ilObjUser $user): User
@@ -143,7 +151,7 @@ class Blocks
             $this->container->language()->loadLanguageModule('ldoc');
             $user = $build_user($user);
 
-            $value = $user->acceptedVersion()->map(function (DocumentContent $content) use ($lang_key, $user): ilNonEditableValueGUI {
+            $value = $user->acceptedVersion()->map(function (DocumentContent $content) use ($lang_key, $user): array {
                 $input = new ilNonEditableValueGUI($this->ui()->txt($lang_key), $lang_key);
                 $input->setValue($this->formatDate($user->agreeDate()->value()));
                 $modal = $this->ui()->create()->modal()->lightbox([
@@ -152,10 +160,10 @@ class Blocks
 
                 $titleLink = $this->ui()->create()->button()->shy($content->title(), '#')->withOnClick($modal->getShowSignal());
                 $sub = new ilNonEditableValueGUI($this->ui()->txt('agreement_document'), '', true);
-                $sub->setValue($this->container->ui()->renderer()->render([$titleLink, $modal]));
+                $sub->setValue($this->container->ui()->renderer()->render($titleLink));
                 $input->addSubItem($sub);
 
-                return $input;
+                return [$input, $modal];
             })->except(fn() => new Ok($this->ui()->txt('never')))->value();
 
             return [$lang_key => $value];
@@ -179,6 +187,16 @@ class Blocks
         }
 
         return $form;
+    }
+
+    public function notAvailable(): PageFragment
+    {
+        return new PageContent($this->ui()->txt('accept_usr_agreement_anonymous'), [
+            $this->container->ui()->factory()->legacy()->content(sprintf(
+                $this->ui()->txt('no_agreement_description'),
+                'mailto:' . htmlspecialchars(($this->mail_contact)(), ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8')
+            )),
+        ]);
     }
 
     private function formatDate(?DateTimeImmutable $date): string

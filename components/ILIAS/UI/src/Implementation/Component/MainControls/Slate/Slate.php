@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 
 use ILIAS\UI\Component\MainControls\Slate as ISlate;
@@ -29,12 +29,14 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\ReplaceSignal as ReplaceSignalImplementation;
 use ILIAS\UI\Implementation\Component\Triggerer;
+use ILIAS\UI\Implementation\Component\HasHelpTopics;
 
 abstract class Slate implements ISlate\Slate
 {
     use ComponentHelper;
     use JavaScriptBindable;
     use Triggerer;
+    use HasHelpTopics;
 
     // allowed ARIA roles
     public const MENU = 'menu';

@@ -39,7 +39,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     protected bool $user_pass_overview_button_enabled = false;
 
     public function __construct(
-        protected ilCtrl $ctrl,
+        protected ilCtrlInterface $ctrl,
         protected ilTestPlayerAbstractGUI $player_gui
     ) {
         parent::__construct();
@@ -61,25 +61,16 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $this->suspendTestButtonEnabled = $suspendTestButtonEnabled;
     }
 
-    /**
-     * @return boolean
-     */
     public function isUserPassOverviewEnabled(): bool
     {
         return $this->user_pass_overview_button_enabled;
     }
 
-    /**
-     * @param boolean $questionListButtonEnabled
-     */
-    public function setUserPassOverviewEnabled(bool $user_pass_overview_button_enabled)
+    public function setUserPassOverviewEnabled(bool $user_pass_overview_button_enabled): void
     {
         $this->user_pass_overview_button_enabled = $user_pass_overview_button_enabled;
     }
 
-    /**
-     * @return boolean
-     */
     public function isQuestionTreeVisible(): bool
     {
         return $this->questionTreeVisible;
@@ -90,9 +81,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $this->questionTreeVisible = $questionTreeVisible;
     }
 
-    /**
-     * @return boolean
-     */
     public function isFinishTestButtonEnabled(): bool
     {
         return $this->finishTestButtonEnabled;
@@ -174,12 +162,11 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $button = $this->ui->factory()->button()->standard(
             $this->lng->txt('cancel_test'),
             ''
-        )->withAdditionalOnLoadCode(
+        )->withUnavailableAction(true)->withAdditionalOnLoadCode(
             $this->buildCheckNavigationClosure(
                 $this->ctrl->getLinkTarget($this->player_gui, ilTestPlayerCommands::SUSPEND_TEST)
             )
         );
-
         $this->addComponent($button);
     }
 
@@ -188,12 +175,11 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $button = $this->ui->factory()->button()->standard(
             $this->lng->txt('question_summary_btn'),
             ''
-        )->withAdditionalOnLoadCode(
+        )->withUnavailableAction(true)->withAdditionalOnLoadCode(
             $this->buildCheckNavigationClosure(
                 $this->ctrl->getLinkTarget($this->player_gui, ilTestPlayerCommands::QUESTION_SUMMARY)
             )
         );
-
         $this->addComponent($button);
     }
 
@@ -206,7 +192,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         }
 
         $button = $this->getStandardOrPrimaryFinishButtonInstance();
-        return $button->withAdditionalOnLoadCode(
+        return $button->withUnavailableAction(true)->withAdditionalOnLoadCode(
             $this->buildCheckNavigationClosure($target)
         );
     }
@@ -223,10 +209,11 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     private function buildCheckNavigationClosure(string $target): Closure
     {
         return static function (string $id) use ($target): string {
-            return "document.getElementById('$id').addEventListener('click', "
+            return "document.getElementById('{$id}').addEventListener('click', "
                 . '(e) => {'
                 . " il.TestPlayerQuestionEditControl.checkNavigation('{$target}', 'show', e);"
-                . '});';
+                . '}); '
+                . "document.getElementById('{$id}').removeAttribute('disabled');";
         };
     }
 }

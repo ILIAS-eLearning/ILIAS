@@ -38,18 +38,18 @@ use ILIAS\MetaData\DataHelper\DataHelperInterface;
 class ContentAssembler
 {
     // post variables
-    public const KEYWORDS = 'keywords';
-    public const GENERAL = 'general';
-    public const AUTHORS = 'authors';
-    public const RIGHTS = 'rights';
-    public const TYPICAL_LEARNING_TIME = 'tlt';
-    public const FIRST_AUTHOR = 'first_author';
-    public const SECOND_AUTHOR = 'second_author';
-    public const THIRD_AUTHOR = 'third_author';
+    public const string KEYWORDS = 'keywords';
+    public const string GENERAL = 'general';
+    public const string AUTHORS = 'authors';
+    public const string RIGHTS = 'rights';
+    public const string TYPICAL_LEARNING_TIME = 'tlt';
+    public const string FIRST_AUTHOR = 'first_author';
+    public const string SECOND_AUTHOR = 'second_author';
+    public const string THIRD_AUTHOR = 'third_author';
 
-    public const CUSTOM_CP = 'custom_cp';
-    public const CUSTOM_CP_DESCRIPTION = 'custom_cp_description';
-    public const OER_BLOCKED = 'oer_blocked_';
+    public const string CUSTOM_CP = 'custom_cp';
+    public const string CUSTOM_CP_DESCRIPTION = 'custom_cp_description';
+    public const string OER_BLOCKED = 'oer_blocked_';
 
     protected PathFactory $path_factory;
     protected NavigatorFactoryInterface $navigator_factory;
@@ -246,19 +246,30 @@ class ContentAssembler
         if (!$this->copyright_handler->isCPSelectionActive()) {
             return;
         }
-        $modal = $this->getChangeCopyrightModal();
+        $modal = $this->getChangeCopyrightModal(false);
+        $modal_with_oer_warning = $this->getChangeCopyrightModal(true);
         $signal = $modal->getShowSignal();
+        $signal_with_oer_warning = $modal_with_oer_warning->getShowSignal();
 
         yield ContentType::MODAL => $modal;
-        yield ContentType::JS_SOURCE => 'components/ILIAS/MetaData/js/ilMetaCopyrightListener.js';
-        yield ContentType::FORM => $this->getCopyrightSection($set, $signal);
+        yield ContentType::MODAL => $modal_with_oer_warning;
+        yield ContentType::JS_SOURCE => 'assets/js/ilMetaCopyrightListener.js';
+        yield ContentType::FORM => $this->getCopyrightSection(
+            $set,
+            $signal,
+            $signal_with_oer_warning
+        );
     }
 
-    protected function getChangeCopyrightModal(): InterruptiveModal
+    protected function getChangeCopyrightModal(bool $with_oer_warning): InterruptiveModal
     {
+        $message = $this->presenter->utilities()->txt("meta_copyright_change_info");
+        if ($with_oer_warning) {
+            $message .= "<br/><br/>" . $this->presenter->utilities()->txt("meta_copyright_change_oer_info");
+        }
         $modal = $this->ui_factory->modal()->interruptive(
             $this->presenter->utilities()->txt("meta_copyright_change_warning_title"),
-            $this->presenter->utilities()->txt("meta_copyright_change_info"),
+            $message,
             (string) $this->link_factory->custom(Command::UPDATE_DIGEST)->get()
         );
 
@@ -267,7 +278,8 @@ class ContentAssembler
 
     protected function getCopyrightSection(
         SetInterface $set,
-        Signal $signal
+        Signal $signal,
+        Signal $signal_with_oer_warning
     ): Section {
         $ff = $this->ui_factory->input()->field();
 
@@ -281,6 +293,7 @@ class ContentAssembler
         $default_id = 0;
         $options = [];
         $outdated = [];
+        $potential_oer_values = [];
         $current_id_exists = false;
         $is_custom = !is_null($cp_description) && !$current_id;
 
@@ -292,10 +305,12 @@ class ContentAssembler
                 $current_id_exists = true;
             }
 
+            $identifier = $this->copyright_handler->createIdentifierForID($entry->id());
+
             //give the option to block harvesting
             $sub_inputs = [];
             if (
-                $this->copyright_handler->doesObjectTypeSupportHarvesting($set->getRessourceID()->type()) &&
+                $this->copyright_handler->isObjectTypeHarvested($set->getRessourceID()->type()) &&
                 $this->copyright_handler->isCopyrightTemplateActive($entry)
             ) {
                 $sub_inputs[self::OER_BLOCKED] = $ff
@@ -306,10 +321,10 @@ class ContentAssembler
                     ->withValue(
                         $this->copyright_handler->isOerHarvesterBlocked($set->getRessourceID()->objID())
                     );
+                $potential_oer_values[] = $identifier;
             }
 
-            $option = $ff->group($sub_inputs, $entry->title());
-            $identifier = $this->copyright_handler->createIdentifierForID($entry->id());
+            $option = $ff->group($sub_inputs, $entry->title(), $entry->description());
 
             // outdated entries throw an error when selected
             if ($entry->isOutdated()) {
@@ -345,9 +360,12 @@ class ContentAssembler
             )
             ->withValue($value)
             ->withAdditionalOnLoadCode(
-                function ($id) use ($signal) {
-                    return 'il.MetaDataCopyrightListener.init("' .
-                        $signal . '","' . $id . '");';
+                function ($id) use ($signal, $signal_with_oer_warning, $potential_oer_values) {
+                    return 'il.MetaDataCopyrightListener.init(\'' .
+                        $signal . '\',\'' .
+                        $signal_with_oer_warning . '\',\'' .
+                        json_encode($potential_oer_values) . '\',\'' .
+                        $id . '\');';
                 }
             )->withAdditionalTransformation(
                 $this->refinery->custom()->constraint(
@@ -401,7 +419,7 @@ class ContentAssembler
             $inputs
         )->withAdditionalTransformation(
             $this->refinery->custom()->transformation(function ($vs) use ($dh) {
-                $vs = array_map(fn ($v) => is_null($v) ? $v : (int) $v, $vs);
+                $vs = array_map(fn($v) => is_null($v) ? $v : (int) $v, $vs);
                 return $dh->durationFromIntegers(...$vs);
             })
         );

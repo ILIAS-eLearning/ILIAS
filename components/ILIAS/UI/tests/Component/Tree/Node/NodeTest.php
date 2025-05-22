@@ -32,7 +32,7 @@ use ILIAS\Refinery\URI\StringTransformation;
  */
 class TestingNode extends Node
 {
-    public function __construct(string $label, URI $link = null)
+    public function __construct(string $label, ?URI $link = null)
     {
         parent::__construct($label, $link);
     }

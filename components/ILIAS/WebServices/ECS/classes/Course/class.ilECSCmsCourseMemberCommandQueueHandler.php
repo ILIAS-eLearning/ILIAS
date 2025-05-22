@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 /**
@@ -355,7 +356,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
                 $assignment->setCmsId($course_id);
                 $assignment->setCmsSubId((int) $sub_id);
                 $assignment->setObjId($obj_id);
-                $assignment->setUid($person_id);
+                $assignment->setUid((string) $person_id);
                 $assignment->save();
             }
         }
@@ -432,7 +433,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
             $query = new ilLDAPQuery($server);
             $query->bind(ilLDAPQuery::LDAP_BIND_DEFAULT);
 
-            $users = $query->fetchUser($a_person_id);
+            $users = $query->fetchUser((string) $a_person_id);
             if ($users) {
                 ilUserCreationContext::getInstance()->addContext(ilUserCreationContext::CONTEXT_LDAP);
 

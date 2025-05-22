@@ -14,14 +14,16 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Poll\Image\I\FactoryInterface as ilPollImageFactoryInterface;
+use ILIAS\Poll\Image\Factory as ilPollImageFactory;
 
 /**
  * BlockGUI class for polls.
@@ -34,12 +36,13 @@ class ilPollBlockGUI extends ilBlockGUI
     public static string $block_type = "poll";
     protected ilPollBlock $poll_block;
     public static bool $js_init = false;
-    protected bool $new_rendering = true;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
     protected Refinery $refinery;
+    protected DataFactory $data_factory;
     protected ilPollStateInfo $state;
     protected ilPollCommentsHandler $comments;
+    protected ilPollImageFactoryInterface $poll_image_factory;
 
     public function __construct()
     {
@@ -51,13 +54,14 @@ class ilPollBlockGUI extends ilBlockGUI
         $this->access = $DIC->access();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->data_factory = new DataFactory();
         $this->refinery = $DIC->refinery();
 
         parent::__construct();
 
         $this->lng->loadLanguageModule("poll");
         $this->setRowTemplate("tpl.block.html", "components/ILIAS/Poll");
-
+        $this->poll_image_factory = new ilPollImageFactory();
         $this->comments = new ilPollCommentsHandler(
             $DIC->notes(),
             $DIC->http(),
@@ -210,8 +214,13 @@ class ilPollBlockGUI extends ilBlockGUI
             $results,
             new ilPollResultsRenderer(
                 $this->getRefId(),
-                $this->refinery
-            )
+                $this->refinery,
+                $this->data_factory,
+                $this->ui_factory,
+                $this->ui_renderer,
+                $this->lng
+            ),
+            $this->poll_image_factory
         );
     }
 
@@ -253,15 +262,6 @@ class ilPollBlockGUI extends ilBlockGUI
     {
         $this->comments->getNumberOfCommentsForRedraw();
     }
-
-    public function fillDataSection(): void
-    {
-        $this->setDataSection($this->getLegacyContent());
-    }
-
-    //
-    // New rendering
-    //
 
     protected function getLegacyContent(): string
     {

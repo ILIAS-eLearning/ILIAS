@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Glossary\Term;
 
 use ILIAS\Glossary\InternalDomainService;
@@ -28,6 +28,7 @@ use ILIAS\Glossary\InternalDomainService;
  */
 class TermManager
 {
+    protected \ilAppEventHandler $event_handler;
     protected InternalDomainService $domain;
     protected TermSessionRepository $session_repo;
     protected \ilObjGlossary $glossary;
@@ -39,10 +40,13 @@ class TermManager
         \ilObjGlossary $glossary,
         int $user_id
     ) {
+        global $DIC;
+
         $this->session_repo = $session_repo;
         $this->glossary = $glossary;
         $this->user_id = $user_id;
         $this->domain = $domain_service;
+        $this->event_handler = $DIC->event();
     }
 
     public function setSessionLang(string $lang): void
@@ -167,5 +171,29 @@ class TermManager
             $paragraph->setText($data["definition"]);
             $page_object->update();
         }
+    }
+
+    public function deleteTerm(int $term_id): void
+    {
+        global $DIC;
+
+        // todo: move to repo class
+        $db = $DIC->database();
+
+        // delete term references
+        \ilGlossaryTermReferences::deleteReferencesOfTerm($term_id);
+
+        // delete glossary_term record
+        $db->manipulate("DELETE FROM glossary_term " .
+            " WHERE id = " . $db->quote($term_id, "integer"));
+
+        try {
+            $page_object = new \ilGlossaryDefPage($term_id);
+            $page_object->delete();
+        } catch (\Exception $e) {
+        }
+
+        // delete flashcard entries
+        $this->event_handler->raise("Modules/Glossary", "deleteTerm", ["term_id" => $term_id]);
     }
 }

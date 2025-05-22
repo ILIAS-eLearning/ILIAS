@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * TableGUI class for learning progress
@@ -44,7 +44,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
     public function __construct(
         ?object $a_parent_obj,
         string $a_parent_cmd,
-        array $a_preselect = null,
+        ?array $a_preselect = null,
         bool $a_is_chart = false,
         bool $a_is_details = false
     ) {

@@ -20,6 +20,8 @@ declare(strict_types=0);
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * TableGUI class for editing personal timings
@@ -35,6 +37,8 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
 
     protected Refinery $refinery;
     protected HTTPServices $http;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
 
     public function __construct(
         object $a_parent_class,
@@ -46,6 +50,8 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->container = $a_container_obj;
         $this->main_container = $a_main_container;
@@ -121,9 +127,13 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
         if ($a_set['failure'] ?? false) {
+            $icon = $this->ui_factory->symbol()->icon()->custom(
+                ilUtil::getImagePath("standard/icon_alert.svg"),
+                $this->lng->txt("alert"),
+                'medium'
+            );
             $this->tpl->setCurrentBlock('alert');
-            $this->tpl->setVariable('IMG_ALERT', ilUtil::getImagePath("standard/icon_alert.svg"));
-            $this->tpl->setVariable('ALT_ALERT', $this->lng->txt("alert"));
+            $this->tpl->setVariable('IMG_ALERT', $this->ui_renderer->render($icon));
             $this->tpl->setVariable("TXT_ALERT", $this->lng->txt($a_set['failure']));
             $this->tpl->parseCurrentBlock();
         }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,14 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\DI;
 use ILIAS\COPage\Setup\ilCOPageDBUpdateSteps;
+use ILIAS\ILIASObject\Setup\ObjectDefinitionProcessor;
 
 class ilComponentDefinitionsStoredObjective implements Setup\Objective
 {
@@ -143,14 +144,14 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
             new \ilCOPageDefinitionProcessor($db),
             new \ilComponentInfoDefinitionProcessor(),
             new \ilLoggingDefinitionProcessor($db),
-            new \ilCronDefinitionProcessor(
+            new \ILIAS\Cron\Setup\DefinitionProcessor(
                 $db,
                 $settings_factory->settingsFor(),
                 $component_repository,
                 $component_factory
             ),
             new \ilMailTemplateContextDefinitionProcessor($db),
-            new \ilObjectDefinitionProcessor($db),
+            new ObjectDefinitionProcessor($db),
             new \ilSystemCheckDefinitionProcessor($db),
             new \ilSecurePathDefinitionProcessor($db),
         );

@@ -23,7 +23,7 @@
  */
 class ilExcRepoObjAssignmentInfo implements ilExcRepoObjAssignmentInfoInterface
 {
-    protected int  $id;
+    protected int $id;
 
     /**
      * @var int[]

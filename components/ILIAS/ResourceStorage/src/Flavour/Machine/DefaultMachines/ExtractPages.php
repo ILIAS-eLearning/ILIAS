@@ -23,7 +23,6 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
-use ILIAS\ResourceStorage\Flavour\Engine\ImagickEngine;
 use ILIAS\ResourceStorage\Flavour\Machine\FlavourMachine;
 use ILIAS\ResourceStorage\Flavour\Machine\Result;
 use ILIAS\ResourceStorage\Information\FileInformation;
@@ -31,7 +30,6 @@ use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\Extract\SVG;
 use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\Extract\General;
 use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\Extract\PDF;
 use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\Extract\Video;
-use ILIAS\ResourceStorage\Flavour\Engine\FFMpegEngine;
 use ILIAS\ResourceStorage\Flavour\Engine\ImagickEngineWithOptionalFFMpeg;
 
 /**
@@ -92,7 +90,7 @@ class ExtractPages extends AbstractMachine implements FlavourMachine
             case ($mime_type === 'image/svg+xml' || $mime_type === 'image/svg'):
                 $extractor = new SVG();
                 break;
-            case (strpos($mime_type, 'video') !== false):
+            case (str_contains($mime_type, 'video')):
                 $extractor = new Video();
                 break;
             case ($mime_type === 'application/pdf'):
@@ -113,7 +111,7 @@ class ExtractPages extends AbstractMachine implements FlavourMachine
         // Read source image
         try {
             $img = $extractor->readImage($img, $stream, $for_definition);
-        } catch (\ImagickException $e) {
+        } catch (\ImagickException) {
             // due to possible security risks, gs disabled access to files, see e.g. https://en.linuxportal.info/tutorials/troubleshooting/how-to-fix-errors-from-imagemagick-imagick-conversion-system-security-policy
             return;
         }

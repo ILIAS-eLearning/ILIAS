@@ -17,8 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
-
-use ILIAS\Setup;
+use ILIAS\Setup\Environment;
 use ILIAS\Cache\Services;
 
 class ilGlobalCacheAllFlushedObjective extends ilSetupObjective
@@ -42,21 +41,21 @@ class ilGlobalCacheAllFlushedObjective extends ilSetupObjective
         return true;
     }
 
-    public function getPreconditions(Setup\Environment $environment): array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective(),
         ];
     }
 
-    public function achieve(Setup\Environment $environment): Setup\Environment
+    public function achieve(Environment $environment): Environment
     {
-        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+        $client_ini = $environment->getResource(Environment::RESOURCE_CLIENT_INI);
         if ($client_ini === null) {
             throw new UnexpectedValueException("Client ini not found");
         }
         $this->cache_settings_adapter->readFromIniFile($client_ini);
-        $services = new Services($this->cache_settings_adapter->toConfig());
+        $services = new Services($this->cache_settings_adapter->getConfig());
         $services->flushAdapter();
 
         return $environment;
@@ -65,7 +64,7 @@ class ilGlobalCacheAllFlushedObjective extends ilSetupObjective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment): bool
+    public function isApplicable(Environment $environment): bool
     {
         return true;
     }

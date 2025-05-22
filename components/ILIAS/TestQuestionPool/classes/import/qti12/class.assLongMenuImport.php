@@ -1,19 +1,4 @@
 <?php
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- *
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 class assLongMenuImport extends assQuestionImport
 {
     public $object;
@@ -92,17 +78,19 @@ class assLongMenuImport extends assQuestionImport
                 $correctness = 1;
                 $conditionvar = $respcondition->getConditionvar();
                 foreach ($conditionvar->order as $order) {
-                    switch ($order["field"]) {
-                        case "varequal":
+                    switch ($order['field']) {
+                        case 'varequal':
                             $equals = $conditionvar->varequal[$order["index"]]->getContent();
                             $gapident = $conditionvar->varequal[$order["index"]]->getRespident();
                             $id = $this->getIdFromGapIdent($gapident);
-                            $answers[$id][] = $equals;
+                            if (!isset($answers[$id]) || !in_array($equals, $answers[$id])) {
+                                $answers[$id][] = $equals;
+                            }
                             break;
                     }
                 }
                 foreach ($respcondition->setvar as $setvar) {
-                    if (strcmp($gapident, "") != 0) {
+                    if ($gapident !== '') {
                         if ($setvar->getContent() > 0) {
                             $id = $this->getIdFromGapIdent($gapident);
                             $correct_answers[$id][0][] = $equals;
@@ -113,56 +101,39 @@ class assLongMenuImport extends assQuestionImport
                         }
                     }
                 }
-                if (count($respcondition->displayfeedback)) {
-                    foreach ($respcondition->displayfeedback as $feedbackpointer) {
-                        if (strlen($feedbackpointer->getLinkrefid())) {
-                            foreach ($item->itemfeedback as $ifb) {
-                                if (strcmp($ifb->getIdent(), "response_allcorrect") == 0) {
-                                    // found a feedback for the identifier
-                                    if (count($ifb->material)) {
-                                        foreach ($ifb->material as $material) {
+                foreach ($respcondition->displayfeedback as $feedbackpointer) {
+                    if (strlen($feedbackpointer->getLinkrefid())) {
+                        foreach ($item->itemfeedback as $ifb) {
+                            if ($ifb->getIdent() === 'response_allcorrect') {
+                                foreach ($ifb->material as $material) {
+                                    $feedbacksgeneric[1] = $material;
+                                }
+                                foreach ($ifb->flow_mat as $fmat) {
+                                    if (count($fmat->material)) {
+                                        foreach ($fmat->material as $material) {
                                             $feedbacksgeneric[1] = $material;
                                         }
                                     }
-                                    if ((count($ifb->flow_mat) > 0)) {
-                                        foreach ($ifb->flow_mat as $fmat) {
-                                            if (count($fmat->material)) {
-                                                foreach ($fmat->material as $material) {
-                                                    $feedbacksgeneric[1] = $material;
-                                                }
-                                            }
-                                        }
-                                    }
-                                } elseif (strcmp($ifb->getIdent(), "response_onenotcorrect") == 0) {
-                                    // found a feedback for the identifier
-                                    if (count($ifb->material)) {
-                                        foreach ($ifb->material as $material) {
+                                }
+                            } elseif ($ifb->getIdent() === 'response_onenotcorrect') {
+                                foreach ($ifb->material as $material) {
+                                    $feedbacksgeneric[0] = $material;
+                                }
+                                foreach ($ifb->flow_mat as $fmat) {
+                                    if (count($fmat->material)) {
+                                        foreach ($fmat->material as $material) {
                                             $feedbacksgeneric[0] = $material;
                                         }
                                     }
-                                    if ((count($ifb->flow_mat) > 0)) {
-                                        foreach ($ifb->flow_mat as $fmat) {
-                                            if (count($fmat->material)) {
-                                                foreach ($fmat->material as $material) {
-                                                    $feedbacksgeneric[0] = $material;
-                                                }
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    // found a feedback for the identifier
-                                    if (count($ifb->material)) {
-                                        foreach ($ifb->material as $material) {
+                                }
+                            } else {
+                                foreach ($ifb->material as $material) {
+                                    $feedbacks[$ifb->getIdent()] = $material;
+                                }
+                                foreach ($ifb->flow_mat as $fmat) {
+                                    if (count($fmat->material)) {
+                                        foreach ($fmat->material as $material) {
                                             $feedbacks[$ifb->getIdent()] = $material;
-                                        }
-                                    }
-                                    if ((count($ifb->flow_mat) > 0)) {
-                                        foreach ($ifb->flow_mat as $fmat) {
-                                            if (count($fmat->material)) {
-                                                foreach ($fmat->material as $material) {
-                                                    $feedbacks[$ifb->getIdent()] = $material;
-                                                }
-                                            }
                                         }
                                     }
                                 }
@@ -194,13 +165,13 @@ class assLongMenuImport extends assQuestionImport
 
         $this->addGeneralMetadata($item);
         $this->object->setTitle($item->getTitle());
-        $this->object->setNrOfTries((int)$item->getMaxattempts());
+        $this->object->setNrOfTries((int) $item->getMaxattempts());
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($user_id);
         $this->object->setObjId($questionpool_id);
-        $this->object->setMinAutoComplete($item->getMetadataEntry("minAutoCompleteLength"));
-        $this->object->setIdenticalscoring((int) $item->getMetadataEntry("identical_scoring"));
+        $this->object->setMinAutoComplete((int) ($item->getMetadataEntry('minAutoCompleteLength') ?? assLongMenu::MIN_LENGTH_AUTOCOMPLETE));
+        $this->object->setIdenticalscoring((int) $item->getMetadataEntry('identical_scoring'));
         $this->object->setCorrectAnswers($correct_answers);
         $this->object->setPoints($sum);
         // additional content editing mode information
@@ -208,7 +179,7 @@ class assLongMenuImport extends assQuestionImport
             $this->fetchAdditionalContentEditingModeInformation($item)
         );
         $this->object->saveToDb();
-
+        $this->importSuggestedSolutions($this->object->getId(), $item->suggested_solutions);
         if (isset($feedbacks) && count($feedbacks) > 0) {
             foreach ($feedbacks as $ident => $material) {
                 $this->object->feedbackOBJ->importSpecificAnswerFeedback(
@@ -229,21 +200,13 @@ class assLongMenuImport extends assQuestionImport
             }
         }
         $this->object->saveToDb();
-        if (count($item->suggested_solutions)) {
-            foreach ($item->suggested_solutions as $suggested_solution) {
-                $this->object->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
-            }
-            $this->object->saveToDb();
-        }
 
-        if ($tst_id > 0) {
-            $q_1_id = $this->object->getId();
-            $question_id = $this->object->duplicate(true, "", "", -1, $tst_id);
-            $tst_object->questions[$question_counter++] = $question_id;
-            $import_mapping[$item->getIdent()] = ["pool" => $q_1_id, "test" => $question_id];
-        } else {
-            $import_mapping[$item->getIdent()] = ["pool" => $this->object->getId(), "test" => 0];
-        }
+        $import_mapping[$item->getIdent()] = $this->addQuestionToParentObjectAndBuildMappingEntry(
+            $questionpool_id,
+            $tst_id,
+            $question_counter,
+            $tst_object
+        );
         return $import_mapping;
     }
 

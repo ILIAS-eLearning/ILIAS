@@ -43,7 +43,7 @@ class RecursiveDirectoryIterator implements \RecursiveIterator
     /**
      * @inheritdoc
      */
-    public function key(): string
+    public function key(): int|string
     {
         return key($this->files);
     }
@@ -59,7 +59,7 @@ class RecursiveDirectoryIterator implements \RecursiveIterator
     /**
      * @inheritdoc
      */
-    public function current(): bool|\ILIAS\Filesystem\DTO\Metadata
+    public function current(): bool|Metadata
     {
         return current($this->files);
     }
@@ -79,7 +79,7 @@ class RecursiveDirectoryIterator implements \RecursiveIterator
     {
         $contents = $this->filesystem->listContents($this->dir, false);
         $this->files = array_combine(
-            array_map(static fn (Metadata $metadata): string => $metadata->getPath(), $contents),
+            array_map(static fn(Metadata $metadata): string => $metadata->getPath(), $contents),
             $contents
         );
     }

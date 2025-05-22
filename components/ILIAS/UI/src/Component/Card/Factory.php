@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Card;
 
@@ -49,7 +49,7 @@ interface Factory
      * @param \ILIAS\UI\Component\Image\Image $image
      * @return \ILIAS\UI\Component\Card\Standard
      */
-    public function standard($title, Image $image = null): Standard;
+    public function standard($title, ?Image $image = null): Standard;
 
     /**
      * ---

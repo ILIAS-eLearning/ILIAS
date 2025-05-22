@@ -29,9 +29,9 @@ use ILIAS\MetaData\Copyright\Database\WrapperInterface;
 
 class DatabaseRepositoryTest extends TestCase
 {
-    protected const NEXT_ID = 123;
+    protected const int NEXT_ID = 123;
 
-    protected const ROW_DEFAULT = [
+    protected const array ROW_DEFAULT = [
         'entry_id' => 25,
         'title' => 'entry default',
         'description' => 'description default',
@@ -45,7 +45,7 @@ class DatabaseRepositoryTest extends TestCase
         'alt_text' => 'alt text default'
     ];
 
-    protected const ROW_1 = [
+    protected const array ROW_1 = [
         'entry_id' => 5,
         'title' => 'entry 1',
         'description' => 'description 1',
@@ -59,7 +59,7 @@ class DatabaseRepositoryTest extends TestCase
         'alt_text' => 'alt text 1'
     ];
 
-    protected const ROW_2 = [
+    protected const array ROW_2 = [
         'entry_id' => 67,
         'title' => 'entry 2',
         'description' => '',

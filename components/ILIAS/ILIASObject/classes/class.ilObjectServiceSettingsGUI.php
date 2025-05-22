@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * GUI class for service settings (calendar, notes, comments)
  *
@@ -28,7 +28,7 @@ declare(strict_types=1);
  * @ingroup ServicesObject
  *
  * @deprecated 11: This class will be removed with ILIAS 11. Most of the settings in
- * here don't belong here. Things that belong, are already moved to ilObjectProperties
+ * here don't belong here. Things that belong, are already moved to Properties
  * (see Readme.md of ilObject).
  */
 class ilObjectServiceSettingsGUI
@@ -210,6 +210,7 @@ class ilObjectServiceSettingsGUI
         // taxonomies
         if (in_array(self::TAXONOMIES, $services)) {
             $tax = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_taxonomies'), self::TAXONOMIES);
+            $tax->setInfo($lng->txt('obj_tool_setting_taxonomies_info'));
             $tax->setValue("1");
             $tax->setChecked((bool) ilContainer::_lookupContainerSetting(
                 $obj_id,
@@ -319,7 +320,7 @@ class ilObjectServiceSettingsGUI
 
         if (in_array(self::EXTERNAL_MAIL_PREFIX, $services)) {
             $externalMailPrefix = new ilTextInputGUI($lng->txt('obj_tool_ext_mail_subject_prefix'), self::EXTERNAL_MAIL_PREFIX);
-            $externalMailPrefix->setMaxLength(255);
+            $externalMailPrefix->setMaxLength(50);
             $externalMailPrefix->setInfo($lng->txt('obj_tool_ext_mail_subject_prefix_info'));
             $externalMailPrefix->setValue(ilContainer::_lookupContainerSetting($obj_id, self::EXTERNAL_MAIL_PREFIX, ''));
             $form->addItem($externalMailPrefix);
@@ -440,7 +441,11 @@ class ilObjectServiceSettingsGUI
         }
 
         if (in_array(self::EXTERNAL_MAIL_PREFIX, $services)) {
-            ilContainer::_writeContainerSetting($obj_id, self::EXTERNAL_MAIL_PREFIX, $form->getInput(self::EXTERNAL_MAIL_PREFIX));
+            ilContainer::_writeContainerSetting(
+                $obj_id,
+                self::EXTERNAL_MAIL_PREFIX,
+                mb_substr($form->getInput(self::EXTERNAL_MAIL_PREFIX), 0, 50)
+            );
         }
 
         return true;
@@ -473,7 +478,7 @@ class ilObjectServiceSettingsGUI
      * Edit tool settings (calendar, news, comments, ...)
      * @param ilPropertyFormGUI $form
      */
-    protected function editSettings(ilPropertyFormGUI $form = null): void
+    protected function editSettings(?ilPropertyFormGUI $form = null): void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             // TODO: cant find initSettingsForm, is editSettings ever called?

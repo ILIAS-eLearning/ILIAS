@@ -79,6 +79,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         $form = $this->initPropertyForm($this->lng->txt("cont_edit_src"), "update", "cancelCreate");
 
         $this->displayValidationError();
+        $this->tpl->addCss(ilObjStyleSheet::getBaseContentStylePath());
 
         $this->initEditor();
         $this->tabs->setBackTarget("", "");
@@ -115,6 +116,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         $t = str_replace("<textarea", "<textarea name='code' rows='20' form='copg-src-form' ", $t);
         $t = str_replace("[curlybegin ", "&#123;", $t);
         $t = str_replace(" curlyend]", "&#125;", $t);
+        $t = "<div class='c-form copg-src-form'>$t</div>";
         $this->tpl->setContent($t . $this->getEditorScriptTag($this->pc_id, "SourceCode"));
     }
 
@@ -122,7 +124,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
     {
         $ilUser = $this->user;
 
-        $form = $this->initPropertyForm($this->lng->txt("cont_insert_src"), "create_src", "cancelCreate");
+        $form = $this->initPropertyForm($this->lng->txt("cont_insert_src"), "create", "cancelCreate");
 
         if ($this->pg_obj->getParentType() == "lm") {
             $this->tpl->setVariable(
@@ -265,7 +267,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
             $userfile = $_FILES['userfile']['tmp_name'];
 
             if ($userfile == "" || !is_uploaded_file($userfile)) {
-                $error_str = "<b>Error(s):</b><br>Upload error: file name must not be empty!";
+                $error_str = "<strong>Error(s):</strong><br>Upload error: file name must not be empty!";
                 $this->tpl->setVariable("MESSAGE", $error_str);
                 $this->content_obj->setText(
                     $this->content_obj->input2xml(

@@ -12,8 +12,18 @@ il.MediaPool = {
 	},
 
 	preview: function (id) {
-		$('#ilMepPreviewContent').attr("src", il.MediaPool.ajaxurl + "&mepitem_id="+ id);
-		$('#ilMepPreviewContent').closest('.il-modal-roundtrip').modal('show');
+		const iframe = document.getElementById('ilMepPreviewContent');
+		iframe.style.minHeight = '50vh';
+		const signal = iframe.dataset.signal;
+		iframe.src = il.MediaPool.ajaxurl + '&mepitem_id=' + id;
+		$(document).trigger(
+			signal,
+			{
+				id: signal,
+				triggerer: $(document),
+				options: JSON.parse('[]'),
+			},
+		);
 	},
 
 	resizePreview: function () {

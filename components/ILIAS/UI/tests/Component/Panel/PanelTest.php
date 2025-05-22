@@ -27,6 +27,8 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 class ComponentDummy implements C\Component
 {
+    use I\Component\ComponentHelper;
+
     protected string $id;
 
     public function __construct($id = "")
@@ -63,7 +65,7 @@ class PanelTest extends ILIAS_UI_TestBase
             {
                 return new I\Component\Button\Factory();
             }
-            public function symbol(): C\Symbol\Factory
+            public function symbol(): I\Component\Symbol\Factory
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
@@ -77,7 +79,8 @@ class PanelTest extends ILIAS_UI_TestBase
     public function getPanelFactory(): I\Component\Panel\Factory
     {
         return new I\Component\Panel\Factory(
-            $this->createMock(C\Panel\Listing\Factory::class)
+            $this->createMock(I\Component\Panel\Listing\Factory::class),
+            $this->createMock(I\Component\Panel\Secondary\Factory::class),
         );
     }
 
@@ -168,12 +171,28 @@ class PanelTest extends ILIAS_UI_TestBase
 
         $p = $fp->sub("Title", array(new ComponentDummy()));
 
-        $legacy = new I\Component\Legacy\Legacy("Legacy content", new SignalGenerator());
+        $legacy = new I\Component\Legacy\Content("Legacy content", new SignalGenerator());
         $secondary = new I\Component\Panel\Secondary\Legacy("Legacy panel title", $legacy);
 
         $p = $p->withFurtherInformation($secondary);
 
         $this->assertEquals($p->getFurtherInformation(), $secondary);
+    }
+
+    public function testReportWithActions(): void
+    {
+        $fp = $this->getPanelFactory();
+
+        $p = $fp->report("Title", $fp->sub("Title", array(new ComponentDummy())));
+
+        $actions = new I\Component\Dropdown\Standard(array(
+            new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+            new I\Component\Button\Shy("GitHub", "https://www.github.com")
+        ));
+
+        $p = $p->withActions($actions);
+
+        $this->assertEquals($p->getActions(), $actions);
     }
 
     public function testReportGetTitle(): void
@@ -193,6 +212,7 @@ class PanelTest extends ILIAS_UI_TestBase
 
         $this->assertEquals($p->getContent(), array($sub));
     }
+
     public function testRenderStandard(): void
     {
         $f = $this->getPanelFactory();
@@ -212,7 +232,7 @@ class PanelTest extends ILIAS_UI_TestBase
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-controls">
-            <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+            <div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
                 <ul id="id_3_menu" class="dropdown-menu">
                     <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
                     <li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
@@ -247,7 +267,7 @@ EOT;
     <div class="panel-heading ilBlockHeader">
         <h3>Title</h3>
         <div class="panel-controls">
-            <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+            <div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
                 <ul id="id_3_menu" class="dropdown-menu">
                     <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
                     <li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
@@ -278,7 +298,7 @@ EOT;
         $r = $this->getDefaultRenderer();
 
         $p = $fp->sub("Title", array());
-        $legacy = new I\Component\Legacy\Legacy("Legacy content", new SignalGenerator());
+        $legacy = new I\Component\Legacy\Content("Legacy content", new SignalGenerator());
         $secondary = new I\Component\Panel\Secondary\Legacy("Legacy panel title", $legacy);
         $p = $p->withFurtherInformation($secondary);
         $html = $r->render($p);
@@ -316,17 +336,31 @@ EOT;
     {
         $fp = $this->getPanelFactory();
         $r = $this->getDefaultRenderer();
+
+        $actions = new I\Component\Dropdown\Standard(array(
+            new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+            new I\Component\Button\Shy("GitHub", "https://www.github.com")
+        ));
+
         $sub = $fp->sub("Title", array());
         $card = new I\Component\Card\Card("Card Title");
         $sub = $sub->withFurtherInformation($card);
-        $report = $fp->report("Title", $sub);
+        $report = $fp->report("Title", $sub)->withActions($actions);
 
         $html = $this->brutallyTrimHTML($r->render($report));
 
         $expected_html = <<<EOT
 <div class="panel panel-primary il-panel-report panel-flex">
     <div class="panel-heading ilHeader">
-        <h2>Title</h2>
+        <div class="panel-title"><h2>Title</h2></div>
+        <div class="panel-controls">
+            <div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+                <ul id="id_3_menu" class="dropdown-menu">
+                    <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
+                    <li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
+                </ul>
+            </div>
+        </div>
     </div>
     <div class="panel-body">
         <div class="panel panel-sub panel-flex">
@@ -352,13 +386,13 @@ EOT;
         $this->assertHTMLEquals($this->brutallyTrimHTML($expected_html), $html);
     }
 
-    public function testWithViewControls(): void
+    public function testStandardWithViewControls(): void
     {
         $sort_options = [
             'a' => 'A',
             'b' => 'B'
         ];
-        $sortation = $this->getUIFactory()->viewControl()->sortation($sort_options);
+        $sortation = $this->getUIFactory()->viewControl()->sortation($sort_options, 'a');
         $f = $this->getPanelFactory();
         $p = $f->standard("Title", [])
             ->withViewControls([$sortation])
@@ -367,13 +401,67 @@ EOT;
         $this->assertEquals($p->getViewControls(), [$sortation]);
     }
 
+    public function testReportWithViewControls(): void
+    {
+        $sort_options = [
+            'a' => 'A',
+            'b' => 'B'
+        ];
+        $sortation = $this->getUIFactory()->viewControl()->sortation($sort_options, 'a');
+        $f = $this->getPanelFactory();
+        $p = $f->report("Title", [])
+            ->withViewControls([$sortation])
+        ;
+
+        $this->assertEquals($p->getViewControls(), [$sortation]);
+    }
+
+    public function testRenderReportWithMode(): void
+    {
+        $modes = [
+            'A' => 'a',
+            'B' => 'b'
+        ];
+        $mode = $this->getUIFactory()->viewControl()->mode($modes, 'Presentation Mode');
+
+        $f = $this->getPanelFactory();
+        $r = $this->getDefaultRenderer();
+
+
+        $p = $f->report("Title", [])
+            ->withViewControls([$mode]);
+
+        $html = $r->render($p);
+
+        $expected_html = <<<EOT
+<div class="panel panel-primary il-panel-report panel-flex">
+    <div class="panel-heading ilHeader">
+        <div class="panel-title"><h2>Title</h2></div>
+        <div class="panel-viewcontrols l-bar__space-keeper">
+            <div class="il-viewcontrol-mode l-bar__element" aria-label="Presentation Mode" role="group">
+                <button class="btn btn-default engaged" aria-pressed="true" data-action="a" id="id_1">A</button>
+                <button class="btn btn-default" aria-pressed="false" data-action="b" id="id_2">B</button>
+            </div>
+        </div>
+        <div class="panel-controls"></div>
+    </div>
+    <div class="panel-body"></div>
+</div>
+EOT;
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
     public function testRenderWithSortation(): void
     {
         $sort_options = [
             'a' => 'A',
             'b' => 'B'
         ];
-        $sortation = $this->getUIFactory()->viewControl()->sortation($sort_options);
+
+        $sortation = $this->getUIFactory()->viewControl()->sortation($sort_options, 'b');
 
         $f = $this->getPanelFactory();
         $r = $this->getDefaultRenderer();
@@ -389,13 +477,15 @@ EOT;
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-viewcontrols l-bar__space-keeper">
-            <div class="il-viewcontrol-sortation l-bar__element" id="id_1">
-                <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_4"  aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu"><span class="caret"></span></button>
-                    <ul id="id_4_menu" class="dropdown-menu">
-                       <li><button class="btn btn-link" data-action="?sortation=a" id="id_2">A</button></li>
-                       <li><button class="btn btn-link" data-action="?sortation=b" id="id_3">B</button></li>
-                    </ul>
-                </div>
+            <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_1">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="id_1_ctrl">
+                    <span class="label">vc_sort B</span>
+                    <span class="glyphicon-sort"></span>
+                </button>
+                <ul id="id_1_ctrl" class="dropdown-menu">
+                   <li><button class="btn btn-link" data-action="?sortation=a" id="id_2">A</button></li>
+                   <li class="selected"><button class="btn btn-link" data-action="?sortation=b" id="id_3">B</button></li>
+                </ul>
             </div>
         </div>
         <div class="panel-controls"></div>

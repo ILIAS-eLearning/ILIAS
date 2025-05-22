@@ -28,7 +28,7 @@ class UsageOfAttributeFinder extends AbstractOfFinder
     public function getMatchingClassNames(
         string $attribute,
         array $additional_ignore = [],
-        string $matching_path = null
+        ?string $matching_path = null
     ): \Iterator {
         yield from $this->genericGetMatchingClassNames(
             fn (\ReflectionClass $r) => $this->isClassMatching($attribute, $r),

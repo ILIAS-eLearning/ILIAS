@@ -31,19 +31,17 @@ use ILIAS\Filesystem\Stream\FileStream;
 class StreamReplacementRevision extends BaseRevision implements Revision
 {
     protected bool $available = true;
-    protected \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
+    protected ResourceIdentification $identification;
     protected int $version_number = 0;
-    protected ?\ILIAS\ResourceStorage\Information\Information $information = null;
+    protected ?Information $information = null;
     protected int $owner_id = 0;
     protected string $title = '';
-    private FileStream $file_stream;
 
     /**
      * Revision constructor.
      */
-    public function __construct(ResourceIdentification $identification, FileStream $new_stream)
+    public function __construct(ResourceIdentification $identification, private FileStream $file_stream)
     {
-        $this->file_stream = $new_stream;
         parent::__construct($identification);
     }
 

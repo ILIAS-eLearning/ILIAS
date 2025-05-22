@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Resources\DataSource;
 
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\UI\Component\Input\Field\Text;
+use ILIAS\UI\Component\Input\Field\Numeric;
+use ILIAS\UI\Component\Input\Field\Select;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\components\ResourceStorage\Resources\Listing\SortDirection;
 use ILIAS\components\ResourceStorage\Resources\UI\BaseToComponent;
@@ -41,7 +45,7 @@ class AllResourcesDataSource extends BaseTableDataSource implements TableDataSou
     public function process(): void
     {
         $r = $this->db->query($this->getCountQuery());
-        $this->filtered_amount_of_items = (int)$this->db->fetchAssoc($r)['cnt'];
+        $this->filtered_amount_of_items = (int) $this->db->fetchAssoc($r)['cnt'];
 
         $r = $this->db->query($this->getDataQuery());
 
@@ -52,7 +56,7 @@ class AllResourcesDataSource extends BaseTableDataSource implements TableDataSou
         $this->irss->preload($rid_strings);
         foreach ($rid_strings as $rid_string) {
             $rid_instance = $this->irss->manage()->find($rid_string);
-            if (!$rid_instance instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
+            if (!$rid_instance instanceof ResourceIdentification) {
                 continue;
             }
             $this->collection->add($rid_instance);
@@ -72,8 +76,9 @@ class AllResourcesDataSource extends BaseTableDataSource implements TableDataSou
     }
 
     /**
-     * @return array{title: \ILIAS\UI\Component\Input\Field\Text, size: \ILIAS\UI\Component\Input\Field\Numeric, stakeholder: \ILIAS\UI\Component\Input\Field\Select}
+     * @return array{title: Text, size: Numeric, stakeholder: Select}
      */
+    #[\Override]
     public function getFilterItems(
         Factory $ui_factory,
         \ilLanguage $lng
@@ -181,7 +186,7 @@ class AllResourcesDataSource extends BaseTableDataSource implements TableDataSou
                 $filters[] = " il_resource_revision.title LIKE %s ";
             }
             if (isset($this->filter_values['size']) && $this->filter_values['size'] !== '') {
-                $greater_than = (int)$this->filter_values['size'] * BaseToComponent::SIZE_FACTOR * BaseToComponent::SIZE_FACTOR;
+                $greater_than = (int) $this->filter_values['size'] * BaseToComponent::SIZE_FACTOR * BaseToComponent::SIZE_FACTOR;
                 $filter_values[] = $this->db->quote($greater_than, 'integer');
                 $filters[] = " il_resource_info.size > %s ";
             }
@@ -203,11 +208,9 @@ class AllResourcesDataSource extends BaseTableDataSource implements TableDataSou
         $filters = [];
         $filter_values = [];
         $query = '';
-        if ($this->filter_values !== null) {
-            if (isset($this->filter_values['revisions']) && $this->filter_values['revisions'] !== '') {
-                $filter_values[] = $this->db->quote($this->filter_values['revisions'], 'integer');
-                $filters[] = "MAX(il_resource_revision.version_number) > %s ";
-            }
+        if ($this->filter_values !== null && (isset($this->filter_values['revisions']) && $this->filter_values['revisions'] !== '')) {
+            $filter_values[] = $this->db->quote($this->filter_values['revisions'], 'integer');
+            $filters[] = "MAX(il_resource_revision.version_number) > %s ";
         }
         if ($filters !== []) {
             $query = " HAVING " . implode(" AND ", $filters);

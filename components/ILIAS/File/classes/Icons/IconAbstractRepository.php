@@ -20,17 +20,19 @@ declare(strict_types=1);
 
 namespace ILIAS\File\Icon;
 
+use ILIAS\Refinery\Factory;
+
 /**
  * @author Lukas Zehnder <lukas@sr.solutions>
  */
 abstract class IconAbstractRepository implements IconRepositoryInterface
 {
-    private static \ILIAS\Refinery\Factory $refinery;
+    private Factory $refinery;
 
     public function __construct()
     {
         global $DIC;
-        self::$refinery = $DIC->refinery();
+        $this->refinery = $DIC->refinery();
     }
 
     final public function turnSuffixesArrayIntoString(array $a_suffixes): string
@@ -44,14 +46,14 @@ abstract class IconAbstractRepository implements IconRepositoryInterface
     final public function turnSuffixesStringIntoArray(string $a_suffixes): array
     {
         $a_suffixes = preg_replace('/\s+/', '', $a_suffixes);
-        return explode(",", $a_suffixes);
+        return explode(",", (string) $a_suffixes);
     }
 
     final public function hasSuffixInputOnlyAllowedCharacters(array $a_suffixes): bool
     {
         $suffixes_string = $this->turnSuffixesArrayIntoString($a_suffixes);
         $matches = preg_match("/^[a-zA-Z0-9\,\s]+$/", $suffixes_string);
-        return self::$refinery->kindlyTo()->bool()->transform($matches);
+        return $this->refinery->kindlyTo()->bool()->transform($matches);
     }
 
     final public function hasSuffixInputNoDuplicatesToItsOwnEntries(array $a_suffixes): bool

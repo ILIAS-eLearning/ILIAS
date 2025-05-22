@@ -24,7 +24,7 @@ use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Input;
 use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\Container\Filter\Filter;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Data;
@@ -45,7 +45,7 @@ class FixedNameSourceFilter implements NameSource
 class ConcreteFilter extends Filter
 {
     public array $inputs;
-    public ?Input\InputData $input_data = null;
+    public ?InputData $input_data = null;
     protected Input\Field\Factory $input_factory;
     protected Group $input_group;
 
@@ -80,12 +80,12 @@ class ConcreteFilter extends Filter
         );
     }
 
-    public function _extractParamData(ServerRequestInterface $request): Input\InputData
+    public function _extractParamData(ServerRequestInterface $request): InputData
     {
         return $this->extractParamData($request);
     }
 
-    public function extractParamData(ServerRequestInterface $request): Input\InputData
+    public function extractParamData(ServerRequestInterface $request): InputData
     {
         if ($this->input_data !== null) {
             return $this->input_data;
@@ -101,10 +101,10 @@ class ConcreteFilter extends Filter
     }
 
     // TODO: DW perhaps, this can be removed
-//    public function _getInput(ServerRequestInterface $request)
-//    {
-//        return $this->getInput($request);
-//    }
+    //    public function _getInput(ServerRequestInterface $request)
+    //    {
+    //        return $this->getInput($request);
+    //    }
 }
 
 /**
@@ -123,7 +123,7 @@ class FilterTest extends ILIAS_UI_TestBase
     protected function buildInputFactory(): Input\Field\Factory
     {
         $df = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
+        $language = $this->createMock(ILIAS\Language\Language::class);
         return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
@@ -476,7 +476,8 @@ class FilterTest extends ILIAS_UI_TestBase
                 "withOnUpdate",
                 "appendOnUpdate",
                 "withResetTriggeredSignals",
-                "getTriggeredSignals"
+                "getTriggeredSignals",
+                "reduceWith"
             ])
             ->setMockClassName("Mock_InputNo" . ($no++))
             ->getMock();

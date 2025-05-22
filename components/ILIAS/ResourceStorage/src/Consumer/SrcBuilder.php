@@ -36,7 +36,7 @@ interface SrcBuilder
         Revision $revision,
         bool $signed = true,
         float $valid_for_at_least_minutes = 60.0,
-        string $filename = null
+        ?string $filename = null
     ): string;
 
     /**

@@ -1,5 +1,23 @@
 /* see content style roadmap */
 
+#il-edit-cont {
+	position: static;
+}
+
+#il-edit-cont p {
+	/*margin: 0px;*/
+	/*padding: 0px;*/
+}
+
+.ilTinyMenuSection .dropdown-menu .btn, .il-copg-button-group .dropdown-menu .btn {
+	width: 100%;
+	text-align: left;
+}
+
+#iltinymenu div.ilTinyMenuSection p, #iltinymenu .il-copg-button-group p {
+	background-color: transparent;
+}
+
 div.ilc_QuestionPlaceHolder
 {
 	padding: 10px 10px 10px 10px;
@@ -78,6 +96,16 @@ button.copg-add.dropdown-toggle.btn:focus-visible {
   outline-offset: -3px;
 }
 
+#ilPageTocContent ul {
+	list-style-type: none;
+	padding-left: 20px;
+}
+
+#ilPageTocContent > ul {
+	padding-left: 5px;
+}
+
+
 @media (min-width: 480px) {
 	.copg-iim-popup-sm {
 		max-width: 50%;
@@ -139,4 +167,24 @@ button.copg-add.dropdown-toggle.btn:focus-visible {
 	.copg-iim-popup-lg {
 		max-width: 100%;
 	}
+}
+
+.ilc_ca_cntr_CarouselCntr {
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+}
+.ilc_ca_cntr_CarouselCntr > div {
+	width: 100%;
+	box-sizing: border-box;
+	opacity: 0;
+	transition: opacity 0.5s ease;
+	display: none;
+}
+.ilc_ca_cntr_CarouselCntr > div.active {
+	display: block;
+	opacity: 1;
+}
+.copg-src-form.c-form [data-il-ui-component=textarea-field-input] .c-input__field textarea {
+	height: 50vh;
 }

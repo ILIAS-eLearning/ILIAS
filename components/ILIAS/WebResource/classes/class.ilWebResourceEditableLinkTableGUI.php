@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPService;
@@ -296,21 +296,13 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 
             $options = [];
             foreach (ilWebLinkBaseParameter::VALUES as $name => $identifier) {
-                if ($name === ilWebLinkBaseParameter::SESSION_ID_NAME) {
-                    continue;
-                }
-                $options[] = ilWebLinkBaseParameter::VALUES_TEXT[$identifier];
+                $options[$identifier] = $this->lng->txt(ilWebLinkBaseParameter::VALUES_TEXT[$identifier]);
             }
             $this->tpl->setVariable(
                 'SEL_DYN_VAL',
                 ilLegacyFormElementsUtil::formSelect(
                     $a_set['value'] ?? 0,
                     'links[' . $a_set['id'] . '][val]',
-                    /*
-                    array_map(function ($s) {
-                        return $this->lng->txt($s);
-                    }, ilWebLinkBaseParameter::VALUES_TEXT),
-                    */
                     $options,
                     false,
                     true

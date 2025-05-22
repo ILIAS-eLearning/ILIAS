@@ -20,14 +20,11 @@ declare(strict_types=1);
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-/**
- * Class ilMailMimeTransportBase
- */
 abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 {
     protected PHPMailer $mailer;
 
-    public function __construct(protected ilSetting $settings, private readonly ilAppEventHandler $eventHandler)
+    public function __construct(protected ilSetting $settings, private readonly ilAppEventHandler $event_handler)
     {
         $mail = new PHPMailer();
         $this->setMailer($mail);
@@ -116,9 +113,9 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
             }
         }
 
-        if ($mail->getFinalBodyAlt() !== '') {
+        if ($mail->getFinalBodyalt() !== '') {
             $this->getMailer()->isHTML(true);
-            $this->getMailer()->AltBody = $mail->getFinalBodyAlt();
+            $this->getMailer()->AltBody = $mail->getFinalBodyalt();
         } else {
             $this->getMailer()->isHTML(false);
             $this->getMailer()->AltBody = '';
@@ -182,7 +179,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
             ));
         }
 
-        $this->eventHandler->raise('components/ILIAS/Mail', 'externalEmailDelegated', [
+        $this->event_handler->raise('components/ILIAS/Mail', 'externalEmailDelegated', [
             'mail' => $mail,
             'result' => $result,
         ]);

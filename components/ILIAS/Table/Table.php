@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\components\Table\Setup\LegacyTableSetupAgent;
+
 class Table implements Component\Component
 {
     public function init(
@@ -34,5 +36,7 @@ class Table implements Component\Component
     ): void {
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ServiceTable.js");
+
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() => new LegacyTableSetupAgent();
     }
 }

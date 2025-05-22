@@ -108,11 +108,12 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         $this->tpl->setVariable("POINTS_CURRENT", $a_set["points_current"]);
         $this->tpl->setVariable(
             "POINTS_REQUIRED",
-            $this->getRequiredPointsInput($a_set["progress_id"], $a_set["status"], (string)$a_set["points_required"])
+            $this->getRequiredPointsInput($a_set["progress_id"], $a_set["status"], (string) $a_set["points_required"])
         );
         $this->tpl->setVariable("MANUAL_STATUS", $this->getManualStatusSelect(
             $a_set["progress_id"],
-            (int) $a_set["status"]
+            (int) $a_set["status"],
+            (int) $a_set["program_status"],
         ));
         $this->tpl->setVariable("POSSIBLE", $a_set["possible"] ? $this->possible_image : $this->not_possible_image);
         $this->tpl->setVariable("CHANGED_BY", $a_set["changed_by"]);
@@ -191,7 +192,9 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
                     "title" => $node->getTitle(),
                     "points_current" => $progress->getCurrentAmountOfPoints(),
                     "points_required" => $progress->getAmountOfPoints(),
-                    "possible" => $progress->isSuccessful() || $programme->canBeCompleted($progress) || !$progress->isRelevant(),
+                    "possible" => $progress->isSuccessful()
+                        || $programme->canBeCompleted($progress)
+                        || (!$progress->isRelevant() && $programme->getStatus() !== ilStudyProgrammeSettings::STATUS_DRAFT),
                     "changed_by" => ilObjUser::_lookupLogin($progress->getLastChangeBy()),
                     "completion_by" => $completion_by,
                     "progress_id" => $progress->getId(),
@@ -207,7 +210,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         return $plan;
     }
 
-    protected function getManualStatusSelect(string $progress_id, int $status): string
+    protected function getManualStatusSelect(string $progress_id, int $status, int $node_lifecycle_status): string
     {
         $parent = $this->getParentObject();
         $options = [
@@ -222,8 +225,9 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
 
         $options = array_filter(
             $options,
-            static function ($o) use ($allowed, $parent): bool {
-                return in_array($o, $allowed) || $o === $parent::MANUAL_STATUS_NONE;
+            static function ($o) use ($allowed, $parent, $node_lifecycle_status): bool {
+                return (in_array($o, $allowed) || $o === $parent::MANUAL_STATUS_NONE)
+                && ($node_lifecycle_status !== ilStudyProgrammeSettings::STATUS_DRAFT);
             },
             ARRAY_FILTER_USE_KEY
         );

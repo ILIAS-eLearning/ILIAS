@@ -1,17 +1,20 @@
 <?php
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  *
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -23,14 +26,16 @@
  */
 class ilShibbolethRoleAssignmentTableGUI extends ilTable2GUI
 {
+    /**
+     * @throws ilCtrlException
+     */
     public function __construct(ilAuthShibbolethSettingsGUI $a_parent_obj, string $a_parent_cmd = '')
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
         $this->addColumn('', 'f', 1);
         $this->addColumn($this->lng->txt('shib_rule_type'), 'type', "20%");
         $this->addColumn($this->lng->txt('shib_ilias_role'), 'role', "30%");
@@ -42,6 +47,10 @@ class ilShibbolethRoleAssignmentTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("desc");
     }
 
+    /**
+     * @throws ilCtrlException
+     */
+    #[\Override]
     protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);

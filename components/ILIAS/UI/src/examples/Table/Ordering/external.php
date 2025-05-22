@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Table\Ordering;
@@ -8,6 +24,17 @@ use ILIAS\UI\Implementation\Component\Table as T;
 use ILIAS\UI\Component\Table as I;
 use ILIAS\Data\URI;
 
+/**
+ * ---
+ * description: >
+ *   Example showing an Ordering Table with validation on the ordering.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ *   You may order rows in any way, but upon saving, only the correct order is
+ *   accepted. A Message will tell you.
+ * ---
+ */
 function external()
 {
     global $DIC;
@@ -37,7 +64,7 @@ function external()
             ->withHighlight(true)
     ];
 
-    $data_retrieval = new class ($f, $r) implements I\OrderingBinding {
+    $data_retrieval = new class ($f, $r) implements I\OrderingRetrieval {
         protected array $records;
 
         public function __construct(
@@ -87,7 +114,7 @@ function external()
      * Alter the URL the tables posts its positions to (here: just add a parameter).
      */
     $target = (new URI((string) $request->getUri()))->withParameter('ordering_example', 3);
-    $table = $f->table()->ordering('sort the letters', $columns, $data_retrieval, $target)
+    $table = $f->table()->ordering($data_retrieval, $target, 'sort the letters', $columns)
         ->withRequest($request);
 
     /**
@@ -99,7 +126,7 @@ function external()
         && $request_wrapper->retrieve('ordering_example', $refinery->kindlyTo()->int()) === 3
     ) {
         $data = $table->withRequest($request)->getData();
-        if($data === range(65, 68)) {
+        if ($data === range(65, 68)) {
             $data_retrieval->setOrder($data);
             $out[] = $f->messageBox()->success("ok. great ordering!");
         } else {

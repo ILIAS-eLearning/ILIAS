@@ -16,16 +16,14 @@
  *
  *********************************************************************/
 
-use ILIAS\Setup;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\UnachievableException;
 
-class ilGlobalCacheConfigStoredObjective implements Setup\Objective
+class ilGlobalCacheConfigStoredObjective implements Objective
 {
-    protected \ilGlobalCacheSettingsAdapter $settings;
-
-    public function __construct(
-        \ilGlobalCacheSettingsAdapter $settings
-    ) {
-        $this->settings = $settings;
+    public function __construct(protected \ilGlobalCacheSettingsAdapter $settings)
+    {
     }
 
     public function getHash(): string
@@ -43,17 +41,17 @@ class ilGlobalCacheConfigStoredObjective implements Setup\Objective
         return false;
     }
 
-    public function getPreconditions(Setup\Environment $environment): array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
 
-    public function achieve(Setup\Environment $environment): Setup\Environment
+    public function achieve(Environment $environment): Environment
     {
-        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
-        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $client_ini = $environment->getResource(Environment::RESOURCE_CLIENT_INI);
+        $db = $environment->getResource(Environment::RESOURCE_DATABASE);
         /** @var $db ilDBInterface */
         $repo = new ilMemcacheNodesRepository($db);
         $repo->deleteAll();
@@ -66,7 +64,7 @@ class ilGlobalCacheConfigStoredObjective implements Setup\Objective
         $return = $this->settings->storeToIniFile($client_ini);
 
         if (!$client_ini->write() || !$return) {
-            throw new Setup\UnachievableException("Could not write client.ini.php");
+            throw new UnachievableException("Could not write client.ini.php");
         }
 
         return $environment;
@@ -75,7 +73,7 @@ class ilGlobalCacheConfigStoredObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment): bool
+    public function isApplicable(Environment $environment): bool
     {
         // The effort to check the whole ini file is too big here.
         return true;

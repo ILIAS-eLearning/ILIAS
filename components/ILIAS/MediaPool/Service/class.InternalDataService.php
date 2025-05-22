@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\MediaPool;
+
+use ILIAS\MediaPool\Settings\Settings;
 
 /**
  * Repository internal data service
@@ -33,9 +35,12 @@ class InternalDataService
         //$this->..._factory = new ...\DataFactory();
     }
 
-    /*
-    public function ...() : ...\...
-    {
-        return $this->..._factory->...();
-    }*/
+    public function settings(
+        int $id,
+        int $default_width,
+        int $default_height,
+        bool $for_translation
+    ): Settings {
+        return new Settings($id, $default_width, $default_height, $for_translation);
+    }
 }

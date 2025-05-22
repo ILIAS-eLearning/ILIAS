@@ -21,7 +21,6 @@ namespace ILIAS\FileUpload\Processor;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
-use Psr\Http\Message\StreamInterface;
 
 /**
  * Class PreProcessorManagerImpl
@@ -67,7 +66,7 @@ final class PreProcessorManagerImpl implements PreProcessorManager
             }
 
             if (is_null($result)) {
-                $result = new ProcessingStatus(ProcessingStatus::OK, 'No processors were registered.');
+                return new ProcessingStatus(ProcessingStatus::OK, 'No processors were registered.');
             }
 
             return $result;

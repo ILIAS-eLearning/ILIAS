@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * external link search bridge
@@ -57,7 +57,7 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         $this->addToParentElement($url);
     }
 
-    public function importFromPost(array $a_post = null): bool
+    public function importFromPost(?array $a_post = null): bool
     {
         $post = $this->extractPostValues($a_post);
 
@@ -146,9 +146,12 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     public function isInCondition(ilADT $a_adt): bool
     {
         if ($this->getADT()->getCopyOfDefinition()->isComparableTo($a_adt)) {
+            $search_term = strtolower(trim((string) $this->getADT()->getUrl()));
+            $title = strtolower(trim((string) $a_adt->getTitle()));
+            $url = strtolower(trim((string) $a_adt->getUrl()));
             return
-                strcasecmp(trim($this->getADT()->getUrl()), trim((string) $a_adt->getUrl())) === 0 ||
-                strcasecmp(trim($this->getADT()->getUrl()), trim((string) $a_adt->getTitle())) === 0;
+                str_contains($title, $search_term) ||
+                str_contains($url, $search_term);
         }
         return false;
     }

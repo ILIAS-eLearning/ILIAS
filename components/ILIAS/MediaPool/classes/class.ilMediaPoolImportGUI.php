@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Properties\Translations\Translations;
+
 /**
  * Import related features for media pools (currently used for translation imports)
  *
@@ -28,6 +30,7 @@ class ilMediaPoolImportGUI
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
+    protected Translations $ot;
 
     public function __construct(ilObjMediaPool $a_mep)
     {
@@ -41,6 +44,7 @@ class ilMediaPoolImportGUI
             ->internal()
             ->gui()
             ->standardRequest();
+        $this->ot = $a_mep->getObjectProperties()->getPropertyTranslations();
     }
 
     public function executeCommand(): void
@@ -80,10 +84,10 @@ class ilMediaPoolImportGUI
         $fi->setSize(30);
         $form->addItem($fi);
 
-        $ot = ilObjectTranslation::getInstance($this->mep->getId());
+        $ot = $this->ot;
         $options = [];
         foreach ($ot->getLanguages() as $l) {
-            if ($l->getLanguageCode() != $ot->getMasterLanguage()) {
+            if ($l->getLanguageCode() != $ot->getBaseLanguage()) {
                 $options[$l->getLanguageCode()] = $lng->txt("meta_l_" . $l->getLanguageCode());
             }
         }
@@ -109,8 +113,8 @@ class ilMediaPoolImportGUI
         $conf = $imp->getConfig("components/ILIAS/MediaPool");
 
         $target_lang = $this->request->getImportLang();
-        $ot = ilObjectTranslation::getInstance($this->mep->getId());
-        if ($target_lang === $ot->getMasterLanguage()) {
+        $ot = $this->ot;
+        if ($target_lang === $ot->getBaseLanguage()) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("mep_transl_master_language_not_allowed"), true);
             $ilCtrl->redirect($this, "showTranslationImportForm");
         }

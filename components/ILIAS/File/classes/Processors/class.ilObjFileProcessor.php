@@ -27,9 +27,9 @@ class ilObjFileProcessor extends ilObjFileAbstractProcessor
 {
     public function process(
         ResourceIdentification $rid,
-        string $title = null,
-        string $description = null,
-        int $copyright_id = null
+        ?string $title = null,
+        ?string $description = null,
+        ?string $copyright_id = null
     ): void {
         $file_obj = $this->createFileObj($rid, $this->gui_object->getParentId(), $title, $description, $copyright_id);
     }

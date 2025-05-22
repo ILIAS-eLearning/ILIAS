@@ -24,19 +24,19 @@ use ILIAS\UI\Component\Layout;
 
 class Factory implements Layout\Factory
 {
-    /**
-     * @inheritdoc
-     */
-    public function page(): Layout\Page\Factory
-    {
-        return new Page\Factory();
+    public function __construct(
+        protected Page\Factory $page_factory,
+        protected Alignment\Factory $alignment_factory,
+    ) {
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function alignment(): Layout\Alignment\Factory
+    public function page(): Page\Factory
     {
-        return new Alignment\Factory();
+        return $this->page_factory;
+    }
+
+    public function alignment(): Alignment\Factory
+    {
+        return $this->alignment_factory;
     }
 }

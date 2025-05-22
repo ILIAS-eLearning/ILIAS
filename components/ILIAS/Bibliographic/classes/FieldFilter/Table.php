@@ -18,6 +18,8 @@
 
 namespace ILIAS\Bibliographic\FieldFilter;
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 use ILIAS\UI\URLBuilder;
 use ILIAS\Data\URI;
 use ILIAS\UI\URLBuilderToken;
@@ -27,8 +29,8 @@ use ILIAS\UI\URLBuilderToken;
  */
 class Table
 {
-    private \ILIAS\UI\Factory $ui_factory;
-    private \ILIAS\UI\Renderer $ui_renderer;
+    private Factory $ui_factory;
+    private Renderer $ui_renderer;
     private \ilCtrlInterface $ctrl;
     private \ilLanguage $lng;
     private URLBuilder $url_builder;
@@ -54,9 +56,9 @@ class Table
         );
 
         $this->components[] = $this->ui_factory->table()->data(
+            $data_retrieval,
             $this->lng->txt('filter'),
             $columns,
-            $data_retrieval
         )->withActions($actions)->withRequest(
             $DIC->http()->request()
         );

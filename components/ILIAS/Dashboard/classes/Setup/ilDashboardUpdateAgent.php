@@ -27,7 +27,7 @@ use ilDatabaseUpdateStepsExecutedObjective;
 
 class ilDashboardUpdateAgent extends NullAgent
 {
-    public function getUpdateObjective(Config $config = null): Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
         return new ilDatabaseUpdateStepsExecutedObjective(new ilDashboardUpdateSteps());
     }

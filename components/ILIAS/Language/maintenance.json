@@ -8,7 +8,7 @@
     ],
     "tester": "kunkel(115)",
     "testcase_writer": "",
-    "path": "components/ILIAS/Language_",
+    "path": "components/ILIAS/Language",
     "belong_to_component": "Language Handling",
     "used_in_components": [
         "All"

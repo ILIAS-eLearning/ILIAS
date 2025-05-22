@@ -13,13 +13,16 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input;
 
 use ILIAS\UI\Component\Input\Field\UploadHandler;
+use ILIAS\UI\Component\Input\Field\PhpUploadLimit;
+use ILIAS\UI\Component\Input\Field\GlobalUploadLimit;
 
 /**
  * This class will bee used by @see FileUpload to resolve upload-limits.
@@ -39,36 +42,34 @@ use ILIAS\UI\Component\Input\Field\UploadHandler;
  */
 class UploadLimitResolver
 {
-    /**
-     * @param int      $php_upload_limit_in_bytes           smaller php-ini option of 'post_max_size' and 'upload_max_filesize'
-     * @param int|null $custom_global_upload_limit_in_bytes custom upload limit (may exceed $php_upload_limit_in_bytes)
-     */
     public function __construct(
-        protected int $php_upload_limit_in_bytes,
-        protected ?int $custom_global_upload_limit_in_bytes = null
+        protected PhpUploadLimit $php_upload_limit,
+        protected GlobalUploadLimit $global_upload_limit
     ) {
     }
 
     public function getBestPossibleUploadLimitInBytes(
         UploadHandler $upload_handler,
-        int $local_limit_in_bytes = null
+        ?int $local_limit_in_bytes = null
     ): int {
         if (null !== $local_limit_in_bytes && $this->canUploadLimitBeUsed($upload_handler, $local_limit_in_bytes)) {
             return $local_limit_in_bytes;
         }
 
-        if (null !== $this->custom_global_upload_limit_in_bytes &&
-            $this->canUploadLimitBeUsed($upload_handler, $this->custom_global_upload_limit_in_bytes)
+        $global_upload_limit_in_bytes = $this->global_upload_limit->getGlobalUploadLimitInBytes();
+
+        if (null !== $global_upload_limit_in_bytes &&
+            $this->canUploadLimitBeUsed($upload_handler, $global_upload_limit_in_bytes)
         ) {
-            return $this->custom_global_upload_limit_in_bytes;
+            return $global_upload_limit_in_bytes;
         }
 
-        return $this->php_upload_limit_in_bytes;
+        return $this->getPhpUploadLimitInBytes();
     }
 
     public function getPhpUploadLimitInBytes(): int
     {
-        return $this->php_upload_limit_in_bytes;
+        return $this->php_upload_limit->getPhpUploadLimitInBytes();
     }
 
     protected function canUploadLimitBeUsed(UploadHandler $upload_handler, ?int $limit_in_bytes): bool
@@ -77,6 +78,6 @@ class UploadLimitResolver
             return true;
         }
 
-        return $limit_in_bytes <= $this->php_upload_limit_in_bytes;
+        return $limit_in_bytes <= $this->getPhpUploadLimitInBytes();
     }
 }

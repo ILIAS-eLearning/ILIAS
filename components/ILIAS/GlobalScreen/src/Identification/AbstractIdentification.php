@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\GlobalScreen\Identification;
 
 use ILIAS\GlobalScreen\Identification\Serializer\SerializerInterface;
-use ILIAS\GlobalScreen\Provider\Provider;
 use LogicException;
 
 /**
@@ -30,11 +29,6 @@ use LogicException;
  */
 abstract class AbstractIdentification implements IdentificationInterface
 {
-    protected SerializerInterface $serializer;
-    protected string $provider_presentation_name;
-    protected string $internal_identifier = '';
-    protected string $classname = '';
-
     /**
      * CoreIdentification constructor.
      * @param string              $internal_identifier
@@ -42,12 +36,8 @@ abstract class AbstractIdentification implements IdentificationInterface
      * @param SerializerInterface $serializer
      * @param string              $provider_presentation_name
      */
-    public function __construct(string $internal_identifier, string $classname, SerializerInterface $serializer, string $provider_presentation_name)
+    public function __construct(protected string $internal_identifier, protected string $classname, protected SerializerInterface $serializer, protected string $provider_presentation_name)
     {
-        $this->provider_presentation_name = $provider_presentation_name;
-        $this->serializer = $serializer;
-        $this->internal_identifier = $internal_identifier;
-        $this->classname = $classname;
     }
 
     /**

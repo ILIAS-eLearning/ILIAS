@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilObjMail
- * @author Stefan Meyer <meyer@leifos.com>
- */
 class ilObjMail extends ilObject
 {
     public function __construct(int $a_id, bool $a_call_by_reference = true)

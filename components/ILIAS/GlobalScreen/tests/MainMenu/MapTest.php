@@ -106,15 +106,11 @@ class MapTest extends TestCase
         $this->assertTrue($map->has());
         $this->assertSame(count(iterator_to_array($map->getAllFromFilter())), 4);
 
-        $map->filter(static function (): bool {
-            return true;
-        });
+        $map->filter(static fn(): bool => true);
 
         $this->assertSame(count(iterator_to_array($map->getAllFromFilter())), 4);
 
-        $map->filter(static function (isItem $i): bool {
-            return $i->getProviderIdentification()->getInternalIdentifier() !== 'parent_1';
-        });
+        $map->filter(static fn(isItem $i): bool => $i->getProviderIdentification()->getInternalIdentifier() !== 'parent_1');
 
         $this->assertSame(count(iterator_to_array($map->getAllFromFilter())), 3);
         $this->assertFalse($map->existsInFilter($p1));
@@ -122,9 +118,7 @@ class MapTest extends TestCase
         $this->assertTrue($map->existsInFilter($p3));
         $this->assertTrue($map->existsInFilter($p4));
 
-        $map->filter(static function (): bool {
-            return false;
-        });
+        $map->filter(static fn(): bool => false);
         $this->assertFalse($map->existsInFilter($p1));
         $this->assertFalse($map->existsInFilter($p2));
         $this->assertFalse($map->existsInFilter($p3));

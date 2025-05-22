@@ -143,7 +143,7 @@ class ilWikiStat
         int $a_event,
         ilWikiPage $a_page_obj,
         ?int $a_user_id = null,
-        array $a_additional_data = null
+        ?array $a_additional_data = null
     ): void {
         global $DIC;
 
@@ -400,7 +400,7 @@ class ilWikiStat
     public static function handlePageUpdated(
         ilWikiPage $a_page_obj,
         int $a_user_id,
-        array $a_page_data = null
+        ?array $a_page_data = null
     ): void {
         // page_user: changes+1
         self::writeStatPageUser(

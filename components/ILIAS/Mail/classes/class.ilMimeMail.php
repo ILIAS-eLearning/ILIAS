@@ -22,17 +22,17 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class ilMimeMail
 {
-    final public const MAIL_SUBJECT_PREFIX = '[ILIAS]';
+    final public const string MAIL_SUBJECT_PREFIX = '[ILIAS]';
 
-    protected static ?ilMailMimeTransport $defaultTransport = null;
+    protected static ?ilMailMimeTransport $default_transport = null;
 
     protected ilMailMimeSender $sender;
-    protected ilMailMimeSubjectBuilder $subjectBuilder;
+    protected ilMailMimeSubjectBuilder $subject_builder;
     protected ilSetting $settings;
     protected string $subject = '';
     protected string $body = '';
-    protected string $finalBody = '';
-    protected string $finalBodyAlt = '';
+    protected string $final_body = '';
+    protected string $final_body_alt = '';
     /** @var string[] */
     protected array $sendto = [];
     /** @var string[] */
@@ -61,23 +61,23 @@ class ilMimeMail
             self::setDefaultTransport($factory->getTransport());
         }
 
-        $this->subjectBuilder = new ilMailMimeSubjectBuilder($this->settings, self::MAIL_SUBJECT_PREFIX);
+        $this->subject_builder = new ilMailMimeSubjectBuilder($this->settings, self::MAIL_SUBJECT_PREFIX);
         $this->refinery = $DIC->refinery();
     }
 
     public static function setDefaultTransport(?ilMailMimeTransport $transport): void
     {
-        self::$defaultTransport = $transport;
+        self::$default_transport = $transport;
     }
 
     public static function getDefaultTransport(): ?ilMailMimeTransport
     {
-        return self::$defaultTransport;
+        return self::$default_transport;
     }
 
-    public function Subject(string $subject, bool $addPrefix = false, string $contextPrefix = ''): void
+    public function Subject(string $subject, bool $add_prefix = false, string $context_prefix = ''): void
     {
-        $this->subject = $this->subjectBuilder->subject($subject, $addPrefix, $contextPrefix);
+        $this->subject = $this->subject_builder->subject($subject, $add_prefix, $context_prefix);
     }
 
     public function getSubject(): string
@@ -157,12 +157,12 @@ class ilMimeMail
 
     public function getFinalBody(): string
     {
-        return $this->finalBody;
+        return $this->final_body;
     }
 
-    public function getFinalBodyAlt(): string
+    public function getFinalBodyalt(): string
     {
-        return $this->finalBodyAlt;
+        return $this->final_body_alt;
     }
 
     public function getFrom(): ilMailMimeSender
@@ -230,8 +230,8 @@ class ilMimeMail
     {
         global $DIC;
 
-        $this->finalBodyAlt = '';
-        $this->finalBody = '';
+        $this->final_body_alt = '';
+        $this->final_body = '';
         $this->images = [];
 
         if ($DIC->settings()->get('mail_send_html', '0')) {
@@ -241,15 +241,15 @@ class ilMimeMail
             $this->buildBodyMultiParts($skin, $style);
             $this->buildHtmlInlineImages($skin, $style);
         } else {
-            $this->finalBody = $this->removeHTMLTags($this->body);
+            $this->final_body = $this->removeHTMLTags($this->body);
         }
     }
 
-    private function removeHTMLTags(string $maybeHTML): string
+    private function removeHTMLTags(string $maybe_html): string
     {
-        $maybeHTML = str_ireplace(['<br />', '<br>', '<br/>'], "\n", $maybeHTML);
+        $maybe_html = str_ireplace(['<br />', '<br>', '<br/>'], "\n", $maybe_html);
 
-        return strip_tags($maybeHTML);
+        return strip_tags($maybe_html);
     }
 
     protected function buildBodyMultiParts(string $skin, string $style): void
@@ -262,25 +262,37 @@ class ilMimeMail
             // Let's assume(!) that there is no HTML
             // (except certain tags, e.g. used for object title formatting, where the consumer is not aware of this),
             // so convert "\n" to "<br>"
-            $this->finalBodyAlt = strip_tags($this->body);
+            $this->final_body_alt = strip_tags($this->body);
             $this->body = $this->refinery->string()->makeClickable()->transform(nl2br($this->body));
         } else {
             // if there is HTML, convert "<br>" to "\n" and strip tags for plain text alternative
-            $this->finalBodyAlt = strip_tags(str_ireplace(["<br />", "<br>", "<br/>"], "\n", $this->body));
+            $this->final_body_alt = strip_tags(str_ireplace(["<br />", "<br>", "<br/>"], "\n", $this->body));
         }
 
-        $this->finalBody = str_replace('{PLACEHOLDER}', $this->body, $this->getHtmlEnvelope($skin, $style));
+        $this->final_body = str_replace('{PLACEHOLDER}', $this->body, $this->getHtmlEnvelope($skin, $style));
+    }
+
+    private function getPathToRootDirectory(): string
+    {
+        return realpath(dirname(__DIR__, 4) . '/');
     }
 
     protected function getHtmlEnvelope(string $skin, string $style): string
     {
-        $bracket_path = './components/ILIAS/Mail/templates/default/tpl.html_mail_template.html';
-
+        $bracket_path = $this->getPathToRootDirectory() . '/components/ILIAS/Mail/templates/default/tpl.html_mail_template.html';
         if ($skin !== 'default') {
-            $tplpath = './Customizing/global/skin/' . $skin . '/' . $style . '/components/ILIAS/Mail/tpl.html_mail_template.html';
+            $locations = [
+                $skin,
+                $skin . '/' . $style
+            ];
 
-            if (is_file($tplpath)) {
-                $bracket_path = './Customizing/global/skin/' . $skin . '/' . $style . '/components/ILIAS/Mail/tpl.html_mail_template.html';
+            foreach ($locations as $location) {
+                $custom_path = $this->getPathToRootDirectory(
+                ) . '/public/Customizing/skin/' . $location . '/components/ILIAS/Mail/tpl.html_mail_template.html';
+                if (is_file($custom_path)) {
+                    $bracket_path = $custom_path;
+                    break;
+                }
             }
         }
 
@@ -289,19 +301,30 @@ class ilMimeMail
 
     protected function buildHtmlInlineImages(string $skin, string $style): void
     {
-        $this->gatherImagesFromDirectory('./components/ILIAS/Mail/templates/default/img');
+        $this->gatherImagesFromDirectory(
+            $this->getPathToRootDirectory() . '/components/ILIAS/Mail/templates/default/img'
+        );
 
         if ($skin !== 'default') {
-            $skinDirectory = './Customizing/global/skin/' . $skin . '/' . $style . '/components/ILIAS/Mail/img';
-            if (is_dir($skinDirectory) && is_readable($skinDirectory)) {
-                $this->gatherImagesFromDirectory($skinDirectory, true);
+            $locations = [
+                $skin,
+                $skin . '/' . $style
+            ];
+
+            foreach ($locations as $location) {
+                $custom_directory = $this->getPathToRootDirectory(
+                ) . '/public/Customizing/skin/' . $location . '/components/ILIAS/Mail/img';
+                if (is_dir($custom_directory) && is_readable($custom_directory)) {
+                    $this->gatherImagesFromDirectory($custom_directory, true);
+                    break;
+                }
             }
         }
     }
 
-    protected function gatherImagesFromDirectory(string $directory, bool $clearPrevious = false): void
+    protected function gatherImagesFromDirectory(string $directory, bool $clear_previous = false): void
     {
-        if ($clearPrevious) {
+        if ($clear_previous) {
             $this->images = [];
         }
 
@@ -320,7 +343,7 @@ class ilMimeMail
         }
     }
 
-    public function Send(ilMailMimeTransport $transport = null): bool
+    public function Send(?ilMailMimeTransport $transport = null): bool
     {
         if (!($transport instanceof ilMailMimeTransport)) {
             $transport = self::getDefaultTransport();

@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 use ILIAS\Badge\BadgeParent;
 use ILIAS\UI\Component\Listing\Descriptive;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy;
 use ilBadge;
 use ILIAS\UI\Factory as UI;
 use ILIAS\DI\UIServices;
@@ -54,7 +54,8 @@ class BadgeParentTest extends TestCase
         $descriptive = $this->getMockBuilder(Descriptive::class)->getMock();
         $factory = $this->getMockBuilder(UI::class)->disableOriginalConstructor()->getMock();
         $language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
-        $legacy = $this->getMockBuilder(Legacy::class)->disableOriginalConstructor()->getMock();
+        $legacy = $this->getMockBuilder(Legacy\Content::class)->disableOriginalConstructor()->getMock();
+        $legacy_factory = $this->getMockBuilder(Legacy\Factory::class)->disableOriginalConstructor()->getMock();
         $link = $this->getMockBuilder(Link::class)->disableOriginalConstructor()->getMock();
         $listing = $this->getMockBuilder(Listing::class)->disableOriginalConstructor()->getMock();
         $renderer = $this->getMockBuilder(Renderer::class)->disableOriginalConstructor()->getMock();
@@ -71,7 +72,8 @@ class BadgeParentTest extends TestCase
 
         $factory->method('listing')->willReturn($listing);
         $factory->method('link')->willReturn($link);
-        $factory->expects(self::once())->method('legacy')->with($rendered)->willReturn($legacy);
+        $legacy_factory->expects(self::once())->method('content')->with($rendered)->willReturn($legacy);
+        $factory->expects(self::once())->method('legacy')->willReturn($legacy_factory);
 
         $renderer->expects(self::once())->method('render')->willReturn($rendered);
 
@@ -118,9 +120,10 @@ class BadgeParentTest extends TestCase
         $descriptive = $this->getMockBuilder(Descriptive::class)->getMock();
         $factory = $this->getMockBuilder(UI::class)->disableOriginalConstructor()->getMock();
         $language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
-        $legacy = $this->getMockBuilder(Legacy::class)->disableOriginalConstructor()->getMock();
+        $legacy = $this->getMockBuilder(Legacy\Content::class)->disableOriginalConstructor()->getMock();
+        $legacy_factory = $this->getMockBuilder(Legacy\Factory::class)->disableOriginalConstructor()->getMock();
         $listing = $this->getMockBuilder(Listing::class)->disableOriginalConstructor()->getMock();
-        $parent_link = $this->getMockBuilder(Legacy::class)->disableOriginalConstructor()->getMock();
+        $parent_link = $this->getMockBuilder(Content::class)->disableOriginalConstructor()->getMock();
         $renderer = $this->getMockBuilder(Renderer::class)->disableOriginalConstructor()->getMock();
         $ui = $this->getMockBuilder(UIServices::class)->disableOriginalConstructor()->getMock();
 
@@ -131,12 +134,8 @@ class BadgeParentTest extends TestCase
         ])->willReturn($descriptive);
 
         $factory->method('listing')->willReturn($listing);
-        $consecutive_returns = [
-            'Lorem' => $parent_link,
-            $rendered => $legacy
-        ];
-        $factory->method('legacy')
-            ->willReturnCallback(fn($k) => $consecutive_returns[$k]);
+        $legacy_factory->method('content')->willReturn($legacy);
+        $factory->method('legacy')->willReturn($legacy_factory);
 
         $renderer->expects(self::once())->method('render')->willReturn($rendered);
 

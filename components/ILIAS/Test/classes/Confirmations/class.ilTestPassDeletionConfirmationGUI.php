@@ -31,7 +31,7 @@ class ilTestPassDeletionConfirmationGUI extends ilConfirmationGUI
 
     protected ilCtrl $ctrl;
 
-    public function __construct(ilCtrl $ctrl, ilLanguage $lng, object $parentGUI)
+    public function __construct(ilCtrlInterface $ctrl, ilLanguage $lng, object $parentGUI)
     {
         $this->ctrl = $ctrl;
         $this->lng = $lng;

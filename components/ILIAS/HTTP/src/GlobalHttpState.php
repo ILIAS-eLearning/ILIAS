@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\HTTP;
 
@@ -23,7 +24,6 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\HTTP\Duration\CallbackDuration;
 use ILIAS\HTTP\Duration\DurationFactory;
 
 /**

@@ -27,7 +27,7 @@ class ilCalendarUtil
     public static string $init_done;
     protected static bool $init_datetimepicker = false;
 
-    public static function convertDateToUtcDBTimestamp(\ilDateTime $date = null): ?string
+    public static function convertDateToUtcDBTimestamp(?\ilDateTime $date = null): ?string
     {
         if (is_null($date)) {
             return null;
@@ -54,11 +54,13 @@ class ilCalendarUtil
      * @param int month (1-12)
      * @param bool short or long month translation
      */
-    public static function _numericMonthToString(int $a_month, bool $a_long = true): string
+    public static function _numericMonthToString(int $a_month, bool $a_long = true, ?ilLanguage $lng = null): string
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        if (is_null($lng)) {
+            $lng = $DIC['lng'];
+        }
         $month = $a_month < 10 ? '0' . $a_month : $a_month;
         return $a_long ? $lng->txt('month_' . $month . '_long') : $lng->txt('month_' . $month . '_short');
     }
@@ -67,11 +69,13 @@ class ilCalendarUtil
      * @param int day of week (0 for sunday, 1 for monday)
      * @param bool short or long day translation
      */
-    public static function _numericDayToString(int $a_day, bool $a_long = true): string
+    public static function _numericDayToString(int $a_day, bool $a_long = true, ?ilLanguage $lng = null): string
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        if (is_null($lng)) {
+            $lng = $DIC['lng'];
+        }
         $lng->loadLanguageModule('dateplaner');
         static $days = array('Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su');
 
@@ -275,7 +279,7 @@ class ilCalendarUtil
         }
         $timezone_filename = str_replace('/', '_', $a_tz);
         $timezone_filename .= '.ics';
-        return './components/ILIAS/Calendar/zoneinfo/' . $timezone_filename;
+        return '../components/ILIAS/Calendar/zoneinfo/' . $timezone_filename;
     }
 
     /**
@@ -508,158 +512,36 @@ class ilCalendarUtil
         $tpl = $DIC->ui()->mainTemplate();
 
         if (!self::$init_datetimepicker) {
-            $tpl->addJavaScript("assets/js/moment-with-locales.min.js");
+            //$tpl->addJavaScript("assets/js/moment-with-locales.min.js");
             // unminified version does not work with jQuery 3.0
             // https://github.com/Eonasdan/bootstrap-datetimepicker/issues/1684
-            $tpl->addJavaScript("assets/js/bootstrap-datetimepicker.min.js");
+            //$tpl->addJavaScript("assets/js/bootstrap-datetimepicker.min.js");
             $tpl->addJavaScript("assets/js/Form.js"); // see ilPropertyFormGUI
             self::$init_datetimepicker = true;
         }
     }
 
     /**
-     * Add date time picker to element
-     * @param string $a_id
-     * @param int    $a_add_time 1=hh:mm, 2=hh:mm:ss
-     * @param array  $a_custom_config
-     * @param string $a_id2
-     * @param array  $a_custom_config2
-     * @param string $a_toggle_id
-     * @param string $a_subform_id
-     */
-    public static function addDateTimePicker(
-        string $a_id,
-        ?int $a_add_time = null,
-        ?array $a_custom_config = null,
-        ?string $a_id2 = null,
-        ?array $a_custom_config2 = null,
-        ?string $a_toggle_id = null,
-        ?string $a_subform_id = null
-    ): void {
-        global $DIC;
-
-        $tpl = $DIC->ui()->mainTemplate();
-        foreach (self::getCodeForPicker(
-            $a_id,
-            $a_add_time,
-            $a_custom_config,
-            $a_id2,
-            $a_custom_config2,
-            $a_toggle_id,
-            $a_subform_id
-        ) as $code) {
-            $tpl->addOnLoadCode($code);
-        }
-    }
-
-    /**
-     * Add date time picker to element
-     * @param string $a_id
-     * @param int    $a_add_time 1=hh:mm, 2=hh:mm:ss
-     * @param array  $a_custom_config
-     * @param string $a_id2
-     * @param array  $a_custom_config2
-     * @param string $a_toggle_id
-     * @param string $a_subform_id
-     * @return string
-     */
-    public static function getCodeForPicker(
-        string $a_id,
-        ?int $a_add_time = null,
-        ?array $a_custom_config = null,
-        ?string $a_id2 = null,
-        ?array $a_custom_config2 = null,
-        ?string $a_toggle_id = null,
-        ?string $a_subform_id = null
-    ): array {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        self::initDateTimePicker();
-
-        // fix for mantis 22994 => default to english language
-        $language = 'en';
-        if ($ilUser->getLanguage() != 'ar') {
-            $language = $ilUser->getLanguage();
-        }
-        $default = array(
-            'locale' => $language,
-            'stepping' => 5,
-            'useCurrent' => false,
-            'calendarWeeks' => true,
-            'toolbarPlacement' => 'top',
-            //'showTodayButton' => true,
-            'showClear' => true,
-            //'showClose' => true,
-            'keepInvalid' => true,
-            'sideBySide' => true,
-            //'collapse' => false,
-            'format' => self::getUserDateFormat((bool) $a_add_time)
-        );
-
-        $config = (!$a_custom_config)
-            ? $default
-            : array_merge($default, $a_custom_config);
-
-        $code = [];
-
-        /**
-         * Whether the start of the week in the picker is Sunday or Monday
-         * should depend on the user calendar settings (#21666).
-         * Unfortunately this is not a direct config of the picker, but is
-         * inherent in the locale, so it needs to be shoehorned into there.
-         *
-         * 0 for Sunday, 1 for Monday
-         */
-        $start_of_week = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId())->getWeekStart();
-        $code[] =
-            'if (moment) {
-                moment.updateLocale("' . $language . '", {week: {dow: ' . $start_of_week . '}});
-            }';
-
-        $code[] = '$("#' . $a_id . '").datetimepicker(' . json_encode($config) . ')';
-
-        // optional 2nd picker aka duration
-        if ($a_id2) {
-            $config2 = (!$a_custom_config2)
-                ? $default
-                : array_merge($default, $a_custom_config2);
-
-            $config2["useCurrent"] = false; //Important! See issue #1075
-
-            $code[] = '$("#' . $a_id2 . '").datetimepicker(' . json_encode($config2) . ')';
-
-            // duration limits, diff and subform handling
-            $code[] = 'il.Form.initDateDurationPicker("' . $a_id . '","' . $a_id2 . '","' . $a_toggle_id . '","' . $a_subform_id . '");';
-        } elseif ($a_subform_id) {
-            // subform handling
-            $code[] = 'il.Form.initDatePicker("' . $a_id . '","' . $a_subform_id . '");';
-        }
-        return $code;
-    }
-
-    /**
      * Parse (incoming) string to date/time object
-     * @param string $a_date
-     * @param bool   $a_add_time 1=hh:mm, 2=hh:mm:ss
+     * @param string $date
+     * @param bool   $add_time 1=hh:mm, 2=hh:mm:ss
      * @param bool   $a_use_generic_format
      * @return array date, warnings, errors
      * @throws ilDateTimeException
      */
-    public static function parseDateString(string $a_date, bool $a_add_time = false, bool $a_use_generic_format = false): array
+    public static function parseDateString(string $date, bool $add_time = false, ?string $force_format = null): array
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        if (!$a_use_generic_format) {
-            $out_format = self::getUserDateFormat($a_add_time, true);
+        if (!$force_format) {
+            $out_format = self::getUserDateFormat($add_time, true);
         } else {
-            $out_format = $a_add_time
-                ? "Y-m-d H:i:s"
-                : "Y-m-d";
+            $out_format = $force_format;
         }
-        $tmp = date_parse_from_format($out_format, $a_date);
-        $date = null;
+
+        $tmp = date_parse_from_format($out_format, $date);
+        $return_date = null;
 
         if (!$tmp["error_count"] &&
             !$tmp["warning_count"]) {
@@ -667,20 +549,20 @@ class ilCalendarUtil
                 str_pad($tmp["month"], 2, "0", STR_PAD_LEFT) . "-" .
                 str_pad($tmp["day"], 2, "0", STR_PAD_LEFT);
 
-            if ($a_add_time) {
+            if ($add_time) {
                 $format .= " " .
                     str_pad($tmp["hour"], 2, "0", STR_PAD_LEFT) . ":" .
                     str_pad($tmp["minute"], 2, "0", STR_PAD_LEFT) . ":" .
                     str_pad($tmp["second"], 2, "0", STR_PAD_LEFT);
 
-                $date = new ilDateTime($format, IL_CAL_DATETIME, $ilUser->getTimeZone());
+                $return_date = new ilDateTime($format, IL_CAL_DATETIME, $ilUser->getTimeZone());
             } else {
-                $date = new ilDate($format, IL_CAL_DATE);
+                $return_date = new ilDate($format, IL_CAL_DATE);
             }
         }
 
         return array(
-            "date" => $date
+            "date" => $return_date
             ,
             "warnings" => sizeof($tmp["warnings"])
                 ? $tmp["warnings"]
@@ -694,28 +576,43 @@ class ilCalendarUtil
 
     /**
      * Try to parse incoming value to date object
-     * @param string|ilDateTime $a_value
-     * @param int   $a_add_time
+     * @param string|ilDateTime $value
+     * @param int               $add_time
      * @return ilDateTime|ilDate
      */
-    public static function parseIncomingDate($a_value, bool $a_add_time = false): ?ilDateTime
+    public static function parseIncomingDate($value, bool $add_time = false): ?ilDateTime
     {
         // already datetime object?
-        if ($a_value instanceof ilDateTime) {
-            return $a_value;
-        } elseif (trim($a_value)) {
-            // try user-specific format
-            $parsed = self::parseDateString($a_value, $a_add_time);
-            if (is_object($parsed["date"])) {
-                return $parsed["date"];
-            } else {
-                // try generic format
-                $parsed = self::parseDateString($a_value, $a_add_time, true);
-                if (is_object($parsed["date"])) {
-                    return $parsed["date"];
-                }
-            }
+        if ($value instanceof ilDateTime) {
+            return $value;
+        } elseif (!trim($value)) {
+            return null;
         }
+
+        // try user-specific format
+        $parsed = self::parseDateString($value, $add_time);
+        if (is_object($parsed['date'])) {
+            return $parsed['date'];
+        }
+
+        // try the previously used generic format
+        $format = $add_time ? 'Y-m-d H:i:s' : 'Y-m-d';
+        $parsed = self::parseDateString($value, $add_time, $format);
+        if (is_object($parsed['date'])) {
+            return $parsed['date'];
+        }
+
+        // try the formats returned by html native datetime-local/date inputs
+        $format = 'Y-m-d';
+        if ($add_time) {
+            // can be with or without seconds
+            $format .= '\TH:i';
+        }
+        $parsed = self::parseDateString($value, $add_time, $format);
+        if (is_object($parsed['date'])) {
+            return $parsed['date'];
+        }
+
         return null;
     }
 }

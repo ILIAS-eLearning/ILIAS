@@ -32,6 +32,7 @@ class ilObjAdministrativeNotification extends ilObject
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getPresentationTitle(): string
     {
         return $this->lng->txt("obj_adn");
@@ -40,6 +41,7 @@ class ilObjAdministrativeNotification extends ilObject
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getLongDescription(): string
     {
         return $this->lng->txt("administrative_notification_description");

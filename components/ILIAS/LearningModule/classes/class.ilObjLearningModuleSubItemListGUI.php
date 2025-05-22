@@ -83,10 +83,6 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
                     break;
             }
 
-            if (count($this->getSubItemIds(true)) > 1) {
-                $this->parseRelevance($sub_item);
-            }
-
             $this->tpl->parseCurrentBlock();
         }
 

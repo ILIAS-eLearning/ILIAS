@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Chart\ProgressMeter;
 
@@ -36,27 +36,15 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        /**
-         * @var Component\Chart\ProgressMeter\ProgressMeter $component
-         */
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Chart\ProgressMeter\FixedSize) {
-            /**
-             * @var Component\Chart\ProgressMeter\FixedSize $component
-             */
             return $this->renderFixedSize($component);
         } elseif ($component instanceof Mini) {
-            /**
-             * @var Mini $component
-             */
             return $this->renderMini($component);
-        } else {
-            /**
-             * @var Component\Chart\ProgressMeter\Standard $component
-             */
+        } elseif ($component instanceof Component\Chart\ProgressMeter\Standard) {
             return $this->renderStandard($component);
         }
+
+        $this->cannotHandleComponent($component);
     }
 
     /**
@@ -125,6 +113,8 @@ class Renderer extends AbstractComponentRenderer
         $hasComparison = false
     ): Template {
         $main_percentage = $component->getMainValueAsPercent();
+        // in some cases, bar needs be adjusted because of a large rounded linecap to visually hit 50% mark exactly
+        $visual_percentage = $main_percentage;
 
         if ($hasComparison) {
             // multicircle
@@ -136,7 +126,7 @@ class Renderer extends AbstractComponentRenderer
             }
             $tpl->setVariable('COLOR_ONE_CLASS', $color_one_class);
             // set width for first process bar
-            $tpl->setVariable('BAR_ONE_WIDTH', $main_percentage);
+            $tpl->setVariable('BAR_ONE_WIDTH', $visual_percentage);
 
             // set second progress bar color class
             $color_two_class = 'active';
@@ -151,6 +141,11 @@ class Renderer extends AbstractComponentRenderer
         } else {
             // monocircle
             $tpl->setCurrentBlock('monocircle');
+            // because line endcap is so large, bar value needs to be shorter to visually hit 50% mark
+            $visual_percentage = $main_percentage - 4;
+            if ($visual_percentage < 0) {
+                $visual_percentage = 0;
+            }
             // set progress bar color class
             $color_class = 'no-success';
             if ($this->getIsReached($main_percentage, $component->getRequiredAsPercent())) {
@@ -158,7 +153,7 @@ class Renderer extends AbstractComponentRenderer
             }
             $tpl->setVariable('COLOR_ONE_CLASS', $color_class);
             // set width for process bars
-            $tpl->setVariable('BAR_ONE_WIDTH', $main_percentage);
+            $tpl->setVariable('BAR_ONE_WIDTH', $visual_percentage);
 
             $tpl->parseCurrentBlock();
         }
@@ -170,7 +165,11 @@ class Renderer extends AbstractComponentRenderer
         $needle_class = 'no-needle';
         if ($component->getRequired() != $component->getMaximum()) {
             $needle_class = '';
-            $tpl->setVariable('ROTATE_ONE', (276 / 100 * $component->getRequiredAsPercent() - 138));
+            $needle_value = (270 / 100 * $component->getRequiredAsPercent() - 133);
+            // because meter is squashed, rotation needs to be gradually modified the further away we get from 0 degrees
+            // 0 degress is the 50% mark at which this compensation equals 0
+            $compensated_needle_value = $needle_value - (7 * (1 - (2 * $main_percentage / 100)));
+            $tpl->setVariable('ROTATE_ONE', $compensated_needle_value);
         }
         $tpl->setVariable('NEEDLE_ONE_CLASS', $needle_class);
 
@@ -213,7 +212,9 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function getMarkerPos(int $percentage): float
     {
-        return round((230 / 100 * ($percentage * 1)) - 115, 2, PHP_ROUND_HALF_UP);
+        $needle_value = round((230 / 100 * ($percentage * 1)) - 115, 2, PHP_ROUND_HALF_UP);
+        $compensated_needle_value = $needle_value - (16 * (1 - (2 * $percentage / 100)));
+        return $compensated_needle_value;
     }
 
     /**
@@ -238,13 +239,5 @@ class Renderer extends AbstractComponentRenderer
     protected function getIsReached($a_val, $b_val): bool
     {
         return ($a_val >= $b_val);
-    }
-
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [Component\Chart\ProgressMeter\ProgressMeter::class];
     }
 }

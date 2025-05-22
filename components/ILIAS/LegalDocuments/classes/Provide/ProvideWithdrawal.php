@@ -21,10 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments\Provide;
 
 use ilAuthSession;
-use ilCtrl;
+use ilCtrlInterface;
 use ilSession;
 use ilStartUpGUI;
-use ilPersonalProfileGUI;
 use Closure;
 
 class ProvideWithdrawal
@@ -36,12 +35,12 @@ class ProvideWithdrawal
     private readonly Closure $logout_url;
 
     /**
-     * @param null|Closure(array): string $logout_url
+     * @param null|Closure(array<string|int, string|int>): string $logout_url
      * @param null|Closure(int): void $close_session_context
      */
     public function __construct(
         private readonly string $id,
-        private readonly ilCtrl $ctrl,
+        private readonly ilCtrlInterface $ctrl,
         private readonly ilAuthSession $auth_session,
         ?Closure $logout_url = null,
         ?Closure $close_session_context = null

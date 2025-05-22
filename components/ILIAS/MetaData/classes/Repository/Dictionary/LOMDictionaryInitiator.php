@@ -28,7 +28,7 @@ use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 
 class LOMDictionaryInitiator extends BaseDictionaryInitiator
 {
-    public const TABLES = [
+    public const array TABLES = [
         'annotation' => 'il_meta_annotation',
         'classification' => 'il_meta_classification',
         'contribute' => 'il_meta_contribute',
@@ -59,7 +59,7 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         'context' => 'il_meta_context'
     ];
 
-    public const ID_NAME = [
+    public const array ID_NAME = [
         'annotation' => 'meta_annotation_id',
         'classification' => 'meta_classification_id',
         'contribute' => 'meta_contribute_id',
@@ -194,12 +194,14 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         $this->setTagsForVocabSubElements(
             $general->getSubElement('structure'),
             'general',
-            'general_structure'
+            'general_structure',
+            'general_structure_src'
         );
         $this->setTagsForVocabSubElements(
             $general->getSubElement('aggregationLevel'),
             'general',
-            'general_aggl'
+            'general_aggl',
+            'general_aggl_src'
         );
     }
 
@@ -219,7 +221,8 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         $this->setTagsForVocabSubElements(
             $life_cycle->getSubElement('status'),
             'lifecycle',
-            'lifecycle_status'
+            'lifecycle_status',
+            'lifecycle_status_src'
         );
         $this->setTagsForContribute(
             $life_cycle,
@@ -307,12 +310,14 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
             $or->getSubElement('type'),
             'or_composite',
             'type',
+            'type_src',
             'meta_requirement'
         );
         $this->setTagsForVocabSubElements(
             $or->getSubElement('name'),
             'or_composite',
             'name',
+            'name_src',
             'meta_requirement'
         );
         $this->addTagToElement(
@@ -369,7 +374,8 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         $this->setTagsForVocabSubElements(
             $educational->getSubElement('interactivityType'),
             'educational',
-            'interactivity_type'
+            'interactivity_type',
+            'interactivity_type_src'
         );
         $this->addTagToElement(
             $this->tag_factory->containerWithRowInTable(
@@ -382,17 +388,20 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
             $lr_type,
             'lr_type',
             'learning_resource_type',
+            'learning_resource_type_src',
             'meta_educational'
         );
         $this->setTagsForVocabSubElements(
             $educational->getSubElement('interactivityLevel'),
             'educational',
-            'interactivity_level'
+            'interactivity_level',
+            'interactivity_level_src'
         );
         $this->setTagsForVocabSubElements(
             $educational->getSubElement('semanticDensity'),
             'educational',
-            'semantic_density'
+            'semantic_density',
+            'semantic_density_src'
         );
         $this->addTagToElement(
             $this->tag_factory->containerWithRowInTable(
@@ -405,6 +414,7 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
             $user_role,
             'end_usr_role',
             'intended_end_user_role',
+            'intended_end_user_role_src',
             'meta_educational'
         );
         $this->addTagToElement(
@@ -418,6 +428,7 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
             $context,
             'context',
             'context',
+            'context_src',
             'meta_educational'
         );
         $this->addTagToElement(
@@ -437,7 +448,8 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         $this->setTagsForVocabSubElements(
             $educational->getSubElement('difficulty'),
             'educational',
-            'difficulty'
+            'difficulty',
+            'difficulty_src'
         );
         $tlt = $educational->getSubElement('typicalLearningTime');
         $this->addTagToElement(
@@ -487,12 +499,14 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         $this->setTagsForVocabSubElements(
             $rights->getSubElement('cost'),
             'rights',
-            'costs'
+            'costs',
+            'costs_src'
         );
         $this->setTagsForVocabSubElements(
             $rights->getSubElement('copyrightAndOtherRestrictions'),
             'rights',
-            'cpr_and_or'
+            'cpr_and_or',
+            'cpr_and_or_src'
         );
         $this->setTagsForLangStringSubElements(
             $rights->getSubElement('description'),
@@ -512,7 +526,8 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         $this->setTagsForVocabSubElements(
             $relation->getSubElement('kind'),
             'relation',
-            'kind'
+            'kind',
+            'kind_src'
         );
         $resource = $relation->getSubElement('resource');
         $this->setTagsForIdentifier(
@@ -582,7 +597,8 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         $this->setTagsForVocabSubElements(
             $classification->getSubElement('purpose'),
             'classification',
-            'purpose'
+            'purpose',
+            'purpose_src'
         );
         $this->addTagToElement(
             $this->tag_factory->containerWithRowInTable(
@@ -686,6 +702,7 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
             $contribute->getSubElement('role'),
             'contribute',
             'role',
+            'role_src',
             $parent
         );
         $this->addTagToElement(
@@ -745,6 +762,7 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         StructureElementInterface $vocab,
         string $table,
         string $field_value,
+        string $field_source,
         string $parent = ''
     ): void {
         $value_tag = $this->tag_factory->data(
@@ -755,6 +773,15 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         $this->addTagToElement(
             $value_tag,
             $vocab->getSubElement('value')
+        );
+        $source_tag = $this->tag_factory->data(
+            $table,
+            $field_source,
+            $parent
+        );
+        $this->addTagToElement(
+            $source_tag,
+            $vocab->getSubElement('source')
         );
     }
 }

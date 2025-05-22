@@ -23,7 +23,6 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
@@ -36,6 +35,9 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink;
  */
 class ilMMItemInformation implements ItemInformation
 {
+    /**
+     * @var string
+     */
     private const ICON_ID = 'icon_id';
 
     private Services $storage;
@@ -73,7 +75,7 @@ class ilMMItemInformation implements ItemInformation
         }
 
         if (!isset($usr_language_key)) {
-            $usr_language_key = $DIC->language()->getUserLanguage() ? $DIC->language()->getUserLanguage() : $DIC->language()->getDefaultLanguage();
+            $usr_language_key = $DIC->language()->getUserLanguage() ?: $DIC->language()->getDefaultLanguage();
         }
         if (!isset($default_language)) {
             $default_language = ilMMItemTranslationStorage::getDefaultLanguage();
@@ -86,9 +88,8 @@ class ilMMItemInformation implements ItemInformation
             );
         }
         if ($item instanceof hasTitle && isset($this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"])
-            && $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"] !== ''
-        ) {
-            $item = $item->withTitle((string) $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"]);
+            && $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"] !== '') {
+            return $item->withTitle((string) $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"]);
         }
 
         return $item;
@@ -142,17 +143,17 @@ class ilMMItemInformation implements ItemInformation
     public function customSymbol(hasSymbol $item): hasSymbol
     {
         $id = $item->getProviderIdentification()->serialize();
-        if (isset($this->items[$id][self::ICON_ID]) && strlen($this->items[$id][self::ICON_ID]) > 1) {
+        if (isset($this->items[$id][self::ICON_ID]) && strlen((string) $this->items[$id][self::ICON_ID]) > 1) {
             global $DIC;
 
             $ri = $this->storage->manage()->find($this->items[$id][self::ICON_ID]);
-            if (!$ri) {
+            if ($ri === null) {
                 return $item;
             }
 
             try {
                 $src = $this->storage->consume()->src($ri);
-            } catch (FileNotFoundException $f) {
+            } catch (FileNotFoundException) {
                 return $item;
             }
 
@@ -168,7 +169,7 @@ class ilMMItemInformation implements ItemInformation
             $aria_label = empty($aria_label) ? $id : $aria_label;
             try {
                 $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($src->getSrc(), $aria_label);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 return $item;
             }
 

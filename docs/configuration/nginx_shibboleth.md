@@ -307,7 +307,7 @@ location /secured-data {
 ```
 
 Furthermore, you will have to override the delivery type in ILIAS using a
-special file in `Services/FileDelivery/classes/override.php`:
+special file in `components/ILIAS/FileDelivery/classes/override.php`:
 
 ```php
 $override_delivery_type = ilFileDelivery::DELIVERY_METHOD_XACCEL;

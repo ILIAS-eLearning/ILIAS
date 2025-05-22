@@ -59,7 +59,7 @@ class ilCmiXapiStatementsDeleteRequest
         int $obj_id,
         int $type_id,
         string $activity_id,
-        int $usr_id = null,
+        ?int $usr_id = null,
         ?string $scope = self::DELETE_SCOPE_FILTERED,
         ?ilCmiXapiStatementsReportFilter $filter = null
     ) {

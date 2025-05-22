@@ -24,26 +24,26 @@ use PHPUnit\Framework\TestCase;
 
 class DataHelperTest extends TestCase
 {
-    protected const CORRECT_DURS = [
+    protected const array CORRECT_DURS = [
         'P12Y4M2DT56H900001M0S',
         'P4MT56H0S',
         'P4M67D',
         'PT4M89S',
     ];
 
-    protected const WRONG_DURS = [
+    protected const array WRONG_DURS = [
         '4MT56H0S',
         'P4M56H0S',
         'just wrong'
     ];
 
-    protected const CORRECT_DATES = [
+    protected const array CORRECT_DATES = [
         '2001',
         '2013-07-09',
         '2001-12-01T23:56:01.1234Z',
     ];
 
-    protected const WRONG_DATES = [
+    protected const array WRONG_DATES = [
         '2001-13897877-01T23:56:01.1234Z',
         '2001-13897877-0123:56:01.1234Z',
         'something else',

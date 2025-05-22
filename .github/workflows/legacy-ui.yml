@@ -1,7 +1,7 @@
 name: legacy-ui-checks
 on:
   schedule:
-     # Run every 12 hours
+    # Run every 12 hours
     - cron: '0 3,15 * * *'
   workflow_dispatch:
     inputs:
@@ -12,7 +12,7 @@ on:
         type: choice
         options:
           - trunk
-          - release_8
+          - release_9
 permissions:
   contents: read
   pull-requests: read
@@ -30,11 +30,19 @@ jobs:
           fetch-depth: 1
           ref: trunk
 
-      - name: 'Install Dependencies'
-        uses: php-actions/composer@v6
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          php_version: 8.1
-          args: --no-interaction --no-progress --ignore-platform-reqs --no-scripts
+          php-version: 8.2
+          extensions: dom, curl, libxml, mbstring, zip, gd, json, readline, xsl, xml, mysql
+          tools: composer:v2
+          coverage: none
+
+      - name: Install Node dependencies
+        run: npm clean-install --omit-dev --ignore-scripts
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --no-progress --ignore-platform-reqs
 
       - name: 'PHStan Custom Rules'
         run: scripts/PHPStan/run_legacy_ui_report.sh

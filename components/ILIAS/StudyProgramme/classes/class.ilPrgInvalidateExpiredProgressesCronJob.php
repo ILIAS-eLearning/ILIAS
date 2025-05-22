@@ -18,7 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /*
  * This invalidates a successful progress if validityOfQualification is reached.
@@ -27,7 +29,7 @@ use ILIAS\Cron\Schedule\CronJobScheduleType;
  * It is perfectly feasible to raise some event for this, though,
  * but invalidation is reached by a date rather than a flag set by a cron job.
  */
-class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
+class ilPrgInvalidateExpiredProgressesCronJob extends CronJob
 {
     private const ID = 'prg_invalidate_expired_progresses';
 
@@ -73,9 +75,9 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS;
+        return JobScheduleType::IN_DAYS;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -83,13 +85,13 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
         return 1;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
-        $result = new ilCronJobResult();
+        $result = new JobResult();
         $expired = $this->assignment_repo->getExpiredAndNotInvalidated();
 
         if ($expired === []) {
-            $result->setStatus(ilCronJobResult::STATUS_NO_ACTION);
+            $result->setStatus(JobResult::STATUS_NO_ACTION);
             return $result;
         }
 
@@ -99,12 +101,12 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
                 $this->assignment_repo->store($assignment);
             } catch (ilException $e) {
                 $this->log->write('an error occured: ' . $e->getMessage());
-                $result->setStatus(ilCronJobResult::STATUS_FAIL);
+                $result->setStatus(JobResult::STATUS_FAIL);
                 return $result;
             }
         }
 
-        $result->setStatus(ilCronJobResult::STATUS_OK);
+        $result->setStatus(JobResult::STATUS_OK);
         return $result;
     }
 }

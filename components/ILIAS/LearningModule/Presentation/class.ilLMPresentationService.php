@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\LearningModule\Presentation\PresentationGUIRequest;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * Main service init and factory
@@ -42,7 +43,7 @@ class ilLMPresentationService
         bool $offline = false,
         bool $export_all_languages = false,
         string $export_format = "",
-        ilCtrl $ctrl = null,
+        ?ilCtrl $ctrl = null,
         bool $embed_mode = false
     ) {
         global $DIC;
@@ -76,6 +77,7 @@ class ilLMPresentationService
             $user,
             $this->lm,
             $this->lm_tree,
+            $this->lm->getObjectProperties()->getPropertyTranslations(),
             $this->request->getTranslation(),
             $this->request->getFocusId(),
             $this->request->getFocusReturn(),

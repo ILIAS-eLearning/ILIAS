@@ -16,15 +16,14 @@
  *
  *********************************************************************/
 
-require_once("vendor/composer/vendor/autoload.php");
+use org\bovigo\vfs\vfsStream;
+use ILIAS\DI\Container;
+use PHPUnit\Framework\Attributes\Test;
 
-use ILIAS\HTTP\Cookies\CookieFactory;
+require_once("vendor/composer/vendor/autoload.php");
 use ILIAS\HTTP\Services;
 use PHPUnit\Framework\Testcase;
-use Mockery\MockInterface;
 use org\bovigo\vfs;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\UriInterface;
 
 /**
  * TestCase for the ilWACCheckingInstanceTest
@@ -49,12 +48,12 @@ class ilWACCheckingInstanceTest extends Testcase
      */
     protected function setUp(): void
     {
-        $this->root = vfs\vfsStream::setup('ilias.de');
-        $this->file_one = vfs\vfsStream::newFile('data/trunk/mobs/mm_123/dummy.jpg')
+        $this->root = vfsStream::setup('ilias.de');
+        $this->file_one = vfsStream::newFile('data/trunk/mobs/mm_123/dummy.jpg')
                                        ->at($this->root)->setContent('dummy');
 
         //setup container for HttpServiceAware classes
-        $container = new \ILIAS\DI\Container();
+        $container = new Container();
         $container['http'] = fn($c) => Mockery::mock(Services::class);
 
 
@@ -87,9 +86,7 @@ class ilWACCheckingInstanceTest extends Testcase
     }
 
 
-    /**
-     * @Test
-     */
+    #[Test]
     public function testNonCheckingInstanceNoSec(): void
     {
         self::markTestSkipped("Can't run test without db.");

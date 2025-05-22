@@ -1,12 +1,41 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\Textarea;
 
 /**
- * This example shows how to create and render a basic textarea field with minimum and maximum number of characters limit.
- * the input is attached to a form.
+ * ---
+ * description: >
+ *   This example shows how to create and render a basic textarea field with
+ *   minimum and maximum number of characters limit.
+ *
+ * expected output: >
+ *   ILIAS shows an input field titled "Textarea Input". You can enter a text with 20 letters max. Try entering the following
+ *   text: "Test text with more than 20 letters". You cannot enter more letters/words after "Test text with more" and
+ *   the counter "Characters remaining" is set to 0. After saving the input ILIAS will display your text in the following format:
+ *
+ *   Array
+ *   (
+ *       [0] => Test text with more
+ *   )
+ * ---
  */
 function with_limits()
 {

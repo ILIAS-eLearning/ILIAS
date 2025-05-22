@@ -28,6 +28,7 @@ use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\CropRectangle as MaxRe
  */
 class CropToRectangle implements FlavourDefinition
 {
+    public $max_size;
     public const FOREVER_ID = '0fca4b6cf274bd4aac78caef9494f6f19e67366118548d5556f89fda5f683826';
 
     public function __construct(

@@ -20,18 +20,27 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class GlobalScreen_ implements Component\Component
+use ILIAS\Component\Component;
+use ILIAS\Refinery\Factory;
+use ILIAS\GlobalScreen_\UI\Footer\Setup\Agent;
+
+class GlobalScreen_ implements Component
 {
     public function init(
-        array | \ArrayAccess &$define,
-        array | \ArrayAccess &$implement,
-        array | \ArrayAccess &$use,
-        array | \ArrayAccess &$contribute,
-        array | \ArrayAccess &$seek,
-        array | \ArrayAccess &$provide,
-        array | \ArrayAccess &$pull,
-        array | \ArrayAccess &$internal,
+        array|\ArrayAccess &$define,
+        array|\ArrayAccess &$implement,
+        array|\ArrayAccess &$use,
+        array|\ArrayAccess &$contribute,
+        array|\ArrayAccess &$seek,
+        array|\ArrayAccess &$provide,
+        array|\ArrayAccess &$pull,
+        array|\ArrayAccess &$internal,
     ): void {
         // ...
+
+        // UI Footer
+        $contribute[\ILIAS\Setup\Agent::class] = static fn(): Agent => new Agent(
+            $pull[Factory::class]
+        );
     }
 }

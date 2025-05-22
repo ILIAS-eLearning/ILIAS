@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Setup\Metrics;
 
@@ -85,7 +85,7 @@ final class Metric
         string $stability,
         string $type,
         $value,
-        string $description = null
+        ?string $description = null
     ) {
         $this->checkStability($stability, $type);
         $this->checkType($type);
@@ -329,7 +329,7 @@ final class Metric
     public function toUIReport(Factory $f, string $name): Report
     {
         $yaml = $this->toYAML();
-        $sub = $f->panel()->sub("", $f->legacy("<pre>" . $yaml . "</pre>"));
+        $sub = $f->panel()->sub("", $f->legacy()->content("<pre>" . $yaml . "</pre>"));
         return $f->panel()->report($name, [$sub]);
     }
 }

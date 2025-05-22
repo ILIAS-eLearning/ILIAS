@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
-
 /**
 * Class for error text question exports
 *
@@ -113,13 +111,12 @@ class assErrorTextExport extends assQuestionExport
         $this->addQTIMaterial($a_xml_writer, $this->object->getQuestion());
         // add answers to presentation
         $a_xml_writer->xmlEndTag("flow");
+        $a_xml_writer = $this->addSuggestedSolution($a_xml_writer);
         $a_xml_writer->xmlEndTag("presentation");
 
         $this->addGenericFeedback($a_xml_writer);
 
         $this->addAnswerSpecificFeedback($a_xml_writer, $this->object->getErrorData());
-
-        $a_xml_writer = $this->addSolutionHints($a_xml_writer);
 
         $a_xml_writer->xmlEndTag("item");
         $a_xml_writer->xmlEndTag("questestinterop");

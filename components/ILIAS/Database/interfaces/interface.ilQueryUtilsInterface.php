@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Interface ilQueryUtilsInterface
@@ -73,7 +73,7 @@ interface ilQueryUtilsInterface
     public function createDatabase(string $name, string $charset = "utf8", string $collation = ""): string;
 
 
-    public function groupConcat(string $a_field_name, string $a_seperator = ",", string $a_order = null): string;
+    public function groupConcat(string $a_field_name, string $a_seperator = ",", ?string $a_order = null): string;
 
 
     /**

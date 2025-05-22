@@ -1,4 +1,19 @@
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
  * Wraps the TagsInput
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -39,7 +54,7 @@ il.UI.Input = il.UI.Input || {};
 
       // Initialize ID and Configuration
       _CONFIG = $.extend(_CONFIG, config);
-      _CONFIG.id = raw_id;
+      _CONFIG.id = document.querySelector(`#${raw_id} .c-input__field .c-field-tag__wrapper input`)?.id;
 
       const settings = _getSettings();
       settings.delimiters = null;
@@ -47,7 +62,8 @@ il.UI.Input = il.UI.Input || {};
       settings.templates.tag = function (tagData) {
         return `<tag contenteditable='false'
                             spellcheck="false" class='tagify__tag'
-                            value="${tagData.value}">
+                            value="${tagData.value}"
+                            tabindex="0">
                             <x title='remove tag' class='tagify__tag__removeBtn'></x>
                             <div>
                                 <span class='tagify__tag-text'>${tagData.display}</span>
@@ -55,7 +71,7 @@ il.UI.Input = il.UI.Input || {};
                     </tag>`;
       };
       settings.templates.dropdownItem = function (tagData) {
-        return `<div class='tagify__dropdown__item' tagifySuggestionIdx="${tagData.tagifySuggestionIdx}">
+        return `<div class='tagify__dropdown__item' tagifySuggestionIdx="${tagData.tagifySuggestionIdx}" value="${tagData.value}">
                             <span>${tagData.display}</span>
                         </div>`;
       };
@@ -66,20 +82,6 @@ il.UI.Input = il.UI.Input || {};
       tagify.addTags(value);
 
       instances[raw_id] = tagify;
-
-    	    // see https://github.com/yairEO/tagify "Submit on `Enter` key"
-    	    const onTagifyKeyDown = function (e) {
-        const { key } = e.detail.originalEvent;
-        if (key === 'Enter'
-                    && !tagify.state.inputText // assuming user is not in the middle oy adding a tag
-                    && !tagify.state.editing // user not editing a tag
-        ) {
-          const input_values = input.value;
-          const values = input_values.trim() ? input_values.split(',') : [];
-
-          setTimeout(() => il.UI.viewcontrol.tag.submit(values));
-        }
-      };
     };
 
     const getTagifyInstance = function (raw_id) {

@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Certificate\API;
 
-use ILIAS\Certificate\API\Data\UserCertificateDto;
 use ILIAS\Certificate\API\Filter\UserDataFilter;
 use ILIAS\Certificate\API\Repository\UserDataRepository;
 use ilCertificateQueueEntry;
@@ -44,7 +43,6 @@ class UserCertificateAPI implements UserCertificateApiInterface
 {
     private readonly UserDataRepository $user_data_repository;
     private readonly ilCertificateTemplateRepository $template_repository;
-    private readonly ilCertificateTypeClassMap $type_class_map;
     private readonly ilCertificateQueueRepository $queue_repository;
     private readonly ilLogger $logger;
     private readonly ilObjectDataCache $object_data_cache;
@@ -53,7 +51,7 @@ class UserCertificateAPI implements UserCertificateApiInterface
         ?UserDataRepository $user_data_repository = null,
         ?ilCertificateTemplateRepository $template_repository = null,
         ?ilCertificateQueueRepository $queue_repository = null,
-        ?ilCertificateTypeClassMap $type_class_map = null,
+        private readonly ilCertificateTypeClassMap $type_class_map = new ilCertificateTypeClassMap(),
         ?ilLogger $logger = null,
         ?ilObjectDataCache $object_data_cache = null,
     ) {
@@ -69,7 +67,6 @@ class UserCertificateAPI implements UserCertificateApiInterface
             $DIC->database(),
             $this->logger
         );
-        $this->type_class_map = $type_class_map ?? new ilCertificateTypeClassMap();
         $this->queue_repository = $queue_repository ?? new ilCertificateQueueRepository(
             $DIC->database(),
             $this->logger

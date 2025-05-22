@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Container\Wrapper;
 
+use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\FileDelivery\Delivery\Disposition;
 use ILIAS\Filesystem\Stream\Streams;
@@ -31,12 +32,15 @@ use ILIAS\Filesystem\Stream\ZIPStream;
  */
 final class ContainerWrapper
 {
+    /**
+     * @var string
+     */
     private const BASE = '/';
     private array $ignored = ['.', '..', '__MACOSX', '.info', '.DS_Store'];
 
     private string $current_level;
     private array $data;
-    private \ILIAS\ResourceStorage\Services $irss;
+    private Services $irss;
     private bool $use_flavour = true;
     private ZipReader $reader;
     private \ILIAS\FileDelivery\Services $file_delivery;
@@ -83,7 +87,7 @@ final class ContainerWrapper
         // remove items from array with key . or /
         $this->data = array_filter(
             $this->data,
-            static fn($key) => !in_array($key, ['.', '/', './', '..'], true),
+            static fn($key): bool => !in_array($key, ['.', '/', './', '..'], true),
             ARRAY_FILTER_USE_KEY
         );
     }
@@ -98,12 +102,12 @@ final class ContainerWrapper
         ];
 
         $regex = array_map(
-            static fn(string $mime_type) => str_replace('*', '.*', preg_quote($mime_type, '/')),
+            static fn(string $mime_type): string => str_replace('*', '.*', preg_quote($mime_type, '/')),
             $supported_for_inline
         );
         $regex = implode('|', $regex);
 
-        $disposition = preg_match("/($regex)/", $info['mime_type']) ? Disposition::INLINE : Disposition::ATTACHMENT;
+        $disposition = preg_match("/($regex)/", (string) $info['mime_type']) ? Disposition::INLINE : Disposition::ATTACHMENT;
 
         $this->file_delivery->delivery()->deliver(
             $stream,
@@ -121,7 +125,8 @@ final class ContainerWrapper
         }
 
         // save stream to temporary file
-        $tmp_file = tempnam(sys_get_temp_dir(), 'ilias_zip_');
+        $tmp_directory = defined('CLIENT_DATA_DIR') ? \CLIENT_DATA_DIR . '/temp' : sys_get_temp_dir();
+        $tmp_file = tempnam($tmp_directory, 'ilias_zip_');
 
         /** @var ZIPStream $stream */
         $return = file_put_contents($tmp_file, $stream->detach());
@@ -151,7 +156,7 @@ final class ContainerWrapper
         // sort by basename, but directories after files
         uasort($this->data, static function (array $a, array $b): int {
             if ($a['is_dir'] === $b['is_dir']) {
-                return strnatcasecmp($a['basename'], $b['basename']);
+                return strnatcasecmp((string) $a['basename'], (string) $b['basename']);
             }
             return $a['is_dir'] ? 1 : -1;
         });

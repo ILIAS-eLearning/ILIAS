@@ -511,4 +511,9 @@ class GUIRequest
         return (bool) $this->int("from_overview");
     }
 
+    public function getZip(): bool
+    {
+        return (bool) $this->int("zip");
+    }
+
 }

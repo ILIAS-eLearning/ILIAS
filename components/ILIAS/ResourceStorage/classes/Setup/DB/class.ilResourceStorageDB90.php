@@ -79,15 +79,15 @@ class ilResourceStorageDB90 implements ilDatabaseUpdateSteps
         // Remove some unused indexes, since they are in primaries now
         try {
             $this->db->dropIndexByFields('il_resource_info', ['rid']);
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
         try {
             $this->db->dropIndexByFields('il_resource_revision', ['rid']);
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
         try {
             $this->db->dropIndexByFields('il_resource_stkh_u', ['rid']);
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
     }
 

@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Modules\Test\test;
+namespace ILIAS\Test\test;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\Modules\Test\AccessFileUploadPreview;
-use ILIAS\components\Test\Incident;
+use ILIAS\Test\Access\AccessFileUploadPreview;
+use ILIAS\Test\Access\Incident;
 use ilDBInterface;
 use ilDBStatement;
 use ilDBConstants;

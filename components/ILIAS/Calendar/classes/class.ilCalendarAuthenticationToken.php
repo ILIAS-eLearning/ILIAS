@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Handles calendar authentication tokens for external calendar subscriptions
@@ -143,7 +143,13 @@ class ilCalendarAuthenticationToken
      */
     public function isIcalExpired(): bool
     {
-        return true;
+        if (!ilCalendarSettings::_getInstance()->isSynchronisationCacheEnabled()) {
+            return true;
+        }
+        if (!ilCalendarSettings::_getInstance()->getSynchronisationCacheMinutes()) {
+            return true;
+        }
+        return time() > ($this->ical_ctime + 60 * ilCalendarSettings::_getInstance()->getSynchronisationCacheMinutes());
     }
 
     public function add(): string
@@ -162,8 +168,8 @@ class ilCalendarAuthenticationToken
 
     protected function createToken(): void
     {
-        $random = new \ilRandom();
-        $this->token = md5($this->getUserId() . $this->getSelectionType() . $random->int());
+        $random = new \Random\Randomizer();
+        $this->token = md5($this->getUserId() . $this->getSelectionType() . $random->nextInt());
     }
 
     protected function read(): bool

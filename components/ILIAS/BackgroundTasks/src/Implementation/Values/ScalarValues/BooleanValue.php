@@ -18,10 +18,9 @@
 
 namespace ILIAS\BackgroundTasks\Implementation\Values\ScalarValues;
 
-use ILIAS\BackgroundTasks\Value;
-
 class BooleanValue extends ScalarValue
 {
+    #[\Override]
     public function setValue($value): void
     {
         if (!is_bool($value)) {

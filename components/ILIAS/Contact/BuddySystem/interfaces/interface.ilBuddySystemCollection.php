@@ -119,7 +119,7 @@ interface ilBuddySystemCollection extends Countable, IteratorAggregate, ArrayAcc
      * @param int $offset The offset to start from.
      * @param int|null $length The maximum number of elements to return, or null for no limit.
      */
-    public function slice(int $offset, int $length = null): self;
+    public function slice(int $offset, ?int $length = null): self;
 
     /**
      * @return array<int|string, mixed>

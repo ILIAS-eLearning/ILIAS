@@ -32,7 +32,7 @@ class ilLSCompletionNotificationProvider extends AbstractNotificationProvider
     {
         $current_user = $this->dic['ilUser'];
 
-        if ($current_user->getId() === 0  || $current_user->isAnonymous()) {
+        if ($current_user->getId() === 0 || $current_user->isAnonymous()) {
             return [];
         }
 
@@ -55,7 +55,7 @@ class ilLSCompletionNotificationProvider extends AbstractNotificationProvider
         $lng->loadLanguageModule('lso');
 
 
-        $group =  $this->globalScreen()->notifications()->factory()->standardGroup(
+        $group = $this->globalScreen()->notifications()->factory()->standardGroup(
             $this->if->identifier('lso_bucket_group')
         )
         ->withTitle($lng->txt('obj_lso'));
@@ -70,7 +70,6 @@ class ilLSCompletionNotificationProvider extends AbstractNotificationProvider
                     $this->if->identifier('lso_bucket')
                 )
                 ->withNotificationItem($notification_item)
-                ->withNewAmount(count($notifications))
                 ->withClosedCallable(
                     function () use ($current_user, $osd_notification_handler): void {
                         $current_user->writePref(self::NOTIFICATION_TIME_PREFERENCE_KEY, (string) time());
@@ -80,6 +79,7 @@ class ilLSCompletionNotificationProvider extends AbstractNotificationProvider
                         );
                     }
                 )
+                ->withNewAmount(count($notifications))
             );
         }
 

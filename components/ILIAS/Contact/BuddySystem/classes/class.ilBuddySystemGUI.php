@@ -27,8 +27,8 @@ use ILIAS\HTTP\Services;
  */
 class ilBuddySystemGUI
 {
-    private const BS_REQUEST_HTTP_GET = 1;
-    private const BS_REQUEST_HTTP_POST = 2;
+    private const int BS_REQUEST_HTTP_GET = 1;
+    private const int BS_REQUEST_HTTP_POST = 2;
 
     protected static bool $isFrontendInitialized = false;
 
@@ -78,7 +78,7 @@ class ilBuddySystemGUI
             $page->addOnLoadCode('il.BuddySystem.setConfig(' . json_encode($config, JSON_THROW_ON_ERROR) . ');');
 
             $btn_config = new stdClass();
-            $btn_config->bnt_class = 'ilBuddySystemLinkWidget';
+            $btn_config->bnt_class = ilBuddySystemLinkButtonType::ROOT_CSS_CLASS;
 
             $page->addOnLoadCode('il.BuddySystemButton.setConfig(' . json_encode($btn_config, JSON_THROW_ON_ERROR) . ');');
             $page->addOnLoadCode('il.BuddySystemButton.init();');
@@ -142,7 +142,7 @@ class ilBuddySystemGUI
     private function transitionCommand(
         string $cmd,
         string $positiveFeedbackLanguageId,
-        callable $onBeforeExecute = null
+        ?callable $onBeforeExecute = null
     ): void {
         if (!$this->isRequestParameterGiven('user_id', self::BS_REQUEST_HTTP_GET)) {
             $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('buddy_bs_action_not_possible'), true);

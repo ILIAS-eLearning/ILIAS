@@ -25,7 +25,7 @@ use ILIAS\UI\Component\Link\Standard;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Deck\Deck;
 use ILIAS\UI\Component\Card\Card;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy;
 
 /**
  * This is how the factory for UI elements looks. This should provide access
@@ -204,15 +204,11 @@ interface Factory
      *      a complete replacement of the overall screen (e.g. modals).
      *   composition: >
      *      Button is a clickable, graphically obtrusive control element. It can
-     *      bear text.
+     *      bear text and/or a Glyph.
      *   effect: >
      *      On-click, the action indicated by the button is carried out.
      *      A stateful button will indicate its state with the engaged state.
      *   rivals:
-     *      glyph: >
-     *          Glyphs are used if the enclosing Container Collection can not provide
-     *          enough space for textual information or if such an information would
-     *          clutter the screen.
      *      links: >
      *          Links are used to trigger Interactions that do not change the systems
      *          status. They are usually contained inside a Navigational Collection.
@@ -682,6 +678,36 @@ interface Factory
      * ---
      * description:
      *   purpose: >
+     *     A Progress component is designed to represent the users advancement within
+     *     a certain process or task. They are of informative nature and provide feedback
+     *     about the current state and said advancement of the process/task. Their goal
+     *     is to guide users by communicating how much of a process/task is completed,
+     *     what remains, and what is ahead of them.
+     *   composition: >
+     *     Progress components are composed out of appropriate scales and status indicators,
+     *     which clearly convey the state of the users advancement.
+     *
+     * rules:
+     *   usage:
+     *     1: A Progress component SHOULD be used whenever a process/task is time-consuming.
+     *     2: >
+     *       A progress component MUST NOT be used to convey any other type of information
+     *       than the users advancement.
+     *   interaction:
+     *     1: Progress components are passive and MUST NOT be operable in any way for the user.
+     *   accessibility:
+     *     1: >
+     *       A progress component MUST be fully accessible using a screen-reader. Any colouring
+     *       or other visual indicators MUST provide according alternative-texts.
+     * ---
+     * @return \ILIAS\UI\Component\Progress\Factory
+     */
+    public function progress(): C\Progress\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
      *     Dropzones are containers used to drop either files or other HTML elements.
      *   composition: >
      *     A dropzone is a container on the page. Depending on the type of the dropzone,
@@ -701,21 +727,21 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     This component is used to wrap an existing ILIAS UI element into a UI component. This is useful if a container
-     *     of the UI components needs to contain content that is not yet implement in the centralized UI components.
+     *     legacy components are used as provisional elements in the UI framework
+     *     while there are no sophisticated components yet replacing them.
      *   composition: >
-     *     The legacy component contains html or any other content as string.
+     *     Legacy component regularly contain rendered HTML.
      *
      * rules:
      *   usage:
-     *      1: >
-     *          This component MUST only be used to ensure backwards compatibility with existing UI elements in ILIAS,
-     *          therefore it SHOULD only contain Elements which cannot be generated using other UI Components from the UI Service.
+     *     1: >
+     *       Legacy components MUST only be used to ensure backwards compatibility
+     *       with existing UI elements in ILIAS or to implement temporal and provisional
+     *       dependencies.
      * ---
-     * @param   string $content
-     * @return  \ILIAS\UI\Component\Legacy\Legacy
+     * @return  \ILIAS\UI\Component\Legacy\Factory
      */
-    public function legacy(string $content): Legacy;
+    public function legacy(): C\Legacy\Factory;
 
     /**
      * ---
@@ -1020,7 +1046,6 @@ interface Factory
      *     - Reactions (Glyph | Tag)
      *     - PrioritizedReactions (Glyph | Tag)
      *     - Actions (Dropdown)
-     *
      *   effect:
      *     Entities themselves are not Clickable; however, there may be actions on
      *     their primary and secondary identifiers or elements in certain groups.
@@ -1047,4 +1072,57 @@ interface Factory
      * @return \ILIAS\UI\Component\Entity\Factory
      */
     public function entity(): C\Entity\Factory;
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     A Prompt requires a user to make some inputs to the system, like making
+     *     choices, acknowleding an important information or filling out a form. The
+     *     Prompt urges the user to make the input instead of simply giving the
+     *     opportunity to do so. Hence, Prompts are used to request certain user input
+     *     that is required to move on in an ongoing workflow.
+     *   composition: >
+     *     The Prompt provides a wrapper for Prompt Content; the content is transmitted
+     *     asynchrounously via a Prompt State. The State consists of a Title, the
+     *     actual content, and Buttons. The Prompt will allways hold a button for dismissing
+     *     it.
+     *   effect: >
+     *     All controls of the original context are inaccessible until the Prompt is
+     *     either satisfied or dismissed by the user.
+     *   rivals:
+     *     Modal: >
+     *       A Modal represents a specific way to bring something to a users attention.
+     *       Prompt, on the other hand, describes the logic of the component in the flow.
+     *       Try to use Prompt whenever possible, because it has stronger semantics.
+     *       For a more detailed explanation what this could mean, have a look into
+     *       the item "Mark Some Components as Internal" on the roadmap of the UI framework.
+     *
+     * rules:
+     *   usage:
+     *     1: >
+     *       Prompts MUST NOT be used standalone, i.e. they MUST NOT be the only
+     *       element on a page.
+     *   interaction:
+     *     1: >
+     *       Prompts SHOULD take the user back to where they took of. Once the Prompt is
+     *       dismissed or completed the user should be back in the view that they saw
+     *       when starting the Prompt.
+     *   accessibility:
+     *     1: >
+     *       The Prommpt's dialog-tag MUST bear the role-attribute "dialog".
+     *     2: >
+     *       All interactions offered by a Prompt MUST be accessible by only using
+     *       the keyboard.
+     *     3: >
+     *        The Prompt MUST be closable by pressing the ESC key.
+     *     4: >
+     *        The Prompt SHOULD have an meaningful/informative title in regard to
+     *        its contents
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Prompt\Factory
+     */
+    public function prompt(): C\Prompt\Factory;
 }

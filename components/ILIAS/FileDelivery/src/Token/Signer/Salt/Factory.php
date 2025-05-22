@@ -36,11 +36,11 @@ namespace ILIAS\FileDelivery\Token\Signer\Salt;
  */
 class Factory
 {
-    private array $known_salts;
+    private array $known_salts = [];
 
     public function __construct()
     {
-        $this->known_salts = []; // TODO: load known salts from artifact
+        // TODO: load known salts from artifact
     }
 
     public function create(string $salt): Salt

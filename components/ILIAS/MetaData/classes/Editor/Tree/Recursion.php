@@ -41,7 +41,7 @@ use ILIAS\MetaData\Editor\Http\LinkFactory as LinkFactory;
  */
 class Recursion implements TreeRecursion
 {
-    protected const MAX_LENGTH = 128;
+    protected const int MAX_LENGTH = 128;
 
     /**
      * @var ElementInterface[]
@@ -174,7 +174,7 @@ class Recursion implements TreeRecursion
         ElementInterface ...$elements
     ): string {
         if (!$with_representation) {
-            $name =  $this->presenter->elements()->name(
+            $name = $this->presenter->elements()->name(
                 $elements[0],
                 $plural
             );

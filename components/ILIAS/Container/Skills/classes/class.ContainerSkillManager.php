@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Container\Skills;
 
@@ -41,13 +40,13 @@ class ContainerSkillManager
     public function __construct(
         int $cont_obj_id,
         int $cont_ref_id,
-        ContainerSkillDBRepository $cont_skill_repo = null,
-        ContainerMemberSkillDBRepository $cont_member_skill_repo = null,
-        SkillService\SkillTreeService $tree_service = null,
-        SkillService\SkillProfileService $profile_service = null,
-        SkillService\SkillPersonalService $personal_service = null,
-        SkillInternalFactoryService $factory_service = null,
-        \ilSkillManagementSettings $skmg_settings = null
+        ?ContainerSkillDBRepository $cont_skill_repo = null,
+        ?ContainerMemberSkillDBRepository $cont_member_skill_repo = null,
+        ?SkillService\SkillTreeService $tree_service = null,
+        ?SkillService\SkillProfileService $profile_service = null,
+        ?SkillService\SkillPersonalService $personal_service = null,
+        ?SkillInternalFactoryService $factory_service = null,
+        ?\ilSkillManagementSettings $skmg_settings = null
     ) {
         global $DIC;
 

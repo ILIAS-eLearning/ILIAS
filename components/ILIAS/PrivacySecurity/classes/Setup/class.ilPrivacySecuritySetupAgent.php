@@ -47,7 +47,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null): UI\Component\Input\Container\Form\FormInput
+    public function getConfigInput(?Setup\Config $config = null): UI\Component\Input\Container\Form\FormInput
     {
         throw new LogicException("Not yet implemented.");
     }
@@ -61,7 +61,8 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
             return new ilPrivacySecuritySetupConfig(
                 (bool) ($data["https_enabled"] ?? false),
                 (isset($data["auth_duration"])) ? (int) $data["auth_duration"] : null,
-                (isset($data["account_assistance_duration"])) ? (int) $data["account_assistance_duration"] : null
+                (isset($data["account_assistance_duration"])) ? (int) $data["account_assistance_duration"] : null,
+                (isset($data["registration_duration"])) ? (int) $data["registration_duration"] : null,
             );
         });
     }
@@ -69,7 +70,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services/PrivacySecurity",
@@ -81,7 +82,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         if ($config === null || $config instanceof Setup\NullConfig) {
             return new Setup\Objective\NullObjective();

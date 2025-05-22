@@ -26,13 +26,13 @@ class ilBookingParticipantGUI
     public const FILTER_ACTION_APPLY = 1;
     public const FILTER_ACTION_RESET = 2;
     public const PARTICIPANT_VIEW = 1;
+    protected \ILIAS\BookingManager\Access\AccessManager $access;
     protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
 
     protected ilGlobalTemplateInterface $tpl;
     protected ilTabsGUI $tabs;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
-    protected ilAccessHandler $access;
     protected ilToolbarGUI $toolbar;
     protected int $ref_id;
     protected int $pool_id;
@@ -46,7 +46,7 @@ class ilBookingParticipantGUI
         $this->tabs = $DIC->tabs();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
-        $this->access = $DIC->access();
+        $this->access = $DIC->bookingManager()->internal()->domain()->access();
         $this->toolbar = $DIC->toolbar();
         $this->book_request = $DIC->bookingManager()
                                   ->internal()
@@ -71,9 +71,7 @@ class ilBookingParticipantGUI
                 $rep_search = new ilRepositorySearchGUI();
                 $ref_id = $this->ref_id;
                 $rep_search->addUserAccessFilterCallable(function ($a_user_id) {
-                    return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
-                        'render',
-                        'render',
+                    return $this->access->filterManageableParticipants(
                         $this->ref_id,
                         $a_user_id
                     );
@@ -97,7 +95,7 @@ class ilBookingParticipantGUI
      */
     public function render(): void
     {
-        if ($this->access->checkAccess('write', '', $this->ref_id)) {
+        if ($this->access->canManageParticipants($this->ref_id)) {
             ilRepositorySearchGUI::fillAutoCompleteToolbar(
                 $this,
                 $this->toolbar,

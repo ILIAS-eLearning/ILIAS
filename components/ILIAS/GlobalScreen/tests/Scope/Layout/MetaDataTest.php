@@ -13,15 +13,17 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\Layout;
 
+use ILIAS\Data\Meta\Html\Tag;
+use ILIAS\Data\Meta\Html\UserDefined;
 use PHPUnit\Framework\TestCase;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
-use ILIAS\Data\Meta\Html;
 
 require_once('./vendor/composer/vendor/autoload.php');
 
@@ -48,7 +50,7 @@ class MetaDataTest extends TestCase
         $collection = $this->meta_content->getMetaData();
 
         $first_item = $collection[0];
-        $this->assertInstanceOf(Html\Tag::class, $first_item);
+        $this->assertInstanceOf(Tag::class, $first_item);
         $this->assertEquals($html, $first_item->toHtml());
     }
 
@@ -57,26 +59,26 @@ class MetaDataTest extends TestCase
         $meta_datum_key = 'key';
         $meta_datum_1_value = 'value_1';
         $meta_datum_2_value = 'value_2';
-        $meta_datum_1 = new Html\UserDefined($meta_datum_key, $meta_datum_1_value);
-        $meta_datum_2 = new Html\UserDefined($meta_datum_key, $meta_datum_2_value);
+        $meta_datum_1 = new UserDefined($meta_datum_key, $meta_datum_1_value);
+        $meta_datum_2 = new UserDefined($meta_datum_key, $meta_datum_2_value);
 
         $this->meta_content->addMetaDatum($meta_datum_1);
         $first_item = $this->meta_content->getMetaData()[$meta_datum_key];
 
-        $this->assertInstanceOf(Html\UserDefined::class, $first_item);
+        $this->assertInstanceOf(UserDefined::class, $first_item);
         $this->assertEquals($meta_datum_1_value, $first_item->getValue());
 
         $this->meta_content->addMetaDatum($meta_datum_2);
         $first_item = $this->meta_content->getMetaData()[$meta_datum_key];
 
-        $this->assertInstanceOf(Html\UserDefined::class, $first_item);
+        $this->assertInstanceOf(UserDefined::class, $first_item);
         $this->assertNotEquals($meta_datum_1_value, $first_item->getValue());
         $this->assertEquals($meta_datum_2_value, $first_item->getValue());
     }
 
-    public function getMockedTag(string $html): Html\Tag
+    public function getMockedTag(string $html): Tag
     {
-        return new class ($html) extends Html\Tag {
+        return new class ($html) extends Tag {
             public function __construct(
                 protected string $html
             ) {

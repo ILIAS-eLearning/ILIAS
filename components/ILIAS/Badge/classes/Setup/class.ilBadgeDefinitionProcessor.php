@@ -23,7 +23,7 @@ class ilBadgeDefinitionProcessor implements ilComponentDefinitionProcessor
     protected ?string $component_id;
     protected bool $has_badges = false;
 
-    public function __construct(protected \ilDBInterface $db)
+    public function __construct(protected ilDBInterface $db)
     {
     }
 
@@ -47,8 +47,8 @@ class ilBadgeDefinitionProcessor implements ilComponentDefinitionProcessor
 
     public function beginTag(string $name, array $attributes): void
     {
-        if ($name === "module" || $name === "service") {
-            $this->component_id = $attributes["id"] ?? null;
+        if ($name === 'module' || $name === 'service') {
+            $this->component_id = $attributes['id'] ?? null;
             return;
         }
 
@@ -57,7 +57,7 @@ class ilBadgeDefinitionProcessor implements ilComponentDefinitionProcessor
         }
 
         if ($this->component_id === null) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 "Found $name-tag outside of module or service."
             );
         }
@@ -68,7 +68,7 @@ class ilBadgeDefinitionProcessor implements ilComponentDefinitionProcessor
 
     public function endTag(string $name): void
     {
-        if ($name === "module" || $name === "service") {
+        if ($name === 'module' || $name === 'service') {
             $this->component_id = null;
         }
     }

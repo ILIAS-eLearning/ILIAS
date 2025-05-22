@@ -725,7 +725,6 @@ class ilObjSurvey extends ilObject
                 "mailaddresses" => array('text', $this->getMailAddresses()),
                 "mailparticipantdata" => array('text', $this->getMailParticipantData()),
                 "tstamp" => array("integer", time()),
-                "pool_usage" => array("integer", $this->getPoolUsage()),
                 // Mode type
                 "mode" => array("integer", $this->getMode()),
                 // 360°
@@ -772,7 +771,6 @@ class ilObjSurvey extends ilObject
                 "mailaddresses" => array('text', $this->getMailAddresses()),
                 "mailparticipantdata" => array('text', $this->getMailParticipantData()),
                 "tstamp" => array("integer", time()),
-                "pool_usage" => array("integer", $this->getPoolUsage()),
                 //MODE TYPE
                 "mode" => array("integer", $this->getMode()),
                 // 360°
@@ -1033,7 +1031,6 @@ class ilObjSurvey extends ilObject
             $this->setTutorResultsStatus((bool) $data["tutor_res_status"]);
             $this->setTutorResultsRecipients(explode(";", $data["tutor_res_reci"] ?? ""));
 
-            $this->setViewOwnResults((bool) $data["own_results_view"]);
             $this->setMailOwnResults((bool) $data["own_results_mail"]);
             $this->setMailConfirmation((bool) $data["confirmation_mail"]);
             $this->setCalculateSumScore((bool) $data["calculate_sum_score"]);
@@ -1139,45 +1136,26 @@ class ilObjSurvey extends ilObject
     public function saveAuthorToMetadata(
         string $a_author = ""
     ): void {
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $md_life = $md->getLifecycle();
-        if (!$md_life) {
-            if ($a_author === '') {
-                $ilUser = $this->user;
-                $a_author = $ilUser->getFullname();
-            }
-
-            $md_life = $md->addLifecycle();
-            $md_life->save();
-            $con = $md_life->addContribute();
-            $con->setRole("Author");
-            $con->save();
-            $ent = $con->addEntity();
-            $ent->setEntity($a_author);
-            $ent->save();
+        if ($a_author === '') {
+            $ilUser = $this->user;
+            $a_author = $ilUser->getFullname();
         }
+        $this->domain->metadata()->saveAuthorsInLOMIfNoLifecycleSet(
+            $this->getId(),
+            0,
+            $this->getType(),
+            $a_author,
+        );
     }
 
     // Gets the authors name from metadata
     public function getAuthor(): string
     {
-        $author = array();
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $md_life = $md->getLifecycle();
-        if ($md_life) {
-            $ids = $md_life->getContributeIds();
-            foreach ($ids as $id) {
-                $md_cont = $md_life->getContribute($id);
-                if (strcmp($md_cont->getRole(), "Author") === 0) {
-                    $entids = $md_cont->getEntityIds();
-                    foreach ($entids as $entid) {
-                        $md_ent = $md_cont->getEntity($entid);
-                        $author[] = $md_ent->getEntity();
-                    }
-                }
-            }
-        }
-        return implode(",", $author);
+        return $this->domain->metadata()->getAuthorsFromLOM(
+            $this->getId(),
+            0,
+            $this->getType()
+        );
     }
 
     public function getShowQuestionTitles(): bool
@@ -2461,11 +2439,13 @@ class ilObjSurvey extends ilObject
             }
 
             $active_id = $this->getActiveID($a_user_id, $a_anonymize_id, $a_appr_id);
-            $ntf->addAdditionalInfo(
-                'results',
-                $this->getParticipantTextResults($active_id),
-                true
-            );
+            if ($active_id) {   // 43908
+                $ntf->addAdditionalInfo(
+                    'results',
+                    $this->getParticipantTextResults($active_id),
+                    true
+                );
+            }
 
             $ntf->setGotoLangId('survey_notification_tutor_link');
             $ntf->setReasonLangId('survey_notification_finished_reason');
@@ -3037,7 +3017,6 @@ class ilObjSurvey extends ilObject
         $custom_properties["evaluation_access"] = $this->getEvaluationAccess();
         $custom_properties["status"] = !$this->getOfflineStatus();
         $custom_properties["display_question_titles"] = $this->getShowQuestionTitles();
-        $custom_properties["pool_usage"] = (int) $this->getPoolUsage();
 
         $custom_properties["own_results_view"] = (int) $this->hasViewOwnResults();
         $custom_properties["own_results_mail"] = (int) $this->hasMailOwnResults();
@@ -3063,15 +3042,6 @@ class ilObjSurvey extends ilObject
             $a_xml_writer->xmlElement("fieldentry", null, $value);
             $a_xml_writer->xmlEndTag("metadatafield");
         }
-
-        $a_xml_writer->xmlStartTag("metadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "SCORM");
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $writer = new ilXmlWriter();
-        $md->toXML($writer);
-        $metadata = $writer->xmlDumpMem();
-        $a_xml_writer->xmlElement("fieldentry", null, $metadata);
-        $a_xml_writer->xmlEndTag("metadatafield");
 
         $a_xml_writer->xmlEndTag("metadata");
         $a_xml_writer->xmlEndTag("survey");
@@ -3295,8 +3265,6 @@ class ilObjSurvey extends ilObject
         $newObj->setEndDate($this->getEndDate());
         $newObj->setAnonymize($this->getAnonymize());
         $newObj->setShowQuestionTitles($this->getShowQuestionTitles());
-        $newObj->setPoolUsage($this->getPoolUsage());
-        $newObj->setViewOwnResults($this->hasViewOwnResults());
         $newObj->setMailOwnResults($this->hasMailOwnResults());
         $newObj->setMailConfirmation($this->hasMailConfirmation());
         $newObj->setAnonymousUserList($this->hasAnonymousUserList());
@@ -3603,8 +3571,8 @@ class ilObjSurvey extends ilObject
      * @throws ilDateTimeException
      */
     public function getSurveyCodesForExport(
-        array $a_codes = null,
-        array $a_ids = null
+        ?array $a_codes = null,
+        ?array $a_ids = null
     ): string {
         $ilDB = $this->db;
         $ilUser = $this->user;
@@ -3677,8 +3645,8 @@ class ilObjSurvey extends ilObject
      * @todo move to code manager
      */
     public function getSurveyCodesTableData(
-        array $ids = null,
-        string $lang = null
+        ?array $ids = null,
+        ?string $lang = null
     ): array {
         $ilDB = $this->db;
 
@@ -3725,9 +3693,9 @@ class ilObjSurvey extends ilObject
 
                 if ($row["externaldata"]) {
                     $ext = unserialize((string) $row["externaldata"], ['allowed_classes' => false]);
-                    $item['email'] = $ext['email'];
-                    $item['last_name'] = $ext['lastname'];
-                    $item['first_name'] = $ext['firstname'];
+                    $item['email'] = $ext['email'] ?? "";
+                    $item['last_name'] = $ext['lastname'] ?? "";
+                    $item['first_name'] = $ext['firstname'] ?? "";
                 }
 
                 $codes[] = $item;
@@ -3915,7 +3883,7 @@ class ilObjSurvey extends ilObject
 
         $row = $this->db->fetchAssoc($result);
 
-        return $row['state'];
+        return $row['state'] ?? false;
     }
 
     /**
@@ -4043,7 +4011,7 @@ class ilObjSurvey extends ilObject
         string $a_material,
         bool $close_material_tag = true,
         bool $add_mobs = true,
-        array $attribs = null
+        ?array $attribs = null
     ): void {
         $a_xml_writer->xmlStartTag("material", $attribs);
         $attrs = array(
@@ -4649,7 +4617,7 @@ class ilObjSurvey extends ilObject
      */
     public function getAppraiseesToRate(
         ?int $a_user_id,
-        int $a_anonymous_id = null
+        ?int $a_anonymous_id = null
     ): array {
         $ilDB = $this->db;
 
@@ -4699,7 +4667,7 @@ class ilObjSurvey extends ilObject
     public function is360SurveyStarted(
         int $appr_id,
         int $user_id,
-        string $anonymous_code = null
+        ?string $anonymous_code = null
     ): ?int {
         $ilDB = $this->db;
 
@@ -4729,7 +4697,7 @@ class ilObjSurvey extends ilObject
      * @todo move to run manager
      */
     public function getUserSurveyExecutionStatus(
-        string $a_code = null
+        ?string $a_code = null
     ): ?array {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -4893,7 +4861,7 @@ class ilObjSurvey extends ilObject
         int $a_appraisee_id,
         int $a_user_id,
         int $a_anonymous_id,
-        int $a_tstamp = null
+        ?int $a_tstamp = null
     ): void {
         $ilDB = $this->db;
 
@@ -5498,13 +5466,13 @@ class ilObjSurvey extends ilObject
     }
 
     public function setActivationStartDate(
-        int $starting_time = null
+        ?int $starting_time = null
     ): void {
         $this->activation_starting_time = $starting_time;
     }
 
     public function setActivationEndDate(
-        int $ending_time = null
+        ?int $ending_time = null
     ): void {
         $this->activation_ending_time = $ending_time;
     }
@@ -5576,7 +5544,7 @@ class ilObjSurvey extends ilObject
     }
 
     public function getReminderMailTemplates(
-        int &$defaultTemplateId = null
+        ?int &$defaultTemplateId = null
     ): array {
         global $DIC;
 

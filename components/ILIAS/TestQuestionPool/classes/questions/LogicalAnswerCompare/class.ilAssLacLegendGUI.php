@@ -84,7 +84,7 @@ class ilAssLacLegendGUI
      */
     public function get(): \ILIAS\UI\Component\Modal\Modal
     {
-        $this->pageTemplate->addCss('components/ILIAS/TestQuestionPool/templates/default/lac_legend.css');
+        $this->pageTemplate->addCss('assets/css/lac_legend.css');
 
         $tpl = $this->getTemplate();
 

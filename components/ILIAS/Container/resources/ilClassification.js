@@ -1,46 +1,43 @@
-il.Classification = {
-  ajax_block_id: '',
-  ajax_block_url: '',
-  ajax_content_id: '',
-  ajax_content_url: '',
-  core: il.repository.core,
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ******************************************************************** */
 
-  setAjax(block_id, block_url, content_id, content_url, tabs_html) {
-    this.ajax_block_id = block_id;
-    this.ajax_block_url = block_url;
-    this.ajax_content_id = content_id;
-    this.ajax_content_url = content_url;
-    this.tabs_html = tabs_html;
+class Classification {
+  initialised = false;
 
-    document.addEventListener('il_classification_redraw', () => {
-      this.redraw();
-    });
-  },
-  toggle(para) {
-    this.loader(`${this.ajax_block_id}_loader`);
-    this.loader(this.ajax_content_id);
-    if (para.event) {
-      para.event.preventDefault();
-      para.event.stopPropagation();
-      para.event = '';
+  ajaxBlockId = '';
+
+  ajaxBlockUrl = '';
+
+  ajaxContentId = '';
+
+  ajaxContentUrl = '';
+
+  tabsHtml = '';
+
+  core = '';
+
+  loader(elementId) {
+    const loadergif = document.createElement('img');
+    loadergif.src = './assets/images/media/loader.svg';
+    loadergif.style.position = 'absolute';
+    const el = document.getElementById(elementId);
+    if (el) {
+      this.core.setInnerHTML(el, loadergif.outerHTML);
     }
-    const args = { el_id: this.ajax_block_id, content_url: this.ajax_content_url, content_id: this.ajax_content_id };
-    this.core.fetchHtml(this.ajax_block_url, para).then(
-      (html) => {
-        this.toggleReload(html, args);
-      },
-    );
-  },
-
-  toggleReload(html, args) {
-    const el = document.getElementById(args.el_id);
-    this.core.setInnerHTML(el, html);
-    this.core.fetchHtml(args.content_url, {}).then(
-      (html) => {
-        il.Classification.toggleReloadRender(html, { el_id: args.content_id });
-      },
-    );
-  },
+  }
 
   toggleReloadRender(html, args) {
     if (html !== '') {
@@ -54,38 +51,87 @@ il.Classification = {
       }
       const tab = document.createElement('div');
       tab.id = 'ilTab';
-      const tabs_outer = document.querySelector('#mainscrolldiv .ilTabsContentOuter');
-      tabs_outer.parentNode.insertBefore(tab, tabs_outer);
-      this.core.setOuterHTML(tab.id, il.Classification.tabs_html);
+      const tabsOuter = document.querySelector('#mainscrolldiv .ilTabsContentOuter');
+      tabsOuter.parentNode.insertBefore(tab, tabsOuter);
+      this.core.setOuterHTML(tab.id, this.tabsHtml);
 
-      const el = document.getElementById(args.el_id);
+      const el = document.getElementById(args.elId);
       this.core.setInnerHTML(el, html);
     } else {
       // reload parent container (object list)
+      // eslint-disable-next-line no-restricted-globals,no-undef
       location.reload();
     }
-  },
+  }
+
+  toggleReload(html, args) {
+    const el = document.getElementById(args.elId);
+    this.core.setInnerHTML(el, html);
+    this.init();
+    this.core.fetchHtml(args.contentUrl, {}).then(
+      (html2) => {
+        this.toggleReloadRender(html2, { elId: args.contentId });
+      },
+    );
+  }
+
+  toggle(para) {
+    this.loader(`${this.ajax_block_id}_loader`);
+    this.loader(this.ajax_content_id);
+    if (para.event) {
+      para.event.preventDefault();
+      para.event.stopPropagation();
+      para.event = '';
+    }
+    const args = {
+      elId: this.ajaxBlockId,
+      contentUrl: this.ajaxContentUrl,
+      contentId: this.ajaxContentId,
+    };
+    this.core.fetchHtml(this.ajaxBlockUrl, para).then(
+      (html) => {
+        this.toggleReload(html, args);
+      },
+    );
+  }
+
   redraw() {
-    const el = document.getElementById(il.Classification.ajax_block_id);
+    const el = document.getElementById(this.ajaxBlockId);
     this.core.fetchReplaceInner(
       el,
-      `${il.Classification.ajax_block_url}&rdrw=1`,
+      `${this.ajaxBlockUrl}&rdrw=1`,
     );
-  },
+  }
 
-  loader(element_id) {
-    const loadergif = document.createElement('img');
-    loadergif.src = './assets/images/media/loader.svg';
-    loadergif.style.position = 'absolute';
-    const el = document.getElementById(element_id);
-    if (el) {
-      this.core.setInnerHTML(el, loadergif.outerHTML);
-    }
-  },
+  init() {
+    document.querySelectorAll('.il-classification-block').forEach((bl) => {
+      this.ajaxBlockId = bl.dataset.ajaxBlockId;
+      this.ajaxBlockUrl = bl.dataset.ajaxBlockUrl;
+      this.ajaxContentId = bl.dataset.ajaxContentId;
+      this.ajaxContentUrl = bl.dataset.ajaxContentUrl;
+      this.tabsHtml = JSON.parse(bl.dataset.tabsHtml);
+    });
+    document.querySelectorAll('.il-classification-block a').forEach((el) => {
+      if (el.href) {
+        const hashValue = new URL(el.href).hash.substring(1);
+        if (hashValue) {
+          el.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.toggle({ taxNode: hashValue.substring(9) });
+          });
+        }
+      }
+    });
+    document.addEventListener('il_classification_redraw', () => {
+      this.redraw();
+    });
+    this.core = il.repository.core;
+    this.initialised = true;
+    console.log('Classification initialised 2');
+  }
+}
 
-  returnToParent() {
-    this.loader(`${this.ajax_block_id}_loader`);
-    document.location.reload();
-  },
-
-};
+window.addEventListener('load', () => {
+  const c = new Classification();
+  c.init();
+}, false);

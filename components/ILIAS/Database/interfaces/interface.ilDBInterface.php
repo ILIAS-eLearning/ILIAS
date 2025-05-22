@@ -201,7 +201,7 @@ interface ilDBInterface
     /**
      * Prepare a query (SELECT) statement to be used with execute.
      */
-    public function prepare(string $a_query, array $a_types = null, array $a_result_types = null): ilDBStatement;
+    public function prepare(string $a_query, ?array $a_types = null, ?array $a_result_types = null): ilDBStatement;
 
     public function prepareManip(string $a_query, ?array $a_types = null): ilDBStatement;
 

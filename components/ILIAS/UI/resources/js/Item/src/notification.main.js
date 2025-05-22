@@ -1,3 +1,19 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ******************************************************************** */
+
 var notificationItemFactory = function($, counterFactory) {
 	/**
 	 * Name of the outermost Notification Item class in the DOM. This is
@@ -437,9 +453,25 @@ var notificationItemObject = function($item, $, counterFactory){
 			$aggregates.insertAfter($item).show();
 			$item.hide();
 		}
-		$aggregates.find(':focusable').first().focus();
+		
+		focusNextFocusable($aggregates.get(0));
 	};
 
+	/**
+	 * @param HTMLElement container
+	 */
+	const focusNextFocusable = function (container) {
+		const focusable = Array.from(container.querySelectorAll('input:not([disabled])'))
+			.concat(Array.from(container.querySelectorAll('select:not([disabled])')))
+			.concat(Array.from(container.querySelectorAll('textarea:not([disabled])')))
+			.concat(Array.from(container.querySelectorAll('button:not([disabled])')))
+			.concat(Array.from(container.querySelectorAll('[href]')))
+			.concat(Array.from(container.querySelectorAll('[tabindex]:not([tabindex^="-"])')));
+
+		if(focusable.length > 0) {
+			focusable.at(0).focus();
+		}
+	};
 
 	/**
 	 * Hiding aggregates, if the user navigates back to the top level.
@@ -452,7 +484,7 @@ var notificationItemObject = function($item, $, counterFactory){
 		if($parent_slate.length){
 			$parent_slate.siblings().show();
 			$parent_slate.show();
-			$parent_slate.find(':focusable').first().focus();
+			focusNextFocusable($parent_slate.get(0));
 		}
 		$item.show().append($aggregates);
 		$aggregates.hide();

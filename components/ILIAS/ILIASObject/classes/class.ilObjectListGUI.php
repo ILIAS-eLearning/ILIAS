@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\ILIASObject\LocalDIC;
+use ILIAS\ILIASObject\Properties\Properties;
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Button\Button;
@@ -28,8 +30,8 @@ use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Dropdown\Standard as StandardDropdown;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Notes\Note;
+use ILIAS\Container\Content\ModeSessionRepository;
 use ILIAS\HTTP\Services as HTTPServices;
-use ILIAS\Object\ilObjectDIC;
 
 /**
  * Important note:
@@ -75,8 +77,8 @@ class ilObjectListGUI
     protected array $access_cache;
     protected ilAccessHandler $access;
     protected ilObjUser $user;
-    protected ilObjectDIC $object_dic;
-    protected ilObjectProperties $object_properties;
+    protected LocalDIC $object_dic;
+    protected Properties $object_properties;
     protected ilObjectDefinition $obj_definition;
     protected ilTree $tree;
     protected ilSetting $settings;
@@ -142,7 +144,6 @@ class ilObjectListGUI
     protected bool $search_fragments_enabled = false;
     protected string $search_fragment = '';
     protected bool $path_linked = false;
-    protected bool $enabled_relevance = false;
     protected int $relevance = 0;
     protected bool $expand_enabled = false;
     protected bool $is_expanded = true;
@@ -171,6 +172,7 @@ class ilObjectListGUI
     protected string $title_link = '';
     protected bool $title_link_disabled = false;
     protected bool $lp_cmd_enabled = false;
+    protected bool $lp_settings_cmd_enabled = true;
     protected array $current_actions = [];
     protected ?ilPathGUI $path_gui = null;
     protected array $default_command_params = [];
@@ -198,7 +200,7 @@ class ilObjectListGUI
 
         $this->access = $DIC['ilAccess'];
         $this->user = $DIC['ilUser'];
-        $this->object_dic = ilObjectDIC::dic();
+        $this->object_dic = LocalDIC::dic();
         $this->obj_definition = $DIC['objDefinition'];
         $this->tree = $DIC['tree'];
         $this->settings = $DIC['ilSetting'];
@@ -330,16 +332,6 @@ class ilObjectListGUI
         $this->path_linked = $status;
     }
 
-    public function enableRelevance(bool $status): void
-    {
-        $this->enabled_relevance = $status;
-    }
-
-    public function enabledRelevance(): bool
-    {
-        return $this->enabled_relevance;
-    }
-
     public function setRelevance(int $rel): void
     {
         $this->relevance = $rel;
@@ -450,7 +442,7 @@ class ilObjectListGUI
         return $this->link_enabled;
     }
 
-    public function enablePath(bool $path, int $start_node = 0, \ilPathGUI $path_gui = null): void
+    public function enablePath(bool $path, int $start_node = 0, ?\ilPathGUI $path_gui = null): void
     {
         $this->path_enabled = $path;
         $this->path_start_node = $start_node;
@@ -486,6 +478,11 @@ class ilObjectListGUI
     protected function enableLearningProgress(bool $enabled): void
     {
         $this->lp_cmd_enabled = $enabled;
+    }
+
+    protected function enableLPSettingsCommand(bool $enabled): void
+    {
+        $this->lp_settings_cmd_enabled = $enabled;
     }
 
     /**
@@ -727,7 +724,7 @@ class ilObjectListGUI
         $this->access_cache = [];
         $this->ref_id = $ref_id;
         $this->obj_id = $obj_id;
-        $this->object_properties = $this->object_dic['object_properties_agregator']->getFor($obj_id);
+        $this->object_properties = $this->object_dic['properties.aggregator']->getFor($obj_id);
         $this->setTitle($title);
         $this->setDescription($description);
 
@@ -1194,20 +1191,6 @@ class ilObjectListGUI
         }
     }
 
-    public function insertRelevance(): void
-    {
-        if (!$this->enabledRelevance() or !$this->getRelevance()) {
-            return;
-        }
-
-        $pbar = ilProgressBar::getInstance();
-        $pbar->setCurrent($this->getRelevance());
-
-        $this->tpl->setCurrentBlock('relevance');
-        $this->tpl->setVariable('REL_PBAR', $pbar->render());
-        $this->tpl->parseCurrentBlock();
-    }
-
     /**
      * set output mode
      *
@@ -1354,7 +1337,7 @@ class ilObjectListGUI
                         $prop_text = '';
                     } // tags counter
                     else {
-                        $tags_value = '<a href="#" onclick="return ' . $tags_url . '>' .
+                        $tags_value = '<a href="#" onclick="return ' . $tags_url . '">' .
                             self::$cnt_tags[$note_obj_id] . '</a>';
                         $prop_text = $this->lng->txt('tagging_tags');
                     }
@@ -1482,7 +1465,7 @@ class ilObjectListGUI
                 continue;
             }
 
-            $operator = ilConditionHandlerGUI::translateOperator($condition['trigger_obj_id'], $condition['operator']);
+            $operator = ilConditionHandlerGUI::translateOperator($condition['trigger_obj_id'], $condition['operator'], $condition['value']);
             $cond_txt = $operator . ' ' . $condition['value'];
 
             // display trigger item
@@ -1803,7 +1786,7 @@ class ilObjectListGUI
         if ($this->std_cmd_only
             || $this->user->getId() === ANONYMOUS_USER_ID
             || !$this->getContainerObject() instanceof ilDesktopItemHandling
-            || $this->settings->get('rep_favourites', '0') === '0') {
+            || $this->settings->get('rep_favourites', '0') !== '1') {
             return;
         }
 
@@ -1985,9 +1968,14 @@ class ilObjectListGUI
     private function populateCommands(
         bool $for_header
     ): void {
-        if (!$this->getCommandsStatus() || $this->commandsNeedToBeHidden(
-            $for_header
-        )) {
+        $commands = $this->getCommands();
+        if (!$this->getCommandsStatus() || $this->commandsNeedToBeHidden($for_header)) {
+            foreach ($commands as $command) {
+                if ($command['default'] === true) {
+                    $this->default_command = $command['granted'] === true ? $this->createDefaultCommand($command) : [];
+                }
+                return;
+            }
             return;
         }
 
@@ -2000,7 +1988,6 @@ class ilObjectListGUI
         // we only allow the following commands inside the header actions
         $valid_header_commands = ['mount_webfolder'];
 
-        $commands = $this->getCommands();
         foreach ($commands as $command) {
             if ($for_header && !in_array($command['cmd'], $valid_header_commands)
                 || $command['granted'] === false) {
@@ -2159,9 +2146,9 @@ class ilObjectListGUI
 
     public function enableRating(
         bool $value,
-        string $text = null,
+        ?string $text = null,
         bool $categories = false,
-        array $ctrl_path = null,
+        ?array $ctrl_path = null,
         bool $force_rate_parent = false
     ): void {
         $this->rating_enabled = $value;
@@ -2254,7 +2241,7 @@ class ilObjectListGUI
         string $redraw_url,
         string $notes_url,
         string $tags_url,
-        ilGlobalTemplateInterface $tpl = null
+        ?ilGlobalTemplateInterface $tpl = null
     ): void {
         global $DIC;
 
@@ -2284,10 +2271,10 @@ class ilObjectListGUI
     public function addHeaderIcon(
         string $id,
         string $img,
-        string $tooltip = null,
-        string $onclick = null,
-        string $status_text = null,
-        string $href = null
+        ?string $tooltip = null,
+        ?string $onclick = null,
+        ?string $status_text = null,
+        ?string $href = null
     ): void {
         $this->header_icons[$id] = [
             'img' => $img,
@@ -2313,13 +2300,13 @@ class ilObjectListGUI
         $this->ajax_hash = $hash;
     }
 
-    public function getHeaderAction(ilGlobalTemplateInterface $main_tpl = null): string
+    public function getHeaderAction(?ilGlobalTemplateInterface $main_tpl = null): string
     {
         if ($main_tpl == null) {
             $main_tpl = $this->main_tpl;
         }
 
-        $htpl = new ilTemplate('tpl.header_action.html', true, true, 'components/ILIAS/Repository');
+        $htpl = new ilTemplate('tpl.header_action.html', true, true, 'components/ILIAS/ILIASObject');
 
         $redraw_js = 'il.Object.redrawActionHeader();';
 
@@ -2452,15 +2439,15 @@ class ilObjectListGUI
                             $htpl->setVariable('TAG', 'span');
                         }
                         $htpl->setVariable('PROP_ID', $id);
-                        $htpl->setVariable('IMG', ilUtil::img($attr['img'], $attr['tooltip']));
+                        $htpl->setVariable('IMG_SRC', $attr['img']);
                         if ($attr['href'] != '') {
                             $htpl->setVariable('PROP_HREF', ' href="' . $attr['href'] . '" ');
                         }
-                        $htpl->parseCurrentBlock();
 
                         if ($attr['tooltip']) {
-                            ilTooltipGUI::addTooltip($id, $attr['tooltip']);
+                            $htpl->setVariable('IMG_ADDITIONAL', "alt=\"{$attr['tooltip']}\" title=\"{$attr['tooltip']}\"");
                         }
+                        $htpl->parseCurrentBlock();
                     }
                 } else {
                     $chunks[] = $attr;
@@ -2649,14 +2636,7 @@ class ilObjectListGUI
             }
 
             $this->tpl->setCurrentBlock('icon');
-            if (!$this->obj_definition->isPlugin($this->getIconImageType())) {
-                $this->tpl->setVariable('ALT_ICON', $this->lng->txt('obj_' . $this->getIconImageType()));
-            } else {
-                $this->tpl->setVariable(
-                    'ALT_ICON',
-                    ilObjectPlugin::lookupTxtById($this->getIconImageType(), 'obj_' . $this->getIconImageType())
-                );
-            }
+            $this->tpl->setVariable('ALT_ICON', $this->buildTranslatedType());
 
             $this->tpl->setVariable(
                 'SRC_ICON',
@@ -2811,9 +2791,6 @@ class ilObjectListGUI
         if ($this->getSearchFragmentStatus()) {
             $this->insertSearchFragment();
         }
-        if ($this->enabledRelevance()) {
-            $this->insertRelevance();
-        }
 
         // properties
         if ($this->getPropertiesStatus()) {
@@ -2866,6 +2843,7 @@ class ilObjectListGUI
         if ($this->context === self::CONTEXT_REPOSITORY
             && ($this->requested_cmd === "view" || $this->requested_cmd === "" || $this->requested_cmd === "render")
             && $file_upload_dropzone->isUploadAllowed($this->type)
+             && !(new ModeSessionRepository())->isAdminMode()
         ) {
             return $file_upload_dropzone->getDropzoneHtml();
         }
@@ -3090,17 +3068,10 @@ class ilObjectListGUI
         $dropdown = $this->getCommandsDropdown($title);
         $def_command = $this->getDefaultCommand();
 
-        $icon = $this->ui->factory()
-            ->symbol()
-            ->icon()
-            ->custom(ilObject::_getIcon($obj_id), $this->lng->txt('icon') . ' ' . $this->lng->txt('obj_' . $type))
-            ->withSize('medium');
-
-
         if ($def_command['link'] ?? false) {
             list($def_command['link'], $def_command['frame']) =
                 $this->modifySAHSlaunch($def_command['link'], $def_command['frame']);
-            $new_viewport = !in_array($this->getDefaultCommand()['frame'], ['', '_top', '_self', '_parent'], true); // Cannot use $def_command['frame']. $this->default_command has been edited.
+            $new_viewport = !in_array($def_command['frame'], ['', '_top', '_self', '_parent'], true);
             $link = $this->ui->factory()
                 ->link()
                 ->standard($this->getTitle(), $def_command['link'])
@@ -3113,7 +3084,13 @@ class ilObjectListGUI
         if ($description != '') {
             $list_item = $list_item->withDescription($description);
         }
-        $list_item = $list_item->withActions($dropdown)->withLeadIcon($icon);
+        $list_item = $list_item->withActions($dropdown)->withLeadIcon(
+            $this->ui->factory()->symbol()->icon()->custom(
+                $this->getTypeIcon(),
+                $this->buildTranslatedType(),
+                'medium'
+            )
+        );
 
 
         $l = [];
@@ -3146,6 +3123,7 @@ class ilObjectListGUI
     ): ?RepositoryObject {
         $ui = $this->ui;
 
+        $title = $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($title);
         // even b tag produced bugs, see #32304
         $description = $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
             $description
@@ -3166,7 +3144,7 @@ class ilObjectListGUI
 
         $sections = [];
         if ($description !== '') {
-            $sections[] = $ui->factory()->legacy('<div class="il-multi-line-cap-3">' . $description . '</div>');
+            $sections[] = $ui->factory()->legacy()->content('<div class="il-multi-line-cap-3">' . $description . '</div>');
         }
 
         $this->populateCommands(false);
@@ -3189,8 +3167,6 @@ class ilObjectListGUI
             $this->modifySAHSlaunch($def_cmd_link, $def_cmd_frame);
 
         $image = $this->getTileImage();
-
-
 
         if ($def_cmd_link != '') {    // #24256
             if ($def_cmd_frame !== '' && ($modified_link === $def_cmd_link)) {
@@ -3227,27 +3203,11 @@ class ilObjectListGUI
             ) . $title;
         }
 
-        $icon = $this->ui
-            ->factory()
-            ->symbol()
-            ->icon()
-            ->standard($type, $this->lng->txt('obj_' . $type))
-        ;
-
-
-
-        if ($this->obj_definition->isActivePluginType($type)) {
-            $class_name = 'il' . $this->obj_definition->getClassName($type) . 'Plugin';
-            if ($class_name !== 'ilPlugin'
-            && method_exists($class_name, '_getIcon')) {
-                $pl = ilObjectPlugin::getPluginObjectByType($type);
-                $icon = $this->ui
-                    ->factory()
-                    ->symbol()
-                    ->icon()
-                    ->custom(call_user_func([$class_name, '_getIcon'], $type, 'small', $obj_id), $pl->txt('obj_' . $type));
-            }
-        }
+        $icon = $this->ui->factory()->symbol()->icon()->custom(
+            $this->getTypeIcon(),
+            $this->buildTranslatedType(),
+            'medium'
+        );
 
         // card title action
         $card_title_action = '';
@@ -3347,7 +3307,8 @@ class ilObjectListGUI
      */
     private function insertLPSettingsCommand(): void
     {
-        if (!ilObjUserTracking::_enabledLearningProgress()
+        if (!$this->lp_settings_cmd_enabled
+            || !ilObjUserTracking::_enabledLearningProgress()
             || ilObjectLP::getTypeClass($this->type) === ''
             || ! $this->checkCommandAccess('edit_learning_progress', '', $this->ref_id, $this->type)
         ) {
@@ -3427,5 +3388,14 @@ class ilObjectListGUI
                 $this->lng->txt('listaction_learning_progress_settings')
             );
         }
+    }
+
+    private function buildTranslatedType(): string
+    {
+        if ($this->obj_definition->isPlugin($this->getIconImageType())) {
+            return ilObjectPlugin::lookupTxtById($this->getIconImageType(), 'obj_' . $this->getIconImageType());
+        }
+
+        return $this->lng->txt('obj_' . $this->getIconImageType());
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
@@ -225,15 +225,6 @@ class ilWebResourceParameterTest extends TestCase
             'name3'
         );
         $this->assertSame('name3=MATRICULATION', $param->getInfo());
-        $param = new ilWebLinkParameter(
-            $user,
-            0,
-            13,
-            9,
-            ilWebLinkBaseParameter::VALUES['session_id'],
-            'name4'
-        );
-        $this->assertSame('name4=SESSION_ID', $param->getInfo());
     }
 
     public function testGetInfoException(): void

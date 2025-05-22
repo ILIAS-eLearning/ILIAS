@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\Services as HTTPService;
-use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
 /**
  * Class ilObjLinkResourceGUI
@@ -30,19 +31,15 @@ use ILIAS\UI\Component\Component;
  */
 class ilObjLinkResourceGUI extends ilObject2GUI
 {
-    protected const VIEW_MODE_VIEW = 1;
-    protected const VIEW_MODE_MANAGE = 2;
-    protected const VIEW_MODE_SORT = 3;
+    protected const int VIEW_MODE_VIEW = 1;
+    protected const int VIEW_MODE_MANAGE = 2;
+    protected const int VIEW_MODE_SORT = 3;
 
-    protected const LINK_MOD_CREATE = 1;
-    protected const LINK_MOD_EDIT = 2;
-    protected const LINK_MOD_ADD = 3;
-    protected const LINK_MOD_SET_LIST = 4;
-    protected const LINK_MOD_EDIT_LIST = 5;
-    protected const LINK_MOD_ASYNC = 6;
-
-    protected HTTPService $http;
-    protected ilNavigationHistory $navigationHistory;
+    protected const int LINK_MOD_CREATE = 1;
+    protected const int LINK_MOD_EDIT = 2;
+    protected const int LINK_MOD_ADD = 3;
+    protected const int LINK_MOD_SET_LIST = 4;
+    protected const int LINK_MOD_ASYNC = 6;
 
     private int $view_mode = self::VIEW_MODE_VIEW;
 
@@ -56,14 +53,14 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         int $id_type = self::REPOSITORY_NODE_ID,
         int $parent_node_id = 0
     ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         parent::__construct($id, $id_type, $parent_node_id);
 
         $this->lng->loadLanguageModule("webr");
-        $this->http = $DIC->http();
-        $this->navigationHistory = $DIC['ilNavigationHistory'];
         $this->settings = $DIC->settings();
+        $DIC->resourceStorage();
     }
 
     protected function getWebLinkRepo(): ilWebLinkRepository
@@ -134,7 +131,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 $this->prepareOutput();
                 $this->tabs_gui->setTabActive('export');
                 $exp = new ilExportGUI($this);
-                $exp->addFormat('xml');
                 $this->ctrl->forwardCommand($exp);
                 break;
 
@@ -162,19 +158,18 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 break;
 
             default:
-                if (!$cmd) {
-                    // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-                    // $this->ctrl->setCmd("view");
+                if ($this->getIdType() === ilObject2GUI::WORKSPACE_OBJECT_ID) {
+                    parent::executeCommand();
+                    break;
                 }
-                parent::executeCommand();
+                if (!$cmd) {
+                    $cmd = 'view';
+                }
+                $this->prepareOutput();
+                $this->$cmd();
         }
 
         if (!$this->getCreationMode()) {
-            ilMDUtils::_fillHTMLMetaTags(
-                $this->object->getId(),
-                $this->object->getId(),
-                'webr'
-            );
             $this->addHeaderAction();
         }
     }
@@ -193,10 +188,10 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $this->checkLinkInput(self::LINK_MOD_CREATE, $valid, 0) &&
             $this->form->getInput('tar_mode_type') === 'single'
         ) {
-            parent::save();
+            $this->saveObject();
         } elseif ($valid && $this->form->getInput('tar_mode_type') == 'list') {
             $this->initList(self::LINK_MOD_CREATE);
-            parent::save();
+            $this->saveObject();
         } else {
             // Data incomplete or invalid
             $this->tpl->setOnScreenMessage(
@@ -206,6 +201,44 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $this->form->setValuesByPost();
             $this->tpl->setContent($this->form->getHTML());
         }
+    }
+
+    public function saveObject(): void
+    {
+        // create permission is already checked in createObject. This check here is done to prevent hacking attempts
+        if (!$this->checkPermissionBool("create", "", $this->requested_new_type)) {
+            $this->error->raiseError($this->lng->txt("no_create_permission"), $this->error->MESSAGE);
+        }
+
+        $this->lng->loadLanguageModule($this->requested_new_type);
+        $this->ctrl->setParameter($this, "new_type", $this->requested_new_type);
+
+        $this->form = $this->initCreateForm($this->requested_new_type);
+        if ($this->form->checkInput()) {
+            $this->ctrl->setParameter($this, "new_type", "");
+
+            $class_name = "ilObj" . $this->obj_definition->getClassName($this->requested_new_type);
+            $newObj = new $class_name();
+            $newObj->setType($this->requested_new_type);
+            $newObj->setTitle($this->form->getInput("title"));
+            $newObj->setDescription($this->form->getInput("desc"));
+            $newObj->processAutoRating();
+            $newObj->create();
+
+            $this->putObjectInTree($newObj);
+
+            if ($this->form->getInput('didactic_template')) {
+                $dtpl = $this->getDidacticTemplateVar("dtpl");
+                // Object calls initCreateForm again in getDidacticTemplateVar
+                $this->form->checkInput();
+                $newObj->applyDidacticTemplate($dtpl);
+            }
+
+            $this->afterSave($newObj);
+        }
+
+        $this->form->setValuesByPost();
+        $this->tpl->setContent($this->form->getHTML());
     }
 
     protected function afterSave(ilObject $new_object): void
@@ -248,149 +281,119 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->tabs_gui->activateTab('id_settings');
 
         $form = $this->initFormSettings();
-        $this->tpl->setContent($form->getHTML());
+        $this->tpl->setContent($this->ui_renderer->render($form));
     }
 
     protected function saveSettings(): void
     {
-        $obj_service = $this->object_service;
-
         $this->checkPermission('write');
         $this->tabs_gui->activateTab('id_settings');
 
-        $form = $this->initFormSettings();
-        $valid = $form->checkInput();
-        if ($valid) {
-            // update list
-            $this->initList(self::LINK_MOD_EDIT_LIST);
-            try {
-                $list = $this->getWebLinkRepo()->getList();
-                $this->getWebLinkRepo()->updateList($list, $this->draft_list);
-            } catch (ilWebLinkDatabaseRepositoryException $e) {
-                // no weblink list here => update tile image, title, description, sorting
-            }
-
-            // update object
-            $this->object->setTitle($form->getInput('title'));
-            $this->object->setDescription((string) $form->getInput('desc'));
-            $this->object->update();
-
-            // update sorting
-            $sort = new ilContainerSortingSettings($this->object->getId());
-            $sort->setSortMode((int) $form->getInput('sor'));
-            $sort->update();
-
-            // tile image
-            $obj_service->commonSettings()->legacyForm(
-                $form,
-                $this->object
-            )->saveTileImage();
+        $form = $this->initFormSettings()->withRequest($this->http->request());
+        if (!($data = $form->getData())) {
             $this->tpl->setOnScreenMessage(
-                'success',
-                $this->lng->txt('settings_saved'),
-                true
+                'failure',
+                $this->lng->txt('err_check_input')
             );
-            $this->ctrl->redirect($this, 'settings');
+            $this->tpl->setContent($this->ui_renderer->render($form));
         }
 
-        $form->setValuesByPost();
-        $this->tpl->setOnScreenMessage(
-            'failure',
-            $this->lng->txt('err_check_input')
-        );
-        $this->tpl->setContent($form->getHTML());
+        $obj_props = $this->object->getObjectProperties();
+
+        /** @var ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription $title_and_description */
+        $title_and_description = $data['general']['title_and_description'] ?? null;
+        if ($title_and_description !== null && $this->getWebLinkRepo()->doesListExist()) {
+            $obj_props->storePropertyTitleAndDescription($title_and_description);
+
+            // update list
+            $draft_list = new ilWebLinkDraftList(
+                $title_and_description->getTitle(),
+                $title_and_description->getLongDescription()
+            );
+            $this->getWebLinkRepo()->updateList(
+                $this->getWebLinkRepo()->getList(),
+                $draft_list
+            );
+        }
+        $obj_props->storePropertyIsOnline($data['activation']['is_online']);
+        $obj_props->storePropertyTileImage($data['presentation']['tile_image']);
+        $ordering = $data['presentation']['sor'] ?? null;
+        if ($ordering !== null && $this->getWebLinkRepo()->doesListExist()) {
+            $sort = new ilContainerSortingSettings($this->object->getId());
+            $sort->setSortMode((int) $ordering);
+            $sort->update();
+        }
+
+        $this->ctrl->redirect($this, 'settings');
     }
 
-    protected function initFormSettings(): ilPropertyFormGUI
+    protected function initFormSettings(): StandardForm
     {
-        $obj_service = $this->object_service;
-
-        $this->form = new ilPropertyFormGUI();
-        $this->form->setFormAction(
-            $this->ctrl->getFormAction($this, 'saveSettings')
-        );
+        $inputs = [];
+        $obj_props = $this->object->getObjectProperties();
+        $field_factory = $this->ui_factory->input()->field();
 
         if ($this->getWebLinkRepo()->doesListExist()) {
-            $this->form->setTitle($this->lng->txt('webr_edit_settings'));
-
-            // Title
-            $tit = new ilTextInputGUI(
-                $this->lng->txt('webr_list_title'),
-                'title'
+            $title_and_description = $obj_props->getPropertyTitleAndDescription()->toForm(
+                $this->lng,
+                $field_factory,
+                $this->refinery
             );
-            $tit->setValue($this->object->getTitle());
-            $tit->setRequired(true);
-            $tit->setSize(40);
-            $tit->setMaxLength(127);
-            $this->form->addItem($tit);
-
-            // Description
-            $des = new ilTextAreaInputGUI(
-                $this->lng->txt('webr_list_desc'),
-                'desc'
+            $inputs['general'] = $field_factory->section(
+                ['title_and_description' => $title_and_description],
+                $this->lng->txt('webr_edit_settings')
             );
-            $des->setValue($this->object->getDescription());
-            $des->setCols(40);
-            $des->setRows(3);
-            $this->form->addItem($des);
-
-            $section = new ilFormSectionHeaderGUI();
-            $section->setTitle($this->lng->txt('obj_presentation'));
-            $this->form->addItem($section);
-
-            // tile image
-            $obj_service->commonSettings()->legacyForm(
-                $this->form,
-                $this->object
-            )->addTileImage();
-
-            // Sorting
-            $sor = new ilRadioGroupInputGUI(
-                $this->lng->txt('webr_sorting'),
-                'sor'
-            );
-            $sor->setRequired(true);
-            $sor->setValue(
-                (string) ilContainerSortingSettings::_lookupSortMode(
-                    $this->object->getId()
-                )
-            );
-
-            $opt = new ilRadioOption(
-                $this->lng->txt('webr_sort_title'),
-                (string) ilContainer::SORT_TITLE
-            );
-            $sor->addOption($opt);
-
-            $opm = new ilRadioOption(
-                $this->lng->txt('webr_sort_manual'),
-                (string) ilContainer::SORT_MANUAL
-            );
-            $sor->addOption($opm);
-            $this->form->addItem($sor);
-        } else {
-            $this->form->setTitle($this->lng->txt('obj_presentation'));
-
-            // hidden title
-            $tit = new ilHiddenInputGUI('title');
-            $tit->setValue($this->object->getTitle());
-            $this->form->addItem($tit);
-
-            // hidden description
-            $des = new ilHiddenInputGUI('desc');
-            $des->setValue($this->object->getDescription());
-            $this->form->addItem($des);
-
-            // tile image
-            $obj_service->commonSettings()->legacyForm(
-                $this->form,
-                $this->object
-            )->addTileImage();
         }
 
-        $this->form->addCommandButton('saveSettings', $this->lng->txt('save'));
-        $this->form->addCommandButton('view', $this->lng->txt('cancel'));
-        return $this->form;
+        // activation
+        $this->lng->loadLanguageModule('rep');
+        $is_online = $obj_props->getPropertyIsOnline()->toForm(
+            $this->lng,
+            $field_factory,
+            $this->refinery
+        );
+        $inputs['activation'] = $field_factory->section(
+            ['is_online' => $is_online],
+            $this->lng->txt('rep_activation_availability')
+        );
+
+        $presentation_inputs = [];
+
+        // tile image
+        $tile_input = $obj_props->getPropertyTileImage()->toForm(
+            $this->lng,
+            $field_factory,
+            $this->refinery
+        );
+        $presentation_inputs['tile_image'] = $tile_input;
+
+        // Sorting
+        if ($this->getWebLinkRepo()->doesListExist()) {
+            $current_mode = (string) ilContainerSortingSettings::_lookupSortMode($this->object->getId());
+            $order_input = $field_factory->radio($this->lng->txt('webr_sorting'))
+                                         ->withOption(
+                                             (string) ilContainer::SORT_TITLE,
+                                             $this->lng->txt('webr_sorting')
+                                         )
+                                         ->withOption(
+                                             (string) ilContainer::SORT_MANUAL,
+                                             $this->lng->txt('webr_sort_manual')
+                                         )
+                                         ->withValue($current_mode)
+                                         ->withRequired(true);
+            $presentation_inputs['sor'] = $order_input;
+        }
+
+        $inputs['presentation'] = $field_factory->section(
+            $presentation_inputs,
+            $this->lng->txt('obj_presentation')
+        );
+
+        $form = $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'saveSettings'),
+            $inputs
+        );
+        return $form;
     }
 
     public function editLink(): void
@@ -470,7 +473,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
     /**
      * Get form to transform a single weblink to a weblink list
      */
-    public function getLinkToListModal(): Component
+    public function getLinkToListModal(): RoundTripModal
     {
         global $DIC;
 
@@ -494,7 +497,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
         $modal = $f->modal()->roundtrip(
             $this->lng->txt('webr_new_list'),
-            $f->legacy($r->render($info) . $this->form->getHTML())
+            $f->legacy()->content($r->render($info) . $this->form->getHTML())
         )
                    ->withActionButtons([$submit]);
 
@@ -815,7 +818,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
     protected function initList(int $a_mode): void
     {
-        if ($a_mode == self::LINK_MOD_CREATE || $a_mode == self::LINK_MOD_EDIT_LIST) {
+        if ($a_mode == self::LINK_MOD_CREATE) {
             $this->draft_list = new ilWebLinkDraftList(
                 $this->form->getInput('title'),
                 $this->form->getInput('desc')
@@ -1088,20 +1091,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                     $this->lng->txt('links_value'),
                     'val'
                 );
-                /*
-                $val->setOptions(array_map(
-                    function ($s) {
-                        return $this->lng->txt($s);
-                    },
-                    ilWebLinkBaseParameter::VALUES_TEXT
-                ));
-                */
                 $options = [];
                 foreach (ilWebLinkBaseParameter::VALUES as $name => $identifier) {
-                    if ($name === ilWebLinkBaseParameter::SESSION_ID_NAME) {
-                        continue;
-                    }
-                    $options[] = ilWebLinkBaseParameter::VALUES_TEXT[$identifier];
+                    $options[$identifier] = $this->lng->txt(ilWebLinkBaseParameter::VALUES_TEXT[$identifier]);
                 }
                 $val->setOptions($options);
                 $val->setValue(0);
@@ -1146,13 +1138,11 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $new_view_mode = $this->view_mode;
         if ($force_view_mode !== null) {
             $new_view_mode = $force_view_mode;
-        } else {
-            if ($this->http->wrapper()->query()->has('switch_mode')) {
-                $new_view_mode = $this->http->wrapper()->query()->retrieve(
-                    'switch_mode',
-                    $this->refinery->kindlyTo()->int()
-                );
-            }
+        } elseif ($this->http->wrapper()->query()->has('switch_mode')) {
+            $new_view_mode = $this->http->wrapper()->query()->retrieve(
+                'switch_mode',
+                $this->refinery->kindlyTo()->int()
+            );
         }
         $this->initViewMode($new_view_mode);
         $this->view();
@@ -1339,15 +1329,13 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 'link_id',
                 $this->refinery->kindlyTo()->int()
             );
-        } else {
-            if ($this->http->wrapper()->post()->has('link_ids')) {
-                $link_ids = $this->http->wrapper()->post()->retrieve(
-                    'link_ids',
-                    $this->refinery->kindlyTo()->dictOf(
-                        $this->refinery->kindlyTo()->int()
-                    )
-                );
-            }
+        } elseif ($this->http->wrapper()->post()->has('link_ids')) {
+            $link_ids = $this->http->wrapper()->post()->retrieve(
+                'link_ids',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
         }
         if ($link_ids === []) {
             $this->tpl->setOnScreenMessage(
@@ -1444,16 +1432,16 @@ class ilObjLinkResourceGUI extends ilObject2GUI
     }
 
     /**
-     * this one is called from the info button in the repository
-     * not very nice to set cmdClass/Cmd manually, if everything
-     * works through ilCtrl in the future this may be changed
+     * instead of redirecting here, links to the info screen should
+     * directly lead to the right place, but it looks like this needs
+     * some restructuring.
      */
     public function infoScreen(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd("showSummary");
-        // $this->ctrl->setCmdClass("ilinfoscreengui");
-        $this->infoScreenForward();
+        $this->ctrl->redirectByClass(
+            [self::class, ilInfoScreenGUI::class],
+            'showSummary'
+        );
     }
 
     /**
@@ -1479,21 +1467,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
         // forward the command
         $this->ctrl->forwardCommand($info);
-    }
-
-    public function history(): void
-    {
-        $this->checkPermission('write');
-        $this->tabs_gui->activateTab('id_history');
-
-        $hist_gui = new ilHistoryTableGUI(
-            $this,
-            "history",
-            $this->object->getId(),
-            $this->object->getType()
-        );
-        $hist_gui->initTable();
-        $this->tpl->setContent($hist_gui->getHTML());
     }
 
     /**
@@ -1583,14 +1556,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 "id_settings",
                 $this->lng->txt("settings"),
                 $this->ctrl->getLinkTarget($this, "settings")
-            );
-        }
-
-        if ($this->checkPermissionBool('write')) {
-            $this->tabs_gui->addTab(
-                "id_history",
-                $this->lng->txt("history"),
-                $this->ctrl->getLinkTarget($this, "history")
             );
         }
 
@@ -1760,29 +1725,24 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             ilUtil::redirect(
                 "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $a_target
             );
-        } else {
-            // to do: force flat view
-            if ($ilAccess->checkAccess("visible", "", (int) $a_target)) {
-                ilUtil::redirect(
-                    "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $a_target . "&cmd=infoScreen"
-                );
-            } else {
-                if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                    $main_tpl->setOnScreenMessage(
-                        'failure',
-                        sprintf(
-                            $lng->txt("msg_no_perm_read_item"),
-                            ilObject::_lookupTitle(
-                                ilObject::_lookupObjId(
-                                    (int) $a_target
-                                )
-                            )
-                        ),
-                        true
-                    );
-                    ilObjectGUI::_gotoRepositoryRoot();
-                }
-            }
+        } elseif ($ilAccess->checkAccess("visible", "", (int) $a_target)) {
+            ilUtil::redirect(
+                "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $a_target . "&cmd=infoScreen"
+            );
+        } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
+            $main_tpl->setOnScreenMessage(
+                'failure',
+                sprintf(
+                    $lng->txt("msg_no_perm_read_item"),
+                    ilObject::_lookupTitle(
+                        ilObject::_lookupObjId(
+                            (int) $a_target
+                        )
+                    )
+                ),
+                true
+            );
+            ilObjectGUI::_gotoRepositoryRoot();
         }
 
         $ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);

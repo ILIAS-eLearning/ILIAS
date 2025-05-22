@@ -34,9 +34,9 @@ class ilObjForum extends ilObject
     private static array $forum_statistics_cache = [];
     /** @var array<int, array|null> */
     private static array $forum_last_post_cache = [];
-    private \ILIAS\DI\RBACServices $rbac;
-    private ilLogger $logger;
-    private ilSetting $settings;
+    private readonly \ILIAS\DI\RBACServices $rbac;
+    private readonly ilLogger $logger;
+    private readonly ilSetting $settings;
 
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {

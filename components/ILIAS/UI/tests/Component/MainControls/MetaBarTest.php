@@ -111,19 +111,19 @@ class MetaBarTest extends ILIAS_UI_TestBase
     public function getUIFactory(): NoUIFactory
     {
         $factory = new class () extends NoUIFactory {
-            public C\Button\Factory $button_factory;
-            public C\MainControls\Factory $mc_factory;
-            public C\Counter\Factory $counter_factory;
+            public I\Component\Button\Factory $button_factory;
+            public I\Component\MainControls\Factory $mc_factory;
+            public I\Component\Counter\Factory $counter_factory;
 
-            public function button(): C\Button\Factory
+            public function button(): I\Component\Button\Factory
             {
                 return $this->button_factory;
             }
-            public function mainControls(): C\MainControls\Factory
+            public function mainControls(): I\Component\MainControls\Factory
             {
                 return $this->mc_factory;
             }
-            public function symbol(): C\Symbol\Factory
+            public function symbol(): I\Component\Symbol\Factory
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
@@ -131,7 +131,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
                     new I\Component\Symbol\Avatar\Factory()
                 );
             }
-            public function counter(): C\Counter\Factory
+            public function counter(): I\Component\Counter\Factory
             {
                 return $this->counter_factory;
             }

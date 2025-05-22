@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -46,4 +47,7 @@ enum Event: string
      * event string for all possible events.
      */
     case ALL = '*';
+
+    case FLAVOUR_BUILD_SUCCESS = 'flavour:build:success';
+    case FLAVOUR_BUILD_FAILED = 'flavour:build:failed';
 }

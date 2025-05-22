@@ -176,7 +176,7 @@ class ilArrayUtil
      * @param callable $cmp_function
      * @return void
      */
-    private static function mergesort(array &$array, callable $cmp_function = null): void
+    private static function mergesort(array &$array, ?callable $cmp_function = null): void
     {
         if ($cmp_function === null) {
             $cmp_function = 'strcmp';

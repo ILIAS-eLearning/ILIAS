@@ -28,7 +28,6 @@ use ILIAS\Filesystem\Visibility;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\UnableToRetrieveMetadata;
 use League\Flysystem\UnableToCreateDirectory;
-use League\Flysystem\FileAttributes;
 use League\Flysystem\StorageAttributes;
 
 /**
@@ -37,7 +36,13 @@ use League\Flysystem\StorageAttributes;
  */
 class FlySystemDirectoryAccess implements DirectoryAccess
 {
+    /**
+     * @var string
+     */
     private const KEY_TYPE = 'type';
+    /**
+     * @var string
+     */
     private const KEY_PATH = 'path';
 
     public function __construct(
@@ -163,7 +168,7 @@ class FlySystemDirectoryAccess implements DirectoryAccess
         }
     }
 
-    private function attributesToMetadata(StorageAttributes $attributes): \ILIAS\Filesystem\DTO\Metadata
+    private function attributesToMetadata(StorageAttributes $attributes): Metadata
     {
         return new Metadata(
             $attributes->path(),

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Breadcrumbs;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -31,25 +31,23 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
+        if (!$component instanceof Component\Breadcrumbs\Breadcrumbs) {
+            $this->cannotHandleComponent($component);
+        }
 
         $tpl = $this->getTemplate("tpl.breadcrumbs.html", true, true);
 
         $tpl->setVariable("ARIA_LABEL", $this->txt('breadcrumbs_aria_label'));
-
-        foreach ($component->getItems() as $crumb) {
+        foreach ($component->getItems() as $key => $crumb) {
             $tpl->setCurrentBlock("crumbs");
             $tpl->setVariable("CRUMB", $default_renderer->render($crumb));
+            if (!preg_match('/[a-zA-Z0-9\ ]$/', $crumb->getLabel())
+                && ($key === array_key_last($component->getItems()))) {
+                $tpl->setCurrentBlock("lrmmark");
+                $tpl->setVariable("LRMMARK", htmlspecialchars_decode("&lrm;", ENT_HTML5));
+            }
             $tpl->parseCurrentBlock();
         }
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Breadcrumbs\Breadcrumbs::class);
     }
 }

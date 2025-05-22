@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\components\OrgUnit\ARHelper\DIC;
+
 /**
  * Class ilBiblTranslationTableGUI
  *
@@ -23,19 +25,15 @@
  */
 class ilBiblTranslationTableGUI extends ilTable2GUI
 {
-    use \ILIAS\components\OrgUnit\ARHelper\DIC;
-    protected \ilBiblFieldInterface $field;
-    protected \ilBiblTranslationFactoryInterface $translation_facory;
+    use DIC;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(?object $a_parent_obj, ilBiblFieldInterface $bibl_field, ilBiblTranslationFactoryInterface $translation_factory)
+    public function __construct(?object $a_parent_obj, protected \ilBiblFieldInterface $field, protected \ilBiblTranslationFactoryInterface $translation_facory)
     {
-        $this->translation_facory = $translation_factory;
-        $this->field = $bibl_field;
-        $table_id = 'bibl_trans_field_' . $bibl_field->getId();
+        $table_id = 'bibl_trans_field_' . $this->field->getId();
         $this->setId($table_id);
         $this->setPrefix($table_id);
         $this->setFormName($table_id);
@@ -78,6 +76,7 @@ class ilBiblTranslationTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function fillRow(array $a_set): void
     {
         $translation = $this->translation_facory->findById($a_set['id']);

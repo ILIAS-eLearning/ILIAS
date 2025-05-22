@@ -1,40 +1,37 @@
 <?php
 
-declare(strict_types=1);
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
-/**
- * Apache auth provider
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @author Michael Jansen <mjansen@databay.de>
- */
+declare(strict_types=1);
+
 final class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderAccountMigrationInterface
 {
-    public const APACHE_AUTH_TYPE_DIRECT_MAPPING = 1;
-    public const APACHE_AUTH_TYPE_EXTENDED_MAPPING = 2;
-    public const APACHE_AUTH_TYPE_BY_FUNCTION = 3;
+    public const int APACHE_AUTH_TYPE_DIRECT_MAPPING = 1;
+    public const int APACHE_AUTH_TYPE_EXTENDED_MAPPING = 2;
+    public const int APACHE_AUTH_TYPE_BY_FUNCTION = 3;
 
-    private const ENV_APACHE_AUTH_INDICATOR_NAME = 'apache_auth_indicator_name';
+    private const string ENV_APACHE_AUTH_INDICATOR_NAME = 'apache_auth_indicator_name';
 
-    private const ERR_WRONG_LOGIN = 'err_wrong_login';
+    private const string ERR_WRONG_LOGIN = 'err_wrong_login';
 
-    private const APACHE_ENABLE_LDAP = 'apache_enable_ldap';
-    private const APACHE_LDAP_SID = 'apache_ldap_sid';
+    private const string APACHE_ENABLE_LDAP = 'apache_enable_ldap';
+    private const string APACHE_LDAP_SID = 'apache_ldap_sid';
 
-    private ilSetting $settings;
+    private readonly ilSetting $settings;
     private string $migration_account = '';
     private bool $force_new_account = false;
 
@@ -63,7 +60,7 @@ final class ilAuthProviderApache extends ilAuthProvider implements ilAuthProvide
 
         $validIndicatorValues = array_filter(array_map(
             'trim',
-            str_getcsv($this->settings->get('apache_auth_indicator_value', ''))
+            str_getcsv($this->settings->get('apache_auth_indicator_value', ''), ',', '"', '\\')
         ));
         //TODO PHP8-REVIEW: $DIC->http()->request()->getServerParams()['apache_auth_indicator_name']
         if (
@@ -166,7 +163,7 @@ final class ilAuthProviderApache extends ilAuthProvider implements ilAuthProvide
             $this->getLogger()->info('Login failed with message: ' . $e->getMessage());
             $this->handleAuthenticationFail($status, self::ERR_WRONG_LOGIN);
             return false;
-        } catch (ilLDAPSynchronisationFailedException $e) {
+        } catch (ilLDAPSynchronisationFailedException) {
             $this->handleAuthenticationFail($status, 'err_auth_ldap_failed');
             return false;
         } catch (ilLDAPSynchronisationForbiddenException $e) {

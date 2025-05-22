@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments;
 
 /**
- * @template A
+ * @template-covariant A
  */
 class SelectionMap
 {

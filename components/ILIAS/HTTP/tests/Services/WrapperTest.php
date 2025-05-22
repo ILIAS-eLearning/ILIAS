@@ -1,23 +1,26 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\HTTP;
 
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class WrapperTest
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -32,6 +35,7 @@ class WrapperTest extends AbstractBaseTestCase
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -82,6 +86,7 @@ class WrapperTest extends AbstractBaseTestCase
         $this->assertTrue($query->has('key_one'));
         $this->assertTrue($query->has('key_two'));
         $this->assertFalse($query->has('key_three'));
+        $this->assertEquals(['key_one', 'key_two'], $query->keys());
 
         $string_trafo = $this->refinery->kindlyTo()->string();
         $int_trafo = $this->refinery->kindlyTo()->int();
@@ -106,6 +111,7 @@ class WrapperTest extends AbstractBaseTestCase
         $this->assertTrue($post->has('key_one'));
         $this->assertTrue($post->has('key_two'));
         $this->assertFalse($post->has('key_three'));
+        $this->assertEquals(['key_one', 'key_two'], $post->keys());
 
         $string_trafo = $this->refinery->kindlyTo()->string();
         $int_trafo = $this->refinery->kindlyTo()->int();
@@ -130,6 +136,7 @@ class WrapperTest extends AbstractBaseTestCase
         $this->assertTrue($cookie->has('key_one'));
         $this->assertTrue($cookie->has('key_two'));
         $this->assertFalse($cookie->has('key_three'));
+        $this->assertEquals(['key_one', 'key_two'], $cookie->keys());
 
         $string_trafo = $this->refinery->kindlyTo()->string();
         $int_trafo = $this->refinery->kindlyTo()->int();

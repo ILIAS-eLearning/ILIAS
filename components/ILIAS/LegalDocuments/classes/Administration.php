@@ -20,10 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments;
 
-use ILIAS\UI\Component\Button\Button;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\Refinery\Factory;
+use ILIAS\Refinery\Transformation;
+use ILIAS\UI\Component\Button\Standard as Button;
 use ILIAS\LegalDocuments\DocumentId;
 use ILIAS\LegalDocuments\Value\Criterion;
 use ILIAS\LegalDocuments\Value\Document;
+use ILIAS\LegalDocuments\Value\CriterionContent;
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Component;
 use ilDatePresentation;
@@ -33,7 +37,6 @@ use ILIAS\Filesystem\Stream\Streams;
 use Closure;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
-use ILIAS\Data\Result\Error;
 use ILIAS\LegalDocuments\DocumentId\NumberId;
 use ILIAS\LegalDocuments\DocumentId\HashId;
 use ILIAS\LegalDocuments\FileUpload\UploadHandler;
@@ -44,11 +47,14 @@ use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\Legacy\Confirmation;
 use ilObjUserFolderGUI;
 use ILIAS\LegalDocuments\Value\DocumentContent;
+use ILIAS\UI\Component\Input\Container\Form\Form;
 
 class Administration
 {
     /** @var Closure(): Confirmation */
     private readonly Closure $confirmation;
+    private WrapperFactory $http_wrapper;
+    private Factory $refinery;
 
     /**
      * @param null|Closure(): Confirmation $confirmation
@@ -57,9 +63,13 @@ class Administration
         private readonly Config $config,
         private readonly Container $container,
         private readonly UI $ui,
-        ?Closure $confirmation = null
+        ?Closure $confirmation = null,
+        ?WrapperFactory $http_wrapper = null,
+        ?Factory $refinery = null
     ) {
         $this->confirmation = $confirmation ?? fn() => new Confirmation($this->container->language());
+        $this->http_wrapper = $http_wrapper ?? $this->container->http()->wrapper();
+        $this->refinery = $refinery ?? $this->container->refinery();
     }
 
     /**
@@ -112,6 +122,9 @@ class Administration
         $proc($document, $criterion);
     }
 
+    /**
+     * @return list<Document>
+     */
     public function retrieveDocuments(): array
     {
         $ids = $this->retrieveIds();
@@ -123,13 +136,70 @@ class Administration
         return $documents;
     }
 
+    /**
+     * @return list<int>
+     */
     public function retrieveIds(): array
     {
-        return $this->container->http()->wrapper()->post()->retrieve('ids', $this->container->refinery()->to()->listOf($this->container->refinery()->kindlyTo()->int()));
+        $ids = $this->retrieveValueOrDefaultFromPost(
+            'ids',
+            $this->container->refinery()->kindlyTo()->listOf(
+                $this->container->refinery()->kindlyTo()->int()
+            )
+        );
+
+        if (!$ids) {
+            //Try reading from UI-Table action
+            $ids = $this->retrieveValueOrDefaultFromQuery(
+                'legal_document_id',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                []
+            );
+        }
+
+        if (!$ids) {
+            //Try reading from UI-Table "apply to all objects"
+            $ids = $this->retrieveValueOrDefaultFromQuery(
+                'legal_document_id',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
+                []
+            );
+
+            if (current($ids) === 'ALL_OBJECTS') {
+                $ids = [];
+                foreach ($this->config->legalDocuments()->document()->repository()->all() as $document) {
+                    $ids[] = $document->id();
+                }
+            }
+        }
+
+        return $ids ?: [];
+    }
+
+    private function retrieveValueOrDefaultFromPost(string $key, Transformation $transformation, mixed $default = null): mixed
+    {
+        return $this->container->http()->wrapper()->post()->retrieve(
+            $key,
+            $this->container->refinery()->byTrying([
+                $transformation,
+                $this->container->refinery()->always($default)
+            ])
+        );
+    }
+
+    private function retrieveValueOrDefaultFromQuery(string $key, Transformation $transformation, mixed $default = null): mixed
+    {
+        return $this->container->http()->wrapper()->query()->retrieve(
+            $key,
+            $this->container->refinery()->byTrying([
+                $transformation,
+                $this->container->refinery()->always($default)
+            ])
+        );
     }
 
     /**
-     * @param Closure(Closure(string): string, DocumentId, bool): void $then
+     * @param Closure(Closure(string): string, string, DocumentId, bool): mixed $then
      */
     public function idOrHash(object $gui, Closure $then): void
     {
@@ -144,13 +214,13 @@ class Administration
 
     }
 
-    public function targetWithDoc(object $gui, $document, string $cmd, string $method = 'getLinkTarget'): string
+    public function targetWithDoc(object $gui, Document $document, string $cmd, string $method = 'getLinkTarget'): string
     {
         $link = $this->willLinkWith($gui, ['doc_id' => (string) $document->id()]);
         return $link($cmd, $method);
     }
 
-    public function targetWithDocAndCriterion(object $gui, $document, $criterion, string $cmd, string $method = 'getLinkTarget')
+    public function targetWithDocAndCriterion(object $gui, Document $document, Criterion $criterion, string $cmd, string $method = 'getLinkTarget'): string
     {
         $link = $this->willLinkWith($gui, [
             'doc_id' => (string) $document->id(),
@@ -161,20 +231,22 @@ class Administration
     }
 
     /**
-     * @param array<string, string> $parameters
+     * @param string|object $gui
+     * @param array<int|string, string> $parameters
+     * @return Closure(string, ?string?): string
      */
     public function willLinkWith($gui, array $parameters = []): Closure
     {
-        $class = is_string($gui) ? $gui : get_class($gui);
+        $class = is_string($gui) ? $gui : $gui::class;
         return function (string $cmd, ?string $method = null) use ($gui, $class, $parameters): string {
             $method ??= $class === $gui ? 'getLinkTargetByClass' : 'getLinkTarget';
             $array = $this->container->ctrl()->getParameterArrayByClass($class);
             foreach ($parameters as $key => $value) {
-                $this->container->ctrl()->setParameterByClass($class, $key, $value);
+                $this->container->ctrl()->setParameterByClass($class, (string) $key, $value);
             }
             $link = $this->container->ctrl()->$method($gui, $cmd);
             foreach ($parameters as $key => $_) {
-                $this->container->ctrl()->setParameterByClass($class, $key, $array[$key] ?? '');
+                $this->container->ctrl()->setParameterByClass($class, (string) $key, $array[$key] ?? '');
             }
 
             return $link;
@@ -184,7 +256,7 @@ class Administration
     /**
      * @param Closure(array): void $then
      */
-    public function withFormData($form, Closure $then)
+    public function withFormData(Form $form, Closure $then): Form
     {
         $request = $this->container->http()->request();
         if ($request->getMethod() !== 'POST') {
@@ -222,12 +294,27 @@ class Administration
      */
     public function currentDocument(): Result
     {
+        $doc_id = $this->retrieveValueOrDefaultFromQuery(
+            'doc_id',
+            $this->refinery->kindlyTo()->int(),
+        );
+
+        if (!$doc_id) {
+            //Try reading from UI-Table action
+            $doc_id = $this->retrieveValueOrDefaultFromQuery(
+                'legal_document_id',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                []
+            );
+            $doc_id = current($doc_id) ?: null;
+        }
+
         $repo = $this->config->legalDocuments()->document()->repository();
-        $doc_id = $this->container->http()->request()->getQueryParams()['doc_id'] ?? null;
-        return $this->container->refinery()->kindlyTo()->int()->applyTo(new Ok($doc_id))->then($repo->find(...));
+
+        return $this->refinery->kindlyTo()->int()->applyTo(new Ok($doc_id))->then($repo->find(...));
     }
 
-    public function criterionForm(string $url, Document $document, $criterion = null)
+    public function criterionForm(string $url, Document $document, ?CriterionContent $criterion = null): Form
     {
         $groups = $this->config->legalDocuments()->document()->conditionGroups($criterion);
         $group = $this->ui->create()->input()->field()->switchableGroup($groups->choices(), $this->ui->txt('form_criterion'));
@@ -282,7 +369,7 @@ class Administration
     }
 
     /**
-     * @param list<Component>|Component $component
+     * @param list<Component>|Component|string $component
      */
     public function setContent($component): void
     {
@@ -317,7 +404,7 @@ class Administration
     }
 
     /**
-     * @param list<Button> $buttons
+     * @param array<Button> $buttons
      */
     public function resetBox(DateTimeImmutable $reset_date, array $buttons = []): Component
     {
@@ -328,7 +415,7 @@ class Administration
                                ->withButtons($buttons);
     }
 
-    public function resetButton(string $confirm_reset_link): Component
+    public function resetButton(string $confirm_reset_link): Button
     {
         return $this->ui->create()->button()->standard(
             $this->ui->txt('reset_for_all_users'),
@@ -340,7 +427,7 @@ class Administration
      * @param Closure(string): string $link
      * @param Closure(): Result<DocumentContent> $document_content
      */
-    public function documentForm(Closure $link, string $title, Closure $document_content, bool $may_be_new): Component
+    public function documentForm(Closure $link, string $title, Closure $document_content, bool $may_be_new): Form
     {
         $edit_link = $link('editDocument');
         $content_title = $may_be_new ? 'form_document' : 'form_document_new';
@@ -374,7 +461,10 @@ class Administration
     }
 
     /**
-     * @param Closure(list<Document>, array<int, int>) $proc
+     * @template A
+     *
+     * @param Closure(list<Document>, array<int, int>): A $proc
+     * @return A
      */
     public function withDocumentsAndOrder(Closure $proc)
     {
@@ -388,7 +478,7 @@ class Administration
             ]),
         ]);
 
-        $order = $this->container->http()->request()->getParsedBody()['order'] ?? null;
+        $order = $this->container->http()->request()->getParsedBody();
         if (!is_array($order)) {
             throw new InvalidArgumentException('Invalid order given. List of numbers expected.');
         }
@@ -429,12 +519,18 @@ class Administration
 
     public function externalSettingsMessage(bool $enabled): Component
     {
-        return $this->ui->create()->messageBox()->info(
+        $message_box = $this->ui->create()->messageBox()->info(
             $this->ui->txt('withdrawal_usr_deletion') . ': ' . $this->ui->txt($enabled ? 'enabled' : 'disabled')
-        )->withLinks([
+        );
+
+        if (!$this->canWriteUserAdministration()) {
+            return $message_box;
+        }
+
+        return $message_box->withLinks([
             $this->ui->create()->link()->standard(
                 $this->ui->txt('adm_external_setting_edit'),
-                $this->willLinkWith(ilObjUserFolderGUI::class, ['ref_id' => USER_FOLDER_ID])('generalSettings')
+                $this->willLinkWith(ilObjUserFolderGUI::class, ['ref_id' => (string) USER_FOLDER_ID])('generalSettings')
             )
         ]);
     }
@@ -452,6 +548,11 @@ class Administration
     public function canReadUserAdministration(): bool
     {
         return $this->container->rbac()->system()->checkAccess('read', USER_FOLDER_ID);
+    }
+
+    private function canWriteUserAdministration(): bool
+    {
+        return $this->container->rbac()->system()->checkAccess('write', USER_FOLDER_ID);
     }
 
     private function addTab(string $id, string $text, string $link, bool $can_access = true): void

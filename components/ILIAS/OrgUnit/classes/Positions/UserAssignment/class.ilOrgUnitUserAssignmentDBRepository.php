@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Table;
@@ -28,7 +29,7 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
     protected ilAppEventHandler $ilAppEventHandler;
     protected ilOrgUnitPositionDBRepository $positionRepo;
 
-    public function __construct(ilDBInterface $db, ilAppEventHandler $handler = null)
+    public function __construct(ilDBInterface $db, ?ilAppEventHandler $handler = null)
     {
         $this->db = $db;
 
@@ -346,9 +347,8 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
         $recursive_orgu_ids = [];
         $tree = ilObjOrgUnitTree::_getInstance();
         foreach ($orgu_ids as $orgu_id) {
-            $recursive_orgu_ids = $recursive_orgu_ids + $tree->getAllChildren($orgu_id);
+            $recursive_orgu_ids = array_merge($recursive_orgu_ids, $tree->getAllChildren($orgu_id));
         }
-
         return $recursive_orgu_ids;
     }
 
@@ -405,8 +405,8 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
         array $orgu_ids,
         int $position_id,
         bool $count_only = false,
-        Range $range = null,
-        Order $order = null
+        ?Range $range = null,
+        ?Order $order = null
     ) {
         $sql_order_part = $order ? $order->join('ORDER BY', fn(...$o) => implode(' ', $o)) : '';
         $sql_range_part = $range ? sprintf('LIMIT %2$s OFFSET %1$s', ...$range->unpack()) : '';
@@ -425,13 +425,13 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
         ;
         $res = $this->db->query($query);
 
-        if($count_only) {
+        if ($count_only) {
             return $this->db->numRows($res);
         }
 
         $users = [];
         while ($rec = $this->db->fetchAssoc($res)) {
-            $rec['active'] = (bool)$rec['active'];
+            $rec['active'] = (bool) $rec['active'];
             $users[] = $rec;
         }
         return $users;
@@ -457,9 +457,10 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
         $orgu_ids = $additional_parameters['orgu_ids'];
         $position_id = $additional_parameters['position_id'];
         $lp_visible = $additional_parameters['lp_visible_ref_ids'];
+        $write_access = $additional_parameters['write_access'];
 
         foreach ($this->getUserDataByOrgUnitsAndPosition($orgu_ids, $position_id, false, $range, $order) as $record) {
-            $row_id = implode('_', [(string)$position_id, (string)$record['usr_id']]);
+            $row_id = implode('_', [(string) $position_id, (string) $record['usr_id']]);
             yield $row_builder->buildDataRow($row_id, $record)
                 ->withDisabledAction(
                     'show_learning_progress',
@@ -468,7 +469,12 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
                         && ilObjUserTracking::_enabledLearningProgress()
                         && ilObjUserTracking::_enabledUserRelatedData()
                     )
+                )
+                ->withDisabledAction(
+                    'remove',
+                    !$write_access
                 );
+
         }
     }
 }

@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\DI\UIServices;
+use ILIAS\Style\Content\GUIService;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Implementation\Component\Input\Field\FormInput;
 use ILIAS\UI\Renderer;
@@ -27,6 +28,7 @@ use ILIAS\UI\Component\Input\Field\Section;
 
 /**
  * @ilCtrl_Calls      ilObjDashboardSettingsGUI: ilPermissionGUI
+ * @ilCtrl_Calls      ilObjDashboardSettingsGUI: ilDashboardPageLanguageSelectGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_isCalledBy ilObjDashboardSettingsGUI: ilAdministrationGUI
  */
 class ilObjDashboardSettingsGUI extends ilObjectGUI
@@ -42,6 +44,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     protected ilPDSelectedItemsBlockViewSettings $viewSettings;
     protected UIServices $ui;
     protected ilDashboardSidePanelSettingsRepository $side_panel_settings;
+    protected GUIService $style_gui;
 
     public function __construct(
         $a_data,
@@ -61,6 +64,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
         $this->ui = $DIC->ui();
+        $this->style_gui = $DIC->contentStyle()->gui();
 
         $this->type = 'dshs';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -84,12 +88,27 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
         switch ($this->ctrl->getNextClass($this)) {
             case strtolower(ilPermissionGUI::class):
-                $this->tabs_gui->setTabActive('perm_settings');
+                $this->tabs_gui->activateTab('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
-
+            case strtolower(ilDashboardPageLanguageSelectGUI::class):
+                $this->tabs_gui->activateTab('dash_customization');
+                $this->ctrl->forwardCommand(new ilDashboardPageLanguageSelectGUI());
+                break;
+            case strtolower(ilObjectContentStyleSettingsGUI::class):
+                $this->tabs_gui->clearTargets();
+                $this->ctrl->setParameterByClass(ilDashboardPageGUI::class, 'dshs_lang', $this->request->getQueryParams()['dshs_lang']);
+                $this->tabs_gui->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTargetByClass(
+                    [ilDashboardPageLanguageSelectGUI::class, ilDashboardPageGUI::class],
+                    'edit'
+                ));
+                $gui = $this->style_gui->objectSettingsGUIForRefId(null, $this->getRefId());
+                $this->ctrl->setParameter($gui, 'dshs_lang', $this->request->getQueryParams()['dshs_lang']);
+                $this->ctrl->forwardCommand($gui);
+                break;
             default:
+                $this->tabs_gui->activateTab('settings');
                 if (!$cmd || $cmd === 'view') {
                     $cmd = 'editSettings';
                 }
@@ -106,6 +125,10 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 'settings',
                 $this->ctrl->getLinkTarget($this, 'editSettings'),
                 ['editSettings', 'view']
+            );
+            $this->tabs_gui->addTarget(
+                'dash_customization',
+                $this->ctrl->getLinkTargetByClass(ilDashboardPageLanguageSelectGUI::class)
             );
         }
 
@@ -129,7 +152,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             $content[] = $this->ui_factory->messageBox()->info($this->lng->txt('memberships_disabled_info'));
         }
         $this->setSettingsSubTabs('general');
-        $table = new ilDashboardSortationTableGUI($this, 'editSettings');
+        $table = new ilDashboardSortationTableGUI($this, 'editSettings', !$this->canWrite());
         $this->tpl->setContent($table->getHTML());
     }
 
@@ -159,7 +182,9 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     public function getViewSectionSorting(int $view, string $title): Section
     {
-        $this->tpl->addJavaScript("assets/js/SortationUserInputHandler.js");
+        if ($this->canWrite()) {
+            $this->tpl->addJavaScript("assets/js/SortationUserInputHandler.js");
+        }
         $lng = $this->lng;
         $availabe_sort_options = $this->viewSettings->getAvailableSortOptionsByView($view);
         $options = array_reduce(
@@ -243,19 +268,11 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             asort($positions);
             $this->side_panel_settings->setPositions(array_keys($positions));
 
-            $this->tpl->setOnScreenMessage(
-                $this->tpl::MESSAGE_TYPE_SUCCESS,
-                $this->lng->txt('settings_saved'),
-                true
-            );
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('settings_saved'), true);
         } else {
-            $this->tpl->setOnScreenMessage(
-                $this->tpl::MESSAGE_TYPE_FAILURE,
-                $this->lng->txt('no_permission'),
-                true
-            );
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('no_permission'), true);
         }
-        $this->ctrl->redirect($this, 'editSettings');
+        $this->editSettings();
     }
 
     public function setSettingsSubTabs(string $a_active): void
@@ -297,6 +314,32 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($this->ui->renderer()->renderAsync($form));
     }
 
+    public function editCustomization(): void
+    {
+        $this->ui->mainTemplate()->setOnScreenMessage(
+            $this->ui->mainTemplate()::MESSAGE_TYPE_INFO,
+            $this->lng->txt('dash_page_edit_info'),
+            true
+        );
+
+        $this->tabs_gui->activateTab('dash_customization');
+
+        $content = $this->ui->renderer()->render(
+            $this->ui->factory()->button()->standard(
+                $this->lng->txt('customize_page'),
+                $this->ctrl->getLinkTargetByClass([self::class, ilDashboardPageLanguageSelectGUI::class], 'select')
+            )
+        );
+
+        if (ilDashboardPageGUI::isLanguageAvailable($this->user->getLanguage())) {
+            $content .= (new ilDashboardPageGUI($this->user->getLanguage()))->showPage();
+        } elseif (ilDashboardPageGUI::isLanguageAvailable($this->lng->getContentLanguage())) {
+            $content .= (new ilDashboardPageGUI($this->lng->getDefaultLanguage()))->showPage();
+        }
+
+        $this->tpl->setContent($content);
+    }
+
     public function getViewSectionPresentation(int $view, string $title): Section
     {
         $lng = $this->lng;
@@ -327,57 +370,44 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     protected function savePresentation(): void
     {
-        $form = $this->getViewForm(self::VIEW_MODE_PRESENTATION);
+        if ($this->canWrite()) {
+            $data = $this->getViewForm(self::VIEW_MODE_PRESENTATION)->withRequest($this->request)->getData();
 
-        if (!$form || !$this->canWrite()) {
-            $this->tpl->setOnScreenMessage(
-                $this->tpl::MESSAGE_TYPE_FAILURE,
-                $this->lng->txt('no_permission'),
-                true
-            );
-            $this->editPresentation();
-            return;
+            foreach ($data as $view => $view_data) {
+                $this->viewSettings->storeViewPresentation(
+                    $view,
+                    $view_data['default_pres'],
+                    $view_data['avail_pres'] ?? []
+                );
+            }
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('msg_obj_modified'), true);
+        } else {
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('no_permission'), true);
         }
-
-        $form = $form->withRequest($this->request);
-        $form_data = $form->getData();
-
-        foreach ($form_data as $view => $view_data) {
-            $this->viewSettings->storeViewPresentation(
-                $view,
-                $view_data['default_pres'],
-                $view_data['avail_pres'] ?? []
-            );
-        }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->editPresentation();
     }
 
     public function saveSorting(): void
     {
-        $form = $this->getViewForm(self::VIEW_MODE_SORTING);
+        if ($this->canWrite()) {
+            $data = $this->getViewForm(self::VIEW_MODE_SORTING)->withRequest($this->request)->getData();
 
-        if (!$form || !$this->canWrite()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
-            $this->editSorting();
-        }
-
-        $form = $form->withRequest($this->request);
-        $form_data = $form->getData();
-
-        foreach ($form_data as $view => $view_data) {
-            if (isset($view_data['default_sorting'])) {
-                if (!is_array($view_data['avail_sorting'] ?? null)) {
-                    $view_data['avail_sorting'] = [$view_data['default_sorting']];
+            foreach ($data as $view => $view_data) {
+                if (isset($view_data['default_sorting'])) {
+                    if (!is_array($view_data['avail_sorting'] ?? null)) {
+                        $view_data['avail_sorting'] = [$view_data['default_sorting']];
+                    }
+                    $this->viewSettings->storeViewSorting(
+                        $view,
+                        $view_data['default_sorting'],
+                        $view_data['avail_sorting']
+                    );
                 }
-                $this->viewSettings->storeViewSorting(
-                    $view,
-                    $view_data['default_sorting'],
-                    $view_data['avail_sorting']
-                );
             }
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('msg_obj_modified'), true);
+        } else {
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('no_permission'), true);
         }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->editSorting();
     }
 

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Button\Shy;
+
 /**
  * @ilCtrl_Calls ilDclTableViewGUI: ilDclTableViewEditGUI
  */
@@ -55,6 +57,8 @@ class ilDclTableViewGUI
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
+
+        $DIC->help()->setScreenId('dcl_views');
 
         if ($table_id == 0) {
             $table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
@@ -133,57 +137,57 @@ class ilDclTableViewGUI
             'show'
         );
 
-        $table_gui = new ilDclTableViewTableGUI($this, 'show', $this->table, $this->getParentObj()->getRefId());
-        $this->tpl->setContent($table_gui->getHTML());
+        $this->tpl->setContent(
+            $this->renderer->render(
+                $this->ui_factory->panel()->listing()->standard(
+                    sprintf($this->lng->txt('dcl_tableviews_of_X'), $this->table->getTitle()),
+                    [$this->ui_factory->item()->group('', $this->getItems())]
+                )
+            )
+        );
+    }
+
+    protected function getItems(): array
+    {
+        $items = [];
+        foreach ($this->table->getTableViews() as $tableview) {
+
+            $this->ctrl->setParameterByClass(ilDclTableViewEditGUI::class, 'tableview_id', $tableview->getId());
+            $item = $this->ui_factory->item()->standard(
+                $this->ui_factory->link()->standard(
+                    $tableview->getTitle(),
+                    $this->ctrl->getLinkTargetByClass(ilDclTableViewEditGUI::class, 'show')
+                )
+            )
+                ->withDescription($tableview->getDescription())
+                ->withActions($this->ui_factory->dropdown()->standard($this->getActions($tableview)));
+
+            $items[] = $item;
+        }
+        return $items;
     }
 
     /**
-     * Confirm deletion of multiple fields
+     * @return Shy[]
      */
-    public function confirmDeleteTableviews(): void
+    protected function getActions(ilDclTableView $tableview): array
     {
-        //at least one view must exist
-        $has_dcl_tableview_ids = $this->http->wrapper()->post()->has('dcl_tableview_ids');
-        if (!$has_dcl_tableview_ids) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_delete_views_no_selection'), true);
-            $this->ctrl->redirect($this, 'show');
-        }
+        $this->ctrl->setParameterByClass(ilDclTableViewEditGUI::class, 'tableview_id', $tableview->getId());
 
-        $tableviews = $this->http->wrapper()->post()->retrieve(
-            'dcl_tableview_ids',
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        $actions = [];
+        $actions[] = $this->ui_factory->button()->shy(
+            $this->lng->txt('edit'),
+            $this->ctrl->getLinkTargetByClass(ilDclTableViewEditGUI::class, 'editGeneralSettings')
         );
-        $this->checkViewsLeft(count($tableviews));
-
-        $this->tabs->clearSubTabs();
-        $conf = new ilConfirmationGUI();
-        $conf->setFormAction($this->ctrl->getFormAction($this));
-        $conf->setHeaderText($this->lng->txt('dcl_tableviews_confirm_delete'));
-
-        foreach ($tableviews as $tableview_id) {
-            $conf->addItem('dcl_tableview_ids[]', (string)$tableview_id, ilDclTableView::find($tableview_id)->getTitle());
-        }
-        $conf->setConfirm($this->lng->txt('delete'), 'deleteTableviews');
-        $conf->setCancel($this->lng->txt('cancel'), 'show');
-        $this->tpl->setContent($conf->getHTML());
-    }
-
-    protected function deleteTableviews(): void
-    {
-        $has_dcl_tableview_ids = $this->http->wrapper()->post()->has('dcl_tableview_ids');
-        if ($has_dcl_tableview_ids) {
-            $tableviews = $this->http->wrapper()->post()->retrieve(
-                'dcl_tableview_ids',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
-            foreach ($tableviews as $tableview_id) {
-                ilDclTableView::find($tableview_id)->delete();
-            }
-        }
-
-        $this->table->sortTableViews();
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableviews_deleted'), true);
-        $this->ctrl->redirect($this, 'show');
+        $actions[] = $this->ui_factory->button()->shy(
+            $this->lng->txt('copy'),
+            $this->ctrl->getLinkTargetByClass(ilDclTableViewEditGUI::class, 'copy')
+        );
+        $actions[] = $this->ui_factory->button()->shy(
+            $this->lng->txt('delete'),
+            $this->ctrl->getLinkTargetByClass(ilDclTableViewEditGUI::class, 'confirmDelete')
+        );
+        return $actions;
     }
 
     /**

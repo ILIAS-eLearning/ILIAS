@@ -85,6 +85,15 @@ class OfComponent implements \ArrayAccess
         }
     }
 
+    public function resetResolutions(): void
+    {
+        foreach ($this->dependencies as $d) {
+            foreach ($d as $o) {
+                $o->resetResolutions();
+            }
+        }
+    }
+
     // ArrayAccess
 
     public function offsetExists($dependency_description): bool

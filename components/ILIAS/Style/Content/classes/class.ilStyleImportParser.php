@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Style\Content;
 
@@ -71,9 +71,8 @@ class ilStyleImportParser extends ilSaxParser
     */
     public function setHandlers($a_xml_parser): void
     {
-        xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
+        xml_set_element_handler($a_xml_parser, $this->handlerBeginTag(...), $this->handlerEndTag(...));
+        xml_set_character_data_handler($a_xml_parser, $this->handlerCharacterData(...));
     }
 
     /**
@@ -125,7 +124,7 @@ class ilStyleImportParser extends ilSaxParser
                     "parameter" => $a_attribs["Name"],
                     "type" => $this->current_type,
                     "value" => $a_attribs["Value"],
-                    "custom" => $a_attribs["Custom"]);
+                    "custom" => $a_attribs["Custom"] ?? null);
                 break;
 
             case "StyleColor":

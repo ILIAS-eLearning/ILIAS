@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +13,10 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 
@@ -74,6 +75,12 @@ class ilPrivacySecurityConfigStoredObjective implements Setup\Objective
             $settings->set("account_assistance_duration", (string) $this->config->getAccountAssistanceDurationInMs());
         } else {
             $settings->delete("account_assistance_duration");
+        }
+
+        if (null !== $this->config->getRegistrationDurationInMs()) {
+            $settings->set("registration_duration", (string) $this->config->getRegistrationDurationInMs());
+        } else {
+            $settings->delete("registration_duration");
         }
 
         return $environment;

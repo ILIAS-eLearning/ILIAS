@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 /** @noinspection PhpPropertyOnlyWrittenInspection */
 
 namespace ILIAS\GlobalScreen\Scope\Layout\Builder;
@@ -32,18 +32,13 @@ use ILIAS\UI\Component\Layout\Page\Page;
  */
 class DecoratedPageBuilder implements PageBuilder
 {
-    private PageBuilder $original;
-    private Closure $deco;
-
     /**
      * DecoratedPageBuilder constructor.
      * @param PageBuilder $original
      * @param Closure     $deco
      */
-    public function __construct(PageBuilder $original, Closure $deco)
+    public function __construct(private PageBuilder $original, private Closure $deco)
     {
-        $this->original = $original;
-        $this->deco = $deco;
     }
 
     /**

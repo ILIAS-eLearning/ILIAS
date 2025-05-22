@@ -35,7 +35,7 @@ interface ActionRepository
 
     public function hasActionForSuffix(
         string $suffix,
-        ActionTarget $action_target
+        ActionTarget ...$action_target
     ): bool;
 
     public function getActionForSuffix(
@@ -62,7 +62,7 @@ interface ActionRepository
     public function getActionsForTarget(ActionTarget $action_target): array;
     public function getActionsForTargets(ActionTarget ...$action_target): array;
 
-    public function getSupportedSuffixes(ActionTarget $action_target): array;
+    public function getSupportedSuffixes(ActionTarget ...$action_target): array;
 
     public function clearSuperfluous(Action ...$actions): void;
 

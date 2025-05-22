@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -23,7 +24,7 @@ use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\URI;
 use ILIAS\Refinery\Constraint;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 /**
  * This implements the link input group.
@@ -33,7 +34,7 @@ class Link extends Group implements C\Input\Field\Link
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
-        ilLanguage $lng,
+        Language $lng,
         Factory $field_factory,
         string $label,
         ?string $byline
@@ -51,7 +52,7 @@ class Link extends Group implements C\Input\Field\Link
     protected function addValidation(): void
     {
         $txt_id = 'label_cannot_be_empty_if_url_is_set';
-        $error = fn (callable $txt, $value) => $txt($txt_id, $value);
+        $error = fn(callable $txt, $value) => $txt($txt_id, $value);
         $is_ok = function ($v) {
             list($label, $url) = $v;
             return (

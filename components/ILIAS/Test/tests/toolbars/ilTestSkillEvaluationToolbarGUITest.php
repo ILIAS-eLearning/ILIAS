@@ -44,28 +44,4 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestSkillEvaluationToolbarGUI::class, $this->toolbarGUI);
     }
-
-    public function testAvailableSkillProfiles(): void
-    {
-        $expected = ["test1", "test2", "test3"];
-
-        $this->toolbarGUI->setAvailableSkillProfiles($expected);
-
-        $this->assertEquals($expected, $this->toolbarGUI->getAvailableSkillProfiles());
-    }
-
-    public function testNoSkillProfileOptionEnabled(): void
-    {
-        $this->toolbarGUI->setNoSkillProfileOptionEnabled(true);
-        $this->assertTrue($this->toolbarGUI->isNoSkillProfileOptionEnabled());
-
-        $this->toolbarGUI->setNoSkillProfileOptionEnabled(false);
-        $this->assertFalse($this->toolbarGUI->isNoSkillProfileOptionEnabled());
-    }
-
-    public function testSelectedEvaluationMode(): void
-    {
-        $this->toolbarGUI->setSelectedEvaluationMode(4);
-        $this->assertEquals(4, $this->toolbarGUI->getSelectedEvaluationMode());
-    }
 }

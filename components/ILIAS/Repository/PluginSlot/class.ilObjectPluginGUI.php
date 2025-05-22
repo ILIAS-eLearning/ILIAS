@@ -159,6 +159,10 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($gui);
                 break;
             default:
+                if ($next_class && $this->performNextClass($next_class)) {
+                    break;
+                }
+
                 if ($cmd === "save" || $this->getCreationMode()) {
                     $this->$cmd();
                     return;
@@ -219,56 +223,11 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     }
 
     /**
-     * Init creation forms
-     * this will create the default creation forms: new, import, clone
-     */
-    protected function initCreationForms(string $new_type): array
-    {
-        $forms = [];
-        $forms[self::CFORM_NEW] = $this->initCreateForm($new_type);
-
-        if ($this->supportsExport()) {
-            $forms[self::CFORM_IMPORT] = $this->initImportForm($new_type);
-        }
-
-        return $forms;
-    }
-
-    /**
      * @return bool returns true if this plugin object supports cloning
      */
     protected function supportsCloning(): bool
     {
         return true;
-    }
-
-    /**
-     * Init object creation form
-     */
-    protected function initCreateForm(string $new_type): ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-        $form->setTarget("_top");
-        $form->setFormAction($this->ctrl->getFormAction($this, "save"));
-        $form->setTitle($this->txt($new_type . "_new"));
-
-        // title
-        $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
-        $ti->setSize(min(40, ilObject::TITLE_LENGTH));
-        $ti->setMaxLength(ilObject::TITLE_LENGTH);
-        $ti->setRequired(true);
-        $form->addItem($ti);
-
-        // description
-        $ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
-        $ta->setCols(40);
-        $ta->setRows(2);
-        $form->addItem($ta);
-
-        $form->addCommandButton("save", $this->txt($new_type . "_add"));
-        $form->addCommandButton("cancel", $this->lng->txt("cancel"));
-
-        return $form;
     }
 
     /**
@@ -463,5 +422,10 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         return ilObject::_lookupTitle(ilObject::_lookupObjId(
             $this->slot_request->getRefId()
         ));
+    }
+
+    protected function performNextClass(string $next_class): bool
+    {
+        return false;
     }
 }

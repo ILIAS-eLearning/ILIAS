@@ -18,14 +18,10 @@
 
 declare(strict_types=1);
 
-/**
- * Interface ilMailAddressList
- * @author Michael Jansen <mjansen@databay.de>
- */
 interface ilMailAddressList
 {
     /**
-     * @return ilMailAddress[]
+     * @return list<ilMailAddress>
      */
     public function value(): array;
 }

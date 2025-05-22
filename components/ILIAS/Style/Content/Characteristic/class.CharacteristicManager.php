@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Style\Content;
 
@@ -221,6 +221,17 @@ class CharacteristicManager
         );
     }
 
+    public function isOutdated(
+        string $type,
+        string $characteristic
+    ): bool {
+        return $this->repo->isOutdated(
+            $this->style_id,
+            $type,
+            $characteristic
+        );
+    }
+
     /**
      * Save characteristics order
      * @param array $order_nrs (key is characteristic value is order nr)
@@ -340,30 +351,42 @@ class CharacteristicManager
         $from_style = new ilObjStyleSheet($source_style_id);
 
         // todo fix using mq_id
-        $pars = $from_style->getParametersOfClass($source_style_type, $source_char);
-
-        $colors = array();
-        foreach ($pars as $p => $v) {
-            if (substr($v, 0, 1) == "!") {
-                $colors[] = substr($v, 1);
-            }
-            $this->replaceParameter(
-                ilObjStyleSheet::_determineTag($source_style_type),
-                $new_char,
-                $p,
-                $v,
-                $source_style_type
-            );
-        }
-
-        // copy colors
-        foreach ($colors as $c) {
-            if (!$this->color_repo->colorExists($this->style_id, $c)) {
-                $this->color_repo->addColor(
-                    $this->style_id,
-                    $c,
-                    $from_style->getColorCodeForName($c)
+        foreach (["", ":hover", ":before"] as $char_extension) {
+            $colors = array();
+            //foreach ($pars as $p => $v) {
+            foreach ($this->repo->getAllParametersOfCharacteristic(
+                $from_style->getId(),
+                $source_style_type,
+                $source_char . $char_extension
+            ) as $param) {
+                $p = $param["parameter"];
+                $v = $param["value"];
+                if (substr($v, 0, 1) == "!") {
+                    $colors[] = substr($v, 1);
+                }
+                if ($param["mq_id"] > 0) {
+                    continue;
+                }
+                $this->replaceParameter(
+                    ilObjStyleSheet::_determineTag($source_style_type),
+                    $new_char . $char_extension,
+                    $p,
+                    $v,
+                    $source_style_type,
+                    0,
+                    (bool) $param["custom"]
                 );
+            }
+
+            // copy colors
+            foreach ($colors as $c) {
+                if (!$this->color_repo->colorExists($this->style_id, $c)) {
+                    $this->color_repo->addColor(
+                        $this->style_id,
+                        $c,
+                        $from_style->getColorCodeForName($c)
+                    );
+                }
             }
         }
     }

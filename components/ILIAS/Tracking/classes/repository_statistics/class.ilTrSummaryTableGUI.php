@@ -27,6 +27,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 {
     protected ?ilObjectLP $olp = null;
     protected bool $is_root;
+    protected bool $is_in_course = false;
+    protected bool $is_in_group = false;
     protected int $ref_id;
     protected ?string $type = null;
     protected int $obj_id;
@@ -63,6 +65,18 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             }
         }
 
+        if (
+            !$this->is_root &&
+            $DIC->repositoryTree()->checkForParentType($this->ref_id, 'grp')
+        ) {
+            $this->is_in_group = true;
+        } elseif (
+            !$this->is_root &&
+            $DIC->repositoryTree()->checkForParentType($this->ref_id, 'crs')
+        ) {
+            $this->is_in_course = true;
+        }
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         if ($a_print_mode) {
@@ -71,7 +85,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
         $this->parseTitle($this->obj_id, "trac_summary");
         $this->setLimit(9999);
-        $this->setShowTemplates(true);
         $this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
 
         $this->addColumn($this->lng->txt("title"), "title");
@@ -173,7 +186,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
         $privacy = array("gender", "city", "country", "sel_country");
         foreach ($privacy as $field) {
-            if ($this->setting->get("usr_settings_course_export_" . $field)) {
+            if (
+                ($this->is_in_course && $this->setting->get("usr_settings_course_export_" . $field)) ||
+                ($this->is_in_group && $this->setting->get("usr_settings_group_export_" . $field))
+            ) {
                 $all[] = $field;
             }
         }
@@ -622,7 +638,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
     protected function getItemsPercentages(
         $data = null,
         int $overall = 0,
-        array $value_map = null,
+        ?array $value_map = null,
         $limit = 3
     ): array {
         if (!$overall) {
@@ -695,7 +711,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
     protected function getItemsPercentagesStatus(
         $data = null,
         int $overall = 0,
-        array $value_map = null
+        ?array $value_map = null
     ): array {
         $result = array();
         foreach ($value_map as $id => $caption) {

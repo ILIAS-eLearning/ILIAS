@@ -45,7 +45,7 @@ class ContentIdManager
 
     public function __construct(
         \ilPageObject $page,
-        ContentIdGeneratorInterface $generator = null
+        ?ContentIdGeneratorInterface $generator = null
     ) {
         global $DIC;
 

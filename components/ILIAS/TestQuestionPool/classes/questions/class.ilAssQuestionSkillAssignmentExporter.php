@@ -45,7 +45,7 @@ class ilAssQuestionSkillAssignmentExporter
     public function __construct()
     {
         $this->xmlWriter = null;
-        $this->questionIds = array();
+        $this->questionIds = [];
         $this->assignmentList = null;
     }
 
@@ -105,15 +105,15 @@ class ilAssQuestionSkillAssignmentExporter
         $this->getXmlWriter()->xmlStartTag('QuestionSkillAssignments');
 
         foreach ($this->getQuestionIds() as $questionId) {
-            $this->getXmlWriter()->xmlStartTag('TriggerQuestion', array('Id' => $questionId));
+            $this->getXmlWriter()->xmlStartTag('TriggerQuestion', ['Id' => $questionId]);
 
             foreach ($this->getAssignmentList()->getAssignmentsByQuestionId($questionId) as $questionSkillAssignment) {
                 /* @var ilAssQuestionSkillAssignment $questionSkillAssignment */
 
-                $this->getXmlWriter()->xmlStartTag('TriggeredSkill', array(
+                $this->getXmlWriter()->xmlStartTag('TriggeredSkill', [
                     'BaseId' => $questionSkillAssignment->getSkillBaseId(),
                     'TrefId' => $questionSkillAssignment->getSkillTrefId()
-                ));
+                ]);
 
                 $this->getXmlWriter()->xmlElement(
                     'OriginalSkillTitle',
@@ -130,9 +130,9 @@ class ilAssQuestionSkillAssignmentExporter
                 switch ($questionSkillAssignment->getEvalMode()) {
                     case ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_RESULT:
 
-                        $this->getXmlWriter()->xmlElement('EvalByQuestionResult', array(
+                        $this->getXmlWriter()->xmlElement('EvalByQuestionResult', [
                             'Points' => $questionSkillAssignment->getSkillPoints()
-                        ));
+                        ]);
                         break;
 
                     case ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_SOLUTION:
@@ -145,10 +145,10 @@ class ilAssQuestionSkillAssignmentExporter
                         foreach ($expressionList->get() as $expression) {
                             /* @var ilAssQuestionSolutionComparisonExpression $expression */
 
-                            $this->getXmlWriter()->xmlStartTag('SolutionComparisonExpression', array(
+                            $this->getXmlWriter()->xmlStartTag('SolutionComparisonExpression', [
                                 'Points' => $expression->getPoints(),
                                 'Index' => $expression->getOrderIndex()
-                            ));
+                            ]);
 
                             $this->getXmlWriter()->xmlData($expression->getExpression(), false, true);
 

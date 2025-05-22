@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
@@ -133,7 +133,7 @@ class MainBar implements MainControls\MainBar
         string $id,
         Slate $entry,
         bool $initially_hidden = false,
-        Button\Close $close_button = null
+        ?Button\Close $close_button = null
     ): MainControls\MainBar {
         if (!$this->tools_button) {
             throw new LogicException("There must be a tool-button configured to add tool-entries", 1);

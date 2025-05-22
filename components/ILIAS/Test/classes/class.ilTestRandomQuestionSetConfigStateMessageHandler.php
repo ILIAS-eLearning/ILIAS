@@ -53,7 +53,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
         private ilLanguage $lng,
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
-        private ilCtrl $ctrl
+        private ilCtrlInterface $ctrl
     ) {
         $this->validationFailed = false;
         $this->validationReports = [];
@@ -157,9 +157,15 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
     {
         if ($this->isNoAvailableQuestionPoolsHintRequired()) {
             $this->addValidationReport($this->lng->txt('tst_msg_rand_quest_set_no_pools_available'));
-        } elseif ($this->getLostPools()) {
+            return;
+        }
+
+        if ($this->getLostPools()) {
             $this->setSyncInfoMessage($this->buildLostPoolsReportMessage());
-        } elseif (!$this->questionSetConfig->isQuestionAmountConfigComplete()) {
+            return;
+        }
+
+        if (!$this->questionSetConfig->isQuestionAmountConfigComplete()) {
             $this->addValidationReport($this->lng->txt('tst_msg_rand_quest_set_incomplete_quest_amount_cfg'));
 
             if ($this->isQuestionAmountConfigPerTestHintRequired()) {
@@ -169,31 +175,47 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
                         $this->buildGeneralConfigSubTabLink()
                     )
                 );
-            } elseif ($this->isQuestionAmountConfigPerPoolHintRequired()) {
+                return;
+            }
+
+            if ($this->isQuestionAmountConfigPerPoolHintRequired()) {
                 $this->addValidationReport(
                     sprintf(
                         $this->lng->txt('tst_msg_rand_quest_set_change_quest_amount_here'),
                         $this->buildQuestionSelectionSubTabLink()
                     )
                 );
+                return;
             }
-        } elseif (!$this->questionSetConfig->hasSourcePoolDefinitions()) {
+        }
+
+        if (!$this->questionSetConfig->hasSourcePoolDefinitions()) {
             $this->addValidationReport($this->lng->txt('tst_msg_rand_quest_set_no_src_pool_defs'));
-        } elseif ($this->questionSetConfig->getLastQuestionSyncTimestamp() === 0 ||
+            return;
+        }
+
+        if ($this->questionSetConfig->getLastQuestionSyncTimestamp() === 0 ||
             $this->questionSetConfig->getLastQuestionSyncTimestamp() === null) {
             $this->setSyncInfoMessage($this->buildNotSyncedMessage());
-        } elseif (!$this->questionSetConfig->isQuestionSetBuildable()) {
+            return;
+        }
+
+        if (!$this->questionSetConfig->isQuestionSetBuildable()) {
             $this->setValidationFailed(true);
             $this->addValidationReport($this->lng->txt('tst_msg_rand_quest_set_pass_not_buildable'));
             $this->addValidationReport(implode('<br />', $this->questionSetConfig->getBuildableMessages()));
-        } elseif ($this->questionSetConfig->getLastQuestionSyncTimestamp()) {
+            return;
+        }
+
+        if ($this->questionSetConfig->getLastQuestionSyncTimestamp()) {
             $this->setSyncInfoMessage($this->buildLastSyncMessage());
+            return;
         }
     }
 
     private function buildLostQuestionPoolsString(): string
     {
-        $titles = array();
+        $titles = [];
 
         foreach ($this->getLostPools() as $lostPool) {
             $titles[] = $lostPool->getTitle();
@@ -322,7 +344,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
                 $action
             );
 
-            $msg_box = $this->ui_factory->messageBox()->info($report)->withLinks(array($link));
+            $msg_box = $this->ui_factory->messageBox()->info($report)->withLinks([$link]);
         } else {
             $msg_box = $this->ui_factory->messageBox()->info($report);
         }
@@ -364,7 +386,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
     {
         $message = $this->lng->txt('tst_msg_rand_quest_set_not_sync');
         $button = $this->buildQuestionStageRebuildButton();
-        $msg_box = $this->ui_factory->messageBox()->info($message)->withButtons(array($button));
+        $msg_box = $this->ui_factory->messageBox()->info($message)->withButtons([$button]);
 
         return $this->ui_renderer->render($msg_box);
     }

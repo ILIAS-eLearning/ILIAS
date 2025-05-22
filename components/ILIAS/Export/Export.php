@@ -20,6 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ilExportSetupAgent;
+use ILIAS\Export\HTML;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\Setup\Agent as SetupAgent;
+
 class Export implements Component\Component
 {
     public function init(
@@ -32,5 +37,7 @@ class Export implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $contribute[SetupAgent::class] = fn() => new ilExportSetupAgent($pull[RefineryFactory::class]);
+        $contribute[SetupAgent::class] = fn() => new HTML\Setup\Agent($pull[RefineryFactory::class]);
     }
 }

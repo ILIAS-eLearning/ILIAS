@@ -68,7 +68,11 @@ class MessageBoxTest extends ILIAS_UI_TestBase
         return new class () extends NoUIFactory {
             public function listing(): IC\Listing\Factory
             {
-                return new IC\Listing\Factory();
+                return new IC\Listing\Factory(
+                    new IC\Listing\Workflow\Factory(),
+                    new IC\Listing\CharacteristicValue\Factory(),
+                    new IC\Listing\Entity\Factory(),
+                );
             }
         };
     }

@@ -28,7 +28,7 @@ class assAnswerErrorText
 {
     protected string $text_wrong;
     protected string $text_correct;
-    protected float  $points;
+    protected float $points;
     protected ?int $position;
     protected int $length;
 
@@ -66,7 +66,7 @@ class assAnswerErrorText
         return $this->text_correct;
     }
 
-    public function getPoints(): string
+    public function getPoints(): float
     {
         return $this->points;
     }

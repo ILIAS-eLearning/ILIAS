@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Skill\Table;
 
@@ -69,7 +68,7 @@ class AssignedObjectsTable
         $data_retrieval = $this->getDataRetrieval();
 
         $table = $this->ui_fac->table()
-                              ->data($this->lng->txt("skmg_assigned_objects"), $columns, $data_retrieval)
+                              ->data($data_retrieval, $this->lng->txt("skmg_assigned_objects"), $columns)
                               ->withId(
                                   self::class . "_" .
                                   $this->parent_obj::class . "_" .
@@ -138,7 +137,7 @@ class AssignedObjectsTable
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Range $range = null, Data\Order $order = null): array
+            protected function getRecords(?Data\Range $range = null, ?Data\Order $order = null): array
             {
                 $records = [];
                 $i = 0;

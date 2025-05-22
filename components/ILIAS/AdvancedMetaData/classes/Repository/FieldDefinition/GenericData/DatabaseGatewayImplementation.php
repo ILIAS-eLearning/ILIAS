@@ -42,6 +42,11 @@ class DatabaseGatewayImplementation implements Gateway
         return $this->insert($data, true, true);
     }
 
+    public function createWithNewPosition(GenericData $data): int
+    {
+        return $this->insert($data, true, false);
+    }
+
     public function insert(
         GenericData $data,
         bool $increment_position,
@@ -210,6 +215,11 @@ class DatabaseGatewayImplementation implements Gateway
             );
         }
 
+        $field_values = unserialize((string) $row['field_values']);
+        if (!is_array($field_values)) {
+            $field_values = [];
+        }
+
         return new GenericDataImplementation(
             $type,
             (int) $row['record_id'],
@@ -219,7 +229,7 @@ class DatabaseGatewayImplementation implements Gateway
             (int) $row['position'],
             (bool) $row['searchable'],
             (bool) $row['required'],
-            (array) unserialize($row['field_values']),
+            $field_values,
             (int) $row['field_id']
         );
     }

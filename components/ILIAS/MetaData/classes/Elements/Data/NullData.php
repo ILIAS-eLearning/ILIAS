@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Elements\Data;
 
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier;
+
 class NullData implements DataInterface
 {
     public function type(): Type
@@ -30,5 +33,10 @@ class NullData implements DataInterface
     public function value(): string
     {
         return '';
+    }
+
+    public function vocabularySlot(): SlotIdentifier
+    {
+        return SlotIdentifier::NULL;
     }
 }

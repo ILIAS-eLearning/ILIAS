@@ -37,8 +37,6 @@ class ilTable2GUI extends ilTableGUI
     public const EXPORT_CSV = 2;
     public const ACTION_ALL_LIMIT = 1000;
     private \ILIAS\DI\UIServices $ui;
-    protected string $requested_tmpl_delete;
-    protected string $requested_tmpl_create;
     protected string $requested_nav_par2 = "";
     protected string $requested_nav_par = "";
     protected string $requested_nav_par1 = "";
@@ -66,7 +64,6 @@ class ilTable2GUI extends ilTableGUI
     protected bool $top_commands = true;
     protected array $selectable_columns = array();
     protected array $selected_column = array();
-    protected bool $show_templates = false;
     protected bool $show_rows_selector = true; // JF, 2014-10-27
     protected bool $rows_selector_off = false;
 
@@ -164,11 +161,6 @@ class ilTable2GUI extends ilTableGUI
         // activate export mode
         if (isset($this->table_request)) {
             $this->export_mode = $this->table_request->getExportMode($this->prefix);
-
-            // template handling
-            if ($this->table_request->getTemplate($this->prefix) != "") {
-                $this->restoreTemplate($this->table_request->getTemplate($this->prefix));
-            }
         }
 
         $this->determineLimit();
@@ -190,8 +182,6 @@ class ilTable2GUI extends ilTableGUI
         $this->requested_nav_par = $this->table_request->getNavPar($this->getNavParameter());
         $this->requested_nav_par1 = $this->table_request->getNavPar($this->getNavParameter(), 1);
         $this->requested_nav_par2 = $this->table_request->getNavPar($this->getNavParameter(), 2);
-        $this->requested_tmpl_create = $this->table_request->getTemplCreate();
-        $this->requested_tmpl_delete = $this->table_request->getTemplDelete();
     }
 
     public function setOpenFormTag(bool $a_val): void
@@ -239,11 +229,7 @@ class ilTable2GUI extends ilTableGUI
             if ($rows > 0) {
                 $limit = $rows;
             } else {
-                if (is_object($ilUser)) {
-                    $limit = (int) $ilUser->getPref("hits_per_page");
-                } else {
-                    $limit = 40;
-                }
+                $limit = 40;
             }
         }
 
@@ -1054,17 +1040,6 @@ class ilTable2GUI extends ilTableGUI
         $ccnt = 0;
         foreach ($this->column as $column) {
             $ccnt++;
-            //tooltip
-            if ($column["tooltip"] != "") {
-                ilTooltipGUI::addTooltip(
-                    "thc_" . $this->getId() . "_" . $ccnt,
-                    $column["tooltip"],
-                    "",
-                    "bottom center",
-                    "top center",
-                    !$column["tooltip_html"]
-                );
-            }
 
             if ($column['is_checkbox_action_column'] && $this->select_all_on_top) {
                 $this->tpl->setCurrentBlock('tbl_header_top_select_all');
@@ -1713,10 +1688,6 @@ class ilTable2GUI extends ilTableGUI
         if ($advmd_record_gui) {
             $advmd_record_gui->importFilter();
         }
-
-        // #13209
-        $this->requested_tmpl_create = "";
-        $this->requested_tmpl_delete = "";
     }
 
     public function resetFilter(): void
@@ -1738,10 +1709,6 @@ class ilTable2GUI extends ilTableGUI
                 $item->clearFromSession();
             }
         }
-
-        // #13209
-        $this->requested_tmpl_create = "";
-        $this->requested_tmpl_delete = "";
     }
 
     /**
@@ -1845,97 +1812,6 @@ class ilTable2GUI extends ilTableGUI
             $column_selector = $cb_over->getHTML();
             $footer = true;
         }
-        if ($this->getShowTemplates() && is_object($ilUser)) {
-            // template handling
-            if ($this->requested_tmpl_create != "") {
-                if ($this->saveTemplate($this->requested_tmpl_create)) {
-                    $this->main_tpl->setOnScreenMessage('success', $lng->txt("tbl_template_created"));
-                }
-            } elseif ($this->requested_tmpl_delete != "") {
-                if ($this->deleteTemplate($this->requested_tmpl_delete)) {
-                    $this->main_tpl->setOnScreenMessage('success', $lng->txt("tbl_template_deleted"));
-                }
-            }
-
-            $create_id = "template_create_overlay_" . $this->getId();
-            $delete_id = "template_delete_overlay_" . $this->getId();
-            $list_id = "template_stg_" . $this->getId();
-
-            $storage = new ilTableTemplatesStorage();
-            $templates = $storage->getNames($this->getContext(), $ilUser->getId());
-
-            // form to delete template
-            if (count($templates) > 0) {
-                $lng->loadLanguageModule("form");
-                $this->tpl->setCurrentBlock("template_editor_delete_item");
-                $this->tpl->setVariable("TEMPLATE_DELETE_OPTION_VALUE", "");
-                $this->tpl->setVariable("TEMPLATE_DELETE_OPTION", "- " . $lng->txt("form_please_select") . " -");
-                $this->tpl->parseCurrentBlock();
-                foreach ($templates as $name) {
-                    $this->tpl->setVariable("TEMPLATE_DELETE_OPTION_VALUE", $name);
-                    $this->tpl->setVariable("TEMPLATE_DELETE_OPTION", $name);
-                    $this->tpl->parseCurrentBlock();
-                }
-
-                $this->tpl->setCurrentBlock("template_editor_delete");
-                $this->tpl->setVariable("TEMPLATE_DELETE_ID", $delete_id);
-                $this->tpl->setVariable("TXT_TEMPLATE_DELETE", $lng->txt("tbl_template_delete"));
-                $this->tpl->setVariable("TXT_TEMPLATE_DELETE_SUBMIT", $lng->txt("delete"));
-                $this->tpl->setVariable("TEMPLATE_DELETE_CMD", $this->parent_cmd);
-                $this->tpl->parseCurrentBlock();
-            }
-
-            $this->tpl->setCurrentBlock("template_editor");
-            $this->tpl->setVariable("TEMPLATE_CREATE_ID", $create_id);
-            $this->tpl->setVariable("TXT_TEMPLATE_CREATE", $lng->txt("tbl_template_create"));
-            $this->tpl->setVariable("TXT_TEMPLATE_CREATE_SUBMIT", $lng->txt("save"));
-            $this->tpl->setVariable("TEMPLATE_CREATE_CMD", $this->parent_cmd);
-            $this->tpl->parseCurrentBlock();
-
-            // load saved template
-            $actions = [];
-            $actions[] = $ui_factory->button()->shy(
-                $lng->txt("tbl_template_create"),
-                ""
-            )->withOnLoadCode(static function ($id) use ($list_id) {
-                return "document.getElementById('$id').id = '" . $list_id . "_create';";
-            });
-            if (count($templates) > 0) {
-                $actions[] = $ui_factory->button()->shy(
-                    $lng->txt("tbl_template_delete"),
-                    ""
-                )->withOnLoadCode(static function ($id) use ($list_id) {
-                    return "document.getElementById('$id').id = '" . $list_id . "_delete';";
-                });
-                foreach ($templates as $name) {
-                    $ilCtrl->setParameter($this->parent_obj, $this->prefix . "_tpl", urlencode($name));
-                    $actions[] = $ui_factory->link()->standard(
-                        $name,
-                        $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd)
-                    );
-                    $ilCtrl->setParameter($this->parent_obj, $this->prefix . "_tpl", "");
-                }
-            }
-            $dd = $ui_factory->dropdown()->standard(
-                $actions
-            )->withLabel($lng->txt("tbl_templates"));
-            $this->tpl->setVariable("TEMPLATE_SELECTOR", "&nbsp;" . $ui_renderer->render($dd));
-
-            // form to save new template
-            $overlay = new ilOverlayGUI($create_id);
-            $overlay->setTrigger($list_id . "_create");
-            $overlay->setAnchor("ilAdvSelListAnchorElement_" . $list_id);
-            $overlay->setAutoHide(false);
-            $overlay->add();
-
-            if (count($templates) > 0) {
-                $overlay = new ilOverlayGUI($delete_id);
-                $overlay->setTrigger($list_id . "_delete");
-                $overlay->setAnchor("ilAdvSelListAnchorElement_" . $list_id);
-                $overlay->setAutoHide(false);
-                $overlay->add();
-            }
-        }
 
         if ($footer) {
             $this->tpl->setCurrentBlock("tbl_footer");
@@ -1993,11 +1869,7 @@ class ilTable2GUI extends ilTableGUI
                     !$this->rows_selector_off) { // JF, 2014-10-27
                     $actions = [];
 
-                    $hpp = ($ilUser->getPref("hits_per_page") != 9999)
-                        ? $ilUser->getPref("hits_per_page")
-                        : $lng->txt("no_limit");
-
-                    $options = array(0 => $lng->txt("default") . " (" . $hpp . ")",5 => 5, 10 => 10, 15 => 15, 20 => 20,
+                    $options = array(5 => 5, 10 => 10, 15 => 15, 20 => 20,
                                      30 => 30, 40 => 40, 50 => 50,
                                      100 => 100, 200 => 200, 400 => 400, 800 => 800);
                     foreach ($options as $k => $v) {
@@ -2516,90 +2388,6 @@ class ilTable2GUI extends ilTableGUI
     public function getShowRowsSelector(): bool
     {
         return $this->show_rows_selector;
-    }
-
-    public function setShowTemplates(bool $a_value): void
-    {
-        $this->show_templates = $a_value;
-    }
-
-    public function getShowTemplates(): bool
-    {
-        return $this->show_templates;
-    }
-
-    /**
-     * Restore state from template
-     */
-    public function restoreTemplate(string $a_name): bool
-    {
-        global $DIC;
-
-        $ilUser = $DIC->user();
-
-        $a_name = ilUtil::stripSlashes($a_name);
-
-        if (trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID) {
-            $storage = new ilTableTemplatesStorage();
-
-            $data = $storage->load($this->getContext(), $ilUser->getId(), $a_name);
-            if (is_array($data)) {
-                foreach ($data as $property => $value) {
-                    $this->storeProperty($property, $value);
-                }
-            }
-
-            $data["filter_values"] = unserialize((string) $data["filter_values"]);
-            if ($data["filter_values"]) {
-                $this->restore_filter_values = $data["filter_values"];
-            }
-
-            $this->restore_filter = true;
-
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Save current state as template
-     */
-    public function saveTemplate(string $a_name): bool
-    {
-        global $DIC;
-
-        $ilUser = $DIC->user();
-
-        $a_name = ilLegacyFormElementsUtil::prepareFormOutput($a_name, true);
-
-        if (trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID) {
-            $storage = new ilTableTemplatesStorage();
-
-            $state = $this->getCurrentState();
-            $state["filter_values"] = serialize($state["filter_values"] ?? null);
-            $state["selfields"] = serialize($state["selfields"] ?? null);
-            $state["selfilters"] = serialize($state["selfilters"] ?? null);
-
-            $storage->store($this->getContext(), $ilUser->getId(), $a_name, $state);
-            return true;
-        }
-        return false;
-    }
-
-    public function deleteTemplate(string $a_name): bool
-    {
-        global $DIC;
-
-        $ilUser = $DIC->user();
-
-        $a_name = ilLegacyFormElementsUtil::prepareFormOutput($a_name, true);
-
-        if (trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID) {
-            $storage = new ilTableTemplatesStorage();
-            $storage->delete($this->getContext(), $ilUser->getId(), $a_name);
-            return true;
-        }
-        return false;
     }
 
     public function getLimit(): int

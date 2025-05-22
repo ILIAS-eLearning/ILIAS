@@ -18,7 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\CronJob;
 
 /**
  * Class ilCmiXapiDelCron
@@ -27,7 +29,7 @@ use ILIAS\Cron\Schedule\CronJobScheduleType;
  * @author      Stefan Schneider
  */
 
-class ilCmiXapiDelCron extends ilCronJob
+class ilCmiXapiDelCron extends CronJob
 {
     public const JOB_ID = 'xapi_deletion_cron';
 
@@ -51,7 +53,7 @@ class ilCmiXapiDelCron extends ilCronJob
         $settings = new ilSetting(self::JOB_ID);
         $lrsTypeId = $settings->get('lrs_type_id', '0');
 
-        if($lrsTypeId) {
+        if ($lrsTypeId) {
             $this->lrsType = new ilCmiXapiLrsType((int) $lrsTypeId);
         } else {
             $this->lrsType = null;
@@ -91,9 +93,9 @@ class ilCmiXapiDelCron extends ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
+        return JobScheduleType::DAILY;
     }
 
     public function getDefaultScheduleValue(): int
@@ -111,10 +113,10 @@ class ilCmiXapiDelCron extends ilCronJob
         return $this->lrsType;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
         global $DIC;
-        $cronResult = new ilCronJobResult();
+        $cronResult = new JobResult();
         $this->log->debug('run');
 
         // LRS - Ist Client gelöscht?
@@ -224,7 +226,7 @@ class ilCmiXapiDelCron extends ilCronJob
         $deletedObjectData = array();
         $allDone = true;
         foreach ($newDeletedObjects as $deletedObject) {
-            $this->log->debug("delete for " . (string)$deletedObject['obj_id']);
+            $this->log->debug("delete for " . (string) $deletedObject['obj_id']);
             // set object to updated
             $this->model->setXapiObjAsUpdated($deletedObject['obj_id']);
             // delete data
@@ -239,7 +241,7 @@ class ilCmiXapiDelCron extends ilCronJob
             // entry in xxcf_users is already deleted from ilXapiCmi5StatementsDeleteRequest
             // delete in obj_id from xxcf_data_settings
             if ($done) {
-                $this->log->debug("deleted data for object: " . (string)$deletedObject['obj_id']);
+                $this->log->debug("deleted data for object: " . (string) $deletedObject['obj_id']);
                 $deletedObjectData[] = $deletedObject['obj_id'];
                 $this->model->deleteXapiObjectEntry($deletedObject['obj_id']);
             } else {
@@ -296,9 +298,9 @@ class ilCmiXapiDelCron extends ilCronJob
         // maybe more detailled success/fail messages?
 
         if ($allDone) {
-            $cronResult->setStatus(ilCronJobResult::STATUS_OK);
+            $cronResult->setStatus(JobResult::STATUS_OK);
         } else {
-            $cronResult->setStatus(ilCronJobResult::STATUS_FAIL);
+            $cronResult->setStatus(JobResult::STATUS_FAIL);
         }
         return $cronResult;
     }

@@ -30,11 +30,9 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 final class StorableFlavourDecorator extends Flavour
 {
     private array $streams = [];
-    protected Flavour $flavour;
 
-    public function __construct(Flavour $flavour)
+    public function __construct(protected Flavour $flavour)
     {
-        $this->flavour = $flavour;
     }
 
     public function getFlavour(): Flavour
@@ -42,26 +40,31 @@ final class StorableFlavourDecorator extends Flavour
         return $this->flavour;
     }
 
+    #[\Override]
     public function getPersistingName(): string
     {
         return $this->flavour->getPersistingName();
     }
 
+    #[\Override]
     public function getName(): string
     {
         return $this->flavour->getName();
     }
 
+    #[\Override]
     public function getResourceId(): ResourceIdentification
     {
         return $this->flavour->getResourceId();
     }
 
+    #[\Override]
     public function getDefinition(): FlavourDefinition
     {
         return $this->flavour->getDefinition();
     }
 
+    #[\Override]
     public function getRevision(): int
     {
         return $this->flavour->getRevision();

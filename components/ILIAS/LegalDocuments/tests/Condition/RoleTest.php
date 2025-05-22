@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments\test\Condition;
 
 use ILIAS\LegalDocuments\Condition;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy;
 use ILIAS\LegalDocuments\test\ContainerMock;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\LegalDocuments\Condition\Definition\RoleDefinition;
@@ -49,11 +49,17 @@ class RoleTest extends TestCase
 
     public function testAsComponent(): void
     {
-        $legacy = $this->mock(Legacy::class);
+        $legacy = $this->mock(Legacy\Content::class);
+        $legacy_factory = $this->mock(Legacy\Factory::class);
+        $legacy_factory
+            ->expects($this->once())
+            ->method('content')
+            ->willReturn($legacy);
+
         $this->assertSame($legacy, (new Role(
             $this->mockTree(CriterionContent::class, ['arguments' => ['role_id' => 78]]),
             $this->mock(RoleDefinition::class),
-            $this->mockTree(UIFactory::class, ['legacy' => $legacy]),
+            $this->mockTree(UIFactory::class, ['legacy' => $legacy_factory]),
             $this->mock(ilRbacReview::class)
         ))->asComponent());
     }

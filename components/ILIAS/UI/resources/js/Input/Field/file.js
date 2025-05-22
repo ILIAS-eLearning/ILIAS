@@ -34,7 +34,7 @@ il.UI.Input = il.UI.Input || {};
 		 * @type {{}}
 		 */
 		const SELECTOR = {
-			file_input: '.ui-input-file',
+			file_input: '[data-il-ui-component="file-field-input"]',
 			file_list: '.ui-input-file-input-list',
 			file_list_entry: '.ui-input-file-input',
 			file_entry_metadata: '.ui-input-file-metadata',
@@ -144,6 +144,7 @@ il.UI.Input = il.UI.Input || {};
 			// because of dropzone.js compatibility.
 			let file_list = document.querySelector(`#${input_id} ${SELECTOR.file_list}`);
 			let action_button = document.querySelector(`#${input_id} ${SELECTOR.dropzone} button`);
+			const previewTemplate = document.querySelector(`#${input_id} template`);
 
 			removal_items[input_id] = [];
 
@@ -156,6 +157,7 @@ il.UI.Input = il.UI.Input || {};
 					maxFiles: max_file_amount,
 					maxFilesize: bytesToMiB(max_file_size_in_bytes), // official dropzone.js docu is wrong, MiB is expected.
 					previewsContainer: file_list,
+					customPreviewTemplate: previewTemplate,
 					clickable: action_button,
 					autoProcessQueue: false,
 					parallelUploads: 1,
@@ -267,6 +269,7 @@ il.UI.Input = il.UI.Input || {};
 			dropzone.options.current_file_count--;
 			maybeRemoveFileFromQueue(dropzone, file_entry_input.attr('id'));
 			maybeToggleActionButtonAndErrorMessage(input_id);
+			file_entry.remove();
 
 			// only remove files that have a file id and are therefore stored
 			// on the server.
@@ -276,14 +279,6 @@ il.UI.Input = il.UI.Input || {};
 
 			// stop event propagation as there may occur an error.
 			event.stopImmediatePropagation();
-
-			// disable the removal button, by changing the aria-label
-			// the global event listener won't trigger this hook again.
-			removal_glyph.attr('disabled');
-			removal_glyph.css('color', 'grey');
-			// collect the file id for removal.
-			removal_items[input_id].push(file_entry_input.val());
-			$(this).closest(SELECTOR.file_list_entry).remove();
 		}
 
 		/**
@@ -352,8 +347,8 @@ il.UI.Input = il.UI.Input || {};
 			}
 
 			// abort if the given file is not an allowed file type.
-			if (dropzones[input_id].options.acceptedFiles !== null &&
-				!dropzones[input_id].options.acceptedFiles.includes(file.type)
+			if (dropzones[input_id].options.acceptedFiles &&
+				!Dropzone.isValidFile(file, dropzones[input_id].options.acceptedFiles)
 			) {
 				displayErrorMessage(
 					I18N.invalid_mime.replace('%s', file.type),
@@ -382,15 +377,13 @@ il.UI.Input = il.UI.Input || {};
 				return;
 			}
 
-			let preview = il.UI.Input.DynamicInputsRenderer.render(input_id);
-			if (null === preview) {
-				console.error(`Error: could not append preview for newly added file: ${file}`);
-				return false;
-			}
+			let preview = il.UI.core.TemplateRenderer.createContent(dropzones[input_id].options.customPreviewTemplate);
 
 			// add file info to preview and setup expansion toggles.
-			preview.find('[data-dz-name]').text(file.name);
-			preview.find('[data-dz-size]').html(dropzones[input_id].filesize(file.size));
+			preview.querySelector('[data-dz-name]').innerText = file.name;
+			preview.querySelector('[data-dz-size]').innerHTML = dropzones[input_id].filesize(file.size);
+			dropzones[input_id].options.previewsContainer.append(...preview.children);
+			preview = $(dropzones[input_id].options.previewsContainer.lastElementChild);
 			setupExpansionGlyphs(preview);
 
 			// store rendered preview id temporarily in file, to retrieve
@@ -613,7 +606,7 @@ il.UI.Input = il.UI.Input || {};
             if (typeof file_inputs[Symbol.iterator] === 'function') {
                 let to_process = 0;
                 for (let i = 0; i < file_inputs.length; i++) {
-                    let input_id = file_inputs[i].id;
+                    let input_id = $(file_inputs[i]).attr('id');
                     let dropzone = dropzones[input_id];
                     processRemovals(input_id, event);
                     to_process += dropzone.files.length;

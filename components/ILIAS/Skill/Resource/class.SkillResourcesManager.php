@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Skill\Resource;
 
@@ -40,8 +39,8 @@ class SkillResourcesManager implements Usage\SkillUsageInfo
     protected \ilSkillLevelRepository $level_repo;
 
     public function __construct(
-        SkillResourceDBRepository $skill_res_repo = null,
-        \ilSkillLevelRepository $level_repo = null
+        ?SkillResourceDBRepository $skill_res_repo = null,
+        ?\ilSkillLevelRepository $level_repo = null
     ) {
         global $DIC;
 

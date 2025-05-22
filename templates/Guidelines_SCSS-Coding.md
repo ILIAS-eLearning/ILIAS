@@ -1,7 +1,6 @@
 # General
 
-*Please note, that you need to provide a Pull Request for all CSS related changes done in this folder. The CSS Coordinators
-will then review the PR and give you feedback and/or merge your changes.*
+*Please note, that you need to provide a Pull Request for all CSS related changes done in this folder. The CSS Authorities will then review the PR and give you feedback and/or merge your changes.*
 
 This section of the codebase defines the design and layout of ILIAS. All CSS code is build here. HTML templates can be found elsewhere (see section "HTML").
 
@@ -22,30 +21,49 @@ Sass extends the CSS language, adding features that allow advanced variables, mi
 
 The Sass pre-processor compiles the entry point delos.scss and all connected files to the one delos.css file which can then be rendered by the browser.
 
-Please use the most recent **Dart Sass** version (**not** Ruby Sass) that can be downloaded from [the official GitHub repository](https://github.com/sass/dart-sass/releases).
+**You MUST use the exact SASS version referenced in the package.json (see devDependencies) that is installed in your local environment by executing 'npm install' at the root.**
+
+From the root directory, you can compile your SCSS as a source file that will be committed to the git repository:
+
+```bash
+node_modules/.bin/sass templates/default/delos.scss templates/default/delos.css
+```
+
+To see current css changes in your running environment, this css file also needs to be copied to the public folder 'public/assets/css/delos.css' (this happens automatically when you install ILIAS and, more specifically, execute `composer dump-autoload`). This is the file that is actually being used in the frontend by the browser.
+
+During development, you may want SCSS changes continuously updated the CSS in the public folder whenever you change any SCSS file to instantly see any changes:
+
+```bash
+node_modules/.bin/sass templates/default/delos.scss public/assets/css/delos.css --watch
+```
+
+However, do not forget to also update the delos.css file in templates/default when you commit your code.
+
+If you observe that there are changes appearing in your css output other than the ones to be expected, please first make sure that you are using the correct SASS version.
+
+If you have any questions about style code and how to contribute in the most optimal way, please contact the maintenance coordinators or ask in the CSS Squad channel on the official ILIAS Discord server.
 
 You should consult the [official Sass Documentation](https://sass-lang.com/documentation/) to make use of the advantages of Sass.
 
 ### Guidelines
 * Style code MUST be written in the SCSS syntax of the Sass pre-processer.
 * All colors, font sizes, spacings, offsets, gaps, as well as the proportions of the basic layout MUST be defined by Sass/CSS.
-* When contributing style code to the ILIAS repository, you MUST first compile the Sass code to CSS using the latest released version of Dart Sass: https://github.com/sass/dart-sass/releases
+* When contributing style code to the ILIAS repository, you MUST first compile the SCSS code to CSS using the version of SASS that is set as a development dependency in package.json.
 * We currently follow a **desktop first approach** on the Sass level. This means, that we handle all mobile cases as special cases and the desktop as the default.
 * You MUST NOT make changes to the compiled delos.css manually.
 * Delos.scss MUST only contain imports and no other Sass logic at all.
 * The Sass compiler automatically creates a CSS map called delos.css.map, which tells the developer tools of a browser which line of CSS belongs to which SCSS file and line. This map MUST NOT be committed as it causes merge conflicts and contains paths of your local file system and is therefor listed in the .gitignore file.
 
-If you are interested, you can read more about why we switched preprocessors from LESS to Sass here.
-
 ## HTML
 
-HTML templates are only responsible for a well structured HTML document, which displays the bare content of the website and nothing else.
+HTML templates are only responsible for a well-structured HTML document, which displays the bare content of the website and nothing else.
 
-They can be found in `src/UI/templates/default` for modern UI components or in `Modules/` and `Services/` for legacy components.
+They can be found in `ILIAS/UI/templates/default` for modern UI components or in other components in `components/ILIAS/` for legacy components.
 
 ### Guidelines
 * New class names MUST follow the naming convention outlined in this document.
 * You MUST NOT use style attributes like style, align, border, cellpadding, cellspacing font, nowrap, valign, width, height and similar in HTML templates.
+* If you use JavaScript to change the visibility of an HTML Element you MAY use `style="display: none;"` to set an initial state. For setting the visible state in JavaScript, you SHOULD consider removing the `style="display: ..."` attribute completely from the HTML element using `htmlElement.style.removeProperty('display');` (instead of setting `display: block;`) to honor whatever display property is set by CSS.
 * You MUST NOT use `&nbsp;`, `<br>`, `<br/>` or similar means to create space.
 
 
@@ -138,7 +156,7 @@ Guidelines
 * If the Bootstrap inspired classes, tools, layout systems and mixins in our codebase can help you to get your desired output, you SHOULD use them whenever possible.
 * Don't expect them to work exactly the same as they would in an unmodified version of Bootstrap. They may have been heavily reduced to only cover the needs specific to ILIAS.
 * You MAY add needed functionality to existing Bootstrap inspired systems making them more specific to our requirements, while cutting parts that we do not need.
-* If a need isn't covered yet that has got a well-thought out solution in Bootstrap 3 or 5 (or another framework with an appropriate license), you MAY after careful consideration merge it into an appropriate place on our ITCSS layers - but you SHOULD customize, shorten and modernize the code to be more ILIAS specific (e.g. color variations are often not needed). 
+* If a need isn't covered yet that has got a well-thought out solution in Bootstrap 3 or 5 (or another framework with an appropriate license), you MAY (after careful) consideration merge it into an appropriate place on our ITCSS layers - but you SHOULD customize, shorten and modernize the code to be more ILIAS specific (e.g. color variations are often not needed). 
 * If you copy several lines of code from Bootstrap 3 or 5 into our stylecode you MUST give one line credit at the beginning and end of the section like this
 
 ``` SCSS
@@ -433,7 +451,7 @@ CSS](https://rhodesmill.org/brandon/2011/concentric-css/)):
 # SASS best practices
 
 ## Importing files
-Keep in mind that paths in CSS are relative to the compiled CSS file at templates/default/. Paths in Sass @use, @forward or @import (deprecated) are relative to the Sass file.
+Keep in mind that paths in CSS are relative to the compiled CSS file starting in public/assets/css/. Paths in Sass @use, @forward or @import (deprecated) are relative to the SCSS file.
 * You MUST include partials with @use and/or @forward.
 * You MUST NOT use the deprecated @import.
 * When including a file with @use you SHOULD utilize a namespace. You MAY use the one generated by default or define a custom namespace.
@@ -450,17 +468,3 @@ Keep in mind that paths in CSS are relative to the compiled CSS file at template
 ## Deprecated slash division
 
 Division with a slash (e.g. "10px / 2") outside of calc() is deprecated and MUST NOT be used. You MUST use math.div() instead or multiplication (e.g. "$il-padding-small / 2" could be substituted with "$il-padding-small * 0.5")
-
-## CSS Guideline
-
-CSS is obtained by using the latest Dart Sass compiler on delos.scss, e.g. like so:
-
-```
-sass templates/default/delos.scss templates/default/delos.css
-```
-
-Note that the output heavily depends on the used sass version. You MUST use the latest release version of Dart Sass: https://github.com/sass/dart-sass/releases
-
-If you observe that there are changes appearing in your css output other than the ones to be expected, please first make sure that you are using the latest Sass version. 
-
-If you have any questions about style code and how to contribute in the most optimal way, please contact the maintenance coordinators or ask in the CSS Squad channel on the official ILIAS Discord server.

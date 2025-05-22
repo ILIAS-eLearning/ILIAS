@@ -560,11 +560,11 @@ class ilMediaAliasItem
         );
         if (is_object($ma_nodes[$a_nr - 1])) {
             $title = $this->getTitleOfArea($a_nr);
-            $this->dom_util->deleteAllChildsByName($ma_nodes[$a_nr - 1]->myDOMNode, array("IntLink", "ExtLink"));
+            $this->dom_util->deleteAllChildsByName($ma_nodes[$a_nr - 1], array("IntLink", "ExtLink"));
             $attributes = array("Type" => $a_type, "Target" => $a_target,
                 "TargetFrame" => $a_target_frame);
             $this->dom_util->setFirstOptionalElement(
-                $ma_nodes[$a_nr - 1]->myDOMNode,
+                $ma_nodes[$a_nr - 1],
                 "IntLink",
                 array(""),
                 $title,
@@ -874,7 +874,6 @@ class ilMediaAliasItem
         string $a_area_type,
         string $a_coords
     ): bool {
-        $a_st_item->copyOriginal();
         $a_st_item->buildMapWorkImage();
 
         // determine ratios (first see whether the instance has w/h defined)
@@ -886,7 +885,7 @@ class ilMediaAliasItem
             $width = $a_st_item->getWidth();
             $height = $a_st_item->getHeight();
         }
-        $size = getimagesize($a_st_item->getMapWorkCopyName());
+        $size = getimagesize($a_st_item->getOriginalSource());
         $x_ratio = 1;
         if ($size[0] > 0 && $width > 0) {
             $x_ratio = $width / $size[0];
@@ -931,7 +930,6 @@ class ilMediaAliasItem
             );
         }
 
-        $a_st_item->saveMapWorkImage();
         return true;
     }
 

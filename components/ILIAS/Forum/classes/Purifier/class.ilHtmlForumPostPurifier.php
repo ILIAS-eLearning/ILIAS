@@ -28,7 +28,7 @@ class ilHtmlForumPostPurifier extends ilHtmlPurifierAbstractLibWrapper
     {
         $config = HTMLPurifier_Config::createDefault();
         $config->set('HTML.DefinitionID', 'ilias forum post');
-        $config->set('HTML.DefinitionRev', 1);
+        $config->set('HTML.DefinitionRev', 2);
         $config->set('Cache.SerializerPath', ilHtmlPurifierAbstractLibWrapper::_getCacheDirectory());
         $config->set('HTML.Doctype', 'XHTML 1.0 Strict');
 
@@ -38,6 +38,7 @@ class ilHtmlForumPostPurifier extends ilHtmlPurifierAbstractLibWrapper
         $config->set('HTML.ForbiddenAttributes', 'div@style');
 
         if (($def = $config->maybeGetRawHTMLDefinition()) !== null) {
+            $def->addAttribute('img', 'data-id', 'Number');
             $def->addAttribute('a', 'target', 'Enum#_blank,_self,_target,_top');
         }
 

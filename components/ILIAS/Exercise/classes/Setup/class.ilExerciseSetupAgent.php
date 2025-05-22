@@ -21,15 +21,21 @@ declare(strict_types=1);
 //namespace ILIAS\Exercise\Setup;
 
 use ILIAS\Setup;
+use ILIAS\Exercise\Setup\ilExerciseDBUpdateSteps;
+use ILIAS\Setup\ObjectiveCollection;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilExerciseSetupAgent extends Setup\Agent\NullAgent
 {
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(new \ILIAS\Exercise\Setup\ilExerciseDBUpdateSteps());
+        return new ObjectiveCollection(
+            'Database is updated for component/ILIAS/Exercise',
+            false,
+            new ilDatabaseUpdateStepsExecutedObjective(new ilExerciseDBUpdateSteps()),
+        );
     }
 
     public function getMigrations(): array
@@ -38,7 +44,9 @@ class ilExerciseSetupAgent extends Setup\Agent\NullAgent
             new ilExerciseInstructionFilesMigration(),
             new ilExerciseSampleSolutionMigration(),
             new ilExerciseTutorFeedbackFileMigration(),
-            new ilExerciseTutorTeamFeedbackFileMigration()
+            new ilExerciseTutorTeamFeedbackFileMigration(),
+            new ilExerciseSubmissionMigration(),
+            new ilExercisePeerFeedbackMigration()
         ];
     }
 }

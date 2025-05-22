@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\Layout\Factory;
 
@@ -44,6 +45,7 @@ class NullModification extends AbstractLayoutModification implements LayoutModif
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getPriority(): int
     {
         return -1;

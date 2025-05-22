@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\DI\UIServices;
+
 /**
  * Class ilBiblLibraryPresentationGUI
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -30,7 +32,7 @@ class ilBiblLibraryPresentationGUI
         protected \ilBiblFactoryFacade $facade,
         protected \ilCtrlInterface $ctrl,
         protected \ilLanguage $lng,
-        protected \ILIAS\DI\UIServices $ui
+        protected UIServices $ui
     ) {
     }
 
@@ -47,25 +49,25 @@ class ilBiblLibraryPresentationGUI
             case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
                 $prefix = "bib_default_";
                 if (!empty($attributes[$prefix . "isbn"])) {
-                    $attr = array("isbn");
+                    $attr = ["isbn"];
                 } elseif (!empty($attributes[$prefix . "pmid"])) {
-                    $attr = array("pmid");
+                    $attr = ["pmid"];
                 } elseif (!empty($attributes[$prefix . "doi"])) {
-                    $attr = array("doi");
+                    $attr = ["doi"];
                 } elseif (!empty($attributes[$prefix . "issn"])) {
-                    $attr = array("issn");
+                    $attr = ["issn"];
                 } else {
-                    $attr = array("title", "author", "year", "number", "volume");
+                    $attr = ["title", "author", "year", "number", "volume"];
                 }
                 break;
             case ilBiblTypeFactoryInterface::DATA_TYPE_RIS:
                 $prefix = "ris_" . strtolower($entry->getType()) . "_";
                 if (!empty($attributes[$prefix . "sn"])) {
-                    $attr = array("sn");
+                    $attr = ["sn"];
                 } elseif (!empty($attributes[$prefix . "do"])) {
-                    $attr = array("do");
+                    $attr = ["do"];
                 } else {
-                    $attr = array("ti", "t1", "au", "py", "is", "vl");
+                    $attr = ["ti", "t1", "au", "py", "is", "vl"];
                 }
                 break;
         }
@@ -80,7 +82,7 @@ class ilBiblLibraryPresentationGUI
                     . "i%3A" . $attributes[$prefix . $attr[0]];
             } else {
                 $url_params .= $this->formatAttribute($attr[0], $type, $attributes, $prefix) . "="
-                    . urlencode($attributes[$prefix . $attr[0]]);
+                    . urlencode((string) $attributes[$prefix . $attr[0]]);
             }
         } else {
             foreach ($attr as $a) {
@@ -89,7 +91,7 @@ class ilBiblLibraryPresentationGUI
                         $url_params .= "&";
                     }
                     $url_params .= $this->formatAttribute($a, $type, $attributes, $prefix) . "="
-                        . urlencode($attributes[$prefix . $a]);
+                        . urlencode((string) $attributes[$prefix . $a]);
                 }
             }
         }
@@ -135,11 +137,7 @@ class ilBiblLibraryPresentationGUI
                     $a = "author";
                     break;
                 case 'sn':
-                    if (strlen($attributes[$prefix . "sn"]) <= 9) {
-                        $a = "issn";
-                    } else {
-                        $a = "isbn";
-                    }
+                    $a = strlen((string) $attributes[$prefix . "sn"]) <= 9 ? "issn" : "isbn";
                     break;
                 case 'py':
                     $a = "date";

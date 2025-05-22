@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,13 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 /** @noinspection PhpPropertyOnlyWrittenInspection */
 
 namespace ILIAS\GlobalScreen\Scope\Tool\Collector;
 
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
 use ILIAS\GlobalScreen\Collector\ItemCollector;
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
@@ -42,26 +41,19 @@ use Generator;
  */
 class MainToolCollector extends AbstractBaseCollector implements ItemCollector
 {
-    private ?ItemInformation $information;
     private TypeInformationCollection $type_information_collection;
     /**
      * @var isToolItem[]
      */
-    private array $tools;
-    /**
-     * @var DynamicToolProvider[]
-     */
-    private array $providers;
+    private array $tools = [];
 
     /**
      * MainToolCollector constructor.
      * @param DynamicToolProvider[] $providers
      * @param ItemInformation|null  $information
      */
-    public function __construct(array $providers, ItemInformation $information = null)
+    public function __construct(private array $providers, private ?ItemInformation $information = null)
     {
-        $this->providers = $providers;
-        $this->information = $information;
         $this->type_information_collection = new TypeInformationCollection();
 
         // Tool
@@ -72,8 +64,6 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
         $tool = new TypeInformation(TreeTool::class, TreeTool::class, new TreeToolItemRenderer());
         $tool->setCreationPrevented(true);
         $this->type_information_collection->add($tool);
-
-        $this->tools = [];
     }
 
     public function collectStructure(): void
@@ -131,7 +121,7 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
 
     public function hasItems(): bool
     {
-        return count($this->tools) > 0;
+        return $this->tools !== [];
     }
 
 
@@ -160,22 +150,18 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
         /**
          * @var $handler TypeHandler
          */
-        $type = get_class($item);
+        $type = $item::class;
 
         return $this->type_information_collection->get($type);
     }
 
     private function getVisibleFilter(): callable
     {
-        return static function (isToolItem $tool): bool {
-            return ($tool->isAvailable() && $tool->isVisible());
-        };
+        return static fn(isToolItem $tool): bool => $tool->isAvailable() && $tool->isVisible();
     }
 
     private function getItemSorter(): callable
     {
-        return static function (isToolItem $a, isToolItem $b): int {
-            return $a->getPosition() - $b->getPosition();
-        };
+        return static fn(isToolItem $a, isToolItem $b): int => $a->getPosition() - $b->getPosition();
     }
 }

@@ -16,6 +16,12 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Renderer;
+use ILIAS\Refinery\Factory;
+use ILIAS\HTTP\Services;
+use ILIAS\FileUpload\FileUpload;
+use ILIAS\Filesystem\Util\Archive\Archives;
+use ILIAS\UI\Component\Modal\InterruptiveItem\Standard;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -30,7 +36,6 @@ use ILIAS\components\ResourceStorage\Collections\View\ActionBuilder;
 use ILIAS\components\ResourceStorage\Collections\View\ViewControlBuilder;
 use ILIAS\components\ResourceStorage\Collections\View\UploadBuilder;
 use ILIAS\components\ResourceStorage\Collections\View\PreviewDefinition;
-use ILIAS\Filesystem\Util\Archive\UnzipOptions;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Services\ResourceStorage\Collections\View\EditForm;
 use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
@@ -60,16 +65,16 @@ class ilResourceCollectionGUI implements UploadHandler
     private ilGlobalTemplateInterface $main_tpl;
     private Request $view_request;
     private ViewFactory $view_factory;
-    private \ILIAS\UI\Renderer $ui_renderer;
-    private \ILIAS\Refinery\Factory $refinery;
-    private \ILIAS\HTTP\Services $http;
+    private Renderer $ui_renderer;
+    private Factory $refinery;
+    private Services $http;
     private ilLanguage $language;
     private \ILIAS\ResourceStorage\Services $irss;
     private ActionBuilder $action_builder;
     private ViewControlBuilder $view_control_builder;
     private \ILIAS\UI\Factory $ui_factory;
-    private \ILIAS\FileUpload\FileUpload $upload;
-    private \ILIAS\Filesystem\Util\Archive\Archives $archive;
+    private FileUpload $upload;
+    private Archives $archive;
     private PreviewDefinition $preview_definition;
 
     final public function __construct(
@@ -283,7 +288,7 @@ class ilResourceCollectionGUI implements UploadHandler
             $rid = $this->irss->manage()->stream(
                 Streams::ofString($stream->getContents()),
                 $this->view_configuration->getStakeholder(),
-                basename($stream->getMetadata()['uri'])
+                basename((string) $stream->getMetadata()['uri'])
             );
             $collection->add($rid);
 
@@ -293,7 +298,7 @@ class ilResourceCollectionGUI implements UploadHandler
                     $rid,
                     $this->preview_definition
                 );
-            } catch (\Throwable $e) {
+            } catch (\Throwable) {
             }
         }
         $this->irss->collection()->store($collection);
@@ -373,7 +378,7 @@ class ilResourceCollectionGUI implements UploadHandler
                     $this->language->txt('action_remove_resource_msg'),
                     $this->ctrl->getLinkTarget($this, self::CMD_REMOVE)
                 )->withAffectedItems(
-                    array_map(function (ResourceIdentification $rid) {
+                    array_map(function (ResourceIdentification $rid): Standard {
                         $revision = $this->irss->manage()->getCurrentRevision($rid);
 
                         return $this->ui_factory->modal()->interruptiveItem()->standard(
@@ -436,8 +441,8 @@ class ilResourceCollectionGUI implements UploadHandler
                     $token->getName(),
                     $to_string
                 );
-                $rid_strings = explode(',', $rid_string);
-            } catch (ConstraintViolationException $e) {
+                $rid_strings = explode(',', (string) $rid_string);
+            } catch (ConstraintViolationException) {
                 $rid_strings = $wrapper->query()->retrieve(
                     $token->getName(),
                     $to_array_of_string
@@ -452,7 +457,7 @@ class ilResourceCollectionGUI implements UploadHandler
             );
         }
 
-        if(empty($rid_strings)) {
+        if (empty($rid_strings)) {
             // try single resource
             $rid_strings = $this->http->wrapper()->query()->has(self::P_RESOURCE_ID)
                 ? [$this->http->wrapper()->query()->retrieve(self::P_RESOURCE_ID, $this->refinery->kindlyTo()->string())]

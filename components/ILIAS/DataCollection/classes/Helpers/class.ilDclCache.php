@@ -128,7 +128,7 @@ class ilDclCache
         return null;
     }
 
-    public static function getTableCache(int $table_id = null): ilDclTable
+    public static function getTableCache(?int $table_id = null): ilDclTable
     {
         if (is_null($table_id) === true || $table_id === 0) {
             return new ilDclTable();
@@ -259,7 +259,11 @@ class ilDclCache
         }
 
         if (!isset(self::$datatype_cache[$datatyp_id])) {
-            return new ilDclDatatype();
+            $unknown = new ilDclDatatype();
+            if ($datatyp_id > ilDclFieldTypePlugin::ID_BUFFER) {
+                $unknown->setTitle('unknown_plugin');
+            }
+            return $unknown;
         }
 
         return self::$datatype_cache[$datatyp_id];
@@ -281,7 +285,6 @@ class ilDclCache
             $field->setDescription($rec["description"]);
         }
         $field->setDatatypeId($rec["datatype_id"]);
-        $field->setUnique((bool)$rec["is_unique"]);
         $fields_cache[$rec["id"]] = $field;
 
         return $field;

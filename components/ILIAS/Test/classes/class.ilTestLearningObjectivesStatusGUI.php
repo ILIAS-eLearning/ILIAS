@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\RequestDataCollector;
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -35,10 +35,10 @@ class ilTestLearningObjectivesStatusGUI
 
     public function __construct(
         private ilLanguage $lng,
-        private ilCtrl $ctrl,
+        private ilCtrlInterface $ctrl,
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
-        private InternalRequestService $testrequest
+        private RequestDataCollector $testrequest
     ) {
     }
 
@@ -74,7 +74,7 @@ class ilTestLearningObjectivesStatusGUI
         $this->usr_id = $usr_id;
     }
 
-    public function getHTML(int $objective_id = null): string
+    public function getHTML(?int $objective_id = null): string
     {
         $this->lng->loadLanguageModule('crs');
 

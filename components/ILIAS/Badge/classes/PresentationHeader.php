@@ -31,7 +31,7 @@ class PresentationHeader
     ) {
     }
 
-    public function show(string $active, Component $add = null): void
+    public function show(string $active, ?Component $add = null): void
     {
         $txt = [$this->container->language(), 'txt'];
         $toolbar = $this->container->toolbar();

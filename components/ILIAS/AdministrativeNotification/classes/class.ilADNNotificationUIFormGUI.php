@@ -16,7 +16,8 @@
  *
  *********************************************************************/
 
-use ILIAS\DI\Container;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\Refinery\Factory;
 use ILIAS\HTTP\Services;
 use ILIAS\Refinery\Transformation;
@@ -53,8 +54,8 @@ class ilADNNotificationUIFormGUI
     public const F_PRESENTATION = 'presentation';
     protected ilCtrlInterface $ctrl;
     protected \ILIAS\UI\Factory $ui;
-    protected \ILIAS\UI\Renderer $renderer;
-    protected ?\ILIAS\UI\Component\Input\Container\Form\Standard $form = null;
+    protected Renderer $renderer;
+    protected ?Standard $form = null;
     protected Factory $refinery;
     protected ilLanguage $lng;
     protected ilRbacReview $rbac_review;
@@ -332,18 +333,14 @@ class ilADNNotificationUIFormGUI
             self::F_HAS_LANGUAGE_LIMITATION => $languages,
             self::F_LIMIT_TO_ROLES => $roles,
         ], $this->txt('form_title'))->withAdditionalTransformation(
-            $custom_trafo(function ($v): ilADNNotification {
-                return $this->notification;
-            })
+            $custom_trafo(fn($v): ilADNNotification => $this->notification)
         );
 
         $this->form = $this->ui->input()->container()->form()->standard(
             $this->action,
             [$section]
         )->withAdditionalTransformation(
-            $this->refinery->custom()->transformation(function ($v) {
-                return array_shift($v);
-            })
+            $this->refinery->custom()->transformation(fn($v) => array_shift($v))
         );
     }
 

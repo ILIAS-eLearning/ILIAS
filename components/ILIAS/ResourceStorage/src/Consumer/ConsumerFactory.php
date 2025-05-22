@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer;
 
+use ILIAS\HTTP\Services;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
@@ -33,24 +34,20 @@ use ILIAS\ResourceStorage\Resource\StorableContainerResource;
  */
 class ConsumerFactory
 {
-    protected \ILIAS\ResourceStorage\Policy\FileNamePolicy $file_name_policy;
     /**
      * @readonly
      */
-    private \ILIAS\HTTP\Services $http;
-    private StreamAccess $stream_access;
+    private Services $http;
 
     /**
      * ConsumerFactory constructor.
      * @param FileNamePolicy|null $file_name_policy
      */
     public function __construct(
-        StreamAccess $stream_access,
-        FileNamePolicy $file_name_policy = null
+        private StreamAccess $stream_access,
+        protected FileNamePolicy $file_name_policy = new NoneFileNamePolicy()
     ) {
-        $this->stream_access = $stream_access;
         global $DIC;
-        $this->file_name_policy = $file_name_policy ?? new NoneFileNamePolicy();
         $this->http = $DIC->http();
     }
 

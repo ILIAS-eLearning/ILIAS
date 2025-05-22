@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer;
 
+use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\HTTP\Response\ResponseHeader;
@@ -36,27 +37,12 @@ class DownloadMultipleConsumer implements DeliveryConsumer
     protected ResourceCollection $collection;
     protected ?int $revision_number = null;
     protected bool $use_revision_titles = false;
-    /**
-     * @var \ILIAS\ResourceStorage\Resource\StorableResource[]
-     */
-    protected array $resources;
-    private StreamAccess $stream_access;
-    protected FileNamePolicy $file_name_policy;
-    protected string $zip_file_name;
 
     /**
-     * @param \ILIAS\ResourceStorage\Resource\StorableResource[] $resources
+     * @param StorableResource[] $resources
      */
-    public function __construct(
-        array $resources,
-        StreamAccess $stream_access,
-        FileNamePolicy $file_name_policy,
-        string $zip_file_name
-    ) {
-        $this->resources = $resources;
-        $this->stream_access = $stream_access;
-        $this->file_name_policy = $file_name_policy;
-        $this->zip_file_name = $zip_file_name;
+    public function __construct(protected array $resources, private StreamAccess $stream_access, protected FileNamePolicy $file_name_policy, protected string $zip_file_name)
+    {
     }
 
 

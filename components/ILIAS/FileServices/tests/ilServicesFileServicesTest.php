@@ -18,23 +18,21 @@
 
 declare(strict_types=1);
 
+use ILIAS\DI\Container;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\Container;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
-use ILIAS\ResourceStorage\Services;
-use ILIAS\ResourceStorage\Manager\Manager;
 
-/**
- * @runTestsInSeparateProcesses // this is necessary to avoid side effects with the DIC
- * @preserveGlobalState disabled
- */
+#[PreserveGlobalState(false)]
+#[RunTestsInSeparateProcesses]
 class ilServicesFileServicesTest extends TestCase
 {
-    private ?\ILIAS\DI\Container $dic_backup;
+    private ?Container $dic_backup;
     /**
-     * @var ilDBInterface|(ilDBInterface&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+     * @var ilDBInterface|ilDBInterface&MockObject|MockObject
      */
     private ?ilDBInterface $db_mock = null;
 
@@ -43,7 +41,7 @@ class ilServicesFileServicesTest extends TestCase
         global $DIC;
         $this->dic_backup = is_object($DIC) ? clone $DIC : null;
 
-        $DIC = new \ILIAS\DI\Container();
+        $DIC = new Container();
         $DIC['ilDB'] = $this->db_mock = $this->createMock(ilDBInterface::class);
     }
 
@@ -157,7 +155,7 @@ class ilServicesFileServicesTest extends TestCase
             ->method('get')
             ->willReturnCallback(
                 function ($k) use (&$consecutive) {
-                    list($expected, $return) = array_shift($consecutive);
+                    [$expected, $return] = array_shift($consecutive);
                     $this->assertEquals($expected, $k);
                     return $return;
                 }

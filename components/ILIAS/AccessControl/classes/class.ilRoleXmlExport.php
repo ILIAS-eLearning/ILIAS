@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 /**
  * Xml export of roles and role templates
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -120,7 +120,9 @@ class ilRoleXmlExport extends ilXmlWriter
         $this->xmlStartTag('operations');
         foreach ($this->rbacreview->getAllOperationsOfRole($a_role_id, $a_rolf) as $obj_group => $operations) {
             foreach ($operations as $ops_id) {
-                $this->xmlElement('operation', ['group' => $obj_group], trim($this->operations[$ops_id]));
+                if (isset($this->operations[$ops_id])) {
+                    $this->xmlElement('operation', ['group' => $obj_group], trim($this->operations[$ops_id]));
+                }
             }
         }
         $this->xmlEndTag('operations');

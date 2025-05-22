@@ -22,13 +22,45 @@ use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\DI\Container;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Filesystems;
-use ILIAS\HTTP\Services;
-use ILIAS\UI\Implementation\Factory;
+use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\UI\Implementation\FactoryInternal;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\Refinery\Random\Group as RandomGroup;
+use GuzzleHttp\Psr7\Uri as GuzzleURI;
 
 trait ilTestBaseTestCaseTrait
 {
+    protected function defineGlobalConstants(): void
+    {
+        if (!defined('ILIAS_HTTP_PATH')) {
+            define('ILIAS_HTTP_PATH', 'http://localhost');
+        }
+        if (!defined('CLIENT_DATA_DIR')) {
+            define('CLIENT_DATA_DIR', '/var/iliasdata');
+        }
+        if (!defined('IL_INST_ID')) {
+            define('IL_INST_ID', '0');
+        }
+        if (!defined("ANONYMOUS_USER_ID")) {
+            define("ANONYMOUS_USER_ID", 13);
+        }
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
+        if (!defined('ROOT_FOLDER_ID')) {
+            define('ROOT_FOLDER_ID', 8);
+        }
+        if (!defined('ILIAS_LOG_ENABLED')) {
+            define('ILIAS_LOG_ENABLED', true);
+        }
+        if (!defined('ILIAS_LOG_DIR')) {
+            define('ILIAS_LOG_DIR', '/var/log');
+        }
+        if (!defined('ILIAS_LOG_FILE')) {
+            define('ILIAS_LOG_FILE', '/var/log/ilias.log');
+        }
+    }
+
     /**
      * @param string $name
      * @param mixed  $value
@@ -127,6 +159,11 @@ trait ilTestBaseTestCaseTrait
         $this->setGlobalVariable('filesystem', $this->createMock(Filesystems::class));
     }
 
+    protected function addGlobal_static_url(): void
+    {
+        $this->setGlobalVariable('static_url', $this->createMock(ILIAS\StaticURL\Services::class));
+    }
+
     protected function addGlobal_upload(): void
     {
         $this->setGlobalVariable('upload', $this->createMock(FileUpload::class));
@@ -214,8 +251,15 @@ trait ilTestBaseTestCaseTrait
 
     protected function addGlobal_http(): void
     {
-        $http_mock = $this->getMockBuilder(Services::class)->disableOriginalConstructor()->getMock();
-        $http_mock->method('request')->willReturn($this->getMockBuilder(\Psr\Http\Message\ServerRequestInterface::class)->disableOriginalConstructor()->getMock());
+        $request_mock = $this->getMockBuilder(\Psr\Http\Message\ServerRequestInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $request_mock->method('getUri')
+            ->willReturn(new GuzzleURI('http://wwww.ilias.de'));
+        $http_mock = $this->getMockBuilder(HTTPServices::class)->disableOriginalConstructor()
+            ->getMock();
+        $http_mock->method('request')
+            ->willReturn($request_mock);
         $this->setGlobalVariable('http', $http_mock);
     }
 
@@ -234,14 +278,14 @@ trait ilTestBaseTestCaseTrait
         $this->setGlobalVariable('ilHelp', $this->createMock(ilHelpGUI::class));
     }
 
-    protected function addGlobal_ui(): void
+    protected function addGlobal_uiService(): void
     {
-        $this->setGlobalVariable('ui', $this->createMock(ILIAS\DI\UIServices::class));
+        $this->setGlobalVariable('uiService', $this->createMock(\ilUIService::class));
     }
 
     protected function addGlobal_uiFactory(): void
     {
-        $this->setGlobalVariable('ui.factory', $this->createMock(Factory::class));
+        $this->setGlobalVariable('ui.factory', $this->createMock(FactoryInternal::class));
     }
 
     protected function addGlobal_uiRenderer(): void
@@ -261,10 +305,14 @@ trait ilTestBaseTestCaseTrait
         $this->setGlobalVariable('skill', $this->createMock(ILIAS\Skill\Service\SkillService::class));
     }
 
+    protected function addGlobal_objectMetadata(): void
+    {
+        $this->setGlobalVariable('learning_object_metadata', $this->createMock(ILIAS\MetaData\Services\ServicesInterface::class));
+    }
+
     protected function addGlobal_objectService(): void
     {
-        global $DIC;
-        $DIC['object.customicons.factory'] = $this->getMockBuilder(ilObjectCustomIconFactory::class)->disableOriginalConstructor()->getMock();
+        $this->setGlobalVariable('object.customicons.factory', $this->getMockBuilder(ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory::class)->disableOriginalConstructor()->getMock());
         $object_mock = $this->getMockBuilder(\ilObjectService::class)->disableOriginalConstructor()->getMock();
 
         $this->setGlobalVariable('object', $object_mock);
@@ -277,13 +325,100 @@ trait ilTestBaseTestCaseTrait
 
     protected function addGlobal_fileDelivery(): void
     {
-        $this->setGlobalVariable('file_delivery', $this->createMock(\ILIAS\FileDelivery\Services::class));
+        $this->setGlobalVariable(
+            'file_delivery',
+            $this->getFileDelivery()
+        );
+    }
+
+    protected function addGlobal_uiUploadLimitResolver(): void
+    {
+        $this->setGlobalVariable('ui.upload_limit_resolver', $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class));
+    }
+
+    protected function getFileDelivery(): \ILIAS\FileDelivery\Services
+    {
+        $data_signer = new ILIAS\FileDelivery\Token\DataSigner(
+            new ILIAS\FileDelivery\Token\Signer\Key\Secret\SecretKeyRotation(
+                new ILIAS\FileDelivery\Token\Signer\Key\Secret\SecretKey('blup')
+            )
+        );
+        $http_mock = $this->getMockBuilder(HTTPServices::class)->disableOriginalConstructor()->getMock();
+        $response_builder_mock = $this->createMock(\ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder::class);
+        return new \ILIAS\FileDelivery\Services(
+            new ILIAS\FileDelivery\Delivery\StreamDelivery(
+                $data_signer,
+                $http_mock,
+                $response_builder_mock,
+                $response_builder_mock
+            ),
+            new \ILIAS\FileDelivery\Delivery\LegacyDelivery(
+                $http_mock,
+                $response_builder_mock,
+                $response_builder_mock
+            ),
+            $data_signer,
+            $http_mock
+        );
     }
 
     protected function getTestObjMock(): ilObjTest
     {
-        $test_mock = $this->createMock(ilObjTest::class);
-        $test_mock->method('getLocalDIC')->willReturn(ilTestDIC::dic());
+        $test_mock = $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock();
+        $test_mock->method('getLocalDIC')->willReturn(
+            $this->buildLocalDICMock()
+        );
         return $test_mock;
+    }
+
+    protected function buildLocalDICMock(): ILIAS\Test\TestDIC
+    {
+        $local_dic_mock = $this->getMockBuilder(ILIAS\Test\TestDIC::class)
+            ->onlyMethods([])->getMock();
+        $local_dic_mock['question.general_properties.repository'] = fn(Pimple\Container $c)
+            => $this->createMock(
+                ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class
+            );
+        $local_dic_mock['request_data_collector'] = fn(Pimple\Container $c)
+            => $this->createMock(
+                \ILIAS\Test\RequestDataCollector::class
+            );
+        $local_dic_mock['participant.access_filter.factory'] = fn(Pimple\Container $c)
+            => $this->createMock(
+                \ilTestParticipantAccessFilterFactory::class
+            );
+        $local_dic_mock['logging.logger'] = fn(Pimple\Container $c)
+            => $this->createMock(
+                \ILIAS\Test\Logging\TestLogger::class
+            );
+        $local_dic_mock['logging.viewer'] = fn(Pimple\Container $c)
+            => $this->createMock(
+                \ILIAS\Test\Logging\TestLogViewer::class
+            );
+        $local_dic_mock['shuffler'] = fn(Pimple\Container $c)
+            => $this->createMock(
+                \ilTestShuffler::class
+            );
+        $local_dic_mock['results.presentation.factory'] = fn(Pimple\Container $c)
+            => $this->createMock(
+                ILIAS\Test\Results\Presentation\Factory::class
+            );
+        $local_dic_mock['results.data.factory'] = fn(Pimple\Container $c)
+            => $this->createMock(
+                ILIAS\Test\Results\Data\Factory::class
+            );
+        $local_dic_mock['results.toplist.repository'] = fn(Pimple\Container $c)
+            => $this->createMock(
+                ILIAS\Test\Results\Toplist\TestTopListRepository::class
+            );
+        $local_dic_mock['results.data.test_result_repository'] = fn(Pimple\Container $c)
+            => $this->createMock(
+                \ILIAS\Test\Results\Data\Repository::class
+            );
+        $local_dic_mock['questions.properties.repository'] = fn(Pimple\Container $c)
+            => $this->createMock(
+                ILIAS\Test\Questions\Properties\Repository::class
+            );
+        return $local_dic_mock;
     }
 }

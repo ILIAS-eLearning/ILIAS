@@ -30,7 +30,7 @@ class Factory implements I\Factory
         string $label,
         URLBuilder $url_builder,
         URLBuilderToken $row_id_parameter
-    ): I\Standard {
+    ): Standard {
         return new Standard($label, $url_builder, $row_id_parameter);
     }
 
@@ -38,7 +38,7 @@ class Factory implements I\Factory
         string $label,
         URLBuilder $url_builder,
         URLBuilderToken $row_id_parameter
-    ): I\Single {
+    ): Single {
         return new Single($label, $url_builder, $row_id_parameter);
     }
 
@@ -46,7 +46,7 @@ class Factory implements I\Factory
         string $label,
         URLBuilder $url_builder,
         URLBuilderToken $row_id_parameter
-    ): I\Multi {
+    ): Multi {
         return new Multi($label, $url_builder, $row_id_parameter);
     }
 }

@@ -31,8 +31,8 @@ use ILIAS\Setup\Config;
 class ilCommonSetupAgent implements Setup\Agent
 {
     private const PHP_MEMORY_LIMIT = "128M";
-    private const PHP_MIN_VERSION = "8.2.0";
-    private const PHP_MAX_VERSION = "8.3.999";
+    private const PHP_MIN_VERSION = "8.3.0";
+    private const PHP_MAX_VERSION = "8.4.999";
 
     protected Refinery\Factory $refinery;
     protected Data\Factory $data;
@@ -76,7 +76,7 @@ class ilCommonSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new Setup\Objective\ObjectiveWithPreconditions(
             new \ilMakeInstallationAccessibleObjective($config),
@@ -115,7 +115,7 @@ class ilCommonSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         $objectives = [
             new Setup\Objective\ObjectiveWithPreconditions(

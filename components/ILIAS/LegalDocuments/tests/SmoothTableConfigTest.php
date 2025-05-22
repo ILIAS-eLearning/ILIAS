@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\test;
 
-use ILIAS\LegalDocuments\test\ContainerMock;
 use ilTable2GUI;
 use ILIAS\LegalDocuments\SmoothTableConfig;
 use PHPUnit\Framework\TestCase;

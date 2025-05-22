@@ -46,6 +46,9 @@ class UsageDBRepository
                 );
             }
         }
+        if ($include_titles) {
+            $tax = \ilArrayUtil::sortArray($tax, "title");
+        }
         return $tax;
     }
 

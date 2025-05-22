@@ -26,8 +26,8 @@ declare(strict_types=1);
 class ilForumNotificationTableGUI extends ilTable2GUI
 {
     private array $notification_modals = [];
-    private \ILIAS\UI\Factory $ui_factory;
-    private ILIAS\UI\Renderer $ui_renderer;
+    private readonly \ILIAS\UI\Factory $ui_factory;
+    private readonly ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct(ilForumSettingsGUI $settings_gui, string $cmd, string $type)
     {
@@ -94,9 +94,9 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         return new ilForumNotificationEventsFormGUI(
             $this->ctrl->getFormAction($this->parent_obj, 'saveEventsForUser'),
             [
-                'hidden_value' => htmlspecialchars(json_encode([
+                'hidden_value' => json_encode([
                     'usr_id' => $row['usr_id_events']
-                ], JSON_THROW_ON_ERROR)),
+                ], JSON_THROW_ON_ERROR),
                 'notify_modified' => (bool) ($interested_events & ilForumNotificationEvents::UPDATED),
                 'notify_censored' => (bool) ($interested_events & ilForumNotificationEvents::CENSORED),
                 'notify_uncensored' => (bool) ($interested_events & ilForumNotificationEvents::UNCENSORED),
@@ -116,11 +116,26 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         )->withActionButtons([
             $this->ui_factory->button()
                 ->primary($this->lng->txt('save'), '#')
-                ->withOnLoadCode(function (string $id) use ($row): string {
-                    return "
-                        $('#$id').closest('.modal').find('form').addClass('ilForumNotificationSettingsForm');
-                        $('#$id').closest('.modal').find('form .il-standard-form-header, .il-standard-form-footer').remove();
-                        $('#$id').click(function() { $(this).closest('.modal').find('form').submit(); return false; });
+                ->withOnLoadCode(function (string $id): string {
+                    return " 
+                        (function () {
+                          const button = document.getElementById('$id');
+                          if (!button) return;
+                        
+                          const modalDialog = button.closest('.modal-dialog');
+                          if (!modalDialog) return;
+
+                          const form = modalDialog.querySelector('.modal-body form');
+                          if (!form) return;
+
+                          form.classList.add('ilForumNotificationSettingsForm');
+                          button.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            if (form) {
+                              form.submit();
+                            }
+                          }, true);
+                        }());
                     ";
                 })
         ]);

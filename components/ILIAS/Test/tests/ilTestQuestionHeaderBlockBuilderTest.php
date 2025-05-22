@@ -91,15 +91,6 @@ class ilTestQuestionHeaderBlockBuilderTest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isQuestionPostponed());
     }
 
-    public function testQuestionObligatory(): void
-    {
-        $this->testObj->setQuestionObligatory(false);
-        $this->assertFalse($this->testObj->isQuestionObligatory());
-
-        $this->testObj->setQuestionObligatory(true);
-        $this->assertTrue($this->testObj->isQuestionObligatory());
-    }
-
     public function testQuestionRelatedObjectives(): void
     {
         $questionRelatedObjectives = 'test';

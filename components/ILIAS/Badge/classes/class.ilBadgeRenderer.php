@@ -19,9 +19,6 @@
 use ILIAS\Badge\Tile;
 use ILIAS\UI\Renderer;
 
-/**
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- */
 class ilBadgeRenderer
 {
     private readonly ilLanguage $lng;
@@ -31,8 +28,8 @@ class ilBadgeRenderer
     private readonly ilBadge $badge;
 
     public function __construct(
-        ilBadgeAssignment $assignment = null,
-        ilBadge $badge = null
+        ?ilBadgeAssignment $assignment = null,
+        ?ilBadge $badge = null
     ) {
         global $DIC;
 

@@ -50,6 +50,10 @@ interface Factory
      *     3: >
      *         Text Input MUST NOT be used for letter-only input, an Alphabet Field
      *         is to be used instead.
+     *     4: >
+     *         If withoutStripTags is set, the consumer MUST make sure the value
+     *         is proberly sanitized before outputing it.
+     *
      *   interaction:
      *     1: >
      *         Text Input MUST limit the number of characters, if a certain length
@@ -450,6 +454,9 @@ interface Factory
      *     2: >
      *       Radios MAY also be used to select between two options
      *       where one is not automatically the inverse of the other
+     *     3: >
+     *         If withoutStripTags is set, the consumer MUST make sure the value
+     *         is proberly sanitized before outputing it.
      *   wording:
      *     1: Each option MUST be labeled.
      *     2: The options' labels MUST state something positive.
@@ -607,7 +614,7 @@ interface Factory
         UploadHandler $handler,
         string $label,
         ?string $byline = null,
-        FormInput $metadata_input = null
+        ?FormInput $metadata_input = null
     ): File;
 
     /**
@@ -711,9 +718,9 @@ interface Factory
      * ---
      * @param string      $label
      * @param string|null $byline
-     * @return \ILIAS\UI\Component\Input\Field\ColorPicker
+     * @return \ILIAS\UI\Component\Input\Field\ColorSelect
      */
-    public function colorPicker(string $label, ?string $byline = null): ColorPicker;
+    public function colorSelect(string $label, ?string $byline = null): ColorSelect;
 
     /**
      * ---
@@ -755,7 +762,7 @@ interface Factory
      * @param string|null      $byline
      * @return \ILIAS\UI\Component\Input\Field\Markdown
      */
-    public function markdown(MarkdownRenderer $md_renderer, string $label, string $byline = null): Markdown;
+    public function markdown(MarkdownRenderer $md_renderer, string $label, ?string $byline = null): Markdown;
 
     /**
      * ---
