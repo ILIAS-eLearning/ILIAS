@@ -2245,7 +2245,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         );
         $modal = $this->uiFactory->modal()->roundtrip(
             $this->lng->txt('activate_only_current'),
-            [$this->uifactory->legacy()->content($form->getHTML()), $message]
+            [$this->uiFactory->legacy()->content($form->getHTML()), $message]
         )->withActionButtons([$submitBtn]);
         $action_button = $this->uiFactory->button()->standard($this->lng->txt('activate_post'), '#')->withOnClick(
             $modal->getShowSignal()
@@ -5613,7 +5613,7 @@ EOD
 
                     $modalTemplate->setVariable('FORM_ACTION', $url);
 
-                    $content = $this->uifactory->legacy()->content($modalTemplate->get());
+                    $content = $this->uiFactory->legacy()->content($modalTemplate->get());
                     $submitBtn = $this->uiFactory->button()->primary(
                         $this->lng->txt('submit'),
                         '#'
