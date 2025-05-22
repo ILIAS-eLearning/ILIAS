@@ -142,10 +142,9 @@ class ilObjSCORMTracking
         }
 
         // update status
-        // if ($b_updateStatus == true) {
-        // include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-        // ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
-        // }
+        if ($b_updateStatus === true) {
+            ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
+        }
 
         return true;
     }
@@ -220,8 +219,8 @@ class ilObjSCORMTracking
         //end sync access number and time in read event table
 
         // update learning progress
-        if ($new_global_status != null) {
-            ilLPStatus::writeStatus($packageId, $userId, $new_global_status, (int) $data->percentageCompleted);
+        if ($new_global_status !== null) {
+            ilLPStatusWrapper::_updateStatus($packageId, $userId);
 
             //			here put code for soap to MaxCMS e.g. when if($saved_global_status != $new_global_status)
         }

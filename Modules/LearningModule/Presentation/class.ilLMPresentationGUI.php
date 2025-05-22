@@ -1691,6 +1691,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         }
 
         $this->setContentStyles();
+        $this->tpl->addCss(ilObjStyleSheet::getContentPrintStyle());
 
         $tpl = new ilTemplate("tpl.lm_print_view.html", true, true, "Modules/LearningModule");
 
@@ -1705,6 +1706,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $glossary_links = array();
         $output_header = false;
         $media_links = array();
+        $last_page_title = "";
 
         // get header and footer
         if ($this->lm->getFooterPage() > 0 && !$this->lm->getHideHeaderFooterPrint()) {
@@ -1808,8 +1810,10 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                     $chapter_title = $chap->_getPresentationTitle(
                         $node["obj_id"],
+                        ilLMObject::CHAPTER_TITLE,
                         $this->lm->isActiveNumbering(),
                         (bool) $this->lm_set->get("time_scheduled_page_activation"),
+                        false,
                         0,
                         $this->lang
                     );
@@ -1861,7 +1865,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     $page_object_gui->setOutputMode("print");
                     $page_object_gui->setPresentationTitle("");
 
-                    if ($this->lm->getPageHeader() == ilLMObject::PAGE_TITLE || ($node["free"] ?? false) === true) {
+                    // if ($this->lm->getPageHeader() == ilLMObject::PAGE_TITLE || ($node["free"] ?? false) === true) {
+                    if (true) {
                         $page_title = ilLMPageObject::_getPresentationTitle(
                             $lm_pg_obj->getId(),
                             $this->lm->getPageHeader(),
@@ -1872,6 +1877,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             $this->lang
                         );
 
+                        if ($this->lm->getPageHeader() === ilLMObject::CHAPTER_TITLE) {
+                            // remove the suffic (x/n)
+                            $page_title = trim(substr($page_title, 0, strrpos($page_title, " ")));
+                        }
+
                         // prevent page title after chapter title
                         // that have the same content
                         if ($this->lm->isActiveNumbering()) {
@@ -1881,9 +1891,10 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             ));
                         }
 
-                        if ($page_title != $chapter_title) {
+                        if ($page_title != $chapter_title && $page_title !== $last_page_title) {
                             $page_object_gui->setPresentationTitle($page_title);
                         }
+                        $last_page_title = $page_title;
                     }
 
                     // handle header / footer
