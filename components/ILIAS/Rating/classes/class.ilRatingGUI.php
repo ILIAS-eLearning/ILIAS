@@ -585,7 +585,7 @@ class ilRatingGUI
             );
 
             $popover = $f->popover()->standard(
-                $f->legacy($this->renderDetails("rtov_", $may_rate, $categories, $a_onclick))
+                $f->legacy()->content($this->renderDetails("rtov_", $may_rate, $categories, $a_onclick))
             );
             $button = $button->withOnClick($popover->getShowSignal());
             $button = $button->withHelpTopics(
