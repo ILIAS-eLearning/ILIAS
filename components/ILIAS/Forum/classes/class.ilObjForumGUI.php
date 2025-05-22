@@ -4597,7 +4597,7 @@ EOD
             return true;
         }
 
-        if ($this->isParentObjectCrsOrGrp()) {
+        if ($this->isParentObjectCrsOrGrp() && $this->objProperties->getNotificationType() === 'per_user') {
             $frm_noti = new ilForumNotification($this->object->getRefId());
             $frm_noti->setUserId($this->user->getId());
 
