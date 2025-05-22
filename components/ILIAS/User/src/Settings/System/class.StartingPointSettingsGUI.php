@@ -18,36 +18,31 @@
 
 declare(strict_types=1);
 
-use ILIAS\User\UserGUIRequest;
+namespace ILIAS\User\Settings\System;
 
+use ILIAS\User\UserGUIRequest;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer;
 
-/**
- * Class ilUserStartingPointGUI
- *
- * @author Jesús López <lopez@leifos.com>
- * @ilCtrl_Calls ilUserStartingPointGUI:
- */
-class ilUserStartingPointGUI
+class StartingPointSettingsGUI
 {
-    private ilLogger $log;
+    private \ilLogger $log;
     private Language $lng;
-    private ilSetting $settings;
-    private ilGlobalTemplateInterface $tpl;
-    private ilToolbarGUI $toolbar;
-    private ilTabsGUI $tabs;
-    private ilCtrl $ctrl;
-    private ilTree $tree;
-    private ilObjUser $user;
-    private ilDBInterface $db;
-    private ilRbacReview $rbac_review;
-    private ilRbacSystem $rbac_system;
+    private \ilSetting $settings;
+    private \ilGlobalTemplateInterface $tpl;
+    private \ilToolbarGUI $toolbar;
+    private \ilTabsGUI $tabs;
+    private \ilCtrl $ctrl;
+    private \ilTree $tree;
+    private \ilObjUser $user;
+    private \ilDBInterface $db;
+    private \ilRbacReview $rbac_review;
+    private \ilRbacSystem $rbac_system;
     private UIFactory $ui_factory;
     private Renderer $ui_renderer;
     private UserGUIRequest $user_request;
-    private ilUserStartingPointRepository $starting_point_repository;
+    private \ilUserStartingPointRepository $starting_point_repository;
 
     private int $parent_ref_id;
 
@@ -56,7 +51,7 @@ class ilUserStartingPointGUI
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->log = ilLoggerFactory::getLogger("user");
+        $this->log = \ilLoggerFactory::getLogger("user");
         $this->lng = $DIC['lng'];
         $this->settings = $DIC['ilSetting'];
         $this->tpl = $DIC['tpl'];
@@ -75,7 +70,7 @@ class ilUserStartingPointGUI
             $DIC->refinery()
         );
 
-        $this->starting_point_repository = new ilUserStartingPointRepository(
+        $this->starting_point_repository = new \ilUserStartingPointRepository(
             $this->user,
             $this->db,
             $DIC->logger(),
@@ -114,7 +109,7 @@ class ilUserStartingPointGUI
             )
         );
 
-        $tbl = new ilUserRoleStartingPointTableGUI(
+        $tbl = new \ilUserRoleStartingPointTableGUI(
             $this,
             $this->starting_point_repository,
             $this->rbac_review,
@@ -125,28 +120,28 @@ class ilUserStartingPointGUI
         $this->tpl->setContent($tbl->getHTML());
     }
 
-    public function initUserStartingPointForm(?ilPropertyFormGUI $form = null): void
+    public function initUserStartingPointForm(?\ilPropertyFormGUI $form = null): void
     {
-        if (!($form instanceof ilPropertyFormGUI)) {
+        if (!($form instanceof \ilPropertyFormGUI)) {
             $form = $this->getUserStartingPointForm();
         }
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function initRoleStartingPointForm(?ilPropertyFormGUI $form = null): void
+    public function initRoleStartingPointForm(?\ilPropertyFormGUI $form = null): void
     {
-        if (!($form instanceof ilPropertyFormGUI)) {
+        if (!($form instanceof \ilPropertyFormGUI)) {
             $form = $this->getRoleStartingPointForm();
         }
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function getUserStartingPointForm(): ilPropertyFormGUI
+    protected function getUserStartingPointForm(): \ilPropertyFormGUI
     {
-        $form = new ilPropertyFormGUI();
+        $form = new \ilPropertyFormGUI();
 
         // starting point: personal
-        $startp = new ilCheckboxInputGUI($this->lng->txt('user_chooses_starting_page'), 'usr_start_pers');
+        $startp = new \ilCheckboxInputGUI($this->lng->txt('user_chooses_starting_page'), 'usr_start_pers');
         $startp->setInfo($this->lng->txt('adm_user_starting_point_personal_info'));
         $startp->setChecked($this->starting_point_repository->isPersonalStartingPointEnabled());
 
@@ -158,10 +153,7 @@ class ilUserStartingPointGUI
         return $form;
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
-    protected function getRoleStartingPointForm(): ilPropertyFormGUI
+    protected function getRoleStartingPointForm(): \ilPropertyFormGUI
     {
         if (!$this->rbac_system->checkAccess('write', $this->parent_ref_id)) {
             $this->error->raiseError(
@@ -169,7 +161,7 @@ class ilUserStartingPointGUI
                 $this->error->FATAL
             );
         }
-        $form = new ilPropertyFormGUI();
+        $form = new \ilPropertyFormGUI();
         $this->ctrl->saveParameter($this, ['spid']);
 
         $starting_point_id = $this->user_request->getStartingPointId();
@@ -197,7 +189,7 @@ class ilUserStartingPointGUI
         return $form;
     }
 
-    private function getCurrentStartingPointOrNullForStartingPointForm(?int $starting_point_id): ?ilUserStartingPoint
+    private function getCurrentStartingPointOrNullForStartingPointForm(?int $starting_point_id): ?\ilUserStartingPoint
     {
         if ($starting_point_id === null) {
             return null;
@@ -208,7 +200,7 @@ class ilUserStartingPointGUI
         );
     }
 
-    private function getCurrentTypeForStartingPointForm(?ilUserStartingPoint $starting_point): ?int
+    private function getCurrentTypeForStartingPointForm(?\ilUserStartingPoint $starting_point): ?int
     {
         if ($starting_point === null) {
             return null;
@@ -217,7 +209,7 @@ class ilUserStartingPointGUI
         return $starting_point->getStartingPointType();
     }
 
-    private function getFormTypeSpecificStartingPointFormParts(?int $spoint_id, ?int $req_role_id): Generator
+    private function getFormTypeSpecificStartingPointFormParts(?int $spoint_id, ?int $req_role_id): \Generator
     {   //edit no default
         if ($spoint_id === null) {
             yield $this->getCreateFormSpecificInputs();
@@ -226,31 +218,31 @@ class ilUserStartingPointGUI
         }
     }
 
-    private function getCreateFormSpecificInputs(): ilRadioGroupInputGUI
+    private function getCreateFormSpecificInputs(): \ilRadioGroupInputGUI
     {
         $roles = $this->starting_point_repository->getGlobalRolesWithoutStartingPoint();
 
 
         // role type
-        $radg = new ilRadioGroupInputGUI($this->lng->txt('role'), 'role_type');
+        $radg = new \ilRadioGroupInputGUI($this->lng->txt('role'), 'role_type');
         $radg->setValue('1');
         if ($roles !== []) {
             $radg->setValue('0');
-            $op1 = new ilRadioOption($this->lng->txt('user_global_role'), '0');
+            $op1 = new \ilRadioOption($this->lng->txt('user_global_role'), '0');
             $radg->addOption($op1);
 
             $role_options = [];
             foreach ($roles as $role) {
                 $role_options[$role['id']] = $role['title'];
             }
-            $si_roles = new ilSelectInputGUI($this->lng->txt('roles_without_starting_point'), 'role');
+            $si_roles = new \ilSelectInputGUI($this->lng->txt('roles_without_starting_point'), 'role');
             $si_roles->setOptions($role_options);
             $op1->addSubItem($si_roles);
         }
 
-        $op2 = new ilRadioOption($this->lng->txt('user_local_role'), '1');
+        $op2 = new \ilRadioOption($this->lng->txt('user_local_role'), '1');
         $radg->addOption($op2);
-        $role_search = new ilRoleAutoCompleteInputGUI('', 'role_search', $this, 'addRoleAutoCompleteObject');
+        $role_search = new \ilRoleAutoCompleteInputGUI('', 'role_search', $this, 'addRoleAutoCompleteObject');
         $role_search->setSize(40);
         $op2->addSubItem($role_search);
         return $radg;
@@ -260,26 +252,26 @@ class ilUserStartingPointGUI
     {
         $title = $this->lng->txt('default');
         if ($spoint_id !== $this->starting_point_repository->getDefaultStartingPointID()) {
-            $role = new ilObjRole($req_role_id);
+            $role = new \ilObjRole($req_role_id);
             $title = $role->getTitle();
         }
 
         $inputs = [];
-        $inputs[0] = new ilNonEditableValueGUI($this->lng->txt('editing_this_role'), 'role_disabled');
+        $inputs[0] = new \ilNonEditableValueGUI($this->lng->txt('editing_this_role'), 'role_disabled');
         $inputs[0]->setValue($title);
 
-        $inputs[1] = new ilHiddenInputGUI('role');
+        $inputs[1] = new \ilHiddenInputGUI('role');
         $inputs[1]->setValue((string) $req_role_id);
 
-        $inputs[2] = new ilHiddenInputGUI('start_point_id');
+        $inputs[2] = new \ilHiddenInputGUI('start_point_id');
         $inputs[2]->setValue((string) $spoint_id);
 
         return $inputs;
     }
 
-    private function getStartingPointSelectionInput(?ilUserStartingPoint $st_point): ilRadioGroupInputGUI
+    private function getStartingPointSelectionInput(?\ilUserStartingPoint $st_point): \ilRadioGroupInputGUI
     {
-        $si = new ilRadioGroupInputGUI($this->lng->txt('adm_user_starting_point'), 'start_point');
+        $si = new \ilRadioGroupInputGUI($this->lng->txt('adm_user_starting_point'), 'start_point');
         $si->setRequired(true);
         $si->setInfo($this->lng->txt('adm_user_starting_point_info'));
         $valid = array_keys($this->starting_point_repository->getPossibleStartingPoints());
@@ -295,18 +287,18 @@ class ilUserStartingPointGUI
     private function getStartingPointSelectionOption(
         int $value,
         string $caption,
-        ?ilUserStartingPoint $st_point,
+        ?\ilUserStartingPoint $st_point,
         array $valid
-    ): ilRadioOption {
-        $opt = new ilRadioOption($this->lng->txt($caption), (string) $value);
+    ): \ilRadioOption {
+        $opt = new \ilRadioOption($this->lng->txt($caption), (string) $value);
 
-        if ($value === ilUserStartingPointRepository::START_PD_CALENDAR) {
+        if ($value === \ilUserStartingPointRepository::START_PD_CALENDAR) {
             $opt->addSubItem(
                 $this->getCalenderSubInputs($st_point)
             );
         }
 
-        if ($value === ilUserStartingPointRepository::START_REPOSITORY_OBJ) {
+        if ($value === \ilUserStartingPointRepository::START_REPOSITORY_OBJ) {
             $opt->addSubItem(
                 $this->getRepositoryObjectInput($st_point)
             );
@@ -319,26 +311,26 @@ class ilUserStartingPointGUI
         return $opt;
     }
 
-    private function getCalenderSubInputs(?ilUserStartingPoint $st_point): ilRadioGroupInputGUI
+    private function getCalenderSubInputs(?\ilUserStartingPoint $st_point): \ilRadioGroupInputGUI
     {
-        $default_cal_view = new ilRadioGroupInputGUI($this->lng->txt('cal_def_view'), 'user_calendar_view');
+        $default_cal_view = new \ilRadioGroupInputGUI($this->lng->txt('cal_def_view'), 'user_calendar_view');
         $default_cal_view->setRequired(true);
 
-        $day = new ilRadioOption($this->lng->txt('day'), (string) ilCalendarSettings::DEFAULT_CAL_DAY);
+        $day = new \ilRadioOption($this->lng->txt('day'), (string) \ilCalendarSettings::DEFAULT_CAL_DAY);
         $default_cal_view->addOption($day);
-        $week = new ilRadioOption($this->lng->txt('week'), (string) ilCalendarSettings::DEFAULT_CAL_WEEK);
+        $week = new \ilRadioOption($this->lng->txt('week'), (string) \ilCalendarSettings::DEFAULT_CAL_WEEK);
         $default_cal_view->addOption($week);
-        $month = new ilRadioOption($this->lng->txt('month'), (string) ilCalendarSettings::DEFAULT_CAL_MONTH);
+        $month = new \ilRadioOption($this->lng->txt('month'), (string) \ilCalendarSettings::DEFAULT_CAL_MONTH);
         $default_cal_view->addOption($month);
 
-        $list = new ilRadioOption($this->lng->txt('cal_list'), (string) ilCalendarSettings::DEFAULT_CAL_LIST);
+        $list = new \ilRadioOption($this->lng->txt('cal_list'), (string) \ilCalendarSettings::DEFAULT_CAL_LIST);
 
-        $cal_periods = new ilSelectInputGUI($this->lng->txt('cal_list'), 'user_cal_period');
+        $cal_periods = new \ilSelectInputGUI($this->lng->txt('cal_list'), 'user_cal_period');
         $cal_periods->setOptions([
-            ilCalendarAgendaListGUI::PERIOD_DAY => '1 ' . $this->lng->txt('day'),
-            ilCalendarAgendaListGUI::PERIOD_WEEK => '1 ' . $this->lng->txt('week'),
-            ilCalendarAgendaListGUI::PERIOD_MONTH => '1 ' . $this->lng->txt('month'),
-            ilCalendarAgendaListGUI::PERIOD_HALF_YEAR => '6 ' . $this->lng->txt('months')
+            \ilCalendarAgendaListGUI::PERIOD_DAY => '1 ' . $this->lng->txt('day'),
+            \ilCalendarAgendaListGUI::PERIOD_WEEK => '1 ' . $this->lng->txt('week'),
+            \ilCalendarAgendaListGUI::PERIOD_MONTH => '1 ' . $this->lng->txt('month'),
+            \ilCalendarAgendaListGUI::PERIOD_HALF_YEAR => '6 ' . $this->lng->txt('months')
         ]);
         $cal_periods->setRequired(true);
 
@@ -353,9 +345,9 @@ class ilUserStartingPointGUI
         return $default_cal_view;
     }
 
-    private function getRepositoryObjectInput(?ilUserStartingPoint $st_point): ilTextInputGUI
+    private function getRepositoryObjectInput(?\ilUserStartingPoint $st_point): \ilTextInputGUI
     {
-        $repobj_id = new ilTextInputGUI($this->lng->txt('adm_user_starting_point_ref_id'), 'start_object');
+        $repobj_id = new \ilTextInputGUI($this->lng->txt('adm_user_starting_point_ref_id'), 'start_object');
         $repobj_id->setRequired(true);
         $repobj_id->setSize(5);
 
@@ -365,10 +357,10 @@ class ilUserStartingPointGUI
         }
 
         if (isset($start_ref_id)) {
-            $start_obj_id = ilObject::_lookupObjId($start_ref_id);
+            $start_obj_id = \ilObject::_lookupObjId($start_ref_id);
             if ($start_obj_id) {
-                $repobj_id->setInfo($this->lng->txt('obj_' . ilObject::_lookupType($start_obj_id)) .
-                    ': ' . ilObject::_lookupTitle($start_obj_id));
+                $repobj_id->setInfo($this->lng->txt('obj_' . \ilObject::_lookupType($start_obj_id)) .
+                    ': ' . \ilObject::_lookupTitle($start_obj_id));
             }
         }
 
@@ -377,7 +369,7 @@ class ilUserStartingPointGUI
 
     public function addRoleAutoCompleteObject(): void
     {
-        ilRoleAutoCompleteInputGUI::echoAutoCompleteList();
+        \ilRoleAutoCompleteInputGUI::echoAutoCompleteList();
     }
 
     protected function saveUserStartingPoint(): void
@@ -426,14 +418,14 @@ class ilUserStartingPointGUI
 
         if ($form->getInput('role_type') === '1'
             && ($role_id === null || $role_id < 1)) {
-            $parser = new ilQueryParser($form->getInput('role_search'));
+            $parser = new \ilQueryParser($form->getInput('role_search'));
 
             // TODO: Handle minWordLength
             $parser->setMinWordLength(1);
-            $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
+            $parser->setCombination(\ilQueryParser::QP_COMBINATION_AND);
             $parser->parse();
 
-            $object_search = new ilLikeObjectSearch($parser);
+            $object_search = new \ilLikeObjectSearch($parser);
             $object_search->setFilter(['role']);
             $res = $object_search->performSearch();
 
@@ -479,8 +471,8 @@ class ilUserStartingPointGUI
         $cal_period = (int) $form->getInput('user_cal_period');
 
 
-        if ($starting_point->getStartingPointType() === ilUserStartingPointRepository::START_REPOSITORY_OBJ
-            && (ilObject::_lookupObjId($obj_id) === 0 || $this->tree->isDeleted($obj_id))) {
+        if ($starting_point->getStartingPointType() === \ilUserStartingPointRepository::START_REPOSITORY_OBJ
+            && (\ilObject::_lookupObjId($obj_id) === 0 || $this->tree->isDeleted($obj_id))) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('obj_ref_id_not_exist'), true);
             $form->setValuesByPost();
             $this->tpl->setContent($form->getHTML());
@@ -488,7 +480,7 @@ class ilUserStartingPointGUI
         }
         $starting_point->setStartingObject($obj_id);
 
-        if ($starting_point->getStartingPointType() === ilUserStartingPointRepository::START_PD_CALENDAR) {
+        if ($starting_point->getStartingPointType() === \ilUserStartingPointRepository::START_PD_CALENDAR) {
             $starting_point->setCalendarView($cal_view);
             $starting_point->setCalendarPeriod($cal_period);
         }
@@ -509,18 +501,18 @@ class ilUserStartingPointGUI
         string $start_point,
         string $start_object
     ): void {
-        $parser = new ilQueryParser($role_search);
+        $parser = new \ilQueryParser($role_search);
         $parser->setMinWordLength(1);
-        $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
+        $parser->setCombination(\ilQueryParser::QP_COMBINATION_AND);
         $parser->parse();
 
-        $object_search = new ilLikeObjectSearch($parser);
+        $object_search = new \ilLikeObjectSearch($parser);
         $object_search->setFilter(['role']);
         $res = $object_search->performSearch();
 
         $entries = $res->getEntries();
 
-        $table = new ilRoleSelectionTableGUI($this, 'saveStartingPoint');
+        $table = new \ilRoleSelectionTableGUI($this, 'saveStartingPoint');
         $table->setLimit(9999);
         $table->disable('sort');
         $table->addHiddenInput('role_search', $role_search);
@@ -538,7 +530,7 @@ class ilUserStartingPointGUI
     public function saveOrder(): void
     {
         if (!$this->rbac_system->checkAccess('write', $this->parent_ref_id)) {
-            throw new ilPermissionException($this->lng->txt('msg_no_perm_read'));
+            throw new \ilPermissionException($this->lng->txt('msg_no_perm_read'));
         }
 
         $positions = $this->user_request->getPositions();
@@ -553,7 +545,7 @@ class ilUserStartingPointGUI
     protected function deleteStartingPoint(): void
     {
         if (!$this->rbac_system->checkAccess('write', $this->parent_ref_id)) {
-            throw new ilPermissionException($this->lng->txt('msg_no_perm_read'));
+            throw new \ilPermissionException($this->lng->txt('msg_no_perm_read'));
         }
 
         $spoint_id = $this->user_request->getStartingPointId();

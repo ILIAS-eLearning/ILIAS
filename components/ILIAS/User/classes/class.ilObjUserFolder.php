@@ -527,7 +527,7 @@ class ilObjUserFolder extends ilObject
 
         $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
         $fs->create();
-        $path = $fs->getAbsolutePath() . "/";
+        $path = $fs->getAbsolutePath() . '/';
 
         ilFileUtils::moveUploadedFile($a_tmp_name, $a_lang, $path . $a_lang);
 

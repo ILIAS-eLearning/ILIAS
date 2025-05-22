@@ -19,23 +19,32 @@
 declare(strict_types=1);
 
 use ILIAS\User\UserGUIRequest;
-use ILIAS\User\Administration\Tabs;
-use ILIAS\User\Profile\Prompt\SettingsGUI;
+use ILIAS\User\Presentation\AdminTabs;
+use ILIAS\User\Settings\System\AdminSettingsGUI;
+use ILIAS\User\Settings\System\UserSettingsGUI;
+use ILIAS\User\Settings\System\NewAccountMailSettingsGUI;
+use ILIAS\User\Settings\System\StartingPointSettingsGUI;
+use ILIAS\User\Profile\Fields\StandardFieldsGUI;
+use ILIAS\User\Profile\Fields\CustomFieldsGUI;
+use ILIAS\User\Profile\Prompt\SettingsGUI as ProfileSettingsGUI;
 use ILIAS\User\Profile\Prompt\Repository as PromptRepository;
-use ILIAS\User\Profile\ChangeListeners\UserFieldAttributesChangeListener;
-use ILIAS\User\Profile\ChangeListeners\InterestedUserFieldChangeListener;
-use ILIAS\User\Profile\ChangeListeners\ChangedUserFieldAttribute;
-use ILIAS\DI\Container as DIContainer;
+use ILIAS\Filesystem\Util\Archive\LegacyArchives;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\FileUpload;
-use ILIAS\Authentication\Password\LocalUserPasswordManager;
+
+;
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
  * @author       Sascha Hofmann <saschahofmann@gmx.de>
  * @author       Helmut Schottmüller <helmut.schottmueller@mac.com>
- * @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilUserTableGUI
- * @ilCtrl_Calls ilObjUserFolderGUI: ilCustomUserFieldsGUI, ilRepositorySearchGUI, ilUserStartingPointGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilUserTableGUI, ilRepositorySearchGUI, ilExportGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\System\AdminSettingsGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\System\UserSettingsGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\System\NewAccountMailSettingsGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\System\StartingPointSettingsGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Fields\StandardFieldsGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Fields\CustomFieldsGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Prompt\SettingsGUI
  */
 class ilObjUserFolderGUI extends ilObjectGUI
@@ -60,23 +69,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
     private array $requested_ids; // Missing array type.
     private string $selected_action;
     private UserGUIRequest $user_request;
-    private Tabs $admin_tabs;
+    private AdminTabs $admin_tabs;
     private int $user_owner_id = 0;
-    private int $confirm_change = 0;
     private ilDBInterface $db;
+    private \ilMustacheFactory $mail_mustache_factory;
     private ilLogger $log;
     private ilUserSettingsConfig $user_settings_config;
-    private bool $usrFieldChangeListenersAccepted = false;
-
-    /**
-     * @deprecated
-     * 2023-06-06 sk: We just need to have this. Do not use!
-     */
-    private DIContainer $dic;
-
     private ilAppEventHandler $event;
     private Filesystem $filesystem;
     private FileUpload $upload;
+    private LegacyArchives $archives;
 
     public function __construct(
         $a_data,
@@ -85,13 +87,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
     ) {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
-        $this->dic = $DIC;
 
         $this->event = $DIC['ilAppEventHandler'];
         $this->filesystem = $DIC->filesystem()->storage();
         $this->upload = $DIC['upload'];
         $this->db = $DIC['ilDB'];
-        $this->dic->upload();
+        $this->mail_mustache_factory = $DIC->mail()->mustacheFactory();
+        $this->archives = $DIC->legacyArchives();
 
         $this->type = 'usrf';
         parent::__construct(
@@ -104,12 +106,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('search');
         $this->lng->loadLanguageModule('user');
         $this->lng->loadLanguageModule('tos');
+        $this->lng->loadLanguageModule('ps');
+        $this->lng->loadLanguageModule('registration');
+        $this->lng->loadLanguageModule('tos');
+        $this->lng->loadLanguageModule('dpro');
+        $this->lng->loadLanguageModule('ui');
+        $this->lng->loadLanguageModule('mail');
+        $this->lng->loadLanguageModule('meta');
+
         $this->ctrl->saveParameter(
             $this,
             'letter'
         );
 
-        $this->admin_tabs = new Tabs(
+        $this->admin_tabs = new AdminTabs(
             $this->tabs_gui,
             $this->lng,
             $this->ctrl,
@@ -164,7 +174,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->prepareOutput();
 
         switch ($next_class) {
-            case 'ilusertablegui':
+            case strtolower(ilUserTableGUI::class):
                 $u_table = new ilUserTableGUI(
                     $this,
                     'view'
@@ -176,13 +186,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 );
                 $this->ctrl->forwardCommand($u_table);
                 break;
-
-            case 'ilpermissiongui':
-                $perm_gui = new ilPermissionGUI($this);
-                $this->ctrl->forwardCommand($perm_gui);
-                break;
-
-            case 'ilrepositorysearchgui':
+            case strtolower(ilRepositorySearchGUI::class):
                 if (!$this->access->checkRbacOrPositionPermissionAccess(
                     'read',
                     \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
@@ -204,39 +208,76 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     $this->getUserMultiCommands(true)
                 );
                 $user_search->addUserAccessFilterCallable([$this, 'searchUserAccessFilterCallable']);
-                $this->tabs_gui->setTabActive('search_user_extended');
                 $this->ctrl->setReturn(
                     $this,
                     'view'
                 );
                 $this->ctrl->forwardCommand($user_search);
                 break;
-
-            case strtolower(ilCustomUserFieldsGUI::class):
+            case strtolower(AdminSettingsGUI::class):
                 $this->raiseErrorOnMissingWrite();
-                $this->setSubTabs('settings');
-                $this->tabs_gui->activateSubTab('user_defined_fields');
-                $cf = new ilCustomUserFieldsGUI(
-                    $this->requested_ref_id,
-                    $this->user_request->getFieldId()
+                $this->ctrl->forwardCommand(
+                    new AdminSettingsGUI(
+                        $this->lng,
+                        $this->ctrl,
+                        $this->access,
+                        $this->settings,
+                        $this->tpl,
+                        $this->ui_factory,
+                        $this->ui_renderer,
+                        $this->refinery,
+                        $this->request
+                    )
                 );
-                $this->ctrl->forwardCommand($cf);
                 break;
-
-            case strtolower(ilUserStartingPointGUI::class):
+            case strtolower(UserSettingsGUI::class):
                 $this->raiseErrorOnMissingWrite();
-                $this->tabs_gui->setTabActive('settings');
-                $this->setSubTabs('settings');
-                $this->tabs_gui->activateSubTab('starting_points');
-                $cf = new ilUserStartingPointGUI($this->ref_id);
-                $this->ctrl->forwardCommand($cf);
+                $this->ctrl->forwardCommand(
+                    new UserSettingsGUI($this->ref_id)
+                );
                 break;
-
-            case strtolower(SettingsGUI::class):
+            case strtolower(NewAccountMailSettingsGUI::class):
                 $this->raiseErrorOnMissingWrite();
-                $this->tabs_gui->setTabActive('settings');
-                $this->setSubTabs('settings');
-                $this->tabs_gui->activateSubTab('user_profile_info');
+                $this->ctrl->forwardCommand(
+                    new NewAccountMailSettingsGUI(
+                        $this->lng,
+                        $this->ctrl,
+                        $this->access,
+                        $this->tpl,
+                        $this->mail_mustache_factory,
+                        $this->ui_factory,
+                        $this->ui_renderer,
+                        $this->refinery,
+                        $this->request
+                    )
+                );
+                break;
+            case strtolower(StartingPointSettingsGUI::class):
+                $this->raiseErrorOnMissingWrite();
+                $this->ctrl->forwardCommand(
+                    new StartingPointSettingsGUI($this->ref_id)
+                );
+                break;
+            case strtolower(StandardFieldsGUI::class):
+                $this->raiseErrorOnMissingWrite();
+                $this->ctrl->forwardCommand(
+                    new StandardFieldsGUI(
+                        $this->requested_ref_id,
+                        $this->user_request->getFieldId()
+                    )
+                );
+                break;
+            case strtolower(CustomFieldsGUI::class):
+                $this->raiseErrorOnMissingWrite();
+                $this->ctrl->forwardCommand(
+                    new CustomFieldsGUI(
+                        $this->requested_ref_id,
+                        $this->user_request->getFieldId()
+                    )
+                );
+                break;
+            case strtolower(ProfileSettingsGUI::class):
+                $this->raiseErrorOnMissingWrite();
                 $this->ctrl->forwardCommand(
                     new SettingsGUI(
                         $this->ctrl,
@@ -254,7 +295,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     )
                 );
                 break;
-
+            case strtolower(ilPermissionGUI::class):
+                $perm_gui = new ilPermissionGUI($this);
+                $this->ctrl->forwardCommand($perm_gui);
+                break;
             default:
                 if (!$cmd) {
                     $cmd = 'view';
@@ -301,7 +345,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $utab->resetOffset();
         $utab->writeFilterToSession();
         $this->viewObject();
-        $this->tabs_gui->activateTab('usrf');
     }
 
     /**
@@ -828,12 +871,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'));
             $this->viewObject();
             return false;
-        }
-
-        if (!$a_from_search) {
-            $this->tabs_gui->activateTab('obj_usrf');
-        } else {
-            $this->tabs_gui->activateTab('search_user_extended');
         }
 
         if (strcmp(
@@ -1488,7 +1525,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 // Workaround: unzip function needs full path to file. Should be replaced once Filesystem has own unzip implementation
                 $full_path = ilFileUtils::getDataDir() . '/user_import/usr_'
                     . $this->user->getId() . '_' . session_id() . '/' . $file_name;
-                $this->dic->legacyArchives()->unzip($full_path);
+                $this->archives->unzip($full_path);
 
                 $xml_file = null;
                 $file_list = $this->filesystem->listContents($import_dir);
@@ -1742,918 +1779,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    protected function generalSettingsObject(): void
-    {
-        $this->raiseErrorOnMissingWrite();
-        $this->initFormGeneralSettings();
-
-        $aset = ilUserAccountSettings::getInstance();
-
-        $show_blocking_time_in_days = $this->settings->get('loginname_change_blocking_time') / 86400;
-        $show_blocking_time_in_days = (float) $show_blocking_time_in_days;
-
-        $security = ilSecuritySettings::_getInstance();
-
-        $settings = [
-            'lua' => $aset->isLocalUserAdministrationEnabled(),
-            'lrua' => $aset->isUserAccessRestricted(),
-            'allow_change_loginname' => (bool) $this->settings->get('allow_change_loginname'),
-            'create_history_loginname' => (bool) $this->settings->get('create_history_loginname'),
-            'reuse_of_loginnames' => (bool) $this->settings->get('reuse_of_loginnames'),
-            'loginname_change_blocking_time' => $show_blocking_time_in_days,
-            'user_reactivate_code' => (int) $this->settings->get('user_reactivate_code'),
-            'user_own_account' => (int) $this->settings->get('user_delete_own_account'),
-            'user_own_account_email' => $this->settings->get('user_delete_own_account_email'),
-            'dpro_withdrawal_usr_deletion' => (bool) $this->settings->get('dpro_withdrawal_usr_deletion'),
-            'tos_withdrawal_usr_deletion' => (bool) $this->settings->get('tos_withdrawal_usr_deletion'),
-            'login_max_attempts' => $security->getLoginMaxAttempts() > 0 ? $security->getLoginMaxAttempts() : '',
-            'ps_prevent_simultaneous_logins' => (int) $security->isPreventionOfSimultaneousLoginsEnabled(),
-            'password_assistance' => (bool) $this->settings->get('password_assistance'),
-            'letter_avatars' => (int) $this->settings->get('letter_avatars'),
-            'password_change_on_first_login_enabled' => $security->isPasswordChangeOnFirstLoginEnabled() ? 1 : 0,
-            'password_max_age' => $security->getPasswordMaxAge()
-        ];
-
-        $passwordPolicySettings = $this->getPasswordPolicySettingsMap($security);
-        $this->form->setValuesByArray(
-            array_merge(
-                $settings,
-                $passwordPolicySettings,
-                ['pw_policy_hash' => md5(
-                    implode(
-                        '',
-                        $passwordPolicySettings
-                    )
-                )
-                ]
-            )
-        );
-
-        $this->tpl->setContent($this->form->getHTML());
-    }
-
-    private function getPasswordPolicySettingsMap(\ilSecuritySettings $security): array // Missing array type.
-    {
-        return [
-            'password_must_not_contain_loginame' => $security->getPasswordMustNotContainLoginnameStatus() ? 1 : 0,
-            'password_chars_and_numbers_enabled' => $security->isPasswordCharsAndNumbersEnabled() ? 1 : 0,
-            'password_special_chars_enabled' => $security->isPasswordSpecialCharsEnabled() ? 1 : 0,
-            'password_min_length' => $security->getPasswordMinLength(),
-            'password_max_length' => $security->getPasswordMaxLength(),
-            'password_ucase_chars_num' => $security->getPasswordNumberOfUppercaseChars(),
-            'password_lowercase_chars_num' => $security->getPasswordNumberOfLowercaseChars(),
-        ];
-    }
-
-    /**
-     * Save user account settings
-     */
-    public function saveGeneralSettingsObject(): void
-    {
-        $this->raiseErrorOnMissingWrite();
-        $this->initFormGeneralSettings();
-        if ($this->form->checkInput()) {
-            $valid = true;
-            if ($this->form->getInput('allow_change_loginname') === '1' &&
-               !is_numeric($this->form->getInput('loginname_change_blocking_time'))) {
-                $valid = false;
-                $this->form->getItemByPostVar('loginname_change_blocking_time')
-                           ->setAlert($this->lng->txt('loginname_change_blocking_time_invalidity_info'));
-            }
-
-            $security = ilSecuritySettings::_getInstance();
-
-            // account security settings
-            $security->setPasswordCharsAndNumbersEnabled(
-                (bool) $this->form->getInput('password_chars_and_numbers_enabled')
-            );
-            $security->setPasswordSpecialCharsEnabled(
-                (bool) $this->form->getInput('password_special_chars_enabled')
-            );
-            $security->setPasswordMinLength(
-                (int) $this->form->getInput('password_min_length')
-            );
-            $security->setPasswordMaxLength(
-                (int) $this->form->getInput('password_max_length')
-            );
-            $security->setPasswordNumberOfUppercaseChars(
-                (int) $this->form->getInput('password_ucase_chars_num')
-            );
-            $security->setPasswordNumberOfLowercaseChars(
-                (int) $this->form->getInput('password_lowercase_chars_num')
-            );
-            $security->setPasswordMaxAge(
-                (int) $this->form->getInput('password_max_age')
-            );
-            $security->setLoginMaxAttempts(
-                (int) $this->form->getInput('login_max_attempts')
-            );
-            $security->setPreventionOfSimultaneousLogins(
-                (bool) $this->form->getInput('ps_prevent_simultaneous_logins')
-            );
-            $security->setPasswordChangeOnFirstLoginEnabled(
-                (bool) $this->form->getInput('password_change_on_first_login_enabled')
-            );
-            $security->setPasswordMustNotContainLoginnameStatus(
-                (bool) $this->form->getInput('password_must_not_contain_loginame')
-            );
-
-            if ($security->validate($this->form) !== null) {
-                $valid = false;
-            }
-
-            if ($valid) {
-                $security->save();
-
-                ilUserAccountSettings::getInstance()->enableLocalUserAdministration((bool) $this->form->getInput('lua'));
-                ilUserAccountSettings::getInstance()->restrictUserAccess((bool) $this->form->getInput('lrua'));
-                ilUserAccountSettings::getInstance()->update();
-
-                $this->settings->set(
-                    'allow_change_loginname',
-                    $this->form->getInput('allow_change_loginname')
-                );
-                $this->settings->set(
-                    'create_history_loginname',
-                    $this->form->getInput('create_history_loginname')
-                );
-                $this->settings->set(
-                    'reuse_of_loginnames',
-                    $this->form->getInput('reuse_of_loginnames')
-                );
-                $save_blocking_time_in_seconds = (string) ((int) $this->form->getInput(
-                    'loginname_change_blocking_time'
-                ) * 86400);
-                $this->settings->set(
-                    'loginname_change_blocking_time',
-                    $save_blocking_time_in_seconds
-                );
-                $this->settings->set(
-                    'user_reactivate_code',
-                    $this->form->getInput('user_reactivate_code')
-                );
-
-                $this->settings->set(
-                    'user_delete_own_account',
-                    $this->form->getInput('user_own_account')
-                );
-                $this->settings->set(
-                    'user_delete_own_account_email',
-                    $this->form->getInput('user_own_account_email')
-                );
-                $this->settings->set(
-                    'dpro_withdrawal_usr_deletion',
-                    $this->form->getInput('dpro_withdrawal_usr_deletion') === '1' ? '1' : '0'
-                );
-                $this->settings->set(
-                    'tos_withdrawal_usr_deletion',
-                    $this->form->getInput('tos_withdrawal_usr_deletion') === '1' ? '1' : '0'
-                );
-
-                $this->settings->set(
-                    'password_assistance',
-                    $this->form->getInput('password_assistance')
-                );
-
-                $this->settings->set(
-                    'letter_avatars',
-                    $this->form->getInput('letter_avatars')
-                );
-
-                $requestPasswordReset = false;
-                if ($this->form->getInput('pw_policy_hash')) {
-                    $oldSettingsHash = $this->form->getInput('pw_policy_hash');
-                    $currentSettingsHash = md5(
-                        implode(
-                            '',
-                            $this->getPasswordPolicySettingsMap($security)
-                        )
-                    );
-                    $requestPasswordReset = ($oldSettingsHash !== $currentSettingsHash);
-                }
-
-                if ($requestPasswordReset) {
-                    $this->ctrl->redirect(
-                        $this,
-                        'askForUserPasswordReset'
-                    );
-                } else {
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
-                }
-            } else {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
-            }
-        } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
-        }
-        $this->form->setValuesByPost();
-        $this->tpl->setContent($this->form->getHTML());
-    }
-
-    protected function forceUserPasswordResetObject(): void
-    {
-        LocalUserPasswordManager::getInstance()->resetLastPasswordChangeForLocalUsers();
-        $this->lng->loadLanguageModule('ps');
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('ps_passwd_policy_change_force_user_reset_succ'), true);
-        $this->ctrl->redirect(
-            $this,
-            'generalSettings'
-        );
-    }
-
-    protected function askForUserPasswordResetObject(): void
-    {
-        $this->lng->loadLanguageModule('ps');
-
-        $this->tpl->setOnScreenMessage(
-            'question',
-            $this->lng->txt('ps_passwd_policy_changed_force_user_reset')
-        );
-
-        $this->toolbar->addComponent(
-            $this->ui_factory->button()->standard(
-                $this->lng->txt('yes'),
-                $this->ctrl->getLinkTargetByClass(self::class, 'forceUserPasswordReset')
-            )
-        );
-
-        $this->toolbar->addComponent(
-            $this->ui_factory->button()->standard(
-                $this->lng->txt('no'),
-                $this->ctrl->getLinkTargetByClass(self::class, 'generalSettings')
-            )
-        );
-    }
-
-    protected function initFormGeneralSettings(): void
-    {
-        $this->setSubTabs('settings');
-        $this->tabs_gui->setTabActive('settings');
-        $this->tabs_gui->setSubTabActive('general_settings');
-
-        $this->form = new ilPropertyFormGUI();
-        $this->form->setFormAction(
-            $this->ctrl->getFormAction(
-                $this,
-                'saveGeneralSettings'
-            )
-        );
-
-        $this->form->setTitle($this->lng->txt('general_settings'));
-
-        $lua = new ilCheckboxInputGUI(
-            $this->lng->txt('enable_local_user_administration'),
-            'lua'
-        );
-        $lua->setInfo($this->lng->txt('enable_local_user_administration_info'));
-        $lua->setValue('1');
-        $this->form->addItem($lua);
-
-        $lrua = new ilCheckboxInputGUI(
-            $this->lng->txt('restrict_user_access'),
-            'lrua'
-        );
-        $lrua->setInfo($this->lng->txt('restrict_user_access_info'));
-        $lrua->setValue('1');
-        $this->form->addItem($lrua);
-
-        $code = new ilCheckboxInputGUI(
-            $this->lng->txt('user_account_code_setting'),
-            'user_reactivate_code'
-        );
-        $code->setInfo($this->lng->txt('user_account_code_setting_info'));
-        $this->form->addItem($code);
-
-        $own = new ilCheckboxInputGUI(
-            $this->lng->txt('user_allow_delete_own_account'),
-            'user_own_account'
-        );
-        $this->form->addItem($own);
-        $own_email = new ilEMailInputGUI(
-            $this->lng->txt('user_delete_own_account_notification_email'),
-            'user_own_account_email'
-        );
-        $own->addSubItem($own_email);
-
-        $this->lng->loadLanguageModule('tos');
-        $this->lng->loadLanguageModule('dpro');
-        $this->form->addItem($this->checkbox('tos_withdrawal_usr_deletion'));
-        $this->form->addItem($this->checkbox('dpro_withdrawal_usr_deletion'));
-
-        $allow_client_maintenance = $this->settings->get(
-            'session_allow_client_maintenance',
-            (string) ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE
-        );
-
-        $this->lng->loadLanguageModule('ps');
-
-        $pass = new ilFormSectionHeaderGUI();
-        $pass->setTitle($this->lng->txt('ps_password_settings'));
-        $this->form->addItem($pass);
-
-        $check = new ilCheckboxInputGUI(
-            $this->lng->txt('ps_password_change_on_first_login_enabled'),
-            'password_change_on_first_login_enabled'
-        );
-        $check->setInfo($this->lng->txt('ps_password_change_on_first_login_enabled_info'));
-        $this->form->addItem($check);
-
-        $check = new ilCheckboxInputGUI(
-            $this->lng->txt('ps_password_must_not_contain_loginame'),
-            'password_must_not_contain_loginame'
-        );
-        $check->setInfo($this->lng->txt('ps_password_must_not_contain_loginame_info'));
-        $this->form->addItem($check);
-
-        $check = new ilCheckboxInputGUI(
-            $this->lng->txt('ps_password_chars_and_numbers_enabled'),
-            'password_chars_and_numbers_enabled'
-        );
-        //$check->setOptionTitle($this->lng->txt('ps_password_chars_and_numbers_enabled'));
-        $check->setInfo($this->lng->txt('ps_password_chars_and_numbers_enabled_info'));
-        $this->form->addItem($check);
-
-        $check = new ilCheckboxInputGUI(
-            $this->lng->txt('ps_password_special_chars_enabled'),
-            'password_special_chars_enabled'
-        );
-        //$check->setOptionTitle($this->lng->txt('ps_password_special_chars_enabled'));
-        $check->setInfo($this->lng->txt('ps_password_special_chars_enabled_info'));
-        $this->form->addItem($check);
-
-        $text = new ilNumberInputGUI(
-            $this->lng->txt('ps_password_min_length'),
-            'password_min_length'
-        );
-        $text->setInfo($this->lng->txt('ps_password_min_length_info'));
-        $text->setSize(1);
-        $text->setMaxLength(2);
-        $this->form->addItem($text);
-
-        $text = new ilNumberInputGUI(
-            $this->lng->txt('ps_password_max_length'),
-            'password_max_length'
-        );
-        $text->setInfo($this->lng->txt('ps_password_max_length_info'));
-        $text->setSize(2);
-        $text->setMaxLength(3);
-        $this->form->addItem($text);
-
-        $text = new ilNumberInputGUI(
-            $this->lng->txt('ps_password_uppercase_chars_num'),
-            'password_ucase_chars_num'
-        );
-        $text->setInfo($this->lng->txt('ps_password_uppercase_chars_num_info'));
-        $text->setMinValue(0);
-        $text->setSize(2);
-        $text->setMaxLength(3);
-        $this->form->addItem($text);
-
-        $text = new ilNumberInputGUI(
-            $this->lng->txt('ps_password_lowercase_chars_num'),
-            'password_lowercase_chars_num'
-        );
-        $text->setInfo($this->lng->txt('ps_password_lowercase_chars_num_info'));
-        $text->setMinValue(0);
-        $text->setSize(2);
-        $text->setMaxLength(3);
-        $this->form->addItem($text);
-
-        $text = new ilNumberInputGUI(
-            $this->lng->txt('ps_password_max_age'),
-            'password_max_age'
-        );
-        $text->setInfo($this->lng->txt('ps_password_max_age_info'));
-        $text->setSize(2);
-        $text->setMaxLength(3);
-        $this->form->addItem($text);
-
-        // password assistance
-        $cb = new ilCheckboxInputGUI(
-            $this->lng->txt('enable_password_assistance'),
-            'password_assistance'
-        );
-        $cb->setInfo($this->lng->txt('password_assistance_info'));
-        $this->form->addItem($cb);
-
-        $pass = new ilFormSectionHeaderGUI();
-        $pass->setTitle($this->lng->txt('ps_security_protection'));
-        $this->form->addItem($pass);
-
-        $text = new ilNumberInputGUI(
-            $this->lng->txt('ps_login_max_attempts'),
-            'login_max_attempts'
-        );
-        $text->setInfo($this->lng->txt('ps_login_max_attempts_info'));
-        $text->allowDecimals(false);
-        $text->setMinValue(1);
-        $text->setMaxValue(ilSecuritySettings::MAX_LOGIN_ATTEMPTS);
-        $text->setSize(1);
-        $text->setMaxLength(2);
-        $this->form->addItem($text);
-
-        // prevent login from multiple pcs at the same time
-        $objCb = new ilCheckboxInputGUI(
-            $this->lng->txt('ps_prevent_simultaneous_logins'),
-            'ps_prevent_simultaneous_logins'
-        );
-        $objCb->setValue('1');
-        $objCb->setInfo($this->lng->txt('ps_prevent_simultaneous_logins_info'));
-        $this->form->addItem($objCb);
-
-        $log = new ilFormSectionHeaderGUI();
-        $log->setTitle($this->lng->txt('loginname_settings'));
-        $this->form->addItem($log);
-
-        $chbChangeLogin = new ilCheckboxInputGUI(
-            $this->lng->txt('allow_change_loginname'),
-            'allow_change_loginname'
-        );
-        $chbChangeLogin->setValue('1');
-        $this->form->addItem($chbChangeLogin);
-        $chbCreateHistory = new ilCheckboxInputGUI(
-            $this->lng->txt('history_loginname'),
-            'create_history_loginname'
-        );
-        $chbCreateHistory->setInfo($this->lng->txt('loginname_history_info'));
-        $chbCreateHistory->setValue('1');
-
-        $chbChangeLogin->addSubItem($chbCreateHistory);
-        $chbReuseLoginnames = new ilCheckboxInputGUI(
-            $this->lng->txt('reuse_of_loginnames_contained_in_history'),
-            'reuse_of_loginnames'
-        );
-        $chbReuseLoginnames->setValue('1');
-        $chbReuseLoginnames->setInfo($this->lng->txt('reuse_of_loginnames_contained_in_history_info'));
-
-        $chbChangeLogin->addSubItem($chbReuseLoginnames);
-        $chbChangeBlockingTime = new ilNumberInputGUI(
-            $this->lng->txt('loginname_change_blocking_time'),
-            'loginname_change_blocking_time'
-        );
-        $chbChangeBlockingTime->allowDecimals(true);
-        $chbChangeBlockingTime->setSuffix($this->lng->txt('days'));
-        $chbChangeBlockingTime->setInfo($this->lng->txt('loginname_change_blocking_time_info'));
-        $chbChangeBlockingTime->setSize(10);
-        $chbChangeBlockingTime->setMaxLength(10);
-        $chbChangeLogin->addSubItem($chbChangeBlockingTime);
-
-        $la = new ilCheckboxInputGUI(
-            $this->lng->txt('usr_letter_avatars'),
-            'letter_avatars'
-        );
-        $la->setValue('1');
-        $la->setInfo($this->lng->txt('usr_letter_avatars_info'));
-        $this->form->addItem($la);
-
-        $passwordPolicySettingsHash = new \ilHiddenInputGUI('pw_policy_hash');
-        $this->form->addItem($passwordPolicySettingsHash);
-
-        $this->form->addCommandButton(
-            'saveGeneralSettings',
-            $this->lng->txt('save')
-        );
-    }
-
-    /**
-     * Global user settings
-     * Allows to define global settings for user accounts
-     * Note: The Global user settings form allows to specify default values
-     *       for some user preferences. To avoid redundant implementations,
-     *       specification of default values can be done elsewhere in ILIAS
-     *       are not supported by this form.
-     */
-    public function settingsObject(): void
-    {
-        $this->raiseErrorOnMissingWrite();
-
-        $this->lng->loadLanguageModule('administration');
-        $this->lng->loadLanguageModule('mail');
-        $this->lng->loadLanguageModule('chatroom');
-        $this->setSubTabs('settings');
-        $this->tabs_gui->activateTab('settings');
-        $this->tabs_gui->activateSubTab('standard_fields');
-
-        $tab = new ilUserFieldSettingsTableGUI(
-            $this,
-            'settings'
-        );
-        if ($this->confirm_change) {
-            $tab->setConfirmChange();
-        }
-        $this->tpl->setContent($tab->getHTML());
-    }
-
-    public function confirmSavedObject(): void
-    {
-        $this->raiseErrorOnMissingWrite();
-        $this->saveGlobalUserSettingsObject('save');
-    }
-
-    public function saveGlobalUserSettingsObject(string $action = ''): void
-    {
-        $this->raiseErrorOnMissingWrite();
-
-        $checked = $this->user_request->getChecked();
-        $selected = $this->user_request->getSelect();
-
-        $user_settings_config = $this->user_settings_config;
-
-        // see ilUserFieldSettingsTableGUI
-        $up = new ilUserProfile();
-        $up->skipField('username');
-        $field_properties = $up->getStandardFields();
-        $profile_fields = array_keys($field_properties);
-
-        $valid = true;
-        foreach ($profile_fields as $field) {
-            if (($checked['required_' . $field] ?? false) &&
-                !(int) ($checked['visib_reg_' . $field] ?? null)
-            ) {
-                $valid = false;
-                break;
-            }
-        }
-
-        if (!$valid) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('invalid_visible_required_options_selected'));
-            $this->confirm_change = 1;
-            $this->settingsObject();
-            return;
-        }
-
-        // For the following fields, the required state can not be changed
-        $fixed_required_fields = [
-            'firstname' => 1,
-            'lastname' => 1,
-            'upload' => 0,
-            'password' => 0,
-            'language' => 0,
-            'skin_style' => 0,
-            'hide_own_online_status' => 0
-        ];
-
-        // Reset user confirmation
-        if ($action == 'save') {
-            ilMemberAgreement::_reset();
-        }
-
-        $changed_fields = $this->collectChangedFields();
-        if ($this->handleChangeListeners($changed_fields, $field_properties)) {
-            return;
-        }
-
-        foreach ($profile_fields as $field) {
-            // Enable disable searchable
-            if (ilUserSearchOptions::_isSearchable($field)) {
-                ilUserSearchOptions::_saveStatus(
-                    $field,
-                    (bool) ($checked['searchable_' . $field] ?? false)
-                );
-            }
-
-            if (!($checked['visible_' . $field] ?? false) && !($field_properties[$field]['visible_hide'] ?? false)) {
-                $user_settings_config->setVisible(
-                    $field,
-                    false
-                );
-            } else {
-                $user_settings_config->setVisible(
-                    $field,
-                    true
-                );
-            }
-
-            if (!($checked['changeable_' . $field] ?? false) &&
-                !($field_properties[$field]['changeable_hide'] ?? false)) {
-                $user_settings_config->setChangeable(
-                    $field,
-                    false
-                );
-            } else {
-                $user_settings_config->setChangeable(
-                    $field,
-                    true
-                );
-            }
-
-            // registration visible
-            if (($checked['visib_reg_' . $field] ?? false) && !($field_properties[$field]['visib_reg_hide'] ?? false)) {
-                $this->settings->set(
-                    'usr_settings_visib_reg_' . $field,
-                    '1'
-                );
-            } else {
-                $this->settings->set(
-                    'usr_settings_visib_reg_' . $field,
-                    '0'
-                );
-            }
-
-            if ($checked['visib_lua_' . $field] ?? false) {
-                $this->settings->set(
-                    'usr_settings_visib_lua_' . $field,
-                    '1'
-                );
-            } else {
-                $this->settings->set(
-                    'usr_settings_visib_lua_' . $field,
-                    '0'
-                );
-            }
-
-            if ((int) ($checked['changeable_lua_' . $field] ?? false)) {
-                $this->settings->set(
-                    'usr_settings_changeable_lua_' . $field,
-                    '1'
-                );
-            } else {
-                $this->settings->set(
-                    'usr_settings_changeable_lua_' . $field,
-                    '0'
-                );
-            }
-
-            if (($checked['export_' . $field] ?? false) && !($field_properties[$field]['export_hide'] ?? false)) {
-                $this->ilias->setSetting(
-                    'usr_settings_export_' . $field,
-                    '1'
-                );
-            } else {
-                $this->ilias->deleteSetting('usr_settings_export_' . $field);
-            }
-
-            // Course export/visibility
-            if (($checked['course_export_' . $field] ?? false) && !($field_properties[$field]['course_export_hide'] ?? false)) {
-                $this->ilias->setSetting(
-                    'usr_settings_course_export_' . $field,
-                    '1'
-                );
-            } else {
-                $this->ilias->deleteSetting('usr_settings_course_export_' . $field);
-            }
-
-            // Group export/visibility
-            if (($checked['group_export_' . $field] ?? false) && !($field_properties[$field]['group_export_hide'] ?? false)) {
-                $this->ilias->setSetting(
-                    'usr_settings_group_export_' . $field,
-                    '1'
-                );
-            } else {
-                $this->ilias->deleteSetting('usr_settings_group_export_' . $field);
-            }
-
-            if (($checked['prg_export_' . $field] ?? false) && !($field_properties[$field]['prg_export_hide'] ?? false)) {
-                $this->ilias->setSetting(
-                    'usr_settings_prg_export_' . $field,
-                    '1'
-                );
-            } else {
-                $this->ilias->deleteSetting('usr_settings_prg_export_' . $field);
-            }
-
-            $is_fixed = array_key_exists(
-                $field,
-                $fixed_required_fields
-            );
-            if (($is_fixed && $fixed_required_fields[$field]) || (!$is_fixed && ($checked['required_' . $field] ?? false))) {
-                $this->ilias->setSetting(
-                    'require_' . $field,
-                    '1'
-                );
-            } else {
-                $this->ilias->deleteSetting('require_' . $field);
-            }
-        }
-
-        $this->ilias->setSetting(
-            'session_reminder_lead_time',
-            $this->user_request->getDefaultSessionReminder()
-        );
-
-        if (isset($checked['export_preferences']) && $checked['export_preferences'] === 1) {
-            $this->ilias->setSetting(
-                'usr_settings_export_preferences',
-                '1'
-            );
-        } else {
-            $this->ilias->deleteSetting('usr_settings_export_preferences');
-        }
-
-        $this->ilias->setSetting(
-            'mail_incoming_mail',
-            $selected['default_mail_incoming_mail'] ?? '0'
-        );
-        $this->ilias->setSetting(
-            'chat_osc_accept_msg',
-            $selected['default_chat_osc_accept_msg'] ?? 'n'
-        );
-        $this->ilias->setSetting(
-            'chat_broadcast_typing',
-            $selected['default_chat_broadcast_typing'] ?? 'n'
-        );
-        $this->ilias->setSetting(
-            'bs_allow_to_contact_me',
-            $selected['default_bs_allow_to_contact_me'] ?? 'n'
-        );
-        $this->ilias->setSetting(
-            'hide_own_online_status',
-            $selected['default_hide_own_online_status'] ?? 'n'
-        );
-
-        if ($this->usrFieldChangeListenersAccepted && count($changed_fields) > 0) {
-            $this->event->raise(
-                'components/ILIAS/User',
-                'onUserFieldAttributesChanged',
-                $changed_fields
-            );
-        }
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('usr_settings_saved'));
-        $this->settingsObject();
-    }
-
-    public function confirmUsrFieldChangeListenersObject(): void
-    {
-        $this->usrFieldChangeListenersAccepted = true;
-        $this->confirmSavedObject();
-    }
-
-    /**
-     * @param InterestedUserFieldChangeListener[] $interested_change_listeners
-     */
-    private function showFieldChangeComponentsListeningConfirmDialog(
-        array $interested_change_listeners
-    ): void {
-        $post = $this->user_request->getParsedBody();
-        $confirmDialog = new ilConfirmationGUI();
-        $confirmDialog->setHeaderText($this->lng->txt('usr_field_change_components_listening'));
-        $confirmDialog->setFormAction($this->ctrl->getFormActionByClass(
-            [self::class],
-            'settings'
-        ));
-        $confirmDialog->setConfirm($this->lng->txt('confirm'), 'confirmUsrFieldChangeListeners');
-        $confirmDialog->setCancel($this->lng->txt('cancel'), 'settings');
-
-        $tpl = new ilTemplate(
-            'tpl.usr_field_change_listener_confirm.html',
-            true,
-            true,
-            'components/ILIAS/User'
-        );
-
-        foreach ($interested_change_listeners as $interested_change_listener) {
-            $tpl->setVariable('FIELD_NAME', $interested_change_listener->getName());
-            foreach ($interested_change_listener->getAttributes() as $attribute) {
-                $tpl->setVariable('ATTRIBUTE_NAME', $attribute->getName());
-                foreach ($attribute->getComponents() as $component) {
-                    $tpl->setVariable('COMPONENT_NAME', $component->getComponentName());
-                    $tpl->setVariable('DESCRIPTION', $component->getDescription());
-                    $tpl->setCurrentBlock('component');
-                    $tpl->parseCurrentBlock('component');
-                }
-                $tpl->setCurrentBlock('attribute');
-                $tpl->parseCurrentBlock('attribute');
-            }
-            $tpl->setCurrentBlock('field');
-            $tpl->parseCurrentBlock('field');
-        }
-
-        $confirmDialog->addItem('', '0', $tpl->get());
-
-        foreach ($post['chb'] as $postVar => $value) {
-            $confirmDialog->addHiddenItem("chb[{$postVar}]", $value);
-        }
-        foreach ($post['select'] as $postVar => $value) {
-            $confirmDialog->addHiddenItem("select[{$postVar}]", $value);
-        }
-        foreach ($post['current'] as $postVar => $value) {
-            $confirmDialog->addHiddenItem("current[{$postVar}]", $value);
-        }
-        $this->tpl->setContent($confirmDialog->getHTML());
-    }
-
-    /**
-     * @param array<string, ChangedUserFieldAttribute> $changed_fields
-     * @param array<string, array>                     $field_properties => See ilUserProfile::getStandardFields()
-     * @return bool
-     */
-    private function handleChangeListeners(
-        array $changed_fields,
-        array $field_properties
-    ): bool {
-        if (count($changed_fields) > 0) {
-            $interested_change_listeners = [];
-            foreach ($field_properties as $field_name => $properties) {
-                if (!isset($properties['change_listeners'])) {
-                    continue;
-                }
-
-                foreach ($properties['change_listeners'] as $change_listener_class_name) {
-                    /**
-                     * @var UserFieldAttributesChangeListener $listener
-                     */
-                    $listener = new $change_listener_class_name($this->dic);
-                    foreach ($changed_fields as $changed_field) {
-                        $attribute_name = $changed_field->getAttributeName();
-                        $description_for_field = $listener->getDescriptionForField($field_name, $attribute_name);
-                        if ($description_for_field !== null && $description_for_field !== '') {
-                            $interested_change_listener = null;
-                            foreach ($interested_change_listeners as $interested_listener) {
-                                if ($interested_listener->getFieldName() === $field_name) {
-                                    $interested_change_listener = $interested_listener;
-                                    break;
-                                }
-                            }
-
-                            if ($interested_change_listener === null) {
-                                $interested_change_listener = new InterestedUserFieldChangeListener(
-                                    $this->lng,
-                                    $this->getTranslationForField($field_name, $properties),
-                                    $field_name
-                                );
-                                $interested_change_listeners[] = $interested_change_listener;
-                            }
-
-                            $interested_attribute = $interested_change_listener->addAttribute($attribute_name);
-                            $interested_attribute->addComponent(
-                                $listener->getComponentName(),
-                                $description_for_field
-                            );
-                        }
-                    }
-                }
-            }
-
-            if (!$this->usrFieldChangeListenersAccepted && count($interested_change_listeners) > 0) {
-                $this->showFieldChangeComponentsListeningConfirmDialog($interested_change_listeners);
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @return array<string, ChangedUserFieldAttribute>
-     */
-    private function collectChangedFields(): array
-    {
-        $changed_fields = [];
-        $post = $this->user_request->getParsedBody();
-        if (
-            !isset($post['chb'])
-            && !is_array($post['chb'])
-            && !isset($post['current'])
-            && !is_array($post['current'])
-        ) {
-            return $changed_fields;
-        }
-
-        $old = $post['current'];
-        $new = $post['chb'];
-
-        foreach ($old as $key => $old_value) {
-            if (!isset($new[$key])) {
-                $is_boolean = filter_var($old_value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-                $new[$key] = $is_boolean ? '0' : $old_value;
-            }
-        }
-
-        $oldToNewDiff = array_diff_assoc($old, $new);
-
-        foreach ($oldToNewDiff as $key => $old_value) {
-            $changed_fields[$key] = new ChangedUserFieldAttribute($key, $old_value, $new[$key]);
-        }
-
-        return $changed_fields;
-    }
-
-    /**
-     * build select form to distinguish between active and non-active users
-     */
-    public function __buildUserFilterSelect(): string
-    {
-        $action[-1] = $this->lng->txt('all_users');
-        $action[1] = $this->lng->txt('usr_active_only');
-        $action[0] = $this->lng->txt('usr_inactive_only');
-        $action[2] = $this->lng->txt('usr_limited_access_only');
-        $action[3] = $this->lng->txt('usr_without_courses');
-        $action[4] = $this->lng->txt('usr_filter_lastlogin');
-        $action[5] = $this->lng->txt('usr_filter_coursemember');
-        $action[6] = $this->lng->txt('usr_filter_groupmember');
-        $action[7] = $this->lng->txt('usr_filter_role');
-
-        return ilLegacyFormElementsUtil::formSelect(
-            ilSession::get('user_filter'),
-            'user_filter',
-            $action,
-            false,
-            true
-        );
-    }
-
     /**
      * Download selected export files
      * Sends a selected export file for download
@@ -2795,272 +1920,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $table->parse($this->object->getExportFiles());
 
         $this->tpl->setContent($table->getHTML());
-    }
-
-    protected function initNewAccountMailForm(): ilPropertyFormGUI
-    {
-        $this->lng->loadLanguageModule('meta');
-        $this->lng->loadLanguageModule('mail');
-
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this));
-
-        $form->setTitleIcon(ilUtil::getImagePath('standard/icon_mail.svg'));
-        $form->setTitle($this->lng->txt('user_new_account_mail'));
-        $form->setDescription($this->lng->txt('user_new_account_mail_desc'));
-
-        $langs = $this->lng->getInstalledLanguages();
-        foreach ($langs as $lang_key) {
-            $amail = ilObjUserFolder::_lookupNewAccountMail($lang_key);
-
-            $title = $this->lng->txt('meta_l_' . $lang_key);
-            if ($lang_key == $this->lng->getDefaultLanguage()) {
-                $title .= ' (' . $this->lng->txt('default') . ')';
-            }
-
-            $header = new ilFormSectionHeaderGUI();
-            $header->setTitle($title);
-            $form->addItem($header);
-
-            $subj = new ilTextInputGUI(
-                $this->lng->txt('subject'),
-                'subject_' . $lang_key
-            );
-            $subj->setValue($amail['subject'] ?? '');
-            $form->addItem($subj);
-
-            $salg = new ilTextInputGUI(
-                $this->lng->txt('mail_salutation_general'),
-                'sal_g_' . $lang_key
-            );
-            $salg->setValue($amail['sal_g'] ?? '');
-            $form->addItem($salg);
-
-            $salf = new ilTextInputGUI(
-                $this->lng->txt('mail_salutation_female'),
-                'sal_f_' . $lang_key
-            );
-            $salf->setValue($amail['sal_f'] ?? '');
-            $form->addItem($salf);
-
-            $salm = new ilTextInputGUI(
-                $this->lng->txt('mail_salutation_male'),
-                'sal_m_' . $lang_key
-            );
-            $salm->setValue($amail['sal_m'] ?? '');
-            $form->addItem($salm);
-
-            $body = new ilTextAreaInputGUI(
-                $this->lng->txt('message_content'),
-                'body_' . $lang_key
-            );
-            $body->setValue($amail['body'] ?? '');
-            $body->setRows(10);
-            $body->setCols(100);
-            $form->addItem($body);
-
-            $att = new ilFileInputGUI(
-                $this->lng->txt('attachment'),
-                'att_' . $lang_key
-            );
-            $att->setAllowDeletion(true);
-            if ($amail['att_file'] ?? false) {
-                $att->setValue($amail['att_file']);
-            }
-            $form->addItem($att);
-        }
-
-        $form->addCommandButton(
-            'saveNewAccountMail',
-            $this->lng->txt('save')
-        );
-        $form->addCommandButton(
-            'cancelNewAccountMail',
-            $this->lng->txt('cancel')
-        );
-
-        return $form;
-    }
-
-    public function newAccountMailObject(?ilPropertyFormGUI $form = null): void
-    {
-        $this->raiseErrorOnMissingWrite();
-        $this->setSubTabs('settings');
-        $this->tabs_gui->setTabActive('settings');
-        $this->tabs_gui->setSubTabActive('user_new_account_mail');
-
-        if ($form === null) {
-            $form = $this->initNewAccountMailForm();
-        }
-
-        $ftpl = new ilTemplate(
-            'tpl.usrf_new_account_mail.html',
-            true,
-            true,
-            'components/ILIAS/User'
-        );
-        $ftpl->setVariable(
-            'FORM',
-            $form->getHTML()
-        );
-
-        // placeholder help text
-        $ftpl->setVariable(
-            'TXT_USE_PLACEHOLDERS',
-            $this->lng->txt('mail_nacc_use_placeholder')
-        );
-        $ftpl->setVariable(
-            'TXT_MAIL_SALUTATION',
-            $this->lng->txt('mail_nacc_salutation')
-        );
-        $ftpl->setVariable(
-            'TXT_FIRST_NAME',
-            $this->lng->txt('firstname')
-        );
-        $ftpl->setVariable(
-            'TXT_LAST_NAME',
-            $this->lng->txt('lastname')
-        );
-        $ftpl->setVariable(
-            'TXT_EMAIL',
-            $this->lng->txt('email')
-        );
-        $ftpl->setVariable(
-            'TXT_LOGIN',
-            $this->lng->txt('mail_nacc_login')
-        );
-        $ftpl->setVariable(
-            'TXT_PASSWORD',
-            $this->lng->txt('password')
-        );
-        $ftpl->setVariable(
-            'TXT_PASSWORD_BLOCK',
-            $this->lng->txt('mail_nacc_pw_block')
-        );
-        $ftpl->setVariable(
-            'TXT_NOPASSWORD_BLOCK',
-            $this->lng->txt('mail_nacc_no_pw_block')
-        );
-        $ftpl->setVariable(
-            'TXT_ADMIN_MAIL',
-            $this->lng->txt('mail_nacc_admin_mail')
-        );
-        $ftpl->setVariable(
-            'TXT_ILIAS_URL',
-            $this->lng->txt('mail_nacc_ilias_url')
-        );
-        $ftpl->setVariable(
-            'TXT_INSTALLATION_NAME',
-            $this->lng->txt('mail_nacc_installation_name')
-        );
-        $ftpl->setVariable(
-            'TXT_TARGET',
-            $this->lng->txt('mail_nacc_target')
-        );
-        $ftpl->setVariable(
-            'TXT_TARGET_TITLE',
-            $this->lng->txt('mail_nacc_target_title')
-        );
-        $ftpl->setVariable(
-            'TXT_TARGET_TYPE',
-            $this->lng->txt('mail_nacc_target_type')
-        );
-        $ftpl->setVariable(
-            'TXT_TARGET_BLOCK',
-            $this->lng->txt('mail_nacc_target_block')
-        );
-        $ftpl->setVariable(
-            'TXT_IF_TIMELIMIT',
-            $this->lng->txt('mail_nacc_if_timelimit')
-        );
-        $ftpl->setVariable(
-            'TXT_TIMELIMIT',
-            $this->lng->txt('mail_nacc_timelimit')
-        );
-
-        $this->tpl->setContent($ftpl->get());
-    }
-
-    public function cancelNewAccountMailObject(): void
-    {
-        $this->ctrl->redirect(
-            $this,
-            'settings'
-        );
-    }
-
-    public function saveNewAccountMailObject(): void
-    {
-        $this->raiseErrorOnMissingWrite();
-        $form = $this->initNewAccountMailForm();
-
-        // If all forms in ILIAS use the UI/KS forms (here and in Services/Mail), we should move this to a proper constraint/trafo
-        $is_valid_template_syntax = $this->dic->refinery()->custom()->constraint(function ($value): bool {
-            try {
-                $this->dic->mail()->mustacheFactory()->getBasicEngine()->render((string) $value, []);
-                return true;
-            } catch (Exception) {
-                return false;
-            }
-        }, $this->dic->language()->txt('mail_template_invalid_tpl_syntax'));
-
-        $valid_templates = true;
-        $langs = $this->lng->getInstalledLanguages();
-        foreach ($langs as $lang_key) {
-            $subject = $this->user_request->getMailSubject($lang_key);
-            try {
-                $is_valid_template_syntax->check($subject);
-            } catch (Exception) {
-                $form->getItemByPostVar('subject_' . $lang_key)->setAlert(
-                    $is_valid_template_syntax->problemWith($subject)
-                );
-                $valid_templates = false;
-            }
-
-            $body = $this->user_request->getMailBody($lang_key);
-            try {
-                $is_valid_template_syntax->check($body);
-            } catch (Exception) {
-                $form->getItemByPostVar('body_' . $lang_key)->setAlert(
-                    $is_valid_template_syntax->problemWith($body)
-                );
-                $valid_templates = false;
-            }
-        }
-        if (!$valid_templates) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
-            $this->newAccountMailObject($form);
-            return;
-        }
-
-        foreach ($langs as $lang_key) {
-            ilObjUserFolder::_writeNewAccountMail(
-                $lang_key,
-                $this->user_request->getMailSubject($lang_key),
-                $this->user_request->getMailSalutation('g', $lang_key),
-                $this->user_request->getMailSalutation('f', $lang_key),
-                $this->user_request->getMailSalutation('m', $lang_key),
-                $this->user_request->getMailBody($lang_key)
-            );
-
-            if ($_FILES['att_' . $lang_key]['tmp_name']) {
-                ilObjUserFolder::_updateAccountMailAttachment(
-                    $lang_key,
-                    $_FILES['att_' . $lang_key]['tmp_name'],
-                    $_FILES['att_' . $lang_key]['name']
-                );
-            }
-
-            if ($this->user_request->getMailAttDelete($lang_key)) {
-                ilObjUserFolder::_deleteAccountMailAttachment($lang_key);
-            }
-        }
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-        $this->ctrl->redirect(
-            $this,
-            'newAccountMail'
-        );
     }
 
     public function getAdminTabs(): void

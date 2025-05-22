@@ -13776,12 +13776,13 @@ ps#:#ps_password_change_on_first_login_enabled#:#Change Password on First Login
 ps#:#ps_password_change_on_first_login_enabled_info#:#Require users to change their password the first time they log in (unless they self-registered).
 ps#:#ps_password_chars_and_numbers_enabled#:#Force Characters and Numbers
 ps#:#ps_password_chars_and_numbers_enabled_info#:#Require passwords to contain characters and numbers.
+ps#:#ps_password_force_user_reset#:#Force Password Reset
 ps#:#ps_password_max_age#:#Maximum Password Age
 ps#:#ps_password_max_age_info#:#Enter the maximum age allowed for passwords in days. Set to 0 to disable this option.
 ps#:#ps_password_max_length#:#Maximum Password Size
 ps#:#ps_password_max_length_info#:#Enter the maximum size allowed for account passwords. Set to 0 to disable this option.
 ps#:#ps_password_min_length#:#Minimum Password Size
-ps#:#ps_password_min_length_info#:#Enter the minimum required length for account passwords. If set to 0, passwords are still required to have a minimum length of 1. If the required length is altered, the new requirement will be applied only to those accounts created or changed after the new length is set. Existing accounts are not affected.
+ps#:#ps_password_min_length_info#:#Enter the minimum required length for account passwords. If the required length is altered, the new requirement will be applied only to those accounts created or changed after the new length is set. Existing accounts are not affected.
 ps#:#ps_password_settings#:#Password Settings
 ps#:#ps_password_special_chars_enabled#:#Force Special Characters
 ps#:#ps_password_special_chars_enabled_info#:#Require passwords to contain special characters.
@@ -17295,6 +17296,7 @@ ui#:#ui_transcription#:#Transcript
 ui#:#unselect_node#:#Remove node %s from selection
 ui#:#vc_sort#:#Sort by:
 ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.
+user#:#administrative_settings#:#Administrative Settings
 user#:#all_roles_has_starting_point#:#All the roles have starting points
 user#:#back_to_starting_points_list#:#Back to Starting Points
 user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes.
@@ -17432,6 +17434,7 @@ user#:#user_save_ordering_and_titles#:#Save Order and Titles
 user#:#user_select_course_group#:#Select Course/Group
 user#:#user_set_publishing_options#:#Set publishing options
 user#:#user_set_visibilty_options#:#Set visibility options
+user#:#user_settings#:#User Settings
 user#:#user_store_last_visited#:#Last Visited
 user#:#user_visibility_settings#:#Visibility
 user#:#user_visible_in_profile#:#Visible in Personal Data

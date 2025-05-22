@@ -13773,12 +13773,13 @@ ps#:#ps_password_change_on_first_login_enabled#:#Passwort ändern bei Erstanmeld
 ps#:#ps_password_change_on_first_login_enabled_info#:#Zwingt Benutzer, die sich nicht selbst registriert haben, bei der ersten Anmeldung in ILIAS ihr Passwort zu ändern.
 ps#:#ps_password_chars_and_numbers_enabled#:#Buchstaben und Zahlen erzwingen
 ps#:#ps_password_chars_and_numbers_enabled_info#:#Wenn aktiviert, müssen Passwörter Buchstaben und Zahlen enthalten.
+ps#:#ps_password_force_user_reset#:#Passwortänderung erzwingen
 ps#:#ps_password_max_age#:#Maximales Alter von Passwörtern
 ps#:#ps_password_max_age_info#:#Setzt das maximale Alter von Passwörtern in Tagen. Wenn der Wert auf 0 gesetzt ist, laufen Passwörter nicht ab.
 ps#:#ps_password_max_length#:#Maximale Länge des Passworts
 ps#:#ps_password_max_length_info#:#Setzt die maximale Länge von Passwörtern. Wenn der Wert auf 0 gesetzt ist, können Passwörter beliebige Längen haben.
 ps#:#ps_password_min_length#:#Minimale Länge des Passworts
-ps#:#ps_password_min_length_info#:#Setzt die minimale Länge von Passwörtern. Wenn der Wert auf 0 gesetzt ist müssen Passwörter trotzdem mindestens 1 Zeichen enthalten.
+ps#:#ps_password_min_length_info#:#Setzt die minimale Länge von Passwörtern.
 ps#:#ps_password_settings#:#Passworteinstellungen
 ps#:#ps_password_special_chars_enabled#:#Sonderzeichen erzwingen
 ps#:#ps_password_special_chars_enabled_info#:#Wenn aktiviert, müssen Passwörter Sonderzeichen enthalten.
@@ -17295,6 +17296,7 @@ ui#:#ui_transcription#:#Abschrift
 ui#:#unselect_node#:#Knoten %s von der Auswahl entfernen
 ui#:#vc_sort#:#Sortiert nach:
 ui#:#warning_url_too_long_msg#:#Die Anzahl der ausgewählten Zeilen führt zu einer zu großen Datenmenge, die nicht übertragen werden kann. Wählen Sie weniger Zeilen aus oder führen Sie die Aktion für die gesamte Tabelle durch (Sammelaktionen).
+user#:#administrative_settings#:#Administrative Einstellungen
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
 user#:#back_to_starting_points_list#:#Zurück zu Startseiten
 user#:#change_email_email_confirmation_body#:#Die E-Mail-Adresse des Kontos %s wurde geändert. Bitte klicken Sie auf diesen Link %s , um die Änderung zu bestätigen. Der Link ist für %s Minuten gültig.
@@ -17432,6 +17434,7 @@ user#:#user_save_ordering_and_titles#:#Reihenfolge und Titel speichern
 user#:#user_select_course_group#:#Kurs/Gruppe auswählen
 user#:#user_set_publishing_options#:#Veröffentlichung konfigurieren
 user#:#user_set_visibilty_options#:#Sichtbarkeit konfigurieren
+user#:#user_settings#:#Benutzereinstellungen
 user#:#user_store_last_visited#:#Zuletzt besucht
 user#:#user_visibility_settings#:#Sichtbarkeit
 user#:#user_visible_in_profile#:#Sichtbar in den persönlichen Daten
