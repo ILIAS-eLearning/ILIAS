@@ -4744,7 +4744,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $ref_id = $this->retrieveRefId();
         if ($this->isParentObjectCrsOrGrp() && $this->objProperties->getNotificationType() === 'per_user') {
-            $frm_noti = new ilForumNotification($ref_id);
+            $frm_noti = new ilForumNotification($this->retrieveRefId());
             $frm_noti->setUserId($this->user->getId());
 
             return !$frm_noti->isUserToggleNotification();
