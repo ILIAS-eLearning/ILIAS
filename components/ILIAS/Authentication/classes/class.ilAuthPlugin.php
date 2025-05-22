@@ -17,17 +17,10 @@
  *********************************************************************/
 
 declare(strict_types=1);
-/**
- * Authentication plugin
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- */
 abstract class ilAuthPlugin extends ilPlugin implements ilAuthDefinition
 {
     /**
      * Does your AuthProvider needs "ext_account"? return true, false otherwise.
-     *
-     * @param int $a_auth_id
      */
     abstract public function isExternalAccountNameRequired(int $a_auth_id): bool;
 
@@ -61,7 +54,7 @@ abstract class ilAuthPlugin extends ilPlugin implements ilAuthDefinition
 
     /**
      *
-     * @return array IDs of your Auth-Modes and Sub-Modes.
+     * @return list<int> IDs of your Auth-Modes and Sub-Modes.
      */
     abstract public function getAuthIds(): array;
 }

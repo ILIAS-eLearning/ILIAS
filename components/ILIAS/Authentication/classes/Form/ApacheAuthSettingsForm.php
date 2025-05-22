@@ -34,24 +34,24 @@ use ilObject;
 use ilRbacReview;
 use ilRbacSystem;
 
-class ApacheAuthSettingsForm
+readonly class ApacheAuthSettingsForm
 {
-    private readonly UIFactory $ui_factory;
-    private readonly ilLanguage $lng;
-    private readonly ilRbacSystem $rbac_system;
-    private readonly ilRbacReview $rbac_review;
-    private readonly ilCtrlInterface $ctrl;
-    private readonly FieldFactory $ui_field;
+    private UIFactory $ui_factory;
+    private ilLanguage $lng;
+    private ilRbacSystem $rbac_system;
+    private ilRbacReview $rbac_review;
+    private ilCtrlInterface $ctrl;
+    private FieldFactory $ui_field;
 
     /**
      * @param array<string, mixed> $values
      */
     public function __construct(
-        private readonly int $ref_id,
-        private readonly object $parentObject,
-        private readonly string $show_command,
-        private readonly string $save_command,
-        private readonly array $values = [],
+        private int $ref_id,
+        private object $parentObject,
+        private string $show_command,
+        private string $save_command,
+        private array $values = [],
         ?UIFactory $ui_factory = null,
         ?ilLanguage $lng = null,
         ?ilRbacSystem $rbac_system = null,

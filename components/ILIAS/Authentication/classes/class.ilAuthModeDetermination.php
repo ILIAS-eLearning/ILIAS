@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
-* @author Stefan Meyer <meyer@leifos.com>
-*/
 class ilAuthModeDetermination
 {
     public const int TYPE_MANUAL = 0;
@@ -29,14 +26,11 @@ class ilAuthModeDetermination
     private static ?ilAuthModeDetermination $instance = null;
 
     private ilLogger $logger;
-
     private ilSetting $settings;
     private ilSetting $commonSettings;
-
     private int $kind = self::TYPE_MANUAL;
     /** @var list<numeric-string|int|string> */
     private array $position = [];
-
 
     private function __construct()
     {

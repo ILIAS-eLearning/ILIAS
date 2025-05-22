@@ -18,15 +18,19 @@
 
 declare(strict_types=1);
 
-/**
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- */
 class ilAuthFrontendHTTP extends ilAuthFrontend implements ilAuthFrontendInterface
 {
     private ilLogger $logger;
 
-    public function __construct(ilAuthSession $session, ilAuthStatus $status, ilAuthCredentials $credentials, array $providers)
-    {
+    /**
+     * @param list<ilAuthProviderInterface> $providers
+     */
+    public function __construct(
+        ilAuthSession $session,
+        ilAuthStatus $status,
+        ilAuthCredentials $credentials,
+        array $providers
+    ) {
         parent::__construct($session, $status, $credentials, $providers);
 
         global $DIC;
@@ -50,7 +54,7 @@ class ilAuthFrontendHTTP extends ilAuthFrontend implements ilAuthFrontendInterfa
                     return $this->handleAuthenticationSuccess($provider);
 
                 case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
-                    $this->logger->notice("Account migration required.");
+                    $this->logger->notice('Account migration required.');
                     break;
 
                 case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
@@ -62,14 +66,11 @@ class ilAuthFrontendHTTP extends ilAuthFrontend implements ilAuthFrontendInterfa
         return $this->handleAuthenticationFail();
     }
 
-    /**
-     * Draw basic auth
-     */
     protected function handleAuthenticationFail(): bool
     {
         parent::handleAuthenticationFail();
 
-        header("WWW-Authenticate: Basic realm=\"" . CLIENT_ID . "\"");
+        header('WWW-Authenticate: Basic realm="' . CLIENT_ID . '"');
         header('HTTP/1.0 401 Unauthorized');
         return false;
     }

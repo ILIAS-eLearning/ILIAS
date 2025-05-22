@@ -18,72 +18,52 @@
 
 declare(strict_types=1);
 
-/**
- * @author Bjoern Heyser <bheyser@databay.de>
- */
 class ilSessionControl
 {
     /**
      * default value for settings that have not
      * been defined in setup or administration yet
      */
-    public const DEFAULT_MIN_IDLE = 15;
-    public const DEFAULT_ALLOW_CLIENT_MAINTENANCE = 1;
+    public const int DEFAULT_MIN_IDLE = 15;
+    public const int DEFAULT_ALLOW_CLIENT_MAINTENANCE = 1;
 
     /**
-     * all fieldnames that are saved in settings table
-     *
-     * @var array $setting_fields
+     * @var list<string> $setting_fields
      */
-    private static array $setting_fields = array(
+    private static array $setting_fields = [
         'session_allow_client_maintenance',
-    );
+    ];
 
     /**
      * session types from which one is
      * assigned to each session
      */
-    private const SESSION_TYPE_UNKNOWN = 0;
-    private const SESSION_TYPE_SYSTEM = 1;
-    private const SESSION_TYPE_ADMIN = 2;
-    private const SESSION_TYPE_USER = 3;
-    private const SESSION_TYPE_ANONYM = 4;
+    private const int SESSION_TYPE_UNKNOWN = 0;
+    private const int SESSION_TYPE_SYSTEM = 1;
+    private const int SESSION_TYPE_ADMIN = 2;
+    private const int SESSION_TYPE_USER = 3;
+    private const int SESSION_TYPE_ANONYM = 4;
 
-    private const SESSION_TYPE_KEY = "SessionType";
+    private const string SESSION_TYPE_KEY = 'SessionType';
     /**
      * all session types that will be involved when count of sessions
      * will be determined or when idleing sessions will be destroyed
      *
      * @var array $session_types_not_controlled
      */
-    public static array $session_types_controlled = array(
+    public static array $session_types_controlled = [
         self::SESSION_TYPE_USER,
         self::SESSION_TYPE_ANONYM
-    );
+    ];
 
-    /**
-     * all session types that will be ignored when count of sessions
-     * will be determined or when idleing sessions will be destroyed
-     *
-     * @var array $session_types_not_controlled
-     */
-    private static array $session_types_not_controlled = array(
+    private static array $session_types_not_controlled = [
         self::SESSION_TYPE_UNKNOWN,
         self::SESSION_TYPE_SYSTEM,
         self::SESSION_TYPE_ADMIN
-    );
+    ];
 
-    /**
-     * when current session is allowed to be created it marks it with
-     * type regarding to the sessions user context.
-     * when session is not allowed to be created it will be destroyed.
-     */
     public static function handleLoginEvent(string $a_login, ilAuthSession $auth_session): bool
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-
         $user_id = ilObjUser::_lookupId($a_login);
 
         // we need the session type for the session statistics
@@ -107,7 +87,7 @@ class ilSessionControl
         }
 
         ilSession::set(self::SESSION_TYPE_KEY, $type);
-        self::debug(__METHOD__ . " --> update sessions type to (" . $type . ")");
+        self::debug(__METHOD__ . ' --> update sessions type to (' . $type . ')');
 
         return true;
     }
@@ -120,7 +100,7 @@ class ilSessionControl
     }
 
     /**
-     * returns number of valid sessions relating to given session types
+     * @param list<int> $a_types
      */
     public static function getExistingSessionCount(array $a_types): int
     {
@@ -130,34 +110,28 @@ class ilSessionControl
 
         $ts = time();
 
-        $query = "SELECT count(session_id) AS num_sessions FROM usr_session " .
-                    "WHERE expires > %s " .
-                    "AND " . $ilDB->in('type', $a_types, false, 'integer');
+        $query = 'SELECT count(session_id) AS num_sessions FROM usr_session ' .
+            'WHERE expires > %s ' .
+            'AND ' . $ilDB->in('type', $a_types, false, 'integer');
 
-        $res = $ilDB->queryF($query, array('integer'), array($ts));
+        $res = $ilDB->queryF($query, ['integer'], [$ts]);
         return (int) $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)->num_sessions;
     }
 
-    /**
-     * checks if session exists for given id
-     * and if it is still valid
-     *
-     * @return	boolean		session_valid
-     */
     private static function isValidSession(string $a_sid): bool
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
-        $query = "SELECT session_id, expires FROM usr_session " .
-                    "WHERE session_id = %s";
+        $query = 'SELECT session_id, expires FROM usr_session ' .
+            'WHERE session_id = %s';
 
-        $res = $ilDB->queryF($query, array('text'), array($a_sid));
+        $res = $ilDB->queryF($query, ['text'], [$a_sid]);
 
         $ts = time();
 
-        $sessions = array();
+        $sessions = [];
 
         while ($row = $ilDB->fetchAssoc($res)) {
             if ($row['expires'] > $ts) {
@@ -183,22 +157,12 @@ class ilSessionControl
         return false;
     }
 
-    /**
-     * removes a session cookie, so it is not sent by browser anymore
-     */
     private static function removeSessionCookie(): void
     {
         ilUtil::setCookie(session_name(), 'deleted', true, true);
         self::debug('Session cookie has been removed');
     }
 
-    /**
-     * checks wether a given user login relates to an user
-     * with administrative permissions
-     *
-     * @global ilRbacSystem $rbacsystem
-     * @return boolean access
-     */
     private static function checkAdministrationPermission(int $a_user_id): bool
     {
         if (!$a_user_id) {
@@ -218,11 +182,6 @@ class ilSessionControl
         return $access;
     }
 
-    /**
-     * logs the given debug message in \ilLogger
-     *
-     * @param	string	$a_debug_log_message
-     */
     private static function debug(string $a_debug_log_message): void
     {
         global $DIC;
@@ -233,9 +192,7 @@ class ilSessionControl
     }
 
     /**
-     * returns the array of setting fields
-     *
-     * @return array setting_fields
+     * @return list<string>
      */
     public static function getSettingFields(): array
     {

@@ -18,16 +18,12 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilExternalAuthUserAttributeMapping
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilExternalAuthUserAttributeMapping implements ArrayAccess, Countable, Iterator
 {
     protected ilDBInterface $db;
     protected string $authMode;
     protected int $authSourceId;
-    /** @var ilExternalAuthUserAttributeMappingRule[] */
+    /** @var list<ilExternalAuthUserAttributeMappingRule> */
     protected array $mapping = [];
 
     public function __construct(string $authMode, int $authSourceId = 0)
@@ -78,7 +74,7 @@ class ilExternalAuthUserAttributeMapping implements ArrayAccess, Countable, Iter
 
     public function offsetSet($offset, $value): void
     {
-        if (is_null($offset)) {
+        if ($offset === null) {
             $this->mapping[] = $value;
         } else {
             $this->mapping[$offset] = $value;

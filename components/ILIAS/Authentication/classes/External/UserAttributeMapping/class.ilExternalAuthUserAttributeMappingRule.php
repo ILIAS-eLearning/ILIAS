@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilExternalAuthUserAttributeMappingRule
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilExternalAuthUserAttributeMappingRule
 {
     protected string $attribute = '';

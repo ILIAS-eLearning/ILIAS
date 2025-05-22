@@ -30,9 +30,9 @@ use ilAuthPageEditorSettings;
 
 class AuthPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
 {
-    public const ACTIVATE = 'activate';
-    public const DEACTIVATE = 'deactivate';
-    public const EDIT = 'edit';
+    public const string ACTIVATE = 'activate';
+    public const string DEACTIVATE = 'deactivate';
+    public const string EDIT = 'edit';
 
     private ServerRequestInterface $request;
     private Data\Factory $data_factory;

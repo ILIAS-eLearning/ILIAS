@@ -94,9 +94,7 @@ class ilSessionMaxIdleIsSetObjective implements Setup\Objective
 
             return $environment;
         } finally {
-            if ($curl !== null) {
-                $curl->close();
-            }
+            $curl?->close();
             unlink("public/$filename");
         }
 
@@ -153,6 +151,7 @@ class ilSessionMaxIdleIsSetObjective implements Setup\Objective
 
         if (ilCurlConnection::_isCurlExtensionLoaded()) {
             try {
+                $curl = null;
                 $curl = $this->getCurlConnection($settings, $url);
                 $curl->exec();
                 $result = $curl->getInfo(CURLINFO_HTTP_CODE);
@@ -163,7 +162,7 @@ class ilSessionMaxIdleIsSetObjective implements Setup\Objective
                 $this->infoNoConnection($io);
                 return false;
             } finally {
-                $curl->close();
+                $curl?->close();
             }
         } else {
             try {

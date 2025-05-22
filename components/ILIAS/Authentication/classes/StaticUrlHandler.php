@@ -26,19 +26,17 @@ use ILIAS\StaticURL\Request\Request;
 use ILIAS\StaticURL\Context;
 use ILIAS\StaticURL\Response\Factory;
 use ILIAS\StaticURL\Response\Response;
-use ilCtrlInterface;
 use ilLanguage;
 
 class StaticUrlHandler extends BaseHandler implements Handler
 {
-    private readonly ilCtrlInterface $ctrl;
     private readonly ilLanguage $language;
 
     public function __construct()
     {
         global $DIC;
-        $this->ctrl = $DIC->ctrl();
         $this->language = $DIC->language();
+        parent::__construct();
     }
 
     public function getNamespace(): string

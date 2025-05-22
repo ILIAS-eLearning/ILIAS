@@ -20,24 +20,14 @@ declare(strict_types=1);
 
 use Psr\Http\Message\ServerRequestInterface;
 
-/**
- * Description of class class
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @author Michael Jansen <mjansen@databay.de>
- *
- */
 class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
 {
     private ServerRequestInterface $httpRequest;
     private ilCtrlInterface $ctrl;
     private ilSetting $settings;
-    private ilLogger $logger;
 
     public function __construct(ServerRequestInterface $httpRequest, ilCtrlInterface $ctrl)
     {
-        global $DIC;
-        $this->logger = $DIC->logger()->auth();
         $this->httpRequest = $httpRequest;
         $this->ctrl = $ctrl;
         $this->settings = new ilSetting('apache_auth');
@@ -51,11 +41,11 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
     public function tryAuthenticationOnLoginPage(): void
     {
         $cmd = (string) ($this->httpRequest->getQueryParams()['cmd'] ?? '');
-        if ('' === $cmd) {
+        if ($cmd === '') {
             $cmd = (string) ($this->httpRequest->getParsedBody()['cmd'] ?? '');
         }
 
-        if ('force_login' === $cmd) {
+        if ($cmd === 'force_login') {
             return;
         }
 
@@ -76,11 +66,11 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
         }
 
         $path = (string) ($this->httpRequest->getServerParams()['REQUEST_URI'] ?? '');
-        if (strpos($path, '/') === 0) {
+        if (str_starts_with($path, '/')) {
             $path = substr($path, 1);
         }
 
-        if (strpos($path, 'http') !== 0) {
+        if (!str_starts_with($path, 'http')) {
             $parts = parse_url(ILIAS_HTTP_PATH);
             $path = $parts['scheme'] . '://' . $parts['host'] . '/' . $path;
         }

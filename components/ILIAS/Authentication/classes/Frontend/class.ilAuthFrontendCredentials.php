@@ -18,13 +18,9 @@
 
 declare(strict_types=1);
 
-/**
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- */
 class ilAuthFrontendCredentials implements ilAuthCredentials
 {
-    private ilLogger $logger;
-
+    protected ilLogger $logger;
     private string $username = '';
     private string $password = '';
     private string $auth_mode = '';
@@ -35,50 +31,32 @@ class ilAuthFrontendCredentials implements ilAuthCredentials
         $this->logger = $DIC->logger()->auth();
     }
 
-    /**
-     * Set username
-     */
     public function setUsername(string $a_name): void
     {
         $this->logger->debug('Username: "' . $a_name . '"');
         $this->username = trim($a_name);
     }
 
-    /**
-     * Get username
-     */
     public function getUsername(): string
     {
         return $this->username;
     }
 
-    /**
-     * Set password
-     */
     public function setPassword(string $a_password): void
     {
         $this->password = $a_password;
     }
 
-    /**
-     * Get password
-     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * Set auth mode
-     */
     public function setAuthMode(string $a_auth_mode): void
     {
         $this->auth_mode = $a_auth_mode;
     }
 
-    /**
-     * Get auth mode
-     */
     public function getAuthMode(): string
     {
         return $this->auth_mode;

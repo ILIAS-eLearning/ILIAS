@@ -34,8 +34,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 {
     private const string CMD_SHOW_APACHE_SETTINGS = 'apacheAuthSettings';
     private const string CMD_SAVE_APACHE_SETTINGS = 'saveApacheSettings';
-    private const PROP_AUTH_MODE_KIND = 'kind';
-    private const PROP_AUTH_MODE_SEQUENCE = 'sequence';
+    private const string PROP_AUTH_MODE_KIND = 'kind';
+    private const string PROP_AUTH_MODE_SEQUENCE = 'sequence';
 
     private ilLogger $logger;
 
@@ -731,7 +731,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         if ($this->request->getMethod() === 'POST') {
             $test_form = $test_form->withRequest($this->request);
             $result = $test_form->getData();
-            if (!is_null($result)) {
+            if ($result !== null) {
                 $panel_content[] = $this->ui_factory->legacy()->content(
                     ilSOAPAuth::testConnection($result['ext_uid'], $result['soap_pw'], $result['new_user'])
                 );
@@ -753,7 +753,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         if ($this->request->getMethod() === 'POST') {
             $soap_form = $soap_form->withRequest($this->request);
             $result = $soap_form->getData();
-            if (!is_null($result)) {
+            if ($result !== null) {
                 $this->settings->set('soap_auth_active', (string) $result['active']);
                 $this->settings->set('soap_auth_server', $result['server']);
                 $this->settings->set('soap_auth_port', (string) $result['port']);

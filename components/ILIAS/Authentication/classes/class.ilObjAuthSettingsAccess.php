@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author Alex Killing <alex.killing@gmx.de>
- */
 class ilObjAuthSettingsAccess extends ilObjectAccess
 {
 }

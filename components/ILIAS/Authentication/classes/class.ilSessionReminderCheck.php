@@ -25,7 +25,7 @@ use Psr\Http\Message\ResponseInterface;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 
-class ilSessionReminderCheck
+readonly class ilSessionReminderCheck
 {
     public function __construct(
         private GlobalHttpState $http,

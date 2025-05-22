@@ -18,17 +18,8 @@
 
 declare(strict_types=1);
 
-/**
- * HTTP auth credentials
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
- */
 class ilAuthFrontendCredentialsHTTP extends ilAuthFrontendCredentials
 {
-    /**
-     * Init credentials from request
-     */
     public function initFromRequest(): void
     {
         $this->setUsername($_SERVER['PHP_AUTH_USER']);

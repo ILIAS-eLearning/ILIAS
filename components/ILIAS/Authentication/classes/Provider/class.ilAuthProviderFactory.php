@@ -45,12 +45,13 @@ class ilAuthProviderFactory
         $sequence = $auth_determination->getAuthModeSequence($credentials->getUsername());
 
         $providers = [];
-        foreach ($sequence as $position => $authmode) {
+        foreach ($sequence as $authmode) {
             $provider = $this->getProviderByAuthMode($credentials, (string) $authmode);
             if ($provider instanceof ilAuthProviderInterface) {
                 $providers[] = $provider;
             }
         }
+
         return $providers;
     }
 

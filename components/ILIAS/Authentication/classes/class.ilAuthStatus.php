@@ -18,23 +18,17 @@
 
 declare(strict_types=1);
 
-/**
- * Auth status implementation
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
- */
 class ilAuthStatus
 {
     private static ?ilAuthStatus $instance = null;
 
     private ilLanguage $lng;
 
-    public const STATUS_UNDEFINED = 1;
-    public const STATUS_AUTHENTICATED = 2;
-    public const STATUS_AUTHENTICATION_FAILED = 3;
-    public const STATUS_ACCOUNT_MIGRATION_REQUIRED = 4;
-    public const STATUS_CODE_ACTIVATION_REQUIRED = 5;
+    public const int STATUS_UNDEFINED = 1;
+    public const int STATUS_AUTHENTICATED = 2;
+    public const int STATUS_AUTHENTICATION_FAILED = 3;
+    public const int STATUS_ACCOUNT_MIGRATION_REQUIRED = 4;
+    public const int STATUS_CODE_ACTIVATION_REQUIRED = 5;
 
     private int $status = self::STATUS_UNDEFINED;
     private string $reason = '';

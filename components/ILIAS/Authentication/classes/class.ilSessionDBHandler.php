@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Database Session Handling
- */
 class ilSessionDBHandler implements SessionHandlerInterface
 {
     /**
