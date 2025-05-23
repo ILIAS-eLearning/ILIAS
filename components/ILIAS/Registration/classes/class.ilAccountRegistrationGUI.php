@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
+
 /**
  * Class ilAccountRegistrationGUI
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
@@ -37,6 +39,7 @@ class ilAccountRegistrationGUI
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
+    protected ilDBInterface $db;
     protected ilErrorHandling $error;
     protected ?ilObjUser $userObj = null;
     protected ilObjUser $globalUser;
@@ -59,6 +62,7 @@ class ilAccountRegistrationGUI
         $this->ctrl->saveParameter($this, 'lang');
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('registration');
+        $this->db = $DIC->database();
         $this->error = $DIC['ilErr'];
         $this->settings = $DIC->settings();
         $this->globalUser = $DIC->user();
@@ -604,8 +608,8 @@ class ilAccountRegistrationGUI
         } else {
             $accountMail = new ilAccountRegistrationMail(
                 $this->registration_settings,
-                $this->lng,
-                ilLoggerFactory::getLogger('user')
+                ilLoggerFactory::getLogger('user'),
+                new NewAccountMailRepository($this->db)
             );
             $accountMail->withDirectRegistrationMode()->send($this->userObj, $password, $this->code_was_used);
         }

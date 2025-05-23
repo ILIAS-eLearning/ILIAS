@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
+
 class ilAuthProviderSoap extends ilAuthProvider
 {
     protected string $server_host = '';
@@ -32,6 +34,7 @@ class ilAuthProviderSoap extends ilAuthProvider
     protected ilSetting $settings;
     protected ilLanguage $language;
     protected ilRbacAdmin $rbacAdmin;
+    protected ilDBInterface $db;
 
     public function __construct(ilAuthCredentials $credentials)
     {
@@ -41,6 +44,7 @@ class ilAuthProviderSoap extends ilAuthProvider
         $this->logger = $DIC->logger()->auth();
         $this->language = $DIC->language();
         $this->rbacAdmin = $DIC->rbac()->admin();
+        $this->db = $DIC->database();
 
         parent::__construct($credentials);
     }
@@ -210,8 +214,8 @@ class ilAuthProviderSoap extends ilAuthProvider
 
             $accountMail = new ilAccountRegistrationMail(
                 $registrationSettings,
-                $this->language,
-                $this->logger
+                $this->logger,
+                new NewAccountMailRepository($this->db)
             );
             $accountMail
                 ->withDirectRegistrationMode()

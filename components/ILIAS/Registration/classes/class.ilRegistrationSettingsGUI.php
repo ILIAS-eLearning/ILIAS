@@ -24,6 +24,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Registration\RegistrationCodesTable;
 use ILIAS\Registration\RegistrationCodeRepository;
 use ILIAS\Registration\RegistrationFilterComponent;
+use ILIAS\User\Settings\NewAccountMail\SettingsGUI as NewAccountMailSettingsGUI;
 
 /**
  * Class ilRegistrationSettingsGUI
@@ -304,9 +305,11 @@ class ilRegistrationSettingsGUI
                 $this->ctrl->getLinkTargetByClass(
                     [
                         ilAdministrationGUI::class,
-                        ilObjUserFolderGUI::class
+                        ilObjUserFolderGUI::class,
+                        NewAccountMailSettingsGUI::class
+
                     ],
-                    'newAccountMail'
+                    'show'
                 )
             );
             $this->ctrl->setParameterByClass(ilObjUserFolderGUI::class, 'ref_id', $_GET['ref_id']);
