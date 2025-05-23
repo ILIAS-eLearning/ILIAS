@@ -26,7 +26,9 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\ResourceStorage\Services as ResourceStorage;
 
 /**
  * @ilCtrl_Calls ILIAS\User\Settings\System\NewAccountMailSettingsGUI: ILIAS\User\Settings\System\MailAttachmentUploadHandlerGUI
@@ -34,6 +36,9 @@ use Psr\Http\Message\ServerRequestInterface;
 class NewAccountMailSettingsGUI
 {
     use RedirectOnMissingWrite;
+
+    private readonly MailAttachmentUploadHandlerGUI $upload_handler_gui;
+    private readonly MailAttachmentsStakeholder $stakeholder;
 
     public function __construct(
         private readonly \ilLanguage $lng,
@@ -44,16 +49,22 @@ class NewAccountMailSettingsGUI
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
         private readonly Refinery $refinery,
-        private readonly ServerRequestInterface $request
+        private readonly ServerRequestInterface $request,
+        private readonly ResourceStorage $irss,
+        private readonly NewAccountMailRepository $account_mail_repo
     ) {
+        $this->stakeholder = new MailAttachmentsStakeholder();
+        $this->upload_handler_gui = new MailAttachmentUploadHandlerGUI(
+            $this->irss,
+            $this->stakeholder
+        );
     }
 
     public function executeCommand(): void
     {
+        $this->redirectOnMissingWrite($this->access, $this->ctrl, $this->tpl, $this->lng);
         if ($this->ctrl->getNextClass() === strtolower(MailAttachmentUploadHandlerGUI::class)) {
-            $this->ctrl->forwardCommand(
-                new MailAttachmentUploadHandlerGUI()
-            );
+            $this->ctrl->forwardCommand($this->upload_handler_gui);
             return;
         }
         $cmd = $this->ctrl->getCmd() . 'Cmd';
@@ -62,8 +73,6 @@ class NewAccountMailSettingsGUI
 
     private function showCmd(?StandardForm $form = null): void
     {
-        $this->redirectOnMissingWrite($this->access, $this->ctrl, $this->tpl, $this->lng);
-
         $content = [
             $form ?? $this->buildForm(),
             $this->ui_factory->panel()->standard(
@@ -95,7 +104,6 @@ class NewAccountMailSettingsGUI
 
     private function saveCmd(): void
     {
-        $this->redirectOnMissingWrite($this->access, $this->ctrl, $this->tpl, $this->lng);
         $form = $this->buildForm()->withRequest($this->request);
         $data = $form ->getData();
         if ($data === null) {
@@ -104,27 +112,33 @@ class NewAccountMailSettingsGUI
             return;
         }
 
-        foreach ($this->lng->getInstalledLanguages() as $lang_key) {
-            \ilObjUserFolder::_writeNewAccountMail(
-                $lang_key,
-                $data[0][$lang_key]['subject'],
-                $data[0][$lang_key]['salutation_none_specific'],
-                $data[0][$lang_key]['salutation_female'],
-                $data[0][$lang_key]['salutation_male'],
-                $data[0][$lang_key]['body']
-            );
+        foreach ($data[0] as $lang_code => $new_account_mail) {
+            $old_account_mail = $this->account_mail_repo->getFor($lang_code);
 
-            /*if ($_FILES['att_' . $lang_key]['tmp_name']) {
-                \ilObjUserFolder::_updateAccountMailAttachment(
-                    $lang_key,
-                    $_FILES['att_' . $lang_key]['tmp_name'],
-                    $_FILES['att_' . $lang_key]['name']
+            $new_attachment_rid = $new_account_mail['attachment'] === []
+                ? null
+                : $new_account_mail['attachment'][0];
+
+            if ($old_account_mail->getAttachmentRid() !== null
+                && $old_account_mail->getAttachmentRid() !== $new_attachment_rid) {
+                $this->irss->manage()->remove(
+                    $this->irss->manage()->find($old_account_mail->getAttachmentRid()),
+                    $this->stakeholder
                 );
+                $old_account_mail->deleteAttachmentTempFile();
             }
 
-            if ($this->user_request->getMailAttDelete($lang_key)) {
-                \ilObjUserFolder::_deleteAccountMailAttachment($lang_key);
-            } */
+            $this->account_mail_repo->store(
+                new NewAccountMailImpl(
+                    $lang_code,
+                    trim($new_account_mail['subject']),
+                    trim($new_account_mail['body']),
+                    trim($new_account_mail['salutation_none_specific']),
+                    trim($new_account_mail['salutation_male']),
+                    trim($new_account_mail['salutation_female']),
+                    $new_attachment_rid
+                )
+            );
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
@@ -135,42 +149,44 @@ class NewAccountMailSettingsGUI
     {
         $ff = $this->ui_factory->input()->field();
         $inputs = [];
-        foreach ($this->lng->getInstalledLanguages() as $lang_key) {
-            $account_mail = \ilObjUserFolder::_lookupNewAccountMail($lang_key);
+        foreach ($this->lng->getInstalledLanguages() as $lang_code) {
+            $account_mail = $this->account_mail_repo->getFor($lang_code);
 
-            $title = $this->lng->txt('meta_l_' . $lang_key);
-            if ($lang_key === $this->lng->getDefaultLanguage()) {
+            $title = $this->lng->txt('meta_l_' . $lang_code);
+            if ($lang_code === $this->lng->getDefaultLanguage()) {
                 $title .= ' (' . $this->lng->txt('default') . ')';
             }
 
-            $inputs[$lang_key] = $ff->section(
+            $inputs[$lang_code] = $ff->section(
                 [
                     'subject' => $ff->text($this->lng->txt('subject'))
                         ->withAdditionalTransformation(
-                            $this->buildValidateMailBodyConstraint()
+                            $this->buildConvertCurlyBracesTrafo()
                         )->withAdditionalTransformation(
                             $this->buildValidateMailBodyConstraint()
                         )->withValue(
-                            $this->convertCurlyBracesForFormOutput($account_mail['subject'] ?? '')
+                            $this->convertCurlyBracesForFormOutput($account_mail->getSubject())
                         ),
                     'salutation_none_specific' => $ff->text($this->lng->txt('mail_salutation_general'))
-                        ->withValue($account_mail['sal_g'] ?? ''),
+                        ->withValue($account_mail->getSalutationNoneSpecific()),
                     'salutation_female' => $ff->text($this->lng->txt('mail_salutation_female'))
-                        ->withValue($account_mail['sal_f'] ?? ''),
+                        ->withValue($account_mail->getSalutationFemale()),
                     'salutation_male' => $ff->text($this->lng->txt('mail_salutation_male'))
-                        ->withValue($account_mail['sal_m'] ?? ''),
+                        ->withValue($account_mail->getSalutationMale()),
                     'body' => $ff->textarea($this->lng->txt('message_content'))
                         ->withAdditionalTransformation(
-                            $this->buildValidateMailBodyConstraint()
+                            $this->buildConvertCurlyBracesTrafo()
                         )->withAdditionalTransformation(
                             $this->buildValidateMailBodyConstraint()
                         )->withValue(
-                            $this->convertCurlyBracesForFormOutput($account_mail['body'] ?? '')
+                            $this->convertCurlyBracesForFormOutput($account_mail->getBody())
                         ),
-                    'attachment' => $ff->file(
-                        new MailAttachmentUploadHandlerGUI(),
-                        $this->lng->txt('attachment')
-                    )->withMaxFiles(10)
+                    'attachment' => $ff->file($this->upload_handler_gui, $this->lng->txt('attachment'))
+                        ->withValue(
+                            $account_mail->getAttachmentRid() === null
+                                ? []
+                                : [$account_mail->getAttachmentRid()]
+                        )
                 ],
                 $title
             );

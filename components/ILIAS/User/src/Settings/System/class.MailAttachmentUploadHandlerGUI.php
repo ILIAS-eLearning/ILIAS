@@ -20,8 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Settings\System;
 
-use ILIAS\ResourceStorage\Services as ResourceStorageServices;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Services as ResourceStorage;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
 use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
@@ -35,16 +34,10 @@ use ILIAS\FileUpload\DTO\UploadResult;
  */
 class MailAttachmentUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
-    protected \ilLanguage $language;
-    protected ResourceStorageServices $storage;
-    protected Stakeholder $stakeholder;
-    protected FlavourDefinition $flavour;
-
-    protected ?ResourceIdentification $rid = null;
-    protected bool $has_access = false;
-
-    public function __construct()
-    {
+    public function __construct(
+        private readonly ResourceStorage $storage,
+        private readonly MailAttachmentsStakeholder $stakeholder
+    ) {
 
         parent::__construct();
     }
@@ -65,57 +58,33 @@ class MailAttachmentUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
             );
         }
 
-        $status = HandlerResult::STATUS_OK;
-        $message = 'file upload OK';
-        if ($this->rid === null) {
-            $i = $this->storage->manage()->upload($result, $this->stakeholder);
-        } else {
-            $i = $this->rid;
-            $this->storage->manage()->replaceWithUpload(
-                $i,
-                $result,
-                $this->stakeholder
-            );
-        }
-
-        $this->storage->flavours()->ensure($i, $this->flavour);
-
         return new BasicHandlerResult(
             $this->getFileIdentifierParameterName(),
-            $status,
-            $i->serialize(),
-            $message
+            HandlerResult::STATUS_OK,
+            $this->storage->manage()->upload($result, $this->stakeholder)->serialize(),
+            'file upload OK'
         );
     }
 
     protected function getRemoveResult(string $identifier): HandlerResult
     {
-        if ($this->has_access === false) {
-            return $this->getAccessFailureResult(
-                $this->getFileIdentifierParameterName(),
-                $identifier,
-                $this->language
-            );
-        }
-
         return new BasicHandlerResult(
             $this->getFileIdentifierParameterName(),
             HandlerResult::STATUS_OK,
             $identifier,
-            "We just don't do anything here."
+            'We just don\'t do anything here.'
         );
     }
 
     public function getInfoResult(string $identifier): ?FileInfoResult
     {
-        if (null !== ($id = $this->storage->manage()->find($identifier))) {
+        $title = $mime = 'unknown';
+        $size = 0;
+        if (($id = $this->storage->manage()->find($identifier)) !== null) {
             $revision = $this->storage->manage()->getCurrentRevision($id)->getInformation();
             $title = $revision->getTitle();
             $size = $revision->getSize();
             $mime = $revision->getMimeType();
-        } else {
-            $title = $mime = 'unknown';
-            $size = 0;
         }
 
         return new BasicFileInfoResult(

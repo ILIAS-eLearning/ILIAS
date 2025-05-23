@@ -16,23 +16,19 @@
  *
  *********************************************************************/
 
-/**
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- */
-class ilFSStorageUserFolder extends ilFileSystemAbstractionStorage
+declare(strict_types=1);
+
+namespace ILIAS\User\Settings\System;
+
+use ILIAS\ResourceStorage\Services as ResourceStorage;
+
+interface NewAccountMail
 {
-    public function __construct(int $a_container_id = 0)
-    {
-        parent::__construct(self::STORAGE_DATA, true, $a_container_id);
-    }
-
-    protected function getPathPostfix(): string
-    {
-        return 'reg';
-    }
-
-    protected function getPathPrefix(): string
-    {
-        return 'ilReg';
-    }
+    public function getLangCode(): string;
+    public function getSubject(): string;
+    public function getBody(): string;
+    public function getSalutationNoneSpecific(): string;
+    public function getSalutationMale(): string;
+    public function getSalutationFemale(): string;
+    public function getAttachment(ResourceStorage $irss): ?array;
 }

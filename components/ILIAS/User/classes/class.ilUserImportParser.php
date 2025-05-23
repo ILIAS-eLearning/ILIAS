@@ -266,7 +266,6 @@ class ilUserImportParser extends ilSaxParser
         }
 
         $this->acc_mail = new ilAccountMail();
-        $this->acc_mail->setAttachConfiguredFiles(true);
         $this->acc_mail->useLangVariablesAsFallback(true);
 
         $this->recommended_content_manager = new ilRecommendedContentManager();

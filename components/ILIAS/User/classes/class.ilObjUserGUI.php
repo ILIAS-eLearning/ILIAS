@@ -495,7 +495,6 @@ class ilObjUserGUI extends ilObjectGUI
         if ($this->form_gui->getInput('send_mail') == 'y') {
             $acc_mail = new ilAccountMail();
             $acc_mail->useLangVariablesAsFallback(true);
-            $acc_mail->setAttachConfiguredFiles(true);
             $acc_mail->setUserPassword($this->form_gui->getInput('passwd'));
             $acc_mail->setUser($user_object);
 

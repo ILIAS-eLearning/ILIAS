@@ -22,14 +22,13 @@ namespace ILIAS\User\Setup;
 
 use ILIAS\Setup;
 use ILIAS\Setup\Agent\NullAgent;
-use ILIAS\Refinery;
 
-class Agent extends Setup\Agent\NullAgent
+class Agent extends NullAgent
 {
     public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new \ilDatabaseUpdateStepsExecutedObjective(
-            new DBUpdateSteps10()
+            new DBUpdateSteps11()
         );
     }
 
@@ -37,7 +36,14 @@ class Agent extends Setup\Agent\NullAgent
     {
         return new \ilDatabaseUpdateStepsMetricsCollectedObjective(
             $storage,
-            new DBUpdateSteps10()
+            new DBUpdateSteps11()
         );
+    }
+
+    public function getMigrations(): array
+    {
+        return [
+            new MigrateNewAccountAttachments()
+        ];
     }
 }

@@ -54,13 +54,13 @@ class AdminSettingsGUI
 
     public function executeCommand(): void
     {
+        $this->redirectOnMissingWrite($this->access, $this->ctrl, $this->tpl, $this->lng);
         $cmd = $this->ctrl->getCmd() . 'Cmd';
         $this->$cmd();
     }
 
     private function showCmd(?StandardForm $form = null): void
     {
-        $this->redirectOnMissingWrite($this->access, $this->ctrl, $this->tpl, $this->lng);
         if ($form !== null) {
             $this->tpl->setContent(
                 $this->ui_renderer->render($form)
@@ -83,7 +83,6 @@ class AdminSettingsGUI
 
     private function saveCmd(): void
     {
-        $this->redirectOnMissingWrite($this->access, $this->ctrl, $this->tpl, $this->lng);
         $form = $this->buildForm()->withRequest($this->request);
         $data = $form->getData();
         if ($data === null) {
@@ -207,7 +206,6 @@ class AdminSettingsGUI
 
     private function forcePasswordResetCmd(): void
     {
-        $this->redirectOnMissingWrite($this->access, $this->ctrl, $this->tpl, $this->lng);
         LocalUserPasswordManager::getInstance()->resetLastPasswordChangeForLocalUsers();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('ps_passwd_policy_change_force_user_reset_succ'), true);

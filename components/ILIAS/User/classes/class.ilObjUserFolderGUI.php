@@ -23,6 +23,7 @@ use ILIAS\User\Presentation\AdminTabs;
 use ILIAS\User\Settings\System\AdminSettingsGUI;
 use ILIAS\User\Settings\System\UserSettingsGUI;
 use ILIAS\User\Settings\System\NewAccountMailSettingsGUI;
+use ILIAS\User\Settings\System\NewAccountMailRepository;
 use ILIAS\User\Settings\System\StartingPointSettingsGUI;
 use ILIAS\User\Profile\Fields\StandardFieldsGUI;
 use ILIAS\User\Profile\Fields\CustomFieldsGUI;
@@ -31,6 +32,7 @@ use ILIAS\User\Profile\Prompt\Repository as PromptRepository;
 use ILIAS\Filesystem\Util\Archive\LegacyArchives;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\ResourceStorage\Services as ResourceStorage;
 
 ;
 
@@ -79,6 +81,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
     private Filesystem $filesystem;
     private FileUpload $upload;
     private LegacyArchives $archives;
+    private ResourceStorage $irss;
+    private NewAccountMailRepository $account_mail_repo;
 
     public function __construct(
         $a_data,
@@ -94,6 +98,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->db = $DIC['ilDB'];
         $this->mail_mustache_factory = $DIC->mail()->mustacheFactory();
         $this->archives = $DIC->legacyArchives();
+        $this->irss = $DIC['resource_storage'];
+        $this->account_mail_repo = new NewAccountMailRepository($this->db);
 
         $this->type = 'usrf';
         parent::__construct(
@@ -248,7 +254,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
                         $this->ui_factory,
                         $this->ui_renderer,
                         $this->refinery,
-                        $this->request
+                        $this->request,
+                        $this->irss,
+                        $this->account_mail_repo
                     )
                 );
                 break;
@@ -1423,9 +1431,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         // new account mail
         $this->lng->loadLanguageModule('mail');
-        $amail = ilObjUserFolder::_lookupNewAccountMail($this->lng->getDefaultLanguage());
+        $amail = $this->account_mail_repo->getFor($this->lng->getDefaultLanguage());
         $mail_section = null;
-        if (trim($amail['body'] ?? '') != '' && trim($amail['subject'] ?? '') != '') {
+        if ($amail->getSubject() !== '' && $amail->getBody() !== '') {
             $send_checkbox = $this->ui_factory->input()->field()->checkbox($this->lng->txt('user_send_new_account_mail'))
                                 ->withValue(true);
 
