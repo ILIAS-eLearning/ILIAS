@@ -39,7 +39,6 @@ class TestPassResult
         protected string $exam_id,
         protected string $finalized_by,
     ) {
-        $this->reached_points = max(0.0, $this->reached_points);
     }
 
     public function withMaxPoints(float $max_points): self

@@ -24,7 +24,7 @@ use ILIAS\Cache\Container\BaseRequest;
 use ILIAS\Cache\Container\Container;
 use ILIAS\Cache\Services;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Test\Scoring\Marks\Mark;
+use ILIAS\Test\Scoring\Marks\MarkSchema;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
 
 class Repository
@@ -74,7 +74,9 @@ class Repository
     public function getTestResult(int $active_id): ?ParticipantResult
     {
         $result = $this->db->queryF(
-            "SELECT * FROM tst_result_cache WHERE active_fi = %s",
+            "SELECT tst_result_cache.*, tst_active.test_fi AS test_id FROM tst_result_cache 
+                    JOIN tst_active ON tst_result_cache.active_fi = tst_active.active_id
+                    WHERE active_fi = %s",
             [\ilDBConstants::T_INTEGER],
             [$active_id]
         );
@@ -202,12 +204,14 @@ class Repository
     private function fetchTestAttemptResult(int $active_id, int $attempt): ?array
     {
         return $this->db->fetchAssoc($this->db->queryF(
-            "SELECT tst_pass_result.*, tst_active.last_finished_pass, tst_active.user_fi AS user_id,  tst_tests.test_id, 
-                    tst_tests.obj_fi AS test_obj_id, tst_pass_result.maxpoints AS max_points, points AS reached_points
+            "SELECT tst_pass_result.*, tst_active.last_finished_pass, tst_active.user_fi AS user_id, tst_tests.test_id, 
+                    tst_tests.obj_fi AS test_obj_id, tst_pass_result.maxpoints AS max_points, points AS reached_points,
+                    tst_result_cache.passed_once AS passed_once_before
                     FROM tst_pass_result
                     INNER JOIN tst_active ON tst_pass_result.active_fi = tst_active.active_id
                     INNER JOIN tst_tests ON tst_tests.test_id = tst_active.test_fi
-                    WHERE active_fi = %s AND pass = %s",
+                    LEFT JOIN tst_result_cache ON tst_result_cache.active_fi = tst_active.active_id
+                    WHERE tst_pass_result.active_fi = %s AND tst_pass_result.pass = %s",
             [\ilDBConstants::T_INTEGER,\ilDBConstants::T_INTEGER],
             [$active_id, $attempt]
         ));
@@ -216,18 +220,9 @@ class Repository
     private function buildTestResultObject(array $test_attempt_result): ParticipantResult
     {
         $object = $this->toTestResult($test_attempt_result);
-        $mark = $this->marks_repository->getMarkSchemaFor($test_attempt_result['test_id'])
-            ->getMatchingMark($object->getPercentage());
-        $object = $object->withMark($mark);
 
-        $is_passed = $object->getAttempt() <= $test_attempt_result['last_finished_pass'] && $mark->getPassed();
-        $passed_once_before = $this->db->fetchAssoc(
-            $this->db->queryF(
-                "SELECT passed_once FROM tst_result_cache WHERE active_fi = %s",
-                [\ilDBConstants::T_INTEGER],
-                [$test_attempt_result['active_fi']]
-            )
-        )['passed_once'] ?? false;
+        $is_passed = $object->getAttempt() <= $test_attempt_result['last_finished_pass'] && $object->isPassed();
+        $passed_once_before = (bool) ($test_attempt_result['passed_once_before'] ?? false);
         return $object->withPassedOnce($is_passed || $passed_once_before);
     }
 
@@ -320,15 +315,18 @@ class Repository
             return null;
         }
 
+        $max_points = $this->ensurePositive($row['max_points'] ?? 0.0);
+        $reached_points = $this->ensurePositive($row['reached_points'] ?? 0.0);
+        $percentage = ($max_points > 0 ? $reached_points / $max_points : 0.0) * 100;
+
+        $mark = $this->marks_repository->getMarkSchemaFor($row['test_id'])->getMatchingMark($percentage);
+
         return new ParticipantResult(
             $row['active_fi'],
             (int) $row['pass'],
-            (float) ($row['max_points'] ?? 0.0),
-            (float) ($row['reached_points'] ?? 0.0),
-            $row['mark_short'] ?? '',
-            $row['mark_official'] ?? '',
-            (bool) ($row['passed'] ?? false),
-            (bool) ($row['failed'] ?? true),
+            $max_points,
+            $reached_points,
+            $mark,
             (int) ($row['tstamp'] ?? -1),
             (int) ($row['hint_count'] ?? 0),
             (float) ($row['hint_points'] ?? 0.0),
@@ -345,8 +343,8 @@ class Repository
         return new TestPassResult(
             $row['active_fi'],
             (int) $row['pass'],
-            (float) ($row['maxpoints'] ?? 0.0),
-            (float) ($row['points'] ?? 0.0),
+            $this->ensurePositive($row['maxpoints'] ?? 0.0),
+            $this->ensurePositive($row['points'] ?? 0.0),
             (int) ($row['questioncount'] ?? 0),
             (int) ($row['answeredquestions'] ?? 0),
             (int) ($row['workingtime'] ?? 0),
@@ -357,6 +355,12 @@ class Repository
             $row['finalized_by'] ?? '',
         );
     }
+
+    private function ensurePositive(mixed $value): float
+    {
+        return max(0.0, (float) $value);
+    }
+
 
     public function invalidateStatusCache(array $active_ids, int $test_obj_id): void
     {

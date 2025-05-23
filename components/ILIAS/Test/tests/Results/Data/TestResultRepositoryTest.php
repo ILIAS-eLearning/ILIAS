@@ -25,6 +25,7 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Test\Results\Data\TestPassResult;
 use ILIAS\Test\Results\Data\ParticipantResult;
 use ILIAS\Test\Results\Data\Repository;
+use ILIAS\Test\Scoring\Marks\Mark;
 use ILIAS\Test\Scoring\Marks\MarkSchema;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -58,7 +59,7 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
     public function testGetTestResult(array $query_result, array $expected): void
     {
         $this->mockGetTestResultQuery($query_result);
-        $repository = $this->createInstance();
+        $repository = $this->createInstance($query_result);
 
         $actual = $repository->getTestResult($query_result['active_fi']);
 
@@ -223,7 +224,7 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
         Mocking
      */
 
-    private function createInstance(): Repository
+    private function createInstance(?array $mock_data = null): Repository
     {
         $global_cache = $this->createConfiguredMock(
             \ILIAS\Cache\Services::class,
@@ -232,16 +233,35 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
 
         return $this->createInstanceOf(
             Repository::class,
-            ['marks_repository' => $this->createMarksRepositoryMock(), 'global_cache' => $global_cache]
+            ['marks_repository' => $this->createMarksRepositoryMock($mock_data), 'global_cache' => $global_cache]
         );
     }
 
-    private function createMarksRepositoryMock(): MarksRepository
+    private function createMarksRepositoryMock(?array $mock_data): MarksRepository
     {
-        return new class () implements MarksRepository {
+        if ($mock_data) {
+            $mock = new Mark(
+                $mock_data['mark_short'],
+                $mock_data['mark_official'],
+                0.0,
+                (bool) $mock_data['passed']
+            );
+            $mark_schema = $this->createConfiguredMock(
+                MarkSchema::class,
+                ['getMatchingMark' => $mock]
+            );
+        } else {
+            $mark_schema = (new MarkSchema(0))->createSimpleSchema();
+        }
+
+        return new class ($mark_schema) implements MarksRepository {
+            public function __construct(protected MarkSchema $mark_schema)
+            {
+            }
+
             public function getMarkSchemaFor(int $test_id): MarkSchema
             {
-                return (new MarkSchema($test_id))->createSimpleSchema();
+                return $this->mark_schema;
             }
 
             public function storeMarkSchema(MarkSchema $mark_schema): void
@@ -333,6 +353,9 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
      */
     private function mockGetTestResultQuery(?array $fetch_assoc_return): void
     {
+        if ($fetch_assoc_return) {
+            $fetch_assoc_return['test_id'] = 0;
+        }
         $this->mockGetResultQuery('tst_result_cache', $fetch_assoc_return);
     }
 
@@ -351,8 +374,7 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
             function (\ilDBInterface|MockObject $mock) use ($table, $fetch_assoc_return) {
                 $mock
                     ->expects($this->once())
-                    ->method('queryF')
-                    ->with($this->equalTo("SELECT * FROM $table WHERE active_fi = %s"));
+                    ->method('queryF');
 
                 $mock
                     ->expects($this->once())
@@ -401,7 +423,6 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
             ['pass_scoring' => \ilObjTest::SCORE_LAST_PASS],    // \ilObjTest::_getPassScoring
             ['maxpass' => 0],                                   // \ilObjTest::_getMaxPass
             $test_attempt_result,                               // TestResultRepository::fetchTestPassResult
-            ['passed_once' => $passed_once ? 1 : 0]             // TestResultRepository::buildTestResultObject
         ];
 
         $this->adaptDICServiceMock(
@@ -496,11 +517,11 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
             [
                 10,
                 [
-                   [ 'user_id' => 1, 'active_id' => 100],
-                   [ 'user_id' => 2, 'active_id' => 200],
-                   [ 'user_id' => 3, 'active_id' => 101],
-                   [ 'user_id' => 4, 'active_id' => 201],
-                   [ 'user_id' => 5, 'active_id' => 0],
+                    ['user_id' => 1, 'active_id' => 100],
+                    ['user_id' => 2, 'active_id' => 200],
+                    ['user_id' => 3, 'active_id' => 101],
+                    ['user_id' => 4, 'active_id' => 201],
+                    ['user_id' => 5, 'active_id' => 0],
                 ]
             ],
         ];

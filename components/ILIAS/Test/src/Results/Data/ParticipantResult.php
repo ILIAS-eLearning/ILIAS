@@ -27,35 +27,17 @@ use ILIAS\Test\Scoring\Marks\Mark;
  */
 class ParticipantResult
 {
-    /**
-     * Constructor ensures that the provided values are semantically correct (e.G. reached points are never negative).
-     */
     public function __construct(
         protected int $active_id,
         protected int $attempt,
         protected float $max_points,
         protected float $reached_points,
-        protected string $mark_short,
-        protected string $mark_official,
-        protected bool $passed,
-        protected bool $failed,
+        protected Mark $mark,
         protected int $timestamp,
         protected int $hint_count,
         protected float $hint_points,
         protected bool $passed_once,
     ) {
-        $this->reached_points = max(0.0, $this->reached_points);
-        $this->failed = !$this->passed;
-    }
-
-    public function withMark(Mark $mark): self
-    {
-        $clone = clone $this;
-        $clone->mark_short = $mark->getShortName() ?? ' ';
-        $clone->mark_official = $mark->getOfficialName() ?? ' ';
-        $clone->passed = $mark->getPassed();
-        $clone->failed = !$mark->getPassed();
-        return $clone;
     }
 
     public function withPassedOnce(bool $passed_once): self
@@ -90,24 +72,29 @@ class ParticipantResult
         return $this->reached_points;
     }
 
-    public function getMarkShort(): string
+    public function getMark(): Mark
     {
-        return $this->mark_short;
+        return $this->mark;
     }
 
     public function getMarkOfficial(): string
     {
-        return $this->mark_official;
+        return $this->mark->getOfficialName();
+    }
+
+    public function getMarkShort(): string
+    {
+        return $this->mark->getShortName();
     }
 
     public function isPassed(): bool
     {
-        return $this->passed;
+        return $this->mark->getPassed();
     }
 
     public function isFailed(): bool
     {
-        return $this->failed;
+        return !$this->mark->getPassed();
     }
 
     public function getTimestamp(): int
