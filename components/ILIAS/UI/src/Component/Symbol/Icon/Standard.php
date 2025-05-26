@@ -144,7 +144,8 @@ interface Standard extends Icon
     public const NOTS = 'nots';	//Notes
     public const LHTS = 'lhts';	//Learning History
     public const COMS = 'coms';	//Comments
-    public const LTIS = 'lti';	//LTI
+    public const LTI = 'lti';	//LTI
+    public const LTIS = 'ltis';	//LTIs
     public const CMIS = 'cmis';	//xAPI/cmi5
     public const REP = 'rep';	//Repository
     public const TASK = 'task';   //Task
