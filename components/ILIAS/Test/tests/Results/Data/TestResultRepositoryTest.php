@@ -22,7 +22,7 @@ namespace ILIAS\Test\Tests\Results\Data;
 
 use ILIAS\Cache\Container\Container;
 use ILIAS\Refinery\Transformation;
-use ILIAS\Test\Results\Data\TestPassResult;
+use ILIAS\Test\Results\Data\AttemptResult;
 use ILIAS\Test\Results\Data\ParticipantResult;
 use ILIAS\Test\Results\Data\Repository;
 use ILIAS\Test\Scoring\Marks\Mark;
@@ -175,7 +175,7 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
         $actual = $repository->getTestAttemptResult($query_result['active_fi']);
 
         $this->assertNotNull($actual);
-        $this->assertInstanceOf(TestPassResult::class, $actual);
+        $this->assertInstanceOf(AttemptResult::class, $actual);
         foreach ($expected as $method => $value) {
             $this->assertEquals($value, $actual->$method());
         }
@@ -213,7 +213,7 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
         );
 
         $this->assertNotNull($actual);
-        $this->assertInstanceOf(TestPassResult::class, $actual);
+        $this->assertInstanceOf(AttemptResult::class, $actual);
         $this->assertEqualsWithDelta(time(), $actual->getTimestamp(), 5);
         foreach ($expected as $method => $value) {
             $this->assertEquals($value, $actual->$method());

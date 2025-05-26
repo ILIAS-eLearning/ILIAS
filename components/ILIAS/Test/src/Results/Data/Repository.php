@@ -24,7 +24,6 @@ use ILIAS\Cache\Container\BaseRequest;
 use ILIAS\Cache\Container\Container;
 use ILIAS\Cache\Services;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Test\Scoring\Marks\MarkSchema;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
 
 class Repository
@@ -132,7 +131,7 @@ class Repository
         return $result;
     }
 
-    public function getTestAttemptResult(int $active_id): ?TestPassResult
+    public function getTestAttemptResult(int $active_id): ?AttemptResult
     {
         $result = $this->db->queryF(
             "SELECT * FROM tst_pass_result WHERE active_fi = %s",
@@ -148,7 +147,7 @@ class Repository
         ?\ilAssQuestionProcessLocker $process_locker = null,
         ?int $test_obj_id = null,
         bool $update_cache = true
-    ): ?TestPassResult {
+    ): ?AttemptResult {
         $test_result = $this->fetchTestResult($active_id, $attempt);
         if (!$test_result) {
             return null;
@@ -238,7 +237,7 @@ class Repository
         ));
     }
 
-    private function buildTestAttemptResultObject(int $active_id, array $test_result, ?int $test_obj_id): TestPassResult
+    private function buildTestAttemptResultObject(int $active_id, array $test_result, ?int $test_obj_id): AttemptResult
     {
         $test_result['active_fi'] = $active_id;
         $object = $this->toTestAttemptResult($test_result);
@@ -334,13 +333,13 @@ class Repository
         );
     }
 
-    private function toTestAttemptResult(?array $row): ?TestPassResult
+    private function toTestAttemptResult(?array $row): ?AttemptResult
     {
         if ($row === null) {
             return null;
         }
 
-        return new TestPassResult(
+        return new AttemptResult(
             $row['active_fi'],
             (int) $row['pass'],
             $this->ensurePositive($row['maxpoints'] ?? 0.0),
