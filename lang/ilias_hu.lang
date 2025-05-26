@@ -20,7 +20,7 @@
 * @module language file Hungarian
 * @modulegroup language
 * @author Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version 10.x 2025-03-20
+* @version 10.x 2025-05-23
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -174,7 +174,7 @@ administration#:#auth_auth_mode_determination#:#Azonosítási mód meghatározá
 administration#:#auth_automatic#:#Rögzített sorrend
 administration#:#auth_by_user#:#A felhasználó által
 administration#:#auth_kind_determination#:#Meghatározásfajta
-administration#:#auth_mode_default_change_info#:#Changing the default authentication method affects all user accounts configured to use the default authentication method. If the selected default method (e.g., Shibboleth, SAML, SOAP, ...) does not support or is not configured to allow fallback to local ILIAS authentication, affected users may no longer be able to log in. To avoid this, please ensure that local fallback authentication is activated in the configuration of the selected method, or that the authentication method stored for affected user accounts is manually changed.###21 05 2025 new variable
+administration#:#auth_mode_default_change_info#:#Az alapértelmezett hitelesítési mód módosítása az alapértelmezett hitelesítési módot használó összes felhasználói fiókot érinti. Ha a kiválasztott alapértelmezett módot (pl. Shibboleth, SAML, SOAP) nem támogatja, vagy az nincs konfigurálva a helyi ILIAS-hitelesítésre való tartalék használatára, az érintett felhasználók a továbbiakban nem biztos, hogy bejelentkezhetnek. Ennek elkerülése érdekében győződjön meg arról, hogy a helyi tartalék hitelesítés aktiválva van a kiválasztott módszer konfigurációjában, vagy hogy az érintett felhasználói fiókokhoz tárolt hitelesítési módszert manuálisan módosítják.
 administration#:#auth_mode_determination_info#:#Jelölje be, ha a felhasználóknak ki kell választaniuk az azonosítási módot a bejelentkező képernyőn, vagy ha bejelentkezési módok rögzített sorrendjével kerül kezelésre.
 administration#:#clean#:#Rendbetétel
 administration#:#clean_desc#:#Érvénytelen hivatkozások és faszerkezet-bejegyzések eltávolítása. Hézagok inicializálása a faszerkezetben.
@@ -196,7 +196,7 @@ administration#:#initializing_gaps#:#Hézagok inicializálása a fában…
 administration#:#language_all_modules#:#Összes modul
 administration#:#language_change_settings#:#Nyelvi beállítások változtatása
 administration#:#language_clear_local_changes#:#Helyi változatok törlése az adatbázisban
-administration#:#language_clear_local_changes_info#:#A nyelv összes bejegyzését a lang/ilias_%s.lang fájlban megadott alapértelmezett értékre állítjuk. Minden egyéb változtatás törlünk.
+administration#:#language_clear_local_changes_info#:#A nyelv összes bejegyzését a lang/customizing/ilias_%s.lang fájlban megadott alapértelmezett értékre állítjuk. Minden egyéb változtatás törlünk.
 administration#:#language_cleared_local#:#A helyi változatok törlődtek az adatbázisból.
 administration#:#language_compare#:#Összehasonlítás
 administration#:#language_default_entries#:#(alapértelmezett bejegyzések)
@@ -222,7 +222,7 @@ administration#:#language_maintain#:#Karbantartás
 administration#:#language_maintain_local_changes#:#Helyi módosítások karbantartása
 administration#:#language_maintenance#:#Nyelv karbantartása
 administration#:#language_merge_local_changes#:#Helyi változatok összefésülése a standard nyelvi fájllal
-administration#:#language_merge_local_changes_info#:#A összes helyi és egyéb változat összeolvasztása a lang/ilias_%s.lang standard nyelvi fájlba betűrendben. A webszerver futtatójának írási jog szükséges a fájlhoz.
+administration#:#language_merge_local_changes_info#:#A összes helyi és egyéb változat összeolvasztása a lang/customizing/ilias_%s.lang standard nyelvi fájlba betűrendben. A webszerver futtatójának írási jog szükséges a fájlhoz.
 administration#:#language_merged_global#:#A helyi változatokat összefésülte a standard nyelvi fájllal
 administration#:#language_mode_existing#:#Létező bejegyzések
 administration#:#language_mode_existing_delete#:#Létező bejegyzések törlése
@@ -1335,7 +1335,7 @@ assessment#:#toplist_col_score#:#Pont
 assessment#:#toplist_col_wtime#:#Kidolgozási idő
 assessment#:#total_attempts#:#Összes kitöltés
 assessment#:#total_duration#:#Összes időtartam
-assessment#:#total_max_points_cannot_be_negative#:#The maximum amount of reachable points cannot be negative.###21 05 2025 new variable
+assessment#:#total_max_points_cannot_be_negative#:#Az elérhető pontok maximális száma nem lehet negatív.
 assessment#:#true#:#Igaz
 assessment#:#tst_access_code_created#:#Egyedi hozzáférési kódot állítottunk be az Ön számára, hogy bármikor elérhesse teszteredményeit, és hogy lehetősége legyen ennek a tesztnek a folytatására. Jegyezze fel ezt a kódot, hogy később a teszt elérhesse, illetve folytathassa.
 assessment#:#tst_activate_skill_service#:#Kompetenciaszolgáltatás
@@ -1486,10 +1486,10 @@ assessment#:#tst_filter_question_type_enabled#:#Szűrés kérdéstípus alapján
 assessment#:#tst_filter_tax_node#:#Taxonómia csomópont
 assessment#:#tst_filter_taxonomy#:#Taxonómia
 assessment#:#tst_final_information#:#Teszt befejezése
-assessment#:#tst_finish_confirm_button#:#Igen, be szeretném fejezni a tesztet.
+assessment#:#tst_finish_confirm_button#:#Igen, befejezem a tesztet.
 assessment#:#tst_finish_confirm_cancel_button#:#Nem, menjen vissza az előző kérdéshez.
-assessment#:#tst_finish_confirmation_question#:#Ha befejezi ezt a tesztet, eléri az engedélyezett tesztkitöltések maximális számát. Nem fog tudni visszatérni a tesztbe, hogy megváltoztassa válaszait. Biztos, hogy be szeretné fejezni a tesztet?
-assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Most befejezi a tesztkitöltést, amivel eléri az engedélyezett kitöltések számát. Ezután már nem lesz lehetősége visszalépni a tesztbe, illetve a válaszait módosítani. Biztosm hogy befejezi a tesztkitöltést?
+assessment#:#tst_finish_confirmation_question#:#Most befejezheti a tesztkitöltést. Ezután már nem lesz lehetősége, hogy ezen a kitöltésen módosítson. Biztos, hogy befejezi ezt a tesztkitöltést?
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Most befejezheti a tesztet, amivel eléri az engedélyezett kitöltések számát. Ezután már nem lesz lehetősége, hogy a válaszait módosítsa. Biztos, hogy befejezi a tesztet?
 assessment#:#tst_finish_notification#:#Értesítés
 assessment#:#tst_finish_notification_advanced#:#Az összes teszteredmény küldése
 assessment#:#tst_finish_notification_content_type#:#A levél tartalma
@@ -2272,22 +2272,22 @@ badge#:#badge_create_image_processing_failed#:#Az érdemérmet nem sikerült lé
 badge#:#badge_criteria#:#Kritérium
 badge#:#badge_crs_merit#:#Érdem
 badge#:#badge_deletion#:#Az érdemérmet sikeresen törölte.
-badge#:#badge_deletion_confirmation#:#Biztos, hogy törli az alábbi érdemérmeket azok összes hozzárendelésével?
+badge#:#badge_deletion_confirmation#:#Biztos, hogy törli az alábbi érdemérmeket? Evvel törlöd a felhasználók által megszerzett vagy nekik odaítélt érdemérmeket is.
 badge#:#badge_image_from_template#:#Sablon használata
 badge#:#badge_image_from_upload#:#Kép feltöltése
 badge#:#badge_image_template_form#:#Képsablon
 badge#:#badge_image_templates#:#Képsablonok
 badge#:#badge_in_profile#:#Profilban
 badge#:#badge_issued_on#:#Kiállítás dátuma
-badge#:#badge_lhist_badge_completed#:#$3$ érdemérem elnyerve.
-badge#:#badge_lhist_badge_completed_in#:#$3$ érdemérem elnyerve $1$ alatt.
+badge#:#badge_lhist_badge_completed#:#$3$ érdemérmet elnyerte.
+badge#:#badge_lhist_badge_completed_in#:#$3$ érdemérmet elnyerte $1$ alatt.
 badge#:#badge_manual#:#Manuális odaítélés
 badge#:#badge_new_badges#:#%1 új érdemérme van.
 badge#:#badge_no_valid_types_for_obj#:#Nem hozhat létre új érdemérmet, mert egy aktív érdemérem-típus sem érhető el. Keresse a rendszergazdát.
 badge#:#badge_notification_badges#:#Új érdemérem
 badge#:#badge_notification_badges_goto#:#Érdemérmeimhez
 badge#:#badge_notification_body#:#ezúton értesítjük, hogy új érdemérmet kapott.
-badge#:#badge_notification_osd#:#Új érdemérmeket kapott: [BADGE_LIST]
+badge#:#badge_notification_osd#:#Új érdemérmet kapott: [BADGE_LIST]
 badge#:#badge_notification_parent_goto#:#Tartalomtárhoz
 badge#:#badge_notification_reason#:#Ezt az üzenetet azért kapta, mert érdemérmet adhat profiljához.
 badge#:#badge_notification_subject#:#Érdemérmet kapott
@@ -2299,7 +2299,7 @@ badge#:#badge_remove_badge#:#Érdemérem visszavonása
 badge#:#badge_remove_from_profile#:#Eltávolítás a Profilból
 badge#:#badge_select_one#:#Legalább egy érdemérmet ki kell választania
 badge#:#badge_service_activate#:#Szolgáltatás bekapcsolása
-badge#:#badge_service_activate_info#:#A szolgáltatás bekapcsolása érdemérmek elérhetővé tétéléhez
+badge#:#badge_service_activate_info#:#A szolgáltatás bekapcsolása érdemérmek elérhetővé tételéhez
 badge#:#badge_settings#:#Érdemérem beállításai
 badge#:#badge_sort_active_badges_first#:#Active Badges First###
 badge#:#badge_sort_active_badges_last#:#Active Badges Last
@@ -2309,10 +2309,10 @@ badge#:#badge_sort_added_to_profile_last#:#Added To Profile First
 badge#:#badge_sort_excluded_from_profile_first#:#Excluded From Profile First
 badge#:#badge_sort_manual_awarding_first#:#Badges mit manueller Vergabe zuerst
 badge#:#badge_sort_manual_awarding_last#:#Badges mit manueller Vergabe zuletzt
-badge#:#badge_subtype_auto#:#automatikus
-badge#:#badge_subtype_manual#:#manuális
+badge#:#badge_subtype_auto#:#Automatikus
+badge#:#badge_subtype_manual#:#Manuális
 badge#:#badge_template_deletion_confirmation#:#Biztos, hogy törli a következő képsablont?
-badge#:#badge_template_types#:#Valid típusok
+badge#:#badge_template_types#:#Érdemérem-típus kiosztása
 badge#:#badge_template_types_all#:#Összes
 badge#:#badge_template_types_specific#:#Specifikus
 badge#:#badge_types#:#Típusok
@@ -2321,7 +2321,7 @@ badge#:#badge_uploaded_image_file_not_found#:#Nem található az érdeméremhez 
 badge#:#badge_user_profile#:#Felhasználói profil
 badge#:#badge_valid#:#Érvényes eddig
 badge#:#criteria#:#Feltétel
-badge#:#endless#:#Mindig
+badge#:#endless#:#Örökké
 badge#:#issued_on#:#Kiállítás időpontja
 badge#:#position_updated#:#A profil összerendelését sikeresen módosította.
 badge#:#sort_by_date_asc#:#Dátum ↑
@@ -2649,7 +2649,7 @@ book#:#book_objects_available#:#%s elérhető objektum
 book#:#book_open#:#Foglalásgyűjtemény megnyitása
 book#:#book_overall_limit#:#Foglalások maximális száma
 book#:#book_overall_limit_warning#:#Foglalásai elérték a maximális megengedett számot.
-book#:#book_participant#:#Book for Participants###21 05 2025 new variable
+book#:#book_participant#:#Foglalás résztvevőknek
 book#:#book_participant_already_assigned#:#Egy vagy több résztvevőt már korábban hozzárendeltek.
 book#:#book_participant_assigned#:#A résztvevő(k)nek sikeresen lefoglalta.
 book#:#book_period#:#Időszak
@@ -2812,14 +2812,14 @@ certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 fekvő (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#Háttérkép
 certificate#:#certificate_card_thumbnail_image#:#Kártyaminiatűrök
-certificate#:#certificate_change_active_status#:#A tanúsítvány állapota megváltozott
-certificate#:#certificate_confirm_deletion_text#:#Valóban törli a tanúsítványt és annak minden kapcsolódó adatát?
+certificate#:#certificate_change_active_status#:#A tanúsítvány 'Aktív' állapota megváltozott
+certificate#:#certificate_confirm_deletion_text#:#Biztos, hogy törli a tanúsítványsablon minden adatát?
 certificate#:#certificate_custom#:#Egyéni…
 certificate#:#certificate_edit#:#Tanúsítványsablon létrehozása/módosítása
 certificate#:#certificate_error_import#:#Hiba egy tanúsítvány importálásakor.
 certificate#:#certificate_error_upload_bgimage#:#Hiba fordult elő a háttérkép feltöltése közben.
 certificate#:#certificate_export#:#Exportálás
-certificate#:#certificate_failed#:#sikertelen
+certificate#:#certificate_failed#:#Sikertelen
 certificate#:#certificate_file_basename#:#Tanúsítvány
 certificate#:#certificate_id#:#TanúsítványID
 certificate#:#certificate_issue_date#:#Kibocsátás dátuma
@@ -2867,7 +2867,7 @@ certificate#:#certificate_ph_scos#:#Az alábbi tételeket választotta ki a telj
 certificate#:#certificate_ph_street#:#Felhasználó címe - utca
 certificate#:#certificate_ph_testtitle#:#Teszt címe
 certificate#:#certificate_ph_title#:#Név előtag
-certificate#:#certificate_ph_title_sco#:#cím
+certificate#:#certificate_ph_title_sco#:#Cím
 certificate#:#certificate_ph_zipcode#:#Felhasználó címe - irányítószám / postafiók
 certificate#:#certificate_points_notavailable#:#Ez az érték nem számítható
 certificate#:#certificate_preview#:#Előnézet
@@ -2881,7 +2881,7 @@ certificate#:#certificate_usage#:#A tanúsítványkezelés csak akkor érhető e
 certificate#:#certificate_var_max_points#:#46
 certificate#:#certificate_var_result_mark_long#:#Jó
 certificate#:#certificate_var_result_mark_short#:#Jó
-certificate#:#certificate_var_result_passed#:#sikeresen teljesítette
+certificate#:#certificate_var_result_passed#:#Sikeresen teljesítette
 certificate#:#certificate_var_result_percent#:#83%
 certificate#:#certificate_var_result_points#:#38
 certificate#:#certificate_var_user_birthday#:#1977-05-08
@@ -2900,11 +2900,11 @@ certificate#:#certificate_var_user_title#:#Dr.
 certificate#:#certificate_var_user_zipcode#:#1234
 certificate#:#cmix_cert_ph_object_description#:#Leírás
 certificate#:#cmix_cert_ph_object_title#:#Az xAPI/cmi5-objektum címe
-certificate#:#cmix_cert_ph_reached_score#:#Elért pontok százalékos értéke
+certificate#:#cmix_cert_ph_reached_score#:#Elért pontszám százalékos értéke
 certificate#:#default_background_info#:#A tanúsítványokhoz alapértelmezetten ez a háttérkép kerül kiválasztásra. Ha másikra van szüksége, a tanúsítványszerkesztőbe kell feltöltenie.
 certificate#:#download_certificate#:#Tanúsítvány letöltése
 certificate#:#learning_progress_deactivated#:#A tanulási haladás ki van kapcsolva ennél az objektumnál. A tanúsítványsablon módosításához és a felhasználók tanúsítványának legeneráláshoz be kell kapcsolni.
-certificate#:#lti_cert_ph_mastery_score#:#Mastery Score százalékos értéke
+certificate#:#lti_cert_ph_mastery_score#:#Az elért pontszám százalékos értéke
 certificate#:#lti_cert_ph_object_description#:#Leírás
 certificate#:#lti_cert_ph_object_title#:#Az LTI-fogyasztó objektum címe
 certificate#:#lti_cert_ph_reached_score#:#Elért pontok százalékos értéke
@@ -3116,7 +3116,7 @@ cmix#:#btn_change_registration#:#Mehet
 cmix#:#btn_create_lrs_type#:#LRS-típus hozzáadása
 cmix#:#btn_create_registration#:#Mehet
 cmix#:#change_registration#:#E-mail cím a regisztrációhoz
-cmix#:#cmiexit#:#You can now close the window.###21 05 2025 new variable
+cmix#:#cmiexit#:#Most mát bezárhatja az ablakot.
 cmix#:#cmix_add#:#xAPI/cmi5-objektum hozzáadása
 cmix#:#cmix_add_cmi5_lm#:#cmi5-tananyag
 cmix#:#cmix_add_cmi5_lm_info#:#Ezt a lehetőséget akkor kell használni, ha a tartalom egy cmi5-kompatibilis tanulási modul. A kapcsolódó szolgáltatások, mint például a megfelelő jelentések, további konfiguráció nélkül is elérhetők.
@@ -3273,7 +3273,7 @@ cmix#:#content_privacy_ident#:#A felhasználó azonosítása az erőforráshoz
 cmix#:#content_privacy_name#:#A felhasználó neve az erőforráshoz
 cmix#:#create_lrs_type_form#:#Új LRS-típus
 cmix#:#create_registration#:#E-mail cím regisztrálása
-cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 eredmények hatználata
+cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 eredmények használata
 cmix#:#cron_xapi_results_evaluation_desc#:#Az összes xAPI eredmény lekérése az ILIAS xAPI proxyt nem támogató objektumok esetén.
 cmix#:#description_info#:#A leírás a cím alatt jelenik meg.
 cmix#:#download_certificate#:#Tanúsítvány letöltése
@@ -3426,7 +3426,7 @@ cmps#:#cmps_refresh_lng#:#Nyelv frissítés
 cmps#:#cmps_rep_object#:#Tartalomtárban lévő objektumtípus
 cmps#:#cmps_repository_object_types#:#ILIAS-objektum típusok
 cmps#:#cmps_responsible#:#Felelős
-cmps#:#cmps_responsible_mail#:#Levél (Felelős)
+cmps#:#cmps_responsible_mail#:#E-mail cím (Felelős)
 cmps#:#cmps_save_options#:#Mentés
 cmps#:#cmps_service#:#Szolgáltatás
 cmps#:#cmps_show_details#:#Részletek megjelenítése
@@ -3995,8 +3995,8 @@ common#:#dpro_withdraw_consent_info_external#:#Kérem, tájékoztassa a hiteles�
 common#:#drafts#:#Piszkozatok
 common#:#drag_file_here#:#Ide fogd-és-vidd a fájlt
 common#:#drag_files_here#:#Ide fogd-és-vidd a fájlokat
-common#:#drag_handle#:#Draggable element###21 05 2025 new variable
 common#:#drop_files_on_repo_obj_info#:#Ide fogd-és-vidd a fájlokat a feltöltéshez
+common#:#drag_handle#:#Mozgatható elem
 common#:#edit#:#Módosítás
 common#:#edit_assignments#:#Feladatok módosítása
 common#:#edit_cat_settings#:#Fejlettebb kategória-beállítások
@@ -4588,7 +4588,7 @@ common#:#login_information_settings_saved#:#A bejelentkezési információkat si
 common#:#login_invalid#:#A választott felhasználónév nem érvényes! Csak a következő karakterek használhatók (minimum 3 karakter): A-Z a-z 0-9 _.+*@!$%~
 common#:#login_to_ilias#:#Bejelentkezés az ILIAS-ba
 common#:#login_to_ilias_via_cas#:#Központi hitelesítési szolgáltatáson keresztüli bejelentkezés az ILIAS-ba
-common#:#login_to_ilias_via_login_form#:#Login to ILIAS###21 05 2025 new variable
+common#:#login_to_ilias_via_login_form#:#Bejelentkezés az ILIAS-ba
 common#:#login_to_ilias_via_saml#:#Bejelentkezés az ILIAS-ba SAML hitelesítésen keresztül
 common#:#login_to_ilias_via_shibboleth#:#ILIAS-ba bejelentkezés ezen keresztül:
 common#:#loginname_already_exists#:#Már van ilyen felhasználónév.
@@ -6149,7 +6149,7 @@ cont#:#cont_tile_size_3#:#extra nagy (1-2 csempe soronként)
 cont#:#cont_tile_size_4#:#teljes (1 csempe soronként)
 cont#:#cont_tile_view#:#Csempék
 cont#:#cont_tile_view_info#:#Az ebben a tárolóban lévő objektumok megjelenítése mint miniatűrstílusú csempeként. Csempekép minden objektum saját beállításaiban tölthető fel.
-cont#:#cont_trash_general_usage#:#Ha nagy mennyiségű régi, törölt objektumot kíván eltávolítani a rendszerből, akkor erősen tanácsos a nem tároló típusú objektumokkal kezdeni (például fájlok, fogalomtárak, tesztek), azaz célszerű először minden objektumot eltávolítani a tárolókból (kategóriákból, kurzusokból, csoportokból, anulási sorokból stb. ). A 'Típus" és a 'Törlés helye' szűrők használata segíti ezt a folyamatot. Végül távolítsa el a tárolókat.
+cont#:#cont_trash_general_usage#:#Ha nagy mennyiségű régi, törölt objektumot kíván eltávolítani a rendszerből, akkor erősen tanácsos a nem tároló típusú objektumokkal kezdeni (például fájlok, fogalomtárak, tesztek), azaz célszerű először minden objektumot eltávolítani a tárolókból (kategóriákból, kurzusokból, csoportokból, tanulási sorokból stb. ). A 'Típus" és a 'Törlés helye' szűrők használata segíti ezt a folyamatot. Végül távolítsa el a tárolókat.
 contact#:#contact_awrn_ap_contacts#:#Elfogadott jelölések
 contact#:#contact_awrn_ap_contacts_info#:#A felhasználó összes elfogadott jelölését felsoroljuk.
 contact#:#contact_awrn_req_contacts#:#'Ismerősnek jelölés' kérések
@@ -6195,7 +6195,7 @@ content#:#cont_TableContent#:#Táblázattartalom
 content#:#cont_Verse#:#Verssor/Strófa
 content#:#cont_WholePicture#:#Teljes kép
 content#:#cont_accented#:#Ékezetes
-content#:#cont_act_number#:#Fejezetszámozás
+content#:#cfont_act_number#:#Fejezetszámozás
 content#:#cont_activate_html#:#HTML renderelés bekapcsolása
 content#:#cont_activate_js#:#JavaScript mód bekapcsolása
 content#:#cont_activate_media#:#Média bekapcsolása
@@ -7405,7 +7405,7 @@ copg#:#copg_more_character_formats#:#További karakterstílusok
 copg#:#copg_obj_types#:#Objektumtípusok
 copg#:#copg_page_element_not_found#:#Az oldalelem nem található.
 copg#:#copg_page_type_stys#:#Lapelrendezés
-copg#:#copg_pages#:#Pages###21 05 2025 new variable
+copg#:#copg_pages#:#Lapok
 copg#:#copg_par_format_selection#:#Bekezdésformátumok
 copg#:#copg_pc_mob_does_not_exist#:#Ez a médiaelem nem létezik.
 copg#:#copg_plugin_not_avail#:#'%s' bővítmény nem érhető el
@@ -8582,13 +8582,13 @@ dcl#:#dcl_add_new_field#:#Új mező létrehozása
 dcl#:#dcl_add_new_record#:#Új bejegyzés létrehozása
 dcl#:#dcl_add_new_table#:#Új tábla létrehozása
 dcl#:#dcl_add_new_view#:#Új nézet létrehozása
-dcl#:#dcl_add_perm#:#A felhasználó felvehet rekordokat
-dcl#:#dcl_add_perm_desc#:#A felhasználók bejegyzéseket hozhatnak létre ebben a táblázatban.
-dcl#:#dcl_additional_info_desc#:#A szöveg közvetlenül a táblázat felett jelenik meg.
+dcl#:#dcl_add_perm#:#Rekord felvétele
+dcl#:#dcl_add_perm_desc#:#A felhasználók bejegyzéseket hozhatnak létre ebben a táblázatban. Ha az adatok importálása ebbe a táblázatba engedélyezett, akkor egy Excel importálási funkció is elérhető lesz.
+dcl#:#dcl_additional_info_desc#:#Ez a tartalom közvetlenül a táblázat felett jelenik meg.
 dcl#:#dcl_all_entries#:#Összes bejegyzés
 dcl#:#dcl_any#:#Bármi
 dcl#:#dcl_asc#:#Növekvő sorrend (↑)
-dcl#:#dcl_boolean#:#Logikai
+dcl#:#dcl_boolean#:#Jelölőnégyzet
 dcl#:#dcl_boolean_desc#:#'Kipipált'/'Nem kipipált' jelölőnégyzet.
 dcl#:#dcl_cant_delete_last_table#:#Nem távolíthatja el teljes egészében ezt a táblát, mert ez az adatgyűjtéshez egyetlen táblája. Tartalmát és szerkezetét viszont töröltük.
 dcl#:#dcl_change_notification_dcl_delete_record#:#ezúton tájékoztatjuk, hogy az alábbi bejegyzést törölték
@@ -8606,7 +8606,7 @@ dcl#:#dcl_confirm_delete_detailed_view_title#:#Biztos, hogy törli ezt a részle
 dcl#:#dcl_confirm_delete_field#:#Biztos, hogy törli ezt a mezőt?
 dcl#:#dcl_confirm_delete_fields#:#Biztos, hogy törli ezeket a mezőket?
 dcl#:#dcl_confirm_delete_record#:#Biztos, hogy törli ezt a bejegyzést?
-dcl#:#dcl_confirm_delete_records#:#Biztos, hogy törli az alábbi bejegyzéseket?
+dcl#:#dcl_confirm_delete_records#:#Biztos, hogy törli az alábbi bejegyzéseket?###
 dcl#:#dcl_confirm_delete_table#:#Biztos, hogy törli a táblát annak tartalmával és szerkezetével?
 dcl#:#dcl_confirm_storing_records#:#Kérem, ellenőrizze és hagyja jóvá beírt adatát.
 dcl#:#dcl_confirm_storing_records_no_permission#:#Nincs jogosultsága a bejegyzést utólag módosítani.
@@ -8621,8 +8621,8 @@ dcl#:#dcl_create_fields#:#Kattintson egy táblára a 'Táblák' lap alatt, majd 
 dcl#:#dcl_creation_date#:#Létrehozás dátuma
 dcl#:#dcl_creation_date_description#:#A bejegyzés létrehozásának dátuma.
 dcl#:#dcl_datatype#:#Adattípus
-dcl#:#dcl_date#:#Date Entry###21 05 2025 new variable
-dcl#:#dcl_date_desc#:#Field for a date.###21 05 2025 new variable
+dcl#:#dcl_date#:#Dátum
+dcl#:#dcl_date_desc#:#Dátum beviteli mező.
 dcl#:#dcl_date_selection#:#Dátumválasztó
 dcl#:#dcl_date_selection_desc#:#Dátumlehetőségek választásának felkínálása.
 dcl#:#dcl_deactivate_view#:#Nézet kikapcsolása
@@ -8639,12 +8639,12 @@ dcl#:#dcl_deleted_records#:#Sikeresen törölt %s bejegyzéseket
 dcl#:#dcl_deprecated_copy#:#(Elavult)
 dcl#:#dcl_desc#:#Csökkenő sorrend (↓)
 dcl#:#dcl_description#:#Mező leírása
-dcl#:#dcl_detailed_view#:#Egyszerű
-dcl#:#dcl_display_action_menu#:#Hivatkozott tananyag másolásának és linkelésének engedélyezése
-dcl#:#dcl_display_action_menu_desc#:#Lehetővé teszi a hivatkozott tananyag másolását vagy linkelését
+dcl#:#dcl_detailed_view#:#Részletes nézet
+dcl#:#dcl_display_action_menu#:#Másolás
+dcl#:#dcl_display_action_menu_desc#:#Az objektummásolható a bejegyzésből
 dcl#:#dcl_display_record_alt#:#Bejegyzés megjelenítése
 dcl#:#dcl_duplicate_non_unique_entries_exist#:#Ez a meglévő bejegyzésekre is vonatkozhat.
-dcl#:#dcl_edit#:#Adatgyűjtés módosítása
+dcl#:#dcl_edit#:#Adatgyűjtés beállításai
 dcl#:#dcl_edit_entry_rules#:#Bejegyzés módosítása
 dcl#:#dcl_edit_field#:#Mező módosítása
 dcl#:#dcl_edit_perm#:#A felhasználó szerkeszthet rekordokat
@@ -8668,7 +8668,7 @@ dcl#:#dcl_field_title_unique#:#Ilyen mezőnév már létezik. A mezőnévnek egy
 dcl#:#dcl_field_visible#:#Látható
 dcl#:#dcl_fieldtitle#:#Mező címe
 dcl#:#dcl_file#:#Fájlfeltöltés
-dcl#:#dcl_file_desc#:#Tetszőleges fájlok feltöltésének mezője. A fájlok linkre kattintva letölthetők.
+dcl#:#dcl_file_desc#:#Fájlok feltöltésének mezője, melyek közvetlen az adatgyűjtésből letölthetők.
 dcl#:#dcl_file_format_description#:#A fájl Excel (.xlsx) fájl legyen, első munkalapján az importálandó adatokkal. Az első sorban legyenek pontosan írva a mezőnevek (kis- és nagybetű megkülönböztetve), az alatta lévő sorokban az értékeik. Először ajánlott az importot szimulálni. Hivatkozás vagy kijelölt mezők többszörös kijelölésével történő importáláskor vesszőt, illetve pontosvesszőt használható elválasztójelként.
 dcl#:#dcl_file_not_readable#:#A fájl nem olvasható. Győződjön meg róla, hogy Excel (.xlsx) fájlt tölt fel.
 dcl#:#dcl_filter#:#Szűrőként használható
@@ -8681,9 +8681,9 @@ dcl#:#dcl_height_desc#:#A fájlt átméretezzük a megadott magasságra
 dcl#:#dcl_hello#:#Tisztelt
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#A belső azonosító (internal-ID).
-dcl#:#dcl_ilias_reference#:#Link egy ILIAS-tananyaghoz
+dcl#:#dcl_ilias_reference#:#Link egy ILIAS objektumhoz
 dcl#:#dcl_ilias_reference_desc#:#Keresési mező ILIAS-ban lévő objektum kiválasztására.
-dcl#:#dcl_ilias_reference_link#:#Táblanézetben linkként jelenjen meg
+dcl#:#dcl_ilias_reference_link#:#A kiválasztott objektumra mutató link
 dcl#:#dcl_import#:#Adatgyűjtés importálása
 dcl#:#dcl_import_enabled#:#Importálás engedélyezése az összes felhasználó számára
 dcl#:#dcl_import_enabled_desc#:#Bármelyik felhasználó adatokat importálhat a táblába, ha a szükséges írási jogosultsággal rendelkezik.
@@ -8736,10 +8736,11 @@ dcl#:#dcl_new_field#:#Új mező
 dcl#:#dcl_new_table#:#Új tábla
 dcl#:#dcl_next_record#:#Következő bejegyzés
 dcl#:#dcl_no_content_warning#:#Figyelem, az adatgyűjtés online, de még nincs tartalma!
-dcl#:#dcl_no_entries#:#Nincs bejegyzés
+dcl#:#dcl_no_entries#:#A művelet nem engedélyezett
 dcl#:#dcl_no_entry#:#Egy bejegyzés sem található
-dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###21 05 2025 new variable
+dcl#:#dcl_no_export_async_config#:#Nincs elérhető SOAP konfiguráció aszinkron exportálásokhoz.
 dcl#:#dcl_no_export_data_available#:#Nincs exportálható mező, illetve bejegyzés.
+dcl#:#dcl_no_export_fields_yet#:#Nem adhat hozzá bejegyzéseket ehhez a táblázathoz, mivel még nincsenek benne mezők. Mező létrehozásához kattintson egy táblázatra a 'Táblázatok' lapon, majd az 'Új mező hozzáadása' gombra.
 dcl#:#dcl_no_fields_yet#:#Ez az adatkészlet még nem tartalmaz mezőket. A metaadatokat a különböző mezőtípusok egyikébe kell bevinni. A metaadatok megadásához hozzon létre legalább egy adatmezőt.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#A táblázat alapértelmezett nézetéhez nincs olvasási hozzáférése.
 dcl#:#dcl_no_search_results_found_for#:#Egyetlen tananyagot sem sikerült találni ez alapján:
@@ -8752,7 +8753,7 @@ dcl#:#dcl_notification_deactivate_dcl#:#Értesítés kikapcsolása adatgyűjtés
 dcl#:#dcl_notification_deactivated#:#Értesítés kikapcsolva
 dcl#:#dcl_notification_info#:#Minden felhasználó maga dönt az értesítésről
 dcl#:#dcl_notimage_exception#:#A fájl kép kell legyen.
-dcl#:#dcl_noturl_exception#:#Linket kell megadnia (http://-rel vagy www.-tal kezdődőt) vagy e-mail címet.
+dcl#:#dcl_noturl_exception#:#Linket adjon meg (http://-rel vagy www.-tal kezdődőt) vagy e-mail címet.
 dcl#:#dcl_number#:#Egész szám
 dcl#:#dcl_number_desc#:#Egész szám típusú beviteli mező (max. 9 számjegy). Közönséges és tizedes törtek nem engedélyezettek.
 dcl#:#dcl_online_info#:#Az adatgyűjtést csak online állapotában használhatják a felhasználók.
@@ -8763,10 +8764,11 @@ dcl#:#dcl_owner#:#Tulajdonos
 dcl#:#dcl_owner_description#:#Az a felhasználó, aki a bejegyzés tulajdonosa.
 dcl#:#dcl_owner_name#:#Tulajdonos (név)
 dcl#:#dcl_page_type_dclf#:#Részletes nézet
-dcl#:#dcl_permissions_form#:#Felhasználói műveletek
+dcl#:#dcl_permissions_form#:#Engedélyezett műveletek
 dcl#:#dcl_please_select#:#--- Válasszon ---
 dcl#:#dcl_plugin#:#Bővítmény
 dcl#:#dcl_plugin_desc#:#Adatgyűjtésmező-bővítmények
+dcl#:#dcl_plugin_hooks#:#Elérhető bővítmények
 dcl#:#dcl_plugin_no_hooks_available#:#Egy aktív mezőtípusú bővítmény sem található
 dcl#:#dcl_prev_record#:#Előző bejegyzés
 dcl#:#dcl_prop_expression#:#Kifejezés
@@ -8774,7 +8776,7 @@ dcl#:#dcl_prop_expression_info#:#Használható operátorok: <b>%s</b><br />Haszn
 dcl#:#dcl_public_comments#:#Nyilvános megjegyzések engedélyezése
 dcl#:#dcl_public_comments_desc#:#Felhasználók hozzászólásokat készíthetnek a táblázat bejegyzéseihez.
 dcl#:#dcl_rating#:#Értékelés
-dcl#:#dcl_rating_desc#:#Felhasználók értékelhetik a bejegyzéseket, legfeljebb öt csillagig.
+dcl#:#dcl_rating_desc#:#A bejegyzések értékelhetők legfeljebb öt csillagig.
 dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#A következő szerepköröknek van olvasási hozzáférése az adatgyűjtéshez, de nincs a tábla alapértelmezett nézetéhez:
 dcl#:#dcl_record#:#Bejegyzés
 dcl#:#dcl_record_deleted#:#Bejegyzést sikeresen törölte
@@ -8783,8 +8785,8 @@ dcl#:#dcl_reference#:#Hivatkozás másik mezőre
 dcl#:#dcl_reference_desc#:#Másik mező vagy táblázat kiválasztási lehetőségét biztosítja.
 dcl#:#dcl_reference_link#:#Link megjelenítése hivatkozott bejegyzésként
 dcl#:#dcl_reference_link_info#:#A részletes megjelenítést be kell kapcsolni a hivatkozott táblában
-dcl#:#dcl_reference_title#:#Hivatkozás táblázatra és mezőre.
-dcl#:#dcl_reference_title_desc#:#A kiválasztott mezők rekordja lehetnek a célmező értékei.
+dcl#:#dcl_reference_title#:#Hivatkozott mező
+dcl#:#dcl_reference_title_desc#:#A kiválasztott mezők rekordjai lesznek a célmező kiválasztható értékei.
 dcl#:#dcl_regex#:#Reguláris kifejezés
 dcl#:#dcl_regex_info#:#(határolójel nélkül)
 dcl#:#dcl_required#:#Kötelező (NOT NULL)
@@ -8796,7 +8798,7 @@ dcl#:#dcl_save_order#:#Sorrend mentése
 dcl#:#dcl_save_record#:#Bejegyzés mentése
 dcl#:#dcl_select#:#Kiválasztás megjelenítéshez
 dcl#:#dcl_selection_options#:#Lehetőségek
-dcl#:#dcl_selection_type#:#Típus
+dcl#:#dcl_selection_type#:#Formátum
 dcl#:#dcl_selection_type_combobox#:#Legördülő választék (combobox)
 dcl#:#dcl_selection_type_multi#:#Többszörös kiválasztás
 dcl#:#dcl_selection_type_single#:#Egyszeres kiválasztás
@@ -8851,9 +8853,9 @@ dcl#:#dcl_title_standardview#:#Standard nézetek
 dcl#:#dcl_unique#:#Egyedi
 dcl#:#dcl_unique_desc#:#Ebben a mezőben minden értéknek különböznie kell egymástól.
 dcl#:#dcl_unique_exception#:#Az Ön által megadott értéket már másik bejegyzés tartalmazza.
-dcl#:#dcl_unknown#:#Unkown###21 05 2025 new variable
+dcl#:#dcl_unknown#:#Ismeretlen
 dcl#:#dcl_unknown_exception#:#Az Ön által megadott érték nem érvényes.
-dcl#:#dcl_unknown_plugin#:#Unknown plugin type###21 05 2025 new variable
+dcl#:#dcl_unknown_plugin#:#Ismeretlen bővítménytípus
 dcl#:#dcl_update_field#:#Mező frissítése
 dcl#:#dcl_update_record#:#Bejegyzés módosítása
 dcl#:#dcl_url#:#URL
@@ -10211,10 +10213,10 @@ glo#:#glo_boxes#:#Dobozok
 glo#:#glo_boxes_really_reset#:#Biztos, hogy alaphelyzetbe állítja vissza a dobozokat? Az összes kártya az első dobozba került.
 glo#:#glo_boxes_reset#:#A dobozokat sikeresen alaphelyzetbe állította.
 glo#:#glo_bulk_confirmation#:#Kérjük, ellenőrizze, hogy az összes fogalom és meghatározás helyesen szerepel-e.
-glo#:#glo_bulk_creation#:#Tömeges létrehozás
+glo#:#glo_bulk_creation#:#Beillesztés Excelből
 glo#:#glo_change_to_collection_unavailable_info#:#Ha a tartalom-összeállítás típusát 'Gyűjtő fogalomtár'-ra módosítja, először törölnie kell az összes létező fogalmat a fogalomtárból a 'Tartalom' lapon.
 glo#:#glo_change_to_standard_unavailable_info#:#Ha a tartalom-összeállítás típusát 'Szokásos fogalomtár'-ra módosítja, először el kell távolítania a kiválasztott fogalomtárat a 'Tartalom' lapon.
-glo#:#glo_check#:#Check###21 05 2025 new variable
+glo#:#glo_check#:#Ellenőrzés
 glo#:#glo_collection#:#Gyűjtő fogalomtár
 glo#:#glo_collection_empty_info#:#Ez a gyűjtő fogalomtár jelenleg üres. Kérem, adjon hozzá legalább egy fogalmat.
 glo#:#glo_collection_info#:#A gyűjtő fogalomtár más fogalomtárak tartalmát jeleníti meg.
@@ -10231,11 +10233,11 @@ glo#:#glo_flashcards#:#Kártyák
 glo#:#glo_flashcards_from_today_confirmation#:#A dobozból ma már megjelenítettünk %s kártyát. Csak a hátralévő %s vagy az összes %s kártyát jelenítsük meg?
 glo#:#glo_flashcards_from_today_only_info#:#A dobozban lévő összes kártyát ma már megjelenítettük. Kérem, erősítse meg, hogy ezt a(z) %s kártyát még egyszer jelenítsük meg.
 glo#:#glo_flashcards_intro#:#A cél az, hogy mindegyik kártyára egymás után négyszer helyesen emlékezzen.<br />Kezdésnek az összes kártya az 1. dobozban található.<br />Ha egy kártyát 'Eltaláltam'-mal jelöl meg, az átkerül a következő dobozba.<br />Ha egy kártyát 'Tévedtem'-mel jelöl meg, akkor a kártya visszakerül az 1. dobozba.<br />A kezdéshez jelöljön ki egy dobozt. Ez felfedi a kártyákat.
-glo#:#glo_flashcards_progress#:#%s of %s###21 05 2025 new variable
+glo#:#glo_flashcards_progress#:#%s / %s
 glo#:#glo_introduction#:#Bemutatkozás
 glo#:#glo_link_glo_in_glo#:#Biztos, hogy a célfogalomtár összes fogalmát linkeli a jelenlegi fogalomtárban?
-glo#:#glo_link_to_usages#:#Link###21 05 2025 new variable
-glo#:#glo_md_advanced#:#Further Details###21 05 2025 new variable
+glo#:#glo_link_to_usages#:#Link
+glo#:#glo_md_advanced#:#További részletek
 glo#:#glo_page_type_gdf#:#Fogalommeghatározás
 glo#:#glo_please_select_other_glo#:#Válasszon másik fogalomtárat.
 glo#:#glo_quit_box#:#Doboz bezárása
@@ -10245,7 +10247,7 @@ glo#:#glo_reference_terms#:#Kifejezéshivatkozások
 glo#:#glo_referenced_term#:#Hivatkozott fogalom
 glo#:#glo_removed_from_collection_info#:#A fogalomtárat sikeresen eltávolította a gyűjtő fogalomtárból.
 glo#:#glo_reset_all_boxes#:#Az összes doboz alaphelyzetbe állítása.
-glo#:#glo_save_and_continue#:#Save and Continue###21 05 2025 new variable
+glo#:#glo_save_and_continue#:#Mentés és folytatás
 glo#:#glo_select_source_glo#:#Válasszon forrás fogalomtárat.
 glo#:#glo_select_terms#:#Fogalmak kiválasztása
 glo#:#glo_selected_glossaries#:#Fogalomtárak kiválasztása
@@ -10257,18 +10259,18 @@ glo#:#glo_show_in_presentation_off#:#Ne látszódjon megjelenítési nézetben
 glo#:#glo_show_in_presentation_on#:#Látszódjon megjelenítési nézetben
 glo#:#glo_tax_info#:#A taxonomia használatával osztályokba rendezheti és szűrheti a foglmakat. Szerkesztő nézetben mindig elérhető. Megjelenítési módban be kell kapcsolni. A fogalomtárban csak egy taxonómia használható.
 glo#:#glo_term#:#Fogalom a fogalomtárban
-glo#:#glo_term_definition_pairs#:#Fogalom/Meghatározás párok
+glo#:#glo_term_definition_pairs#:#Excelből másolt adatok
 glo#:#glo_term_definition_pairs_info#:#Adjon meg minden sorban egy fogalmat és a hozzá tartozó meghatározást, pontosveszővel vagy tabulátorral elválasztva (általában egy táblázatkezelőből másolt két oszlop ilyen).
 glo#:#glo_term_letter#:#Betű
 glo#:#glo_term_reference#:#Fogalomhivatkozás
 glo#:#glo_term_vs_def#:#Fogalom vs. meghatározás
 glo#:#glo_term_vs_def_info#:#Először megjelenik a fogalom, ami alapján a meghatározást kell kitalálni.
 glo#:#glo_terms_per_page#:#Fogalmak száma oldalanként
-glo#:#glo_usage_link#:#Usage Link###21 05 2025 new variable
+glo#:#glo_usage_link#:#Használati link
 glo#:#glo_use_all_flashcards#:#Az összes kártya használata (%s)
 glo#:#glo_use_remaining_flashcards#:#A hártalévő kártyák használata (%s)
-glo#:#glo_what_means_definition#:#What does the following mean?###21 05 2025 new variable
-glo#:#glo_what_means_term#:#What does "%s" mean?###21 05 2025 new variable
+glo#:#glo_what_means_definition#:#Mit jelent  következő?
+glo#:#glo_what_means_term#:#'%s' mit jelent?
 grp#:#crs_add_grouping#:#Tagságkorlátozás létrehozása
 grp#:#crs_grouping_delete_sure#:#Biztos, hogy törli ezt a tagsági korlátozást?
 grp#:#crs_grouping_deleted#:#Törölt tagsági korlátozás
@@ -13083,7 +13085,7 @@ obj#:#obj_tool_booking_info#:#Foglalásgyűjtemények használata (például ter
 obj#:#obj_tool_ext_mail_subject_prefix#:#E-mail tárgyának előtagja
 obj#:#obj_tool_ext_mail_subject_prefix_info#:#Ez a rövid szöveg jelenik meg az e-mail tárgyának elején a könnyebb beazonosíthatóság kedvéért.
 obj#:#obj_tool_setting_badges#:#Érdemérmek
-obj#:#obj_tool_setting_badges_info#:#Az érdemérmek kezelése és használata elérhető.
+obj#:#obj_tool_setting_badges_info#:#Az érdemérmek kezelésének, valamint megszerzésének vagy odaítélésének engedélyezése ezen az objektumon belül.
 obj#:#obj_tool_setting_booking#:#Erőforrásfoglalás
 obj#:#obj_tool_setting_filter#:#Szűrés
 obj#:#obj_tool_setting_filter_empty#:#Üres szűrő
@@ -13778,7 +13780,7 @@ prtf#:#prtf_sure_delete_portfolio_pages#:#Biztos, hogy törli az alábbi portfó
 prtf#:#prtf_sure_delete_portfolios#:#Biztos, hogy törli az alábbi portfóliót?
 prtf#:#prtf_tab_other_users#:#Felhasználók portfóliói
 prtf#:#prtf_tab_portfolios#:#Portfólióim
-prtf#:#prtf_table_of_contents#:#Table of Contents###21 05 2025 new variable
+prtf#:#prtf_table_of_contents#:#Tartalomjegyzék
 prtf#:#prtf_template_editor_placeholder_info#:#A portfólióban ezt a helyőrzőt majd lecseréljük.
 prtf#:#prtf_template_import_blog_create#:#Új blog létrehozása
 prtf#:#prtf_template_import_blog_ignore#:#Blogoldal eltávolítása
@@ -13970,7 +13972,7 @@ rbac#:#adn_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállít�
 rbac#:#adn_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Rendszerértesítések beállításaihoz
 rbac#:#adn_visible#:#A felhasználó láthatja a Rendszerbeállítások » Rendszerértesítések menüpontot
 rbac#:#adn_write#:#A felhasználó hozzáadhat és módosíthat rendszerértesítést
-rbac#:#adopt_perm_from_template#:#Jogosultsági beállítások másolása
+rbac#:#adopt_perm_from_template#:#Jogosultsági beállítások másolása ide másik szerepkörből
 rbac#:#adve_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Szerkesztés jogosultsági beállításait
 rbac#:#adve_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Szerkesztés beállításaihoz
 rbac#:#adve_visible#:#A felhasználó láthatja a Rendszerbeállítások » Szerkesztés menüpontot
@@ -14190,7 +14192,7 @@ rbac#:#feed_delete#:#A felhasználó áthelyezhet vagy törölhet webhírforrás
 rbac#:#feed_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#feed_read#:#A felhasználó olvashat webhírforrást
 rbac#:#feed_write#:#A felhasználó módosíthat webhírforrás-beállításokat
-rbac#:#file_content#:#Show Content###21 05 2025 new variable
+rbac#:#file_content#:#Tartalom megjelentése
 rbac#:#file_copy#:#A felhasználó másolhat fájlt
 rbac#:#file_delete#:#A felhasználó áthelyezhet vagy törölhet fájlt
 rbac#:#file_edit_file#:#Fájl módosításának engedélyezése külső szerkesztővel (ha van)
@@ -14526,17 +14528,17 @@ rbac#:#rbac_cant_import_role_wrong_type#:#'%s' elemből '%s' elembe szabály nem
 rbac#:#rbac_change_existing_confirm_tbl#:#Beállítások a 'Már létező objektumokra is' opcióhoz
 rbac#:#rbac_change_existing_objects_desc_new_role#:#Ennek a szerepnek a jogosultsági beállításait a már összes létező objektumra alkalmazzunk.
 rbac#:#rbac_changes#:#Változtatások
-rbac#:#rbac_choose_copy_targets#:#Adjon meg egy kifejezést, mellyel megtalálható az a célszerepkör, amelyekre másolni kívánja jogosultságokat.
+rbac#:#rbac_choose_copy_targets#:#Adjon meg egy kifejezést, mellyel megtalálható az a célszerepkör, amelyekre másolni kívánja %s jogosultságait.
 rbac#:#rbac_condition_delete_sure#:#Biztos, hogy törli az alábbi előfeltételeket?
 rbac#:#rbac_context_global#:#Globális
 rbac#:#rbac_copy_behaviour#:#Szerepmásolási beállítások
-rbac#:#rbac_copy_behaviour_info#:#Transfer Permissions from: %s to: %s###21 05 2025 new variable
+rbac#:#rbac_copy_behaviour_info#:#Jogosultságok másolása innen: %s ide: %s
 rbac#:#rbac_copy_finished#:#A másolás befejeződött.
-rbac#:#rbac_copy_multi_targets#:#%s, %s and %s further Roles selected%s###21 05 2025 new variable
-rbac#:#rbac_copy_no_targets#:#At least one Role must be selected as Target###21 05 2025 new variable
+rbac#:#rbac_copy_multi_targets#:#%s, %s és %s további szerepkört választott ki %s
+rbac#:#rbac_copy_no_targets#:#Legalább egy szerepkört ki kell válsztania célnak
 rbac#:#rbac_copy_role#:#Szerepkör másolása
 rbac#:#rbac_copy_role_add_perm#:#Hozzáadási engedélyek
-rbac#:#rbac_copy_role_copy#:#Másolási engedélyek
+rbac#:#rbac_copy_role_copy#:#Másik szerepkörből másolási engedélyek
 rbac#:#rbac_copy_role_remove_perm#:#Törlései engedélyek
 rbac#:#rbac_create_bibl#:#Bibliográfia létrehozása
 rbac#:#rbac_create_blog#:#Blog létrehozása
@@ -14652,8 +14654,8 @@ rbac#:#rbac_role_rights_copy_change_existing#:#Már létező objektumokra is
 rbac#:#rbac_role_rights_copy_empty#:#Semmi
 rbac#:#rbac_role_selection#:#Szereptípus
 rbac#:#rbac_role_title#:#Szerepcím
-rbac#:#rbac_select_copy_targets#:#Válassza ki a célszerepköröket.
-rbac#:#rbac_select_roles#:#Szerep kiválasztása
+rbac#:#rbac_select_copy_targets#:#Válassza ki a célszerepköröket, amelybe innen másol: <strong>%s</strong>.
+rbac#:#rbac_select_roles#:#Szerepkör kiválasztása
 rbac#:#rbac_ud_global#:#Felhasználó által létrehozott globális szerepkör
 rbac#:#rbac_ud_local#:#Felhasználó által létrehozott helyi szerepkör
 rbac#:#rbac_ud_rolt#:#Felhasználó által létrehozott szerepsablon
@@ -15702,7 +15704,7 @@ skmg#:#skmg_create_skill_template_reference#:#Kompetenciasablon-hivatkozás lét
 skmg#:#skmg_create_skll#:#Kompetencia létrehozása
 skmg#:#skmg_custom_image_alt#:#Kompetenciaprofilokhoz egyéni kép
 skmg#:#skmg_delete_profiles#:#Biztos, hogy törli a következő profilokat?
-skmg#:#skmg_delete_warning#:#Biztos, hogy törli a következő elem(eke)t? Az elemek törlése eltávolítja az összes előfordulását, hozzárendeléseit és a jutalmait is. A biztonság kedvéért alább talál egy felsorolást az összes előfodulásról. Ha az elemet kompetenciaprofilban használják, akkor az is törlődik a profilból. Ez a hozzárendelt felhasználók kompetenciaprofiljának teljesítésére hatással lehet. Ha nem biztos abban, hogy egy elemet valóban törölni kell, kérjük, módosítsa inkább ez elem(ek) állapotát.
+skmg#:#skmg_delete_warning#:#Biztos, hogy törli a következő kompetenciákat, kompetencia-kategóriákat vagy kompetenciafákat? Ezzel törli az objektumok és felhasználók összes rekordját is. Ha az elemet eltávolítja egy kompetenciaprofilból, az azt eredményezheti, hogy a hozzárendelt felhasználók kompetenciaprofilja teljesül. Az alábbi lista azt mutatja, hogy a törlendő elemet hányszor használják objektumokban és felhasználók. Kérjük, a tényleges törlés előtt figyelmesen ellenőrizze az alábbi listát.
 skmg#:#skmg_description_info#:#A leírás a sablonból jön.
 skmg#:#skmg_edit_level#:#Szint módosítása
 skmg#:#skmg_edit_profile#:#Profil módosítása
@@ -15971,7 +15973,7 @@ style#:#sty_ca_cntr_class#:#Körhintatároló
 style#:#sty_ca_icntr_class#:#Körhintaelem-tároló
 style#:#sty_ca_icont_class#:#Körhintaelem-tartalom
 style#:#sty_ca_ihead_class#:#Körhintafejléc
-style#:#sty_cannot_be_copied#:#The following style types cannot be copied###21 05 2025 new variable
+style#:#sty_cannot_be_copied#:#A következő stílustípusok nem másolhatók:
 style#:#sty_caption#:#Felirat
 style#:#sty_caption_class#:#Felirat
 style#:#sty_carousel_templates#:#Körhinta-sablonok
@@ -17113,7 +17115,7 @@ trac#:#trac_current_system_load#:#Jelenlegi rendszerterhelés
 trac#:#trac_data_deleted#:#Az adatokat sikeresen törölte.
 trac#:#trac_defaults#:#Teljesítettségi állapot
 trac#:#trac_defaults_inactive#:#Inaktív
-trac#:#trac_defaults_info#:#Állítsa be a teljesítettségi állapot meghatározásának módját a objektumtípusonként. Több érdemérem-típus, illetve a tanúsítvány függ ettől.
+trac#:#trac_defaults_info#:#Meghatározza, hogy hogyan történjen a következő objektumtípusok teljesítési állapotának meghatározása, amikor egy kurzus elemeként használják őket. Több érdemérem-típus, illetve a tanúsítvány használja ezt.
 trac#:#trac_delete_data#:#Adatok törlése
 trac#:#trac_determines_learning_progress#:#Meghatározza-e a tanulási haladást
 trac#:#trac_edit_collection#:#Itt találhatók a tanulási haladást meghatározó objektumok.
@@ -17195,8 +17197,8 @@ trac#:#trac_mode_course_reference#:#A kurzusből örökítve
 trac#:#trac_mode_course_reference_info#:#A mód automatikusan öröklődik az erre a kurzusra mutató kurzusból.
 trac#:#trac_mode_deactivated#:#Tanulási haladás kikapcsolva
 trac#:#trac_mode_deactivated_info_new#:#A tanulási haladás állapota nem jelenik meg és nincs hatással a szülőobjektumra.
-trac#:#trac_mode_event#:#Vezetők/Tutorok vizsgálják és rögzítik a jelenléteket
-trac#:#trac_mode_event_info#:#Tutorok/Vezetők ellenőrzik, hogy ki vett részt az eseményen, és kézzel rögzítik azt a 'Résztvevők' lapon.
+trac#:#trac_mode_event#:#Manuális jelenléti megerősítést igényel
+trac#:#trac_mode_event_info#:#A felhasználó jelenlétét manuálisan kell megerősíteni a 'Résztvevők' lapon egy 'Tagok kezelése' jogosultsággal rendelkező személynek. Általában ez a személy az esemény felelőse.
 trac#:#trac_mode_exercise_returned#:#Vezetők/Tutorok vizsgálják és döntenek a teljesítettségéről
 trac#:#trac_mode_exercise_returned_info#:#Vezetők/Tutorok döntik el, hogy a felhasználó teljesítette-e a feladatokat, manuálisan állítják a felhasználók összesített állapotát (például 'Teljesített'-re vagy 'Nem teljesített'-re).
 trac#:#trac_mode_individual_assessment#:#Tutor vagy trainer manuálisan értékelte
@@ -17381,7 +17383,7 @@ ui#:#ui_md_input_view#:#Megtekintés
 ui#:#ui_pagination_unlimited#:#Korlátlan
 ui#:#ui_select_dropdown_label#:#Kérem, válasszon
 ui#:#ui_table_no_records#:#Egy bejegyzés sem található
-ui#:#ui_table_order#:#Order###21 05 2025 new variable
+ui#:#ui_table_order#:#Rendezés
 ui#:#ui_transcription#:#Transcript
 ui#:#vc_sort#:#Rendezés alapja:
 user#:#all_roles_has_starting_point#:#Az összes szabálynak van kiindulási pontja
