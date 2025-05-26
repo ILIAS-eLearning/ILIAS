@@ -514,11 +514,10 @@ class ilInitialisation
         if (defined('CLIENT_WEB_DIR')) {
             $ini_file = CLIENT_WEB_DIR . $ini_file;
         } else {
-            $ini_file = ILIAS_WEB_DIR . "/" . CLIENT_ID . "/client.ini.php";
+            $ini_file = __DIR__ . '/../../../../public/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . '/client.ini.php';
         }
 
-        // get settings from ini file
-        $ilClientIniFile = new ilIniFile(__DIR__ . "/../../../../public/" . $ini_file);
+        $ilClientIniFile = new ilIniFile($ini_file);
         $ilClientIniFile->read();
 
         // invalid client id / client ini
