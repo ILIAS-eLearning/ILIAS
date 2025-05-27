@@ -20,6 +20,4 @@ declare(strict_types=1);
 
 class ilDclTextSelectionRecordRepresentation extends ilDclSelectionRecordRepresentation
 {
-    public const PROP_SELECTION_TYPE = 'text_selection_type';
-    public const PROP_SELECTION_OPTIONS = 'text_selection_options';
 }

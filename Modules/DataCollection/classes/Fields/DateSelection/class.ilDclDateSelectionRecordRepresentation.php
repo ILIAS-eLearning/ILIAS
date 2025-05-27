@@ -20,14 +20,11 @@ declare(strict_types=1);
 
 class ilDclDateSelectionRecordRepresentation extends ilDclSelectionRecordRepresentation
 {
-    public const PROP_SELECTION_TYPE = 'date_selection_type';
-    public const PROP_SELECTION_OPTIONS = 'date_selection_options';
-
     public function getHTML(bool $link = true, array $options = []): string
     {
         $values = [];
         foreach (ilDclSelectionOption::getValues((int) $this->getField()->getId(), $this->getRecordField()->getValue()) as $value) {
-            $values[] = date($this->user->getDateFormat()->toString(), strtotime($value));
+            $values[] = (strtotime($value) === false) ? $value : date($this->user->getDateFormat()->toString(), strtotime($value));
         }
 
         return implode(' | ', $values);
