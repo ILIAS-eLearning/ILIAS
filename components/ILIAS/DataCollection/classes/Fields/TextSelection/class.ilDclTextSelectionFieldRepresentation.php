@@ -20,19 +20,15 @@ declare(strict_types=1);
 
 class ilDclTextSelectionFieldRepresentation extends ilDclSelectionFieldRepresentation
 {
-    public const PROP_SELECTION_TYPE = 'text_selection_type';
-    public const PROP_SELECTION_OPTIONS = 'text_selection_options';
-
     protected function buildOptionsInput(): ilDclGenericMultiInputGUI
     {
         $selection_options = new ilDclGenericMultiInputGUI(
             $this->lng->txt('dcl_selection_options'),
-            'prop_' . static::PROP_SELECTION_OPTIONS
+            'prop_' . $this->field::PROP_SELECTION_OPTIONS
         );
-        $selection_options->setMulti(true, true);
 
         $text = new ilTextInputGUI($this->lng->txt('dcl_selection_options'), 'selection_value');
-        $selection_options->addInput($text);
+        $selection_options->setInput($text);
 
         return $selection_options;
     }
