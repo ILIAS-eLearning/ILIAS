@@ -23,6 +23,11 @@ class ilEventHandlingSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
+    public function __construct(
+        protected array $event_definitions
+    ) {
+    }
+
     /**
      * @inheritDoc
      */
@@ -44,7 +49,7 @@ class ilEventHandlingSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
     {
-        return new ilEventHandlingDefinitionsStoredObjective();
+        return new ilEventHandlingBuildEventInfoObjective($this->event_definitions);
     }
 
     /**
@@ -58,7 +63,7 @@ class ilEventHandlingSetupAgent implements Setup\Agent
             new ilDatabaseUpdateStepsExecutedObjective(
                 new ilIntroduceEventHandlingArtifactDBUpdateSteps()
             ),
-            new ilEventHandlingDefinitionsStoredObjective(false)
+            new ilEventHandlingBuildEventInfoObjective($this->event_definitions)
         );
     }
 
@@ -70,7 +75,7 @@ class ilEventHandlingSetupAgent implements Setup\Agent
         return new Setup\ObjectiveCollection(
             "Artifacts for Services/EventHandling",
             false,
-            new ilEventHandlingBuildEventInfoObjective()
+            new ilEventHandlingBuildEventInfoObjective($this->event_definitions)
         );
     }
 

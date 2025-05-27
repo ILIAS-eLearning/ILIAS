@@ -1,6 +1,6 @@
 # Listening To Events
 
-> *This documentation is only relevant for ILIAS 4.3.x and above. This is a work in progress.*
+> *This documentation is only relevant for ILIAS 11.x and above. This is a work in progress.*
 
 Several modules and services in ILIAS raise events. This is mainly done to enable decoupling of components. As a component does not need to know about every dependent service or module, it just notifies the event handler about a new event and the handler then alerts the registered listeners.
  
@@ -11,17 +11,15 @@ Several modules and services in ILIAS raise events. This is mainly done to enabl
 - Peparation of generic and specific data types
 
 
-To register a component as a listener for an event, add the following code to your `service.xml` or `module.xml`:
+To register a component as a listener for an event, add the following code to your component.php:
 
 ```php
-<?php xml version = "1.0" encoding = "UTF-8"?>
-<module ...>
-   ...
-   <events>     
-      <event type="listen" id="components/ILIAS/Tracking" />
-   </events>
-   ...
-</module>
+   $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+      new \ILIAS\EventHandling\Definition(
+         self::class, 
+         'listen', 
+         'components/ILIAS/AccessControl'
+   );
 ```
 
 The example above will register a module for **all** events issued by `ILIAS/Tracking`.
@@ -32,14 +30,12 @@ The example above will register a module for **all** events issued by `ILIAS/Tra
 If necessary, you can set the id of the component to register manually:
 
 ```php
-<?php xml version = "1.0" encoding = "UTF-8"?>
-<module ...>
-   ...
-   <events>     
-      <event type="listen" id="components/ILIAS/Tracking" component="Module/Course" />
-   </events>
-   ...
-</module>
+   $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+      new \ILIAS\EventHandling\Definition(
+         'Module/Course'
+         'listen', 
+         'components/ILIAS/Tracking'
+   );
 ```
 
 
@@ -81,28 +77,16 @@ This way all registered listeners of the component `ILIAS/Tracking` will be noti
  
 *There is no information available to the calling component which or if any listeners are notified.*
 
-Please add all events your component is raising to the respective `module.xml` or `service.xml`:
+Please add all events your component is raising to the respective component.php:
 
 ```php
-<?php xml version = "1.0" encoding = "UTF-8"?>
-<module ...>
-   ...
-   <events>    
-      <event type="raise" id="updateStatus" />
-   </events>
-   ...
-</module>
+   $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+      new \ILIAS\EventHandling\Definition(self::class, 'raise', 'updateStatus');
 ```
 
 If necessary, you can set the id of the (raising) component manually:
 
 ```php
-<?php xml version = "1.0" encoding = "UTF-8"?>
-<module ...>
-   ...
-   <events>    
-      <event type="raise" id="updateStatus" component="components/ILIAS/Tracking" />
-   </events>
-   ...
-</module>
+   $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+      new \ILIAS\EventHandling\Definition('components/ILIAS/Tracking', 'raise', 'updateStatus');
 ```

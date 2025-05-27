@@ -6,13 +6,5 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
-	<events>
-		<event type="listen" id="components/ILIAS/User" />
-		<event type="listen" id="components/ILIAS/Contact" />
-		<event type="raise" id="contactRequested" />
-		<event type="raise" id="contactIgnored" />
-		<event type="raise" id="relationLinked" />
-		<event type="raise" id="relationUnlinked" />
-	</events>
 	<logging />
 </service>

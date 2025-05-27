@@ -23,15 +23,5 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
-	<events>	
-		<event type="listen" id="components/ILIAS/AccessControl" />
-		<event type="raise" id="create" />
-		<event type="raise" id="update" />
-		<event type="raise" id="delete" />
-		<event type="raise" id="addParticipant" />
-		<event type="raise" id="deleteParticipant" />
-		<event type="raise" id="addToWaitingList" />
-		<event type="raise" id="addSubscriber" />
-	</events>
 	<logging id="grp" />
 </module>

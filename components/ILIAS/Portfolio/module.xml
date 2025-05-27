@@ -37,8 +37,4 @@
 	<web_access_checker>
 		<secure_path path="ilPortfolio" checking-class="ilPortfolioAccessHandler" in-sec-folder='1'/>
 	</web_access_checker>
-	<events>
-		<event type="listen" id="components/ILIAS/ILIASObject" />
-		<event type="listen" id="components/ILIAS/User" />
-	</events>
 </module>

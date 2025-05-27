@@ -36,5 +36,7 @@ class Tree implements Component\Component
             new \ilTreeSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(self::class, 'raise', 'deleteNode');
     }
 }

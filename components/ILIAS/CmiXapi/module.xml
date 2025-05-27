@@ -25,12 +25,6 @@
 			<parent id="wfld">wfld</parent>
 		</object>
 	</objects>
-	<events>
-		<event type="listen" id="components/ILIAS/User" />
-		<event type="listen" id="components/ILIAS/ILIASObject" />
-		<event type="listen" id="components/ILIAS/Course" />
-		<event type="listen" id="components/ILIAS/Group" />
-	</events>
 	<crons>
 		<cron id="xapi_results_evaluation" class="ilXapiResultsCronjob" />
 		<cron id="xapi_deletion_cron" class="ilCmiXapiDelCron" />

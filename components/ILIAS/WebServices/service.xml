@@ -8,13 +8,6 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
-	<events>		
-		<event type="listen" id="components/ILIAS/Course" component="Services/WebServices/ECS" />
-		<event type="listen" id="components/ILIAS/Group" component="Services/WebServices/ECS" />
-		<event type="listen" id="components/ILIAS/User" component="Services/WebServices/ECS" />
-		<event type="listen" id="components/ILIAS/Authentication" component="Services/WebServices/ECS" />
-		<event type="raise" id="newEcsEvent" />
-	</events>
 	<crons>
 		<cron id="ecs_task_handler" class="ilCronEcsTaskScheduler" />
 	</crons>

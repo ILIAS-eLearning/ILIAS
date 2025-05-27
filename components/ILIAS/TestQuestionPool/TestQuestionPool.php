@@ -91,5 +91,12 @@ class TestQuestionPool implements Component\Component
         new Component\Resource\ComponentCSS($this, 'css/lac_legend.css');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
         new Component\Resource\ComponentCSS($this, 'css/bootstrap-tagsinput_2015_25_03.css');
+
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(
+                self::class,
+                'listen',
+                'components/ILIAS/Skill'
+            );
     }
 }

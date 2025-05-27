@@ -18,20 +18,6 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
-	<events>		
-		<event type="listen" id="components/ILIAS/News" />
-		<event type="listen" id="components/ILIAS/Course" />
-		<event type="listen" id="components/ILIAS/Group" />
-		<event type="listen" id="components/ILIAS/Forum" />
-		<event type="listen" id="components/ILIAS/User" />
-		<event type="raise" id="createdPost" />
-		<event type="raise" id="updatedPost" />
-		<event type="raise" id="censoredPost" />
-		<event type="raise" id="beforePostDeletion" />
-		<event type="raise" id="afterPostDeletion" />
-		<event type="raise" id="mergedThreads" />
-		<event type="raise" id="movedThreads" />
-	</events>
 	<crons>		
 		<cron id="frm_notification" class="ilForumCronNotification" />
 	</crons>
