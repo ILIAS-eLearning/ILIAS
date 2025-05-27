@@ -22,9 +22,6 @@ use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
 class ilDclTextSelectionRecordFieldModel extends ilDclSelectionRecordFieldModel
 {
-    public const PROP_SELECTION_TYPE = 'text_selection_type';
-    public const PROP_SELECTION_OPTIONS = 'text_selection_options';
-
     /**
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
