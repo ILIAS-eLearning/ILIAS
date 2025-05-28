@@ -33,7 +33,6 @@ class ilExport
 
     protected ilLogger $log;
     protected ilExportHandlerConsumerExportWriterInterface $export_writer;
-    protected string $export_dir_in_container;
     protected ExportPathInfoInterface $export_path_info;
 
     private static array $new_file_structure = array('cat',
@@ -61,12 +60,6 @@ class ilExport
         $this->log = $DIC->logger()->exp();
     }
 
-    public function setExportDirInContainer(
-        string $export_dir_in_container
-    ): void {
-        $this->export_dir_in_container = $export_dir_in_container;
-    }
-
     public function setPathInfo(
         ExportPathInfoInterface $export_path_info
     ): void {
@@ -90,6 +83,21 @@ class ilExport
     public function getPathToComponentExpDirInContainer(): string
     {
         return $this->export_path_info->getPathToComponentExpDirInContainer();
+    }
+
+    public function getPathToComponentExpDirInContainerWithLeadingSetNumber(): string
+    {
+        return "set_" . $this->export_path_info->getSetNumber() . DIRECTORY_SEPARATOR . $this->export_path_info->getPathToComponentExpDirInContainer();
+    }
+
+    public function getSetNumber(): int
+    {
+        return $this->export_path_info->getSetNumber();
+    }
+
+    public function isContainerExport(): bool
+    {
+        return $this->export_path_info->isContainerExport();
     }
 
     public function setExportDirectories(

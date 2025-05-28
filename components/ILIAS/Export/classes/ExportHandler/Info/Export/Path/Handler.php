@@ -26,11 +26,15 @@ class Handler implements ExportPathInfoInterface
 {
     protected string $path_to_component_exp_dir;
     protected string $path_to_component_dir;
+    protected int $set_number;
+    protected bool $is_container_export;
 
     public function __construct()
     {
         $this->path_to_component_exp_dir = '';
         $this->path_to_component_dir = '';
+        $this->set_number = 0;
+        $this->is_container_export = false;
     }
 
     public function withPathToComponentExpDirInContainer(
@@ -49,6 +53,22 @@ class Handler implements ExportPathInfoInterface
         return $clone;
     }
 
+    public function withSetNumber(
+        int $set_number
+    ): ExportPathInfoInterface {
+        $clone = clone $this;
+        $clone->set_number = $set_number;
+        return $clone;
+    }
+
+    public function withIsContainerExport(
+        bool $is_contianer_export
+    ): ExportPathInfoInterface {
+        $clone = clone $this;
+        $clone->is_container_export = $is_contianer_export;
+        return $clone;
+    }
+
     public function getPathToComponentExpDirInContainer(): string
     {
         return $this->path_to_component_exp_dir;
@@ -57,5 +77,15 @@ class Handler implements ExportPathInfoInterface
     public function getPathToComponentDirInContainer(): string
     {
         return $this->path_to_component_dir;
+    }
+
+    public function getSetNumber(): int
+    {
+        return $this->set_number;
+    }
+
+    public function isContainerExport(): bool
+    {
+        return $this->is_container_export;
     }
 }

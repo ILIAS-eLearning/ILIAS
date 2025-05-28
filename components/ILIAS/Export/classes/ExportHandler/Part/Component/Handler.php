@@ -81,10 +81,11 @@ class Handler implements ilExportHandlerPartComponentInterface
             $writer = $this->export_handler->consumer()->handler()->exportWriter($this->export_info->getCurrentElement());
             $path_info = $this->export_handler->info()->export()->path()->handler()
                 ->withPathToComponentDirInContainer($this->component_info->getComponentExportDirPathInContainer())
-                ->withPathToComponentExpDirInContainer($this->component_info->getComponentExportDirPathInContainer() . "/expDir_" . $exp_dir_count++);
+                ->withPathToComponentExpDirInContainer($this->component_info->getComponentExportDirPathInContainer() . "/expDir_" . $exp_dir_count++)
+                ->withSetNumber($this->export_info->getSetNumber())
+                ->withIsContainerExport($this->export_info->getCurrentElement()->getIRSS()->isContainerExport());
             $export = new ilExport();
             $export->setPathInfo($path_info);
-            $export->setExportDirInContainer($this->component_info->getComponentExportDirPathInContainer());
             $export->setExportWriter($writer);
             $export->export_run_dir = $this->export_info->getLegacyExportRunDir();
             $export->setExportDirectories(

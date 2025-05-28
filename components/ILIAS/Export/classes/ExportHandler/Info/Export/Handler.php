@@ -52,6 +52,7 @@ class Handler implements ilExportHandlerExportInfoInterface
         $this->component_export_infos = $this->export_handler->info()->export()->component()->collection();
         $this->component_counts = [];
         $this->data_factory_wrapper = $data_factory_wrapper;
+        $this->set_number = 0;
     }
 
     protected function getExportFilePathInContainer(string $export_folder_name, string $component, int $component_count): string
