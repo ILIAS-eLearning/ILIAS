@@ -170,12 +170,6 @@ class CertificateOverviewTable implements DataRetrieval
 
     private function buildFilter(): \ILIAS\UI\Component\Input\Container\Filter\Standard
     {
-        if ((int) $this->user->getTimeFormat() === ilCalendarSettings::TIME_FORMAT_12) {
-            $date_format = $this->data_factory->dateFormat()->withTime12($this->user->getDateFormat());
-        } else {
-            $date_format = $this->data_factory->dateFormat()->withTime24($this->user->getDateFormat());
-        }
-
         return $this->ui_service->filter()->standard(
             'certificates_overview_filter',
             $this->ctrl->getLinkTargetByClass(
@@ -186,7 +180,7 @@ class CertificateOverviewTable implements DataRetrieval
                 'certificate_id' => $this->ui_factory->input()->field()->text($this->lng->txt('certificate_id')),
                 'issue_date' => $this->ui_factory->input()->field()
                     ->duration($this->lng->txt('certificate_issue_date'))
-                    ->withFormat($date_format)
+                    ->withFormat($this->user->getDateTimeFormat())
                     ->withUseTime(true),
                 'object' => $this->ui_factory->input()->field()->text($this->lng->txt('obj')),
                 'obj_id' => $this->ui_factory->input()->field()->text($this->lng->txt('object_id')),
@@ -202,16 +196,11 @@ class CertificateOverviewTable implements DataRetrieval
     {
         $ui_table = $this->ui_factory->table();
 
-        if ((int) $this->user->getTimeFormat() === ilCalendarSettings::TIME_FORMAT_12) {
-            $date_format = $this->data_factory->dateFormat()->withTime12($this->user->getDateFormat());
-        } else {
-            $date_format = $this->data_factory->dateFormat()->withTime24($this->user->getDateFormat());
-        }
         return $ui_table->data(
             $this->lng->txt('certificates'),
             [
                 'certificate_id' => $ui_table->column()->text($this->lng->txt('certificate_id')),
-                'issue_date' => $ui_table->column()->date($this->lng->txt('certificate_issue_date'), $date_format),
+                'issue_date' => $ui_table->column()->date($this->lng->txt('certificate_issue_date'), $this->user->getDateTimeFormat()),
                 'object' => $ui_table->column()->text($this->lng->txt('obj')),
                 'obj_id' => $ui_table->column()->text($this->lng->txt('object_id')),
                 'owner' => $ui_table->column()->text($this->lng->txt('owner'))
