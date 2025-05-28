@@ -1,205 +1,254 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Debugger</title>
-	<meta name="generator" content="TextMate http://macromates.com/">
-	<meta name="author" content="Hendrik Holtmann, modified by Uwe Kohnle">
-	<link rel="stylesheet" href="{PATH_YUI}fonts/fonts.css" type="text/css" media="screen" title="no title" charset="utf-8">	
-	<link rel="stylesheet" href="{PATH_YUI}container/assets/skins/sam/container.css" type="text/css" media="screen" title="no title" charset="utf-8">	
-	<link rel="stylesheet" href="{PATH_YUI}button/assets/skins/sam/button.css" type="text/css" media="screen" title="no title" charset="utf-8">	
-	<link rel="stylesheet" href="{PATH_YUI}tabview/assets/skins/sam/tabview.css" type="text/css" media="screen" title="no title" charset="utf-8">	
-	<link rel="stylesheet" href="{PATH_YUI}datatable/assets/skins/sam/datatable.css" type="text/css" media="screen" title="no title" charset="utf-8">	
+    <meta charset="UTF-8">
+    <title>X Debugger</title>
+    <meta name="author" content="Hendrik Holtmann, modified by Uwe Kohnle, updated for modern JS">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
 
-	<script type="text/javascript" src="{PATH_YUI}yahoo-dom-event/yahoo-dom-event.js"></script>
-	<script type="text/javascript" src="{PATH_YUI}element/element-min.js"></script>
-	<script type="text/javascript" src="{PATH_YUI}button/button-min.js"></script>
-	<script type="text/javascript" src="{PATH_YUI}tabview/tabview-min.js"></script>
-	<script type="text/javascript" src="{PATH_YUI}container/container-min.js"></script>
-	<script type="text/javascript" src="{PATH_YUI}utilities/utilities.js"></script>
-	<script type="text/javascript" src="{PATH_YUI}datasource/datasource-min.js"></script>
-	<script type="text/javascript" src="{PATH_YUI}paginator/paginator.js"></script>
-	<script type="text/javascript" src="{PATH_YUI}datatable/datatable.js"></script>
+        #debuggerTabs {
+            width: 800px;
+            margin: auto;
+        }
 
-<script type="text/javascript">
-	var recordImg = '{RECORD_IMG}';
-	var stopImg = '{STOP_IMG}';
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 1em;
+        }
 
-	var recording = window.opener.logActive;
-	var filesData = {FILES_DATA};
+        .tabs button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: #f0f0f0;
+            border: none;
+            border-right: 1px solid #ccc;
+        }
 
-	//added for iframe
-	var debuggerShowAllAPIcalls=1;
+        .tabs button.active {
+            background: #fff;
+            border-bottom: 2px solid #000;
+        }
 
-	function loadLiveLog() {
-		if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){
-			document.frames("livelog").location.reload(true);
-		} else {
-			document.getElementById("livelog").contentDocument.location.reload(true);
-		}
-	}
-	function updateLiveLog() {
-		window.setTimeout("loadLiveLog()",2000);
-	}
-	
-	function deleteFile(filename) {
-		var answer = confirm ("{DELETE_LOGFILE} "+filename+" ?")
-		if (answer) {
-			window.opener.sendLogEntry("",'DELETE',"filename",filename,"","");
-		}
-	}
-	
-	function switchRecording()
-	{
-		if (!recording) {
-			document.getElementById("state").src = stopImg;
-			recording = true;
-			document.getElementById("state").title = "{STOP_RECORDING}";
-			window.opener.logActive = true;	
-		} else {
-			document.getElementById("state").src = recordImg;
-			recording = false;			
-			document.getElementById("state").title = "{START_RECORDING}";
-			window.opener.logActive = false;
-			window.opener.createSummary();
-		}
-	}	
+        .tab-content {
+            display: none;
+        }
 
-	YAHOO.widget.DataTable.formatDate = function(elCell, oRecord, oColumn, oData) {
-		var minutes = oData.getMinutes();
-		var month = oData.getMonth()+1;
-		if (minutes<10) {
-			minutes = "0"+minutes;
-		}
-		var strDate = oData.getDate() + "." + month + "." + oData.getFullYear()+" " +oData.getHours()+":"+minutes;
-		elCell.innerHTML = strDate;
-	};
-	
-	function initDebugger() {
+        .tab-content.active {
+            display: block;
+        }
 
-		// Define various event handlers for Dialog
-		var handleSubmit = function() {
-			if (this.validate()) {
-				var data = this.getData();
-				window.opener.sendLogEntry("","COMMENT","",data.comment,"","");
-				this.hide();
-			}	
-		};
-		var handleCancel = function() {
-			this.cancel();
-		};
-		var handleSuccess = function(o) {
-		};
-		var handleFailure = function(o) {
-			alert("{SUBMISSION_FAILED}: " + o.status);
-		};
+        #filesTab table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-		// Instantiate the Dialog
-		commtentDialog = new YAHOO.widget.Dialog("commentDialog", 
-								{ width : "250px",
-								  fixedcenter : true,
-								  visible : false, 
-								  modal : true,
-								  constraintoviewport : true,
-								  buttons : [ { text:"{SUBMIT}", handler:handleSubmit, isDefault:true },
-									      { text:"{CANCEL}", handler:handleCancel } ]
-								});
+        #filesTab th, #filesTab td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
 
-		commtentDialog.validate = function() {
-			var data = this.getData();
-			if (data.comment == "") {
-				alert("{COMMENT_ENTER}.");
-				return false;
-			} else {
-				return true;
-			}
-		};
+        #filesTab th {
+            background: #eee;
+            cursor: pointer;
+        }
 
-		// Wire up the success and failure handlers
-		commtentDialog.callback = { success: handleSuccess,
-							     failure: handleFailure };
+        .actions img {
+            cursor: pointer;
+            width: 16px;
+        }
 
-		commtentDialog.render();
-	}
-	
-	function initTable() {
-				
-		// Instantiate the Dialog
-		var myTabs = new YAHOO.widget.TabView("debuggerTabs"); 
-		
-		// Instantiate DataTable
-		var myColumnDefs = [
-            {label:"{FILENAME}",key:"filename", sortable:true, resizeable:true,width:150},
-            {label:"{DATE}",key:"date", formatter:YAHOO.widget.DataTable.formatDate, sortable:true, sortOptions:{defaultDir:YAHOO.widget.DataTable.CLASS_DESC},resizeable:true,width:150},
-            {label:"{ACTION}",key:"action", sortable:false, resizeable:true,width:200}
-        ];
-        var myDataSource = new YAHOO.util.DataSource(filesData);
-        myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
-        myDataSource.responseSchema = {
-            fields: [{key:'filename'},{key:'date',parser:YAHOO.util.DataSource.parseDate},{key:'action'}]
-        };
-		if (filesData.length>20) {
-			var myConfigs = { 
-				paginator : new YAHOO.widget.Paginator({ 
-				rowsPerPage:18, firstPageLinkLabel:"<<", lastPageLinkLabel:">>", previousPageLinkLabel:"<", nextPageLinkLabel:">" }),
-				sortedBy:{key:"date", dir:YAHOO.widget.DataTable.CLASS_DESC}
-			}; 
-			myDataTable = new YAHOO.widget.DataTable("filesTab", myColumnDefs, myDataSource,myConfigs);
-		}
-		else myDataTable = new YAHOO.widget.DataTable("filesTab", myColumnDefs, myDataSource);
-	}
+        #commentDialog {
+            display: none;
+            position: fixed;
+            top: 30%;
+            left: 40%;
+            width: 250px;
+            background: white;
+            border: 1px solid #888;
+            padding: 20px;
+            z-index: 1000;
+        }
 
-	YAHOO.util.Event.onDOMReady(initDebugger);
-	
-	
-</script>
+        #commentDialog textarea {
+            width: 100%;
+            height: 100px;
+        }
 
-	
+        #commentDialog button {
+            margin-top: 10px;
+        }
+
+        .dialog-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+            display: none;
+        }
+    </style>
 </head>
-<body class="yui-skin-sam">
+<body>
+<div id="debuggerTabs">
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="liveLogTab">{CONSOLE}</button>
+        <button class="tab-btn" data-tab="filesTab">{LOGS}</button>
+        <div style="margin-left:auto;display:flex;gap:10px;">
+            <img id="state" src="not" title="{START_RECORDING}" width="32" onclick="switchRecording()">
+            <img id="comment" src="{COMMENT_IMG}" title="{COMMENT}" width="32" onclick="showCommentDialog()">
+        </div>
+    </div>
 
-	<div id="debuggerTabs" class="yui-navset"> 
-		<ul class="yui-nav"> 
-			<li class="selected"><a href="#tab1"><em>{CONSOLE}</em></a></li> 
-			<li><a href="#tab2"><em>{LOGS}</em></a></li> 
-		</ul>
-		<div style="float:right;margin-top:-40px">
-			<a href="#" onclick="switchRecording();"><img id ="state" border="0" width="32" src="not" title="{START_RECORDING}" /></a>
-			<a href="#" onclick="commtentDialog.show();"><img id ="comment" border="0" width="32" src="{COMMENT_IMG}" title="{COMMENT}" /></a>
-		</div>
-		<div class="yui-content"> 
-           <div id="liveLogTab">
-			<iframe style="width:760px;height:535px;" id="livelog" src="{LOGFILE}">
-			</iframe>
-			</div>
-           <div id="filesTab">
-		   </div> 
-       </div> 
-	</div>
+    <div id="liveLogTab" class="tab-content active">
+        <iframe style="width:100%; height:535px;" id="livelog" src="{LOGFILE}"></iframe>
+    </div>
 
-	<div id="commentDialog"> 
-	     <div class="hd">{COMMENT_ENTER}</div> 
-	     <div class="bd"> 
-	         <form method="POST"> 
-	             <textarea name="comment" style="width:200px;height:150px;"></textarea> 
-	                 <div class="clear"></div> 
-	         </form> 
-	     </div> 
-	</div> 
+    <div id="filesTab" class="tab-content">
+        <table id="logTable">
+            <thead>
+                <tr>
+                    <th data-key="filename">{FILENAME}</th>
+                    <th data-key="date">{DATE}</th>
+                    <!--
+                    <th>{ACTION}</th>
+                    -->
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<div class="dialog-backdrop" id="dialogBackdrop" onclick="hideCommentDialog()"></div>
+<div id="commentDialog">
+    <div>{COMMENT_ENTER}</div>
+    <textarea id="commentInput"></textarea>
+    <button onclick="submitComment()">{SUBMIT}</button>
+    <button onclick="hideCommentDialog()">{CANCEL}</button>
+</div>
 
 <script>
-	//initial state
-	if (recording===true) {
-		document.getElementById("state").src = stopImg;
-		document.getElementById("state").title = "{STOP_RECORDING}";
-	} else {
-		document.getElementById("state").src = recordImg;
-		document.getElementById("state").title = "{START_RECORDING}";
-	}
+    const recordImg = '{RECORD_IMG}';
+    const stopImg = '{STOP_IMG}';
+    let recording = window.opener?.logActive ?? false;
+    let filesData = {FILES_DATA}; // Injected as JS object
+    const tableBody = document.querySelector("#logTable tbody");
 
-	initTable();
-</script>	
+    // Initial tab handling
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById(btn.dataset.tab).classList.add('active');
+        });
+    });
+
+    function formatDate(dateObj) {
+        if (!(dateObj instanceof Date)) return '';
+        return new Intl.DateTimeFormat('de-DE', {
+            day: '2-digit', month: '2-digit', year: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+        }).format(dateObj);
+    }
+
+    function renderTable(data) {
+        tableBody.innerHTML = '';
+        data.forEach(row => {
+            const tr = document.createElement('tr');
+            const date = (typeof row.date === 'string') ? new Date(row.date) : row.date;
+            tr.innerHTML = `
+                <td>${row.filename}</td>
+                <td>${formatDate(date)}</td>
+<!--
+                <td class="actions">
+                    <img src="{DELETE_IMG}" alt="Delete" title="{DELETE_LOGFILE}" onclick="deleteFile('${row.filename}')">
+                </td>
+-->
+            `;
+            tableBody.appendChild(tr);
+        });
+    }
+
+    function sortBy(key, desc = false) {
+        filesData.sort((a, b) => {
+            if (key === "date") {
+                return desc ? new Date(b.date) - new Date(a.date) : new Date(a.date) - new Date(b.date);
+            }
+            return desc ? String(b[key]).localeCompare(String(a[key])) : String(a[key]).localeCompare(String(b[key]));
+        });
+        renderTable(filesData);
+    }
+
+    // Sorting logic
+    let currentSort = {key: "date", desc: true};
+    document.querySelectorAll("#logTable th[data-key]").forEach(th => {
+        th.addEventListener('click', () => {
+            const key = th.dataset.key;
+            const desc = currentSort.key === key ? !currentSort.desc : true;
+            currentSort = {key, desc};
+            sortBy(key, desc);
+        });
+    });
+
+    function switchRecording() {
+        recording = !recording;
+        window.opener.logActive = recording;
+        document.getElementById("state").src = recording ? stopImg : recordImg;
+        document.getElementById("state").title = recording ? "{STOP_RECORDING}" : "{START_RECORDING}";
+        if (!recording) {
+            window.opener.createSummary?.();
+        }
+    }
+
+    function loadLiveLog() {
+        const iframe = document.getElementById("livelog");
+        iframe.src = iframe.src;
+    }
+
+    function updateLiveLog() {
+        setTimeout(loadLiveLog, 2000);
+    }
+
+    function deleteFile(filename) {
+        if (confirm("{DELETE_LOGFILE} " + filename + " ?")) {
+            window.opener.sendLogEntry("", 'DELETE', "filename", filename, "", "");
+        }
+    }
+
+    function showCommentDialog() {
+        document.getElementById("dialogBackdrop").style.display = "block";
+        document.getElementById("commentDialog").style.display = "block";
+    }
+
+    function hideCommentDialog() {
+        document.getElementById("dialogBackdrop").style.display = "none";
+        document.getElementById("commentDialog").style.display = "none";
+    }
+
+    function submitComment() {
+        const comment = document.getElementById("commentInput").value.trim();
+        if (comment === "") {
+            alert("{COMMENT_ENTER}.");
+            return;
+        }
+        window.opener.sendLogEntry("", "COMMENT", "", comment, "", "");
+        hideCommentDialog();
+    }
+
+    // Initial setup
+    (function init() {
+        document.getElementById("state").src = recording ? stopImg : recordImg;
+        document.getElementById("state").title = recording ? "{STOP_RECORDING}" : "{START_RECORDING}";
+        renderTable(filesData);
+    })();
+</script>
 </body>
 </html>
+

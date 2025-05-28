@@ -1680,9 +1680,9 @@ class ilSCORM13PlayerGUI
         $this->tpl->setVariable('FILENAME', $lng->txt("debugwindow_filename"));
         $this->tpl->setVariable('DATE', $lng->txt("debugwindow_date"));
         $this->tpl->setVariable('ACTION', $lng->txt("debugwindow_action"));
-        $this->tpl->setVariable('RECORD_IMG', ilUtil::getImagePath("scorm2004/record.png", ""));
-        $this->tpl->setVariable('STOP_IMG', ilUtil::getImagePath("scorm2004/stop.png", ""));
-        $this->tpl->setVariable('COMMENT_IMG', ilUtil::getImagePath("scorm2004/comment.png", ""));
+        $this->tpl->setVariable('RECORD_IMG', "components/ILIAS/Scorm2004/templates/default/images/record.png");
+        $this->tpl->setVariable('STOP_IMG', "components/ILIAS/Scorm2004/templates/default/images/stop.png");
+        $this->tpl->setVariable('COMMENT_IMG', "components/ILIAS/Scorm2004/templates/default/images/comment.png");
         $logfile = $this->logFileName() . ".html";
         $this->tpl->setVariable('LOGFILE', $this->logFileName() . ".html");
         $this->tpl->setVariable('FILES_DATA', json_encode($this->getLogFileList($lng->txt("debugwindow_delete"), $lng->txt("debugwindow_download"), $lng->txt("debugwindow_open"))));
