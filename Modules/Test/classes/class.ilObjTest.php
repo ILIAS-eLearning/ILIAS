@@ -7619,12 +7619,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             }
 
             $this->db->manipulateF(
-                "UPDATE tst_active SET tries = %s, submitted = %s, submittimestamp = %s WHERE active_id = %s",
-                ['integer','integer','timestamp','integer'],
-                [0, 0, null, $active_fi]
-            );
-
-            $this->db->manipulateF(
                 "INSERT INTO tst_addtime (active_fi, additionaltime, tstamp) VALUES (%s, %s, %s)",
                 ['integer','integer','integer'],
                 [$active_fi, $minutes, time()]
