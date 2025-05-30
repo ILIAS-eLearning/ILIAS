@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Data\Factory;
+use ILIAS\UI\Component\Table\Table;
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -157,6 +158,22 @@ class ilLDAPSettingsGUI
                 $this->mapping_id = current($this->mappings);
             }
         }
+        if ($http_wrapper->query()->has('ldap_role_assignment_rule_ids')) {
+            $this->rule_ids = $http_wrapper->query()->retrieve(
+                'ldap_role_assignment_rule_ids',
+                $refinery->kindlyTo()->listOf($refinery->kindlyTo()->string())
+            );
+            if ($this->rule_ids === ['ALL_OBJECTS']) {
+                $rule_objs = ilLDAPRoleAssignmentRule::_getRules($this->server->getServerId());
+                $this->rule_ids = array_map(static function (ilLDAPRoleAssignmentRule $rule): int {
+                    return $rule->getRuleId();
+                }, $rule_objs);
+            }
+            $this->rule_ids = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())->transform($this->rule_ids);
+            if (count($this->rule_ids) === 1) {
+                $this->rule_id = current($this->rule_ids);
+            }
+        }
         if ($is_post_request) {
             if ($http_wrapper->post()->has('rule_ids')) {
                 $this->rule_ids = $http_wrapper->post()->retrieve(
@@ -167,6 +184,12 @@ class ilLDAPSettingsGUI
             if ($http_wrapper->post()->has('role_id')) {
                 $this->role_id = $http_wrapper->post()->retrieve(
                     'role_id',
+                    $refinery->kindlyTo()->int()
+                );
+            }
+            if ($http_wrapper->post()->has('rule_id')) {
+                $this->rule_id = $http_wrapper->post()->retrieve(
+                    'rule_id',
                     $refinery->kindlyTo()->int()
                 );
             }
@@ -219,9 +242,6 @@ class ilLDAPSettingsGUI
         }
 
         $this->ref_id = $a_auth_ref_id;
-
-
-
     }
 
     /**
@@ -234,6 +254,12 @@ class ilLDAPSettingsGUI
         if ($this->http->wrapper()->query()->has('ldap_role_mapping_table_action')) {
             $cmd = $this->http->wrapper()->query()->retrieve(
                 'ldap_role_mapping_table_action',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        if ($this->http->wrapper()->query()->has('ldap_role_assignment_table_action')) {
+            $cmd = $this->http->wrapper()->query()->retrieve(
+                'ldap_role_assignment_table_action',
                 $this->refinery->kindlyTo()->string()
             );
         }
@@ -301,12 +327,7 @@ class ilLDAPSettingsGUI
 
 
         if (count($rules = ilLDAPRoleAssignmentRule::_getRules($this->server->getServerId()))) {
-            $table_gui = new ilLDAPRoleAssignmentTableGUI($this, 'roleAssignments');
-            $table_gui->setTitle($this->lng->txt("ldap_tbl_role_ass"));
-            $table_gui->parse($rules);
-            $table_gui->addMultiCommand("confirmDeleteRules", $this->lng->txt("delete"));
-            $table_gui->setSelectAllCheckbox("rule_id");
-            $this->tpl->setVariable('RULES_TBL', $table_gui->getHTML());
+            $this->tpl->setVariable('RULES_TBL', $this->ui_renderer->render($this->getRoleAssignmentTable()));
         }
     }
 
@@ -324,7 +345,7 @@ class ilLDAPSettingsGUI
         $this->setSubTabs();
         $this->tabs_gui->activateTab('role_assignments');
 
-        $this->ctrl->saveParameter($this, 'rule_id');
+        $this->ctrl->setParameter($this, 'rule_id', $this->rule_id);
         $this->initFormRoleAssignments(
             'edit'
         );
@@ -473,7 +494,7 @@ class ilLDAPSettingsGUI
             // DONE: wrap this
             $this->form->setValuesByPost();
             $this->tpl->setVariable('NEW_ASSIGNMENT_TBL', $this->form->getHTML());
-            $this->tpl->setVariable('RULES_TBL', $this->getRoleAssignmentTable());
+            $this->tpl->setVariable('RULES_TBL', $this->ui_renderer->render($this->getRoleAssignmentTable()));
             $this->tabs_gui->activateSubTab('role_assignments');
             return true;
         }
@@ -588,17 +609,19 @@ class ilLDAPSettingsGUI
     /**
      * Show active role assignments
      */
-    protected function getRoleAssignmentTable(): string
+    protected function getRoleAssignmentTable(): ?Table
     {
         if (count($rules = ilLDAPRoleAssignmentRule::_getRules($this->server->getServerId()))) {
-            $table_gui = new ilLDAPRoleAssignmentTableGUI($this, 'roleAssignments');
-            $table_gui->setTitle($this->lng->txt("ldap_tbl_role_ass"));
-            $table_gui->parse($rules);
-            $table_gui->addMultiCommand("confirmDeleteRules", $this->lng->txt("delete"));
-            $table_gui->setSelectAllCheckbox("rule_id");
-            return $table_gui->getHTML();
+            $table = new LDAPRoleAssignmentTable(
+                $this->http->request(),
+                $this->lng,
+                $this->ui_factory,
+                new Factory(),
+                $this->server->getServerId(),
+            );
+            return $table->getComponent();
         }
-        return '';
+        return null;
     }
 
 

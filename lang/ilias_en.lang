@@ -10656,8 +10656,8 @@ jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#wk
 ldap#:#add_ldap_server#:#Add Server
 ldap#:#ldap_add_missing#:#Assign Missing Roles
-ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
+ldap#:#ldap_add_roles#:#Add Roles
 ldap#:#ldap_as_ds#:#Use as Data Source
 ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods.
 ldap#:#ldap_assignment_type#:#Assignment Type
@@ -10719,6 +10719,7 @@ ldap#:#ldap_plugin_info#:#Validate the role assignment with a plugin. Please ent
 ldap#:#ldap_referrals#:#Referrals
 ldap#:#ldap_referrals_info#:#If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not. This should be disabled if you are using an active directory server.
 ldap#:#ldap_remove_deprecated#:#Deassign Deprecated Roles
+ldap#:#ldap_remove_roles#:#Remove Roles
 ldap#:#ldap_role_active#:#Enable Group Synchronization
 ldap#:#ldap_role_assignments#:#Role Assignment
 ldap#:#ldap_role_at_info#:#The assignment is based on a specific attribute in the LDAP user profile.

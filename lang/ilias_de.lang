@@ -10647,8 +10647,8 @@ jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#KW
 ldap#:#add_ldap_server#:#Server hinzufügen
 ldap#:#ldap_add_missing#:#Fehlende Rollen zuweisen
-ldap#:#ldap_add_remove#:#Rollen hinzufügen/entfernen
 ldap#:#ldap_add_role_ass_rule#:#Neue Regel für die ILIAS-Rollenzuordnung
+ldap#:#ldap_add_roles#:#Rollen hinzufügen
 ldap#:#ldap_as_ds#:#Als Datenquelle verwenden
 ldap#:#ldap_as_ds_info#:#In Kombination mit anderen Authentifizierungsarten (z. B. SAML) wird die LDAP-Konfiguration nur für die Synchronisierung der Angaben in den ILIAS-Konten genutzt. Eine direkte Authentifizierung über LDAP ist nicht möglich.
 ldap#:#ldap_assignment_type#:#Art der Zuordnung
@@ -10710,6 +10710,7 @@ ldap#:#ldap_plugin_info#:#Überprüfung der Rollenzuordnung per Plugin. Bitte ge
 ldap#:#ldap_referrals#:#Weiterleitungen
 ldap#:#ldap_referrals_info#:#Legt fest, ob Weiterleitungen des LDAP-Servers automatisch gefolgt wird oder nicht.
 ldap#:#ldap_remove_deprecated#:#Unberechtigte Rollen entfernen
+ldap#:#ldap_remove_roles#:#Rollen entfernen
 ldap#:#ldap_role_active#:#Gruppenaktualisierung eingeschaltet
 ldap#:#ldap_role_assignments#:#Rollenzuordnung
 ldap#:#ldap_role_at_info#:#Die Zuordnung erfolgt anhand eines bestimmten Attributs des LDAP-Kontos.
