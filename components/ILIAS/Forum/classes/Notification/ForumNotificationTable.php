@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -103,7 +102,7 @@ class ForumNotificationTable implements DataRetrieval
      * @return array{
      *     0: FilterComponent,
      *     1: DataTable
-     *    }
+     *  }
      */
     public function getComponents(): array
     {
@@ -172,7 +171,7 @@ class ForumNotificationTable implements DataRetrieval
     }
 
     /**
-     * @return array<string, FilterInput[]>
+     * @return array<string, array{0: FilterInput, 1: bool}>
      */
     public function getFilterFields(Factory $field_factory): array
     {
@@ -203,7 +202,7 @@ class ForumNotificationTable implements DataRetrieval
 
     /**
      * @param  array{role: string}|null $filter_data
-     * @return int[]
+     * @return list<int>
      */
     public function getFilteredUserIds(?array $filter_data): array
     {
@@ -217,23 +216,22 @@ class ForumNotificationTable implements DataRetrieval
         switch ($filter) {
             case 'member':
                 $user_ids = $member_ids;
-
                 break;
+
             case 'tutor':
                 $user_ids = $tutor_ids;
-
                 break;
+
             case 'admin':
                 $user_ids = $admin_ids;
-
                 break;
+
             case 'moderators':
                 $user_ids = $moderator_ids;
-
                 break;
+
             default:
                 $user_ids = array_merge($admin_ids, $member_ids, $tutor_ids, $moderator_ids);
-
                 break;
         }
 
@@ -268,8 +266,15 @@ class ForumNotificationTable implements DataRetrieval
     }
 
     /**
-     * @param  int[]     $user_ids
-     * @return array[][]
+     * @param int[] $user_ids
+     * @return list<array{
+     *      'user_id': int,
+     *      'login': string,
+     *      'firstname': string,
+     *      'lastname': string,
+     *      'user_toggle_noti': Icon,
+     *      'role': string,
+     *  }>
      */
     private function getUserNotificationTableData(array $user_ids): array
     {
@@ -317,7 +322,7 @@ class ForumNotificationTable implements DataRetrieval
     }
 
     /**
-     * @return Action[]
+     * @return array<string, Action>
      */
     public function getActions(
         URLBuilder $url_builder,
@@ -347,8 +352,22 @@ class ForumNotificationTable implements DataRetrieval
     }
 
     /**
-     * @param array[][] $records
-     * @return array[][]>
+     * @param list<array{
+     *      'user_id': int,
+     *      'login': string,
+     *      'firstname': string,
+     *      'lastname': string,
+     *      'user_toggle_noti': Icon,
+     *      'role': string,
+     *  }> $records
+     * @return list<array{
+     *      'user_id': int,
+     *      'login': string,
+     *      'firstname': string,
+     *      'lastname': string,
+     *      'user_toggle_noti': Icon,
+     *      'role': string,
+     *  }>>
      */
     private function limitRecords(array $records, Range $range): array
     {
@@ -356,8 +375,22 @@ class ForumNotificationTable implements DataRetrieval
     }
 
     /**
-     * @param  array[][] $records
-     * @return array[][]
+     * @param list<array{
+     *      'user_id': int,
+     *      'login': string,
+     *      'firstname': string,
+     *      'lastname': string,
+     *      'user_toggle_noti': Icon,
+     *      'role': string,
+     *  }> $records
+     * @return list<array{
+     *      'user_id': int,
+     *      'login': string,
+     *      'firstname': string,
+     *      'lastname': string,
+     *      'user_toggle_noti': Icon,
+     *      'role': string,
+     *  }>
      */
     private function orderRecords(array $records, Order $order): array
     {

@@ -433,6 +433,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function notificationSettings(): never
     {
+        $response = '';
         if ($this->http->wrapper()->query()->has('forum_notification_user_ids')) {
             $user_ids = $this->http->wrapper()->query()->retrieve(
                 'forum_notification_user_ids',
@@ -469,8 +470,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                 $response = Streams::ofString($this->ui_renderer->renderAsync($modal));
 
             }
-        } else {
-            $response = '';
         }
         $this->http->saveResponse($this->http->response()->withBody($response));
         $this->http->sendResponse();
