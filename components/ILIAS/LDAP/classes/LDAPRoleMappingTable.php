@@ -150,7 +150,7 @@ class LDAPRoleMappingTable implements DataRetrieval
     }
 
     /**
-     * @return array<string, Action[]>
+     * @return array<string, Action>
      */
     public function getActions(URLBuilder $url_builder, URLBuilderToken $action_parameter_token, URLBuilderToken $row_id_token): array
     {
