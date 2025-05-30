@@ -33,7 +33,15 @@ use ILIAS\UI\Implementation\Component\Table\Action\Action;
 
 class LDAPRoleMappingTable implements DataRetrieval
 {
-    /** @var array[][]|null */
+    /** @var list<array{
+     * 'id': int,
+     * 'title': string,
+     * 'role': string,
+     * 'dn': string,
+     * 'url': string,
+     * 'member_attribute': string,
+     * 'info': string
+     * }>|null */
     private ?array $records = null;
 
     public function __construct(
@@ -143,7 +151,7 @@ class LDAPRoleMappingTable implements DataRetrieval
     }
 
     /**
-     * @return Action[]
+     * @return array<string, Action[]>
      */
     public function getActions(URLBuilder $url_builder, URLBuilderToken $action_parameter_token, URLBuilderToken $row_id_token): array
     {
@@ -170,8 +178,24 @@ class LDAPRoleMappingTable implements DataRetrieval
     }
 
     /**
-     * @param array[][] $records
-     * @return array[][]>
+     * @param list<array{
+     *      'id': int,
+     *      'title': string,
+     *      'role': string,
+     *      'dn': string,
+     *      'url': string,
+     *      'member_attribute': string,
+     *      'info': string
+     *  }> $records
+     * @return list<array{
+     *      'id': int,
+     *      'title': string,
+     *      'role': string,
+     *      'dn': string,
+     *      'url': string,
+     *      'member_attribute': string,
+     *      'info': string
+     *  }>>
      */
     private function limitRecords(array $records, Range $range): array
     {
@@ -179,8 +203,24 @@ class LDAPRoleMappingTable implements DataRetrieval
     }
 
     /**
-     * @param  array[][] $records
-     * @return array[][]
+     * @param list<array{
+     *      'id': int,
+     *      'title': string,
+     *      'role': string,
+     *      'dn': string,
+     *      'url': string,
+     *      'member_attribute': string,
+     *      'info': string
+     *  }> $records
+     * @return list<array{
+     *      'id': int,
+     *      'title': string,
+     *      'role': string,
+     *      'dn': string,
+     *      'url': string,
+     *      'member_attribute': string,
+     *      'info': string
+     *  }>
      */
     private function orderRecords(array $records, Order $order): array
     {
