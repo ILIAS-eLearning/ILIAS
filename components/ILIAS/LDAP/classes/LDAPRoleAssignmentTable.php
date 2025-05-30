@@ -80,15 +80,14 @@ class LDAPRoleAssignmentTable implements DataRetrieval
                 switch ($rule->getType()) {
                     case ilLDAPRoleAssignmentRule::TYPE_ATTRIBUTE:
                         $type = $this->lng->txt('ldap_role_by_attribute');
-
                         break;
+
                     case ilLDAPRoleAssignmentRule::TYPE_GROUP:
                         $type = $this->lng->txt('ldap_role_by_group');
-
                         break;
+
                     case ilLDAPRoleAssignmentRule::TYPE_PLUGIN:
                         $type = $this->lng->txt('ldap_role_by_plugin');
-
                         break;
                 }
                 $this->records[] = [
