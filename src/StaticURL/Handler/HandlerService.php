@@ -97,7 +97,9 @@ class HandlerService
             // Perform Redirect
             $uri_path = $response->getURIPath() ?? '';
             $base_path = $base_uri->getPath() ?? '';
-            $uri_path = str_replace($base_path, '', $uri_path);
+            if ($base_path !== '' && $base_path !== '/') {
+                $uri_path = str_replace(rtrim($base_path, '/') . '/', '', $uri_path);
+            }
             $full_uri = $base_uri . '/' . trim((string) $uri_path, '/');
         }
 
@@ -119,16 +121,16 @@ class HandlerService
                 $full_uri,
                 'soap_pw=' . $context->http()->wrapper()->query()->retrieve(
                     'soap_pw',
-                    $context->refineryttp()->kindlyTo()->string()
+                    $context->refinery()->kindlyTo()->string()
                 )
             );
         }
         if ($context->http()->wrapper()->query()->has('ext_uid')) {
-            return ilUtil::appendUrlParameterString(
+            return \ilUtil::appendUrlParameterString(
                 $full_uri,
                 'ext_uid=' . $context->http()->wrapper()->query()->retrieve(
                     'ext_uid',
-                    $context->refineryttp()->kindlyTo()->string()
+                    $context->refinery()->kindlyTo()->string()
                 )
             );
         }
