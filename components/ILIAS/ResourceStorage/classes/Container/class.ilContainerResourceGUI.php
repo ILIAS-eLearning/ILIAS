@@ -100,8 +100,7 @@ final class ilContainerResourceGUI implements UploadHandler
 
         $this->action_provider = new CombinedActionProvider(
             $this->standard_action_provider = new StandardActionProvider($this->view_request),
-            $this->view_configuration->getActionProvider(),
-            $this->view_configuration->getTopActionProvider()
+            $this->view_configuration->getActionProvider()
         );
 
         $data_provider = new TableDataProvider($this->view_request);

@@ -47,7 +47,7 @@ final class ExternalActionProvider implements ActionProvider
         $this->single_actions[$key] = $action;
     }
 
-    public function addTopAction(string $key, TopAction $action, ?RoundTrip $modal): void
+    public function addTopAction(string $key, TopAction $action, ?RoundTrip $modal = null): void
     {
         $this->top_actions[$key] = $action;
         if ($modal) {
