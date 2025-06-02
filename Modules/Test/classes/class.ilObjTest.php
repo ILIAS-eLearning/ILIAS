@@ -6277,7 +6277,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $main_settings = $main_settings
             ->withGeneralSettings(
                 $main_settings->getGeneralSettings()
-                ->withQuestionSetType($testsettings['questionSetType'])
+                ->withQuestionSetType($testsettings['questionSetType'] ?? self::QUESTION_SET_TYPE_FIXED)
                 ->withAnonymity((bool) $testsettings['Anonymity'])
             )
             ->withIntroductionSettings(
