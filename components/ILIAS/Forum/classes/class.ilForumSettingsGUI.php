@@ -623,7 +623,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             );
             if ($user_ids === ['ALL_OBJECTS']) {
                 $table = $this->getForumNotificationTable();
-                $user_ids = $table->getFilteredUserIds($table->getFilterComponent()->getData());
+                $user_ids = $table->getFilteredUserIds($this->ui_service->filter()->getData($table->getFilterComponent()));
             }
         }
 
