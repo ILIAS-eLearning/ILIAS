@@ -20,7 +20,11 @@ use ILIAS\HTMLLearningModule\StandardGUIRequest;
 use ILIAS\ResourceStorage\Resource\StorableContainerResource;
 use ILIAS\components\ResourceStorage\Container\View\Configuration;
 use ILIAS\components\ResourceStorage\Container\View\Mode;
-use ILIAS\components\ResourceStorage\Container\View\ActionBuilder;
+use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\TopAction;
+use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\Filesystem\Stream\Stream;
 
 /**
  * User Interface class for file based learning modules (HTML)
@@ -34,6 +38,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 {
     private const PARAM_PATH = "path";
     public const CMD_LIST_FILES = "listFiles";
+    public const CMD_IMPORT_FROM_UPLOAD_DIR = 'importFromUploadDir';
     private \ILIAS\ResourceStorage\Services $irss;
     private \ILIAS\HTTP\Services $http;
     protected \ILIAS\HTMLLearningModule\InternalGUIService $gui;
@@ -76,6 +81,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $this->type = "htlm";
         $lng->loadLanguageModule("content");
         $lng->loadLanguageModule("obj");
+        $lng->loadLanguageModule("htlm");
 
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->output_prepared = $a_prepare_output;
@@ -126,6 +132,32 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                     ['text/*']
                 );
 
+                if ($this->getUploadDirectory()) {
+                    foreach ($this->getUploadFiles() as $file) {
+                        $options[$file] = $file;
+                    }
+
+                    $modal = $this->ui_factory->modal()->roundtrip(
+                        $this->lng->txt('import_from_upload_dir'),
+                        [],
+                        [
+                            $this->ui_factory->input()->field()->select(
+                                $this->lng->txt('import_from_upload_dir_file_name'),
+                                $options,
+                                $this->lng->txt('import_from_upload_dir_info'),
+                            )->withRequired(true)
+                        ],
+                        $this->ctrl->getFormActionByClass(\ilObjFileBasedLMGUI::class,
+                            \ilObjFileBasedLMGUI::CMD_IMPORT_FROM_UPLOAD_DIR)
+                    );
+
+                    $top_action = new TopAction(
+                        $this->lng->txt('import_from_upload_dir'),
+                        $modal->getShowSignal()
+                    );
+                    $view_configuration = $view_configuration->withExternalTopAction('import_from_upload_dir',
+                        $top_action, $modal);
+                }
                 // build the collection GUI
                 $container_gui = new ilContainerResourceGUI(
                     $view_configuration
@@ -496,8 +528,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
     protected function getTabs(): void
     {
-        $this->access = $this->access;
-        $this->tabs = $this->tabs;
         $lng = $this->lng;
         $ilHelp = $this->help;
 
@@ -723,4 +753,66 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
     {
         $this->redrawHeaderActionObject();
     }
+
+    public function importFromUploadDir(): void
+    {
+        global $DIC;
+        if(!$this->checkPermissionBool("write", "", "htlm")) {
+            $main_tpl = $DIC->ui()->mainTemplate();
+
+            $main_tpl->setOnScreenMessage(
+                'failure', sprintf(
+                $this->lng->txt("msg_no_perm_write"),
+            ), true
+            );
+            ilObjectGUI::_gotoRepositoryRoot();
+        }
+
+        $file = $this->lm_request->getString('form/input_0');
+        $path = $this->getUploadDirectory() . DIRECTORY_SEPARATOR . $file;
+
+        $this->irss->manageContainer()->addStreamToContainer(
+            $this->object->getResource()->getIdentification(),
+            Streams::ofResource(fopen($path, 'rb')),
+            '/'
+        );
+        $this->ctrl->setParameterByClass("ilObjFileBasedLMGUI", "ref_id", $this->object->getRefId());
+        $this->ctrl->redirectByClass(["ilrepositorygui", "ilObjFileBasedLMGUI", "ilContainerResourceGUI"]);
+    }
+
+    public function getUploadDirectory(): string
+    {
+        $lm_set = new ilSetting("lm");
+        $upload_dir = $lm_set->get("cont_upload_dir");
+
+        $import_file_factory = new ilImportDirectoryFactory();
+        try {
+            $import_directory = $import_file_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_SAHS);
+        } catch (InvalidArgumentException $e) {
+            return '';
+        }
+        return $import_directory->getAbsolutePath();
+    }
+
+    public function getUploadFiles(): array
+    {
+        if (!$upload_dir = $this->getUploadDirectory()) {
+            return array();
+        }
+
+        // get the sorted content of the upload directory
+        $handle = opendir($upload_dir);
+        $files = array();
+        while (false !== ($file = readdir($handle))) {
+            $full_path = $upload_dir . "/" . $file;
+            if (is_file($full_path) and is_readable($full_path)) {
+                $files[] = $file;
+            }
+        }
+        closedir($handle);
+        sort($files);
+
+        return $files;
+    }
+
 }

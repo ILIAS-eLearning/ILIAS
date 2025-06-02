@@ -24,6 +24,8 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Resource\StorableContainerResource;
 use ILIAS\Data\URI;
 use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\ExternalSingleAction;
+use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\TopAction;
+use ILIAS\UI\Component\Modal\RoundTrip;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -31,6 +33,7 @@ use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\ExternalSingle
 final class Configuration
 {
     private ExternalActionProvider $action_provider;
+    private ExternalActionProvider $top_action_provider;
     private \ilCtrlInterface $ctrl;
 
     public function __construct(
@@ -45,6 +48,7 @@ final class Configuration
         global $DIC;
         $this->ctrl = $DIC->ctrl();
         $this->action_provider = new ExternalActionProvider();
+        $this->top_action_provider = new ExternalActionProvider();
     }
 
     public function withExternalAction(
@@ -70,6 +74,13 @@ final class Configuration
                 $supported_mime_types
             )
         );
+
+        return $this;
+    }
+
+    public function withExternalTopAction(string $key, TopAction $topAction, ?RoundTrip $modal): self
+    {
+        $this->top_action_provider->addTopAction($key, $topAction, $modal);
 
         return $this;
     }
@@ -131,4 +142,8 @@ final class Configuration
         return $this->action_provider;
     }
 
+    public function getTopActionProvider(): ExternalActionProvider
+    {
+        return $this->top_action_provider;
+    }
 }
