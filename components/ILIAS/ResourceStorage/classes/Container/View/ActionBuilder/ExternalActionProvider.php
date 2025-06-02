@@ -31,7 +31,6 @@ use ILIAS\UI\Implementation\Component\Modal\RoundTrip;
  */
 final class ExternalActionProvider implements ActionProvider
 {
-
     /**
      * @var SingleAction[]
      */
