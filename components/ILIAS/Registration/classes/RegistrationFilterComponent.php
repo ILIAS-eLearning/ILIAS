@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -74,7 +73,7 @@ class RegistrationFilterComponent
     }
 
     /**
-     * @return array<string, FilterInput[]>
+     * @return array<string, array{0: FilterInput, 1: bool}>
      */
     public function getFilterFields(Factory $field_factory): array
     {

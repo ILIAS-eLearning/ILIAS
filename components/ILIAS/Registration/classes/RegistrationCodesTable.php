@@ -206,8 +206,8 @@ class RegistrationCodesTable implements DataRetrieval
                 switch ($code['alimit']) {
                     case 'unlimited':
                         $result[$k]['alimit'] = $this->lng->txt('reg_access_limitation_none');
-
                         break;
+
                     case 'absolute':
                         $result[$k]['alimit'] = $this->lng->txt('reg_access_limitation_mode_absolute_target') .
                             ': ' .
@@ -216,8 +216,8 @@ class RegistrationCodesTable implements DataRetrieval
                                     new DateTimeZone($this->actor->getTimeZone())
                                 )
                             );
-
                         break;
+
                     case 'relative':
                         $limit_caption = [];
                         $limit = unserialize($code['alimitdt'], ['allowed_classes' => false]);
@@ -234,7 +234,6 @@ class RegistrationCodesTable implements DataRetrieval
                             $result[$k]['alimit'] = $this->lng->txt('reg_access_limitation_mode_relative_target') .
                                 ': ' . implode(', ', $limit_caption);
                         }
-
                         break;
                 }
             }
@@ -244,7 +243,7 @@ class RegistrationCodesTable implements DataRetrieval
     }
 
     /**
-     * @return Action[]
+     * @return array<string, Action>
      */
     public function getActions(
         URLBuilder $url_builder,
@@ -270,7 +269,7 @@ class RegistrationCodesTable implements DataRetrieval
     }
 
     /**
-     * @return Column[]
+     * @return array<string, Column>
      */
     private function getColumns(): array
     {

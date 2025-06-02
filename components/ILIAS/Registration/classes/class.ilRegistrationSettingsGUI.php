@@ -51,15 +51,15 @@ class ilRegistrationSettingsGUI
     protected ilErrorHandling $error;
     protected ilTabsGUI $tabs;
     protected ilToolbarGUI $toolbar;
-    protected ILIAS\HTTP\Services $http;
-    protected ILIAS\Refinery\Factory $refinery;
-    protected Factory $ui_factory;
-    protected UIRenderer $ui_renderer;
-    protected ilUIService $ui_service;
-    protected ilObjUser $user;
-    protected RegistrationCodeRepository $code_repository;
-    protected RegistrationFilterComponent $registration_code_filter;
-    protected RegistrationCodesTable $registration_codes_table;
+    protected readonly ILIAS\HTTP\Services $http;
+    protected readonly ILIAS\Refinery\Factory $refinery;
+    protected readonly Factory $ui_factory;
+    protected readonly UIRenderer $ui_renderer;
+    protected readonly ilUIService $ui_service;
+    protected readonly ilObjUser $user;
+    protected readonly RegistrationCodeRepository $code_repository;
+    protected readonly RegistrationFilterComponent $registration_code_filter;
+    protected readonly RegistrationCodesTable $registration_codes_table;
     protected ilRegistrationSettings $registration_settings;
     protected ?ilRegistrationRoleAssignments $assignments_obj = null;
     protected ?ilRegistrationRoleAccessLimitations $access_limitations_obj = null;
@@ -1117,11 +1117,13 @@ class ilRegistrationSettingsGUI
                 $codes = $this->code_repository->getCodesByFilter($this->getRegistrationFilter()->getFilterData());
             } else {
                 $ids = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())->transform($ids);
-                $codes = array_filter(array_map(
-                    static fn($code) => (string) ($code['code'] ?? ''),
-                    $this->code_repository->loadCodesByIds($ids)
-                ));
+                $codes = $this->code_repository->loadCodesByIds($ids);
             }
+
+            $codes = array_filter(array_map(
+                static fn($code) => (string) ($code['code'] ?? ''),
+                $codes
+            ));
         }
 
         if (count($codes)) {

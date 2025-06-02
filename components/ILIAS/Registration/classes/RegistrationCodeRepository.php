@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -29,7 +28,7 @@ class RegistrationCodeRepository
     private const TABLE_NAME = 'reg_registration_codes';
 
     public function __construct(
-        protected ilDBInterface $db
+        protected readonly ilDBInterface $db
     ) {
     }
 
@@ -57,7 +56,7 @@ class RegistrationCodeRepository
     }
 
     public function getTotalCodeCount(
-        CodeFilter $code_filter = null
+        ?CodeFilter $code_filter = null
     ): int {
         $set = $this->db->query('SELECT COUNT(*) AS cnt FROM ' . self::TABLE_NAME . ($code_filter ? $this->filterToSQL($code_filter) : ''));
         $cnt = 0;
@@ -69,7 +68,18 @@ class RegistrationCodeRepository
     }
 
     /**
-     * @return array<array>
+     * @return list<array{
+     *     code_id: int,
+     *     code: string,
+     *     role: int,
+     *     used: int,
+     *     role_local: string,
+     *     alimit: string,
+     *     alimitdt: string,
+     *     reg_enabled: int,
+     *     ext_enabled: int,
+     *     generated: int
+     * }
      */
     public function getCodesData(
         string $order_field,
@@ -90,7 +100,8 @@ class RegistrationCodeRepository
         $set = $this->db->query($sql);
         $result = [];
         while ($rec = $this->db->fetchAssoc($set)) {
-            $rec['generated'] = $rec['generated_on'];
+            $rec['generated'] = (int) $rec['generated_on'];
+            unset($rec['generated_on']);
             $result[] = $rec;
         }
 
@@ -98,8 +109,19 @@ class RegistrationCodeRepository
     }
 
     /**
-     * @param  int[]        $ids
-     * @return array<array>
+     * @param list<int> $ids
+     * @return list<array{
+     *      code_id: int,
+     *      code: string,
+     *      role: int,
+     *      used: int,
+     *      role_local: string,
+     *      alimit: string,
+     *      alimitdt: string,
+     *      reg_enabled: int,
+     *      ext_enabled: int,
+     *      generated: int
+     *  }
      */
     public function loadCodesByIds(array $ids): array
     {
@@ -118,7 +140,7 @@ class RegistrationCodeRepository
     }
 
     /**
-     * @param int[] $ids
+     * @param list<int> $ids
      */
     public function deleteCodes(array $ids): bool
     {
@@ -135,7 +157,7 @@ class RegistrationCodeRepository
     }
 
     /**
-     * @return int[]
+     * @return list<int>
      */
     public function getGenerationDates(): array
     {
@@ -149,7 +171,18 @@ class RegistrationCodeRepository
     }
 
     /**
-     * @return array<array>
+     * @return list<array{
+     *      code_id: int,
+     *      code: string,
+     *      role: int,
+     *      generated_on: int,
+     *      used: int,
+     *      role_local: string,
+     *      alimit: string,
+     *      alimitdt: string,
+     *      reg_enabled: int,
+     *      ext_enabled: int,
+     *  }
      */
     public function getCodesByFilter(CodeFilter $code_filter): array
     {

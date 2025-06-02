@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -32,7 +31,7 @@ class CodeFilter
     }
 
     /**
-     * @param array{code: string, role: int, generated: string, access_limitation: string} $filter
+     * @param array{code?: string, role?: int, generated?: string, access_limitation?: string} $filter
      */
     public function withData(array $filter): CodeFilter
     {
