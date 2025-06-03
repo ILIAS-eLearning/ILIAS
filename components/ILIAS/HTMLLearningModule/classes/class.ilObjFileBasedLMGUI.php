@@ -774,12 +774,31 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
         $file = $this->lm_request->getString('form/input_0');
         $path = $this->getUploadDirectory() . DIRECTORY_SEPARATOR . $file;
+        if ($file === '') {
+            $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('import_from_upload_dir_info'),
+                true
+            );
+        } elseif (str_starts_with(realpath($path), $this->getUploadDirectory())) {
+            $this->irss->manageContainer()->addStreamToContainer(
+                $this->object->getResource()->getIdentification(),
+                Streams::ofResource(fopen($path, 'rb')),
+                $file
+            );
+            $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                'success',
+                $this->lng->txt('file_imported_from_upload_dir'),
+                true
+            );
+        } else {
+            $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('file_import_from_upload_dir_failed'),
+                true
+            );
+        }
 
-        $this->irss->manageContainer()->addStreamToContainer(
-            $this->object->getResource()->getIdentification(),
-            Streams::ofResource(fopen($path, 'rb')),
-            $file
-        );
         $this->ctrl->setParameterByClass("ilObjFileBasedLMGUI", "ref_id", $this->object->getRefId());
         $this->ctrl->redirectByClass(["ilrepositorygui", "ilObjFileBasedLMGUI", "ilContainerResourceGUI"]);
     }

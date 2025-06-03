@@ -10510,9 +10510,11 @@ help#:#help_tooltips_and_help#:#Tooltips and Workflow Help
 help#:#help_tooltips_only#:#Tooltips Only
 help#:#help_topcis#:#Topics
 help#:#help_tt_text#:#Text
+htlm#:#file_import_from_upload_dir_failed#:#File from Upload-Directory not imported
+htlm#:#file_imported_from_upload_dir#:#File imported from Upload-Directory
 htlm#:#import_from_upload_dir#:#Import from Upload-Directory
 htlm#:#import_from_upload_dir_file_name#:#Filename
-htlm#:#import_from_upload_dir_info#:#Bitte Datei zur Übernahme auswählen
+htlm#:#import_from_upload_dir_info#:#Please select file for import
 iass#:#download_assessment_paper#:#Download Record file
 iass#:#grading#:#Grading
 iass#:#grading_info#:#Grading info

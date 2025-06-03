@@ -10509,6 +10509,8 @@ help#:#help_tooltips_and_help#:#Tooltips und Handlungsanweisungen
 help#:#help_tooltips_only#:#Nur Tooltips
 help#:#help_topcis#:#Themen
 help#:#help_tt_text#:#Text
+htlm#:#file_import_from_upload_dir_failed#:#Datei aus Uploadverzeichnis nicht importiert
+htlm#:#file_imported_from_upload_dir#:#Datei aus Uploadverzeichnis importiert
 htlm#:#import_from_upload_dir#:#Import aus Uploadverzeichnis
 htlm#:#import_from_upload_dir_file_name#:#Dateiname
 htlm#:#import_from_upload_dir_info#:#Bitte Datei zur Übernahme auswählen
