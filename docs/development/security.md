@@ -110,6 +110,26 @@ on the mailing list.
 
 [//]: # (END Notifications)
 
+## Security Goals
+[//]: # (BEGIN Goals)
+
+* All ILIAS security issues should be kept confidential until patches for them are integrated into an official release.
+* Security issues must be fixed in ALL currently supported and affected versions.
+* ILIAS releases which contain patches for security issues should be released as soon as possible.
+* All fixed security issues should be documented publicly.
+
+[//]: # (END Goals)
+
+## Security Measures
+[//]: # (BEGIN Measures)
+
+* All incoming issues (via security@ilias.de) are handled by the Security Group in an internal ticket system (hosted by the ILIAS e.V.), which allows for sending encrypted and digitally signed e-mails to security reporters
+* Security issues are entered into a restricted part of the official Mantis platform for ILIAS by the Security Group and then assigned to the authority which is responsible for the affected component.
+* The Release Manager is in direct contact with the Security Group to ensure that releases for all affected versions can be made available in a short timespan, ideally on the same day.
+* Releases with security fixes are accompanied by an entry in our security blog (at docu.ilias.de) which provides more details on affected and fixed versions of ILIAS.
+
+[//]: # (END Measures)
+
 ## Contributors
 [//]: # (BEGIN Contributors)
 
