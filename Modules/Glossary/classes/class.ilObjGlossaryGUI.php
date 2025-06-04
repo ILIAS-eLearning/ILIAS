@@ -311,7 +311,9 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                     ])) {
                         $this->checkPermission("visible");
                     } else {
-                        $this->checkPermission("write");
+                        if (!$this->getCreationMode()) {
+                            $this->checkPermission("write");
+                        }
                     }
                     $this->$cmd();
                 }
