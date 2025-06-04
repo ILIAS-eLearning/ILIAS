@@ -212,6 +212,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                 break;
 
             case strtolower(ilTaxonomySettingsGUI::class):
+                $this->checkPermission("write");
                 $this->getTemplate();
                 $this->setTabs();
                 $this->setLocator();
@@ -230,6 +231,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                 break;
 
             case "ilexportgui":
+                $this->checkPermission("write");
                 $this->getTemplate();
                 $this->setTabs();
                 $this->tabs->activateTab("export");
@@ -259,6 +261,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                 break;
 
             case "ilglossaryforeigntermcollectorgui":
+                $this->checkPermission("write");
                 $this->ctrl->setReturn($this, "");
                 $this->getTemplate();
                 $this->setTabs();
@@ -269,6 +272,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                 break;
 
             case "iltermdefinitionbulkcreationgui":
+                $this->checkPermission("write");
                 $this->ctrl->setReturn($this, "listTerms");
                 $this->ctrl->forwardCommand($this->term_def_bulk_gui);
                 break;
@@ -297,6 +301,17 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                                 $cmd = "redrawHeaderActionObject";
                             }
                         }
+                    }
+                    if (in_array($cmd, [
+                        "redrawHeaderActionObject"
+                    ])) {
+                        $this->checkPermission("read");
+                    } elseif (in_array($cmd, [
+                        "showInfoScreen"
+                    ])) {
+                        $this->checkPermission("visible");
+                    } else {
+                        $this->checkPermission("write");
                     }
                     $this->$cmd();
                 }
@@ -645,7 +660,6 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
     public function saveProperties(): void
     {
         $obj_service = $this->getObjectService();
-
         $this->initSettingsForm();
         if ($this->form->checkInput()) {
             $this->object->setTitle($this->form->getInput("title"));
