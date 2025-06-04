@@ -36,7 +36,7 @@ class assClozeGapTest extends assBaseTestCase
         parent::setUp();
 
         $util_mock = $this->createMock('ilUtil', ['stripSlashes'], [], '', false);
-        $util_mock->expects($this->any())->method('stripSlashes')->will($this->returnArgument(0));
+        $util_mock->expects($this->any())->method('stripSlashes')->willReturnArgument(0);
         $this->setGlobalVariable('ilUtils', $util_mock);
     }
 
