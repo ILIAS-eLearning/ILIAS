@@ -180,6 +180,7 @@ class ilObjExerciseGUI extends ilObjectGUI
                 break;
 
             case "ilcertificategui":
+                $this->checkPermission("write");
                 $this->setSettingsSubTabs();
                 $this->tabs_gui->activateTab("settings");
                 $this->tabs_gui->activateSubTab("certificate");
@@ -992,6 +993,7 @@ class ilObjExerciseGUI extends ilObjectGUI
      */
     public function certificateObject(): void
     {
+        $this->checkPermission("write");
         $this->setSettingsSubTabs();
         $this->tabs_gui->activateTab("settings");
         $this->tabs_gui->activateSubTab("certificate");
