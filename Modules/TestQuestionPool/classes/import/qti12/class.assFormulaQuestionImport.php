@@ -98,6 +98,9 @@ class assFormulaQuestionImport extends assQuestionImport
             $this->fetchAdditionalContentEditingModeInformation($item)
         );
         $this->object->saveToDb();
+
+        $this->importUnitsAndUnitCategories($item);
+
         // handle the import of media objects in XHTML code
         $questiontext = $this->object->getQuestion();
         $feedbacksgeneric = $this->getFeedbackGeneric($item);
@@ -143,5 +146,49 @@ class assFormulaQuestionImport extends assQuestionImport
             $import_mapping[$item->getIdent()] = ["pool" => $this->object->getId(), "test" => 0];
         }
         return $import_mapping;
+    }
+
+    private function importUnitsAndUnitCategories(ilQTIItem $item): void
+    {
+        /** @var ilUnitConfigurationRepository $unit_repository */
+        $unit_repository = $this->object->getUnitrepository();
+        foreach ($item->getUnitCategories() as $unit_category) {
+            $old_category_id = $unit_category->getId();
+
+            $unit_repository->saveNewUnitCategory($unit_category);
+            $unit_category->setQuestionFi($this->object->getId());
+            $unit_repository->saveCategory($unit_category);
+
+            $units = [];
+            $base_unit_map = [];
+
+            foreach ($item->getUnits() as $unit) {
+                if ($unit->getCategory() !== $old_category_id) {
+                    continue;
+                }
+
+                $old_unit_id = $unit->getId();
+                $old_base_unit_id = $unit->getBaseUnit();
+                $old_unit_factor = $unit->getFactor();
+                $old_sequence = $unit->getSequence();
+
+                $unit_repository->createNewUnit($unit);
+
+                $unit->setCategory($unit_category->getId());
+                $unit->setBaseUnit($old_base_unit_id);
+                $unit->setFactor($old_unit_factor);
+                $unit->setSequence($old_sequence);
+
+                $unit_repository->saveUnit($unit);
+
+                $units[] = $unit;
+                $base_unit_map[$old_unit_id] = $unit->getId();
+            }
+
+            foreach ($units as $unit) {
+                $unit->setBaseUnit($base_unit_map[$unit->getBaseUnit()] ?? 0);
+                $unit_repository->saveUnit($unit);
+            }
+        }
     }
 }

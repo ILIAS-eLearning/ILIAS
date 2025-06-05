@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Formula Question Unit
@@ -40,7 +40,7 @@ class assFormulaQuestionUnit
         $this->factor = (float) $data['factor'];
         $this->baseunit = (int) $data['baseunit_fi'];
         $this->baseunit_title = $data['baseunit_title'] ?? null;
-        $this->category = (int) $data['category'];
+        $this->category = (int) $data['category_fi'];
         $this->sequence = (int) $data['sequence'];
     }
 

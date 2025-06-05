@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -65,6 +66,32 @@ class assFormulaQuestionExport extends assQuestionExport
         $a_xml_writer->xmlElement("fieldlabel", null, "points");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getPoints());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
+
+        /** @var assFormulaQuestion $object */
+        $object = $this->object;
+        $unit_repository = $object->getUnitRepository();
+
+        $question_id = $this->object->getId();
+        $unit_categories = array_filter(
+            $unit_repository->getAllUnitCategories(),
+            static fn(object $object): bool => $object->getQuestionFi() === $question_id,
+        );
+
+        $a_xml_writer->xmlStartTag("qtimetadatafield");
+        $a_xml_writer->xmlElement("fieldlabel", null, "unit_categories");
+        $a_xml_writer->xmlElement("fieldentry", null, base64_encode(serialize($unit_categories)));
+        $a_xml_writer->xmlEndTag("qtimetadatafield");
+
+        $categorized_units = array_filter(
+            $unit_repository->getCategorizedUnits(),
+            static fn(object $object): bool => $object instanceof assFormulaQuestionUnit,
+        );
+
+        $a_xml_writer->xmlStartTag("qtimetadatafield");
+        $a_xml_writer->xmlElement("fieldlabel", null, "units");
+        $a_xml_writer->xmlElement("fieldentry", null, base64_encode(serialize($categorized_units)));
+        $a_xml_writer->xmlEndTag("qtimetadatafield");
+
         foreach ($this->object->getVariables() as $variable) {
             $var = [
                 "precision" => $variable->getPrecision(),

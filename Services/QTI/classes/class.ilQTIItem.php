@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * QTI item class
@@ -76,6 +75,9 @@ class ilQTIItem
     protected ?string $iliasSourceVersion = null;
     protected ?string $iliasSourceNic = null;
     protected array $response = [];
+
+    private array $unit_categories = [];
+    private array $units = [];
 
     public function setIdent(string $a_ident): void
     {
@@ -260,6 +262,32 @@ class ilQTIItem
         }
 
         return $this->questiontype;
+    }
+
+    public function setUnitCategories(string $serialized_and_base64_encoded_unit_categories): void
+    {
+        $this->unit_categories = unserialize(base64_decode($serialized_and_base64_encoded_unit_categories));
+    }
+
+    /**
+     * @return assFormulaQuestionUnitCategory[]
+     */
+    public function getUnitCategories(): array
+    {
+        return $this->unit_categories;
+    }
+
+    public function setUnits(string $serialized_and_base64_encoded_units): void
+    {
+        $this->units = unserialize(base64_decode($serialized_and_base64_encoded_units));
+    }
+
+    /**
+     * @return assFormulaQuestionUnit[]
+     */
+    public function getUnits(): array
+    {
+        return $this->units;
     }
 
     public function setAuthor(string $a_author): void

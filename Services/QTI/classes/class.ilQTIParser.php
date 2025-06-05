@@ -610,6 +610,12 @@ class ilQTIParser extends ilSaxParser
                             $this->item->setQuestiontype($this->metadata["entry"]);
                         }
                         break;
+                    case "unit_categories":
+                        $this->item?->setUnitCategories($this->metadata["entry"]);
+                        break;
+                    case "units":
+                        $this->item?->setUnits($this->metadata["entry"]);
+                        break;
                     case "AUTHOR":
                         if ($this->item !== null) {
                             $this->item->setAuthor($this->metadata["entry"]);
