@@ -40,11 +40,12 @@ class StandardURIBuilder implements URIBuilder
     public function build(
         string $namespace,
         ?ReferenceId $reference_id = null,
-        array $additional_parameters = []
+        array $additional_parameters = [],
+        array $query_parameters = []
     ): URI {
         $uri = $this->getBaseURI()
             . ($this->short_url_possible ? self::SHORT : self::LONG)
-            . $this->buildTarget($namespace, $reference_id, $additional_parameters);
+            . $this->buildTarget($namespace, $reference_id, $additional_parameters, $query_parameters);
 
         return new URI($uri);
     }
@@ -52,12 +53,15 @@ class StandardURIBuilder implements URIBuilder
     public function buildTarget(
         string $namespace,
         ?ReferenceId $reference_id = null,
-        array $additional_parameters = []
+        array $additional_parameters = [],
+        array $query_parameters = []
     ): string {
+        $query = (count($query_parameters) > 0) ? '?' . http_build_query($query_parameters) : '';
         return $namespace
             . ($reference_id !== null ? '/' . $reference_id->toInt() : '')
             . '/'
-            . implode('/', $additional_parameters);
+            . implode('/', $additional_parameters)
+            . $query;
     }
 
     public function getBaseURI(): URI

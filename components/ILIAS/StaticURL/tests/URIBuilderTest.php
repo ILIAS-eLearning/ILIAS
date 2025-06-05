@@ -63,20 +63,21 @@ class URIBuilderTest extends Base
             ['wiki', 42, [], 'https://test9.ilias.de/goto.php/wiki/42'],
             ['file', 42, ['download'], 'https://test9.ilias.de/goto.php/file/42/download'],
             ['dashboard', null, [], 'https://test9.ilias.de/goto.php/dashboard'],
-
+            ['search', null, [], 'https://test9.ilias.de/goto.php/search?term=knowledge', ['term' => 'knowledge']],
         ];
     }
 
     /**
      * @dataProvider getBuilderParts
      */
-    public function testFullBuilder(string $namespace, ?int $ref_id, array $params, string $expected): void
+    public function testFullBuilder(string $namespace, ?int $ref_id, array $params, string $expected, array $query_params = []): void
     {
         $uri_builder = new StandardURIBuilder('https://test9.ilias.de');
         $uri = $uri_builder->build(
             $namespace,
             $ref_id === null ? null : new ReferenceId($ref_id),
-            $params
+            $params,
+            $query_params
         );
         $this->assertEquals($expected, (string) $uri);
     }

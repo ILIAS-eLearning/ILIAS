@@ -31,7 +31,8 @@ interface URIBuilder
     public function build(
         string $namespace,
         ?ReferenceId $reference_id = null,
-        array $additional_parameters = []
+        array $additional_parameters = [],
+        array $query_parameters = []
     ): URI;
 
     public function getBaseURI(): URI;
