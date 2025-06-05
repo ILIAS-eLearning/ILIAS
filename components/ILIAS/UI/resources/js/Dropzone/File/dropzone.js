@@ -32,6 +32,7 @@ il.UI = il.UI || {};
             dropzone: '.ui-dropzone',
             dropzone_container: '.ui-dropzone-container',
             file_input: '.ui-input-file',
+            cancel_button: '.modal-footer button[data-dismiss]',
         };
 
         /**
@@ -75,6 +76,10 @@ il.UI = il.UI || {};
             dropzones[dropzone_id] = {
                 file_input_id: dropzone.find(SELECTOR.file_input).closest('.c-input').attr('id'),
             };
+
+            dropzone.find(SELECTOR.cancel_button).on('click', () => {
+                cancelFileUploads(dropzone_id);
+            });
 
             initDropzoneEventListeners(dropzone);
             initGlobalEventListeners();
@@ -147,6 +152,14 @@ il.UI = il.UI || {};
                 return;
             }
             il.UI.Input.File.removeAllFilesFromQueue(dropzones[dropzone_id].file_input_id);
+        }
+
+        let cancelFileUploads = function (dropzone_id) {
+            if (typeof dropzones[dropzone_id] === 'undefined') {
+                console.error(`Error: tried accessing unknown dropzone '${dropzone_id}'.`);
+                return;
+            }
+            il.UI.Input.File.cancelFleUpload(dropzones[dropzone_id].file_input_id);
         }
 
         /**
