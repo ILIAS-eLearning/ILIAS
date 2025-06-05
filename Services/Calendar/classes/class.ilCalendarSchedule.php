@@ -131,6 +131,11 @@ class ilCalendarSchedule
             $this->addFilter(new ilCalendarScheduleFilterExercise($this->user->getId()));
             $this->addFilter(new ilCalendarScheduleFilterTimings($this->user->getId()));
         }
+
+        // Add the new filter for registered sessions
+        require_once __DIR__ . '/class.ilCalendarScheduleFilterRegisteredSessions.php';
+        $this->addFilter(new ilCalendarScheduleFilterRegisteredSessions($this->user->getId()));
+
     }
     
     /**
@@ -236,6 +241,13 @@ class ilCalendarSchedule
 
         //merge both arrays keeping the full day events first and then rest ordered by starting date.
         $schedules = array_merge($tmp_schedule_fullday, $tmp_schedule);
+
+        global $DIC;
+        $logger = $DIC->logger()->cal();
+        $logger->info('Queen3');
+        foreach ($schedules as $key => $schedule) {
+            $logger->info("Schedule #$key: " . print_r($schedule, true));
+        }
 
         return $schedules;
     }
@@ -450,6 +462,7 @@ class ilCalendarSchedule
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
+        // $logger = $DIC->logger()->cal(); // $this->logger should be used if needed here
         
         include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
         $cats = ilCalendarCategories::_getInstance($this->user->getId())->getCategories($this->enabledSubitemCalendars());
@@ -475,6 +488,7 @@ class ilCalendarSchedule
             $query .= " WHERE starta >= " . $this->db->quote($date->get(IL_CAL_DATETIME, '', 'UTC'), 'timestamp');
         }
 
+
         $query .= " AND " . $ilDB->in('ca.cat_id', $cats, false, 'integer') .
             " ORDER BY starta";
 
@@ -488,6 +502,10 @@ class ilCalendarSchedule
                 $events[] = $valid_event;
             }
         }
+
+        // foreach ($events as $key => $event) { // Debug loop, can be removed or use $this->logger
+        //    $logger->info("Event #$key: " . print_r($event, true));
+        // }
         
         foreach ($this->addCustomEvents($this->start, $this->end, $cats) as $event) {
             $events[] = $event;
