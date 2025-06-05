@@ -185,6 +185,7 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
         string $a_asynch_url = "",
         int $a_context = self::CONTEXT_REPOSITORY
     ): string {
+        $target_obj_id = ilContainerReference::_lookupTargetId($a_obj_id);
         if ($this->getCheckboxStatus() && $this->hasAssignments($target_obj_id)) {
             $this->setAdditionalInformation($this->lng->txt("prg_can_not_manage_in_repo"));
             $this->enableCheckbox(false);
