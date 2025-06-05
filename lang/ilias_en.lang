@@ -17379,6 +17379,7 @@ validation#:#not_min_length#:#Your input has a length of %d and falls below the 
 validation#:#not_numeric#:#'%s' is not numeric.
 validation#:#not_numeric_empty_string#:#Your input is not numeric.
 validation#:#numeric_only#:#Please insert a whole number.
+validation#:#required#:#This input is required.
 validation#:#tag_required#:#Please insert at least one tag.
 violation#:#not_a_string#:#Given value is not a String
 webr#:#invalid_links_tbl#:#Invalid Links

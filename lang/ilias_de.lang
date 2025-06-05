@@ -17379,6 +17379,7 @@ validation#:#not_min_length#:#Ihre Eingabe hat eine Länge von %d und liegt dami
 validation#:#not_numeric#:#„%s“ ist nicht nummerisch.
 validation#:#not_numeric_empty_string#:#Ihre Eingabe ist nicht numerisch.
 validation#:#numeric_only#:#Bitte geben sie eine ganze Zahl ein.
+validation#:#required#:#Diese Eingabe ist erforderlich.
 validation#:#tag_required#:#Bitte geben sie mindestens ein Tag ein.
 violation#:#not_a_string#:#Wert ist keine Zeichenkette
 webr#:#invalid_links_tbl#:#Ungültige Links
