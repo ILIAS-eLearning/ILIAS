@@ -242,13 +242,6 @@ class ilCalendarSchedule
         //merge both arrays keeping the full day events first and then rest ordered by starting date.
         $schedules = array_merge($tmp_schedule_fullday, $tmp_schedule);
 
-        global $DIC;
-        $logger = $DIC->logger()->cal();
-        $logger->info('Queen3');
-        foreach ($schedules as $key => $schedule) {
-            $logger->info("Schedule #$key: " . print_r($schedule, true));
-        }
-
         return $schedules;
     }
 
@@ -462,8 +455,7 @@ class ilCalendarSchedule
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        // $logger = $DIC->logger()->cal(); // $this->logger should be used if needed here
-        
+     
         include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
         $cats = ilCalendarCategories::_getInstance($this->user->getId())->getCategories($this->enabledSubitemCalendars());
         $cats = $this->filterCategories($cats);
@@ -488,7 +480,6 @@ class ilCalendarSchedule
             $query .= " WHERE starta >= " . $this->db->quote($date->get(IL_CAL_DATETIME, '', 'UTC'), 'timestamp');
         }
 
-
         $query .= " AND " . $ilDB->in('ca.cat_id', $cats, false, 'integer') .
             " ORDER BY starta";
 
@@ -503,10 +494,6 @@ class ilCalendarSchedule
             }
         }
 
-        // foreach ($events as $key => $event) { // Debug loop, can be removed or use $this->logger
-        //    $logger->info("Event #$key: " . print_r($event, true));
-        // }
-        
         foreach ($this->addCustomEvents($this->start, $this->end, $cats) as $event) {
             $events[] = $event;
         }
