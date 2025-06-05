@@ -612,7 +612,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 $answertext = $answer;
                 $this->object->addAnswer(
                     $answertext,
-                    $choice['points'][$index],
+                    $this->refinery->kindlyTo()->float()->transform($choice['points'][$index]),
                     $index,
                     null,
                     $choice['answer_id'][$index]
