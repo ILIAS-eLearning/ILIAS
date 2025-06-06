@@ -1062,7 +1062,7 @@ abstract class assQuestionGUI
             }
         }
 
-        return $this->questionrepository->getForQuestionId($this->object->getId())->getTypeName($this->lng);
+        return $this->lng->txt($this->object->getQuestionType());
     }
 
     protected function getTypeOptions(): array
