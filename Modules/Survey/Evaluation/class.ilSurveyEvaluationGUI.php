@@ -343,6 +343,7 @@ class ilSurveyEvaluationGUI
 
         // parse answer data in evaluation results
         $ov_row = 2;
+        $question_index = 1;
         foreach ($this->object->getSurveyQuestions() as $qdata) {
             $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);
             $q_res = $q_eval->getResults();
@@ -369,7 +370,7 @@ class ilSurveyEvaluationGUI
             if ($details) {
                 switch ($this->request->getExportFormat()) {
                     case self::TYPE_XLS:
-                        $this->exportResultsDetailsExcel($excel, $q_eval, $q_res, $do_title, $do_label);
+                        $this->exportResultsDetailsExcel($excel, $q_eval, $q_res, $do_title, $do_label, $question_index++);
                         break;
                 }
             }
@@ -412,7 +413,8 @@ class ilSurveyEvaluationGUI
         SurveyQuestionEvaluation $a_eval,
         $a_results,
         bool $a_do_title,
-        bool $a_do_label
+        bool $a_do_label,
+        int $question_index
     ): void {
         $question_res = $a_results;
         $matrix = false;
@@ -422,7 +424,7 @@ class ilSurveyEvaluationGUI
         }
         $question = $question_res->getQuestion();
 
-        $a_excel->addSheet($question->getTitle());
+        $a_excel->addSheet($question_index . "_" . $question->getTitle());
 
 
         // question "overview"
