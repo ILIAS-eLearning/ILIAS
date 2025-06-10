@@ -129,11 +129,8 @@ class ilExcel
 
         $a_name = str_replace($invalid, '', $a_name);
 
-        // #19056 - phpExcel only allows 31 chars
-        // see https://github.com/PHPOffice/PHPExcel/issues/79
-        $a_name = ilStr::shortenTextExtended($a_name, 31);
-
         $sheet = new Worksheet($this->workbook, $a_name);
+        $sheet->setTitle($a_name,false,false);
         $this->workbook->addSheet($sheet);
         $new_index = $this->workbook->getSheetCount() - 1;
 
