@@ -370,7 +370,7 @@ class ilMail
     }
 
     /**
-     * @param int[] $mail_ids
+     * @param list<int> $mailIds
      */
     public function deleteMails(array $mail_ids): void
     {
@@ -620,6 +620,9 @@ class ilMail
         return true;
     }
 
+    /**
+     * @param list<int> $to_usr_ids
+     */
     private function sendMailWithReplacedPlaceholder(
         MailDeliveryData $mail_data,
         array $to_usr_ids
@@ -635,6 +638,9 @@ class ilMail
         }
     }
 
+    /**
+     * @param list<Recipient> $recipients
+     */
     private function sendMailWithReplacedEmptyPlaceholder(
         MailDeliveryData $mail_data,
         array $recipients,
@@ -646,6 +652,10 @@ class ilMail
         );
     }
 
+    /**
+     * @param list<int> $to_usr_ids
+     * @param list<Recipient> $cc_bcc_recipients
+     */
     private function sendMailWithoutReplacedPlaceholder(
         MailDeliveryData $mail_data,
         array $to_usr_ids,
@@ -692,7 +702,7 @@ class ilMail
                 continue;
             }
 
-            if ($recipient->isUserActive()) {
+            if ($recipient->isUserActive() && !$recipient->isUserExpired()) {
                 if (!$can_read_internal->isOk() || $recipient->userWantsToReceiveExternalMails()) {
                     $email_addresses = $recipient->getExternalMailAddress();
                     $usr_id_to_external_email_addresses_map[$recipient->getUserId()] = $email_addresses;
@@ -708,20 +718,20 @@ class ilMail
 
                     $this->logger->debug(sprintf(
                         'Recipient with id %s will additionally receive external emails ' .
-                        '(because the user wants to receive it externally, or the user cannot access ' .
-                        'the internal mail system) sent to: %s',
+                        '(because the user wants to receive it externally, or the user cannot did not accept ' .
+                        'the legal documents) sent to: %s',
                         $recipient->getUserId(),
                         implode(', ', $email_addresses)
                     ));
                 } else {
                     $this->logger->debug(sprintf(
-                        'Recipient with id %s is does not want to receive external emails',
+                        'Recipient with id %s does not want to receive external emails',
                         $recipient->getUserId()
                     ));
                 }
             } else {
                 $this->logger->debug(sprintf(
-                    'Recipient with id %s is inactive and will not receive external emails',
+                    'Recipient with id %s is inactive or expired and will not receive external emails',
                     $recipient->getUserId()
                 ));
             }

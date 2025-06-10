@@ -35,7 +35,7 @@ class ilMailTest extends ilMailBaseTestCase
     private MockObject&ilMailRfc822AddressParserFactory $mock_parser_factory;
     private MockObject&ilLanguage $mock_language;
 
-    public function testExternalMailDeliveryToLocalRecipientsWorksAsExpected(): void
+    public function testExternalMailDeliveryWorksAsExpected(): void
     {
         $refinery = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
         $this->setGlobalVariable('refinery', $refinery);
@@ -53,7 +53,7 @@ class ilMailTest extends ilMailBaseTestCase
         define('ILIAS_WEB_DIR', $web_dir);
 
         $sender_usr_id = 666;
-        $login_to_id_map = [
+        $active_users_login_to_id_map = [
             'phpunit1' => 1,
             'phpunit2' => 2,
             'phpunit3' => 3,
@@ -62,34 +62,79 @@ class ilMailTest extends ilMailBaseTestCase
             'phpunit6' => 6,
             'phpunit7' => 7,
         ];
+        $expired_users_login_to_id_map = [
+            'phpunit8' => 8,
+        ];
+        $inactive_users_login_to_id_map = [
+            'phpunit9' => 9,
+        ];
+        $inactive_and_expired_users_login_to_id_map = [
+            'phpunit10' => 10,
+        ];
+        $all_users_login_to_id_map = array_merge(
+            $active_users_login_to_id_map,
+            $expired_users_login_to_id_map,
+            $inactive_users_login_to_id_map,
+            $inactive_and_expired_users_login_to_id_map
+        );
 
         $transformation = $this->createMock(Transformation::class);
-        $transformation->expects($this->exactly(count($login_to_id_map)))->method('applyTo')->willReturn(new Ok(null));
-        $legal_documents->expects($this->exactly(count($login_to_id_map)))->method('userCanReadInternalMail')->willReturn($transformation);
+        $transformation->method('applyTo')->willReturn(
+            new Ok(null)
+        );
+        $legal_documents->expects($this->exactly(count($active_users_login_to_id_map)))->method(
+            'userCanReadInternalMail'
+        )->willReturn($transformation);
 
         $usr_instances_by_id = [];
         $mail_options_by_id = [];
-        foreach ($login_to_id_map as $usr_id) {
-            $user = $this
-                ->getMockBuilder(ilObjUser::class)
-                ->disableOriginalConstructor()
-                ->onlyMethods(['getId', 'checkTimeLimit', 'getActive'])
-                ->getMock();
-            $user->method('getId')->willReturn($usr_id);
-            $user->method('getActive')->willReturn(true);
-            $user->method('checkTimeLimit')->willReturn(true);
-            $usr_instances_by_id[$usr_id] = $user;
 
-            $mail_options = $this
-                ->getMockBuilder(ilMailOptions::class)
-                ->disableOriginalConstructor()
-                ->onlyMethods(['getExternalEmailAddresses', 'getIncomingType'])
-                ->getMock();
-            $mail_options->method('getExternalEmailAddresses')->willReturn([
-                'phpunit' . $usr_id . '@ilias.de',
-            ]);
-            $mail_options->method('getIncomingType')->willReturn(ilMailOptions::INCOMING_EMAIL);
-            $mail_options_by_id[$usr_id] = $mail_options;
+        $user_groups = [
+            'Active And Not Expired' => [
+                $active_users_login_to_id_map,
+                true,
+                true
+            ],
+            'Active But Expired' => [
+                $expired_users_login_to_id_map,
+                true,
+                false
+            ],
+            'Inactive And Not Expired' => [
+                $inactive_users_login_to_id_map,
+                false,
+                true
+            ],
+            'Inactive And Expired' => [
+                $inactive_and_expired_users_login_to_id_map,
+                false,
+                false
+            ],
+        ];
+
+        foreach ($user_groups as $user_group) {
+            foreach ($user_group[0] as $usr_id) {
+                $user = $this
+                    ->getMockBuilder(ilObjUser::class)
+                    ->disableOriginalConstructor()
+                    ->onlyMethods(['getId', 'checkTimeLimit', 'getActive'])
+                    ->getMock();
+                $user->method('getId')->willReturn($usr_id);
+                $user->method('getActive')->willReturn($user_group[1]);
+                $user->method('checkTimeLimit')->willReturn($user_group[2]);
+                $usr_instances_by_id[$usr_id] = $user;
+
+                $mail_options = $this
+                    ->getMockBuilder(ilMailOptions::class)
+                    ->disableOriginalConstructor()
+                    ->onlyMethods(['getExternalEmailAddresses', 'getIncomingType'])
+                    ->getMock();
+                $mail_options->method('getExternalEmailAddresses')->willReturn([
+                    'phpunit' . $usr_id . '@ilias.de',
+                ]);
+                $mail_options->method('getIncomingType')->willReturn(ilMailOptions::INCOMING_EMAIL);
+                $mail_options_by_id[$usr_id] = $mail_options;
+            }
         }
 
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
@@ -102,8 +147,8 @@ class ilMailTest extends ilMailBaseTestCase
             ->getMock();
         $address_type_factory
             ->method('getByPrefix')
-            ->willReturnCallback(function ($arg) use ($login_to_id_map): object {
-                return new class ($arg, $login_to_id_map) implements ilMailAddressType {
+            ->willReturnCallback(function ($arg) use ($all_users_login_to_id_map): object {
+                return new class ($arg, $all_users_login_to_id_map) implements ilMailAddressType {
                     protected array $login_to_id_map = [];
 
                     public function __construct(protected ilMailAddress $address, $login_to_id_map)
@@ -168,7 +213,7 @@ class ilMailTest extends ilMailBaseTestCase
             $mail_options,
             $mail_box,
             new ilMailMimeSenderFactory($settings, $mustache_factory),
-            static fn(string $login): int => $login_to_id_map[$login] ?? 0,
+            static fn(string $login): int => $all_users_login_to_id_map[$login] ?? 0,
             $this->createMock(AutoresponderService::class),
             0,
             4711,
@@ -183,13 +228,13 @@ class ilMailTest extends ilMailBaseTestCase
             ->getMock();
         $mail_transport->expects($this->once())->method('send')->with($this->callback(function (
             ilMimeMail $mailer
-        ) use ($login_to_id_map): bool {
+        ) use ($active_users_login_to_id_map): bool {
             $total_bcc = [];
             foreach ($mailer->getBcc() as $bcc) {
                 $total_bcc = array_filter(array_map('trim', explode(',', $bcc))) + $total_bcc;
             }
 
-            return count($total_bcc) === count($login_to_id_map);
+            return count($total_bcc) === count($active_users_login_to_id_map);
         }))->willReturn(true);
         ilMimeMail::setDefaultTransport($mail_transport);
 
@@ -197,9 +242,17 @@ class ilMailTest extends ilMailBaseTestCase
         $mail_service->setMailOptionsByUserIdMap($mail_options_by_id);
 
         $mail_data = new MailDeliveryData(
-            implode(',', array_slice(array_keys($login_to_id_map), 0, 3)),
-            implode(',', array_slice(array_keys($login_to_id_map), 3, 2)),
-            implode(',', array_slice(array_keys($login_to_id_map), 5, 2)),
+            implode(
+                ',',
+                array_merge(
+                    array_slice(array_keys($active_users_login_to_id_map), 0, 3),
+                    $expired_users_login_to_id_map,
+                    $inactive_users_login_to_id_map,
+                    $inactive_and_expired_users_login_to_id_map
+                )
+            ),
+            implode(',', array_slice(array_keys($active_users_login_to_id_map), 3, 2)),
+            implode(',', array_slice(array_keys($active_users_login_to_id_map), 5, 2)),
             'Subject',
             'Message',
             [],

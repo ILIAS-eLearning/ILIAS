@@ -853,12 +853,17 @@ group participant, if it explicitly enters a course or group role identifier as 
 
 ### Account Status vs. Channel
 
-An account is considered to be able to read internal messages, if the `TermsOfService` are accepted (if enabled) **and**
+An account is considered to be able to read internal messages, if the
+`LegalDocuments (Terms of Service and Declaration of Data Protection)` are accepted (if enabled) **and**
 the account is **not** expired (see: `usr_data.time_limit_unlimited`, `usr_data.time_limit_from`, `usr_data.time_limit_until`).
+It does not matter if the account is `active` or `inactive`, since a deactivation might be just a temporary state.
 
+System Mails:
 * If a mail is sent as a `system` mail and an account can't read internal messages, it will be completely skipped
   when processing recipients.
-* If a recipient account is **not** `active`, the mail will be only sent internally.
-* If a recipient account is `active`, and it can't read internal mails or it wants to receive emails externally,
-  the message will be sent as an external email. If an account is configured to receive external emails only, no internal
-  message will be sent.
+
+System Mails and User Mails:
+* If a recipient account is **not** `active` or the account is `expired`, the mail will be only sent internally.
+* If a recipient account is `active` and **not** `expired`, and it can't read internal mails or it wants to
+  receive emails externally, the message will be sent as an external email. If an account is configured to receive
+  external emails only, no internal message will be sent.
