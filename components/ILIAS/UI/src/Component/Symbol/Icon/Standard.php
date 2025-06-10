@@ -145,7 +145,7 @@ interface Standard extends Icon
     public const LHTS = 'lhts';	//Learning History
     public const COMS = 'coms';	//Comments
     public const LTI = 'lti';	//LTI
-    public const LTIS = 'ltis';	//LTIs
+    public const LTIS = 'ltis';	//LTI administration
     public const CMIS = 'cmis';	//xAPI/cmi5
     public const REP = 'rep';	//Repository
     public const TASK = 'task';   //Task
