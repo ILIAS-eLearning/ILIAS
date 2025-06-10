@@ -282,6 +282,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                 case ilObjStudyProgrammeMembersGUI::ACTION_ACKNOWLEDGE_COURSES:
                 case ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_DEADLINE:
                 case ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_EXPIRE_DATE:
+                case ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_CERTIFICATE:
+                case ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_CERTIFICATE:
+
                     if (!$edit_individual_plan) {
                         continue 2;
                     }
