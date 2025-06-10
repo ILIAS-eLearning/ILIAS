@@ -63,6 +63,12 @@ class ilExcel
     protected string $type;
 
     /**
+     * A temporary array to store worksheet names to avoid duplicates
+     * @var array
+     */
+    protected array $worksheetNames = [];
+
+    /**
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function __construct()
@@ -133,6 +139,8 @@ class ilExcel
         // see https://github.com/PHPOffice/PHPExcel/issues/79
         $a_name = ilStr::shortenTextExtended($a_name, 31);
 
+        $a_name = $this->appendIndexToSheetNameIfNeeded($a_name);
+
         $sheet = new Worksheet($this->workbook, $a_name);
         $this->workbook->addSheet($sheet);
         $new_index = $this->workbook->getSheetCount() - 1;
@@ -169,6 +177,30 @@ class ilExcel
     {
         return $this->workbook->getActiveSheet()->getTitle();
     }
+
+    /**
+     * Return the title of the current sheet, appending an index if needed.
+     * The resulting title will still be 31 characters long, as required by Excel.
+     * @param string $a_name The base name of the sheet.
+     */
+    public function appendIndexToSheetNameIfNeeded($a_name): string
+    {
+        if (isset($this->worksheetNames[$a_name])) {
+            $this->worksheetNames[$a_name]++;
+        } else {
+            $this->worksheetNames[$a_name] = 0;
+        }
+
+        if ($this->worksheetNames[$a_name] > 0) {
+            // cut off the last characters needed to make the title 31 characters long
+            $a_name = ilStr::shortenTextExtended(
+                $a_name,
+                31 - strlen((string) $this->worksheetNames[$a_name]) - 1
+            ) . ' ' . $this->worksheetNames[$a_name];
+        }
+        return $a_name;
+    }
+
 
 
     //
