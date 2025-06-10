@@ -101,6 +101,9 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
                         return;
                     case 'resetNow': $this->resetNow();
                         return;
+                    case 'documents':
+                        $this->ctrl->redirectByClass([self::class, get_class($this->legal_documents)], 'documents');
+                        return;
                     default: $this->settings();
                         return;
                 }
@@ -230,6 +233,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         $in = $this->dic->database()->in('usr_id', [ANONYMOUS_USER_ID, SYSTEM_USER_ID], true, 'integer');
         $this->dic->database()->manipulate("UPDATE usr_data SET agree_date = NULL WHERE $in");
         $this->tos_settings->lastResetDate()->update((new DataFactory())->clock()->system()->now());
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->dic->ctrl()->redirectByClass([self::class, $this->legal_documents::class], 'documents');
     }
 
