@@ -131,7 +131,11 @@ class Administration
      */
     public function retrieveIds(): array
     {
-        return $this->container->http()->wrapper()->post()->retrieve('ids', $this->container->refinery()->to()->listOf($this->container->refinery()->kindlyTo()->int()));
+        $r = $this->container->refinery();
+        return $this->container->http()->wrapper()->post()->retrieve('ids', $this->container->refinery()->byTrying([
+            $r->in()->series([$r->null(), $r->always([])]),
+            $r->to()->listOf($r->kindlyTo()->int())
+        ]));
     }
 
     /**
