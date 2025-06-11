@@ -38,15 +38,14 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     public const CMD_JUMP_TO_MY_STAFF = 'jumpToMyStaff';
     public const DISENGAGE_MAINBAR = 'dash_mb_disengage';
 
-    protected ilCtrl $ctrl;
-    protected ilObjUser $user;
-    protected ilSetting $settings;
-    protected ilRbacSystem $rbacsystem;
-    protected ilHelpGUI $help;
-    public ilGlobalTemplateInterface $tpl;
-    public ilLanguage $lng;
+    protected readonly ilCtrl $ctrl;
+    protected readonly ilObjUser $user;
+    protected readonly ilSetting $settings;
+    protected readonly ilHelpGUI $help;
+    public readonly ilGlobalTemplateInterface $tpl;
+    public readonly ilLanguage $lng;
+    protected readonly ContextServices $tool_context;
     public string $cmdClass = '';
-    protected ContextServices $tool_context;
     protected int $requested_view;
     protected int $requested_prt_id;
     protected int $requested_gtp;
@@ -60,18 +59,15 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $this->tool_context = $DIC->globalScreen()->tool()->context();
         $this->user = $DIC->user();
         $this->settings = $DIC->settings();
-        $this->rbacsystem = $DIC->rbac()->system();
         $this->help = $DIC->help();
-        $tpl = $DIC->ui()->mainTemplate();
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
 
         if ($this->user->getId() === ANONYMOUS_USER_ID) {
-            $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $this->lng->txt('msg_not_available_for_anon'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_not_available_for_anon'), true);
             $DIC->ctrl()->redirectToURL('login.php?cmd=force_login');
         }
-
-        $this->tpl = $tpl;
 
         $this->ctrl->setContextObject(
             $this->user->getId(),
@@ -342,30 +338,30 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $ilHelp->setScreenIdComponent('pd');
     }
 
-    public function jumpToMemberships(): void
+    private function jumpToMemberships(): void
     {
-        $viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), $this->requested_view);
+        $viewSettings = new ilPDSelectedItemsBlockViewSettings($this->user, $this->requested_view);
         if ($viewSettings->enabledMemberships()) {
             $this->ctrl->setParameter($this, 'view', $viewSettings->getMembershipsView());
         }
         $this->ctrl->redirect($this, 'show');
     }
 
-    public function jumpToSelectedItems(): void
+    private function jumpToSelectedItems(): void
     {
-        $viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), $this->requested_view);
+        $viewSettings = new ilPDSelectedItemsBlockViewSettings($this->user, $this->requested_view);
         if ($viewSettings->enabledSelectedItems()) {
             $this->ctrl->setParameter($this, 'view', $viewSettings->getSelectedItemsView());
         }
         $this->show();
     }
 
-    public function jumpToProfile(): void
+    private function jumpToProfile(): void
     {
         $this->ctrl->redirectByClass(ilPersonalProfileGUI::class);
     }
 
-    public function jumpToPortfolio(): void
+    private function jumpToPortfolio(): void
     {
         $cmd = '';
         if ($this->requested_dsh != '') {
@@ -382,17 +378,17 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         }
     }
 
-    public function jumpToSettings(): void
+    private function jumpToSettings(): void
     {
         $this->ctrl->redirectByClass(ilPersonalSettingsGUI::class);
     }
 
-    public function jumpToNews(): void
+    private function jumpToNews(): void
     {
         $this->ctrl->redirectByClass(ilPDNewsGUI::class);
     }
 
-    public function jumpToCalendar(): void
+    private function jumpToCalendar(): void
     {
         global $DIC;
         $request = $DIC->http()->request();
@@ -412,7 +408,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $this->ctrl->redirectByClass(ilCalendarPresentationGUI::class);
     }
 
-    public function jumpToWorkspace(): void
+    private function jumpToWorkspace(): void
     {
         $cmd = '';
         if ($this->requested_dsh != '') {
@@ -431,17 +427,17 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $this->ctrl->redirectByClass(ilPersonalWorkspaceGUI::class, $cmd);
     }
 
-    protected function jumpToMyStaff(): void
+    private function jumpToMyStaff(): void
     {
         $this->ctrl->redirectByClass(ilMyStaffGUI::class);
     }
 
-    public function jumpToBadges(): void
+    private function jumpToBadges(): void
     {
         $this->ctrl->redirectByClass([ilAchievementsGUI::class, ilBadgeProfileGUI::class]);
     }
 
-    public function jumpToSkills(): void
+    private function jumpToSkills(): void
     {
         $this->ctrl->redirectByClass(ilPersonalSkillsGUI::class);
     }

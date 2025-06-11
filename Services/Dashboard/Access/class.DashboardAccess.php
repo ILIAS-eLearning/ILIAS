@@ -26,8 +26,8 @@ use ilRbacSystem;
 
 class DashboardAccess
 {
-    protected ilRbacSystem $rbac_system;
-    protected ilDBInterface $db;
+    protected readonly ilRbacSystem $rbac_system;
+    protected readonly ilDBInterface $db;
     protected static int $setting_ref_id = 0;
 
     public function __construct()

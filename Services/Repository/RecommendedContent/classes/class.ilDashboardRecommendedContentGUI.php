@@ -39,12 +39,12 @@ class ilDashboardRecommendedContentGUI extends ilDashboardBlockGUI
 
     public function initViewSettings(): void
     {
-        $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
+        $this->view_settings = new ilPDSelectedItemsBlockViewSettings(
             $this->user,
             ilPDSelectedItemsBlockConstants::VIEW_RECOMMENDED_CONTENT
         );
 
-        $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
+        $this->ctrl->setParameter($this, 'view', $this->view_settings->getView());
     }
 
     public function emptyHandling(): string
@@ -100,7 +100,7 @@ class ilDashboardRecommendedContentGUI extends ilDashboardBlockGUI
         $this->setData(['' => $recommendations]);
     }
 
-    public function getBlockType(): string
+    final public function getBlockType(): string
     {
         return 'pdrecc';
     }
@@ -124,7 +124,7 @@ class ilDashboardRecommendedContentGUI extends ilDashboardBlockGUI
         $this->ctrl->returnToParent($this);
     }
 
-    public function removeMultipleEnabled(): bool
+    final public function removeMultipleEnabled(): bool
     {
         return true;
     }

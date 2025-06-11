@@ -25,13 +25,8 @@ final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements
         'grp',
     ];
 
-    private ilDBInterface $db;
-    private int $recoveryFolderId;
-
-    public function __construct(ilDBInterface $db, int $recoveryFolderId)
+    public function __construct(protected readonly ilDBInterface $db, protected readonly int $recovery_folder_id)
     {
-        $this->db = $db;
-        $this->recoveryFolderId = $recoveryFolderId;
     }
 
     /**
@@ -108,7 +103,7 @@ final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements
                 WHERE ua.usr_id = %s
             ",
             [ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
-            ['y', 1, $this->recoveryFolderId, $actorLanguageCode, $user->getId()]
+            ['y', 1, $this->recovery_folder_id, $actorLanguageCode, $user->getId()]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {

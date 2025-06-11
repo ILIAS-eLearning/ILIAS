@@ -24,12 +24,12 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
 {
     public function initViewSettings(): void
     {
-        $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
+        $this->view_settings = new ilPDSelectedItemsBlockViewSettings(
             $this->user,
             ilPDSelectedItemsBlockConstants::VIEW_MY_MEMBERSHIPS
         );
 
-        $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
+        $this->ctrl->setParameter($this, 'view', $this->view_settings->getView());
     }
 
     public function emptyHandling(): string
@@ -64,7 +64,7 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
         $this->setData(['' => $data]);
     }
 
-    public function getBlockType(): string
+    final public function getBlockType(): string
     {
         return 'pdmem';
     }
@@ -110,7 +110,7 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
         $this->ctrl->returnToParent($this);
     }
 
-    public function removeMultipleEnabled(): bool
+    final public function removeMultipleEnabled(): bool
     {
         return true;
     }

@@ -20,17 +20,15 @@ declare(strict_types=1);
 
 class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBlockProvider
 {
-    protected ilObjUser $actor;
-    protected ilTree $tree;
-    protected ilAccessHandler $access;
-    protected ilSetting  $settings;
-    private ilPDSelectedItemsBlockMembershipsObjectRepository $repository;
+    protected readonly ilTree $tree;
+    protected readonly ilAccessHandler $access;
+    protected readonly ilSetting $settings;
+    protected readonly ilPDSelectedItemsBlockMembershipsObjectRepository $repository;
 
-    public function __construct(ilObjUser $actor)
+    public function __construct(protected readonly ilObjUser $actor)
     {
         global $DIC;
 
-        $this->actor = $actor;
         $this->tree = $DIC->repositoryTree();
         $this->access = $DIC->access();
         $this->settings = $DIC->settings();
