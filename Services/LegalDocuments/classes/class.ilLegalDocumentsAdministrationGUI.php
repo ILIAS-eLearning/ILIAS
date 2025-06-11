@@ -206,7 +206,12 @@ class ilLegalDocumentsAdministrationGUI
 
     public function deleteDocuments(): void
     {
-        $this->deleteDocumentsConfirmation($this->admin->retrieveDocuments());
+        $documents = $this->admin->retrieveDocuments();
+        if ($documents === []) {
+            $this->ui->mainTemplate()->setOnScreenMessage('failure', $this->ui->txt('select_at_least_one_object'), true);
+            $this->ctrlTo('redirectByClass', 'documents');
+        }
+        $this->deleteDocumentsConfirmation($documents);
     }
 
     public function deleteDocument(): void
