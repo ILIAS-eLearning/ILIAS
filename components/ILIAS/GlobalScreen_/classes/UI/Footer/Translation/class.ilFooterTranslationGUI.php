@@ -36,7 +36,7 @@ use ILIAS\Data\URI;
  * @ilCtrl_isCalledBy ilFooterTranslationGUI: ilFooterGroupsGUI
  * @ilCtrl_isCalledBy ilFooterTranslationGUI: ilFooterEntriesGUI
  */
-final class ilFooterTranslationGUI
+final class ilFooterTranslationGUI implements \ilCtrlCommandClass
 {
     use Hasher;
     use UIHelper;

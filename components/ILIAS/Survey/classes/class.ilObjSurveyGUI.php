@@ -30,7 +30,7 @@ use ILIAS\Survey\InternalGUIService;
  * @ilCtrl_Calls ilObjSurveyGUI: ilExportGUI, ilLTIProviderObjectSettingGUI
  * @ilCtrl_Calls ilObjSurveyGUI: ILIAS\Survey\Execution\LaunchGUI
  */
-class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
+class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected InternalGUIService $gui;
     protected \ILIAS\Survey\Execution\ExecutionGUIRequest $execution_request;

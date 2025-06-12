@@ -21,7 +21,7 @@
  * Handles user commands on skills data
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilPCSkillsGUI extends ilPageContentGUI
+class ilPCSkillsGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected ilObjUser $user;
     protected \ILIAS\Skill\Service\SkillPersonalService $skill_personal_service;

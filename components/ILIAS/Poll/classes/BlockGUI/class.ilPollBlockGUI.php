@@ -31,7 +31,7 @@ use ILIAS\Poll\Image\Factory as ilPollImageFactory;
  * @author Jörg Lützenkirchen
  * @ilCtrl_IsCalledBy ilPollBlockGUI: ilColumnGUI
  */
-class ilPollBlockGUI extends ilBlockGUI
+class ilPollBlockGUI extends ilBlockGUI implements \ilCtrlCommandClass
 {
     public static string $block_type = "poll";
     protected ilPollBlock $poll_block;

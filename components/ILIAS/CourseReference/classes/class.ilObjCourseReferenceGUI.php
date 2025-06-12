@@ -23,7 +23,7 @@
  * @ilCtrl_Calls ilObjCourseReferenceGUI: ilCommonActionDispatcherGUI, ilLearningProgressGUI
  * @ingroup components\ILIASCourseReference
  */
-class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
+class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements \ilCtrlCommandClass
 {
     private ?ilLogger $logger = null;
 

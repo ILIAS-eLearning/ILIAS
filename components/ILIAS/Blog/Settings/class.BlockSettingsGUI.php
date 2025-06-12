@@ -30,7 +30,7 @@ use ILIAS\UI\Component\Table\OrderingRowBuilder;
 use ILIAS\Data\URI;
 use ILIAS\UI\Component\Table\Ordering;
 
-class BlockSettingsGUI
+class BlockSettingsGUI implements \ilCtrlCommandClass
 {
     protected SettingsManager $settings;
 

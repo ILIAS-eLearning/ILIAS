@@ -30,7 +30,7 @@ use Psr\Http\Message\ResponseInterface;
  * @author  Thomas Joußen <tjoussen@databay.de>
  * @since   26.07.16
  */
-class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
+class ilOnScreenChatGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected static bool $frontend_initialized = false;
 

@@ -27,7 +27,7 @@ use ILIAS\Refinery\Factory as Refinery;
  * @ilCtrl_Calls ilLMPageGUI: ilPageEditorGUI, ilObjectMetaDataGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector, ilCommonActionDispatcherGUI, ilPageObjectGUI
  * @ilCtrl_Calls ilLMPageGUI: ilNewsItemGUI, ilQuestionEditGUI, ilAssQuestionFeedbackEditingGUI, ilPageMultiLangGUI, ilPropertyFormGUI
  */
-class ilLMPageGUI extends ilPageObjectGUI
+class ilLMPageGUI extends ilPageObjectGUI implements \ilCtrlCommandClass
 {
     protected ilDBInterface $db;
     protected PresentationGUIRequest $pres_request;

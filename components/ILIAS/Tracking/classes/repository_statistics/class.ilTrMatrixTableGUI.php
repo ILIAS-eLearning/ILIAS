@@ -24,7 +24,7 @@ declare(strict_types=0);
  * @version $Id$
  * @ingroup components/ILIAS
  */
-class ilTrMatrixTableGUI extends ilLPTableBaseGUI
+class ilTrMatrixTableGUI extends ilLPTableBaseGUI implements \ilCtrlCommandClass
 {
     protected int $ref_id;
     protected array $ref_ids = [];

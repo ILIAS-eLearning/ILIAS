@@ -20,7 +20,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilHTLMPresentationGUI: ilObjFileBasedLMGUI
  */
-class ilHTLMPresentationGUI implements ilCtrlBaseClassInterface
+class ilHTLMPresentationGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected \ILIAS\HTMLLearningModule\StandardGUIRequest $request;
     protected ilCtrl $ctrl;

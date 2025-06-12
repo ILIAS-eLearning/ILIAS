@@ -20,7 +20,7 @@
  * Handles user commands on advanced md page list
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilPCAMDPageListGUI extends ilPageContentGUI
+class ilPCAMDPageListGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected ?ilAdvancedMDRecordGUI $record_gui = null;
 

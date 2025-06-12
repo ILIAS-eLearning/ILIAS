@@ -31,7 +31,7 @@ use ILIAS\UI\URLBuilderToken;
  *
  * @extends ilObject
  */
-class ilObjLanguageFolderGUI extends ilObjectGUI
+class ilObjLanguageFolderGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ilLanguageFolderTable $languageFolderTable;
     protected ILIAS\Data\Factory $df;

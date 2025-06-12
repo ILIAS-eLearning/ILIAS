@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilMDOERSettingsGUI
+class ilMDOERSettingsGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;

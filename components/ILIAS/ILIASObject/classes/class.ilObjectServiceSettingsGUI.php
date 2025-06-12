@@ -31,7 +31,7 @@ declare(strict_types=1);
  * here don't belong here. Things that belong, are already moved to Properties
  * (see Readme.md of ilObject).
  */
-class ilObjectServiceSettingsGUI
+class ilObjectServiceSettingsGUI implements \ilCtrlCommandClass
 {
     // unfortunately the following constants are not stored
     // in a non-GUI class, other classes are currently directly

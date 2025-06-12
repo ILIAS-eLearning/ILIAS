@@ -26,7 +26,7 @@ use ILIAS\DI\UIServices;
  *
  * @ilCtrl_Calls ilExSubmissionFileGUI: ilRepoStandardUploadHandlerGUI
  */
-class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
+class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Exercise\Submission\SubmissionManager $subm;
     protected $log;

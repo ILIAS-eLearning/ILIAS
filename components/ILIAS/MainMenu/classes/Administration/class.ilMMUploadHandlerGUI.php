@@ -33,7 +33,7 @@ use ILIAS\ResourceStorage\Services;
  *
  * @ilCtrl_isCalledBy ilMMUploadHandlerGUI: ilObjMainMenuGUI
  */
-class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
+class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlCommandClass
 {
     /**
      * @var Services

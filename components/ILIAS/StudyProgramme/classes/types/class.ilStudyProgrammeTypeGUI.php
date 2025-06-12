@@ -38,7 +38,7 @@ use ILIAS\UI\URLBuilderToken;
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  * @author Daniel Weise <daniel.weise@concepts-and-training.de>
  */
-class ilStudyProgrammeTypeGUI
+class ilStudyProgrammeTypeGUI implements \ilCtrlCommandClass
 {
     /*ilObjStudyProgrammeGUI|ilObjStudyProgrammeAdminGUI*/
     protected $parent_gui;

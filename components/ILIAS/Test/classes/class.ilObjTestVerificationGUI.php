@@ -30,7 +30,7 @@ use ILIAS\DI\LoggingServices;
  *
  * @ingroup components\ILIASTest
  */
-class ilObjTestVerificationGUI extends ilObject2GUI
+class ilObjTestVerificationGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     private ilDBInterface $db;
     private LoggingServices $logger;

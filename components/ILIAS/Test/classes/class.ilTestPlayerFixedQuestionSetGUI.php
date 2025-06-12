@@ -29,7 +29,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilTestPlayerFixedQuestionSetGUI: ilTestAnswerOptionalQuestionsConfirmationGUI
  * @ilCtrl_Calls ilTestPlayerFixedQuestionSetGUI: ilConfirmationGUI
  */
-class ilTestPlayerFixedQuestionSetGUI extends ilTestPlayerAbstractGUI
+class ilTestPlayerFixedQuestionSetGUI extends ilTestPlayerAbstractGUI implements \ilCtrlCommandClass
 {
     protected function buildTestPassQuestionList(): ilAssQuestionList
     {

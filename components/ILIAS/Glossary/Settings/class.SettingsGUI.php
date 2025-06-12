@@ -28,7 +28,7 @@ use ILIAS\Glossary\InternalDataService;
 /**
  * @ilCtrl_Calls ILIAS\Glossary\Settings\SettingsGUI: ilDidacticTemplateGUI
  */
-class SettingsGUI
+class SettingsGUI implements \ilCtrlCommandClass
 {
     public function __construct(
         protected InternalDataService $data,

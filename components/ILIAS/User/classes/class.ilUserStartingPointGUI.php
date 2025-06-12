@@ -30,7 +30,7 @@ use ILIAS\UI\Renderer;
  * @author Jesús López <lopez@leifos.com>
  * @ilCtrl_Calls ilUserStartingPointGUI:
  */
-class ilUserStartingPointGUI
+class ilUserStartingPointGUI implements \ilCtrlCommandClass
 {
     private ilLogger $log;
     private Language $lng;

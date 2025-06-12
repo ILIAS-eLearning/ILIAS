@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * @ilCtrl_Calls ilAchievementsGUI: ilPersonalSkillsGUI, ilBadgeProfileGUI, ilLearningHistoryGUI, ilLPPersonalGUI
  */
-class ilAchievementsGUI
+class ilAchievementsGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilAchievements $achievements;

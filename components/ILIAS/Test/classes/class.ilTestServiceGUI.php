@@ -49,7 +49,7 @@ use ILIAS\Style\Content\Service as ContentStyle;
 *
 * @ingroup components\ILIASTest
 */
-class ilTestServiceGUI
+class ilTestServiceGUI implements \ilCtrlCommandClass
 {
     protected readonly RequestDataCollector $testrequest;
     protected readonly GeneralQuestionPropertiesRepository $questionrepository;

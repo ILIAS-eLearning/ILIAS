@@ -45,7 +45,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  *
  * @ilCtrl_Calls ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI: ilPropertyFormGUI, ilConfirmationGUI
  */
-class SettingsScoringGUI extends TestSettingsGUI
+class SettingsScoringGUI extends TestSettingsGUI implements \ilCtrlCommandClass
 {
     /**
      * command constants

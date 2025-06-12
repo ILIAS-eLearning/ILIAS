@@ -27,7 +27,7 @@ use ILIAS\Refinery\Factory;
  * @ilCtrl_Calls ilSearchControllerGUI: ilSearchGUI
  * @ilCtrl_Calls ilSearchControllerGUI: ilLuceneSearchGUI ilLuceneUserSearchGUI
  */
-class ilSearchControllerGUI implements ilCtrlBaseClassInterface
+class ilSearchControllerGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     public const int TYPE_USER_SEARCH = -1;
     protected ilObjUser $user;

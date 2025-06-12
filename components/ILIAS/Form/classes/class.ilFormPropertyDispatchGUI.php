@@ -25,7 +25,7 @@ declare(strict_types=1);
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilFormPropertyDispatchGUI:
  */
-class ilFormPropertyDispatchGUI
+class ilFormPropertyDispatchGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilFormPropertyGUI $item;

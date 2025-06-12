@@ -46,7 +46,7 @@ use ILIAS\Refinery\Constraint;
  * @ilCtrl_Calls ILIAS\Test\Settings\MainSettings\SettingsMainGUI: ilTestSettingsChangeConfirmationGUI
  *
  */
-class SettingsMainGUI extends TestSettingsGUI
+class SettingsMainGUI extends TestSettingsGUI implements \ilCtrlCommandClass
 {
     public const CMD_SHOW_FORM = 'showForm';
     public const CMD_SAVE_FORM = 'saveForm';

@@ -30,7 +30,7 @@
  * @ingroup components\ILIASTestQuestionPool
  * @ilCtrl_Calls assTextQuestionGUI: ilFormPropertyDispatchGUI
  */
-class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
+class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable, \ilCtrlCommandClass
 {
     protected bool $tiny_mce_enabled;
     /**

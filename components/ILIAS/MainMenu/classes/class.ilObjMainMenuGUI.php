@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls      ilObjMainMenuGUI: ilPermissionGUI
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilObjMainMenuGUI extends ilObject2GUI
+class ilObjMainMenuGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     private ilMMTabHandling $tab_handling;
     protected ilRbacSystem $rbac_system;

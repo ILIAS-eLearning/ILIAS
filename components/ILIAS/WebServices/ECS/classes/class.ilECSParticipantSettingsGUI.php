@@ -23,7 +23,7 @@ use ILIAS\UI\Factory as UiFactory;
 /**
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 */
-class ilECSParticipantSettingsGUI
+class ilECSParticipantSettingsGUI implements \ilCtrlCommandClass
 {
     private int $server_id ;
     private int $mid;

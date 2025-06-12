@@ -25,7 +25,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjTaggingSettingsGUI: ilPermissionGUI
  * @ilCtrl_IsCalledBy ilObjTaggingSettingsGUI: ilAdministrationGUI
  */
-class ilObjTaggingSettingsGUI extends ilObjectGUI
+class ilObjTaggingSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ilRbacSystem $rbacsystem;
     protected ilTabsGUI $tabs;

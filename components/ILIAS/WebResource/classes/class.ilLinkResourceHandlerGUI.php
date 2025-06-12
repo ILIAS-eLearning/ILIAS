@@ -28,7 +28,7 @@ use ILIAS\Refinery\Factory as Refinery;
  * @ilCtrl_Calls ilLinkResourceHandlerGUI: ilObjLinkResourceGUI
  * @ingroup components\ILIASWebResource
  */
-class ilLinkResourceHandlerGUI implements ilCtrlBaseClassInterface
+class ilLinkResourceHandlerGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected Refinery $refinery;
     protected HTTPService $http;

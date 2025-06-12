@@ -27,7 +27,7 @@ use ILIAS\Survey\Editing\EditingGUIRequest;
  * @ilCtrl_Calls ilSurveyEditorGUI: SurveySingleChoiceQuestionGUI, SurveyTextQuestionGUI
  * @ilCtrl_Calls ilSurveyEditorGUI: SurveyMatrixQuestionGUI
  */
-class ilSurveyEditorGUI
+class ilSurveyEditorGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Survey\Sequence\SequenceManager $sequence_manager;
     protected \ILIAS\Survey\InternalGUIService $gui;

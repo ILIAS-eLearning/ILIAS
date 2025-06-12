@@ -23,7 +23,7 @@ use ILIAS\MyStaff\ListCourses\ilMStListCourse;
  * Class ilMyStaffGUI
  * @author Martin Studer <ms@studer-raimann.ch>
  */
-class ilMyStaffGUI
+class ilMyStaffGUI implements \ilCtrlCommandClass
 {
     public const string CMD_INDEX = 'index';
     public const string TAB_LIST_USERS = 'list_users';

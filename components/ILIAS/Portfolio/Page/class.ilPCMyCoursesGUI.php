@@ -20,7 +20,7 @@
  * Handles user commands on my courses data
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilPCMyCoursesGUI extends ilPageContentGUI
+class ilPCMyCoursesGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     public function __construct(
         ilPageObject $a_pg_obj,

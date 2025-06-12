@@ -26,7 +26,7 @@ use ILIAS\HTTP\Response\Sender\ResponseSendingException;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
+class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     public const CURRENT_TAG_KEY = "tag_current_tag";
 

@@ -22,7 +22,7 @@ use ILIAS\COPage\IntLink\StandardGUIRequest;
  * Internal link selector
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilInternalLinkGUI
+class ilInternalLinkGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\MediaObjects\Thumbs\ThumbsGUI $thumbs_gui;
     protected ?ilObjFile $uploaded_file = null;

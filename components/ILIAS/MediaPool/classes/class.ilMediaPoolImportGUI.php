@@ -23,7 +23,7 @@ use ILIAS\ILIASObject\Properties\Translations\Translations;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilMediaPoolImportGUI
+class ilMediaPoolImportGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\MediaPool\StandardGUIRequest $request;
     protected ilObjMediaPool $mep;

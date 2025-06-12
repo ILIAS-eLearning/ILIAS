@@ -30,7 +30,7 @@
  * @ingroup components\ILIASTestQuestionPool
  * @ilCtrl_Calls assMultipleChoiceGUI: ilFormPropertyDispatchGUI
  */
-class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
+class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable, \ilCtrlCommandClass
 {
     private bool $rebuild_thumbnails = false;
 

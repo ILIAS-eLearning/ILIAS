@@ -31,7 +31,7 @@ use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 *
 * @ingroup components\ILIASScormAicc
 */
-class ilObjSAHSLearningModuleGUI extends ilObjectGUI
+class ilObjSAHSLearningModuleGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     private ilPropertyFormGUI $form;
     private $archives;

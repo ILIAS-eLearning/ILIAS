@@ -25,7 +25,7 @@ use Psr\Http\Message\RequestInterface;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilTaggingGUI
+class ilTaggingGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilObjUser $user;

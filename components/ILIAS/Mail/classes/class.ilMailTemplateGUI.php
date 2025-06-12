@@ -27,7 +27,7 @@ use ILIAS\Data\Factory as DataFactory;
 /**
  * @ilCtrl_isCalledBy ilMailTemplateGUI: ilObjMailGUI
  */
-class ilMailTemplateGUI
+class ilMailTemplateGUI implements \ilCtrlCommandClass
 {
     protected ilPropertyFormGUI $form;
     protected ilGlobalTemplateInterface $tpl;

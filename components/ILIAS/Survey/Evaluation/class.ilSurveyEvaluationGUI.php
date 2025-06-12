@@ -27,7 +27,7 @@ use ILIAS\UI\Component\Modal;
  * smaller.
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  */
-class ilSurveyEvaluationGUI
+class ilSurveyEvaluationGUI implements \ilCtrlCommandClass
 {
     public const TYPE_XLS = "excel";
     public const TYPE_SPSS = "csv";

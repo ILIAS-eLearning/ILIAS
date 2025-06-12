@@ -21,7 +21,7 @@
  * User Interface for Data Table Editing
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCDataTableGUI extends ilPCTableGUI
+class ilPCDataTableGUI extends ilPCTableGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\HTTP\Services $http;
     protected ilGlobalTemplateInterface $main_tpl;

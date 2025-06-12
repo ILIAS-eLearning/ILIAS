@@ -22,7 +22,7 @@
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilPCBlogGUI extends ilPageContentGUI
+class ilPCBlogGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected int $requested_blog;
     protected int $requested_blog_id;

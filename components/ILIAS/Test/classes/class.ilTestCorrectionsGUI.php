@@ -33,7 +33,7 @@ use ILIAS\Refinery\Factory as RefineryFactory;
  *
  * @package components\ILIAS/Test
  */
-class ilTestCorrectionsGUI
+class ilTestCorrectionsGUI implements \ilCtrlCommandClass
 {
     private ?assQuestionGUI $question_gui = null;
     private ilTestAccess $test_access;

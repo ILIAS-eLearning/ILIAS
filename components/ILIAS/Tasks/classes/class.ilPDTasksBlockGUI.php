@@ -25,7 +25,7 @@ use ILIAS\UI\Component\Item\Item;
  *
  * @ilCtrl_IsCalledBy ilPDTasksBlockGUI: ilColumnGUI
  */
-class ilPDTasksBlockGUI extends ilBlockGUI
+class ilPDTasksBlockGUI extends ilBlockGUI implements \ilCtrlCommandClass
 {
     public static string $block_type = "pdtasks";
 

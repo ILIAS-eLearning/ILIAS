@@ -42,7 +42,7 @@ use ILIAS\MetaData\XML\Writer\WriterInterface as XMLWriter;
 /**
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
  */
-class ilMDEditorGUI
+class ilMDEditorGUI implements \ilCtrlCommandClass
 {
     public const string SET_FOR_TREE = 'md_set_for_tree';
     public const string PATH_FOR_TREE = 'md_path_for_tree';

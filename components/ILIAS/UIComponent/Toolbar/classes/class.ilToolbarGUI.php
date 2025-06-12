@@ -24,7 +24,7 @@
  *
  * @deprecated 10
  */
-class ilToolbarGUI
+class ilToolbarGUI implements \ilCtrlCommandClass
 {
     protected ilLanguage $lng;
     protected static int $instances = 0;

@@ -24,7 +24,7 @@ use ILIAS\MyStaff\ilMyStaffAccess;
  * @author            Theodor Truffer <tt@studer-raimann.ch>
  * @ilCtrl_IsCalledBy ilMStShowUserCompetencesGUI: ilMStShowUserGUI
  */
-class ilMStShowUserCompetencesGUI
+class ilMStShowUserCompetencesGUI implements \ilCtrlCommandClass
 {
     public const string CMD_SHOW_SKILLS = 'showSkills';
     public const string CMD_INDEX = self::CMD_SHOW_SKILLS;

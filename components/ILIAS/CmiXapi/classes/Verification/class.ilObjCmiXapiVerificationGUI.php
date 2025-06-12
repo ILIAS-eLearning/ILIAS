@@ -27,7 +27,7 @@ declare(strict_types=1);
  *
  * @package     Module/CmiXapi
  */
-class ilObjCmiXapiVerificationGUI extends ilObject2GUI
+class ilObjCmiXapiVerificationGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     public function getType(): string
     {

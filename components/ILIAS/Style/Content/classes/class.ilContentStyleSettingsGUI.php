@@ -28,7 +28,7 @@ use ILIAS\Repository\Form\FormAdapterGUI;
  * @ilCtrl_Calls ilContentStyleSettingsGUI: ilObjStyleSheetGUI
  * @ilCtrl_Calls ilContentStyleSettingsGUI: ilRepoStandardUploadHandlerGUI
  */
-class ilContentStyleSettingsGUI
+class ilContentStyleSettingsGUI implements \ilCtrlCommandClass
 {
     protected InternalGUIService $gui;
     protected ilContentStyleSettings $cs_settings;

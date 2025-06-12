@@ -22,7 +22,7 @@
  * @ilCtrl_Calls ilGlossaryTermGUI: ilTermDefinitionEditorGUI, ilGlossaryDefPageGUI, ilPropertyFormGUI
  * @ilCtrl_Calls ilGlossaryTermGUI: ilObjectMetaDataGUI
  */
-class ilGlossaryTermGUI
+class ilGlossaryTermGUI implements \ilCtrlCommandClass
 {
     protected ilAdvancedMDRecordGUI $record_gui;
     protected int $ref_id;

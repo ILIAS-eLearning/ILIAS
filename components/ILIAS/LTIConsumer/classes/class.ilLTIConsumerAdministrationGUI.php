@@ -29,7 +29,7 @@ use GuzzleHttp\Psr7\Uri;
  *
  * @package components\ILIAS/LTIConsumer
  */
-class ilLTIConsumerAdministrationGUI
+class ilLTIConsumerAdministrationGUI implements \ilCtrlCommandClass
 {
     public const REDIRECTION_CMD_PARAMETER = 'redirectCmd';
 

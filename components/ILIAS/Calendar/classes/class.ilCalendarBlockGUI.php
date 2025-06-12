@@ -30,7 +30,7 @@ use ILIAS\HTTP\Services as HttpServices;
  * @ilCtrl_Calls      ilCalendarBlockGUI: ilConsultationHoursGUI, ilCalendarAppointmentPresentationGUI
  * @ingroup           ServicesCalendar
  */
-class ilCalendarBlockGUI extends ilBlockGUI
+class ilCalendarBlockGUI extends ilBlockGUI implements \ilCtrlCommandClass
 {
     protected array $cal_footer = [];
     protected ?ilCalendarSchedule $scheduler = null;

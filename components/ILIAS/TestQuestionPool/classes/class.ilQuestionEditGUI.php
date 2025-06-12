@@ -34,7 +34,7 @@ use ILIAS\Style\Content\Service as ContentStyle;
  *
  * @ingroup components\ILIASTestQuestionPool
  */
-class ilQuestionEditGUI
+class ilQuestionEditGUI implements \ilCtrlCommandClass
 {
     private \ilGlobalTemplateInterface $main_tpl;
     private \ilTabsGUI $tabs;

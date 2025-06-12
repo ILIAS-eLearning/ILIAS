@@ -23,7 +23,7 @@ use ILIAS\HTMLLearningModule\StandardGUIRequest;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilHTLMEditorGUI: ilObjFileBasedLMGUI
  */
-class ilHTLMEditorGUI implements ilCtrlBaseClassInterface
+class ilHTLMEditorGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected StandardGUIRequest $request;
     protected ilCtrl $ctrl;

@@ -23,7 +23,7 @@ use ILIAS\Notes\Note;
 /**
  * Comment GUI
  */
-class ilCommentGUI extends ilNoteGUI
+class ilCommentGUI extends ilNoteGUI implements \ilCtrlCommandClass
 {
     protected int $note_type = Note::PUBLIC;
 

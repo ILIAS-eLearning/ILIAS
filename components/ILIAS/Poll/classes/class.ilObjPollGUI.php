@@ -33,7 +33,7 @@ use ILIAS\Data\Factory as DataFactory;
  * @ilCtrl_Calls ilObjPollGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjPollGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
  */
-class ilObjPollGUI extends ilObject2GUI
+class ilObjPollGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     protected ilHelpGUI $help;
     protected ilTabsGUI $tabs;

@@ -22,7 +22,7 @@
  * User Interface for LM List Editing
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCFileListGUI extends ilPageContentGUI
+class ilPCFileListGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected string $requested_file_ref_id;
     protected ilObjUser $user;

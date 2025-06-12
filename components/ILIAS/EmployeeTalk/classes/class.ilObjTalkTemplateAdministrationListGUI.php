@@ -26,7 +26,7 @@ declare(strict_types=1);
  * @ilCtrl_IsCalledBy ilObjTalkTemplateAdministrationListGUI: ilObjTalkTemplateAdministrationGUI
  * @ilCtrl_Calls      ilObjTalkTemplateAdministrationListGUI: ilFormPropertyDispatchGUI
  */
-final class ilObjTalkTemplateAdministrationListGUI extends ilObjectListGUI
+final class ilObjTalkTemplateAdministrationListGUI extends ilObjectListGUI implements \ilCtrlCommandClass
 {
     /**
      * initialisation

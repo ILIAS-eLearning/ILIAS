@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilSessionStatisticsGUI
+class ilSessionStatisticsGUI implements \ilCtrlCommandClass
 {
     private const MODE_TODAY = 1;
     private const MODE_LAST_DAY = 2;

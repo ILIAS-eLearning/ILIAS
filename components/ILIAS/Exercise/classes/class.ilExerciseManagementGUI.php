@@ -38,7 +38,7 @@ use ILIAS\FileUpload\Handler\BasicHandlerResult;
  * @ilCtrl_Calls ilExerciseManagementGUI: ilResourceCollectionGUI, ilRepoStandardUploadHandlerGUI
  * @ilCtrl_Calls ilExerciseManagementGUI: ilExerciseSubmissionFeedbackGUI
  */
-class ilExerciseManagementGUI
+class ilExerciseManagementGUI implements \ilCtrlCommandClass
 {
     public const VIEW_ASSIGNMENT = 1;
     public const VIEW_PARTICIPANT = 2;

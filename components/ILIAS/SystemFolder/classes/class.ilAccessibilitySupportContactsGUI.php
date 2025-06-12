@@ -21,7 +21,7 @@
  *
  * @author Thomas Famula <famula@leifos.de>
  */
-class ilAccessibilitySupportContactsGUI implements ilCtrlBaseClassInterface
+class ilAccessibilitySupportContactsGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;

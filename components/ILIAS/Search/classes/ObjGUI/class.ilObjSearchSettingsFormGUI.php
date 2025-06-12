@@ -27,7 +27,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 /**
 * @author Tim Schmitz <schmitz@leifos.com>
 */
-class ilObjSearchSettingsFormGUI
+class ilObjSearchSettingsFormGUI implements \ilCtrlCommandClass
 {
     protected GlobalHttpState $http;
     protected ilCtrlInterface $ctrl;

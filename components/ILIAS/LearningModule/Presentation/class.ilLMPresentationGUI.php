@@ -28,7 +28,7 @@ use ILIAS\ILIASObject\Properties\Translations\Translations;
  * @ilCtrl_Calls ilLMPresentationGUI: ilLearningProgressGUI, ilAssGenFeedbackPageGUI
  * @ilCtrl_Calls ilLMPresentationGUI: ilRatingGUI
  */
-class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
+class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface, \ilCtrlCommandClass
 {
     protected \ILIAS\COPage\Dom\DomUtil $dom_util;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;

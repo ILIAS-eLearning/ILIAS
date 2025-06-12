@@ -26,7 +26,7 @@ use ILIAS\UI\Component\Item\Item;
  * @ingroup      ServicesCalendar
  * @ilCtrl_Calls ilCalendarAgendaListGUI: ilCalendarAppointmentPresentationGUI
  */
-class ilCalendarAgendaListGUI extends ilCalendarViewGUI
+class ilCalendarAgendaListGUI extends ilCalendarViewGUI implements \ilCtrlCommandClass
 {
     public const PERIOD_DAY = 1;
     public const PERIOD_WEEK = 2;

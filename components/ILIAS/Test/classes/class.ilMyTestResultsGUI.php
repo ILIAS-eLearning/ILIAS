@@ -34,7 +34,7 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
  * @ilCtrl_Calls ilMyTestResultsGUI: ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilMyTestResultsGUI: ilAssGenFeedbackPageGUI
  */
-class ilMyTestResultsGUI
+class ilMyTestResultsGUI implements \ilCtrlCommandClass
 {
     private const EVALGUI_CMD_SHOW_PASS_OVERVIEW = 'outUserResultsOverview';
 

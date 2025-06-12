@@ -21,7 +21,7 @@
  * Handles user commands on personal data
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilPCProfileGUI extends ilPageContentGUI
+class ilPCProfileGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\HTTP\Services $http;
     protected ilToolbarGUI $toolbar;

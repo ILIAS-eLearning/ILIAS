@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 
-class ilObjLearningSequenceLPPollingGUI
+class ilObjLearningSequenceLPPollingGUI implements \ilCtrlCommandClass
 {
     public const PARAM_LSO_LP_OBJID = LSUrlBuilder::PARAM_LSO_PARAMETER;
 

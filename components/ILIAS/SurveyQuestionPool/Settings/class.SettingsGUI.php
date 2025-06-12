@@ -25,7 +25,7 @@ use ILIAS\SurveyQuestionPool\InternalGUIService;
 use ILIAS\Repository\Form\FormAdapterGUI;
 use ILIAS\SurveyQuestionPool\InternalDataService;
 
-class SettingsGUI
+class SettingsGUI implements \ilCtrlCommandClass
 {
     protected \ilSetting $global_settings;
 

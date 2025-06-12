@@ -23,7 +23,7 @@ use ILIAS\Portfolio\StandardGUIRequest;
  * @ilCtrl_Calls ilPortfolioRoleAssignmentGUI: ilPropertyFormGUI
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPortfolioRoleAssignmentGUI
+class ilPortfolioRoleAssignmentGUI implements \ilCtrlCommandClass
 {
     protected StandardGUIRequest $port_request;
     protected ilCtrl $ctrl;

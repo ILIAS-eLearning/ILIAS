@@ -24,7 +24,7 @@ declare(strict_types=1);
  * Since ILIAS 8 these settings can also be written by the ILIAS setup
  * @ilCtrl_Calls ilMathJaxSettingsGUI:
  */
-class ilMathJaxSettingsGUI
+class ilMathJaxSettingsGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\DI\Container $dic;
     protected \ilCtrl $ctrl;

@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @ilCtrl_isCalledBy ilUIAsyncDemoFileUploadHandlerGUI: ilUIPluginRouterGUI
  * @author            Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class ilUIAsyncDemoFileUploadHandlerGUI extends ilUIDemoFileUploadHandlerGUI
+class ilUIAsyncDemoFileUploadHandlerGUI extends ilUIDemoFileUploadHandlerGUI implements \ilCtrlCommandClass
 {
     public function getUploadURL(): string
     {

@@ -33,7 +33,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilSCORM2004TrackingItemsPerScoFilterGUI, ilSCORM2004TrackingItemsPerUserFilterGUI, ilSCORM2004TrackingItemsTableGUI
  * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilLTIProviderObjectSettingGUI
  */
-class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
+class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI implements \ilCtrlCommandClass
 {
     private ilPropertyFormGUI $form;
     protected \ILIAS\DI\Container $dic;

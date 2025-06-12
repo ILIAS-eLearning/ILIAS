@@ -34,7 +34,7 @@ use ILIAS\UI\Component\Link;
  *
  * @ilCtrl_Calls ilObjStudyProgrammeAutoMembershipsGUI: ilPropertyFormGUI, ilFormPropertyDispatchGUI
  */
-class ilObjStudyProgrammeAutoMembershipsGUI
+class ilObjStudyProgrammeAutoMembershipsGUI implements \ilCtrlCommandClass
 {
     private const ROLEFOLDER_REF_ID = 8;
     public const CHECKBOX_SOURCE_IDS = 'c_amsids';

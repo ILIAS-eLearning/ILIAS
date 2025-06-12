@@ -27,7 +27,7 @@ use ILIAS\DI\UIServices;
 *
 * @ilCtrl_Calls ilObjSearchSettingsGUI: ilPermissionGUI, ilObjSearchSettingsFormGUI, ilObjSearchLuceneSettingsFormGUI
 */
-class ilObjSearchSettingsGUI extends ilObjectGUI
+class ilObjSearchSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected UIServices $ui;
     protected ilLogger $src_logger;

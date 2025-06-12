@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * @ilCtrl_IsCalledBy ilDclEditViewDefinitionGUI: ilDclTableViewEditGUI
  */
-class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
+class ilDclEditViewDefinitionGUI extends ilPageObjectGUI implements \ilCtrlCommandClass
 {
     public ilDclTableView $tableview;
     protected ilCtrl $ctrl;

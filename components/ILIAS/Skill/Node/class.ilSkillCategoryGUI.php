@@ -27,7 +27,7 @@ use ILIAS\Skill\Node;
  *
  * @ilCtrl_isCalledBy ilSkillCategoryGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
  */
-class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
+class ilSkillCategoryGUI extends ilSkillTreeNodeGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;

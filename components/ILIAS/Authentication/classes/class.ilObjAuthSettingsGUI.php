@@ -30,7 +30,7 @@ use ILIAS\UICore\GlobalTemplate;
  * @ilCtrl_Calls ilObjAuthSettingsGUI: ilSamlSettingsGUI, ilOpenIdConnectSettingsGUI
  * @ilCtrl_Calls ilObjAuthSettingsGUI: ilObjectContentStyleSettingsGUI
  */
-class ilObjAuthSettingsGUI extends ilObjectGUI
+class ilObjAuthSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     private const string CMD_SHOW_APACHE_SETTINGS = 'apacheAuthSettings';
     private const string CMD_SAVE_APACHE_SETTINGS = 'saveApacheSettings';

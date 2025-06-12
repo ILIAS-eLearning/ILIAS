@@ -38,7 +38,7 @@ use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
  * @author  Michael Jansen <mjansen@databay.de>
  * @package components\ILIASTest
  */
-class MarkSchemaGUI
+class MarkSchemaGUI implements \ilCtrlCommandClass
 {
     private const DEFAULT_CMD = 'showMarkSchema';
     private MarkSchema $mark_schema;

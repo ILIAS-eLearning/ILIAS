@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\components\Dashboard\Block\BlockDTO;
 
-class ilDashboardRecommendedContentGUI extends ilDashboardBlockGUI
+class ilDashboardRecommendedContentGUI extends ilDashboardBlockGUI implements \ilCtrlCommandClass
 {
     public function __construct()
     {

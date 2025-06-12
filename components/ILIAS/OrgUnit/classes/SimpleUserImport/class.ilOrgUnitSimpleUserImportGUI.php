@@ -22,7 +22,7 @@
  * @author            Martin Studer <ms@studer-raimann.ch>
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilOrgUnitSimpleUserImportGUI
+class ilOrgUnitSimpleUserImportGUI implements \ilCtrlCommandClass
 {
     protected ilTabsGUI $tabs_gui;
     protected ilToolbarGUI $toolbar;

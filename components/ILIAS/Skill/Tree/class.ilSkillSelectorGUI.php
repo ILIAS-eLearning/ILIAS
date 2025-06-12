@@ -25,7 +25,7 @@ use ILIAS\Skill\Service\SkillAdminGUIRequest;
  *
  * @author	Alex Killing <alex.killing@gmx.de>
  */
-class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
+class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI implements \ilCtrlCommandClass
 {
     protected string $select_gui = "";
     protected string $select_cmd = "";

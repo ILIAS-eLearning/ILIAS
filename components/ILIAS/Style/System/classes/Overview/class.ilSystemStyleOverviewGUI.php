@@ -25,7 +25,7 @@ use ILIAS\UI\Renderer;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Language\Language;
 
-class ilSystemStyleOverviewGUI
+class ilSystemStyleOverviewGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilToolbarGUI $toolbar;

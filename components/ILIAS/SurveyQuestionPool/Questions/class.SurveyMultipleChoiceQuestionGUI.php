@@ -22,7 +22,7 @@
  * for multiple choice survey question types.
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  */
-class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
+class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI implements \ilCtrlCommandClass
 {
     protected function initObject(): void
     {

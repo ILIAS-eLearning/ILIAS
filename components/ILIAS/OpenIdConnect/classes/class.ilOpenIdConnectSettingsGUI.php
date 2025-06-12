@@ -26,7 +26,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 
-class ilOpenIdConnectSettingsGUI
+class ilOpenIdConnectSettingsGUI implements \ilCtrlCommandClass
 {
     private const STAB_SETTINGS = 'settings';
     private const STAB_SCOPES = 'scopes';

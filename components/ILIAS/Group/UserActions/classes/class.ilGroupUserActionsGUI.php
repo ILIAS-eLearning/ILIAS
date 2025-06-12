@@ -26,7 +26,7 @@ declare(strict_types=1);
  *
  * @ilCtrl_Calls ilGroupUserActionsGUI: ilGroupAddToGroupActionGUI
  */
-class ilGroupUserActionsGUI
+class ilGroupUserActionsGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
 

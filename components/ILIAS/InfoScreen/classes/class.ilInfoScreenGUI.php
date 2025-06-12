@@ -30,7 +30,7 @@ use ILIAS\Data\Factory as DataFactory;
  * @ilCtrl_Calls ilInfoScreenGUI: ilCommentGUI, ilColumnGUI, ilPublicUserProfileGUI
  * @ilCtrl_Calls ilInfoScreenGUI: ilCommonActionDispatcherGUI
  */
-class ilInfoScreenGUI
+class ilInfoScreenGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Repository\HTML\HTMLUtil $html;
     protected \ILIAS\DI\UIServices $ui;

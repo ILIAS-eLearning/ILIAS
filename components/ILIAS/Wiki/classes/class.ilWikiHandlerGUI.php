@@ -21,7 +21,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilWikiHandlerGUI: ilObjWikiGUI
  */
-class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
+class ilWikiHandlerGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected string $requested_lang;
     protected \ILIAS\Wiki\InternalDomainService $domain;

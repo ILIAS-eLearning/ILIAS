@@ -20,7 +20,7 @@
  * Matrix question GUI representation
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  */
-class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
+class SurveyMatrixQuestionGUI extends SurveyQuestionGUI implements \ilCtrlCommandClass
 {
     protected bool $show_layout_row = false;
 

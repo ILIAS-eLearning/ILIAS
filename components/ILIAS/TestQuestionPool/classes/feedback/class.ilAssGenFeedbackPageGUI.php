@@ -27,7 +27,7 @@
  *
  * @ingroup components\ILIASTestQuestionPool
  */
-class ilAssGenFeedbackPageGUI extends ilPageObjectGUI
+class ilAssGenFeedbackPageGUI extends ilPageObjectGUI implements \ilCtrlCommandClass
 {
     /**
      * Constructor

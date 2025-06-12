@@ -25,7 +25,7 @@ use ILIAS\HTTP\Services;
  * @author Michael Jansen <mjansen@databay.de>
  * @ilCtrl_isCalledBy ilBuddySystemGUI: ilUIPluginRouterGUI, ilPublicUserProfileGUI
  */
-class ilBuddySystemGUI
+class ilBuddySystemGUI implements \ilCtrlCommandClass
 {
     private const int BS_REQUEST_HTTP_GET = 1;
     private const int BS_REQUEST_HTTP_POST = 2;

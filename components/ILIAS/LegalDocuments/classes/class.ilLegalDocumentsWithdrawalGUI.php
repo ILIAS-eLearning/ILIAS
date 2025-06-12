@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilLegalDocumentsWithdrawalGUI
+class ilLegalDocumentsWithdrawalGUI implements \ilCtrlCommandClass
 {
     public function executeCommand(): void
     {

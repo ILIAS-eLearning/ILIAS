@@ -23,7 +23,7 @@ use ILIAS\UI\Component\Item\Item;
 /**
  * @ilCtrl_IsCalledBy ilConsultationHoursCalendarBlockGUI: ilColumnGUI
  */
-class ilConsultationHoursCalendarBlockGUI extends ilBlockGUI
+class ilConsultationHoursCalendarBlockGUI extends ilBlockGUI implements \ilCtrlCommandClass
 {
     protected array $consultation_hour_links;
 

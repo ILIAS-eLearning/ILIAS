@@ -26,7 +26,7 @@ use ILIAS\Chatroom\AccessBridge;
  * @ilCtrl_Calls      ilObjChatroomGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPropertyFormGUI, ilExportGUI
  */
-class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInterface
+class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInterface, \ilCtrlCommandClass
 {
     public function __construct($data = null, ?int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {

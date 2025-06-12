@@ -24,7 +24,7 @@
  * @ilCtrl_Calls ilPortfolioTemplatePageGUI: ilPageObjectGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilPortfolioTemplatePageGUI: ilCalendarMonthGUI, ilConsultationHoursGUI
  */
-class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
+class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI implements \ilCtrlCommandClass
 {
     protected bool $may_write = false;
 

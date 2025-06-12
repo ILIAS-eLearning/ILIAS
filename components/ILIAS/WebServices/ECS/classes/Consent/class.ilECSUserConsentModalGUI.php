@@ -31,7 +31,7 @@ use ILIAS\UI\Component\Card\RepositoryObject;
  * @ilCtrl_IsCalledBy ilECSUserConsentModalGUI: ilObjRemoteTestGUI, ilObjRemoteWikiGUI
  *
  */
-class ilECSUserConsentModalGUI
+class ilECSUserConsentModalGUI implements \ilCtrlCommandClass
 {
     public const CMD_RENDER_MODAL = 'renderConsentModal';
     public const CMD_SAVE_CONSENT = 'saveConsent';

@@ -29,7 +29,7 @@ use ILIAS\HTTP\Services as HttpServices;
  * @ilCtrl_IsCalledBy ilAppointmentPresentationGUI: ilCalendarAppointmentPresentationGUI
  * @ingroup           ServicesCalendar
  */
-class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
+class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation, \ilCtrlCommandClass
 {
     protected static self $instance;
 

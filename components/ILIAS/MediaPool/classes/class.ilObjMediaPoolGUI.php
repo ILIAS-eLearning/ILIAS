@@ -39,7 +39,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilMobMultiSrtUploadGUI, ilObjectMetaDataGUI, ilRepoStandardUploadHandlerGUI, ilMediaCreationGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ILIAS\MediaPool\Settings\SettingsGUI
  */
-class ilObjMediaPoolGUI extends ilObject2GUI
+class ilObjMediaPoolGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\MediaPool\InternalDomainService $domain;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;

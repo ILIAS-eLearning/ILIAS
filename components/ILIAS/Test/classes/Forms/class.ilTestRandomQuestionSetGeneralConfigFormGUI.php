@@ -30,7 +30,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  *
  * @ilCtrl_Calls ilTestRandomQuestionSetGeneralConfigFormGUI: ilFormPropertyDispatchGUI
  */
-class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
+class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI implements \ilCtrlCommandClass
 {
     protected bool $edit_mode_enabled = true;
 

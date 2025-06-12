@@ -29,7 +29,7 @@ declare(strict_types=1);
  *
  * @ilCtrl_Calls ilObjCmiXapiAdministrationGUI: ilPermissionGUI
  */
-class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
+class ilObjCmiXapiAdministrationGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     public const TAB_ID_LRS_TYPES = 'tab_lrs_types';
     public const TAB_ID_PERMISSIONS = 'perm_settings';

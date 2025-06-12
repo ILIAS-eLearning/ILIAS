@@ -30,7 +30,7 @@
  * @ilctrl_iscalledby assErrorTextGUI: ilObjQuestionPoolGUI
  * @ilCtrl_Calls assErrorTextGUI: ilFormPropertyDispatchGUI
  */
-class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
+class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable, \ilCtrlCommandClass
 {
     private const DEFAULT_POINTS_WRONG = -1;
 

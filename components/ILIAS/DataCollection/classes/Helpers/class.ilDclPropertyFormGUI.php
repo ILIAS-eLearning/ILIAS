@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilDclPropertyFormGUI
  * @ilCtrl_Calls ilDclPropertyFormGUI: ilFormPropertyDispatchGUI
  */
-class ilDclPropertyFormGUI extends ilPropertyFormGUI
+class ilDclPropertyFormGUI extends ilPropertyFormGUI implements \ilCtrlCommandClass
 {
     /**
      * Expose method for save confirmation

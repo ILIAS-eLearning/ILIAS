@@ -26,7 +26,7 @@ use ILIAS\Repository\Form\FormAdapterGUI;
  * @ilCtrl_Calls ilObjPortfolioGUI: ilObjectContentStyleSettingsGUI, ilPortfolioExerciseGUI
  * @ilCtrl_Calls ilObjPortfolioGUI: ILIAS\Portfolio\Settings\SettingsGUI
  */
-class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
+class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Notes\GUIService $notes_gui;
     protected ilWorkspaceAccessHandler $ws_access;

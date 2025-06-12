@@ -59,7 +59,7 @@ use ILIAS\Administration\AdminGUIRequest;
 * @ilCtrl_Calls ilAdministrationGUI: ilObjIndividualAssessmentGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilLPProgressTableGUI
 */
-class ilAdministrationGUI implements ilCtrlBaseClassInterface
+class ilAdministrationGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected ilObjectDefinition $objDefinition;
     protected ilHelpGUI $help;

@@ -31,7 +31,7 @@ use ILIAS\Filesystem\Stream\Streams;
  * @author      Stefan Meyer <smeyer.ilias@gmx.de>
  * @ilCtrl_Calls ilConsultationHoursGUI: ilPublicUserProfileGUI, ilRepositorySearchGUI
  */
-class ilConsultationHoursGUI
+class ilConsultationHoursGUI implements \ilCtrlCommandClass
 {
     public const VIEW_MODE_PERIOD_UPCOMING = 'upcoming';
     public const VIEW_MODE_PERIOD_PAST = 'past';

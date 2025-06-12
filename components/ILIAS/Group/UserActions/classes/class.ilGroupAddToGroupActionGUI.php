@@ -28,7 +28,7 @@ use ILIAS\Refinery\Factory;
  * @author Alex Killing <killing@leifos.de>
  * @ingroup components\ILIASGroup
  */
-class ilGroupAddToGroupActionGUI
+class ilGroupAddToGroupActionGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;

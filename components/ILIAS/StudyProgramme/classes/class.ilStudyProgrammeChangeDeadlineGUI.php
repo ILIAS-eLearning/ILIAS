@@ -23,7 +23,7 @@ use ILIAS\UI\Component\Input\Factory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Renderer;
 
-class ilStudyProgrammeChangeDeadlineGUI
+class ilStudyProgrammeChangeDeadlineGUI implements \ilCtrlCommandClass
 {
     private const CMD_SHOW_DEADLINE_CONFIG = "showDeadlineConfig";
     private const CMD_CHANGE_DEADLINE = "changeDeadline";

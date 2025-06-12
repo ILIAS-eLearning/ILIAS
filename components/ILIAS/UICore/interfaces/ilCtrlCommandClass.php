@@ -13,15 +13,11 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
-
-declare(strict_types=1);
+ */
 
 /**
- * Class ilObjLearningSequenceEditExtroGUI
- * @ilCtrl_Calls    ilObjLearningSequenceEditExtroGUI: ilPageEditorGUI, ilEditClipboardGUI
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class ilObjLearningSequenceEditExtroGUI extends ilLearningSequencePageObjectGUI implements \ilCtrlCommandClass
+interface ilCtrlCommandClass
 {
 }

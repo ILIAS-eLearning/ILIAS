@@ -25,7 +25,7 @@ use ILIAS\COPage\PC\MapEditorSessionRepository;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPCImageMapEditorGUI: ilInternalLinkGUI
  */
-class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
+class ilPCImageMapEditorGUI extends ilImageMapEditorGUI implements \ilCtrlCommandClass
 {
     protected MapEditorSessionRepository $map_repo;
     protected ilMediaAliasItem $std_alias_item;

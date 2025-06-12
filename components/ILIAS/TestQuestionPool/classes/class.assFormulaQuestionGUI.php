@@ -28,7 +28,7 @@ use ILIAS\UI\Renderer as UIRenderer;
  * @ingroup components\ILIASTestQuestionPool
  * @ilCtrl_Calls assFormulaQuestionGUI: ilFormPropertyDispatchGUI
  */
-class assFormulaQuestionGUI extends assQuestionGUI
+class assFormulaQuestionGUI extends assQuestionGUI implements \ilCtrlCommandClass
 {
     protected const HAS_SPECIAL_QUESTION_COMMANDS = true;
 

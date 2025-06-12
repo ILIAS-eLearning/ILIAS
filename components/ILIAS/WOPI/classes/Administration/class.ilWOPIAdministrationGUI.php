@@ -36,7 +36,7 @@ use ILIAS\components\WOPI\Discovery\Action;
  *
  * @ilCtrl_isCalledBy ilWOPIAdministrationGUI: ilObjExternalToolsSettingsGUI
  */
-class ilWOPIAdministrationGUI
+class ilWOPIAdministrationGUI implements \ilCtrlCommandClass
 {
     public const CMD_DEFAULT = "index";
     public const CMD_STORE = "store";

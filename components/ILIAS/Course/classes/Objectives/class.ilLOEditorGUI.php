@@ -29,7 +29,7 @@ use ILIAS\Refinery\Factory;
  * @ilCtrl_Calls      ilLOEditorGUI: ilCourseObjectivesGUI, ilContainerStartObjectsGUI, ilConditionHandlerGUI
  * @ilCtrl_Calls      ilLOEditorGUI: ilLOPageGUI
  */
-class ilLOEditorGUI
+class ilLOEditorGUI implements \ilCtrlCommandClass
 {
     public const TEST_TYPE_UNDEFINED = 0;
     public const TEST_TYPE_IT = 1;

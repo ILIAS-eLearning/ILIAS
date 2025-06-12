@@ -35,7 +35,7 @@ use ILIAS\Refinery\Factory;
 * @package ilias-tracking
 *
 */
-class ilUserFilterGUI
+class ilUserFilterGUI implements \ilCtrlCommandClass
 {
     private int $usr_id;
 

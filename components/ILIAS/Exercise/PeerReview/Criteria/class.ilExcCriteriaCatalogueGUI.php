@@ -24,7 +24,7 @@ use ILIAS\Exercise\GUIRequest;
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilExcCriteriaCatalogueGUI: ilExcCriteriaGUI
  */
-class ilExcCriteriaCatalogueGUI
+class ilExcCriteriaCatalogueGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs;

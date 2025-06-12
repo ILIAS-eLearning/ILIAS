@@ -26,7 +26,7 @@ use ILIAS\Badge\ilBadgeUserTableGUI;
  * @ilCtrl_Calls ilObjBadgeAdministrationGUI: ilPermissionGUI, ilBadgeManagementGUI
  * @ilCtrl_IsCalledBy ilObjBadgeAdministrationGUI: ilAdministrationGUI
  */
-class ilObjBadgeAdministrationGUI extends ilObjectGUI
+class ilObjBadgeAdministrationGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     public const TABLE_ALL_OBJECTS_ACTION = 'ALL_OBJECTS';
     private \ILIAS\ResourceStorage\Services $resource_storage;

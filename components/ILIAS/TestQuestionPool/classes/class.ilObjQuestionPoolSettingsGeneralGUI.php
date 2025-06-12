@@ -37,7 +37,7 @@ use ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription;
  *
  * @ilCtrl_Calls   ilObjQuestionPoolSettingsGeneralGUI: ilPropertyFormGUI
  */
-class ilObjQuestionPoolSettingsGeneralGUI
+class ilObjQuestionPoolSettingsGeneralGUI implements \ilCtrlCommandClass
 {
     public const CMD_SHOW_GENERAL_FORM = 'showForm';
     public const CMD_SAVE_GENERAL_FORM = 'saveForm';

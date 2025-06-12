@@ -34,7 +34,7 @@ use ILIAS\UI\Component\Input\Container\Form\Form;
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilObjectContentStyleSettingsGUI
 
  */
-class ilObjDataCollectionGUI extends ilObject2GUI
+class ilObjDataCollectionGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     public const GET_REF_ID = "ref_id";
     public const GET_TABLE_ID = "table_id";

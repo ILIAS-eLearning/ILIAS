@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  * @package components\ILIAS/Test
  */
-class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
+class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI implements \ilCtrlCommandClass
 {
     private ?ilTestSkillLevelThresholdList $skillLevelThresholdList;
 

@@ -24,7 +24,7 @@ declare(strict_types=1);
 *
 * @ilCtrl_Calls ilStudyProgrammeRepositorySearchGUI: ilPropertyFormGUI
 */
-class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
+class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI implements \ilCtrlCommandClass
 {
     public function addUser(): void
     {

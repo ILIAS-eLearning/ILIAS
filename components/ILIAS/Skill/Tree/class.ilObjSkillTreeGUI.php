@@ -34,7 +34,7 @@ use ILIAS\GlobalScreen\ScreenContext;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjSkillTreeGUI: ilPermissionGUI, ilSkillProfileGUI, ilExportGUI
  */
-class ilObjSkillTreeGUI extends ilObjectGUI
+class ilObjSkillTreeGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     public ?ilObject $object;
     protected ilRbacSystem $rbacsystem;

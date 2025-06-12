@@ -25,7 +25,7 @@ use ILIAS\BookingManager\InternalService;
  * Booking preferences ui class
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilBookingPreferencesGUI
+class ilBookingPreferencesGUI implements \ilCtrlCommandClass
 {
     protected ObjectsManager $objects_manager;
     protected AccessManager $access;

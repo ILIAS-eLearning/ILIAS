@@ -22,7 +22,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjNewsSettingsGUI: ilPermissionGUI
  */
-class ilObjNewsSettingsGUI extends ilObjectGUI
+class ilObjNewsSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ilNewsCache $acache;
 

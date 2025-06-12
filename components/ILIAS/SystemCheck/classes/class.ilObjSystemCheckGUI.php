@@ -25,7 +25,7 @@ use ILIAS\Refinery\Factory;
  * @ilCtrl_Calls      ilObjSystemCheckGUI: ilPermissionGUI, ilObjectOwnershipManagementGUI, ilObjSystemFolderGUI, ilSCComponentTasksGUI
  * @ilCtrl_isCalledBy ilObjSystemCheckGUI: ilAdministrationGUI
  */
-class ilObjSystemCheckGUI extends ilObjectGUI
+class ilObjSystemCheckGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected const SECTION_MAIN = 'main';
     protected const SECTION_GROUP = 'group';

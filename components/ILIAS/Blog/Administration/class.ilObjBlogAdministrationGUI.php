@@ -25,7 +25,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjBlogAdministrationGUI: ilPermissionGUI
  * @ilCtrl_IsCalledBy ilObjBlogAdministrationGUI: ilAdministrationGUI
  */
-class ilObjBlogAdministrationGUI extends ilObjectGUI
+class ilObjBlogAdministrationGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     public function __construct(
         $a_data,

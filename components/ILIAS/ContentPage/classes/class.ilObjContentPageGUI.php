@@ -43,7 +43,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  * @ilCtrl_Calls      ilObjContentPageGUI: ilPageMultiLangGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilMDEditorGUI
  */
-class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectConstants, ilDesktopItemHandling
+class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectConstants, ilDesktopItemHandling, \ilCtrlCommandClass
 {
     private ?\ILIAS\Style\Content\Object\ObjectFacade $content_style_domain = null;
     private readonly \ILIAS\Style\Content\GUIService $content_style_gui;

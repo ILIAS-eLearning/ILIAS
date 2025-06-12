@@ -28,7 +28,7 @@ use ILIAS\UI\Factory;
 /**
  * @ilCtrl_Calls ilMailFormGUI: ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
  */
-class ilMailFormGUI
+class ilMailFormGUI implements \ilCtrlCommandClass
 {
     final public const string MAIL_FORM_TYPE_ATTACH = 'attach';
     final public const string MAIL_FORM_TYPE_SEARCH_RESULT = 'search_res';

@@ -33,7 +33,7 @@ use ILIAS\LegalDocuments\Conductor;
  * @author       Sascha Hofmann <saschahofmann@gmx.de>
  * @ilCtrl_Calls ilObjUserGUI: ilLearningProgressGUI, ilObjectOwnershipManagementGUI
  */
-class ilObjUserGUI extends ilObjectGUI
+class ilObjUserGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     private ilPropertyFormGUI $form_gui;
     private UserGUIRequest $user_request;

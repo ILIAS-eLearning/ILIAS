@@ -26,7 +26,7 @@ declare(strict_types=1);
  * @ilCtrl_isCalledBy ilCtrlBaseClass2TestGUI : ilCtrlCommandClass1TestGUI
  * @ilCtrl_Calls      ilCtrlBaseClass2TestGUI : ilCtrlCommandClass1TestGUI
  */
-class ilCtrlBaseClass2TestGUI implements ilCtrlBaseClassInterface
+class ilCtrlBaseClass2TestGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     public function executeCommand(): string
     {

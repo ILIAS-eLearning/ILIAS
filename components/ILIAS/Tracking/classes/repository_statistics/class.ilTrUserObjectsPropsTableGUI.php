@@ -22,7 +22,7 @@
  * @ilCtrl_Calls ilTrUserObjectsPropsTableGUI: ilFormPropertyDispatchGUI
  * @ingroup      ServicesTracking
  */
-class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
+class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI implements \ilCtrlCommandClass
 {
     protected string $type;
     protected int $ref_id;

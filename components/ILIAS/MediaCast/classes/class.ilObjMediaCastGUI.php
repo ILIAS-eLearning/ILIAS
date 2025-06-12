@@ -33,7 +33,7 @@ use ILIAS\MediaCast\Settings\SettingsGUI;
  * @ilCtrl_Calls ilObjMediaCastGUI: ILIAS\MediaCast\Settings\SettingsGUI
  * @ilCtrl_IsCalledBy ilObjMediaCastGUI: ilRepositoryGUI, ilAdministrationGUI
  */
-class ilObjMediaCastGUI extends ilObjectGUI
+class ilObjMediaCastGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\MediaObjects\Player\GUIService $mob_player_gui;
     protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_type;

@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\ILIASObject\Properties\CoreProperties\Online;
 
-class ilObjLearningSequenceSettingsGUI
+class ilObjLearningSequenceSettingsGUI implements \ilCtrlCommandClass
 {
     public const PROP_TITLE = 'title';
     public const PROP_DESC = 'desc';

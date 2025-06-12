@@ -31,7 +31,7 @@ use ILIAS\UI\Component\Item\Item;
 /**
  * @ilCtrl_IsCalledBy ilTutorialSupportBlockGUI: ilColumnGUI
  */
-class ilTutorialSupportBlockGUI extends ilBlockGUI
+class ilTutorialSupportBlockGUI extends ilBlockGUI implements \ilCtrlCommandClass
 {
     protected const BLOCK_TYPE = 'tusu';
     protected const DATA_MAIL_URL = 'mail_url';

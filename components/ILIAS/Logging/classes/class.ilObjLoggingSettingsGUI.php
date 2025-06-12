@@ -29,7 +29,7 @@ use ILIAS\HTTP\Services as Services;
 *
 * @ilCtrl_Calls ilObjLoggingSettingsGUI: ilPermissionGUI
 */
-class ilObjLoggingSettingsGUI extends ilObjectGUI
+class ilObjLoggingSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected const SECTION_SETTINGS = 'settings';
     protected const SUB_SECTION_MAIN = 'log_general_settings';

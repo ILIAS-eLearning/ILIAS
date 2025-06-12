@@ -30,7 +30,7 @@ use ILIAS\COPage\Page\EditGUIRequest;
  * @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI, ilCommentGUI, ilNewsItemGUI
  * @ilCtrl_Calls ilPageObjectGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI, ilLearningHistoryGUI
  */
-class ilPageObjectGUI
+class ilPageObjectGUI implements \ilCtrlCommandClass
 {
     public const PRESENTATION = "presentation";
     public const EDIT = "edit";

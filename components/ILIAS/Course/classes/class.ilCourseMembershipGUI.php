@@ -26,7 +26,7 @@ declare(strict_types=0);
  * @ilCtrl_Calls ilCourseMembershipGUI: ilSessionOverviewGUI
  * @ilCtrl_Calls ilCourseMembershipGUI: ilMemberExportGUI
  */
-class ilCourseMembershipGUI extends ilMembershipGUI
+class ilCourseMembershipGUI extends ilMembershipGUI implements \ilCtrlCommandClass
 {
     protected function getMailMemberRoles(): ?ilAbstractMailMemberRoles
     {

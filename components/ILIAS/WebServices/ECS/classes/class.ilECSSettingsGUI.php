@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  * @ilCtrl_Calls ilECSSettingsGUI: ilECSMappingSettingsGUI, ilECSParticipantSettingsGUI
  */
-class ilECSSettingsGUI
+class ilECSSettingsGUI implements \ilCtrlCommandClass
 {
     public const MAPPING_EXPORT = 1;
     public const MAPPING_IMPORT = 2;

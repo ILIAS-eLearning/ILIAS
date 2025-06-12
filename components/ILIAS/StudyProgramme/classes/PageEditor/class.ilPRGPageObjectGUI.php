@@ -23,7 +23,7 @@ declare(strict_types=1);
  *
  * @ilCtrl_Calls    ilPRGPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI
  */
-class ilPRGPageObjectGUI extends ilContainerPageGUI
+class ilPRGPageObjectGUI extends ilContainerPageGUI implements \ilCtrlCommandClass
 {
     public function getPageConfig(): ilPageConfig
     {

@@ -34,7 +34,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 /**
  * @ilCtrl_Calls ilTestQuestionBrowserTableGUI: ilFormPropertyDispatchGUI
  */
-class ilTestQuestionBrowserTableGUI
+class ilTestQuestionBrowserTableGUI implements \ilCtrlCommandClass
 {
     public const REPOSITORY_ROOT_NODE_ID = 1;
     public const MODE_PARAMETER = 'question_browse_mode';

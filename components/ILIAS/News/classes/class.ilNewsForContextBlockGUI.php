@@ -26,7 +26,7 @@ use ILIAS\News\Access\NewsAccess;
  * @ilCtrl_IsCalledBy ilNewsForContextBlockGUI: ilColumnGUI
  * @ilCtrl_Calls ilNewsForContextBlockGUI: ilNewsItemGUI
  */
-class ilNewsForContextBlockGUI extends ilBlockGUI
+class ilNewsForContextBlockGUI extends ilBlockGUI implements \ilCtrlCommandClass
 {
     /**
      * object type names with settings->news settings subtab

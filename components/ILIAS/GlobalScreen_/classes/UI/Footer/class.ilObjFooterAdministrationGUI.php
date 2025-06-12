@@ -29,7 +29,7 @@ use ILIAS\GlobalScreen_\UI\Translator;
  * @ilCtrl_Calls      ilObjFooterAdministrationGUI: ilPermissionGUI
  * @ilCtrl_Calls      ilObjFooterAdministrationGUI: ilFooterGroupsGUI
  */
-final class ilObjFooterAdministrationGUI extends ilObject2GUI
+final class ilObjFooterAdministrationGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     /**
      * @var string

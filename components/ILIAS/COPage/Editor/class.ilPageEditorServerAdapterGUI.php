@@ -24,7 +24,7 @@ use ILIAS\COPage\Editor\Server;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPageEditorServerAdapterGUI
+class ilPageEditorServerAdapterGUI implements \ilCtrlCommandClass
 {
     protected ilPageObjectGUI $page_gui;
     protected \ILIAS\DI\UIServices $ui;

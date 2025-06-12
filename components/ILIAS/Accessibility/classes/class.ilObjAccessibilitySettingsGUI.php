@@ -22,7 +22,7 @@
  * @ilCtrl_Calls ilObjAccessibilitySettingsGUI: ilPermissionGUI, ilAccessibilityDocumentGUI
  * @ilCtrl_IsCalledBy ilObjAccessibilitySettingsGUI: ilAdministrationGUI
  */
-class ilObjAccessibilitySettingsGUI extends ilObjectGUI
+class ilObjAccessibilitySettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ilRbacSystem $rbacsystem;
     protected ilPropertyFormGUI $form;

@@ -23,7 +23,7 @@
  * @ilCtrl_Calls ilObjPortfolioAdministrationGUI: ilPermissionGUI, ilPortfolioRoleAssignmentGUI
  * @ilCtrl_IsCalledBy ilObjPortfolioAdministrationGUI: ilAdministrationGUI
  */
-class ilObjPortfolioAdministrationGUI extends ilObjectGUI
+class ilObjPortfolioAdministrationGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\DI\UIServices $ui;
     protected ilPortfolioDeclarationOfAuthorship$declaration_authorship;

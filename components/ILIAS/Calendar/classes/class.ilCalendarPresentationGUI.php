@@ -31,7 +31,7 @@ use ILIAS\UI\Renderer as UIRenderer;
  * @ilCtrl_Calls ilCalendarPresentationGUI: ilConsultationHoursGUI, ilCalendarBlockGUI, ilPDCalendarBlockGUI, ilPublicUserProfileGUI
  * @ingroup      ServicesCalendar
  */
-class ilCalendarPresentationGUI
+class ilCalendarPresentationGUI implements \ilCtrlCommandClass
 {
     protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;

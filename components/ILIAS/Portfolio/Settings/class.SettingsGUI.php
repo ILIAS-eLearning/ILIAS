@@ -25,7 +25,7 @@ use ILIAS\Portfolio\InternalGUIService;
 use ILIAS\Repository\Form\FormAdapterGUI;
 use ILIAS\Portfolio\InternalDataService;
 
-class SettingsGUI
+class SettingsGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Notes\DomainService $notes;
     protected \ilSetting $global_settings;

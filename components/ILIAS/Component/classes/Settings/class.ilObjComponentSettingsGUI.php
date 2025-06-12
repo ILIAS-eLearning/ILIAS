@@ -24,7 +24,7 @@ use ILIAS\UI\Renderer;
 /**
  * @ilCtrl_Calls ilObjComponentSettingsGUI: ilPermissionGUI
  */
-class ilObjComponentSettingsGUI extends ilObjectGUI implements ilCtrlSecurityInterface
+class ilObjComponentSettingsGUI extends ilObjectGUI implements ilCtrlSecurityInterface, \ilCtrlCommandClass
 {
     private const TYPE = 'cmps';
 

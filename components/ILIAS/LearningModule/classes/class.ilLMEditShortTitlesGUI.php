@@ -18,7 +18,7 @@
 
 use ILIAS\LearningModule\Editing\EditingGUIRequest;
 
-class ilLMEditShortTitlesGUI
+class ilLMEditShortTitlesGUI implements \ilCtrlCommandClass
 {
     protected string $lang;
     protected ilCtrl $ctrl;

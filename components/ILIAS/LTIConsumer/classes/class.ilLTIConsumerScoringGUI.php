@@ -27,7 +27,7 @@ declare(strict_types=1);
  *
  * @package     Module/LTIConsumer
  */
-class ilLTIConsumerScoringGUI
+class ilLTIConsumerScoringGUI implements \ilCtrlCommandClass
 {
     public const PART_FILTER_ACTIVE_ONLY = 1;
     public const PART_FILTER_INACTIVE_ONLY = 2;

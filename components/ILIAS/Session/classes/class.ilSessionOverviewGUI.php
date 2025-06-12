@@ -25,7 +25,7 @@ declare(strict_types=1);
 *
 * @ingroup components\ILIASSession
 */
-class ilSessionOverviewGUI
+class ilSessionOverviewGUI implements \ilCtrlCommandClass
 {
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;

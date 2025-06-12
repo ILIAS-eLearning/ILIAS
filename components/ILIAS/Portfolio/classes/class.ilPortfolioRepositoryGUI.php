@@ -24,7 +24,7 @@ use ILIAS\Portfolio\StandardGUIRequest;
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilPortfolioRepositoryGUI: ilObjPortfolioGUI, ilObjExerciseGUI
  */
-class ilPortfolioRepositoryGUI
+class ilPortfolioRepositoryGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Portfolio\InternalGUIService $gui;
     protected StandardGUIRequest $port_request;

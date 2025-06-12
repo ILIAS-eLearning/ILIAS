@@ -38,7 +38,7 @@ use ILIAS\GlobalScreen_\UI\UIHelper;
  *
  * @ilCtrl_isCalledBy ilFooterEntriesGUI: ilFooterGroupsGUI
  */
-final class ilFooterEntriesGUI
+final class ilFooterEntriesGUI implements \ilCtrlCommandClass
 {
     use Hasher;
     use UIHelper;

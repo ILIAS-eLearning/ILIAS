@@ -26,7 +26,7 @@ use ILIAS\HTTP\Response\Sender\ResponseSendingException;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilNewsTimelineGUI: ilLikeGUI, ilCommentGUI
  */
-class ilNewsTimelineGUI
+class ilNewsTimelineGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\News\InternalGUIService $gui;
     protected int $period = 0;

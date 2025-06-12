@@ -24,7 +24,7 @@
  *
  * @ilCtrl_Calls ilObjExerciseAdministrationGUI: ilPermissionGUI
  */
-class ilObjExerciseAdministrationGUI extends ilObjectGUI
+class ilObjExerciseAdministrationGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {

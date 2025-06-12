@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_IsCalledBy ilRepositorySelector2InputGUI: ilFormPropertyDispatchGUI
  */
-class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
+class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI implements \ilCtrlCommandClass
 {
     protected ?Closure $title_modifier = null;
 

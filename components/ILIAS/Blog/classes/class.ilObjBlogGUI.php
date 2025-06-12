@@ -32,7 +32,7 @@ use ILIAS\Blog\Export\BlogHtmlExport;
  * @ilCtrl_Calls ilObjBlogGUI: ILIAS\Blog\Settings\SettingsGUI
  * @ilCtrl_Calls ilObjBlogGUI: ILIAS\Blog\Settings\BlockSettingsGUI
  */
-class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
+class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling, \ilCtrlCommandClass
 {
     protected ?\ILIAS\Blog\Settings\Settings $blog_settings = null;
     protected \ILIAS\Repository\Profile\ProfileGUI $profile_gui;

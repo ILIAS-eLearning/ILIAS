@@ -23,7 +23,7 @@ use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntries as Entries;
 /**
  * Renders the Overview of the Examples in the Administration
  */
-class ilSystemStyleDocumentationGUI
+class ilSystemStyleDocumentationGUI implements \ilCtrlCommandClass
 {
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrl $ctrl;

@@ -22,7 +22,7 @@
  *
  * @package components\ILIAS/Test
  */
-class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
+class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI implements \ilCtrlCommandClass
 {
     public const TABLE_ID = 'iaqsutg';
 

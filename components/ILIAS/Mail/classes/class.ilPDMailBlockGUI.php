@@ -25,7 +25,7 @@ use ILIAS\UI\Component\Item\Item;
 /**
  * @ilCtrl_IsCalledBy ilPDMailBlockGUI: ilColumnGUI
  */
-class ilPDMailBlockGUI extends ilBlockGUI
+class ilPDMailBlockGUI extends ilBlockGUI implements \ilCtrlCommandClass
 {
     public static string $block_type = 'pdmail';
 

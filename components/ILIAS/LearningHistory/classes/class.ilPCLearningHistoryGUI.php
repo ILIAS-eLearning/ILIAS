@@ -21,7 +21,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_isCalledBy ilPCLearningHistoryGUI: ilPageEditorGUI
  */
-class ilPCLearningHistoryGUI extends ilPageContentGUI
+class ilPCLearningHistoryGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected ilObjUser $user;
     protected \ILIAS\DI\UIServices $ui;

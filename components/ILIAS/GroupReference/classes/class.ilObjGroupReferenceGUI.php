@@ -22,7 +22,7 @@
  * @ilCtrl_Calls ilObjGroupReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
  * @ingroup components\ILIASGroupReference
  */
-class ilObjGroupReferenceGUI extends ilContainerReferenceGUI
+class ilObjGroupReferenceGUI extends ilContainerReferenceGUI implements \ilCtrlCommandClass
 {
     /**
      * ilObjGroupReferenceGUI constructor.

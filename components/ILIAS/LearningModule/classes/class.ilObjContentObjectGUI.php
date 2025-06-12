@@ -33,7 +33,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  * @ilCtrl_Calls ilObjContentObjectGUI: ilMobMultiSrtUploadGUI, ilLMImportGUI, ilLMEditShortTitlesGUI, ilLTIProviderObjectSettingGUI
  * @ilCtrl_IsCalledBy ilObjContentObjectGUI: ilExportGUI
  */
-class ilObjContentObjectGUI extends ilObjectGUI
+class ilObjContentObjectGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\LearningModule\InternalGUIService $gui;
     protected \ILIAS\LearningModule\InternalDomainService $domain;

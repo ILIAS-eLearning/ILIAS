@@ -25,7 +25,7 @@ use ILIAS\MyStaff\ilMyStaffAccess;
  * @author Martin Studer <ms@studer-raimann.ch>
  * @ilCtrl_Calls      ilMStListCoursesTableGUI: ilFormPropertyDispatchGUI
  */
-class ilMStListCoursesTableGUI extends ilTable2GUI
+class ilMStListCoursesTableGUI extends ilTable2GUI implements \ilCtrlCommandClass
 {
     protected array $filter = [];
     protected array $cached_selectable_columns = [];

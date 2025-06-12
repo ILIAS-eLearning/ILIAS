@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Class ilLocalUnitConfigurationGUI
  */
-class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
+class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI implements \ilCtrlCommandClass
 {
     private const REQUEST_PARAM_SUB_CONTEXT_ID = 'question_fi';
 

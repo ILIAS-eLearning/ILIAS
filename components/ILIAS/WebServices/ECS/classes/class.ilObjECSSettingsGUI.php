@@ -24,7 +24,7 @@ declare(strict_types=1);
 *
 * @ilCtrl_Calls ilObjECSSettingsGUI: ilPermissionGUI, ilECSSettingsGUI
 */
-class ilObjECSSettingsGUI extends ilObjectGUI
+class ilObjECSSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {

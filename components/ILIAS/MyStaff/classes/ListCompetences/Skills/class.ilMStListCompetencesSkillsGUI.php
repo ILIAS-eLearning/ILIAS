@@ -25,7 +25,7 @@ use ILIAS\MyStaff\ListCompetences\Skills\ilMStListCompetencesSkillsTableGUI;
  * @package ILIAS\MyStaff\ListCompetences
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class ilMStListCompetencesSkillsGUI
+class ilMStListCompetencesSkillsGUI implements \ilCtrlCommandClass
 {
     public const string CMD_APPLY_FILTER = 'applyFilter';
     public const string CMD_INDEX = 'index';

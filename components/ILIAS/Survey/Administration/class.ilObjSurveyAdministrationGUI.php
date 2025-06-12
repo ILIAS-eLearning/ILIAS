@@ -20,7 +20,7 @@
  * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @ilCtrl_Calls ilObjSurveyAdministrationGUI: ilPermissionGUI
  */
-class ilObjSurveyAdministrationGUI extends ilObjectGUI
+class ilObjSurveyAdministrationGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ilTabsGUI $tabs;
 

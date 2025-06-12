@@ -29,7 +29,7 @@ use ILIAS\HTTP\GlobalHttpState;
 /**
  * @ilCtrl_Calls ilObjContentPageAdministrationGUI: ilPermissionGUI
  */
-class ilObjContentPageAdministrationGUI extends ilObjectGUI
+class ilObjContentPageAdministrationGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     private const string CMD_VIEW = 'view';
     private const string CMD_EDIT = 'edit';

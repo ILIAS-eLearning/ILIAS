@@ -27,7 +27,7 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
  * @ilCtrl_IsCalledBy ilMStListCoursesGUI: ilMyStaffGUI
  * @ilCtrl_Calls      ilMStListCoursesGUI: ilMStListCoursesTableGUI
  */
-class ilMStListCoursesGUI extends ilPropertyFormGUI
+class ilMStListCoursesGUI extends ilPropertyFormGUI implements \ilCtrlCommandClass
 {
     public const string CMD_APPLY_FILTER = 'applyFilter';
     public const string CMD_INDEX = 'index';

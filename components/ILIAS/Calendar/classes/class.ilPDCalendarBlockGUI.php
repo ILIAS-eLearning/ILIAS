@@ -27,7 +27,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls      ilPDCalendarBlockGUI: ilConsultationHoursGUI, ilCalendarAppointmentPresentationGUI
  * @ingroup           ServicesCalendar
  */
-class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
+class ilPDCalendarBlockGUI extends ilCalendarBlockGUI implements \ilCtrlCommandClass
 {
     public static string $block_type = "pdcal";
     protected bool $initialized = false;

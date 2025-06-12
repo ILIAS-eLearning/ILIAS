@@ -27,7 +27,7 @@ declare(strict_types=1);
  *
  * @package     Module/CmiXapi
  */
-class ilCmiXapiStatementsGUI
+class ilCmiXapiStatementsGUI implements \ilCtrlCommandClass
 {
     protected ilObjCmiXapi $object;
     protected ilCmiXapiAccess $access;

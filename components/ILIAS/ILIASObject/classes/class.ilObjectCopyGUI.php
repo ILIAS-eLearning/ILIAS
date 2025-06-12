@@ -37,7 +37,7 @@ use ILIAS\Object\ImplementsCreationCallback;
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  * @ilCtrl_Calls ilObjectCopyGUI:
  */
-class ilObjectCopyGUI
+class ilObjectCopyGUI implements \ilCtrlCommandClass
 {
     public const SOURCE_SELECTION = 1;
     public const TARGET_SELECTION = 2;

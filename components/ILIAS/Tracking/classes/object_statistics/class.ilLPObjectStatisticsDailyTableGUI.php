@@ -25,7 +25,7 @@ declare(strict_types=0);
  * @ilCtrl_Calls ilLPObjectStatisticsDailyTableGUI: ilFormPropertyDispatchGUI
  * @ingroup      ServicesTracking
  */
-class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
+class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI implements \ilCtrlCommandClass
 {
     protected ?array $preselected;
 

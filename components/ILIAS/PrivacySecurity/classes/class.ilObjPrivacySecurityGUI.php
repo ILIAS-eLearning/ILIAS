@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjPrivacySecurityGUI: ilPermissionGUI
  * @ingroup      ServicesPrivacySecurity
  */
-class ilObjPrivacySecurityGUI extends ilObjectGUI
+class ilObjPrivacySecurityGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     private static array $ERROR_MESSAGE = [];
 

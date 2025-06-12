@@ -30,7 +30,7 @@
  * @ilctrl_iscalledby assOrderingHorizontalGUI: ilObjQuestionPoolGUI
  * @ilCtrl_Calls assOrderingHorizontalGUI: ilPropertyFormGUI, ilFormPropertyDispatchGUI
  */
-class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
+class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, \ilCtrlCommandClass
 {
     /**
     * assOrderingHorizontalGUI constructor

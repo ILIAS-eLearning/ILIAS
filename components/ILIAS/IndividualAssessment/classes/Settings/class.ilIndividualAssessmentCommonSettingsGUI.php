@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilIndividualAssessmentCommonSettingsGUI
+class ilIndividualAssessmentCommonSettingsGUI implements \ilCtrlCommandClass
 {
     public const CMD_EDIT = 'editSettings';
     public const CMD_SAVE = 'saveSettings';

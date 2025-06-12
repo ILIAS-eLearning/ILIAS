@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilLoginPageGUI: ilPublicUserProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilLoginPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
  */
-class ilLoginPageGUI extends ilPageObjectGUI
+class ilLoginPageGUI extends ilPageObjectGUI implements \ilCtrlCommandClass
 {
     public function __construct(int $a_id = 0, int $a_old_nr = 0)
     {

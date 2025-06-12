@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @ilCtrl_IsCalledBy ilObjObjectTemplateAdministrationGUI: ilAdministrationGUI
  * @ingroup           ServicesPortfolio
  */
-class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
+class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     public function __construct($a_data, $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {

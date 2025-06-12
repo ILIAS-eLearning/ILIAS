@@ -25,7 +25,7 @@ use ILIAS\User\UserGUIRequest;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilUserTableGUI: ilFormPropertyDispatchGUI
  */
-class ilUserTableGUI extends ilTable2GUI
+class ilUserTableGUI extends ilTable2GUI implements \ilCtrlCommandClass
 {
     public const MODE_USER_FOLDER = 1;
     public const MODE_LOCAL_USER = 2;

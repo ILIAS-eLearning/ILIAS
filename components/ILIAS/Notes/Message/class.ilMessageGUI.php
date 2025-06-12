@@ -23,7 +23,7 @@ use ILIAS\Notes\Note;
 /**
  * Message GUI
  */
-class ilMessageGUI extends ilNoteGUI
+class ilMessageGUI extends ilNoteGUI implements \ilCtrlCommandClass
 {
     protected int $note_type = Note::MESSAGE;
     protected bool $anonymised = false;

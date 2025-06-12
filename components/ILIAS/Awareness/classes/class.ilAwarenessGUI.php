@@ -26,7 +26,7 @@ use ILIAS\DI\UIServices;
  * Awareness GUI class
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilAwarenessGUI implements ilCtrlBaseClassInterface
+class ilAwarenessGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected InternalGUIService $gui;
     protected ilGlobalTemplateInterface $main_tpl;

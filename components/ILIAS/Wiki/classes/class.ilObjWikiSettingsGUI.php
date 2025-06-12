@@ -25,7 +25,7 @@
  * @ilCtrl_Calls ilObjWikiSettingsGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjWikiSettingsGUI: ilAdministrationGUI
  */
-class ilObjWikiSettingsGUI extends ilObject2GUI
+class ilObjWikiSettingsGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     protected ilErrorHandling $error;
     protected ilTabsGUI $tabs;

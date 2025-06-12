@@ -21,7 +21,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class McstImageGalleryGUI
+class McstImageGalleryGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_types;
     protected \ILIAS\MediaCast\InternalGUIService $gui;

@@ -31,7 +31,7 @@
  * @ingroup components\ILIASTestQuestionPool
  * @ilCtrl_Calls assTextSubsetGUI: ilFormPropertyDispatchGUI
  */
-class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
+class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable, \ilCtrlCommandClass
 {
     private $answers_from_post;
 

@@ -30,7 +30,7 @@ use ILIAS\Setup\CLI\StatusCommand;
  * @ilCtrl_Calls ilObjSystemFolderGUI: ilPermissionGUI
  * @ilCtrl_Calls ilObjSystemFolderGUI: ilObjectOwnershipManagementGUI, ilCronManagerGUI
  */
-class ilObjSystemFolderGUI extends ilObjectGUI
+class ilObjSystemFolderGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected \Pimple\Container $dic;
     protected \ILIAS\Repository\InternalGUIService $gui;

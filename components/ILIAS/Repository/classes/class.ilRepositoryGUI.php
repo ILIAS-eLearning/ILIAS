@@ -43,7 +43,7 @@ use ILIAS\Repository\StandardGUIRequest;
  * @ilCtrl_Calls ilRepositoryGUI: ilPermissionGUI
  *
  */
-class ilRepositoryGUI implements ilCtrlBaseClassInterface
+class ilRepositoryGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected ilObjectDefinition $objDefinition;
     protected ilLogger $log;

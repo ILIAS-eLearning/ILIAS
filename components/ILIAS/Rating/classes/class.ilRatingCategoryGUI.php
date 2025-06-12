@@ -23,7 +23,7 @@ use Psr\Http\Message\RequestInterface;
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilRatingCategoryGUI
+class ilRatingCategoryGUI implements \ilCtrlCommandClass
 {
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;

@@ -28,7 +28,7 @@ use ILIAS\Refinery\Factory;
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesMembership
  */
-class ilMembershipMailGUI
+class ilMembershipMailGUI implements \ilCtrlCommandClass
 {
     protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;

@@ -27,7 +27,7 @@ use ceLTIc\LTI\Util;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilLTIProviderObjectSettingGUI
+class ilLTIProviderObjectSettingGUI implements \ilCtrlCommandClass
 {
     public const ROLE_ADMIN = 'admin';
     public const ROLE_TUTOR = 'tutor';

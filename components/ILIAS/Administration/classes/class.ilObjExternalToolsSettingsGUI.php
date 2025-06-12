@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author Sascha Hofmann <saschahofmann@gmx.de>
  * @ilCtrl_Calls ilObjExternalToolsSettingsGUI: ilPermissionGUI, ilMathJaxSettingsGUI
  */
-class ilObjExternalToolsSettingsGUI extends ilObjectGUI
+class ilObjExternalToolsSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     public const EDIT_WOPI = "editWopi";
     public ilRbacSystem $rbacsystem;

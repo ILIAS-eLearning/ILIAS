@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @ingroup           ServicesDidacticTemplate
  * @ilCtrl_IsCalledBy ilDidacticTemplateGUI: ilPermissionGUI
  */
-class ilDidacticTemplateGUI
+class ilDidacticTemplateGUI implements \ilCtrlCommandClass
 {
     private object $parent_object;
     private ilLanguage $lng;

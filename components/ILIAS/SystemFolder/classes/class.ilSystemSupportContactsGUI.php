@@ -21,7 +21,7 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  */
-class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
+class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected \ILIAS\DI\UIServices $ui;
     /**

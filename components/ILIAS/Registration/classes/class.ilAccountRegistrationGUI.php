@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
  * @ilCtrl_Calls ilAccountRegistrationGUI:
  */
-class ilAccountRegistrationGUI
+class ilAccountRegistrationGUI implements \ilCtrlCommandClass
 {
     protected ilRegistrationSettings $registration_settings;
     protected bool $code_enabled = false;

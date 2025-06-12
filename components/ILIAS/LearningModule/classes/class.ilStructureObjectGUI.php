@@ -23,7 +23,7 @@ use ILIAS\LearningModule\Editing\EditSubObjectsGUI;
  * @ilCtrl_Calls ilStructureObjectGUI: ilConditionHandlerGUI, ilObjectMetaDataGUI
  * @ilCtrl_Calls ilStructureObjectGUI: ILIAS\LearningModule\Editing\EditSubObjectsGUI
  */
-class ilStructureObjectGUI extends ilLMObjectGUI
+class ilStructureObjectGUI extends ilLMObjectGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\LearningModule\InternalDomainService $domain;
     protected \ILIAS\LearningModule\InternalGUIService $gui;

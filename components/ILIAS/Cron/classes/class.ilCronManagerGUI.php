@@ -35,7 +35,7 @@ use ILIAS\Cron\CronJob;
  * @ilCtrl_Calls      ilCronManagerGUI: ilPropertyFormGUI
  * @ilCtrl_isCalledBy ilCronManagerGUI: ilAdministrationGUI
  */
-class ilCronManagerGUI
+class ilCronManagerGUI implements \ilCtrlCommandClass
 {
     private const array TABLE_ACTION_NAMESPACE = ['cron', 'jobs'];
     private const string TABLE_ACTION_PARAM_NAME = 'table_action';

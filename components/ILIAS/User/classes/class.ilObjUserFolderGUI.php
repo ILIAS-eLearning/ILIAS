@@ -37,7 +37,7 @@ use ILIAS\Authentication\Password\LocalUserPasswordManager;
  * @ilCtrl_Calls ilObjUserFolderGUI: ilCustomUserFieldsGUI, ilRepositorySearchGUI, ilUserStartingPointGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Prompt\SettingsGUI
  */
-class ilObjUserFolderGUI extends ilObjectGUI
+class ilObjUserFolderGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     use ilTableCommandHelper;
 

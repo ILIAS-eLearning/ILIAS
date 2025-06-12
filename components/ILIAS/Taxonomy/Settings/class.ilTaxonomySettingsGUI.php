@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * @ilCtrl_Calls ilTaxonomySettingsGUI: ilObjTaxonomyGUI
  */
-class ilTaxonomySettingsGUI
+class ilTaxonomySettingsGUI implements \ilCtrlCommandClass
 {
     protected ilTabsGUI $tabs;
     protected ilGlobalTemplateInterface $tpl;

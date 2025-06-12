@@ -28,7 +28,7 @@ use ILIAS\Authentication\Password\LocalUserPasswordManager;
 use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
 use ILIAS\UI\Component\Input\Field\Password as PasswordInput;
 
-class ilLocalUserPasswordSettingsGUI
+class ilLocalUserPasswordSettingsGUI implements \ilCtrlCommandClass
 {
     private const NEW_PASSWORD = 'new_password';
     private const CURRENT_PASSWORD = 'current_password';

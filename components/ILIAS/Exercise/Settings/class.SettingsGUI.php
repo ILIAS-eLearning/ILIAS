@@ -25,7 +25,7 @@ use ILIAS\Exercise\InternalGUIService;
 use ILIAS\Repository\Form\FormAdapterGUI;
 use ILIAS\Exercise\InternalDataService;
 
-class SettingsGUI
+class SettingsGUI implements \ilCtrlCommandClass
 {
     public function __construct(
         protected InternalDataService $data,

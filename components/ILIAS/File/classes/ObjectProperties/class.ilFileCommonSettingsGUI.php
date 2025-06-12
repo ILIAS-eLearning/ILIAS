@@ -19,7 +19,7 @@
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ilFileCommonSettingsGUI
+class ilFileCommonSettingsGUI implements \ilCtrlCommandClass
 {
     public const CMD_EDIT = 'editSettings';
     public const CMD_SAVE = 'saveSettings';

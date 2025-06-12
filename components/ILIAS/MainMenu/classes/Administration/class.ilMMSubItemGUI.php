@@ -26,7 +26,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
  * @ilCtrl_Calls      ilMMSubItemGUI: ilMMItemTranslationGUI
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMSubItemGUI extends ilMMAbstractItemGUI
+class ilMMSubItemGUI extends ilMMAbstractItemGUI implements \ilCtrlCommandClass
 {
     use Hasher;
 

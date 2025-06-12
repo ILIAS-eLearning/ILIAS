@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  * @package	Modules/Test
  */
-class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolbarGUI
+class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolbarGUI implements \ilCtrlCommandClass
 {
     public ilCtrlInterface $ctrl;
     public ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI;

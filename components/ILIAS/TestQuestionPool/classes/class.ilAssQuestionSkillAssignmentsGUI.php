@@ -34,7 +34,7 @@ use ILIAS\Skill\Service\SkillUsageService;
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssQuestionPageGUI
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilConfirmationGUI
  */
-class ilAssQuestionSkillAssignmentsGUI
+class ilAssQuestionSkillAssignmentsGUI implements \ilCtrlCommandClass
 {
     public const CMD_SHOW_SKILL_QUEST_ASSIGNS = 'showSkillQuestionAssignments';
     public const CMD_SHOW_SKILL_SELECT = 'showSkillSelection';

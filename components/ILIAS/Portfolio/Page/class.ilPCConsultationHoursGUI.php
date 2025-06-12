@@ -21,7 +21,7 @@
  * Handles user commands on consultation hour data
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilPCConsultationHoursGUI extends ilPageContentGUI
+class ilPCConsultationHoursGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected ilObjUser $user;
 

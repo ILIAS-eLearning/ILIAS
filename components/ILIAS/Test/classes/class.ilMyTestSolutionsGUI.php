@@ -33,7 +33,7 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
  * @ilCtrl_Calls ilMyTestSolutionsGUI: ilTestEvaluationGUI
  * @ilCtrl_Calls ilMyTestSolutionsGUI: ilAssQuestionPageGUI
  */
-class ilMyTestSolutionsGUI
+class ilMyTestSolutionsGUI implements \ilCtrlCommandClass
 {
     private const EVALGUI_CMD_SHOW_PASS_OVERVIEW = 'outUserListOfAnswerPasses';
 

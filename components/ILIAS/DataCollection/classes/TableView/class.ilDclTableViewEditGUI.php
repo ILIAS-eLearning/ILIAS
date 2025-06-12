@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclCreateViewDefinitionGUI
  * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclEditViewDefinitionGUI
  */
-class ilDclTableViewEditGUI
+class ilDclTableViewEditGUI implements \ilCtrlCommandClass
 {
     protected ilDclTableViewGUI $parent_obj;
     protected ilCtrl $ctrl;

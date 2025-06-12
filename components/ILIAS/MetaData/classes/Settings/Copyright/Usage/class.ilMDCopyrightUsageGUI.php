@@ -27,7 +27,7 @@ use ILIAS\MetaData\Copyright\EntryInterface;
  * @ilCtrl_Calls ilMDCopyrightUsageGUI: ilPublicUserProfileGUI
  * @ingroup      ServicesMetaData
  */
-class ilMDCopyrightUsageGUI
+class ilMDCopyrightUsageGUI implements \ilCtrlCommandClass
 {
     public const string DEFAULT_CMD = 'showUsageTable';
 

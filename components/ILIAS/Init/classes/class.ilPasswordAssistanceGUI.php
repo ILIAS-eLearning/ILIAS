@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HTTPServices;
 
-class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
+class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface, \ilCtrlCommandClass
 {
     private const PERMANENT_LINK_TARGET_PW = 'pwassist';
     private const PERMANENT_LINK_TARGET_NAME = 'nameassist';

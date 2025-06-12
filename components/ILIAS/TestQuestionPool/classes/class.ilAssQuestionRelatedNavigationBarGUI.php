@@ -22,7 +22,7 @@
  *
  * @package components\ILIAS/TestQuestionPool
  */
-class ilAssQuestionRelatedNavigationBarGUI
+class ilAssQuestionRelatedNavigationBarGUI implements \ilCtrlCommandClass
 {
     /**
      * @var ilCtrl

@@ -23,7 +23,7 @@ use ILIAS\UI\Renderer;
  * Show calendar subscription info
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-class ilCalendarSubscriptionGUI
+class ilCalendarSubscriptionGUI implements \ilCtrlCommandClass
 {
     private int $cal_id = 0;
     private int $ref_id = 0;

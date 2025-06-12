@@ -22,7 +22,7 @@ use ILIAS\Filesystem\Stream\Streams;
  * Learning history main GUI class
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilLearningHistoryGUI
+class ilLearningHistoryGUI implements \ilCtrlCommandClass
 {
     public const TAB_ID_LEARNING_HISTORY = 'lhist_learning_history';
     public const TAB_ID_MY_CERTIFICATES = 'certificates';

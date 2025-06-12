@@ -43,7 +43,7 @@ use ILIAS\Filesystem\Stream\Streams;
  * @ilCtrl_Calls ilTestEvaluationGUI: ilTestPassDetailsOverviewTableGUI
  * @ilCtrl_Calls ilTestEvaluationGUI: ilTestPassDeletionConfirmationGUI
  */
-class ilTestEvaluationGUI extends ilTestServiceGUI
+class ilTestEvaluationGUI extends ilTestServiceGUI implements \ilCtrlCommandClass
 {
     private const DEFAULT_CMD = 'outUserListOfAnswerPasses';
     protected ilTestAccess $testAccess;

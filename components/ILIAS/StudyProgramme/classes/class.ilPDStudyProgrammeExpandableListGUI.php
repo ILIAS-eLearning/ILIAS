@@ -23,7 +23,7 @@ declare(strict_types=1);
  *
  * @ilCtrl_IsCalledBy ilPDStudyProgrammeExpandableListGUI: ilColumnGUI
  */
-class ilPDStudyProgrammeExpandableListGUI extends ilPDStudyProgrammeSimpleListGUI
+class ilPDStudyProgrammeExpandableListGUI extends ilPDStudyProgrammeSimpleListGUI implements \ilCtrlCommandClass
 {
     public const BLOCK_TYPE = "prgexpandablelist";
 

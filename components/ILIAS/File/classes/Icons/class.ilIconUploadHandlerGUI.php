@@ -36,7 +36,7 @@ use ILIAS\Refinery\Factory;
  *
  * @ilCtrl_isCalledBy ILIAS\File\Icon\ilIconUploadHandlerGUI: ILIAS\File\Icon\ilObjFileIconsOverviewGUI
  */
-class ilIconUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
+class ilIconUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlCommandClass
 {
     private Services $storage;
     private ilObjFileIconStakeholder $stakeholder;

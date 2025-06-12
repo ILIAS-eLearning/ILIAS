@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilCalendarUserSettingsGUI:
  * @ingroup      ServicesCalendar
  */
-class ilCalendarUserSettingsGUI
+class ilCalendarUserSettingsGUI implements \ilCtrlCommandClass
 {
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrlInterface $ctrl;

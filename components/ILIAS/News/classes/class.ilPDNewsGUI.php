@@ -28,7 +28,7 @@ use ILIAS\News\InternalGUIService;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPDNewsGUI: ilNewsTimelineGUI, ilCommonActionDispatcherGUI
  */
-class ilPDNewsGUI
+class ilPDNewsGUI implements \ilCtrlCommandClass
 {
     protected InternalDomainService $domain;
     protected DashboardNewsManager $dash_news_manager;

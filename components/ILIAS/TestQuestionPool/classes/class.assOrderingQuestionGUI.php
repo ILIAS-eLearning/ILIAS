@@ -31,7 +31,7 @@
  * @ingroup components\ILIASTestQuestionPool
  * @ilCtrl_Calls assOrderingQuestionGUI: ilFormPropertyDispatchGUI
  */
-class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
+class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable, \ilCtrlCommandClass
 {
     public const CMD_EDIT_NESTING = 'editNesting';
     public const CMD_SAVE_NESTING = 'saveNesting';

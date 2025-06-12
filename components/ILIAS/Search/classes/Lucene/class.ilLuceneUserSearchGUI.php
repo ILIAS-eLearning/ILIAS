@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilLuceneUserSearchGUI: ilPublicUserProfileGUI
  * @ilCtrl_IsCalledBy ilLuceneUserSearchGUI: ilSearchControllerGUI
  */
-class ilLuceneUserSearchGUI extends ilSearchBaseGUI
+class ilLuceneUserSearchGUI extends ilSearchBaseGUI implements \ilCtrlCommandClass
 {
     protected ilTabsGUI $tabs;
     protected ilHelpGUI $help;

@@ -25,7 +25,7 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilBiblLibraryGUI
+class ilBiblLibraryGUI implements \ilCtrlCommandClass
 {
     use DIC;
     public const F_LIB_ID = 'lib_id';

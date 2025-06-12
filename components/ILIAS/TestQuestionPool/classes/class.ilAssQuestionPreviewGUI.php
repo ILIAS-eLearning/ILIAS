@@ -41,7 +41,7 @@ use ILIAS\TestQuestionPool\RequestDataCollector;
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilCommentGUI
  */
-class ilAssQuestionPreviewGUI
+class ilAssQuestionPreviewGUI implements \ilCtrlCommandClass
 {
     public const CMD_SHOW = 'show';
     public const CMD_RESET = 'reset';

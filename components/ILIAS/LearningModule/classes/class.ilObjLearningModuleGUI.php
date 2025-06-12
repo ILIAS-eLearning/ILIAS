@@ -23,7 +23,7 @@
  * @ilCtrl_Calls ilObjLearningModuleGUI: ilMobMultiSrtUploadGUI, ilLMImportGUI, ilLMEditShortTitlesGUI, ilLTIProviderObjectSettingGUI
  * @ilCtrl_Calls ilObjLearningModuleGUI: ILIAS\LearningModule\Editing\EditSubObjectsGUI
  */
-class ilObjLearningModuleGUI extends ilObjContentObjectGUI
+class ilObjLearningModuleGUI extends ilObjContentObjectGUI implements \ilCtrlCommandClass
 {
     /**
      * @param mixed $a_data

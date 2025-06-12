@@ -43,7 +43,7 @@ use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ilResourceCollectionGUI implements UploadHandler
+class ilResourceCollectionGUI implements UploadHandler, \ilCtrlCommandClass
 {
     use BinToHexSerializer;
 

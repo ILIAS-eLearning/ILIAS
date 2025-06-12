@@ -22,7 +22,7 @@
  * See https://mantis.ilias.de/view.php?id=32856
  * @ilCtrl_Calls ilPCTableGUI: ilAssGenFeedbackPageGUI
  */
-class ilPCTableGUI extends ilPageContentGUI
+class ilPCTableGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\COPage\Dom\DomUtil $dom_util;
     protected \ILIAS\COPage\PC\PCDefinition $pc_definition;

@@ -23,7 +23,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilParticipantsPerAssignmentTableGUI: ilFormPropertyDispatchGUI
  */
-class ilParticipantsPerAssignmentTableGUI extends ilExerciseSubmissionTableGUI
+class ilParticipantsPerAssignmentTableGUI extends ilExerciseSubmissionTableGUI implements \ilCtrlCommandClass
 {
     protected array $teams = array();
 

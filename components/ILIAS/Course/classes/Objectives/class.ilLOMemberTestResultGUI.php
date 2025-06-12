@@ -22,7 +22,7 @@ declare(strict_types=0);
  * @author            Stefan Meyer <smeyer.ilias@gmx.de>
  * @ilCtrl_isCalledBy ilLOMemberTestResultGUI: ilObjCourseGUI
  */
-class ilLOMemberTestResultGUI
+class ilLOMemberTestResultGUI implements \ilCtrlCommandClass
 {
     private ilObject $container;
     private ilObjectGUI $container_gui;

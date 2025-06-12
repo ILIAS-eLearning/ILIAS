@@ -23,7 +23,7 @@ declare(strict_types=1);
 * @ilCtrl_Calls ilMailSearchGroupsGUI: ilBuddySystemGUI
 * @ingroup ServicesMail
 */
-class ilMailSearchGroupsGUI extends ilMailSearchObjectGUI
+class ilMailSearchGroupsGUI extends ilMailSearchObjectGUI implements \ilCtrlCommandClass
 {
     protected function getObjectType(): string
     {

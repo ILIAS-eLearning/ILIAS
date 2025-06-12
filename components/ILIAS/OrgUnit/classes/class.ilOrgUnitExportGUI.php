@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @author: Oskar Truffer <ot@studer-raimann.ch>
  * @author: Martin Studer <ms@studer-raimann.ch>
  */
-class ilOrgUnitExportGUI extends ilExportGUI
+class ilOrgUnitExportGUI extends ilExportGUI implements \ilCtrlCommandClass
 {
     protected ilToolbarGUI $toolbar;
     protected ilLanguage $lng;

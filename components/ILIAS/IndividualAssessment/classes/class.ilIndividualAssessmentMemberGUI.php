@@ -34,7 +34,7 @@ use ILIAS\Data;
 use ILIAS\Refinery;
 use ILIAS\ResourceStorage\Services as IRSS;
 
-class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
+class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlCommandClass
 {
     public const CMD_VIEW = 'view';
     public const CMD_EDIT = 'edit';

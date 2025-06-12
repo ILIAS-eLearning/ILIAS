@@ -23,7 +23,7 @@ use ILIAS\UI\Component\Button\Shy;
 /**
  * @ilCtrl_Calls ilDclTableListGUI: ilDclFieldListGUI, ilDclFieldEditGUI, ilDclTableViewGUI, ilDclTableEditGUI
  */
-class ilDclTableListGUI
+class ilDclTableListGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $renderer;

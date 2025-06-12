@@ -38,7 +38,7 @@ use ILIAS\UI\Component\Input\Input;
  * @ilCtrl_Calls      ilObjDataProtectionGUI: ilLegalDocumentsAdministrationGUI
  * @ilCtrl_Calls      ilObjDataProtectionGUI: ilPermissionGUI
  */
-final class ilObjDataProtectionGUI extends ilObject2GUI
+final class ilObjDataProtectionGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     private readonly ilLegalDocumentsAdministrationGUI $legal_documents;
     private readonly Container $container;

@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * @ilCtrl_Calls ilDclDetailedViewGUI: ilDclDetailedViewDefinitionGUI, ilEditClipboardGUI, ilCommentGUI
  */
-class ilDclDetailedViewGUI
+class ilDclDetailedViewGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $renderer;

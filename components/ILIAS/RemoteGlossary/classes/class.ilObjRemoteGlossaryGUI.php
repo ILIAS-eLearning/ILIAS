@@ -30,7 +30,7 @@ declare(strict_types=1);
 * @ingroup components\ILIASRemoteGlossary
 */
 
-class ilObjRemoteGlossaryGUI extends ilRemoteObjectBaseGUI
+class ilObjRemoteGlossaryGUI extends ilRemoteObjectBaseGUI implements \ilCtrlCommandClass
 {
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {

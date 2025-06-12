@@ -29,7 +29,7 @@ use ILIAS\UI\Component\ViewControl;
  * @ilCtrl_Calls ilIndividualAssessmentMembersGUI: ilRepositorySearchGUI
  * @ilCtrl_Calls ilIndividualAssessmentMembersGUI: ilIndividualAssessmentMemberGUI
  */
-class ilIndividualAssessmentMembersGUI
+class ilIndividualAssessmentMembersGUI implements \ilCtrlCommandClass
 {
     public const F_STATUS = "status";
     public const F_SORT = "sortation";

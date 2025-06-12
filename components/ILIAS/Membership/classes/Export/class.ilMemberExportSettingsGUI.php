@@ -23,7 +23,7 @@ declare(strict_types=1);
  * Export settings gui
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-class ilMemberExportSettingsGUI
+class ilMemberExportSettingsGUI implements \ilCtrlCommandClass
 {
     protected const TYPE_PRINT_VIEW_SETTINGS = 'print_view';
     protected const TYPE_EXPORT_SETTINGS = 'member_export';

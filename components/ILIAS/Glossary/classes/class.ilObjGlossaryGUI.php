@@ -28,7 +28,7 @@ use ILIAS\Glossary\Settings\SettingsGUI;
  * @ilCtrl_Calls ilObjGlossaryGUI: ilTermDefinitionBulkCreationGUI
  * @ilCtrl_Calls ilObjGlossaryGUI: ILIAS\Glossary\Settings\SettingsGUI
  */
-class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\ModifierGUIInterface
+class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\ModifierGUIInterface, \ilCtrlCommandClass
 {
     protected \ILIAS\GlobalScreen\Services $global_screen;
     protected ?\ILIAS\Glossary\Taxonomy\TaxonomyManager $tax_manager = null;

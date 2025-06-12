@@ -45,7 +45,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilPropertyFormGUI
  * @ilCtrl_isCalledBy ilObjStudyProgrammeGUI: ilRepositoryGUI
  */
-class ilObjStudyProgrammeGUI extends ilContainerGUI
+class ilObjStudyProgrammeGUI extends ilContainerGUI implements \ilCtrlCommandClass
 {
     private const TAB_VIEW_CONTENT = "view_content";
     private const SUBTAB_VIEW_MANAGE = "manage";

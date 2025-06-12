@@ -30,7 +30,7 @@ use ILIAS\BookingManager\InternalService;
  * @ilCtrl_Calls ilObjBookingPoolGUI: ILIAS\BookingManager\Settings\SettingsGUI
  * @ilCtrl_IsCalledBy ilObjBookingPoolGUI: ilRepositoryGUI, ilAdministrationGUI
  */
-class ilObjBookingPoolGUI extends ilObjectGUI
+class ilObjBookingPoolGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected InternalGUIService $gui;
     protected InternalDomainService $domain;

@@ -28,7 +28,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilStyleCharacteristicGUI
+class ilStyleCharacteristicGUI implements \ilCtrlCommandClass
 {
     protected string $requested_char;
     protected Content\StandardGUIRequest $request;

@@ -26,7 +26,7 @@ use ILIAS\UI\Renderer as UIRenderer;
  *
  * @ilCtrl_Calls assLongMenuGUI: ilPropertyFormGUI, ilFormPropertyDispatchGUI
  */
-class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
+class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, \ilCtrlCommandClass
 {
     private const DEFAULT_MODAL_ID = 'ilGapModal';
 

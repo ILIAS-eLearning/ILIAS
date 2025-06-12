@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  * @package components\ILIAS/Test
  */
-class ilTestPassDeletionConfirmationGUI extends ilConfirmationGUI
+class ilTestPassDeletionConfirmationGUI extends ilConfirmationGUI implements \ilCtrlCommandClass
 {
     public const CONTEXT_PASS_OVERVIEW = 'contPassOverview';
     public const CONTEXT_INFO_SCREEN = 'contInfoScreen';

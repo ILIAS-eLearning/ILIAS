@@ -23,7 +23,7 @@ use ILIAS\Survey\Participants;
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @ilCtrl_Calls ilSurveyParticipantsGUI: ilRepositorySearchGUI, ilSurveyRaterGUI
  */
-class ilSurveyParticipantsGUI
+class ilSurveyParticipantsGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Survey\InternalGUIService $gui;
     protected \ILIAS\Survey\Mode\FeatureConfig $feature_config;

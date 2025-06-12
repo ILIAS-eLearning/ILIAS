@@ -27,7 +27,7 @@ use ILIAS\components\ResourceStorage\Container\View\Mode;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjMediaObjectGUI: ilObjectMetaDataGUI, ilImageMapEditorGUI, ilContainerResourceGUI
  */
-class ilObjMediaObjectGUI extends ilObjectGUI
+class ilObjMediaObjectGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\MediaObjects\MediaObjectManager $media_manager;
     protected \ILIAS\MediaObjects\Video\GUIService $video_gui;

@@ -22,7 +22,7 @@ declare(strict_types=1);
  *
  * @author Stephan Kergomard <webmaster@kergomard.ch>
  */
-class QuestionPoolImportUploadHandlerGUI extends ImportUploadHandlerGUI implements \ilCtrlBaseClassInterface
+class QuestionPoolImportUploadHandlerGUI extends ImportUploadHandlerGUI implements \ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     public function __construct()
     {

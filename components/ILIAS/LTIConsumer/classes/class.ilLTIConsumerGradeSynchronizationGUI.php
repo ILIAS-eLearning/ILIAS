@@ -26,7 +26,7 @@ declare(strict_types=1);
  *
  * @package     Module/LTIConsumer
  */
-class ilLTIConsumerGradeSynchronizationGUI
+class ilLTIConsumerGradeSynchronizationGUI implements \ilCtrlCommandClass
 {
     protected ilObjLTIConsumer $object;
 

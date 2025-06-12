@@ -42,7 +42,7 @@ use ILIAS\Style\Content\Service as ContentStyle;
  *
  * @author Matheus Zych <mzych@databay.de>
  */
-class TestScreenGUI
+class TestScreenGUI implements \ilCtrlCommandClass
 {
     public const DEFAULT_CMD = 'testScreen';
 

@@ -28,7 +28,7 @@ use ILIAS\UI\Component\Input\Container\Form\Form;
  * @ilCtrl_IsCalledBy ilObjNotificationAdminGUI: ilAdministrationGUI
  * @ilCtrl_Calls      ilObjNotificationAdminGUI: ilPermissionGUI
  */
-class ilObjNotificationAdminGUI extends ilObjectGUI
+class ilObjNotificationAdminGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected Container $dic;
 

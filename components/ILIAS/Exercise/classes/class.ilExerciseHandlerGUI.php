@@ -21,7 +21,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilExerciseHandlerGUI: ilObjExerciseGUI
  */
-class ilExerciseHandlerGUI implements ilCtrlBaseClassInterface
+class ilExerciseHandlerGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;

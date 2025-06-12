@@ -35,7 +35,7 @@ use ILIAS\UI\Component\Input\Container\Form\Form;
  * @ilCtrl_Calls      ilObjTermsOfServiceGUI: ilLegalDocumentsAdministrationGUI
  * @ilCtrl_isCalledBy ilObjTermsOfServiceGUI: ilAdministrationGUI
  */
-class ilObjTermsOfServiceGUI extends ilObject2GUI
+class ilObjTermsOfServiceGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     protected ILIAS\DI\Container $dic;
     protected ilErrorHandling $error;

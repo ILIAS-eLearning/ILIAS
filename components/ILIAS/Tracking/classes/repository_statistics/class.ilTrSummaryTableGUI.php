@@ -23,7 +23,7 @@ declare(strict_types=0);
  * @ilCtrl_Calls ilTrSummaryTableGUI: ilFormPropertyDispatchGUI
  * @ingroup components/ILIAS
  */
-class ilTrSummaryTableGUI extends ilLPTableBaseGUI
+class ilTrSummaryTableGUI extends ilLPTableBaseGUI implements \ilCtrlCommandClass
 {
     protected ?ilObjectLP $olp = null;
     protected bool $is_root;

@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ILIAS\components\Dashboard\Block\BlockDTO;
 
-class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI
+class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI implements \ilCtrlCommandClass
 {
     protected function getIcon(string $title): Standard
     {

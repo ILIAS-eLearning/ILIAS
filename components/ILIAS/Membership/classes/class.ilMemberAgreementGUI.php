@@ -28,7 +28,7 @@ use ILIAS\Refinery\Factory;
  * @ilCtrl_Calls ilMemberAgreementGUI:
  * @ingroup components\ILIASCourse
  */
-class ilMemberAgreementGUI
+class ilMemberAgreementGUI implements \ilCtrlCommandClass
 {
     private int $ref_id;
     private int $obj_id;

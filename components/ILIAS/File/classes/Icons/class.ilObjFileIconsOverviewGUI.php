@@ -31,7 +31,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  * @property \ilFileServicesSettings $file_settings
  * @author Lukas Zehnder <lukas@sr.solutions>
  */
-class ilObjFileIconsOverviewGUI
+class ilObjFileIconsOverviewGUI implements \ilCtrlCommandClass
 {
     public const CMD_INDEX = 'index';
     public const CMD_OPEN_CREATION_FORM = 'openCreationForm';

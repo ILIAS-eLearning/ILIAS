@@ -22,7 +22,7 @@ use ILIAS\Help\StandardGUIRequest;
  * @ilCtrl_Calls ilObjHelpSettingsGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjHelpSettingsGUI: ilAdministrationGUI
  */
-class ilObjHelpSettingsGUI extends ilObject2GUI
+class ilObjHelpSettingsGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Help\InternalGUIService $gui;
     protected \ILIAS\Help\InternalDomainService $domain;

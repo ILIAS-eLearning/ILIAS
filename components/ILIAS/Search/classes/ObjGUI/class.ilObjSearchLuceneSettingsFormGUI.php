@@ -28,7 +28,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 /**
  * @author Tim Schmitz <schmitz@leifos.com>
  */
-class ilObjSearchLuceneSettingsFormGUI
+class ilObjSearchLuceneSettingsFormGUI implements \ilCtrlCommandClass
 {
     protected GlobalHttpState $http;
     protected ilCtrlInterface $ctrl;

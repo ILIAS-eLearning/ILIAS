@@ -45,7 +45,7 @@ use ILIAS\FileUpload\MimeType;
  *
  * @author Stefan Meyer <meyer@leifos.com>
  */
-class ilObjectGUI implements ImplementsCreationCallback
+class ilObjectGUI implements ImplementsCreationCallback, \ilCtrlCommandClass
 {
     use CreationCallbackTrait;
 

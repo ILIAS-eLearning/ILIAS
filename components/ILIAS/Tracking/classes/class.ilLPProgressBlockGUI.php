@@ -25,7 +25,7 @@ use ILIAS\Tracking\View\Renderer\RendererInterface as RendererInterface;
 /**
  * @ilCtrl_IsCalledBy ilLPProgressBlockGUI: ilColumnGUI
  */
-class ilLPProgressBlockGUI extends ilBlockGUI
+class ilLPProgressBlockGUI extends ilBlockGUI implements \ilCtrlCommandClass
 {
     protected DataRetrievalFactoryInterface $data_retrieval;
     protected RendererInterface $tracking_renderer;

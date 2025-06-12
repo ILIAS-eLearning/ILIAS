@@ -24,7 +24,7 @@
  * @ilCtrl_Calls ilExPeerReviewGUI: ilRatingGUI, ilExSubmissionTextGUI, ilInfoScreenGUI
  * @ilCtrl_Calls ilExPeerReviewGUI: ilMessageGUI
  */
-class ilExPeerReviewGUI
+class ilExPeerReviewGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Exercise\PeerReview\Criteria\CriteriaFileManager $criteria_file;
     protected \ILIAS\Exercise\Submission\SubmissionManager $subm;

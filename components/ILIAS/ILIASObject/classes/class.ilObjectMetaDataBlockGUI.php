@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_IsCalledBy ilObjectMetaDataBlockGUI: ilColumnGUI
  */
-class ilObjectMetaDataBlockGUI extends ilBlockGUI
+class ilObjectMetaDataBlockGUI extends ilBlockGUI implements \ilCtrlCommandClass
 {
     public static string $block_type = "advmd";
     protected static array $records = [];

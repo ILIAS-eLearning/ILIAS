@@ -26,7 +26,7 @@ use ILIAS\Refinery\Factory;
  * @author            Stefan Meyer <smeyer.ilias@gmx.de>
  * @ilCtrl_isCalledBy ilSCTreeTasksGUI: ilObjSystemCheckGUI
  */
-class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
+class ilSCTreeTasksGUI extends ilSCComponentTaskGUI implements \ilCtrlCommandClass
 {
     protected const TYPE_DUPLICATES = 'duplicates';
     public const TYPE_DUMP = 'dump';

@@ -24,7 +24,7 @@
  * @ilCtrl_Calls ilObjLearningResourcesSettingsGUI: ilPermissionGUI
  * @ilCtrl_IsCalledBy ilObjLearningResourcesSettingsGUI: ilAdministrationGUI
  */
-class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
+class ilObjLearningResourcesSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     /**
      * @param mixed $a_data

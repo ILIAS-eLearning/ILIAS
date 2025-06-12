@@ -21,7 +21,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilSurveySkillThresholdsGUI:
  */
-class ilSurveySkillThresholdsGUI
+class ilSurveySkillThresholdsGUI implements \ilCtrlCommandClass
 {
     protected ilObjSurvey $survey;
     protected \ILIAS\Survey\Editing\EditingGUIRequest $edit_request;

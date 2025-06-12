@@ -24,7 +24,7 @@ use ILIAS\Repository\Trash\TrashGUIRequest;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilRepositoryTrashGUI: ilPropertyFormGUI
  */
-class ilRepositoryTrashGUI
+class ilRepositoryTrashGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Repository\Deletion\Deletion $deletion;
     protected ilLanguage $lng;

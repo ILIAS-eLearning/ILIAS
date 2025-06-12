@@ -29,7 +29,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
  * @ilCtrl_Calls ilObjLinkResourceGUI: ilExportGUI, ilWorkspaceAccessGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjLinkResourceGUI: ilPropertyFormGUI, ilInternalLinkGUI
  */
-class ilObjLinkResourceGUI extends ilObject2GUI
+class ilObjLinkResourceGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     protected const int VIEW_MODE_VIEW = 1;
     protected const int VIEW_MODE_MANAGE = 2;

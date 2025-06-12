@@ -22,7 +22,7 @@
  * @ilCtrl_Calls ilObjLearningHistorySettingsGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjLearningHistorySettingsGUI: ilAdministrationGUI
  */
-class ilObjLearningHistorySettingsGUI extends ilObjectGUI
+class ilObjLearningHistorySettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ilRbacSystem $rbacsystem;
     protected ilTabsGUI $tabs;

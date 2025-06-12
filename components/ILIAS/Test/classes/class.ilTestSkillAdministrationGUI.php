@@ -33,7 +33,7 @@ use ILIAS\Refinery\Factory as Refinery;
  * @ilCtrl_Calls ilTestSkillAdministrationGUI: ilAssQuestionSkillAssignmentsGUI
  * @ilCtrl_Calls ilTestSkillAdministrationGUI: ilTestSkillLevelThresholdsGUI
  */
-class ilTestSkillAdministrationGUI
+class ilTestSkillAdministrationGUI implements \ilCtrlCommandClass
 {
     public function __construct(
         private ilCtrlInterface $ctrl,

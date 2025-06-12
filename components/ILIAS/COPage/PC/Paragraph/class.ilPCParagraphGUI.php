@@ -23,7 +23,7 @@ use ILIAS\Style;
  * User Interface for Paragraph Editing
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCParagraphGUI extends ilPageContentGUI
+class ilPCParagraphGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected ilObjUser $user;
 

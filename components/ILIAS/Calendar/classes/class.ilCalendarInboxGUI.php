@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilCalendarInboxGUI: ilCalendarAppointmentGUI, ilCalendarAgendaListGUI
  * @ingroup      ServicesCalendar
  */
-class ilCalendarInboxGUI extends ilCalendarViewGUI
+class ilCalendarInboxGUI extends ilCalendarViewGUI implements \ilCtrlCommandClass
 {
     protected ?ilCalendarUserSettings $user_settings;
     protected string $timezone = 'UTC';

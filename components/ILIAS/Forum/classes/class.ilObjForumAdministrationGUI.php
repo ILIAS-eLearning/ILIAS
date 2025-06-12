@@ -27,7 +27,7 @@ use ILIAS\Cron\Job\JobManager;
  * @ilCtrl_Calls      ilObjForumAdministrationGUI: ilPermissionGUI
  * @ilCtrl_IsCalledBy ilObjForumAdministrationGUI: ilAdministrationGUI
  */
-class ilObjForumAdministrationGUI extends ilObjectGUI
+class ilObjForumAdministrationGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     private const string PROP_SECTION_DEFAULTS = 'defaults';
     private const string PROP_SECTION_FEATURES = 'features';

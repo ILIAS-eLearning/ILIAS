@@ -27,7 +27,7 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Location;
 use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 
-class ilMDVocabularyUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
+class ilMDVocabularyUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlCommandClass
 {
     protected Filesystem $temp;
 

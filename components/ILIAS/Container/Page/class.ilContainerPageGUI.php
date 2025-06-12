@@ -27,7 +27,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilContainerPageGUI: ilPublicUserProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilContainerPageGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
  */
-class ilContainerPageGUI extends ilPageObjectGUI
+class ilContainerPageGUI extends ilPageObjectGUI implements \ilCtrlCommandClass
 {
     protected ?\ILIAS\Container\Content\ItemPresentationManager $item_presentation_mnager;
     protected ilObjectDefinition $obj_definition;

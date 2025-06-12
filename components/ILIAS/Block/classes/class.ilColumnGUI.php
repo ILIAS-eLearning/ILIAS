@@ -39,7 +39,7 @@ define("IL_SCREEN_FULL", "full");
  * @ilCtrl_IsCalledBy ilColumnGUI: ilCalendarGUI
  * @ilCtrl_Calls ilColumnGUI:
  */
-class ilColumnGUI
+class ilColumnGUI implements \ilCtrlCommandClass
 {
     protected array $repositoryitems;
     protected string $coltype;

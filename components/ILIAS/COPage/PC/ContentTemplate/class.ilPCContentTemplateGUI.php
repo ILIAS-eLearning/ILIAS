@@ -24,7 +24,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_isCalledBy ilPCContentTemplateGUI: ilPageEditorGUI
  */
-class ilPCContentTemplateGUI extends ilPageContentGUI
+class ilPCContentTemplateGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     public function __construct(
         ilPageObject $a_pg_obj,

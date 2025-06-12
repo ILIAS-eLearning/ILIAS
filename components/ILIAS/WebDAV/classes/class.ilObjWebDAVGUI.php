@@ -25,7 +25,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls        ilObjWebDAVGUI: ilPermissionGUI
  * @package             webdav
  */
-class ilObjWebDAVGUI extends ilObjectGUI
+class ilObjWebDAVGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected const SETTING_COMMANDS = [
         'edit' => 'editSettings',

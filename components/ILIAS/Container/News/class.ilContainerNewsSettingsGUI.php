@@ -21,7 +21,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilContainerNewsSettingsGUI
+class ilContainerNewsSettingsGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;

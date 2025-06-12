@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilDclFieldListGUI
+class ilDclFieldListGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $renderer;

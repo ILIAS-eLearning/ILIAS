@@ -32,7 +32,7 @@ use ILIAS\Refinery\Constraint;
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjRepositorySettingsGUI: ilPermissionGUI
  */
-class ilObjRepositorySettingsGUI extends ilObjectGUI
+class ilObjRepositorySettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ilRbacSystem $rbacsystem;
     protected AdministrationGUIRequest $admin_gui_request;

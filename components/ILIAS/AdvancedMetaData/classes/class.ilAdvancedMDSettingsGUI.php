@@ -30,7 +30,7 @@ use ILIAS\HTTP\GlobalHttpState;
  * @ilCtrl_Calls ilAdvancedMDSettingsGUI: ilPropertyFormGUI
  * @ingroup      ServicesAdvancedMetaData
  */
-class ilAdvancedMDSettingsGUI
+class ilAdvancedMDSettingsGUI implements \ilCtrlCommandClass
 {
     public const CONTEXT_ADMINISTRATION = 1;
     public const CONTEXT_OBJECT = 2;

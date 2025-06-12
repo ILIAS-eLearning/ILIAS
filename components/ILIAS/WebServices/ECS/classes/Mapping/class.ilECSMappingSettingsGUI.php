@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @ilCtrl_isCalledBy ilECSMappingSettingsGUI: ilECSSettingsGUI
  */
-class ilECSMappingSettingsGUI
+class ilECSMappingSettingsGUI implements \ilCtrlCommandClass
 {
     public const TAB_DIRECTORY = 1;
     public const TAB_COURSE = 2;

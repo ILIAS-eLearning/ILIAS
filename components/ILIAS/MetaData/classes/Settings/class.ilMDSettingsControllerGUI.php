@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * @ilCtrl_Calls ilMDSettingsControllerGUI: ilMDCopyrightConfigurationGUI, ilMDOERSettingsGUI, ilMDVocabulariesGUI
  */
-class ilMDSettingsControllerGUI
+class ilMDSettingsControllerGUI implements \ilCtrlCommandClass
 {
     protected const string OER_SETTINGS_TAB = 'md_oer_settings';
     protected const string COPYRIGHT_CONFIG_TAB = 'md_copyright_config';

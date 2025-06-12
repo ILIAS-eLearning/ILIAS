@@ -33,7 +33,7 @@ use ILIAS\EmployeeTalk\Metadata\MetadataHandler;
  * @ilCtrl_Calls      ilObjTalkTemplateGUI: ilPermissionGUI
  * @ilCtrl_Calls      ilObjTalkTemplateGUI: ilInfoScreenGUI
  */
-final class ilObjTalkTemplateGUI extends ilContainerGUI
+final class ilObjTalkTemplateGUI extends ilContainerGUI implements \ilCtrlCommandClass
 {
     protected MetadataHandlerInterface $md_handler;
 

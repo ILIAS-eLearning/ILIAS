@@ -36,7 +36,7 @@ use ILIAS\MetaData\Copyright\Database\Wrapper;
 /**
  * @ilCtrl_Calls ilMDCopyrightConfigurationGUI: ilMDCopyrightUsageGUI, ilMDCopyrightImageUploadHandlerGUI
  */
-class ilMDCopyrightConfigurationGUI
+class ilMDCopyrightConfigurationGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;

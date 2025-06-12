@@ -32,7 +32,7 @@ declare(strict_types=1);
 *
 * @ingroup components\ILIASScormAicc
 */
-class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
+class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI implements \ilCtrlCommandClass
 {
     private ilPropertyFormGUI $form;
     protected \ILIAS\DI\Container $dic;

@@ -27,7 +27,7 @@ declare(strict_types=1);
  *
  * @package     Module/CmiXapi
  */
-class ilCmiXapiLaunchGUI
+class ilCmiXapiLaunchGUI implements \ilCtrlCommandClass
 {
     public const XAPI_PROXY_ENDPOINT = 'components/ILIAS/CmiXapi/xapiproxy.php';
 

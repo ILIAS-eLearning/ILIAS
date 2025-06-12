@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @ilCtrl_isCalledBy ilAdvancedMDRecordTranslationGUI: ilAdvancedMDSettingsGUI
  * @ingroup           ServicesAdvancedMetaData
  */
-class ilAdvancedMDRecordTranslationGUI extends ilAdvancedMDTranslationGUI
+class ilAdvancedMDRecordTranslationGUI extends ilAdvancedMDTranslationGUI implements \ilCtrlCommandClass
 {
     protected function translations(): void
     {

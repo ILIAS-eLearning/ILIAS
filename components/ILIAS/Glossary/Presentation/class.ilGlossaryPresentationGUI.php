@@ -22,7 +22,7 @@
  * @ilCtrl_Calls ilGlossaryPresentationGUI: ilPresentationFullGUI, ilGlossaryFlashcardGUI, ilGlossaryFlashcardBoxGUI
  * @ilCtrl_Calls ilGlossaryPresentationGUI: ilPresentationTableGUI
  */
-class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
+class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected \ILIAS\Glossary\Taxonomy\TaxonomyManager $tax_manager;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;

@@ -25,7 +25,7 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  * @author Benjamin Seglias   <bs@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilBiblTranslationGUI
+class ilBiblTranslationGUI implements \ilCtrlCommandClass
 {
     use DIC;
     public const P_TRANSLATIONS = 'translations';

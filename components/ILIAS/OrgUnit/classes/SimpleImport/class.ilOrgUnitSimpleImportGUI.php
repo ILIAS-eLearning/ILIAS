@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
  */
-class ilOrgUnitSimpleImportGUI
+class ilOrgUnitSimpleImportGUI implements \ilCtrlCommandClass
 {
     protected ilTabsGUI $tabs_gui;
     protected ilToolbarGUI $toolbar;

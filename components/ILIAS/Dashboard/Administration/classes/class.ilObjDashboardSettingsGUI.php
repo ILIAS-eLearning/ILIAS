@@ -31,7 +31,7 @@ use ILIAS\UI\Component\Input\Field\Section;
  * @ilCtrl_Calls      ilObjDashboardSettingsGUI: ilDashboardPageLanguageSelectGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_isCalledBy ilObjDashboardSettingsGUI: ilAdministrationGUI
  */
-class ilObjDashboardSettingsGUI extends ilObjectGUI
+class ilObjDashboardSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     public const VIEW_MODE_SETTINGS = 'Settings';
     public const VIEW_MODE_PRESENTATION = 'Presentation';

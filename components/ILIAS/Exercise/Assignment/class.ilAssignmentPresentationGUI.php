@@ -24,7 +24,7 @@ use ILIAS\Exercise\InternalGUIService;
 /**
  * @ilCtrl_Calls ilAssignmentPresentationGUI: ilExSubmissionGUI
  */
-class ilAssignmentPresentationGUI
+class ilAssignmentPresentationGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $main_tpl;

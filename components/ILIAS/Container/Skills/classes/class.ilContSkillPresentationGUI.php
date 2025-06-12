@@ -26,7 +26,7 @@ use ILIAS\Skill\Service\SkillProfileService;
  * @author Alex Killing <killing@leifos.de>
  * @ilCtrl_Calls ilContSkillPresentationGUI: ilPersonalSkillsGUI
  */
-class ilContSkillPresentationGUI
+class ilContSkillPresentationGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs;

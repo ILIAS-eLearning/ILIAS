@@ -25,7 +25,7 @@ use ILIAS\components\OrgUnit\ARHelper\DIC;
  * @author Oskar Truffer <ot@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilBTControllerGUI implements ilCtrlBaseClassInterface
+class ilBTControllerGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     use DIC;
     public const FROM_URL = 'from_url';

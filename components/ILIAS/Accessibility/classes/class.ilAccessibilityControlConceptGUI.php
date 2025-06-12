@@ -20,7 +20,7 @@
  * Class ilAccessibilityControlConceptGUI
  * @author Thomas Famula <famula@leifos.de>
  */
-class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
+class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected ilSetting $settings;
     protected ilGlobalTemplateInterface $tpl;

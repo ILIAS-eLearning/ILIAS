@@ -27,7 +27,7 @@ use ILIAS\Survey\Mode;
  *
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  */
-class ilSurveyExecutionGUI
+class ilSurveyExecutionGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Survey\InternalGUIService $gui;
     /**

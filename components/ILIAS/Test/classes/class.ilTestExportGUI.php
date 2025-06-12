@@ -35,7 +35,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @author       Maximilian Becker <mbecker@databay.de>
  * @ilCtrl_Calls ilTestExportGUI: ilExportGUI
  */
-class ilTestExportGUI extends ilExportGUI
+class ilTestExportGUI extends ilExportGUI implements \ilCtrlCommandClass
 {
     public function __construct(
         ilObjTestGUI $parent_gui,

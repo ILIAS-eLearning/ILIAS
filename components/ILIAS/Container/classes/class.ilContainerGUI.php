@@ -31,7 +31,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  * @author Alexander Killing <killing@leifos.de>
  * @author  Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
+class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling, \ilCtrlCommandClass
 {
     protected \ILIAS\Container\InternalGUIService $gui;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;

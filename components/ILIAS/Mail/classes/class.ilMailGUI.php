@@ -25,7 +25,7 @@ use ILIAS\Mail\Provider\MailGlobalScreenToolProvider;
 /**
  * @ilCtrl_Calls ilMailGUI: ilMailFolderGUI, ilMailFormGUI, ilContactGUI, ilMailOptionsGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilObjUserGUI
  */
-class ilMailGUI implements ilCtrlBaseClassInterface
+class ilMailGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilCtrlInterface $ctrl;

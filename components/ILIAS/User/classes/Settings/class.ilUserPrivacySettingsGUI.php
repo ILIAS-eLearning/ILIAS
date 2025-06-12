@@ -27,7 +27,7 @@ use ILIAS\UI\Component\Input\Field\Section;
  * User privacy settings (currently located under "Profile and Privacy")
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilUserPrivacySettingsGUI
+class ilUserPrivacySettingsGUI implements \ilCtrlCommandClass
 {
     private const PROP_ENABLE_OSC = 'chat_osc_accept_msg';
     private const PROP_ENABLE_BROWSER_NOTIFICATIONS = 'chat_osc_browser_notifications';

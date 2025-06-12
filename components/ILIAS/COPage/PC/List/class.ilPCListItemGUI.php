@@ -21,7 +21,7 @@
  * Handles user commands on list items
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCListItemGUI extends ilPageContentGUI
+class ilPCListItemGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     public function __construct(
         ilPageObject $a_pg_obj,

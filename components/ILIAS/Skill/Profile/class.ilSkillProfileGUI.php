@@ -37,7 +37,7 @@ use ILIAS\Skill\Usage;
  * @author Alex Killing <alex.killing@gmx.de>
  * @ilCtrl_Calls ilSkillProfileGUI: ilRepositorySearchGUI
  */
-class ilSkillProfileGUI
+class ilSkillProfileGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;

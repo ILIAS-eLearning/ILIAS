@@ -25,7 +25,7 @@ use ILIAS\UI\Component\Component;
  * @ilCtrl_Calls      ilObjLegalNoticeGUI: ilPermissionGUI, ilImprintGUI
  * @ilCtrl_isCalledBy ilObjLegalNoticeGUI: ilAdministrationGUI
  */
-class ilObjLegalNoticeGUI extends ilObject2GUI
+class ilObjLegalNoticeGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     private ilImprintGUI $legal_notice_gui;
 

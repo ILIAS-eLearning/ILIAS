@@ -24,7 +24,7 @@ declare(strict_types=0);
  * @ilCtrl_Calls ilLearningProgressGUI: ilLPListOfObjectsGUI, ilLPListOfSettingsGUI, ilLPListOfProgressGUI
  * @ilCtrl_Calls ilLearningProgressGUI: ilLPObjectStatisticsGUI
  */
-class ilLearningProgressGUI extends ilLearningProgressBaseGUI
+class ilLearningProgressGUI extends ilLearningProgressBaseGUI implements \ilCtrlCommandClass
 {
     /**
      * execute command

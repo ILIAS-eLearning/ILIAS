@@ -37,7 +37,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard;
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilBiblFieldFilterGUI
  * @ilCtrl_isCalledBy ilObjBibliographicGUI: ilRepositoryGUI
  */
-class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandling
+class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandling, \ilCtrlCommandClass
 {
     use DIC;
 

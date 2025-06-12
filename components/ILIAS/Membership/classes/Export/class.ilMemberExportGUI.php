@@ -25,7 +25,7 @@ use ILIAS\Refinery\Factory;
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup components\ILIASCourse
  */
-class ilMemberExportGUI
+class ilMemberExportGUI implements \ilCtrlCommandClass
 {
     private int $ref_id;
     private int $obj_id;

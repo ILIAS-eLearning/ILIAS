@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilDclFieldEditGUI
+class ilDclFieldEditGUI implements \ilCtrlCommandClass
 {
     protected int $obj_id;
     protected int $table_id;

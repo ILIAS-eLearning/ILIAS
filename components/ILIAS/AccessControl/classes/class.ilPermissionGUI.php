@@ -32,7 +32,7 @@ use ILIAS\Data\Factory as DataFactory;
  * @ilCtrl_Calls ilPermissionGUI: ilObjRoleGUI, ilRepositorySearchGUI, ilObjectPermissionStatusGUI
  * @ingroup      ServicesAccessControl
  */
-class ilPermissionGUI
+class ilPermissionGUI implements \ilCtrlCommandClass
 {
     public const CMD_SAVE_POSITIONS_PERMISSIONS = 'savePositionsPermissions';
     private const CMD_PERM_POSITIONS = 'permPositions';

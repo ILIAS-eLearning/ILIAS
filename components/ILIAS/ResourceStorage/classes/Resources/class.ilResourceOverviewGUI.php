@@ -38,7 +38,7 @@ use ILIAS\components\ResourceStorage\Resources\UI\RevisionListingUI;
  * @ilCtrl_IsCalledBy ilResourceOverviewGUI: ilObjFileServicesGUI
  * @ilCtrl_Calls     ilResourceOverviewGUI: ilResourceCollectionGUI
  */
-class ilResourceOverviewGUI
+class ilResourceOverviewGUI implements \ilCtrlCommandClass
 {
     use Hasher;
 

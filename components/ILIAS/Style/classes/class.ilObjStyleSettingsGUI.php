@@ -23,7 +23,7 @@
  * @ilCtrl_Calls ilObjStyleSettingsGUI: ilPermissionGUI, ilSystemStyleMainGUI, ilContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjStyleSettingsGUI: ilPageLayoutAdministrationGUI
  */
-class ilObjStyleSettingsGUI extends ilObjectGUI
+class ilObjStyleSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     /**
      * Constructor

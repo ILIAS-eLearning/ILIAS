@@ -25,7 +25,7 @@ use ILIAS\TestQuestionPool\RequestDataCollector;
  *
  * @package components\ILIAS/Test
  */
-class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
+class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI implements \ilCtrlCommandClass
 {
     private ilAssQuestionSkillAssignmentList $skill_question_assignment_list;
     private RequestDataCollector $request_data_collector;

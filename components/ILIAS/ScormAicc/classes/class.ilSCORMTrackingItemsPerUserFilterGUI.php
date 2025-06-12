@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @ingroup components\ILIASScormAicc
  */
-class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
+class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI implements \ilCtrlCommandClass
 {
     private object $parent_obj;
     private string $parent_cmd;

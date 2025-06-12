@@ -31,7 +31,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
  * @ilCtrl_isCalledBy ilAuthLogoutBehaviourGUI: ilObjAuthSettingsGUI
  * @ilCtrl_Calls      ilAuthLogoutBehaviourGUI: ilLoginPageGUI
  */
-class ilAuthLogoutBehaviourGUI
+class ilAuthLogoutBehaviourGUI implements \ilCtrlCommandClass
 {
     private ilCtrl $ctrl;
     private ilLanguage $lng;

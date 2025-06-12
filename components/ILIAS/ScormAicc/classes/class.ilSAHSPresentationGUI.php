@@ -33,7 +33,7 @@ declare(strict_types=1);
 *
 * @ingroup components\ILIASScormAicc
 */
-class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
+class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected ilGlobalPageTemplate $tpl;
     protected ilLanguage $lng;

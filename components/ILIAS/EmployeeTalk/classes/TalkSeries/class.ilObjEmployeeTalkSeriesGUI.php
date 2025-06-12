@@ -44,7 +44,7 @@ use ILIAS\EmployeeTalk\Notification\NotificationType;
  * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilObjFileGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilObjFileUploadHandlerGUI
  */
-final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
+final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI implements \ilCtrlCommandClass
 {
     private \ILIAS\DI\Container $container;
     protected MetadataHandlerInterface $md_handler;

@@ -28,7 +28,7 @@ declare(strict_types=1);
  *
  * @ingroup ServicesRouter
  */
-class ilLTIRouterGUI implements ilCtrlBaseClassInterface
+class ilLTIRouterGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected ilCtrl $ilCtrl;
     protected ilGlobalTemplateInterface $main_tpl;

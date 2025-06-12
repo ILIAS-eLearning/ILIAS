@@ -35,7 +35,7 @@ use ILIAS\FileUpload\DTO\UploadResult;
  *
  * @author Stephan Kergomard <webmaster@kergomard.ch>
  */
-class TileImageUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlBaseClassInterface
+class TileImageUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     use UploadSecurityFunctionsTrait;
 

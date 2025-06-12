@@ -24,7 +24,7 @@ use ILIAS\BookingManager\InternalGUIService;
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilBookBulkCreationGUI
+class ilBookBulkCreationGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\BookingManager\Objects\ObjectsManager $objects_manager;
     protected ilObjBookingPool $pool;

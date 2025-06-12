@@ -19,7 +19,7 @@
 /**
  * @author Jesús López <lopez@leifos.com>
  */
-class ilSingleUserShareGUI
+class ilSingleUserShareGUI implements \ilCtrlCommandClass
 {
     protected ?int $wsp_node_id;
     /**

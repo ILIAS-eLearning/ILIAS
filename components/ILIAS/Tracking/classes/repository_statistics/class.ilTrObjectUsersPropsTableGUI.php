@@ -32,7 +32,7 @@ declare(strict_types=0);
  * @ilCtrl_Calls ilTrObjectUsersPropsTableGUI: ilFormPropertyDispatchGUI
  * @ingroup      ServicesTracking
  */
-class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
+class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI implements \ilCtrlCommandClass
 {
     protected array $user_fields;
     protected int $in_course = 0;

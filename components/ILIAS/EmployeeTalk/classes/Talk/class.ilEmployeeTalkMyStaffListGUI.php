@@ -28,7 +28,7 @@ use ILIAS\EmployeeTalk\Talk\EmployeeTalkPositionAccessLevel;
  * @ilCtrl_Calls ilEmployeeTalkMyStaffListGUI: ilObjEmployeeTalkGUI
  * @ilCtrl_Calls ilEmployeeTalkMyStaffListGUI: ilObjEmployeeTalkSeriesGUI
  */
-final class ilEmployeeTalkMyStaffListGUI extends ilEmployeeTalkMyStaffBaseGUI
+final class ilEmployeeTalkMyStaffListGUI extends ilEmployeeTalkMyStaffBaseGUI implements \ilCtrlCommandClass
 {
     public function getClassPath(): array
     {

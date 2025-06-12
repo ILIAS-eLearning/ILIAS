@@ -42,7 +42,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  *
  * @extends ilObjectGUI
  */
-class ilObjGroupGUI extends ilContainerGUI
+class ilObjGroupGUI extends ilContainerGUI implements \ilCtrlCommandClass
 {
     protected bool $show_tracking = false;
 

@@ -21,7 +21,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilRecommendedContentRoleConfigGUI
+class ilRecommendedContentRoleConfigGUI implements \ilCtrlCommandClass
 {
     /** @var int[] */
     protected array $requested_item_ref_ids;

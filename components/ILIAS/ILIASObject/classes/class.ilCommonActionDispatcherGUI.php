@@ -25,7 +25,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilCommonActionDispatcherGUI: ilNoteGUI, ilTaggingGUI, ilObjectActivationGUI
  * @ilCtrl_Calls ilCommonActionDispatcherGUI: ilRatingGUI, ilObjRootFolderGUI
  */
-class ilCommonActionDispatcherGUI
+class ilCommonActionDispatcherGUI implements \ilCtrlCommandClass
 {
     public const TYPE_REPOSITORY = 1;
     public const TYPE_WORKSPACE = 2;

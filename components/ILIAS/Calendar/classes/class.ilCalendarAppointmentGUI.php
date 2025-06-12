@@ -28,7 +28,7 @@ use ILIAS\Refinery\Factory as RefineryFactory;
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup ServicesCalendar
  */
-class ilCalendarAppointmentGUI
+class ilCalendarAppointmentGUI implements \ilCtrlCommandClass
 {
     private ilPropertyFormGUI $form;
     private ilCalendarUserNotification $notification;

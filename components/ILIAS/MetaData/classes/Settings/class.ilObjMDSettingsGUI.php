@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjMDSettingsGUI: ilPermissionGUI, ilAdvancedMDSettingsGUI,
  * @ilCtrl_Calls ilObjMDSettingsGUI: ilMDSettingsControllerGUI
  */
-class ilObjMDSettingsGUI extends ilObjectGUI
+class ilObjMDSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ?ilMDSettings $md_settings = null;
     protected ilMDSettingsAccessService $access_service;

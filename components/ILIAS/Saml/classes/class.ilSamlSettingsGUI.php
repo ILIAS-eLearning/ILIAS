@@ -24,7 +24,7 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Data\Factory;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
-final class ilSamlSettingsGUI
+final class ilSamlSettingsGUI implements \ilCtrlCommandClass
 {
     private const int VIEW_MODE_GLOBAL = 1;
     private const int VIEW_MODE_SINGLE = 2;

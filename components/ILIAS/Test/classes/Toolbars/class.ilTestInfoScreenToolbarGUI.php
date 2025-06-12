@@ -29,7 +29,7 @@ use ILIAS\UI\Renderer as UIRenderer;
  *
  * @package components\ILIAS/Test
  */
-class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
+class ilTestInfoScreenToolbarGUI extends ilToolbarGUI implements \ilCtrlCommandClass
 {
     private static array $TARGET_CLASS_PATH_BASE = ['ilRepositoryGUI', 'ilObjTestGUI'];
 

@@ -31,7 +31,7 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
  *
  * @ilCtrl_Calls ilQuestionBrowserTableGUI: ilFormPropertyDispatchGUI
 */
-class ilQuestionBrowserTableGUI extends ilTable2GUI
+class ilQuestionBrowserTableGUI extends ilTable2GUI implements \ilCtrlCommandClass
 {
     private RequestDataCollector $request;
     private GeneralQuestionPropertiesRepository $questionrepository;

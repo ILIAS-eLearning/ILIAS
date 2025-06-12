@@ -27,7 +27,7 @@ use ILIAS\UI\Factory as UIFactory;
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilCustomUserFieldsGUI:
  */
-class ilCustomUserFieldsGUI
+class ilCustomUserFieldsGUI implements \ilCtrlCommandClass
 {
     private UserGUIRequest $request;
     private ilCtrlInterface $ctrl;

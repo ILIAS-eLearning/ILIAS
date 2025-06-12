@@ -27,7 +27,7 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
  * @ilCtrl_IsCalledBy   ilObjFileServicesGUI: ilAdministrationGUI
  * @ilCtrl_Calls        ilObjFileServicesGUI: ilPermissionGUI
  */
-class ilObjFileServicesGUI extends ilObject2GUI
+class ilObjFileServicesGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     public const CMD_EDIT_SETTINGS = 'editSettings';
     protected const TAB_PERMISSIONS = 'perm_settings';

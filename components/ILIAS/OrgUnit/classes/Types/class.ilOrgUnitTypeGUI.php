@@ -36,7 +36,7 @@ use ILIAS\Data\Order;
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilOrgUnitTypeGUI
+class ilOrgUnitTypeGUI implements \ilCtrlCommandClass
 {
     private ilCtrl $ctrl;
     private ilGlobalTemplateInterface $tpl;

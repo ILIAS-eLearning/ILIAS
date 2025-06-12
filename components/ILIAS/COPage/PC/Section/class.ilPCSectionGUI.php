@@ -21,7 +21,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPCSectionGUI: ilPropertyFormGUI
  */
-class ilPCSectionGUI extends ilPageContentGUI
+class ilPCSectionGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     public function __construct(
         ilPageObject $a_pg_obj,

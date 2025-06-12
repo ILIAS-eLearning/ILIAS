@@ -46,7 +46,7 @@ use ILIAS\Skill\Service\SkillService;
  * @ilCtrl_Calls ilTestResultsGUI: ilTestToplistGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilTestSkillEvaluationGUI
  */
-class ilTestResultsGUI
+class ilTestResultsGUI implements \ilCtrlCommandClass
 {
     public const DEFAULT_CMD = 'show';
     private \ILIAS\DI\UIServices $ui;

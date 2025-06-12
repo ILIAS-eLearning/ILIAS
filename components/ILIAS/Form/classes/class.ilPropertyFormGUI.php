@@ -27,7 +27,7 @@ use ILIAS\Refinery;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPropertyFormGUI: ilFormPropertyDispatchGUI
  */
-class ilPropertyFormGUI extends ilFormGUI
+class ilPropertyFormGUI extends ilFormGUI implements \ilCtrlCommandClass
 {
     private array $kept_uploads = [];
     protected bool $required_text = false;

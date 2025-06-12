@@ -24,7 +24,7 @@ use ILIAS\BookingManager;
  * @ilCtrl_Calls ilBookingGatewayGUI: ilPropertyFormGUI, ilBookingObjectServiceGUI, ilBookingReservationsGUI
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilBookingGatewayGUI
+class ilBookingGatewayGUI implements \ilCtrlCommandClass
 {
     protected BookingManager\InternalDomainService $domain;
     protected BookingManager\StandardGUIRequest $book_request;

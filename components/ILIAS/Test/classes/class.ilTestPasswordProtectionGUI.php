@@ -29,7 +29,7 @@ use ILIAS\GlobalScreen\Services as GlobalScreen;
  *
  * @ilCtrl_Calls ilTestPasswordProtectionGUI: ilPropertyFormGUI
  */
-class ilTestPasswordProtectionGUI
+class ilTestPasswordProtectionGUI implements \ilCtrlCommandClass
 {
     public const CMD_SHOW_PASSWORD_FORM = 'showPasswordForm';
     public const CMD_SAVE_ENTERED_PASSWORD = 'saveEnteredPassword';

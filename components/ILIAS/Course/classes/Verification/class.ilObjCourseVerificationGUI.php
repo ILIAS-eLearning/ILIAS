@@ -25,7 +25,7 @@ use ILIAS\DI\Container;
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjCourseVerificationGUI: ilWorkspaceAccessGUI
  */
-class ilObjCourseVerificationGUI extends ilObject2GUI
+class ilObjCourseVerificationGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     private Container $dic;
     protected ilErrorHandling $error;

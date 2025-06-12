@@ -34,7 +34,7 @@ use ILIAS\Test\Logging\TestLogger;
  * @ilCtrl_Calls ilTestSkillEvaluationGUI: ilTestSkillEvaluationToolbarGUI
  * @ilCtrl_Calls ilTestSkillEvaluationGUI: ilTestPersonalSkillsGUI
  */
-class ilTestSkillEvaluationGUI
+class ilTestSkillEvaluationGUI implements \ilCtrlCommandClass
 {
     public const INVOLVE_SKILLS_BELOW_NUM_ANSWERS_BARRIER_FOR_GAP_ANALASYS = false;
 

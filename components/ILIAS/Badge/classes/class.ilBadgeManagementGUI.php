@@ -30,7 +30,7 @@ use ILIAS\Setup\ArrayEnvironment;
 /**
  * @ilCtrl_Calls ilBadgeManagementGUI: ilPropertyFormGUI
  */
-class ilBadgeManagementGUI
+class ilBadgeManagementGUI implements \ilCtrlCommandClass
 {
     public const TABLE_ALL_OBJECTS_ACTION = 'ALL_OBJECTS';
 

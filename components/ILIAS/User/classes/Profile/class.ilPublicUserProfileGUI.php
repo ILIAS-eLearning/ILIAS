@@ -27,7 +27,7 @@ use ILIAS\Language\Language;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPublicUserProfileGUI: ilObjPortfolioGUI
  */
-class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
+class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     private bool $offline = false;
     private ilUserDefinedFields $user_defined_fields;

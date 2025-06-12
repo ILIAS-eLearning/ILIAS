@@ -33,7 +33,7 @@ use ILIAS\components\Authentication\Pages\AuthPageEditorContext;
  * @ilCtrl_Calls ilStartUpGUI: ilMembershipOverviewGUI, ilDerivedTasksGUI, ilAccessibilityControlConceptGUI
  * @ilCtrl_Calls ilStartUpGUI: ilLogoutPageGUI
  */
-class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
+class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface, \ilCtrlCommandClass
 {
     private const PROP_USERNAME = 'username';
     private const PROP_PASSWORD = 'password';

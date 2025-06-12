@@ -27,7 +27,7 @@ declare(strict_types=1);
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_IsCalledBy ilRepositorySelectorInputGUI: ilFormPropertyDispatchGUI
  */
-class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableFilterItem
+class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableFilterItem, \ilCtrlCommandClass
 {
     protected array $clickable_types = [];
     protected string $hm = "";

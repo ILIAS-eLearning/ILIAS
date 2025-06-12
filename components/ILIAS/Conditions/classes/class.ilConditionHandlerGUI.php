@@ -37,7 +37,7 @@ use ILIAS\Refinery\ConstraintViolationException;
  * Since it is something like an interface, all varirables, methods have there own name space (names start with cci) to avoid collisions
  * @ilCtrl_Calls ilConditionHandlerGUI:
  */
-class ilConditionHandlerGUI
+class ilConditionHandlerGUI implements \ilCtrlCommandClass
 {
     private const LIST_MODE_UNDEFINED = 'undefined';
     private const LIST_MODE_ALL = 'all';

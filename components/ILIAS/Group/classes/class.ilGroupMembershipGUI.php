@@ -31,7 +31,7 @@ use ILIAS\Refinery\Factory;
  * @ilCtrl_Calls ilGroupMembershipGUI: ilMemberExportGUI
  *
  */
-class ilGroupMembershipGUI extends ilMembershipGUI
+class ilGroupMembershipGUI extends ilMembershipGUI implements \ilCtrlCommandClass
 {
     protected GlobalHttpState $http;
     protected Factory $refinery;

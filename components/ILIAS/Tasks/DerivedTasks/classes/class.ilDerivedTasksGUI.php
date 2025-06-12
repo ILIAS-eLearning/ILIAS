@@ -24,7 +24,7 @@ use ILIAS\DI\UIServices;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilDerivedTasksGUI implements ilCtrlBaseClassInterface
+class ilDerivedTasksGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected ?Container $dic;
     protected ilCtrl $ctrl;

@@ -22,7 +22,7 @@
  * @ilCtrl_Calls ilObjMediaObjectsSettingsGUI: ilPermissionGUI
  * @ilCtrl_IsCalledBy ilObjMediaObjectsSettingsGUI: ilAdministrationGUI
  */
-class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
+class ilObjMediaObjectsSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_types;
     protected ilPropertyFormGUI $form;

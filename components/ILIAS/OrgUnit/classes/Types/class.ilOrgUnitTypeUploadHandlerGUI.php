@@ -25,7 +25,7 @@ use ILIAS\FileUpload\Handler\HandlerResult;
 /**
   * @ilCtrl_isCalledBy ilOrgUnitTypeUploadHandlerGUI: ilOrgUnitTypeGUI
   */
-class ilOrgUnitTypeUploadHandlerGUI extends ilCtrlAwareStorageUploadHandler
+class ilOrgUnitTypeUploadHandlerGUI extends ilCtrlAwareStorageUploadHandler implements \ilCtrlCommandClass
 {
     public function __construct(
         private string $rid = ""

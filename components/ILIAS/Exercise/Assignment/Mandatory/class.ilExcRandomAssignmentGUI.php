@@ -24,7 +24,7 @@ use ILIAS\Exercise\Assignment\Mandatory;
  * (ui)
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilExcRandomAssignmentGUI
+class ilExcRandomAssignmentGUI implements \ilCtrlCommandClass
 {
     protected ilGlobalTemplateInterface $main_tpl;
     protected Mandatory\RandomAssignmentsManager $random_manager;

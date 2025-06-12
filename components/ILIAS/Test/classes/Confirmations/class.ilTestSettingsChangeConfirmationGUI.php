@@ -26,7 +26,7 @@ use ILIAS\Test\RequestDataCollector;
  *
  * @package components\ILIAS/Test
  */
-class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
+class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI implements \ilCtrlCommandClass
 {
     private ?string $oldQuestionSetType;
     private ?string $newQuestionSetType;

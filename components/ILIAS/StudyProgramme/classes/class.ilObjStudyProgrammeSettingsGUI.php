@@ -28,7 +28,7 @@ use ILIAS\ILIASObject\Properties\Translations\Translations;
  * @ilCtrl_Calls ilObjStudyProgrammeSettingsGUI: ilStudyProgrammeCommonSettingsGUI
  *
  */
-class ilObjStudyProgrammeSettingsGUI
+class ilObjStudyProgrammeSettingsGUI implements \ilCtrlCommandClass
 {
     private const TAB_SETTINGS = 'settings';
     private const TAB_COMMON_SETTINGS = 'commonSettings';

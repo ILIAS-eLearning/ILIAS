@@ -27,7 +27,7 @@ use ILIAS\Refinery\Factory as RefineryFactory;
  * @ilCtrl_Calls ilCalendarCategoryGUI: ilCalendarAppointmentGUI, ilCalendarSelectionBlockGUI
  * @ingroup      ServicesCalendar
  */
-class ilCalendarCategoryGUI
+class ilCalendarCategoryGUI implements \ilCtrlCommandClass
 {
     protected const SEARCH_USER = 1;
     protected const SEARCH_ROLE = 2;

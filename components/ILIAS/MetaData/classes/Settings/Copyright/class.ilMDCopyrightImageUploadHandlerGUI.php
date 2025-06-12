@@ -27,7 +27,7 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
 use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 
-class ilMDCopyrightImageUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
+class ilMDCopyrightImageUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlCommandClass
 {
     protected ilMDCopyrightImageStakeholder $stakeholder;
     protected Services $storage;

@@ -31,7 +31,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  * @ilCtrl_Calls ilObjRootFolderGUI: ilCommonActionDispatcherGUI, ILIAS\ILIASObject\Properties\Translations\TranslationGUI
  * @ilCtrl_Calls ilObjRootFolderGUI: ilRepositoryTrashGUI
  */
-class ilObjRootFolderGUI extends ilContainerGUI
+class ilObjRootFolderGUI extends ilContainerGUI implements \ilCtrlCommandClass
 {
     protected StandardGUIRequest $root_request;
     protected ilHelpGUI $help;

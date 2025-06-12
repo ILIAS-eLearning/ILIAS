@@ -28,7 +28,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard;
  * @ilCtrl_Calls      ilMMTopItemGUI: ilMMItemTranslationGUI
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMTopItemGUI extends ilMMAbstractItemGUI
+class ilMMTopItemGUI extends ilMMAbstractItemGUI implements \ilCtrlCommandClass
 {
     use Hasher;
 

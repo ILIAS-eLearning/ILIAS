@@ -26,7 +26,7 @@ declare(strict_types=1);
 *
 * @ilCtrl_Calls ilObjectMetaDataGUI: ilMDEditorGUI, ilAdvancedMDSettingsGUI, ilPropertyFormGUI, ilTaxMDGUI, ilObjTaxonomyGUI
 */
-class ilObjectMetaDataGUI
+class ilObjectMetaDataGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs;

@@ -26,7 +26,7 @@ use ILIAS\Glossary\Flashcard;
  * GUI class for glossary flashcard boxes
  * @author Thomas Famula <famula@leifos.de>
  */
-class ilGlossaryFlashcardBoxGUI
+class ilGlossaryFlashcardBoxGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;

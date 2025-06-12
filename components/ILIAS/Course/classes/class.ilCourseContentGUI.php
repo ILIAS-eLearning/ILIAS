@@ -30,7 +30,7 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  * @extends      ilObjectGUI
  * @ilCtrl_Calls ilCourseContentGUI: ilColumnGUI, ilObjectCopyGUI
  */
-class ilCourseContentGUI
+class ilCourseContentGUI implements \ilCtrlCommandClass
 {
     protected ilGlobalTemplateInterface $main_tpl;
     protected ilContainerGUI $container_gui;

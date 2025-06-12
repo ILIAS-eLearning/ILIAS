@@ -29,7 +29,7 @@ declare(strict_types=1);
 *
 * @ingroup components\ILIASSession
 */
-class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
+class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling, \ilCtrlCommandClass
 {
     protected \ILIAS\DI\UIServices $ui;
     protected ilAppEventHandler $event;

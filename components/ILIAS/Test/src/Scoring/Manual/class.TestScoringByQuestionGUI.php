@@ -31,7 +31,7 @@ use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\Data\Factory as DataFactory;
 
-class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
+class TestScoringByQuestionGUI extends TestScoringByParticipantGUI implements \ilCtrlCommandClass
 {
     private const CMD_SHOW = 'showManScoringByQuestionParticipantsTable';
     private const CMD_SAVE = 'saveManScoringByQuestion';

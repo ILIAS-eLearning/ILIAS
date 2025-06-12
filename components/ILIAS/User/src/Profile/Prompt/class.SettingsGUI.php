@@ -28,7 +28,7 @@ use ILIAS\Refinery\Factory as Refinery;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-class SettingsGUI
+class SettingsGUI implements \ilCtrlCommandClass
 {
     private Settings $prompt_settings;
 

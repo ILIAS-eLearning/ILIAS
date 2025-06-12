@@ -31,7 +31,7 @@ use ILIAS\Exercise\Settings;
  * @ilCtrl_Calls ilObjExerciseGUI: ilExerciseManagementGUI, ilExcCriteriaCatalogueGUI, ilObjectMetaDataGUI, ilPortfolioExerciseGUI, ilExcRandomAssignmentGUI
  * @ilCtrl_Calls ilObjExerciseGUI: ILIAS\Exercise\Settings\SettingsGUI
  */
-class ilObjExerciseGUI extends ilObjectGUI
+class ilObjExerciseGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ilCertificateDownloadValidator $certificateDownloadValidator;
     protected \ILIAS\DI\UIServices $ui;

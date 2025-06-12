@@ -26,7 +26,7 @@ use ILIAS\Exercise\GUIRequest;
  *
  * @ilCtrl_Calls ilExSubmissionTeamGUI: ilRepositorySearchGUI
  */
-class ilExSubmissionTeamGUI
+class ilExSubmissionTeamGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Exercise\InternalGUIService $gui;
     protected \ILIAS\Exercise\InternalDomainService $domain;

@@ -25,7 +25,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
 use Psr\Http\Message\ServerRequestInterface;
 
-class ilSystemStyleConfigGUI
+class ilSystemStyleConfigGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;

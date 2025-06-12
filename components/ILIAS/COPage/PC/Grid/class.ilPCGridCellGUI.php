@@ -21,7 +21,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCGridCellGUI extends ilPageContentGUI
+class ilPCGridCellGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     public function __construct(
         ilPageObject $a_pg_obj,

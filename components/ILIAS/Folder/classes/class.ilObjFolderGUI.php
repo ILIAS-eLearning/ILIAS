@@ -33,7 +33,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  * @ilCtrl_Calls ilObjFolderGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilDidacticTemplateGUI
  * @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub, ILIAS\ILIASObject\Properties\Translations\TranslationGUI, ilRepositoryTrashGUI
  */
-class ilObjFolderGUI extends ilContainerGUI
+class ilObjFolderGUI extends ilContainerGUI implements \ilCtrlCommandClass
 {
     protected ilHelpGUI $help;
     public ilTree $folder_tree;

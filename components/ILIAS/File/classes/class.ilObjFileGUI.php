@@ -49,7 +49,7 @@ use ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription;
  * @ilCtrl_Calls ilObjFileGUI: ilLearningProgressGUI, ilFileVersionsGUI, ilWOPIEmbeddedApplicationGUI
  * @ilCtrl_Calls ilObjFileGUI: ilFileCommonSettingsGUI
  */
-class ilObjFileGUI extends ilObject2GUI
+class ilObjFileGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     use ilObjFileCopyrightInput;
     use ilObjFileInfoProvider;

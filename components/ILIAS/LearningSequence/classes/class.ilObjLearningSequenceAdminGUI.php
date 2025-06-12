@@ -27,7 +27,7 @@ use ILIAS\UI\Renderer;
  *
  * @ilCtrl_Calls ilObjLearningSequenceAdminGUI: ilPermissionGUI
  */
-class ilObjLearningSequenceAdminGUI extends ilObjectGUI
+class ilObjLearningSequenceAdminGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     public const CMD_VIEW = 'view';
     public const CMD_EDIT = 'edit';

@@ -26,7 +26,7 @@ use ILIAS\Refinery\Factory;
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilCourseParticipantsGroupsGUI:
  */
-class ilCourseParticipantsGroupsGUI
+class ilCourseParticipantsGroupsGUI implements \ilCtrlCommandClass
 {
     private int $ref_id = 0;
 

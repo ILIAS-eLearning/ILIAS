@@ -25,7 +25,7 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  * Class ilMMItemTranslationGUI
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMItemTranslationGUI
+class ilMMItemTranslationGUI implements \ilCtrlCommandClass
 {
     use DIC;
 

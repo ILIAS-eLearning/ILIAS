@@ -24,7 +24,7 @@ use ILIAS\AdvancedEditing\StandardGUIRequest;
  * @author Helmut Schottmüller <hschottm@gmx.de>
  * @ilCtrl_Calls ilObjAdvancedEditingGUI: ilPermissionGUI
  */
-class ilObjAdvancedEditingGUI extends ilObjectGUI
+class ilObjAdvancedEditingGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ilPropertyFormGUI $form;
     protected string $cgrp = "";

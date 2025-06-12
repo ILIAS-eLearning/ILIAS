@@ -29,7 +29,7 @@ use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
  *
  * @ctrl_calls 	  ilTestSubmissionReviewGUI: ilAssQuestionPageGUI
  */
-class ilTestSubmissionReviewGUI extends ilTestServiceGUI
+class ilTestSubmissionReviewGUI extends ilTestServiceGUI implements \ilCtrlCommandClass
 {
     private ?InterruptiveModal $finish_test_modal = null;
 

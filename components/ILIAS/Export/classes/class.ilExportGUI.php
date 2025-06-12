@@ -33,7 +33,7 @@ use ILIAS\Refinery\Factory as ilRefineryFactory;
  * @author       Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilExportGUI:
  */
-class ilExportGUI
+class ilExportGUI implements \ilCtrlCommandClass
 {
     public const CMD_LIST_EXPORT_FILES = "listExportFiles";
     public const CMD_EXPORT_XML = "createXmlExportFile";

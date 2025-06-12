@@ -26,7 +26,7 @@ use ILIAS\DI\Container;
  * @ilCtrl_Calls      ilMStListCompetencesGUI: ilMStListCompetencesSkillsGUI
  * @ilCtrl_Calls      ilMStListCompetencesGUI: ilMStListCompetencesProfilesGUI
  */
-class ilMStListCompetencesGUI
+class ilMStListCompetencesGUI implements \ilCtrlCommandClass
 {
     public const string CMD_APPLY_FILTER = 'applyFilter';
     public const string CMD_INDEX = 'index';

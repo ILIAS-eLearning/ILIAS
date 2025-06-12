@@ -21,7 +21,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilMobMultiSrtUploadGUI
+class ilMobMultiSrtUploadGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;

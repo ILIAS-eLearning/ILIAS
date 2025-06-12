@@ -20,7 +20,7 @@
  * Saves (mostly asynchronously) user properties of tables (e.g. filter on/off)
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilTablePropertiesStorageGUI implements ilCtrlBaseClassInterface
+class ilTablePropertiesStorageGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected ?\ILIAS\Table\TableGUIRequest $table_request = null;
     protected ilObjUser $user;

@@ -35,7 +35,7 @@ use ILIAS\HTTP\Services as HTTPServices;
  * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ILIAS\SurveyQuestionPool\Settings\SettingsGUI
  * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilExportGUI
  */
-class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
+class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected \ILIAS\SurveyQuestionPool\InternalGUIService $gui;
     protected \ILIAS\SurveyQuestionPool\Editing\EditManager $edit_manager;

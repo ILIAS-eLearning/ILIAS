@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilContentPagePageGUI: ilPublicUserProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilContentPagePageGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
  */
-class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjectConstants
+class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjectConstants, \ilCtrlCommandClass
 {
     protected string $language = '-';
 

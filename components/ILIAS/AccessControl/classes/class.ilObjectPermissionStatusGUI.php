@@ -25,7 +25,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjectPermissionStatusGUI: ilRepositorySearchGUI
  * @ingroup      ServicesAccessControl
  */
-class ilObjectPermissionStatusGUI
+class ilObjectPermissionStatusGUI implements \ilCtrlCommandClass
 {
     public ilObjUser $user;
     protected ilLanguage $lng;

@@ -25,7 +25,7 @@ use ILIAS\Repository\Form\FormAdapterGUI;
 /**
  * @ilCtrl_Calls ilContentStyleImageGUI: ilRepoStandardUploadHandlerGUI
  */
-class ilContentStyleImageGUI
+class ilContentStyleImageGUI implements \ilCtrlCommandClass
 {
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;

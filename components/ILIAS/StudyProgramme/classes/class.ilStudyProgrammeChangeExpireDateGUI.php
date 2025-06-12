@@ -23,7 +23,7 @@ use ILIAS\UI\Component\Input\Factory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Renderer;
 
-class ilStudyProgrammeChangeExpireDateGUI
+class ilStudyProgrammeChangeExpireDateGUI implements \ilCtrlCommandClass
 {
     private const CMD_SHOW_EXPIRE_DATE_CONFIG = "showExpireDateConfig";
     private const CMD_CHANGE_EXPIRE_DATE = "changeExpireDate";

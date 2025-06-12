@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjSCORMVerificationGUI: ilWorkspaceAccessGUI
  */
-class ilObjSCORMVerificationGUI extends ilObject2GUI
+class ilObjSCORMVerificationGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     public function getType(): string
     {

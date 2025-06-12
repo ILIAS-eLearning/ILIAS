@@ -24,7 +24,7 @@ use ILIAS\MediaCast\StandardGUIRequest;
  * @ilCtrl_Calls ilObjMediaCastSettingsGUI: ilPermissionGUI
  * @ilCtrl_IsCalledBy ilObjMediaCastSettingsGUI: ilAdministrationGUI
  */
-class ilObjMediaCastSettingsGUI extends ilObjectGUI
+class ilObjMediaCastSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected StandardGUIRequest $mc_request;
     protected ilMediaCastSettings $mc_settings;

@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
 * @ilCtrl_Calls ilObjStudyProgrammeReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
 */
-class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI
+class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI implements \ilCtrlCommandClass
 {
     public function __construct(
         $data,

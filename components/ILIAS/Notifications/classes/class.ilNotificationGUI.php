@@ -27,7 +27,7 @@ use ILIAS\Notifications\ilNotificationSettingsTable;
 /**
  * @author Ingmar Szmais <iszmais@databay.de>
  */
-class ilNotificationGUI implements ilCtrlBaseClassInterface
+class ilNotificationGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     /** @var array<string, list<ilNotificationHandler>> */
     private array $handler = [];

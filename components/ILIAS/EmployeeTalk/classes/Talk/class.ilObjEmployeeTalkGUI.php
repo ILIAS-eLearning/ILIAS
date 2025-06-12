@@ -43,7 +43,7 @@ use ILIAS\EmployeeTalk\Notification\NotificationType;
  * @ilCtrl_Calls      ilObjEmployeeTalkGUI: ilInfoScreenGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkGUI: ilPropertyFormGUI
  */
-final class ilObjEmployeeTalkGUI extends ilObjectGUI
+final class ilObjEmployeeTalkGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected Refinery $refinery;
     protected UIFactory $ui_factory;

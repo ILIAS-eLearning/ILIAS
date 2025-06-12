@@ -24,7 +24,7 @@ use ILIAS\UI\Component\Table\Table;
 /**
  * @author Stefan Meyer <meyer@leifos.com>
  */
-class ilLDAPSettingsGUI
+class ilLDAPSettingsGUI implements \ilCtrlCommandClass
 {
     private int $ref_id;
     private ilLDAPServer $server;

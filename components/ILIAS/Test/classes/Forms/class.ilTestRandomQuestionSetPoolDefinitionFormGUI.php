@@ -28,7 +28,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  *
  * @ilCtrl_Calls ilTestRandomQuestionSetPoolDefinitionFormGUI: ilFormPropertyDispatchGUI
  */
-class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
+class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI implements \ilCtrlCommandClass
 {
     public ilObjTest $testOBJ ;
 

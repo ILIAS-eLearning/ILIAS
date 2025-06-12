@@ -106,7 +106,7 @@ use ILIAS\Style\Content\Service as ContentStyle;
  *
  * @ingroup components\ILIASTest
  */
-class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDesktopItemHandling
+class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDesktopItemHandling, \ilCtrlCommandClass
 {
     use TestQuestionsImportTrait;
 

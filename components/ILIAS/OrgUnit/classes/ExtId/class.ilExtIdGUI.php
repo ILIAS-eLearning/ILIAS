@@ -21,7 +21,7 @@
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
  */
-class ilExtIdGUI
+class ilExtIdGUI implements \ilCtrlCommandClass
 {
     protected ilTabsGUI $tabs_gui;
     protected ilPropertyFormGUI $form;

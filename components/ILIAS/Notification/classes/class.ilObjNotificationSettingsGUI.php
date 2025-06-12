@@ -21,7 +21,7 @@
  * https://www.ilias.de/docu/goto_docu_wiki_wpage_3457_1357.html
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilObjNotificationSettingsGUI
+class ilObjNotificationSettingsGUI implements \ilCtrlCommandClass
 {
     protected ilObjNotificationSettings $settings;
     protected int $ref_id;

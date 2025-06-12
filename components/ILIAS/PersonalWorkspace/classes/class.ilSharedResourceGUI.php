@@ -26,7 +26,7 @@ use ILIAS\PersonalWorkspace\StandardGUIRequest;
  * @ilCtrl_Calls ilSharedResourceGUI: ilObjExerciseVerificationGUI, ilObjLinkResourceGUI
  * @ilCtrl_Calls ilSharedResourceGUI: ilObjPortfolioGUI
  */
-class ilSharedResourceGUI implements ilCtrlBaseClassInterface
+class ilSharedResourceGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;

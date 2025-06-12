@@ -37,7 +37,7 @@ use ILIAS\GlobalScreen\UI\Footer\Translation\TranslationsRepositoryDB;
  * @ilCtrl_isCalledBy ilFooterGroupsGUI: ilObjFooterAdministrationGUI
  * @ilCtrl_Calls      ilFooterGroupsGUI: ilPermissionGUI
  */
-final class ilFooterGroupsGUI
+final class ilFooterGroupsGUI implements \ilCtrlCommandClass
 {
     use Hasher;
     use UIHelper;

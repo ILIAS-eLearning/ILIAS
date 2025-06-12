@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * @ilCtrl_isCalledBy ilPCLayoutTemplateGUI: ilPageEditorGUI
  */
-class ilPCLayoutTemplateGUI extends ilPageContentGUI
+class ilPCLayoutTemplateGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     public function __construct(
         ilPageObject $a_pg_obj,

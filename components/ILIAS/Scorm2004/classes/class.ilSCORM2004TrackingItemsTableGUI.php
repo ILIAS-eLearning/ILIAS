@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @ingroup components\ILIASScorm2004
  */
-class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
+class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI implements \ilCtrlCommandClass
 {
     protected ilAccessHandler $access;
 

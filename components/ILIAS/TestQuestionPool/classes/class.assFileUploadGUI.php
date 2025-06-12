@@ -30,7 +30,7 @@
  * @ilctrl_iscalledby assFileUploadGUI: ilObjQuestionPoolGUI
  * @ilCtrl_Calls assFileUploadGUI: ilFormPropertyDispatchGUI
  */
-class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
+class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, \ilCtrlCommandClass
 {
     public const REUSE_FILES_LANGVAR = 'ass_file_upload_reuse_btn';
     public const REUSE_FILES_ACTION = 'reuse';

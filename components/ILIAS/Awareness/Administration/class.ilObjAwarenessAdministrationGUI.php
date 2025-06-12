@@ -22,7 +22,7 @@
  * @ilCtrl_Calls ilObjAwarenessAdministrationGUI: ilPermissionGUI, ilUserActionAdminGUI
  * @ilCtrl_IsCalledBy ilObjAwarenessAdministrationGUI: ilAdministrationGUI
  */
-class ilObjAwarenessAdministrationGUI extends ilObjectGUI
+class ilObjAwarenessAdministrationGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ilRbacSystem $rbacsystem;
     protected \ILIAS\Awareness\AdminManager $admin_manager;

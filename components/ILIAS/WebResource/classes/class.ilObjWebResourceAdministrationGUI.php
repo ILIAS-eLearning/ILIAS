@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjWebResourceAdministrationGUI: ilPermissionGUI
  * @ingroup components\ILIASWebResource
  */
-class ilObjWebResourceAdministrationGUI extends ilObjectGUI
+class ilObjWebResourceAdministrationGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     /**
      * ilObjWebResourceAdministrationGUI constructor.

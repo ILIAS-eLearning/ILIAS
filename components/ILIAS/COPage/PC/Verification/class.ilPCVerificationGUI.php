@@ -23,7 +23,7 @@ declare(strict_types=1);
  * Handles user commands on verifications
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilPCVerificationGUI extends ilPageContentGUI
+class ilPCVerificationGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     private const SUPPORTED_TYPES = ['excv', 'tstv', 'crsv', 'cmxv', 'ltiv', 'scov'];
     protected ilObjUser $user;

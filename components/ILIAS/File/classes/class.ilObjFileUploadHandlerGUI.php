@@ -24,7 +24,7 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
  * @author            Thibeau Fuhrer <thf@studer-raimann.ch>
  * @ilCtrl_isCalledBy ilObjFileUploadHandlerGUI: ilObjFileGUI, ilRepositoryGUI, ilDashboardGUI, ilAdministrationGUI
  */
-class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareIRSSUploadHandler
+class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareIRSSUploadHandler implements \ilCtrlCommandClass
 {
     protected function getStakeholder(): ResourceStakeholder
     {

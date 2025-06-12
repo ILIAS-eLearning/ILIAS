@@ -23,7 +23,7 @@
  *
  * @deprecated 10
  */
-class ilConfirmationGUI
+class ilConfirmationGUI implements \ilCtrlCommandClass
 {
     protected ilLanguage $lng;
     /** @var array{var: string, value: string}[] */

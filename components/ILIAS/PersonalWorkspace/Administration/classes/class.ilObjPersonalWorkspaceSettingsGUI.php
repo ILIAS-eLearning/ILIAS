@@ -24,7 +24,7 @@
  * @ilCtrl_Calls ilObjPersonalWorkspaceSettingsGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjPersonalWorkspaceSettingsGUI: ilAdministrationGUI
  */
-class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
+class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ilRbacSystem $rbacsystem;
     protected ilTabsGUI $tabs;

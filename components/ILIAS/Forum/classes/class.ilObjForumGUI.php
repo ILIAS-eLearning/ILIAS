@@ -34,7 +34,7 @@ use ILIAS\Forum\Drafts\ForumDraftsTable;
  * @ilCtrl_Calls ilObjForumGUI: ilForumSettingsGUI, ilContainerNewsSettingsGUI, ilLearningProgressGUI, ilForumPageGUI
  * @ilCtrl_Calls ilObjForumGUI: ilObjectContentStyleSettingsGUI
  */
-class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForumObjectConstants, ilCtrlSecurityInterface
+class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForumObjectConstants, ilCtrlSecurityInterface, \ilCtrlCommandClass
 {
     use ilForumRequestTrait;
 

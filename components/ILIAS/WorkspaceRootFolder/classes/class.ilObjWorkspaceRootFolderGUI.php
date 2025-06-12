@@ -22,7 +22,7 @@
  * @author Stefan Meyer <meyer@leifos.com>
  * @ilCtrl_Calls ilObjWorkspaceRootFolderGUI: ilCommonActionDispatcherGUI, ilObjectOwnershipManagementGUI
  */
-class ilObjWorkspaceRootFolderGUI extends ilObjWorkspaceFolderGUI
+class ilObjWorkspaceRootFolderGUI extends ilObjWorkspaceFolderGUI implements \ilCtrlCommandClass
 {
     public function __construct(
         int $a_id = 0,

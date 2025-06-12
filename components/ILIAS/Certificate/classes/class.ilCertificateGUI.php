@@ -37,7 +37,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  * @ingroup       components/ILIAS
  * @ilCtrl_Calls  ilCertificateGUI: ilPropertyFormGUI
  */
-class ilCertificateGUI
+class ilCertificateGUI implements \ilCtrlCommandClass
 {
     protected ilCtrlInterface $ctrl;
     protected ilTree $tree;

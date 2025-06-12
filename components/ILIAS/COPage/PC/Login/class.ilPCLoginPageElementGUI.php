@@ -22,7 +22,7 @@
  * @author Stefan Meyer <meyer@leifos.com>
  * @ilCtrl_Calls ilPCLoginPageElementGUI:
  */
-class ilPCLoginPageElementGUI extends ilPageContentGUI
+class ilPCLoginPageElementGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected ilObjectDefinition $obj_definition;
 

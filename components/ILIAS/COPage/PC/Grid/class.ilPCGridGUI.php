@@ -21,7 +21,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCGridGUI extends ilPageContentGUI
+class ilPCGridGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     public const TEMPLATE_MANUAL = 0;
     public const TEMPLATE_TWO_COLUMN = 1;

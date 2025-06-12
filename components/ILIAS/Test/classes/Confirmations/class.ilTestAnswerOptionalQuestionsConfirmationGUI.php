@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  * @package components\ILIAS/Test
  */
-class ilTestAnswerOptionalQuestionsConfirmationGUI extends ilConfirmationGUI
+class ilTestAnswerOptionalQuestionsConfirmationGUI extends ilConfirmationGUI implements \ilCtrlCommandClass
 {
     protected ?string $cancelCmd;
 

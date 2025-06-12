@@ -31,7 +31,7 @@ use ILIAS\UI\Component\Input\Container\Form\Form;
  * @author Helmut Schottmüller <hschottm@gmx.de>
  * @ilCtrl_Calls ilObjTestFolderGUI: ilPermissionGUI, ilGlobalUnitConfigurationGUI
  */
-class ilObjTestFolderGUI extends ilObjectGUI
+class ilObjTestFolderGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     private const SHOW_LOGS_CMD = 'logs';
 

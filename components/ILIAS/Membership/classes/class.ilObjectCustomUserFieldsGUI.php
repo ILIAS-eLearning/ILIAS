@@ -27,7 +27,7 @@ use ILIAS\Refinery\Factory;
  * @ilCtrl_Calls ilObjectCustomUserFieldsGUI
  * @ingroup      ServicesMembership
  */
-class ilObjectCustomUserFieldsGUI
+class ilObjectCustomUserFieldsGUI implements \ilCtrlCommandClass
 {
     protected const MODE_CREATE = 1;
     protected const MODE_UPDATE = 2;

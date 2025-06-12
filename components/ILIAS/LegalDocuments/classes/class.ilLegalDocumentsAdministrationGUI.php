@@ -36,7 +36,7 @@ use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\LegalDocuments\Provide\ProvideDocument;
 use ILIAS\LegalDocuments\HTMLPurifier;
 
-class ilLegalDocumentsAdministrationGUI
+class ilLegalDocumentsAdministrationGUI implements \ilCtrlCommandClass
 {
     private readonly Container $container;
     private readonly UI $ui;

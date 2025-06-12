@@ -24,7 +24,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard;
  * @ilCtrl_Calls ilObjNotesSettingsGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjNotesSettingsGUI: ilAdministrationGUI
  */
-class ilObjNotesSettingsGUI extends ilObjectGUI
+class ilObjNotesSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ilRbacSystem $rbacsystem;
     protected ilErrorHandling $error;

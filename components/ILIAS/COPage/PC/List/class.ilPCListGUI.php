@@ -23,7 +23,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCListGUI extends ilPageContentGUI
+class ilPCListGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected ilPropertyFormGUI $form;
 

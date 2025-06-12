@@ -30,7 +30,7 @@ use ILIAS\UI\Renderer as UIRenderer;
  * @author  Björn Heyser <bheyser@databay.de>
  * @package components\ILIAS/Test
  */
-class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
+class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI implements \ilCtrlCommandClass
 {
     private ?assQuestion $question = null;
     private ?ilAssQuestionSkillAssignment $assignment = null;

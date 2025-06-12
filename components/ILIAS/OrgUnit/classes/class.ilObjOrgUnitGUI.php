@@ -41,7 +41,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitTypeGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilPropertyFormGUI
  */
-class ilObjOrgUnitGUI extends ilContainerGUI
+class ilObjOrgUnitGUI extends ilContainerGUI implements \ilCtrlCommandClass
 {
     public const TAB_POSITIONS = 'positions';
     public const TAB_ORGU_TYPES = 'orgu_types';

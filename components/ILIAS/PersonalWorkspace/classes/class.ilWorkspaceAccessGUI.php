@@ -25,7 +25,7 @@ use ILIAS\PersonalWorkspace\StandardGUIRequest;
  * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI
  * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchGUI, ilPublicUserProfileGUI, ilSingleUserShareGUI
  */
-class ilWorkspaceAccessGUI
+class ilWorkspaceAccessGUI implements \ilCtrlCommandClass
 {
     public const PERMISSION_REGISTERED = -1;
     public const PERMISSION_ALL_PASSWORD = -3;

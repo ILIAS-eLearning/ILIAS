@@ -33,7 +33,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilExportGUI
  * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilObjectMetaDataGUI
  */
-class ilObjIndividualAssessmentGUI extends ilObjectGUI
+class ilObjIndividualAssessmentGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     public const TAB_SETTINGS = 'settings';
     public const TAB_INFO = 'info_short';

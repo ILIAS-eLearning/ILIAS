@@ -26,7 +26,7 @@ use JetBrains\PhpStorm\NoReturn;
 * @version $Id$
 * @ilCtrl_Calls ilSCORM13PlayerGUI:
 */
-class ilSCORM13PlayerGUI
+class ilSCORM13PlayerGUI implements \ilCtrlCommandClass
 {
     public const ENABLE_GZIP = 0;
 

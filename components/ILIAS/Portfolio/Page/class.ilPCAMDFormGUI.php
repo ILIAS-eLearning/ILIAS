@@ -26,7 +26,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @ilCtrl_isCalledBy ilPCAMDFormGUI: ilPageEditorGUI
  * @ilCtrl_Calls ilPCAMDFormGUI: ilPropertyFormGUI
  */
-class ilPCAMDFormGUI extends ilPageContentGUI
+class ilPCAMDFormGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected ilAdvancedMDRecordGUI $record_gui;
     protected \ILIAS\DI\UIServices $ui;

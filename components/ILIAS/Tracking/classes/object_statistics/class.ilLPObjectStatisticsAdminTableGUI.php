@@ -23,7 +23,7 @@
  * @ilCtrl_Calls ilLPObjectStatisticsAdminTableGUI: ilFormPropertyDispatchGUI
  * @ingroup      ServicesTracking
  */
-class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
+class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI implements \ilCtrlCommandClass
 {
     /**
      * Constructor

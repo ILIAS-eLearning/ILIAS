@@ -23,7 +23,7 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_IsCalledBy ilMultilingualismeGUI: ilDidacticTemplateSettingsGUI
  */
-class ilMultilingualismGUI
+class ilMultilingualismGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Multilingualism\StandardGUIRequest $request;
     protected ilLanguage $lng;

@@ -28,7 +28,7 @@ use ILIAS\Forum\Notification\ForumNotificationTable;
  * @author  Nadia Matuschek <nmatuschek@databay.de>
  * @ilCtrl_Calls ilForumSettingsGUI: ilObjectContentStyleSettingsGUI
  */
-class ilForumSettingsGUI implements ilForumObjectConstants
+class ilForumSettingsGUI implements ilForumObjectConstants, \ilCtrlCommandClass
 {
     private readonly ilCtrlInterface $ctrl;
     private readonly ilGlobalTemplateInterface $tpl;

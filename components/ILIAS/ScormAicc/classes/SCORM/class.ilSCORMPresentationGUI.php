@@ -28,7 +28,7 @@ declare(strict_types=1);
 *
 * @ingroup components\ILIASScormAicc
 */
-class ilSCORMPresentationGUI
+class ilSCORMPresentationGUI implements \ilCtrlCommandClass
 {
     public ilObjSCORMLearningModule $slm;
     public ilGlobalTemplate $tpl;

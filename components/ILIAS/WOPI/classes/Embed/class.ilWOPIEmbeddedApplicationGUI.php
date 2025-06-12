@@ -27,7 +27,7 @@ use ILIAS\components\WOPI\Embed\EmbeddedApplicationGSProvider;
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ilWOPIEmbeddedApplicationGUI
+class ilWOPIEmbeddedApplicationGUI implements \ilCtrlCommandClass
 {
     public const CMD_EDIT = 'edit';
     public const CMD_VIEW = 'view';

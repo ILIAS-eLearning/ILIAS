@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @ilCtrl_IsCalledBy ilAppointmentPresentationExerciseGUI: ilCalendarAppointmentPresentationGUI
  * @ingroup           ServicesCalendar
  */
-class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
+class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation, \ilCtrlCommandClass
 {
     public function collectPropertiesAndActions(): void
     {

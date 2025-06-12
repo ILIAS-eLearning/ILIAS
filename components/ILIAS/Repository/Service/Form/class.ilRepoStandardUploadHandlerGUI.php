@@ -30,7 +30,7 @@ use ILIAS\UI\Component\Input\Field\Group;
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilRepoStandardUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
+class ilRepoStandardUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlCommandClass
 {
     protected array $ctrl_path;
     protected ?ilLogger $log = null;

@@ -25,7 +25,7 @@ use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
  * @ilCtrl_IsCalledBy ilMStShowUserGUI: ilMyStaffGUI
  * @ilCtrl_Calls      ilMStShowUserGUI: ilUserCertificateGUI
  */
-class ilMStShowUserGUI
+class ilMStShowUserGUI implements \ilCtrlCommandClass
 {
     public const string CMD_INDEX = 'index';
     public const string CMD_SHOW_USER = 'showUser';

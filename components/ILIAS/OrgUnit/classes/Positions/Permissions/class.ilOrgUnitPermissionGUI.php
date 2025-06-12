@@ -23,7 +23,7 @@ use ILIAS\components\OrgUnit\ARHelper\BaseCommands;
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  * @ilCtrl_IsCalledBy ilOrgUnitPermissionGUI: ilOrgUnitPositionGUI
  */
-class ilOrgUnitPermissionGUI extends BaseCommands
+class ilOrgUnitPermissionGUI extends BaseCommands implements \ilCtrlCommandClass
 {
     protected function index(): void
     {

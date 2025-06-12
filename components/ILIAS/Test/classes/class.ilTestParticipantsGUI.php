@@ -49,7 +49,7 @@ use ILIAS\UI\Component\Modal\Modal;
  *
  * @ilCtrl_Calls ilTestParticipantsGUI: ilRepositorySearchGUI
  */
-class ilTestParticipantsGUI
+class ilTestParticipantsGUI implements \ilCtrlCommandClass
 {
     public const CMD_SHOW = 'show';
 

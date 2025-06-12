@@ -27,7 +27,7 @@ declare(strict_types=1);
  *
  * @ingroup ServicesLTI
  */
-class ilObjLTIAdministrationGUI extends ilObjectGUI
+class ilObjLTIAdministrationGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     private ?ilLTIDataConnector $dataConnector = null;
 

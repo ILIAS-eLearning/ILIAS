@@ -27,7 +27,7 @@ use ILIAS\FileUpload\Handler\HandlerResult;
 use ILIAS\Mail\Attachments\AttachmentManagement;
 use ILIAS\Mail\Attachments\MailAttachmentTableGUI;
 
-class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler
+class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlCommandClass
 {
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilLanguage $lng;

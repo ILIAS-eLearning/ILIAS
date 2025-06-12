@@ -34,7 +34,7 @@ use ILIAS\Refinery\Transformation;
  * @ingroup components\ILIASTestQuestionPool
  * @ilCtrl_Calls assMatchingQuestionGUI: ilFormPropertyDispatchGUI
  */
-class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
+class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable, \ilCtrlCommandClass
 {
     public function __construct($id = -1)
     {

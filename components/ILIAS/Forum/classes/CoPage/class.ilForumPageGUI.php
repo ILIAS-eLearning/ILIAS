@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilForumPageGUI: ilPublicUserProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilForumPageGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
  */
-class ilForumPageGUI extends ilPageObjectGUI implements ilForumObjectConstants
+class ilForumPageGUI extends ilPageObjectGUI implements ilForumObjectConstants, \ilCtrlCommandClass
 {
     protected string $language = '-';
 

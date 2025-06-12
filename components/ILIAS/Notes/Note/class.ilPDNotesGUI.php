@@ -26,7 +26,7 @@ use ILIAS\Repository\Filter\FilterAdapterGUI;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPDNotesGUI: ilNoteGUI, ilCommentGUI
  */
-class ilPDNotesGUI
+class ilPDNotesGUI implements \ilCtrlCommandClass
 {
     protected int $note_type;
     protected string $search_text = "";

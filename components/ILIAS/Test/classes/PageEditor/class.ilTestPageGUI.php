@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilTestPageGUI: ilPublicUserProfileGUI, ilNoteGUI
  * @ilCtrl_IsCalledBy ilTestPageGUI: ilRepositoryGUI
  */
-class ilTestPageGUI extends ilPageObjectGUI
+class ilTestPageGUI extends ilPageObjectGUI implements \ilCtrlCommandClass
 {
     public function getTabs(string $a_activate = ""): void
     {

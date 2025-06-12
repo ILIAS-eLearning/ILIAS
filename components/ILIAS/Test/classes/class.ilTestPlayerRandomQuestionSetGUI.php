@@ -28,7 +28,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilTestAnswerOptionalQuestionsConfirmationGUI
  * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilConfirmationGUI
  */
-class ilTestPlayerRandomQuestionSetGUI extends ilTestPlayerAbstractGUI
+class ilTestPlayerRandomQuestionSetGUI extends ilTestPlayerAbstractGUI implements \ilCtrlCommandClass
 {
     protected function buildTestPassQuestionList(): ilAssQuestionList
     {

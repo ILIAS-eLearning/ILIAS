@@ -26,7 +26,7 @@ declare(strict_types=1);
  * @ilCtrl_IsCalledBy ilCtrlCommandClass1TestGUI: ilCtrlBaseClass1TestGUI, ilCtrlBaseClass2TestGUI
  * @ilCtrl_Calls      ilCtrlCommandClass1TestGUI: ilCtrlBaseClass2TestGUI, ilCtrlCommandClass2TestGUI
  */
-class ilCtrlCommandClass1TestGUI implements ilCtrlSecurityInterface
+class ilCtrlCommandClass1TestGUI implements ilCtrlSecurityInterface, \ilCtrlCommandClass
 {
     /**
      * @inheritDoc

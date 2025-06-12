@@ -24,7 +24,7 @@ declare(strict_types=0);
  * @ilCtrl_Calls ilLPListOfProgressGUI: ilLPProgressTableGUI
  * @package      ilias-tracking
  */
-class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
+class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI implements \ilCtrlCommandClass
 {
     protected ?ilObjUser $tracked_user = null;
     protected int $details_id = 0;

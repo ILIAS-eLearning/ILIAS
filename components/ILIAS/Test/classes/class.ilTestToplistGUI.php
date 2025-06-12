@@ -33,7 +33,7 @@ use ILIAS\HTTP\GlobalHttpState as GlobalHttpState;
  * @author  Maximilian Becker <mbecker@databay.de>
  * @ingroup components\ILIASTest
  */
-class ilTestToplistGUI
+class ilTestToplistGUI implements \ilCtrlCommandClass
 {
     public function __construct(
         protected readonly ilObjTest $test_obj,

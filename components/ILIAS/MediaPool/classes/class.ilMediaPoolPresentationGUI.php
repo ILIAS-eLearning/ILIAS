@@ -21,7 +21,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilMediaPoolPresentationGUI: ilObjMediaPoolGUI
  */
-class ilMediaPoolPresentationGUI implements ilCtrlBaseClassInterface
+class ilMediaPoolPresentationGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected \ILIAS\MediaPool\StandardGUIRequest $request;
     protected ilCtrl $ctrl;

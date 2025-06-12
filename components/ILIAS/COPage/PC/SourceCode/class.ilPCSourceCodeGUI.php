@@ -29,7 +29,7 @@ use ILIAS\FileUpload\Handler\HandlerResult;
  * @ilCtrl_Calls ilPCSourceCodeGUI: ilRepoStandardUploadHandlerGUI
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCSourceCodeGUI extends ilPageContentGUI
+class ilPCSourceCodeGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected ilTabsGUI $tabs;
     /**

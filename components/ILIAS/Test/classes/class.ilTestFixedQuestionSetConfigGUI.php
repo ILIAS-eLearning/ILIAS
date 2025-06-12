@@ -31,7 +31,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilTestFixedQuestionSetConfigGUI: ilPageEditorGUI
  * @ilCtrl_Calls ilTestFixedQuestionSetConfigGUI: ilAssQuestionPageGUI
  */
-class ilTestFixedQuestionSetConfigGUI
+class ilTestFixedQuestionSetConfigGUI implements \ilCtrlCommandClass
 {
     /**
      * @var ilCtrl

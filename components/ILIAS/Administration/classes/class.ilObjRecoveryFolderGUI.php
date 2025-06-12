@@ -26,7 +26,7 @@ use ILIAS\Administration\AdminGUIRequest;
  * @author Sascha Hofmann <shofmann@databay.de>
  * @ilCtrl_Calls ilObjRecoveryFolderGUI: ilPermissionGUI
  */
-class ilObjRecoveryFolderGUI extends ilContainerGUI
+class ilObjRecoveryFolderGUI extends ilContainerGUI implements \ilCtrlCommandClass
 {
     protected AdminGUIRequest $admin_request;
     public ilRbacSystem $rbacsystem;

@@ -29,7 +29,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilLTIConsumerSettingsGUI: ilLTIConsumeProviderSettingsGUI
  * @ilCtrl_Calls ilLTIConsumerSettingsGUI: ilCertificateGUI
  */
-class ilLTIConsumerSettingsGUI
+class ilLTIConsumerSettingsGUI implements \ilCtrlCommandClass
 {
     public const SUBTAB_ID_OBJECT_SETTINGS = 'subtab_object_settings';
     public const SUBTAB_ID_PROVIDER_SETTINGS = 'subtab_provider_settings';

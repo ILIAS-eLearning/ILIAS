@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 
-class ilObjLearningSequenceLearnerGUI
+class ilObjLearningSequenceLearnerGUI implements \ilCtrlCommandClass
 {
     public const CMD_STANDARD = 'learnerView';
     public const CMD_EXTRO = 'learnerViewFinished';

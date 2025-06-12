@@ -40,7 +40,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @author Alex Killing <alex.killing@gmx.de>
  * @ilCtrl_Calls ilPersonalSkillsGUI:
  */
-class ilPersonalSkillsGUI
+class ilPersonalSkillsGUI implements \ilCtrlCommandClass
 {
     public const LIST_SELECTED = "selected";
     public const LIST_PROFILES = "";

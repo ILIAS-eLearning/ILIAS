@@ -32,7 +32,7 @@ use ILIAS\Skill\Resource;
  * @author Alex Killing <alex.killing@gmx.de>
  * @ilCtrl_isCalledBy ilBasicSkillGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
  */
-class ilBasicSkillGUI extends ilSkillTreeNodeGUI
+class ilBasicSkillGUI extends ilSkillTreeNodeGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;

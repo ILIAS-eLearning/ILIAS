@@ -38,7 +38,7 @@ use ILIAS\ILIASObject\Creation\CreationCallbackTrait;
 *
 *
 */
-class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandHandling, ImplementsCreationCallback
+class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandHandling, ImplementsCreationCallback, \ilCtrlCommandClass
 {
     use CreationCallbackTrait;
 

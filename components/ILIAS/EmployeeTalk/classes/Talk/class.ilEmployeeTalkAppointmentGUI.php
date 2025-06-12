@@ -33,7 +33,7 @@ use ILIAS\EmployeeTalk\Notification\NotificationType;
  *
  * @ilCtrl_IsCalledBy ilEmployeeTalkAppointmentGUI: ilObjEmployeeTalkGUI
  */
-final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
+final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler, \ilCtrlCommandClass
 {
     public const string EDIT_MODE_APPOINTMENT = 'appointment';
     public const string EDIT_MODE_SERIES = 'series';

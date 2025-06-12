@@ -22,7 +22,7 @@
  * @author Hendrik Holtmann <holtmann@me.com>
  * @ilCtrl_Calls ilPCPlaceHolderGUI: ilPCMediaObjectGUI
  */
-class ilPCPlaceHolderGUI extends ilPageContentGUI
+class ilPCPlaceHolderGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     public const TYPE_TEXT = "Text";
     public const TYPE_QUESTION = "Question";

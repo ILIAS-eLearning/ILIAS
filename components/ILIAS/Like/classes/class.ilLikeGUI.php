@@ -22,7 +22,7 @@ use ILIAS\Like\StandardGUIRequest;
  * User interface for like feature
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilLikeGUI
+class ilLikeGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Like\InternalGUIService $gui;
     protected ilLikeData $data;

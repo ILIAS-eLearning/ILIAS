@@ -44,7 +44,7 @@ use ILIAS\components\ResourceStorage\Container\View\CombinedActionProvider;
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-final class ilContainerResourceGUI implements UploadHandler
+final class ilContainerResourceGUI implements UploadHandler, \ilCtrlCommandClass
 {
     use URLSerializer;
 

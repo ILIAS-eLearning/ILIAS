@@ -30,7 +30,7 @@ use ILIAS\UI\Component\MessageBox\MessageBox;
 /**
  * @ilCtrl_Calls ilBulkEditQuestionsGUI: ilFormPropertyDispatchGUI
  */
-class ilBulkEditQuestionsGUI
+class ilBulkEditQuestionsGUI implements \ilCtrlCommandClass
 {
     public const PARAM_IDS = 'qids';
     public const CMD_EDITTAUTHOR = 'bulkedit_author';

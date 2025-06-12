@@ -32,7 +32,7 @@ use ILIAS\Registration\RegistrationFilterComponent;
  * @ilCtrl_Calls ilRegistrationSettingsGUI:
  * @ingroup      ServicesRegistration
  */
-class ilRegistrationSettingsGUI
+class ilRegistrationSettingsGUI implements \ilCtrlCommandClass
 {
     public const CODE_TYPE_REGISTRATION = 1;
     public const CODE_TYPE_EXTENSION = 2;

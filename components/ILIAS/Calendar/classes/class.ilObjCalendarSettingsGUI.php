@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjCalendarSettingsGUI: ilPermissionGUI
  * @ingroup      ServicesCalendar
  */
-class ilObjCalendarSettingsGUI extends ilObjectGUI
+class ilObjCalendarSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ilCalendarSettings $calendar_settings;
 

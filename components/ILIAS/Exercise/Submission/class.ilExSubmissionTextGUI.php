@@ -24,7 +24,7 @@
  *
  * @ilCtrl_Calls ilExSubmissionTextGUI:
  */
-class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
+class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Exercise\Submission\SubmissionManager $sub_manager;
     protected ilObjUser $user;

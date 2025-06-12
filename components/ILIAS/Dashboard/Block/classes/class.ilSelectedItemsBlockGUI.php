@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\components\Dashboard\Block\BlockDTO;
 use ILIAS\UI\Component\Modal\RoundTrip;
 
-class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
+class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI implements \ilCtrlCommandClass
 {
     public function initViewSettings(): void
     {

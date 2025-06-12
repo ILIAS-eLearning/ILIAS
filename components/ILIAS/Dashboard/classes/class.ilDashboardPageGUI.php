@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilDashboardPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
  * @ilCtrl_isCalledBy ilDashboardPageGUI: ilAdministrationGUI, ilDashboardPageLanguageSelectGUI
  */
-class ilDashboardPageGUI extends ilPageObjectGUI
+class ilDashboardPageGUI extends ilPageObjectGUI implements \ilCtrlCommandClass
 {
     public function __construct(string $lang)
     {

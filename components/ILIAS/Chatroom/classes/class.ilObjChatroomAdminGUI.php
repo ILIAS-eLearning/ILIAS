@@ -28,7 +28,7 @@ declare(strict_types=1);
  * @ilCtrl_IsCalledBy ilObjChatroomAdminGUI: ilRepositoryGUI, ilAdministrationGUI
  * @ingroup components\ILIASChatroom
  */
-class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
+class ilObjChatroomAdminGUI extends ilChatroomObjectGUI implements \ilCtrlCommandClass
 {
     public function __construct($data = null, ?int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilObjStudyProgrammeIndividualPlanGUI
+class ilObjStudyProgrammeIndividualPlanGUI implements \ilCtrlCommandClass
 {
     public const POST_VAR_STATUS = "status";
     public const POST_VAR_REQUIRED_POINTS = "required_points";

@@ -26,7 +26,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
  * Class ilOrgUnitPositionGUI
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilOrgUnitPositionGUI extends BaseCommands
+class ilOrgUnitPositionGUI extends BaseCommands implements \ilCtrlCommandClass
 {
     use ILIAS\Repository\BaseGUIRequest;
 

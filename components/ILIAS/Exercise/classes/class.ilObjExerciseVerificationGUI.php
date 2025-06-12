@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjExerciseVerificationGUI: ilWorkspaceAccessGUI
  */
-class ilObjExerciseVerificationGUI extends ilObject2GUI
+class ilObjExerciseVerificationGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     public function getType(): string
     {

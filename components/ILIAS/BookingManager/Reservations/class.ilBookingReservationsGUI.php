@@ -20,7 +20,7 @@
  * Reservations screen
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilBookingReservationsGUI
+class ilBookingReservationsGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\BookingManager\BookingProcess\ProcessUtilGUI $util_gui;
     protected \ILIAS\BookingManager\Access\AccessManager $access;

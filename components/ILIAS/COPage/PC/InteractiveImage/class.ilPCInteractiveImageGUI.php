@@ -28,7 +28,7 @@ use ILIAS\FileUpload\Handler\HandlerResult;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPCInteractiveImageGUI: ilPCIIMTriggerEditorGUI, ilRepoStandardUploadHandlerGUI
  */
-class ilPCInteractiveImageGUI extends ilPageContentGUI
+class ilPCInteractiveImageGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\COPage\PC\InteractiveImage\IIMManager $iim_manager;
     protected \ILIAS\COPage\PC\InteractiveImage\GUIService $iim_gui;

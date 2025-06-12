@@ -23,7 +23,7 @@ use ILIAS\Data\Factory as DataFactory;
 /**
  * export assignments of PRG
  */
-class ilPRGMembersExportGUI extends ilMemberExportGUI
+class ilPRGMembersExportGUI extends ilMemberExportGUI implements \ilCtrlCommandClass
 {
     public const USERFORMSETTINGS_ID = 'prg_export_settings';
     public const EXPORT_FILENAME = '%s_PRGAssignment_export_%s_%s'; //keep underscores/params!

@@ -28,7 +28,7 @@ use ILIAS\Refinery\Factory;
  * @author : Stefan Hecken <stefan.hecken@concepts-and-training.de>
  * @ilCtrl_IsCalledBy ilPDStudyProgrammeSimpleListGUI: ilColumnGUI
  */
-class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
+class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI implements \ilCtrlCommandClass
 {
     public const BLOCK_TYPE = "prgsimplelist";
 

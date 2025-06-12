@@ -28,7 +28,7 @@ use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
  *
  * @ilCtrl_Calls ilTestEvalObjectiveOrientedGUI: ilAssQuestionPageGUI
  */
-class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
+class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI implements \ilCtrlCommandClass
 {
     public function executeCommand()
     {

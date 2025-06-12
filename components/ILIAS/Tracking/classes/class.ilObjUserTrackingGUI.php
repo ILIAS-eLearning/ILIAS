@@ -25,7 +25,7 @@ declare(strict_types=0);
  * @ilCtrl_Calls ilObjUserTrackingGUI: ilLearningProgressGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjUserTrackingGUI: ilLPObjectStatisticsGUI, ilSessionStatisticsGUI
  */
-class ilObjUserTrackingGUI extends ilObjectGUI
+class ilObjUserTrackingGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ilErrorHandling $error;
     protected ilObjectDefinition $objectDefinition;

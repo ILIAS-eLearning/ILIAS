@@ -27,7 +27,7 @@ use ILIAS\Style\Content;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjStyleSheetGUI: ilExportGUI, ilStyleCharacteristicGUI, ilContentStyleImageGUI
  */
-class ilObjStyleSheetGUI extends ilObjectGUI
+class ilObjStyleSheetGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected Content\InternalDomainService $domain;
     protected ilPropertyFormGUI $form_gui;

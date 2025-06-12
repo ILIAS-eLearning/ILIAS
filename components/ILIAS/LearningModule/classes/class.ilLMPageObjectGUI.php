@@ -24,7 +24,7 @@ use ILIAS\UI\Component\Input\Container\Form;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilLMPageObjectGUI: ilLMPageGUI, ilAssGenFeedbackPageGUI
  */
-class ilLMPageObjectGUI extends ilLMObjectGUI
+class ilLMPageObjectGUI extends ilLMObjectGUI implements \ilCtrlCommandClass
 {
     protected ilPropertyFormGUI $form;
     protected ilTabsGUI $tabs;

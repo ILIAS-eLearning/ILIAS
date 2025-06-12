@@ -20,7 +20,7 @@
  * User Interface for Resources Component Editing
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCResourcesGUI extends ilPageContentGUI
+class ilPCResourcesGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Container\InternalDomainService $container_domain;
     protected ilTree $rep_tree;

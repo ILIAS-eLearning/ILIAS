@@ -21,7 +21,7 @@ use ILIAS\Badge\TileView;
 use ILIAS\Badge\PresentationHeader;
 use ILIAS\Badge\Tile;
 
-class ilBadgeProfileGUI
+class ilBadgeProfileGUI implements \ilCtrlCommandClass
 {
     final public const BACKPACK_EMAIL = 'badge_mozilla_bp';
 

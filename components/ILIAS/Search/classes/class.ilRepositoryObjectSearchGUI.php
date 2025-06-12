@@ -31,7 +31,7 @@ use ILIAS\Refinery\Factory;
  * @package ServicesSearch
  *
  */
-class ilRepositoryObjectSearchGUI
+class ilRepositoryObjectSearchGUI implements \ilCtrlCommandClass
 {
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;

@@ -25,7 +25,7 @@ use ILIAS\Exercise\GUIRequest;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilExcCriteriaGUI:
  */
-class ilExcCriteriaGUI
+class ilExcCriteriaGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Exercise\InternalGUIService $gui;
     protected ilCtrl $ctrl;

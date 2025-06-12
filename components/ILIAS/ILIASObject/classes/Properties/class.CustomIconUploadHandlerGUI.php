@@ -33,7 +33,7 @@ use ILIAS\FileUpload\MimeType;
  *
  * @author Stephan Kergomard <webmaster@kergomard.ch>
  */
-class CustomIconUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlBaseClassInterface
+class CustomIconUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     use UploadSecurityFunctionsTrait;
 

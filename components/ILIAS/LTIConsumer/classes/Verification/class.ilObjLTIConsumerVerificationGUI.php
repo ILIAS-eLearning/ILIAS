@@ -27,7 +27,7 @@ declare(strict_types=1);
  *
  * @package     Module/LTIConsumer
  */
-class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
+class ilObjLTIConsumerVerificationGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     public function getType(): string
     {

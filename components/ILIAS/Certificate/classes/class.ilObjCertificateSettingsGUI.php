@@ -30,7 +30,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  * @ilCtrl_IsCalledBy ilObjCertificateSettingsGUI: ilAdministrationGUI
  * @ingroup           ServicesCertificate
  */
-class ilObjCertificateSettingsGUI extends ilObjectGUI
+class ilObjCertificateSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     public const TAB_CERTIFICATES = 'certificates';
     public const CMD_CERTIFICATES_OVERVIEW = 'certificatesOverview';

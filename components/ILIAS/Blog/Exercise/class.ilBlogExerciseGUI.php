@@ -25,7 +25,7 @@ use ILIAS\Exercise\Submission\Submission;
 /**
  * @ilCtrl_Calls ilBlogExerciseGUI:
  */
-class ilBlogExerciseGUI
+class ilBlogExerciseGUI implements \ilCtrlCommandClass
 {
     protected SubmissionManager $submission;
     protected \ILIAS\Blog\Exercise\BlogExercise $blog_exercise;

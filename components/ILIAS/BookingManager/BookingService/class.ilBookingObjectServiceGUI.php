@@ -21,7 +21,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilBookingObjectServiceGUI: ilPropertyFormGUI, ilBookingProcessWithScheduleGUI, ilBookingProcessWithoutScheduleGUI
  */
-class ilBookingObjectServiceGUI extends ilBookingObjectGUI
+class ilBookingObjectServiceGUI extends ilBookingObjectGUI implements \ilCtrlCommandClass
 {
     protected int $host_obj_ref_id;
     protected ilObjUseBookDBRepository $use_book_repo;

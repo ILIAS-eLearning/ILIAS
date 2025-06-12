@@ -30,7 +30,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
  * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilStudyProgrammeChangeDeadlineGUI
  * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilFormPropertyDispatchGUI
  */
-class ilObjStudyProgrammeMembersGUI
+class ilObjStudyProgrammeMembersGUI implements \ilCtrlCommandClass
 {
     use ilTableCommandHelper;
     use ilPRGCertificateHelper;

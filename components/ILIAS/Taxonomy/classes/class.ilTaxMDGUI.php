@@ -24,7 +24,7 @@ use Psr\Http\Message\RequestInterface;
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilTaxMDGUI: ilFormPropertyDispatchGUI
  */
-class ilTaxMDGUI
+class ilTaxMDGUI implements \ilCtrlCommandClass
 {
     protected ilObjectDefinition $obj_definition;
     protected ilTree $tree;

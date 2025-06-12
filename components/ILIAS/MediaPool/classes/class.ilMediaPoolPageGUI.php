@@ -24,7 +24,7 @@ use ILIAS\MediaPool;
  * @ilCtrl_Calls ilMediaPoolPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilMediaPoolPageGUI: ilPublicUserProfileGUI, ilObjectMetaDataGUI
  */
-class ilMediaPoolPageGUI extends ilPageObjectGUI
+class ilMediaPoolPageGUI extends ilPageObjectGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Style\Content\GUIService $cs_gui;
     protected MediaPool\StandardGUIRequest $mep_request;

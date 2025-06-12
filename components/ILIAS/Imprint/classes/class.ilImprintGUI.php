@@ -28,7 +28,7 @@ use ILIAS\Imprint\StandardGUIRequest;
  * @ilCtrl_Calls ilImprintGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilImprintGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
-class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
+class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected StandardGUIRequest $imprint_request;
     protected ilLocatorGUI $locator;

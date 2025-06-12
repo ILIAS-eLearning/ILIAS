@@ -25,7 +25,7 @@ use ILIAS\Authentication\Password\LocalUserPasswordManager;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_IsCalledBy ilPDNewsBlockGUI: ilColumnGUI
  */
-class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
+class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI implements \ilCtrlCommandClass
 {
     public static string $block_type = "pdnews";
     protected bool $cache_hit = false;

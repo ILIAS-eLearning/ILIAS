@@ -30,7 +30,7 @@ use ILIAS\FileUpload\Handler\HandlerResult;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilMediaCreationGUI: ilPropertyFormGUI, ilRepoStandardUploadHandlerGUI
  */
-class ilMediaCreationGUI
+class ilMediaCreationGUI implements \ilCtrlCommandClass
 {
     public const TYPE_VIDEO = 1;
     public const TYPE_AUDIO = 2;

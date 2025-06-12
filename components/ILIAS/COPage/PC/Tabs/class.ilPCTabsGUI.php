@@ -20,7 +20,7 @@
  * User Interface for Tabbed Content
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCTabsGUI extends ilPageContentGUI
+class ilPCTabsGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\COPage\PC\PCDefinition $pc_def;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;

@@ -21,7 +21,7 @@
  * User Interface for Map Editing
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCMapGUI extends ilPageContentGUI
+class ilPCMapGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected ilPropertyFormGUI $form;
 

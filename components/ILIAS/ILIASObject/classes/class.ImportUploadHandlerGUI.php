@@ -31,7 +31,7 @@ use ILIAS\Data\DataSize;
  *
  * @author Stephan Kergomard <webmaster@kergomard.ch>
  */
-class ImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlBaseClassInterface
+class ImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected Filesystem $temp_system;
     protected array $supported_mime_types;

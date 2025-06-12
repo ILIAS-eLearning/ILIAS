@@ -30,7 +30,7 @@ use ILIAS\UI\Renderer as UIRenderer;
  * @ilCtrl_Calls ilSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
  * @ilCtrl_Calls ilSearchGUI: ilObjStudyProgrammeGUI
  */
-class ilSearchGUI extends ilSearchBaseGUI
+class ilSearchGUI extends ilSearchBaseGUI implements \ilCtrlCommandClass
 {
     private array $details;
     public int $root_node;

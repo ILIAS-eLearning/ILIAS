@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @ingroup components\ILIASScorm2004
  */
-class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
+class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI implements \ilCtrlCommandClass
 {
     protected ilObjSCORM2004LearningModuleGUI $parent_obj;
 

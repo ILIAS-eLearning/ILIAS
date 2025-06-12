@@ -24,7 +24,7 @@
  *
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  */
-class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
+class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI implements \ilCtrlCommandClass
 {
     protected function initObject(): void
     {

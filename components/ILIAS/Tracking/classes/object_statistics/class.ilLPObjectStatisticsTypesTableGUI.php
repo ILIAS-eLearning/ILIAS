@@ -23,7 +23,7 @@
  * @ilCtrl_Calls ilLPObjectStatisticsTypesTableGUI: ilFormPropertyDispatchGUI
  * @ingroup      ServicesTracking
  */
-class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
+class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI implements \ilCtrlCommandClass
 {
     protected ?array $preselected;
 

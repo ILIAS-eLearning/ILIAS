@@ -26,7 +26,7 @@ declare(strict_types=1);
  *
  * @package components\ILIAS/LTIConsumer
  */
-class ilLTIConsumeProviderSettingsGUI
+class ilLTIConsumeProviderSettingsGUI implements \ilCtrlCommandClass
 {
     public const CMD_SHOW_SETTINGS = 'showSettings';
     public const CMD_SAVE_SETTINGS = 'saveSettings';

@@ -29,7 +29,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * User action administration GUI class
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilUserActionAdminGUI
+class ilUserActionAdminGUI implements \ilCtrlCommandClass
 {
     private ilRbacSystem $rbabsystem;
     private int $ref_id;

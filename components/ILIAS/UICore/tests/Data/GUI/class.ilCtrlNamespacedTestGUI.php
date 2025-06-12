@@ -25,7 +25,7 @@ namespace ILIAS\Tests\Ctrl;
  *
  * @ilCtrl_isCalledBy ILIAS\Tests\Ctrl\ilCtrlNamespacedTestGUI : ilCtrlBaseClass1TestGUI
  */
-class ilCtrlNamespacedTestGUI
+class ilCtrlNamespacedTestGUI implements \ilCtrlCommandClass
 {
     public function executeCommand(): string
     {

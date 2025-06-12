@@ -28,7 +28,7 @@ use ILIAS\Cron\Job\JobManager;
  * @ilCtrl_Calls ilLPObjectStatisticsGUI: ilLPObjectStatisticsLPTableGUI
  * @package      ilias-tracking
  */
-class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
+class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI implements \ilCtrlCommandClass
 {
     protected JobManager $cronManager;
 

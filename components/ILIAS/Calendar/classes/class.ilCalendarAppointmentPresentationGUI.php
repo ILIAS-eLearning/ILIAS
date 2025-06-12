@@ -27,7 +27,7 @@ use ILIAS\HTTP\Services as HttpServices;
  * @author       Jesús López <lopez@leifos.com>
  * @ilCtrl_Calls ilCalendarAppointmentPresentationGUI: ilInfoScreenGUI, ilCalendarAppointmentGUI
  */
-class ilCalendarAppointmentPresentationGUI
+class ilCalendarAppointmentPresentationGUI implements \ilCtrlCommandClass
 {
     protected const MODE_MODAL = "modal";
     protected const MODE_LIST_ITEM = "list_item";

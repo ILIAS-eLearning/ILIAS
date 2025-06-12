@@ -22,7 +22,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCContentIncludeGUI extends ilPageContentGUI
+class ilPCContentIncludeGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected ilAccessHandler $access;
     protected ilTabsGUI $tabs;

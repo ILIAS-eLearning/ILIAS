@@ -23,7 +23,7 @@
  * @ilCtrl_Calls ilGlossaryDefPageGUI: ilPublicUserProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilGlossaryDefPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
  */
-class ilGlossaryDefPageGUI extends ilPageObjectGUI
+class ilGlossaryDefPageGUI extends ilPageObjectGUI implements \ilCtrlCommandClass
 {
     protected ?ilObjGlossary $glossary = null;
 

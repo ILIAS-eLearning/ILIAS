@@ -27,7 +27,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  * @ilCtrl_Calls ilObjItemGroupGUI: ILIAS\ILIASObject\Properties\Translations\TranslationGUI,
  * @ilCtrl_isCalledBy ilObjItemGroupGUI: ilRepositoryGUI, ilAdministrationGUI
  */
-class ilObjItemGroupGUI extends ilObject2GUI
+class ilObjItemGroupGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\ItemGroup\InternalGUIService $gui;
     protected StandardGUIRequest $ig_request;

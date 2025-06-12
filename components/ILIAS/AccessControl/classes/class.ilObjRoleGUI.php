@@ -32,7 +32,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
  * @ilCtrl_Calls ilObjRoleGUI: ilRepositorySearchGUI, ilExportGUI, ilRecommendedContentRoleConfigGUI
  * @ingroup      ServicesAccessControl
  */
-class ilObjRoleGUI extends ilObjectGUI
+class ilObjRoleGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     private const FORM_KEY_TITLE = 'title';
     private const FORM_KEY_DESCRIPTION = 'description';

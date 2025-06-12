@@ -21,7 +21,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilGlossaryEditorGUI: ilObjGlossaryGUI
  */
-class ilGlossaryEditorGUI implements ilCtrlBaseClassInterface
+class ilGlossaryEditorGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected int $requested_ref_id;
     protected \ILIAS\Glossary\Editing\EditingGUIRequest $request;

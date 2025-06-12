@@ -30,7 +30,7 @@ use ILIAS\Skill\Service\SkillInternalManagerService;
  * @ilCtrl_Calls ilObjSkillManagementGUI: ilPermissionGUI, ilSkillTreeAdminGUI
  * @ilCtrl_isCalledBy ilObjSkillManagementGUI: ilAdministrationGUI
  */
-class ilObjSkillManagementGUI extends ilObjectGUI
+class ilObjSkillManagementGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ilErrorHandling $error;
     protected ilTabsGUI $tabs;

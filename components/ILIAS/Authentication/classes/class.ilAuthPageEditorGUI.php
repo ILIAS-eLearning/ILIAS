@@ -26,7 +26,7 @@ use ILIAS\components\Authentication\Pages\AuthPageLanguagesOverviewTable;
  * @ilCtrl_isCalledBy ilAuthPageEditorGUI: ilObjAuthSettingsGUI
  * @ilCtrl_Calls      ilAuthPageEditorGUI: ilLoginPageGUI, ilLogoutPageGUI
  */
-class ilAuthPageEditorGUI
+class ilAuthPageEditorGUI implements \ilCtrlCommandClass
 {
     final public const DEFAULT_COMMAND = 'showPageEditorLanguages';
     final public const LANGUAGE_TABLE_ACTIONS_COMMAND = 'handlePageActions';

@@ -26,7 +26,7 @@ use ILIAS\Portfolio\Export\PortfolioHtmlExport;
  *
  * @ilCtrl_Calls ilExSubmissionObjectGUI:
  */
-class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
+class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI implements \ilCtrlCommandClass
 {
     protected int $user_id;
     protected $selected_wsp_obj_id;

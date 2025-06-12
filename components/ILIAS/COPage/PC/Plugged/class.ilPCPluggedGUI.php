@@ -21,7 +21,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCPluggedGUI extends ilPageContentGUI
+class ilPCPluggedGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected string $pluginname = "";
     protected ilTabsGUI $tabs;

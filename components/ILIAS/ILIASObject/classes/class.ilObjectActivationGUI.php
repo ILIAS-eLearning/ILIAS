@@ -25,7 +25,7 @@ declare(strict_types=1);
  *
  * @ilCtrl_Calls ilObjectActivationGUI: ilConditionHandlerGUI
  */
-class ilObjectActivationGUI
+class ilObjectActivationGUI implements \ilCtrlCommandClass
 {
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrl $ctrl;

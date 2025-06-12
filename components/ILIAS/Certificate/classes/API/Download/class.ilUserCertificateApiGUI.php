@@ -24,7 +24,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @ingroup ServicesCertificate
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilUserCertificateApiGUI
+class ilUserCertificateApiGUI implements \ilCtrlCommandClass
 {
     final public const CMD_DOWNLOAD = 'download';
 

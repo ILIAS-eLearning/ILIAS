@@ -25,7 +25,7 @@ use ILIAS\UI\Component\Item\Item;
  * @ilCtrl_IsCalledBy ilAppointmentPresentationEmployeeTalkGUI: ilCalendarAppointmentPresentationGUI
  * @ingroup           ServicesCalendar
  */
-class ilAppointmentPresentationEmployeeTalkGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
+class ilAppointmentPresentationEmployeeTalkGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation, \ilCtrlCommandClass
 {
     /**
      * ilAppointmentPresentationEmployeeTalkGUI constructor.

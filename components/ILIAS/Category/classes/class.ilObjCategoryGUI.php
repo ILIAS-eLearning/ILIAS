@@ -35,7 +35,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  * @ilCtrl_Calls ilObjCategoryGUI: ilRepositoryTrashGUI
  * @ingroup components\ILIASCategory
  */
-class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Settings\ModifierGUIInterface
+class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Settings\ModifierGUIInterface, \ilCtrlCommandClass
 {
     public const CONTAINER_SETTING_TAXBLOCK = "tax_sblock_";
     protected \ILIAS\Taxonomy\Service $taxonomy;

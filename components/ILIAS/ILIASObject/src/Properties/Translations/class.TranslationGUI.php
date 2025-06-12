@@ -35,7 +35,7 @@ use ILIAS\Data\Factory as DataFactory;
  *
  * @author Alex Killing <alex.killing@gmx.de>
  */
-class TranslationGUI
+class TranslationGUI implements \ilCtrlCommandClass
 {
     private const CMD_LIST_TRANSLATIONS = 'listTranslations';
     private const CMD_ADD_TRANSLATION = 'addTranslation';

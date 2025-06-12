@@ -29,7 +29,7 @@ declare(strict_types=1);
  *
  * @ilCtrl_Calls ilCmiXapiSettingsGUI: ilCertificateGUI
  */
-class ilCmiXapiSettingsGUI
+class ilCmiXapiSettingsGUI implements \ilCtrlCommandClass
 {
     public const CMD_SHOW = 'show';
     public const CMD_DELIVER_CERTIFICATE = 'deliverCertificate';

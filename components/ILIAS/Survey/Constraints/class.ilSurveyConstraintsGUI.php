@@ -20,7 +20,7 @@
  * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @ilCtrl_Calls ilSurveyConstraintsGUI:
  */
-class ilSurveyConstraintsGUI
+class ilSurveyConstraintsGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Survey\Editing\EditingGUIRequest $request;
     protected \ILIAS\Survey\Editing\EditManager $edit_manager;

@@ -21,7 +21,7 @@
  * Handles user commands on items of file lists
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCFileItemGUI extends ilPageContentGUI
+class ilPCFileItemGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected ilObjFile $file_object;
     protected ilTabsGUI $tabs;

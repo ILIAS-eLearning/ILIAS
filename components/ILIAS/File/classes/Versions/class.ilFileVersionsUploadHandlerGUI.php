@@ -29,7 +29,7 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
  *
  * @ilCtrl_isCalledBy ilFileVersionsUploadHandlerGUI : ilFileVersionsGUI
  */
-class ilFileVersionsUploadHandlerGUI extends AbstractCtrlAwareIRSSUploadHandler
+class ilFileVersionsUploadHandlerGUI extends AbstractCtrlAwareIRSSUploadHandler implements \ilCtrlCommandClass
 {
     public const MODE_APPEND = 'append';
     public const MODE_REPLACE = 'replace';

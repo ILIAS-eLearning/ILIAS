@@ -27,7 +27,7 @@ declare(strict_types=1);
  *
  * @package     Module/CmiXapi
  */
-class ilCmiXapiRegistrationGUI
+class ilCmiXapiRegistrationGUI implements \ilCtrlCommandClass
 {
     public const CMD_SHOW_FORM = 'showForm';
     public const CMD_SAVE_FORM = 'saveForm';

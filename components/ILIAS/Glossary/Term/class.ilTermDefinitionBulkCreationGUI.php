@@ -24,7 +24,7 @@ use ILIAS\Glossary\InternalGUIService;
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class ilTermDefinitionBulkCreationGUI
+class ilTermDefinitionBulkCreationGUI implements \ilCtrlCommandClass
 {
     protected InternalDomainService $domain;
     protected InternalGUIService $gui;

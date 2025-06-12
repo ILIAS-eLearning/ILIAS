@@ -24,7 +24,7 @@ declare(strict_types=0);
  * @ilCtrl_Calls ilLPListOfObjectsGUI: ilUserFilterGUI, ilTrUserObjectsPropsTableGUI, ilTrSummaryTableGUI, ilTrObjectUsersPropsTableGUI, ilTrMatrixTableGUI
  * @package      ilias-tracking
  */
-class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
+class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI implements \ilCtrlCommandClass
 {
     protected int $details_id = 0;
     protected int $details_obj_id = 0;

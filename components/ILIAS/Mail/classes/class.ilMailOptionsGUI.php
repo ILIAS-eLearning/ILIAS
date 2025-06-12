@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 
-class ilMailOptionsGUI
+class ilMailOptionsGUI implements \ilCtrlCommandClass
 {
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilCtrlInterface $ctrl;

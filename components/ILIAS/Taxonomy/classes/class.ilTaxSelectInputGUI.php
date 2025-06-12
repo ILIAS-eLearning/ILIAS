@@ -21,7 +21,7 @@
  * @author            Alexander Killing <killing@leifos.de>
  * @ilCtrl_IsCalledBy ilTaxSelectInputGUI: ilFormPropertyDispatchGUI
  */
-class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
+class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI implements \ilCtrlCommandClass
 {
     protected bool $multi_nodes;
     protected ilObjTaxonomy $tax;

@@ -27,7 +27,7 @@
  * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilBiblLibraryGUI
  * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilBiblAdminRisFieldGUI, ilBiblAdminBibtexFieldGUI
  */
-class ilObjBibliographicAdminGUI extends ilObjectGUI
+class ilObjBibliographicAdminGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     public const TAB_FIELDS = 'fields';
     public const TAB_SETTINGS = 'settings';

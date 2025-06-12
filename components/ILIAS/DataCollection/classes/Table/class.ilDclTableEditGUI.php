@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Container\Form\Form;
 
-class ilDclTableEditGUI
+class ilDclTableEditGUI implements \ilCtrlCommandClass
 {
     private ?int $table_id;
     private ilDclTable $table;

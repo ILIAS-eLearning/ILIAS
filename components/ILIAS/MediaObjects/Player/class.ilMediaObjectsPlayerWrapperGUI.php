@@ -24,7 +24,7 @@ use ILIAS\MediaObjects\InternalGUIService;
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilMediaObjectsPlayerWrapperGUI
+class ilMediaObjectsPlayerWrapperGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\MediaObjects\Tracking\TrackingManager $tracking;
     protected \ILIAS\MediaObjects\Player\PlayerGUIRequest $request;

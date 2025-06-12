@@ -50,7 +50,7 @@ use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
  * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjFileUploadHandlerGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceEditIntroGUI, ilObjLearningSequenceEditExtroGUI
  */
-class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClassInterface
+class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     public const CMD_VIEW = "view";
     public const CMD_LEARNER_VIEW = "learnerView";

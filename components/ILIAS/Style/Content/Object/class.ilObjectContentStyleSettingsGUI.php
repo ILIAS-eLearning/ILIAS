@@ -28,7 +28,7 @@ use ILIAS\Style\Content\InternalGUIService;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjectContentStyleSettingsGUI: ilObjStyleSheetGUI
  */
-class ilObjectContentStyleSettingsGUI
+class ilObjectContentStyleSettingsGUI implements \ilCtrlCommandClass
 {
     protected ObjectManager $object_manager;
     protected ContainerManager $container_manager;

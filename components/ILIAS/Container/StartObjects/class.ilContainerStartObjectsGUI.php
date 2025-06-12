@@ -24,7 +24,7 @@ use ILIAS\Container\StandardGUIRequest;
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilContainerStartObjectsGUI: ilContainerStartObjectsPageGUI
  */
-class ilContainerStartObjectsGUI
+class ilContainerStartObjectsGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs_gui;

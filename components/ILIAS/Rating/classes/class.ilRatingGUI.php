@@ -22,7 +22,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilRatingGUI: ilRatingCategoryGUI
  */
-class ilRatingGUI
+class ilRatingGUI implements \ilCtrlCommandClass
 {
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilLegalDocumentsAgreementGUI
+class ilLegalDocumentsAgreementGUI implements \ilCtrlCommandClass
 {
     public function executeCommand(): void
     {

@@ -30,7 +30,7 @@ use ILIAS\DI\UIServices;
  * @author
  * @ilCtrl_isCalledBy ilWebDAVMountInstructionsUploadGUI:  ilObjWebDAVGUI
  */
-class ilWebDAVMountInstructionsUploadGUI
+class ilWebDAVMountInstructionsUploadGUI implements \ilCtrlCommandClass
 {
     public const ACTION_SAVE_ADD_DOCUMENT_FORM = 'saveAddDocumentForm';
     public const ACTION_SAVE_EDIT_DOCUMENT_FORM = 'saveEditDocumentForm';

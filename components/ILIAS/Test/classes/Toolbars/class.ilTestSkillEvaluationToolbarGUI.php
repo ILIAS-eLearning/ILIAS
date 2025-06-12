@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  * @package components\ILIAS/Test
  */
-class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
+class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI implements \ilCtrlCommandClass
 {
     private array $available_skill_profiles;
     private bool $no_skill_profile_option_enabled;

@@ -33,7 +33,7 @@ use ILIAS\Filesystem\Stream\Streams;
 /**
  * @ilCtrl_Calls ilMailFolderGUI:
  */
-class ilMailFolderGUI
+class ilMailFolderGUI implements \ilCtrlCommandClass
 {
     // used as single element namespace for UrlBuilder
     // added with '_' before parameter names in queries from the table

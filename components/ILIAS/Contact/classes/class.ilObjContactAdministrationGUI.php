@@ -27,7 +27,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
  * @ilCtrl_Calls      ilObjContactAdministrationGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjContactAdministrationGUI: ilAdministrationGUI
  */
-class ilObjContactAdministrationGUI extends ilObject2GUI
+class ilObjContactAdministrationGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {

@@ -29,7 +29,7 @@ use ILIAS\UI\Renderer as UIRenderer;
  *
  * @ilCtrl_Calls ilTestPassDetailsOverviewTableGUI: ilFormPropertyDispatchGUI
  */
-class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
+class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI implements \ilCtrlCommandClass
 {
     private bool $answerListAnchorEnabled = false;
     private bool $showHintCount = false;

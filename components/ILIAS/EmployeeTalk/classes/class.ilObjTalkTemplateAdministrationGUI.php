@@ -29,7 +29,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls      ilObjTalkTemplateAdministrationGUI: ilObjTalkTemplateGUI
  * @ilCtrl_Calls      ilObjTalkTemplateAdministrationGUI: ilObjEmployeeTalkSeriesGUI
  */
-final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
+final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI implements \ilCtrlCommandClass
 {
     public function __construct()
     {

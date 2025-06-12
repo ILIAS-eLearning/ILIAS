@@ -23,7 +23,7 @@ use ILIAS\MediaCast\StandardGUIRequest;
  * auth
  * @ilCtrl_Calls ilMediaCastHandlerGUI: ilObjMediaCastGUI
  */
-class ilMediaCastHandlerGUI implements ilCtrlBaseClassInterface
+class ilMediaCastHandlerGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected \ILIAS\MediaCast\InternalGUIService $gui;
     protected \ILIAS\MediaCast\InternalDomainService $domain;

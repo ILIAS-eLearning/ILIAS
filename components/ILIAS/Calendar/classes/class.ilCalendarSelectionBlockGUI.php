@@ -27,7 +27,7 @@ use ILIAS\HTTP\Services as HttpServices;
  * @version $Id$
  * @ingroup ServicesCalendar
  */
-class ilCalendarSelectionBlockGUI extends ilBlockGUI
+class ilCalendarSelectionBlockGUI extends ilBlockGUI implements \ilCtrlCommandClass
 {
     public static string $block_type = "cal_sel";
 

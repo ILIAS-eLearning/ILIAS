@@ -35,7 +35,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @ilCtrl_Calls ilPageEditorGUI: ilPCConsultationHoursGUI, ilPCMyCoursesGUI, ilPCAMDPageListGUI
  * @ilCtrl_Calls ilPageEditorGUI: ilPCGridGUI, ilPCGridCellGUI, ilPageEditorServerAdapterGUI
  */
-class ilPageEditorGUI
+class ilPageEditorGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected ServerRequestInterface $http_request;

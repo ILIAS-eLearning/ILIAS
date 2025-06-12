@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Class ilGlobalUnitConfigurationGUI
  */
-class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
+class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI implements \ilCtrlCommandClass
 {
     public const REQUEST_PARAM_SUB_CONTEXT = 'context';
 

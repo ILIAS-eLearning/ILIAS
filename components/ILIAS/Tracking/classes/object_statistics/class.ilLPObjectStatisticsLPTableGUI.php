@@ -24,7 +24,7 @@ declare(strict_types=0);
  * @ilCtrl_Calls ilLPObjectStatisticsLPTableGUI: ilFormPropertyDispatchGUI
  * @ingroup      ServicesTracking
  */
-class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
+class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI implements \ilCtrlCommandClass
 {
     protected array $types = array("min", "avg", "max");
     protected array $status = array(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM,

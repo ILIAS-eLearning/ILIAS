@@ -21,7 +21,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilSurveySkillDeterminationGUI:
  */
-class ilSurveySkillDeterminationGUI
+class ilSurveySkillDeterminationGUI implements \ilCtrlCommandClass
 {
     protected ilGlobalTemplateInterface $tpl;
     protected ilObjSurvey $survey;

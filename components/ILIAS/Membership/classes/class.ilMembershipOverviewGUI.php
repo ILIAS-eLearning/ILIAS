@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilMembershipOverviewGUI: ilColumnGUI
  * @author       killing@leifos.de
  */
-class ilMembershipOverviewGUI implements ilCtrlBaseClassInterface
+class ilMembershipOverviewGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;

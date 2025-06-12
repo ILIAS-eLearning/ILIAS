@@ -26,7 +26,7 @@ use ILIAS\MyStaff\ListUsers\ilMStListUsersTableGUI;
  * @author            Martin Studer <ms@studer-raimann.ch>
  * @ilCtrl_IsCalledBy ilMStListUsersGUI: ilMyStaffGUI
  */
-class ilMStListUsersGUI
+class ilMStListUsersGUI implements \ilCtrlCommandClass
 {
     public const string CMD_RESET_FILTER = 'resetFilter';
     public const string CMD_APPLY_FILTER = 'applyFilter';

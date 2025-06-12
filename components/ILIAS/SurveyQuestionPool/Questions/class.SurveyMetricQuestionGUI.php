@@ -22,7 +22,7 @@
  * for metric survey question types.
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  */
-class SurveyMetricQuestionGUI extends SurveyQuestionGUI
+class SurveyMetricQuestionGUI extends SurveyQuestionGUI implements \ilCtrlCommandClass
 {
     protected function initObject(): void
     {

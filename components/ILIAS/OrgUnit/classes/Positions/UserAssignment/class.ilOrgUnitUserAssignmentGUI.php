@@ -28,7 +28,7 @@ use ILIAS\UI\Component\Table;
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @ilCtrl_Calls ilOrgUnitUserAssignmentGUI: ilRepositorySearchGUI
  */
-class ilOrgUnitUserAssignmentGUI extends BaseCommands
+class ilOrgUnitUserAssignmentGUI extends BaseCommands implements \ilCtrlCommandClass
 {
     public const SUBTAB_ASSIGNMENTS = 'user_assignments';
     public const SUBTAB_ASSIGNMENTS_RECURSIVE = 'user_assignments_recursive';

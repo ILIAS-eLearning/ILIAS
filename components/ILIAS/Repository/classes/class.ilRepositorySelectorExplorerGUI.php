@@ -27,7 +27,7 @@ use ILIAS\Repository\StandardGUIRequest;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
+class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI implements \ilCtrlCommandClass
 {
     private string $clickable_permission = 'read';
     protected ilObjectDefinition $obj_definition;

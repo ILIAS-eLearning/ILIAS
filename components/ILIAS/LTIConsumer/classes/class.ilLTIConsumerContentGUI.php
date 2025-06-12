@@ -27,7 +27,7 @@ declare(strict_types=1);
  *
  * @package components\ILIAS/LTIConsumer
  */
-class ilLTIConsumerContentGUI
+class ilLTIConsumerContentGUI implements \ilCtrlCommandClass
 {
     public const CMD_LAUNCH = 'launch';
     public const CMD_SHOW_EMBEDDED = 'showEmbedded';

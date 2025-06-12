@@ -28,7 +28,7 @@ use ILIAS\LearningModule\Table\TableAdapterGUI;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 
-class EditSubObjectsGUI
+class EditSubObjectsGUI implements \ilCtrlCommandClass
 {
     protected string $lang;
     protected array $page_layouts;

@@ -23,6 +23,6 @@
  *
  * @ilCtrl_Calls ilBiblAdminBibtexFieldGUI: ilBiblTranslationGUI
  */
-class ilBiblAdminBibtexFieldGUI extends ilBiblAdminFieldGUI
+class ilBiblAdminBibtexFieldGUI extends ilBiblAdminFieldGUI implements \ilCtrlCommandClass
 {
 }

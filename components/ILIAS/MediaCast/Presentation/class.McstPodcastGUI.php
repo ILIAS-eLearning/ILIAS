@@ -22,7 +22,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls McstPodcastGUI: ilMediaObjectsPlayerWrapperGUI
  */
-class McstPodcastGUI
+class McstPodcastGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\MediaCast\InternalGUIService $gui;
     protected \ILIAS\MediaCast\MediaCastManager $mc_manager;

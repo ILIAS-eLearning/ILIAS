@@ -31,7 +31,7 @@ use ILIAS\UI\Component\Launcher\Inline;
 use ILIAS\Data\Result;
 use ILIAS\UI\Component\Panel\Standard;
 
-class LaunchGUI
+class LaunchGUI implements \ilCtrlCommandClass
 {
     protected string $requested_code;
     protected FeatureConfig $feature_config;

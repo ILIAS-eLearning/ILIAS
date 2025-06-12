@@ -27,7 +27,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
  * @author            Stefan Meyer <smeyer.ilias@gmx.de>
  * @ilCtrl_IsCalledBy ilOrgUnitGlobalSettingsGUI: ilObjOrgUnitGUI
  */
-class ilOrgUnitGlobalSettingsGUI
+class ilOrgUnitGlobalSettingsGUI implements \ilCtrlCommandClass
 {
     protected const CMD_EDIT = 'edit';
     protected const CMD_SAVE = 'save';

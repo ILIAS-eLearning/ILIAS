@@ -27,7 +27,7 @@ use ILIAS\Glossary\Flashcard;
  * @author Thomas Famula <famula@leifos.de>
  * @ilCtrl_Calls ilGlossaryFlashcardGUI: ilGlossaryFlashcardBoxGUI
  */
-class ilGlossaryFlashcardGUI
+class ilGlossaryFlashcardGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;

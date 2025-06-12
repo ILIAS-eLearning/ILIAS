@@ -63,7 +63,7 @@ use ILIAS\Style\Content\Service as ContentStyle;
  * @ingroup components\ILIASTestQuestionPool
  *
  */
-class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
+class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     use TestQuestionsImportTrait;
 

@@ -20,7 +20,7 @@
  * Collects terms (reference or copy) from other glossaries
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilGlossaryForeignTermCollectorGUI
+class ilGlossaryForeignTermCollectorGUI implements \ilCtrlCommandClass
 {
     protected ilObjGlossary $foreign_glossary;
     protected \ILIAS\Glossary\Editing\EditingGUIRequest $request;

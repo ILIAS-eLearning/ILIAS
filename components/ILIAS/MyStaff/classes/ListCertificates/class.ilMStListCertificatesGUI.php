@@ -27,7 +27,7 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
  * @ilCtrl_Calls      ilMStListCertificatesGUI: ilFormPropertyDispatchGUI
  * @ilCtrl_Calls      ilMStListCertificatesGUI: ilUserCertificateApiGUI
  */
-class ilMStListCertificatesGUI
+class ilMStListCertificatesGUI implements \ilCtrlCommandClass
 {
     public const string CMD_APPLY_FILTER = 'applyFilter';
     public const string CMD_INDEX = 'index';

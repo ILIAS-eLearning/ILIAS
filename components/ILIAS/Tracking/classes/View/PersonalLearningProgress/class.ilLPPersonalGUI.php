@@ -34,7 +34,7 @@ use ILIAS\Data\URI as URI;
 /**
  * @ilCtrl_IsCalledBy ilLPPersonalGUI: ilDashboardGUI
  */
-class ilLPPersonalGUI
+class ilLPPersonalGUI implements \ilCtrlCommandClass
 {
     protected const PRESENTATION_OPTION_CURRENT = "current";
     protected const PRESENTATION_OPTION_FUTURE = "future";

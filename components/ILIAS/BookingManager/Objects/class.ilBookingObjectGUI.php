@@ -21,7 +21,7 @@
  * @ilCtrl_Calls ilBookingObjectGUI: ilPropertyFormGUI, ilBookingProcessWithScheduleGUI, ilBookingProcessWithoutScheduleGUI
  * @ilCtrl_Calls ilBookingObjectGUI: ilBookBulkCreationGUI
  */
-class ilBookingObjectGUI
+class ilBookingObjectGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\BookingManager\Objects\ObjectsManager $objects_manager;
     protected \ILIAS\BookingManager\Schedule\ScheduleManager $schedule_manager;

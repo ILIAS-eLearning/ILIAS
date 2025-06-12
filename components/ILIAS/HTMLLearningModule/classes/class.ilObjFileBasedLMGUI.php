@@ -31,7 +31,7 @@ use ILIAS\Filesystem\Stream\Streams;
  * @ilCtrl_Calls ilObjFileBasedLMGUI: ilExportGUI
  * @ilCtrl_Calls ilObjFileBasedLMGUI: ilContainerResourceGUI
  */
-class ilObjFileBasedLMGUI extends ilObjectGUI
+class ilObjFileBasedLMGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     private const PARAM_PATH = "path";
     public const CMD_LIST_FILES = "listFiles";

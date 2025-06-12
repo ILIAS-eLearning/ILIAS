@@ -23,7 +23,7 @@ declare(strict_types=1);
  *
  * @ilCtrl_isCalledBy ilPCPRGStatusInfoGUI: ilPageEditorGUI
  */
-class ilPCPRGStatusInfoGUI extends ilPageContentGUI
+class ilPCPRGStatusInfoGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     public const CMD_INSERT = 'insert';
     public const CMD_EDIT = 'edit';

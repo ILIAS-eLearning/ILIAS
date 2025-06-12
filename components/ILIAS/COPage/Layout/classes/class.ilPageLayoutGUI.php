@@ -25,7 +25,7 @@ use ILIAS\UI\Component\Input\Field\Radio;
  * @ilCtrl_Calls ilPageLayoutGUI: ilPageEditorGUI, ilEditClipboardGUI
  * @ilCtrl_Calls ilPageLayoutGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
-class ilPageLayoutGUI extends ilPageObjectGUI
+class ilPageLayoutGUI extends ilPageObjectGUI implements \ilCtrlCommandClass
 {
     protected ilTabsGUI $tabs;
     protected ilSetting $settings;

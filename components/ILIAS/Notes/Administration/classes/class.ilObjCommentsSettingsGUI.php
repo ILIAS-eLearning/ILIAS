@@ -22,7 +22,7 @@
  * @ilCtrl_Calls ilObjCommentsSettingsGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjCommentsSettingsGUI: ilAdministrationGUI
  */
-class ilObjCommentsSettingsGUI extends ilObjectGUI
+class ilObjCommentsSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ilRbacSystem $rbacsystem;
     /**

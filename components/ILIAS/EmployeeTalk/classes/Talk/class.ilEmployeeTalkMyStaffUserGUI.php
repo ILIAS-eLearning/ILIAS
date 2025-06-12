@@ -26,7 +26,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilEmployeeTalkMyStaffUserGUI: ilObjEmployeeTalkGUI
  * @ilCtrl_Calls ilEmployeeTalkMyStaffUserGUI: ilObjEmployeeTalkSeriesGUI
  */
-final class ilEmployeeTalkMyStaffUserGUI extends ilEmployeeTalkMyStaffBaseGUI
+final class ilEmployeeTalkMyStaffUserGUI extends ilEmployeeTalkMyStaffBaseGUI implements \ilCtrlCommandClass
 {
     private int $usr_id;
 

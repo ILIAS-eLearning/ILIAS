@@ -26,7 +26,7 @@ declare(strict_types=1);
 *
 * @ingroup components\ILIASGroup
 */
-class ilGroupRegistrationGUI extends ilRegistrationGUI
+class ilGroupRegistrationGUI extends ilRegistrationGUI implements \ilCtrlCommandClass
 {
     public function __construct(ilObject $a_container)
     {

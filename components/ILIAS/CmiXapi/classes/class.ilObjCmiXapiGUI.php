@@ -39,7 +39,7 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiScoringGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiExportGUI
  */
-class ilObjCmiXapiGUI extends ilObject2GUI
+class ilObjCmiXapiGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     public const TAB_ID_INFO = 'tab_info';
     public const TAB_ID_SETTINGS = 'tab_settings';

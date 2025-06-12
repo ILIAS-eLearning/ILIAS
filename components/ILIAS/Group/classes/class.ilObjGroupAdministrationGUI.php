@@ -28,7 +28,7 @@ declare(strict_types=1);
  *
  * @ingroup components\ILIASGroup
  */
-class ilObjGroupAdministrationGUI extends ilMembershipAdministrationGUI
+class ilObjGroupAdministrationGUI extends ilMembershipAdministrationGUI implements \ilCtrlCommandClass
 {
     protected function getType(): string
     {

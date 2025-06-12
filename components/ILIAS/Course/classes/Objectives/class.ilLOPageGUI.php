@@ -26,7 +26,7 @@ declare(strict_types=0);
  * @ilCtrl_Calls ilLOPageGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
  * @ingroup components\ILIASCourse
  */
-class ilLOPageGUI extends ilPageObjectGUI
+class ilLOPageGUI extends ilPageObjectGUI implements \ilCtrlCommandClass
 {
     public function __construct(int $a_id = 0, int $a_old_nr = 0, string $a_lang = "")
     {

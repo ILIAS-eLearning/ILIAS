@@ -25,7 +25,7 @@ use ILIAS\MediaCast\InternalGUIService;
 use ILIAS\Repository\Form\FormAdapterGUI;
 use ILIAS\MediaCast\InternalDataService;
 
-class SettingsGUI
+class SettingsGUI implements \ilCtrlCommandClass
 {
     protected \ilSetting $global_settings;
 

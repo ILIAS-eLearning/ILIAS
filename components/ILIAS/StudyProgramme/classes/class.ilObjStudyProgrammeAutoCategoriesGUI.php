@@ -35,7 +35,7 @@ use ILIAS\UI\Component\Modal\RoundTrip;
  *
  * @ilCtrl_Calls ilObjStudyProgrammeAutoCategoriesGUI: ilPropertyFormGUI
  */
-class ilObjStudyProgrammeAutoCategoriesGUI
+class ilObjStudyProgrammeAutoCategoriesGUI implements \ilCtrlCommandClass
 {
     private const F_CATEGORY_REF = 'f_cr';
     private const F_CATEGORY_ORIGINAL_REF = 'f_cr_org';

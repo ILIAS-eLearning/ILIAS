@@ -23,7 +23,7 @@ use ILIAS\Notes\Note;
 /**
  * @ilCtrl_Calls ilNoteGUI: ilCommentGUI
  */
-class ilNoteGUI
+class ilNoteGUI implements \ilCtrlCommandClass
 {
     /**
      * @var Note[]

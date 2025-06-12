@@ -40,7 +40,7 @@ use ILIAS\File\Capabilities\Capabilities;
  * @author Fabian Schmid <fabian@sr.solutions>
  * @ilCtrl_Calls ilFileVersionsGUI: ilWOPIEmbeddedApplicationGUI
  */
-class ilFileVersionsGUI
+class ilFileVersionsGUI implements \ilCtrlCommandClass
 {
     use ilObjFileCopyrightInput;
 

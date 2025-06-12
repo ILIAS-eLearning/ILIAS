@@ -22,7 +22,7 @@
  * for text survey question types.
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  */
-class SurveyTextQuestionGUI extends SurveyQuestionGUI
+class SurveyTextQuestionGUI extends SurveyQuestionGUI implements \ilCtrlCommandClass
 {
     protected function initObject(): void
     {

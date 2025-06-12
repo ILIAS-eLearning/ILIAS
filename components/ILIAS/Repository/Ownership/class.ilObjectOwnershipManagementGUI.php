@@ -27,7 +27,7 @@ use ILIAS\UI\Factory as UIFactory;
  *
  * @ilCtrl_Calls ilObjectOwnershipManagementGUI:
  */
-class ilObjectOwnershipManagementGUI
+class ilObjectOwnershipManagementGUI implements \ilCtrlCommandClass
 {
     public const P_OWNID = 'ownid';
     protected ilObjUser $user;

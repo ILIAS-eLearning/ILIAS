@@ -24,7 +24,7 @@ declare(strict_types=0);
  * @ingroup components\ILIASCourse
  * @ilCtrl_Calls ilCourseRegistrationGUI:
  */
-class ilCourseRegistrationGUI extends ilRegistrationGUI
+class ilCourseRegistrationGUI extends ilRegistrationGUI implements \ilCtrlCommandClass
 {
     private object $parent_gui;
 

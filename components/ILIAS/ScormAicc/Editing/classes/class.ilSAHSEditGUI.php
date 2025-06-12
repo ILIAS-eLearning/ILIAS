@@ -29,7 +29,7 @@ declare(strict_types=1);
 *
 * @ingroup components\ILIASScormAicc
 */
-class ilSAHSEditGUI implements ilCtrlBaseClassInterface
+class ilSAHSEditGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     private \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
     private \ILIAS\Refinery\Factory $refinery;

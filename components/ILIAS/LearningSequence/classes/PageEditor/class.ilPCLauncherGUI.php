@@ -23,7 +23,7 @@ declare(strict_types=1);
  *
  * @ilCtrl_isCalledBy ilPCLauncherGUI: ilPageEditorGUI
  */
-class ilPCLauncherGUI extends ilPageContentGUI
+class ilPCLauncherGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     public const CMD_INSERT = 'insert';
     public const CMD_EDIT = 'edit';

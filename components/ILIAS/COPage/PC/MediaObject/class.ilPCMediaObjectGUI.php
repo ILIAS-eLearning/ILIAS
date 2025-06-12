@@ -21,7 +21,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPCMediaObjectGUI: ilObjMediaObjectGUI, ilPCImageMapEditorGUI
  */
-class ilPCMediaObjectGUI extends ilPageContentGUI
+class ilPCMediaObjectGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected ilPropertyFormGUI $form;
     protected ilPropertyFormGUI $form_gui;

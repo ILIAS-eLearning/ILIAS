@@ -25,7 +25,7 @@ declare(strict_types=1);
  * @version $Id$
  * @ingroup ServicesAccessControl
  */
-class ilSettingsPermissionGUI
+class ilSettingsPermissionGUI implements \ilCtrlCommandClass
 {
     protected array $permissions = [];            // permissions selected by context
     protected array $base_permissions = [];        // base permissions of the object type (ops_id -> permission)

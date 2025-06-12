@@ -21,7 +21,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilTermDefinitionEditorGUI: ilGlossaryDefPageGUI
  */
-class ilTermDefinitionEditorGUI
+class ilTermDefinitionEditorGUI implements \ilCtrlCommandClass
 {
     protected ilObjGlossary $term_glossary;
     protected \ILIAS\Glossary\Editing\EditingGUIRequest $request;

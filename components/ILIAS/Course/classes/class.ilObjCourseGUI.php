@@ -43,7 +43,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ILIAS\ILIASObject\Properties\Translations\TranslationGUI, ilBookingGatewayGUI, ilRepositoryTrashGUI
  * @extends      ilContainerGUI
  */
-class ilObjCourseGUI extends ilContainerGUI
+class ilObjCourseGUI extends ilContainerGUI implements \ilCtrlCommandClass
 {
     public const BREADCRUMB_DEFAULT = 0;
     public const BREADCRUMB_CRS_ONLY = 1;

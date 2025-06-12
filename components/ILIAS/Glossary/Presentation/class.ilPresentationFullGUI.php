@@ -24,7 +24,7 @@ use ILIAS\Glossary\Presentation;
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class ilPresentationFullGUI
+class ilPresentationFullGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Style\Content\Service $content_style;
     protected ilObjUser $user;

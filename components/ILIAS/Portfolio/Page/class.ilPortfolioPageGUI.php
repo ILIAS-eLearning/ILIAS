@@ -23,7 +23,7 @@
  * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI, ilPublicUserProfileGUI
  * @ilCtrl_Calls ilPortfolioPageGUI: ilCalendarMonthGUI, ilConsultationHoursGUI, ilLearningHistoryGUI
  */
-class ilPortfolioPageGUI extends ilPageObjectGUI
+class ilPortfolioPageGUI extends ilPageObjectGUI implements \ilCtrlCommandClass
 {
     public const EMBEDDED_NO_OUTPUT = -99;
     protected bool $enable_comments;

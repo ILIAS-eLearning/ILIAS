@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author Stefan Meyer <meyer@leifos.com>
  * @ilCtrl_Calls ilObjObjectFolderGUI: ilPermissionGUI
  */
-class ilObjObjectFolderGUI extends ilObjectGUI
+class ilObjObjectFolderGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     /**
      * @param mixed $data              basic object data

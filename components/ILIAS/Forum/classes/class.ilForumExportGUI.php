@@ -26,7 +26,7 @@ use ILIAS\Refinery\Factory as Refinery;
  * @author Wolfgang Merkens <wmerkens@databay.de>
  * @ingroup components\ILIASForum
  */
-class ilForumExportGUI
+class ilForumExportGUI implements \ilCtrlCommandClass
 {
     private const int MODE_EXPORT_WEB = 1;
     private const int MODE_EXPORT_CLIENT = 2;

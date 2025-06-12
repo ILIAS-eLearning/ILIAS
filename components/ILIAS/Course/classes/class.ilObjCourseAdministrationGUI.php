@@ -24,7 +24,7 @@ declare(strict_types=0);
  * @ilCtrl_Calls ilObjCourseAdministrationGUI: ilPermissionGUI, ilMemberExportSettingsGUI, ilUserActionadminGUI
  * @ingroup components\ILIASCourse
  */
-class ilObjCourseAdministrationGUI extends ilMembershipAdministrationGUI
+class ilObjCourseAdministrationGUI extends ilMembershipAdministrationGUI implements \ilCtrlCommandClass
 {
     private const SETTING_COURSES_AND_GROUPS_ENABLED = 'mmbr_my_crs_grp';
 

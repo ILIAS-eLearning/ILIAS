@@ -41,7 +41,7 @@ use ILIAS\StaticURL\Services as StaticUrlServices;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI, ilUserPrivacySettingsGUI, ilLegalDocumentsAgreementGUI, ilLegalDocumentsWithdrawalGUI
  */
-class ilPersonalProfileGUI
+class ilPersonalProfileGUI implements \ilCtrlCommandClass
 {
     private const PERSONAL_DATA_FORM_ID = 'pd';
     public const CHANGE_EMAIL_CMD = 'changeEmail';

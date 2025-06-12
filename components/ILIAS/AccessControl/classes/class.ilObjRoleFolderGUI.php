@@ -28,7 +28,7 @@ use ILIAS\UI\Factory as UIFactory;
  * @ilCtrl_Calls ilObjRoleFolderGUI: ilPermissionGUI
  * @ingroup      ServicesAccessControl
  */
-class ilObjRoleFolderGUI extends ilObjectGUI
+class ilObjRoleFolderGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     private const COPY_ADD_PERMISSIONS = 1;
     private const COPY_CLONE_PERMISSIONS = 2;

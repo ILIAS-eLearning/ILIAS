@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @ilCtrl_isCalledBy ilObjLegalDocumentsGUI: ilAdministrationGUI
  * @ilCtrl_isCalledBy ilObjLegalDocumentsGUI: ilRepositoryGUI
  */
-class ilObjLegalDocumentsGUI extends ilObject2GUI
+class ilObjLegalDocumentsGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     public const TYPE = 'ldoc';
 

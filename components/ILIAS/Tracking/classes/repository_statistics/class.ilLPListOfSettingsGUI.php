@@ -28,7 +28,7 @@ use ILIAS\Tracking\View\ProgressBlock\Settings\RepositoryInterface as ProgressBl
  * @ilCtrl_Calls ilLPListOfSettingsGUI:
  * @ingroup      ServicesTracking
  */
-class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
+class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI implements \ilCtrlCommandClass
 {
     protected ilLPObjSettings $obj_settings;
     protected ilObjectLP $obj_lp;

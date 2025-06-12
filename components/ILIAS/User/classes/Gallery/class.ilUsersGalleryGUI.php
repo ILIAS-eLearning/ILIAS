@@ -31,7 +31,7 @@ use ILIAS\Refinery\Factory as Refinery;
  * @ilCtrl_Calls ilUsersGalleryGUI: ilPublicUserProfileGUI
  * @ilCtrl_isCalledBy ilUsersGalleryGUI: ilCourseMembershipGUI, ilGroupMembershipGUI
  */
-class ilUsersGalleryGUI
+class ilUsersGalleryGUI implements \ilCtrlCommandClass
 {
     private ilCtrl $ctrl;
     private ilGlobalTemplateInterface $tpl;

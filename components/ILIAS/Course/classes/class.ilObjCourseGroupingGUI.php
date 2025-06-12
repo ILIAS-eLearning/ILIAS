@@ -25,7 +25,7 @@ use ILIAS\Refinery\Factory;
  * Class ilObjCourseGroupingGUI
  * @author your name <your email>
  */
-class ilObjCourseGroupingGUI
+class ilObjCourseGroupingGUI implements \ilCtrlCommandClass
 {
     private ilObjCourseGrouping $grp_obj;
     private int $id;

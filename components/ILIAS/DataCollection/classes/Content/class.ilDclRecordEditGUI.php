@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilDclRecordEditGUI
+class ilDclRecordEditGUI implements \ilCtrlCommandClass
 {
     /**
      * Possible redirects after saving/updating a record - use GET['redirect'] to set constants

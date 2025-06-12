@@ -26,7 +26,7 @@ use ILIAS\Bibliographic\FieldFilter\Table;
  * @author Benjamin Seglias   <bs@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilBiblFieldFilterGUI
+class ilBiblFieldFilterGUI implements \ilCtrlCommandClass
 {
     use DIC;
 

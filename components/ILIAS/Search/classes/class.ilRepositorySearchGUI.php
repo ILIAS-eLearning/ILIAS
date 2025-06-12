@@ -35,7 +35,7 @@ use ILIAS\Refinery\Factory as RefineryFactory;
 * @ilCtrl_Calls ilRepositorySearchGUI: ilPropertyFormGUI
 *
 */
-class ilRepositorySearchGUI
+class ilRepositorySearchGUI implements \ilCtrlCommandClass
 {
     private array $search_results = [];
 

@@ -26,7 +26,7 @@ use ILIAS\MyStaff\ListCourses\ilMStListCourse;
  * @author Martin Studer <ms@studer-raimann.ch>
  * @ilCtrl_Calls ilMStShowUserCoursesTableGUI: ilFormPropertyDispatchGUI
  */
-class ilMStShowUserCoursesTableGUI extends ilTable2GUI
+class ilMStShowUserCoursesTableGUI extends ilTable2GUI implements \ilCtrlCommandClass
 {
     protected int $usr_id;
     protected array $filter = array();

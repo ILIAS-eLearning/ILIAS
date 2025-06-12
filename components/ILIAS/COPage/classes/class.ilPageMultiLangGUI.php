@@ -25,7 +25,7 @@ use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRe
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPageMultiLangGUI
+class ilPageMultiLangGUI implements \ilCtrlCommandClass
 {
     protected Translations $ot;
     protected \ilCtrl $ctrl;

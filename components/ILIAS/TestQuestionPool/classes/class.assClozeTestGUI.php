@@ -36,7 +36,7 @@ use ILIAS\Refinery\Random\Seed;
  * @ingroup 	ModulesTestQuestionPool
  * @ilCtrl_Calls assClozeTestGUI: ilFormPropertyDispatchGUI
  */
-class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
+class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable, \ilCtrlCommandClass
 {
     public const JS_INSERT_GAP_CODE_AT_CARET = <<<JS
     jQuery.fn.extend({

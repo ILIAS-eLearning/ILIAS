@@ -25,7 +25,7 @@ use ILIAS\Blog\InternalGUIService;
 use ILIAS\Repository\Form\FormAdapterGUI;
 use ILIAS\Blog\InternalDataService;
 
-class SettingsGUI
+class SettingsGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Blog\ReadingTime\BlogSettingsGUI $reading_time_gui;
     protected \ilSetting $global_settings;

@@ -34,7 +34,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  * @ilCtrl_Calls ilDashboardGUI: ilSelectedItemsBlockGUI, ilDashboardRecommendedContentGUI, ilMembershipBlockGUI, ilDashboardLearningSequenceGUI, ilStudyProgrammeDashboardViewGUI, ilObjStudyProgrammeGUI
  * @ilCtrl_Calls ilDashboardGUI: ilObjIndividualAssessmentGUI
  */
-class ilDashboardGUI implements ilCtrlBaseClassInterface
+class ilDashboardGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     public const CMD_JUMP_TO_MY_STAFF = 'jumpToMyStaff';
     public const DISENGAGE_MAINBAR = 'dash_mb_disengage';

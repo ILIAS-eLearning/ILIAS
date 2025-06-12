@@ -40,7 +40,7 @@ use ILIAS\Data\Factory as DataFactory;
  * @ilCtrl_IsCalledBy ilDidacticTemplateSettingsGUI: ilObjRoleFolderGUI
  * @ilCtrl_Calls      ilDidacticTemplateSettingsGUI: ilMultilingualismGUI, ilPropertyFormGUI
  */
-class ilDidacticTemplateSettingsGUI
+class ilDidacticTemplateSettingsGUI implements \ilCtrlCommandClass
 {
     protected UIRenderer $renderer;
     protected UIFactory $ui_factory;

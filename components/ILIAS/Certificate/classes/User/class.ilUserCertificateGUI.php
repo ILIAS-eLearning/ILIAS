@@ -28,7 +28,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 /**
  * @ilCtrl_IsCalledBy ilUserCertificateGUI: ilAchievementsGUI
  */
-class ilUserCertificateGUI
+class ilUserCertificateGUI implements \ilCtrlCommandClass
 {
     final public const SORTATION_SESSION_KEY = 'my_certificates_sorting';
 

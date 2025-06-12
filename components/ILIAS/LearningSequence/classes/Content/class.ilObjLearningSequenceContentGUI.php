@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Refinery\Factory;
 
-class ilObjLearningSequenceContentGUI
+class ilObjLearningSequenceContentGUI implements \ilCtrlCommandClass
 {
     public const CMD_MANAGE_CONTENT = "manageContent";
     public const CMD_SAVE = "save";

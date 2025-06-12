@@ -27,7 +27,7 @@ use ILIAS\Exercise\GUIRequest;
  * @ilCtrl_Calls ilExSubmissionGUI: ilExSubmissionTextGUI, ilExSubmissionObjectGUI
  * @ilCtrl_Calls ilExSubmissionGUI: ilExPeerReviewGUI
  */
-class ilExSubmissionGUI
+class ilExSubmissionGUI implements \ilCtrlCommandClass
 {
     public const MODE_OVERVIEW_CONTENT = 1;
     protected \ILIAS\Exercise\InternalDomainService $domain;

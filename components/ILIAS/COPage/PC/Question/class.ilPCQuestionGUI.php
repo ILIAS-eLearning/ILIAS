@@ -23,7 +23,7 @@ use ILIAS\Test\Settings\GlobalSettings\Repository as TestSettingsRepository;
  * Adapter User Interface class for assessment questions
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCQuestionGUI extends ilPageContentGUI
+class ilPCQuestionGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\TestQuestionPool\Questions\PublicInterface $questioninfo;
     protected ilPropertyFormGUI $form_gui;

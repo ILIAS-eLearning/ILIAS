@@ -30,7 +30,7 @@ use ILIAS\UI\Renderer as UIRenderer;
  * @ilCtrl_Calls ilLuceneSearchGUI: ilObjStudyProgrammeGUI
  * @ilCtrl_Calls ilLuceneSearchGUI: ilObjRootFolderGUI, ilObjectCopyGUI
  */
-class ilLuceneSearchGUI extends ilSearchBaseGUI
+class ilLuceneSearchGUI extends ilSearchBaseGUI implements \ilCtrlCommandClass
 {
     protected ilTabsGUI $tabs;
     protected ilHelpGUI $help;

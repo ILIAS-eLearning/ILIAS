@@ -28,7 +28,7 @@ use ILIAS\Data\URI;
  * @author       Thibeau Fuhrer <thibeau@sr.solutions>
  * @noinspection AutoloadingIssuesInspection
  */
-class ilUIMarkdownPreviewGUI implements MarkdownRenderer, ilCtrlBaseClassInterface
+class ilUIMarkdownPreviewGUI implements MarkdownRenderer, ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     protected const CMD_RENDER_ASYNC = 'renderAsync';
 

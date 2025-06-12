@@ -25,7 +25,7 @@ use ILIAS\DI\UIServices;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPageLayoutAdministrationGUI: ilPageLayoutGUI
  */
-class ilPageLayoutAdministrationGUI
+class ilPageLayoutAdministrationGUI implements \ilCtrlCommandClass
 {
     protected AdministrationGUIRequest $admin_request;
     protected ?int $pg_id = null;

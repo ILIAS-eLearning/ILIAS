@@ -25,7 +25,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilStudyProgrammeTypeGUI
  * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilPermissionGUI
  */
-class ilObjStudyProgrammeAdminGUI extends ilMembershipAdministrationGUI
+class ilObjStudyProgrammeAdminGUI extends ilMembershipAdministrationGUI implements \ilCtrlCommandClass
 {
     protected ilErrorHandling $error;
     protected ilStudyProgrammeTypeGUI $type_gui;

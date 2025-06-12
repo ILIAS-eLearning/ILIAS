@@ -25,7 +25,7 @@ use ILIAS\MyStaff\ilMyStaffAccess;
  * @ilCtrl_IsCalledBy ilMStShowUserCoursesGUI: ilMStShowUserGUI
  * @ilCtrl_Calls      ilMStShowUserCoursesGUI: ilMStShowUserCoursesTableGUI
  */
-class ilMStShowUserCoursesGUI
+class ilMStShowUserCoursesGUI implements \ilCtrlCommandClass
 {
     public const string CMD_INDEX = 'index';
     public const string CMD_RESET_FILTER = 'resetFilter';

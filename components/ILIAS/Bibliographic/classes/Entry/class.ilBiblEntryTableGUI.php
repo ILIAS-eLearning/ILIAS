@@ -25,7 +25,7 @@ use ILIAS\UI\Component\Input\Container\Filter\Standard as StandardFilter;
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Table\Presentation as PresentationTable;
 
-class ilBiblEntryTableGUI
+class ilBiblEntryTableGUI implements \ilCtrlCommandClass
 {
     public const P_PAGE = 'page';
     public const P_SORTATION = 'sortation';

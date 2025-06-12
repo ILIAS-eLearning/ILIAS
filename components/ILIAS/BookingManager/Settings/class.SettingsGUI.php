@@ -29,7 +29,7 @@ use ilDidacticTemplateGUI;
 /**
  * @ilCtrl_Calls ILIAS\BookingManager\Settings\SettingsGUI: ilDidacticTemplateGUI
  */
-class SettingsGUI
+class SettingsGUI implements \ilCtrlCommandClass
 {
     public function __construct(
         protected InternalDataService $data,

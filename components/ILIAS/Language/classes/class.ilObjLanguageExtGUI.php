@@ -37,7 +37,7 @@ use ILIAS\Refinery\Factory as Refinery;
 *
 * @ingroup ServicesLanguage
 */
-class ilObjLanguageExtGUI extends ilObjectGUI
+class ilObjLanguageExtGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     private const ILIAS_LANGUAGE_MODULE = "components/ILIAS/Language";
     private string $langmode;

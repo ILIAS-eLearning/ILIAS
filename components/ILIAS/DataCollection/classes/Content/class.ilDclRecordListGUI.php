@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilDclRecordListGUI
+class ilDclRecordListGUI implements \ilCtrlCommandClass
 {
     public const GET_TABLE_ID = 'table_id';
     public const GET_TABLEVIEW_ID = 'tableview_id';

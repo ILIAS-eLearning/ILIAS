@@ -28,7 +28,7 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * @ilCtrl_Calls ilIndividualAssessmentSettingsGUI: ilIndividualAssessmentCommonSettingsGUI
  */
-class ilIndividualAssessmentSettingsGUI
+class ilIndividualAssessmentSettingsGUI implements \ilCtrlCommandClass
 {
     public const TAB_EDIT = 'settings';
     public const TAB_EDIT_INFO = 'infoSettings';

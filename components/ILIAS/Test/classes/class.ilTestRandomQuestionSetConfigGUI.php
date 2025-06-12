@@ -42,7 +42,7 @@ use ILIAS\UI\Renderer as UIRenderer;
  * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilRepositorySelectorExplorerGUI
  * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetPoolDefinitionFormGUI
  */
-class ilTestRandomQuestionSetConfigGUI
+class ilTestRandomQuestionSetConfigGUI implements \ilCtrlCommandClass
 {
     public const CMD_SHOW_GENERAL_CONFIG_FORM = 'showGeneralConfigForm';
     public const CMD_SAVE_GENERAL_CONFIG_FORM = 'saveGeneralConfigForm';

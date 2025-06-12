@@ -22,6 +22,6 @@ declare(strict_types=1);
  * Class ilObjLearningSequenceEditIntroGUI
  * @ilCtrl_Calls    ilObjLearningSequenceEditIntroGUI: ilPageEditorGUI, ilEditClipboardGUI
  */
-class ilObjLearningSequenceEditIntroGUI extends ilLearningSequencePageObjectGUI
+class ilObjLearningSequenceEditIntroGUI extends ilLearningSequencePageObjectGUI implements \ilCtrlCommandClass
 {
 }

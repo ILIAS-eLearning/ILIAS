@@ -28,7 +28,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilSessionMembershipGUI: ilMemberExportGUI
  *
  */
-class ilSessionMembershipGUI extends ilMembershipGUI
+class ilSessionMembershipGUI extends ilMembershipGUI implements \ilCtrlCommandClass
 {
     protected array $requested_visible_participants = [];
     protected array $requested_participated = [];

@@ -24,7 +24,7 @@
  *
  * @ilCtrl_Calls assKprimChoiceGUI: ilPropertyFormGUI, ilFormPropertyDispatchGUI
  */
-class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
+class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable, \ilCtrlCommandClass
 {
     private bool $rebuild_thumbnails = false;
     private ?ilPropertyFormGUI $edit_form = null;

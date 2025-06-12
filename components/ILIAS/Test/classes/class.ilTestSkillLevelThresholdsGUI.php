@@ -28,7 +28,7 @@ use ILIAS\Test\RequestDataCollector;
  *
  * @ilCtrl_Calls ilTestSkillLevelThresholdsGUI: ilTestSkillLevelThresholdsTableGUI
  */
-class ilTestSkillLevelThresholdsGUI
+class ilTestSkillLevelThresholdsGUI implements \ilCtrlCommandClass
 {
     public const CMD_SHOW_SKILL_THRESHOLDS = 'showSkillThresholds';
     public const CMD_SAVE_SKILL_THRESHOLDS = 'saveSkillThresholds';

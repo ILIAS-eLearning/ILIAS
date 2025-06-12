@@ -32,7 +32,7 @@
  * @ingroup components\ILIASTestQuestionPool
  * @ilCtrl_Calls assNumericGUI: ilFormPropertyDispatchGUI
  */
-class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
+class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable, \ilCtrlCommandClass
 {
     /**
      * assNumericGUI constructor

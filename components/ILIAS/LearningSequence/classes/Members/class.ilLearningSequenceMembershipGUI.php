@@ -29,7 +29,7 @@ use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
  * @ilCtrl_Calls ilLearningSequenceMembershipGUI: ilMemberExportGUI
  *
  */
-class ilLearningSequenceMembershipGUI extends ilMembershipGUI
+class ilLearningSequenceMembershipGUI extends ilMembershipGUI implements \ilCtrlCommandClass
 {
     public function __construct(
         ilObjectGUI $repository_gui,

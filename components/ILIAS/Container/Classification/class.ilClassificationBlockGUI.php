@@ -23,7 +23,7 @@ use ILIAS\Container\Classification\StandardGUIRequest;
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_IsCalledBy ilClassificationBlockGUI: ilColumnGUI
  */
-class ilClassificationBlockGUI extends ilBlockGUI
+class ilClassificationBlockGUI extends ilBlockGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Container\Classification\ClassificationManager $classification;
     protected StandardGUIRequest $cl_request;

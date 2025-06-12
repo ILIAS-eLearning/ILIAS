@@ -29,7 +29,7 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class ilPresentationTableGUI
+class ilPresentationTableGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Style\Content\Service $content_style;
     protected ilObjUser $user;

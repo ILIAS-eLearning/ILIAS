@@ -27,7 +27,7 @@ use ILIAS\Mail\Service\MailSignatureService;
 /**
  * @ilCtrl_Calls ilObjMailGUI: ilPermissionGUI
  */
-class ilObjMailGUI extends ilObjectGUI
+class ilObjMailGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     private const string SETTINGS_SUB_TAB_ID_GENERAL = 'settings_general';
     private const string SETTINGS_SUB_TAB_ID_EXTERNAL = 'settings_external';

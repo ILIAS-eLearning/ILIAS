@@ -27,7 +27,7 @@ declare(strict_types=1);
  *
  * @package     Module/LTIConsumer
  */
-class ilLTIConsumerXapiStatementsGUI
+class ilLTIConsumerXapiStatementsGUI implements \ilCtrlCommandClass
 {
     /**
      * @var ilObjLTIConsumer

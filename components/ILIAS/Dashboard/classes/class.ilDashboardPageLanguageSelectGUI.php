@@ -26,7 +26,7 @@ use ILIAS\UI\URLBuilder;
 /**
  * @@ilCtrl_isCalledBy ilDashboardPageLanguageSelectGUI: ilObjDashboardSettingsGUI
  */
-class ilDashboardPageLanguageSelectGUI
+class ilDashboardPageLanguageSelectGUI implements \ilCtrlCommandClass
 {
     protected Container $dic;
     private ilDashboardPage $page;

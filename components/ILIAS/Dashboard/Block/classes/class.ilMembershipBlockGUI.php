@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\components\Dashboard\Block\BlockDTO;
 
-class ilMembershipBlockGUI extends ilDashboardBlockGUI
+class ilMembershipBlockGUI extends ilDashboardBlockGUI implements \ilCtrlCommandClass
 {
     public function initViewSettings(): void
     {

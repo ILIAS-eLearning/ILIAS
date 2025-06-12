@@ -24,7 +24,7 @@ use ILIAS\Exercise\InternalGUIService;
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class ilExerciseSubmissionFeedbackGUI
+class ilExerciseSubmissionFeedbackGUI implements \ilCtrlCommandClass
 {
     protected InternalDomainService $domain;
     protected InternalGUIService $gui;

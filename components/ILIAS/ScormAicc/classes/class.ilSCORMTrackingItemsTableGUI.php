@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @ingroup components\ILIASScormAicc
  */
-class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
+class ilSCORMTrackingItemsTableGUI extends ilTable2GUI implements \ilCtrlCommandClass
 {
     private int $obj_id;
     private int $user_id = 0;

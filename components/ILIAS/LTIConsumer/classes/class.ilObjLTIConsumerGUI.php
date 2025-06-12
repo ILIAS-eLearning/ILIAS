@@ -38,7 +38,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerContentGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerGradeSynchronizationGUI
  */
-class ilObjLTIConsumerGUI extends ilObject2GUI
+class ilObjLTIConsumerGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     public const CFORM_CUSTOM_NEW = 99;
     public const CFORM_DYNAMIC_REGISTRATION = 98; //

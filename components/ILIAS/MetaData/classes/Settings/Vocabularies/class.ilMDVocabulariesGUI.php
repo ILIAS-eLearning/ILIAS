@@ -41,7 +41,7 @@ use ILIAS\UICore\GlobalTemplate;
 /**
  * @ilCtrl_Calls ilMDVocabulariesGUI: ilMDVocabularyUploadHandlerGUI
  */
-class ilMDVocabulariesGUI
+class ilMDVocabulariesGUI implements \ilCtrlCommandClass
 {
     protected const int MAX_CONFIRMATION_VALUES = 5;
 

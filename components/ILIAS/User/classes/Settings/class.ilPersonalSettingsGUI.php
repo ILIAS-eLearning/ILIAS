@@ -28,7 +28,7 @@ use ILIAS\UI\Renderer;
  * @author       Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPersonalSettingsGUI: ilMailOptionsGUI, ilLocalUserPasswordSettingsGUI
  */
-class ilPersonalSettingsGUI
+class ilPersonalSettingsGUI implements \ilCtrlCommandClass
 {
     private ilPropertyFormGUI $form;
     private ilGlobalTemplateInterface $tpl;

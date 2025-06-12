@@ -24,7 +24,7 @@ use ILIAS\MediaObjects\ImageMap\ImageMapGUIRequest;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilImageMapEditorGUI: ilInternalLinkGUI
  */
-class ilImageMapEditorGUI
+class ilImageMapEditorGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected ilObjMediaObject $media_object;

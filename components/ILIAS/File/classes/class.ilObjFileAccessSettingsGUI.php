@@ -37,7 +37,7 @@ use ILIAS\components\File\Settings\General;
  *
  * @extends      ilObjectGUI
  */
-class ilObjFileAccessSettingsGUI extends ilObjectGUI
+class ilObjFileAccessSettingsGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     public const CMD_EDIT_SETTINGS = 'editSettings';
     public const CMD_SHOW_PREVIEW_RENDERERS = 'showPreviewRenderers';

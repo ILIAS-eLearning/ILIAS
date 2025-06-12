@@ -25,7 +25,7 @@ use ILIAS\UI\Renderer;
 /**
  * Class ilAccessibilityDocumentGUI
  */
-class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
+class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled, \ilCtrlCommandClass
 {
     protected ilAccessibilityTableDataProviderFactory $tableDataProviderFactory;
     protected ilObjAccessibilitySettings $accs;

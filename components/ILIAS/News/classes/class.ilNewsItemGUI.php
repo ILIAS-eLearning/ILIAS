@@ -24,7 +24,7 @@ use ILIAS\News\Access\NewsAccess;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilNewsItemGUI
+class ilNewsItemGUI implements \ilCtrlCommandClass
 {
     public const FORM_EDIT = 0;
     public const FORM_CREATE = 1;

@@ -26,7 +26,7 @@ use ILIAS\Refinery\Factory as Refinery;
 * @author Jens Conze
 * @ingroup ServicesMail
 */
-class ilMailSearchGUI
+class ilMailSearchGUI implements \ilCtrlCommandClass
 {
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilCtrlInterface $ctrl;

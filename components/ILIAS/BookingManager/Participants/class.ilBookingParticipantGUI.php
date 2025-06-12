@@ -21,7 +21,7 @@
  * @author Jesús López <lopez@leifos.com>
  * @ilCtrl_Calls ilBookingParticipantGUI: ilRepositorySearchGUI
  */
-class ilBookingParticipantGUI
+class ilBookingParticipantGUI implements \ilCtrlCommandClass
 {
     public const FILTER_ACTION_APPLY = 1;
     public const FILTER_ACTION_RESET = 2;

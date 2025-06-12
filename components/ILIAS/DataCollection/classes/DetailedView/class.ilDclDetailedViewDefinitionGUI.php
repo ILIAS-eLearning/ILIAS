@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
-class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
+class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI implements \ilCtrlCommandClass
 {
     private ilLocatorGUI $locator;
     protected int $tableview_id;

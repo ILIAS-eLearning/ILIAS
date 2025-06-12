@@ -22,7 +22,7 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilBookingScheduleGUI:
  */
-class ilBookingScheduleGUI
+class ilBookingScheduleGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\BookingManager\Access\AccessManager $access;
     protected \ILIAS\BookingManager\StandardGUIRequest $book_request;

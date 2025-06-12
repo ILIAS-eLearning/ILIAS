@@ -25,7 +25,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilCalendarDayGUI: ilCalendarAppointmentPresentationGUI
  * @ingroup      ServicesCalendar
  */
-class ilCalendarDayGUI extends ilCalendarViewGUI
+class ilCalendarDayGUI extends ilCalendarViewGUI implements \ilCtrlCommandClass
 {
     protected array $seed_info = [];
     protected ilCalendarUserSettings $user_settings;

@@ -23,7 +23,7 @@ use ILIAS\Contact\MailingLists\MailingListsTable;
 use ILIAS\Contact\MailingLists\MailingListsMembersTable;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
-class ilMailingListsGUI
+class ilMailingListsGUI implements \ilCtrlCommandClass
 {
     private readonly \ILIAS\HTTP\GlobalHttpState $http;
     private readonly Refinery $refinery;

@@ -21,7 +21,7 @@
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjTaxonomyAdministrationGUI: ilPermissionGUI
  */
-class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
+class ilObjTaxonomyAdministrationGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected ilRbacSystem $rbacsystem;
 

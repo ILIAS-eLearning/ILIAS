@@ -21,7 +21,7 @@
  * Handles user commands on table data elements (table cells)
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCTableDataGUI extends ilPageContentGUI
+class ilPCTableDataGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     public function __construct(
         ilPageObject $a_pg_obj,

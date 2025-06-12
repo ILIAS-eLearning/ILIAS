@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilForumModeratorsGUI: ilRepositorySearchGUI
  * @ingroup      components\ILIASForum
  */
-class ilForumModeratorsGUI
+class ilForumModeratorsGUI implements \ilCtrlCommandClass
 {
     private readonly ilCtrlInterface $ctrl;
     private readonly ilGlobalTemplateInterface $tpl;

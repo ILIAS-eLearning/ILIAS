@@ -29,7 +29,7 @@ use ILIAS\ILIASObject\Properties\Translations\Translations;
  * @ilCtrl_Calls ilWikiPageGUI: ilCommonActionDispatcherGUI, ilRatingGUI, ilWikiStatGUI
  * @ilCtrl_Calls ilWikiPageGUI: ilObjectMetaDataGUI, ilPropertyFormGUI
  */
-class ilWikiPageGUI extends ilPageObjectGUI
+class ilWikiPageGUI extends ilPageObjectGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Exercise\InternalDomainService $exc_domain;
     protected \ILIAS\Wiki\InternalDomainService $domain;

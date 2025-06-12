@@ -31,7 +31,7 @@ use ILIAS\Modules\File\Preview\SettingsFactory;
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
+class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     public const P_RID = "rid";
     public const CMD_GET_ASYNC_MODAL = 'getAsyncModal';

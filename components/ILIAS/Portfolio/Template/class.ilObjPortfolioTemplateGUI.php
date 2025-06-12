@@ -30,7 +30,7 @@ use ILIAS\Portfolio\Settings\SettingsGUI;
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ILIAS\Portfolio\Settings\SettingsGUI
  * .php
  */
-class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
+class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI implements \ilCtrlCommandClass
 {
     protected ilNavigationHistory $nav_history;
     protected ilHelpGUI $help;

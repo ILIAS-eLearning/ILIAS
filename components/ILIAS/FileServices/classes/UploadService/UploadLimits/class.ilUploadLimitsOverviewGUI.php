@@ -28,7 +28,7 @@ use ILIAS\UI\Renderer as UIRenderer;
  *
  * @ilCtrl_IsCalledBy ilUploadLimitsOverviewGUI: ilObjFileServicesGUI
  */
-class ilUploadLimitsOverviewGUI
+class ilUploadLimitsOverviewGUI implements \ilCtrlCommandClass
 {
     public const CMD_INDEX = 'index';
     public const CMD_ADD_UPLOAD_POLICY = 'addUploadPolicy';

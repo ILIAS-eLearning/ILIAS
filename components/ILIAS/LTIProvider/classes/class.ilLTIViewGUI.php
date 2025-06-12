@@ -29,7 +29,7 @@ use ILIAS\LTI\Screen\LtiViewLayoutProvider;
  * @ilCtrl_IsCalledBy ilLTIViewGUI: ilLTIRouterGUI
  *
  */
-class ilLTIViewGUI
+class ilLTIViewGUI implements \ilCtrlCommandClass
 {
     /**
      * contstants

@@ -27,7 +27,7 @@ use ILIAS\Skill\Node;
  *
  * @ilCtrl_isCalledBy ilSkillTemplateReferenceGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
  */
-class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
+class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI implements \ilCtrlCommandClass
 {
     public function __construct(Node\SkillTreeNodeManager $node_manager, int $a_tref_id = 0)
     {

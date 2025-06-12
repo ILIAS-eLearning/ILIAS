@@ -35,7 +35,7 @@ use Psr\Http\Message\RequestInterface;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilSkillTreeAdminGUI: ilObjSkillTreeGUI
  */
-class ilSkillTreeAdminGUI
+class ilSkillTreeAdminGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $main_tpl;

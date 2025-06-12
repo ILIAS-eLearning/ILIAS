@@ -22,7 +22,7 @@ use ILIAS\LearningModule\Editing\EditingGUIRequest;
  * Import related features for learning modules
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilLMImportGUI
+class ilLMImportGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;

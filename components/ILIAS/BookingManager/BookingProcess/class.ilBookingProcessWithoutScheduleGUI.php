@@ -20,7 +20,7 @@
  * Booking process ui class
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\BookingProcess\BookingProcessGUI
+class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\BookingProcess\BookingProcessGUI, \ilCtrlCommandClass
 {
     protected \ILIAS\BookingManager\Access\AccessManager $access;
     protected \ILIAS\BookingManager\Reservations\ReservationManager $reservation;

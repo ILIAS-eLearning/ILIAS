@@ -30,7 +30,7 @@ use ILIAS\ResourceStorage\Preloader\SecureString;
  *
  * @deprecated Will be removed in ILIAS 10. Use ILIAS ResourceStorageService as replacement.
  */
-class ilFileSystemGUI
+class ilFileSystemGUI implements \ilCtrlCommandClass
 {
     use SecureString; // This is just for those legacy classes which will be removed soon anyway.
     public const PARAMETER_CDIR = "cdir";

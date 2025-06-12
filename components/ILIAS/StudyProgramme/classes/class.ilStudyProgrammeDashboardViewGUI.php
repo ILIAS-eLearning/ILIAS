@@ -22,7 +22,7 @@ use ILIAS\UI\Component\Item\Item;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\components\Dashboard\Block\BlockDTO;
 
-class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
+class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI implements \ilCtrlCommandClass
 {
     protected ?string $visible_on_pd_mode = null;
 

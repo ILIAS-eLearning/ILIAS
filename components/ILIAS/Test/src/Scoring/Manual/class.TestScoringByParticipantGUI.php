@@ -33,7 +33,7 @@ use ilObjTestGUI;
 * @author	Björn Heyser <bheyser@databay.de>
 * @version	$Id$
 */
-class TestScoringByParticipantGUI extends \ilTestServiceGUI
+class TestScoringByParticipantGUI extends \ilTestServiceGUI implements \ilCtrlCommandClass
 {
     public const PART_FILTER_ALL_USERS = 3; // default
     public const PART_FILTER_MANSCORING_DONE = 4;

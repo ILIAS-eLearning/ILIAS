@@ -29,7 +29,7 @@ use ILIAS\ILIASObject\Creation\AddNewItemElementTypes;
  *
  * @ilCtrl_Calls ilObjWorkspaceFolderGUI: ilCommonActionDispatcherGUI, ilObjectOwnershipManagementGUI
  */
-class ilObjWorkspaceFolderGUI extends ilObject2GUI
+class ilObjWorkspaceFolderGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     protected ilHelpGUI $help;
     protected ilTabsGUI $tabs;

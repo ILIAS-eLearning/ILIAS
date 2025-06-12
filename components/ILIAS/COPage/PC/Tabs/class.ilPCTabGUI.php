@@ -20,7 +20,7 @@
  * Class ilPCTabGUI
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCTabGUI extends ilPageContentGUI
+class ilPCTabGUI extends ilPageContentGUI implements \ilCtrlCommandClass
 {
     public function executeCommand(): void
     {

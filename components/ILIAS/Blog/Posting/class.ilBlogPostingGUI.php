@@ -28,7 +28,7 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  * @ilCtrl_Calls ilBlogPostingGUI: ilPageEditorGUI, ilEditClipboardGUI
  * @ilCtrl_Calls ilBlogPostingGUI: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI, ilCommentGUI
  */
-class ilBlogPostingGUI extends ilPageObjectGUI
+class ilBlogPostingGUI extends ilPageObjectGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Blog\InternalGUIService $blog_gui;
     protected ProfileGUI $profile_gui;

@@ -23,7 +23,7 @@ use ILIAS\Wiki\WikiGUIRequest;
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilWikiStatGUI
+class ilWikiStatGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Wiki\InternalGUIService $gui;
     protected WikiGUIRequest $request;

@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @author Stefan Meyer <meyer@leifos.com>
  * @ilCtrl_Calls ilObjCategoryReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
  */
-class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI
+class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI implements \ilCtrlCommandClass
 {
     protected ilHelpGUI $help;
 

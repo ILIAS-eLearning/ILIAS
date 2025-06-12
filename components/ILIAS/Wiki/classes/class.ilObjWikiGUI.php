@@ -37,7 +37,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  * @ilCtrl_Calls ilObjWikiGUI: ilLTIProviderObjectSettingGUI, ILIAS\ILIASObject\Properties\Translations\TranslationGUI
  * @ilCtrl_Calls ilObjWikiGUI: ILIAS\Wiki\Settings\SettingsGUI
  */
-class ilObjWikiGUI extends ilObjectGUI
+class ilObjWikiGUI extends ilObjectGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Wiki\InternalDomainService $domain;
     protected \ILIAS\Wiki\InternalGUIService $gui;

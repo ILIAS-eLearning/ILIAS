@@ -22,7 +22,7 @@
  * @ilCtrl_Calls      ilObjAdministrativeNotificationGUI: ilPermissionGUI
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilObjAdministrativeNotificationGUI extends ilObject2GUI
+class ilObjAdministrativeNotificationGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     public const TAB_PERMISSIONS = 'perm_settings';
     public const TAB_MAIN = 'main';

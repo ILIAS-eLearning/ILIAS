@@ -28,7 +28,7 @@ use ILIAS\Refinery\Factory;
  * class ilobjcourseobjectivesgui
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-class ilCourseObjectivesGUI
+class ilCourseObjectivesGUI implements \ilCtrlCommandClass
 {
     public const MODE_UNDEFINED = 0;
     public const MODE_CREATE = 1;

@@ -33,7 +33,7 @@ use ILIAS\ResourceStorage\Services as ResourceStorage;
  *
  * @ilCtrl_isCalledBy ilSkillProfileUploadHandlerGUI : ilObjSkillTreeGUI, ilContSkillAdminGUI
  */
-class ilSkillProfileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
+class ilSkillProfileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlCommandClass
 {
     private ResourceStorage $storage;
     private ilSkillProfileStorageStakeHolder $stakeholder;

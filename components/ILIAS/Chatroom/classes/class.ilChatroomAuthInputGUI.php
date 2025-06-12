@@ -26,7 +26,7 @@ use ILIAS\HTTP\Response\ResponseHeader;
  * @author            Thomas Joußen <tjoussen@databay.de>
  * @ilCtrl_IsCalledBy ilChatroomAuthInputGUI: ilFormPropertyDispatchGUI
  */
-class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
+class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI implements \ilCtrlCommandClass
 {
     private const string NAME_AUTH_PROP_1 = 'key';
     private const string NAME_AUTH_PROP_2 = 'secret';

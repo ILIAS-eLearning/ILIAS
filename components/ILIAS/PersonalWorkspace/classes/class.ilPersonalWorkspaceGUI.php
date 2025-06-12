@@ -32,7 +32,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjCmiXapiVerificationGUI
  * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjLTIConsumerVerificationGUI
  */
-class ilPersonalWorkspaceGUI
+class ilPersonalWorkspaceGUI implements \ilCtrlCommandClass
 {
     protected ilSetting $settings;
     protected ilCtrl $ctrl;

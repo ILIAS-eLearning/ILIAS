@@ -22,7 +22,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilEditClipboardGUI: ilObjMediaObjectGUI
  */
-class ilEditClipboardGUI
+class ilEditClipboardGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\MediaPool\InternalGUIService $gui;
     public string $mode = "";

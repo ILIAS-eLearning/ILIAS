@@ -27,7 +27,7 @@
  *
  * @ingroup components\ILIASTestQuestionPool
  */
-class ilAssQuestionPageGUI extends ilPageObjectGUI
+class ilAssQuestionPageGUI extends ilPageObjectGUI implements \ilCtrlCommandClass
 {
     public const TEMP_PRESENTATION_TITLE_PLACEHOLDER = '___TEMP_PRESENTATION_TITLE_PLACEHOLDER___';
 

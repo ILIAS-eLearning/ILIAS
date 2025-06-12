@@ -21,7 +21,7 @@
  * @author       Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjTaxonomyGUI: ilObjTaxonomyGUI
  */
-class ilObjTaxonomyGUI extends ilObject2GUI
+class ilObjTaxonomyGUI extends ilObject2GUI implements \ilCtrlCommandClass
 {
     protected ?\ILIAS\Taxonomy\Settings\ModifierGUIInterface $modifier = null;
     protected \ILIAS\DI\UIServices $ui;

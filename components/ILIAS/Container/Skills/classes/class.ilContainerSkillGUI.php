@@ -25,7 +25,7 @@ declare(strict_types=1);
  * @ingroup ServicesContainer
  * @ilCtrl_Calls ilContainerSkillGUI: ilContSkillPresentationGUI, ilContSkillAdminGUI
  */
-class ilContainerSkillGUI
+class ilContainerSkillGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs;

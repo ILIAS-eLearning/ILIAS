@@ -27,7 +27,7 @@ declare(strict_types=1);
  *
  * @package     Module/CmiXapi
  */
-class ilCmiXapiExportGUI extends ilExportGUI
+class ilCmiXapiExportGUI extends ilExportGUI implements \ilCtrlCommandClass
 {
     public function __construct(ilObjCmiXapiGUI $a_parent_gui, ?ilObjCmiXapi $a_main_obj = null)
     {

@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @author       Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilSurveyRaterGUI: ilRepositorySearchGUI
  */
-class ilSurveyRaterGUI
+class ilSurveyRaterGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Survey\Editing\EditingGUIRequest $edit_request;
     protected \ilCtrl $ctrl;

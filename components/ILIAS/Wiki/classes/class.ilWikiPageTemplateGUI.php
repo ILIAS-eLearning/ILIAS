@@ -23,7 +23,7 @@ use ILIAS\Wiki\WikiGUIRequest;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilWikiPageTemplateGUI
+class ilWikiPageTemplateGUI implements \ilCtrlCommandClass
 {
     protected WikiGUIRequest $request;
     protected ilObjWiki $wiki;

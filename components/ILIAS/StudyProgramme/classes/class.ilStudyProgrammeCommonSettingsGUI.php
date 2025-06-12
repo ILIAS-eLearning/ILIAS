@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilStudyProgrammeCommonSettingsGUI
+class ilStudyProgrammeCommonSettingsGUI implements \ilCtrlCommandClass
 {
     private const CMD_EDIT = 'editSettings';
     private const CMD_SAVE = 'saveSettings';

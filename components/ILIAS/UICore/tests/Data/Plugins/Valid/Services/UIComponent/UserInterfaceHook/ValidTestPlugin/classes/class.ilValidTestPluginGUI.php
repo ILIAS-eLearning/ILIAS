@@ -25,7 +25,7 @@ declare(strict_types=1);
  *
  * @ilCtrl_IsCalledBy ilValidTestPluginGUI: ilCtrlBaseClass1TestGUI
  */
-class ilValidTestPluginGUI
+class ilValidTestPluginGUI implements \ilCtrlCommandClass
 {
     public function executeCommand(): string
     {

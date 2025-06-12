@@ -24,7 +24,7 @@ declare(strict_types=0);
  * @ilCtrl_Calls ilLPProgressTableGUI: ilFormPropertyDispatchGUI
  * @ingroup      ServicesTracking
  */
-class ilLPProgressTableGUI extends ilLPTableBaseGUI
+class ilLPProgressTableGUI extends ilLPTableBaseGUI implements \ilCtrlCommandClass
 {
     protected ?ilObjUser $tracked_user = null;
     protected ?array $obj_ids = null;

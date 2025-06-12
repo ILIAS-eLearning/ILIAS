@@ -29,7 +29,7 @@ use ILIAS\components\ResourceStorage\Collections\View\Mode;
  * @ilCtrl_Calls ilExAssignmentEditorGUI: ilExPeerReviewGUI, ilPropertyFormGUI
  * @ilCtrl_Calls ilExAssignmentEditorGUI: ilResourceCollectionGUI
  */
-class ilExAssignmentEditorGUI
+class ilExAssignmentEditorGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Exercise\InternalDomainService $domain;
     protected \ILIAS\Exercise\InstructionFile\InstructionFileManager $instruction_files;

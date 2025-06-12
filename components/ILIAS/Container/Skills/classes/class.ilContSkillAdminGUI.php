@@ -30,7 +30,7 @@ use ILIAS\Skill\Service\SkillUsageService;
  * @author Alex Killing <killing@leifos.de>
  * @ilCtrl_Calls ilContSkillAdminGUI: ilSkillProfileGUI
  */
-class ilContSkillAdminGUI
+class ilContSkillAdminGUI implements \ilCtrlCommandClass
 {
     protected \ILIAS\Container\InternalGUIService $gui;
     protected ilCtrl $ctrl;

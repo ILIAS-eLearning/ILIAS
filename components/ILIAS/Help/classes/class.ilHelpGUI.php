@@ -25,7 +25,7 @@ use ILIAS\Services\Help\ScreenId\HelpScreenIdObserver;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilHelpGUI: ilLMPageGUI
  */
-class ilHelpGUI implements ilCtrlBaseClassInterface
+class ilHelpGUI implements ilCtrlBaseClassInterface, \ilCtrlCommandClass
 {
     public const ID_PART_SCREEN = "screen";
     public const ID_PART_SUB_SCREEN = "sub_screen";

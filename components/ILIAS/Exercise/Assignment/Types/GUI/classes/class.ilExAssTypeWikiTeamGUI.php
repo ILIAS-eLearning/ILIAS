@@ -26,7 +26,7 @@ use ILIAS\ILIASObject\Properties\CoreProperties\Online;
  * @author Alex Killing <killing@leifos.de>
  * @ilCtrl_isCalledBy ilExAssTypeWikiTeamGUI: ilExSubmissionGUI
  */
-class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
+class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface, \ilCtrlCommandClass
 {
     use ilExAssignmentTypeGUIBase;
 

@@ -26,7 +26,7 @@ declare(strict_types=1);
  * @ilCtrl_IsCalledBy ilLinkInputGUI: ilFormPropertyDispatchGUI
  * @ilCtrl_Calls ilLinkInputGUI: ilInternalLinkGUI
  */
-class ilLinkInputGUI extends ilFormPropertyGUI
+class ilLinkInputGUI extends ilFormPropertyGUI implements \ilCtrlCommandClass
 {
     public const EXTERNAL_LINK_MAX_LENGTH = 200;
     public const LIST = "list";

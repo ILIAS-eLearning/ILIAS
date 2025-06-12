@@ -32,7 +32,7 @@ use ILIAS\FileUpload\FileUpload;
  * sets tabs and title as well as description of the content section.
  * @ilCtrl_Calls ilSystemStyleMainGUI: ilSystemStyleOverviewGUI,ilSystemStyleConfigGUI,ilSystemStyleDocumentationGUI
  */
-class ilSystemStyleMainGUI
+class ilSystemStyleMainGUI implements \ilCtrlCommandClass
 {
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;

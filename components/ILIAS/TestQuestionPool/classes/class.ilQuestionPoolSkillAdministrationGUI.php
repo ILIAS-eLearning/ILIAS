@@ -27,7 +27,7 @@ use ILIAS\Refinery\Factory as Refinery;
  * @ilCtrl_Calls ilQuestionPoolSkillAdministrationGUI: ilAssQuestionSkillAssignmentsGUI
  * @ilCtrl_Calls ilQuestionPoolSkillAdministrationGUI: ilAssQuestionSkillUsagesTableGUI
  */
-class ilQuestionPoolSkillAdministrationGUI
+class ilQuestionPoolSkillAdministrationGUI implements \ilCtrlCommandClass
 {
     /**
      * @var ILIAS
