@@ -61,7 +61,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'numeric-field-input',
             $label,
-            '<input id="id_1" type="number" name="name_0" class="c-field-number" />',
+            '<input id="id_1" type="number" step="1" name="name_0" class="c-field-number" />',
             $byline,
             'id_1'
         );
@@ -91,7 +91,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'numeric-field-input',
             $label,
-            '<input id="id_1" type="number" value="10" name="name_0" class="c-field-number" />',
+            '<input id="id_1" type="number" step="1" value="10" name="name_0" class="c-field-number" />',
             null,
             'id_1'
         );
@@ -159,4 +159,43 @@ class NumericInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($value->isOK());
         $this->assertEquals(1, $value->value());
     }
+
+    #[\PHPUnit\Framework\Attributes\Depends('testNullValue')]
+    public function testFloatValue(\ILIAS\UI\Component\Input\Container\Form\FormInput $field): void
+    {
+        $post_data = new DefInputData(['name_0' => 1.1]);
+        $value = $field
+            ->withStepSize(.1)
+            ->withInput($post_data)
+            ->getContent();
+        $this->assertTrue($value->isOk());
+        $this->assertEquals(1.1, $value->value());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Depends('testNullValue')]
+    public function testFloatValueOffsetStep(\ILIAS\UI\Component\Input\Container\Form\FormInput $field): void
+    {
+        $post_data = new DefInputData(['name_0' => 1.2]);
+        $value = $field
+            ->withStepSize(.5)
+            ->withInput($post_data)
+            ->getContent();
+        $this->assertTrue($value->isOk());
+        $this->assertEquals(1.2, $value->value());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Depends('testNullValue')]
+    public function testFloatValueForInt(\ILIAS\UI\Component\Input\Container\Form\FormInput $field): void
+    {
+        $post_data = new DefInputData(['name_0' => 2]);
+        $value = $field
+            ->withStepSize(.5)
+            ->withInput($post_data)
+            ->getContent();
+        $this->assertTrue($value->isOk());
+        $this->assertEquals(2, $value->value());
+        $this->assertIsFloat($value->value());
+    }
+
+
 }

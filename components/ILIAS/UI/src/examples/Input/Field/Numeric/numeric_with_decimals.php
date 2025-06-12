@@ -23,55 +23,74 @@ namespace ILIAS\UI\examples\Input\Field\Numeric;
 /**
  * ---
  * description: >
- *   Base example showing how to plug a numeric input into a form.
+ *   Example showing how to use a numeric input with decimals.
  *
  * expected output: >
- *   ILIAS shows two input fields titled "Some Number". One input field already displays a number. The other input field
- *   is required (*). You can enter numbers into the fields or choose a number by using the the arrows at the end of the fields.
+ *   ILIAS shows four numric input fields.
+ *   You can enter numbers into the fields or choose a number by using the the arrows at the end of the fields.
+ *   Operation the arrows will in-/decrease the value by the given step size.
  *   Clicking "Save" reloads the page.
  *   Afterwards ILIAS will show the inserted number in the following format:
  *
  *   Array
  *   (
- *       [n1] => 56
- *       [n2] => 77
+ *       [0] => 3 (integer)
+ *       [1] => 0.4 (double)
+ *       [2] => 0.1 (double)
+ *       [3] => 10.7 (double)
  *   )
  *
  *   If you insert one or more non-numeric numbers into the field the input field will get highlighted in red. Saving
  *   those inputs results in displaying an error message right above the required field.
  * ---
  */
-function numeric_inputs()
+function numeric_with_decimals()
 {
-    //Step 0: Declare dependencies
     global $DIC;
     $ui = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
+    $refinery = $DIC->refinery();
 
-    //Step 1: Declare the numeric input
     $number_input = $ui->input()->field()
-        ->numeric("Some Number", "Put in a number.")
-        ->withValue(133);
+        ->numeric("int", "step size is 3")
+        ->withStepSize(3)
+        ->withValue(3);
 
-    $number_input2 = $number_input->withRequired(true)->withValue('');
+    $number_input2 = $ui->input()->field()
+        ->numeric("float", "step size is .2")
+        ->withStepSize(.2)
+        ->withValue(.4);
 
-    //Step 2, define form and form actions
+    $number_input3 = $ui->input()->field()
+        ->numeric("float", "step size is .0005")
+        ->withStepSize(.0005)
+        ->withValue(.1);
+
+    $number_input4 = $ui->input()->field()
+        ->numeric("float", "step size is 111.01, initial value is 10.7")
+        ->withStepSize(111.01)
+        ->withValue(10.7);
+
     $DIC->ctrl()->setParameterByClass(
         'ilsystemstyledocumentationgui',
         'example_name',
-        'numeric'
+        'decimals'
     );
     $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-    $form = $ui->input()->container()->form()->standard($form_action, [
-        'n1' => $number_input,
-        'n2' => $number_input2
-    ]);
+    $form = $ui->input()->container()->form()->standard(
+        $form_action,
+        [$number_input, $number_input2, $number_input3, $number_input4]
+    )
+    ->withAdditionalTransformation(
+        $refinery->custom()->transformation(
+            fn($v) => array_map(fn($val) => $val . ' (' . gettype($val) . ')', $v)
+        )
+    );
 
-    //Step 3, implement some form data processing.
     if ($request->getMethod() == "POST"
-       && array_key_exists('example_name', $request->getQueryParams())
-       && $request->getQueryParams()['example_name'] == 'numeric') {
+        && array_key_exists('example_name', $request->getQueryParams())
+        && $request->getQueryParams()['example_name'] == 'decimals') {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

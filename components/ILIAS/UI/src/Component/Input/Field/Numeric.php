@@ -27,4 +27,12 @@ use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
  */
 interface Numeric extends FilterInput
 {
+    /**
+     * This will not only set the steps for the input's arrow controls,
+     * but will also alter the field's transformation.
+     * The value will be the same type as the parameter given here, so
+     * even a $stepsize = 1.0 will result in an float value.
+     * Please be aware of that when attaching further transformations!
+     */
+    public function withStepSize(int|float $stepsize = 1): self;
 }
