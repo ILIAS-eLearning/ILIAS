@@ -50,6 +50,11 @@ class UI
         $this->language->loadLanguageModule($module);
     }
 
+    public function getDefaultLanguage(): string
+    {
+        return $this->language->getDefaultLanguage();
+    }
+
     public function txt(string $name): string
     {
         $this->loadLanguageModule($this->id);
