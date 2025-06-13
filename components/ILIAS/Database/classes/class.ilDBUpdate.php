@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Setup\ImplementationOfInterfaceFinder;
+
 /**
  * Database Update class
  * @author  Peter Gabriel <pgabriel@databay.de>
@@ -44,7 +46,10 @@ class ilDBUpdate
     public function __construct(protected ilDBInterface $db, protected ?ilIniFile $client_ini = null)
     {
         $class_map = require ILIAS_ABSOLUTE_PATH . '/vendor/composer/vendor/composer/autoload_classmap.php';
-        $this->ctrl_structure_iterator = new ilCtrlArrayIterator($class_map);
+        $this->ctrl_structure_iterator = new ilCtrlArrayIterator(
+            (new ImplementationOfInterfaceFinder())->getMatchingClassNames(ilCtrlCommandClass::class),
+            $class_map
+        );
     }
 
     private function execQuery(ilDBInterface $db, string $str): bool

@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Setup\Artifact\BuildArtifactObjective;
 use ILIAS\Setup\Artifact\ArrayArtifact;
 use ILIAS\Setup\Artifact;
+use ILIAS\Setup\ImplementationOfInterfaceFinder;
 
 /**
  * Class ilCtrlStructureArtifactObjective
@@ -36,7 +37,6 @@ class ilCtrlStructureArtifactObjective extends BuildArtifactObjective
         return "ctrl_structure";
     }
 
-
     /**
      * @inheritDoc
      */
@@ -47,7 +47,10 @@ class ilCtrlStructureArtifactObjective extends BuildArtifactObjective
 
         return new ArrayArtifact(
             (new ilCtrlStructureReader(
-                new ilCtrlArrayIterator($class_map),
+                new ilCtrlArrayIterator(
+                    (new ImplementationOfInterfaceFinder())->getMatchingClassNames(ilCtrlCommandClass::class),
+                    $class_map
+                ),
                 new ilCtrlStructureCidGenerator()
             ))->readStructure()
         );

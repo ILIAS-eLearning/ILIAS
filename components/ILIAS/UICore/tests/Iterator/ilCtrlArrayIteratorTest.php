@@ -29,11 +29,19 @@ class ilCtrlArrayIteratorTest extends TestCase
 {
     public function testArrayIteratorWithAssociativeStringArray(): void
     {
-        $iterator = new ilCtrlArrayIterator([
-            'key0' => 'entry0',
-            'key1' => 'entry1',
-            'key2' => 'entry2',
-        ]);
+        // iterator value = key
+        // array value of key = value
+        $iterator = new ilCtrlArrayIterator(
+            $this->getIteratorStub([
+                'key0',
+                'key1',
+                'key2',
+            ]), [
+                'key0' => 'entry0',
+                'key1' => 'entry1',
+                'key2' => 'entry2',
+            ]
+        );
 
         $expected_iterator_values = ['entry0', 'entry1', 'entry2'];
         $expected_iterator_keys = ['key0', 'key1', 'key2'];
@@ -55,49 +63,17 @@ class ilCtrlArrayIteratorTest extends TestCase
         $this->assertFalse($iterator->valid());
     }
 
-    public function testArrayIteratorWithCommonStringArray(): void
-    {
-        $iterator = new ilCtrlArrayIterator([
-            'entry0',
-            'entry1',
-            'entry2',
-        ]);
-
-        $this->assertFalse($iterator->valid());
-        $this->assertNull($iterator->current());
-        $this->assertNull($iterator->key());
-    }
-
-    public function testArrayIteratorWithMixedArray(): void
-    {
-        $iterator = new ilCtrlArrayIterator([
-            'key0' => 0,
-            1 => 'entry1',
-            2 => 2,
-            'key3' => 'entry3',
-            'key4' => false
-        ]);
-
-        $this->assertTrue($iterator->valid());
-        $this->assertEquals(
-            'entry3',
-            $iterator->current()
-        );
-        $this->assertEquals(
-            'key3',
-            $iterator->key()
-        );
-
-        $iterator->next();
-        $this->assertFalse($iterator->valid());
-    }
-
     public function testArrayIteratorWithEmptyArray(): void
     {
-        $iterator = new ilCtrlArrayIterator([]);
+        $iterator = new ilCtrlArrayIterator($this->getIteratorStub([]), []);
 
         $this->assertFalse($iterator->valid());
         $this->assertNull($iterator->current());
         $this->assertNull($iterator->key());
+    }
+
+    protected function getIteratorStub(array $values): Generator
+    {
+        return (static fn() => yield from $values)();
     }
 }

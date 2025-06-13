@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Data\Version;
+use ILIAS\Setup\ImplementationOfInterfaceFinder;
 
 /**
 * Database Update class
@@ -57,7 +58,10 @@ class ilPluginDBUpdate extends ilDBUpdate
         $this->readFileVersion();
 
         $class_map = require ILIAS_ABSOLUTE_PATH . '/vendor/composer/vendor/composer/autoload_classmap.php';
-        $this->ctrl_structure_iterator = new ilCtrlArrayIterator($class_map);
+        $this->ctrl_structure_iterator = new ilCtrlArrayIterator(
+            (new ImplementationOfInterfaceFinder())->getMatchingClassNames(ilCtrlCommandClass::class),
+            $class_map
+        );
     }
 
     private function readDBUpdateFile(): void

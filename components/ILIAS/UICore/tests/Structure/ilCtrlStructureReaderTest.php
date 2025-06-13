@@ -44,7 +44,7 @@ class ilCtrlStructureReaderTest extends TestCase
     {
         $class_map = require __DIR__ . '/../Data/ClassMaps/valid_class_map.php';
         $reader = new ilCtrlStructureReader(
-            new ilCtrlArrayIterator($class_map),
+            new ilCtrlArrayIterator($this->getIteratorStub(array_keys($class_map)), $class_map),
             new ilCtrlStructureCidGenerator()
         );
 
@@ -57,11 +57,10 @@ class ilCtrlStructureReaderTest extends TestCase
         $this->assertTrue($reader->isExecuted());
     }
 
-    public function testStructureReaderWithInvalidArrayIterator(): void
+    public function testStructureReaderWithEmptyArrayIterator(): void
     {
-        $class_map = require __DIR__ . '/../Data/ClassMaps/invalid_class_map.php';
         $reader = new ilCtrlStructureReader(
-            new ilCtrlArrayIterator($class_map),
+            new ilCtrlArrayIterator($this->getIteratorStub([]), []),
             new ilCtrlStructureCidGenerator()
         );
 
@@ -70,15 +69,8 @@ class ilCtrlStructureReaderTest extends TestCase
         $this->assertTrue($reader->isExecuted());
     }
 
-    public function testStructureReaderWithEmptyArrayIterator(): void
+    protected function getIteratorStub(array $values): Generator
     {
-        $reader = new ilCtrlStructureReader(
-            new ilCtrlArrayIterator([]),
-            new ilCtrlStructureCidGenerator()
-        );
-
-        $this->assertFalse($reader->isExecuted());
-        $this->assertEmpty($reader->readStructure());
-        $this->assertTrue($reader->isExecuted());
+        return (static fn() => yield from $values)();
     }
 }

@@ -30,12 +30,6 @@ require_once __DIR__ . '/../../../../../vendor/composer/vendor/autoload.php';
 class ilCtrlStructureReader
 {
     /**
-     * @var string regex pattern for ILIAS GUI classes. Filename
-     *             must be 'class.<classname>GUI.php'.
-     */
-    public const REGEX_GUI_CLASS_NAME = '/^class\.([A-z0-9]*(GUI))\.php$/';
-
-    /**
      * @var string regex pattern that matches classes listed behind
      *             an ilCtrl_Calls statement. '{CLASS_NAME}' has to
      *             be replaced with an actual classname before used.
@@ -113,11 +107,6 @@ class ilCtrlStructureReader
     {
         $base_classes = $structure = [];
         foreach ($this->iterator as $class_name => $path) {
-            // skip iteration if class doesn't meet ILIAS GUI class criteria.
-            if (!$this->isGuiClass($path)) {
-                continue;
-            }
-
             $lower_class_name = strtolower($class_name);
             try {
                 // the classes need to be required manually, because
@@ -247,17 +236,6 @@ class ilCtrlStructureReader
     private function stripWhitespaces(string $string): string
     {
         return (string) preg_replace('/\s+/', '', $string);
-    }
-
-    /**
-     * Returns whether the given file/path matches ILIAS conventions.
-     *
-     * @param string $path
-     * @return bool
-     */
-    private function isGuiClass(string $path): bool
-    {
-        return (bool) preg_match(self::REGEX_GUI_CLASS_NAME, basename($path));
     }
 
     /**

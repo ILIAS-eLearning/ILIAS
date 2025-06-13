@@ -26,18 +26,12 @@ declare(strict_types=1);
 class ilCtrlArrayIterator implements ilCtrlIteratorInterface
 {
     /**
-     * @var array
+     * @param array<string, string> $class_map
      */
-    private array $data;
-
-    /**
-     * ilCtrlArrayIterator Constructor
-     *
-     * @param string[]
-     */
-    public function __construct(array $data)
-    {
-        $this->data = $data;
+    public function __construct(
+        protected Iterator $command_class_iterator,
+        protected array $class_map,
+    ) {
     }
 
     /**
@@ -46,7 +40,7 @@ class ilCtrlArrayIterator implements ilCtrlIteratorInterface
     public function current(): ?string
     {
         if ($this->valid()) {
-            return current($this->data);
+            return $this->class_map[$this->key()] ?? null;
         }
 
         return null;
@@ -57,7 +51,7 @@ class ilCtrlArrayIterator implements ilCtrlIteratorInterface
      */
     public function next(): void
     {
-        next($this->data);
+        $this->command_class_iterator->next();
     }
 
     /**
@@ -66,7 +60,7 @@ class ilCtrlArrayIterator implements ilCtrlIteratorInterface
     public function key(): ?string
     {
         if ($this->valid()) {
-            return key($this->data);
+            return $this->command_class_iterator->current();
         }
 
         return null;
@@ -77,19 +71,7 @@ class ilCtrlArrayIterator implements ilCtrlIteratorInterface
      */
     public function valid(): bool
     {
-        $value = current($this->data);
-        $key = key($this->data);
-
-        if (null === $key) {
-            return false;
-        }
-
-        if (!is_string($value) || !is_string($key)) {
-            $this->next();
-            return $this->valid();
-        }
-
-        return true;
+        return $this->command_class_iterator->valid();
     }
 
     /**
@@ -97,6 +79,6 @@ class ilCtrlArrayIterator implements ilCtrlIteratorInterface
      */
     public function rewind(): void
     {
-        reset($this->data);
+        $this->command_class_iterator->rewind();
     }
 }
