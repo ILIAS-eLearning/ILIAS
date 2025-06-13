@@ -41,6 +41,19 @@ class ImplementationOfInterfaceFinder extends AbstractOfFinder
 
     public function isClassMatching(string $interface, \ReflectionClass $r): bool
     {
-        return ($r->isInstantiable() && $r->implementsInterface($interface));
+        return ($this->isRealClass($r) && $r->implementsInterface($interface));
+    }
+
+    /**
+     * This method has been introduced because of singletons, which override the visibility
+     * of their constructor, making @see \ReflectionClass::isInstantiable() return false.
+     */
+    protected function isRealClass(\ReflectionClass $r): bool
+    {
+        return !$r->isAbstract()
+            && !$r->isAnonymous()
+            && !$r->isEnum()
+            && !$r->isInterface()
+            && !$r->isTrait();
     }
 }
