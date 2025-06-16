@@ -32,6 +32,8 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
     ilCtrlSecurityInterface,
     MailAttachmentCommands
 {
+    use FileDataRCHandling;
+
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilLanguage $lng;
     private readonly ilObjUser $user;
@@ -42,6 +44,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
     private readonly \ILIAS\UI\Renderer $ui_renderer;
     private readonly ilTabsGUI $tabs;
     private AttachmentManagement $mode = AttachmentManagement::MANAGE;
+    private readonly ILIAS\ResourceStorage\Services $storage;
 
     public function __construct()
     {
@@ -55,6 +58,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->storage = $DIC->resourceStorage();
 
         $this->ctrl->saveParameter($this, 'mobj_id');
 
@@ -148,7 +152,8 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
             return;
         }
 
-        $this->umail->saveAttachments($files);
+        $rcid_for_files = $this->getIdforCollection($files);
+        $this->umail->saveAttachments($rcid_for_files);
 
         $this->ctrl->returnToParent($this);
     }
@@ -224,14 +229,20 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
             $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('mail_error_delete_file') . ' ' . $error, true);
         } else {
             $mail_data = $this->umail->retrieveFromStage();
-            if (is_array($mail_data['attachments'])) {
-                $tmp = [];
-                foreach ($mail_data['attachments'] as $attachment) {
-                    if (!in_array($attachment, $decoded_files, true)) {
-                        $tmp[] = $attachment;
+            if (!is_null($mail_data['attachments'])) {
+                $files_to_legacy = $this->FilesFromIRSSToLegacy($mail_data['attachments']);
+                $files = $this->handleAttachments($files_to_legacy);
+                $rcid = null;
+                if (is_array($files)) {
+                    foreach ($files as $attachment) {
+                        $tmp = [];
+                        if (!in_array($attachment, $decoded_files, true)) {
+                            $tmp[] = $attachment;
+                        }
+                        $rcid = $this->getIdforCollection($tmp);
                     }
+                    $this->umail->saveAttachments($rcid);
                 }
-                $this->umail->saveAttachments($tmp);
             }
 
             $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('mail_files_deleted'), true);

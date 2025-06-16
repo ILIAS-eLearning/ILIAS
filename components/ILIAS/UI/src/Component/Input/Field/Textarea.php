@@ -21,11 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Component\Triggerable;
 
 /**
  * This describes Textarea inputs.
  */
-interface Textarea extends FormInput
+interface Textarea extends FormInput, Mustachable, Triggerable
 {
     /**
      * set maximum number of characters

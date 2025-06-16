@@ -393,4 +393,34 @@ class StandardFormTest extends ILIAS_UI_TestBase
         ');
         $this->assertHTMLEquals($expected, $html);
     }
+
+    public function testStandardFormRenderWithAdditionalSubmit(): void
+    {
+        $f = $this->buildFactory();
+        $if = $this->getFieldFactory();
+
+        $url = "MY_URL";
+        $form = $f->standard($url, [$if->text("label", "byline")])->withAdditionalSubmitButton('save as draft', '#bar');
+
+        $r = $this->getDefaultRenderer();
+        $html = $this->brutallyTrimHTML($r->render($form));
+
+        $expected = $this->brutallyTrimHTML(
+            '
+<form class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post">
+    <div class="c-form__header"><div class="c-form__actions">
+        <button class="btn btn-default" data-action="">save</button><button class="btn btn-default" data-action="" formaction="#bar">save as draft</button>
+    </div></div>
+    ' . $this->getTextFieldHtml() . '
+    <div class="c-form__footer">
+      <div class="c-form__actions">
+        <button class="btn btn-default" data-action="">save</button>
+        <button class="btn btn-default" data-action="" formaction="#bar">save as draft</button>
+      </div>
+   </div>
+</form>
+        '
+        );
+        $this->assertHTMLEquals($expected, $html);
+    }
 }

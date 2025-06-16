@@ -2251,12 +2251,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $umail->persistToStage(
             $mail_data['user_id'],
-            $mail_data['attachments'],
             '#il_ml_' . $list_id,
             $mail_data['rcp_cc'],
             $mail_data['rcp_bcc'],
             $mail_data['m_subject'],
             $mail_data['m_message'],
+            $mail_data['attachments'],
             $mail_data['use_placeholders'],
             $mail_data['tpl_ctx_id'],
             $mail_data['tpl_ctx_params']

@@ -26,6 +26,11 @@ const CONTENT_WRAPPER_KEY_TEXTAREA = 'textarea';
 const CONTENT_WRAPPER_KEY_PREVIEW = 'preview';
 
 /**
+ * @type {string}
+ */
+const CONTENT_WRAPPER_KEY_PLACEHOLDER = 'placeholder';
+
+/**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 export default class Markdown extends Textarea {
@@ -388,6 +393,7 @@ function getContentWrappersOrAbort(input_wrapper) {
 
   content_wrappers.set(CONTENT_WRAPPER_KEY_TEXTAREA, input_wrapper.querySelector('textarea'));
   content_wrappers.set(CONTENT_WRAPPER_KEY_PREVIEW, input_wrapper.querySelector('.c-field-markdown__preview'));
+  content_wrappers.set(CONTENT_WRAPPER_KEY_PLACEHOLDER, input_wrapper.querySelector('.ui-input-textarea-placeholder'));
 
   content_wrappers.forEach((wrapper) => {
     if (wrapper === null) {

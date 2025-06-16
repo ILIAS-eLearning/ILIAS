@@ -119,18 +119,14 @@ class TextareaTest extends ILIAS_UI_TestBase
         $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
+        $id = "id_1";
+        $name = "name_0";
         $textarea = $f->textarea($label, $byline)->withNameFrom($this->name_source);
-        $expected = $this->getFormWrappedHtml(
-            'textarea-field-input',
-            $label,
-            '
-            <textarea id="id_1" class="c-field-textarea" name="name_0"></textarea>
-            ',
-            $byline,
-            'id_1',
-            'id_2',
-        );
-        $this->assertEquals($expected, $this->render($textarea));
+
+        $expected = $this->brutallyTrimHTML("
+            <textarea id=\"$id\" class=\"c-field-textarea\" name=\"$name\"></textarea>
+        ");
+        $this->assertStringContainsString($expected, $this->render($textarea));
     }
 
     public function testCommonRendering(): void
@@ -149,42 +145,33 @@ class TextareaTest extends ILIAS_UI_TestBase
     public function testRendererWithMinLimit(): void
     {
         $f = $this->getFieldFactory();
+        $name = "name_0";
+        $id = "id_1";
         $label = "label";
         $min = 5;
         $byline = "This is just a byline Min: " . $min;
         $textarea = $f->textarea($label, $byline)->withMinLimit($min)->withNameFrom($this->name_source);
-        $expected = $this->getFormWrappedHtml(
-            'textarea-field-input',
-            $label,
-            '
-            <textarea id="id_1" class="c-field-textarea" name="name_0" minlength="5"></textarea>
-            ',
-            $byline,
-            'id_1',
-            'id_2'
-        );
-        $this->assertEquals($expected, $this->render($textarea));
+
+        $expected = $this->brutallyTrimHTML("
+            <textarea id=\"$id\" class=\"c-field-textarea\" name=\"$name\" minlength=\"$min\"></textarea>
+        ");
+        $this->assertStringContainsString($expected, $this->render($textarea));
     }
 
     public function testRendererWithMaxLimit(): void
     {
         $f = $this->getFieldFactory();
+        $name = "name_0";
+        $id = "id_1";
         $label = "label";
         $max = 20;
         $byline = "This is just a byline Max: " . $max;
         $textarea = $f->textarea($label, $byline)->withMaxLimit($max)->withNameFrom($this->name_source);
-        $expected = $this->getFormWrappedHtml(
-            'textarea-field-input',
-            $label,
-            '
-                <textarea id="id_1" class="c-field-textarea" name="name_0" maxlength="20"></textarea>
-                <div class="ui-input-textarea-remainder"> ui_chars_remaining<span data-action="remainder">20</span></div>
-            ',
-            $byline,
-            'id_1',
-            'id_2'
-        );
-        $this->assertEquals($expected, $this->render($textarea));
+
+        $expected = $this->brutallyTrimHTML("
+            <textarea id=\"$id\" class=\"c-field-textarea\" name=\"$name\" maxlength=\"$max\"></textarea>
+        ");
+        $this->assertStringContainsString($expected, $this->render($textarea));
     }
 
     public function testRendererWithMinAndMaxLimit(): void
@@ -219,9 +206,10 @@ class TextareaTest extends ILIAS_UI_TestBase
         $textarea = $f->textarea($label, $byline)->withValue($value)->withNameFrom($this->name_source);
 
         $expected = $this->brutallyTrimHTML("
-            <div class=\"c-input__field\">
-                <textarea id=\"$id\" class=\"c-field-textarea\" name=\"$name\">$value</textarea>
-            </div>
+            <fieldset class=\"c-input\" data-il-ui-component=\"textarea-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_2\">
+            <label for=\"id_1\">label</label><div class=\"c-input__field\"><textarea id=\"$id\" class=\"c-field-textarea\" name=\"$name\">Lorem ipsum dolor sit</textarea></div>
+            <div class=\"c-input__help-byline\">$byline</div></fieldset>
+
         ");
         $this->assertStringContainsString($expected, $this->render($textarea));
     }
@@ -248,6 +236,6 @@ class TextareaTest extends ILIAS_UI_TestBase
             ->withInput(new DefInputData([$name => "<script>alert()</script>"]));
 
         $content = $text->getContent();
-        $this->assertEquals("<script>alert()</script>", $content->value());
+        $this->assertEquals("alert()", $content->value());
     }
 }

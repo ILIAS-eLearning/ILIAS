@@ -290,4 +290,14 @@ abstract class File implements FileDropzone
     {
         return $this->type;
     }
+
+    public function withAdditionalSubmitButton(string $label, string $action): self
+    {
+        return $this;
+    }
+
+    public function getAdditionalSubmitButtons(): array
+    {
+        return [];
+    }
 }

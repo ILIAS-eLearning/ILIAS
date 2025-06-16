@@ -290,4 +290,28 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             'value' => ['text', "\n\n-- \nThis mail was sent by {{USER_FULLNAME}} from {{INSTALLATION_NAME}}\n"],
         ]);
     }
+
+    public function step_16(): void
+    {
+        if ($this->db->tableExists('mail_saved')) {
+            $query = "UPDATE mail_saved SET " . PHP_EOL
+                . "attachments = " . $this->db->quote(null, 'text');
+
+            $this->db->manipulate($query);
+        }
+    }
+
+    public function step_17(): void
+    {
+        if ($this->db->tableColumnExists('mail_saved', 'attachments')) {
+            $table_column = [
+                'type' => 'text',
+                'length' => 100,
+                'notnull' => false,
+                'default' => null
+            ];
+
+            $this->db->modifyTableColumn('mail_saved', 'attachments', $table_column);
+        }
+    }
 }

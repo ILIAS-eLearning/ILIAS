@@ -5849,6 +5849,7 @@ common#:#update_orgunits#:#Benutzerfeld 'Organisationseinheiten' aktualisieren
 common#:#update_orgunits_desc#:#Wenn eingeschaltet, werden bei allen Benutzern das Feld 'Organisationseinheiten' aktualisiert und so allfällige Fehler behoben.
 common#:#upload#:#Hochladen
 common#:#upload_error_file_not_found#:#Fehler beim Hochladen: Datei nicht gefunden
+common#:#upload_ok#:#Der Upload war erfolgreich
 common#:#upload_pending#:#Ausstehend
 common#:#upload_settings#:#Upload-Einstellungen
 common#:#upload_svg_rejection_message#:#Eine hochgeladene SVG-Datei enthält möglicherweise bösartigen Code und kann nicht verarbeitet werden.
@@ -11483,6 +11484,7 @@ mail#:#chat_users_without_login#:#Die folgenden Benutzer haben kein ILIAS-Konto 
 mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum:
 mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#deleteTemplate#:#Löschen
+mail#:#edit_attachments#:#Anhänge bearbeiten
 mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
 mail#:#forward#:#Weiterleiten
 mail#:#goto_invitation_chat#:#Chatraum öffnen

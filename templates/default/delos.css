@@ -8500,6 +8500,13 @@ button .minimize, button .close {
   color: white;
 }
 
+.c-input-markdown__preview,
+.c-input-markdown .ui-input-textarea textarea {
+  border-radius: 0px;
+  min-height: 200px;
+  margin-bottom: 6px;
+}
+
 .c-field-markdown__preview {
   min-height: 100px;
   border: 1px solid #dddddd;

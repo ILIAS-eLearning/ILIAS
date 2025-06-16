@@ -221,6 +221,21 @@ export default class Textarea {
   isDisabled() {
     return this.textarea.disabled;
   }
+
+  insertPlaceholder(text) {
+    if (! this.isDisabled()) {
+      const replace = '{{' + text + '}}';
+      const new_content =
+        this.getTextBeforeSelection() +
+        replace +
+        this.getTextAfterSelection();
+
+      // move selection to the end of the inserted text
+      const new_selection = this.getAbsoluteSelectionStart() + replace.length;
+
+      this.updateTextareaContent(new_content, new_selection, new_selection);
+    }
+  }
 }
 
 /**

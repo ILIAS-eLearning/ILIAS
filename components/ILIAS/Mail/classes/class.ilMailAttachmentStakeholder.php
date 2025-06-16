@@ -18,25 +18,21 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Button;
+use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
-use ILIAS\UI\Component as C;
-
-class Standard extends Button implements C\Button\Standard
+class ilMailAttachmentStakeholder extends AbstractResourceStakeholder
 {
-    use LoadingAnimationOnClick;
-
-    protected $formaction = '';
-
-    public function withFormaction(string $formaction): self
+    public function __construct()
     {
-        $clone = clone $this;
-        $clone->formaction = $formaction;
-        return $clone;
     }
 
-    public function getFormaction(): string
+    public function getId(): string
     {
-        return $this->formaction;
+        return 'mail_attachments';
+    }
+
+    public function getOwnerOfNewResources(): int
+    {
+        return 6;
     }
 }
