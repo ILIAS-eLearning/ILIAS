@@ -1595,6 +1595,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             ilFileUtils::makeDirParents($origImagePath);
             ilFileUtils::rCopy($dupImagePath, $origImagePath);
         }
+        assQuestion::instantiateQuestion($origQuestionId)->copyImages($dupQuestionId, origParentObjId);
     }
 
     protected function createMatchingTerm(string $term = '', string $picture = '', int $identifier = 0): assAnswerMatchingTerm
