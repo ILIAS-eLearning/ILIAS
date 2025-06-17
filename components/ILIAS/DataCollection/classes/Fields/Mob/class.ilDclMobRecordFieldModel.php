@@ -72,6 +72,7 @@ class ilDclMobRecordFieldModel extends ilDclFileRecordFieldModel
             }
 
             ilFileUtils::rename($move_file, $target_file_path);
+            chmod($target_file_path, 0640);
             ilFileUtils::renameExecutables($mob_dir);
 
             $format = ilObjMediaObject::getMimeType($target_file_path);
