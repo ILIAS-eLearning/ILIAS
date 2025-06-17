@@ -304,21 +304,25 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
         foreach ($keys as $answer_id) {
             $answer = $this->object->answers[$answer_id];
-            if (($active_id > 0) && (!$show_correct_solution)) {
-                if ($graphical_output) {
-                    $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK);
+            if ($active_id > 0 && !$show_correct_solution && $graphical_output) {
+                $maximum_points = $this->object->getMaximumPoints();
+                $answer_points = $answer->getPoints();
+                $correctness = $answer_points === $maximum_points || $answer_points > 0
+                        ? self::CORRECTNESS_NOT_OK
+                        : self::CORRECTNESS_OK;
 
-                    if ($user_solution === (string) $answer_id) {
-                        if ($answer->getPoints() == $this->object->getMaximumPoints()) {
-                            $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK);
-                        } elseif ($answer->getPoints() > 0) {
-                            $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_MOSTLY_OK);
-                        }
+                if ($user_solution === (string) $answer_id) {
+                    $correctness = self::CORRECTNESS_NOT_OK;
+
+                    if ($answer_points === $maximum_points) {
+                        $correctness = self::CORRECTNESS_OK;
+                    } elseif ($answer_points > 0) {
+                        $correctness = self::CORRECTNESS_MOSTLY_OK;
                     }
-                    $template->setCurrentBlock("icon_ok");
-                    $template->setVariable("ICON_OK", $correctness_icon);
-                    $template->parseCurrentBlock();
                 }
+                $template->setCurrentBlock("icon_ok");
+                $template->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness($correctness));
+                $template->parseCurrentBlock();
             }
             if ($answer->hasImage()) {
                 $template->setCurrentBlock("answer_image");

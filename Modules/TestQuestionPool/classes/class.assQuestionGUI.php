@@ -1950,7 +1950,7 @@ abstract class assQuestionGUI
                 $label = $this->lng->txt("answer_is_wrong");
                 break;
             case self::CORRECTNESS_MOSTLY_OK:
-                $icon_name = 'standard/icon_ok.svg';
+                $icon_name = 'standard/icon_mostly_ok.svg';
                 $label = $this->lng->txt("answer_is_not_correct_but_positive");
                 break;
             case self::CORRECTNESS_OK:
