@@ -1622,7 +1622,12 @@ class ilObjUserGUI extends ilObjectGUI
 
         if ($this->object->getId() === (int) ANONYMOUS_USER_ID
             || !$this->rbac_system->checkAccess('edit_roleassignment', $this->usrf_ref_id)
-                && !$this->access->isCurrentUserBasedOnPositionsAllowedTo('read_users', [$this->object->getId()])
+                && (!$this->access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id)
+                    || !in_array($this->object->getId(), $this->access->filterUserIdsByPositionOfCurrentUser(
+                        \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
+                        USER_FOLDER_ID,
+                        [$this->object->getId()]
+                        )))                    
         ) {
             $this->ilias->raiseError(
                 $this->lng->txt('msg_no_perm_assign_role_to_user'),
