@@ -4731,7 +4731,7 @@ common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
 common#:#msg_no_file#:#You didn't choose a file or the selected file was too big.
 common#:#msg_no_files_selected#:#No files selected
 common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
-common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's role assignment
+common#:#msg_no_perm_assign_role_to_user#:#You have no permission to access user's role assignment
 common#:#msg_no_perm_assign_user_to_role#:#You have no permission to change the user assignment
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
 common#:#msg_no_perm_create_rolt#:#You have no permission to add role templates
