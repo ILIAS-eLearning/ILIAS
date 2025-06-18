@@ -18,6 +18,7 @@
 
 use ILIAS\TA\Questions\assQuestionSuggestedSolution;
 use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
 * Basic GUI class for assessment questions
@@ -84,6 +85,7 @@ abstract class assQuestionGUI
     public assQuestion $object;
     public ilGlobalPageTemplate $tpl;
     public ilLanguage $lng;
+    protected Refinery $refinery;
 
     public $error;
     public string $errormessage;
@@ -148,6 +150,7 @@ abstract class assQuestionGUI
         $this->logger = $DIC['ilLog'];
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->component_repository = $DIC['component.repository'];
+        $this->refinery = $DIC['refinery'];
         $this->ctrl->saveParameter($this, "q_id");
         $this->ctrl->saveParameter($this, "prev_qid");
         $this->ctrl->saveParameter($this, "calling_test");

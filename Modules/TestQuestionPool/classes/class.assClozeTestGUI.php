@@ -89,7 +89,6 @@ JS;
 
     private RandomGroup $randomGroup;
     private Container $dic;
-    private Factory $refinery;
     private ArrayBasedRequestWrapper $post;
     private \ILIAS\UI\Factory $ui_factory;
     private \ILIAS\UI\Renderer $ui_renderer;
@@ -106,7 +105,6 @@ JS;
         $this->dic = $DIC;
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
-        $this->refinery = $this->dic->refinery();
         $this->post = $this->dic->http()->wrapper()->post();
 
         $this->object = new assClozeTest();
