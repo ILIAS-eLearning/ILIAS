@@ -433,14 +433,15 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
                 }
             }
 
-            $text = new \ilTextInputGUI($this->lng->txt('tst_change_points_for_question'), "question__{$question_id}__points");
+            $number_input_gui = new \ilNumberInputGUI($this->lng->txt('tst_change_points_for_question'), "question__{$question_id}__points");
+            $number_input_gui->allowDecimals(true);
             if ($initValues) {
-                $text->setValue((string) \assQuestion::_getReachedPoints($active_id, $question_id, $pass));
+                $number_input_gui->setValue((string) \assQuestion::_getReachedPoints($active_id, $question_id, $pass));
             }
             if ($disabled) {
-                $text->setDisabled($disabled);
+                $number_input_gui->setDisabled($disabled);
             }
-            $form->addItem($text);
+            $form->addItem($number_input_gui);
 
             $nonedit = new \ilNonEditableValueGUI($this->lng->txt('tst_manscoring_input_max_points_for_question'), "question__{$question_id}__maxpoints");
             if ($initValues) {
