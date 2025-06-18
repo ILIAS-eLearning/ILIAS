@@ -294,9 +294,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
     ): RoundTripModal {
         $question_gui = $this->object->createQuestionGUI('', $question_id);
 
-        $content = [
-            $this->buildSolutionPanel($question_gui, $question_id, $attempt)
-        ];
+        $content = [$this->buildSolutionPanel($question_gui, $active_id, $attempt)];
 
         if ($this->object->getAutosave()
             && $autosave_content = $this->buildAutosavedSolutionPanel($question_gui, $active_id, $attempt)
