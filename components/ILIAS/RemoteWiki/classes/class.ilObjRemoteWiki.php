@@ -114,8 +114,8 @@ class ilObjRemoteWiki extends ilRemoteObjectBase
         $this->setAvailabilityType($a_row->availability_type);
     }
 
-    protected function updateCustomFromECSContent(ilECSSetting $a_server, $a_ecs_content): void
+    protected function updateCustomFromECSContent(ilECSSetting $a_server, $ecs_content): void
     {
-        $this->setAvailabilityType($a_ecs_content->availability == 'online' ? self::ACTIVATION_ONLINE : self::ACTIVATION_OFFLINE);
+        $this->setAvailabilityType($ecs_content->availability == 'online' ? self::ACTIVATION_ONLINE : self::ACTIVATION_OFFLINE);
     }
 }

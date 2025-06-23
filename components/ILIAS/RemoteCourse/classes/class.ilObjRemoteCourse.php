@@ -35,9 +35,9 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
     public const ACTIVATION_UNLIMITED = 1;
     public const ACTIVATION_LIMITED = 2;
 
-    protected $availability_type;
-    protected $end;
-    protected $start;
+    private int $availability_type = 0;
+    private int $end = 0;
+    private int $start = 0;
 
     public function initType(): void
     {
@@ -57,19 +57,17 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
     /**
      * Set Availability type
      *
-     * @param int $a_type availability type
+     * @param $a_type availability type
      */
-    public function setAvailabilityType($a_type)
+    public function setAvailabilityType(int $a_type): void
     {
-        $this->availability_type = $a_type;
+        $this->availability_type = (int) $a_type;
     }
 
     /**
      * get availability type
-     *
-     * @return int
      */
-    public function getAvailabilityType()
+    public function getAvailabilityType(): int
     {
         return $this->availability_type;
     }
@@ -77,19 +75,17 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
     /**
      * set starting time
      *
-     * @param timestamp $a_time starting time
+     * @param $a_time starting time
      */
-    public function setStartingTime($a_time)
+    public function setStartingTime(int $a_time): void
     {
         $this->start = $a_time;
     }
 
     /**
      * get starting time
-     *
-     * @return timestamp
      */
-    public function getStartingTime()
+    public function getStartingTime(): int
     {
         return $this->start;
     }
@@ -97,30 +93,25 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
     /**
      * set ending time
      *
-     * @param timestamp $a_time ending time
+     * @param $a_time ending time
      */
-    public function setEndingTime($a_time)
+    public function setEndingTime(int $a_time): void
     {
         $this->end = $a_time;
     }
 
     /**
      * get ending time
-     *
-     * @return timestamp
      */
-    public function getEndingTime()
+    public function getEndingTime(): int
     {
         return $this->end;
     }
 
     /**
      * Lookup online
-     *
-     * @param int $a_obj_id obj_id
-     * @return bool
      */
-    public static function _lookupOnline($a_obj_id)
+    public static function _lookupOnline(int $a_obj_id): bool
     {
         global $ilDB;
 
@@ -131,13 +122,9 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
         switch ($row->availability_type) {
             case self::ACTIVATION_UNLIMITED:
                 return true;
-
-            case self::ACTIVATION_OFFLINE:
-                return false;
-
             case self::ACTIVATION_LIMITED:
-                return time() > $row->r_start && time < $row->r_end;
-
+                return time() > $row->r_start && time() < $row->r_end;
+            case self::ACTIVATION_OFFLINE:
             default:
                 return false;
         }
@@ -155,35 +142,35 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
     protected function doUpdateCustomFields(array &$a_fields): void
     {
         $a_fields["availability_type"] = array("integer", $this->getAvailabilityType());
-        $a_fields["r_start"] = array("integer",(int) $this->getStartingTime());
-        $a_fields["r_end"] = array("integer", (int) $this->getEndingTime());
+        $a_fields["r_start"] = array("integer", $this->getStartingTime());
+        $a_fields["r_end"] = array("integer", $this->getEndingTime());
     }
 
     protected function doReadCustomFields($a_row): void
     {
-        $this->setAvailabilityType($a_row->availability_type);
-        $this->setStartingTime($a_row->r_start);
-        $this->setEndingTime($a_row->r_end);
+        $this->setAvailabilityType((int) $a_row->availability_type);
+        $this->setStartingTime((int) $a_row->r_start);
+        $this->setEndingTime((int) $a_row->r_end);
     }
 
-    protected function updateCustomFromECSContent(ilECSSetting $a_server, $a_ecs_content): void
+    protected function updateCustomFromECSContent(ilECSSetting $a_server, $ecs_content): void
     {
         // add custom values
-        $this->setAvailabilityType($a_ecs_content->status == 'online' ? self::ACTIVATION_UNLIMITED : self::ACTIVATION_OFFLINE);
+        $this->setAvailabilityType($ecs_content->status === 'online' ? self::ACTIVATION_UNLIMITED : self::ACTIVATION_OFFLINE);
 
         // :TODO: ACTIVATION_LIMITED is currently not supported in ECS yet
 
         // adv. metadata
         $definition = ilECSUtils::getEContentDefinition($this->getECSObjectType());
         $this->importMetadataFromJson(
-            $a_ecs_content,
+            $ecs_content,
             $a_server,
             $definition,
             ilECSDataMappingSetting::MAPPING_IMPORT_RCRS
         );
 
         $import = new ilECSImport($a_server->getServerId(), $this->getId());
-        $import->setContentId($a_ecs_content->courseID);
+        $import->setContentId($ecs_content->courseID);
         $import->save();
     }
 }

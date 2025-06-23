@@ -167,7 +167,7 @@ class ilObjRemoteGroup extends ilRemoteObjectBase
         $this->setEndingTime($a_row->availability_end);
     }
 
-    protected function updateCustomFromECSContent(ilECSSetting $a_server, $a_ecs_content): void
+    protected function updateCustomFromECSContent(ilECSSetting $a_server, $ecs_content): void
     {
         // add custom values
         // $this->setAvailabilityType($a_ecs_content->status == 'online' ? self::ACTIVATION_UNLIMITED : self::ACTIVATION_OFFLINE);

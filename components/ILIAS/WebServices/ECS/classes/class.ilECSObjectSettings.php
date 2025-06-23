@@ -389,7 +389,7 @@ abstract class ilECSObjectSettings
     /**
      * Save ECS settings (add- update- deleteResource)
      *
-     * @param array array of participant mids
+     * @param array $a_mids array of participant mids
      * @throws ilECSConnectorException
      */
     protected function handleSettingsForServer(ilECSSetting $a_server, bool $a_export, array $a_mids): void
