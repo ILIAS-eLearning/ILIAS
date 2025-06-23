@@ -59,6 +59,7 @@ class ilObjectBadgeTableGUI implements DataRetrieval
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilObjBadgeAdministrationGUI $parent_obj;
     private readonly ilAccessHandler $access;
+    private readonly \ILIAS\ResourceStorage\Services $irss;
     private readonly ilBadgeImage $badge_image_service;
     /**
      * @var null|list<array{
@@ -93,8 +94,9 @@ class ilObjectBadgeTableGUI implements DataRetrieval
         $this->http = $DIC->http();
         $this->access = $DIC->access();
         $this->parent_obj = $parentObj;
+        $this->irss = $DIC->resourceStorage();
         $this->badge_image_service = new ilBadgeImage(
-            $DIC->resourceStorage(),
+            $this->irss,
             $DIC->upload(),
             $DIC->ui()->mainTemplate()
         );
@@ -143,6 +145,15 @@ class ilObjectBadgeTableGUI implements DataRetrieval
         if ($range) {
             $records = \array_slice($records, $range->getStart(), $range->getLength());
         }
+
+        $identifcations = [];
+        foreach ($records as $record) {
+            if (isset($record[self::RECORD_RAW]['image_rid']) && $record[self::RECORD_RAW]['image_rid'] !== '') {
+                $identifcations[] = $record[self::RECORD_RAW]['image_rid'];
+            }
+        }
+
+        $this->irss->preload($identifcations);
 
         $modal_container = new ModalBuilder();
         $container_deleted_title_part = '<span class="il_ItemAlertProperty">' . $this->lng->txt('deleted') . '</span>';
@@ -265,7 +276,12 @@ class ilObjectBadgeTableGUI implements DataRetrieval
                 $container_title_parts['title'] = $this->renderer->render(
                     new Standard(
                         $container_title_parts['title'],
-                        (string) new URI(ilLink::_getLink($ref_id))
+                        (string) new URI(
+                            ilLink::_getLink(
+                                $ref_id,
+                                $badge_item['parent_type'] ?? ''
+                            )
+                        )
                     )
                 );
             } else {
