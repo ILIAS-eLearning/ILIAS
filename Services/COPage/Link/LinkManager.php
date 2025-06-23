@@ -381,7 +381,9 @@ class LinkManager
                         //$new_node->parentNode->removeChild($new_node);
                         foreach ($new_node->childNodes as $child) {
                             //$this->log->debug("... move node $j " . $child->node_name() . " before " . $source_node->node_name());
-                            $source_node->parentNode->insertBefore($child, $source_node);
+                            if ($source_node !== $child) {
+                                $source_node->parentNode->insertBefore($child, $source_node);
+                            }
                         }
                         $source_node->parentNode->removeChild($source_node);
                     }
