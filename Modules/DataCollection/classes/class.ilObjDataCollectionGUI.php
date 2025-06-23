@@ -201,7 +201,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
                 $rgui->setObject($record_id, "dcl_record", $field_id, "dcl_field");
                 $rgui->executeCommand();
-                $this->ctrl->redirectToURL($this->http->request()->getServerParams()['HTTP_REFERER']);
+                $this->ctrl->redirectToURL($this->http->request()->getServerParams()['HTTP_REFERER'] ?? '');
                 break;
 
             case strtolower(ilDclDetailedViewGUI::class):
@@ -358,20 +358,26 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             }
         }
         $values = [self::GET_REF_ID, self::GET_TABLE_ID, self::GET_VIEW_ID, self::GET_RECORD_ID];
-        $values = array_combine($values, array_pad($params, count($values), null));
+        $values = array_combine($values, array_pad($params, count($values), 0));
 
         $ref_id = (int) $values[self::GET_REF_ID];
 
         //load record list
         if ($access->checkAccess('read', "", $ref_id)) {
             $ilCtrl->setParameterByClass(ilRepositoryGUI::class, self::GET_REF_ID, $ref_id);
-            if ($values[self::GET_TABLE_ID] !== null) {
-                $ilCtrl->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_TABLE_ID, $values[self::GET_TABLE_ID]);
-                if ($values[self::GET_VIEW_ID] !== null) {
-                    $ilCtrl->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_VIEW_ID, $values[self::GET_VIEW_ID]);
+            $object = new ilObjDataCollection($ref_id);
+            $table_id = (int) $values[self::GET_TABLE_ID];
+            if ($table_id !== 0 && isset($object->getVisibleTables()[$table_id])) {
+                $ilCtrl->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_TABLE_ID, $table_id);
+                $table = $object->getVisibleTables()[$table_id];
+                $view_id = (int) $values[self::GET_VIEW_ID];
+                if ($view_id !== 0 && isset($table->getTableViews()[$view_id])) {
+                    $ilCtrl->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_VIEW_ID, $view_id);
                 }
-                if ($values[self::GET_RECORD_ID] !== null) {
-                    $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, self::GET_RECORD_ID, $values[self::GET_RECORD_ID]);
+
+                $record_id = (int) $values[self::GET_RECORD_ID];
+                if ($record_id !== 0 && isset($table->getRecords()[$record_id])) {
+                    $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, self::GET_RECORD_ID, $record_id);
                     $ilCtrl->redirectByClass([ilRepositoryGUI::class, self::class, ilDclDetailedViewGUI::class], "renderRecord");
                 }
             }
