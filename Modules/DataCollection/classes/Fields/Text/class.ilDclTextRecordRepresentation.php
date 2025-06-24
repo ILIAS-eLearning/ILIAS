@@ -63,7 +63,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
                 $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
                 foreach ($views as $v) {
                     if ($v->getId() === $tableview_id) {
-                        $view = $tableview_id;
+                        $view = $v;
                         break;
                     }
                 }
