@@ -28,6 +28,7 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\Factory as DataFactory;
 
 class NumericInputTest extends ILIAS_UI_TestBase
 {
@@ -197,5 +198,33 @@ class NumericInputTest extends ILIAS_UI_TestBase
         $this->assertIsFloat($value->value());
     }
 
+    public function testDecimalsTransformationsStack(): void
+    {
+        $data_factory = new DataFactory();
+        $language = $this->createMock(ILIAS\Language\Language::class);
+        $refinery = new Refinery($data_factory, $language);
 
+        $f = $this->getFieldFactory();
+        $field = $f->numeric('')->withNameFrom($this->name_source)
+            ->withStepSize(.2)
+            ->withAdditionalTransformation(
+                $refinery->custom()->transformation(fn(float $v): float => $v + 1)
+            );
+
+        $post_data = new DefInputData(['name_0' => 1]);
+
+        $value = $field
+            ->withInput($post_data)
+            ->getContent();
+        $this->assertTrue($value->isOk());
+        $this->assertIsFloat($value->value());
+        $this->assertEquals(2, $value->value());
+
+        $value = $field
+            ->withStepSize(0)
+            ->withInput($post_data)
+            ->getContent();
+        $this->assertIsInt($value->value());
+        $this->assertEquals(1, $value->value());
+    }
 }
