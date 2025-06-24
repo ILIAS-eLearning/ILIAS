@@ -66,7 +66,12 @@ class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
                 $properties[$this->lng->txt('prg_dash_label_valid')] = $row->getExpiryDate() ?: $row->getValidity();
 
                 if ($cert_link = $this->maybeGetCertificateLink($this->user->getId(), $prg->getId(), $prg->getRefId())) {
-                    $properties[$this->lng->txt('certificate')] = $cert_link;
+                    $repo_assignment = ilStudyProgrammeDIC::dic()['repo.assignment'];
+                    $longest_lasting = $repo_assignment->getLongestValidAssignment($prg->getId(), $this->user->getId());
+                    if ($longest_lasting === null
+                        || $row->getAssignmentId() === $longest_lasting->getId()) {
+                        $properties[$this->lng->txt('certificate')] = $cert_link;
+                    }
                 }
             } else {
                 $properties[$this->lng->txt('prg_dash_label_finish_until')] = $row->getDeadline();
