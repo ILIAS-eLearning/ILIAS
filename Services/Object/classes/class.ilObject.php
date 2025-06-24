@@ -258,9 +258,7 @@ class ilObject
             $res = $this->db->query($sql);
 
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                if (($row->description ?? '') !== '') {
-                    $this->setDescription($row->description);
-                }
+                $this->setDescription((string) $row->description);
             }
         }
 
