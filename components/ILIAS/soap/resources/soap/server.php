@@ -61,6 +61,8 @@ if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') === 0) {
     $soapServer->handle();
 } else {
     // This is a request to display the available SOAP methods or WSDL...
-    ilInitialisation::initILIAS();
+    require_once './vendor/composer/vendor/autoload.php';
+    require_once './artifacts/bootstrap_default.php';
+    entry_point('ILIAS Legacy Initialisation Adapter');
     require './components/ILIAS/soap/nusoapserver.php';
 }
