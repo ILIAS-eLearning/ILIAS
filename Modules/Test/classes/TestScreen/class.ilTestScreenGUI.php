@@ -131,8 +131,11 @@ class ilTestScreenGUI
             $message_box_message_elements[] = $this->lng->txt('tst_launcher_status_message_password');
         }
 
-        if ($test_behaviour_settings->getProcessingTimeEnabled()) {
-            $message_box_message_elements[] = sprintf($this->lng->txt('tst_time_limit_message'), $test_behaviour_settings->getProcessingTimeAsMinutes());
+        if ($test_behaviour_settings->getProcessingTimeEnabled() && !$this->isUserOutOfProcessingTime()) {
+            $message_box_message_elements[] = sprintf(
+                $this->lng->txt('tst_time_limit_message'),
+                $test_behaviour_settings->getProcessingTimeAsMinutes()
+            );
         }
 
         $nr_of_tries = $this->object->getNrOfTries();
