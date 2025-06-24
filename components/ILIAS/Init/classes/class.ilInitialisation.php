@@ -34,6 +34,7 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\FileDelivery\Init;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory as CustomIconFactory;
+use ILIAS\Init\AllModernComponents;
 
 // needed for slow queries, etc.
 if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
@@ -1140,7 +1141,10 @@ class ilInitialisation
     }
 
     /**
-     * ilias initialisation
+     * @deprecated please use the component bootstrap mechanism and the
+     *             legacy initialisation adapter instead:
+     *
+     * @see ILIAS\Init\AllModernComponents
      */
     public static function initILIAS(): void
     {
