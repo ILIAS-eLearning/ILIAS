@@ -477,7 +477,8 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             ->withTimezone($this->activeUser->getTimeZone())
             ->withFormat($format)
             ->withUseTime(true)
-            ->withRequired(true);
+            ->withRequired(true)
+            ->withDisabled($this->test_object->participantDataExist());
         $inputs['activation_visibility'] = $field_factory->checkbox(
             $this->lng->txt('rep_activation_limited_visibility'),
             $this->lng->txt('tst_activation_limited_visibility_info')
