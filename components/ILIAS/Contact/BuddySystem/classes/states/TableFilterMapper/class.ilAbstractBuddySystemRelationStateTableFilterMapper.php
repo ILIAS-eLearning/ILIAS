@@ -37,4 +37,9 @@ abstract class ilAbstractBuddySystemRelationStateTableFilterMapper implements il
             strtolower($filter_key) === strtolower($this->state::class)
         );
     }
+
+    public function text(ilBuddySystemRelation $relation): string
+    {
+        return $this->optionsForState()[$this->state::class];
+    }
 }

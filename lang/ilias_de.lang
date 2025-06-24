@@ -2743,7 +2743,7 @@ buddysystem#:#buddy_bs_btn_txt_requested_p#:#Kontaktanfrage
 buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Kontakt anfragen
 buddysystem#:#buddy_bs_state_ignored_request_a#:#Angefragt
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignoriert
-buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignoriert
+buddysystem#:#buddy_bs_state_ignoredrequest#:#Von mir Ignoriert
 buddysystem#:#buddy_bs_state_linked#:#Vernetzt
 buddysystem#:#buddy_bs_state_linked_a#:#Vernetzt
 buddysystem#:#buddy_bs_state_linked_p#:#Vernetzt
@@ -2770,7 +2770,7 @@ buddysystem#:#buddy_relation_requested#:#Dem Benutzer wurde eine Kontaktanfrage 
 buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
 buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
 buddysystem#:#buddy_tbl_filter_state#:#Status
-buddysystem#:#buddy_tbl_state_actions_col_label#:#Status / Aktion
+buddysystem#:#buddy_tbl_state_actions_col_label#:#Status
 buddysystem#:#buddy_tbl_title_relations#:#Beziehungen zu anderen Benutzern
 buddysystem#:#buddy_use_osd#:#Pop-up Kontaktanfragen
 buddysystem#:#buddy_use_osd_info#:#Zeigt ein Pop-up an, wenn ein Benutzer mit mir in Kontakt treten möchte.

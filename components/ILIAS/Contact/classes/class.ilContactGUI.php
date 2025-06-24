@@ -18,7 +18,12 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Table\Action\Action;
+use ILIAS\UI\URLBuilder;
+use ILIAS\Data\URI;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Component;
+use ILIAS\Contact\BuddySystem\Tables\RelationsTable;
 
 /**
 * @author Jens Conze
@@ -46,14 +51,17 @@ class ilContactGUI
     protected Refinery $refinery;
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $ui_renderer;
+    private readonly RelationsTable $relations_table;
     /** @var array<string, string> */
     private array $view_mode_options = [
         self::CONTACTS_VIEW_TABLE => self::CONTACTS_VIEW_TABLE,
         self::CONTACTS_VIEW_GALLERY => self::CONTACTS_VIEW_GALLERY,
     ];
 
-    public function __construct()
-    {
+    public function __construct(
+        string $format_mail_class = ilFormatMail::class,
+        string $relations_table_class = RelationsTable::class
+    ) {
         global $DIC;
 
         $this->tpl = $DIC['tpl'];
@@ -72,7 +80,13 @@ class ilContactGUI
 
         $this->ctrl->saveParameter($this, "mobj_id");
 
-        $this->umail = new ilFormatMail($this->user->getId());
+        $this->umail = new $format_mail_class($this->user->getId());
+        $this->relations_table = new $relations_table_class(
+            $this->ui_factory,
+            $this->lng,
+            $DIC->uiService(),
+            $this->http
+        );
         $this->lng->loadLanguageModule('buddysystem');
     }
 
@@ -294,129 +308,101 @@ class ilContactGUI
         }
     }
 
-
-    protected function applyContactsTableFilter(): void
-    {
-        if (!ilBuddySystem::getInstance()->isEnabled()) {
-            $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
-        }
-
-        $table = new ilBuddySystemRelationsTableGUI($this, 'showContacts');
-
-        $table->resetOffset();
-        $table->writeFilterToSession();
-
-        $this->showContacts();
-    }
-
-
-    protected function resetContactsTableFilter(): void
-    {
-        if (!ilBuddySystem::getInstance()->isEnabled()) {
-            $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
-        }
-
-        $table = new ilBuddySystemRelationsTableGUI($this, 'showContacts');
-
-        $table->resetOffset();
-        $table->resetFilter();
-
-        $this->showContacts();
-    }
-
-
     protected function showContacts(): void
     {
         if (!ilBuddySystem::getInstance()->isEnabled()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
         }
 
-        $content = [];
-
         $this->tabs_gui->activateSubTab('buddy_view_table');
         $this->activateTab('my_contacts');
 
-        if ($this->http->wrapper()->query()->has('inv_room_ref_id') &&
-            $this->http->wrapper()->query()->has('inv_usr_ids')) {
-            $inv_room_ref_id = $this->http->wrapper()->query()->retrieve(
-                'inv_room_ref_id',
-                $this->refinery->kindlyTo()->int()
-            );
-            $inv_usr_ids = $this->http->wrapper()->query()->retrieve(
-                'inv_usr_ids',
-                $this->refinery->in()->series([
-                    $this->refinery->kindlyTo()->string(),
-                    $this->refinery->custom()->transformation(fn(string $s): array => explode(',', $s)),
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
-                    $this->refinery->custom()->constraint(fn(array $a) => $a !== [], fn() => 'Empty array.'),
-                ])
-            );
+        $content = $this->chatroomInvitationMessage();
+        $action = $this->contactAction();
+        $chat_allowed = (bool) (new ilSetting('chatroom'))->get('chat_enabled', '0');
+        $mail_allowed = $this->rbacsystem->checkAccess(
+            'internal_mail',
+            ilMailGlobalServices::getMailObjectRefId()
+        );
 
-            $userlist = [];
-            foreach ($inv_usr_ids as $inv_usr_id) {
-                $login = ilObjUser::_lookupLogin($inv_usr_id);
-                $userlist[] = $login;
-            }
-
-            if ($userlist !== []) {
-                $url = ilLink::_getStaticLink($inv_room_ref_id, 'chtr');
-                $content[] = $this->ui_factory->messageBox()->success(
-                    $this->lng->txt('chat_users_have_been_invited') . $this->ui_renderer->render(
-                        $this->ui_factory->listing()->unordered($userlist)
-                    )
-                )->withButtons([
-                    $this->ui_factory->button()->standard($this->lng->txt('goto_invitation_chat'), $url)
-                ]);
-            }
-        }
-
-        $table = new ilBuddySystemRelationsTableGUI($this, 'showContacts');
-        $table->populate();
-        $content[] = $this->ui_factory->legacy()->content($table->getHTML());
+        $content = array_merge($content, $this->relations_table->build(array_merge(
+            $chat_allowed ? ['chat' => $action('standard', 'invite_to_chat', 'inviteToChat')] : [],
+            $mail_allowed ? ['mail' => $action('standard', 'send_mail', 'mailToUsers')] : [],
+        ), $this->ctrl->getLinkTarget($this, 'showContacts'), $action));
 
         $this->tpl->setContent($this->ui_renderer->render($content));
         $this->tpl->printToStdout();
     }
 
-    private function showContactRequests(): void
+    private function updateState(): void
     {
-        if (!ilBuddySystem::getInstance()->isEnabled()) {
-            $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
+        $get = $this->http->wrapper()->query()->retrieve(...);
+
+        $user_ids = $get('contact_user_ids', $this->refinery->byTrying([
+            $this->refinery->null(),
+            $this->refinery->kindlyTo()->listOf($this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+            ])),
+            $this->refinery->custom()->transformation(
+                fn($s): array => is_array($s) && join('', $s) === 'ALL_OBJECTS' ?
+                    array_column(RelationsTable::data(), 'user_id') :
+                    throw new Exception('Nope')
+            ),
+        ]));
+
+        $action = $get('contact_action', $this->refinery->kindlyTo()->string());
+        if (!$user_ids) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'), true);
+            $this->ctrl->redirect($this);
         }
 
-        $table = new ilBuddySystemRelationsTableGUI($this, 'showContacts');
+        if (in_array($action, ['inviteToChat', 'mailToUsers'], true)) {
+            $this->$action($user_ids);
+            return;
+        }
 
-        $table->resetOffset();
-        $table->resetFilter();
-
-        $table->applyFilterValue(
-            ilBuddySystemRelationsTableGUI::STATE_FILTER_ELM_ID,
-            ilBuddySystemRequestedRelationState::class . '_p'
-        );
-
-        $this->showContacts();
+        $this->updateRelationState(current($user_ids), $action);
     }
 
-    protected function mailToUsers(): void
+    private function updateRelationState(int $user, string $action): void
     {
-        if (!$this->rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())) {
-            $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
+        $login = ilObjUser::_lookupLogin($user);
+        if (ilObjUser::_isAnonymous($user)) {
+            throw new ilBuddySystemException('You cannot perform a state transition for the anonymous user');
+        }
+        if (!$login) {
+            throw new ilBuddySystemException(sprintf(
+                'You cannot perform a state transition for a non existing user (id: %s)',
+                $user
+            ));
+        }
+        $list = ilBuddyList::getInstanceByGlobalUser();
+        $relation = $list->getRelationByUserId($user);
+        if (
+            $relation->isUnlinked() &&
+            !ilUtil::yn2tf((string) ilObjUser::_lookupPref($relation->getBuddyUsrId(), 'bs_allow_to_contact_me'))
+        ) {
+            throw new ilException('The requested user does not want to get contact requests');
         }
 
         try {
-            $usr_ids = $this->http->wrapper()->post()->retrieve(
-                'usr_ids',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
-
-            // TODO: Replace this with some kind of 'ArrayLengthConstraint'
-            if ($usr_ids === []) {
-                throw new LengthException('mail_select_one_entry');
-            }
+            $list->$action($relation);
+        } catch (ilBuddySystemRelationStateAlreadyGivenException|ilBuddySystemRelationStateTransitionException $e) {
+            $this->tpl->setOnScreenMessage('failure', sprintf($this->lng->txt($e->getMessage()), $login), true);
         } catch (Exception) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
-            $this->showContacts();
-            return;
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('buddy_bs_action_not_possible'), true);
+        }
+
+        $this->ctrl->redirect($this, 'showContacts');
+    }
+
+    /**
+     * @param non-empty-array<int> $usr_ids
+     */
+    protected function mailToUsers(array $usr_ids): void
+    {
+        if (!$this->rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())) {
+            $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
         }
 
         $logins = [];
@@ -518,24 +504,14 @@ class ilContactGUI
     }
 
     /**
-     * @param null|list<int> $usr_ids
+     * @param non-empty-array<int> $usr_ids
      */
-    protected function inviteToChat(?array $usr_ids = null): void
+    protected function inviteToChat(array $usr_ids): void
     {
         $this->tabs_gui->activateSubTab('buddy_view_table');
         $this->activateTab('my_contacts');
 
         $this->lng->loadLanguageModule('chatroom');
-
-        $usr_ids ??= $this->http->wrapper()->post()->retrieve('usr_ids', $this->refinery->byTrying([
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
-            $this->refinery->always([])
-        ]));
-
-        if ([] === $usr_ids) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'), true);
-            $this->ctrl->redirect($this);
-        }
 
         $chat_rooms = (new ilChatroom())->getAccessibleRoomIdByTitleMap($this->user->getId());
 
@@ -594,5 +570,59 @@ class ilContactGUI
         $form->addItem($hidden);
 
         return $form;
+    }
+
+    /**
+     * @return Component[]
+     */
+    private function chatroomInvitationMessage(): array
+    {
+        $has = $this->http->wrapper()->query()->has(...);
+        if (!$has('inv_room_ref_id') || !$has('inv_usr_ids')) {
+            return [];
+        }
+
+        $inv_room_ref_id = $this->http->wrapper()->query()->retrieve(
+            'inv_room_ref_id',
+            $this->refinery->kindlyTo()->int()
+        );
+        $inv_usr_ids = $this->http->wrapper()->query()->retrieve(
+            'inv_usr_ids',
+            $this->refinery->in()->series([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->custom()->transformation(fn(string $s): array => explode(',', $s)),
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->custom()->constraint(fn(array $a): bool => $a !== [], fn(): string => 'Empty array.'),
+            ])
+        );
+
+        $userlist = array_map(ilObjUser::_lookupLogin(...), $inv_usr_ids);
+
+        $url = ilLink::_getStaticLink($inv_room_ref_id, 'chtr');
+
+        return [
+            $this->ui_factory->messageBox()->success(
+                $this->lng->txt('chat_users_have_been_invited') . $this->ui_renderer->render(
+                    $this->ui_factory->listing()->unordered($userlist)
+                )
+            )->withButtons([
+                $this->ui_factory->button()->standard($this->lng->txt('goto_invitation_chat'), $url)
+            ])
+        ];
+    }
+
+    /**
+     * @return Closure(string, string, string): Action
+     */
+    private function contactAction(): Closure
+    {
+        $url = new URLBuilder(new URI(rtrim(ILIAS_HTTP_PATH, '/') . '/' . $this->ctrl->getLinkTarget($this, 'updateState')));
+        [$url, $p, $token] = $url->acquireParameters(['contact'], 'action', 'user_ids');
+
+        return fn(string $type, string $lang_var, string $param): Action => $this->ui_factory->table()->action()->$type(
+            $this->lng->txt($lang_var),
+            $url->withParameter($p, $param),
+            $token
+        );
     }
 }

@@ -26,4 +26,9 @@ interface ilBuddySystemRelationStateTableFilterMapper
     public function optionsForState(): array;
 
     public function filterMatchesRelation(string $filter_key, ilBuddySystemRelation $relation): bool;
+
+    /**
+     * Returns the translation of the relation state, similar to the values of `optionsForState`.
+     */
+    public function text(ilBuddySystemRelation $relation): string;
 }

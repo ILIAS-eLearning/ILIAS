@@ -2745,7 +2745,7 @@ buddysystem#:#buddy_bs_btn_txt_requested_p#:#Request
 buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Request Contact
 buddysystem#:#buddy_bs_state_ignored_request_a#:#Requested
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignored
-buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored
+buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored by me
 buddysystem#:#buddy_bs_state_linked#:#Linked
 buddysystem#:#buddy_bs_state_linked_a#:#Linked
 buddysystem#:#buddy_bs_state_linked_p#:#Linked
@@ -2772,7 +2772,7 @@ buddysystem#:#buddy_relation_requested#:#A request has been sent to the user.
 buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
 buddysystem#:#buddy_request_ignored#:#You ignored the user.
 buddysystem#:#buddy_tbl_filter_state#:#Status
-buddysystem#:#buddy_tbl_state_actions_col_label#:#State / Action
+buddysystem#:#buddy_tbl_state_actions_col_label#:#State
 buddysystem#:#buddy_tbl_title_relations#:#Relations to Other Users
 buddysystem#:#buddy_use_osd#:#Popup Contact Requests
 buddysystem#:#buddy_use_osd_info#:#Display a popup to indicate a user wants to add you to his friends lists.

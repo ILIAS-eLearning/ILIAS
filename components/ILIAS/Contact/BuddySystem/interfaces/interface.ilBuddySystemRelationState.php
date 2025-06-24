@@ -39,4 +39,8 @@ interface ilBuddySystemRelationState
     public function request(ilBuddySystemRelation $relation): void;
 
     public function ignore(ilBuddySystemRelation $relation): void;
+
+    public function __toString(): string;
+
+    public function getSnakeName(): string;
 }
