@@ -9995,6 +9995,9 @@ div.alert ul > li:before {
   color: #3a4c65;
   text-decoration: none;
 }
+.glyph:focus-visible {
+  position: relative;
+}
 
 .glyphicon.glyphicon-chevron-left, .glyphicon.glyphicon-chevron-right {
   font-weight: 100;
