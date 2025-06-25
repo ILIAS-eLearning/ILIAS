@@ -72,19 +72,23 @@ class CollectionDBRepository implements CollectionRepository
         $q = "SELECT owner_id, title FROM " . self::COLLECTION_TABLE_NAME . " WHERE " . self::C_IDENTIFICATION . " = %s";
         $r = $this->db->queryF($q, ['text'], [$identification->serialize()]);
         $d = $this->db->fetchObject($r);
-        $owner_id = (int)($d->owner_id ?? ResourceCollection::NO_SPECIFIC_OWNER);
-        $title = (string)($d->title ?? '');
+        $owner_id = (int) ($d->owner_id ?? ResourceCollection::NO_SPECIFIC_OWNER);
+        $title = (string) ($d->title ?? '');
 
         return $this->blank($identification, $owner_id, $title);
     }
 
-
     public function has(ResourceCollectionIdentification $identification): bool
     {
-        $q = "SELECT " . self::C_IDENTIFICATION . " FROM " . self::COLLECTION_TABLE_NAME . " WHERE " . self::C_IDENTIFICATION . " = %s";
-        $r = $this->db->queryF($q, ['text'], [$identification->serialize()]);
+        $q = "SELECT EXISTS (
+              SELECT 1 FROM " . self::COLLECTION_TABLE_NAME . " 
+              WHERE " . self::C_IDENTIFICATION . " = %s
+          ) AS found";
 
-        return ($r->numRows() === 1);
+        $r = $this->db->queryF($q, ['text'], [$identification->serialize()]);
+        $d = $this->db->fetchAssoc($r);
+
+        return (bool) $d['found'];
     }
 
     /**
@@ -95,7 +99,7 @@ class CollectionDBRepository implements CollectionRepository
         $q = "SELECT " . self::R_IDENTIFICATION . " FROM " . self::COLLECTION_ASSIGNMENT_TABLE_NAME . " WHERE " . self::C_IDENTIFICATION . " = %s ORDER BY position ASC";
         $r = $this->db->queryF($q, ['text'], [$identification->serialize()]);
         while ($d = $this->db->fetchAssoc($r)) {
-            yield (string)$d[self::R_IDENTIFICATION];
+            yield (string) $d[self::R_IDENTIFICATION];
         }
     }
 
@@ -113,7 +117,7 @@ class CollectionDBRepository implements CollectionRepository
         $title = $collection->getTitle();
 
         $resource_identification_strings = array_map(
-            fn(ResourceIdentification $i): string => $i->serialize(),
+            static fn(ResourceIdentification $i): string => $i->serialize(),
             $resource_identifications
         );
 
@@ -129,7 +133,7 @@ class CollectionDBRepository implements CollectionRepository
             $this->db->insert(self::COLLECTION_ASSIGNMENT_TABLE_NAME, [
                 self::C_IDENTIFICATION => ['text', $identification->serialize()],
                 self::R_IDENTIFICATION => ['text', $resource_identification_string],
-                'position' => ['integer', (int)$position + 1],
+                'position' => ['integer', (int) $position + 1],
             ]);
             $event_data_container->append(
                 new CollectionData(['rid' => $resource_identification_string, 'rcid' => $identification->serialize()])
@@ -141,7 +145,7 @@ class CollectionDBRepository implements CollectionRepository
                 [
                     self::C_IDENTIFICATION => ['text', $identification->serialize()],
                     self::R_IDENTIFICATION => ['text', $resource_identification_string],
-                    'position' => ['integer', (int)$position + 1],
+                    'position' => ['integer', (int) $position + 1],
                 ],
                 [
                     self::C_IDENTIFICATION => ['text', $identification->serialize()],
@@ -195,7 +199,6 @@ class CollectionDBRepository implements CollectionRepository
             [$identification->serialize()]
         );
     }
-
 
     public function preload(array $identification_strings): void
     {
