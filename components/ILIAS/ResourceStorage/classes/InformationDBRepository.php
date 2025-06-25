@@ -67,50 +67,24 @@ class InformationDBRepository implements InformationRepository
     public function store(Information $information, Revision $revision): void
     {
         $rid = $revision->getIdentification()->serialize();
-        $r = $this->db->queryF(
-            "SELECT " . self::IDENTIFICATION . " FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s AND version_number = %s",
+        $version = $revision->getVersionNumber();
+
+        $this->db->replace(
+            self::TABLE_NAME,
             [
-                'text',
-                'integer'
+                self::IDENTIFICATION => ['text', $rid],
+                'version_number' => ['integer', $version]
             ],
             [
-                $rid,
-                $revision->getVersionNumber()
+                'title' => ['text', $information->getTitle()],
+                'mime_type' => ['text', $information->getMimeType()],
+                'suffix' => ['text', $information->getSuffix()],
+                'size' => ['integer', $information->getSize()],
+                'creation_date' => ['integer', $information->getCreationDate()->getTimestamp()]
             ]
         );
 
-        if ($r->numRows() > 0) {
-            // UPDATE
-            $this->db->update(
-                self::TABLE_NAME,
-                [
-                    'title' => ['text', $information->getTitle()],
-                    'mime_type' => ['text', $information->getMimeType()],
-                    'suffix' => ['text', $information->getSuffix()],
-                    'size' => ['integer', $information->getSize()],
-                    'creation_date' => ['integer', $information->getCreationDate()->getTimestamp()],
-                ],
-                [
-                    self::IDENTIFICATION => ['text', $rid],
-                    'version_number' => ['integer', $revision->getVersionNumber()]
-                ]
-            );
-        } else {
-            // CREATE
-            $this->db->insert(
-                self::TABLE_NAME,
-                [
-                    self::IDENTIFICATION => ['text', $rid],
-                    'version_number' => ['integer', $revision->getVersionNumber()],
-                    'title' => ['text', $information->getTitle()],
-                    'mime_type' => ['text', $information->getMimeType()],
-                    'suffix' => ['text', $information->getSuffix()],
-                    'size' => ['integer', $information->getSize()],
-                    'creation_date' => ['integer', $information->getCreationDate()->getTimestamp()],
-                ]
-            );
-        }
-        $this->cache[$rid][$revision->getVersionNumber()] = $information;
+        $this->cache[$rid][$version] = $information;
     }
 
     /**
@@ -183,11 +157,11 @@ class InformationDBRepository implements InformationRepository
     private function getFileInfoFromArrayData(array $data): FileInformation
     {
         $i = new FileInformation();
-        $i->setTitle((string)$data['title']);
-        $i->setSize((int)$data['size']);
-        $i->setMimeType((string)$data['mime_type']);
-        $i->setSuffix((string)$data['suffix']);
-        $i->setCreationDate((new \DateTimeImmutable())->setTimestamp((int)$data['creation_date'] ?? 0));
+        $i->setTitle((string) $data['title']);
+        $i->setSize((int) $data['size']);
+        $i->setMimeType((string) $data['mime_type']);
+        $i->setSuffix((string) $data['suffix']);
+        $i->setCreationDate((new \DateTimeImmutable())->setTimestamp((int) ($data['creation_date'] ?? 0)));
 
         return $i;
     }
