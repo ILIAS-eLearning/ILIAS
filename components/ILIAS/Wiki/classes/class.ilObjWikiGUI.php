@@ -118,6 +118,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->triggerAssignmentTool();
 
         $this->prepareOutput();
+        $this->gui->initFetch();
 
         // see ilWikiPageGUI::printViewOrderList()
         // printView() cannot be in ilWikiPageGUI because of stylesheet confusion
@@ -1232,7 +1233,12 @@ class ilObjWikiGUI extends ilObjectGUI
         $ilAccess = $DIC->access();
         $ilCtrl = $DIC->ctrl();
 
-        $tpl->addJavaScript("assets/js/WikiPres.js");
+        $debug = false;
+        if ($debug) {
+            $tpl->addJavaScript("../components/ILIAS/Wiki/resources/WikiPres.js");
+        } else {
+            $tpl->addJavaScript("assets/js/WikiPres.js");
+        }
 
         // setting asynch to false fixes #0019457, since otherwise ilBlockGUI would act on asynch and output html when side blocks
         // being processed during the export. This is a flaw in ilCtrl and/or ilBlockGUI.

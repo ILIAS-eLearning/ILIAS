@@ -18,12 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Auth class for form based authentication
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
- */
 class ilAuthStandardFormFrontend extends ilAuthFrontend implements ilAuthFrontendInterface
 {
 }

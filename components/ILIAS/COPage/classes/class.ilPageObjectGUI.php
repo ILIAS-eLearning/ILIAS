@@ -1725,7 +1725,7 @@ class ilPageObjectGUI
         $ctrl = $DIC->ctrl();
         $ui = $DIC->ui();
 
-        $ui->renderer()->renderAsync($ui->factory()->legacy(""));
+        $ui->renderer()->renderAsync($ui->factory()->legacy()->content(""));
 
         $style_service = $DIC->contentStyle()->internal();
         $style_access_manager = $style_service->domain()->access(

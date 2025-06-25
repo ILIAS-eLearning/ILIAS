@@ -381,6 +381,7 @@
 }
 
 .dropdown-menu {
+  width: 320px;
   position: absolute;
   top: 100%;
   z-index: 1000;
@@ -3209,11 +3210,11 @@ input.btn, input.il-link.link-bulky,
 .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link fieldset[disabled],
 .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default fieldset[disabled],
 .ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a fieldset[disabled] {
-  background-color: white;
+  background-color: #b0b0b0;
   border-width: 1px;
   border-style: solid;
-  border-color: white;
-  color: rgba(76, 101, 134, 0.9);
+  border-color: #b0b0b0;
+  color: black;
   cursor: not-allowed;
   transform: none;
 }
@@ -4254,7 +4255,6 @@ hr.il-divider-with-label {
 }
 .c-form ul.c-field-multiselect > li label {
   display: flex;
-  flex-wrap: wrap;
 }
 .c-form ul.c-field-multiselect > li label > input[type=checkbox] {
   margin-right: 9px;
@@ -7437,11 +7437,11 @@ input.btn, .c-drilldown input.c-drilldown__menulevel--trigger, input.il-link.lin
 .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link fieldset[disabled],
 .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default fieldset[disabled],
 .ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a fieldset[disabled] {
-  background-color: white;
+  background-color: #b0b0b0;
   border-width: 1px;
   border-style: solid;
-  border-color: white;
-  color: rgba(76, 101, 134, 0.9);
+  border-color: #b0b0b0;
+  color: black;
   cursor: not-allowed;
   transform: none;
 }
@@ -17520,6 +17520,7 @@ div.ilHFormFooter .ilFormCmds {
 }
 .btn-file:focus-within {
   outline: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 
 .btn-file input[type=file] {

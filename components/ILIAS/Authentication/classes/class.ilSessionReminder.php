@@ -23,9 +23,9 @@ use ILIAS\Data\Factory as DataFactory;
 
 class ilSessionReminder
 {
-    public const LEAD_TIME_DISABLED = 0;
-    public const MIN_LEAD_TIME = 1;
-    public const SUGGESTED_LEAD_TIME = 5;
+    public const int LEAD_TIME_DISABLED = 0;
+    public const int MIN_LEAD_TIME = 1;
+    public const int SUGGESTED_LEAD_TIME = 5;
 
     private int $lead_time = self::SUGGESTED_LEAD_TIME;
     private int $expiration_time = 0;
@@ -35,8 +35,8 @@ class ilSessionReminder
 
     public function __construct(
         private ilObjUser $user,
-        private ClockInterface $clock,
-        private ilSetting $settings
+        private readonly ClockInterface $clock,
+        private readonly ilSetting $settings
     ) {
         $this->init();
     }

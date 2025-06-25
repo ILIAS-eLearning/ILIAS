@@ -30,10 +30,10 @@ use ILIAS\UI\Component\Input\Field\Password as PasswordInput;
 
 class ilLocalUserPasswordSettingsGUI
 {
-    private const NEW_PASSWORD = 'new_password';
-    private const CURRENT_PASSWORD = 'current_password';
-    public const CMD_SHOW_PASSWORD = 'showPassword';
-    public const CMD_SAVE_PASSWORD = 'savePassword';
+    private const string NEW_PASSWORD = 'new_password';
+    private const string CURRENT_PASSWORD = 'current_password';
+    public const string CMD_SHOW_PASSWORD = 'showPassword';
+    public const string CMD_SAVE_PASSWORD = 'savePassword';
     private readonly ServerRequestInterface $request;
     private readonly ilErrorHandling $error;
     private readonly Refinery $refinery;
@@ -227,7 +227,6 @@ class ilLocalUserPasswordSettingsGUI
         $errors = [self::CURRENT_PASSWORD => [], self::NEW_PASSWORD => []];
 
         if (!$form->getError()) {
-            $data = $form->getData();
             $error = false;
             if ($cp && $cp->getError()) {
                 $error = true;

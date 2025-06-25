@@ -21,6 +21,7 @@ namespace ILIAS\Wiki\Export;
 use ILIAS\User\Export\UserHtmlExport;
 use ilFileUtils;
 use ILIAS\components\Export\HTML\ExportCollector;
+use ILIAS\Export\HTML\ExportFile;
 
 /**
  * Wiki HTML exporter class
@@ -131,18 +132,11 @@ class WikiHtmlExport
             ? $ascii_name . ".zip"
             : $date . "__" . IL_INST_ID . "__" . $this->wiki->getType() . "_" . $this->wiki->getId() . ".zip";
 
-        $this->collector = $this->html_export->collector($this->wiki->getId());
+        $this->collector = $this->html_export->collector($this->wiki->getId(), $this->getMode());
         $this->collector->init($zip_file_name);
 
         $this->export_util = new \ILIAS\components\Export\HTML\Util("", "", $this->collector);
         $this->co_page_html_export = new \ilCOPageHTMLExport("", null, 0, $this->collector);
-
-        // initialize temporary target directory
-        //ilFileUtils::delDir($this->export_dir);
-        //ilFileUtils::makeDir($this->export_dir);
-
-        //$this->log->debug("export directory: " . $this->export_dir);
-
 
         $this->export_util->exportSystemStyle(
             [
@@ -377,5 +371,19 @@ class WikiHtmlExport
             }
         }
         return "";
+    }
+
+    public function deliverLatest(): void
+    {
+        $fm = $this->html_export->fileManager();
+        $latest = $fm->getLatestOfObjectIdAndType($this->wiki->getId(), $this->getMode());
+        if ($latest) {
+            $fm->deliver($latest);
+        }
+    }
+
+    public function getLatest(): ?ExportFile
+    {
+        return $this->html_export->fileManager()->getLatestOfObjectIdAndType($this->wiki->getId(), $this->getMode());
     }
 }

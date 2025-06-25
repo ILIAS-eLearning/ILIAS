@@ -18,61 +18,47 @@
 
 declare(strict_types=1);
 
-/**
- * Factory for auth frontend classes.
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
- */
 class ilAuthFrontendFactory
 {
-    private const CONTEXT_UNDEFINED = 0;
-
-    // authentication with id and password. Used for standard form based authentication
-    // soap auth (login) but not for (CLI (cron)?) and HTTP basic authentication
-    public const CONTEXT_STANDARD_FORM = 2;
-
-    // CLI context for cron
-    public const CONTEXT_CLI = 3;
-
-    // Rest soap context
-    public const CONTEXT_WS = 4;
-
-    // http auth
-    public const CONTEXT_HTTP = 5;
-
+    private const int CONTEXT_UNDEFINED = 0;
+    /**
+     * Authentication with id and password. Used for standard form based authentication,
+     * SOAP auth (login), but not for (CLI (cron)) and HTTP basic authentication
+     */
+    public const int CONTEXT_STANDARD_FORM = 2;
+    public const int CONTEXT_CLI = 3;
+    /** @var int Rest soap context */
+    public const int CONTEXT_WS = 4;
+    public const int CONTEXT_HTTP = 5;
 
     private int $context = self::CONTEXT_UNDEFINED;
     private ilLogger $logger;
 
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
         $this->logger = $DIC->logger()->auth();
     }
 
-    /**
-     * Set context for following authentication requests
-     */
     public function setContext(int $a_context): void
     {
         $this->context = $a_context;
     }
 
-    /**
-     * Get context
-     */
     public function getContext(): int
     {
         return $this->context;
     }
 
-    public function getFrontend(ilAuthSession $session, ilAuthStatus $status, ilAuthCredentials $credentials, array $providers): ?ilAuthFrontendInterface
-    {
+    /**
+     * @param list<ilAuthProviderInterface> $providers
+     */
+    public function getFrontend(
+        ilAuthSession $session,
+        ilAuthStatus $status,
+        ilAuthCredentials $credentials,
+        array $providers
+    ): ?ilAuthFrontendInterface {
         switch ($this->getContext()) {
             case self::CONTEXT_CLI:
                 $this->logger->debug('Init auth frontend with standard auth context');
@@ -118,6 +104,7 @@ class ilAuthFrontendFactory
                 $this->logger->error('Trying to init auth with empty context');
                 break;
         }
+
         return null;
     }
 }

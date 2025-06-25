@@ -60,14 +60,14 @@ class DTRenderer extends I\Table\Renderer
         $tpl,
         ?I\Signal $sortation_signal
     ) {
-        return $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal);
+        $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal, 1);
     }
     public function p_renderActionsHeader(
         TestDefaultRenderer $default_renderer,
         I\Table\Data $component,
         $tpl
     ) {
-        return $this->renderActionsHeader($default_renderer, $component, $tpl);
+        $this->renderActionsHeader($default_renderer, $component, $tpl, 1);
     }
 }
 
@@ -202,41 +202,42 @@ class DataRendererTest extends TableRendererTestBase
 <div class="c-table-data" id="{ID}">
     <div class="viewcontrols">{VIEW_CONTROLS}</div>
     <div class="c-table-data__table-wrapper">
-        <table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
+        <table class="c-table-data__table" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}" role="grid">
             <thead>
-                <tr class="c-table-data__header c-table-data__row" role="rowgroup">
-                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0" aria-sort="order_option_generic_ascending">
-                        <div class="c-table-data__header__resize-wrapper">
-                            <a tabindex="0" class="glyph" href="#" aria-label="sort_ascending" id="id_2"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
-                            <button class="btn btn-link" id="id_1">Field 1</button>
-                        </div>
-                    </th>
-                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="1">
-                        <div class="c-table-data__header__resize-wrapper">Field 2</div>
-                    </th>
-                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--number" role="columnheader" tabindex="-1" aria-colindex="2">
-                        <div class="c-table-data__header__resize-wrapper">
-                            <button class="btn btn-link" id="id_3">Field 3</button>
-                        </div>
-                    </th>
-                </tr>
+            <tr class="c-table-data__header c-table-data__row">
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" tabindex="-1" aria-colindex="1" aria-sort="ascending">
+                    <div class="c-table-data__header__resize-wrapper">
+                        <a tabindex="0" class="glyph" href="#" aria-label="sort_ascending" id="id_2"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
+                        <button class="btn btn-link" id="id_1">Field 1</button>
+                    </div>
+                </th>
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" tabindex="-1" aria-colindex="2">
+                    <div class="c-table-data__header__resize-wrapper">Field 2</div>
+                </th>
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--number" tabindex="-1" aria-colindex="3">
+                    <div class="c-table-data__header__resize-wrapper">
+                        <button class="btn btn-link" id="id_3">Field 3</button>
+                    </div>
+                </th>
+            </tr>
             </thead>
-            <tbody class="c-table-data__body" role="rowgroup"></tbody>
+            <tbody class="c-table-data__body"></tbody>
         </table>
     </div>
     <div class="c-table-data__async_modal_container"></div>
-
     <dialog class="c-table-data__async_message c-modal" id="{ID}_msgmodal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <form><button formmethod="dialog" class="close" aria-label="close"><span aria-hidden="true">&times;</span></button></form>
+                    <form>
+                        <button formmethod="dialog" class="close" aria-label="close">
+                            <span aria-hidden="true">&times;</span></button>
+                    </form>
                 </div>
                 <div class="c-table-data__async_messageresponse modal-body"></div>
             </div>
         </div>
     </dialog>
-
 </div>
 EOT;
         $expected = $this->brutallyTrimHTML($expected);
@@ -283,34 +284,34 @@ EOT;
 <div class="c-table-data" id="{ID}">
     <div class="viewcontrols">{VIEW_CONTROLS}</div>
     <div class="c-table-data__table-wrapper">
-        <table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
+        <table class="c-table-data__table" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}" role="grid">
             <thead>
-                <tr class="c-table-data__header c-table-data__row" role="rowgroup">
-                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0">
-                        <div class="c-table-data__header__resize-wrapper">Field 1</div>
-                    </th>
-                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="1">
-                        <div class="c-table-data__header__resize-wrapper">Field 2</div>
-                    </th>
-                </tr>
+            <tr class="c-table-data__header c-table-data__row">
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" tabindex="-1" aria-colindex="1">
+                    <div class="c-table-data__header__resize-wrapper">Field 1</div>
+                </th>
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" tabindex="-1" aria-colindex="2">
+                    <div class="c-table-data__header__resize-wrapper">Field 2</div>
+                </th>
+            </tr>
             </thead>
-            <tbody class="c-table-data__body" role="rowgroup"></tbody>
+            <tbody class="c-table-data__body"></tbody>
         </table>
     </div>
-
     <div class="c-table-data__async_modal_container"></div>
-
     <dialog class="c-table-data__async_message c-modal" id="{ID}_msgmodal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <form><button formmethod="dialog" class="close" aria-label="close"><span aria-hidden="true">&times;</span></button></form>
+                    <form>
+                        <button formmethod="dialog" class="close" aria-label="close">
+                            <span aria-hidden="true">&times;</span></button>
+                    </form>
                 </div>
                 <div class="c-table-data__async_messageresponse modal-body"></div>
             </div>
         </div>
     </dialog>
-
 </div>
 EOT;
         $expected = $this->brutallyTrimHTML($expected);
@@ -361,7 +362,7 @@ EOT;
         $renderer->p_renderActionsHeader($this->getDefaultRenderer(), $table, $tpl);
         $actual = $this->brutallyTrimHTML($tpl->get());
 
-        $expected = '<th class="c-table-data__header c-table-data__cell c-table-data__header__rowaction" role="columnheader" aria-colindex="1">actions</th>';
+        $expected = '<th class="c-table-data__header c-table-data__cell c-table-data__header__rowaction" aria-colindex="2">actions</th>';
         $this->assertStringContainsString($expected, $actual);
     }
 
@@ -425,27 +426,29 @@ EOT;
     {
         $actual = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($row));
         $expected = <<<EOT
-<td class="c-table-data__cell c-table-data__rowselection" role="gridcell" tabindex="-1">
-    <input type="checkbox" value="row_id-1" class="c-table-data__row-selector">
+<td class="c-table-data__cell c-table-data__rowselection" tabindex="-1">
+    <input type="checkbox" value="row_id-1" class="c-table-data__row-selector"></td>
+<td class="c-table-data__cell c-table-data__cell--text " tabindex="-1"><span class="c-table-data__cell__col-title">Field 1:</span>v1
 </td>
-<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="1" tabindex="-1">
-    <span class="c-table-data__cell__col-title">Field 1:</span>v1
+<td class="c-table-data__cell c-table-data__cell--text " tabindex="-1"><span class="c-table-data__cell__col-title">Field 2:</span>v2
 </td>
-<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="2" tabindex="-1">
-    <span class="c-table-data__cell__col-title">Field 2:</span>v2
+<td class="c-table-data__cell c-table-data__cell--number " tabindex="-1"><span class="c-table-data__cell__col-title">Field 3:</span>3
 </td>
-<td class="c-table-data__cell c-table-data__cell--number " role="gridcell" aria-colindex="3" tabindex="-1">
-    <span class="c-table-data__cell__col-title">Field 3:</span>3
-</td>
-<td class="c-table-data__cell c-table-data__rowaction" role="gridcell" tabindex="-1">
+<td class="c-table-data__cell c-table-data__rowaction" tabindex="-1">
     <div class="dropdown" id="id_3">
-        <button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+        <button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">
+            <span class="caret"></span></button>
         <ul id="id_3_menu" class="dropdown-menu">
-            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_1">label1</button></li>
-            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_2">label2</button></li>
+            <li>
+                <button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_1">label1</button>
+            </li>
+            <li>
+                <button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_2">label2</button>
+            </li>
         </ul>
     </div>
 </td>
+
 EOT;
         $expected = $this->brutallyTrimHTML($expected);
         $this->assertEquals($expected, $actual);

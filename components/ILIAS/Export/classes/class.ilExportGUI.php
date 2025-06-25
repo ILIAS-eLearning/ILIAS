@@ -64,7 +64,8 @@ class ilExportGUI
     public function __construct(
         object $a_parent_gui,
         ?ilObject $a_main_obj = null,
-        bool $public_access_enabled = true
+        bool $public_access_enabled = true,
+        bool $default_export_option_enabled = true
     ) {
         global $DIC;
         $this->ui_services = $DIC->ui();
@@ -88,7 +89,9 @@ class ilExportGUI
         $this->data_factory = new ilDataFactory();
         $this->public_access_enabled = $public_access_enabled;
         $this->initExportOptions();
-        $this->enableStandardXMLExport();
+        if ($default_export_option_enabled) {
+            $this->enableStandardXMLExport();
+        }
     }
 
     final public function isPublicAccessEnabled(): bool

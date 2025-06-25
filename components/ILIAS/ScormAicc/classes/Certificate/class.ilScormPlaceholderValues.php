@@ -128,8 +128,10 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
         $placeHolders['DATETIME_COMPLETED'] = '';
 
         if ($completionDate !== '') {
-            $placeHolders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate);
-            $placeHolders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
+            /** @var ilObjUser $user */
+            $user = $this->objectHelper->getInstanceByObjId($userId);
+            $placeHolders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate, $user);
+            $placeHolders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate, $user);
         }
 
         $olp = $this->objectLPHelper->getInstance($object->getId());

@@ -6710,7 +6710,7 @@ content#:#cont_mob_usages#:#Usage
 content#:#cont_more_character_styles#:#...more character styles
 content#:#cont_more_functions#:#More
 content#:#cont_moved_srt_files#:#Moved subtitles files to media objects.
-content#:#cont_multi_srt_files#:#SRT Files
+content#:#cont_multi_srt_files#:#Subtitle Files
 content#:#cont_mycourses_sortorder#:#Default Sorting
 content#:#cont_mycourses_sortorder_alphabetical#:#Alphabetical
 content#:#cont_mycourses_sortorder_info#:#This is a default setting. Every user can choose a personal order which affects all "My Courses"-elements of any portfolio.
@@ -7065,7 +7065,7 @@ content#:#cont_structure#:#structure
 content#:#cont_style#:#Style
 content#:#cont_subchapters#:#Subchapters
 content#:#cont_submit_answers#:#Submit
-content#:#cont_subtitle_file#:#SRT ZIP File
+content#:#cont_subtitle_file#:#Subtitle ZIP File
 content#:#cont_subtitle_files#:#Media Subtitles
 content#:#cont_sur_block_format#:#Surrounding Section
 content#:#cont_switch_to_media_pool#:#Switch to other Media Pool
@@ -7169,7 +7169,7 @@ content#:#cont_update_skills#:#Edit Competence
 content#:#cont_update_verification#:#Edit Certificate
 content#:#cont_upload_dir#:#Upload directory
 content#:#cont_upload_file#:#Upload File
-content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with '_&lt;lang code&gt;.srt' where lang code is e.g. 'en', 'it', 'de'. The rest of the filename should correspond to the name of the video file, e.g. 'my_video.mp4' ➜ 'my_video_en.srt'.
+content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (vtt) files in a zip file for all media objects. Your .zip file should contain all .vtt files on the top level (no subdirectories). The file names should end with '_&lt;lang code&gt;.vtt' where lang code is e.g. 'en', 'it', 'de'. The rest of the filename should correspond to the name of the video file, e.g. 'my_video.mp4' ➜ 'my_video_en.vtt'.
 content#:#cont_uploaded_file#:#Existing File
 content#:#cont_url_info#:#URL of a media file or Youtube URL.
 content#:#cont_usage#:#Usage
@@ -10055,7 +10055,7 @@ forum#:#mark_moderator_posts_desc#:#If activated moderator posts will be highlig
 forum#:#merge#:#Merge
 forum#:#merge_posts_into_thread#:#Merge Posts into other Thread
 forum#:#merged_threads_successfully#:#The selected threads were merged successfully
-forum#:#move_chosen_topics#:#Move thread "%s" to:
+forum#:#move_chosen_topics#:#Please choose the target forum for thread "%s"
 forum#:#move_thread_to_forum#:#Move Thread to other Forum
 forum#:#new_post#:#New Post
 forum#:#new_thread_with_post#:#New Thread with Post
@@ -10432,6 +10432,11 @@ help#:#help_tooltips_and_help#:#Tooltips and Workflow Help
 help#:#help_tooltips_only#:#Tooltips Only
 help#:#help_topcis#:#Topics
 help#:#help_tt_text#:#Text
+htlm#:#file_import_from_upload_dir_failed#:#File from Upload-Directory not imported
+htlm#:#file_imported_from_upload_dir#:#File imported from Upload-Directory
+htlm#:#import_from_upload_dir#:#Import from Upload-Directory
+htlm#:#import_from_upload_dir_file_name#:#Filename
+htlm#:#import_from_upload_dir_info#:#Please select file for import
 iass#:#download_assessment_paper#:#Download Record file
 iass#:#grading#:#Grading
 iass#:#grading_info#:#Grading info
@@ -10656,8 +10661,8 @@ jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#wk
 ldap#:#add_ldap_server#:#Add Server
 ldap#:#ldap_add_missing#:#Assign Missing Roles
-ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
+ldap#:#ldap_add_roles#:#Add Roles
 ldap#:#ldap_as_ds#:#Use as Data Source
 ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods.
 ldap#:#ldap_assignment_type#:#Assignment Type
@@ -10719,6 +10724,7 @@ ldap#:#ldap_plugin_info#:#Validate the role assignment with a plugin. Please ent
 ldap#:#ldap_referrals#:#Referrals
 ldap#:#ldap_referrals_info#:#If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not. This should be disabled if you are using an active directory server.
 ldap#:#ldap_remove_deprecated#:#Deassign Deprecated Roles
+ldap#:#ldap_remove_roles#:#Remove Roles
 ldap#:#ldap_role_active#:#Enable Group Synchronization
 ldap#:#ldap_role_assignments#:#Role Assignment
 ldap#:#ldap_role_at_info#:#The assignment is based on a specific attribute in the LDAP user profile.
@@ -12721,23 +12727,23 @@ mob#:#mob_general#:#General
 mob#:#mob_image_extracted#:#Image has been extracted.
 mob#:#mob_language#:#Language
 mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at the destination.
-mob#:#mob_multi_srt_files#:#SRT Files
+mob#:#mob_multi_srt_files#:#Subtitle Files
 mob#:#mob_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
 mob#:#mob_object#:#Object
 mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.
 mob#:#mob_preview_picture#:#Preview Picture
-mob#:#mob_really_delete_srt#:#Do you really want to delete the following srt files?
+mob#:#mob_really_delete_srt#:#Do you really want to delete the following subtitle files?
 mob#:#mob_second#:#Second
 mob#:#mob_srt_files_deleted#:#Subtitle files have been deleted.
-mob#:#mob_srt_not_allowed#:#Files with a .srt suffix are currently not allowed to be uploaded. If you would like to use srt files, contact your system administrator.
+mob#:#mob_srt_not_allowed#:#Files with a .vtt suffix are currently not allowed to be uploaded. If you would like to use vtt files, contact your system administrator.
 mob#:#mob_subtitle_file#:#Subtitle File
 mob#:#mob_subtitle_files#:#Subtitle Files
 mob#:#mob_subtitles#:#Subtitles
 mob#:#mob_type_not_supported#:#Mime type not supported:
 mob#:#mob_upload_file#:#Upload File
 mob#:#mob_upload_multi_srt#:#Upload as ZIP
-mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory, all .srt files should be located on the top level. The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de".
+mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory, all .vtt files should be located on the top level. The file names should end with "_&lt;lang code&gt;.vtt" where lang code is e.g. "en", "it", "de".
 mob#:#mob_url#:#URL
 mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.
 mob#:#mob_url_info1#:#External resource URL, allowed suffixes are:
@@ -13257,6 +13263,7 @@ prg#:#auto_membership_src_type#:#Type
 prg#:#auto_membership_title#:#Sources for Membership Automation
 prg#:#auto_memberships#:#Membership Automation
 prg#:#category#:#Category
+prg#:#cert_relevance#:#Certificate
 prg#:#completion_date#:#Completion Date
 prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?
 prg#:#cont_ed_insert_prgactionnote#:#Insert Study Programme Action Note
@@ -13744,6 +13751,8 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password 
 ps#:#ps_export_admin#:#Administrators
 ps#:#ps_export_confirm#:#User Confirmation when Entering Courses###Needs improvement!
 ps#:#ps_export_confirm_group#:#User Confirmation when Entering Groups###Needs improvement!
+ps#:#ps_export_confirm_group_info#:#When joining a group, users are required to accept that their personal data can be viewed by the group admins.
+ps#:#ps_export_confirm_info#:#When joining a course, users are required to accept that their personal data can be viewed by the course admins.
 ps#:#ps_export_course#:#Allow export of user profile data in courses
 ps#:#ps_export_data#:#Data Types of the Personal Profile
 ps#:#ps_export_excel#:#Start Excel Export

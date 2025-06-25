@@ -14,7 +14,7 @@
  */
 
 import { describe, it } from 'node:test';
-import { strict } from 'node:assert/strict'
+import { strict } from 'node:assert/strict';
 import Tooltip from '../../resources/js/Core/src/core.Tooltip.js';
 
 describe('tooltip class exists', () => {
@@ -57,7 +57,9 @@ describe('tooltip initializes', () => {
       return `attribute-${which}`;
     },
     ownerDocument: document,
-    parentElement: container,
+    closest() {
+      return container;
+    },
   };
 
   var tooltip = {
@@ -126,7 +128,9 @@ describe('tooltip show works', () => {
       return `attribute-${which}`;
     },
     ownerDocument: document,
-    parentElement: container,
+    closest() {
+      return container;
+    },
   };
 
   var tooltip = {
@@ -146,8 +150,8 @@ describe('tooltip show works', () => {
 
     object.showTooltip();
 
-    strict.deepEqual(addEventListenerDocument[0],{ e: 'keydown', h: object.onKeyDown });
-    strict.deepEqual(addEventListenerDocument[1],{ e: 'pointerdown', h: object.onPointerDown });
+    strict.deepEqual(addEventListenerDocument[0], { e: 'keydown', h: object.onKeyDown });
+    strict.deepEqual(addEventListenerDocument[1], { e: 'pointerdown', h: object.onPointerDown });
   });
 
   it('adds visibility classes from tooltip', () => {
@@ -199,7 +203,9 @@ describe('tooltip hide works', () => {
       return `attribute-${which}`;
     },
     ownerDocument: document,
-    parentElement: container,
+    closest() {
+      return container;
+    },
   };
 
   var tooltip = {
@@ -217,8 +223,8 @@ describe('tooltip hide works', () => {
 
     object.hideTooltip();
 
-    strict.deepEqual(removeEventListener[0],{ e: 'keydown', h: object.onKeyDown });
-    strict.deepEqual(removeEventListener[1],{ e: 'pointerdown', h: object.onPointerDown });
+    strict.deepEqual(removeEventListener[0], { e: 'keydown', h: object.onKeyDown });
+    strict.deepEqual(removeEventListener[1], { e: 'pointerdown', h: object.onPointerDown });
   });
 
   it('removes visibility classes from tooltip', () => {
@@ -264,7 +270,7 @@ describe('tooltip hide works', () => {
 
     object.onKeyDown({ key: 'Strg' });
 
-    strict.equal(hideTooltipCalled, false)
+    strict.equal(hideTooltipCalled, false);
     object.hideTooltip = keep;
   });
 
@@ -299,7 +305,7 @@ describe('tooltip hide works', () => {
 
     object.onPointerDown({ target: object.tooltip, preventDefault });
 
-    strict.equal(hideTooltipCalled, false)
+    strict.equal(hideTooltipCalled, false);
     strict.equal(preventDefaultCalled, true);
     object.hideTooltip = keep;
   });
@@ -363,7 +369,9 @@ describe('tooltip is on top if there is not enough space below', () => {
       return `attribute-${which}`;
     },
     ownerDocument: document,
-    parentElement: container,
+    closest() {
+      return container;
+    },
   };
 
   let clientRect = null;
@@ -456,7 +464,9 @@ describe('tooltip moves to left or right if there is not enough space', () => {
       return `attribute-${which}`;
     },
     ownerDocument: document,
-    parentElement: container,
+    closest() {
+      return container;
+    },
   };
 
   let clientRect = null;
@@ -538,7 +548,9 @@ describe('get display rect', () => {
       return `attribute-${which}`;
     },
     ownerDocument: document,
-    parentElement: container,
+    closest() {
+      return container;
+    },
   };
 
   const clientRect = null;

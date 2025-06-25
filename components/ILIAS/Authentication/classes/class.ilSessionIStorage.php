@@ -35,25 +35,17 @@ declare(strict_types=1);
  * reads all key/value pairs at the beginning of a request and writes all of
  * them at the end. Similar issues can appear if a page initiates additional
  * requests by (i)frames.
- *
- * @author Alex Killing <alex.killing@gmx.de>
  */
 class ilSessionIStorage
 {
-    private string $session_id = "";
+    private string $session_id;
     private string $component_id;
     private static array $values = [];
 
-    /**
-     * Constructor
-     *
-     * @param string $a_component_id component id (e.g. "crs", "lm", ...)
-     * @param string $a_sess_id session id
-     */
-    public function __construct(string $a_component_id, string $a_sess_id = "")
+    public function __construct(string $a_component_id, string $a_sess_id = '')
     {
         $this->component_id = $a_component_id;
-        if ($a_sess_id !== "") {
+        if ($a_sess_id !== '') {
             $this->session_id = $a_sess_id;
         } else {
             $this->session_id = session_id();
@@ -67,11 +59,6 @@ class ilSessionIStorage
         }
     }
 
-    /**
-     * Set a value
-     *
-     * @param string $a_val value
-     */
     public function set(string $a_key, string $a_val): void
     {
         global $DIC;
@@ -82,20 +69,16 @@ class ilSessionIStorage
 
         self::$values[$this->component_id][$a_key] = $a_val;
         $ilDB->replace(
-            "usr_sess_istorage",
-            array(
-                "session_id" => array("text", $this->session_id),
-                "component_id" => array("text", $this->component_id),
-                "vkey" => array("text", $a_key)
-                ),
-            array("value" => array("text", $a_val))
+            'usr_sess_istorage',
+            [
+                'session_id' => ['text', $this->session_id],
+                'component_id' => ['text', $this->component_id],
+                'vkey' => ['text', $a_key]
+            ],
+            ['value' => ['text', $a_val]]
         );
     }
 
-    /**
-     * @param string $a_key
-     * @return string
-     */
     public function get(string $a_key): string
     {
         global $DIC;
@@ -107,10 +90,10 @@ class ilSessionIStorage
         }
 
         $set = $ilDB->query(
-            "SELECT value FROM usr_sess_istorage " .
-            " WHERE session_id = " . $ilDB->quote($this->session_id, "text") .
-            " AND component_id = " . $ilDB->quote($this->component_id, "text") .
-            " AND vkey = " . $ilDB->quote($a_key, "text")
+            'SELECT value FROM usr_sess_istorage ' .
+            ' WHERE session_id = ' . $ilDB->quote($this->session_id, 'text') .
+            ' AND component_id = ' . $ilDB->quote($this->component_id, 'text') .
+            ' AND vkey = ' . $ilDB->quote($a_key, 'text')
         );
         $rec = $ilDB->fetchAssoc($set);
         $value = (string) ($rec['value'] ?? '');
@@ -124,18 +107,18 @@ class ilSessionIStorage
 
     /**
      * Destroy session(s). This is called by ilSession->destroy
-     * @param $a_session_id string|array ids of sessions to be deleted
+     * @param string|list<string> $a_session_id Ids of sessions to be deleted
      */
     public static function destroySession($a_session_id): void
     {
         global $DIC;
 
-        if (!is_array($a_session_id)) {
-            $q = "DELETE FROM usr_sess_istorage WHERE session_id = " .
-                $DIC->database()->quote($a_session_id, "text");
+        if (is_array($a_session_id)) {
+            $q = 'DELETE FROM usr_sess_istorage WHERE ' .
+                $DIC->database()->in('session_id', $a_session_id, false, 'text');
         } else {
-            $q = "DELETE FROM usr_sess_istorage WHERE " .
-                $DIC->database()->in("session_id", $a_session_id, false, "text");
+            $q = 'DELETE FROM usr_sess_istorage WHERE session_id = ' .
+                $DIC->database()->quote($a_session_id, 'text');
         }
 
         $DIC->database()->manipulate($q);

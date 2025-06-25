@@ -28,7 +28,7 @@ use ILIAS\Export\ExportHandler\I\Consumer\File\Identifier\CollectionInterface as
 use ILIAS\Export\ExportHandler\I\Consumer\File\Identifier\HandlerInterface as ilExportHandlerConsumerFileIdentifierInterface;
 use ILIAS\Wiki\Export\WikiHtmlExport;
 
-class ilWikiExportOptionHTML extends ilBasicLegacyExportOption
+class ilWikiExportOptionHTML extends \ILIAS\Export\HTML\ExportOptionBase
 {
     protected ilLanguage $lng;
 
@@ -36,6 +36,11 @@ class ilWikiExportOptionHTML extends ilBasicLegacyExportOption
     {
         $this->lng = $DIC->language();
         parent::init($DIC);
+    }
+
+    public function isPublicAccessPossible(): bool
+    {
+        return true;
     }
 
     public function getExportType(): string

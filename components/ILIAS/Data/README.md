@@ -27,6 +27,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 * [HTML Metadata](#htmlmetadata)
 * [OpenGraph Metadata](#opengraphmetadata)
 * [LanguageTag](#languagetag)
+* [Description](#description)
 
 Other examples for data types that could (and maybe should) be added here:
 
@@ -671,3 +672,44 @@ If the given string is no valid tag an exception is thrown.
 The language tag can have several different forms, which are represented with the classes: `Standard`, `Irregular`, `Regular` and `Privateuse`.
 
 The specific meaning of the different language tags can be found in the [RFC](https://www.ietf.org/rfc/bcp/bcp47.txt).
+
+## Description
+
+`Description`s describe generic data structures like lists, objects, maps or primitive
+values, that are likely to be found in every modern programming language. On the one
+hand, a `Description` describes the data contained in these structures, on the other
+hand the structure is enhanced with a human readable description. Finally, the descriptions
+can turn a data structure that fits the `Description` into a canonical form, i.e. a
+form only using standard PHP data structures and known structural elements.
+
+The general idea of the descriptions is that they are supposed to offer a hook into
+output of the system, to allow ILIAS components to transform this outputs into a
+suitable form. `Description`s thus supply a tightly controlled vocabulary to talk
+about data structures that should allow it to transform the data into many formats
+(such as JSON) and move it to other systems via appropriate interfaces. The current
+use case that called for this vocabulary were the Webservice component and the Activities
+it uses to integrate with ILIAS components. Other use cases that require some form of
+serialisation, e.g. a command bus, are imaginable and could be build onto this abstraction.
+
+
+```php
+<?php
+
+$f = new \ILIAS\Data\Factory;
+$df = $f->description();
+$md = fn($t) => $f->text()->markdown()->simpleDocument($t);
+
+$describes_an_object = $df->object(
+    $md("Some object with fields..."),
+    [
+        "name" => $df->string(
+            $md("The name of the thingy...")
+        ),
+        "integers" => $df->list(
+            $md("Just some integers"),
+            $df->int($md("Represents nothing"))
+        )
+    ]
+);
+
+?>

@@ -151,7 +151,7 @@ class ilECSRemoteUserRepository
             'WHERE remote_usr_id = ' . $this->db->quote($remoteUserId, 'text');
         $res = $this->db->query($query);
         if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $this->getECSRemoteUserById($row->eru_id);
+            return $this->getECSRemoteUserById((int) $row->eru_id);
         }
         return null;
     }

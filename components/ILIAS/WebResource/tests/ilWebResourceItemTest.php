@@ -73,17 +73,27 @@ class ilWebResourceItemTest extends TestCase
                ->method('toXML')
                ->with($writer);
 
-        $item_stub = $this->getMockForAbstractClass(
-            ilWebLinkItem::class,
-            [
-                1, 13, 'title', 'description', 'target',
-                true, new DateTimeImmutable(), new DateTimeImmutable(),
-                [$param1, $param2]
-            ]
-        );
-        $item_stub->expects($this->once())
-                  ->method('isInternal')
-                  ->willReturn(false);
+        $item_stub = new class (
+            1,
+            13,
+            'title',
+            'description',
+            'target',
+            true,
+            new DateTimeImmutable(),
+            new DateTimeImmutable(),
+            [$param1, $param2]
+        ) extends ilWebLinkItem {
+            public function getResolvedLink(bool $with_parameters = true): string
+            {
+                return '';
+            }
+
+            public function isInternal(): bool
+            {
+                return false;
+            }
+        };
         $item_stub->toXML($writer, 7);
     }
 }

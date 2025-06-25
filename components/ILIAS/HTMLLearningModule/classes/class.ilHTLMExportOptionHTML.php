@@ -21,17 +21,24 @@ declare(strict_types=1);
 use ILIAS\Data\ObjectId;
 use ILIAS\Export\ExportHandler\Consumer\ExportOption\BasicLegacyHandler as ilLegacyExportOption;
 use ILIAS\Export\ExportHandler\I\Consumer\Context\HandlerInterface as ilExportHandlerConsumerContextInterface;
+use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\DI\Container;
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Util\LegacyPathHelper;
 
 class ilHTLMExportOptionHTML extends ilLegacyExportOption
 {
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
+    protected IRSS $irss;
+    protected Filesystem $storage;
 
     public function init(Container $DIC): void
     {
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
+        $this->irss = $DIC->resourceStorage();
+        $this->storage = $DIC->filesystem()->storage();
         parent::init($DIC);
     }
 
@@ -72,24 +79,15 @@ class ilHTLMExportOptionHTML extends ilLegacyExportOption
             $object->getType()
         );
 
-        $subdir = $object->getType() . "_" . $object->getId();
-
-        $target_dir = $export_dir . "/" . $subdir;
-
-        ilFileUtils::delDir($target_dir);
-        ilFileUtils::makeDir($target_dir);
-
-        $source_dir = $object->getDataDirectory();
-
-        ilFileUtils::rCopy($source_dir, $target_dir);
-
-        // zip it all
+        // write files as zip to legacy storage
         $date = time();
-        $zip_file = $export_dir . "/" . $date . "__" . IL_INST_ID . "__" .
-            $object->getType() . "_" . $object->getId() . ".zip";
-        ilFileUtils::zip($target_dir, $zip_file);
+        $zip_file = LegacyPathHelper::createRelativePath(
+            $export_dir . "/" . $date . "__" . IL_INST_ID . "__" .
+            $object->getType() . "_" . $object->getId() . ".zip"
+        );
 
-        ilFileUtils::delDir($target_dir);
+        $stream = $this->irss->consume()->stream($object->getResource()->getIdentification())->getStream();
+        $this->storage->writeStream($zip_file, $stream);
 
         $this->ctrl->redirect($context->exportGUIObject(), $context->exportGUIObject()::CMD_LIST_EXPORT_FILES);
     }

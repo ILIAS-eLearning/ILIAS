@@ -84,7 +84,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     public function executeCommand(): void
     {
         $ilNavigationHistory = $this->nav_history;
-
         if (!$this->checkPermissionBool("visible") &&
             !$this->checkPermissionBool("read")) {
             $this->checkPermission("read");
@@ -105,7 +104,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
 
         $cmd = $this->ctrl->getCmd("questions");
         $next_class = $this->ctrl->getNextClass($this);
-        $this->ctrl->setReturn($this, "questions");
+        if ($cmd !== "cancel") {
+            $this->ctrl->setReturn($this, "questions");
+        }
         $q_type = "";
         if ($this->edit_request->getQuestionId() < 1) {
             $q_type = $this->edit_request->getSelectedQuestionTypes();
@@ -642,7 +643,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
 
         $newObj = new ilObjSurveyQuestionPool();
         $newObj->setTitle("dummy");
-        $newObj->create(true);
+        $newObj->create();
         $this->putObjectInTree($newObj);
 
         // import qti data

@@ -197,7 +197,6 @@ class ilObjStudyProgrammeMembersGUI
                     case "confirmedAcknowledgeAllCourses":
                         $this->confirmedAcknowledgeAllCourses();
                         break;
-
                     case "mailUserMulti":
                         $this->mailToSelectedUsers();
                         break;
@@ -209,6 +208,17 @@ class ilObjStudyProgrammeMembersGUI
                         break;
                     case "confirmedRemovalOfCertificate":
                         $this->confirmedRemovalOfCertificate();
+                        break;
+                    case "deliverCertificate":
+                        if (!$this->permissions->may(ilOrgUnitOperation::OP_MANAGE_MEMBERS)) {
+                            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("permission_denied"), true);
+                            $this->ctrl->redirect($this, "view");
+                        }
+                        $usr_id = $this->http_wrapper->query()->retrieve(
+                            'cert_usr_id',
+                            $this->refinery->kindlyTo()->int()
+                        );
+                        $this->deliverCertificate($this->object->getId(), $usr_id);
                         break;
 
                     default:
@@ -1149,5 +1159,16 @@ class ilObjStudyProgrammeMembersGUI
         }
         $this->showSuccessMessage("successfully_removed_certificate");
         $this->ctrl->redirect($this, "view");
+    }
+
+    protected function deliverCertificate(int $obj_id, int $usr_id): void
+    {
+        $repository = new ilUserCertificateRepository();
+        $pdf_action = new ilCertificatePdfAction(
+            new ilPdfGenerator($repository),
+            new ilCertificateUtilHelper(),
+            $this->lng->txt('error_creating_certificate_pdf')
+        );
+        $pdf_action->downloadPdf($usr_id, $obj_id);
     }
 }

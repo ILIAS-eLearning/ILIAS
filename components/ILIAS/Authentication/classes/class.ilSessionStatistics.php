@@ -18,12 +18,9 @@
 
 declare(strict_types=1);
 
-/**
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-*/
 class ilSessionStatistics
 {
-    private const SLOT_SIZE = 15;
+    private const int SLOT_SIZE = 15;
 
     /**
      * Is session statistics active at all?
@@ -34,7 +31,7 @@ class ilSessionStatistics
 
         $ilSetting = $DIC['ilSetting'];
 
-        return (bool) $ilSetting->get('session_statistics', "1");
+        return (bool) $ilSetting->get('session_statistics', '1');
     }
 
     /**
@@ -54,15 +51,15 @@ class ilSessionStatistics
         // in use there will be a id-collision for the raw-entry
 
         $ilDB->replace(
-            "usr_session_stats_raw",
-            array(
-                "session_id" => array("text", $a_session_id)
-            ),
-            array(
-                "type" => array("integer", $a_session_type),
-                "start_time" => array("integer", $a_timestamp),
-                "user_id" => array("integer", $a_user_id)
-            )
+            'usr_session_stats_raw',
+            [
+                'session_id' => ['text', $a_session_id]
+            ],
+            [
+                'type' => ['integer', $a_session_type],
+                'start_time' => ['integer', $a_timestamp],
+                'user_id' => ['integer', $a_user_id]
+            ]
         );
     }
 
@@ -90,36 +87,36 @@ class ilSessionStatistics
             } else {
                 $end_time = time();
             }
-            $sql = "UPDATE usr_session_stats_raw" .
-                " SET end_time = " . $ilDB->quote($end_time, "integer");
+            $sql = 'UPDATE usr_session_stats_raw' .
+                ' SET end_time = ' . $ilDB->quote($end_time, 'integer');
             if ($a_context) {
-                $sql .= ",end_context = " . $ilDB->quote($a_context, "integer");
+                $sql .= ',end_context = ' . $ilDB->quote($a_context, 'integer');
             }
-            $sql .= " WHERE session_id = " . $ilDB->quote($a_session_id, "text") .
-                " AND end_time IS NULL";
+            $sql .= ' WHERE session_id = ' . $ilDB->quote($a_session_id, 'text') .
+                ' AND end_time IS NULL';
             $ilDB->manipulate($sql);
         }
         // batch closing
         elseif (!$a_expired_at) {
-            $sql = "UPDATE usr_session_stats_raw" .
-                " SET end_time = " . $ilDB->quote(time(), "integer");
+            $sql = 'UPDATE usr_session_stats_raw' .
+                ' SET end_time = ' . $ilDB->quote(time(), 'integer');
             if ($a_context) {
-                $sql .= ",end_context = " . $ilDB->quote($a_context, "integer");
+                $sql .= ',end_context = ' . $ilDB->quote($a_context, 'integer');
             }
-            $sql .= " WHERE " . $ilDB->in("session_id", $a_session_id, false, "text") .
-                " AND end_time IS NULL";
+            $sql .= ' WHERE ' . $ilDB->in('session_id', $a_session_id, false, 'text') .
+                ' AND end_time IS NULL';
             $ilDB->manipulate($sql);
         }
         // batch with individual timestamps
         else {
             foreach ($a_session_id as $id => $ts) {
-                $sql = "UPDATE usr_session_stats_raw" .
-                    " SET end_time = " . $ilDB->quote($ts, "integer");
+                $sql = 'UPDATE usr_session_stats_raw' .
+                    ' SET end_time = ' . $ilDB->quote($ts, 'integer');
                 if ($a_context) {
-                    $sql .= ",end_context = " . $ilDB->quote($a_context, "integer");
+                    $sql .= ',end_context = ' . $ilDB->quote($a_context, 'integer');
                 }
-                $sql .= " WHERE session_id = " . $ilDB->quote($id, "text") .
-                    " AND end_time IS NULL";
+                $sql .= ' WHERE session_id = ' . $ilDB->quote($id, 'text') .
+                    ' AND end_time IS NULL';
                 $ilDB->manipulate($sql);
             }
         }
@@ -137,23 +134,23 @@ class ilSessionStatistics
         $ilDB = $DIC['ilDB'];
 
         // get latest slot in db
-        $sql = "SELECT MAX(slot_end) previous_slot_end" .
-            " FROM usr_session_stats";
+        $sql = 'SELECT MAX(slot_end) previous_slot_end' .
+            ' FROM usr_session_stats';
         $res = $ilDB->query($sql);
         $row = $ilDB->fetchAssoc($res);
-        $previous_slot_end = $row["previous_slot_end"];
+        $previous_slot_end = $row['previous_slot_end'];
 
         // no previous slot?  calculate last complete slot
         // should we use minimum session raw date instead? (problem: table lock)
         if (!$previous_slot_end) {
-            $slot = (int) (floor(date("i") / self::SLOT_SIZE));
+            $slot = (int) (floor(date('i') / self::SLOT_SIZE));
             // last slot of previous hour
             if (!$slot) {
-                $current_slot_begin = mktime((int) date("H", $a_now) - 1, 60 - self::SLOT_SIZE, 0);
+                $current_slot_begin = mktime((int) date('H', $a_now) - 1, 60 - self::SLOT_SIZE, 0);
             }
             // "normalize" to slot
             else {
-                $current_slot_begin = mktime((int) date("H", $a_now), ($slot - 1) * self::SLOT_SIZE, 0);
+                $current_slot_begin = mktime((int) date('H', $a_now), ($slot - 1) * self::SLOT_SIZE, 0);
             }
         } else {
             $current_slot_begin = $previous_slot_end + 1;
@@ -163,30 +160,24 @@ class ilSessionStatistics
 
         // no complete slot: nothing to do yet
         if ($current_slot_end < $a_now) {
-            return array($current_slot_begin, $current_slot_end);
+            return [$current_slot_begin, $current_slot_end];
         }
         return null;
     }
 
-    /**
-     * Count number of active sessions at given time
-     *
-     * @param integer $a_time
-     * @return integer
-     */
     protected static function getNumberOfActiveRawSessions(int $a_time): int
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
-        $sql = "SELECT COUNT(*) counter FROM usr_session_stats_raw" .
-            " WHERE (end_time IS NULL OR end_time >= " . $ilDB->quote($a_time, "integer") . ")" .
-            " AND start_time <= " . $ilDB->quote($a_time, "integer") .
-            " AND " . $ilDB->in("type", ilSessionControl::$session_types_controlled, false, "integer");
+        $sql = 'SELECT COUNT(*) counter FROM usr_session_stats_raw' .
+            ' WHERE (end_time IS NULL OR end_time >= ' . $ilDB->quote($a_time, 'integer') . ')' .
+            ' AND start_time <= ' . $ilDB->quote($a_time, 'integer') .
+            ' AND ' . $ilDB->in('type', ilSessionControl::$session_types_controlled, false, 'integer');
         $res = $ilDB->query($sql);
         $row = $ilDB->fetchAssoc($res);
-        return (int) $row["counter"];
+        return (int) $row['counter'];
     }
 
     /**
@@ -198,13 +189,13 @@ class ilSessionStatistics
 
         $ilDB = $DIC['ilDB'];
 
-        $sql = "SELECT start_time,end_time,end_context FROM usr_session_stats_raw" .
-            " WHERE start_time <= " . $ilDB->quote($a_end, "integer") .
-            " AND (end_time IS NULL OR end_time >= " . $ilDB->quote($a_begin, "integer") . ")" .
-            " AND " . $ilDB->in("type", ilSessionControl::$session_types_controlled, false, "integer") .
-            " ORDER BY start_time";
+        $sql = 'SELECT start_time,end_time,end_context FROM usr_session_stats_raw' .
+            ' WHERE start_time <= ' . $ilDB->quote($a_end, 'integer') .
+            ' AND (end_time IS NULL OR end_time >= ' . $ilDB->quote($a_begin, 'integer') . ')' .
+            ' AND ' . $ilDB->in('type', ilSessionControl::$session_types_controlled, false, 'integer') .
+            ' ORDER BY start_time';
         $res = $ilDB->query($sql);
-        $all = array();
+        $all = [];
         while ($row = $ilDB->fetchAssoc($res)) {
             $all[] = $row;
         }
@@ -223,7 +214,7 @@ class ilSessionStatistics
         $ilDB = $DIC['ilDB'];
 
         $ilAtomQuery = $ilDB->buildAtomQuery();
-        $ilAtomQuery->addTableLock("usr_session_stats");
+        $ilAtomQuery->addTableLock('usr_session_stats');
 
         $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) use ($a_now, &$slot) {
             // if we had to wait for the lock, no current slot should be returned here
@@ -234,11 +225,11 @@ class ilSessionStatistics
             }
 
             // save slot to mark as taken
-            $fields = array(
-                "slot_begin" => array("integer", $slot[0]),
-                "slot_end" => array("integer", $slot[1]),
-            );
-            $ilDB->insert("usr_session_stats", $fields);
+            $fields = [
+                'slot_begin' => ['integer', $slot[0]],
+                'slot_end' => ['integer', $slot[1]],
+            ];
+            $ilDB->insert('usr_session_stats', $fields);
         });
 
         $ilAtomQuery->run();
@@ -248,8 +239,6 @@ class ilSessionStatistics
 
     /**
      * Aggregate raw session data (older than given time)
-     *
-     * @param integer $a_now
      */
     public static function aggretateRaw(int $a_now): void
     {
@@ -276,15 +265,16 @@ class ilSessionStatistics
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        $ilSetting = $DIC['ilSetting'];
 
         // "relevant" closing types
-        $separate_closed = array(ilSession::SESSION_CLOSE_USER,
+        $separate_closed = [
+            ilSession::SESSION_CLOSE_USER,
             ilSession::SESSION_CLOSE_EXPIRE,
-            ilSession::SESSION_CLOSE_LOGIN);
+            ilSession::SESSION_CLOSE_LOGIN
+        ];
 
         // gather/process data (build event timeline)
-        $closed_counter = $events = array();
+        $closed_counter = $events = [];
         $opened_counter = 0;
         foreach (self::getRawData($a_begin, $a_end) as $item) {
             // open/close counters are _not_ time related
@@ -295,22 +285,22 @@ class ilSessionStatistics
             // "closed_other" would have been a good idea...
 
             // session opened
-            if ($item["start_time"] >= $a_begin) {
+            if ($item['start_time'] >= $a_begin) {
                 $opened_counter++;
-                $events[$item["start_time"]][] = 1;
+                $events[$item['start_time']][] = 1;
             }
             // session closed
-            if ($item["end_time"] && $item["end_time"] <= $a_end) {
-                if (in_array($item["end_context"], $separate_closed, true)) {
-                    if (!isset($closed_counter[$item["end_context"]])) {
-                        $closed_counter[$item["end_context"]] = 0;
+            if ($item['end_time'] && $item['end_time'] <= $a_end) {
+                if (in_array($item['end_context'], $separate_closed, true)) {
+                    if (!isset($closed_counter[$item['end_context']])) {
+                        $closed_counter[$item['end_context']] = 0;
                     }
 
-                    $closed_counter[$item["end_context"]]++;
+                    $closed_counter[$item['end_context']]++;
                 } else {
                     $closed_counter[0] = ($closed_counter[0] ?? 0) + 1;
                 }
-                $events[$item["end_time"]][] = -1;
+                $events[$item['end_time']][] = -1;
             }
         }
 
@@ -366,31 +356,31 @@ class ilSessionStatistics
         unset($events);
 
         // save aggregated data
-        $fields = array(
-            "active_min" => array("integer", $active_min),
-            "active_max" => array("integer", $active_max),
-            "active_avg" => array("integer", $active_avg),
-            "active_end" => array("integer", $active_end),
-            "opened" => array("integer", $opened_counter),
-            "closed_manual" => array("integer", (int) ($closed_counter[ilSession::SESSION_CLOSE_USER] ?? 0)),
-            "closed_expire" => array("integer", (int) ($closed_counter[ilSession::SESSION_CLOSE_EXPIRE] ?? 0)),
-            "closed_login" => array("integer", (int) ($closed_counter[ilSession::SESSION_CLOSE_LOGIN] ?? 0)),
-            "closed_misc" => array("integer", (int) ($closed_counter[0] ?? 0)),
-        );
+        $fields = [
+            'active_min' => ['integer', $active_min],
+            'active_max' => ['integer', $active_max],
+            'active_avg' => ['integer', $active_avg],
+            'active_end' => ['integer', $active_end],
+            'opened' => ['integer', $opened_counter],
+            'closed_manual' => ['integer', (int) ($closed_counter[ilSession::SESSION_CLOSE_USER] ?? 0)],
+            'closed_expire' => ['integer', (int) ($closed_counter[ilSession::SESSION_CLOSE_EXPIRE] ?? 0)],
+            'closed_login' => ['integer', (int) ($closed_counter[ilSession::SESSION_CLOSE_LOGIN] ?? 0)],
+            'closed_misc' => ['integer', (int) ($closed_counter[0] ?? 0)],
+        ];
         $ilDB->update(
-            "usr_session_stats",
+            'usr_session_stats',
             $fields,
-            array("slot_begin" => array("integer", $a_begin),
-                "slot_end" => array("integer", $a_end))
+            [
+                'slot_begin' => ['integer', $a_begin],
+                'slot_end' => ['integer', $a_end]
+            ]
         );
     }
 
     /**
      * Remove already aggregated raw data
-     *
-     * @param integer $a_now
      */
-    protected static function deleteAggregatedRaw($a_now): void
+    protected static function deleteAggregatedRaw(int $a_now): void
     {
         global $DIC;
 
@@ -399,8 +389,10 @@ class ilSessionStatistics
         // we are rather defensive here - 7 days BEFORE current aggregation
         $cut = $a_now - (60 * 60 * 24 * 7);
 
-        $ilDB->manipulate("DELETE FROM usr_session_stats_raw" .
-            " WHERE start_time <= " . $ilDB->quote($cut, "integer"));
+        $ilDB->manipulate(
+            'DELETE FROM usr_session_stats_raw' .
+            ' WHERE start_time <= ' . $ilDB->quote($cut, 'integer')
+        );
     }
 
     /**
@@ -412,12 +404,12 @@ class ilSessionStatistics
 
         $ilDB = $DIC['ilDB'];
 
-        $sql = "SELECT SUM(opened) opened, SUM(closed_manual) closed_manual," .
-            " SUM(closed_expire) closed_expire," .
-            " SUM(closed_login) closed_login, SUM(closed_misc) closed_misc" .
-            " FROM usr_session_stats" .
-            " WHERE slot_end > " . $ilDB->quote($a_from, "integer") .
-            " AND slot_begin < " . $ilDB->quote($a_to, "integer");
+        $sql = 'SELECT SUM(opened) opened, SUM(closed_manual) closed_manual,' .
+            ' SUM(closed_expire) closed_expire,' .
+            ' SUM(closed_login) closed_login, SUM(closed_misc) closed_misc' .
+            ' FROM usr_session_stats' .
+            ' WHERE slot_end > ' . $ilDB->quote($a_from, 'integer') .
+            ' AND slot_begin < ' . $ilDB->quote($a_to, 'integer');
         $res = $ilDB->query($sql);
         return $ilDB->fetchAssoc($res);
     }
@@ -432,13 +424,13 @@ class ilSessionStatistics
         /** @var ilDBInterface $ilDB */
         $ilDB = $DIC['ilDB'];
 
-        $sql = "SELECT slot_begin, slot_end, active_min, active_max, active_avg" .
-            " FROM usr_session_stats" .
-            " WHERE slot_end > " . $ilDB->quote($a_from, "integer") .
-            " AND slot_begin < " . $ilDB->quote($a_to, "integer") .
-            " ORDER BY slot_begin";
+        $sql = 'SELECT slot_begin, slot_end, active_min, active_max, active_avg' .
+            ' FROM usr_session_stats' .
+            ' WHERE slot_end > ' . $ilDB->quote($a_from, 'integer') .
+            ' AND slot_begin < ' . $ilDB->quote($a_to, 'integer') .
+            ' ORDER BY slot_begin';
         $res = $ilDB->query($sql);
-        $all = array();
+        $all = [];
         while ($row = $ilDB->fetchAssoc($res)) {
             $entry = [];
             foreach ($row as $key => $value) {
@@ -458,11 +450,11 @@ class ilSessionStatistics
 
         $ilDB = $DIC['ilDB'];
 
-        $sql = "SELECT max(slot_end) latest FROM usr_session_stats";
+        $sql = 'SELECT max(slot_end) latest FROM usr_session_stats';
         $res = $ilDB->query($sql);
         $row = $ilDB->fetchAssoc($res);
-        if ($row["latest"]) {
-            return (int) $row["latest"];
+        if ($row['latest']) {
+            return (int) $row['latest'];
         }
         //TODO check if return null as timestamp causes issues
         return null;

@@ -25,7 +25,7 @@ use ILIAS\LegalDocuments\ConditionDefinition;
 use ILIAS\LegalDocuments\Condition\Definition\UserLanguageDefinition;
 use ILIAS\LegalDocuments\Value\CriterionContent;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Factory as UIFactory;
+use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ilObjUser;
 
 class UserLanguage implements Condition
@@ -33,13 +33,13 @@ class UserLanguage implements Condition
     public function __construct(
         private readonly CriterionContent $criterion,
         private readonly UserLanguageDefinition $definition,
-        private readonly UIFactory $create
+        private readonly UI $ui
     ) {
     }
 
     public function asComponent(): Component
     {
-        return $this->create->legacy()->content(sprintf(
+        return $this->ui->create()->legacy()->content(sprintf(
             '<div><b>%s</b><br/>%s</div>',
             $this->definition->translatedType(),
             $this->definition->translatedLanguage($this->criterion->arguments()['lng'])
@@ -48,7 +48,8 @@ class UserLanguage implements Condition
 
     public function eval(ilObjUser $user): bool
     {
-        return strtoupper($user->getLanguage()) === strtoupper($this->criterion->arguments()['lng']);
+        $user_lang = $user->getLanguage() ?: $this->ui->getDefaultLanguage();
+        return strtoupper($user_lang) === strtoupper($this->criterion->arguments()['lng']);
     }
 
     public function definition(): ConditionDefinition

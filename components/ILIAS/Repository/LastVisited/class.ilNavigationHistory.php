@@ -167,8 +167,12 @@ class ilNavigationHistory
                         if ($rec["sub_obj_id"] != "") {
                             $title = $rec["title"];
                         } elseif ($rec["type"] === "sess") {
-                            $sess = new ilObjSession($rec["ref_id"]);
-                            $title = $sess->getPresentationTitle();
+                            try {
+                                $sess = new ilObjSession((int) $rec["ref_id"]);
+                                $title = $sess->getPresentationTitle();
+                            } catch (ilObjectTypeMismatchException) {
+                                $title = ilObject::_lookupTitle(ilObject::_lookupObjId((int) $rec["ref_id"]));
+                            }
                         } else {
                             $title = ilObject::_lookupTitle(ilObject::_lookupObjId((int) $rec["ref_id"]));
                         }

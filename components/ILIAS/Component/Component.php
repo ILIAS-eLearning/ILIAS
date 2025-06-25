@@ -32,7 +32,18 @@ class Component implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $define[] = Component\Activities\Repository::class;
+
+        $implement[Component\Activities\Repository::class] = static fn() =>
+            new Component\Activities\StaticRepository(
+                $seek[Component\Activities\Activity::class]
+            );
+
         $contribute[Component\EntryPoint::class] = static fn() => new Component\EntryPoint\HelloWorld("Component/HelloWorld");
+        $contribute[Component\EntryPoint::class] = static fn() =>
+            new Component\Activities\ListActivitiesEntryPoint(
+                $use[Component\Activities\Repository::class]
+            );
 
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilComponentsSetupAgent(

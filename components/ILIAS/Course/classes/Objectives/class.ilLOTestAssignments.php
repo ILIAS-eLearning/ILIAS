@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=0);
+
 /**
  * Settings for LO courses
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -176,7 +177,7 @@ class ilLOTestAssignments
             }
         } elseif ($this->getSettings()->worksWithInitialTest()) {
             foreach ($this->assignments as $assignment) {
-                if ($assignment->getTestRefId() == $a_test_ref_id) {
+                if ($assignment->getTestRefId() == $a_test_ref_id && $assignment->getAssignmentType() == ilLOSettings::TYPE_TEST_INITIAL) {
                     return ilLOSettings::TYPE_TEST_INITIAL;
                 }
             }
@@ -187,7 +188,7 @@ class ilLOTestAssignments
             }
         } else {
             foreach ($this->assignments as $assignment) {
-                if ($assignment->getTestRefId() == $a_test_ref_id) {
+                if ($assignment->getTestRefId() == $a_test_ref_id && $assignment->getAssignmentType() == ilLOSettings::TYPE_TEST_QUALIFIED) {
                     return ilLOSettings::TYPE_TEST_QUALIFIED;
                 }
             }

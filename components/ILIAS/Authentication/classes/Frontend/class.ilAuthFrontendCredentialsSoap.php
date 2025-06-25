@@ -23,21 +23,16 @@ use Psr\Http\Message\ServerRequestInterface;
 class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
 {
     private ServerRequestInterface $httpRequest;
-
     private ilCtrlInterface $ctrl;
-
     private ilSetting $settings;
-
     private ilAuthSession $authSession;
-    private \ilGlobalTemplateInterface $main_tpl;
-    private ilLogger $logger;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(ServerRequestInterface $httpRequest, ilCtrlInterface $ctrl, ilSetting $settings)
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->authSession = $DIC['ilAuthSession'];
-        $this->logger = $DIC->logger()->auth();
         $this->httpRequest = $httpRequest;
         $this->ctrl = $ctrl;
         $this->settings = $settings;
@@ -49,15 +44,6 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
      */
     public function tryAuthenticationOnLoginPage(): void
     {
-        $cmd = '';
-        if (isset($this->httpRequest->getQueryParams()['cmd']) && is_string($this->httpRequest->getQueryParams()['cmd'])) {
-            $cmd = $this->httpRequest->getQueryParams()['cmd'];
-        }
-        if ('' === $cmd &&
-            isset($this->httpRequest->getParsedBody()['cmd']) && is_string($this->httpRequest->getParsedBody()['cmd'])) {
-            $cmd = $this->httpRequest->getParsedBody()['cmd'];
-        }
-
         $passedSso = '';
         if (isset($this->httpRequest->getQueryParams()['passed_sso']) && is_string($this->httpRequest->getQueryParams()['passed_sso'])) {
             $passedSso = $this->httpRequest->getQueryParams()['passed_sso'];
@@ -67,7 +53,7 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
             return;
         }
 
-        if (!(bool) $this->settings->get('soap_auth_active', "")) {
+        if (!$this->settings->get('soap_auth_active', '')) {
             return;
         }
 
@@ -89,7 +75,6 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
             $this,
             [$provider]
         );
-
         $frontend->authenticate();
 
         switch ($status->getStatus()) {

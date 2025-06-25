@@ -22,7 +22,7 @@ namespace ILIAS\Blog\Navigation;
 
 use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
-use ILIAS\Blog\Access\BlogAccess;
+use ILIAS\Blog\Permission\PermissionManager;
 
 class ToolbarNavigationRenderer
 {
@@ -33,7 +33,7 @@ class ToolbarNavigationRenderer
     protected \ILIAS\Blog\Presentation\Util $util;
     protected $current_month;
     protected \ilCtrl $ctrl;
-    protected BlogAccess $blog_access;
+    protected PermissionManager $blog_access;
     protected InternalDomainService $domain;
 
     public function __construct(
@@ -46,7 +46,7 @@ class ToolbarNavigationRenderer
     }
 
     public function renderToolbarNavigation(
-        BlogAccess $blog_acces,
+        PermissionManager $blog_acces,
         array $a_items,
         int $blog_page,
         bool $single_posting,

@@ -37,8 +37,9 @@ namespace ILIAS\UI\examples\Input\Field\DateTime;
  *   - YYYY-MM-DD HH:mm (pre-filled: current date and time in Tokyo)
  *   - YYYY-MM-DD (pre-filled: current date at the current location)
  *
- *   A calendar glyph is displayed next to each field, except for the third line: there you can see a clock glyph.
- *   Clicking the glyphs will display the following options:
+ *   Some browser display a calendar glyph next to each field, except for the third line: there you might see a clock glyph.
+ *   Clicking the glyphs then might display the options listed below, but have in mind that it depends on which browser is used and that we do
+ *   not have a lot of control over their functionality. Therefore some possible issues are not fixable on our side.
  *
  *   - Line 1: Selection of any date in the future
  *   - Line 2: Selection of a date in the future
@@ -48,6 +49,8 @@ namespace ILIAS\UI\examples\Input\Field\DateTime;
  *   - Line 6: Selection of any date and any time
  *   - Line 7: Selection of any date and any time
  *   - Line 8: This field is disabled. No selection possible.
+ *
+ *   If the glyphs are not working you should at least be able to choose your date and time via using your keyboard.
  *
  *   Now click "Save".
  *   ILIAS reloads the page and displays the selection in an array. The outputs have to be the same as your selection.

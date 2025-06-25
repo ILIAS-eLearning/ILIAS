@@ -53,6 +53,13 @@ class ilBookingScheduleGUI
                                   ->gui()
                                   ->standardRequest();
         $this->schedule_id = $this->book_request->getScheduleId();
+
+        if ($this->schedule_id > 0) {
+            $this->access->validateScheduleId(
+                $this->schedule_id,
+                ilObject::_lookupObjId($this->ref_id)
+            );
+        }
     }
 
     public function executeCommand(): void

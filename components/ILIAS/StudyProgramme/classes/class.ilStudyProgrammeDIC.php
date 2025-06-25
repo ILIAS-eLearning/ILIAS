@@ -53,7 +53,8 @@ class ilStudyProgrammeDIC
                 ilExportFieldsInfo::_getInstanceByType('prg'),
                 $dic['repo.assignment'],
                 $DIC['lng'],
-                $dic['permissionhelper']
+                $dic['permissionhelper'],
+                new ilCertificateDownloadValidator()
             );
         };
 
@@ -345,7 +346,8 @@ class ilStudyProgrammeDIC
                 ilExportFieldsInfo::_getInstanceByType('prg'),
                 $dic['repo.assignment'],
                 $DIC['lng'],
-                $dic['permissionhelper']
+                $dic['permissionhelper'],
+                new ilCertificateDownloadValidator()
             );
         };
 

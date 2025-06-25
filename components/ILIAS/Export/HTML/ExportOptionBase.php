@@ -77,12 +77,9 @@ abstract class ExportOptionBase extends ilExportHandlerConsumerBasicExportOption
         ReferenceId $reference_id,
         ilExportHandlerConsumerFileIdentifierInterface $file_identifier
     ): void {
-        $object_id = $reference_id->toObjectId()->toInt();
-        $type = ilObject::_lookupType($object_id);
-        $file = explode(":", trim($file_identifier->getIdentifier()));
-        var_dump($file_identifier);
+        $rid = $file_identifier->getIdentifier();
+        $this->repo->deliverFile($rid);
         exit;
-        // todo: send based on rid
     }
 
     public function getFileSelection(

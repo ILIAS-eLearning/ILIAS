@@ -59,6 +59,7 @@ $il-focus-outline-outer-width: 2px;
 	$il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protection-color;
 	&:focus-within{
 		outline: $il-focus-outline-inner;
+		box-shadow: inset 0px 0px 0px $il-focus-outline-outer-width $il-focus-protection-color, 0px 0px 0px ($il-focus-outline-outer-width + $il-focus-outline-inner-width) $il-focus-protection-color;
 		@if $clearAfter {
 			&::after {
 				content: none;

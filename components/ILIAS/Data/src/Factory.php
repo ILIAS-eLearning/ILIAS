@@ -40,7 +40,7 @@ class Factory
     private ?Meta\Html\Factory $html_metadata_factory = null;
     private ?Meta\Html\OpenGraph\Factory $open_graph_metadata_factory = null;
     private ?Text\Factory $text_factory = null;
-
+    private ?Description\Factory $description_factory = null;
 
     /**
      * Get an ok result.
@@ -236,5 +236,13 @@ class Factory
             );
         }
         return $this->text_factory;
+    }
+
+    public function description(): Description\Factory
+    {
+        if ($this->description_factory === null) {
+            $this->description_factory = new Description\Factory();
+        }
+        return $this->description_factory;
     }
 }

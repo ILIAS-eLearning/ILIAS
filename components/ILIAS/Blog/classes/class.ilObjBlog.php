@@ -207,7 +207,8 @@ class ilObjBlog extends ilObject2
         // create/update news item (only in repository)
         if (!$a_in_wsp &&
             in_array($a_action, array("update", "new"))) {
-            $posting->handleNews(($a_action === "update"));
+            $DIC->blog()->internal()->domain()->news()
+                ->handle($posting, ($a_action === "update"));
         }
 
         // recipients

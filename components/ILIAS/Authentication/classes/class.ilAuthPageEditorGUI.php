@@ -28,9 +28,9 @@ use ILIAS\components\Authentication\Pages\AuthPageLanguagesOverviewTable;
  */
 class ilAuthPageEditorGUI
 {
-    final public const DEFAULT_COMMAND = 'showPageEditorLanguages';
-    final public const LANGUAGE_TABLE_ACTIONS_COMMAND = 'handlePageActions';
-    final public const CONTEXT_HTTP_PARAM = 'auth_ipe_context';
+    final public const string DEFAULT_COMMAND = 'showPageEditorLanguages';
+    final public const string LANGUAGE_TABLE_ACTIONS_COMMAND = 'handlePageActions';
+    final public const string CONTEXT_HTTP_PARAM = 'auth_ipe_context';
 
     private ilCtrlInterface $ctrl;
     private ilLanguage $lng;

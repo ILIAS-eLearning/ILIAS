@@ -78,7 +78,7 @@ abstract class InitLOMForObjectTypeMigration implements Setup\Migration
                 object_description.description AS long_description
             FROM object_data
                 LEFT JOIN object_description ON object_data.obj_id = object_description.obj_id
-                LEFT JOIN il_meta_general ON il_meta_general.rbac_id = object_data.obj_id
+                LEFT JOIN il_meta_general ON il_meta_general.rbac_id = object_data.obj_id AND il_meta_general.obj_type = object_data.type
             WHERE object_data.type = " . $this->quotedObjectType() . " " .
             "AND il_meta_general.rbac_id IS NULL
             AND NOT COALESCE(object_data.title, '') = ''
@@ -147,7 +147,7 @@ abstract class InitLOMForObjectTypeMigration implements Setup\Migration
     {
         $res = $this->db->query(
             $query = "SELECT count(*) AS count FROM object_data LEFT JOIN il_meta_general
-            ON il_meta_general.rbac_id = object_data.obj_id
+            ON il_meta_general.rbac_id = object_data.obj_id AND il_meta_general.obj_type = object_data.type
             WHERE object_data.type = " . $this->quotedObjectType() . " " .
             "AND il_meta_general.rbac_id IS NULL
             AND NOT COALESCE(object_data.title, '') = ''"

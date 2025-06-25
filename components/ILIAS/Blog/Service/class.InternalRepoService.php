@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Blog;
 
 use ILIAS\Blog\Settings\SettingsDBRepository;
+use ILIAS\Blog\Posting\PostingDBRepository;
 
 class InternalRepoService
 {
@@ -35,6 +36,14 @@ class InternalRepoService
     public function settings(): SettingsDBRepository
     {
         return self::$instance["settings"] ??= new SettingsDBRepository(
+            $this->db,
+            $this->data
+        );
+    }
+
+    public function posting(): PostingDBRepository
+    {
+        return self::$instance["posting"] ??= new PostingDBRepository(
             $this->db,
             $this->data
         );

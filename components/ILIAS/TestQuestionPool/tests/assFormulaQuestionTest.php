@@ -38,7 +38,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
         $lng->method('txt')
-            ->will($this->returnArgument(0));
+            ->willReturnArgument(0);
 
         $this->setGlobalVariable('lng', $lng);
     }

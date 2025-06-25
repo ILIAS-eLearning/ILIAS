@@ -67,15 +67,6 @@ The `Derivator` in the API could be expanded to contain methods like
 LOM set before it is persisted. The repository would need to take into
 account more types of markers/scaffolds in `transferMD`.
 
-### Abandon the old backend
-
-All ILIAS components using MD should at some point only use the
-new classes as the new MD editor does.
-
-Only a few usages of the deprecated classes remain, most of these
-related to export/import. Those and all deprecated classes will be
-removed with ILIAS 10.
-
 ### Customizable LOM Digest
 
 Customizing of LOM Digest could be made possible for plugins, in

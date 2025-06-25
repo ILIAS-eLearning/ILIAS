@@ -506,17 +506,6 @@ class ilObjSurveyQuestionPool extends ilObject
         );
         $a_xml_writer->xmlStartTag("surveyquestions", $attrs);
         $a_xml_writer->xmlElement("dummy", null, "dummy");
-        // add ILIAS specific metadata
-        $a_xml_writer->xmlStartTag("metadata");
-        $a_xml_writer->xmlStartTag("metadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "SCORM");
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $writer = new ilXmlWriter();
-        $md->toXML($writer);
-        $metadata = $writer->xmlDumpMem();
-        $a_xml_writer->xmlElement("fieldentry", null, $metadata);
-        $a_xml_writer->xmlEndTag("metadatafield");
-        $a_xml_writer->xmlEndTag("metadata");
 
         $a_xml_writer->xmlEndTag("surveyquestions");
         $a_xml_writer->xmlEndTag("surveyobject");

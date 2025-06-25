@@ -62,7 +62,7 @@ class ilOrgUnitExportOptionXML extends ilBasicExportOption
     public function getLabel(): string
     {
         $this->lng->loadLanguageModule('exp');
-        return $this->lng->txt('exp_format_dropdown-xml');
+        return $this->lng->txt('simple_xml');
     }
 
     public function onExportOptionSelected(ilExportHandlerConsumerContextInterface $context): void

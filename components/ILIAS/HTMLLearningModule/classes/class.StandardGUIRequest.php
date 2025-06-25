@@ -52,4 +52,9 @@ class StandardGUIRequest
     {
         return $this->str("baseClass");
     }
+
+    public function getString(string $post_var): string
+    {
+        return $this->str($post_var);
+    }
 }

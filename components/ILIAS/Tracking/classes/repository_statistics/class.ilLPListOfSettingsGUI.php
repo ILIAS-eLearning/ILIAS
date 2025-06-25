@@ -555,6 +555,10 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                     $params["gotolp"] = 1;
                 }
 
+                $tpl->setVariable("EXPAND_GLYPH", $this->ui_renderer->render(
+                    $this->ui_factory->symbol()->glyph()->expand()->withUnavailableAction()
+                ));
+
                 if ($this->access->checkAccess("read", "", $parent_ref_id) &&
                     $parent_ref_id != $ref_id) { // #17170
                     $tpl->setCurrentBlock("parent_link_bl");

@@ -46,7 +46,7 @@ class assSingleChoiceGUITest extends assBaseTestCase
                          ->disableOriginalConstructor()
                          ->onlyMethods(['txt'])
                          ->getMock();
-        $lng_mock->method('txt')->will($this->returnValue('Test'));
+        $lng_mock->method('txt')->willReturn('Test');
         $this->setGlobalVariable('lng', $lng_mock);
 
         $this->setGlobalVariable('ilias', $this->getIliasMock());

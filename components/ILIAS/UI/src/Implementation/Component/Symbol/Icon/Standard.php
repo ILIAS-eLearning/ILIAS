@@ -139,6 +139,7 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::NOTS,
         self::LHTS,
         self::COMS,
+        self::LTI,
         self::LTIS,
         self::CMIS,
         self::TASK,

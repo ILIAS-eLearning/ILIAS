@@ -31,8 +31,8 @@ use ilAccessHandler;
 
 class ConfigurableLogoutTarget implements LogoutTarget
 {
-    public const INTERNAL_RESSOURCE = 'internal_ressource';
-    public const EXTERNAL_RESSOURCE = 'external_ressource';
+    public const string INTERNAL_RESSOURCE = 'internal_ressource';
+    public const string EXTERNAL_RESSOURCE = 'external_ressource';
 
     public function __construct(
         private readonly ilCtrlInterface $ctrl,

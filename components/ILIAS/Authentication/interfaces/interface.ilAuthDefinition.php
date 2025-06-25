@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- */
 interface ilAuthDefinition
 {
     /**
@@ -34,7 +31,7 @@ interface ilAuthDefinition
      * For plugins the auth must be greater than 1000 and unique
      *
      * @see constants like in ilAuthUtils::AUTH_LDAP
-     * @return int[]
+     * @return list<int>
      */
     public function getAuthIds(): array;
 

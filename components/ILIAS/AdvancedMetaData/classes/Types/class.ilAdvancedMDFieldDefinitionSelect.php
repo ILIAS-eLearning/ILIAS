@@ -714,7 +714,10 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
     protected function saveOptions(): void
     {
         $this->db_gateway->create($this->getFieldId(), $this->options());
-        $this->options = $this->db_gateway->readByID($this->getFieldId());
+        $options = $this->db_gateway->readByID($this->getFieldId());
+        if ($options) {
+            $this->options = $this->db_gateway->readByID($this->getFieldId());
+        }
     }
 
     public function update(): void

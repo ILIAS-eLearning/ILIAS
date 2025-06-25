@@ -70,7 +70,7 @@
      ********************************************************************
      */
 
-     /**
+    /**
      * This represents one tooltip on the page.
      */
     class Tooltip {
@@ -110,7 +110,7 @@
       #main = null;
 
       constructor(element) {
-        this.#container = element.parentElement;
+        this.#container = element.closest('.c-tooltip__container');
         this.#element = element;
         this.#document = element.ownerDocument;
         this.#window = this.#document.defaultView || this.#document.parentWindow;

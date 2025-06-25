@@ -53,20 +53,23 @@ class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
     {
         $tasks = [];
 
-        $blogs = ilBlogPosting::searchBlogsByAuthor($user_id);
+        global $DIC;
+        $mgr = $DIC->blog()->internal()->domain()->posting();
+        $blogs = $mgr->searchBlogsByAuthor($user_id);
         foreach ($blogs as $blog_id) {
-            $posts = ilBlogPosting::getAllPostings($blog_id);
-            foreach ($posts as $post_id => $post) {
-                if ((int) $post['author'] !== $user_id) {
+            $posts = $mgr->getAllByBlog($blog_id);
+            foreach ($posts as $post) {
+                $post_id = $post->getId();
+                if ($post->getAuthor() !== $user_id) {
                     continue;
                 }
 
-                $active = ilBlogPosting::_lookupActive($post_id, "blp");
-                $withdrawn = $post['last_withdrawn']->get(IL_CAL_DATETIME);
+                $active = ilBlogPosting::_lookupActive($post->getId(), "blp");
+                $withdrawn = $post->getLastWithdrawn()?->get(IL_CAL_DATETIME);
                 if (!$active && $withdrawn === null) {
                     $refId = $this->getFirstRefIdWithPermission('read', $blog_id, $user_id);
                     $wspId = 0;
-                    $url = $this->gui->permanentLink($refId)->getPermanentLink($post_id, true);
+                    $url = $this->gui->permanentLink($refId)->getPermanentLink($post->getId(), true);
 
                     if ($refId === 0) {
                         $wspId = $this->getWspId($blog_id, $user_id);
@@ -78,7 +81,7 @@ class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
 
                     $title = sprintf(
                         $this->lng->txt('blog_task_publishing_draft_title'),
-                        $post['title']
+                        $post->getTitle(),
                     );
 
                     $task = $this->taskService->derived()->factory()->task(

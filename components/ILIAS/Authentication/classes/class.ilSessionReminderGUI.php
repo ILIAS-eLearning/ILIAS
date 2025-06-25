@@ -18,13 +18,13 @@
 
 declare(strict_types=1);
 
-class ilSessionReminderGUI
+readonly class ilSessionReminderGUI
 {
     public function __construct(
-        private readonly ilSessionReminder $session_reminder,
-        private readonly ilGlobalTemplateInterface $page,
-        private readonly ilLanguage $lng,
-        private readonly ilLoggerFactory $logger_factory
+        private ilSessionReminder $session_reminder,
+        private ilGlobalTemplateInterface $page,
+        private ilLanguage $lng,
+        private ilLoggerFactory $logger_factory
     ) {
     }
 

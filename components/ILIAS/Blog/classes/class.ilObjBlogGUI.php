@@ -22,6 +22,13 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 use ILIAS\Blog\StandardGUIRequest;
 use ILIAS\Blog\Settings\SettingsGUI;
 use ILIAS\Blog\Export\BlogHtmlExport;
+use ILIAS\Blog\Permission\PermissionManager;
+use ILIAS\Blog\InternalDomainService;
+use ILIAS\Blog\InternalGUIService;
+use ILIAS\Repository\Profile\ProfileAdapter;
+use ILIAS\Repository\Profile\ProfileGUI;
+use ILIAS\Blog\Settings\Settings;
+use ILIAS\Blog\ReadingTime\ReadingTimeManager;
 
 /**
  * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI
@@ -34,16 +41,16 @@ use ILIAS\Blog\Export\BlogHtmlExport;
  */
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
-    protected ?\ILIAS\Blog\Settings\Settings $blog_settings = null;
-    protected \ILIAS\Repository\Profile\ProfileGUI $profile_gui;
-    protected \ILIAS\Repository\Profile\ProfileAdapter $profile;
-    protected \ILIAS\Blog\Access\BlogAccess $blog_access;
-    protected \ILIAS\Blog\InternalDomainService $domain;
-    protected \ILIAS\Blog\InternalGUIService $gui;
+    protected ?Settings $blog_settings = null;
+    protected ProfileGUI $profile_gui;
+    protected ProfileAdapter $profile;
+    protected PermissionManager $perm;
+    protected InternalDomainService $domain;
+    protected InternalGUIService $gui;
     protected string $rendered_content = "";
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\Blog\ReadingTime\BlogSettingsGUI $reading_time_gui;
-    protected \ILIAS\Blog\ReadingTime\ReadingTimeManager $reading_time_manager;
+    protected ReadingTimeManager $reading_time_manager;
 
     protected StandardGUIRequest $blog_request;
     protected ilHelpGUI $help;
@@ -164,7 +171,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->reading_time_manager = $domain->readingTime();
         $this->notes = $DIC->notes();
         $owner = $this->object?->getOwner() ?? 0;
-        $this->blog_access = $domain->blogAccess(
+        $this->perm = $domain->perm(
             $this->getAccessHandler(),
             $this->node_id,
             $this->id_type,
@@ -307,7 +314,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             }
         }
 
-        if ($this->blog_access->mayContribute()) {
+        if ($this->perm->mayContribute()) {
             $this->tabs_gui->addNonTabbedLink(
                 "preview",
                 $lng->txt("blog_preview"),
@@ -364,7 +371,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $this->blpg,
                     $this->old_nr,
                     ($this->object->getNotesStatus() && !$this->disable_notes),
-                    $this->blog_access->mayEditPosting($this->blpg),
+                    $this->perm->mayEditPosting($this->blpg),
                     $style_sheet_id
                 );
 
@@ -407,7 +414,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
                 if ($ret != "") {
                     // $is_owner = $this->object->getOwner() == $ilUser->getId();
-                    $is_owner = $this->blog_access->mayContribute();
+                    $is_owner = $this->perm->mayContribute();
                     $is_active = $bpost_gui->getBlogPosting()->getActive();
 
                     // do not show inactive postings
@@ -736,7 +743,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $ilTabs->activateTab("content");
 
         // toolbar
-        if ($this->blog_access->mayContribute()) {
+        if ($this->perm->mayContribute()) {
             $ilToolbar->setFormAction($ilCtrl->getFormAction($this, "createPosting"));
 
             $title = new ilTextInputGUI($lng->txt("title"), "title");
@@ -782,7 +789,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
 
         // $is_owner = ($this->object->getOwner() == $ilUser->getId());
-        $is_owner = $this->blog_access->mayContribute();
+        $is_owner = $this->perm->mayContribute();
 
         $list_items = $this->getListItems($is_owner);
 
@@ -908,7 +915,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $back = "ilias.php?baseClass=ilDashboardGUI&cmd=jumpToWorkspace&wsp_id=" . $this->node_id;
             }
             // from editor (#10073)
-            elseif ($this->blog_access->mayContribute()) {
+            elseif ($this->perm->mayContribute()) {
                 $this->ctrl->setParameter($this, "prvm", "");
                 if ($this->blpg === 0) {
                     $back = $this->ctrl->getLinkTarget($this, "");
@@ -929,7 +936,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $back = "ilias.php?baseClass=ilDashboardGUI&cmd=jumpToWorkspace&dsh=" . $owner;
             }
             // contributor
-            elseif ($this->blog_access->mayContribute()) {
+            elseif ($this->perm->mayContribute()) {
                 $back = $this->ctrl->getLinkTarget($this, "");
                 $back_caption = $this->lng->txt("blog_back_to_blog_owner");
             }
@@ -1058,7 +1065,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
         $wtpl = new ilTemplate("tpl.blog_list.html", true, true, "components/ILIAS/Blog");
 
-        $is_admin = $this->isAdmin();
+        $is_admin = $this->perm->canManage();
 
         $last_month = null;
         $is_empty = true;
@@ -1105,7 +1112,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $more_link = $preview;
 
             // actions
-            $posting_edit = $this->blog_access->mayEditPosting($item["id"], $item["author"]);
+            $posting_edit = $this->perm->mayEditPosting($item["id"], $item["author"]);
             if (($posting_edit || $is_admin) && !$a_link_template && $a_cmd === "preview") {
                 $actions = [];
 
@@ -1211,11 +1218,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             }
 
             // permanent link
-            if ($a_cmd !== "preview") {
+            if ($this->node_id !== null &&
+                $a_cmd !== "preview") {
                 if ($this->id_type === self::WORKSPACE_NODE_ID) {
-                    $goto = $this->gui->permanentLink(0, $this->node_id)->getPermanentLink((int) $item["id"]);
+                    $goto = $this->gui->permanentLink(0, (int) $this->node_id)->getPermanentLink((int) $item["id"]);
                 } else {
-                    $goto = $this->gui->permanentLink($this->node_id)->getPermanentLink((int) $item["id"]);
+                    $goto = $this->gui->permanentLink((int) $this->node_id)->getPermanentLink((int) $item["id"]);
                 }
                 $wtpl->setCurrentBlock("permalink");
                 $wtpl->setVariable("URL_PERMALINK", $goto);
@@ -1679,7 +1687,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     ): void {
         $nav_renderer = $this->gui->navigation()->toolbarNavigationRenderer();
         $nav_renderer->renderToolbarNavigation(
-            $this->blog_access,
+            $this->perm,
             $a_items,
             $this->blpg,
             $single_posting,
@@ -1729,7 +1737,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         if ($this->blog_settings->getKeywords()) {
             // keywords
             $may_edit_keywords = ($blpg > 0 &&
-                $this->blog_access->mayEditPosting($blpg) &&
+                $this->perm->mayEditPosting($blpg) &&
                 $a_list_cmd !== "preview" &&
                 $a_list_cmd !== "gethtml" &&
                 !$a_link_template);
@@ -1971,7 +1979,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             }
 
             // #11758
-            if ($this->blog_access->mayContribute()) {
+            if ($this->perm->mayContribute()) {
                 $ilCtrl->setParameter($this, "prvm", "");
 
                 $ilCtrl->setParameter($this, "bmn", "");
@@ -1981,7 +1989,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $ilCtrl->setParameter($this, "bmn", $this->month);
                 $lg->addCustomCommand($link, "blog_edit"); // #11868
 
-                if ($sub_id && $this->blog_access->mayEditPosting($sub_id)) {
+                if ($sub_id && $this->perm->mayEditPosting($sub_id)) {
                     $link = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit");
                     $lg->addCustomCommand($link, "blog_edit_posting");
                 }
@@ -2070,15 +2078,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         return $res;
     }
 
-    /**
-     * Check if user has admin access (approve, may edit & deactivate all postings)
-     */
-    protected function isAdmin(): bool
-    {
-        return ($this->checkPermissionBool("redact") ||
-                $this->checkPermissionBool("write"));
-    }
-
     protected function addLocatorItems(): void
     {
         $ilLocator = $this->locator;
@@ -2090,7 +2089,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
     public function approve(): void
     {
-        if ($this->isAdmin() && $this->apid > 0) {
+        if ($this->perm->canManage() && $this->apid > 0) {
             $post = new ilBlogPosting($this->apid);
             $post->setApproved(true);
             $post->setBlogNodeId($this->node_id, ($this->id_type == self::WORKSPACE_NODE_ID));

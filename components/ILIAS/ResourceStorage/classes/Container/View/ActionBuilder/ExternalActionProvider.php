@@ -23,6 +23,7 @@ namespace ILIAS\components\ResourceStorage\Container\View;
 use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\ActionProvider;
 use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\TopAction;
 use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\SingleAction;
+use ILIAS\UI\Implementation\Component\Modal\RoundTrip;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -30,7 +31,6 @@ use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\SingleAction;
  */
 final class ExternalActionProvider implements ActionProvider
 {
-
     /**
      * @var SingleAction[]
      */
@@ -40,14 +40,19 @@ final class ExternalActionProvider implements ActionProvider
      */
     private array $top_actions = [];
 
+    private array $top_actions_modals = [];
+
     public function addSingleAction(string $key, SingleAction $action): void
     {
         $this->single_actions[$key] = $action;
     }
 
-    public function addTopAction(string $key, TopAction $action): void
+    public function addTopAction(string $key, TopAction $action, ?RoundTrip $modal = null): void
     {
         $this->top_actions[$key] = $action;
+        if ($modal) {
+            $this->top_actions_modals[] = $modal;
+        }
     }
 
     public function getTopActions(): array
@@ -62,7 +67,7 @@ final class ExternalActionProvider implements ActionProvider
 
     public function getComponents(): array
     {
-        return [];
+        return $this->top_actions_modals;
     }
 
 }

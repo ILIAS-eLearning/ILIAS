@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilExternalAuthUserCreationAttributeMappingFilter
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilExternalAuthUserCreationAttributeMappingFilter extends FilterIterator
 {
     public function accept(): bool

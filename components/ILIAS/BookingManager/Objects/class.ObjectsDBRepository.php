@@ -117,10 +117,10 @@ class ObjectsDBRepository
         }
     }
 
-    public function getObjectInfoPath(int $booking_object_id): void
+    public function getObjectInfoPath(int $booking_object_id): string
     {
         $rid = $this->getObjectInfoRidForBookingObjectId($booking_object_id);
-        $this->wrapper->getResourcePath($rid);
+        return $this->wrapper->getResourcePath($rid);
     }
 
     public function deliverObjectInfo(int $booking_object_id): void
@@ -195,10 +195,10 @@ class ObjectsDBRepository
         $this->wrapper->deliverFile($rid);
     }
 
-    public function getBookingInfoPath(int $booking_object_id): void
+    public function getBookingInfoPath(int $booking_object_id): string
     {
         $rid = $this->getBookingInfoRidForBookingObjectId($booking_object_id);
-        $this->wrapper->getResourcePath($rid);
+        return $this->wrapper->getResourcePath($rid);
     }
 
     public function getBookingInfoFilename(int $booking_object_id): string

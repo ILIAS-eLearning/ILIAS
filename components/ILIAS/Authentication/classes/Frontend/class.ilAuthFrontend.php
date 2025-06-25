@@ -18,17 +18,11 @@
 
 declare(strict_types=1);
 
-/**
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
- */
-//TODO check why authfront does not include frontendInterface
-class ilAuthFrontend
+class ilAuthFrontend implements ilAuthFrontendInterface
 {
-    public const MIG_EXTERNAL_ACCOUNT = 'mig_ext_account';
-    public const MIG_TRIGGER_AUTHMODE = 'mig_trigger_auth_mode';
-    public const MIG_DESIRED_AUTHMODE = 'mig_desired_auth_mode';
+    public const string MIG_EXTERNAL_ACCOUNT = 'mig_ext_account';
+    public const string MIG_TRIGGER_AUTHMODE = 'mig_trigger_auth_mode';
+    public const string MIG_DESIRED_AUTHMODE = 'mig_desired_auth_mode';
 
     private ilLogger $logger;
     private ilSetting $settings;
@@ -36,20 +30,15 @@ class ilAuthFrontend
 
     private ilAuthCredentials $credentials;
     private ilAuthStatus $status;
-    /** @var ilAuthProvider[] */
+    /** @var list<ilAuthProviderInterface> */
     private array $providers;
     private ilAuthSession $auth_session;
     private ilAppEventHandler $ilAppEventHandler;
 
     private ilUserProfile $user_profile;
 
-    private bool $authenticated = false;
-
     /**
-     * @param ilAuthSession $session
-     * @param ilAuthStatus $status
-     * @param ilAuthCredentials $credentials
-     * @param ilAuthProvider[] $providers
+     * @param list<ilAuthProviderInterface> $providers
      */
     public function __construct(ilAuthSession $session, ilAuthStatus $status, ilAuthCredentials $credentials, array $providers)
     {
@@ -67,42 +56,29 @@ class ilAuthFrontend
         $this->user_profile = new ilUserProfile();
     }
 
-    /**
-     * Get auth session
-     */
     public function getAuthSession(): ilAuthSession
     {
         return $this->auth_session;
     }
 
-    /**
-     * Get auth credentials
-     */
     public function getCredentials(): ilAuthCredentials
     {
         return $this->credentials;
     }
 
     /**
-     * Get providers
-     * @return ilAuthProviderInterface[] $provider
+     * @return list<ilAuthProviderInterface>
      */
     public function getProviders(): array
     {
         return $this->providers;
     }
 
-    /**
-     * @return \ilAuthStatus
-     */
     public function getStatus(): ilAuthStatus
     {
         return $this->status;
     }
 
-    /**
-     * Reset status
-     */
     public function resetStatus(): void
     {
         $this->getStatus()->setStatus(ilAuthStatus::STATUS_UNDEFINED);
@@ -110,10 +86,6 @@ class ilAuthFrontend
         $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
     }
 
-    /**
-     * Migrate Account to existing user account
-     * @throws \InvalidArgumentException if current auth provider does not support account migration
-     */
     public function migrateAccount(ilAuthSession $session): bool
     {
         if (!$session->isAuthenticated()) {
@@ -148,9 +120,6 @@ class ilAuthFrontend
         return $this->handleAuthenticationFail();
     }
 
-    /**
-     * Create new user account
-     */
     public function migrateAccountNew(): bool
     {
         foreach ($this->providers as $provider) {
@@ -169,10 +138,6 @@ class ilAuthFrontend
     }
 
 
-
-    /**
-     * Try to authenticate user
-     */
     public function authenticate(): bool
     {
         foreach ($this->getProviders() as $provider) {
@@ -189,7 +154,7 @@ class ilAuthFrontend
                     return $this->handleAuthenticationSuccess($provider);
 
                 case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
-                    $this->logger->notice("Account migration required.");
+                    $this->logger->notice('Account migration required.');
                     if ($provider instanceof ilAuthProviderAccountMigrationInterface) {
                         return $this->handleAccountMigration($provider);
                     }
@@ -205,10 +170,6 @@ class ilAuthFrontend
         return $this->handleAuthenticationFail();
     }
 
-    /**
-     * Handle account migration
-     * @param ilAuthProvider $provider
-     */
     protected function handleAccountMigration(ilAuthProviderAccountMigrationInterface $provider): bool
     {
         $this->logger->debug('Trigger auth mode: ' . $provider->getTriggerAuthMode());
@@ -227,9 +188,6 @@ class ilAuthFrontend
         return true;
     }
 
-    /**
-     * Handle successful authentication
-     */
     protected function handleAuthenticationSuccess(ilAuthProviderInterface $provider): bool
     {
         $user = ilObjectFactory::getInstanceByObjId($this->getStatus()->getAuthenticatedUserId(), false);
@@ -337,7 +295,7 @@ class ilAuthFrontend
 
 
         // --- anonymous/registered user
-        if (PHP_SAPI !== "cli") {
+        if (PHP_SAPI !== 'cli') {
             $this->logger->info(
                 'logged in as ' . $user->getLogin() .
             ', remote:' . $_SERVER['REMOTE_ADDR'] . ':' . $_SERVER['REMOTE_PORT'] .
@@ -353,17 +311,15 @@ class ilAuthFrontend
         $this->ilAppEventHandler->raise(
             'components/ILIAS/Authentication',
             'afterLogin',
-            array(
-                'username' => $user->getLogin())
+            [
+                'username' => $user->getLogin()
+            ]
         );
 
         $this->getStatus()->setReason('');
         return true;
     }
 
-    /**
-     * Check activation
-     */
     protected function checkActivation(ilObjUser $user): bool
     {
         return $user->getActive();
@@ -392,36 +348,27 @@ class ilAuthFrontend
         return $numLoginAttempts < $maxLoginAttempts;
     }
 
-    /**
-     * Check time limit
-     */
     protected function checkTimeLimit(ilObjUser $user): bool
     {
         return $user->checkTimeLimit();
     }
 
-    /**
-     * Check ip
-     */
     protected function checkIp(ilObjUser $user): bool
     {
         $clientip = $user->getClientIP();
-        if (trim($clientip) !== "") {
-            $clientip = preg_replace("/[^0-9.?*,:]+/", "", $clientip);
-            $clientip = str_replace([".", "?", "*", ","], ["\\.", "[0-9]", "[0-9]*", "|"], $clientip);
+        if (trim($clientip) !== '') {
+            $clientip = preg_replace('/[^0-9.?*,:]+/', '', $clientip);
+            $clientip = str_replace(['.', '?', '*', ','], ["\\.", '[0-9]', '[0-9]*', '|'], $clientip);
 
             ilLoggerFactory::getLogger('auth')->debug('Check ip ' . $clientip . ' against ' . $_SERVER['REMOTE_ADDR']);
 
-            if (!preg_match("/^" . $clientip . "$/", $_SERVER["REMOTE_ADDR"])) {
+            if (!preg_match('/^' . $clientip . '$/', $_SERVER['REMOTE_ADDR'])) {
                 return false;
             }
         }
         return true;
     }
 
-    /**
-     * Check simultaneous logins
-     */
     protected function checkSimultaneousLogins(ilObjUser $user): bool
     {
         $this->logger->debug('Setting prevent simultaneous session is: ' . $this->settings->get('ps_prevent_simultaneous_logins'));

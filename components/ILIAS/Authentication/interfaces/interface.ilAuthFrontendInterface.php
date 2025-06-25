@@ -18,16 +18,7 @@
 
 declare(strict_types=1);
 
-/**
- * Interface for auth methods (web form, http, ...)
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
- */
 interface ilAuthFrontendInterface
 {
-    /**
-     * Try authentication.
-     */
     public function authenticate(): bool;
 }

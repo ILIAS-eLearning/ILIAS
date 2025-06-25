@@ -47,7 +47,7 @@ class assClozeTestGUITest extends assBaseTestCase
                          ->disableOriginalConstructor()
                          ->onlyMethods(['txt'])
                          ->getMock();
-        $lng_mock->method('txt')->will($this->returnValue('Test'));
+        $lng_mock->method('txt')->willReturn('Test');
         $this->setGlobalVariable('lng', $lng_mock);
 
         $ilias_mock = new stdClass();

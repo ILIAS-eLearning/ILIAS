@@ -6702,7 +6702,7 @@ content#:#cont_mob_usages#:#Nutzung
 content#:#cont_more_character_styles#:#Zeichen-Styles
 content#:#cont_more_functions#:#Weitere
 content#:#cont_moved_srt_files#:#Die Untertitel-Dateien wurden den Medienobjekten zugeordnet.
-content#:#cont_multi_srt_files#:#SRT-Dateien
+content#:#cont_multi_srt_files#:#Untertitel-Dateien
 content#:#cont_mycourses_sortorder#:#Standardsortierung
 content#:#cont_mycourses_sortorder_alphabetical#:#Alphabetisch
 content#:#cont_mycourses_sortorder_info#:#Dies ist die Default-Einstellung. Jeder Benutzer kann eine eigene Sortierung wählen, die für alle "Meine Kurse"-Elemente sämtlicher Portfolios gilt.
@@ -7057,7 +7057,7 @@ content#:#cont_structure#:#Struktur
 content#:#cont_style#:#Style
 content#:#cont_subchapters#:#Unterkapitel
 content#:#cont_submit_answers#:#Auswerten
-content#:#cont_subtitle_file#:#SRT-ZIP-Datei
+content#:#cont_subtitle_file#:#Untertitel-ZIP-Datei
 content#:#cont_subtitle_files#:#Untertitel Medienobjekte
 content#:#cont_sur_block_format#:#Umgebender Block
 content#:#cont_switch_to_media_pool#:#In anderen Medienpool wechseln
@@ -7161,7 +7161,7 @@ content#:#cont_update_skills#:#Kompetenz bearbeiten
 content#:#cont_update_verification#:#Zertifikat bearbeiten
 content#:#cont_upload_dir#:#Upload-Verzeichnis
 content#:#cont_upload_file#:#Datei hochladen
-content#:#cont_upload_multi_srt_howto#:#Erlaubt das Hochladen mehrerer Untertitel-Dateien (.srt) in einer .zip-Datei für alle Medienobjekte. Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
+content#:#cont_upload_multi_srt_howto#:#Erlaubt das Hochladen mehrerer Untertitel-Dateien (.vtt) in einer .zip-Datei für alle Medienobjekte. Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .vtt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.vtt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.vtt".
 content#:#cont_uploaded_file#:#Vorhandene Datei
 content#:#cont_url_info#:#URL einer Mediendatei oder Youtube-URL.
 content#:#cont_usage#:#Verwendung
@@ -10044,7 +10044,7 @@ forum#:#mark_moderator_posts_desc#:#Beiträge der Moderation werden farblich her
 forum#:#merge#:#Zusammenführen
 forum#:#merge_posts_into_thread#:#Verschmelze Posts mit anderem Thema
 forum#:#merged_threads_successfully#:#Die selektierten Themen wurden erfolgreich zusammengeführt
-forum#:#move_chosen_topics#:#Thema „%s“ verschieben nach:
+forum#:#move_chosen_topics#:#Bitte wählen Sie das Zielforum für das Thema "%s"
 forum#:#move_thread_to_forum#:#Verschiebe Thema in ein anderes Forum
 forum#:#new_post#:#Neuer Beitrag
 forum#:#new_thread_with_post#:#Neues Thema mit Beitrag
@@ -10423,6 +10423,11 @@ help#:#help_tooltips_and_help#:#Tooltips und Handlungsanweisungen
 help#:#help_tooltips_only#:#Nur Tooltips
 help#:#help_topcis#:#Themen
 help#:#help_tt_text#:#Text
+htlm#:#file_import_from_upload_dir_failed#:#Datei aus Uploadverzeichnis nicht importiert
+htlm#:#file_imported_from_upload_dir#:#Datei aus Uploadverzeichnis importiert
+htlm#:#import_from_upload_dir#:#Import aus Uploadverzeichnis
+htlm#:#import_from_upload_dir_file_name#:#Dateiname
+htlm#:#import_from_upload_dir_info#:#Bitte Datei zur Übernahme auswählen
 iass#:#download_assessment_paper#:#Prüfungsblatt herunterladen
 iass#:#grading#:#Bewertung
 iass#:#grading_info#:#Bewertungsinformationen
@@ -10647,8 +10652,8 @@ jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#KW
 ldap#:#add_ldap_server#:#Server hinzufügen
 ldap#:#ldap_add_missing#:#Fehlende Rollen zuweisen
-ldap#:#ldap_add_remove#:#Rollen hinzufügen/entfernen
 ldap#:#ldap_add_role_ass_rule#:#Neue Regel für die ILIAS-Rollenzuordnung
+ldap#:#ldap_add_roles#:#Rollen hinzufügen
 ldap#:#ldap_as_ds#:#Als Datenquelle verwenden
 ldap#:#ldap_as_ds_info#:#In Kombination mit anderen Authentifizierungsarten (z. B. SAML) wird die LDAP-Konfiguration nur für die Synchronisierung der Angaben in den ILIAS-Konten genutzt. Eine direkte Authentifizierung über LDAP ist nicht möglich.
 ldap#:#ldap_assignment_type#:#Art der Zuordnung
@@ -10710,6 +10715,7 @@ ldap#:#ldap_plugin_info#:#Überprüfung der Rollenzuordnung per Plugin. Bitte ge
 ldap#:#ldap_referrals#:#Weiterleitungen
 ldap#:#ldap_referrals_info#:#Legt fest, ob Weiterleitungen des LDAP-Servers automatisch gefolgt wird oder nicht.
 ldap#:#ldap_remove_deprecated#:#Unberechtigte Rollen entfernen
+ldap#:#ldap_remove_roles#:#Rollen entfernen
 ldap#:#ldap_role_active#:#Gruppenaktualisierung eingeschaltet
 ldap#:#ldap_role_assignments#:#Rollenzuordnung
 ldap#:#ldap_role_at_info#:#Die Zuordnung erfolgt anhand eines bestimmten Attributs des LDAP-Kontos.
@@ -12712,23 +12718,23 @@ mob#:#mob_general#:#Allgemein
 mob#:#mob_image_extracted#:#Vorschaubild wurde erzeugt
 mob#:#mob_language#:#Sprache
 mob#:#mob_mime_type_not_allowed#:#Die folgenden MIME-Typen sind am Zielort nicht erlaubt.
-mob#:#mob_multi_srt_files#:#SRT-Dateien
+mob#:#mob_multi_srt_files#:#Untertitel-Dateien
 mob#:#mob_no_extraction_possible#:#Leider konnte kein Vorschaubild aus der Datei erzeugt werden.
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 mob#:#mob_object#:#Objekt
 mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.
 mob#:#mob_preview_picture#:#Vorschaubild
-mob#:#mob_really_delete_srt#:#Möchten Sie wirklich die folgenden srt-Dateien löschen?
+mob#:#mob_really_delete_srt#:#Möchten Sie wirklich die folgenden Untertitel-Dateien löschen?
 mob#:#mob_second#:#Sekunde
 mob#:#mob_srt_files_deleted#:#Dateien für Untertitel wurden gelöscht.
-mob#:#mob_srt_not_allowed#:#Dateien vom Typ .srt können aktuell nicht hochgeladen werden. Kontaktieren Sie die technische Betreuung, um .srt-Dateien zur Positivliste hinzuzufügen. Dies erfolgt unter Administration » Systemeinstellungen und Wartung » Datei-Services.
+mob#:#mob_srt_not_allowed#:#Dateien vom Typ .vtt können aktuell nicht hochgeladen werden. Kontaktieren Sie die technische Betreuung, um .vtt-Dateien zur Positivliste hinzuzufügen. Dies erfolgt unter Administration » Systemeinstellungen und Wartung » Datei-Services.
 mob#:#mob_subtitle_file#:#Datei für Untertitel
 mob#:#mob_subtitle_files#:#Dateien für Untertitel
 mob#:#mob_subtitles#:#Untertitel
 mob#:#mob_type_not_supported#:#Der Mime-Type wird an dieser Stelle nicht unterstützt:
 mob#:#mob_upload_file#:#Datei hochladen
 mob#:#mob_upload_multi_srt#:#Hochladen als ZIP-Datei
-mob#:#mob_upload_multi_srt_howto#:#Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
+mob#:#mob_upload_multi_srt_howto#:#Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .vtt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.vtt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.vtt".
 mob#:#mob_url#:#URL
 mob#:#mob_url_info#:#Externe URL, z.B. Youtube- oder Vimeo-URL.
 mob#:#mob_url_info1#:#URL des externen Inhalts. Erlaubte Dateikennungen sind:
@@ -13248,6 +13254,7 @@ prg#:#auto_membership_src_type#:#Typ
 prg#:#auto_membership_title#:#Quellen für automatische Zuweisung
 prg#:#auto_memberships#:#Automatische Zuweisung
 prg#:#category#:#Kategorie
+prg#:#cert_relevance#:#Zertifikat
 prg#:#completion_date#:#Abschlussdatum
 prg#:#confirm_to_remove_selected_assignments#:#Benutzerzuweisung(en) wirklich entfernen?
 prg#:#cont_ed_insert_prgactionnote#:#Studienprogramm Aktionshinweis einfügen
@@ -13735,6 +13742,8 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimale Passwort
 ps#:#ps_export_admin#:#Administration
 ps#:#ps_export_confirm#:#Zustimmung neuer Mitglieder beim Kursbeitritt, dass Kursverwaltung ihre persönlichen Profildaten einsehen kann
 ps#:#ps_export_confirm_group#:#Zustimmung neuer Mitglieder beim Gruppenbeitritt, dass Gruppenverwaltung ihre persönlichen Profildaten einsehen kann
+ps#:#ps_export_confirm_group_info#:#Vor dem Gruppenbeitritt müssen Mitglieder zustimmen, dass ihre persönlichen Daten von der Gruppenverwaltung eingesehen werden können.
+ps#:#ps_export_confirm_info#:#Vor dem Kursbeitritt müssen Mitglieder zustimmen, dass ihre persönlichen Daten von der Kursverwaltung eingesehen werden können.
 ps#:#ps_export_course#:#Export der Persönlichen Daten aus Kursen erlauben
 ps#:#ps_export_data#:#Daten des Persönlichen Profils
 ps#:#ps_export_excel#:#Starte Excel-Export

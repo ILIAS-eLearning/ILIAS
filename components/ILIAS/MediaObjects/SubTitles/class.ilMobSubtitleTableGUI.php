@@ -59,5 +59,7 @@ class ilMobSubtitleTableGUI extends ilTable2GUI
         $this->tpl->setVariable("FILE_NAME", $a_set["full_path"]);
         $this->tpl->setVariable("LANGUAGE", $lng->txt("meta_l_" . $a_set["language"]));
         $this->tpl->setVariable("LANG_KEY", $a_set["language"]);
+        $pi = pathinfo($a_set["full_path"]);
+        $this->tpl->setVariable("SUFFIX", $pi["extension"]);
     }
 }

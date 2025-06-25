@@ -18,14 +18,11 @@
 
 declare(strict_types=1);
 
-/**
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- */
 class ilAuthSession
 {
-    private const SESSION_AUTH_AUTHENTICATED = '_authsession_authenticated';
-    private const SESSION_AUTH_USER_ID = '_authsession_user_id';
-    private const SESSION_AUTH_EXPIRED = '_authsession_expired';
+    private const string SESSION_AUTH_AUTHENTICATED = '_authsession_authenticated';
+    private const string SESSION_AUTH_USER_ID = '_authsession_user_id';
+    private const string SESSION_AUTH_EXPIRED = '_authsession_expired';
 
     private static ?ilAuthSession $instance = null;
 
@@ -36,17 +33,12 @@ class ilAuthSession
     private bool $expired = false;
     private bool $authenticated = false;
 
-    private function __construct(\ilLogger $logger)
+    private function __construct(ilLogger $logger)
     {
         $this->logger = $logger;
     }
 
-    /**
-     * Get instance
-     * @param \ilLogger
-     * @return ilAuthSession
-     */
-    public static function getInstance(\ilLogger $logger): ilAuthSession
+    public static function getInstance(ilLogger $logger): ilAuthSession
     {
         if (self::$instance) {
             return self::$instance;
@@ -54,9 +46,6 @@ class ilAuthSession
         return self::$instance = new self($logger);
     }
 
-    /**
-     * @return ilLogger
-     */
     protected function getLogger(): ilLogger
     {
         return $this->logger;
@@ -132,7 +121,7 @@ class ilAuthSession
      */
     public function isAuthenticated(): bool
     {
-        return $this->authenticated || $this->user_id === (int) ANONYMOUS_USER_ID;
+        return $this->authenticated || $this->user_id === ANONYMOUS_USER_ID;
     }
 
     /**
@@ -155,7 +144,7 @@ class ilAuthSession
      */
     public function isExpired(): bool
     {
-        return $this->expired && $this->user_id !== (int) ANONYMOUS_USER_ID;
+        return $this->expired && $this->user_id !== ANONYMOUS_USER_ID;
     }
 
     /**

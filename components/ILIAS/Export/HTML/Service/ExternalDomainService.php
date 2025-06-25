@@ -25,6 +25,7 @@ use ILIAS\Export\HTML\RepoService;
 use ILIAS\Export\HTML\DataService;
 use ILIAS\Export\InternalDomainService;
 use ILIAS\components\Export\HTML\ExportCollector;
+use ILIAS\components\Export\HTML\ExportFileManager;
 
 class ExternalDomainService
 {
@@ -44,4 +45,10 @@ class ExternalDomainService
             $type
         );
     }
+
+    public function fileManager(
+    ): ExportFileManager {
+        return $this->internal_domain->html()->fileManager();
+    }
+
 }

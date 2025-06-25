@@ -608,7 +608,10 @@ class IRSSWrapper
         $rid = $this->createContainer($stakeholder, $title);
         if ($recursive) {
             $iterator = new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($local_dir_path, \RecursiveDirectoryIterator::SKIP_DOTS),
+                new \RecursiveDirectoryIterator(
+                    $local_dir_path,
+                    \RecursiveDirectoryIterator::SKIP_DOTS | \RecursiveDirectoryIterator::CURRENT_AS_SELF
+                ),
                 \RecursiveIteratorIterator::SELF_FIRST
             );
         } else {

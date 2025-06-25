@@ -9,31 +9,31 @@ il.UI.maincontrols = il.UI.maincontrols || {};
      * decide and init condensed/wide version
      */
     var init = function (id) {
-      listener(id);
-      $(window).resize(function () {
+      const item = $(`#${id}`);
+      const more_button = item.find('.il-system-info-more');
+      more_button.click(() => {
+        item.toggleClass('full');
+        more_button.hide();
+      });
+
+      maybeShowMoreButton(item, more_button);
+      $(window).resize(() => {
         if (!calculating) {
-          listener(id);
+          maybeShowMoreButton(item);
         }
       });
     };
 
-    var listener = function (id) {
+    const maybeShowMoreButton = function (item, more_button) {
       calculating = true;
-      let item = $('#' + id);
       let content = item.find('.il-system-info-content');
       let item_height = item.prop('offsetHeight');
       let content_height = content.prop('offsetHeight');
-      let more_button = item.find('.il-system-info-more');
 
       if (content_height > item_height) {
         more_button.show();
-        more_button.click(function () {
-          item.toggleClass('full');
-          more_button.hide();
-        });
       } else {
         more_button.hide();
-        more_button.unbind();
       }
       calculating = false;
     };

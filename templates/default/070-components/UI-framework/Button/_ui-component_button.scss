@@ -37,7 +37,7 @@ $input-min-height-large: s-form.$il-input-min-height * 1.8;
 
 .btn {
   @include make-button($set-basics: true, $set-design: false, $set-size: true);
-  .glyph, 
+  .glyph,
   .glyph .glyphicon {
     color: unset;
   }
@@ -60,7 +60,7 @@ input.btn {
 }
 
 .btn-default {
-  @include make-button($set-basics: false, $set-design: true, 
+  @include make-button($set-basics: false, $set-design: true,
     $button-color: s.$il-btn-standard-bg,
 
     $bg-color: s.$il-btn-standard-bg,
@@ -70,7 +70,7 @@ input.btn {
     $disabled_bg-color: s.$il-disabled-btn-bg,
     $disabled_text-color: s.$il-disabled-btn-color,
     $disabled_border-color: s.$il-disabled-btn-border,
-    
+
     $engaged_bg-color: s.$il-engaged-btn-bg,
     $engaged_text-color: s.$il-engaged-btn-color,
     $engaged_border-color: s.$il-btn-standard-border,
@@ -93,7 +93,7 @@ input.btn {
     $disabled_bg-color: s.$il-disabled-btn-bg,
     $disabled_text-color: s.$il-disabled-btn-color,
     $disabled_border-color: s.$il-disabled-btn-border,
-    
+
     $engaged_bg-color: s.$il-engaged-btn-bg,
     $engaged_text-color: s.$il-engaged-btn-color,
     $engaged_border-color: s.$il-btn-primary-border,
@@ -106,7 +106,11 @@ input.btn {
                         $button-text-color: s.$il-btn-ctrl-color,
                         $button-color: s.$il-btn-ctrl-bg,
                         $border-color: s.$il-btn-ctrl-border,
-                        $hover_border-color: s.$il-btn-ctrl-engaged-border);
+                        $hover_border-color: s.$il-btn-ctrl-engaged-border,
+                        $disabled_bg-color: s.$il-disabled-btn-bg,
+                        $disabled_text-color: s.$il-disabled-btn-color,
+                        $disabled_border-color: s.$il-disabled-btn-border,
+  );
   &.engaged,
   .open & {
     border: 1px solid s.$il-btn-ctrl-engaged-border;
@@ -123,7 +127,7 @@ input.btn {
     @extend .btn-ctrl;
     margin-left: l.$il-margin-xs-horizontal;
   }
-} 
+}
 
 // ILIAS doesn't use btn-success, btn-info, btn-warning, btn-danger
 
@@ -198,7 +202,7 @@ input.btn {
     $disabled_bg-color: s.$il-disabled-btn-bg,
     $disabled_text-color: s.$il-disabled-btn-color,
     $disabled_border-color: s.$il-disabled-btn-border,
-    
+
     $active_transform: null,
 
     $engaged_text-color: inherit,

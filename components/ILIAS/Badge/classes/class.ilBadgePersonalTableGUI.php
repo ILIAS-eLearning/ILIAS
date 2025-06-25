@@ -268,11 +268,6 @@ class ilBadgePersonalTableGUI implements DataRetrieval
     public function renderTable(): void
     {
         $df = new \ILIAS\Data\Factory();
-        if ((int) $this->user->getTimeFormat() === ilCalendarSettings::TIME_FORMAT_12) {
-            $date_format = $df->dateFormat()->withTime12($this->user->getDateFormat());
-        } else {
-            $date_format = $df->dateFormat()->withTime24($this->user->getDateFormat());
-        }
 
         $table_uri = $df->uri($this->request->getUri()->__toString());
         $url_builder = new URLBuilder($table_uri);
@@ -289,7 +284,7 @@ class ilBadgePersonalTableGUI implements DataRetrieval
             ->data(
                 $this,
                 $this->lng->txt('badge_personal_badges'),
-                $this->getColumns($date_format),
+                $this->getColumns($this->user->getDateTimeFormat()),
             )
             ->withId(self::class)
             ->withOrder(new Order('title', Order::ASC))

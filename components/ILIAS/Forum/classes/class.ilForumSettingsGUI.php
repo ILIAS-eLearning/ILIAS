@@ -18,6 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\UI\Renderer as UiRenderer;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Forum\Notification\ForumNotificationTable;
+
 /**
  * Class ilForumSettingsGUI
  * @author  Nadia Matuschek <nmatuschek@databay.de>
@@ -40,6 +45,8 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     private readonly \ILIAS\DI\Container $dic;
     private readonly ilErrorHandling $error;
     private readonly \ILIAS\UI\Factory $ui_factory;
+    private readonly UiRenderer $ui_renderer;
+    private readonly ilUIService $ui_service;
 
     public function __construct(private readonly ilObjForumGUI $parent_obj)
     {
@@ -58,6 +65,8 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->ref_id = $this->parent_obj->getObject()->getRefId();
         $this->http = $DIC->http();
         $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->ui_service = $DIC->uiService();
         $this->error = $DIC['ilErr'];
 
         $this->lng->loadLanguageModule('style');
@@ -78,6 +87,12 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
+        if ($this->http->wrapper()->query()->has('forum_notification_table_action')) {
+            $cmd = $this->http->wrapper()->query()->retrieve(
+                'forum_notification_table_action',
+                $this->dic->refinery()->kindlyTo()->string()
+            );
+        }
 
         switch (true) {
             case method_exists($this, $cmd):
@@ -387,14 +402,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         // set form html into template
         $this->tpl->setVariable('NOTIFICATIONS_SETTINGS_FORM', $this->notificationSettingsForm->getHTML());
 
-        $oParticipants = $this->getParticipants();
-
-        $moderator_ids = ilForum::_getModerators($this->parent_obj->getObject()->getRefId());
-
-        $admin_ids = $oParticipants->getAdmins();
-        $member_ids = $oParticipants->getMembers();
-        $tutor_ids = $oParticipants->getTutors();
-
         if ($this->parent_obj->objProperties->getNotificationType() === 'default') {
             // update forum_notification table
             $forum_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
@@ -404,58 +411,69 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             $forum_noti->setInterestedEvents($this->parent_obj->objProperties->getInterestedEvents());
             $forum_noti->update();
         } elseif ($this->parent_obj->objProperties->getNotificationType() === 'per_user') {
-            $this->initForcedForumNotification();
-
-            $moderators = $this->getUserNotificationTableData($moderator_ids);
-            $admins = $this->getUserNotificationTableData($admin_ids);
-            $members = $this->getUserNotificationTableData($member_ids);
-            $tutors = $this->getUserNotificationTableData($tutor_ids);
-
-            $this->showMembersTable($moderators, $admins, $members, $tutors);
+            $this->tpl->setVariable('TABLE', $this->ui_renderer->render($this->getForumNotificationTable()->getComponents()));
         }
     }
 
-    /**
-     * @param int[] $user_ids
-     * @return array
-     */
-    private function getUserNotificationTableData(array $user_ids): array
+    public function getForumNotificationTable(): ForumNotificationTable
     {
-        $counter = 0;
-        $users = [];
-        foreach ($user_ids as $user_id) {
-            $forced_events = $this->forumNotificationObj->getForcedEventsObjectByUserId($user_id);
-
-            $users[$counter]['user_id'] = ilLegacyFormElementsUtil::formCheckbox(false, 'user_id[]', (string) $user_id);
-            $users[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
-            $name = ilObjUser::_lookupName($user_id);
-            $users[$counter]['firstname'] = $name['firstname'];
-            $users[$counter]['lastname'] = $name['lastname'];
-            $users[$counter]['user_toggle_noti'] = $forced_events->getUserToggle();
-            $users[$counter]['notification_id'] = $forced_events->getNotificationId();
-            $users[$counter]['interested_events'] = $forced_events->getInterestedEvents();
-            $users[$counter]['usr_id_events'] = $user_id;
-            $users[$counter]['forum_id'] = $forced_events->getForumId();
-
-            $counter++;
-        }
-        return $users;
+        $this->initForcedForumNotification();
+        return  new ForumNotificationTable(
+            $this->http->request(),
+            $this->lng,
+            $this->ui_factory,
+            new DataFactory(),
+            $this->parent_obj->getObject()->getRefId(),
+            $this->getParticipants(),
+            $this->forumNotificationObj,
+            $this->ui_service,
+            $this->ctrl->getLinkTarget($this, 'showMembers')
+        );
     }
 
-    private function showMembersTable(array $moderators, array $admins, array $members, array $tutors): void
+    public function notificationSettings(): never
     {
-        foreach (array_filter([
-            'moderators' => $moderators,
-            'administrator' => $admins,
-            'tutors' => $tutors,
-            'members' => $members
-        ]) as $type => $data) {
-            $tbl = new ilForumNotificationTableGUI($this, 'showMembers', $type);
-            $tbl->setData($data);
+        $response = '';
+        if ($this->http->wrapper()->query()->has('forum_notification_user_ids')) {
+            $user_ids = $this->http->wrapper()->query()->retrieve(
+                'forum_notification_user_ids',
+                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int())
+            );
+            if (count($user_ids) === 1) {
+                $user_id = current($user_ids);
+                $this->initForcedForumNotification();
+                $forced_events = $this->forumNotificationObj->getForcedEventsObjectByUserId($user_id);
+                $interested_events = $forced_events->getInterestedEvents();
+                $form_gui = new ilForumNotificationEventsFormGUI(
+                    $this->ctrl->getFormAction($this->parent_obj, 'saveEventsForUser'),
+                    [
+                        'hidden_value' => json_encode([
+                            'usr_id' => $user_id
+                        ], JSON_THROW_ON_ERROR),
+                        'notify_modified' => (bool) ($interested_events & ilForumNotificationEvents::UPDATED),
+                        'notify_censored' => (bool) ($interested_events & ilForumNotificationEvents::CENSORED),
+                        'notify_uncensored' => (bool) ($interested_events & ilForumNotificationEvents::UNCENSORED),
+                        'notify_post_deleenableted' => (bool) ($interested_events & ilForumNotificationEvents::POST_DELETED),
+                        'notify_thread_deleted' => (bool) ($interested_events & ilForumNotificationEvents::THREAD_DELETED),
+                    ],
+                    $this->ui_factory,
+                    $this->lng
+                );
 
-            $this->tpl->setCurrentBlock(strtolower($type) . '_table');
-            $this->tpl->setVariable(strtoupper($type), $tbl->getHTML());
+                $modal = $this->ui_factory->modal()->roundtrip(
+                    $this->lng->txt('notification_settings'),
+                    [],
+                    $form_gui->getInputs(),
+                    $this->ctrl->getFormAction($this, 'saveEventsForUser')
+                );
+
+                $response = Streams::ofString($this->ui_renderer->renderAsync($modal));
+
+            }
         }
+        $this->http->saveResponse($this->http->response()->withBody($response));
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     public function saveEventsForUser(): void
@@ -598,11 +616,15 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
 
         $user_ids = [];
-        if ($this->dic->http()->wrapper()->post()->has('user_id')) {
-            $user_ids = $this->dic->http()->wrapper()->post()->retrieve(
-                'user_id',
-                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int())
+        if ($this->dic->http()->wrapper()->query()->has('forum_notification_user_ids')) {
+            $user_ids = $this->dic->http()->wrapper()->query()->retrieve(
+                'forum_notification_user_ids',
+                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->string())
             );
+            if ($user_ids === ['ALL_OBJECTS']) {
+                $table = $this->getForumNotificationTable();
+                $user_ids = $table->getFilteredUserIds($this->ui_service->filter()->getData($table->getFilterComponent()));
+            }
         }
 
         if (count($user_ids) === 0) {
@@ -639,11 +661,15 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
 
         $user_ids = [];
-        if ($this->dic->http()->wrapper()->post()->has('user_id')) {
-            $user_ids = $this->dic->http()->wrapper()->post()->retrieve(
-                'user_id',
-                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int())
+        if ($this->dic->http()->wrapper()->query()->has('forum_notification_user_ids')) {
+            $user_ids = $this->dic->http()->wrapper()->query()->retrieve(
+                'forum_notification_user_ids',
+                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->string())
             );
+            if ($user_ids === ['ALL_OBJECTS']) {
+                $table = $this->getForumNotificationTable();
+                $user_ids = $table->getFilteredUserIds($this->ui_service->filter()->getData($table->getFilterComponent()));
+            }
         }
 
         if (count($user_ids) === 0) {

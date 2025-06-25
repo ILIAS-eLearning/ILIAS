@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,8 +16,9 @@
  *
  *********************************************************************/
 
-/** @noRector */
 require_once("../vendor/composer/vendor/autoload.php");
+require_once("../artifacts/bootstrap_default.php");
+
 global $DIC;
 $q = $DIC->http()->wrapper()->query();
 if (
@@ -24,7 +26,7 @@ if (
     && $q->has('action')
     && $q->retrieve('action', $DIC->refinery()->to()->string()) === 'logout'
 ) {
-    ilInitialisation::initILIAS();
+    entry_point("ILIAS Legacy Initialisation Adapter");
     // Logout out user from application
     // Destroy application session/cookie etc
     $GLOBALS['DIC']['ilAuthSession']->logout();
@@ -45,7 +47,7 @@ elseif (!empty($HTTP_RAW_POST_DATA)) {
     ilContext::init(ilContext::CONTEXT_SOAP);
 
     // Load ILIAS libraries and initialise ILIAS in non-web context
-    ilInitialisation::initILIAS();
+    entry_point("ILIAS Legacy Initialisation Adapter");
 
     // Set SOAP header
     $server = new SoapServer('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'] . '/LogoutNotification.wsdl');

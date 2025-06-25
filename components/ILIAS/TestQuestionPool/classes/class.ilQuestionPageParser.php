@@ -24,7 +24,7 @@ use ILIAS\Filesystem\Stream\Streams;
  * @author Alexander Killing <killing@leifos.de>
  * @deprecated use COPage dependency to export/import COPages instead
  */
-class ilQuestionPageParser extends ilMDSaxParser
+class ilQuestionPageParser extends ilSaxParser
 {
     /**
      * @var false
@@ -34,8 +34,6 @@ class ilQuestionPageParser extends ilMDSaxParser
      * @var false
      */
     protected bool $in_glossary_definition = false;
-    protected array $media_meta_cache = [];
-    protected bool $media_meta_start = false;
     protected array $pg_mapping = [];
     protected array $mobs_with_int_links = [];
     protected bool $inside_code = false;
@@ -54,7 +52,6 @@ class ilQuestionPageParser extends ilMDSaxParser
     public array $st_into_tree = [];
     public array $container = [];
     public bool $in_page_object = false;	// are we currently within a PageObject? true/false
-    public bool $in_meta_data = false;		// are we currently within MetaData? true/false
     public bool $in_media_object = false;
     public bool $in_file_item = false;
     public bool $in_glossary = false;
@@ -69,8 +66,6 @@ class ilQuestionPageParser extends ilMDSaxParser
     public ?ilMapArea $map_area = null;			// current map area
     public array $link_targets = [];		// stores all objects by import id
     public array $qst_mapping = [];
-    public bool $metadata_parsing_disabled = false;
-    public bool $in_meta_meta_data = false;
     protected array $glossary_term_map = [];
     protected ilLogger $log;
     protected ?ilGlossaryTerm $glossary_term = null;
@@ -107,7 +102,6 @@ class ilQuestionPageParser extends ilMDSaxParser
         $this->inside_code = false;
         $this->qst_mapping = [];
         $this->content_type = $this->content_object->getType();
-        $this->metadata_parsing_disabled = false;
 
         if ($this->content_type !== 'tst' && $this->content_type !== 'qpl') {
             $this->lm_tree = new ilLMTree($this->content_object->getId());
@@ -396,10 +390,8 @@ class ilQuestionPageParser extends ilMDSaxParser
                 if ($a_name == 'MediaObject') {
                     $this->in_media_object = true;
                 }
-                $this->media_meta_start = true;
-                $this->media_meta_cache = [];
                 $this->media_object = new ilObjMediaObject();
-                $this->media_object->create(true, false);
+                $this->media_object->create(false, false);
                 break;
 
             case 'MediaAlias':
@@ -610,128 +602,32 @@ class ilQuestionPageParser extends ilMDSaxParser
                 }
                 break;
 
-                ////////////////////////////////////////////////
-                /// Meta Data Section
-                ////////////////////////////////////////////////
-            case 'MetaData':
-                $this->in_meta_data = true;
-                // media obejct meta data handling
-                // is done in the 'Identifier' begin tag processing
-                // the rest is done here
-                if (!$this->in_media_object) {
-                    if ($this->content_type != 'tst' && $this->content_type != 'qpl') {
-                        // type pg/st
-                        if ($this->current_object->getType() == 'st'
-                            || $this->current_object->getType() == 'pg') {
-                            // late creation of page object
-                            if ($this->current_object->getType() == 'pg') {
-                                $this->lm_page_object->create(true);
-                            }
-                            $this->md = new ilMD(
-                                $this->content_object->getId(),
-                                $this->current_object->getId(),
-                                $this->current_object->getType()
-                            );
-                        }
-                        // type term
-                        elseif ($this->current_object->getType() == 'term') {
-                            $this->md = new ilMD(
-                                $this->glossary_object->getId(),
-                                $this->current_object->getId(),
-                                $this->current_object->getType()
-                            );
-                        }
-                        // type lm, dbk, glo
-                        else {
-                            if ($this->processMeta()) {
-                                $this->md = new ilMD(
-                                    $this->current_object->getId(),
-                                    0,
-                                    $this->current_object->getType()
-                                );
-                            }
-                        }
-                    } else {
-                        // type qpl or tst
-                        $this->md = new ilMD(
-                            $this->content_object->getId(),
-                            0,
-                            $this->current_object->getType()
-                        );
-                        if ($this->md->getGeneral() != false) {
-                            $this->metadata_parsing_disabled = true;
-                            $this->enableMDParsing(false);
-                        }
-                    }
-                }
-                break;
-
                 // Identifier
             case 'Identifier':
-                // begin-patch optes_lok_export
-                if ($this->in_meta_data && $this->current_object instanceof ilStructureObject) {
-                    if ($this->mapping instanceof ilImportMapping) {
-                        $import_id_parsed = ilUtil::parseImportId($a_attribs['Entry']);
-                        if ($import_id_parsed['type'] == 'st') {
-                            $this->mapping->addMapping(
-                                'components/ILIAS/LearningModule',
-                                'lm_tree',
-                                $import_id_parsed['id'],
-                                $this->current_object->getId()
-                            );
-                        }
+                if ($this->in_file_item) {
+                    if (!isset($this->file_item_mapping[$a_attribs['Entry']])
+                        || $this->file_item_mapping[$a_attribs['Entry']] === '') {
+                        $this->file_item->create();
+                        $this->file_item->setImportId($a_attribs['Entry']);
+                        $this->file_item_mapping[$a_attribs['Entry']] = $this->file_item->getId();
                     }
                 }
-                // end-patch optes_lok_export
+                if ($this->in_media_object) {
+                    $mob_id = $this->mob_mapping[$a_attribs['Entry']];
 
-                // please note: Meta-Metadata and MetaData are different tags!
-                if (!$this->in_meta_meta_data) {
-                    if ($this->in_meta_data && !$this->in_glossary_definition) {
-                        if (!$this->in_media_object) {
-                            $this->current_object->setImportId($a_attribs['Entry']);
-                        }
-                        // #40680 add a link target only if it is an internal ILIAS link
-                        // Export from IMS UCAN sets something like 'IMSm-i1e79762'
-                        $parsed = $this->parseLinkTarget($a_attribs["Entry"]);
-                        if (isset($parsed)) {
-                            $this->link_targets[$a_attribs['Entry']] = $a_attribs['Entry'];
-                        }
+                    // within learning module import, usually a media object
+                    // has already been created with a media alias tag
+                    if ($mob_id > 0) {
+                        $this->media_object = new ilObjMediaObject($mob_id);
+                    } else {	// in glossaries the media objects precede the definitions
+                        // so we don't have an object already
+                        $this->media_object = new ilObjMediaObject();
+                        $this->media_object->create(false, false);
+                        $this->mob_mapping[$a_attribs['Entry']]
+                            = $this->media_object->getId();
                     }
-                    if ($this->in_file_item) {
-                        if (!isset($this->file_item_mapping[$a_attribs['Entry']])
-                            || $this->file_item_mapping[$a_attribs['Entry']] === '') {
-                            $this->file_item->create();
-                            $this->file_item->setImportId($a_attribs['Entry']);
-                            $this->file_item_mapping[$a_attribs['Entry']] = $this->file_item->getId();
-                        }
-                    }
-                    if ($this->in_meta_data && $this->in_media_object) {
-                        $mob_id = $this->mob_mapping[$a_attribs['Entry']];
-
-                        // within learning module import, usually a media object
-                        // has already been created with a media alias tag
-                        if ($mob_id > 0) {
-                            $this->media_object = new ilObjMediaObject($mob_id);
-                        } else {	// in glossaries the media objects precede the definitions
-                            // so we don't have an object already
-                            $this->media_object = new ilObjMediaObject();
-                            $this->media_object->create(true, false);
-                            $this->mob_mapping[$a_attribs['Entry']]
-                                = $this->media_object->getId();
-                        }
-                        $this->media_object->setImportId($a_attribs['Entry']);
-                        $this->md = new ilMD(
-                            0,
-                            $this->media_object->getId(),
-                            'mob'
-                        );
-                        $this->emptyMediaMetaCache($a_xml_parser);
-                    }
+                    $this->media_object->setImportId($a_attribs['Entry']);
                 }
-                break;
-
-            case 'Meta-Metadata':
-                $this->in_meta_meta_data = true;
                 break;
 
                 // Internal Link
@@ -773,7 +669,7 @@ class ilQuestionPageParser extends ilMDSaxParser
 
         // append content to page xml content
         if (($this->in_page_object || $this->in_glossary_definition)
-            && !$this->in_meta_data && !$this->in_media_object) {
+            && !$this->in_media_object) {
             if ($a_name == 'Definition') {
                 $app_name = 'PageObject';
                 $app_attribs = [];
@@ -788,32 +684,6 @@ class ilQuestionPageParser extends ilMDSaxParser
             }
 
             $this->page_object->appendXMLContent($this->buildTag('start', $app_name, $app_attribs));
-        }
-
-
-        // call meta data handler
-        if ($this->in_meta_data && $this->processMeta()) {
-            // cache beginning of meta data within media object tags
-            // (we need to know the id at the begin of meta elements within
-            // media objects, after the 'Identifier' tag has been processed
-            // we send the cached data to the meta xml handler)
-            if ($this->in_media_object && $this->media_meta_start) {
-                $this->media_meta_cache[] =
-                    ['type' => 'handlerBeginTag', 'par1' => $a_name, 'par2' => $a_attribs];
-            } else {
-                if ($a_name == 'Identifier') {
-                    if (!$this->in_media_object) {
-                        $a_attribs['Entry'] = 'il__' . $this->current_object->getType() .
-                            '_' . $this->current_object->getId();
-                    } else {
-                        $a_attribs['Entry'] = 'il__mob' .
-                            '_' . $this->media_object->getId();
-                    }
-                    $a_attribs['Catalog'] = 'ILIAS';
-                }
-
-                parent::handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
-            }
         }
     }
 
@@ -833,22 +703,9 @@ class ilQuestionPageParser extends ilMDSaxParser
 
     public function handlerEndTag($a_xml_parser, string $a_name): void
     {
-        // call meta data handler
-        if ($this->in_meta_data && $this->processMeta()) {
-            // cache beginning of meta data within media object tags
-            // (we need to know the id, after that we send the cached data
-            // to the meta xml handler)
-            if ($this->in_media_object && $this->media_meta_start) {
-                $this->media_meta_cache[] =
-                    ['type' => 'handlerEndTag', 'par1' => $a_name];
-            } else {
-                parent::handlerEndTag($a_xml_parser, $a_name);
-            }
-        }
-
         // append content to page xml content
         if (($this->in_page_object || $this->in_glossary_definition)
-            && !$this->in_meta_data && !$this->in_media_object) {
+            && !$this->in_media_object) {
             $app_name = ($a_name == 'Definition')
                 ? 'PageObject'
                 : $a_name;
@@ -954,7 +811,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                     // create media object
                     // media items are saves for mobs outside of
                     // pages only
-                    $this->media_object->create(true, false);
+                    $this->media_object->create(false, false);
 
                     // collect mobs with internal links
                     if ($this->media_object->containsIntLink()) {
@@ -1033,97 +890,6 @@ class ilQuestionPageParser extends ilMDSaxParser
                 }
                 break;
 
-            case 'MetaData':
-                $this->in_meta_data = false;
-                if (strtolower(get_class($this->current_object)) == 'illmpageobject' && !$this->in_media_object) {
-                    // Metadaten eines PageObjects sichern in NestedSet
-                    if (is_object($this->lm_page_object)) {
-                        // update title/description of page object
-                        $this->current_object->MDUpdateListener('General');
-                        ilLMObject::_writeImportId(
-                            $this->current_object->getId(),
-                            $this->current_object->getImportId()
-                        );
-                    }
-                } elseif ((strtolower(get_class($this->current_object)) == 'ilobjquestionpool' ||
-                    strtolower(get_class($this->current_object)) == 'ilobjtest') &&
-                    !$this->in_media_object) {
-                    //					!$this->in_media_object && !$this->in_page_object)
-                    // changed for imports of ILIAS 2 Tests where PageObjects could have
-                    // Metadata sections (Helmut Schottmüller, 2005-12-02)
-                    if ($this->metadata_parsing_disabled) {
-                        $this->enableMDParsing(true);
-                    } else {
-                        if ($this->in_page_object && !is_null($this->page_object)) {
-                            /*
-                            $this->page_object->MDUpdateListener('General');
-                            ilLMObject::_writeImportId(
-                                $this->page_object->getId(),
-                                $this->page_object->getImportId()
-                            );*/
-                        } else {
-                            $this->current_object->MDUpdateListener('General');
-                            ilLMObject::_writeImportId(
-                                $this->current_object->getId(),
-                                $this->current_object->getImportId()
-                            );
-                        }
-                    }
-                } elseif (strtolower(get_class($this->current_object)) == 'ilstructureobject') {    // save structure object at the end of its meta block
-                    // determine parent
-                    $cnt = count($this->structure_objects);
-                    if ($cnt > 1) {
-                        $parent_id = $this->structure_objects[$cnt - 2]->getId();
-                    } else {
-                        $parent_id = $this->lm_tree->getRootId();
-                    }
-
-                    $this->st_into_tree[] = ['id' => $this->current_object->getId(),
-                        'parent' => $parent_id];
-
-                    // update title/description of structure object
-                    $this->current_object->MDUpdateListener('General');
-                    ilLMObject::_writeImportId(
-                        $this->current_object->getId(),
-                        $this->current_object->getImportId()
-                    );
-                } elseif (strtolower(get_class($this->current_object)) == 'ilobjlearningmodule' ||
-                    strtolower(get_class($this->current_object)) == 'ilobjcontentobject' ||
-                    (strtolower(get_class($this->current_object)) == 'ilobjglossary' && $this->in_glossary)) {
-                    // todo: saving of md? getting title/descr and
-                    // set it for current object
-                } elseif (strtolower(get_class($this->current_object)) == 'ilglossaryterm' && !$this->in_media_object) {
-                    // now on top
-
-                    $this->page_object->setId($this->glossary_term->getId());
-                    $this->page_object->updateFromXML();
-
-                    // todo: saving of md? getting title/descr and
-                    // set it for current object
-                }
-
-
-                if (strtolower(get_class($this->current_object)) == 'ilobjlearningmodule' ||
-                    strtolower(get_class($this->current_object)) == 'ilobjglossary') {
-                    if (strtolower(get_class($this->current_object)) == 'ilobjglossary' &&
-                        $this->content_object->getType() != 'glo') {
-                        $this->current_object->setTitle($this->content_object->getTitle() . ' - ' .
-                            $this->lng->txt('glossary'));
-                    }
-
-                    $this->current_object->MDUpdateListener('General');
-                }
-
-                if ($this->in_media_object) {
-                    $this->media_object->MDUpdateListener('General');
-                }
-
-                break;
-
-            case 'Meta-Metadata':
-                $this->in_meta_meta_data = false;
-                break;
-
             case 'FileItem':
                 $this->in_file_item = false;
                 // only update new file items
@@ -1176,9 +942,6 @@ class ilQuestionPageParser extends ilMDSaxParser
                 break;
 
             case 'Title':
-                if ($this->in_meta_data && !$this->in_media_object) {
-                    $this->current_object->setTitle(trim($this->chr_data));
-                }
                 if ($this->in_media_object) {
                     $this->media_object->setTitle(trim($this->chr_data));
                 }
@@ -1245,19 +1008,6 @@ class ilQuestionPageParser extends ilMDSaxParser
 
     public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
-        // call meta data handler
-        if ($this->in_meta_data && $this->processMeta()) {
-            // cache beginning of meta data within media object tags
-            // (we need to know the id, after that we send the cached data
-            // to the meta xml handler)
-            if ($this->in_media_object && $this->media_meta_start) {
-                $this->media_meta_cache[] =
-                    ['type' => 'handlerCharacterData', 'par1' => $a_data];
-            } else {
-                parent::handlerCharacterData($a_xml_parser, $a_data);
-            }
-        }
-
         // the parser converts '&gt;' to '>' and '&lt;' to '<'
         // in character data, but we don't want that, because it's the
         // way we mask user html in our content, so we convert back...
@@ -1278,7 +1028,7 @@ class ilQuestionPageParser extends ilMDSaxParser
             // append all data to page, if we are within PageObject,
             // but not within MetaData or MediaObject
             if (($this->in_page_object || $this->in_glossary_definition)
-                && !$this->in_meta_data && !$this->in_media_object) {
+                && !$this->in_media_object) {
                 $this->page_object->appendXMLContent($a_data);
             }
 
@@ -1291,41 +1041,6 @@ class ilQuestionPageParser extends ilMDSaxParser
                     break;
             }
         }
-    }
-
-    /**
-     * @param resource $a_xml_parser
-     */
-    public function emptyMediaMetaCache($a_xml_parser): void
-    {
-        foreach ($this->media_meta_cache as $cache_entry) {
-            switch ($cache_entry['type']) {
-                case 'handlerBeginTag':
-                    parent::handlerBeginTag(
-                        $a_xml_parser,
-                        $cache_entry['par1'],
-                        $cache_entry['par2']
-                    );
-                    break;
-
-                case 'handlerEndTag':
-                    parent::handlerEndTag(
-                        $a_xml_parser,
-                        $cache_entry['par1']
-                    );
-                    break;
-
-                case 'handlerCharacterData':
-                    parent::handlerCharacterData(
-                        $a_xml_parser,
-                        $cache_entry['par1']
-                    );
-                    break;
-            }
-        }
-
-        $this->media_meta_start = false;
-        $this->media_meta_cache[] = [];
     }
 
     /**

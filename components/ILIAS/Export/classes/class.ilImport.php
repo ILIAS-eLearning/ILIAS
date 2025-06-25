@@ -133,7 +133,7 @@ class ilImport
         $import_status_collection = $this->import_status->collection()->withNumberingEnabled(true);
         $tmp_dir_info = new SplFileInfo(ilFileUtils::ilTempnam());
         $this->filesystem->temp()->createDir($tmp_dir_info->getFilename());
-        $target_file_path_str = $tmp_dir_info->getRealPath() . DIRECTORY_SEPARATOR . $zip_file_name;
+        $target_file_path_str = $tmp_dir_info->getPathname() . DIRECTORY_SEPARATOR . $zip_file_name;
         $target_dir_path_str = substr($target_file_path_str, 0, -4);
         // Copy/move zip to tmp out directory
         // File is not uploaded with the ilias storage system, therefore the php copy functions are used.
@@ -158,7 +158,7 @@ class ilImport
         $unzip = $this->archives->unzip(
             Streams::ofResource(fopen($target_file_path_str, 'rb')),
             $this->archives->unzipOptions()
-                ->withZipOutputPath($tmp_dir_info->getRealPath())
+                ->withZipOutputPath($tmp_dir_info->getPathname())
                 ->withDirectoryHandling(ZipDirectoryHandling::ENSURE_SINGLE_TOP_DIR)
         );
         return $unzip->extract()
@@ -264,7 +264,7 @@ class ilImport
         $success_status = $status_collection->getCollectionOfAllByType(StatusType::SUCCESS)->current();
         $target_dir_info = new SplFileInfo($success_status->getContent()->toString());
         $delete_dir_info = new SplFileInfo($target_dir_info->getPath());
-        $manifest_spl = new SplFileInfo($target_dir_info->getRealPath() . DIRECTORY_SEPARATOR . 'manifest.xml');
+        $manifest_spl = new SplFileInfo($target_dir_info->getPathname() . DIRECTORY_SEPARATOR . 'manifest.xml');
         // Validate manifest files
         try {
             $status_collection = $this->validateXMLFiles($manifest_spl);
@@ -275,8 +275,8 @@ class ilImport
         }
         // Import
         try {
-            $this->setTemporaryImportDir($target_dir_info->getRealPath());
-            $ret = $this->doImportObject($target_dir_info->getRealPath(), $a_type, $a_comp, $target_dir_info->getPath());
+            $this->setTemporaryImportDir($target_dir_info->getPathname());
+            $ret = $this->doImportObject($target_dir_info->getPathname(), $a_type, $a_comp, $target_dir_info->getPath());
             $new_id = null;
             if (is_array($ret) && array_key_exists('new_id', $ret)) {
                 $new_id = $ret['new_id'];

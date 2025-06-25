@@ -64,9 +64,9 @@ interface Factory
      *          sticky (stay visible on small screens).
      *   accessibility:
      *       1: >
-     *          Standard buttons MAY define aria-label attribute. Use it in cases
-     *          where a text label is not visible on the screen or when the label
-     *          does not provide enough information about the action.
+     *          Standard buttons MAY define an aria-label attribute. Use it in cases where a text label is not visible
+     *          on the screen, when the button doesn't include a glyph that comes with a fitting aria-label or when the
+     *          label does not provide enough information about the action.
      *       2: >
      *          Some Buttons can be stateful; when engaged, the state MUST be
      *          reflected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
@@ -125,6 +125,10 @@ interface Factory
      *           The loading animation rules of the Standard Button MUST be respected.
      *   accessibility:
      *       1: >
+     *           Primary buttons MAY define an aria-label attribute. Use it in cases where a text label is not visible
+     *           on the screen, when the button doesn't include a glyph that comes with a fitting aria-label or when the
+     *           label does not provide enough information about the action.
+     *       2: >
      *          Some Buttons can be stateful; when engaged, the state MUST be
      *          reflected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
      *          If the Button is not stateful (which is the default), the
