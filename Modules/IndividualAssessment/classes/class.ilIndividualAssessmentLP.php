@@ -25,6 +25,19 @@ class ilIndividualAssessmentLP extends ilObjectLP
      */
     protected ?array $members_ids = null;
 
+    /**
+     * @param bool $lp_active
+     *
+     * @return list<int>
+     */
+    public static function getDefaultModes(bool $lp_active): array
+    {
+        return [
+            ilLPObjSettings::LP_MODE_DEACTIVATED,
+            ilLPObjSettings::LP_MODE_INDIVIDUAL_ASSESSMENT
+        ];
+    }
+
     public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_INDIVIDUAL_ASSESSMENT;
