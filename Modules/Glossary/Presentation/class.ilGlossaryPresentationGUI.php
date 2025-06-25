@@ -809,7 +809,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
                     $this->ctrl->getLinkTarget($this, "downloadExportFile")
                 );
 
-                $this->tpl->parseCurrentBlock();
+                $this->tpl->parseCurrentBlock("tbl_content");
             }
         } else {
             $this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));

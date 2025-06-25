@@ -638,13 +638,13 @@ class ilTableGUI
                     $this->tpl->setVariable("TBL_COLUMN_WIDTH_NO_LINK", " width=\"" . $this->column_width[$key] . "\"");
                 }
                 $this->tpl->setVariable("TBL_HEADER_CELL_NO_LINK", $tbl_header_cell);
-                $this->tpl->parseCurrentBlock();
+                $this->tpl->parseCurrentBlock("tbl_header_no_link");
                 continue;
             }
             if (($key == $this->order_column) && ($this->order_direction != "")) {
                 if (strcmp($this->header_vars[$key], "") != 0) {
                     $this->tpl->setCurrentBlock("tbl_order_image");
-                    $this->tpl->parseCurrentBlock();
+                    $this->tpl->parseCurrentBlock("tbl_order_image");
                 }
             }
 
@@ -669,11 +669,11 @@ class ilTableGUI
             }
 
             $this->setOrderLink($key, $order_dir);
-            $this->tpl->parseCurrentBlock();
+            $this->tpl->parseCurrentBlock("tbl_header_cell");
         }
 
         $this->tpl->setCurrentBlock("tbl_header");
-        $this->tpl->parseCurrentBlock();
+        $this->tpl->parseCurrentBlock("tbl_header");
     }
 
     public function setOrderLink(string $key, string $order_dir): void
