@@ -10936,6 +10936,7 @@ lso#:#lso_player_abstract#:#Show Abstract Info
 lso#:#lso_player_extro#:#Show Final Page
 lso#:#lso_player_finish#:#Finish
 lso#:#lso_player_next#:#Next
+lso#:#lso_player_noitems#:#There are no available items in this Learning Sequence.
 lso#:#lso_player_previous#:#Previous
 lso#:#lso_player_resume#:#Resume Learning Sequence
 lso#:#lso_player_review#:#Review Learning Sequence

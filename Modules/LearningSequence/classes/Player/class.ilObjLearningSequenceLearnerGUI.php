@@ -174,7 +174,7 @@ class ilObjLearningSequenceLearnerGUI
         switch ($response) {
             case null:
                 //render the page
-                $this->tpl->setContent('THIS SHOULD NOT SHOW');
+                $this->tpl->setContent($this->lng->txt('lso_player_noitems'));
                 return;
 
             case 'EXIT::' . $this->player::LSO_CMD_FINISH:
