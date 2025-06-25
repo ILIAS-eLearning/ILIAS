@@ -18,24 +18,27 @@
 
 declare(strict_types=1);
 
-namespace ILIAS;
+namespace ILIAS\History\Setup;
 
-use ILIAS\History\Setup\HistorySetupAgent;
-use ILIAS\Setup\Agent;
+use ilDatabaseUpdateSteps;
+use ilDBInterface;
 
-class History implements Component\Component
+class HistoryDatabaseUpdateSteps11 implements ilDatabaseUpdateSteps
 {
-    public function init(
-        array | \ArrayAccess &$define,
-        array | \ArrayAccess &$implement,
-        array | \ArrayAccess &$use,
-        array | \ArrayAccess &$contribute,
-        array | \ArrayAccess &$seek,
-        array | \ArrayAccess &$provide,
-        array | \ArrayAccess &$pull,
-        array | \ArrayAccess &$internal,
-    ): void {
-        $contribute[Agent::class] = static fn() =>
-        new HistorySetupAgent();
+    protected ilDBInterface $db;
+
+    public function prepare(ilDBInterface $db): void
+    {
+        $this->db = $db;
+    }
+
+    public function step_1(): void
+    {
+        if ($this->db->tableExists('history')) {
+            $this->db->dropTable('history');
+        }
+        if ($this->db->tableExists('history_seq')) {
+            $this->db->dropTable('history_seq');
+        }
     }
 }

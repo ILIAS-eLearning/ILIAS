@@ -1097,14 +1097,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 $node_data = $tree->getNodeData($id);
                 if (is_object($obj)) {
                     $obj->setLMId($this->lm->getId());
-
-                    ilHistory::_createEntry(
-                        $this->lm->getId(),
-                        "delete_" . $obj->getType(),
-                        array(ilLMObject::_lookupTitle($id), $id),
-                        $this->lm->getType()
-                    );
-
                     $obj->delete();
                 }
                 if ($tree->isInTree($id)) {
