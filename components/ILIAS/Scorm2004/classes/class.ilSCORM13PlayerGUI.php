@@ -840,7 +840,7 @@ class ilSCORM13PlayerGUI
             exit();
         }
 
-        if ($dataStores["readPermissions"] != null && array_sum($dataStores["readPermissions"]) != 0) {
+        if (isset($dataStores["readPermissions"]) && $dataStores["readPermissions"] != null && array_sum($dataStores["readPermissions"]) != 0) {
             //If there exists at least one readSharedData permission, then
             //fill in the existing values (if any) already in the store.
 
