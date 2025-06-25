@@ -54,11 +54,14 @@ class ilExerciseTutorFeedbackFileMigration implements Migration
 
     public function step(Environment $environment): void
     {
-        $db = $this->helper->getDatabase();
         $r = $this->helper->getDatabase()->query(
             "SELECT ass.id, ass.exc_id, ob.owner, st.usr_id FROM exc_assignment ass JOIN object_data ob ON ass.exc_id = ob.obj_id JOIN exc_mem_ass_status st ON st.ass_id = ass.id WHERE st.feedback_rcid IS NULL OR st.feedback_rcid = '' LIMIT 1;"
         );
         $d = $this->helper->getDatabase()->fetchObject($r);
+        if (!($d instanceof stdClass)) {
+            return;
+        }
+
         $exec_id = (int)$d->exc_id;
         $assignment_id = (int)$d->id;
         $resource_owner_id = (int)$d->owner;

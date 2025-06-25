@@ -16,18 +16,29 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
+namespace ILIAS\COPage\Setup;
 
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
-
-class ilDclTextSelectionRecordFieldModel extends ilDclSelectionRecordFieldModel
+class ilCOPageHotfix9DBUpdateSteps implements \ilDatabaseUpdateSteps
 {
-    /**
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     */
-    public function fillExcelExport(ilExcel $worksheet, int &$row, int &$col): void
+    protected \ilDBInterface $db;
+
+    public function prepare(\ilDBInterface $db): void
     {
-        $worksheet->setCell($row, $col, $this->getExportValue(), DataType::TYPE_STRING);
-        $col++;
+        $this->db = $db;
     }
+
+    public function step_1(): void
+    {
+        $this->db->modifyTableColumn(
+            'copg_section_timings',
+            'unix_ts',
+            [
+                'type' => 'integer',
+                'length' => 8,
+                'notnull' => true,
+                'default' => 0
+            ]
+        );
+    }
+
 }

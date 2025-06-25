@@ -389,7 +389,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 break;
 
             case "iltestplayerfixedquestionsetgui":
-                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
+                if ($cmd !== 'autosave'
+                    && !$this->access->checkAccess("read", "", $this->testrequest->getRefId())) {
                     $this->redirectAfterMissingRead();
                 }
                 $this->trackTestObjectReadEvent();
@@ -402,7 +403,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 break;
 
             case "iltestplayerrandomquestionsetgui":
-                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
+                if ($cmd !== 'autosave'
+                    && !$this->access->checkAccess("read", "", $this->testrequest->getRefId())) {
                     $this->redirectAfterMissingRead();
                 }
                 $this->trackTestObjectReadEvent();

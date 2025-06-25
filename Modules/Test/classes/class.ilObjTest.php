@@ -3242,7 +3242,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     $result_details_settings = $result_details_settings->withResultsPresentation((int) $metadata["entry"]);
                     break;
                 case "reset_processing_time":
-                    $test_behaviour_settings = $test_behaviour_settings->withResetProcessingTime((bool) $metadata["entry"]);
+                    $test_behaviour_settings = $test_behaviour_settings->withResetProcessingTime($metadata["entry"] === '1');
                     break;
                 case "answer_feedback_points":
                     $question_behaviour_settings = $question_behaviour_settings->withInstantFeedbackPointsEnabled((bool) $metadata["entry"]);
@@ -3616,7 +3616,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         // reset processing time
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "reset_processing_time");
-        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getTestBehaviourSettings()->getResetProcessingTime());
+        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getTestBehaviourSettings()->getResetProcessingTime());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // count system
@@ -6297,7 +6297,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             )
             ->withTestBehaviourSettings(
                 $main_settings->getTestBehaviourSettings()
-                ->withNumberOfTries($testsettings['NrOfTries'])
+                ->withNumberOfTries((int) $testsettings['NrOfTries'])
                 ->withBlockAfterPassedEnabled((bool) $testsettings['BlockAfterPassed'])
                 ->withPassWaiting($testsettings['pass_waiting'])
                 ->withKioskMode($testsettings['Kiosk'])
@@ -7617,12 +7617,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     [$active_fi]
                 );
             }
-
-            $this->db->manipulateF(
-                "UPDATE tst_active SET tries = %s, submitted = %s, submittimestamp = %s WHERE active_id = %s",
-                ['integer','integer','timestamp','integer'],
-                [0, 0, null, $active_fi]
-            );
 
             $this->db->manipulateF(
                 "INSERT INTO tst_addtime (active_fi, additionaltime, tstamp) VALUES (%s, %s, %s)",

@@ -230,6 +230,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
     public function properties(): void
     {
+        if (!$this->checkPermissionBool("write")) {
+            $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
+        }
+
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
 
@@ -333,6 +337,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
     public function saveProperties(): void
     {
+        if (!$this->checkPermissionBool("write")) {
+            $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
+        }
+
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
         $obj_service = $this->getObjectService();
@@ -432,6 +440,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
     public function setStartFile(string $a_file): void
     {
+        if (!$this->checkPermissionBool("write")) {
+            $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
+        }
         $this->object->setStartFile($a_file);
         $this->object->update();
         $this->ctrl->redirectByClass("ilfilesystemgui", "listFiles");

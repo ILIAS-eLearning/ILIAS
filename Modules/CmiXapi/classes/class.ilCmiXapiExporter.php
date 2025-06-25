@@ -59,7 +59,7 @@ class ilCmiXapiExporter extends ilXmlExporter
      */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
-        return $this->_dataset->getCmiXapiXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
+        return $this->_dataset->getCmiXapiXmlRepresentation(ilXmlExporter::getExport()->export_run_dir, $a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
     /**

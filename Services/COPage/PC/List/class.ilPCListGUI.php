@@ -206,6 +206,18 @@ class ilPCListGUI extends ilPageContentGUI
             $options[$this->content_obj->getStyleClass()] =
                     $this->content_obj->getStyleClass();
         }
+        if (count($options) > 1) {
+            foreach ($options as $k => $option) {
+                $html = '<ul class="ilc_list_u_' . $k . '"><li class="ilc_list_item_StandardListItem">' .
+                    $option . '</li></ul>';
+                if ($k == "BulletedList") {
+                    $k = "";
+                }
+                $style->addOption($k, $option, $html);
+            }
+            $style->setValue("");
+            $op1->addSubItem($style);
+        }
 
         $radg->addOption($op1);
 

@@ -75,7 +75,7 @@ class ilExcCriteriaBool extends ilExcCriteria
     {
         $lng = $this->lng;
 
-        $caption = null;
+        $caption = "";
         // see #35694, a non required un-checked checkbox is treated as a "no"
         if (!$this->isRequired()) {
             $caption = $lng->txt("no");

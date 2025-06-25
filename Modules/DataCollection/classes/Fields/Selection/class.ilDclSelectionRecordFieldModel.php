@@ -20,10 +20,6 @@ declare(strict_types=1);
 
 abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-    // those should be overwritten by subclasses
-    public const PROP_SELECTION_TYPE = '';
-    public const PROP_SELECTION_OPTIONS = '';
-
     /**
      * @return array|string
      */
@@ -33,7 +29,7 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
             return [$this->value];
         }
         if (!$this->getField()->isMulti() && is_array($this->value)) {
-            return (count($this->value) == 1) ? array_shift($this->value) : '';
+            return array_shift($this->value);
         }
 
         return $this->value;
@@ -51,7 +47,7 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
 
     public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
-        $string = (string) parent::getValueFromExcel($excel, $row, $col);
+        $string = parent::getValueFromExcel($excel, $row, $col);
         $old = $string;
         if ($this->getField()->isMulti()) {
             $string = $this->getMultipleValuesFromString($string);
@@ -86,8 +82,6 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
         $slicedReferences = [];
         $resolved = 0;
         for ($i = 0; $i < count($slicedStrings); $i++) {
-            //try to find a reference since the last resolved value separated by a comma.
-            // $i = 1; $resolved = 0; $string = "hello, world, gaga" -> try to match "hello, world".
             $searchString = implode(array_slice($slicedStrings, $resolved, $i - $resolved + 1));
             if ($ref = $this->getValueFromString($searchString)) {
                 $slicedReferences[] = $ref;
@@ -95,8 +89,6 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
                 continue;
             }
 
-            //try to find a reference with the current index.
-            // $i = 1; $resolved = 0; $string = "hello, world, gaga" -> try to match "world".
             $searchString = $slicedStrings[$i];
             if ($ref = $this->getValueFromString($searchString)) {
                 $slicedReferences[] = $ref;
@@ -109,11 +101,9 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
 
     protected function getValueFromString(string $string): ?int
     {
-        $options = $this->getField()->getProperty(static::PROP_SELECTION_OPTIONS);
-        foreach ($options as $opt) {
-            /** @var $opt ilDclSelectionOption */
-            if ($opt->getValue() == $string) {
-                return $opt->getOptId();
+        foreach ($this->getField()->getProperty($this->field::PROP_SELECTION_OPTIONS) as $id => $value) {
+            if ($value == $string) {
+                return $id;
             }
         }
 

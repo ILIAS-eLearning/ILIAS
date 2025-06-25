@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Skill\Tree;
 
@@ -34,7 +33,7 @@ class SkillTreeManager
     protected \ilCtrl $ctrl;
     protected \ilErrorHandling $error;
     protected \ilLanguage $lng;
-    protected int $skmg_ref_id = 0;
+    protected int $skmg_ref_id;
     protected \ilTree $repository_tree;
     protected SkillTreeFactory $tree_factory;
     protected SkillTreeAccess $tree_access_manager;
@@ -43,16 +42,13 @@ class SkillTreeManager
     protected int $requested_ref_id = 0;
 
     public function __construct(
-        int $skmg_ref_id,
         \ilTree $repository_tree,
         SkillTreeFactory $tree_factory
     ) {
         global $DIC;
-
         $this->ctrl = $DIC->ctrl();
         $this->error = $DIC["ilErr"];
         $this->lng = $DIC->language();
-        $this->skmg_ref_id = $skmg_ref_id;
         $this->repository_tree = $repository_tree;
         $this->tree_factory = $tree_factory;
         $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
@@ -74,8 +70,8 @@ class SkillTreeManager
         $tree_obj->setDescription($description);
         $tree_obj->create();
         $tree_obj->createReference();
-        $tree_obj->putInTree($this->skmg_ref_id);
-        $tree_obj->setPermissions($this->skmg_ref_id);
+        $tree_obj->putInTree($this->getSkillManagementRefId());
+        $tree_obj->setPermissions($this->getSkillManagementRefId());
 
         $tree = $this->tree_factory->getTreeById($tree_obj->getId());
         $root_node = new \ilSkillRoot();
@@ -106,7 +102,7 @@ class SkillTreeManager
 
     public function getTrees(): \Generator
     {
-        foreach ($this->repository_tree->getChilds($this->skmg_ref_id) as $c) {
+        foreach ($this->repository_tree->getChilds($this->getSkillManagementRefId()) as $c) {
             if ($c["type"] == "skee") {
                 yield new \ilObjSkillTree((int) $c["child"]);
             }
@@ -124,6 +120,13 @@ class SkillTreeManager
      */
     public function getSkillManagementRefId(): int
     {
+        if (isset($this->skmg_ref_id)) {
+            return $this->skmg_ref_id;
+        }
+        $skmg_obj = current(\ilObject::_getObjectsByType("skmg"));
+        if ($skmg_obj) {
+            $this->skmg_ref_id = (int) current(\ilObject::_getAllReferences((int) $skmg_obj["obj_id"]));
+        }
         return $this->skmg_ref_id;
     }
 }

@@ -20,7 +20,7 @@
 * @module language file Hungarian
 * @modulegroup language
 * @author Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version 9.x 2024-10-22
+* @version 9.x 2025-05-22
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -176,7 +176,7 @@ administration#:#auth_auth_mode_determination#:#Azonosítási mód meghatározá
 administration#:#auth_automatic#:#Rögzített sorrend
 administration#:#auth_by_user#:#A felhasználó által
 administration#:#auth_kind_determination#:#Meghatározásfajta
-administration#:#auth_mode_default_change_info#:#Changing the default authentication method affects all user accounts configured to use the default authentication method. If the selected default method (e.g., Shibboleth, SAML, SOAP, ...) does not support or is not configured to allow fallback to local ILIAS authentication, affected users may no longer be able to log in. To avoid this, please ensure that local fallback authentication is activated in the configuration of the selected method, or that the authentication method stored for affected user accounts is manually changed.###20 05 2025 new variable
+administration#:#auth_mode_default_change_info#:#Az alapértelmezett hitelesítési mód módosítása az alapértelmezett hitelesítési módot használó összes felhasználói fiókot érinti. Ha a kiválasztott alapértelmezett módot (pl. Shibboleth, SAML, SOAP) nem támogatja, vagy az nincs konfigurálva a helyi ILIAS-hitelesítésre való tartalék használatára, az érintett felhasználók a továbbiakban nem biztos, hogy bejelentkezhetnek. Ennek elkerülése érdekében győződjön meg arról, hogy a helyi tartalék hitelesítés aktiválva van a kiválasztott módszer konfigurációjában, vagy hogy az érintett felhasználói fiókokhoz tárolt hitelesítési módszert manuálisan módosítják.
 administration#:#auth_mode_determination_info#:#Jelölje be, ha a felhasználóknak ki kell választaniuk az azonosítási módot a bejelentkező képernyőn, vagy ha bejelentkezési módok rögzített sorrendjével kerül kezelésre.
 administration#:#clean#:#Rendbetétel
 administration#:#clean_desc#:#Érvénytelen hivatkozások és faszerkezet-bejegyzések eltávolítása. Hézagok inicializálása a faszerkezetben.
@@ -1259,7 +1259,7 @@ assessment#:#toplist_col_percentage#:#Százalék
 assessment#:#toplist_col_rank#:#Helyezés
 assessment#:#toplist_col_score#:#Pont
 assessment#:#toplist_col_wtime#:#Kidolgozási idő
-assessment#:#total_max_points_cannot_be_negative#:#The maximum amount of reachable points cannot be negative.###01 04 2025 new variable
+assessment#:#total_max_points_cannot_be_negative#:#Az elérhető pontok maximális száma nem lehet negatív.
 assessment#:#true#:#Igaz
 assessment#:#tst_access_code_created#:#Egyedi hozzáférési kódot állítottunk be az Ön számára, hogy bármikor elérhesse teszteredményeit, és hogy lehetősége legyen ennek a tesztnek a folytatására. Jegyezze fel ezt a kódot, hogy később a teszt elérhesse, illetve folytathassa.
 assessment#:#tst_activate_skill_service#:#Kompetenciaszolgáltatás
@@ -1271,8 +1271,8 @@ assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Egyszerű szöveg használata k�
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#A kérdések és a válaszok nem formázható szövegek. LaTex sem használható. Viszont a visszajelzések és a tippek újra felhasználhatóak, ha kérdés beágyazott az ILIAS-tananyagban.
 assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Rich-Text-Editor (TinyMCE) használata a kérdések és a válaszok, továbbá a visszajelzések és a segítségek szerkesztéséhez
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#A kérdések, a válaszok, a visszajelzések és a tippek formázható szövegek. Viszont a visszajelzések és a tippek nem használhatóak fel újra, ha kérdés beágyazott az ILIAS-tananyagban.
-assessment#:#tst_add_quest_cont_edit_mode_plain#:#Use plain text###10 12 2024 new variable
-assessment#:#tst_add_quest_cont_edit_mode_plain_info#:#No formatting of text in question, answers, feedback, and hints.###10 12 2024 new variable
+assessment#:#tst_add_quest_cont_edit_mode_plain#:#Egyszerű szöveg használata
+assessment#:#tst_add_quest_cont_edit_mode_plain_info#:#A kérdések, a válaszok, a visszajelzések és a tippek nem formázható szövegek.
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#A tesztet sikeresen kitöltötte, több kitöltést nem indíthat el.
 assessment#:#tst_all_test_competences#:#Összes tesztkompetencia
 assessment#:#tst_all_user_data_deleted#:#Ennek a tesztnek minden felhasználói adatát sikeresen eltávolította.
@@ -1411,10 +1411,10 @@ assessment#:#tst_filter_question_type_enabled#:#Szűrés kérdéstípus alapján
 assessment#:#tst_filter_tax_node#:#Taxonómia csomópont
 assessment#:#tst_filter_taxonomy#:#Taxonómia
 assessment#:#tst_final_information#:#Teszt befejezése
-assessment#:#tst_finish_confirm_button#:#Igen, be szeretném fejezni a tesztet.
+assessment#:#tst_finish_confirm_button#:#Igen, befejezem a tesztet.
 assessment#:#tst_finish_confirm_cancel_button#:#Nem, menjen vissza az előző kérdéshez.
-assessment#:#tst_finish_confirmation_question#:#Ha befejezi ezt a tesztet, eléri az engedélyezett tesztkitöltések maximális számát. Nem fog tudni visszatérni a tesztbe, hogy megváltoztassa válaszait. Biztos, hogy be szeretné fejezni a tesztet?
-assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Most befejezi a tesztkitöltést, amivel eléri az engedélyezett kitöltések számát. Ezután már nem lesz lehetősége visszalépni a tesztbe, illetve a válaszait módosítani. Biztosm hogy befejezi a tesztkitöltést?
+assessment#:#tst_finish_confirmation_question#:#Most befejezheti a tesztkitöltést. Ezután már nem lesz lehetősége, hogy ezen a kitöltésen módosítson. Biztos, hogy befejezi ezt a tesztkitöltést?
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Most befejezheti a tesztet, amivel eléri az engedélyezett kitöltések számát. Ezután már nem lesz lehetősége, hogy a válaszait módosítsa. Biztos, hogy befejezi a tesztet?
 assessment#:#tst_finish_notification#:#Értesítés
 assessment#:#tst_finish_notification_advanced#:#Az összes teszteredmény küldése
 assessment#:#tst_finish_notification_content_type#:#A levél tartalma
@@ -1764,7 +1764,7 @@ assessment#:#tst_res_jump_to_participant_hint_opt#:#--Ugrás a résztvevőkhöz-
 assessment#:#tst_res_lo_objectives_header#:#Releváns Tanulási célkitűzések
 assessment#:#tst_res_lo_try_header#:#Teszkitöltés
 assessment#:#tst_res_lo_try_n#:#%s teszkitöltés
-assessment#:#tst_res_tab_msg_no_lp_access#:#You are currently not allowed to access your Learning Progress, as you are not allowed to see your test results.###01 04 2025 new variable
+assessment#:#tst_res_tab_msg_no_lp_access#:#Jelenleg nincs hozzáférése a Tanulás Haladáshoz, mert a teszteredményekhez sincs.
 assessment#:#tst_res_tab_msg_res_after_date#:#Itt mutatjuk meg az eredményeit ekkortól: %s
 assessment#:#tst_res_tab_msg_res_after_date_no_res#:#A teszt kitöltésekor itt mutatjuk meg az eredményeit ekkortól: %s
 assessment#:#tst_res_tab_msg_res_after_finish_test#:#Itt mutatjuk meg az eredményeit a teszt befejezése után.
@@ -2074,8 +2074,8 @@ auth#:#auth_oidc_update_field_info#:#Automatikus frissítés
 auth#:#auth_oidc_update_role_info#:#Csak az első bejelentkezéskor (automatikus szinkronizálás) alkalmazzuk
 auth#:#auth_oidconnect#:#OpenID
 auth#:#auth_page_type_auth#:#Bejelentkezési oldal
-auth#:#auth_required_password#:#Please enter a password.###10 12 2024 new variable
-auth#:#auth_required_username#:#Please enter a username.###10 12 2024 new variable
+auth#:#auth_required_password#:#Add meg a jelszót.
+auth#:#auth_required_username#:#Add meg a felhasználónevet.
 auth#:#auth_saml#:#SAML
 auth#:#auth_saml_add_idp_btn#:#Új azonosításszolgáltató hozzáadása
 auth#:#auth_saml_add_idp_md_error#:#A megadott érték nem valós XML dokumentum. Ellenőrizze, hogy valós XML valós azonosítószolgálgatót tartalmazzon.
@@ -3091,35 +3091,35 @@ cmix#:#completed_info#:#Indicates the actor finished vagy concluded the activity
 cmix#:#completed_label#:#Nyilatkozatok a 'befejezte' állapottal
 cmix#:#conf_availability#:#Elérhetőség
 cmix#:#conf_availability_0#:#Nem érhető el
-cmix#:#conf_availability_0_info#:#Existing xAPI/cmi5 objects that use this LRS type can no longer be used.###30 04 2024 new variable
+cmix#:#conf_availability_0_info#:#Az ezt az LRS-típust használó xAPI/cmi5 objektumok már nem használhatók.
 cmix#:#conf_availability_1#:#A már létezők engedélyezettek
-cmix#:#conf_availability_1_info#:#This LRS type is not offered when creating new xAPI/cmi5 objects. Existing xAPI/cmi5 objects that use this type can continue to write or read data. Use this option to be able to delete data in the connected LRS at a later time.###30 04 2024 new variable
+cmix#:#conf_availability_1_info#:#Ez az LRS-típust nem kínáljuk fel új xAPI/cmi5 objektumok létrehozásakor. Az ezt a típust használó, már meglévő xAPI/cmi5 objektumok folytathatják az adatok írását vagy olvasását. Használja ezt az opciót, ha később törölheti az adatokat a csatlakoztatott LRS-ből.
 cmix#:#conf_availability_2#:#Új létrehozható
-cmix#:#conf_availability_2_info#:#This LRS type can be selected when creating xAPI/cmi5 objects.###30 04 2024 new variable
+cmix#:#conf_availability_2_info#:#Ez az LRS típus választható xAPI/cmi5 objektumok létrehozásakor
 cmix#:#conf_bypass_proxy#:#Detection of Learning Progress
-cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy to get immediately data
-cmix#:#conf_bypass_proxy_enabled#:#CronJob to check Learning Record Store
-cmix#:#conf_bypass_proxy_info#:#In most cases it is recommended to use the xAPI-Proxy. Use the CronJob in case of Limitations regarding Resource vagy Server.
-cmix#:#conf_cronjob_neccessary#:#CronJob necessary for Learning Progress
-cmix#:#conf_cronjob_neccessary_info#:#By activating this option, xAPI-Objects using this LRS-típus could not use the xAPI-Proxy to get immediately data for Detection of Learning Progress. Use only the CronJob in case of limitations regarding resources vagy server.
-cmix#:#conf_delete_data#:#Delete Data in LRS###30 04 2024 new variable
-cmix#:#conf_delete_data_info#:#Deletion is currently only possible with the Learning Record Store (LRS) LearningLocker. Only use the options for deleting the user identification if the data has been pseudonymized in the LRS.###30 04 2024 new variable
-cmix#:#conf_delete_data_opt0#:#never###30 04 2024 new variable
-cmix#:#conf_delete_data_opt1#:#never - but if users are deleted and if xAPI/cmi objects are moved to the trash or deleted, data will no longer be assignable for ILIAS by deleting the - user identification###30 04 2024 new variable
-cmix#:#conf_delete_data_opt11#:#when users are deleted and when xAPI/cmi objects are moved to the trash or deleted###30 04 2024 new variable
-cmix#:#conf_delete_data_opt12#:#additionally when users are removed from courses or groups###30 04 2024 new variable
-cmix#:#conf_delete_data_opt2#:#never - but additionally when users are removed from courses or groups, data will no longer be assignable for ILIAS by deleting the user identification###30 04 2024 new variable
+cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy az azonnali adat érdekében
+cmix#:#conf_bypass_proxy_enabled#:#Ütemezett feladat a tanulás bejegyzések tárolójának ellenőrzéséhez
+cmix#:#conf_bypass_proxy_info#:#A legtöbb esetben az xAPI-Proxy használata javasolt. Használjon Ütemezett feladatot erőforrás vagy szerver korlátozottságakor.
+cmix#:#conf_cronjob_neccessary#:#Ütemezett feladat szükséges a Tanulási haadáshoz
+cmix#:#conf_cronjob_neccessary_info#:#Ennek az opciónak a bekapcsolásával az ezt az LRS-típust használó xAPI-objektumok nem tudják használni az xAPI-proxyt, hogy azonnali adatokat kapjon a tanulási haladás észleléséhez. Csak az ütemezett feladatot használja, ha az erőforrásokkal vagy a szerverrel kapcsolatos korlátozások vannak életben.
+cmix#:#conf_delete_data#:#Adat törlése LRS-ben
+cmix#:#conf_delete_data_info#:#A törlés jelenleg csak a Learning Record Store (LRS) LearningLocker segítségével lehetséges. Csak akkor használja a felhasználói azonosítás törlésének lehetőségeit, ha az adatot pszeudoanonimizálta az LRS-ben.
+cmix#:#conf_delete_data_opt0#:#Soha
+cmix#:#conf_delete_data_opt1#:#Soha - de ha a felhasználókat törlik, és ha az xAPI/cmi objektumokat a kukába helyezik vagy törlik, akkor az adatok a továbbiakban nem lesznek hozzárendelhetők az ILIAS-hoz a felhasználói azonosító törlésével
+cmix#:#conf_delete_data_opt11#:#Amikor a felhasználókat törlik, és amikor az xAPI/cmi objektumokat a kukába helyezik vagy törlik
+cmix#:#conf_delete_data_opt12#:#Továbbá, amikor a felhasználókat eltávolítják a kurzusokból vagy csoportokból
+cmix#:#conf_delete_data_opt2#:#Soha - de emellett, ha a felhasználókat eltávolítják a kurzusokból vagy csoportokból, az adatok többé nem rendelhetők hozzá az ILIAS-hoz a felhasználói azonosító törlésével
 cmix#:#conf_description#:#Leírás
 cmix#:#conf_external_lrs#:#Külső LRS
 cmix#:#conf_keep_lp#:#A tanulási folyamat megtartása
 cmix#:#conf_keep_lp_info#:#Az ILIAS tanulási folyamatának 'Teljesítve' állapotát befagyasztjuk.
 cmix#:#conf_launch_mode#:#Indítási mód
 cmix#:#conf_launch_mode_browse#:#Böngészés
-cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###03 11 2021 new variable
+cmix#:#conf_launch_mode_browse_info#:#Ennek az opciónak olyan felhasználói élményt kell biztosítania, amely lehetővé teszi a felhasználó számára, hogy ítélkezés nélkül 'körülnézzen'.
 cmix#:#conf_launch_mode_normal#:#Normál
-cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress should be recorded.###03 11 2021 new variable
+cmix#:#conf_launch_mode_normal_info#:#A tanulási előrehaladással kapcsolatos adatok rögzítése.
 cmix#:#conf_launch_mode_review#:#Felülvizsgálat
-cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###03 11 2021 new variable
+cmix#:#conf_launch_mode_review_info#:#Ennek az opciónak olyan felhasználói élményt kell biztosítania, amely lehetővé teszi a felhasználó számára, hogy 'újra megtekintés/felülviszgálat” lehetőséget a már teljesített tananyagon.
 cmix#:#conf_lrs_endpoint#:#Zárópont
 cmix#:#conf_lrs_key#:#Kulcs / Bejelentkezés
 cmix#:#conf_lrs_secret#:#Titok / Jelszó
@@ -3135,10 +3135,10 @@ cmix#:#conf_privacy_ident_il_uuid_login#:#Az ILIAS felhasználónév és ha szü
 cmix#:#conf_privacy_ident_il_uuid_login_info#:#Ez azonosítja az összes hívást, de esetleg következtetni enged az ILIAS felhasználóra.
 cmix#:#conf_privacy_ident_il_uuid_random#:#Véletlen id és az egyedi ILIAS platform id e-mail cím formátumban.
 cmix#:#conf_privacy_ident_il_uuid_random_info#:#Az összes ILIAS objektum és az összes ILIAS felhasználó számára egy véletlen azonosítót generálunk minden híváskor, így a felhasználóval kapcsolatos következtetések nagyon korlátozottak lesznek, mert gyakorlatilag lehetetlen objektumokra hivatkozó felhasználói profilokat létrehozni.
-cmix#:#conf_privacy_ident_il_uuid_sha256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###30 04 2024 new variable
-cmix#:#conf_privacy_ident_il_uuid_sha256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###30 04 2024 new variable
-cmix#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address###30 04 2024 new variable
-cmix#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.###30 04 2024 new variable
+cmix#:#conf_privacy_ident_il_uuid_sha256#:#Hash és az egyedi ILIAS platform id e-mail cím formátumban.
+cmix#:#conf_privacy_ident_il_uuid_sha256_info#:#Ez azonosítja az összes hívást, de nem lehet belőle következtetni felhasználóra.
+cmix#:#conf_privacy_ident_il_uuid_sha256url#:#Hash és az egyedi ILIAS domainnel e-mail cím formátumban.
+cmix#:#conf_privacy_ident_il_uuid_sha256url_info#:#Ez azonosítja az összes hívást, legfeljebb 80 karakterrel lényegesen rövidebb, mint az ILIAS platformazonosítójú változat, és csak nagyon korlátozott következtetéseket tesz lehetővé a felhasználóról.
 cmix#:#conf_privacy_ident_il_uuid_user_id#:#Az ILIAS user id és az egyedi ILIAS platform id e-mail cím formátumban.
 cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Ez azonosítja az összes hívást, de nem enged következtetni az ILIAS felhasználóra.
 cmix#:#conf_privacy_ident_info#:#A leggyakrabban használat az e-mail cím. Az egyedi ILIAS platform id:
@@ -3160,54 +3160,54 @@ cmix#:#conf_privacy_setting_force#:#Az objektumok beállításai nem módosítha
 cmix#:#conf_privacy_setting_info#:#Konfigurációs beállítások az adatvédelmi beállításokhoz
 cmix#:#conf_remarks#:#Belső észrevételek
 cmix#:#conf_title#:#Cím
-cmix#:#conf_use_proxy#:#xAPI-Proxy###30 04 2024 new variable
-cmix#:#conf_use_proxy_info#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. If the xAPI proxy is deactivated, the learning content writes the learning progress directly to the LRS. This data must then also be retrieved directly from the LRS. The cron job "xAPI/cmi5 get results" is required to determine the learning progress. The xAPI proxy is mandatory for cmi5 objects and is activated automatically.###30 04 2024 new variable
-cmix#:#conf_use_proxy_info_cmi5#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. The xAPI proxy is mandatory for cmi5 objects.###30 04 2024 new variable
-cmix#:#conf_use_proxy_info_xapi#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. If the xAPI proxy is deactivated, the learning content writes the learning progress directly to the LRS. This data must then also be retrieved directly from the LRS. The cron job "xAPI/cmi5 get results" is required to determine the learning progress.###30 04 2024 new variable
+cmix#:#conf_use_proxy#:#xAPI-proxy
+cmix#:#conf_use_proxy_info#:#Az xAPI-proxy valós idejű adatokat biztosít az ILIAS tanulási folyamatának meghatározásához. A proxy a kiválasztott adatvédelmi beállításoknak megfelelően csökkenti a személyes adatokat. Ha az xAPI-proxyt kikapcsolja, a tanulási tartalom közvetlenül az LRS-be írja a tanulási folyamatot. Ezután ezeket az adatokat is közvetlenül az LRS-ből kell lekérni. Az 'xAPI/cmi5 eredményei' ütemezett folyamat szükséges a tanulási folyamat meghatározásához. Az xAPI-proxy szükséges a cmi5 objekumokhoz, és automatikusan be legyen kapcsolva.
+cmix#:#conf_use_proxy_info_cmi5#:#Az xAPI-proxy valós idejű adatokat biztosít az ILIAS tanulási folyamatának meghatározásához. A proxy a kiválasztott adatvédelmi beállításoknak megfelelően csökkenti a személyes adatokat. Az xAPI-proxy kötelező a cmi5 objektumoknál.
+cmix#:#conf_use_proxy_info_xapi#:#Az xAPI-proxy valós idejű adatokat biztosít az ILIAS tanulási folyamatának meghatározásához. A proxy a kiválasztott adatvédelmi beállításoknak megfelelően csökkenti a személyes adatokat. Ha az xAPI-proxyt kikapcsolja, a tanulási tartalom közvetlenül az LRS-be írja a tanulási folyamatot. Ezután ezeket az adatokat is közvetlenül az LRS-ből kell lekérni. Az 'xAPI/cmi5 eredményei' ütemezett folyamat szükséges a tanulási folyamat meghatározásához.
 cmix#:#conf_user_ident#:#Felhasználó azonosítása
 cmix#:#conf_user_ident_il_uuid_ext_account#:#Külső Felhasználó ID kombinálva az egyedi ILIAS-telepítés azonosítóval e-mail formátumban
-cmix#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
+cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Ez azonosítja az összes hívást, de esetleg következtetni enged a felhasználóra.
 cmix#:#conf_user_ident_il_uuid_login#:#Az ILIAS felhasználónév és ha szükséges az egyedi ILIAS platform id e-mail címként.
-cmix#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.
-cmix#:#conf_user_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address
-cmix#:#conf_user_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.
-cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail adress
-cmix#:#conf_user_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.
-cmix#:#conf_user_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:
-cmix#:#conf_user_ident_real_email#:#E-Mail Address
-cmix#:#conf_user_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)
-cmix#:#conf_user_name#:#User name
-cmix#:#conf_user_name_firstname#:#First name
-cmix#:#conf_user_name_firstname_info#:#Sends the first name of the user name from ILIAS
-cmix#:#conf_user_name_fullname#:#Entire name
-cmix#:#conf_user_name_fullname_info#:#Sends title, first name and last name
-cmix#:#conf_user_name_info#:#Sending an user name is usually not required.
-cmix#:#conf_user_name_lastname#:#Title and last name
-cmix#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name
-cmix#:#conf_user_name_none#:#No one
-cmix#:#conf_user_name_none_info#:#Sends '-' instead of a name
-cmix#:#conf_user_registered_mail#:#Registered E-Mail-Address
+cmix#:#conf_user_ident_il_uuid_login_info#:#Ez azonosítja az összes hívást, de esetleg következtetni enged az ILIAS felhasználóra.
+cmix#:#conf_user_ident_il_uuid_random#:#Véletlen id és az egyedi ILIAS platform id e-mail cím formátumban.
+cmix#:#conf_user_ident_il_uuid_random_info#:#Az összes ILIAS objektum és az összes ILIAS felhasználó számára egy véletlen azonosítót generálunk minden híváskor, így a felhasználóval kapcsolatos következtetések nagyon korlátozottak lesznek, mert gyakorlatilag lehetetlen objektumokra hivatkozó felhasználói profilokat létrehozni.
+cmix#:#conf_user_ident_il_uuid_user_id#:#Az ILIAS user id és az egyedi ILIAS platform id e-mail cím formátumban.
+cmix#:#conf_user_ident_il_uuid_user_id_info#:#Ez azonosítja az összes hívást, de nem enged következtetni az ILIAS felhasználóra.
+cmix#:#conf_user_ident_info#:#A standard gyakran az e-mail cím. Az egyedi ILIAS platformazonosítója:
+cmix#:#conf_user_ident_real_email#:#E-mail címek
+cmix#:#conf_user_ident_real_email_info#:#A felhasználó e-mail címét küldi azonosításként (Figyelmezetés: egy e-mail címet több felhasználó is használhat!)
+cmix#:#conf_user_name#:#Felhasználó neve
+cmix#:#conf_user_name_firstname#:#Utónév
+cmix#:#conf_user_name_firstname_info#:#A felhasználó utónevét küldjük
+cmix#:#conf_user_name_fullname#:#Teljes név
+cmix#:#conf_user_name_fullname_info#:#A titulust, a családi és az utónevet is küldjük
+cmix#:#conf_user_name_info#:#A felhasználó névének küldése általában nem szükséges.
+cmix#:#conf_user_name_lastname#:#Titulus és családnév
+cmix#:#conf_user_name_lastname_info#:#Asszony vagy Úr megszólítást (eltérő rendelkezés hiányában) és a családnevet küldjük
+cmix#:#conf_user_name_none#:#Semmi
+cmix#:#conf_user_name_none_info#:#'-' a név helyett
+cmix#:#conf_user_registered_mail#:#Regisztrált e-mail cím
 cmix#:#content_privacy_ident#:#A felhasználó azonosítása az erőforráshoz
 cmix#:#content_privacy_name#:#A felhasználó neve az erőforráshoz
 cmix#:#create_lrs_type_form#:#Új LRS-típus
-cmix#:#create_registration#:#Register your E-Mail address
-cmix#:#cron_xapi_del#:#Delete xAPI/cmi5 data in the Learning Record Store###30 04 2024 new variable
-cmix#:#cron_xapi_del_desc#:#Data are deleted according to the settings of the xAPI/cmi5 objects.###30 04 2024 new variable
-cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results
-cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.
+cmix#:#create_registration#:#E-mail cím regisztrálása
+cmix#:#cron_xapi_del#:#xAPI/cmi5 adatok törlése a LRS-ben
+cmix#:#cron_xapi_del_desc#:#Az adatok törlése az xAPI/cmi5 objektumok beállításainak megfelelően történik.
+cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 eredmények használata
+cmix#:#cron_xapi_results_evaluation_desc#:#Az összes xAPI eredmény lekérése az ILIAS xAPI proxyt nem támogató objektumok esetén.
 cmix#:#description_info#:#A leírás a cím alatt jelenik meg.
 cmix#:#download_certificate#:#Tanúsítvány letöltése
-cmix#:#duration_info#:#The duration can be entered e.g. for answering a task. The duration is set to the default value 0 seconds (PT00.000S) by this option.
+cmix#:#duration_info#:#Az időtartam beírható például feladat megválaszolásához. Ezzel az opcióval az időtartam az alapértelmezett értéke 0 másodperc (PT00.000S).
 cmix#:#duration_label#:#Időtartam
 cmix#:#edit_lrs_type_form#:#LRS-típus
-cmix#:#failed_info#:#Indicates the actor did not successfully pass an activity to a level of predetermined satisfaction.
+cmix#:#failed_info#:#Azt jelzi, hogy a színész nem teljesített sikeresen egy tevékenységet az előre meghatározott elégedettség szintjére.
 cmix#:#failed_label#:#Nyilatkozatok a 'nem teljesítette' állapottal
-cmix#:#fetch_xapi_statements#:#Fetch results from Learning Record Store
+cmix#:#fetch_xapi_statements#:#Eredmények használata az LRS-ből
 cmix#:#field_user_ident#:#E-mail cím
-cmix#:#field_user_ident_info#:#Enter the e-mail address used in the external application to identify you.
+cmix#:#field_user_ident_info#:#Adja meg az e-mail címét a külső applikációban történő azonosításához.
 cmix#:#form_change_registration#:#Registration
 cmix#:#form_create_registration#:#Regisztráció
-cmix#:#hide_data_info#:#With this option which is only available for the ILIAS LRS proxy certain data is stored in statements with unrecognizable values in the Learning Record Store.
+cmix#:#hide_data_info#:#Ezzel az opcióval, amely csak az ILIAS LRS proxy számára érhető el, bizonyos adatok felismerhetetlen értékű kimutatásokban kerülnek tárolásra a LRS-ben.
 cmix#:#hide_data_label#:#Blokkolt adat
 cmix#:#highscore_achieved_ts#:#Dátum
 cmix#:#highscore_achieved_ts_description#:#A dátumot tartalmazó oszlop legyen benne a rangsorban.
@@ -3769,7 +3769,7 @@ common#:#copy_all#:#Összeset másol
 common#:#copy_n_of_suffix#:#- másolata (%1$s)
 common#:#copy_of#:#Másolandó:
 common#:#copy_of_suffix#:#- másolata
-common#:#copy_perma_link#:#Copy link to clipboard###10 12 2024 new variable
+common#:#copy_perma_link#:#Link vágólapra másolás
 common#:#copy_selected_items#:#Másolás
 common#:#count#:#Darabszám
 common#:#counter_novelty#:#Hírek
@@ -3917,7 +3917,7 @@ common#:#download_selected_items#:#Letöltés
 common#:#downloading_settings#:#Letöltési beállítások
 common#:#dpro_accept_usr_agreement#:#Elfogadja az Adatvédelmi Nyilatkozatot?
 common#:#dpro_accept_usr_agreement_intro#:#Az Adatvédelmi Nyilatkozat módosult. El kell fogadnia az ILIAS további használata előtt. Olvassa el figyelmesen, és fogadja vagy utasítsa el az oldal alján lévő gomb használatával.
-common#:#dpro_agreed_on#:#DoDP agreed to on###01 04 2025 new variable
+common#:#dpro_agreed_on#:#Elfogadva ekkor:
 common#:#dpro_force_accept_usr_agreement#:#El kell fogadnia az Adatvédelmi Nyilatkozatot!
 common#:#dpro_no_agreement_description#:#Jelenleg nem érhető el Adatvédelmi Nyilatkozat. Kérem, keresse az <a href="%1$s">üzemeltetőt</a>.
 common#:#dpro_refuse_acceptance#:#Az Adatvédelmi Nyilatkozat elutasítása
@@ -4528,7 +4528,7 @@ common#:#login_information_settings_saved#:#A bejelentkezési információkat si
 common#:#login_invalid#:#A választott felhasználónév nem érvényes! Csak a következő karakterek használhatók (minimum 3 karakter): A-Z a-z 0-9 _.+*@!$%~
 common#:#login_to_ilias#:#Bejelentkezés az ILIAS-ba
 common#:#login_to_ilias_via_cas#:#Központi hitelesítési szolgáltatáson keresztüli bejelentkezés az ILIAS-ba
-common#:#login_to_ilias_via_login_form#:#Login to ILIAS###20 05 2025 new variable
+common#:#login_to_ilias_via_login_form#:#Bejelentkezés az ILIAS-ba
 common#:#login_to_ilias_via_saml#:#Bejelentkezés az ILIAS-ba SAML hitelesítésen keresztül
 common#:#login_to_ilias_via_shibboleth#:#ILIAS-ba bejelentkezés ezen keresztül:
 common#:#loginname_already_exists#:#Már van ilyen felhasználónév.
@@ -5162,7 +5162,7 @@ common#:#objs_rglo#:#ECS fogalomtárak
 common#:#objs_rgrp#:#ECS csoportok
 common#:#objs_rlm#:#ECS tananyagok
 common#:#objs_role#:#Szerepek
-common#:#objs_rolf#:#Role Folders###10 12 2024 new variable
+common#:#objs_rolf#:#Szerepmappák
 common#:#objs_rtst#:#ECS tesztek
 common#:#objs_rwik#:#ECS wikik
 common#:#objs_sahs#:#SCORM-tananyagok
@@ -5254,7 +5254,7 @@ common#:#pd_items_news#:#Személyes objektumok híreit beleértve
 common#:#pdf_export#:#PDF-export
 common#:#perm_settings#:#Jogosultságok
 common#:#perma_link#:#Állandó link
-common#:#perma_link_copied#:#Link to this page has been copied to the clipboard.###10 12 2024 new variable
+common#:#perma_link_copied#:#Az erre az oldalra mutató linket a vágólapra másolta.
 common#:#permission#:#Jogosultság
 common#:#permission_denied#:#Hozzáférés elutasítva.
 common#:#permission_settings#:#Jogosultságok beállítása
@@ -6098,7 +6098,7 @@ cont#:#cont_tile_size_3#:#extra nagy (soronként 1-2 csempe)
 cont#:#cont_tile_size_4#:#teljes (soronként 1 csempe)
 cont#:#cont_tile_view#:#Csempék
 cont#:#cont_tile_view_info#:#Az ebben a tárolóban lévő objektumok megjelenítése mint miniatűrstílusú csempeként. Csempekép minden objektum saját beállításaiban tölthető fel.
-cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###10 12 2024 new variable
+cont#:#cont_trash_general_usage#:#Ha nagy mennyiségű régi, törölt objektumot kíván eltávolítani a rendszerből, akkor erősen tanácsos a nem tároló típusú objektumokkal kezdeni (például fájlok, fogalomtárak, tesztek), azaz célszerű először minden objektumot eltávolítani a tárolókból (kategóriákból, kurzusokból, csoportokból, tanulási sorokból stb. ). A 'Típus" és a 'Törlés helye' szűrők használata segíti ezt a folyamatot. Végül távolítsa el a tárolókat.
 contact#:#contact_awrn_ap_contacts#:#Elfogadott jelölések
 contact#:#contact_awrn_ap_contacts_info#:#A felhasználó összes elfogadott jelölését felsoroljuk.
 contact#:#contact_awrn_req_contacts#:#'Ismerősnek jelölés' kérések
@@ -6322,7 +6322,7 @@ content#:#cont_deactivate_media#:#Média letiltása
 content#:#cont_deactivate_page#:#Lap kikapcsolása
 content#:#cont_deactivated#:#Kikapcsolva
 content#:#cont_debug#:#Teszteszköz engedélyezése
-content#:#cont_debug_deactivate#:#A Teszteszköz a tananyag megjelenítésekor válik láthatóvá, a tananyag és az ILIAS interakciója alapján létrejövő adatokat vizsgálja. A Teszteszköz használatához a Navigációs-fát ki kell kapcsolni.###
+content#:#cont_debug_deactivate#:#A Teszteszköz a tananyag megjelenítésekor válik láthatóvá, a tananyag és az ILIAS interakciója alapján létrejövő adatokat vizsgálja. A Teszteszköz használatához a Navigációs-fát ki kell kapcsolni.
 content#:#cont_debug_deactivate12#:#A Teszteszköz a tananyag megjelenítési módjában fog megjelenni. Az általa szolgáltatott adatok alapján értékelhető a tananyag és az ILIAS interakciója.
 content#:#cont_debug_deactivated#:#A Teszteszköz használatát központilag letiltották (Rendszerbeállítások » Tananyagok menüpont alatt módosítható).
 content#:#cont_debugging#:#Nyomkövetés
@@ -7369,7 +7369,7 @@ copg#:#copg_page_element_not_found#:#Az oldalelem nem található.
 copg#:#copg_page_type_stys#:#Lapelrendezés
 copg#:#copg_par_format_selection#:#Bekezdésformátumok
 copg#:#copg_pc_mob_does_not_exist#:#Ez a médiaelem nem létezik.
-copg#:#copg_plugin_not_avail#:#Plugin %s not available.###10 12 2024 new variable
+copg#:#copg_plugin_not_avail#:#'%s' bővítmény nem érhető el
 copg#:#copg_questions_not_supported_here#:#Ebben a kontextusban a kérdéseket nem támogatjuk.
 copg#:#copg_reload_page#:#Oldal újratöltése
 copg#:#copg_remove_formats#:#Formázás eltávolítása
@@ -8557,9 +8557,9 @@ dcl#:#dcl_confirm_delete_table#:#Biztos, hogy törli a táblát annak tartalmáv
 dcl#:#dcl_confirm_storing_records#:#Kérem, ellenőrizze és hagyja jóvá beírt adatát.
 dcl#:#dcl_confirm_storing_records_no_permission#:#Nincs jogosultsága a bejegyzést utólag módosítani.
 dcl#:#dcl_copy#:#Adatgyűjtés másolása
-dcl#:#dcl_copy_field#:#Copy###10 12 2024 new variable
-dcl#:#dcl_copy_field_desc#:#Field to copy options stored in a different field of a table.###10 12 2024 new variable
-dcl#:#dcl_copy_title#:#Copy of table and field###10 12 2024 new variable
+dcl#:#dcl_copy_field#:#Másolás
+dcl#:#dcl_copy_field_desc#:#Mező a táblázat másik mezőjében tárolt lehetőségek másolásához.
+dcl#:#dcl_copy_title#:#Tábla és mezők másolata
 dcl#:#dcl_create_date#:#Létrehozás dátuma
 dcl#:#dcl_create_entry_rules#:#Bejegyzés létrehozása
 dcl#:#dcl_create_field#:#Mező létrehozása
@@ -8567,8 +8567,8 @@ dcl#:#dcl_create_fields#:#Kattintson egy táblára a 'Táblák' lap alatt, majd 
 dcl#:#dcl_creation_date#:#Létrehozás dátuma
 dcl#:#dcl_creation_date_description#:#A bejegyzés létrehozásának dátuma.
 dcl#:#dcl_datatype#:#Adattípus
-dcl#:#dcl_date#:#Date Entry###20 05 2025 new variable
-dcl#:#dcl_date_desc#:#Field for a date.###20 05 2025 new variable
+dcl#:#dcl_date#:#Dátum
+dcl#:#dcl_date_desc#:#Dátum beviteli mező.
 dcl#:#dcl_date_selection#:#Dátumválasztó
 dcl#:#dcl_date_selection_desc#:#Dátumlehetőségek választásának felkínálása.
 dcl#:#dcl_deactivate_view#:#Nézet kikapcsolása
@@ -8584,7 +8584,7 @@ dcl#:#dcl_delete_tables_no_selection#:#Legalább egy törlendő táblát válass
 dcl#:#dcl_delete_views#:#Nézetek törlése
 dcl#:#dcl_delete_views_no_selection#:#Legalább egy törlendő nézetet válasszon ki
 dcl#:#dcl_deleted_records#:#Sikeresen törölt %s bejegyzéseket
-dcl#:#dcl_deprecated_copy#:#(Deprecated)###10 12 2024 new variable
+dcl#:#dcl_deprecated_copy#:#(Elavult)
 dcl#:#dcl_desc#:#Csökkenő sorrend (CSÖKK)
 dcl#:#dcl_description#:#Mező leírása
 dcl#:#dcl_detailed_view#:#Egyszerű
@@ -8682,7 +8682,7 @@ dcl#:#dcl_new_table#:#Új tábla
 dcl#:#dcl_next_record#:#Következő bejegyzés
 dcl#:#dcl_no_content_warning#:#Figyelem, az adatgyűjtés online, de még nincs tartalma!
 dcl#:#dcl_no_entry#:#Egy bejegyzés sem található
-dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###20 05 2025 new variable
+dcl#:#dcl_no_export_async_config#:#Nincs elérhető SOAP konfiguráció aszinkron exportálásokhoz.
 dcl#:#dcl_no_export_data_available#:#Nincs exportálható mező, illetve bejegyzés.
 dcl#:#dcl_no_fields_yet#:#Ez az adatkészlet még nem tartalmaz mezőket. A metaadatokat a különböző mezőtípusok egyikébe kell bevinni. A metaadatok megadásához hozzon létre legalább egy adatmezőt.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#A táblázat alapértelmezett nézetéhez nincs olvasási hozzáférése.
@@ -8701,7 +8701,7 @@ dcl#:#dcl_number#:#Egész szám
 dcl#:#dcl_number_desc#:#Egész szám típusú beviteli mező (max. 9 számjegy). Közönséges és tizedes törtek nem engedélyezettek.
 dcl#:#dcl_online_info#:#Az adatgyűjtést csak online állapotában használhatják a felhasználók.
 dcl#:#dcl_order#:#Sorrend
-dcl#:#dcl_origin_not_found#:#Origin field was not found!###10 12 2024 new variable
+dcl#:#dcl_origin_not_found#:#Az eredeti mező nem található!
 dcl#:#dcl_own_entries#:#Csak a saját bejegyzéseim
 dcl#:#dcl_owner#:#Tulajdonos
 dcl#:#dcl_owner_description#:#Az a felhasználó, aki a bejegyzés tulajdonosa.
@@ -8796,9 +8796,9 @@ dcl#:#dcl_title_standardview#:#Standard nézetek
 dcl#:#dcl_unique#:#Egyedi
 dcl#:#dcl_unique_desc#:#Ebben a mezőben minden értéknek különböznie kell egymástól.
 dcl#:#dcl_unique_exception#:#Az Ön által megadott értéket már másik bejegyzés tartalmazza.
-dcl#:#dcl_unknown#:#Unkown###20 05 2025 new variable
+dcl#:#dcl_unknown#:#Ismeretlen
 dcl#:#dcl_unknown_exception#:#Az Ön által megadott érték nem érvényes.
-dcl#:#dcl_unknown_plugin#:#Unknown plugin type###20 05 2025 new variable
+dcl#:#dcl_unknown_plugin#:#Ismeretlen bővítménytípus
 dcl#:#dcl_update_field#:#Mező frissítése
 dcl#:#dcl_update_record#:#Bejegyzés módosítása
 dcl#:#dcl_url#:#URL
@@ -8812,7 +8812,7 @@ dcl#:#dcl_width#:#Szélesség
 dcl#:#dcl_wrong_input_type#:#Az Ön által megadott érték nem illeszkedik a specifikációhoz (rossz típus).
 dcl#:#dcl_wrong_length#:#Az Ön által megadott szöveg túl hosszú.
 dcl#:#dcl_wrong_regex#:#Az Ön által megadott szöveg nem illeszkedik ennek a mezőnek a specifikációjához (reguláris kifejezéshez).
-dcl#:#dcl_xls_async_export#:#as XLSX (asynchronous)###20 05 2025 new variable
+dcl#:#dcl_xls_async_export#:#Aszinkron Excel (.xlsx) exportálás
 dcl#:#fieldtitle_allow_chars#:#Nem engedélyezett karakterek: %s
 dcl#:#fileupload_not_migrated#:#Ezt fájlt még nem migrálták, ezért nem jeleníthető meg. Kérem, keresse a rendszerüzemeltetőt.
 didactic#:#activate_exclusive_template#:#Alapértelmezetten őszülő
@@ -8960,8 +8960,8 @@ ecs#:#ecs_cms_tree_synchronized#:#A fát szinkronizáltuk.
 ecs#:#ecs_communities#:#Résztvevők
 ecs#:#ecs_confirm_delete_tree#:#Biztos, hogy törli ennek a campus-menedzsment fának minden hozzárendelését?
 ecs#:#ecs_connection_settings#:#Kapcsolódási beállítások
-ecs#:#ecs_consent_modal_title#:#Consent for data transfer###30 04 2024 new variable
-ecs#:#ecs_consent_reset_confirm_title#:#Reset user consent for this participant###30 04 2024 new variable
+ecs#:#ecs_consent_modal_title#:#Hozzájárulás az adatátvitelhez
+ecs#:#ecs_consent_reset_confirm_title#:#Felhasználói hozzájárulás visszaállítása
 ecs#:#ecs_cron_task_scheduler#:#ECS-feladatütemező
 ecs#:#ecs_cron_task_scheduler_info#:#Az ECS-feladatütemező a beállításai szerint fog lefutni. Ez csak akkor lehtséges, amikor be van állítva ECS-szerver.
 ecs#:#ecs_crs_alloc#:#Kurzus lefoglalása
@@ -8990,16 +8990,16 @@ ecs#:#ecs_err_missing_value#:#Ellenőrizze a tulajdonságértékre megadott beme
 ecs#:#ecs_error_extract_serial#:#Nem olvasható a tanúsítvány sorozatszáma. Ellenőrizze a klienstanúsítvány elérési útját!
 ecs#:#ecs_event_appointment#:#Eseménydátum
 ecs#:#ecs_export#:#Kurzuskibocsátások
-ecs#:#ecs_export_auth_type#:#Authentication method for users with external user attribute###30 04 2024 new variable
-ecs#:#ecs_export_auth_type_ilias#:#User authentication via LDAP###30 04 2024 new variable
-ecs#:#ecs_export_auth_type_info#:#Please choose the authentication method for users to authenticate via ECS, for whom an external user attribute was transferred via ECS.###30 04 2024 new variable
-ecs#:#ecs_export_auth_type_none#:#Do not allow users with external user attribute###30 04 2024 new variable
-ecs#:#ecs_export_auth_type_shib#:#User authentication via Shibboleth###30 04 2024 new variable
+ecs#:#ecs_export_auth_type#:#Hitelesítési módszer külső felhasználói attribútummal rendelkező felhasználók számára
+ecs#:#ecs_export_auth_type_ilias#:#Felhasználó hitelesítés LDAP-pal
+ecs#:#ecs_export_auth_type_info#:#Kérjük, válassza ki a hitelesítési módot az ECS-n keresztül történő hitelesítéshez azon felhasználók számára, akiknél külső felhasználói attribútumot adunk át az ECS-n keresztül
+ecs#:#ecs_export_auth_type_none#:#Külső felhasználói attribútumokkal rendelkező felhasználók tiltása
+ecs#:#ecs_export_auth_type_shib#:#Felhasználó hitelesítés Shibboleth-tel
 ecs#:#ecs_export_created_body_a#:#Új kurzus került kibocsátásra
 ecs#:#ecs_export_disabled#:#Ne bocsássa ki ezt a kurzust
 ecs#:#ecs_export_enabled#:#Bocsássa ki ezt a kurzust
 ecs#:#ecs_export_local_account#:#Helyi ILIAS-fiókok
-ecs#:#ecs_export_local_account_info#:#If enabled, will allow the creation of local accounts via ECS. ECS users without external user attribute will receive a local user account on your installation.###30 04 2024 new variable
+ecs#:#ecs_export_local_account_info#:#Ha van bekapcsolva, lehetővé teszi a helyi fiókok létrehozását az ECS-n keresztül. A külső felhasználói attribútum nélküli ECS-felhasználók helyi felhasználói fiókot kapnak.
 ecs#:#ecs_export_obj_settings#:#Kurzuskibocsátási beállítások
 ecs#:#ecs_export_types#:#Exportálható objektumtípusok
 ecs#:#ecs_field_begin#:#Kezdő időpont
@@ -9022,30 +9022,30 @@ ecs#:#ecs_file_export#:#Fájlkiadások
 ecs#:#ecs_file_export_disabled#:#Ne legyen kiadva ez a fájl
 ecs#:#ecs_file_export_enabled#:#Ezen fájl felszabadítása
 ecs#:#ecs_file_export_obj_settings#:#Fájlkiadás beállításai
-ecs#:#ecs_firstname#:#First name###30 04 2024 new variable
-ecs#:#ecs_form_consent#:#Consent###30 04 2024 new variable
-ecs#:#ecs_form_consent_option_title#:#I hereby consent to the transfer of the following data to the above-mentioned target system:###30 04 2024 new variable
-ecs#:#ecs_form_target_platform#:#Target system###30 04 2024 new variable
+ecs#:#ecs_firstname#:#Utónév
+ecs#:#ecs_form_consent#:#Hozzájárulás
+ecs#:#ecs_form_consent_option_title#:#Hozzájárulok az alábbi adatok fent említett célrendszerbe történő továbbításához:
+ecs#:#ecs_form_target_platform#:#Célrendszer
 ecs#:#ecs_general_info#:#Általános információk
 ecs#:#ecs_glo_export#:#Fogalomtár kiadásai
 ecs#:#ecs_glo_export_disabled#:#Ne legyen kiadva ez a fogalomtár
 ecs#:#ecs_glo_export_enabled#:#Ezen fogalomtár kiadása
 ecs#:#ecs_glo_export_obj_settings#:#Fogalomtár kiadás beállításai
-ecs#:#ecs_global_role_info#:#A kiválasztott szerep hozzá lesz rendelve az újonnan létrehozott ECS-felhasználóhoz.
+ecs#:#ecs_global_role_info#:#A kiválasztott szerepkör hozzá lesz rendelve az újonnan létrehozott ECS-felhasználóhoz.
 ecs#:#ecs_grp_export#:#Csoport kiadásai
 ecs#:#ecs_grp_export_disabled#:#Ne legyen kiadva ez a csoport
 ecs#:#ecs_grp_export_enabled#:#Ezen csoport kiadása
 ecs#:#ecs_grp_export_obj_settings#:#Csoportkiadás beállításai
 ecs#:#ecs_ignore_field#:#A mező exportjának/frissítésének letiltása
 ecs#:#ecs_import#:#Importált kurzusok
-ecs#:#ecs_import_auth_mode#:#Allow accounts of authentication method %s for transmission via ECS###30 04 2024 new variable
-ecs#:#ecs_import_auth_type_default#:#Allow accounts authentication method "Default" for transmission via ECS###30 04 2024 new variable
+ecs#:#ecs_import_auth_mode#:#'%s' hitelesítési mód fiókjainak engedélyezése az ECS-n keresztüli továbbításhoz
+ecs#:#ecs_import_auth_type_default#:#Az 'Alapértelmezett' fiókhitelesítési módú felhasználók engedélyezése az ECS-n keresztüli továbbításhoz
 ecs#:#ecs_import_cms#:#Campus-menedzsment
 ecs#:#ecs_import_id#:#ID importálása
 ecs#:#ecs_import_id_info#:#Adja meg annak a kategóriának az ID-jét, ahová az új kurzuslinkek lesznek létrehozva!
 ecs#:#ecs_import_types#:#Importálható objektumtípusok
-ecs#:#ecs_import_user_credentials_by_auth_mode#:#Configuration of authentication methods for transmission via ECS###30 04 2024 new variable
-ecs#:#ecs_import_user_credentials_by_auth_mode_info#:#Enable this option to allow accounts of authentication method "Default" to access participant's resources via ECS.###30 04 2024 new variable
+ecs#:#ecs_import_user_credentials_by_auth_mode#:#Hitelesítési módszerek konfigurálása ECS-n keresztüli átvitelhez
+ecs#:#ecs_import_user_credentials_by_auth_mode_info#:#Kapcsolja be ezt az opciót, hogy az 'Alapértelmezett' hitelesítési módszerrel rendelkező fiókok hozzáférjenek a résztvevő erőforrásaihoz az ECS-n keresztül
 ecs#:#ecs_imported_content#:#Importált e-tartalom
 ecs#:#ecs_imported_from#:#Importálva innen
 ecs#:#ecs_institution#:#Intézet
@@ -9097,7 +9097,7 @@ ecs#:#ecs_protocol#:#Protokoll
 ecs#:#ecs_publish_as#:#Közzététel mint:
 ecs#:#ecs_publish_for#:#Kibocsátás ennek:
 ecs#:#ecs_published_for#:#Publikálva neki:
-ecs#:#ecs_rcat_created_body_a#:#A new ECS Category has been created:###10 12 2024 new variable
+ecs#:#ecs_rcat_created_body_a#:#Új ECS-kategória jött létre:
 ecs#:#ecs_rcrs_created_body_a#:#Új ECS-kurzus jött létre:
 ecs#:#ecs_read_remote_links#:#ECS-kurzusok frissítése
 ecs#:#ecs_refresh_participants#:#ECS-résztvevők frissítése
@@ -9107,7 +9107,7 @@ ecs#:#ecs_remote_imported#:#Az ECS-kurzusról az információkat sikeresen friss
 ecs#:#ecs_remote_user_settings#:#Beállítások ECS-felhasználókhoz
 ecs#:#ecs_role#:#Szerep-összerendelés
 ecs#:#ecs_role_mapping_value#:#Attribútum értéke
-ecs#:#ecs_role_mappings#:#Kurzus/Csoport szerep összerendelések
+ecs#:#ecs_role_mappings#:#Kurzus/Csoport szerepkör összerendelések
 ecs#:#ecs_server_addr#:#Szervercím
 ecs#:#ecs_server_deleted#:#Törölt szerver
 ecs#:#ecs_server_settings#:#ECS-funkcionalitások
@@ -9125,7 +9125,7 @@ ecs#:#ecs_sync_trees#:#Mappafaszerkezet szinkronizálása
 ecs#:#ecs_tab_export#:#Export
 ecs#:#ecs_tab_import#:#Import
 ecs#:#ecs_tbl_active#:#Aktív
-ecs#:#ecs_tbl_active_rules#:#Aktív szerepek kategória-összerendeléshez
+ecs#:#ecs_tbl_active_rules#:#Aktív szerepkörök kategória-összerendeléshez
 ecs#:#ecs_tbl_export#:#Export
 ecs#:#ecs_tbl_import#:#Import
 ecs#:#ecs_tbl_import_type#:#Importtípus
@@ -9779,8 +9779,8 @@ file#:#preview_caption#:#%s/%s előnézet
 file#:#preview_image_size_info#:#Az előnézeti képek maximális hossza px-ben.
 file#:#preview_persisting#:#Állandó előnézeti képek
 file#:#preview_persisting_info#:#A generált előképeket eltároljuk, különben azokat menet közben állítjuk elő.
-file#:#previews_for_tiles#:#Tiles###01 04 2025 new variable
-file#:#previews_for_tiles_info#:#Use Preview for Tiles where possible.###01 04 2025 new variable
+file#:#previews_for_tiles#:#Csempék
+file#:#previews_for_tiles_info#:#Csempe előnézet használata, ha lehetséges.
 file#:#publish_before_delete#:#A verzió(k) nem törölhető(k), mert nincs közzétett változata.
 file#:#replace_file_info#:#Az összes korábbi fájlverziót törli.
 file#:#resource_id#:#Erőforrás-ID
@@ -9942,8 +9942,8 @@ forum#:#forums_download_attachment#:#Fájl letöltése
 forum#:#forums_edit_draft#:#Piszkozat módosítása
 forum#:#forums_edit_post#:#Hozzászólás módosítása
 forum#:#forums_enable_notification#:#Értesítés kérése ehhez a témához
-forum#:#forums_forum_notification#:#Send Forum Notifications###10 12 2024 new variable
-forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.###10 12 2024 new variable
+forum#:#forums_forum_notification#:#Fórumértesítés küldése
+forum#:#forums_forum_notification_desc#:#Ha bekapcsolja, a felhasználók értesítő levelek kérhetnek az adott fórumban született új bejegyzésről.
 forum#:#forums_forum_notification_disabled#:#Nem kap a továbbiakban értesítést, ha új hozzászólás születik ebben a fórumban.
 forum#:#forums_info_censor2_post#:#Cenzúrázás visszavonása?
 forum#:#forums_info_censor_post#:#Biztos, hogy elrejti ezt a hozzászólást?
@@ -10768,7 +10768,7 @@ ldoc#:#ldoc_form_edit_doc_head#:#Dokumentum módosítása
 ldoc#:#ldoc_form_new_doc_head#:#Dokumentum létrehozása
 ldoc#:#ldoc_last_modified#:#Utolsó módosítás
 ldoc#:#ldoc_ldoc_settings#:#Beállítások
-ldoc#:#ldoc_order_invalid#:#Please enter a number for the order###14 01 2025 new variable
+ldoc#:#ldoc_order_invalid#:#Számot adjon meg a sorba rendezéshez
 ldoc#:#ldoc_period#:#Időszak
 ldoc#:#ldoc_period_from#:#Kezdő időpont
 ldoc#:#ldoc_period_until#:#Záró időpont
@@ -11012,59 +11012,59 @@ lti#:#gbl_roles_to_users#:#LTI-felhasználókhoz rendelt globális szerep
 lti#:#global_provider_subtab#:#Globális Kiszolgálók for all Users
 lti#:#grade_activity_progress_all#:#összes állapotinformáció
 lti#:#grade_activity_progress_completed#:#Befejezte
-lti#:#grade_activity_progress_initialized#:#Initialized###30 04 2024 new variable
+lti#:#grade_activity_progress_initialized#:#Initializált
 lti#:#grade_activity_progress_inprogress#:#Folyamatban
 lti#:#grade_activity_progress_started#:#Elkezdve
-lti#:#grade_activity_progress_submitted#:#Submitted###30 04 2024 new variable
-lti#:#grade_grading_progress_all#:#All Information on Grading Progress###30 04 2024 new variable
-lti#:#grade_grading_progress_failed#:#The Grading could not complete (Failed)###30 04 2024 new variable
-lti#:#grade_grading_progress_fullygraded#:#The Grading Process is completed###30 04 2024 new variable
-lti#:#grade_grading_progress_notready#:#No Grading Process is occurring (NotReady)###30 04 2024 new variable
-lti#:#grade_grading_progress_pending#:#Final Grade is pending###30 04 2024 new variable
-lti#:#grade_grading_progress_pendingmanual#:#Final Grade is pending; requires Human Intervention###30 04 2024 new variable
+lti#:#grade_activity_progress_submitted#:#Beküldött
+lti#:#grade_grading_progress_all#:#Az értékelési folyamat össze információja
+lti#:#grade_grading_progress_failed#:#Az értékelési folyamat nem befejeződött be (Sikertelen)
+lti#:#grade_grading_progress_fullygraded#:#Az értékelési folyamat befejeződött
+lti#:#grade_grading_progress_notready#:#Nincs értékelési folyamat
+lti#:#grade_grading_progress_pending#:#A végső értékelés kialakítása függőben
+lti#:#grade_grading_progress_pendingmanual#:#A végső értékelés kialakítása függőben; kézi beavatkozást igényel
 lti#:#highscore_achieved_ts#:#Dátum
-lti#:#highscore_achieved_ts_description#:#A column containing the date will be included in the ranking.
-lti#:#highscore_all_tables#:#Participant's Own Rank és Top Ranking
-lti#:#highscore_all_tables_description#:#Participants get information about the top ranking és their own position in the ranking.
-lti#:#highscore_description#:#The names of other users could be displayed if the right 'A többi felhasználó tanulási tapasztalatának megtekintése' is set.
-lti#:#highscore_enabled#:#Ranking
-lti#:#highscore_mode#:#Mode
-lti#:#highscore_own_table#:#Participant's Own Rank
-lti#:#highscore_own_table_description#:#Participants are advised of their own position in the ranking.
-lti#:#highscore_percentage#:#Percentage
-lti#:#highscore_percentage_description#:#A column containing the score as percentage will be included in the ranking.
-lti#:#highscore_score#:#Score
-lti#:#highscore_score_description#:#A column containing the score will be included in the ranking.
-lti#:#highscore_top_num#:#Length of Top Ranking
-lti#:#highscore_top_num_description#:#Specify how many ranks are to be included in the top ranking list.
-lti#:#highscore_top_num_unit#:#entries
-lti#:#highscore_top_table#:#Top Ranking
-lti#:#highscore_top_table_description#:#Participants are presented with a table containing the top rankings.
-lti#:#highscore_wtime#:#Duration
-lti#:#highscore_wtime_description#:#A column containing the duration will be included in the ranking.
+lti#:#highscore_achieved_ts_description#:#A rangsorban megjelenik a dátumot eredményeket tartalmazó oszlop.
+lti#:#highscore_all_tables#:#Résztvevő saját és top rangsora
+lti#:#highscore_all_tables_description#:#A résztvevők tájékoztatást kapnak a legjobb helyezésekről és saját pozíciójukról a rangsorban.
+lti#:#highscore_description#:#A többi felhasználó neve megjelenik, ha az 'A többi felhasználó tanulási tapasztalatának megtekintése' jogosultsággl bír.
+lti#:#highscore_enabled#:#Helyezés
+lti#:#highscore_mode#:#Mód
+lti#:#highscore_own_table#:#Résztvevő saját helyezése
+lti#:#highscore_own_table_description#:#A résztvevők láthatják a rangsorban elfoglalt helyüket.
+lti#:#highscore_percentage#:#Százalék
+lti#:#highscore_percentage_description#:#A rangsorban megjelenik a százalékos eredményeket tartalmazó oszlop.
+lti#:#highscore_score#:#Pontszám
+lti#:#highscore_score_description#:#A rangsorban megjelenik a pontszámokat tartalmazó oszlop.
+lti#:#highscore_top_num#:#Legjobb helyezések száma
+lti#:#highscore_top_num_description#:#A legjobbak rangsorában megjelenő résztvevők számát határozza meg.
+lti#:#highscore_top_num_unit#:#bejegyzések
+lti#:#highscore_top_table#:#Legjobb helyezések
+lti#:#highscore_top_table_description#:#A résztvevők a legjobb helyezéseket tartalmazó táblázatban jelennek meg.
+lti#:#highscore_wtime#:#Időtartam
+lti#:#highscore_wtime_description#:#A rangsorban megjelenik az időtartamot tartalmazó oszlop.
 lti#:#launch_method#:#Indítás beállításai
 lti#:#launch_method_embedded#:#Beágyazott tartalom
-lti#:#launch_method_embedded_info#:#The content is opened within the ILIAS context. It is presented as embedded content within the content tab.
+lti#:#launch_method_embedded_info#:#A tartalom az ILIAS környezetben nyílik meg. Beágyazott tartalomként jelenik meg a tartalom lapon.
 lti#:#launch_method_new_win#:#Új ablak
-lti#:#launch_method_new_win_info#:#The content is opened in a new window. When leaving the content this window gets closed.
+lti#:#launch_method_new_win_info#:#A tartalom új ablakban nyílik meg. A tartalom elhagyásakor ez az ablak bezárul.
 lti#:#launch_method_own_win#:#Saját ablak
-lti#:#launch_method_own_win_info#:#The content is opened in the same window és replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.
+lti#:#launch_method_own_win_info#:#A tartalom ugyanabban az ablakban nyílik meg, és helyettesíti az ILIAS képernyőt. A tartalom elhagyásakor a felhasználó visszatér az ILIAS-hoz.
 lti#:#launched#:#Az erőforrás már elindult.
 lti#:#learning_progress_options#:#Tanulási haladás beállításai
 lti#:#lm_only_one_download_per_type#:#Típusonként (XML, HTML, SCORM) csak egy fájlt lehet nyilvánosan elérhető.
 lti#:#lti13_hints#:#Ha az eszközt dinamikus regisztráció nélkül hozták létre, akkor az alábbi adatokat kell megadni az eszköz futtatásához.
-lti#:#lti_13_authentication_url#:#Authentication Request URL###30 04 2024 new variable
-lti#:#lti_13_client_id#:#Client-ID
-lti#:#lti_13_deployment_id#:#Deployment-ID
-lti#:#lti_13_keyset_url#:#Public Keyset URL###30 04 2024 new variable
+lti#:#lti_13_authentication_url#:#Hitelesítési kérelem URL-je
+lti#:#lti_13_client_id#:#Kliens-ID
+lti#:#lti_13_deployment_id#:#Telepítés-ID
+lti#:#lti_13_keyset_url#:#Nyilvános kulcskészlet URL-je
 lti#:#lti_13_platform_id#:#Platform-ID
 lti#:#lti_13_step1#:#1. lépés
-lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the following address for Launch URL, Initiate Login URL, Redirection URI, and Registration URL:
+lti#:#lti_13_step1_info#:#A kezdeményező platform (fogyasztó) esetében adja meg a következő címet az Indítási URL-hez, a Bejelentkezési URL-címhez, az Átirányítási URI-hez és a Regisztrációs URL-hez:
 lti#:#lti_13_step2#:#2. lépés
-lti#:#lti_13_step2_info#:#You will receive information from the initiating platform (Consumer), which you must enter in the following fields. After saving, the LTI 1.3 functionalities are available.
-lti#:#lti_13_token_url#:#Access Token URL###30 04 2024 new variable
-lti#:#lti_action_accept_provider_as_global#:#Accept Kiszolgáló as Global Kiszolgáló for all Users
-lti#:#lti_action_accept_providers_as_global#:#Accept Kiszolgálók as Global
+lti#:#lti_13_step2_info#:#A kezdeményező platformtól (Fogyasztó) kap információkat, amelyeket a következő mezőkbe kell beírnia. Mentés után elérhetők az LTI 1.3 funkciói.
+lti#:#lti_13_token_url#:#Hozzáférési token URL-je
+lti#:#lti_action_accept_provider_as_global#:#A Kiszolgáló elfogadás mint Global Kiszolgáló az összes felhasználó számára
+lti#:#lti_action_accept_providers_as_global#:#Kiszolgálók elfogadás mint Globális
 lti#:#lti_action_delete_providers#:#Kiszolgálós törlése
 lti#:#lti_action_edit_provider#:#Edit Kiszolgáló
 lti#:#lti_action_reset_provider_to_user_scope#:#Reset Kiszolgáló as User Defined Kiszolgáló
@@ -11074,50 +11074,50 @@ lti#:#lti_add_own_provider#:#Saját Kiszolgáló létrehozása (nem az összes f
 lti#:#lti_admin#:#LTI-rendszergazda
 lti#:#lti_at_least_one_prov_has_usages#:#At least one provider could not be deleted because this provider has usages (might be in trash).
 lti#:#lti_auth_failed_invalid_key#:#A hitelesítés sikertelen, nem jó a fogyasztói kulcs.
-lti#:#lti_con_content_item#:#Support for Deep Linking##XXX
-lti#:#lti_con_content_item_url#:#Content URL
-lti#:#lti_con_grade_synchronization#:#Advanced Grading Services###30 04 2024 new variable
-lti#:#lti_con_grade_synchronization_info#:#The LTI tool must offer 'Assignment and Grade Services'.###30 04 2024 new variable
-lti#:#lti_con_initiate_login_url#:#Initiate Login URL
+lti#:#lti_con_content_item#:#Deep Linking támogatása##XXX
+lti#:#lti_con_content_item_url#:#Tartalom URL
+lti#:#lti_con_grade_synchronization#:#Fejlett Osztályozási Szolgáltatás
+lti#:#lti_con_grade_synchronization_info#:#Az LTI-eszköznek fel kell ajánlania 'Hozzárendelési és Osztályozási Szolgáltatások'.
+lti#:#lti_con_initiate_login_url#:#Bejelentkezési URL inicializálása
 lti#:#lti_con_key_type#:#Nyilvános kulcs típusa
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
-lti#:#lti_con_key_type_jwk_info#:#Entering this URL avoids the need to enter an RSA key.###30 04 2024 new variable
+lti#:#lti_con_key_type_jwk_info#:#Ennek az URL-címnek a megadásával nem kell RSA-kulcsot megadni.
 lti#:#lti_con_key_type_jwk_url#:#URL
 lti#:#lti_con_key_type_rsa#:#RSA-kulcs
 lti#:#lti_con_key_type_rsa_public_key#:#Nyilvános kulcs
-lti#:#lti_con_key_type_rsa_public_key_info#:#Insert the key provided by the tool (provider) in PEM format here.
-lti#:#lti_con_prov_always_learner#:#LTI User is always Learner
-lti#:#lti_con_prov_always_learner_info#:#Usually the role in ILIAS is mapped to a LTI role. Course Administrators could have more rights in the Kiszolgáló, e.g. to manipulate the object. Activate this option to avoid the Role Mapping.
+lti#:#lti_con_key_type_rsa_public_key_info#:#Ide illessze be az eszköz (szolgáltató) által biztosított PEM formátumú kulcsot.
+lti#:#lti_con_prov_always_learner#:#Az LTI-felhasználó mindig tanuló
+lti#:#lti_con_prov_always_learner_info#:#Az ILIAS szerepköre általában LTI-szerepre van leképezve. A kurzusvezetők több joguk lehetne a Kiszolgálóban, például kezelni az objektumot. Kapcsolja be ezt a lehetősget a szerepleképezés elkerüléséhez.
 lti#:#lti_con_prov_authentication#:#Hitelesítés
 lti#:#lti_con_prov_availability#:#Elérhetőség
-lti#:#lti_con_prov_availability_create#:#For Creating Objects
-lti#:#lti_con_prov_availability_existing#:#Only for existing Objects
+lti#:#lti_con_prov_availability_create#:#Újonan létrehozott objektumok esetén
+lti#:#lti_con_prov_availability_existing#:#Csak már létező objektumok esetén
 lti#:#lti_con_prov_availability_non#:#nem érhető el
 lti#:#lti_con_prov_category#:#Kategória
-lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer Object is created.
-lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Kiszolgáló
-lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2
+lti#:#lti_con_prov_category_info#:#Bejegyzések szűrésére LTI-Fogyasztói objektumok létrehozáskor.
+lti#:#lti_con_prov_custom_params#:#Egyéni paraméter a megadott Kiszolgálóhoz
+lti#:#lti_con_prov_custom_params_info#:#Adja meg a követező formátumban: param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Leírás
 lti#:#lti_con_prov_dyn_reg_params#:#Választható paraméterek
-lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###KKK
+lti#:#lti_con_prov_dyn_reg_params_info#:#Itt adhatók meg például hivatkozás az eszközben lévő célobjektumokra.
 lti#:#lti_con_prov_dyn_reg_url#:#Az eszköz regisztrációs URL-je
 lti#:#lti_con_prov_dyn_reg_url_info#:#Megjegyzés: Nem minden elem támogatja a dinamikus regisztrációt.
 lti#:#lti_con_prov_external_provider#:#Küldő kiszolgáló
-lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Kiszolgáló. An external Kiszolgáló is characterized by insufficient influence on the Kiszolgáló by the operator of the ILIAS-installation. This is the case when there are no rights to delete.
-lti#:#lti_con_prov_group_options#:#Options to group és filter Kiszolgálós
-lti#:#lti_con_prov_has_outcome_service#:#Kiszolgáló supports Outcome Service
-lti#:#lti_con_prov_has_outcome_service_info#:#If the LTI Outcome Service is supported, Learning Progress could be activated. The Kiszolgáló returns a value between 0 és 1 to indicate the Learning Progress.
-lti#:#lti_con_prov_hints#:#Hints
+lti#:#lti_con_prov_external_provider_info#:#Tipp jelenik meg a felhasználók számára, amikor külső Kiszolgálóval dogoznak. A külső Kiszolgálót az jellemzi, hogy az ILIAS-telepítés üzemeltetője nem tud kellőképpen befolyást gyakorolni a Kiszolgálóra. Ebben az esetben például nincs törlési jogsultsága.
+lti#:#lti_con_prov_group_options#:#Kiszolgálók csopoprtosításának és szűrésének lehetőségei
+lti#:#lti_con_prov_has_outcome_service#:#Kiszolgáló támogatja a Kimeneti Szolgáltatást
+lti#:#lti_con_prov_has_outcome_service_info#:#Ha a Kiszolgáló támogatja az LTI Kimeneti Szolgáltatást, a tanulási haladást be lehet kapocsolni. A Kiszolgáló 0 és 1 közötti értéket ad vissza a tanulási haladásról.
+lti#:#lti_con_prov_hints#:#Tippek
 lti#:#lti_con_prov_icon#:#Ikon
-lti#:#lti_con_prov_inc_usr_pic#:#Send User Picture
-lti#:#lti_con_prov_inc_usr_pic_info#:#Links to ILIAS user pictures are included at launch of LTI consumer object.
-lti#:#lti_con_prov_instructor_email#:#Instructor E-Mail
-lti#:#lti_con_prov_instructor_email_info#:#In difference to the previously selected settings, the e-mail address can be transferred for instructors. To do this, they must be course or group administrators.
-lti#:#lti_con_prov_instructor_name#:#Instructor Name
-lti#:#lti_con_prov_instructor_name_info#:#In difference to the previously selected settings, the name can be transferred for instructors.
+lti#:#lti_con_prov_inc_usr_pic#:#A felhazsnáló képének küldése
+lti#:#lti_con_prov_inc_usr_pic_info#:#Az LTI fogyasztói objektum indításakor az ILIAS felhasználói képeire mutató hivatkozások szerepelnek.
+lti#:#lti_con_prov_instructor_email#:#Oktató e-mail címe
+lti#:#lti_con_prov_instructor_email_info#:##A korábban kiválasztott beállításoktól eltérően az e-mail cím név átkerülhet az oktatókhoz. Ehhez kurzus- vagy csoportvezetőnek kell lennie.
+lti#:#lti_con_prov_instructor_name#:#Oktató neve
+lti#:#lti_con_prov_instructor_name_info#:#A korábban kiválasztott beállításoktól eltérően a név átkerülhet az oktatókhoz.
 lti#:#lti_con_prov_key#:#Kulcs
 lti#:#lti_con_prov_keywords#:#Kulcsszavak
-lti#:#lti_con_prov_keywords_info#:#The keywords must be separated by a Semicolon (;). The Keywords are automatically taken to the Metadata as Keywords.
+lti#:#lti_con_prov_keywords_info#:#A kulcsszavakat pontoszvesszővel (;) kell elválasztani. A metaadatok közé automatikusan bekerülnek ezek a kulcsszavak.
 lti#:#lti_con_prov_launch_options#:#Indítási beállítások
 lti#:#lti_con_prov_learning_progress_options#:#Tanulási haladás beállításai
 lti#:#lti_con_prov_mastery_score_default#:#Default Mastery Score
@@ -11127,31 +11127,31 @@ lti#:#lti_con_prov_privacy_setting_default#:#Alapértelmezett beállítások, m�
 lti#:#lti_con_prov_privacy_setting_force#:#Az objektumok beállításai nem módosíthatók
 lti#:#lti_con_prov_privacy_setting_info#:#Konfigurációs beállítások az adatvédelmi beállításokhoz
 lti#:#lti_con_prov_privacy_settings#:#Adatvédelmi beállítások
-lti#:#lti_con_prov_provider_key_global#:#Predefined Key és Secret
-lti#:#lti_con_prov_provider_key_global_info#:#If not set, users have to add key és secret to use the provider.
+lti#:#lti_con_prov_provider_key_global#:#Előre meghatározott Kulcs és Titok
+lti#:#lti_con_prov_provider_key_global_info#:#Ha nincs beállítva, a felhasználóknak hozzá kell adniuk a kulcsot és a titkot a szolgáltató használatához.
 lti#:#lti_con_prov_remarks#:#Internal Remarks
 lti#:#lti_con_prov_secret#:#Titok
 lti#:#lti_con_prov_title#:#Cím
 lti#:#lti_con_prov_url#:#Kiszolgáló resp. eszközének URL-je
 lti#:#lti_con_prov_use_provider_id#:#Kiszolgáló ID használata
-lti#:#lti_con_prov_use_provider_id_info#:#Usually the Ref-Id of the LTI Consumer is transferred to the Kiszolgáló. Some Kiszolgálók map this Ref-Id with the Resource of the Kiszolgáló. To get always the same Resource for these Kiszolgálók this Option should be activated.
-lti#:#lti_con_prov_use_xapi#:#Kiszolgáló supports request of xAPI-Statements
+lti#:#lti_con_prov_use_provider_id_info#:#Általában az LTI-Fogyasztó Ref-Id-je átkerül a Kiszolgálóba. Néhány Kiszolgálók leképezi ezt a Ref-Id-t a Kiszolgáló erőforrásával. Ahhoz, hogy ezekhez a Kiszolgálókhoz mindig ugyanaz az Erőforrás legyen, ezt az opciót aktiválni kell.
+lti#:#lti_con_prov_use_xapi#:#Kiszolgáló támogatja az xAPI-Statements kéréseket
 lti#:#lti_con_prov_use_xapi_info#:#A kiszolgáló támogatja xAPI-Nyilatkozatokat
 lti#:#lti_con_prov_xapi_activity_id#:#Aktivitás ID
-lti#:#lti_con_prov_xapi_activity_id_info#:#The Activity ID is necessary to request data from the Learning Record Store. Only enter something here if the assignment of the provider's resource to an Activity Id is unique! If nothing is entered here, the Activity Id can be entered in LTI Consumer. The Activity Id could be requested from the LTI Kiszolgáló.
+lti#:#lti_con_prov_xapi_activity_id_info#:#A tevékenységazonosító szükséges ahhoz, hogy adatokat kérjen a LRS-ből. Csak akkor írjon be ide valamit, ha a szolgáltató erőforrásának tevékenységazonosítóhoz való hozzárendelése egyedi! Ha itt nem ad meg semmit, akkor a tevékenységazonosító beírható az LTI-fogyasztóba. A tevékenységazonosítót az LTI-Kiszolgálótól lehetett igényelni.
 lti#:#lti_con_prov_xapi_launch_key#:#Az LRS-végpont kulcsa
 lti#:#lti_con_prov_xapi_launch_key_info#:#&nbsp;
-lti#:#lti_con_prov_xapi_launch_secret#:#Secret of LRS-végpont
+lti#:#lti_con_prov_xapi_launch_secret#:#LRS-végpont titka
 lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_url#:#Az LRS-végpont URL-je
-lti#:#lti_con_prov_xapi_launch_url_info#:#Please add full URL with https://
-lti#:#lti_con_redirection_uris#:#Redirection URI
-lti#:#lti_con_tool_url#:#Login URL
-lti#:#lti_con_version#:#LTI Version
-lti#:#lti_con_version_1.1#:#Version 1.1
-lti#:#lti_con_version_1.3#:#Version 1.3
+lti#:#lti_con_prov_xapi_launch_url_info#:#Adja meg a teljes, 'https://' kezdetű URL-t
+lti#:#lti_con_redirection_uris#:#Átirányitásai URI
+lti#:#lti_con_tool_url#:#Bejelentkezési URL
+lti#:#lti_con_version#:#LTI verzió
+lti#:#lti_con_version_1.1#:#1.1 verzió
+lti#:#lti_con_version_1.3#:#1.3 verzió
 lti#:#lti_con_version_1.3_before_id#:#Ha nem használunk dinamikus regisztrációt, az eszköz által kért adatok megadása után további adatok jelennek meg, amelyeket az eszközzel kell megadni.
-lti#:#lti_confirm_delete_providers#:#Are you sure that you want to delete the following provider(s)?
+lti#:#lti_confirm_delete_providers#:#Biztos, hogy törli a következő kiszolgáló(ka)t?
 lti#:#lti_consumer#:#Megosztva vele:
 lti#:#lti_consumer_created#:#A fogyasztót sikeresen létrehozta
 lti#:#lti_consumer_deleted#:#A fogyasztót sikeresen törölte
@@ -11163,7 +11163,7 @@ lti#:#lti_consumer_updated#:#A fogyasztót sikeresen módosította
 lti#:#lti_consuming_tab#:#Az ILIAS mint LTI-Fogyasztó
 lti#:#lti_copy#:#Fogyasztók másolása
 lti#:#lti_create_consumer#:#Fogyasztó létrehozása
-lti#:#lti_create_lti_user_role#:#LTI-felhasználónak ajánlott globális szerep létrehozása
+lti#:#lti_create_lti_user_role#:#LTI-felhasználónak ajánlott globális szerepkör létrehozása
 lti#:#lti_cron_title#:#LTI-kimeneti Szolgáltatás
 lti#:#lti_cron_title_desc#:#Az LTI-felhasználók tanulási haladási állapotát szinkronizálja egy LTI-eszközfogyasztóval, amennyiben az támogatja a kimeneti szolgáltatást. Erre az ütemezett feladatra csak a tanulási haladás beállításainak módosítása után van szükség.
 lti#:#lti_custom_new#:#Create Own Settings for Provider resp. Tool
@@ -11171,7 +11171,7 @@ lti#:#lti_delete_consume_provider#:#Kiszolgáló törlése
 lti#:#lti_delete_consume_providers#:# Kiszolgálók törlése
 lti#:#lti_delete_provider#:#Kiszolgáló törlése
 lti#:#lti_dyn_reg_add_tool#:#Hozzáadás
-lti#:#lti_dynamic_registration#:#Create Own Settings for Tool with Dynamic Registration (LTI 1.3)###30 04 2024 new variable
+lti#:#lti_dynamic_registration#:#Az eszközhöz saját beállítások létrehozása dinamikus regisztrációval (LTI 1.3)
 lti#:#lti_edit_consumer#:#LTI-fogyasztó módosítása
 lti#:#lti_exit#:#LTI-munkamenet lezárása
 lti#:#lti_exited#:#LTI-munkamenet lezárva
@@ -11205,24 +11205,24 @@ lti#:#lti_select_provider#:#Válasszon Kiszolgáló resp. Eszközt
 lti#:#lti_session#:#LTI-munkamenet
 lti#:#lti_settings#:#LTI beállítások
 lti#:#lti_settings_form#:#Objektum beállításai
-lti#:#lti_success_accept_as_global#:#Successfully accepted as Global Kiszolgáló for all Users
-lti#:#lti_success_accept_as_global_multi#:#Successfully accepted as Global Kiszolgáló for all Users
+lti#:#lti_success_accept_as_global#:#Sikeresen elfogadta mint a Globális Kiszolgálót az összes felhasználó számára
+lti#:#lti_success_accept_as_global_multi#:#Sikeresen elfogadta mint a Globális Kiszolgálót az összes felhasználó számára
 lti#:#lti_success_delete_provider#:#Sikeresen törölte
-lti#:#lti_success_reset_to_usr_def#:#Successfully reseted as User Defined Kiszolgáló
-lti#:#lti_success_reset_to_usr_def_multi#:#Successfully reseted as User Defined Kiszolgáló
+lti#:#lti_success_reset_to_usr_def#:#Sikeresen resztelte mint a felhasználó által meghatározott Kiszolgálót
+lti#:#lti_success_reset_to_usr_def_multi#:#Sikeresen reszetelte mint a felhasználó által meghatározott Kiszolgálót
 lti#:#lti_tutor#:#LTI-instruktor
 lti#:#lti_user_role_created#:#Az LTI-felhasználónak ajánlott globális szerepet sikeresen létrehozta.
 lti#:#lti_user_role_info#:#Ajánlott globális szerep még nem létezik az LTI-felhasználónak. Ez a speciális szerep csak a Tartalomtár és kategóriák 'látható' jogosultáságát tartalmazza.
-lti#:#mastery_score#:#Mastery Score
-lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Kiszolgáló Outcome Service és the mastery score threshold.
+lti#:#mastery_score#:#Kötelező pontszám
+lti#:#mastery_score_info#:#A tanulási haladást a Kiszolgáló kimeneti szolgáltatása és a kötelező pontszám határozza meg.
 lti#:#obj_tile_image_info#:#Use an Image in Square Format
 lti#:#online_info#:#This makes the object visible és usable for the users.
 lti#:#prefix#:#Előtag
-lti#:#prefix_info#:#This prefix is put in front of the username (login). This ensures the uniqueness of usernames. It also facilitates the assignment of users to LTI consumers / platforms.###KKD
+lti#:#prefix_info#:#Ez az előtag a felhasználónév (login) elé kerül. Ez biztosítja a felhasználónevek egyediségét. Megkönnyíti a felhasználók LTI-felhasználókhoz/platformokhoz való hozzárendelését is.
 lti#:#provider_info#:#Haszánaltban lévőKiszolgáló
 lti#:#settings_subtab#:#Beállítások
-lti#:#show_statements#:#Display Learning Experiences
-lti#:#show_statements_info#:#The Learning Experiences of other users could be displayed if the right 'A többi felhasználó tanulási tapasztalatának megtekintése' is set.
+lti#:#show_statements#:#Tanulási tapasztalatok megjelenítése
+lti#:#show_statements_info#:#A többi felhasználó tanulási tapasztalat akkor jelenik meg, ha az 'A többi felhasználó tanulási tapasztalatának megtekintése' jogosultsággal rendelkezik.
 lti#:#subtab_certificate#:#Tanúsítványok
 lti#:#subtab_object_settings#:#Objektum beállításai
 lti#:#subtab_provider_settings#:#Kiszolgáló resp. Eszköz beállításai
@@ -11258,8 +11258,8 @@ lti#:#tbl_lti_prov_used_by#:#Kiszolgáló Used by Objects in Tree
 lti#:#tbl_lti_prov_with_key#:#Predefined with Key / Secret
 lti#:#tbl_provider_header#:#LTI-Kiszolgáló / Eszköz
 lti#:#tbl_provider_usage_header#:#LTI-Kiszolgáló / Eszköz
-lti#:#tbl_provider_usage_header_info#:#Before deleting providers, trashed usages must also be deleted.
-lti#:#title_info#:#Give the object a title.
+lti#:#tbl_provider_usage_header_info#:#A kiszolgáló törlése előtt a lomtárat ki kell üríteni.
+lti#:#title_info#:#Adjon az objektumnak címet
 lti#:#usage_subtab#:#Használatban
 lti#:#use_xapi#:#Use xAPI-Support
 lti#:#use_xapi_info#:#Ez az LTI-Kiszolgáló támogatja az xAPI-Nyilatkozatokat.
@@ -11480,12 +11480,12 @@ mail#:#mail_smtp_user#:#Felhasználó
 mail#:#mail_subject_prefix#:#Levél tárgya
 mail#:#mail_subject_prefix_info#:#Az automatikusan generált kimenő e-mailek tárgya elé kerülő szöveg, ami segíti, hogy a felhasználók szűrhessék az üzenetet.
 mail#:#mail_subject_too_long#:#A tárgy túl hosszú.
-mail#:#mail_success_removed_user#:#User(s) successfully removed from mailing list.###10 12 2024 new variable
+mail#:#mail_success_removed_user#:#A felhasználó(ka)t sikeresen eltávolította a levelezési listájáról.
 mail#:#mail_sure_delete#:#Biztos, hogy törli a megjelölt level(ek)et?
 mail#:#mail_sure_delete_entry#:#Biztos, hogy törli az alábbi névjegy(ek)et?
 mail#:#mail_sure_delete_file#:#Biztos, hogy törli a kiválasztott fájlokat?
 mail#:#mail_sure_delete_folder#:#A mappa és tartalma véglegesen el lesz távolítva.
-mail#:#mail_sure_remove_user#:#Are you sure you want to remove the following user(s) from the members list?###10 12 2024 new variable
+mail#:#mail_sure_remove_user#:#Biztos, hogy eltávolítja a felhasználó(ka)t a tagok listájáról?
 mail#:#mail_system_sys_env_from_addr#:#Technikai feladó
 mail#:#mail_system_sys_env_from_addr_info#:#Üres mező esetén a feladó e-mail címét használjuk, ha az SMTP be van kapcsolva. Különben a szerver rendszergazdájának a feladta beállítani ezt az értéket.
 mail#:#mail_system_sys_from_addr#:#Küldő e-mail címe (feladó)
@@ -12809,7 +12809,7 @@ obj#:#copy_container_page_yes_label#:#Tartalomoldal másolása
 obj#:#custom_icon#:#Egyéni ikon
 obj#:#edit_availability_period#:#Elérhetőségi időszak
 obj#:#edit_questions#:#Kérdések módosítása
-obj#:#multiple_reference_deletion_info#:#Further references exist for the following objects.###01 04 2025 new variable
+obj#:#multiple_reference_deletion_info#:#További hivatkozások léteznek a következő objektumokra.
 obj#:#no_objects_selected#:#Legalább egy objektumot ki kell választania
 obj#:#obj_activate_content_lang#:#Lapszerkesztés fordításának bekapcsolása
 obj#:#obj_activate_multilang#:#Többnyelvűség bekapcsolása
@@ -12865,7 +12865,7 @@ obj#:#obj_tool_setting_skills_info#:#Aktiválja a kompetenciamenedzsmentet és a
 obj#:#obj_tool_setting_tag_cloud#:#Címkefelhő
 obj#:#obj_tool_setting_tag_cloud_info#:#'Címkefelhő' blokk megjelenik a 'Tartalom' lapon.
 obj#:#obj_tool_setting_taxonomies#:#Taxonómiák
-obj#:#obj_tool_setting_taxonomies_info#:#Taxonomies allow the filtering of objects. They are created in the "Taxonomy" sub-tab in the "Settings" tab.###10 12 2024 new variable
+obj#:#obj_tool_setting_taxonomies_info#:#A taxonómiákat objektumok szűrésére használhatja, a 'Beállítások' fül alatt, a 'Taxonónia' alfülön tudja létrehozni.
 obj#:#obj_tool_setting_use_news#:#Hírek
 obj#:#obj_tool_setting_use_news_info#:#Hírblokk, illetve idővonal nézet bekapcsolása. Amennyiben aktív, a felhasználók értesítést kérhetnek a módosulásról.
 obj#:#obj_tool_setting_use_news_open_settings#:#Beállítások megnyitása
@@ -13208,7 +13208,7 @@ prg#:#pc_prgstatus_unlimited_validation#:#Nincs lejárata
 prg#:#percentage#:#%
 prg#:#prg_access_by_orgu#:#Hozzáférés-vezérlés a szervezeti egység pozíciói alapján
 prg#:#prg_access_by_orgu_byline#:#További hozzáférés-vezérlési szabályok adhatóak meg a szervezeti egységekben elfoglalt pozíciók alapján.
-prg#:#prg_acknowledge_all_completed_courses#:#Acknowledge All Completed Courses###10 12 2024 new variable
+prg#:#prg_acknowledge_all_completed_courses#:#Az összes elvégzett kurzus elismerése
 prg#:#prg_acknowledge_completed_courses#:#Teljesített kurzusok elismerése
 prg#:#prg_add#:#Képzési program hozzáadása
 prg#:#prg_added_course_ref_successful#:#Új kurzuslinket sikeresen hozzáadta.
@@ -13842,7 +13842,7 @@ rbac#:#chtr_moderate#:#A felhasználó moderálhat beszélgetést csevegőszobá
 rbac#:#chtr_read#:#A felhasználó csatlakozhat és részt vehet a csevegőszobában
 rbac#:#chtr_visible#:#A csevegőszoba látható
 rbac#:#chtr_write#:#A felhasználó szerkesztheti a csevegőszoba beállításait, és kitilthat felhasználókat
-rbac#:#cmis_edit_permission#:#User can change permission settings of xAPI/cmi5 administration.###01 04 2025 new variable
+rbac#:#cmis_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » xAPI/cmi5 jogosultsági beállításait
 rbac#:#cmis_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » xAPI/cmi5 beállításaihoz
 rbac#:#cmis_visible#:#A felhasználó láthatja a Rendszerbeállítások » xAPI/cmi5 menüpontot
 rbac#:#cmis_write#:#A felhasználó módosíthatja a Rendszerbeállítások » xAPI/cmi5 beállításait
@@ -13914,10 +13914,10 @@ rbac#:#dcl_write#:#A felhasználó szerkesztheti az adatgyűjtés beállításai
 rbac#:#delete_files#:#Fájlok törlése
 rbac#:#delete_folders#:#Mappák törlése
 rbac#:#delete_wiki_pages#:#Oldalak törlése
-rbac#:#dpro_edit_permission#:#User can change permission settings in the Declaration of Data Protected administration###01 04 2025 new variable
-rbac#:#dpro_read#:#User has read access to the Declaration of Data Protection administration###01 04 2025 new variable
-rbac#:#dpro_visible#:#Declaration of Data Protection administration is visible###01 04 2025 new variable
-rbac#:#dpro_write#:#Edit settings in the Declaration of Data Protection###01 04 2025 new variable
+rbac#:#dpro_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Adatvédelem Nyilatkozat jogosultsági beállításait
+rbac#:#dpro_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Adatvédelem Nyilatkozat beállításaihoz
+rbac#:#dpro_visible#:#A felhasználó láthatja a Rendszerbeállítások » Adatvédelem Nyilatkozat menüpontot
+rbac#:#dpro_write#:#A felhasználó szerkesztheti az Adatvédelem Nyilatkozatot
 rbac#:#dshs_change_presentation#:#Műszerfal megjelenítésének módosítása
 rbac#:#dshs_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Műszerfal jogosultsági beállításait
 rbac#:#dshs_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Műszerfal beállításaihoz
@@ -13999,11 +13999,11 @@ rbac#:#frm_add_reply#:#A felhasználó válaszolhat a hozzászólásra
 rbac#:#frm_add_thread#:#A felhasználó vehet fel új témát
 rbac#:#frm_copy#:#A felhasználó másolhat fórumot
 rbac#:#frm_delete#:#A felhasználó áthelyezhet vagy törölhet fórumot
-rbac#:#frm_edit_learning_progress#:#User can edit learning progress settings###14 01 2025 new variable
+rbac#:#frm_edit_learning_progress#:#A felhasználó módosíthatja a tanulási halkadás beállításait
 rbac#:#frm_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#frm_moderate_frm#:#A felhasználó módosíthatja, cenzúrázhatja és törölheti a hozzászólásokat
 rbac#:#frm_read#:#A felhasználónak olvasási hozzáférése van a fórumhoz
-rbac#:#frm_read_learning_progress#:#User can view learning progress of other users###14 01 2025 new variable
+rbac#:#frm_read_learning_progress#:#A felhasználó megnézheti a többi felhasználó tanulási haladását
 rbac#:#frm_visible#:#A fórum látható
 rbac#:#frm_write#:#A felhasználó módosíthatja a fórum beállításait és moderátorait
 rbac#:#frma_edit_permission#:#Jogosultsági beállítások változtatása
@@ -14066,10 +14066,10 @@ rbac#:#il_lti_global_role#:#LTI-Felhasználó
 rbac#:#il_sess_participant#:#Munkamenet résztvevők
 rbac#:#il_sess_status_closed#:#Résztvevő nélküli zárt esemény
 rbac#:#ilias_id#:#ILIAS-ID
-rbac#:#impr_edit_permission#:#User can change permission settings of Legal Notice administration###01 04 2025 new variable
-rbac#:#impr_read#:#User can read in Legal Notice administration###01 04 2025 new variable
-rbac#:#impr_visible#:#Administration of Legal Notice is visible###01 04 2025 new variable
-rbac#:#impr_write#:#User can edit content and settings of Legal Notice###01 04 2025 new variable
+rbac#:#impr_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Jogi nyilatkozat jogosultsági beállításait
+rbac#:#impr_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Jogi nyilatkozat beállításaihoz
+rbac#:#impr_visible#:#A felhasználó láthatja a Rendszerbeállítások » Jogi nyilatkozat menüpontot
+rbac#:#impr_write#:#UA felhasználó módosíthatja a Rendszerbeállítások » Jogi nyilatkozat beállításait
 rbac#:#info_user_view_changed#:#A felhasználói nézet megváltozott
 rbac#:#internal_mail#:#Belső levelezés
 rbac#:#invite#:#Meghívás kérdőívhez
@@ -14117,7 +14117,7 @@ rbac#:#lso_read_learning_progress#:#A felhasználó megnézheti mások tanulási
 rbac#:#lso_unparticipate#:#A felhasználó leiratkozhat a tanulási sorról
 rbac#:#lso_visible#:#A tanulási sor látható
 rbac#:#lso_write#:#A felhasználó módosíthatja a tanulási sor beállításait
-rbac#:#lsos_edit_permission#:#User can change permission settings of Learning Sequences administration.###01 04 2025 new variable
+rbac#:#lsos_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Tanulási sor jogosultsági beállításait
 rbac#:#lsos_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Tanulási sor beállításaihoz
 rbac#:#lsos_visible#:#A felhasználó láthatja a Rendszerbeállítások » Tanulási sor menüpontot
 rbac#:#lsos_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Tanulási sor beállításait
@@ -14182,8 +14182,8 @@ rbac#:#moderate_frm#:#Moderálás
 rbac#:#msg_anonymous_cannot_be_assigned#:#Az Névtelen felhasználót nem lehet szerephez rendelni.
 rbac#:#msg_no_roles_of_type#:#Nincsenek elérhetők szerepek a kiválasztott szűrőbeállítással.
 rbac#:#news_add_news#:#Hír létrehozása
-rbac#:#no_corresponding_roles#:#No corresponding roles could be found.###01 04 2025 new variable
-rbac#:#nots_edit_permission#:#User can change permission settings of Notes administration.###01 04 2025 new variable
+rbac#:#no_corresponding_roles#:#Nem találhatók megfelelő szerepkörök.
+rbac#:#nots_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Jegyzetek jogosultsági beállításait
 rbac#:#nots_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Jegyzetek beállításaihoz
 rbac#:#nots_visible#:#A felhasználó láthatja a Rendszerbeállítások » Jegyzetek menüpontot
 rbac#:#nots_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Jegyzetek beállításait
@@ -14260,7 +14260,7 @@ rbac#:#prgs_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállít
 rbac#:#prgs_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Képzési programok beállításaihoz
 rbac#:#prgs_visible#:#A felhasználó láthatja a Rendszerbeállítások » Képzési programok menüpontot
 rbac#:#prgs_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Képzési programok beállításait
-rbac#:#prss_edit_permission#:#User can change permission settings of Personal Resources administration.###01 04 2025 new variable
+rbac#:#prss_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » 'Személyes erőforrások kezelése' jogosultsági beállításait
 rbac#:#prss_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » 'Személyes erőforrások kezelése' beállításaihoz
 rbac#:#prss_visible#:#A felhasználó láthatja a Rendszerbeállítások » 'Személyes erőforrások kezelése' menüpontot
 rbac#:#prss_write#:#A felhasználó módosíthatja a Rendszerbeállítások » 'Személyes erőforrások kezelése' beállításait
@@ -14298,10 +14298,10 @@ rbac#:#rbac_choose_copy_targets#:#Adjon meg egy kifejezést, mellyel megtalálha
 rbac#:#rbac_condition_delete_sure#:#Biztos, hogy törli az alábbi előfeltételeket?
 rbac#:#rbac_context_global#:#Globális
 rbac#:#rbac_copy_behaviour#:#Szerepmásolási beállítások
-rbac#:#rbac_copy_behaviour_info#:#Transfer Permissions from: %s to: %s###20 05 2025 new variable
+rbac#:#rbac_copy_behaviour_info#:#Jogosultságok átvitele innen: %s ide: %s
 rbac#:#rbac_copy_finished#:#A másolás befejeződött.
-rbac#:#rbac_copy_multi_targets#:#%s, %s and %s further Roles selected%s###20 05 2025 new variable
-rbac#:#rbac_copy_no_targets#:#At least one Role must be selected as Target###20 05 2025 new variable
+rbac#:#rbac_copy_multi_targets#:#%s, %s és %s további szerepkört választott ki %s
+rbac#:#rbac_copy_no_targets#:#Legalább egy szerepkört ki kell válsztania célnak
 rbac#:#rbac_copy_role#:#Szerep másolása
 rbac#:#rbac_copy_role_add_perm#:#Hozzáadási engedélyek
 rbac#:#rbac_copy_role_copy#:#Másolási engedélyek
@@ -14613,7 +14613,7 @@ rbac#:#usrf_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbe�
 rbac#:#usrf_read_users#:#A felhasználónak olvasási elérése van a helyi ILIAS-fiókokhoz (helyi rendszergazda)
 rbac#:#usrf_visible#:#A felhasználó láthatja a Rendszerbeállítások » ILIAS-fiókok menüpontot
 rbac#:#usrf_write#:#A felhasználó módosíthatja a Rendszerbeállítások » ILIAS-fiókok beállításait
-rbac#:#wbdv_edit_permission#:#User can change permission settings of WebDAV administration.###01 04 2025 new variable
+rbac#:#wbdv_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » WebDAV jogosultsági beállításait
 rbac#:#wbdv_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » WebDAV beállításaihoz
 rbac#:#wbdv_visible#:#A felhasználó láthatja a Rendszerbeállítások » WebDAV menüpontot
 rbac#:#wbdv_write#:#A felhasználó módosíthatja a Rendszerbeállítások » WebDAV beállításait
@@ -14797,7 +14797,7 @@ rep#:#rep_fav_intro2#:#Kattintson '%s' elemre és válasszon egy tanulási objek
 rep#:#rep_fav_intro3#:#Amikor olyasmire bukkan, ami felkeltette az érdeklődését, adja hozzá a kedvenceihez: válassza a kívánt objektum <i>Műveletek</i> menüjéből a '<i>Hozzáadás a kedvencekhez</i>' lehetőséget.
 rep#:#rep_favourites#:#Kedvencek
 rep#:#rep_favourites_info#:#Kedvencként jelölhet meg tartalkomtárban lévő elemeket. A kedvencek listája az irányítópult és a menü beállításaiban kapcsolaható be és konfigurálható.
-rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.###01 04 2025 new variable
+rep#:#rep_input_not_empty#:#Ez a mező nem lehet üres, kérjük, adjon meg egy értéket.
 rep#:#rep_intro#:#Üdvözöljük a Tartalomtárban!
 rep#:#rep_intro1#:#Ezen a területen tanulási és munkaforrásokat hozhat létre felhasználói számára. Minden forrás kategóriákba van szervezve. A kategóriák utalhatnak az Ön szervezetének struktúrájára (például osztályok), tudományágak hierarchiájára vagy iskolai osztályokra.
 rep#:#rep_intro2#:#Három lépés szükséges a kezdeti struktúra elkészítéséhez:
@@ -15735,7 +15735,7 @@ style#:#sty_ca_cntr_class#:#Körhintatároló
 style#:#sty_ca_icntr_class#:#Körhintaelem-tároló
 style#:#sty_ca_icont_class#:#Körhintaelem-tartalom
 style#:#sty_ca_ihead_class#:#Körhintafejléc
-style#:#sty_cannot_be_copied#:#The following style types cannot be copied###20 05 2025 new variable
+style#:#sty_cannot_be_copied#:#A következő stílustípusok nem másolhatók:
 style#:#sty_caption#:#Felirat
 style#:#sty_caption_class#:#Felirat
 style#:#sty_carousel_templates#:#Körhinta-sablonok
@@ -16846,7 +16846,7 @@ tagging#:#tagging_enable_all_users_info#:#A Tartalomtár objektumainak 'Informá
 tagging#:#tagging_enable_tagging#:#Címkézés engedélyezése
 tagging#:#tagging_forbidden_tags#:#Tiltott címkék
 tagging#:#tagging_no_obj_for_tag#:#Egy erőforrásnak sincs címkéjé: %s.
-tagging#:#tagging_no_perm_write#:#You have no permission to change this data.###10 12 2024 new variable
+tagging#:#tagging_no_perm_write#:#Nincs jogosultsága az adatot módosítani.
 tagging#:#tagging_other_users#:#Más felhasználók címkéi
 tagging#:#tagging_resources_for_tag#:#Források ezzel a címkével: %s
 tagging#:#tagging_search_users#:#Felhasználók keresése

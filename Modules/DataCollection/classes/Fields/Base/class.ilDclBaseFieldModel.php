@@ -744,7 +744,7 @@ class ilDclBaseFieldModel
 
             // save non empty values and set them to null, when they already exist. Do not override plugin-hook when already set.
             if (!empty($value) || ($this->getPropertyInstance($property) != null && $property != self::PROP_PLUGIN_HOOK_NAME)) {
-                $this->setProperty($property, $value)->store();
+                $this->setProperty($property, $value)?->store();
             }
         }
     }

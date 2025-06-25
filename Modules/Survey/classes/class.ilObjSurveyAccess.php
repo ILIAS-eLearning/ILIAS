@@ -216,7 +216,6 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
     ): bool {
         $evaluation_access = self::_lookupEvaluationAccess($a_obj_id);
         $svy_mode = self::_lookupMode($a_obj_id);
-
         if ($svy_mode === ilObjSurvey::MODE_IND_FEEDB) {
             $svy = new ilObjSurvey($a_obj_id, false);
             $svy->read();
@@ -278,7 +277,10 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
                             case ilObjSurvey::RESULTS_SELF_EVAL_NONE:
                                 return false;
                             default:
-                                return true;
+                                global $DIC;
+                                $run_manager = $DIC->survey()->internal()->domain()
+                                                   ->execution()->run($svy, $user_id);
+                                return $run_manager->hasFinished();
                         }
 
                         // no break

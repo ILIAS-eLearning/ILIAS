@@ -326,14 +326,18 @@ class ilCalendarCategories
         }
 
         if ($a_use_cache) {
-            // Store in cache
-            ilCalendarCache::getInstance()->storeEntry(
-                $this->user_id . ':' . $a_mode . ':categories:' . $a_source_ref_id,
-                $this->sleep(),
-                $this->user_id,
-                $a_mode,
-                'categories'
-            );
+            if ($this->getMode() != self::MODE_REPOSITORY &&
+            $this->getMode() != self::MODE_CONSULTATION &&
+            $this->getMode() != self::MODE_PORTFOLIO_CONSULTATION) {
+                // Store in cache
+                ilCalendarCache::getInstance()->storeEntry(
+                    $this->user_id . ':' . $a_mode . ':categories:' . $a_source_ref_id,
+                    $this->sleep(),
+                    $this->user_id,
+                    $a_mode,
+                    'categories'
+                );
+            }
         }
     }
 

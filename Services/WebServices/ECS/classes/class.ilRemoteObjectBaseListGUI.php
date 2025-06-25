@@ -42,7 +42,7 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
             " WHERE obj_id = " . $this->db->quote($a_obj_id, 'integer') . " ";
         $res = $this->db->query($query);
         if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->organization;
+            return $row->organization ?? '';
         }
         return '';
     }

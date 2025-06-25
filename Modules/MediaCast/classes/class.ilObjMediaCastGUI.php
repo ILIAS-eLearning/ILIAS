@@ -104,6 +104,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
         switch ($next_class) {
             case "ilmediacreationgui":
+                $this->checkPermission('write');
+
                 $this->ctrl->setReturn($this, "listItems");
                 $ilTabs->activateTab("content");
                 $this->addContentSubTabs("manage");

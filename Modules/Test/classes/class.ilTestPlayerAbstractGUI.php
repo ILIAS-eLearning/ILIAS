@@ -555,6 +555,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      */
     public function autosaveCmd(): void
     {
+        if (!$this->access->checkAccess('read', '', $this->ref_id)) {
+            echo $this->lng->txt('autosave_failed') . ': ' . $this->lng->txt('msg_no_perm_read_item');
+            exit;
+        }
         $test_can_run = $this->object->isExecutable($this->test_session, $this->test_session->getUserId());
         if (!$test_can_run['executable']) {
             echo $test_can_run['errormessage'];

@@ -381,7 +381,7 @@ class SurveyImportParser extends ilSaxParser
                 break;
             case "response_text":
                 $this->material = [];
-                $this->responses[$a_attribs["id"]] = array("type" => "text", "id" => $a_attribs["id"], "columns" => $a_attribs["columns"], "maxlength" => $a_attribs["maxlength"] ?? null, "rows" => $a_attribs["rows"], "label" => $a_attribs["label"] ?? "");
+                $this->responses[$a_attribs["id"]] = array("type" => "text", "id" => $a_attribs["id"], "columns" => $a_attribs["columns"] ?? null, "maxlength" => $a_attribs["maxlength"] ?? null, "rows" => $a_attribs["rows"] ?? null, "label" => $a_attribs["label"] ?? "");
                 $this->response_id = $a_attribs["id"];
                 break;
             case "response_num":

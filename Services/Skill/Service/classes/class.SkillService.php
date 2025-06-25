@@ -44,10 +44,6 @@ class SkillService implements SkillServiceInterface
         global $DIC;
 
         $this->repository_tree = $DIC->repositoryTree();
-        $skmg_obj = current(\ilObject::_getObjectsByType("skmg"));
-        if ($skmg_obj) {
-            $this->skmg_ref_id = (int) current(\ilObject::_getAllReferences((int) $skmg_obj["obj_id"]));
-        }
         $this->rbac_system = $DIC->rbac()->system();
         $this->usr_id = $DIC->user()->getId();
     }
@@ -106,7 +102,6 @@ class SkillService implements SkillServiceInterface
     public function internal(): SkillInternalService
     {
         return new SkillInternalService(
-            $this->skmg_ref_id,
             $this->repository_tree,
             $this->rbac_system,
             $this->usr_id

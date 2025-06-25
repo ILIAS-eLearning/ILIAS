@@ -124,7 +124,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
         if ($assigned) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("grp_msg_member_assigned"), true);
         } else {
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('grp_users_already_assigned'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('grp_users_already_assigned'), true);
         }
         $this->ctrl->redirect($this, 'participants');
         return true;

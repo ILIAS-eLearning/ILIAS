@@ -153,6 +153,7 @@ class ilCmiXapiDataSet extends ilDataSet
         return [];
     }
     public function getCmiXapiXmlRepresentation(
+        string $exportArchiveDir,
         string $a_entity,
         string $a_schema_version,
         array $a_ids,
@@ -171,16 +172,6 @@ class ilCmiXapiDataSet extends ilDataSet
 
         $id = (int) $this->data["Id"];
 
-        // prepare archive skeleton
-        $objTypeAndId = "cmix_" . $id;
-        $this->_archive['directories'] = [
-            "exportDir" => ilExport::_getExportDirectory($id)
-            ,
-            "archiveDir" => time() . "__" . IL_INST_ID . "__" . $objTypeAndId
-            ,
-            "moduleDir" => "cmix_" . $id
-        ];
-
         $this->_archive['files'] = [
             "properties" => "properties.xml",
             "metadata" => "metadata.xml",
@@ -190,11 +181,9 @@ class ilCmiXapiDataSet extends ilDataSet
             $this->_archive['files']['content'] = "content.zip";
         }
 
-        $exportArchiveDir = ilExport::_getExportDirectory($id) . "/" . $this->_archive['directories']['archiveDir'] . "/";
-
         // build metadata xml file
         file_put_contents(
-            $exportArchiveDir . $this->_archive['files']['metadata'],
+            $exportArchiveDir . "/" . $this->_archive['files']['metadata'],
             $this->buildMetaData($id)
         );
 
@@ -204,7 +193,7 @@ class ilCmiXapiDataSet extends ilDataSet
             $lmDir = './' . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/lm_data/lm_" . $id;
             $DIC->legacyArchives()->zip(
                 $lmDir,
-                $exportArchiveDir . $this->_archive['files']['content'],
+                $exportArchiveDir . "/" . $this->_archive['files']['content'],
                 false
             );
         }
@@ -212,14 +201,11 @@ class ilCmiXapiDataSet extends ilDataSet
         // build property xml file
 
         file_put_contents(
-            $exportArchiveDir . $this->_archive['files']['properties'],
+            $exportArchiveDir . "/" . $this->_archive['files']['properties'],
             $this->buildProperties($a_entity, $a_omit_header)
         );
 
-
-        $fileName = $this->_archive['directories']['exportDir'] . "/" . $this->_archive['directories']['archiveDir'] . ".zip";
-
-        return $fileName;
+        return $exportArchiveDir . ".zip";
     }
 
     /**

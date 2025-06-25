@@ -228,8 +228,9 @@ class ilAuthModeDetermination
 
                     default:
                         foreach (ilAuthUtils::getAuthPlugins() as $pl) {
+                            /** @var ilAuthPlugin $pl */
                             if ($pl->isAuthActive((int) $auth_mode)) {
-                                $this->position[] = $auth_mode;
+                                $this->position[] = (int) $auth_mode;
                             }
                         }
                         break;
@@ -256,6 +257,7 @@ class ilAuthModeDetermination
             $this->position[] = ilAuthUtils::AUTH_APACHE;
         }
         // begin-patch auth_plugin
+        /** @var ilAuthPlugin $pl */
         foreach (ilAuthUtils::getAuthPlugins() as $pl) {
             foreach ($pl->getAuthIds() as $auth_id) {
                 if ($pl->isAuthActive($auth_id) && !in_array($auth_id, $this->position, true)) {

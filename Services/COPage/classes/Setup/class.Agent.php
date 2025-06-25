@@ -29,7 +29,13 @@ class Agent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(new ilCOPageDBUpdateSteps());
+        return new Setup\ObjectiveCollection(
+            'COPage Update',
+            true,
+            new \ilDatabaseUpdateStepsExecutedObjective(new ilCOPageDBUpdateSteps()),
+            new \ilDatabaseUpdateStepsExecutedObjective(new ilCOPageHotfix9DBUpdateSteps())
+        );
+
     }
 
     public function getStatusObjective(Metrics\Storage $storage): Objective

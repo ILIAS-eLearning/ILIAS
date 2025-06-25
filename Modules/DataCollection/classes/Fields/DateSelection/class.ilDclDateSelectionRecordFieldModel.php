@@ -20,16 +20,4 @@ declare(strict_types=1);
 
 class ilDclDateSelectionRecordFieldModel extends ilDclSelectionRecordFieldModel
 {
-    public const PROP_SELECTION_TYPE = 'date_selection_type';
-    public const PROP_SELECTION_OPTIONS = 'date_selection_options';
-
-    public function parseExportValue($value): string
-    {
-        $dates = [];
-        foreach (ilDclSelectionOption::getValues((int) $this->getField()->getId(), $value) as $value) {
-            $date = new ilDate($value, IL_CAL_DATE);
-            $dates[] = $date->get(IL_CAL_DATE);
-        }
-        return implode("; ", $dates);
-    }
 }
