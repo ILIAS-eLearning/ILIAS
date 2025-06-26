@@ -45,11 +45,19 @@ class ilTestParticipantAccessFilterFactory
     public function getScoreParticipantsUserFilter(int $ref_id): Closure
     {
         return function (array $user_ids) use ($ref_id): array {
-            return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
-                'write',
-                ilOrgUnitOperation::OP_SCORE_PARTICIPANTS,
-                $ref_id,
-                $user_ids
+            return array_merge(
+                $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
+                    'write',
+                    ilOrgUnitOperation::OP_SCORE_PARTICIPANTS,
+                    $ref_id,
+                    $user_ids
+                ),
+                $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
+                    'score_anon',
+                    ilOrgUnitOperation::OP_SCORE_PARTICIPANTS,
+                    $ref_id,
+                    $user_ids
+                ),
             );
         };
     }

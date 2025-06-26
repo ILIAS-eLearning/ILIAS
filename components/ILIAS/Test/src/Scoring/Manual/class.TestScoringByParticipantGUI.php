@@ -116,7 +116,9 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
     */
     public function executeCommand(): void
     {
-        if (!$this->getTestAccess()->checkScoreParticipantsAccess()) {
+        if (!$this->getTestAccess()->checkScoreParticipantsAccess()
+            && !$this->getTestAccess()->checkScoreParticipantsAccessAnon()
+        ) {
             \ilObjTestGUI::accessViolationRedirect();
         }
 
@@ -183,7 +185,12 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
 
         $user_id = $this->object->_getUserIdFromActiveId($active_id);
         $user_fullname = $this->object->userLookupFullName($user_id, false, true);
-        $table_title = sprintf($this->lng->txt('tst_pass_overview_for_participant'), $user_fullname);
+        $participant_name = $this->getUserNamePresentation(
+            $active_id,
+            $pass,
+            $user_fullname
+        );
+        $table_title = sprintf($this->lng->txt('tst_pass_overview_for_participant'), $participant_name);
         $table->setTitle($table_title);
 
         $passOverviewData = $this->service->getPassOverviewData($active_id);
@@ -331,8 +338,10 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         $scorer->setPreserveManualScores(true);
         $scorer->recalculateSolution($active_id, $attempt);
 
-        if ($this->object->getAnonymity() == 0) {
-            $user_name = \ilObjUser::_lookupName(\ilObjTestAccess::_getParticipantId($active_id));
+        if (!$this->object->getAnonymity()
+            && $this->getTestAccess()->checkScoreParticipantsAccess()
+        ) {
+            $user_name = ilObjUser::_lookupName(ilObjTestAccess::_getParticipantId($active_id));
             $name_real_or_anon = $user_name['firstname'] . ' ' . $user_name['lastname'];
         } else {
             $name_real_or_anon = $this->lng->txt('anonymous');
@@ -479,7 +488,6 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
     private function getManScoringQuestionGuiList(int $active_id, int $pass): array
     {
         $test_result_data = $this->object->getTestResult($active_id, $pass);
-
         $man_scoring_question_gui_list = [];
 
         foreach ($test_result_data as $question_data) {
@@ -494,7 +502,6 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
             $man_scoring_question_gui_list[ $question_data['qid'] ] = $this->object
                 ->createQuestionGUI('', $question_data['qid']);
         }
-
         return $man_scoring_question_gui_list;
     }
 
@@ -518,5 +525,26 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         }
 
         return $table;
+    }
+
+    public function getUserNamePresentation(
+        int $active_id,
+        int|string $pass,
+        ?string $name = null
+    ): string {
+
+        if ($name !== null
+            && !$this->object->getAnonymity()
+            && $this->getTestAccess()->checkScoreParticipantsAccess()
+        ) {
+            return $name;
+        }
+
+        return $this->getUserExamId($active_id, (string) $pass);
+    }
+
+    public function getUserExamId(int $active_id, string $pass): string
+    {
+        return \ilObjTest::buildExamId($active_id, $pass, $this->object->getId());
     }
 }

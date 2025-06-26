@@ -48,6 +48,11 @@ class TestScoringByParticipantTableGUITest extends ilTestBaseTestCase
                       return "testFormAction";
                   });
 
+        $access_mock = $this->createMock(ilTestAccess::class);
+        $access_mock->expects($this->exactly(1))
+                  ->method("checkScoreParticipantsAccess")
+                  ->willReturn(true);
+
         $this->setGlobalVariable("lng", $lng_mock);
         $this->setGlobalVariable("ilCtrl", $ctrl_mock);
         $this->setGlobalVariable("tpl", $this->createMock(ilGlobalPageTemplate::class));
@@ -57,8 +62,13 @@ class TestScoringByParticipantTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("component.factory", $component_factory);
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
 
-        $this->parentObj_mock = $this->getMockBuilder(TestScoringByParticipantGUI::class)->disableOriginalConstructor()->onlyMethods(['getObject'])->getMock();
+        $this->parentObj_mock = $this->getMockBuilder(TestScoringByParticipantGUI::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getObject', 'getTestAccess'])
+            ->getMock();
         $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->getTestObjMock());
+        $this->parentObj_mock->expects($this->any())->method('getTestAccess')->willReturn($access_mock);
+
         $this->tableGui = new TestScoringByParticipantTableGUI($this->parentObj_mock, "");
     }
 

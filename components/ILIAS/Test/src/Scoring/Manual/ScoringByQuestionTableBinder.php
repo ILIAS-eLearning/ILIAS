@@ -164,7 +164,8 @@ class ScoringByQuestionTableBinder implements DataRetrieval
 
                 $row = [
                     "{$active_id}_{$pd->getPass()}",
-                    ScoringByQuestionTable::COLUMN_NAME => $this->buildParticipantName($current_participant),
+                    ScoringByQuestionTable::COLUMN_EXAMID => \ilObjTest::buildExamId($active_id, $pd->getPass(), $this->test_obj->getId()),
+                    ScoringByQuestionTable::COLUMN_NAME => $current_participant->getName(),
                     ScoringByQuestionTable::COLUMN_ATTEMPT => $pd->getPass() + 1,
                     ScoringByQuestionTable::COLUMN_POINTS_REACHED => $question_result['reached'] ?? 0.0,
                     ScoringByQuestionTable::COLUMN_POINTS_AVAILABLE => $current_participant->getQuestionByAttemptAndId($pd->getPass(), $question_id)['points'] ?? 0.0,
@@ -229,14 +230,6 @@ class ScoringByQuestionTableBinder implements DataRetrieval
             },
             []
         );
-    }
-
-    private function buildParticipantName(\ilTestEvaluationUserData $participant_data): string
-    {
-        if ($this->test_obj->getAnonymity()) {
-            return $this->lng->txt('anonymous');
-        }
-        return $participant_data->getName();
     }
 
     private function buildFinalizedByName(array $feedback_data): string

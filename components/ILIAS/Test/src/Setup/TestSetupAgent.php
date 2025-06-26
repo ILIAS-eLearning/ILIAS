@@ -55,6 +55,13 @@ class TestSetupAgent extends NullAgent
             new \ilDatabaseUpdateStepsExecutedObjective(
                 new ilTestNoHintsDBUpdateSteps()
             ),
+            new \ilAccessCustomRBACOperationAddedObjective(
+                'score_anon',
+                'Score Pseudonymously',
+                'object',
+                5000,
+                ['tst']
+            ),
         );
     }
 

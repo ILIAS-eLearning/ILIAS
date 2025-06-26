@@ -33,6 +33,7 @@ class ScoringByQuestionTable
     public const ACTION_SCORING = 'getAnswerDetail';
 
     public const COLUMN_NAME = 'name';
+    public const COLUMN_EXAMID = 'examid';
     public const COLUMN_ATTEMPT = 'attempt';
     public const COLUMN_POINTS_REACHED = 'points_reached';
     public const COLUMN_POINTS_AVAILABLE = 'points_available';
@@ -59,15 +60,17 @@ class ScoringByQuestionTable
         \ilUIService $ui_service,
         string $target_url,
         ScoringByQuestionTableBinder $data_retrieval,
+        bool $anonymity
     ): array {
         $filter = $this->getFilter($ui_service, $target_url, $data_retrieval->getMaxAttempts());
 
         $f = $this->ui_factory->table();
+        $columns = $anonymity ? [] : [self::COLUMN_NAME => $f->column()->text($this->lng->txt('name'))->withIsSortable(true)];
         $table = $f->data(
             $data_retrieval->withFilterData($ui_service->filter()->getData($filter) ?? []),
             $title,
-            [
-                self::COLUMN_NAME => $f->column()->text($this->lng->txt('name'))->withIsSortable(true),
+            array_merge($columns, [
+                self::COLUMN_EXAMID => $f->column()->text($this->lng->txt('exam_id_label'))->withIsSortable(true),
                 self::COLUMN_ATTEMPT => $f->column()->number($this->lng->txt('tst_attempt')),
                 self::COLUMN_POINTS_REACHED => $f
                     ->column()
@@ -95,7 +98,7 @@ class ScoringByQuestionTable
                 )->withIsSortable(true),
                 self::COLUMN_FINALIZED_BY => $f->column()->text($this->lng->txt('finalized_by'))->withIsSortable(true),
                 self::COLUMN_FINALIZED_ON => $f->column()->date($this->lng->txt('finalized_on'), $date_format)->withIsSortable(true)
-            ],
+            ])
         )->withActions(
             [
                 self::ACTION_SCORING => $f->action()->single(
