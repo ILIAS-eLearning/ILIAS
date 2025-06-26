@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\UI\Factory;
 use ILIAS\UI\URLBuilder;
 use ILIAS\Data\Order;
@@ -46,6 +47,8 @@ class ilBadgePersonalTableGUI implements DataRetrieval
     private readonly ilObjUser $user;
     private readonly ilAccessHandler $access;
     private readonly Tile $tile;
+    private readonly IRSS $irss;
+
     /**
      * @return null|list<array{
      *     id: int,
@@ -59,6 +62,12 @@ class ilBadgePersonalTableGUI implements DataRetrieval
      *  }>
      */
     private ?array $cached_records = null;
+    private ilObjectDataCache $object_data_cache;
+
+    /**
+     * @var array{id: int, type: string, title: string, deleted: bool}
+     */
+    private $parent_metadata_cache = [];
 
     public function __construct()
     {
@@ -72,6 +81,8 @@ class ilBadgePersonalTableGUI implements DataRetrieval
         $this->user = $DIC->user();
         $this->access = $DIC->access();
         $this->tile = new Tile($DIC);
+        $this->irss = $DIC['resource_storage'];
+        $this->object_data_cache = $DIC['ilObjDataCache'];
     }
 
     public function getRows(
@@ -118,9 +129,115 @@ class ilBadgePersonalTableGUI implements DataRetrieval
             $records = \array_slice($records, $range->getStart(), $range->getLength());
         }
 
+        $access_cache = [];
+        $ref_id_cache = [];
+        $parent_obj_ids = [];
+        $identifications = [];
+
         foreach ($records as $record) {
-            yield $row_builder->buildDataRow((string) $record['id'], $record);
+            $badge = $record['badge'];
+            $parent_obj_ids[] = $badge->getParentId();
+            $identifications[] = $badge->getImageRid();
         }
+        $this->irss->preload(array_filter($identifications));
+        $this->object_data_cache->preloadObjectCache(array_unique($parent_obj_ids));
+
+        foreach ($records as $record) {
+            yield $row_builder->buildDataRow((string) $record['id'], $this->enrichRecord(
+                $record,
+                $access_cache,
+                $ref_id_cache
+            ));
+        }
+    }
+
+    /**
+     * @param array{
+     *      id: int,
+     *      title_sortable: string,
+     *      awarded_by_sortable: string,
+     *      badge_issued_on: DateTimeImmutable,
+     *      active: bool,
+     *      assignment: ilBadgeAssignment,
+     *      badge: ilBadge
+     *  } $record
+     * @param array<int, bool> $access_cache
+     * @param array<int, int> $ref_id_cache
+     * @return array
+     */
+    private function enrichRecord(
+        array $record,
+        array &$access_cache,
+        array &$ref_id_cache
+    ): array {
+        $badge = $record['badge'];
+        $ass = $record['assignment'];
+
+        $parent = null;
+        if ($badge->getParentId()) {
+            if (isset($this->parent_metadata_cache[$badge->getParentId()])) {
+                $parent = $this->parent_metadata_cache[$badge->getParentId()];
+            } else {
+                $parent = $badge->getParentMeta();
+                $this->parent_metadata_cache[$badge->getParentId()] = $parent;
+            }
+            if ($parent['type'] === 'bdga') {
+                $parent = null;
+            }
+        }
+
+        $awarded_by = '';
+        if ($parent !== null) {
+            if (isset($ref_id_cache[$parent['id']])) {
+                $ref_id = $ref_id_cache[$parent['id']];
+            } else {
+                $ref_id = current(ilObject::_getAllReferences($parent['id']));
+                $ref_id_cache[$parent['id']] = $ref_id;
+            }
+
+            $awarded_by = $parent['title'];
+            if ($ref_id) {
+                $access = $access_cache[$ref_id] ?? $this->access->checkAccess('read', '', $ref_id);
+                if (!isset($access_cache[$ref_id])) {
+                    $access_cache[$ref_id] = $access;
+                }
+            }
+            if ($ref_id && $access) {
+                $awarded_by = $this->renderer->render(
+                    new Standard(
+                        $awarded_by,
+                        (string) new URI(ilLink::_getLink($ref_id, $parent['type']))
+                    )
+                );
+            }
+
+            $awarded_by = implode(' ', [
+                $this->renderer->render(
+                    $this->factory->symbol()->icon()->standard(
+                        $parent['type'],
+                        $parent['title']
+                    )
+                ),
+                $awarded_by
+            ]);
+        }
+
+        $record += [
+            'image' => $this->renderer->render(
+                $this->tile->asImage(
+                    $this->tile->modalContentWithAssignment($badge, $ass),
+                    ilBadgeImage::IMAGE_SIZE_XS
+                )
+            ),
+            'title' => $this->renderer->render(
+                $this->tile->asTitle(
+                    $this->tile->modalContentWithAssignment($badge, $ass)
+                )
+            ),
+            'awarded_by' => $awarded_by,
+        ];
+
+        return $record;
     }
 
     public function getTotalRowCount(
@@ -133,13 +250,12 @@ class ilBadgePersonalTableGUI implements DataRetrieval
     /**
      * @return list<array{
      *     id: int,
-     *     active: bool,
-     *     image: string,
-     *     awarded_by: string,
+     *     title_sortable: string,
      *     awarded_by_sortable: string,
      *     badge_issued_on: DateTimeImmutable,
-     *     title: string,
-     *     title_sortable: string
+     *     active: bool,
+     *     assignment: ilBadgeAssignment,
+     *     badge: ilBadge
      *  }>
      */
     private function getRecords(): array
@@ -156,60 +272,32 @@ class ilBadgePersonalTableGUI implements DataRetrieval
 
             $parent = null;
             if ($badge->getParentId()) {
-                $parent = $badge->getParentMeta();
+                if (isset($this->parent_metadata_cache[$badge->getParentId()])) {
+                    $parent = $this->parent_metadata_cache[$badge->getParentId()];
+                } else {
+                    $parent = $badge->getParentMeta();
+                    $this->parent_metadata_cache[$badge->getParentId()] = $parent;
+                }
                 if ($parent['type'] === 'bdga') {
                     $parent = null;
                 }
             }
 
-            $awarded_by = '';
             $awarded_by_sortable = '';
             if ($parent !== null) {
-                $ref_ids = ilObject::_getAllReferences($parent['id']);
-                $ref_id = current($ref_ids);
-
-                $awarded_by = $parent['title'];
                 $awarded_by_sortable = $parent['title'];
-                if ($ref_id && $this->access->checkAccess('read', '', $ref_id)) {
-                    $awarded_by = $this->renderer->render(
-                        new Standard(
-                            $awarded_by,
-                            (string) new URI(ilLink::_getLink($ref_id))
-                        )
-                    );
-                }
-
-                $awarded_by = implode(' ', [
-                    $this->renderer->render(
-                        $this->factory->symbol()->icon()->standard(
-                            $parent['type'],
-                            $parent['title']
-                        )
-                    ),
-                    $awarded_by
-                ]);
             }
 
             $rows[] = [
                 'id' => $badge->getId(),
-                'image' => $this->renderer->render(
-                    $this->tile->asImage(
-                        $this->tile->modalContentWithAssignment($badge, $ass),
-                        ilBadgeImage::IMAGE_SIZE_XS
-                    )
-                ),
-                'title' => $this->renderer->render(
-                    $this->tile->asTitle(
-                        $this->tile->modalContentWithAssignment($badge, $ass)
-                    )
-                ),
                 'title_sortable' => $badge->getTitle(),
+                'awarded_by_sortable' => $awarded_by_sortable,
                 'badge_issued_on' => (new DateTimeImmutable())
                     ->setTimestamp($ass->getTimestamp())
                     ->setTimezone(new DateTimeZone($this->user->getTimeZone())),
-                'awarded_by' => $awarded_by,
-                'awarded_by_sortable' => $awarded_by_sortable,
-                'active' => (bool) $ass->getPosition()
+                'active' => (bool) $ass->getPosition(),
+                'assignment' => $ass,
+                'badge' => $badge
             ];
         }
 

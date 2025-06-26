@@ -22,6 +22,7 @@ namespace ILIAS\Badge;
 
 use Closure;
 use ILIAS\DI\Container;
+use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\UI\Component\Component;
 use ilBadge;
 use ilBadgeAssignment;
@@ -30,6 +31,7 @@ class TileView
 {
     /** @var Closure(int): ilBadgeAssignment[] */
     private Closure $assignments_of_user;
+    private IRSS $irss;
 
     /**
      * @param Closure(int): ilBadgeAssignment[] $assignments_of_user
@@ -42,12 +44,27 @@ class TileView
         $assignments_of_user = [ilBadgeAssignment::class, 'getInstancesByUserId']
     ) {
         $this->assignments_of_user = Closure::fromCallable($assignments_of_user);
+        $this->irss = $this->container['resource_storage'];
     }
 
     public function show(): string
     {
         $sort = new Sorting($this->container->http()->request()->getQueryParams()['sort'] ?? '');
-        $components = $this->componentsOfBadges($this->sort($sort, $this->badgesAndAssignments()));
+
+        $badges_and_assignments = $this->badgesAndAssignments();
+        $this->irss->preload(
+            array_values(
+                array_filter(
+                    array_map(
+                        static fn(array $badge_and_assignment): ?string => $badge_and_assignment['badge']->getImageRid(
+                        ) ?: null,
+                        $badges_and_assignments
+                    )
+                )
+            )
+        );
+
+        $components = $this->componentsOfBadges($this->sort($sort, $badges_and_assignments));
 
         $this->head->show($this->container->language()->txt('tile_view'), $this->sortComponent($sort));
 
