@@ -16,7 +16,12 @@
  *
  *********************************************************************/
 
-class ilCSVReader
+namespace ILIAS\Survey;
+
+use ilUtil;
+use RuntimeException;
+
+class CSVReader
 {
     /**
      * @var resource
