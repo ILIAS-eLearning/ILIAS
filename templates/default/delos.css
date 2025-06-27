@@ -7120,7 +7120,10 @@ code {
   flex-basis: auto;
   overflow: hidden;
 }
-.il-system-info div.il-system-info-content-wrapper span.il-system-info-headline {
+.il-system-info div.il-system-info-content-wrapper div.il-system-info-headline, .il-system-info div.il-system-info-content-wrapper div.il-system-info-body {
+  display: inline;
+}
+.il-system-info div.il-system-info-content-wrapper div.il-system-info-headline {
   text-transform: uppercase;
   font-weight: 600;
   margin-right: 9px;
