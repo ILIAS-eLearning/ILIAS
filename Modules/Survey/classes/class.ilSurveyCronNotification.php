@@ -26,9 +26,10 @@ use ILIAS\Cron\Schedule\CronJobScheduleType;
  */
 class ilSurveyCronNotification extends ilCronJob
 {
+    protected const MAX_MESSAGE_LENGTH = 397;
+
     protected ilLanguage $lng;
     protected ilTree $tree;
-    public const MAX_MESSAGE_LENGTH = 397;
 
     public function __construct()
     {
