@@ -287,7 +287,7 @@ class Tag extends FormInput implements C\Input\Field\Tag
             return $clone->withError("" . $clone->content->error());
         }
 
-        return $clone->withValue($clone->content->value());
+        return $clone;
     }
 
     // Events
