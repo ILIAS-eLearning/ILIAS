@@ -308,7 +308,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 if ($graphical_output) {
                     $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK);
 
-                    if (strcmp($user_solution, $answer_id) == 0) {
+                    if (is_string($user_solution) && strcmp($user_solution, $answer_id) === 0) {
                         if ($answer->getPoints() == $this->object->getMaximumPoints()) {
                             $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK);
                         } elseif ($answer->getPoints() > 0) {
@@ -344,7 +344,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $template->setVariable("ANSWER_TEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true));
 
             if ($this->renderPurposeSupportsFormHtml() || $this->isRenderPurposePrintPdf()) {
-                if (strcmp($user_solution, $answer_id) == 0) {
+                if (is_string($user_solution) && strcmp($user_solution, $answer_id) === 0) {
                     $template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("object/radiobutton_checked.png")));
                     $template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
                 } else {
@@ -355,7 +355,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 $template->setVariable('QID', $this->object->getId());
                 $template->setVariable('SUFFIX', $show_correct_solution ? 'bestsolution' : 'usersolution');
                 $template->setVariable('SOLUTION_VALUE', $answer_id);
-                if (strcmp($user_solution, $answer_id) == 0) {
+                if (is_string($user_solution) && strcmp($user_solution, $answer_id) === 0) {
                     $template->setVariable('SOLUTION_CHECKED', 'checked');
                 }
             }
@@ -445,7 +445,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
             if (is_object($this->getPreviewSession())) {
                 $user_solution = $this->getPreviewSession()->getParticipantsSolution() ?? '';
-                if (strcmp($user_solution, $answer_id) == 0) {
+                if (is_string($user_solution) && strcmp($user_solution, $answer_id) === 0) {
                     $template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
                 }
             }
@@ -523,7 +523,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                         break;
 
                     case 2:
-                        if (strcmp($user_solution, $answer_id) == 0) {
+                        if (is_string($user_solution) && strcmp($user_solution, $answer_id) === 0) {
                             $feedbackOutputRequired = true;
                         }
                         break;
@@ -551,7 +551,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $template->setCurrentBlock("answer_row");
             $template->setVariable("ANSWER_ID", $answer_id);
             $template->setVariable("ANSWER_TEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true));
-            if (strcmp($user_solution, $answer_id) == 0) {
+            if (is_string($user_solution) && strcmp($user_solution, $answer_id) === 0) {
                 $template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
             }
             $template->parseCurrentBlock();

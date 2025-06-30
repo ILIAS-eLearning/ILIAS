@@ -321,21 +321,21 @@ class ilTestResultsImportParser extends ilSaxParser
     }
 
     /**
-     * @param array{value1: string, value2: string} $a_attribs
-     * @return string
+     * @param array{value1: ?string, value2: ?string} $a_attribs
+     * @return ?string
      */
     private function importParticipantsUploadedFiles(array $a_attribs): ?string
     {
         ['value1' => $value1, 'value2' => $value2] = $a_attribs;
 
         if ($value2 !== 'rid') {
-            return $value1 ?: null;
+            return $value1 !== '' ? $value1 : null;
         }
 
         $resource_directory = "$this->import_directory/objects/resources/$value1";
         $file_name = $this->getFirstFileName($resource_directory);
         if (!is_string($file_name)) {
-            return $value1 ?: null;
+            return $value1 !== '' ? $value1 : null;
         }
 
         $file_path = "$resource_directory/$file_name";
