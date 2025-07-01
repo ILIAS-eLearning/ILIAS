@@ -747,6 +747,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     protected function saveAndAssignMaterialsObject(): void
     {
+        $this->checkPermission('manage_materials');
         $this->saveObject(true);
     }
 
@@ -941,6 +942,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function editObject(): void
     {
+        $this->checkPermission('write');
         $this->tabs_gui->setTabActive('settings');
 
         $this->initForm('edit');
@@ -950,6 +952,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function updateObject(): void
     {
+        $this->checkPermission('write');
         $object_service = $this->object_service;
 
         $old_autofill = $this->object->hasWaitingListAutoFill();
@@ -1057,6 +1060,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function updateSessionTypeObject(): void
     {
+        $this->checkPermission('write');
         ilDidacticTemplateUtils::switchTemplate(
             $this->object->getRefId(),
             (int) $this->http->request()->getParsedBody()['sess_type']
@@ -1071,6 +1075,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     protected function initContainer(bool $a_init_participants = false)
     {
+        $this->checkPermission('manage_materials');
         $tree = $this->tree;
 
         $is_course = $is_group = false;
@@ -1105,6 +1110,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function materialsObject(): void
     {
+        $this->checkPermission('manage_materials');
         $this->tabs_gui->activateTab('materials');
 
         $parent_ref_id = $this->tree->getParentId($this->object->getRefId());
@@ -1172,6 +1178,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function removeMaterialsObject(): void
     {
+        $this->checkPermission('manage_materials');
         $items_checked = $this->requested_items;
 
         $this->event_items = new ilEventItems($this->object->getId());
@@ -1182,6 +1189,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function saveMaterialsObject(): void
     {
+        $this->checkPermission('manage_materials');
         $this->event_items = new ilEventItems($this->object->getId());
         $db_items = $this->event_items->getItems();
 
