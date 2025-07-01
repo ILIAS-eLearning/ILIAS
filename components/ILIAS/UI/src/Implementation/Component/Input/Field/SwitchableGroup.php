@@ -38,6 +38,8 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
     use JavaScriptBindable;
     use Triggerer;
 
+    protected bool $disabled_group_switch = false;
+
     /**
      * Only adds a check to the original group-constructor.
      */
@@ -191,5 +193,17 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
         }
         $inputs[$key] = $operation($inputs[$key]);
         return $inputs;
+    }
+
+    public function withDisabledGroupSwitch(bool $flag): self
+    {
+        $clone = clone $this;
+        $clone->disabled_group_switch = $flag;
+        return $clone;
+    }
+
+    public function getDisabledGroupSwitch(): bool
+    {
+        return $this->disabled_group_switch;
     }
 }

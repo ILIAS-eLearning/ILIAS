@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\SwitchableGroup;
 
+use ILIAS\UI\URLBuilder;
+
 /**
  * ---
  * description: >
@@ -57,15 +59,23 @@ function base()
     global $DIC;
     $ui = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
+    $df = new \ILIAS\Data\Factory();
+    $refinery = $DIC['refinery'];
     $request = $DIC->http()->request();
-    $data = new \ILIAS\Data\Factory();
+    $query = $DIC->http()->wrapper()->query();
+
+    $here_uri = $df->uri($request->getUri()->__toString());
+    $url_builder = new URLBuilder($here_uri);
+    $example_namespace = ['input', 'switchable_group'];
+    list($url_builder, $example_name) = $url_builder->acquireParameters($example_namespace, "example_name");
+    $url_builder = $url_builder->withParameter($example_name, "standard");
 
     //Step 1: Define the groups (with their fields and a label each)
     $group1 = $ui->input()->field()->group(
         [
             "field_1_1" => $ui->input()->field()->text("Item 1.1", "Just some field"),
             "field_1_2" => $ui->input()->field()->text("Item 1.2", "Just some other field"),
-            "field_1_3" => $ui->input()->field()->datetime("Item 1.3", "a date")->withFormat($data->dateFormat()->germanShort())
+            "field_1_3" => $ui->input()->field()->datetime("Item 1.3", "a date")->withFormat($df->dateFormat()->germanShort())
         ],
         "Switchable Group number one (with numeric key)"
     );
@@ -90,8 +100,9 @@ function base()
         "...or the other"
     );
 
+    $form_action = $url_builder->buildURI()->__toString();
     $form = $ui->input()->container()->form()->standard(
-        '#',
+        $form_action,
         [
             'switchable_group' => $sg,
             'switchable_group_required' => $sg->withRequired(true),
@@ -103,7 +114,9 @@ function base()
     );
 
     //Step 3: implement some form data processing.
-    if ($request->getMethod() == "POST") {
+    if ($query->has($example_name->getName())
+        && $query->retrieve($example_name->getName(), $refinery->custom()->transformation(fn($v) => $v === 'standard'))
+    ) {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {
