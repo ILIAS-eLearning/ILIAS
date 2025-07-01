@@ -305,21 +305,12 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         foreach ($keys as $answer_id) {
             $answer = $this->object->answers[$answer_id];
             if ($active_id > 0 && !$show_correct_solution && $graphical_output) {
-                $maximum_points = $this->object->getMaximumPoints();
-                $answer_points = $answer->getPoints();
-                $correctness = $answer_points === $maximum_points || $answer_points > 0
-                        ? self::CORRECTNESS_NOT_OK
-                        : self::CORRECTNESS_OK;
-
-                if ($user_solution === (string) $answer_id) {
-                    $correctness = self::CORRECTNESS_NOT_OK;
-
-                    if ($answer_points === $maximum_points) {
-                        $correctness = self::CORRECTNESS_OK;
-                    } elseif ($answer_points > 0) {
-                        $correctness = self::CORRECTNESS_MOSTLY_OK;
-                    }
-                }
+                $correctness = $this->generateCorrectness(
+                    $user_solution,
+                    (string) $answer_id,
+                    $answer->getPoints(),
+                    $this->object->getMaximumPoints()
+                );
                 $template->setCurrentBlock("icon_ok");
                 $template->setVariable("ICON_OK", $this->generateCorrectnessIconsForCorrectness($correctness));
                 $template->parseCurrentBlock();
@@ -399,6 +390,27 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $solutionoutput = $this->getILIASPage($solutionoutput);
         }
         return $solutionoutput;
+    }
+
+    private function generateCorrectness(string $user_solution, string $answer_id, int $answer_points, int $maximum_points): int
+    {
+        if ($user_solution === $answer_id) {
+            if ($answer_points === $maximum_points) {
+                return self::CORRECTNESS_OK;
+            }
+
+            if ($answer_points > 0) {
+                return self::CORRECTNESS_MOSTLY_OK;
+            }
+
+            return self::CORRECTNESS_NOT_OK;
+        }
+
+        if ($answer_points === $maximum_points || $answer_points > 0) {
+            return self::CORRECTNESS_NOT_OK;
+        }
+
+        return self::CORRECTNESS_OK;
     }
 
     public function getPreview($show_question_only = false, $showInlineFeedback = false): string
