@@ -99,15 +99,15 @@ class ilRoleMailboxAddress
     public function value(): string
     {
         // Retrieve the role title and the object title.
-        $query = 'SELECT rdat.title role_title,odat.title object_title, ' .
+        $query = 'SELECT rdat.title role_title, odat.title object_title, ' .
             ' oref.ref_id object_ref ' .
             'FROM object_data rdat ' .
-            'JOIN rbac_fa fa ON fa.rol_id = rdat.obj_id ' .
-            'JOIN tree rtree ON rtree.child = fa.parent ' .
-            'JOIN object_reference oref ON oref.ref_id = rtree.child ' .
-            'JOIN object_data odat ON odat.obj_id = oref.obj_id ' .
-            'WHERE rdat.obj_id = ' . $this->db->quote($this->role_id, 'integer') . ' ' .
-            "AND fa.assign = 'y' ";
+            'INNER JOIN role_data roledat ON roledat.role_id = rdat.obj_id ' .
+            'INNER JOIN rbac_fa fa ON fa.rol_id = rdat.obj_id AND fa.assign = ' . $this->db->quote('y', ilDBConstants::T_TEXT) . ' ' .
+            'INNER JOIN tree rtree ON rtree.child = fa.parent ' .
+            'INNER JOIN object_reference oref ON oref.ref_id = rtree.child ' .
+            'INNER JOIN object_data odat ON odat.obj_id = oref.obj_id ' .
+            'WHERE rdat.obj_id = ' . $this->db->quote($this->role_id, ilDBConstants::T_INTEGER);
         $res = $this->db->query($query);
         if (($row = $this->db->fetchObject($res)) === null) {
             return '';
@@ -123,18 +123,17 @@ class ilRoleMailboxAddress
         $domain = $object_title;
         $local_part = $role_title;
 
-        // Determine if the object title is unique
-        $q = 'SELECT COUNT(DISTINCT dat.obj_id) count ' .
+        // Determine if the object title is unique (we exclude trashed obects)
+        $q = 'SELECT COUNT(DISTINCT dat.obj_id) AS count ' .
             'FROM object_data dat ' .
-            'JOIN object_reference ref ON ref.obj_id = dat.obj_id ' .
-            'JOIN tree ON tree.child = ref.ref_id ' .
-            'WHERE title = ' . $this->db->quote($object_title, 'text') . ' ' .
-            'AND tree.tree = 1 ';
+            'INNER JOIN object_reference ref ON ref.obj_id = dat.obj_id AND ref.deleted IS NULL ' .
+            'INNER JOIN tree ON tree.child = ref.ref_id AND tree.tree = ' . $this->db->quote(1, ilDBConstants::T_INTEGER) . ' ' .
+            'WHERE dat.title = ' . $this->db->quote($object_title, ilDBConstants::T_TEXT);
         $res = $this->db->query($q);
         $row = $this->db->fetchObject($res);
 
-        // If the object title is not unique, we get rid of the domain.
-        if ($row->count > 1) {
+        // If the object title is not unique/does not exists, we get rid of the domain.
+        if ($row->count !== 1) {
             $domain = null;
         }
 
@@ -176,22 +175,22 @@ class ilRoleMailboxAddress
         // If we do have a domain, the local part must be unique for that
         // domain.
         if ($domain === null) {
-            $q = 'SELECT COUNT(DISTINCT dat.obj_id) count ' .
+            // https://mantis.ilias.de/view.php?id=45319
+            $q = 'SELECT COUNT(DISTINCT rdat.role_id) AS count ' .
                 'FROM object_data dat ' .
-                'JOIN object_reference ref ON ref.obj_id = dat.obj_id ' .
-                'JOIN tree ON tree.child = ref.ref_id ' .
-                'WHERE title = ' . $this->db->quote($local_part, 'text') . ' ' .
-                'AND tree.tree = 1 ';
+                'INNER JOIN role_data rdat ON rdat.role_id = dat.obj_id ' .
+                'INNER JOIN rbac_fa fa ON fa.rol_id = rdat.role_id ' .
+                'INNER JOIN tree t ON t.child = fa.parent ' .
+                'INNER JOIN object_reference oref ON oref.ref_id = t.child ' .
+                'WHERE dat.title = ' . $this->db->quote($local_part, ilDBConstants::T_TEXT);
         } else {
-            $q = 'SELECT COUNT(rd.obj_id) count ' .
+            $q = 'SELECT COUNT(rd.obj_id) AS count ' .
                 'FROM object_data rd ' .
-                'JOIN rbac_fa fa ON rd.obj_id = fa.rol_id ' .
-                'JOIN tree t ON t.child = fa.parent ' .
-                "WHERE fa.assign = 'y' " .
-                'AND t.child = ' . $this->db->quote($object_ref, 'integer') . ' ' .
-                'AND rd.title LIKE ' . $this->db->quote(
+                'INNER JOIN rbac_fa fa ON fa.rol_id = rd.obj_id AND fa.assign = ' . $this->db->quote('y', ilDBConstants::T_TEXT) . ' ' .
+                'INNER JOIN tree t ON t.child = fa.parent AND t.child = ' . $this->db->quote($object_ref, ilDBConstants::T_INTEGER) . ' ' .
+                'WHERE rd.title LIKE ' . $this->db->quote(
                     '%' . preg_replace('/([_%])/', '\\\\$1', $local_part) . '%',
-                    'text'
+                    ilDBConstants::T_TEXT
                 ) . ' ';
         }
 
@@ -200,7 +199,7 @@ class ilRoleMailboxAddress
 
         // if the local_part is not unique, we use the unambiguous role title
         //   instead for the local part of the mailbox address
-        if ($row->count > 1) {
+        if ($row->count !== 1) {
             $local_part = $unambiguous_role_title;
         }
 
@@ -253,16 +252,23 @@ class ilRoleMailboxAddress
             return $mailbox;
         } catch (ilMailException) {
             $res = $this->db->query(
-                'SELECT title FROM object_data WHERE obj_id = ' . $this->db->quote(
-                    $this->role_id,
-                    'integer'
-                )
+                'SELECT od.title
+                 FROM object_data od
+                 INNER JOIN role_data rd ON rd.role_id = od.obj_id
+                 WHERE od.obj_id = ' . $this->db->quote($this->role_id, ilDBConstants::T_INTEGER) . '
+                   AND NOT EXISTS (
+                       SELECT 1
+                       FROM object_data maybe_same_role_od
+                       INNER JOIN role_data maybe_same_role_rd ON maybe_same_role_rd.role_id = maybe_same_role_od.obj_id
+                       WHERE maybe_same_role_od.title = od.title
+                         AND maybe_same_role_od.obj_id != od.obj_id
+                   )'
             );
             if (($row = $this->db->fetchObject($res)) !== null) {
                 return '#' . $row->title;
             }
 
-            return '';
+            return '#il_role_' . $this->role_id;
         }
     }
 }
