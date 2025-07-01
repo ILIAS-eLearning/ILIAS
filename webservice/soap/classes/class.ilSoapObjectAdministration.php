@@ -1,4 +1,5 @@
 <?php
+
 /*
  +-----------------------------------------------------------------------------+
  | ILIAS open source                                                           |
@@ -632,6 +633,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             $newObj->setTitle($object_data['title']);
             $newObj->setDescription($object_data['description']);
             $newObj->create(); // true for upload
+            if ($object_data['type'] === 'frm' && isset($object_data['offline'])) {
+                $newObj->setOfflineStatus((bool) $object_data['offline']);
+                $newObj->update();
+            }
             $newObj->createReference();
             $newObj->putInTree($a_target_id);
             $newObj->setPermissions($a_target_id);
