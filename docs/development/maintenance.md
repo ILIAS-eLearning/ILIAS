@@ -471,7 +471,7 @@ of ILIAS. The file contains the following fields:
       , [catenglaender](https://docu.ilias.de/go/usr/79291)
     * Authority to Curate Test Cases: [amstutz](https://docu.ilias.de/go/usr/26468)
       , [yvseiler](https://docu.ilias.de/go/usr/17694)
-    * Authority to (De-)Assign Authorities: [amstutz](https://docu.ilias.de/go/usr/26468)
+    * Authority to (De-)Assign Authorities: [yvseiler](https://docu.ilias.de/go/usr/17694)
 	* Tester: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Assignee for Security Reports: [amstutz](https://docu.ilias.de/go/usr/26468)
     * Assignee for Security Issues: [amstutz](https://docu.ilias.de/go/usr/26468)
