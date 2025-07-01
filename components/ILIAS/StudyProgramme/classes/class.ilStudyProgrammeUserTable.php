@@ -384,7 +384,8 @@ class ilStudyProgrammeUserTable
             $aspect = self::ORDER_MAPPING[$aspect];
         }
 
-        usort($list, static function (ilStudyProgrammeUserTableRow $a, ilStudyProgrammeUserTableRow $b) use ($aspect): int {
+        $user_date_format = $this->getUserDateFormat();
+        usort($list, static function (ilStudyProgrammeUserTableRow $a, ilStudyProgrammeUserTableRow $b) use ($aspect, $user_date_format): int {
             $a = $a->toArray();
             $b = $b->toArray();
 
@@ -395,6 +396,15 @@ class ilStudyProgrammeUserTable
                 return (int) $a[$aspect] <=> (int) $b[$aspect];
             }
 
+            if (in_array($aspect, [
+                'completion_date',
+                'deadline',
+                'assign_date',
+                'expiry_date',
+            ])) {
+                return \DateTimeImmutable::createFromFormat($user_date_format, $a[$aspect])
+                    <=> \DateTimeImmutable::createFromFormat($user_date_format, $b[$aspect]);
+            }
             return strcmp($a[$aspect], $b[$aspect]);
         });
 
