@@ -259,6 +259,12 @@ class TestScreenGUI
             ;
         }
 
+        if (!$this->hasAvailablePasses()) {
+            return $launcher_factory
+                ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
+                ->withButtonLabel($this->lng->txt('tst_launcher_button_label_passes_limit_reached'), false);
+        }
+
         $next_pass_allowed_timestamp = 0;
         if (!$this->object->isNextPassAllowed($this->test_passes_selector, $next_pass_allowed_timestamp)) {
             return $launcher_factory
@@ -271,12 +277,6 @@ class TestScreenGUI
                     false
                 )
             ;
-        }
-
-        if (!$this->hasAvailablePasses()) {
-            return $launcher_factory
-                ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
-                ->withButtonLabel($this->lng->txt('tst_launcher_button_label_passes_limit_reached'), false);
         }
 
         if ($this->lastPassSuspended()) {
