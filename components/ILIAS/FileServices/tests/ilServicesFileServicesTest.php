@@ -61,7 +61,7 @@ class ilServicesFileServicesTest extends TestCase
         $sanitizer = new ilFileServicesFilenameSanitizer($settings);
         $this->assertTrue($sanitizer->isClean('/lib/test.pdf'));
         $this->assertFalse($sanitizer->isClean('/lib/test.xml'));
-        $this->assertEquals('/lib/testxml.sec', $sanitizer->sanitize('/lib/test.xml'));
+        $this->assertEquals('/lib/test.xml.sec', $sanitizer->sanitize('/lib/test.xml'));
     }
 
     public function testBlacklistedUpload(): void
@@ -124,7 +124,7 @@ class ilServicesFileServicesTest extends TestCase
 
         $insane_filename = 'bellerophon.docx';
         $this->assertNotEquals($insane_filename, $sanitizer->sanitize($insane_filename));
-        $this->assertEquals('bellerophondocx.sec', $sanitizer->sanitize($insane_filename));
+        $this->assertEquals('bellerophon.docx.sec', $sanitizer->sanitize($insane_filename));
     }
 
     public function testActualWhitelist(): void
@@ -197,7 +197,7 @@ class ilServicesFileServicesTest extends TestCase
                  ->willReturn(true);
 
         $policy = new ilFileServicesPolicy($settings);
-        $this->assertEquals('testmp3.sec', $policy->prepareFileNameForConsumer('test.mp3'));
+        $this->assertEquals('test.mp3.sec', $policy->prepareFileNameForConsumer('test.mp3'));
         $this->assertEquals('test.png', $policy->prepareFileNameForConsumer('test.png'));
         $this->assertEquals('test.pdf', $policy->prepareFileNameForConsumer('test.pdf'));
         $this->assertEquals('aeaeaeaeaeaeaeaeae.pdf', $policy->prepareFileNameForConsumer('äääääääää.pdf'));

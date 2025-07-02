@@ -65,8 +65,8 @@ final class SuffixDefinitions
             return $filename;
         }
         $pi = pathinfo($filename);
-        // if extension is not in white list, remove all "." and add ".sec" extension
-        $basename = str_replace(".", "", $pi["basename"]);
+        // if extension is not in white list add ".sec" extension
+        $basename = $pi["basename"];
         if (trim($basename) === "") {
             throw new \RuntimeException("Invalid upload filename.");
         }
