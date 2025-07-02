@@ -95,7 +95,7 @@ class assFormulaQuestionResult
             );
         }
 
-        return "($formula)";
+        return "({$formula})";
     }
 
     public function calculateFormula($variables, $results, $question_id = 0, $use_precision = true)
