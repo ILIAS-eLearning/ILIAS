@@ -168,7 +168,7 @@ class ilDclDetailedViewGUI
         $pageObj = new ilDclDetailedViewDefinitionGUI($this->tableview_id);
         $pageObj->setOutputMode($pageObj::PRESENTATION);
 
-        $html = $pageObj->getHTML();
+        $html = $pageObj->showPage();
         $rctpl->addCss("./Services/COPage/css/content.css");
         $rctpl->fillCssFiles();
         $table = ilDclCache::getTableCache($this->record_obj->getTableId());
