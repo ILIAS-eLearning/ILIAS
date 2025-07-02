@@ -46,6 +46,8 @@
 	 * submit form to redirectUrl
 	 */
 	function redirect() {
+		const redirect_form = $('<form>', {method: 'post', action: redirectUrl});
+		redirect_form.appendTo('body');
 		/**
 		 * Check again for added time before finally
 		 * submitting the test results.
@@ -62,11 +64,11 @@
 				test_time_min = (response - test_time_sec) / 60;
 				setWorkingTime();
 			} else {
-				$("#listofquestions").attr('action', redirectUrl).submit();
+				redirect_form.submit();
 			}
 		})
 		.fail(
-			$("#listofquestions").attr('action', redirectUrl).submit()
+			redirect_form.submit()
 		);
 	}
 

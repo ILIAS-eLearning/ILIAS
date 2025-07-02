@@ -71,6 +71,9 @@ class ilTestDIC
         $dic['request.internal'] = static fn($c): InternalRequestService =>
             new InternalRequestService($dic['http'], $dic['refinery']);
 
+        $dic['working.time'] = static fn(Container $c): ilWorkingTime =>
+            new ilWorkingTime($c['lng']);
+
         return $dic;
     }
 }
