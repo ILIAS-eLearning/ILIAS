@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-export default class FormNode {
+export default class Presentation {
   /**
    * @type {string}
    */
@@ -30,7 +30,7 @@ export default class FormNode {
   #label;
 
   /**
-   * @type {FormNode[]}
+   * @type {Presentation[]}
    */
   #children;
 
@@ -39,7 +39,7 @@ export default class FormNode {
    */
   #htmlFields;
 
-  #transforms;
+  #hooks;
 
   /**
    * @param {string} type
@@ -85,7 +85,7 @@ export default class FormNode {
   }
 
   /**
-   * @param {FormNode} node
+   * @param {Presentation} node
    * @return {void}
    */
   addChildNode(node) {
@@ -93,7 +93,7 @@ export default class FormNode {
   }
 
   /**
-   * @return {FormNode[]}
+   * @return {Presentation[]}
    */
   getAllChildren() {
     return this.#children;
@@ -101,7 +101,7 @@ export default class FormNode {
 
   /**
    * @param {string} name
-   * @return {FormNode|null}
+   * @return {Presentation|null}
    */
   getChildByName(name) {
     const filtered = Array.from(this.#children)
@@ -150,18 +150,18 @@ export default class FormNode {
   }
 
   /**
-   * @param {Class} transforms
+   * @param {Object} hooks
    */
-  setTransforms(transforms) {
-    this.#transforms = transforms;
+  setHooks(hooks) {
+    this.#hooks = hooks;
   }
 
   /**
-   * @return {FormNode[]}
+   * @return {Presentation[]}
    */
   getChildren() {
-    if (this.#transforms && this.#transforms.childrenTransform) {
-      return this.#transforms.childrenTransform(this);
+    if (this.#hooks && this.#hooks.childrenTransform) {
+      return this.#hooks.childrenTransform(this);
     }
     return this.getAllChildren();
   }
@@ -170,8 +170,8 @@ export default class FormNode {
   * @return {Array}
   */
   getValuesRepresentation() {
-    if (this.#transforms && this.#transforms.valueTransform) {
-      return this.#transforms.valueTransform(this);
+    if (this.#hooks && this.#hooks.valueTransform) {
+      return this.#hooks.valueTransform(this);
     }
     return this.getValues();
   }

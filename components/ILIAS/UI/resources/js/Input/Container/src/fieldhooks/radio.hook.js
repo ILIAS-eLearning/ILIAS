@@ -13,16 +13,20 @@
  * https://github.com/ILIAS-eLearning
  */
 
-export default class OptionalGroupTransforms {
+export const RadioHook = {
   /**
-   * @param {FormNode} node
+   * @param {Presentation} node
    * @return {Array}
    */
-  childrenTransform(node) {
-    if (!node.getHtmlFields()[0].checked
-    ) {
+  valueTransform: (node) => {
+    const checked = node.getHtmlFields().filter((element) => element.checked);
+    if (checked.length === 0) {
       return [];
     }
-    return node.getAllChildren();
-  }
-}
+    const representation = [];
+    checked.forEach(
+      (field) => representation.push(field.nextElementSibling.textContent),
+    );
+    return representation;
+  },
+};

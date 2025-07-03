@@ -13,24 +13,10 @@
  * https://github.com/ILIAS-eLearning
  */
 
-export default class DurationTransforms {
+export const PasswordHook = {
   /**
-   * @param {FormNode} node
-   * @return {Array}
+   * @param {Presentation} node
+   * @return {null}
    */
-  valueTransform(node) {
-    const [start, end] = node.getAllChildren().map((child) => child.getValues()[0]);
-    if (start && end) {
-      return [`${start} - ${end}`];
-    }
-    return ['-'];
-  }
-
-  /**
-   * @param {FormNode} node
-   * @return {Array}
-   */
-  childrenTransform(node) {
-    return [];
-  }
-}
+  valueTransform: (node) => null,
+};

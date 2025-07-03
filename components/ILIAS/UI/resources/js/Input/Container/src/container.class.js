@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import FormNode from './formnode.class.js';
+import Presentation from './presentation.class.js';
 
 /**
  * The attribute marks a DOM node as UIForm node and gives the type of the
@@ -53,16 +53,16 @@ export default class Container {
 /**
  * A collection of final processing functions
  * to present values for specific Input types.
- * Functions are called with FormNode as single parameter.
+ * Functions are called with Presentation as single parameter.
  * @name valueRepresentation
  * @function
- * @param {FormNode} node
+ * @param {Presentation} node
  * @return {Array<string>}
  *
  *
- * @type {Object<string,class>}
+ * @type {Object<string,function>}
  */
-  #transforms;
+  #hooks;
 
   /**
    * @type {HTMLElement}
@@ -70,19 +70,19 @@ export default class Container {
   #container;
 
   /**
-   * @type {FormNode}
+   * @type {Presentation}
    */
   #nodes;
 
   /**
-   * @param {Object<string,Class>} transforms
+   * @param {Object<string,function>} hooks
    * @param {HTMLElement} container
    * @return {void}
    */
-  constructor(transforms, container) {
-    this.#transforms = transforms;
+  constructor(hooks, container) {
+    this.#hooks = hooks;
     this.#container = container;
-    this.#nodes = new FormNode('form', 'FormContainerInput', container.getAttribute('id'));
+    this.#nodes = new Presentation('form', 'FormContainerInput', container.getAttribute('id'));
 
     Array.from(container.querySelectorAll(SEARCH_FIELD))
       .filter((domFieldNode) => domFieldNode.parentNode === domFieldNode.closest('form'))
@@ -90,7 +90,7 @@ export default class Container {
   }
 
   /**
-   * @return {FormNode}
+   * @return {Presentation}
    */
   getNodes() {
     return this.#nodes;
@@ -98,8 +98,8 @@ export default class Container {
 
   /**
    * @param {string} name
-   * @param {?FormNode} initEntry
-   * @return {FormNode}
+   * @param {?Presentation} initEntry
+   * @return {Presentation}
    */
   getNodeByName(name, initEntry) {
     let entry = initEntry;
@@ -121,7 +121,7 @@ export default class Container {
   }
 
   /**
-   * @param {?FormNode} initNode
+   * @param {?Presentation} initNode
    * @param {?number} initIndent
    * @param {?Array} initOut
    * @return {Array}
@@ -156,9 +156,9 @@ export default class Container {
   }
 
   /**
-   * @param {?FormNode} initNode
-   * @param {?FormNode[]} initOut
-   * @return {FormNode[]}
+   * @param {?Presentation} initNode
+   * @param {?Presentation[]} initOut
+   * @return {Presentation[]}
    */
   getNodesFlat(initNode, initOut) {
     let out = initOut;
@@ -181,7 +181,7 @@ export default class Container {
   }
 
   /**
-   * @param {FormNode} current
+   * @param {Presentation} current
    * @param {HTMLElement} domFieldNode
    * @return {void}
    */
@@ -206,8 +206,8 @@ export default class Container {
     const name = domFieldNode.getAttribute(FIELD_ATTRIBUTE_NAME);
     const label = domFieldNode.querySelector(FIELD_LABEL).textContent.trim();
 
-    const node = new FormNode(type, name, label);
-    node.setTransforms(this.#getTransformsFor(type));
+    const node = new Presentation(type, name, label);
+    node.setHooks(this.#getHooksFor(type));
 
     Array.from(domFieldNode.querySelectorAll(SEARCH_INPUT))
       .filter(
@@ -222,9 +222,9 @@ export default class Container {
    * @param {string} type
    * @return {valueRepresentation}
    */
-  #getTransformsFor(type) {
-    if (this.#transforms[type]) {
-      return this.#transforms[type];
+  #getHooksFor(type) {
+    if (this.#hooks[type]) {
+      return this.#hooks[type];
     }
     return null;
   }

@@ -13,13 +13,13 @@
  * https://github.com/ILIAS-eLearning
  */
 
-export default class LinkTransforms {
+export const SelectHook = {
   /**
-   * @param {FormNode} node
+   * @param {Presentation} node
    * @return {Array}
    */
-  valueTransform(node) {
-    const [label, url] = node.getAllChildren().map((child) => child.getValues()[0]);
-    return [`${label} [${url}]`];
-  }
-}
+  valueTransform: (node) => {
+    const field = node.getHtmlFields()[0];
+    return [field.options[field.options.selectedIndex].text];
+  },
+};
