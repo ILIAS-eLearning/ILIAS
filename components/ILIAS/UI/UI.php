@@ -517,17 +517,7 @@ class UI implements Component\Component
                             $pull[Data\Factory::class],
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
-                        ),
-                        (new UI\Implementation\Component\Legacy\LegacyRendererFactory(
-                            $use[UI\Implementation\FactoryInternal::class],
-                            $internal[UI\Implementation\Render\TemplateFactory::class],
-                            $use[Language\Language::class],
-                            $internal[UI\Implementation\Render\JavaScriptBinding::class],
-                            $use[UI\Implementation\Render\ImagePathResolver::class],
-                            $pull[Data\Factory::class],
-                            $use[UI\HelpTextRetriever::class],
-                            $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
-                        ))
+                        )
                     )
                 )
             );
