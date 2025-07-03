@@ -81,6 +81,7 @@ class ilCourseImporter extends ilXmlImporter
             $this->course->update();
 
             $a_mapping->addMapping('components/ILIAS/Course', 'crs', $a_id, (string) $this->course->getId());
+            $a_mapping->addMapping('components/ILIAS/AdvancedMetaData', 'parent', $a_id, (string) $this->course->getId());
 
             // workaround for ilImportContainer::createDummy which creates Metadata via create(true)
             $this->course->deleteMetaData();

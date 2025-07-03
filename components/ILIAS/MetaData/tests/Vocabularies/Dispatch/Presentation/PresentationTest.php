@@ -273,9 +273,7 @@ class PresentationTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider singleValueProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('singleValueProvider')]
     public function testPresentableLabels(
         string $value,
         bool $is_in_copyright,
@@ -314,9 +312,7 @@ class PresentationTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider singleValueProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('singleValueProvider')]
     public function testPresentableLabelsWithUnknownVocab(
         string $value,
         bool $is_in_copyright,

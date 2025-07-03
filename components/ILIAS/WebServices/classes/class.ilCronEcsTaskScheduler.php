@@ -91,10 +91,13 @@ class ilCronEcsTaskScheduler extends \ILIAS\Cron\CronJob
                 $this->logger->info('Starting task execution for ecs server: ' . $server->getTitle());
                 $scheduler = \ilECSTaskScheduler::_getInstanceByServerId($server->getServerId());
                 $scheduler->startTaskExecution();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->result->setStatus(\ILIAS\Cron\Job\JobResult::STATUS_CRASHED);
-                $this->result->setMessage($e->getMessage());
-                $this->logger->warning('ECS task execution failed with message: ' . $e->getMessage());
+                $this->result->setMessage(
+                    mb_substr(sprintf('Exc.: %s / %s', $e->getMessage(), $e->getTraceAsString()), 0, 400)
+                );
+                $this->logger->error('ECS task execution failed with message: ' . $e->getMessage());
+                $this->logger->error($e->getTraceAsString());
                 return $this->result;
             }
         }

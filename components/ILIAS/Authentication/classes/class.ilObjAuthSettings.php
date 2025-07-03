@@ -18,44 +18,24 @@
 
 declare(strict_types=1);
 
-/**
-* @author Sascha Hofmann <saschahofmann@gmx.de>
-*/
 class ilObjAuthSettings extends ilObject
 {
-    /**
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
-        $this->type = "auth";
+        $this->type = 'auth';
         parent::__construct($a_id, $a_call_by_reference);
-    }
-
-    public function checkAuthLDAP(): bool
-    {
-        $settings = $this->ilias->getAllSettings();
-
-        if (!$settings["ldap_server"] || !$settings["ldap_basedn"] || !$settings["ldap_port"]) {
-            return false;
-        }
-
-        $this->ilias->setSetting('ldap_active', "1");
-
-        return true;
     }
 
     public function checkAuthSHIB(): bool
     {
         $settings = $this->ilias->getAllSettings();
 
-        if (!$settings["shib_hos_type"] || !isset($settings["shib_user_default_role"]) || !$settings["shib_login"]
-            || !$settings["shib_firstname"] || !$settings["shib_lastname"]) {
+        if (!$settings['shib_hos_type'] || !isset($settings['shib_user_default_role']) || !$settings['shib_login']
+            || !$settings['shib_firstname'] || !$settings['shib_lastname']) {
             return false;
         }
 
-        $this->ilias->setSetting('shibboleth_active', "1");
+        $this->ilias->setSetting('shibboleth_active', '1');
 
         return true;
     }
@@ -64,11 +44,11 @@ class ilObjAuthSettings extends ilObject
     {
         $settings = $this->ilias->getAllSettings();
 
-        if (!$settings["auth_script_name"]) {
+        if (!$settings['auth_script_name']) {
             return false;
         }
 
-        $this->ilias->setSetting('script_active', "1");
+        $this->ilias->setSetting('script_active', '1');
 
         return true;
     }

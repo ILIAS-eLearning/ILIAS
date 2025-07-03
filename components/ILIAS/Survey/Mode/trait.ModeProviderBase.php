@@ -53,4 +53,19 @@ trait ModeProviderBase
     {
         $this->service = $service;
     }
+
+    public function getTitle(): string
+    {
+        $lng = $this->service->domain()->lng();
+        switch ($this->getId()) {
+            case 1:
+                return $lng->txt("survey_360_mode");
+            case 2:
+                return $lng->txt("svy_self_ev_mode");
+            case 3:
+                return $lng->txt("svy_ind_feedb_mode");
+            default:
+                return $lng->txt("default");
+        }
+    }
 }

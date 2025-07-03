@@ -57,9 +57,9 @@ class QuestionsBrowserTable implements DataRetrieval
     public function getComponent(ServerRequestInterface $request, ?array $filter): Data
     {
         return $this->ui_factory->table()->data(
+            $this,
             $this->lng->txt('list_of_questions'),
             $this->getColumns(),
-            $this
         )->withId($this->table_id)
         ->withActions($this->getActions())
         ->withRequest($request)
@@ -100,11 +100,6 @@ class QuestionsBrowserTable implements DataRetrieval
             )->withIsOptional(false, true),
             'feedback' => $column_factory->boolean(
                 $this->lng->txt('feedback'),
-                $iconYes,
-                $iconNo
-            )->withIsOptional(true, false),
-            'hints' => $column_factory->boolean(
-                $this->lng->txt('hints'),
                 $iconYes,
                 $iconNo
             )->withIsOptional(true, false),

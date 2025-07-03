@@ -18,24 +18,21 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailCachedAddressType
- */
 class ilMailCachedAddressType implements ilMailAddressType
 {
     /** @var array<string, int[]>  */
-    protected static array $usrIdsByAddressCache = [];
+    protected static array $usr_ids_by_address_cache = [];
     /** @var array<string, bool> */
-    protected static array $isValidCache = [];
+    protected static array $is_valid_cache = [];
 
-    public function __construct(protected ilMailAddressType $inner, protected bool $useCache)
+    public function __construct(protected ilMailAddressType $inner, protected bool $use_cache)
     {
     }
 
     public static function clearCache(): void
     {
-        self::$isValidCache = [];
-        self::$usrIdsByAddressCache = [];
+        self::$is_valid_cache = [];
+        self::$usr_ids_by_address_cache = [];
     }
 
     private function getCacheKey(): string
@@ -44,15 +41,14 @@ class ilMailCachedAddressType implements ilMailAddressType
         return (string) $address;
     }
 
-    public function validate(int $senderId): bool
+    public function validate(int $sender_id): bool
     {
-        $cacheKey = $this->getCacheKey();
-
-        if (!$this->useCache || !isset(self::$isValidCache[$cacheKey])) {
-            self::$isValidCache[$cacheKey] = $this->inner->validate($senderId);
+        $cache_key = $this->getCacheKey();
+        if (!$this->use_cache || !isset(self::$is_valid_cache[$cache_key])) {
+            self::$is_valid_cache[$cache_key] = $this->inner->validate($sender_id);
         }
 
-        return self::$isValidCache[$cacheKey];
+        return self::$is_valid_cache[$cache_key];
     }
 
     public function getErrors(): array
@@ -67,12 +63,11 @@ class ilMailCachedAddressType implements ilMailAddressType
 
     public function resolve(): array
     {
-        $cacheKey = $this->getCacheKey();
-
-        if (!$this->useCache || !isset(self::$usrIdsByAddressCache[$cacheKey])) {
-            self::$usrIdsByAddressCache[$cacheKey] = $this->inner->resolve();
+        $cache_key = $this->getCacheKey();
+        if (!$this->use_cache || !isset(self::$usr_ids_by_address_cache[$cache_key])) {
+            self::$usr_ids_by_address_cache[$cache_key] = $this->inner->resolve();
         }
 
-        return self::$usrIdsByAddressCache[$cacheKey];
+        return self::$usr_ids_by_address_cache[$cache_key];
     }
 }

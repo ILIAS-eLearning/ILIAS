@@ -68,7 +68,7 @@ participants. Roles central to the process are listed first.
     * get in contact with the expert group to improve their understanding of accessibility
       issues or our guidelines
 
-* [UI-Coordinators](../development/maintenance-coordinator.md)
+* [UI-Coordinators](../../components/ILIAS/UI/docs/COMMUNITY.md)
     * triage objectively testable accessibility bugs for UI components
     * checks if formal requirements are met and code is at the correct location 
     * acquire a sound understanding of accessibility

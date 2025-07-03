@@ -115,6 +115,8 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 
     protected function getSettingsForm(): ilPropertyFormGUI
     {
+        $writable = $this->rbacsystem->checkAccess('write', $this->object->getRefId());
+
         $this->form = new ilPropertyFormGUI();
         $this->form->setTitle($this->lng->txt('settings'));
 
@@ -122,12 +124,14 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         $cb->setValue(1);
         $cb->setChecked(ilObjAccessibilitySettings::getControlConceptStatus());
         $cb->setInfo($this->lng->txt('adm_acc_ctrl_cpt_desc'));
+        $cb->setDisabled(!$writable);
         $this->form->addItem($cb);
 
         $ti = new ilTextInputGUI($this->lng->txt("adm_accessibility_contacts"), "accessibility_support_contacts");
         $ti->setMaxLength(500);
         $ti->setValue(ilAccessibilitySupportContacts::getList());
         $ti->setInfo($this->lng->txt("adm_accessibility_contacts_info"));
+        $ti->setDisabled(!$writable);
         $this->form->addItem($ti);
 
         ilAdministrationSettingsFormHandler::addFieldsToForm(
@@ -136,8 +140,10 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
             $this
         );
 
-        $this->form->addCommandButton("saveAccessibilitySettings", $this->lng->txt("save"));
-        $this->form->setFormAction($this->ctrl->getFormAction($this));
+        if ($writable) {
+            $this->form->addCommandButton("saveAccessibilitySettings", $this->lng->txt("save"));
+            $this->form->setFormAction($this->ctrl->getFormAction($this));
+        }
 
         return $this->form;
     }

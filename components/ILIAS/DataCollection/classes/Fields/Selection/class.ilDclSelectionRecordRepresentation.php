@@ -20,15 +20,11 @@ declare(strict_types=1);
 
 abstract class ilDclSelectionRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-    // those should be overwritten by subclasses
-    public const PROP_SELECTION_TYPE = '';
-    public const PROP_SELECTION_OPTIONS = '';
-
     public function getHTML(bool $link = true, array $options = []): string
     {
         $record_field_value = $this->getRecordField()->getValue();
         $values = ilDclSelectionOption::getValues((int) $this->getField()->getId(), $record_field_value);
 
-        return implode('<br>', $values);
+        return implode(' | ', $values);
     }
 }

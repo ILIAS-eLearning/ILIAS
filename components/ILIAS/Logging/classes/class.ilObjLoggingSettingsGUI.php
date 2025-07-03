@@ -40,7 +40,6 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
     protected ilLogger $log;
     protected ilLoggingErrorSettings $error_settings;
     protected Refinery $refinery;
-    protected Services $http;
 
     /**
      *
@@ -62,7 +61,6 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('log');
         $this->log = ilLoggerFactory::getLogger('log');
 
-        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
     }
 

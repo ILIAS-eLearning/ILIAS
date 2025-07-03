@@ -50,7 +50,8 @@ class ilBadgeTableGUI implements DataRetrieval
     private readonly string $parent_type;
     private readonly ilLanguage $lng;
     private readonly ilGlobalTemplateInterface $tpl;
-    private ilBadgeImage $badge_image_service;
+    private readonly \ILIAS\ResourceStorage\Services $irss;
+    private readonly ilBadgeImage $badge_image_service;
     /**
      * @return null|list<array{
      *     id: int,
@@ -76,11 +77,12 @@ class ilBadgeTableGUI implements DataRetrieval
         $this->refinery = $DIC->refinery();
         $this->request = $DIC->http()->request();
         $this->http = $DIC->http();
+        $this->irss = $DIC->resourceStorage();
 
         $this->parent_id = $parent_obj_id;
         $this->parent_type = $parent_obj_type;
         $this->badge_image_service = new ilBadgeImage(
-            $DIC->resourceStorage(),
+            $this->irss,
             $DIC->upload(),
             $DIC->ui()->mainTemplate()
         );
@@ -93,8 +95,6 @@ class ilBadgeTableGUI implements DataRetrieval
      *     active: bool,
      *     type: string,
      *     manual: bool,
-     *     image: string,
-     *     title: string,
      *     title_sortable: string
      * }>
      */
@@ -105,43 +105,7 @@ class ilBadgeTableGUI implements DataRetrieval
         }
 
         $rows = [];
-        $modal_container = new ModalBuilder();
-
         foreach (ilBadge::getInstancesByParentId($this->parent_id) as $badge) {
-            $images = [
-                'rendered' => null,
-                'large' => null,
-            ];
-            $image_src = $this->badge_image_service->getImageFromBadge($badge);
-            if ($image_src !== '') {
-                $images['rendered'] = $this->renderer->render(
-                    $this->factory->image()->responsive(
-                        $image_src,
-                        $badge->getTitle()
-                    )
-                );
-
-                $image_src_large = $this->badge_image_service->getImageFromBadge(
-                    $badge,
-                    ilBadgeImage::IMAGE_SIZE_XL
-                );
-                if ($image_src_large !== '') {
-                    $images['large'] = $this->factory->image()->responsive(
-                        $image_src_large,
-                        $badge->getTitle()
-                    );
-                }
-            }
-
-            $modal = $modal_container->constructModal(
-                $images['large'],
-                $badge->getTitle(),
-                [
-                    'description' => $badge->getDescription(),
-                    'badge_criteria' => $badge->getCriteria(),
-                ]
-            );
-
             $rows[] = [
                 'id' => $badge->getId(),
                 'badge' => $badge,
@@ -150,14 +114,6 @@ class ilBadgeTableGUI implements DataRetrieval
                     ? ilBadge::getExtendedTypeCaption($badge->getTypeInstance())
                     : $badge->getTypeInstance()->getCaption(),
                 'manual' => !$badge->getTypeInstance() instanceof ilBadgeAuto,
-                'image' => $images['rendered'] ? ($modal_container->renderShyButton(
-                    $images['rendered'],
-                    $modal
-                ) . ' ') : '',
-                'title' => implode('', [
-                    $modal_container->renderShyButton($badge->getTitle(), $modal),
-                    $modal_container->renderModal($modal)
-                ]),
                 'title_sortable' => $badge->getTitle()
             ];
         }
@@ -166,6 +122,77 @@ class ilBadgeTableGUI implements DataRetrieval
 
         return $rows;
     }
+
+    /**
+     * @param array{
+     *     id: int,
+     *     badge: ilBadge,
+     *     active: bool,
+     *     type: string,
+     *     manual: bool,
+     *     title_sortable: string
+     * } $record
+     * @return array{
+     *     id: int,
+     *     badge: ilBadge,
+     *     active: bool,
+     *     type: string,
+     *     manual: bool,
+     *     title_sortable: string,
+     *     title: string,
+     *     image: string
+     *  }
+     */
+    private function enrichRecord(ModalBuilder $modal_builder, array $record): array
+    {
+        $badge = $record['badge'];
+
+        $images = [
+            'rendered' => null,
+            'large' => null,
+        ];
+
+        $image_src = $this->badge_image_service->getImageFromBadge($badge);
+        if ($image_src !== '') {
+            $images['rendered'] = $this->renderer->render(
+                $this->factory->image()->responsive(
+                    $image_src,
+                    $badge->getTitle()
+                )
+            );
+
+            $image_src_large = $this->badge_image_service->getImageFromBadge(
+                $badge,
+                ilBadgeImage::IMAGE_SIZE_XL
+            );
+            if ($image_src_large !== '') {
+                $images['large'] = $this->factory->image()->responsive(
+                    $image_src_large,
+                    $badge->getTitle()
+                );
+            }
+        }
+
+        $modal = $modal_builder->constructModal(
+            $images['large'],
+            $badge->getTitle(),
+            [
+                'description' => $badge->getDescription(),
+                'badge_criteria' => $badge->getCriteria(),
+            ]
+        );
+
+        $record['image'] = $images['rendered']
+            ? $modal_builder->renderShyButton($images['rendered'], $modal) . ' '
+            : '';
+        $record['title'] = implode('', [
+            $modal_builder->renderShyButton($badge->getTitle(), $modal),
+            $modal_builder->renderModal($modal)
+        ]);
+
+        return $record;
+    }
+
 
     public function getRows(
         DataRowBuilder $row_builder,
@@ -211,7 +238,19 @@ class ilBadgeTableGUI implements DataRetrieval
             $records = \array_slice($records, $range->getStart(), $range->getLength());
         }
 
+        $identifications = [];
         foreach ($records as $record) {
+            if ($record['badge']->getImageRid() !== null && $record['badge']->getImageRid() !== '') {
+                $identifications[] = $record['badge']->getImageRid();
+            }
+        }
+
+        $this->irss->preload($identifications);
+
+        $modal_container = new ModalBuilder();
+        foreach ($records as $record) {
+            $record = $this->enrichRecord($modal_container, $record);
+
             yield $row_builder
                 ->buildDataRow((string) $record['id'], $record)
                 ->withDisabledAction(
@@ -305,7 +344,7 @@ class ilBadgeTableGUI implements DataRetrieval
 
         $table = $this->factory
             ->table()
-            ->data($this->lng->txt('obj_bdga'), $this->getColumns(), $this)
+            ->data($this, $this->lng->txt('obj_bdga'), $this->getColumns())
             ->withId(self::class . '_' . $this->parent_id)
             ->withOrder(new Order('title', Order::ASC))
             ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token))

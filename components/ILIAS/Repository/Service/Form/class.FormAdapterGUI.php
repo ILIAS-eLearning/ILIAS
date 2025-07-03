@@ -22,6 +22,7 @@ namespace ILIAS\Repository\Form;
 
 use ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\Data\Factory;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -31,7 +32,6 @@ class FormAdapterGUI
     use StdObjProperties;
 
     protected const DEFAULT_SECTION = "@internal_default_section";
-    protected bool $in_modal = false;
     protected string $submit_caption = "";
     protected \ilLanguage $lng;
     protected const ASYNC_NONE = 0;
@@ -85,13 +85,13 @@ class FormAdapterGUI
         $this->http = $DIC->http();
         $this->lng = $DIC->language();
         $this->refinery = $DIC->refinery();
-        $this->lng = $DIC->language();
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->user = $DIC->user();
         $this->data = new \ILIAS\Data\Factory();
         $this->submit_caption = $submit_caption;
         self::initJavascript();
         $this->initStdObjProperties($DIC);
+        $this->lng->loadLanguageModule("rep");
     }
 
     public static function getOnLoadCode(): string
@@ -112,7 +112,13 @@ class FormAdapterGUI
         $r = $DIC->ui()->renderer();
         if (!self::$initialised) {
             $main_tpl = $DIC->ui()->mainTemplate();
-            $main_tpl->addJavaScript("assets/js/repository.js");
+            $debug = false;
+            if ($debug) {
+                $main_tpl->addJavaScript("../components/ILIAS/Repository/resources/repository.js");
+            } else {
+                $main_tpl->addJavaScript("assets/js/repository.js");
+            }
+
             $main_tpl->addOnLoadCode(self::getOnLoadCode());
 
             // render dummy components to load the necessary .js needed for async processing
@@ -126,7 +132,6 @@ class FormAdapterGUI
     public function asyncModal(): self
     {
         $this->async_mode = self::ASYNC_MODAL;
-        $this->in_modal = true;
         return $this;
     }
 
@@ -138,7 +143,6 @@ class FormAdapterGUI
 
     public function syncModal(): self
     {
-        $this->in_modal = true;
         return $this;
     }
 
@@ -214,7 +218,14 @@ class FormAdapterGUI
     public function required($required = true): self
     {
         if ($required && ($field = $this->getLastField())) {
-            $field = $field->withRequired(true);
+            if ($field instanceof \ILIAS\UI\Component\Input\Field\Text) {
+                $field = $field->withRequired(true, new NotEmpty(
+                    new Factory(),
+                    $this->lng
+                ));
+            } else {
+                $field = $field->withRequired(true);
+            }
             $this->replaceLastField($field);
         }
         return $this;
@@ -501,7 +512,10 @@ class FormAdapterGUI
                 $this->current_switch["description"]
             );
             if (!is_null($this->current_switch["value"])) {
-                $field = $field->withValue($this->current_switch["value"]);
+                $cvalue = $this->current_switch["value"];
+                if (isset($this->current_switch["groups"][$cvalue])) {
+                    $field = $field->withValue($cvalue);
+                }
             }
             $key = $this->current_switch["key"];
             $this->current_switch = null;
@@ -546,6 +560,13 @@ class FormAdapterGUI
             $logger_id,
             $ctrl_path
         );
+
+        foreach (["application/x-compressed", "application/x-zip-compressed"] as $zipmime) {
+            if (in_array("application/zip", $mime_types) &&
+                !in_array($zipmime, $mime_types)) {
+                $mime_types[] = $zipmime;
+            }
+        }
 
         if (count($mime_types) > 0) {
             $description .= $this->lng->txt("rep_allowed_types") . ": " .
@@ -645,7 +666,7 @@ class FormAdapterGUI
         }
     }
 
-    protected function getForm(): Form\Standard
+    public function getForm(): Form\Standard
     {
         $ctrl = $this->ctrl;
 
@@ -755,13 +776,6 @@ class FormAdapterGUI
             $html = $this->ui->renderer()->render($this->getForm());
         } else {
             $html = $this->ui->renderer()->renderAsync($this->getForm()) . "<script>" . $this->getOnLoadCode() . "</script>";
-        }
-        if ($this->in_modal) {
-            if ($this->async_mode === self::ASYNC_MODAL) {
-                $html = str_replace("<form ", "<form data-rep-modal-form='async' ", $html);
-            } else {
-                $html = str_replace("<form ", "<form data-rep-modal-form='sync' ", $html);
-            }
         }
         return $html;
     }

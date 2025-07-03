@@ -126,7 +126,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $form->getItemByPostVar('selection_limit')->setMaxValue(count($this->request_data_collector->raw('choice')['answer'] ?? []));
 
             $form->setValuesByPost();
-            $errors = !$form->checkInput();
+            $errors = !$this->checkMaxPointsNotNegative($form) || !$form->checkInput();
             if ($errors) {
                 $checkonly = false;
             }
@@ -136,6 +136,28 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $this->renderEditForm($form);
         }
         return $errors;
+    }
+
+    private function checkMaxPointsNotNegative(ilPropertyFormGUI $form): bool
+    {
+        $choice = $form->getItemByPostVar('choice');
+        if (!$choice instanceof ilMultipleChoiceWizardInputGUI) {
+            return true;
+        }
+
+        $answers = $choice->getValues();
+        $total_max_points = 0;
+        /** @var ASS_AnswerMultipleResponseImage $answer */
+        foreach ($answers as $answer) {
+            $total_max_points += max($answer->getPointsChecked(), $answer->getPointsUnchecked());
+        }
+
+        if ($total_max_points < 0) {
+            $choice->setAlert($this->lng->txt('total_max_points_cannot_be_negative'));
+            return false;
+        }
+
+        return true;
     }
 
     public function addBasicQuestionFormProperties(ilPropertyFormGUI $form): void
@@ -246,7 +268,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     $ok = false;
                     $checked = false;
                     foreach ($user_solution as $mc_solution) {
-                        if (strcmp($mc_solution, $answer_id) == 0) {
+                        if ((string) $mc_solution === (string) $answer_id) {
                             $checked = true;
                         }
                     }
@@ -290,7 +312,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             if (($show_feedback || !$this->isTestPresentationContext()) && $show_inline_feedback) {
                 if ($this->object->getSpecificFeedbackSetting() == 2) {
                     foreach ($user_solution as $mc_solution) {
-                        if (strcmp($mc_solution, $answer_id) == 0) {
+                        if ((string) $mc_solution === (string) $answer_id) {
                             $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
                                 $this->object->getId(),
                                 0,
@@ -350,7 +372,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                 $template->setVariable("RESULT_OUTPUT", sprintf("(" . $this->lng->txt("checkbox_checked") . " = $resulttextchecked, " . $this->lng->txt("checkbox_unchecked") . " = $resulttextunchecked)", $pointschecked, $pointsunchecked));
             }
             foreach ($user_solution as $mc_solution) {
-                if (strcmp($mc_solution, $answer_id) == 0) {
+                if ((string) $mc_solution === (string) $answer_id) {
                     if ($this->renderPurposeSupportsFormHtml() || $this->isRenderPurposePrintPdf()) {
                         $template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("object/checkbox_checked.png")));
                         $template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
@@ -458,7 +480,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $template->setVariable("ANSWER_ID", $answer_id);
             $template->setVariable("ANSWER_TEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true));
             foreach ($user_solution as $mc_solution) {
-                if (strcmp($mc_solution, $answer_id) == 0) {
+                if ((string) $mc_solution === (string) $answer_id) {
                     $template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
                 }
             }
@@ -567,7 +589,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $template->setVariable("ANSWER_ID", $answer_id);
             $template->setVariable("ANSWER_TEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true));
             foreach ($user_solution as $mc_solution) {
-                if (strcmp($mc_solution, $answer_id) == 0) {
+                if ((string) $mc_solution === (string) $answer_id) {
                     $template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
                 }
             }
@@ -882,7 +904,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     {
         if ($this->object->getSpecificFeedbackSetting() == 2) {
             foreach ($user_solution as $mc_solution) {
-                if (strcmp($mc_solution, $answer_id) == 0) {
+                if ((string) $mc_solution === (string) $answer_id) {
                     $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, $answer_id);
                     if (strlen($fb)) {
                         $template->setCurrentBlock("feedback");

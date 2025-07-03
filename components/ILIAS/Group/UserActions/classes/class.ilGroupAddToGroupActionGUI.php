@@ -384,9 +384,24 @@ class ilGroupAddToGroupActionGUI
         $newObj->create();
 
         $group_gui->putObjectInTree($newObj, $ref_id);
+        $group_gui = new ilObjGroupGUI("", $group_gui->getRefId(), true);
+
 
         // apply didactic template?
-        $dtpl = $group_gui->getDidacticTemplateVar("dtpl");
+        $type = 'didactic_type';
+        $dtpl = 0;
+        if ($this->http->wrapper()->post()->has('didactic_type')) {
+            $var = $this->http->wrapper()->post()->retrieve(
+                'didactic_type',
+                $this->refinery->kindlyTo()->string()
+            );
+
+            if (substr($var, 0, strlen($type) + 1) != $type . "_") {
+                $dtpl = 0;
+            } else {
+                $dtpl = (int) substr($var, strlen($type) + 1);
+            }
+        }
         if ($dtpl) {
             $newObj->applyDidacticTemplate($dtpl);
         }

@@ -29,7 +29,7 @@ use ILIAS\MetaData\Copyright\EntryInterface;
  */
 class ilMDCopyrightUsageGUI
 {
-    public const DEFAULT_CMD = 'showUsageTable';
+    public const string DEFAULT_CMD = 'showUsageTable';
 
     protected EntryInterface $entry;
 

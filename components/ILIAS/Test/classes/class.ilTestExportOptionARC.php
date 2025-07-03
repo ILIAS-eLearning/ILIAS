@@ -163,7 +163,7 @@ class ilTestExportOptionARC extends ilBasicLegacyExportOption
         string $export_object_type
     ): string {
         return $this->data_dir
-            . ilTestArchiver::DIR_SEP . CLIENT_ID . ilTestArchiver::DIR_SEP . 'tst_data' . ilTestArchiver::DIR_SEP
+            . DIRECTORY_SEPARATOR . CLIENT_ID . DIRECTORY_SEPARATOR . 'tst_data' . DIRECTORY_SEPARATOR
             . ilTestArchiver::EXPORT_DIRECTORY . DIRECTORY_SEPARATOR . $export_object_type . "_" . $object_id->toInt();
     }
 }

@@ -45,17 +45,6 @@ class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         return $this->db->fetchObject($this->db->query($query));
     }
 
-    public function getValueForRepresentation(): string
-    {
-        $ref_id = $this->getValue();
-
-        if ($ref_id) {
-            return ilObject2::_lookupTitle(ilObject2::_lookupObjectId($ref_id)) . ' [' . $ref_id . ']';
-        } else {
-            return "";
-        }
-    }
-
     public function getExportValue(): string
     {
         $value = (int) $this->getValue();

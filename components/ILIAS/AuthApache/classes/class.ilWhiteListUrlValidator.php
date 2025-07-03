@@ -18,18 +18,13 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilWhiteListUrlValidator
- * @author Michael Jansen <mjansen@databay.de>
- */
-final class ilWhiteListUrlValidator
+final readonly class ilWhiteListUrlValidator
 {
-    /** @var string[] */
+    /** @var list<string> */
     private array $whitelist;
 
     /**
-     * ilWhiteListUrlValidator constructor.
-     * @param string[] $whitelist
+     * @param list<string> $whitelist
      */
     public function __construct(private string $url, array $whitelist)
     {

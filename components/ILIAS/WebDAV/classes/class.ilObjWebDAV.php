@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 /**
- * @author Lukas Zehnder <lz@studer-raimann.ch>
+ * @author  Lukas Zehnder <lz@studer-raimann.ch>
  * @package WebDAV
  */
 class ilObjWebDAV extends ilObject

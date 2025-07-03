@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -243,8 +244,6 @@ class assLongMenuExport extends assQuestionExport
             $xml->xmlEndTag("flow_mat");
             $xml->xmlEndTag("itemfeedback");
         }
-
-        $xml = $this->addSolutionHints($xml);
 
         $xml->xmlEndTag("item");
         $xml->xmlEndTag("questestinterop");

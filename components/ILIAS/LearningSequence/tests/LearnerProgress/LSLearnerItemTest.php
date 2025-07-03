@@ -69,27 +69,21 @@ class LSLearnerItemTest extends TestCase
         return $object;
     }
 
-    /**
-     * @depends testCreate
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreate')]
     public function testTurnedOffWithPostCondition(LSItem $object): void
     {
         $this->expectException(LogicException::class);
         $object->withPostCondition($this->post_condition);
     }
 
-    /**
-     * @depends testCreate
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreate')]
     public function testTurnedOffWithOrderNumber(LSItem $object): void
     {
         $this->expectException(LogicException::class);
         $object->withOrderNumber(self::ORDER_NUMBER);
     }
 
-    /**
-     * @depends testCreate
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreate')]
     public function testTurnedOffWithOnline(LSItem $object): void
     {
         $this->expectException(LogicException::class);

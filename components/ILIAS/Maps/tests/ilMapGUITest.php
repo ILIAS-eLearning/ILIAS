@@ -41,9 +41,7 @@ class ilMapGUITest extends TestCase
         };
     }
 
-    /**
-     * @dataProvider properties
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('properties')]
     public function testSettersAndGetters($name, $value): void
     {
         $set = "set$name";

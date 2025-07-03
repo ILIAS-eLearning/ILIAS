@@ -227,16 +227,18 @@ final class ActiveContainer implements Container
         return $this->buildFinalTransformation($transformation)->transform($unpacked_values);
     }
 
-    public function set(string $key, string|int|array|bool|null $value): void
+    public function set(string $key, string|int|array|bool|null $value, ?int $ttl = null): void
     {
         if ($this->isLocked()) {
             return;
         }
+        $ttl = $ttl ?? $this->config->getDefaultTTL();
+
         $this->adaptor->set(
             $this->request->getContainerKey(),
             $key,
             $this->pack($value),
-            $this->config->getDefaultTTL()
+            $ttl
         );
     }
 

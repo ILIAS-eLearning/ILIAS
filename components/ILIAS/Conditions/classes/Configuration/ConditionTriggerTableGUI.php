@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -161,9 +162,9 @@ class ConditionTriggerTableGUI implements DataRetrieval
         return $this->ui_factory
             ->table()
             ->data(
+                $this,
                 $this->lng->txt('active_preconditions'),
                 $this->getColumns(),
-                $this
             )
             ->withId(self::class)
             ->withActions($this->getActions())

@@ -30,8 +30,12 @@ class ilDAVProblemInfoFile implements IFile
     public const PROBLEM_FORBIDDEN_CHARACTERS = 'forbidden_characters';
     public const PROBLEM_INFO_NAME_DUPLICATE = 'info_name_duplicate';
 
-    public function __construct(protected int $container_ref_id, protected ilWebDAVRepositoryHelper $repo_helper, protected ilWebDAVObjFactory $dav_object_factory, protected ilLanguage $language)
-    {
+    public function __construct(
+        protected int $container_ref_id,
+        protected ilWebDAVRepositoryHelper $repo_helper,
+        protected ilWebDAVObjFactory $dav_object_factory,
+        protected ilLanguage $language
+    ) {
     }
 
     public function put($data)
@@ -101,7 +105,7 @@ class ilDAVProblemInfoFile implements IFile
                     $title = $this->repo_helper->getObjectTitleFromRefId($ref_id);
                     $problem_infos[self::PROBLEM_FORBIDDEN_CHARACTERS][] = $title;
                 }
-            } catch (Forbidden | NotFound | RuntimeException) {
+            } catch (Forbidden|NotFound|RuntimeException) {
             }
         }
 

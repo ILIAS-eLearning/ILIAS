@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailAddress
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailAddress implements Stringable
 {
     public function __construct(protected string $mailbox, protected string $host)

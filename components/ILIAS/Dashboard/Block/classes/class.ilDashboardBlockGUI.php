@@ -91,17 +91,8 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     protected function getListItemGroups(): array
     {
-        $data = $this->loadData();
         $groupedCards = [];
-        $obj_ids = [];
-        foreach ($data as $group) {
-            foreach ($group as $datum) {
-                $obj_ids[] = $datum->getObjId();
-            }
-        }
-        ilLPStatus::preloadListGUIData($obj_ids);
-
-        foreach ($data as $title => $group) {
+        foreach ($this->loadData() as $title => $group) {
             $items = [];
             foreach ($group as $datum) {
                 $item = $this->getListItemForDataDTO($datum);
@@ -155,6 +146,18 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         }
 
         return $this->getNoItemFoundContent();
+    }
+
+    protected function preloadData(array $data): void
+    {
+        $obj_ids = [];
+        foreach ($data as $group) {
+            foreach ($group as $datum) {
+                $obj_ids[] = $datum->getObjId();
+            }
+        }
+        ilLPStatus::preloadListGUIData($obj_ids);
+        parent::preloadData($data);
     }
 
     public function getNoItemFoundContent(): string
@@ -261,28 +264,11 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             }
         }
 
-        $orderByDate = static function (BlockDTO $left, BlockDTO $right, bool $asc = true): int {
-            if ($left->getStartDate() && $right->getStartDate() && $left->getStartDate()->get(
-                IL_CAL_UNIX
-            ) < $right->getStartDate()->get(IL_CAL_UNIX)) {
-                return $asc ? -1 : 1;
-            }
-
-            if ($left->getStartDate() && $right->getStartDate() && $left->getStartDate()->get(
-                IL_CAL_UNIX
-            ) > $right->getStartDate()->get(IL_CAL_UNIX)) {
-                return $asc ? 1 : -1;
-            }
-
-            return strcmp($left->getTitle(), $right->getTitle());
-        };
-
-        uasort($groups['upcoming'], $orderByDate);
-        uasort($groups['ongoing'], static fn(BlockDTO $left, BlockDTO $right): int => $orderByDate($left, $right, false));
-        uasort($groups['ended'], $orderByDate);
-        $groups['not_dated'] = $this->sortByTitle($groups['not_dated']);
-
         foreach ($groups as $key => $group) {
+            $group = $this->sortByTitle($group);
+            if ($key !== 'not_dated') {
+                $group = $this->sortByDate($group, $key === 'upcoming');
+            }
             $groups[$this->lng->txt('pd_' . $key)] = $group;
             unset($groups[$key]);
         }
@@ -388,7 +374,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         foreach ($presentations as $presentation) {
             $this->ctrl->setParameter($this, 'presentation', $presentation);
             $this->addPresentation(
-                $this->lng->txt('pd_presentation_mode_' . $presentation),
+                $this->ui->renderer()->render($this->ui->factory()->symbol()->glyph()->{$presentation . 'View'}()),
                 $this->ctrl->getLinkTarget($this, 'changePDItemPresentation'),
                 $presentation === $this->viewSettings->getEffectivePresentationMode()
             );
@@ -596,9 +582,23 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     /**
      * @param BlockDTO[] $data
      */
+    private function sortByDate(array $data, bool $asc = true): array
+    {
+        usort(
+            $data,
+            static fn(BlockDTO $left, BlockDTO $right): int =>
+            ($asc ? -1 : 1) *
+            (($right->getStartDate()?->get(IL_CAL_UNIX) ?? 0) - ($left->getStartDate()?->get(IL_CAL_UNIX) ?? 0))
+        );
+        return $data;
+    }
+
+    /**
+     * @param BlockDTO[] $data
+     */
     private function sortByTitle(array $data): array
     {
-        uasort(
+        usort(
             $data,
             static fn(BlockDTO $left, BlockDTO $right): int => strcmp($left->getTitle(), $right->getTitle())
         );

@@ -20,10 +20,6 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class ilHtmlDomNodeIteratorTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 final class ilHtmlDomNodeIteratorTest extends TestCase
 {
     public function testDomNodeIteratorIteratesOverXhtmlDocumentNodes(): void

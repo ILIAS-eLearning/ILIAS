@@ -28,10 +28,10 @@
 			<parent id="wfld">wfld</parent>
 		</object>
 	</objects>
-	<events>		
+	<events>
 		<event type="listen" id="components/ILIAS/Tracking" />
 		<event type="listen" id="components/ILIAS/AccessControl" />
-		<event type='listen' id='Modules/Course' />
+		<event type='listen' id='components/ILIAS/Course' />
 		<event type="raise" id="create" />
 		<event type="raise" id="update" />
 		<event type="raise" id="delete" />
@@ -45,7 +45,7 @@
 		<cron id="crs_timings_reminder" class="ilTimingsCronReminder" />
 	</crons>
 	<copage>
-		<pageobject parent_type="lobj" class_name="ilLOPage" directory="classes/Objectives"/>	
+		<pageobject parent_type="lobj" class_name="ilLOPage" directory="classes/Objectives"/>
 	</copage>
 	<mailtemplates>
 		<context id="crs_context_tutor_manual" class="ilCourseMailTemplateTutorContext" />

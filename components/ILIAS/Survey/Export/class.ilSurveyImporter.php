@@ -80,12 +80,17 @@ class ilSurveyImporter extends ilXmlImporter
         ilImportMapping $a_mapping
     ): void {
         if ($a_entity === "svy") {
-            // Container import => test object already created
-            if (!($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id))) {    // case ii, non container
-                $new_id = $a_mapping->getMapping("components/ILIAS/Survey", "svy", 0);
+
+            // container import
+            if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
+                $newObj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
+            } else {
+                $newObj = new ilObjSurvey();    // direct survey import
+                $newObj->setType('svy');
+                $newObj->setTitle("dummy");
+                $newObj->create(true);
             }
-            /** @var ilObjSurvey $newObj */
-            $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
+            $a_mapping->addMapping('components/ILIAS/Survey', 'svy', $a_id, (string) $newObj->getId());
             $this->setSurvey($newObj);
 
 

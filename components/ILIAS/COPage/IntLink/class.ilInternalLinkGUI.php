@@ -24,6 +24,7 @@ use ILIAS\COPage\IntLink\StandardGUIRequest;
  */
 class ilInternalLinkGUI
 {
+    protected \ILIAS\MediaObjects\Thumbs\ThumbsGUI $thumbs_gui;
     protected ?ilObjFile $uploaded_file = null;
     protected int $parent_fold_id;
     protected string $default_parent_obj_type;
@@ -65,9 +66,11 @@ class ilInternalLinkGUI
             $DIC->http(),
             $DIC->refinery()
         );
+        $this->thumbs_gui = $DIC->mediaObjects()->internal()->gui()->thumbs();
 
         $this->lng->loadLanguageModule("link");
         $this->lng->loadLanguageModule("content");
+        $this->lng->loadLanguageModule("copg");
         $this->ctrl->saveParameter($this, array("linkmode", "link_par_ref_id", "link_par_obj_id",
             "link_par_fold_id", "link_type"));
 
@@ -325,7 +328,7 @@ class ilInternalLinkGUI
                 $tpl->setCurrentBlock("chapter_list");
                 $tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("obj_lm"));
                 $tpl->setVariable("TXT_CONT_TITLE", $cont_obj->getTitle());
-                $tpl->setVariable("THEAD", $this->lng->txt("pages"));
+                $tpl->setVariable("THEAD", $this->lng->txt("copg_pages"));
 
 
                 $tpl->setCurrentBlock("change_cont_obj");
@@ -620,7 +623,7 @@ class ilInternalLinkGUI
                 $tpl->setCurrentBlock("chapter_list");
                 $tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("obj_" . ilObject::_lookupType($prtf_id)));
                 $tpl->setVariable("TXT_CONT_TITLE", ilObject::_lookupTitle($prtf_id));
-                $tpl->setVariable("THEAD", $this->lng->txt("pages"));
+                $tpl->setVariable("THEAD", $this->lng->txt("copg_pages"));
 
                 foreach ($ppages as $ppage) {
                     $this->renderLink(
@@ -744,10 +747,6 @@ class ilInternalLinkGUI
         string $a_mode = ""
     ): void {
         // output thumbnail
-        $mob = new ilObjMediaObject($a_id);
-        $med = $mob->getMediaItem("Standard");
-        $target = $med->getThumbnailTarget("small");
-        $suff = "";
         if ($this->getSetLinkTargetScript() !== "") {
             $tpl->setCurrentBlock("thumbnail_link");
             $suff = "_link";
@@ -756,13 +755,12 @@ class ilInternalLinkGUI
             $suff = "_js";
         }
 
-        if ($target !== "") {
-            $tpl->setCurrentBlock("thumb" . $suff);
-            $tpl->setVariable("SRC_THUMB", $target);
-            $tpl->parseCurrentBlock();
-        } else {
-            $tpl->setVariable("NO_THUMB", "&nbsp;");
-        }
+        $tpl->setCurrentBlock("thumb" . $suff);
+        $tpl->setVariable(
+            "THUMB",
+            $this->thumbs_gui->getThumbHtml($a_id)
+        );
+        $tpl->parseCurrentBlock();
 
         if ($this->getSetLinkTargetScript() !== "") {
             $tpl->setCurrentBlock("thumbnail_link");

@@ -45,18 +45,13 @@ class ilBuddySystemBaseTestCase extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * @param mixed $value
-     */
-    protected function setGlobalVariable(string $name, $value): void
+    protected function setGlobalVariable(string $name, mixed $value): void
     {
         global $DIC;
 
         $GLOBALS[$name] = $value;
 
         unset($DIC[$name]);
-        $DIC[$name] = static function ($c) use ($name) {
-            return $GLOBALS[$name];
-        };
+        $DIC[$name] = static fn($c) => $GLOBALS[$name];
     }
 }

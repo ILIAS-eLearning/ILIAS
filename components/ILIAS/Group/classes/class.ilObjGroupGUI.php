@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\News\Service as News;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * Class ilObjGroupGUI
@@ -36,7 +36,7 @@ use ILIAS\News\Service as News;
  * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilObjectMetaDataGUI, ilObjectTranslationGUI, ilPropertyFormGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilObjectMetaDataGUI, ILIAS\ILIASObject\Properties\Translations\TranslationGUI, ilPropertyFormGUI
  *
  *
  *
@@ -46,7 +46,6 @@ class ilObjGroupGUI extends ilContainerGUI
 {
     protected bool $show_tracking = false;
 
-    private GlobalHttpState $http;
     protected Factory $refinery;
     protected ilRbacSystem $rbacsystem;
     protected News $news;
@@ -63,7 +62,6 @@ class ilObjGroupGUI extends ilContainerGUI
 
         $this->lng->loadLanguageModule('grp');
         $this->lng->loadLanguageModule('obj');
-        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->news = $DIC->news();
@@ -370,11 +368,23 @@ class ilObjGroupGUI extends ilContainerGUI
                 break;
 
 
-            case 'ilobjecttranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->checkPermissionBool("write");
                 $this->setSubTabs("settings");
                 $this->tabs->activateTab("settings");
-                $transgui = new ilObjectTranslationGUI($this);
+                $transgui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->access,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->http,
+                    $this->refinery,
+                    $this->toolbar
+                );
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
@@ -1859,9 +1869,9 @@ class ilObjGroupGUI extends ilContainerGUI
 
                 $this->tabs_gui->addSubTabTarget(
                     "obj_multilinguality",
-                    $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""),
+                    $this->ctrl->getLinkTargetByClass(TranslationGUI::class, ""),
                     "",
-                    "ilobjecttranslationgui"
+                    TranslationGUI::class
                 );
 
 

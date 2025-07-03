@@ -22,24 +22,25 @@ use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Style\Content\Object\ObjectFacade;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
 {
     /**
      * presentation mode for authoring
      */
-    final public const PRESENTATION_MODE_EDITING = 'PRESENTATION_MODE_EDITING';
+    final public const string PRESENTATION_MODE_EDITING = 'PRESENTATION_MODE_EDITING';
 
     /**
      * presentation mode for requesting
      */
-    final public const PRESENTATION_MODE_PRESENTATION = 'PRESENTATION_MODE_PRESENTATION';
+    final public const string PRESENTATION_MODE_PRESENTATION = 'PRESENTATION_MODE_PRESENTATION';
 
     /**
      * presentation mode for embedded presentation, e.g. in a kiosk mode
      */
-    final public const PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
-    final public const PRESENTATION_MODE_PREVIEW = 'PRESENTATION_MODE_PREVIEW';
+    final public const string PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
+    final public const string PRESENTATION_MODE_PREVIEW = 'PRESENTATION_MODE_PREVIEW';
 
     protected string $presentationMode = self::PRESENTATION_MODE_EDITING;
     protected string $backUrl = '';
@@ -53,6 +54,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         protected ilTabsGUI $tabs,
         protected ilLanguage $lng,
         protected ilObjContentPage $parentObject,
+        protected Translations $translation,
         protected ilObjUser $actor,
         protected Refinery $refinery,
         protected ObjectFacade $content_style_domain
@@ -229,8 +231,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
      */
     public function forward(string $ctrlLink = ''): string
     {
-        $ot = ilObjectTranslation::getInstance($this->parentObject->getId());
-        $language = $ot->getEffectiveContentLang($this->actor->getCurrentLanguage(), $this->parentObject->getType());
+        $language = $this->translation->getEffectiveCOPageLang($this->actor->getCurrentLanguage(), $this->parentObject->getType());
 
         switch ($this->presentationMode) {
             case self::PRESENTATION_MODE_EDITING:

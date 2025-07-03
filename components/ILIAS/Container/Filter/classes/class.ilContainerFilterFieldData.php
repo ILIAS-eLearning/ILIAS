@@ -79,4 +79,15 @@ class ilContainerFilterFieldData
             ]);
         }
     }
+
+    public function cloneFilterFields(int $from_ref_id, int $to_ref_id): void
+    {
+        $set = $this->getFilterSetForRefId($from_ref_id);
+        $fields = [];
+        foreach ($set->getFields() as $f) {
+            if ($f->getRecordSetId() === 0) {
+                $fields[] = $f;
+            }
+        }
+    }
 }

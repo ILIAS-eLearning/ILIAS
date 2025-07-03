@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,9 +26,9 @@ use ILIAS\MyStaff\ilMyStaffAccess;
  */
 class ilMStShowUserCompetencesGUI
 {
-    public const CMD_SHOW_SKILLS = 'showSkills';
-    public const CMD_INDEX = self::CMD_SHOW_SKILLS;
-    public const SUB_TAB_SKILLS = 'skills';
+    public const string CMD_SHOW_SKILLS = 'showSkills';
+    public const string CMD_INDEX = self::CMD_SHOW_SKILLS;
+    public const string SUB_TAB_SKILLS = 'skills';
     private int $usr_id;
     protected ilTable2GUI $table;
     protected ilMyStaffAccess $access;

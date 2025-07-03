@@ -338,6 +338,10 @@ $icon-font-svg-id:        "glyphicons_halflingsregular" !default;
 		color: $il-glyph-hover-color;
 		text-decoration: none;
 	}
+
+    &:focus-visible {
+      position: relative;
+    }
 }
 
 .glyphicon{
@@ -518,4 +522,29 @@ $icon-font-svg-id:        "glyphicons_halflingsregular" !default;
 .glyphicon-tileView:before {
   font-family: il-icons;
   content: "\e909";
+}
+.glyphicon-dragHandle:before {
+  font-family: il-icons;
+  content: "\e90d";
+  cursor: grab;
+}
+.glyphicon-unselect:before {
+  font-family: il-icons;
+  content: "\e910";
+}
+.glyphicon-select:before {
+  font-family: il-icons;
+  content: "\e911";
+}
+.glyphicon-clear:before {
+  font-family: il-icons;
+  content: "\e912";
+}
+.glyphicon-checked:before {
+  font-family: il-icons;
+  content: "\e913";
+}
+.glyphicon-unchecked:before {
+  font-family: il-icons;
+  content: "\e914";
 }

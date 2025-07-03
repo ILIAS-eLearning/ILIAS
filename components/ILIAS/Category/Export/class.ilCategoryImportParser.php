@@ -67,9 +67,8 @@ class ilCategoryImportParser extends ilContainerBaseXmlParser
 
     public function setHandlers($a_xml_parser): void
     {
-        xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
+        xml_set_element_handler($a_xml_parser, $this->handlerBeginTag(...), $this->handlerEndTag(...));
+        xml_set_character_data_handler($a_xml_parser, $this->handlerCharacterData(...));
     }
 
     // generate a tag with given name and attributes

@@ -181,10 +181,17 @@ class Repository implements RepositoryInterface
             $this->db->in('value', ...$values)
         );
 
+        $labels_by_value = [];
         foreach ($result as $row) {
+            $labels_by_value[(string) $row['value']] = (string) $row['label'];
+        }
+        foreach ($values as $value) {
+            if (!array_key_exists($value, $labels_by_value)) {
+                continue;
+            }
             yield new LabelledValue(
-                (string) $row['value'],
-                (string) $row['label']
+                $value,
+                $labels_by_value[$value]
             );
         }
     }
@@ -276,7 +283,7 @@ class Repository implements RepositoryInterface
     {
         $result = $this->db->query(
             'SELECT value FROM il_md_vocab_contr_vals WHERE vocab_id = ' .
-            $this->db->quoteAsInteger($vocab_id)
+            $this->db->quoteAsInteger($vocab_id) . " ORDER BY COALESCE(NULLIF(label,''), value) ASC"
         );
         foreach ($result as $row) {
             yield (string) $row['value'];

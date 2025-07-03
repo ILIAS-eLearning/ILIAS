@@ -34,8 +34,6 @@ class EmployeeTalk implements Component\Component
     ): void {
 
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
-            new \ILIAS\EmployeeTalk\Setup\ilEmployeeTalkSetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
-            );
+            new \ILIAS\EmployeeTalk\Setup\ilEmployeeTalkSetupAgent();
     }
 }

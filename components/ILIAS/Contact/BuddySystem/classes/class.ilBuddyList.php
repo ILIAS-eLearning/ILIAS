@@ -134,9 +134,9 @@ class ilBuddyList
      */
     public function getLinkedRelations(): ilBuddySystemRelationCollection
     {
-        return $this->getRelations()->filter(static function (ilBuddySystemRelation $relation): bool {
-            return $relation->isLinked();
-        });
+        return $this->getRelations()->filter(
+            static fn(ilBuddySystemRelation $relation): bool => $relation->isLinked()
+        );
     }
 
     /**
@@ -144,9 +144,9 @@ class ilBuddyList
      */
     public function getRequestRelationsForOwner(): ilBuddySystemRelationCollection
     {
-        return $this->getRequestedRelations()->filter(function (ilBuddySystemRelation $relation): bool {
-            return $relation->getBuddyUsrId() === $this->getOwnerId();
-        });
+        return $this->getRequestedRelations()->filter(
+            fn(ilBuddySystemRelation $relation): bool => $relation->getBuddyUsrId() === $this->getOwnerId()
+        );
     }
 
     /**
@@ -154,9 +154,9 @@ class ilBuddyList
      */
     public function getRequestRelationsByOwner(): ilBuddySystemRelationCollection
     {
-        return $this->getRequestedRelations()->filter(function (ilBuddySystemRelation $relation): bool {
-            return $relation->getUsrId() === $this->getOwnerId();
-        });
+        return $this->getRequestedRelations()->filter(
+            fn(ilBuddySystemRelation $relation): bool => $relation->getUsrId() === $this->getOwnerId()
+        );
     }
 
     /**
@@ -164,9 +164,9 @@ class ilBuddyList
      */
     public function getRequestedRelations(): ilBuddySystemRelationCollection
     {
-        return $this->getRelations()->filter(static function (ilBuddySystemRelation $relation): bool {
-            return $relation->isRequested();
-        });
+        return $this->getRelations()->filter(
+            static fn(ilBuddySystemRelation $relation): bool => $relation->isRequested()
+        );
     }
 
     /**
@@ -174,9 +174,9 @@ class ilBuddyList
      */
     public function getIgnoredRelationsForOwner(): ilBuddySystemRelationCollection
     {
-        return $this->getIgnoredRelations()->filter(function (ilBuddySystemRelation $relation): bool {
-            return $relation->getBuddyUsrId() === $this->getOwnerId();
-        });
+        return $this->getIgnoredRelations()->filter(
+            fn(ilBuddySystemRelation $relation): bool => $relation->getBuddyUsrId() === $this->getOwnerId()
+        );
     }
 
     /**
@@ -184,9 +184,9 @@ class ilBuddyList
      */
     public function getIgnoredRelationsByOwner(): ilBuddySystemRelationCollection
     {
-        return $this->getIgnoredRelations()->filter(function (ilBuddySystemRelation $relation): bool {
-            return $relation->getUsrId() === $this->getOwnerId();
-        });
+        return $this->getIgnoredRelations()->filter(
+            fn(ilBuddySystemRelation $relation): bool => $relation->getUsrId() === $this->getOwnerId()
+        );
     }
 
     /**
@@ -194,9 +194,9 @@ class ilBuddyList
      */
     public function getIgnoredRelations(): ilBuddySystemRelationCollection
     {
-        return $this->getRelations()->filter(static function (ilBuddySystemRelation $relation): bool {
-            return $relation->isIgnored();
-        });
+        return $this->getRelations()->filter(
+            static fn(ilBuddySystemRelation $relation): bool => $relation->isIgnored()
+        );
     }
 
     /**

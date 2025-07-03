@@ -42,7 +42,7 @@ class ilUserAppEventListener implements ilAppEventListener
             $DIC['ilSetting']
         );
 
-        if ('components/ILIAS/Object' === $component && 'beforeDeletion' === $event) {
+        if ('components/ILIAS/ILIASObject' === $component && 'beforeDeletion' === $event) {
             if (isset($parameter['object']) && $parameter['object'] instanceof ilObjRole) {
                 $user_starting_point_repository->onRoleDeleted($parameter['object']);
             }

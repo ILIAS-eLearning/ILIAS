@@ -33,6 +33,7 @@ use ILIAS\GlobalScreen\Services as GlobalScreenServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Skill\Service\SkillService;
+use ILIAS\Style\Content\Service as ContentStyle;
 
 /**
 * Service GUI class for tests. This class is the parent class for all
@@ -66,6 +67,7 @@ class ilTestServiceGUI
      * `ilTestPlayerAbstractGUI::populateIntantResponseModal()`.
      */
     protected ilGlobalTemplateInterface|ilTemplate $tpl;
+    protected readonly ContentStyle $content_style;
     protected readonly ilErrorHandling $error;
     protected ilAccess $access;
     protected readonly HTTPServices $http;
@@ -125,6 +127,7 @@ class ilTestServiceGUI
         global $DIC;
         $this->lng = $DIC['lng'];
         $this->tpl = $DIC['tpl'];
+        $this->content_style = $DIC->contentStyle();
         $this->error = $DIC['ilErr'];
         $this->access = $DIC['ilAccess'];
         $this->http = $DIC['http'];
@@ -202,10 +205,6 @@ class ilTestServiceGUI
 
         $scored_pass = \ilObjTest::_getResultPass($test_session->getActiveId());
 
-        $question_hint_request_register = ilAssQuestionHintTracking::getRequestRequestStatisticDataRegisterByActiveId(
-            $test_session->getActiveId()
-        );
-
         foreach ($passes as $pass) {
             $row = [
                 'scored' => false,
@@ -245,24 +244,6 @@ class ilTestServiceGUI
                 $considerOptionalQuestions
             );
 
-            foreach ($result_array as $result_struct_key => $question) {
-                if ($result_struct_key === 'test'
-                    || $result_struct_key === 'pass'
-                    || $result_array[$result_struct_key]['requested_hints'] !== null) {
-                    continue;
-                }
-
-                $request_data = $question_hint_request_register->getRequestByTestPassIndexAndQuestionId($pass, $question['qid']);
-
-                if ($request_data === null) {
-                    continue;
-                }
-
-                $result_array['pass']['total_requested_hints'] += $request_data->getRequestsCount();
-                $result_array[$result_struct_key]['requested_hints'] = $request_data->getRequestsCount();
-                $result_array[$result_struct_key]['hint_points'] = $request_data->getRequestsPoints();
-            }
-
             if (!$result_array['pass']['total_max_points']) {
                 $row['percentage'] = 0;
             } else {
@@ -274,11 +255,6 @@ class ilTestServiceGUI
             $row['scored'] = ($pass == $scored_pass);
             $row['num_workedthrough_questions'] = $result_array['pass']['num_workedthrough'];
             $row['num_questions_total'] = $result_array['pass']['num_questions_total'];
-
-            if ($this->object->isOfferingQuestionHintsEnabled()) {
-                $row['hints'] = $result_array['pass']['total_requested_hints'];
-            }
-
             $data[] = $row;
         }
 
@@ -400,7 +376,7 @@ class ilTestServiceGUI
                         $template->setVariable("COUNTER_QUESTION", $counter . ". ");
                         $template->setVariable("TXT_QUESTION_ID", $this->lng->txt('question_id_short'));
                         $template->setVariable("QUESTION_ID", $question_gui->getObject()->getId());
-                        $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitle()));
+                        $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitleForHTMLOutput()));
 
                         if ($objectives_list !== null) {
                             $objectives = $this->lng->txt('tst_res_lo_objectives_header') . ': ';
@@ -471,7 +447,6 @@ class ilTestServiceGUI
         $this->ctrl->setParameter($target_gui, 'pass', $pass);
 
         $table_gui = $this->buildPassDetailsOverviewTableGUI($target_gui, $target_cmd);
-        $table_gui->setShowHintCount($this->object->isOfferingQuestionHintsEnabled());
 
         if ($objectives_list !== null) {
             $table_gui->setQuestionRelatedObjectivesList($objectives_list);
@@ -627,9 +602,9 @@ class ilTestServiceGUI
         // I set both old and new since the old one is set as well in several places.
         $maxpoints = $question_gui->getObject()->getMaximumPoints();
         if ($maxpoints == 1) {
-            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");
+            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitleForHTMLOutput()) . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");
         } else {
-            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
+            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitleForHTMLOutput()) . " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
         }
         if ($objectives_list !== null) {
             $objectives = $this->lng->txt('tst_res_lo_objectives_header') . ': ';
@@ -685,58 +660,6 @@ class ilTestServiceGUI
         $objectives_adapter->buildQuestionRelatedObjectiveList($test_sequence, $questionRelatedObjectivesList);
 
         return $questionRelatedObjectivesList;
-    }
-
-    protected function getFilteredTestResult(
-        int $active_id,
-        int $pass,
-        bool $considerHiddenQuestions,
-        bool $considerOptionalQuestions
-    ): array {
-        $ilDB = $this->db;
-        $component_repository = $this->component_repository;
-
-        $table_gui = $this->buildPassDetailsOverviewTableGUI($this, 'outUserPassDetails');
-
-        $questionList = new ilAssQuestionList($ilDB, $this->lng, $this->refinery, $component_repository);
-
-        $questionList->setParentObjIdsFilter([$this->object->getId()]);
-        $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
-
-        foreach ($table_gui->getFilterItems() as $item) {
-            if (substr($item->getPostVar(), 0, strlen('tax_')) == 'tax_') {
-                $v = $item->getValue();
-
-                if (is_array($v) && count($v) && !(int) $v[0]) {
-                    continue;
-                }
-
-                $taxId = substr($item->getPostVar(), strlen('tax_'));
-                $questionList->addTaxonomyFilter($taxId, $item->getValue(), $this->object->getId(), 'tst');
-            } elseif ($item->getValue() !== false) {
-                $questionList->addFieldFilter($item->getPostVar(), $item->getValue());
-            }
-        }
-
-        $questionList->load();
-
-        $filteredTestResult = [];
-
-        $resultData = $this->object->getTestResult($active_id, $pass, false, $considerHiddenQuestions, $considerOptionalQuestions);
-
-        foreach ($resultData as $resultItemKey => $resultItemValue) {
-            if ($resultItemKey === 'test' || $resultItemKey === 'pass') {
-                continue;
-            }
-
-            if (!$questionList->isInList($resultItemValue['qid'])) {
-                continue;
-            }
-
-            $filteredTestResult[] = $resultItemValue;
-        }
-
-        return $filteredTestResult;
     }
 
     protected function populateContent(string $content): void

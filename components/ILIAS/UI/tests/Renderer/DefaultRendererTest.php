@@ -209,9 +209,7 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         $this->assertEquals('foofoo', $html);
     }
 
-    /**
-     * @dataProvider getRenderType
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getRenderType')]
     public function testPassesSelfAsRootIfNoRootExist($render_type)
     {
         $this->component_renderer = $this->createMock(ComponentRenderer::class);
@@ -229,9 +227,7 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         $renderer->$render_type($component);
     }
 
-    /**
-     * @dataProvider getRenderType
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getRenderType')]
     public function testPassesOtherOnAsRoot($render_type)
     {
         $this->component_renderer = $this->createMock(ComponentRenderer::class);

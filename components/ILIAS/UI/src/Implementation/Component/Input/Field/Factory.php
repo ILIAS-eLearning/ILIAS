@@ -158,9 +158,9 @@ class Factory implements I\Factory
         return new Hidden($this->data_factory, $this->refinery);
     }
 
-    public function colorpicker(string $label, ?string $byline = null): ColorPicker
+    public function colorSelect(string $label, ?string $byline = null): ColorSelect
     {
-        return new ColorPicker($this->data_factory, $this->refinery, $label, $byline);
+        return new ColorSelect($this->data_factory, $this->refinery, $label, $byline);
     }
 
     public function markdown(I\MarkdownRenderer $md_renderer, string $label, ?string $byline = null): Markdown

@@ -27,6 +27,8 @@ use ILIAS\Filesystem\Stream\Stream;
 use _PHPStan_9815bbba4\Nette\Neon\Exception;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\Filesystem\Stream\ZIPStream;
+use ILIAS\Filesystem\Stream\FileStream;
 
 class MediaObjectManager
 {
@@ -47,18 +49,25 @@ class MediaObjectManager
 
     public function create(
         int $id,
-        string $title
+        string $title,
+        int $from_mob_id = 0
     ): void {
         $this->repo->create(
             $id,
             $title,
-            $this->stakeholder
+            $this->stakeholder,
+            $from_mob_id
         );
     }
 
-    public function addFileFromLegacyUpload(int $mob_id, string $tmp_name): void
+    public function addLocalDirectory(int $mob_id, string $dir): void
     {
-        $this->repo->addFileFromLegacyUpload($mob_id, $tmp_name);
+        $this->repo->addLocalDirectory($mob_id, $dir);
+    }
+
+    public function addFileFromLegacyUpload(int $mob_id, string $tmp_name, string $target_path = ""): void
+    {
+        $this->repo->addFileFromLegacyUpload($mob_id, $tmp_name, $target_path);
     }
 
     public function addFileFromUpload(
@@ -81,6 +90,21 @@ class MediaObjectManager
         $this->repo->removeLocation($mob_id, $location);
     }
 
+    public function getLocationStream(
+        int $mob_id,
+        string $location
+    ): ZIPStream {
+        return $this->repo->getLocationStream($mob_id, $location);
+    }
+
+    public function addStream(
+        int $mob_id,
+        string $location,
+        FileStream $stream
+    ): void {
+        $this->repo->addStream($mob_id, $location, $stream);
+    }
+
     public function getLocalSrc(int $mob_id, string $location): string
     {
         $src = $this->repo->getLocalSrc(
@@ -95,6 +119,11 @@ class MediaObjectManager
             }
         }
         return $src;
+    }
+
+    public function hasLocalFile(int $mob_id, string $location): bool
+    {
+        return $this->repo->hasLocalFile($mob_id, $location);
     }
 
     public function getContainerResource(
@@ -115,6 +144,24 @@ class MediaObjectManager
     ): array {
         return $this->repo->getFilesOfPath($mob_id, $dir_path);
     }
+
+    public function getInfoOfEntry(
+        int $mob_id,
+        string $path
+    ): array {
+        return $this->repo->getInfoOfEntry(
+            $mob_id,
+            $path
+        );
+    }
+
+    public function deliverEntry(
+        int $mob_id,
+        string $path
+    ): void {
+        $this->repo->deliverEntry($mob_id, $path);
+    }
+
 
     public function generatePreview(
         int $mob_id,
@@ -176,4 +223,98 @@ class MediaObjectManager
         }
     }
 
+    public function addPreviewFromUrl(
+        int $mob_id,
+        string $url,
+        string $target_location
+    ): void {
+        $str = file_get_contents($url);
+        $res = fopen('php://memory', 'r+');
+        fwrite($res, $str);
+        rewind($res);
+        $stream = new Stream($res);
+        $this->repo->addStream(
+            $mob_id,
+            $target_location,
+            $stream
+        );
+    }
+
+    public function getSrtFiles(int $mob_id, bool $vtt_only = false): array
+    {
+        $srt_files = [];
+        $valid_suffixes = $vtt_only
+            ? ["vtt"]
+            : ["srt", "vtt"];
+        foreach ($this->getFilesOfPath($mob_id, "/srt") as $i) {
+            $name = explode(".", $i["basename"]);
+            if (in_array($name[1], $valid_suffixes) && substr($name[0], 0, 9) == "subtitle_") {
+                $srt_files[] = [
+                    "file" => $i["basename"],
+                    "full_path" => $i["path"],
+                    "src" => $this->getLocalSrc($mob_id, $i["path"]),
+                    "language" => substr($name[0], 9, 2)
+                ];
+            }
+        }
+        return $srt_files;
+    }
+
+    public function generateMissingVTT(int $mob_id): void
+    {
+        $names = array_map(static function (array $i) {
+            return $i["file"];
+        }, $this->getSrtFiles($mob_id));
+        $missing_vtt = [];
+        foreach ($names as $name) {
+            if (str_ends_with($name, ".srt")) {
+                $vtt = str_replace(".srt", ".vtt", $name);
+                if (!in_array($vtt, $names) && !in_array($vtt, $missing_vtt)) {
+                    $missing_vtt[] = $vtt;
+                }
+            }
+        }
+        foreach ($missing_vtt as $vtt_name) {
+            $srt_name = str_replace(".vtt", ".srt", $vtt_name);
+            $srt_content = stream_get_contents($this->repo->getLocationStream($mob_id, "srt/" . $srt_name)->detach());
+            $vtt_content = $this->srtToVtt($srt_content);
+            $this->repo->addString($mob_id, "/srt/" . $vtt_name, $vtt_content);
+        }
+    }
+
+    public function srtToVtt(string $srt_text): string
+    {
+        // Remove UTF-8 BOM if present
+        $srt_text = preg_replace('/^\xEF\xBB\xBF/', '', $srt_text);
+
+        // Normalise line-endings and split cues
+        $srt_text = preg_replace('~\r\n?~', "\n", $srt_text);
+        $blocks = preg_split("/\n{2,}/", trim($srt_text));
+
+        $vttLines = ['WEBVTT', ''];          // header + blank line
+
+        foreach ($blocks as $block) {
+            $lines = explode("\n", $block);
+
+            if (count($lines) < 2) {
+                continue;                    // malformed cue
+            }
+
+            /* cue number? allow BOM or spaces either side */
+            if (preg_match('/^\s*\d+\s*$/u', $lines[0])) {
+                array_shift($lines);         // drop it
+            }
+
+            /* now $lines[0] *is* the time-code line → , → . */
+            $lines[0] = preg_replace(
+                '/(\d{2}:\d{2}:\d{2}),(\d{3})/',
+                '$1.$2',
+                $lines[0]
+            );
+
+            $vttLines = array_merge($vttLines, $lines, ['']);
+        }
+
+        return implode("\n", $vttLines);
+    }
 }

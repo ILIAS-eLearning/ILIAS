@@ -18,12 +18,11 @@
 
 declare(strict_types=1);
 
-use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectPropertyTileImage;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 
 /**
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilPermissionGUI, ilObjectCopyGUI, ilDclExportGUI
+ * @ilCtrl_Calls ilObjDataCollectionGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordListGUI, ilDclRecordEditGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclDetailedViewGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTableListGUI, ilObjFileGUI
@@ -55,7 +54,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
-    protected ILIAS\HTTP\Services $http;
     protected ilTabsGUI $tabs;
     protected int $table_id;
 
@@ -65,7 +63,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
-        $this->http = $DIC->http();
         $this->tabs = $DIC->tabs();
         $this->notes = $DIC->notes();
 
@@ -208,7 +205,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
                 $rgui->setObject($record_id, "dcl_record", $field_id, "dcl_field");
                 $rgui->executeCommand();
-                $this->listRecords();
+                $this->ctrl->redirectToURL($this->http->request()->getServerParams()['HTTP_REFERER'] ?? '');
                 break;
 
             case strtolower(ilDclDetailedViewGUI::class):
@@ -231,7 +228,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 $this->tabs->clearTargets();
                 $this->tabs->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, ""));
                 break;
-            case strtolower(ilDclExportGUI::class):
+            case strtolower(ilExportGUI::class):
                 $this->prepareOutput();
                 $this->handleExport();
                 break;
@@ -270,7 +267,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     protected function handleExport(bool $do_default = false): void
     {
         $this->tabs->setTabActive(self::TAB_EXPORT);
-        $exp_gui = new ilDclExportGUI($this);
+        $exp_gui = new ilExportGUI($this);
         if ($do_default) {
             $exp_gui->listExportFiles();
         } else {
@@ -281,8 +278,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     protected function handleExportAsync(): void
     {
         $this->tabs->setTabActive(self::TAB_EXPORT);
-        $exp_gui = new ilDclExportGUI($this);
-        $exporter = new ilDclContentExporter($this->object->getRefId(), $this->table_id);
+        $exp_gui = new ilExportGUI($this);
+        $exporter = new ilDclContentExporter($this->object->getRefId(), null);
         $exporter->exportAsync();
         $this->ctrl->redirect($exp_gui);
     }
@@ -312,16 +309,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         return $tableview_id;
     }
 
-    /**
-     * this one is called from the info button in the repository
-     * not very nice to set cmdClass/Cmd manually, if everything
-     * works through ilCtrl in the future this may be changed
-     */
     public function infoScreen(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd("showSummary");
-        // $this->ctrl->setCmdClass(ilInfoScreenGUI::class);
         $this->infoScreenForward();
     }
 
@@ -330,9 +319,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->listRecords();
     }
 
-    /**
-     * show information screen
-     */
     public function infoScreenForward(): void
     {
         $this->tabs->activateTab(self::TAB_INFO);
@@ -369,20 +355,25 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $tpl = $DIC->ui()->mainTemplate();
 
         $values = [self::GET_REF_ID, self::GET_TABLE_ID, self::GET_VIEW_ID, self::GET_RECORD_ID];
-        $values = array_combine($values, array_pad(explode("_", $a_target), count($values), null));
+        $values = array_combine($values, array_pad(explode("_", $a_target), count($values), 0));
 
         $ref_id = (int) $values[self::GET_REF_ID];
 
         //load record list
         if ($access->checkAccess('read', "", $ref_id)) {
             $ilCtrl->setParameterByClass(ilRepositoryGUI::class, self::GET_REF_ID, $ref_id);
-            if ($values['table_id'] !== null) {
-                $ilCtrl->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_TABLE_ID, $values['table_id']);
-                if ($values['tableview_id'] !== null) {
-                    $ilCtrl->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_VIEW_ID, $values['tableview_id']);
+            $object = new ilObjDataCollection($ref_id);
+            $table_id = (int) $values[self::GET_TABLE_ID];
+            if ($table_id !== 0 && isset($object->getVisibleTables()[$table_id])) {
+                $ilCtrl->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_TABLE_ID, $table_id);
+                $table = $object->getVisibleTables()[$table_id];
+                $view_id = (int) $values[self::GET_VIEW_ID];
+                if ($view_id !== 0 && isset($table->getTableViews()[$view_id])) {
+                    $ilCtrl->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_VIEW_ID, $view_id);
                 }
-                if ($values['record_id'] !== null) {
-                    $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, self::GET_RECORD_ID, $values['record_id']);
+                $record_id = (int) $values[self::GET_RECORD_ID];
+                if ($record_id !== 0 && isset($table->getRecords()[$record_id])) {
+                    $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, self::GET_RECORD_ID, $record_id);
                     $ilCtrl->redirectByClass([ilRepositoryGUI::class, self::class, ilDclDetailedViewGUI::class], "renderRecord");
                 }
             }
@@ -447,7 +438,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 $this->tabs_gui->addTab(self::TAB_META_DATA, $this->lng->txt('meta_data'), $mdtab);
             }
             // export
-            $this->addTab(self::TAB_EXPORT, $this->ctrl->getLinkTargetByClass(ilDclExportGUI::class, ""));
+            $this->addTab(self::TAB_EXPORT, $this->ctrl->getLinkTargetByClass(ilExportGUI::class, ""));
         }
 
         // edit permissions

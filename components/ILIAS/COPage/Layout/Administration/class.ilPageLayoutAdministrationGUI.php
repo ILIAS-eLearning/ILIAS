@@ -50,6 +50,7 @@ class ilPageLayoutAdministrationGUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
         $this->tabs = $DIC->tabs();
+        $this->lng->loadLanguageModule("style");
 
         $this->settings = new ilContentStyleSettings();
         $this->admin_request = $DIC

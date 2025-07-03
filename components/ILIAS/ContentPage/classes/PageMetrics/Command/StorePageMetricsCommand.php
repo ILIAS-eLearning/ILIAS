@@ -20,14 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\ContentPage\PageMetrics\Command;
 
-/**
- * Class StorePageMetricsCommand
- * @package ILIAS\ContentPage\PageMetrics\Command
- * @author Michale Jansen <mjansen@databay.de>
- */
-final class StorePageMetricsCommand
+final readonly class StorePageMetricsCommand
 {
-    public function __construct(private readonly int $contentPageId, private readonly string $language)
+    public function __construct(private int $contentPageId, private string $language)
     {
     }
 

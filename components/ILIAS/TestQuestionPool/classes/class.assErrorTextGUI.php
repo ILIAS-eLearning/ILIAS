@@ -221,6 +221,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $this->writePostData(true);
         $this->saveTaxonomyAssignments();
         $this->object->setErrorsFromParsedErrorText();
+        $this->tabs->activateTab('edit_question');
         $this->editQuestion();
     }
 

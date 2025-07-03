@@ -103,7 +103,7 @@ class ilAccessibilitySupportContactsGUI implements ilCtrlBaseClassInterface
         $contacts = ilAccessibilitySupportContacts::getValidSupportContactIds();
         if (count($contacts) > 0) {
             if ($rbac_system->checkAccess("internal_mail", ilMailGlobalServices::getMailObjectRefId())) {
-                return $ctrl->getLinkTargetByClass("ilaccessibilitysupportcontactsgui", "");
+                return ILIAS_HTTP_PATH . "/" . $ctrl->getLinkTargetByClass("ilaccessibilitysupportcontactsgui", "");
             } else {
                 $mails = ilLegacyFormElementsUtil::prepareFormOutput(
                     ilAccessibilitySupportContacts::getMailsToAddress()

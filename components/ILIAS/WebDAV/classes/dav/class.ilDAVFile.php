@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use Sabre\DAV\Exception\Forbidden;
-use Sabre\DAV\Exception\NotFound;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Manager\Manager;
@@ -32,13 +31,17 @@ use Psr\Http\Message\RequestInterface;
  */
 class ilDAVFile implements IFile
 {
+    use ilObjFileSecureString;
     use ilObjFileNews;
     use ilWebDAVCheckValidTitleTrait;
     use ilWebDAVCommonINodeFunctionsTrait;
+
     protected Manager $resource_manager;
     protected Consumers $resource_consumer;
 
     protected bool $needs_size_check = true;
+
+    protected ?int $temporary_size = null;
 
     public function __construct(
         protected ilObjFile $obj,
@@ -52,6 +55,15 @@ class ilDAVFile implements IFile
         $this->resource_consumer = $resource_storage->consume();
     }
 
+    protected function clearLocks(): void
+    {
+        $this->repo_helper->locks()->purgeExpiredLocksFromDB();
+        $lock = $this->repo_helper->locks()->getLockObjectWithObjIdFromDB($this->obj->getId());
+        if ($lock !== null) {
+            $this->repo_helper->locks()->removeLockWithTokenFromDB($lock->getToken());
+        }
+    }
+
     /**
      * @param string|resource $data
      */
@@ -60,8 +72,15 @@ class ilDAVFile implements IFile
         if (!$this->repo_helper->checkAccess('write', $this->obj->getRefId())) {
             throw new Forbidden("Permission denied. No write access for this file");
         }
-
+        if ($name === null) {
+            $name = $this->getName();
+        }
         $size = 0;
+        $name ??= $this->getName();
+        $name = $this->ensureSuffix($name, $this->extractSuffixFromFilename($name));
+
+        $stream = is_resource($data) ? Streams::ofResource($data) : Streams::ofString($data);
+        $stream_size = $stream->getSize();
 
         if ($this->request->hasHeader("Content-Length")) {
             $size = (int) $this->request->getHeader("Content-Length")[0];
@@ -71,48 +90,44 @@ class ilDAVFile implements IFile
         }
 
         if ($size > ilFileUtils::getPhpUploadSizeLimitInBytes()) {
+            // remove already created file?
             throw new Forbidden('File is too big');
         }
 
         if ($this->needs_size_check && $this->getSize() === 0) {
             $parent_ref_id = $this->repo_helper->getParentOfRefId($this->obj->getRefId());
-            $obj_id = $this->obj->getId();
-            $this->repo_helper->deleteObject($this->obj->getRefId());
-            $file_obj = new ilObjFile();
-            $file_obj->setTitle($this->obj->getTitle());
-
-            $file_dav = $this->dav_factory->createDAVObject($file_obj, $parent_ref_id);
+            $file_dav = $this->dav_factory->createDAVObject($this->obj, $parent_ref_id);
             $file_dav->noSizeCheckNeeded();
-            $this->repo_helper->updateLocksAfterResettingObject($obj_id, $file_obj->getId());
-            return $file_dav->put($data, $name);
+
+            return $file_dav->put($data);
         }
 
-        $file = null;
-        if (stream_get_meta_data($data)['stream_type'] === 'TEMP') {
-            $file = ilFileUtils::ilTempnam() . $name;
-            file_put_contents($file, $data);
-            $data = fopen($file, 'r');
+        $resource = $stream->detach();
+        if ($resource === null) {
+            return null;
         }
+        $stream = Streams::ofResource($resource);
 
-        $stream = Streams::ofResource($data);
-        $title = $this->obj->getTitle();
-
-        if ($this->versioning_enabled ||
-            $this->obj->getVersion() === 0 && $this->obj->getMaxVersion() === 0) {
-            $this->obj->appendStream($stream, $name ?? $this->getName());
+        if ($this->versioning_enabled) {
+            $version = $this->obj->getVersion(true);
+            if (($stream_content = (string) $stream) !== '') {
+                $version = $this->obj->appendStream(
+                    Streams::ofString($stream_content),
+                    $name
+                );
+            }
         } else {
-            $this->obj->replaceWithStream($stream, $name ?? $this->getName());
+            $version = $this->obj->replaceWithStream($stream, $name);
         }
-
-        $this->obj->setTitle($title);
-        $this->obj->update();
 
         $stream->close();
-        if ($file !== null) {
-            unlink($file);
-        }
+        $this->clearLocks();
 
-        return $this->getETag();
+        if ($version > 0) {
+            // $this->obj->publish();
+            return $this->getETag();
+        }
+        return null;
     }
 
     /**
@@ -128,28 +143,39 @@ class ilDAVFile implements IFile
             ($identification = $this->resource_manager->find($r_id))) {
             return $this->resource_consumer->stream($identification)->getStream()->getContents();
         }
-
-        throw new NotFound("File not found");
+        return '';
     }
 
     public function getName(): string
     {
-        return ilFileUtils::getValidFilename($this->obj->getTitle() . '.' . $this->obj->getFileExtension());
+        $title = $this->obj->getTitle();
+        $suffix = empty($this->obj->getFileExtension())
+            ? $this->extractSuffixFromFilename($title)
+            : $this->obj->getFileExtension();
+
+        $return_title = $this->ensureSuffix(
+            $title,
+            $suffix
+        );
+
+        return $return_title;
     }
 
     public function getContentType(): ?string
     {
-        return  $this->obj->getFileType();
+        return $this->obj->getFileType();
     }
 
     public function getETag(): ?string
     {
         if ($this->getSize() > 0) {
-            return '"' . sha1(
-                $this->getSize() .
-                $this->getName() .
-                $this->obj->getCreateDate()
-            ) . '"';
+            return '"'
+                . sha1(
+                    (string) $this->getSize() .
+                    $this->getName() .
+                    $this->obj->getCreateDate()
+                )
+                . '"';
         }
 
         return null;
@@ -159,7 +185,7 @@ class ilDAVFile implements IFile
     {
         try {
             return $this->obj->getFileSize();
-        } catch (Error) {
+        } catch (Throwable) {
             return -1;
         }
     }
@@ -177,7 +203,7 @@ class ilDAVFile implements IFile
 
         if ($this->isDAVableObjTitle($name) &&
             $name === $this->obj->checkFileExtension($this->getName(), $name)) {
-            $this->obj->setTitle(mb_substr($name, 0, strrpos($name, '.')));
+            $this->obj->setTitle($this->ensureSuffix($name, $this->extractSuffixFromFilename($name)));
             $this->obj->update();
         } else {
             throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_TITLE_NOT_DAVABLE);

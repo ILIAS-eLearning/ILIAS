@@ -1016,7 +1016,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     public function importCancelledObject(): void
     {
         $import_dir = $this->getImportDir();
-        if ($this->fi->hasDir($import_dir)) {
+        if ($this->filesystem->hasDir($import_dir)) {
             $this->filesystem->deleteDir($import_dir);
         }
 
@@ -1756,8 +1756,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             'user_own_account_email' => $this->settings->get('user_delete_own_account_email'),
             'dpro_withdrawal_usr_deletion' => (bool) $this->settings->get('dpro_withdrawal_usr_deletion'),
             'tos_withdrawal_usr_deletion' => (bool) $this->settings->get('tos_withdrawal_usr_deletion'),
-
-            'login_max_attempts' => $security->getLoginMaxAttempts(),
+            'login_max_attempts' => $security->getLoginMaxAttempts() > 0 ? $security->getLoginMaxAttempts() : '',
             'ps_prevent_simultaneous_logins' => (int) $security->isPreventionOfSimultaneousLoginsEnabled(),
             'password_assistance' => (bool) $this->settings->get('password_assistance'),
             'letter_avatars' => (int) $this->settings->get('letter_avatars'),
@@ -3061,8 +3060,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
     protected function getTabs(): void
     {
-        if ($this->rbac_system->checkAccess(
+        if ($this->access->checkRbacOrPositionPermissionAccess(
             'visible,read',
+            \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
             $this->object->getRefId()
         )) {
             $this->tabs_gui->addTarget(

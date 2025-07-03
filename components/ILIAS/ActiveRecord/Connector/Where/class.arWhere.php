@@ -36,10 +36,11 @@ class arWhere extends arStatement
     protected string $link = 'AND';
 
     /**
+     * @param ilDBInterface $db
      * @description Build WHERE Statement
      * @throws arException
      */
-    public function asSQLStatement(ActiveRecord $activeRecord): string
+    public function asSQLStatement(ActiveRecord $activeRecord, ilDBInterface $db): string
     {
         $type = null;
         if ($this->getType() === self::TYPE_REGULAR) {

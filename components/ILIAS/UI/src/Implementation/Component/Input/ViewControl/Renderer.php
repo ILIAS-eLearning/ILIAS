@@ -273,31 +273,29 @@ class Renderer extends AbstractComponentRenderer
                 }
             }
 
-            $icon_left = $ui_factory->symbol()->glyph()->back();
+            $signal = null;
             if ($current > 0 && count($entries) > 1) {
                 $range = $ranges[$current - 1];
                 $signal = clone $internal_signal;
                 $signal->addOption('offset', $range->getStart());
                 $signal->addOption('limit', $limit);
-                $icon_left = $icon_left ->withOnClick($signal);
-            } else {
-                $icon_left = $icon_left->withUnavailableAction();
-                $tpl->touchBlock('left_disabled');
             }
-            $tpl->setVariable("LEFT", $default_renderer->render($icon_left));
+            $btn_left = $ui_factory->button()->shy('', $signal ?? '#')
+                ->withSymbol($ui_factory->symbol()->glyph()->back())
+                ->withUnavailableAction($signal === null);
+            $tpl->setVariable("LEFT_ROCKER", $default_renderer->render($btn_left));
 
-            $icon_right = $ui_factory->symbol()->glyph()->next();
+            $signal = null;
             if ($current < count($ranges) - 1) {
                 $range = $ranges[$current + 1];
                 $signal = clone $internal_signal;
                 $signal->addOption('offset', $range->getStart());
                 $signal->addOption('limit', $limit);
-                $icon_right = $icon_right ->withOnClick($signal);
-            } else {
-                $icon_right = $icon_right->withUnavailableAction();
-                $tpl->touchBlock('right_disabled');
             }
-            $tpl->setVariable("RIGHT", $default_renderer->render($icon_right));
+            $btn_right = $ui_factory->button()->shy('', $signal ?? '#')
+                ->withSymbol($ui_factory->symbol()->glyph()->next())
+                ->withUnavailableAction($signal === null);
+            $tpl->setVariable("RIGHT_ROCKER", $default_renderer->render($btn_right));
         }
 
         foreach ($component->getLimitOptions() as $option) {

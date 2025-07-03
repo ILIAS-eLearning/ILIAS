@@ -115,5 +115,24 @@ class ilHttpMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
                 "Does the server use a proxy for outgoing connections?"
             );
         }
+
+        if ($settings->get('allowed_hosts')) {
+            $storage->store(
+                'allowed_hosts',
+                new Setup\Metrics\Metric(
+                    Setup\Metrics\Metric::STABILITY_CONFIG,
+                    Setup\Metrics\Metric::TYPE_COLLECTION,
+                    array_map(
+                        static fn(string $host) => new Setup\Metrics\Metric(
+                            Setup\Metrics\Metric::STABILITY_CONFIG,
+                            Setup\Metrics\Metric::TYPE_TEXT,
+                            $host
+                        ),
+                        explode(',', $settings->get('allowed_hosts'))
+                    ),
+                    'Collection of configured allowed hosts.'
+                )
+            );
+        }
     }
 }

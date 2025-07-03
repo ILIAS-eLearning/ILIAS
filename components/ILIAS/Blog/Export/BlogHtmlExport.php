@@ -59,7 +59,7 @@ class BlogHtmlExport
         $this->collector->init();
 
         $this->blog = $blog;
-        $this->export_dir = $exp_dir;
+        //$this->export_dir = $exp_dir;
         $this->sub_dir = $sub_dir;
         $this->target_dir = $exp_dir . "/" . $sub_dir;
 
@@ -113,11 +113,15 @@ class BlogHtmlExport
      * @throws \ILIAS\UI\NotImplementedException
      * @throws \ilTemplateException
      */
-    public function exportHTML(): string
+    public function exportHTML(): void
     {
         $this->initDirectories();
 
-        $this->export_util->exportSystemStyle();
+        $this->export_util->exportSystemStyle(
+            [
+                "icon_blog.svg"
+            ]
+        );
 
         $this->export_util->exportCOPageFiles(
             $this->content_style_domain->getEffectiveStyleId(),
@@ -138,8 +142,6 @@ class BlogHtmlExport
         */
         $this->export_util->exportResourceFiles();
         $this->co_page_html_export->exportPageElements();
-
-        return $this->zipPackage();
     }
 
     protected function exportUserImages(): void
@@ -148,21 +150,6 @@ class BlogHtmlExport
             $user_export = new \ILIAS\Notes\Export\UserImageExporter();
             $user_export->exportUserImagesForRepObjId($this->target_dir, $this->blog->getId());
         }
-    }
-
-    public function zipPackage(): string
-    {
-        // zip it all
-        $date = time();
-        $type = ($this->include_comments)
-            ? "html_comments"
-            : "html";
-        $zip_file = \ilExport::_getExportDirectory($this->blog->getId(), $type, "blog") .
-            "/" . $date . "__" . IL_INST_ID . "__" .
-            $this->blog->getType() . "_" . $this->blog->getId() . ".zip";
-        ilFileUtils::zip($this->target_dir, $zip_file);
-        ilFileUtils::delDir($this->target_dir);
-        return $zip_file;
     }
 
     /**
@@ -299,7 +286,7 @@ class BlogHtmlExport
         $print_view = $this->blog_gui->getPrintView();
         $print_view->setOffline(true);
         $html = $print_view->renderPrintView();
-        file_put_contents($this->target_dir . "/index.html", $html);
+        $this->collector->addString($html, "index.html");
     }
 
 
@@ -413,7 +400,6 @@ class BlogHtmlExport
         $content = $a_tpl->printToString();
 
         // open file
-        //        file_put_contents($file, $content);
         $this->collector->addString($content, $a_file);
 
         return $file;

@@ -18,27 +18,23 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailImapRfc822AddressParser
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailImapRfc822AddressParser extends ilBaseMailRfc822AddressParser
 {
     protected function parseAddressString(string $addresses): array
     {
-        $parsedAddresses = imap_rfc822_parse_adrlist($addresses, $this->installationHost);
+        $parsed_addresses = imap_rfc822_parse_adrlist($addresses, $this->installation_host);
 
         // #18992
-        $validParsedAddresses = array_filter($parsedAddresses, static function (stdClass $address): bool {
-            return '.SYNTAX-ERROR.' !== $address->host;
+        $valid_parsed_addresses = array_filter($parsed_addresses, static function (stdClass $address): bool {
+            return $address->host !== '.SYNTAX-ERROR.';
         });
 
-        if ($parsedAddresses !== $validParsedAddresses) {
+        if ($parsed_addresses !== $valid_parsed_addresses) {
             throw new ilMailException($addresses);
         }
 
         return array_map(static function (stdClass $address): ilMailAddress {
             return new ilMailAddress($address->mailbox, $address->host);
-        }, $validParsedAddresses);
+        }, $valid_parsed_addresses);
     }
 }

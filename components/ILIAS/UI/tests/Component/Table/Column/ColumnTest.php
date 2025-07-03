@@ -185,9 +185,7 @@ class ColumnTest extends ILIAS_UI_TestBase
         ];
     }
 
-    /**
-￼    * @dataProvider provideColumnFormats
-￼    */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideColumnFormats')]
     public function testDataTableColumnAllowedFormats(
         Column\Column $column,
         mixed $value,

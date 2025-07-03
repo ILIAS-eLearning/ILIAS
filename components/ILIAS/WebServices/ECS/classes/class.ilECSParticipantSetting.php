@@ -338,7 +338,6 @@ class ilECSParticipantSetting
             $this->db->quote($this->getCommunityName(), 'text') . ', ' .
             $this->db->quote($this->isTokenEnabled(), 'integer') . ', ' .
             $this->db->quote(serialize($this->getExportTypes()), 'text') . ', ' .
-            $this->db->quote(serialize($this->getImportTypes()), 'text') . ' ' .
             $this->db->quote(serialize($this->getImportTypes()), 'text') . ', ' .
             $this->db->quote(serialize($this->getOutgoingUsernamePlaceholders()), ilDBConstants::T_TEXT) . ', ' .
             $this->db->quote($this->areIncomingLocalAccountsSupported(), ilDBConstants::T_INTEGER) . ', ' .

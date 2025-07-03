@@ -278,19 +278,6 @@ class FlashcardManager
         return $entry?->getBoxNr();
     }
 
-    public function getBoxProgress(
-        array $current_terms,
-        array $all_terms
-    ): int {
-        if (count($all_terms) === 0) {
-            return 0;
-        }
-        $shown_terms_cnt = count($all_terms) - count($current_terms);
-        $progress = (int) round((($shown_terms_cnt + 1) / count($all_terms)) * 100);
-
-        return $progress;
-    }
-
     public function createOrUpdateBoxAccessEntry(
         int $box_nr
     ): void {

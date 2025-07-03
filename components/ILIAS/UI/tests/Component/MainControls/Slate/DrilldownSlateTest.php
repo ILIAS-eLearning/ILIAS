@@ -83,9 +83,7 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
         return $slate;
     }
 
-    /**
-     * @depends testImplementsFactoryInterface
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testImplementsFactoryInterface')]
     public function testRendering(Drilldown $slate): void
     {
         $r = $this->getDefaultRenderer();

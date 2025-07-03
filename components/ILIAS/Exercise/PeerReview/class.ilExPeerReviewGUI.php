@@ -26,6 +26,7 @@
  */
 class ilExPeerReviewGUI
 {
+    protected \ILIAS\Exercise\PeerReview\Criteria\CriteriaFileManager $criteria_file;
     protected \ILIAS\Exercise\Submission\SubmissionManager $subm;
     protected int $requested_giver_id;
     protected \ILIAS\Exercise\Notification\NotificationManager $notification;
@@ -75,6 +76,7 @@ class ilExPeerReviewGUI
         $this->ctrl->saveParameter($this, array("peer_id"));
         $this->notification = $this->domain->notification($request->getRefId());
         $this->subm = $this->domain->submission($a_ass->getId());
+        $this->criteria_file = $this->domain->peerReview()->criteriaFile($a_ass->getId());
     }
 
     /**
@@ -1128,17 +1130,22 @@ class ilExPeerReviewGUI
         $giver_id = $this->requested_review_giver_id;
         $peer_id = $this->requested_review_peer_id;
         $crit_id = $this->requested_review_crit_id;
-
         if (!is_numeric($crit_id)) {
             $crit = ilExcCriteria::getInstanceByType($crit_id);
+            $file_crit_id = 0;
         } else {
             $crit = ilExcCriteria::getInstanceById($crit_id);
+            $file_crit_id = $crit_id;
         }
 
         $crit->setPeerReviewContext($this->ass, $giver_id, $peer_id);
         $file = $crit->getFileByHash();
         if ($file) {
-            ilFileDelivery::deliverFileLegacy($file, basename($file));
+            $this->criteria_file->deliverFileOfReview(
+                $giver_id,
+                $peer_id,
+                $file_crit_id
+            );
         }
 
         $ilCtrl->redirect($this, "returnToParent");

@@ -374,10 +374,33 @@ class assQuestionImport
             return $this->object->getThumbSize();
         }
 
+        if ($size < $this->object->getMinimumThumbSize()) {
+            return $this->object->getMinimumThumbSize();
+        }
+
         if ($size > $this->object->getMaximumThumbSize()) {
             return $this->object->getMaximumThumbSize();
         }
 
         return $size;
+    }
+
+    protected function addQuestionToParentObjectAndBuildMappingEntry(
+        int $questionpool_id,
+        ?int $tst_id,
+        int &$question_counter,
+        ?ilObjTest &$tst_object
+    ): array {
+        if ($tst_id !== null && $tst_id === $questionpool_id) {
+            $tst_object->questions[$question_counter++] = $this->object->getId();
+            return ['pool' => 0, 'test' => $this->object->getId()];
+        }
+
+        if ($tst_id > 0) {
+            $question_id = $this->object->duplicate(true, '', '', -1, $tst_id);
+            $tst_object->questions[$question_counter++] = $question_id;
+            return ['pool' => $this->object->getId(), 'test' => $question_id];
+        }
+        return ['pool' => $this->object->getId(), 'test' => 0];
     }
 }

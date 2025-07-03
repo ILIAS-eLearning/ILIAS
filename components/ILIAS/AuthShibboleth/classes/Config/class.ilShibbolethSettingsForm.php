@@ -162,7 +162,7 @@ class ilShibbolethSettingsForm
         $instructions = $field->textarea($this->txt('auth_login_instructions'))
                               ->withValue($this->settings->get('login_instructions', ''))
                               ->withAdditionalTransformation($custom_trafo(function ($v): void {
-                                  $this->settings->set('login_instructions', (string) $v);
+                                  $this->settings->set('login_instructions', htmlspecialchars_decode($v));
                               }));
 
         $data_manipulation = $field->text($this->txt('shib_data_conv'))
@@ -219,7 +219,8 @@ class ilShibbolethSettingsForm
 
     public function setValuesByPost(): void
     {
-        $this->form = $this->form->withRequest($this->request);
+        $request = $this->request->withParsedBody(array_map('htmlspecialchars', $this->request->getParsedBody()));
+        $this->form = $this->form->withRequest($request);
     }
 
     protected function fillObject(): bool

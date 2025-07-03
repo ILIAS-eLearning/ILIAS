@@ -63,7 +63,7 @@ class ilForumPostDraft
         }
     }
 
-    protected static function populateWithDatabaseRecord(ilForumPostDraft $draft, array $row): void
+    private static function populateWithDatabaseRecord(ilForumPostDraft $draft, array $row): void
     {
         $draft->setDraftId((int) $row['draft_id']);
         $draft->setForumId((int) $row['forum_id']);
@@ -261,10 +261,10 @@ class ilForumPostDraft
         ];
 
         while ($row = $ilDB->fetchAssoc($res)) {
-            $tmp_obj = new ilForumPostDraft();
-            self::populateWithDatabaseRecord($tmp_obj, $row);
-            self::$instances[$user_id][$row['thread_id']][$tmp_obj->getPostId()][] = $tmp_obj;
-            self::$instances[$user_id]['draft_ids'][$tmp_obj->getDraftId()] = $tmp_obj;
+            $draft = new ilForumPostDraft();
+            self::populateWithDatabaseRecord($draft, $row);
+            self::$instances[$user_id][$row['thread_id']][$draft->getPostId()][] = $draft;
+            self::$instances[$user_id]['draft_ids'][$draft->getDraftId()] = $draft;
         }
     }
 
@@ -314,7 +314,7 @@ class ilForumPostDraft
     }
 
     /**
-     * @return ilForumPostDraft[]
+     * @return array<int, ilForumPostDraft>
      */
     public static function getDraftInstancesByUserId(int $user_id): array
     {

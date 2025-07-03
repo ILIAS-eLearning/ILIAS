@@ -20,10 +20,6 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class ilWhiteListUrlValidatorTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 final class ilWhiteListUrlValidatorTest extends TestCase
 {
     public static function domainProvider(): array
@@ -64,9 +60,7 @@ final class ilWhiteListUrlValidatorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider domainProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('domainProvider')]
     public function testValidator(string $domain, array $whitelist, bool $result): void
     {
         $this->assertSame((new ilWhiteListUrlValidator($domain, $whitelist))->isValid(), $result);

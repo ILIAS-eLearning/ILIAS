@@ -28,9 +28,9 @@ use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 class ilTestPassFinishTasks
 {
     public function __construct(
-        private ilTestSession $test_session,
-        private int $obj_id,
-        private TestResultRepository $test_pass_result_repository
+        private readonly ilTestSession $test_session,
+        private readonly ilObjTest $obj_test,
+        private readonly TestResultRepository $test_pass_result_repository
     ) {
     }
 
@@ -65,25 +65,16 @@ class ilTestPassFinishTasks
             );
         });
 
+        $this->obj_test->updateTestResultCache($this->test_session->getActiveId(), null);
+
         $this->updateLearningProgressAfterPassFinishedIsWritten();
     }
 
     protected function updateLearningProgressAfterPassFinishedIsWritten()
     {
         ilLPStatusWrapper::_updateStatus(
-            $this->obj_id,
+            $this->obj_test->getId(),
             ilObjTestAccess::_getParticipantId($this->test_session->getActiveId())
         );
-    }
-
-    protected function getCaller()
-    {
-        try {
-            throw new Exception();
-        } catch (Exception $e) {
-            $trace = $e->getTrace();
-        }
-
-        return $trace[3]['class'];
     }
 }

@@ -73,7 +73,7 @@ class ilPollContentRenderer
     ): void {
         $this->renderAnchor($tpl, $poll->getId());
         $this->renderAvailability($tpl, $poll);
-        $this->renderDescription($tpl, $poll->getDescription());
+        $this->renderDescription($tpl, $poll->getLongDescription());
 
         if (!$this->state->hasQuestion($poll)) {
             $this->renderNoQuestionMessage($tpl);
@@ -313,7 +313,7 @@ class ilPollContentRenderer
         if ($description) {
             $tpl->setVariable(
                 "TXT_DESC",
-                $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(nl2br($description))
+                nl2br($this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($description))
             );
         }
     }

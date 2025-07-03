@@ -398,7 +398,7 @@ EOT;
 		            <svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">
 		                <path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" d="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>
                         <g class="il-chart-progressmeter-monocircle">
-                            <path class="il-chart-progressmeter-circle no-success" stroke-dasharray="75, 100" d="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>
+                            <path class="il-chart-progressmeter-circle no-success" stroke-dasharray="71, 100" d="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>
                         </g>
                         <g class="il-chart-progressmeter-text">
                             <text class="text-score-info" x="25" y="16"></text>
@@ -450,7 +450,7 @@ EOT;
 		            <svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">
 		                <path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" d="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>
                         <g class="il-chart-progressmeter-monocircle">
-                            <path class="il-chart-progressmeter-circle no-success" stroke-dasharray="75, 100" d="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>
+                            <path class="il-chart-progressmeter-circle no-success" stroke-dasharray="71, 100" d="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>
                         </g>
                         <g class="il-chart-progressmeter-text">
                             <text class="text-score-info" x="25" y="16"></text>
@@ -502,7 +502,7 @@ EOT;
 		            <svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">
 		                <path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" d="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>
                         <g class="il-chart-progressmeter-monocircle">
-                            <path class="il-chart-progressmeter-circle no-success" stroke-dasharray="75, 100" d="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>
+                            <path class="il-chart-progressmeter-circle no-success" stroke-dasharray="71, 100" d="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>
                         </g>
                         <g class="il-chart-progressmeter-text">
                             <text class="text-score-info" x="25" y="16"></text>

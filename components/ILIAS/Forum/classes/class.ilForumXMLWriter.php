@@ -30,7 +30,7 @@ declare(strict_types=1);
  */
 class ilForumXMLWriter extends ilXmlWriter
 {
-    private const LEGACY_RESOURCE_SUB_DIRECTORY = 'expDir_1';
+    private const string LEGACY_RESOURCE_SUB_DIRECTORY = 'expDir_1';
 
     public ?int $forum_id = 0;
     private ?string $relative_component_path = null;

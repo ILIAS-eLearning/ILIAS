@@ -73,7 +73,7 @@ For best results we recommend:
   * Apache 2.4.x with `mod_php`
   * php-gd, php-xml, php-mysql, php-mbstring, php-imagick, php-zip, php-intl
   * OpenJDK 17
-  * Node.js: 22-LTS (and 20, 21, 23)
+  * Node.js: 23
   * git
   * composer v2
   * a contemporary browser supporting ES6, CSS3 and HTML 5

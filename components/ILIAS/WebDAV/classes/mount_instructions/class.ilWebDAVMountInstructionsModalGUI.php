@@ -24,14 +24,15 @@ use ILIAS\UI\Component\Modal\Lightbox;
 
 class ilWebDAVMountInstructionsModalGUI
 {
-    /**
-     * @var string
-     */
     private const MOUNT_INSTRUCTIONS_CONTENT_ID = 'webdav_mount_instructions_content';
     private Lightbox $modal;
 
-    private function __construct(protected ilWebDAVMountInstructionsRepositoryImpl $repository, protected Factory $ui_factory, protected Renderer $ui_renderer, protected ilLanguage $lng)
-    {
+    private function __construct(
+        protected ilWebDAVMountInstructionsRepositoryImpl $repository,
+        protected Factory $ui_factory,
+        protected Renderer $ui_renderer,
+        protected ilLanguage $lng
+    ) {
         try {
             $document = $this->repository->getMountInstructionsByLanguage($this->lng->getUserLanguage());
             $title = $document->getTitle();
@@ -64,10 +65,16 @@ class ilWebDAVMountInstructionsModalGUI
 
         global $DIC;
         $repository = new ilWebDAVMountInstructionsRepositoryImpl($DIC->database());
-        $instance = new ilWebDAVMountInstructionsModalGUI($repository, $DIC->ui()->factory(), $DIC->ui()->renderer(), $DIC->language());
+        $instance = new ilWebDAVMountInstructionsModalGUI(
+            $repository,
+            $DIC->ui()->factory(),
+            $DIC->ui()->renderer(),
+            $DIC->language()
+        );
 
         self::$modal_already_rendered = true;
-        $js_function = '<script>function triggerWebDAVModal(api_url){ $.ajax(api_url).done(function(data){ $(document).trigger("' . $instance->getModalShowSignalId() . '", "{}"); $("#' . self::MOUNT_INSTRUCTIONS_CONTENT_ID . '").html(data);}) }</script>';
+        $js_function = '<script>function triggerWebDAVModal(api_url){ $.ajax(api_url).done(function(data){ $(document).trigger("' . $instance->getModalShowSignalId(
+        ) . '", "{}"); $("#' . self::MOUNT_INSTRUCTIONS_CONTENT_ID . '").html(data);}) }</script>';
 
         $webdav_modal_html = $instance->getRenderedModal() . $js_function;
 

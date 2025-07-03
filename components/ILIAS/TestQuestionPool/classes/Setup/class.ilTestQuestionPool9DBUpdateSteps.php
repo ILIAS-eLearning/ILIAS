@@ -85,4 +85,17 @@ class ilTestQuestionPool9DBUpdateSteps implements ilDatabaseUpdateSteps
             ['type' => 'text', 'length' => 124]
         );
     }
+
+    public function step_7(): void
+    {
+        $table = 'tst_rnd_quest_set_qpls';
+        $table_column = 'pool_title';
+        if ($this->db->tableColumnExists($table, $table_column)) {
+            $this->db->modifyTableColumn(
+                $table,
+                $table_column,
+                ['type' => ilDBConstants::T_TEXT, 'length' => 255],
+            );
+        }
+    }
 }

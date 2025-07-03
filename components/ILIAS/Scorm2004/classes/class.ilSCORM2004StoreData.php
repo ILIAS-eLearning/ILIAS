@@ -313,9 +313,12 @@ class ilSCORM2004StoreData
                             if ($i_set > 3) {
                                 $i_set -= 4;
                                 if ($getInteractions) {
-                                    $q = 'DELETE FROM cmi_correct_response 
-									WHERE cmi_interaction_id IN (
-									SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction WHERE cmi_interaction.cmi_node_id = %s)';
+                                    $q = '
+                                        DELETE cmir
+                                        FROM cmi_correct_response cmir 
+                                        INNER JOIN cmi_interaction cmii ON cmii.cmi_interaction_id = cmir.cmi_interaction_id 
+                                        WHERE cmii.cmi_node_id = %s
+                                    ';
                                     $ilDB->manipulateF($q, array('integer'), array($cmi_node_id));
                                 }
                             }
@@ -678,7 +681,7 @@ class ilSCORM2004StoreData
 
         // update learning progress
         if ($new_global_status != null) {//could only happen when synchronising from SCORM Offline Player
-            ilLPStatus::writeStatus($packageId, $userId, $new_global_status, (int) $data->percentageCompleted);
+            ilLPStatusWrapper::_updateStatus($packageId, $userId);
 
             //			here put code for soap to MaxCMS e.g. when if($saved_global_status != $new_global_status)
         }

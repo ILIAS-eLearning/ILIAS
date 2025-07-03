@@ -109,14 +109,17 @@ class ilWebDAVMountInstructionsUploadGUI
             $this->http->request(),
             $this->rbacsystem->checkAccess('write', $this->webdav_object_ref_id)
         );
-        $document_tbl_gui->setProvider(new ilWebDAVMountInstructionsTableDataProvider($this->mount_instructions_repository));
+        $document_tbl_gui->setProvider(
+            new ilWebDAVMountInstructionsTableDataProvider($this->mount_instructions_repository)
+        );
         $document_tbl_gui->populate();
 
         $this->tpl->setContent($document_tbl_gui->getHTML());
     }
 
-    protected function getDocumentForm(ilWebDAVMountInstructionsDocument $a_document): ilWebDAVMountInstructionsDocumentFormGUI
-    {
+    protected function getDocumentForm(
+        ilWebDAVMountInstructionsDocument $a_document
+    ): ilWebDAVMountInstructionsDocumentFormGUI {
         if ($a_document->getId() > 0) {
             $this->ctrl->setParameter($this, 'doc_id', $a_document->getId());
 
@@ -199,7 +202,9 @@ class ilWebDAVMountInstructionsUploadGUI
         }
 
         $document_id = $this->http->wrapper()->query()->retrieve('document_id', $this->refinery->kindlyTo()->int());
-        $form = $this->getDocumentForm($this->mount_instructions_repository->getMountInstructionsDocumentById($document_id));
+        $form = $this->getDocumentForm(
+            $this->mount_instructions_repository->getMountInstructionsDocumentById($document_id)
+        );
         if ($form->updateObject()) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             if ($form->hasTranslatedInfo()) {

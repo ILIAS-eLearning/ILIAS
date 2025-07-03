@@ -37,6 +37,7 @@ use ILIAS\LegalDocuments\ConsumerToolbox\User;
 use ilObjUser;
 use DateTimeImmutable;
 use ilAuthUtils;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 require_once __DIR__ . '/../ContainerMock.php';
 
@@ -333,9 +334,7 @@ class UserTest extends TestCase
         $this->assertTrue($instance->isLDAPUser());
     }
 
-    /**
-     * @dataProvider externalAuthModes
-     */
+    #[DataProvider('externalAuthModes')]
     public function testIsExternalUser(int $auth_mode, bool $is_external_account): void
     {
         $instance = new User(
@@ -380,6 +379,27 @@ class UserTest extends TestCase
         );
 
         $this->assertSame($user, $instance->raw());
+    }
+
+    public function testAcceptAnyDocument(): void
+    {
+        $user = $this->mock(ilObjUser::class);
+        $history = $this->mock(ProvideHistory::class);
+        $doc = $this->mock(Document::class);
+        $history->expects(self::once())->method('acceptDocument')->with($user, $doc);
+
+        $instance = new User(
+            $user,
+            $this->mock(Settings::class),
+            $this->mock(UserSettings::class),
+            $this->mockTree(Provide::class, [
+                'document' => ['repository' => ['all' => [$doc]]],
+                'history' => $history,
+            ]),
+            $this->mock(Clock::class)
+        );
+
+        $instance->acceptAnyDocument();
     }
 
     public static function externalAuthModes(): array

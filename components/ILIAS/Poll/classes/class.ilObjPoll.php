@@ -52,13 +52,13 @@ class ilObjPoll extends ilObject2
     protected bool $show_comments = false;
     protected int $show_results_as = 1;
 
-    public const VIEW_RESULTS_ALWAYS = 1;
-    public const VIEW_RESULTS_NEVER = 2;
-    public const VIEW_RESULTS_AFTER_VOTE = 3;
-    public const VIEW_RESULTS_AFTER_PERIOD = 4;
+    public const int VIEW_RESULTS_ALWAYS = 1;
+    public const int VIEW_RESULTS_NEVER = 2;
+    public const int VIEW_RESULTS_AFTER_VOTE = 3;
+    public const int VIEW_RESULTS_AFTER_PERIOD = 4;
 
-    public const SHOW_RESULTS_AS_BARCHART = 1;
-    public const SHOW_RESULTS_AS_STACKED_CHART = 2;
+    public const int SHOW_RESULTS_AS_BARCHART = 1;
+    public const int SHOW_RESULTS_AS_STACKED_CHART = 2;
 
     public function __construct(int $a_id = 0, bool $a_reference = true)
     {

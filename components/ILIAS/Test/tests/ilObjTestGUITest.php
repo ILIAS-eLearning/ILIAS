@@ -64,9 +64,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilHelp();
         $this->addGlobal_ilObjDataCache();
         $this->addGlobal_ilRbacAdmin();
-        $this->addGlobal_objectService();
         $this->addGlobal_GlobalScreenService();
-        $this->addGlobal_resourceStorage();
 
         $this->testObj = $this->getNewTestGUI();
     }

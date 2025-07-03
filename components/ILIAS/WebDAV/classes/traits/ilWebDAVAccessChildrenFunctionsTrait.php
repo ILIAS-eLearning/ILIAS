@@ -48,7 +48,7 @@ trait ilWebDAVAccessChildrenFunctionsTrait
                 if ($e->getMessage() === 'cannot read rource from resource storage server') {
                     $has_only_files_with_missing_storage = true;
                 }
-            } catch (ilWebDAVNotDavableException | Forbidden | NotFound) {
+            } catch (ilWebDAVNotDavableException|Forbidden|NotFound) {
             }
         }
 
@@ -91,7 +91,7 @@ trait ilWebDAVAccessChildrenFunctionsTrait
                     $e->getMessage() === ilWebDAVNotDavableException::OBJECT_TITLE_NOT_DAVABLE) {
                     $problem_info_file_needed = true;
                 }
-            } catch (NotFound | RuntimeException | Forbidden) {
+            } catch (NotFound|RuntimeException|Forbidden) {
             }
         }
 
@@ -119,7 +119,7 @@ trait ilWebDAVAccessChildrenFunctionsTrait
                 if ($child->getName() === $name) {
                     return true;
                 }
-            } catch (ilWebDAVNotDavableException | Forbidden | NotFound | RuntimeException) {
+            } catch (ilWebDAVNotDavableException|Forbidden|NotFound|RuntimeException) {
             }
         }
 

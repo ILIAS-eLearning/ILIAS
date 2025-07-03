@@ -22,6 +22,7 @@ namespace ILIAS\Test\ExportImport;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Data\DateFormat\DateFormat;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
 /**
  * @author Fabian Helfer <fhelfer@databay.de>
@@ -46,7 +47,7 @@ class ResultsExportExcel implements Exporter
         private readonly \ilObjTest $test_obj,
         private readonly GeneralQuestionPropertiesRepository $question_repository,
         private readonly string $filename = '',
-        private readonly bool $scoredonly = true,
+        private readonly bool $scoredonly = true
     ) {
         $this->user_date_format = $this->current_user->getDateTimeFormat();
         $this->aggregated_data = $test_obj->getAggregatedResultsData();
@@ -83,7 +84,6 @@ class ResultsExportExcel implements Exporter
     {
         $usersheet_titles = [];
         foreach ($this->getCompleteData()->getParticipants() as $active_id => $user_data) {
-            $active_id = 1;
             $usersheet_titles = $this->addUserSheet(
                 $usersheet_titles,
                 $user_data->getName(),
@@ -461,6 +461,9 @@ class ResultsExportExcel implements Exporter
                 $answers = implode("\n", $answers);
             }
 
+            $disable_strip_tags_for_answers = $question_obj instanceof \assTextQuestion
+                && $this->test_obj->getGlobalSettings()->getExportEssayQuestionsAsHtml();
+
             $correct_answers = $question_obj->getCorrectSolutionForTextOutput($active_id, $test_attempt->getPass());
             if (is_array($correct_answers)) {
                 $correct_answers = implode("\n", $correct_answers);
@@ -469,7 +472,7 @@ class ResultsExportExcel implements Exporter
             $col = 0;
             $this->worksheet->setCell($current_row, $col++, $question_obj->getTitle());
             $this->worksheet->setCell($current_row, $col++, $this->lng->txt($question_obj->getQuestionType()));
-            $this->worksheet->setCell($current_row, $col++, $answers);
+            $this->worksheet->setCell($current_row, $col++, $answers, DataType::TYPE_STRING, $disable_strip_tags_for_answers);
             $this->worksheet->setCell($current_row, $col++, $correct_answers);
             $this->worksheet->setCell($current_row, $col++, implode(', ', $question_obj->getVariablesAsTextArray($active_id, $test_attempt->getPass())));
             $this->worksheet->setCell($current_row, $col++, $test_attempt->getAnsweredQuestionByQuestionId($question_id)['reached'] ?? 0);

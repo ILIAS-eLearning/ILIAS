@@ -26,6 +26,7 @@ use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\MediaObjects\MediaType\MediaTypeManager;
 use ILIAS\MediaObjects\Tracking\TrackingManager;
 use ILIAS\MediaObjects\Metadata\MetadataManager;
+use ILIAS\MediaObjects\Thumbs\ThumbsManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -77,4 +78,13 @@ class InternalDomainService
     {
         return new MetadataManager($this->learningObjectMetadata());
     }
+
+    public function thumbs(): ThumbsManager
+    {
+        return new ThumbsManager(
+            $this->data_service,
+            $this
+        );
+    }
+
 }

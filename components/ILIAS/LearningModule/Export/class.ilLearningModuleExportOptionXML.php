@@ -22,14 +22,17 @@ use ILIAS\Data\ObjectId;
 use ILIAS\DI\Container;
 use ILIAS\Export\ExportHandler\Consumer\ExportOption\BasicLegacyHandler as ilLegacyExportOption;
 use ILIAS\Export\ExportHandler\I\Consumer\Context\HandlerInterface as ilExportHandlerConsumerContextInterface;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 
 class ilLearningModuleExportOptionXML extends ilLegacyExportOption
 {
     protected ilLanguage $lng;
+    protected ilDBInterface $db;
 
     public function init(Container $DIC): void
     {
         $this->lng = $DIC->language();
+        $this->db = $DIC->database();
         parent::init($DIC);
     }
 
@@ -51,8 +54,8 @@ class ilLearningModuleExportOptionXML extends ilLegacyExportOption
     public function isObjectSupported(
         ObjectId $object_id
     ): bool {
-        $ot = ilObjectTranslation::getInstance($object_id->toInt());
-        return $ot->getContentActivated();
+        $ot = (new TranslationsRepository($this->db))->getFor($object_id->toInt());
+        return $ot->getContentTranslationActivated();
     }
 
     public function isPublicAccessPossible(): bool
@@ -63,7 +66,7 @@ class ilLearningModuleExportOptionXML extends ilLegacyExportOption
     public function getLabel(): string
     {
         $this->lng->loadLanguageModule('exp');
-        return $this->lng->txt("exp_format_dropdown-xml");
+        return $this->lng->txt("exp_format_dropdown-xml") . " (" . $this->lng->txt('cont_master_language_only_no_media') . ")";
     }
 
     public function onExportOptionSelected(\ILIAS\Export\ExportHandler\I\Consumer\Context\HandlerInterface $context): void

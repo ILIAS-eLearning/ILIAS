@@ -21,9 +21,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Component\Input\Field\Section;
 
-/**
- * @backupGlobals disabled
- */
+#[\PHPUnit\Framework\Attributes\BackupGlobals(false)]
 class ilIndividualAssessmentSettingsTest extends TestCase
 {
     public function test_create_settings()

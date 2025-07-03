@@ -249,7 +249,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
             if (trim($deadline) === '') {
                 $deadline = null;
             } else {
-                $deadline = DateTimeImmutable::createFromFormat('d.m.Y', $deadline);
+                $deadline = DateTimeImmutable::createFromFormat('Y-m-d', $deadline);
             }
 
             $cur_deadline = $progress->getDeadline();

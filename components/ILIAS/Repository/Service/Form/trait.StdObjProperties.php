@@ -22,15 +22,16 @@ namespace ILIAS\Repository\Form;
 
 use ILIAS\Object\ilObjectDIC;
 use ILIAS\DI\Container;
-use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectPropertyTileImage;
+use ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription;
+use ILIAS\ILIASObject\LocalDIC;
 
 trait StdObjProperties
 {
-    protected \ilObjectPropertiesAgregator $object_prop;
+    protected \ILIAS\ILIASObject\Properties\Aggregator $object_prop;
 
     protected function initStdObjProperties(Container $DIC)
     {
-        $this->object_prop = ilObjectDIC::dic()['object_properties_agregator'];
+        $this->object_prop = LocalDIC::dic()['properties.aggregator'];
     }
 
     public function addStdTitleAndDescription(
@@ -64,7 +65,7 @@ trait StdObjProperties
     ): void {
         $obj_prop = $this->object_prop->getFor($obj_id, $type);
         $obj_prop->storePropertyTitleAndDescription(
-            new \ilObjectPropertyTitleAndDescription(
+            new TitleAndDescription(
                 $this->getData("title"),
                 $this->getData("description")
             )
@@ -77,7 +78,7 @@ trait StdObjProperties
     ): void {
         $obj_prop = $this->object_prop->getFor($obj_id, $type);
         $obj_prop->storePropertyTitleAndDescription(
-            new \ilObjectPropertyTitleAndDescription(
+            new TitleAndDescription(
                 $this->getData("title"),
                 ""
             )
@@ -100,7 +101,10 @@ trait StdObjProperties
         string $type
     ): void {
         $obj_prop = $this->object_prop->getFor($obj_id, $type);
-        $obj_prop->storePropertyTileImage($this->getData("tile"));
+        $tile = $this->getData("tile");
+        if (!is_null($tile)) {
+            $obj_prop->storePropertyTileImage($this->getData("tile"));
+        }
     }
 
     public function addOnline(

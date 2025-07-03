@@ -26,9 +26,9 @@ use ILIAS\UI\Implementation\Component\Modal\Interruptive as InterruptiveModal;
 
 final class ilEmployeeTalkTableGUI extends ilTable2GUI
 {
-    public const STATUS_ALL = 0;
-    public const STATUS_PENDING = 1;
-    public const STATUS_COMPLETED = 2;
+    public const int STATUS_ALL = 0;
+    public const int STATUS_PENDING = 1;
+    public const int STATUS_COMPLETED = 2;
 
     private UIFactory $ui_factory;
     private UIRenderer $ui_renderer;

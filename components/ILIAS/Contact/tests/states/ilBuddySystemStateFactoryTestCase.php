@@ -27,9 +27,7 @@ class ilBuddySystemStateFactoryTestCase extends ilBuddySystemBaseTestCase
         parent::setUp();
 
         $lng = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
-        $lng->method('txt')->willReturnCallback(static function (string $keyword): string {
-            return $keyword;
-        });
+        $lng->method('txt')->willReturnCallback(static fn(string $keyword): string => $keyword);
 
         ilBuddySystemRelationStateFactory::getInstance($lng)->reset();
         $this->stateFactory = ilBuddySystemRelationStateFactory::getInstance($lng);

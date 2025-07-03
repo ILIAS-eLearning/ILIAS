@@ -25,7 +25,6 @@ use ILIAS\MetaData\Editor\Http\RequestForFormInterface;
 use ILIAS\MetaData\Paths\FactoryInterface as PathFactory;
 use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 use ILIAS\MetaData\Editor\Manipulator\ManipulatorInterface;
-use ILIAS\MetaData\Vocabularies\Standard\Dictionary\LOMDictionaryInitiator;
 use ILIAS\MetaData\Vocabularies\Factory\Factory;
 use ILIAS\MetaData\Vocabularies\Factory\FactoryInterface;
 

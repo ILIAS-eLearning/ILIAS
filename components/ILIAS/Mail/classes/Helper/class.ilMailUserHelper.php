@@ -18,20 +18,16 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailUserHelper
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailUserHelper
 {
     /**
-     * @param int[] $usrIds
-     * @return string[]
+     * @param list<int> $usr_ids
+     * @return array<int, string>
      */
-    public function getUsernameMapForIds(array $usrIds): array
+    public function getUsernameMapForIds(array $usr_ids): array
     {
         return ilUserUtil::getNamePresentation(
-            $usrIds,
+            $usr_ids,
             false,
             false,
             '',

@@ -99,7 +99,7 @@ class ilTermDefinitionBulkCreationGUI
         $user = $this->domain->user();
         $form = $this
             ->gui
-            ->form(self::class, "showConfirmationScreen")
+            ->form(self::class, "showConfirmationScreen", $lng->txt("glo_save_and_continue"))
             ->asyncModal()
             //->section("creation", $lng->txt("glo_bulk_data"))
             ->textarea(
@@ -152,6 +152,7 @@ class ilTermDefinitionBulkCreationGUI
         $ctrl = $this->gui->ctrl();
         $f = $this->gui->ui()->factory();
         $r = $this->gui->ui()->renderer();
+        $html_util = $this->gui->html();
 
         $conf_tpl = new ilTemplate("tpl.bulk_creation_confirmation.html", true, true, "components/ILIAS/Glossary");
 
@@ -167,14 +168,14 @@ class ilTermDefinitionBulkCreationGUI
 EOT;
         });
 
-        $mbox = $f->messageBox()->confirmation(
+        $mbox = $f->messageBox()->info(
             $lng->txt("glo_bulk_confirmation")
         )->withButtons([$button]);
 
         $ctrl->setParameter($this, "term_language", $language);
         $table = $this->domain->table()->getTermDefinitionBulkCreationTable($data, $this->glossary)->getComponent();
 
-        $conf_tpl->setVariable("HIDDEN_VALUE", $data);
+        $conf_tpl->setVariable("HIDDEN_VALUE", $html_util->escape($data));
         $conf_tpl->setVariable("ACTION", $ctrl->getFormAction($this, "createTermDefinitionPairs"));
         $conf_tpl->setVariable("MBOX", $r->render($mbox));
         $conf_tpl->setVariable("TABLE", $r->render($table));

@@ -57,9 +57,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends TestCase
         return $ams;
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testGetPrgObjId(ilStudyProgrammeAutoMembershipSource $ams): void
     {
         $this->assertEquals(
@@ -68,9 +66,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends TestCase
         );
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testGetSourceType(ilStudyProgrammeAutoMembershipSource $ams): void
     {
         $this->assertEquals(
@@ -78,9 +74,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends TestCase
             $ams->getSourceType()
         );
     }
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testGetSourceId(ilStudyProgrammeAutoMembershipSource $ams): void
     {
         $this->assertEquals(
@@ -89,9 +83,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends TestCase
         );
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testGetLastEditorId(ilStudyProgrammeAutoMembershipSource $ams): void
     {
         $this->assertEquals(
@@ -100,9 +92,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends TestCase
         );
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testGetLastEdited(ilStudyProgrammeAutoMembershipSource $ams): void
     {
         $this->assertEquals(

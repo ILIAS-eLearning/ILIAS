@@ -95,4 +95,17 @@ class HiddenInputTest extends ILIAS_UI_TestBase
         $this->testWithNoByline($hidden);
         $this->testWithAdditionalOnloadCodeRendersId($hidden);
     }
+
+    public function testRenderEscaped(): void
+    {
+        $expected = $this->brutallyTrimHTML('
+            <input id="id_1" type="hidden" name="name_0" value="&lt;script&gt;alert(&quot;XSS&quot;);&lt;/script&gt;" />
+        ');
+        $actual = $this->brutallyTrimHTML(
+            $this->getDefaultRenderer()->render(
+                $this->input->withNameFrom($this->name_source)->withValue('<script>alert("XSS");</script>')
+            )
+        );
+        $this->assertEquals($expected, $actual);
+    }
 }

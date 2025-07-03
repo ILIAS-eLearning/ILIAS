@@ -142,12 +142,12 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $expected = "<div class=\"il-viewcontrol-mode l-bar__element\" aria-label=\"" . $this->aria_label . "\" role=\"" . $this->role . "\">";
         foreach ($this->actions as $label => $action) {
             if ($activate_first_item) {
-                $expected .= "<button class=\"btn btn-default engaged\" aria-label=\"$label\" aria-pressed=\"true\" data-action=\"$action\" id=\"id_1\">$label</button>";
+                $expected .= "<button class=\"btn btn-default engaged\" aria-pressed=\"true\" data-action=\"$action\" id=\"id_1\">$label</button>";
                 $activate_first_item = false;
             } elseif ($active == $label) {
-                $expected .= "<button class=\"btn btn-default engaged\" aria-label=\"$label\" aria-pressed=\"true\" data-action=\"$action\" id=\"id_1\">$label</button>";
+                $expected .= "<button class=\"btn btn-default engaged\" aria-pressed=\"true\" data-action=\"$action\" id=\"id_1\">$label</button>";
             } else {
-                $expected .= "<button class=\"btn btn-default\" aria-label=\"$label\" aria-pressed=\"false\" data-action=\"$action\" id=\"id_2\">$label</button>";
+                $expected .= "<button class=\"btn btn-default\" aria-pressed=\"false\" data-action=\"$action\" id=\"id_2\">$label</button>";
             }
         }
         $expected .= "</div>";

@@ -9,15 +9,11 @@
 
 /// List of allowed container queries and the width below which the layout should break to a compact design.
 /// @type Map
-/// @prop {Numbers} compact-card switch to very compact card/item design (e.g. for 4+ column grid) below
 /// @prop {Numbers} sidebar switch to condensed sidebar design (e.g. in slate) below
 /// @prop {Numbers} wide-card switch to slightly condensed card/item design (e.g. for 2 column grid) below
-/// @prop {Numbers} toolbar switch an entire toolbar to a condensed design below
 $container-query-contexts: (
-    compact-card: 300px,
     sidebar: l.$il-standard-page-slate-width,
-    wide-card: 600px,
-    toolbar: 600px,
+    wide-content: 600px,
 );
 
 $_error-invalid-query-context: "Must pick valid container query name from map of allowed contexts: #{map.keys($container-query-contexts)}";

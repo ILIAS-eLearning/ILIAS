@@ -42,6 +42,8 @@ abstract class assBaseTestCase extends TestCase
 
         $this->addGlobal_tpl();
         $this->addGlobal_lng();
+        $this->addGlobal_objectService();
+        $this->addGlobal_objectMetadata();
         $this->addGlobal_ilObjDataCache();
         $this->addGlobal_ilAccess();
         $this->addGlobal_ilHelp();

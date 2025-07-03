@@ -18,26 +18,21 @@
 
 declare(strict_types=1);
 
-/**
-* @author Alex Killing <alex.killing@gmx.de>
-*
-* @externalTableAccess ilObjUser on usr_session
-*/
 class ilSession
 {
     /**
      * Constant for reason of session destroy
      *
-     * @var integer
+     * @var int
      */
-    public const SESSION_CLOSE_USER = 1;  // manual logout
-    public const SESSION_CLOSE_EXPIRE = 2;  // has expired
-    public const SESSION_CLOSE_LOGIN = 6;  // anonymous => login
-    public const SESSION_CLOSE_PUBLIC = 7;  // => anonymous
-    public const SESSION_CLOSE_TIME = 8;  // account time limit reached
-    public const SESSION_CLOSE_IP = 9;  // wrong ip
-    public const SESSION_CLOSE_SIMUL = 10; // simultaneous login
-    public const SESSION_CLOSE_INACTIVE = 11; // inactive account
+    public const int SESSION_CLOSE_USER = 1;  // manual logout
+    public const int SESSION_CLOSE_EXPIRE = 2;  // has expired
+    public const int SESSION_CLOSE_LOGIN = 6;  // anonymous => login
+    public const int SESSION_CLOSE_PUBLIC = 7;  // => anonymous
+    public const int SESSION_CLOSE_TIME = 8;  // account time limit reached
+    public const int SESSION_CLOSE_IP = 9;  // wrong ip
+    public const int SESSION_CLOSE_SIMUL = 10; // simultaneous login
+    public const int SESSION_CLOSE_INACTIVE = 11; // inactive account
 
     private static ?int $closing_context = null;
 
@@ -62,8 +57,8 @@ class ilSession
 
         $ilDB = $DIC['ilDB'];
 
-        $q = "SELECT data FROM usr_session WHERE session_id = " .
-            $ilDB->quote($a_session_id, "text");
+        $q = 'SELECT data FROM usr_session WHERE session_id = ' .
+            $ilDB->quote($a_session_id, 'text');
         $set = $ilDB->query($q);
         $rec = $ilDB->fetchAssoc($set);
         if (!is_array($rec)) {
@@ -71,7 +66,7 @@ class ilSession
         }
 
         // fix for php #70520
-        return (string) $rec["data"];
+        return (string) $rec['data'];
     }
 
     /**
@@ -207,14 +202,6 @@ class ilSession
         return true;
     }
 
-
-
-    /**
-    * Check whether session exists
-    *
-    * @param	string		session id
-    * @return	boolean		true, if session id exists
-    */
     public static function _exists(string $a_session_id): bool
     {
         if (!$a_session_id) {
@@ -224,7 +211,7 @@ class ilSession
 
         $ilDB = $DIC['ilDB'];
 
-        $q = "SELECT 1 FROM usr_session WHERE session_id = " . $ilDB->quote($a_session_id, "text");
+        $q = 'SELECT 1 FROM usr_session WHERE session_id = ' . $ilDB->quote($a_session_id, 'text');
         $set = $ilDB->query($q);
 
         return $ilDB->numRows($set) > 0;
@@ -249,16 +236,16 @@ class ilSession
 
         ilSessionStatistics::closeRawEntry($a_session_id, $a_closing_context, $a_expired_at);
 
-        if (!is_array($a_session_id)) {
-            $q = "DELETE FROM usr_session WHERE session_id = " .
-                $ilDB->quote($a_session_id, "text");
-        } else {
+        if (is_array($a_session_id)) {
             // array: id => timestamp - so we get rid of timestamps
             if ($a_expired_at) {
                 $a_session_id = array_keys($a_session_id);
             }
-            $q = "DELETE FROM usr_session WHERE " .
-                $ilDB->in("session_id", $a_session_id, false, "text");
+            $q = 'DELETE FROM usr_session WHERE ' .
+                $ilDB->in('session_id', $a_session_id, false, 'text');
+        } else {
+            $q = 'DELETE FROM usr_session WHERE session_id = ' .
+                $ilDB->quote($a_session_id, 'text');
         }
 
         ilSessionIStorage::destroySession($a_session_id);
@@ -276,7 +263,7 @@ class ilSession
                     $cookieJar = $DIC->http()->cookieJar()->without(session_name());
                     $cookieJar->renderIntoResponseHeader($DIC->http()->response());
                 }
-            } catch (\Throwable $e) {
+            } catch (Throwable) {
                 // ignore
                 // this is needed for "header already"  sent errors when the random cleanup of expired sessions is triggered
             }
@@ -296,8 +283,8 @@ class ilSession
 
         $ilDB = $DIC['ilDB'];
 
-        $q = "DELETE FROM usr_session WHERE user_id = " .
-            $ilDB->quote($a_user_id, "integer");
+        $q = 'DELETE FROM usr_session WHERE user_id = ' .
+            $ilDB->quote($a_user_id, 'integer');
         $ilDB->manipulate($q);
 
         return true;
@@ -342,13 +329,13 @@ class ilSession
         $new_session = $a_session_id;
         do {
             $new_session = md5($new_session);
-            $q = "SELECT * FROM usr_session WHERE " .
-                "session_id = " . $ilDB->quote($new_session, "text");
+            $q = 'SELECT * FROM usr_session WHERE ' .
+                'session_id = ' . $ilDB->quote($new_session, 'text');
             $res = $ilDB->query($q);
         } while ($ilDB->fetchAssoc($res));
 
-        $query = "SELECT * FROM usr_session " .
-            "WHERE session_id = " . $ilDB->quote($a_session_id, "text");
+        $query = 'SELECT * FROM usr_session ' .
+            'WHERE session_id = ' . $ilDB->quote($a_session_id, 'text');
         $res = $ilDB->query($query);
 
         if ($row = $ilDB->fetchObject($res)) {
@@ -356,7 +343,7 @@ class ilSession
             return $new_session;
         }
         //TODO check if throwing an excpetion might be a better choice
-        return "";
+        return '';
     }
 
     /**
@@ -408,9 +395,6 @@ class ilSession
         return isset($_SESSION[$a_var]);
     }
 
-    /**
-     * @param string $a_var
-     */
     public static function clear(string $a_var): void
     {
         if (isset($_SESSION[$a_var])) {
@@ -439,19 +423,11 @@ class ilSession
         return self::$closing_context;
     }
 
-
-
-    /**
-     * @return boolean
-     */
     public static function isWebAccessWithoutSessionEnabled(): bool
     {
         return self::$enable_web_access_without_session;
     }
 
-    /**
-     * @param boolean $enable_web_access_without_session
-     */
     public static function enableWebAccessWithoutSession(bool $enable_web_access_without_session): void
     {
         self::$enable_web_access_without_session = $enable_web_access_without_session;

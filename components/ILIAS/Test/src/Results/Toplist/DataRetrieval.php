@@ -58,7 +58,6 @@ class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
             ),
             'score' => $column_factory->text($this->lng->txt('toplist_col_score')),
             'percentage' => $column_factory->number($this->lng->txt('toplist_col_percentage'))->withUnit('%'),
-            'hints' => $column_factory->number($this->lng->txt('toplist_col_hints')),
             'workingtime' => $column_factory->text($this->lng->txt('toplist_col_wtime')),
         ];
 
@@ -66,7 +65,6 @@ class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
             'achieved' => $this->test_obj->getHighscoreAchievedTS(),
             'score' => $this->test_obj->getHighscoreScore(),
             'percentage' => $this->test_obj->getHighscorePercentage(),
-            'hints' => $this->test_obj->getHighscoreHints(),
             'workingtime' => $this->test_obj->getHighscoreWTime()
         ];
 
@@ -105,9 +103,6 @@ class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
             }
             if (in_array('percentage', $visible_column_ids, true)) {
                 $item['percentage'] = $row['percentage'];
-            }
-            if (in_array('hints', $visible_column_ids, true)) {
-                $item['hints'] = $row['hint_count'];
             }
             if (in_array('workingtime', $visible_column_ids, true)) {
                 $item['workingtime'] = $this->formatTime($row['workingtime']);

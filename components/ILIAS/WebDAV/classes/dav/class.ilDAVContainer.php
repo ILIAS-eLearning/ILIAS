@@ -31,9 +31,15 @@ class ilDAVContainer implements ICollection
     use ilWebDAVCheckValidTitleTrait;
     use ilWebDAVAccessChildrenFunctionsTrait;
     use ilWebDAVCommonINodeFunctionsTrait;
+    use ilObjFileSecureString;
 
-    public function __construct(protected ilObject $obj, protected ilObjUser $current_user, protected RequestInterface $request, protected ilWebDAVObjFactory $dav_factory, protected ilWebDAVRepositoryHelper $repository_helper)
-    {
+    public function __construct(
+        protected ilObject $obj,
+        protected ilObjUser $current_user,
+        protected RequestInterface $request,
+        protected ilWebDAVObjFactory $dav_factory,
+        protected ilWebDAVRepositoryHelper $repository_helper
+    ) {
     }
 
     public function getName(): string
@@ -109,25 +115,23 @@ class ilDAVContainer implements ICollection
             throw new Forbidden('Permission denied');
         }
 
-        $size = $this->request->getHeader("Content-Length")[0] ?? 0;
+        $size = (int) ($this->request->getHeader("Content-Length")[0] ?? 0);
         if ($size === 0 && $this->request->hasHeader('X-Expected-Entity-Length')) {
-            $size = $this->request->getHeader('X-Expected-Entity-Length')[0];
+            $size = (int) ($this->request->getHeader('X-Expected-Entity-Length')[0] ?? 0);
         }
 
         if ($size > ilFileUtils::getPhpUploadSizeLimitInBytes()) {
             throw new Forbidden('File is too big');
         }
 
+        $name = $this->ensureSuffix($name, $this->extractSuffixFromFilename($name));
+
         if ($this->childExists($name)) {
             $file_dav = $this->getChild($name);
         } else {
             try {
                 $file_obj = new ilObjFile();
-                $title = mb_substr($name, 0, strrpos($name, '.'));
-                if ($title === '') {
-                    $title = $name;
-                }
-                $file_obj->setTitle($title);
+                $file_obj->setTitle($name);
 
                 $file_dav = $this->dav_factory->createDAVObject($file_obj, $this->obj->getRefId());
             } catch (ilWebDAVNotDavableException) {
@@ -135,7 +139,11 @@ class ilDAVContainer implements ICollection
             }
         }
 
-        return $file_dav->put($data, $name);
+        try {
+            return $file_dav->put($data, $name);
+        } catch (Throwable) {
+            return null;
+        }
     }
 
     /**

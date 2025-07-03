@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -336,10 +337,10 @@ class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository, Table\
         ?array $additional_parameters
     ): \Generator {
         foreach ($this->getAllPositions($range, $order) as $pos) {
-            $row_id = (string)$pos->getId();
+            $row_id = (string) $pos->getId();
             $record = [
                 'title' => $pos->getTitle(),
-                'description' => $pos->getDescription() . 'dd',
+                'description' => $pos->getDescription(),
                 'authorities' => implode("<br>", $this->getAuthorityDescription($pos->getAuthorities())),
                 'is_core_position' => $pos->isCorePosition(),
             ];

@@ -56,6 +56,13 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 		min-width: $il-btn-ctrl-inner-btn-height;
 		border-radius: $il-border-radius-secondary-large;
 	}
+
+	> .btn-ctrl:has(> .glyph.disabled) {
+		border:none;
+		cursor: default;
+		pointer-events: none;
+		background-color: $il-btn-ctrl-bg;
+	}
 }
 
 // viewcontrols as single buttons
@@ -140,10 +147,4 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 // container queries - change design when viewcontrol is in a narrow toolbar
 .panel-viewcontrols {
 	z-index: $il-z-index-content;
-	@include container-query.set-container-context(toolbar);
-	@include container-query.style-in-context(toolbar) {
-		.il-viewcontrol-sortation .label {
-			display: none;
-		}
-	}
 }

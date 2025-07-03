@@ -778,7 +778,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 $export->delete();
 
                 // print version
-                $blog_gui->buildExportFile(false, true);
+                $export = $blog_gui->buildExportFile(false, true);
                 $file = $export->getFilePath();
                 $size = filesize($file);
                 if ($size) {

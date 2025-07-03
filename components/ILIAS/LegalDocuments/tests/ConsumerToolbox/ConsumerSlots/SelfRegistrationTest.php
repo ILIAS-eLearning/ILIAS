@@ -122,4 +122,30 @@ class SelfRegistrationTest extends TestCase
 
         $instance->userCreation($user);
     }
+
+    public function testUserCreationFailed(): void
+    {
+        $user = $this->mock(ilObjUser::class);
+        $ldoc_user = $this->mock(User::class);
+        $ldoc_user->expects(self::once())->method('acceptMatchingDocument')->willReturnCallback(function () {
+            throw new \ILIAS\Data\NotOKException('This is not ok.');
+        });
+
+        $ldoc_user->expects(self::once())->method('acceptAnyDocument');
+
+        $instance = new SelfRegistration(
+            'foo',
+            $this->mock(UI::class),
+            $this->mock(User::class),
+            $this->mock(Provide::class),
+            $this->fail(...),
+            function (ilObjUser $u) use ($user, $ldoc_user): User {
+                $this->assertSame($user, $u);
+                return $ldoc_user;
+            },
+            $this->fail(...)
+        );
+
+        $instance->userCreation($user);
+    }
 }

@@ -27,10 +27,10 @@ class ilWebDAVUriBuilder
      * @var string[]
      */
     protected array $schemas = [
-            'default' => 'http',
-            'konqueror' => 'webdav',
-            'nautilus' => 'dav'
-        ];
+        'default' => 'http',
+        'konqueror' => 'webdav',
+        'nautilus' => 'dav'
+    ];
 
     protected string $mount_instructions_query = 'mount-instructions';
     protected string $webdav_script_name = 'webdav.php';

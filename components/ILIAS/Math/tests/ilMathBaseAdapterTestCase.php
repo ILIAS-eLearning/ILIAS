@@ -56,74 +56,58 @@ abstract class ilMathBaseAdapterTestCase extends TestCase
         $this->assertTrue($actual == $expected, $differ->diff($actual, $expected));
     }
 
-    /**
-     * @dataProvider addData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('addData')]
     public function testAdd(string $a, string $b, string $result, int $scale): void
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->add($a, $b, $scale));
     }
 
-    /**
-     *  @dataProvider subData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('subData')]
     public function testSub(string $a, string $b, string $result, int $scale): void
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->sub($a, $b, $scale));
     }
 
-    /**
-     *  @dataProvider mulData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('mulData')]
     public function testMul(string $a, string $b, string $result, int $scale): void
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->mul($a, $b, $scale));
     }
 
-    /**
-     *  @dataProvider divData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('divData')]
     public function testDiv(string $a, string $b, string $result, int $scale): void
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->div($a, $b, $scale));
     }
 
-    /**
-     *  @dataProvider sqrtData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('sqrtData')]
     public function testSqrt(string $a, string $result, ?int $scale): void
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->sqrt($a, $scale));
     }
 
-    /**
-     *  @dataProvider powData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('powData')]
     public function testPow(string $a, string $b, string $result, ?int $scale): void
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->pow($a, $b, $scale));
     }
 
     /**
-     * @dataProvider modData
      * @throws ilMathDivisionByZeroException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('modData')]
     public function testMod(string $a, string $b, string $result): void
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->mod($a, $b));
     }
 
-    /**
-     *  @dataProvider equalsData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('equalsData')]
     public function testEquals(string $a, string $b, bool $result, ?int $scale): void
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->equals($a, $b, $scale));
     }
 
-    /**
-     *  @dataProvider calcData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('calcData')]
     public function testCalculation(string $formula, string $result, int $scale): void
     {
         $this->assertEqualNumbers($result, ilMath::_applyScale($this->evalMath->evaluate($formula), $scale));

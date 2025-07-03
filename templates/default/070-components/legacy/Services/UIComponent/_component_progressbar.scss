@@ -4,6 +4,11 @@
 $progress-bar-info-bg: darken($il-main-color, 5%);
 $progress-bg: #bbb;
 
+.svy-progress-bar {
+	width: 50%;
+	margin: auto;
+}
+
 .progress {
 	height: 15px;
 	min-width: 100px;

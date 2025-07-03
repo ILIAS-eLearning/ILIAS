@@ -42,7 +42,7 @@ class assOrderingQuestionTest extends assBaseTestCase
                          ->disableOriginalConstructor()
                          ->onlyMethods(['txt'])
                          ->getMock();
-        $lng_mock->method('txt')->will($this->returnValue('Test'));
+        $lng_mock->method('txt')->willReturn('Test');
         $this->setGlobalVariable('lng', $lng_mock);
 
         $this->setGlobalVariable('ilias', $this->getIliasMock());
@@ -66,9 +66,7 @@ class assOrderingQuestionTest extends assBaseTestCase
         return $list;
     }
 
-    /**
-     * @depends testOrderingElementListDefaults
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testOrderingElementListDefaults')]
     public function testOrderingElementListMutation(ilAssOrderingElementList $list)
     {
         $original = $list;
@@ -84,9 +82,7 @@ class assOrderingQuestionTest extends assBaseTestCase
         return $element;
     }
 
-    /**
-     * @depends testOrderingElementDefaults
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testOrderingElementDefaults')]
     public function testOrderingElementMutation(ilAssOrderingElement $element)
     {
         $original = $element;

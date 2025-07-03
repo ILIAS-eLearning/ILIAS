@@ -18,43 +18,17 @@
 
 declare(strict_types=1);
 
-/**
- * Interface of auth credentials
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
- */
 interface ilAuthCredentials
 {
-    /**
-     * Set username
-     */
     public function setUsername(string $a_name): void;
 
-    /**
-     * Get username
-     */
     public function getUsername(): string;
 
-    /**
-     * Set password
-     */
     public function setPassword(string $a_password): void;
 
-    /**
-     * Get password
-     */
     public function getPassword(): string;
 
-    /**
-     * Set auth mode.
-     * Used - for instance - for manual selection on login screen.
-     * @param string $a_auth_mode
-     */
     public function setAuthMode(string $a_auth_mode): void;
 
-    /**
-     * Get auth mode
-     */
     public function getAuthMode(): string;
 }

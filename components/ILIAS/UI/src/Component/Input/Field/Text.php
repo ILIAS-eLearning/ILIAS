@@ -36,4 +36,9 @@ interface Text extends FilterInput
      * Gets the max length of the text input
      */
     public function getMaxLength(): ?int;
+
+    /**
+     * Disable stripping tags from user input
+     */
+    public function withoutStripTags(): Text;
 }

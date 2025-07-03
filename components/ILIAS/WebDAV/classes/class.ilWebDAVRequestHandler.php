@@ -48,8 +48,8 @@ class ilWebDAVRequestHandler
         $lock_plugin = $this->webdav_dic->locksplugin();
         $server->addPlugin($lock_plugin);
 
-        $browser_plugin = $this->webdav_dic->browserplugin();
-        $server->addPlugin($browser_plugin);
+        //        $browser_plugin = $this->webdav_dic->browserplugin();
+        //        $server->addPlugin($browser_plugin);
     }
 
     protected function getRootDir(): ilDAVMountPoint

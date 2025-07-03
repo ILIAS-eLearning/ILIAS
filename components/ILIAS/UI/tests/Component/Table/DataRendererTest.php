@@ -19,13 +19,11 @@
 declare(strict_types=1);
 
 require_once("vendor/composer/vendor/autoload.php");
-require_once(__DIR__ . "/TableTestBase.php");
+require_once(__DIR__ . "/TableRendererTestBase.php");
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\Data;
-use ILIAS\UI\Implementation\Component\Signal;
-use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\URLBuilder;
 
 /**
@@ -62,23 +60,21 @@ class DTRenderer extends I\Table\Renderer
         $tpl,
         ?I\Signal $sortation_signal
     ) {
-        return $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal);
+        $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal, 1);
     }
     public function p_renderActionsHeader(
         TestDefaultRenderer $default_renderer,
         I\Table\Data $component,
         $tpl
     ) {
-        return $this->renderActionsHeader($default_renderer, $component, $tpl);
+        $this->renderActionsHeader($default_renderer, $component, $tpl, 1);
     }
-
 }
-
 
 /**
  * Tests for the Renderer of DataTables.
  */
-class DataRendererTest extends TableTestBase
+class DataRendererTest extends TableRendererTestBase
 {
     private function getRenderer()
     {
@@ -94,70 +90,6 @@ class DataRendererTest extends TableTestBase
         );
     }
 
-    private function getActionFactory()
-    {
-        return new I\Table\Action\Factory();
-    }
-
-    private function getColumnFactory()
-    {
-        return new I\Table\Column\Factory(
-            $this->getLanguage()
-        );
-    }
-
-    private function getDummyRequest()
-    {
-        $request = $this->createMock(ServerRequestInterface::class);
-        $request
-            ->method("getUri")
-            ->willReturn(new \GuzzleHttp\Psr7\Uri('http://localhost:80'));
-        $request
-            ->method("getQueryParams")
-            ->willReturn([]);
-        return $request;
-    }
-
-    public function getDataFactory(): Data\Factory
-    {
-        return new Data\Factory();
-    }
-
-    public function getUIFactory(): NoUIFactory
-    {
-        $factory = new class ($this->getTableFactory()) extends NoUIFactory {
-            public function __construct(
-                protected I\Table\Factory $table_factory
-            ) {
-            }
-            public function button(): I\Button\Factory
-            {
-                return new I\Button\Factory();
-            }
-            public function dropdown(): I\Dropdown\Factory
-            {
-                return new I\Dropdown\Factory();
-            }
-            public function symbol(): I\Symbol\Factory
-            {
-                return new I\Symbol\Factory(
-                    new I\Symbol\Icon\Factory(),
-                    new I\Symbol\Glyph\Factory(),
-                    new I\Symbol\Avatar\Factory()
-                );
-            }
-            public function table(): I\Table\Factory
-            {
-                return $this->table_factory;
-            }
-            public function divider(): I\Divider\Factory
-            {
-                return new I\Divider\Factory();
-            }
-        };
-        return $factory;
-    }
-
     public function testDataTableGetMultiActionHandler()
     {
         $renderer = $this->getRenderer();
@@ -165,9 +97,9 @@ class DataRendererTest extends TableTestBase
         $closure = $renderer->p_getMultiActionHandler($signal);
         $actual = $this->brutallyTrimHTML($closure('component_id'));
         $expected = $this->brutallyTrimHTML(
-            "$(document).on('signal_id', function(event, signal_data) { 
-                il.UI.table.data.get('component_id').doMultiAction(signal_data); 
-                return false; 
+            "$(document).on('signal_id', function(event, signal_data) {
+                il.UI.table.data.get('component_id').doMultiAction(signal_data);
+                return false;
             });"
         );
         $this->assertEquals($expected, $actual);
@@ -261,7 +193,7 @@ class DataRendererTest extends TableTestBase
         ];
         $sortation_signal = new I\Signal('sort_header_signal_id');
         $sortation_signal->addOption('value', 'f1:ASC');
-        $table = $this->getUIFactory()->table()->data('', $columns, $data)
+        $table = $this->getUIFactory()->table()->data($data, '', $columns)
             ->withRequest($this->getDummyRequest());
         $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $sortation_signal);
 
@@ -270,41 +202,42 @@ class DataRendererTest extends TableTestBase
 <div class="c-table-data" id="{ID}">
     <div class="viewcontrols">{VIEW_CONTROLS}</div>
     <div class="c-table-data__table-wrapper">
-        <table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
+        <table class="c-table-data__table" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}" role="grid">
             <thead>
-                <tr class="c-table-data__header c-table-data__row" role="rowgroup">
-                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0" aria-sort="order_option_generic_ascending">
-                        <div class="c-table-data__header__resize-wrapper">
-                            <a tabindex="0" class="glyph" href="#" aria-label="sort_ascending" id="id_2"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
-                            <button class="btn btn-link" id="id_1">Field 1</button>
-                        </div>
-                    </th>
-                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="1">
-                        <div class="c-table-data__header__resize-wrapper">Field 2</div>
-                    </th>
-                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--number" role="columnheader" tabindex="-1" aria-colindex="2">
-                        <div class="c-table-data__header__resize-wrapper">
-                            <button class="btn btn-link" id="id_3">Field 3</button>
-                        </div>
-                    </th>
-                </tr>
+            <tr class="c-table-data__header c-table-data__row">
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" tabindex="-1" aria-colindex="1" aria-sort="ascending">
+                    <div class="c-table-data__header__resize-wrapper">
+                        <a tabindex="0" class="glyph" href="#" aria-label="sort_ascending" id="id_2"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
+                        <button class="btn btn-link" id="id_1">Field 1</button>
+                    </div>
+                </th>
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" tabindex="-1" aria-colindex="2">
+                    <div class="c-table-data__header__resize-wrapper">Field 2</div>
+                </th>
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--number" tabindex="-1" aria-colindex="3">
+                    <div class="c-table-data__header__resize-wrapper">
+                        <button class="btn btn-link" id="id_3">Field 3</button>
+                    </div>
+                </th>
+            </tr>
             </thead>
-            <tbody class="c-table-data__body" role="rowgroup"></tbody>
+            <tbody class="c-table-data__body"></tbody>
         </table>
     </div>
     <div class="c-table-data__async_modal_container"></div>
-
     <dialog class="c-table-data__async_message c-modal" id="{ID}_msgmodal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <form><button formmethod="dialog" class="close" aria-label="close"><span aria-hidden="true">&times;</span></button></form>
+                    <form>
+                        <button formmethod="dialog" class="close" aria-label="close">
+                            <span aria-hidden="true">&times;</span></button>
+                    </form>
                 </div>
                 <div class="c-table-data__async_messageresponse modal-body"></div>
             </div>
         </div>
     </dialog>
-
 </div>
 EOT;
         $expected = $this->brutallyTrimHTML($expected);
@@ -343,7 +276,7 @@ EOT;
 
         $sortation_signal = null;
 
-        $table = $this->getUIFactory()->table()->data('', $columns, $data)
+        $table = $this->getUIFactory()->table()->data($data, '', $columns)
             ->withRequest($this->getDummyRequest());
         $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $sortation_signal);
         $actual = $this->brutallyTrimHTML($tpl->get());
@@ -351,34 +284,34 @@ EOT;
 <div class="c-table-data" id="{ID}">
     <div class="viewcontrols">{VIEW_CONTROLS}</div>
     <div class="c-table-data__table-wrapper">
-        <table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
+        <table class="c-table-data__table" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}" role="grid">
             <thead>
-                <tr class="c-table-data__header c-table-data__row" role="rowgroup">
-                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0">
-                        <div class="c-table-data__header__resize-wrapper">Field 1</div>
-                    </th>
-                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="1">
-                        <div class="c-table-data__header__resize-wrapper">Field 2</div>
-                    </th>
-                </tr>
+            <tr class="c-table-data__header c-table-data__row">
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" tabindex="-1" aria-colindex="1">
+                    <div class="c-table-data__header__resize-wrapper">Field 1</div>
+                </th>
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" tabindex="-1" aria-colindex="2">
+                    <div class="c-table-data__header__resize-wrapper">Field 2</div>
+                </th>
+            </tr>
             </thead>
-            <tbody class="c-table-data__body" role="rowgroup"></tbody>
+            <tbody class="c-table-data__body"></tbody>
         </table>
     </div>
-
     <div class="c-table-data__async_modal_container"></div>
-
     <dialog class="c-table-data__async_message c-modal" id="{ID}_msgmodal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <form><button formmethod="dialog" class="close" aria-label="close"><span aria-hidden="true">&times;</span></button></form>
+                    <form>
+                        <button formmethod="dialog" class="close" aria-label="close">
+                            <span aria-hidden="true">&times;</span></button>
+                    </form>
                 </div>
                 <div class="c-table-data__async_messageresponse modal-body"></div>
             </div>
         </div>
     </dialog>
-
 </div>
 EOT;
         $expected = $this->brutallyTrimHTML($expected);
@@ -423,13 +356,13 @@ EOT;
 
         $sortation_signal = null;
 
-        $table = $this->getUIFactory()->table()->data('', $columns, $data)
+        $table = $this->getUIFactory()->table()->data($data, '', $columns)
             ->withActions($actions)
             ->withRequest($this->getDummyRequest());
         $renderer->p_renderActionsHeader($this->getDefaultRenderer(), $table, $tpl);
         $actual = $this->brutallyTrimHTML($tpl->get());
 
-        $expected = '<th class="c-table-data__header c-table-data__cell c-table-data__header__rowaction" role="columnheader" aria-colindex="1">actions</th>';
+        $expected = '<th class="c-table-data__header c-table-data__cell c-table-data__header__rowaction" aria-colindex="2">actions</th>';
         $this->assertStringContainsString($expected, $actual);
     }
 
@@ -461,9 +394,7 @@ EOT;
         return [$rb, $columns, $actions];
     }
 
-    /**
-     * @depends testDataTableRowBuilder
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testDataTableRowBuilder')]
     public function testDataTableDataRowFromBuilder(array $params): I\Table\DataRow
     {
         list($rb, $columns, $actions) = $params;
@@ -490,34 +421,34 @@ EOT;
         return $row;
     }
 
-    /**
-     * @depends testDataTableDataRowFromBuilder
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testDataTableDataRowFromBuilder')]
     public function testDataTableRenderStandardRow(I\Table\DataRow $row)
     {
         $actual = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($row));
         $expected = <<<EOT
-<td class="c-table-data__cell c-table-data__rowselection" role="gridcell" tabindex="-1">
-    <input type="checkbox" value="row_id-1" class="c-table-data__row-selector">
+<td class="c-table-data__cell c-table-data__rowselection" tabindex="-1">
+    <input type="checkbox" value="row_id-1" class="c-table-data__row-selector"></td>
+<td class="c-table-data__cell c-table-data__cell--text " tabindex="-1"><span class="c-table-data__cell__col-title">Field 1:</span>v1
 </td>
-<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="1" tabindex="-1">
-    <span class="c-table-data__cell__col-title">Field 1:</span>v1
+<td class="c-table-data__cell c-table-data__cell--text " tabindex="-1"><span class="c-table-data__cell__col-title">Field 2:</span>v2
 </td>
-<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="2" tabindex="-1">
-    <span class="c-table-data__cell__col-title">Field 2:</span>v2
+<td class="c-table-data__cell c-table-data__cell--number " tabindex="-1"><span class="c-table-data__cell__col-title">Field 3:</span>3
 </td>
-<td class="c-table-data__cell c-table-data__cell--number " role="gridcell" aria-colindex="3" tabindex="-1">
-    <span class="c-table-data__cell__col-title">Field 3:</span>3
-</td>
-<td class="c-table-data__cell c-table-data__rowaction" role="gridcell" tabindex="-1">
+<td class="c-table-data__cell c-table-data__rowaction" tabindex="-1">
     <div class="dropdown" id="id_3">
-        <button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+        <button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">
+            <span class="caret"></span></button>
         <ul id="id_3_menu" class="dropdown-menu">
-            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_1">label1</button></li>
-            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_2">label2</button></li>
+            <li>
+                <button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_1">label1</button>
+            </li>
+            <li>
+                <button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_2">label2</button>
+            </li>
         </ul>
     </div>
 </td>
+
 EOT;
         $expected = $this->brutallyTrimHTML($expected);
         $this->assertEquals($expected, $actual);
@@ -551,7 +482,7 @@ EOT;
             'f5' => $this->getUIFactory()->table()->column()->text('f5'),
         ];
 
-        $table = $this->getTableFactory()->data('', $columns, $data)
+        $table = $this->getTableFactory()->data($data, '', $columns)
             ->withRequest($this->getDummyRequest());
 
         $html = $this->getDefaultRenderer()->render($table);

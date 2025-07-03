@@ -32,17 +32,13 @@ class UuidTest extends TestCase
     private const UUID4 = 'f47ac10b-58cc-4372-a567-0e02b2c3d479';
     private const NO_UUID = 'lorem ipsum dolor';
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function test_init(): Factory
     {
         return new Factory();
     }
 
-    /**
-     * @depends test_init
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('test_init')]
     public function test_uuid4(): void
     {
         $factory = new Factory();
@@ -51,9 +47,7 @@ class UuidTest extends TestCase
         $this->assertMatchesRegularExpression(self::VALID_UUID4, $uuid->toString());
     }
 
-    /**
-     * @depends test_init
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('test_init')]
     public function test_uuid4_string(): void
     {
         $factory = new Factory();
@@ -63,9 +57,7 @@ class UuidTest extends TestCase
         $this->assertMatchesRegularExpression(self::VALID_UUID4, $uuid);
     }
 
-    /**
-     * @depends test_init
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('test_init')]
     public function test_from_string(): void
     {
         $factory = new Factory();
@@ -75,9 +67,7 @@ class UuidTest extends TestCase
         $this->assertEquals(self::UUID4, $uuid->toString());
     }
 
-    /**
-     * @depends test_init
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('test_init')]
     public function test_from_illegal_string(): void
     {
         $this->expectException(InvalidUuidStringException::class);

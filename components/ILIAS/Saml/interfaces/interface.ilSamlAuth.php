@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Interface ilSamlAuth
- * @author Michael Jansen <mjansen@databay.de>
- */
 interface ilSamlAuth
 {
     public function getAuthId(): string;
@@ -31,10 +27,7 @@ interface ilSamlAuth
      */
     public function protectResource(): void;
 
-    /**
-     * @param mixed $value
-     */
-    public function storeParam(string $key, $value): void;
+    public function storeParam(string $key, mixed $value): void;
 
     public function isAuthenticated(): bool;
 

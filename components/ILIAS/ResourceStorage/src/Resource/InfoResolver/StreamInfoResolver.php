@@ -129,7 +129,8 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
             return;
         }
         $this->file_name = basename($this->path);
-        if ($this->file_name === 'memory' || $this->file_name === 'input') { // in case the stream is ofString or of php://input
+        // in case the stream is ofString or of php://input, php://memory or php://input
+        if ($this->file_name === 'memory' || $this->file_name === 'input' || $this->file_name === 'temp') {
             $this->file_name = $this->getRevisionTitle();
         }
     }

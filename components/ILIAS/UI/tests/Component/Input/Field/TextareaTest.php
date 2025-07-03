@@ -237,4 +237,17 @@ class TextareaTest extends ILIAS_UI_TestBase
         $content = $text->getContent();
         $this->assertEquals("alert()", $content->value());
     }
+
+    public function testWithoutStripsTags(): void
+    {
+        $f = $this->getFieldFactory();
+        $name = "name_0";
+        $text = $f->textarea("")
+            ->withNameFrom($this->name_source)
+            ->withoutStripTags()
+            ->withInput(new DefInputData([$name => "<script>alert()</script>"]));
+
+        $content = $text->getContent();
+        $this->assertEquals("<script>alert()</script>", $content->value());
+    }
 }

@@ -178,14 +178,14 @@ class UIModifier extends Mode\AbstractUIModifier
 
             if (count($raters) > 0) {
                 $options = [];
-                $options["-"] = $lng->txt("svy_all_raters");
+                //$options["-"] = $lng->txt("svy_all_raters");
                 foreach ($raters as $rater) {
                     $options[$rater["user_id"]] = $rater["name"];
                 }
 
                 $rat = new \ilSelectInputGUI($lng->txt("svy_rater"), "rater_id");
                 $rat->setOptions($options);
-                $rat->setValue($evaluation_manager->getCurrentRater());
+                $rat->setValue($evaluation_manager->getCurrentRater(true));
                 $toolbar->addInputItem($rat, true);
 
                 $this->gui->button(

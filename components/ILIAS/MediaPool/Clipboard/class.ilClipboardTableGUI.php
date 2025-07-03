@@ -22,6 +22,7 @@
  */
 class ilClipboardTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\MediaObjects\Thumbs\ThumbsGUI $thumbs_gui;
     protected ilAccessHandler $access;
     protected ilObjUser $user;
 
@@ -37,6 +38,7 @@ class ilClipboardTableGUI extends ilTable2GUI
         $this->user = $DIC->user();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $this->thumbs_gui = $DIC->mediaObjects()->internal()->gui()->thumbs();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $lng->loadLanguageModule("mep");
@@ -86,30 +88,10 @@ class ilClipboardTableGUI extends ilTable2GUI
 
         $mob = null;
         if ($a_set["type"] === "mob") {
-            // output thumbnail
-            $mob = new ilObjMediaObject($a_set["id"]);
-            $med = $mob->getMediaItem("Standard");
-            $target = $med->getThumbnailTarget();
-            if ($target !== "") {
-                $this->tpl->setCurrentBlock("thumbnail");
-                $this->tpl->setVariable("IMG_THUMB", $target);
-                $this->tpl->parseCurrentBlock();
-            }
-            if (ilUtil::deducibleSize($med->getFormat()) &&
-                $med->getLocationType() === "Reference") {
-                $size = getimagesize($med->getLocation());
-                if ($size[0] > 0 && $size[1] > 0) {
-                    $wr = $size[0] / 80;
-                    $hr = $size[1] / 80;
-                    $r = max($wr, $hr);
-                    $w = (int) ($size[0] / $r);
-                    $h = (int) ($size[1] / $r);
-                    $this->tpl->setVariable(
-                        "IMG",
-                        ilUtil::img($med->getLocation(), "", $w, $h)
-                    );
-                }
-            }
+            $this->tpl->setVariable(
+                "IMG",
+                $this->thumbs_gui->getThumbHtml((int) $a_set["id"])
+            );
         } elseif ($a_set["type"] === "incl") {
             $this->tpl->setCurrentBlock("thumbnail");
             $this->tpl->setVariable(

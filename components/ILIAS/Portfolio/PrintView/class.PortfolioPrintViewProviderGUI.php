@@ -197,6 +197,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         $cover_tpl->setVariable("TXT_AUTHOR", $lng->txt("prtf_author"));
         $cover_tpl->setVariable("TXT_LINK", $lng->txt("prtf_link"));
         $cover_tpl->setVariable("TXT_DATE", $lng->txt("prtf_date_of_print"));
+        $cover_tpl->setVariable("TXT_TABLE_OF_CONTENTS", $lng->txt("prtf_table_of_contents"));
 
         $author = \ilObjUser::_lookupName($this->portfolio->getOwner());
         $author_str = $author["firstname"] . " " . $author["lastname"];

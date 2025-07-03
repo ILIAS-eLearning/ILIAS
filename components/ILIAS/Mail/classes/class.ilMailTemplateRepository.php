@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailTemplateRepository
- */
 class ilMailTemplateRepository
 {
     protected ilDBInterface $db;
@@ -32,7 +29,7 @@ class ilMailTemplateRepository
     }
 
     /**
-     * @return ilMailTemplate[]
+     * @return list<ilMailTemplate>
      */
     public function getAll(): array
     {
@@ -47,40 +44,43 @@ class ilMailTemplateRepository
         return $templates;
     }
 
-    public function findById(int $templateId): ilMailTemplate
+    public function findById(int $template_id): ilMailTemplate
     {
         $res = $this->db->queryF(
             'SELECT * FROM mail_man_tpl WHERE tpl_id  = %s',
             [ilDBConstants::T_INTEGER],
-            [$templateId]
+            [$template_id]
         );
 
-        if (1 === $this->db->numRows($res)) {
+        if ($this->db->numRows($res) === 1) {
             $row = $this->db->fetchAssoc($res);
             return new ilMailTemplate($row);
         }
 
-        throw new OutOfBoundsException(sprintf("Could not find template by id: %s", $templateId));
+        throw new OutOfBoundsException(sprintf('Could not find template by id: %s', $template_id));
     }
 
     /**
-     * @return ilMailTemplate[]
+     * @return list<ilMailTemplate>
      */
-    public function findByContextId(string $contextId): array
+    public function findByContextId(string $context_id): array
     {
-        return array_filter($this->getAll(), static function (ilMailTemplate $template) use ($contextId): bool {
-            return $contextId === $template->getContext();
-        });
+        return array_values(
+            array_filter(
+                $this->getAll(),
+                static fn(ilMailTemplate $template): bool => $context_id === $template->getContext()
+            )
+        );
     }
 
     /**
-     * @param int[] $templateIds
+     * @param list<int> $template_ids
      */
-    public function deleteByIds(array $templateIds): void
+    public function deleteByIds(array $template_ids): void
     {
-        if ($templateIds !== []) {
+        if ($template_ids !== []) {
             $this->db->manipulate(
-                'DELETE FROM mail_man_tpl WHERE ' . $this->db->in('tpl_id', $templateIds, false, ilDBConstants::T_INTEGER)
+                'DELETE FROM mail_man_tpl WHERE ' . $this->db->in('tpl_id', $template_ids, false, ilDBConstants::T_INTEGER)
             );
         }
     }
@@ -103,9 +103,9 @@ class ilMailTemplateRepository
                 ]
             );
         } else {
-            $nextId = $this->db->nextId('mail_man_tpl');
+            $next_id = $this->db->nextId('mail_man_tpl');
             $this->db->insert('mail_man_tpl', [
-                'tpl_id' => [ilDBConstants::T_INTEGER, $nextId],
+                'tpl_id' => [ilDBConstants::T_INTEGER, $next_id],
                 'title' => [ilDBConstants::T_TEXT, $template->getTitle()],
                 'context' => [ilDBConstants::T_TEXT, $template->getContext()],
                 'lang' => [ilDBConstants::T_TEXT, $template->getLang()],
@@ -113,7 +113,7 @@ class ilMailTemplateRepository
                 'm_message' => [ilDBConstants::T_TEXT, $template->getMessage()],
                 'is_default' => [ilDBConstants::T_INTEGER, $template->isDefault()],
             ]);
-            $template->setTplId($nextId);
+            $template->setTplId($next_id);
         }
     }
 }

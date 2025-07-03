@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,10 +29,10 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
  */
 class ilMStListCertificatesGUI
 {
-    public const CMD_APPLY_FILTER = 'applyFilter';
-    public const CMD_INDEX = 'index';
-    public const CMD_GET_ACTIONS = "getActions";
-    public const CMD_RESET_FILTER = 'resetFilter';
+    public const string CMD_APPLY_FILTER = 'applyFilter';
+    public const string CMD_INDEX = 'index';
+    public const string CMD_GET_ACTIONS = "getActions";
+    public const string CMD_RESET_FILTER = 'resetFilter';
     protected ilTable2GUI $table;
     protected ilMyStaffAccess $access;
     private ilGlobalTemplateInterface $main_tpl;

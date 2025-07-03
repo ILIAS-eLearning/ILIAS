@@ -178,10 +178,12 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $group->addOption($check);
         $check = new ilCheckboxOption();
         $check->setTitle($this->lng->txt('ps_export_confirm'));
+        $check->setInfo($this->lng->txt('ps_export_confirm_info'));
         $check->setValue('export_confirm_course');
         $group->addOption($check);
         $check = new ilCheckboxOption();
         $check->setTitle($this->lng->txt('ps_export_confirm_group'));
+        $check->setInfo($this->lng->txt('ps_export_confirm_group_info'));
         $check->setValue('export_confirm_group');
         $group->addOption($check);
         $check = new ilCheckboxOption();

@@ -138,7 +138,7 @@ class ilPCSectionGUI extends ilPageContentGUI
             "AdvancedKnowledge" => $lng->txt("cont_AdvancedKnowledge"));
     }
 
-    public static function _getCharacteristics(string $a_style_id): array
+    public static function _getCharacteristics(int $a_style_id): array
     {
         global $DIC;
 

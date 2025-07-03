@@ -100,4 +100,15 @@ class SchedulesDBRepository
         return $schedules;
     }
 
+    public function getPoolIdForSchedule(int $schedule_id): int
+    {
+        $set = $this->db->query("SELECT pool_id " .
+            " FROM booking_schedule" .
+            " WHERE booking_schedule_id = " . $this->db->quote($schedule_id, 'integer'));
+        if ($rec = $this->db->fetchAssoc($set)) {
+            return (int) $rec['pool_id'];
+        }
+        return 0;
+    }
+
 }

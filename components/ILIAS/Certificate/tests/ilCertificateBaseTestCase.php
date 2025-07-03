@@ -21,10 +21,6 @@ declare(strict_types=1);
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class ilCertificateBaseTestCase
- * @author Michael Jansen <mjansen@databay.de>
- */
 abstract class ilCertificateBaseTestCase extends TestCase
 {
     protected ?Container $dic;
@@ -44,10 +40,7 @@ abstract class ilCertificateBaseTestCase extends TestCase
         parent::setUp();
     }
 
-    /**
-     * @param mixed $value
-     */
-    protected function setGlobalVariable(string $name, $value): void
+    protected function setGlobalVariable(string $name, mixed $value): void
     {
         global $DIC;
 

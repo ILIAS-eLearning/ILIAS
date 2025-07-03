@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 /**
- * @author       Lukas Zehnder <lz@studer-raimann.ch>
+ * @author              Lukas Zehnder <lz@studer-raimann.ch>
  *
  * @ilCtrl_IsCalledBy   ilObjWebDAVGUI: ilAdministrationGUI
  * @ilCtrl_Calls        ilObjWebDAVGUI: ilPermissionGUI
@@ -29,7 +29,8 @@ class ilObjWebDAVGUI extends ilObjectGUI
 {
     protected const SETTING_COMMANDS = [
         'edit' => 'editSettings',
-        'save' => 'saveSettings'];
+        'save' => 'saveSettings'
+    ];
 
     protected ilWebDAVDIC $webdav_dic;
     public ilErrorHandling $error_handling;
@@ -99,7 +100,6 @@ class ilObjWebDAVGUI extends ilObjectGUI
         parent::setTitleAndDescription();
         $this->tpl->setDescription($this->object->getDescription());
     }
-
 
     protected function initSettingsForm(): ilPropertyFormGUI
     {

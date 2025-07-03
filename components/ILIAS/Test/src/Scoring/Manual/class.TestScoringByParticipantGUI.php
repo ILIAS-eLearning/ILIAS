@@ -391,7 +391,10 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         $form->setTableWidth('100%');
 
         foreach ($question_gui_list as $question_id => $question_gui) {
-            $question_header = sprintf($this->lng->txt('tst_manscoring_question_section_header'), $question_gui->getObject()->getTitle());
+            $question_header = sprintf(
+                $this->lng->txt('tst_manscoring_question_section_header'),
+                $question_gui->getObject()->getTitleForHTMLOutput()
+            );
             $question_solution = $question_gui->getSolutionOutput($active_id, $pass, false, false, true, false, false, true);
             $best_solution = $question_gui->getObject()->getSuggestedSolutionOutput();
 
@@ -410,14 +413,19 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
             $cust->setHtml($question_solution);
             $form->addItem($cust);
 
-            $text = new \ilTextInputGUI($this->lng->txt('tst_change_points_for_question'), "question__{$question_id}__points");
+            $number_input_gui = new \ilNumberInputGUI(
+                $this->lng->txt('tst_change_points_for_question'),
+                "question__{$question_id}__points"
+            );
+            $number_input_gui->allowDecimals(true);
+
             if ($initValues) {
-                $text->setValue((string) \assQuestion::_getReachedPoints($active_id, $question_id, $pass));
+                $number_input_gui->setValue((string) \assQuestion::_getReachedPoints($active_id, $question_id, $pass));
             }
             if ($disabled) {
-                $text->setDisabled($disabled);
+                $number_input_gui->setDisabled($disabled);
             }
-            $form->addItem($text);
+            $form->addItem($number_input_gui);
 
             $nonedit = new \ilNonEditableValueGUI($this->lng->txt('tst_manscoring_input_max_points_for_question'), "question__{$question_id}__maxpoints");
             if ($initValues) {

@@ -27,9 +27,9 @@ class ilWebLinkDraftParameter extends ilWebLinkBaseParameter
     /**
      * TODO: This can be removed when validate is.
      */
-    public const LINKS_ERR_NO_NAME = 'links_no_name_given';
-    public const LINKS_ERR_NO_VALUE = 'links_no_value_given';
-    public const LINKS_ERR_NO_NAME_VALUE = 'links_no_name_no_value';
+    public const string LINKS_ERR_NO_NAME = 'links_no_name_given';
+    public const string LINKS_ERR_NO_VALUE = 'links_no_value_given';
+    public const string LINKS_ERR_NO_NAME_VALUE = 'links_no_name_no_value';
 
 
     protected ?ilWebLinkParameter $old_parameter = null;

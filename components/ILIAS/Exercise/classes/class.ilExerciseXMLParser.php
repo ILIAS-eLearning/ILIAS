@@ -70,9 +70,8 @@ class ilExerciseXMLParser extends ilSaxParser
 
     public function setHandlers($a_xml_parser): void
     {
-        xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
+        xml_set_element_handler($a_xml_parser, $this->handlerBeginTag(...), $this->handlerEndTag(...));
+        xml_set_character_data_handler($a_xml_parser, $this->handlerCharacterData(...));
     }
 
     /**
@@ -107,7 +106,7 @@ class ilExerciseXMLParser extends ilSaxParser
                 $this->mode = ilExerciseXMLParser::$CONTENT_NOT_COMPRESSED;
                 if ($a_attribs["mode"] == "GZIP") {
                     if (!function_exists("gzdecode")) {
-                        throw new  ilExerciseException("Deflating with gzip is not supported", ilExerciseException::$ID_DEFLATE_METHOD_MISMATCH);
+                        throw new ilExerciseException("Deflating with gzip is not supported", ilExerciseException::$ID_DEFLATE_METHOD_MISMATCH);
                     }
 
                     $this->mode = ilExerciseXMLParser::$CONTENT_GZ_COMPRESSED;

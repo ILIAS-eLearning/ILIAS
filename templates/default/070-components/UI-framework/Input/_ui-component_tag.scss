@@ -7,6 +7,7 @@ $il-input-tag-color-text: $il-btn-standard-color;
 $il-input-tag-color-disabled: #EEEEEE;
 
 .c-field-tag {
+	width: 100%;
 	background-color: $il-main-bg;
 	
 	--tags-focus-border-color: #{$il-input-tag-color-bg};

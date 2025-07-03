@@ -100,9 +100,10 @@ class ilMailMemberSearchDataProvider
 
             $roleTitles = $this->sortRoles($roleTitles);
 
-            $roleTitles = array_map(function (string $roleTitle): string {
-                return $this->buildRoleTitle($roleTitle);
-            }, $roleTitles);
+            $roleTitles = array_map(
+                fn(string $roleTitle): string => $this->buildRoleTitle($roleTitle),
+                $roleTitles
+            );
 
             $this->data[$user_id]['role'] = implode(', ', $roleTitles);
         }

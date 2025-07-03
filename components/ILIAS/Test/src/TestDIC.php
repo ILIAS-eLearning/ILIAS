@@ -36,6 +36,7 @@ use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\Test\Logging\Factory as InteractionFactory;
 use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
+use ILIAS\Test\ExportImport\DBRepository as ExportImportRepository;
 use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
 use ILIAS\Test\Questions\Properties\DatabaseRepository as TestQuestionsDatabaseRepository;
 use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
@@ -73,7 +74,8 @@ class TestDIC extends PimpleContainer
                 $DIC['ilAccess'],
                 $DIC['lng'],
                 $DIC['static_url'],
-                $DIC['ui.factory']
+                $DIC['ui.factory'],
+                $DIC['refinery']
             );
 
         $dic['results.data.factory'] = static fn($c): ResultsDataFactory =>
@@ -180,7 +182,13 @@ class TestDIC extends PimpleContainer
                 $DIC['component.factory'],
                 $DIC['file_delivery'],
                 $DIC['ilUser'],
-                $c['question.general_properties.repository']
+                $c['question.general_properties.repository'],
+                $DIC['resource_storage'],
+            );
+
+        $dic['exportimport.repository'] = static fn($c): ExportImportRepository =>
+            new ExportImportRepository(
+                $DIC['ilDB']
             );
 
         $dic['questions.properties.repository'] = static fn($c): TestQuestionsRepository =>

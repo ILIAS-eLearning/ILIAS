@@ -178,6 +178,8 @@ EOT;
 
 class InterruptiveItemMock implements C\Modal\InterruptiveItem\InterruptiveItem
 {
+    use I\Component\ComponentHelper;
+
     protected string $canonical_name;
 
     public function __construct(string $canonical_name = '')

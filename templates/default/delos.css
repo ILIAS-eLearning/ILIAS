@@ -381,6 +381,7 @@
 }
 
 .dropdown-menu {
+  width: 320px;
   position: absolute;
   top: 100%;
   z-index: 1000;
@@ -389,8 +390,8 @@
   overflow: auto;
   min-width: 160px;
   max-height: 50vh;
-  padding: 5px 0;
-  margin: 2px 0 0;
+  padding: 6px 0;
+  margin: 3px 0 0;
   font-size: 0.875rem;
   text-align: left;
   list-style: none;
@@ -421,6 +422,12 @@
 }
 .dropdown-menu hr {
   margin: 6px 0;
+}
+.dropdown-menu > .dropdown-menu-list {
+  padding: 6px 0;
+  margin: 3px 0 0;
+  text-align: left;
+  list-style-type: none;
 }
 
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
@@ -2069,13 +2076,6 @@ html, body {
   overflow: hidden;
   margin: 0;
 }
-@media only screen and (max-width: 991px) {
-  html, body {
-    overflow: initial;
-    height: auto;
-    min-height: 100vh;
-  }
-}
 
 html {
   font-size: 100%;
@@ -2092,6 +2092,13 @@ body {
   line-height: 1.428571429;
   color: #161616;
   background-color: white;
+}
+@media only screen and (max-width: 991px) {
+  body {
+    overflow: auto;
+    height: 100%;
+    min-height: 100%;
+  }
 }
 
 /* see bug ILIAS bug #17589 and http://stackoverflow.com/questions/17045132/scrollbar-overlay-in-ie10-how-do-you-stop-that */
@@ -2610,6 +2617,7 @@ code {
   content: " \e606";
   color: #737373;
   padding: 8px 10px;
+  font-weight: 400;
   font-family: "il-icons";
 }
 
@@ -3202,11 +3210,11 @@ input.btn, input.il-link.link-bulky,
 .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link fieldset[disabled],
 .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default fieldset[disabled],
 .ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a fieldset[disabled] {
-  background-color: white;
+  background-color: #b0b0b0;
   border-width: 1px;
   border-style: solid;
-  border-color: white;
-  color: rgba(76, 101, 134, 0.9);
+  border-color: #b0b0b0;
+  color: black;
   cursor: not-allowed;
   transform: none;
 }
@@ -4028,6 +4036,27 @@ button .minimize, button .close {
   display: flex;
 }
 
+h4.il-divider {
+  display: flex;
+  flex-direction: row;
+}
+
+h4.il-divider:before,
+h4.il-divider:after {
+  content: "";
+  flex: 1 1;
+  border-bottom: 2px solid white;
+  margin: auto;
+}
+
+h4.il-divider:before {
+  margin-right: 0.5em;
+}
+
+h4.il-divider:after {
+  margin-left: 0.5em;
+}
+
 .engaged ~ ul > li > h4.il-divider {
   padding: 3px 6px;
   margin-bottom: 0px;
@@ -4161,6 +4190,7 @@ hr.il-divider-with-label {
 }
 
 .c-field-tag {
+  width: 100%;
   background-color: white;
   --tags-focus-border-color: #4c6586;
   --tag-bg: #4c6586;
@@ -4225,7 +4255,6 @@ hr.il-divider-with-label {
 }
 .c-form ul.c-field-multiselect > li label {
   display: flex;
-  flex-wrap: wrap;
 }
 .c-form ul.c-field-multiselect > li label > input[type=checkbox] {
   margin-right: 9px;
@@ -4625,8 +4654,13 @@ hr.il-divider-with-label {
   order: 1;
   width: 100%;
 }
-.c-form .c-input[data-il-ui-component=section-field-input].c-input > label h2, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h3, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h4, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h5, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h6 {
+.c-form .c-input[data-il-ui-component=section-field-input].c-input > label h3, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h4, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h5, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h6 {
   display: inline-block;
+}
+.c-form .c-input[data-il-ui-component=section-field-input].c-input > label h2 {
+  display: inline-block;
+  font-size: 1.115rem;
+  font-weight: 600;
 }
 .c-form .c-input[data-il-ui-component=section-field-input].c-input > .c-input__help-byline {
   width: 100%;
@@ -5293,28 +5327,24 @@ main {
   width: 100%;
 }
 
+#il_center_col .panel-viewcontrols {
+  container-name: wide-content;
+  container-type: inline-size;
+}
+@container wide-content (width <= 600px) {
+  #il_center_col .panel-viewcontrols .il-viewcontrol-sortation .label {
+    display: none;
+  }
+}
+
 /*
 **************************************************************
        mobile Layout
 **************************************************************
 */
-@media (min-width: 768px) {
-  #il_right_col {
-    padding-left: 0;
-  }
-}
-
 @media only screen and (max-width: 1199px) {
-  .il-layout-page.with-mainbar-slates-engaged #il_right_col {
-    padding-left: 15px;
-  }
-}
-@media only screen and (max-width: 1199px) {
-  .il-layout-page.with-mainbar-slates-engaged #il_center_col.col-sm-9 {
-    padding-right: 15px;
-  }
-  .il-layout-page.with-mainbar-slates-engaged #il_center_col.col-sm-9,
-  .il-layout-page.with-mainbar-slates-engaged #il_right_col.col-sm-3 {
+  #il_center_col.col-sm-9,
+  #il_right_col.col-sm-3 {
     float: none !important;
     width: 100% !important;
   }
@@ -5424,7 +5454,7 @@ main {
   .il-header-locator .dropdown {
     position: static;
   }
-  .il-header-locator .open > .dropdown-menu {
+  .il-header-locator .dropdown-menu {
     top: 44px;
     width: 100%;
   }
@@ -5449,6 +5479,7 @@ main {
   }
   .il-header-locator .btn-default:active:hover,
   .il-header-locator .btn-default:active:focus,
+  .il-header-locator .dropdown-toggle.btn-default:focus,
   .il-header-locator .open > .dropdown-toggle.btn-default,
   .il-header-locator .open > .dropdown-toggle.btn-default:hover .open > .dropdown-toggle.btn-default:active,
   .il-header-locator .open > .dropdown-toggle.btn-default:active:hover,
@@ -5900,6 +5931,10 @@ a[aria-disabled].il-link.link-bulky:hover {
 }
 .il-maincontrols-slate-content li.il-workflow-step {
   padding: 0 4px;
+}
+.il-maincontrols-slate-content > .c-form,
+.il-maincontrols-slate-content > #copg-editor-slate-content > .c-form {
+  padding: 9px 15px;
 }
 
 .il-maincontrols-slate-close button,
@@ -7085,7 +7120,10 @@ code {
   flex-basis: auto;
   overflow: hidden;
 }
-.il-system-info div.il-system-info-content-wrapper span.il-system-info-headline {
+.il-system-info div.il-system-info-content-wrapper div.il-system-info-headline, .il-system-info div.il-system-info-content-wrapper div.il-system-info-body {
+  display: inline;
+}
+.il-system-info div.il-system-info-content-wrapper div.il-system-info-headline {
   text-transform: uppercase;
   font-weight: 600;
   margin-right: 9px;
@@ -7402,11 +7440,11 @@ input.btn, .c-drilldown input.c-drilldown__menulevel--trigger, input.il-link.lin
 .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link fieldset[disabled],
 .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default fieldset[disabled],
 .ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a fieldset[disabled] {
-  background-color: white;
+  background-color: #b0b0b0;
   border-width: 1px;
   border-style: solid;
-  border-color: white;
-  color: rgba(76, 101, 134, 0.9);
+  border-color: #b0b0b0;
+  color: black;
   cursor: not-allowed;
   transform: none;
 }
@@ -7905,14 +7943,9 @@ div.alert div {
 div.alert ul {
   margin-top: 15px;
   background-color: #f9f9f9;
-  padding: 6px 12px;
+  padding: 6px 26px;
   font-size: 0.75rem;
   color: #6f6f6f;
-  list-style-type: none;
-}
-div.alert ul > li:before {
-  content: "» ";
-  /* margin-left: -10px; */
 }
 
 .c-modal,
@@ -8293,7 +8326,6 @@ div.alert ul > li:before {
   gap: 9px;
 }
 .panel-flex .panel-title {
-  flex-shrink: 0;
   order: 1;
 }
 .panel-flex .panel-controls {
@@ -9946,6 +9978,9 @@ div.alert ul > li:before {
   color: #3a4c65;
   text-decoration: none;
 }
+.glyph:focus-visible {
+  position: relative;
+}
 
 .glyphicon.glyphicon-chevron-left, .glyphicon.glyphicon-chevron-right {
   font-weight: 100;
@@ -10164,6 +10199,37 @@ div.alert ul > li:before {
   content: "\e909";
 }
 
+.glyphicon-dragHandle:before {
+  font-family: il-icons;
+  content: "\e90d";
+  cursor: grab;
+}
+
+.glyphicon-unselect:before {
+  font-family: il-icons;
+  content: "\e910";
+}
+
+.glyphicon-select:before {
+  font-family: il-icons;
+  content: "\e911";
+}
+
+.glyphicon-clear:before {
+  font-family: il-icons;
+  content: "\e912";
+}
+
+.glyphicon-checked:before {
+  font-family: il-icons;
+  content: "\e913";
+}
+
+.glyphicon-unchecked:before {
+  font-family: il-icons;
+  content: "\e914";
+}
+
 .il-avatar {
   height: 45px;
   width: 45px;
@@ -10358,6 +10424,9 @@ div.alert ul > li:before {
   position: relative;
   white-space: nowrap;
 }
+.il-table-presentation-row.expanded .il-table-presentation-row-controls {
+  width: auto;
+}
 .il-table-presentation-row.expanded .il-table-presentation-row-expanded,
 .il-table-presentation-row.expanded .il-table-presentation-row-controls-collapser {
   display: block;
@@ -10365,6 +10434,9 @@ div.alert ul > li:before {
 .il-table-presentation-row.expanded .il-table-presentation-row-header-fields,
 .il-table-presentation-row.expanded .il-table-presentation-row-controls-expander {
   display: none;
+}
+.il-table-presentation-row.collapsed .il-table-presentation-row-controls {
+  width: auto;
 }
 .il-table-presentation-row.collapsed .il-table-presentation-row-expanded,
 .il-table-presentation-row.collapsed .il-table-presentation-row-controls-collapser {
@@ -10376,6 +10448,7 @@ div.alert ul > li:before {
 }
 .il-table-presentation-row .il-table-presentation-row-contents {
   white-space: normal;
+  width: auto;
 }
 .il-table-presentation-row .il-table-presentation-row-header {
   min-height: 2rem;
@@ -10432,7 +10505,8 @@ div.alert ul > li:before {
   color: #6f6f6f;
 }
 
-.c-table-data .viewcontrols {
+.c-table-data .viewcontrols,
+.c-table-ordering .viewcontrols {
   margin-bottom: 6px;
 }
 
@@ -10449,7 +10523,7 @@ div.alert ul > li:before {
   border: 1px solid #dddddd;
 }
 .c-table-data__cell--multiaction {
-  padding-bottom: 9px;
+  padding-bottom: 6px;
 }
 
 @media screen and (min-width: 769px) {
@@ -10529,6 +10603,11 @@ th.c-table-data__cell {
 .c-table-data__rowselection {
   min-width: 50px;
   text-align: center;
+  vertical-align: middle;
+}
+.c-table-data__rowselection .glyphicon-dragHandle::before {
+  font-size: 18px;
+  color: #dddddd;
 }
 
 @media screen and (min-width: 769px) {
@@ -10620,43 +10699,71 @@ td.c-table-data__cell--highlighted {
 @media screen and (max-width: 768px) {
   .c-table-data .c-table-data__table,
   .c-table-data tbody,
-  .c-table-data .c-table-data__cell {
+  .c-table-data .c-table-data__cell,
+  .c-table-ordering .c-table-data__table,
+  .c-table-ordering tbody,
+  .c-table-ordering .c-table-data__cell {
     width: 100%;
     display: block;
     border: none;
   }
-  .c-table-data tr.c-table-data__row {
+  .c-table-data tr.c-table-data__row,
+  .c-table-ordering tr.c-table-data__row {
     display: flex;
     flex-wrap: wrap;
   }
-  .c-table-data tr.c-table-data__row {
+  .c-table-data tr.c-table-data__row,
+  .c-table-ordering tr.c-table-data__row {
     border-top: 1px solid #dddddd;
     padding: 15px 0 15px;
   }
-  .c-table-data .c-table-data__table {
+  .c-table-data .c-table-data__table,
+  .c-table-ordering .c-table-data__table {
     border-bottom: 1px solid #dddddd;
   }
-  .c-table-data thead {
+  .c-table-data thead,
+  .c-table-ordering thead {
     display: none;
   }
-  .c-table-data .c-table-data__cell__col-title {
+  .c-table-data .c-table-data__cell__col-title,
+  .c-table-ordering .c-table-data__cell__col-title {
     display: inline;
     font-weight: bold;
   }
   .c-table-data td.c-table-data__cell--email,
-  .c-table-data td.c-table-data__cell--number {
+  .c-table-data td.c-table-data__cell--number,
+  .c-table-ordering td.c-table-data__cell--email,
+  .c-table-ordering td.c-table-data__cell--number {
     text-align: inherit;
   }
-  .c-table-data td.c-table-data__cell--highlighted {
+  .c-table-data td.c-table-data__cell--highlighted,
+  .c-table-ordering td.c-table-data__cell--highlighted {
     font-size: 1.5rem;
     background-color: inherit;
   }
+  .c-table-data .c-table-data__positioninput .c-input[data-il-ui-component],
+  .c-table-ordering .c-table-data__positioninput .c-input[data-il-ui-component] {
+    display: flex;
+    align-items: center;
+  }
+  .c-table-data .c-table-data__positioninput .c-input[data-il-ui-component] > label,
+  .c-table-ordering .c-table-data__positioninput .c-input[data-il-ui-component] > label {
+    display: block;
+    width: auto;
+  }
+  .c-table-data .c-table-data__positioninput .c-input[data-il-ui-component] input,
+  .c-table-ordering .c-table-data__positioninput .c-input[data-il-ui-component] input {
+    width: 65px;
+  }
   .c-table-data .c-table-data__rowselection,
-  .c-table-data .c-table-data__rowaction {
+  .c-table-data .c-table-data__rowaction,
+  .c-table-ordering .c-table-data__rowselection,
+  .c-table-ordering .c-table-data__rowaction {
     order: -1;
     width: auto;
   }
-  .c-table-data .c-table-data__rowaction {
+  .c-table-data .c-table-data__rowaction,
+  .c-table-ordering .c-table-data__rowaction {
     margin-left: auto;
   }
 }
@@ -10845,6 +10952,220 @@ td.c-table-data__cell--highlighted {
   min-width: 1.7rem;
   border-radius: 10px;
 }
+.il-viewcontrol-sortation > .btn-ctrl:has(> .glyph.disabled), .il-viewcontrol-sortation > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-sortation .dropdown.il-viewcontrol-sortation > .btn-default.btn:has(> .glyph.disabled),
+.il-table-presentation-viewcontrols .l-bar__space-keeper .l-bar__group .l-bar__element.il-viewcontrol-sortation > .btn-default.btn:has(> .glyph.disabled), .il-viewcontrol-sortation > .btn-default:has(> .glyph.disabled), .il-viewcontrol-sortation > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section.il-viewcontrol-sortation > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section.il-viewcontrol-sortation > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section .btn-group.il-viewcontrol-sortation > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section .btn-group.il-viewcontrol-sortation > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-sortation > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-sortation > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-sortation > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-sortation > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination.il-viewcontrol-sortation > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination.il-viewcontrol-sortation > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-sortation > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-sortation > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .last.il-viewcontrol-sortation > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .last.il-viewcontrol-sortation > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-mode.il-viewcontrol-sortation > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-mode.il-viewcontrol-sortation > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section > .btn-ctrl:has(> .glyph.disabled),
+.il-viewcontrol-sortation.il-viewcontrol-section > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-sortation .dropdown.il-viewcontrol-section > .btn-default.btn:has(> .glyph.disabled),
+.il-table-presentation-viewcontrols .l-bar__space-keeper .l-bar__group .l-bar__element.il-viewcontrol-section > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-sortation.il-viewcontrol-section > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-sortation.il-viewcontrol-section > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section .btn-group.il-viewcontrol-section > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section .btn-group.il-viewcontrol-section > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-section > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-section > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-section > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-section > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination.il-viewcontrol-section > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination.il-viewcontrol-section > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-section > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-section > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .last.il-viewcontrol-section > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .last.il-viewcontrol-section > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-mode.il-viewcontrol-section > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-mode.il-viewcontrol-section > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section .btn-group > .btn-ctrl:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-sortation.btn-group > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-sortation .dropdown.btn-group > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-sortation .il-viewcontrol-section .dropdown.btn-group > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-section .il-table-presentation-viewcontrols .l-bar__space-keeper .l-bar__group .l-bar__element.btn-group > .btn-default.btn:has(> .glyph.disabled),
+.il-table-presentation-viewcontrols .l-bar__space-keeper .l-bar__group .il-viewcontrol-section .l-bar__element.btn-group > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-sortation.btn-group > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-sortation.btn-group > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-section.btn-group > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-section.btn-group > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section .btn-group > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section .btn-group > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-pagination__sectioncontrol.btn-group > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-pagination__sectioncontrol.btn-group > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-pagination__num-of-items.btn-group > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-pagination__num-of-items.btn-group > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-pagination.btn-group > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-pagination.btn-group > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-pagination .dropdown.btn-group > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-section .dropdown.btn-group > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-pagination .dropdown.btn-group > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-section .dropdown.btn-group > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-pagination .last.btn-group > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-section .last.btn-group > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-pagination .last.btn-group > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-section .last.btn-group > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-mode.btn-group > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-mode.btn-group > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination__sectioncontrol > .btn-ctrl:has(> .glyph.disabled),
+.il-viewcontrol-sortation.il-viewcontrol-pagination__sectioncontrol > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-sortation .dropdown.il-viewcontrol-pagination__sectioncontrol > .btn-default.btn:has(> .glyph.disabled),
+.il-table-presentation-viewcontrols .l-bar__space-keeper .l-bar__group .l-bar__element.il-viewcontrol-pagination__sectioncontrol > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-sortation.il-viewcontrol-pagination__sectioncontrol > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-sortation.il-viewcontrol-pagination__sectioncontrol > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section.il-viewcontrol-pagination__sectioncontrol > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section.il-viewcontrol-pagination__sectioncontrol > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination__sectioncontrol > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination__sectioncontrol > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination__sectioncontrol > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination__sectioncontrol > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-pagination__sectioncontrol > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-pagination__sectioncontrol > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination.il-viewcontrol-pagination__sectioncontrol > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination.il-viewcontrol-pagination__sectioncontrol > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination__sectioncontrol > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination__sectioncontrol > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination__sectioncontrol > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination__sectioncontrol > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-mode.il-viewcontrol-pagination__sectioncontrol > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-mode.il-viewcontrol-pagination__sectioncontrol > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination__num-of-items > .btn-ctrl:has(> .glyph.disabled),
+.il-viewcontrol-sortation.il-viewcontrol-pagination__num-of-items > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-sortation .dropdown.il-viewcontrol-pagination__num-of-items > .btn-default.btn:has(> .glyph.disabled),
+.il-table-presentation-viewcontrols .l-bar__space-keeper .l-bar__group .l-bar__element.il-viewcontrol-pagination__num-of-items > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-sortation.il-viewcontrol-pagination__num-of-items > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-sortation.il-viewcontrol-pagination__num-of-items > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section.il-viewcontrol-pagination__num-of-items > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section.il-viewcontrol-pagination__num-of-items > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination__num-of-items > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination__num-of-items > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-pagination__num-of-items > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-pagination__num-of-items > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination__num-of-items > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination__num-of-items > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination.il-viewcontrol-pagination__num-of-items > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination.il-viewcontrol-pagination__num-of-items > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination__num-of-items > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination__num-of-items > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination__num-of-items > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination__num-of-items > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-mode.il-viewcontrol-pagination__num-of-items > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-mode.il-viewcontrol-pagination__num-of-items > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination > .btn-ctrl:has(> .glyph.disabled),
+.il-viewcontrol-sortation.il-viewcontrol-pagination > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-sortation .dropdown.il-viewcontrol-pagination > .btn-default.btn:has(> .glyph.disabled),
+.il-table-presentation-viewcontrols .l-bar__space-keeper .l-bar__group .l-bar__element.il-viewcontrol-pagination > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-sortation.il-viewcontrol-pagination > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-sortation.il-viewcontrol-pagination > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section.il-viewcontrol-pagination > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section.il-viewcontrol-pagination > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-pagination > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-pagination > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-pagination > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-pagination > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-mode.il-viewcontrol-pagination > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-mode.il-viewcontrol-pagination > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .dropdown > .btn-ctrl:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-sortation.dropdown > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-sortation .dropdown > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-sortation .il-viewcontrol-pagination .dropdown > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-table-presentation-viewcontrols .l-bar__space-keeper .l-bar__group .l-bar__element.dropdown > .btn-default.btn:has(> .glyph.disabled),
+.il-table-presentation-viewcontrols .l-bar__space-keeper .l-bar__group .il-viewcontrol-pagination .l-bar__element.dropdown > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-sortation.dropdown > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-sortation.dropdown > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-section.dropdown > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-section.dropdown > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-section .btn-group.dropdown > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-pagination .btn-group.dropdown > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-section .btn-group.dropdown > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-pagination .btn-group.dropdown > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-pagination__sectioncontrol.dropdown > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-pagination__sectioncontrol.dropdown > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-pagination__num-of-items.dropdown > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-pagination__num-of-items.dropdown > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-pagination.dropdown > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-pagination.dropdown > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .dropdown > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .dropdown > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .last.dropdown > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .last.dropdown > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-mode.dropdown > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-mode.dropdown > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .last > .btn-ctrl:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-sortation.last > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-sortation .dropdown.last > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-sortation .il-viewcontrol-pagination .dropdown.last > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-table-presentation-viewcontrols .l-bar__space-keeper .l-bar__group .l-bar__element.last > .btn-default.btn:has(> .glyph.disabled),
+.il-table-presentation-viewcontrols .l-bar__space-keeper .l-bar__group .il-viewcontrol-pagination .l-bar__element.last > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-sortation.last > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-sortation.last > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-section.last > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-section.last > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-section .btn-group.last > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-pagination .btn-group.last > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-section .btn-group.last > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section .il-viewcontrol-pagination .btn-group.last > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-pagination__sectioncontrol.last > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-pagination__sectioncontrol.last > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-pagination__num-of-items.last > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-pagination__num-of-items.last > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-pagination.last > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-pagination.last > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .dropdown.last > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .dropdown.last > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .last > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .last > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-mode.last > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .il-viewcontrol-mode.last > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-mode > .btn-ctrl:has(> .glyph.disabled),
+.il-viewcontrol-sortation.il-viewcontrol-mode > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-sortation .dropdown.il-viewcontrol-mode > .btn-default.btn:has(> .glyph.disabled),
+.il-table-presentation-viewcontrols .l-bar__space-keeper .l-bar__group .l-bar__element.il-viewcontrol-mode > .btn-default.btn:has(> .glyph.disabled),
+.il-viewcontrol-sortation.il-viewcontrol-mode > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-sortation.il-viewcontrol-mode > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section.il-viewcontrol-mode > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section.il-viewcontrol-mode > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-section .btn-group.il-viewcontrol-mode > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-section .btn-group.il-viewcontrol-mode > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-mode > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-mode > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-mode > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-mode > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination.il-viewcontrol-mode > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination.il-viewcontrol-mode > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-mode > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-mode > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-pagination .last.il-viewcontrol-mode > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-pagination .last.il-viewcontrol-mode > .btn-link:has(> .glyph.disabled),
+.il-viewcontrol-mode > .btn-default:has(> .glyph.disabled),
+.il-viewcontrol-mode > .btn-link:has(> .glyph.disabled) {
+  border: none;
+  cursor: default;
+  pointer-events: none;
+  background-color: #e2e8ef;
+}
 
 .il-viewcontrol-sortation > .btn-default.btn,
 .il-viewcontrol-sortation .dropdown > .btn-default.btn,
@@ -10914,13 +11235,6 @@ td.c-table-data__cell--highlighted {
 
 .panel-viewcontrols {
   z-index: 994;
-  container-name: toolbar;
-  container-type: inline-size;
-}
-@container toolbar (width <= 600px) {
-  .panel-viewcontrols .il-viewcontrol-sortation .label {
-    display: none;
-  }
 }
 
 /* Component parts from old delos.scss */
@@ -12651,11 +12965,6 @@ td.chatroom {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.ilChatroomUser .dropdown-menu {
-  background-color: #f9f9f9;
-  padding: 10px 0;
-  font-size: 0.75rem;
-}
 .ilChatroomUser .ilChatroomDropdown {
   position: relative;
 }
@@ -12680,11 +12989,8 @@ td.chatroom {
 .ilChatroomUser .media:hover {
   background-color: #e2e8ef;
 }
-.ilChatroomUser .dropdown-menu {
-  position: static;
-  float: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
+.ilChatroomUser .dropdown-menu > li > button.btn {
+  padding-left: 10px;
 }
 .ilChatroomUser .dropdown-backdrop {
   position: static;
@@ -16827,7 +17133,7 @@ textarea .form-control {
 }
 
 select.form-control {
-  width: auto;
+  max-width: 100%;
 }
 
 .form-control.form-control-sm.il-input-tag-container {
@@ -17220,6 +17526,7 @@ div.ilHFormFooter .ilFormCmds {
 }
 .btn-file:focus-within {
   outline: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 
 .btn-file input[type=file] {
@@ -19761,6 +20068,11 @@ a.ilMediaLightboxClose:hover {
   width: 66.67%;
 }
 
+.svy-progress-bar {
+  width: 50%;
+  margin: auto;
+}
+
 .progress {
   height: 15px;
   min-width: 100px;
@@ -20185,7 +20497,7 @@ div#minheight {
 
 /* see #27399 (should be finally tackled in PLR2) */
 div.ilContentFixed {
-  padding-bottom: 20px;
+  padding-bottom: 60px;
 }
 
 @media only screen and (max-width: 991px) {
@@ -20288,11 +20600,6 @@ img {
 	border: 0 none;
 }
 
-span.latex {
-	color: green;
-	font-weight: bold;
-}
-
 div.framed {
 	border: 1px solid #9eadba;
 	padding: 0 10px;
@@ -20301,6 +20608,12 @@ div.framed {
 	background-repeat: repeat-x;
 }
 */
+
+span.latex {
+  color: green;
+  font-weight: bold;
+}
+
 div.ilFrame {
   margin-top: -40px;
   margin-left: auto;

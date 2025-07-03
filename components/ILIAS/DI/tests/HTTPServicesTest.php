@@ -37,12 +37,11 @@ use ILIAS\HTTP\Duration\DurationFactory;
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  *
  * @package                DI
- *
- * @runInSeparateProcess
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
  */
+#[\PHPUnit\Framework\Attributes\BackupGlobals(false)]
+#[\PHPUnit\Framework\Attributes\BackupStaticProperties(false)]
+#[\PHPUnit\Framework\Attributes\PreserveGlobalState(false)]
+#[\PHPUnit\Framework\Attributes\RunClassInSeparateProcess]
 class HTTPServicesTest extends PHPUnitTestCase
 {
     /**
@@ -85,9 +84,7 @@ class HTTPServicesTest extends PHPUnitTestCase
     }
 
 
-    /**
-     * @Test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function testRequestWhichShouldGenerateANewRequestOnce(): void
     {
         $expectedRequest = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
@@ -111,9 +108,7 @@ class HTTPServicesTest extends PHPUnitTestCase
     }
 
 
-    /**
-     * @Test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function testResponseWhichShouldGenerateANewResponseOnce(): void
     {
         $expectedResponse = $this->getMockBuilder(ResponseInterface::class)->getMock();

@@ -43,18 +43,18 @@ class ilUserCertificateTableProvider
         $additional_select = '';
         if (
             $this->database->tableColumnExists('il_cert_user_cert', 'background_image_path') &&
-            $this->database->tableColumnExists('il_cert_user_cert', 'thumbnail_image_path')
+            $this->database->tableColumnExists('il_cert_user_cert', 'tile_image_path')
         ) {
             $additional_select =
-               self::TABLE_NAME . '.thumbnail_image_path,
-               ' . self::TABLE_NAME . '.thumbnail_image_ident,';
+               self::TABLE_NAME . '.tile_image_path,
+               ' . self::TABLE_NAME . '.tile_image_ident,';
         }
 
         $sql = 'SELECT 
   ' . self::TABLE_NAME . '.id,
   ' . self::TABLE_NAME . '.obj_type,
   ' . self::TABLE_NAME . '.acquired_timestamp,
-  ' . self::TABLE_NAME . '.thumbnail_image_ident,
+  ' . self::TABLE_NAME . '.tile_image_ident,
   ' . $additional_select . ' usr_data.firstname,
   usr_data.lastname,
   ' . self::TABLE_NAME . '.obj_id,
@@ -113,8 +113,8 @@ WHERE ' . self::TABLE_NAME . '.usr_id = ' . $this->database->quote($userId, 'int
                 'obj_id' => (int) $row['obj_id'],
                 'obj_type' => $row['obj_type'],
                 'date' => (int) $row['acquired_timestamp'],
-                'thumbnail_image_path' => $row['thumbnail_image_path'] ?? '',
-                'thumbnail_image_ident' => $row['thumbnail_image_ident'],
+                'tile_image_path' => $row['tile_image_path'] ?? '',
+                'tile_image_ident' => $row['tile_image_ident'],
                 'description' => $row['description'],
                 'firstname' => $row['firstname'],
                 'lastname' => $row['lastname'],

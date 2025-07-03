@@ -99,7 +99,7 @@ abstract class BaseNavigator implements BaseNavigatorInterface
 
     public function previousStep(): ?BaseNavigatorInterface
     {
-        if(empty($this->previous_steps)) {
+        if (empty($this->previous_steps)) {
             return null;
         }
         $clone = clone $this;

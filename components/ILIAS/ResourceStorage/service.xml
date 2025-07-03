@@ -3,4 +3,5 @@
     <web_access_checker>
         <secure_path path="rs" checking-class="ilWACSignedResourceStorage" in-sec-folder='1'/>
     </web_access_checker>
+    <logging />
 </service>

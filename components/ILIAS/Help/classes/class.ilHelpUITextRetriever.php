@@ -40,10 +40,12 @@ class ilHelpUITextRetriever implements ILIAS\UI\HelpTextRetriever
 {
     public function getHelpText(Help\Purpose $purpose, Help\Topic ...$topics): array
     {
+        global $DIC;
+
         if ($purpose->isTooltip()) {
             return array_filter(
                 array_map(
-                    fn($topic) => ilHelp::getTooltipPresentationText($topic->get()),
+                    fn($topic) => $DIC->help()->internal()->domain()->tooltips()->getTooltipPresentationText($topic->get()),
                     $topics
                 )
             );

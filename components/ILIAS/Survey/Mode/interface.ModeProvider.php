@@ -30,6 +30,8 @@ interface ModeProvider
 {
     public function setInternalService(InternalService $service): void;
 
+    public function getTitle(): string;
+
     public function getId(): int;
 
     public function getFeatureConfig(): FeatureConfig;

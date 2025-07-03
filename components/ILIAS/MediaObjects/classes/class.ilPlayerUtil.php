@@ -24,71 +24,12 @@
  */
 class ilPlayerUtil
 {
-    protected static function getLocalMediaElementJsPath(): array
-    {
-        return [
-            "./assets/js/mediaelement-and-player.min.js",
-            "./assets/js/vimeo.min.js"
-        ];
-    }
-
-    /**
-     * Get local path of jQuery file
-     */
-    public static function getLocalMediaElementCssPath(): string
-    {
-        return "./assets/css/mediaelementplayer.min.css";
-    }
-
     /**
      * Init mediaelement.js scripts
+     * @deprecated
      */
     public static function initMediaElementJs(
         ?ilGlobalTemplateInterface $a_tpl = null
     ): void {
-        global $DIC;
-
-        $tpl = $DIC["tpl"];
-
-        if ($a_tpl == null) {
-            $a_tpl = $tpl;
-        }
-
-        foreach (self::getJsFilePaths() as $js_path) {
-            $a_tpl->addJavaScript($js_path);
-        }
-        foreach (self::getCssFilePaths() as $css_path) {
-            $a_tpl->addCss($css_path);
-        }
-    }
-
-    /**
-     * @return string[]
-     */
-    public static function getCssFilePaths(): array
-    {
-        return array(self::getLocalMediaElementCssPath());
-    }
-
-    /**
-     * @return string[]
-     */
-    public static function getJsFilePaths(): array
-    {
-        return self::getLocalMediaElementJsPath();
-    }
-
-    public static function getMediaPlayerDirectory(): string
-    {
-        return "public/node_modules/mediaelement/build";
-    }
-
-    public static function copyPlayerFilesToTargetDirectory(
-        string $a_target_dir
-    ): void {
-        ilFileUtils::rCopy(
-            "./node_modules/mediaelement/build",
-            $a_target_dir
-        );
     }
 }

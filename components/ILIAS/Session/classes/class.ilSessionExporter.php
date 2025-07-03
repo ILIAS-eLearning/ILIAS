@@ -72,13 +72,13 @@ class ilSessionExporter extends ilXmlExporter
 
         // service settings
         $deps[] = array(
-            "component" => "components/ILIAS/Object",
+            "component" => "components/ILIAS/ILIASObject",
             "entity" => "service_settings",
             "ids" => $a_ids);
 
         // tile image
         $deps[] = array(
-            "component" => "components/ILIAS/Object",
+            "component" => "components/ILIAS/ILIASObject",
             "entity" => "tile",
             "ids" => $a_ids);
 

@@ -224,8 +224,14 @@ class ilPathGUI
     protected function buildLink(int $ref_id, string $type): string
     {
         if ($this->objectDefinition->isAdministrationObject($type)) {
+            $current_parameters = $this->ctrl->getParameterArrayByClass(ilAdministrationGUI::class);
             $this->ctrl->setParameterByClass(ilAdministrationGUI::class, 'ref_id', $ref_id);
-            return $this->ctrl->getLinkTargetByClass(ilAdministrationGUI::class, 'jump');
+            $link = $this->ctrl->getLinkTargetByClass(ilAdministrationGUI::class, 'jump');
+            $this->ctrl->clearParameterByClass(ilAdministrationGUI::class, 'ref_id');
+            if (isset($current_parameters['ref_id'])) {
+                $this->ctrl->setParameterByClass(ilAdministrationGUI::class, 'ref_id', $current_parameters['ref_id']);
+            }
+            return $link;
         }
         return $this->refinery->encode()->htmlAttributeValue()->transform(
             ilLink::_getLink($ref_id, $type)

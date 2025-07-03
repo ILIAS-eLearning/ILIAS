@@ -307,7 +307,6 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         //$html .= $this->ctrl->getHTML($comments_gui);
 
         $this->ctrl->setParameterByClass("ilnewstimelinegui", "news_id", $this->std_request->getNewsId());
-
         return $html . $this->renderMediaModal($i);
     }
 

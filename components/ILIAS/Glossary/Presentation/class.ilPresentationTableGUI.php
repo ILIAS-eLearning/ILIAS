@@ -342,7 +342,7 @@ class ilPresentationTableGUI
                     ->withContent(
                         $ui_factory->legacy()->content($record["definition"])
                     )
-                    ->withFurtherFieldsHeadline($this->lng->txt("md_advanced"))
+                    ->withFurtherFieldsHeadline($this->lng->txt("glo_md_advanced"))
                     ->withFurtherFields($adv_data)
                 ;
             }

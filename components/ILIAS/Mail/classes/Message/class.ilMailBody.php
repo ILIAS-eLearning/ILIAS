@@ -18,20 +18,17 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilMailBody
 {
-    private readonly string $bodyContent;
+    private readonly string $body_content;
 
     public function __construct(string $content, ilMailBodyPurifier $purifier)
     {
-        $this->bodyContent = $purifier->purify($content);
+        $this->body_content = $purifier->purify($content);
     }
 
     public function getContent(): string
     {
-        return $this->bodyContent;
+        return $this->body_content;
     }
 }

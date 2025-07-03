@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilLoginPage extends ilPageObject
 {
-    final public const PAGE_TYPE = 'auth';
+    final public const string PAGE_TYPE = 'auth';
 
     public function getParentType(): string
     {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -231,33 +232,6 @@ class assQuestionExport
         );
     }
 
-    public const ITEM_SOLUTIONHINT = 'solutionhint';
-
-    protected function addSolutionHints(ilXmlWriter $writer): ilXmlWriter
-    {
-        $question_id = (int) $this->object->getId();
-        $list = ilAssQuestionHintList::getListByQuestionId($question_id);
-
-        foreach ($list as $hint) {
-            $attrs = [
-                'index' => $hint->getIndex(),
-                'points' => $hint->getPoints()
-            ];
-            if ($this->object->isAdditionalContentEditingModePageObject()) {
-                try {
-                    $data = (new ilAssHintPage($hint->getId()))->getXMLContent();
-                } catch (Exception $e) {
-                    continue;
-                }
-            } else {
-                $data = $hint->getText();
-            }
-
-            $writer->xmlElement(self::ITEM_SOLUTIONHINT, $attrs, $data);
-        }
-        return $writer;
-    }
-
     protected function addSuggestedSolution(ilXmlWriter $writer): ilXmlWriter
     {
         $solution = $this->object->getSuggestedSolution();
@@ -283,7 +257,7 @@ class assQuestionExport
             }
             $mattext['value'] = 'il_' . IL_INST_ID . '_' . $matches[2] . '_' . $matches[3];
             if ($matches[1] !== '') {
-                $mattext['value'] = $solution['internal_link'];
+                $mattext['value'] = $solution->getInternalLink();
             }
 
         }

@@ -18,27 +18,33 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup;
+use ILIAS\AccessControl\Setup\AccessControl10DBUpdateSteps;
+use ILIAS\Setup\Agent\NullAgent;
+use ILIAS\Setup\Objective;
 use ILIAS\Setup\Config;
+use ILIAS\Setup\Metrics\Storage;
 
 /**
  * @author  Tim Schmitz <schmitz@leifos.de>
  */
-class ilAccessRBACSetupAgent extends Setup\Agent\NullAgent
+class ilAccessRBACSetupAgent extends NullAgent
 {
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(Config $config = null): Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new ilAccessRBACDeleteDbkSteps());
+        return new ilDatabaseUpdateStepsExecutedObjective(new AccessControl10DBUpdateSteps());
     }
 
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
+    public function getStatusObjective(Storage $storage): Objective
     {
-        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilAccessRBACDeleteDbkSteps());
+        return new ilDatabaseUpdateStepsMetricsCollectedObjective(
+            $storage,
+            new AccessControl10DBUpdateSteps()
+        );
     }
 }

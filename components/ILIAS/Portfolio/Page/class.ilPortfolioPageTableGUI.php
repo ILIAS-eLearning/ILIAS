@@ -119,6 +119,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 
         // copy
         //$action_item = ilLinkButton::getInstance();
+        $txt = "";
         if ((int) $a_set["type"] === ilPortfolioPage::TYPE_PAGE) {
             $txt = $lng->txt('prtf_copy_pg');
         }

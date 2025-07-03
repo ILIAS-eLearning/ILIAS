@@ -21,10 +21,6 @@ declare(strict_types=1);
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 
-/**
- * @author Jens Conze
- * @ingroup ServicesMail
- */
 class ilMailOptionsGUI
 {
     private readonly ilGlobalTemplateInterface $tpl;
@@ -69,7 +65,7 @@ class ilMailOptionsGUI
                     $this->refinery->kindlyTo()->string()
                 );
             }
-            if (strtolower(ilPersonalSettingsGUI::class) === strtolower($referrer)) {
+            if (strtolower(ilPersonalSettingsGUI::class) === strtolower((string) $referrer)) {
                 $this->ctrl->redirectByClass(ilPersonalSettingsGUI::class);
             }
             $this->ctrl->redirectByClass(ilMailGUI::class);

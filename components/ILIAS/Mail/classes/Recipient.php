@@ -27,13 +27,13 @@ use ILIAS\LegalDocuments\Conductor;
 use ilObjUser;
 use ilMailOptions;
 
-final class Recipient
+final readonly class Recipient
 {
     public function __construct(
-        private readonly int $user_id,
-        private readonly ?ilObjUser $user,
-        private readonly ilMailOptions $mail_options,
-        private readonly Conductor $legal_documents
+        private int $user_id,
+        private ?ilObjUser $user,
+        private ilMailOptions $mail_options,
+        private Conductor $legal_documents
     ) {
     }
 

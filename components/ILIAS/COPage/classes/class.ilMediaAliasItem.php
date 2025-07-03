@@ -536,9 +536,9 @@ class ilMediaAliasItem
             $this->getPcId()
         );
         if (is_object($ma_nodes[$a_nr - 1])) {
-            $childs = $ma_nodes[$a_nr - 1]->child_nodes();
+            $childs = $ma_nodes[$a_nr - 1]->childNodes;
             if (is_object($childs[0]) &&
-                ($childs[0]->node_name() == "IntLink" || $childs[0]->node_name() == "ExtLink")) {
+                ($childs[0]->nodeName == "IntLink" || $childs[0]->nodeName == "ExtLink")) {
                 $childs[0]->set_content($a_title);
             }
         }
@@ -660,10 +660,13 @@ class ilMediaAliasItem
         string $a_coords,
         string $a_title,
         array $a_link,
-        string $a_id = ""
+        string $a_id = "",
+        string $hl_mode = "",
+        string $hl_class = "",
     ): void {
         $attributes = array("Shape" => $a_shape_type,
-            "Coords" => $a_coords, "Id" => $a_id);
+            "Coords" => $a_coords, "Id" => $a_id,
+            "HighlightMode" => $hl_mode, "HighlightClass" => $hl_class);
 
         $ma_node = $this->dom_util->addElementToList(
             $this->getItemNode(),

@@ -113,6 +113,11 @@ class ilPCMyCoursesGUI extends ilPageContentGUI
         return $form;
     }
 
+    public function create_my_courses(): void
+    {
+        $this->create();
+    }
+
     public function create(): void
     {
         $form = $this->initForm(true);

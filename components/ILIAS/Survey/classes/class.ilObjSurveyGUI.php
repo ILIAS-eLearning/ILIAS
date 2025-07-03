@@ -648,7 +648,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $newObj = new ilObjSurvey();
             $newObj->setType($new_type);
             $newObj->setTitle("dummy");
-            $newObj->create(true);
+            $newObj->create();
             $this->putObjectInTree($newObj);
 
             // copy uploaded file to import directory
@@ -774,7 +774,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 ->execution()->runSession();
             $sess->setCode(ilObject::_lookupObjId($ref_id), $a_access_code);
             $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
-            $ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
+            $ctrl->redirectByClass("ilObjSurveyGUI", "run");
         }
 
         // write permission -> info screen
@@ -786,16 +786,21 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         // read permission, evaluation access and finished run -> evaluation
         if ($ilAccess->checkAccess("visible", "", $ref_id) ||
             $ilAccess->checkAccess("read", "", $ref_id)) {
-            $domain_service = $DIC->survey()->internal()->domain();
-            $am = $domain_service->access($ref_id, $DIC->user()->getId());
-            $survey = new ilObjSurvey($ref_id);
-            $run_manager = $domain_service->execution()->run($survey, $DIC->user()->getId());
-            if ($am->canAccessEvaluation()) {
+            if ($ilAccess->checkAccess("read", "", $ref_id)) {
+                $domain_service = $DIC->survey()->internal()->domain();
+                $am = $domain_service->access($ref_id, $DIC->user()->getId());
+                $survey = new ilObjSurvey($ref_id);
+                $run_manager = $domain_service->execution()->run($survey, $DIC->user()->getId());
+                if ($am->canAccessEvaluation()) {
+                    $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
+                    $ctrl->redirectByClass(["ilObjSurveyGUI", "ilSurveyEvaluationGUI"], "openEvaluation");
+                }
                 $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
-                $ctrl->redirectByClass(["ilObjSurveyGUI", "ilSurveyEvaluationGUI"], "openEvaluation");
+                $ctrl->redirectByClass("ilObjSurveyGUI", "run");
+            } else {
+                $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
+                $ctrl->redirectByClass(["ilObjSurveyGUI", "ilInfoScreenGUI"]);
             }
-            $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
-            $ctrl->redirectByClass("ilObjSurveyGUI", "run");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),

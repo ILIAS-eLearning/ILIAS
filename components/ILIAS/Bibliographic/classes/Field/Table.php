@@ -49,7 +49,7 @@ class Table
      */
     public function __construct(
         private \ilBiblAdminFieldGUI $calling_gui,
-        private \ilBiblAdminFactoryFacadeInterface $facade
+        \ilBiblAdminFactoryFacadeInterface $facade
     ) {
         global $DIC;
         $this->ui_factory = $DIC['ui.factory'];
@@ -61,13 +61,14 @@ class Table
         $columns = $this->initColumns();
         $actions = $this->initActions();
         $data_retrieval = new DataRetrieval(
-            $facade
+            $facade,
+            $calling_gui->checkPermissionBoolAndReturn('write')
         );
 
         $this->components[] = $this->table = $this->ui_factory->table()->ordering(
+            $data_retrieval,
             $this->lng->txt('filter'),
             $columns,
-            $data_retrieval,
             new URI(
                 ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this->calling_gui, \ilBiblAdminFieldGUI::CMD_SAVE_ORDERING)
             )

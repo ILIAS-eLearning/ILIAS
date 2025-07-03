@@ -83,9 +83,7 @@ class CertificateSettingsTestFormRepositoryTest extends TestCase
         $this->assertSame($form_mock, $result);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testSave(): void
     {
         $language = $this->getMockBuilder(\ilLanguage::class)

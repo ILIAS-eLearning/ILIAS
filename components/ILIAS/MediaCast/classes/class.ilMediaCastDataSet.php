@@ -198,6 +198,8 @@ class ilMediaCastDataSet extends ilDataSet
                 $newObj->setDownloadable((bool) (int) ($a_rec["Downloadable"] ?? false));
                 $newObj->setPublicFiles((bool) (int) ($a_rec["PublicFiles"] ?? false));
 
+                $a_mapping->addMapping("components/ILIAS/ILIASObject", "obj", $a_rec["Id"], $newObj->getId());
+
                 if (in_array($a_schema_version, ["5.0.0", "8.0"])) {
                     $newObj->setOrder((int) ($a_rec["Sortmode"] ?? 0));
                     $newObj->setViewMode((string) ($a_rec["Viewmode"] ?? ""));

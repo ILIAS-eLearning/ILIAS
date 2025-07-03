@@ -37,6 +37,7 @@ class TestScreenGUITest extends \ilTestBaseTestCase
             $this->createMock(Refinery::class),
             $this->createMock(\ilCtrl::class),
             $this->createMock(\ilGlobalTemplateInterface::class),
+            $this->createMock(\ILIAS\Style\Content\Service::class),
             $this->createMock(HTTPServices::class),
             $this->createMock(\ILIAS\Test\Presentation\TabsManager::class),
             $this->createMock(\ilAccessHandler::class),

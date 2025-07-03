@@ -121,7 +121,8 @@ class Services
             $machine_factory,
             $resource_builder,
             $storage_handler_factory,
-            $stream_access
+            $stream_access,
+            $this->events
         );
 
         $this->flavours = new Flavours(

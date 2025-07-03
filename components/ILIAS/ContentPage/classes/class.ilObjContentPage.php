@@ -22,11 +22,12 @@ use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
 use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
 use ILIAS\ContentPage\PageMetrics\PageMetricsService;
 use ILIAS\Style\Content\DomainService;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Translations\Language;
 
 class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
 {
-    protected int $styleId = 0;
-    protected ?ilObjectTranslation $objTrans = null;
+    protected ?Translations $objTrans = null;
     private PageMetricsService $pageMetricsService;
     protected DomainService $content_style_domain;
 
@@ -44,7 +45,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
     private function initTranslationService(): void
     {
         if (null === $this->objTrans && $this->getId() > 0) {
-            $this->objTrans = ilObjectTranslation::getInstance($this->getId());
+            $this->objTrans = $this->getObjectProperties()->getPropertyTranslations();
         }
     }
 
@@ -56,7 +57,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         );
     }
 
-    public function getObjectTranslation(): ilObjectTranslation
+    public function getObjectTranslation(): Translations
     {
         return $this->objTrans;
     }
@@ -72,8 +73,9 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         parent::doCloneObject($new_obj, $a_target_id, $a_copy_id);
         $this->cloneMetaData($new_obj);
 
-        $ot = ilObjectTranslation::getInstance($this->getId());
-        $ot->copy($new_obj->getId());
+        $new_obj->getObjectProperties()->storePropertyTranslations(
+            $this->objTrans->copy($new_obj->getId())
+        );
 
         if (ilContentPagePage::_exists($this->getType(), $this->getId(), '', true)) {
             $translations = ilContentPagePage::lookupTranslations($this->getType(), $this->getId());
@@ -142,8 +144,20 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
             [$this->getId(), 0]
         );
 
-        $this->setOfflineStatus(true);
-        $this->update();
+        $this->getObjectProperties()->withPropertyIsOnline(
+            $this->getObjectProperties()->getPropertyIsOnline()->withOffline()
+        )->storeCoreProperties();
+
+        $this->getObjectProperties()->storePropertyTranslations(
+            $this->getObjectProperties()->getPropertyTranslations()->withLanguage(
+                new Language(
+                    $this->lng->getDefaultLanguage(),
+                    $this->getTitle(),
+                    $this->getLongDescription(),
+                    true
+                )
+            )
+        );
 
         $this->createMetaData();
     }
@@ -152,12 +166,11 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
     {
         parent::doUpdate();
 
-        $this->initTranslationService();
-
-        $trans = $this->getObjectTranslation();
-        $trans->setDefaultTitle($this->getTitle());
-        $trans->setDefaultDescription($this->getLongDescription());
-        $trans->save();
+        $this->getObjectProperties()->storePropertyTranslations(
+            $this->getObjectProperties()->getPropertyTranslations()
+                ->withDefaultTitle($this->getTitle())
+                ->withDefaultDescription($this->getLongDescription())
+        );
 
         $this->updateMetaData();
     }
@@ -170,9 +183,6 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
             $originalPageObject = new ilContentPagePage($this->getId());
             $originalPageObject->delete();
         }
-
-        $this->initTranslationService();
-        $this->objTrans->delete();
 
         $this->db->manipulateF(
             'DELETE FROM content_page_metrics WHERE content_page_id = %s',

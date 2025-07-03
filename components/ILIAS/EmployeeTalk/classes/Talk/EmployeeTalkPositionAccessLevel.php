@@ -22,7 +22,7 @@ namespace ILIAS\EmployeeTalk\Talk;
 
 interface EmployeeTalkPositionAccessLevel
 {
-    public const VIEW = 'read_employee_talk';
-    public const EDIT = 'edit_employee_talk';
-    public const CREATE = 'create_employee_talk';
+    public const string VIEW = 'read_employee_talk';
+    public const string EDIT = 'edit_employee_talk';
+    public const string CREATE = 'create_employee_talk';
 }

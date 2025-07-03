@@ -67,6 +67,7 @@ class ilContainerRenderer
     protected ?Closure $block_prefix_closure = null;
     protected ?Closure $block_postfix_closure = null;
     protected ?Closure $item_hidden_closure = null;
+    protected ?Closure $item_modifier_closure = null;
     protected \ILIAS\Container\Content\BlockSessionRepository $block_repo;
 
     public function __construct(
@@ -143,6 +144,12 @@ class ilContainerRenderer
     public function setItemHiddenClosure(Closure $f): void
     {
         $this->item_hidden_closure = $f;
+    }
+
+    public function setItemModifierClosure(Closure $f): void
+    {
+        $this->item_renderer->setItemModifierClosure($f);
+        $this->item_modifier_closure = $f;
     }
 
     protected function getViewMode(): int
@@ -738,8 +745,10 @@ class ilContainerRenderer
         }
 
         if ($a_order_id !== "") {
+            /* blocks are ordered in page editor
             $a_tpl->setVariable("BLOCK_HEADER_ORDER_NAME", "position[blocks][" . $a_order_id . "]");
             $a_tpl->setVariable("BLOCK_HEADER_ORDER_NUM", (++$this->order_cnt) * 10);
+            */
         }
 
         $presentation_title = $title;
@@ -851,7 +860,7 @@ class ilContainerRenderer
         $block_tpl = $this->initBlockTemplate();
 
         $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);
-        foreach($this->item_presentation->getAllRefIds() as $ref_id) {
+        foreach ($this->item_presentation->getAllRefIds() as $ref_id) {
             $rd = $this->item_presentation->getRawDataByRefId($ref_id);
             $preloader->addItem($rd["obj_id"], $rd["type"], $ref_id);
             if ($rd["type"] === "sess") {
@@ -923,6 +932,8 @@ class ilContainerRenderer
                 $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_NONE;
                 if ($this->container_gui->isActiveAdministrationPanel()) {
                     $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_ADMIN;
+                } elseif ($this->container_gui->isMultiDownloadEnabled()) {
+                    $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_DOWNLOAD;
                 }
                 $item_group_list_presentation = "";
                 if ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock) {
@@ -944,7 +955,7 @@ class ilContainerRenderer
                     $pos_prefix,
                     $item_group_list_presentation,
                     $checkbox,
-                    $this->item_presentation->isActiveItemOrdering(),
+                    $this->item_presentation->isActiveItemOrdering($item_data["type"]),
                     $this->getDetailsLevel($item_data["obj_id"])
                 );
                 if ($html != "") {

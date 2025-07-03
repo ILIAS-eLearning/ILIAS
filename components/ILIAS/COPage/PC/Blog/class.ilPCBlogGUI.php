@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Blog\Posting\PostingManager;
+
 /**
  * Class ilPCBlogGUI
  * Handles user commands on blog data
@@ -24,6 +26,7 @@
  */
 class ilPCBlogGUI extends ilPageContentGUI
 {
+    protected PostingManager $posting_manger;
     protected int $requested_blog;
     protected int $requested_blog_id;
     protected ilObjUser $user;
@@ -45,6 +48,7 @@ class ilPCBlogGUI extends ilPageContentGUI
         // ... not sure why different ids are used for this...
         $this->requested_blog_id = $this->request->getInt("blog_id");
         $this->requested_blog = $this->request->getInt("blog");
+        $this->posting_manger = $DIC->blog()->internal()->domain()->posting();
     }
 
     /**
@@ -105,7 +109,8 @@ class ilPCBlogGUI extends ilPageContentGUI
         }
 
         $options = array();
-        $blogs_ids = ilBlogPosting::searchBlogsByAuthor($ilUser->getId());
+        $blogs_ids = $this->posting_manger->searchBlogsByAuthor($ilUser->getId());
+
         if ($blogs_ids) {
             foreach ($blogs_ids as $blog_id) {
                 $options[$blog_id] = ilObject::_lookupTitle($blog_id);

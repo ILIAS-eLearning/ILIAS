@@ -116,8 +116,7 @@ class Standard implements WriterInterface
             }
 
             $child_xml = $xml->addChild($sub_name);
-            /** @noinspection PhpVariableVariableInspection */
-            $xml->$sub_name = $sub_value;
+            $child_xml[0] = $sub_value;
             $this->addSubElementsToXML($sub_element, $sub_tag, $child_xml, $depth + 1);
         }
     }

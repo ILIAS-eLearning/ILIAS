@@ -70,9 +70,7 @@ class Renderer extends AbstractComponentRenderer
         foreach ($component->getLabelledActions() as $label => $action) {
             $tpl->setCurrentBlock("view_control");
 
-            //At this point we don't have a specific text for the button aria label.
-            // component->getAriaLabel gets the main view control aria label.
-            $button = $f->button()->standard($label, $action)->withAriaLabel($label);
+            $button = $f->button()->standard($label, $action);
             if ($activate_first_item) {
                 $button = $button->withEngagedState(true);
                 $activate_first_item = false;
@@ -335,9 +333,12 @@ class Renderer extends AbstractComponentRenderer
 
         $f = $this->getUIFactory();
 
+        $back_btn = $f->button()->standard("", "");
+        $forward_btn = $f->button()->standard("", "");
+
         if ($component->getTriggeredSignals()) {
-            $back = $f->symbol()->glyph()->back('')->withOnClick($component->getInternalSignal());
-            $forward = $f->symbol()->glyph()->next('')->withOnClick($component->getInternalSignal());
+            $back_btn = $back_btn->withOnClick($component->getInternalSignal());
+            $forward_btn = $forward_btn->withOnClick($component->getInternalSignal());
         } else {
             $url = $component->getTargetURL() ?? '';
             if (strpos($url, '?') === false) {
@@ -354,19 +355,25 @@ class Renderer extends AbstractComponentRenderer
                 $url_next = $base . http_build_query($params);
             }
 
-            $back = $f->symbol()->glyph()->back($url_prev);
-            $forward = $f->symbol()->glyph()->next($url_next);
+            $back_btn = $f->button()->standard("", $url_prev);
+            $forward_btn = $f->button()->standard("", $url_next);
         }
 
         if ($component->getCurrentPage() === 0) {
-            $back = $back->withUnavailableAction();
+            $back_btn = $back_btn->withUnavailableAction();
         }
         if ($component->getCurrentPage() >= $component->getNumberOfPages() - 1) {
-            $forward = $forward->withUnavailableAction();
+            $forward_btn = $forward_btn->withUnavailableAction();
         }
 
-        $tpl->setVariable('PREVIOUS', $default_renderer->render($back));
-        $tpl->setVariable('NEXT', $default_renderer->render($forward));
+        $back_glyph = $f->symbol()->glyph()->back();
+        $forward_glyph = $f->symbol()->glyph()->next();
+
+        $back_btn = $back_btn->withSymbol($back_glyph);
+        $forward_btn = $forward_btn->withSymbol($forward_glyph);
+
+        $tpl->setVariable('PREVIOUS', $default_renderer->render($back_btn));
+        $tpl->setVariable('NEXT', $default_renderer->render($forward_btn));
     }
 
     /**

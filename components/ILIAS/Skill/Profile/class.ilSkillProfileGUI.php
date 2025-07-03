@@ -185,8 +185,7 @@ class ilSkillProfileGUI
                     "showUsers", "assignUser", "assignRole",
                     "confirmUserRemoval", "removeUsers", "exportProfiles", "showImportForm",
                     "importProfiles", "saveLevelOrder", "createLocal", "saveLocal",
-                    "listLocalProfiles", "showLevelsWithLocalContext", "showObjects",
-                    "showLevelsWithTableContext"))) {
+                    "listLocalProfiles", "showLevelsWithLocalContext", "showObjects"))) {
                     $this->$cmd();
                 }
                 break;
@@ -519,16 +518,6 @@ class ilSkillProfileGUI
     ////
     //// skill profile levels
     ////
-
-    public function showLevelsWithTableContext(): void
-    {
-        $ilCtrl = $this->ctrl;
-
-        if ($this->requested_table_profile_action === "editProfile" && !empty($this->requested_table_profile_ids)) {
-            $ilCtrl->setParameter($this, "sprof_id", $this->requested_table_profile_ids[0]);
-            $ilCtrl->redirect($this, "showLevels");
-        }
-    }
 
     public function showLevels(): void
     {

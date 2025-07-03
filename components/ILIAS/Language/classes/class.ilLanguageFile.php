@@ -296,7 +296,7 @@ class ilLanguageFile
     */
     public function getParam(string $a_name): string
     {
-        return $this->params[$a_name];
+        return $this->params[$a_name] ?? '';
     }
 
     /**

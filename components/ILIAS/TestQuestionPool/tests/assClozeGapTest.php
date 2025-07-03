@@ -36,7 +36,7 @@ class assClozeGapTest extends assBaseTestCase
         parent::setUp();
 
         $util_mock = $this->createMock('ilUtil', ['stripSlashes'], [], '', false);
-        $util_mock->expects($this->any())->method('stripSlashes')->will($this->returnArgument(0));
+        $util_mock->expects($this->any())->method('stripSlashes')->willReturnArgument(0);
         $this->setGlobalVariable('ilUtils', $util_mock);
     }
 
@@ -407,7 +407,7 @@ class assClozeGapTest extends assBaseTestCase
         $item4 = new assAnswerCloze('Esther', 4.0, 3);
 
         $lng_mock = $this->createMock('ilLanguage', ['txt'], [], '', false);
-        $lng_mock->expects($this->any())->method('txt')->will($this->returnValue('Test'));
+        $lng_mock->expects($this->any())->method('txt')->willReturn('Test');
         global $DIC;
         unset($DIC['lng']);
         $DIC['lng'] = $lng_mock;
@@ -434,7 +434,7 @@ class assClozeGapTest extends assBaseTestCase
         $item4 = new assAnswerCloze('Esther', 4, 3);
 
         $lng_mock = $this->createMock('ilLanguage', ['txt'], [], '', false);
-        $lng_mock->expects($this->any())->method('txt')->will($this->returnValue('or'));
+        $lng_mock->expects($this->any())->method('txt')->willReturn('or');
         global $DIC;
         unset($DIC['lng']);
         $DIC['lng'] = $lng_mock;
@@ -463,7 +463,7 @@ class assClozeGapTest extends assBaseTestCase
         $item4 = new assAnswerCloze(100, 4.0, 3);
 
         $lng_mock = $this->createMock('ilLanguage', ['txt'], [], '', false);
-        $lng_mock->expects($this->any())->method('txt')->will($this->returnValue('Test'));
+        $lng_mock->expects($this->any())->method('txt')->willReturn('Test');
         global $DIC;
         unset($DIC['lng']);
         $DIC['lng'] = $lng_mock;
@@ -490,7 +490,7 @@ class assClozeGapTest extends assBaseTestCase
         $item4 = new assAnswerCloze(100, 4.0, 3);
 
         $lng_mock = $this->createMock('ilLanguage', ['txt'], [], '', false);
-        $lng_mock->expects($this->any())->method('txt')->will($this->returnValue('Test'));
+        $lng_mock->expects($this->any())->method('txt')->willReturn('Test');
         global $DIC;
         unset($DIC['lng']);
         $DIC['lng'] = $lng_mock;

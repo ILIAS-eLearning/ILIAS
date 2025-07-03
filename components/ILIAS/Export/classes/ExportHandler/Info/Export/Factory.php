@@ -26,6 +26,8 @@ use ILIAS\Export\ExportHandler\I\Info\Export\Component\FactoryInterface as ilExp
 use ILIAS\Export\ExportHandler\I\Info\Export\Container\FactoryInterface as ilExportHandlerContainerExportInfoFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\FactoryInterface as ilExportHandlerExportInfoFactory;
 use ILIAS\Export\ExportHandler\I\Info\Export\HandlerInterface as ilExportHandlerExportInfoInterface;
+use ILIAS\Export\ExportHandler\I\Info\Export\Path\FactoryInterface as ExportPathInfoFactoryInterface;
+use ILIAS\Export\ExportHandler\Info\Export\Path\Factory as ExportPathInfoFactory;
 use ILIAS\Export\ExportHandler\Info\Export\Collection as ilExportHandlerExportInfoCollection;
 use ILIAS\Export\ExportHandler\Info\Export\Component\Factory as ilExportHandlerExportComponentInfoFactory;
 use ILIAS\Export\ExportHandler\Info\Export\Container\Factory as ilExportHandlerContainerExportInfoFactory;
@@ -62,5 +64,10 @@ class Factory implements ilExportHandlerExportInfoFactory
     public function container(): ilExportHandlerContainerExportInfoFactoryInterface
     {
         return new ilExportHandlerContainerExportInfoFactory($this->export_handler);
+    }
+
+    public function path(): ExportPathInfoFactoryInterface
+    {
+        return new ExportPathInfoFactory();
     }
 }

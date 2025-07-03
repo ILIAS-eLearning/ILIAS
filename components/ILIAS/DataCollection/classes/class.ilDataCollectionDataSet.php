@@ -214,7 +214,6 @@ class ilDataCollectionDataSet extends ilDataSet
                         $field->setDatatypeId($datatype_id);
                         $field->setTitle($a_rec['title']);
                         $field->setDescription($a_rec['description']);
-                        $field->setUnique((bool) $a_rec['is_unique']);
                         $field->doCreate();
                         $a_mapping->addMapping('components/ILIAS/DataCollection', 'il_dcl_field', $a_rec['id'], $field->getId());
                         // Check if this field was used as default order by, if so, update to new id
@@ -454,7 +453,7 @@ class ilDataCollectionDataSet extends ilDataSet
                             case ilDclDatatype::INPUTFORMAT_ILIAS_REF:
                                 $value = null;
                                 break;
-                            case ilDclDatatype::INPUTFORMAT_DATETIME:
+                            case ilDclDatatype::INPUTFORMAT_DATE:
                                 $value = $a_rec['value'];
                                 if ($value == '0000-00-00 00:00:00') {
                                     $value = null;
@@ -616,7 +615,6 @@ class ilDataCollectionDataSet extends ilDataSet
                     'description' => 'text',
                     'datatype_id' => 'integer',
                     'datatype_title' => 'text',
-                    'is_unique' => 'integer',
                 ];
             case 'il_dcl_tview_set':
                 return [

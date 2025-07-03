@@ -293,9 +293,9 @@ class ilCertificateCron extends CronJob
             true,
             $cert_id,
             $template->getBackgroundImagePath(),
-            $template->getThumbnailImagePath(),
+            $template->getTileImagePath(),
             $template->getBackgroundImageIdentification(),
-            $template->getThumbnailImageIdentification(),
+            $template->getTileImageIdentification(),
             null,
         );
 

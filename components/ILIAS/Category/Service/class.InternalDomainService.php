@@ -22,6 +22,7 @@ namespace ILIAS\Category;
 
 use ILIAS\DI;
 use ILIAS\Repository;
+use ILIAS\Catgory\AssignedRolesManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -43,14 +44,30 @@ class InternalDomainService
         $this->initDomainServices($DIC);
     }
 
-    /*
-    public function access(int $ref_id, int $user_id) : Access\AccessManager
-    {
-        return new Access\AccessManager(
+    public function assignedRoledRetrieval(
+        int $ref_id,
+        int $managed_user_id,
+        int $managing_user_id
+    ): AssignedRolesRetrieval {
+        return new AssignedRolesRetrieval(
             $this,
-            $this->access,
             $ref_id,
-            $user_id
+            $managed_user_id,
+            $managing_user_id
         );
-    }*/
+    }
+
+    public function assignedRolesManager(
+        int $ref_id,
+        int $managed_user_id,
+        int $managing_user_id
+    ): AssignedRolesManager {
+        return new AssignedRolesManager(
+            $this,
+            $ref_id,
+            $managed_user_id,
+            $managing_user_id
+        );
+    }
+
 }

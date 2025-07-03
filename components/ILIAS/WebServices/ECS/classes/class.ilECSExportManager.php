@@ -88,7 +88,7 @@ class ilECSExportManager
         $res = $this->db->query($query);
         $obj_ids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $obj_ids[] = (int)$row->obj_id;
+            $obj_ids[] = (int) $row->obj_id;
         }
         return $obj_ids;
     }
@@ -104,7 +104,7 @@ class ilECSExportManager
             " WHERE o.type = " . $this->db->quote($a_type, "text");
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $obj_ids[] = (int)$row->obj_id;
+            $obj_ids[] = (int) $row->obj_id;
         }
         return $obj_ids;
     }
@@ -150,7 +150,7 @@ class ilECSExportManager
         $res = $this->db->query($query);
         $sids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $sids[] = (int)$row->server_id;
+            $sids[] = (int) $row->server_id;
         }
         return $sids;
     }

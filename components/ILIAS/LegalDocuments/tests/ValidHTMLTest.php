@@ -22,6 +22,7 @@ namespace ILIAS\LegalDocuments\test;
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\ValidHTML;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ValidHTMLTest extends TestCase
 {
@@ -30,11 +31,7 @@ class ValidHTMLTest extends TestCase
         $this->assertInstanceOf(ValidHTML::class, new ValidHTML());
     }
 
-    /**
-     * @dataProvider textProvider
-     * @param string $text
-     * @param bool $result
-     */
+    #[DataProvider('textProvider')]
     public function testIsTrue(string $text, bool $result): void
     {
         $instance = new ValidHTML();

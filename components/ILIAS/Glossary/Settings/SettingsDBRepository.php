@@ -69,6 +69,9 @@ class SettingsDBRepository
 
     protected function getSettingsFromRecord(array $record): Settings
     {
+        $flash_mode = ($record['flash_mode'] == "")
+            ? "term"
+            : $record['flash_mode'];
         return $this->data->settings(
             (int) $record['id'],
             $this->textToBool($record['is_online']),
@@ -78,7 +81,7 @@ class SettingsDBRepository
             (int) $record['show_tax'],
             (int) $record['snippet_length'],
             $this->textToBool($record['flash_active']),
-            (string) $record['flash_mode']
+            (string) $flash_mode
         );
     }
 

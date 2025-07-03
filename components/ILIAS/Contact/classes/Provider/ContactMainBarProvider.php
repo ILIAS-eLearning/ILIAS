@@ -65,9 +65,7 @@ class ContactMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withSymbol($icon)
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy()->content($this->dic->language()->txt('component_not_active')))
                 ->withAvailableCallable(
-                    static function (): bool {
-                        return ilBuddySystem::getInstance()->isEnabled();
-                    }
+                    static fn(): bool => ilBuddySystem::getInstance()->isEnabled()
                 ),
         ];
     }

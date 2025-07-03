@@ -20,10 +20,6 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class ilSamlMappedUserAttributeValueParserTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilSamlMappedUserAttributeValueParserTest extends TestCase
 {
     protected function getMappingRuleMock(string $externalAttributeReference): ilExternalAuthUserAttributeMappingRule

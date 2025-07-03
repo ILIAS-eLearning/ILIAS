@@ -191,6 +191,11 @@ class ilPCVerificationGUI extends ilPageContentGUI
         return $form;
     }
 
+    public function create_verification(): void
+    {
+        $this->create();
+    }
+
     public function create(): void
     {
         $form = $this->initForm(true);

@@ -170,8 +170,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     private function getParentObjFilterExpression(): ?string
     {
-        if ($this->getParentObjId()) {
-            return "qpl_questions.obj_fi = {$this->db->quote($this->getParentObjId(), ilDBConstants::T_INTEGER)}";
+        if ($this->parentObjId) {
+            return "qpl_questions.obj_fi = {$this->db->quote($this->parentObjId, ilDBConstants::T_INTEGER)}";
         }
 
         if (!empty($this->parentObjIdsFilter)) {
@@ -223,22 +223,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
         if (isset($feedback_join)) {
             $SQL = "$feedback_join JOIN qpl_fb_generic ON qpl_fb_generic.question_fi = qpl_questions.question_id ";
-            $tableJoin .= !str_contains($tableJoin, $SQL) ? $SQL : '';
-        }
-
-        return $tableJoin;
-    }
-
-    private function handleHintJoin(string $tableJoin): string
-    {
-        $feedback_join = match ($this->fieldFilters['hints'] ?? null) {
-            'true' => 'INNER',
-            'false' => 'LEFT',
-            default => null
-        };
-
-        if (isset($feedback_join)) {
-            $SQL = "$feedback_join JOIN qpl_hints ON qpl_hints.qht_question_fi = qpl_questions.question_id ";
             $tableJoin .= !str_contains($tableJoin, $SQL) ? $SQL : '';
         }
 
@@ -367,13 +351,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $expressions;
     }
 
-    private function getParentObjectIdFilterExpression(): ?string
-    {
-        return $this->parentObjId
-            ? "qpl_questions.obj_fi = {$this->db->quote($this->parentObjId, ilDBConstants::T_INTEGER)}"
-            : null;
-    }
-
     private function getAnswerStatusFilterExpressions(): array
     {
         return match ($this->answerStatusFilter) {
@@ -411,7 +388,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         }
 
         $tableJoin = $this->handleFeedbackJoin($tableJoin);
-        $tableJoin = $this->handleHintJoin($tableJoin);
 
         if ($this->answerStatusActiveId) {
             $tableJoin .= "
@@ -434,10 +410,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
         if ($this->getParentObjFilterExpression() !== null) {
             $conditions[] = $this->getParentObjFilterExpression();
-        }
-
-        if ($this->getParentObjectIdFilterExpression() !== null) {
-            $conditions[] = $this->getParentObjectIdFilterExpression();
         }
 
         $conditions = array_merge(
@@ -477,7 +449,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         }
 
         $select_fields[] = $this->generateFeedbackSubquery();
-        $select_fields[] = $this->generateHintSubquery();
+
         $select_fields[] = $this->generateTaxonomySubquery();
 
         $select_fields = implode(', ', $select_fields);
@@ -508,12 +480,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return "CASE $feedback_case_subquery ELSE FALSE END AS feedback";
     }
 
-    private function generateHintSubquery(): string
-    {
-        $hint_subquery = 'SELECT 1 FROM qpl_hints WHERE qpl_hints.qht_question_fi = qpl_questions.question_id';
-        return "CASE WHEN EXISTS ($hint_subquery) THEN TRUE ELSE FALSE END AS hints";
-    }
-
     private function generateTaxonomySubquery(): string
     {
         $tax_node_assignment_table = 'tax_node_assignment';
@@ -538,13 +504,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
                 }
                 continue;
 
-            }
-
-            if ($fieldName === 'hints') {
-                $fieldValue = strtoupper($fieldValue);
-                if (in_array($fieldValue, ['TRUE', 'FALSE'], true)) {
-                    $expressions[] = "hints IS $fieldValue";
-                }
             }
         }
 
@@ -600,10 +559,9 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     {
         $this->checkFilters();
 
-        $tags_trafo = $this->refinery->string()->stripTags();
+        $tags_trafo = $this->refinery->encode()->htmlSpecialCharsAsEntities();
 
-        $query = $this->buildQuery();
-        $res = $this->db->query($query);
+        $res = $this->db->query($this->buildQuery());
         while ($row = $this->db->fetchAssoc($res)) {
             $row = ilAssQuestionType::completeMissingPluginName($row);
 
@@ -612,12 +570,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             }
 
             $row['title'] = $tags_trafo->transform($row['title'] ?? '&nbsp;');
-            $row['description'] = $tags_trafo->transform($row['description'] !== '' && $row['description'] !== null ? $row['description'] : '&nbsp;');
+            $row['description'] = $tags_trafo->transform($row['description'] ?? '');
             $row['author'] = $tags_trafo->transform($row['author']);
             $row['taxonomies'] = $this->loadTaxonomyAssignmentData($row['obj_fi'], $row['question_id']);
             $row['ttype'] = $this->lng->txt($row['type_tag']);
             $row['feedback'] = $row['feedback'] === 1;
-            $row['hints'] = $row['hints'] === 1;
             $row['comments'] = $this->getNumberOfCommentsForQuestion($row['question_id']);
 
             if (

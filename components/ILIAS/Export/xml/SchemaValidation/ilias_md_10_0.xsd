@@ -214,7 +214,7 @@
  <xs:element name="general">
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref="identifier" minOccurs="1" maxOccurs="unbounded"/>
+    <xs:element ref="identifier" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="title" type="LangString"/>
     <xs:element name="language" type="LanguageCode" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="description" type="LangString" minOccurs="0" maxOccurs="unbounded"/>

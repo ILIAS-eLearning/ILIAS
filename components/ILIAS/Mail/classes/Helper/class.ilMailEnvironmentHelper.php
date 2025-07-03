@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailEnvironmentHelper
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailEnvironmentHelper
 {
     public function getHttpPath(): string
@@ -31,11 +27,11 @@ class ilMailEnvironmentHelper
 
     public function getClientId(): string
     {
-        $clientId = '';
+        $client_id = '';
         if (defined('CLIENT_ID')) {
-            $clientId = CLIENT_ID;
+            $client_id = CLIENT_ID;
         }
 
-        return $clientId;
+        return $client_id;
     }
 }

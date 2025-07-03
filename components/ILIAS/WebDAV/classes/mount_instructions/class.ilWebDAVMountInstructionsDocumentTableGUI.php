@@ -59,7 +59,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
                 $this->addColumn(
                     $column['txt'],
                     isset($column['sortable']) && $column['sortable'] ? $column['field'] : '',
-                    $column['width'] ?? '',
+                    isset($column['width']) ? $column['width'] : '',
                     isset($column['is_checkbox']) ? (bool) $column['is_checkbox'] : false
                 );
             }
@@ -93,10 +93,12 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
         return $this->provider;
     }
 
-    #[\Override]
     public function getSelectableColumns(): array
     {
-        $optional_columns = array_filter($this->getColumnDefinition(), fn($column): bool => isset($column['optional']) && $column['optional']);
+        $optional_columns = array_filter(
+            $this->getColumnDefinition(),
+            fn($column): bool => isset($column['optional']) && $column['optional']
+        );
 
         $columns = [];
         foreach ($optional_columns as $column) {
@@ -126,7 +128,6 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
         return false;
     }
 
-    #[\Override]
     final protected function fillRow(array $row): void
     {
         foreach ($this->getColumnDefinition() as $index => $column) {
@@ -345,7 +346,6 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
         return $sorting_field->render();
     }
 
-    #[\Override]
     public function getHTML(): string
     {
         return parent::getHTML() . $this->ui_renderer->render($this->ui_components);

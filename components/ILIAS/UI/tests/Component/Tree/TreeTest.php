@@ -73,52 +73,40 @@ class TreeTest extends ILIAS_UI_TestBase
         return $tree;
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testGetLabel(TestingTree $tree): void
     {
         $this->assertEquals("label", $tree->getLabel());
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testGetRecursion(TestingTree $tree): void
     {
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Tree\\TreeRecursion", $tree->getRecursion());
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testWithEnvironment(TestingTree $tree): void
     {
         $env = ['key1' => 'val1', 'key2' => 2];
         $this->assertEquals($env, $tree->withEnvironment($env)->getEnvironment());
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testWithData(TestingTree $tree): void
     {
         $data = ['entry1', 'entry2'];
         $this->assertEquals($data, $tree->withData($data)->getData());
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testWithHighlightOnNodeClick(TestingTree $tree): void
     {
         $this->assertFalse($tree->getHighlightOnNodeClick());
         $this->assertTrue($tree->withHighlightOnNodeClick(true)->getHighlightOnNodeClick());
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testWithIsSubTree(TestingTree $tree): void
     {
         $this->assertFalse($tree->isSubTree());

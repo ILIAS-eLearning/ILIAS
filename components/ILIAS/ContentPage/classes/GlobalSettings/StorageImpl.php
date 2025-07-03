@@ -22,14 +22,9 @@ namespace ILIAS\ContentPage\GlobalSettings;
 
 use ilSetting;
 
-/**
- * Class StorageImpl
- * @package ILIAS\ContentPage\GlobalSettings
- * @author Michael Jansen <mjansen@databay.de>
- */
 class StorageImpl implements Storage
 {
-    private const P_READING_TIME_STATUS = 'reading_time_status';
+    private const string P_READING_TIME_STATUS = 'reading_time_status';
 
     public function __construct(private readonly ilSetting $globalSettings)
     {

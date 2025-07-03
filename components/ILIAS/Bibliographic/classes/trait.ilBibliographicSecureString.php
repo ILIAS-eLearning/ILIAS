@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -24,7 +25,7 @@ trait ilBibliographicSecureString
     {
         return htmlspecialchars(
             strip_tags(
-                (string) preg_replace('#\p{C}+#u', '', $string)
+                preg_replace('#\p{C}+#u', '', $string) ?? ''
             ),
             ENT_QUOTES,
             'UTF-8',

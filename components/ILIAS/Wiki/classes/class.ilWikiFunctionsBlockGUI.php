@@ -311,7 +311,8 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
                 );
                 $actions[] = array(
                     "txt" => $lng->txt("wiki_html_export"),
-                    "modal" => $comments_modal
+                    "modal" => $comments_modal,
+                    "id" => "il_wiki_user_export2",
                 );
             }
         }

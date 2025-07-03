@@ -46,7 +46,6 @@ interface Factory
      *   accessibility:
      *      1: The HTML container enclosing the buttons of the Mode View Control MUST cary the role-attribute "group".
      *      2: The HTML container enclosing the buttons of the Mode View Control MUST set an aria-label describing the element. Eg. "Mode View Control"
-     *      3: The Buttons of the Mode View Control MUST set an aria-label clearly describing what the button shows if clicked. E.g. "List View", "Month View", ...
      * ---
      * @param    array $labelled_actions Set of labelled actions (string|string)[]. The label of the action is used as key, the action itself as value.
      *          The first of the actions will be activated by default.

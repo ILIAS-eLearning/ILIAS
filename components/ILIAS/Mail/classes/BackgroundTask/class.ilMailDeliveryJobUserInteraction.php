@@ -26,13 +26,9 @@ use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOp
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 
-/**
- * Class ilMailDeliveryJobUserInteraction
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
 {
-    final public const OPTION_CANCEL = 'cancel';
+    final public const string OPTION_CANCEL = 'cancel';
 
     public function getOptions(array $input): array
     {

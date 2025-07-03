@@ -45,7 +45,7 @@ class ilWebDAVCheckValidTitleTraitTest extends TestCase
      */
     protected array $randomUnicodeStrings = [
         '斛翔簫輷㠋캍쵮읞㉡⚫ﴏ',
-                'ੳ卵Ὃ죿퐥㿼㘩輔푬㳟宵錠◷⻨돁',
+        'ੳ卵Ὃ죿퐥㿼㘩輔푬㳟宵錠◷⻨돁',
         '㿃㺝ᅴ㙂楳⦍텥鹰⍛合븺쑂瀎屴',
         '42342afafasfERf',
         'ADFsdf234df',

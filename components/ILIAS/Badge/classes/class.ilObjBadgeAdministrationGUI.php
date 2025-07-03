@@ -33,7 +33,6 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
     private ilRbacSystem $rbacsystem;
     private ilBadgeGUIRequest $badge_request;
     private ilTabsGUI $tabs;
-    private Services $http;
 
     public function __construct(
         $a_data,
@@ -52,7 +51,6 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         $this->tpl = $DIC['tpl'];
         $this->tabs = $DIC->tabs();
         $this->type = 'bdga';
-        $this->http = $DIC->http();
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
         $this->badge_request = new ilBadgeGUIRequest(

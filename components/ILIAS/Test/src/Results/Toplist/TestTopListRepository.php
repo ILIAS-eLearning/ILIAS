@@ -335,7 +335,6 @@ class TestTopListRepository
             'achieved' => '',
             'score' => '',
             'percentage' => '',
-            'hints' => '',
             'time' => ''
         ];
     }

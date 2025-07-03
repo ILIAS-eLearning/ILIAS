@@ -18,44 +18,41 @@
 
 declare(strict_types=1);
 
-/**
- * @author Niels Theen <ntheen@databay.de>
- */
 class ilMailTransportSettings
 {
-    public function __construct(private readonly ilMailOptions $mailOptions)
+    public function __construct(private readonly ilMailOptions $mail_options)
     {
     }
 
-    public function adjust(string $firstMail, string $secondMail, bool $persist = true): void
+    public function adjust(string $first_mail, string $second_mail, bool $persist = true): void
     {
-        if ($this->mailOptions->getIncomingType() === ilMailOptions::INCOMING_LOCAL) {
+        if ($this->mail_options->getIncomingType() === ilMailOptions::INCOMING_LOCAL) {
             return;
         }
 
-        $hasFirstEmail = $firstMail !== '';
-        $hasSecondEmail = $secondMail !== '';
+        $has_first_email = $first_mail !== '';
+        $has_second_email = $second_mail !== '';
 
-        if (!$hasFirstEmail && !$hasSecondEmail) {
-            $this->mailOptions->setIncomingType(ilMailOptions::INCOMING_LOCAL);
+        if (!$has_first_email && !$has_second_email) {
+            $this->mail_options->setIncomingType(ilMailOptions::INCOMING_LOCAL);
             if ($persist) {
-                $this->mailOptions->updateOptions();
+                $this->mail_options->updateOptions();
             }
             return;
         }
 
-        if (!$hasFirstEmail && $this->mailOptions->getEmailAddressMode() !== ilMailOptions::SECOND_EMAIL) {
-            $this->mailOptions->setEmailAddressMode(ilMailOptions::SECOND_EMAIL);
+        if (!$has_first_email && $this->mail_options->getEmailAddressMode() !== ilMailOptions::SECOND_EMAIL) {
+            $this->mail_options->setEmailAddressmode(ilMailOptions::SECOND_EMAIL);
             if ($persist) {
-                $this->mailOptions->updateOptions();
+                $this->mail_options->updateOptions();
             }
             return;
         }
 
-        if (!$hasSecondEmail && $this->mailOptions->getEmailAddressMode() !== ilMailOptions::FIRST_EMAIL) {
-            $this->mailOptions->setEmailAddressMode(ilMailOptions::FIRST_EMAIL);
+        if (!$has_second_email && $this->mail_options->getEmailAddressMode() !== ilMailOptions::FIRST_EMAIL) {
+            $this->mail_options->setEmailAddressmode(ilMailOptions::FIRST_EMAIL);
             if ($persist) {
-                $this->mailOptions->updateOptions();
+                $this->mail_options->updateOptions();
             }
         }
     }

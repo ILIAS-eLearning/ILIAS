@@ -262,7 +262,6 @@ class ObjectiveRenderer
         }
 
         $node_data['title'] = $title;
-
         return "<div class='ilContObjectivesViewTestItem'>" . $this->renderer->getItemRenderer()->renderItem($node_data) . "</div>";
     }
 

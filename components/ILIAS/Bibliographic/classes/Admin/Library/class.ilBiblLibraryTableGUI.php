@@ -65,9 +65,9 @@ class ilBiblLibraryTableGUI implements DataRetrieval
     private function buildTable(): DataTable
     {
         return $this->ui_factory->table()->data(
+            $this,
             $this->lng->txt('bibl_settings_libraries'),
             $this->getColumns(),
-            $this
         )->withActions(
             $this->getActions()
         )->withRange(

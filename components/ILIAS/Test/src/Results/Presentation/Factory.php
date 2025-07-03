@@ -79,7 +79,6 @@ class Factory
             $test_obj->getId(),
             $show_hidden_questions,
             $show_optional_questions,
-            $test_obj->getMainSettings()->getQuestionBehaviourSettings()->getQuestionHintsEnabled(),
             $show_best_solution,
             $settings_result->getShowSolutionFeedback(),
             $settings_result->getShowSolutionAnswersOnly(),

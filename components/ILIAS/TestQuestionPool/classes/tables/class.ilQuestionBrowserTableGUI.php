@@ -470,11 +470,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                 $feedbackHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
                 $this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', null);
                 $actions[] = $this->ui_factory->link()->standard($this->lng->txt('tst_feedback'), $feedbackHref);
-
-                $this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', $a_set['question_id']);
-                $hintsHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
-                $this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', null);
-                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('tst_question_hints_tab'), $hintsHref);
             }
 
             if ($this->isQuestionCommentingEnabled()) {

@@ -20,11 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\HTMLLearningModule;
 
+use ILIAS\Repository\RepoServiceBase;
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
 class InternalRepoService
 {
+    use RepoServiceBase;
+
     protected InternalDataService $data;
     protected \ilDBInterface $db;
 

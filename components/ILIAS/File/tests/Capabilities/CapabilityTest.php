@@ -213,10 +213,11 @@ class CapabilityTest extends TestCase
         bool $wopi_view,
         bool $wopi_edit,
         bool $infopage_first,
-        array $permissions,
+        array $user_permissions,
         Capabilities $expected_best
     ): void {
         static $id;
+        $permissions = $user_permissions;
 
         $id++;
 

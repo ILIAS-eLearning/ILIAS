@@ -24,12 +24,11 @@ declare(strict_types=1);
  * e.g. the main menu.
  * We should keep this class as small as possible.
  * Maybe we duplicate some code which already exists in class ilMail, but we need an efficient class.
- * @author    Michael Jansen <mjansen@databay.de>
  */
 class ilMailGlobalServices
 {
-    final public const CACHE_TYPE_REF_ID = 0;
-    final public const CACHE_TYPE_NEW_MAILS = 1;
+    final public const int CACHE_TYPE_REF_ID = 0;
+    final public const int CACHE_TYPE_NEW_MAILS = 1;
 
     protected static array $global_mail_services_cache = [];
 
@@ -38,7 +37,7 @@ class ilMailGlobalServices
         global $DIC;
 
         if (isset(self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID]) &&
-            null !== self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID]) {
+            self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID] !== null) {
             return (int) self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID];
         }
 
@@ -69,23 +68,23 @@ class ilMailGlobalServices
     /**
      * @return array{count: int, max_time: string}
      */
-    public static function getNewMailsData(ilObjUser $user, int $leftInterval = 0): array
+    public static function getNewMailsData(ilObjUser $user, int $left_interval = 0): array
     {
         global $DIC;
 
-        if ($user->isAnonymous() || 0 === $user->getId()) {
+        if ($user->isAnonymous() || $user->getId() === 0) {
             return [
                 'count' => 0,
                 'max_time' => (new DateTimeImmutable('@' . time()))->format('Y-m-d H:i:s')
             ];
         }
 
-        $cacheKey = implode('_', [self::CACHE_TYPE_NEW_MAILS, $user->getId(), $leftInterval]);
+        $cache_key = implode('_', [self::CACHE_TYPE_NEW_MAILS, $user->getId(), $left_interval]);
 
         if (
-            isset(self::$global_mail_services_cache[$cacheKey]) &&
-            null !== self::$global_mail_services_cache[$cacheKey]) {
-            return self::$global_mail_services_cache[$cacheKey];
+            isset(self::$global_mail_services_cache[$cache_key]) &&
+            self::$global_mail_services_cache[$cache_key] !== null) {
+            return self::$global_mail_services_cache[$cache_key];
         }
 
         $query = '
@@ -93,9 +92,9 @@ class ilMailGlobalServices
             FROM mail
             WHERE folder_id = %s AND user_id = %s AND m_status = %s
         ';
-        if ($leftInterval > 0) {
+        if ($left_interval > 0) {
             $query .= ' AND send_time > '
-                . $DIC->database()->quote(date('Y-m-d H:i:s', $leftInterval), 'timestamp');
+                . $DIC->database()->quote(date('Y-m-d H:i:s', $left_interval), 'timestamp');
         }
 
         $res = $DIC->database()->queryF(
@@ -114,9 +113,9 @@ class ilMailGlobalServices
                 AND mo.m_type = %s
             WHERE m.user_id = %s
 	 		AND m.m_status = %s';
-        if ($leftInterval > 0) {
+        if ($left_interval > 0) {
             $query .= ' AND m.send_time > '
-                . $DIC->database()->quote(date('Y-m-d H:i:s', $leftInterval), 'timestamp');
+                . $DIC->database()->quote(date('Y-m-d H:i:s', $left_interval), 'timestamp');
         }
 
         $res = $DIC->database()->queryF(
@@ -126,7 +125,7 @@ class ilMailGlobalServices
         );
         $row2 = $DIC->database()->fetchAssoc($res);
 
-        self::$global_mail_services_cache[$cacheKey] = [
+        self::$global_mail_services_cache[$cache_key] = [
             'count' => ((int) $row['cnt'] + (int) $row2['cnt']),
             'max_time' => max(
                 (string) $row['send_time'],
@@ -134,6 +133,6 @@ class ilMailGlobalServices
             ),
         ];
 
-        return self::$global_mail_services_cache[$cacheKey];
+        return self::$global_mail_services_cache[$cache_key];
     }
 }

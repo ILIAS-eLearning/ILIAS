@@ -250,7 +250,7 @@ class ilButton extends ilButtonBase
 
     public function getForm(): string
     {
-        return $this->form;
+        return $this->form ?? '';
     }
 
     /**

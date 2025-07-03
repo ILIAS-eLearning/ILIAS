@@ -18,12 +18,7 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilRuntime
- * @author  Michael Jansen <mjansen@databay.de>
- * @package components/ILIAS/Environment
- */
-final class ilRuntime
+final class ilRuntime implements Stringable
 {
     private static ?self $instance = null;
 

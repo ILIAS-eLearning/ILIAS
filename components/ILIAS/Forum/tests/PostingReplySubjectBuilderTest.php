@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class PostingReplySubjectBuilderTest extends TestCase
 {
@@ -84,9 +85,7 @@ class PostingReplySubjectBuilderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider postingSubjectProvider
-     */
+    #[DataProvider('postingSubjectProvider')]
     public function testPostingSubjectBuilder(
         string $subject,
         string $reply_prefix,

@@ -25,18 +25,14 @@ use ILIAS\Component\Dependencies\Name;
 
 class NameTest extends TestCase
 {
-    /**
-     * @dataProvider properNames
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('properNames')]
     public function testProperNames(string $name): void
     {
         $n = new Name($name);
         $this->assertEquals($name, (string) $n);
     }
 
-    /**
-     * @dataProvider improperNames
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('improperNames')]
     public function testImproperNames(string $name): void
     {
         $this->expectException(\InvalidArgumentException::class);

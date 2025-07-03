@@ -50,7 +50,7 @@ class ilAuthDestroyExpiredSessionsCron extends CronJob
 
     public function hasAutoActivation(): bool
     {
-        return true;
+        return false;
     }
 
     public function hasFlexibleSchedule(): bool
@@ -58,9 +58,17 @@ class ilAuthDestroyExpiredSessionsCron extends CronJob
         return true;
     }
 
+    public function getValidScheduleTypes(): array
+    {
+        return [
+            \ILIAS\Cron\Job\Schedule\JobScheduleType::IN_MINUTES,
+            \ILIAS\Cron\Job\Schedule\JobScheduleType::IN_HOURS
+        ];
+    }
+
     public function getDefaultScheduleType(): \ILIAS\Cron\Job\Schedule\JobScheduleType
     {
-        return \ILIAS\Cron\Job\Schedule\JobScheduleType::IN_HOURS;
+        return \ILIAS\Cron\Job\Schedule\JobScheduleType::IN_MINUTES;
     }
 
     public function getDefaultScheduleValue(): ?int

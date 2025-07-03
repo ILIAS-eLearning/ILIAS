@@ -18,15 +18,11 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailLanguageHelper
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailLanguageHelper
 {
-    public function getLanguageByIsoCode(string $isoCode): ilLanguage
+    public function getLanguageByIsoCode(string $iso_code): ilLanguage
     {
-        return ilLanguageFactory::_getLanguage($isoCode);
+        return ilLanguageFactory::_getLanguage($iso_code);
     }
 
     public function getCurrentLanguage(): ilLanguage

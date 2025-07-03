@@ -206,6 +206,14 @@ class SettingsFormGUI
         $desc->setValue($survey->getLongDescription());
         $form->addItem($desc);
 
+        $ne = new \ilNonEditableValueGUI($lng->txt("type"));
+        $ne->setValue(
+            $this->domain_service
+                ->modeProvider($survey->getMode())
+                ->getTitle()
+        );
+        $form->addItem($ne);
+
         if ($feature_config->usesAppraisees()) {
             $self_rate = new \ilCheckboxInputGUI($lng->txt("survey_360_self_raters"), "self_rate");
             $self_rate->setInfo($lng->txt("survey_360_self_raters_info"));
@@ -253,7 +261,14 @@ class SettingsFormGUI
         $online->setChecked(!$survey->getOfflineStatus());
         $form->addItem($online);
 
-        $dur = new \ilDateDurationInputGUI($lng->txt('rep_time_based_availability'), "access_period");
+        $time_based_aval = new \ilCheckboxInputGUI($lng->txt('rep_time_based_availability'), 'time_based_avail');
+        $time_based_aval->setChecked(
+            (int) $survey->getActivationStartDate() > 0 ||
+            (int) $survey->getActivationEndDate() > 0
+        );
+        $form->addItem($time_based_aval);
+
+        $dur = new \ilDateDurationInputGUI($lng->txt('rep_time_period'), "access_period");
         $dur->setShowTime(true);
         $date = $survey->getActivationStartDate();
         $dur->setStart($date
@@ -263,12 +278,12 @@ class SettingsFormGUI
         $dur->setEnd($date
             ? new \ilDateTime($date, IL_CAL_UNIX)
             : null);
-        $form->addItem($dur);
+        $time_based_aval->addSubItem($dur);
 
         $visible = new \ilCheckboxInputGUI($lng->txt('rep_activation_limited_visibility'), 'access_visiblity');
         $visible->setInfo($lng->txt('svy_activation_limited_visibility_info'));
         $visible->setChecked($survey->getActivationVisibility());
-        $dur->addSubItem($visible);
+        $time_based_aval->addSubItem($visible);
 
         return $form;
     }
@@ -840,7 +855,8 @@ class SettingsFormGUI
 
         // activation
         $period = $form->getItemByPostVar("access_period");
-        if ($period->getStart() && $period->getEnd()) {
+        $tb = $form->getInput("time_based_avail");
+        if ($tb && $period->getStart() && $period->getEnd()) {
             $survey->setActivationLimited(true);
             $survey->setActivationVisibility((bool) $form->getInput("access_visiblity"));
             $survey->setActivationStartDate($period->getStart()->get(IL_CAL_UNIX));

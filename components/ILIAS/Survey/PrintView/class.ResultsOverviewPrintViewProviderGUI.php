@@ -78,7 +78,7 @@ class ResultsOverviewPrintViewProviderGUI extends Export\AbstractPrintViewProvid
 
     public function getOnSubmitCode(): string
     {
-        return "event.preventDefault(); if(il.Accordion) { il.Accordion.preparePrint(); } " .
+        return "event.preventDefault(); document.querySelector('.modal-dialog button.close').click(); if(il.Accordion) { il.Accordion.preparePrint(); } " .
             "window.setTimeout(() => { window.print();}, 500);";
     }
 }

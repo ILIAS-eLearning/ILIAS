@@ -183,14 +183,15 @@ interface Factory
      *         initially set to "-1". When focused, this changes to "0".
      *
      * ---
-     * @param string     $title
-     * @param array<string, Column\Column>     $columns
      * @return \ILIAS\UI\Component\Table\Data
+     * @param DataRetrieval                $data_retrieval
+     * @param string                       $title
+     * @param array<string, Column\Column> $columns
      */
     public function data(
+        DataRetrieval $data_retrieval,
         string $title,
         array $columns,
-        DataRetrieval $data_retrieval
     ): Data;
 
 
@@ -294,14 +295,16 @@ interface Factory
      *         identify and distinguish records.
      *
      * ---
-     * @param string     $title
-     * @param array<string, Column\Column>     $columns
+     * @param OrderingRetrieval            $ordering_retrieval
+     * @param URI                          $target_url
+     * @param string                       $title
+     * @param array<string, Column\Column> $columns
      * @return \ILIAS\UI\Component\Table\Ordering
      */
     public function ordering(
+        OrderingRetrieval $ordering_retrieval,
+        URI $target_url,
         string $title,
         array $columns,
-        OrderingBinding $retrieval,
-        URI $target_url
     ): Ordering;
 }

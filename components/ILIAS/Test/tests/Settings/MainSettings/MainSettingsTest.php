@@ -31,9 +31,7 @@ use ILIAS\Test\Settings\MainSettings\SettingsAdditional;
 
 class MainSettingsTest extends ilTestBaseTestCase
 {
-    /**
-     * @dataProvider throwOnDifferentTestIdDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('throwOnDifferentTestIdDataProvider')]
     public function testThrowOnDifferentTestId(int $IO): void
     {
         $test_settings = $this->createConfiguredMock(TestSettings::class, ['getTestId' => $IO]);
@@ -64,9 +62,7 @@ class MainSettingsTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider throwOnDifferentTestIdExceptionDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('throwOnDifferentTestIdExceptionDataProvider')]
     public function testThrowOnDifferentTestIdException(array $input): void
     {
         $test_settings = $this->createMock(TestSettings::class);
@@ -96,9 +92,7 @@ class MainSettingsTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithTestIdDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithTestIdDataProvider')]
     public function testGetAndWithTestId(int $IO): void
     {
         $main_settings = (new MainSettings(
@@ -152,9 +146,7 @@ class MainSettingsTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithGeneralSettingsDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithGeneralSettingsDataProvider')]
     public function testGetAndWithGeneralSettings(\Closure $IO): void
     {
         $IO = $IO($this);
@@ -183,9 +175,7 @@ class MainSettingsTest extends ilTestBaseTestCase
         ]];
     }
 
-    /**
-     * @dataProvider getAndWithIntroductionSettingsDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithIntroductionSettingsDataProvider')]
     public function testGetAndWithIntroductionSettings(\Closure $IO): void
     {
         $IO = $IO($this);
@@ -214,9 +204,7 @@ class MainSettingsTest extends ilTestBaseTestCase
         ]];
     }
 
-    /**
-     * @dataProvider getAndWithAccessSettingsDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithAccessSettingsDataProvider')]
     public function testGetAndWithAccessSettings(\Closure $IO): void
     {
         $IO = $IO($this);
@@ -245,9 +233,7 @@ class MainSettingsTest extends ilTestBaseTestCase
         ]];
     }
 
-    /**
-     * @dataProvider getAndWithTestBehaviourSettingsDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithTestBehaviourSettingsDataProvider')]
     public function testGetAndWithTestBehaviourSettings(\Closure $IO): void
     {
         $IO = $IO($this);
@@ -276,9 +262,7 @@ class MainSettingsTest extends ilTestBaseTestCase
         ]];
     }
 
-    /**
-     * @dataProvider getAndWithQuestionBehaviourSettingsDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithQuestionBehaviourSettingsDataProvider')]
     public function testGetAndWithQuestionBehaviourSettings(\Closure $IO): void
     {
         $IO = $IO($this);
@@ -307,9 +291,7 @@ class MainSettingsTest extends ilTestBaseTestCase
         ]];
     }
 
-    /**
-     * @dataProvider getAndWithParticipantFunctionalitySettingsDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithParticipantFunctionalitySettingsDataProvider')]
     public function testGetAndWithParticipantFunctionalitySettings(\Closure $IO): void
     {
         $IO = $IO($this);
@@ -338,9 +320,7 @@ class MainSettingsTest extends ilTestBaseTestCase
         ]];
     }
 
-    /**
-     * @dataProvider getAndWithFinishingSettingsDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithFinishingSettingsDataProvider')]
     public function testGetAndWithFinishingSettings(\Closure $IO): void
     {
         $IO = $IO($this);
@@ -369,9 +349,7 @@ class MainSettingsTest extends ilTestBaseTestCase
         ]];
     }
 
-    /**
-     * @dataProvider getAndWithAdditionalSettingsDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithAdditionalSettingsDataProvider')]
     public function testGetAndWithAdditionalSettings(\Closure $IO): void
     {
         $IO = $IO($this);

@@ -32,6 +32,7 @@ use ILIAS\Setup\CLI\StatusCommand;
  */
 class ilObjSystemFolderGUI extends ilObjectGUI
 {
+    protected \Pimple\Container $dic;
     protected \ILIAS\Repository\InternalGUIService $gui;
     protected ilPropertyFormGUI $form;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
@@ -56,6 +57,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     {
         global $DIC;
 
+        $this->dic = $DIC;
         $this->tabs = $DIC->tabs();
         $this->access = $DIC->access();
         $this->ctrl = $DIC->ctrl();
@@ -100,7 +102,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
             case "ilobjectownershipmanagementgui":
                 $this->setSystemCheckSubTabs("no_owner");
-                $gui = new ilObjectOwnershipManagementGUI(0);
+                $gui = $this->gui->ownership()->ownershipManagementGUI(0);
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -420,8 +422,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
      */
     public function showPHPInfoObject(): void
     {
-        phpinfo();
-        exit;
+        $rbacsystem = $this->rbacsystem;
+        if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
+            phpinfo();
+            exit;
+        }
     }
 
     //
@@ -440,9 +445,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
         $rbacsystem = $this->rbacsystem;
 
-        $ilTabs->addSubTabTarget("installation_status", $ilCtrl->getLinkTarget($this, "showServerInstallationStatus"));
+        if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
+            $ilTabs->addSubTabTarget("installation_status", $ilCtrl->getLinkTarget($this, "showServerInstallationStatus"));
 
-        $ilTabs->addSubTabTarget("server_data", $ilCtrl->getLinkTarget($this, "showServerInfo"));
+            $ilTabs->addSubTabTarget("server_data", $ilCtrl->getLinkTarget($this, "showServerInfo"));
+        }
+
 
         if ($rbacsystem->checkAccess("write", $this->object->getRefId())) {
             $ilTabs->addSubTabTarget("java_server", $ilCtrl->getLinkTarget($this, "showJavaServer"));
@@ -467,20 +475,24 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
         $ilToolbar = $this->toolbar;
 
-        $this->gui->link(
-            $this->lng->txt("vc_information"),
-            $this->ctrl->getLinkTarget($this, 'showVcsInformation')
-        )->toToolbar();
+        $rbacsystem = $this->rbacsystem;
+        if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
 
-        $this->initServerInfoForm();
-        // TODO: remove sub tabs
-        //        $this->tabs->setTabActive("server");
-        $this->setServerInfoSubTabs("server_data");
+            $this->gui->link(
+                $this->lng->txt("vc_information"),
+                $this->ctrl->getLinkTarget($this, 'showVcsInformation')
+            )->toToolbar();
 
-        $btpl = new ilTemplate("tpl.server_data.html", true, true, "components/ILIAS/SystemFolder");
-        $btpl->setVariable("FORM", $this->form->getHTML());
-        $btpl->setVariable("PHP_INFO_TARGET", $ilCtrl->getLinkTarget($this, "showPHPInfo"));
-        $tpl->setContent($btpl->get());
+            $this->initServerInfoForm();
+            // TODO: remove sub tabs
+            //        $this->tabs->setTabActive("server");
+            $this->setServerInfoSubTabs("server_data");
+
+            $btpl = new ilTemplate("tpl.server_data.html", true, true, "components/ILIAS/SystemFolder");
+            $btpl->setVariable("FORM", $this->form->getHTML());
+            $btpl->setVariable("PHP_INFO_TARGET", $ilCtrl->getLinkTarget($this, "showPHPInfo"));
+            $tpl->setContent($btpl->get());
+        }
     }
 
     /**
@@ -587,39 +599,27 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
     protected function showServerInstallationStatusObject(): void
     {
-        $this->setServerInfoSubTabs("installation_status");
-        $this->renderServerStatus();
+        $rbacsystem = $this->rbacsystem;
+        if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
+            $this->setServerInfoSubTabs("installation_status");
+            $this->renderServerStatus();
+        }
     }
 
     protected function renderServerStatus(): void
     {
-        global $DIC;
-        $f = $DIC->ui()->factory();
-        $r = $DIC->ui()->renderer();
-        $refinery = $DIC->refinery();
-
-        $metric = $this->getServerStatusInfo($refinery);
+        $f = $this->dic->ui()->factory();
+        $r = $this->dic->ui()->renderer();
+        $metric = $this->getServerStatusInfo();
         $report = $metric->toUIReport($f, $this->lng->txt("installation_status"));
 
         $this->tpl->setContent($r->render($report));
     }
 
-    protected function getServerStatusInfo(ILIAS\Refinery\Factory $refinery): ILIAS\Setup\Metrics\Metric
+    protected function getServerStatusInfo(): ILIAS\Setup\Metrics\Metric
     {
-        $data = new Factory();
-        $lng = new ilSetupLanguage('en');
-        $interface_finder = new ImplementationOfInterfaceFinder();
-
-        $agent_finder = new ImplementationOfAgentFinder(
-            $refinery,
-            $data,
-            $lng,
-            $interface_finder,
-            []
-        );
-
+        $agent_finder = $this->dic['setup.agentfinder'];
         $st = new StatusCommand($agent_finder);
-
         return $st->getMetrics($agent_finder->getAgents());
     }
 
@@ -807,7 +807,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     ): void {
         $tpl = $this->tpl;
         $this->setGeneralSettingsSubTabs("header_title");
-        $table = new ilObjectTranslationTableGUI($this, "showHeaderTitle", false);
+        $table = new ilInstallationHeadingTableGUI($this, "showHeaderTitle", false);
         $post = $this->gui->http()->request()->getParsedBody();
         if ($a_get_post_values) {
             $vals = array();
@@ -848,7 +848,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     */
     public function saveHeaderTitlesObject(bool $delete = false)
     {
-        global $DIC;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;
@@ -859,7 +858,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $this->ctrl->redirectByClass(self::class, "showHeaderTitle");
         }
 
-        $post = $DIC->http()->request()->getParsedBody();
+        $post = $this->dic->http()->request()->getParsedBody();
         foreach ($post["title"] as $k => $v) {
             if ($delete && ($post["check"][$k] ?? false)) {
                 unset($post["title"][$k]);
@@ -1264,20 +1263,22 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     protected function showVcsInformationObject(): void
     {
         $vcInfo = [];
-
-        foreach ([new ilGitInformation()] as $vc) {
-            $html = $vc->getInformationAsHtml();
-            if ($html) {
-                $vcInfo[] = $html;
+        $rbacsystem = $this->rbacsystem;
+        if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
+            foreach ([new ilGitInformation()] as $vc) {
+                $html = $vc->getInformationAsHtml();
+                if ($html) {
+                    $vcInfo[] = $html;
+                }
             }
-        }
 
-        if ($vcInfo !== []) {
-            $this->tpl->setOnScreenMessage('info', implode("<br />", $vcInfo));
-        } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('vc_information_not_determined'));
-        }
+            if ($vcInfo !== []) {
+                $this->tpl->setOnScreenMessage('info', implode("<br />", $vcInfo));
+            } else {
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('vc_information_not_determined'));
+            }
 
-        $this->showServerInfoObject();
+            $this->showServerInfoObject();
+        }
     }
 }

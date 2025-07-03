@@ -103,9 +103,10 @@ class ParticipantTable implements DataRetrieval
             $status_of_attempt = $record->getAttemptOverviewInformation()?->getStatusOfAttempt() ?? StatusOfAttempt::NOT_YET_STARTED;
 
             $row = [
-                'name' => $this->test_object->buildName($record->getUserId(), $record->getLastname(), $record->getFirstname()),
+                'name' => $this->test_object->buildName($record->getUserId(), $record->getFirstname(), $record->getLastname()),
                 'login' => $record->getLogin(),
                 'matriculation' => $record->getMatriculation(),
+                'total_time_on_task' => $record->getAttemptOverviewInformation()?->getHumanReadableTotalTimeOnTask() ?? '',
                 'status_of_attempt' => $this->lng->txt($status_of_attempt->value),
                 'id_of_attempt' => $record->getAttemptOverviewInformation()?->getExamId(),
                 'ip_range' => $record->getClientIpTo() !== '' || $record->getClientIpFrom() !== ''
@@ -319,9 +320,9 @@ class ParticipantTable implements DataRetrieval
         return $this->ui_factory
             ->table()
             ->data(
+                $this,
                 $this->lng->txt('list_of_participants'),
                 $this->getColumns(),
-                $this
             )
             ->withId(self::ID)
             ->withRequest($request)
@@ -354,6 +355,8 @@ class ParticipantTable implements DataRetrieval
                 $this->lng->txt('tst_attempt_started'),
                 $this->current_user->getDateTimeFormat()
             )->withIsSortable(true),
+            'total_time_on_task' => $column_factory->text($this->lng->txt('working_time'))
+                ->withIsOptional(true, false),
             'total_attempts' => $column_factory->number($this->lng->txt('total_attempts'))
                 ->withIsOptional(true, false)
                 ->withIsSortable(true),
@@ -432,18 +435,33 @@ class ParticipantTable implements DataRetrieval
             )
         );
 
-        $access_filter = $this->participant_access_filter->getManageParticipantsUserFilter($this->test_object->getRefId());
-        $filtered_user_ids = $access_filter(array_map(
-            fn(Participant $participant) => $participant->getUserId(),
-            $records
-        ));
-
         $this->records = array_filter(
             $records,
-            fn(Participant $participant) => in_array($participant->getUserId(), $filtered_user_ids),
+            fn(Participant $participant) => in_array(
+                $participant->getUserId(),
+                $this->buildAccessFilteredParticipantsList($records)
+            )
         );
 
         return $this->records;
+    }
+
+    /**
+     *
+     * @param array<Participant> $records
+     * @return array<int>
+     */
+    private function buildAccessFilteredParticipantsList(array $records): array
+    {
+        $manage_access_filter = $this->participant_access_filter
+            ->getManageParticipantsUserFilter($this->test_object->getRefId());
+        $access_results_access_filter = $this->participant_access_filter
+            ->getAccessResultsUserFilter($this->test_object->getRefId());
+        $participant_ids = array_map(
+            fn(Participant $participant) => $participant->getUserId(),
+            $records
+        );
+        return $manage_access_filter($participant_ids) + $access_results_access_filter($participant_ids);
     }
 
 
@@ -455,7 +473,7 @@ class ParticipantTable implements DataRetrieval
         return $this->limitRecords(
             $this->sortRecords(
                 $this->filterRecords(
-                    $records = $this->results_data_factory->addAttemptOverviewInformationToParticipants(
+                    $this->results_data_factory->addAttemptOverviewInformationToParticipants(
                         $this->results_presentation_settings,
                         $this->test_object,
                         $this->loadRecords($filter_data, $order)

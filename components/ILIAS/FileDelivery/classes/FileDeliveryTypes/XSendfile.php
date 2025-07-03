@@ -78,18 +78,10 @@ final class XSendfile implements ilFileDeliveryType
      */
     public function deliver(string $path_to_file, bool $file_marked_to_delete): void
     {
-        $delivery = function () use ($path_to_file): void {
-            $response = $this->httpService->response()
-                ->withHeader(self::X_SENDFILE, realpath($path_to_file));
-            $this->httpService->saveResponse($response);
-            $this->httpService->sendResponse();
-        };
-
-        if ($file_marked_to_delete) {
-            $this->sendFileUnbufferedUsingHeaders($delivery);
-        } else {
-            $delivery();
-        }
+        $response = $this->httpService->response()
+                                      ->withHeader(self::X_SENDFILE, realpath($path_to_file));
+        $this->httpService->saveResponse($response);
+        $this->httpService->sendResponse();
     }
 
 

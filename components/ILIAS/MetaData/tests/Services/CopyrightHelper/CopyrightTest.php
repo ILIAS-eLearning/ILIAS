@@ -41,7 +41,6 @@ class CopyrightTest extends TestCase
     {
         return $this->getMockBuilder(ILegacy::class)
                     ->disableOriginalConstructor()
-                    ->addMethods(['exposeData'])
                     ->getMock();
     }
 
@@ -49,6 +48,8 @@ class CopyrightTest extends TestCase
     {
         $legacy_component = $this->getLegacyComponent();
         return new class ($legacy_component, $this->any()) extends NullRenderer {
+            public ?string $exposed_copyright_data = null;
+
             public function __construct(
                 protected MockObject|Content $legacy,
                 protected AnyInvokedCount $any
@@ -57,11 +58,8 @@ class CopyrightTest extends TestCase
 
             public function toUIComponents(CopyrightDataInterface $copyright): array
             {
-                $legacy_clone = clone $this->legacy;
-                $legacy_clone->expects($this->any)
-                             ->method('exposeData')
-                             ->willReturn($copyright->exposed_data);
-                return [$legacy_clone];
+                $this->exposed_copyright_data = $copyright->exposed_data;
+                return [$this->legacy];
             }
 
             public function toString(CopyrightDataInterface $copyright): string
@@ -264,8 +262,9 @@ class CopyrightTest extends TestCase
 
     public function testPresentAsUIComponents(): void
     {
+        $renderer = $this->getRenderer();
         $copyright = new Copyright(
-            $this->getRenderer(),
+            $renderer,
             $this->getIdentifierHandler(),
             $this->getEntry(
                 false,
@@ -281,7 +280,7 @@ class CopyrightTest extends TestCase
 
         $this->assertCount(1, $components);
         /** @noinspection PhpUndefinedMethodInspection */
-        $this->assertSame('data of copyright', $components[0]->exposeData());
+        $this->assertSame('data of copyright', $renderer->exposed_copyright_data);
     }
 
     public function testPresentAsString(): void

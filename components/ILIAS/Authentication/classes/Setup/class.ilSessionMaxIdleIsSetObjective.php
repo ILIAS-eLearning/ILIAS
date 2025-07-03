@@ -94,9 +94,7 @@ class ilSessionMaxIdleIsSetObjective implements Setup\Objective
 
             return $environment;
         } finally {
-            if (!is_null($curl)) {
-                $curl->close();
-            }
+            $curl?->close();
             unlink("public/$filename");
         }
 
@@ -153,22 +151,23 @@ class ilSessionMaxIdleIsSetObjective implements Setup\Objective
 
         if (ilCurlConnection::_isCurlExtensionLoaded()) {
             try {
+                $curl = null;
                 $curl = $this->getCurlConnection($settings, $url);
                 $curl->exec();
                 $result = $curl->getInfo(CURLINFO_HTTP_CODE);
                 if ($result !== 200) {
-                    throw new \Exception();
+                    throw new Exception();
                 }
-            } catch (\Exception $e) {
+            } catch (Exception) {
                 $this->infoNoConnection($io);
                 return false;
             } finally {
-                $curl->close();
+                $curl?->close();
             }
         } else {
             try {
                 $this->getPHPIniValuesByFileGetContents($url);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $this->infoNoConnection($io);
                 return false;
             }
@@ -203,8 +202,8 @@ TEXT;
      */
     private function getCurlConnection(ilSetting $settings, string $url, ?string $token = null): ilCurlConnection
     {
-        if (!is_null($token)) {
-            $url = $url . "?token=" . $token;
+        if ($token !== null) {
+            $url .= '?token=' . $token;
         }
 
         $curl = new ilCurlConnection(
@@ -230,8 +229,8 @@ TEXT;
             throw new ErrorException($message, $severity, $severity, $file, $line);
         });
 
-        if (!is_null($token)) {
-            $url = $url . "?token=" . $token;
+        if ($token !== null) {
+            $url .= '?token=' . $token;
         }
 
         try {
@@ -250,7 +249,7 @@ TEXT;
             "In the event of an installation the value for session expire\n" .
             "will be the default value.\n" .
             "In the event of an update, the current value for session expire\n" .
-            "is retained."
+            'is retained.'
         ;
 
         $io->inform($message);

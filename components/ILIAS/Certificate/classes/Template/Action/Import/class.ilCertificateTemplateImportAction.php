@@ -39,7 +39,7 @@ class ilCertificateTemplateImportAction
         private readonly int $objectId,
         private readonly string $certificatePath,
         private readonly ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-        ilLogger $logger,
+        private readonly ilLogger $logger,
         private readonly Filesystem $filesystem,
         private readonly IRSS $irss,
         ?ilCertificateTemplateRepository $templateRepository = null,
@@ -86,8 +86,13 @@ class ilCertificateTemplateImportAction
         $importPath = $this->createArchiveDirectory($installationID);
 
         $clean_up_import_dir = function () use (&$importPath) {
-            if ($this->filesystem->hasDir($importPath)) {
-                $this->filesystem->deleteDir($importPath);
+            try {
+                if ($this->filesystem->hasDir($importPath)) {
+                    $this->filesystem->deleteDir($importPath);
+                }
+            } catch (Throwable $e) {
+                $this->logger->error(sprintf("Can't clean up import directory: %s", $e->getMessage()));
+                $this->logger->error($e->getTraceAsString());
             }
         };
 
@@ -106,6 +111,10 @@ class ilCertificateTemplateImportAction
         );
 
         $unzipped = $unzip->extract();
+
+        // Cleanup memory, otherwise there will be issues with NFS-based file systems after `listContents` has been called
+        unset($unzip);
+
         if (!$unzipped) {
             $clean_up_import_dir();
 
@@ -141,14 +150,13 @@ class ilCertificateTemplateImportAction
 
             if (str_contains($file->getPath(), '.xml')) {
                 $xsl = $this->filesystem->read($file->getPath());
-                // TODO: wth??
             } elseif (str_contains($file->getPath(), '.jpg')) {
                 $background_rid = $this->irss->manage()->stream(
                     $this->filesystem->readStream($file->getPath()),
                     $this->stakeholder
                 );
             } elseif (str_contains($file->getPath(), '.svg')) {
-                $card_thumbnail_rid = $this->irss->manage()->stream(
+                $tile_image_rid = $this->irss->manage()->stream(
                     $this->filesystem->readStream($file->getPath()),
                     $this->stakeholder
                 );
@@ -168,8 +176,8 @@ class ilCertificateTemplateImportAction
                     $background_rid
                 )->getStorageID() : '',
                 $jsonEncodedTemplateValues,
-                isset($card_thumbnail_rid) ? $this->irss->manage()->getResource(
-                    $card_thumbnail_rid
+                isset($tile_image_rid) ? $this->irss->manage()->getResource(
+                    $tile_image_rid
                 )->getStorageID() : ''
             ])
         );
@@ -187,7 +195,7 @@ class ilCertificateTemplateImportAction
             '',
             '',
             isset($background_rid) ? $background_rid->serialize() : '',
-            isset($card_thumbnail_rid) ? $card_thumbnail_rid->serialize() : ''
+            isset($tile_image_rid) ? $tile_image_rid->serialize() : ''
         );
 
         $this->templateRepository->save($template);

@@ -549,7 +549,7 @@ class ilDidacticTemplateSetting
         }
 
         foreach ($this->getEffectiveFrom() as $node) {
-            if ($this->tree->isGrandChild($node, $a_node_id)) {
+            if ($a_node_id > 0 && $this->tree->isGrandChild($node, $a_node_id)) {
                 return true;
             }
         }

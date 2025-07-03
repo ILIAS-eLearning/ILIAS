@@ -315,7 +315,20 @@ class ilOpenIdConnectUserSync
             }
 
             if (is_array($this->user_info->{$role_attribute})) {
-                $roles_claim = array_map(trim(...), $this->user_info->{$role_attribute});
+                $roles_claim = array_map(
+                    static function (mixed $value): string {
+                        return match (true) {
+                            is_string($value) => trim($value),
+                            $value instanceof stdClass && property_exists($value, 'id') => trim((string) $value->id),
+                            $value instanceof stdClass && property_exists($value, 'value') => trim((string) $value->value),
+                            default => throw new DomainException(sprintf(
+                                'Unexpected role value type, please check your provider configuration: %s',
+                                print_r($value, true)
+                            )),
+                        };
+                    },
+                    $this->user_info->{$role_attribute}
+                );
                 if (!in_array($role_value, $roles_claim, true)) {
                     $this->logger->debug('User account has no ' . $role_value);
                     continue;

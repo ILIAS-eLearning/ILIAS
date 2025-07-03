@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\DI\Container;
+use ILIAS\Refinery\Factory;
 
 /**
 * Unit tests
@@ -37,7 +38,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
         $lng->method('txt')
-            ->will($this->returnArgument(0));
+            ->willReturnArgument(0);
 
         $this->setGlobalVariable('lng', $lng);
     }

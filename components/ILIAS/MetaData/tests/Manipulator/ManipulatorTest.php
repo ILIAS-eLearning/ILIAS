@@ -191,7 +191,6 @@ class ManipulatorTest extends TestCase
                             }
                         }
                         $this->my_elements = $elements;
-                        continue;
                     }
                 }
             }

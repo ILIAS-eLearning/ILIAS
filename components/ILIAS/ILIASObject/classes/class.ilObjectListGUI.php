@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\ILIASObject\LocalDIC;
+use ILIAS\ILIASObject\Properties\Properties;
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Button\Button;
@@ -30,7 +32,6 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Notes\Note;
 use ILIAS\Container\Content\ModeSessionRepository;
 use ILIAS\HTTP\Services as HTTPServices;
-use ILIAS\Object\ilObjectDIC;
 
 /**
  * Important note:
@@ -76,8 +77,8 @@ class ilObjectListGUI
     protected array $access_cache;
     protected ilAccessHandler $access;
     protected ilObjUser $user;
-    protected ilObjectDIC $object_dic;
-    protected ilObjectProperties $object_properties;
+    protected LocalDIC $object_dic;
+    protected Properties $object_properties;
     protected ilObjectDefinition $obj_definition;
     protected ilTree $tree;
     protected ilSetting $settings;
@@ -199,7 +200,7 @@ class ilObjectListGUI
 
         $this->access = $DIC['ilAccess'];
         $this->user = $DIC['ilUser'];
-        $this->object_dic = ilObjectDIC::dic();
+        $this->object_dic = LocalDIC::dic();
         $this->obj_definition = $DIC['objDefinition'];
         $this->tree = $DIC['tree'];
         $this->settings = $DIC['ilSetting'];
@@ -723,7 +724,7 @@ class ilObjectListGUI
         $this->access_cache = [];
         $this->ref_id = $ref_id;
         $this->obj_id = $obj_id;
-        $this->object_properties = $this->object_dic['object_properties_agregator']->getFor($obj_id);
+        $this->object_properties = $this->object_dic['properties.aggregator']->getFor($obj_id);
         $this->setTitle($title);
         $this->setDescription($description);
 
@@ -1336,7 +1337,7 @@ class ilObjectListGUI
                         $prop_text = '';
                     } // tags counter
                     else {
-                        $tags_value = '<a href="#" onclick="return ' . $tags_url . '>' .
+                        $tags_value = '<a href="#" onclick="return ' . $tags_url . '">' .
                             self::$cnt_tags[$note_obj_id] . '</a>';
                         $prop_text = $this->lng->txt('tagging_tags');
                     }
@@ -2635,14 +2636,7 @@ class ilObjectListGUI
             }
 
             $this->tpl->setCurrentBlock('icon');
-            if (!$this->obj_definition->isPlugin($this->getIconImageType())) {
-                $this->tpl->setVariable('ALT_ICON', $this->lng->txt('obj_' . $this->getIconImageType()));
-            } else {
-                $this->tpl->setVariable(
-                    'ALT_ICON',
-                    ilObjectPlugin::lookupTxtById($this->getIconImageType(), 'obj_' . $this->getIconImageType())
-                );
-            }
+            $this->tpl->setVariable('ALT_ICON', $this->buildTranslatedType());
 
             $this->tpl->setVariable(
                 'SRC_ICON',
@@ -3074,13 +3068,6 @@ class ilObjectListGUI
         $dropdown = $this->getCommandsDropdown($title);
         $def_command = $this->getDefaultCommand();
 
-        $icon = $this->ui->factory()
-            ->symbol()
-            ->icon()
-            ->custom(ilObject::_getIcon($obj_id), $this->lng->txt('icon') . ' ' . $this->lng->txt('obj_' . $type))
-            ->withSize('medium');
-
-
         if ($def_command['link'] ?? false) {
             list($def_command['link'], $def_command['frame']) =
                 $this->modifySAHSlaunch($def_command['link'], $def_command['frame']);
@@ -3097,7 +3084,13 @@ class ilObjectListGUI
         if ($description != '') {
             $list_item = $list_item->withDescription($description);
         }
-        $list_item = $list_item->withActions($dropdown)->withLeadIcon($icon);
+        $list_item = $list_item->withActions($dropdown)->withLeadIcon(
+            $this->ui->factory()->symbol()->icon()->custom(
+                $this->getTypeIcon(),
+                $this->buildTranslatedType(),
+                'medium'
+            )
+        );
 
 
         $l = [];
@@ -3130,6 +3123,7 @@ class ilObjectListGUI
     ): ?RepositoryObject {
         $ui = $this->ui;
 
+        $title = $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($title);
         // even b tag produced bugs, see #32304
         $description = $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
             $description
@@ -3174,8 +3168,6 @@ class ilObjectListGUI
 
         $image = $this->getTileImage();
 
-
-
         if ($def_cmd_link != '') {    // #24256
             if ($def_cmd_frame !== '' && ($modified_link === $def_cmd_link)) {
                 $signal = (new SignalGenerator())->create();
@@ -3211,27 +3203,11 @@ class ilObjectListGUI
             ) . $title;
         }
 
-        $icon = $this->ui
-            ->factory()
-            ->symbol()
-            ->icon()
-            ->standard($type, $this->lng->txt('obj_' . $type))
-        ;
-
-
-
-        if ($this->obj_definition->isActivePluginType($type)) {
-            $class_name = 'il' . $this->obj_definition->getClassName($type) . 'Plugin';
-            if ($class_name !== 'ilPlugin'
-            && method_exists($class_name, '_getIcon')) {
-                $pl = ilObjectPlugin::getPluginObjectByType($type);
-                $icon = $this->ui
-                    ->factory()
-                    ->symbol()
-                    ->icon()
-                    ->custom(call_user_func([$class_name, '_getIcon'], $type, 'small', $obj_id), $pl->txt('obj_' . $type));
-            }
-        }
+        $icon = $this->ui->factory()->symbol()->icon()->custom(
+            $this->getTypeIcon(),
+            $this->buildTranslatedType(),
+            'medium'
+        );
 
         // card title action
         $card_title_action = '';
@@ -3386,6 +3362,7 @@ class ilObjectListGUI
             case 'htlm':
             case 'exc':
             case 'svy':
+            case 'mcst':
             case 'file':
             case 'crs':
                 $gui_class = 'ilObj' . $this->obj_definition->getClassName($this->type) . 'GUI';
@@ -3412,5 +3389,14 @@ class ilObjectListGUI
                 $this->lng->txt('listaction_learning_progress_settings')
             );
         }
+    }
+
+    private function buildTranslatedType(): string
+    {
+        if ($this->obj_definition->isPlugin($this->getIconImageType())) {
+            return ilObjectPlugin::lookupTxtById($this->getIconImageType(), 'obj_' . $this->getIconImageType());
+        }
+
+        return $this->lng->txt('obj_' . $this->getIconImageType());
     }
 }

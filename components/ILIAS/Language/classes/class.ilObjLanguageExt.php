@@ -454,6 +454,10 @@ class ilObjLanguageExt extends ilObjLanguage
                 $ilDB->quote($module, "text")
             ));
             $row = $ilDB->fetchAssoc($set);
+            if (!$row) {
+                $DIC->logger()->root()->warning("Language module '{$module}' not found for language {$a_lang_key}.");
+                continue;
+            }
 
             $entries = self::_mergeLanguageEntriesFromRow($row, $entries);
 

@@ -96,9 +96,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends TestCase
         $this->assertSame($formMock, $result);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testSave(): void
     {
         $object = $this->getMockBuilder(ilObject::class)

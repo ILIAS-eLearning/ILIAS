@@ -122,8 +122,8 @@ In `ilObjMediaObjectGUI::executeCommand`:
 ### Create LOM Sets for Pre-Existing Objects
 
 To avoid inconsistencies and problems e.g. in export/import, LOM sets
-also need to be created for already existing objects. For this, the
-To this end, add a migration to your component extending
+also need to be created for already existing objects. To this end,
+add a migration to your component extending 
 `ILIAS\MetaData\Setup\InitLOMForObjectTypeMigration`.
 
 ### Show LOM on Info Screen

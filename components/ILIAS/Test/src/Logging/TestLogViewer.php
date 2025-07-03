@@ -22,6 +22,7 @@ namespace ILIAS\Test\Logging;
 
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -64,12 +65,12 @@ class TestLogViewer
         $log_table = new LogTable(
             $this->logging_repository,
             $this->logger,
+            $this,
             $this->title_builder,
             $this->question_repository,
             $this->ui_service,
             $this->ui_factory,
             $this->ui_renderer,
-            $this->data_factory,
             $this->lng,
             $this->tpl,
             $url_builder,
@@ -95,12 +96,12 @@ class TestLogViewer
         $log_table = new LogTable(
             $this->logging_repository,
             $this->logger,
+            $this,
             $this->title_builder,
             $this->question_repository,
             $this->ui_service,
             $this->ui_factory,
             $this->ui_renderer,
-            $this->data_factory,
             $this->lng,
             $this->tpl,
             $url_builder,
@@ -136,6 +137,86 @@ class TestLogViewer
         }
 
         $log_table->executeAction($action, $affected_items);
+    }
+
+    public function getLogExportForRefjId(int $ref_id): \ilExcel
+    {
+        return $this->buildExcelWorkbookForLogs(
+            $this->logging_repository->getLogs(
+                $this->logger->getInteractionTypes(),
+                [$ref_id]
+            )
+        );
+    }
+
+    public function buildExcelWorkbookForLogs(\Generator $logs): \ilExcel
+    {
+        $workbook = new \ilExcel();
+        $workbook->addSheet($this->lng->txt('history'));
+
+        $column = 0;
+        foreach ($this->getColumHeadingsForExport() as $header_cell) {
+            $workbook->setCell(1, $column++, $header_cell);
+        }
+        $workbook->setBold('A' . 1 . ':' . $workbook->getColumnCoord($column - 1) . 1);
+        $workbook->setColors('A' . 1 . ':' . $workbook->getColumnCoord($column - 1) . 1, 'C0C0C0');
+
+        return $this->addRowsFromLogs($logs, $workbook);
+    }
+
+    private function addRowsFromLogs(
+        \Generator $logs,
+        \ilExcel $workbook
+    ): \ilExcel {
+        $row = 1;
+        foreach ($logs as $log) {
+            $row++;
+            $column = 0;
+            foreach ($log->getLogEntryAsExportRow(
+                $this->lng,
+                $this->title_builder,
+                $this->logger->getAdditionalInformationGenerator(),
+                [
+                    'timezone' => new \DateTimeZone($this->current_user->getTimeZone()),
+                    'date_format' => $this->buildUserDateTimeFormat()->toString()
+                ]
+            ) as $cell_content) {
+                $workbook->setCell(
+                    $row,
+                    $column++,
+                    $cell_content
+                );
+            }
+        }
+        return $workbook;
+    }
+
+    private function getColumHeadingsForExport(): array
+    {
+        return [
+            $this->lng->txt('date_time'),
+            $this->lng->txt('test'),
+            $this->lng->txt('author'),
+            $this->lng->txt('tst_participant'),
+            $this->lng->txt('client_ip'),
+            $this->lng->txt('question'),
+            $this->lng->txt('log_entry_type'),
+            $this->lng->txt('interaction_type'),
+            $this->lng->txt('additional_info')
+        ];
+    }
+
+    public function buildUserDateTimeFormat(): DateFormat
+    {
+        $user_format = $this->current_user->getDateFormat();
+        if ($this->current_user->getTimeFormat() == \ilCalendarSettings::TIME_FORMAT_24) {
+            return $this->data_factory->dateFormat()->amend(
+                $this->data_factory->dateFormat()->withTime24($user_format)
+            )->colon()->seconds()->get();
+        }
+        return $this->data_factory->dateFormat()->amend(
+            $user_format
+        )->space()->hours12()->colon()->minutes()->colon()->seconds()->meridiem()->get();
     }
 
     /* The following functions will be removed with ILIAS 11 */
@@ -176,7 +257,7 @@ class TestLogViewer
         return $csvoutput;
     }
 
-    private function buildQuestionTitleForLegacyLog(array $log): string
+    public function buildQuestionTitleForLegacyLog(array $log): string
     {
         if (!$log['question_fi'] && !$log['original_fi']) {
             return '';

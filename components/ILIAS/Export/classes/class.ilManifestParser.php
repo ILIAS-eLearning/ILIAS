@@ -110,9 +110,8 @@ class ilManifestParser extends ilSaxParser
      */
     public function setHandlers($a_xml_parser): void
     {
-        xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handleBeginTag', 'handleEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handleCharacterData');
+        xml_set_element_handler($a_xml_parser, $this->handleBeginTag(...), $this->handleEndTag(...));
+        xml_set_character_data_handler($a_xml_parser, $this->handleCharacterData(...));
     }
 
     /**

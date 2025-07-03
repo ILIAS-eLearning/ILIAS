@@ -24,6 +24,7 @@ use ILIAS\Test\Logging\TestLogger;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Language\Language;
 use ILIAS\FileDelivery\Services as FileDeliveryServices;
+use ILIAS\ResourceStorage\Services as ResourceStorage;
 
 /**
  * Export class for tests
@@ -61,9 +62,11 @@ abstract class Export implements Exporter
         protected readonly \ilComponentRepository $component_repository,
         protected readonly GeneralQuestionPropertiesRepository $questionrepository,
         protected readonly FileDeliveryServices $file_delivery,
-        protected readonly \ilObjTest $test_obj
+        protected readonly \ilObjTest $test_obj,
+        protected readonly ResourceStorage $irss
     ) {
         $this->inst_id = (string) IL_INST_ID;
+        $this->export_dir = $test_obj->getExportDirectory();
 
         $date = time();
         $this->export_dir = $test_obj->getExportDirectory();
@@ -71,7 +74,6 @@ abstract class Export implements Exporter
         $this->filename = $this->subdir . '.xml';
         $this->resultsfile = "{$date}__{$this->inst_id}__results_{$this->test_obj->getId()}.xml";
         $this->qti_filename = "{$date}__{$this->inst_id}__qti_{$this->test_obj->getId()}.xml";
-        $this->filename = $this->subdir . '.xml';
     }
 
     abstract protected function initXmlExport();
@@ -88,6 +90,17 @@ abstract class Export implements Exporter
     {
         $clone = clone $this;
         $clone->result_exporting_enabled = $enable;
+        return $clone;
+    }
+
+    public function withExportDirInfo(string $export_dir): self
+    {
+        $clone = clone $this;
+        $clone->subdir = basename($export_dir);
+        $clone->filename = $clone->subdir . '.xml';
+        $path_array = explode('__', $clone->subdir);
+        $clone->resultsfile = "{$path_array[0]}__{$path_array[1]}__results_{$this->test_obj->getId()}.xml";
+        $clone->qti_filename = "{$path_array[0]}__{$path_array[1]}__qti_{$this->test_obj->getId()}.xml";
         return $clone;
     }
 
@@ -152,7 +165,13 @@ abstract class Export implements Exporter
         $this->bench->stop('TestExport', 'write_dumpToFile');
 
         if ($this->isResultExportingEnabled()) {
-            $resultwriter = new \ilTestResultsToXML($this->test_obj->getTestId(), $this->db, $this->test_obj->getAnonymity());
+            $resultwriter = new \ilTestResultsToXML(
+                $this->test_obj->getTestId(),
+                $this->db,
+                $this->irss,
+                $this->export_dir . "/" . $this->subdir . "/objects",
+                $this->test_obj->getAnonymity()
+            );
             $resultwriter->setIncludeRandomTestQuestionsEnabled($this->test_obj->isRandomTest());
             $this->bench->start('TestExport', 'write_results');
             $resultwriter->xmlDumpFile($this->export_dir . '/' . $this->subdir . '/' . $this->resultsfile, false);
@@ -178,9 +197,7 @@ abstract class Export implements Exporter
         $exp_log->write(date('[y-m-d H:i:s] ') . 'Finished Export');
         $this->bench->stop('TestExport', 'write');
 
-        if (!$this->isResultExportingEnabled()) {
-            unlink($this->export_dir . '/' . $this->subdir . '.zip');
-        }
+        unlink($this->export_dir . '/' . $this->subdir . '.zip');
 
         return $this->export_dir . '/' . $this->subdir . '.zip';
     }
@@ -227,16 +244,6 @@ abstract class Export implements Exporter
     public function exportXHTMLMediaObjects($a_export_dir): void
     {
         $mobs = \ilObjMediaObject::_getMobsOfObject('tst:html', $this->test_obj->getId());
-
-        $intro_page_id = $this->test_obj->getMainSettings()->getIntroductionSettings()->getIntroductionPageId();
-        if ($intro_page_id !== null) {
-            $mobs += \ilObjMediaObject::_getMobsOfObject('tst:pg', $intro_page_id);
-        }
-
-        $concluding_remarks_page_id = $this->test_obj->getMainSettings()->getFinishingSettings()->getConcludingRemarksPageId();
-        if ($concluding_remarks_page_id !== null) {
-            $mobs += \ilObjMediaObject::_getMobsOfObject('tst:pg', $concluding_remarks_page_id);
-        }
 
         foreach ($mobs as $mob) {
             if (\ilObjMediaObject::_exists($mob)) {

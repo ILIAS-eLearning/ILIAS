@@ -252,11 +252,9 @@ class ilSecuritySettingsChecker
                 ? $security->getPasswordMinLength()
                 : 6;
             $max = ($security->getPasswordMaxLength() > 0)
-                ? $security->getPasswordMaxLength()
-                : 10;
-            if ($min > $max) {
-                $max = $max + 1;
-            }
+                ? max($security->getPasswordMaxLength(), $min)
+                : max($min, 10);
+
             $random = new ilRandom();
             $length = $random->int($min, $max);
             $next = $random->int(1, 2);
@@ -272,12 +270,12 @@ class ilSecuritySettingsChecker
                 for ($j = 0; $j < $security->getPasswordNumberOfUppercaseChars(); $j++) {
                     switch ($next) {
                         case 1:
-                            $pw .= $consonants_uc[$random->int(0, strlen($consonants_uc) - 1)];
+                            $pw .= $consonants_uc[$random->getInt(0, strlen($consonants_uc) - 1)];
                             $next = 2;
                             break;
 
                         case 2:
-                            $pw .= $vowels_uc[$random->int(0, strlen($vowels_uc) - 1)];
+                            $pw .= $vowels_uc[$random->getInt(0, strlen($vowels_uc) - 1)];
                             $next = 1;
                             break;
                     }
@@ -285,23 +283,23 @@ class ilSecuritySettingsChecker
             }
 
             if ($security->isPasswordCharsAndNumbersEnabled()) {
-                $pw .= $numbers[$random->int(0, strlen($numbers) - 1)];
+                $pw .= $numbers[$random->getInt(0, strlen($numbers) - 1)];
             }
 
             if ($security->isPasswordSpecialCharsEnabled()) {
-                $pw .= $special[$random->int(0, strlen($special) - 1)];
+                $pw .= $special[$random->getInt(0, strlen($special) - 1)];
             }
 
             $num_lcase_chars = max($security->getPasswordNumberOfLowercaseChars(), $length - strlen($pw));
             for ($j = 0; $j < $num_lcase_chars; $j++) {
                 switch ($next) {
                     case 1:
-                        $pw .= $consonants[$random->int(0, strlen($consonants) - 1)];
+                        $pw .= $consonants[$random->getInt(0, strlen($consonants) - 1)];
                         $next = 2;
                         break;
 
                     case 2:
-                        $pw .= $vowels[$random->int(0, strlen($vowels) - 1)];
+                        $pw .= $vowels[$random->getInt(0, strlen($vowels) - 1)];
                         $next = 1;
                         break;
                 }

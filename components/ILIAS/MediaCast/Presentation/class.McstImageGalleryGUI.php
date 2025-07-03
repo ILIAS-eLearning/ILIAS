@@ -36,6 +36,7 @@ class McstImageGalleryGUI
     protected \ilObjUser $user;
     protected \ilCtrl $ctrl;
     protected \ilToolbarGUI $toolbar;
+    protected ilAccessHandler $access;
 
     public function __construct(
         \ilObjMediaCast $obj,
@@ -51,6 +52,7 @@ class McstImageGalleryGUI
         $this->tpl = $tpl;
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
+        $this->access = $DIC->access();
         $this->toolbar = $DIC->toolbar();
         $this->media_types = $DIC->mediaObjects()->internal()->domain()->mediaType();
         $this->mc_manager = $DIC->mediaCast()->internal()->domain()->mediaCast($this->media_cast);
@@ -130,7 +132,9 @@ class McstImageGalleryGUI
         }
 
         $cnt = 0;
-        foreach ($this->media_cast->getSortedItemsArray() as $item) {
+        $items = $this->media_cast->getSortedItemsArray();
+        $total = count($items);
+        foreach ($items as $item) {
             $mob = new \ilObjMediaObject($item["mob_id"]);
             $med = $mob->getMediaItem("Standard");
 
@@ -142,10 +146,7 @@ class McstImageGalleryGUI
 
             $preview_resource = $resource;
             if ($mob->getVideoPreviewPic() != "") {
-                try {
-                    $preview_resource = ilWACSignedPath::signFile($mob->getVideoPreviewPic());
-                } catch (Exception $e) {
-                }
+                //                $preview_resource = $mob->getVideoPreviewPic();
             }
 
 
@@ -169,7 +170,9 @@ class McstImageGalleryGUI
             $slide_to = "";
             $completed_cb = "";
             if (!$lp_collection_mode) {
-                $slide_to = "document.querySelector('.modal-body .carousel [data-slide-to=\"" . $cnt . "\"]').click();";
+                if ($total > 1) {
+                    $slide_to = "document.querySelector('.modal-body .carousel [data-slide-to=\"" . $cnt . "\"]').click();";
+                }
             } else {
                 $completed_cb = $this->completed_callback . '&mob_id=' . $mob->getId();
                 $completed_cb = "$.ajax({type:'GET', url: '$completed_cb'});";
@@ -212,6 +215,7 @@ class McstImageGalleryGUI
                 $sections
             )->withTitleAction($modal->getShowSignal());
 
+
             $cards[] = $card;
             $modals[] = $modal;
         }
@@ -231,6 +235,16 @@ class McstImageGalleryGUI
 
     protected function downloadAll(): void
     {
+        if (!$this->media_cast->getDownloadable() ||
+            !$this->access->checkAccess('read', '', $this->media_cast->getRefId())) {
+            $this->tpl->setOnScreenMessage(
+                $this->tpl::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('permission_denied'),
+                true
+            );
+            $this->ctrl->redirectByClass(ilObjMediaCastGUI::class);
+        }
+
         $user = $this->user;
         $download_task = new \ILIAS\MediaCast\BackgroundTasks\DownloadAllBackgroundTask(
             (int) $user->getId(),

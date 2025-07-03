@@ -39,9 +39,7 @@ class ilObjTestListGUITest extends ilTestBaseTestCase
         $this->assertInstanceOf(ilObjTestListGUI::class, $this->testObj);
     }
 
-    /**
-     * @dataProvider createDefaultCommandDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('createDefaultCommandDataProvider')]
     public function testCreateDefaultCommand(array $IO): void
     {
         $this->assertEquals($IO, $this->testObj->createDefaultCommand($IO));

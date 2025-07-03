@@ -27,9 +27,9 @@ class ilUserCertificate
 {
     private readonly int $validUntil;
     private readonly ?string $backgroundImageIdentification;
-    private readonly ?string $thumbnailImageIdentification;
+    private readonly ?string $tile_image_identification;
     private readonly ?string $backgroundImagePath;
-    private readonly ?string $thumbnailImagePath;
+    private readonly ?string $tile_image_path;
 
     public function __construct(
         private readonly int $patternCertificateId,
@@ -46,16 +46,16 @@ class ilUserCertificate
         private readonly bool $currentlyActive,
         private readonly CertificateId $certificate_id,
         ?string $backgroundImagePath = null,
-        ?string $thumbnailImagePath = null,
+        ?string $tile_image_path = null,
         ?string $backgroundImageIdentification = null,
-        ?string $thumbnailImageIdentification = null,
+        ?string $tile_image_identification = null,
         private ?int $id = null
     ) {
         $this->validUntil = (int) $validUntil;
         $this->backgroundImagePath = (string) $backgroundImagePath;
-        $this->thumbnailImagePath = (string) $thumbnailImagePath;
+        $this->tile_image_path = (string) $tile_image_path;
         $this->backgroundImageIdentification = (string) $backgroundImageIdentification;
-        $this->thumbnailImageIdentification = (string) $thumbnailImageIdentification;
+        $this->tile_image_identification = (string) $tile_image_identification;
     }
 
     public function withId(int $id): self
@@ -157,22 +157,22 @@ class ilUserCertificate
         return $this->getBackgroundImageIdentification();
     }
 
-    public function getThumbnailImagePath(): string
+    public function getTileImagePath(): string
     {
-        return $this->thumbnailImagePath;
+        return $this->tile_image_path;
     }
 
-    public function getThumbnailImageIdentification(): string
+    public function getTileImageIdentification(): string
     {
-        return $this->thumbnailImageIdentification;
+        return $this->tile_image_identification;
     }
 
-    public function getCurrentThumbnailImageUsed(): string
+    public function getCurrentTileImageUsed(): string
     {
-        if ($this->getThumbnailImageIdentification() === '' || $this->getThumbnailImageIdentification() === '-') {
-            return $this->getThumbnailImagePath();
+        if ($this->getTileImageIdentification() === '' || $this->getTileImageIdentification() === '-') {
+            return $this->getTileImagePath();
         }
-        return $this->getThumbnailImageIdentification();
+        return $this->getTileImageIdentification();
     }
 
     public function getCertificateId(): CertificateId

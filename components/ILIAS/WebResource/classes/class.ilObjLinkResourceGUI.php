@@ -31,18 +31,15 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
  */
 class ilObjLinkResourceGUI extends ilObject2GUI
 {
-    protected const VIEW_MODE_VIEW = 1;
-    protected const VIEW_MODE_MANAGE = 2;
-    protected const VIEW_MODE_SORT = 3;
+    protected const int VIEW_MODE_VIEW = 1;
+    protected const int VIEW_MODE_MANAGE = 2;
+    protected const int VIEW_MODE_SORT = 3;
 
-    protected const LINK_MOD_CREATE = 1;
-    protected const LINK_MOD_EDIT = 2;
-    protected const LINK_MOD_ADD = 3;
-    protected const LINK_MOD_SET_LIST = 4;
-    protected const LINK_MOD_ASYNC = 6;
-
-    protected HTTPService $http;
-    protected ilNavigationHistory $navigationHistory;
+    protected const int LINK_MOD_CREATE = 1;
+    protected const int LINK_MOD_EDIT = 2;
+    protected const int LINK_MOD_ADD = 3;
+    protected const int LINK_MOD_SET_LIST = 4;
+    protected const int LINK_MOD_ASYNC = 6;
 
     private int $view_mode = self::VIEW_MODE_VIEW;
 
@@ -56,14 +53,14 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         int $id_type = self::REPOSITORY_NODE_ID,
         int $parent_node_id = 0
     ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         parent::__construct($id, $id_type, $parent_node_id);
 
         $this->lng->loadLanguageModule("webr");
-        $this->http = $DIC->http();
-        $this->navigationHistory = $DIC['ilNavigationHistory'];
         $this->settings = $DIC->settings();
+        $DIC->resourceStorage();
     }
 
     protected function getWebLinkRepo(): ilWebLinkRepository
@@ -303,7 +300,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
         $obj_props = $this->object->getObjectProperties();
 
-        /** @var ilObjectPropertyTitleAndDescription $title_and_description */
+        /** @var ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription $title_and_description */
         $title_and_description = $data['general']['title_and_description'] ?? null;
         if ($title_and_description !== null && $this->getWebLinkRepo()->doesListExist()) {
             $obj_props->storePropertyTitleAndDescription($title_and_description);
@@ -1472,21 +1469,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->ctrl->forwardCommand($info);
     }
 
-    public function history(): void
-    {
-        $this->checkPermission('write');
-        $this->tabs_gui->activateTab('id_history');
-
-        $hist_gui = new ilHistoryTableGUI(
-            $this,
-            "history",
-            $this->object->getId(),
-            $this->object->getType()
-        );
-        $hist_gui->initTable();
-        $this->tpl->setContent($hist_gui->getHTML());
-    }
-
     /**
      * Activate tab and subtabs
      */
@@ -1574,14 +1556,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 "id_settings",
                 $this->lng->txt("settings"),
                 $this->ctrl->getLinkTarget($this, "settings")
-            );
-        }
-
-        if ($this->checkPermissionBool('write')) {
-            $this->tabs_gui->addTab(
-                "id_history",
-                $this->lng->txt("history"),
-                $this->ctrl->getLinkTarget($this, "history")
             );
         }
 

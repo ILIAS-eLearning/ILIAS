@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailMimeSenderSystem
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailMimeSenderSystem implements ilMailMimeSender
 {
     public function __construct(protected ilSetting $settings)

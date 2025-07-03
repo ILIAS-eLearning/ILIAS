@@ -20,8 +20,18 @@ declare(strict_types=1);
 
 final class ilWebDAVMountInstructionsDocument
 {
-    public function __construct(private int $id = 0, private string $title = "", private string $uploaded_instructions = "", private string $processed_instructions = "", private string $language = "", private string $creation_ts = '', private string $modification_ts = '', private int $owner_usr_id = 0, private int $last_modified_usr_id = 0, private int $sorting = 0)
-    {
+    public function __construct(
+        private int $id = 0,
+        private string $title = "",
+        private string $uploaded_instructions = "",
+        private string $processed_instructions = "",
+        private string $language = "",
+        private string $creation_ts = '',
+        private string $modification_ts = '',
+        private int $owner_usr_id = 0,
+        private int $last_modified_usr_id = 0,
+        private int $sorting = 0
+    ) {
     }
 
     public function getId(): int

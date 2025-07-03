@@ -20,13 +20,14 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Test\TestComponent;
 
 require_once("vendor/composer/vendor/autoload.php");
 
 require_once(__DIR__ . "/../Renderer/TestComponent.php");
 
-class ComponentMock
+class ComponentMock implements Component
 {
     use ComponentHelper;
 
@@ -69,6 +70,14 @@ class ComponentMock
     {
         $this->checkArgList($which, $value, $check, $message);
     }
+
+    public $sub_components = null;
+    public $random_data;
+
+    public function getSubComponents(): ?array
+    {
+        return $this->sub_components;
+    }
 }
 
 class Class1
@@ -101,9 +110,7 @@ class ComponentHelperTest extends TestCase
         $this->assertEquals("Test Component Test", $c->getCanonicalName());
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckArgOk(): void
     {
         $this->mock->_checkArg("some_arg", true, "some message");
@@ -116,9 +123,7 @@ class ComponentHelperTest extends TestCase
         $this->mock->_checkArg("some_arg", false, "some message");
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckStringArgOk(): void
     {
         $this->mock->_checkStringArg("some_arg", "bar");
@@ -131,9 +136,7 @@ class ComponentHelperTest extends TestCase
         $this->mock->_checkStringArg("some_arg", 1);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckBoolArgOk(): void
     {
         $this->mock->_checkBoolArg("some_arg", true);
@@ -146,9 +149,7 @@ class ComponentHelperTest extends TestCase
         $this->mock->_checkBoolArg("some_arg", 1);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckArgInstanceofOk(): void
     {
         $this->mock->_checkArgInstanceOf("some_arg", $this->mock, ComponentMock::class);
@@ -162,9 +163,7 @@ class ComponentHelperTest extends TestCase
     }
 
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckArgIsElementOk(): void
     {
         $this->mock->_checkArgIsElement("some_arg", "bar", array("foo", "bar"), "foobar");
@@ -192,9 +191,7 @@ class ComponentHelperTest extends TestCase
         $this->assertEquals(array($foo), $res);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckArgListElementsOk(): void
     {
         $l = array(new Class1(), new Class1(), new Class1());
@@ -209,9 +206,7 @@ class ComponentHelperTest extends TestCase
         $this->mock->_checkArgListElements("some_arg", $l, array("Class1"));
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckArgListElementsMultiClassOk(): void
     {
         $l = array(new Class1(), new Class2(), new Class1());
@@ -226,9 +221,7 @@ class ComponentHelperTest extends TestCase
         $this->mock->_checkArgListElements("some_arg", $l, array("Class1", "Class2"));
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckArgListElementsStringOrIntOk(): void
     {
         $l = array(1, "foo");
@@ -243,9 +236,7 @@ class ComponentHelperTest extends TestCase
         $this->mock->_checkArgListElements("some_arg", $l, array("string", "int"));
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckArgListOk(): void
     {
         $l = array("a" => 1, "b" => 2, "c" => 3);
@@ -280,5 +271,81 @@ class ComponentHelperTest extends TestCase
         }, function ($k, $v) {
             return "expected keys of type string and integer values, got ($k => $v)";
         });
+    }
+
+    public function testReduceWith()
+    {
+        $a = new ComponentMock();
+        $a->random_data = "A";
+        $b = new ComponentMock();
+        $b->random_data = "B";
+        $c = new ComponentMock();
+        $c->random_data = "C";
+        $c->sub_components = [$a, $b];
+
+        $f = fn($c, $res) => [$c->random_data => $res];
+        $res = $c->reduceWith($f);
+
+        $this->assertEquals(
+            ["C" =>
+                [
+                    ["A" => []],
+                    ["B" => []],
+                ]
+            ],
+            $res
+        );
+    }
+
+    public function testReduceWithDoesNotModify()
+    {
+        $a = new ComponentMock();
+        $a->random_data = "A";
+        $b = new ComponentMock();
+        $b->random_data = "B";
+        $c = new ComponentMock();
+        $c->random_data = "C";
+        $c->sub_components = [$a, $b];
+
+        $f = function ($c, $res) {
+            $clone = clone $c;
+            $clone->random_data = strtolower($c->random_data);
+            $clone->sub_components = $res;
+            return $clone;
+        };
+        $c2 = $c->reduceWith($f);
+
+        [$a2, $b2] = $c2->sub_components;
+
+        $this->assertNotEquals(spl_object_id($a), spl_object_id($a2));
+        $this->assertNotEquals(spl_object_id($b), spl_object_id($b2));
+        $this->assertNotEquals(spl_object_id($c), spl_object_id($c2));
+
+        $this->assertEquals("A", $a->random_data);
+        $this->assertEquals("B", $b->random_data);
+        $this->assertEquals("C", $c->random_data);
+        $this->assertEquals([$a, $b], $c->sub_components);
+
+        $this->assertEquals("a", $a2->random_data);
+        $this->assertEquals("b", $b2->random_data);
+        $this->assertEquals("c", $c2->random_data);
+    }
+
+    public function testReduceWithSubStructureIsTransient()
+    {
+        $a = new ComponentMock();
+        $a->random_data = "A";
+        $b = new ComponentMock();
+        $b->random_data = "B";
+        $c = new ComponentMock();
+        $c->random_data = "C";
+        $c->sub_components = [$a, $b];
+
+        $f = function ($c, $res) {
+            return [$c, $c->random_data];
+        };
+
+        [$res, $_] = $c->reduceWith($f);
+        $this->assertEquals([$a, $b], $res->sub_components);
     }
 }

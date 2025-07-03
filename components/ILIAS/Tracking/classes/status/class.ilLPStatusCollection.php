@@ -455,6 +455,15 @@ class ilLPStatusCollection extends ilLPStatus
                     );
                     return $member_obj->getMembers();
                 }
+                if ($grp_id = $tree->checkForParentType(
+                    $folder_ref_id,
+                    'grp'
+                )) {
+                    $member_obj = ilGroupParticipants::_getInstanceByObjId(
+                        ilObject::_lookupObjId($grp_id)
+                    );
+                    return $member_obj->getMembers();
+                }
                 break;
 
             case 'lso':

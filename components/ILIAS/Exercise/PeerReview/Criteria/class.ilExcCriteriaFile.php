@@ -52,7 +52,7 @@ class ilExcCriteriaFile extends ilExcCriteria
     public function getFiles(): array
     {
         $file_manager = $this->peer_review->criteriaFile($this->ass->getId());
-        $file = $file_manager->getFile($this->giver_id, $this->peer_id, $this->getId());
+        $file = $file_manager->getFile($this->giver_id, $this->peer_id, (int) $this->getId());
         $files = $file ? [$file]
             : [];
         return $files;
@@ -98,7 +98,7 @@ class ilExcCriteriaFile extends ilExcCriteria
                 $incoming,
                 $this->giver_id,
                 $this->peer_id,
-                $this->getId()
+                (int) $this->getId()
             );
         }
     }
@@ -158,7 +158,7 @@ class ilExcCriteriaFile extends ilExcCriteria
             $dl = $ilCtrl->getLinkTargetByClass("ilExPeerReviewGUI", "downloadPeerReview");
             $ilCtrl->setParameterByClass("ilExPeerReviewGUI", "fuf", "");
 
-            $files[] = '<a href="' . $dl . '">' . basename($file) . '</a>';
+            $files[] = '<a href="' . $dl . '">' . $file->getTitle() . '</a>';
         }
 
         $ilCtrl->setParameterByClass("ilExPeerReviewGUI", "fu", "");

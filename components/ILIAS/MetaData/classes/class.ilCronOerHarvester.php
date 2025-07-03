@@ -94,6 +94,10 @@ class ilCronOerHarvester extends CronJob
     public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
         // target selection
+        $header = new ilFormSectionHeaderGUI();
+        $header->setTitle($this->lng->txt('meta_oer_categories'));
+        $a_form->addItem($header);
+
         $target = new ilRepositorySelector2InputGUI(
             $this->lng->txt('meta_oer_target'),
             'target',
@@ -136,6 +140,10 @@ class ilCronOerHarvester extends CronJob
         $a_form->addItem($ex_target);
 
         // copyright selection
+        $header = new ilFormSectionHeaderGUI();
+        $header->setTitle($this->lng->txt('meta_oer_harvested_licences'));
+        $a_form->addItem($header);
+
         $checkbox_group = new ilCheckboxGroupInputGUI(
             $this->lng->txt('meta_oer_copyright_selection'),
             'copyright'
@@ -157,6 +165,10 @@ class ilCronOerHarvester extends CronJob
         $a_form->addItem($checkbox_group);
 
         // object type selection
+        $header = new ilFormSectionHeaderGUI();
+        $header->setTitle($this->lng->txt('meta_oer_harvested_types'));
+        $a_form->addItem($header);
+
         $checkbox_group = new ilCheckboxGroupInputGUI(
             $this->lng->txt('meta_oer_object_type_selection'),
             'object_type'

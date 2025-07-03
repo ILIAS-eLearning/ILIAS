@@ -21,8 +21,6 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use Sabre\DAV\Exception\Forbidden;
 
-require_once "./components/ILIAS/WebDAV/tests/ilWebDAVTestHelper.php";
-
 class ilDAVClientNodeTest extends TestCase
 {
     public function testGetNameGetsObjectTitle(): void
@@ -371,9 +369,13 @@ class ilDAVClientNodeTest extends TestCase
         }
     }
 
-    protected function getDAVClientNodeWithExpectationForFunctions(
-    ): ilDAVClientNode {
+    protected function getDAVClientNodeWithExpectationForFunctions(): ilDAVClientNode
+    {
         $webdav_test_helper = new ilWebDAVTestHelper();
-        return new ilDAVClientNode($webdav_test_helper->getClientId(), $this->createStub(ilWebDAVObjFactory::class), $this->createStub(ilWebDAVRepositoryHelper::class));
+        return new ilDAVClientNode(
+            $webdav_test_helper->getClientId(),
+            $this->createStub(ilWebDAVObjFactory::class),
+            $this->createStub(ilWebDAVRepositoryHelper::class)
+        );
     }
 }

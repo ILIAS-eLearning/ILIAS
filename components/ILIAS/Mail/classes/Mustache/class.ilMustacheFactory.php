@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 class ilMustacheFactory
 {
-    public function getBasicEngine(): \Mustache_Engine
+    public function getBasicEngine(): Mustache_Engine
     {
-        return new \Mustache_Engine();
+        return new Mustache_Engine();
     }
 }

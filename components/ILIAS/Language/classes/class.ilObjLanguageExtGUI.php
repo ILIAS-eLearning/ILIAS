@@ -41,8 +41,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 {
     private const ILIAS_LANGUAGE_MODULE = "components/ILIAS/Language";
     private string $langmode;
-    protected HTTPServices $http;
-    protected Refinery $refinery;
+
     /**
     * Constructor
     *
@@ -60,8 +59,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $ilClientIniFile = $DIC->clientIni();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
 
         // language maintenance strings are defined in administration
         $lng->loadLanguageModule("administration");

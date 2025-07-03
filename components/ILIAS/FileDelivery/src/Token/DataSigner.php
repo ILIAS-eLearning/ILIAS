@@ -38,6 +38,7 @@ use ILIAS\FileDelivery\Token\Compression\Compression;
 use ILIAS\FileDelivery\Token\Transport\Transport;
 use ILIAS\FileDelivery\Token\Signer\Payload\Builder;
 use ILIAS\FileDelivery\Delivery\Disposition;
+use ILIAS\FileDelivery\Token\Transport\URLSafeSplitPathTransport;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>

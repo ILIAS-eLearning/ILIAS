@@ -39,7 +39,6 @@ class assErrorTextTest extends assBaseTestCase
         $this->setGlobalVariable('ilCtrl', $ilCtrl_mock);
 
         $lng_mock = $this->createMock('ilLanguage', ['txt'], [], '', false);
-        //$lng_mock->expects( $this->once() )->method( 'txt' )->will( $this->returnValue('Test') );
         $this->setGlobalVariable('lng', $lng_mock);
 
         $this->setGlobalVariable('ilias', $this->getIliasMock());

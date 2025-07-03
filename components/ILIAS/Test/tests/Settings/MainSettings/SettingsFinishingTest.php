@@ -22,9 +22,7 @@ use ILIAS\Test\Settings\MainSettings\SettingsFinishing;
 
 class SettingsFinishingTest extends ilTestBaseTestCase
 {
-    /**
-     * @dataProvider getAndWithConcludingRemarksEnabledDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithConcludingRemarksEnabledDataProvider')]
     public function testGetAndWithShowAnswerOverview(bool $io): void
     {
         $settings_finishing = (new SettingsFinishing(0))->withShowAnswerOverview($io);
@@ -41,9 +39,7 @@ class SettingsFinishingTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithConcludingRemarksEnabledDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithConcludingRemarksEnabledDataProvider')]
     public function testGetAndWithConcludingRemarksEnabled(bool $io): void
     {
         $settings_finishing = (new SettingsFinishing(0))->withConcludingRemarksEnabled($io);
@@ -52,9 +48,7 @@ class SettingsFinishingTest extends ilTestBaseTestCase
         $this->assertEquals($io, $settings_finishing->getConcludingRemarksEnabled());
     }
 
-    /**
-     * @dataProvider getAndWithConcludingRemarksTextDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithConcludingRemarksTextDataProvider')]
     public function testGetAndWithConcludingRemarksText(?string $io): void
     {
         $settings_finishing = new SettingsFinishing(
@@ -76,9 +70,7 @@ class SettingsFinishingTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithConcludingRemarksPageIdDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithConcludingRemarksPageIdDataProvider')]
     public function testGetAndWithConcludingRemarksPageId(?int $io): void
     {
         $settings_finishing = (new SettingsFinishing(0))->withConcludingRemarksPageId($io);
@@ -97,9 +89,7 @@ class SettingsFinishingTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithRedirectionModeDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithRedirectionModeDataProvider')]
     public function testGetAndWithRedirectionMode(int $io): void
     {
         $settings_finishing = (new SettingsFinishing(0))->withRedirectionMode($io);
@@ -117,9 +107,7 @@ class SettingsFinishingTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithRedirectionUrlDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithRedirectionUrlDataProvider')]
     public function testGetAndWithRedirectionUrl(?string $io): void
     {
         $settings_finishing = (new SettingsFinishing(0))->withRedirectionUrl($io);
@@ -137,9 +125,7 @@ class SettingsFinishingTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithMailNotificationContentTypeDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithMailNotificationContentTypeDataProvider')]
     public function testGetAndWithMailNotificationContentType(int $io): void
     {
         $settings_finishing = (new SettingsFinishing(0))->withMailNotificationContentType($io);
@@ -157,9 +143,7 @@ class SettingsFinishingTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithAlwaysSendMailNotificationDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithAlwaysSendMailNotificationDataProvider')]
     public function testGetAndWithAlwaysSendMailNotification(bool $io): void
     {
         $settings_finishing = (new SettingsFinishing(0))->withAlwaysSendMailNotification($io);

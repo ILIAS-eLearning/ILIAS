@@ -235,7 +235,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 }
             }
         }
-        $check_for_gap_combinations = (new assClozeGapCombination())->loadFromDb($question_id);
+        $check_for_gap_combinations = (new assClozeGapCombination($this->db))->loadFromDb($question_id);
         if (count($check_for_gap_combinations) != 0) {
             $this->setGapCombinationsExists(true);
             $this->setGapCombinations($check_for_gap_combinations);
@@ -741,10 +741,10 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function getMaximumPoints(): float
     {
-        $assClozeGapCombinationObj = new assClozeGapCombination();
+        $assClozeGapCombinationObj = new assClozeGapCombination($this->db);
         $points = 0;
         $gaps_used_in_combination = [];
-        if ($assClozeGapCombinationObj->combinationExistsForQid($this->getId())) {
+        if ($this->gap_combinations_exist) {
             $points = $assClozeGapCombinationObj->getMaxPointsForCombination($this->getId());
             $gaps_used_in_combination = $assClozeGapCombinationObj->getGapsWhichAreUsedInCombination($this->getId());
         }
@@ -785,9 +785,11 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         \assQuestion $target
     ): \assQuestion {
         if ($this->gap_combinations_exist) {
-            (new assClozeGapCombination())->importGapCombinationToDb(
+            $gap_combination = new assClozeGapCombination($this->db);
+            $gap_combination->clearGapCombinationsFromDb($target->getId());
+            $gap_combination->importGapCombinationToDb(
                 $target->getId(),
-                $this->gap_combinations
+                $this->gap_combinations,
             );
         }
         return $target;
@@ -1269,7 +1271,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $result = [
             'id' => $this->getId(),
             'type' => (string) $this->getQuestionType(),
-            'title' => $this->getTitle(),
+            'title' => $this->getTitleForHTMLOutput(),
             'question' => $this->formatSAQuestion($this->getQuestion()),
             'clozetext' => $this->formatSAQuestion($this->getClozeText()),
             'nr_of_tries' => $this->getNrOfTries(),
@@ -1398,7 +1400,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         $points = 0;
 
-        $assClozeGapCombinationObj = new assClozeGapCombination();
+        $assClozeGapCombinationObj = new assClozeGapCombination($this->db);
         $gap_used_in_combination = [];
         if ($assClozeGapCombinationObj->combinationExistsForQid($this->getId())) {
             $combinations_for_question = $assClozeGapCombinationObj->getCleanCombinationArray($this->getId());
@@ -1470,9 +1472,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         $points = 0.0;
 
-        $assClozeGapCombinationObj = new assClozeGapCombination();
+        $assClozeGapCombinationObj = new assClozeGapCombination($this->db);
         $combinations[1] = [];
-        if ($assClozeGapCombinationObj->combinationExistsForQid($this->getId())) {
+        if ($this->gap_combinations_exist) {
             $combinations = $this->calculateCombinationResult($user_result);
             $points = $combinations[0];
         }
@@ -1574,7 +1576,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         }
 
         $reached_points = $this->calculateReachedPointsForSolution($user_solution);
-        $reached_points = $this->deductHintPointsFromReachedPoints($preview_session, $reached_points);
 
         return $this->ensureNonNegativePoints($reached_points);
     }
@@ -1624,7 +1625,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         $result = [
             AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
-            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitleForHTMLOutput(),
             AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
             AdditionalInformationGenerator::KEY_QUESTION_CLOZE_CLOZETEXT => $this->formatSAQuestion($this->getClozeText()),
             AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS => $additional_info

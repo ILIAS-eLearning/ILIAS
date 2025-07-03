@@ -62,7 +62,7 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
 
         if ('frm' === $a_entity) {
             $deps[] = [
-                'component' => 'components/ILIAS/Object',
+                'component' => 'components/ILIAS/ILIASObject',
                 'entity' => 'common',
                 'ids' => $a_ids
             ];

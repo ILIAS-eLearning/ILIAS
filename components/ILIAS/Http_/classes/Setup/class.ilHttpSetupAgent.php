@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\Data;
-use ILIAS\UI;
 
 class ilHttpSetupAgent implements Setup\Agent
 {
@@ -66,6 +64,7 @@ class ilHttpSetupAgent implements Setup\Agent
                 (isset($data["proxy"]) && $data["proxy"])
                     ? $data["proxy"]["port"]
                     : null,
+                $data['allowed_hosts'] ?? null
             );
         });
     }

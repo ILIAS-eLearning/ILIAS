@@ -27,6 +27,7 @@ use ILIAS\Export\ExportHandler\I\Info\Export\Container\ObjectId\CollectionBuilde
 use ILIAS\Export\ExportHandler\I\Info\Export\Container\ObjectId\CollectionInterface as ilExportHandlerContainerExportInfoObjectIdCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\HandlerInterface as ilExportHandlerExportInfoInterface;
 use ILIAS\Export\ExportHandler\I\Repository\Element\HandlerInterface as ilExportHandlerRepositoryElementInterface;
+use ilObject;
 
 interface HandlerInterface
 {
@@ -43,6 +44,11 @@ interface HandlerInterface
 
     public function getExportInfo(
         ObjectId $object_id,
+        int $time_stamp
+    ): ilExportHandlerExportInfoInterface;
+
+    public function getExportInfoWithObject(
+        ilObject $export_object,
         int $time_stamp
     ): ilExportHandlerExportInfoInterface;
 

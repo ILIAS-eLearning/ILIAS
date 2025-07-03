@@ -139,6 +139,6 @@ class ilExcCriteriaText extends ilExcCriteria
 
     public function getHTML($a_value): string
     {
-        return nl2br($a_value);
+        return nl2br((string) $a_value);
     }
 }

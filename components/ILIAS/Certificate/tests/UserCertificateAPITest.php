@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\Certificate\API\Repository\UserDataRepository;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class UserCertificateAPITest extends ilCertificateBaseTestCase
 {
     public function testUserDataCall(): void

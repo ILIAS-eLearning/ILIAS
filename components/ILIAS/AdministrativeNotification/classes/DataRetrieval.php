@@ -18,6 +18,8 @@
 
 namespace ILIAS\AdministrativeNotification;
 
+use ilLanguage;
+use Generator;
 use DateTimeImmutable;
 use ilADNNotification;
 use ilDatePresentation;
@@ -31,10 +33,11 @@ use ILIAS\UI\Component\Table as I;
  */
 class DataRetrieval implements I\DataRetrieval
 {
-    private \ilLanguage $lng;
+    private ilLanguage $lng;
 
-    public function __construct()
-    {
+    public function __construct(
+        protected bool $has_write_access,
+    ) {
         global $DIC;
         $this->lng = $DIC['lng'];
     }
@@ -46,12 +49,16 @@ class DataRetrieval implements I\DataRetrieval
         Order $order,
         ?array $filter_data,
         ?array $additional_parameters
-    ): \Generator {
+    ): Generator {
         $records = $this->getRecords($order);
-        foreach ($records as $idx => $record) {
+        foreach ($records as $record) {
             $row_id = (string) $record['id'];
 
-            yield $row_builder->buildDataRow($row_id, $record);
+            yield $row_builder->buildDataRow($row_id, $record)
+                              ->withDisabledAction(Table::ACTION_DUPLICATE, !$this->has_write_access)
+                              ->withDisabledAction(Table::ACTION_EDIT, !$this->has_write_access)
+                              ->withDisabledAction(Table::ACTION_DELETE, !$this->has_write_access)
+                              ->withDisabledAction(Table::ACTION_RESET, !$this->has_write_access);
         }
     }
 

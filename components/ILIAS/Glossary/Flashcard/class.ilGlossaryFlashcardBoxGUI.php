@@ -103,7 +103,7 @@ class ilGlossaryFlashcardBoxGUI
                 sprintf($this->lng->txt("glo_use_all_flashcards"), $cnt_all),
                 $this->ctrl->getLinkTarget($this, "showAllItems")
             );
-            $cbox = $this->ui_fac->messageBox()->confirmation(
+            $cbox = $this->ui_fac->messageBox()->info(
                 sprintf($this->lng->txt("glo_flashcards_from_today_only_info"), $cnt_all)
             )->withButtons([$all_button]);
             $this->tpl->setContent($this->ui_ren->render($cbox));
@@ -116,7 +116,7 @@ class ilGlossaryFlashcardBoxGUI
                 sprintf($this->lng->txt("glo_use_all_flashcards"), $cnt_all),
                 $this->ctrl->getLinkTarget($this, "showAllItems")
             );
-            $cbox = $this->ui_fac->messageBox()->confirmation(
+            $cbox = $this->ui_fac->messageBox()->info(
                 sprintf($this->lng->txt("glo_flashcards_from_today_confirmation"), $cnt_today, $cnt_remaining, $cnt_all)
             )->withButtons([$remaining_button, $all_button]);
             $this->tpl->setContent($this->ui_ren->render($cbox));
@@ -154,43 +154,31 @@ class ilGlossaryFlashcardBoxGUI
 
     public function showHidden(): void
     {
-        $this->tpl->setDescription($this->lng->txt("glo_box") . " " . $this->box_nr);
-
-        $progress = $this->manager->getBoxProgress($this->terms_in_box, $this->initial_terms_in_box);
-        $progress_bar = ilProgressBar::getInstance();
-        $progress_bar->setCurrent($progress);
+        $this->setFlashcardTitleAndDescription();
 
         if ($this->glossary->getFlashcardsMode() === "term") {
             $flashcard = $this->ui_fac->panel()->standard(
-                $this->lng->txt("term") . ": " . $this->getTermText(),
+                sprintf($this->lng->txt("glo_what_means_term"), $this->getTermText()),
                 $this->ui_fac->legacy()->content("???")
             );
         } else {
             $flashcard = $this->ui_fac->panel()->standard(
-                $this->lng->txt("term") . ": ???",
-                $this->ui_fac->legacy($this->getDefinitionPage())
+                $this->lng->txt("glo_what_means_definition"),
+                $this->ui_fac->legacy()->content($this->getDefinitionPage())
             );
         }
 
-        if ($this->glossary->getFlashcardsMode() === "term") {
-            $btn_show = $this->ui_fac->button()->standard(
-                $this->lng->txt("glo_show_definition"),
-                $this->ctrl->getLinkTarget($this, "showRevealed")
-            );
-        } else {
-            $btn_show = $this->ui_fac->button()->standard(
-                $this->lng->txt("glo_show_term"),
-                $this->ctrl->getLinkTarget($this, "showRevealed")
-            );
-        }
+        $btn_show = $this->ui_fac->button()->standard(
+            $this->lng->txt("glo_check"),
+            $this->ctrl->getLinkTarget($this, "showRevealed")
+        );
 
         $btn_quit = $this->ui_fac->button()->standard(
             $this->lng->txt("glo_quit_box"),
             $this->ctrl->getLinkTargetByClass("ilglossarypresentationgui", "showFlashcards")
         );
 
-        $html = $progress_bar->render()
-            . $this->ui_ren->render($flashcard)
+        $html = $this->ui_ren->render($flashcard)
             . $this->ui_ren->render($btn_show)
             . $this->ui_ren->render($btn_quit);
         $this->tpl->setContent($html);
@@ -198,16 +186,11 @@ class ilGlossaryFlashcardBoxGUI
 
     public function showRevealed(): void
     {
-        $this->tpl->setDescription($this->lng->txt("glo_box") . " " . $this->box_nr);
-
-
-        $progress = $this->manager->getBoxProgress($this->terms_in_box, $this->initial_terms_in_box);
-        $progress_bar = ilProgressBar::getInstance();
-        $progress_bar->setCurrent($progress);
+        $this->setFlashcardTitleAndDescription();
 
         $flashcard = $this->ui_fac->panel()->standard(
-            $this->lng->txt("term") . ": " . $this->getTermText(),
-            $this->ui_fac->legacy($this->getDefinitionPage())
+            $this->getTermText(),
+            $this->ui_fac->legacy()->content($this->getDefinitionPage())
         );
 
         $btn_correct = $this->ui_fac->button()->standard(
@@ -217,14 +200,23 @@ class ilGlossaryFlashcardBoxGUI
 
         $btn_not_correct = $this->ui_fac->button()->standard(
             $this->lng->txt("glo_answered_not_correctly"),
-            $this->ctrl->getLinkTarget($this, "answerInCorrectly")
+            $this->ctrl->getLinkTarget($this, "answerIncorrectly")
         );
 
-        $html = $progress_bar->render()
-            . $this->ui_ren->render($flashcard)
+        $html = $this->ui_ren->render($flashcard)
             . $this->ui_ren->render($btn_correct)
             . $this->ui_ren->render($btn_not_correct);
         $this->tpl->setContent($html);
+    }
+
+    protected function setFlashcardTitleAndDescription(): void
+    {
+        $this->tpl->setTitle($this->glossary->getTitle() . ": " . $this->lng->txt("glo_box") . " " . $this->box_nr);
+
+        $current_cnt = (count($this->initial_terms_in_box) - count($this->terms_in_box)) + 1;
+        $all_cnt = count($this->initial_terms_in_box);
+        $progress_txt = sprintf($this->lng->txt("glo_flashcards_progress"), $current_cnt, $all_cnt);
+        $this->tpl->setDescription($progress_txt);
     }
 
     public function answerCorrectly(): void
@@ -232,7 +224,7 @@ class ilGlossaryFlashcardBoxGUI
         $this->answer(true);
     }
 
-    public function answerInCorrectly(): void
+    public function answerIncorrectly(): void
     {
         $this->answer(false);
     }

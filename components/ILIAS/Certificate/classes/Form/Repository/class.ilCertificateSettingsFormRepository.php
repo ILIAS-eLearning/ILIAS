@@ -45,7 +45,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     private IRSS $irss;
     private Filesystem $filesystem;
     private readonly ilGlobalTemplateInterface $page_template;
-    private readonly FitToSquare $card_thumbnail_definition;
+    private readonly FitToSquare $tile_image_definition;
 
     public function __construct(
         private readonly int $objectId,
@@ -89,7 +89,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
             $DIC->database(),
             $logger ?? $DIC->logger()->cert()
         );
-        $this->card_thumbnail_definition = new FitToSquare(
+        $this->tile_image_definition = new FitToSquare(
             true,
             100
         );
@@ -215,7 +215,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         if ($identification instanceof ResourceIdentification) {
             $background_flavour = $this->irss->flavours()->get(
                 $identification,
-                $this->card_thumbnail_definition
+                $this->tile_image_definition
             );
             $flavour_urls = $this->irss->consume()->flavourUrls($background_flavour);
             foreach ($flavour_urls->getURLs(true) as $url) {
@@ -232,36 +232,36 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         $form->addItem($bgimage);
 
-        $thumbnailImage = new ilImageFileInputGUI(
-            $this->language->txt('certificate_card_thumbnail_image'),
-            'certificate_card_thumbnail_image'
+        $tile_image = new ilImageFileInputGUI(
+            $this->language->txt('certificate_card_tile_image'),
+            'certificate_card_tile_image'
         );
-        $thumbnailImage->setRequired(false);
-        $thumbnailImage->setUseCache(false);
-        $thumbnailImage->setSuffixes(['svg']);
+        $tile_image->setRequired(false);
+        $tile_image->setUseCache(false);
+        $tile_image->setSuffixes(['svg']);
 
-        $allowThumbnailDeletion = false;
+        $allow_tile_image_deletion = false;
 
-        $thumbnail_image_identification = $certificateTemplate->getThumbnailImageIdentification();
-        $old_thumbnail_image_path = $certificateTemplate->getThumbnailImagePath();
-        if ('' !== $thumbnail_image_identification) {
-            $identification = $this->irss->manage()->find($thumbnail_image_identification);
+        $tile_image_identification = $certificateTemplate->getTileImageIdentification();
+        $old_tile_image_path = $certificateTemplate->getTileImagePath();
+        if ('' !== $tile_image_identification) {
+            $identification = $this->irss->manage()->find($tile_image_identification);
             if ($identification instanceof ResourceIdentification) {
-                $thumbnailImage->setImage($this->irss->consume()->src($identification)->getSrc(true));
-                $allowThumbnailDeletion = true;
+                $tile_image->setImage($this->irss->consume()->src($identification)->getSrc(true));
+                $allow_tile_image_deletion = true;
             }
-        } elseif ($old_thumbnail_image_path !== '' && $this->filesystem->has($old_thumbnail_image_path)) {
-            $thumbnailImage->setImage(
+        } elseif ($old_tile_image_path !== '' && $this->filesystem->has($old_tile_image_path)) {
+            $tile_image->setImage(
                 ilWACSignedPath::signFile(
-                    ILIAS_HTTP_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . $old_thumbnail_image_path
+                    ILIAS_HTTP_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . $old_tile_image_path
                 )
             );
-            $allowThumbnailDeletion = true;
+            $allow_tile_image_deletion = true;
         }
 
-        $thumbnailImage->setAllowDeletion($allowThumbnailDeletion);
+        $tile_image->setAllowDeletion($allow_tile_image_deletion);
 
-        $form->addItem($thumbnailImage);
+        $form->addItem($tile_image);
 
         $rect = new ilCSSRectInputGUI($this->language->txt('certificate_margin_body'), 'margin_body');
         $rect->setRequired(true);

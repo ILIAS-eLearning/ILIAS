@@ -22,8 +22,13 @@ use Sabre\DAV\Exception\Forbidden;
 
 class ilWebDAVRepositoryHelper
 {
-    public function __construct(protected ilAccessHandler $access, protected ilTree $tree, protected ilRepUtil $repository_util, protected ilWebDAVLocksRepository $locks_repository)
-    {
+    public function __construct(
+        protected ilAccessHandler $access,
+        protected ilTree $tree,
+        protected ilRepUtil $repository_util,
+        protected ilWebDAVLocksRepository $locks_repository,
+        protected ilObjFileInfoRepository $file_info_repository
+    ) {
     }
 
     public function deleteObject(int $ref_id): void
@@ -120,5 +125,15 @@ class ilWebDAVRepositoryHelper
     public function updateLocksAfterResettingObject(int $old_obj_id, int $new_obj_id): void
     {
         $this->locks_repository->updateLocks($old_obj_id, $new_obj_id);
+    }
+
+    public function getFileInfo(int $obj_id): ilObjFileInfo
+    {
+        return $this->file_info_repository->getByObjectId($obj_id);
+    }
+
+    public function locks(): ilWebDAVLocksRepository
+    {
+        return $this->locks_repository;
     }
 }

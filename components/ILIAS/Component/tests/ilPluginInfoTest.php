@@ -52,6 +52,7 @@ class ilPluginInfoTest extends TestCase
             $this->pluginslot,
             "plg1",
             "Plugin1",
+            "Type1",
             true,
             $this->data_factory->version("1.0.0"),
             12,
@@ -72,6 +73,7 @@ class ilPluginInfoTest extends TestCase
         $this->assertEquals($this->component, $this->plugin->getComponent());
         $this->assertEquals("plg1", $this->plugin->getId());
         $this->assertEquals("Plugin1", $this->plugin->getName());
+        $this->assertEquals("Type1", $this->plugin->getType());
         $this->assertTrue($this->plugin->isActivated());
         $this->assertEquals($this->data_factory->version("1.0.0"), $this->plugin->getCurrentVersion());
         $this->assertEquals(12, $this->plugin->getCurrentDBVersion());
@@ -97,6 +99,7 @@ class ilPluginInfoTest extends TestCase
             $this->pluginslot,
             "plg1",
             "Plugin1",
+            "Type1",
             true,
             null,
             null,
@@ -125,6 +128,7 @@ class ilPluginInfoTest extends TestCase
             $this->pluginslot,
             "plg1",
             "Plugin1",
+            "Type1",
             true,
             null,
             null,
@@ -148,6 +152,7 @@ class ilPluginInfoTest extends TestCase
             $this->pluginslot,
             "plg1",
             "Plugin1",
+            "Type1",
             true,
             $this->data_factory->version("2.0.0"),
             11,
@@ -173,6 +178,7 @@ class ilPluginInfoTest extends TestCase
             $this->pluginslot,
             "plg1",
             "Plugin1",
+            "Type1",
             true,
             $this->data_factory->version("1.0.0"),
             12,
@@ -192,6 +198,7 @@ class ilPluginInfoTest extends TestCase
             $this->pluginslot,
             "plg1",
             "Plugin1",
+            "Type1",
             true,
             $this->data_factory->version("1.2.2"),
             12,
@@ -207,9 +214,7 @@ class ilPluginInfoTest extends TestCase
         $this->assertTrue($plugin->isVersionToOld());
     }
 
-    /**
-     * @dataProvider versionCompliance
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('versionCompliance')]
     public function testIsCompliantToILIAS(Data\Version $version, bool $is_compliant): void
     {
         $plugin = new ilPluginInfo(
@@ -217,6 +222,7 @@ class ilPluginInfoTest extends TestCase
             $this->pluginslot,
             "plg1",
             "Plugin1",
+            "Type1",
             true,
             $this->data_factory->version("1.2.2"),
             12,
@@ -245,7 +251,7 @@ class ilPluginInfoTest extends TestCase
     public function testGetPath(): void
     {
         $this->assertEquals(
-            ilComponentRepository::PLUGIN_BASE_PATH . "/Module1/Slot1/Plugin1",
+            ilComponentRepository::PLUGIN_BASE_PATH . "/Type1/Module1/Slot1/Plugin1",
             $this->plugin->getPath()
         );
     }
@@ -266,9 +272,7 @@ class ilPluginInfoTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider isActivationPossibleTruthTable
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('isActivationPossibleTruthTable')]
     public function testIsActivationPossible(
         bool $is_installed,
         bool $supports_current_ilias,
@@ -341,9 +345,7 @@ class ilPluginInfoTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider isActiveTruthTable
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('isActiveTruthTable')]
     public function testIsActive(
         bool $is_installed,
         bool $supports_current_ilias,
@@ -443,9 +445,7 @@ class ilPluginInfoTest extends TestCase
     }
 
 
-    /**
-     * @dataProvider inactivityReasonTable
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('inactivityReasonTable')]
     public function testGetReasonForInactivity(
         bool $is_installed,
         bool $supports_current_ilias,

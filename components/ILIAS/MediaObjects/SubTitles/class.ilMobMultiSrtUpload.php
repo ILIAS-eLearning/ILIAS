@@ -73,8 +73,8 @@ class ilMobMultiSrtUpload
         $dir = $this->getMultiSrtUploadDir();
         ilFileUtils::delDir($dir, true);
         ilFileUtils::makeDirParents($dir);
-        ilFileUtils::moveUploadedFile($a_file["tmp_name"], "multi_srt.zip", $dir . "/" . "multi_srt.zip");
-        $this->zip->unzipFile($dir . "/multi_srt.zip");
+        ilFileUtils::moveUploadedFile($a_file["tmp_name"], "multi_vtt.zip", $dir . "/" . "multi_vtt.zip");
+        $this->zip->unzipFile($dir . "/multi_vtt.zip");
     }
 
     /**
@@ -99,7 +99,7 @@ class ilMobMultiSrtUpload
         foreach ($files as $k => $i) {
             // check directory
             if ($i["type"] == "file" && !in_array($k, array(".", ".."))) {
-                if (pathinfo($k, PATHINFO_EXTENSION) == "srt") {
+                if (pathinfo($k, PATHINFO_EXTENSION) == "vtt") {
                     $lang = "";
                     if (substr($k, strlen($k) - 7, 1) == "_") {
                         $lang = substr($k, strlen($k) - 6, 2);
@@ -122,7 +122,7 @@ class ilMobMultiSrtUpload
                 foreach ($items as $i => $item) {
                     if (substr($item["filename"], 0, strlen($loc)) == $loc &&
                         substr($item["filename"], strlen($loc), 1) == "_" &&
-                        pathinfo($item["filename"], PATHINFO_EXTENSION) == "srt") {
+                        pathinfo($item["filename"], PATHINFO_EXTENSION) == "vtt") {
                         $l = substr($item["filename"], strlen($loc) + 1, 2);
                         if (in_array($l, $lang_codes)) {
                             $items[$i]["lang"] = $l;

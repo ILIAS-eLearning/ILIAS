@@ -30,8 +30,7 @@
             return a.length > b.length ? a : b;
           });
           input.setAttribute('size', longest.length);
-          input.addEventListener('keyup', onChangeHandler);
-          input.addEventListener('focus', onChangeHandler);
+          input.addEventListener('keydown', keyHandler);
         }
       });
 
@@ -44,6 +43,41 @@
       }
       );
     };
+
+    const keyHandler = (e) => {
+      if (e.key === 'Enter' && e.target.nodeName === 'LI') {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        onSelectHandler(e);
+        return;
+      }
+
+      if (e.key === 'ArrowDown') {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        if (e.target.nextElementSibling?.nodeName === 'UL') {
+          e.target.nextElementSibling.firstElementChild.focus();
+        }
+
+        if (e.target.nodeName === 'LI' && e.target.nextElementSibling !== null) {
+          e.target.nextElementSibling.focus();
+        }
+        return;
+      }
+
+      if (e.key === 'ArrowUp' && e.target.nodeName === 'LI') {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        if (e.target.previousElementSibling === null) {
+          e.target.parentElement.previousElementSibling.focus();
+        } else {
+          e.target.previousElementSibling.focus();
+        }
+        return;
+      }
+
+      onChangeHandler(e);
+    }
 
     const onChangeHandler = (e) => {
       const name = e.target.name;

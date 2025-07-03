@@ -28,21 +28,21 @@ class ilMailExplorer extends ilTreeExplorerGUI
 {
     private readonly GlobalHttpState $http;
     private readonly Refinery $refinery;
-    private int $currentFolderId = 0;
+    private int $current_folder_id = 0;
     private readonly int $root_folder_id;
-    private int $root_node_id;
+    private readonly int $root_node_id;
 
-    public function __construct(ilMailGUI $parentObject, int $userId)
+    public function __construct(ilMailGUI $parent_object, int $usr_id)
     {
         global $DIC;
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
-        $this->tree = new ilTree($userId);
+        $this->tree = new ilTree($usr_id);
         $this->tree->setTableNames('mail_tree', 'mail_obj_data');
 
-        $this->root_folder_id = (new ilMailbox($userId))->getRooFolder();
+        $this->root_folder_id = (new ilMailbox($usr_id))->getRooFolder();
         $this->root_node_id = $this->tree->readRootId();
 
         if ($this->root_folder_id !== $this->root_node_id) {
@@ -51,12 +51,12 @@ class ilMailExplorer extends ilTreeExplorerGUI
                 [
                     'root_folder_id' => $this->root_folder_id,
                     'root_node_id' => $this->root_node_id,
-                    'usr_id' => $userId,
+                    'usr_id' => $usr_id,
                 ]
             );
         }
 
-        parent::__construct('mail_exp', $parentObject, '', $this->tree);
+        parent::__construct('mail_exp', $parent_object, '', $this->tree);
 
         $this->initFolder();
 
@@ -68,17 +68,17 @@ class ilMailExplorer extends ilTreeExplorerGUI
     protected function initFolder(): void
     {
         if ($this->http->wrapper()->post()->has('mobj_id')) {
-            $folderId = $this->http->wrapper()->post()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
+            $folder_id = $this->http->wrapper()->post()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
-            $folderId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
+            $folder_id = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         } else {
-            $folderId = $this->refinery->byTrying([
+            $folder_id = $this->refinery->byTrying([
                 $this->refinery->kindlyTo()->int(),
-                $this->refinery->always($this->currentFolderId),
+                $this->refinery->always($this->current_folder_id),
             ])->transform(ilSession::get('mobj_id'));
         }
 
-        $this->currentFolderId = $folderId;
+        $this->current_folder_id = $folder_id;
     }
 
     /**
@@ -125,7 +125,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
     ): Node {
         return parent::build($factory, $record, $environment)
                      ->withHighlighted(
-                         $this->currentFolderId === (int) $record['child']
+                         $this->current_folder_id === (int) $record['child']
                      );
     }
 
@@ -164,12 +164,12 @@ class ilMailExplorer extends ilTreeExplorerGUI
         if ((int) $a_node['child'] === (int) $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath('standard/icon_mail.svg');
         } else {
-            $iconType = $a_node['m_type'];
+            $icon_type = $a_node['m_type'];
             if ($a_node['m_type'] === 'user_folder') {
-                $iconType = 'local';
+                $icon_type = 'local';
             }
 
-            $icon = ilUtil::getImagePath('standard/icon_' . $iconType . '.svg');
+            $icon = ilUtil::getImagePath('standard/icon_' . $icon_type . '.svg');
         }
 
         return $icon;

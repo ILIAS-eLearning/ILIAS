@@ -89,41 +89,17 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
 
     protected function parseImage(int $a_sub_id): bool
     {
+        global $DIC;
+        $thumbs_gui = $DIC->mediaObjects()->internal()->gui()->thumbs();
+
         $sub_id = ilMediaPoolItem::lookupForeignId($a_sub_id);
         // output thumbnail (or mob icon)
         if (ilObject::_lookupType($sub_id) === "mob") {
             $mob = new ilObjMediaObject($sub_id);
-            $med = $mob->getMediaItem("Standard");
-            $target = $med->getThumbnailTarget();
-
-            if ($target != "") {
-                // begin-patch mime_filter
-                $this->tpl->setVariable(
-                    'LINKED_LINK',
-                    ilLink::_getLink(
-                        $this->getRefId(),
-                        'mep',
-                        array('action' => 'showMedia', 'mob_id' => $sub_id,'mepitem_id' => $a_sub_id)
-                    )
-                );
-                $this->tpl->setVariable('LINKED_TARGET', '_blank');
-                $this->tpl->setVariable("LINKED_IMAGE", ilUtil::img($target));
-                // end-patch mime_filter
-            } else {
-                $this->tpl->setVariable("SUB_ITEM_IMAGE", ilUtil::img(ilUtil::getImagePath("standard/icon_" . "mob" . ".gif")));
-            }
-            if (ilUtil::deducibleSize($med->getFormat()) && $med->getLocationType() === "Reference") {
-                $size = getimagesize($med->getLocation());
-                if ($size[0] > 0 && $size[1] > 0) {
-                    $wr = $size[0] / 80;
-                    $hr = $size[1] / 80;
-                    $r = max($wr, $hr);
-                    $w = (int) ($size[0] / $r);
-                    $h = (int) ($size[1] / $r);
-                    $this->tpl->setVariable("SUB_ITEM_IMAGE", ilUtil::img($med->getLocation(), "", $w, $h));
-                    return true;
-                }
-            }
+            $this->tpl->setVariable(
+                "SUB_ITEM_IMAGE",
+                $thumbs_gui->getThumbHtml($sub_id)
+            );
         }
         return false;
     }

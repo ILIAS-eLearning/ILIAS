@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Container\Content\ViewManager;
 use ILIAS\Refinery;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * Class ilObjStudyProgrammeGUI class
@@ -32,7 +33,7 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeMembersGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeAutoMembershipsGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectCopyGUI
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ILIAS\ILIASObject\Properties\Translations\TranslationGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilCertificateGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeAutoCategoriesGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilContainerGUI
@@ -221,12 +222,24 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $gui = new ilobjectcopygui($this);
                 $this->ctrl->forwardCommand($gui);
                 break;
-            case 'ilobjecttranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->denyAccessIfNot(ilPRGPermissionsHelper::ROLEPERM_WRITE);
                 $this->getSubTabs('settings');
                 $this->tabs_gui->activateTab(self::TAB_SETTINGS);
                 $this->tabs_gui->activateSubTab('settings_trans');
-                $transgui = new ilObjectTranslationGUI($this);
+                $transgui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->access,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->http,
+                    $this->refinery,
+                    $this->toolbar
+                );
                 $this->ctrl->forwardCommand($transgui);
                 break;
             case "ilcertificategui":
@@ -306,8 +319,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                         $this->view();
                         break;
                     case "delete":
-                        $this->tabs_gui->clearTargets();
-                        $this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this));
                         parent::deleteObject();
                         break;
                     case 'confirmedDelete':
@@ -581,26 +592,10 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
             case self::TAB_VIEW_CONTENT:
             case self::SUBTAB_VIEW_MANAGE:
             case 'view':
+            case 'delete':
                 $this->addStandardContainerSubTabs(true);
-                ;
                 break;
-            case false:
-                if ($this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_READ)) {
-                    $this->tabs_gui->addSubTab(
-                        self::TAB_VIEW_CONTENT,
-                        $this->lng->txt("view"),
-                        $this->getLinkTarget("view")
-                    );
-                }
 
-                if ($this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_WRITE)) {
-                    $this->tabs_gui->addSubTab(
-                        self::SUBTAB_VIEW_MANAGE,
-                        $this->lng->txt("cntr_manage"),
-                        $this->getLinkTarget(self::SUBTAB_VIEW_MANAGE)
-                    );
-                }
-                break;
             case 'settings':
                 $this->tabs_gui->addSubTab(
                     'settings',
@@ -619,7 +614,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->tabs_gui->addSubTab(
                     "settings_trans",
                     $this->lng->txt("obj_multilinguality"),
-                    $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "")
+                    $this->ctrl->getLinkTargetByClass(TranslationGUI::class, "")
                 );
 
                 $validator = new ilCertificateActiveValidator();
@@ -758,9 +753,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
-        $id = explode("_", $target);
         $ilCtrl->setTargetScript('ilias.php');
-        $ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $id[0]);
+        $ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $target);
         $ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilobjstudyprogrammegui"), "view");
     }
 

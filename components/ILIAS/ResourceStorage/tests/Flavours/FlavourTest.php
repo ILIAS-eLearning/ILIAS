@@ -35,6 +35,7 @@ use ILIAS\ResourceStorage\Revision\FileRevision;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamResolver;
+use ILIAS\ResourceStorage\Events\Subject;
 
 /**
  * Class FlavorTest
@@ -80,7 +81,8 @@ class FlavourTest extends AbstractTestBase
             $this->machine_factory,
             $this->resource_builder,
             $this->storage_handler_factory,
-            $this->stream_access
+            $this->stream_access,
+            new Subject()
         );
 
         // Length OK
@@ -118,7 +120,8 @@ class FlavourTest extends AbstractTestBase
             $this->machine_factory,
             $this->resource_builder,
             $this->storage_handler_factory,
-            $this->stream_access
+            $this->stream_access,
+            new Subject()
         );
 
         // Expectations
@@ -167,7 +170,8 @@ class FlavourTest extends AbstractTestBase
             $this->machine_factory,
             $this->resource_builder,
             $this->storage_handler_factory,
-            $this->stream_access
+            $this->stream_access,
+            new Subject()
         );
 
         // Expectations

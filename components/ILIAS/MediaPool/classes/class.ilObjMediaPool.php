@@ -439,7 +439,6 @@ class ilObjMediaPool extends ilObject implements ilAdvancedMetaDataSubItems
         /** @var ilObjMediaPool $new_obj */
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
-        $new_obj->setTitle($this->getTitle());
         $new_obj->setDescription($this->getDescription());
         $new_obj->setDefaultWidth($this->getDefaultWidth());
         $new_obj->setDefaultHeight($this->getDefaultHeight());

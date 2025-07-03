@@ -24,15 +24,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class ilAwarenessUserProviderContactRequestsTestCase extends ilBuddySystemBaseTestCase
 {
-    /**
-     * @var ilObjUser|MockObject
-     */
-    private $user;
-
-    /**
-     * @var ilLanguage|MockObject
-     */
-    private $language;
+    private ilObjUser|MockObject $user;
+    private ilLanguage|MockObject $language;
 
     public function testConstruct(): void
     {
@@ -58,7 +51,7 @@ class ilAwarenessUserProviderContactRequestsTestCase extends ilBuddySystemBaseTe
     {
         $instance = $this->create();
 
-        $this->user->expects(self::once())->method('isAnonymous')->willReturn(true);
+        $this->user->expects($this->once())->method('isAnonymous')->willReturn(true);
 
         $this->assertEquals([], $instance->getInitialUserSet());
     }
@@ -74,8 +67,8 @@ class ilAwarenessUserProviderContactRequestsTestCase extends ilBuddySystemBaseTe
 
         $instance = $this->create();
 
-        $this->language->expects(self::once())->method('loadLanguageModule')->with('contact');
-        $this->language->expects(self::once())->method('txt')->with($languageKey)->willReturn($expected);
+        $this->language->expects($this->once())->method('loadLanguageModule')->with('contact');
+        $this->language->expects($this->once())->method('txt')->with($languageKey)->willReturn($expected);
 
         $this->assertSame($expected, $instance->$method());
     }
@@ -86,8 +79,8 @@ class ilAwarenessUserProviderContactRequestsTestCase extends ilBuddySystemBaseTe
         $this->language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
 
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $container->expects(self::once())->method('user')->willReturn($this->user);
-        $container->expects(self::once())->method('language')->willReturn($this->language);
+        $container->expects($this->once())->method('user')->willReturn($this->user);
+        $container->expects($this->once())->method('language')->willReturn($this->language);
 
         return new Contacts($container);
     }

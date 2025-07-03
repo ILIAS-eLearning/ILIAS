@@ -56,9 +56,9 @@ class MailMemberSearchTable implements UI\Component\Table\DataRetrieval
         return $this->ui_factory
             ->table()
             ->data(
+                $this,
                 $this->lng->txt('members'),
                 $columns,
-                $this
             )
             ->withId(self::class . '_' . $this->ref_id)
             ->withOrder(new \ILIAS\Data\Order('login', \ILIAS\Data\Order::ASC))

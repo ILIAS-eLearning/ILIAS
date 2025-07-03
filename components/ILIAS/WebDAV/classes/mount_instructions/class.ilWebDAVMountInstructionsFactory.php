@@ -26,8 +26,11 @@ use Psr\Http\Message\RequestInterface;
  */
 class ilWebDAVMountInstructionsFactory
 {
-    public function __construct(private ilWebDAVMountInstructionsRepositoryImpl $repo, private RequestInterface $request, private ilObjUser $user)
-    {
+    public function __construct(
+        private ilWebDAVMountInstructionsRepositoryImpl $repo,
+        private RequestInterface $request,
+        private ilObjUser $user
+    ) {
     }
 
     public function getMountInstructionsObject(): ilWebDAVBaseMountInstructions
@@ -38,11 +41,13 @@ class ilWebDAVMountInstructionsFactory
         $splitted_uri = explode('/', $uri);
 
         // Remove path elements before and until webdav script
-        while (array_shift($splitted_uri) !== 'webdav.php' && $splitted_uri !== []);
+        while (array_shift($splitted_uri) !== 'webdav.php' && $splitted_uri !== []) {
+            ;
+        }
 
-        $path_value = $splitted_uri[1];
+        $path_value = $splitted_uri[1] ?? '';
 
-        if (strlen($path_value) == 2) {
+        if (strlen($path_value) === 2) {
             return new ilWebDAVObjectlessMountInstructions(
                 $this->repo,
                 $uri_builder,

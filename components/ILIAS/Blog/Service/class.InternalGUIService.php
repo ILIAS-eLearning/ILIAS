@@ -29,17 +29,13 @@ class InternalGUIService
 {
     use GlobalDICGUIServices;
 
-    protected InternalDataService $data_service;
-    protected InternalDomainService $domain_service;
     protected static array $instance = [];
 
     public function __construct(
         Container $DIC,
-        InternalDataService $data_service,
-        InternalDomainService $domain_service
+        protected InternalDataService $data_service,
+        protected InternalDomainService $domain_service
     ) {
-        $this->data_service = $data_service;
-        $this->domain_service = $domain_service;
         $this->initGUIServices($DIC);
     }
 

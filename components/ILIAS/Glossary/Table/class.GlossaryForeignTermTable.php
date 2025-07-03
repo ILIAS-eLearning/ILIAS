@@ -58,9 +58,9 @@ class GlossaryForeignTermTable
 
         $table = $this->ui_fac->table()
                               ->data(
+                                  $data_retrieval,
                                   $this->foreign_glossary->getTitle() . ": " .$this->lng->txt("glo_select_terms"),
                                   $columns,
-                                  $data_retrieval
                               )
                               ->withId(
                                   self::class . "_" .

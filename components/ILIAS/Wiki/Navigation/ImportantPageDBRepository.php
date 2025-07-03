@@ -69,6 +69,7 @@ class ImportantPageDBRepository
             $ipages[$ip->getId()]["page_id"] = $ip->getId();
             $ipages[$ip->getId()]["ord"] = $ip->getOrder();
             $ipages[$ip->getId()]["indent"] = $ip->getIndent();
+            $ipages[$ip->getId()]["wiki_id"] = $wiki_id;
         }
         return $ipages;
     }
@@ -181,7 +182,6 @@ class ImportantPageDBRepository
         int $wiki_id
     ): void {
         $ipages = $this->getListAsArray($wiki_id);
-
         // fix indentation: no 2 is allowed after a 0
         $c_indent = 0;
         foreach ($ipages as $k => $v) {

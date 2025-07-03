@@ -49,11 +49,15 @@ class ilObjFileListGUI extends ilObjectListGUI
         $this->capability_context = new Context(
             0,
             0,
-            ($context === self::CONTEXT_REPOSITORY) ? Context::CONTEXT_REPO : Context::CONTEXT_WORKSPACE
+            match($context) {
+                self::CONTEXT_REPOSITORY => Context::CONTEXT_REPO,
+                self::CONTEXT_WORKSPACE => Context::CONTEXT_WORKSPACE,
+                self::CONTEXT_SEARCH => Context::CONTEXT_SEARCH,
+                default => Context::CONTEXT_REPO,
+            }
         );
 
         parent::__construct($context);
-
 
         $DIC->language()->loadLanguageModule('wopi');
         $this->file_info = new ilObjFileInfoRepository();
@@ -65,8 +69,6 @@ class ilObjFileListGUI extends ilObjectListGUI
             $DIC->http(),
             $DIC['static_url.uri_builder']
         );
-
-
     }
 
     protected function updateContext(): void
@@ -83,6 +85,7 @@ class ilObjFileListGUI extends ilObjectListGUI
     public function insertCommands(): void
     {
     }
+
     /**
      * initialisation
      */
@@ -116,11 +119,29 @@ class ilObjFileListGUI extends ilObjectListGUI
 
         $best = $this->capabilities->getBest();
 
+        $default_key = null;
+
         foreach ($this->commands as $key => $command) {
             if ($command['cmd'] === $best->getCapability()->value) {
-                $default_set = true;
+                $default_key = $key;
                 $this->commands[$key]['default'] = true;
             }
+        }
+
+        // we put a copy of the default command to the array, since otherwise its not rendered in the dropdown
+        if ($default_key !== null) {
+            $command_copy = $this->commands[$default_key];
+            $command_copy['default'] = false;
+
+            $commands = [];
+
+            foreach ($this->commands as $key => $command) {
+                if ($key === $default_key) {
+                    $commands[] = $command_copy;
+                }
+                $commands[] = $command;
+            }
+            $this->commands = $commands;
         }
 
         return parent::getCommands();
@@ -130,7 +151,6 @@ class ilObjFileListGUI extends ilObjectListGUI
     public function getCommandLink(string $cmd): string
     {
         $this->updateContext();
-        $info = $this->file_info->getByObjectId($this->obj_id);
         $this->capabilities = $this->capability_builder->get($this->capability_context);
 
         $needed_capability = Capabilities::fromCommand($cmd);
@@ -151,7 +171,6 @@ class ilObjFileListGUI extends ilObjectListGUI
                     );
                 }
                 break;
-
         }
 
         return parent::getCommandLink($cmd);
@@ -198,7 +217,6 @@ class ilObjFileListGUI extends ilObjectListGUI
             : $this->type;
     }
 
-
     /**
      * Get item properties
      * @return    array        array of property arrays:
@@ -217,8 +235,6 @@ class ilObjFileListGUI extends ilObjectListGUI
 
         $info = $this->file_info->getByObjectId($this->obj_id);
 
-        $revision = $info->getVersion();
-
         $props[] = [
             "alert" => false,
             "property" => $DIC->language()->txt("type"),
@@ -235,7 +251,6 @@ class ilObjFileListGUI extends ilObjectListGUI
 
         $version = $info->getVersion();
         if ($version > 1) {
-
             // add versions link
             if ($this->capabilities->get(Capabilities::MANAGE_VERSIONS)->isUnlocked()) {
                 $link = $this->getCommandLink("versions");
@@ -313,6 +328,5 @@ class ilObjFileListGUI extends ilObjectListGUI
             $obj_id
         );
     }
-
 
 }

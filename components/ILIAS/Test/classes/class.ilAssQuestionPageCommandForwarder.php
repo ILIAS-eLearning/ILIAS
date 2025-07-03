@@ -88,9 +88,9 @@ class ilAssQuestionPageCommandForwarder
         $page_gui->setQuestionHTML([$q_gui->getObject()->getId() => $q_gui->getPreview(true)]);
         $page_gui->setTemplateTargetVar("ADM_CONTENT");
         $page_gui->setOutputMode($this->test_obj->evalTotalPersons() == 0 ? "edit" : 'preview');
-        $page_gui->setHeader($question->getTitle());
+        $page_gui->setHeader($question->getTitleForHTMLOutput());
         $page_gui->setPresentationTitle(
-            $question->getTitle()
+            $question->getTitleForHTMLOutput()
             . ' [' . $this->lng->txt('question_id_short')
             . ': ' . $question->getId() . ']'
         );

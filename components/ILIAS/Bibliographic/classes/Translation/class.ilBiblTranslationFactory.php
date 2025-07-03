@@ -144,9 +144,9 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
     ): \ilBiblTranslationInterface {
         $inst = $this->getCollectionOfTranslationsForField($field)
                      ->where(["language_key" => $language_key,])
-                     ->get();
+                     ->first();
 
-        if ($inst === []) {
+        if ($inst === null) {
             $inst = new ilBiblTranslation();
             $inst->setFieldId($field->getId());
             $inst->setLanguageKey($language_key);

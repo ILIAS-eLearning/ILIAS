@@ -41,17 +41,13 @@ class MainFactoryTest extends AbstractFactoryTestCase
 
     public static string $factory_title = 'ILIAS\\UI\\Factory';
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testProperNamespace(): void
     {
         // Nothing to test here.
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testProperName(): void
     {
         // Nothing to test here.

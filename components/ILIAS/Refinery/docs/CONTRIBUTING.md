@@ -11,7 +11,7 @@ please follow it in all your interactions with the project.
 ## Roles
 
 The ILIAS project has the role of the coordinator.
-[Check the documentation](/docs/documentation/maintenance-coordinator.md)
+[Check the documentation](../../UI/docs/COMMUNITY.md)
 about the function of this role.
 
 ## Reporting Bugs

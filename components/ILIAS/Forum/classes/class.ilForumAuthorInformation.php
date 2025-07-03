@@ -33,7 +33,7 @@ class ilForumAuthorInformation
     private string $suffix = '';
     private string $profilePicture;
     private ?ilObjUser $author = null;
-    private ilLanguage $globalLng;
+    private readonly ilLanguage $globalLng;
     private readonly ilObjUser $globalUser;
     private bool $is_deleted = false;
 
@@ -43,7 +43,7 @@ class ilForumAuthorInformation
         private readonly string $alias,
         private readonly string $import_name,
         private readonly array $public_profile_link_attributes = [],
-        private ?ilLanguage $lng = null
+        private readonly ?ilLanguage $lng = null
     ) {
         global $DIC;
 

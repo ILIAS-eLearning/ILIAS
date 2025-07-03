@@ -28,6 +28,8 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
     private ilPDSelectedItemsBlockViewSettings $viewSettings;
     private ilDashboardSidePanelSettingsRepository $side_panel_settings;
 
+    public bool $max_limit = true;
+
     public function __construct($a_parent_obj, $a_parent_cmd, bool $disable = false)
     {
         global $DIC;

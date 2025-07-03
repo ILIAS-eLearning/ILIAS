@@ -687,7 +687,6 @@ interface Factory
      */
     public function angry(?string $action = null): Glyph;
 
-
     /**
      * ---
      * description:
@@ -1434,7 +1433,6 @@ interface Factory
      */
     public function link(?string $action = null): Glyph;
 
-
     /**
      * ---
      * description:
@@ -1562,7 +1560,6 @@ interface Factory
      */
     public function sort(?string $action = null): Glyph;
 
-
     /**
      * ---
      * description:
@@ -1584,7 +1581,6 @@ interface Factory
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
     public function columnSelection(?string $action = null): Glyph;
-
 
     /**
      * ---
@@ -1612,4 +1608,85 @@ interface Factory
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
     public function tileView(?string $action = null): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Drag Handle Glyph indicates that an element can be dragged by clicking or tapping, then holding and
+     *      moving the mouse or finger. When the hold is released, it's expected to drop the item at the nearest valid
+     *      position.
+     *      The glyph works best when there is a background or border indicating the dimension of the element that is
+     *      draggable.
+     *   composition: >
+     *      The cells of the Ordering Table use this glyph.
+     *   effect: >
+     *      When you click and hold on the glyph, the item it is on can be dragged and dropped.
+     *   rivals:
+     *      No glyph: >
+     *          In some instances the design and context of an element might already sufficiently indicate that it can
+     *          be dragged. However, if an element could be confused with a non-draggable counterpart or is draggable
+     *          only some of the time, you SHOULD use the glyph to indicate when it is draggable or otherwise change the
+     *          appearance to communicate the drag and drop functionality.
+     * context:
+     *    -  The Drag Glyph communicates the drag and drop feature on the Ordering Table cells.
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Draggable element'.
+     *   usage:
+     *       1: The Drag Glyph SHOULD be positioned near the corners of a draggable element.
+     * ---
+     * @param   string|null $action
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function dragHandle(?string $action = null): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Checked Glyph indicates a positive status (e.g. approved/complete/ok/yes/finished/passed)
+     *   composition: >
+     *      The Checked Glyph uses a checkmark.
+     * context:
+     *    - The Checked Glyph can be used in combination with the Unchecked Glyph to display binary states.
+     * rules:
+     *   accessibility:
+     *      1: >
+     *         The aria-label MUST be 'checked'.
+     *   style:
+     *      1: >
+     *         The Checked Glyph SHOULD display a checkmark in the geometric focus of a mono-colored symmetric shape
+     *   usage:
+     *      1: >
+     *         The Checked Glyph SHOULD be used to display a unary state or one option of a binary state.
+     * ---
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function checked(): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Unchecked Glyph indicates a negative status (e.g. disapproved/blocked/no/failed/rejected)
+     *   composition: >
+     *      The Unchecked Glyph uses a diagonal cross.
+     * context:
+     *    - The Unchecked Glyph can be used in combination with the Checked Glyph to display binary states.
+     * rules:
+     *   accessibility:
+     *      1: >
+     *         The aria-label MUST be 'unchecked'.
+     *   style:
+     *      1: >
+     *         The Unchecked Glyph SHOULD display a symmetric diagonal cross in the geometric focus of a mono-colored symmetric shape
+     *   usage:
+     *      1: >
+     *         The Unchecked Glyph SHOULD be used to display a unary state or one option of a binary state.
+     * ---
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function unchecked(): Glyph;
 }

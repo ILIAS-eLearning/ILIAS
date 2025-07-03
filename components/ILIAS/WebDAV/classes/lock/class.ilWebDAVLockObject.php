@@ -27,8 +27,16 @@ use Sabre\DAV\Locks\LockInfo;
  */
 class ilWebDAVLockObject
 {
-    public function __construct(protected string $token, protected int $obj_id, protected int $ilias_owner, protected string $dav_owner, protected int $expires, protected int $depth, protected string $type, protected int $scope)
-    {
+    public function __construct(
+        protected string $token,
+        protected int $obj_id,
+        protected int $ilias_owner,
+        protected string $dav_owner,
+        protected int $expires,
+        protected int $depth,
+        protected string $type,
+        protected int $scope
+    ) {
     }
 
     public function getToken(): string

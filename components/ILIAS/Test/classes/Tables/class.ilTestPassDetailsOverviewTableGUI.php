@@ -115,10 +115,6 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("tst_maximum_points"), '', '');
         $this->addColumn($this->lng->txt("tst_reached_points"), '', '');
 
-        if ($this->getShowHintCount()) {
-            $this->addColumn($this->lng->txt("tst_question_hints_requested_hint_count_header"), '', '');
-        }
-
         $this->addColumn($this->lng->txt("tst_percent_solved"), '', '');
 
         if ($this->getShowSuggestedSolution()) {
@@ -163,10 +159,6 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
         if ($this->isObjectiveOrientedPresentationEnabled() && $this->areMultipleObjectivesInvolved()) {
             $objectives = $this->questionRelatedObjectivesList->getQuestionRelatedObjectiveTitles($a_set['qid']);
             $this->tpl->setVariable('VALUE_LO_OBJECTIVES', strlen($objectives) ? $objectives : '&nbsp;');
-        }
-
-        if ($this->getShowHintCount()) {
-            $this->tpl->setVariable('VALUE_HINT_COUNT', (int) $a_set['requested_hints']);
         }
 
         if ($this->getShowSuggestedSolution()) {
@@ -253,17 +245,6 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
     private function getAnswerListAnchor($questionId): string
     {
         return "#detailed_answer_block_act_{$this->getActiveId()}_qst_{$questionId}";
-    }
-
-    public function setShowHintCount($showHintCount): void
-    {
-        // Has to be called before column initialization
-        $this->showHintCount = (bool) $showHintCount;
-    }
-
-    public function getShowHintCount(): bool
-    {
-        return $this->showHintCount;
     }
 
     public function setShowSuggestedSolution(bool $showSuggestedSolution): void

@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailPearRfc822WrapperAddressParser
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailPearRfc822WrapperAddressParser extends ilBaseMailRfc822AddressParser
 {
     protected function parseAddressString(string $addresses): array
@@ -33,7 +29,7 @@ class ilMailPearRfc822WrapperAddressParser extends ilBaseMailRfc822AddressParser
         $parser = new Mail_RFC822();
         $parsed_addresses = $parser->parseAddressList(
             $addresses,
-            $this->installationHost,
+            $this->installation_host,
             false,
             true
         );

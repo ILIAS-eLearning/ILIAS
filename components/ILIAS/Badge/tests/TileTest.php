@@ -20,34 +20,21 @@ declare(strict_types=1);
 
 namespace ILIAS\Badge\test;
 
-use Exception;
 use ILIAS\DI\Container;
 use ILIAS\DI\UIServices;
 use ILIAS\Badge\BadgeParent;
 use ILIAS\Badge\Modal;
 use ILIAS\Badge\ModalContent;
 use ILIAS\Badge\Tile;
-use ILIAS\UI\Component\Button\Factory as Button;
-use ILIAS\UI\Component\Button\Standard as StandardButton;
 use ILIAS\UI\Component\Button\Button as ButtonComponent;
-use ILIAS\UI\Component\Card\Factory as Card;
-use ILIAS\UI\Component\Card\Standard as StandardCard;
-use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Image\Factory as Image;
 use ILIAS\UI\Component\Image\Image as ImageComponent;
-use ILIAS\UI\Component\Modal\Factory as UIModal;
 use ILIAS\UI\Component\Modal\Modal as ModalComponent;
-use ILIAS\UI\Component\Modal\Lightbox;
-use ILIAS\UI\Component\Modal\LightboxCardPage;
-use ILIAS\UI\Factory as UI;
 use PHPUnit\Framework\TestCase;
 use ilBadge;
-use ilBadgeAssignment;
 use ilCtrl;
 use ilLanguage;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Services;
-use ILIAS\Badge\ilBadgeImage;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class TileTest extends TestCase
 {
@@ -62,9 +49,7 @@ class TileTest extends TestCase
         $this->assertInstanceOf(Tile::class, new Tile($container, $parent, $modal, $sign_file, $format_date));
     }
 
-    /**
-     * @dataProvider provideAsVariants
-     */
+    #[DataProvider('provideAsVariants')]
     public function testAs(string $method, array $expected_components): void
     {
         $signed_file = '/some-signed-file';
@@ -88,7 +73,7 @@ class TileTest extends TestCase
         $container->method('language')->willReturn($language);
         $container->method('resourceStorage')->willReturn($resource_storage);
         $format_date = function (int $x): void {
-            throw new Exception('Should not be called.');
+            throw new \RuntimeException('Should not be called.');
         };
         $sign_file = function (string $path) use ($signed_file, $badge_image_path): string {
             return $signed_file;
@@ -103,7 +88,7 @@ class TileTest extends TestCase
 
         $components = $tile->$method($modal_content);
 
-        $this->assertSame(count($expected_components), count($components));
+        $this->assertCount(\count($expected_components), $components);
         array_map($this->assertInstanceOf(...), $expected_components, $components);
     }
 

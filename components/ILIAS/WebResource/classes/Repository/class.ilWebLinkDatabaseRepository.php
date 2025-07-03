@@ -23,23 +23,21 @@ declare(strict_types=1);
  */
 class ilWebLinkDatabaseRepository implements ilWebLinkRepository
 {
-    public const ITEMS_TABLE = 'webr_items';
-    public const LISTS_TABLE = 'webr_lists';
-    public const PARAMS_TABLE = 'webr_params';
+    public const string ITEMS_TABLE = 'webr_items';
+    public const string LISTS_TABLE = 'webr_lists';
+    public const string PARAMS_TABLE = 'webr_params';
 
     protected int $webr_id;
     protected ilDBInterface $db;
     protected ilObjUser $user;
-    protected bool $update_history;
 
-    public function __construct(int $webr_id, bool $update_history = true)
+    public function __construct(int $webr_id)
     {
         global $DIC;
 
         $this->db = $DIC->database();
         $this->user = $DIC->user();
         $this->webr_id = $webr_id;
-        $this->update_history = $update_history;
     }
 
     public function createItem(ilWebLinkDraftItem $item): ilWebLinkItem
@@ -119,14 +117,6 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
             ]
         );
 
-        if ($this->isUpdateHistory()) {
-            $this->createHistoryEntry(
-                $this->getWebrId(),
-                "add",
-                [$new_item->getTitle()]
-            );
-        }
-
         return $new_item;
     }
 
@@ -152,14 +142,6 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
                                                       ->getTimestamp()],
             ]
         );
-
-        if ($this->isUpdateHistory()) {
-            $this->createHistoryEntry(
-                $this->getWebrId(),
-                "add",
-                [$new_list->getTitle()]
-            );
-        }
 
         return $new_list;
     }
@@ -425,14 +407,6 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
                 );
             }
         }
-
-        if ($this->isUpdateHistory()) {
-            $this->createHistoryEntry(
-                $this->getWebrId(),
-                "update",
-                [$item->getTitle()]
-            );
-        }
     }
 
     public function updateList(
@@ -456,14 +430,6 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
                 'webr_id' => ['integer', $list->getWebrId()]
             ]
         );
-
-        if ($this->isUpdateHistory()) {
-            $this->createHistoryEntry(
-                $this->getWebrId(),
-                "update",
-                [$list->getTitle()]
-            );
-        }
     }
 
     public function deleteAllItems(): void
@@ -481,10 +447,6 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
 
     public function deleteItemByLinkID(int $link_id): void
     {
-        if ($this->isUpdateHistory()) {
-            $title = $this->getItemByLinkId($link_id)->getTitle();
-        }
-
         $this->db->manipulate(
             "DELETE FROM " . $this->db->quoteIdentifier(self::ITEMS_TABLE) . " " .
             "WHERE webr_id = " . $this->db->quote($this->getWebrId(), 'integer') . " " .
@@ -496,14 +458,6 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
             "WHERE webr_id = " . $this->db->quote($this->getWebrId(), 'integer') . " " .
             "AND link_id = " . $this->db->quote($link_id, 'integer')
         );
-
-        if (isset($title)) {
-            $this->createHistoryEntry(
-                $this->getWebrId(),
-                "delete",
-                [$title]
-            );
-        }
     }
 
     public function deleteParameterByLinkIdAndParamId(
@@ -520,22 +474,10 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
 
     public function deleteList(): void
     {
-        if ($this->isUpdateHistory()) {
-            $title = $this->getList()->getTitle();
-        }
-
         $res = $this->db->manipulate(
             "DELETE FROM " . $this->db->quoteIdentifier(self::LISTS_TABLE) . " " .
             "WHERE webr_id = " . $this->db->quote($this->getWebrId(), 'integer')
         );
-
-        if (isset($title)) {
-            $this->createHistoryEntry(
-                $this->getWebrId(),
-                "delete",
-                [$title]
-            );
-        }
     }
 
     /**
@@ -610,16 +552,6 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
         return $this->webr_id;
     }
 
-    public function isUpdateHistory(): bool
-    {
-        return $this->update_history;
-    }
-
-    public function setUpdateHistory(bool $update_history): void
-    {
-        $this->update_history = $update_history;
-    }
-
     protected function getCurrentTime(): int
     {
         return time();
@@ -628,13 +560,5 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
     protected function getNewDateTimeImmutable(): DateTimeImmutable
     {
         return new DateTimeImmutable();
-    }
-
-    protected function createHistoryEntry(
-        int $webr_id,
-        string $action,
-        array $parameters
-    ): void {
-        ilHistory::_createEntry($webr_id, $action, $parameters);
     }
 }

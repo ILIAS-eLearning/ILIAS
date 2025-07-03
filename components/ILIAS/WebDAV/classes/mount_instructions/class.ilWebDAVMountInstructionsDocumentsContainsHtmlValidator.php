@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-
 class ilWebDAVMountInstructionsDocumentsContainsHtmlValidator
 {
     public function __construct(private string $text)

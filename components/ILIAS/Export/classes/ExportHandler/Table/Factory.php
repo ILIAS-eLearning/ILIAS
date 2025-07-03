@@ -89,7 +89,7 @@ class Factory implements ilExportHandlerTableFactoryInterface
     public function dataRetrieval(): ilExportHandlerTableDataRetrievalFactoryInterface
     {
         return new ilExportHandlerTableDataRetrievalFactory(
-            $this->ui_services,
+            $this->lng,
             $this->export_handler
         );
     }

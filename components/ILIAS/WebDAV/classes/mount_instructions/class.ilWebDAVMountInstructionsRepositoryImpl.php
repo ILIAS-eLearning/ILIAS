@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-
 class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructionsRepository
 {
     public const TABLE_MOUNT_INSTRUCTIONS = 'webdav_instructions';

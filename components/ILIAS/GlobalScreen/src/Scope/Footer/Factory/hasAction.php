@@ -28,9 +28,9 @@ use ILIAS\UI\Component\Signal;
  */
 interface hasAction extends isItem
 {
-    public function withAction(URI|Signal $action): self;
+    public function withAction(URI|Signal|string $action): self;
 
-    public function getAction(): URI|Signal;
+    public function getAction(): URI|Signal|string;
 
     public function withOpenInNewViewport(bool $state);
 

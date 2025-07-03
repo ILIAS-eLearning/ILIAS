@@ -230,7 +230,6 @@ class ilPageEditorGUI
             $hier_id = $hid[$this->requested_pl_pc_id];
         }
         $this->log->debug("step PH: next class: " . $next_class);
-
         if (!is_null($com) && ($com[0] == "insert" || $com[0] == "create")) {
             // Step CM (creation mode handling)
             $cmd = $com[0];
@@ -300,9 +299,17 @@ class ilPageEditorGUI
 
         $this->ctrl->setParameter($this, "hier_id", $hier_id);
         $this->ctrl->setParameter($this, "pc_id", $pc_id);
+
         if ($next_class == "") {
             $pc_def = $this->pc_definition->getPCDefinitionByType($ctype);
             if (is_array($pc_def)) {
+                if ($ctype === "plug") {
+                    $this->ctrl->setParameterByClass(
+                        $pc_def["pc_gui_class"],
+                        "pluginName",
+                        $this->request->getString("pluginName")
+                    );
+                }
                 $this->ctrl->redirectByClass($pc_def["pc_gui_class"], $this->ctrl->getCmd());
             }
             $next_class = $this->ctrl->getNextClass($this);

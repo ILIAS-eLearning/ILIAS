@@ -23,7 +23,7 @@ namespace ILIAS\UI\examples\Chart\Bar\Vertical;
 /**
  * ---
  * expected output: >
- *   ILIAS shows a column-chart with an maximum x-value of 80 and four entries
+ *   ILIAS shows a column-chart with an maximum y-value of 80 and four entries
  *   with values 80, 0, 18 and 55.
  *   Each entry is a vertical column with a height according to its value.
  * ---

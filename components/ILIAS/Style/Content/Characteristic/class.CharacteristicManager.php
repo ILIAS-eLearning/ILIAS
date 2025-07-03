@@ -351,30 +351,42 @@ class CharacteristicManager
         $from_style = new ilObjStyleSheet($source_style_id);
 
         // todo fix using mq_id
-        $pars = $from_style->getParametersOfClass($source_style_type, $source_char);
-
-        $colors = array();
-        foreach ($pars as $p => $v) {
-            if (substr($v, 0, 1) == "!") {
-                $colors[] = substr($v, 1);
-            }
-            $this->replaceParameter(
-                ilObjStyleSheet::_determineTag($source_style_type),
-                $new_char,
-                $p,
-                $v,
-                $source_style_type
-            );
-        }
-
-        // copy colors
-        foreach ($colors as $c) {
-            if (!$this->color_repo->colorExists($this->style_id, $c)) {
-                $this->color_repo->addColor(
-                    $this->style_id,
-                    $c,
-                    $from_style->getColorCodeForName($c)
+        foreach (["", ":hover", ":before"] as $char_extension) {
+            $colors = array();
+            //foreach ($pars as $p => $v) {
+            foreach ($this->repo->getAllParametersOfCharacteristic(
+                $from_style->getId(),
+                $source_style_type,
+                $source_char . $char_extension
+            ) as $param) {
+                $p = $param["parameter"];
+                $v = $param["value"];
+                if (substr($v, 0, 1) == "!") {
+                    $colors[] = substr($v, 1);
+                }
+                if ($param["mq_id"] > 0) {
+                    continue;
+                }
+                $this->replaceParameter(
+                    ilObjStyleSheet::_determineTag($source_style_type),
+                    $new_char . $char_extension,
+                    $p,
+                    $v,
+                    $source_style_type,
+                    0,
+                    (bool) $param["custom"]
                 );
+            }
+
+            // copy colors
+            foreach ($colors as $c) {
+                if (!$this->color_repo->colorExists($this->style_id, $c)) {
+                    $this->color_repo->addColor(
+                        $this->style_id,
+                        $c,
+                        $from_style->getColorCodeForName($c)
+                    );
+                }
             }
         }
     }

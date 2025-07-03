@@ -200,9 +200,7 @@ class MarkSchemaTest extends ilTestBaseTestCase
         );
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testSaveToDb_regular()
     {
         /*

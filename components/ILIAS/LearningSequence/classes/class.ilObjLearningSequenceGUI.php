@@ -277,10 +277,31 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 $this->ctrl->forwardCommand($this->getGUIPermissions());
                 break;
             case "ilobjlearningsequencesettingsgui":
+
+                if (!$this->checkAccess("write", '', $this->ref_id)) {
+                    $this->tpl->setOnScreenMessage('failure', sprintf(
+                        $this->lng->txt('msg_no_perm_read_item'),
+                        $this->object->getTitle()
+                    ), true);
+
+                    $this->ctrl->redirect($this, 'view');
+                }
+
                 $this->tabs->activateTab(self::TAB_SETTINGS);
                 $this->ctrl->forwardCommand($this->getGUISettings());
                 break;
             case "ilobjlearningsequencecontentgui":
+
+                if (!$this->checkAccess("read", '', $this->ref_id)) {
+                    $this->tpl->setOnScreenMessage('failure', sprintf(
+                        $this->lng->txt('msg_no_perm_read_item'),
+                        $this->object->getTitle()
+                    ), true);
+
+                    $this->ctrl->redirect($this, 'view');
+                }
+
+
                 $this->tabs->activateTab(self::TAB_CONTENT_MAIN);
                 $this->addSubTabsForContent(self::TAB_MANAGE);
                 $this->ctrl->forwardCommand($this->getGUIManageContent());
@@ -879,4 +900,5 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected function enableDragDropFileUpload(): void
     {
     }
+
 }

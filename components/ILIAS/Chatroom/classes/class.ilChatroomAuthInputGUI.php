@@ -28,9 +28,9 @@ use ILIAS\HTTP\Response\ResponseHeader;
  */
 class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
 {
-    private const NAME_AUTH_PROP_1 = 'key';
-    private const NAME_AUTH_PROP_2 = 'secret';
-    private const DEFAULT_SHAPE = [
+    private const string NAME_AUTH_PROP_1 = 'key';
+    private const string NAME_AUTH_PROP_2 = 'secret';
+    private const array DEFAULT_SHAPE = [
         self::NAME_AUTH_PROP_1 => '',
         self::NAME_AUTH_PROP_2 => ''
     ];

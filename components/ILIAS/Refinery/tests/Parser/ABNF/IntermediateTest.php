@@ -26,6 +26,7 @@ use ILIAS\Refinery\Parser\ABNF\Intermediate;
 use ILIAS\Refinery\Parser\ABNF\Character;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use PHPUnit\Framework\Attributes\Depends;
 
 class IntermediateTest extends TestCase
 {
@@ -40,21 +41,19 @@ class IntermediateTest extends TestCase
     {
         $intermediate = new Intermediate('input');
 
-        $this->assertEquals(ord('i'), $intermediate->value());
+        $this->assertEquals(\ord('i'), $intermediate->value());
     }
 
-    /**
-     * @depends testValue
-     */
+    #[Depends('testValue')]
     public function testAccept(): void
     {
         $intermediate = new Intermediate('input');
 
-        $this->assertEquals(ord('i'), $intermediate->value());
+        $this->assertEquals(\ord('i'), $intermediate->value());
 
         $next = $intermediate->accept();
         $this->assertTrue($next->isOK());
-        $this->assertEquals(ord('n'), $next->value()->value());
+        $this->assertEquals(\ord('n'), $next->value()->value());
     }
 
     public function testReject(): void
@@ -65,17 +64,15 @@ class IntermediateTest extends TestCase
         $this->assertFalse($next->isOK());
     }
 
-    /**
-     * @depends testValue
-     * @depends testAccept
-     */
+    #[Depends('testValue')]
+    #[Depends('testAccept')]
     public function testAccepted(): void
     {
         $expected = 'in';
         $intermediate = new Intermediate('input');
         $this->assertEquals([], $intermediate->accepted());
         $accepted = $intermediate->accept()->value()->accept()->value()->accepted();
-        $this->assertTrue(is_array($accepted));
+        $this->assertIsArray($accepted);
         $actual = '';
         foreach ($accepted as $character) {
             $this->assertInstanceOf(Character::class, $character);
@@ -84,9 +81,7 @@ class IntermediateTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @depends testAccept
-     */
+    #[Depends('testAccept')]
     public function testDone(): void
     {
         $intermediate = new Intermediate('ab');
@@ -94,22 +89,17 @@ class IntermediateTest extends TestCase
         $this->assertTrue($intermediate->accept()->value()->accept()->value()->done());
     }
 
-    /**
-     * @depends testAccepted
-     * @depends testAccepted
-     * @depends testValue
-     */
+    #[Depends('testAccepted')]
+    #[Depends('testValue')]
     public function testOnlyTodo(): void
     {
         $intermediate = new Intermediate('ab');
         $intermediate = $intermediate->accept()->value()->onlyTodo();
         $this->assertEmpty($intermediate->accepted());
-        $this->assertEquals(ord('b'), $intermediate->value());
+        $this->assertEquals(\ord('b'), $intermediate->value());
     }
 
-    /**
-     * @depends testAccept
-     */
+    #[Depends('testAccept')]
     public function testTransformOnlyWithCharacters(): void
     {
         $intermediate = new Intermediate('hej');
@@ -125,9 +115,7 @@ class IntermediateTest extends TestCase
         $this->assertEquals($ok, $result);
     }
 
-    /**
-     * @depends testAccepted
-     */
+    #[Depends('testAccepted')]
     public function testPush(): void
     {
         $intermediate = new Intermediate('hej');
@@ -136,10 +124,8 @@ class IntermediateTest extends TestCase
         $this->assertEquals([$value], $intermediate->push([$value])->accepted());
     }
 
-    /**
-     * @depends testPush
-     * @depends testAccept
-     */
+    #[Depends('testPush')]
+    #[Depends('testAccept')]
     public function testTransformWithTransformedValues(): void
     {
         $intermediate = new Intermediate('hej');
@@ -151,7 +137,7 @@ class IntermediateTest extends TestCase
         $intermediate = $intermediate->push([$dummy]);
 
         $result = $intermediate->transform(function (array $accepted) use ($dummy, $ok): Result {
-            $this->assertEquals(2, count($accepted));
+            $this->assertCount(2, $accepted);
             $this->assertInstanceOf(Character::class, $accepted[0]);
             $this->assertEquals('h', $accepted[0]->value());
             $this->assertEquals($dummy, $accepted[1]);

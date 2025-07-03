@@ -56,7 +56,7 @@ class ilFileExporter extends ilXmlExporter
                 "ids" => $md_ids,
             ],
             [
-                "component" => "components/ILIAS/Object",
+                "component" => "components/ILIAS/ILIASObject",
                 "entity" => "common",
                 "ids" => $a_ids
             ]

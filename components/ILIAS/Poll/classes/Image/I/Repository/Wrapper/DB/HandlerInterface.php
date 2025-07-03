@@ -26,7 +26,7 @@ use ILIAS\Poll\Image\I\Repository\Values\HandlerInterface as ilPollImageReposito
 
 interface HandlerInterface
 {
-    public const TABLE_NAME = "il_poll_image";
+    public const string TABLE_NAME = "il_poll_image";
 
     public function insert(
         ilPollImageRepositoryKeyInterface $key,

@@ -41,6 +41,7 @@ $DIC->http()->saveResponse(
         $DIC['ilClientIniFile'],
         $DIC->logger()->auth(),
         (new DataFactory())->clock()->utc(),
+        $DIC->settings()
     )
     )->handle()
 );

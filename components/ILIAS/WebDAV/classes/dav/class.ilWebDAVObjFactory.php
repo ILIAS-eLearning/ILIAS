@@ -42,14 +42,27 @@ class ilWebDAVObjFactory
         'grp'
     ];
 
-    public function __construct(protected ilWebDAVRepositoryHelper $repository_helper, protected ilObjUser $current_user, protected Services $resource_storage, protected RequestInterface $request, protected ilLanguage $language, protected string $client_id, protected bool $versioning_enabled)
-    {
+    protected array $_cache = [];
+
+    public function __construct(
+        protected ilWebDAVRepositoryHelper $repository_helper,
+        protected ilObjUser $current_user,
+        protected Services $resource_storage,
+        protected RequestInterface $request,
+        protected ilLanguage $language,
+        protected string $client_id,
+        protected bool $versioning_enabled
+    ) {
     }
 
     public function retrieveDAVObjectByRefID(int $ref_id): INode
     {
         if (!$this->checkReadAndVisibleAccessForObj($ref_id)) {
             throw new Forbidden("No read permission for object with reference ID $ref_id");
+        }
+
+        if (isset($this->_cache[$ref_id])) {
+            return $this->_cache[$ref_id];
         }
 
         $ilias_object = ilObjectFactory::getInstanceByRefId($ref_id);
@@ -73,7 +86,7 @@ class ilWebDAVObjFactory
         }
 
         if ($ilias_object_type === 'file') {
-            return new ilDAVFile(
+            return $this->_cache[$ref_id] = new ilDAVFile(
                 $ilias_object,
                 $this->repository_helper,
                 $this->resource_storage,
@@ -83,7 +96,7 @@ class ilWebDAVObjFactory
             );
         }
 
-        return new ilDAVContainer(
+        return $this->_cache[$ref_id] = new ilDAVContainer(
             $ilias_object,
             $this->current_user,
             $this->request,
@@ -103,14 +116,17 @@ class ilWebDAVObjFactory
             throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_TITLE_NOT_DAVABLE);
         }
 
-        $ilias_object->create();
+        if ($ilias_object->getRefId() === 0) {
+            $ilias_object->create();
+            $ilias_object->createReference();
+            $ilias_object->putInTree($parent_ref_id);
+            $ilias_object->setPermissions($parent_ref_id);
+        }
 
-        $ilias_object->createReference();
-        $ilias_object->putInTree($parent_ref_id);
-        $ilias_object->setPermissions($parent_ref_id);
+        $ref_id = $ilias_object->getRefId();
 
         if ($ilias_object->getType() === 'file') {
-            return new ilDAVFile(
+            return $this->_cache[$ref_id] = new ilDAVFile(
                 $ilias_object,
                 $this->repository_helper,
                 $this->resource_storage,
@@ -120,7 +136,7 @@ class ilWebDAVObjFactory
             );
         }
 
-        return new ilDAVContainer(
+        return $this->_cache[$ref_id] = new ilDAVContainer(
             $ilias_object,
             $this->current_user,
             $this->request,
@@ -150,6 +166,9 @@ class ilWebDAVObjFactory
 
     protected function checkReadAndVisibleAccessForObj(int $child_ref): bool
     {
-        return $this->repository_helper->checkAccess("visible", $child_ref) && $this->repository_helper->checkAccess("read", $child_ref);
+        return $this->repository_helper->checkAccess("visible", $child_ref) && $this->repository_helper->checkAccess(
+            "read",
+            $child_ref
+        );
     }
 }

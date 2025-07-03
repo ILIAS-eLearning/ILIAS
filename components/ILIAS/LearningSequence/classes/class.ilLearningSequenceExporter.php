@@ -93,7 +93,7 @@ class ilLearningSequenceExporter extends ilXmlExporter
         if ($a_entity == "lso") {
             // service settings
             $res[] = [
-                "component" => "components/ILIAS/Object",
+                "component" => "components/ILIAS/ILIASObject",
                 "entity" => "common",
                 "ids" => $a_ids
             ];

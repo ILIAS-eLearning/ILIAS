@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -1395,7 +1396,7 @@ class ilMembershipGUI
         if ($added_users) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("crs_users_added"), true);
         } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_users_already_assigned"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("crs_users_already_assigned"), true);
         }
         $this->ctrl->redirect($this, 'participants');
     }

@@ -204,7 +204,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("crs_users_added"), true);
             $this->ctrl->redirect($this, 'participants');
         }
-        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_users_already_assigned"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("crs_users_already_assigned"), true);
         return false;
     }
 

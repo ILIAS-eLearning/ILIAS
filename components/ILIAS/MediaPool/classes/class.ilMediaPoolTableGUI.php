@@ -29,6 +29,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
     public const IL_MEP_EDIT = "edit";
     public const IL_MEP_SELECT_CONTENT = "selectc";
     public const IL_MEP_SELECT_SINGLE = "selectsingle";
+    protected \ILIAS\MediaObjects\Thumbs\ThumbsGUI $thumbs_gui;
     protected \ILIAS\DI\UIServices $ui;
 
     protected string $mode = "";
@@ -203,6 +204,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
             $ilAccess->checkAccess("write", "", $this->media_pool->getRefId())) {
             $this->setSelectAllCheckbox("id");
         }
+        $this->thumbs_gui = $DIC->mediaObjects()->internal()->gui()->thumbs();
     }
 
     protected function showAdvMetadata(): bool
@@ -512,45 +514,14 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 
                 // output thumbnail (or mob icon)
                 if (ilObject::_lookupType($a_set["foreign_id"]) === "mob") {
-                    $mob = new ilObjMediaObject($a_set["foreign_id"]);
-                    $med = $mob->getMediaItem("Standard");
-                    $target = "";
-
-                    // thumbnail picture
-                    if ($med) {
-                        $target = $med->getThumbnailTarget();
-                    }
-
-                    // video preview
-                    if ($target === "") {
-                        $target = $mob->getVideoPreviewPic();
-                    }
-
-                    if ($target !== "") {
-                        $this->tpl->setVariable("IMG", ilUtil::img($target));
-                    } else {
-                        $this->tpl->setVariable(
-                            "IMG",
-                            ilUtil::img(ilUtil::getImagePath("standard/icon_" . $a_set["type"] . ".svg"))
-                        );
-                    }
-                    if ($med && ilUtil::deducibleSize($med->getFormat()) &&
-                        $med->getLocationType() === "Reference") {
-                        $size = getimagesize($med->getLocation());
-                        if ($size[0] > 0 && $size[1] > 0) {
-                            $wr = $size[0] / 80;
-                            $hr = $size[1] / 80;
-                            $r = max($wr, $hr);
-                            $w = (int) ($size[0] / $r);
-                            $h = (int) ($size[1] / $r);
-                            $this->tpl->setVariable(
-                                "IMG",
-                                ilUtil::img($med->getLocation(), "", $w, $h)
-                            );
-                        }
-                    }
+                    $mob_id = (int) $a_set["foreign_id"];
+                    $this->tpl->setVariable(
+                        "IMG",
+                        $this->thumbs_gui->getThumbHtml($mob_id)
+                    );
 
                     // output media info
+                    $mob = new ilObjMediaObject($mob_id);
                     $this->tpl->setVariable(
                         "MEDIA_INFO",
                         ilObjMediaObjectGUI::_getMediaInfoHTML($mob)

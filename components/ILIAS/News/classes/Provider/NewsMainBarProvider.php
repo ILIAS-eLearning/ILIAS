@@ -50,7 +50,7 @@ class NewsMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy()->content($this->dic->language()->txt('component_not_active')))
                 ->withAvailableCallable(
                     static function () use ($dic): bool {
-                        return !($dic->settings()->get("block_activated_news") === null);
+                        return (bool) $dic->settings()->get("block_activated_news");
                     }
                 ),
         ];

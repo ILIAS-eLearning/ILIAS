@@ -113,7 +113,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
             'txt' => $this->lng->txt('trac_reference_ids_column'),
             'default' => false,
             'optional' => true,
-            'sortable' => true,
+            'sortable' => false,
             'width' => '5%'
         ];
         $columns['paths'] = [

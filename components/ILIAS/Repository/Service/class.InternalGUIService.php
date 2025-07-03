@@ -73,4 +73,13 @@ class InternalGUIService
             $this->domain_service->refinery()
         );
     }
+
+    public function ownership(): Ownership\GUIService
+    {
+        return new Ownership\GUIService(
+            $this->domain_service,
+            $this
+        );
+    }
+
 }

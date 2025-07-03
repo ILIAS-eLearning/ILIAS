@@ -51,7 +51,7 @@ interface Container
     /**
      * Sets the value for the given key
      */
-    public function set(string $key, string|int|array|bool|null $value): void;
+    public function set(string $key, string|int|array|bool|null $value, ?int $ttl = null): void;
 
     /**
      * Deletes the value for the given key

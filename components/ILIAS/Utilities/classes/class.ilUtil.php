@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -185,7 +186,7 @@ class ilUtil
             $in_style = "./templates/" . ilStyleDefinition::getCurrentSkin() . "/"
                 . ilStyleDefinition::getCurrentStyle() . "_cont.css";
         } else {
-            $in_style = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin() . "/"
+            $in_style = "./Customizing/skin/" . ilStyleDefinition::getCurrentSkin() . "/"
                 . ilStyleDefinition::getCurrentStyle() . "_cont.css";
         }
 

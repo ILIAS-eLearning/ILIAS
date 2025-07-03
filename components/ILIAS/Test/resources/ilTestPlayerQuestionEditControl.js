@@ -67,6 +67,7 @@ il.TestPlayerQuestionEditControl = new function() {
     var config = {
         isAnswered: false,
         isAnswerChanged: false,
+        isAnswerFixed: false,
         saveOnTimeReachedUrl: '',
         autosaveUrl: '',
         autosaveInterval: 0,
@@ -156,6 +157,11 @@ il.TestPlayerQuestionEditControl = new function() {
         if (config.isAnswerChanged) {
             answerChanged = true;
             stickyChanged = true;
+        }
+
+        if (config.isAnswered && config.isAnswerChanged && config.isAnswerFixed) {
+            answerChanged = false;
+            stickyChanged = false;
         }
 
         // adjust the display of status dependent elements

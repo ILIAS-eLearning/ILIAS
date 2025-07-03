@@ -26,12 +26,12 @@ use ILIAS\UI\Component\Table\Ordering;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
-use ILIAS\UI\Component\Table\OrderingBinding;
+use ILIAS\UI\Component\Table\OrderingRetrieval;
 use ILIAS\UI\Component\Table\OrderingRowBuilder;
 use ILIAS\GlobalScreen_\UI\UIHelper;
 use ILIAS\GlobalScreen\UI\Footer\Translation\TranslationsRepository;
 
-class GroupsTable implements OrderingBinding
+class GroupsTable implements OrderingRetrieval
 {
     use Hasher;
     use UIHelper;
@@ -97,6 +97,8 @@ class GroupsTable implements OrderingBinding
         return $this->ui_factory
             ->table()
             ->ordering(
+                $this,
+                $here_uri,
                 $this->translator->translate('groups'),
                 [
                     self::COLUMN_TITLE => $this->ui_factory->table()->column()->link(
@@ -109,8 +111,6 @@ class GroupsTable implements OrderingBinding
                         $this->translator->translate('items', 'group')
                     ),
                 ],
-                $this,
-                $here_uri
             )
             ->withRequest($this->request)
             ->withActions(

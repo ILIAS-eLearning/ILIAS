@@ -27,6 +27,7 @@ use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\Survey\Editing\EditManager;
 use ILIAS\Survey\Sequence\SequenceManager;
 use ILIAS\Survey\Metadata\MetadataManager;
+use ILIAS\Survey\Mode\ModeProvider;
 
 class InternalDomainService
 {
@@ -62,6 +63,11 @@ class InternalDomainService
     {
         $mode_provider = $this->mode_factory->getModeById($mode);
         return $mode_provider->getFeatureConfig();
+    }
+
+    public function modeProvider(int $mode): ModeProvider
+    {
+        return $this->mode_factory->getModeById($mode);
     }
 
     public function participants(): Participants\DomainService

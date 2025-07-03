@@ -17,6 +17,9 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
+use Monolog\LogRecord;
+
 /**
  * Logging factory
  *
@@ -40,7 +43,7 @@ class ilTraceProcessor
     /**
      * @todo fix shifting calls
      */
-    public function __invoke(array $record): array
+    public function __invoke(LogRecord $record): LogRecord
     {
         if ($record['level'] < $this->level) {
             return $record;

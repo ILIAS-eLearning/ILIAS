@@ -232,7 +232,7 @@ class CertificateSettingsCourseFormRepository implements ilCertificateFormReposi
         // without active LP the following modes cannot be supported
         if (!$this->trackingHelper->enabledLearningProgress()) {
             // status cannot be set without active LP
-            $invalid_modes[] = ilLPObjSettings::LP_MODE_MANUAL;
+            //$invalid_modes[] = ilLPObjSettings::LP_MODE_MANUAL;
             $invalid_modes[] = ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR;
             $invalid_modes[] = ilLPObjSettings::LP_MODE_COLLECTION_MANUAL;
 

@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Michael Jansen <mjansen@databay.de>
- * @ingroup ServicesMail
- */
 class ilMailSearchResult
 {
     /** @var array[] */
@@ -33,7 +29,7 @@ class ilMailSearchResult
     }
 
     /**
-     * @return int[]
+     * @return list<int>
      */
     public function getIds(): array
     {

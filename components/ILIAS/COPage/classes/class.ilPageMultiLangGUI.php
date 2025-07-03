@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
+
 /**
  * Page multilinguality GUI class.
  * This could be generalized as an object service in the future.
@@ -24,7 +27,7 @@
  */
 class ilPageMultiLangGUI
 {
-    protected ilObjectTranslation $ot;
+    protected Translations $ot;
     protected \ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected bool $single_page_mode = false;
@@ -48,7 +51,7 @@ class ilPageMultiLangGUI
         //$this->ml = new ilPageMultiLang($a_parent_type, $a_parent_id);
 
         // object translation
-        $this->ot = ilObjectTranslation::getInstance($a_parent_id);
+        $this->ot = (new TranslationsRepository($DIC->database()))->getFor($a_parent_id);
     }
 
     /**
@@ -85,10 +88,10 @@ class ilPageMultiLangGUI
         $lng->loadLanguageModule("meta");
 
         $tpl = new ilTemplate("tpl.page_multi_lang_info.html", true, true, "components/ILIAS/COPage");
-        $tpl->setVariable("TXT_MASTER_LANG", $lng->txt("obj_master_lang"));
-        $tpl->setVariable("VAL_ML", $lng->txt("meta_l_" . $this->ot->getMasterLanguage()));
+        $tpl->setVariable("TXT_MASTER_LANG", $lng->txt("obj_base_lang"));
+        $tpl->setVariable("VAL_ML", $lng->txt("meta_l_" . $this->ot->getBaseLanguage()));
         $cl = ($a_page_lang == "-")
-            ? $this->ot->getMasterLanguage()
+            ? $this->ot->getBaseLanguage()
             : $a_page_lang;
         $tpl->setVariable("TXT_CURRENT_LANG", $lng->txt("cont_current_lang"));
         $tpl->setVariable("VAL_CL", $lng->txt("meta_l_" . $cl));

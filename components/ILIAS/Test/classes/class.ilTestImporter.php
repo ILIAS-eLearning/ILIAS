@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Services as ResourceStorage;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\Logging\TestLogger;
@@ -39,12 +40,14 @@ class ilTestImporter extends ilXmlImporter
 
     private readonly TestLogger $logger;
     private readonly ilDBInterface $db;
+    private readonly ResourceStorage $irss;
 
     public function __construct()
     {
         global $DIC;
         $this->logger = TestDIC::dic()['logging.logger'];
         $this->db = $DIC['ilDB'];
+        $this->irss = $DIC['resource_storage'];
 
         parent::__construct();
     }
@@ -96,7 +99,8 @@ class ilTestImporter extends ilXmlImporter
             $qtifile,
             ilQTIParser::IL_MO_PARSE_QTI,
             $new_obj->getId(),
-            $selected_questions
+            $selected_questions,
+            $a_mapping->getAllMappings()
         );
         $qti_parser->setTestObject($new_obj);
         $qti_parser->startParsing();
@@ -118,7 +122,7 @@ class ilTestImporter extends ilXmlImporter
         }
 
         if ($results_file_path !== null && file_exists($results_file_path)) {
-            $results = new ilTestResultsImportParser($results_file_path, $new_obj, $this->db, $this->logger);
+            $results = new ilTestResultsImportParser($results_file_path, $new_obj, $this->db, $this->logger, $this->irss);
             $results->setQuestionIdMapping($a_mapping->getMappingsOfEntity('components/ILIAS/Test', 'quest'));
             $results->setSrcPoolDefIdMapping($a_mapping->getMappingsOfEntity('components/ILIAS/Test', 'rnd_src_pool_def'));
             $results->startParsing();
@@ -127,9 +131,12 @@ class ilTestImporter extends ilXmlImporter
         $new_obj->saveToDb(); // this creates test_fi
         $new_obj->update(); // this saves ilObject data
 
-        // import skill assignments
-        $importedAssignmentList = $this->importQuestionSkillAssignments($a_mapping, $new_obj, $xmlfile);
-        $this->importSkillLevelThresholds($a_mapping, $importedAssignmentList, $new_obj, $xmlfile);
+        $this->importSkillLevelThresholds(
+            $a_mapping,
+            $this->importQuestionSkillAssignments($a_mapping, $new_obj, $xmlfile),
+            $new_obj,
+            $xmlfile
+        );
 
         $a_mapping->addMapping("components/ILIAS/Test", "tst", (string) $a_id, (string) $new_obj->getId());
         $a_mapping->addMapping(

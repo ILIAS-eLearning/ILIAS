@@ -23,6 +23,8 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Location;
 use ILIAS\MediaObjects\InternalDomainService;
+use ILIAS\MediaObjects\Thumbs\ThumbsManager;
+use ILIAS\MediaObjects\MediaObjectManager;
 
 define("IL_MODE_ALIAS", 1);
 define("IL_MODE_OUTPUT", 2);
@@ -34,7 +36,8 @@ define("IL_MODE_FULL", 3);
 class ilObjMediaObject extends ilObject
 {
     public const DEFAULT_PREVIEW_SIZE = 80;
-    protected \ILIAS\MediaObjects\MediaObjectManager $manager;
+    protected ThumbsManager $thumbs;
+    protected MediaObjectManager $manager;
     protected InternalDomainService $domain;
     protected ilObjUser $user;
     public bool $is_alias;
@@ -59,6 +62,7 @@ class ilObjMediaObject extends ilObject
         $this->image_converter = $DIC->fileConverters()->legacyImages();
         $this->domain = $DIC->mediaObjects()->internal()->domain();
         $this->manager = $this->domain->mediaObject();
+        $this->thumbs = $this->domain->thumbs();
     }
 
     public static function _exists(
@@ -90,12 +94,6 @@ class ilObjMediaObject extends ilObject
         $mob_logger->debug("ilObjMediaObject: ... Found " . count($usages) . " usages.");
 
         if (count($usages) == 0) {
-            // remove directory
-            ilFileUtils::delDir(ilObjMediaObject::_getDirectory($this->getId()));
-
-            // remove thumbnail directory
-            ilFileUtils::delDir(ilObjMediaObject::_getThumbnailDirectory($this->getId()));
-
             // delete meta data of mob
             $this->deleteMetaData();
 
@@ -284,8 +282,11 @@ class ilObjMediaObject extends ilObject
         return $this->origin_id;
     }
 
-    public function create(bool $a_create_meta_data = false, bool $a_save_media_items = true): int
-    {
+    public function create(
+        bool $a_create_meta_data = false,
+        bool $a_save_media_items = true,
+        int $from_mob_id = 0
+    ): int {
         $id = parent::create();
 
         if (!$a_create_meta_data) {
@@ -293,7 +294,8 @@ class ilObjMediaObject extends ilObject
         }
         $this->manager->create(
             $id,
-            $this->getTitle()
+            $this->getTitle(),
+            $from_mob_id
         );
 
         if ($a_save_media_items) {
@@ -394,16 +396,6 @@ class ilObjMediaObject extends ilObject
     }
 
     /**
-     * get directory for files of media object
-     */
-    public static function _getThumbnailDirectory(
-        int $a_mob_id,
-        string $a_mode = "filesystem"
-    ): string {
-        return ilFileUtils::getWebspaceDir($a_mode) . "/thumbs/mm_" . $a_mob_id;
-    }
-
-    /**
      * Get path for item with specific purpose.
      */
     public static function _lookupItemPath(
@@ -442,16 +434,6 @@ class ilObjMediaObject extends ilObject
         if (!is_dir($path)) {
             throw new ilMediaObjectsException("Failed to create directory $path.");
         }
-    }
-
-    /**
-     * Create thumbnail directory
-     */
-    public static function _createThumbnailDirectory(
-        int $a_obj_id
-    ): void {
-        ilFileUtils::createDirectory(ilFileUtils::getWebspaceDir() . "/thumbs");
-        ilFileUtils::createDirectory(ilFileUtils::getWebspaceDir() . "/thumbs/mm_" . $a_obj_id);
     }
 
     public function getFilesOfDirectory(
@@ -602,6 +584,9 @@ class ilObjMediaObject extends ilObject
 
                     // Parameter
                     $parameters = $item->getParameters();
+                    if ($item->getFormat() === "video/vimeo") {
+                        $parameters = ilExternalMediaAnalyzer::extractVimeoParameters($item->getLocation());
+                    }
                     foreach ($parameters as $name => $value) {
                         $xml .= "<Parameter Name=\"$name\" Value=\"" . $this->escapeProperty($value) . "\"/>";
                     }
@@ -609,7 +594,8 @@ class ilObjMediaObject extends ilObject
 
                     // Subtitles
                     if ($item->getPurpose() == "Standard") {
-                        $srts = $this->getSrtFiles();
+                        $this->manager->generateMissingVTT($this->getId());
+                        $srts = $this->getSrtFiles(true);
                         foreach ($srts as $srt) {
                             $def = "";
                             $meta_lang = "";
@@ -617,7 +603,7 @@ class ilObjMediaObject extends ilObject
                                 $ilUser->getLanguage() == $srt["language"]) {
                                 $def = ' Default="true" ';
                             }
-                            $xml .= "<Subtitle File=\"" . $srt["full_path"] .
+                            $xml .= "<Subtitle File=\"" . $srt["src"] .
                                 "\" Language=\"" . $srt["language"] . "\" " . $def . "/>";
                         }
                     }
@@ -637,15 +623,14 @@ class ilObjMediaObject extends ilObject
 
                 // full xml for export
             case IL_MODE_FULL:
-
-                //				$meta = $this->getMetaData();
                 $xml = "<MediaObject>";
 
-                // meta data
-                $md2xml = new ilMD2XML(0, $this->getId(), $this->getType());
-                $md2xml->setExportMode(true);
-                $md2xml->startExport();
-                $xml .= $md2xml->getXML();
+                // Title and Identifier
+                $xml .= "<Identifier Entry=\"il_" . IL_INST_ID . "_mob_" . $this->getId() . "\"/>";
+                if ($this->getTitle() != "") {
+                    $xml .= "<Title>" .
+                        $this->escapeProperty($this->getTitle()) . "</Title>";
+                }
 
                 $media_items = $this->getMediaItems();
                 for ($i = 0; $i < count($media_items); $i++) {
@@ -1547,18 +1532,19 @@ class ilObjMediaObject extends ilObject
         string $a_mode = "move_uploaded"
     ): void {
         $a_subdir = str_replace("..", "", $a_subdir);
-        $dir = $mob_dir = ilObjMediaObject::_getDirectory($this->getId());
-        if ($a_subdir != "") {
-            $dir .= "/" . $a_subdir;
-        }
-        ilFileUtils::makeDirParents($dir);
         if ($a_mode == "rename") {
-            ilFileUtils::rename($tmp_name, $dir . "/" . $a_name);
+            $this->manager->addFileFromLocal(
+                $this->getId(),
+                $tmp_name,
+                $a_subdir . "/" . $a_name
+            );
         } else {
-            ilFileUtils::moveUploadedFile($tmp_name, $a_name, $dir . "/" . $a_name, true, $a_mode);
+            $this->manager->addFileFromLegacyUpload(
+                $this->getId(),
+                $tmp_name,
+                $a_subdir . "/" . $a_name
+            );
         }
-        self::renameExecutables($mob_dir);
-        ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339
     }
 
     public function addAdditionalFileFromUpload(
@@ -1578,34 +1564,15 @@ class ilObjMediaObject extends ilObject
         string $a_mode = "move_uploaded"
     ): bool {
         if (is_file($a_tmp_name) && $a_language != "") {
-            $this->uploadAdditionalFile("subtitle_" . $a_language . ".srt", $a_tmp_name, "srt", $a_mode);
+            $this->uploadAdditionalFile("subtitle_" . $a_language . ".vtt", $a_tmp_name, "srt", $a_mode);
             return true;
         }
         return false;
     }
 
-    public function getSrtFiles(): array
+    public function getSrtFiles(bool $vtt_only = false): array
     {
-        $srt_dir = ilObjMediaObject::_getDirectory($this->getId()) . "/srt";
-
-        if (!is_dir($srt_dir)) {
-            return array();
-        }
-
-        $items = ilFileUtils::getDir($srt_dir);
-
-        $srt_files = array();
-        foreach ($items as $i) {
-            if (!in_array($i["entry"], array(".", "..")) && $i["type"] == "file") {
-                $name = explode(".", $i["entry"]);
-                if ($name[1] == "srt" && substr($name[0], 0, 9) == "subtitle_") {
-                    $srt_files[] = array("file" => $i["entry"],
-                        "full_path" => "srt/" . $i["entry"], "language" => substr($name[0], 9, 2));
-                }
-            }
-        }
-
-        return $srt_files;
+        return $this->manager->getSrtFiles($this->getId(), $vtt_only);
     }
 
     /**
@@ -1689,18 +1656,10 @@ class ilObjMediaObject extends ilObject
             $new_obj->addMediaItem($val);
         }
 
-        $new_obj->create(false, true);
-
-        // files
-        $new_obj->createDirectory();
-        self::_createThumbnailDirectory($new_obj->getId());
-        ilFileUtils::rCopy(
-            ilObjMediaObject::_getDirectory($this->getId()),
-            ilObjMediaObject::_getDirectory($new_obj->getId())
-        );
-        ilFileUtils::rCopy(
-            ilObjMediaObject::_getThumbnailDirectory($this->getId()),
-            ilObjMediaObject::_getThumbnailDirectory($new_obj->getId())
+        $new_obj->create(
+            false,
+            true,
+            $this->getId()              // "from" id
         );
 
         // meta data
@@ -1757,7 +1716,7 @@ class ilObjMediaObject extends ilObject
     ): string {
 
         if (!$a_filename_only) {
-            $src = $this->manager->getLocalSrc($this->getId(), "mob_vpreview.png");
+            $src = $this->thumbs->getPreviewSrc($this->getId());
             if ($src !== "") {
                 return $src;
             }
@@ -1822,8 +1781,8 @@ class ilObjMediaObject extends ilObject
         $dir = $this->getMultiSrtUploadDir();
         ilFileUtils::delDir($dir, true);
         ilFileUtils::makeDirParents($dir);
-        ilFileUtils::moveUploadedFile($a_file["tmp_name"], "multi_srt.zip", $dir . "/" . "multi_srt.zip");
-        $this->domain->resources()->zip()->unzipFile($dir . "/multi_srt.zip");
+        ilFileUtils::moveUploadedFile($a_file["tmp_name"], "multi_vtt.zip", $dir . "/" . "multi_vtt.zip");
+        $this->domain->resources()->zip()->unzipFile($dir . "/multi_vtt.zip");
     }
 
     /**
@@ -1848,7 +1807,7 @@ class ilObjMediaObject extends ilObject
         foreach ($files as $k => $i) {
             // check directory
             if ($i["type"] == "file" && !in_array($k, array(".", ".."))) {
-                if (pathinfo($k, PATHINFO_EXTENSION) == "srt") {
+                if (pathinfo($k, PATHINFO_EXTENSION) == "vtt") {
                     $lang = "";
                     if (substr($k, strlen($k) - 7, 1) == "_") {
                         $lang = substr($k, strlen($k) - 6, 2);
@@ -1893,10 +1852,10 @@ class ilObjMediaObject extends ilObject
                 if ($ext == "") {
                     $ext = "jpg";
                 }
-                copy(
+                $this->manager->addPreviewFromUrl(
+                    $this->getId(),
                     $meta["thumbnail_url"],
-                    ilObjMediaObject::_getDirectory($this->getId()) . "/mob_vpreview." .
-                    $ext
+                    "/mob_vpreview." . $ext
                 );
             }
             if (ilExternalMediaAnalyzer::isYoutube($st_item->getLocation())) {
@@ -1918,9 +1877,10 @@ class ilObjMediaObject extends ilObject
                 $url = parse_url($thumbnail_url);
                 if ($thumbnail_url !== "") {
                     $file = basename($url["path"]);
-                    copy(
+                    $this->manager->addPreviewFromUrl(
+                        $this->getId(),
                         $meta["thumbnail_url"],
-                        ilObjMediaObject::_getDirectory($this->getId()) . "/mob_vpreview." .
+                        "/mob_vpreview." .
                         pathinfo($file, PATHINFO_EXTENSION)
                     );
                 }
@@ -1940,15 +1900,6 @@ class ilObjMediaObject extends ilObject
 
     protected function getLocationSrc(string $purpose): string
     {
-        $med = $this->getMediaItem($purpose);
-        if (strcasecmp("Reference", $med?->getLocationType()) === 0) {
-            $src = $med?->getLocation();
-        } else {
-            $src = $this->manager->getLocalSrc(
-                $this->getId(),
-                $med?->getLocation()
-            );
-        }
-        return $src;
+        return (string) $this->getMediaItem($purpose)?->getLocationSrc();
     }
 }

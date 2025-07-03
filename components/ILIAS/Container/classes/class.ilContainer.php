@@ -17,6 +17,8 @@
  *********************************************************************/
 
 use ILIAS\News\Service as News;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Translations\Language;
 
 /**
  * Class ilContainer
@@ -75,7 +77,7 @@ class ilContainer extends ilObject
     protected bool $news_timeline = false;
     protected bool $news_timeline_auto_entries = false;
     protected ilSetting $setting;
-    protected ?ilObjectTranslation $obj_trans = null;
+    protected ?Translations $obj_trans = null;
     protected int $style_id = 0;
     protected bool $news_timeline_landing_page = false;
     protected bool $news_block_activated = false;
@@ -103,9 +105,6 @@ class ilContainer extends ilObject
         $this->setting = $DIC["ilSetting"];
         parent::__construct($a_id, $a_reference);
 
-        if ($this->getId() > 0) {
-            $this->obj_trans = ilObjectTranslation::getInstance($this->getId());
-        }
         $this->recommended_content_manager = new ilRecommendedContentManager();
         $this->content_style_domain = $DIC->contentStyle()->domain();
         $this->domain = $DIC->container()->internal()->domain();
@@ -126,12 +125,12 @@ class ilContainer extends ilObject
         ];
     }
 
-    public function getObjectTranslation(): ?ilObjectTranslation
+    public function getObjectTranslation(): ?Translations
     {
         return $this->obj_trans;
     }
 
-    public function setObjectTranslation(?ilObjectTranslation $obj_trans): void
+    public function setObjectTranslation(?Translations $obj_trans): void
     {
         $this->obj_trans = $obj_trans;
     }
@@ -412,14 +411,12 @@ class ilContainer extends ilObject
         $log = ilLoggerFactory::getLogger("cont");
 
         // translations
-        $ot = ilObjectTranslation::getInstance($this->getId());
-        $ot->setDefaultTitle($new_obj->getTitle());     // get possible "- COPY" extension
-        $ot->copy($new_obj->getId());
-        $ot2 = ilObjectTranslation::getInstance($new_obj->getId());
-        $ot2->read();
-        $new_obj->setObjectTranslation($ot2);
-        if ($ot2->getDefaultDescription() !== "") {
-            $new_obj->setDescription($ot2->getDefaultDescription());
+        $ot = $this->getObjectProperties()->clonePropertyTranslations($new_obj->getId());
+        $ot->setDefaultTitle($new_obj->getTitle());
+        $new_obj->getObjectProperties()->storePropertyTranslations($ot);
+        $new_obj->setObjectTranslation($ot);
+        if ($ot->getDefaultDescription() !== "") {
+            $new_obj->setDescription($ot->getDefaultDescription());
         }
         $log->debug("**1**" . count($new_obj->getObjectTranslation()->getLanguages()));
         $log->debug("ilContainer: cloning translations from " . $this->getId() . " to " .
@@ -462,6 +459,10 @@ class ilContainer extends ilObject
         ilBlockSetting::cloneSettingsOfBlock("news", $this->getId(), $new_obj->getId());
         $mom_noti = new ilMembershipNotifications($this->getRefId());
         $mom_noti->cloneSettings($new_obj->getRefId());
+
+        // clone filter fields
+        $container_filter_service = new ilContainerFilterService();
+        $container_filter_service->cloneFilterFields($this->getRefId(), $new_obj->getRefId());
 
         return $new_obj;
     }
@@ -581,7 +582,7 @@ class ilContainer extends ilObject
             return false;
         }
         // delete translations
-        $this->obj_trans->delete();
+        $this->getObjectProperties()->deletePropertyTranslations();
 
         return true;
     }
@@ -827,7 +828,7 @@ class ilContainer extends ilObject
         $ret = parent::create();
 
         // set translation object, since we have an object id now
-        $this->obj_trans = ilObjectTranslation::getInstance($this->getId());
+        $this->obj_trans = $this->getObjectProperties()->getPropertyTranslations();
 
         // add default translation
         $this->addTranslation(
@@ -871,12 +872,13 @@ class ilContainer extends ilObject
         $ret = parent::update();
 
         $log = ilLoggerFactory::getLogger("cont");
-        $log->debug("**5**" . count($this->getObjectTranslation()->getLanguages()));
+        $log->debug("**5**" . count($this->getObjectProperties()->getPropertyTranslations()->getLanguages()));
 
-        $trans = $this->getObjectTranslation();
-        $trans->setDefaultTitle($this->getTitle());
-        $trans->setDefaultDescription($this->getLongDescription());
-        $trans->save();
+        $this->getObjectProperties()->storePropertyTranslations(
+            $this->getObjectProperties()->getPropertyTranslations()
+                ->withDefaultTitle($this->getTitle())
+                ->withDefaultDescription($this->getLongDescription())
+        );
 
         $log = ilLoggerFactory::getLogger("cont");
         $log->debug(":::::::::::::::::::::::::::");
@@ -905,7 +907,7 @@ class ilContainer extends ilObject
         //$this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
         $this->readContainerSettings();
-        $this->obj_trans = ilObjectTranslation::getInstance($this->getId());
+        $this->obj_trans = $this->getObjectProperties()->getPropertyTranslations();
     }
 
     public function readContainerSettings(): void
@@ -1024,13 +1026,13 @@ class ilContainer extends ilObject
     // Remove all translations of container
     public function removeTranslations(): void
     {
-        $this->obj_trans->delete();
+        $this->getObjectProperties()->deletePropertyTranslations();
     }
 
     public function deleteTranslation(string $a_lang): void
     {
-        $this->obj_trans->removeLanguage($a_lang);
-        $this->obj_trans->save();
+        $this->obj_trans = $this->obj_trans->withoutLanguage($a_lang);
+        $this->getObjectProperties()->storePropertyTranslations($this->obj_trans);
     }
 
     public function addTranslation(
@@ -1043,8 +1045,15 @@ class ilContainer extends ilObject
             $a_title = "NO TITLE";
         }
 
-        $this->obj_trans->addLanguage($a_lang, $a_title, $a_desc, (bool) $a_lang_default, true);
-        $this->obj_trans->save();
+        $this->obj_trans = $this->obj_trans->withLanguage(
+            new Language(
+                $a_lang,
+                $a_title,
+                $a_desc,
+                (bool) $a_lang_default
+            )
+        );
+        $this->getObjectProperties()->storePropertyTranslations($this->obj_trans);
     }
 
     protected function applyContainerUserFilter(

@@ -18,23 +18,18 @@
 
 declare(strict_types=1);
 
-/**
- * Apache auth provider
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @author Michael Jansen <mjansen@databay.de>
- */
 final class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderAccountMigrationInterface
 {
-    public const APACHE_AUTH_TYPE_DIRECT_MAPPING = 1;
-    public const APACHE_AUTH_TYPE_EXTENDED_MAPPING = 2;
-    public const APACHE_AUTH_TYPE_BY_FUNCTION = 3;
+    public const int APACHE_AUTH_TYPE_DIRECT_MAPPING = 1;
+    public const int APACHE_AUTH_TYPE_EXTENDED_MAPPING = 2;
+    public const int APACHE_AUTH_TYPE_BY_FUNCTION = 3;
 
-    private const ENV_APACHE_AUTH_INDICATOR_NAME = 'apache_auth_indicator_name';
+    private const string ENV_APACHE_AUTH_INDICATOR_NAME = 'apache_auth_indicator_name';
 
-    private const ERR_WRONG_LOGIN = 'err_wrong_login';
+    private const string ERR_WRONG_LOGIN = 'err_wrong_login';
 
-    private const APACHE_ENABLE_LDAP = 'apache_enable_ldap';
-    private const APACHE_LDAP_SID = 'apache_ldap_sid';
+    private const string APACHE_ENABLE_LDAP = 'apache_enable_ldap';
+    private const string APACHE_LDAP_SID = 'apache_ldap_sid';
 
     private readonly ilSetting $settings;
     private string $migration_account = '';
@@ -65,7 +60,7 @@ final class ilAuthProviderApache extends ilAuthProvider implements ilAuthProvide
 
         $validIndicatorValues = array_filter(array_map(
             'trim',
-            str_getcsv($this->settings->get('apache_auth_indicator_value', ''))
+            str_getcsv($this->settings->get('apache_auth_indicator_value', ''), ',', '"', '\\')
         ));
         //TODO PHP8-REVIEW: $DIC->http()->request()->getServerParams()['apache_auth_indicator_name']
         if (

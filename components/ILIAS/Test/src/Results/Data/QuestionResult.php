@@ -37,7 +37,6 @@ class QuestionResult
         private readonly string $feedback,
         private readonly bool $workedthrough,
         private readonly bool $answered,
-        private readonly int $requested_hints,
         private readonly ?string $content_for_recapitulation
     ) {
     }
@@ -103,9 +102,5 @@ class QuestionResult
     public function getContentForRecapitulation(): ?string
     {
         return $this->content_for_recapitulation;
-    }
-    public function getNumberOfRequestedHints(): int
-    {
-        return $this->requested_hints;
     }
 }

@@ -356,7 +356,7 @@ class ilUserProfile
                 break;
 
             case 'noneditable':
-                if ($this->mode !== self::MODE_DESKTOP || $this->userSettingVisible($field_id)) {
+                if ($this->mode !== self::MODE_DESKTOP || !$this->userSettingVisible($field_id)) {
                     break;
                 }
 

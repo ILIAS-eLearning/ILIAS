@@ -258,21 +258,16 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $keys = $this->getChoiceKeys();
         foreach ($keys as $answer_id) {
             $answer = $this->object->answers[$answer_id];
-            if (($active_id > 0) && (!$show_correct_solution)) {
-                if ($graphical_output) {
-                    $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK);
-
-                    if (strcmp($user_solution, $answer_id) == 0) {
-                        if ($answer->getPoints() == $this->object->getMaximumPoints()) {
-                            $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK);
-                        } elseif ($answer->getPoints() > 0) {
-                            $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_MOSTLY_OK);
-                        }
-                    }
-                    $template->setCurrentBlock('icon_ok');
-                    $template->setVariable('ICON_OK', $correctness_icon);
-                    $template->parseCurrentBlock();
-                }
+            if ($active_id > 0 && !$show_correct_solution && $graphical_output) {
+                $correctness = $this->generateCorrectness(
+                    (string) $user_solution,
+                    (string) $answer_id,
+                    $answer->getPoints(),
+                    $this->object->getMaximumPoints()
+                );
+                $template->setCurrentBlock('icon_ok');
+                $template->setVariable('ICON_OK', $this->generateCorrectnessIconsForCorrectness($correctness));
+                $template->parseCurrentBlock();
             }
             if ($answer->hasImage()) {
                 $template->setCurrentBlock('answer_image');
@@ -298,7 +293,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $template->setVariable('ANSWER_TEXT', ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true));
 
             if ($this->renderPurposeSupportsFormHtml() || $this->isRenderPurposePrintPdf()) {
-                if (strcmp($user_solution, $answer_id) == 0) {
+                if ((string) $user_solution === (string) $answer_id) {
                     $template->setVariable('SOLUTION_IMAGE', ilUtil::getHtmlPath(ilUtil::getImagePath('object/radiobutton_checked.png')));
                     $template->setVariable('SOLUTION_ALT', $this->lng->txt('checked'));
                 } else {
@@ -309,7 +304,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 $template->setVariable('QID', $this->object->getId());
                 $template->setVariable('SUFFIX', $show_correct_solution ? 'bestsolution' : 'usersolution');
                 $template->setVariable('SOLUTION_VALUE', $answer_id);
-                if (strcmp($user_solution, $answer_id) == 0) {
+                if ((string) $user_solution === (string) $answer_id) {
                     $template->setVariable('SOLUTION_CHECKED', 'checked');
                 }
             }
@@ -349,6 +344,28 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $solutionoutput = $this->getILIASPage($solutionoutput);
         }
         return $solutionoutput;
+    }
+
+    private function generateCorrectness(
+        string $user_solution,
+        string $answer_id,
+        float $answer_points,
+        float $maximum_points
+    ): int {
+        if ($user_solution === $answer_id
+                && $answer_points === $maximum_points
+            || $user_solution !== $answer_id
+                && $answer_points === 0.0
+        ) {
+            return self::CORRECTNESS_OK;
+        }
+
+        if ($user_solution === $answer_id
+            && $answer_points > 0.0) {
+            return self::CORRECTNESS_MOSTLY_OK;
+        }
+
+        return self::CORRECTNESS_NOT_OK;
     }
 
     public function getPreview(
@@ -401,7 +418,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
             if (is_object($this->getPreviewSession())) {
                 $user_solution = $this->getPreviewSession()->getParticipantsSolution();
-                if ($user_solution === (string) $answer_id) {
+                if ((string) $user_solution === (string) $answer_id) {
                     $template->setVariable('CHECKED_ANSWER', ' checked="checked"');
                 }
             }
@@ -472,13 +489,14 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                     $template->parseCurrentBlock();
                 }
             }
+
             if ($show_specific_inline_feedback) {
                 $this->populateInlineFeedback($template, $answer_id, $user_solution);
             }
             $template->setCurrentBlock('answer_row');
             $template->setVariable('ANSWER_ID', $answer_id);
             $template->setVariable('ANSWER_TEXT', ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true));
-            if (strcmp($user_solution, $answer_id) == 0) {
+            if ($user_solution === (string) $answer_id) {
                 $template->setVariable('CHECKED_ANSWER', ' checked="checked"');
             }
             $template->parseCurrentBlock();
@@ -612,7 +630,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 $answertext = $answer;
                 $this->object->addAnswer(
                     $answertext,
-                    $choice['points'][$index],
+                    $this->refinery->kindlyTo()->float()->transform($choice['points'][$index]),
                     $index,
                     null,
                     $choice['answer_id'][$index]
@@ -759,7 +777,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 break;
 
             case 2:
-                if (strcmp((string) $user_solution, $answer_id) == 0) {
+                if ((string) $user_solution === (string) $answer_id) {
                     $feedbackOutputRequired = true;
                 }
                 break;

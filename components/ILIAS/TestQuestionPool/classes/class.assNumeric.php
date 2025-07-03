@@ -146,8 +146,6 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
             $points = $this->getPoints();
         }
 
-        $reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
-
         return $this->ensureNonNegativePoints($reachedPoints);
     }
 
@@ -421,7 +419,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
     {
         return [
             AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
-            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitleForHTMLOutput(),
             AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
             AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS => $additional_info
                 ->getTrueFalseTagForBool($this->getShuffle()),

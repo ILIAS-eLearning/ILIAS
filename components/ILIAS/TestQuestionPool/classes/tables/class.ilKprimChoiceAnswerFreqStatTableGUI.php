@@ -26,7 +26,7 @@
  */
 class ilKprimChoiceAnswerFreqStatTableGUI extends ilAnswerFrequencyStatisticTableGUI
 {
-    protected function getTrueOptionLabel()
+    private function getTrueOptionLabel(): string
     {
         return $this->question->getTrueOptionLabelTranslation(
             $this->language,
@@ -34,7 +34,7 @@ class ilKprimChoiceAnswerFreqStatTableGUI extends ilAnswerFrequencyStatisticTabl
         );
     }
 
-    protected function getFalseOptionLabel()
+    private function getFalseOptionLabel(): string
     {
         return $this->question->getFalseOptionLabelTranslation(
             $this->language,
@@ -42,13 +42,11 @@ class ilKprimChoiceAnswerFreqStatTableGUI extends ilAnswerFrequencyStatisticTabl
         );
     }
 
-
     public function initColumns(): void
     {
-        $lng = $this->language;
-        $this->addColumn($lng->txt('tst_corr_answ_stat_tbl_header_answer'), '');
-        $this->addColumn($lng->txt('tst_corr_answ_stat_tbl_header_frequency') . ': ' . $this->getTrueOptionLabel(), '');
-        $this->addColumn($lng->txt('tst_corr_answ_stat_tbl_header_frequency') . ': ' . $this->getFalseOptionLabel(), '');
+        $this->addColumn($this->language->txt('tst_corr_answ_stat_tbl_header_answer'), '');
+        $this->addColumn($this->language->txt('tst_corr_answ_stat_tbl_header_frequency') . ': ' . $this->getTrueOptionLabel(), '');
+        $this->addColumn($this->language->txt('tst_corr_answ_stat_tbl_header_frequency') . ': ' . $this->getFalseOptionLabel(), '');
 
         foreach ($this->getData() as $row) {
             if (isset($row['addable'])) {

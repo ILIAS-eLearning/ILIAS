@@ -69,9 +69,7 @@ class ColumnFactoryTest extends AbstractFactoryTestCase
         ];
     }
 
-    /**
-     * @dataProvider getColumnTypeProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getColumnTypeProvider')]
     public function testDataTableColsImplementInterfaces(\Closure $col): void
     {
         $factory = $this->buildColumnFactory();

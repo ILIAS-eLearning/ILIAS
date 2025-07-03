@@ -27,8 +27,9 @@ class ilWebDAVMountInstructionsTableDataProvider
     public function getList(): array
     {
         $items = $this->mount_instructions_repository->getAllMountInstructions();
-        return ['items' => $items,
-                    'cnt' => count($items)
-            ];
+        return [
+            'items' => $items,
+            'cnt' => count($items)
+        ];
     }
 }

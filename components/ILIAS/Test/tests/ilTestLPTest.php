@@ -24,9 +24,7 @@ class ilTestLPTest extends ilTestBaseTestCase
         $this->assertInstanceOf(ilTestLP::class, $ilTestLPTest);
     }
 
-    /**
-     * @dataProvider getDefaultModesDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDefaultModesDataProvider')]
     public function testGetDefaultModes(bool $input, array $output): void
     {
         $this->assertEquals($output, ilTestLP::getDefaultModes($input));

@@ -189,6 +189,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $this->editQuestion();
                 return 1;
             } else {
+                $this->saveTaxonomyAssignments();
                 $this->resetSavedPreviewSession();
                 return 0;
             }

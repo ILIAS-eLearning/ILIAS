@@ -64,6 +64,23 @@ class Handler implements ilExportHandlerManagerInterface
         $this->data_factory_wrapper = $data_factory_wrapper;
     }
 
+    protected function getExportTargetWithObject(
+        ilObject $export_object
+    ) {
+        $obj_id = $export_object->getId();
+        $type = $export_object->getType();
+        $class = ilImportExportFactory::getExporterClass($type);
+        $comp = ilImportExportFactory::getComponentForExport($type);
+        $v = explode(".", ILIAS_VERSION_NUMERIC);
+        $target_release = $v[0] . "." . $v[1] . ".0";
+        return $this->export_handler->target()->handler()
+            ->withTargetRelease($target_release)
+            ->withType($type)
+            ->withObjectIds([$obj_id])
+            ->withClassname($class)
+            ->withComponent($comp);
+    }
+
     protected function getExportTarget(
         ObjectId $object_id
     ): ilExportHandlerTargetInterface {
@@ -188,6 +205,14 @@ class Handler implements ilExportHandlerManagerInterface
     ): ilExportHandlerExportInfoInterface {
         return $this->export_handler->info()->export()->handler()
             ->withTarget($this->getExportTarget($object_id), $time_stamp);
+    }
+
+    public function getExportInfoWithObject(
+        ilObject $export_object,
+        int $time_stamp
+    ): ilExportHandlerExportInfoInterface {
+        return $this->export_handler->info()->export()->handler()
+            ->withTarget($this->getExportTargetWithObject($export_object), $time_stamp);
     }
 
     public function getContainerExportInfo(

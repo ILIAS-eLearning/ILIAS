@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitleBuilder;
+use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Table\DataRetrieval;
@@ -33,32 +34,25 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilTestArchiver
 {
-    public const DIR_SEP = '/';
+    public const DIR_SEP = DIRECTORY_SEPARATOR;
 
-    public const HTML_SUBMISSION_FILENAME = 'test_submission.html';
-    public const PASS_MATERIALS_PATH_COMPONENT = 'materials';
-    public const QUESTION_PATH_COMPONENT_PREFIX = 'q_';
+    public const EXPORT_DIRECTORY = 'archive_exports';
 
-    public const TEST_BEST_SOLUTION_PATH_COMPONENT = 'best_solution';
-    public const HTML_BEST_SOLUTION_FILENAME = 'best_solution.html';
-    public const TEST_MATERIALS_PATH_COMPONENT = 'materials';
+    private const PASS_MATERIALS_PATH_COMPONENT = 'materials';
+    private const QUESTION_PATH_COMPONENT_PREFIX = 'q_';
+
+    private const TEST_BEST_SOLUTION_PATH_COMPONENT = 'best_solution';
+    private const HTML_BEST_SOLUTION_FILENAME = 'best_solution.html';
+    private const TEST_MATERIALS_PATH_COMPONENT = 'materials';
 
     private const TEST_RESULT_FILENAME = 'test_result.html';
 
-    public const TEST_OVERVIEW_HTML_FILENAME = 'results_overview_html_v';
-    public const TEST_OVERVIEW_HTML_POSTFIX = '.html';
+    private const LOG_DTSGROUP_FORMAT = 'D M j G:i:s T Y';
+    private const LOG_ADDITION_STRING = ' Adding ';
 
-    public const LOG_DTSGROUP_FORMAT = 'D M j G:i:s T Y';
-    public const LOG_ADDITION_STRING = ' Adding ';
-    public const LOG_CREATION_STRING = ' Creating ';
-    public const LOG_UPDATE_STRING = ' Updating ';
-    public const LOG_DELETION_STRING = ' Deleting ';
-
-    public const TEST_LOG_FILENAME = 'test.log';
-    public const DATA_INDEX_FILENAME = 'data_index.csv';
-    public const ARCHIVE_LOG = 'archive.log';
-
-    public const EXPORT_DIRECTORY = 'archive_exports';
+    private const TEST_LOG_FILENAME = 'test_log.xlsx';
+    private const DATA_INDEX_FILENAME = 'data_index.csv';
+    private const ARCHIVE_LOG = 'archive.log';
 
     private string $external_directory_path;
     private string $client_id = CLIENT_ID;
@@ -78,6 +72,7 @@ class ilTestArchiver
         private readonly ServerRequestInterface $request,
         private readonly ilObjectDataCache $obj_cache,
         private readonly ilTestParticipantAccessFilterFactory $participant_access_filter_factory,
+        private readonly TestLogViewer $log_viewer,
         private readonly int $test_obj_id,
         private ?int $test_ref_id = null
     ) {
@@ -111,16 +106,16 @@ class ilTestArchiver
         $this->ensurePassDataDirectoryIsAvailable($active_fi, $pass);
 
         $pass_question_directory = $this->getPassDataDirectory($active_fi, $pass)
-            . self::DIR_SEP . self::QUESTION_PATH_COMPONENT_PREFIX . $question_fi;
+            . DIRECTORY_SEPARATOR . self::QUESTION_PATH_COMPONENT_PREFIX . $question_fi;
         if (!is_dir($pass_question_directory)) {
             mkdir($pass_question_directory, 0777, true);
         }
 
-        copy($file_path, $pass_question_directory . self::DIR_SEP . $original_filename);
+        copy($file_path, $pass_question_directory . DIRECTORY_SEPARATOR . $original_filename);
 
         $this->logArchivingProcess(
             date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING
-            . $pass_question_directory . self::DIR_SEP . $original_filename
+            . $pass_question_directory . DIRECTORY_SEPARATOR . $original_filename
         );
     }
 
@@ -132,7 +127,7 @@ class ilTestArchiver
     ): void {
         $this->ensureTestArchiveIsAvailable();
         $this->ensurePassDataDirectoryIsAvailable($active_fi, $pass);
-        $new_path = $this->getPassDataDirectory($active_fi, $pass) . self::DIR_SEP . $original_filename;
+        $new_path = $this->getPassDataDirectory($active_fi, $pass) . DIRECTORY_SEPARATOR . $original_filename;
         copy($file_path, $new_path);
         $this->logArchivingProcess(date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING . $new_path);
     }
@@ -141,19 +136,19 @@ class ilTestArchiver
     {
         $this->ensureTestArchiveIsAvailable();
 
-        $best_solution_path = $this->getTestArchive() . self::DIR_SEP . self::TEST_BEST_SOLUTION_PATH_COMPONENT;
+        $best_solution_path = $this->getTestArchive() . DIRECTORY_SEPARATOR . self::TEST_BEST_SOLUTION_PATH_COMPONENT;
         if (!is_dir($best_solution_path)) {
             mkdir($best_solution_path, 0777, true);
         }
 
         $this->html_generator->generateHTML(
             $best_solution,
-            $best_solution_path . self::DIR_SEP . self::HTML_BEST_SOLUTION_FILENAME
+            $best_solution_path . DIRECTORY_SEPARATOR . self::HTML_BEST_SOLUTION_FILENAME
         );
 
         $this->logArchivingProcess(
             date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING
-            . $best_solution_path . self::DIR_SEP . self::HTML_BEST_SOLUTION_FILENAME
+            . $best_solution_path . DIRECTORY_SEPARATOR . self::HTML_BEST_SOLUTION_FILENAME
         );
 
         $this->logArchivingProcess(
@@ -174,7 +169,7 @@ class ilTestArchiver
                 $this->ensurePassDataDirectoryIsAvailable($active_fi, $pass);
                 $this->ensurePassMaterialsDirectoryIsAvailable($active_fi, $pass);
                 $pass_material_directory = $this->getPassMaterialsDirectory($active_fi, $pass);
-                $archive_folder = $pass_material_directory . self::DIR_SEP . $question->question_id . self::DIR_SEP;
+                $archive_folder = $pass_material_directory . DIRECTORY_SEPARATOR . $question->question_id . DIRECTORY_SEPARATOR;
                 if (!file_exists($archive_folder)) {
                     mkdir($archive_folder, 0777, true);
                 }
@@ -205,26 +200,26 @@ class ilTestArchiver
     ): void {
         $this->ensureTestArchiveIsAvailable();
 
-        $best_solution_path = $this->getTestArchive() . self::DIR_SEP . self::TEST_BEST_SOLUTION_PATH_COMPONENT;
+        $best_solution_path = $this->getTestArchive() . DIRECTORY_SEPARATOR . self::TEST_BEST_SOLUTION_PATH_COMPONENT;
         if (!is_dir($best_solution_path)) {
             mkdir($best_solution_path, 0777, true);
         }
 
-        $materials_path = $best_solution_path . self::DIR_SEP . self::TEST_MATERIALS_PATH_COMPONENT;
+        $materials_path = $best_solution_path . DIRECTORY_SEPARATOR . self::TEST_MATERIALS_PATH_COMPONENT;
         if (!is_dir($materials_path)) {
             mkdir($materials_path, 0777, true);
         }
 
-        $question_materials_path = $materials_path . self::DIR_SEP . self::QUESTION_PATH_COMPONENT_PREFIX . $question_fi;
+        $question_materials_path = $materials_path . DIRECTORY_SEPARATOR . self::QUESTION_PATH_COMPONENT_PREFIX . $question_fi;
         if (!is_dir($question_materials_path)) {
             mkdir($question_materials_path, 0777, true);
         }
 
-        copy($file_path, $question_materials_path . self::DIR_SEP . $orginial_filename);
+        copy($file_path, $question_materials_path . DIRECTORY_SEPARATOR . $orginial_filename);
 
         $this->logArchivingProcess(
             date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING
-            . $question_materials_path . self::DIR_SEP . $orginial_filename
+            . $question_materials_path . DIRECTORY_SEPARATOR . $orginial_filename
         );
     }
 
@@ -232,7 +227,7 @@ class ilTestArchiver
     {
         $this->ensureTestArchiveIsAvailable();
         $this->ensurePassDataDirectoryIsAvailable($active_fi, $pass);
-        $new_path = $this->getPassDataDirectory($active_fi, $pass) . self::DIR_SEP . self::TEST_RESULT_FILENAME;
+        $new_path = $this->getPassDataDirectory($active_fi, $pass) . DIRECTORY_SEPARATOR . self::TEST_RESULT_FILENAME;
         copy($pdf_path, $new_path);
         $this->logArchivingProcess(date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING . $new_path);
     }
@@ -249,8 +244,8 @@ class ilTestArchiver
 
     protected function getTestArchive(): string
     {
-        $test_archive_directory = $this->external_directory_path . self::DIR_SEP . $this->client_id . self::DIR_SEP . 'tst_data'
-            . self::DIR_SEP . 'archive' . self::DIR_SEP . 'tst_' . $this->test_obj_id;
+        $test_archive_directory = $this->external_directory_path . DIRECTORY_SEPARATOR . $this->client_id . DIRECTORY_SEPARATOR . 'tst_data'
+            . DIRECTORY_SEPARATOR . 'archive' . DIRECTORY_SEPARATOR . 'tst_' . $this->test_obj_id;
         return $test_archive_directory;
     }
 
@@ -264,14 +259,11 @@ class ilTestArchiver
 
     public function updateTestArchive(): void
     {
-        $query = 'SELECT * FROM ass_log WHERE obj_fi = ' . $this->db->quote($this->test_obj_id, 'integer');
-        $result = $this->db->query($query);
-
-        $outfile_lines = '';
-        while (($row = $this->db->fetchAssoc($result)) !== null) {
-            $outfile_lines .= "\r\n" . implode("\t", $row);
-        }
-        file_put_contents($this->getTestArchive() . self::DIR_SEP . self::TEST_LOG_FILENAME, $outfile_lines);
+        $this->log_viewer->getLogExportForRefjId(
+            $this->test_ref_id
+        )->writeToFile(
+            $this->getTestArchive() . DIRECTORY_SEPARATOR . self::TEST_LOG_FILENAME
+        );
 
         // Generate test pass overview
         $test = new ilObjTest($this->test_obj_id, false);
@@ -286,7 +278,7 @@ class ilTestArchiver
             $array_of_actives[] = $key;
         }
 
-        $filename = realpath($this->getTestArchive()) . self::DIR_SEP . 'participant_attempt_overview.html';
+        $filename = realpath($this->getTestArchive()) . DIRECTORY_SEPARATOR . 'participant_attempt_overview.html';
         $this->html_generator->generateHTML(
             $this->createUserResultsForArchive(
                 $test,
@@ -315,8 +307,8 @@ class ilTestArchiver
 
     public function getZipExportDirectory(): string
     {
-        return $this->external_directory_path . self::DIR_SEP . $this->client_id . self::DIR_SEP . 'tst_data'
-            . self::DIR_SEP . self::EXPORT_DIRECTORY . self::DIR_SEP . 'tst_' . $this->test_obj_id;
+        return $this->external_directory_path . DIRECTORY_SEPARATOR . $this->client_id . DIRECTORY_SEPARATOR . 'tst_data'
+            . DIRECTORY_SEPARATOR . self::EXPORT_DIRECTORY . DIRECTORY_SEPARATOR . 'tst_' . $this->test_obj_id;
     }
 
     public function compressTestArchive(): void
@@ -325,9 +317,9 @@ class ilTestArchiver
         $this->ensureZipExportDirectoryExists();
 
         $zip_output_path = $this->getZipExportDirectory();
-        $zip_output_filename = 'test_archive_obj_' . $this->test_obj_id . '_' . time() . '_.zip';
+        $zip_output_filename = 'test_archive_obj_' . $this->test_obj_id . '_' . time() . '.zip';
 
-        ilFileUtils::zip($this->getTestArchive(), $zip_output_path . self::DIR_SEP . $zip_output_filename, true);
+        ilFileUtils::zip($this->getTestArchive(), $zip_output_path . DIRECTORY_SEPARATOR . $zip_output_filename, true);
         return;
     }
 
@@ -347,7 +339,7 @@ class ilTestArchiver
         foreach ($this->archive_data_index as $data_index_entry) {
             if ($data_index_entry != null && $data_index_entry['identifier'] == $active_fi . '|' . $pass) {
                 array_shift($data_index_entry);
-                return $this->getTestArchive() . self::DIR_SEP . implode(self::DIR_SEP, $data_index_entry);
+                return $this->getTestArchive() . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $data_index_entry);
             }
         }
 
@@ -364,21 +356,18 @@ class ilTestArchiver
 
         $test_obj = new ilObjTest($this->test_obj_id, false);
         if ($test_obj->getAnonymity()) {
-            $firstname = 'anonym';
+            $firstname = $this->lng->txt('anonymous');
             $lastname = '';
-            $matriculation = '0';
+            $matriculation = '';
+        } elseif ($this->getParticipantData()) {
+            $usr_data = $this->getParticipantData()->getUserDataByActiveId($active_fi);
+            $firstname = $usr_data['firstname'] ?? $this->lng->txt('deleted_user');
+            $lastname = $usr_data['lastname'] ?? '';
+            $matriculation = $usr_data['matriculation'] ?? '';
         } else {
-            if ($this->getParticipantData()) {
-                $usr_data = $this->getParticipantData()->getUserDataByActiveId($active_fi);
-                $firstname = $usr_data['firstname'];
-                $lastname = $usr_data['lastname'];
-                $matriculation = $usr_data['matriculation'];
-            } else {
-
-                $firstname = $this->user->getFirstname();
-                $lastname = $this->user->getLastname();
-                $matriculation = $this->user->getMatriculation();
-            }
+            $firstname = $this->user->getFirstname();
+            $lastname = $this->user->getLastname();
+            $matriculation = $this->user->getMatriculation();
         }
 
         $this->appendToArchiveDataIndex(
@@ -421,10 +410,9 @@ class ilTestArchiver
         if ($this->getParticipantData()) {
             $usrData = $this->getParticipantData()->getUserDataByActiveId($active_fi);
             $user = new ilObjUser();
-            $user->setFirstname($usrData['firstname']);
-            $user->setLastname($usrData['lastname']);
-            $user->setMatriculation($usrData['matriculation']);
-            $user->setFirstname($usrData['firstname']);
+            $user->setFirstname($usrData['firstname'] ?? $this->lng->txt('deleted_user'));
+            $user->setLastname($usrData['lastname'] ?? '');
+            $user->setMatriculation($usrData['matriculation'] ?? '');
         }
 
         $this->appendToArchiveDataIndex(
@@ -443,7 +431,7 @@ class ilTestArchiver
     protected function getPassMaterialsDirectory(int $active_fi, int $pass): string
     {
         $pass_data_directory = $this->getPassDataDirectory($active_fi, $pass);
-        return $pass_data_directory . self::DIR_SEP . self::PASS_MATERIALS_PATH_COMPONENT;
+        return $pass_data_directory . DIRECTORY_SEPARATOR . self::PASS_MATERIALS_PATH_COMPONENT;
     }
 
     protected function ensurePassMaterialsDirectoryIsAvailable(int $active_fi, int $pass): void
@@ -459,7 +447,7 @@ class ilTestArchiver
          * The Archive Data Index is a csv-file containing the following columns
          * <active_fi>|<pass>|<yyyy>|<mm>|<dd>|<directory>
          */
-        $data_index_file = $this->getTestArchive() . self::DIR_SEP . self::DATA_INDEX_FILENAME;
+        $data_index_file = $this->getTestArchive() . DIRECTORY_SEPARATOR . self::DATA_INDEX_FILENAME;
 
         $contents = [];
 
@@ -503,7 +491,7 @@ class ilTestArchiver
             $output_contents .= implode('|', $line_data) . "\n";
         }
 
-        file_put_contents($this->getTestArchive() . self::DIR_SEP . self::DATA_INDEX_FILENAME, $output_contents);
+        file_put_contents($this->getTestArchive() . DIRECTORY_SEPARATOR . self::DATA_INDEX_FILENAME, $output_contents);
         $this->readArchiveDataIndex();
         return;
     }
@@ -598,9 +586,9 @@ class ilTestArchiver
         );
 
         $table = $this->ui_factory->table()->data(
+            $this->getDataRetrievalForAttemptOverviewTable($result_array),
             $test_result_title_builder->getPassDetailsHeaderLabel($attempt + 1),
-            $this->getColumnsForAttemptOverviewTable($test_obj->isOfferingQuestionHintsEnabled()),
-            $this->getDataRetrievalForAttemptOverviewTable($result_array)
+            $this->getColumnsForAttemptOverviewTable(),
         )->withRequest($this->request);
         $template->setVariable(
             'PASS_DETAILS',
@@ -646,9 +634,8 @@ class ilTestArchiver
         return $template->get();
     }
 
-    private function getColumnsForAttemptOverviewTable(
-        bool $show_requested_hints_info
-    ): array {
+    private function getColumnsForAttemptOverviewTable(): array
+    {
         $cf = $this->ui_factory->table()->column();
         $columns = [
             'order' => $cf->number($this->lng->txt('order')),
@@ -657,9 +644,6 @@ class ilTestArchiver
             'reachable_points' => $cf->number($this->lng->txt('tst_maximum_points')),
             'reached_points' => $cf->number($this->lng->txt('tst_reached_points'))
         ];
-        if ($show_requested_hints_info) {
-            $columns['hints'] = $cf->number($this->lng->txt('tst_question_hints_requested_hint_count_header'));
-        }
         $columns['solved'] = $cf->text($this->lng->txt('tst_percent_solved'));
         return $columns;
     }
@@ -693,7 +677,6 @@ class ilTestArchiver
                             'title' => $result['title'],
                             'reachable_points' => $result['max'],
                             'reached_points' => $result['reached'],
-                            'hints' => $result['requested_hints'] ?? 0,
                             'solved' => $result['percent']
                         ]
                     );
@@ -711,7 +694,7 @@ class ilTestArchiver
 
     private function logArchivingProcess(string $message): void
     {
-        $archive = $this->getTestArchive() . self::DIR_SEP . self::ARCHIVE_LOG;
+        $archive = $this->getTestArchive() . DIRECTORY_SEPARATOR . self::ARCHIVE_LOG;
         if (file_exists($archive)) {
             $content = file_get_contents($archive) . "\n" . $message;
         } else {

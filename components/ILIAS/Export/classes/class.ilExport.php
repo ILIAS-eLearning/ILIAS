@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Export\ExportHandler\I\Consumer\ExportWriter\HandlerInterface as ilExportHandlerConsumerExportWriterInterface;
+use ILIAS\Export\ExportHandler\I\Info\Export\Path\HandlerInterface as ExportPathInfoInterface;
 
 /**
  * Export
@@ -32,7 +33,7 @@ class ilExport
 
     protected ilLogger $log;
     protected ilExportHandlerConsumerExportWriterInterface $export_writer;
-    protected string $export_dir_in_container;
+    protected ExportPathInfoInterface $export_path_info;
 
     private static array $new_file_structure = array('cat',
                                                'exc',
@@ -59,15 +60,44 @@ class ilExport
         $this->log = $DIC->logger()->exp();
     }
 
-    public function setExportDirInContainer(
-        string $export_dir_in_container
+    public function setPathInfo(
+        ExportPathInfoInterface $export_path_info
     ): void {
-        $this->export_dir_in_container = $export_dir_in_container;
+        $this->export_path_info = $export_path_info;
     }
 
+    /**
+     * @return string the path to the export directory of the current component in the container, for example:
+     * "1737382047__0__cat_100/components/ILIAS/Style/set_0
+     */
     public function getExportDirInContainer(): string
     {
-        return $this->export_dir_in_container;
+        return $this->export_path_info->getPathToComponentDirInContainer();
+    }
+
+    /**
+     * @return string the path to the expDir folder in the export directory of the current component in the container,
+     * for example:
+     * "1737382047__0__cat_100/components/ILIAS/Style/set_0/expDir_1
+     */
+    public function getPathToComponentExpDirInContainer(): string
+    {
+        return $this->export_path_info->getPathToComponentExpDirInContainer();
+    }
+
+    public function getPathToComponentExpDirInContainerWithLeadingSetNumber(): string
+    {
+        return "set_" . $this->export_path_info->getSetNumber() . DIRECTORY_SEPARATOR . $this->export_path_info->getPathToComponentExpDirInContainer();
+    }
+
+    public function getSetNumber(): int
+    {
+        return $this->export_path_info->getSetNumber();
+    }
+
+    public function isContainerExport(): bool
+    {
+        return $this->export_path_info->isContainerExport();
     }
 
     public function setExportDirectories(

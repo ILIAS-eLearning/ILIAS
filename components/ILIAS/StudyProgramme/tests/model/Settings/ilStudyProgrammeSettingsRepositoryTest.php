@@ -42,9 +42,7 @@ class ilStudyProgrammeSettingsRepositoryTest extends \PHPUnit\Framework\TestCase
         return $repo;
     }
 
-    /**
-     * @depends test_init
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('test_init')]
     public function testPRGRepoEditAndUpdate(ilStudyProgrammeSettingsDBRepository $repo)
     {
         $this->markTestSkipped('Failed for some unknown reason.');
@@ -125,9 +123,7 @@ class ilStudyProgrammeSettingsRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($set->getPoints(), 10);
     }
 
-    /**
-     * @depends testPRGRepoEditAndUpdate
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testPRGRepoEditAndUpdate')]
     public function testPRGRepoDelete()
     {
         $this->expectException(\LogicException::class);

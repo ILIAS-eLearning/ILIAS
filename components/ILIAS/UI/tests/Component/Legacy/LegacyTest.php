@@ -69,9 +69,7 @@ class LegacyTest extends ILIAS_UI_TestBase
         $this->assertEquals("Legacy Content", $r->render($g));
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCreateWithCustomSignal(): void
     {
         $f = $this->getUIFactory();

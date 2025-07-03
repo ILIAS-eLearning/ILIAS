@@ -216,7 +216,7 @@ administration#:#language_former_file_equal#:#El Archivo <b>%s</b> es idéntico 
 administration#:#language_former_file_missing#:#El archivo <b>%s</b> no se encuentra.
 administration#:#language_import_file#:#Importar Archivo de idioma
 administration#:#language_load_local_changes#:#Cargar Archivo de idioma local en la base de datos
-administration#:#language_load_local_changes_info#:#Carga el archvio Customizing/global/lang/ilias_%s_lang.local en la base de datos. Las nuevas entradas de este archivo se añaden a la base de datos y las entradas que existan se sobreescriben.
+administration#:#language_load_local_changes_info#:#Carga el archvio lang/customizing/ilias_%s_lang.local en la base de datos. Las nuevas entradas de este archivo se añaden a la base de datos y las entradas que existan se sobreescriben.
 administration#:#language_loaded_local#:#El Archivo de idioma local fue cargado en la base de datos
 administration#:#language_local_file_deleted#:#El Archivo local de idioma ha sido eliminado.
 administration#:#language_maintain#:#Mantener
@@ -237,12 +237,12 @@ administration#:#language_mode_existing_replace_info#:#Importa las nuevas entrad
 administration#:#language_note_translation#:#El modo de traducción de página se activa para cada idioma por separado. Además el usuario necesita permisos de lectura y visibilidad en la carpeta de idioma.
 administration#:#language_process_maintenance#:#Mantenimiento de proceso
 administration#:#language_remove_local_file#:#Eliminar el Archivo local de idioma
-administration#:#language_remove_local_file_info#:#Borra el archivo Customizing/global/lang/ilias_%s_lang.local y cambia el estado del idioma de "Instalado En Local" a "Instalado". Los cambios en la base de datos no se tocan.
+administration#:#language_remove_local_file_info#:#Borra el archivo lang/customizing/ilias_%s_lang.local y cambia el estado del idioma de "Instalado En Local" a "Instalado". Los cambios en la base de datos no se tocan.
 administration#:#language_save_dist#:#Copia de seguridad del archivo de lenguaje estándar
 administration#:#language_save_dist_failed#:#No se ha podido escribir la copia de seguridad del archivo de lenguaje ILIAS estándar.
 administration#:#language_save_dist_info#:#Cree una copia de seguridad del archivo de lenguaje ILIAS en el directorio de datos ILIAS. Esto es útil después de una actualización de ILIAS para buscar conflictos entre los propios cambios y las variables del lenguaje actualizadas.
 administration#:#language_save_local_changes#:#Guardar todos los cambios al Archivo de idioma local
-administration#:#language_save_local_changes_info#:#Guarda todas las entradas añadidas o cambiadas en la base de datos en el fichero Customizing/global/lang/ilias_%s_lang.local y establece el estado del idioma a "Instalado En Local". El servidor web debe tener permiso de escritura en esta carpeta. Tenga en cuenta que este fichero es el mismo para todos los clientes de la instalación.
+administration#:#language_save_local_changes_info#:#Guarda todas las entradas añadidas o cambiadas en la base de datos en el fichero lang/customizing/ilias_%s_lang.local y establece el estado del idioma a "Instalado En Local". El servidor web debe tener permiso de escritura en esta carpeta. Tenga en cuenta que este fichero es el mismo para todos los clientes de la instalación.
 administration#:#language_saved_dist#:#Se ha creado la copia de seguridad del archivo de lenguaje ILIAS estándar.
 administration#:#language_scope_added#:#Solamente cambios locales
 administration#:#language_scope_added_info#:#Exportar todas las entradas que se han añadido localmente. Esto se puede usar para hacer un backup adicional de las entradas en desarrollo antes de borrar los cambios locales con la pestaña "Mantener".
@@ -740,7 +740,7 @@ assessment#:#finalized_evaluation#:#Scoring completed###07 02 2020 new variable
 assessment#:#finalized_on#:#Completed at###07 02 2020 new variable
 assessment#:#finish_all_user_passes#:#Finalizar todos los intentos de test
 assessment#:#finish_pass_for_all_users#:#¿Seguro que desea finalizar los intentos de test de todos los usuarios?
-assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.###26 08 2024 new variable
+assessment#:#finish_pass_for_multiple_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.###26 08 2024 new variable
 assessment#:#finish_pass_for_user_confirmation#:#¿Seguro que desea finalizar este intento de test?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).###26 08 2024 new variable
 assessment#:#finish_test#:#Grabar y finalizar el test
@@ -2077,8 +2077,6 @@ auth#:#auth_account_migration_new#:#Crear nueva cuenta de usuario
 auth#:#auth_activation_code_success#:#Su cuenta se ha reactivado. Ahora puede iniciar sesión en ILIAS.
 auth#:#auth_allow_local_info#:#Si se habilita, aún será posible una autenticación local en la base de datos ILIAS (con una contraseña/inicio de sesión local) para aquellas cuentas de usuario cuyo modo de autenticación esté configurado como SAML.
 auth#:#auth_auth_settings#:#Configuración
-auth#:#auth_cas_ldap#:#Sincronización usando LDAP
-auth#:#auth_cas_ldap_info#:#Si está activado, la sincronización de cuentas de usuarios y asignación de roles se hace usando una configuración existente de LDAP
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###26 08 2024 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###26 08 2024 new variable
 auth#:#auth_err_expired#:#Se ha desactivado su sesión debido a la inactividad.
@@ -2181,8 +2179,6 @@ auth#:#auth_saml_user_mapping#:#Asignación de perfil de usuario
 auth#:#auth_saml_username_claim#:#Atributo para nombre de usuario
 auth#:#auth_saml_username_claim_info#:#Defina el atributo que usa ILIAS para generar el nombre de usuario que será visible en ILIAS.
 auth#:#auth_sync#:#Sincronización de usuario
-auth#:#auth_sync_cas#:#Generación automática de cuentas de usuarios
-auth#:#auth_sync_cas_info#:#Crea cuentas de usuario ILIAS de forma automática, para los usuarios que se han autenticado contra CAS, sin tener una cuenta ILIAS todavía
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3600,13 +3596,6 @@ common#:#attachments#:#Archivos adjuntos
 common#:#attempts#:#Intentos
 common#:#auth_active_roles#:#Roles globales activados para el registro
 common#:#auth_allow_local#:#Permitir Autenticación Local
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#Esto le permite a los usuarios CAS autenticarse con su usuario local ILIAS y una contraseña local
-common#:#auth_cas_auth#:#Configurar autenticación CAS
-common#:#auth_cas_auth_desc#:#Para que la autenticación CAS funcione, debe establecerse la configuración del servidor prevent_super_global_replacement en client.ini.php.
-common#:#auth_cas_port_desc#:#Ej. 443 si la URI del servidor CAS es https://auth.yourserver.com:443/cas/
-common#:#auth_cas_server_desc#:#Ej. auth.yourserver.com si la URI del servidor CAS es https://auth.yourserver.com:443/cas/
-common#:#auth_cas_uri_desc#:#Local URI, e.g. cas si la URI del servidor CAS https://auth.yourserver.com:443/cas/
 common#:#auth_configure#:#configurar...
 common#:#auth_create_users#:#Crear usuarios no existentes automáticamente
 common#:#auth_default#:#Configuración por defecto
@@ -4062,7 +4051,6 @@ common#:#entry_status#:#Entry status###07 02 2020 new variable
 common#:#err_1_param#:#Sólo 1 parámetro!
 common#:#err_2_param#:#Sólo 2 parámetros!
 common#:#err_auth_apache_failed#:#La autenticación ha fallado. Tal vez no tiene un certificado de usuario válido o su tarjeta inteligente no ha sido introducida.
-common#:#err_auth_cas_no_ilias_user#:#Login incorrecto. La autenticación CAS fue ejecutada con éxito, pero no existe un usuario ILIAS asociado. Por favor contacte con su administrador
 common#:#err_auth_ldap_no_ilias_user#:#La identificación falló. Autenticación LDAP exitosa, pero no existe el usuario ILIAS correspondiente. Por favor, contacte con su administrador de sistema.
 common#:#err_auth_mode_inactive#:#Su método de autenticación está desactivado.
 common#:#err_auth_soap_no_ilias_user#:#La identificación falló. La autenticación SOAP tuvo éxito, pero no existe usuario ILIAS correspondiente. Por favor contacte con el administrador del sistema.
@@ -4596,7 +4584,6 @@ common#:#login_information_desc#:#Por favor introduzca la información de login 
 common#:#login_information_settings_saved#:#La información de entrada se almacenó correctamente
 common#:#login_invalid#:#El login escogido es inválido! Sólo los siguientes caracteres están permitidos (mínimo 4 caracteres): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#entrada a ILIAS
-common#:#login_to_ilias_via_cas#:#Entrar a ILIAS a través de un Servicio de Autenticación Centralizado
 common#:#login_to_ilias_via_saml#:#Iniciar sesión en ILIAS mediante autenticación SAML
 common#:#login_to_ilias_via_shibboleth#:#Entrar a ILIAS vía
 common#:#loginname_already_exists#:#Este nombre de usuario ya existe
@@ -5906,7 +5893,7 @@ common#:#user_defined_list#:#Ver campos definidos por el usuario
 common#:#user_deleted#:#Usuario eliminado
 common#:#user_detail#:#Datos Detallados
 common#:#user_ext_account#:#Cuenta Externa
-common#:#user_ext_account_desc#:#Cuenta usada para autenticación externa. (autenticación CAS o SOAP)
+common#:#user_ext_account_desc#:#Cuenta usada para autenticación externa. (SOAP)
 common#:#user_image#:#Imagen de Usuario
 common#:#user_import_failed#:#La importación de usuarios falló.
 common#:#user_imported#:#Importación de Usuario completada.
@@ -6758,7 +6745,6 @@ content#:#cont_localfile#:#Fichero local
 content#:#cont_localization#:#Localización
 content#:#cont_localization_info#:#Lenguaje utilizado en los textos predefinidos, ejemplo. "Anterior" y "Siguiente"
 content#:#cont_location#:#Localización
-content#:#cont_lpe_cas_login_form#:#Formulario de inicio de sesión CAS
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###26 08 2024 new variable
 content#:#cont_lpe_language_selection#:#Selección de idioma
 content#:#cont_lpe_login_form#:#Formulario de inicio de sesión
@@ -10739,7 +10725,7 @@ ldap#:#ldap_add_missing#:#Asignar Roles ausentes
 ldap#:#ldap_add_remove#:#Añadir/Eliminar Roles
 ldap#:#ldap_add_role_ass_rule#:#Nueva regla para asignación de rol
 ldap#:#ldap_as_ds#:#Usar como fuente de datos
-ldap#:#ldap_as_ds_info#:#Si se activa, la configuración de este ldap se usa para sincronización de cuentas de usuario con otros métodos de autenticación (ej. CAS)
+ldap#:#ldap_as_ds_info#:#Si se activa, la configuración de este ldap se usa para sincronización de cuentas de usuario con otros métodos de autenticación
 ldap#:#ldap_assignment_type#:#Tipo de asignación
 ldap#:#ldap_authentication_settings#:#Configuración de Autenticación
 ldap#:#ldap_bind_anonymous#:#Bind Anónimamente
@@ -13020,8 +13006,9 @@ obj#:#obj_activate_content_lang#:#Activar traducción para Edición de Página
 obj#:#obj_activate_multilang#:#Activar soporte para múltiples idiomas
 obj#:#obj_activation#:#Activación
 obj#:#obj_activation_list_gui#:#Disponibilidad
-obj#:#obj_add_languages#:#Añadir Idiomas
+obj#:#obj_add_language#:#Añadir Idioma
 obj#:#obj_additional_langs#:#Idiomas adicionales
+obj#:#obj_base_lang#:#Idioma principal
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###26 08 2024 new variable
 obj#:#obj_cont_transl_deactivated#:#Se ha desactivado la traducción en la edición de página
 obj#:#obj_copy_progress#:#Propreso de copia
@@ -13034,7 +13021,6 @@ obj#:#obj_features#:#Características
 obj#:#obj_import_file_error#:#El fichero no puede importarse. Por favor, compruebe que es un fichero de explortación ILIAS válido (formato de  explortación XML ), del mismo tipo de objeto. El nombre de fichero no debe modificarse después de generarlo. Mensaje de error:
 obj#:#obj_insert_into_clipboard#:#Insertar en el Portapapeles
 obj#:#obj_inserted_clipboard#:#Los objetos se han movido al portapapeles
-obj#:#obj_master_lang#:#Idioma principal
 obj#:#obj_more_translations#:#More Translations
 obj#:#obj_multilang_deactivated#:#El soporte para múltiples idiomas ha sido desactivado.
 obj#:#obj_multilang_title_descr_only#:#La traducción está activada únicamente para el título y la descripción. El soporte de traducción para edición de Página ("Página personalizada") necesita activación adicional
@@ -13043,7 +13029,7 @@ obj#:#obj_orgunit_positions#:#Control de acceso por posiciones de unidad organiz
 obj#:#obj_orgunit_positions_info#:#Si se habilita, se pueden definir reglas de control de acceso adicionales por posiciones en las unidades organizativas.
 obj#:#obj_permission_settings#:#Configuración de permisos
 obj#:#obj_presentation#:#Presentación
-obj#:#obj_select_master_lang#:#Por favor seleccione el idioma principal. El contenido actual será asignado al idioma principal. El idioma principal no se podrá cambiar después.
+obj#:#obj_select_base_lang#:#Por favor seleccione el idioma principal. El contenido actual será asignado al idioma principal. El idioma principal no se podrá cambiar después.
 obj#:#obj_select_one_language#:#Please select one language###29 07 2022 new variable
 obj#:#obj_set_fallback_lang#:#Set default language###29 07 2022 new variable
 obj#:#obj_settings_for_all_members#:#Los miembros recibirán notificaciones automáticamente
@@ -14609,6 +14595,7 @@ rbac#:#rbac_role_rights_copy_empty#:#Ninguno
 rbac#:#rbac_role_selection#:#Tipo de rol
 rbac#:#rbac_role_title#:#Título de rol
 rbac#:#rbac_select_copy_targets#:#Seleccione un nuevo rol
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_global#:#Rol local definido por usuario
 rbac#:#rbac_ud_local#:#Rol local definido por usuario
 rbac#:#rbac_ud_rolt#:#Plantilla de rol definida por el usuario

@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailMimeTransportSendmail
- */
 class ilMailMimeTransportSendmail extends ilMailMimeTransportBase
 {
 }

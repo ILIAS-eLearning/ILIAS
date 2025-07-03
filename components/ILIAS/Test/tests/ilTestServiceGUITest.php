@@ -70,9 +70,7 @@ class ilTestServiceGUITest extends ilTestBaseTestCase
         $this->assertEquals($mock, $this->testObj->getObjectiveOrientedContainer());
     }
 
-    /**
-     * @dataProvider buildFixedShufflerSeedDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('buildFixedShufflerSeedDataProvider')]
     public function testBuildFixedShufflerSeed(int $question_id, int $pass_id, int $active_id, int $return): void
     {
         $reflection = new ReflectionClass(ilTestShuffler::class);

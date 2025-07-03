@@ -214,7 +214,7 @@ administration#:#language_former_file_equal#:#ファイル <b>%s</b>は現在の
 administration#:#language_former_file_missing#:#ファイル <b>%s</b>がありません。
 administration#:#language_import_file#:#言語ファイルのインポート
 administration#:#language_load_local_changes#:#ローカル言語ファイルをデータベースへ読込む
-administration#:#language_load_local_changes_info#:#Customizing/global/lang/ilias_%s_lang.localファイルをデータベースへロードします。 このファイルの新しいエントリーはデータベースへ追加されて既存のエントリーは上書きされます。
+administration#:#language_load_local_changes_info#:#lang/customizing/ilias_%s_lang.localファイルをデータベースへロードします。 このファイルの新しいエントリーはデータベースへ追加されて既存のエントリーは上書きされます。
 administration#:#language_loaded_local#:#ローカル言語ファイルがデータベースへ読込まれました。
 administration#:#language_local_file_deleted#:#ローカル言語ファイルが削除されました。
 administration#:#language_maintain#:#メンテナンス
@@ -235,12 +235,12 @@ administration#:#language_mode_existing_replace_info#:#新しいエントリー�
 administration#:#language_note_translation#:#ページ送信モードは各言語毎に使用可能になります。なお、ユーザは言語フォルダへの読み書き権利が必要です。
 administration#:#language_process_maintenance#:#プロセスメンテナンス
 administration#:#language_remove_local_file#:#ローカル言語ファイルを削除します
-administration#:#language_remove_local_file_info#:#Customizing/global/lang/ilias_%s_lang.localを削除して言語ステータスを"ローカルをインストール済み"から "インストール済み"へ変更します。データベース内の変更はされません。
+administration#:#language_remove_local_file_info#:#lang/customizing/ilias_%s_lang.localを削除して言語ステータスを"ローカルをインストール済み"から "インストール済み"へ変更します。データベース内の変更はされません。
 administration#:#language_save_dist#:#標準言語ファイルをバックアップ
 administration#:#language_save_dist_failed#:#標準ilias言語ファイルのバックアップを書き込みできませんでした。
 administration#:#language_save_dist_info#:#iliasデータディレクトリ内に標準ilias言語ファイルのバックアップを作成。これはilias更新後に更新した言語変更自体のコンフリクトを発見する際に役立ちます。
 administration#:#language_save_local_changes#:#全ての変更をローカル言語ファイルへ保存
-administration#:#language_save_local_changes_info#:#Customizing/global/lang/ilias_%s_lang.localファイルへローカルに追加または変更されたデータベースエントリーを保存して言語ステータスを "ローカルへインストール済み"に設定します。Webサーバはこのフォルダの書き込み権が必要です。このファイルはこのシステムの全クライアント用として同じであることに注意願います。
+administration#:#language_save_local_changes_info#:#lang/customizing/ilias_%s_lang.localファイルへローカルに追加または変更されたデータベースエントリーを保存して言語ステータスを "ローカルへインストール済み"に設定します。Webサーバはこのフォルダの書き込み権が必要です。このファイルはこのシステムの全クライアント用として同じであることに注意願います。
 administration#:#language_saved_dist#:#標準ILIAS言語ファイルのバックアップが作成されます。
 administration#:#language_scope_added#:#ローカル追加のみ
 administration#:#language_scope_added_info#:#データベースへローカルに追加された全てのエントリーをエクスポートします。ローカル変更が"保守"タブで削除される前に追加の開発エントリーのバックアップ用として利用できます。
@@ -738,7 +738,7 @@ assessment#:#finalized_evaluation#:#採点完了
 assessment#:#finalized_on#:#完了時刻
 assessment#:#finish_all_user_passes#:#全てのテスト受験を終了します
 assessment#:#finish_pass_for_all_users#:#全ユーザ用のテスト受験を本当に終了しますか。
-assessment#:#finish_pass_for_all_users_in_processing_time#:#少なくともまだ一人のユーザが処理時間内のため全ユーザと一緒に合格終了する事はできません。
+assessment#:#finish_pass_for_multiple_users_in_processing_time#:#少なくともまだ一人のユーザが処理時間内のため全ユーザと一緒に合格終了する事はできません。
 assessment#:#finish_pass_for_user_confirmation#:#このテスト受験を本当に終了しますか。
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: やむを得ない理由(例: テストから除外)に限りテストランから終了すべきです。
 assessment#:#finish_test#:#テストを終了
@@ -2075,8 +2075,6 @@ auth#:#auth_account_migration_new#:#新規ユーザアカウントを作成し�
 auth#:#auth_activation_code_success#:#アカウントは再アクティブにされました。ILIASへログインできます。
 auth#:#auth_allow_local_info#:#ILIASに対してローカル認証を有効にするとデータベースはそのユーザカウント用に(ローカルログイン/パスワードで)認証モードをSAMLに設定することが可能です。
 auth#:#auth_auth_settings#:#設定
-auth#:#auth_cas_ldap#:#Synchronization using LDAP###19 08 2022 new variable
-auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.###19 08 2022 new variable
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###26 08 2024 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###26 08 2024 new variable
 auth#:#auth_err_expired#:#使用されていないのでセッションは解除されました。
@@ -2179,8 +2177,6 @@ auth#:#auth_saml_user_mapping#:#ユーザプロファイルマッピング
 auth#:#auth_saml_username_claim#:#ユーザ名用の属性
 auth#:#auth_saml_username_claim_info#:#ILIASへ表示されるユーザ名の生成用にILIASが使用する属性を定義。
 auth#:#auth_sync#:#ユーザの同期
-auth#:#auth_sync_cas#:#ユーザアカウントの自動作成
-auth#:#auth_sync_cas_info#:#ILIASアカウントがない状態の場合でもCAS認証成功ユーザ用のILIASユーザアカウントを自動作成します。
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3598,13 +3594,6 @@ common#:#attachments#:#添付
 common#:#attempts#:#試行
 common#:#auth_active_roles#:#登録フォームに割り当てるグローバル役割
 common#:#auth_allow_local#:#ローカル認証を許可
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#ILIASのユーザ名とパスワードの認証でCASユーザをアクセス許可します。
-common#:#auth_cas_auth#:#CAS認証を設定
-common#:#auth_cas_auth_desc#:#CASはCURLサポート (7.5以降)付のPHP 4.3.1が必須です
-common#:#auth_cas_port_desc#:#例 フルCASサーバーURIがhttps//auth.yourserver.comの場合は443。
-common#:#auth_cas_server_desc#:#例 フルCASサーバーURIがhttps//auth.yourserver.comの場合はauth.yourserver.com:443/cas/
-common#:#auth_cas_uri_desc#:#ローカルUR例　 フルCASサーバーURIがの場合はhttps//auth.yourserver.com:443/cas/
 common#:#auth_configure#:#構成中...
 common#:#auth_create_users#:#存在しないユーザを自動的に作成
 common#:#auth_default#:#初期設定設定
@@ -4060,7 +4049,6 @@ common#:#entry_status#:#Entry status
 common#:#err_1_param#:#パラメーターの1つだけ!
 common#:#err_2_param#:#パラメーターの2つだけ!
 common#:#err_auth_apache_failed#:#認証に失敗しました。有効なユーザ証明書がないかスマート カードが挿入されていない可能性があります。
-common#:#err_auth_cas_no_ilias_user#:#ログイン失敗しました。CAS認証はできましたが対応するILIASユーザが誰もいません。システム管理者へ連絡してください。
 common#:#err_auth_ldap_no_ilias_user#:#ログインに失敗しました。LDAP認証はできましたが対応するILIASユーザが誰もいません。システム管理者へ連絡してください。
 common#:#err_auth_mode_inactive#:#認証方式が使用可能になっていません。
 common#:#err_auth_soap_no_ilias_user#:#ログイン失敗しました。SOAP認証はできましたが対応するILIASユーザが誰もいません。システム管理者へ連絡してください。
@@ -4594,7 +4582,6 @@ common#:#login_information_desc#:#それぞれの言語のログイン情報を�
 common#:#login_information_settings_saved#:#ログイン情報は正しく保存されました
 common#:#login_invalid#:#ログインが正しくありません! 次の文字のみ使用できます。　A-Z a-z 0-9 _.-+*@!$%~(最低3文字)
 common#:#login_to_ilias#:#ILIASへログイン
-common#:#login_to_ilias_via_cas#:#中央認証サービス経由でILIASへログイン
 common#:#login_to_ilias_via_saml#:#SAML認証経由でILIASへログインする
 common#:#login_to_ilias_via_shibboleth#:#経由でILIASへログイン
 common#:#loginname_already_exists#:#このログイン名は既に使用されています。
@@ -5904,7 +5891,7 @@ common#:#user_defined_list#:#カスタムユーザプロファイルフィール
 common#:#user_deleted#:#ユーザ削除
 common#:#user_detail#:#詳細データ
 common#:#user_ext_account#:#外部アカウント
-common#:#user_ext_account_desc#:#外部認証(CAS, SOAP, LDAP またはRadius認証)に使用されるアカウント
+common#:#user_ext_account_desc#:#外部認証(SOAP, LDAP またはRadius認証)に使用されるアカウント
 common#:#user_image#:#ユーザイメージ
 common#:#user_import_failed#:#ユーザインポートに失敗しました。
 common#:#user_imported#:#ユーザインポートは完了しました。
@@ -6756,7 +6743,6 @@ content#:#cont_localfile#:#ローカルファイル
 content#:#cont_localization#:#言語対応
 content#:#cont_localization_info#:#言語は事前定義のテキスト(例："前へ"や"次へ")に使用されます。
 content#:#cont_location#:#ロケーション
-content#:#cont_lpe_cas_login_form#:#CAS Login Form
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###26 08 2024 new variable
 content#:#cont_lpe_language_selection#:#言語選択
 content#:#cont_lpe_login_form#:#Login Form
@@ -13020,6 +13006,7 @@ obj#:#obj_activation#:#アクティベーション
 obj#:#obj_activation_list_gui#:#アベイラビリティ
 obj#:#obj_add_languages#:#言語を追加
 obj#:#obj_additional_langs#:#追加言語
+obj#:#obj_base_lang#:#マスタ言語
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###26 08 2024 new variable
 obj#:#obj_cont_transl_deactivated#:#ページ編集用の翻訳は解除されました。
 obj#:#obj_copy_progress#:#進捗をコピー
@@ -13032,7 +13019,6 @@ obj#:#obj_features#:#機能
 obj#:#obj_import_file_error#:#このファイルをインポートできませんでした。これが同じオブジェクトタイプの有効なILIASエクスポートファイル(XMLエクスポート)であることを確認してください。ファイル名はエクスポート後に変更してはいけません。エラーメッセージ:
 obj#:#obj_insert_into_clipboard#:#クリップボードへ挿入
 obj#:#obj_inserted_clipboard#:#オブジュエクトはクリップボードへ移動されました。
-obj#:#obj_master_lang#:#マスタ言語
 obj#:#obj_more_translations#:#追加翻訳
 obj#:#obj_multilang_deactivated#:#多言語機能は解除されました。
 obj#:#obj_multilang_title_descr_only#:#翻訳はタイトルと説明のみに適用されます。ページ編集("Customize Page")の翻訳サポートには追加のアクティベーションが必要です。
@@ -13041,7 +13027,7 @@ obj#:#obj_orgunit_positions#:#組織ユニットポジションによるアク�
 obj#:#obj_orgunit_positions_info#:#有効にすると追加のアクセス制御ルールは組織ユニット内のポジションにより定義することができます。
 obj#:#obj_permission_settings#:#アクセス権設定
 obj#:#obj_presentation#:#プレゼンテーション
-obj#:#obj_select_master_lang#:#マスター言語を選択してください。現状のコンテンツは、マスター言語へ割当てられます。マスター言語はその後の変更はできません。
+obj#:#obj_select_base_lang#:#マスター言語を選択してください。現状のコンテンツは、マスター言語へ割当てられます。マスター言語はその後の変更はできません。
 obj#:#obj_select_one_language#:#言語を一つ選択してください
 obj#:#obj_set_fallback_lang#:#既定の言語を設定
 obj#:#obj_settings_for_all_members#:#メンバーは自動的に通知されます。
@@ -14607,6 +14593,7 @@ rbac#:#rbac_role_rights_copy_empty#:#ありません
 rbac#:#rbac_role_selection#:#役割のタイプ
 rbac#:#rbac_role_title#:#役割タイトル
 rbac#:#rbac_select_copy_targets#:#ターゲットの役割を選択してください
+rbac#:#rbac_select_roles#:#役割選択
 rbac#:#rbac_ud_global#:#ユーザ定義のグローバル役割
 rbac#:#rbac_ud_local#:#ユーザ定義のローカル役割
 rbac#:#rbac_ud_rolt#:#ユーザ定義の役割テンプレート

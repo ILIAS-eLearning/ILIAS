@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Category\StandardGUIRequest;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * Class ilObjCategoryGUI
@@ -27,7 +28,8 @@ use ILIAS\Category\StandardGUIRequest;
  * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilObjUserGUI, ilObjUserFolderGUI
- * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI, ilObjectContentStyleSettingsGUI
+ * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI,
+ * @ilCtrl_Calls ilObjCategoryGUI: ILIAS\ILIASObject\Properties\Translations\TranslationGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilTaxonomySettingsGUI, ilObjectMetaDataGUI, ilContainerNewsSettingsGUI, ilContainerFilterAdminGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilRepositoryTrashGUI
@@ -36,6 +38,8 @@ use ILIAS\Category\StandardGUIRequest;
 class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Settings\ModifierGUIInterface
 {
     public const CONTAINER_SETTING_TAXBLOCK = "tax_sblock_";
+    protected \ILIAS\Category\InternalDomainService $cat_domain;
+    protected \ILIAS\Category\InternalGUIService $cat_gui;
     protected \ILIAS\Taxonomy\Service $taxonomy;
 
     protected ilNavigationHistory $nav_history;
@@ -90,6 +94,8 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
             ->gui()
             ->standardRequest();
         $this->taxonomy = $DIC->taxonomy();
+        $this->cat_gui = $DIC->category()->internal()->gui();
+        $this->cat_domain = $DIC->category()->internal()->domain();
     }
 
     public function executeCommand(): void
@@ -237,12 +243,24 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
                 $this->ctrl->forwardCommand($exp);
                 break;
 
-            case 'ilobjecttranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->checkPermissionBool("write");
                 $this->prepareOutput();
                 //$this->tabs_gui->setTabActive('export');
                 $this->setEditTabs("settings_trans");
-                $transgui = new ilObjectTranslationGUI($this);
+                $transgui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->access,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->http,
+                    $this->refinery,
+                    $this->toolbar
+                );
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
@@ -736,7 +754,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
         $this->tabs_gui->addSubTab(
             "settings_trans",
             $this->lng->txt("obj_multilinguality"),
-            $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "")
+            $this->ctrl->getLinkTargetByClass(TranslationGUI::class, "")
         );
 
         //news tab
@@ -1090,7 +1108,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
 
     public function assignRolesObject(): void
     {
-        $rbacreview = $this->rbacreview;
+        $this->ctrl->saveParameterByClass(self::class, "obj_id");
         $ilTabs = $this->tabs;
 
         $this->checkPermission("cat_administrate_users");
@@ -1108,47 +1126,24 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
         $ilHelp->setScreenId("administrate_user");
         $ilHelp->setSubScreenId("assign_roles");
 
-
-        $roles = $this->getAssignableRoles();
-
-        $ass_roles = $rbacreview->assignedRoles($this->cat_request->getObjId());
-
-        $counter = 0;
-        $f_result = [];
-
-        foreach ($roles as $role) {
-            $role_obj = ilObjectFactory::getInstanceByObjId((int) $role['obj_id']);
-
-            $disabled = false;
-            $f_result[$counter]['checkbox'] = ilLegacyFormElementsUtil::formCheckbox(
-                in_array((int) $role['obj_id'], $ass_roles, true),
-                'role_ids[]',
-                (string) $role['obj_id'],
-                $disabled
-            );
-            $f_result[$counter]['title'] = $role_obj->getTitle() ?: "";
-            $f_result[$counter]['desc'] = $role_obj->getDescription() ?: "";
-            $f_result[$counter]['type'] = ($role['role_type'] ?? '') === 'global' ?
-                $this->lng->txt('global') :
-                $this->lng->txt('local');
-
-            unset($role_obj);
-            ++$counter;
+        $table = $this->cat_gui->assignedRoleTableBuilder(
+            $this->ref_id,
+            $this->cat_request->getObjId(),
+            $this->user->getId(),
+            $this,
+            "assignRoles"
+        )->getTable();
+        if ($table->handleCommand()) {
+            return;
         }
-
-        $table = new ilCategoryAssignRoleTableGUI($this, "assignRoles");
-        $tmp_obj = ilObjectFactory::getInstanceByObjId($this->cat_request->getObjId());
-        $title = $this->lng->txt('role_assignment') . ' (' . $tmp_obj->getFullname() . ')';
-        $table->setTitle($title, "standard/icon_role.svg", $this->lng->txt("role_assignment"));
-        $table->setData($f_result);
-        $this->tpl->setContent($table->getHTML());
+        $this->tpl->setContent($table->render());
     }
 
-    public function assignSaveObject(): void
+    public function assignSave(array $ids): void
     {
-        $rbacreview = $this->rbacreview;
-        $rbacadmin = $this->rbacadmin;
+        $this->ctrl->saveParameterByClass(self::class, "obj_id");
         $this->checkPermission("cat_administrate_users");
+        $lng = $this->domain->lng();
 
         // check hack
         if ($this->cat_request->getObjId() === 0 ||
@@ -1157,89 +1152,19 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
             $this->listUsersObject();
             return;
         }
-        $roles = $this->getAssignableRoles();
-
-        // check minimum one global role
-        if (!$this->checkGlobalRoles($this->cat_request->getRoleIds())) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_global_role_left'));
-            $this->assignRolesObject();
-            return;
+        try {
+            $this->cat_domain->assignedRolesManager(
+                $this->ref_id,
+                $this->cat_request->getObjId(),
+                $this->user->getId()
+            )->switchAssignment($ids);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
+        } catch (Exception $e) {
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
         }
-
-        $new_role_ids = $this->cat_request->getRoleIds();
-        $assigned_roles = $rbacreview->assignedRoles($this->cat_request->getObjId());
-        foreach ($roles as $role) {
-            if (in_array((int) $role['obj_id'], $new_role_ids, true) && !in_array((int) $role['obj_id'], $assigned_roles, true)) {
-                $rbacadmin->assignUser((int) $role['obj_id'], $this->cat_request->getObjId());
-            }
-            if (in_array((int) $role['obj_id'], $assigned_roles, true) && !in_array((int) $role['obj_id'], $new_role_ids, true)) {
-                $rbacadmin->deassignUser((int) $role['obj_id'], $this->cat_request->getObjId());
-            }
-        }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('role_assignment_updated'));
-        $this->assignRolesObject();
+        $this->ctrl->redirectByClass(self::class, "assignRoles");
     }
 
-    // PRIVATE
-    private function getAssignableRoles(): array
-    {
-        $rbacreview = $this->rbacreview;
-        $ilUser = $this->user;
-
-        // check local user
-        $tmp_obj = ilObjectFactory::getInstanceByObjId($this->cat_request->getObjId());
-        // Admin => all roles
-        if (in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()), true)) {
-            $global_roles = $rbacreview->getGlobalRolesArray();
-        } elseif ($tmp_obj->getTimeLimitOwner() === $this->object->getRefId()) {
-            $global_roles = $rbacreview->getGlobalAssignableRoles();
-        } else {
-            $global_roles = [];
-        }
-        return array_merge(
-            $global_roles,
-            $rbacreview->getAssignableChildRoles($this->object->getRefId())
-        );
-    }
-
-    private function checkGlobalRoles($new_assigned): bool
-    {
-        $rbacreview = $this->rbacreview;
-        $ilUser = $this->user;
-
-        $this->checkPermission("cat_administrate_users");
-
-        // return true if it's not a local user
-        $tmp_obj = ilObjectFactory::getInstanceByObjId($this->cat_request->getObjId());
-        if ($tmp_obj->getTimeLimitOwner() !== $this->object->getRefId() &&
-           !in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()), true)) {
-            return true;
-        }
-
-        // new assignment by form
-        $new_assigned = $new_assigned ?: [];
-        $assigned = $rbacreview->assignedRoles($this->cat_request->getObjId());
-
-        // all assignable globals
-        if (!in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()), true)) {
-            $ga = $rbacreview->getGlobalAssignableRoles();
-        } else {
-            $ga = $rbacreview->getGlobalRolesArray();
-        }
-        $global_assignable = [];
-        foreach ($ga as $role) {
-            $global_assignable[] = $role['obj_id'];
-        }
-
-        $new_visible_assigned_roles = array_intersect($new_assigned, $global_assignable);
-        $all_assigned_roles = array_intersect($assigned, $rbacreview->getGlobalRoles());
-        $main_assigned_roles = array_diff($all_assigned_roles, $global_assignable);
-
-        if (!count($new_visible_assigned_roles) && !count($main_assigned_roles)) {
-            return false;
-        }
-        return true;
-    }
 
     public static function _goto(string $a_target): void
     {

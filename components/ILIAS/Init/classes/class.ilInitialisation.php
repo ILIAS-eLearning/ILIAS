@@ -33,6 +33,7 @@ use ILIAS\Data\Result\Error;
 use ILIAS\Refinery\Transformation;
 use ILIAS\FileDelivery\Init;
 use ILIAS\LegalDocuments\Conductor;
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory as CustomIconFactory;
 
 // needed for slow queries, etc.
 if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
@@ -263,7 +264,7 @@ class ilInitialisation
              * @var FilesystemFactory $delegatingFactory
              */
             $delegatingFactory = $c['filesystem.factory'];
-            $customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'Customizing');
+            $customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/public/' . 'Customizing');
             return $delegatingFactory->getLocal($customizingConfiguration);
         };
 
@@ -357,63 +358,20 @@ class ilInitialisation
         };
     }
 
-    /**
-     * builds http path
-     */
     protected static function buildHTTPPath(): bool
     {
         global $DIC;
 
-        if ($DIC['https']->isDetected()) {
-            $protocol = 'https://';
-        } else {
-            $protocol = 'http://';
-        }
-        $host = $_SERVER['HTTP_HOST'];
-
-        $rq_uri = strip_tags($_SERVER['REQUEST_URI']);
-
-        // security fix: this failed, if the URI contained "?" and following "/"
-        // -> we remove everything after "?"
-        if (is_int($pos = strpos($rq_uri, "?"))) {
-            $rq_uri = substr($rq_uri, 0, $pos);
-        }
-
-        if (!defined('ILIAS_MODULE')) {
-            $path = pathinfo($rq_uri);
-            if (isset($path['extension']) && $path['extension'] !== '') {
-                $uri = dirname($rq_uri);
-            } else {
-                $uri = $rq_uri;
-            }
-        } else {
-            // if in module remove module name from HTTP_PATH
-            $path = dirname($rq_uri);
-
-            // dirname cuts the last directory from a directory path e.g content/classes return content
-            $module = ilFileUtils::removeTrailingPathSeparators(ILIAS_MODULE);
-
-            $dirs = explode('/', $module);
-            $uri = $path;
-            foreach ($dirs as $dir) {
-                $uri = dirname($uri);
-            }
-        }
-
-        $ilias_http_path = ilContext::modifyHttpPath(implode('', [$protocol, $host, $uri]));
-
-        // remove everything after the first .php in the path
-        $ilias_http_path = preg_replace('/(http|https)(:\/\/)(.*?\/.*?\.php).*/', '$1$2$3', $ilias_http_path);
-        $ilias_http_path = preg_replace('/goto.php\/$/', '', $ilias_http_path);
-        $ilias_http_path = preg_replace('/goto.php$/', '', $ilias_http_path);
-        $ilias_http_path = preg_replace('/go\/.*$/', '', $ilias_http_path);
-
-        $f = $GLOBALS["DIC"][\ILIAS\Data\Factory::class];
-        $uri = $f->uri(ilFileUtils::removeTrailingPathSeparators($ilias_http_path));
-
-        $base_URI = $uri->getBaseURI();
-
-        return define('ILIAS_HTTP_PATH', $base_URI);
+        return define(
+            'ILIAS_HTTP_PATH',
+            (new \ILIAS\Init\Environment\HttpPathBuilder(
+                $DIC[\ILIAS\Data\Factory::class],
+                $DIC->settings(),
+                $DIC['https'],
+                $DIC['ilIliasIniFile'],
+                $_SERVER
+            ))->build()->getBaseURI()
+        );
     }
 
     /**
@@ -551,11 +509,10 @@ class ilInitialisation
         if (defined('CLIENT_WEB_DIR')) {
             $ini_file = CLIENT_WEB_DIR . $ini_file;
         } else {
-            $ini_file = ILIAS_WEB_DIR . "/" . CLIENT_ID . "/client.ini.php";
+            $ini_file = __DIR__ . '/../../../../public/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . '/client.ini.php';
         }
 
-        // get settings from ini file
-        $ilClientIniFile = new ilIniFile(__DIR__ . "/../../../../public/" . $ini_file);
+        $ilClientIniFile = new ilIniFile($ini_file);
         $ilClientIniFile->read();
 
         // invalid client id / client ini
@@ -664,7 +621,7 @@ class ilInitialisation
 
     /**
      * set session handler to db
-     * Used in Soap/CAS
+     * Used in Soap
      */
     public static function setSessionHandler(): void
     {
@@ -687,13 +644,13 @@ class ilInitialisation
      */
     protected static function setCookieConstants(): void
     {
-        if (ilAuthFactory::getContext() == ilAuthFactory::CONTEXT_HTTP) {
+        if (\ilAuthFactory::getContext() === \ilAuthFactory::CONTEXT_HTTP) {
             $cookie_path = '/';
         } elseif (isset($GLOBALS['COOKIE_PATH'])) {
             // use a predefined cookie path from WebAccessChecker
             $cookie_path = $GLOBALS['COOKIE_PATH'];
         } else {
-            $cookie_path = dirname($_SERVER['PHP_SELF']);
+            $cookie_path = dirname($_SERVER['SCRIPT_NAME']);
         }
 
         /* if ilias is called directly within the docroot $cookie_path
@@ -787,7 +744,7 @@ class ilInitialisation
     protected static function initCustomObjectIcons(\ILIAS\DI\Container $c): void
     {
         $c["object.customicons.factory"] = function ($c) {
-            return new ilObjectCustomIconFactory(
+            return new CustomIconFactory(
                 $c->filesystem()->web(),
                 $c->upload(),
                 $c['ilObjDataCache']
@@ -1271,8 +1228,6 @@ class ilInitialisation
 
         self::handleErrorReporting();
 
-        // breaks CAS: must be included after CAS context isset in AuthUtils
-
         self::requireCommonIncludes();
         $GLOBALS["DIC"]["ilias.version"] = $GLOBALS["DIC"][\ILIAS\Data\Factory::class]->version(ILIAS_VERSION_NUMERIC);
 
@@ -1498,7 +1453,8 @@ class ilInitialisation
             self::goToLogin();
             return;
         }
-        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME'])) {
+        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
+            $DIC->access()->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', ROOT_FOLDER_ID)) {
             ilLoggerFactory::getLogger('init')->debug('Redirect to public section.');
             self::goToPublicSection();
             return;

@@ -915,7 +915,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     {
         return [
             AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
-            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitleForHTMLOutput(),
             AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
             AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS => $this->getPoints(),
             AdditionalInformationGenerator::KEY_QUESTION_UPLOAD_MAXSIZE => $this->getMaxFilesizeAsString(),

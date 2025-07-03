@@ -27,19 +27,17 @@ use ILIAS\Component\Resource\Endpoint;
 class WebDAV implements Component
 {
     public function init(
-        array | \ArrayAccess &$define,
-        array | \ArrayAccess &$implement,
-        array | \ArrayAccess &$use,
-        array | \ArrayAccess &$contribute,
-        array | \ArrayAccess &$seek,
-        array | \ArrayAccess &$provide,
-        array | \ArrayAccess &$pull,
-        array | \ArrayAccess &$internal,
+        array|\ArrayAccess &$define,
+        array|\ArrayAccess &$implement,
+        array|\ArrayAccess &$use,
+        array|\ArrayAccess &$contribute,
+        array|\ArrayAccess &$seek,
+        array|\ArrayAccess &$provide,
+        array|\ArrayAccess &$pull,
+        array|\ArrayAccess &$internal,
     ): void {
-        $contribute[PublicAsset::class] = fn(): Endpoint =>
-            new Endpoint($this, "webdav.php");
+        $contribute[PublicAsset::class] = fn(): Endpoint => new Endpoint($this, "webdav.php");
 
-        $contribute[PublicAsset::class] = fn(): Endpoint =>
-            new Endpoint($this, "rootindex.php");
+        $contribute[PublicAsset::class] = fn(): Endpoint => new Endpoint($this, "rootindex.php");
     }
 }

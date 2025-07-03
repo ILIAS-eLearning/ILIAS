@@ -24,7 +24,7 @@ use ILIAS\EmployeeTalk\Talk\Repository\IliasDBEmployeeTalkRepository;
 
 final class ilObjEmployeeTalk extends ilObject
 {
-    public const TYPE = 'etal';
+    public const string TYPE = 'etal';
 
     /**
      * @var int
@@ -174,7 +174,7 @@ final class ilObjEmployeeTalk extends ilObject
             $ilDB = $DIC['ilDB'];
             $q = "SELECT o.obj_id, r.ref_id FROM object_data o
 			INNER JOIN object_reference r ON r.obj_id = o.obj_id
-			WHERE title = " . $ilDB->quote('__TalkTemplateAdministration', 'text') . "";
+			WHERE title = " . $ilDB->quote('__TalkTemplateAdministration', 'text');
             $set = $ilDB->query($q);
             $res = $ilDB->fetchAssoc($set);
             self::$root_id = (int) $res["obj_id"];
@@ -187,20 +187,14 @@ final class ilObjEmployeeTalk extends ilObject
         return new ilObjEmployeeTalkSeries($this->tree->getParentId($this->getRefId()), true);
     }
 
-    /**
-     * @param int         $a_id
-     * @param bool        $a_reference
-     * @param string|null $type
-     * @return bool
-     */
-    public static function _exists(int $a_id, bool $a_reference = false, ?string $type = null): bool
+    public static function _exists(int $id, bool $reference = false, ?string $type = null): bool
     {
-        return parent::_exists($a_id, $a_reference, "etal");
+        return parent::_exists($id, $reference, "etal");
     }
 
     /**
      * delete orgunit, childs and all related data
-     * @return    boolean    true if all object data were removed; false if only a references were
+     * @return    bool    true if all object data were removed; false if only a references were
      *                       removed
      */
     public function delete(): bool

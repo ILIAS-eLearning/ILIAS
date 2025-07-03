@@ -18,9 +18,7 @@
 
 class ilTestNoNextRequestableHintExistsExceptionTest extends ilTestBaseTestCase
 {
-    /**
-     * @dataProvider constructDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('constructDataProvider')]
     public function testConstruct(array $input, array $output): void
     {
         $ilTestNoNextRequestableHintExistsException = isset($input['code'])
@@ -46,9 +44,7 @@ class ilTestNoNextRequestableHintExistsExceptionTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider exceptionDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('exceptionDataProvider')]
     public function testException(array $input, array $output): void
     {
         $this->expectException(ilTestNoNextRequestableHintExistsException::class);

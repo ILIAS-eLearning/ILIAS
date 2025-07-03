@@ -114,4 +114,17 @@ class ilContainerFilterService
     {
         return new ilContainerUserFilter($data);
     }
+
+    public function cloneFilterFields(int $from_ref_id, int $to_ref_id): void
+    {
+        $set = $this->field_data->getFilterSetForRefId($from_ref_id);
+        $fields = [];
+        foreach ($set->getFields() as $f) {
+            if ($f->getRecordSetId() === 0) {
+                $fields[] = $f;
+            }
+        }
+        $this->field_data->saveFilterSetForRefId($to_ref_id, $this->set($fields));
+    }
+
 }

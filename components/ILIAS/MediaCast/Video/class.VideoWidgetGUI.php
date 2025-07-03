@@ -34,8 +34,13 @@ class VideoWidgetGUI
         string $dom_wrapper_id
     ) {
         global $DIC;
+        $debug = false;
+        if (!$debug) {
+            $main_tpl->addJavaScript("assets/js/video_widget.js");
+        } else {
+            $main_tpl->addJavaScript("../components/ILIAS/MediaCast/resources/video_widget.js");
+        }
 
-        $main_tpl->addJavaScript("assets/js/video_widget.js");
         $this->main_tpl = $main_tpl;
         $this->dom_wrapper_id = $dom_wrapper_id;
         $this->ui = $DIC->ui();
@@ -71,11 +76,11 @@ class VideoWidgetGUI
         );
 
         if (!is_null($this->getVideo())) {
-            $this->main_tpl->addOnLoadCode(
+            /*$this->main_tpl->addOnLoadCode(
                 "il.VideoWidget.loadFile('" .
                 $this->dom_wrapper_id . "', '" .
                 $this->getVideo()->getResource() . "', false);"
-            );
+            );*/
         }
 
         $item = $f->item()->standard('#title#')

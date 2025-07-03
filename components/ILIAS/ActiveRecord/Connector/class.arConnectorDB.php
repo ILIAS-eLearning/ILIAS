@@ -268,23 +268,21 @@ class arConnectorDB extends arConnector
      */
     protected function buildQuery(ActiveRecordList $activeRecordList): string
     {
-        $method = 'asSQLStatement';
-
         // SELECTS
-        $q = $activeRecordList->getArSelectCollection()->{$method}();
+        $q = $activeRecordList->getArSelectCollection()->asSQLStatement($this->db);
         // Concats
-        $q .= $activeRecordList->getArConcatCollection()->{$method}();
+        $q .= $activeRecordList->getArConcatCollection()->asSQLStatement($this->db);
         $q .= ' FROM ' . $activeRecordList->getAR()->getConnectorContainerName();
         // JOINS
-        $q .= $activeRecordList->getArJoinCollection()->{$method}();
+        $q .= $activeRecordList->getArJoinCollection()->asSQLStatement($this->db);
         // WHERE
-        $q .= $activeRecordList->getArWhereCollection()->{$method}();
+        $q .= $activeRecordList->getArWhereCollection()->asSQLStatement($this->db);
         // HAVING
-        $q .= $activeRecordList->getArHavingCollection()->{$method}();
+        $q .= $activeRecordList->getArHavingCollection()->asSQLStatement($this->db);
         // ORDER
-        $q .= $activeRecordList->getArOrderCollection()->{$method}();
+        $q .= $activeRecordList->getArOrderCollection()->asSQLStatement($this->db);
         // LIMIT
-        $q .= $activeRecordList->getArLimitCollection()->{$method}();
+        $q .= $activeRecordList->getArLimitCollection()->asSQLStatement($this->db);
 
         $activeRecordList->setLastQuery($q);
 

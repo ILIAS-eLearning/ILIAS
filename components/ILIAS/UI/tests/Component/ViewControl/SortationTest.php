@@ -86,7 +86,7 @@ class SortationTest extends ILIAS_UI_TestBase
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_1">
     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="id_1_ctrl">
         <span class="label">vc_sort Most Recent</span>
-        <span class="caret"></span>
+        <span class="glyphicon-sort"></span>
     </button>
     <ul id="id_1_ctrl" class="dropdown-menu">
         <li><button class="btn btn-link" data-action="?sortation=internal_rating" id="id_2">Best</button></li>
@@ -110,7 +110,7 @@ EOT;
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_1">
     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="id_1_ctrl">
         <span class="label">vc_sort Most Recent</span>
-        <span class="caret"></span>
+        <span class="glyphicon-sort"></span>
     </button>
     <ul id="id_1_ctrl" class="dropdown-menu">
         <li><button class="btn btn-link" data-action="?sortation=internal_rating" id="id_2">Best</button></li>
@@ -146,7 +146,7 @@ EOT;
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element"$id>
     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="{$id_ctrl}">
         <span class="label">vc_sort Best</span>
-        <span class="caret"></span>
+        <span class="glyphicon-sort"></span>
     </button>
     <ul id="{$id_ctrl}" class="dropdown-menu">
         <li class="selected"><button class="btn btn-link" data-action="?sortation=internal_rating" id="$button1_id">Best</button></li>

@@ -42,7 +42,7 @@ class Ordering extends AbstractTable implements T\Ordering
         protected OrderingRowBuilder $row_builder,
         string $title,
         array $columns,
-        protected T\OrderingBinding $binding,
+        protected T\OrderingRetrieval $binding,
         protected URI $target_url,
         \ArrayAccess $storage
     ) {
@@ -65,7 +65,7 @@ class Ordering extends AbstractTable implements T\Ordering
             ->withVisibleColumns($this->getVisibleColumns());
     }
 
-    public function getDataBinding(): T\OrderingBinding
+    public function getDataBinding(): T\OrderingRetrieval
     {
         return $this->binding;
     }

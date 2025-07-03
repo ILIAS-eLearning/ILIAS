@@ -22,9 +22,7 @@ use ILIAS\Test\Settings\MainSettings\SettingsAdditional;
 
 class SettingsAdditionalTest extends ilTestBaseTestCase
 {
-    /**
-     * @dataProvider getSkillsServiceEnabledDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getSkillsServiceEnabledDataProvider')]
     public function testGetAndWithSkillsServiceEnabled(bool $io): void
     {
         $settings_additional = (new SettingsAdditional(0))->withSkillsServiceEnabled($io);
@@ -41,9 +39,7 @@ class SettingsAdditionalTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getHideInfoTabDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getHideInfoTabDataProvider')]
     public function testGetAndWithHideInfoTab(bool $io): void
     {
         $settings_additional = (new SettingsAdditional(0))->withHideInfoTab($io);

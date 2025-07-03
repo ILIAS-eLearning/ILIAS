@@ -149,4 +149,9 @@ abstract class Container implements C\Input\Container\Container
      * since different containers may allow different request methods.
      */
     abstract protected function extractRequestData(ServerRequestInterface $request): InputData;
+
+    public function getSubComponents(): array
+    {
+        return $this->getInputs();
+    }
 }

@@ -21,6 +21,10 @@ declare(strict_types=1);
 use ILIAS\Blog\StandardGUIRequest;
 use ILIAS\Repository\Profile\ProfileGUI;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\Blog\Posting\PostingManager;
+use ILIAS\Blog\InternalDomainService;
+use ILIAS\Blog\InternalGUIService;
+use ILIAS\Blog\ReadingTime\ReadingTimeManager;
 
 /**
  * Class ilBlogPosting GUI class
@@ -30,16 +34,18 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  */
 class ilBlogPostingGUI extends ilPageObjectGUI
 {
-    protected \ILIAS\Blog\InternalGUIService $blog_gui;
+    protected InternalDomainService $domain;
+    protected InternalGUIService $blog_gui;
     protected ProfileGUI $profile_gui;
     protected \ILIAS\Notes\Service $notes;
-    protected \ILIAS\Blog\ReadingTime\ReadingTimeManager $reading_time_manager;
+    protected ReadingTimeManager $reading_time_manager;
     protected StandardGUIRequest $blog_request;
     protected ilTabsGUI $tabs;
     protected ilLocatorGUI $locator;
     protected ilSetting $settings;
     protected LOMServices $lom_services;
     protected int $node_id;
+    protected PostingManager $posting_manager;
     protected ?object $access_handler = null;
     protected bool $enable_public_notes = false;
     protected bool $may_contribute = false;
@@ -59,16 +65,17 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     ) {
         global $DIC;
 
-        $this->tabs = $DIC->tabs();
-        $this->locator = $DIC["ilLocator"];
-        $this->settings = $DIC->settings();
-        $this->user = $DIC->user();
-        $tpl = $DIC["tpl"];
-        $lng = $DIC->language();
-        $this->blog_request = $DIC->blog()
-            ->internal()
-            ->gui()
-            ->standardRequest();
+        $service = $DIC->blog()->internal();
+        $this->domain = $service->domain();
+        $this->blog_gui = $DIC->blog()->internal()->gui();
+
+        $this->tabs = $this->blog_gui->tabs();
+        $this->locator = $this->blog_gui->locator();
+        $this->settings = $this->domain->settings();
+        $this->user = $this->domain->user();
+        $tpl = $this->blog_gui->ui()->mainTemplate();
+        $lng = $this->domain->lng();
+        $this->blog_request = $this->blog_gui->standardRequest();
         $this->lom_services = $DIC->learningObjectMetadata();
 
         $lng->loadLanguageModule("blog");
@@ -96,15 +103,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         );
         $tpl->parseCurrentBlock();
 
-        // #17814
-        /*
-        $tpl->setCurrentBlock("ContentStyle");
-        $tpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath($a_style_sheet_id)
-        );
-        $tpl->parseCurrentBlock();*/
-
         // needed for editor
         $this->setStyleId($a_style_sheet_id);
 
@@ -112,10 +110,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $this->fetchall = $this->blog_request->getFetchAll();
         $this->term = $this->blog_request->getTerm();
 
-        $this->reading_time_manager = new \ILIAS\Blog\ReadingTime\ReadingTimeManager();
+        $this->reading_time_manager = new ReadingTimeManager();
         $this->notes = $DIC->notes();
         $this->profile_gui = $DIC->blog()->internal()->gui()->profile();
-        $this->blog_gui = $DIC->blog()->internal()->gui();
+        $this->posting_manager = $DIC->blog()->internal()->domain()->posting();
     }
 
     public function executeCommand(): string
@@ -461,8 +459,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 $page = $this->getPageObject();
                 $page->setTitle($form->getInput("title"));
                 $page->update();
-
-                $page->handleNews(true);
+                $this->domain->news()->handle($page, true);
 
                 $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
                 //$ilCtrl->redirect($this, "preview");
@@ -666,9 +663,13 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
         // other keywords in blog
         $other = array();
-        foreach (array_keys(ilBlogPosting::getAllPostings($this->getBlogPosting()->getBlogId())) as $posting_id) {
-            if ($posting_id != $this->getBlogPosting()->getId()) {
-                $other = array_merge($other, ilBlogPosting::getKeywords($this->getBlogPosting()->getBlogId(), $posting_id));
+        foreach ($this->posting_manager->getAllByBlog($this->getBlogPosting()->getBlogId(), 0) as $posting) {
+            $pid = $posting->getId();
+            if ($pid !== $this->getBlogPosting()->getId()) {
+                $other = array_merge(
+                    $other,
+                    ilBlogPosting::getKeywords($this->getBlogPosting()->getBlogId(), $pid)
+                );
             }
         }
         // #17414

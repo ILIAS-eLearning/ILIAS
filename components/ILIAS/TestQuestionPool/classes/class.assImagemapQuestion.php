@@ -445,9 +445,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $reached_points = $this->calculateReachedPointsForSolution(is_array($solution_data) ? array_values($solution_data) : []);
 
-        return $this->ensureNonNegativePoints(
-            $this->deductHintPointsFromReachedPoints($preview_session, $reached_points)
-        );
+        return $this->ensureNonNegativePoints($reached_points);
     }
 
     /**
@@ -613,7 +611,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $result = [];
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = $this->getTitle();
+        $result['title'] = $this->getTitleForHTMLOutput();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = $this->getNrOfTries();
         $result['shuffle'] = $this->getShuffle();
@@ -820,7 +818,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         $result = [
             AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
-            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitleForHTMLOutput(),
             AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
             AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS => $additional_info
                 ->getTrueFalseTagForBool($this->getShuffle()),

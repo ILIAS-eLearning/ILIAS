@@ -155,17 +155,18 @@ class ilObjRepositorySettings extends ilObject
         global $DIC;
 
         $component_repository = $DIC["component.repository"];
+        /** @var ilObjectDefinition $objDefinition */
         $objDefinition = $DIC["objDefinition"];
 
         $res = [];
 
         // parse modules
         foreach ($component_repository->getComponents() as $mod) {
-            if ($mod->getType() !== ilComponentInfo::TYPE_MODULES) {
+            if (!in_array($mod->getType(), ilComponentInfo::TYPES, true)) {
                 continue;
             }
             $has_repo = false;
-            $rep_types = $objDefinition->getRepositoryObjectTypesForComponent(ilComponentInfo::TYPE_MODULES, $mod->getName());
+            $rep_types = $objDefinition->getRepositoryObjectTypesForComponent(ilComponentInfo::TYPE_COMPONENT, $mod->getName());
             if (count($rep_types) > 0) {
                 foreach ($rep_types as $ridx => $rt) {
                     // we only want to display repository modules

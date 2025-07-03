@@ -58,7 +58,7 @@ class UserLanguageDefinition implements ConditionDefinition
 
     public function withCriterion(CriterionContent $criterion): Condition
     {
-        return new UserLanguage($criterion, $this, $this->ui->create());
+        return new UserLanguage($criterion, $this, $this->ui);
     }
 
     public function translatedType(): string

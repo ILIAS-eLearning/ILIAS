@@ -59,7 +59,8 @@ class SkillProfileCompletionManager
         array $skills,
         string $gap_mode = "",
         string $gap_mode_type = "",
-        int $gap_mode_obj_id = 0
+        int $gap_mode_obj_id = 0,
+        string $trigger_user = ""
     ): array {
         // get actual levels for gap analysis
         $actual_levels = [];
@@ -77,13 +78,13 @@ class SkillProfileCompletionManager
                     $max = 0;
                     foreach ($sub_objects as $ref_id) {
                         $obj_id = \ilContainerReference::_lookupObjectId($ref_id);
-                        $max_tmp = $bs->getMaxLevelPerObject($sk->getTrefId(), $obj_id, $user_id);
+                        $max_tmp = $bs->getMaxLevelPerObject($sk->getTrefId(), $obj_id, $user_id, 0, $trigger_user);
                         if ($max_tmp > $max) {
                             $max = $max_tmp;
                         }
                     }
                 } else {
-                    $max = $bs->getMaxLevelPerObject($sk->getTrefId(), $gap_mode_obj_id, $user_id);
+                    $max = $bs->getMaxLevelPerObject($sk->getTrefId(), $gap_mode_obj_id, $user_id, 0, $trigger_user);
                 }
             } else {
                 $max = $bs->getMaxLevel($sk->getTrefId(), $user_id);
@@ -92,6 +93,32 @@ class SkillProfileCompletionManager
         }
 
         return $actual_levels;
+    }
+
+    /**
+     * This does not include any container logic
+     * currently only used for survey, individual assessment
+     */
+    public function getLastLevelPerObjectAndTriggerUser(
+        int $user_id,
+        array $skills,
+        int $obj_id,
+        string $trigger_user
+    ): array {
+        // get actual levels for gap analysis
+        $last_levels = [];
+        foreach ($skills as $sk) {
+            $bs = new \ilBasicSkill($sk->getBaseSkillId());
+            $last = $bs->getLastLevelEntryOfUser(
+                $sk->getTrefId(),
+                $user_id,
+                $obj_id,
+                0,
+                $trigger_user
+            );
+            $last_levels[$sk->getBaseSkillId()][$sk->getTrefId()] = $last;
+        }
+        return $last_levels;
     }
 
     public function getActualLastLevels(

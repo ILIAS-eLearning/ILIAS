@@ -23,8 +23,6 @@ use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Refinery\Factory;
 use Psr\Http\Message\RequestInterface;
-use PHPUnit\Framework\Attributes\PreserveGlobalState;
-use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 use Sabre\DAV\INode;
@@ -67,8 +65,9 @@ class ilDAVContainerTest extends TestCase
         $DIC['upload'] = $this->createMock(FileUpload::class);
         $DIC['resource_storage'] = $this->createMock(\ILIAS\ResourceStorage\Services::class);
         $DIC['refinery'] = $this->createMock(Factory::class);
-        $DIC['object.customicons.factory'] = $this->createMock(ilObjectCustomIconFactory::class);
+        $DIC['object.customicons.factory'] = $this->createMock(ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory::class);
         $DIC['learning_object_metadata'] = $this->createMock(LOMServices::class);
+        $DIC['resource_storage'] = $this->createMock(ILIAS\ResourceStorage\Services::class);
     }
 
     protected function tearDown(): void
@@ -253,10 +252,15 @@ class ilDAVContainerTest extends TestCase
         );
         $children = $dav_container->getChildren();
         $this->assertEquals(count($additional_information['names']), count($children));
-        $counter = count($children);
-        for ($i = 0; $i < $counter; $i++) {
-            $this->assertInstanceOf($additional_information['classes'][$i], $children[$additional_information['ref_id'][$i]]);
-            $this->assertEquals($additional_information['names'][$i], $children[$additional_information['ref_id'][$i]]->getName());
+        for ($i = 0, $i_max = count($children); $i < $i_max; $i++) {
+            $this->assertInstanceOf(
+                $additional_information['classes'][$i],
+                $children[$additional_information['ref_id'][$i]]
+            );
+            $this->assertEquals(
+                $additional_information['names'][$i],
+                $children[$additional_information['ref_id'][$i]]->getName()
+            );
         }
     }
 
@@ -443,8 +447,8 @@ class ilDAVContainerTest extends TestCase
         }
     }
 
-    #[PreserveGlobalState(false)]
-    #[RunInSeparateProcess]
+    #[\PHPUnit\Framework\Attributes\PreserveGlobalState(false)]
+    #[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
     public function testCreateDirectoryWithNonDavableNameThrowsForbiddenError(): void
     {
         define('ILIAS_LOG_ENABLED', false);
@@ -493,62 +497,77 @@ class ilDAVContainerTest extends TestCase
         $webdav_test_helper = new ilWebDAVTestHelper();
         $tree = $webdav_test_helper->getTree();
 
-        $mocked_dav_factory = $this->createPartialMock(ilWebDAVObjFactory::class, ['retrieveDAVObjectByRefID', 'getProblemInfoFile']);
+        $mocked_dav_factory = $this->createPartialMock(
+            ilWebDAVObjFactory::class,
+            ['retrieveDAVObjectByRefID', 'getProblemInfoFile']
+        );
         $mocked_dav_factory->expects($this->exactly($expects_object))
-        ->method('retrieveDAVObjectByRefID')->willReturnCallback(
-            function (int $ref_id) use ($tree): INode {
-                if ($tree[$ref_id]['access'] === 'none') {
-                    throw new Forbidden("No read permission for object with reference ID $ref_id");
-                }
+                           ->method('retrieveDAVObjectByRefID')->willReturnCallback(
+                               function (int $ref_id) use ($tree): INode {
+                                   if ($tree[$ref_id]['access'] === 'none') {
+                                       throw new Forbidden("No read permission for object with reference ID $ref_id");
+                                   }
 
-                if ($tree[$ref_id]['type'] === 'fold') {
-                    $obj_class = ilDAVContainer::class;
-                } elseif ($tree[$ref_id]['type'] === 'file') {
-                    $obj_class = ilDAVFile::class;
-                } else {
-                    throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_TYPE_NOT_DAVABLE);
-                }
+                                   if ($tree[$ref_id]['type'] === 'fold') {
+                                       $obj_class = ilDAVContainer::class;
+                                   } elseif ($tree[$ref_id]['type'] === 'file') {
+                                       $obj_class = ilDAVFile::class;
+                                   } else {
+                                       throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_TYPE_NOT_DAVABLE);
+                                   }
 
-                if ($this->hasTitleForbiddenChars($tree[$ref_id]['title'])) {
-                    throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_TITLE_NOT_DAVABLE);
-                }
+                                   if ($this->hasTitleForbiddenChars($tree[$ref_id]['title'])) {
+                                       throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_TITLE_NOT_DAVABLE);
+                                   }
 
-                if ($this->isHiddenFile($tree[$ref_id]['title'])) {
-                    throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_HIDDEN);
-                }
+                                   if ($this->isHiddenFile($tree[$ref_id]['title'])) {
+                                       throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_HIDDEN);
+                                   }
 
-                $object = $this->createMock($obj_class);
-                $object->expects($this->atMost(3))->method('getName')->willReturn($tree[$ref_id]['title']);
-                return $object;
-            }
-        );
+                                   $object = $this->createMock($obj_class);
+                                   $object->expects($this->atMost(3))->method('getName')->willReturn($tree[$ref_id]['title']);
+                                   return $object;
+                               }
+                           );
         $mocked_dav_factory->expects($this->exactly($expects_problem_info_file))
-        ->method('getProblemInfoFile')->willReturnCallback(
-            function (int $ref_id): ilDAVProblemInfoFile {
-                $problem_info_file = $this->createMock(ilDAVProblemInfoFile::class);
-                $problem_info_file->expects($this->atMost(2))->method('getName')->willReturn('Problem Info File');
-                return $problem_info_file;
-            }
-        );
+                           ->method('getProblemInfoFile')->willReturnCallback(
+                               function (int $ref_id): ilDAVProblemInfoFile {
+                                   $problem_info_file = $this->createMock(ilDAVProblemInfoFile::class);
+                                   $problem_info_file->expects($this->atMost(2))->method('getName')->willReturn('Problem Info File');
+                                   return $problem_info_file;
+                               }
+                           );
 
-        $mocked_repo_helper = $this->createPartialMock(ilWebDAVRepositoryHelper::class, ['getChildrenOfRefId', 'checkcreateAccessForType', 'checkAccess']);
+        $mocked_repo_helper = $this->createPartialMock(
+            ilWebDAVRepositoryHelper::class,
+            ['getChildrenOfRefId', 'checkcreateAccessForType', 'checkAccess']
+        );
         $mocked_repo_helper->expects($this->exactly($expects_child_ref))
-        ->method('getChildrenOfRefId')->willReturnCallback(
-            fn(int $parent_ref): array => $tree[$parent_ref]['children']
-        );
+                           ->method('getChildrenOfRefId')->willReturnCallback(
+                               fn(int $parent_ref): array => $tree[$parent_ref]['children']
+                           );
         $mocked_repo_helper->expects($this->atMost(1))
-        ->method('checkcreateAccessForType')->willReturnCallback(
-            fn($parent_ref, $type): bool => $tree[$parent_ref]['access'] === 'write'
-        );
+                           ->method('checkcreateAccessForType')->willReturnCallback(
+                               fn($parent_ref, $type): bool => $tree[$parent_ref]['access'] === 'write'
+                           );
         $mocked_repo_helper->expects($this->atMost(1))
-        ->method('checkAccess')->willReturnCallback(
-            fn(string $permission, int $ref_id): bool => in_array($permission, ['write', 'delete']) && $tree[$ref_id]['access'] === 'write'
-        );
+                           ->method('checkAccess')->willReturnCallback(
+                               fn(string $permission, int $ref_id): bool => in_array(
+                                   $permission,
+                                   ['write', 'delete']
+                               ) && $tree[$ref_id]['access'] === 'write'
+                           );
 
         if ($for_create) {
             $object_child = new ilObjFolder();
             $object_child->setType('fold');
-            $dav_container = new ilDAVContainerWithOverridenGetChildCollection($object_folder, $user, $request, $mocked_dav_factory, $mocked_repo_helper);
+            $dav_container = new ilDAVContainerWithOverridenGetChildCollection(
+                $object_folder,
+                $user,
+                $request,
+                $mocked_dav_factory,
+                $mocked_repo_helper
+            );
             $dav_container->setChildcollection($object_child);
             return $dav_container;
         }

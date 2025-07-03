@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 /**
  * Auto completion class for user lists
  * @author Stefan Meyer <meyer@leifos.com>
@@ -36,8 +37,9 @@ class ilRoleAutoComplete
             "JOIN rbac_fa fa ON o1.obj_id = rol_id " .
 //            "JOIN tree t1 ON fa.parent =  t1.child " .
 //            "JOIN object_reference obr ON ref_id = t1.parent " .
-            "JOIN object_reference obr ON ref_id = fa.parent " .
+            "JOIN object_reference obr ON ref_id = fa.parent AND obr.deleted IS NULL " .
             "JOIN object_data o2 ON obr.obj_id = o2.obj_id " .
+            "INNER JOIN tree t ON t.child = obr.ref_id AND t.tree = 1 " .
             "WHERE o1.type = 'role' " .
             "AND assign = 'y' " .
             "AND (" . $ilDB->like('o1.title', 'text', '%' . $a_str . '%') . "OR " .

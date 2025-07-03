@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Result;
 
+use ilDclDatatype;
 use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Substitution\FieldSubstitution;
 use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Token\Token;
 use ILIAS\components\DataCollection\Fields\Formula\FormulaParser\Token\Tokenizer;
@@ -70,7 +71,7 @@ class MathResultResolver implements ResultResolver
         foreach ($math_tokens as $math_token) {
             if (str_starts_with($math_token->getValue(), Tokenizer::FIELD_OPENER)) {
                 $field = $this->substitution->getFieldFromPlaceholder($math_token->getValue());
-                if ($field->getDatatypeId() === \ilDclDatatype::INPUTFORMAT_DATETIME) {
+                if ($field->getDatatypeId() === ilDclDatatype::INPUTFORMAT_DATE) {
                     return true;
                 }
             }
@@ -83,7 +84,7 @@ class MathResultResolver implements ResultResolver
             if (preg_match_all('/\[\[(.*?)\]\]/', $token->getValue(), $matches)) {
                 foreach ($matches[1] as $match) {
                     $field = $this->substitution->getFieldFromPlaceholder($match);
-                    if ($field->getDatatypeId() === \ilDclDatatype::INPUTFORMAT_DATETIME) {
+                    if ($field->getDatatypeId() === ilDclDatatype::INPUTFORMAT_DATE) {
                         return true;
                     }
                 }
@@ -147,7 +148,7 @@ class MathResultResolver implements ResultResolver
                     $elem = $stack->pop();
                 }
                 // Get result within brackets recursive and push to stack
-                $stack->push($this->parseMath(array_reverse($_tokens)));
+                $stack->push($this->parseMath(array_reverse($_tokens))[0]);
                 $in_bracket = false;
             } else {
                 throw new \ilException("Unrecognized token '$token'");
@@ -155,9 +156,7 @@ class MathResultResolver implements ResultResolver
         }
         // If one element is left on stack, we are done. Otherwise calculate
         if ($stack->count() === 1) {
-            $result = $stack->pop();
-
-            $value = (ctype_digit((string) $result)) ? $result : number_format($result, 2, '.', "'");
+            $value = (int) round((float) $stack->pop());
             return [$value, $last_operator ?? null];
         }
 

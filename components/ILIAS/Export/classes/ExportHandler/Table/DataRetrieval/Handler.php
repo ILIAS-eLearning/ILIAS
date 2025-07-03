@@ -24,7 +24,7 @@ use Generator;
 use ilExportGUI;
 use ILIAS\Data\Order as ilDataOrder;
 use ILIAS\Data\Range as ilDataRange;
-use ILIAS\DI\UIServices as ilUIServices;
+use ilLanguage;
 use ILIAS\Export\ExportHandler\I\Consumer\ExportOption\CollectionInterface as ilExportHandlerConsumerExportOptionCollectionInterface;
 use ILIAS\Export\ExportHandler\I\FactoryInterface as ilExportHandlerFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Info\File\HandlerInterface as ilExportHandlerFileInfoInterface;
@@ -35,20 +35,20 @@ use ilObject;
 
 class Handler implements ilExportHandlerTableDataRetrievalInterface
 {
-    protected const ICON_CHECKED = "assets/images/standard/icon_checked.svg";
-    protected const ICON_NOT_CHECKED = "assets/images/standard/icon_unchecked.svg";
-    protected const ICON_SIZE = "small";
-    protected ilUIServices $ui_services;
+    protected const LNG_PUBLIC_ACCESS_STATUS = 'exp_public_access_status';
+    protected const LNG_NOT_PUBLIC_ACCESS_STATUS = 'exp_not_public_access_status';
+
+    protected ilLanguage $lng;
     protected ilExportHandlerFactoryInterface $export_handler;
     protected ilExportGUI $export_gui;
     protected ilObject $export_object;
     protected ilExportHandlerConsumerExportOptionCollectionInterface $export_options;
 
     public function __construct(
-        ilUIServices $ui_services,
+        ilLanguage $lng,
         ilExportHandlerFactoryInterface $export_handler
     ) {
-        $this->ui_services = $ui_services;
+        $this->lng = $lng;
         $this->export_handler = $export_handler;
     }
 
@@ -83,9 +83,9 @@ class Handler implements ilExportHandlerTableDataRetrievalInterface
         ?array $additional_parameters
     ): Generator {
         [$column_name, $direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-        $icons = [
-            $this->ui_services->factory()->symbol()->icon()->custom(self::ICON_CHECKED, '', self::ICON_SIZE),
-            $this->ui_services->factory()->symbol()->icon()->custom(self::ICON_NOT_CHECKED, '', self::ICON_SIZE)
+        $public_access_status = [
+            $this->lng->txt(self::LNG_PUBLIC_ACCESS_STATUS),
+            $this->lng->txt(self::LNG_NOT_PUBLIC_ACCESS_STATUS)
         ];
         $context = $this->export_handler->consumer()->context()->handler($this->export_gui, $this->export_object);
         /** @var array<string, ilExportHandlerFileInfoInterface> $sorted_rows */
@@ -147,7 +147,7 @@ class Handler implements ilExportHandlerTableDataRetrievalInterface
                 ilExportHandlerTableInterface::TABLE_COL_FILE => $file_info->getFileName(),
                 ilExportHandlerTableInterface::TABLE_COL_SIZE => ((float) $file_info->getFileSize()) / ((float) pow(1024, 2)),
                 ilExportHandlerTableInterface::TABLE_COL_TIMESTAMP => $file_info->getLastChanged(),
-                ilExportHandlerTableInterface::TABLE_COL_PUBLIC_ACCESS => $file_info->getPublicAccessEnabled() ? $icons[0] : $icons[1]
+                ilExportHandlerTableInterface::TABLE_COL_PUBLIC_ACCESS => $file_info->getPublicAccessEnabled() ? $public_access_status[0] : $public_access_status[1]
             ])->withDisabledAction("enable_pa", !$file_info->getPublicAccessPossible());
         }
     }

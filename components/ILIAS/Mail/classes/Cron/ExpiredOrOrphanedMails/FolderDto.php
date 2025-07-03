@@ -22,7 +22,7 @@ namespace ILIAS\Mail\Cron\ExpiredOrOrphanedMails;
 
 class FolderDto
 {
-    /** @var MailDto[] */
+    /** @var array<int, MailDto> */
     private array $orphaned_mail_objects = [];
 
     public function __construct(private readonly int $folder_id, private readonly ?string $folder_title)
@@ -45,7 +45,7 @@ class FolderDto
     }
 
     /**
-     * @return MailDto[]
+     * @return array<int, MailDto>
      */
     public function getOrphanedMailObjects(): array
     {

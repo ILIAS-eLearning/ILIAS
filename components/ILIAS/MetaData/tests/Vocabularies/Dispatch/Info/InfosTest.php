@@ -118,9 +118,7 @@ class InfosTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider activeCountProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('activeCountProvider')]
     public function testIsDeactivatableStandard(
         int $active_controlled_vocabs,
         bool $is_standard_vocab_active,
@@ -151,9 +149,7 @@ class InfosTest extends TestCase
         $this->assertTrue($infos->isDeactivatable($vocab));
     }
 
-    /**
-     * @dataProvider activeCountProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('activeCountProvider')]
     public function testIsDeactivatableControlledVocabValue(
         int $active_controlled_vocabs,
         bool $is_standard_vocab_active,
@@ -264,9 +260,7 @@ class InfosTest extends TestCase
         $this->assertTrue($infos->canBeDeleted($vocab));
     }
 
-    /**
-     * @dataProvider activeCountProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('activeCountProvider')]
     public function testCanBeDeletedControlledVocabValue(
         int $active_controlled_vocabs,
         bool $is_standard_vocab_active,

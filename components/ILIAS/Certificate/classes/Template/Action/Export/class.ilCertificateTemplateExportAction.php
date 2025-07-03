@@ -77,9 +77,9 @@ class ilCertificateTemplateExportAction
             $streams['background.jpg'] = $this->irss->consume()->stream($background_rid)->getStream();
         }
 
-        $thumbnail_rid = $this->irss->manage()->find($template->getThumbnailImageIdentification());
-        if ($thumbnail_rid instanceof ResourceIdentification) {
-            $streams['thumbnail.svg'] = $this->irss->consume()->stream($thumbnail_rid)->getStream();
+        $tile_image_rid = $this->irss->manage()->find($template->getTileImageIdentification());
+        if ($tile_image_rid instanceof ResourceIdentification) {
+            $streams['tile_image.svg'] = $this->irss->consume()->stream($tile_image_rid)->getStream();
         }
 
         $objectType = $this->objectHelper->lookupType($this->objectId);

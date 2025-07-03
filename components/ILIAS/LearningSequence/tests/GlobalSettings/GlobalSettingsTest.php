@@ -33,9 +33,7 @@ class GlobalSettingsTest extends TestCase
         return $settings;
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testIntervalAttribute(LSGlobalSettings $settings): void
     {
         $interval = 2.0;

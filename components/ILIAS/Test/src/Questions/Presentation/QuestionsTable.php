@@ -23,20 +23,22 @@ namespace ILIAS\Test\Questions\Presentation;
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
 use ILIAS\Test\Questions\Properties\Properties as TestQuestionProperties;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Table\Ordering;
-use ILIAS\UI\Component\Table\OrderingBinding;
+use ILIAS\UI\Component\Table\OrderingRetrieval;
 use ILIAS\UI\Component\Table\OrderingRowBuilder;
 use ILIAS\Language\Language;
 use Psr\Http\Message\ServerRequestInterface;
 
-class QuestionsTable implements OrderingBinding
+class QuestionsTable implements OrderingRetrieval
 {
     /**
      * @param array $data <string, mixed>
      */
     public function __construct(
         private readonly UIFactory $ui_factory,
+        private readonly Refinery $refinery,
         private readonly ServerRequestInterface $request,
         private readonly QuestionsTableActions $table_actions,
         private readonly Language $lng,
@@ -49,14 +51,18 @@ class QuestionsTable implements OrderingBinding
     public function getTableComponent(): Ordering
     {
         $table = $this->ui_factory->table()->ordering(
+            $this,
+            $this->table_actions->getOrderActionUrl(),
             $this->lng->txt('list_of_questions'),
             $this->getColumns(),
-            $this,
-            $this->table_actions->getOrderActionUrl()
         )
         ->withId((string) $this->test_obj->getId())
         ->withActions($this->table_actions->getActions())
         ->withRequest($this->request);
+
+        if ($this->test_obj->isRandomTest()) {
+            return $table->withOrderingDisabled(true);
+        }
 
         return $table;
     }
@@ -69,6 +75,7 @@ class QuestionsTable implements OrderingBinding
             $row = $record->getAsQuestionsTableRow(
                 $this->lng,
                 $this->ui_factory,
+                $this->refinery,
                 $this->table_actions->getQuestionTargetLinkBuilder(),
                 $row_builder,
                 $this->title_builder

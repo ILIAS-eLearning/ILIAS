@@ -86,6 +86,7 @@ class SurveyImportParser extends ilSaxParser
         global $DIC;
 
         parent::__construct($a_xml_file);
+        $this->activequestion = null;
         $this->spl_id = $a_spl_id;
         $this->has_error = false;
         $this->characterbuffer = "";
@@ -130,9 +131,8 @@ class SurveyImportParser extends ilSaxParser
 
     public function setHandlers($a_xml_parser): void
     {
-        xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
+        xml_set_element_handler($a_xml_parser, $this->handlerBeginTag(...), $this->handlerEndTag(...));
+        xml_set_character_data_handler($a_xml_parser, $this->handlerCharacterData(...));
     }
 
     /**
@@ -212,9 +212,14 @@ class SurveyImportParser extends ilSaxParser
                         case "online":
                             if ($this->spl_id > 0) {
                                 $spl = new ilObjSurveyQuestionPool($this->spl_id, false);
-                                $spl->setOnline($value);
+                                $spl->setOfflineStatus(!$value);
                                 $spl->saveToDb();
                             }
+                            break;
+                        case "label":
+                            $spl = new ilObjSurveyQuestionPool($this->spl_id, false);
+                            $spl->setTitle($value);
+                            $spl->saveToDb();
                             break;
                     }
                 }
@@ -285,17 +290,13 @@ class SurveyImportParser extends ilSaxParser
                         break;
                 }
                 if (strlen($type ?? "")) {
-                    if (SurveyQuestion::_includeClass($type)) {
-                        $this->activequestion = new $type();
-
-                        // if no pool is given, question will reference survey
-                        $q_obj_id = $this->spl_id;
-                        if ($this->spl_id < 0) {
-                            $q_obj_id = $this->survey->getId();
-                        }
-
-                        $this->activequestion->setObjId($q_obj_id);
+                    $this->activequestion = new $type();
+                    // if no pool is given, question will reference survey
+                    $q_obj_id = $this->spl_id;
+                    if ($this->spl_id < 0) {
+                        $q_obj_id = $this->survey->getId();
                     }
+                    $this->activequestion->setObjId($q_obj_id);
                 } else {
                     $this->activequestion = null;
                 }
@@ -381,7 +382,7 @@ class SurveyImportParser extends ilSaxParser
                 break;
             case "response_text":
                 $this->material = [];
-                $this->responses[$a_attribs["id"]] = array("type" => "text", "id" => $a_attribs["id"], "columns" => $a_attribs["columns"], "maxlength" => $a_attribs["maxlength"] ?? null, "rows" => $a_attribs["rows"], "label" => $a_attribs["label"] ?? "");
+                $this->responses[$a_attribs["id"]] = array("type" => "text", "id" => $a_attribs["id"], "columns" => $a_attribs["columns"] ?? null, "maxlength" => $a_attribs["maxlength"] ?? null, "rows" => $a_attribs["rows"] ?? null, "label" => $a_attribs["label"] ?? "");
                 $this->response_id = $a_attribs["id"];
                 break;
             case "response_num":
@@ -597,18 +598,6 @@ class SurveyImportParser extends ilSaxParser
                 if (strcmp($this->getParent(), "survey") == 0) {
                     foreach ($this->metadata as $key => $value) {
                         switch ($value["label"]) {
-                            case "SCORM":
-                                if (strlen($value["entry"] ?? "")) {
-                                    if (is_object($this->survey)) {
-                                        $md_sax_parser = new ilMDSaxParser();
-                                        $md_sax_parser->setXMLContent($value["entry"]);
-                                        $md_sax_parser->setMDObject($tmp = new ilMD($this->survey->getId(), 0, "svy"));
-                                        $md_sax_parser->enableMDParsing(true);
-                                        $md_sax_parser->startParsing();
-                                        $this->survey->MDUpdateListener("General");
-                                    }
-                                }
-                                break;
                             case "display_question_titles":
                                 if ($value["entry"] == 1) {
                                     $this->survey->setShowQuestionTitles(true);
@@ -655,25 +644,6 @@ class SurveyImportParser extends ilSaxParser
                             case "mode_skill_service":
                                 $this->survey->setSkillService($value["entry"]);
                                 break;
-                        }
-                    }
-                }
-                if (!$this->spl_exists) {
-                    if (strcmp($this->getParent(), "surveyquestions") == 0) {
-                        foreach ($this->metadata as $key => $value) {
-                            if (strcmp($value["label"], "SCORM") == 0) {
-                                if (strlen($value["entry"] ?? "")) {
-                                    if ($this->spl_id > 0) {
-                                        $md_sax_parser = new ilMDSaxParser();
-                                        $md_sax_parser->setXMLContent($value["entry"]);
-                                        $md_sax_parser->setMDObject($tmp = new ilMD($this->spl_id, 0, "spl"));
-                                        $md_sax_parser->enableMDParsing(true);
-                                        $md_sax_parser->startParsing();
-                                        $spl = new ilObjSurveyQuestionPool($this->spl_id, false);
-                                        $spl->MDUpdateListener("General");
-                                    }
-                                }
-                            }
                         }
                     }
                 }

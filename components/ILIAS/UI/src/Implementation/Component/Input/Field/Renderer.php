@@ -146,8 +146,8 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\Hidden):
                 return $this->renderHiddenField($component);
 
-            case ($component instanceof F\ColorPicker):
-                return $this->renderColorPickerField($component, $default_renderer);
+            case ($component instanceof F\ColorSelect):
+                return $this->renderColorSelectField($component, $default_renderer);
 
             case ($component instanceof F\Rating):
                 return $this->renderRatingField($component, $default_renderer);
@@ -387,7 +387,7 @@ class Renderer extends AbstractComponentRenderer
         if ($value) {
             $value = array_map(
                 function ($v) {
-                    return ['value' => urlencode($this->convertSpecialCharacters($v)), 'display' => $v];
+                    return ['value' => urlencode($v), 'display' => $v];
                 },
                 $value
             );
@@ -821,7 +821,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $template = $this->getTemplate('tpl.hidden.html', true, true);
         $this->applyName($input, $template);
-        $this->applyValue($input, $template);
+        $this->applyValue($input, $template, $this->escapeSpecialChars());
         if ($input->isDisabled()) {
             $template->setVariable("DISABLED", 'disabled="disabled"');
         }
@@ -835,7 +835,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('assets/js/tagify.min.js');
+        $registry->register('assets/js/tagify.js');
         $registry->register('assets/css/tagify.css');
         $registry->register('assets/js/tagInput.js');
 
@@ -980,9 +980,9 @@ class Renderer extends AbstractComponentRenderer
         return $mime_type_string;
     }
 
-    protected function renderColorPickerField(F\ColorPicker $component, RendererInterface $default_renderer): string
+    protected function renderColorSelectField(F\ColorSelect $component, RendererInterface $default_renderer): string
     {
-        $tpl = $this->getTemplate("tpl.colorpicker.html", true, true);
+        $tpl = $this->getTemplate("tpl.color_select.html", true, true);
         $this->applyName($component, $tpl);
         $tpl->setVariable('VALUE', $component->getValue());
 

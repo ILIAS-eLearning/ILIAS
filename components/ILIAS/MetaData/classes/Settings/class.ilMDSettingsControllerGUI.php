@@ -104,7 +104,7 @@ class ilMDSettingsControllerGUI
 
         $this->tabs_gui->addSubTab(
             self::OER_SETTINGS_TAB,
-            $this->lng->txt('settings'),
+            $this->lng->txt('md_settings'),
             $this->ctrl->getLinkTargetByClass(
                 ilMDOERSettingsGUI::class,
                 'showOERSettings'

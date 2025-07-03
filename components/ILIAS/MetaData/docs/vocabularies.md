@@ -117,6 +117,8 @@ and can be omitted when the values are already human-readable.
 
 Before a vocabulary is created, a validation is performed to make sure
 that the vocabulary conforms to the restrictions laid out [below](#controlled-vocabularies).
+Note that the order of values is not important, and will not be
+respected after import.
 
 Some vocabularies only apply when a different LOM element than the one
 the vocabulary applies to carries a certain value. Such a relationship
@@ -192,6 +194,10 @@ a vocabulary cannot contain no values, and multiple vocabularies of type
 'Controlled Text' or 'Controlled Selection' for the same LOM element cannot
 contain the same value. Further, the source of these vocabularies
 cannot be `LOMv1.0`.
+
+Note that values from controlled vocabularies are shown in the LOM editor
+ordered alphabetically by their label (or the value itself if there is
+no label).
 
 #### Applicable Elements
 

@@ -160,10 +160,7 @@ class ilPersonalSkillsGUI
      */
     protected array $requested_wsp_ids = [];
 
-    /**
-     * @var string[]
-     */
-    protected array $trigger_user_filter = [];
+    protected string $trigger_user_filter = "";
 
     public function __construct()
     {
@@ -293,18 +290,15 @@ class ilPersonalSkillsGUI
         $this->trigger_objects_filter = $trigger_objects_filter;
     }
 
-    /**
-     * @return string[]
-     */
-    public function getTriggerUserFilter(): array
+    public function getTriggerUserFilter(): string
     {
         return $this->trigger_user_filter;
     }
 
     /**
-     * @param string[] $trigger_user_filter
+     * @param string $trigger_user_filter
      */
-    public function setTriggerUserFilter(array $trigger_user_filter): void
+    public function setTriggerUserFilter(string $trigger_user_filter): void
     {
         $this->trigger_user_filter = $trigger_user_filter;
     }
@@ -593,7 +587,6 @@ class ilPersonalSkillsGUI
                 $acc->addItem($lng->txt('skmg_skill_levels'), $skl_lvl_desc);
                 $panel_comps[] = $this->ui_fac->legacy()->content($acc->getHTML());
             }
-
             $prof_comp_head_rendered = false;
             $has_at_least_one_entry = false;
             if ($this->getProfileId() > 0) {
@@ -1399,7 +1392,6 @@ class ilPersonalSkillsGUI
 
         // needed fix for profiles in gap view, because there is no filter shown (yet)
         $this->getFilter()->clear();
-
         if ($a_skills == null) {
             foreach ($this->getObjectSkills() as $s) {
                 $a_skills[] = array(
@@ -1436,20 +1428,29 @@ class ilPersonalSkillsGUI
         }
 
         // get actual levels for gap analysis
-        $this->actual_levels = $this->profile_completion_manager->getActualMaxLevels(
-            $user_id,
-            $skills,
-            $this->gap_mode,
-            $this->gap_mode_type,
-            $this->gap_mode_obj_id
-        );
-        $this->next_level_fuls = $this->profile_completion_manager->getActualNextLevelFulfilments(
-            $user_id,
-            $skills,
-            $this->gap_mode,
-            $this->gap_mode_type,
-            $this->gap_mode_obj_id
-        );
+        if ($this->getTriggerUserFilter() !== "") { // this must not be the actual max level
+            $this->actual_levels = $this->profile_completion_manager->getLastLevelPerObjectAndTriggerUser(
+                $user_id,
+                $skills,
+                $this->gap_mode_obj_id,
+                $this->getTriggerUserFilter()
+            );
+        } else {
+            $this->actual_levels = $this->profile_completion_manager->getActualMaxLevels(
+                $user_id,
+                $skills,
+                $this->gap_mode,
+                $this->gap_mode_type,
+                $this->gap_mode_obj_id
+            );
+            $this->next_level_fuls = $this->profile_completion_manager->getActualNextLevelFulfilments(
+                $user_id,
+                $skills,
+                $this->gap_mode,
+                $this->gap_mode_type,
+                $this->gap_mode_obj_id
+            );
+        }
 
         $bc_skills = [];
         $html = "";
@@ -1551,7 +1552,7 @@ class ilPersonalSkillsGUI
                     }
                 }
                 if ($this->actual_levels[$l->getBaseSkillId()][$l->getTrefId()] == $lv["id"]) {
-                    $perc = $this->next_level_fuls[$l->getBaseSkillId()][$l->getTrefId()];
+                    $perc = $this->next_level_fuls[$l->getBaseSkillId()][$l->getTrefId()] ?? 0.0;
                     $points[$eval_dim] = $cnt + $perc;
                     $tooltips[$eval_dim] = null;
                     if ($perc > 0) {
@@ -1971,9 +1972,7 @@ class ilPersonalSkillsGUI
         array $level_data
     ): string {
         $lng = $this->lng;
-
         $tpl = new ilTemplate("tpl.skill_entries_non_latest.html", true, true, "components/ILIAS/Skill");
-
         $user_entries = $skill->getAllHistoricLevelEntriesOfUser($bs["tref"], $user->getId(), $eval_type);
         $user_entries_filtered = $this->getFilteredEntriesForSkill(
             $user_entries,
@@ -2018,13 +2017,12 @@ class ilPersonalSkillsGUI
         // get date of self evaluation
         $se_date = $this->self_evaluation_manager->getSelfEvaluationDate($user->getId(), $top_skill_id, $bs["tref"], $bs["id"]);
         $se_rendered = $se_date == "";
-
         $filtered_entries = [];
         foreach ($entries as $level_entry) {
             if (count($this->getTriggerObjectsFilter()) && !in_array($level_entry['trigger_obj_id'], $this->getTriggerObjectsFilter())) {
                 continue;
             }
-            if (count($this->getTriggerUserFilter()) && !in_array($level_entry['trigger_user_id'], $this->getTriggerUserFilter())) {
+            if ($this->getTriggerUserFilter() !== "" && $level_entry['trigger_user_id'] != $this->getTriggerUserFilter()) {
                 continue;
             }
 

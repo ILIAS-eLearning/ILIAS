@@ -143,6 +143,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                 $this->addLocator();
                 $this->setTabs();
                 $this->tabs_gui->activateTab("settings");
+                $this->setSettingsSubTabs("properties");
                 $gui = $this->gui->settings()->settingsGUI(
                     $this->object->getId(),
                     false

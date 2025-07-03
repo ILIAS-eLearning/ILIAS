@@ -56,7 +56,7 @@ class TestScoringByParticipantPassesOverviewTableGUI extends \ilTable2GUI
         $this->addColumn($this->lng->txt("tst_answered_questions"), 'answered_questions', '');
         $this->addColumn($this->lng->txt("tst_reached_points"), 'reached_points', '');
         $this->addColumn($this->lng->txt("tst_percent_solved"), 'percentage', '');
-        $this->addColumn('', '', '1%');
+        $this->addColumn($this->lng->txt("actions"), '', '1%');
     }
 
     private function initOrdering(): void

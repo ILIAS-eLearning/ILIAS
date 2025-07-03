@@ -201,7 +201,7 @@ class ilECSCourseCreationHandler
         foreach ($matching_rules as $matching_rule) {
             $this->logger->debug('Handling matching rule: ' . $matching_rule);
             $parent_refs = ilECSCourseMappingRule::doMappings(
-                (int) $course,
+                $course,
                 $this->getServer()->getServerId(),
                 $this->getMid(),
                 $matching_rule
@@ -256,7 +256,7 @@ class ilECSCourseCreationHandler
      */
     protected function syncParentContainer($a_content_id, $course): int
     {
-        if (!is_array($course->allocations)) {
+        if (!property_exists($course, 'allocations') || !is_array($course->allocations)) {
             $this->logger->debug('No allocation in course defined.');
             return 0;
         }
@@ -374,24 +374,25 @@ class ilECSCourseCreationHandler
         // Handle parallel groups
         if ($obj_id) {
             // update multiple courses/groups according to parallel scenario
-            $this->logger->debug('Group scenario ' . $course->groupScenario);
-            switch ((int) $course->groupScenario) {
-                case ilECSMappingUtils::PARALLEL_GROUPS_IN_COURSE:
-                    $this->logger->debug('Performing update for parallel groups in course.');
-                    $this->updateParallelGroups($a_content_id, $course, $obj_id);
-                    break;
+            if (property_exists($course, 'groupScenario')) {
+                $this->logger->debug('Group scenario ' . $course->groupScenario);
+                switch ((int) $course->groupScenario) {
+                    case ilECSMappingUtils::PARALLEL_GROUPS_IN_COURSE:
+                        $this->logger->debug('Performing update for parallel groups in course.');
+                        $this->updateParallelGroups($a_content_id, $course, $obj_id);
+                        break;
 
-                case ilECSMappingUtils::PARALLEL_ALL_COURSES:
-                    $this->logger->debug('Performing update for parallel courses.');
-                    $this->updateParallelCourses($a_content_id, $course, $a_parent_obj_id);
-                    break;
+                    case ilECSMappingUtils::PARALLEL_ALL_COURSES:
+                        $this->logger->debug('Performing update for parallel courses.');
+                        $this->updateParallelCourses($a_content_id, $course, $a_parent_obj_id);
+                        break;
 
-                case ilECSMappingUtils::PARALLEL_ONE_COURSE:
-                default:
-                    // nothing to do
-                    break;
+                    case ilECSMappingUtils::PARALLEL_ONE_COURSE:
+                    default:
+                        // nothing to do
+                        break;
+                }
             }
-
             // do update
             $this->updateCourseData($course, $obj_id);
         } else {
@@ -461,12 +462,14 @@ class ilECSCourseCreationHandler
         $course_obj = new ilObjCourse();
         $course_obj->setOwner(SYSTEM_USER_ID);
         $title = $course->title;
-        if ($group->title !== '') {
+        if (property_exists($group, 'title') && $group->title !== '') {
             $title .= ' (' . $group->title . ')';
         }
         $this->logger->debug('Creating new parallel course instance from ecs : ' . $title);
         $course_obj->setTitle($title);
-        $course_obj->setSubscriptionMaxMembers((int) $group->maxParticipants);
+        if (property_exists($group, 'maxParticipants')) {
+            $course_obj->setSubscriptionMaxMembers((int) $group->maxParticipants);
+        }
         $course_obj->setOfflineStatus(true);
         $course_obj->create();
 
@@ -499,13 +502,13 @@ class ilECSCourseCreationHandler
                 if ($course_obj instanceof ilObjCourse) {
                     $this->logger->debug('New title is ' . $title);
                     $course_obj->setTitle($title);
-                    if(!is_null($group->maxParticipants)) {
+                    if (property_exists($group, 'maxParticipants') && !is_null($group->maxParticipants)) {
                         $course_obj->setSubscriptionMaxMembers($group->maxParticipants);
                     }
                     $course_obj->update();
                 }
             }
-            $this->addUrlEntry($this->getImportId((int) $course->lectureID, (string) $group->ID));
+            $this->addUrlEntry($this->getImportId((int) $course->lectureID, (string) $group->id));
         }
         return true;
     }
@@ -530,9 +533,11 @@ class ilECSCourseCreationHandler
     {
         $group_obj = new ilObjGroup();
         $group_obj->setOwner(SYSTEM_USER_ID);
-        $title = $group->title !== '' ? $group->title : $course->title;
+        $title = (property_exists($group, 'title') && $group->title !== '') ? $group->title : $course->title;
         $group_obj->setTitle($title);
-        $group_obj->setMaxMembers((int) $group->maxParticipants);
+        if (property_exists($group, 'maxParticipants')) {
+            $group_obj->setMaxMembers((int) $group->maxParticipants);
+        }
         $group_obj->create();
         $group_obj->createReference();
         $group_obj->putInTree($parent_ref);
@@ -562,13 +567,13 @@ class ilECSCourseCreationHandler
                     $title = $group->title !== '' ? $group->title : $course->title;
                     $this->logger->debug('New title is ' . $title);
                     $group_obj->setTitle($title);
-                    if(!is_null($group->maxParticipants)) {
+                    if (property_exists($group, 'maxParticipants') && !is_null($group->maxParticipants)) {
                         $group_obj->setMaxMembers((int) $group->maxParticipants);
                     }
                     $group_obj->update();
                 }
             }
-            $this->addUrlEntry($this->getImportId((int)$course->lectureID, (string)$group->id));
+            $this->addUrlEntry($this->getImportId((int) $course->lectureID, (string) $group->id));
         }
     }
 

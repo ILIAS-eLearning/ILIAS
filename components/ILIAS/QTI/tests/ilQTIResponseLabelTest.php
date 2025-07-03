@@ -27,9 +27,7 @@ class ilQTIResponseLabelTest extends TestCase
         $this->assertInstanceOf(ilQTIResponseLabel::class, new ilQTIResponseLabel());
     }
 
-    /**
-     * @dataProvider rshuffles
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('rshuffles')]
     public function testSetGetRshuffle(string $input, ?string $expected): void
     {
         $instance = new ilQTIResponseLabel();
@@ -37,9 +35,7 @@ class ilQTIResponseLabelTest extends TestCase
         $this->assertEquals($expected, $instance->getRshuffle());
     }
 
-    /**
-     * @dataProvider areas
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('areas')]
     public function testSetGetRarea(string $input, ?string $expected): void
     {
         $instance = new ilQTIResponseLabel();
@@ -47,9 +43,7 @@ class ilQTIResponseLabelTest extends TestCase
         $this->assertEquals($expected, $instance->getRarea());
     }
 
-    /**
-     * @dataProvider rranges
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('rranges')]
     public function testSetGetRrange(string $input, ?string $expected): void
     {
         $instance = new ilQTIResponseLabel();

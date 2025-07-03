@@ -353,8 +353,8 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                 $points = $answer->getPoints();
             }
         }
-        $reached_points = $this->deductHintPointsFromReachedPoints($preview_session, $points);
-        return $this->ensureNonNegativePoints($reached_points);
+
+        return $this->ensureNonNegativePoints($points);
     }
 
     public function saveWorkingData(
@@ -505,7 +505,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
 
                     // Reorder feedback
                     $feedback_order_db = intval($feedback_option['answer']);
-                    $db_answer_id = $db_answer_id_for_order[$feedback_order_db];
+                    $db_answer_id = $db_answer_id_for_order[$feedback_order_db] ?? null;
                     // This cuts feedback that currently would have no corresponding answer
                     // This case can happen while copying "broken" questions
                     // Or when saving a question with less answers than feedback
@@ -683,7 +683,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $result = [];
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = $this->getTitle();
+        $result['title'] = $this->getTitleForHTMLOutput();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = $this->getNrOfTries();
         $result['shuffle'] = $this->getShuffle();
@@ -885,7 +885,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     {
         $result = [
             AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
-            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitleForHTMLOutput(),
             AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
             AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS => $additional_info
                 ->getTrueFalseTagForBool($this->getShuffle()),

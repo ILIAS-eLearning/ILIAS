@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Setup;
 
 class ilHttpConfigStoredObjective implements Setup\Objective
@@ -95,6 +97,12 @@ class ilHttpConfigStoredObjective implements Setup\Objective
         $settings->set("proxy_host", (string) $this->config->getProxyHost());
         $settings->set("proxy_port", (string) $this->config->getProxyPort());
 
+        if (is_array($this->config->getAllowedHosts()) && $this->config->getAllowedHosts() !== []) {
+            $settings->set('allowed_hosts', implode(',', $this->config->getAllowedHosts()));
+        } else {
+            $settings->delete('allowed_hosts');
+        }
+
         return $environment;
     }
 
@@ -118,7 +126,8 @@ class ilHttpConfigStoredObjective implements Setup\Objective
             $ini->readVariable(ilHTTPS::SETTINGS_GROUP_HTTPS, ilHTTPS::SETTING_AUTO_HTTPS_DETECT_HEADER_VALUE) !== $this->config->getHeaderValue() ||
             $settings->get("proxy_status") !== (int) $this->config->isProxyEnabled() ||
             $settings->get("proxy_host") !== $this->config->getProxyHost() ||
-            $settings->get("proxy_port") !== $this->config->getProxyPort()
+            $settings->get("proxy_port") !== $this->config->getProxyPort() ||
+            $settings->get('allowed_hosts', '') !== implode(',', $this->config->getAllowedHosts() ?? [])
         ;
     }
 }

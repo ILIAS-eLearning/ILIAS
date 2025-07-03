@@ -24,6 +24,7 @@ use ILIAS\Export\ExportHandler\I\Info\Export\CollectionInterface as ilExportHand
 use ILIAS\Export\ExportHandler\I\Info\Export\Component\FactoryInterface as ilExportHandlerExportComponentInfoFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Container\FactoryInterface as ilExportHandlerContainerExportInfoFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\HandlerInterface as ilExportHandlerExportInfoInterface;
+use ILIAS\Export\ExportHandler\I\Info\Export\Path\FactoryInterface as ExportPathInfoFactoryInterface;
 
 interface FactoryInterface
 {
@@ -34,4 +35,6 @@ interface FactoryInterface
     public function component(): ilExportHandlerExportComponentInfoFactoryInterface;
 
     public function container(): ilExportHandlerContainerExportInfoFactoryInterface;
+
+    public function path(): ExportPathInfoFactoryInterface;
 }

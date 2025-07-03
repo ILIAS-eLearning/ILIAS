@@ -25,6 +25,7 @@ use ILIAS\Refinery\String\Group;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\String\Transformation\UTFNormalTransformation;
 use ILIAS\Refinery\Transformation;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class UTFNormalTest extends TestCase
 {
@@ -62,9 +63,7 @@ class UTFNormalTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider stringProvider
-     */
+    #[DataProvider('stringProvider')]
     public function testNormalization(
         string $string,
         string $expected_form_c,

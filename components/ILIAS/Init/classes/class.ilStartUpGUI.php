@@ -312,7 +312,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $page_editor_html = $this->showOpenIdConnectLoginForm($page_editor_html);
         $page_editor_html = $this->showLoginInformation($page_editor_html, $tpl);
         $page_editor_html = $this->showLoginForm($page_editor_html, $form);
-        $page_editor_html = $this->showCASLoginForm($page_editor_html);
         $page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
         $page_editor_html = $this->showSamlLoginForm($page_editor_html);
         $page_editor_html = $this->showRegistrationLinks($page_editor_html);
@@ -582,7 +581,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     ),
         ];
 
-        $sections = [$field_factory->section($fields, $this->lng->txt('login_to_ilias'))];
+        $sections = [$field_factory->section($fields, $this->lng->txt('login_to_ilias_via_login_form'))];
 
         return $this->ui_factory
             ->input()
@@ -593,80 +592,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             ->withSubmitLabel($this->lng->txt('log_in'))
             ->withAdditionalTransformation($this->mergeValuesTrafo())
             ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
-    }
-
-    private function doShibbolethAuthentication(): void
-    {
-        $this->getLogger()->debug('Trying shibboleth authentication');
-
-        $credentials = new ilAuthFrontendCredentialsShibboleth();
-        $credentials->initFromRequest();
-
-        $provider_factory = new ilAuthProviderFactory();
-        $provider = $provider_factory->getProviderByAuthMode($credentials, ilAuthUtils::AUTH_SHIBBOLETH);
-
-        $status = ilAuthStatus::getInstance();
-
-        $frontend_factory = new ilAuthFrontendFactory();
-        $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
-        $frontend = $frontend_factory->getFrontend(
-            $this->authSession,
-            $status,
-            $credentials,
-            [$provider]
-        );
-        $frontend->authenticate();
-
-        switch ($status->getStatus()) {
-            case ilAuthStatus::STATUS_AUTHENTICATED:
-                $this->logger->debug('Authentication successful; Redirecting to starting page.');
-                ilInitialisation::redirectToStartingPage();
-
-                // no break
-            case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
-                $this->ctrl->redirect($this, 'showAccountMigration');
-
-                // no break
-            case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-                $this->mainTemplate->setOnScreenMessage('failure', $status->getTranslatedReason(), true);
-                $this->ctrl->redirect($this, 'showLoginPage');
-        }
-
-        $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_wrong_login'));
-        $this->showLoginPage();
-    }
-
-    private function doCasAuthentication(): void
-    {
-        $this->getLogger()->debug('Trying cas authentication');
-        $credentials = new ilAuthFrontendCredentialsCAS();
-
-        $provider_factory = new ilAuthProviderFactory();
-        $provider = $provider_factory->getProviderByAuthMode($credentials, ilAuthUtils::AUTH_CAS);
-
-        $status = ilAuthStatus::getInstance();
-
-        $frontend_factory = new ilAuthFrontendFactory();
-        $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
-        $frontend = $frontend_factory->getFrontend(
-            $this->authSession,
-            $status,
-            $credentials,
-            [$provider]
-        );
-        $frontend->authenticate();
-
-        switch ($status->getStatus()) {
-            case ilAuthStatus::STATUS_AUTHENTICATED:
-                $this->getLogger()->debug('Authentication successful.');
-                ilInitialisation::redirectToStartingPage();
-
-                // no break
-            case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-            default:
-                $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt($status->getReason()));
-                $this->showLoginPage();
-        }
     }
 
     private function doLTIAuthentication(): void
@@ -849,53 +774,19 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     ): string {
         global $tpl;
 
-        // @todo move this to auth utils.
-        // login via ILIAS (this also includes ldap)
-        // If local authentication is enabled for shibboleth users, we
-        // display the login form for ILIAS here.
-        if ((
-            $this->setting->get('auth_mode') != ilAuthUtils::AUTH_SHIBBOLETH ||
-                $this->setting->get('shib_auth_allow_local')
-        ) && $this->setting->get('auth_mode') != ilAuthUtils::AUTH_CAS) {
-            return $this->substituteLoginPageElements(
-                $tpl,
-                $page_editor_html,
-                $this->ui_renderer->render($form ?? $this->buildStandardLoginForm()),
-                '[list-login-form]',
-                'LOGIN_FORM'
-            );
-        }
-
-        return $page_editor_html;
+        return $this->substituteLoginPageElements(
+            $tpl,
+            $page_editor_html,
+            $this->ui_renderer->render($form ?? $this->buildStandardLoginForm()),
+            '[list-login-form]',
+            'LOGIN_FORM'
+        );
     }
 
     private function showLoginInformation(string $page_editor_html, ilGlobalTemplateInterface $tpl): string
     {
         if ($page_editor_html !== '') {
             return $page_editor_html;
-        }
-
-        return $page_editor_html;
-    }
-
-    private function showCASLoginForm(string $page_editor_html): string
-    {
-        if ($this->setting->get('cas_active')) {
-            $tpl = new ilTemplate('tpl.login_form_cas.html', true, true, 'components/ILIAS/Init');
-            $tpl->setVariable('TXT_CAS_LOGIN', $this->lng->txt('login_to_ilias_via_cas'));
-            $tpl->setVariable('TXT_CAS_LOGIN_BUTTON', ilUtil::getImagePath('auth/cas_login_button.png'));
-            $tpl->setVariable('TXT_CAS_LOGIN_INSTRUCTIONS', $this->setting->get('cas_login_instructions'));
-            $this->ctrl->setParameter($this, 'forceCASLogin', '1');
-            $tpl->setVariable('TARGET_CAS_LOGIN', $this->ctrl->getLinkTarget($this, 'doCasAuthentication'));
-            $this->ctrl->setParameter($this, 'forceCASLogin', '');
-
-            return $this->substituteLoginPageElements(
-                $GLOBALS['tpl'],
-                $page_editor_html,
-                $tpl->get(),
-                '[list-cas-login-form]',
-                'CAS_LOGIN_FORM'
-            );
         }
 
         return $page_editor_html;
@@ -1118,7 +1009,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 '[list-user-agreement]',
                 '[list-dpro-agreement]',
                 '[list-login-form]',
-                '[list-cas-login-form]',
                 '[list-saml-login]',
                 '[list-shibboleth-login-form]',
                 '[list-openid-connect-login]'
@@ -1331,7 +1221,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             'client_id',
             $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
         );
-        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME'])) {
+
+        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
+            $this->access->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', ROOT_FOLDER_ID)) {
             $tpl->setCurrentBlock('homelink');
             $tpl->setVariable('CLIENT_ID', '?client_id=' . $client_id . '&lang=' . $this->lng->getLangKey());
             $tpl->setVariable('TXT_HOME', $this->lng->txt('home'));
@@ -1419,15 +1311,18 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     private function processIndexPHP(): void
     {
         if ($this->authSession->isValid()) {
-            if (!$this->user->isAnonymous() || ilPublicSectionSettings::getInstance()->isEnabledForDomain(
-                $this->httpRequest->getServerParams()['SERVER_NAME']
+            if (!$this->user->isAnonymous() || (
+                ilPublicSectionSettings::getInstance()->isEnabledForDomain(
+                    $this->httpRequest->getServerParams()['SERVER_NAME']
+                ) && $this->access->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', ROOT_FOLDER_ID)
             )) {
                 ilInitialisation::redirectToStartingPage();
                 return;
             }
         }
 
-        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME'])) {
+        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
+            $this->access->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', ROOT_FOLDER_ID)) {
             ilInitialisation::goToPublicSection();
         }
 

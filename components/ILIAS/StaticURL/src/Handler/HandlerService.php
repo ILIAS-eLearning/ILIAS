@@ -95,7 +95,9 @@ class HandlerService
             $full_uri = $this->appendUnknownParameters($this->context, $full_uri); // Read the comment below
         } else {
             // Perform Redirect
-            $uri_path = $response->getURIPath();
+            $uri_path = $response->getURIPath() ?? '';
+            $base_path = $base_uri->getPath() ?? '';
+            $uri_path = str_replace($base_path, '', $uri_path);
             $full_uri = $base_uri . '/' . trim((string) $uri_path, '/');
         }
 

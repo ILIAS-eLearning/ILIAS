@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\Wiki\Export\WikiHtmlExport;
+use ILIAS\Export\HTML\ExportFile;
 
 /**
  *  Class manages user html export
@@ -31,12 +32,13 @@ class ilWikiUserHTMLExport
 
     public const NOT_RUNNING = 0;
     public const RUNNING = 1;
+    protected \ILIAS\components\Export\HTML\ExportFileManager $html_export_file_manager;
 
     protected ?array $data = null;
     protected ilDBInterface $db;
     protected \ilObjWiki $wiki;
     protected ilObjUser $user;
-    protected ilLogger$log;
+    protected ilLogger $log;
     protected bool $with_comments = false;
 
     public function __construct(
@@ -45,6 +47,8 @@ class ilWikiUserHTMLExport
         ilObjUser $a_user,
         bool $with_comments = false
     ) {
+        global $DIC;
+
         $this->db = $a_db;
         $this->wiki = $a_wiki;
         $this->user = $a_user;
@@ -52,6 +56,7 @@ class ilWikiUserHTMLExport
         $this->log = ilLoggerFactory::getLogger('wiki');
         $this->with_comments = $with_comments;
         $this->log->debug("comments: " . $this->with_comments);
+        $this->html_export_file_manager = $DIC->export()->domain()->html()->fileManager();
     }
 
     protected function read(): void
@@ -70,12 +75,12 @@ class ilWikiUserHTMLExport
     {
         $this->log->debug("getProcess");
         $last_change = ilPageObject::getLastChangeByParent("wpg", $this->wiki->getId());
-        $file_exists = $this->doesFileExist();
+        $latest = $this->getLatest();
 
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock('wiki_user_html_export');
 
-        $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) use ($last_change, &$ret, $file_exists) {
+        $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) use ($last_change, &$ret, $latest) {
             $this->log->debug("atom query start");
 
             $this->read();
@@ -83,7 +88,7 @@ class ilWikiUserHTMLExport
 
             if (($this->data["start_ts"] ?? "") != "" &&
                 $this->data["start_ts"] > $last_change) {
-                if ($file_exists) {
+                if ($latest) {
                     $ret = self::PROCESS_UPTODATE;
                     $this->log->debug("return: " . self::PROCESS_UPTODATE);
                     return;
@@ -182,13 +187,13 @@ class ilWikiUserHTMLExport
         } else {
             $exp->setMode(WikiHtmlExport::MODE_USER_COMMENTS);
         }
-        $exp->buildExportFile();
+        $exp = $exp->buildExportFile();
         // reset user export status
         $this->updateStatus(100, self::NOT_RUNNING);
         exit;
     }
 
-    protected function doesFileExist(): bool
+    protected function getLatest(): ?ExportFile
     {
         $exp = new WikiHtmlExport($this->wiki);
         if ($this->with_comments) {
@@ -196,8 +201,7 @@ class ilWikiUserHTMLExport
         } else {
             $exp->setMode(WikiHtmlExport::MODE_USER);
         }
-        $file = $exp->getUserExportFile();
-        return is_file($file);
+        return $exp->getLatest();
     }
 
     public function deliverFile(): void
@@ -210,8 +214,6 @@ class ilWikiUserHTMLExport
         } else {
             $exp->setMode(WikiHtmlExport::MODE_USER);
         }
-        $file = $exp->getUserExportFile();
-        $this->log->debug("file: " . $file);
-        ilFileDelivery::deliverFileLegacy($file, pathinfo($file, PATHINFO_BASENAME));
+        $exp->deliverLatest();
     }
 }

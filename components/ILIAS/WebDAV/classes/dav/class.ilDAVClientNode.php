@@ -30,10 +30,14 @@ class ilDAVClientNode implements ICollection
 {
     use ilWebDAVReadOnlyNodeWriteFunctionsTrait;
     use ilWebDAVAccessChildrenFunctionsTrait;
+
     protected string $name_of_repository_root = 'ILIAS';
 
-    public function __construct(protected string $client_name, protected ilWebDAVObjFactory $dav_factory, protected ilWebDAVRepositoryHelper $repository_helper)
-    {
+    public function __construct(
+        protected string $client_name,
+        protected ilWebDAVObjFactory $dav_factory,
+        protected ilWebDAVRepositoryHelper $repository_helper
+    ) {
     }
 
     public function getName(): string
@@ -65,11 +69,19 @@ class ilDAVClientNode implements ICollection
     {
         try {
             $ref_id = $this->getRefIdFromName($name);
-            return $this->repository_helper->objectWithRefIdExists($ref_id) && $this->repository_helper->checkAccess('read', $ref_id);
+            return $this->repository_helper->objectWithRefIdExists($ref_id) && $this->repository_helper->checkAccess(
+                'read',
+                $ref_id
+            );
         } catch (BadRequest) {
         }
 
-        return $this->checkIfChildExistsByParentRefId($this->repository_helper, $this->dav_factory, ROOT_FOLDER_ID, $name);
+        return $this->checkIfChildExistsByParentRefId(
+            $this->repository_helper,
+            $this->dav_factory,
+            ROOT_FOLDER_ID,
+            $name
+        );
     }
 
     public function getLastModified(): int

@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Interface ilSamlAuth
- * @author Michael Jansen <mjansen@databay.de>
- */
 interface ilSamlIdpDiscovery
 {
     /**

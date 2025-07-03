@@ -36,7 +36,7 @@ use Monolog\Processor\PsrLogMessageProcessor;
  */
 class ilLoggerFactory
 {
-    protected const DEFAULT_FORMAT = "[%suid%] [%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
+    protected const DEFAULT_FORMAT = "[%extra.suid%] [%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
 
     protected const ROOT_LOGGER = 'root';
     protected const COMPONENT_ROOT = 'log_root';
@@ -242,7 +242,7 @@ class ilLoggerFactory
 
         // suid log
         $logger->pushProcessor(function ($record) {
-            $record['suid'] = substr(session_id(), 0, 5);
+            $record['extra']['suid'] = substr(session_id(), 0, 5);
             return $record;
         });
 

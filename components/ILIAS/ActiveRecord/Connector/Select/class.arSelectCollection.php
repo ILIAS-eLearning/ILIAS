@@ -23,12 +23,12 @@
  */
 class arSelectCollection extends arStatementCollection
 {
-    public function asSQLStatement(): string
+    public function asSQLStatement(ilDBInterface $db): string
     {
         $return = 'SELECT ';
         if ($this->hasStatements()) {
             $activeRecord = $this->getAr();
-            $selectSQLs = array_map(fn($select): string => $select->asSQLStatement($activeRecord), $this->getSelects());
+            $selectSQLs = array_map(fn($select) => $select->asSQLStatement($activeRecord, $db), $this->getSelects());
             $return .= implode(', ', $selectSQLs);
         }
 

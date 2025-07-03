@@ -42,7 +42,7 @@ class ilNotesDataSet extends ilDataSet
 
     public function getSupportedVersions(): array
     {
-        return array("4.3.0");
+        return array("4.3.0", "10.0");
     }
 
     protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
@@ -58,6 +58,7 @@ class ilNotesDataSet extends ilDataSet
         if ($a_entity === "user_notes") {
             switch ($a_version) {
                 case "4.3.0":
+                case "10.0":
                     return array(
                         "Id" => "integer",
                         "RepObjId" => "integer",
@@ -70,6 +71,15 @@ class ilNotesDataSet extends ilDataSet
                         "Label" => "integer",
                         "Subject" => "text",
                         "NoRepository" => "integer"
+                    );
+            }
+        }
+        if ($a_entity === "comments_settings") {
+            switch ($a_version) {
+                case "10.0":
+                    return array(
+                        "Id" => "integer",
+                        "Active" => "integer"
                     );
             }
         }
@@ -87,12 +97,25 @@ class ilNotesDataSet extends ilDataSet
         if ($a_entity === "user_notes") {
             switch ($a_version) {
                 case "4.3.0":
+                case "10.0":
                     $this->getDirectDataFromQuery("SELECT id, rep_obj_id, obj_id, obj_type, type, " .
                         " author, note_text, creation_date, label, subject, no_repository " .
                         " FROM note " .
                         " WHERE " .
                         $ilDB->in("author", $a_ids, false, "integer") .
                         " AND obj_type = " . $ilDB->quote("pd", "text"));
+                    break;
+            }
+        }
+        if ($a_entity === "comments_settings") {
+            switch ($a_version) {
+                case "10.0":
+                    foreach($a_ids as $id) {
+                        $this->data[] = [
+                            "Id" => $id,
+                            "Active" => (int) $this->notes_manager->commentsActive((int) $id)
+                        ];
+                    }
                     break;
             }
         }
@@ -136,6 +159,12 @@ class ilNotesDataSet extends ilDataSet
                             true
                         );
                     }
+                }
+                break;
+            case "comments_settings":
+                $obj_id = (int) $a_mapping->getMapping("components/ILIAS/ILIASObject", "obj", $a_rec["Id"]);
+                if ($obj_id > 0 && ((bool) ($a_rec["Active"] ?? false) === true)) {
+                    $this->notes_manager->activateComments($obj_id, true);
                 }
                 break;
         }

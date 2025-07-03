@@ -38,7 +38,7 @@ use ILIAS\MetaData\Editor\Http\RequestForFormInterface;
 
 class ModalFactory
 {
-    public const MAX_LENGTH = 128;
+    public const int MAX_LENGTH = 128;
 
     protected LinkProvider $link_provider;
     protected UIFactory $factory;
@@ -118,7 +118,7 @@ class ModalFactory
             $to_be_updated,
             false
         );
-        $modal =  $this->getRoundtripModal(
+        $modal = $this->getRoundtripModal(
             $to_be_updated,
             $form,
             Command::UPDATE_FULL,

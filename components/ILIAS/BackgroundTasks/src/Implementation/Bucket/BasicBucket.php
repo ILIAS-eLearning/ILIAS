@@ -207,7 +207,7 @@ class BasicBucket implements Bucket
 
     public function setDescription(string $description): void
     {
-        $this->description = $description;
+        $this->description = mb_substr($description, 0, 255);
     }
 
     /**

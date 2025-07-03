@@ -44,9 +44,7 @@ class LightboxTest extends ModalBase
         $this->assertEquals($pages, $lightbox->getPages());
     }
 
-    /**
-     * @dataProvider getPageProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getPageProvider')]
     public function testSimplePageRendering(string $method, array $args, string $expected_html): void
     {
         $lightbox = $this->getModalFactory()->lightbox($this->getModalFactory()->$method(...$args));
@@ -185,14 +183,14 @@ EOT;
 						</div>
 					</div>
 
-					<a class="left carousel-control" href="#id_1_carousel" role="button" data-slide="prev">
+					<button class="left carousel-control btn-link" href="#id_1_carousel" role="button" data-slide="prev">
 						<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 						<span class="sr-only">Previous</span>
-					</a>
-					<a class="right carousel-control" href="#id_1_carousel" role="button" data-slide="next">
+					</button>
+					<button class="right carousel-control btn-link" href="#id_1_carousel" role="button" data-slide="next">
 						<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 						<span class="sr-only">Next</span>
-					</a>
+					</button>
 
 				</div>
 			</div>

@@ -164,6 +164,11 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
         return $form;
     }
 
+    public function create_consultation_hours(): void
+    {
+        $this->create();
+    }
+
     public function create(): void
     {
         $form = $this->initForm(true);

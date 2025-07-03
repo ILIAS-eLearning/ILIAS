@@ -27,9 +27,7 @@ class ilStudyProgrammeTypeTranslationTest extends \PHPUnit\Framework\TestCase
         return $tt;
     }
 
-    /**
-     * @depends test_init_and_id
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('test_init_and_id')]
     public function test_prg_type_id($tt)
     {
         $this->assertEquals(0, $tt->getPrgTypeId());
@@ -38,9 +36,7 @@ class ilStudyProgrammeTypeTranslationTest extends \PHPUnit\Framework\TestCase
     }
 
 
-    /**
-     * @depends test_init_and_id
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('test_init_and_id')]
     public function test_lang($tt)
     {
         $this->assertEquals('', $tt->getLang());
@@ -48,9 +44,7 @@ class ilStudyProgrammeTypeTranslationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('de', $tt->getLang());
     }
 
-    /**
-     * @depends test_init_and_id
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('test_init_and_id')]
     public function test_member($tt)
     {
         $this->assertEquals('', $tt->getMember());
@@ -58,9 +52,7 @@ class ilStudyProgrammeTypeTranslationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('a_member', $tt->getMember());
     }
 
-    /**
-     * @depends test_init_and_id
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('test_init_and_id')]
     public function test_value($tt)
     {
         $this->assertEquals('', $tt->getValue());

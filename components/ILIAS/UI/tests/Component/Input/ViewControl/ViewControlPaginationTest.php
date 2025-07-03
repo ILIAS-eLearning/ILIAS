@@ -124,9 +124,7 @@ class ViewControlPaginationTest extends ViewControlTestBase
         ];
     }
 
-    /**
-     * @dataProvider providePaginationInput
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providePaginationInput')]
     public function testViewControlPaginationWithInput(
         int $offset,
         int $page_size,
@@ -171,11 +169,9 @@ class ViewControlPaginationTest extends ViewControlTestBase
         $expected = $this->brutallyTrimHTML('
 <div class="il-viewcontrol il-viewcontrol-pagination l-bar__element" id="id_13">
     <div class="dropdown il-viewcontrol-pagination__sectioncontrol">
-            <div class="btn btn-ctrl browse previous">
-                <a tabindex="0" class="glyph" aria-label="back" id="id_8">
-                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                </a>
-            </div>
+        <button class="btn btn-link" id="id_8">
+            <span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
+        </button>
 
         <button class="btn btn-link" id="id_1">1</button>
         <span class="il-viewcontrol-pagination__spacer">...</span>
@@ -187,11 +183,9 @@ class ViewControlPaginationTest extends ViewControlTestBase
         <span class="il-viewcontrol-pagination__spacer">...</span>
         <button class="btn btn-link" id="id_7">21</button>
 
-        <div class="btn btn-ctrl browse next">
-            <a tabindex="0" class="glyph" aria-label="next" id="id_9">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            </a>
-        </div>
+        <button class="btn btn-link" id="id_9">
+            <span class="glyph" aria-label="next" role="img"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
+        </button>
     </div>
 
     <div class="dropdown il-viewcontrol-pagination__num-of-items">

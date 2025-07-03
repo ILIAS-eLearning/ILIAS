@@ -25,8 +25,8 @@ use ILIAS\MetaData\Vocabularies\VocabularyInterface;
 
 interface FactoryInterface
 {
-    public const STANDARD_SOURCE = 'LOMv1.0';
-    public const COPYRIGHT_SOURCE = 'ILIAS';
+    public const string STANDARD_SOURCE = 'LOMv1.0';
+    public const string COPYRIGHT_SOURCE = 'ILIAS';
 
     public function standard(SlotIdentifier $slot, string ...$values): BuilderInterface;
 

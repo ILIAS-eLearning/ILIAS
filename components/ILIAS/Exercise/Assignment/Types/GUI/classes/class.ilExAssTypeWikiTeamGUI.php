@@ -18,6 +18,7 @@
 
 use ILIAS\Exercise\InternalDomainService;
 use ILIAS\Exercise\InternalGUIService;
+use ILIAS\ILIASObject\Properties\CoreProperties\Online;
 
 /**
  * Team wiki type gui implementations
@@ -268,7 +269,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
 
         $wiki->setOwner($this->exercise->getOwner());
         $wiki->setOnline(true);
-        $wiki->getObjectProperties()->storePropertyIsOnline(new ilObjectPropertyIsOnline(true));
+        $wiki->getObjectProperties()->storePropertyIsOnline(new Online(true));
         $wiki->update();
         $wiki->updateOwner();
 

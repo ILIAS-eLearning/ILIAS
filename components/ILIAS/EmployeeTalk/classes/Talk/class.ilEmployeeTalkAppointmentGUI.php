@@ -35,31 +35,23 @@ use ILIAS\EmployeeTalk\Notification\NotificationType;
  */
 final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
 {
-    public const EDIT_MODE_APPOINTMENT = 'appointment';
-    public const EDIT_MODE_SERIES = 'series';
-    public const EDIT_MODE = 'edit-mode';
+    public const string EDIT_MODE_APPOINTMENT = 'appointment';
+    public const string EDIT_MODE_SERIES = 'series';
+    public const string EDIT_MODE = 'edit-mode';
 
     private ilGlobalTemplateInterface $template;
     private ilLanguage $language;
-    private ilCtrl $controlFlow;
+    private ilCtrl $ctrl;
     private HttpServices $http;
     private Refinery $refinery;
     private ilTabsGUI $tabs;
     protected NotificationHandlerInterface $notif_handler;
     private ilObjEmployeeTalk $talk;
 
-    /**
-     * ilEmployeeTalkAppointmentGUI constructor.
-     * @param ilGlobalTemplateInterface $template
-     * @param ilLanguage                $language
-     * @param ilCtrl                    $controlFlow
-     * @param ilTabsGUI                 $tabs
-     * @param ilObjEmployeeTalk         $talk
-     */
     public function __construct(
         ilGlobalTemplateInterface $template,
         ilLanguage $language,
-        ilCtrl $controlFlow,
+        ilCtrl $ctrl,
         HttpServices $http,
         Refinery $refinery,
         ilTabsGUI $tabs,
@@ -68,7 +60,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
     ) {
         $this->template = $template;
         $this->language = $language;
-        $this->controlFlow = $controlFlow;
+        $this->ctrl = $ctrl;
         $this->http = $http;
         $this->refinery = $refinery;
         $this->tabs = $tabs;
@@ -80,7 +72,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
 
     public function executeCommand(): void
     {
-        $cmd = $this->controlFlow->getCmd(ControlFlowCommand::DEFAULT);
+        $cmd = $this->ctrl->getCmd(ControlFlowCommand::DEFAULT);
         if ($this->http->wrapper()->query()->has('ref_id')) {
             $ref_id = $this->http->wrapper()->query()->retrieve(
                 'ref_id',
@@ -93,10 +85,10 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         }
 
         $backClass = strtolower(ilObjEmployeeTalkGUI::class);
-        $this->controlFlow->setParameterByClass($backClass, 'ref_id', $ref_id);
+        $this->ctrl->setParameterByClass($backClass, 'ref_id', $ref_id);
         $this->tabs->setBackTarget(
             $this->language->txt('back'),
-            $this->controlFlow->getLinkTargetByClass(strtolower(ilObjEmployeeTalkGUI::class), ControlFlowCommand::UPDATE)
+            $this->ctrl->getLinkTargetByClass(strtolower(ilObjEmployeeTalkGUI::class), ControlFlowCommand::UPDATE)
         );
 
         switch ($this->editMode()) {
@@ -107,41 +99,37 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
                 $this->executeAppointmentCommand($cmd);
                 break;
             default:
-                $this->controlFlow->redirectByClass(strtolower(ilObjEmployeeTalkGUI::class), ControlFlowCommand::UPDATE);
+                $this->ctrl->redirectByClass(strtolower(ilObjEmployeeTalkGUI::class), ControlFlowCommand::UPDATE);
                 break;
         }
     }
 
-    private function executeSeriesCommand(string $cmd): bool
+    private function executeSeriesCommand(string $cmd): void
     {
         $this->template->setTitle($this->language->txt('etal_date_series_edit'));
 
         switch ($cmd) {
             case ControlFlowCommand::UPDATE_INDEX:
                 $this->editSeries();
-                return true;
+                return;
             case ControlFlowCommand::UPDATE:
                 $this->updateSeries();
-                return true;
+                return;
         }
-
-        return false;
     }
 
-    private function executeAppointmentCommand(string $cmd): bool
+    private function executeAppointmentCommand(string $cmd): void
     {
         $this->template->setTitle($this->language->txt('etal_date_appointment_edit'));
 
         switch ($cmd) {
             case ControlFlowCommand::UPDATE_INDEX:
                 $this->editAppointment();
-                return true;
+                return;
             case ControlFlowCommand::UPDATE:
                 $this->updateAppointment();
-                return true;
+                return;
         }
-
-        return false;
     }
 
     private function editSeries(): void
@@ -192,8 +180,8 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
             $this->template->setOnScreenMessage('success', $this->language->txt('saved_successfully'), true);
         }
 
-        $this->controlFlow->redirectToURL(
-            $this->controlFlow->getLinkTargetByClass(
+        $this->ctrl->redirectToURL(
+            $this->ctrl->getLinkTargetByClass(
                 strtolower(ilEmployeeTalkMyStaffListGUI::class),
                 ControlFlowCommand::UPDATE_INDEX
             ) . $this->getEditModeParameter(ilEmployeeTalkAppointmentGUI::EDIT_MODE_SERIES)
@@ -204,7 +192,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
     {
         $form = new ilPropertyFormGUI();
         $editMode = $this->getEditModeParameter(ilEmployeeTalkAppointmentGUI::EDIT_MODE_APPOINTMENT);
-        $form->setFormAction($this->controlFlow->getFormActionByClass(
+        $form->setFormAction($this->ctrl->getFormActionByClass(
             strtolower(self::class)
         ) . $editMode);
 
@@ -236,7 +224,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
     {
         $form = new ilPropertyFormGUI();
         $editMode = $this->getEditModeParameter(ilEmployeeTalkAppointmentGUI::EDIT_MODE_SERIES);
-        $form->setFormAction($this->controlFlow->getFormActionByClass(
+        $form->setFormAction($this->ctrl->getFormActionByClass(
             strtolower(self::class)
         ) . $editMode);
 
@@ -314,8 +302,8 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         }
 
 
-        $this->controlFlow->redirectToURL(
-            $this->controlFlow->getLinkTargetByClass(
+        $this->ctrl->redirectToURL(
+            $this->ctrl->getLinkTargetByClass(
                 strtolower(self::class),
                 ControlFlowCommand::UPDATE_INDEX
             ) . $this->getEditModeParameter(ilEmployeeTalkAppointmentGUI::EDIT_MODE_APPOINTMENT)
@@ -347,12 +335,6 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         return '&' . ilEmployeeTalkAppointmentGUI::EDIT_MODE . '=' . $mode;
     }
 
-    /**
-     * load recurrence settings
-     *
-     * @access protected
-     * @return
-     */
     private function loadRecurrenceSettings(ilPropertyFormGUI $form): ilCalendarRecurrence
     {
         $rec = new ilCalendarRecurrence();
@@ -449,15 +431,9 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
     }
 
     /**
-     * create recurring talks
-     * @param ilPropertyFormGUI       $form
-     * @param ilCalendarRecurrence    $recurrence
-     * @param ilObjEmployeeTalkSeries $series
-     *
-     * @return bool true if successful otherwise false
      * @throws ilDateTimeException
      */
-    private function createRecurringTalks(ilPropertyFormGUI $form, ilCalendarRecurrence $recurrence, ilObjEmployeeTalkSeries $series): bool
+    private function createRecurringTalks(ilPropertyFormGUI $form, ilCalendarRecurrence $recurrence, ilObjEmployeeTalkSeries $series): void
     {
         $data = $this->loadEtalkData($form);
 
@@ -496,7 +472,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
 
         if (!$recurrence->getFrequenceType()) {
             $this->sendNotification(...$talks);
-            return true;
+            return;
         }
 
         // Remove start date
@@ -527,8 +503,6 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         }
 
         $this->sendNotification(...$talks);
-
-        return true;
     }
 
     /**

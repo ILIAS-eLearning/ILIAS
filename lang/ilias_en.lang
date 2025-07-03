@@ -174,6 +174,7 @@ administration#:#auth_auth_mode_determination#:#Authentication Method Determinat
 administration#:#auth_automatic#:#Fixed Sequence
 administration#:#auth_by_user#:#By the User
 administration#:#auth_kind_determination#:#Kind of Determination
+administration#:#auth_mode_default_change_info#:#Changing the default authentication method affects all user accounts configured to use the default authentication method. If the selected default method (e.g., Shibboleth, SAML, SOAP, ...) does not support or is not configured to allow fallback to local ILIAS authentication, affected users may no longer be able to log in. To avoid this, please ensure that local fallback authentication is activated in the configuration of the selected method, or that the authentication method stored for affected user accounts is manually changed.
 administration#:#auth_mode_determination_info#:#Choose either if the users have to select their authentication method on the login screen or if this is managed by a fixed sequence of authentication methods.
 administration#:#clean#:#Clean up
 administration#:#clean_desc#:#Remove invalid references and tree entries. Initialize gaps in tree structure.
@@ -214,7 +215,7 @@ administration#:#language_former_file_equal#:#The file <b>%s</b> is identical to
 administration#:#language_former_file_missing#:#The file <b>%s</b> is missing.
 administration#:#language_import_file#:#Import Language File
 administration#:#language_load_local_changes#:#Load custom language file into the database
-administration#:#language_load_local_changes_info#:#Load the file Customizing/global/lang/ilias_%s.lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.
+administration#:#language_load_local_changes_info#:#Load the file lang/customizing/ilias_%s.lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.
 administration#:#language_loaded_local#:#The custom language file was loaded into the database.
 administration#:#language_local_file_deleted#:#The custom language file was deleted.
 administration#:#language_maintain#:#Maintain
@@ -235,12 +236,12 @@ administration#:#language_mode_existing_replace_info#:#Import new entries and re
 administration#:#language_note_translation#:#Page translation mode is activated for each language separately. Additionally the user needs read and write permission on the language folder.
 administration#:#language_process_maintenance#:#Process Maintenance
 administration#:#language_remove_local_file#:#Delete the custom language file
-administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s.lang.local and change the language status from ‘Installed With Local’ to ‘Installed’. The changes in the database are not touched.
+administration#:#language_remove_local_file_info#:#Remove the file lang/customizing/ilias_%s.lang.local and change the language status from ‘Installed With Local’ to ‘Installed’. The changes in the database are not touched.
 administration#:#language_save_dist#:#Backup the standard language file
 administration#:#language_save_dist_failed#:#The backup of the standard ILIAS language file could not be written.
 administration#:#language_save_dist_info#:#Create a backup of the standard ILIAS language file in the ILIAS data directory. This helps after an ILIAS update to find conflicst of own changes with updated language variables.
 administration#:#language_save_local_changes#:#Save all changes to the custom language file
-administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file Customizing/global/lang/ilias_%s.lang.local and set the language status to ‘Installed With Local’. The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.
+administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file lang/customizing/ilias_%s.lang.local and set the language status to ‘Installed With Local’. The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.
 administration#:#language_saved_dist#:#The backup of the standard ILIAS language file is created.
 administration#:#language_scope_added#:#Local additions only
 administration#:#language_scope_added_info#:#Export all entries that are locally added in the database. This can be used to backup additional development entries before local changes are deleted on the tab ‘Maintain’.
@@ -557,8 +558,6 @@ assessment#:#broken_test#:#Broken Test
 assessment#:#bulkedit_author#:#Set Author
 assessment#:#bulkedit_lifecycle#:#Set Lifecycle
 assessment#:#bulkedit_taxonomies#:#Set Taxonomies
-assessment#:#button_request_next_question_hint#:#Request Next Hint
-assessment#:#button_request_question_hint#:#Request Hint
 assessment#:#cancel_test#:#Suspend the Test
 assessment#:#cannot_edit_marks#:#The test has already been completed by some participants. You can only change the marks if an ’Access to Test Results’ date has been set and that date is in the future i.e. it has not yet been reached.
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!
@@ -743,7 +742,7 @@ assessment#:#finalized_evaluation#:#Scoring completed
 assessment#:#finalized_on#:#Completed at
 assessment#:#finish_all_user_passes#:#Finish all Test Attempts
 assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test attempts for all users?
-assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.
+assessment#:#finish_pass_for_multiple_users_in_processing_time#:#You cannot finish the passes of the selected users together, because for at least one selected user the processing time is not over yet.
 assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test attempt for the participant "%s"?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).
 assessment#:#finish_test#:#Finish Test
@@ -778,7 +777,6 @@ assessment#:#grading_mark_msg#:#Your mark is: &quot;[mark]&quot;
 assessment#:#grading_status_failed_msg#:#Sorry, you have <b>failed</b> the test.
 assessment#:#grading_status_passed_msg#:#Congratulations, you have <b>passed</b> the test.
 assessment#:#hide_best_solution#:#Hide best solution
-assessment#:#hints#:#Hints
 assessment#:#identical_scoring#:#Identical Scoring
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurrence of the same solution will be scored.
 assessment#:#imagemap#:#Image Map
@@ -1255,7 +1253,6 @@ assessment#:#show_hide_best_solution#:#Show or hide best solution
 assessment#:#show_old_concluding_remarks#:#Show old conlcuding remarks
 assessment#:#show_old_introduction#:#Show old introduction
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
-assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_results#:#Show Results
 assessment#:#show_user_answers#:#Show User’s Marked Answers
 assessment#:#shuffle_answers#:#Shuffle Answers
@@ -1328,7 +1325,6 @@ assessment#:#too_many_targets_selected_for_move#:#You must select exactly one ta
 assessment#:#toplist_by_score#:#High score by score
 assessment#:#toplist_by_time#:#High score by working time
 assessment#:#toplist_col_achieved#:#Date
-assessment#:#toplist_col_hints#:#Hints
 assessment#:#toplist_col_participant#:#Participant
 assessment#:#toplist_col_percentage#:#Percentage
 assessment#:#toplist_col_rank#:#Rank
@@ -1336,6 +1332,7 @@ assessment#:#toplist_col_score#:#Score
 assessment#:#toplist_col_wtime#:#Working Time
 assessment#:#total_attempts#:#Total Attempts
 assessment#:#total_duration#:#Total Duration
+assessment#:#total_max_points_cannot_be_negative#:#The maximum amount of reachable points cannot be negative.
 assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please make a note of this code so that you can continue the test later.
 assessment#:#tst_activate_skill_service#:#Competence Service
@@ -1684,7 +1681,6 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pa
 assessment#:#tst_objective_progress_header#:#Learning Objective Progress
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.
-assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Question related to already passed learning objectives were answered in previous passes.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on or simply review these questions. If you change your answers that were adopted from previous passes, you can also degrade your learning objective result.<br /><br />If you decide to not work on or review these questions, you can go back. The questions will be considered in the evaluation in every case.
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to already passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.
 assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!
 assessment#:#tst_participant#:#Participant
@@ -1740,7 +1736,7 @@ assessment#:#tst_print#:#Test and Assessment - Print View
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_processing_time#:#Limit Duration of Test
 assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock. If the number of possible test attempts is limited an additional feature for granting extra time to participants appears in the tab 'Participants'.
-assessment#:#tst_processing_time_duration#:#Maximum Duration of the Test im Minutes
+assessment#:#tst_processing_time_duration#:#Maximum Duration of the Test in Minutes
 assessment#:#tst_processing_time_duration_desc#:#Maximum of time granted to take the test.
 assessment#:#tst_qbt_filter_question_title#:#Title of Question
 assessment#:#tst_qst_added_to_pool_p#:#Successfully added the questions to the selected pool.
@@ -1756,46 +1752,6 @@ assessment#:#tst_question_answer_status_non_answered#:#Non Answered Questions
 assessment#:#tst_question_answer_status_wrong_answered#:#Only wrongly answered questions
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Question
 assessment#:#tst_question_feedback_edit_page#:#Edit Content
-assessment#:#tst_question_hints_back_to_hint_list#:#Question Hint List
-assessment#:#tst_question_hints_back_to_question#:#Back to Question
-assessment#:#tst_question_hints_cancel_request#:#Back to Question
-assessment#:#tst_question_hints_confirm_request#:#Request Hint
-assessment#:#tst_question_hints_cut_hints_missing_selection_msg#:#No hint selected for cutting.
-assessment#:#tst_question_hints_cut_hints_single_selection_msg#:#More than one hint was selected for cutting.
-assessment#:#tst_question_hints_delete_hints_confirm_cmd#:#Delete Hint(s)
-assessment#:#tst_question_hints_delete_hints_confirm_header#:#Do you really want to delete the following hint(s)?
-assessment#:#tst_question_hints_delete_hints_confirm_item#:#Hint %s: %s
-assessment#:#tst_question_hints_delete_hints_missing_selection_msg#:#No hint(s) selected for deletion.
-assessment#:#tst_question_hints_delete_success_msg#:#The selected hint(s) has been deleted successfully.
-assessment#:#tst_question_hints_form_cmd_save#:#Save Hint
-assessment#:#tst_question_hints_form_cmd_save_points#:#Save Points
-assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Save Points and Edit Page
-assessment#:#tst_question_hints_form_header_create#:#New Hint for Question: %s
-assessment#:#tst_question_hints_form_header_edit#:#Hint %s for Question: %s
-assessment#:#tst_question_hints_form_invalid_msg#:#The hint could not been saved. Please check your inputs.
-assessment#:#tst_question_hints_form_label_hint_points#:#Point Deduction
-assessment#:#tst_question_hints_form_label_hint_text#:#Hint
-assessment#:#tst_question_hints_form_saved_msg#:#The hint has been saved successfully.
-assessment#:#tst_question_hints_index_column_label#:#Hint %s
-assessment#:#tst_question_hints_item_stored_in_ordering_clipboard#:#Hint %s is stored in ordering clipboard.
-assessment#:#tst_question_hints_ordering_clipboard_resetted#:#The ordering clipboard has been reset.
-assessment#:#tst_question_hints_paste_after_success_msg#:#The hint %s has been pasted after hint %s successfully.
-assessment#:#tst_question_hints_paste_before_success_msg#:#The hint %s has been pasted before hint %s successfully.
-assessment#:#tst_question_hints_request_confirmation#:#Do you really want to request hint %s? For this hint %s point(s) will be deducted.
-assessment#:#tst_question_hints_request_confirmation_no_deduction#:#No points will be deducted for this hint.
-assessment#:#tst_question_hints_requested_hint_count_header#:#Requested Hints
-assessment#:#tst_question_hints_save_order_success_msg#:#The order of hint was saved successfully.
-assessment#:#tst_question_hints_tab#:#Hints
-assessment#:#tst_question_hints_table_column_hint_index#:#Index
-assessment#:#tst_question_hints_table_column_hint_order#:#Order
-assessment#:#tst_question_hints_table_column_hint_points#:#Points Deduction
-assessment#:#tst_question_hints_table_column_hint_text#:#Hint
-assessment#:#tst_question_hints_table_header#:#Hints for Question: %s
-assessment#:#tst_question_hints_table_link_delete_hint#:#Delete Hint
-assessment#:#tst_question_hints_table_link_edit_hint#:#Edit Hint
-assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page
-assessment#:#tst_question_hints_table_link_edit_hint_points#:#Edit Points
-assessment#:#tst_question_hints_table_no_items#:#No Existing Hints
 assessment#:#tst_question_mark#:#Flag this question
 assessment#:#tst_question_marked#:#You flagged the question
 assessment#:#tst_question_marker#:#Flagged
@@ -1909,8 +1865,6 @@ assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a 
 assessment#:#tst_sequence_properties#:#Administering the Test: Functionality Available to Participants
 assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.
-assessment#:#tst_setting_offer_hints_info#:#Participants request hints to answer a question. With every hint presented the maximum number of points to be earned decreases.
-assessment#:#tst_setting_offer_hints_label#:#Hints
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".
 assessment#:#tst_settings_header_additional#:#Additional Features
@@ -2088,8 +2042,6 @@ auth#:#auth_account_migration_new#:#Create New User Account
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.
 auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.
 auth#:#auth_auth_settings#:#Settings
-auth#:#auth_cas_ldap#:#Synchronization using LDAP
-auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.
@@ -2193,8 +2145,6 @@ auth#:#auth_saml_user_mapping#:#User Profile Mapping
 auth#:#auth_saml_username_claim#:#Attribute for Username
 auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.
 auth#:#auth_sync#:#User Synchronisation
-auth#:#auth_sync_cas#:#Automatic generation of user accounts
-auth#:#auth_sync_cas_info#:#Automatically create ILIAS user accounts for users who have successfully authenticated themselves using CAS, but do not yet have an ILIAS account.
 auth#:#destination_after_logout#:#Destination After Logout
 auth#:#destination_external_ressource#:#Show External Ressource
 auth#:#destination_external_ressource_url#:#External URL
@@ -2579,7 +2529,7 @@ book#:#book_assign#:#Book
 book#:#book_assign_object#:#Book Items for Participant
 book#:#book_assign_participant#:#Book for Other Participant(s)
 book#:#book_back_to_list#:#Back to List
-book#:#book_bobj#:#Booked Items
+book#:#book_bobj#:#Bookable Item
 book#:#book_book#:#Book
 book#:#book_book_available#:#Book Available Dates
 book#:#book_book_recurrence#:#Book multiple dates
@@ -2786,23 +2736,23 @@ cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel
 cat#:#cat_import#:#Import Category
 cat#:#cat_more_translations#:#More Translations
 cat#:#cat_show_tax_in_side_block#:#Present in Side Panel
-cert#:#cert_currently_no_certs#:#Currently you did not achieve any certificate, yet.
+cert#:#cert_currently_no_certs#:#You do not have any certificates yet.
 cert#:#cert_description_label#:#Description
 cert#:#cert_download_label#:#Download
-cert#:#cert_error_no_access#:#You have no access to this certificate.
+cert#:#cert_error_no_access#:#You do not have the permissions necessary to access this certificate.
 cert#:#cert_issued_on_label#:#Issued On
 cert#:#cert_object_label#:#Object
 cert#:#cert_sortable_by_issue_date_asc#:#Issue Date Ascending
 cert#:#cert_sortable_by_issue_date_desc#:#Issue Date Descending
 cert#:#cert_sortable_by_title_asc#:#Title Ascending
 cert#:#cert_sortable_by_title_desc#:#Title Descending
-cert#:#certificate_achievement#:#%1$s achieved.
+cert#:#certificate_achievement#:#%1$s obtained.
 cert#:#certificate_achievement_sub_obj#:#Certificate for %1$s
 cert#:#certificate_no_object_title#:#No object title available
-cert#:#certificate_same_not_saved#:#No new version of certificate template was saved, because the values didn't change.
-cert#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
+cert#:#certificate_same_not_saved#:#No new version of the certificate template has been saved, as no values were changed.
+cert#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact your installation’s technical support and ask for the certificate server to be checked.
 cert#:#user_certificates#:#Certificates
-certificate#:#cert_cron_task_desc#:#This job's responsibility is the creation of persisting certificate data based on learning achievements of users.
+certificate#:#cert_cron_task_desc#:#This cron job creates persistent certificates based on the learning achievements of users.
 certificate#:#cert_cron_task_title#:#Certificates
 certificate#:#cert_form_sec_add_features#:#Additional Features
 certificate#:#cert_form_sec_availability#:#Availability
@@ -2812,108 +2762,108 @@ certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#Background Image
-certificate#:#certificate_card_thumbnail_image#:#Card Thumbnail
-certificate#:#certificate_change_active_status#:#The active state of the certificate has been changed
-certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?
-certificate#:#certificate_custom#:#Custom...
+certificate#:#certificate_card_thumbnail_image#:#Thumbnail Image
+certificate#:#certificate_change_active_status#:#The ‘Active’ status of the certificate has been changed.
+certificate#:#certificate_confirm_deletion_text#:#Are you sure you want to delete all of the data entered for this certificate template?
+certificate#:#certificate_custom#:#Custom
 certificate#:#certificate_edit#:#Create/Edit a Certificate Template
-certificate#:#certificate_error_import#:#An error occurred during the import of a certificate!
-certificate#:#certificate_error_upload_bgimage#:#An error occurred during the upload of the background image!
+certificate#:#certificate_error_import#:#An error occurred while trying to import the certificate!
+certificate#:#certificate_error_upload_bgimage#:#An error occurred while trying to upload the background image.
 certificate#:#certificate_export#:#Export
-certificate#:#certificate_failed#:#failed
+certificate#:#certificate_failed#:#Failed
 certificate#:#certificate_file_basename#:#Certificate
 certificate#:#certificate_id#:#Certificate ID
-certificate#:#certificate_issue_date#:#Issue Date
+certificate#:#certificate_issue_date#:#Date of Issue
 certificate#:#certificate_learning_progress_must_be_active#:#Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s
 certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
 certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)
-certificate#:#certificate_margin_body#:#Body Margin
-certificate#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!
+certificate#:#certificate_margin_body#:#Text Margins
+certificate#:#certificate_not_well_formed#:#The certificate text is not correctly formatted. Please enter valid XHTML for the certificate text.
 certificate#:#certificate_page_format#:#Page Format
-certificate#:#certificate_page_format_info#:#Please select the default page format for new certificates.
+certificate#:#certificate_page_format_info#:#Please select the page format to be used as the default for new certificates.
 certificate#:#certificate_pageheight#:#Page Height
 certificate#:#certificate_pagewidth#:#Page Width
-certificate#:#certificate_passed#:#passed
-certificate#:#certificate_ph_birthday#:#Birthday of the user
+certificate#:#certificate_passed#:#Passed
+certificate#:#certificate_ph_birthday#:#User’s date of birth
 certificate#:#certificate_ph_cert_id#:#Unique Certificate ID
-certificate#:#certificate_ph_city#:#City of the user's address
-certificate#:#certificate_ph_country#:#Country of the user's address
-certificate#:#certificate_ph_date#:#Actual date
+certificate#:#certificate_ph_city#:#City from user's address
+certificate#:#certificate_ph_country#:#Country from user's address
+certificate#:#certificate_ph_date#:#Current date
 certificate#:#certificate_ph_date_completed#:#Date of completion
-certificate#:#certificate_ph_datetime#:#Actual date and time
+certificate#:#certificate_ph_datetime#:#Current date and time
 certificate#:#certificate_ph_datetime_completed#:#Date and time of completion
-certificate#:#certificate_ph_department#:#Department of the user
-certificate#:#certificate_ph_exercisetitle#:#Exercise Title
-certificate#:#certificate_ph_firstname#:#First name of the user
-certificate#:#certificate_ph_fullname#:#Full name of the user (title, first name and last name)
-certificate#:#certificate_ph_institution#:#Institution of the user
+certificate#:#certificate_ph_department#:#Department to which user belongs
+certificate#:#certificate_ph_exercisetitle#:#Title of exercise
+certificate#:#certificate_ph_firstname#:#User’s first name
+certificate#:#certificate_ph_fullname#:#User’s full name (title, first name and last name)
+certificate#:#certificate_ph_institution#:#Institution to which user belongs
 certificate#:#certificate_ph_introduction#:#The following placeholders may be used
-certificate#:#certificate_ph_lastaccess#:#Last access date and time of the user
-certificate#:#certificate_ph_lastname#:#Last name of the user
-certificate#:#certificate_ph_login#:#Login
-certificate#:#certificate_ph_mark#:#Users mark
-certificate#:#certificate_ph_marklong#:#Users mark (official version)
-certificate#:#certificate_ph_markshort#:#Users mark (short version)
-certificate#:#certificate_ph_matriculation#:#Matriculation number of the user
-certificate#:#certificate_ph_no_sco#:#If items are selected to determine the overall learning progress status, titles and points for these items could be displayed in certificate.
+certificate#:#certificate_ph_lastaccess#:#Date and time of last access by user
+certificate#:#certificate_ph_lastname#:#User’s last name
+certificate#:#certificate_ph_login#:#Username
+certificate#:#certificate_ph_mark#:#User’s mark
+certificate#:#certificate_ph_marklong#:#User’s mark (official version)
+certificate#:#certificate_ph_markshort#:#User’s mark (short version)
+certificate#:#certificate_ph_matriculation#:#User’s matriculation number
+certificate#:#certificate_ph_no_sco#:#If the learning progress for this learning module is determined by a collection of objects, then placeholders for the titles and points of these objects will be made available here.
 certificate#:#certificate_ph_salutation#:#Salutation
-certificate#:#certificate_ph_sco_points_max#:#placeholder<br/>for points<br/>max
-certificate#:#certificate_ph_sco_points_raw#:#placeholder<br/>for points
-certificate#:#certificate_ph_sco_points_scaled#:#placeholder<br/>for points<br/>in percent
-certificate#:#certificate_ph_sco_title#:#placeholder<br/>for title
+certificate#:#certificate_ph_sco_points_max#:#Placeholder<br/>for max<br/>points
+certificate#:#certificate_ph_sco_points_raw#:#Placeholder<br/>for points
+certificate#:#certificate_ph_sco_points_scaled#:#Placeholder<br/>for points<br/>in percent
+certificate#:#certificate_ph_sco_title#:#Placeholder<br/>for title
 certificate#:#certificate_ph_scormmaxpoints#:#Maximum value in the range for the raw score of the last relevant sco (most suitable for a final exam)
 certificate#:#certificate_ph_scormpoints#:#Points of the SCORM learning module in percent
 certificate#:#certificate_ph_scormtitle#:#Title of the SCORM learning module
-certificate#:#certificate_ph_scos#:#The following items were selected to determine the overall learning progress status and are available for statements in the certificate:
-certificate#:#certificate_ph_street#:#Street of the user's address
-certificate#:#certificate_ph_testtitle#:#Title of the test
-certificate#:#certificate_ph_title#:#Title of the user
-certificate#:#certificate_ph_title_sco#:#title
-certificate#:#certificate_ph_zipcode#:#ZIP / Post code of the user's address
+certificate#:#certificate_ph_scos#:#The following were selected to determine the overall learning progress status and are available for statements in the certificate:
+certificate#:#certificate_ph_street#:#Street from user's address
+certificate#:#certificate_ph_testtitle#:#Title of test
+certificate#:#certificate_ph_title#:#User’s title
+certificate#:#certificate_ph_title_sco#:#Title
+certificate#:#certificate_ph_zipcode#:#ZIP / Post code from user's address
 certificate#:#certificate_points_notavailable#:#This value cannot be calculated
 certificate#:#certificate_preview#:#Preview
 certificate#:#certificate_settings#:#Certificate Settings
-certificate#:#certificate_short_name#:#Certificate file short title
+certificate#:#certificate_short_name#:#Certificate File Short Title
 certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.
 certificate#:#certificate_text#:#Certificate Text
-certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.<br><br>
-certificate#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
-certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available in Administration » General Settings » Server, sub-tab Java-Server.
+certificate#:#certificate_text_info#:#Please enter the text you want to have displayed on the certificate. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.
+certificate#:#certificate_unit_description#:#Enter units of measurement as: VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
+certificate#:#certificate_usage#:#Please note that certificates can only be used and created if you are using the ILIAS Java Server. The Java Server can be configured in Administration » System Settings and Maintenance » General Settings » Server » (sub-tab) Java-Server.
 certificate#:#certificate_var_max_points#:#Maximum number of points in the test used
 certificate#:#certificate_var_result_mark_long#:#Achieved mark presented in 'official form'
 certificate#:#certificate_var_result_mark_short#:#Achieved mark presented in 'short form'
-certificate#:#certificate_var_result_passed#:#Information on whether the test was passed or not
+certificate#:#certificate_var_result_passed#:#Passed
 certificate#:#certificate_var_result_percent#:#Percentage achieved in the test
 certificate#:#certificate_var_result_points#:#Number of points achieved in the test
-certificate#:#certificate_var_user_birthday#:#1977-05-08
-certificate#:#certificate_var_user_city#:#Anytown, NY
-certificate#:#certificate_var_user_country#:#USA
+certificate#:#certificate_var_user_birthday#:#22.05.1952
+certificate#:#certificate_var_user_city#:#London
+certificate#:#certificate_var_user_country#:#UK
 certificate#:#certificate_var_user_department#:#Customer Support
-certificate#:#certificate_var_user_firstname#:#Jane
-certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe
-certificate#:#certificate_var_user_institution#:#ILIAS Open Source
-certificate#:#certificate_var_user_lastname#:#Doe
-certificate#:#certificate_var_user_login#:#jdoe
-certificate#:#certificate_var_user_matriculation#:#12345
-certificate#:#certificate_var_user_salutation#:#Mrs.
-certificate#:#certificate_var_user_street#:#100 Main Street
-certificate#:#certificate_var_user_title#:#Dr.
-certificate#:#certificate_var_user_zipcode#:#12345
+certificate#:#certificate_var_user_firstname#:#John
+certificate#:#certificate_var_user_fullname#:#John H. Watson, M.D
+certificate#:#certificate_var_user_institution#:#ILIAS Investigations Ltd.
+certificate#:#certificate_var_user_lastname#:#Watson
+certificate#:#certificate_var_user_login#:#jwatson
+certificate#:#certificate_var_user_matriculation#:#8201754
+certificate#:#certificate_var_user_salutation#:#Mr
+certificate#:#certificate_var_user_street#:#221B Baker Street
+certificate#:#certificate_var_user_title#:#Dr
+certificate#:#certificate_var_user_zipcode#:#NW1 6XE
 certificate#:#cmix_cert_ph_object_description#:#Description
 certificate#:#cmix_cert_ph_object_title#:#Title of the xAPI/cmi5 Object
-certificate#:#cmix_cert_ph_reached_score#:#Reached score as percentage
-certificate#:#default_background_info#:#This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor.
+certificate#:#cmix_cert_ph_reached_score#:#Score achieved in percent
+certificate#:#default_background_info#:#This background image will be used as the default background for all certificates unless a different image is uploaded when creating a certificate for a specific object.
 certificate#:#download_certificate#:#Download Certificate
-certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.
-certificate#:#lti_cert_ph_mastery_score#:#Mastery score as percentage
+certificate#:#learning_progress_deactivated#:#Learning progress for this object is currently deactivated. In order to edit the certificate template and for users to be able to obtain certificates, learning progress for this object needs to be activated via Learning Progress » Settings.
+certificate#:#lti_cert_ph_mastery_score#:#Score achieved in percent
 certificate#:#lti_cert_ph_object_description#:#Description
 certificate#:#lti_cert_ph_object_title#:#Title of the LTI Consumer Object
 certificate#:#lti_cert_ph_reached_score#:#Reached score as percentage
 certificate#:#persistent_certificate_mode#:#User Certificate Creation
 certificate#:#persistent_certificate_mode_cron#:#Cron Job
-certificate#:#persistent_certificate_mode_cron_info#:#This option is recommended for systems with high user interaction.
+certificate#:#persistent_certificate_mode_cron_info#:#This option is recommended for systems with high levels of user interaction.
 certificate#:#persistent_certificate_mode_instant#:#Instant
-certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.
+certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to medium levels of user interaction. Systems that tend towards longer loading times during the creation of multiple user certificates should switch to the ‘Cron Job’ option.
 chatroom#:#allow_anonymous#:#Allow Anonymous Login
 chatroom#:#allow_custom_usernames#:#Allow Custom User Names
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.
@@ -3334,7 +3284,7 @@ cmix#:#passed_label#:#Statements with the verb 'passed'
 cmix#:#privacy_options#:#Options for data security
 cmix#:#progressed_info#:#Indicates a value of how much of an actor has advanced or moved through an activity.
 cmix#:#progressed_label#:#Statements with the verb 'progressed'
-cmix#:#registration_saved_successfully#:#Registration saved successfully
+cmix#:#registration_saved_successfully#:#Saved successfully
 cmix#:#satisfied_info#:#Indicates that the authority or activity provider determined the actor has fulfilled the criteria of the object or activity.
 cmix#:#satisfied_label#:#Statements with the verb 'satisfied'
 cmix#:#sect_learning_progress_options#:#Options for Learning Progress
@@ -3573,7 +3523,7 @@ common#:#are_you_sure#:#Are you sure?
 common#:#assf_allowed_questiontypes#:#Available Question Types
 common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.
 common#:#assf_questiontypes#:#Question Settings
-common#:#assign#:#Accept Request
+common#:#assign#:#Assign
 common#:#assign_global_role#:#Assign to Global Role
 common#:#assign_local_role#:#Assign to Local Role
 common#:#assigned_members#:#Assigned Members
@@ -3586,13 +3536,6 @@ common#:#attachments#:#Attachments
 common#:#attempts#:#Attempts
 common#:#auth_active_roles#:#Global Roles Available on Registration Form
 common#:#auth_allow_local#:#Allow Local Authentication
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#Allows CAS users to authenticate themselves with their local ILIAS username and a local password.
-common#:#auth_cas_auth#:#Configure CAS Authentication
-common#:#auth_cas_auth_desc#:#For CAS authentication to work, the server setting prevent_super_global_replacement in client.ini.php must be set.
-common#:#auth_cas_port_desc#:#E.g. 443 if the full CAS server URI is https://auth.yourserver.com:443/cas/
-common#:#auth_cas_server_desc#:#E.g. auth.yourserver.com if the full CAS server URI is https://auth.yourserver.com:443/cas/
-common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_configure#:#configure...
 common#:#auth_create_users#:#Create Non-Existing Users Automatically
 common#:#auth_default#:#Default setting
@@ -3993,6 +3936,7 @@ common#:#dpro_withdraw_consent_info_external#:#Please contact the administrator 
 common#:#drafts#:#Drafts
 common#:#drag_file_here#:#Drag-and-drop your file here
 common#:#drag_files_here#:#Drag-and-drop your files here
+common#:#drag_handle#:#Draggable element
 common#:#drop_files_on_repo_obj_info#:#Drop the files here to upload them into this object.
 common#:#edit#:#Edit
 common#:#edit_assignments#:#Edit Assignments
@@ -4050,7 +3994,6 @@ common#:#entry_status#:#Entry status
 common#:#err_1_param#:#Only 1 parameter!
 common#:#err_2_param#:#Only 2 parameter!
 common#:#err_auth_apache_failed#:#The authentication has failed. Maybe you have no valid user certificate or your smart card is not inserted.
-common#:#err_auth_cas_no_ilias_user#:#Login failed. CAS authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.
 common#:#err_auth_soap_no_ilias_user#:#Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
@@ -4336,14 +4279,6 @@ common#:#hide_filter#:#Hide Filter
 common#:#hide_own_online_status#:#Hide My Online Status
 common#:#hide_visible_sections#:#Hide More Information &raquo;
 common#:#hint#:#Hint
-common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.
-common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.
-common#:#hist_lm_pg_create#:#Page created.
-common#:#hist_lm_pg_update#:#Page changed.
-common#:#hist_lm_st_create#:#Chapter created.
-common#:#hist_webr_add#:#Added new Weblink with title: "%1"
-common#:#hist_webr_delete#:#Deleted Weblink with title: "%1"
-common#:#hist_webr_update#:#Modified Weblink with title: "%1"
 common#:#history#:#History
 common#:#hobby#:#Interests/Hobbies
 common#:#home#:#Public Area
@@ -4422,7 +4357,7 @@ common#:#info_access_and_status_info#:#Access- and status information
 common#:#info_access_permissions#:#Access Permissions
 common#:#info_activate_sure#:#Are you sure that you want to approve the following user(s) as active user(s)?
 common#:#info_assign_sure#:#Are you sure you want to assign the following user(s)?
-common#:#info_assigned#:#assigned
+common#:#info_assigned#:#Assigned
 common#:#info_available_roles#:#Available Roles
 common#:#info_change_user_view#:#Change User
 common#:#info_deactivate_sure#:#Are you sure that you want to deactivate the following user(s)?
@@ -4581,7 +4516,7 @@ common#:#login_data#:#Login data
 common#:#login_exists#:#There is already a user with this login name! Please choose another one.
 common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 3 characters): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#Login to ILIAS
-common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service
+common#:#login_to_ilias_via_login_form#:#Login to ILIAS
 common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentication
 common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via
 common#:#loginname_already_exists#:#This login name already exists.
@@ -5166,7 +5101,7 @@ common#:#object#:#Object
 common#:#object_added#:#Object added.
 common#:#object_copy_in_progress#:#Started Copying.
 common#:#object_duplicated#:#Object copied
-common#:#object_id#:#Object-ID
+common#:#object_id#:#Object ID
 common#:#object_imported#:#Object imported
 common#:#object_list#:#List of Objects
 common#:#objects#:#Objects
@@ -5895,7 +5830,7 @@ common#:#user_defined_list#:#Custom User Data Fields
 common#:#user_deleted#:#User deleted
 common#:#user_detail#:#Detail Data
 common#:#user_ext_account#:#External Account
-common#:#user_ext_account_desc#:#Account used for external authentication. (CAS, SOAP or LDAP authentication)
+common#:#user_ext_account_desc#:#Account used for external authentication. (SOAP or LDAP authentication)
 common#:#user_image#:#User Image
 common#:#user_import_failed#:#User import failed.
 common#:#user_imported#:#User import complete.
@@ -6201,7 +6136,6 @@ content#:#cont_active_from#:#Activation Start
 content#:#cont_active_to#:#Activation End
 content#:#cont_add_area#:#Add Area
 content#:#cont_add_cell#:#Add Column
-content#:#cont_add_definition#:#Add Definition
 content#:#cont_add_elements#:#<b>Click</b> on a plus symbol to <b>add</b> a new element.
 content#:#cont_add_file#:#Add File
 content#:#cont_add_images#:#Add Images
@@ -6319,7 +6253,6 @@ content#:#cont_click_starting_point#:#Please click on the starting point of the 
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.
 content#:#cont_code_import_file#:#Import
 content#:#cont_code_manual_editing#:#Manuelle Eingabe
-content#:#cont_col_ordering#:#Column Ordering
 content#:#cont_colspan#:#Col. Span
 content#:#cont_commented_by#:#Commented by
 content#:#cont_comments#:#Store Comments
@@ -6375,7 +6308,6 @@ content#:#cont_def_map_areas#:#Default Link Areas
 content#:#cont_def_organization#:#default
 content#:#cont_default#:#Default
 content#:#cont_definition#:#Definition
-content#:#cont_definitions#:#Definitions
 content#:#cont_delete_content#:#Delete Content
 content#:#cont_delete_selected#:#Delete
 content#:#cont_delete_style#:#Delete Style
@@ -6388,12 +6320,7 @@ content#:#cont_dir_renamed#:#Directory has been renamed.
 content#:#cont_disable_def_feedback#:#Disable Default Question Feedback
 content#:#cont_disable_def_feedback_info#:#The standard feedback for a question is not displayed after answering a question.
 content#:#cont_download#:#Download
-content#:#cont_download_no_download#:#Download will not be available to users, since the download feature is not activated.
-content#:#cont_download_no_menu#:#Download will not be available to users since the learning module menu is not activated.
 content#:#cont_download_title#:#Download Title
-content#:#cont_downloads#:#Enable Download
-content#:#cont_downloads_desc#:#Offers all public export files for download (e.g. for offline use or import).
-content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)
 content#:#cont_drag_and_drop_elements#:#To <b>move</b> a page element, <b>drag</b> it with the mouse to the intended location and <b/>drop<b> it.
 content#:#cont_drag_element_click_save#:#Drag and drop the element to the desired position. Then hit ‘Save’.
 content#:#cont_ed_align_center#:#Align: Center
@@ -6745,7 +6672,6 @@ content#:#cont_localfile#:#Local File
 content#:#cont_localization#:#Localization
 content#:#cont_localization_info#:#Language used for predefined texts, e.g. ‘Previous’ and ’Next’.
 content#:#cont_location#:#Location
-content#:#cont_lpe_cas_login_form#:#CAS Login Form
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link
 content#:#cont_lpe_language_selection#:#Language Selection
 content#:#cont_lpe_login_form#:#Login Form
@@ -6784,7 +6710,7 @@ content#:#cont_mob_usages#:#Usage
 content#:#cont_more_character_styles#:#...more character styles
 content#:#cont_more_functions#:#More
 content#:#cont_moved_srt_files#:#Moved subtitles files to media objects.
-content#:#cont_multi_srt_files#:#SRT Files
+content#:#cont_multi_srt_files#:#Subtitle Files
 content#:#cont_mycourses_sortorder#:#Default Sorting
 content#:#cont_mycourses_sortorder_alphabetical#:#Alphabetical
 content#:#cont_mycourses_sortorder_info#:#This is a default setting. Every user can choose a personal order which affects all "My Courses"-elements of any portfolio.
@@ -6809,7 +6735,6 @@ content#:#cont_nlist#:#Numbered List
 content#:#cont_no_access#:#No Access
 content#:#cont_no_block#:#No Section
 content#:#cont_no_caption#:#No Caption
-content#:#cont_no_download_file_available#:#There is currently no public download file available.
 content#:#cont_no_glossary#:#No glossary assigned.
 content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.
 content#:#cont_no_page#:#No Page found.
@@ -7140,7 +7065,7 @@ content#:#cont_structure#:#structure
 content#:#cont_style#:#Style
 content#:#cont_subchapters#:#Subchapters
 content#:#cont_submit_answers#:#Submit
-content#:#cont_subtitle_file#:#SRT ZIP File
+content#:#cont_subtitle_file#:#Subtitle ZIP File
 content#:#cont_subtitle_files#:#Media Subtitles
 content#:#cont_sur_block_format#:#Surrounding Section
 content#:#cont_switch_to_media_pool#:#Switch to other Media Pool
@@ -7244,7 +7169,7 @@ content#:#cont_update_skills#:#Edit Competence
 content#:#cont_update_verification#:#Edit Certificate
 content#:#cont_upload_dir#:#Upload directory
 content#:#cont_upload_file#:#Upload File
-content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with '_&lt;lang code&gt;.srt' where lang code is e.g. 'en', 'it', 'de'. The rest of the filename should correspond to the name of the video file, e.g. 'my_video.mp4' ➜ 'my_video_en.srt'.
+content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (vtt) files in a zip file for all media objects. Your .zip file should contain all .vtt files on the top level (no subdirectories). The file names should end with '_&lt;lang code&gt;.vtt' where lang code is e.g. 'en', 'it', 'de'. The rest of the filename should correspond to the name of the video file, e.g. 'my_video.mp4' ➜ 'my_video_en.vtt'.
 content#:#cont_uploaded_file#:#Existing File
 content#:#cont_url_info#:#URL of a media file or Youtube URL.
 content#:#cont_usage#:#Usage
@@ -7282,19 +7207,15 @@ content#:#copied_to_clipboard#:#Copied object(s) to clipboard.
 content#:#dgl_pagebreak#:#Pagebreak
 content#:#glo_add_new_term#:#Add New Term
 content#:#glo_content_settings#:#Content
-content#:#glo_definition_abbr#:#Def.
 content#:#glo_editing_view#:#Editing View
 content#:#glo_full_definitions#:#Full Definitions
 content#:#glo_full_definitions_info#:#Terms and definitions are fully displayed in the main view.
 content#:#glo_hide_taxonomy#:#Hide Taxonomy
 content#:#glo_list_usages#:#List Usages
 content#:#glo_mode_normal_info#:#All terms created within this glossary will be included.
-content#:#glo_online_info#:#Only if the glossary is online, users are able to use the glossary.
 content#:#glo_presentation_mode#:#Presentation Mode
 content#:#glo_presentation_view#:#Presentation View
 content#:#glo_quick_navigation#:#Quick Navigation
-content#:#glo_show_taxonomy#:#Show Taxonomy
-content#:#glo_show_taxonomy_info#:#The taxonomy will be visible in the presentation view of the glossary and can be used to select referenced terms.
 content#:#glo_style#:#Glossary Style
 content#:#glo_table_form#:#In Table Form
 content#:#glo_table_form_info#:#Terms and definition are first shown in a two-column overview. Clicking the term opens the full content of a term on a separate screen.
@@ -7405,6 +7326,7 @@ copg#:#copg_more_character_formats#:#More Styles for Characters
 copg#:#copg_obj_types#:#Object Types
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
+copg#:#copg_pages#:#Pages
 copg#:#copg_par_format_selection#:#Paragraph Format Selection
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.
 copg#:#copg_plugin_not_avail#:#Plugin %s not available.
@@ -7809,11 +7731,9 @@ crs#:#crs_objective_tbl_col_final_tsts#:#Final Tests
 crs#:#crs_objective_wiz_final#:#Final Test Questions
 crs#:#crs_objective_wiz_final_info#:#Assignment of final test questions.
 crs#:#crs_objective_wiz_final_limit#:#Limits for Final Test
-crs#:#crs_objective_wiz_final_limit_info#:#Here you can define the limits for the final test questions.
 crs#:#crs_objective_wiz_materials#:#Assign Course Material
 crs#:#crs_objective_wiz_materials_info#:#You can assign course materials that are recommended for processing the learning objective.
 crs#:#crs_objective_wiz_self#:#Initial Test Questions
-crs#:#crs_objective_wiz_self_info#:#Please set the initial test questions. Initial tests are intended to examine the previous knowledge of the course members.
 crs#:#crs_objective_wiz_self_limit#:#Limits for Initial Test
 crs#:#crs_objective_wiz_self_limit_info#:#Please define the limits for initial test questions.
 crs#:#crs_objective_wiz_title#:#Describe Learning Objective
@@ -7870,7 +7790,6 @@ crs#:#crs_search_users#:#Search Users
 crs#:#crs_select_archive_language#:#Please select a language for the archive
 crs#:#crs_select_one_archive#:#Please select one archive
 crs#:#crs_select_starter#:#Select Start Object
-crs#:#crs_selected_users#:#Selected Participants
 crs#:#crs_settings#:#Course Settings
 crs#:#crs_settings_saved#:#Settings saved
 crs#:#crs_shorten_breadcrumb#:#Breadcrumb
@@ -7952,7 +7871,6 @@ crs#:#crs_timings_presetting#:#Time Target Enabled
 crs#:#crs_timings_short_active#:#Enabled
 crs#:#crs_timings_short_active_tt#:#Activate Timings
 crs#:#crs_timings_short_changeable#:#Changeable
-crs#:#crs_timings_short_changeable_tt#:#Timings changeable by participants
 crs#:#crs_timings_short_end#:#End Date
 crs#:#crs_timings_short_limit_start_end#:#Latest End Date
 crs#:#crs_timings_short_limit_start_end_tt#:#Latest end
@@ -8585,20 +8503,20 @@ dcl#:#dcl_add_new_field#:#Add New Field
 dcl#:#dcl_add_new_record#:#Add New Entry
 dcl#:#dcl_add_new_table#:#Add New Table
 dcl#:#dcl_add_new_view#:#Add New View
-dcl#:#dcl_add_perm#:#User can add entries
-dcl#:#dcl_add_perm_desc#:#Users can add entries in this table.
-dcl#:#dcl_additional_info_desc#:#The text will be displayed directly above the table.
+dcl#:#dcl_add_perm#:#Add Entries
+dcl#:#dcl_add_perm_desc#:#Users can add entries to this table. If the import of data into this table is allowed, then an Excel import function will also be available.
+dcl#:#dcl_additional_info_desc#:#This content will be displayed directly above the table.
 dcl#:#dcl_all_entries#:#All entries
 dcl#:#dcl_any#:#Any
-dcl#:#dcl_asc#:#Ascending Order (ASC)
-dcl#:#dcl_boolean#:#Boolean
-dcl#:#dcl_boolean_desc#:#Checkbox for "True" or "False"
+dcl#:#dcl_asc#:#Ascending ↑
+dcl#:#dcl_boolean#:#Checkbox
+dcl#:#dcl_boolean_desc#:#A checkbox that can be selected.
 dcl#:#dcl_cant_delete_last_table#:#You can't completely remove this table as it is the only table of this Data Collection. It's content and structure got removed instead.
 dcl#:#dcl_change_notification_dcl_delete_record#:#The following data record has been deleted
 dcl#:#dcl_change_notification_dcl_new_record#:#The following data record has been created
 dcl#:#dcl_change_notification_dcl_update_record#:#The following data record has been updated
 dcl#:#dcl_change_notification_link#:#Link to the Data Collection
-dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed
+dcl#:#dcl_change_notification_subject#:#Data Collection ‘%s’ has been changed
 dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this data collection.
 dcl#:#dcl_changed_by#:#Changed by
 dcl#:#dcl_checked#:#Checked.
@@ -8607,7 +8525,7 @@ dcl#:#dcl_comments_desc#:#Displays the number of comments for a Entry.
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?
 dcl#:#dcl_confirm_delete_fields#:#Do you really want to delete these fields?
 dcl#:#dcl_confirm_delete_record#:#Delete this Entry?
-dcl#:#dcl_confirm_delete_records#:#Are you sure you want to delete the following Entries?
+dcl#:#dcl_confirm_delete_records#:#Please check your entry and confirm by clicking on ‘Save Entry’.
 dcl#:#dcl_confirm_delete_table#:#Do you really want to delete this table with it's content and structure?
 dcl#:#dcl_confirm_storing_records#:#Please validate and confirm your input.
 dcl#:#dcl_confirm_storing_records_no_permission#:#You have no permission to change the record afterwards.
@@ -8618,55 +8536,54 @@ dcl#:#dcl_copy_title#:#Copy of table and field
 dcl#:#dcl_create_date#:#Creation Date
 dcl#:#dcl_create_entry_rules#:#Entry Creation
 dcl#:#dcl_create_field#:#Create Field
-dcl#:#dcl_create_fields#:#Click a table in the tab "Tables" and create new fields by using the button "Add New Field".
+dcl#:#dcl_create_fields#:#Click on a table in the tab ‘Tables and create new fields by using the button ‘Add New Field’.
 dcl#:#dcl_creation_date#:#Creation Date
 dcl#:#dcl_creation_date_description#:#The date on which the entry was created.
-dcl#:#dcl_datatype#:#Datatype
+dcl#:#dcl_datatype#:#Type
+dcl#:#dcl_date#:#Date Entry
+dcl#:#dcl_date_desc#:#Users can enter a date of their choice or select one using a calendar.
 dcl#:#dcl_date_selection#:#Date Selection
-dcl#:#dcl_date_selection_desc#:#Offer selection of date options.
-dcl#:#dcl_datetime#:#Date Entry
-dcl#:#dcl_datetime_desc#:#Field for a date.
+dcl#:#dcl_date_selection_desc#:#Allow a date to be chosen from among a predefined selection of date options.
+dcl#:#dcl_deactivate_view#:#Deactivate this view
 dcl#:#dcl_default_sort_field#:#Default sort field
-dcl#:#dcl_default_sort_field_desc#:#The table will be sorted by this field by default.
+dcl#:#dcl_default_sort_field_desc#:#Arrange the order of the entries in the table based on this field.
 dcl#:#dcl_default_sort_field_order#:#Default sort field order
-dcl#:#dcl_delete_fields#:#Delete fields
+dcl#:#dcl_delete_fields#:#Delete Fields
 dcl#:#dcl_delete_fields_no_selection#:#Please select at least one field to delete
-dcl#:#dcl_delete_perm#:#User can delete entries
+dcl#:#dcl_delete_perm#:#Delete Entries
 dcl#:#dcl_delete_records#:#Delete Entries
-dcl#:#dcl_delete_tables#:#Delete Tables
-dcl#:#dcl_delete_tables_no_selection#:#Please select at least one table to delete
 dcl#:#dcl_deleted_records#:#Successfully deleted %s Entries
 dcl#:#dcl_deprecated_copy#:#(Deprecated)
-dcl#:#dcl_desc#:#Descending Order (DESC)
+dcl#:#dcl_desc#:#Descending ↓
 dcl#:#dcl_description#:#Field Description
-dcl#:#dcl_detailed_view#:#Single
+dcl#:#dcl_detailed_view#:#Detailed View
 dcl#:#dcl_display_action_menu#:#Copy
-dcl#:#dcl_display_action_menu_desc#:#Enable possibility to copy or link the referenced module
+dcl#:#dcl_display_action_menu_desc#:#The object can be copied from the entry.
 dcl#:#dcl_display_record_alt#:#Display this entry
 dcl#:#dcl_duplicate_non_unique_entries_exist#:#This may also concern existing records.###23 02 2024 new variable
-dcl#:#dcl_edit#:#Edit Data Collection
+dcl#:#dcl_edit#:#Settings for This Data Collection
 dcl#:#dcl_edit_entry_rules#:#Entry Editing
 dcl#:#dcl_edit_field#:#Edit Field
-dcl#:#dcl_edit_perm#:#User can edit entries
+dcl#:#dcl_edit_perm#:#Edit Entries
 dcl#:#dcl_edit_record#:#Edit Entry
-dcl#:#dcl_edit_table#:#Edit Settings of Table "%s"
+dcl#:#dcl_edit_table#:#Settings of the Table ‘%s’
 dcl#:#dcl_editable_in_table_gui#:#Please vote in the table view.
 dcl#:#dcl_err_formula_field_not_found#:#Field with title '%s' not found
 dcl#:#dcl_error_parsing_expression#:#Error parsing expression
-dcl#:#dcl_export_enabled#:#Allow export function for all users
-dcl#:#dcl_export_enabled_desc#:#All users can export the data of this table. You have to specify in the table overview which fields will get exported.
+dcl#:#dcl_export_enabled#:#Export Table
+dcl#:#dcl_export_enabled_desc#:#The data in this table can be exported. Please note: Only fields that have the ‘Exportable’ checkbox activated in the ‘Fields’ tab of this table will be included in the export.
 dcl#:#dcl_export_finished#:#Export finished
 dcl#:#dcl_export_started#:#Asynchronous Export started
-dcl#:#dcl_field_datatype#:#Field Data Type
+dcl#:#dcl_field_datatype#:#Field Type
 dcl#:#dcl_field_description#:#Description
-dcl#:#dcl_field_description_desc#:#The description will be shown below the field inside the entry form.
+dcl#:#dcl_field_description_desc#:#The description will be shown below the input field when making a new entry.
 dcl#:#dcl_field_required#:#Required
 dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence some placeholders in the view definition might be broken. Those have to be fixed manually should the occasion arise.
 dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.
 dcl#:#dcl_field_visible#:#Visible
 dcl#:#dcl_fieldtitle#:#Field Title
-dcl#:#dcl_file#:#Fileupload
-dcl#:#dcl_file_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
+dcl#:#dcl_file#:#File Upload
+dcl#:#dcl_file_desc#:#Allow the upload of a file which can then be downloaded directly from the data collection.
 dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLSX file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first. When importing reference or selection fields with multi selection, commas and/or semicolons can be used as delimiters.
 dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure to upload an XLSX file.
 dcl#:#dcl_filter#:#Available in filter
@@ -8674,20 +8591,20 @@ dcl#:#dcl_filter_changeable#:#Filter changeable
 dcl#:#dcl_formula#:#Formula
 dcl#:#dcl_formula_desc#:#You can aggregate several entries in a record with a formula.
 dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.
-dcl#:#dcl_height#:#Height
-dcl#:#dcl_height_desc#:#The file will be resized to the given height
+dcl#:#dcl_height#:#Height in Pixels
+dcl#:#dcl_height_desc#:#The height of the file will be reduced to this value during upload.
 dcl#:#dcl_hello#:#Dear
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#The internal ID.
-dcl#:#dcl_ilias_reference#:#Link to an ILIAS module
-dcl#:#dcl_ilias_reference_desc#:#Searchfield to select an ILIAS object.
-dcl#:#dcl_ilias_reference_link#:#Show as link in table view
+dcl#:#dcl_ilias_reference#:#Repository Object
+dcl#:#dcl_ilias_reference_desc#:#Allow users to select an ILIAS object from the repository.
+dcl#:#dcl_ilias_reference_link#:#Link to Selected Object
 dcl#:#dcl_import#:#Import Data Collection
-dcl#:#dcl_import_enabled#:#Allow import function for all users
-dcl#:#dcl_import_enabled_desc#:#All users can import data to tables, as long as they have the required write access.
+dcl#:#dcl_import_enabled#:#Import Data Into Table
+dcl#:#dcl_import_enabled_desc#:#Data can be imported into the table via an Excel file.
 dcl#:#dcl_import_records .xls#:#Excel-Import
 dcl#:#dcl_import_terminated#:#The import terminated. Entries added
-dcl#:#dcl_in_export#:#In Export
+dcl#:#dcl_in_export#:#Exportable
 dcl#:#dcl_invalid_regex_config#:#The regular expression configured for this field is invalid. Check the settings to solve the problem.
 dcl#:#dcl_last_edit_by#:#Last edited by
 dcl#:#dcl_last_edited_by#:#Last edited by
@@ -8695,16 +8612,16 @@ dcl#:#dcl_last_edited_by_description#:#The user that edited this entry last.
 dcl#:#dcl_last_update#:#Last Edited
 dcl#:#dcl_last_update_description#:#The date the entry was last edited.
 dcl#:#dcl_learning_progress#:#Learning Progress
-dcl#:#dcl_learning_progress_desc#:#Show the learning progress of the linked module of the viewer
+dcl#:#dcl_learning_progress_desc#:#Show each user their own learning progress for the selected object.
 dcl#:#dcl_legend_placeholders#:#Placeholders
-dcl#:#dcl_length#:#Length
-dcl#:#dcl_length_info#:#Number of characters a user can enter (maximum 4000). For more than 200 characters, use the additional option Text Area.
+dcl#:#dcl_length#:#Max. Number of Characters
+dcl#:#dcl_length_info#:#Number of characters a user can enter (maximum 4000). For more than 200 characters, please activate the additional option ‘Multiline Text Field’.
 dcl#:#dcl_limit_end#:#End
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limited#:#Limited Add / Edit / Delete Period
-dcl#:#dcl_limited_desc#:#Users can only edit entries in the given time span.
-dcl#:#dcl_link_detail_page#:#Link to detailed view
-dcl#:#dcl_link_detail_page_desc#:#Additionaly, the detailed view must be activated and configured within the tab "Single".
+dcl#:#dcl_limited_desc#:#Entries can only be added, edited and deleted within the time period specified below.
+dcl#:#dcl_link_detail_page#:#Link to Detailed View
+dcl#:#dcl_link_detail_page_desc#:#Additionally, a detailed view template must have been created and activated within the tab ‘Detailed View’.
 dcl#:#dcl_list_fields#:#Fields
 dcl#:#dcl_list_visibility_and_filter#:#Overview
 dcl#:#dcl_locked#:#Locked
@@ -8713,8 +8630,8 @@ dcl#:#dcl_manage#:#Manage
 dcl#:#dcl_max_digits#:#Maximum Number of Digits
 dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
 dcl#:#dcl_max_text_length#:#Maximum Length
-dcl#:#dcl_mob#:#Media Object
-dcl#:#dcl_mob_desc#:#Field to upload an image, audio, or video file. They will be displayed directly in the datacollection. Allowed datatypes: %s
+dcl#:#dcl_mob#:#Image, Audio, Video
+dcl#:#dcl_mob_desc#:#Allow users to upload a media file which will be displayed within the data collection. Allowed data types: %s
 dcl#:#dcl_msg_field_modified#:#Field updated
 dcl#:#dcl_msg_fields_deleted#:#Deleted fields
 dcl#:#dcl_msg_info_alternatives#:#You do not have enough permissions to view this record, or there is no detailed view defined for this view. Choose a view from the list below to view the record anyway.
@@ -8723,42 +8640,37 @@ dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this Entry
 dcl#:#dcl_msg_no_perm_view#:#No permission given to view this Entry
 dcl#:#dcl_msg_table_created#:#Table created
 dcl#:#dcl_msg_table_edited#:#Table Settings saved
-dcl#:#dcl_msg_tables_delete_all#:#Could not delete: At least one Table must exist
-dcl#:#dcl_msg_tables_deleted#:#Tables deleted
 dcl#:#dcl_msg_tableview_created#:#Views created
 dcl#:#dcl_msg_tableview_deleted#:#View deleted
 dcl#:#dcl_msg_tableview_updated#:#View updated
 dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one View must exist
-dcl#:#dcl_msg_tableviews_deleted#:#Views deleted
 dcl#:#dcl_msg_tableviews_order_updated#:#Order of views updated
 dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_new_field#:#New Field
 dcl#:#dcl_new_table#:#New Table
 dcl#:#dcl_next_record#:#Next Entry
-dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
-dcl#:#dcl_no_entries#:#No entries
+dcl#:#dcl_no_content_warning#:#Please note: the data collection is online but does not yet have any fields.
+dcl#:#dcl_no_entries#:#Action not permitted
 dcl#:#dcl_no_entry#:#No entry
-dcl#:#dcl_no_export_content_available#:#No data available for export.
+dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.
-dcl#:#dcl_no_export_fields_available#:#No fields activated for export. Mark at least one field as exportable in the <a href="%s">table settings</a>.
-dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
+dcl#:#dcl_no_fields_yet#:#You cannot add any entries to this table as it does not yet have any fields. To create a field, click on a table in the ‘Tables’ tab and and then on the ‘Add New Field’ button.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
-dcl#:#dcl_no_warnings#:#The import terminated with no warnings.
 dcl#:#dcl_not_checked#:#Not checked.
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
 dcl#:#dcl_notification_activate_dcl#:#Activate Notification for Data Collection
 dcl#:#dcl_notification_activated#:#Notification Activated
 dcl#:#dcl_notification_deactivate_dcl#:#Deactivate Notification for Data Collection
 dcl#:#dcl_notification_deactivated#:#Notification Deactivated
-dcl#:#dcl_notification_info#:#Each user decides about notification
+dcl#:#dcl_notification_info#:#Users can choose for themselves if they wish to activate notifications for their accounts.
 dcl#:#dcl_notimage_exception#:#The file has to be a picture.
-dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http:// or www.) or an e-mail address.
+dcl#:#dcl_noturl_exception#:#Please enter a link (beginning with http:// or www.) or an e-mail address.
 dcl#:#dcl_number#:#Integer
-dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.
-dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.
+dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). Decimals and fractions are not allowed.
+dcl#:#dcl_online_info#:#Publish the data collection and enable all users with the permissions ‘Read’ and ‘Add/Edit Entry’ to use it. If not set to ‘Online’, only users with the permission ‘Edit Settings’ can access this object.
 dcl#:#dcl_order#:#Order
 dcl#:#dcl_origin_not_found#:#Origin field was not found!
 dcl#:#dcl_own_entries#:#Only own entries
@@ -8766,51 +8678,51 @@ dcl#:#dcl_owner#:#Owner
 dcl#:#dcl_owner_description#:#The owner of the entry.
 dcl#:#dcl_owner_name#:#Owner (Name)
 dcl#:#dcl_page_type_dclf#:#Details View
-dcl#:#dcl_permissions_form#:#User actions
+dcl#:#dcl_permissions_form#:#Permitted Actions for This Table
 dcl#:#dcl_please_select#:#--- Please select ---
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection Field-Plugins
-dcl#:#dcl_plugin_hooks#:#Available Plugins
 dcl#:#dcl_plugin_no_hooks_available#:#No active field-type plugins found
 dcl#:#dcl_prev_record#:#Previous Entry
 dcl#:#dcl_prop_expression#:#Expression
-dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Allowed fields (click on title to copy field inside expression):<br>%s<br><b>(Allowed fields are boolean, number, text and date that dont contain formular-sensitive chars inside their title)</b>
+dcl#:#dcl_prop_expression_info#:#Valid operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Allowed fields (click on a title to use as a placeholder within the expression):<br>%s<br><b>(Allowed fields are checkbox, number, text and date that don’t contain any formula-sensitive characters inside their titles)</b>
 dcl#:#dcl_public_comments#:#Activate Public Comments
 dcl#:#dcl_public_comments_desc#:#Users can comment on entries of the table.
 dcl#:#dcl_rating#:#Rating
-dcl#:#dcl_rating_desc#:#Users can rate entries with up to five stars.
+dcl#:#dcl_rating_desc#:#Existing entries can be rated on a scale of one to five stars.
+dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rbac roles have read access on the data collection, but no read access on any standard view of a table:
 dcl#:#dcl_record#:#Entry
 dcl#:#dcl_record_deleted#:#Entry deleted
 dcl#:#dcl_record_from_total#:#%d of %d
 dcl#:#dcl_reference#:#Reference
 dcl#:#dcl_reference_desc#:#Field to reference options stored in a different field of a table.
-dcl#:#dcl_reference_link#:#Show as link to referenced entry
+dcl#:#dcl_reference_link#:#Link Referenced Entry
 dcl#:#dcl_reference_link_info#:#Detailed View must be active in referenced table
-dcl#:#dcl_reference_title#:#Reference to table and field
-dcl#:#dcl_reference_title_desc#:#Entries of the selected field are options of the target field.
-dcl#:#dcl_regex#:#Regular Expression
-dcl#:#dcl_regex_info#:#(without delimiter)
+dcl#:#dcl_reference_title#:#Referenced Field
+dcl#:#dcl_reference_title_desc#:#The data entries of the selected field will be the selectable options in this field.
+dcl#:#dcl_regex#:#Restrict Text Input
+dcl#:#dcl_regex_info#:#Allow the input of a regular expression without delimiter. Certain entries will the be automatically rejected.
 dcl#:#dcl_required#:#Required Field
 dcl#:#dcl_row_not_found#:# - This field couldn't be found in the table.
 dcl#:#dcl_save#:#Save Table
-dcl#:#dcl_save_confirmation#:#Save confirmation
-dcl#:#dcl_save_confirmation_desc#:#Users have to confirm a new DataCollection entry.
+dcl#:#dcl_save_confirmation#:#Additional Confirmation of Entries
+dcl#:#dcl_save_confirmation_desc#:#Users have to confirm new entries into the data collection.
 dcl#:#dcl_save_order#:#Save Order
 dcl#:#dcl_save_record#:#Save Entry
 dcl#:#dcl_select#:#Select for Presentation
 dcl#:#dcl_selection_options#:#Options
-dcl#:#dcl_selection_type#:#Type
-dcl#:#dcl_selection_type_combobox#:#Single Combobox Selection (Dropdown)
-dcl#:#dcl_selection_type_multi#:#Multiple List Selection
-dcl#:#dcl_selection_type_single#:#Single List Selection
+dcl#:#dcl_selection_type#:#Format
+dcl#:#dcl_selection_type_combobox#:#Single selection from drop-down menu
+dcl#:#dcl_selection_type_multi#:#Multiple selections from list
+dcl#:#dcl_selection_type_single#:#Single selection from list
 dcl#:#dcl_simulate_import#:#Simulate Import
 dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the Data Collection but may give you feedback on problems with the import file, thus helping you to prevent corrupted entries.
 dcl#:#dcl_skipped_delete_records#:#%s Entries were not deleted due to permission settings
 dcl#:#dcl_status#:#Your Status
 dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
 dcl#:#dcl_std_filter#:#Default Filter
-dcl#:#dcl_supported_filetypes#:#Allowed file-extensions
-dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx
+dcl#:#dcl_supported_filetypes#:#Permitted File Types
+dcl#:#dcl_supported_filetypes_desc#:#You can set which file types can be uploaded by entering a comma-separated list of permitted file extensions here, e.g. pdf, docx
 dcl#:#dcl_switch_table#:#Switch Table
 dcl#:#dcl_switch_view#:#Change View
 dcl#:#dcl_table#:#Table
@@ -8823,7 +8735,6 @@ dcl#:#dcl_table_settings_saved#:#Table Settings have been saved.
 dcl#:#dcl_table_title_not_matching#:#The titles of the excel sheet and the Data Collection table do not match. Rename the sheet for a successfull import.
 dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.
 dcl#:#dcl_tables#:#Tables
-dcl#:#dcl_tables_confirm_delete#:#Do you really want to delete the following Tables?
 dcl#:#dcl_tableview#:#View
 dcl#:#dcl_tableview_add#:#Add New View
 dcl#:#dcl_tableview_confirm_delete#:#Do you really want to delete the following View?
@@ -8844,41 +8755,44 @@ dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following
 dcl#:#dcl_tableviews_of_X#:#Views of table %s
 dcl#:#dcl_tableviews_table#:#Views of Selected Table
 dcl#:#dcl_text#:#Text Entry
-dcl#:#dcl_text_area#:#Textarea
-dcl#:#dcl_text_desc#:#Textfield for text, links or e-mail addresses.
+dcl#:#dcl_text_area#:#Multiline Text Field
+dcl#:#dcl_text_desc#:#A text field for text, links or e-mail addresses.
 dcl#:#dcl_text_email_detail_desc#:#Please enter a valid URL or E-Mail address.
 dcl#:#dcl_text_email_title#:#Title
 dcl#:#dcl_text_email_title_info#:#A Title for the above URL or E-Mail address (optional).
 dcl#:#dcl_text_selection#:#Text Selection
-dcl#:#dcl_text_selection_desc#:#Offer selection of text options.
+dcl#:#dcl_text_selection_desc#:#Allow a text to be chosen from among a predefined selection of text options.
 dcl#:#dcl_title_standardview#:#Standard Views
 dcl#:#dcl_unique#:#Unique
-dcl#:#dcl_unique_desc#:#The value in this field needs to be unique among all entires.
+dcl#:#dcl_unique_desc#:#Identical entries are not allowed in this field.
 dcl#:#dcl_unique_exception#:#The value you entered is already taken by another Entry.
+dcl#:#dcl_unknown#:#Unkown
 dcl#:#dcl_unknown_exception#:#The value you entered is not valid.
+dcl#:#dcl_unknown_plugin#:#Unknown plugin type
 dcl#:#dcl_update_field#:#Update Field
 dcl#:#dcl_update_record#:#Update Entry
-dcl#:#dcl_url#:#URL or E-Mail
+dcl#:#dcl_url#:#Mandatory URL or E-Mail
 dcl#:#dcl_view_configuration#:#View Configuration
-dcl#:#dcl_view_own_records_perm#:#View only own entries
-dcl#:#dcl_view_own_records_perm_desc#:#Dont show entries of other users.
+dcl#:#dcl_view_own_records_perm#:#View Only Own Entries
+dcl#:#dcl_view_own_records_perm_desc#:#The entries of other users are not visible.
 dcl#:#dcl_view_settings#:#View Settings
 dcl#:#dcl_view_viewdefinition#:#Detailed View
 dcl#:#dcl_visible#:#Visible for all users
 dcl#:#dcl_visible_desc#:#Users can access this table.
-dcl#:#dcl_width#:#Width
-dcl#:#dcl_width_desc#:#The file will be resized to the given width.
+dcl#:#dcl_width#:#Width in Pixels
+dcl#:#dcl_width_desc#:#The width of the file will be reduced to this value during upload.
 dcl#:#dcl_wrong_input_type#:#The value you entered does not match the specification (Wrong Type).
 dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
-dcl#:#dcl_xls_async_export#:#Asynchronous XLSX-Export
+dcl#:#dcl_xls_async_export#:#as XLSX (asynchronous)
 dcl#:#disable_comments#:#Disable comments
 dcl#:#disable_visible#:#Disable visible
+dcl#:#duplicate_entries_exist#:#The existing records already contain duplicated entries.
 dcl#:#enable_comments#:#Enable comments
 dcl#:#enable_visible#:#Enable visible
 dcl#:#entry_of#:#Entry %1$d of %2$d
-dcl#:#fieldtitle_allow_chars#:#Not allowed chars: %s
-dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.
+dcl#:#fieldtitle_allow_chars#:#Characters not permitted: %s
+dcl#:#fileupload_not_migrated#:#File has not yet been migrated and cannot be displayed. Please contact your system administrator.
 dcl#:#set_as_default#:#Set as default
 didactic#:#activate_exclusive_template#:#Grey Out Default
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.
@@ -9025,6 +8939,7 @@ ecs#:#ecs_cms_tree_synchronized#:#The tree has been synchronized.
 ecs#:#ecs_communities#:#Participants
 ecs#:#ecs_confirm_delete_tree#:#Do you really want to delete all assignments for this campus management tree?
 ecs#:#ecs_connection_settings#:#Connection Settings
+ecs#:#ecs_consent_modal_btn_accept#:#Agree and Proceed
 ecs#:#ecs_consent_modal_title#:#Consent for data transfer
 ecs#:#ecs_consent_reset_confirm_title#:#Reset user consent for this participant
 ecs#:#ecs_cron_task_scheduler#:#ECS Task Scheduler
@@ -9584,7 +9499,6 @@ exc#:#exc_select_blog#:#Use Existing Blog
 exc#:#exc_select_blog_change#:#Use different blog
 exc#:#exc_select_blog_info#:#Please select one of your blogs to use it with this assignment.
 exc#:#exc_select_blog_unlink#:#Remove Blog
-exc#:#exc_select_part#:#Select Participant
 exc#:#exc_select_portfolio#:#Use Existing Portfolio
 exc#:#exc_select_portfolio_change#:#Use different portfolio
 exc#:#exc_select_portfolio_info#:#Please select one of your portfolios to use it with this assignment.
@@ -9766,8 +9680,10 @@ exp#:#exp_format_dropdown-xls#:#as XLS
 exp#:#exp_format_dropdown-xml#:#as XML
 exp#:#exp_html#:#HTML
 exp#:#exp_import_validation_err_no_matching_xsd#:#No valid schema file for version %s exists.
+exp#:#exp_not_public_access_status#:#Not published
 exp#:#exp_print_pdf#:#Print/PDF
 exp#:#exp_print_pdf_info#:#To create a PDF please use the "Print to PDF" target as soon as the print view is presented.
+exp#:#exp_public_access_status#:#Available on ‘Info’-tab
 exp#:#exp_really_delete#:#Do you really want to delete these export files?
 exp#:#exp_show_print_view#:#Show Print View
 exp#:#exp_xml#:#XML
@@ -9823,7 +9739,7 @@ file#:#file_rollback_rollback_first#:#The selected version could not be publishe
 file#:#file_rollback_same_version#:#This is already the published version!
 file#:#file_unpublish#:#Mark as Draft
 file#:#file_upload_info_file_with_critical_extension#:#At least one uploaded file contains a critical or unknown file ending. Whenever the file is downloaded, its ending will be changed to ‘.sec’. If necessary, contact your administrator. Filename(s): %s
-file#:#file_uploaded_by#:#Version Uploaded By
+file#:#file_uploaded_by#:#Uploaded By
 file#:#file_version_draft#:#Draft Version
 file#:#file_version_draft_info#:#The latest version of this file has the status ‘Draft’. As long as this version has not been published, no new versions can be created. People with read permission for the file get the most recent previously published version.
 file#:#form_icon_creation#:#Create Icon
@@ -10138,7 +10054,7 @@ forum#:#mark_moderator_posts_desc#:#If activated moderator posts will be highlig
 forum#:#merge#:#Merge
 forum#:#merge_posts_into_thread#:#Merge Posts into other Thread
 forum#:#merged_threads_successfully#:#The selected threads were merged successfully
-forum#:#move_chosen_topics#:#Move thread "%s" to:
+forum#:#move_chosen_topics#:#Please choose the target forum for thread "%s"
 forum#:#move_thread_to_forum#:#Move Thread to other Forum
 forum#:#new_post#:#New Post
 forum#:#new_thread_with_post#:#New Thread with Post
@@ -10203,7 +10119,7 @@ glo#:#glo_add_glossary#:#Add Glossary
 glo#:#glo_add_to_collection#:#Add Glossary to Collection Glossary
 glo#:#glo_added_to_collection_info#:#The selected glossary has been added to the collection glossary.
 glo#:#glo_answered_correctly#:#I got it right
-glo#:#glo_answered_not_correctly#:#I was wrong
+glo#:#glo_answered_not_correctly#:#I didn't know
 glo#:#glo_box#:#Box
 glo#:#glo_box_completed#:#You have completed the box.
 glo#:#glo_box_last_presented#:#Box Last Presented
@@ -10211,17 +10127,17 @@ glo#:#glo_boxes#:#Boxes
 glo#:#glo_boxes_really_reset#:#Do you really want to reset all boxes? All flashcards will be moved to the first box.
 glo#:#glo_boxes_reset#:#The boxes have been reset successfully.
 glo#:#glo_bulk_confirmation#:#Please check if all terms and definitions are listed correctly.
-glo#:#glo_bulk_creation#:#Bulk Creation
+glo#:#glo_bulk_creation#:#Paste From Excel
 glo#:#glo_change_to_collection_unavailable_info#:#To change the type of content assembly to "Collection Glossary", you first have to delete all existing terms within this glossary in tab "Content".
 glo#:#glo_change_to_standard_unavailable_info#:#To change the type of content assembly to "Standard Glossary", you first have to remove the selected glossaries in tab "Content".
-glo#:#glo_col_ordering_info#:#Order the titles of the metadata fields. They are presented as column headers in the table presentation of the glossary.
+glo#:#glo_check#:#Check
 glo#:#glo_collection#:#Collection Glossary
 glo#:#glo_collection_empty_info#:#This collection glossary is currently empty. Please add at least one glossary to it.
 glo#:#glo_collection_info#:#The glossary automatically collects all terms from the selected glossaries.
 glo#:#glo_content_assembly#:#Content Assembly
 glo#:#glo_copy#:#Copy Glossary
 glo#:#glo_copy_terms#:#Copy Terms
-glo#:#glo_create_term_definition_pairs#:#Create Term/Definition Pairs
+glo#:#glo_create_term_definition_pairs#:#Create finally
 glo#:#glo_days_ago#:#%s days ago
 glo#:#glo_def_vs_term#:#Definition vs. Term
 glo#:#glo_def_vs_term_info#:#Show a definition first, the learner has to guess the term.
@@ -10231,8 +10147,11 @@ glo#:#glo_flashcards#:#Flashcards
 glo#:#glo_flashcards_from_today_confirmation#:#The box contains %s flashcards already presented today. Do you want to include only the remaining %s flashcards or all %s flashcards?
 glo#:#glo_flashcards_from_today_only_info#:#The box contains only flashcards already presented today. Please confirm that these %s flashcards will be shown to you again.
 glo#:#glo_flashcards_intro#:#Your goal is to correctly remember each flashcard four times in a row.<br />To begin with, all of the flashcards are in box 1.<br />Flagging a flashcard as "I got it right" will advance it to the next box.<br />Flagging a flashcard as "I was wrong" will return the card to the first box.<br />To start, select a box. This will reveal the flashcards.
+glo#:#glo_flashcards_progress#:#%s of %s
 glo#:#glo_introduction#:#Introduction
 glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
+glo#:#glo_link_to_usages#:#Link
+glo#:#glo_md_advanced#:#Further Details
 glo#:#glo_page_type_gdf#:#Term Definition
 glo#:#glo_please_select_other_glo#:#Please select another glossary.
 glo#:#glo_quit_box#:#Quit Box
@@ -10242,28 +10161,30 @@ glo#:#glo_reference_terms#:#Reference Terms
 glo#:#glo_referenced_term#:#Referenced Term
 glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.
 glo#:#glo_reset_all_boxes#:#Reset All Boxes
+glo#:#glo_save_and_continue#:#Save and Continue
 glo#:#glo_select_source_glo#:#Please select a source glossary.
 glo#:#glo_select_terms#:#Select Terms
 glo#:#glo_selected_glossaries#:#Selected Glossaries
 glo#:#glo_selected_glossaries_info#:#Terms are collected from the following glossaries:
 glo#:#glo_selected_glossary_is_current_info#:#The selected glossary corresponds to the current glossary. Please select another glossary.
 glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
-glo#:#glo_show_definition#:#Show Definition
 glo#:#glo_show_in_presentation#:#Shown in Presentation View
 glo#:#glo_show_in_presentation_off#:#Hide in Presentation View
 glo#:#glo_show_in_presentation_on#:#Show in Presentation View
-glo#:#glo_show_term#:#Show Term
 glo#:#glo_tax_info#:#A taxonomy in a Glossary classifies and filters the terms. It always is available in the editing view. For the presentation view, the taxonomy must first be activated. In glossaries, only one taxonomy can be used.
 glo#:#glo_term#:#Glossary Term
-glo#:#glo_term_definition_pairs#:#Term/Definition Pairs
-glo#:#glo_term_definition_pairs_info#:#Please enter a term and a definition pair in each line. Term and definition must be separated by a semicolon or a TAB character (usually provided by clipboard actions from spreadsheet applications).
+glo#:#glo_term_definition_pairs#:#Data Copied From Excel
+glo#:#glo_term_definition_pairs_info#:#Copy and paste data from your Excel spreadsheet to this input field. Generally speaking, you should be able to use your spreadsheet clipboard for this.<br />Otherwise please separate term and definition manually using a semicolon (;) or the TAB (↹ - key).
 glo#:#glo_term_letter#:#Letter
 glo#:#glo_term_reference#:#Term Reference
 glo#:#glo_term_vs_def#:#Term vs. Definition
 glo#:#glo_term_vs_def_info#:#Show a term first, the learner has to guess the definition.
 glo#:#glo_terms_per_page#:#Terms per Page
+glo#:#glo_usage_link#:#Usage Link
 glo#:#glo_use_all_flashcards#:#Use All Flashcards (%s)
 glo#:#glo_use_remaining_flashcards#:#Use Remaining Flashcards (%s)
+glo#:#glo_what_means_definition#:#What does the following mean?
+glo#:#glo_what_means_term#:#What does "%s" mean?
 grp#:#crs_add_grouping#:#Add Membership Limitation
 grp#:#crs_grouping_delete_sure#:#Are you sure you want to delete this membership limitation ?
 grp#:#crs_grouping_deleted#:#Deleted membership limitation.
@@ -10309,10 +10230,8 @@ grp#:#grp_custom_user_fields#:#Group Relevant User Data
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.
 grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group
 grp#:#grp_deactivate_notification#:#Deactivate Notification
-grp#:#grp_edit_members#:#Edit Participants
 grp#:#grp_enable_map#:#Enable Group Map
 grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration
-grp#:#grp_export_members#:#Export Participants
 grp#:#grp_general_informations#:#General Information
 grp#:#grp_grp_info_reg#:#You can only register to one of these groups:
 grp#:#grp_grp_open#:#Open Group
@@ -10408,7 +10327,6 @@ grp#:#grp_reg_subject#:#Message
 grp#:#grp_registration_unlimited#:#Unlimited
 grp#:#grp_role_status#:#Role/Status
 grp#:#grp_search_users#:#Search User
-grp#:#grp_selected_users#:#Selected Participants
 grp#:#grp_set_on_waiting_list#:#You can set yourself on the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_setting_header_presentation#:#Group Presentation
 grp#:#grp_setting_header_registration#:#Group Registration
@@ -10513,6 +10431,11 @@ help#:#help_tooltips_and_help#:#Tooltips and Workflow Help
 help#:#help_tooltips_only#:#Tooltips Only
 help#:#help_topcis#:#Topics
 help#:#help_tt_text#:#Text
+htlm#:#file_import_from_upload_dir_failed#:#File from Upload-Directory not imported
+htlm#:#file_imported_from_upload_dir#:#File imported from Upload-Directory
+htlm#:#import_from_upload_dir#:#Import from Upload-Directory
+htlm#:#import_from_upload_dir_file_name#:#Filename
+htlm#:#import_from_upload_dir_info#:#Please select file for import
 iass#:#download_assessment_paper#:#Download Record file
 iass#:#grading#:#Grading
 iass#:#grading_info#:#Grading info
@@ -10667,7 +10590,6 @@ itgr#:#itgr_desc_info#:#The description will not be a part of the item group's p
 itgr#:#itgr_edit#:#Edit Item Groups
 itgr#:#itgr_expandable_closed#:#Expandable (initially closed)
 itgr#:#itgr_expandable_open#:#Expandable (initially opened)
-itgr#:#itgr_hide_title#:#Hide Title
 itgr#:#itgr_item#:#Item
 itgr#:#itgr_list#:#List
 itgr#:#itgr_list_default#:#Default
@@ -10737,10 +10659,10 @@ jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#wk
 ldap#:#add_ldap_server#:#Add Server
 ldap#:#ldap_add_missing#:#Assign Missing Roles
-ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
+ldap#:#ldap_add_roles#:#Add Roles
 ldap#:#ldap_as_ds#:#Use as Data Source
-ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS).
+ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods.
 ldap#:#ldap_assignment_type#:#Assignment Type
 ldap#:#ldap_authentication_settings#:#Authentication Settings
 ldap#:#ldap_bind_anonymous#:#Bind Anonymously
@@ -10800,6 +10722,7 @@ ldap#:#ldap_plugin_info#:#Validate the role assignment with a plugin. Please ent
 ldap#:#ldap_referrals#:#Referrals
 ldap#:#ldap_referrals_info#:#If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not. This should be disabled if you are using an active directory server.
 ldap#:#ldap_remove_deprecated#:#Deassign Deprecated Roles
+ldap#:#ldap_remove_roles#:#Remove Roles
 ldap#:#ldap_role_active#:#Enable Group Synchronization
 ldap#:#ldap_role_assignments#:#Role Assignment
 ldap#:#ldap_role_at_info#:#The assignment is based on a specific attribute in the LDAP user profile.
@@ -10857,7 +10780,7 @@ ldap#:#ldap_user_sync_cron#:#LDAP User Synchronization
 ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.
 ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per cron job.
 ldap#:#ldap_username_filter#:#Username Filter
-ldap#:#ldap_username_filter_info#:#Use * as wildcard.
+ldap#:#ldap_username_filter_info#:#The username filter can be optionally used for the automatic determination of this LDAP server configuration by the entered username on the login page. The "*" character can be used as a wildcard. For example, "*example\.com" matches all users whose entered username ends with "example.com". If the configured filter matches the entered username, this LDAP server configuration is preferred if a fixed authentication sequence is configured.
 ldoc#:#deleteDocument#:#Delete
 ldoc#:#detachCriterionAssignment#:#Delete
 ldoc#:#ldoc_acceptance_history#:#Acceptance History
@@ -11282,7 +11205,7 @@ lti#:#lti_con_prov_provider_key_global_info#:#If not set, users have to add key 
 lti#:#lti_con_prov_remarks#:#Internal Remarks
 lti#:#lti_con_prov_secret#:#Secret
 lti#:#lti_con_prov_title#:#Title
-lti#:#lti_con_prov_url#:#URL of Provider
+lti#:#lti_con_prov_url#:#URL of LTI Provider
 lti#:#lti_con_prov_use_provider_id#:#Use Provider ID
 lti#:#lti_con_prov_use_provider_id_info#:#Usually the Ref-ID of the LTI Consumer is transferred to the Provider. Some Providers map this Ref-ID with the Resource of the Provider. To get always the same Resource for these Providers this Option should be activated.
 lti#:#lti_con_prov_use_xapi#:#Provider supports request of xAPI-Statements
@@ -11347,6 +11270,7 @@ lti#:#lti_object_consumer#:#LTI Consumers
 lti#:#lti_object_release_settings_form#:#Edit LTI Releases
 lti#:#lti_provider#:#LTI Releases
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'
+lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider
 lti#:#lti_released_objects#:#Object Releases
 lti#:#lti_select_provider#:#Select Provider
@@ -11993,7 +11917,6 @@ meta#:#md_copyright_link#:#URL
 meta#:#md_copyright_link_info#:#Link to the licence
 meta#:#md_copyright_preview#:#Copyright (Preview)
 meta#:#md_copyright_selection#:#Available Copyrights
-meta#:#md_copyright_settings#:#Settings
 meta#:#md_copyright_value#:#Copyright
 meta#:#md_copyrights_deleted#:#Copyright deleted.
 meta#:#md_days#:#Days:
@@ -12012,13 +11935,17 @@ meta#:#md_oai_contact_mail#:#Contact E-Mail
 meta#:#md_oai_identifier_prefix#:#OAI Prefix
 meta#:#md_oai_identifier_prefix_info#:#This prefix is used as a namespace in the identifiers of returned OER records.
 meta#:#md_oai_pmh_enabled#:#Allow Querying via OAI-PMH Interface
-meta#:#md_oai_pmh_enabled_info#:#If enabled, harvested OER can be queried by external interested parties, e.g. OER referatories.
+meta#:#md_oai_pmh_enabled_info#:#If enabled, harvested OER can be queried by external interested parties, e.g. OER repositories.
 meta#:#md_oai_repository_name#:#Repository Name
 meta#:#md_oai_repository_name_info#:#This is returned as the name of this ILIAS installation when queried.
 meta#:#md_obj_types#:#Assigned Objects
 meta#:#md_record_export_table#:#Export Files
 meta#:#md_record_list_table#:#Custom Metadata Sets
 meta#:#md_separated_by#:#Separated by %s
+meta#:#md_settings#:#Settings
+meta#:#md_settings_harvester#:#OER Harvester
+meta#:#md_settings_licence#:#Terms of Usage
+meta#:#md_settings_publishing#:#Querying by Repositories
 meta#:#md_time#:#Time:
 meta#:#md_unknown_vocabulary_flag#:#(unknown vocabulary)
 meta#:#md_used#:#Current Number of Usages
@@ -12604,9 +12531,12 @@ meta#:#meta_obj_type_mandatory#:#Data set always offered
 meta#:#meta_obj_type_optional#:#Data set needs activation
 meta#:#meta_oer_blocked#:#Ignored by OER Harvester
 meta#:#meta_oer_blocked_info#:#Will not be listed automatically as Open Educational Ressource (OER)
+meta#:#meta_oer_categories#:#Categories for Objects Gathered
 meta#:#meta_oer_copyright_selection#:#Copyright Selection
 meta#:#meta_oer_copyright_selection_info#:#Only objects that have been published with one of the selected copyrights will be linked to the OER Category.
 meta#:#meta_oer_exposed_source#:#Category for Published OER Content
+meta#:#meta_oer_harvested_licences#:#Licences for Harvesting
+meta#:#meta_oer_harvested_types#:#Types of Objects to be Harvested
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#The OER Harvester collects all resources under selected CC licenses, adds them to a category defined in the cronjob settings, and if necessary generates export files for them. For harvested resource marked for publishing, records are compiled that can then (if enabled) be queried via an OAI-PMH interface. To get results from this cronjob it is necessary to activate and configure the copyright selection in the administration of 'Metadata'. The object types eligible to be harvested are Files, Glossaries, Content Pages, Learning Modules (ILIAS, SCORM, and HTML), Question Pools (both Survey and Test), and Mediapools.
 meta#:#meta_oer_object_type_selection#:#Harvested Object Types
@@ -12796,23 +12726,23 @@ mob#:#mob_general#:#General
 mob#:#mob_image_extracted#:#Image has been extracted.
 mob#:#mob_language#:#Language
 mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at the destination.
-mob#:#mob_multi_srt_files#:#SRT Files
+mob#:#mob_multi_srt_files#:#Subtitle Files
 mob#:#mob_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
 mob#:#mob_object#:#Object
 mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.
 mob#:#mob_preview_picture#:#Preview Picture
-mob#:#mob_really_delete_srt#:#Do you really want to delete the following srt files?
+mob#:#mob_really_delete_srt#:#Do you really want to delete the following subtitle files?
 mob#:#mob_second#:#Second
 mob#:#mob_srt_files_deleted#:#Subtitle files have been deleted.
-mob#:#mob_srt_not_allowed#:#Files with a .srt suffix are currently not allowed to be uploaded. If you would like to use srt files, contact your system administrator.
+mob#:#mob_srt_not_allowed#:#Files with a .vtt suffix are currently not allowed to be uploaded. If you would like to use vtt files, contact your system administrator.
 mob#:#mob_subtitle_file#:#Subtitle File
 mob#:#mob_subtitle_files#:#Subtitle Files
 mob#:#mob_subtitles#:#Subtitles
 mob#:#mob_type_not_supported#:#Mime type not supported:
 mob#:#mob_upload_file#:#Upload File
 mob#:#mob_upload_multi_srt#:#Upload as ZIP
-mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory, all .srt files should be located on the top level. The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de".
+mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory, all .vtt files should be located on the top level. The file names should end with "_&lt;lang code&gt;.vtt" where lang code is e.g. "en", "it", "de".
 mob#:#mob_url#:#URL
 mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.
 mob#:#mob_url_info1#:#External resource URL, allowed suffixes are:
@@ -12996,21 +12926,16 @@ noti#:#noti_notification_deactivated#:#Notification Deactivated
 notifications_adm#:#enable_osd#:#Enable Toasts
 notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a pop-up about new notifications.
 notifications_adm#:#notification_settings#:#Notification Settings
-notifications_adm#:#osd_delay#:#Presentation Delay
-notifications_adm#:#osd_delay_desc#:#Delay of the visible presentation in milliseconds.
-notifications_adm#:#osd_error_presentation_time_too_small#:#The Presentation Time has to be at least than 1000 miliseconds.
-notifications_adm#:#osd_error_refresh_interval_smaller_than_delay_and_vanish_combined#:#The Refresh Interval has to be greater than the Presentation Time and the Presentation Delay combined.
 notifications_adm#:#osd_error_refresh_interval_too_small#:#The Refresh Interval has to be at least than 3000 miliseconds.
 notifications_adm#:#osd_interval#:#Refresh interval
 notifications_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in miliseconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
 notifications_adm#:#osd_play_sound#:#Play a Sound
 notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notficiation.
 notifications_adm#:#osd_settings#:#Toasts
-notifications_adm#:#osd_vanish#:#Presentation Time
-notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in miliseconds.
 obj#:#activation_visible_when_disabled#:#Visibility
 obj#:#activation_visible_when_disabled_info#:#The item is visible outside of the selected availability period, but it cannot be opened.
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.
+obj#:#available_languages#:#Available Languages
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#cont_skll_published#:#All assignments have been published.
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.
@@ -13018,29 +12943,33 @@ obj#:#copy_container_page_no_label#:#Don't Copy Content Page
 obj#:#copy_container_page_yes_byline#:#The content page and corresponding style settings of the source object will be copied to this object. Pre-existing page elements will be overwritten.
 obj#:#copy_container_page_yes_label#:#Copy Content Page
 obj#:#custom_icon#:#Custom Icon
+obj#:#default_base_lang_not_deletable#:#Neither the base language nor the default language can be deleted.
 obj#:#edit_availability_period#:#Availability Period
+obj#:#edit_language#:#Edit Language
 obj#:#edit_questions#:#Edit Questions
+obj#:#make_default_language#:#Make Default Language
+obj#:#missing_migration#:#You cannot edit information on this page until all migrations have been run. Please contact your system administrator.
 obj#:#multiple_reference_deletion_info#:#Further references exist for the following objects.
 obj#:#no_objects_selected#:#At least one object needs to be selected.
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing
 obj#:#obj_activate_multilang#:#Activate Multilingualism
 obj#:#obj_activation#:#Activation
 obj#:#obj_activation_list_gui#:#Availability
-obj#:#obj_add_languages#:#Add Languages
+obj#:#obj_add_language#:#Add Language
 obj#:#obj_additional_langs#:#Additional Languages
+obj#:#obj_base_lang#:#Master Language
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?
 obj#:#obj_cont_transl_deactivated#:#Translation for page editing has been deactivated.
 obj#:#obj_copy_progress#:#Copy Progress
 obj#:#obj_deactivate_content_lang#:#Deactivate Translation for Page Editing
-obj#:#obj_deactivate_content_transl_conf#:#Do you really want to deactivate translation for page editing? Only contents of the master language will be kept.
+obj#:#obj_deactivate_content_transl_conf#:#Do you really want to deactivate translation for page editing? Only contents of the base language will be kept.
 obj#:#obj_deactivate_multilang#:#Deactivate Multilingualism
-obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilingualism? Only contents of the master language will be kept.
+obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilingualism? Only contents of the base language will be kept.
 obj#:#obj_fallback_lang#:#Default Language
 obj#:#obj_features#:#Additional Features
 obj#:#obj_import_file_error#:#This file could not be imported. Please make sure that this is a valid ILIAS export file (XML Export), of the same object type.
 obj#:#obj_insert_into_clipboard#:#Insert into Clipboard
 obj#:#obj_inserted_clipboard#:#Objects have been moved to the clipboard.
-obj#:#obj_master_lang#:#Master Language
 obj#:#obj_more_translations#:#More Translations
 obj#:#obj_multilang_deactivated#:#Multilingualism has been deactivated.
 obj#:#obj_multilang_title_descr_only#:#Translation is activated for title and description only. Translation support for Page editing (‘Customize Page’) needs additional activation.
@@ -13049,7 +12978,7 @@ obj#:#obj_orgunit_positions#:#Access Control by Organisation Unit Positions
 obj#:#obj_orgunit_positions_info#:#If enabled, additional access control rules can be defined by positions in organisational units.
 obj#:#obj_permission_settings#:#Permission Settings
 obj#:#obj_presentation#:#Presentation
-obj#:#obj_select_master_lang#:#Please select the master language. The current content will be assigned to the master language. The master language cannot be changed afterwards.
+obj#:#obj_select_base_lang#:#Please select the base language. The current content will be assigned to the base language. The base language cannot be changed afterwards.
 obj#:#obj_select_one_language#:#Please select one language
 obj#:#obj_set_fallback_lang#:#Set default language
 obj#:#obj_settings_for_all_members#:#Members will be notified automatically
@@ -13083,6 +13012,7 @@ obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings of News Block and 
 obj#:#obj_user_decides_notification#:#Members have to manually activate notifications
 obj#:#obj_user_not_disable_not#:#Member are not allowed to deactivate notifications
 obj#:#online_input_byline#:#The object has been published and can be accessed by anyone with read access. Other access prerequisites or time-based access restrictions may still apply. This settings applies to the object wherever it is used in the repository.
+obj#:#select_import_type_info#:#The type of the object in the file to be imported cannot be determined automatically. The file was probably renamed. Please select the type of object in the file.
 obj#:#select_object_type#:#Select Object Type
 obj#:#svy_results#:#Results
 obj#:#unequal_items_for_availability_period_message#:#You have selected items with different availability periods. Overwrite existing settings below or cancel action to keep current availability periods.
@@ -13332,6 +13262,7 @@ prg#:#auto_membership_src_type#:#Type
 prg#:#auto_membership_title#:#Sources for Membership Automation
 prg#:#auto_memberships#:#Membership Automation
 prg#:#category#:#Category
+prg#:#cert_relevance#:#Certificate
 prg#:#completion_date#:#Completion Date
 prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?
 prg#:#cont_ed_insert_prgactionnote#:#Insert Study Programme Action Note
@@ -13537,7 +13468,6 @@ prg#:#prg_remove_user#:#Remove Assignment
 prg#:#prg_remove_user_success#:#Assignment removed successfully.
 prg#:#prg_remove_users_not_possible#:#Remove Selected Users Not Possible
 prg#:#prg_remove_users_partial_success#:#Assignments (partially) removed.
-prg#:#prg_remove_users_partitial_success#:#Remove Selected Users Particially
 prg#:#prg_remove_users_success#:#Remove Selected Users
 prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme assignments with progresses about to expire
 prg#:#prg_restart_assignments_temporal_progress_title#:#Restart Studyprogramme assignments
@@ -13757,6 +13687,7 @@ prtf#:#prtf_sure_delete_portfolio_pages#:#Are you sure you want to delete the fo
 prtf#:#prtf_sure_delete_portfolios#:#Are you sure you want to delete the following portfolio?
 prtf#:#prtf_tab_other_users#:#Portfolios of Other Users
 prtf#:#prtf_tab_portfolios#:#My Portfolios
+prtf#:#prtf_table_of_contents#:#Table of Contents
 prtf#:#prtf_template_editor_placeholder_info#:#This placeholder will be replaced in the portfolio.
 prtf#:#prtf_template_import_blog_create#:#Create New Blog
 prtf#:#prtf_template_import_blog_ignore#:#Remove Blog Page
@@ -13819,6 +13750,8 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password 
 ps#:#ps_export_admin#:#Administrators
 ps#:#ps_export_confirm#:#User Confirmation when Entering Courses###Needs improvement!
 ps#:#ps_export_confirm_group#:#User Confirmation when Entering Groups###Needs improvement!
+ps#:#ps_export_confirm_group_info#:#When joining a group, users are required to accept that their personal data can be viewed by the group admins.
+ps#:#ps_export_confirm_info#:#When joining a course, users are required to accept that their personal data can be viewed by the course admins.
 ps#:#ps_export_course#:#Allow export of user profile data in courses
 ps#:#ps_export_data#:#Data Types of the Personal Profile
 ps#:#ps_export_excel#:#Start Excel Export
@@ -13948,7 +13881,7 @@ rbac#:#adn_edit_permission#:#User can change permissions of Administrative Notif
 rbac#:#adn_read#:#User has read access to administration of Administrative Notifications.
 rbac#:#adn_visible#:#Administration of Administrative Notifications is visible.
 rbac#:#adn_write#:#User can add and edit Administrative Notifications.
-rbac#:#adopt_perm_from_template#:#Copy Permission Settings
+rbac#:#adopt_perm_from_template#:#Copy Permission Settings from other Role
 rbac#:#adve_edit_permission#:#User can change permission settings of Editing administration
 rbac#:#adve_read#:#User has read access to Editing Administration
 rbac#:#adve_visible#:#Editing Administration is visible
@@ -14066,7 +13999,7 @@ rbac#:#coms_read#:#User has read access to administration of Comments.
 rbac#:#coms_visible#:#Administration of Comments is visible.
 rbac#:#coms_write#:#User can edit settings of administration of Comments.
 rbac#:#condition_failed#:#Failed
-rbac#:#condition_learning_progress#:#Learning Progress Status: Completed
+rbac#:#condition_learning_progress#:#Derive from Learning Progress
 rbac#:#condition_result_range_percentage#:#Result Range
 rbac#:#contribute#:#Contribute
 rbac#:#copa_copy#:#Copy Content Page
@@ -14168,6 +14101,7 @@ rbac#:#feed_delete#:#User can move or delete web feed
 rbac#:#feed_edit_permission#:#User can change permission settings
 rbac#:#feed_read#:#User can read content of web feed
 rbac#:#feed_write#:#User can edit web feed settings
+rbac#:#file_content#:#Show Content
 rbac#:#file_copy#:#User can copy file
 rbac#:#file_delete#:#User can move or delete file
 rbac#:#file_edit_file#:#Allow to edit the file in an external editor, if available
@@ -14503,14 +14437,17 @@ rbac#:#rbac_cant_import_role_wrong_type#:#Can't import a role from item %s into 
 rbac#:#rbac_change_existing_confirm_tbl#:#Settings for ‘Change Existing Objects’
 rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adopted to ALL existing objects.
 rbac#:#rbac_changes#:#Changes
-rbac#:#rbac_choose_copy_targets#:#Please enter a search term in order to find the role to which the permissions should be copied.
+rbac#:#rbac_choose_copy_targets#:#Please enter a search term in order to find the role to which the permissions from %s should be copied.
 rbac#:#rbac_condition_delete_sure#:#Are you sure you want to delete the following preconditions?
 rbac#:#rbac_context_global#:#Global
 rbac#:#rbac_copy_behaviour#:#Role Copy Settings
+rbac#:#rbac_copy_behaviour_info#:#Transfer Permissions from: %s to: %s
 rbac#:#rbac_copy_finished#:#Finished copying.
+rbac#:#rbac_copy_multi_targets#:#%s, %s and %s further Roles selected%s
+rbac#:#rbac_copy_no_targets#:#At least one Role must be selected as Target
 rbac#:#rbac_copy_role#:#Copy Role
 rbac#:#rbac_copy_role_add_perm#:#Add Permissions
-rbac#:#rbac_copy_role_copy#:#Copy Permissions
+rbac#:#rbac_copy_role_copy#:#Copy Permissions to other Role(s)
 rbac#:#rbac_copy_role_remove_perm#:#Remove Permissions
 rbac#:#rbac_create_bibl#:#Create Bibliography
 rbac#:#rbac_create_blog#:#Create Blog
@@ -14626,7 +14563,8 @@ rbac#:#rbac_role_rights_copy_change_existing#:#Change Existing Objects
 rbac#:#rbac_role_rights_copy_empty#:#None
 rbac#:#rbac_role_selection#:#Role Type
 rbac#:#rbac_role_title#:#Role Title
-rbac#:#rbac_select_copy_targets#:#Please select the roles which are to be the targets for the copied permissions.
+rbac#:#rbac_select_copy_targets#:#Please select the roles which are to be the targets for the copied permissions from <strong>%s</strong>.
+rbac#:#rbac_select_roles#:#Select Roles
 rbac#:#rbac_ud_global#:#User-defined global role
 rbac#:#rbac_ud_local#:#User-defined local role
 rbac#:#rbac_ud_rolt#:#User-defined role template
@@ -15002,6 +14940,7 @@ rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from the avail
 rep#:#rep_fav_intro3#:#When you have found something that interests you, you can easily add it to your favourites. Select the desired item in the <i>Actions</i> menu and choose "<i>Add to favourites</i>".
 rep#:#rep_favourites#:#Favourites
 rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.
+rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.
 rep#:#rep_intro#:#Welcome to the Repository!
 rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchy of disciplines, or classes of a school.
 rep#:#rep_intro2#:#Three steps are needed to build an initial structure:
@@ -15347,13 +15286,9 @@ scov#:#crsv_create_info#:#Select a completed learning module to generate a certi
 scov#:#scov_create#:#Create SCORM Certificate
 scov#:#scov_create_info#:#Select a completed SCORM module to generate a certificate for it
 search#:#add_members_header#:#Add Members
-search#:#adv_md_search_title#:#Search in Custom Metadata
 search#:#append_results#:#Append results
 search#:#btn_search#:#Search
 search#:#last_search_result#:#Last Search Result
-search#:#lucene_activate_field#:#Activate Search
-search#:#lucene_advanced_settings#:#Advanced Search
-search#:#lucene_advanced_settings_table#:#Search Settings
 search#:#lucene_all_occurrences#:#... %s other occurrence(s)
 search#:#lucene_and#:#AND
 search#:#lucene_cpu#:#Maximum Number of Threads
@@ -15402,11 +15337,7 @@ search#:#lucene_size_fragments#:#Size of Text Fragments
 search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File
 search#:#search_add_members_from_container_crs#:#Add Users From Current Course
 search#:#search_add_members_from_container_grp#:#Add Users From Current Group
-search#:#search_adv_md#:#Custom Metadata
-search#:#search_advanced#:#Advanced Search
-search#:#search_all_words#:#All words <small>(<i>AND</i>)</small>
 search#:#search_any#:#-- Any --
-search#:#search_any_word#:#Any word <small>(<i>OR</i>)</small>
 search#:#search_area#:#Search Area
 search#:#search_area_info#:#Please select an area where the search should start.
 search#:#search_auto_complete_length#:#Number of Auto Complete List Entries
@@ -15433,12 +15364,10 @@ search#:#search_for_orgu_members_recursive#:#Include Subunits?
 search#:#search_for_role_members#:#Search for Roles
 search#:#search_for_users#:#Search for Users
 search#:#search_grp_title#:#Group Name
-search#:#search_hide_adv_search#:#Hide Advanced Search
 search#:#search_item_filter_form#:#Search by Type
 search#:#search_item_filter_form_info#:#Search can be restricted to the chosen object types.
 search#:#search_like_info#:#Choose this option to get best results.###Needs to be adapted to new content of German lang file.
 search#:#search_limit_reached#:#Your search produced more than %s hits. You can restrict the search terms to receive more detailed results.
-search#:#search_lom#:#LOM Metadata
 search#:#search_lucene#:#Lucene search
 search#:#search_mime_excel#:#Excel Files
 search#:#search_mime_filter_form#:#Mime Type Filter
@@ -15455,8 +15384,6 @@ search#:#search_no_match#:#Your search did not match any results.
 search#:#search_no_match_hint#:#Your search for <b>%s</b> did not match any documents.<br /><br />Suggestions:<br />• Make sure all words are spelled correctly.<br />• Try different keywords.<br />• Try more general keywords.<br />• Try fewer keywords.
 search#:#search_no_selection#:#You made no selection.
 search#:#search_off#:#Off
-search#:#search_option_offline#:#Offline
-search#:#search_option_online#:#Online
 search#:#search_role_title#:#Role Name
 search#:#search_select_search_area#:#Select Search Area
 search#:#search_show_inactive_user#:#Show Inactive Users
@@ -15673,7 +15600,7 @@ skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Referen
 skmg#:#skmg_create_skll#:#Create Competence
 skmg#:#skmg_custom_image_alt#:#Custom image for competence profile
 skmg#:#skmg_delete_profiles#:#Do you really want to delete the following profiles?
-skmg#:#skmg_delete_warning#:#Are you sure that you want to delete the following item(s)? When you delete the items, you also delete all usages, assignments and achievements of it. To be on the safe side, you find a list of all usages below. If the item is used in a competence profile, it will be removed from the profile, too. This may cause the fulfilment of the competence profile for the assigned users. If your are not sure whether an item should really be deleted, please use the statuses in the settings of a single item.
+skmg#:#skmg_delete_warning#:#Are you sure that you want to delete the following competences, competence categories or competence trees? You also delete all record for objects and users. If the item is removed from a competence profile this may result in the competence profile being fulfilled for the assigned users. The list below shows how many times the item to be deleted is used in objects and by users. Please inspect the list below closely before actually deleting.
 skmg#:#skmg_description_info#:#The description comes from the template.
 skmg#:#skmg_edit_level#:#Edit Level
 skmg#:#skmg_edit_profile#:#Edit Profile
@@ -15942,6 +15869,7 @@ style#:#sty_ca_cntr_class#:#Carousel Container
 style#:#sty_ca_icntr_class#:#Carousel Item Container
 style#:#sty_ca_icont_class#:#Carousel Item Content
 style#:#sty_ca_ihead_class#:#Carousel Item Header
+style#:#sty_cannot_be_copied#:#The following style types cannot be copied
 style#:#sty_caption#:#Caption
 style#:#sty_caption_class#:#Caption
 style#:#sty_carousel_templates#:#Carousel Templates
@@ -16017,6 +15945,7 @@ style#:#sty_images#:#Images
 style#:#sty_import_page_layout#:#Import Page Layout
 style#:#sty_import_stylesheet#:#Import Style
 style#:#sty_import_system_style#:#Import System Style
+style#:#sty_imported_layout#:#Imported Page Layout
 style#:#sty_individual_styles#:#Individual Styles
 style#:#sty_keep_existing#:#Keep Existing
 style#:#sty_left#:#Left
@@ -17185,9 +17114,9 @@ trac#:#trac_mode_scorm_package_info#:#The learning progress status will automati
 trac#:#trac_mode_study_programme#:#Study Programme Completed
 trac#:#trac_mode_survey_finished#:#Survey Finished
 trac#:#trac_mode_survey_finished_info#:#The survey has to be finished by an user to receive the status 'Completed'.
-trac#:#trac_mode_test_finished#:#Test Must be Finished
+trac#:#trac_mode_test_finished#:#Test Must Be Finished
 trac#:#trac_mode_test_finished_info#:#A user's learning progress status is set to ‘Completed’ after the user clicks 'Finish the Test'. Regardless of whether or not the test was passed, the learning progress will be set to ‘Completed’.
-trac#:#trac_mode_test_passed#:#Test Must be Passed
+trac#:#trac_mode_test_passed#:#Test Must Be Passed
 trac#:#trac_mode_test_passed_info#:#A user's learning progress status is set to ‘Completed’ after the user passed the test. Thresholds for passing the test can be set in the 'Settings'-tab at the section 'Mark Schema'.
 trac#:#trac_mode_tlt#:#Minimally Required Amount of Time Spent on Learning Module
 trac#:#trac_mode_tlt_info#:#The status will be automatically set according to time a user spends working with the learning module. The status 'Completed' is assigned once users exceed the minimally required Typical Learning Time. <br />The Typical Learning Time can be specified in the 'Metadata'-tab.
@@ -17354,6 +17283,7 @@ ui#:#ui_md_input_view#:#View
 ui#:#ui_pagination_unlimited#:#Unlimited
 ui#:#ui_select_dropdown_label#:#Please select
 ui#:#ui_table_no_records#:#No records
+ui#:#ui_table_order#:#Order
 ui#:#ui_transcription#:#Transcript
 ui#:#vc_sort#:#Sort by:
 user#:#all_roles_has_starting_point#:#All the roles have starting points
@@ -17523,6 +17453,7 @@ validation#:#not_min_length#:#Your input has a length of %d and falls below the 
 validation#:#not_numeric#:#'%s' is not numeric.
 validation#:#not_numeric_empty_string#:#Your input is not numeric.
 validation#:#numeric_only#:#Please insert a whole number.
+validation#:#required#:#This input is required.
 validation#:#tag_required#:#Please insert at least one tag.
 violation#:#not_a_string#:#Given value is not a String
 webr#:#invalid_links_tbl#:#Invalid Links
@@ -17760,11 +17691,11 @@ wopi#:#close_wopi_editor#:#Close Editor
 wopi#:#close_wopi_editor_info#:#It can take up to several minutes for the external editor to transfer the changes to ILIAS. Visit this page again at a later time if the changes you have made are not yet visible.
 wopi#:#currently_supported#:#Currently supported Suffixes
 wopi#:#msg_error_wopi_invalid_discorvery_url#:#The Discovery URL entered is invalid or cannot be accessed.
-wopi#:#msg_wopi_settings_modified#:#Settings stored
-wopi#:#open_external_editor#:#Open in external Editor
+wopi#:#msg_wopi_settings_modified#:#Settings saved.
+wopi#:#open_external_editor#:#Open in External Editor
 wopi#:#open_external_viewer#:#Show Content
 wopi#:#saving_interval#:#Interval
-wopi#:#saving_interval_byline#:#By default, ILIAS adds all changes made by an external editor to a draft version until this version is published manually. Activating the save interval causes a new version to be published after the specified number of seconds, if possible. Please note that a low value can lead to a large number of file versions, which in turn takes up a multiple of the hard disk space.
+wopi#:#saving_interval_byline#:#By default, ILIAS adds all changes made by an external editor to a draft version until this version is published manually. Activating the saving interval causes a new version to be published, if possible, after the specified number of seconds. Please note that a low value can lead to a large number of file versions, which in turn will take up a much larger amount of hard disk space.
 wopi#:#wopi_crawler_cronjob_description#:#Updates the information of the connected WOPI service.
 wopi#:#wopi_crawler_cronjob_no_apps#:#No WOPI apps were found in the discovery.
 wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI is not activated.
@@ -17772,7 +17703,7 @@ wopi#:#wopi_crawler_cronjob_success#:#WOPI information updated successfully.
 wopi#:#wopi_crawler_cronjob_title#:#Update WOPI Discovery
 wopi#:#wopi_settings#:#WOPI
 wopi#:#wopi_url#:#WOPI Discovery URL
-wopi#:#wopi_url_byline#:#Complete URL of the WOPI-Discovery, this must be accessible through the ILIAS server. The XML data of the Discover is read in and stored by ILIAS, the information is regularly updated by the cronjob "Update WOPI Discovery". Example: https://example.org/hosting/discovery
+wopi#:#wopi_url_byline#:#Complete URL of the WOPI Discovery, which must be accessible via the ILIAS server. The XML data of the Discovery is read and saved by ILIAS. This information is regularly updated by the cronjob "Update WOPI Discovery". Example: https://example.org/hosting/discovery
 wsp#:#element_already_shared#:#This object is already shared with this user.
 wsp#:#element_shared#:#Object shared.
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.

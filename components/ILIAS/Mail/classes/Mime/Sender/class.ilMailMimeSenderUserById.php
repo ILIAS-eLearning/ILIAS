@@ -18,26 +18,22 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailMimeSenderUserById
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailMimeSenderUserById extends ilMailMimeSenderUser
 {
     /** @var array<int, ilObjUser> */
-    protected static array $userInstances = [];
+    protected static array $user_instances = [];
 
-    public function __construct(ilSetting $settings, int $usrId, ilMustacheFactory $mustache_factory)
+    public function __construct(ilSetting $settings, int $usr_id, ilMustacheFactory $mustache_factory)
     {
-        if (!array_key_exists($usrId, self::$userInstances)) {
-            self::$userInstances[$usrId] = new ilObjUser($usrId);
+        if (!array_key_exists($usr_id, self::$user_instances)) {
+            self::$user_instances[$usr_id] = new ilObjUser($usr_id);
         }
 
-        parent::__construct($settings, self::$userInstances[$usrId], $mustache_factory);
+        parent::__construct($settings, self::$user_instances[$usr_id], $mustache_factory);
     }
 
-    public static function addUserToCache(int $usrId, ilObjUser $user): void
+    public static function addUserToCache(int $usr_id, ilObjUser $user): void
     {
-        self::$userInstances[$usrId] = $user;
+        self::$user_instances[$usr_id] = $user;
     }
 }

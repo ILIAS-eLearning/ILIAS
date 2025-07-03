@@ -29,9 +29,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
         $this->assertInstanceOf(SettingsResultDetails::class, $settingsResultDetails);
     }
 
-    /**
-     * @dataProvider getAndWithResultsPresentationDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithResultsPresentationDataProvider')]
     public function testGetAndWithResultsPresentation(int $IO): void
     {
         $settingsResultDetails = new SettingsResultDetails(0);
@@ -48,9 +46,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndShowExamIdInTestResultsDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndShowExamIdInTestResultsDataProvider')]
     public function testGetAndShowExamIdInTestResults(bool $IO): void
     {
         $settingsResultDetails = new SettingsResultDetails(0);
@@ -66,9 +62,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithShowPassDetailsDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithShowPassDetailsDataProvider')]
     public function testGetAndWithShowPassDetails(bool $IO): void
     {
         $settingsResultDetails = new SettingsResultDetails(0);
@@ -84,9 +78,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithShowSolutionPrintviewDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithShowSolutionPrintviewDataProvider')]
     public function testGetAndWithShowSolutionPrintview(bool $IO): void
     {
         $settingsResultDetails = new SettingsResultDetails(0);
@@ -102,9 +94,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithShowSolutionFeedbackDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithShowSolutionFeedbackDataProvider')]
     public function testGetShowSolutionFeedback(bool $IO): void
     {
         $settingsResultDetails = new SettingsResultDetails(0);
@@ -120,9 +110,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithShowSolutionAnswersOnlyDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithShowSolutionAnswersOnlyDataProvider')]
     public function testGetAndWithShowSolutionAnswersOnly(bool $IO): void
     {
         $settingsResultDetails = new SettingsResultDetails(0);
@@ -138,9 +126,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithShowSolutionSignatureDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithShowSolutionSignatureDataProvider')]
     public function testGetAndWithShowSolutionSignature(bool $IO): void
     {
         $settingsResultDetails = new SettingsResultDetails(0);
@@ -156,9 +142,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithShowSolutionSuggestedDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithShowSolutionSuggestedDataProvider')]
     public function testGetAndWithShowSolutionSuggested(bool $IO): void
     {
         $settingsResultDetails = new SettingsResultDetails(0);
@@ -174,9 +158,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithShowSolutionListComparisonDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithShowSolutionListComparisonDataProvider')]
     public function testGetAndWithShowSolutionListComparison(bool $IO): void
     {
         $settingsResultDetails = new SettingsResultDetails(0);
@@ -192,9 +174,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithExportSettingsDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithExportSettingsDataProvider')]
     public function testGetAndWithExportSettings(int $IO): void
     {
         $settingsResultDetails = new SettingsResultDetails(0);

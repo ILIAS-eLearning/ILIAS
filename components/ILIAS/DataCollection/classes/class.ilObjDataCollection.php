@@ -257,11 +257,11 @@ class ilObjDataCollection extends ilObject2
     protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null): void
     {
         assert($new_obj instanceof ilObjDataCollection);
-        //copy online status if object is not the root copy object
-        $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
 
-        if (!$cp_options->isRootNode($this->getRefId())) {
-            $new_obj->setOnline(true);
+        if (!(ilCopyWizardOptions::_getInstance($a_copy_id))->isRootNode($this->getRefId())) {
+            $new_obj->setOnline($this->getOnline());
+            $new_obj->setNotification($this->getNotification());
+            $new_obj->update();
         }
 
         $new_obj->cloneStructure($this->getRefId());

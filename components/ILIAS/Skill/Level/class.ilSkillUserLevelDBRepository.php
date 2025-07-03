@@ -455,12 +455,20 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         int $skill_id,
         int $a_tref_id,
         int $a_user_id = 0,
-        int $a_eval_by = 0
+        int $a_eval_by = 0,
+        int $trigger_object_id = 0,
+        string $trigger_user = ""
     ): array {
         $ilDB = $this->db;
 
         $by = ($a_eval_by != ilBasicSkill::EVAL_BY_ALL)
             ? " AND self_eval = " . $ilDB->quote($a_eval_by, "integer")
+            : "";
+        $trigger_obj_str = ($trigger_object_id > 0)
+            ? " AND trigger_obj_id = " . $ilDB->quote($trigger_object_id, "integer")
+            : "";
+        $trigger_user_str = ($trigger_user !== "")
+            ? " AND trigger_user_id = " . $ilDB->quote($trigger_user, "text")
             : "";
 
         $set = $ilDB->query(
@@ -469,6 +477,8 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
             " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer") .
             $by .
+            $trigger_obj_str .
+            $trigger_user_str .
             " ORDER BY status_date DESC"
         );
         $levels = [];
@@ -488,15 +498,43 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         return $levels;
     }
 
+    public function getLastLevelEntryOfUser(
+        int $skill_id,
+        int $a_tref_id,
+        int $a_user_id,
+        int $a_object_id = 0,
+        int $a_self_eval = 0,
+        string $trigger_user = ""
+    ): int {
+        foreach ($this->getAllHistoricLevelEntriesOfUser(
+            $skill_id,
+            $a_tref_id,
+            $a_user_id,
+            $a_self_eval,
+            $a_object_id,
+            $trigger_user
+        ) as $level) {
+            return $level["level_id"];
+        }
+        return 0;
+    }
+
+
     public function getMaxLevelPerObject(
         int $skill_id,
         array $levels,
         int $a_tref_id,
         int $a_object_id,
         int $a_user_id = 0,
-        int $a_self_eval = 0
+        int $a_self_eval = 0,
+        string $trigger_user = ""
     ): int {
         $ilDB = $this->db;
+
+        $tr_user = "";
+        if ($trigger_user !== "") {
+            $tr_user = " AND trigger_user_id = " . $ilDB->quote($skill_id, "text");
+        }
 
         $set = $ilDB->query(
             $q = "SELECT level_id FROM skl_user_has_level " .
@@ -504,7 +542,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
             " AND skill_id = " . $ilDB->quote($skill_id, "integer") .
             " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer") .
-            " AND self_eval = " . $ilDB->quote($a_self_eval, "integer")
+            " AND self_eval = " . $ilDB->quote($a_self_eval, "integer") . $tr_user
         );
 
         $has_level = [];

@@ -24,7 +24,7 @@
 		border-bottom: 1px solid transparent;
 		border: none;
 		@include border-top-radius((ls.$il-panel-border-radius - 1));
-	
+
 		>.dropdown .dropdown-toggle {
 			color: $il-btn-standard-color;
 		}
@@ -93,7 +93,6 @@
 		gap: $il-margin-base-horizontal;
 	}
 	.panel-title{
-		flex-shrink: 0;
 		order: 1;
 	}
 	.panel-controls {

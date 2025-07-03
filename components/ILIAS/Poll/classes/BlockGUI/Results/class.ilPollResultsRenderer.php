@@ -27,10 +27,10 @@ use ILIAS\UI\Component\Chart\Bar\GroupConfig;
 
 class ilPollResultsRenderer
 {
-    protected const SINGLE_BAR_WIDTH = 0.65;
-    protected const SINGLE_BAR_COLOR = '#4C6586';
-    protected const STACKED_BAR_WIDTH = 0.95;
-    protected const STACKED_BAR_COLORS = [
+    protected const float SINGLE_BAR_WIDTH = 0.65;
+    protected const string SINGLE_BAR_COLOR = '#4C6586';
+    protected const float STACKED_BAR_WIDTH = 0.95;
+    protected const array STACKED_BAR_COLORS = [
         '#35485F',
         '#F06B05',
         '#374E1D',

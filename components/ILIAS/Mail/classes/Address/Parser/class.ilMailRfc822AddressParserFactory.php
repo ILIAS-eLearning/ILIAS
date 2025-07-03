@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailRfc822AddressParserFactory
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailRfc822AddressParserFactory
 {
     public function getParser(string $address): ilMailRecipientParser

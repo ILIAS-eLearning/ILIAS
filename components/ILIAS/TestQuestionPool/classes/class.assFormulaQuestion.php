@@ -687,7 +687,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
             $this->setId($question_id);
             $this->setTitle((string) $data["title"]);
             $this->setComment((string) $data["description"]);
-            //$this->setSuggestedSolution($data["solution_hint"]);
             $this->setPoints($data['points']);
             $this->setOriginalId($data["original_id"]);
             $this->setObjId($data["obj_fi"]);
@@ -822,7 +821,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 if (!array_key_exists($matches[1], $user_solution)) {
                     $user_solution[$matches[1]] = [];
                 }
-                $user_solution[$matches[1]]['unit'] = $solution_value['value2'];
+                $user_solution[$matches[1]]['unit'] = $this->unitrepository->getUnit(
+                    $this->refinery->kindlyTo()->int()->transform($solution_value['value2']),
+                );
             }
         }
 
@@ -832,7 +833,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 $this->getVariables(),
                 $this->getResults(),
                 $user_solution[$result->getResult()]['value'] ?? '',
-                $user_solution[$result->getResult()]['unit'] ?? '',
+                $user_solution[$result->getResult()]['unit'] ?? null,
                 $this->unitrepository->getUnits()
             );
         }
@@ -846,21 +847,16 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
 
         $points = 0;
         foreach ($this->getResults() as $result) {
-            $v = isset($user_solution[$result->getResult()]) ? $user_solution[$result->getResult()] : null;
-            $u = isset($user_solution[$result->getResult() . '_unit']) ? $user_solution[$result->getResult() . '_unit'] : null;
-
+            $unit_id = $user_solution[$result->getResult() . '_unit'] ?? null;
             $points += $result->getReachedPoints(
                 $this->getVariables(),
                 $this->getResults(),
-                $v,
-                $u,
+                $user_solution[$result->getResult()] ?? '',
+                $unit_id !== null ? $this->unitrepository->getUnit($unit_id) : null,
                 $this->unitrepository->getUnits()
             );
         }
-
-        $reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
-
-        return $this->ensureNonNegativePoints($reachedPoints);
+        return $this->ensureNonNegativePoints($points);
     }
 
     protected function isValidSolutionResultValue(string $submittedValue): bool
@@ -1115,7 +1111,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 $check_unit = false;
                 if (array_key_exists($result_name, $available_units) &&
                     $available_units[$result_name] !== null) {
-                    $check_unit = in_array($user_solution[$result_name]['unit'], $available_units[$result_name]);
+                    $check_unit = in_array($user_solution[$result_name]['unit'] ?? null, $available_units[$result_name]);
                 }
 
                 if ($check_unit == true) {
@@ -1278,7 +1274,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
     {
         return [
             AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
-            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitleForHTMLOutput(),
             AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
             AdditionalInformationGenerator::KEY_QUESTION_FORMULA_VARIABLES => $this->buildVariablesForLog(
                 $this->getVariables(),

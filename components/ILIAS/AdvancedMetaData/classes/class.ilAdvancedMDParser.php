@@ -17,10 +17,10 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 /**
  * Adv MD XML Parser
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @extends ilMDSaxParser
  */
 class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 {

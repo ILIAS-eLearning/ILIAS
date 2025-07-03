@@ -112,7 +112,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
     public function fillRow(array $a_set): void
     {
         $this->tpl->setCurrentBlock('answer');
-        $this->tpl->setVariable('ANSWER', ilHtmlPurifierFactory::getInstanceByType('qpl_usersolution')->purify($a_set['answer']));
+        $this->tpl->setVariable('ANSWER', htmlspecialchars((string) $a_set['answer'], ENT_QUOTES));
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock('frequency');
@@ -142,7 +142,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
             $this->refinery,
             $this->language,
             $this->ctrl
-        ))->buildAddAnswerModal($this->question->getTitle(), $data);
+        ))->buildAddAnswerModal($this->question->getTitleForHTMLOutput(), $data);
 
         $show_modal_button = $this->ui_factory->button()->standard(
             $this->language->txt('tst_corr_add_as_answer_btn'),

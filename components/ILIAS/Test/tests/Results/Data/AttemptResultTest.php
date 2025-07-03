@@ -30,9 +30,7 @@ class AttemptResultTest extends \ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getActiveIdDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getActiveIdDataProvider')]
     public function testGetActiveId(int $IO): void
     {
         $ilTestPassResult = new AttemptResult(
@@ -52,9 +50,7 @@ class AttemptResultTest extends \ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getPassDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getPassDataProvider')]
     public function testGetAttempt(int $IO): void
     {
         $ilTestPassResult = new AttemptResult(
@@ -74,9 +70,7 @@ class AttemptResultTest extends \ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getQuestionResultsDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getQuestionResultsDataProvider')]
     public function testGetQuestionResults(\Closure $IO): void
     {
         $IO = $IO($this);

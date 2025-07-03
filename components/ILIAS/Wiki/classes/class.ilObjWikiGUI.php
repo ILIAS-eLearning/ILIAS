@@ -21,6 +21,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 use ILIAS\Wiki\WikiGUIRequest;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\Wiki\Settings\SettingsGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -33,7 +34,7 @@ use ILIAS\Wiki\Settings\SettingsGUI;
  * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilSettingsPermissionGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI, ilObjectCopyGUI, ilObjNotificationSettingsGUI
- * @ilCtrl_Calls ilObjWikiGUI: ilLTIProviderObjectSettingGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjWikiGUI: ilLTIProviderObjectSettingGUI, ILIAS\ILIASObject\Properties\Translations\TranslationGUI
  * @ilCtrl_Calls ilObjWikiGUI: ILIAS\Wiki\Settings\SettingsGUI
  */
 class ilObjWikiGUI extends ilObjectGUI
@@ -43,8 +44,6 @@ class ilObjWikiGUI extends ilObjectGUI
     protected \ILIAS\Wiki\Content\GUIService $content_gui;
     protected \ILIAS\Wiki\Navigation\ImportantPageManager $imp_pages;
     protected \ILIAS\Wiki\Page\PageManager $pm;
-    protected ilObjectTranslation $ot;
-    protected \ILIAS\HTTP\Services $http;
     protected string $requested_page;
     protected ilPropertyFormGUI $form_gui;
     protected ilTabsGUI $tabs;
@@ -75,8 +74,6 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->tabs = $gui->tabs();
         $this->help = $gui->help();
         $this->locator = $gui->locator();
-        $this->http = $gui->http();
-        $this->ot = $gui->wiki()->translation();
 
         $this->type = "wiki";
 
@@ -121,6 +118,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->triggerAssignmentTool();
 
         $this->prepareOutput();
+        $this->gui->initFetch();
 
         // see ilWikiPageGUI::printViewOrderList()
         // printView() cannot be in ilWikiPageGUI because of stylesheet confusion
@@ -155,13 +153,25 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
 
-            case 'ilobjecttranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->checkPermission("read");
                 $this->addHeaderAction();
                 $ilTabs->activateTab("settings");
                 $this->setSettingsSubTabs("obj_multilinguality");
-                $transgui = new ilObjectTranslationGUI($this);
-                $transgui->setTitleDescrOnlyMode(false);
+                $transgui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->access,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->http,
+                    $this->refinery,
+                    $this->toolbar
+                );
+                $transgui->forceContentTranslation();
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
@@ -281,6 +291,8 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->setSideBlock();
                 $ilTabs->setTabActive("wiki_search_results");
                 $ilCtrl->setReturn($this, 'view');
+                $ilCtrl->setParameterByClass(ilWikiPageGUI::class, "wpg_id", null);
+                $ilCtrl->setParameterByClass(ilObjWikiGUI::class, "wpg_id", null);
                 $search_gui = new ilRepositoryObjectSearchGUI(
                     $this->object->getRefId(),
                     $this,
@@ -545,16 +557,14 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $ilHelp->setScreenIdComponent("wiki");
 
-
         // wiki tabs
         if (in_array(strtolower($ilCtrl->getNextClass($this)), [strtolower(SettingsGUI::class)]) ||
             in_array(
                 strtolower($ilCtrl->getCmdClass()),
                 array("", "ilobjectcontentstylesettingsgui", "ilobjwikigui",
             "ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui", "ilobjnotificationsettingsgui", "iltaxmdgui",
-            "ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui',
-            'ilobjecttranslationgui')
-            ) || $ilCtrl->getNextClass() === "ilpermissiongui") {
+            "ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui')
+            ) || in_array($ilCtrl->getNextClass(), ["ilpermissiongui", strtolower(TranslationGUI::class)])) {
             if ($this->requested_page !== "") {
                 $page_id = ($this->edit_request->getWikiPageId() > 0)
                     ? $this->edit_request->getWikiPageId()
@@ -706,7 +716,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 );
 
                 // rating categories
-                if ($this->object->getRating() && $this->object->getRatingCategories()) {
+                if ($this->object->getRatingPages() && $this->object->getRatingCategories()) {
                     $lng->loadLanguageModule("rating");
                     $ilTabs->addSubTab(
                         "rating_categories",
@@ -724,7 +734,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 $ilTabs->addSubTab(
                     'obj_multilinguality',
                     $lng->txt("obj_multilinguality"),
-                    $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "")
+                    $this->ctrl->getLinkTargetByClass(TranslationGUI::class, "")
                 );
             }
 
@@ -1128,7 +1138,7 @@ class ilObjWikiGUI extends ilObjectGUI
         }
         $append = " '" . $this->edit_request->getPage() . "'";
         $append .= " (" . $this->lng->txt("meta_l_" . $this->edit_request->getTranslation()) . ")";
-        $append2 = " (" . $this->lng->txt("meta_l_" . $this->ot->getMasterLanguage()) . ")";
+        $append2 = " (" . $this->lng->txt("meta_l_" . $this->object->getObjectProperties()->getPropertyTranslations()->getBaseLanguage()) . ")";
         $form = $this->gui->form([self::class], "createNewTranslatedPage")
             ->section("sec", $this->lng->txt("wiki_translation_page") . $append)
             ->switch("type", $this->lng->txt("wiki_page_in_master_language") . $append2, "", "existing")
@@ -1223,7 +1233,12 @@ class ilObjWikiGUI extends ilObjectGUI
         $ilAccess = $DIC->access();
         $ilCtrl = $DIC->ctrl();
 
-        $tpl->addJavaScript("assets/js/WikiPres.js");
+        $debug = false;
+        if ($debug) {
+            $tpl->addJavaScript("../components/ILIAS/Wiki/resources/WikiPres.js");
+        } else {
+            $tpl->addJavaScript("assets/js/WikiPres.js");
+        }
 
         // setting asynch to false fixes #0019457, since otherwise ilBlockGUI would act on asynch and output html when side blocks
         // being processed during the export. This is a flaw in ilCtrl and/or ilBlockGUI.

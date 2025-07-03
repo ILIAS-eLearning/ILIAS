@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Factory as Refinery;
@@ -29,9 +30,10 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\UI\Component\Input\Field\Radio;
 use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\Object\ImplementsCreationCallback;
-use ILIAS\Object\CreationCallbackTrait;
-use ILIAS\Object\ilObjectDIC;
-use ILIAS\Object\Properties\MultiObjectPropertiesManipulator;
+use ILIAS\ILIASObject\Creation\CreationCallbackTrait;
+use ILIAS\ILIASObject\LocalDIC;
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory as CustomIconFactory;
+use ILIAS\ILIASObject\Properties\MultiPropertiesManipulator;
 use ILIAS\ILIASObject\Creation\AddNewItemElement;
 use ILIAS\ILIASObject\Creation\AddNewItemElementTypes;
 use ILIAS\Filesystem\Filesystem;
@@ -58,6 +60,7 @@ class ilObjectGUI implements ImplementsCreationCallback
     public const SUPPORTED_IMPORT_MIME_TYPES = [MimeType::APPLICATION__ZIP, MimeType::APPLICATION__X_ZIP_COMPRESSED];
     protected \ILIAS\Notes\Service $notes_service;
 
+    protected GlobalHttpState $http;
     protected ServerRequestInterface $request;
     protected ilLocatorGUI $locator;
     protected ilObjUser $user;
@@ -80,11 +83,11 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected RequestWrapper $request_wrapper;
     protected Refinery $refinery;
     protected ilFavouritesManager $favourites;
-    protected ilObjectCustomIconFactory $custom_icon_factory;
+    protected CustomIconFactory $custom_icon_factory;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
     private ilObjectRequestRetriever $retriever;
-    private MultiObjectPropertiesManipulator $multi_object_manipulator;
+    private MultiPropertiesManipulator $multi_object_manipulator;
     protected Filesystem $temp_file_system;
 
     protected ?ilObject $object = null;
@@ -112,6 +115,7 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected string $html = "";
 
     private ?RoundTrip $import_modal = null;
+    private ?RoundTrip $import_type_selector_modal = null;
 
     /**
      * @param mixed $data
@@ -125,33 +129,36 @@ class ilObjectGUI implements ImplementsCreationCallback
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->request = $DIC->http()->request();
-        $this->locator = $DIC["ilLocator"];
-        $this->user = $DIC->user();
-        $this->access = $DIC->access();
-        $this->settings = $DIC->settings();
-        $this->toolbar = $DIC->toolbar();
-        $this->rbac_admin = $DIC->rbac()->admin();
-        $this->rbac_system = $DIC->rbac()->system();
-        $this->rbac_review = $DIC->rbac()->review();
-        $this->object_service = $DIC->object();
-        $this->obj_definition = $DIC["objDefinition"];
-        $this->tpl = $DIC["tpl"];
-        $this->tree = $DIC->repositoryTree();
-        $this->ctrl = $DIC->ctrl();
-        $this->error = $DIC["ilErr"];
-        $this->lng = $DIC->language();
-        $this->tabs_gui = $DIC->tabs();
-        $this->ilias = $DIC["ilias"];
-        $this->post_wrapper = $DIC->http()->wrapper()->post();
-        $this->request_wrapper = $DIC->http()->wrapper()->query();
-        $this->refinery = $DIC->refinery();
-        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
-        $this->favourites = new ilFavouritesManager();
+        $this->http = $DIC['http'];
+        $this->locator = $DIC['ilLocator'];
+        $this->user = $DIC['ilUser'];
+        $this->access = $DIC['ilAccess'];
+        $this->settings = $DIC['ilSetting'];
+        $this->toolbar = $DIC['ilToolbar'];
+        $this->rbac_admin = $DIC['rbacadmin'];
+        $this->rbac_system = $DIC['rbacsystem'];
+        $this->rbac_review = $DIC['rbacreview'];
+        $this->obj_definition = $DIC['objDefinition'];
+        $this->tpl = $DIC['tpl'];
+        $this->tree = $DIC['tree'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->error = $DIC['ilErr'];
+        $this->lng = $DIC['lng'];
+        $this->tabs_gui = $DIC['ilTabs'];
+        $this->ilias = $DIC['ilias'];
+        $this->refinery = $DIC['refinery'];
         $this->custom_icon_factory = $DIC['object.customicons.factory'];
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
+        $this->object_service = $DIC->object();
         $this->temp_file_system = $DIC->filesystem()->temp();
+
+        $this->request = $this->http->request();
+        $this->post_wrapper = $this->http->wrapper()->post();
+        $this->request_wrapper = $this->http->wrapper()->query();
+
+        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
+        $this->favourites = new ilFavouritesManager();
 
         $this->data = $data;
         $this->id = $id;
@@ -210,10 +217,10 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->notes_service = $DIC->notes();
     }
 
-    private function getMultiObjectPropertiesManipulator(): MultiObjectPropertiesManipulator
+    private function getMultiObjectPropertiesManipulator(): MultiPropertiesManipulator
     {
         if (!isset($this->multi_object_manipulator)) {
-            $this->multi_object_manipulator = ilObjectDIC::dic()['multi_object_properties_manipulator'];
+            $this->multi_object_manipulator = LocalDIC::dic()['properties.multi_manipulator'];
         }
         return $this->multi_object_manipulator;
     }
@@ -405,9 +412,9 @@ class ilObjectGUI implements ImplementsCreationCallback
             $dispatcher->setSubObject($sub_type, $sub_id);
 
             ilObjectListGUI::prepareJsLinks(
-                $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
+                $this->ctrl->getLinkTarget($this, 'redrawHeaderAction', '', true),
                 "",
-                $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "iltagginggui"], "", "", true)
+                $this->ctrl->getLinkTargetByClass([ilCommonActionDispatcherGUI::class, ilTaggingGUI::class], '', '', true)
             );
 
             $lg = $dispatcher->initHeaderAction();
@@ -685,7 +692,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->ctrl->setParameter($this, 'new_type', $new_type);
 
         $this->tpl->setTitleIcon(ilObject::getIconForType($this->requested_new_type));
-        $this->tpl->setTitle($this->lng->txt('obj_' . $this->requested_new_type));
+        $this->tpl->setTitle($this->getTitleForCreationFormPage());
         $create_form = $this->initCreateForm($new_type);
         $this->tabs_gui->setBackTarget($this->lng->txt('cancel'), $this->ctrl->getLinkTargetByClass(static::class, 'cancel'));
         $this->tpl->setContent($this->getCreationFormsHTML($create_form));
@@ -715,6 +722,14 @@ class ilObjectGUI implements ImplementsCreationCallback
         );
     }
 
+    protected function getTitleForCreationFormPage(): string
+    {
+        if (!$this->obj_definition->isPlugin($this->requested_new_type)) {
+            return $this->lng->txt('obj_' . $this->requested_new_type);
+        }
+        return ilObjectPlugin::lookupTxtById($this->requested_new_type, "obj_{$this->requested_new_type}");
+    }
+
     protected function getCreationFormTitle(): string
     {
         return $this->lng->txt($this->requested_new_type . '_new');
@@ -737,7 +752,14 @@ class ilObjectGUI implements ImplementsCreationCallback
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'save'),
             $form_fields
-        )->withSubmitLabel($this->lng->txt($new_type . '_add'));
+        )->withSubmitLabel(
+            !$this->obj_definition->isPlugin($new_type)
+                ? $this->lng->txt($new_type . '_add')
+                : ilObjectPlugin::lookupTxtById(
+                    $this->requested_new_type,
+                    "{$this->requested_new_type}_add"
+                )
+        );
     }
 
     protected function didacticTemplatesToForm(): ?Radio
@@ -897,7 +919,9 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->tpl->setVariable(
             'IL_OBJECT_IMPORT_MODAL',
             $this->ui_renderer->render(
-                $modal
+                $this->import_type_selector_modal === null
+                    ? $modal
+                    : [$modal, $this->import_type_selector_modal]
             )
         );
     }
@@ -911,6 +935,27 @@ class ilObjectGUI implements ImplementsCreationCallback
                 $this->buildImportFormInputs(),
                 $this->ctrl->getFormAction($this, 'routeImportCmd')
             )->withSubmitLabel($this->lng->txt('import'));
+    }
+
+    private function buildImportTypeSelectorModal(
+        ?string $file_to_import = null,
+        ?string $upload_file_name = null
+    ): Roundtrip {
+        return $this->ui_factory->modal()
+            ->roundtrip(
+                $this->lng->txt('select_object_type'),
+                [
+                    $this->ui_factory->messageBox()->info(
+                        $this->lng->txt('select_import_type_info')
+                    )
+                ],
+                $this->buildImportTypeSelectorInputs(
+                    $file_to_import,
+                    $upload_file_name
+                ),
+                $this->ctrl->getFormActionByClass(static::class, 'routeImportCmd')
+            )->withCloseWithKeyboard(false)
+            ->withSubmitLabel($this->lng->txt('import'));
     }
 
     protected function addAvailabilityPeriodButtonToToolbar(ilToolbarGUI $toolbar): ilToolbarGUI
@@ -1228,7 +1273,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->ctrl->redirect($this, "edit");
     }
 
-    protected function buildImportFormInputs(): array
+    private function buildImportFormInputs(): array
     {
         $trafo = $this->refinery->custom()->transformation(
             function ($vs): array {
@@ -1249,20 +1294,6 @@ class ilObjectGUI implements ImplementsCreationCallback
                     ];
                 }
             }
-        );
-
-        $constraint = $this->refinery->custom()->constraint(
-            function ($vs): bool {
-                $filename = $vs[self::UPLOAD_TYPE_LOCAL] ?? null;
-                if ($filename === null) {
-                    return $this->importFileOfValidType(basename($vs[self::UPLOAD_TYPE_UPLOAD_DIRECTORY]));
-                }
-                return $filename !== ''
-                    && $this->temp_file_system->hasDir($filename)
-                    && ($files = $this->temp_file_system->listContents($filename))
-                    && $this->importFileOfValidType(basename($files[0]->getPath()));
-            },
-            $this->lng->txt('import_file_not_valid_here')
         );
 
         $import_directory_factory = new ilImportDirectoryFactory();
@@ -1296,30 +1327,60 @@ class ilObjectGUI implements ImplementsCreationCallback
 
         return [
             'upload' => $file_upload_input->withAdditionalTransformation($trafo)
-                ->withAdditionalTransformation($constraint)
+        ];
+    }
+
+    private function buildImportTypeSelectorInputs(
+        ?string $file_to_import = null,
+        ?string $file_name_in_temp_dir = null
+    ): array {
+        $ff = $this->ui_factory->input()->field();
+
+        $possible_sub_objects = array_map(
+            fn(array $v): string => $this->getTranslatedObjectTypeNameFromItemArray($v),
+            $this->object->getPossibleSubObjects()
+        );
+
+        asort($possible_sub_objects);
+
+        return [
+            'type' => $ff->select(
+                $this->lng->txt('select_object_type'),
+                $possible_sub_objects
+            )->withRequired(true),
+            'file_to_import' => $ff->hidden()->withValue($file_to_import),
+            'temp_file' => $ff->hidden()->withValue($file_name_in_temp_dir)
         ];
     }
 
     protected function routeImportCmdObject(): void
     {
-        $modal = $this->buildImportModal()->withRequest($this->request);
-        $data = $modal->getData();
+        if ($this->request_wrapper->has('step')) {
+            $data = $this->retrieveAndCheckImportTypeData();
+        } else {
+            $data = $this->retrieveAndCheckImportData();
+        }
 
         if ($data === null) {
-            $this->import_modal = $modal->withOnLoad($modal->getShowSignal());
             $this->viewObject();
             return;
         }
 
-        $file_to_import = $this->getFileToImportFromImportFormData($data);
-        $new_type = $this->extractFileTypeFromImportFilename(basename($file_to_import));
-        $path_to_uploaded_file_in_temp_dir = '';
-        if (array_key_first($data['upload']) === self::UPLOAD_TYPE_LOCAL) {
-            $path_to_uploaded_file_in_temp_dir = $data['upload'][self::UPLOAD_TYPE_LOCAL];
+        [$new_type, $file_to_import, $path_to_uploaded_file_in_temp_dir] = $this
+            ->retrieveFilesAndUploadTypeFromData($data);
+
+        if ($new_type === null) {
+            $this->showImportTypeSelectorModal(
+                basename($file_to_import),
+                $path_to_uploaded_file_in_temp_dir
+            );
+            return;
         }
 
         // create permission is already checked in createObject. This check here is done to prevent hacking attempts
-        if (!$this->checkPermissionBool('create', '', $new_type)) {
+        if (!$this->checkPermissionBool('create', '', $new_type)
+            || !in_array($new_type, $this->obj_definition->getAllObjects())
+            || !array_key_exists($new_type, $this->object->getPossibleSubObjects())) {
             $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_create_permission'));
             $this->viewObject();
@@ -1406,21 +1467,73 @@ class ilObjectGUI implements ImplementsCreationCallback
         }
     }
 
-    /**
-     * Check if filename matches a given type
-     */
-    private function importFileOfValidType(string $filename): bool
+    private function retrieveAndCheckImportData(): ?array
     {
-        $file_type = $this->extractFileTypeFromImportFilename($filename);
-        if ($file_type === null
-            || !in_array($file_type, $this->obj_definition->getAllObjects())
-            || !array_key_exists($file_type, $this->object->getPossibleSubObjects())) {
-            return false;
+        $modal = $this->buildImportModal()->withRequest($this->request);
+        $data = $modal->getData();
+
+        if ($data !== null) {
+            return $data;
         }
-        return true;
+
+        $this->import_modal = $modal->withOnLoad($modal->getShowSignal());
+        return null;
     }
 
-    protected function extractFileTypeFromImportFilename(string $filename): ?string
+    private function retrieveAndCheckImportTypeData(): ?array
+    {
+        $modal = $this->buildImportTypeSelectorModal()->withRequest($this->request);
+        $data = $modal->getData();
+
+        if ($data !== null) {
+            return $data;
+        }
+
+        $this->import_type_selector_modal = $modal->withOnLoad($modal->getShowSignal());
+        return null;
+    }
+
+    private function showImportTypeSelectorModal(
+        ?string $file_to_import = null,
+        ?string $path_to_uploaded_file_in_temp_dir = null
+    ): void {
+        $this->ctrl->setParameterByClass(static::class, 'step', 'select_type');
+        $modal = $this->buildImportTypeSelectorModal(
+            $file_to_import,
+            $path_to_uploaded_file_in_temp_dir
+        );
+        $this->ctrl->clearParameterByClass(static::class, 'step');
+        $this->import_type_selector_modal = $modal->withOnLoad($modal->getShowSignal());
+        $this->viewObject();
+        return;
+    }
+
+    private function retrieveFilesAndUploadTypeFromData(array $data): array
+    {
+        if (isset($data['type']) && isset($data['file_to_import']) && isset($data['temp_file'])) {
+            return [
+                $data['type'],
+                implode(
+                    DIRECTORY_SEPARATOR,
+                    [CLIENT_DATA_DIR, 'temp', $data['temp_file'], $data['file_to_import']]
+                ),
+                $data['temp_file']
+            ];
+        }
+        $file_to_import = $this->getFileToImportFromImportFormData($data);
+        $path_to_uploaded_file_in_temp_dir = '';
+        if (array_key_first($data['upload']) === self::UPLOAD_TYPE_LOCAL) {
+            $path_to_uploaded_file_in_temp_dir = $data['upload'][self::UPLOAD_TYPE_LOCAL];
+        }
+
+        return [
+            $this->extractFileTypeFromImportFilename(basename($file_to_import)),
+            $file_to_import,
+            $path_to_uploaded_file_in_temp_dir
+        ];
+    }
+
+    private function extractFileTypeFromImportFilename(string $filename): ?string
     {
         $matches = [];
         $result = preg_match('/[0-9]{10}__[0-9]{1,6}__([a-z]{1,4})_[0-9]{2,9}.zip/', $filename, $matches);
@@ -1432,7 +1545,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         return $matches[1];
     }
 
-    protected function getFileToImportFromImportFormData(array $data)
+    private function getFileToImportFromImportFormData(array $data)
     {
         $upload_data = $data['upload'];
         if (array_key_first($upload_data) === self::UPLOAD_TYPE_LOCAL
@@ -2096,10 +2209,13 @@ class ilObjectGUI implements ImplementsCreationCallback
             $this->ctrl->setParameterByClass($create_target_class, 'new_type', $type);
             $add_new_items_content_array[$subitem['pos']] = new AddNewItemElement(
                 AddNewItemElementTypes::Object,
+                $this->getTranslatedObjectTypeNameFromItemArray($subitem),
                 empty($subitem['plugin'])
-                    ? $this->lng->txt('obj_' . $type)
-                    : ilObjectPlugin::lookupTxtById($type, "obj_" . $type),
-                $this->ui_factory->symbol()->icon()->standard($type, ''),
+                    ? $this->ui_factory->symbol()->icon()->standard($type, '')
+                    : $this->ui_factory->symbol()->icon()->custom(
+                        ilObject::getIconForType($type),
+                        ''
+                    ),
                 new URI(
                     ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass($create_target_class, 'create')
                 )
@@ -2118,5 +2234,12 @@ class ilObjectGUI implements ImplementsCreationCallback
             }
         }
         return true;
+    }
+
+    private function getTranslatedObjectTypeNameFromItemArray(array $item_array): string
+    {
+        return empty($item_array['plugin'])
+            ? $this->lng->txt('obj_' . $item_array['lng'])
+            : ilObjectPlugin::lookupTxtById($item_array['lng'], 'obj_' . $item_array['lng']);
     }
 }

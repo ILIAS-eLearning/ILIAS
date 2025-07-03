@@ -45,4 +45,12 @@ class ProfileAdapter
     {
         return $this->lng->txt("rep_deleted_account");
     }
+
+    public function getNamePresentation(int $user_id, bool $force = false): string
+    {
+        if (!$this->exists($user_id)) {
+            return $this->getDeletedUserNamePresentation();
+        }
+        return \ilUserUtil::getNamePresentation($user_id, false, false, "", $force);
+    }
 }

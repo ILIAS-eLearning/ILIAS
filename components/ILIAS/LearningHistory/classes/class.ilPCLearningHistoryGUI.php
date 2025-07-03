@@ -150,9 +150,11 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
         return $form;
     }
 
-    /**
-     * Create new learning history component
-     */
+    public function create_lhist(): void
+    {
+        $this->create();
+    }
+
     public function create(): void
     {
         $valid = false;

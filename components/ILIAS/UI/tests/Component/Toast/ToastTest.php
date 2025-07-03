@@ -52,23 +52,17 @@ class ToastTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Toast\\Container", $f->container());
     }
 
-    /**
-     * @dataProvider getToastProvider
-     */
-    public function testToast(string $title, string $description, int $vanish_time, int $delay_time, string $action): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('getToastProvider')]
+    public function testToast(string $title, string $description, string $action): void
     {
         $toast = $this->getToastFactory()->standard($title, $this->getIconFactory()->standard('', ''))
                       ->withDescription($description)
-                      ->withVanishTime($vanish_time)
-                      ->withDelayTime($delay_time)
                       ->withAction($action)
                       ->withAdditionalLink($this->getLinkFactory()->standard('', ''));
 
         $this->assertNotNull($toast);
         $this->assertEquals($title, $toast->getTitle());
         $this->assertEquals($description, $toast->getDescription());
-        $this->assertEquals($vanish_time, $toast->getVanishTime());
-        $this->assertEquals($delay_time, $toast->getDelayTime());
         $this->assertEquals($action, $toast->getAction());
         $this->assertCount(1, $toast->getLinks());
         $this->assertInstanceOf(Link::class, $toast->getLinks()[0]);
@@ -76,10 +70,8 @@ class ToastTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Icon::class, $toast->getIcon());
     }
 
-    /**
-     * @dataProvider getToastProvider
-     */
-    public function testToastContainer(string $title, string $description, int $vanish_time): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('getToastProvider')]
+    public function testToastContainer(string $title, string $description): void
     {
         $container = $this->getToastFactory()->container()->withAdditionalToast(
             $this->getToastFactory()->standard('', $this->getIconFactory()->standard('', ''))
@@ -94,9 +86,9 @@ class ToastTest extends ILIAS_UI_TestBase
     public static function getToastProvider(): array
     {
         return [
-            ['title', 'description', 5000, 500, 'test.php'],
-            ['', '', -5000, -500, ''],
-            ['"/><script>alert("hack")</script>', '"/><script>alert("hack")</script>', PHP_INT_MAX, PHP_INT_MIN, 'test.php']
+            ['title', 'description', 'test.php'],
+            ['', '', ''],
+            ['"/><script>alert("hack")</script>', '"/><script>alert("hack")</script>', 'test.php']
         ];
     }
 }

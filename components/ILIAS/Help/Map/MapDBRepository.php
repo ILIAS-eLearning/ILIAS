@@ -44,7 +44,7 @@ class MapDBRepository
                     $id[1] = "-";
                 }
                 $id2 = explode("#", ($id[2] ?? ""));
-                if ($id2[0] == "") {
+                if (($id2[0] ?? "") == "") {
                     $id2[0] = "-";
                 }
                 if (($id2[1] ?? "") == "") {
@@ -72,7 +72,8 @@ class MapDBRepository
         string $a_screen_id,
         string $a_screen_sub_id,
         string $a_perm,
-        int $a_module_id = 0
+        int $a_module_id = 0,
+        string $full_id = ""
     ): void {
         $this->db->replace(
             "help_map",
@@ -81,7 +82,8 @@ class MapDBRepository
                   "screen_id" => array("text", $a_screen_id),
                   "screen_sub_id" => array("text", $a_screen_sub_id),
                   "perm" => array("text", $a_perm),
-                  "module_id" => array("integer", $a_module_id)
+                  "module_id" => array("integer", $a_module_id),
+                  "full_id" => array("text", $full_id)
             ),
             array()
         );
@@ -132,11 +134,11 @@ class MapDBRepository
         $sc_id = explode("/", $a_screen_id);
         $chaps = array();
         foreach ($module_ids as $module_id) {
-            if ($sc_id[0] != "") {
-                if ($sc_id[1] == "") {
+            if (($sc_id[0] ?? "") != "") {
+                if (($sc_id[1] ?? "") == "") {
                     $sc_id[1] = "-";
                 }
-                if ($sc_id[2] == "") {
+                if (($sc_id[2] ?? "") == "") {
                     $sc_id[2] = "-";
                 }
                 $set = $this->db->query(

@@ -22,6 +22,7 @@ use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ILIASObject\Properties\CoreProperties\Online;
 
 /**
  * Class ilObjBibliographic
@@ -137,7 +138,7 @@ class ilObjBibliographic extends ilObject2
             ]
         );
         $this->parseFileToDatabase();
-        $this->getObjectProperties()->storePropertyIsOnline(new ilObjectPropertyIsOnline(false));
+        $this->getObjectProperties()->storePropertyIsOnline(new Online(false));
     }
 
     protected function doRead(): void
@@ -315,7 +316,7 @@ class ilObjBibliographic extends ilObject2
         $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
 
         if (!$cp_options->isRootNode($this->getRefId())) {
-            $new_obj->getObjectProperties()->storePropertyIsOnline(new ilObjectPropertyIsOnline(false));
+            $new_obj->getObjectProperties()->storePropertyIsOnline(new Online(false));
         }
 
         $new_obj->cloneStructure($this->getId());

@@ -101,7 +101,7 @@ class PHPResponseBuilder implements ResponseBuilder
                 $finish_bytes = (int) $match[2];
                 $byte_length = $finish_bytes + 1;
             } else {
-                $finish_bytes = $content_length - 1;
+                $finish_bytes = $content_length;
             }
             $response = $response->withStatus(206, 'Partial Content');
             $response = $response->withHeader(

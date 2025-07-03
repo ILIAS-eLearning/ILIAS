@@ -216,7 +216,7 @@ administration#:#language_former_file_equal#:#The file <b>%s</b> is identical to
 administration#:#language_former_file_missing#:#The file <b>%s</b> is missing.###19 09 2008 new variable
 administration#:#language_import_file#:#Import Language File###23 08 2007 new variable
 administration#:#language_load_local_changes#:#Load local language file into the database###23 08 2007 new variable
-administration#:#language_load_local_changes_info#:#Load the file Customizing/global/lang/ilias_%s_lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.###07 11 2014 new variable
+administration#:#language_load_local_changes_info#:#Load the file lang/customizing/ilias_%s_lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.###07 11 2014 new variable
 administration#:#language_loaded_local#:#The local language file was loaded into the database.###23 08 2007 new variable
 administration#:#language_local_file_deleted#:#The local language file was deleted.###10 09 2010 new variable
 administration#:#language_maintain#:#Maintain###23 08 2007 new variable
@@ -237,12 +237,12 @@ administration#:#language_mode_existing_replace_info#:#Import new entries and re
 administration#:#language_note_translation#:#Page translation mode is activated for each language separately. Additionally the user needs visible and read permission on the language folder.###23 08 2007 new variable
 administration#:#language_process_maintenance#:#Process Maintenance###23 08 2007 new variable
 administration#:#language_remove_local_file#:#Delete the local language file###10 09 2010 new variable
-administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s_lang.local and change the language status from "Installed With Local" to "Installed". The changes in the database are not touched.###07 11 2014 new variable
+administration#:#language_remove_local_file_info#:#Remove the file lang/customizing/ilias_%s_lang.local and change the language status from "Installed With Local" to "Installed". The changes in the database are not touched.###07 11 2014 new variable
 administration#:#language_save_dist#:#Backup the standard language file###25 10 2016 new variable
 administration#:#language_save_dist_failed#:#The backup of the standard ILIAS language file could not be written.###25 10 2016 new variable
 administration#:#language_save_dist_info#:#Create a backup of the standard ILIAS language file in the ILIAS data directory. This helps after an ILIAS update to find conflicst of own changes with updated language variables.###25 10 2016 new variable
 administration#:#language_save_local_changes#:#Save all changes to the local language file###23 08 2007 new variable
-administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file Customizing/global/lang/ilias_%s_lang.local and set the language status to "Installed With Local". The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.###07 11 2014 new variable
+administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file lang/customizing/ilias_%s_lang.local and set the language status to "Installed With Local". The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.###07 11 2014 new variable
 administration#:#language_saved_dist#:#The backup of the standard ILIAS language file is created.###25 10 2016 new variable
 administration#:#language_scope_added#:#Local additions only###10 09 2010 new variable
 administration#:#language_scope_added_info#:#Export all entries that are locally added in the database. This can be used to backup additional development entries before local changes are deleted on the tab "Maintain".###07 11 2014 new variable
@@ -740,7 +740,7 @@ assessment#:#finalized_evaluation#:#Scoring completed###07 02 2020 new variable
 assessment#:#finalized_on#:#Completed at###07 02 2020 new variable
 assessment#:#finish_all_user_passes#:#Finish all test Passes###25 10 2016 new variable
 assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test passes for all Users?###25 10 2016 new variable
-assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.###26 08 2024 new variable
+assessment#:#finish_pass_for_multiple_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.###26 08 2024 new variable
 assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test pass?###25 10 2016 new variable
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).###26 08 2024 new variable
 assessment#:#finish_test#:#Kết thúc bài kiểm tra
@@ -2077,8 +2077,6 @@ auth#:#auth_account_migration_new#:#Create New User Account###26 03 2010 new var
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###07 02 2017 new variable
 auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.###31 08 2017 new variable
 auth#:#auth_auth_settings#:#Settings###24 10 2013 new variable
-auth#:#auth_cas_ldap#:#Synchronization using LDAP###22 03 2011 new variable
-auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.###22 03 2011 new variable
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###26 08 2024 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###26 08 2024 new variable
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.###25 10 2016 new variable
@@ -2181,8 +2179,6 @@ auth#:#auth_saml_user_mapping#:#User Profile Mapping###31 08 2017 new variable
 auth#:#auth_saml_username_claim#:#Arrtibue for Username###31 08 2017 new variable
 auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.###31 08 2017 new variable
 auth#:#auth_sync#:#User Synchronisation###22 03 2011 new variable
-auth#:#auth_sync_cas#:#Automatic generation of user accounts###22 03 2011 new variable
-auth#:#auth_sync_cas_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against CAS, without having an ILIAS account yet.###22 03 2011 new variable
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3600,13 +3596,6 @@ common#:#attachments#:#Đính kèm
 common#:#attempts#:#Attempts###02 06 2008 new variable
 common#:#auth_active_roles#:#Kích hoạt vai trò toàn cục để đăng ký
 common#:#auth_allow_local#:#Allow Local Authentication###25 02 2007 new variable
-common#:#auth_cas#:#CAS###25 02 2007 new variable
-common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.###25 02 2007 new variable
-common#:#auth_cas_auth#:#Configure CAS Authentication###25 02 2007 new variable
-common#:#auth_cas_auth_desc#:#CAS requires PHP 4.3.1 or higher with CURL support (7.5 or higher)###25 02 2007 new variable
-common#:#auth_cas_port_desc#:#E.g. 443 if the full CAS server URI is https://auth.yourserver.com:443/cas/###25 02 2007 new variable
-common#:#auth_cas_server_desc#:#E.g. auth.yourserver.com if the full CAS server URI is https://auth.yourserver.com:443/cas/###25 02 2007 new variable
-common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is https://auth.yourserver.com:443/cas/###25 02 2007 new variable
 common#:#auth_configure#:#cấu hình...
 common#:#auth_create_users#:#Create non-existing users automatically###25 02 2007 new variable
 common#:#auth_default#:#Thiết lập mặc định
@@ -4062,7 +4051,6 @@ common#:#entry_status#:#Entry status###07 02 2020 new variable
 common#:#err_1_param#:#Chỉ 1 tham biến!
 common#:#err_2_param#:#Chỉ 2 tham biến!
 common#:#err_auth_apache_failed#:#The authentication has failed. Maybe you have no valid user certificate or your smartcard is not inserted.###20 10 2010 new variable
-common#:#err_auth_cas_no_ilias_user#:#Login failed. CAS authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###25 02 2007 new variable
 common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###09 07 2007 new variable
 common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.###23 07 2008 new variable
 common#:#err_auth_soap_no_ilias_user#:#Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###25 02 2007 new variable
@@ -4596,7 +4584,6 @@ common#:#login_information_desc#:#Please enter a login information for the respe
 common#:#login_information_settings_saved#:#The login information were saved successfully###25 02 2007 new variable
 common#:#login_invalid#:#Tên đăng nhập không hợp lệ! Chỉ các ký tự sau là được phép (tối thiểu 4 ký tự): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#Đăng nhập hệ thống
-common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service###25 02 2007 new variable
 common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentification###31 08 2017 new variable
 common#:#login_to_ilias_via_shibboleth#:#Đăng nhập vào ILIAS qua Shibboleth
 common#:#loginname_already_exists#:#This login name already exists.###24 02 2009 new variable
@@ -5906,7 +5893,7 @@ common#:#user_defined_list#:#Overview User-defined Fields###25 02 2007 new varia
 common#:#user_deleted#:#Đã xóa người sử dụng
 common#:#user_detail#:#Dữ liệu chi tiết
 common#:#user_ext_account#:#External Account###25 02 2007 new variable
-common#:#user_ext_account_desc#:#Account used for external authentication. (CAS or SOAP authentication)###25 02 2007 new variable
+common#:#user_ext_account_desc#:#Account used for external authentication. (SOAP authentication)###25 02 2007 new variable
 common#:#user_image#:#User Image###30 04 2009 new variable
 common#:#user_import_failed#:#Nhập người sử dụng thất bại.
 common#:#user_imported#:#Hoàn thành nhập người sử dụng.
@@ -6758,7 +6745,6 @@ content#:#cont_localfile#:#Local File###15 09 2008 new variable
 content#:#cont_localization#:#Localization###12 06 2011 new variable
 content#:#cont_localization_info#:#Language used for predifined texts, e.g. "Previous" and "Next".###12 06 2011 new variable
 content#:#cont_location#:#Location###23 07 2008 new variable
-content#:#cont_lpe_cas_login_form#:#CAS Login Form###10 11 2018 new variable
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###26 08 2024 new variable
 content#:#cont_lpe_language_selection#:#Language Selection###10 11 2018 new variable
 content#:#cont_lpe_login_form#:#Login Form###10 11 2018 new variable
@@ -10739,7 +10725,7 @@ ldap#:#ldap_add_missing#:#Assign Missing Roles###24 07 2009 new variable
 ldap#:#ldap_add_remove#:#Add/Remove Roles###24 07 2009 new variable
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments###23 08 2007 new variable
 ldap#:#ldap_as_ds#:#Use as Data Source###22 03 2011 new variable
-ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS).###22 03 2011 new variable
+ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods.###22 03 2011 new variable
 ldap#:#ldap_assignment_type#:#Assignment Type###23 08 2007 new variable
 ldap#:#ldap_authentication_settings#:#Authentication Settings###25 02 2007 new variable
 ldap#:#ldap_bind_anonymous#:#Bind Anonymously###25 02 2007 new variable
@@ -13022,6 +13008,7 @@ obj#:#obj_activation#:#Activation###31 08 2017 new variable
 obj#:#obj_activation_list_gui#:#Availability###30 12 2013 new variable
 obj#:#obj_add_languages#:#Add Languages###22 01 2014 new variable
 obj#:#obj_additional_langs#:#Additional Languages###22 01 2014 new variable
+obj#:#obj_base_lang#:#Master Language###22 01 2014 new variable
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###26 08 2024 new variable
 obj#:#obj_cont_transl_deactivated#:#Translation for page editing has been deactivated.###22 01 2014 new variable
 obj#:#obj_copy_progress#:#Copy Progress###30 08 2015 new variable
@@ -13034,7 +13021,6 @@ obj#:#obj_features#:#Features###24 10 2013 new variable
 obj#:#obj_import_file_error#:#This file could not be imported. Please make sure that this is a valid ILIAS export file (XML Export), of the same object type. The filename must not be modified after export. Error Message:###23 12 2015 new variable
 obj#:#obj_insert_into_clipboard#:#Insert into Clipboard###22 01 2014 new variable
 obj#:#obj_inserted_clipboard#:#Objects have been moved to the clipboard.###22 01 2014 new variable
-obj#:#obj_master_lang#:#Master Language###22 01 2014 new variable
 obj#:#obj_more_translations#:#More Translations###10 11 2018 new variable
 obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.###22 01 2014 new variable
 obj#:#obj_multilang_title_descr_only#:#Translation is activated for title and description only. Translation support for Page editing ("Customize Page") needs additional activation.###22 01 2014 new variable
@@ -13043,7 +13029,7 @@ obj#:#obj_orgunit_positions#:#Access Control by Organisation Unit Positions###31
 obj#:#obj_orgunit_positions_info#:#If enabled, additional access control rules can be defined by positions in organisational units.###31 08 2017 new variable
 obj#:#obj_permission_settings#:#Permission Settings###30 08 2015 new variable
 obj#:#obj_presentation#:#Presentation###30 12 2013 new variable
-obj#:#obj_select_master_lang#:#Please select the master language. The current content will be assigned to the master language. The master language cannot be changed afterwards.###22 01 2014 new variable
+obj#:#obj_select_base_lang#:#Please select the master language. The current content will be assigned to the master language. The master language cannot be changed afterwards.###22 01 2014 new variable
 obj#:#obj_select_one_language#:#Please select one language###29 07 2022 new variable
 obj#:#obj_set_fallback_lang#:#Set default language###29 07 2022 new variable
 obj#:#obj_settings_for_all_members#:#Members will be notified automatically###31 08 2017 new variable
@@ -14609,6 +14595,7 @@ rbac#:#rbac_role_rights_copy_empty#:#None###16 07 2010 new variable
 rbac#:#rbac_role_selection#:#Role Type###06 08 2011 new variable
 rbac#:#rbac_role_title#:#Role Title###01 10 2011 new variable
 rbac#:#rbac_select_copy_targets#:#Please select the target roles###01 10 2011 new variable
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_global#:#User defined global role###06 08 2011 new variable
 rbac#:#rbac_ud_local#:#User defined local role###06 08 2011 new variable
 rbac#:#rbac_ud_rolt#:#User defined role template###06 08 2011 new variable

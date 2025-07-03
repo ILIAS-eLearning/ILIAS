@@ -95,9 +95,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         return $menu;
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testGetLabel(C\Menu\Drilldown $menu): void
     {
         $this->assertEquals(
@@ -106,9 +104,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         );
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testGetItems($menu): void
     {
         $this->assertEquals(
@@ -143,9 +139,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         $f->menu()->drilldown('label', [$this->legacy]);
     }
 
-    /**
-     * @depends testWithEntries
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testWithEntries')]
     public function testRendering(): void
     {
         $r = $this->getDefaultRenderer();
@@ -169,9 +163,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         );
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testWithPersistenceId($menu): void
     {
         $this->assertNull($menu->getPersistenceId()) ;

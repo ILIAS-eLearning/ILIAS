@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Filesystem\Stream\ZIPStream;
+
 /**
  * Class ilMediaItem
  * Media Item, component of a media object (file or reference)
@@ -745,70 +747,6 @@ class ilMediaItem
         return ilObjMediaObject::_getDirectory($this->getMobId());
     }
 
-    /**
-     * get media file directory
-     */
-    public function getThumbnailDirectory(
-        string $a_mode = "filesystem"
-    ): string {
-        return ilObjMediaObject::_getThumbnailDirectory($this->getMobId(), $a_mode);
-    }
-
-    /**
-     * get thumbnail target
-     */
-    public function getThumbnailTarget(
-        string $a_size = ""
-    ): string {
-        $jpeg_file = $this->getThumbnailDirectory() . "/" .
-            $this->getPurpose() . ".jpeg";
-        $format = "png";
-        if (is_file($jpeg_file)) {
-            $format = "jpeg";
-        }
-        if (is_int(strpos($this->getFormat(), "image"))) {
-            $thumb_file = $this->getThumbnailDirectory() . "/" .
-                $this->getPurpose() . "." . $format;
-            $thumb_file_small = $this->getThumbnailDirectory() . "/" .
-                $this->getPurpose() . "_small." . $format;
-            // generate thumbnail (if not tried before)
-            if ($this->getThumbTried() == "n" && $this->getLocationType() == "LocalFile" && $this->getFormat() !== "image/svg+xml") {
-                if (is_file($thumb_file)) {
-                    unlink($thumb_file);
-                }
-                if (is_file($thumb_file_small)) {
-                    unlink($thumb_file_small);
-                }
-                $this->writeThumbTried("y");
-                ilObjMediaObject::_createThumbnailDirectory($this->getMobId());
-                $med_file = $this->getDirectory() . "/" . $this->getLocation();
-
-                if (is_file($med_file)) {
-                    $mob = new ilObjMediaObject($this->getMobId());
-                    $mob->makeThumbnail($this->getLocation(), $this->getPurpose() . "." . $format, $format, "80");
-                    //$mob->makeThumbnail($this->getLocation(), $this->getPurpose() . "_small." . $format, $format, "40");
-                }
-            }
-            if ($this->getFormat() === "image/svg+xml") {
-                return ilObjMediaObject::_getURL($this->getMobId()) . "/" . $this->getLocation();
-            }
-            if ($a_size == "small") {
-                if (is_file($thumb_file_small)) {
-                    $random = new \ilRandom();
-                    return $this->getThumbnailDirectory("output") . "/" .
-                        $this->getPurpose() . "_small." . $format . "?dummy=" . $random->int(1, 999999);
-                }
-            } else {
-                if (is_file($thumb_file)) {
-                    $random = new \ilRandom();
-                    return $this->getThumbnailDirectory("output") . "/" .
-                        $this->getPurpose() . "." . $format . "?dummy=" . $random->int(1, 999999);
-                }
-            }
-        }
-
-        return "";
-    }
 
     public function getOriginalSource(): string
     {
@@ -1097,9 +1035,7 @@ class ilMediaItem
                 $this->setDuration((int) $meta["duration"]);
             }
         } else {
-            $file = ($this->getLocationType() == "Reference")
-                ? $this->getLocation()
-                : ilObjMediaObject::_getDirectory($this->getMobId()) . "/" . $this->getLocation();
+            $file = $this->getLocationSrc();
 
             $remote = false;
 
@@ -1130,6 +1066,43 @@ class ilMediaItem
             } catch (Exception $e) {
             }
         }
+    }
+
+    public function getLocationSrc(bool $autoplay = false): string
+    {
+        if (strcasecmp("Reference", $this->getLocationType()) === 0) {
+            $src = $this->getLocation();
+            if ($this->getFormat() === "video/vimeo") {
+                $params = "";
+                if ($autoplay) {
+                    $params = "&autoplay=1&muted=1";
+                }
+                $par = ilExternalMediaAnalyzer::extractVimeoParameters($src);
+                $src = "//player.vimeo.com/video/" . $par["id"] . "?api=1" . $params;
+            }
+            if ($this->getFormat() === "video/youtube") {
+                $params = "";
+                if ($autoplay) {
+                    $params = "&autoplay=1&muted=1";
+                }
+                $par = ilExternalMediaAnalyzer::extractYouTubeParameters($src);
+                $src = "//www.youtube.com/embed/" . $par["v"] . "?enablejsapi=1" . $params;
+            }
+        } else {
+            $src = $this->mob_manager->getLocalSrc(
+                $this->getMobId(),
+                $this->getLocation()
+            );
+        }
+        return $src;
+    }
+
+    public function getLocationStream(): ZIPStream
+    {
+        return $this->mob_manager->getLocationStream(
+            $this->getMobId(),
+            $this->getLocation()
+        );
     }
 
     /**

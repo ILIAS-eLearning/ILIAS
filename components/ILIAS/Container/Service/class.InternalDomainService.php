@@ -62,6 +62,7 @@ class InternalDomainService
         ?string $lang = null
     ): Page\PageManager {
         return new PageManager(
+            $this->DIC->database(),
             $this,
             $this->content_style_domain,
             $container,
@@ -80,5 +81,15 @@ class InternalDomainService
     public function metadata(): MetadataManager
     {
         return new MetadataManager($this->learningObjectMetadata());
+    }
+
+    public function containerFilterRetrieval(
+        \ilContainerFilterService $container_filter_service,
+        int $ref_id
+    ): Filter\ContainerFilterRetrieval {
+        return new Filter\ContainerFilterRetrieval(
+            $container_filter_service,
+            $ref_id
+        );
     }
 }

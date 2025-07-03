@@ -18,41 +18,24 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilRoleMailboxAddress
- * @author Werner Randelshofer <wrandels@hsw.fhz.ch>
- * @author Stefan Meyer <meyer@leifos.com>
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilRoleMailboxAddress
 {
-    protected ilMailRfc822AddressParserFactory $parserFactory;
+    protected ilMailRfc822AddressParserFactory $parser_factory;
     protected ilDBInterface $db;
     protected ilLanguage $lng;
 
     public function __construct(
-        protected int $roleId,
+        protected int $role_id,
         protected bool $localize = true,
-        ?ilMailRfc822AddressParserFactory $parserFactory = null,
+        ?ilMailRfc822AddressParserFactory $parser_factory = null,
         ?ilDBInterface $db = null,
         ?ilLanguage $lng = null
     ) {
         global $DIC;
 
-        if (null === $db) {
-            $db = $DIC->database();
-        }
-        $this->db = $db;
-
-        if (null === $lng) {
-            $lng = $DIC->language();
-        }
-        $this->lng = $lng;
-
-        if (null === $parserFactory) {
-            $parserFactory = new ilMailRfc822AddressParserFactory();
-        }
-        $this->parserFactory = $parserFactory;
+        $this->db = $db ?? $DIC->database();
+        $this->lng = $lng ?? $DIC->language();
+        $this->parser_factory = $parser_factory ?? new ilMailRfc822AddressParserFactory();
     }
 
     /**
@@ -116,14 +99,14 @@ class ilRoleMailboxAddress
     public function value(): string
     {
         // Retrieve the role title and the object title.
-        $query = "SELECT rdat.title role_title,odat.title object_title, " .
-            " oref.ref_id object_ref " .
-            "FROM object_data rdat " .
-            "JOIN rbac_fa fa ON fa.rol_id = rdat.obj_id " .
-            "JOIN tree rtree ON rtree.child = fa.parent " .
-            "JOIN object_reference oref ON oref.ref_id = rtree.child " .
-            "JOIN object_data odat ON odat.obj_id = oref.obj_id " .
-            "WHERE rdat.obj_id = " . $this->db->quote($this->roleId, 'integer') . " " .
+        $query = 'SELECT rdat.title role_title,odat.title object_title, ' .
+            ' oref.ref_id object_ref ' .
+            'FROM object_data rdat ' .
+            'JOIN rbac_fa fa ON fa.rol_id = rdat.obj_id ' .
+            'JOIN tree rtree ON rtree.child = fa.parent ' .
+            'JOIN object_reference oref ON oref.ref_id = rtree.child ' .
+            'JOIN object_data odat ON odat.obj_id = oref.obj_id ' .
+            'WHERE rdat.obj_id = ' . $this->db->quote($this->role_id, 'integer') . ' ' .
             "AND fa.assign = 'y' ";
         $res = $this->db->query($query);
         if (($row = $this->db->fetchObject($res)) === null) {
@@ -141,12 +124,12 @@ class ilRoleMailboxAddress
         $local_part = $role_title;
 
         // Determine if the object title is unique
-        $q = "SELECT COUNT(DISTINCT dat.obj_id) count " .
-            "FROM object_data dat " .
-            "JOIN object_reference ref ON ref.obj_id = dat.obj_id " .
-            "JOIN tree ON tree.child = ref.ref_id " .
-            "WHERE title = " . $this->db->quote($object_title, 'text') . " " .
-            "AND tree.tree = 1 ";
+        $q = 'SELECT COUNT(DISTINCT dat.obj_id) count ' .
+            'FROM object_data dat ' .
+            'JOIN object_reference ref ON ref.obj_id = dat.obj_id ' .
+            'JOIN tree ON tree.child = ref.ref_id ' .
+            'WHERE title = ' . $this->db->quote($object_title, 'text') . ' ' .
+            'AND tree.tree = 1 ';
         $res = $this->db->query($q);
         $row = $this->db->fetchObject($res);
 
@@ -185,7 +168,7 @@ class ilRoleMailboxAddress
                 strrpos($role_title, '_') - $pos
             );
         } else {
-            $unambiguous_role_title = 'il_role_' . $this->roleId;
+            $unambiguous_role_title = 'il_role_' . $this->role_id;
         }
 
         // Determine if the local part is unique. If we don't have a
@@ -193,23 +176,23 @@ class ilRoleMailboxAddress
         // If we do have a domain, the local part must be unique for that
         // domain.
         if ($domain === null) {
-            $q = "SELECT COUNT(DISTINCT dat.obj_id) count " .
-                "FROM object_data dat " .
-                "JOIN object_reference ref ON ref.obj_id = dat.obj_id " .
-                "JOIN tree ON tree.child = ref.ref_id " .
-                "WHERE title = " . $this->db->quote($local_part, 'text') . " " .
-                "AND tree.tree = 1 ";
+            $q = 'SELECT COUNT(DISTINCT dat.obj_id) count ' .
+                'FROM object_data dat ' .
+                'JOIN object_reference ref ON ref.obj_id = dat.obj_id ' .
+                'JOIN tree ON tree.child = ref.ref_id ' .
+                'WHERE title = ' . $this->db->quote($local_part, 'text') . ' ' .
+                'AND tree.tree = 1 ';
         } else {
-            $q = "SELECT COUNT(rd.obj_id) count " .
-                "FROM object_data rd " .
-                "JOIN rbac_fa fa ON rd.obj_id = fa.rol_id " .
-                "JOIN tree t ON t.child = fa.parent " .
+            $q = 'SELECT COUNT(rd.obj_id) count ' .
+                'FROM object_data rd ' .
+                'JOIN rbac_fa fa ON rd.obj_id = fa.rol_id ' .
+                'JOIN tree t ON t.child = fa.parent ' .
                 "WHERE fa.assign = 'y' " .
-                "AND t.child = " . $this->db->quote($object_ref, 'integer') . " " .
-                "AND rd.title LIKE " . $this->db->quote(
+                'AND t.child = ' . $this->db->quote($object_ref, 'integer') . ' ' .
+                'AND rd.title LIKE ' . $this->db->quote(
                     '%' . preg_replace('/([_%])/', '\\\\$1', $local_part) . '%',
                     'text'
-                ) . " ";
+                ) . ' ';
         }
 
         $res = $this->db->query($q);
@@ -264,15 +247,17 @@ class ilRoleMailboxAddress
         }
 
         try {
-            $parser = $this->parserFactory->getParser($mailbox);
+            $parser = $this->parser_factory->getParser($mailbox);
             $parser->parse();
 
             return $mailbox;
         } catch (ilMailException) {
-            $res = $this->db->query("SELECT title FROM object_data WHERE obj_id = " . $this->db->quote(
-                $this->roleId,
-                'integer'
-            ));
+            $res = $this->db->query(
+                'SELECT title FROM object_data WHERE obj_id = ' . $this->db->quote(
+                    $this->role_id,
+                    'integer'
+                )
+            );
             if (($row = $this->db->fetchObject($res)) !== null) {
                 return '#' . $row->title;
             }

@@ -62,9 +62,7 @@ class NodeTest extends ILIAS_UI_TestBase
         return $node;
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testDefaults(TestingNode $node): void
     {
         $this->assertFalse($node->isExpanded());
@@ -72,9 +70,7 @@ class NodeTest extends ILIAS_UI_TestBase
         $this->assertEquals([], $node->getSubnodes());
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testWithExpanded(TestingNode $node): void
     {
         $this->assertTrue(
@@ -82,9 +78,7 @@ class NodeTest extends ILIAS_UI_TestBase
         );
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testWithHighlighted(TestingNode $node): void
     {
         $this->assertTrue(
@@ -92,9 +86,7 @@ class NodeTest extends ILIAS_UI_TestBase
         );
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testWithOnClick(TestingNode $node): Clickable
     {
         $sig_gen = new I\SignalGenerator();
@@ -106,9 +98,7 @@ class NodeTest extends ILIAS_UI_TestBase
         return $node;
     }
 
-    /**
-     * @depends testWithOnClick
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testWithOnClick')]
     public function testWithAppendOnClick(Clickable $node): void
     {
         $sig_gen = new I\SignalGenerator();
@@ -119,9 +109,7 @@ class NodeTest extends ILIAS_UI_TestBase
         $this->assertEquals($sig, $check);
     }
 
-    /**
-     * @depends testWithOnClick
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testWithOnClick')]
     public function testWithURI(Clickable $node): void
     {
         $uri = new URI('http://google.de:8080');

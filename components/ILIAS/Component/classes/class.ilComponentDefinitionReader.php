@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -75,8 +76,7 @@ class ilComponentDefinitionReader
         try {
             $xml_parser = xml_parser_create("UTF-8");
             xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, false);
-            xml_set_object($xml_parser, $this);
-            xml_set_element_handler($xml_parser, 'beginTag', 'endTag');
+            xml_set_element_handler($xml_parser, $this->beginTag(...), $this->endTag(...));
             if (!xml_parse($xml_parser, $xml)) {
                 $code = xml_get_error_code($xml_parser);
                 $line = xml_get_current_line_number($xml_parser);

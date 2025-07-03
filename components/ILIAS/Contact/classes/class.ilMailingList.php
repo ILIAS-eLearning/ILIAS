@@ -24,8 +24,8 @@ declare(strict_types=1);
  */
 class ilMailingList
 {
-    final public const MODE_ADDRESSBOOK = 1;
-    final public const MODE_TEMPORARY = 2;
+    final public const int MODE_ADDRESSBOOK = 1;
+    final public const int MODE_TEMPORARY = 2;
 
     private int $user_id;
     private string $title = '';

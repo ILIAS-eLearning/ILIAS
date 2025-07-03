@@ -30,10 +30,8 @@ class ilMathJaxTest extends ilMathJaxBaseTestCase
         $this->assertInstanceOf('ilMathJax', $mathjax);
     }
 
-    /**
-     * @depends testInstanceCanBeCreated
-     * @dataProvider clientSideData
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testInstanceCanBeCreated')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('clientSideData')]
     public function testClientSideRendering(int $limiter, string $input, ?string $start, ?string $end, string $expected): void
     {
         $config = $this->getEmptyConfig()->withClientEnabled(true)->withClientLimiter($limiter);
@@ -65,10 +63,8 @@ class ilMathJaxTest extends ilMathJaxBaseTestCase
         ];
     }
 
-    /**
-     * @depends testInstanceCanBeCreated
-     * @dataProvider serverSideData
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testInstanceCanBeCreated')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('serverSideData')]
     public function testServerSideRendering(string $purpose, ?string $imagefile, string $expected): void
     {
         $input = '[tex]f(x)=\int_{-\infty}^x e^{-t^2}dt[/tex]';

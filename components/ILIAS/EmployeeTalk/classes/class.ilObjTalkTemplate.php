@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 final class ilObjTalkTemplate extends ilContainer
 {
-    public const TYPE = 'talt';
+    public const string TYPE = 'talt';
 
     public function __construct(int $id = 0, bool $a_call_by_reference = true)
     {

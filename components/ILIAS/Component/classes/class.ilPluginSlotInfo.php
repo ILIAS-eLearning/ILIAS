@@ -63,15 +63,6 @@ class ilPluginSlotInfo
         return $this->component->getQualifiedName() . "/" . $this->getName();
     }
 
-    public function getPath(): string
-    {
-        return implode('/', [
-            ilComponentRepository::PLUGIN_BASE_PATH,
-            $this->component->getName(),
-            $this->getName()
-        ]);
-    }
-
     /**
      * @return Iterator <ilPluginInfo>
      */

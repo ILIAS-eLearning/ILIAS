@@ -66,7 +66,38 @@ the communication.
 * The fixes will be applied to the release branches by the release manager before
 the release.
 
+
 [//]: # (END Fixing)
+
+### Regressions
+[//]: # (BEGIN Regressions)
+
+In exceptional cases, security fixes may introduce regressions that negatively impact functionality
+or system stability. To address such situations promptly and effectively, the following procedure
+shall be followed:
+
+1. Identification
+  * Any regression resulting from a security fix must be reported immediately in the issue tracker.
+  * All relevant details (affected components, impact, steps to reproduce) must be provided.
+  * The assigned component authority shall inform both the Technical Board and the Product Manager without delay.
+2. Evaluation
+  * The Technical Board and the Product Manager jointly assess the severity and impact of the regression
+    and decide if the regression will be fixed.
+  * If the regression is to be fixed, a decision will be made on whether an urgent fix (a hotfix) is needed
+    or whether the issue can be deferred to the next scheduled security release.
+3. Coordination with Release Management
+  * If a hotfix is necessary:
+    * A corrective patch shall be prepared by the responsible authority who introduced the regression
+      and reviewed with priority.
+    * The corresponding patch file must be attached to the issue.
+    * The Release Manager shall be involved at an early stage to coordinate the release process.
+  * If the issue can be deferred:
+    * The fix will be included in the next scheduled security release under the supervision of the Release Manager.
+4. Communication
+  * In case of a hotfix, the Release Manager shall inform stakeholders via the appropriate mailing lists
+    and Discord channels.
+
+[//]: # (END Regressions)
 
 ## Security Update Notifications
 [//]: # (BEGIN Notifications)

@@ -18,16 +18,12 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\Attributes\PreserveGlobalState;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\TestCase;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
 
-require_once "./components/ILIAS/WebDAV/tests/ilWebDAVTestHelper.php";
-
-#[PreserveGlobalState(false)]
-#[RunTestsInSeparateProcesses]
+#[\PHPUnit\Framework\Attributes\PreserveGlobalState(false)]
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class ilWebDAVLockUriPathResolverTest extends TestCase
 {
     protected ilWebDAVTestHelper $webdav_test_helper;
@@ -108,8 +104,8 @@ class ilWebDAVLockUriPathResolverTest extends TestCase
         $this->assertEquals($expected_ref_id, $path_resolver->getRefIdForWebDAVPath($path));
     }
 
-    public function testGetRefIdForWebDAVPathWithPathPointingToElementWithIdenticalTitleReturnsRefIdOfLastIdenticalElement(): void
-    {
+    public function testGetRefIdForWebDAVPathWithPathPointingToElementWithIdenticalTitleReturnsRefIdOfLastIdenticalElement(
+    ): void {
         // Arrange
         $path = $this->webdav_test_helper->getClientId() . '/Second Child/Second First Child';
         $expected_ref_id = 72;
@@ -151,19 +147,21 @@ class ilWebDAVLockUriPathResolverTest extends TestCase
         return new ilWebDAVLockUriPathResolver($mocked_repo_helper);
     }
 
-    protected function getPathResolverWithExpectationForFunctionsInHelper(int $expects_children, int $expects_ref_id): ilWebDAVLockUriPathResolver
-    {
+    protected function getPathResolverWithExpectationForFunctionsInHelper(
+        int $expects_children,
+        int $expects_ref_id
+    ): ilWebDAVLockUriPathResolver {
         $webdav_test_helper = new ilWebDAVTestHelper();
         $tree = $webdav_test_helper->getTree();
         $mocked_repo_helper = $this->createMock(ilWebDAVRepositoryHelper::class);
         $mocked_repo_helper->expects($this->exactly($expects_children))
-            ->method('getChildrenOfRefId')->willReturnCallback(
-                fn(int $parent_ref): array => $tree[$parent_ref]['children']
-            );
+                           ->method('getChildrenOfRefId')->willReturnCallback(
+                               fn(int $parent_ref): array => $tree[$parent_ref]['children']
+                           );
         $mocked_repo_helper->expects($this->exactly($expects_ref_id))
-            ->method('getObjectTitleFromRefId')->willReturnCallback(
-                fn(int $ref_id): string => $tree[$ref_id]['title']
-            );
+                           ->method('getObjectTitleFromRefId')->willReturnCallback(
+                               fn(int $ref_id): string => $tree[$ref_id]['title']
+                           );
         return new ilWebDAVLockUriPathResolver($mocked_repo_helper);
     }
 }

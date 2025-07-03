@@ -138,7 +138,7 @@ class ilObjLearningSequence extends ilContainer
         $this->cloneSettings($new_obj);
         $this->cloneLPSettings($new_obj->getId());
         $this->cloneActivation($new_obj, $copy_id);
-        $this->cloneIntroAndExtroContentPages($new_obj, [self::CP_INTRO, self::CP_EXTRO]);
+        $this->cloneIntroAndExtroContentPages($new_obj, [LSOPageType::INTRO->value, LSOPageType::EXTRO->value]);
 
         $roles = $new_obj->getLSRoles();
         $roles->addLSMember(

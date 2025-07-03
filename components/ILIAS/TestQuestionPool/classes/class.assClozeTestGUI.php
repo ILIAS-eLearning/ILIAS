@@ -20,7 +20,6 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed;
-use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
 /**
  * Cloze test question GUI representation
@@ -87,6 +86,7 @@ JS;
     private RandomGroup $randomGroup;
     private UIFactory $ui_factory;
     private UIRenderer $ui_renderer;
+    private ilDBInterface $db;
 
     /**
     * assClozeTestGUI constructor
@@ -97,8 +97,9 @@ JS;
     {
         parent::__construct();
         global $DIC;
-        $this->ui_factory = $DIC->ui()->factory();
-        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
+        $this->db = $DIC['ilDB'];
 
         $this->object = new assClozeTest();
         if ($id >= 0) {
@@ -225,8 +226,8 @@ JS;
                 }
             }
 
-            $ass_cloze_gab_combination = new assClozeGapCombination();
-            $ass_cloze_gab_combination::clearGapCombinationsFromDb($this->object->getId());
+            $ass_cloze_gab_combination = new assClozeGapCombination($this->db);
+            $ass_cloze_gab_combination->clearGapCombinationsFromDb($this->object->getId());
 
             $gap_combination = $this->request_data_collector->rawArray('gap_combination', 4);
             if ($gap_combination !== []) {
@@ -235,6 +236,7 @@ JS;
                     $gap_combination,
                     $this->request_data_collector->rawArray('gap_combination_values')
                 );
+                $this->object->setGapCombinationsExists(true);
             }
         }
 
@@ -419,7 +421,7 @@ JS;
     public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI
     {
         $json = $this->populateJSON();
-        $assClozeGapCombinationObject = new assClozeGapCombination();
+        $assClozeGapCombinationObject = new assClozeGapCombination($this->db);
         $combination_exists = $assClozeGapCombinationObject->combinationExistsForQid($this->object->getId());
         $combinations = [];
         if ($combination_exists) {
@@ -860,7 +862,7 @@ JS;
     ): ?string {
         $template = new ilTemplate("tpl.il_as_qpl_cloze_question_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
         $output = $this->object->getClozeTextForHTMLOutput();
-        $assClozeGapCombinationObject = new assClozeGapCombination();
+        $assClozeGapCombinationObject = new assClozeGapCombination($this->db);
         $check_for_gap_combinations = $assClozeGapCombinationObject->loadFromDb($this->object->getId());
 
         foreach ($this->object->getGaps() as $gap_index => $gap) {
@@ -1667,7 +1669,7 @@ JS;
             }
         }
 
-        $assClozeGapCombinationObject = new assClozeGapCombination();
+        $assClozeGapCombinationObject = new assClozeGapCombination($this->db);
         $assClozeGapCombinationObject->clearGapCombinationsFromDb($this->object->getId());
 
         $assClozeGapCombinationObject->saveGapCombinationToDb(
@@ -1675,5 +1677,6 @@ JS;
             $combinationPoints,
             $combinationValues
         );
+        $this->object->setGapCombinationsExists(true);
     }
 }

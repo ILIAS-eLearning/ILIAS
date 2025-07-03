@@ -100,7 +100,11 @@ class PortfolioHtmlExport
     {
         $this->init();
 
-        $this->export_util->exportSystemStyle();
+        $this->export_util->exportSystemStyle(
+            [
+                "icon_prtf.svg"
+            ]
+        );
         $this->export_util->exportCOPageFiles(
             $this->content_style_domain->getEffectiveStyleId(),
             $this->portfolio->getType()

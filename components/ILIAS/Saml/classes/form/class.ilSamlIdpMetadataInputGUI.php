@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 final class ilSamlIdpMetadataInputGUI extends ilTextAreaInputGUI
 {
-    private const AUTH_SAML_ADD_IDP_MD_ERROR = 'auth_saml_add_idp_md_error';
+    private const string AUTH_SAML_ADD_IDP_MD_ERROR = 'auth_saml_add_idp_md_error';
 
     public function __construct(string $title, string $httpPostVar, protected ilSamlIdpXmlMetadataParser $idpMetadataParser)
     {

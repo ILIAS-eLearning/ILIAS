@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilObjChatroomTest
- * @author Thomas Joußen <tjoussen@gmx.de>
- */
 class ilObjChatroomTest extends ilChatroomAbstractTestBase
 {
     protected ilObjChatroom $object;

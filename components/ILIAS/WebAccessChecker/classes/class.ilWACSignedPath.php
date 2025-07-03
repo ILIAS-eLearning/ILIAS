@@ -162,7 +162,13 @@ class ilWACSignedPath
             setcookie(
                 $cookie->getName(),
                 (string) $cookie->getValue(),
-                ['expires' => $cookie->getExpires(), 'path' => $cookie->getPath() ?? '/', 'domain' => $cookie->getDomain() ?? $_SERVER['REQUEST_URI'], 'secure' => $cookie->getSecure(), 'httponly' => $cookie->getHttpOnly()]
+                [
+                    'expires' => $cookie->getExpires(),
+                    'path' => $cookie->getPath() ?? '/',
+                    'domain' => $cookie->getDomain() ?? '',
+                    'secure' => $cookie->getSecure(),
+                    'httponly' => $cookie->getHttpOnly()
+                ]
             );
         }
     }
@@ -362,13 +368,12 @@ class ilWACSignedPath
         if ($request_ttl > 0) {
             return $request_ttl;
         }
-        $life_time = match ($this->getType()) {
+
+        return match ($this->getType()) {
             PathType::FOLDER => self::getCookieMaxLifetimeInSeconds(),
             PathType::FILE => self::getTokenMaxLifetimeInSeconds(),
             default => 0,
         };
-
-        return $life_time;
     }
 
     public function isChecked(): bool

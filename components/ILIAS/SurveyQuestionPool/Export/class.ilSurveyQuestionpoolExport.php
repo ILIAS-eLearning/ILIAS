@@ -100,6 +100,10 @@ class ilSurveyQuestionpoolExport
             $this->export_dir . "/" . $this->subdir . ".zip"
         );
 
+        // remove created files
+        unlink($this->export_dir . "/" . $this->subdir . "/" . $this->filename);
+        rmdir($this->export_dir . "/" . $this->subdir);
+
         $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
 
         return $this->export_dir . "/" . $this->subdir . ".zip";

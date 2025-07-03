@@ -49,9 +49,7 @@ class ilUtilTest extends TestCase
         unset($GLOBALS['DIC']);
     }
 
-    /**
-     * @dataProvider provideGotoLinkData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideGotoLinkData')]
     public function testMakeClickableWithGotoLinksAndInvalidRefId(string $expected, string $input, array $ref_to_obj, array $obj_to_title): void
     {
         $wrap_array = static fn(array $array): array => (

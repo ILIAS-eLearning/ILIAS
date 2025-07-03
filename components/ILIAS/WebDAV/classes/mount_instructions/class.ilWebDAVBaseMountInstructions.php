@@ -20,8 +20,12 @@ declare(strict_types=1);
 
 abstract class ilWebDAVBaseMountInstructions
 {
-    public function __construct(protected ilWebDAVMountInstructionsRepository $repo, protected ilWebDAVUriBuilder $uri_builder, protected ilSetting $settings, protected string $language)
-    {
+    public function __construct(
+        protected ilWebDAVMountInstructionsRepository $repo,
+        protected ilWebDAVUriBuilder $uri_builder,
+        protected ilSetting $settings,
+        protected string $language
+    ) {
     }
 
     public function getMountInstructionsAsArray(array $mount_instructions = []): array
@@ -35,5 +39,5 @@ abstract class ilWebDAVBaseMountInstructions
         return $this->fillPlaceholdersForMountInstructions($mount_instructions);
     }
 
-    abstract protected function fillPlaceholdersForMountInstructions(array $mount_instructions): array ;
+    abstract protected function fillPlaceholdersForMountInstructions(array $mount_instructions): array;
 }

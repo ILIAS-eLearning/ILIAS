@@ -44,11 +44,11 @@ class ilPollResultsHandler
         $this->total_votes = (int) ($res['total'] ?? 0);
         $res = (array) ($res['perc'] ?? []);
         $this->answer_percentages = array_map(
-            fn (array $a) => (float) ($a['perc'] ?? 0),
+            fn(array $a) => (float) ($a['perc'] ?? 0),
             $res
         );
         $this->answer_totals = array_map(
-            fn (array $a) => (int) ($a['abs'] ?? 0),
+            fn(array $a) => (int) ($a['abs'] ?? 0),
             $res
         );
     }

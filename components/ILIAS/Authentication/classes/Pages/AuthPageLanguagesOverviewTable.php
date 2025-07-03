@@ -30,9 +30,9 @@ use ilAuthPageEditorSettings;
 
 class AuthPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
 {
-    public const ACTIVATE = 'activate';
-    public const DEACTIVATE = 'deactivate';
-    public const EDIT = 'edit';
+    public const string ACTIVATE = 'activate';
+    public const string DEACTIVATE = 'deactivate';
+    public const string EDIT = 'edit';
 
     private ServerRequestInterface $request;
     private Data\Factory $data_factory;
@@ -60,7 +60,7 @@ class AuthPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
 
         return $this->ui_factory
             ->table()
-            ->data($this->lng->txt($this->context->pageLanguageIdentifier(true)), $columns, $this)
+            ->data($this, $this->lng->txt($this->context->pageLanguageIdentifier(true)), $columns)
             ->withId(self::class . '_' . $this->context->value)
             ->withOrder(new \ILIAS\Data\Order('language', \ILIAS\Data\Order::ASC))
             ->withActions($actions)

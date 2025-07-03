@@ -31,9 +31,7 @@ use ILIAS\UI\Component\Panel\Report;
 
 class MetricTest extends TestCase
 {
-    /**
-     * @dataProvider metricProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('metricProvider')]
     public function testConstructMetric(string $stability, string $type, $value, string $description, bool $success): void
     {
         if (!$success) {
@@ -115,9 +113,7 @@ class MetricTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider typedMetricsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('typedMetricsProvider')]
     public function testToYAML(M $metric, string $expected): void
     {
         $this->assertEquals($expected, $metric->toYAML());
@@ -228,9 +224,7 @@ METRIC;
         $this->assertEquals($expected_rest, $rest);
     }
 
-    /**
-     * @dataProvider typedMetricsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('typedMetricsProvider')]
     public function testToArrayWithFlatValues(M $metric, string $expected): void
     {
         $this->assertEquals($expected, $metric->toArray());

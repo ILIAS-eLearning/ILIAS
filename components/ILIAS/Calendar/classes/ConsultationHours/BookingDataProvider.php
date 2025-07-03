@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -78,10 +79,7 @@ class BookingDataProvider
 
             $row = [];
             $row['id'] = (string) $appointment->getEntryId();
-            $row['booking_start'] = DateTimeImmutable::createFromFormat(
-                'U',
-                (string) $appointment->getStart()->getUnixTime()
-            );
+            $row['booking_start'] = (new \DateTimeImmutable())->setTimestamp($appointment->getStart()->getUnixTime());
             $row['booking_duration'] =
                 (int) ($appointment->getEnd()->getUnixTime() - $appointment->getStart()->getUnixTime()) / 60;
             $row['booking_title'] = $appointment->getTitle();

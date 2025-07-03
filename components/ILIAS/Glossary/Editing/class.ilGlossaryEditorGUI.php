@@ -58,7 +58,8 @@ class ilGlossaryEditorGUI implements ilCtrlBaseClassInterface
 
         // check write permission
         if (!$ilAccess->checkAccess("write", "", $this->requested_ref_id) &&
-            !$ilAccess->checkAccess("edit_content", "", $this->requested_ref_id)) {
+            !$ilAccess->checkAccess("edit_content", "", $this->requested_ref_id) &&
+            !$ilAccess->checkAccess("edit_permission", "", $this->requested_ref_id)) {
             throw new ilPermissionException($lng->txt("permission_denied"));
         }
 

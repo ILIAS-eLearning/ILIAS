@@ -31,7 +31,6 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\LegalDocuments\PageFragment;
-use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Legacy\Content;
@@ -47,8 +46,8 @@ use ilGlobalTemplateInterface;
 use ilObjUser;
 use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
 use ILIAS\Data\Result\Error;
-use ilStartUpGUI;
 use Closure;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 require_once __DIR__ . '/ContainerMock.php';
 
@@ -138,9 +137,7 @@ class ConductorTest extends TestCase
         $this->assertSame($footer, $instance->modifyFooter($footer));
     }
 
-    /**
-     * @dataProvider agreeTypes
-     */
+    #[DataProvider('agreeTypes')]
     public function testAgree(string $gui, string $key): void
     {
         $main_template = $this->mock(ilGlobalTemplateInterface::class);
@@ -148,9 +145,7 @@ class ConductorTest extends TestCase
         $this->agreement('agree', $gui, $key, $main_template);
     }
 
-    /**
-     * @dataProvider agreeTypes
-     */
+    #[DataProvider('agreeTypes')]
     public function testAgreeContent(string $gui, string $key): void
     {
         $this->assertSame('rendered', $this->agreement('agreeContent', $gui, $key));

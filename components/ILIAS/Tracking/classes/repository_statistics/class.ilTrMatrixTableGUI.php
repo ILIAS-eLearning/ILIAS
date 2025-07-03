@@ -160,6 +160,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             );
         }
         $this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
+        $this->setSelectAllCheckbox('uid');
     }
 
     public function initFilter(): void

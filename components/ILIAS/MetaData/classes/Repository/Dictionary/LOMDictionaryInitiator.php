@@ -28,7 +28,7 @@ use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 
 class LOMDictionaryInitiator extends BaseDictionaryInitiator
 {
-    public const TABLES = [
+    public const array TABLES = [
         'annotation' => 'il_meta_annotation',
         'classification' => 'il_meta_classification',
         'contribute' => 'il_meta_contribute',
@@ -59,7 +59,7 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         'context' => 'il_meta_context'
     ];
 
-    public const ID_NAME = [
+    public const array ID_NAME = [
         'annotation' => 'meta_annotation_id',
         'classification' => 'meta_classification_id',
         'contribute' => 'meta_contribute_id',

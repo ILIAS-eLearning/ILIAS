@@ -46,11 +46,10 @@ class ilObjSearchRpcClientCoordinatorTest extends TestCase
 
         $rpc_client = $this->getMockBuilder(ilRpcClient::class)
                            ->disableOriginalConstructor()
-                           ->addMethods(['refreshSettings'])
                            ->getMock();
         $rpc_client->expects($this->once())
-                   ->method('refreshSettings')
-                   ->with('id_test');
+                   ->method('__call')
+                   ->with('refreshSettings', ['id_test']);
 
         $coord = $this->getMockBuilder(ilObjSearchRpcClientCoordinator::class)
                       ->setConstructorArgs([$settings, $src_logger])
@@ -90,11 +89,10 @@ class ilObjSearchRpcClientCoordinatorTest extends TestCase
 
         $rpc_client = $this->getMockBuilder(ilRpcClient::class)
                            ->disableOriginalConstructor()
-                           ->addMethods(['refreshSettings'])
                            ->getMock();
         $rpc_client->expects($this->once())
-                   ->method('refreshSettings')
-                   ->with('id_test')
+                   ->method('__call')
+                   ->with('refreshSettings', ['id_test'])
                    ->willThrowException(new Exception('message'));
 
         $coord = $this->getMockBuilder(ilObjSearchRpcClientCoordinator::class)

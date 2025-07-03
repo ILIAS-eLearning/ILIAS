@@ -129,8 +129,13 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 
     public function __setCmdClass(string $a_class): void
     {
-        //$this->ctrl->setCmdClass($a_class);
-        if (strtolower($this->ctrl->getCmdClass()) !== strtolower($a_class)) {
+        /**
+         * TODO: maybe this can be replaced by nextClass === ''?
+         */
+        if (
+            strtolower($this->ctrl->getCmdClass()) !== strtolower($a_class) &&
+            strtolower($this->ctrl->getNextClass()) !== strtolower($a_class)
+        ) {
             $this->ctrl->redirectByClass($a_class);
         }
     }

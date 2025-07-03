@@ -27,7 +27,7 @@ use ILIAS\Test\Results\Data\StatusOfAttempt;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Modal\Modal;
-use ILIAS\UI\Component\Table\Action\Action;
+use ILIAS\UI\Component\Table\Action\Standard as StandardAction;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use Psr\Http\Message\ServerRequestInterface;
@@ -64,7 +64,7 @@ class ParticipantTableFinishTestAction implements TableAction
         URLBuilderToken $row_id_token,
         URLBuilderToken $action_token,
         URLBuilderToken $action_type_token
-    ): Action {
+    ): StandardAction {
         return $this->ui_factory->table()->action()->standard(
             $this->lng->txt(self::ACTION_ID),
             $url_builder
@@ -90,11 +90,7 @@ class ParticipantTableFinishTestAction implements TableAction
                 array_map(
                     fn(Participant $participant) => $this->ui_factory->modal()->interruptiveItem()->standard(
                         (string) $participant->getUserId(),
-                        sprintf(
-                            '%s, %s',
-                            $participant->getLastname(),
-                            $participant->getFirstname()
-                        )
+                        (new \ilObjUser($participant->getUserId()))->getPublicName()
                     ),
                     $selected_participants
                 )
@@ -119,17 +115,17 @@ class ParticipantTableFinishTestAction implements TableAction
             return null;
         }
 
-        if (!$this->test_obj->getResetProcessingTime() && count($selected_participants) > 1) {
-            foreach ($selected_participants as $participant) {
-                if ($participant->hasUnfinishedAttempts()) {
-                    $this->tpl->setOnScreenMessage(
-                        \ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
-                        $this->lng->txt('finish_test_more_than_one_selected'),
-                        true
-                    );
-                    return null;
-                }
-            }
+        if (count($selected_participants) > 1
+            && $this->test_obj->getNrOfTries() === 1
+            && $this->test_obj->getEnableProcessingTime()
+            && !$this->test_obj->getResetProcessingTime()
+            && !$this->haveAllSelectedParticipantsReachedMaxProcessingTime($selected_participants)) {
+            $this->tpl->setOnScreenMessage(
+                \ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('finish_pass_for_multiple_users_in_processing_time'),
+                true
+            );
+            return null;
         }
 
         // This is required here because of late test object binding
@@ -141,13 +137,11 @@ class ParticipantTableFinishTestAction implements TableAction
 
         foreach ($selected_participants as $participant) {
             $process_locker = $this->process_locker_factory->withContextId($participant->getActiveId())->getLocker();
-
-            $test_pass_finisher = new \ilTestPassFinishTasks(
+            (new \ilTestPassFinishTasks(
                 $test_session_factory->getSession($participant->getActiveId()),
-                $this->test_obj->getId(),
+                $this->test_obj,
                 $this->test_pass_result_repository
-            );
-            $test_pass_finisher->performFinishTasks($process_locker, StatusOfAttempt::FINISHED_BY_ADMINISTRATOR);
+            ))->performFinishTasks($process_locker, StatusOfAttempt::FINISHED_BY_ADMINISTRATOR);
         }
 
         $logger = $this->test_obj->getTestLogger();
@@ -191,11 +185,7 @@ class ParticipantTableFinishTestAction implements TableAction
         if (count($selected_participants) === 1) {
             return sprintf(
                 $this->lng->txt('finish_test_single'),
-                sprintf(
-                    '%s, %s',
-                    $selected_participants[0]->getLastname(),
-                    $selected_participants[0]->getFirstname()
-                )
+                (new \ilObjUser($selected_participants[0]->getUserId()))->getPublicName()
             );
         }
 
@@ -205,5 +195,19 @@ class ParticipantTableFinishTestAction implements TableAction
     public function getSelectionErrorMessage(): ?string
     {
         return $this->lng->txt('finish_test_no_valid_participants_selected');
+    }
+
+    private function haveAllSelectedParticipantsReachedMaxProcessingTime(array $selected_participants): bool
+    {
+        foreach ($selected_participants as $participant) {
+            if (!$participant->hasUnfinishedAttempts()
+                || !$this->test_obj->isMaxProcessingTimeReached(
+                    $this->test_obj->getStartingTimeOfUser($participant->getActiveId()),
+                    $participant->getActiveId()
+                )) {
+                return false;
+            }
+        }
+        return true;
     }
 }

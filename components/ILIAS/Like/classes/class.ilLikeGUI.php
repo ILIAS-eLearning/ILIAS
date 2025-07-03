@@ -24,6 +24,7 @@ use ILIAS\Like\StandardGUIRequest;
  */
 class ilLikeGUI
 {
+    protected \ILIAS\Like\InternalGUIService $gui;
     protected ilLikeData $data;
     protected \ILIAS\DI\UIServices $ui;
     protected ilGlobalTemplateInterface $main_tpl;
@@ -48,6 +49,8 @@ class ilLikeGUI
             ? $DIC->ui()->mainTemplate()
             : $main_tpl;
 
+        $this->gui = $DIC->like()->internal()->gui();
+
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
@@ -66,8 +69,13 @@ class ilLikeGUI
 
     protected function initJavascript(): void
     {
-        ilYuiUtil::initConnection();
-        $this->main_tpl->addJavaScript("assets/js/Like.js");
+        $debug = false;
+        $this->gui->initFetch();
+        if ($debug) {
+            $this->main_tpl->addJavaScript("../components/ILIAS/Like/resources/Like.js");
+        } else {
+            $this->main_tpl->addJavaScript("assets/js/Like.js");
+        }
     }
 
     public function setObject(

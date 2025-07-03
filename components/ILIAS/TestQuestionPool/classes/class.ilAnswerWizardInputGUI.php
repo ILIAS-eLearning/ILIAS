@@ -385,4 +385,19 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     {
         return "tpl.prop_answerwizardinput.html";
     }
+
+    protected function prepareFormOutput(float|string $input, bool $strip = false): string
+    {
+        $input_string = $this->refinery->kindlyTo()->string()->transform($input);
+        return str_replace(
+            ['{', '}', '\\'],
+            ['&#123;', '&#125;', '&#92;'],
+            htmlspecialchars(
+                $strip ? ilUtil::stripSlashes($input_string) : $input_string,
+                ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401,
+                null,
+                false
+            )
+        );
+    }
 }

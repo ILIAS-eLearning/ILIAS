@@ -451,7 +451,8 @@ class ilBasicSkill extends ilSkillTreeNode implements Usage\SkillUsageInfo
         int $a_tref_id,
         int $a_object_id,
         int $a_user_id = 0,
-        int $a_self_eval = 0
+        int $a_self_eval = 0,
+        string $trigger_user = ""
     ): int {
         if ($a_user_id == 0) {
             $a_user_id = $this->user->getId();
@@ -465,9 +466,31 @@ class ilBasicSkill extends ilSkillTreeNode implements Usage\SkillUsageInfo
             $a_tref_id,
             $a_object_id,
             $a_user_id,
-            $a_self_eval
+            $a_self_eval,
+            $trigger_user
         );
     }
+
+    public function getLastLevelEntryOfUser(
+        int $a_tref_id,
+        int $a_user_id,
+        int $a_object_id = 0,
+        int $a_self_eval = 0,
+        string $trigger_user = ""
+    ): int {
+        if ($a_user_id == 0) {
+            $a_user_id = $this->user->getId();
+        }
+        return $this->bsc_skl_usr_lvl_db_rep->getLastLevelEntryOfUser(
+            $this->getId(),
+            $a_tref_id,
+            $a_user_id,
+            $a_object_id,
+            $a_self_eval,
+            $trigger_user
+        );
+    }
+
 
     public function getNextLevelFulfilmentPerObject(
         int $a_tref_id,

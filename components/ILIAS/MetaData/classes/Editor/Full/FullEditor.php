@@ -37,10 +37,10 @@ use ILIAS\MetaData\Editor\Http\RequestForFormInterface;
 
 class FullEditor
 {
-    public const TABLE = 'table';
-    public const PANEL = 'panel';
-    public const ROOT = 'root';
-    public const FORM = 'form';
+    public const string TABLE = 'table';
+    public const string PANEL = 'panel';
+    public const string ROOT = 'root';
+    public const string FORM = 'form';
 
     protected EditorDictionaryInterface $editor_dictionary;
     protected NavigatorFactoryInterface $navigator_factory;

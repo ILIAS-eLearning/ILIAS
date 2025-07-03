@@ -136,7 +136,7 @@ class ilTestToplistGUI
             $order_by
         );
         return $this->ui_factory->table()
-            ->data($title, $table->getColumns(), $table)
+            ->data($table, $title, $table->getColumns())
             ->withRequest($this->http_state->request());
     }
 

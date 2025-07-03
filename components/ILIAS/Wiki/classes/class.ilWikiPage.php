@@ -243,7 +243,6 @@ class ilWikiPage extends ilPageObject
             " AND lang = " . $ilDB->quote($this->getLanguage(), "text");
         $ilDB->manipulate($query);
         $updated = parent::update($a_validate, $a_no_history);
-
         if ($updated === true) {
             $this->wiki_log->debug("send notification");
             $this->getNotificationGUI()->send(
@@ -634,8 +633,8 @@ class ilWikiPage extends ilPageObject
             return "";
         }
 
-        $random = new \ilRandom();
-        $rand = $random->int(1, $cnt);
+        $random = new \Random\Randomizer();
+        $rand = $random->getInt(1, $cnt);
 
         $ilDB->setLimit(1, $rand);
         $query = "SELECT title FROM il_wiki_page" .
@@ -918,7 +917,10 @@ class ilWikiPage extends ilPageObject
 
     protected function setCopyProperties(ilPageObject $new_page): void
     {
-        $new_page->setWikiRefId($this->getWikiRefId());
+        // see #44256
+        if ($new_page->getWikiId() === 0 || $new_page->getWikiId() === $this->getWikiId()) {
+            $new_page->setWikiRefId($this->getWikiRefId());
+        }
     }
 
 }

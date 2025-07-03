@@ -27,8 +27,8 @@ namespace ILIAS\UI\examples\Item\Standard;
  *
  * expected output: >
  *   ILIAS shows two very similiar boxes including the following informations: A heading with a dummy text in small writings
- *   ("Lorem ipsum...") below. Beneath those you can see a fine line and more informations about "Last Update"
- *   and "Location". Additionally a action menu is displayed in the box on the right top. On the left side a avatar is
+ *   ("Lorem ipsum...") below. Beneath those you can see a fine line and more informations about "Last Login"
+ *   and "Location". Additionally an action menu is displayed in the box on the right top. On the left side an avatar is
  *   displayed.
  * ---
  */

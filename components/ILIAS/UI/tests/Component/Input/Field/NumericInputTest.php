@@ -114,9 +114,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
         return $field;
     }
 
-    /**
-     * @depends testNullValue
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testNullValue')]
     public function testEmptyValue(\ILIAS\UI\Component\Input\Container\Form\FormInput $field): void
     {
         $post_data = new DefInputData(['name_0' => '']);
@@ -131,9 +129,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($value->isError());
     }
 
-    /**
-     * @depends testNullValue
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testNullValue')]
     public function testZeroIsValidValue(\ILIAS\UI\Component\Input\Container\Form\FormInput $field): void
     {
         $post_data = new DefInputData(['name_0' => 0]);
@@ -148,9 +144,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
         $this->assertEquals(0, $value->value());
     }
 
-    /**
-     * @depends testNullValue
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testNullValue')]
     public function testConstraintForRequirementForFloat(\ILIAS\UI\Component\Input\Container\Form\FormInput $field): void
     {
         $post_data = new DefInputData(['name_0' => 1.1]);

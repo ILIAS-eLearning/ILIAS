@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,6 +29,7 @@ class ilPluginInfo
     protected ilPluginSlotInfo $pluginslot;
     protected string $id;
     protected string $name;
+    protected string $type;
     protected bool $activated;
     protected ?Version $current_version;
     protected ?int $current_db_version;
@@ -45,6 +47,7 @@ class ilPluginInfo
         ilPluginSlotInfo $pluginslot,
         string $id,
         string $name,
+        string $type,
         bool $activated,
         ?Version $current_version,
         ?int $current_db_version,
@@ -67,6 +70,7 @@ class ilPluginInfo
         $this->pluginslot = $pluginslot;
         $this->id = $id;
         $this->name = $name;
+        $this->type = $type;
         $this->activated = $activated;
         $this->current_version = $current_version;
         $this->current_db_version = $current_db_version;
@@ -100,9 +104,20 @@ class ilPluginInfo
         return $this->name;
     }
 
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
     public function getPath(): string
     {
-        return $this->pluginslot->getPath() . "/" . $this->getName();
+        return implode('/', [
+            ilComponentRepository::PLUGIN_BASE_PATH,
+            $this->getType(),
+            $this->getComponent()->getName(),
+            $this->getPluginSlot()->getName(),
+            $this->getName()
+        ]);
     }
 
     public function getClassName(): string

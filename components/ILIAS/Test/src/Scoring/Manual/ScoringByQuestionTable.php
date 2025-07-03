@@ -64,12 +64,21 @@ class ScoringByQuestionTable
 
         $f = $this->ui_factory->table();
         $table = $f->data(
+            $data_retrieval->withFilterData($ui_service->filter()->getData($filter) ?? []),
             $title,
             [
                 self::COLUMN_NAME => $f->column()->text($this->lng->txt('name'))->withIsSortable(true),
                 self::COLUMN_ATTEMPT => $f->column()->number($this->lng->txt('tst_attempt')),
-                self::COLUMN_POINTS_REACHED => $f->column()->number($this->lng->txt('tst_reached_points'))->withIsSortable(true),
-                self::COLUMN_POINTS_AVAILABLE => $f->column()->number($this->lng->txt('tst_maximum_points'))->withIsSortable(true),
+                self::COLUMN_POINTS_REACHED => $f
+                    ->column()
+                    ->number($this->lng->txt('tst_reached_points'))
+                    ->withDecimals(2)
+                    ->withIsSortable(true),
+                self::COLUMN_POINTS_AVAILABLE => $f
+                    ->column()
+                    ->number($this->lng->txt('tst_maximum_points'))
+                    ->withDecimals(2)
+                    ->withIsSortable(true),
                 self::COLUMN_FEEDBACK => $f->column()->text($this->lng->txt('tst_feedback')),
                 self::COLUMN_FINALIZED => $f->column()->boolean(
                     $this->lng->txt('finalized_evaluation'),
@@ -87,7 +96,6 @@ class ScoringByQuestionTable
                 self::COLUMN_FINALIZED_BY => $f->column()->text($this->lng->txt('finalized_by'))->withIsSortable(true),
                 self::COLUMN_FINALIZED_ON => $f->column()->date($this->lng->txt('finalized_on'), $date_format)->withIsSortable(true)
             ],
-            $data_retrieval->withFilterData($ui_service->filter()->getData($filter) ?? [])
         )->withActions(
             [
                 self::ACTION_SCORING => $f->action()->single(

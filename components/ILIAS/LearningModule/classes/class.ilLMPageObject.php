@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
+
 /**
  * Handles Page Objects of ILIAS Learning Modules
  *
@@ -237,6 +239,9 @@ class ilLMPageObject extends ilLMObject
         string $a_lang = "-",
         bool $a_include_short = false
     ): string {
+        global $DIC;
+        $ilDB = $DIC->database();
+
         if ($a_mode == self::NO_HEADER && !$a_force_content) {
             return "";
         }
@@ -260,11 +265,9 @@ class ilLMPageObject extends ilLMObject
             $title = ilLMObject::_lookupTitle($a_pg_id);
         }
 
-        // this is also optimized since ilObjectTranslation re-uses instances for one lm
-        $ot = ilObjectTranslation::getInstance($a_lm_id);
-        $languages = $ot->getLanguages();
+        $ot = (new TranslationsRepository($ilDB))->getFor($a_lm_id);
 
-        if ($a_lang != "-" && $ot->getContentActivated()) {
+        if ($a_lang != "-" && $ot->getContentTranslationActivated()) {
             $lmobjtrans = new ilLMObjTranslation($a_pg_id, $a_lang);
             $trans_title = "";
             if ($a_include_short) {
@@ -274,7 +277,7 @@ class ilLMPageObject extends ilLMObject
                 $trans_title = $lmobjtrans->getTitle();
             }
             if ($trans_title == "") {
-                $lmobjtrans = new ilLMObjTranslation($a_pg_id, $ot->getFallbackLanguage());
+                $lmobjtrans = new ilLMObjTranslation($a_pg_id, $ot->getDefaultLanguage());
                 $trans_title = $lmobjtrans->getTitle();
             }
             if ($trans_title != "") {

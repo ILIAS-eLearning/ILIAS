@@ -100,7 +100,9 @@ class ilWebDAVAuthentication
 
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
-                $this->logger->debug('User authenticated through basic authentication. UserId = ' . $this->user->getId());
+                $this->logger->debug(
+                    'User authenticated through basic authentication. UserId = ' . $this->user->getId()
+                );
                 return true;
 
             case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:

@@ -95,11 +95,11 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
     public function isComplete(): bool
     {
-        if (strlen($this->title) and ($this->author) and ($this->question) and (count($this->answers)) and ($this->getMaximumPoints() > 0)) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->title !== ''
+            && $this->author !== ''
+            && $this->question !== ''
+            && $this->getAnswerCount() > 0
+            && $this->getMaximumPoints() >= 0;
     }
 
     public function saveToDb(?int $original_id = null): void
@@ -335,16 +335,11 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      */
     public function getMaximumPoints(): float
     {
-        $points = 0;
-        $allpoints = 0;
-        foreach ($this->answers as $key => $value) {
-            if ($value->getPoints() > $value->getPointsUnchecked()) {
-                $allpoints += $value->getPoints();
-            } else {
-                $allpoints += $value->getPointsUnchecked();
-            }
+        $total_max_points = 0.0;
+        foreach ($this->getAnswers() as $answer) {
+            $total_max_points += max($answer->getPointsChecked(), $answer->getPointsUnchecked());
         }
-        return $allpoints;
+        return $total_max_points;
     }
 
     public function calculateReachedPoints(
@@ -503,7 +498,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
                     // Reorder feedback
                     $feedback_order_db = intval($feedback_option['answer']);
-                    $db_answer_id = $db_answer_id_for_order[$feedback_order_db];
+                    $db_answer_id = $db_answer_id_for_order[$feedback_order_db] ?? null;
                     // This cuts feedback that currently would have no corresponding answer
                     // This case can happen while copying "broken" questions
                     // Or when saving a question with less answers than feedback
@@ -672,7 +667,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $result = [];
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = $this->getTitle();
+        $result['title'] = $this->getTitleForHTMLOutput();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = $this->getNrOfTries();
         $result['shuffle'] = $this->getShuffle();
@@ -885,7 +880,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     {
         $result = [
             AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
-            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitleForHTMLOutput(),
             AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
             AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS => $additional_info
                 ->getTrueFalseTagForBool($this->getShuffle()),

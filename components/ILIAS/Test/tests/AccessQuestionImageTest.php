@@ -32,9 +32,7 @@ class AccessQuestionImageTest extends TestCase
         $this->assertInstanceOf(AccessQuestionImage::class, new AccessQuestionImage($readable));
     }
 
-    /**
-     * @dataProvider invalidPaths
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('invalidPaths')]
     public function testIsPermittedWithInvalidPath(string $path): void
     {
         $readable = $this->getMockBuilder(Readable::class)->disableOriginalConstructor()->getMock();
@@ -56,9 +54,7 @@ class AccessQuestionImageTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider isPermittedProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('isPermittedProvider')]
     public function testIsPermittedWithValidPath(bool $is_readable): void
     {
         $readable = $this->getMockBuilder(Readable::class)->disableOriginalConstructor()->getMock();

@@ -138,7 +138,7 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
         // create object, put it into the tree and use the parser to update the settings
         $webl = new ilObjLinkResource();
         $webl->setTitle('XML Import');
-        $webl->create(true);
+        $webl->create();
         $webl->createReference();
         $webl->putInTree($target_id);
         $webl->setPermissions($target_id);

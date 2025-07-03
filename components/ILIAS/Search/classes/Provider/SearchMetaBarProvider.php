@@ -83,7 +83,7 @@ class SearchMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
             ->withLegacyContent($content())
             ->withSymbol($this->dic->ui()->factory()->symbol()->glyph()->search())
             ->withTitle($this->dic->language()->txt("search"))
-            ->withPosition(1)
+            ->withPosition(2)
             ->withAvailableCallable(
                 function () {
                     return $this->dic->rbac()->system()->checkAccess('search', ilSearchSettings::_getSearchSettingRefId());

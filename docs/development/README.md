@@ -9,7 +9,8 @@ A general overview on our processes can be found in the [development guide](http
 
 ## Maintenance
 
-- [Maintenance](maintenance.md): How the source code is maintained, the different Authorities and our different models of social structures for the maintaining of units in the code of ILIAS
+- [Maintenance](maintenance.md): How the source code is maintained
+- [Coordinators](../../components/ILIAS/UI/docs/COMMUNITY.md): Detailed information on the coordinator model which is being used for some important libraries and services
 - [Supported Versions](supported-versions.md): When new versions of ILIAS are released and how long they are supported
 
 ## Coding

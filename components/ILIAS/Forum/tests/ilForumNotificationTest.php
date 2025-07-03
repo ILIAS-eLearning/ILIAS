@@ -24,12 +24,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class ilForumNotificationTest extends TestCase
 {
-    /** @var MockObject&ilDBInterface */
-    private $database;
-    /** @var MockObject&ilObjUser */
-    private $user;
-    /** @var MockObject&ilTree */
-    private $tree;
+    private MockObject&ilDBInterface $database;
+    private MockObject&ilObjUser $user;
+    private MockObject&ilTree $tree;
     private ?Container $dic = null;
 
     public function testConstruct(): void
@@ -259,14 +256,16 @@ class ilForumNotificationTest extends TestCase
 
     public function testCheckForumsExistsInsert(): void
     {
-        $nodeData = [];
         $userId = 927;
         $refId = 847;
+        $nodeData = [
+            'child' => $refId
+        ];
         $subTree = [['child' => 3719, 'ref_id' => 3738, 'obj_id' => 182]];
         $pathNode = [['child' => $refId, 'type' => 'aa']];
 
-        $this->tree->expects(self::once())->method('getNodePath')->with($subTree[0]['child'], $refId)->willReturn($pathNode);
         $this->tree->expects(self::once())->method('getNodeData')->with($refId)->willReturn($nodeData);
+        $this->tree->expects(self::once())->method('getNodePath')->with($subTree[0]['child'], $refId)->willReturn($pathNode);
         $this->tree->expects(self::once())->method('getSubTree')->with(
             $nodeData,
             true,

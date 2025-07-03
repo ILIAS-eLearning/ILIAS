@@ -231,35 +231,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     }
 
     /**
-     * Init object creation form
-     */
-    protected function initCreateForm(string $new_type): ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-        $form->setTarget("_top");
-        $form->setFormAction($this->ctrl->getFormAction($this, "save"));
-        $form->setTitle($this->txt($new_type . "_new"));
-
-        // title
-        $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
-        $ti->setSize(min(40, ilObject::TITLE_LENGTH));
-        $ti->setMaxLength(ilObject::TITLE_LENGTH);
-        $ti->setRequired(true);
-        $form->addItem($ti);
-
-        // description
-        $ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
-        $ta->setCols(40);
-        $ta->setRows(2);
-        $form->addItem($ta);
-
-        $form->addCommandButton("save", $this->txt($new_type . "_add"));
-        $form->addCommandButton("cancel", $this->lng->txt("cancel"));
-
-        return $form;
-    }
-
-    /**
      * Init object update form
      */
     protected function initEditForm(): ilPropertyFormGUI

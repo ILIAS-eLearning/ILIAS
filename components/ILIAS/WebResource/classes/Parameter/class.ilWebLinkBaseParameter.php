@@ -24,15 +24,15 @@ declare(strict_types=1);
  */
 abstract class ilWebLinkBaseParameter
 {
-    public const UNDEFINED_NAME = 'undefined';
-    public const USER_ID_NAME = 'user_id';
-    public const LOGIN_NAME = 'login';
-    public const MATRICULATION_NAME = 'matriculation';
+    public const string UNDEFINED_NAME = 'undefined';
+    public const string USER_ID_NAME = 'user_id';
+    public const string LOGIN_NAME = 'login';
+    public const string MATRICULATION_NAME = 'matriculation';
 
     /**
      * TODO Once the GUI is updated, undefined can be dropped.
      */
-    public const VALUES = [
+    public const array VALUES = [
         self::UNDEFINED_NAME => 0,
         self::USER_ID_NAME => 1,
         self::LOGIN_NAME => 3,
@@ -43,7 +43,7 @@ abstract class ilWebLinkBaseParameter
      * Keys of the language variables to the possible values,
      * e.g. to fill a select input.
      */
-    public const VALUES_TEXT = [
+    public const array VALUES_TEXT = [
         self::VALUES[self::UNDEFINED_NAME] => 'links_select_one',
         self::VALUES[self::USER_ID_NAME] => 'links_user_id',
         self::VALUES[self::LOGIN_NAME] => 'links_user_name',

@@ -24,8 +24,6 @@ use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 use ILIAS\UI\Component\Table;
@@ -33,7 +31,6 @@ use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\FileDelivery\Delivery\StreamDelivery;
-use ILIAS\Filesystem\Stream\Streams;
 
 class LogTable implements Table\DataRetrieval
 {
@@ -79,12 +76,12 @@ class LogTable implements Table\DataRetrieval
     public function __construct(
         private readonly TestLoggingRepository $logging_repository,
         private readonly TestLogger $logger,
+        private readonly TestLogViewer $log_viewer,
         private readonly TitleColumnsBuilder $title_builder,
         private readonly GeneralQuestionPropertiesRepository $question_repo,
         private readonly \ilUIService $ui_service,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
-        private readonly DataFactory $data_factory,
         private readonly \ilLanguage $lng,
         private \ilGlobalTemplateInterface $tpl,
         private readonly URLBuilder $url_builder,
@@ -100,9 +97,9 @@ class LogTable implements Table\DataRetrieval
     public function getTable(): Table\Data
     {
         return $this->ui_factory->table()->data(
+            $this,
             $this->lng->txt('history'),
             $this->getColums(),
-            $this
         )->withActions($this->getActions());
     }
 
@@ -129,7 +126,7 @@ class LogTable implements Table\DataRetrieval
         $filter_inputs = [
             self::FILTER_FIELD_PERIOD => $field_factory->duration($this->lng->txt('cal_period'))
                 ->withUseTime(true)
-                ->withFormat($this->buildUserDateTimeFormat())
+                ->withFormat($this->log_viewer->buildUserDateTimeFormat())
         ];
         if ($this->ref_id === null) {
             $filter_inputs[self::FILTER_FIELD_TEST_TITLE] = $field_factory->text($this->lng->txt('test'));
@@ -168,7 +165,7 @@ class LogTable implements Table\DataRetrieval
         $f = $this->ui_factory->table()->column();
 
         $columns = [
-            self::COLUMN_DATE_TIME => $f->date($this->lng->txt('date_time'), $this->buildUserDateTimeFormat()),
+            self::COLUMN_DATE_TIME => $f->date($this->lng->txt('date_time'), $this->log_viewer->buildUserDateTimeFormat()),
             self::COLUMN_CORRESPONDING_TEST => $f->link($this->lng->txt('test'))->withIsOptional(true, true),
             self::COLUMN_ADMIN => $f->text($this->lng->txt('author'))->withIsOptional(true, true),
             self::COLUMN_PARTICIPANT => $f->text($this->lng->txt('tst_participant'))->withIsOptional(true, true)
@@ -207,7 +204,7 @@ class LogTable implements Table\DataRetrieval
 
         $environment = [
             'timezone' => new \DateTimeZone($this->current_user->getTimeZone()),
-            'date_format' => $this->buildUserDateTimeFormat()->toString()
+            'date_format' => $this->log_viewer->buildUserDateTimeFormat()->toString()
         ];
 
         foreach ($this->logging_repository->getLogs(
@@ -275,7 +272,7 @@ class LogTable implements Table\DataRetrieval
         };
     }
 
-    protected function showAdditionalDetails(string $affected_item): void
+    private function showAdditionalDetails(string $affected_item): void
     {
         $log = $this->logging_repository->getLog($affected_item);
         if ($log === null) {
@@ -284,7 +281,7 @@ class LogTable implements Table\DataRetrieval
 
         $environment = [
             'timezone' => new \DateTimeZone($this->current_user->getTimeZone()),
-            'date_format' => $this->buildUserDateTimeFormat()->toString()
+            'date_format' => $this->log_viewer->buildUserDateTimeFormat()->toString()
         ];
 
         echo $this->ui_renderer->renderAsync(
@@ -300,7 +297,7 @@ class LogTable implements Table\DataRetrieval
         exit;
     }
 
-    protected function showConfirmTestUserInteractionsDeletion(array $affected_items): void
+    private function showConfirmTestUserInteractionsDeletion(array $affected_items): void
     {
         if ($affected_items === []) {
             $this->showErrorModal($this->lng->txt('no_checkbox'));
@@ -319,7 +316,7 @@ class LogTable implements Table\DataRetrieval
         exit;
     }
 
-    protected function deleteTestUserInteractions(array $affected_items): void
+    private function deleteTestUserInteractions(array $affected_items): void
     {
         if ($this->ref_id !== null) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('log_deletion_not_allowed'));
@@ -330,110 +327,53 @@ class LogTable implements Table\DataRetrieval
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('logs_deleted'));
     }
 
-    protected function exportTestUserInteractions(array $affected_items): void
+    private function exportTestUserInteractions(array $affected_items): void
     {
         if ($affected_items === []) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'));
             return;
         }
 
-        $environment = [
-            'timezone' => new \DateTimeZone($this->current_user->getTimeZone()),
-            'date_format' => $this->buildUserDateTimeFormat()->toString()
-        ];
+        $this->log_viewer->buildExcelWorkbookForLogs(
+            $this->buildLogsFromAffectedItems($affected_items)
+        )->sendToClient(date('Y-m-d') . self::EXPORT_FILE_NAME);
+    }
 
-        if ($affected_items[0] === 'ALL_OBJECTS') {
-            $this->initializeFilterAndData();
-            [
-                $from_filter,
-                $to_filter,
-                $test_filter,
-                $admin_filter,
-                $pax_filter,
-                $question_filter,
-                $ip_filter,
-                $log_entry_type_filter,
-                $interaction_type_filter
-            ] = $this->prepareFilterData($this->filter_data);
-            $interactions = $this->logging_repository->getLogs(
-                $this->logger->getInteractionTypes(),
-                $this->ref_id !== null ? [$this->ref_id] : null,
-                null,
-                null,
-                $from_filter,
-                $to_filter,
-                $admin_filter,
-                $pax_filter,
-                $question_filter,
-                $ip_filter,
-                $log_entry_type_filter,
-                $interaction_type_filter
-            );
-        } else {
-            $interactions = $this->logging_repository->getLogsByUniqueIdentifiers($affected_items);
+    private function buildLogsFromAffectedItems(array $affected_items): \Generator
+    {
+        if ($affected_items[0] !== 'ALL_OBJECTS') {
+            return $this->logging_repository->getLogsByUniqueIdentifiers($affected_items);
         }
 
-        $header = $this->getColumHeadingsForExport();
-        $content = [];
-        foreach ($interactions as $interaction) {
-            $content[] = $interaction->getLogEntryAsExportRow(
-                $this->lng,
-                $this->title_builder,
-                $this->logger->getAdditionalInformationGenerator(),
-                $environment
-            );
-        }
-
-        $workbook = $this->buildExcelWorkbook($header, $content);
-        $workbook->sendToClient(date('Y-m-d') . self::EXPORT_FILE_NAME);
-
-        $stream = fopen('php://memory', 'r+');
-        fwrite($stream, $csv);
-        rewind($stream);
-        $this->stream_delivery->deliver(
-            Streams::ofResource($stream),
-            date('Y-m-d') . self::CSV_EXPORT_FILE_NAME
+        $this->initializeFilterAndData();
+        [
+            $from_filter,
+            $to_filter,
+            $test_filter,
+            $admin_filter,
+            $pax_filter,
+            $question_filter,
+            $ip_filter,
+            $log_entry_type_filter,
+            $interaction_type_filter
+        ] = $this->prepareFilterData($this->filter_data);
+        return $this->logging_repository->getLogs(
+            $this->logger->getInteractionTypes(),
+            $this->ref_id !== null ? [$this->ref_id] : null,
+            null,
+            null,
+            $from_filter,
+            $to_filter,
+            $admin_filter,
+            $pax_filter,
+            $question_filter,
+            $ip_filter,
+            $log_entry_type_filter,
+            $interaction_type_filter
         );
     }
 
-    private function getColumHeadingsForExport(): array
-    {
-        return [
-            $this->lng->txt('date_time'),
-            $this->lng->txt('test'),
-            $this->lng->txt('author'),
-            $this->lng->txt('tst_participant'),
-            $this->lng->txt('client_ip'),
-            $this->lng->txt('question'),
-            $this->lng->txt('log_entry_type'),
-            $this->lng->txt('interaction_type'),
-            $this->lng->txt('additional_info')
-        ];
-    }
-
-    private function buildExcelWorkbook(array $header, array $content): \ilExcel
-    {
-        $workbook = new \ilExcel();
-        $workbook->addSheet($this->lng->txt('history'));
-        $row = 1;
-        $column = 0;
-        foreach ($header as $header_cell) {
-            $workbook->setCell($row, $column++, $header_cell);
-        }
-        $workbook->setBold('A' . $row . ':' . $workbook->getColumnCoord($column - 1) . $row);
-        $workbook->setColors('A' . $row . ':' . $workbook->getColumnCoord($column - 1) . $row, 'C0C0C0');
-
-        foreach ($content as $content_row) {
-            $row++;
-            $column = 0;
-            foreach ($content_row as $content_cell) {
-                $workbook->setCell($row, $column++, $content_cell);
-            }
-        }
-        return $workbook;
-    }
-
-    protected function getActions(): array
+    private function getActions(): array
     {
         $af = $this->ui_factory->table()->action();
         $actions = [
@@ -582,19 +522,6 @@ class LogTable implements Table\DataRetrieval
             )
         );
         exit;
-    }
-
-    private function buildUserDateTimeFormat(): DateFormat
-    {
-        $user_format = $this->current_user->getDateFormat();
-        if ($this->current_user->getTimeFormat() == \ilCalendarSettings::TIME_FORMAT_24) {
-            return $this->data_factory->dateFormat()->amend(
-                $this->data_factory->dateFormat()->withTime24($user_format)
-            )->colon()->seconds()->get();
-        }
-        return $this->data_factory->dateFormat()->amend(
-            $user_format
-        )->space()->hours12()->colon()->minutes()->colon()->seconds()->meridiem()->get();
     }
 
     private function extractIdsFromUserQuery(array $response): array

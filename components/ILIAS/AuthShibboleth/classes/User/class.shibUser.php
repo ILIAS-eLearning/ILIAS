@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+use ILIAS\Refinery\String\UTFNormal;
 
 /**
  * Class shibUser
@@ -59,7 +62,7 @@ class shibUser extends ilObjUser
             $this->setGender($this->shibServerData->getGender());
         }
         if ($shibConfig->getUpdateTitle()) {
-            $this->setTitle($this->shibServerData->getTitle());
+            $this->setUTitle($this->shibServerData->getTitle());
         }
         if ($shibConfig->getUpdateInstitution()) {
             $this->setInstitution($this->shibServerData->getInstitution());
@@ -112,7 +115,7 @@ class shibUser extends ilObjUser
         $this->setPasswd(md5((string) end($array)), ilObjUser::PASSWD_CRYPTED);
         $this->setGender($this->shibServerData->getGender());
         $this->setExternalAccount($this->shibServerData->getLogin());
-        $this->setTitle($this->shibServerData->getTitle());
+        $this->setUTitle($this->shibServerData->getTitle());
         $this->setInstitution($this->shibServerData->getInstitution());
         $this->setDepartment($this->shibServerData->getDepartment());
         $this->setStreet($this->shibServerData->getStreet());
@@ -182,13 +185,18 @@ class shibUser extends ilObjUser
 
     protected function cleanName(string $name): string
     {
-        return strtolower(
-            strtr(
-                $name,
-                'ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ',
-                'SOZsozYYuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyy'
-            )
-        );
+        $umlaut_map = [
+            'ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue',
+            'Ä' => 'Ae', 'Ö' => 'Oe', 'Ü' => 'Ue',
+            'ß' => 'ss'
+        ];
+        $name = strtr($name, $umlaut_map);
+
+        $form_d = new UTFNormal();
+        $name = $form_d->formD()->transform($name);
+        $name = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', (string) $name);
+
+        return strtolower((string) preg_replace('/[^a-zA-Z0-9\s]/', '', $name));
     }
 
     private function loginExists(string $login, int $usr_id): bool

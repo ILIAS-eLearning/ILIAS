@@ -24,12 +24,11 @@ namespace ILIAS\UI\examples\Item\Standard;
  * ---
  * description: >
  *   Example for rendering a standard item with an lead image.
- *
  * expected output: >
  *   ILIAS shows a box including the following informations: A heading with a dummy text in small writings
  *   ("Lorem ipsum...") below. Beneath those you can see a fine line and more informations about "Origin", "Last Update"
  *   and "Location". Additionally a action menu is displayed in the box on the right top. On the left side a ILIAS-Logo
- *   is displayed. On small screens the logo is rendered above the title.
+ *   is displayed.
  * ---
  */
 function with_lead_image()

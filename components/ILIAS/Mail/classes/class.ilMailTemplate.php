@@ -18,19 +18,15 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailTemplate
- * @author Nadia Ahmad <nahmad@databay.de>
- */
 class ilMailTemplate
 {
-    protected int $templateId = 0;
+    protected int $template_id = 0;
     protected string $title = '';
     protected string $context = '';
     protected string $lang = '';
     protected string $subject = '';
     protected string $message = '';
-    protected bool $isDefault = false;
+    protected bool $is_default = false;
 
     public function __construct(?array $data = null)
     {
@@ -63,12 +59,12 @@ class ilMailTemplate
 
     public function getTplId(): int
     {
-        return $this->templateId;
+        return $this->template_id;
     }
 
-    public function setTplId(int $templateId): void
+    public function setTplId(int $template_id): void
     {
-        $this->templateId = $templateId;
+        $this->template_id = $template_id;
     }
 
     public function getTitle(): string
@@ -123,11 +119,11 @@ class ilMailTemplate
 
     public function isDefault(): bool
     {
-        return $this->isDefault;
+        return $this->is_default;
     }
 
-    public function setAsDefault(bool $isDefault): void
+    public function setAsDefault(bool $is_default): void
     {
-        $this->isDefault = $isDefault;
+        $this->is_default = $is_default;
     }
 }

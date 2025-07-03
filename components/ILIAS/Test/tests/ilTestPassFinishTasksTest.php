@@ -32,7 +32,7 @@ class ilTestPassFinishTasksTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestPassFinishTasks(
             $this->createMock(ilTestSession::class),
-            0,
+            $this->createMock(ilObjTest::class),
             $this->createMock(ILIAS\Test\Results\Data\Repository::class)
         );
     }

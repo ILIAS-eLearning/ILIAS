@@ -13,3 +13,7 @@
 ## Page Overview
 
 - The overview block on top, container all headings, will render all formattings included in the headings to enable things like sub and sup or latex code.
+
+## Metadata based Page List Import/Export
+
+The import/export of these lists is currently unsupported, see [Roadmap](./ROADMAP.md).

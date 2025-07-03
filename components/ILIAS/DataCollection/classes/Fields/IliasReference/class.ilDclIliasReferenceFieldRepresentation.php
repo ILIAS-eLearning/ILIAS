@@ -89,6 +89,13 @@ class ilDclIliasReferenceFieldRepresentation extends ilDclBaseFieldRepresentatio
         $prop_multi_select->setInfo($this->lng->txt('dcl_display_action_menu_desc'));
         $opt->addSubItem($prop_multi_select);
 
+        $prop_unique = new ilDclCheckboxInputGUI(
+            $this->lng->txt('dcl_unique'),
+            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_UNIQUE)
+        );
+        $prop_unique->setInfo($this->lng->txt('dcl_unique_desc'));
+        $opt->addSubItem($prop_unique);
+
         return $opt;
     }
 }

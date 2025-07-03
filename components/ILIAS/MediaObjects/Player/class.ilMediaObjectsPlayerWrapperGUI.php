@@ -48,7 +48,7 @@ class ilMediaObjectsPlayerWrapperGUI
         $ctrl = $this->gui->ctrl();
 
         $next_class = $ctrl->getNextClass($this);
-        $cmd = $ctrl->getCmd("show");
+        $cmd = $ctrl->getCmd();
 
         switch ($next_class) {
             default:
@@ -56,6 +56,43 @@ class ilMediaObjectsPlayerWrapperGUI
                     $this->$cmd();
                 }
         }
+    }
+
+    public function renderComponent(
+        ilObjMediaObject $mob,
+        int $tracking_container_ref_id = 0) : string
+    {
+        $comp = $this->getComponent($mob, $tracking_container_ref_id);
+        if ($comp) {
+            return $this->gui->ui()->renderer()->render($comp);
+        }
+        return "";
+    }
+    public function getComponent(
+        ilObjMediaObject $mob,
+        int $tracking_container_ref_id = 0): ILIAS\UI\Component\Component
+    {
+        $med = $mob->getMediaItem("Standard");
+        $comp = null;
+        if (!is_null($med)) {
+            if ($this->media_type->isAudio($med->getFormat())) {
+                $comp = $this->audio(
+                    $mob,
+                    $tracking_container_ref_id
+                );
+            } elseif ($this->media_type->isVideo($med->getFormat())) {
+                $comp = $this->video(
+                    $mob,
+                    $tracking_container_ref_id
+                );
+            } elseif ($this->media_type->isImage($med->getFormat())) {
+                $comp = $this->image(
+                    $mob,
+                    $tracking_container_ref_id
+                );
+            }
+        }
+        return $comp;
     }
 
     /**
@@ -74,14 +111,7 @@ class ilMediaObjectsPlayerWrapperGUI
         if (is_null($med) || !$this->media_type->isAudio($med->getFormat())) {
             return null;
         }
-
-        if ($med->getLocationType() === "Reference") {
-            $resource = $med->getLocation();
-        } else {
-            $path_to_file = \ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
-            $resource = $path_to_file;
-        }
-
+        $resource = $mob->getStandardSrc();
         $audio = $this->gui->ui()->factory()->player()->audio(
             $resource,
             ""
@@ -106,6 +136,93 @@ EOT;
             });
         }
         return $audio;
+    }
+
+    /**
+     * @throws ilCtrlException
+     */
+    public function image(
+        ilObjMediaObject $mob,
+        int $tracking_container_ref_id = 0
+    ): ?\ILIAS\UI\Component\Image\Image {
+        $main_tpl = $this->gui->ui()->mainTemplate();
+
+        $ctrl = $this->gui->ctrl();
+
+        $med = $mob->getMediaItem("Standard");
+
+        if (is_null($med) || !$this->media_type->isImage($med->getFormat())) {
+            return null;
+        }
+
+        $source = $mob->getStandardSrc();
+
+        $image = $this->gui->ui()->factory()->image()->responsive($source, $mob->getTitle());
+
+        if ($tracking_container_ref_id > 0) {
+            // @todo: make this a media object general setting
+            $mcst_settings = ilMediaCastSettings::_getInstance();
+            $treshold = (int) $mcst_settings->getVideoCompletionThreshold();
+
+            $main_tpl->addJavaScript("assets/js/MediaObjectsCompletion.js");
+            $ctrl->setParameter($this, "mob_tracking_ref_id", $tracking_container_ref_id);
+            $ctrl->setParameter($this, "mob_tracking_mob_id", $mob->getId());
+            $url = $ctrl->getLinkTarget($this, "saveCompletion");
+            $audio = $image->withAdditionalOnLoadCode(function ($id) use ($url, $treshold) {
+                $js = <<<EOT
+                document.getElementById('$id').dataset.mobCompletionCallback = '$url';
+                document.getElementById('$id').dataset.mobCompletionThreshold = '$treshold';
+                il.MediaObjectsCompletion.init();
+EOT;
+                return $js;
+            });
+        }
+        return $image;
+    }
+
+    /**
+     * @throws ilCtrlException
+     */
+    public function video(
+        ilObjMediaObject $mob,
+        int $tracking_container_ref_id = 0
+    ): ?\ILIAS\UI\Component\Player\Video {
+        $main_tpl = $this->gui->ui()->mainTemplate();
+
+        $ctrl = $this->gui->ctrl();
+
+        $med = $mob->getMediaItem("Standard");
+
+        if (is_null($med) || !$this->media_type->isVideo($med->getFormat())) {
+            return null;
+        }
+
+        $source = $mob->getStandardSrc();
+
+        $video = $this->gui->ui()->factory()->player()->video(
+            $source,
+            ""
+        );
+
+        if ($tracking_container_ref_id > 0) {
+            // @todo: make this a media object general setting
+            $mcst_settings = ilMediaCastSettings::_getInstance();
+            $treshold = (int) $mcst_settings->getVideoCompletionThreshold();
+
+            $main_tpl->addJavaScript("assets/js/MediaObjectsCompletion.js");
+            $ctrl->setParameter($this, "mob_tracking_ref_id", $tracking_container_ref_id);
+            $ctrl->setParameter($this, "mob_tracking_mob_id", $mob->getId());
+            $url = $ctrl->getLinkTarget($this, "saveCompletion");
+            $audio = $video->withAdditionalOnLoadCode(function ($id) use ($url, $treshold) {
+                $js = <<<EOT
+                document.getElementById('$id').dataset.mobCompletionCallback = '$url';
+                document.getElementById('$id').dataset.mobCompletionThreshold = '$treshold';
+                il.MediaObjectsCompletion.init();
+EOT;
+                return $js;
+            });
+        }
+        return $video;
     }
 
     protected function saveCompletion(): void

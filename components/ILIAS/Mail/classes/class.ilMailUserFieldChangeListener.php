@@ -23,10 +23,6 @@ namespace ILIAS\Services\Mail;
 use ILIAS\User\Profile\ChangeListeners\UserFieldAttributesChangeListener;
 use ILIAS\DI\Container;
 
-/**
- * Class ilMailUserFieldChangeListener
- * @author Marvin Beym <mbeym@databay.de>
- */
 class ilMailUserFieldChangeListener extends UserFieldAttributesChangeListener
 {
     public function __construct(Container $dic)
@@ -38,7 +34,7 @@ class ilMailUserFieldChangeListener extends UserFieldAttributesChangeListener
     public function getDescriptionForField(string $fieldName, string $attribute): ?string
     {
         if ($fieldName === 'second_email' && $attribute === 'visible_second_email') {
-            return sprintf(
+            return \sprintf(
                 $this->dic->language()->txt('usrFieldChange_second_mail_visible_in_personal_data'),
                 $attribute,
                 $fieldName

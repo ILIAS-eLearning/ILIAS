@@ -34,7 +34,7 @@ use ILIAS\Notes\Service as NotesService;
  */
 class ilPollDataSet extends ilDataSet
 {
-    protected const ENTITY = "poll";
+    protected const string ENTITY = "poll";
     protected NotesService $notes;
     protected DataFactory $data_factory;
     protected ilObjuser $user;

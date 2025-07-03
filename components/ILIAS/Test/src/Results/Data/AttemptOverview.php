@@ -39,8 +39,8 @@ class AttemptOverview
         private readonly ?Mark $mark = null,
         private readonly int $nr_of_answered_questions = 0,
         private readonly int $nr_of_questions_in_attempt = 0,
-        private readonly ?int $requested_hints_count = null,
         private readonly int $time_on_task = 0,
+        private readonly int $total_time_on_task = 0,
         private readonly ?\DateTimeImmutable $attempt_started_date = null,
         private readonly ?\DateTimeImmutable $last_access = null,
         private readonly int $nr_of_attempts = 0,
@@ -135,10 +135,6 @@ class AttemptOverview
             $lng->txt('tst_stat_result_resultsmarks') => $this->mark?->getShortName() ?? ''
         ];
 
-        if ($this->settings->getShowHints()) {
-            $items[$lng->txt('tst_question_hints_requested_hint_count_header')] = (string) $this->requested_hints_count;
-        }
-
         return $ui_factory->listing()->descriptive(
             $items + [
                 $lng->txt('tst_stat_result_timeontask') => $this->buildHumanReadableTime($this->time_on_task),
@@ -153,6 +149,11 @@ class AttemptOverview
                 $lng->txt('tst_stat_result_rank_participant') => (string) $this->rank
             ]
         );
+    }
+
+    public function getHumanReadableTotalTimeOnTask(): string
+    {
+        return $this->buildHumanReadableTime($this->total_time_on_task);
     }
 
     private function buildHumanReadableTime(int $time): string

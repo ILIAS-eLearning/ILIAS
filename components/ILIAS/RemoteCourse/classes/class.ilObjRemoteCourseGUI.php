@@ -70,7 +70,7 @@ class ilObjRemoteCourseGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCl
     protected function addCustomEditForm(ilPropertyFormGUI $a_form): void
     {
         $radio_grp = new ilRadioGroupInputGUI($this->lng->txt('crs_visibility'), 'activation_type');
-        $radio_grp->setValue($this->object->getAvailabilityType());
+        $radio_grp->setValue((string) $this->object->getAvailabilityType());
         $radio_grp->setDisabled(true);
 
         $radio_opt = new ilRadioOption(

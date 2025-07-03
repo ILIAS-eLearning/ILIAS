@@ -38,18 +38,18 @@ use ILIAS\MetaData\DataHelper\DataHelperInterface;
 class ContentAssembler
 {
     // post variables
-    public const KEYWORDS = 'keywords';
-    public const GENERAL = 'general';
-    public const AUTHORS = 'authors';
-    public const RIGHTS = 'rights';
-    public const TYPICAL_LEARNING_TIME = 'tlt';
-    public const FIRST_AUTHOR = 'first_author';
-    public const SECOND_AUTHOR = 'second_author';
-    public const THIRD_AUTHOR = 'third_author';
+    public const string KEYWORDS = 'keywords';
+    public const string GENERAL = 'general';
+    public const string AUTHORS = 'authors';
+    public const string RIGHTS = 'rights';
+    public const string TYPICAL_LEARNING_TIME = 'tlt';
+    public const string FIRST_AUTHOR = 'first_author';
+    public const string SECOND_AUTHOR = 'second_author';
+    public const string THIRD_AUTHOR = 'third_author';
 
-    public const CUSTOM_CP = 'custom_cp';
-    public const CUSTOM_CP_DESCRIPTION = 'custom_cp_description';
-    public const OER_BLOCKED = 'oer_blocked_';
+    public const string CUSTOM_CP = 'custom_cp';
+    public const string CUSTOM_CP_DESCRIPTION = 'custom_cp_description';
+    public const string OER_BLOCKED = 'oer_blocked_';
 
     protected PathFactory $path_factory;
     protected NavigatorFactoryInterface $navigator_factory;

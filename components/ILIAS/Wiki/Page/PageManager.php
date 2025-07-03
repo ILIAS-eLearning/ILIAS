@@ -89,7 +89,7 @@ class PageManager
             $page->setWikiId($this->getWikiId());
             $page->setWikiRefId($this->wiki_ref_id);
             $page->setTitle(\ilWikiUtil::makeDbTitle($title));
-            if ($this->wiki->getRating() && $this->wiki->getRatingForNewPages()) {
+            if ($this->wiki->getRatingPages() && $this->wiki->getRatingForNewPages()) {
                 $page->setRating(true);
             }
             // needed for notification

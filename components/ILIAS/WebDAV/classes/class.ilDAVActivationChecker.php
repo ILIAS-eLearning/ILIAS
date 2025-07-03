@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 /**
  * Activation Checker. Keep this class small, since it is included, even if WebDav
  * is deactivated.

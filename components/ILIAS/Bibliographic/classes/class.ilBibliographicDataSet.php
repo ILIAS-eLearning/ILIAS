@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +18,7 @@
 
 use ILIAS\ResourceStorage\Services;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\ILIASObject\Properties\CoreProperties\Online;
 
 /**
  * Bibliographic dataset class
@@ -102,7 +104,7 @@ class ilBibliographicDataSet extends ilDataSet
                 $new_obj->create();
             }
             $new_obj->getObjectProperties()->storePropertyIsOnline(
-                new ilObjectPropertyIsOnline(false)
+                new Online(false)
             );
             $this->import_bib_object = $new_obj;
             $a_mapping->addMapping('components/ILIAS/Bibliographic', 'bibl', $a_rec['id'], $new_obj->getId());

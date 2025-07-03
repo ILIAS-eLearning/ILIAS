@@ -59,9 +59,14 @@ class ilExportGUI
     protected ilExportHandlerConsumerContextInterface $context;
     protected ilDataFactory $data_factory;
     protected object $parent_gui;
+    protected bool $public_access_enabled;
 
-    public function __construct(object $a_parent_gui, ?ilObject $a_main_obj = null)
-    {
+    public function __construct(
+        object $a_parent_gui,
+        ?ilObject $a_main_obj = null,
+        bool $public_access_enabled = true,
+        bool $default_export_option_enabled = true
+    ) {
         global $DIC;
         $this->ui_services = $DIC->ui();
         $this->http = $DIC->http();
@@ -82,8 +87,16 @@ class ilExportGUI
         $this->context = $this->export_handler->consumer()->context()->handler($this, $this->obj);
         $this->export_options = $this->export_handler->consumer()->exportOption()->collection();
         $this->data_factory = new ilDataFactory();
+        $this->public_access_enabled = $public_access_enabled;
         $this->initExportOptions();
-        $this->enableStandardXMLExport();
+        if ($default_export_option_enabled) {
+            $this->enableStandardXMLExport();
+        }
+    }
+
+    final public function isPublicAccessEnabled(): bool
+    {
+        return $this->public_access_enabled;
     }
 
     public function executeCommand(): void
@@ -191,7 +204,8 @@ class ilExportGUI
         }
         $table = $this->export_handler->table()->handler()
             ->withExportOptions($this->export_options)
-            ->withContext($this->context);
+            ->withContext($this->context)
+            ->withPublicAccessEnabled($this->isPublicAccessEnabled());
         $table->handleCommands();
         $infos = [];
         foreach ($this->export_options as $export_option) {
@@ -267,8 +281,8 @@ class ilExportGUI
     final protected function createXMLExport()
     {
         $manager = $this->export_handler->manager()->handler();
-        $export_info = $manager->getExportInfo(
-            $this->data_factory->objId($this->obj->getId()),
+        $export_info = $manager->getExportInfoWithObject(
+            $this->obj,
             time()
         );
         $element = $manager->createExport(
@@ -319,8 +333,8 @@ class ilExportGUI
         }
         $manager = $this->export_handler->manager()->handler();
         if (count($ref_ids_all) === 1) {
-            $export_info = $manager->getExportInfo(
-                $this->data_factory->objId($this->obj->getId()),
+            $export_info = $manager->getExportInfoWithObject(
+                $this->obj,
                 time()
             );
             $element = $manager->createExport(

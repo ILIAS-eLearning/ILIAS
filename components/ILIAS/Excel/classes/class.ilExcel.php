@@ -177,28 +177,25 @@ class ilExcel
 
     /**
      * Prepare value for cell
-     * @param mixed $a_value
+     * @param mixed $value
      * @return mixed
      * @throws InvalidArgumentException
      */
-    protected function prepareValue($a_value)
+    protected function prepareValue($value)
     {
-        if (is_bool($a_value)) {
-            return $this->prepareBooleanValue($a_value);
+        if (is_bool($value)) {
+            return $this->prepareBooleanValue($value);
         }
 
-        if ($a_value instanceof ilDateTime) {
-            return $this->prepareDateValue($a_value);
+        if ($value instanceof ilDateTime) {
+            return $this->prepareDateValue($value);
         }
 
-        if (is_string($a_value)) {
-            if (!mb_check_encoding($a_value, 'UTF-8')) {
-                throw new InvalidArgumentException('Invalid UTF-8 passed.');
-            }
-            return $this->prepareString($a_value);
+        if (is_string($value)) {
+            return $this->prepareString($value);
         }
 
-        return $a_value;
+        return $value;
     }
 
     /**
@@ -227,10 +224,16 @@ class ilExcel
         return $a_value ? $lng->txt('yes') : $lng->txt('no');
     }
 
-    protected function prepareString(string $a_value): string
-    {
+    protected function prepareString(
+        string $value,
+        bool $disable_strip_tags = false
+    ): string {
+        if (!mb_check_encoding($value, 'UTF-8')) {
+            throw new InvalidArgumentException('Invalid UTF-8 passed.');
+        }
+
         return $this->cleanupNonCharachters(
-            strip_tags($a_value)
+            $disable_strip_tags ? $value : strip_tags($value)
         ); // #14542
     }
 
@@ -281,40 +284,47 @@ class ilExcel
     /**
      * Set cell value
      * @param int   $a_row
-     * @param int   $a_col
-     * @param mixed $a_value
-     * @param ?string  $a_datatype Explicit data type, see DataType::TYPE_*
+     * @param int   $col
+     * @param mixed $value
+     * @param ?string  $datatype Explicit data type, see DataType::TYPE_*
      */
     public function setCell(
         int $a_row,
-        int $a_col,
-        $a_value,
-        ?string $a_datatype = null
+        int $col,
+        $value,
+        ?string $datatype = null,
+        bool $disable_strip_tags_for_strings = false
     ): void {
-        $coordinate = $this->getCoordByColumnAndRow($a_col, $a_row);
+        $coordinate = $this->getCoordByColumnAndRow($col, $a_row);
 
-        if ($a_datatype !== null) {
+        if ($datatype === DataType::TYPE_STRING) {
             $this->workbook->getActiveSheet()->setCellValueExplicit(
                 $coordinate,
-                $this->prepareValue($a_value),
-                $a_datatype
+                $this->prepareString($value, $disable_strip_tags_for_strings),
+                $datatype
             );
-        } elseif ($a_value instanceof ilDateTime) {
+        } elseif ($datatype !== null) {
+            $this->workbook->getActiveSheet()->setCellValueExplicit(
+                $coordinate,
+                $this->prepareValue($value),
+                $datatype
+            );
+        } elseif ($value instanceof ilDateTime) {
             $wb = $this->workbook->getActiveSheet()->setCellValue(
                 $coordinate,
-                $this->prepareValue($a_value)
+                $this->prepareValue($value)
             );
-            $this->setDateFormat($wb->getCell($coordinate), $a_value);
-        } elseif (is_numeric($a_value)) {
+            $this->setDateFormat($wb->getCell($coordinate), $value);
+        } elseif (is_numeric($value)) {
             $this->workbook->getActiveSheet()->setCellValueExplicit(
                 $coordinate,
-                $this->prepareValue($a_value),
+                $this->prepareValue($value),
                 DataType::TYPE_NUMERIC
             );
         } else {
             $this->workbook->getActiveSheet()->setCellValueExplicit(
                 $coordinate,
-                $this->prepareValue($a_value),
+                $this->prepareValue($value),
                 DataType::TYPE_STRING
             );
         }

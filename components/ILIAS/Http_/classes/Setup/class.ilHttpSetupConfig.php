@@ -28,8 +28,12 @@ class ilHttpSetupConfig implements Setup\Config
     protected bool $proxy_enabled;
     protected ?string $proxy_host;
     protected ?string $proxy_port;
+    /** @var list<string>|null */
+    protected ?array $allowed_hosts = null;
 
-
+    /**
+     * @param list<string>|null  $allowed_hosts
+     */
     public function __construct(
         string $http_path,
         bool $autodetection_enabled,
@@ -38,7 +42,8 @@ class ilHttpSetupConfig implements Setup\Config
         ?string $header_value,
         bool $proxy_enabled,
         ?string $proxy_host,
-        ?string $proxy_port
+        ?string $proxy_port,
+        ?array $allowed_hosts
     ) {
         if ($autodetection_enabled && (!$header_name || !$header_value)) {
             throw new \InvalidArgumentException(
@@ -58,6 +63,10 @@ class ilHttpSetupConfig implements Setup\Config
         $this->proxy_enabled = $proxy_enabled;
         $this->proxy_host = $proxy_host;
         $this->proxy_port = $proxy_port;
+
+        if (is_array($allowed_hosts)) {
+            $this->allowed_hosts = array_values(array_filter(array_map(strval(...), $allowed_hosts)));
+        }
     }
 
 
@@ -99,5 +108,13 @@ class ilHttpSetupConfig implements Setup\Config
     public function getProxyPort(): ?string
     {
         return $this->proxy_port;
+    }
+
+    /**
+     * @return list<string>|null
+     */
+    public function getAllowedHosts(): ?array
+    {
+        return $this->allowed_hosts;
     }
 }

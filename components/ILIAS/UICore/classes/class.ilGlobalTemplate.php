@@ -525,9 +525,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
         iljQueryUtil::initjQuery();
         iljQueryUtil::initjQueryUI();
 
-        // always load ui framework
-        ilUIFramework::init();
-
         $this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
         $this->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 

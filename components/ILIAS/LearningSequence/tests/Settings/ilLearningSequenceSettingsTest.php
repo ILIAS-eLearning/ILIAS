@@ -51,9 +51,7 @@ class ilLearningSequenceSettingsTest extends TestCase
         return $object;
     }
 
-    /**
-     * @depends testCreate
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreate')]
     public function testWithAbstract(ilLearningSequenceSettings $object): void
     {
         $new_object = $object->withAbstract("teststring");
@@ -73,9 +71,7 @@ class ilLearningSequenceSettingsTest extends TestCase
         $this->assertEquals(self::TO_MEMBERS_GALLERY, $new_object->getMembersGallery());
     }
 
-    /**
-     * @depends testCreate
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreate')]
     public function testWithExtro(ilLearningSequenceSettings $object): void
     {
         $new_object = $object->withExtro("teststring");
@@ -95,9 +91,7 @@ class ilLearningSequenceSettingsTest extends TestCase
         $this->assertEquals(self::TO_MEMBERS_GALLERY, $new_object->getMembersGallery());
     }
 
-    /**
-     * @depends testCreate
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreate')]
     public function testWithAbstractImage(ilLearningSequenceSettings $object): void
     {
         $new_object = $object->withAbstractImage("teststring");
@@ -117,9 +111,7 @@ class ilLearningSequenceSettingsTest extends TestCase
         $this->assertEquals(self::TO_MEMBERS_GALLERY, $new_object->getMembersGallery());
     }
 
-    /**
-     * @depends testCreate
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreate')]
     public function testWithExtroImage(ilLearningSequenceSettings $object): void
     {
         $new_object = $object->withExtroImage("teststring");
@@ -139,9 +131,7 @@ class ilLearningSequenceSettingsTest extends TestCase
         $this->assertEquals(self::TO_MEMBERS_GALLERY, $new_object->getMembersGallery());
     }
 
-    /**
-     * @depends testCreate
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreate')]
     public function testWithMembersGallery(ilLearningSequenceSettings $object): void
     {
         $new_object = $object->withMembersGallery(false);

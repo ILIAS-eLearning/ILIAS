@@ -30,4 +30,3 @@ ilInitialisation::initILIAS();
 ilStartUpGUI::setForcedCommand('confirmRegistration');
 $DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
 $DIC->http()->close();
-exit();

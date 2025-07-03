@@ -47,13 +47,10 @@ class ilUserTableGUI extends ilTable2GUI
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-
-
         $this->user_folder_id = $a_parent_obj->getObject()->getRefId();
 
-        if ($DIC['rbacsystem']->checkAccess('write', $this->user_folder_id)
+        if ($DIC['ilAccess']->checkPositionAccess(ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->user_folder_id)
+            || $DIC['rbacsystem']->checkAccess('write', $this->user_folder_id)
             || $DIC['rbacsystem']->checkAccess('cat_administrate_users', $this->user_folder_id)) {
             $this->with_write_access = true;
         }
@@ -87,7 +84,7 @@ class ilUserTableGUI extends ilTable2GUI
         $this->setExternalSegmentation(true);
         $this->setEnableHeader(true);
 
-        $this->setFormAction($ilCtrl->getFormAction($this->parent_obj, "applyFilter"));
+        $this->setFormAction($DIC['ilCtrl']->getFormAction($this->parent_obj, "applyFilter"));
         $this->setRowTemplate("tpl.user_list_row.html", "components/ILIAS/User");
         //$this->disable("footer");
         $this->setEnableTitle(true);
@@ -112,7 +109,7 @@ class ilUserTableGUI extends ilTable2GUI
                 $this->addMultiCommand($cmd, $caption);
             }
         } else {
-            $this->addMultiCommand("deleteUsers", $lng->txt("delete"));
+            $this->addMultiCommand("deleteUsers", $DIC['lng']->txt("delete"));
         }
 
         if ($a_load_items) {
@@ -676,7 +673,7 @@ class ilUserTableGUI extends ilTable2GUI
         }
 
         if ($this->with_write_access
-            && ($this->getMode() == self::MODE_USER_FOLDER
+            && ($this->getMode() === self::MODE_USER_FOLDER
                 || $a_set['time_limit_owner'] == $this->getUserFolderId())) {
             $this->tpl->setVariable("VAL_LOGIN", $a_set["login"]);
             $ilCtrl->setParameterByClass("ilobjusergui", "obj_id", $a_set["usr_id"]);

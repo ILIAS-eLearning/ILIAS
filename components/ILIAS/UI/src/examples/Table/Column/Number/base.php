@@ -83,7 +83,7 @@ function base()
         }
     };
 
-    $table = $f->table()->data('Number Columns', $columns, $data_retrieval)
+    $table = $f->table()->data($data_retrieval, 'Number Columns', $columns)
         ->withRequest($DIC->http()->request());
     return $r->render($table);
 }

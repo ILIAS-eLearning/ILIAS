@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 /**
- * @author Stephan Winiker <stephan.winiker@hslu.ch>
+ * @author  Stephan Winiker <stephan.winiker@hslu.ch>
  * @version 1.0.0
  */
 class ilWebDAVTestHelper

@@ -33,8 +33,7 @@ class ElementsTest extends TestCase
 {
     protected function getElements(): Elements
     {
-        $format = $this->createMock(DateFormat::class);
-        $util = new class ($format) extends NullUtilities {
+        $util = new class () extends NullUtilities {
             public function txt(string $key): string
             {
                 return 'translated ' . $key;

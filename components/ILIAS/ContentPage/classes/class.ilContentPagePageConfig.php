@@ -28,6 +28,7 @@ class ilContentPagePageConfig extends ilPageConfig
         $this->setEnablePermissionChecks(true);
         $this->setMultiLangSupport(true);
         $this->setUsePageContainer(false);
+        $this->setEnableAnchors(true);
         $this->setEnablePCType('Map', true);
 
         $mediaPoolSettings = new ilSetting('mobs');

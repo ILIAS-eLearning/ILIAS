@@ -12,37 +12,35 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
-import AreaFactory from "../area/area-factory.js";
-import TriggerFactory from "../trigger/trigger-factory.js";
+import AreaFactory from '../area/area-factory.js';
+import TriggerFactory from '../trigger/trigger-factory.js';
 import OverlayFactory from '../overlay/overlay-factory.js';
 import MarkerFactory from '../marker/marker-factory.js';
-
 
 /**
  * Interactive Image Model
  */
 export default class Model {
-
   constructor() {
-    this.debug = true;
+    this.debug = false;
 
-    this.STATE_OVERVIEW = "overview";                 // overview
-    this.STATE_TRIGGER_PROPERTIES = "trigger_prop";   // trigger properties
-    this.STATE_TRIGGER_OVERLAY = "trigger_overlay";   // trigger overlay
-    this.STATE_TRIGGER_POPUP = "trigger_popup";   // trigger popup
-    this.STATE_SETTINGS = "settings";   // settings
-    this.STATE_OVERLAYS = "overlays";   // settings
-    this.STATE_POPUPS = "popups";   // settings
-    this.ACTION_STATE_ADD = "add";   // add
-    this.ACTION_STATE_EDIT = "edit";   // edit
+    this.STATE_OVERVIEW = 'overview'; // overview
+    this.STATE_TRIGGER_PROPERTIES = 'trigger_prop'; // trigger properties
+    this.STATE_TRIGGER_OVERLAY = 'trigger_overlay'; // trigger overlay
+    this.STATE_TRIGGER_POPUP = 'trigger_popup'; // trigger popup
+    this.STATE_SETTINGS = 'settings'; // settings
+    this.STATE_OVERLAYS = 'overlays'; // settings
+    this.STATE_POPUPS = 'popups'; // settings
+    this.ACTION_STATE_ADD = 'add'; // add
+    this.ACTION_STATE_EDIT = 'edit'; // edit
 
     this.model = {
       state: this.STATE_OVERVIEW,
       areaNr: 0,
       iim: null,
-      currentTrigger: null
+      currentTrigger: null,
     };
     this.states = [
       this.STATE_OVERVIEW,
@@ -51,11 +49,11 @@ export default class Model {
       this.STATE_TRIGGER_POPUP,
       this.STATE_SETTINGS,
       this.STATE_OVERLAYS,
-      this.STATE_POPUPS
+      this.STATE_POPUPS,
     ];
     this.actionStates = [
       this.ACTION_STATE_ADD,
-      this.ACTION_STATE_EDIT
+      this.ACTION_STATE_EDIT,
     ];
     this.areaFactory = new AreaFactory();
     this.triggerFactory = new TriggerFactory();
@@ -81,7 +79,7 @@ export default class Model {
    */
   setState(state) {
     if (this.states.includes(state)) {
-      this.log("model.setState " + state);
+      this.log(`model.setState ${state}`);
       this.model.state = state;
     }
   }
@@ -120,50 +118,48 @@ export default class Model {
 
   addStandardTrigger() {
     const area = this.areaFactory.area(
-      "Rect",
-      "10,10,50,50"
+      'Rect',
+      '10,10,50,50',
     );
     this.model.currentTrigger = this.triggerFactory.trigger(
       this.getNextTriggerNr(),
       null,
       null,
-      "",
-      "",
-      "",
-      "",
-      area
+      '',
+      '',
+      '',
+      '',
+      area,
     );
-    this.log("addStandardTrigger");
+    this.log('addStandardTrigger');
   }
 
   changeTriggerShape(shape) {
     let area;
     let marker;
-    console.log("MODEL: CHANGE SHAPE");
-    console.log(shape);
     switch (shape) {
-      case "Rect":
+      case 'Rect':
         area = this.areaFactory.area(
-          "Rect",
-          "10,10,50,50"
+          'Rect',
+          '10,10,50,50',
         );
         this.model.currentTrigger.setArea(area);
         break;
-      case "Circle":
+      case 'Circle':
         area = this.areaFactory.area(
-          "Circle",
-          "100,100,50"
+          'Circle',
+          '100,100,50',
         );
         this.model.currentTrigger.setArea(area);
         break;
-      case "Poly":
+      case 'Poly':
         area = this.areaFactory.area(
-          "Poly",
-          ""
+          'Poly',
+          '',
         );
         this.model.currentTrigger.setArea(area);
         break;
-      case "Marker":
+      case 'Marker':
         marker = this.markerFactory.marker(0, 0, this.model.currentTrigger.getNr());
         this.model.currentTrigger.setMarker(marker);
         break;
@@ -190,7 +186,7 @@ export default class Model {
   setTriggerByNr(triggerNr) {
     this.model.currentTrigger = this.triggerFactory.fullTriggerFromModel(
       triggerNr,
-      this.model.iim
+      this.model.iim,
     );
   }
 
@@ -225,5 +221,4 @@ export default class Model {
     });
     return title;
   }
-
 }

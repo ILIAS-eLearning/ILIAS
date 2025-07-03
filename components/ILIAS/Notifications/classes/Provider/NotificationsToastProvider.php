@@ -61,8 +61,6 @@ class NotificationsToastProvider extends AbstractToastProvider
                 )
                 ->withIcon($this->getIconByType($notification->getType()))
                 ->withDescription($notification->getObject()->shortDescription)
-                ->withVanishTime((int) $settings->get('osd_vanish', (string) Toast::DEFAULT_VANISH_TIME))
-                ->withDelayTime((int) $settings->get('osd_delay', (string) Toast::DEFAULT_DELAY_TIME))
                 ->withClosedCallable(static function () use ($osd_repository, $notification) {
                     $osd_repository->deleteOSDNotificationById($notification->getId());
                 });

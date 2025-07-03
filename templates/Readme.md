@@ -133,6 +133,12 @@ E.g. if you want to replace the default icon for categories
 `image_directory = "images"` as in the example above, the new version must be
 stored as `./public/Customizing/skin/myskin/mystyle/images/icon_cat.svg`.
 
+Note: Since v9 ILIAS supports suffix-specific file icons. See: https://docu.ilias.de/go/wiki/wpage_7496_1357
+These files cannot be changed via the style however. If you would like to change them you can access and change/override
+all of them via the ILIAS administration:
+
+Administration / Repository and Objects / Files / File Objects: Suffix-Specific Icons
+
 #### Step 5: Change Layout (Optional)
 
 The layout is specified in HTML template files. Some standard default template

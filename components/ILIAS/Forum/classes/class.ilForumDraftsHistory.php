@@ -158,8 +158,9 @@ class ilForumDraftsHistory
         );
     }
 
-    public function getFirstAutosaveByDraftId(int $draft_id): void
+    public function populateWithFirstAutosaveByDraftId(int $draft_id): void
     {
+        $this->db->setLimit(1);
         $res = $this->db->queryF(
             'SELECT * FROM frm_drafts_history WHERE draft_id = %s ORDER BY history_id ASC',
             ['integer'],
@@ -176,6 +177,7 @@ class ilForumDraftsHistory
 
     public function getLastAutosaveByDraftId(int $draft_id): void
     {
+        $this->db->setLimit(1);
         $res = $this->db->queryF(
             'SELECT * FROM frm_drafts_history WHERE draft_id = %s ORDER BY history_id DESC',
             ['integer'],

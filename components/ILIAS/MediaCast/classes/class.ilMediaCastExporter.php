@@ -72,6 +72,14 @@ class ilMediaCastExporter extends ilXmlExporter
             ];
         }
 
+        // common object properties
+        $deps[] = [
+            "component" => "components/ILIAS/Notes",
+            "entity" => "comments_settings",
+            "ids" => $a_ids
+        ];
+
+
         return $deps;
     }
 

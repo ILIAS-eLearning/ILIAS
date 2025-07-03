@@ -198,7 +198,6 @@ abstract class ilObjPortfolioBase extends ilObject2
         $ilDB = $this->db;
 
         $this->deleteAllPages();
-        $this->deleteImage();
 
         $ilDB->manipulate("DELETE FROM usr_portfolio" .
             " WHERE id = " . $ilDB->quote($this->id, "integer"));

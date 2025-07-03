@@ -55,7 +55,7 @@ class TermUsagesTable
 
         $glo_id = \ilGlossaryTerm::_lookGlossaryID($this->term_id);
         $table = $this->ui_fac->table()
-                              ->data($this->lng->txt("cont_usage"), $columns, $data_retrieval)
+                              ->data($data_retrieval, $this->lng->txt("cont_usage"), $columns)
                               ->withId(
                                   self::class . "_" .
                                   $glo_id . "_" .
@@ -278,13 +278,13 @@ class TermUsagesTable
                         $records[$i]["version"] = $ver;
                     }
 
-                    if ($item["obj_type_txt"] != "") {
+                    if (($item["obj_type_txt"] ?? "") != "") {
                         $records[$i]["type"] = $item["obj_type_txt"];
                     }
 
-                    if ($usage["type"] != "clip") {
+                    if (($usage["type"] ?? "") != "clip") {
                         $records[$i]["object"] = $item["obj_title"];
-                        if ($item["obj_link"]) {
+                        if ($item["obj_link"] ?? "") {
                             $link = $this->ui_fac->link()->standard($this->lng->txt("cont_link"), $item["obj_link"]);
                             $records[$i]["link"] = $link;
                         }

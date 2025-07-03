@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer;
@@ -49,7 +48,6 @@ class ilObjRoleGUI extends ilObjectGUI
     protected int $role_id = 0;
     protected ilHelpGUI $help;
     private ilLogger $logger;
-    private GlobalHttpState $http;
     protected Factory $refinery;
     protected UIFactory $ui_factory;
     protected Renderer $ui_renderer;
@@ -67,7 +65,6 @@ class ilObjRoleGUI extends ilObjectGUI
         $this->logger = $DIC->logger()->ac();
 
         $this->role_id = $a_id;
-        $this->http = $DIC['http'];
         $this->refinery = $DIC['refinery'];
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];

@@ -59,21 +59,16 @@ final class ilObjEmployeeTalkSeriesAccess extends ilObjectAccess
         return $commands;
     }
 
-    public static function _isOffline($a_obj_id): bool
+    public static function _isOffline($obj_id): bool
     {
         return false;
     }
 
-    /**
-     * @param string $a_target check whether goto script will succeed
-     *
-     * @return bool
-     */
-    public static function _checkGoto(string $a_target): bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
-        $t_arr = explode('_', $a_target);
+        $t_arr = explode('_', $target);
         if ($t_arr[0] !== ilObjEmployeeTalkSeries::TYPE || ((int) $t_arr[1]) <= 0) {
             return false;
         }

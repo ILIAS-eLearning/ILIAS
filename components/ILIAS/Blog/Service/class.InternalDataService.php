@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Blog;
 
+use ilDateTime;
+use ILIAS\Blog\Posting\Posting;
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
@@ -71,6 +74,26 @@ class InternalDataService
             $nav_list_mon,
             $ov_post,
             $nav_order
+        );
+    }
+
+    public function posting(
+        int $id,
+        int $blog_id,
+        string $title,
+        ilDateTime $created,
+        int $author,
+        bool $approved,
+        ?ilDateTime $last_withdrawn
+    ): Posting {
+        return new Posting(
+            $id,
+            $blog_id,
+            $title,
+            $created,
+            $author,
+            $approved,
+            $last_withdrawn
         );
     }
 }

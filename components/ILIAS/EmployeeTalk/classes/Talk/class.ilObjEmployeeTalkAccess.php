@@ -81,21 +81,16 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
         return $commands;
     }
 
-    public static function _isOffline($a_obj_id): bool
+    public static function _isOffline($obj_id): bool
     {
         return false;
     }
 
-    /**
-     * @param string $a_target check whether goto script will succeed
-     *
-     * @return bool
-     */
-    public static function _checkGoto($a_target): bool
+    public static function _checkGoto($target): bool
     {
         $access = new self();
 
-        $t_arr = explode('_', $a_target);
+        $t_arr = explode('_', $target);
         if ($t_arr[0] !== 'etal' || ((int) $t_arr[1]) <= 0) {
             return false;
         }
@@ -186,7 +181,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
         }
 
         $talk = new ilObjEmployeeTalk($refId);
-        return intval($talk->getOwner()) === $currentUserId;
+        return $talk->getOwner() === $currentUserId;
     }
 
     /**

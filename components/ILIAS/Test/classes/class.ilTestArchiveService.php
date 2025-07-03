@@ -84,6 +84,7 @@ class ilTestArchiveService
             $this->request,
             $this->obj_cache,
             $this->participant_access_filter_factory,
+            $this->test_obj->getTestLogViewer(),
             $this->test_obj->getId()
         );
         $archiver->setParticipantData($this->getParticipantData());

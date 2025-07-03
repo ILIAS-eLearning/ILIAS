@@ -32,17 +32,17 @@ class ilCollectionTest extends TestCase
     {
         $logger = $this->createMock(ilLogger::class);
         $node_info = $this->createMock(ilXMLFileNodeInfoDOMNodeHandler::class);
-        $node_info->expects($this->any())->method('getValueOfAttribute')->will($this->returnValueMap([
+        $node_info->expects($this->any())->method('getValueOfAttribute')->willReturnMap([
             ['key1', 'val1'],
             ['key2', 'val2'],
             ['key3', 'val3'],
-        ]));
-        $node_info->expects($this->any())->method('hasAttribute')->will($this->returnValueMap([
+        ]);
+        $node_info->expects($this->any())->method('hasAttribute')->willReturnMap([
             ['key1', true],
             ['key2', true],
             ['key3', true],
             ['key4', false]
-        ]));
+        ]);
         $pair1 = $this->createMock(ilXMLFileNodeInfoAttributePair::class);
         $pair1->expects($this->any())->method('getKey')->willReturn('key1');
         $pair1->expects($this->any())->method('getValue')->willReturn('val1');

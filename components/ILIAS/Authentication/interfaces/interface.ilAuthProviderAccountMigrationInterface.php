@@ -18,11 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
- */
 interface ilAuthProviderAccountMigrationInterface
 {
     /**
@@ -45,8 +40,6 @@ interface ilAuthProviderAccountMigrationInterface
      * Get external account name
      */
     public function getExternalAccountName(): string;
-
-
 
     /**
      * Create new account

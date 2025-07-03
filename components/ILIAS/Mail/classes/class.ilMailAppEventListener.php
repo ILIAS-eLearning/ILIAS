@@ -21,10 +21,6 @@ declare(strict_types=1);
 use ILIAS\DI\Container;
 use ILIAS\User\Profile\ChangeListeners\ChangedUserFieldAttribute;
 
-/**
- * Class ilMailAppEventListener
- * @author Marvin Beym <mbeym@databay.de>
- */
 class ilMailAppEventListener implements ilAppEventListener
 {
     private readonly Container $dic;
@@ -80,11 +76,11 @@ class ilMailAppEventListener implements ilAppEventListener
             switch ((int) ($this->dic->settings()->get('mail_address_option') ?? ilMailOptions::FIRST_EMAIL)) {
                 case ilMailOptions::SECOND_EMAIL:
                 case ilMailOptions::BOTH_EMAIL:
-                    $globalAddressSettingsChangedCommand = new ilMailGlobalAddressSettingsChangedCommand(
+                    $command = new ilMailGlobalAddressSettingsChangedCommand(
                         $this->dic->database(),
                         ilMailOptions::FIRST_EMAIL
                     );
-                    $globalAddressSettingsChangedCommand->execute();
+                    $command->execute();
                     break;
             }
         }

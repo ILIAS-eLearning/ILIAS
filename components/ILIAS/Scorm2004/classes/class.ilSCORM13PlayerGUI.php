@@ -409,8 +409,8 @@ class ilSCORM13PlayerGUI
         $config['get_gobjective_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=getGobjective&ref_id=' . $this->ref_id;
         $config['ping_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=pingSession&ref_id=' . $this->ref_id;
         $config['scorm_player_unload_url'] = $unload_url;
-        $config['post_log_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=postLogEntry&ref_id=' . $this->ref_id;
-        $config['livelog_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=liveLogContent&ref_id=' . $this->ref_id;
+        $config['post_log_url'] = $DIC->ctrl()->getLinkTarget($this, 'postLogEntry');
+        $config['livelog_url'] = $DIC->ctrl()->getLinkTarget($this, 'liveLogContent');
         $config['package_url'] = $this->getDataDirectory() . "/";
 
         //editor
@@ -836,7 +836,7 @@ class ilSCORM13PlayerGUI
             exit();
         }
 
-        if ($dataStores["readPermissions"] != null && array_sum($dataStores["readPermissions"]) != 0) {
+        if (isset($dataStores["readPermissions"]) && $dataStores["readPermissions"] != null && array_sum($dataStores["readPermissions"]) != 0) {
             //If there exists at least one readSharedData permission, then
             //fill in the existing values (if any) already in the store.
 
@@ -1662,7 +1662,7 @@ class ilSCORM13PlayerGUI
                     $this->tpl->setVariable('PASSWORD_ENTER', $lng->txt("debugwindow_password_enter"));
                     $this->tpl->setVariable('DEBUG_URL','ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=debugGUI&ref_id='.$this->ref_id);
                 } else {*/
-        $this->tpl = new ilGlobalTemplate("tpl.scorm2004.debug.html", false, false, "../components/ILIAS/Scorm2004");
+        $this->tpl = new ilGlobalTemplate("tpl.scorm2004.debug.html", false, false, "components/ILIAS/Scorm2004");
         $this->tpl->setVariable('CONSOLE', $lng->txt("debugwindow_console"));
         $this->tpl->setVariable('LOGS', $lng->txt("debugwindow_logs"));
         $this->tpl->setVariable('COMMENT', $lng->txt("debugwindow_comment"));
@@ -1676,9 +1676,9 @@ class ilSCORM13PlayerGUI
         $this->tpl->setVariable('FILENAME', $lng->txt("debugwindow_filename"));
         $this->tpl->setVariable('DATE', $lng->txt("debugwindow_date"));
         $this->tpl->setVariable('ACTION', $lng->txt("debugwindow_action"));
-        $this->tpl->setVariable('RECORD_IMG', ilUtil::getImagePath("record.png", "../components/ILIAS/Scorm2004"));
-        $this->tpl->setVariable('STOP_IMG', ilUtil::getImagePath("stop.png", "../components/ILIAS/Scorm2004"));
-        $this->tpl->setVariable('COMMENT_IMG', ilUtil::getImagePath("comment.png", "../components/ILIAS/Scorm2004"));
+        $this->tpl->setVariable('RECORD_IMG', "components/ILIAS/Scorm2004/templates/default/images/record.png");
+        $this->tpl->setVariable('STOP_IMG', "components/ILIAS/Scorm2004/templates/default/images/stop.png");
+        $this->tpl->setVariable('COMMENT_IMG', "components/ILIAS/Scorm2004/templates/default/images/comment.png");
         $logfile = $this->logFileName() . ".html";
         $this->tpl->setVariable('LOGFILE', $this->logFileName() . ".html");
         $this->tpl->setVariable('FILES_DATA', json_encode($this->getLogFileList($lng->txt("debugwindow_delete"), $lng->txt("debugwindow_download"), $lng->txt("debugwindow_open"))));

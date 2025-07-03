@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjOrgUnitListGUI
@@ -76,7 +79,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
         if ($this->std_cmd_only) {
             return;
         }
-        $cmd_link = $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary");
+        $cmd_link = $this->ctrl->getLinkTargetByClass([ilObjOrgUnitGUI::class, ilInfoScreenGUI::class], "showSummary");
         $cmd_frame = $this->getCommandFrame("infoScreen");
 
         $this->insertCommand(

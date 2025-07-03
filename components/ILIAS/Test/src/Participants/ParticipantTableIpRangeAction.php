@@ -81,7 +81,7 @@ class ParticipantTableIpRangeAction implements TableAction
         );
         $validate_order = $this->refinery->custom()->constraint(
             function (?array $vs): bool {
-                if ($vs === null) {
+                if ($vs['from'] === '' && $vs['to'] === '') {
                     return true;
                 }
                 return $this->checkIpRangeValidity(

@@ -48,12 +48,18 @@ class ilNotesExporter extends ilXmlExporter
         string $a_entity
     ): array {
         return array(
+            "10.0" => array(
+                "namespace" => "https://www.ilias.de/Services/Notes/note/10",
+                "xsd_file" => "ilias_notes_10.xsd",
+                "uses_dataset" => true,
+                "min" => "10.0",
+                "max" => ""),
             "4.3.0" => array(
                 "namespace" => "https://www.ilias.de/Services/Notes/note/4_3",
                 "xsd_file" => "ilias_usr_4_3.xsd",
                 "uses_dataset" => true,
                 "min" => "4.3.0",
-                "max" => "")
+                "max" => "9.99")
         );
     }
 }

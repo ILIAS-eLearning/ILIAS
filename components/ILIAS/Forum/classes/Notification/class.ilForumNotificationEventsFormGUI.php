@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+
 class ilForumNotificationEventsFormGUI
 {
     /** @var array<string, int> */
@@ -56,6 +58,17 @@ class ilForumNotificationEventsFormGUI
 
     public function build(): \ILIAS\UI\Component\Input\Container\Form\Form
     {
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->action,
+            $this->getInputs()
+        );
+    }
+
+    /**
+     * @return array<string, FormInput>
+     */
+    public function getInputs(): array
+    {
         $items = [];
 
         foreach (array_keys($this->events) as $key) {
@@ -73,9 +86,6 @@ class ilForumNotificationEventsFormGUI
         }
         $items['hidden_value'] = $hidden;
 
-        return $this->ui_factory->input()->container()->form()->standard(
-            $this->action,
-            $items
-        );
+        return $items;
     }
 }

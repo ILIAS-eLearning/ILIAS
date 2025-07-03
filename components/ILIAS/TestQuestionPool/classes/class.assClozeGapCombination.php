@@ -18,33 +18,36 @@
 
 class assClozeGapCombination
 {
-    public function loadFromDb($question_id): array
+    public function __construct(
+        private readonly ilDBInterface $db
+    ) {
+
+    }
+
+    public function loadFromDb(int $question_id): array
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $result = $ilDB->queryF(
-            '
-									SELECT 	combinations.combination_id,
-											combinations.gap_fi,
-											combinations.answer,
-											combinations.row_id,
-											combinations.points,
-											combinations.best_solution,
-											combinations.question_fi,
-											cloze.cloze_type
-									FROM 	qpl_a_cloze_combi_res AS combinations
-									INNER JOIN qpl_a_cloze AS cloze
-													WHERE combinations.question_fi = cloze.question_fi
-													AND combinations.gap_fi = cloze.gap_id
-													AND combinations.question_fi = %s
-									ORDER BY combination_id, row_id, gap_fi ASC
-									',
+        $result = $this->db->queryF(
+            'SELECT combinations.combination_id,
+                    combinations.gap_fi,
+                    combinations.answer,
+                    combinations.row_id,
+                    combinations.points,
+                    combinations.best_solution,
+                    combinations.question_fi,
+                    cloze.cloze_type
+            FROM 	qpl_a_cloze_combi_res AS combinations
+            INNER JOIN qpl_a_cloze AS cloze
+                            WHERE combinations.question_fi = cloze.question_fi
+                            AND combinations.gap_fi = cloze.gap_id
+                            AND combinations.question_fi = %s
+            ORDER BY combination_id, row_id, gap_fi ASC
+            ',
             ['integer'],
             [$question_id]
         );
 
         $return_array = [];
-        while ($data = $ilDB->fetchAssoc($result)) {
+        while ($data = $this->db->fetchAssoc($result)) {
             if (isset($return_array[$data['combination_id'] . '::' . $data['gap_fi']])) {
                 continue;
             }
@@ -63,10 +66,9 @@ class assClozeGapCombination
         return array_values($return_array);
     }
 
-    public function getCleanCombinationArray($question_id): array
+    public function getCleanCombinationArray(int $question_id): array
     {
-        $assClozeGapCombinationObj = new assClozeGapCombination();
-        $combination_from_db = $assClozeGapCombinationObj->loadFromDb($question_id);
+        $combination_from_db = $this->loadFromDb($question_id);
         $clean_array = [];
         foreach ($combination_from_db as $key => $value) {
             $clean_array[$value['cid']][$value['row_id']][$value['gap_fi']]['answer'] = $value['answer'];
@@ -76,10 +78,11 @@ class assClozeGapCombination
         return $clean_array;
     }
 
-    public function saveGapCombinationToDb($question_id, $gap_combinations, $gap_values): void
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+    public function saveGapCombinationToDb(
+        int $question_id,
+        array $gap_combinations,
+        array $gap_values
+    ): void {
         $best_solutions = [];
         for ($i = 0; $i < count($gap_combinations['points']); $i++) {
             $highest_points = 0;
@@ -98,7 +101,7 @@ class assClozeGapCombination
                     } else {
                         $best_solution = 0;
                     }
-                    $ilDB->manipulateF(
+                    $this->db->manipulateF(
                         'INSERT INTO qpl_a_cloze_combi_res
 			 				(combination_id, question_fi, gap_fi, row_id, answer, points, best_solution) VALUES (%s, %s, %s, %s, %s, %s, %s)',
                         [
@@ -124,19 +127,17 @@ class assClozeGapCombination
             }
         }
     }
-    public static function importGapCombinationToDb($question_id, $gap_combinations): void
+    public function importGapCombinationToDb(int $question_id, array $gap_combinations): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        foreach ($gap_combinations as $key => $row) {
+        foreach ($gap_combinations as $row) {
             if (is_object($row)) {
                 $row = get_object_vars($row);
             }
             if ($question_id != -1) {
-                $ilDB->manipulateF(
+                $this->db->manipulateF(
                     'INSERT INTO qpl_a_cloze_combi_res
-			 				(combination_id, question_fi, gap_fi, row_id, answer, points, best_solution) VALUES (%s, %s, %s, %s, %s, %s, %s)',
+                        (combination_id, question_fi, gap_fi, row_id, answer, points, best_solution)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s)',
                     [
                         'integer',
                         'integer',
@@ -160,12 +161,9 @@ class assClozeGapCombination
         }
     }
 
-    public static function clearGapCombinationsFromDb($question_id): void
+    public function clearGapCombinationsFromDb($question_id): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             'DELETE FROM qpl_a_cloze_combi_res WHERE question_fi = %s',
             [ 'integer' ],
             [ $question_id ]
@@ -174,105 +172,72 @@ class assClozeGapCombination
 
     public function combinationExistsForQid($question_id): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             'SELECT * FROM qpl_a_cloze_combi_res WHERE question_fi = %s ORDER BY gap_fi ASC',
             ['integer'],
             [$question_id]
         );
         if ($result->numRows() > 0) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function getGapsWhichAreUsedInCombination($question_id): array
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
-            'SELECT gap_fi, combination_id FROM ' . $ilDB->quoteIdentifier('qpl_a_cloze_combi_res') . ' WHERE question_fi = %s GROUP BY gap_fi, combination_id',
+        $result = $this->db->queryF(
+            'SELECT gap_fi, combination_id FROM '
+                . $this->db->quoteIdentifier('qpl_a_cloze_combi_res')
+                . ' WHERE question_fi = %s GROUP BY gap_fi, combination_id',
             ['integer'],
             [$question_id]
         );
         $gaps = [];
         if ($result->numRows() > 0) {
-            while ($data = $ilDB->fetchAssoc($result)) {
+            while ($data = $this->db->fetchAssoc($result)) {
                 $gaps[$data['gap_fi']] = $data['combination_id'];
             }
         }
         return $gaps;
     }
 
-    public function getMaxPointsForCombination(int $question_id, int $combination_id = -1): float
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+    public function getMaxPointsForCombination(
+        int $question_id,
+        int $combination_id = -1
+    ): float {
+        $result = $this->fetchResult($question_id, $combination_id);
 
-        if ($combination_id == -1) {
-            $result = $ilDB->queryF(
-                'SELECT combination_id, points FROM qpl_a_cloze_combi_res WHERE question_fi = %s AND best_solution=1 GROUP BY combination_id, points',
+        $points = 0.0;
+        while (($data = $this->db->fetchAssoc($result)) !== null) {
+            $points += $data['points'];
+        }
+        return $points;
+    }
+
+    private function fetchResult(
+        int $question_id,
+        int $combination_id
+    ): ilPDOStatement {
+        if ($combination_id === -1) {
+            return $this->db->queryF(
+                'SELECT combination_id, points' . PHP_EOL
+                . 'FROM qpl_a_cloze_combi_res' . PHP_EOL
+                . 'WHERE question_fi = %s' . PHP_EOL
+                . 'AND best_solution=1' . PHP_EOL
+                . 'GROUP BY combination_id, points',
                 ['integer'],
                 [$question_id]
             );
-            if ($result->numRows() > 0) {
-                $points = 0;
-                while ($data = $ilDB->fetchAssoc($result)) {
-                    $points += $data['points'];
-                }
-                return $points;
-            }
-        } else {
-            $result = $ilDB->queryF(
-                'SELECT combination_id, points FROM qpl_a_cloze_combi_res WHERE question_fi = %s AND  combination_id = %s AND best_solution=1 GROUP BY combination_id, points',
-                ['integer', 'integer'],
-                [$question_id, $combination_id]
-            );
-            if ($result->numRows() > 0) {
-                $points = 0;
-                while ($data = $ilDB->fetchAssoc($result)) {
-                    $points += $data['points'];
-                }
-                return $points;
-            }
         }
-        return 0;
-    }
-
-    public function getBestSolutionCombination($question_id)
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
-
-        $result = $ilDB->queryF(
-            'SELECT * FROM qpl_a_cloze_combi_res WHERE question_fi = %s AND best_solution=1 ORDER BY gap_fi',
-            ['integer'],
-            [$question_id]
+        return $this->db->queryF(
+            'SELECT combination_id, points' . PHP_EOL
+            . 'FROM qpl_a_cloze_combi_res' . PHP_EOL
+            . 'WHERE question_fi = %s' . PHP_EOL
+            . 'AND combination_id = %s' . PHP_EOL
+            . 'AND best_solution=1' . PHP_EOL
+            . 'GROUP BY combination_id, points',
+            ['integer', 'integer'],
+            [$question_id, $combination_id]
         );
-        if ($result->numRows() > 0) {
-            $return_string = '<br>';
-            $combination_id = 0;
-            $points = 0;
-            while ($data = $ilDB->fetchAssoc($result)) {
-                if ($combination_id != $data['combination_id']) {
-                    $combination_id = $data['combination_id'];
-                    $return_string .= $points;
-                    $return_string .= '<br>';
-                    $return_string .= $data['answer'] . '|';
-                } else {
-                    $return_string .= $data['answer'] . '|';
-                }
-
-                $points = ' (' . $data['points'] . ' ' . $lng->txt('points') . ')';
-            }
-            return rtrim($return_string, '|') . $points;
-        } else {
-            return 0;
-        }
     }
 }

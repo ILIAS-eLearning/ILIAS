@@ -34,4 +34,34 @@ class SkillInternalManagerService
     {
         return new ContainerSkillDeletionManager();
     }
+
+    public function contProfileRetrieval(
+        \ILIAS\Skill\Service\SkillProfileService $profile_service,
+        \ilSkillManagementSettings $skmg_settings,
+        int $cont_member_role_id
+    ): ContProfileRetrieval {
+        return new ContProfileRetrieval(
+            $profile_service,
+            $skmg_settings,
+            $cont_member_role_id
+        );
+    }
+
+    public function contSkillRetrieval(
+        ContainerSkillManager $cont_skill_manager
+    ): ContSkillRetrieval {
+        return new ContSkillRetrieval(
+            $cont_skill_manager
+        );
+    }
+
+    public function contSkillMemberRetrieval(
+        ContainerSkillManager $cont_skill_manager,
+        \ilContainer $container
+    ): ContSkillMemberRetrieval {
+        return new ContSkillMemberRetrieval(
+            $cont_skill_manager,
+            $container
+        );
+    }
 }

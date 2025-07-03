@@ -69,7 +69,7 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
                 ) . '&cmd=force_login&lang=' . $current_language
             )
             ->withSymbol($login_glyph)
-            ->withPosition(2)
+            ->withPosition(3)
             ->withTitle($txt('log_in'))
             ->withAvailableCallable(function () {
                 return !$this->isUserLoggedIn();
@@ -128,7 +128,7 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
 
     private function isUserOnLoginPage(UriInterface $uri): bool
     {
-        return preg_match('%^.*/login.php$%', $uri->getPath()) === 1;
+        return preg_match('%^.*(?:/login\.php|/)$%', $uri->getPath()) === 1;
     }
 
     private function appendUrlParameterString(string $existing_url, string $addition): string

@@ -21,13 +21,14 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\MainSettings;
 
 use ILIAS\Test\Settings\TestSettingsGUI;
+use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
+use ILIAS\ILIASObject\Properties\Properties as ObjectProperties;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\Checkbox;
@@ -65,7 +66,7 @@ class SettingsMainGUI extends TestSettingsGUI
     private const ECS_FUNCTIONALITY_SETTINGS_LABEL = 'ecs_settings';
     private const ADDITIONAL_FUNCTIONALITY_SETTINGS_LABEL = 'additional_functionality_settings';
 
-    protected \ilObjectProperties $object_properties;
+    protected ObjectProperties $object_properties;
     protected MainSettings $main_settings;
     protected MainSettingsRepository $main_settings_repository;
 
@@ -604,13 +605,19 @@ class SettingsMainGUI extends TestSettingsGUI
 
     private function saveAvailabilitySettingsSection(array $section): void
     {
-        $timebased_availability = $section['timebased_availability'];
-        if ($this->test_object->participantDataExist()) {
-            $timebased_availability['is_activation_limited'] = $this->test_object->isActivationLimited();
-            $timebased_availability['activation_starting_time'] = $this->test_object->getActivationStartingTime();
-        }
+        $time_based_availability = $section['timebased_availability'];
 
-        $this->test_object->storeActivationSettings($timebased_availability);
+        $participant_data_exists = $this->test_object->participantDataExist();
+        $this->test_object->storeActivationSettings(
+            $participant_data_exists
+                ? $this->test_object->isActivationLimited()
+                : $time_based_availability['is_activation_limited'],
+            $participant_data_exists
+                ? $this->test_object->getActivationStartingTime()
+                : $time_based_availability['activation_starting_time'],
+            $time_based_availability['activation_ending_time'],
+            $time_based_availability['activation_visibility']
+        );
         $this->test_object->getObjectProperties()->storePropertyIsOnline($section['is_online']);
     }
 
@@ -701,7 +708,6 @@ class SettingsMainGUI extends TestSettingsGUI
         }
 
         return $question_behaviour_settings
-            ->withQuestionHintsEnabled($section['offer_hints'])
             ->withInstantFeedbackPointsEnabled($section['instant_feedback']['enabled_feedback_types']['instant_feedback_points'])
             ->withInstantFeedbackGenericEnabled($section['instant_feedback']['enabled_feedback_types']['instant_feedback_generic'])
             ->withInstantFeedbackSpecificEnabled($section['instant_feedback']['enabled_feedback_types']['instant_feedback_specific'])

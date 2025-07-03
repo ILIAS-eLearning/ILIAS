@@ -37,6 +37,7 @@ class ilTestExporter extends ilXmlExporter
     private readonly ExportImportFactory $export_factory;
     private readonly TestLogger $logger;
     private readonly ilTree $tree;
+    private readonly ilCtrl $ctrl;
     private readonly ilComponentRepository $component_repository;
     private readonly GeneralQuestionPropertiesRepository $questionrepository;
 
@@ -49,6 +50,7 @@ class ilTestExporter extends ilXmlExporter
         $this->logger = $local_dic['logging.logger'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->tree = $DIC['tree'];
+        $this->ctrl = $DIC['ilCtrl'];
         $this->component_repository = $DIC['component.repository'];
 
         parent::__construct();
@@ -63,13 +65,59 @@ class ilTestExporter extends ilXmlExporter
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $id): string
     {
+        $parameters = $this->ctrl->getParameterArrayByClass(ilTestExportGUI::class);
+        $export_type = ExportImportTypes::XML;
+        if (!empty($parameters['export_results'])) {
+            $export_type = ExportImportTypes::XML_WITH_RESULTS;
+            $this->ctrl->clearParameterByClass(ilTestExportGUI::class, 'export_results');
+        }
         $tst = new ilObjTest((int) $id, false);
         $tst->read();
-        $zip = $this->export_factory->getExporter($tst, ExportImportTypes::XML)
+        $zip = $this->export_factory->getExporter($tst, $export_type)
+            ->withExportDirInfo($this->getAbsoluteExportDirectory())
             ->write();
 
         $this->logger->info(__METHOD__ . ': Created zip file ' . $zip);
-        return ''; // Sagt mjansen
+        return '';
+    }
+
+    public function getXmlExportHeadDependencies(string $entity, string $target_release, array $ids): array
+    {
+        if ($entity === 'tst') {
+            $mobs = [];
+            $files = [];
+            foreach ($ids as $id) {
+                $tst = new ilObjTest((int) $id, false);
+                $tst->read();
+
+                $intro_page_id = $tst->getMainSettings()->getIntroductionSettings()->getIntroductionPageId();
+                if ($intro_page_id !== null) {
+                    $mobs = array_merge($mobs, ilObjMediaObject::_getMobsOfObject('tst:pg', $intro_page_id));
+                    $files = array_merge($files, ilObjFile::_getFilesOfObject('tst:pg', $intro_page_id));
+                }
+
+                $concluding_remarks_page_id = $tst->getMainSettings()->getFinishingSettings()->getConcludingRemarksPageId();
+                if ($concluding_remarks_page_id !== null) {
+                    $mobs = array_merge($mobs, ilObjMediaObject::_getMobsOfObject('tst:pg', $concluding_remarks_page_id));
+                    $files = array_merge($files, ilObjFile::_getFilesOfObject('tst:pg', $concluding_remarks_page_id));
+                }
+            }
+
+            return [
+                [
+                    'component' => 'components/ILIAS/MediaObjects',
+                    'entity' => 'mob',
+                    'ids' => $mobs
+                ],
+                [
+                    'component' => 'components/ILIAS/File',
+                    'entity' => 'file',
+                    'ids' => $files
+                ]
+            ];
+        }
+
+        return parent::getXmlExportTailDependencies($entity, $target_release, $ids);
     }
 
     /**
@@ -92,7 +140,7 @@ class ilTestExporter extends ilXmlExporter
             }
 
             $deps[] = [
-                'component' => 'components/ILIAS/Object',
+                'component' => 'components/ILIAS/ILIASObject',
                 'entity' => 'common',
                 'ids' => $a_ids
             ];

@@ -45,7 +45,6 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         \ILIAS\Container\Content\ItemPresentationManager $item_presentation
     ) {
         global $DIC;
-
         $this->tabs = $DIC->tabs();
         $this->toolbar = $DIC->toolbar();
         $this->logger = $DIC->logger()->crs();
@@ -159,6 +158,16 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $tpl->setVariable('CONTAINER_PAGE_CONTENT', $this->output_html);
 
         return $tpl->get();
+    }
+
+    public function initRenderer(): void
+    {
+        parent::initRenderer();
+        $this->loc_settings = ilLOSettings::getInstanceByObjId($this->getContainerObject()->getId());
+        $this->objective_map = $this->buildObjectiveMap();
+        $this->renderer->setItemModifierClosure(function (ilObjectListGUI $a_item_list_gui, array $a_item) {
+            $this->addItemDetails($a_item_list_gui, $a_item);
+        });
     }
 
     public function renderItemList(): string
@@ -468,9 +477,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-
         $item_ref_id = $a_item["ref_id"];
-
         if (is_array($this->objective_map)) {
             $details = [];
             if (isset($this->objective_map["material"][$item_ref_id])) {

@@ -22,9 +22,7 @@ use ILIAS\Test\Settings\MainSettings\SettingsAccess;
 
 class SettingsAccessTest extends ilTestBaseTestCase
 {
-    /**
-     * @dataProvider getAndWithStartTimeEnabledDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithStartTimeEnabledDataProvider')]
     public function testGetAndWithStartTimeEnabled(bool $io): void
     {
         $settings_access = (new SettingsAccess(0))->withStartTimeEnabled($io);
@@ -41,9 +39,7 @@ class SettingsAccessTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithStartTimeDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithStartTimeDataProvider')]
     public function testGetAndWithStartTime(?DateTimeImmutable $io): void
     {
         $settings_access = (new SettingsAccess(0))->withStartTime($io);
@@ -60,9 +56,7 @@ class SettingsAccessTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithEndTimeEnabledDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithEndTimeEnabledDataProvider')]
     public function testGetAndWithEndTimeEnabled(bool $io): void
     {
         $settings_access = (new SettingsAccess(0))->withEndTimeEnabled($io);
@@ -79,9 +73,7 @@ class SettingsAccessTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithEndTimeDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithEndTimeDataProvider')]
     public function testGetAndWithEndTime(?DateTimeImmutable $io): void
     {
         $settings_access = (new SettingsAccess(0))->withEndTime($io);
@@ -98,9 +90,7 @@ class SettingsAccessTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithPasswordEnabledDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithPasswordEnabledDataProvider')]
     public function testGetAndWithPasswordEnabled(bool $io): void
     {
         $settings_access = (new SettingsAccess(0))->withPasswordEnabled($io);
@@ -117,9 +107,7 @@ class SettingsAccessTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithPasswordDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithPasswordDataProvider')]
     public function testGetAndWithPassword(?string $io): void
     {
         $settings_access = (new SettingsAccess(0))->withPassword($io);
@@ -137,9 +125,7 @@ class SettingsAccessTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithFixedParticipantsDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithFixedParticipantsDataProvider')]
     public function testGetAndWithFixedParticipants(bool $io): void
     {
         $settings_access = (new SettingsAccess(0))->withFixedParticipants($io);

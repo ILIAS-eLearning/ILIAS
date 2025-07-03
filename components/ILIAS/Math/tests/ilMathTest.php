@@ -33,9 +33,7 @@ class ilMathTest extends TestCase
         $this->eval_math = new EvalMath();
     }
 
-    /**
-     * @dataProvider gcdData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('gcdData')]
     public function testGcd(string $a, string $b, string $result): void
     {
         $this->assertEquals($result, ilMath::getGreatestCommonDivisor($a, $b));

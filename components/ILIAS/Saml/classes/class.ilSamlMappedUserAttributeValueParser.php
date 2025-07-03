@@ -18,20 +18,16 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilSamlMappedUserAttributeValueParser
- * @author Michael Jansen <mjansen@databay.de>
- */
-final class ilSamlMappedUserAttributeValueParser
+final readonly class ilSamlMappedUserAttributeValueParser
 {
-    private const ATTR_REGEX = '/^(.*?)(\|(\d+))?$/';
+    private const string ATTR_REGEX = '/^(.*?)(\|(\d+))?$/';
 
     /**
      * @param array<string, mixed> $userData
      */
     public function __construct(
-        private readonly ilExternalAuthUserAttributeMappingRule $rule,
-        private readonly array $userData
+        private ilExternalAuthUserAttributeMappingRule $rule,
+        private array $userData
     ) {
     }
 

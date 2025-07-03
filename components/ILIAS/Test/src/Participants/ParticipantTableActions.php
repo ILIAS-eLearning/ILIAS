@@ -25,7 +25,7 @@ use ILIAS\Test\ResponseHandler;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Table\DataRow;
-use ILIAS\UI\Component\Table\Action\Standard as StandardAction;
+use ILIAS\UI\Component\Table\Action\Action;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -70,7 +70,7 @@ class ParticipantTableActions
                     $row_id_token,
                     $action_token,
                     $action_type_token
-                ): ?StandardAction {
+                ): ?Action {
                     if (!$action->isAvailable()) {
                         return null;
                     }

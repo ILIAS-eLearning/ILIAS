@@ -59,15 +59,16 @@ class Util
     /**
      * Export system style
      */
-    public function exportSystemStyle(): void
-    {
+    public function exportSystemStyle(
+        array $standard_icons = []
+    ): void {
         // legacy export
         if (is_null($this->export_collector)) {
             $sys_style_html_export = new \ilSystemStyleHTMLExport($this->target_dir);
             $sys_style_html_export->export();
         } else {
 
-            $asset_dirs = ["css", "fonts", "images/logo"];
+            $asset_dirs = ["css", "fonts", "images/logo", "images/standard"];
             foreach ($asset_dirs as $asset_dir) {
 
                 $asset_dir = "./assets/" . $asset_dir;
@@ -79,6 +80,10 @@ class Util
                 );
                 foreach ($iterator as $item) {
                     if (!$item->isDir()) {
+                        if ($asset_dir === "./assets/images/standard" &&
+                            !in_array($iterator->getSubPathname(), $standard_icons)) {
+                            continue;
+                        }
                         $this->export_collector->addFile(
                             $item->getPathname(),
                             $asset_dir . DIRECTORY_SEPARATOR . $iterator->getSubPathname()

@@ -31,7 +31,7 @@ class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
         ilWebDAVMountInstructionsRepository $a_repo,
         ilWebDAVUriBuilder $a_uri_builder,
         ilSetting $a_settings,
-        String $language,
+        string $language,
         protected int $ref_id
     ) {
         parent::__construct($a_repo, $a_uri_builder, $a_settings, $language);
@@ -46,9 +46,21 @@ class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
         foreach ($mount_instructions as $title => $mount_instruction) {
             $mount_instruction = str_replace("[WEBFOLDER_ID]", (string) $this->ref_id, $mount_instruction);
             $mount_instruction = str_replace("[WEBFOLDER_TITLE]", $this->obj_title, $mount_instruction);
-            $mount_instruction = str_replace("[WEBFOLDER_URI]", $this->uri_builder->getWebDavDefaultUri($this->ref_id), $mount_instruction);
-            $mount_instruction = str_replace("[WEBFOLDER_URI_KONQUEROR]", $this->uri_builder->getWebDavKonquerorUri($this->ref_id), $mount_instruction);
-            $mount_instruction = str_replace("[WEBFOLDER_URI_NAUTILUS]", $this->uri_builder->getWebDavNautilusUri($this->ref_id), $mount_instruction);
+            $mount_instruction = str_replace(
+                "[WEBFOLDER_URI]",
+                $this->uri_builder->getWebDavDefaultUri($this->ref_id),
+                $mount_instruction
+            );
+            $mount_instruction = str_replace(
+                "[WEBFOLDER_URI_KONQUEROR]",
+                $this->uri_builder->getWebDavKonquerorUri($this->ref_id),
+                $mount_instruction
+            );
+            $mount_instruction = str_replace(
+                "[WEBFOLDER_URI_NAUTILUS]",
+                $this->uri_builder->getWebDavNautilusUri($this->ref_id),
+                $mount_instruction
+            );
             $mount_instruction = str_replace("[ADMIN_MAIL]", $this->settings->get("admin_email"), $mount_instruction);
 
             $mount_instructions[$title] = $mount_instruction;

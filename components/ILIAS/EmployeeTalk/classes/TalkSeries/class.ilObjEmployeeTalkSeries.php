@@ -23,32 +23,17 @@ use ILIAS\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRepository
 
 final class ilObjEmployeeTalkSeries extends ilContainer
 {
-    public const TYPE = 'tals';
+    public const string TYPE = 'tals';
 
     private IliasDBEmployeeTalkSeriesRepository $repository;
 
-    /**
-     * @var bool $locked_editing
-     */
-    private bool $locked_editing = false;
-
-    /**
-     * @param int  $a_id
-     * @param bool $a_call_by_reference
-     */
-    public function __construct(int $a_id = 0, bool $a_call_by_reference = true, bool $locked_editing = false)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->setType(self::TYPE);
-        $this->locked_editing = $locked_editing;
 
         parent::__construct($a_id, $a_call_by_reference);
 
         $this->repository = new IliasDBEmployeeTalkSeriesRepository($this->user, $this->db);
-    }
-
-    public function read(): void
-    {
-        parent::read();
     }
 
     public function create(): int
@@ -97,20 +82,14 @@ final class ilObjEmployeeTalkSeries extends ilContainer
         return $ret;
     }
 
-    /**
-     * @param int         $a_id
-     * @param bool        $a_reference
-     * @param string|null $type
-     * @return bool
-     */
-    public static function _exists(int $a_id, bool $a_reference = false, ?string $type = null): bool
+    public static function _exists(int $id, bool $reference = false, ?string $type = null): bool
     {
-        return parent::_exists($a_id, $a_reference, self::TYPE);
+        return parent::_exists($id, $reference, self::TYPE);
     }
 
     /**
      * delete orgunit, childs and all related data
-     * @return    boolean    true if all object data were removed; false if only a references were
+     * @return    bool    true if all object data were removed; false if only a references were
      *                       removed
      */
     public function delete(): bool

@@ -136,11 +136,21 @@ class ObjectsManager
         );
     }
 
+    public function hasObjectInfo(int $booking_obj_id): bool
+    {
+        return $this->object_repo->hasObjectInfo($booking_obj_id);
+    }
+
     public function deliverObjectInfo(int $booking_obj_id): void
     {
         if ($this->object_repo->hasObjectInfo($booking_obj_id)) {
             $this->object_repo->deliverObjectInfo($booking_obj_id);
         }
+    }
+
+    public function hasBookingInfo(int $booking_obj_id): bool
+    {
+        return $this->object_repo->hasBookingInfo($booking_obj_id);
     }
 
     public function deliverBookingInfo(int $booking_obj_id): void
@@ -167,7 +177,7 @@ class ObjectsManager
         }
     }
 
-    public function deleteBookingInfo(int $booking_obj_id): string
+    public function deleteBookingInfo(int $booking_obj_id): void
     {
         if ($this->object_repo->hasBookingInfo($booking_obj_id)) {
             $this->object_repo->deleteBookingInfo($booking_obj_id);
@@ -184,12 +194,12 @@ class ObjectsManager
         }
     }
 
-    public function getObjectInfoPath(int $booking_object_id): int
+    public function getObjectInfoPath(int $booking_object_id): string
     {
         return $this->object_repo->getObjectInfoPath($booking_object_id);
     }
 
-    public function getBookingInfoPath(int $booking_object_id): int
+    public function getBookingInfoPath(int $booking_object_id): string
     {
         return $this->object_repo->getBookingInfoPath($booking_object_id);
     }

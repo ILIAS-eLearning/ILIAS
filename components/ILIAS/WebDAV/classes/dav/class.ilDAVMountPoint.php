@@ -34,6 +34,7 @@ use Sabre\DAV\ICollection;
 class ilDAVMountPoint implements ICollection
 {
     use ilWebDAVReadOnlyNodeWriteFunctionsTrait;
+
     protected int $user_id;
 
     public function __construct(

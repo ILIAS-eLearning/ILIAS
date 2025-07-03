@@ -28,8 +28,6 @@ class ilCOPageHTMLExport
     protected \ILIAS\MediaObjects\MediaObjectManager $media_manager;
     protected \ILIAS\Style\Content\InternalDomainService $content_style;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
-    protected string $mp3_dir = "";
-    protected string $flv_dir = "";
     protected string $css_dir = "";
     protected string $js_yahoo_dir = "";
     protected string $js_dir = "";
@@ -82,8 +80,6 @@ class ilCOPageHTMLExport
 
         $this->services_dir = $a_exp_dir . "/components/ILIAS";
         $this->media_service_dir = $this->services_dir . "/MediaObjects";
-        $this->flv_dir = $a_exp_dir . "/" . ilPlayerUtil::getMediaPlayerDirectory();
-        $this->mp3_dir = $this->media_service_dir . "/flash_mp3_player";
 
         $this->js_dir = $a_exp_dir . '/js';
         $this->js_yahoo_dir = $a_exp_dir . '/js/yahoo';
@@ -112,8 +108,6 @@ class ilCOPageHTMLExport
         ilFileUtils::makeDir($this->content_style_img_dir);
         ilFileUtils::makeDir($this->services_dir);
         ilFileUtils::makeDir($this->media_service_dir);
-        ilFileUtils::makeDirParents($this->flv_dir);
-        ilFileUtils::makeDirParents($this->mp3_dir);
 
         ilFileUtils::makeDirParents($this->js_dir);
         ilFileUtils::makeDirParents($this->js_yahoo_dir);
@@ -200,8 +194,6 @@ class ilCOPageHTMLExport
         foreach ($collector->getCssFiles() as $css) {
             $this->exportResourceFile($this->exp_dir, $css);
         }
-        // mediaelement.js
-        //      ilPlayerUtil::copyPlayerFilesToTargetDirectory($this->flv_dir);
     }
 
     protected function exportResourceFile(

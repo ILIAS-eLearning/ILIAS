@@ -43,8 +43,8 @@ class ilWebDAVLocksRepository
     public function getLockObjectWithTokenFromDB(string $token): ?ilWebDAVLockObject
     {
         $query = "SELECT obj_id, ilias_owner, dav_owner, expires, depth, type, scope FROM $this->lock_table"
-                        . " WHERE token = " . $this->db->quote($token, 'text')
-                        . " AND expires > " . $this->db->quote(time(), 'integer');
+            . " WHERE token = " . $this->db->quote($token, 'text')
+            . " AND expires > " . $this->db->quote(time(), 'integer');
 
         $select_result = $this->db->query($query);
         $row = $this->db->fetchAssoc($select_result);
@@ -68,8 +68,8 @@ class ilWebDAVLocksRepository
     public function getLockObjectWithObjIdFromDB(int $obj_id): ?ilWebDAVLockObject
     {
         $query = "SELECT token, ilias_owner, dav_owner, expires, depth, type, scope FROM $this->lock_table WHERE obj_id = "
-                    . $this->db->quote($obj_id, 'integer')
-                    . " AND expires > " . $this->db->quote(time(), 'integer');
+            . $this->db->quote($obj_id, 'integer')
+            . " AND expires > " . $this->db->quote(time(), 'integer');
         $select_result = $this->db->query($query);
         $row = $this->db->fetchAssoc($select_result);
 
@@ -105,12 +105,16 @@ class ilWebDAVLocksRepository
 
     public function removeLockWithTokenFromDB(string $token): int
     {
-        return $this->db->manipulate("DELETE FROM $this->lock_table WHERE token = " . $this->db->quote($token, "integer"));
+        return $this->db->manipulate(
+            "DELETE FROM $this->lock_table WHERE token = " . $this->db->quote($token, "integer")
+        );
     }
 
     public function purgeExpiredLocksFromDB(): int
     {
-        return $this->db->manipulate("DELETE FROM $this->lock_table WHERE expires < " . $this->db->quote(time(), 'integer'));
+        return $this->db->manipulate(
+            "DELETE FROM $this->lock_table WHERE expires < " . $this->db->quote(time(), 'integer')
+        );
     }
 
     public function updateLocks(int $old_obj_id, int $new_obj_id): int

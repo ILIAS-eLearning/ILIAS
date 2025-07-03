@@ -610,17 +610,9 @@ abstract class assQuestionGUI
 
     public function getQuestionTemplate(): void
     {
-        // @todo Björn: Maybe this has to be changed for PHP 7/ILIAS 5.2.x (ilObjTestGUI::executeCommand, switch -> default case -> $this->prepareOutput(); already added a template to the CONTENT variable wrapped in a block named content)
-        if (!$this->tpl->blockExists('content')) {
-            $this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", "components/ILIAS/TestQuestionPool");
-        }
-        // @todo Björn: Maybe this has to be changed for PHP 7/ILIAS 5.2.x (ilObjTestGUI::executeCommand, switch -> default case -> $this->prepareOutput(); already added a template to the STATUSLINE variable wrapped in a block named statusline)
-        if (!$this->tpl->blockExists('statusline')) {
-            $this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-        }
         // @todo Björn: Maybe this has to be changed for PHP 7/ILIAS 5.2.x because ass[XYZ]QuestionGUI::editQuestion is called multiple times
         if (!$this->tpl->blockExists('adm_content')) {
-            $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", "components/ILIAS/TestQuestionPool");
+            $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.il_as_question.html', 'components/ILIAS/TestQuestionPool');
         }
     }
 
@@ -709,22 +701,18 @@ abstract class assQuestionGUI
         $old_id = $this->request_data_collector->getQuestionId();
         $this->setAdditionalContentEditingModeFromPost();
         $result = $this->writePostData();
-        if ($result == 0) {
-            $this->object->getCurrentUser()->setPref("tst_lastquestiontype", $this->object->getQuestionType());
-            $this->object->getCurrentUser()->writePref("tst_lastquestiontype", $this->object->getQuestionType());
-            $this->object->saveToDb($old_id);
-
-            $this->questionrepository->questionExistsInPool($this->object->getOriginalId());
-
-            if (ilSession::get("info") != null) {
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-            } else {
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-            }
-            $this->ctrl->redirectByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW);
+        if ($result !== 0) {
+            $this->tabs_gui->setTabActive('edit_question');
+            return;
         }
-        $tabs = $this->tabs_gui;
-        $tabs->setTabActive('edit_question');
+
+        $this->object->getCurrentUser()->setPref('tst_lastquestiontype', $this->object->getQuestionType());
+        $this->object->getCurrentUser()->writePref('tst_lastquestiontype', $this->object->getQuestionType());
+        $this->object->saveToDb($old_id);
+
+        $this->questionrepository->questionExistsInPool($this->object->getOriginalId());
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+        $this->ctrl->redirectByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW);
     }
 
     public function saveQuestion(): bool
@@ -1074,7 +1062,7 @@ abstract class assQuestionGUI
             }
         }
 
-        return $this->questionrepository->getForQuestionId($this->object->getId())->getTypeName($this->lng);
+        return $this->lng->txt($this->object->getQuestionType());
     }
 
     protected function getTypeOptions(): array
@@ -1566,7 +1554,6 @@ abstract class assQuestionGUI
 
         $this->addTab_Question($tabs_gui);
         $this->addTab_QuestionFeedback($tabs_gui);
-        $this->addTab_QuestionHints($tabs_gui);
         $this->addTab_SuggestedSolution($tabs_gui, static::class);
     }
 
@@ -1616,31 +1603,6 @@ abstract class assQuestionGUI
         $tabLink = $this->ctrl->getLinkTargetByClass(ilAssQuestionFeedbackEditingGUI::class, ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
 
         $tabs->addTarget('feedback', $tabLink, $tabCommands, $this->ctrl->getCmdClass(), '');
-    }
-
-    protected function addTab_QuestionHints(ilTabsGUI $tabs): void
-    {
-        switch (strtolower($this->ctrl->getCmdClass())) {
-            case 'ilassquestionhintsgui':
-                $tab_commands = self::getCommandsFromClassConstants(ilAssQuestionHintsGUI::class);
-                break;
-
-            case 'ilassquestionhintgui':
-                $tab_commands = self::getCommandsFromClassConstants(ilAssQuestionHintGUI::class);
-                break;
-
-            default:
-                $tab_commands = [];
-        }
-
-        $this->ctrl->setParameterByClass(ilAssQuestionHintsGUI::class, 'q_id', $this->object->getId());
-        $tabs->addTarget(
-            'tst_question_hints_tab',
-            $this->ctrl->getLinkTargetByClass(ilAssQuestionHintsGUI::class, ilAssQuestionHintsGUI::CMD_SHOW_LIST),
-            $tab_commands,
-            $this->ctrl->getCmdClass(),
-            ''
-        );
     }
 
     protected function addTab_Question(ilTabsGUI $tabs_gui): void
@@ -1796,11 +1758,6 @@ abstract class assQuestionGUI
         return $form;
     }
 
-    public function showHints(): void
-    {
-        $this->ctrl->redirectByClass(ilAssQuestionHintsGUI::class, ilAssQuestionHintsGUI::CMD_SHOW_LIST);
-    }
-
     protected function escapeTemplatePlaceholders(string $text): string
     {
         return str_replace(['{','}'], ['&#123;','&#125;'], $text);
@@ -1862,7 +1819,7 @@ abstract class assQuestionGUI
                 $label = $this->lng->txt("answer_is_wrong");
                 break;
             case self::CORRECTNESS_MOSTLY_OK:
-                $icon_name = 'standard/icon_ok.svg';
+                $icon_name = 'standard/icon_mostly_ok.svg';
                 $label = $this->lng->txt("answer_is_not_correct_but_positive");
                 break;
             case self::CORRECTNESS_OK:
@@ -2034,7 +1991,7 @@ abstract class assQuestionGUI
         )->withAffectedItems([
             $this->ui->factory()->modal()->interruptiveItem()->standard(
                 (string) $this->object->getOriginalId(),
-                $this->object->getTitle()
+                $this->object->getTitleForHTMLOutput()
             )
         ])->withActionButtonLabel($this->lng->txt('sync_question_to_pool'));
         return $this->ui->renderer()->render(

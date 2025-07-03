@@ -18,13 +18,12 @@
 
 declare(strict_types=1);
 
-
 class ilWebDAVMountInstructionsDocumentPurifier extends ilHtmlPurifierAbstractLibWrapper
 {
     private array $allowedTags;
     protected string $cacheDirectory;
 
-    public function __construct(?array $allowedTags = null, ?string $cacheDirectory = null)
+    public function __construct(array $allowedTags = null, string $cacheDirectory = null)
     {
         $this->cacheDirectory = $cacheDirectory ?? ilHtmlPurifierAbstractLibWrapper::_getCacheDirectory();
         $this->allowedTags = $allowedTags ?? ilObjAdvancedEditing::_getUsedHTMLTags('textarea');

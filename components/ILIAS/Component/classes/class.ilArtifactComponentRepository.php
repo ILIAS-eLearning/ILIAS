@@ -25,7 +25,6 @@ use ILIAS\Data;
  */
 class ilArtifactComponentRepository implements ilComponentRepositoryWrite
 {
-
     protected Data\Factory $data_factory;
     protected ilPluginStateDB $plugin_state_db;
     protected Data\Version $ilias_version;
@@ -93,12 +92,14 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
                 $supports_export,
                 $supports_cli_setup
             ] = $data;
-            if (!$this->hasComponent($type, $comp_name)) {
+
+            if (!$this->hasComponent('components/ILIAS', $comp_name)) {
                 throw new \InvalidArgumentException(
                     "Can't find component $type/$comp_name for plugin $plugin_name"
                 );
             }
-            $component = $this->getComponentByTypeAndName($type, $comp_name);
+
+            $component = $this->getComponentByTypeAndName('components/ILIAS', $comp_name);
             if (!$component->hasPluginSlotName($slot_name)) {
                 throw new \InvalidArgumentException(
                     "Can't find slot $type/$comp_name/$slot_name for plugin $plugin_name"
@@ -110,6 +111,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
                 $slot,
                 $plugin_id,
                 $plugin_name,
+                $type,
                 $this->plugin_state_db->isPluginActivated($plugin_id),
                 $this->plugin_state_db->getCurrentPluginVersion($plugin_id),
                 $this->plugin_state_db->getCurrentPluginDBVersion($plugin_id),
@@ -141,12 +143,14 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
      */
     public function hasComponent(string $type, string $name): bool
     {
-        if (!in_array($type, ilComponentInfo::TYPES)) {
+        $types = ilComponentInfo::TYPES;
+        $types[] = ilComponentInfo::TYPE_MODULES;
+        $types[] = ilComponentInfo::TYPE_SERVICES;
+        if (!in_array($type, $types)) {
             throw new \InvalidArgumentException(
                 "Unknown component type $type."
             );
         }
-
         return isset($this->component_id_by_type_and_name[$type][$name]);
     }
 

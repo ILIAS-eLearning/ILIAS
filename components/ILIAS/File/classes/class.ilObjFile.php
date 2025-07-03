@@ -23,6 +23,7 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Policy\FileNamePolicyException;
+use ILIAS\ILIASObject\Properties\CoreProperties\Online;
 
 /**
  * Class ilObjFile
@@ -147,7 +148,12 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      */
     public function appendStream(FileStream $stream, string $title): int
     {
-        $title = $this->ensureSuffix($title, pathinfo($stream->getMetadata('uri'))['extension'] ?? null);
+        $title = $this->ensureSuffix(
+            $title,
+            $this->extractSuffixFromFilename($title)
+            ?? pathinfo($stream->getMetadata('uri'))['extension']
+            ?? null
+        );
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
             $revision = $this->manager->appendNewRevisionFromStream($i, $stream, $this->stakeholder, $title);
         } else {
@@ -431,7 +437,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     {
         $this->createProperties(true);
         $this->updateCopyright();
-        $this->getObjectProperties()->storePropertyIsOnline(new ilObjectPropertyIsOnline(true));
+        $this->getObjectProperties()->storePropertyIsOnline(new Online(true));
         $this->notifyCreation($this->getId(), $this->getDescription());
     }
 
@@ -480,7 +486,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $new_obj->setPageCount($this->getPageCount());
         $new_obj->update();
 
-        $new_obj->getObjectProperties()->storePropertyIsOnline(new ilObjectPropertyIsOnline(true));
+        $new_obj->getObjectProperties()->storePropertyIsOnline(new Online(true));
 
         // Copy learning progress settings
         $obj_settings = new ilLPObjSettings($this->getId());
@@ -505,7 +511,11 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     #[\Override]
     protected function beforeUpdate(): bool
     {
-        $this->setTitle($this->ensureSuffix($this->getTitle(), $this->file_info->getSuffix()));
+        $suffix = $this->file_info->getSuffix();
+        if (empty($suffix)) {
+            $suffix = $this->extractSuffixFromFilename($this->getTitle());
+        }
+        $this->setTitle($this->ensureSuffix($this->getTitle(), $suffix));
 
         // no meta data handling for file list files
         if ($this->getMode() !== self::MODE_FILELIST) {

@@ -120,6 +120,9 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
     protected function showPossibleSubObjects(): void
     {
         $subtypes = $this->getCreatableObjectTypes();
+        if (empty($subtypes)) {
+            return;
+        }
         $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
             [$this->buildGroup(
                 self::class,

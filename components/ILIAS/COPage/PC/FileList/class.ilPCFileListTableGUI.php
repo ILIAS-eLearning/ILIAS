@@ -94,6 +94,7 @@ class ilPCFileListTableGUI extends ilTable2GUI
         $this->pos += 10;
         $this->tpl->setVariable("POS", $this->pos);
         $this->tpl->setVariable("FID", $a_set["hier_id"] . ":" . $a_set["pc_id"]);
-        $this->tpl->setVariable("TXT_FILE", ilObject::_lookupTitle($a_set["id"]));
+        $file = new ilObjFile((int) $a_set["id"], false);
+        $this->tpl->setVariable("TXT_FILE", $file->getFileName());
     }
 }

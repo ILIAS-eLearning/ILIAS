@@ -28,7 +28,7 @@ use ILIAS\UI\Component\Chart\Bar\YAxis;
  * ---
  * expected output: >
  *   ILIAS shows a base column-chart but customized. The left is labeled with three coloured rectanlges and captions.
- *   The y-bar is sectioned in three parts, each part consisting of three columns,
+ *   The x-axis is sectioned in three parts, each part consisting of three columns,
  *   one for each dataset (set 2 of Item 2 has a value of 0, thus not showing a bar).
  * ---
  */

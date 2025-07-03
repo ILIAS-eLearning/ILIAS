@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 final class ilObjTalkTemplateAdministration extends ilContainer
 {
-    public const TABLE_NAME = 'etal_data';
+    public const string TABLE_NAME = 'etal_data';
 
     private static int $root_ref_id = -1;
     protected static int $root_id = -1;
@@ -35,25 +35,6 @@ final class ilObjTalkTemplateAdministration extends ilContainer
         $this->type = "tala";
         parent::__construct($a_id, $a_call_by_reference);
     }
-
-
-    public function read(): void
-    {
-        parent::read();
-    }
-
-
-    public function create(): int
-    {
-        return parent::create();
-    }
-
-
-    public function update(): bool
-    {
-        return parent::update();
-    }
-
 
     /**
      * @return int
@@ -102,21 +83,15 @@ final class ilObjTalkTemplateAdministration extends ilContainer
         }
     }
 
-    /**
-     * @param int         $a_id
-     * @param bool        $a_reference
-     * @param string|null $type
-     * @return bool
-     */
-    public static function _exists(int $a_id, bool $a_reference = false, ?string $type = null): bool
+    public static function _exists(int $id, bool $reference = false, ?string $type = null): bool
     {
-        return parent::_exists($a_id, $a_reference, "tala");
+        return parent::_exists($id, $reference, "tala");
     }
 
     /**
      * delete orgunit, childs and all related data
      *
-     * @return    boolean    true if all object data were removed; false if only a references were
+     * @return    bool    true if all object data were removed; false if only a references were
      *                       removed
      */
     public function delete(): bool

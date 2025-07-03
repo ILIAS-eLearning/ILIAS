@@ -47,19 +47,19 @@ use DateTimeZone;
 class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
 {
     // table actions
-    public const ACTION_SHOW = 'show';
-    public const ACTION_EDIT = 'edit';
-    public const ACTION_REPLY = 'reply';
-    public const ACTION_FORWARD = 'forward';
-    public const ACTION_DOWNLOAD_ATTACHMENT = 'download';
-    public const ACTION_PRINT = 'print';
-    public const ACTION_PROFILE = 'profile';
-    public const ACTION_MOVE_TO = 'moveTo';
-    public const ACTION_DELETE = 'delete';
-    public const ACTION_MARK_READ = 'markRead';
-    public const ACTION_MARK_UNREAD = 'marUnread';
+    public const string ACTION_SHOW = 'show';
+    public const string ACTION_EDIT = 'edit';
+    public const string ACTION_REPLY = 'reply';
+    public const string ACTION_FORWARD = 'forward';
+    public const string ACTION_DOWNLOAD_ATTACHMENT = 'download';
+    public const string ACTION_PRINT = 'print';
+    public const string ACTION_PROFILE = 'profile';
+    public const string ACTION_MOVE_TO = 'moveTo';
+    public const string ACTION_DELETE = 'delete';
+    public const string ACTION_MARK_READ = 'markRead';
+    public const string ACTION_MARK_UNREAD = 'marUnread';
 
-    /** @var string[] */
+    /** @var array<int, string> */
     private array $avatars = [];
 
     /**
@@ -91,9 +91,9 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
         return $this->ui_factory
             ->table()
             ->data(
+                $this,
                 $this->getTableTitle(),
                 $this->getColumnDefinition(),
-                $this
             )
             ->withId(self::class)
             ->withOrder(new Order('date', Order::DESC))
@@ -146,7 +146,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
             'attachments' => $this->ui_factory
                 ->table()
                 ->column()
-                ->status($this->ui_renderer->render($this->ui_factory->symbol()->glyph()->attachment()))
+                ->status($this->lng->txt('attachments'))
                 ->withIsSortable(true),
 
             'date' => $this->ui_factory
@@ -358,7 +358,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
         if (!\array_key_exists($record->getSenderId(), $this->avatars)) {
             if ($record->getSenderId() === ANONYMOUS_USER_ID) {
                 $avatar = $this->ui_factory->symbol()->avatar()->picture(
-                    \ilUtil::getImagePath('logo/HeaderIconAvatar.svg'),
+                    \ilUtil::getImagePath('logo/ilias_logo_centered.png'),
                     $this->getSender($record)
                 );
             } else {

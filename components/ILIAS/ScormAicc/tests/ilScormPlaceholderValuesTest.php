@@ -71,11 +71,19 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
         $objectMock->method('getId')
             ->willReturn(500);
 
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
+        $user_object = $this->getMockBuilder(ilObjUser::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
+            ->getMock();
         $objectHelper->method('getInstanceByObjId')
-            ->willReturn($objectMock);
+            ->willReturnMap(
+                [
+                    [200, $objectMock],
+                    [10, $user_object]
+                ]
+            );
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();

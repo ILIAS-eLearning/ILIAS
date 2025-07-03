@@ -83,19 +83,6 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
         $props = parent::getProperties();
 
-        // check activation
-        if (
-            !ilObjCourseAccess::_isActivated($this->obj_id) &&
-            !ilObject::lookupOfflineStatus($this->obj_id)
-        ) {
-            $showRegistrationInfo = false;
-            $props[] = array(
-                "alert" => true,
-                "property" => $this->lng->txt("status"),
-                "value" => $this->lng->txt("offline")
-            );
-        }
-
         // blocked
         $members = ilCourseParticipant::_getInstanceByObjId($this->obj_id, $this->user->getId());
         if ($members->isBlocked() && $members->isAssigned()) {

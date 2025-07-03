@@ -164,7 +164,6 @@ class Manipulator implements ManipulatorInterface
                         $root
                     );
                 }
-                continue;
             }
         }
 
@@ -244,7 +243,6 @@ class Manipulator implements ManipulatorInterface
                         $root
                     );
                 }
-                continue;
             }
         }
 

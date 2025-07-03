@@ -43,6 +43,7 @@ class ilWebDAVSabreBrowserPlugin extends Plugin
     #[\Override]
     public function generateDirectoryIndex($path)
     {
+        //        return parent::generateDirectoryIndex($path);
         $this->ctrl->redirectToURL($this->mount_instruction_path);
         return '';
     }

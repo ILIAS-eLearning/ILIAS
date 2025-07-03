@@ -1,0 +1,865 @@
+/* Copyright (c) 1998-2024 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/**
+* ILIAS language file (All entries)
+*
+* @module			language file custom english
+* @modulegroup		language
+* @author			CaT
+* @version			$Id: ilias_en.cate.lang.local
+*/
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+//  NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
+acc#:#acc_form_document_content_changed#:#The contents of the uploaded file was purified by cate. Please check the result and upload a new file, if necessary.
+adm#:#adm_support_contacts_info#:#Please enter the login names of the people who can be contacted with questions and technical problems here, separated by commas. They can be contacted by e-mail via the "Contact technical support" link in the cate footer. If the "Who is online?" display is active, these people will also be displayed there as technical support.
+administration#:#adm_extending_ilias#:#Extending cate
+administration#:#adm_rep_tree_limit_grp_crs#:#Show limited context tree in training events and groups.
+administration#:#adm_rep_tree_limit_grp_crs_info#:#The Tree View shows all objects only within training events and groups. Outside training events and groups, only container objects are presented.
+administration#:#adm_rep_tree_only_cntr_info#:#Only categories, training events and groups are listed.
+administration#:#apache_auth_domains_description#:#Enter one domain per line to allow redirection to this target.<br/>If cate is reachable by more than one domain please enter all target you want to allow.<br />Example: example.com allows the redirection to http://example.com and http://www.example.com and all pages located there.
+administration#:#course_export#:#Visible in Training Events
+administration#:#language_former_file_description#:#To compare your local changes with the changes of the last update, please copy the language file of the previously installed cate version to the path mentioned above. Before the next update you can do this with the option 'Backup the standard language file' on the maintenance tab.
+administration#:#language_save_dist_failed#:#The backup of the standard cate language file could not be written.
+administration#:#language_save_dist_info#:#Create a backup of the standard cate language file in the cate data directory. This helps after an cate update to find conflicst of own changes with updated language variables.
+administration#:#language_saved_dist#:#The backup of the standard cate language file is created.
+administration#:#language_scope_merged_info#:#Export the standard cate language file with all local changes merged in alphabetically by module and identifier. This can be used to update the standard language file on the cate git repository.
+administration#:#prg_export#:#Visible in Qualification Programmes
+administration#:#Training Event_export#:#Visible in Training Events
+administration#:#user_criteria_desc#:#Unique user criteria that is used for test results import/export. This is needed to identify identical users on different cate systems.
+administration#:#vc_information_not_determined#:#cate could not determine any version control information.
+adn#:#administrative_notification_description#:#Provide system-wide notifications in topbar of cate
+adve#:#advanced_editing_tst_editing_desc#:#Activates cate Page Editor for feedback and hint text editing.
+adve#:#adve_grp_lm#:#cate Learning Modules
+adve#:#adve_page_editor_settings#:#cate Page Editor
+assessment#:#autosave_info#:#The answers of the participants to the last opened question are automatically saved by cate. These automatically saved answers are not considered to be answers that have been authorised by the participant. Therefore, they are not taken into account by cate during the automated evaluation. Automatically saved answers must always be evaluated manually! They are also not displayed in a participant's 'Results' tab. The automatic saving of answers is only intended for emergencies, e.g. if the browser window is closed by mistake!
+assessment#:#back_to_objective_container#:#Go to Training Event
+assessment#:#concatenation#:#Concatenation
+assessment#:#duplicate#:#Duplicate
+assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
+assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
+assessment#:#examid_in_test_res#:#cate Test Pass ID
+assessment#:#examid_in_test_res_desc#:#The cate test pass ID will be included in the test results.
+assessment#:#exp_type_certificate#:#Certificate (PDF)
+assessment#:#qpl_imagemap_preview_missing#:#cate could not create the temporary preview file containing the image map areas. The original image is shown instead. This means that either the web server‘s ImageMagick tool isn‘t configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.
+assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an cate system. Please contact the cate team to get in import filter for your QTI file format.
+assessment#:#qpl_import_verify_found_questions#:#cate found the following questions in the import file. Please select the questions you want to import.
+assessment#:#redirect_after_finishing_tst_desc#:#After completing the test, each participant is automatically redirected to a specific webpage of your choosing. This will only happen if participants do not have direct access to their test results. When entering the address of an external webpage, use the complete URL (including 'https://'). When redirecting to an Object in cate, use the permalink that can be found in the footer of the Object in question.
+assessment#:#tst_activation_limited_visibility_info#:#Before and after the indicated period it is only the test's title that will be displayed. The participants cannot take the test.
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Use plain text for questions and answers and cate page editor for feedback and hints
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in cate learning module.
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Use plain text for questions and answers and cate page editor for feedback and hints
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in cate learning module.
+assessment#:#tst_allowed_users_desc#:#cate will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access cate will prevent them from starting the test.
+assessment#:#tst_defaults_apply_not_possible#:#cate could not apply the selected test defaults to this test! Maybe this test already contains participant data sets.
+assessment#:#tst_ending_time_desc#:#Point in time at which the test will be finished: Participants an no longer answer questions, the test is finished by cate.
+assessment#:#tst_exp_sc_short_desc#:#In the ‘Statistics’-tab an additional export option is offered. It generates a spreadsheet for item analysis outside of cate. This option only works for tests purely composed of Single Choice Questions.
+assessment#:#tst_hide_pagecontents_desc#:#cate content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.
+assessment#:#tst_import_verify_found_questions#:#cate found the following questions in the test import file. Please select the questions you want to import with this test.
+assessment#:#tst_instant_feedback_answer_generic_desc#:#If the answer provided is fully correct cate will show one type of feedback upon clicking the ‘Check’ button.  If the answer provided is not fully correct, another type of feedback will be displayed. Both types of feedback have to be prepared in the tab ‘Feedback’ of the respective question.
+assessment#:#tst_instant_feedback_answer_specific_desc#:#On clicking the ‘Check’-button, cate will show a specific feedback for every answer option selected by the participant. The feedback has to be prepared along with the question. This specific feedback is not supported for all question types.
+assessment#:#tst_instant_feedback_results_desc#:#On clicking the ‘Check’ button cate will display how many points were attained by answering this question.
+assessment#:#tst_instant_feedback_solution_desc#:#On clicking the ‘Check’ button cate will display the best possible answer to the question.
+assessment#:#tst_notification_explanation_admin#:#You receive this mail from cate because you activated the notification.
+assessment#:#tst_pass_overview_header_lo_initial_all_objectives#:#Initial Test Results<br />for the Learning Objectives within the Training Event %s
+assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Initial Test Results<br />for the Learning Objectives %s within the Training Event %s
+assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Qualifying Test Results<br />for the Learning Objectives within the Training Event %s
+assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Qualifying Test Results<br />for the Learning Objectives %s within the Training Event %s
+assessment#:#tst_results_access_always_desc#:#Participants can access their results within the ‘Results’-tab immediately after starting the test pass and while still taking the test. Additionally cate will redirect to the 'Results'-tab after the test has been finished.
+assessment#:#tst_results_access_finished_desc#:#cate displays the test results after the test pass is finished. After finishing the test pass participants can access their test results within the ‘Results’-tab at any time.
+assessment#:#tst_results_access_passed_desc#:#cate displays the test results after the participant has passed the test. After passing the test participants can access their test results within the 'Results'-tab at any time.
+assessment#:#tst_score_mcmr_use_scoring_system#:#Save and Score Empty Answers (Deprecated)###fau: testNav
+assessment#:#tst_score_mcmr_use_scoring_system_desc#:#An additional option "None of the above" allows saving of empty answers. The unchecked options will be scored as defined in the question. This setting is only kept for existing tests and will be abandoned in a following cate version.###fau: testNav
+assessment#:#tst_show_pass_details_desc#:#The summary of results will be appended at the point in time indicated in the setting above: A ‘Table of Detailed Test Results’ will show the title of the questions and the points scored in a particular test pass. <br> Other than that the table will be displayed after the last test pass possible (setting in link ‘General’, option ‘Limit Number of Test Passes’) or after the test is officially finished (setting in link ‘General’, option ‘Finishing Time’). <br> Further settings about the content of the ‘Table of Detailed Test Results’ can be made in the section ‘Further Details to be Included in Test Results’ of this form.
+assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the cate content you place around a question using the ‘Edit content’ tab page will not be visible in a print-out. If you want to save some paper space, select this option.
+auth#:#auth_account_code_info#:#To re-activate your account you can use an cate account code.
+auth#:#auth_account_migration#:#New cate Account
+auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to cate.
+auth#:#auth_allow_local_info#:#If enabled a local authentication against the cate database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.
+auth#:#auth_info_add#:#Choose this option if you have never registered to cate. A new account will be created.
+auth#:#auth_info_migrate#:#If you have already an cate account, enter username and password to migrate your personal data (mail, test results...).
+auth#:#auth_saml_idps_info#:#Please check and edit the SimpleSAMLphp configuration in '<strong>%s</strong>' and '<strong>%s</strong>' (external data directory). Don't forget to add the paths to your private key and certificate in the authsources.php file. Please read the manual for further explanations %s.<br />Federation Metadata URL: %s
+auth#:#auth_saml_migration_info#:#Activate this option to give new users the possibility to migrate their existing cate accounts to SAML authentication.
+auth#:#auth_saml_uid_claim_info#:#Define the attribute cate uses to detect whether or not an incoming authentication request matches an existing cate user account.
+auth#:#auth_saml_username_claim_info#:#Define the attribute cate uses to generate the username which will be visible in cate.
+auth#:#login_page_switch_ipe#:#Use cate page editor
+cert#:#cert_currently_no_certs#:#Currently you did not achieve any certificate, yet.
+cert#:#cert_error_no_access#:#You have no access to this certificate.
+cert#:#certificate_achievement_sub_obj#:#Certificate for %1$s
+cert#:#certificate_migration_confirm_start#:#Since cate 5.4, certificates in cate are persistent. Even if training events, tests or learning modules are deleted, you are still able to access any certificate you might have earned by them. In order to use this new functionality, you need to migrate your old certificates once.
+cert#:#certificate_same_not_saved#:#No new version of certificate template was saved, because the values didn't change.
+cert#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
+cert#:#user_certificates#:#Certificates
+certificate#:#cert_cron_task_desc#:#This job's responsibility is the creation of persisting certificate data based on learning achievements of users.
+certificate#:#cert_cron_task_title#:#Certificates
+certificate#:#certificate_edit#:#Create/Edit a Certificate Template
+certificate#:#certificate_file_basename#:#Certificate
+certificate#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!
+certificate#:#certificate_page_format_info#:#Please select the default page format for new certificates.
+certificate#:#certificate_ph_no_sco#:#If items are selected to determine the overall learning progress status, titles and points for these items could be displayed in certificate.
+certificate#:#certificate_settings#:#Certificate Settings
+certificate#:#certificate_short_name#:#Certificate file short title
+certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.
+certificate#:#certificate_text#:#Certificate Text
+certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the cate administration, you can still use valid XHTML to format the text.
+certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the cate Java-Server is running. The configuration for Java-Server is available in Administration » General Settings » Server, sub-tab Java-Server.
+certificate#:#certificate_var_user_institution#:#cate Open Source
+certificate#:#certificate_visibility_introduction#:#Participants will be offered to download the certificate from the test results screen.
+certificate#:#default_background_info#:#This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor.
+certificate#:#download_certificate#:#Download Certificate
+certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.
+certificate#:#persistent_certificate_mode#:#User Certificate Creation
+certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.
+cmps#:#cmps_ilias_max_version#:#Max. Version of cate
+cmps#:#cmps_ilias_min_version#:#Min. Version of cate
+cmps#:#cmps_needs_newer_ilias_version#:#This plugin version only runs on newer cate versions. Please upgrade cate.
+cmps#:#cmps_needs_newer_plugin_version#:#This cate version needs a newer plugin version. Please upgrade the plugin.
+cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object
+cntr#:#cntr_container_only_on_their_own#:#Categories, training events, groups, folders or qualification Programmes can only be copied as single objects. Please select one item only.
+cntr#:#cntr_copy_crs_grp#:#My Training Events and Groups
+cntr#:#cntr_old_editor_warning#:#The maintenance of this editor will be discontinued in a future major releases of cate. You may still use it to edit the content of this page now. But we recommend to switch to the standard page editor of cate when possible.
+cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other training event content is listed.
+cntr#:#container_import_zip_file_invalid#:#The uploaded file is not a valid cate export file. To upload a directory structure please use a file object.
+common#:#accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of cate. Read the following document carefully and give your consent or dissent at the bottom of the page.
+common#:#accesscount_registered_users#:#Read by number of distinct cate users
+common#:#account_expires_body#:#your account %s on %s will expire at %s. After this date, access to cate with this account will no longer be possible. To save your personal documents and certificates, please download them in good time.
+common#:#account_expires_subject#:#Your cate account will expire soon!
+common#:#activate_https#:#HTTPS handling by cate<br />(Login)
+common#:#administrate_users_headline#:#Local cate Accounts of this Category
+common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the cate Test and Assessment tool
+common#:#advanced_editing_rep_page_editing_desc#:#This feature allows adding text/media to pages of a category, training event, group or folder. If deactivated, existing content will be hidden.
+common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the cate survey tool
+common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this cate installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.
+common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local cate username and a local password.
+common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing cate accounts to LDAP authentication.
+common#:#auth_local#:#cate Auth
+common#:#auth_remark_non_local_auth#:#When selecting another authentication mode than cate database, you may not change user's login name and password anymore.
+common#:#auth_shib_instructions#:#Be sure to read the README for instructions on how to configure Shibboleth support for cate.
+common#:#auth_soap_allow_local_desc#:#This allows SOAP users to authenticate with their local cate username and a local password.
+common#:#auth_soap_auth_desc#:#This settings deal only with SOAP based user authentication, not with the cate SOAP interface.
+common#:#auth_soap_create_users_desc#:#Creates automatically an cate user account, for users that successfully authenticated against SOAP, without having an cate account yet.
+common#:#authenticate_ilias#:#cate Native Authentication
+common#:#back_to_course#:#Back to Training Event
+common#:#back_to_crs_content#:#Back to Training Event Content
+common#:#bm_add_to_ilias#:#Add to cate Bookmarks
+common#:#certificate#:#Certificate
+common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.
+common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.
+common#:#certificate_file_not_found_error#:#The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.
+common#:#certificate_persistent_option#:#Certificates of Achievements
+common#:#certificate_selection#:#Origin of Certificates
+common#:#certificate_workspace_option#:#Certificates of Personal Resources
+common#:#check_link_desc#:#If enabled all external links in cate learning modules will be checked if they are active.
+common#:#chg_ilias_password#:#Change cate Password
+common#:#cld_abandoned#:#The Cloud Object has been abandoned as of cate 8. No data has been lost. Contact your System Administration for more information.
+common#:#course#:#Training Event
+common#:#courses#:#Training Events
+common#:#cron_mail_notification_desc#:#On request, cate sends e-mail notifications about new mails. In contrast to the immediate forwarding of all mails, this cronjob collects the mails of one day and delivers them as a package. Please enable the option '%s' to use this feature. Additionally, the e-mail notifications for each cate account have to be activated in the personal mail settings.
+common#:#cron_mail_notification_message_info#:#E-mail notifications contain the complete content of the mails received in cate. This means that they can be read without having to log in again.
+common#:#crs#:#Training Event
+common#:#crs_add#:#Add Training Event
+common#:#crs_added#:#Training Event added
+common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of training event "%s"?
+common#:#crs_copy_threads_info#:#Please decide which training event materials should be copied, linked or even omitted.
+common#:#crs_edit#:#Edit Training Event
+common#:#crs_members_gallery#:#Training Event Members Gallery
+common#:#crs_new#:#New Training Event
+common#:#crs_removed_from_waiting_list#:#You have been detached from the waiting list of training event "%s".
+common#:#crs_title#:#Training Event Title
+common#:#crs_unsubscribe#:#Unsubscribe from Training Event
+common#:#crs_wizard_page#:#Copy Training Event (Step 2/2)
+common#:#crsr#:#Training Event Link
+common#:#crsr_add#:#Add Training Event Link
+common#:#crsr_edit_info#:#Please choose one training event for creating a new link.
+common#:#crsr_new#:#Create Training Event Link
+common#:#crsr_settings#:#Training Event Link Settings
+common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with cate 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into cate. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in cate. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.
+common#:#enable_course_group_notifications#:#Daily mail for group and training event news
+common#:#enable_password_assistance#:#Enable Login Assistance
+common#:#enable_Training Event_group_notifications#:#Daily Mail for Groups and Training Event News
+common#:#err_auth_apache_failed#:#The authentication has failed. Maybe you have no valid user certificate or your smart card is not inserted.
+common#:#err_auth_cas_no_ilias_user#:#Login failed. CAS authentication successful, but no corresponding cate user exists. Please contact your system administrator.
+common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding cate user exists. Please contact your system administrator.
+common#:#err_auth_radius_no_ilias_user#:#Login failed. Radius authentication successful, but no corresponding cate user exists.
+common#:#err_auth_soap_no_ilias_user#:#Login failed. SOAP authentication successful, but no corresponding cate user exists. Please contact your system administrator.
+common#:#exercise_time_over#:#The time allocated for completing this exercise is over. Files cannot be submitted anymore!
+common#:#file_not_found_sec#:#This file cannot be found in cate or has been blocked due to security reasons.
+common#:#file_system_clean_temp_dir_cron_info#:#This job cleans the cate temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory.
+common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).
+common#:#groupings_assigned_obj_crs#:#Assigned Training Events
+common#:#i2passwd#:#cate 2 password
+common#:#il_astpl_loc_initial_desc#:#Settings template for initial tests of learning objective oriented Training Events
+common#:#il_astpl_loc_qualified_desc#:#Settings template for qualifying tests of learning objective oriented Training Events
+common#:#il_crs_admin#:#Training Event Administrator
+common#:#il_crs_member#:#Training Event Member
+common#:#il_crs_non_member#:#Training Event non-member
+common#:#il_crs_tutor#:#Training Event Tutor
+common#:#ilias_version#:#cate version
+common#:#import_lm#:#Import cate Learning module
+common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.
+common#:#lang_refresh_confirm_info#:#cate found changed language variables. Refreshing a language will read the standard language file and probably a custom language file to the database. A standard file will not affect your changes. A custom file will overwrite your changes that are older than the file date.
+common#:#lang_uninstall_changes_confirm#:#Do you really want to clear all local changes of the selected languages and reset them to the default of the current cate version?
+common#:#link_check_subject#:#[cate] Weblink check
+common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Weblinks.<br /> E.g. the cate user ID or the username.
+common#:#links_session_id#:#cate session id
+common#:#links_user_id#:#cate user id
+common#:#links_user_name#:#cate username
+common#:#lm#:#Learning Module cate
+common#:#lm_add#:#Add cate Learning Module
+common#:#lm_added#:#cate Learning Module added
+common#:#lm_new#:#New cate Learning Module
+common#:#login_to_ilias#:#Login to cate
+common#:#login_to_ilias_via_cas#:#Login to cate via Central Authentication Service
+common#:#login_to_ilias_via_saml#:#Login to cate via SAML Authentication
+common#:#login_to_ilias_via_shibboleth#:#Login to cate via
+common#:#logout_text#:#You logged off from cate. Your session has been closed.
+common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the cate-Installation %2$s
+common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. cate found multiple possible recipients for this address: %s
+common#:#mail_no_recipient_found#:#Enter a different mail address. cate couldn't find a recipient with this mail address.
+common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the cate-Installation %2$s
+common#:#mem_cron_min_members#:#Training Event/Group: Minimum Members Check
+common#:#mm_certificates#:#Certificates
+common#:#mm_enrolments#:#Training Event Memberships
+common#:#msg_bt_download_started#:#cate is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right.
+common#:#msg_copy_clipboard_source#:#Now, please select the desired training event or group, whose content should be copied and click the button ‘Continue’.
+common#:#msg_obj_no_link#:#It is not possible to link container objects like categories, training events, groups or folder due to technical reasons. Instead you may link several single objects within such a container to other areas or create a category link, training event link or group link.
+common#:#my_certificates#:#My Certificates
+common#:#my_courses#:#My Training Events
+common#:#my_courses_groups#:#My Training Events and Groups
+common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in cate setup to run ISO export
+common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your cate installation.
+common#:#obj_adve_desc#:#Administration settings for cate page editor and TinyMCE.
+common#:#obj_cert#:#Certificates
+common#:#obj_crs#:#Training Event
+common#:#obj_crs_duplicate#:#Copy Training Event
+common#:#obj_crsr#:#Training Event Link
+common#:#obj_crss#:#Training Event
+common#:#obj_crss_desc#:#General settings for Training Events
+common#:#obj_crsv#:#Training Event Certificate
+common#:#obj_excv#:#Exercise Certificate
+common#:#obj_extt_desc#:#Configure external software or services that are supported by cate
+common#:#obj_file_duplicate#:#Duplicate File
+common#:#obj_lm#:#Learning Module cate
+common#:#obj_objf_desc#:#Manage cate object types and object permissions. (only for experts!)
+common#:#obj_pecrs#:#Training Event
+common#:#obj_pecrt#:#Certificate
+common#:#obj_prg#:#Qualification Programme
+common#:#obj_prg_duplicate#:#Copy Qualification Programme
+common#:#obj_prg_select#:#-- Please select one Qualification Programme --
+prg#:#prg_acknowledge_all_completed_courses#:#Acknowledge All Completed Training Events
+common#:#obj_prgr#:#Link to Qualification Programme
+common#:#obj_prgrs#:#Links to Qualification Programmes
+common#:#obj_prgs#:#Qualification Programmes
+common#:#obj_prgs_desc#:#Qualification Programme Administration
+common#:#obj_rcrs#:#ECS Training Event
+common#:#obj_scov#:#SCORM Certificate
+common#:#obj_tstv#:#Test Certificate
+common#:#objs_crs#:#Training Events
+common#:#objs_crsr#:#Training Event Link
+common#:#objs_lm#:#cate Learning Modules
+common#:#objs_prg#:#Qualification Programmes
+common#:#objs_prgr#:#Links to Qualification Programmes
+common#:#objs_rcrs#:#ECS Training Events
+common#:#org_op_access_enrolments#:#View Training Event Membership Status
+common#:#password_assistance_info#:#If login assistance is enabled, two links ‘Forgot Password?’ and ‘Forgot Username?’ are shown on the login page. Users can use this link to independently set a new password for their user Account, or to identify their username.
+common#:#password_change_on_first_login_demand#:#You have to change your password before you can start using cate services.
+common#:#preview_learner_info#:#If enabled, training event and Group administrators have the possibility to view the content form the perspective of a learner.
+common#:#prg_copy_threads_info#:#Please decide which Qualification Program elements should be copied, linked or even omitted.
+common#:#prg_wizard_page#:#Copy Qualification Program (Step 2/2)
+common#:#prgr_add#:#Add Qualification Programme Link
+common#:#prgr_edit_info#:#Please choose one qualification programme for creating a new link.
+common#:#prgr_new#:#Create Qualification Programme Link
+common#:#prgr_settings#:#Settings of Qualification Programme Link
+common#:#profile_changed#:#cate eLearning - Your profile has changed
+common#:#proxy_not_connectable#:#cate could not build a connection to the defined proxy.
+common#:#proxy_status_info#:#To use a proxy in cate (e.g. for web feeds or to check web links) please activate the checkbox above.
+common#:#referral_comment#:#How did you hear about cate?
+common#:#reg_mail_body_text1#:#Welcome to cate eLearning!
+common#:#reg_mail_body_text2#:#To access cate use the following data:
+common#:#reg_mail_subject#:#cate eLearning - Your access data
+common#:#reg_mail_subject_confirmation#:#cate eLearning - Your Confirmation Link
+common#:#renderer_supported_repo_types#:#Supported cate Objects
+common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than ‘Helvetica’ and ‘unifont’ must be installed on the cate server.
+common#:#sahs_export_file#:#cate exported SCORM archive file
+common#:#saml_login_form_txt#:#Login to cate via SAML
+common#:#scorm_login_as_learner_id#:#SCORM 2004: set cate Username as cmi.learner_id
+common#:#scorm_without_session_info#:#This ensures the storage of SCORM 2004 learning data even if cate session expired. For SCORM 1.2, storage without session is always enabled.
+common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a Training Event on this server, please contact the %s
+common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the cate login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drop-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your cate installation is part of a multi federation setup.
+common#:#shib_login_internal_wayf#:#Use cate WAYF service
+common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, ‘cate’ is used.
+common#:#soap_user_administration_desc#:#If enabled, cate can be administrated via SOAP.
+common#:#sorting_info_inherit#:#The sorting mode is adopted from a parent training event/group.
+common#:#startpage#:#cate Login Page
+common#:#take_over_structure_info#:#If activated, directories in the zip file will be mapped to categories or, if used in groups or training events, to folders.
+common#:#Training Event#:#Training Event
+common#:#Training Events#:#Training Events
+common#:#txt_registered#:#You successfully registered to cate. Please click on the button below to login to cate with your user account.
+common#:#txt_registered_passw_gen#:#You successfully registered to cate. You should receive an e-Mail including your generated password shortly.
+common#:#txt_submitted#:#You successfully submitted an account request to cate. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.
+common#:#ums_explanation#:#Your external account could not be mapped to an cate account. But cate has found an account with your e-mail address. If this is your account, please login with your cate password.
+common#:#ums_explanation_3#:#Your external account could not be mapped to an cate account. But cate has found multiple accounts with your e-mail address. If one of those is your account, please login with your cate password.
+common#:#usr_filter_coursemember#:#Member of training event
+common#:#usr_without_courses#:#Users without training events assigned
+common#:#usrimport_conflict_handling_info#:#When ‘Ignore on conflict’ is selected, cate ignores an action, if it can not be performed (e. g. an ‘Insert’ action is not done, if there is already a user with the same login in the database.) When ‘Update on conflict’ is selected, cate updates the database if an action can not be performed. (e. g. an ‘Insert’ action is replaced by an ‘Update’ action and the other way around, if a user with the same login exists in the database).
+common#:#webfolder_instructions_text#:#[WINDOWS]<h3>Instructions for connecting with Windows</h3>       <ol>    <li>Open Windows-Explorer (e.g. key combination Windows + E).</li>      <li>Rightclick on "This PC" and select "Map network drive...".</li>     <li>Enter the following address as address (you may copy and paste the URL):<br /><br />        <b>[WEBFOLDER_URI]</b><br /><br /></li> <li>Click "Finish".</li>        <li>Enter your login and password, and select "OK".</li>        <li>You can now access the webfolder from the start menu "Computer".</li>       </ol>   <br />  Your login and password is identical to your local cate login and can be changed in your personal settings.[/WINDOWS]  [MAC]   <h3>Instructions for Mac OS X</h3>      <ol>    <li>Open the Finder.</li>       <li>Choose the menu 'Goto to &gt; Connect to server...'.<br/>This opens the window 'connect to server'.</li>    <li>Enter this URL as server URL:<br/><b>[WEBFOLDER_URI]</b><br/> und click on 'Connect'.</li>  <li>Enter your login and password, and select "OK".</li>        </ol>   <br />  Your login and password is identical to your local cate login and can be changed via "Personal Settings".[/MAC][LINUX]         <h3>Instructions for Linux with Konqueror</h3>          <ol>            <li>Open Konqueror Browser.</li>                <li>Enter this URL as server URL:<br />         <b>[WEBFOLDER_URI_KONQUEROR]</b><br/>and press enter.</li>              <li>Enter your login and password, and select "OK".</li>                </ol>           <h3>Instructions for Linux with Nautilus</h3>           <ol>            <li>Open Nautilus Browser.</li>         <li>Enter this URL as server URL:<br />         <b>[WEBFOLDER_URI_NAUTILUS]</b><br/>and press enter.</li>               <li>Enter your login and password, and select "OK".</li>                </ol>           <br />          Your login and password is identical to your local cate login and can be changed in your personal settings.[/LINUX]                            <h3>Tips &amp; Support</h3>             <ul>            <li>These steps need to be done <b>only once</b>. You may access your connection again later.</li>              </ul>           <ul>            <li>Connect to a higher folder. You can always navigate down the tree, but nut upwards.</li>            </ul>           <ul>            <li>If your computer can not open the WebDAV Connection, please contact cate Support.</li>             </ul>
+common#:#withdraw_consent_description_external#:#Please return to your cate installation and log in again to complete the process of withdrawing your consent to the Terms of Service.
+common#:#withdrawal_mail_text#:#Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your cate installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s
+common#:#wizard_title_info#:#Search for the object you want to duplicate. Please enter the object's title or a part of it and click on 'Continue' to get matching search results.
+common#:#zip_test_failed#:#Zip-Test failed. Please contact you cate administrator.
+cont#:#cont_page_type_cstr#:#Training Event Start Page (Learning Objectives View)
+content#:#cont_check_values_info#:#The Test Tool will check whether the values sent from the SCOs adhere to the SCORM standard. <br /> The SCORM Standard is very demanding concerning the saving of values. Not all learning modules meet the requirements of the standard. This Options allows checking if the module adheres to the Standard or not. Do not check this option if you just want to check if cate can run this module or not.
+content#:#cont_could_not_determine_resource_size#:#cate could not automatically determine the resource size.
+content#:#cont_could_not_save_duplicate_pc_ids#:#Page could not be saved (duplicate PC IDs).
+content#:#cont_debug_deactivate#:#A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and cate can be evaluated. To use the Test Tool, the navigation tree has to be switched on.
+content#:#cont_debug_deactivate12#:#A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and cate can be evaluated.
+content#:#cont_debug_deactivated#:#The test tool is currently globally deactivated in the cate administration (Administration » Repository and Objects » Learning Modules).
+content#:#cont_ed_insert_mcrs#:#Insert My Training Events
+content#:#cont_ed_insert_vrfc#:#Insert Certificate
+content#:#cont_ed_plachverification#:#Placeholder Certificate
+content#:#cont_html_export_ids_info#:#Allows maintaining extra IDs for cate learning modules that are used for naming HTML files when HTML export is done.
+content#:#cont_insert_my_courses#:#Insert My Training Events
+content#:#cont_insert_verification#:#Add Certificate
+content#:#cont_layout_fullscreen_desc#:#Content in the main frame. FAQ, glossary and media links open in separate window. No cate main menu and no navigation bar.
+content#:#cont_layout_presentation_desc#:#Content in the main frame. FAQ, glossary and media links open in separate window. No cate main menu.
+content#:#cont_link_to_internal#:#Link to cate Resource
+content#:#cont_lm_starting_point#:#Starting Point for cate Learning Modules
+content#:#cont_mytraining events_sortorder_info#:#This is a default setting. Every user can choose a personal order which affects all "My training events"-elements of any portfolio.
+content#:#cont_open_iframe#:#Opens in the Same Window Underneath the cate Main Menu
+content#:#cont_open_normal#:#Opens in a New Tab or Alternatively in a New Window, Without cate Main Menu
+content#:#cont_open_window#:#Enforced to Open in New Window , Without cate Main Menu
+content#:#cont_pc_vrfc#:#Certificate
+content#:#cont_sc_id_setting_info#:#In the case that a numeric id for student_id (SCORM 1.2) or learner_id (SCORM 2004) causes problems for the learning module, use the option 'cate user name'. The addition RefId or ObjId may be useful for learning modules that connect to an external server.
+content#:#cont_sc_id_setting_user_id#:#cate User Id (Standard)
+content#:#cont_sc_id_setting_user_id_plus_obj_id#:#cate User Id plus ObjId of the Learning Module
+content#:#cont_sc_id_setting_user_id_plus_ref_id#:#cate User Id plus RefId of the Learning Module
+content#:#cont_sc_id_setting_user_login#:#cate Login Name
+content#:#cont_sc_id_setting_user_login_plus_obj_id#:#cate Login Name plus ObjId of the Learning Module
+content#:#cont_sc_id_setting_user_login_plus_ref_id#:#cate Login Name plus RefId of the Learning Module
+content#:#cont_sc_usession_info#:#Periodical requests will be sent to cate to keep the session alive. Otherwise cate will categorize working on the learning module as idleness, terminate the session and loose the tracking data.
+content#:#cont_time_from_lms#:#Processing Time Determination by cate
+content#:#cont_time_from_lms_info#:#Frequently SCORM learning modules are returning faulted data on processing time. To avoid this issue cate can determine the processing time adhering to the strict standards of SCORM.
+content#:#cont_to_focus_return_crs#:#Back to Training Event
+content#:#cont_update_my_courses#:#Edit My Training Events
+content#:#cont_update_verification#:#Edit Certificate
+content#:#cont_upload_dir_info#:#Server directory from which large SCORM and HTML packages can be copied instead of being uploaded. Only cate administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.
+content#:#cont_verification_object#:#Certificate
+content#:#cont_verification_placehl#:#Certificate Placeholder
+content#:#lm_import#:#Import cate Learning Module
+content#:#mob_upload_dir_info#:#Server directory from which multiple files can be used to create media objects in media pools. Only cate administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.
+content#:#sahs_insert_pg_from_clip#:#Import Pages from cate Learning Module
+content#:#sahs_insert_st_from_clip#:#Import Chapters from cate Learning Module
+content#:#sahs_insert_st_from_clip_inside_chap#:#Import Chapters from cate Learning Module (inside chapter)
+content#:#seq_endsession#:#The current training event session has ended.
+content#:#seq_toc#:#From the Table Of Contents on the left, choose an activity to begin the training event.
+copa#:#obj_copa_duplicate#:#Duplicate Content Page
+copg_pgcp_coin#:#copg_pgcp_coin_no_valid_object_selected#:#No valid qualification programm selected
+copg_pgcp_coin#:#copg_pgcp_coin_prg_deleted#:#No valid qualification programm selected
+copg_pgcp_coin#:#copg_pgcp_coin_prg_ref_id#:#Qualification programm
+copg_pgcp_cosi#:#copg_pgcp_cosi_no_valid_object_selected#:#No valid qualification programm selected
+copg_pgcp_cosi#:#copg_pgcp_cosi_prg_deleted#:#No valid qualification programm selected
+copg_pgcp_cosi#:#copg_pgcp_cosi_prg_ref_id#:#Qualification programm
+cron_crnhk_datachanges#:#cron_crnhk_datachanges_change_course_types_desc#:#Note: Renaming the training types only affects the historised training types. The training types must also be renamed in the "CourseClassification" plug-in, if the training types are still used there.
+cron_crnhk_datachanges#:#cron_crnhk_datachanges_error_same_courses#:#A transfer of the attendances is not possible. The training events with the following ref. IDs have been booked by both users:<br>%s.
+crs#:#crs_accept_subscriber_body#:#we are pleased to confirm your registration for the training event "%s".
+crs#:#crs_activation_limited_visibility_info#:#If chosen, the training event is visible even outside of the given availability but members cannot access the training event.
+crs#:#crs_activation_online_info#:#Set the training event online to make it visible and available for training event members. If not, only training event administrators and tutors will have access to it.
+crs#:#crs_add_remove_from_desktop_info#:#Objects within the training event can be added to favourites.
+crs#:#crs_added#:#Added new Training Event
+crs#:#crs_added_member#:#Your registration for Training Event "%s"
+crs#:#crs_added_member_body#:#we are pleased to announce your registration for the training event "%s".
+crs#:#crs_admission_link_failure_availability#:#Can't register: training event is not online.
+crs#:#crs_admission_link_failure_membership_limited#:#Can't register: training event membership is limited.
+crs#:#crs_admission_link_failure_offline#:#Can't register: training event is offline.
+crs#:#crs_admission_link_failure_registration_period#:#Can't register: training event is out of registration period.
+crs#:#crs_admission_link_success_registration#:#Successfully registered to training event "%s".
+crs#:#crs_agreement_required#:#You have to accept the user agreement, if you want to register to this training event.
+crs#:#crs_at_least_one_admin#:#There has to be at least one training event administrator.
+crs#:#crs_auto_notification_info#:#New members get a mail notification when added to the training event.
+crs#:#crs_awrn_current_course#:#Current Training Event
+crs#:#crs_awrn_current_course_info#:#If the user navigates to a training event in the repository, all members of the training event are listed.
+crs#:#crs_awrn_support_contacts_info#:#All tutorial support contacts of training events with membership of the current user are listed. Users are defined as tutorial support contacts in the Members tab of the respective training event.
+crs#:#crs_blocked_member#:#Membership blocked in Training Event "%s"
+crs#:#crs_blocked_member_body#:#your membership for training event "%s" has been blocked.
+crs#:#crs_breadcrumb_crs_only#:#Start with Training Event
+crs#:#crs_cancel_subscription#:#User left Training Event "%s"
+crs#:#crs_cancel_subscription_body#:#%s has cancelled his/her membership for the training event "%s".
+crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your training event. You should check for the waiting list now. To view the members of your training event, click here:
+crs#:#crs_cancellation_end#:#Limit 'Unsubscribe from Training Event'
+crs#:#crs_cancellation_end_info#:#Until the date selected members can unsubscribe from the training event.
+crs#:#crs_cdf_edit_member#:#Edit Training Event Relevant User Data
+crs#:#crs_cdf_tbl_last_edit#:#Updated (Training Event-specific Data)
+crs#:#crs_content#:#Training Event Content
+crs#:#crs_copy#:#Copy Training Event
+crs#:#crs_course_status_of_users#:#Passing the Training Event
+crs#:#crs_custom_user_fields#:#Training Event Relevant User Data
+crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for training event members to fill in when joining. You can show this information as an additional column in the "Members" tab.
+crs#:#crs_details#:#Training Event Details
+crs#:#crs_dismiss_member_body#:#your membership has been terminated in training event "%s".
+crs#:#crs_enable_map#:#Enable Training Event Map
+crs#:#crs_export#:#Training Event export
+crs#:#crs_grouping_deleted#:#Deleted training event grouping.
+crs#:#crs_grouping_select_one#:#Please select a training event grouping.
+crs#:#crs_groupings#:#Training Event groupings
+crs#:#crs_grp_already_assigned#:#You are already member of this grouping of training events.
+crs#:#crs_grp_assign_crs#:#Assign Training Event
+crs#:#crs_grp_assignments#:#Assignments of Training Event Members to Groups
+crs#:#crs_grp_info_reg#:#You can only register to one of this Training Events:
+crs#:#crs_grp_matriculation_required#:#This training event grouping requires an unique matriculation number. <br />Please insert this value in your personal settings.
+crs#:#crs_grp_no_courses_assigned#:#No assigned training events.
+crs#:#crs_grp_table_assigned_courses#:#Assigned training events
+crs#:#crs_header_archives#:#Training Event Archives
+crs#:#crs_header_delete_members#:#Would you like to remove the following members from this training event?
+crs#:#crs_import#:#Import Training Event
+crs#:#crs_info_agree#:#I accept, that the above data types are visible for training event administrators.
+crs#:#crs_info_agreement#:#The following data types are visible for Training Event administrators:
+crs#:#crs_info_reg_confirmation#:#You have to request for membership to access this training event. Please describe your interest for becoming member in the message form. You will be notified as soon as an administrator has accepted or declined your request.
+crs#:#crs_info_reg_deactivated#:#training event admittance is closed.
+crs#:#crs_info_reg_direct#:#You can join this training event directly.
+crs#:#crs_info_reg_password#:#If a training event administrator has given you the training event password, you can join this training event.
+crs#:#crs_info_settings#:#Training Event Information
+crs#:#crs_info_start#:#Please work through all of the training event items stated below.<br />After you have processed all marked objects new training event items will be activated.
+crs#:#crs_intro_course_group_notification_for#:#this is the news digest for your training events and groups, which have an active notification.
+crs#:#crs_intro_course_group_notification_index#:#There are news for the period of %1$s to %2$s for the following training events and groups:
+crs#:#crs_intro_training event_group_notification_for#:#this is the news digest for your training events and groups, which have an active notification.
+crs#:#crs_intro_Training Event_group_notification_index#:#There are news for the period of %1$s to %2$s for the following Training Events and groups:
+crs#:#crs_lim_assigned#:#Already assigned to associated training event "%s".
+crs#:#crs_loc_confirm_delete_tst#:#Do you really want to deassign the test of this learning objective oriented training event?
+crs#:#crs_loc_err_stat_no_materials#:#No Training Event Materials available
+crs#:#crs_loc_form_assign_initial_info#:#Select a test from this Training Event to serve as Initial Test
+crs#:#crs_loc_settings_err_qstart#:#The option "Final Test as Start Object" has been deactivated, since it can only be chosen for training events without initial test.
+crs#:#crs_loc_settings_reset_enable_info#:#If activated, all users are able to reset their individual test results and start the training event again.
+crs#:#crs_loc_settings_tbl#:#Settings for the Learning Objectives-Driven Training Event
+crs#:#crs_loc_settings_type_it_none_info#:#training event members work self-directed through the learning objectives. They can take the final test to assess whether they mastered the learning objectives already or if additional learning and training is needed.
+crs#:#crs_loc_type_initial_all_info#:#Based on individual results of the initial test, cate recommends learning content for the not-yet-sufficient learning objectives. The final achievement test assesses whether a test participant already mastered the learning objectives or if additional learning and training is needed.
+crs#:#crs_loc_type_qualified_info#:#The training event starts with a test to assess if a training event member already mastered the learning objectives. For all passed learning objectives, users do not have to work through any of the learning content or take more tests. For all not-yet-sufficient learning objectives, cate recommends learning content. The mastery of the remaining learning objectives is tested in an additional test run.
+crs#:#crs_mail_context_member_info#:#For the contact e-mails on the info screen of a Training Event
+crs#:#crs_mail_context_member_title#:#Training Event: Info Page
+crs#:#crs_mail_context_tutor_info#:#For the participant e-mails on the member and learning progress screens of a Training Event
+crs#:#crs_mail_context_tutor_title#:#Training Event: Mail to Member
+crs#:#crs_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the Training Event:
+crs#:#crs_map_location#:#Training Event Map Location
+crs#:#crs_mem_tbl_header#:#Training Event Participants
+crs#:#crs_members_deleted#:#Selected members were successfully removed from training event.
+crs#:#crs_members_map#:#Training Event Members Map
+crs#:#crs_members_print_title#:#Training Event members
+crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this training event.
+crs#:#crs_my_courses_groups_enabled#:#My Training Events and Groups
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Training Events and Groups' is visible.
+crs#:#crs_new_subscription#:#User registered for Training Event "%s"
+crs#:#crs_new_subscription_body#:#%s has registered for training event "%s".
+crs#:#crs_new_subscription_request#:#Request to join Training Event "%s"
+crs#:#crs_new_subscription_request_body#:#%s has requested membership for training event "%s".
+crs#:#crs_news#:#Training Event News
+crs#:#crs_no_objective_lms_found#:#This training event does not contain learning material that could be assigned to the learning objective.
+crs#:#crs_no_objectives_created#:#No Training Event Materials created
+crs#:#crs_notification_explanation_admin#:#You receive mail from cate because you are training event administrator / tutor with notification enabled.
+crs#:#crs_notification_salutation#:#Dear Training Event participant,
+crs#:#crs_number_users_added#:#The following number of users has been assigned to the Training Event:
+crs#:#crs_obj_initial_req_info#:#If this number of points is achieved, no training event materials will be recommended for further editing.
+crs#:#crs_objective_status_configure#:#Checklist for Training Event
+crs#:#crs_objective_status_materials#:#Create Training Event Content
+crs#:#crs_objective_status_materials_info#:#The training event is currently empty. Add training event materials that can be assigned to learning objectives.
+crs#:#crs_objective_status_settings#:#Training Event Settings
+crs#:#crs_objective_wiz_materials#:#Assign Training Event Material
+crs#:#crs_objective_wiz_materials_info#:#You can assign training event materials that are recommended for processing the learning objective.
+crs#:#crs_objective_wiz_self_info#:#Please define the initial test questions. Initial tests are intended to examine the previous knowledge of the training event participants.
+crs#:#crs_objectives_reset_sure#:#You want to delete all results of this training event. <br />All test results will be deleted.
+crs#:#crs_open#:#Open Training Event
+crs#:#crs_period_info#:#Information about the start and end date of the event, which is supported by the Training Event
+crs#:#crs_ref_delete_confirmation_info#:#Would you like to remove the following members from this training event? If these members are to be removed from training events linked into this training event, please activate the respective checkboxes.
+crs#:#crs_ref_member_update_info#:#All new members of the parent training event are automatically entered in the training event to which this training event link refers.
+crs#:#crs_ref_missing_access#:#The option cannot be selected because you do not have "Manage Members" permission for either training event.
+crs#:#crs_ref_missing_parent_crs#:#The option cannot be selected because this training event link does not have a parent training event.
+crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this training event.
+crs#:#crs_reg_password_info#:#Users need to type in this password when joining the training event.
+crs#:#crs_reg_user_already_subscribed#:#You have already requested membership for this Training Event
+crs#:#crs_registration#:#Training Event Registration
+crs#:#crs_registration_confirmation_info#:#Interested users can send a request/message to training event administrator.
+crs#:#crs_registration_deactivated#:#Only training event administrators can add users to the training event.
+crs#:#crs_registration_limited_info#:#Members can only register for this training event during a specific period of time.
+crs#:#crs_reject_subscriber_body#:#we regret to say that your registration has been refused for the training event "%s".
+crs#:#crs_settings#:#Training Event Settings
+crs#:#crs_show_member_export_info#:#training event Members may print a list of participants.
+crs#:#crs_show_members_info#:#If activated, training event members can access the members gallery.
+crs#:#crs_sort_timing_info#:#Sort training event items be their activation time or timings settings.
+crs#:#crs_status_changed_body#:#your status in training event "%s" has been changed.
+crs#:#crs_status_determination_lp_info#:#When the learning progress changes to ‘Completed’, the training event status ‘Passed’ will be set automatically. Tutors still can overwrite the status manually.
+crs#:#crs_status_determination_sync#:#The training event status will be automatically set to 'passed' once a learner completed all activities which determine the learning progress. Progress that was made before the change of settings will be accounted for, manually set 'passed' training event status remain unchanged. Do you want to set the training event status of all members based on their current learning progress now?
+crs#:#crs_structure#:#Training Event structure
+crs#:#crs_subscribe_member#:#Your registration for Training Event "%s"
+crs#:#crs_subscribe_member_body#:#we are pleased to confirm your registration for the training event "%s".
+crs#:#crs_subscribe_wl#:#Your registration for Training Event "%s"
+crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of training event "%s". You are assigned to position %s on the list.  You will receive a message from a training event administrator when your request has been approved or rejected.
+crs#:#crs_subscription_min_members_info#:#Define the number of users that is minimally required for this training event to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the training event a mail will be send to those training event administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab.
+crs#:#crs_subscription_options_password#:#Join with Training Event Password
+crs#:#crs_subscription_successful#:#You have joined the Training Event
+crs#:#crs_timings_activate_optional#:#Optional mode for Training Event timings
+crs#:#crs_timings_activate_optional_own#:#Optional mode for my Training Event timings
+crs#:#crs_timings_days_after_subsription#:#Day(s) after Training Event subscription
+crs#:#crs_timings_short_limit_start_end_tt_rel#:#Latest end in days after Training Event subscription
+crs#:#crs_timings_short_start_end_tt_rel#:#Suggested start after Training Event subscription
+crs#:#crs_timings_update_error#:#Your settings are not valid, please verify the timings for the following Training Event materials:
+crs#:#crs_Training Event_status_of_users#:#Passing the Training Event
+crs#:#crs_unblocked_member#:#Access granted in Training Event "%s"
+crs#:#crs_unblocked_member_body#:#your membership in training event "%s" has been restored.
+crs#:#crs_unsubscribe_member#:#Your cancellation of membership in Training Event "%s"
+crs#:#crs_unsubscribe_member_body#:#We confirm your cancellation of membership in training event "%s".
+crs#:#crs_unsubscribe_member_explanation#:#You receive this message because you unsubscribed from the training event mentioned above.
+crs#:#crs_unsubscribe_sure#:#Are you sure you want to unsubscribe from this training event?
+crs#:#crs_unsubscribed_from_crs#:#You have been unsubscribed from this training event.
+crs#:#crs_user_agreement_info#:#Visible Personal Data for Training Event Administrators
+crs#:#crs_user_already_assigned#:#The chosen user is already assigned to this training event.
+crs#:#crs_users_added#:#Added user to the Training Event
+crs#:#crs_users_already_assigned#:#The user is already assigned to this Training Event
+crs#:#crs_view_info_objective#:#training event for individualised studying: Performance on learning objectives organises the training event work. Content might be recommended based on individual performance in an initial test. A final test can be used to prove learning objective mastery.
+crs#:#crs_view_mode#:#Training Event Presentation
+crs#:#crs_view_objective#:#Learning Objectives-Driven Training Event
+crs#:#crs_visibility_until_info#:#The training event will be visible to it's members in a specific period of time.
+crs#:#crs_visibility_unvisible#:#The training event is not visible.
+crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of training event members is exceeded. You can set yourself on the waiting list. You will receive a message from a training event administrator when your request has been approved or rejected.
+crs#:#crs_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a training event administrator when your request has been approved or rejected.
+crs#:#mem_cron_min_members_intro#:#The following training events and groups do not meet the minimum number of members (yet).
+crs#:#mem_cron_min_members_subject#:#Training Event/Group: Minimum Members Check
+crs#:#mem_cron_min_members_task#:#Please inform the participants if the training event will not take place because of not enough attendants. Adjust the settings afterwards.
+crs#:#timing_tutor_visible#:#Remark is visible for Training Event tutors
+crs#:#timings_reminder_notifications#:#Training Event Timings Notifications
+crs#:#timings_reminder_notifications_info#:#If enabled, training event participants will be notified about exceeded timing materials.
+crsv#:#crsv_create#:#Create Training Event Certificate
+crsv#:#crsv_create_info#:#Select a completed Training Event to generate a certificate for it
+dateplaner#:#back_to_crs#:#Go to Training Event
+dateplaner#:#cal_adm_notification_info#:#Choose this option, to send optional mail notifications to training event/group participants about changed appointments.
+dateplaner#:#cal_cg_notification#:#Training Event/Group Notification
+dateplaner#:#cal_cg_registration_info#:#Gives users the possibility to register to training event and group appointments.
+dateplaner#:#cal_cg_registrations#:#Registration for Training Event/Group Appointments
+dateplaner#:#cal_ch_target_object_info#:#Consultation hours will be displayed in a block to the right of the training event / group content. To restrict the display of consultation hours to specific training events or groups, please enter the Ref-ID of the said objects. You find the Ref-ID in the URL of the respective objects. Add more than one Ref-ID separated by comma. Regardless of that, consultation hours may also appear in your e-portfolios.
+dateplaner#:#cal_crs_info#:#Training Event Information
+dateplaner#:#cal_crs_new_notification_body#:#a new appointment has been created in training event "%s".
+dateplaner#:#cal_crs_new_notification_sub#:#New Appointment in Training Event "%s"
+dateplaner#:#cal_crs_notification_body#:#an appointment has been changed in training event "%s".
+dateplaner#:#cal_crs_notification_sub#:#Changed Appointment in Training Event "%s"
+dateplaner#:#cal_download_files_started#:#cate is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right.
+dateplaner#:#cal_err_invalid_notification_rcps#:#The list of notification recipients is not valid. Please choose only cate user account names or valid e-mail addresses.
+dateplaner#:#cal_export_timezone_tz#:#Use cate-Timezone
+dateplaner#:#cal_grp_curr_crs#:#Current Training Event
+dateplaner#:#cal_notification_crsgrp#:#Notification for Training Event/Group Participants
+dateplaner#:#cal_notification_info#:#If enabled, all training event/group participants will be notified per mail about this appointment.
+dateplaner#:#cal_setting_global_crs_act#:#Activation in Training Events
+dateplaner#:#cal_setting_global_crs_act_info#:#If selected, the calendar is active in training events by default. In any case the calendar activation can be enabled/disabled in the training event settings.
+dateplaner#:#cal_setting_global_crs_vis#:#Show in Training Events
+dateplaner#:#cal_setting_global_crs_vis_info#:#If enabled, a calendar block is shown in training events by default. In any case the calendar block can be enabled/disabled in the training event settings.
+dateplaner#:#cal_timezone_info#:#Please choose the nearest city in your time zone to make sure that appointments within cate are displayed properly in your local time.
+dateplaner#:#cal_type_crs#:#Training Event Calendar
+dateplaner#:#cal_type_info#:#Please choose one calendar type. ‘Public Calendars’ are visible for all cate users.
+dateplaner#:#cal_user_notification_info#:#Selected users will be notified about this appointment by e-mail. Please enter cate user names or e-mail addresses.
+dateplaner#:#cal_user_timezone#:#cate-Timezone
+dateplaner#:#crs_cal_activation_end#:#Training Event Availability ends
+dateplaner#:#crs_cal_activation_start#:#Training Event Availability starts
+dateplaner#:#crs_cal_end#:#Training Event ends
+dateplaner#:#crs_cal_start#:#Training Event starts
+dcl#:#dcl_ilias_reference#:#Link to an cate module
+dcl#:#dcl_ilias_reference_desc#:#Searchfield to select an cate object.
+dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Available fields (click on title to copy field inside expression):<br>%s
+exc#:#exc_reminder_start_info#:#All members of the parent training event/group will be sent reminders.<br>No parent training event/group given - no reminder will be sent!
+exc#:#exc_team_by_random_info#:#cate will allocate participants to a set number of teams.
+exc#:#exc_team_by_tutors_info#:#Tutors allocate participants to teams, participants cannot self-organize.
+exc#:#exc_team_by_tutors_manual_info#:#Tutors manually allocate participants to teams.
+exc#:#exc_team_member_container_add#:#Add Team Member from Training Event/Group
+form#:#form_link_internal#:#Inside cate
+forum#:#fmr_copy_threads_info#:#You have the possibility to copy single threads. Only the beginning of the chosen threads will be duplicated.
+forum#:#forums_notification_intro#:#This mail was automatically sent to you by the cate installation %s, %s
+forum#:#frm_noti_obj_crs#:#Training Event
+grp#:#grp_notification_explanation_admin#:#You receive mail from cate because you are group administrator with notification enabled.
+grp#:#grp_view_inherit_info#:#The group presentation type is adopted from a parent training event.
+lng#:#lng_download_deprecated#:#Download Deprecated List
+lso#:#lso_notification_explanation_admin#:#You receive mail from cate because you are learning sequence administrator with notification enabled.
+mail#:#chat_users_without_login#:#The following users don't have an cate account and can't be invited to a chat room:
+mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the cate installation %s, %s
+mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked training events.
+mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected training event can not be listed.
+mail#:#mail_crs_roles#:#Send Mail to Training Event Roles
+mail#:#mail_enable_crs_admin_notification#:#Notify Training Event Administrators
+mail#:#mail_enable_crs_admin_notification_info#:#In new training events the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of training events. training event administrators will receive an e-mail when a member joins the training event or leaves it or if the minimally required number of participants is not met the training event needs to take place.
+mail#:#mail_enable_crs_member_notification#:#Notify Training Event Members
+mail#:#mail_enable_crs_member_notification_info#:#cate will automatically send an e-mail to every training event member if his or her membership status is changed. This setting applies to all training events on the platform.
+mail#:#mail_enable_grp_admin_notification_info#:#In new groups the setting 'Notification' will be activated by default. It is set in the 'Member'-tab of groups. training event administrators will receive an e-mail when a member joins the group or leaves it or if the minimally required number of participants is not met the group needs to take place.
+mail#:#mail_enable_grp_member_notification_info#:#cate will automatically send an e-mail to every group member if his or her membership status is changed. This setting applies to all groups on the platform.
+mail#:#mail_enable_lso_member_notification_info#:#cate will automatically send an e-mail to every member if his or her membership status is changed. This setting applies to all Learning Sequences on the platform.
+mail#:#mail_my_courses#:#My Training Events
+mail#:#mail_nacc_ilias_url#:#URL of cate system
+mail#:#mail_nacc_target#:#URL of target item, e.g. a linked training event that is passed to cate from outside.
+mail#:#mail_nacc_target_title#:#Title of target item, e.g. training event title.
+mail#:#mail_nacc_target_type#:#Type of target item, e.g. ‘training event’ for a training event item.
+mail#:#mail_notify_orphaned_info#:#If you enter a value here is larger than or equal to 1, cate will send an e-mail to the user before an internal mail is deleted. Please make sure that an external e-mail reception is possible.
+mail#:#mail_select_course#:#Please select at least one training event.
+mail#:#mail_smtp_status_info#:#If enabled, cate will dispatch external e-mails to an SMTP server instead of using the the internal functionality provided by the PHP runtime (mail() function, sendmail).
+mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via cate will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>
+mail#:#mail_template_no_context_available#:#There is no context provided by any cate service or module. Thus it is not possible to create or edit a text template.
+mail#:#only_inbox_trash_info#:#If enabled, e-mails are only deleted if they are located in the Inbox and Trash of the respective user. Otherwise, all messages are deleted regardless of the folder.
+mail#:#show_mail_settings_info#:#Mail Settings' are visible via the 'Personal Settings' or 'Mail' section. The permission to change these settings depends on the configuration of the user profile in cate. If users do not have the permission to change these profile settings the global default is applied even if users were able to and did change their personal mail settings in the past.
+maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and training events.
+mcst#:#mcst_duration_info#:#If no value is entered, cate tries do determine the play time automatically.
+mcst#:#mcst_news_item_visibility_info#:#Public news can be accessed without authentication outside of cate via RSS. Please do not include any confidential information.
+meta#:#meta_training#:#Training
+mmbr#:#mmbr_awrn_my_groups_courses#:#My Groups and Training Events
+mmbr#:#mmbr_awrn_my_groups_courses_info#:#All members of groups or training events of the current user are listed.
+mme#:#field_ref_id#:#cate Reference-ID
+mme#:#field_ref_id_info#:#The Reference-ID of the desired cate-Object from the Repository, you find the Reference-ID in the URL of a object (...?ref_id=123)
+mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory, all .srt files should be located on the top level. The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de".
+mst#:#mst_courses_of#:#Training Event Memberships of %s
+mst#:#mst_download_certificate#:#Download Certificate
+mst#:#mst_list_certificates#:#Certificates
+mst#:#mst_list_courses#:#Training Event Memberships
+mst#:#mst_please_select_course#:#Please select a training event.
+mst#:#mst_select_course#:#Select Training Event
+mst#:#mst_show_courses#:#Training Event Memberships
+news#:#news_enable_internal_news_info#:#Activates news blocks for categories, training events, groups and other objects. Users can subscribe to news and news are presented on the dashboard.
+news#:#news_enable_private_feed_info#:#If this option is enabled, public and private news can be obtained by personal RSS feeds outside of cate. Authentication is provided by password.
+news#:#news_news_item_def_visibility_users_info#:#Only authenticated users have access to current news.
+news#:#news_news_item_visibility_info#:#Public news can be accessed without authentication outside of cate via RSS. Please do not include any confidential information.
+news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of cate. Please note that this makes notifications accessible without authentication.
+news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, training events) may list more items, because they aggregate news of sub-objects.
+news#:#news_visibility_users#:#Authenticated Users
+news#:#passwd_equals_ilpasswd#:#Please enter a password different from your cate-password.
+note#:#note_comment_notification_reason#:#You receive this message because your account is listed as a global recipient for all comments in the cate administration.
+obj#:#obj_import_file_error#:#This file could not be imported. Please make sure that this is a valid cate export file (XML Export), of the same object type. The filename must not be modified after export. Error Message:
+obj#:#obj_tile_image_info#:#The tile image will be used, if the container (training event, folder, group, ...) activates the tile view presentation.
+obj#:#obj_tool_ext_mail_subject_prefix_info#:#Entered text is included in the subject line of external emails. This makes it easier to identify and filter e-mails from different trainings or groups.
+orgu#:#org_op_access_enrolments#:#View Training Event Memberships
+orgu#:#orgu_enable_my_staff_info#:#A main menu entry is presented that may comprise Staff List, Training Event Memberships, Certficates, Competences, Talks.
+pd#:#pd_my_memberships_intro2#:#This is your personal space for all training events and groups you participate in. Currently, there aren't any memberships assigned to you. To become a member of a training event or group, there are two ways:<br /><ol><li>You can join training events or groups provided that joining them has been allowed by their administrators.</li><li>An administratrator of a training event or group can assign a membership to you.</li></ol><br />In any case, the respective objects will appear automatically in this place.
+prg#:#content_automation_title#:#Automatically add and remove training event from these categories
+prg#:#crs_affiliation_to_prg#:#Affiliation to Qualification Programmes
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of your qualification in the qualification programm '%s' will soon expire. Please sign in again.
+prg#:#info_to_re_assign_mail_subject#:#Reminder to process the Qualification Programme once more
+prg#:#label_crs#:#Training Event Name
+prg#:#mails_foreign_assignment_failed#:#Selected assignments are not in current context. Mails should be sent from Qualification Programme's top node.
+prg#:#msg_acknowledge_courses#:#Completed training events have been acknowledged.
+prg#:#obj_prg_select#:#-- Please select a Qualification Programme --
+prg#:#prg_acknowledge_completed_courses#:#Acknowledge Training Events Already Completed
+prg#:#prg_add#:#Add Qualification Programme
+prg#:#prg_added_course_ref_successful#:#New training event link was added successfully
+prg#:#prg_added_Training Event_ref_successful#:#New Training Event link added successfully
+prg#:#prg_assessment#:#Qualification Programme Assessment
+prg#:#prg_auto_member_select_crs#:#Training Events
+prg#:#prg_can_not_manage_in_repo#:#You're not allowed to change this qualification programme because of existing enrolments.
+prg#:#prg_copy_threads_info#:#Please decide which qualification programme elements are to be copied, linked or omitted.
+prg#:#prg_create_new_leaf#:#Create new Training Event link
+prg#:#prg_deadline_date_desc#:#The qualification programme must be completed until the date specified here, which applies equally to all enrolments.
+prg#:#prg_deadline_period_desc#:#After enrolment, the qualification programme must be completed within the period (in days) specified here.
+prg#:#prg_edit#:#Edit Qualification Programme
+prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired qualifications in qualification programmes 'invalid'.
+prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of qualifications in qualification programmmes
+prg#:#prg_mail_context_info#:#For e-mails to enrolled users from a qualification programme
+prg#:#prg_mail_context_title#:#Qualification Programme: Mail to Enrolled Users
+prg#:#prg_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the qualification programm:
+prg#:#prg_manage_members#:#Manage Enrolments of a Qualification Programme
+prg#:#prg_mark_accredited_success#:#Accredited user in qualification programme successfully.
+prg#:#prg_mark_not_relevant_multi_success#:#Declare Qualification Programme Not Relevant For Selected Users
+prg#:#prg_mark_relevant_multi_success#:#Declare Qualification Programme Relevant For Selected Users
+prg#:#prg_more_objects_without_read_permission#:#The qualification programme contains more objects than you can see because of lacking permissions.
+prg#:#prg_new#:#New Qualification Programme
+prg#:#prg_no_members_not_active#:#You cannot add enrolments because this qualification programme is not active.
+prg#:#prg_open_node#:#Switch to this Qualification Programme
+prg#:#prg_please_select_a_course_for_creating_a_leaf#:#Please select a training event for creating a training event link leaf
+prg#:#prg_please_select_a_Training Event_for_creating_a_leaf#:#Please select a Training Event for creating a Training Event link leaf
+prg#:#prg_points_byline#:#When users have successfully completed this qualification programme or have been accredited, they achieve this amount of points. The qualification programme passes these points on to a superordinated programme levels, if there is one. If there are subordinate programme levels, users must achieve this minimum amount of points in those programme levels.
+prg#:#prg_prg_type#:#Qualification Programme Type
+prg#:#prg_progress_info#:#You have %1$d points. The qualification programme is completed with %2$d points.
+prg#:#prg_restart_assignments_temporal_progress_desc#:#Enrols users to the Qualification Programme once more after validity of qualification expires
+prg#:#prg_restart_assignments_temporal_progress_title#:#Automatically repeat Qualification Programme enrolments
+prg#:#prg_show_programmes_on_pd_always#:#qualification programmes are always visible on Dashboard.
+prg#:#prg_show_programmes_on_pd_only_read#:#Qualification programmes are only visible on Dashboard with ‘read’ permissions.
+prg#:#prg_type#:#Qualification Programme Type
+prg#:#prg_type_add#:#Qualification Programme Type
+prg#:#prg_type_msg_unable_delete#:#Unable to delete type because it is still assigned to the following Qualification Programmes: %s
+prg#:#prg_user_not_restarted_desc#:#Sends users a warning e-mail when the validity of a qualification in a qualification programme expires and they have not started the qualification programme once more.
+prg#:#prg_user_risky_to_fail_desc#:#Sends users a warning mail if they are at the risk to fail a qualification programme due to a deadline.
+prg#:#prgr_may_not_create_circular_reference#:#This qualification programme may not be linked here since the parent object is alredy linked within the target.
+prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>you were enrolled to qualification programme '%s' once more.
+prg#:#re_assigned_mail_subject#:#Repeated enrolment to the qualification programme
+prg#:#restart_information#:#Notification on being automatically enrolled once more to a Qualification Programme when expiry date of qualification validity approaches
+prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>the due date for completing the qualification programme '%s' is approaching.
+prg#:#risky_to_fail_mail_subject#:#Reminder of approaching end of processing period in the Qualification Programme
+prg#:#select_crs#:#Search for Training Events
+prg#:#send_info_to_re_assign_mail_info#:#Send an e-mail to remind the user to restart the qualification program.
+prg#:#send_re_assigned_mail_info#:#Sends an e-mail notification when users are automatically enrolled to the qualification programme once more.
+prg#:#send_risky_to_fail_mail_info#:#Sends an e-mail when the end of the processing period approaches while the qualification programme has not been completed yet.
+prg#:#sp_certificate_description#:#Description of the Qualification Programme
+prg#:#sp_certificate_title#:#Title of the Qualification Programme
+prg#:#sp_certificate_type#:#Type of the Qualification Programme
+prg#:#validity_qualification_period_desc#:#After the qualification programme has been completed, the qualification will expire after the number of days specified here.
+prtf#:#prtf_allow_my_courses#:#Page Element 'My Training Events'
+prtf#:#prtf_allow_my_courses_info#:#Portfolios may include a list showing which training events the user is currently a member of.
+prtf#:#prtf_page_element_my_courses_info#:#This is a list of all my training events which are currently online and where I have a membership.
+prtf#:#prtf_page_element_my_courses_title#:#Training Event Memberships
+prtf#:#prtf_page_element_teaser_my_courses#:#The portfolio will display a list of your current training events here.
+ps#:#crs_ps_cdf_info#:#Further Training Event-Specific Data:
+ps#:#crs_ps_required_info#:#Further Events-Specific fields are required for accessing the training event content.
+ps#:#ps_auto_https_description#:#If enabled, cate tries to detect the HTTPs Status by analysing the header value specified below.
+ps#:#ps_cdf_warning_modify#:#Attention: Minimum one user has accepted the user agreement. Modifying these training event specific fields will reset all user agreements.
+ps#:#ps_crs_user_fields#:#Training Event-Specific User Fields
+ps#:#ps_export_confirm#:#User Confirmation when Entering Training Events
+ps#:#ps_export_course#:#Allow export of user profile data in training events
+ps#:#ps_login_max_attempts_info#:# Sets the maximum number of unsuccessful attempts to login. After the maximum number of unsuccessful attempts is exceeded, the respective user will be set to 'inactive' and would require re-activation in User Management. Leave the field empty to disable this option and cate will not count failed login attempts.
+ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Training Events
+ps#:#ps_show_crs_access#:#Show last access time of Training Event participants
+pwassist#:#password_assistance#:#Login Assistance
+pwassist#:#pwassist_disabled_no_access#:#Login assistance is not enabled. Please contact the system administration for further assistance: %s
+pwassist#:#pwassist_enter_email#:#Please enter an e-mail address and submit the form. cate will send an e-mail to that address. The e-mail contains all user names which have registered this e-mail address. Choose a suitable username and use the password service to retrieve a new password. If you do not retrieve any e-mail by this service please contact your training event admin or %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Enter a username and the associated e-mail address in the fields shown below. cate will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account. In case you are unable to assign a password to your user account using this form, contact your training event administration or send an e-mail to %1$s.
+pwassist#:#pwassist_enter_username_and_new_password#:#Enter the username for which you asked for login assistance and the new password.
+pwassist#:#pwassist_login_not_match#:#Please enter another username. The username you have entered does not match the username for which you asked for login assistance.
+pwassist#:#pwassist_mail_body#:#Hello,\n\nTo reset your password, proceed as follows:\n\n1. Copy the following address into your browser:\n%6$s\n\n2. In the next step, reset your password.\n\nPlease note:\nFor security reasons, you can only carry out this process exactly once and within a limited time. After that, the address will become invalid and you will have to request login support again.\n\nIf you have not requested a password reset, please contact the system administrators.\n
+pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in cate. Please check your mail box.
+pwassist#:#pwassist_mail_subject#:#Login Assistance
+pwassist#:#pwassist_session_expired#:#Please request login support again. The validity of the address for performing login support has expired. This may have happened because you have tried to use the address that was sent to you by e-mail more than once, or because too much time has passed since the address was sent to you.
+pwassist#:#pwassist_username_mail_body#:#Hello,\n\nYou have just requested your user name.\n\nThese are the active username found for the given e-mail address: %s\n\nIf you didn't request your username being sent to you, please contact user service.\n
+rbac#:#cals_edit_event#:#User can create and edit public calendars and events in cate
+rbac#:#cert_edit_permission#:#User can change permission settings of Certificates administration
+rbac#:#cert_read#:#User has read access to Certificates Administration
+rbac#:#cert_visible#:#Certificates Administration is visible
+rbac#:#cert_write#:#User can edit settings in Certificates Administration
+rbac#:#crs_copy#:#User can copy Training Event
+rbac#:#crs_delete#:#User can move or delete Training Event
+rbac#:#crs_grade#:#Grade Members of Training Event
+rbac#:#crs_join#:#User can join Training Event
+rbac#:#crs_leave#:#User can unsubscribe from Training Event
+rbac#:#crs_manage_members#:#Manage Members of Training Event
+rbac#:#crs_news_add_news#:#Add and edit own news entries in Training Event
+rbac#:#crs_read#:#User has read access to Training Event
+rbac#:#crs_visible#:#Training Event is visible
+rbac#:#crs_write#:#User can edit Training Event settings and manage content
+rbac#:#crsr_copy#:#User can copy Training Event link
+rbac#:#crsr_delete#:#User can move or delete Training Event link
+rbac#:#crsr_visible#:#Training Event link is visible
+rbac#:#crsr_write#:#User can edit settings of Training Event link
+rbac#:#crss_edit_permission#:#User can change permission settings in Training Event administration
+rbac#:#crss_read#:#User has read access to Training Event administration
+rbac#:#crss_visible#:#Training Event administration is visible
+rbac#:#crss_write#:#Edit settings in Training Event administration
+rbac#:#ilias_id#:#cate-ID
+rbac#:#lm_copy#:#User can copy cate learning module
+rbac#:#lm_delete#:#User can move or delete cate learning module
+rbac#:#lm_read#:#User can read cate learning module
+rbac#:#lm_visible#:#cate Learning Module is visible
+rbac#:#lm_write#:#User can edit content and settings of cate learning module
+rbac#:#mail_internal_mail#:#User can use internal mail system (cate)
+rbac#:#prg_copy#:#User can copy Qualification Programme
+rbac#:#prg_delete#:#User can delete Qualification Programme
+rbac#:#prg_manage_members#:#Manage members of Qualification Programme
+rbac#:#prg_read#:#User has read access to Qualification Programme
+rbac#:#prg_visible#:#Qualification Programme is visible
+rbac#:#prg_write#:#User can edit settings of Qualification Programme
+rbac#:#prgr_copy#:#User can copy links to Qualification Programmes
+rbac#:#prgr_delete#:#User can move or delete links to Qualification Programmes
+rbac#:#prgr_visible#:#Links to Qualification Programmes are visible and can be used
+rbac#:#prgr_write#:#User can edit settings of links to Qualification Programmes
+rbac#:#prgs_edit_permission#:#Change permission settings in Qualification Programme administration
+rbac#:#prgs_read#:#User has read access to Qualification Programme administration
+rbac#:#prgs_visible#:#Qualification Programme administration is visible
+rbac#:#prgs_write#:#Edit settings in Qualification Programme administration
+rbac#:#ps_export_member_data#:#User can export member data in Training Events and groups
+rbac#:#rbac_create_crs#:#Create Training Event
+rbac#:#rbac_create_crsr#:#Create Training Event Link
+rbac#:#rbac_create_lm#:#Create cate Learning Module
+rbac#:#rbac_create_prg#:#Create Qualification Programme
+rbac#:#rbac_create_prgr#:#Create link to Qualification Programme
+rbac#:#rbac_create_rcrs#:#Create ECS Training Event
+rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some cate materials.
+rbac#:#rbac_unprotected_delete_local_policies_info#:#If activated, all local policies will be deleted. Permissions in training events and groups will be newly initialized.
+rbac#:#rcrs_delete#:#User can move or delete ECS Training Event
+rbac#:#rcrs_read#:#User can use ECS Training Event
+rbac#:#rcrs_visible#:#ECS Training Event is visible
+rbac#:#rcrs_write#:#User can edit settings of ECS Training Event
+rbac#:#seas_search#:#User can use the global search in cate
+registration#:#reg_allowed_domains_info#:#Use * as a wildcard and ; as a separator, e.g. "*@cate.de". Registration codes override these rules.
+registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to cate. You will receive a confirmation e-mail in the next minutes. Please confirm your registration by clicking the confirmation link in this mail.<br />You will be redirected to the <a href="%s" title="login screen">login screen</a> after 20 seconds.
+registration#:#reg_mail_body_approve#:#You already have registered to cate eLearning and received a e-mail with your account data. Now your account has been activated by an administrator.
+registration#:#reg_mail_body_confirmation#:#To confirm this registration enter the cate user administration and activate the account.
+registration#:#reg_mail_body_reason#:#You receive mail from cate because notifications about new registrations are enabled for your account in the cate administration.
+registration#:#reg_type_confirmation_info#:#This type allows self-registration of users but requires an e-mail confirmation to activate the account. This avoids self-registration to cate with wrong or non-existent e-mail addresses.
+registration#:#registration_settings#:#cate Auth / Self-Registration
+rep#:#rep_breadcr_crs#:#Breadcrumb starts with Training Event
+rep#:#rep_breadcr_crs_overwrite#:#Setting is changeable on Training Event level
+rep#:#rep_breadcr_crs_overwrite_not#:#Setting is not changeable on Training Event level
+rep#:#rep_export_limitation_info#:#Limits the number of objects for container exports (training events, categories, ...) in the repository.
+rep#:#rep_mo_mem_dash#:#You are currently not yet a member of a training event or group.
+rep_robj_xbkm#:#rep_robj_xbkm_not_below_course#:#This object is not located inside training event and is therefore restricted in its functionality.
+rep_robj_xpay#:#rep_robj_xpay_not_below_course#:#This object is not located inside training event and is therefore restricted in its functionality.
+rep_robj_xpay#:#rep_robj_xpay_placeholder_desc_cancellation_fee#:#Effective cancellation fee for the respective training event in EUR
+sahs#:#sahs_authoring_mode_info#:#The SCORM ZIP package must have been created with the cate SCORM editor and it must have been exported as SCORM 1.2/2004 package.
+sahs#:#sahs_std_sequencing_info#:#Use cate standard sequencing behaviour.
+scormdebug#:#cmi.completion_status#:#Indicates whether the learner has completed the SCO
+scormdebug#:#cmi.credit#:#Indicates whether the learner will be credited for performance in the SCO
+scormdebug#:#cmi.exit#:#Indicates how or why the learner left the SCO
+scormdebug#:#cmi.objectives.n.completion_status#:#Indicates whether the learner has completed the associated objective
+scormdebug#:#cmi.objectives.n.success_status#:#Indicates whether the learner has mastered the objective
+scormdebug#:#cmi.success_status#:#Indicates whether the learner has mastered the SCO
+scormdebug#:#cmi.time_limit_action#:#Indicates what the SCO should do when cmi.max_time_allowed is exceeded
+scormdebug#:#i_gray#:#gray: error corrected by cate
+search#:#lucene_prefix_wildcard_info#:#Supports prefix wildcard queries: ‘*LIAS’ finds ‘cate’
+search#:#search_add_members_from_container_crs#:#Add Users of Current Training Event
+search#:#search_crs_title#:#Training Event Name
+search#:#search_for_crs_members#:#Search for Training Events
+sess#:#objs_crs_role#:#Training Event Roles
+sess#:#sess_notification_option_inherit_info#:#Use the parent notification settings (e.g. notification settings from training event or group) for members of this session
+sess#:#sess_reg_cannot_participate_info#:#Users can indicate that they cannot participate in the session.
+style#:#enable_system_styles_management_no_write_perm#:#System styles management is enabled but cate does not have write permission on the Customizing/global/skin folder. No new styles can therefore be created/edited.
+style#:#less_compile_failed#:#Something in the compilation of the less file went wrong. Is lessc installed and the path set correctly in cate setup? Original error:
+style#:#style_page_layout_module_learning_module#:#cate Learning Module
+survey#:#concatenation#:#Concatenation
+survey#:#duplicate#:#Duplicate
+survey#:#survey_notification_target_group_parent_course#:#All members of parent training event / group
+survey#:#survey_notification_target_group_parent_course_inactive#:#No parent training event / group given - no reminders will be sent!
+survey#:#svy_activation_limited_visibility_info#:#Outside the indicated period, only the title of the survey will be displayed while the question are not accessible.
+sysc#:#sysc_task_tree_duplicates#:#Duplicate Entries in Repository Tree
+sysc#:#sysc_task_tree_duplicates_desc#:#Search for duplicate entries in the repository tree structure.
+sysc#:#sysc_tree_duplicate_failures#:#Found duplicate entries in tree structure. Number of duplicate entries
+taa#:#tad_clean_files_title#:#Delete Files Created on Download by Token
+taa#:#tad_clean_files_description#:#Deletes files created by retrieval via download by token.
+tms#:#crs_affiliation_to_prg#:#Allocation in Qualification Programmes
+tms#:#current_open_approval#:#Approval process for this training event already started
+tms#:#not_min_member#:#Only display training events for which the minimum number of participants has not yet been reached.
+tms#:#t_course#:#View: Training Event
+tms#:#usr_has_status_on_course_no_cancel#:#You can no longer cancel this booking, because a participation has already been recorded. When you reload the page, the entry disappears.
+tos#:#tos_form_document_content_changed#:#The contents of the uploaded file was purified by cate. Please check the result and upload a new file, if necessary.
+tos#:#tos_reevaluate_on_login_desc#:#If enabled, cate checks if the user has to accept a new document after successful login. This applies for the cased, where the criteria of a signed document do not match anymore, and a new document can be determined based on the current user criteria.
+tos#:#tos_status_desc#:#If activated, users are forced to accept the terms of service before they can enter cate.
+trac#:#trac_crs_objects#:#Training Event Participants
+trac#:#trac_defaults_info#:#Set the completion status determination mode for supported object types. Used by certain badge types and certificates.
+trac#:#trac_mode_course_reference#:#Adopted from Training Event
+trac#:#trac_mode_course_reference_info#:#The mode is automatically adopted from the training event this training event link points to.
+trac#:#trac_mode_study_programme#:#Qualification Programme Completed
+trac#:#trac_mode_Training Event_reference#:#Adopted from Training Event
+trac#:#trac_mode_training event_reference_info#:#The mode is automatically adopted from the training event this training event link points to.
+trac#:#trac_object_stat_lp#:#Learning Progress Statistics Training Event
+trac#:#trac_sure_delete_data#:#Are you sure you want to delete the complete data for the following months? This will remove all statistics for that period incl. Usage Intensity, Daily Usage, Learning Progress Statistics Training Events and Number of Objects.
+trac#:#trac_view_crs#:#Back to Training Event
+tstv#:#tstv_create#:#Create Test Certificate
+tstv#:#tstv_create_info#:#Select a completed test to generate a certificate for it.
+ui#:#datatable_multiaction_label#:#Bulk Actions
+ui#:#datatable_multiactionmodal_actionlabel#:#Action
+ui#:#datatable_multiactionmodal_buttonlabel#:#Apply
+ui#:#datatable_multiactionmodal_listentry#:#Overall Actions (no selection required)
+ui#:#datatable_multiactionmodal_msg#:#<b>Attention!</b></br><ul><li><u>Table with <b>multiple pages</b></u>: Action also captures table entries that are currently not visible</li><li><u>Table with <b>filter</b></u>:<br/>Action captures all filtered entries</li></ul>
+ui#:#datatable_multiactionmodal_title#:#Overall Actions (no selection possible)
+ui#:#ui_file_input_general_error#:#An error occurred! You can check the JavaScript console of your browser for more information and/or contact your cate system administration about this incident.
+ui#:#ui_pagination_unlimited#:#Unlimited
+user#:#del_mail_body#:#Hello %1$s, %2$s You have not logged in to %3$s for a long time. Therefore, your cate account is expected to be deleted on %4$s. In order to keep your cate account, you must log in again before the aforementioned date.
+user#:#del_mail_subject#:#(cate) – Your account will be deleted
+user#:#user_account_code_setting_info#:#Users can re-activate their expired user account with a pre-defined code. Corresponding codes for the renewal of temporary cate accounts are generated in 'Administration " Users and Roles " Authentication and Registration', tab 'cate Auth / Self-Registration : Registration Codes'. Inactive accounts cannot be re-activated by codes.
+user#:#user_delete_own_account_final_confirmation#:#Please confirm for the last time to remove your user account from cate!
+user#:#user_delete_own_account_logout_confirmation#:#Your account has been flagged for deletion. Please authenticate to continue the process.
+user#:#user_member_of_course_group#:#Member of Training Event/Group
+user#:#user_member_of_Training Event_group#:#Member of Training Event/Group
+user#:#user_no_courses#:#No Training Events Assigned
+user#:#user_please_select_course_group#:#Please select a training event or a group.
+user#:#user_please_select_training event_group#:#Please select a training event or a group.
+user#:#user_screen_reader_optimization_info#:#Improve cate for usage with screen readers.
+user#:#user_select_course_group#:#Select Training Event/Group
+user#:#user_select_Training Event_group#:#Select Training Event/Group
+user#:#usr_public_profile_logged_in#:#Visible to logged-in users of cate

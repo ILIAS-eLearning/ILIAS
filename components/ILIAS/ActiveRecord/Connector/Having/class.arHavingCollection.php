@@ -23,7 +23,7 @@
  */
 class arHavingCollection extends arStatementCollection
 {
-    public function asSQLStatement(): string
+    public function asSQLStatement(ilDBInterface $db): string
     {
         $return = '';
         if ($this->hasStatements()) {
@@ -31,7 +31,7 @@ class arHavingCollection extends arStatementCollection
             $havings = $this->getHavings();
             $last = end($havings);
             foreach ($havings as $having) {
-                $return .= $having->asSQLStatement($this->getAr());
+                $return .= $having->asSQLStatement($this->getAr(), $db);
                 if ($having !== $last) {
                     $return .= ' ' . $having->getGlue() . ' ';
                 }

@@ -37,10 +37,10 @@ use ILIAS\Cron\CronJob;
  */
 class ilCronManagerGUI
 {
-    private const TABLE_ACTION_NAMESPACE = ['cron', 'jobs'];
-    private const TABLE_ACTION_PARAM_NAME = 'table_action';
-    private const TABLE_ACTION_IDENTIFIER_NAME = 'jid';
-    private const FORM_PARAM_SCHEDULE_PREFIX = 'schedule_';
+    private const array TABLE_ACTION_NAMESPACE = ['cron', 'jobs'];
+    private const string TABLE_ACTION_PARAM_NAME = 'table_action';
+    private const string TABLE_ACTION_IDENTIFIER_NAME = 'jid';
+    private const string FORM_PARAM_SCHEDULE_PREFIX = 'schedule_';
     public const FORM_PARAM_MAIN_SECTION = 'main';
     public const FORM_PARAM_JOB_INPUT = 'additional_job_input';
     public const FORM_PARAM_GROUP_SCHEDULE = 'schedule';
@@ -122,9 +122,7 @@ class ilCronManagerGUI
                 )
             );
             $ids = array_map(
-                static function (JobEntity $entity): string {
-                    return $entity->getEffectiveJobId();
-                },
+                static fn(JobEntity $entity): string => $entity->getEffectiveJobId(),
                 $tableFilterMediator->filteredJobs(
                     $filter
                 )->toArray()
@@ -229,7 +227,7 @@ class ilCronManagerGUI
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
-        $class = $this->ctrl->getNextClass($this);
+        $class = $this->ctrl->getNextClass($this) ?? '';
 
         switch (strtolower($class)) {
             case strtolower(ilPropertyFormGUI::class):

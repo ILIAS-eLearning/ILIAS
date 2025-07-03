@@ -28,8 +28,8 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilForumExportGUI
 {
-    private const MODE_EXPORT_WEB = 1;
-    private const MODE_EXPORT_CLIENT = 2;
+    private const int MODE_EXPORT_WEB = 1;
+    private const int MODE_EXPORT_CLIENT = 2;
 
     public ilCtrlInterface $ctrl;
     public ilLanguage $lng;

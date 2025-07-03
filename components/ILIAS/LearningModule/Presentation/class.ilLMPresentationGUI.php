@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * Class ilLMPresentationGUI
@@ -89,7 +90,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     protected int $requested_mob_id = 0;
     protected int $requested_notification_switch = 0;
     protected bool $abstract = false;
-    protected ilObjectTranslation $ot;
+    protected Translations $ot;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected ?\ILIAS\Style\Content\Service $cs = null;
@@ -265,7 +266,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $this->lm_tree = $this->service->getLMTree();
         $this->focus_id = $this->service->getPresentationStatus()->getFocusId();
-        $this->ot = ilObjectTranslation::getInstance($this->lm->getId());
+        $this->ot = $this->lm->getObjectProperties()->getPropertyTranslations();
         $this->content_style_gui = $this->cs->gui();
         $this->content_style_domain = $this->cs->domain()->styleForRefId($this->lm->getRefId());
     }
@@ -1144,6 +1145,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             $this->service,
             $this,
             $this->lng,
+            $this->ot,
             $this->ctrl,
             $this->access,
             $this->user,
@@ -1672,6 +1674,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         }
 
         $this->setContentStyles();
+        $this->tpl->addCss(ilObjStyleSheet::getContentPrintStyle());
 
         $tpl = new ilTemplate("tpl.lm_print_view.html", true, true, "components/ILIAS/LearningModule");
 
@@ -1686,6 +1689,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $glossary_links = array();
         $output_header = false;
         $media_links = array();
+        $last_page_title = "";
 
         // get header and footer
         if ($this->lm->getFooterPage() > 0 && !$this->lm->getHideHeaderFooterPrint()) {
@@ -1783,8 +1787,10 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                     $chapter_title = $chap->_getPresentationTitle(
                         $node["obj_id"],
+                        ilLMObject::CHAPTER_TITLE,
                         $this->lm->isActiveNumbering(),
                         (bool) $this->lm_set->get("time_scheduled_page_activation"),
+                        false,
                         0,
                         $this->lang
                     );
@@ -1830,7 +1836,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     $page_object_gui->setOutputMode("print");
                     $page_object_gui->setPresentationTitle("");
 
-                    if ($this->lm->getPageHeader() == ilLMObject::PAGE_TITLE || ($node["free"] ?? false) === true) {
+                    // if ($this->lm->getPageHeader() == ilLMObject::PAGE_TITLE || ($node["free"] ?? false) === true) {
+                    if (true) {
                         $page_title = ilLMPageObject::_getPresentationTitle(
                             $lm_pg_obj->getId(),
                             $this->lm->getPageHeader(),
@@ -1841,6 +1848,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             $this->lang
                         );
 
+                        if ($this->lm->getPageHeader() === ilLMObject::CHAPTER_TITLE) {
+                            // remove the suffic (x/n)
+                            $page_title = trim(substr($page_title, 0, strrpos($page_title, " ")));
+                        }
+
                         // prevent page title after chapter title
                         // that have the same content
                         if ($this->lm->isActiveNumbering()) {
@@ -1850,9 +1862,10 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             ));
                         }
 
-                        if ($page_title != $chapter_title) {
+                        if ($page_title != $chapter_title && $page_title !== $last_page_title) {
                             $page_object_gui->setPresentationTitle($page_title);
                         }
+                        $last_page_title = $page_title;
                     }
 
                     // handle header / footer
@@ -1947,26 +1960,30 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 $link = $t["link"];
                 $key = $t["key"];
 
-                // output definition of term
-                $page_gui = new ilGlossaryDefPageGUI($link["id"]);
-                $page_gui->setTemplateOutput(false);
-                $page_gui->setOutputMode("print");
+                try {
+                    // output definition of term
+                    $page_gui = new ilGlossaryDefPageGUI($link["id"]);
+                    $page_gui->setTemplateOutput(false);
+                    $page_gui->setOutputMode("print");
 
-                $tpl->setCurrentBlock("definition");
-                $page_gui->setFileDownloadLink("#");
-                $page_gui->setFullscreenLink("#");
-                $page_gui->setSourcecodeDownloadScript("#");
-                $output = $page_gui->showPage();
-                $tpl->setVariable("VAL_DEFINITION", $output);
-                $tpl->parseCurrentBlock();
+                    $tpl->setCurrentBlock("definition");
+                    $page_gui->setFileDownloadLink("#");
+                    $page_gui->setFullscreenLink("#");
+                    $page_gui->setSourcecodeDownloadScript("#");
+                    $output = $page_gui->showPage();
+                    $tpl->setVariable("VAL_DEFINITION", $output);
+                    $tpl->parseCurrentBlock();
 
-                // output term
-                $tpl->setCurrentBlock("term");
-                $tpl->setVariable(
-                    "VAL_TERM",
-                    $term = ilGlossaryTerm::_lookGlossaryTerm($link["id"])
-                );
-                $tpl->parseCurrentBlock();
+                    // output term
+                    $tpl->setCurrentBlock("term");
+                    $tpl->setVariable(
+                        "VAL_TERM",
+                        $term = ilGlossaryTerm::_lookGlossaryTerm($link["id"])
+                    );
+                    $tpl->parseCurrentBlock();
+                } catch (Exception $e) {
+
+                }
             }
 
             // output glossary header
@@ -2133,68 +2150,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     }
 
     /**
-     * show download list
-     */
-    public function showDownloadList(): void
-    {
-        if (!$this->lm->isActiveDownloads() || !$this->lm->isActiveLMMenu()) {
-            return;
-        }
-        $tpl = new ilTemplate("tpl.lm_download_list.html", true, true, "components/ILIAS/LearningModule");
-
-        // output copyright information
-        $lom_cp_helper = $this->lom_services->copyrightHelper();
-        $lom_reader = $this->lom_services->read($this->lm->getId(), 0, $this->lm->getType());
-        if ($lom_cp_helper->hasPresetCopyright($lom_reader)) {
-            $copyright = $this->ui->renderer()->render(
-                $lom_cp_helper->readPresetCopyright($lom_reader)->presentAsUIComponents()
-            );
-        } else {
-            $copyright = $lom_cp_helper->readCustomCopyright($lom_reader);
-        }
-        if ($copyright != "") {
-            $this->lng->loadLanguageModule("meta");
-            $tpl->setCurrentBlock("copyright");
-            $tpl->setVariable("TXT_COPYRIGHT", $this->lng->txt("meta_copyright"));
-            $tpl->setVariable("LM_COPYRIGHT", $copyright);
-            $tpl->parseCurrentBlock();
-        }
-
-        $download_table = new ilLMDownloadTableGUI($this, "showDownloadList", $this->lm);
-        $tpl->setVariable("DOWNLOAD_TABLE", $download_table->getHTML());
-        //$this->tpl->printToStdout();
-
-        $modal = $this->ui->factory()->modal()->roundtrip(
-            $this->lng->txt("download"),
-            $this->ui->factory()->legacy()->content($tpl->get())
-        );
-        echo $this->ui->renderer()->render($modal);
-        exit();
-    }
-
-    /**
-     * send download file (xml/html)
-     */
-    public function downloadExportFile(): void
-    {
-        if (!$this->lm->isActiveDownloads() || !$this->lm->isActiveLMMenu()) {
-            return;
-        }
-
-        $type = $this->requested_type;
-        $base_type = explode("_", $type);
-        $base_type = $base_type[0];
-        $file = $this->lm->getPublicExportFile($base_type);
-        if ($this->lm->getPublicExportFile($base_type) != "") {
-            $dir = $this->lm->getExportDirectory($type);
-            if (is_file($dir . "/" . $file)) {
-                ilFileDelivery::deliverFileLegacy($dir . "/" . $file, $file);
-                exit;
-            }
-        }
-    }
-
-    /**
      * Get focused link (used in learning objectives courses)
      * @param int $a_ref_id        reference id of learning module
      * @param int $a_obj_id        chapter or page id
@@ -2294,8 +2249,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->lang)) {
             return new ilLMPageGUI($a_id, 0, false, $this->lang, $concrete_lang);
         }
-        if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->ot->getFallbackLanguage())) {
-            return new ilLMPageGUI($a_id, 0, false, $this->ot->getFallbackLanguage(), $concrete_lang);
+        if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->ot->getDefaultLanguage())) {
+            return new ilLMPageGUI($a_id, 0, false, $this->ot->getDefaultLanguage(), $concrete_lang);
         }
         return new ilLMPageGUI($a_id, 0, false, "", $concrete_lang);
     }
@@ -2311,8 +2266,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $lang = $this->lang;
         if (!ilPageObject::_exists($type, $a_id, $lang)) {
             $lang = "-";
-            if ($this->lang != "-" && ilPageObject::_exists($type, $a_id, $this->ot->getFallbackLanguage())) {
-                $lang = $this->ot->getFallbackLanguage();
+            if ($this->lang != "-" && ilPageObject::_exists($type, $a_id, $this->ot->getDefaultLanguage())) {
+                $lang = $this->ot->getDefaultLanguage();
             }
         }
 

@@ -61,6 +61,18 @@ if ($show_mount_instr) {
     $mount_gui = $webdav_dic->mountinstructions();
     $mount_gui->renderMountInstructionsContent();
 } else {
-    $server = new ilWebDAVRequestHandler($webdav_dic);
-    $server->handleRequest($post_array);
+    try {
+        $server = new ilWebDAVRequestHandler($webdav_dic);
+        $server->handleRequest($post_array);
+    } catch (Throwable $e) {
+        header("HTTP/1.1 400 Bad Request");
+        header("X-WebDAV-Status: 400 Bad Request", true);
+        echo '<?xml version="1.0" encoding="utf-8"?>
+    <d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">
+      <s:sabredav-version>3.2.2</s:sabredav-version>
+      <s:exception>Sabre\DAV\Exception\BadRequest</s:exception>
+      <s:message>' . $e->getMessage() . '</s:message>
+    </d:error>';
+        exit;
+    }
 }

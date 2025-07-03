@@ -141,6 +141,11 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
     }
 
+    public function create_amdfrm(): void
+    {
+        $this->create();
+    }
+
     public function create(): void
     {
         $request = $this->http_request;

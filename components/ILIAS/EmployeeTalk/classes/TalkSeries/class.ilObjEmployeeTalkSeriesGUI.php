@@ -311,7 +311,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         self::_goto((string) $this->ref_id);
     }
 
-    public function getTabs(): void
+    protected function getTabs(): void
     {
     }
 
@@ -485,9 +485,9 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
      * @param ilObjEmployeeTalkSeries    $talk
      * @param ilCalendarRecurrence $recurrence
      *
-     * @return bool true if successful otherwise false
+     * @return void true if successful otherwise false
      */
-    private function createRecurringTalks(ilObjEmployeeTalkSeries $talk, ilCalendarRecurrence $recurrence): bool
+    private function createRecurringTalks(ilObjEmployeeTalkSeries $talk, ilCalendarRecurrence $recurrence): void
     {
         $data = $this->loadEtalkData();
 
@@ -524,7 +524,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
         if (!$recurrence->getFrequenceType()) {
             $this->sendNotification(...$talks);
-            return true;
+            return;
         }
 
         // Remove start date
@@ -551,8 +551,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         }
 
         $this->sendNotification(...$talks);
-
-        return true;
     }
 
     public static function _goto(string $refId): void

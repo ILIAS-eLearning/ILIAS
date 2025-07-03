@@ -27,10 +27,8 @@ class ilQTIItemfeedbackTest extends TestCase
         $this->assertInstanceOf(ilQTIItemfeedback::class, new ilQTIItemfeedback());
     }
 
-    /**
-     * @depends testConstruct
-     * @dataProvider views
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruct')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('views')]
     public function testSetGetView(string $input, ?string $expected): void
     {
         $instance = new ilQTIItemfeedback();

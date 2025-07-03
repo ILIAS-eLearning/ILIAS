@@ -19,20 +19,21 @@
 declare(strict_types=1);
 
 use ILIAS\OrgUnit\Provider\OrgUnitToolProvider;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * Class ilObjOrgUnit GUI class
  * @author            : Oskar Truffer <ot@studer-raimann.ch>
  * @author            : Martin Studer <ms@studer-raimann.ch>
  * @author            : Stefan Wanzenried <sw@studer-raimann.ch>
- * @ilCtrl_IsCalledBy ilObjOrgUnitGUI: ilAdministrationGUI, ilObjPluginDispatchGUI
+ * @ilCtrl_IsCalledBy ilObjOrgUnitGUI: ilAdministrationGUI, ilObjPluginDispatchGUI, ilRepositoryGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilPermissionGUI, ilPageObjectGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilObjUserGUI, ilObjUserFolderGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilInfoScreenGUI, ilObjStyleSheetGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilDidacticTemplateGUI, illearningprogressgui
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ilObjectTranslationGUI, ilLocalUserGUI, ilOrgUnitExportGUI
+ * @ilCtrl_Calls      ilObjOrgUnitGUI: ILIAS\ILIASObject\Properties\Translations\TranslationGUI, ilLocalUserGUI, ilOrgUnitExportGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilExtIdGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitSimpleImportGUI, ilOrgUnitSimpleUserImportGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitTypeGUI, ilOrgUnitPositionGUI
@@ -246,10 +247,22 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 $ilOrgUnitExportGUI->addFormat('xml');
                 $this->ctrl->forwardCommand($ilOrgUnitExportGUI);
                 break;
-            case strtolower(ilObjectTranslationGUI::class):
+            case strtolower(TranslationGUI::class):
                 $this->tabs_gui->activateTab(self::TAB_SETTINGS);
                 $this->setSubTabsSettings('edit_translations');
-                $translations_gui = new ilObjectTranslationGUI($this);
+                $translations_gui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->access,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->http,
+                    $this->refinery,
+                    $this->toolbar
+                );
                 $translations_gui->supportContentTranslation(false);
                 $this->ctrl->forwardCommand($translations_gui);
                 break;
@@ -288,6 +301,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                     case 'render':
                     case 'cancel':
                     case 'cancelDelete':
+                    case 'return':
                         $this->view();
                         break;
                     case 'performPaste':
@@ -408,9 +422,12 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         $this->tabs_gui->removeSubTab("ordering"); // Mantis 0014728
     }
 
-    public function showPossibleSubObjects(): void
+    protected function showPossibleSubObjects(): void
     {
         $subtypes = $this->getCreatableObjectTypes();
+        if ($subtypes === []) {
+            return;
+        }
         $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
             [$this->buildGroup(
                 self::class,
@@ -588,7 +605,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         $this->tabs_gui->addSubTab(
             "edit_translations",
             $this->lng->txt("obj_multilinguality"),
-            $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "listTranslations")
+            $this->ctrl->getLinkTargetByClass(TranslationGUI::class, "listTranslations")
         );
 
         $ilOrgUnitType = $this->object->getOrgUnitType();
@@ -604,7 +621,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
         $this->tabs_gui->setSubTabActive($active_tab_id);
         switch ($next_class) {
-            case 'iltranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->tabs_gui->setSubTabActive("edit_translations");
                 break;
             case '':
@@ -634,7 +651,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             $this->tabs_gui->addSubTab(
                 "import",
                 $this->lng->txt("import"),
-                $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "chooseImport")
+                $this->ctrl->getLinkTargetByClass([self::class, ilOrgUnitSimpleImportGUI::class], "chooseImport")
             );
         }
     }

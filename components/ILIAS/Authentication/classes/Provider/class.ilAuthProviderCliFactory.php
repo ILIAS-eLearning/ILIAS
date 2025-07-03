@@ -38,7 +38,7 @@ class ilAuthProviderCliFactory extends ilAuthProviderFactory
                 return $provider->withoutPasswordVerification();
 
             default:
-                throw new CronException("The cron CLI script supports local authentication only.");
+                throw new CronException('The cron CLI script supports local authentication only.');
         }
     }
 }

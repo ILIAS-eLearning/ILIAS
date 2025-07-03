@@ -187,7 +187,7 @@ class ilPresentationFullGUI
         foreach ($terms_sliced as $term) {
             $subs[] = $this->ui_fac->panel()->sub(
                 $term["term"],
-                $this->ui_fac->legacy($this->parent_obj->listDefinitions(
+                $this->ui_fac->legacy()->content($this->parent_obj->listDefinitions(
                     $this->request->getRefId(),
                     (int) $term["id"],
                     true,

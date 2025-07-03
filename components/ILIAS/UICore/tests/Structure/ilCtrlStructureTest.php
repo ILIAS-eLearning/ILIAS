@@ -182,9 +182,7 @@ class ilCtrlStructureTest extends TestCase
         $structure->setPermanentParameterByClass('Class2', $parameter_name);
     }
 
-    /**
-     * @dataProvider getProtectedParameters
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getProtectedParameters')]
     public function testStructureSavedParametersWithProtectedKey($protected_parameter): void
     {
         $structure = new ilCtrlStructure([], [], []);

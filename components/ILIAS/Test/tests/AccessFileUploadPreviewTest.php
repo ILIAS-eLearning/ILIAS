@@ -63,9 +63,7 @@ class AccessFileUploadPreviewTest extends TestCase
         $this->assertFalse($result->value());
     }
 
-    /**
-     * @dataProvider types
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('types')]
     public function testWithTypes(?string $type, bool $permitted, ?string $requires_permission): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->disableOriginalConstructor()->getMock();

@@ -65,9 +65,7 @@ class LSItemTest extends TestCase
         return $object;
     }
 
-    /**
-     * @depends testCreate
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreate')]
     public function testWithOnline(LSItem $object): void
     {
         $new_obj = $object->withOnline(false);
@@ -91,9 +89,7 @@ class LSItemTest extends TestCase
         $this->assertEquals(self::REF_ID, $new_obj->getRefId());
     }
 
-    /**
-     * @depends testCreate
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreate')]
     public function testWithOrderNumber(LSItem $object): void
     {
         $new_obj = $object->withOrderNumber(20);
@@ -117,9 +113,7 @@ class LSItemTest extends TestCase
         $this->assertEquals(self::REF_ID, $new_obj->getRefId());
     }
 
-    /**
-     * @depends testCreate
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreate')]
     public function testWithPostCondition(LSItem $object): void
     {
         $pc = new ilLSPostCondition(555, 'always');

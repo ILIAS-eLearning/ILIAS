@@ -114,7 +114,7 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
 
     protected function getEditFormCustomValues(array &$a_values): void
     {
-        $a_values['activation_online'] = !boolval($this->object->getOfflineStatus());
+        $a_values['activation_online'] = !$this->object->getOfflineStatus();
 
         parent::getEditFormCustomValues($a_values);
     }
@@ -138,7 +138,7 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
 
     protected function updateCustom(ilPropertyFormGUI $form): void
     {
-        $this->object->setOfflineStatus(!boolval($form->getInput('activation_online')));
+        $this->object->setOfflineStatus(!$form->getInput('activation_online'));
 
         $this->md_handler->saveSelectionFromForm(
             $this->object->getType(),

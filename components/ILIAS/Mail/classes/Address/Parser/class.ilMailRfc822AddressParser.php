@@ -18,22 +18,18 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailRfc822AddressParser
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailRfc822AddressParser extends ilBaseMailRfc822AddressParser
 {
-    protected ilBaseMailRfc822AddressParser $aggregatedParser;
+    protected ilBaseMailRfc822AddressParser $aggregated_parser;
 
     public function __construct(ilBaseMailRfc822AddressParser $addresses)
     {
         parent::__construct($addresses->getAddresses());
-        $this->aggregatedParser = $addresses;
+        $this->aggregated_parser = $addresses;
     }
 
     protected function parseAddressString(string $addresses): array
     {
-        return $this->aggregatedParser->parse();
+        return $this->aggregated_parser->parse();
     }
 }

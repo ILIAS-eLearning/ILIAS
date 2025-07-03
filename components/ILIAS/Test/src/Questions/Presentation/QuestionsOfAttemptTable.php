@@ -102,9 +102,9 @@ class QuestionsOfAttemptTable implements DataRetrieval
         }
 
         $components[] = $this->ui_factory->table()->data(
+            $this,
             $this->lng->txt('question_summary'),
             $this->getColumns(),
-            $this
         )
             ->withRequest($this->http->request())
             ->withId('listofquestions');

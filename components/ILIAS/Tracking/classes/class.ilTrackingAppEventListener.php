@@ -39,7 +39,7 @@ class ilTrackingAppEventListener implements ilAppEventListener
     ): void {
         $obj_id = $a_parameter['obj_id'] ?? null;
         switch ($a_component) {
-            case 'components/ILIAS/Object':
+            case 'components/ILIAS/ILIASObject':
                 switch ($a_event) {
                     case 'toTrash':
                         $olp = ilObjectLP::getInstance($obj_id);

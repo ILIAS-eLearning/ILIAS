@@ -178,15 +178,18 @@ class EvaluationManager
         return $raters;
     }
 
-    public function getCurrentRater(): string
+    public function getCurrentRater(bool $fallback_to_first = false): string
     {
         $req_rater_id = $this->requested_rater_id;
 
-        $valid = array_map(static function ($i): int {
-            return (int) $i["user_id"];
+        $valid = array_map(static function ($i): string {
+            return (string) $i["user_id"];
         }, $this->getSelectableRaters());
         if (in_array($req_rater_id, $valid, true)) {
             return $req_rater_id;
+        }
+        if ($fallback_to_first && count($this->getSelectableRaters()) > 0) {
+            return $this->getSelectableRaters()[0]["user_id"];
         }
         return "";
     }

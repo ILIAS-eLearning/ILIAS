@@ -353,7 +353,11 @@ abstract class ilECSObjectSettings
         $mids = array();
         foreach ((array) $selected_receivers as $sid_mid) {
             $tmp = explode('_', $sid_mid);
-            $mids[$tmp[0]][] = $tmp[1];
+            if(1 === count($tmp)) {
+                $mids[$tmp[0]][] = $tmp[0];
+            } else {
+                $mids[$tmp[0]][] = $tmp[1];
+            }
         }
 
         try {

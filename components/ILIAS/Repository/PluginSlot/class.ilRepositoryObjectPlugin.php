@@ -60,7 +60,6 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         }
 
         $d = $plugin->getPath();
-
         return $d . "/templates/images/" . $a_img;
     }
 
@@ -71,7 +70,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         global $DIC;
         $component_repository = $DIC["component.repository"];
         return self::_getImagePath(
-            ilComponentInfo::TYPE_SERVICES,
+            ilComponentInfo::TYPES[0],
             "Repository",
             "robj",
             $component_repository->getPluginById($a_type)->getName(),

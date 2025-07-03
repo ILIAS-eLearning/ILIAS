@@ -57,7 +57,6 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
     /**
      * @param ilDBInterface&MockObject          $mock_db
      * @param int                               $webr_id
-     * @param bool                              $update_history
      * @param int                               $current_time
      * @param DateTimeImmutable&MockObject[]    $datetimes
      * @return void
@@ -65,7 +64,6 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
     protected function setGlobalDBAndRepo(
         ilDBInterface $mock_db,
         int $webr_id,
-        bool $update_history,
         int $current_time,
         array $datetimes
     ): void {
@@ -81,11 +79,10 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
         $this->setGlobal('ilDB', $mock_db);
 
         $this->web_link_repo = $this->getMockBuilder(ilWebLinkDatabaseRepository::class)
-                                    ->setConstructorArgs([$webr_id, $update_history])
+                                    ->setConstructorArgs([$webr_id])
                                     ->onlyMethods([
                                         'getCurrentTime',
                                         'getNewDateTimeImmutable',
-                                        'createHistoryEntry',
                                         'isInternalLink'
                                     ])
                                     ->getMock();
@@ -132,9 +129,9 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
     /**
      * Test creating an item with two intact parameters, and
      * an external link.
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
      */
+    #[\PHPUnit\Framework\Attributes\PreserveGlobalState(false)]
+    #[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
     public function testCreateExternalItem(): void
     {
         $mock_db = $this->getMockBuilder(ilDBInterface::class)
@@ -214,14 +211,10 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
         $this->setGlobalDBAndRepo(
             $mock_db,
             0,
-            true,
             12345678,
             [$datetime1, $datetime2]
         );
 
-        $this->web_link_repo->expects($this->once())
-                            ->method('createHistoryEntry')
-                            ->with(0, 'add', ['title']);
         $this->web_link_repo->expects($this->never())
                             ->method('isInternalLink');
 
@@ -262,9 +255,9 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
     /**
      * Test creating an item with one intact and one broken parameter,
      * and an internal link.
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
      */
+    #[\PHPUnit\Framework\Attributes\PreserveGlobalState(false)]
+    #[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
     public function testCreateInternalItemWithBrokenParameter(): void
     {
         $mock_db = $this->getMockBuilder(ilDBInterface::class)
@@ -333,14 +326,10 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
         $this->setGlobalDBAndRepo(
             $mock_db,
             0,
-            true,
             12345678,
             [$datetime1, $datetime2]
         );
 
-        $this->web_link_repo->expects($this->once())
-                            ->method('createHistoryEntry')
-                            ->with(0, 'add', ['title']);
         $this->web_link_repo->expects($this->once())
                             ->method('isInternalLink')
                             ->with('trg|123')
@@ -371,10 +360,8 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
         );
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[\PHPUnit\Framework\Attributes\PreserveGlobalState(false)]
+    #[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
     public function testCreateItemBrokenInternalLinkException(): void
     {
         $mock_db = $this->getMockBuilder(ilDBInterface::class)
@@ -412,13 +399,10 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
         $this->setGlobalDBAndRepo(
             $mock_db,
             0,
-            true,
             12345678,
             [$datetime1, $datetime2]
         );
 
-        $this->web_link_repo->expects($this->never())
-                            ->method('createHistoryEntry');
         $this->web_link_repo->expects($this->once())
                             ->method('isInternalLink')
                             ->with('wrong link')
@@ -428,10 +412,8 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
         $this->web_link_repo->createItem($item);
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[\PHPUnit\Framework\Attributes\PreserveGlobalState(false)]
+    #[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
     public function testCreateList(): void
     {
         $mock_db = $this->getMockBuilder(ilDBInterface::class)
@@ -465,14 +447,9 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
         $this->setGlobalDBAndRepo(
             $mock_db,
             0,
-            true,
             12345678,
             [$datetime1, $datetime2]
         );
-
-        $this->web_link_repo->expects($this->once())
-                            ->method('createHistoryEntry')
-                            ->with(0, 'add', ['title']);
 
         $this->assertEquals(
             new ilWebLinkList(
@@ -486,10 +463,8 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
         );
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[\PHPUnit\Framework\Attributes\PreserveGlobalState(false)]
+    #[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
     public function testCreateAllItemsInDraftContainer(): void
     {
         $mock_db = $this->getMockBuilder(ilDBInterface::class)
@@ -502,7 +477,6 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
         $this->setGlobalDBAndRepo(
             $mock_db,
             0,
-            false,
             12345678,
             [$datetime1, $datetime2]
         );

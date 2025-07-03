@@ -20,15 +20,10 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\MockObject\MockObject;
 
-/**
- * Class ilObjChatroomAdminAccessTest
- * @author Thomas Joußen <tjoussen@gmx.de>
- */
 class ilObjChatroomAdminAccessTest extends ilChatroomAbstractTestBase
 {
     protected ilObjChatroomAdminAccess $adminAccess;
-    /** @var ilRbacSystem&MockObject */
-    protected ilRbacSystem $ilAccessMock;
+    protected ilRbacSystem&MockObject $ilAccessMock;
 
     public function testCommandDefitionFullfilsExpectations(): void
     {

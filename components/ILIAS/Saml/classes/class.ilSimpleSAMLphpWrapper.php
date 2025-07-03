@@ -18,16 +18,12 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilSimpleSAMLphpWrapper
- * @author Michael Jansen <mjansen@databay.de>
- */
-final class ilSimpleSAMLphpWrapper implements ilSamlAuth
+final readonly class ilSimpleSAMLphpWrapper implements ilSamlAuth
 {
-    private const ILIAS = 'ilias';
+    private const string ILIAS = 'ilias';
 
-    private readonly SimpleSAML\Configuration $config;
-    private readonly SimpleSAML\Auth\Simple $authSource;
+    private SimpleSAML\Configuration $config;
+    private SimpleSAML\Auth\Simple $authSource;
 
     public function __construct(string $authSourceName, string $configurationPath)
     {
@@ -74,7 +70,7 @@ final class ilSimpleSAMLphpWrapper implements ilSamlAuth
         $this->authSource->requireAuth();
     }
 
-    public function storeParam(string $key, $value): void
+    public function storeParam(string $key, mixed $value): void
     {
         $session = SimpleSAML\Session::getSessionFromRequest();
         $session->setData(self::ILIAS, $key, $value);

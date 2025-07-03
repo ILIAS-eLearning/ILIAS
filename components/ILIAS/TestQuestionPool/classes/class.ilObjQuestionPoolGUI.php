@@ -53,7 +53,7 @@ use ILIAS\Style\Content\Service as ContentStyle;
  * @ilCtrl_Calls   ilObjQuestionPoolGUI: assNumericGUI, assTextSubsetGUI, assSingleChoiceGUI, ilPropertyFormGUI
  * @ilCtrl_Calls   ilObjQuestionPoolGUI: assTextQuestionGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls   ilObjQuestionPoolGUI: ilExportGUI, ilInfoScreenGUI, ilTaxonomySettingsGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls   ilObjQuestionPoolGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI
+ * @ilCtrl_Calls   ilObjQuestionPoolGUI: ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI
  * @ilCtrl_Calls   ilObjQuestionPoolGUI: ilObjQuestionPoolSettingsGeneralGUI, assFormulaQuestionGUI
  * @ilCtrl_Calls   ilObjQuestionPoolGUI: ilAssQuestionPreviewGUI
  * @ilCtrl_Calls   ilObjQuestionPoolGUI: assKprimChoiceGUI, assLongMenuGUI
@@ -70,7 +70,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public const SUPPORTED_IMPORT_MIME_TYPES = [MimeType::APPLICATION__ZIP, MimeType::TEXT__XML];
     public const DEFAULT_CMD = 'questions';
 
-    private HTTPServices $http;
     protected Service $taxonomy;
     protected ilDBInterface $db;
     protected ilComponentLogger $log;
@@ -106,7 +105,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->navigation_history = $DIC['ilNavigationHistory'];
         $this->ui_service = $DIC->uiService();
         $this->taxonomy = $DIC->taxonomy();
-        $this->http = $DIC->http();
         $this->archives = $DIC->archives();
         $this->content_style = $DIC->contentStyle();
 
@@ -200,7 +198,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 }
 
                 $this->ctrl->saveParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id');
-                $this->ctrl->saveParameterByClass(ilAssQuestionHintRequestGUI::class, 'q_id');
                 $this->ctrl->saveParameter($this, 'q_id');
                 $gui = new ilAssQuestionPreviewGUI(
                     $this->ctrl,
@@ -240,7 +237,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 );
                 $gui->initPreviewSettings($this->object->getRefId());
                 $gui->initPreviewSession($this->user->getId(), $this->fetchAuthoringQuestionIdParamater());
-                $gui->initHintTracking();
                 $this->ctrl->clearParameterByClass(self::class, 'q_id');
                 $this->tabs_gui->setBackTarget(
                     $this->lng->txt('backtocallingpool'),
@@ -302,8 +298,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $page_gui->setQuestionHTML([$question_gui->getObject()->getId() => $question_gui->getPreview(true)]);
                 $page_gui->setTemplateTargetVar('ADM_CONTENT');
                 $page_gui->setOutputMode('edit');
-                $page_gui->setHeader($question->getTitle());
-                $page_gui->setPresentationTitle($question->getTitle());
+                $page_gui->setHeader($question->getTitleForHTMLOutput());
+                $page_gui->setPresentationTitle($question->getTitleForHTMLOutput());
                 $ret = $this->ctrl->forwardCommand($page_gui);
                 if ($ret != '') {
                     $this->tpl->setContent($ret);
@@ -328,45 +324,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
             case strtolower(ilInfoScreenGUI::class):
                 $this->infoScreenForward();
-                break;
-
-            case 'ilassquestionhintsgui':
-                if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
-                    $this->redirectAfterMissingWrite();
-                }
-
-                $this->ctrl->setReturn($this, self::DEFAULT_CMD);
-                $question_gui = assQuestionGUI::_getQuestionGUI(
-                    $q_type,
-                    $this->fetchAuthoringQuestionIdParamater()
-                );
-                $question = $question_gui->getObject();
-                $question->setObjId($this->object->getId());
-                $question_gui->setObject($question);
-                $question_gui->setQuestionTabs();
-
-                if ($this->questionrepository->isInActiveTest($question_gui->getObject()->getObjId())) {
-                    $this->tpl->setOnScreenMessage(
-                        'failure',
-                        $this->lng->txt('question_is_part_of_running_test'),
-                        true
-                    );
-                    $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
-                }
-
-                $this->help->setScreenIdComponent('qpl');
-
-                if ($this->object->getType() == 'qpl' && $write_access) {
-                    $question_gui->addHeaderAction();
-                }
-                $gui = new ilAssQuestionHintsGUI($question_gui);
-
-                $gui->setEditingEnabled(
-                    $this->access->checkAccess('write', '', $this->object->getRefId())
-                );
-
-                $this->ctrl->forwardCommand($gui);
-
                 break;
 
             case 'illocalunitconfigurationgui':
@@ -544,7 +501,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", current($ids));
                     $this->ctrl->setParameterByClass("ilAssQuestionPreviewGUI", "q_id", current($ids));
                     $this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', current($ids));
-                    $this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', current($ids));
                     $this->ctrl->setParameterByClass($class, "q_id", current($ids));
 
                     switch ($action) {
@@ -566,10 +522,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                             break;
                         case 'feedback':
                             $url = $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
-                            $this->ctrl->redirectToURL($url);
-                            break;
-                        case 'hints':
-                            $url = $this->ctrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
                             $this->ctrl->redirectToURL($url);
                             break;
                         case 'move':
@@ -665,12 +617,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
                 $this->help->setScreenIdComponent('qpl');
 
-                $question_gui->setQuestionTabs();
-
                 if ($qid === 0 && $question_gui->cmdNeedsExistingQuestion($cmd)) {
                     $question_gui->getObject()->createNewQuestion();
-                    $question_gui->setQuestionTabs();
                 }
+
+                $question_gui->setQuestionTabs();
 
                 if (!in_array($cmd, ['save', 'saveReturn'])) {
                     $question_gui->$cmd();
@@ -752,6 +703,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     public function importVerifiedFileObject(): void
     {
+        if ($this->creation_mode
+                && !$this->checkPermissionBool('create', '', $this->request_data_collector->string('new_type'))
+            || !$this->creation_mode
+                && !$this->checkPermissionBool('read', '', $this->object->getType())) {
+            $this->redirectAfterMissingWrite();
+            return;
+        }
+
         $file_to_import = ilSession::get('path_to_import_file');
         list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
 
@@ -1433,7 +1392,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $question = $question_gui->getObject();
                 $question->setObjId($this->object->getId());
                 $question_gui->setObject($question);
-                $title = $question_gui->getObject()->getTitle();
+                $title = $question_gui->getObject()->getTitleForHTMLOutput();
                 if (!$title) {
                     $title = $this->lng->txt('new') . ': ' . $this->questionrepository->getForQuestionId(
                         $question_gui->getObject()->getId()
@@ -1463,7 +1422,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $question = $question_gui->getObject();
                 $question->setObjId($this->object->getId());
                 $question_gui->setObject($question);
-                $title = $this->object->getTitle() . ': ' . $question_gui->getObject()->getTitle();
+                $title = $this->object->getTitle() . ': ' . $question_gui->getObject()->getTitleForHTMLOutput();
                 if (!$title) {
                     $title = $this->lng->txt('new') . ': ' . $this->questionrepository->getForQuestionId(
                         $question_gui->getObject()->getId()
@@ -1746,6 +1705,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     public static function _goto($a_target): void
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
         $ilAccess = $DIC['ilAccess'];
@@ -1753,14 +1713,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $lng = $DIC['lng'];
         $ctrl = $DIC['ilCtrl'];
 
-        if ($ilAccess->checkAccess('write', '', (int) $a_target)
-            || $ilAccess->checkAccess('read', '', (int) $a_target)
+        $target_ref_id = (int) $a_target;
+
+        if ($ilAccess->checkAccess('write', '', $target_ref_id)
+            || $ilAccess->checkAccess('read', '', $target_ref_id)
         ) {
             $ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'ref_id', $a_target);
             $ctrl->redirectByClass([ilRepositoryGUI::class, ilObjQuestionPoolGUI::class], self::DEFAULT_CMD);
             return;
         }
-        if ($ilAccess->checkAccess('visible', '', $a_target)) {
+        if ($ilAccess->checkAccess('visible', '', $target_ref_id)) {
             $DIC->ctrl()->setParameterByClass(ilInfoScreenGUI::class, 'ref_id', $a_target);
             $DIC->ctrl()->redirectByClass(
                 [
@@ -1775,7 +1737,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 'info',
                 sprintf(
                     $lng->txt('msg_no_perm_read_item'),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                    ilObject::_lookupTitle(ilObject::_lookupObjId($target_ref_id))
                 ),
                 true
             );

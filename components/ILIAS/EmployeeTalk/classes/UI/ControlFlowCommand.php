@@ -22,20 +22,20 @@ namespace ILIAS\EmployeeTalk\UI;
 
 interface ControlFlowCommand
 {
-    public const DEFAULT = "view";
-    public const INDEX = "view";
+    public const string DEFAULT = "view";
+    public const string INDEX = "view";
 
-    public const CREATE = "create";
-    public const SAVE = "save";
+    public const string CREATE = "create";
+    public const string SAVE = "save";
 
-    public const UPDATE_INDEX = "update";
-    public const UPDATE = "edit";
+    public const string UPDATE_INDEX = "update";
+    public const string UPDATE = "edit";
 
-    public const DELETE_INDEX = "delete";
-    public const DELETE = "confirmedDelete";
+    public const string DELETE_INDEX = "delete";
+    public const string DELETE = "confirmedDelete";
 
-    public const APPLY_FILTER = 'applyFilter';
-    public const RESET_FILTER = 'resetFilter';
+    public const string APPLY_FILTER = 'applyFilter';
+    public const string RESET_FILTER = 'resetFilter';
 
-    public const TABLE_ACTIONS = 'getActions';
+    public const string TABLE_ACTIONS = 'getActions';
 }

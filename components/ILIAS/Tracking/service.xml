@@ -11,7 +11,7 @@
 	</objects>
 	<events>		
 		<event type="raise" id="updateStatus" />	
-		<event type="listen" id="components/ILIAS/Object" />
+		<event type="listen" id="components/ILIAS/ILIASObject" />
 		<event type="listen" id="components/ILIAS/Tree" />
 		<event type="listen" id="components/ILIAS/Course" />
 		<event type="listen" id="components/ILIAS/Group" />

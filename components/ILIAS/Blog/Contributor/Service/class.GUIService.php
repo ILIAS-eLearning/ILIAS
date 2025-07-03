@@ -43,16 +43,18 @@ class GUIService
         $this->gui = $gui;
     }
 
-    /*public function administration() : Administration\GUIService
-    {
-        return new Administration\GUIService(
-            $this->domain_service,
-            $this
-        );
-    }*/
 
-    public function ilContributorTableGUI(\ilObjBlogGUI $parent_gui, string $cmd, array $roles): \ilContributorTableGUI
-    {
-        return new \ilContributorTableGUI($this->domain_service->rbac()->review(), $parent_gui, $cmd, $roles);
+    public function contributorTableBuilder(
+        array $roles,
+        object $parent_gui,
+        string $parent_cmd
+    ): ContributorTableBuilder {
+        return new ContributorTableBuilder(
+            $this->domain_service,
+            $this->gui,
+            $roles,
+            $parent_gui,
+            $parent_cmd
+        );
     }
 }

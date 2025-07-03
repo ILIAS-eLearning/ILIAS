@@ -100,11 +100,14 @@ class ilMDOERSettingsGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->lng->txt('md_copyright_settings'));
 
         if ($this->access_service->hasCurrentUserWriteAccess()) {
             $form->addCommandButton('saveOERSettings', $this->lng->txt('save'));
         }
+
+        $header = new ilFormSectionHeaderGUI();
+        $header->setTitle($this->lng->txt('md_settings_licence'));
+        $form->addItem($header);
 
         $check = new ilCheckboxInputGUI($this->lng->txt('md_copyright_enabled'), 'active');
         $check->setChecked($this->MDSettings()->isCopyrightSelectionActive());
@@ -112,11 +115,19 @@ class ilMDOERSettingsGUI
         $check->setInfo($this->lng->txt('md_copyright_enable_info'));
         $form->addItem($check);
 
+        $header = new ilFormSectionHeaderGUI();
+        $header->setTitle($this->lng->txt('md_settings_harvester'));
+        $form->addItem($header);
+
         ilAdministrationSettingsFormHandler::addFieldsToForm(
             $this->getAdministrationFormId(),
             $form,
             $this->parent_obj_gui
         );
+
+        $header = new ilFormSectionHeaderGUI();
+        $header->setTitle($this->lng->txt('md_settings_publishing'));
+        $form->addItem($header);
 
         $oai_check = new ilCheckboxInputGUI($this->lng->txt('md_oai_pmh_enabled'), 'oai_active');
         $oai_check->setChecked($this->MDSettings()->isOAIPMHActive());

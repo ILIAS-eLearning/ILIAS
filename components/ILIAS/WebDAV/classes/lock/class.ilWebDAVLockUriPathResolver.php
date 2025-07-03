@@ -80,7 +80,10 @@ class ilWebDAVLockUriPathResolver
             return $relative_mountpoint_ref_id;
         }
 
-        return $this->getRefIdFromGivenParentRefAndTitlePath($relative_mountpoint_ref_id, explode('/', $path_inside_of_mountpoint));
+        return $this->getRefIdFromGivenParentRefAndTitlePath(
+            $relative_mountpoint_ref_id,
+            explode('/', $path_inside_of_mountpoint)
+        );
     }
 
     /**

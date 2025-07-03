@@ -22,6 +22,7 @@ namespace ILIAS\Test\Questions\Properties;
 
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Table\OrderingRowBuilder;
 use ILIAS\UI\Component\Table\OrderingRow;
@@ -86,6 +87,7 @@ class Properties implements Property
     public function getAsQuestionsTableRow(
         Language $lng,
         UIFactory $ui_factory,
+        Refinery $refinery,
         \Closure $question_target_link_builder,
         OrderingRowBuilder $row_builder,
         TitleColumnsBuilder $title_builder
@@ -95,7 +97,9 @@ class Properties implements Property
             [
                 'question_id' => $this->question_id,
                 'title' => $ui_factory->link()->standard(
-                    $this->question_properties->getTitle(),
+                    $refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                        $this->question_properties->getTitle()
+                    ),
                     $question_target_link_builder($this->question_id)
                 ),
                 'description' => $this->question_properties->getDescription(),

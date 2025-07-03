@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Interface ilMailMimeTransport
- * @author Michael Jansen <mjansen@databay.de>
- */
 interface ilMailMimeSender
 {
     public function hasReplyToAddress(): bool;

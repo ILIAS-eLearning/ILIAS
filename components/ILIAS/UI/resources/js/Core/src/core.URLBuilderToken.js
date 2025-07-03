@@ -14,7 +14,7 @@
  *
  ********************************************************************
  */
-import createRandomString from './createRandomString';
+import createRandomString from './createRandomString.js';
 
 const URLBuilderTokenSeparator = '_';
 

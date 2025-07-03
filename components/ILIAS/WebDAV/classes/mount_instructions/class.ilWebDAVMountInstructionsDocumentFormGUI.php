@@ -151,8 +151,9 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         return $this->translated_error;
     }
 
-    protected function createFilledObject(ilWebDAVMountInstructionsDocument $document): ilWebDAVMountInstructionsDocument
-    {
+    protected function createFilledObject(
+        ilWebDAVMountInstructionsDocument $document
+    ): ilWebDAVMountInstructionsDocument {
         if (!$this->checkInput()) {
             throw new InvalidArgumentException($this->lng->txt('form_input_not_valid'));
         }
@@ -173,9 +174,12 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         $modification_ts = $document_already_exists ? ilUtil::now() : $creation_ts;
         $owner_id = $document_already_exists ? $document->getOwnerUsrId() : $this->actor->getId();
         $last_modified_usr_id = $this->actor->getId();
-        $sorting = $document_already_exists ? $document->getSorting() : $this->mount_instructions_repository->getHighestSortingNumber() + 1;
+        $sorting = $document_already_exists ? $document->getSorting(
+        ) : $this->mount_instructions_repository->getHighestSortingNumber() + 1;
 
-        $mount_instruction_for_language_exists = $this->mount_instructions_repository->doMountInstructionsExistByLanguage($language);
+        $mount_instruction_for_language_exists = $this->mount_instructions_repository->doMountInstructionsExistByLanguage(
+            $language
+        );
 
         if (!$document_already_exists && $mount_instruction_for_language_exists) {
             throw new InvalidArgumentException($this->lng->txt("webdav_choosen_language_already_used"));
@@ -252,11 +256,9 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         if (!$this->file_upload->hasUploads()) {
             throw new InvalidArgumentException("webdav_error_no_upload");
         }
-        if ($this->file_upload->hasBeenProcessed()) {
-            throw new InvalidArgumentException("webdav_error_upload_already_processed");
+        if (!$this->file_upload->hasBeenProcessed()) {
+            $this->file_upload->process();
         }
-
-        $this->file_upload->process();
 
         $upload_result = array_values($this->file_upload->getResults())[0];
 
