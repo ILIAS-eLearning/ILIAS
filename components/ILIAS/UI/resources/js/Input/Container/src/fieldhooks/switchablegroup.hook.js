@@ -13,12 +13,12 @@
  * https://github.com/ILIAS-eLearning
  */
 
-export default class SwitchableGroupTransforms {
+export const SwitchableGroupHook = {
   /**
-   * @param {FormNode} node
+   * @param {Presentation} node
    * @return {Array}
    */
-  valueTransform(node) {
+  valueTransform: (node) => {
     const children = node.getChildren();
     if (children.length === 0) {
       return [];
@@ -26,15 +26,12 @@ export default class SwitchableGroupTransforms {
     const representation = [];
     children.forEach((child) => representation.push(child.getLabel()));
     return representation;
-  }
-
+  },
   /**
-   * @param {FormNode} node
+   * @param {Presentation} node
    * @return {Array}
    */
-  childrenTransform(node) {
-    return node.getAllChildren().filter(
-      (child) => child.getHtmlFields()[0].checked,
-    );
-  }
-}
+  childrenTransform: (node) => node.getAllChildren().filter(
+    (child) => child.getHtmlFields()[0].checked,
+  ),
+};

@@ -15,27 +15,27 @@
 
 import $ from 'jquery';
 
-import SwitchableGroupTransforms from './transforms/switchablegroup.transform.js';
-import OptionalGroupTransforms from './transforms/optionalgroup.transform.js';
-import RadioTransforms from './transforms/radio.transform.js';
-import PasswordTransforms from './transforms/password.transform.js';
-import DurationTransforms from './transforms/duration.transform.js';
-import LinkTransforms from './transforms/link.transform.js';
-import SelectTransforms from './transforms/select.transform.js';
-import MultiSelectTransforms from './transforms/multiselect.transform.js';
+import { SwitchableGroupHook } from './fieldhooks/switchablegroup.hook.js';
+import { OptionalGroupHook } from './fieldhooks/optionalgroup.hook.js';
+import { RadioHook } from './fieldhooks/radio.hook.js';
+import { PasswordHook } from './fieldhooks/password.hook.js';
+import { DurationHook } from './fieldhooks/duration.hook.js';
+import { LinkHook } from './fieldhooks/link.hook.js';
+import { SelectHook } from './fieldhooks/select.hook.js';
+import { MultiSelectHook } from './fieldhooks/multiselect.hook.js';
 
 import filter from './filter.main.js';
 import ContainerFactory from './container.factory.js';
 
-const transforms = {
-  'switchable-group-field-input': new SwitchableGroupTransforms(),
-  'optional-group-field-input': new OptionalGroupTransforms(),
-  'radio-field-input': new RadioTransforms(),
-  'multiSelect-field-input': new MultiSelectTransforms(),
-  'password-field-input': new PasswordTransforms(),
-  'duration-field-input': new DurationTransforms(),
-  'link-field-input': new LinkTransforms(),
-  'select-field-input': new SelectTransforms(),
+const hooks = {
+  'switchable-group-field-input': SwitchableGroupHook,
+  'optional-group-field-input': OptionalGroupHook,
+  'radio-field-input': RadioHook,
+  'multiSelect-field-input': MultiSelectHook,
+  'password-field-input': PasswordHook,
+  'duration-field-input': DurationHook,
+  'link-field-input': LinkHook,
+  'select-field-input': SelectHook,
 };
 
 il = il || {};
@@ -58,4 +58,4 @@ il.UI.Input = il.UI.Input || {};
  * the container or by specifying a specific start-node:
  *  const allNodes = form.getNodesFlat(node);
  */
-il.UI.Input.Container = new ContainerFactory(transforms);
+il.UI.Input.Container = new ContainerFactory(hooks);

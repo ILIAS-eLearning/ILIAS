@@ -13,12 +13,23 @@
  * https://github.com/ILIAS-eLearning
  */
 
-export default class SwitchableGroupTransforms {
+export const DurationHook = {
   /**
-   * @param {FormNode} node
-   * @return {null}
+   * @param {Presentation} node
+   * @return {Array}
    */
-  valueTransform(node) {
-    return null;
-  }
-}
+  valueTransform: (node) => {
+    const [start, end] = node.getAllChildren().map((child) => child.getValues()[0]);
+    if (start && end) {
+      return [`${start} - ${end}`];
+    }
+    return ['-'];
+  },
+
+  /**
+   * @param {Presentation} node
+   * @return {Array}
+   */
+  childrenTransform: (node) => [],
+
+};

@@ -13,13 +13,15 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import { expect } from 'chai';
+import { before, describe, it } from 'node:test';
+import { strict } from 'node:assert/strict';
+// import { expect } from 'chai';
 import { JSDOM } from 'jsdom';
 
 import ContainerFactory from '../../../../resources/js/Input/Container/src/container.factory.js';
 import Container from '../../../../resources/js/Input/Container/src/container.class.js';
-import FormNode from '../../../../resources/js/Input/Container/src/formnode.class.js';
-import SwitchableGroupTransforms from '../../../../resources/js/Input/Container/src/transforms/switchablegroup.transform.js';
+import Presentation from '../../../../resources/js/Input/Container/src/presentation.class.js';
+import { SwitchableGroupHook } from '../../../../resources/js/Input/Container/src/fieldhooks/switchablegroup.hook.js';
 
 /**
  * get HTML document from file
@@ -34,15 +36,14 @@ function loadMockedDom(file) {
 }
 
 describe('Input\\Container components are there', () => {
-  it('ContainerFactory', () => {
-    expect(ContainerFactory).to.not.be.undefined;
-  });
-
   it('Container', () => {
-    expect(Container).to.not.be.undefined;
+    strict.notEqual(Container, undefined);
   });
-  it('FormNode', () => {
-    expect(FormNode).to.not.be.undefined;
+  it('ContainerFactory', () => {
+    strict.notEqual(ContainerFactory, undefined);
+  });
+  it('Presentation', () => {
+    strict.notEqual(Presentation, undefined);
   });
 });
 
@@ -50,17 +51,17 @@ describe('Input\\Container components are there', () => {
 */
 describe('Input\\Container', () => {
   before(async () => {
-    const transforms = {};
+    const hooks = {};
     global.doc = await loadMockedDom('containertest_simple.html');
-    global.containerSimple = new Container(transforms, global.doc.querySelector('#test_container_id'));
+    global.containerSimple = new Container(hooks, global.doc.querySelector('#test_container_id'));
   });
 
-  it('is built and provides a FormNode', () => {
-    expect(global.containerSimple).to.be.an.instanceOf(Container);
-    expect(global.containerSimple.getNodes()).to.be.an.instanceOf(FormNode);
+  it('is built and provides a Presentation', () => {
+    strict.equal(global.containerSimple instanceof Container, true);
+    strict.equal(global.containerSimple.getNodes() instanceof Presentation, true);
   });
 
-  it('provides a list of FormNodes and values', () => {
+  it('provides a list of Presentations and values', () => {
     const expected = [
       {
         label: 'test_container_id',
@@ -88,13 +89,13 @@ describe('Input\\Container', () => {
       },
     ];
 
-    expect(global.containerSimple.getValuesRepresentation()).to.eql(expected);
+    strict.deepStrictEqual(global.containerSimple.getValuesRepresentation(), expected);
   });
 
-  it('finds FormNodes by name; FormNodes have name, label and value', async () => {
+  it('finds Presentations by name; Presentations have name, label and value', async () => {
     const doc = await loadMockedDom('containertest_switchablegroup.html');
-    const transforms = {};
-    const containerSwitchableGroup = new Container(transforms, doc.querySelector('#test_container_id'));
+    const hooks = {};
+    const containerSwitchableGroup = new Container(hooks, doc.querySelector('#test_container_id'));
     const expected = [
       ['form/input_0', 'Pick One', []],
       ['form/input_0/input_1', 'Switchable Group number one (with numeric key)', ['1']],
@@ -109,19 +110,19 @@ describe('Input\\Container', () => {
       (n) => {
         const [name, label, values] = n;
         const node = containerSwitchableGroup.getNodeByName(name);
-        expect(node.getFullName()).to.eql(name);
-        expect(node.getLabel()).to.eql(label);
-        expect(node.getValues()).to.eql(values);
+        strict.equal(node.getFullName(), name);
+        strict.equal(node.getLabel(), label);
+        strict.deepStrictEqual(node.getValues(), values);
       },
     );
   });
 
   it('filters switchable groups', async () => {
     const doc = await loadMockedDom('containertest_switchablegroup.html');
-    const transforms = {};
-    transforms['switchable-group-field-input'] = new SwitchableGroupTransforms();
+    const hooks = {};
+    hooks['switchable-group-field-input'] = SwitchableGroupHook;
 
-    const containerSwitchableGroup = new Container(transforms, doc.querySelector('#test_container_id'));
+    const containerSwitchableGroup = new Container(hooks, doc.querySelector('#test_container_id'));
 
     let expected = [
       {
@@ -158,7 +159,7 @@ describe('Input\\Container', () => {
         type: 'date-time-field-input',
       },
     ];
-    expect(containerSwitchableGroup.getValuesRepresentation()).to.eql(expected);
+    strict.deepStrictEqual(containerSwitchableGroup.getValuesRepresentation(), expected);
 
     doc.getElementsByName('form/input_0')[1].checked = 'checked';
 
@@ -185,6 +186,6 @@ describe('Input\\Container', () => {
         type: 'text-field-input',
       },
     ];
-    expect(containerSwitchableGroup.getValuesRepresentation()).to.eql(expected);
+    strict.deepStrictEqual(containerSwitchableGroup.getValuesRepresentation(), expected);
   });
 });

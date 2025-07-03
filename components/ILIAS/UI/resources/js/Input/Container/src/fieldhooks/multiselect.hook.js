@@ -13,12 +13,12 @@
  * https://github.com/ILIAS-eLearning
  */
 
-export default class MultiSelectTransforms {
+export const MultiSelectHook = {
   /**
-   * @param {FormNode} node
+   * @param {Presentation} node
    * @return {Array}
    */
-  valueTransform(node) {
+  valueTransform: (node) => {
     const checked = node.getHtmlFields().filter((element) => element.checked);
     if (checked.length === 0) {
       return [];
@@ -28,5 +28,5 @@ export default class MultiSelectTransforms {
       (field) => representation.push(field.parentNode.textContent),
     );
     return representation;
-  }
-}
+  },
+};
