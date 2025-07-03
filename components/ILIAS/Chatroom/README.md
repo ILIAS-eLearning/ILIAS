@@ -8,6 +8,9 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 <!-- TOC -->
 
   - [Requirement](#requirement)
+  - [Dependency Management](#dependency-management)
+    - [Development](#development) 
+    - [Production](#production)
   - [ILIAS configuration](#ilias-configuration)
     - [Chat Server Settings](#chat-server-settings)
       - [IP Address / FQDN](#ip-address--fqdn)
@@ -30,9 +33,6 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
   - [Proxy Configuration](#proxy-configuration)
       - [Proxy configuration via nginx](#proxy-configuration-via-nginx)
       - [Proxy configuration via apache2](#proxy-configuration-via-apache2)
-    - [Dependency Management](#dependency-management)
-      - [Development](#development) 
-      - [Production](#production)
 
 <!-- /TOC -->
 
@@ -52,6 +52,33 @@ Both files MUST be passed to start the Chat Server (see [Server Configuration](#
 ![](./docu/images/view-clientsettings_en.png)
 
 **Note:** On all changes to the settings, the chat server MUST be restarted!
+
+## Dependency Management
+
+As of ILIAS 9 the node module dependencies for the ILIAS chat server are no longer included in the code repository and MUST be installed/managed locally.
+
+The node module dependencies should be managed by [npm](https://www.npmjs.com/):
+
+```bash
+cd [ILIAS_ROOT_DIRECTORY]/components/ILIAS/Chatroom/chat
+```
+
+### Development
+
+Dependencies can be installed by the following command:
+
+```bash
+npm clean-install --ignore-scripts
+```
+
+### Production
+
+Dependencies can be installed by the following command:
+
+```bash
+npm clean-install --omit=dev --ignore-scripts
+```
+In case you run the ILIAS chat server in a different directory, make sure you install/manage dependencies before copying the entire chat directory (`ILIAS / Modules / Chatroom / chat`) (see [Server Configuration](#server-configuration)).
 
 ## ILIAS Configuration
 
@@ -459,24 +486,3 @@ In the ILIAS configuration the proxy configurations are adjusted in the ***Chat 
 Example:
 
     https://onscreenchat.domain.de
-
-
-### Dependency Management
-
-The node module dependencies should be managed by [npm](https://www.npmjs.com/).
-
-#### Development
-
-Dependencies can be installed by the following command:
-
-```bash
-npm clean-install --ignore-scripts
-```
-
-#### Production
-
-Dependencies can be installed by the following command:
-
-```bash
-npm clean-install --omit=dev --ignore-scripts
-```
