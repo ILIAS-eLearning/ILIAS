@@ -8739,6 +8739,7 @@ dcl#:#dcl_no_fields_yet#:#You cannot add any entries to this table as it does no
 dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
+dcl#:#dcl_no_tableview_found#:#No visible tableview found!
 dcl#:#dcl_not_checked#:#Not checked.
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
 dcl#:#dcl_notification_activate_dcl#:#Activate Notification for Data Collection
