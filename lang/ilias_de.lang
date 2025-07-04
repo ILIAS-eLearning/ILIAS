@@ -8578,7 +8578,6 @@ dcl#:#dcl_add_new_table#:#Tabelle hinzufügen
 dcl#:#dcl_add_new_view#:#Neue Ansicht hinzufügen
 dcl#:#dcl_add_perm#:#Neuen Eintrag hinzufügen
 dcl#:#dcl_add_perm_desc#:#Es können Einträge in dieser Tabelle erstellt werden. Wenn Daten in diese Tabelle importiert werden dürfen, steht auch ein Excel-Import zur Verfügung.
-dcl#:#dcl_additional_info_desc#:#Der Inhalt wird oberhalb der Tabelle angezeigt.
 dcl#:#dcl_all_entries#:#Alle Einträge
 dcl#:#dcl_any#:#Alle
 dcl#:#dcl_asc#:#Aufsteigend ↑
@@ -8621,8 +8620,8 @@ dcl#:#dcl_date_selection#:#Datum per Auswahl
 dcl#:#dcl_date_selection_desc#:#Aus vorgegebenen Optionen kann ein Datum ausgewählt werden.
 dcl#:#dcl_deactivate_view#:#Vorlage für Einzelansicht deaktivieren
 dcl#:#dcl_default_sort_field#:#Sortierung
-dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
 dcl#:#dcl_default_sort_field_order#:#Sortierrichtung
+dcl#:#dcl_default_sort_field_order_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
 dcl#:#dcl_delete_fields#:#Felder löschen
 dcl#:#dcl_delete_fields_no_selection#:#Zum Löschen muss mindestens ein Feld ausgewählt werden.
 dcl#:#dcl_delete_perm#:#Einträge löschen
@@ -8758,7 +8757,6 @@ dcl#:#dcl_owner#:#Eigener Eintrag von
 dcl#:#dcl_owner_description#:#Eigene Einträge bleiben stets sichtbar.
 dcl#:#dcl_owner_name#:#Im Besitz von (Name)
 dcl#:#dcl_page_type_dclf#:#Detailansicht
-dcl#:#dcl_permissions_form#:#Erlaubte Aktionen für diese Tabelle
 dcl#:#dcl_please_select#:#--- Bitte wählen ---
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection-Feld Erweiterungen
@@ -8774,6 +8772,7 @@ dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#Die folgenden Ro
 dcl#:#dcl_record#:#Eintrag
 dcl#:#dcl_record_deleted#:#Eintrag gelöscht.
 dcl#:#dcl_record_from_total#:#%d von %d
+dcl#:#dcl_record_settings#:#Eintragseinstellungen
 dcl#:#dcl_reference#:#Referenz
 dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden.
 dcl#:#dcl_reference_link#:#Referenzierten Eintrag verlinken
@@ -8811,7 +8810,8 @@ dcl#:#dcl_table_edit#:#Speichern
 dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
 dcl#:#dcl_table_list_tables#:#Verfügbare Tabellen
-dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
+dcl#:#dcl_table_settings#:#Tabelleneinstellungen.
+dcl#:#dcl_table_settings_saved#:#Tabelleneinstellungen wurden gespeichert.
 dcl#:#dcl_table_title_not_matching#:#Die Titel des Excel-Arbeitsblatts und der Tabelle in der Datensammlung stimmen nicht überein. Benennen Sie das Arbeitsblatt um, um einen korrekten Import zu gewährleisten.
 dcl#:#dcl_table_title_unique#:#Es existiert bereits eine Tabelle mit diesem Titel. Der Titel muss eindeutig sein.
 dcl#:#dcl_tables#:#Tabellen

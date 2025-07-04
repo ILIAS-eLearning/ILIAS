@@ -8579,7 +8579,6 @@ dcl#:#dcl_add_new_table#:#Add New Table
 dcl#:#dcl_add_new_view#:#Add New View
 dcl#:#dcl_add_perm#:#Add Entries
 dcl#:#dcl_add_perm_desc#:#Users can add entries to this table. If the import of data into this table is allowed, then an Excel import function will also be available.
-dcl#:#dcl_additional_info_desc#:#This content will be displayed directly above the table.
 dcl#:#dcl_all_entries#:#All entries
 dcl#:#dcl_any#:#Any
 dcl#:#dcl_asc#:#Ascending ↑
@@ -8622,8 +8621,8 @@ dcl#:#dcl_date_selection#:#Date Selection
 dcl#:#dcl_date_selection_desc#:#Allow a date to be chosen from among a predefined selection of date options.
 dcl#:#dcl_deactivate_view#:#Deactivate this view
 dcl#:#dcl_default_sort_field#:#Default sort field
-dcl#:#dcl_default_sort_field_desc#:#Arrange the order of the entries in the table based on this field.
 dcl#:#dcl_default_sort_field_order#:#Default sort field order
+dcl#:#dcl_default_sort_field_order_desc#:#Arrange the order of the entries in the table based on this field.
 dcl#:#dcl_delete_fields#:#Delete Fields
 dcl#:#dcl_delete_fields_no_selection#:#Please select at least one field to delete
 dcl#:#dcl_delete_perm#:#Delete Entries
@@ -8759,7 +8758,6 @@ dcl#:#dcl_owner#:#Owner
 dcl#:#dcl_owner_description#:#The owner of the entry.
 dcl#:#dcl_owner_name#:#Owner (Name)
 dcl#:#dcl_page_type_dclf#:#Details View
-dcl#:#dcl_permissions_form#:#Permitted Actions for This Table
 dcl#:#dcl_please_select#:#--- Please select ---
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection Field-Plugins
@@ -8775,6 +8773,7 @@ dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rb
 dcl#:#dcl_record#:#Entry
 dcl#:#dcl_record_deleted#:#Entry deleted
 dcl#:#dcl_record_from_total#:#%d of %d
+dcl#:#dcl_record_settings#:#Record Settings
 dcl#:#dcl_reference#:#Reference
 dcl#:#dcl_reference_desc#:#Field to reference options stored in a different field of a table.
 dcl#:#dcl_reference_link#:#Link Referenced Entry
@@ -8812,6 +8811,7 @@ dcl#:#dcl_table_edit#:#Update Table
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_table_list_fields#:#Fields Of Selected Table
 dcl#:#dcl_table_list_tables#:#Available Tables
+dcl#:#dcl_table_settings#:#Table Settings.
 dcl#:#dcl_table_settings_saved#:#Table Settings have been saved.
 dcl#:#dcl_table_title_not_matching#:#The titles of the excel sheet and the Data Collection table do not match. Rename the sheet for a successfull import.
 dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.

@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Container\Form\Form;
+use ILIAS\UI\Component\Input\Field\Checkbox;
 
 class ilDclTableEditGUI
 {
@@ -94,7 +95,10 @@ class ilDclTableEditGUI
     public function edit(): void
     {
         $this->help->setSubScreenId('edit');
-        $this->tpl->setContent(sprintf($this->lng->txt('dcl_edit_table'), $this->table->getTitle()) . $this->ui_renderer->render($this->initForm('edit')));
+        $this->tpl->setContent(
+            sprintf($this->lng->txt('dcl_edit_table'), $this->table->getTitle()) .
+            $this->ui_renderer->render($this->initForm('edit'))
+        );
     }
 
     public function cancel(): void
@@ -104,98 +108,101 @@ class ilDclTableEditGUI
 
     public function initForm(string $a_mode = 'create'): Form
     {
+        $f = $this->ui_factory->input()->field();
         $inputs = [];
 
         $edit = [];
-        $edit['title'] = $this->ui_factory->input()->field()->text($this->lng->txt('title'))->withRequired(true);
+        $edit['title'] = $f->text($this->lng->txt('title'))->withRequired(true);
+        $edit['description'] = $f->markdown(new ilUIMarkdownPreviewGUI(), $this->lng->txt('additional_info'));
+        $edit['visible'] = $this->checkbox('visible');
+        $inputs['edit'] = $f->section($edit, $this->lng->txt('general_settings'));
+
+        $table = [];
         if ($a_mode !== 'create') {
-            $options = [0 => $this->lng->txt('dcl_please_select')];
+            $options = [];
             foreach ($this->table->getFields() as $field) {
                 if ($field->getId() !== 'comments' && $field->getRecordQuerySortObject() !== null) {
                     $options[$field->getId()] = $field->getTitle();
                 }
             }
-            $edit['default_sort_field'] = $this->ui_factory->input()->field()->select(
+            $table['default_sort_field'] = $f->select(
                 $this->lng->txt('dcl_default_sort_field'),
-                $options,
-                $this->lng->txt('dcl_default_sort_field_desc')
+                $options
             );
 
-            $edit['default_sort_field_order'] = $this->ui_factory->input()->field()->select(
+            $table['default_sort_field_order'] = $f->select(
                 $this->lng->txt('dcl_default_sort_field_order'),
                 ['asc' => $this->lng->txt('dcl_asc'), 'desc' => $this->lng->txt('dcl_desc')],
+                $this->lng->txt('dcl_default_sort_field_order_desc')
             );
         }
-        $edit['description'] = $this->ui_factory->input()->field()->markdown(
-            new ilUIMarkdownPreviewGUI(),
-            $this->lng->txt('additional_info'),
-            $this->lng->txt('dcl_additional_info_desc')
-        );
-        $inputs['edit'] = $this->ui_factory->input()->field()->section(
-            $edit,
-            $this->lng->txt('general_settings')
-        );
+        $table['export_enabled'] = $this->checkbox('export_enabled');
+        $table['import_enabled'] = $this->checkbox('import_enabled');
+        $table['comments_enabled'] = $this->checkbox('comments');
+        $inputs['table'] = $f->section($table, $this->lng->txt('table_settings'));
 
-        $user = [];
-        $user['add_perm'] = $this->ui_factory->input()->field()->optionalGroup(
-            [
-                'save_confirmation' => $this->ui_factory->input()->field()->checkbox($this->lng->txt('dcl_save_confirmation'), $this->lng->txt('dcl_save_confirmation_desc'))
-            ],
+        $record = [];
+        $record['add_perm'] = $f->optionalGroup(
+            ['save_confirmation' => $this->checkbox('save_confirmation')],
             $this->lng->txt('dcl_add_perm'),
             $this->lng->txt('dcl_add_perm_desc')
         )->withValue(['save_confirmation' => false]);
-        $user['edit_perm'] = $this->ui_factory->input()->field()->radio($this->lng->txt('dcl_edit_perm'))
+        $record['edit_perm'] = $f->radio($this->lng->txt('dcl_edit_perm'))
             ->withOption('all', $this->lng->txt('dcl_all_entries'))
             ->withOption('own', $this->lng->txt('dcl_own_entries'))
             ->withOption('none', $this->lng->txt('dcl_no_entries'))
             ->withValue('own');
-        $user['delete_perm'] = $this->ui_factory->input()->field()->radio($this->lng->txt('dcl_delete_perm'))
+        $record['delete_perm'] = $f->radio($this->lng->txt('dcl_delete_perm'))
             ->withOption('all', $this->lng->txt('dcl_all_entries'))
             ->withOption('own', $this->lng->txt('dcl_own_entries'))
             ->withOption('none', $this->lng->txt('dcl_no_entries'))
             ->withValue('own');
-        $user['view_own_records_perm'] = $this->ui_factory->input()->field()->checkbox(
-            $this->lng->txt('dcl_view_own_records_perm'),
-            $this->lng->txt('dcl_view_own_records_perm_desc'),
-        );
-        $user['export_enabled'] = $this->ui_factory->input()->field()->checkbox($this->lng->txt('dcl_export_enabled'), $this->lng->txt('dcl_export_enabled_desc'));
-        $user['import_enabled'] = $this->ui_factory->input()->field()->checkbox($this->lng->txt('dcl_import_enabled'), $this->lng->txt('dcl_import_enabled_desc'));
-        $user['limited'] = $this->ui_factory->input()->field()->optionalGroup(
+        $record['view_own_records_perm'] = $this->checkbox('view_own_records_perm');
+        $record['limited'] = $f->optionalGroup(
             [
-                'limit_start' => $this->ui_factory->input()->field()->dateTime($this->lng->txt('dcl_limit_start'))->withUseTime(true),
-                'limit_end' => $this->ui_factory->input()->field()->dateTime($this->lng->txt('dcl_limit_end'))->withUseTime(true)
+                'limit_start' => $f->dateTime($this->lng->txt('dcl_limit_start'))->withUseTime(true),
+                'limit_end' => $f->dateTime($this->lng->txt('dcl_limit_end'))->withUseTime(true)
             ],
             $this->lng->txt('dcl_limited'),
             $this->lng->txt('dcl_limited_desc')
         )->withValue(null);
-        $inputs['user'] = $this->ui_factory->input()->field()->section(
-            $user,
-            $this->lng->txt('dcl_permissions_form')
-        );
+        $inputs['record'] = $f->section($record, $this->lng->txt('dcl_record_settings'));
 
         if ($a_mode === 'edit') {
             $inputs = $this->setValues($inputs);
         }
 
         $this->ctrl->setParameter($this, 'table_id', $this->table_id);
-        return $this->ui_factory->input()->container()->form()->standard($this->ctrl->getFormAction($this, $a_mode === 'edit' ? 'save' : 'save_create'), $inputs);
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, $a_mode === 'edit' ? 'save' : 'save_create'),
+            $inputs
+        );
+    }
+
+    private function checkbox(string $label): Checkbox
+    {
+        return $this->ui_factory->input()->field()->checkbox('dcl_' . $label, 'dcl_' . $label . '_desc');
     }
 
     protected function setValues(array $inputs): array
     {
         $inputs['edit'] = $inputs['edit']->withValue([
             'title' => $this->table->getTitle(),
+            'description' => $this->table->getDescription(),
+            'visible' => $this->table->getIsVisible(),
+        ]);
+        $inputs['table'] = $inputs['table']->withValue([
             'default_sort_field' => $this->table->getDefaultSortField(),
             'default_sort_field_order' => $this->table->getDefaultSortFieldOrder(),
-            'description' => $this->table->getDescription(),
+            'export_enabled' => $this->table->getExportEnabled(),
+            'import_enabled' => $this->table->getImportEnabled(),
+            'comments_enabled' => $this->table->getPublicCommentsEnabled()
         ]);
-        $inputs['user'] = $inputs['user']->withValue([
+        $inputs['record'] = $inputs['record']->withValue([
             'add_perm' => $this->table->getAddPerm() ? ['save_confirmation' => $this->table->getSaveConfirmation()] : null,
             'edit_perm' => $this->table->getEditPerm() ? ($this->table->getEditByOwner() ? 'own' : 'all') : 'none',
             'delete_perm' => $this->table->getDeletePerm() ? ($this->table->getDeleteByOwner() ? 'own' : 'all') : 'none',
             'view_own_records_perm' => $this->table->getViewOwnRecordsPerm(),
-            'export_enabled' => $this->table->getExportEnabled(),
-            'import_enabled' => $this->table->getImportEnabled(),
             'limited' => $this->table->getLimited() ? ['limit_start' => $this->table->getLimitStart(), 'limit_end' => $this->table->getLimitEnd()] : null
         ]);
 
@@ -225,43 +232,45 @@ class ilDclTableEditGUI
 
             $this->table->setObjId($this->obj_id);
             $this->table->setTitle($data['edit']['title']);
-            if ($a_mode !== 'create') {
-                $this->table->setDefaultSortField($data['edit']['default_sort_field']);
-                $this->table->setDefaultSortFieldOrder($data['edit']['default_sort_field_order']);
-            }
             $this->table->setDescription($data['edit']['description']);
+            $this->table->setIsVisible($data['edit']['visible']);
 
-            $this->table->setAddPerm($data['user']['add_perm'] !== null);
-            $this->table->setSaveConfirmation($data['user']['add_perm']['save_confirmation'] ?? false);
-            $this->table->setEditPerm($data['user']['edit_perm'] !== 'none');
-            $this->table->setEditByOwner($data['user']['edit_perm'] === 'own');
-            $this->table->setDeletePerm($data['user']['delete_perm'] !== 'none');
-            $this->table->setDeleteByOwner($data['user']['delete_perm'] === 'own');
-            $this->table->setViewOwnRecordsPerm($data['user']['view_own_records_perm']);
-            $this->table->setExportEnabled($data['user']['export_enabled']);
-            $this->table->setImportEnabled($data['user']['import_enabled']);
-            $this->table->setLimited($data['user']['limited'] !== null);
-            if ($data['user']['limited']['limit_start'] ?? null !== null) {
-                $this->table->setLimitStart($data['user']['limited']['limit_start']->format('Y-m-d H:i:s'));
+            if ($a_mode !== 'create') {
+                $this->table->setDefaultSortField($data['table']['default_sort_field']);
+                $this->table->setDefaultSortFieldOrder($data['table']['default_sort_field_order']);
+            }
+            $this->table->setExportEnabled($data['table']['export_enabled']);
+            $this->table->setImportEnabled($data['table']['import_enabled']);
+            $this->table->setPublicCommentsEnabled($data['table']['comments_enabled']);
+
+            $this->table->setAddPerm($data['record']['add_perm'] !== null);
+            $this->table->setSaveConfirmation($data['record']['add_perm']['save_confirmation'] ?? false);
+            $this->table->setEditPerm($data['record']['edit_perm'] !== 'none');
+            $this->table->setEditByOwner($data['record']['edit_perm'] === 'own');
+            $this->table->setDeletePerm($data['record']['delete_perm'] !== 'none');
+            $this->table->setDeleteByOwner($data['record']['delete_perm'] === 'own');
+            $this->table->setViewOwnRecordsPerm($data['record']['view_own_records_perm']);
+            $this->table->setLimited($data['record']['limited'] !== null);
+            if ($data['record']['limited']['limit_start'] ?? null !== null) {
+                $this->table->setLimitStart($data['record']['limited']['limit_start']->format('Y-m-d H:i:s'));
             } else {
                 $this->table->setLimitStart('');
             }
-            if ($data['user']['limited']['limit_end'] ?? null !== null) {
-                $this->table->setLimitEnd($data['user']['limited']['limit_end']->format('Y-m-d H:i:s'));
+            if ($data['record']['limited']['limit_end'] ?? null !== null) {
+                $this->table->setLimitEnd($data['record']['limited']['limit_end']->format('Y-m-d H:i:s'));
             } else {
                 $this->table->setLimitEnd('');
             }
 
             if ($a_mode === 'create') {
                 $this->table->doCreate();
-                $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('dcl_msg_table_created'), true);
-                $this->ctrl->setParameterByClass(ilDclFieldListGUI::class, 'table_id', $this->table->getId());
-                $this->ctrl->redirectByClass(ilDclFieldListGUI::class, 'listFields');
+                $message = 'dcl_msg_table_created';
             } else {
                 $this->table->doUpdate();
-                $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('dcl_msg_table_edited'), true);
-                $this->ctrl->redirectByClass(ilDclTableEditGUI::class, 'edit');
+                $message = 'dcl_msg_table_edited';
             }
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt($message), true);
+            $this->ctrl->redirectByClass(ilDclTableEditGUI::class, 'edit');
         } else {
             $this->tpl->setContent($this->ui_renderer->render($form));
         }
@@ -290,44 +299,16 @@ class ilDclTableEditGUI
     {
         if (count($this->table->getCollectionObject()->getTables()) < 2) {
             $this->tpl->setOnScreenMessage(
-                'failure',
+                $this->tpl::MESSAGE_TYPE_FAILURE,
                 $this->lng->txt("dcl_cant_delete_last_table"),
                 true
-            ); //TODO change lng var
+            );
             $this->table->doDelete(true);
         } else {
             $this->table->doDelete();
         }
         $this->ctrl->clearParameterByClass("ilobjdatacollectiongui", "table_id");
         $this->ctrl->redirectByClass("ildcltablelistgui", "listtables");
-    }
-
-    public function enableVisible(): void
-    {
-        $this->table->setIsVisible(true);
-        $this->table->doUpdate();
-        $this->ctrl->redirectByClass(ilDclTableListGUI::class, 'listTables');
-    }
-
-    public function disableVisible(): void
-    {
-        $this->table->setIsVisible(false);
-        $this->table->doUpdate();
-        $this->ctrl->redirectByClass(ilDclTableListGUI::class, 'listTables');
-    }
-
-    public function enableComments(): void
-    {
-        $this->table->setPublicCommentsEnabled(true);
-        $this->table->doUpdate();
-        $this->ctrl->redirectByClass(ilDclTableListGUI::class, 'listTables');
-    }
-
-    public function disableComments(): void
-    {
-        $this->table->setPublicCommentsEnabled(false);
-        $this->table->doUpdate();
-        $this->ctrl->redirectByClass(ilDclTableListGUI::class, 'listTables');
     }
 
     public function setAsDefault(): void
