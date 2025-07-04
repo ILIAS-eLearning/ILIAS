@@ -32,25 +32,21 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilAccountMail
 {
-    private readonly GlobalHttpState $http;
     private readonly ilSetting $settings;
-    private readonly Refinery $refinery;
     private readonly ilTree $repositoryTree;
     private readonly ilMailMimeSenderFactory $senderFactory;
     public string $u_password = '';
     public ?ilObjUser $user = null;
-    public string $target = '';
     private bool $lang_variables_as_fallback = false;
     /** @var string[] */
     private array $attachments = [];
     private bool $attachConfiguredFiles = false;
     private array $amail = [];
+    private ?string $permanent_link_target = null;
 
     public function __construct()
     {
         global $DIC;
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
         $this->settings = $DIC->settings();
         $this->repositoryTree = $DIC->repositoryTree();
         $this->senderFactory = $DIC->mail()->mime()->senderFactory();
@@ -98,21 +94,27 @@ class ilAccountMail
         $this->user = $a_user;
     }
 
+    public function setPermanentLinkTarget(?string $permanent_link_target): void
+    {
+        if ($permanent_link_target === '') {
+            throw new InvalidArgumentException(
+                'Permanent link target must not be empty'
+            );
+        }
+
+        $this->permanent_link_target = $permanent_link_target;
+    }
+
     public function getUser(): ?ilObjUser
     {
         return $this->user;
-    }
-
-    public function getTarget(): string
-    {
-        return $this->target;
     }
 
     public function reset(): void
     {
         $this->user = null;
         $this->u_password = '';
-        $this->target = '';
+        $this->permanent_link_target = null;
     }
 
     /**
@@ -292,17 +294,14 @@ class ilAccountMail
 
         // target
         $replacements["IF_TARGET"] = false;
-        if ($this->http->wrapper()->query()->has('target') &&
-            $this->http->wrapper()->query()->retrieve('target', $this->refinery->kindlyTo()->string()) !== ''
-        ) {
-            $target = $this->http->wrapper()->query()->retrieve('target', $this->refinery->kindlyTo()->string());
-            $tarr = explode('_', (string) $target);
+        if ($this->permanent_link_target !== null) {
+            $tarr = explode('_', $this->permanent_link_target);
             if ($this->repositoryTree->isInTree((int) $tarr[1])) {
                 $obj_id = ilObject::_lookupObjId((int) $tarr[1]);
                 $type = ilObject::_lookupType($obj_id);
                 if ($type === $tarr[0]) {
                     $replacements["TARGET_TITLE"] = ilObject::_lookupTitle($obj_id);
-                    $replacements["TARGET"] = ILIAS_HTTP_PATH . '/goto.php?client_id=' . CLIENT_ID . '&target=' . $target;
+                    $replacements["TARGET"] = ILIAS_HTTP_PATH . '/goto.php?client_id=' . CLIENT_ID . '&target=' . $this->permanent_link_target;
 
                     // this looks complicated, but we may have no initilised $lng object here
                     // if mail is send during user creation in authentication
