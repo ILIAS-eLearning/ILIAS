@@ -202,30 +202,6 @@ class ilDclTableListGUI
             $this->ctrl->getLinkTargetByClass(ilDclTableEditGUI::class, 'confirmDelete')
         );
 
-        if ($table->getIsVisible()) {
-            $actions[] = $this->ui_factory->button()->shy(
-                $this->lng->txt('disable_visible'),
-                $this->ctrl->getLinkTargetByClass(ilDclTableEditGUI::class, 'disableVisible')
-            );
-        } else {
-            $actions[] = $this->ui_factory->button()->shy(
-                $this->lng->txt('enable_visible'),
-                $this->ctrl->getLinkTargetByClass(ilDclTableEditGUI::class, 'enableVisible')
-            );
-        }
-
-        if ($table->getPublicCommentsEnabled()) {
-            $actions[] = $this->ui_factory->button()->shy(
-                $this->lng->txt('disable_comments'),
-                $this->ctrl->getLinkTargetByClass(ilDclTableEditGUI::class, 'disableComments')
-            );
-        } else {
-            $actions[] = $this->ui_factory->button()->shy(
-                $this->lng->txt('enable_comments'),
-                $this->ctrl->getLinkTargetByClass(ilDclTableEditGUI::class, 'enableComments')
-            );
-        }
-
         if ($table->getOrder() !== 10) {
             $actions[] = $this->ui_factory->button()->shy(
                 $this->lng->txt('set_as_default'),
