@@ -175,8 +175,12 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 $this->addHeaderAction();
                 $this->prepareOutput();
                 $this->tabs->activateTab(self::TAB_CONTENT);
-                $recordlist_gui = new ilDclRecordListGUI($this, $this->table_id, $this->getTableViewId());
-                $this->ctrl->forwardCommand($recordlist_gui);
+                try {
+                    $recordlist_gui = new ilDclRecordListGUI($this, $this->table_id, $this->getTableViewId());
+                    $this->ctrl->forwardCommand($recordlist_gui);
+                } catch (ilDclNoTableviewException $e) {
+                    $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('dcl_no_tableview_found'));
+                }
                 break;
 
             case strtolower(ilDclRecordEditGUI::class):
@@ -286,7 +290,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             $tableview_id = $table_obj->getFirstTableViewId($this->getRefId());
         }
         if ($tableview_id === null) {
-            throw new InvalidArgumentException('No visible tableview configured!');
+            throw new ilDclNoTableviewException('No visible tableview configured!');
         }
         return $tableview_id;
     }
