@@ -28,7 +28,7 @@ window.MathJax = {
     load: ['ui/safe'],
   },
   options: {
-    ignoreHtmlClass: 'c-layout__page--latex', // class that marks tags not to search
+    ignoreHtmlClass: 'c-layout__page',            // class that marks tags not to search
     processHtmlClass: 'c-legacy__content--latex', // class that marks tags that should be searched
   },
   tex: {
