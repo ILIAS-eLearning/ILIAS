@@ -482,9 +482,8 @@ according to your needs.
 <a name="java-rpc-configuration"></a>
 ## Configure ILIAS Java RPC server (optional)
 
-The ILIAS Java RPC server is used for certain optional functions as Lucene Search
-or generating PDF Certificates. To enable the RPC server you need to place a
-configuration file in `<YOUR_ILIAS_DIR>/components/ILIAS/WebServices/RPC/lib/ilServer.properties`:
+The ILIAS Java RPC server is used for certain optional functions as Lucene Search or generating PDF Certificates. 
+To configure the RPC server you need to place a configuration file in its root directory. An installation guide as well as a more detailed configuration instruction can be found in our [RPC server documentation](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/WebServices/RPC/lib/README.md). A sample configuration is located in `<YOUR_ILIAS_DIR>/components/ILIAS/WebServices/RPC/lib/ilServer.ini` and looks like this:
 
 ```
 [Server]
@@ -503,12 +502,6 @@ NicId = 0
 IliasIniPath = /var/www/html/ilias/ilias.ini.php
 ```
 
-ILIAS can generate a proper configuration file via the Administration menu
-("Administration -> General Settings -> Server -> Java-Server -> Create
-Configuration File"). Please note that the configuration file is not directly
-written to the file system, you MUST copy the displayed content and create the
-file manually.
-
 You may use the following systemd service description to start the RPC server.
 If you still use SysV-Initscripts you can find one in the
 [Lucene RPC-Server](../../components/ILIAS/WebServices/RPC/lib/README.md) documentation.
@@ -521,7 +514,7 @@ After=network.target
 [Service]
 Environment=JAVA_OPTS="-Dfile.encoding=UTF-8"
 Environment=ILSERVER_JAR="/var/www/html/ilias/components/ILIAS/WebServices/RPC/lib/ilServer.jar"
-Environment=ILSERVER_INI="/var/www/html/ilias/components/ILIAS/WebServices/RPC/lib/ilServer.properties"
+Environment=ILSERVER_INI="/var/www/html/ilias/components/ILIAS/WebServices/RPC/lib/ilServer.ini"
 
 ExecStart=-/usr/bin/java $JAVA_OPTS -jar $ILSERVER_JAR $ILSERVER_INI start
 ExecStop=/usr/bin/java $JAVA_OPTS -jar $ILSERVER_JAR $ILSERVER_INI stop
