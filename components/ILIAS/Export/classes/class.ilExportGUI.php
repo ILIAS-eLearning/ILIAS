@@ -208,6 +208,12 @@ class ilExportGUI
             ->withContext($this->context)
             ->withPublicAccessEnabled($this->isPublicAccessEnabled());
         $table->handleCommands();
+        $this->tpl->setContent($table->getHTML());
+        $this->initToolbar();
+    }
+
+    final protected function initToolbar(): void
+    {
         $infos = [];
         foreach ($this->export_options as $export_option) {
             # Do not display export option if the label is missing.
@@ -232,7 +238,6 @@ class ilExportGUI
                     ->withLabel($this->lng->txt("exp_export_dropdown"))
             );
         }
-        $this->tpl->setContent($table->getHTML());
     }
 
     final protected function createXMLExportFile(): void
