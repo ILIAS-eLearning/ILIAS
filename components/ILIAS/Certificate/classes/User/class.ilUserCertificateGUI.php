@@ -128,6 +128,8 @@ class ilUserCertificateGUI
             $this->ctrl->redirect($this);
         }
 
+        $this->template->setPermanentLink('cert', null, 'list');
+
         $provider = new ilUserCertificateTableProvider(
             $this->db,
             $this->certificateLogger,
