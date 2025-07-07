@@ -59,7 +59,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass('ildclfieldlistgui', 'table_id', $this->parent_obj->getTableId());
 
         $this->setFormAction($this->ctrl->getFormActionByClass('ildclfieldlistgui'));
-        $this->addCommandButton('save', $this->lng->txt('dcl_save'));
+        $this->addCommandButton('save', $this->lng->txt('save'));
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setFormName('field_list');

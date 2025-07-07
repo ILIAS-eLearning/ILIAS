@@ -8554,8 +8554,8 @@ dcl#:#dcl_edit#:#Einstellungen der Datensammlung
 dcl#:#dcl_edit_entry_rules#:#Eintragsbearbeitung
 dcl#:#dcl_edit_field#:#Feld bearbeiten
 dcl#:#dcl_edit_perm#:#Einträge bearbeiten
-dcl#:#dcl_edit_record#:#Eintrag bearbeiten
 dcl#:#dcl_edit_table#:#Einstellungen der Tabelle "%s"
+dcl#:#dcl_edit_view#:#Einstellungen der Ansicht "%s"
 dcl#:#dcl_editable_in_table_gui#:#Ein Eintrag kann nur über die Tabellenansicht bewertet werden.
 dcl#:#dcl_err_formula_field_not_found#:#Feld mit dem Titel „%s“ existiert nicht.
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
@@ -8638,6 +8638,7 @@ dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
 dcl#:#dcl_new#:#Neue Datensammlung anlegen
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_new_table#:#Neue Tabelle
+dcl#:#dcl_new_view#:#Neue Ansicht
 dcl#:#dcl_next_record#:#Nächster Eintrag
 dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Felder
 dcl#:#dcl_no_entries#:#Keine Einträge
@@ -8693,11 +8694,9 @@ dcl#:#dcl_regex#:#Texteingabe einschränken
 dcl#:#dcl_regex_info#:#Es kann ein regulärer Ausdruck ohne Delimiter eingegeben werden. Automatisch werden dann bestimmte Einträge zurückgewiesen.
 dcl#:#dcl_required#:#Verpflichtend
 dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
-dcl#:#dcl_save#:#Speichern
 dcl#:#dcl_save_confirmation#:#Eingabe zusätzlich bestätigen
 dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen.
 dcl#:#dcl_save_order#:#Sortierung speichern
-dcl#:#dcl_save_record#:#Eintrag speichern
 dcl#:#dcl_select#:#Auswahl der Tabelle
 dcl#:#dcl_selection_options#:#Optionen
 dcl#:#dcl_selection_type#:#Format
@@ -8765,7 +8764,6 @@ dcl#:#dcl_url#:#URL oder E-Mail
 dcl#:#dcl_view_configuration#:#Ansichtskonfiguration
 dcl#:#dcl_view_own_records_perm#:#Nur eigene Einträge anzeigen
 dcl#:#dcl_view_own_records_perm_desc#:#Einträge von anderen Personen werden nicht angezeigt.
-dcl#:#dcl_view_settings#:#Ansichtseinstellungen
 dcl#:#dcl_view_viewdefinition#:#Vorlage für Einzelansicht
 dcl#:#dcl_visible#:#Für alle Benutzer sichtbar
 dcl#:#dcl_visible_desc#:#Benutzer haben Zugriff auf diese Tabelle.
@@ -8783,6 +8781,9 @@ dcl#:#enable_visible#:#Sichtbarkeit aktivieren
 dcl#:#entry_of#:#Eintrag %1$d von %2$d
 dcl#:#fieldtitle_allow_chars#:#Nicht erlaubte Zeichen: %s
 dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann deshalb nicht angezeigt werden. Bitte wenden Sie sich an Ihre Systemadministration.
+dcl#:#role_limitation#:#Rollenbasierte Einschränkung
+dcl#:#roles#:#Rollen mit Zugriff
+dcl#:#roles_desc#:#Wählen sie zugriffsberechtigte Rollen für die Ansicht.
 dcl#:#set_as_default#:#Als Standard setzen
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
 didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.

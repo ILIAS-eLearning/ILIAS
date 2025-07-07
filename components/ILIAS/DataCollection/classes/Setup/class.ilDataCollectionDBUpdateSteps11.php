@@ -61,4 +61,17 @@ class ilDataCollectionDBUpdateSteps11 implements ilDatabaseUpdateSteps
             $this->db->dropTableColumn('il_dcl_field', 'is_unique');
         }
     }
+
+    public function step_2(): void
+    {
+        if (!$this->db->tableColumnExists('il_dcl_tableview', 'role_limitation')) {
+            $this->db->addTableColumn('il_dcl_tableview', 'role_limitation', [
+                'type' => ilDBConstants::T_INTEGER,
+                'length' => 1,
+                'notnull' => true,
+                'default' => 0
+            ]);
+        }
+        $this->db->manipulateF('UPDATE il_dcl_tableview SET role_limitation = %s', [ilDBConstants::T_INTEGER], [1]);
+    }
 }

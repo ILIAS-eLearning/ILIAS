@@ -206,7 +206,7 @@ class ilDclDetailedViewGUI
             $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, 'redirect', ilDclRecordEditGUI::REDIRECT_DETAIL);
             $this->ctrl->saveParameterByClass(ilDclRecordEditGUI::class, 'record_id');
             $DIC->toolbar()->addComponent($DIC->ui()->factory()->button()->standard(
-                $this->lng->txt('dcl_edit_record'),
+                $this->lng->txt('edit'),
                 $this->ctrl->getLinkTargetByClass(ilDclRecordEditGUI::class, 'edit')
             ));
         }

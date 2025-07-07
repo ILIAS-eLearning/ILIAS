@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Input\Container\Form\Form;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+
 /**
  * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclDetailedViewDefinitionGUI
  * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclCreateViewDefinitionGUI
@@ -37,6 +41,12 @@ class ilDclTableViewEditGUI
     protected ilHelpGUI $help;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
+    private Factory $ui_factory;
+    private Renderer $ui_renderer;
+    /**
+     * @var int[]
+     */
+    private array $available_roles = [];
 
     public function __construct(ilDclTableViewGUI $parent_obj, ilDclTable $table, ilDclTableView $tableview)
     {
@@ -56,6 +66,17 @@ class ilDclTableViewEditGUI
         $this->help = $DIC->help();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $ref_id = $this->table->getCollectionObject()->getRefId();
+        foreach ($DIC->rbac()->review()->getParentRoleIds($ref_id) as $role) {
+            if (
+                $role['obj_id'] !== SYSTEM_ROLE_ID &&
+                $DIC->rbac()->system()->checkPermission($ref_id, $role['obj_id'], 'visible')
+            ) {
+                $this->available_roles[$role['obj_id']] = ilObjRole::_getTranslation($role['title']);
+            }
+        }
 
         $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
         $this->ctrl->saveParameter($this, 'tableview_id');
@@ -118,14 +139,17 @@ class ilDclTableViewEditGUI
                         break;
                     case 'add':
                         $this->help->setSubScreenId('create');
-                        $ilDclTableViewEditFormGUI = new ilDclTableViewEditFormGUI($this, $this->tableview);
-                        $this->tpl->setContent($ilDclTableViewEditFormGUI->getHTML());
+                        $this->tpl->setContent(
+                            $this->lng->txt('dcl_new_view') . $this->ui_renderer->render($this->initForm(true))
+                        );
                         break;
                     case 'editGeneralSettings':
                         $this->help->setSubScreenId('edit');
                         $this->setTabs('general_settings');
-                        $ilDclTableViewEditFormGUI = new ilDclTableViewEditFormGUI($this, $this->tableview);
-                        $this->tpl->setContent($ilDclTableViewEditFormGUI->getHTML());
+                        $this->tpl->setContent(
+                            sprintf($this->lng->txt('dcl_edit_view'), $this->tableview->getTitle()) .
+                            $this->ui_renderer->render($this->initForm())
+                        );
                         break;
                     case 'editFieldSettings':
                         $this->help->setSubScreenId('overview');
@@ -134,6 +158,9 @@ class ilDclTableViewEditGUI
                         $this->tpl->setContent($this->table_gui->getHTML());
                         break;
                     default:
+                        if ($cmd === 'create' || $cmd === 'update') {
+                            $this->save($cmd === 'create');
+                        }
                         $this->$cmd();
                         break;
                 }
@@ -141,11 +168,57 @@ class ilDclTableViewEditGUI
         }
     }
 
+    protected function initForm(bool $create = false): Form
+    {
+        $settings['title'] = $this->ui_factory->input()->field()->text($this->lng->txt('title'))->withRequired(true);
+        $settings['description'] = $this->ui_factory->input()->field()->textarea($this->lng->txt('description'));
+        $roles = [];
+        $settings['role_limitation'] = $this->ui_factory->input()->field()->optionalGroup(
+            [
+                'roles' => $this->ui_factory->input()->field()->multiSelect(
+                    $this->lng->txt('roles'),
+                    $this->available_roles,
+                    $this->lng->txt('roles_desc')
+                )
+            ],
+            $this->lng->txt('role_limitation')
+        );
+
+        $inputs['settings'] = $this->ui_factory->input()->field()->section($settings, $this->lng->txt('general_settings'));
+
+        if (!$create) {
+            $inputs = $this->setValues($inputs);
+        }
+
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, $create ? 'create' : 'update'),
+            $inputs
+        );
+    }
+
+    protected function setValues(array $inputs): array
+    {
+        $roles = [];
+        foreach ($this->tableview->getRoles() as $role) {
+            $role = (int) $role;
+            if (in_array($role, array_keys($this->available_roles), true)) {
+                $roles[] = $role;
+            }
+        }
+        $inputs['settings'] = $inputs['settings']->withValue([
+            'title' => $this->tableview->getTitle(),
+            'description' => $this->tableview->getDescription(),
+            'role_limitation' => $this->tableview->getRoleLimitation() ? ['roles' => $roles] : null
+        ]);
+
+        return $inputs;
+    }
+
     protected function setTabs(string $active): void
     {
         $this->tabs_gui->addTab(
             'general_settings',
-            $this->lng->txt('dcl_view_settings'),
+            $this->lng->txt('settings'),
             $this->ctrl->getLinkTarget($this, 'editGeneralSettings')
         );
         $this->tabs_gui->addTab(
@@ -171,32 +244,28 @@ class ilDclTableViewEditGUI
         $this->tabs_gui->setTabActive($active);
     }
 
-    public function update(): void
+    public function save(bool $create = false): void
     {
-        $ilDclTableViewEditFormGUI = new ilDclTableViewEditFormGUI($this, $this->tableview);
-        $ilDclTableViewEditFormGUI->setValuesByPost();
-        if ($ilDclTableViewEditFormGUI->checkInput()) {
-            $ilDclTableViewEditFormGUI->updateTableView();
-            $this->ctrl->redirect($this, 'editGeneralSettings');
-        } else {
-            $this->setTabs('general_settings');
-            $this->tpl->setContent($ilDclTableViewEditFormGUI->getHTML());
+        $data = $this->initForm()->withRequest($this->http->request())->getData();
+        if ($data !== null) {
+            $this->tableview->setTitle($data['settings']['title']);
+            $this->tableview->setDescription($data['settings']['description']);
+            $this->tableview->setRoleLimitation($data['settings']['role_limitation'] !== null);
+            $this->tableview->setRoles($data['settings']['role_limitation']['roles'] ?? []);
+            if ($create) {
+                $this->tableview->setTableId($this->table->getId());
+                $this->tableview->setOrder($this->table->getNewTableviewOrder());
+                $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('dcl_msg_tableview_created'), true);
+                $this->tableview->create();
+            } else {
+                $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('dcl_msg_tableview_updated'), true);
+                $this->tableview->update();
+            }
         }
+        $this->ctrl->redirect($this, 'editGeneralSettings');
     }
 
-    public function create(): void
-    {
-        $ilDclTableViewEditFormGUI = new ilDclTableViewEditFormGUI($this, $this->tableview, $this->table);
-        $ilDclTableViewEditFormGUI->setValuesByPost();
-        if ($ilDclTableViewEditFormGUI->checkInput()) {
-            $ilDclTableViewEditFormGUI->createTableView();
-            $this->ctrl->redirect($this, 'editGeneralSettings');
-        } else {
-            $this->tpl->setContent($ilDclTableViewEditFormGUI->getHTML());
-        }
-    }
-
-    public function saveTable(): void
+    public function saveOverviewSettings(): void
     {
         /**
          * @var ilDclTableViewFieldSetting $setting

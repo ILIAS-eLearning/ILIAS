@@ -8564,8 +8564,8 @@ dcl#:#dcl_edit#:#Settings for This Data Collection
 dcl#:#dcl_edit_entry_rules#:#Entry Editing
 dcl#:#dcl_edit_field#:#Edit Field
 dcl#:#dcl_edit_perm#:#Edit Entries
-dcl#:#dcl_edit_record#:#Edit Entry
 dcl#:#dcl_edit_table#:#Settings of the Table ‘%s’
+dcl#:#dcl_edit_view#:#Edit Settings of View "%s"
 dcl#:#dcl_editable_in_table_gui#:#Please vote in the table view.
 dcl#:#dcl_err_formula_field_not_found#:#Field with title '%s' not found
 dcl#:#dcl_error_parsing_expression#:#Error parsing expression
@@ -8648,6 +8648,7 @@ dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_new_field#:#New Field
 dcl#:#dcl_new_table#:#New Table
+dcl#:#dcl_new_view#:#New View
 dcl#:#dcl_next_record#:#Next Entry
 dcl#:#dcl_no_content_warning#:#Please note: the data collection is online but does not yet have any fields.
 dcl#:#dcl_no_entries#:#Action not permitted
@@ -8704,11 +8705,9 @@ dcl#:#dcl_regex#:#Restrict Text Input
 dcl#:#dcl_regex_info#:#Allow the input of a regular expression without delimiter. Certain entries will the be automatically rejected.
 dcl#:#dcl_required#:#Required Field
 dcl#:#dcl_row_not_found#:# - This field couldn't be found in the table.
-dcl#:#dcl_save#:#Save Table
 dcl#:#dcl_save_confirmation#:#Additional Confirmation of Entries
 dcl#:#dcl_save_confirmation_desc#:#Users have to confirm new entries into the data collection.
 dcl#:#dcl_save_order#:#Save Order
-dcl#:#dcl_save_record#:#Save Entry
 dcl#:#dcl_select#:#Select for Presentation
 dcl#:#dcl_selection_options#:#Options
 dcl#:#dcl_selection_type#:#Format
@@ -8776,7 +8775,6 @@ dcl#:#dcl_url#:#Mandatory URL or E-Mail
 dcl#:#dcl_view_configuration#:#View Configuration
 dcl#:#dcl_view_own_records_perm#:#View Only Own Entries
 dcl#:#dcl_view_own_records_perm_desc#:#The entries of other users are not visible.
-dcl#:#dcl_view_settings#:#View Settings
 dcl#:#dcl_view_viewdefinition#:#Detailed View
 dcl#:#dcl_visible#:#Visible for all users
 dcl#:#dcl_visible_desc#:#Users can access this table.
@@ -8794,6 +8792,9 @@ dcl#:#enable_visible#:#Enable visible
 dcl#:#entry_of#:#Entry %1$d of %2$d
 dcl#:#fieldtitle_allow_chars#:#Characters not permitted: %s
 dcl#:#fileupload_not_migrated#:#File has not yet been migrated and cannot be displayed. Please contact your system administrator.
+dcl#:#role_limitation#:#Role-based View Limitation
+dcl#:#roles#:#Roles with Access
+dcl#:#roles_desc#:#Define wich roles have access to the view.
 dcl#:#set_as_default#:#Set as default
 didactic#:#activate_exclusive_template#:#Grey Out Default
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.

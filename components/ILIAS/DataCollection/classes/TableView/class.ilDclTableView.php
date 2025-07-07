@@ -55,6 +55,13 @@ class ilDclTableView extends ActiveRecord
      */
     protected array $roles = [];
     /**
+     * @var bool
+     * @db_has_field        true
+     * @db_fieldtype        integer
+     * @db_length           1
+     */
+    protected bool $role_limitation = false;
+    /**
      * @var string
      * @db_has_field        true
      * @db_fieldtype        text
@@ -150,6 +157,16 @@ class ilDclTableView extends ActiveRecord
     public function setRoles(array $roles): void
     {
         $this->roles = $roles;
+    }
+
+    public function getRoleLimitation(): bool
+    {
+        return $this->role_limitation;
+    }
+
+    public function setRoleLimitation(bool $role_limitation): void
+    {
+        $this->role_limitation = $role_limitation;
     }
 
     /**
@@ -348,6 +365,7 @@ class ilDclTableView extends ActiveRecord
         $this->setOrder($orig->getOrder());
         $this->setDescription($orig->getDescription());
         $this->setRoles($orig->getRoles());
+        $this->setRoleLimitation($orig->getRoleLimitation());
         $this->create(false); //create default setting, adjust them later
 
         //clone default values

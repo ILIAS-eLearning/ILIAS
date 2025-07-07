@@ -438,8 +438,8 @@ class ilDclRecordEditGUI
         }
         $confirmation->setHeaderText($header_text);
 
-        $confirmation->setCancel($this->lng->txt('dcl_edit_record'), 'edit');
-        $confirmation->setConfirm($this->lng->txt('dcl_save_record'), 'save');
+        $confirmation->setCancel($this->lng->txt('edit'), 'edit');
+        $confirmation->setConfirm($this->lng->txt('save'), 'save');
 
         $record_data = "";
 
