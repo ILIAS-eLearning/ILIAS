@@ -135,7 +135,7 @@ class ilDclTableEditGUI
         $table['export_enabled'] = $this->checkbox('export_enabled');
         $table['import_enabled'] = $this->checkbox('import_enabled');
         $table['comments_enabled'] = $this->checkbox('comments');
-        $inputs['table'] = $f->section($table, $this->lng->txt('table_settings'));
+        $inputs['table'] = $f->section($table, $this->lng->txt('dcl_table_settings'));
 
         $record = [];
         $record['add_perm'] = $f->optionalGroup(
@@ -177,7 +177,10 @@ class ilDclTableEditGUI
 
     private function checkbox(string $label): Checkbox
     {
-        return $this->ui_factory->input()->field()->checkbox('dcl_' . $label, 'dcl_' . $label . '_desc');
+        return $this->ui_factory->input()->field()->checkbox(
+            $this->lng->txt('dcl_' . $label),
+            $this->lng->txt('dcl_' . $label . '_desc')
+        );
     }
 
     protected function setValues(array $inputs): array
@@ -187,8 +190,9 @@ class ilDclTableEditGUI
             'description' => $this->table->getDescription(),
             'visible' => $this->table->getIsVisible(),
         ]);
+        $sort_field = $this->table->getDefaultSortField();
         $inputs['table'] = $inputs['table']->withValue([
-            'default_sort_field' => $this->table->getDefaultSortField(),
+            'default_sort_field' => in_array($sort_field, $this->table->getFieldIds()) ? $sort_field : '',
             'default_sort_field_order' => $this->table->getDefaultSortFieldOrder(),
             'export_enabled' => $this->table->getExportEnabled(),
             'import_enabled' => $this->table->getImportEnabled(),
