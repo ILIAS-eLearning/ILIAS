@@ -2904,7 +2904,7 @@ INSERT INTO `copg_pobj_def` VALUES ('wpg','ilWikiPage','classes','Modules/Wiki')
 CREATE TABLE `copg_section_timings` (
   `page_id` int(11) NOT NULL DEFAULT 0,
   `parent_type` varchar(10) NOT NULL DEFAULT '',
-  `unix_ts` int(11) NOT NULL DEFAULT 0,
+  `unix_ts` bigint(20) NOT NULL DEFAULT 0,
   PRIMARY KEY (`page_id`,`parent_type`,`unix_ts`)
 ) ;
 
@@ -7059,6 +7059,7 @@ INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps8',6,'2023-12-12 16:39:41.540
 INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps8',7,'2023-12-12 16:39:41.548340','2023-12-12 16:39:41.553727');
 INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps9',1,'2025-05-20 15:03:13.563478','2025-05-20 15:03:13.563956');
 INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps9',2,'2025-05-27 15:12:55.471367','2025-05-27 15:12:55.477607');
+INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps9',3,'2025-07-08 13:34:59.090597','2025-07-08 13:34:59.090966');
 INSERT INTO `il_db_steps` VALUES ('ilFileObjectDatabaseObjective',1,'2023-12-12 16:39:39.914414','2023-12-12 16:39:39.920671');
 INSERT INTO `il_db_steps` VALUES ('ilFileObjectDatabaseObjective',2,'2023-12-12 16:39:39.921276','2023-12-12 16:39:39.928502');
 INSERT INTO `il_db_steps` VALUES ('ilFileObjectDatabaseObjective',3,'2023-12-12 16:39:39.929117','2023-12-12 16:39:39.929997');
@@ -7117,6 +7118,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',10,'2023-12-12 16:39:37.439832','2023-12-12 16:39:37.440784');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',11,'2023-12-12 16:39:37.441392','2023-12-12 16:39:37.442291');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',12,'2023-12-12 16:39:37.442881','2023-12-12 16:39:37.445224');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageHotfix9DBUpdateSteps',1,'2025-07-08 13:34:59.083033','2025-07-08 13:34:59.087014');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Dashboard\\Setup\\ilDashboardUpdateSteps',1,'2023-12-12 16:39:38.799015','2023-12-12 16:39:38.800401');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Dashboard\\Setup\\ilDashboardUpdateSteps',2,'2023-12-12 16:39:38.800987','2023-12-12 16:39:38.809540');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Dashboard\\Setup\\ilDashboardUpdateSteps',3,'2025-05-20 15:03:13.554607','2025-05-20 15:03:13.554985');
@@ -13577,7 +13579,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL,NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2025-05-27 15:12:55','',NULL,NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2025-07-08 13:34:59','',NULL,NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL,NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
@@ -20392,7 +20394,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','9.10.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','9.11.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -25112,4 +25114,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2025-05-27 15:12:56
+-- Dump completed on 2025-07-08 13:34:59
