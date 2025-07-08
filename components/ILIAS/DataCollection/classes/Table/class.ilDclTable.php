@@ -358,9 +358,6 @@ class ilDclTable
         return $field;
     }
 
-    /**
-     * @return int[]
-     */
     public function getFieldIds(): array
     {
         $field_ids = [];
