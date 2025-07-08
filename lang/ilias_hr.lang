@@ -8688,6 +8688,7 @@ dcl#:#dcl_no_fields_yet#:#Za ovu tablicu nisu definirana polja, pa još ne može
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Nemate pristup čitanju niti na jednom standardnom prikazu tablice.
 dcl#:#dcl_no_search_results_found_for#:#Nije pronađen nijedan modul za
 dcl#:#dcl_no_such_reference#:#Sljedeća vrijednost nije dostupna u referentnoj tablici:
+dcl#:#dcl_no_tableview_found#:#No visible tableview found!###08 07 2025 new variable
 dcl#:#dcl_not_checked#:#Nije provjereno.
 dcl#:#dcl_not_supported_in_import#:#Ova vrsta polja nije podržana u uvozu
 dcl#:#dcl_notification_activate_dcl#:#Aktiviraj obavijest za zbirku podataka
@@ -9177,6 +9178,7 @@ etal#:#notification_talks_subject#:#Invitation: %s###31 03 2023 new variable
 etal#:#notification_talks_subject_update#:#Update: %s###31 03 2023 new variable
 etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 03 2023 new variable
 etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
+etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###08 07 2025 new variable
 etal#:#talk_serial#:#Talk Serial###31 03 2023 new variable
 etal#:#tals_add#:#Add Talks###31 03 2023 new variable
 etal#:#tals_new#:#New Talks###31 03 2023 new variable
@@ -10936,6 +10938,7 @@ lso#:#lso_player_abstract#:#Prikaži sažetak informacija
 lso#:#lso_player_extro#:#Prikaži završnu stranicu
 lso#:#lso_player_finish#:#Završi
 lso#:#lso_player_next#:#Sljedeći
+lso#:#lso_player_noitems#:#There are no available items in this Learning Sequence.###08 07 2025 new variable
 lso#:#lso_player_previous#:#Prethodni
 lso#:#lso_player_resume#:#Nastavi sekvencu učenja
 lso#:#lso_player_review#:#Pregledaj sekvencu učenja
@@ -11199,6 +11202,7 @@ lti#:#lti_object_consumer#:#Potrošači LTI-ja
 lti#:#lti_object_release_settings_form#:#Uredi odobrenja LTI-ja
 lti#:#lti_provider#:#Odobrenja LTI-ja
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###04 06 2021 new variable
+lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###08 07 2025 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider###04 06 2021 new variable
 lti#:#lti_released_objects#:#Odobrenja objekta
 lti#:#lti_select_provider#:#Select Provider###04 06 2021 new variable
@@ -13124,6 +13128,7 @@ prg#:#auto_membership_src_type#:#Type###04 06 2021 new variable
 prg#:#auto_membership_title#:#Sources for Membership Automation###04 06 2021 new variable
 prg#:#auto_memberships#:#Membership Automation###04 06 2021 new variable
 prg#:#category#:#Category###04 06 2021 new variable
+prg#:#cert_relevance#:#Certificate###08 07 2025 new variable
 prg#:#completion_date#:#Completion Date###04 06 2021 new variable
 prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?###24 09 2021 new variable
 prg#:#cont_ed_insert_prgactionnote#:#Insert Study Programme Action Note###30 04 2024 new variable
@@ -17379,6 +17384,7 @@ validation#:#not_min_length#:#Your input has a length of %d and falls below the 
 validation#:#not_numeric#:#'%s' is not numeric.###04 06 2021 new variable
 validation#:#not_numeric_empty_string#:#Your input is not numeric.###04 06 2021 new variable
 validation#:#numeric_only#:#Please insert a whole number.###30 04 2024 new variable
+validation#:#required#:#This input is required.###08 07 2025 new variable
 validation#:#tag_required#:#Please insert at least one tag.###30 04 2024 new variable
 violation#:#not_a_string#:#Given value is not a String###31 03 2023 new variable
 webr#:#invalid_links_tbl#:#Invalid Links###04 06 2021 new variable
