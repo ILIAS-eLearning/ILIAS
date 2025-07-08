@@ -5851,65 +5851,75 @@ class ilObjTest extends ilObject
             ->withGeneralSettings($general_settings)
             ->withIntroductionSettings(
                 $main_settings->getIntroductionSettings()
-                ->withIntroductionEnabled((bool) $testsettings['IntroEnabled'])
+                    ->withIntroductionEnabled((bool) ($testsettings['IntroEnabled'] ?? false))
                 ->withExamConditionsCheckboxEnabled((bool) ($testsettings['ExamConditionsCheckboxEnabled'] ?? false))
             )
             ->withAccessSettings(
                 $main_settings->getAccessSettings()
-                ->withStartTimeEnabled((bool) $testsettings['StartingTimeEnabled'])
-                ->withStartTime($this->convertTimeToDateTimeImmutableIfNecessary($testsettings['StartingTime']))
-                ->withEndTimeEnabled((bool) $testsettings['EndingTimeEnabled'])
-                ->withEndTime($this->convertTimeToDateTimeImmutableIfNecessary($testsettings['EndingTime']))
-                ->withPasswordEnabled((bool) $testsettings['password_enabled'])
-                ->withPassword($testsettings['password'])
-                ->withFixedParticipants((bool) $testsettings['fixed_participants'])
+                ->withStartTimeEnabled((bool) ($testsettings['StartingTimeEnabled'] ?? false))
+                    ->withStartTime(
+                        $this->convertTimeToDateTimeImmutableIfNecessary(
+                            isset($testsettings['StartingTime'])
+                                ? new DateTimeImmutable($testsettings['StartingTime']) : null
+                        )
+                    )
+                ->withEndTimeEnabled((bool) ($testsettings['EndingTimeEnabled'] ?? false))
+                ->withEndTime(
+                    $this->convertTimeToDateTimeImmutableIfNecessary(
+                        isset($testsettings['EndingTime'])
+                            ? new DateTimeImmutable($testsettings['EndingTime']) : null
+                    )
+                )
+                ->withPasswordEnabled((bool) ($testsettings['password_enabled'] ?? false))
+                ->withPassword($testsettings['password'] ?? null)
+                ->withFixedParticipants((bool) ($testsettings['fixed_participants'] ?? false))
             )
             ->withTestBehaviourSettings(
                 $main_settings->getTestBehaviourSettings()
-                ->withNumberOfTries((int) $testsettings['NrOfTries'])
-                ->withBlockAfterPassedEnabled((bool) $testsettings['BlockAfterPassed'])
-                ->withPassWaiting($testsettings['pass_waiting'])
-                ->withKioskMode($testsettings['Kiosk'])
-                ->withProcessingTimeEnabled((bool) $testsettings['EnableProcessingTime'])
-                ->withProcessingTime($testsettings['ProcessingTime'])
-                ->withResetProcessingTime((bool) $testsettings['ResetProcessingTime'])
-                ->withExamIdInTestAttemptEnabled((bool) ($testsettings['examid_in_test_pass'] ?? 0))
+                ->withNumberOfTries((int) ($testsettings['NrOfTries'] ?? 1))
+                ->withBlockAfterPassedEnabled((bool) ($testsettings['BlockAfterPassed'] ?? false))
+                ->withPassWaiting($testsettings['pass_waiting'] ?? null)
+                ->withKioskMode((int) ($testsettings['Kiosk'] ?? 0))
+                ->withProcessingTimeEnabled((bool) ($testsettings['EnableProcessingTime'] ?? false))
+                ->withProcessingTime($testsettings['ProcessingTime'] ?? null)
+                ->withResetProcessingTime((bool) ($testsettings['ResetProcessingTime'] ?? false))
+                ->withExamIdInTestAttemptEnabled((bool) ($testsettings['examid_in_test_pass'] ?? false))
             )
             ->withQuestionBehaviourSettings(
                 $main_settings->getQuestionBehaviourSettings()
-                ->withQuestionTitleOutputMode($testsettings['TitleOutput'])
-                ->withAutosaveEnabled((bool) $testsettings['autosave'])
-                ->withAutosaveInterval($testsettings['autosave_ival'])
-                ->withShuffleQuestions((bool) $testsettings['Shuffle'])
-                ->withQuestionHintsEnabled((bool) $testsettings['offer_question_hints'])
-                ->withInstantFeedbackPointsEnabled((bool) $testsettings['AnswerFeedbackPoints'])
-                ->withInstantFeedbackGenericEnabled((bool) $testsettings['AnswerFeedback'])
-                ->withInstantFeedbackSpecificEnabled((bool) $testsettings['SpecificAnswerFeedback'])
-                ->withInstantFeedbackSolutionEnabled((bool) $testsettings['InstantFeedbackSolution'])
-                ->withForceInstantFeedbackOnNextQuestion((bool) $testsettings['force_inst_fb'])
-                ->withLockAnswerOnInstantFeedbackEnabled((bool) $testsettings['inst_fb_answer_fixation'])
-                ->withLockAnswerOnNextQuestionEnabled((bool) $testsettings['follow_qst_answer_fixation'])
+                ->withQuestionTitleOutputMode((int) ($testsettings['TitleOutput'] ?? 0))
+                ->withAutosaveEnabled((bool) ($testsettings['autosave'] ?? false))
+                ->withAutosaveInterval((int) ($testsettings['autosave_ival'] ?? 0))
+                ->withShuffleQuestions((bool) ($testsettings['Shuffle'] ?? false))
+                ->withQuestionHintsEnabled((bool) ($testsettings['offer_question_hints'] ?? false))
+                ->withInstantFeedbackPointsEnabled((bool) ($testsettings['AnswerFeedbackPoints'] ?? false))
+                ->withInstantFeedbackGenericEnabled((bool) ($testsettings['AnswerFeedback'] ?? false))
+                ->withInstantFeedbackSpecificEnabled((bool) ($testsettings['SpecificAnswerFeedback'] ?? false))
+                ->withInstantFeedbackSolutionEnabled((bool) ($testsettings['InstantFeedbackSolution'] ?? false))
+                ->withForceInstantFeedbackOnNextQuestion((bool) ($testsettings['force_inst_fb'] ?? false))
+                ->withLockAnswerOnInstantFeedbackEnabled((bool) ($testsettings['inst_fb_answer_fixation'] ?? false))
+                ->withLockAnswerOnNextQuestionEnabled((bool) ($testsettings['follow_qst_answer_fixation'] ?? false))
             )
             ->withParticipantFunctionalitySettings(
                 $main_settings->getParticipantFunctionalitySettings()
-                ->withUsePreviousAnswerAllowed((bool) $testsettings['use_previous_answers'])
-                ->withSuspendTestAllowed((bool) $testsettings['ShowCancel'])
-                ->withPostponedQuestionsMoveToEnd((bool) $testsettings['SequenceSettings'])
-                ->withUsrPassOverviewMode((int) $testsettings['ListOfQuestionsSettings'])
-                ->withQuestionMarkingEnabled((bool) $testsettings['ShowMarker'])
+                ->withUsePreviousAnswerAllowed((bool) ($testsettings['use_previous_answers'] ?? false))
+                ->withSuspendTestAllowed((bool) ($testsettings['ShowCancel'] ?? false))
+                ->withPostponedQuestionsMoveToEnd((bool) ($testsettings['SequenceSettings'] ?? false))
+                ->withUsrPassOverviewMode((int) ($testsettings['ListOfQuestionsSettings'] ?? 0))
+                ->withQuestionMarkingEnabled((bool) ($testsettings['ShowMarker'] ?? false))
             )
             ->withFinishingSettings(
                 $main_settings->getFinishingSettings()
-                ->withShowAnswerOverview((bool) $testsettings['enable_examview'])
-                ->withConcludingRemarksEnabled((bool) $testsettings['ShowFinalStatement'])
-                ->withRedirectionMode((int) $testsettings['redirection_mode'])
-                ->withRedirectionUrl($testsettings['redirection_url'])
-                ->withMailNotificationContentType((int) $testsettings['mailnotification'])
-                ->withAlwaysSendMailNotification((bool) $testsettings['mailnottype'])
+                ->withShowAnswerOverview((bool) ($testsettings['enable_examview'] ?? false))
+                ->withConcludingRemarksEnabled((bool) ($testsettings['ShowFinalStatement'] ?? false))
+                ->withRedirectionMode((int) ($testsettings['redirection_mode'] ?? 0))
+                ->withRedirectionUrl($testsettings['redirection_url'] ?? null)
+                ->withMailNotificationContentType((int) ($testsettings['mailnotification'] ?? 0))
+                ->withAlwaysSendMailNotification((bool) ($testsettings['mailnottype'] ?? false))
             )
             ->withAdditionalSettings(
                 $main_settings->getAdditionalSettings()
-                    ->withSkillsServiceEnabled((bool) $testsettings['skill_service'])
+                    ->withSkillsServiceEnabled((bool) ($testsettings['skill_service'] ?? false))
                     ->withHideInfoTab((bool) ($testsettings['HideInfoTab'] ?? false))
             );
 
@@ -5917,11 +5927,12 @@ class ilObjTest extends ilObject
 
         $score_reporting = ScoreReportingTypes::SCORE_REPORTING_DISABLED;
         if ($testsettings['ScoreReporting'] !== null) {
-            $score_reporting = ScoreReportingTypes::tryFrom($testsettings['ScoreReporting'])
-                ?? ScoreReportingTypes::SCORE_REPORTING_DISABLED;
+            $score_reporting = ScoreReportingTypes::tryFrom(
+                (int) ($testsettings['ScoreReporting'] ?? ScoreReportingTypes::SCORE_REPORTING_DISABLED->value)
+            ) ?? ScoreReportingTypes::SCORE_REPORTING_DISABLED;
         }
 
-        $reporting_date = $testsettings['ReportingDate'];
+        $reporting_date = $testsettings['ReportingDate'] ?? null;
         if (is_string($reporting_date)) {
             $reporting_date = new DateTimeImmutable($testsettings['ReportingDate'], new DateTimeZone('UTC'));
         }
@@ -5930,36 +5941,36 @@ class ilObjTest extends ilObject
         $score_settings = $score_settings
             ->withScoringSettings(
                 $score_settings->getScoringSettings()
-                ->withPassScoring($testsettings['PassScoring'])
-                ->withScoreCutting($testsettings['ScoreCutting'])
-                ->withCountSystem($testsettings['CountSystem'])
+                ->withPassScoring((int) ($testsettings['PassScoring'] ?? 0))
+                ->withScoreCutting((int) ($testsettings['ScoreCutting'] ?? 0))
+                ->withCountSystem((int) ($testsettings['CountSystem'] ?? 0))
             )
             ->withResultSummarySettings(
                 $score_settings->getResultSummarySettings()
-                ->withPassDeletionAllowed((bool) $testsettings['pass_deletion_allowed'])
-                ->withShowGradingStatusEnabled((bool) $testsettings['show_grading_status'])
-                ->withShowGradingMarkEnabled((bool) $testsettings['show_grading_mark'])
+                ->withPassDeletionAllowed((bool) ($testsettings['pass_deletion_allowed'] ?? false))
+                ->withShowGradingStatusEnabled((bool) ($testsettings['show_grading_status'] ?? false))
+                ->withShowGradingMarkEnabled((bool) ($testsettings['show_grading_mark'] ?? false))
                 ->withScoreReporting($score_reporting)
                 ->withReportingDate($reporting_date)
             )
             ->withResultDetailsSettings(
                 $score_settings->getResultDetailsSettings()
-                ->withResultsPresentation((int) $testsettings['ResultsPresentation'])
+                ->withResultsPresentation((int) ($testsettings['ResultsPresentation'] ?? 0))
                 ->withShowSolutionListComparison((bool) ($testsettings['show_solution_list_comparison'] ?? 0))
-                ->withShowExamIdInTestResults((bool) $testsettings['examid_in_test_res'])
+                ->withShowExamIdInTestResults((bool) ($testsettings['examid_in_test_res'] ?? false))
             )
             ->withGamificationSettings(
                 $score_settings->getGamificationSettings()
-                ->withHighscoreEnabled((bool) $testsettings['highscore_enabled'])
-                ->withHighscoreAnon((bool) $testsettings['highscore_anon'])
-                ->withHighscoreAchievedTS($testsettings['highscore_achieved_ts'])
-                ->withHighscoreScore((bool) $testsettings['highscore_score'])
-                ->withHighscorePercentage($testsettings['highscore_percentage'])
-                ->withHighscoreHints((bool) $testsettings['highscore_hints'])
-                ->withHighscoreWTime((bool) $testsettings['highscore_wtime'])
-                ->withHighscoreOwnTable((bool) $testsettings['highscore_own_table'])
-                ->withHighscoreTopTable((bool) $testsettings['highscore_top_table'])
-                ->withHighscoreTopNum($testsettings['highscore_top_num'])
+                ->withHighscoreEnabled((bool) ($testsettings['highscore_enabled'] ?? false))
+                ->withHighscoreAnon((bool) ($testsettings['highscore_anon'] ?? false))
+                ->withHighscoreAchievedTS((bool) ($testsettings['highscore_achieved_ts'] ?? false))
+                ->withHighscoreScore((bool) ($testsettings['highscore_score'] ?? false))
+                ->withHighscorePercentage((bool) ($testsettings['highscore_percentage'] ?? false))
+                ->withHighscoreHints((bool) ($testsettings['highscore_hints'] ?? false))
+                ->withHighscoreWTime((bool) ($testsettings['highscore_wtime'] ?? false))
+                ->withHighscoreOwnTable((bool) ($testsettings['highscore_own_table'] ?? false))
+                ->withHighscoreTopTable((bool) ($testsettings['highscore_top_table'] ?? false))
+                ->withHighscoreTopNum((int) ($testsettings['highscore_top_num'] ?? 0))
             )
         ;
         $this->getScoreSettingsRepository()->store($score_settings);
