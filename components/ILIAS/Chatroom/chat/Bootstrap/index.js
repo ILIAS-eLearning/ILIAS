@@ -38,7 +38,7 @@ var Bootstrap = function Bootstrap() {
 		const then = (p, proc) => p.then(sync.toPromise(proc));
 
 		p.readCommandArguments = sync.toPromise(ReadCommandArguments)();
-		p.setupExpressApi = sync.toPromise(SetupExpressApi)(),
+		p.setupExpressApi = sync.toPromise(SetupExpressApi)();
 		p.readServerConfig = then(p.readCommandArguments, ReadServerConfig);
 		p.readClientConfigs = then(p.readCommandArguments, ReadClientConfigs);
 		p.setupEnvironment = then(Promise.all([p.readCommandArguments, p.readServerConfig]), SetupEnvironment);

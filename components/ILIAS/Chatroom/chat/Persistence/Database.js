@@ -13,9 +13,10 @@
  * https://github.com/ILIAS-eLearning
  */
 
-var Container = require('../AppContainer');
+const Container = require('../AppContainer');
 const sync = require('../Helper/sync');
-var Date = require('../Helper/Date');
+const Date = require('../Helper/Date');
+const engine = require('mariadb/callback');
 
 var Database = function Database(config) {
 
@@ -28,16 +29,17 @@ var Database = function Database(config) {
 	};
 
 	this.connect = function(callback) {
-		var engine = require(config.database.type);
-
 		_pool = engine.createPool({
 			host: config.database.host,
 			port: config.database.port,
 			user: config.database.user,
 			password: config.database.pass,
 			database: config.database.name,
-			charset: 'UTF8_UNICODE_CI'
-			//debug: true
+		        collation: 'UTF8_UNICODE_CI',
+                        insertIdAsNumber: true,
+                        bigIntAsNumber: true,
+                        // decimalAsNumber: true,
+			// debug: true,
 		});
 
 		_pool.getConnection(callback);
@@ -45,11 +47,11 @@ var Database = function Database(config) {
 
 	this.disconnectAllUsers = function(callback) {
 
-		callback = callback || function callback(){};
-		var time = parseInt(Date.getTimestamp()/1000);
+		callback = callback || (() => {});
+		const time = parseInt(Date.getTimestamp() / 1000);
 
 		function fetchUsers(next){
-			var onError = function onError(err, result){
+			function onError(err, result){
 				if(err) {
 					throw err;
 				}
@@ -57,41 +59,7 @@ var Database = function Database(config) {
 				next(err, result);
 			};
 
-			_pool.query(
-				'SELECT * FROM chatroom_users',
-				onError
-			);
-		}
-
-		function createChatRoomSession(result, next)
-		{
-			function onNext(element, nextLoop){
-				var onSessionId = function onSessionId(sessionId) {
-					var onError = function onError(err){
-						if(err) {
-							throw err;
-						}
-						nextLoop();
-					};
-
-					_pool.query('INSERT INTO chatroom_sessions SET ?',
-						{
-							sess_id: sessionId,
-							room_id: element.room_id,
-							user_id: element.user_id,
-							userdata: element.userdata,
-							connected: element.connected,
-							disconnected: time
-						},
-						onError
-					);
-				};
-
-				_getNextId('chatroom_sessions', onSessionId);
-			}
-
-
-			sync.fromPromise(sync.each(result, onNext), next);
+			_pool.query('SELECT * FROM chatroom_users', onError);
 		}
 
 		function deleteChatroomUsers(next) {
@@ -110,7 +78,7 @@ var Database = function Database(config) {
 		}
 
 		const p = sync.toPromise(fetchUsers)()
-		      .then(sync.toPromise(createChatRoomSession))
+		      .then(sync.toPromise(createChatRoomSession.bind(null, time)))
 		      .then(() => sync.toPromise(deleteChatroomUsers)())
 		      .then(() => Container.getLogger().info('Successfully disconnected all users from server'))
 
@@ -118,7 +86,7 @@ var Database = function Database(config) {
 	};
 
 	this.disconnectUser = function(subscriber, roomIds) {
-		var time = parseInt(Date.getTimestamp()/1000);
+		const time = parseInt(Date.getTimestamp() / 1000);
 
 		// Write chat_session
 
@@ -140,36 +108,6 @@ var Database = function Database(config) {
 				);
 			}
 
-			function createChatroomSession(result, next)
-			{
-				function onNext(element, nextLoop){
-					function onSessionId(sessionId) {
-						function onError(err){
-							if(err) {
-								throw err;
-							}
-							nextLoop();
-						}
-
-						_pool.query('INSERT INTO chatroom_sessions SET ?',
-							{
-								sess_id: sessionId,
-								room_id: element.room_id,
-								user_id: subscriber.getId(),
-								userdata: element.userdata,
-								connected: element.connected,
-								disconnected: time
-							},
-							onError
-						);
-					}
-
-					_getNextId('chatroom_sessions', onSessionId);
-				}
-
-				sync.fromPromise(sync.each(result, onNext), next);
-			}
-
 			function deleteChatroomUsers(next) {
 				var onError = function onError(err){
 					if(err) {
@@ -186,7 +124,7 @@ var Database = function Database(config) {
 			};
 
 			sync.toPromise(fetchChatroomUsers)()
-				.then(sync.toPromise(createChatroomSession))
+				.then(sync.toPromise(createChatroomSession.bind(null, time)))
 				.then(() => sync.toPromise(deleteChatroomUsers)());
 		}
 	};
@@ -203,7 +141,7 @@ var Database = function Database(config) {
 		var onId = function(id){
 			message.timestamp = parseInt(message.timestamp / 1000);
 
-			_pool.query('INSERT INTO chatroom_history SET ?', {
+			insert('chatroom_history', {
 				hist_id: id,
 				room_id: message.roomId,
 				message: JSON.stringify(message),
@@ -215,8 +153,9 @@ var Database = function Database(config) {
 	};
 
 	this.getMessageAcceptanceStatusForUsers = function(onResult, onEnd) {
-		_onQueryEvents(
-			_pool.query('SELECT usr_id FROM usr_pref WHERE keyword = ? AND value = ?', ["chat_osc_accept_msg", "y"]),
+		queryIterated(
+			'SELECT usr_id FROM usr_pref WHERE keyword = ? AND value = ?',
+                        ['chat_osc_accept_msg', 'y'],
 			onResult,
 			onEnd
 		);
@@ -318,16 +257,17 @@ var Database = function Database(config) {
 		function onEnd() {
 			if(emptyResult)
 			{
-				_pool.query('INSERT INTO osc_activity SET ?', {
+				insert('osc_activity', {
 					conversation_id: conversationId,
 					user_id: userId,
 					timestamp: timestamp
-				}, handleError());
+				}, handleError);
 			}
 		}
 
-		_onQueryEvents(
-			_pool.query('SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?', [conversationId, userId]),
+		queryIterated(
+                        'SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?',
+                        [conversationId, userId],
 			onResult,
 			onEnd
 		);
@@ -344,16 +284,18 @@ var Database = function Database(config) {
 		function onNull() {
 		}
 
-		_onQueryEvents(
-			_pool.query('SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?', [conversationId, userId]),
+		queryIterated(
+			'SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?',
+                        [conversationId, userId],
 			onResult,
 			onNull
 		);
 	};
 
 	this.getConversationStateForParticipant = function(conversationId, userId, onResult, onEnd) {
-		_onQueryEvents(
-			_pool.query('SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?', [conversationId, userId]),
+		queryIterated(
+			'SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?',
+                        [conversationId, userId],
 			onResult,
 			onEnd
 		);
@@ -364,7 +306,7 @@ var Database = function Database(config) {
 	 * @param message
 	 */
 	this.persistConversationMessage = function(message) {
-		_pool.query('INSERT INTO osc_messages SET ?', {
+		insert('osc_messages', {
 			id: message.id,
 			conversation_id: message.conversationId,
 			user_id: message.userId,
@@ -374,24 +316,27 @@ var Database = function Database(config) {
 	};
 
 	this.loadConversations = function(onResult, onEnd) {
-		_onQueryEvents(
-			_pool.query('SELECT * FROM osc_conversation'),
+		queryIterated(
+			'SELECT * FROM osc_conversation',
+                        [],
 			onResult,
 			onEnd
 		);
 	};
 
 	this.getLatestMessage = function(conversation, onResult, onEnd) {
-		_onQueryEvents(
-			_pool.query('SELECT * FROM osc_messages WHERE conversation_id = ? ORDER BY timestamp DESC LIMIT 1', [conversation.getId()]),
+		queryIterated(
+			'SELECT * FROM osc_messages WHERE conversation_id = ? ORDER BY timestamp DESC LIMIT 1',
+                        [conversation.getId()],
 			onResult,
 			onEnd
 		);
 	};
 
 	this.countUnreadMessages = function(conversationId, userId, onResult, onEnd) {
-		_onQueryEvents(
-			_pool.query('SELECT COUNT(m.id) AS numMessages FROM osc_messages m LEFT JOIN osc_activity a ON a.conversation_id = m.conversation_id WHERE m.conversation_id = ? AND a.user_id = ? AND m.timestamp > a.timestamp', [conversationId, userId]),
+		queryIterated(
+			'SELECT COUNT(m.id) AS numMessages FROM osc_messages m LEFT JOIN osc_activity a ON a.conversation_id = m.conversation_id WHERE m.conversation_id = ? AND a.user_id = ? AND m.timestamp > a.timestamp',
+                        [conversationId, userId],
 			onResult,
 			onEnd
 		);
@@ -408,8 +353,9 @@ var Database = function Database(config) {
 
 		query += " ORDER BY timestamp DESC LIMIT 0, 6";
 
-		_onQueryEvents(
-			_pool.query(query, params),
+		queryIterated(
+			query,
+                        params,
 			onResult,
 			onEnd
 		);
@@ -434,8 +380,8 @@ var Database = function Database(config) {
 	this.persistConversation = function(conversation) {
 		var participantsJson = JSON.stringify(getConversationParticipantsJson(conversation));
 
-		_pool.query(
-			'INSERT INTO osc_conversation SET ?',
+		insert(
+			'osc_conversation',
 			{
 				id: conversation.getId(),
 				is_group: conversation.isGroup(),
@@ -447,8 +393,9 @@ var Database = function Database(config) {
 
 
 	this.loadScopes = function(onResult, onEnd) {
-		_onQueryEvents(
-			_pool.query('SELECT room_id FROM chatroom_settings'),
+		queryIterated(
+			'SELECT room_id FROM chatroom_settings',
+                        [],
 			onResult,
 			onEnd
 		);
@@ -480,10 +427,53 @@ var Database = function Database(config) {
 		}
 	}
 
-	function _onQueryEvents(query, onResult, onEnd) {
-		query.on('result', onResult);
-		query.on('end', onEnd);
+        function createChatRoomSession(time, result, next)
+	{
+		function onNext(element, nextLoop){
+			_getNextId('chatroom_sessions', sessionId => {
+				insert(
+                                        'chatroom_sessions',
+                                        {
+						sess_id: sessionId,
+						room_id: element.room_id,
+						user_id: element.user_id,
+						userdata: element.userdata,
+						connected: element.connected,
+						disconnected: time
+					},
+					err => {
+                                                if (err) {
+                                                        throw err;
+                                                }
+                                                nextLoop();
+                                        }
+                                );
+			});
+		}
+
+
+		sync.fromPromise(sync.each(result, onNext), next);
 	}
+
+        function insert(table, data, then)
+        {
+                const qm = ', ?'.repeat(Object.values(data).length).substring(2);
+          _pool.query(
+            `INSERT INTO ${table} (${Object.keys(data).map(_pool.escapeId.bind(_pool))}) VALUES (${qm})`,
+            Object.values(data),
+            then
+          );
+        }
+
+        function queryIterated(query, args, onResult, onEnd) {
+                _pool.query(query, args, (err, rows) => {
+                        if (err) {
+                                throw err;
+                        }
+                        rows.forEach(onResult);
+                        onEnd();
+                });
+        }
 
 	function _getNextId(tableName, callback) {
 		var insertSequence = function(next) {

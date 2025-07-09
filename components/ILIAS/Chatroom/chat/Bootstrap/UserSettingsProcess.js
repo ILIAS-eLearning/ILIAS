@@ -1,13 +1,24 @@
-var Container = require('../AppContainer');
-var schedule = require('node-schedule');
-
 /**
- * @param {Function} callback
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  */
-module.exports = function UserSettingsProcess(result, callback) {
 
-	schedule.scheduleJob('UserSettingsProcess', '*/20 * * * *', function fetchUserSettings() {
-		var namespaces = Container.getNamespaces();
+const Container = require('../AppContainer');
+const schedule = require('../Helper/schedule');
+
+module.exports = (result, callback) => {
+	schedule.every20Minutes(() => {
+		const namespaces = Container.getNamespaces();
 
 		for (var key in namespaces) {
 			if(!namespaces.hasOwnProperty(key) || !namespaces[key].isIM()) {
@@ -19,13 +30,13 @@ module.exports = function UserSettingsProcess(result, callback) {
 				namespaces[key].getName()
 			);
 
-			var database = namespaces[key].getDatabase();
-			var subscribers = namespaces[key].getSubscribers();
-			var usersAcceptingMessages = {};
-			
-			database.getMessageAcceptanceStatusForUsers(function onConfigRowFound(row) {
+			const database = namespaces[key].getDatabase();
+			const subscribers = namespaces[key].getSubscribers();
+			const usersAcceptingMessages = {};
+
+			database.getMessageAcceptanceStatusForUsers(row => {
 				usersAcceptingMessages[row.usr_id] = row.usr_id;
-			}, function onCompleteConfigRead() {
+			}, () => {
 				for (var subsKey in subscribers) {
 					if (!subscribers.hasOwnProperty(subsKey)) {
 						continue;
@@ -40,7 +51,7 @@ module.exports = function UserSettingsProcess(result, callback) {
 				);
 			});
 		}
-	}).invoke();
+	});
 
 	callback();
 };
