@@ -31,7 +31,6 @@ use ILIAS\Refinery\Factory as Refinery;
 class SettingsParticipantFunctionality extends TestSettings
 {
     public function __construct(
-        int $test_id,
         protected bool $use_previous_answers_allowed = false,
         protected bool $suspend_test_allowed = false,
         protected bool $postponed_questions_move_to_end = false,
@@ -39,7 +38,7 @@ class SettingsParticipantFunctionality extends TestSettings
         protected bool $question_marking_enabled = false,
         protected bool $question_list_enabled = false
     ) {
-        parent::__construct($test_id);
+        parent::__construct();
     }
 
     public function toForm(

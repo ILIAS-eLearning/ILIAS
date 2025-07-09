@@ -33,7 +33,6 @@ class SettingsAccess extends TestSettings
     private const MAX_PASSWORD_LENGTH = 20;
 
     public function __construct(
-        int $test_id,
         protected bool $start_time_enabled = false,
         protected ?\DateTimeImmutable $start_time = null,
         protected bool $end_time_enabled = false,
@@ -44,7 +43,7 @@ class SettingsAccess extends TestSettings
         protected ?string $ip_range_to = null,
         protected bool $fixed_participants = false
     ) {
-        parent::__construct($test_id);
+        parent::__construct();
     }
 
     public function toForm(

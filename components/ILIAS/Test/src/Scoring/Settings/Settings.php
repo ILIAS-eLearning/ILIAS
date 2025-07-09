@@ -37,11 +37,6 @@ class Settings extends TestSettings
     protected int $pass_scoring = 0;
 
 
-    public function __construct(int $test_id)
-    {
-        parent::__construct($test_id);
-    }
-
     public function toForm(
         \ilLanguage $lng,
         FieldFactory $f,

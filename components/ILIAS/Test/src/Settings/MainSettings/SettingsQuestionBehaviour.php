@@ -38,7 +38,6 @@ class SettingsQuestionBehaviour extends TestSettings
     public const ANSWER_FIXATION_ON_IFB_OR_FUQST = 'ifb_or_fuqst';
 
     public function __construct(
-        int $test_id,
         protected int $question_title_output_mode,
         protected bool $autosave_enabled,
         protected int $autosave_interval,
@@ -51,7 +50,7 @@ class SettingsQuestionBehaviour extends TestSettings
         protected bool $lock_answer_on_instant_feedback,
         protected bool $lock_answer_on_next_question
     ) {
-        parent::__construct($test_id);
+        parent::__construct();
     }
 
     /**

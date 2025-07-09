@@ -26,7 +26,7 @@ class SettingsFinishingTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithConcludingRemarksEnabledDataProvider')]
     public function testGetAndWithShowAnswerOverview(bool $io): void
     {
-        $settings_finishing = (new SettingsFinishing(0))->withShowAnswerOverview($io);
+        $settings_finishing = (new SettingsFinishing())->withShowAnswerOverview($io);
 
         $this->assertInstanceOf(SettingsFinishing::class, $settings_finishing);
         $this->assertEquals($io, $settings_finishing->getShowAnswerOverview());
@@ -43,7 +43,7 @@ class SettingsFinishingTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithConcludingRemarksEnabledDataProvider')]
     public function testGetAndWithConcludingRemarksEnabled(bool $io): void
     {
-        $settings_finishing = (new SettingsFinishing(0))->withConcludingRemarksEnabled($io);
+        $settings_finishing = (new SettingsFinishing())->withConcludingRemarksEnabled($io);
 
         $this->assertInstanceOf(SettingsFinishing::class, $settings_finishing);
         $this->assertEquals($io, $settings_finishing->getConcludingRemarksEnabled());
@@ -53,7 +53,6 @@ class SettingsFinishingTest extends ilTestBaseTestCase
     public function testGetAndWithConcludingRemarksText(?string $io): void
     {
         $settings_finishing = new SettingsFinishing(
-            0,
             false,
             false,
             $io
@@ -74,7 +73,7 @@ class SettingsFinishingTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithConcludingRemarksPageIdDataProvider')]
     public function testGetAndWithConcludingRemarksPageId(?int $io): void
     {
-        $settings_finishing = (new SettingsFinishing(0))->withConcludingRemarksPageId($io);
+        $settings_finishing = (new SettingsFinishing())->withConcludingRemarksPageId($io);
 
         $this->assertInstanceOf(SettingsFinishing::class, $settings_finishing);
         $this->assertEquals($io, $settings_finishing->getConcludingRemarksPageId());
@@ -93,7 +92,7 @@ class SettingsFinishingTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithRedirectionModeDataProvider')]
     public function testGetAndWithRedirectionMode(RedirectionModes $io): void
     {
-        $settings_finishing = (new SettingsFinishing(0))->withRedirectionMode($io);
+        $settings_finishing = (new SettingsFinishing())->withRedirectionMode($io);
 
         $this->assertInstanceOf(SettingsFinishing::class, $settings_finishing);
         $this->assertEquals($io, $settings_finishing->getRedirectionMode());
@@ -112,7 +111,7 @@ class SettingsFinishingTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithRedirectionUrlDataProvider')]
     public function testGetAndWithRedirectionUrl(?string $io): void
     {
-        $settings_finishing = (new SettingsFinishing(0))->withRedirectionUrl($io);
+        $settings_finishing = (new SettingsFinishing())->withRedirectionUrl($io);
 
         $this->assertInstanceOf(SettingsFinishing::class, $settings_finishing);
         $this->assertEquals($io, $settings_finishing->getRedirectionUrl());

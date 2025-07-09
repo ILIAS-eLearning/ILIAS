@@ -39,11 +39,6 @@ class SettingsResultSummary extends TestSettings
     protected bool $show_grading_status = false;
     protected bool $show_grading_mark = false;
 
-    public function __construct(int $test_id)
-    {
-        parent::__construct($test_id);
-    }
-
     public function toForm(
         \ilLanguage $lng,
         FieldFactory $f,

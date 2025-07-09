@@ -42,12 +42,6 @@ class SettingsGamification extends TestSettings
     protected bool $highscore_top_table = true;
     protected int $highscore_top_num = 10;
 
-
-    public function __construct(int $test_id)
-    {
-        parent::__construct($test_id);
-    }
-
     public function toForm(
         \ilLanguage $lng,
         FieldFactory $f,

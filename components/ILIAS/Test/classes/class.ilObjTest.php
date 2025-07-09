@@ -3160,7 +3160,6 @@ class ilObjTest extends ilObject
         $text = $this->retrieveMobsFromLegacyImports($text, $mobs, $importdir);
 
         return new SettingsIntroduction(
-            $settings->getTestId(),
             $text !== '',
             $text
         );
@@ -3194,7 +3193,6 @@ class ilObjTest extends ilObject
         $text = $this->retrieveMobsFromLegacyImports($text, $mobs, $importdir);
 
         return new SettingsFinishing(
-            $settings->getTestId(),
             $settings->getShowAnswerOverview(),
             strlen($text) > 0,
             $text,

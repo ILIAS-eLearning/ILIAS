@@ -69,26 +69,23 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
 
         $row = $this->db->fetchAssoc($res);
 
-        $test_id = (int) $row['test_id'];
-
         $settings = new ScoreSettings(
-            $test_id,
-            (new SettingsScoring($test_id))
+            (new SettingsScoring())
                 ->withCountSystem((int) $row['count_system'])
                 ->withScoreCutting((int) $row['score_cutting'])
                 ->withPassScoring((int) $row['pass_scoring']),
-            (new SettingsResultSummary($test_id))
+            (new SettingsResultSummary())
                 ->withScoreReporting(ScoreReportingTypes::from($row['score_reporting']))
                 ->withReportingDate($this->buildDateFromString($row['reporting_date']))
                 ->withShowGradingStatusEnabled((bool) $row['show_grading_status'])
                 ->withShowGradingMarkEnabled((bool) $row['show_grading_mark'])
                 ->withPassDeletionAllowed((bool) $row['pass_deletion_allowed']),
             //->withShowPassDetails derived from results_presentation with bit RESULTPRES_BIT_PASS_DETAILS
-            (new SettingsResultDetails($test_id))
+            (new SettingsResultDetails())
                 ->withResultsPresentation((int) $row['results_presentation'])
                 ->withShowExamIdInTestResults((bool) $row['examid_in_test_res'])
                 ->withExportSettings((int) $row['exportsettings']),
-            (new SettingsGamification($test_id))
+            (new SettingsGamification())
                 ->withHighscoreEnabled((bool) $row['highscore_enabled'])
                 ->withHighscoreAnon((bool) $row['highscore_anon'])
                 ->withHighscoreAchievedTS((bool) $row['highscore_achieved_ts'])

@@ -30,11 +30,10 @@ use ILIAS\Refinery\Factory as Refinery;
 class SettingsAdditional extends TestSettings
 {
     public function __construct(
-        int $test_id,
         protected bool $skills_service_enabled = false,
         protected bool $hide_info_tab = false,
     ) {
-        parent::__construct($test_id);
+        parent::__construct();
     }
 
     /**

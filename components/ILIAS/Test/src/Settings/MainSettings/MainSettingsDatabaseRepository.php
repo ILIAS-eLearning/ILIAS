@@ -123,25 +123,18 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
 
         $row = $this->db->fetchAssoc($res);
 
-        $test_id = (int) $row['test_id'];
-
         $settings = new MainSettings(
-            $test_id,
-            (int) $row['obj_fi'],
             new SettingsGeneral(
-                $test_id,
                 $row['question_set_type'],
                 (bool) $row['anonymity']
             ),
             new SettingsIntroduction(
-                $test_id,
                 (bool) $row['intro_enabled'],
                 $row['introduction'],
                 $row['introduction_page_id'],
                 (bool) $row['conditions_checkbox_enabled'],
             ),
             new SettingsAccess(
-                $test_id,
                 (bool) $row['starting_time_enabled'],
                 $row['starting_time'] !== 0
                     ? \DateTimeImmutable::createFromFormat('U', (string) $row['starting_time'])
@@ -157,7 +150,6 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
                 (bool) $row['fixed_participants'],
             ),
             new SettingsTestBehaviour(
-                $test_id,
                 $row['nr_of_tries'],
                 (bool) $row['block_after_passed'],
                 $row['pass_waiting'],
@@ -168,7 +160,6 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
                 (bool) $row['examid_in_test_pass']
             ),
             new SettingsQuestionBehaviour(
-                $test_id,
                 (int) $row['title_output'],
                 (bool) $row['autosave'],
                 $row['autosave_ival'],
@@ -182,7 +173,6 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
                 (bool) $row['follow_qst_answer_fixation']
             ),
             new SettingsParticipantFunctionality(
-                $test_id,
                 (bool) $row['use_previous_answers'],
                 (bool) $row['suspend_test_allowed'],
                 (bool) $row['sequence_settings'],
@@ -191,7 +181,6 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
                 (bool) $row['show_questionlist']
             ),
             new SettingsFinishing(
-                $test_id,
                 (bool) $row['enable_examview'],
                 (bool) $row['showfinalstatement'],
                 $row['finalstatement'],
@@ -200,7 +189,6 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
                 $row['redirection_url']
             ),
             new SettingsAdditional(
-                $test_id,
                 (bool) $row['skill_service'],
                 (bool) $row['hide_info_tab']
             )

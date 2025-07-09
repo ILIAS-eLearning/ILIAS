@@ -43,12 +43,6 @@ class SettingsResultDetails extends TestSettings
     protected int $exportsettings = 0;
     protected int $results_presentation = 0;
 
-
-    public function __construct(int $test_id)
-    {
-        parent::__construct($test_id);
-    }
-
     public function toForm(
         \ilLanguage $lng,
         FieldFactory $f,

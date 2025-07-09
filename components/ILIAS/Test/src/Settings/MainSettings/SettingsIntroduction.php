@@ -30,13 +30,12 @@ use ILIAS\Refinery\Factory as Refinery;
 class SettingsIntroduction extends TestSettings
 {
     public function __construct(
-        int $test_id,
         protected bool $introduction_enabled = false,
         protected ?string $introduction_text = null,
         protected ?int $introduction_page_id = null,
         protected bool $conditions_checkbox_enabled = false,
     ) {
-        parent::__construct($test_id);
+        parent::__construct();
     }
 
     public function toForm(

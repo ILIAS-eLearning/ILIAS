@@ -31,7 +31,6 @@ class SettingsTestBehaviour extends TestSettings
     private const DEFAULT_PROCESSING_TIME_MINUTES = 90;
 
     public function __construct(
-        int $test_id,
         protected int $number_of_tries = 0,
         protected bool $block_after_passed_enabled = false,
         protected ?string $pass_waiting = null,
@@ -42,7 +41,7 @@ class SettingsTestBehaviour extends TestSettings
         protected bool $examid_in_test_attempt_enabled = false
     ) {
         $this->pass_waiting = $this->cleanupPassWaiting($this->pass_waiting);
-        parent::__construct($test_id);
+        parent::__construct();
     }
 
     public function toForm(
