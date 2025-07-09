@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\ScoreReporting;
 
-use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 class ScoreSettings
 {
     public function __construct(
+        protected int $id,
         protected SettingsScoring $settings_scoring,
         protected SettingsResultSummary $settings_result_summary,
         protected SettingsResultDetails $settings_result_details,
@@ -34,6 +34,17 @@ class ScoreSettings
     ) {
         $this->settings_result_summary = $settings_result_summary
             ->withShowPassDetails($settings_result_details->getShowPassDetails());
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function withId(int $id): self {
+        $clone = clone $this;
+        $clone->id = $id;
+        return $clone;
     }
 
     public function getScoringSettings(): SettingsScoring

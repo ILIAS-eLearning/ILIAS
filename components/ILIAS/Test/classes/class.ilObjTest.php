@@ -4005,20 +4005,21 @@ class ilObjTest extends ilObject
 
         $new_obj->saveToDb();
         $new_obj->addToNewsOnOnline(false, $new_obj->getObjectProperties()->getPropertyIsOnline()->getIsOnline());
-        $this->getMainSettingsRepository()->store(
-            $this->getMainSettings()->withTestId($new_obj->getTestId())
-                ->withIntroductionSettings(
-                    $this->getMainSettings()->getIntroductionSettings()->withIntroductionPageId(
-                        $this->cloneIntroduction()
-                    )->withTestId($new_obj->getTestId())
-                )->withFinishingSettings(
-                    $this->getMainSettings()->getFinishingSettings()->withConcludingRemarksPageId(
-                        $this->cloneConcludingRemarks()
-                    )->withTestId($new_obj->getTestId())
+
+        $new_settings = $this->getMainSettings()
+            ->withIntroductionSettings(
+                $this->getMainSettings()->getIntroductionSettings()->withIntroductionPageId(
+                    $this->cloneIntroduction()
                 )
-        );
+            )->withFinishingSettings(
+                $this->getMainSettings()->getFinishingSettings()->withConcludingRemarksPageId(
+                    $this->cloneConcludingRemarks()
+                )
+            );
+
+        $new_settings = $this->getMainSettingsRepository()->cloneFor($new_obj->getTestId(), $new_settings);
         $this->getScoreSettingsRepository()->store(
-            $this->getScoreSettings()->withTestId($new_obj->getTestId())
+            $this->getScoreSettings()->withId($new_settings->getId())
         );
         $this->marks_repository->storeMarkSchema(
             $this->getMarkSchema()->withTestId($new_obj->getTestId())

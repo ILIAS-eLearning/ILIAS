@@ -24,32 +24,29 @@ use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
 
 class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
 {
-    public const TABLE_NAME = 'tst_tests';
-    public const STORAGE_DATE_FORMAT = 'YmdHis';
+    public const string STORAGE_DATE_FORMAT = 'YmdHis';
 
-    protected \ilDBInterface $db;
+    /** @var array<int, ScoreSettings> Test ID -> Settings DTO */
+    private array $settings_instances = [];
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(protected \ilDBInterface $db)
     {
-        $this->db = $db;
-    }
-
-    public function getForObjFi(int $obj_fi): ScoreSettings
-    {
-        $where_part = 'WHERE obj_fi = ' . $this->db->quote($obj_fi, 'integer');
-        return $this->doSelect($where_part);
     }
 
     public function getFor(int $test_id): ScoreSettings
     {
-        $where_part = 'WHERE test_id = ' . $this->db->quote($test_id, 'integer');
+        if (isset($this->settings_instances[$test_id])) {
+            return $this->settings_instances[$test_id];
+        }
+
+        $where_part = 'WHERE test_id = ' . $this->db->quote($test_id, \ilDBConstants::T_INTEGER);
         return $this->doSelect($where_part);
     }
 
     protected function doSelect(string $where_part): ScoreSettings
     {
         $query = 'SELECT ' . PHP_EOL
-            . 'test_id,' . PHP_EOL
+            . 'id,' . PHP_EOL
             . 'count_system, score_cutting, pass_scoring,' . PHP_EOL
             . 'score_reporting, reporting_date,' . PHP_EOL
             . 'show_grading_status, show_grading_mark, pass_deletion_allowed,' . PHP_EOL
@@ -57,8 +54,10 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
             . 'examid_in_test_res,' . PHP_EOL
             . 'results_presentation,' . PHP_EOL
             . 'exportsettings,' . PHP_EOL
-            . 'highscore_enabled, highscore_anon, highscore_achieved_ts, highscore_score, highscore_percentage, highscore_wtime, highscore_own_table, highscore_top_table, highscore_top_num' . PHP_EOL
-            . 'FROM ' . self::TABLE_NAME . PHP_EOL
+            . 'highscore_enabled, highscore_anon, highscore_achieved_ts, highscore_score, highscore_percentage, highscore_wtime, highscore_own_table, highscore_top_table, highscore_top_num,' . PHP_EOL
+            . 'tst_tests.test_id AS test_id' . PHP_EOL
+            . 'FROM tst_test_settings' . PHP_EOL
+            . 'INNER JOIN tst_tests ON tst_tests.settings_id = tst_test_settings.id' . PHP_EOL
             . $where_part;
 
         $res = $this->db->query($query);
@@ -70,6 +69,7 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
         $row = $this->db->fetchAssoc($res);
 
         $settings = new ScoreSettings(
+            $row['id'],
             (new SettingsScoring())
                 ->withCountSystem((int) $row['count_system'])
                 ->withScoreCutting((int) $row['score_cutting'])
@@ -97,6 +97,8 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
                 ->withHighscoreTopNum((int) $row['highscore_top_num'])
         );
 
+        $this->settings_instances[$row['test_id']] = $settings;
+
         return $settings;
     }
 
@@ -106,32 +108,38 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
             $settings->getScoringSettings()->toStorage(),
             $settings->getResultSummarySettings()->toStorage(),
             $settings->getResultDetailsSettings()
-            ->withShowPassDetails($settings->getResultSummarySettings()->getShowPassDetails())
-            ->toStorage(),
+                ->withShowPassDetails($settings->getResultSummarySettings()->getShowPassDetails())
+                ->toStorage(),
             $settings->getGamificationSettings()->toStorage()
         );
 
         $this->db->update(
-            self::TABLE_NAME,
+            'tst_test_settings',
             $values,
-            ['test_id' => ['integer', $settings->getTestId()]]
+            ['id' => [\ilDBConstants::T_INTEGER, $settings->getId()]]
+        );
+
+        $this->settings_instances = array_filter(
+            $this->settings_instances,
+            fn($value) => $value->getId() !== $settings->getId()
         );
     }
-
 
     public function getSettingsResultSummaryByObjIds(array $obj_ids): array
     {
         $result = $this->db->query(
             'SELECT ' . PHP_EOL
-            . 'test_id, obj_fi, score_reporting, reporting_date,' . PHP_EOL
+            . 'score_reporting, reporting_date,' . PHP_EOL
             . 'show_grading_status, show_grading_mark, pass_deletion_allowed' . PHP_EOL
-            . 'FROM ' . self::TABLE_NAME . PHP_EOL
+            . 'tst_tests.obj_fi AS obj_fi' . PHP_EOL
+            . 'FROM tst_test_settings' . PHP_EOL
+            . 'INNER JOIN tst_tests ON tst_tests.settings_id = tst_test_settings.id' . PHP_EOL
             . 'WHERE ' . $this->db->in('obj_fi', $obj_ids, false, \ilDBConstants::T_INTEGER)
         );
 
         $settings_summary = [];
         while (($row = $this->db->fetchAssoc($result)) !== null) {
-            $settings_summary[$row['obj_fi']] = (new SettingsResultSummary($row['test_id']))
+            $settings_summary[$row['obj_fi']] = (new SettingsResultSummary())
                 ->withScoreReporting(ScoreReportingTypes::from($row['score_reporting']))
                 ->withReportingDate($this->buildDateFromString($row['reporting_date']))
                 ->withShowGradingStatusEnabled((bool) $row['show_grading_status'])

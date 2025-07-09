@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
-use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 class MainSettings
 {
     public function __construct(
+        protected int $id,
         protected SettingsGeneral $settings_general,
         protected SettingsIntroduction $settings_introduction,
         protected SettingsAccess $settings_access,
@@ -35,6 +35,18 @@ class MainSettings
         protected SettingsFinishing $settings_finishing,
         protected SettingsAdditional $settings_additional
     ) {
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function withId(int $id): self
+    {
+        $clone = clone $this;
+        $clone->id = $id;
+        return $clone;
     }
 
     public function getGeneralSettings(): SettingsGeneral

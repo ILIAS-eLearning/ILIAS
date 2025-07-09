@@ -20,50 +20,45 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
-use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
-
 class MainSettingsDatabaseRepository implements MainSettingsRepository
 {
-    public const TABLE_NAME = 'tst_tests';
-    public const STORAGE_DATE_FORMAT = 'YmdHis';
+    /** @var array<int, int> Object ID -> Settings ID */
+    private array $settings_by_obj_fi = [];
 
-    private array $instances_by_obj_fi = [];
-    private array $instances_by_test_fi = [];
+    /** @var array<int, int> Test ID -> Settings ID */
+    private array $settings_by_test_fi = [];
 
-    protected \ilDBInterface $db;
+    /** @var array<int, MainSettings> Settings ID -> Settings DTO */
+    private array $settings_instances = [];
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(protected \ilDBInterface $db)
     {
-        $this->db = $db;
     }
 
     public function getForObjFi(int $obj_fi): MainSettings
     {
-        if (!isset($this->instances_by_obj_fi[$obj_fi])) {
-            $where_part = 'WHERE obj_fi = ' . $this->db->quote($obj_fi, 'integer');
-            $this->instances_by_obj_fi[$obj_fi] = $this->doSelect($where_part);
-            $test_id = $this->instances_by_obj_fi[$obj_fi]->getTestId();
-            $this->instances_by_test_fi[$test_id] = $this->instances_by_obj_fi[$obj_fi];
+        if (isset($this->settings_by_obj_fi[$obj_fi])) {
+            return $this->settings_instances[$this->settings_by_obj_fi[$obj_fi]];
         }
-        return $this->instances_by_obj_fi[$obj_fi];
+
+        $where_part = 'WHERE obj_fi = ' . $this->db->quote($obj_fi, \ilDBConstants::T_INTEGER);
+        return $this->doSelect($where_part);
     }
 
     public function getFor(int $test_id): MainSettings
     {
-        if (!isset(self::$instances_by_test_fi[$test_id])) {
-            $where_part = 'WHERE test_id = ' . $this->db->quote($test_id, 'integer');
-            $this->instances_by_test_fi[$test_id] = $this->doSelect($where_part);
-            $obj_id = $this->instances_by_test_fi[$test_id]->getObjId();
-            $this->instances_by_obj_fi[$obj_id] = $this->instances_by_test_fi[$test_id];
+        if (isset($this->settings_by_test_fi[$test_id])) {
+            return $this->settings_instances[$this->settings_by_test_fi[$test_id]];
         }
-        return $this->instances_by_test_fi[$test_id];
+
+        $where_part = 'WHERE test_id = ' . $this->db->quote($test_id, \ilDBConstants::T_INTEGER);
+        return $this->doSelect($where_part);
     }
 
     protected function doSelect(string $where_part): MainSettings
     {
         $query = 'SELECT ' . PHP_EOL
-            . 'test_id,' . PHP_EOL
-            . 'obj_fi,' . PHP_EOL
+            . 'id,' . PHP_EOL
             . 'question_set_type,' . PHP_EOL
             . 'anonymity,' . PHP_EOL
             . 'intro_enabled,' . PHP_EOL
@@ -111,8 +106,11 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
             . 'concluding_remarks_page_id,' . PHP_EOL
             . 'redirection_mode,' . PHP_EOL
             . 'redirection_url,' . PHP_EOL
-            . 'skill_service' . PHP_EOL
-            . 'FROM ' . self::TABLE_NAME . PHP_EOL
+            . 'skill_service,' . PHP_EOL
+            . 'tst_tests.test_id AS test_id,' . PHP_EOL
+            . 'tst_tests.obj_fi AS obj_fi' . PHP_EOL
+            . 'FROM tst_test_settings' . PHP_EOL
+            . 'INNER JOIN tst_tests ON tst_tests.settings_id = tst_test_settings.id' . PHP_EOL
             . $where_part;
 
         $res = $this->db->query($query);
@@ -124,6 +122,7 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
         $row = $this->db->fetchAssoc($res);
 
         $settings = new MainSettings(
+            $row['id'],
             new SettingsGeneral(
                 $row['question_set_type'],
                 (bool) $row['anonymity']
@@ -194,11 +193,33 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
             )
         );
 
+        $this->settings_by_obj_fi[$row['obj_fi']] = $settings->getId();
+        $this->settings_by_test_fi[$row['test_id']] = $settings->getId();
+        $this->settings_instances[$settings->getId()] = $settings;
+
         return $settings;
+    }
+
+    public function createFor(int $test_id): void {
+        $settings_id = $this->db->nextId('tst_test_settings');
+        $this->db->insert(
+            'tst_test_settings',
+            ['id' => [\ilDBConstants::T_INTEGER, $settings_id]],
+        );
+
+        $this->db->update(
+            'tst_tests',
+            ['settings_id' => [\ilDBConstants::T_INTEGER, $settings_id]],
+            ['test_id' => [\ilDBConstants::T_INTEGER, $test_id]]
+        );
     }
 
     public function store(MainSettings $settings): void
     {
+        if($settings->getId() === 0) {
+            throw new \Exception('Cannot store settings without ID');
+        }
+
         $values = array_merge(
             $settings->getGeneralSettings()->toStorage(),
             $settings->getIntroductionSettings()->toStorage(),
@@ -211,11 +232,34 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
         );
 
         $this->db->update(
-            self::TABLE_NAME,
+            'tst_test_settings',
             $values,
-            ['test_id' => ['integer', $settings->getTestId()]]
+            ['id' => [\ilDBConstants::T_INTEGER, $settings->getId()]]
         );
-        unset($this->instances_by_test_fi[$settings->getTestId()]);
-        unset($this->instances_by_obj_fi[$settings->getObjId()]);
+
+        unset($this->settings_instances[$settings->getId()]);
+        $this->settings_by_obj_fi = array_filter(
+            $this->settings_by_obj_fi,
+            fn($value) => $value !== $settings->getId()
+        );
+        $this->settings_by_test_fi = array_filter(
+            $this->settings_by_test_fi,
+            fn($value) => $value !== $settings->getId()
+        );
     }
+
+    public function cloneFor(int $test_id, MainSettings $settings): MainSettings {
+        $settings_id = $this->db->nextId('tst_test_settings');
+        $new_settings = $settings->withId($settings_id);
+
+        $this->store($new_settings);
+        $this->db->update(
+            'tst_tests',
+            ['settings_id' => [\ilDBConstants::T_INTEGER, $settings_id]],
+            ['test_id' => [\ilDBConstants::T_INTEGER, $test_id]]
+        );
+
+        return $new_settings;
+    }
+
 }

@@ -438,6 +438,7 @@ class SettingsMainGUI extends TestSettingsGUI
         );
 
         $settings = new MainSettings(
+            $this->main_settings->getId(),
             $general_settings,
             $introduction_settings,
             $access_settings,
