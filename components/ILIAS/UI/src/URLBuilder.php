@@ -207,6 +207,8 @@ class URLBuilder
 
     /**
      * Get a URI representation of the full URL including query string and fragment/hash
+     *
+     * @throws \LengthException if length of URI is greater than self::URL_MAX_LENGTH
      */
     public function buildURI(): URI
     {
