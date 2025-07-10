@@ -186,6 +186,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $counter = 1;
         if (count($participantData->getActiveIds()) > 0) {
+            $test_participant_list = new ilTestParticipantList($this->object, $this->user, $this->lng, $this->db);
+            $test_participant_list->initializeFromDbRows($this->getObject()?->getTestParticipants());
+
             foreach ($participantData->getActiveIds() as $active_id) {
                 if (!isset($found_participants[$active_id]) || !($found_participants[$active_id] instanceof ilTestEvaluationUserData)) {
                     continue;
@@ -204,17 +207,17 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 }
                 if (!$remove) {
                     // build the evaluation row
-                    $evaluationrow = [];
-                    if ($this->object->getAnonymity()) {
-                        $evaluationrow['name'] = $counter;
-                        $evaluationrow['login'] = '';
+                    if ($this->getObject()?->getAnonymity()) {
+                        $participant = $test_participant_list->getParticipantByActiveId($active_id);
+                        $evaluationrow = [
+                            'name' => $participant ? $test_participant_list->buildFullname($participant) : '',
+                            'login' => ''
+                        ];
                     } else {
-                        $evaluationrow['name'] = $userdata->getName();
-                        if (strlen($userdata->getLogin())) {
-                            $evaluationrow['login'] = "[" . $userdata->getLogin() . "]";
-                        } else {
-                            $evaluationrow['login'] = '';
-                        }
+                        $evaluationrow = [
+                            'name' => $userdata->getName(),
+                            'login' => $userdata->getLogin() !== '' ? "[{$userdata->getLogin()}]" : ''
+                        ];
                     }
 
                     $evaluationrow['reached'] = $userdata->getReached();

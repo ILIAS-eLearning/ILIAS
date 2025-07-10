@@ -3592,7 +3592,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         // anonymity
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "anonymity");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getGeneralSettings()->getAnonymity()));
+        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getGeneralSettings()->getAnonymity());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // question set type (fixed, random, ...)

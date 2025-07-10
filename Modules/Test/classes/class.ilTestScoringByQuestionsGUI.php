@@ -86,14 +86,16 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             $data = $this->object->getCompleteEvaluationData(false);
             $participants = $data->getParticipants();
             $participantData = new ilTestParticipantData($this->db, $this->lng);
-            $participantData->setActiveIdsFilter(array_keys($data->getParticipants()));
+            $participantData->setActiveIdsFilter(array_keys($participants));
             $participantData->setParticipantAccessFilter(
                 $this->participant_access_filter->getScoreParticipantsUserFilter($this->ref_id)
             );
             $participantData->load($this->object->getTestId());
 
+            $test_participant_list = new ilTestParticipantList($this->object, $this->user, $this->lng, $this->db);
+            $test_participant_list->initializeFromDbRows($this->getObject()->getTestParticipants());
             foreach ($participantData->getActiveIds() as $active_id) {
-                $participant = $participants[$active_id];
+                $participant = $test_participant_list->getParticipantByActiveId($active_id);
                 $testResultData = $this->object->getTestResult($active_id, $passNr - 1);
 
                 foreach ($testResultData as $questionData) {
@@ -123,7 +125,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                             $passNr - 1
                         ),
                         'maximum_points' => $this->questioninfo->getMaximumPoints((int) $questionData['qid']),
-                        'name' => $participant->getName()
+                        'name' => $participant ? $test_participant_list->buildFullname($participant) : ''
                     ] + $feedback;
                 }
             }

@@ -98,7 +98,7 @@ class ilTestParticipantsTimeExtensionGUI
                 'started' => '',
                 'extratime' => 0,
                 'login' => $participant->getLogin(),
-                'name' => $this->lng->txt("anonymous")
+                'name' => $participant_list->buildFullname($participant)
             ];
 
             $time = $this->getTestObj()->getStartingTimeOfUser($participant->getActiveId());
@@ -113,10 +113,6 @@ class ilTestParticipantsTimeExtensionGUI
             $participant_id = $participant->getActiveId();
             if (array_key_exists($participant_id, $addons) && $addons[$participant_id] > 0) {
                 $table_row['extratime'] = $addons[$participant_id];
-            }
-
-            if (! $this->getTestObj()->getAnonymity()) {
-                $table_row['name'] = $participant->getLastname() . ', ' . $participant->getFirstname();
             }
 
             $table_data[] = $table_row;

@@ -151,17 +151,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 
     public function fillRow(array $a_set): void
     {
-        if (
-            $this->getParentObject()->getObject()->getAnonymity() == 1 ||
-            (
-                $this->getParentObject()->getObject()->getAnonymity() == 2 &&
-                false == $this->access->checkAccess('write', '', $this->getParentObject()->getObject()->getRefId())
-            )
-        ) {
-            $this->tpl->setVariable('VAL_NAME', $this->lng->txt("anonymous"));
-        } else {
-            $this->tpl->setVariable('VAL_NAME', $a_set['name']);
-        }
+        $this->tpl->setVariable('VAL_NAME', $a_set['name']);
 
         if (!$this->first_row_rendered) {
             $this->first_row_rendered = true;
