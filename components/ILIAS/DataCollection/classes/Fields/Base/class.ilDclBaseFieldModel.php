@@ -42,7 +42,6 @@ class ilDclBaseFieldModel
     public const PROP_REGEX = "regex";
     public const PROP_REFERENCE = "table_id";
     public const PROP_URL = "url";
-    public const PROP_TEXTAREA = "text_area";
     public const PROP_REFERENCE_LINK = "reference_link";
     public const PROP_WIDTH = "width";
     public const PROP_HEIGHT = "height";
