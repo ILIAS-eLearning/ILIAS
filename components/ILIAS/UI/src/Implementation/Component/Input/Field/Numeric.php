@@ -95,14 +95,6 @@ class Numeric extends FormInput implements C\Input\Field\Numeric
         if (is_float($stepsize) && is_int($this->stepsize)) {
             $clone->operations = [$this->getStandardTrafoFloat()];
         }
-        if ($clone->content !== null) {
-            if (!$clone->content->isError()) {
-                $clone->content = $clone->operations[0]->applyTo($clone->content);
-            }
-            if ($clone->content->isError()) {
-                $clone->setError($clone->content->error());
-            }
-        }
         return $clone;
     }
 

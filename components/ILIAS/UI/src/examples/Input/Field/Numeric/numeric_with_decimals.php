@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\Numeric;
 
+use ILIAS\UI\URLBuilder;
+
 /**
  * ---
  * description: >
@@ -41,7 +43,7 @@ namespace ILIAS\UI\examples\Input\Field\Numeric;
  *   )
  *
  *   If you insert one or more non-numeric numbers into the field the input field will get highlighted in red. Saving
- *   those inputs results in displaying an error message right above the required field.
+ *   those inputs results in displaying an error message right next to the required field.
  * ---
  */
 function numeric_with_decimals()
@@ -51,6 +53,14 @@ function numeric_with_decimals()
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
     $refinery = $DIC->refinery();
+    $df = new \ILIAS\Data\Factory();
+    $query = $DIC->http()->wrapper()->query();
+    $here_uri = $df->uri($request->getUri()->__toString());
+    $url_builder = new URLBuilder($here_uri);
+    $example_namespace = ['input', 'numeric'];
+    list($url_builder, $example_name) = $url_builder->acquireParameters($example_namespace, "example_name");
+    $url_builder = $url_builder->withParameter($example_name, "decimals");
+
 
     $number_input = $ui->input()->field()
         ->numeric("int", "step size is 3")
@@ -72,12 +82,7 @@ function numeric_with_decimals()
         ->withStepSize(111.01)
         ->withValue(10.7);
 
-    $DIC->ctrl()->setParameterByClass(
-        'ilsystemstyledocumentationgui',
-        'example_name',
-        'decimals'
-    );
-    $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
+    $form_action = $url_builder->buildURI()->__toString();
     $form = $ui->input()->container()->form()->standard(
         $form_action,
         [$number_input, $number_input2, $number_input3, $number_input4]
@@ -88,9 +93,9 @@ function numeric_with_decimals()
         )
     );
 
-    if ($request->getMethod() == "POST"
-        && array_key_exists('example_name', $request->getQueryParams())
-        && $request->getQueryParams()['example_name'] == 'decimals') {
+    if ($query->has($example_name->getName())
+        && $query->retrieve($example_name->getName(), $refinery->custom()->transformation(fn($v) => $v === 'decimals'))
+    ) {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {
