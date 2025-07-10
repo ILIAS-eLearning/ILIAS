@@ -8616,7 +8616,7 @@ dcl#:#dcl_learning_progress#:#Learning Progress
 dcl#:#dcl_learning_progress_desc#:#Show each user their own learning progress for the selected object.
 dcl#:#dcl_legend_placeholders#:#Placeholders
 dcl#:#dcl_length#:#Max. Number of Characters
-dcl#:#dcl_length_info#:#Number of characters a user can enter (maximum 4000). For more than 200 characters, please activate the additional option ‘Multiline Text Field’.
+dcl#:#dcl_length_info#:#Number of characters a user can enter. Above 200 the input will be displayed as multiline.
 dcl#:#dcl_limit_end#:#End
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limited#:#Limited Add / Edit / Delete Period
@@ -8630,7 +8630,7 @@ dcl#:#dcl_locked_tooltip#:#Disable this field for users to edit. Does not includ
 dcl#:#dcl_manage#:#Manage
 dcl#:#dcl_max_digits#:#Maximum Number of Digits
 dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
-dcl#:#dcl_max_text_length#:#Maximum Length
+dcl#:#dcl_max_text_length#:#Maximum Length: %s
 dcl#:#dcl_mob#:#Image, Audio, Video
 dcl#:#dcl_mob_desc#:#Allow users to upload a media file which will be displayed within the data collection. Allowed data types: %s
 dcl#:#dcl_msg_field_modified#:#Field updated
@@ -8674,6 +8674,8 @@ dcl#:#dcl_noturl_exception#:#Please enter a link (beginning with http:// or www.
 dcl#:#dcl_number#:#Integer
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). Decimals and fractions are not allowed.
 dcl#:#dcl_online_info#:#Publish the data collection and enable all users with the permissions ‘Read’ and ‘Add/Edit Entry’ to use it. If not set to ‘Online’, only users with the permission ‘Edit Settings’ can access this object.
+dcl#:#dcl_open_detail_view#:#Open detail view
+dcl#:#dcl_open_url#:#Open link
 dcl#:#dcl_order#:#Order
 dcl#:#dcl_origin_not_found#:#Origin field was not found!
 dcl#:#dcl_own_entries#:#Only own entries
@@ -8757,7 +8759,6 @@ dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following
 dcl#:#dcl_tableviews_of_X#:#Views of table %s
 dcl#:#dcl_tableviews_table#:#Views of Selected Table
 dcl#:#dcl_text#:#Text Entry
-dcl#:#dcl_text_area#:#Multiline Text Field
 dcl#:#dcl_text_desc#:#A text field for text, links or e-mail addresses.
 dcl#:#dcl_text_email_detail_desc#:#Please enter a valid URL or E-Mail address.
 dcl#:#dcl_text_email_title#:#Title

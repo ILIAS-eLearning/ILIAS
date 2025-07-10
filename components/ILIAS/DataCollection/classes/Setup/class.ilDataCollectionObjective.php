@@ -23,8 +23,6 @@ use ILIAS\Setup\Environment;
 
 class ilDataCollectionObjective extends ilDatabaseUpdateStepsExecutedObjective
 {
-    protected ilDatabaseUpdateSteps $steps;
-
     public function getPreconditions(Environment $environment): array
     {
         return array_merge(
