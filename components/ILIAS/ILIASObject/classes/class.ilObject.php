@@ -1692,7 +1692,6 @@ class ilObject
             );
 
             return $this->appendNumberOfCopiesToTitle(
-                $this->lng->txt('copy_of_suffix'),
                 $this->lng->txt('copy_n_of_suffix'),
                 $this->getTitle(),
                 $existing_titles
@@ -1728,7 +1727,6 @@ class ilObject
             $obj_translations = $obj_translations->withLanguage(
                 $language->withTitle(
                     $this->appendNumberOfCopiesToTitle(
-                        $this->lng->txtlng('common', 'copy_of_suffix', $suffix_lang),
                         $this->lng->txtlng('common', 'copy_n_of_suffix', $suffix_lang),
                         $language->getTitle(),
                         $title_translations_per_lang[$lang_code] ?? []
@@ -1757,19 +1755,16 @@ class ilObject
     }
 
     private function appendNumberOfCopiesToTitle(
-        string $copy_suffix,
         string $copy_n_suffix,
         string $title,
         array $other_titles_for_lang
     ): string {
-        $title_without_suffix = $this->buildTitleWithoutCopySuffix($copy_suffix, $copy_n_suffix, $title);
-        $title_with_suffix = "{$title_without_suffix} {$copy_suffix}";
-        if ($other_titles_for_lang === []
-            || $this->isTitleUnique($title_with_suffix, $other_titles_for_lang)) {
-            return $title_with_suffix;
+        $title_without_suffix = $this->buildTitleWithoutCopySuffix($copy_n_suffix, $title);
+        if ($this->isTitleUnique($title_without_suffix, $other_titles_for_lang)) {
+            return $title_without_suffix;
         }
 
-        for ($i = 2;true;$i++) {
+        for ($i = 1; true; $i++) {
             $title_with_suffix = $title_without_suffix . ' ' . sprintf($copy_n_suffix, $i);
             if ($this->isTitleUnique($title_with_suffix, $other_titles_for_lang)) {
                 return $title_with_suffix;
@@ -1787,7 +1782,7 @@ class ilObject
         return true;
     }
 
-    private function buildTitleWithoutCopySuffix(string $copy_suffix, string $copy_n_suffix, string $title): string
+    private function buildTitleWithoutCopySuffix(string $copy_n_suffix, string $title): string
     {
         /*
          * create a regular expression from the language text copy_n_of_suffix, so that
@@ -1805,16 +1800,6 @@ class ilObject
 
         if (preg_match($regexp_for_file_name, $title, $matches)) {
             return substr($title, 0, -strlen($matches[0]));
-        }
-
-        if (str_ends_with($title, " {$copy_suffix}")) {
-            return substr(
-                $title,
-                0,
-                -strlen(
-                    " {$copy_suffix}"
-                )
-            );
         }
 
         return $title;

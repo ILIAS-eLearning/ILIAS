@@ -3766,7 +3766,7 @@ common#:#copy#:#Kopieren
 common#:#copyChapter#:#Kopieren
 common#:#copyPage#:#Kopieren
 common#:#copy_all#:#Alle kopieren
-common#:#copy_n_of_suffix#:#- Kopie (%1$s)
+common#:#copy_n_of_suffix#:#(%1$s)
 common#:#copy_of#:#Kopie von
 common#:#copy_of_suffix#:#- Kopie
 common#:#copy_perma_link#:#Link in Zwischenablage kopieren
