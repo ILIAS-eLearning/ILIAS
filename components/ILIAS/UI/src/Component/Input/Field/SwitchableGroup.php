@@ -25,4 +25,12 @@ namespace ILIAS\UI\Component\Input\Field;
  */
 interface SwitchableGroup extends Group
 {
+    /**
+     * Setting withDisabledGroupSwitch to true, the first-level options will
+     * be disabled, but the lower inputs will still be operable.
+     * You will still have to set the input's value to select the pinned option.
+     *
+     * @deprecated with 10.
+     */
+    public function withDisabledGroupSwitch(bool $flag): self;
 }

@@ -366,6 +366,8 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $input_html = '';
+        $groupswitch_disabled = $component->getDisabledGroupSwitch();
+
         foreach ($component->getInputs() as $key => $group) {
             $tpl = $this->getTemplate("tpl.switchablegroup_label.html", true, true);
             $tpl->setVariable('LABEL', $group->getLabel());
@@ -377,6 +379,16 @@ class Renderer extends AbstractComponentRenderer
 
             if ($key == $value) {
                 $tpl->setVariable("CHECKED", 'checked="checked"');
+            }
+
+            if ($groupswitch_disabled) {
+                $tpl->setVariable("DISABLED", "disabled");
+                if ($key == $value) {
+                    $tpl->setVariable("HIDDEN_NAME", $component->getName());
+                    $tpl->setVariable("HIDDEN_VAL", (string) $key);
+                } else {
+                    $group = $group->withDisabled(true);
+                }
             }
 
             $input_html .= $this->wrapInFormContext(
