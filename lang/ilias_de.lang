@@ -8537,6 +8537,10 @@ dcl#:#dcl_date#:#Datumseingabe
 dcl#:#dcl_date_desc#:#Datum wird eingegeben oder im Kalender ausgewählt.
 dcl#:#dcl_date_selection#:#Datum per Auswahl
 dcl#:#dcl_date_selection_desc#:#Aus vorgegebenen Optionen kann ein Datum ausgewählt werden.
+dcl#:#dcl_datetime#:#Datumseingabe mit Uhrzeit
+dcl#:#dcl_datetime_desc#:#Datum und Uhrzeit wird eingegeben oder im Kalender ausgewählt.
+dcl#:#dcl_datetime_selection#:#Datum mit Uhrzeit per Auswahl
+dcl#:#dcl_datetime_selection_desc#:#Aus vorgegebenen Optionen kann ein Datum mit Uhrzeit ausgewählt werden.
 dcl#:#dcl_default_sort_field#:#Sortierung
 dcl#:#dcl_default_sort_field_order#:#Sortierrichtung
 dcl#:#dcl_default_sort_field_order_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.

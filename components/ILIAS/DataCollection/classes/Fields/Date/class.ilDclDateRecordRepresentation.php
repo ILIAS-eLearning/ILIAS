@@ -35,6 +35,6 @@ class ilDclDateRecordRepresentation extends ilDclBaseRecordRepresentation
      */
     public function parseFormInput($value): ?string
     {
-        return ($value === null) ? null : date('Y-m-d', strtotime($value));
+        return ($value === null) ? null : date(ilDclDateFieldModel::FORMAT, strtotime($value));
     }
 }

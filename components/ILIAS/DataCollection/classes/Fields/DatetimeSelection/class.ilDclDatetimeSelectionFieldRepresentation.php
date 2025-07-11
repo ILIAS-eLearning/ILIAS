@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilDclDateSelectionFieldRepresentation extends ilDclSelectionFieldRepresentation
+class ilDclDatetimeSelectionFieldRepresentation extends ilDclSelectionFieldRepresentation
 {
     protected function buildOptionsInput(): ilDclGenericMultiInputGUI
     {
@@ -27,7 +27,9 @@ class ilDclDateSelectionFieldRepresentation extends ilDclSelectionFieldRepresent
             'prop_' . $this->field::PROP_SELECTION_OPTIONS
         );
 
-        $selection_options->setInput(new ilDateTimeInputGUI());
+        $date = new ilDateTimeInputGUI();
+        $date->setShowTime(true);
+        $selection_options->setInput($date);
 
         return $selection_options;
     }

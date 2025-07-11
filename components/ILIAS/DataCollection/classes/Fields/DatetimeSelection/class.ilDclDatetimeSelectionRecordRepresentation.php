@@ -18,17 +18,15 @@
 
 declare(strict_types=1);
 
-class ilDclDateSelectionFieldRepresentation extends ilDclSelectionFieldRepresentation
+class ilDclDatetimeSelectionRecordRepresentation extends ilDclSelectionRecordRepresentation
 {
-    protected function buildOptionsInput(): ilDclGenericMultiInputGUI
+    public function getHTML(bool $link = true, array $options = []): string
     {
-        $selection_options = new ilDclGenericMultiInputGUI(
-            $this->lng->txt('dcl_selection_options'),
-            'prop_' . $this->field::PROP_SELECTION_OPTIONS
-        );
+        $values = [];
+        foreach (ilDclSelectionOption::getValues((int) $this->getField()->getId(), $this->getRecordField()->getValue()) as $value) {
+            $values[] = $this->getField()->personalizeOptionValue($value, $this->user);
+        }
 
-        $selection_options->setInput(new ilDateTimeInputGUI());
-
-        return $selection_options;
+        return implode(' | ', $values);
     }
 }

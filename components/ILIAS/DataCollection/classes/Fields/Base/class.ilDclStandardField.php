@@ -82,13 +82,13 @@ class ilDclStandardField extends ilDclBaseFieldModel
                 "id" => "create_date",
                 "title" => $lng->txt("dcl_creation_date"),
                 "description" => $lng->txt("dcl_creation_date_description"),
-                "datatype_id" => ilDclDatatype::INPUTFORMAT_DATE
+                "datatype_id" => ilDclDatatype::INPUTFORMAT_DATETIME
             ],
             "last_update" => [
                 "id" => "last_update",
                 "title" => $lng->txt("dcl_last_update"),
                 "description" => $lng->txt("dcl_last_update_description"),
-                "datatype_id" => ilDclDatatype::INPUTFORMAT_DATE
+                "datatype_id" => ilDclDatatype::INPUTFORMAT_DATETIME
             ],
             "owner" => [
                 "id" => "owner",
@@ -266,7 +266,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
                         . $ilDB->quote($to, 'integer');
                 }
             } else {
-                if ($this->getDatatypeId() === ilDclDatatype::INPUTFORMAT_DATE) {
+                if ($this->getDatatypeId() === ilDclDatatype::INPUTFORMAT_DATETIME) {
                     $date_from = (isset($filter_value['from'])
                         && is_object($filter_value['from'])) ? $filter_value['from'] : null;
                     $date_to = (isset($filter_value['to'])

@@ -18,17 +18,6 @@
 
 declare(strict_types=1);
 
-class ilDclDateSelectionFieldRepresentation extends ilDclSelectionFieldRepresentation
+class ilDclDatetimeSelectionRecordFieldModel extends ilDclSelectionRecordFieldModel
 {
-    protected function buildOptionsInput(): ilDclGenericMultiInputGUI
-    {
-        $selection_options = new ilDclGenericMultiInputGUI(
-            $this->lng->txt('dcl_selection_options'),
-            'prop_' . $this->field::PROP_SELECTION_OPTIONS
-        );
-
-        $selection_options->setInput(new ilDateTimeInputGUI());
-
-        return $selection_options;
-    }
 }

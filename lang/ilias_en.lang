@@ -8545,6 +8545,10 @@ dcl#:#dcl_date#:#Date Entry
 dcl#:#dcl_date_desc#:#Users can enter a date of their choice or select one using a calendar.
 dcl#:#dcl_date_selection#:#Date Selection
 dcl#:#dcl_date_selection_desc#:#Allow a date to be chosen from among a predefined selection of date options.
+dcl#:#dcl_datetime#:#Datetime Entry
+dcl#:#dcl_datetime_desc#:#Users can enter a date and time of their choice or select one using a calendar.
+dcl#:#dcl_datetime_selection#:#Datetime Selection
+dcl#:#dcl_datetime_selection_desc#:#Allow a date and time to be chosen from among a predefined selection of datetime options.
 dcl#:#dcl_deactivate_view#:#Deactivate this view
 dcl#:#dcl_default_sort_field#:#Default sort field
 dcl#:#dcl_default_sort_field_order#:#Default sort field order

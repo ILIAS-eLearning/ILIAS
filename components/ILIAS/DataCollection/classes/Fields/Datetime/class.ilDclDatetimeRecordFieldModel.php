@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilDclDateRecordFieldModel extends ilDclBaseRecordFieldModel
+class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
 {
     /**
      * @param int|string|null $value
@@ -33,10 +33,21 @@ class ilDclDateRecordFieldModel extends ilDclBaseRecordFieldModel
         $value = parent::getValueFromExcel($excel, $row, $col);
 
         if ($value) {
-            return date(ilDclDateFieldModel::FORMAT, strtotime($value));
+            return date(ilDclDatetimeFieldModel::FORMAT, strtotime($value));
         } else {
             return "";
         }
+    }
+
+    /**
+     * This value should be UTC but the current ilDateTimeInputGUI enforces the users timezone on an input.
+     * Therefore it is added before the value preservation to ensure to save the "raw" date.
+     */
+    public function setValueFromForm(ilPropertyFormGUI $form): void
+    {
+        parent::setValueFromForm($form);
+        $date = new ilDateTime(strtotime($this->getValue()), IL_CAL_UNIX);
+        $this->setValue($date->get(IL_CAL_FKT_DATE, ilDclDatetimeFieldModel::FORMAT, $this->user->getTimeZone()));
     }
 
     /**

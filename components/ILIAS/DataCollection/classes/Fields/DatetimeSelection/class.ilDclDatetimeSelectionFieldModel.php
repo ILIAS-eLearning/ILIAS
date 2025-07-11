@@ -18,14 +18,19 @@
 
 declare(strict_types=1);
 
-class ilDclDateSelectionFieldModel extends ilDclSelectionFieldModel
+class ilDclDatetimeSelectionFieldModel extends ilDclSelectionFieldModel
 {
-    public const PROP_SELECTION_TYPE = 'date_selection_type';
-    public const PROP_SELECTION_OPTIONS = 'date_selection_options';
+    public const PROP_SELECTION_TYPE = 'datetime_selection_type';
+    public const PROP_SELECTION_OPTIONS = 'datetime_selection_options';
+
+    public function sanitizeOptionValue(string $value): string
+    {
+        return (new ilDateTime(strtotime($value), IL_CAL_UNIX))->get(IL_CAL_FKT_DATE, ilDclDatetimeFieldModel::FORMAT);
+    }
 
     public function personalizeOptionValue(string $value, ilObjUser $user): string
     {
         $value = parent::personalizeOptionValue($value, $user);
-        return (strtotime($value) === false) ? $value : date($user->getDateFormat()->toString(), strtotime($value));
+        return (strtotime($value) === false) ? $value : date($user->getDateTimeFormat()->toString(), strtotime($value));
     }
 }

@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-class ilDclDateFieldModel extends ilDclBaseFieldModel
+class ilDclDatetimeFieldModel extends ilDclBaseFieldModel
 {
-    public const string FORMAT = 'Y-m-d';
+    public const string FORMAT = 'Y-m-d H:i';
 
     /**
      * @param string|int $filter_value
@@ -30,8 +30,16 @@ class ilDclDateFieldModel extends ilDclBaseFieldModel
         ?ilDclBaseFieldModel $sort_field = null
     ): ?ilDclRecordQueryObject {
 
+        global $DIC;
+        /**
+         * @var ilDateTime $date_from;
+         */
         $date_from = (isset($filter_value['from']) && is_object($filter_value['from'])) ? $filter_value['from'] : null;
+        $date_from = new ilDateTime($date_from->get(IL_CAL_DATETIME, '', $DIC->user()->getTimeZone()), IL_CAL_DATETIME);
         $date_to = (isset($filter_value['to']) && is_object($filter_value['to'])) ? $filter_value['to'] : null;
+        $date_to = new ilDateTime($date_to->get(IL_CAL_DATETIME, '', $DIC->user()->getTimeZone()), IL_CAL_DATETIME);
+
+        $x = $this->db->quote($date_from, 'date');
 
         $join_str
             = "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "

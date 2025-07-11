@@ -24,7 +24,7 @@ class ilDclDateSelectionRecordRepresentation extends ilDclSelectionRecordReprese
     {
         $values = [];
         foreach (ilDclSelectionOption::getValues((int) $this->getField()->getId(), $this->getRecordField()->getValue()) as $value) {
-            $values[] = (strtotime($value) === false) ? $value : date($this->user->getDateFormat()->toString(), strtotime($value));
+            $values[] = $this->getField()->personalizeOptionValue($value, $this->user);
         }
 
         return implode(' | ', $values);

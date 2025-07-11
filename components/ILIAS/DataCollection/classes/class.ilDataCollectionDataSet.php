@@ -445,6 +445,7 @@ class ilDataCollectionDataSet extends ilDataSet
                                 $value = null;
                                 break;
                             case ilDclDatatype::INPUTFORMAT_DATE:
+                            case ilDclDatatype::INPUTFORMAT_DATETIME:
                                 $value = $a_rec['value'];
                                 if ($value == '0000-00-00 00:00:00') {
                                     $value = null;
