@@ -224,6 +224,7 @@ class ilDclRecordListGUI
         $form->addItem($item);
 
         $file = new ilFileInputGUI($this->lng->txt("import_file"), "import_file");
+        $file->setSuffixes(['xlsx']);
         $file->setRequired(true);
         $form->addItem($file);
 
