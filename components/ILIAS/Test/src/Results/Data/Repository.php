@@ -80,7 +80,7 @@ class Repository
             [$active_id]
         );
 
-        return $this->toTestResult($this->db->fetchAssoc($result));
+        return $this->toParticipantResult($this->db->fetchAssoc($result));
     }
 
     public function updateTestResultCache(int $active_id, ?\ilAssQuestionProcessLocker $process_locker = null): ?ParticipantResult
@@ -218,7 +218,7 @@ class Repository
 
     private function buildTestResultObject(array $test_attempt_result): ParticipantResult
     {
-        $object = $this->toTestResult($test_attempt_result);
+        $object = $this->toParticipantResult($test_attempt_result);
 
         $is_passed = $object->getAttempt() <= $test_attempt_result['last_finished_pass'] && $object->isPassed();
         $passed_once_before = (bool) ($test_attempt_result['passed_once_before'] ?? false);
@@ -308,7 +308,7 @@ class Repository
     }
 
 
-    private function toTestResult(?array $row): ?ParticipantResult
+    private function toParticipantResult(?array $row): ?ParticipantResult
     {
         if ($row === null) {
             return null;
