@@ -212,23 +212,23 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                 array("adm", "lngf", "hlps", "wfe", 'fils', 'logs', 'sysc', "recf", "root"),
             "layout_and_navigation" =>
                 array("mme", "gsfo", "dshs", "stys", "adve"),
-            "repository_and_objects" =>
-                array("reps", "crss", "grps", "prgs", "bibs", "blga", "cpad", "chta", "facs", "frma", "lrss",
-                      "mcts", "mobs", "svyf", "assf", "wbrs", 'lsos'),
+            "legal_regulations" =>
+                array("impr" ,"tos", "accs", 'dpro'),
+            "user_administration" =>
+                array("usrf", "rolf", "otpl", "auth", "ps"),
             "personal_workspace" =>
                 array("tags", "cals", "prfa", "prss", "nots"),
             "achievements" =>
                 array("lhts", "skmg", "trac", "bdga", "cert"),
             "communication" =>
                 array("mail", "cadm", "nwss", "coms", "adn", "awra", "nota"),
-            "user_administration" =>
-                array("usrf", "rolf", "otpl", "auth", "ps"),
             "search_and_find" =>
                 array("seas", "mds", "taxs"),
             "extending_ilias" =>
                 array('ecss', "ltis", "wbdv", "cmis", "cmps", "extt"),
-            "legal_regulations" =>
-                array("impr" ,"tos", "accs", 'dpro')
+            "repository_and_objects" =>
+                array("reps", "crss", "grps", "prgs", "bibs", "blga", "cpad", "chta", "facs", "frma", "lrss",
+                      "mcts", "mobs", "svyf", "assf", "wbrs", 'lsos'),
         );
         $groups = [];
         // now get all items and groups that are accessible
