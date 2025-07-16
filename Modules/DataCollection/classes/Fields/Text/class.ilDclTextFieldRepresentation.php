@@ -52,21 +52,18 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
 
     public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilFormPropertyGUI
     {
-        $input = new ilDclTextInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-        if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_TEXTAREA)) {
-            $input = new ilTextAreaInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-            //varchar(4000) in Database
-            $input->setMaxNumOfChars(4000);
-        }
-
-        if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_LENGTH)) {
-            $input->setInfo($this->lng->txt("dcl_max_text_length") . ": " . $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
-            if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_TEXTAREA)) {
-                $input->setMaxLength((int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
-            } else {
-                $input->setMaxNumOfChars((int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
+        $length = (int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH);
+        if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_TEXTAREA) && !$this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
+            $input = new ilTextAreaInputGUI();
+            $input->setMaxNumOfChars($length ?: 4000);
+        } else {
+            $input = new ilDclTextInputGUI();
+            if ($length > 0) {
+                $input->setMaxLength($length);
             }
         }
+        $input->setTitle($this->getField()->getTitle());
+        $input->setPostVar('field_' . $this->getField()->getId());
 
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             $input->setInfo($this->lng->txt('dcl_text_email_detail_desc'));
@@ -76,6 +73,8 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
             );
             $title_field->setInfo($this->lng->txt('dcl_text_email_title_info'));
             $input->addSubItem($title_field);
+        } elseif ($length > 0) {
+            $input->setInfo(sprintf($this->lng->txt("dcl_max_text_length"), $length));
         }
 
         $this->setupInputField($input, $this->getField());
@@ -97,14 +96,6 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
 
         $opt->addSubItem($prop_length);
 
-        $prop_regex = new ilDclTextInputGUI(
-            $this->lng->txt('dcl_regex'),
-            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_REGEX)
-        );
-        $prop_regex->setInfo($this->lng->txt('dcl_regex_info'));
-
-        $opt->addSubItem($prop_regex);
-
         $prop_url = new ilDclCheckboxInputGUI(
             $this->lng->txt('dcl_url'),
             $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_URL)
@@ -122,6 +113,14 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
             $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT)
         );
         $opt->addSubItem($prop_page_details);
+
+        $prop_regex = new ilDclTextInputGUI(
+            $this->lng->txt('dcl_regex'),
+            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_REGEX)
+        );
+        $prop_regex->setInfo($this->lng->txt('dcl_regex_info'));
+
+        $opt->addSubItem($prop_regex);
 
         return $opt;
     }

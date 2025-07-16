@@ -27,66 +27,54 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
         $value = $this->getRecordField()->getValue();
 
         $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-        $views = $this->getRecord()->getTable()->getVisibleTableViews($ref_id, true, $this->user->getId());
 
-        //Property URL
         $field = $this->getField();
+        $links = [];
         if ($field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
-            if (is_array($value)) {
-                $link = (string) $value['link'];
-                $link_value = $value['title'] ?: $this->shortenLink($link);
-            } else {
-                $link = $value;
-                $link_value = $this->shortenLink($link);
+            $url = $value['link'];
+            $value = $value['title'] ?: $this->shortenLink($url);
+            if ($link) {
+                if (substr($url, 0, 3) === 'www') {
+                    $url = 'https://' . $url;
+                } elseif (filter_var($url, FILTER_VALIDATE_EMAIL)) {
+                    $url = "mailto:" . $url;
+                }
+                $links['dcl_open_url'] = $url;
             }
-
-            if (substr($link, 0, 3) === 'www') {
-                $link = 'https://' . $link;
-            }
-
-            if (preg_match(
-                "/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i",
-                $link
-            )) {
-                $link = "mailto:" . $link;
-            } elseif (!(preg_match('~(^(news|(ht|f)tp(s?)\://){1}\S+)~i', $link))) {
-                return $link;
-            }
-
-            $html = "<a rel='noopener' target='_blank' href='" . htmlspecialchars(
-                $link,
-                ENT_QUOTES
-            ) . "'>" . htmlspecialchars($link_value, ENT_QUOTES) . "</a>";
-        } elseif ($field->hasProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT) && $link && $views !== []) {
-            $view = array_shift($views);
+        }
+        if ($field->hasProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT) && $link) {
             if ($this->http->wrapper()->query()->has('tableview_id')) {
                 $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
-                foreach ($views as $v) {
-                    if ($v->getId() === $tableview_id) {
-                        $view = $v;
-                        break;
-                    }
-                }
+            } else {
+                $tableview_id = $this->getRecord()->getTable()->getFirstTableViewId($ref_id, $this->user->getId());
             }
-
-            $this->ctrl->clearParametersByClass("ilDclDetailedViewGUI");
-            $this->ctrl->setParameterByClass(
-                ilDclDetailedViewGUI::class,
-                'record_id',
-                $this->getRecordField()->getRecord()->getId()
-            );
-
-            $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'table_id', $this->getRecord()->getTableId());
-            $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'tableview_id', $view->getId());
-            $html = '<a href="' . $this->ctrl->getLinkTargetByClass(
-                ilDclDetailedViewGUI::class,
-                'renderRecord'
-            ) . '">' . $value . '</a>';
-        } else {
-            $html = (is_array($value) && isset($value['link'])) ? $value['link'] : nl2br((string) $value);
+            if (ilDclDetailedViewDefinition::isActive($tableview_id)) {
+                $this->ctrl->clearParametersByClass("ilDclDetailedViewGUI");
+                $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'table_id', $this->getRecord()->getTableId());
+                $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'tableview_id', $tableview_id);
+                $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'record_id', $this->getRecord()->getId());
+                $links['dcl_open_detail_view'] = $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord');
+            }
         }
+        $value = nl2br((string) $value);
 
-        return $html;
+        switch (count($links)) {
+            case 0:
+                return $value;
+            case 1:
+                return $this->renderer->render(
+                    $this->factory->link()->standard($value, reset($links))->withOpenInNewViewport(true)
+                );
+            case 2:
+            default:
+                $ui_links = [];
+                foreach ($links as $key => $link) {
+                    $ui_links[] = $this->factory->link()->standard($this->lng->txt($key), $link)->withOpenInNewViewport(true);
+                }
+                return $this->renderer->render(
+                    $this->factory->dropdown()->standard($ui_links)->withLabel($value)
+                );
+        }
     }
 
     protected function shortenLink(string $value): string
@@ -108,11 +96,6 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
         $field_values = [];
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
             $field_values["field_" . $this->getRecordField()->getField()->getId() . "_title"] = (isset($raw_input['title'])) ? $raw_input['title'] : '';
-        }
-
-        if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_TEXTAREA)) {
-            $breaks = ["<br />"];
-            $value = str_ireplace($breaks, "", $value);
         }
 
         $field_values["field_" . $this->getRecordField()->getField()->getId()] = $value;

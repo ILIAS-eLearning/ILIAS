@@ -8656,7 +8656,7 @@ dcl#:#dcl_locked_tooltip#:#Disable this field for users to edit. Does not includ
 dcl#:#dcl_manage#:#Manage
 dcl#:#dcl_max_digits#:#Maximum Number of Digits
 dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
-dcl#:#dcl_max_text_length#:#Maximum Length
+dcl#:#dcl_max_text_length#:#Maximum Length: %s
 dcl#:#dcl_mob#:#Media Object
 dcl#:#dcl_mob_desc#:#Field to upload an image, audio, or video file. They will be displayed directly in the datacollection. Allowed datatypes: %s
 dcl#:#dcl_msg_field_modified#:#Field updated
@@ -8701,6 +8701,8 @@ dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http:// or
 dcl#:#dcl_number#:#Integer
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.
 dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.
+dcl#:#dcl_open_detail_view#:#Open detail view
+dcl#:#dcl_open_url#:#Open link
 dcl#:#dcl_order#:#Order
 dcl#:#dcl_origin_not_found#:#Origin field was not found!
 dcl#:#dcl_own_entries#:#Only own entries
