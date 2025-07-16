@@ -79,7 +79,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      * @param bool	$checkonly	get the setting for checking a POST
      * @return bool
      */
-    protected function getEditAnswersSingleLine($checkonly = false): bool
+    protected function getEditAnswersSingleLine(bool $checkonly = false): bool
     {
         if ($this->object->getSelfAssessmentEditingMode()) {
             return $this->object->isSingleline();

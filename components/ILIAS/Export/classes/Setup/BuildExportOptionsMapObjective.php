@@ -24,22 +24,22 @@ use ILIAS\Setup\Artifact\BuildArtifactObjective as ilBuildArtifactObjective;
 use ILIAS\Setup\Artifact as ilSetupArtifact;
 use ILIAS\Setup\Artifact\ArrayArtifact as ilSetupArrayArtifact;
 use ILIAS\Setup\ImplementationOfInterfaceFinder as ilSetupImplementationOfInterfaceFinder;
-use ILIAS\Export\ExportHandler\I\Consumer\ExportOption\HandlerInterface as ilExportHandlerConsumerExportOptionInterface;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportOption\HandlerInterface as ExportOptionInterface;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\HandlerInterface as ExportConfigInterface;
 
 class BuildExportOptionsMapObjective extends ilBuildArtifactObjective
 {
     public function getArtifactName(): string
     {
-        return "export_options";
+        return "export_artifact";
     }
 
     public function build(): ilSetupArtifact
     {
         $class_names = [];
-        $interface = ilExportHandlerConsumerExportOptionInterface::class;
         $finder = new ilSetupImplementationOfInterfaceFinder();
-        return new ilSetupArrayArtifact(iterator_to_array(
-            $finder->getMatchingClassNames($interface)
-        ));
+        $infos['export_options'] = iterator_to_array($finder->getMatchingClassNames(ExportOptionInterface::class));
+        $infos['export_configs'] = iterator_to_array($finder->getMatchingClassNames(ExportConfigInterface::class));
+        return new ilSetupArrayArtifact($infos);
     }
 }

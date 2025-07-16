@@ -20,14 +20,19 @@ import preserveCopyright from '../../../../../../../scripts/Copyright-Checker/pr
 export default {
   input: './src/input.factory.js',
   external: [
+    'jquery',
     'ilias',
+    'document',
   ],
   output: {
+    // file: '../../../../../../../public/assets/js/input.factory.min.js',
     file: './dist/input.factory.min.js',
     format: 'iife',
     banner: copyright,
     globals: {
+      jquery: '$',
       ilias: 'il',
+      document: 'document',
     },
     plugins: [
       terser({

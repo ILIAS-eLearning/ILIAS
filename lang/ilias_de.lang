@@ -17263,6 +17263,7 @@ ui#:#presentation_table_collapse#:#Alle minimieren
 ui#:#presentation_table_expand#:#Alle zeigen
 ui#:#rating_average#:#Andere bewerteten mit %s von 5
 ui#:#reset_stars#:#neutral
+ui#:#select_node#:#Knoten %s zur Auswahl hinzufügen
 ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
@@ -17285,6 +17286,7 @@ ui#:#ui_select_dropdown_label#:#Bitte auswählen
 ui#:#ui_table_no_records#:#Keine Einträge
 ui#:#ui_table_order#:#Reihenfolge
 ui#:#ui_transcription#:#Abschrift
+ui#:#unselect_node#:#Knoten %s von der Auswahl entfernen
 ui#:#vc_sort#:#Sortiert nach:
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
 user#:#back_to_starting_points_list#:#Zurück zu Startseiten

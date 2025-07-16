@@ -24,16 +24,20 @@
 class ilMediaPoolExporter extends ilXmlExporter
 {
     private ilMediaPoolDataSet $ds;
-    private ilExportConfig $config;
+    private ilMediaPoolExportConfig $config;
 
     public function init(): void
     {
         $this->ds = new ilMediaPoolDataSet();
         $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
-        $this->config = $this->getExport()->getConfig("components/ILIAS/MediaPool");
+        /** @var ilMediaPoolExportConfig $config */
+        $config = $this->getExport()->getExportConfigs()->getElementByComponent('components/ILIAS/MediaPool');
+        $this->config = $config;
         if ($this->config->getMasterLanguageOnly()) {
-            $conf = $this->getExport()->getConfig("components/ILIAS/COPage");
+            /** @var ilCOPageExportConfig $co_config */
+            $co_config = $this->getExport()->getExportConfigs()->getElementByComponent('components/ILIAS/COPage');
+            $conf = $co_config;
             $conf->setMasterLanguageOnly(true, $this->config->getIncludeMedia());
             $this->ds->setMasterLanguageOnly(true);
         }

@@ -25,7 +25,6 @@ use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Component\Input\InputData;
 use ILIAS\UI\Component\Input\Container\Form\FormInput as FormInputInterface;
-use ILIAS\UI\Component\Input\Field\HasDynamicInputs;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use InvalidArgumentException;
@@ -33,37 +32,36 @@ use LogicException;
 use ILIAS\Language\Language;
 
 /**
- * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ * Describes an Input Field which dynamically generates inputs according to a template.
+ * This happens on both server and client when values are provided.
+ *
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-abstract class HasDynamicInputsBase extends FormInput implements HasDynamicInputs
+abstract class HasDynamicInputs extends FormInput
 {
     // ==========================================
-    // BEGIN IMPLEMENTATION OF DynamicInputsAware
+    // BEGIN IMPLEMENTATION OF HasDynamicInputs
     // ==========================================
 
     /**
      * @var FormInputInterface[]
      */
-    protected array $dynamic_inputs = [];
-    protected FormInputInterface $dynamic_input_template;
-    protected Language $language;
+    protected array $generated_dynamic_inputs = [];
 
     public function __construct(
-        Language $language,
+        protected Language $language,
         DataFactory $data_factory,
         Refinery $refinery,
+        protected FormInputInterface $dynamic_input_template,
         string $label,
-        FormInputInterface $template,
         ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
-        $this->dynamic_input_template = $template;
-        $this->language = $language;
     }
 
     /**
-     * Returns the instance of Field which should be used to generate
-     * dynamic inputs on clientside.
+     * Returns an Input Field which will be used to generate similar inputs
+     * on both server and client.
      */
     public function getTemplateForDynamicInputs(): FormInputInterface
     {
@@ -72,16 +70,17 @@ abstract class HasDynamicInputsBase extends FormInput implements HasDynamicInput
 
     /**
      * Returns serverside generated dynamic Inputs, which happens when
-     * providing this InputInterface::withValue().
+     * providing values with @see Input::withValue()
+     *
      * @return FormInputInterface[]
      */
-    public function getDynamicInputs(): array
+    public function getGeneratedDynamicInputs(): array
     {
-        return $this->dynamic_inputs;
+        return $this->generated_dynamic_inputs;
     }
 
     // ==========================================
-    // END IMPLEMENTATION OF DynamicInputsAware
+    // END IMPLEMENTATION OF HasDynamicInputs
     // ==========================================
 
     // ==========================================
@@ -93,14 +92,16 @@ abstract class HasDynamicInputsBase extends FormInput implements HasDynamicInput
      */
     public function withValue($value): self
     {
-        if (!$this->isDynamicInputsValueOk($value)) {
-            throw new InvalidArgumentException("Display value does not match input(-template) type.");
-        }
-
+        $this->checkArg('value', $this->isClientSideValueOk($value), "Display value does not match input(-template) type.");
         $clone = clone $this;
 
+        if (!is_array($value)) {
+            $clone->generated_dynamic_inputs[] = $clone->getTemplateForDynamicInputs()->withValue($value);
+            return $clone;
+        }
+
         foreach ($value as $input_name => $input_value) {
-            $clone->dynamic_inputs[$input_name] = $clone->dynamic_input_template->withValue($input_value);
+            $clone->generated_dynamic_inputs[$input_name] = $clone->getTemplateForDynamicInputs()->withValue($input_value);
         }
 
         return $clone;
@@ -109,10 +110,10 @@ abstract class HasDynamicInputsBase extends FormInput implements HasDynamicInput
     public function withDisabled(bool $is_disabled): self
     {
         $clone = parent::withDisabled($is_disabled);
-        $clone->dynamic_input_template = $clone->dynamic_input_template->withDisabled($is_disabled);
+        $clone->dynamic_input_template = $clone->getTemplateForDynamicInputs()->withDisabled($is_disabled);
 
-        foreach ($clone->dynamic_inputs as $key => $input) {
-            $clone->dynamic_inputs[$key] = $input->withDisabled($is_disabled);
+        foreach ($clone->generated_dynamic_inputs as $key => $input) {
+            $clone->generated_dynamic_inputs[$key] = $input->withDisabled($is_disabled);
         }
 
         return $clone;
@@ -122,12 +123,12 @@ abstract class HasDynamicInputsBase extends FormInput implements HasDynamicInput
     {
         $clone = parent::withNameFrom($source, $parent_name);
 
-        $clone->dynamic_input_template = $clone->dynamic_input_template->withNameFrom(
+        $clone->dynamic_input_template = $clone->getTemplateForDynamicInputs()->withNameFrom(
             new DynamicInputsNameSource($clone->getName())
         );
 
-        foreach ($clone->dynamic_inputs as $key => $input) {
-            $clone->dynamic_inputs[$key] = $input->withNameFrom(
+        foreach ($clone->generated_dynamic_inputs as $key => $input) {
+            $clone->generated_dynamic_inputs[$key] = $input->withNameFrom(
                 new DynamicInputsNameSource($clone->getName())
             );
         }
@@ -146,9 +147,9 @@ abstract class HasDynamicInputsBase extends FormInput implements HasDynamicInput
         $contents = [];
 
         foreach ((new DynamicInputDataIterator($post_data, $clone->getName())) as $index => $input_data) {
-            $clone->dynamic_inputs[$index] = $this->dynamic_input_template->withInput($input_data);
-            if ($clone->dynamic_inputs[$index]->getContent()->isOk()) {
-                $contents[] = $clone->dynamic_inputs[$index]->getContent()->value();
+            $clone->generated_dynamic_inputs[$index] = $clone->getTemplateForDynamicInputs()->withInput($input_data);
+            if ($clone->generated_dynamic_inputs[$index]->getContent()->isOk()) {
+                $contents[] = $clone->generated_dynamic_inputs[$index]->getContent()->value();
             } else {
                 $contains_error = true;
             }
@@ -169,12 +170,8 @@ abstract class HasDynamicInputsBase extends FormInput implements HasDynamicInput
 
     public function getValue(): array
     {
-        if (null === $this->getTemplateForDynamicInputs()) {
-            return parent::getValue();
-        }
-
         $values = [];
-        foreach ($this->getDynamicInputs() as $key => $input) {
+        foreach ($this->getGeneratedDynamicInputs() as $key => $input) {
             $values[$key] = $input->getValue();
         }
 
@@ -188,18 +185,14 @@ abstract class HasDynamicInputsBase extends FormInput implements HasDynamicInput
     /**
      * @param mixed $value
      */
-    protected function isDynamicInputsValueOk($value): bool
+    protected function isClientSideValueOk($value): bool
     {
         if (!is_array($value)) {
-            return $this->dynamic_input_template->isClientSideValueOk($value);
-        }
-
-        if (empty($value)) {
-            return false;
+            return $this->getTemplateForDynamicInputs()->isClientSideValueOk($value);
         }
 
         foreach ($value as $input_value) {
-            if (!$this->dynamic_input_template->isClientSideValueOk($input_value)) {
+            if (!$this->getTemplateForDynamicInputs()->isClientSideValueOk($input_value)) {
                 return false;
             }
         }

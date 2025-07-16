@@ -933,8 +933,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 }
                 if (in_array(
                     $cmd,
-                    ['editQuestion', 'previewQuestion', 'save', 'saveReturn',
-                            'syncQuestion', 'syncQuestionReturn', 'suggestedsolution']
+                    ['editQuestion', 'previewQuestion', 'save', 'saveReturn', 'uploadImage',
+                        'removeImage', 'syncQuestion', 'syncQuestionReturn', 'suggestedsolution']
                 )
                     && !$this->access->checkAccess('write', '', $this->getTestObject()->getRefId())) {
                     $this->redirectAfterMissingWrite();

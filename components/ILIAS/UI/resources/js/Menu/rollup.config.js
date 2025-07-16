@@ -26,12 +26,12 @@ export default {
   ],
   input: './src/drilldown.js',
   output: {
-    file: './dist/drilldown.js',
+    // file: '../../../../../../public/assets/js/drilldown.min.js',
+    file: './dist/drilldown.min.js',
     format: 'iife',
     banner: copyright,
     globals: {
       document: 'document',
-      ResizeObserver: 'ResizeObserver',
       jquery: '$',
       ilias: 'il',
     },

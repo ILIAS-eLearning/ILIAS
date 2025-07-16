@@ -1,0 +1,17 @@
+<li data-node-id="{NODE_ID}" class="c-input-node c-input-node__{NODE_TYPE} c-drilldown__branch"<!-- BEGIN with_render_url --> data-render-url="{RENDER_URL}"<!-- END with_render_url -->>
+    <button type="button" class="c-drilldown__menulevel--trigger" aria-expanded="false">
+        <span>
+            {NODE_ICON}<span data-node-name>{NODE_NAME}</span>
+        </span>
+        <span>
+            {EXPAND_GLYPH}
+        </span>
+    </button>
+    <button type="button" class="c-input-node__select" aria-label="{SELECT_NODE_LABEL}">
+        <span data-action="select">{SELECT_GLYPH}</span>
+        <span class="hidden" data-action="remove">{REMOVE_GLYPH}</span>
+    </button>
+    <ul>
+        {NODE_CHILDREN}
+    </ul>
+</li>

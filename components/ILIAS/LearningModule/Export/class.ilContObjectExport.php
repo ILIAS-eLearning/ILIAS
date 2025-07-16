@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+use ILIAS\Export\ExportHandler\I\FactoryInterface as ExportFactoryInterface;
+use ILIAS\Export\ExportHandler\Factory as ExportFactory;
+use ILIAS\Data\Factory as DataFactory;
+
 /**
  * Export class for content objects
  *
@@ -30,6 +34,9 @@ class ilContObjectExport
     protected string $subdir;
     protected string $export_dir;
     protected string $lang;
+    protected ExportFactory $export_factory;
+    protected ilObjUser $usr;
+    protected DataFactory $data_factory;
     public ilDBInterface $db;
     public ilObjLearningModule $cont_obj;
     public int $inst_id;
@@ -41,11 +48,14 @@ class ilContObjectExport
         string $a_lang = ""
     ) {
         global $DIC;
+        $this->export_factory = new ExportFactory();
+        $this->data_factory = new DataFactory();
 
         $ilDB = $DIC->database();
 
         $this->cont_obj = $a_cont_obj;
 
+        $this->usr = $DIC->user();
         $this->db = $ilDB;
         $this->mode = $a_mode;
         $this->lang = $a_lang;
@@ -99,10 +109,15 @@ class ilContObjectExport
         string $a_mode = ""
     ): string {
         if (in_array($a_mode, array("master", "masternomedia"))) {
-            $exp = new ilExport();
-            $conf = $exp->getConfig("components/ILIAS/LearningModule");
-            $conf->setMasterLanguageOnly(true, ($a_mode == "master"));
-            $exp->exportObject($this->cont_obj->getType(), $this->cont_obj->getId(), "5.1.0");
+            /** @var ilLearningModuleExportConfig $config */
+            $configs = $this->export_factory->consumer()->exportConfig()->allExportConfigs();
+            $config = $configs->getElementByComponent('components/ILIAS/LearningModule');
+            $config->setMasterLanguageOnly(true, ($a_mode == "master"));
+            $this->export_factory->consumer()->handler()->createStandardExport(
+                $this->usr->getId(),
+                $this->data_factory->objId($this->cont_obj->getId()),
+                $configs
+            );
             return "";
         }
 

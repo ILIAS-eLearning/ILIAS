@@ -33,6 +33,7 @@ trait CommonFieldRendering
         $df = new Data\Factory();
         $language = $this->createMock(ilLanguage::class);
         return new I\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
             $this->createMock(UploadLimitResolver::class),
             new SignalGenerator(),
             $df,

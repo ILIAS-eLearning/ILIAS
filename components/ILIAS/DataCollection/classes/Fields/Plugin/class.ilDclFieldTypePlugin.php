@@ -41,10 +41,9 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
         $field_model_class = 'il' . $this->getPluginName() . 'FieldModel';
         $type = (new $field_model_class())->getStorageLocationOverride() ?? $this->getStorageLocation();
         $this->db->manipulateF(
-            'INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location, sort) SELECT GREATEST(MAX(id), %s) + 1, %s, %s, %s, GREATEST(MAX(sort), %s * 10) + 10 FROM il_dcl_datatype;',
+            'INSERT INTO il_dcl_datatype (id, title, storage_location, sort) SELECT GREATEST(MAX(id), %s) + 1, %s, %s, GREATEST(MAX(sort), %s * 10) + 10 FROM il_dcl_datatype;',
             [
                 ilDBConstants::T_INTEGER,
-                ilDBConstants::T_TEXT,
                 ilDBConstants::T_TEXT,
                 ilDBConstants::T_INTEGER,
                 ilDBConstants::T_INTEGER,
@@ -52,7 +51,6 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
             [
                 self::ID_BUFFER,
                 $field_type_name,
-                $this::DB_TYPES[$type],
                 $type,
                 self::ID_BUFFER
             ]

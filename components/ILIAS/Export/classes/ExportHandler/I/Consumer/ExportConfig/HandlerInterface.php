@@ -18,12 +18,8 @@
 
 declare(strict_types=1);
 
-/**
- * Export configuration class parent class
- * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesExport
- */
-abstract class ilExportConfig
+namespace ILIAS\Export\ExportHandler\I\Consumer\ExportConfig;
+
+interface HandlerInterface
 {
 }

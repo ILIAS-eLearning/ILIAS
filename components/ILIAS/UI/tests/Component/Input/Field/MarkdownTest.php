@@ -480,6 +480,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
     protected function buildMinimalFieldFactory(): FieldFactory
     {
         return new FieldFactory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
             $this->createMock(UploadLimitResolver::class),
             new SignalGenerator(),
             $this->createMock(DataFactory::class),

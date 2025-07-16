@@ -22,6 +22,7 @@ namespace ILIAS\Export\ExportHandler\I\Manager;
 
 use ILIAS\Data\ObjectId;
 use ILIAS\Data\ReferenceId;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfigCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Container\HandlerInterface as ilExportHandlerContainerExportInfoInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Container\ObjectId\CollectionBuilderInterface as ilExportHandlerContainerExportInfoObjectIdCollectionBuilderInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Container\ObjectId\CollectionInterface as ilExportHandlerContainerExportInfoObjectIdCollectionInterface;
@@ -39,22 +40,31 @@ interface HandlerInterface
     public function createExport(
         int $user_id,
         ilExportHandlerExportInfoInterface $export_info,
-        string $path_in_container
+        string $path_in_container,
     ): ilExportHandlerRepositoryElementInterface;
+
+    public function createExportOfObject(
+        ilObject $export_object,
+        int $user_id,
+        ExportConfigCollectionInterface $export_configs
+    ): void;
 
     public function getExportInfo(
         ObjectId $object_id,
-        int $time_stamp
+        int $time_stamp,
+        ExportConfigCollectionInterface $export_configs
     ): ilExportHandlerExportInfoInterface;
 
     public function getExportInfoWithObject(
         ilObject $export_object,
-        int $time_stamp
+        int $time_stamp,
+        ExportConfigCollectionInterface $export_configs
     ): ilExportHandlerExportInfoInterface;
 
     public function getContainerExportInfo(
         ObjectId $main_entity_object_id,
-        ilExportHandlerContainerExportInfoObjectIdCollectionInterface $object_ids
+        ilExportHandlerContainerExportInfoObjectIdCollectionInterface $object_ids,
+        ExportConfigCollectionInterface $export_configs
     ): ilExportHandlerContainerExportInfoInterface;
 
     public function getObjectIdCollectioBuilder(): ilExportHandlerContainerExportInfoObjectIdCollectionBuilderInterface;

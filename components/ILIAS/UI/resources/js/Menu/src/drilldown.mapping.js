@@ -11,13 +11,14 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+ */
+
+import walkArray from '../../Core/src/walkArray.js';
 
 export default class DrilldownMapping {
   /**
-     * @type {object}
-     */
+   * @type {object}
+   */
   #classes = {
     DRILLDOWN: 'c-drilldown',
     MENU: 'c-drilldown__menu',
@@ -48,8 +49,8 @@ export default class DrilldownMapping {
   };
 
   /**
-     * @type {function}
-     */
+   * @type {Document}
+   */
   #document;
 
   /**
@@ -58,7 +59,7 @@ export default class DrilldownMapping {
   #resizeObserver;
 
   /**
-   * @param {DOMDocument} document
+   * @param {Document} document
    * @param {ResizeObserver} resizeObserver
    * @param {string} drilldownId
    */
@@ -70,7 +71,7 @@ export default class DrilldownMapping {
   }
 
   /**
-   * @returns {HTMLUnorderedListElement}
+   * @returns {HTMLUListElement}
    */
   #getMenuContainer() {
     return this.#elements.dd.querySelector(`.${this.#classes.MENU}`);
@@ -80,111 +81,108 @@ export default class DrilldownMapping {
    * @param {function} filterHandler
    * @return {void}
    */
-  setFilterHandler(filterHandler) {
-    this.#elements.header.querySelector(`.${this.#classes.FILTER} > input`).addEventListener('keyup', filterHandler);
-  }
-
-  /**
-   * @param {function} filterHandler
-   * @return {void}
-   */
-  setResizeHandler(resizeHandler) {
-    this.#document.defaultView.addEventListener('resize', resizeHandler);
-  }
-
-  /**
-     * @param {function} filterHandler
-     * @return {void}
-     */
-  parseLevel(levelRegistry, leafBuilder, clickHandler) {
-    const sublists = this.#getMenuContainer().querySelectorAll(this.#classes.LIST_TAG);
-    sublists.forEach(
-      (sublist) => {
-        const level = levelRegistry( // from model
-          this.#getLabelForList(sublist),
-          this.#getParentIdOfList(sublist),
-          this.#getLeavesOfList(sublist, leafBuilder),
-        );
-        this.#addLevelId(sublist, level.id);
-        DrilldownMapping.registerClickHandler(sublist, clickHandler, level.id);
-        this.#elements.levels[level.id] = sublist;
-      },
+  maybeAddFilterHandler(filterHandler) {
+    this.#elements.header.querySelector(`.${this.#classes.FILTER} > input`)?.addEventListener(
+      'keyup',
+      filterHandler,
     );
   }
 
   /**
-     * @param {HTMLListElement} list
-     * @param {string} levelId
-     * @returns {void}
-     */
+   * Parse newly added drilldown levels. This also works in async context.
+   * @param {function} filterHandler
+   * @return {void}
+   */
+  parseLevel(levelRegistry, leafBuilder, clickHandler) {
+    const sublists = this.#getMenuContainer().querySelectorAll(this.#classes.LIST_TAG);
+    walkArray(sublists, (sublist) => {
+      const levelId = sublist.getAttribute(this.#classes.ID_ATTRIBUTE);
+      const level = levelRegistry( // from model
+        this.#getLabelForList(sublist),
+        this.#getParentIdOfList(sublist),
+        this.#getLeavesOfList(sublist, leafBuilder),
+        levelId,
+      );
+      if (levelId === null) {
+        this.#addLevelId(sublist, level.id);
+        this.registerHandler(sublist, clickHandler, level.id);
+        this.#elements.levels[level.id] = sublist;
+      }
+    });
+  }
+
+  /**
+   * @param {HTMLUListElement} list
+   * @param {string} levelId
+   * @returns {void}
+   */
   #addLevelId(list, levelId) {
     const listRef = list;
     listRef.setAttribute(this.#classes.ID_ATTRIBUTE, levelId);
   }
 
   /**
-     * @param {HTMLListElement} list
-     * @param {function}
-     * @return {HTMLElement}
-     */
+   * @param {HTMLUListElement} list
+   * @return {HTMLHeadElement}
+   */
   #getLabelForList(list) {
-    const element = list.previousElementSibling;
-    if (element === null) {
+    const headerElement = list.parentElement.querySelector(`:scope > .${this.#classes.HEADER_ELEMENT}`);
+    if (headerElement === null) {
       return null;
     }
-    let elem = null;
-    elem = this.#document.createElement('h2');
-    elem.innerText = element.childNodes[0].nodeValue;
-    return elem;
+    let header = null;
+    header = this.#document.createElement('h2');
+    header.textContent = headerElement.innerText;
+    return header;
   }
 
   /**
-     * @param {HTMLListElement} list
-     * @returns {string}
-     */
+   * @param {HTMLUListElement} list
+   * @returns {string}
+   */
   #getParentIdOfList(list) {
     return list.parentElement.parentElement.getAttribute(this.#classes.ID_ATTRIBUTE);
   }
 
   /**
-     * @param {HTMLListElement} list
-     * @return {object}
-     */
+   * @param {HTMLUListElement} list
+   * @return {object}
+   */
   #getLeavesOfList(list, leafBuilder) {
     const leafElements = list.querySelectorAll(`:scope >.${this.#classes.MENU_LEAF}`);
     const leaves = [];
-    leafElements.forEach(
-      (leafElement, index) => {
-        leaves.push(
-          leafBuilder(
-            index,
-            leafElement.firstElementChild.innerText,
-          ),
-        );
-      },
-    );
+    walkArray(leafElements, (leafElement, index) => {
+      leaves.push(
+        leafBuilder(
+          index,
+          leafElement.firstElementChild.innerText,
+        ),
+      );
+    });
     return leaves;
   }
 
   /**
-     * @param {HTMLListElement} list
-     * @param {function} handler
-     * @param {string} elementId
-     * @returns {void}
-     */
-  static registerClickHandler(list, handler, elementId) {
-    const headerElement = list.previousElementSibling;
+   * @param {HTMLUListElement} list
+   * @param {function} handler
+   * @param {string} elementId
+   * @returns {void}
+   */
+  registerHandler(list, handler, elementId) {
+    const headerElement = list.parentElement.querySelector(`:scope > .${this.#classes.HEADER_ELEMENT}`);
     if (headerElement === null) {
       return;
     }
-    headerElement.addEventListener('click', () => { handler(elementId); });
+    headerElement.addEventListener('click', () => {
+      handler(elementId);
+    });
   }
 
   /**
-     * @param {string} elementId
-     * @return {void}
-     */
-  setEngaged(elementId) {
+   * @param {string} level
+   * @return {void}
+   */
+  setEngaged(level) {
     this.#elements.dd.querySelector(`.${this.#classes.ACTIVE}`)
       ?.classList.remove(`${this.#classes.ACTIVE}`);
     this.#elements.dd.querySelector(`.${this.#classes.ACTIVE_ITEM}`)
@@ -192,7 +190,7 @@ export default class DrilldownMapping {
     this.#elements.dd.querySelector(`.${this.#classes.ACTIVE_PARENT}`)
       ?.classList.remove(`${this.#classes.ACTIVE_PARENT}`);
 
-    const activeLevel = this.#elements.levels[elementId];
+    const activeLevel = this.#elements.levels[level];
     activeLevel.classList.add(this.#classes.ACTIVE);
     const parentLevel = activeLevel.parentElement.parentElement;
     if (parentLevel.nodeName === 'UL') {
@@ -202,8 +200,8 @@ export default class DrilldownMapping {
       activeLevel.classList.add(this.#classes.ACTIVE_PARENT);
     }
 
-    const lower = this.#elements.levels[elementId].children[0].children[0];
-    lower.focus();
+    const lower = this.#elements.levels[level].querySelector(':scope > li')?.firstElementChild;
+    lower?.focus();
   }
 
   /**

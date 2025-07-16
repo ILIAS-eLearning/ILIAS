@@ -27,20 +27,17 @@ use ILIAS\Export\ExportHandler\I\Info\Export\Container\FactoryInterface as ilExp
 use ILIAS\Export\ExportHandler\I\Info\Export\FactoryInterface as ilExportHandlerExportInfoFactory;
 use ILIAS\Export\ExportHandler\I\Info\Export\HandlerInterface as ilExportHandlerExportInfoInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Path\FactoryInterface as ExportPathInfoFactoryInterface;
-use ILIAS\Export\ExportHandler\Info\Export\Path\Factory as ExportPathInfoFactory;
 use ILIAS\Export\ExportHandler\Info\Export\Collection as ilExportHandlerExportInfoCollection;
 use ILIAS\Export\ExportHandler\Info\Export\Component\Factory as ilExportHandlerExportComponentInfoFactory;
 use ILIAS\Export\ExportHandler\Info\Export\Container\Factory as ilExportHandlerContainerExportInfoFactory;
 use ILIAS\Export\ExportHandler\Info\Export\Handler as ilExportHandlerExportInfo;
+use ILIAS\Export\ExportHandler\Info\Export\Path\Factory as ExportPathInfoFactory;
 
 class Factory implements ilExportHandlerExportInfoFactory
 {
-    protected ilExportHandlerFactoryInterface $export_handler;
-
     public function __construct(
-        ilExportHandlerFactoryInterface $export_handler
+        protected ilExportHandlerFactoryInterface $export_handler
     ) {
-        $this->export_handler = $export_handler;
     }
 
     public function handler(): ilExportHandlerExportInfoInterface

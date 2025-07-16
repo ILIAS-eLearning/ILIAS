@@ -17270,6 +17270,7 @@ ui#:#presentation_table_collapse#:#Collapse All
 ui#:#presentation_table_expand#:#Expand All
 ui#:#rating_average#:#Others rated %s of 5
 ui#:#reset_stars#:#neutral
+ui#:#select_node#:#Add node %s to selection
 ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
@@ -17292,6 +17293,7 @@ ui#:#ui_select_dropdown_label#:#Please select
 ui#:#ui_table_no_records#:#No records
 ui#:#ui_table_order#:#Order
 ui#:#ui_transcription#:#Transcript
+ui#:#unselect_node#:#Remove node %s from selection
 ui#:#vc_sort#:#Sort by:
 user#:#all_roles_has_starting_point#:#All the roles have starting points
 user#:#back_to_starting_points_list#:#Back to Starting Points

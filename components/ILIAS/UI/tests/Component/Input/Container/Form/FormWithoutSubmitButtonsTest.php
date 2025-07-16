@@ -193,6 +193,7 @@ EOT;
     {
         $df = new \ILIAS\Data\Factory();
         return new \ILIAS\UI\Implementation\Component\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             $this->signal_generator,
             $df,

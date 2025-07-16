@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Export\ExportHandler\I\Info\Export\Container;
 
 use ILIAS\Data\ObjectId;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfigCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\CollectionInterface as ilExportHandlerExportInfoCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Container\HandlerInterface as ilExportHandlerContainerExportInfoInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Container\ObjectId\CollectionInterface as ilExportHandlerContainerExportInfoObjectIdCollectionInterface;
@@ -39,6 +40,12 @@ interface HandlerInterface
     public function withTimestamp(
         int $timestamp
     ): ilExportHandlerContainerExportInfoInterface;
+
+    public function withExportConfigs(
+        ExportConfigCollectionInterface $export_configs
+    ): ilExportHandlerContainerExportInfoInterface;
+
+    public function getExportConfigs(): ExportConfigCollectionInterface;
 
     public function getTimestamp(): int;
 

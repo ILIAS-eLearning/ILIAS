@@ -13,30 +13,20 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
-
-declare(strict_types=1);
+ */
 
 namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
- * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface HasDynamicInputs extends FormInput
+interface TreeMultiSelect extends FormInput
 {
     /**
-     * Returns the instance of Field which should be used to generate
-     * dynamic inputs on clientside.
+     * Get an input like this, but allow the selection of child-nodes under an already
+     * selected parent node. By default, such sub-nodes cannot be selected anymore.
      */
-    public function getTemplateForDynamicInputs(): FormInput;
-
-    /**
-     * Returns serverside generated dynamic Inputs, which happens when
-     * providing this withValue()
-     * @return FormInput[]
-     */
-    public function getDynamicInputs(): array;
+    public function withSelectChildNodes(bool $is_allowed): static;
 }

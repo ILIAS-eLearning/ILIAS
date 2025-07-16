@@ -15,11 +15,16 @@
  *********************************************************************/
 
 import document from 'document';
-import ResizeObserver from 'ResizeObserver';
 import $ from 'jquery';
 import il from 'ilias';
 import DrilldownFactory from './drilldown.factory.js';
+import JQueryEventListener from '../../Core/src/JQueryEventListener.js';
 
 il.UI = il.UI || {};
 il.UI.menu = il.UI.menu || {};
-il.UI.menu.drilldown = new DrilldownFactory(document, ResizeObserver, $, il);
+il.UI.menu.drilldown = new DrilldownFactory(
+  new JQueryEventListener($),
+  document.defaultView.ResizeObserver,
+  document,
+  il,
+);

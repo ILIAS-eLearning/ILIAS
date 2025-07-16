@@ -1,0 +1,34 @@
+<div class="c-input-tree_select">
+    <dialog class="c-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button data-action="close" type="button" class="close" aria-label="{CLOSE_LABEL}"><span aria-hidden="true">&times;</span></button>
+                    <h1 class="modal-title">{LABEL}</h1>
+                </div>
+                <div class="modal-body">
+                    <template>{BREADCRUMB_TEMPLATE}</template>
+                    {BREADCRUMBS}
+                    {DRILLDOWN}
+                </div>
+                <div class="modal-footer">
+                    <button data-action="close" type="button" class="btn btn-default" aria-label="{CLOSE_LABEL}">{CLOSE_LABEL}</button>
+                    <button data-action="close" type="button" class="btn btn-primary" aria-label="{SELECT_LABEL}">{SELECT_LABEL}</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+    <ul class="c-input-tree_select__selection">
+        <template>
+            <!-- BEGIN with_value_template -->
+            <li data-node-id="{NODE_ID}">
+                <span data-node-name>{NODE_NAME}</span>
+                <button data-action="remove" type="button" class="close" aria-label="{UNSELECT_NODE_LABEL}"><span aria-hidden="true">&times;</span></button>
+                {INPUT_TEMPLATE}
+            </li>
+            <!-- END with_value_template -->
+        </template>
+        <!-- BEGIN with_value -->{VALUE}<!-- END with_value -->
+    </ul>
+    <input id="{ID}" type="button" aria-label="{SELECT_LABEL}" value="{SELECT_LABEL}"<!-- BEGIN disabled --> {DISABLED}<!-- END disabled -->>
+</div>

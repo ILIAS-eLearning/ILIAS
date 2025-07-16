@@ -61,7 +61,7 @@
 		"league/commonmark": "2.7.0",
 		"league/flysystem": "3.28.0",
 		"monolog/monolog": "^3.9",
-		"mustache/mustache": "^2.14",
+		"mustache/mustache": "^3.0",
 		"phpmailer/phpmailer": "^6.9",
 		"phpoffice/phpspreadsheet": "^3.5",
 		"pimple/pimple" : "^3.0",

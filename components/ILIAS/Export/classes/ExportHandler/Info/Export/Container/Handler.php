@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Export\ExportHandler\Info\Export\Container;
 
 use ILIAS\Data\ObjectId;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfigCollectionInterface;
 use ILIAS\Export\ExportHandler\I\FactoryInterface as ilExportHandlerFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\CollectionInterface as ilExportHandlerExportInfoCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Container\HandlerInterface as ilExportHandlerContainerExportInfoInterface;
@@ -37,6 +38,7 @@ class Handler implements ilExportHandlerContainerExportInfoInterface
     protected ilExportHandlerFactoryInterface $export_handler;
     protected ilExportHandlerExportInfoInterface $main_entity_export_info;
     protected ilExportHandlerExportInfoCollectionInterface $export_infos;
+    protected ExportConfigCollectionInterface $export_configs;
     protected int $timestamp;
 
     public function __construct(
@@ -78,7 +80,8 @@ class Handler implements ilExportHandlerContainerExportInfoInterface
         )
             ->withSetNumber(1)
             ->withReuseExport(false)
-            ->withContainerExportInfo($this);
+            ->withContainerExportInfo($this)
+            ->withExportConfigs($this->getExportConfigs());
         $set_id = 2;
         $this->export_infos = $this->export_handler->info()->export()->collection();
         $repository = $this->export_handler->repository();
@@ -93,9 +96,10 @@ class Handler implements ilExportHandlerContainerExportInfoInterface
                 : $this->getTimestamp();
             $this->export_infos = $this->export_infos->withElement(
                 $this->getExportInfo($object_id, $timestamp)
-                ->withSetNumber($set_id++)
-                ->withContainerExportInfo($this)
-                ->withReuseExport($object_id_handler->getReuseExport())
+                    ->withSetNumber($set_id++)
+                    ->withContainerExportInfo($this)
+                    ->withReuseExport($object_id_handler->getReuseExport())
+                    ->withExportConfigs($this->getExportConfigs())
             );
         }
     }
@@ -122,6 +126,19 @@ class Handler implements ilExportHandlerContainerExportInfoInterface
         $clone = clone $this;
         $clone->timestamp = $timestamp;
         return $clone;
+    }
+
+    public function withExportConfigs(
+        ExportConfigCollectionInterface $export_configs
+    ): ilExportHandlerContainerExportInfoInterface {
+        $clone = clone $this;
+        $clone->export_configs = $export_configs;
+        return $clone;
+    }
+
+    public function getExportConfigs(): ExportConfigCollectionInterface
+    {
+        return $this->export_configs;
     }
 
     public function getTimestamp(): int
