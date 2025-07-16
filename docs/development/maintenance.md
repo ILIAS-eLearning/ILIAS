@@ -1739,13 +1739,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Webservices)
 
 * **Webservices**
-    * Authority to Sign off on Conceptual Changes: [sagun](https://docu.ilias.de/go/usr/11294), [Jephte](https://docu.ilias.de/go/usr/70542)
-    * Authority to Sign off on Code Changes: [sagun](https://docu.ilias.de/go/usr/11294), [Jephte](https://docu.ilias.de/go/usr/70542)
-    * Authority to Curate Test Cases: [sagun](https://docu.ilias.de/go/usr/11294), [Jephte](https://docu.ilias.de/go/usr/70542)
+    * Authority to Sign off on Conceptual Changes: [sagun](https://docu.ilias.de/go/usr/112949), [Jephte](https://docu.ilias.de/go/usr/70542)
+    * Authority to Sign off on Code Changes: [sagun](https://docu.ilias.de/go/usr/112949), [Jephte](https://docu.ilias.de/go/usr/70542)
+    * Authority to Curate Test Cases: [sagun](https://docu.ilias.de/go/usr/112949), [Jephte](https://docu.ilias.de/go/usr/70542)
     * Authority to (De-)Assign Authorities: [Jephte](https://docu.ilias.de/go/usr/70542)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
-    * Assignee for Security Reports: [sagun](https://docu.ilias.de/go/usr/11294), [Jephte](https://docu.ilias.de/go/usr/70542)
-    * Assignee for Security Issues: [sagun](https://docu.ilias.de/go/usr/11294), [Jephte](https://docu.ilias.de/go/usr/70542)
+    * Assignee for Security Reports: [sagun](https://docu.ilias.de/go/usr/112949), [Jephte](https://docu.ilias.de/go/usr/70542)
+    * Assignee for Security Issues: [sagun](https://docu.ilias.de/go/usr/112949), [Jephte](https://docu.ilias.de/go/usr/70542)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Webservices)
