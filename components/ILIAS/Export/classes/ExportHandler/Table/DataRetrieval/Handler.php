@@ -24,13 +24,13 @@ use Generator;
 use ilExportGUI;
 use ILIAS\Data\Order as ilDataOrder;
 use ILIAS\Data\Range as ilDataRange;
-use ilLanguage;
 use ILIAS\Export\ExportHandler\I\Consumer\ExportOption\CollectionInterface as ilExportHandlerConsumerExportOptionCollectionInterface;
 use ILIAS\Export\ExportHandler\I\FactoryInterface as ilExportHandlerFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Info\File\HandlerInterface as ilExportHandlerFileInfoInterface;
 use ILIAS\Export\ExportHandler\I\Table\DataRetrieval\HandlerInterface as ilExportHandlerTableDataRetrievalInterface;
 use ILIAS\Export\ExportHandler\I\Table\HandlerInterface as ilExportHandlerTableInterface;
 use ILIAS\UI\Component\Table\DataRowBuilder as ilTableDataRowBuilderInterface;
+use ilLanguage;
 use ilObject;
 
 class Handler implements ilExportHandlerTableDataRetrievalInterface

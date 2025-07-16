@@ -93,7 +93,13 @@ $il-standard-page-system-info-color-variant-breaking: darken($il-danger-color, 1
     flex-basis: auto;
     overflow: hidden;
 
-    span.il-system-info-headline {
+    // System Info Content may contain HTML, so we need to use divs instead of spans. with this, we display the content
+    // inline as it was using spans.
+    div.il-system-info-headline, div.il-system-info-body {
+      display: inline;
+    }
+
+    div.il-system-info-headline {
       text-transform: $il-standard-page-system-info-headline-transform;
       font-weight: $il-standard-page-system-info-headline-font-weight;
       margin-right: $il-margin-base-horizontal;

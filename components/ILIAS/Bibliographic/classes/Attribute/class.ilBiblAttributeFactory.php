@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -21,13 +22,11 @@
  */
 class ilBiblAttributeFactory implements ilBiblAttributeFactoryInterface
 {
-    protected \ilBiblFieldFactoryInterface $field_factory;
     protected ilDBInterface $db;
 
-    public function __construct(ilBiblFieldFactoryInterface $field_factory)
+    public function __construct(protected \ilBiblFieldFactoryInterface $field_factory)
     {
         global $DIC;
-        $this->field_factory = $field_factory;
         $this->db = $DIC->database();
     }
 
@@ -61,9 +60,18 @@ WHERE a.name = %s AND d.id = %s";
         return ilBiblAttribute::where(['entry_id' => $entry->getId()])->get();
     }
 
-    /**
-     * @inheritDoc
-     */
+    public function sortAttributesArray(array $attributes): array
+    {
+        $type_id = $this->field_factory->getType()->getId();
+        uksort($attributes, function ($key_a, $key_b) use ($type_id): int {
+            $field_a = $this->field_factory->findOrCreateFieldByTypeAndIdentifier($type_id, $key_a);
+            $field_b = $this->field_factory->findOrCreateFieldByTypeAndIdentifier($type_id, $key_b);
+
+            return $field_a->getPosition() - $field_b->getPosition();
+        });
+
+        return $attributes;
+    }
     public function sortAttributes(array $attributes): array
     {
         $sorted = [];

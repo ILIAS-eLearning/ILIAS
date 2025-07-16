@@ -356,7 +356,8 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->setLockedEdit($orig->isLockedEdit());
         $this->setRequiredCreate($orig->isRequiredCreate());
         $this->setRequiredEdit($orig->isRequiredEdit());
-        $this->setFilterValue($orig->getFilterValue());
+        $filter_value = $orig->getFilterValue();
+        $this->setFilterValue($filter_value['filter_' . $orig->getField()] ?? $filter_value);
         $this->setVisible($orig->isVisibleInList());
         $this->create();
         return $this->getId();

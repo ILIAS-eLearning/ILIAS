@@ -3363,6 +3363,7 @@ class ilObjectListGUI
             case 'htlm':
             case 'exc':
             case 'svy':
+            case 'mcst':
             case 'file':
             case 'crs':
                 $gui_class = 'ilObj' . $this->obj_definition->getClassName($this->type) . 'GUI';

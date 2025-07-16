@@ -195,6 +195,20 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
                 break;
 
+            case 'ilassspecfeedbackpagegui':
+            case 'ilassgenfeedbackpagegui':
+                $id = $this->testrequest->int('pg_id');
+                if ($this->ctrl->getCmd() !== 'displayMediaFullscreen'
+                    || $id === 0) {
+                    break;
+                }
+
+                (new ilPageObjectGUI(
+                    $next_class === 'ilassgenfeedbackpagegui' ? 'qfbg' : 'qfbs',
+                    $id
+                ))->displayMediaFullscreen();
+                break;
+
             case 'iltestpasswordprotectiongui':
                 $this->checkTestExecutable();
 
@@ -873,6 +887,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      */
     public function autosaveCmd(): void
     {
+        if (!$this->access->checkAccess('read', '', $this->ref_id)) {
+            echo $this->lng->txt('autosave_failed') . ': ' . $this->lng->txt('msg_no_perm_read_item');
+            exit;
+        }
         $test_can_run = $this->object->isExecutable($this->test_session, $this->test_session->getUserId());
         if (!$test_can_run['executable']) {
             echo $test_can_run['errormessage'];

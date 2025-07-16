@@ -217,10 +217,23 @@ class Renderer extends AbstractComponentRenderer
             $component->getAdditionalParameters()
         );
 
+        // these column counts and index numbers are meant for aria attributes in the html tpl
+        $compensate_col_index = 1; // aria-colindex expects counting to start with 1, not 0
+        if ($component->hasMultiActions()) { // adds column with checkbox before first data column which is numbered 1.
+            $compensate_col_index += 1;
+        }
+        $compensate_col_count = 0; // count starts with 1, only needs to be compensated for special columns
+        if ($component->hasMultiActions()) {
+            $compensate_col_count += 1;
+        }
+        if ($component->hasSingleActions()) { // adds column with action dropdown at the very end
+            $compensate_col_count += 1;
+        }
+
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
         $tpl->setVariable('TITLE', $component->getTitle());
-        $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
+        $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount() + $compensate_col_count);
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($view_controls));
 
         $sortation_signal = null;
@@ -228,7 +241,7 @@ class Renderer extends AbstractComponentRenderer
         if (!$rows->valid()) {
             $this->renderFullWidthDataCell($component, $tpl, $this->txt('ui_table_no_records'));
         } else {
-            $this->renderActionsHeader($default_renderer, $component, $tpl);
+            $this->renderActionsHeader($default_renderer, $component, $tpl, $compensate_col_count);
             $this->appendTableRows($tpl, $rows, $default_renderer);
 
             if ($component->hasMultiActions()) {
@@ -239,8 +252,8 @@ class Renderer extends AbstractComponentRenderer
                     $component->getMultiActionSignal(),
                     $modal->getShowSignal()
                 );
-                $total_number_of_cols = count($component->getVisibleColumns()) + 2; // + selection column and action dropdown column
-                $tpl->setVariable('COLUMN_COUNT', (string) $total_number_of_cols);
+                $multi_action_col_span = count($component->getVisibleColumns()) + $compensate_col_count;
+                $tpl->setVariable('MULTI_ACTION_SPAN', (string) $multi_action_col_span);
                 $tpl->setVariable('MULTI_ACTION_TRIGGERER', $default_renderer->render($multi_actions_dropdown));
                 $tpl->setVariable('MULTI_ACTION_ALL_MODAL', $default_renderer->render($modal));
             }
@@ -255,7 +268,7 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal);
+        $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal, $compensate_col_index);
         return $tpl->get();
     }
 
@@ -263,7 +276,8 @@ class Renderer extends AbstractComponentRenderer
         RendererInterface $default_renderer,
         Component\Table\Data $component,
         Template $tpl,
-        ?Component\Signal $sortation_signal
+        ?Component\Signal $sortation_signal,
+        int $compensate_col_index,
     ): void {
         $order = $component->getOrder();
         $glyph_factory = $this->getUIFactory()->symbol()->glyph();
@@ -276,18 +290,19 @@ class Renderer extends AbstractComponentRenderer
             $col_title = $col->getTitle();
             if ($col_id === $sort_col) {
                 if ($sort_direction === Order::ASC) {
-                    $sortation = $this->txt('order_option_generic_ascending');
+                    $sortation = "ascending"; // aria-sort should not be translated and always be in English
                     $sortation_glyph = $glyph_factory->sortAscending("#");
                     $param_sort_direction = Order::DESC;
                 }
                 if ($sort_direction === Order::DESC) {
-                    $sortation = $this->txt('order_option_generic_descending');
+                    $sortation = "descending"; // aria-sort should not be translated and always be in English
                     $sortation_glyph = $glyph_factory->sortDescending("#");
                 }
             }
 
             $tpl->setCurrentBlock('header_cell');
-            $tpl->setVariable('COL_INDEX', (string) $col->getIndex());
+
+            $tpl->setVariable('COL_INDEX', (string) $col->getIndex() + $compensate_col_index);
 
             if ($col->isSortable() && !is_null($sortation_signal)) {
                 $sort_signal = clone $sortation_signal;
@@ -312,10 +327,11 @@ class Renderer extends AbstractComponentRenderer
     protected function renderActionsHeader(
         RendererInterface $default_renderer,
         Component\Table\Table $component,
-        Template $tpl
+        Template $tpl,
+        int $compensate_col_count,
     ): void {
         if ($component->hasSingleActions()) {
-            $tpl->setVariable('COL_INDEX_ACTION', (string) count($component->getColumns()));
+            $tpl->setVariable('COL_INDEX_ACTION', (string) $component->getColumnCount() + $compensate_col_count);
             $tpl->setVariable('COL_TITLE_ACTION', $this->txt('actions'));
         }
 
@@ -329,6 +345,12 @@ class Renderer extends AbstractComponentRenderer
             $select_none = $glyph_factory->close()->withOnClick($signal);
             $tpl->setVariable('SELECTION_CONTROL_SELECT', $default_renderer->render($select_all));
             $tpl->setVariable('SELECTION_CONTROL_DESELECT', $default_renderer->render($select_none));
+        }
+
+        if ($component instanceof Component\Table\Ordering) {
+            if (!$component->isOrderingDisabled() && !$component->hasMultiActions()) {
+                $tpl->touchBlock('header_rowselection_cell');
+            }
         }
     }
 
@@ -528,9 +550,6 @@ class Renderer extends AbstractComponentRenderer
         $cell_tpl = $this->getTemplate("tpl.orderingcell.html", true, true);
         $this->fillCells($component, $cell_tpl, $default_renderer);
 
-        $drag_handle = $this->getUIFactory()->symbol()->glyph()->dragHandle();
-        $drag_handle = $default_renderer->render($drag_handle);
-        $cell_tpl->setVariable('DRAG_HANDLE', $drag_handle);
 
         if ($component->isOrderingDisabled()) {
             return $cell_tpl->get();
@@ -570,7 +589,6 @@ class Renderer extends AbstractComponentRenderer
             }
             $cell_tpl->setCurrentBlock('cell');
             $cell_tpl->setVariable('COL_TYPE', strtolower($column->getType()));
-            $cell_tpl->setVariable('COL_INDEX', $column->getIndex());
             $cell_content = $row->getCellContent($col_id);
             if ($cell_content instanceof Component\Component) {
                 $cell_content = $default_renderer->render($cell_content);
@@ -589,6 +607,14 @@ class Renderer extends AbstractComponentRenderer
                 $row->getActions()
             );
             $cell_tpl->setVariable('ACTION_CONTENT', $default_renderer->render($row_actions_dropdown));
+        }
+
+        if ($row instanceof Component\Table\OrderingRow) {
+            if (!$row->isOrderingDisabled()) {
+                $drag_handle = $this->getUIFactory()->symbol()->glyph()->dragHandle();
+                $drag_handle = $default_renderer->render($drag_handle);
+                $cell_tpl->setVariable('DRAG_HANDLE', $drag_handle);
+            }
         }
     }
 
@@ -630,35 +656,50 @@ class Renderer extends AbstractComponentRenderer
             );
         }
 
+        // these column counts and index numbers are meant for aria attributes in the html tpl
+        $compensate_col_index = 1; // aria-colindex expects counting to start with 1, not 0
+        // for column with checkbox and/or drag handle before first data column which is numbered 1.
+        if ($component->hasMultiActions() || !$component->isOrderingDisabled()) {
+            $compensate_col_index += 1; // checkbox & drag handle
+        }
+        if (!$component->isOrderingDisabled()) {
+            $compensate_col_index += 1; // Position input
+        }
+
+        $compensate_col_count = 0; // count starts with 1, only needs to be compensated for special columns
+        if ($component->hasMultiActions() || !$component->isOrderingDisabled()) {
+            $compensate_col_count += 1; // checkbox & drag handle
+        }
+        if (!$component->isOrderingDisabled()) {
+            $compensate_col_count += 1; // Position input
+        }
+        if ($component->hasSingleActions()) { // adds column with action dropdown at the very end
+            $compensate_col_count += 1;
+        }
+
         $tableid = $this->bindJavaScript($component) ?? $this->createId();
-        $total_number_of_cols = count($component->getVisibleColumns());
 
         if (!$component->isOrderingDisabled()) {
-            $total_number_of_cols = $total_number_of_cols + 1;
             $submit = $this->getUIFactory()->button()->standard($this->txt('sorting_save'), "")
                 ->withOnLoadCode(static fn($id) => "document.getElementById('$id').addEventListener('click',
                     function() {document.querySelector('#$tableid form.c-table-ordering__form').submit();return false;});");
 
             $tpl->setVariable('FORM_BUTTONS', $default_renderer->render($submit));
             $tpl->setVariable('POS_INPUT_TITLE', $this->txt('table_posinput_col_title'));
-        }
 
-        if (!$component->hasMultiActions()) {
-            $tpl->touchBlock('header_rowselection_ordering_no_multi_actions');
         }
 
         $tpl->setVariable('ID', $tableid);
         $tpl->setVariable('TARGET_URL', $component->getTargetURL() ? $component->getTargetURL()->__toString() : '#');
         $tpl->setVariable('TITLE', $component->getTitle());
-        $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
+        $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount() + $compensate_col_count);
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($view_controls));
-
 
         $columns = $component->getVisibleColumns();
         foreach ($columns as $col_id => $col) {
             $col_title = $col->getTitle();
             $tpl->setCurrentBlock('header_cell');
-            $tpl->setVariable('COL_INDEX', (string) $col->getIndex());
+            $tpl->setVariable('COL_INDEX', (string) $col->getIndex() + $compensate_col_index);
             $tpl->setVariable('COL_TITLE', $col_title);
             $tpl->setVariable('COL_TYPE', strtolower($col->getType()));
             $tpl->parseCurrentBlock();
@@ -672,11 +713,10 @@ class Renderer extends AbstractComponentRenderer
                 ->withOrderingDisabled($component->isOrderingDisabled());
         }
 
-        $this->renderActionsHeader($default_renderer, $component, $tpl);
+        $this->renderActionsHeader($default_renderer, $component, $tpl, $compensate_col_count);
         $this->appendTableRows($tpl, $r, $default_renderer);
 
         if ($component->hasMultiActions()) {
-            $total_number_of_cols = $total_number_of_cols + 2;
             $multi_actions = $component->getMultiActions();
             $modal = $this->buildMultiActionsAllObjectsModal($multi_actions, $tableid);
             $multi_actions_dropdown = $this->buildMultiActionsDropdown(
@@ -684,11 +724,15 @@ class Renderer extends AbstractComponentRenderer
                 $component->getMultiActionSignal(),
                 $modal->getShowSignal()
             );
+
             $tpl->setVariable('MULTI_ACTION_TRIGGERER', $default_renderer->render($multi_actions_dropdown));
             $tpl->setVariable('MULTI_ACTION_ALL_MODAL', $default_renderer->render($modal));
         }
+        if ($component->hasMultiActions() || !$component->isOrderingDisabled()) {
+            $multi_action_col_span = count($component->getVisibleColumns()) + $compensate_col_count;
+            $tpl->setVariable('MULTI_ACTION_SPAN', (string) $multi_action_col_span);
+        }
 
-        $tpl->setVariable('COLUMN_COUNT', (string) $total_number_of_cols);
         return $tpl->get();
     }
 

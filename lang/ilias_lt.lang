@@ -742,12 +742,11 @@ assessment#:#finalized_evaluation#:#Scoring completed###07 02 2020 new variable
 assessment#:#finalized_on#:#Completed at###07 02 2020 new variable
 assessment#:#finish_all_user_passes#:#Finish all test Passes###25 10 2016 new variable
 assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test passes for all Users?###25 10 2016 new variable
-assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.###26 08 2024 new variable
+assessment#:#finish_pass_for_multiple_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.###26 08 2024 new variable
 assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test pass?###25 10 2016 new variable
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).###26 08 2024 new variable
 assessment#:#finish_test#:#Baigti testą
 assessment#:#finish_test_all#:#Are you sure you want to finish the test attempts for all users?###28 10 2024 new variable
-assessment#:#finish_test_more_than_one_selected#:#Only a single participant may be selected to finish the pass if the test allows only one pass.###21 05 2025 new variable
 assessment#:#finish_test_multiple#:#Are you sure you want to finish the test attempts for the following participants?###28 10 2024 new variable
 assessment#:#finish_test_no_valid_participants_selected#:#There are no active test runs for the selected participants, so they cannot be completed.###21 05 2025 new variable
 assessment#:#finish_test_single#:#Are you sure you want to finish the test attempt for the participant "%s"?###28 10 2024 new variable

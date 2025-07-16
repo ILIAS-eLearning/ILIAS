@@ -23,16 +23,22 @@ il.repository.ui = (function(il, $) {
     }).then(response => {
       response.text().then(text => {
           if (replace) {
+            // this keeps the dialog open (full replacement would close)
             const marker = "component";
             var $new_content = $("<div>" + text + "</div>");
             var $marked_new_content = $new_content.find("[data-replace-marker='" + marker + "']").first();
-
             if ($marked_new_content.length == 0) {
-
               // if marker does not come with the new content, we put the new content into the existing element
               $(replace).html(text);
-
             } else {
+
+              // get new id of the root and set it
+              const tpl = document.createElement('template');
+              tpl.innerHTML = text.trim();
+              const id = tpl.content.firstElementChild?.id ?? null;
+              if (id) {
+                replace.id = id;
+              }
 
               // if marker is in new content, we replace the complete old node with the marker
               // with the new marked node
@@ -50,23 +56,16 @@ il.repository.ui = (function(il, $) {
   };
 
   const initForms = function () {
-    document.querySelectorAll("form[data-rep-modal-form='async']:not([data-rep-form-initialised='1'])").forEach(f => {
-      f.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const modal = f.closest(".c-modal");
-        sendAsync(f, modal);
-      });
-      f.querySelectorAll(".c-form__actions").forEach(b => {
-        b.style.display='none';
-      });
-      f.dataset.repFormInitialised = '1';
-    });
-    document.querySelectorAll("form[data-rep-modal-form='sync']:not([data-rep-form-initialised='1'])").forEach(f => {
-      f.querySelectorAll(".c-form__actions").forEach(b => {
-        b.style.display='none';
-      });
-      f.dataset.repFormInitialised = '1';
-    });
+  };
+
+  const initModal = function (id) {
+    const modal = document.getElementById(id);
+    const buttons = modal.querySelectorAll('.modal-footer button');
+    if (buttons.length >= 2) {
+      const penultimate = buttons[buttons.length - 2];
+      penultimate.remove();
+    }
+    modal.dataset.modalInitialised = '1';
   };
 
   const init = function() {
@@ -74,9 +73,7 @@ il.repository.ui = (function(il, $) {
   };
 
   const submitModalForm = function(event, sentAsync) {
-    console.log("one");
     const f = event.target.closest(".c-modal").querySelector(".modal-body").querySelector("form");
-    console.log(f);
     const modal = f.closest(".c-modal");
     if (sentAsync) {
       sendAsync(f, modal);
@@ -87,7 +84,8 @@ il.repository.ui = (function(il, $) {
 
   return {
     init: init,
-    submitModalForm: submitModalForm
+    submitModalForm: submitModalForm,
+    initModal: initModal,
   };
 }(il, $));
 
@@ -246,6 +244,11 @@ il.repository.core = (function() {
 
   function fetchUrl(url = '', params = {}, args = {}, success_cb = null) {
     let fetch_url = getFetchUrl(url);
+    let url_params = new URLSearchParams(fetch_url.search.slice(1));
+    for (const [key, value] of Object.entries(params)) {
+      url_params.append(key, value);
+    }
+    fetch_url.search = url_params;
     let config = {
       method: 'GET',
       mode: 'same-origin',

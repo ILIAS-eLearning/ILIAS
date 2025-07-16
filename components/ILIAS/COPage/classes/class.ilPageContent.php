@@ -36,11 +36,11 @@ abstract class ilPageContent
     public ?DOMNode $dom_node = null;
     public string $page_lang = "";
     // needed for post processing (e.g. content includes)
-    protected string $file_download_link;
+    protected string $file_download_link = '';
     // needed for post processing (e.g. content includes)
-    protected string $fullscreen_link;
+    protected string $fullscreen_link = '';
     // needed for post processing (e.g. content includes)
-    protected string $sourcecode_download_script;
+    protected string $sourcecode_download_script = '';
     protected ilLogger $log;
     protected string $profile_back_url = "";
 

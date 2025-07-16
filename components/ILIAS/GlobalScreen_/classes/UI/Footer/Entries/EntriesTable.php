@@ -18,6 +18,8 @@
 
 namespace ILIAS\GlobalScreen\UI\Footer\Entries;
 
+use ILIAS\GlobalScreen\Scope\Footer\Collector\FooterMainCollector;
+use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\UI\Factory;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\GlobalScreen_\UI\Translator;
@@ -43,6 +45,8 @@ class EntriesTable implements OrderingBinding
     private Factory $ui_factory;
     private ServerRequestInterface $request;
     private ?URLBuilderToken $id_token = null;
+    private FooterMainCollector $collector;
+    private IdentificationFactory $identification;
 
     public function __construct(
         private readonly Group $group,
@@ -53,6 +57,8 @@ class EntriesTable implements OrderingBinding
         global $DIC;
         $this->ui_factory = $DIC->ui()->factory();
         $this->request = $DIC->http()->request();
+        $this->collector = $DIC->globalScreen()->collector()->footer();
+        $this->identification = $DIC->globalScreen()->identification();
     }
 
     public function getRows(OrderingRowBuilder $row_builder, array $visible_column_ids): \Generator
@@ -61,7 +67,15 @@ class EntriesTable implements OrderingBinding
         $nok = $this->nok($this->ui_factory);
 
         foreach ($this->repository->allForParent($this->group->getId()) as $entry) {
-            $title = $this->translations_repository->get($entry)->getDefault()?->getTranslation() ?? $entry->getTitle();
+            if ($entry->isCore()) {
+                $title = $this->collector->getSingleItemFromRaw(
+                    $this->identification->fromSerializedIdentification($entry->getId()),
+                )->getTitle();
+            } else {
+                $title = $this->translations_repository->get($entry)->getDefault()?->getTranslation(
+                ) ?? $entry->getTitle();
+            }
+
             $row = $row_builder->buildOrderingRow(
                 $this->hash($entry->getId()),
                 [

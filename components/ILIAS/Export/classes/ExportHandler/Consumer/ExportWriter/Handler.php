@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Export\ExportHandler\Consumer\ExportWriter;
 
 use ILIAS\Data\ObjectId;
+use ILIAS\Dataset\IRSSContainerExportConfig;
 use ILIAS\Export\ExportHandler\I\Consumer\ExportWriter\HandlerInterface as ilExportHandlerConsumerExportWriterInterface;
 use ILIAS\Export\ExportHandler\I\Repository\Element\HandlerInterface as ilExportHandlerRepositoryElementInterface;
 use ILIAS\Export\ExportHandler\I\Repository\HandlerInterface as ilExportHandlerRepositoryInterface;
@@ -28,9 +29,6 @@ use ILIAS\Export\ExportHandler\I\Repository\Key\FactoryInterface as ilExportHand
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
-use ILIAS\ResourceStorage\Resource\StorableContainerResource;
-use ILIAS\ResourceStorage\Resource\StorableResource;
-use ILIAS\Dataset\IRSSContainerExportConfig;
 
 class Handler implements ilExportHandlerConsumerExportWriterInterface
 {

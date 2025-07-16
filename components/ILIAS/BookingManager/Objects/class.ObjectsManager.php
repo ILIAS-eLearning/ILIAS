@@ -1,19 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\BookingManager\Objects;
 
@@ -133,11 +136,21 @@ class ObjectsManager
         );
     }
 
+    public function hasObjectInfo(int $booking_obj_id): bool
+    {
+        return $this->object_repo->hasObjectInfo($booking_obj_id);
+    }
+
     public function deliverObjectInfo(int $booking_obj_id): void
     {
         if ($this->object_repo->hasObjectInfo($booking_obj_id)) {
             $this->object_repo->deliverObjectInfo($booking_obj_id);
         }
+    }
+
+    public function hasBookingInfo(int $booking_obj_id): bool
+    {
+        return $this->object_repo->hasBookingInfo($booking_obj_id);
     }
 
     public function deliverBookingInfo(int $booking_obj_id): void
@@ -164,7 +177,7 @@ class ObjectsManager
         }
     }
 
-    public function deleteBookingInfo(int $booking_obj_id): string
+    public function deleteBookingInfo(int $booking_obj_id): void
     {
         if ($this->object_repo->hasBookingInfo($booking_obj_id)) {
             $this->object_repo->deleteBookingInfo($booking_obj_id);
@@ -181,12 +194,12 @@ class ObjectsManager
         }
     }
 
-    public function getObjectInfoPath(int $booking_object_id): int
+    public function getObjectInfoPath(int $booking_object_id): string
     {
         return $this->object_repo->getObjectInfoPath($booking_object_id);
     }
 
-    public function getBookingInfoPath(int $booking_object_id): int
+    public function getBookingInfoPath(int $booking_object_id): string
     {
         return $this->object_repo->getBookingInfoPath($booking_object_id);
     }

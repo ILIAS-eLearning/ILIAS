@@ -109,7 +109,7 @@ class ilLTIConsumerResult
         $this->id = (int) $data['id'];
         $this->obj_id = (int) $data['obj_id'];
         $this->usr_id = (int) $data['usr_id'];
-        $this->result = (float) $data['result'];
+        $this->result = $data['result'] == null ? null : (float) $data['result'];
     }
 
     /**

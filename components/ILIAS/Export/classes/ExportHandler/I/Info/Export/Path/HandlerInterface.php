@@ -30,7 +30,19 @@ interface HandlerInterface
         string $path_to_component_dir
     ): HandlerInterface;
 
+    public function withSetNumber(
+        int $set_number
+    ): HandlerInterface;
+
+    public function withIsContainerExport(
+        bool $is_contianer_export
+    ): HandlerInterface;
+
     public function getPathToComponentExpDirInContainer(): string;
 
     public function getPathToComponentDirInContainer(): string;
+
+    public function getSetNumber(): int;
+
+    public function isContainerExport(): bool;
 }

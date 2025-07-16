@@ -20,9 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\Delivery;
 
+use ILIAS\HTTP\Services;
+use Psr\Http\Message\ResponseInterface;
 use ILIAS\FileDelivery\Token\DataSigner;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
-use ILIAS\FileDelivery\Token\Data\Stream;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileDelivery\Token\Signer\Payload\FilePayload;
 use ILIAS\Filesystem\Stream\Streams;
@@ -38,7 +39,7 @@ final class StreamDelivery extends BaseDelivery
 
     public function __construct(
         private DataSigner $data_signer,
-        \ILIAS\HTTP\Services $http,
+        Services $http,
         ResponseBuilder $response_builder,
         ResponseBuilder $fallback_response_builder,
     ) {
@@ -46,11 +47,9 @@ final class StreamDelivery extends BaseDelivery
     }
 
     /**
-     * @param \Psr\Http\Message\ResponseInterface $r
-     * @return void
      * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
      */
-    protected function notFound(\Psr\Http\Message\ResponseInterface $r): void
+    private function notFound(ResponseInterface $r): void
     {
         $this->http->saveResponse($r->withStatus(404));
         $this->http->sendResponse();

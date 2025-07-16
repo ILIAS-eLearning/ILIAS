@@ -19,13 +19,19 @@ il.Wiki.Pres = {
 
 	performHTMLExportWithComments: function() {
 		const t = il.Wiki.Pres;
+		console.log("performHTMLExportWithComments");
 		t.performHTMLExport(1);
 	},
 
 	performHTMLExport: function(with_comments = 0) {
 		const t = il.Wiki.Pres;
 		t.with_comments = with_comments;
-		$("<div id='il_wiki_export_progress'></div>").insertAfter("#il_wiki_user_export");
+		console.log("performHTMLExport" + with_comments);
+		if (document.getElementById('il_wiki_user_export')) {
+			$("<div id='il_wiki_export_progress'></div>").insertAfter("#il_wiki_user_export");
+		} else {
+			$("<div id='il_wiki_export_progress'></div>").insertAfter("#il_wiki_user_export2");
+		}
 		t.startHTMLExport();
 	},
 
@@ -43,13 +49,14 @@ il.Wiki.Pres = {
 			with_comments: t.with_comments
 		};
 
-		il.Util.sendAjaxGetRequestToUrl(t.url + "&cmd=initUserHTMLExport", par, {}, function (o) {
+		console.log("startHTMLExport" + t.with_comments);
+		il.repository.core.fetchUrl(t.url + "&cmd=initUserHTMLExport", par, {}, function (o) {
 			var t = il.Wiki.Pres;
-			console.log(o.responseText);
-			if (o.responseText == 2) {
+			console.log(o.text);
+			if (o.text == 2) {
 				window.location.href = t.url + "&cmd=" + t.getDownloadCommand();
 			} else {
-				il.Util.sendAjaxGetRequestToUrl(t.url + "&cmd=startUserHTMLExport", par, {}, function () {
+				il.repository.core.fetchUrl(t.url + "&cmd=startUserHTMLExport", par, {}, function () {
 				});
 				var t = il.Wiki.Pres;
 				t.updateProgress();
@@ -63,14 +70,14 @@ il.Wiki.Pres = {
 			with_comments: t.with_comments
 		};
 
-		il.Util.sendAjaxGetRequestToUrl(t.url + "&cmd=getUserHTMLExportProgress", par, {}, t.ajaxProgressSuccess);
+		il.repository.core.fetchUrl(t.url + "&cmd=getUserHTMLExportProgress", par, {}, t.ajaxProgressSuccess);
 	},
 
 	ajaxProgressSuccess: function (o) {
 		var t = il.Wiki.Pres;
 
-		if(o.responseText !== undefined) {
-			var s = JSON.parse(o.responseText);
+		if(o.text !== undefined) {
+			var s = JSON.parse(o.text);
 			$("#il_wiki_export_progress").html(s.progressBar);
 			if (s.status != 0) {
 				window.setTimeout(t.updateProgress, 1000);

@@ -16,12 +16,29 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
+namespace ILIAS\COPage\Setup;
 
-class ilDclException extends ilException
+class ilCOPageHotfix9DBUpdateSteps implements \ilDatabaseUpdateSteps
 {
-    public function __construct($a_message, $a_code = 0)
+    protected \ilDBInterface $db;
+
+    public function prepare(\ilDBInterface $db): void
     {
-        parent::__construct($a_message, $a_code);
+        $this->db = $db;
     }
+
+    public function step_1(): void
+    {
+        $this->db->modifyTableColumn(
+            'copg_section_timings',
+            'unix_ts',
+            [
+                'type' => 'integer',
+                'length' => 8,
+                'notnull' => true,
+                'default' => 0
+            ]
+        );
+    }
+
 }

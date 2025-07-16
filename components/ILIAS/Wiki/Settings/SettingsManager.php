@@ -26,11 +26,15 @@ use ILIAS\Wiki\InternalDomainService;
 
 class SettingsManager
 {
+    protected \ILIAS\Notes\Service $notes;
+
     public function __construct(
         protected InternalDataService $data,
         protected InternalRepoService $repo,
         protected InternalDomainService $domain
     ) {
+        global $DIC;
+        $this->notes = $DIC->notes();
     }
 
     public function create(Settings $settings): void
@@ -41,6 +45,7 @@ class SettingsManager
     public function update(Settings $settings): void
     {
         $this->repo->settings()->update($settings);
+        $this->notes->domain()->activateComments($settings->getId(), $settings->getPublicNotes());
     }
 
     public function getById(int $id): ?Settings

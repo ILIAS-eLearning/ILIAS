@@ -28,18 +28,18 @@ use ILIAS\UI\Component\Signal;
  */
 trait hasActionTrait
 {
-    protected URI|Signal $action;
+    protected URI|Signal|string $action;
 
     protected bool $open_in_new_viewport = false;
 
-    public function withAction(URI|Signal $action): self
+    public function withAction(URI|Signal|string $action): self
     {
         $clone = clone $this;
         $clone->action = $action;
         return $clone;
     }
 
-    public function getAction(): URI|Signal
+    public function getAction(): URI|Signal|string
     {
         return $this->action;
     }

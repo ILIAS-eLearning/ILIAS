@@ -527,4 +527,72 @@ EOT;
         $this->testWithDisabled($sg);
         $this->testWithAdditionalOnloadCodeRendersId($sg);
     }
+
+    public function testRenderWithDisabledGroupSwitch(): SG
+    {
+        $f = $this->buildFactory();
+        $label = "label";
+        $byline = "byline";
+
+        $group1 = $f->group([
+            "field_1" => $f->text("f", "some field")
+        ]);
+        $group2 = $f->group([
+            "field_2" => $f->text("f2", "some other field")
+        ]);
+
+        $sg = $f->switchableGroup(
+            [
+                "g1" => $group1,
+                "g2" => $group2
+            ],
+            $label,
+            $byline
+        )
+        ->withDisabledGroupSwitch(true)
+        ->withValue('g2');
+
+        $expected = <<<EOT
+<fieldset class="c-input" data-il-ui-component="switchable-group-field-input" data-il-ui-input-name="" tabindex="0">
+    <label>label</label>
+    <div class="c-input__field">
+        <fieldset class="c-input" data-il-ui-component="group-field-input" data-il-ui-input-name="" disabled="disabled">
+            <label for="id_1">
+                <input type="radio" id="id_1" value="g1" disabled/>
+                <span></span>
+            </label>
+            <div class="c-input__field">
+                <fieldset class="c-input" data-il-ui-component="text-field-input" data-il-ui-input-name="" disabled="disabled">
+                    <label for="id_2">f</label>
+                    <div class="c-input__field"><input id="id_2" type="text" class="c-field-text" /></div>
+                    <div class="c-input__help-byline">some field</div>
+                </fieldset>
+            </div>
+        </fieldset>
+        <fieldset class="c-input" data-il-ui-component="group-field-input" data-il-ui-input-name="">
+            <label for="id_3">
+                <input type="radio" id="id_3" value="g2" checked="checked" disabled/>
+                <span></span>
+                <input type="hidden" name="" value="g2" />
+            </label>
+            <div class="c-input__field">
+                <fieldset class="c-input" data-il-ui-component="text-field-input" data-il-ui-input-name=""><label
+                        for="id_4">f2</label>
+                    <div class="c-input__field"><input id="id_4" type="text" class="c-field-text" /></div>
+                    <div class="c-input__help-byline">some other field</div>
+                </fieldset>
+            </div>
+        </fieldset>
+    </div>
+    <div class="c-input__help-byline">byline</div>
+</fieldset>
+EOT;
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->render($sg)
+        );
+        return $sg;
+    }
+
+
 }

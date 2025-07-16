@@ -168,6 +168,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $list->distributeNewRandomIdentifiers();
         $target->setOrderingElementList($list);
         $this->cloneImages($this->getId(), $this->getObjId(), $target->getId(), $target->getObjId());
+        $target->saveToDb();
         return $target;
     }
 

@@ -876,6 +876,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                 if ($DIC->ctrl()->getCmd() === 'save') {
                     $this->checkContentSelection();
                 } else {
+                    if (isset($this->object) && !$this->isContentTabAvailable()) {
+                        $DIC->ctrl()->redirectToURL($this->ctrl->getLinkTargetByClass(ilInfoScreenGUI::class));
+                    }
                     $command = $DIC->ctrl()->getCmd(self::DEFAULT_CMD);
                     $this->{$command}();
                 }
@@ -905,6 +908,15 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         }
     }
 
+    public function isContentTabAvailable(): bool
+    {
+        if (!$this->object->getOfflineStatus() &&
+            $this->object->getProvider()->getAvailability() != ilLTIConsumeProvider::AVAILABILITY_NONE) {
+            return true;
+        }
+        return false;
+    }
+
     protected function setTabs(): void
     {
         global $DIC;
@@ -912,9 +924,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         /* @var \ILIAS\DI\Container $DIC */
         $DIC->language()->loadLanguageModule('lti');
 
-        if (!$this->object->getOfflineStatus() &&
-            $this->object->getProvider()->getAvailability() != ilLTIConsumeProvider::AVAILABILITY_NONE
-        ) {
+        if (isset($this->object) && $this->isContentTabAvailable()) {
             $DIC->tabs()->addTab(
                 self::TAB_ID_CONTENT,
                 $DIC->language()->txt(self::TAB_ID_CONTENT),

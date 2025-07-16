@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Skill\Access\SkillTreeAccess;
 use ILIAS\Skill\Service\SkillAdminGUIRequest;
@@ -31,6 +30,9 @@ use ILIAS\FileUpload\MimeType;
 use ILIAS\Skill\Profile;
 use ILIAS\Skill\Table;
 use ILIAS\Skill\Usage;
+use ILIAS\Export\ExportHandler\I\FactoryInterface as ExportFactoryInterface;
+use ILIAS\Export\ExportHandler\Factory as ExportFactory;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * Skill profile GUI class
@@ -64,6 +66,9 @@ class ilSkillProfileGUI
     protected Profile\SkillProfileCompletionManager $profile_completion_manager;
     protected Table\TableManager $table_manager;
     protected Usage\SkillUsageManager $usage_manager;
+    protected DataFactory $data_factory;
+    protected ExportFactoryInterface $export_factory;
+    protected ilObjUser $usr;
 
     /**
      * @var int[]
@@ -105,6 +110,9 @@ class ilSkillProfileGUI
     {
         global $DIC;
 
+        $this->data_factory = new DataFactory();
+        $this->export_factory = new ExportFactory();
+        $this->usr = $DIC->user();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->tabs = $DIC->tabs();
@@ -994,12 +1002,19 @@ class ilSkillProfileGUI
             $ilCtrl->redirect($this, "");
         }
 
-        $exp = new ilExport();
-        $conf = $exp->getConfig("components/ILIAS/Skill");
-        $conf->setMode(ilSkillExportConfig::MODE_PROFILES);
-        $conf->setSelectedProfiles($profiles_to_export);
-        $conf->setSkillTreeId($this->skill_tree_id);
-        $exp->exportObject("skmg", ilObject::_lookupObjId($this->requested_ref_id));
+        /** @var ilSkillExportConfig $config */
+        $configs = $this->export_factory->consumer()->exportConfig()->allExportConfigs();
+        $config = $configs->getElementByComponent('components/ILIAS/Skill');
+        $config->setMode(ilSkillExportConfig::MODE_PROFILES);
+        $config->setSelectedProfiles($profiles_to_export);
+        $config->setSkillTreeId($this->skill_tree_id);
+        /** @var ilObject $obj */
+        $obj = new ilObject();
+        $obj->setRefId($this->requested_ref_id);
+        $obj->setType('skee');
+        $obj->read();
+        $obj->setType('skmg');
+        $this->export_factory->consumer()->handler()->createStandardExportByObject($this->usr->getId(), $obj, $configs);
 
         //ilExport::_createExportDirectory(0, "xml", "");
         //$export_dir = ilExport::_getExportDirectory($a_id, "xml", $a_type);

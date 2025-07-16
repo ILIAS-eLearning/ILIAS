@@ -51,7 +51,7 @@ class Radio extends FormInput implements C\Input\Field\Radio
      */
     protected function isClientSideValueOk($value): bool
     {
-        return ($value === '' || array_key_exists($value, $this->getOptions()));
+        return ($value === null || array_key_exists($value, $this->getOptions()));
     }
 
     /**
@@ -62,8 +62,10 @@ class Radio extends FormInput implements C\Input\Field\Radio
         if ($this->requirement_constraint !== null) {
             return $this->requirement_constraint;
         }
-
-        return null;
+        return $this->refinery->logical()->not($this->refinery->null())
+            ->withProblemBuilder(
+                fn($txt, $value) => $txt('required')
+            );
     }
 
     /**
@@ -105,13 +107,12 @@ class Radio extends FormInput implements C\Input\Field\Radio
             throw new LogicException("Can only collect if input has a name.");
         }
         if (!$this->isDisabled()) {
-            $value = $input->getOr($this->getName(), "");
+            $value = $input->getOr($this->getName(), null);
             $clone = $this->withValue($value);
         } else {
             $value = $this->getValue();
             $clone = $this;
         }
-
         $clone->content = $this->applyOperationsTo($value);
         if ($clone->content->isError()) {
             return $clone->withError("" . $clone->content->error());

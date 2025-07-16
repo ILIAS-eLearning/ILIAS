@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+use ILIAS\Export\ExportHandler\Consumer\ExportConfig\BasicHandler as ExportConfig;
+
 /**
  * Export configuration for learning modules
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilLearningModuleExportConfig extends ilExportConfig
+class ilLearningModuleExportConfig extends ExportConfig
 {
     protected bool $master_only = false;
     protected bool $include_media = true;

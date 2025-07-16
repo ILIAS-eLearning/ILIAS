@@ -168,4 +168,20 @@ class AccessManager
         }
         return false;
     }
+
+    public function validateBookingObjId(int $book_obj_id, int $pool_id) : void
+    {
+        if ($book_obj_id > 0 && \ilBookingObject::lookupPoolId($book_obj_id) !== $pool_id) {
+            throw new \ilPermissionException("Booking object pool id does not match pool id.");
+        }
+    }
+
+    public function validateScheduleId(int $schedule_id, int $pool_id) : void
+    {
+        $sm = $this->domain->schedules($pool_id);
+        if (!$sm->hasScheduleId($schedule_id)) {
+            throw new \ilPermissionException("Schedule id does not match pool id.");
+        }
+    }
+
 }

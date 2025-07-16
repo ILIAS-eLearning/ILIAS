@@ -48,10 +48,6 @@ final class ilFooterStandardGroupsProvider extends AbstractStaticFooterProvider
     {
         return [
             $this->item_factory->group(
-                $this->getIdentificationFor(ilFooterStandardGroups::ACCESSIBILITY),
-                $this->translator->translate('accessibility')
-            )->withPosition(10),
-            $this->item_factory->group(
                 $this->getIdentificationFor(ilFooterStandardGroups::LEGAL_INFORMATION),
                 $this->translator->translate('legal_information')
             )->withPosition(20),
@@ -75,31 +71,6 @@ final class ilFooterStandardGroupsProvider extends AbstractStaticFooterProvider
     public function getEntries(): array
     {
         $entries = [];
-        // Accessibility Items
-        // accessibility control concept
-        if (($accessibility_control_url = \ilAccessibilityControlConceptGUI::getFooterLink()) !== '') {
-            $accessibility_control_title = \ilAccessibilityControlConceptGUI::getFooterText();
-            $entries[] = $this->item_factory
-                ->link(
-                    $this->id_factory->identifier('accessibility_control'),
-                    $accessibility_control_title
-                )
-                ->withAction($this->buildURI($accessibility_control_url))
-                ->withParent($this->getIdentificationFor(ilFooterStandardGroups::ACCESSIBILITY));
-        }
-
-        // report accessibility issue
-        if (($accessibility_report_url = \ilAccessibilitySupportContactsGUI::getFooterLink()) !== '') {
-            $accessibility_report_title = \ilAccessibilitySupportContactsGUI::getFooterText();
-            $entries[] = $this->item_factory
-                ->link(
-                    $this->id_factory->identifier('accessibility_report'),
-                    $accessibility_report_title
-                )
-                ->withAction($this->buildURI($accessibility_report_url))
-                ->withParent($this->getIdentificationFor(ilFooterStandardGroups::ACCESSIBILITY));
-        }
-
         // Imprint
         /*$base_class = ($this->dic->http()->wrapper()->query()->has(\ilCtrlInterface::PARAM_BASE_CLASS)) ?
             $this->dic->http()->wrapper()->query()->retrieve(
@@ -174,11 +145,6 @@ final class ilFooterStandardGroupsProvider extends AbstractStaticFooterProvider
             $this->translator->translate('permanent'),
             new URI($permanant_link)
         );
-    }
-
-    private function txt(string $key): string
-    {
-        return $this->dic->language()->txt($key);
     }
 
 }

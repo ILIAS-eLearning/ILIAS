@@ -38,33 +38,16 @@ use ilObjUser;
 
 class Factory implements ilExportHandlerTableFactoryInterface
 {
-    protected ilExportHandlerFactoryInterface $export_handler;
-    protected ilUIServices $ui_services;
-    protected ilHTTPServices $http_services;
-    protected ilRefineryFactory $refinery;
-    protected ilObjUser $user;
-    protected ilLanguage $lng;
-    protected ilCtrl $ctrl;
-    protected ilDataFactory $data_factory;
-
     public function __construct(
-        ilExportHandlerFactoryInterface $export_handler,
-        ilUIServices $ui_services,
-        ilHTTPServices $http_services,
-        ilRefineryFactory $refinery,
-        ilObjUser $user,
-        ilLanguage $lng,
-        ilCtrl $ctrl,
-        ilDataFactory $data_factory
+        protected ilExportHandlerFactoryInterface $export_handler,
+        protected ilUIServices $ui_services,
+        protected ilHTTPServices $http_services,
+        protected ilRefineryFactory $refinery,
+        protected ilObjUser $user,
+        protected ilLanguage $lng,
+        protected ilCtrl $ctrl,
+        protected ilDataFactory $data_factory
     ) {
-        $this->export_handler = $export_handler;
-        $this->ui_services = $ui_services;
-        $this->http_services = $http_services;
-        $this->refinery = $refinery;
-        $this->user = $user;
-        $this->lng = $lng;
-        $this->ctrl = $ctrl;
-        $this->data_factory = $data_factory;
     }
 
     public function handler(): ilExportHandlerTableInterface

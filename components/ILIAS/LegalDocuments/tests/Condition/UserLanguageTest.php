@@ -28,7 +28,7 @@ use ILIAS\LegalDocuments\Value\CriterionContent;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\Condition\UserLanguage;
 use ILIAS\LegalDocuments\Condition\Definition\UserLanguageDefinition;
-use ILIAS\UI\Factory as UIFactory;
+use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 
 require_once __DIR__ . '/../ContainerMock.php';
 
@@ -41,7 +41,7 @@ class UserLanguageTest extends TestCase
         $this->assertInstanceOf(UserLanguage::class, new UserLanguage(
             $this->mock(CriterionContent::class),
             $this->mock(UserLanguageDefinition::class),
-            $this->mock(UIFactory::class)
+            $this->mock(UI::class)
         ));
     }
 
@@ -52,7 +52,7 @@ class UserLanguageTest extends TestCase
         $instance = new UserLanguage(
             $this->mockTree(CriterionContent::class, ['arguments' => ['lng' => 'foo']]),
             $this->mock(UserLanguageDefinition::class),
-            $this->mockTree(UIFactory::class, ['legacy' => $legacy])
+            $this->mockTree(UI::class, ['create' => ['legacy' => $legacy]])
         );
 
         $this->assertSame($legacy, $instance->asComponent());
@@ -63,7 +63,7 @@ class UserLanguageTest extends TestCase
         $instance = new UserLanguage(
             $this->mockTree(CriterionContent::class, ['arguments' => ['lng' => 'foo']]),
             $this->mock(UserLanguageDefinition::class),
-            $this->mock(UIFactory::class)
+            $this->mock(UI::class)
         );
 
         $this->assertTrue($instance->eval($this->mockTree(ilObjUser::class, ['getLanguage' => 'foo'])));
@@ -75,7 +75,7 @@ class UserLanguageTest extends TestCase
         $instance = new UserLanguage(
             $this->mock(CriterionContent::class),
             $definition,
-            $this->mock(UIFactory::class)
+            $this->mock(UI::class)
         );
 
         $this->assertSame($definition, $instance->definition());
@@ -86,13 +86,13 @@ class UserLanguageTest extends TestCase
         $instance = new UserLanguage(
             $this->mock(CriterionContent::class),
             $this->mock(UserLanguageDefinition::class),
-            $this->mock(UIFactory::class)
+            $this->mock(UI::class)
         );
 
         $second = new UserLanguage(
             $this->mock(CriterionContent::class),
             $this->mock(UserLanguageDefinition::class),
-            $this->mock(UIFactory::class)
+            $this->mock(UI::class)
         );
 
         $this->assertTrue($instance->knownToNeverMatchWith($second));

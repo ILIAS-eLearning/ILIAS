@@ -284,7 +284,7 @@ class ilTaggingGUI
         $tpl->addOnLoadCode("ilTagging.setAjaxUrl('" . $a_ajax_url . "');");
         $tpl->addOnLoadCode('ilTagging.setModalTemplate("' . addslashes(json_encode($modal_template["template"])) . '");');
         $tpl->addOnLoadCode("ilTagging.setShowSignal('" . $modal_template["show"] . "');");
-        $tpl->addOnLoadCode("ilTagging.setCloseSignal('" . $modal_template["close"] . "');");
+        $tpl->addOnLoadCode("ilTagging.setHideSignal('" . $modal_template["close"] . "');");
     }
 
     public static function getModalTemplate(): array

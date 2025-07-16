@@ -30,15 +30,10 @@ use ILIAS\ResourceStorage\Services as ResourcesStorageService;
 
 class Factory implements ilExportHandlerInfoFactoryInterface
 {
-    protected ilExportHandlerFactoryInterface $export_handler;
-    protected ResourcesStorageService $irss;
-
     public function __construct(
-        ilExportHandlerFactoryInterface $export_handler,
-        ResourcesStorageService $irss
+        protected ilExportHandlerFactoryInterface $export_handler,
+        protected ResourcesStorageService $irss
     ) {
-        $this->export_handler = $export_handler;
-        $this->irss = $irss;
     }
 
     public function export(): ilExportHandlerExportInfoFactoryInterface

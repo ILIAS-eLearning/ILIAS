@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\Export\ExportHandler\I\Consumer\ExportWriter\HandlerInterface as ilExportHandlerConsumerExportWriterInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Path\HandlerInterface as ExportPathInfoInterface;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfigCollectionInterface;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\HandlerInterface as ExportConfigInterface;
 
 /**
  * Export
@@ -30,12 +32,10 @@ class ilExport
     public string $export_run_dir = '';
     protected string $dir_relative = "";
     protected string $dir_absolute = "";
-
     protected ilLogger $log;
     protected ilExportHandlerConsumerExportWriterInterface $export_writer;
-    protected string $export_dir_in_container;
     protected ExportPathInfoInterface $export_path_info;
-
+    protected ExportConfigCollectionInterface $export_configs;
     private static array $new_file_structure = array('cat',
                                                'exc',
                                                'crs',
@@ -50,8 +50,6 @@ class ilExport
     );
     // @todo this should be part of module.xml and be parsed in the future
     private static array $export_implementer = array("tst", "lm", "glo", "sahs");
-    private array $configs = [];
-
     private array $cnt = [];
     private ?ilXmlWriter $manifest_writer = null;
 
@@ -59,12 +57,6 @@ class ilExport
     {
         global $DIC;
         $this->log = $DIC->logger()->exp();
-    }
-
-    public function setExportDirInContainer(
-        string $export_dir_in_container
-    ): void {
-        $this->export_dir_in_container = $export_dir_in_container;
     }
 
     public function setPathInfo(
@@ -90,6 +82,21 @@ class ilExport
     public function getPathToComponentExpDirInContainer(): string
     {
         return $this->export_path_info->getPathToComponentExpDirInContainer();
+    }
+
+    public function getPathToComponentExpDirInContainerWithLeadingSetNumber(): string
+    {
+        return "set_" . $this->export_path_info->getSetNumber() . DIRECTORY_SEPARATOR . $this->export_path_info->getPathToComponentExpDirInContainer();
+    }
+
+    public function getSetNumber(): int
+    {
+        return $this->export_path_info->getSetNumber();
+    }
+
+    public function isContainerExport(): bool
+    {
+        return $this->export_path_info->isContainerExport();
     }
 
     public function setExportDirectories(
@@ -121,26 +128,15 @@ class ilExport
         return $this->export_writer;
     }
 
-    /**
-     * Get configuration (note that configurations are optional, null may be returned!)
-     * @param string $a_comp component (e.g. "components/ILIAS/Glossary")
-     * @return ilExportConfig $a_comp configuration object
-     * @throws ilExportException thronw if no config exists
-     */
-    public function getConfig(string $a_comp): ilExportConfig
-    {
-        // if created, return existing config object
-        if (isset($this->configs[$a_comp])) {
-            return $this->configs[$a_comp];
-        }
+    public function setExportConfigs(
+        ExportConfigCollectionInterface $export_configs
+    ): void {
+        $this->export_configs = $export_configs;
+    }
 
-        // create instance of export config object
-        $comp_arr = explode("/", $a_comp);
-        $component = str_replace("_", "", $comp_arr[2]);
-        $a_class = "il" . $component . "ExportConfig";
-        $exp_config = new $a_class();
-        $this->configs[$a_comp] = $exp_config;
-        return $exp_config;
+    public function getExportConfigs(): ExportConfigCollectionInterface
+    {
+        return $this->export_configs;
     }
 
     /**

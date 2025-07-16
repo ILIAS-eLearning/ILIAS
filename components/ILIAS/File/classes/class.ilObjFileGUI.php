@@ -302,11 +302,20 @@ class ilObjFileGUI extends ilObject2GUI
                 $this->tabs_gui->activateTab('content');
                 $this->updateLearningProgress();
 
+                if ($this->id_type === Context::CONTEXT_WORKSPACE) {
+                    $goto_link = ilWorkspaceAccessHandler::getGotoLink(
+                        $this->object->getRefId(),
+                        $this->object->getId()
+                    );
+                } else {
+                    $goto_link = ilLink::_getLink($this->object->getRefId());
+                }
+
                 $embeded_application = new EmbeddedApplication(
                     $this->storage->manage()->find($this->object->getResourceId()),
                     $action,
                     $this->stakeholder,
-                    new URI(ilLink::_getLink($this->object->getRefId())),
+                    new URI($goto_link),
                     $capability->getCapability() === Capabilities::VIEW_EXTERNAL
                 );
 

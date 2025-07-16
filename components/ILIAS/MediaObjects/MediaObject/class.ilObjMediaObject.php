@@ -595,7 +595,8 @@ class ilObjMediaObject extends ilObject
 
                     // Subtitles
                     if ($item->getPurpose() == "Standard") {
-                        $srts = $this->getSrtFiles();
+                        $this->manager->generateMissingVTT($this->getId());
+                        $srts = $this->getSrtFiles(true);
                         foreach ($srts as $srt) {
                             $def = "";
                             $meta_lang = "";
@@ -603,7 +604,7 @@ class ilObjMediaObject extends ilObject
                                 $ilUser->getLanguage() == $srt["language"]) {
                                 $def = ' Default="true" ';
                             }
-                            $xml .= "<Subtitle File=\"" . $srt["full_path"] .
+                            $xml .= "<Subtitle File=\"" . $srt["src"] .
                                 "\" Language=\"" . $srt["language"] . "\" " . $def . "/>";
                         }
                     }
@@ -1565,34 +1566,15 @@ class ilObjMediaObject extends ilObject
         string $a_mode = "move_uploaded"
     ): bool {
         if (is_file($a_tmp_name) && $a_language != "") {
-            $this->uploadAdditionalFile("subtitle_" . $a_language . ".srt", $a_tmp_name, "srt", $a_mode);
+            $this->uploadAdditionalFile("subtitle_" . $a_language . ".vtt", $a_tmp_name, "srt", $a_mode);
             return true;
         }
         return false;
     }
 
-    public function getSrtFiles(): array
+    public function getSrtFiles(bool $vtt_only = false): array
     {
-        $srt_dir = ilObjMediaObject::_getDirectory($this->getId()) . "/srt";
-
-        if (!is_dir($srt_dir)) {
-            return array();
-        }
-
-        $items = ilFileUtils::getDir($srt_dir);
-
-        $srt_files = array();
-        foreach ($items as $i) {
-            if (!in_array($i["entry"], array(".", "..")) && $i["type"] == "file") {
-                $name = explode(".", $i["entry"]);
-                if ($name[1] == "srt" && substr($name[0], 0, 9) == "subtitle_") {
-                    $srt_files[] = array("file" => $i["entry"],
-                        "full_path" => "srt/" . $i["entry"], "language" => substr($name[0], 9, 2));
-                }
-            }
-        }
-
-        return $srt_files;
+        return $this->manager->getSrtFiles($this->getId(), $vtt_only);
     }
 
     /**
@@ -1802,8 +1784,8 @@ class ilObjMediaObject extends ilObject
         $dir = $this->getMultiSrtUploadDir();
         ilFileUtils::delDir($dir, true);
         ilFileUtils::makeDirParents($dir);
-        ilFileUtils::moveUploadedFile($a_file["tmp_name"], "multi_srt.zip", $dir . "/" . "multi_srt.zip");
-        $this->domain->resources()->zip()->unzipFile($dir . "/multi_srt.zip");
+        ilFileUtils::moveUploadedFile($a_file["tmp_name"], "multi_vtt.zip", $dir . "/" . "multi_vtt.zip");
+        $this->domain->resources()->zip()->unzipFile($dir . "/multi_vtt.zip");
     }
 
     /**
@@ -1828,7 +1810,7 @@ class ilObjMediaObject extends ilObject
         foreach ($files as $k => $i) {
             // check directory
             if ($i["type"] == "file" && !in_array($k, array(".", ".."))) {
-                if (pathinfo($k, PATHINFO_EXTENSION) == "srt") {
+                if (pathinfo($k, PATHINFO_EXTENSION) == "vtt") {
                     $lang = "";
                     if (substr($k, strlen($k) - 7, 1) == "_") {
                         $lang = substr($k, strlen($k) - 6, 2);

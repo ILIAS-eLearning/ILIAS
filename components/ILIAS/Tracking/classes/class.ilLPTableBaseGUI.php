@@ -525,6 +525,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $options['cmix'] = $this->lng->txt('objs_cmix');
         $options['lti'] = $this->lng->txt('objs_lti');
         $options['lso'] = $this->lng->txt('objs_lso');
+        $options['dcl'] = $this->lng->txt('objs_dcl');
 
         if ($a_allow_undefined_lp) {
             $options['root'] = $this->lng->txt('obj_reps');

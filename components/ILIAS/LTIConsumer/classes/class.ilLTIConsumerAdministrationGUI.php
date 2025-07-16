@@ -167,11 +167,15 @@ class ilLTIConsumerAdministrationGUI
 
 
         $table = $this->buildProviderTable($this, self::CMD_SHOW_GLOBAL_PROVIDER);
-        $table->setEditProviderCmd(self::CMD_SHOW_GLOBAL_PROVIDER_FORM);
-        $table->setDeleteProviderCmd(self::CMD_DELETE_GLOBAL_PROVIDER);
-        $table->setDeleteProviderMultiCmd(self::CMD_DELETE_GLOBAL_PROVIDER_MULTI);
-        $table->setResetProviderToUserScopeCmd(self::CMD_RESET_PROVIDER_TO_USER_SCOPE);
-        $table->setResetProviderToUserScopeMultiCmd(self::CMD_RESET_PROVIDER_TO_USER_SCOPE_MULTI);
+
+        // Only set modification commands if user has write permission
+        if ($this->hasWritePermission) {
+            $table->setEditProviderCmd(self::CMD_SHOW_GLOBAL_PROVIDER_FORM);
+            $table->setDeleteProviderCmd(self::CMD_DELETE_GLOBAL_PROVIDER);
+            $table->setDeleteProviderMultiCmd(self::CMD_DELETE_GLOBAL_PROVIDER_MULTI);
+            $table->setResetProviderToUserScopeCmd(self::CMD_RESET_PROVIDER_TO_USER_SCOPE);
+            $table->setResetProviderToUserScopeMultiCmd(self::CMD_RESET_PROVIDER_TO_USER_SCOPE_MULTI);
+        }
 
         $table->init();
 
@@ -471,11 +475,15 @@ class ilLTIConsumerAdministrationGUI
         $providerList->load();
 
         $table = $this->buildProviderTable($this, self::CMD_SHOW_USER_PROVIDER);
-        $table->setEditProviderCmd(self::CMD_SHOW_USER_PROVIDER_FORM);
-        $table->setAcceptProviderAsGlobalMultiCmd(self::CMD_ACCEPT_PROVIDER_AS_GLOBAL_MULTI);
-        $table->setAcceptProviderAsGlobalCmd(self::CMD_ACCEPT_PROVIDER_AS_GLOBAL);
-        $table->setDeleteProviderCmd(self::CMD_DELETE_USER_PROVIDER);
-        $table->setDeleteProviderMultiCmd(self::CMD_DELETE_USER_PROVIDER_MULTI);
+
+        // Only set modification commands if user has write permission
+        if ($this->hasWritePermission) {
+            $table->setEditProviderCmd(self::CMD_SHOW_USER_PROVIDER_FORM);
+            $table->setAcceptProviderAsGlobalMultiCmd(self::CMD_ACCEPT_PROVIDER_AS_GLOBAL_MULTI);
+            $table->setAcceptProviderAsGlobalCmd(self::CMD_ACCEPT_PROVIDER_AS_GLOBAL);
+            $table->setDeleteProviderCmd(self::CMD_DELETE_USER_PROVIDER);
+            $table->setDeleteProviderMultiCmd(self::CMD_DELETE_USER_PROVIDER_MULTI);
+        }
 
         $table->setData($providerList->getTableData());
 

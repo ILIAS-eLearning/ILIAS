@@ -95,9 +95,12 @@ final class Delivery
         $this->deliver();
     }
 
-
     private function delivery(): ilFileDeliveryType
     {
+        if ($this->isDeleteFile()) {
+            return $this->factory->getInstance(DeliveryMethod::PHP);
+        }
+
         return $this->factory->getInstance($this->getDeliveryType());
     }
 

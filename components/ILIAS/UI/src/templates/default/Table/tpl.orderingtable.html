@@ -8,31 +8,31 @@
 	<div class="viewcontrols">{VIEW_CONTROLS}</div>
 
 	<form method="post" class="c-table-data__table-wrapper c-table-ordering__form" action="{TARGET_URL}">
-		<table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
+		<table class="c-table-data__table" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}" role="grid">
 
 			<thead>
-				<tr class="c-table-data__header c-table-data__row" role="rowgroup">
+				<tr class="c-table-data__header c-table-data__row">
 
 					<!-- BEGIN header_rowselection_cell -->
-					<th class="c-table-data__header c-table-data__cell c-table-data__header__rowselection" role="columnheader" tabindex="-1">
+					<th class="c-table-data__header c-table-data__cell c-table-data__header__rowselection" tabindex="-1" aria-colindex="1">
+						{DRAG_HINT}
+						<!-- BEGIN has_selectall -->
 						<div class="c-table-data__selection_all">{SELECTION_CONTROL_SELECT}</div>
 						<div class="c-table-data__selection_none">{SELECTION_CONTROL_DESELECT}</div>
+						<!-- END has_selectall -->
 					</th>
 					<!-- END header_rowselection_cell -->
 
-                    <!-- BEGIN header_rowselection_ordering_no_multi_actions -->
-					<th class="c-table-data__header c-table-data__cell c-table-data__header__rowselection" role="columnheader" tabindex="-1">
-					</th>
-					<!-- END header_rowselection_ordering_no_multi_actions -->
-
 					<!-- BEGIN header_pos_input -->
-					<th class="c-table-data__header c-table-data__cell c-table-data__header__rowselection" role="columnheader" tabindex="-1">
-						{POS_INPUT_TITLE}
+					<th class="c-table-data__header c-table-data__cell c-table-data__cell--number" tabindex="-1" aria-colindex="2">
+						<div class="c-table-data__header__resize-wrapper">
+							{POS_INPUT_TITLE}
+						</div>
 					</th>
 					<!-- END header_pos_input -->
 
 					<!-- BEGIN header_cell -->
-					<th class="c-table-data__header c-table-data__cell c-table-data__cell--{COL_TYPE}" role="columnheader" tabindex="-1" aria-colindex="{COL_INDEX}">
+					<th class="c-table-data__header c-table-data__cell c-table-data__cell--{COL_TYPE}" tabindex="-1" aria-colindex="{COL_INDEX}">
 						<div class="c-table-data__header__resize-wrapper">
 							{COL_TITLE}
 						</div>
@@ -40,32 +40,32 @@
 					<!-- END header_cell -->
 
 					<!-- BEGIN header_action_cell -->
-					<th class="c-table-data__header c-table-data__cell c-table-data__header__rowaction" role="columnheader" aria-colindex="{COL_INDEX_ACTION}">{COL_TITLE_ACTION}</th>
+					<th class="c-table-data__header c-table-data__cell c-table-data__header__rowaction" aria-colindex="{COL_INDEX_ACTION}">{COL_TITLE_ACTION}</th>
 					<!-- END header_action_cell -->
 				</tr>
 			</thead>
 
-			<tbody class="c-table-data__body" role="rowgroup">
+			<tbody class="c-table-data__body">
 				<!-- BEGIN row -->
-				<tr class="c-table-data__row {ALTERNATION}" role="row">
+				<tr class="c-table-data__row {ALTERNATION}">
 					{CELLS}
 				</tr>
 				<!-- END row -->
 
+				<!-- BEGIN multi_action -->
 				<tr>
-					<td class="c-table-data__cell c-table-data__cell--multiaction" colspan="{COLUMN_COUNT}">
+					<td class="c-table-data__cell c-table-data__cell--multiaction" colspan="{MULTI_ACTION_SPAN}">
 						<div class="l-bar__space-keeper">
-							<!-- BEGIN multi_action -->
 							<div class="l-bar__element">
 								<div class="c-table-data__multiaction-triggerer">{MULTI_ACTION_TRIGGERER}</div>
 							</div>
-							<!-- END multi_action -->
 							<div class="l-bar__element">
 							{FORM_BUTTONS}
 							</div>
 						</div>
 					</td>
 				</tr>
+				<!-- END multi_action -->
 
 			</tbody>
 

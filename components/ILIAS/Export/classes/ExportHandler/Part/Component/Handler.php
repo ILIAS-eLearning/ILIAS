@@ -21,10 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\Export\ExportHandler\Part\Component;
 
 use ilExport;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfigCollectionInterface;
 use ILIAS\Export\ExportHandler\I\FactoryInterface as ilExportHandlerFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Component\HandlerInterface as ilExportHanlderExportComponentInfoInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\HandlerInterface as ilExportHanlderExportInfoInterface;
 use ILIAS\Export\ExportHandler\I\Part\Component\HandlerInterface as ilExportHandlerPartComponentInterface;
+use ILIAS\Export\ExportHandler\I\Part\HandlerInterface as ilExportHandlerPartInterface;
 use ilXmlWriter;
 
 class Handler implements ilExportHandlerPartComponentInterface
@@ -81,11 +83,13 @@ class Handler implements ilExportHandlerPartComponentInterface
             $writer = $this->export_handler->consumer()->handler()->exportWriter($this->export_info->getCurrentElement());
             $path_info = $this->export_handler->info()->export()->path()->handler()
                 ->withPathToComponentDirInContainer($this->component_info->getComponentExportDirPathInContainer())
-                ->withPathToComponentExpDirInContainer($this->component_info->getComponentExportDirPathInContainer() . "/expDir_" . $exp_dir_count++);
+                ->withPathToComponentExpDirInContainer($this->component_info->getComponentExportDirPathInContainer() . "/expDir_" . $exp_dir_count++)
+                ->withSetNumber($this->export_info->getSetNumber())
+                ->withIsContainerExport($this->export_info->getCurrentElement()->getIRSS()->isContainerExport());
             $export = new ilExport();
             $export->setPathInfo($path_info);
-            $export->setExportDirInContainer($this->component_info->getComponentExportDirPathInContainer());
             $export->setExportWriter($writer);
+            $export->setExportConfigs($this->export_info->getExportConfigs());
             $export->export_run_dir = $this->export_info->getLegacyExportRunDir();
             $export->setExportDirectories(
                 $this->export_info->getExportFolderName(),

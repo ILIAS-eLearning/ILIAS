@@ -190,6 +190,7 @@ class ilDclContentExporter
             return false;
         }
 
+        $this->main_tpl->setOnScreenMessage($this->main_tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('exp_file_created'), true);
         if ($send) {
             $adapter->sendToClient($filename);
         } else {

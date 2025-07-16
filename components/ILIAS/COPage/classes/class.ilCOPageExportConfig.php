@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+use ILIAS\Export\ExportHandler\Consumer\ExportConfig\BasicHandler as ExportConfig;
+
 /**
  * Export configuration for pages
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilCOPageExportConfig extends ilExportConfig
+class ilCOPageExportConfig extends ExportConfig
 {
     protected bool $master_only = false;
     protected bool $include_media = true;

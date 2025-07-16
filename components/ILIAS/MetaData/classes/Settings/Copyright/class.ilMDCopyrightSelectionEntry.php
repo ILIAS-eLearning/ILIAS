@@ -42,7 +42,8 @@ class ilMDCopyrightSelectionEntry
     private string $title = '';
     private string $description = '';
     private string $copyright = '';
-    private int $usage = 0;
+    // set null as initial value to trigger a query on demand
+    private ?int $usage = null;
 
     protected bool $outdated = false;
 
@@ -188,6 +189,19 @@ class ilMDCopyrightSelectionEntry
 
     public function getUsage(): int
     {
+        // do a time-consuming usage count on demand
+        if ($this->usage === null) {
+            $query = "SELECT count(meta_rights_id) used FROM il_meta_rights " .
+                "WHERE description = " . $this->db->quote(
+                    'il_copyright_entry__' . IL_INST_ID . '__' . $this->getEntryId(),
+                    'text'
+                );
+
+            $res = $this->db->query($query);
+            $row = $this->db->fetchObject($res);
+            $this->usage = (int) $row->used;
+        }
+
         return $this->usage;
     }
 
@@ -340,16 +354,6 @@ class ilMDCopyrightSelectionEntry
         $this->setCopyright($rendered_cp);
         $this->setOutdated($entry->isOutdated());
         $this->setOrderPosition($entry->position());
-
-        $query = "SELECT count(meta_rights_id) used FROM il_meta_rights " .
-            "WHERE description = " . $this->db->quote(
-                'il_copyright_entry__' . IL_INST_ID . '__' . $this->getEntryId(),
-                'text'
-            );
-
-        $res = $this->db->query($query);
-        $row = $this->db->fetchObject($res);
-        $this->usage = (int) $row->used;
     }
 
     public static function createIdentifier(int $a_entry_id): string

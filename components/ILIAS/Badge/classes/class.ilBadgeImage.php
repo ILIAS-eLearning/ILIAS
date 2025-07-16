@@ -73,7 +73,7 @@ class ilBadgeImage
                     $image_src = $urls[$size];
                 }
             }
-        } elseif ($badge instanceof ilBadge) {
+        } elseif ($badge->getImage()) {
             $image_src = ilWACSignedPath::signFile($badge->getImagePath());
         }
 

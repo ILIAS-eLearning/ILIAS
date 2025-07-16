@@ -742,12 +742,11 @@ assessment#:#finalized_evaluation#:#Final betygsatt
 assessment#:#finalized_on#:#Värderingen slutförd den
 assessment#:#finish_all_user_passes#:#Avsluta alla testkörningar
 assessment#:#finish_pass_for_all_users#:#Vill du verkligen stoppa testkörningarna för alla användare?
-assessment#:#finish_pass_for_all_users_in_processing_time#:#Du kan inte avsluta körningarna för alla användare tillsammans, eftersom behandlingstiden för minst en användare ännu inte är över.
+assessment#:#finish_pass_for_multiple_users_in_processing_time#:#Du kan inte avsluta körningarna för alla användare tillsammans, eftersom behandlingstiden för minst en användare ännu inte är över.
 assessment#:#finish_pass_for_user_confirmation#:#Vill du verkligen avsluta testkörningen för deltagaren "%s"?
 assessment#:#finish_pass_for_user_in_processing_time#:#VARNING
 assessment#:#finish_test#:#Avsluta test
 assessment#:#finish_test_all#:#Are you sure you want to finish the test attempts for all users?###28 10 2024 new variable
-assessment#:#finish_test_more_than_one_selected#:#Only a single participant may be selected to finish the pass if the test allows only one pass.###21 05 2025 new variable
 assessment#:#finish_test_multiple#:#Are you sure you want to finish the test attempts for the following participants?###28 10 2024 new variable
 assessment#:#finish_test_no_valid_participants_selected#:#There are no active test runs for the selected participants, so they cannot be completed.###21 05 2025 new variable
 assessment#:#finish_test_single#:#Are you sure you want to finish the test attempt for the participant "%s"?###28 10 2024 new variable

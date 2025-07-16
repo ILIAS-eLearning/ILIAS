@@ -109,6 +109,11 @@ class ilBookingObjectGUI
 
         $this->rsv_ids = array_map('intval', $this->book_request->getReservationIdsFromString());
         $this->objects_manager = $DIC->bookingManager()->internal()->domain()->objects($this->pool->getId());
+
+        $this->access->validateBookingObjId(
+            $this->object_id,
+            (int) $this->pool_gui->getObject()?->getId()
+        );
     }
 
     public function activateManagement(bool $a_val): void

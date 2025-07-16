@@ -139,15 +139,26 @@ class ModalAdapterGUI
     {
         $modal = [];
         if (!is_null($this->form)) {
-            $this->ui_content = [$this->ui->factory()->legacy($this->form->render())];
+            //$this->ui_content = [$this->ui->factory()->legacy($this->form->render())];
+            $modal = $this->ui->factory()->modal()->roundtrip(
+                $this->getTitle(),
+                null,
+                $this->form->getForm()->getInputs(),
+                $this->form->getForm()->getPostURL()
+            );
+            //$modal = $this->ui->factory()->modal()->roundtrip($this->getTitle(), $this->ui_content);
+        } else {
+            $modal = $this->ui->factory()->modal()->roundtrip($this->getTitle(), $this->ui_content);
         }
-        $modal = $this->ui->factory()->modal()->roundtrip($this->getTitle(), $this->ui_content);
         if (count($this->action_buttons) > 0) {
             $modal = $modal->withActionButtons($this->action_buttons);
         }
         if ($this->cancel_label !== "") {
             $modal = $modal->withCancelButtonLabel($this->cancel_label);
         }
+        $modal = $modal->withAdditionalOnLoadCode(function ($id) {
+            return "il.repository.ui.initModal('$id');";
+        });
         return $modal;
     }
 

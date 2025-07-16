@@ -32,7 +32,6 @@ class FormAdapterGUI
     use StdObjProperties;
 
     protected const DEFAULT_SECTION = "@internal_default_section";
-    protected bool $in_modal = false;
     protected string $submit_caption = "";
     protected \ilLanguage $lng;
     protected const ASYNC_NONE = 0;
@@ -113,7 +112,13 @@ class FormAdapterGUI
         $r = $DIC->ui()->renderer();
         if (!self::$initialised) {
             $main_tpl = $DIC->ui()->mainTemplate();
-            $main_tpl->addJavaScript("assets/js/repository.js");
+            $debug = false;
+            if ($debug) {
+                $main_tpl->addJavaScript("../components/ILIAS/Repository/resources/repository.js");
+            } else {
+                $main_tpl->addJavaScript("assets/js/repository.js");
+            }
+
             $main_tpl->addOnLoadCode(self::getOnLoadCode());
 
             // render dummy components to load the necessary .js needed for async processing
@@ -127,7 +132,6 @@ class FormAdapterGUI
     public function asyncModal(): self
     {
         $this->async_mode = self::ASYNC_MODAL;
-        $this->in_modal = true;
         return $this;
     }
 
@@ -139,7 +143,6 @@ class FormAdapterGUI
 
     public function syncModal(): self
     {
-        $this->in_modal = true;
         return $this;
     }
 
@@ -663,7 +666,7 @@ class FormAdapterGUI
         }
     }
 
-    protected function getForm(): Form\Standard
+    public function getForm(): Form\Standard
     {
         $ctrl = $this->ctrl;
 
@@ -773,13 +776,6 @@ class FormAdapterGUI
             $html = $this->ui->renderer()->render($this->getForm());
         } else {
             $html = $this->ui->renderer()->renderAsync($this->getForm()) . "<script>" . $this->getOnLoadCode() . "</script>";
-        }
-        if ($this->in_modal) {
-            if ($this->async_mode === self::ASYNC_MODAL) {
-                $html = str_replace("<form ", "<form data-rep-modal-form='async' ", $html);
-            } else {
-                $html = str_replace("<form ", "<form data-rep-modal-form='sync' ", $html);
-            }
         }
         return $html;
     }

@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 /**
@@ -11,6 +27,8 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 {
     public function collectPropertiesAndActions(): void
     {
+        global $DIC;
+
         $a_app = $this->appointment;
         $cat_info = $this->getCatInfo();
 
@@ -21,6 +39,7 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
         $res = new ilBookingReservation($res_id);
         $b_obj = new ilBookingObject($res->getObjectId());
         $obj_id = $b_obj->getPoolId();
+        $objects_manager = $DIC->bookingManager()->internal()->domain()->objects($obj_id);
 
         $refs = $this->getReadableRefIds($obj_id);
 
@@ -44,7 +63,7 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
             $this->addCalendarInfo($cat_info);
 
             // section: booking information
-            if ($b_obj->getDescription() || $b_obj->getFile()) {
+            if ($b_obj->getDescription() || $objects_manager->hasObjectInfo($b_obj->getId())) {
                 $this->addInfoSection($this->lng->txt("book_booking_information"));
             }
 
@@ -54,7 +73,7 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
             $this->ctrl->setParameterByClass("ilbookingobjectgui", "object_id", $res->getObjectId());
 
             // info file
-            if ($b_obj->getFile()) {
+            if ($objects_manager->hasObjectInfo($b_obj->getId())) {
                 $this->has_files = true;
                 $link = $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI",
                                                                 "ilObjBookingPoolGUI",
@@ -62,7 +81,7 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
                 ), "deliverInfo");
 
                 $link = $this->ui->renderer()->render(
-                    $this->ui->factory()->button()->shy($b_obj->getFile(), $link)
+                    $this->ui->factory()->button()->shy($objects_manager->getObjectInfoFilename($b_obj->getId()), $link)
                 );
 
                 $this->addInfoProperty($this->lng->txt("book_additional_info_file"), $link);
@@ -79,17 +98,17 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
                 $text = str_replace("[PERIOD]", $period, $text);
                 $array_info[] = $text;
             }
-            if ($b_obj->getPostFile()) {
+            if ($objects_manager->hasBookingInfo($b_obj->getId())) {
                 $this->has_files = true;
 
                 $link = $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI",
                                                                 "ilObjBookingPoolGUI",
                                                                 "ilbookingobjectgui",
-                                                                "ilBookingProcessGUI"
+                                                                "ilBookingProcessWithScheduleGUI"
                 ), "deliverPostFile");
 
                 $array_info[] = $this->ui->renderer()->render(
-                    $this->ui->factory()->button()->shy($b_obj->getPostFile(), $link)
+                    $this->ui->factory()->button()->shy($objects_manager->getBookingInfoFilename($b_obj->getId()), $link)
                 );
             }
             if ($array_info) {

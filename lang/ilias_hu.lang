@@ -742,12 +742,11 @@ assessment#:#finalized_evaluation#:#A pontozás befejezve
 assessment#:#finalized_on#:#Befejezve
 assessment#:#finish_all_user_passes#:#Összes tesztkitöltés befejezettre állítása
 assessment#:#finish_pass_for_all_users#:#Biztos, hogy az összes felhasználó kitöltését befejezettre állítja?
-assessment#:#finish_pass_for_all_users_in_processing_time#:#Nem állíthatja befejezettre az összes tesztkitöltést, mert van, aki(k)nek az ideje még nem járt le.
+assessment#:#finish_pass_for_multiple_users_in_processing_time#:#Nem állíthatja befejezettre az összes tesztkitöltést, mert van, aki(k)nek az ideje még nem járt le.
 assessment#:#finish_pass_for_user_confirmation#:#Biztos, hogy befejezettre állítja '%s' tesztkitöltését?
 assessment#:#finish_pass_for_user_in_processing_time#:#FIGYELMEZTETÉS: a felhasználó ideje még nem járt le! Csak nyomós ok esetén fejezze be a tesztkitöltést (például kizárás a tesztből).
 assessment#:#finish_test#:#Teszt befejezése
 assessment#:#finish_test_all#:#Biztos, hogy befejezettre állítja az összes felhasználó tesztkitöltését?
-assessment#:#finish_test_more_than_one_selected#:#Ha csak egy kitöltés engedélyezett, akkor csak az egyszeres kitöltőknél állítható befejezettre a tesz.
 assessment#:#finish_test_multiple#:#Biztos, hogy befejezettre állítja a kiválasztott felhasználók tesztkitöltését?
 assessment#:#finish_test_no_valid_participants_selected#:#Egy aktív tesztkitöltése sincs a kiválasztott felhasználóknak, így nincs mit befejezni.
 assessment#:#finish_test_single#:#Biztos, hogy befejezettre állítja '%s' felhasználók tesztkitöltését?

@@ -25,6 +25,8 @@ input[type="text"],
 input[type="submit"],
 input[type="datetime-local"],
 input[type="url"],
+input[type="number"],
+input[type="password"],
 select {
 	min-height: $il-input-min-height;
 }

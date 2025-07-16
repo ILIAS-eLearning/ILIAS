@@ -78,7 +78,9 @@ class ilExportFilesToIRSSMigration implements Migration
             "SELECT class_name, component, location, id FROM il_object_def where id = " . $this->db->quote($row_object_data['type'], ilDBConstants::T_TEXT)
         );
         $row_il_object_def = $this->db->fetchAssoc($res_il_object_def);
+        # Object type is not defined or plugin and cannot be migrated, mark as such
         if (is_null($row_il_object_def)) {
+            $this->updateMigratedUnsupportedObjectType($obj_id, $export_type, $filename);
             return;
         }
         $res_il_plugin = $this->db->query("SELECT plugin_id FROM il_plugin");
@@ -141,6 +143,19 @@ class ilExportFilesToIRSSMigration implements Migration
     ): void {
         $this->db->manipulate(
             "UPDATE export_file_info SET migrated = 1 WHERE"
+            . " obj_id = " . $this->db->quote($obj_id, ilDBConstants::T_INTEGER)
+            . " AND export_type = " . $this->db->quote($export_type, ilDBConstants::T_TEXT)
+            . " AND filename = " . $this->db->quote($filename, ilDBConstants::T_TEXT)
+        );
+    }
+
+    protected function updateMigratedUnsupportedObjectType(
+        int $obj_id,
+        string $export_type,
+        string $filename
+    ): void {
+        $this->db->manipulate(
+            "UPDATE export_file_info SET migrated = 2 WHERE"
             . " obj_id = " . $this->db->quote($obj_id, ilDBConstants::T_INTEGER)
             . " AND export_type = " . $this->db->quote($export_type, ilDBConstants::T_TEXT)
             . " AND filename = " . $this->db->quote($filename, ilDBConstants::T_TEXT)

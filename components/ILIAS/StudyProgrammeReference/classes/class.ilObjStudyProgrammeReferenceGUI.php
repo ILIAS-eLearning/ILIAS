@@ -32,6 +32,7 @@ class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI
         $this->target_type = 'prg';
         $this->reference_type = 'prgr';
         parent::__construct($data, $id, $call_by_reference, $prepare_output);
+        $this->lng->loadLanguageModule('prg');
     }
 
     public static function _goto(string $target): void
@@ -52,19 +53,53 @@ class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI
     public function saveObject(): void
     {
         $ilAccess = $this->access;
+        $target_id = $this->cont_request->getTargetId();
+        $create = true;
 
-        if (!(int) $_REQUEST['target_id']) {
+        if ($target_id === 0) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt('select_object_to_link'));
             $this->createObject();
+            $create = false;
         }
-        if (!$ilAccess->checkAccess('visible', '', (int) $_REQUEST['target_id'])) {
+        if ($create && !$ilAccess->checkAccess('visible', '', $target_id)) {
             $this->tpl->setOnScreenMessage("failure", $this->lng->txt('permission_denied'));
             $this->createObject();
+            $create = false;
         }
-        if ($this->tryingToCreateCircularReference((int) $_REQUEST['target_id'], (int) $_REQUEST['ref_id'])) {
+        if ($create && $this->tryingToCreateCircularReference($target_id, $this->cont_request->getRefId())) {
             $this->tpl->setOnScreenMessage("failure", $this->lng->txt('prgr_may_not_create_circular_reference'));
             $this->createObject();
+            $create = false;
         }
-        parent::saveObject();
+        if ($create) {
+            parent::saveObject();
+        }
+    }
+
+    public function updateObject(): void
+    {
+        $form = $this->initForm();
+        $form->checkInput();
+        $target_id = (int) $form->getInput('target_id');
+        $self_id = (int) $this->object->getRefId();
+        $container_id = $this->tree->getParentId($self_id);
+        $do_update = true;
+
+        if (!$this->access->checkAccess('visible', '', $target_id)) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt('permission_denied'), true);
+            $this->editObject($form);
+            $do_update = false;
+        }
+
+        if ($do_update && $this->tryingToCreateCircularReference($target_id, $container_id)) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt('prgr_may_not_create_circular_reference'));
+            $this->editObject($form);
+            $do_update = false;
+        }
+
+        if ($do_update) {
+            parent::updateObject();
+        }
     }
 
     public function putObjectInTree(ilObject $obj, $parent_node_id = null): void

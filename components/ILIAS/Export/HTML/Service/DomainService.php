@@ -25,6 +25,7 @@ use ILIAS\Export\HTML\RepoService;
 use ILIAS\Export\HTML\DataService;
 use ILIAS\Export\InternalDomainService;
 use ILIAS\components\Export\HTML\ExportCollector;
+use ILIAS\components\Export\HTML\ExportFileManager;
 
 class DomainService
 {
@@ -49,4 +50,14 @@ class DomainService
             $type
         );
     }
+
+    public function fileManager(
+    ) : ExportFileManager
+    {
+        return self::$instance["file_manager"] ??= new ExportFileManager(
+            $this->data,
+            $this->repo->exportFile()
+        );
+    }
+
 }

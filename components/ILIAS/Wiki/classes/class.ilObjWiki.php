@@ -267,7 +267,6 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             $start_page->setWikiRefId($this->getRefId());
             $start_page->create();
         }
-
         $this->notes->domain()->activateComments($this->getId(), $this->getPublicNotes());
 
         return true;

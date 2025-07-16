@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+use ILIAS\Refinery\String\UTFNormal;
 
 /**
  * Class shibUser
@@ -109,7 +112,7 @@ class shibUser extends ilObjUser
         $this->setLastname($this->shibServerData->getLastname());
         $this->setLogin($this->returnNewLoginName());
         $array = ilSecuritySettingsChecker::generatePasswords(1);
-        $this->setPasswd(md5(end($array)), ilObjUser::PASSWD_CRYPTED);
+        $this->setPasswd(md5((string) end($array)), ilObjUser::PASSWD_CRYPTED);
         $this->setGender($this->shibServerData->getGender());
         $this->setExternalAccount($this->shibServerData->getLogin());
         $this->setUTitle($this->shibServerData->getTitle());
@@ -142,15 +145,13 @@ class shibUser extends ilObjUser
     {
         $c = shibConfig::getInstance();
         $registration_settings = new ilRegistrationSettings();
-        $recipients = array_filter($registration_settings->getApproveRecipients(), static function ($v) {
-            return is_int($v);
-        });
+        $recipients = array_filter($registration_settings->getApproveRecipients(), static fn($v): bool => is_int($v));
         if ($recipients !== [] && $c->isActivateNew()) {
             $this->setActive(false);
             $mail = new ilRegistrationMailNotification();
             $mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_CONFIRMATION);
             $mail->setRecipients($registration_settings->getApproveRecipients());
-            $mail->setAdditionalInformation(array('usr' => $this));
+            $mail->setAdditionalInformation(['usr' => $this]);
             $mail->send();
         }
 
@@ -183,13 +184,18 @@ class shibUser extends ilObjUser
 
     protected function cleanName(string $name): string
     {
-        return strtolower(
-            strtr(
-                $name,
-                'ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ',
-                'SOZsozYYuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyy'
-            )
-        );
+        $umlaut_map = [
+            'ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue',
+            'Ä' => 'Ae', 'Ö' => 'Oe', 'Ü' => 'Ue',
+            'ß' => 'ss'
+        ];
+        $name = strtr($name, $umlaut_map);
+
+        $form_d = new UTFNormal();
+        $name = $form_d->formD()->transform($name);
+        $name = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', (string) $name);
+
+        return strtolower((string) preg_replace('/[^a-zA-Z0-9\s]/', '', $name));
     }
 
     private function loginExists(string $login, int $usr_id): bool

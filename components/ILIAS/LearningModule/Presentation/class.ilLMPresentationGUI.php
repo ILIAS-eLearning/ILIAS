@@ -1958,26 +1958,30 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 $link = $t["link"];
                 $key = $t["key"];
 
-                // output definition of term
-                $page_gui = new ilGlossaryDefPageGUI($link["id"]);
-                $page_gui->setTemplateOutput(false);
-                $page_gui->setOutputMode("print");
+                try {
+                    // output definition of term
+                    $page_gui = new ilGlossaryDefPageGUI($link["id"]);
+                    $page_gui->setTemplateOutput(false);
+                    $page_gui->setOutputMode("print");
 
-                $tpl->setCurrentBlock("definition");
-                $page_gui->setFileDownloadLink("#");
-                $page_gui->setFullscreenLink("#");
-                $page_gui->setSourcecodeDownloadScript("#");
-                $output = $page_gui->showPage();
-                $tpl->setVariable("VAL_DEFINITION", $output);
-                $tpl->parseCurrentBlock();
+                    $tpl->setCurrentBlock("definition");
+                    $page_gui->setFileDownloadLink("#");
+                    $page_gui->setFullscreenLink("#");
+                    $page_gui->setSourcecodeDownloadScript("#");
+                    $output = $page_gui->showPage();
+                    $tpl->setVariable("VAL_DEFINITION", $output);
+                    $tpl->parseCurrentBlock();
 
-                // output term
-                $tpl->setCurrentBlock("term");
-                $tpl->setVariable(
-                    "VAL_TERM",
-                    $term = ilGlossaryTerm::_lookGlossaryTerm($link["id"])
-                );
-                $tpl->parseCurrentBlock();
+                    // output term
+                    $tpl->setCurrentBlock("term");
+                    $tpl->setVariable(
+                        "VAL_TERM",
+                        $term = ilGlossaryTerm::_lookGlossaryTerm($link["id"])
+                    );
+                    $tpl->parseCurrentBlock();
+                } catch (Exception $e) {
+
+                }
             }
 
             // output glossary header

@@ -1001,8 +1001,20 @@ abstract class ilAdvancedMDFieldDefinition
      */
     public function _clone(int $a_new_record_id): self
     {
+        $empty_generic_data = new GenericDataImplementation(
+            $this->generic_data->type(),
+            0,
+            '',
+            '',
+            '',
+            0,
+            false,
+            false,
+            []
+        );
+
         $class = get_class($this);
-        $obj = new $class();
+        $obj = new $class($empty_generic_data);
         $obj->setRecordId($a_new_record_id);
         $obj->setTitle($this->getTitle());
         $obj->setDescription($this->getDescription());

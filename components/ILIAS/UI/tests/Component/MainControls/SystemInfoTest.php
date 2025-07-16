@@ -54,8 +54,8 @@ class SystemInfoTest extends ILIAS_UI_TestBase
 <div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
-            <span id="id_headline" class="il-system-info-headline">$headline</span>
-            <span id="id_description" class="il-system-info-body">$information</span>
+            <div id="id_headline" class="il-system-info-headline">$headline</div>
+            <div id="id_description" class="il-system-info-body">$information</div>
         </div>
     </div>
     <div class="il-system-info-actions">
@@ -87,8 +87,8 @@ EOT;
 <div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
-            <span id="id_headline" class="il-system-info-headline">$headline</span>
-            <span id="id_description" class="il-system-info-body">$information</span>
+            <div id="id_headline" class="il-system-info-headline">$headline</div>
+            <div id="id_description" class="il-system-info-body">$information</div>
         </div>
     </div>
     <div class="il-system-info-actions">
@@ -120,8 +120,8 @@ EOT;
 <div id="id" class="container-fluid il-system-info il-system-info-important" data-close-uri="" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
-            <span id="id_headline" class="il-system-info-headline">$headline</span>
-            <span id="id_description" class="il-system-info-body">$information</span>
+            <div id="id_headline" class="il-system-info-headline">$headline</div>
+            <div id="id_description" class="il-system-info-body">$information</div>
         </div>
     </div>
     <div class="il-system-info-actions">
@@ -152,8 +152,8 @@ EOT;
 <div id="id" class="container-fluid il-system-info il-system-info-breaking" data-close-uri="" role="alert" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
-            <span id="id_headline" class="il-system-info-headline">$headline</span>
-            <span id="id_description" class="il-system-info-body">$information</span>
+            <div id="id_headline" class="il-system-info-headline">$headline</div>
+            <div id="id_description" class="il-system-info-body">$information</div>
         </div>
     </div>
     <div class="il-system-info-actions">
@@ -187,8 +187,8 @@ EOT;
 <div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="$uri_string" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
-            <span id="id_headline" class="il-system-info-headline">$headline</span>
-            <span id="id_description" class="il-system-info-body">$information</span>
+            <div id="id_headline" class="il-system-info-headline">$headline</div>
+            <div id="id_description" class="il-system-info-body">$information</div>
         </div>
     </div>
     <div class="il-system-info-actions">

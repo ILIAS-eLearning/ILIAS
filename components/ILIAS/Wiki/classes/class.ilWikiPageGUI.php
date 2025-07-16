@@ -375,7 +375,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
             true,
             "components/ILIAS/Wiki"
         );
-
         $callback = array($this, "observeNoteAction");
         // notes
         if (!$ilSetting->get("disable_comments") &&

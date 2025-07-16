@@ -668,6 +668,7 @@ class ilObjLTIConsumer extends ilObject2
     ): array {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
+        $DIC->user()->setExternalAccount($cmixUser->getUsrIdent());
 
         $roles = $DIC->access()->checkAccess('write', '', $this->getRefId()) ? "Instructor" : "Learner";
         //todo if object is in course or group, roles would have to be taken from there s. Mantis 35435 - if necessary Jour Fixe topic
@@ -807,11 +808,13 @@ class ilObjLTIConsumer extends ilObject2
     ): ?array {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
+        $roles = $this->determineLTIRole($DIC->user()->getId(), $this->getRefId(), $DIC->rbac()->review());
 
-        $roles = $DIC->access()->checkAccess('write', '', $this->getRefId()) ? "Instructor" : "Learner";
         if ($this->getProvider()->getAlwaysLearner() == true) {
-            $roles = "Learner";
+            $roles = 'Learner';
         }
+
+
 
         $resource_link_id = $this->getRefId();
         if ($this->getProvider()->getUseProviderId() == true) {
@@ -1462,5 +1465,42 @@ class ilObjLTIConsumer extends ilObject2
         }
 
         $new_obj->save();
+    }
+
+    private function determineLTIRole(int $a_user_id, int $a_ref_id, ilRbacReview $rbac_review_instance): string
+    {
+        global $DIC;
+
+        $global_roles = $rbac_review_instance->assignedGlobalRoles($a_user_id);
+        if (in_array(SYSTEM_ROLE_ID, $global_roles)) {
+            return 'Administrator';
+        }
+
+        $user_assigned_roles = $rbac_review_instance->assignedRoles($a_user_id);
+        $parent_roles_data = $rbac_review_instance->getParentRoleIds($a_ref_id, true);
+        $roles_in_path_ids = array_keys($parent_roles_data);
+        $effective_roles_in_context = array_intersect($user_assigned_roles, $roles_in_path_ids);
+
+        if (!empty($effective_roles_in_context)) {
+            $parent_ref_id = $DIC->repositoryTree()->getParentId($a_ref_id);
+            $context_obj_type = ilObject::_lookupType($parent_ref_id, true);
+
+            $instructor_base_titles = [
+                'il_' . $context_obj_type . '_admin',
+                'il_' . $context_obj_type . '_tutor'
+            ];
+
+            foreach ($effective_roles_in_context as $role_id) {
+                $role_title = ilObject::_lookupTitle($role_id);
+
+                foreach ($instructor_base_titles as $base_title) {
+                    if (str_starts_with((string) $role_title, $base_title)) {
+                        return 'Instructor';
+                    }
+                }
+            }
+        }
+
+        return 'Learner';
     }
 }

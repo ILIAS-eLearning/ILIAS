@@ -727,12 +727,11 @@ assessment#:#finalized_evaluation#:#Scoring completed
 assessment#:#finalized_on#:#Completed at
 assessment#:#finish_all_user_passes#:#Finir tous les essais de test
 assessment#:#finish_pass_for_all_users#:#Êtes-vous sûr de vouloir finir les essais de test pour tous les utilisateurs?
-assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.
+assessment#:#finish_pass_for_multiple_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.
 assessment#:#finish_pass_for_user_confirmation#:#Êtes-vous sûr de vouloir terminer cet essai de test?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).
 assessment#:#finish_test#:#Terminer le Test
 assessment#:#finish_test_all#:#Are you sure you want to finish the test attempts for all users?###28 10 2024 new variable
-assessment#:#finish_test_more_than_one_selected#:#Only a single participant may be selected to finish the pass if the test allows only one pass.###21 05 2025 new variable
 assessment#:#finish_test_multiple#:#Are you sure you want to finish the test attempts for the following participants?###28 10 2024 new variable
 assessment#:#finish_test_no_valid_participants_selected#:#There are no active test runs for the selected participants, so they cannot be completed.###21 05 2025 new variable
 assessment#:#finish_test_single#:#Are you sure you want to finish the test attempt for the participant "%s"?###28 10 2024 new variable

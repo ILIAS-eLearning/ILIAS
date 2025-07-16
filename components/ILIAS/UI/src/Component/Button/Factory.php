@@ -64,9 +64,9 @@ interface Factory
      *          sticky (stay visible on small screens).
      *   accessibility:
      *       1: >
-     *          Standard buttons MAY define aria-label attribute. Use it in cases
-     *          where a text label is not visible on the screen or when the label
-     *          does not provide enough information about the action.
+     *          Standard buttons MAY define an aria-label attribute. Use it in cases where a text label is not visible
+     *          on the screen, when the button doesn't include a glyph that comes with a fitting aria-label or when the
+     *          label does not provide enough information about the action.
      *       2: >
      *          Some Buttons can be stateful; when engaged, the state MUST be
      *          reflected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
@@ -125,6 +125,10 @@ interface Factory
      *           The loading animation rules of the Standard Button MUST be respected.
      *   accessibility:
      *       1: >
+     *           Primary buttons MAY define an aria-label attribute. Use it in cases where a text label is not visible
+     *           on the screen, when the button doesn't include a glyph that comes with a fitting aria-label or when the
+     *           label does not provide enough information about the action.
+     *       2: >
      *          Some Buttons can be stateful; when engaged, the state MUST be
      *          reflected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
      *          If the Button is not stateful (which is the default), the
@@ -208,12 +212,16 @@ interface Factory
      *   purpose: >
      *       The Month Button enables to select a specific month to fire some action (probably a change of view).
      *   composition: >
-     *       The Month Button is composed of a Button showing the default month directly (probably the
-     *       month currently rendered by some view). A dropdown contains an interface enabling the selection of a month from
-     *       the future or the past.
+     *       On browsers supporting the html5 type='month' button (Chrome, Edge): The Month Button is composed of a
+     *       Button showing the default month directly (probably the month currently rendered by some view). A dropdown
+     *       contains an interface enabling the selection of a month and year from the future or the past.
+     *       On other browsers (Firefox, Safari on desktop): A select field shows the default month, a text input
+     *       presents the year. The select's dropdown can be used to change the selected month. In the text input, a two
+     *       or four digit year can be entered.
      *   effect: >
-     *      Selecting a month from the dropdown directly fires the according action (e.g. switching the view to the
+     *      Selecting a month and/or year from directly fires the according action (e.g. switching the view to the
      *      selected month). Technically this is currently a Javascript event being fired.
+     *      In the fallback version: Entering two digits for the year adds '20' to the beginning. '24' becomes '2024'.
      *
      * context:
      *      - Marginal Grid Calendar
@@ -222,6 +230,12 @@ interface Factory
      *   interaction:
      *       1: >
      *          Selecting a month from the dropdown MUST directly fire the according action.
+     *       2: >
+     *          You MUST use the fired event to handle the selection of the month. You MUST NOT watch the month input's
+     *          value with your own listeners, because the fallback version disregards this originally rendered input.
+     *       3: >
+     *          Another component MUST NOT modify the month input's element value through a simple javascript
+     *          re-assignment. Instead, destroy it and fetch a new button from the server in its place.
      *
      * ---
      * @param string $default Initial value, use format "mm-yyyy".

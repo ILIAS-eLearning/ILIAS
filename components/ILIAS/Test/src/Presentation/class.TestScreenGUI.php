@@ -140,10 +140,10 @@ class TestScreenGUI
             $message_box_message_elements[] = $this->lng->txt('tst_launcher_status_message_password');
         }
 
-        if ($test_behaviour_settings->getProcessingTimeEnabled()) {
+        if ($test_behaviour_settings->getProcessingTimeEnabled() && !$this->isUserOutOfProcessingTime()) {
             $message_box_message_elements[] = sprintf(
                 $this->lng->txt('tst_time_limit_message'),
-                $this->object->getProcessingTimeInSeconds($this->test_session->getActiveId()) / 60
+                $test_behaviour_settings->getProcessingTimeAsMinutes()
             );
         }
 
@@ -521,7 +521,8 @@ class TestScreenGUI
     private function blockUserAfterHavingPassed(): bool
     {
         if ($this->main_settings->getTestBehaviourSettings()->getBlockAfterPassedEnabled()) {
-            return $this->test_passes_selector->hasTestPassedOnce($this->test_session->getActiveId());
+            return $this->test_passes_selector->getLastFinishedPass() >= 0
+                && $this->test_passes_selector->hasTestPassedOnce($this->test_session->getActiveId());
         }
 
         return false;

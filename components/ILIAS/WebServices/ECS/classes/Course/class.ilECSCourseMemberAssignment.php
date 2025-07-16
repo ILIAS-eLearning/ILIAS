@@ -279,7 +279,7 @@ class ilECSCourseMemberAssignment
      */
     public function update(): bool
     {
-        $this->database->update('ecs_course_assignments', $this->getArrayForDatabase(), [
+        $this->db->update('ecs_course_assignments', $this->getArrayForDatabase(), [
             'id' => [
                 'integer',
                 $this->getId(),

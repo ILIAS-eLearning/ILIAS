@@ -208,6 +208,18 @@ class MediaObjectRepository
         );
     }
 
+    public function addString(
+        int $mob_id,
+        string $location,
+        string $content
+    ) : void {
+        $this->irss->addStringToContainer(
+            $this->getRidForMobId($mob_id),
+            $content,
+            $location
+        );
+    }
+
     public function getContainerResource(
         int $mob_id
     ) : ?StorableResource {

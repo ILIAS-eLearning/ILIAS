@@ -32,7 +32,7 @@ class SchedulesDBRepository
         $this->db = $db;
     }
 
-    public function loadDataOfPool(int $pool_id): void
+    public function loadDataOfPool(int $pool_id) : void
     {
         $db = $this->db;
 
@@ -67,19 +67,19 @@ class SchedulesDBRepository
 
     protected function getScheduleDataForPool(
         int $pool_id
-    ): array {
+    ) : array {
         $this->loadDataOfPool($pool_id);
         return self::$pool_schedules[$pool_id] ?? [];
     }
 
     public function hasSchedules(
         int $pool_id
-    ): bool {
+    ) : bool {
         $this->loadDataOfPool($pool_id);
         return count(self::$pool_schedules[$pool_id] ?? []) > 0;
     }
 
-    public function getScheduleList(int $pool_id): array
+    public function getScheduleList(int $pool_id) : array
     {
         $list = [];
         foreach ($this->getScheduleDataForPool($pool_id) as $data) {
@@ -88,13 +88,24 @@ class SchedulesDBRepository
         return $list;
     }
 
-    public function getScheduleData(int $pool_id): array
+    public function getScheduleData(int $pool_id) : array
     {
         $schedules = [];
         foreach ($this->getScheduleDataForPool($pool_id) as $data) {
             $schedules[$data["booking_schedule_id"]] = $data;
         }
         return $schedules;
+    }
+
+    public function getPoolIdForSchedule(int $schedule_id) : int
+    {
+        $set = $this->db->query("SELECT pool_id " .
+            " FROM booking_schedule" .
+            " WHERE booking_schedule_id = " . $this->db->quote($schedule_id, 'integer'));
+        if ($rec = $this->db->fetchAssoc($set)) {
+            return (int) $rec['pool_id'];
+        }
+        return 0;
     }
 
 }

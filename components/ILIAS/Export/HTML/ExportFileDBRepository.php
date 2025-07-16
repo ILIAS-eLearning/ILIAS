@@ -167,6 +167,19 @@ class ExportFileDBRepository
         }
     }
 
+    public function getLatestOfObjectIdAndType(int $object_id, string $type = ""): ?ExportFile
+    {
+        $set = $this->db->queryF("SELECT * FROM export_files_html " .
+            " WHERE object_id = %s AND type = %s ORDER BY timestamp DESC",
+            ["integer", "text"],
+            [$object_id, $type]
+        );
+        if ($record = $this->db->fetchAssoc($set)) {
+            return $this->getExportFileFromRecord($record);
+        }
+        return null;
+    }
+
     public function getResourceIdForIdString(string $rid): ?ResourceIdentification
     {
         return $this->irss->getResourceIdForIdString($rid);

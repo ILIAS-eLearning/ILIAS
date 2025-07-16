@@ -739,18 +739,14 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         }
     }
 
-    public function getMultilineAnswerSetting(): string
+    public function getMultilineAnswerSetting(): int
     {
-        $multilineAnswerSetting = $this->current_user->getPref('tst_multiline_answers');
-        if ($multilineAnswerSetting !== '1') {
-            $multilineAnswerSetting = '0';
-        }
-        return $multilineAnswerSetting;
+        return $this->current_user->getPref('tst_multiline_answers') === '1' ? 1 : 0;
     }
 
-    public function setMultilineAnswerSetting(string $setting = '0'): void
+    public function setMultilineAnswerSetting($setting = '0'): void
     {
-        $this->current_user->writePref('tst_multiline_answers', $setting);
+        $this->current_user->writePref('tst_multiline_answers', (string) $setting);
     }
 
     /**

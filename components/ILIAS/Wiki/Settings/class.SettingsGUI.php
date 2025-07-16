@@ -96,7 +96,19 @@ class SettingsGUI
                 $lng->txt("wiki_page_toc"),
                 $lng->txt("wiki_page_toc_info"),
                 (bool) $settings->getPageToc()
-            )
+            );
+
+        if (count(\ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->ref_id, "wpg")) > 0) {
+            $form = $form
+                ->checkbox(
+                    "link_md_values",
+                    $lng->txt("wiki_link_md_values"),
+                    $lng->txt("wiki_link_md_values_info"),
+                    (bool) $settings->getLinkMetadataValues()
+                );
+        }
+
+        $form = $form
             ->addAdditionalFeatures(
                 $this->obj_id,
                 [
@@ -164,6 +176,10 @@ class SettingsGUI
                 ]
             );
 
+            $link_md_values = $old_settings->getLinkMetadataValues();
+            if (count(\ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->ref_id, "wpg")) > 0) {
+                $link_md_values = (bool) $form->getData("link_md_values");
+            }
 
             $settings = $this->data->settings(
                 $this->obj_id,
@@ -177,7 +193,7 @@ class SettingsGUI
                 (bool) $form->getData("public_notes"),
                 $form->getData("introduction"),
                 (bool) $form->getData("page_toc"),
-                $old_settings->getLinkMetadataValues(),  // obsolete?
+                $link_md_values,
                 $old_settings->getEmptyPageTemplate()  // obsolete?
             );
             $this->domain->wikiSettings()->update($settings);

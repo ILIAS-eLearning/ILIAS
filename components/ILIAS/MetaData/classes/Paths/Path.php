@@ -32,6 +32,8 @@ class Path implements PathInterface, \Stringable
     protected bool $is_relative;
     protected bool $leads_to_one;
 
+    protected string $as_string;
+
     public function __construct(
         bool $is_relative,
         bool $leads_to_one,
@@ -62,6 +64,10 @@ class Path implements PathInterface, \Stringable
 
     public function toString(): string
     {
+        if (isset($this->as_string)) {
+            return $this->as_string;
+        }
+
         $string = '';
 
         if ($this->leadsToExactlyOneElement()) {
@@ -77,7 +83,7 @@ class Path implements PathInterface, \Stringable
             $string .= $this->stepToString($step);
         }
 
-        return $string;
+        return $this->as_string = $string;
     }
 
     protected function stepToString(StepInterface $step): string

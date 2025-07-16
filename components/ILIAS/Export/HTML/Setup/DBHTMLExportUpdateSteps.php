@@ -74,4 +74,14 @@ class DBHTMLExportUpdateSteps implements ilDatabaseUpdateSteps
     public function step_3(): void
     {
     }
+
+    public function step_4(): void
+    {
+        $this->db->modifyTableColumn("export_files_html", "type", [
+            'type' => 'text',
+            'length' => 40,
+            'default' => '',
+            'notnull' => true
+        ]);
+    }
 }

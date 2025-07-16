@@ -22,6 +22,7 @@ namespace ILIAS\Export\ExportHandler\Info\Export\Component;
 
 use ilExport;
 use ilExportException;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfigCollectionInterface;
 use ILIAS\Export\ExportHandler\I\FactoryInterface as ilExportHandlerFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Component\CollectionInterface as ilExportHandlerExportComponentInfoCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Component\HandlerInterface as ilExportHandlerExportComponentInfoInterface;
@@ -33,6 +34,7 @@ class Handler implements ilExportHandlerExportComponentInfoInterface
     protected const PLUGIN = "Plugins";
     protected ilExportHandlerFactoryInterface $export_handler;
     protected ilExportHandlerTargetInterface $export_target;
+    protected ExportConfigCollectionInterface $export_configs;
     protected array $sv;
     protected string $path_in_container;
     protected string $component_export_dir_path_in_container;
@@ -41,11 +43,13 @@ class Handler implements ilExportHandlerExportComponentInfoInterface
     public function __construct(ilExportHandlerFactoryInterface $export_handler)
     {
         $this->export_handler = $export_handler;
-        $this->sv = [];
     }
 
     protected function init(): void
     {
+        if (isset($this->exporter_class_name) && isset($this->sv)) {
+            return;
+        }
         $component = $this->getTarget()->getComponent() === "components/ILIAS/Object" ? "components/ILIAS/ILIASObject" : $this->getTarget()->getComponent();
         $this->exporter_class_name = $this->getTarget()->getClassname() === "ilObjectExporter" ? "ilILIASObjectExporter" : $this->getTarget()->getClassname();
         if (!class_exists($this->exporter_class_name)) {
@@ -59,12 +63,19 @@ class Handler implements ilExportHandlerExportComponentInfoInterface
         $this->sv['xsd_file'] ??= '';
     }
 
+    public function withExportConfigs(
+        ExportConfigCollectionInterface $export_configs
+    ): ilExportHandlerExportComponentInfoInterface {
+        $clone = clone $this;
+        $clone->export_configs = $export_configs;
+        return $clone;
+    }
+
     public function withExportTarget(
         ilExportHandlerTargetInterface $export_target
     ): ilExportHandlerExportComponentInfoInterface {
         $clone = clone $this;
         $clone->export_target = $export_target;
-        $clone->init();
         return $clone;
     }
 
@@ -82,6 +93,11 @@ class Handler implements ilExportHandlerExportComponentInfoInterface
         $clone = clone $this;
         $clone->component_export_dir_path_in_container = $component_export_dir_path_in_container;
         return $clone;
+    }
+
+    public function getExportConfigs(): ExportConfigCollectionInterface
+    {
+        return $this->export_configs;
     }
 
     public function getTarget(): ilExportHandlerTargetInterface
@@ -128,20 +144,23 @@ class Handler implements ilExportHandlerExportComponentInfoInterface
             $comp = explode("/", $s["component"]);
             $component = str_replace("_", "", ($comp[0] === self::PLUGIN ? $comp[1] : $comp[2]));
             $exp_class = "il" . $component . "Exporter";
-            $component_infos = $component_infos->withComponent((new Handler($this->export_handler))->withExportTarget(
-                $this->export_handler->target()->handler()
+            $component_infos = $component_infos->withComponent(
+                (new Handler($this->export_handler))->withExportConfigs($this->getExportConfigs())->withExportTarget(
+                    $this->export_handler->target()->handler()
                     ->withClassname($exp_class)
                     ->withComponent($s["component"])
                     ->withType($s["entity"])
                     ->withTargetRelease($this->getTarget()->getTargetRelease())
                     ->withObjectIds((array) $s["ids"])
-            ));
+                )
+            );
         }
         return $component_infos;
     }
 
     public function getHeadComponentInfos(): ilExportHandlerExportComponentInfoCollectionInterface
     {
+        $this->init();
         return $this->getComponentInfos($this->getMinimalComponentExporter()->getXmlExportHeadDependencies(
             $this->getTarget()->getType(),
             $this->getTarget()->getTargetRelease(),
@@ -151,11 +170,13 @@ class Handler implements ilExportHandlerExportComponentInfoInterface
 
     public function getSchemaVersion(): string
     {
+        $this->init();
         return $this->sv["schema_version"] ?? "";
     }
 
     public function getTailComponentInfos(): ilExportHandlerExportComponentInfoCollectionInterface
     {
+        $this->init();
         return $this->getComponentInfos($this->getMinimalComponentExporter()->getXmlExportTailDependencies(
             $this->getTarget()->getType(),
             $this->getTarget()->getTargetRelease(),
@@ -165,28 +186,34 @@ class Handler implements ilExportHandlerExportComponentInfoInterface
 
     public function getNamespace(): string
     {
+        $this->init();
         return $this->sv["namespace"];
     }
 
     public function getDatasetNamespace(): string
     {
+        $this->init();
         return "http://www.ilias.de/Services/DataSet/ds/4_3";
     }
 
     public function usesDataset(): bool
     {
+        $this->init();
         return $this->sv["uses_dataset"];
     }
 
     public function usesCustomNamespace(): bool
     {
+        $this->init();
         return ($this->sv["namespace"] ?? "") !== "" && ($this->sv["xsd_file"] ?? "") !== "";
     }
 
     protected function getMinimalComponentExporter(): ilXmlExporter
     {
+        $export = new ilExport();
+        $export->setExportConfigs($this->export_configs);
         $exporter = new ($this->exporter_class_name)();
-        $exporter->setExport(new ilExport());
+        $exporter->setExport($export);
         $exporter->init();
         return $exporter;
     }

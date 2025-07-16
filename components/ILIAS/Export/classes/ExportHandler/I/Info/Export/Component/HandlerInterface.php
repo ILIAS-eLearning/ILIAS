@@ -21,17 +21,22 @@ declare(strict_types=1);
 namespace ILIAS\Export\ExportHandler\I\Info\Export\Component;
 
 use ilExport;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfigCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Component\CollectionInterface as ilExportHandlerExportComponentInfoCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Target\HandlerInterface as ilExportHandlerTargetInterface;
 use ilXmlExporter;
 
 interface HandlerInterface
 {
+    public function withExportConfigs(ExportConfigCollectionInterface $export_configs): HandlerInterface;
+
     public function withExportTarget(ilExportHandlerTargetInterface $export_target): HandlerInterface;
 
     public function withExportFilePathInContainer(string $path_in_container): HandlerInterface;
 
     public function withComponentExportDirPathInContainer(string $component_export_dir_path_in_container): HandlerInterface;
+
+    public function getExportConfigs(): ExportConfigCollectionInterface;
 
     public function getTarget(): ilExportHandlerTargetInterface;
 

@@ -41,9 +41,7 @@ class URLSafeSplitPathTransport implements Transport
         // combine chunks
         $compressed_token = str_replace("/", "", $compressed_token);
 
-        $string = base64_decode(str_replace(['-', '_'], ['+', '/'], $compressed_token . '=='));
-
-        return $string;
+        return base64_decode(str_replace(['-', '_'], ['+', '/'], $compressed_token . '=='));
     }
 
 }

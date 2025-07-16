@@ -381,6 +381,7 @@
 }
 
 .dropdown-menu {
+  width: 320px;
   position: absolute;
   top: 100%;
   z-index: 1000;
@@ -2129,6 +2130,8 @@ input[type=text],
 input[type=submit],
 input[type=datetime-local],
 input[type=url],
+input[type=number],
+input[type=password],
 select {
   min-height: 28px;
 }
@@ -3209,11 +3212,11 @@ input.btn, input.il-link.link-bulky,
 .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link fieldset[disabled],
 .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default fieldset[disabled],
 .ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a fieldset[disabled] {
-  background-color: white;
+  background-color: #b0b0b0;
   border-width: 1px;
   border-style: solid;
-  border-color: white;
-  color: rgba(76, 101, 134, 0.9);
+  border-color: #b0b0b0;
+  color: black;
   cursor: not-allowed;
   transform: none;
 }
@@ -4254,7 +4257,6 @@ hr.il-divider-with-label {
 }
 .c-form ul.c-field-multiselect > li label {
   display: flex;
-  flex-wrap: wrap;
 }
 .c-form ul.c-field-multiselect > li label > input[type=checkbox] {
   margin-right: 9px;
@@ -7120,7 +7122,10 @@ code {
   flex-basis: auto;
   overflow: hidden;
 }
-.il-system-info div.il-system-info-content-wrapper span.il-system-info-headline {
+.il-system-info div.il-system-info-content-wrapper div.il-system-info-headline, .il-system-info div.il-system-info-content-wrapper div.il-system-info-body {
+  display: inline;
+}
+.il-system-info div.il-system-info-content-wrapper div.il-system-info-headline {
   text-transform: uppercase;
   font-weight: 600;
   margin-right: 9px;
@@ -7437,11 +7442,11 @@ input.btn, .c-drilldown input.c-drilldown__menulevel--trigger, input.il-link.lin
 .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link fieldset[disabled],
 .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default fieldset[disabled],
 .ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a fieldset[disabled] {
-  background-color: white;
+  background-color: #b0b0b0;
   border-width: 1px;
   border-style: solid;
-  border-color: white;
-  color: rgba(76, 101, 134, 0.9);
+  border-color: #b0b0b0;
+  color: black;
   cursor: not-allowed;
   transform: none;
 }
@@ -9994,6 +9999,9 @@ div.alert ul > li:before {
 .glyph:hover, .glyph:focus {
   color: #3a4c65;
   text-decoration: none;
+}
+.glyph:focus-visible {
+  position: relative;
 }
 
 .glyphicon.glyphicon-chevron-left, .glyphicon.glyphicon-chevron-right {
@@ -17509,6 +17517,7 @@ div.ilHFormFooter .ilFormCmds {
 }
 .btn-file:focus-within {
   outline: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 
 .btn-file input[type=file] {
@@ -20582,11 +20591,6 @@ img {
 	border: 0 none;
 }
 
-span.latex {
-	color: green;
-	font-weight: bold;
-}
-
 div.framed {
 	border: 1px solid #9eadba;
 	padding: 0 10px;
@@ -20595,6 +20599,12 @@ div.framed {
 	background-repeat: repeat-x;
 }
 */
+
+span.latex {
+  color: green;
+  font-weight: bold;
+}
+
 div.ilFrame {
   margin-top: -40px;
   margin-left: auto;

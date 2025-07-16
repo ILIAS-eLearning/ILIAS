@@ -85,7 +85,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
      * @param bool	$checkonly	get the setting for checking a POST
      * @return bool
      */
-    protected function getEditAnswersSingleLine($checkonly = false): bool
+    protected function getEditAnswersSingleLine(bool $checkonly = false): bool
     {
         if ($this->object->getSelfAssessmentEditingMode()) {
             return $this->object->isSingleline();
@@ -268,7 +268,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     $ok = false;
                     $checked = false;
                     foreach ($user_solution as $mc_solution) {
-                        if (strcmp($mc_solution, $answer_id) == 0) {
+                        if ((string) $mc_solution === (string) $answer_id) {
                             $checked = true;
                         }
                     }
@@ -312,7 +312,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             if (($show_feedback || !$this->isTestPresentationContext()) && $show_inline_feedback) {
                 if ($this->object->getSpecificFeedbackSetting() == 2) {
                     foreach ($user_solution as $mc_solution) {
-                        if (strcmp($mc_solution, $answer_id) == 0) {
+                        if ((string) $mc_solution === (string) $answer_id) {
                             $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
                                 $this->object->getId(),
                                 0,
@@ -372,7 +372,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                 $template->setVariable("RESULT_OUTPUT", sprintf("(" . $this->lng->txt("checkbox_checked") . " = $resulttextchecked, " . $this->lng->txt("checkbox_unchecked") . " = $resulttextunchecked)", $pointschecked, $pointsunchecked));
             }
             foreach ($user_solution as $mc_solution) {
-                if (strcmp($mc_solution, $answer_id) == 0) {
+                if ((string) $mc_solution === (string) $answer_id) {
                     if ($this->renderPurposeSupportsFormHtml() || $this->isRenderPurposePrintPdf()) {
                         $template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("object/checkbox_checked.png")));
                         $template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
@@ -480,7 +480,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $template->setVariable("ANSWER_ID", $answer_id);
             $template->setVariable("ANSWER_TEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true));
             foreach ($user_solution as $mc_solution) {
-                if (strcmp($mc_solution, $answer_id) == 0) {
+                if ((string) $mc_solution === (string) $answer_id) {
                     $template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
                 }
             }
@@ -589,7 +589,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $template->setVariable("ANSWER_ID", $answer_id);
             $template->setVariable("ANSWER_TEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true));
             foreach ($user_solution as $mc_solution) {
-                if (strcmp($mc_solution, $answer_id) == 0) {
+                if ((string) $mc_solution === (string) $answer_id) {
                     $template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
                 }
             }
@@ -904,7 +904,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     {
         if ($this->object->getSpecificFeedbackSetting() == 2) {
             foreach ($user_solution as $mc_solution) {
-                if (strcmp($mc_solution, $answer_id) == 0) {
+                if ((string) $mc_solution === (string) $answer_id) {
                     $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, $answer_id);
                     if (strlen($fb)) {
                         $template->setCurrentBlock("feedback");

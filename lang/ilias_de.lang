@@ -742,7 +742,7 @@ assessment#:#finalized_evaluation#:#Endgültig bewertet
 assessment#:#finalized_on#:#Bewertung abgeschlossen am
 assessment#:#finish_all_user_passes#:#Alle Testdurchläufe beenden
 assessment#:#finish_pass_for_all_users#:#Wollen Sie wirklich die Test Durchläufe für alle Benutzer beenden?
-assessment#:#finish_pass_for_all_users_in_processing_time#:#Sie können die Durchläufe aller Benutzer nicht gemeinsam beenden, da für mindestens einen Benutzer die Bearbeitungszeit noch nicht vorbei ist.
+assessment#:#finish_pass_for_multiple_users_in_processing_time#:#Sie können die Durchläufe der ausgewählten Benutzer nicht gemeinsam beenden, da für mindestens einen ausgewählten Benutzer die Bearbeitungszeit noch nicht vorbei ist.
 assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie den Test Durchlauf für den Teilnehmer „%s“ wirklich beenden?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNUNG: die Bearbeitungszeit für diesen Benutzer ist noch nicht vorbei! Sie sollten den Testlauf nur bei zwingendem Grund (z.B. Ausschluss vom Test) beenden.
 assessment#:#finish_test#:#Test beenden
@@ -4144,15 +4144,15 @@ common#:#file_allowed_suffixes#:#Erlaubte Dateitypen:
 common#:#file_confirm_delete_all_versions#:#Sie haben alle Dateiversionen ausgewählt. Daher wird das ganze Datei-Objekt gelöscht. Wollen Sie fortfahren?
 common#:#file_confirm_delete_versions#:#Sind Sie sicher, dass Sie die folgende(n) Dateiversion(en) löschen wollen?
 common#:#file_created#:#Die Datei wurde hinzugefügt.
-common#:#file_edit#:#Dateieinstellungen bearbeiten
-common#:#file_info#:#Dateiinformation
+common#:#file_edit#:#Einstellungen der Datei bearbeiten
+common#:#file_info#:#Einstellungen der Datei
 common#:#file_is_infected#:#Die Datei ist von einem Virus befallen.
 common#:#file_no_valid_file_type#:#Dieser Dateityp ist nicht erlaubt.
 common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_not_found_sec#:#Diese Datei wurde in ILIAS nicht gefunden oder wurde aus Sicherheitsgründen gesperrt.
 common#:#file_not_valid#:#Datei ist ungültig!
 common#:#file_notice#:#Maximal erlaubte Upload-Größe:
-common#:#file_objects#:#Datei-Objekte
+common#:#file_objects#:#Dateiobjekte
 common#:#file_rollback#:#Diese Version veröffentlichen
 common#:#file_rollback_done#:#Dateiversion %s ist nun die veröffentlichte Version.
 common#:#file_rollback_select_exact_one#:#Es darf nur eine Dateiversion ausgewählten werden, um sie zur veröffentlichten Version zu machen.
@@ -4385,10 +4385,12 @@ common#:#il_grp_admin#:#Gruppenadministration
 common#:#il_grp_member#:#Gruppenmitglied
 common#:#il_grp_status_closed#:#Geschlossene Gruppe
 common#:#il_grp_status_open#:#Offene Gruppe
+common#:#il_iass_member#:#Teilnehmer
 common#:#il_lso_admin#:#Lernsequenzadministration
 common#:#il_lso_member#:#Lernsequenzmitglied
 common#:#il_lti_instructor#:#LTI Instructor
 common#:#il_lti_learner#:#LTI Learner
+common#:#il_lti_user#:#LTI User
 common#:#il_orgu_employee#:#Mitarbeiter
 common#:#il_orgu_superior#:#Vorgesetzte Führungskraft
 common#:#ilias_version#:#ILIAS-Version
@@ -4966,7 +4968,7 @@ common#:#obj_excv#:#Übungszertifikat
 common#:#obj_extt#:#Software von Drittanbietern
 common#:#obj_extt_desc#:#Konfigurieren Sie hier externe Software und Dienste, welche von ILIAS unterstützt werden
 common#:#obj_facs#:#Dateien
-common#:#obj_facs_desc#:#Einstellungen für Dateien und Dateiverwaltung.
+common#:#obj_facs_desc#:#Einstellungen für den Objekttyp Datei
 common#:#obj_file#:#Datei
 common#:#obj_file_duplicate#:#Datei kopieren
 common#:#obj_file_inline#:#Inline Datei
@@ -6783,7 +6785,7 @@ content#:#cont_mob_usages#:#Nutzung
 content#:#cont_more_character_styles#:#Zeichen-Styles
 content#:#cont_more_functions#:#Weitere
 content#:#cont_moved_srt_files#:#Die Untertitel-Dateien wurden den Medienobjekten zugeordnet.
-content#:#cont_multi_srt_files#:#SRT-Dateien
+content#:#cont_multi_srt_files#:#Untertitel-Dateien
 content#:#cont_mycourses_sortorder#:#Standardsortierung
 content#:#cont_mycourses_sortorder_alphabetical#:#Alphabetisch
 content#:#cont_mycourses_sortorder_info#:#Dies ist die Default-Einstellung. Jeder Benutzer kann eine eigene Sortierung wählen, die für alle "Meine Kurse"-Elemente sämtlicher Portfolios gilt.
@@ -7138,7 +7140,7 @@ content#:#cont_structure#:#Struktur
 content#:#cont_style#:#Style
 content#:#cont_subchapters#:#Unterkapitel
 content#:#cont_submit_answers#:#Auswerten
-content#:#cont_subtitle_file#:#SRT-ZIP-Datei
+content#:#cont_subtitle_file#:#Untertitel-ZIP-Datei
 content#:#cont_subtitle_files#:#Untertitel Medienobjekte
 content#:#cont_sur_block_format#:#Umgebender Block
 content#:#cont_switch_to_media_pool#:#In anderen Medienpool wechseln
@@ -7242,7 +7244,7 @@ content#:#cont_update_skills#:#Kompetenz bearbeiten
 content#:#cont_update_verification#:#Zertifikat bearbeiten
 content#:#cont_upload_dir#:#Upload-Verzeichnis
 content#:#cont_upload_file#:#Datei hochladen
-content#:#cont_upload_multi_srt_howto#:#Erlaubt das Hochladen mehrerer Untertitel-Dateien (.srt) in einer .zip-Datei für alle Medienobjekte. Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
+content#:#cont_upload_multi_srt_howto#:#Erlaubt das Hochladen mehrerer Untertitel-Dateien (.vtt) in einer .zip-Datei für alle Medienobjekte. Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .vtt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.vtt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.vtt".
 content#:#cont_uploaded_file#:#Vorhandene Datei
 content#:#cont_url_info#:#URL einer Mediendatei oder Youtube-URL.
 content#:#cont_usage#:#Verwendung
@@ -8578,7 +8580,6 @@ dcl#:#dcl_add_new_table#:#Tabelle hinzufügen
 dcl#:#dcl_add_new_view#:#Neue Ansicht hinzufügen
 dcl#:#dcl_add_perm#:#Neuen Eintrag hinzufügen
 dcl#:#dcl_add_perm_desc#:#Es können Einträge in dieser Tabelle erstellt werden. Wenn Daten in diese Tabelle importiert werden dürfen, steht auch ein Excel-Import zur Verfügung.
-dcl#:#dcl_additional_info_desc#:#Der Inhalt wird oberhalb der Tabelle angezeigt.
 dcl#:#dcl_all_entries#:#Alle Einträge
 dcl#:#dcl_any#:#Alle
 dcl#:#dcl_asc#:#Aufsteigend ↑
@@ -8621,8 +8622,8 @@ dcl#:#dcl_date_selection#:#Datum per Auswahl
 dcl#:#dcl_date_selection_desc#:#Aus vorgegebenen Optionen kann ein Datum ausgewählt werden.
 dcl#:#dcl_deactivate_view#:#Vorlage für Einzelansicht deaktivieren
 dcl#:#dcl_default_sort_field#:#Sortierung
-dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
 dcl#:#dcl_default_sort_field_order#:#Sortierrichtung
+dcl#:#dcl_default_sort_field_order_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
 dcl#:#dcl_delete_fields#:#Felder löschen
 dcl#:#dcl_delete_fields_no_selection#:#Zum Löschen muss mindestens ein Feld ausgewählt werden.
 dcl#:#dcl_delete_perm#:#Einträge löschen
@@ -8738,6 +8739,7 @@ dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstell
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
+dcl#:#dcl_no_tableview_found#:#Keine sichbare Tabellenansicht verfügbar!
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
 dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp wird beim Import nicht unterstützt.
 dcl#:#dcl_notification_activate_dcl#:#Benachrichtigung aktivieren
@@ -8757,7 +8759,6 @@ dcl#:#dcl_owner#:#Eigener Eintrag von
 dcl#:#dcl_owner_description#:#Eigene Einträge bleiben stets sichtbar.
 dcl#:#dcl_owner_name#:#Im Besitz von (Name)
 dcl#:#dcl_page_type_dclf#:#Detailansicht
-dcl#:#dcl_permissions_form#:#Erlaubte Aktionen für diese Tabelle
 dcl#:#dcl_please_select#:#--- Bitte wählen ---
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection-Feld Erweiterungen
@@ -8773,6 +8774,7 @@ dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#Die folgenden Ro
 dcl#:#dcl_record#:#Eintrag
 dcl#:#dcl_record_deleted#:#Eintrag gelöscht.
 dcl#:#dcl_record_from_total#:#%d von %d
+dcl#:#dcl_record_settings#:#Eintragseinstellungen
 dcl#:#dcl_reference#:#Referenz
 dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden.
 dcl#:#dcl_reference_link#:#Referenzierten Eintrag verlinken
@@ -8810,7 +8812,8 @@ dcl#:#dcl_table_edit#:#Speichern
 dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
 dcl#:#dcl_table_list_tables#:#Verfügbare Tabellen
-dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
+dcl#:#dcl_table_settings#:#Tabelleneinstellungen.
+dcl#:#dcl_table_settings_saved#:#Tabelleneinstellungen wurden gespeichert.
 dcl#:#dcl_table_title_not_matching#:#Die Titel des Excel-Arbeitsblatts und der Tabelle in der Datensammlung stimmen nicht überein. Benennen Sie das Arbeitsblatt um, um einen korrekten Import zu gewährleisten.
 dcl#:#dcl_table_title_unique#:#Es existiert bereits eine Tabelle mit diesem Titel. Der Titel muss eindeutig sein.
 dcl#:#dcl_tables#:#Tabellen
@@ -9234,6 +9237,7 @@ etal#:#notification_talks_subject#:#Termineinladung: %s
 etal#:#notification_talks_subject_update#:#Terminaktualisierung: %s
 etal#:#notification_talks_updated#:#Folgende Gesprächstermine wurden angepasst.
 etal#:#pending_talks_warning#:#Die folgenden ausstehenden Gesprächstermine werden ersetzt:
+etal#:#tala_no_content_without_admin_info#:#Um auf Gesprächsvorlagen zuzugreifen, wird die Administrator-Rolle benötigt.
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Gespräche hinzufügen
 etal#:#tals_new#:#Neue Gesprächsserie
@@ -9576,7 +9580,6 @@ exc#:#exc_select_blog#:#Vorhandenes Blog nutzen
 exc#:#exc_select_blog_change#:#Anderes Blog benutzen
 exc#:#exc_select_blog_info#:#Bitte wählen Sie eines Ihrer Blogs, um es in dieser Übungseinheit zu benutzen.
 exc#:#exc_select_blog_unlink#:#Blog entfernen
-exc#:#exc_select_part#:#Teilnehmer auswählen
 exc#:#exc_select_portfolio#:#Vorhandenes Portfolio nutzen
 exc#:#exc_select_portfolio_change#:#Anderes Portfolio benutzen
 exc#:#exc_select_portfolio_info#:#Bitte wählen Sie eines Ihrer Portfolios, um es in dieser Übungseinheit zu benutzen.
@@ -9797,7 +9800,7 @@ file#:#copyright_custom#:#Benutzerdefiniert
 file#:#copyright_custom_info#:#Benutzerdefiniertes Copyright auswählen, welches auf alle entpackten Dateien dieses Archivs angewandt wird.
 file#:#copyright_inherited#:#Vererbt
 file#:#copyright_inherited_info#:#Copyright des Zip-Archivs auf seine entpackten Dateien anwenden. <br \>Copyright des Zip-Archivs: %s.
-file#:#could_not_create_file_objs#:#Beim Erstellen der Datei-Objekte ist ein Fehler aufgetreten, wenden Sie sich an die Administrierenden der Plattform.
+file#:#could_not_create_file_objs#:#Beim Erstellen der Dateiobjekte ist ein Fehler aufgetreten, wenden Sie sich an die Administrierenden der Plattform.
 file#:#de_activate_icon#:#(De-)Aktivieren
 file#:#download_ascii_filename#:#Nur ASCII-Zeichen im Download
 file#:#download_ascii_filename_info#:#Die Namen heruntergeladener Dateien enthalten nur ASCII-Zeichen und können so auf allen Systemen problemlos genutzt werden. Andere Zeichen werden durch Unterstriche ersetzt. Auf Installationen, die Dateinamen mit nicht-lateinischen Schriftzeichen nutzen, muss diese Option deaktiviert werden.
@@ -9817,9 +9820,9 @@ file#:#file_rollback_rollback_first#:#Die Version konnte nicht zurückgesetzt we
 file#:#file_rollback_same_version#:#Dies ist bereits die veröffentlichte Version
 file#:#file_unpublish#:#Als Entwurf markieren
 file#:#file_upload_info_file_with_critical_extension#:#Mindestens eine Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Bitte kontaktieren Sie gegebenenfalls Ihre technische Betreuung. Dateiname(n): %s
-file#:#file_uploaded_by#:#Version hochgeladen von
+file#:#file_uploaded_by#:#Hochgeladen von
 file#:#file_version_draft#:#Entwurf
-file#:#file_version_draft_info#:#Die aktuellste Version ist im Status "Entwurf". Solange die Version nicht veröffentlicht wurde, können keine neuen Versionen angelegt werden. Personen mit Leserecht auf die Datei erhalten die aktuellste veröffentlichte Version.
+file#:#file_version_draft_info#:#Die aktuellste Version ist im Status „Entwurf“. Solange diese Version nicht veröffentlicht wurde, können keine neuen Versionen angelegt werden. Personen mit Leserecht auf die Datei erhalten die aktuell veröffentlichte Version.
 file#:#form_icon_creation#:#Icon erstellen
 file#:#form_icon_updating#:#Icon aktualisieren
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
@@ -9873,7 +9876,7 @@ file#:#upload_files_title#:#Dateien hochladen
 file#:#upload_info#:#Datei
 file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
 file#:#version_uploaded#:#Version hochgeladen am
-file#:#versionname#:#Titel
+file#:#versionname#:#Angezeigter Titel
 fils#:#add_upload_policy#:#Richtlinie hinzufügen
 fils#:#edit_upload_policy#:#Richtlinie bearbeiten
 fils#:#file_services#:#Datei-Services
@@ -10509,6 +10512,11 @@ help#:#help_tooltips_and_help#:#Tooltips und Handlungsanweisungen
 help#:#help_tooltips_only#:#Nur Tooltips
 help#:#help_topcis#:#Themen
 help#:#help_tt_text#:#Text
+htlm#:#file_import_from_upload_dir_failed#:#Datei aus Uploadverzeichnis nicht importiert
+htlm#:#file_imported_from_upload_dir#:#Datei aus Uploadverzeichnis importiert
+htlm#:#import_from_upload_dir#:#Import aus Uploadverzeichnis
+htlm#:#import_from_upload_dir_file_name#:#Dateiname
+htlm#:#import_from_upload_dir_info#:#Bitte Datei zur Übernahme auswählen
 iass#:#download_assessment_paper#:#Prüfungsblatt herunterladen
 iass#:#grading#:#Bewertung
 iass#:#grading_info#:#Bewertungsinformationen
@@ -10591,7 +10599,6 @@ iass#:#iass_usr_download_attachment#:#Datei herunterladen
 iass#:#iass_usr_edit#:#Prüfungsdaten bearbeiten
 iass#:#iass_usr_remove#:#Entfernen
 iass#:#iass_usr_view#:#Prüfungsdaten
-iass#:#il_iass_member#:#Teilnehmer
 iass#:#il_iass_members#:#Teilnehmer
 iass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
 iass#:#save_amend#:#Geänderte Prüfungsdaten speichern
@@ -10663,7 +10670,6 @@ itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks 
 itgr#:#itgr_edit#:#Einstellungen des Objekteblocks
 itgr#:#itgr_expandable_closed#:#Ausklappbar (zunächst geschlossen)
 itgr#:#itgr_expandable_open#:#Ausklappbar (zunächst geöffnet)
-itgr#:#itgr_hide_title#:#Titel verbergen
 itgr#:#itgr_item#:#Objekte, die eingebunden werden können
 itgr#:#itgr_list#:#Liste
 itgr#:#itgr_list_default#:#Standard
@@ -11078,6 +11084,7 @@ lso#:#lso_player_abstract#:#Zur Einleitung
 lso#:#lso_player_extro#:#Zur Abschlussseite
 lso#:#lso_player_finish#:#Beenden
 lso#:#lso_player_next#:#Weiter
+lso#:#lso_player_noitems#:#Keine verfügbaren Inhalte in der Lernsequenz
 lso#:#lso_player_previous#:#Zurück
 lso#:#lso_player_resume#:#Lernsequenz wieder aufnehmen
 lso#:#lso_player_review#:#Lernsequenz überarbeiten
@@ -11123,7 +11130,7 @@ lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash kombiniert mit einer eindeutigen 
 lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#Die Identifikation ist identisch bei jedem Aufruf, aber lässt keine direkten Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
-lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Anmeldename kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
 lti#:#conf_privacy_ident_il_uuid_random#:#Zufalls-ID@ILIAS-Plattform-ID.ilias
 lti#:#conf_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Die E-Mail-Adresse setzt sich zusammen aus der Zufalls-ID und einer eigens
@@ -12628,7 +12635,7 @@ meta#:#meta_oer_exposed_source#:#Veröffentlichung in
 meta#:#meta_oer_harvested_licences#:#Lizenzauswahl
 meta#:#meta_oer_harvested_types#:#Auswahl Objekttypen
 meta#:#meta_oer_harvester#:#OER-Harvester
-meta#:#meta_oer_harvester_desc#:#Der OER-Harvester sammelt alle Ressourcen unter ausgewählten CC-Lizenzen, fügt sie einer in den Cron-Job-Einstellungen definierten Kategorie hinzu, und generiert wenn nötig Exportdateien für sie. Für die für Veröffentlichung bereite Ressourcen werden Einträge angelegt, die (wenn aktiviert) über eine OAI-PMH Schnittstelle ausgelesen werden können. Damit dieser Cron-Job Ergebnisse liefern kann, muss die Copyright-Auswahl in der Metadaten-Administration aktiviert und konfiguriert sein. Nur Dateiobjekte, Glossare, Inhaltsseiten, Lernmodule (ILIAS, SCORM, und HTML), Fragenpools (für Umfragen und Tests), und Medienpools werden unterstützt.
+meta#:#meta_oer_harvester_desc#:#Der OER-Harvester sammelt Objekte ein, die mit vorher ausgewählten Lizenzen ausgezeichnet sind. Welche Objekttypen eingesammelt werden, kann ausgewählt werden. Der Harvester fügt diese Objekte einer definierten Kategorie hinzu und generiert dazugehörige Exportdateien.<br />Für die zur Veröffentlichung bestimmten Objekte werden Einträge angelegt. Diese Einträge können (wenn aktiviert) über eine OAI-PMH Schnittstelle ausgelesen werden. Voraussetzung dafür ist, dass die Lizenz-Auswahl in der Metadaten-Administration aktiviert und konfiguriert wurde.
 meta#:#meta_oer_object_type_selection#:#Sammlung folgender Objekttypen
 meta#:#meta_oer_target#:#Sammlung in
 meta#:#meta_opera#:#Opera
@@ -12816,23 +12823,23 @@ mob#:#mob_general#:#Allgemein
 mob#:#mob_image_extracted#:#Vorschaubild wurde erzeugt
 mob#:#mob_language#:#Sprache
 mob#:#mob_mime_type_not_allowed#:#Die folgenden MIME-Typen sind am Zielort nicht erlaubt.
-mob#:#mob_multi_srt_files#:#SRT-Dateien
+mob#:#mob_multi_srt_files#:#Untertitel-Dateien
 mob#:#mob_no_extraction_possible#:#Leider konnte kein Vorschaubild aus der Datei erzeugt werden.
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 mob#:#mob_object#:#Objekt
 mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.
 mob#:#mob_preview_picture#:#Vorschaubild
-mob#:#mob_really_delete_srt#:#Möchten Sie wirklich die folgenden srt-Dateien löschen?
+mob#:#mob_really_delete_srt#:#Möchten Sie wirklich die folgenden Untertitel-Dateien löschen?
 mob#:#mob_second#:#Sekunde
 mob#:#mob_srt_files_deleted#:#Dateien für Untertitel wurden gelöscht.
-mob#:#mob_srt_not_allowed#:#Dateien vom Typ .srt können aktuell nicht hochgeladen werden. Kontaktieren Sie die technische Betreuung, um .srt-Dateien zur Positivliste hinzuzufügen. Dies erfolgt unter Administration » Systemeinstellungen und Wartung » Datei-Services.
+mob#:#mob_srt_not_allowed#:#Dateien vom Typ .vtt können aktuell nicht hochgeladen werden. Kontaktieren Sie die technische Betreuung, um .vtt-Dateien zur Positivliste hinzuzufügen. Dies erfolgt unter Administration » Systemeinstellungen und Wartung » Datei-Services.
 mob#:#mob_subtitle_file#:#Datei für Untertitel
 mob#:#mob_subtitle_files#:#Dateien für Untertitel
 mob#:#mob_subtitles#:#Untertitel
 mob#:#mob_type_not_supported#:#Der Mime-Type wird an dieser Stelle nicht unterstützt:
 mob#:#mob_upload_file#:#Datei hochladen
 mob#:#mob_upload_multi_srt#:#Hochladen als ZIP-Datei
-mob#:#mob_upload_multi_srt_howto#:#Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
+mob#:#mob_upload_multi_srt_howto#:#Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .vtt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.vtt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.vtt".
 mob#:#mob_url#:#URL
 mob#:#mob_url_info#:#Externe URL, z.B. Youtube- oder Vimeo-URL.
 mob#:#mob_url_info1#:#URL des externen Inhalts. Erlaubte Dateikennungen sind:
@@ -13347,6 +13354,7 @@ prg#:#auto_membership_src_type#:#Typ
 prg#:#auto_membership_title#:#Quellen für automatische Zuweisung
 prg#:#auto_memberships#:#Automatische Zuweisung
 prg#:#category#:#Kategorie
+prg#:#cert_relevance#:#Zertifikat
 prg#:#completion_date#:#Abschlussdatum
 prg#:#confirm_to_remove_selected_assignments#:#Benutzerzuweisung(en) wirklich entfernen?
 prg#:#cont_ed_insert_prgactionnote#:#Studienprogramm Aktionshinweis einfügen
@@ -13835,6 +13843,8 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimale Passwort
 ps#:#ps_export_admin#:#Administration
 ps#:#ps_export_confirm#:#Zustimmung neuer Mitglieder beim Kursbeitritt, dass Kursverwaltung ihre persönlichen Profildaten einsehen kann
 ps#:#ps_export_confirm_group#:#Zustimmung neuer Mitglieder beim Gruppenbeitritt, dass Gruppenverwaltung ihre persönlichen Profildaten einsehen kann
+ps#:#ps_export_confirm_group_info#:#Vor dem Gruppenbeitritt müssen Mitglieder zustimmen, dass ihre persönlichen Daten von der Gruppenverwaltung eingesehen werden können.
+ps#:#ps_export_confirm_info#:#Vor dem Kursbeitritt müssen Mitglieder zustimmen, dass ihre persönlichen Daten von der Kursverwaltung eingesehen werden können.
 ps#:#ps_export_course#:#Export der Persönlichen Daten aus Kursen erlauben
 ps#:#ps_export_data#:#Daten des Persönlichen Profils
 ps#:#ps_export_excel#:#Starte Excel-Export
@@ -14261,6 +14271,10 @@ rbac#:#grps_edit_permission#:#Rechteeinstellungen für die Gruppen-Administratio
 rbac#:#grps_read#:#Lesezugriff auf Gruppen-Administration
 rbac#:#grps_visible#:#Gruppen-Administration ist sichtbar
 rbac#:#grps_write#:#Einstellungen in Gruppen-Administration bearbeiten
+rbac#:#gsfo_edit_permission#:#Rechteeinstellungen für die Administration der Fußzeile ändern
+rbac#:#gsfo_read#:#Lesezugriff auf Administration der Fußzeile
+rbac#:#gsfo_visible#:#Administration der Fußzeile ist sichtbar
+rbac#:#gsfo_write#:#Einstellungen der Administration der Fußzeile bearbeiten
 rbac#:#hlps_edit_permission#:#Rechteeinstellungen für die Administration.der Online-Hilfe ändern
 rbac#:#hlps_read#:#Lesezugriff auf die Administration der Online-Hilfe
 rbac#:#hlps_visible#:#Administration der Online-Hilfe ist sichtbar.
@@ -17190,7 +17204,7 @@ trac#:#trac_mode_course_reference_info#:#Der Lernfortschrittmodus wird automatis
 trac#:#trac_mode_deactivated#:#Lernfortschritt ist deaktiviert
 trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht angezeigt und beeinflusst keine übergeordneten Objekte.
 trac#:#trac_mode_event#:#Teilnahmeliste abhaken
-trac#:#trac_mode_event_info#:#Personen mit dem Recht „Mitglieder verwalten“ erfassen die Teilnahme im Reiter „Teilnehmer“.
+trac#:#trac_mode_event_info#:#Personen mit dem Recht „Mitglieder verwalten“ erfassen die Teilnahme im Reiter „Teilnahmen“.
 trac#:#trac_mode_exercise_returned#:#Manuelle Bewertung
 trac#:#trac_mode_exercise_returned_info#:#Personen mit dem Recht „Einstellungen bearbeiten“ entscheiden anhand der Einreichungen, ob die Übungseinheit gelöst wurde. Im Reiter „Abgaben und Noten“ setzen sie händisch den jeweiligen Status.
 trac#:#trac_mode_individual_assessment#:#Manuelle Bewertung
@@ -17544,8 +17558,9 @@ validation#:#not_max_length#:#Der eingegebene Text hat eine Länge von mehr als 
 validation#:#not_min_length#:#Ihre Eingabe hat eine Länge von %d und liegt damit unter der Mindestlänge von %d.
 validation#:#not_numeric#:#„%s“ ist nicht nummerisch.
 validation#:#not_numeric_empty_string#:#Ihre Eingabe ist nicht numerisch.
-validation#:#numeric_only#:#Bitte geben Sie eine ganze Zahl ein.
-validation#:#tag_required#:#Bitte geben Sie mindestens ein Tag ein.
+validation#:#numeric_only#:#Bitte geben sie eine ganze Zahl ein.
+validation#:#required#:#Diese Eingabe ist erforderlich.
+validation#:#tag_required#:#Bitte geben sie mindestens ein Tag ein.
 violation#:#not_a_string#:#Wert ist keine Zeichenkette
 webr#:#invalid_links_tbl#:#Ungültige Links
 webr#:#webr_active#:#Aktiv
@@ -17786,7 +17801,7 @@ wopi#:#msg_wopi_settings_modified#:#Einstellungen gespeichert
 wopi#:#open_external_editor#:#In externem Editor öffnen
 wopi#:#open_external_viewer#:#Inhalt anzeigen
 wopi#:#saving_interval#:#Speicherintervall
-wopi#:#saving_interval_byline#:#Standardmässig fügt ILIAS alle durch einen Externen Editor erhaltenen Änderungen in einer Entwurfs-Version hinzu, bis diese Version manuell veröffentlicht wird. Durch das Aktivieren des Speicherintervall wird nach Möglichkeit nach der festgelegten Sekundenanzahl eine neue Verison veröffentlicht. Bitte beachten Sie, dass eine tiefer Wert zu sehr vielen Dateiversionen führen kann und damit ein Vielfaches des Festplattenspeichers beansprucht.
+wopi#:#saving_interval_byline#:#Standardmässig fügt ILIAS alle durch einen Externen Editor erhaltenen Änderungen in einer Entwurfs-Version hinzu, bis diese Version manuell veröffentlicht wird. Durch das Aktivieren des Speicherintervalls wird nach Möglichkeit nach der festgelegten Sekundenanzahl eine neue Verison veröffentlicht. Bitte beachten Sie, dass eine tiefer Wert zu sehr vielen Dateiversionen führen kann und damit ein Vielfaches des Festplattenspeichers beansprucht.
 wopi#:#wopi_crawler_cronjob_description#:#Aktualisiert die Informationen des angebundenen WOPI-Dienstes.
 wopi#:#wopi_crawler_cronjob_no_apps#:#Es wurden keine WOPI-Apps in der Discovery gefunden.
 wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI ist nicht aktiviert.

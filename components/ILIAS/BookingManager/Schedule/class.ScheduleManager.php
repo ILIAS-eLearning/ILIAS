@@ -61,4 +61,11 @@ class ScheduleManager
     {
         return $this->schedule_repo->getScheduleData($this->pool_id);
     }
+
+    public function hasScheduleId(int $schedule_id) : bool
+    {
+        $pool_id = $this->schedule_repo->getPoolIdForSchedule($schedule_id);
+        return ($pool_id === $this->pool_id);
+    }
+
 }

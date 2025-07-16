@@ -1213,11 +1213,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             }
 
             // permanent link
-            if ($a_cmd !== "preview") {
+            if ($this->node_id !== null &&
+                $a_cmd !== "preview") {
                 if ($this->id_type === self::WORKSPACE_NODE_ID) {
-                    $goto = $this->gui->permanentLink(0, $this->node_id)->getPermanentLink((int) $item["id"]);
+                    $goto = $this->gui->permanentLink(0, (int) $this->node_id)->getPermanentLink((int) $item["id"]);
                 } else {
-                    $goto = $this->gui->permanentLink($this->node_id)->getPermanentLink((int) $item["id"]);
+                    $goto = $this->gui->permanentLink((int) $this->node_id)->getPermanentLink((int) $item["id"]);
                 }
                 $wtpl->setCurrentBlock("permalink");
                 $wtpl->setVariable("URL_PERMALINK", $goto);

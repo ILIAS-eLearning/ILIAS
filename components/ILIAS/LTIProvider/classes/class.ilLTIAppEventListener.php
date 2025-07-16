@@ -108,8 +108,8 @@ class ilLTIAppEventListener implements \ilAppEventListener
             }
             $usr_id = ilObjUser::_lookupId($login);
             foreach ($user_resources as $resource_info) {
-                $this->logger->info('Found resource: ' . $resource_info);
                 list($resource_id, $resource_ref_id) = explode('__', $resource_info);
+                $this->logger->info('Found resource: ' . $resource_info . " for user: " . $usr_id . " resource_id: " . $resource_id . " resource_ref_id: " . $resource_ref_id);
 
                 // lookup lp status
                 $status = ilLPStatus::_lookupStatus(
@@ -120,9 +120,29 @@ class ilLTIAppEventListener implements \ilAppEventListener
                     ilObject::_lookupObjId((int) $resource_ref_id),
                     $usr_id
                 );
+                $percentage = $this->definePercentageByObjectId($status, $resource_ref_id, $percentage);
                 $this->tryOutcomeService((int) $resource_id, $ext_account, $status, $percentage);
             }
         }
+    }
+
+    /**
+     * @throws ilObjectNotFoundException
+     * @throws ilDatabaseException
+     */
+    protected function definePercentageByObjectId(int|null $status, string $obj_id, int|null $percentage): int
+    {
+        global $DIC;
+        $logger = $DIC->logger()->root();
+        $logger->debug('definePercentageByObjectId');
+        $indentifier = ilObjectFactory::getInstanceByRefId((int) $obj_id)->getType();
+        $logger->info('Object type: ' . $indentifier . " for object id: " . $obj_id);
+        if (in_array($indentifier, ['crs', 'grp'])) {
+            if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM || $status == ilLPStatus::LP_STATUS_FAILED_NUM) {
+                $percentage = 100;
+            }
+        }
+        return $percentage;
     }
 
     protected function isLTIAuthMode(string $auth_mode): bool

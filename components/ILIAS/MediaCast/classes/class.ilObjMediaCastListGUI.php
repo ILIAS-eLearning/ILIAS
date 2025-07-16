@@ -33,12 +33,26 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
 
         // general commands array
         $this->commands = ilObjMediaCastAccess::_getCommands();
+        $this->enableLearningProgress(true);
     }
 
     public function getCommandLink(string $cmd): string
     {
-        $this->ctrl->setParameterByClass(ilObjMediaCastGUI::class, "ref_id", $this->ref_id);
-        $cmd_link = $this->ctrl->getLinkTargetByClass([ilMediaCastHandlerGUI::class, ilObjMediaCastGUI::class], $cmd);
+        switch ($cmd) {
+
+            case "learningProgress":
+                $this->ctrl->setParameterByClass(ilObjMediaCastGUI::class, "ref_id", $this->ref_id);
+                $cmd_link = $this->ctrl->getLinkTargetByClass(
+                    [ilMediaCastHandlerGUI::class, ilObjMediaCastGUI::class, ilLearningProgressGUI::class   ],
+                    ""
+                );
+                break;
+
+            default:
+                $this->ctrl->setParameterByClass(ilObjMediaCastGUI::class, "ref_id", $this->ref_id);
+                $cmd_link = $this->ctrl->getLinkTargetByClass([ilMediaCastHandlerGUI::class, ilObjMediaCastGUI::class], $cmd);
+                break;
+        }
         return $cmd_link;
     }
 

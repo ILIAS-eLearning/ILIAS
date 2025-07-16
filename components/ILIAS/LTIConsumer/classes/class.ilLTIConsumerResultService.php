@@ -115,9 +115,8 @@ class ilLTIConsumerResultService
             $this->operation = str_replace('Request', '', $request->getName());
 
             $request = $body->replaceResultRequest;
-            $logger->info("LTI Consumer Result Service: operation loaded ($this->operation)");
-
             $token = ilCmiXapiAuthToken::getInstanceByToken((string) $request->resultRecord->sourcedGUID->sourcedId);
+            $logger->info("LTI Consumer Result Service: operation loaded ($this->operation), user " . $token->getUsrId() . " and objId " . $token->getObjId());
 
             $logger->info("LTI Consumer Result Service: token loaded");
             $this->result = ilLTIConsumerResult::getByKeys($token->getObjId(), $token->getUsrId(), false);
@@ -195,13 +194,13 @@ class ilLTIConsumerResultService
         global $DIC;
         $logger = $DIC->logger()->root();
 
-        $logger->info('LTI Consumer Result Service: Replace result');
         $result = (string) $request->resultRecord->result->resultScore->textString;
+        $logger->info('LTI Consumer Result Service: Replace result. Result: ' . $result);
         if (!is_numeric($result)) {
             $code = "failure";
             $severity = "status";
             $description = "The result is not a number.";
-        } elseif ($result < 0 or $result > 1) {
+        } elseif ($result > 1) {
             $code = "failure";
             $severity = "status";
             $description = "The result is out of range from 0 to 1.";

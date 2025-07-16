@@ -328,7 +328,12 @@ abstract class ilDataSet
                     $this->dircnt++;
                 }
                 if (isset($this->export) and ($types[$f] ?? "") === "rscontainer") {
-                    $path_in_container = $this->export->getPathToComponentExpDirInContainer() . "/dsDir_" . $this->dircnt;
+                    $path_in_container = "/dsDir_" . $this->dircnt;
+                    if ($this->export->isContainerExport()) { // note: this checks if the export is in a container context and adds the set number to the path accordingly
+                        $path_in_container = $this->export->getPathToComponentExpDirInContainerWithLeadingSetNumber() . $path_in_container;
+                    } else {
+                        $path_in_container = $this->export->getPathToComponentExpDirInContainer() . $path_in_container;
+                    }
                     if ($config = $this->getContainerExportConfig($rec, $a_entity, $a_schema_version, $f, $c)) {
                         $this->export->getExportWriter()->writeFilesByResourceContainer(
                             $this->getIRSSContainerExportConfig(
