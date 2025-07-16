@@ -49,7 +49,12 @@ class ilObjFileListGUI extends ilObjectListGUI
         $this->capability_context = new Context(
             0,
             0,
-            ($context === self::CONTEXT_REPOSITORY) ? Context::CONTEXT_REPO : Context::CONTEXT_WORKSPACE
+            match($context) {
+                self::CONTEXT_REPOSITORY => Context::CONTEXT_REPO,
+                self::CONTEXT_WORKSPACE => Context::CONTEXT_WORKSPACE,
+                self::CONTEXT_SEARCH => Context::CONTEXT_SEARCH,
+                default => Context::CONTEXT_REPO,
+            }
         );
 
         parent::__construct($context);

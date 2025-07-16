@@ -46,6 +46,7 @@ class ilStudyProgrammeSubSettingsTest extends \PHPUnit\Framework\TestCase
         $this->lng = $this->createMock(ilLanguage::class);
         $this->refinery = new Refinery($this->data_factory, $this->lng);
         $this->field_factory = new FieldFactory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
             $this->createMock(UploadLimitResolver::class),
             new SignalGenerator(),
             $this->data_factory,

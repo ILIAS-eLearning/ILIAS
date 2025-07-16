@@ -190,8 +190,15 @@ class ilAssQuestionPreviewGUI
         switch ($nextClass) {
             case 'ilassspecfeedbackpagegui':
             case 'ilassgenfeedbackpagegui':
-                $forwarder = new ilAssQuestionFeedbackPageObjectCommandForwarder($this->question_obj, $this->ctrl, $this->tabs, $this->lng);
-                $forwarder->forward();
+                if ($this->ctrl->getCmd() === 'displayMediaFullscreen') {
+                    $this->displayMediaFullscreenCmd();
+                }
+                (new ilAssQuestionFeedbackPageObjectCommandForwarder(
+                    $this->question_obj,
+                    $this->ctrl,
+                    $this->tabs,
+                    $this->lng
+                ))->forward();
                 break;
             case 'ilcommentgui':
                 $comment_gui = new ilCommentGUI($this->question_obj->getObjId(), $this->question_obj->getId(), 'quest');
@@ -332,6 +339,19 @@ class ilAssQuestionPreviewGUI
     {
         $this->question_obj->persistPreviewState($this->preview_session);
         $this->ctrl->redirect($this, self::CMD_SHOW);
+    }
+
+    public function displayMediaFullscreenCmd(): void
+    {
+        $page_id = $this->request_data_collector->int('pg_id');
+        if ($page_id === 0) {
+            return;
+        }
+
+        (new ilPageObjectGUI(
+            $this->ctrl->getCmdClass() === 'ilassgenfeedbackpagegui' ? 'qfbg' : 'qfbs',
+            $page_id
+        ))->displayMediaFullscreen();
     }
 
     private function populateToolbar(): void

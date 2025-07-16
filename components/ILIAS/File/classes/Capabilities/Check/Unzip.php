@@ -40,6 +40,10 @@ class Unzip extends BaseCheck implements Check
         \ilObjFileInfo $info,
         Context $context,
     ): Capability {
+        if ($context->getContext() === Context::CONTEXT_SEARCH) {
+            return $capability;
+        }
+
         if (!$info->isZip()) {
             return $capability;
         }

@@ -22,6 +22,7 @@ namespace ILIAS\Export\ExportHandler\Info\Export;
 
 use ilExport;
 use ILIAS\Data\ObjectId;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfigCollectionInterface;
 use ILIAS\Export\ExportHandler\I\FactoryInterface as ilExportHandlerFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Component\CollectionInterface as ilExportHandlerExportComponentInfoCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Component\HandlerInterface as ilExportHandlerExportComponentInfoInterface;
@@ -39,6 +40,7 @@ class Handler implements ilExportHandlerExportInfoInterface
     protected ilExportHandlerContainerExportInfoInterface $container_export_info;
     protected ilExportHandlerRepositoryElementInterface $element;
     protected ilExportHandlerDataFactoryWrapperInterface $data_factory_wrapper;
+    protected ExportConfigCollectionInterface $export_configs;
     protected array $component_counts;
     protected bool $reuse_export;
     protected int $time_stamp;
@@ -49,8 +51,6 @@ class Handler implements ilExportHandlerExportInfoInterface
         ilExportHandlerDataFactoryWrapperInterface $data_factory_wrapper
     ) {
         $this->export_handler = $export_handler;
-        $this->component_export_infos = $this->export_handler->info()->export()->component()->collection();
-        $this->component_counts = [];
         $this->data_factory_wrapper = $data_factory_wrapper;
         $this->set_number = 0;
     }
@@ -67,7 +67,14 @@ class Handler implements ilExportHandlerExportInfoInterface
 
     protected function initComponentInfos(): void
     {
-        $component_info = $this->export_handler->info()->export()->component()->handler()->withExportTarget($this->getTarget());
+        if (isset($this->component_counts) && isset($this->component_export_infos)) {
+            return;
+        }
+        $this->component_counts = [];
+        $this->component_export_infos = $this->export_handler->info()->export()->component()->collection();
+        $component_info = $this->export_handler->info()->export()->component()->handler()
+            ->withExportTarget($this->getTarget())
+            ->withExportConfigs($this->getExportConfigs());
         $this->component_export_infos = $this->export_handler->info()->export()->component()->collection();
         foreach ($this->recComponentInfos($component_info) as $component_info) {
             if (!isset($this->component_counts[$component_info->getTarget()->getComponent()])) {
@@ -86,7 +93,8 @@ class Handler implements ilExportHandlerExportInfoInterface
             );
             $component_info = $component_info
                 ->withExportFilePathInContainer($path_in_container)
-                ->withComponentExportDirPathInContainer($path_in_container_export_dir);
+                ->withComponentExportDirPathInContainer($path_in_container_export_dir)
+                ->withExportConfigs($this->export_configs);
             $this->component_export_infos = $this->component_export_infos
                 ->withComponent($component_info->withExportFilePathInContainer($path_in_container));
         }
@@ -113,7 +121,6 @@ class Handler implements ilExportHandlerExportInfoInterface
         $clone = clone $this;
         $clone->export_target = $export_target;
         $clone->time_stamp = $timestamp;
-        $clone->initComponentInfos();
         return $clone;
     }
 
@@ -148,6 +155,19 @@ class Handler implements ilExportHandlerExportInfoInterface
         return $clone;
     }
 
+    public function withExportConfigs(
+        ExportConfigCollectionInterface $export_configs
+    ): ilExportHandlerExportInfoInterface {
+        $clone = clone $this;
+        $clone->export_configs = $export_configs;
+        return $clone;
+    }
+
+    public function getExportConfigs(): ExportConfigCollectionInterface
+    {
+        return $this->export_configs;
+    }
+
     public function getCurrentElement(): ilExportHandlerRepositoryElementInterface
     {
         return $this->element;
@@ -175,11 +195,13 @@ class Handler implements ilExportHandlerExportInfoInterface
 
     public function getComponentCount(ilExportHandlerExportComponentInfoInterface $component_info)
     {
+        $this->initComponentInfos();
         return $this->component_counts[$component_info->getTarget()->getComponent()] ?? -1;
     }
 
     public function getComponentInfos(): ilExportHandlerExportComponentInfoCollectionInterface
     {
+        $this->initComponentInfos();
         return $this->component_export_infos;
     }
 

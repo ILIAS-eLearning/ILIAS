@@ -26,6 +26,7 @@ use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Implementation\Component\Input\Field\FormInput;
 use ILIAS\UI\Implementation\Component\MessageBox\MessageBox;
 use ILIAS\UI\Implementation\Component\Input\Container\Form\Form;
+use ILIAS\UI\Implementation\Component\Menu\Menu;
 
 /**
  * Loads renderers for components from the file system.
@@ -48,6 +49,7 @@ class FSLoader implements Loader
         private RendererFactory $field_renderer_factory,
         private RendererFactory $message_box_renderer_factory,
         private RendererFactory $form_renderer_factory,
+        private RendererFactory $menu_renderer_factory,
     ) {
     }
 
@@ -77,6 +79,9 @@ class FSLoader implements Loader
         }
         if ($component instanceof Form) {
             return $this->form_renderer_factory;
+        }
+        if ($component instanceof Menu) {
+            return $this->menu_renderer_factory;
         }
 
         return $this->default_renderer_factory;

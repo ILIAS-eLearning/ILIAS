@@ -24,7 +24,7 @@
 class ilLearningModuleExporter extends ilXmlExporter
 {
     private ilLearningModuleDataSet $ds;
-    private ilExportConfig $config;
+    private ilLearningModuleExportConfig $config;
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
     public function init(): void
@@ -34,9 +34,13 @@ class ilLearningModuleExporter extends ilXmlExporter
         $this->ds = new ilLearningModuleDataSet();
         $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
-        $this->config = $this->getExport()->getConfig("components/ILIAS/LearningModule");
+        /** @var ilLearningModuleExportConfig $config */
+        $config = $this->getExport()->getExportConfigs()->getElementByComponent('components/ILIAS/LearningModule');
+        $this->config = $config;
         if ($this->config->getMasterLanguageOnly()) {
-            $conf = $this->getExport()->getConfig("components/ILIAS/COPage");
+            /** @var ilCOPageExportConfig $co_config */
+            $co_config = $this->getExport()->getExportConfigs()->getElementByComponent('components/ILIAS/COPage');
+            $conf = $co_config;
             $conf->setMasterLanguageOnly(true, $this->config->getIncludeMedia());
             $this->ds->setMasterLanguageOnly(true);
         }

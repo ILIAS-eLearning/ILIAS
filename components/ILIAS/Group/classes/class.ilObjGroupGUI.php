@@ -595,8 +595,6 @@ class ilObjGroupGUI extends ilContainerGUI
                 return;
             }
 
-            $old_autofill = $this->object->hasWaitingListAutoFill();
-
             $this->object->setTitle($form->getInput('title'));
             $this->object->setDescription($form->getInput('desc'));
             $this->object->setGroupType((int) $form->getInput('grp_type'));
@@ -663,6 +661,7 @@ class ilObjGroupGUI extends ilContainerGUI
                     $this->object->setWaitingListAutoFill(false);
                     break;
             }
+            $this->object->handleAutoFill();
 
             // activation
             $property_online = $this->object->getObjectProperties()->getPropertyIsOnline();
@@ -697,12 +696,6 @@ class ilObjGroupGUI extends ilContainerGUI
 
             // Save sorting
             $this->saveSortingSettings($form);
-            // if autofill has been activated trigger process
-            if (
-                !$old_autofill &&
-                $this->object->hasWaitingListAutoFill()) {
-                $this->object->handleAutoFill();
-            }
 
             // BEGIN ChangeEvents: Record update Object.
             ilChangeEvent::_recordWriteEvent(

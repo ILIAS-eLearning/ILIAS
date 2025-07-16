@@ -1016,7 +1016,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     public function importCancelledObject(): void
     {
         $import_dir = $this->getImportDir();
-        if ($this->fi->hasDir($import_dir)) {
+        if ($this->filesystem->hasDir($import_dir)) {
             $this->filesystem->deleteDir($import_dir);
         }
 

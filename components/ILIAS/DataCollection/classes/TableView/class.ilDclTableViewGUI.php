@@ -65,6 +65,9 @@ class ilDclTableViewGUI
         }
 
         $this->table = ilDclCache::getTableCache($table_id);
+        $this->table->getCollectionObject()->setRefId(
+            $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int())
+        );
 
         $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
         $locator->addItem($this->table->getTitle(), $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit'));

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Listing\Workflow\Step;
+
 /**
  * Builds the overview (curriculum) of a LearningSequence.
  */
@@ -46,7 +48,8 @@ class ilLSCurriculumBuilder
     public function getLearnerCurriculum(bool $with_action = false): ILIAS\UI\Component\Listing\Workflow\Linear
     {
         $steps = [];
-        foreach ($this->ls_items->getItems() as $item) {
+        $items = $this->ls_items->getItems();
+        foreach ($items as $item) {
             $action = '#';
             if ($with_action) {
                 $action = $this->url_builder->getHref($this->goto_command, $item->getRefId());
@@ -72,14 +75,16 @@ class ilLSCurriculumBuilder
 
         if ($steps !== []) {
             $current_position = max(0, $this->ls_items->getCurrentItemPosition());
-            $workflow = $workflow->withActive($current_position);
+            if ($items[$current_position]->getAvailability() === Step::AVAILABLE) {
+                $workflow = $workflow->withActive($current_position);
+            }
         }
 
         return $workflow;
     }
 
     /*
-        ILIAS\UI\Component\Listing\Workflow\Step
+        Step
             const NOT_STARTED	= 1;
             const IN_PROGRESS	= 2;
             const SUCCESSFULLY	= 3;
@@ -95,14 +100,14 @@ class ilLSCurriculumBuilder
     {
         switch ($il_lp_status) {
             case \ilLPStatus::LP_STATUS_IN_PROGRESS_NUM:
-                return ILIAS\UI\Component\Listing\Workflow\Step::IN_PROGRESS;
+                return Step::IN_PROGRESS;
             case \ilLPStatus::LP_STATUS_COMPLETED_NUM:
-                return ILIAS\UI\Component\Listing\Workflow\Step::SUCCESSFULLY;
+                return Step::SUCCESSFULLY;
             case \ilLPStatus::LP_STATUS_FAILED_NUM:
-                return ILIAS\UI\Component\Listing\Workflow\Step::UNSUCCESSFULLY;
+                return Step::UNSUCCESSFULLY;
             case \ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM:
             default:
-                return ILIAS\UI\Component\Listing\Workflow\Step::NOT_STARTED;
+                return Step::NOT_STARTED;
         }
     }
 }

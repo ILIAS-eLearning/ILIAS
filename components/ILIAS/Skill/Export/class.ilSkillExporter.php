@@ -26,14 +26,16 @@ declare(strict_types=1);
 class ilSkillExporter extends ilXmlExporter
 {
     private ilSkillDataSet $ds;
-    protected ilExportConfig $config;
+    protected ilSkillExportConfig $config;
 
     public function init(): void
     {
         $this->ds = new ilSkillDataSet();
         $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
-        $this->config = $this->getExport()->getConfig("components/ILIAS/Skill");
+        /** @var ilSkillExportConfig $config */
+        $config = $this->getExport()->getExportConfigs()->getElementByComponent('components/ILIAS/Skill');
+        $this->config = $config;
         $this->ds->setSelectedNodes($this->config->getSelectedNodes());
         $this->ds->setSelectedProfiles($this->config->getSelectedProfiles());
         $this->ds->setMode($this->config->getMode());

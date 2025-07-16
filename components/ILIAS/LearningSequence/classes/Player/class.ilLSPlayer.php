@@ -44,55 +44,30 @@ class ilLSPlayer
     public const GS_DATA_LS_MAINBARCONTROLS = 'ls_mainbar_controls';
     public const GS_DATA_LS_METABARCONTROLS = 'ls_metabar_controls';
 
-    protected ilLSLearnerItemsQueries $ls_items;
-    protected LSControlBuilder $control_builder;
-    protected LSUrlBuilder $url_builder;
-    protected ilLSCurriculumBuilder $curriculum_builder;
-    protected ilLSViewFactory $view_factory;
-    protected ilKioskPageRenderer $page_renderer;
-    protected Factory $ui_factory;
-    protected ScreenContext $current_context;
-    protected Refinery\Factory $refinery;
-
     public function __construct(
-        ilLSLearnerItemsQueries $ls_items,
-        LSControlBuilder $control_builder,
-        LSUrlBuilder $url_builder,
-        ilLSCurriculumBuilder $curriculum_builder,
-        ilLSViewFactory $view_factory,
-        ilKioskPageRenderer $renderer,
-        Factory $ui_factory,
-        ScreenContext $current_context,
-        Refinery\Factory $refinery
+        protected ilLSLearnerItemsQueries $ls_items,
+        protected LSControlBuilder $control_builder,
+        protected LSUrlBuilder $url_builder,
+        protected ilLSCurriculumBuilder $curriculum_builder,
+        protected ilLSViewFactory $view_factory,
+        protected ilKioskPageRenderer $page_renderer,
+        protected Factory $ui_factory,
+        protected ScreenContext $current_context,
+        protected Refinery\Factory $refinery
     ) {
-        $this->ls_items = $ls_items;
-        $this->control_builder = $control_builder;
-        $this->url_builder = $url_builder;
-        $this->curriculum_builder = $curriculum_builder;
-        $this->view_factory = $view_factory;
-        $this->page_renderer = $renderer;
-        $this->ui_factory = $ui_factory;
-        $this->current_context = $current_context;
-        $this->refinery = $refinery;
     }
 
     public function play(RequestWrapper $get): ?string
     {
-        //init state and current item
         $items = $this->ls_items->getItems();
 
         if (count($items) === 0) {
             return null;
         }
 
-        $current_item = $this->getCurrentItem($items);
-
-        while ($current_item->getAvailability() !== Step::AVAILABLE) {
-            $prev_item = $this->getNextItem($items, $current_item, -1);
-            if ($prev_item === $current_item) {
-                throw new \Exception("Cannot view first LSO-item", 1);
-            }
-            $current_item = $prev_item;
+        $current_item = $this->getNextAvailableItem($items, $this->getCurrentItem($items));
+        if ($current_item === null) {
+            return null;
         }
 
         $view = $this->view_factory->getViewFor($current_item);
@@ -210,7 +185,7 @@ class ilLSPlayer
         $current_item_ref_id = $this->ls_items->getCurrentItemRefId();
         if ($current_item_ref_id !== 0) {
             $valid_ref_ids = array_map(
-                fn ($item) => $item->getRefId(),
+                fn($item) => $item->getRefId(),
                 array_values($this->ls_items->getItems())
             );
             if (in_array($current_item_ref_id, $valid_ref_ids)) {
@@ -218,6 +193,34 @@ class ilLSPlayer
             }
         }
         return $current_item;
+    }
+
+    protected function getNextAvailableItem(
+        array $items,
+        LSLearnerItem $current_item
+    ): ?LSLearnerItem {
+        if ($current_item->getAvailability() === Step::AVAILABLE) {
+            return $current_item;
+        }
+
+        $new_next_item = null;
+        $idx = array_search($current_item, $items);
+
+        for ($i = $idx - 1; $i >= 0; $i--) {
+            if ($items[$i]->getAvailability() === Step::AVAILABLE) {
+                $new_next_item = $items[$i];
+                continue;
+            }
+        }
+        if ($new_next_item === null) {
+            for ($i = $idx + 1; $i < count($items); $i++) {
+                if ($items[$i]->getAvailability() === Step::AVAILABLE) {
+                    $new_next_item = $items[$i];
+                    continue;
+                }
+            }
+        }
+        return $new_next_item;
     }
 
     protected function updateViewState(
@@ -321,7 +324,6 @@ class ilLSPlayer
             []
         );
     }
-
 
     public function getCurrentItemLearningProgress(): int
     {

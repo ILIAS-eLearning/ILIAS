@@ -853,7 +853,7 @@ class ilECSSettingsGUI
                     (int) $mtype,
                     $ecs_field
                 );
-                $map->setAdvMDId((int)$advmd_id);
+                $map->setAdvMDId((int) $advmd_id);
                 $map->save();
             }
         }

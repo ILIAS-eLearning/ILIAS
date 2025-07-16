@@ -31,7 +31,7 @@ class LinkItemRenderer extends AbstractFooterItemRenderer
 {
     protected function getSpecificComponentForItem(isItem $item): Component|array
     {
-        if ($item->getAction() instanceof URI) {
+        if ($item->getAction() instanceof URI || is_string($item->getAction())) {
             return $this->ui
                 ->factory()
                 ->link()

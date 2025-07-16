@@ -55,6 +55,7 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
     protected function buildFieldFactory(): FieldFactory
     {
         return new FieldFactory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
             $this->createMock(UploadLimitResolver::class),
             new I\SignalGenerator(),
             $this->buildDataFactory(),

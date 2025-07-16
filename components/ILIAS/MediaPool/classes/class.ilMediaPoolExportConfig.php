@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+use ILIAS\Export\ExportHandler\Consumer\ExportConfig\BasicHandler as ExportConfig;
+
 /**
  * Export configuration for media pools
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilMediaPoolExportConfig extends ilExportConfig
+class ilMediaPoolExportConfig extends ExportConfig
 {
     protected bool $master_only = false;
     protected bool $include_media = true;

@@ -51,6 +51,7 @@ class ilModulesOrgUnitTypeTest extends TestCase
 
     public function getUIFactory(): NoUIFactory
     {
+        $node_factory = $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class);
         $language = $this->createMock(ilLanguage::class);
         $filter_factory = $this->createMock(Component\Input\Container\Filter\Factory::class);
         $view_control_factory = $this->createMock(Component\Input\Container\ViewControl\Factory::class);
@@ -59,6 +60,7 @@ class ilModulesOrgUnitTypeTest extends TestCase
         $refinery = $this->getRefinery();
 
         $factory = new class (
+            $node_factory,
             $language,
             $filter_factory,
             $view_control_factory,
@@ -67,6 +69,7 @@ class ilModulesOrgUnitTypeTest extends TestCase
             $refinery
         ) extends NoUIFactory {
             public function __construct(
+                protected $node_factory,
                 protected $language,
                 protected $filter_factory,
                 protected $view_control_factory,
@@ -82,6 +85,7 @@ class ilModulesOrgUnitTypeTest extends TestCase
                 $data_factory = new \ILIAS\Data\Factory();
 
                 $field_factory = new Component\Input\Field\Factory(
+                    $this->node_factory,
                     $this->upload_limit_resolver,
                     $signal_generator,
                     $data_factory,

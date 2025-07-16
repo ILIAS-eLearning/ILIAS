@@ -134,6 +134,10 @@ final class ilFooterCustomItemInformation implements ItemInformation
             return $item;
         }
 
+        if ($d->isCore()) {
+            return $item->withIsCore();
+        }
+
         if (
             (($translation = $this->translations()->get($d)->getLanguageCode($this->userLanguage())) !== null)
             && $translation->getTranslation() !== ''

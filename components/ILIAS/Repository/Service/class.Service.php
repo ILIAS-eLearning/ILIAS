@@ -41,4 +41,10 @@ class Service
     {
         return new InternalService($this->DIC);
     }
+
+    public function gui(): ExternalGUIService
+    {
+        return new ExternalGUIService($this->internal()->gui());
+    }
+
 }

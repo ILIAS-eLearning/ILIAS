@@ -394,13 +394,19 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
     public static function _goto(string $a_target, string $a_add = ''): void
     {
         global $DIC;
-        $a_target = (int) $a_target;
-        if ($DIC['ilAccess']->checkAccess('write', '', $a_target)) {
-            ilObjectGUI::_gotoRepositoryNode($a_target, 'edit');
+        $access = $DIC['ilAccess'];
+        $target = (int) $a_target;
+        if ($access->checkAccess('write', '', $target)) {
+            ilObjectGUI::_gotoRepositoryNode($target, 'edit');
         }
-        if ($DIC['ilAccess']->checkAccess('read', '', $a_target)) {
-            ilObjectGUI::_gotoRepositoryNode($a_target);
+        if ($access->checkAccess('read', '', $target) ||
+            $access->checkAccess('visible', '', $target)
+        ) {
+            ilObjectGUI::_gotoRepositoryNode($target);
         }
+        $err = $DIC["ilErr"];
+        $lng = $DIC->language();
+        $err->raiseError($lng->txt("msg_no_perm_read"), $err->FATAL);
     }
 
     protected function getEntryForStatus(int $status): string

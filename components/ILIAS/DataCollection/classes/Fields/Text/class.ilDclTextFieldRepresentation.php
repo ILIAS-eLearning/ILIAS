@@ -52,21 +52,16 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
 
     public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilFormPropertyGUI
     {
-        $input = new ilDclTextInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-        if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_TEXTAREA)) {
-            $input = new ilTextAreaInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-            //varchar(4000) in Database
-            $input->setMaxNumOfChars(4000);
+        $length = (int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH);
+        if ($length > 200 && !$this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
+            $input = new ilTextAreaInputGUI();
+            $input->setMaxNumOfChars($length);
+        } else {
+            $input = new ilDclTextInputGUI();
+            $input->setMaxLength($length);
         }
-
-        if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_LENGTH)) {
-            $input->setInfo($this->lng->txt("dcl_max_text_length") . ": " . $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
-            if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_TEXTAREA)) {
-                $input->setMaxLength((int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
-            } else {
-                $input->setMaxNumOfChars((int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
-            }
-        }
+        $input->setTitle($this->getField()->getTitle());
+        $input->setPostVar('field_' . $this->getField()->getId());
 
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             $input->setInfo($this->lng->txt('dcl_text_email_detail_desc'));
@@ -76,6 +71,8 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
             );
             $title_field->setInfo($this->lng->txt('dcl_text_email_title_info'));
             $input->addSubItem($title_field);
+        } else {
+            $input->setInfo(sprintf($this->lng->txt("dcl_max_text_length"), $length));
         }
 
         $this->setupInputField($input, $this->getField());
@@ -92,30 +89,18 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
             $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_LENGTH)
         );
         $prop_length->setSize(5);
+        $prop_length->setMinValue(1);
         $prop_length->setMaxValue(4000);
+        $prop_length->setRequired(true);
+        $prop_length->setValue('200');
         $prop_length->setInfo($this->lng->txt('dcl_length_info'));
-
         $opt->addSubItem($prop_length);
-
-        $prop_regex = new ilDclTextInputGUI(
-            $this->lng->txt('dcl_regex'),
-            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_REGEX)
-        );
-        $prop_regex->setInfo($this->lng->txt('dcl_regex_info'));
-
-        $opt->addSubItem($prop_regex);
 
         $prop_url = new ilDclCheckboxInputGUI(
             $this->lng->txt('dcl_url'),
             $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_URL)
         );
         $opt->addSubItem($prop_url);
-
-        $prop_textarea = new ilDclCheckboxInputGUI(
-            $this->lng->txt('dcl_text_area'),
-            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_TEXTAREA)
-        );
-        $opt->addSubItem($prop_textarea);
 
         $prop_page_details = new ilDclCheckboxInputGUI(
             $this->lng->txt('dcl_link_detail_page'),
@@ -130,6 +115,13 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
         );
         $prop_unique->setInfo($this->lng->txt('dcl_unique_desc'));
         $opt->addSubItem($prop_unique);
+
+        $prop_regex = new ilDclTextInputGUI(
+            $this->lng->txt('dcl_regex'),
+            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_REGEX)
+        );
+        $prop_regex->setInfo($this->lng->txt('dcl_regex_info'));
+        $opt->addSubItem($prop_regex);
 
         return $opt;
     }

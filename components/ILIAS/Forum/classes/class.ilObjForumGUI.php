@@ -5682,7 +5682,7 @@ EOD
     {
         $draft = is_int($draft) ? ilForumPostDraft::newInstanceByDraftId($draft) : $draft;
         return (
-            $draft->getDraftId() > 1 &&
+            $draft->getDraftId() &&
             !$this->user->isAnonymous() &&
             $this->access->checkAccess('add_reply', '', $this->object->getRefId()) &&
             $this->user->getId() === $draft->getPostAuthorId()

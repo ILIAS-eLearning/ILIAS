@@ -47,7 +47,7 @@ abstract class BaseDelivery
 
     protected function saveAndClose(
         ResponseInterface $r,
-        ?string $path_to_delete = null
+        string $path_to_delete = null
     ): never {
         $sender = function () use ($r): void {
             $this->http->saveResponse($r);
@@ -86,11 +86,10 @@ abstract class BaseDelivery
             $disposition->value . '; filename="' . $file_name . '"'
         );
         $r = $r->withHeader(ResponseHeader::CACHE_CONTROL, 'max-age=31536000, immutable, private');
-        $r = $r->withHeader(
+
+        return $r->withHeader(
             ResponseHeader::EXPIRES,
             date("D, j M Y H:i:s", strtotime('+5 days')) . " GMT"
         );
-
-        return $r;
     }
 }

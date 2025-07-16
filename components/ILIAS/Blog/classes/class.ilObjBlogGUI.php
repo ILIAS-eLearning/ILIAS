@@ -2141,13 +2141,17 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $this->tpl->setOnScreenMessage('info', sprintf($lng->txt("blog_contribute_other_roles"), implode(", ", $other_roles)));
         }
 
-        $tbl = $this->gui->contributor()->ilContributorTableGUI(
+        $table = $this->gui->contributor()->contributorTableBuilder(
+            $this->object->getAllLocalRoles($this->node_id),
             $this,
-            "contributors",
-            $this->object->getAllLocalRoles($this->node_id)
-        );
+            "contributors"
+        )->getTable();
 
-        $tpl->setContent($tbl->getHTML());
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $tpl->setContent($table->render());
     }
 
     /**
@@ -2227,12 +2231,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     }
 
     /**
-     * Used in ilContributorTableGUI
+     * Used in ContributorTableBuilder
      */
-    public function confirmRemoveContributor(): void
+    public function confirmRemoveContributor(array $ids = []): void
     {
-        $ids = $this->blog_request->getIds();
-
+        if (empty($ids)) {
+            $ids = $this->blog_request->getIds();
+        }
         if (count($ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "contributors");
@@ -2283,6 +2288,20 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
 
         $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
+        $this->ctrl->redirect($this, "contributors");
+    }
+
+    /**
+     * Used in ContributorTableBuilder
+     */
+    public function addContributorContainerAction(array $ids = []): void
+    {
+        if (empty($ids)) {
+            $ids = $this->blog_request->getIds();
+        }
+
+        // This would typically add contributors from a container
+        // For now, redirecting back to contributors as this seems to be a placeholder action
         $this->ctrl->redirect($this, "contributors");
     }
 

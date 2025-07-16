@@ -12,27 +12,26 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
-import ACTIONS from "./iim-action-types.js";
+import ACTIONS from './iim-action-types.js';
 
 /**
  * COPage action factory
  *
  */
 export default class IIMEditorActionFactory {
-
   /**
    * @type {EditorActionFactory}
    */
-  //editorActionFactory;
+  // editorActionFactory;
 
   /**
    *
    * @param {EditorActionFactory} editorActionFactory
    */
   constructor(editorActionFactory) {
-    this.COMPONENT = "InteractiveImage";
+    this.COMPONENT = 'InteractiveImage';
     this.editorActionFactory = editorActionFactory;
   }
 
@@ -49,7 +48,7 @@ export default class IIMEditorActionFactory {
 
   editTrigger(nr) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.E_EDIT_TRIGGER, {
-      triggerNr : nr
+      triggerNr: nr,
     });
   }
 
@@ -109,13 +108,25 @@ export default class IIMEditorActionFactory {
     nr,
     title,
     shapeType,
-    coords
+    coords,
+    hl_mode,
+    hl_class,
   ) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.E_TRIGGER_PROPERTIES_SAVE, {
-      nr: nr,
-      title: title,
-      shapeType: shapeType,
-      coords: coords
+      nr,
+      title,
+      shapeType,
+      coords,
+      hl_mode,
+      hl_class,
+    });
+  }
+
+  deleteTrigger(
+    nr,
+  ) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.E_TRIGGER_DELETE, {
+      nr,
     });
   }
 
@@ -123,18 +134,17 @@ export default class IIMEditorActionFactory {
    * @returns {EditorAction}
    */
   changeTriggerShape(
-    shape
+    shape,
   ) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.E_TRIGGER_SHAPE_CHANGE, {
-      shape: shape
+      shape,
     });
   }
 
   /**
    * @returns {EditorAction}
    */
-  addTriggerOverlay(
-  ) {
+  addTriggerOverlay() {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.E_TRIGGER_OVERLAY_ADD, {
     });
   }
@@ -145,12 +155,12 @@ export default class IIMEditorActionFactory {
   saveTriggerOverlay(
     nr,
     overlay,
-    coords
+    coords,
   ) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.E_TRIGGER_OVERLAY_SAVE, {
-      nr: nr,
-      overlay: overlay,
-      coords: coords
+      nr,
+      overlay,
+      coords,
     });
   }
 
@@ -161,13 +171,13 @@ export default class IIMEditorActionFactory {
     nr,
     popup,
     position,
-    size
+    size,
   ) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.E_TRIGGER_POPUP_SAVE, {
-      nr: nr,
-      popup: popup,
-      position: position,
-      size: size
+      nr,
+      popup,
+      position,
+      size,
     });
   }
 
@@ -175,57 +185,55 @@ export default class IIMEditorActionFactory {
    * @returns {EditorAction}
    */
   changeTriggerOverlay(
-    overlay
+    overlay,
   ) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.E_TRIGGER_OVERLAY_CHANGE, {
-      overlay: overlay
+      overlay,
     });
   }
 
   uploadOverlay(data) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.E_OVERLAY_UPLOAD, {
-      data: data
+      data,
     });
   }
 
   deleteOverlay(overlay) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.E_OVERLAY_DELETE, {
-      overlay: overlay
+      overlay,
     });
   }
 
   renamePopup(nr) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.E_POPUP_RENAME, {
-      nr: nr
+      nr,
     });
   }
 
   deletePopup(nr) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.E_POPUP_DELETE, {
-      nr: nr
+      nr,
     });
   }
 
   /**
    * @returns {EditorAction}
    */
-  addTriggerPopup(
-  ) {
+  addTriggerPopup() {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.E_TRIGGER_POPUP_ADD, {
     });
   }
 
   savePopup(data, nr) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.E_POPUP_SAVE, {
-      data: data,
-      nr: nr
+      data,
+      nr,
     });
   }
 
   saveSettings(form) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.E_SAVE_SETTINGS, {
-      form: form
+      form,
     });
   }
-
 }

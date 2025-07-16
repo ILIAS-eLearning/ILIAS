@@ -13,8 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import createDocumentFragment from './createDocumentFragment';
-import createRandomString from './createRandomString';
+import createDocumentFragment from './createDocumentFragment.js';
+import createRandomString from './createRandomString.js';
 
 /**
  * Updates all attribute values from an old element id to a new one.

@@ -53,6 +53,9 @@ class ilForumSetupAgent implements Setup\Agent
             ),
             new ilDatabaseUpdateStepsExecutedObjective(
                 new ilForumDatabaseUpdateSteps9()
+            ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilForumDatabaseUpdateSteps11()
             )
         );
     }

@@ -174,12 +174,6 @@ class StandardGUIRequest
     }
 
     /** @return int[] */
-    public function getStartObjPositions(): array
-    {
-        return $this->intArray("pos");
-    }
-
-    /** @return int[] */
     public function getStartObjIds(): array
     {
         return $this->intArray("starter");

@@ -466,6 +466,16 @@ trait BaseUITestTrait
                         $data_factory,
                         $help_text_retriever,
                         $this->getUploadLimitResolver()
+                    ),
+                    new I\Menu\MenuRendererFactory(
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $image_path_resolver,
+                        $data_factory,
+                        $help_text_retriever,
+                        $this->getUploadLimitResolver(),
                     )
                 )
             )
@@ -483,6 +493,11 @@ trait BaseUITestTrait
         return trim(str_replace(["\n", "\r"], "", $html));
     }
 
+    /**
+     * @deprecated please try not to use this method anymore. It relies on DOMDocument, which DOES NOT
+     *             support HTML5 and will trigger warnings for such elements and COULD add self-closing
+     *             tags ( <... />) automatically, which produces false-positives.
+     */
     public function assertHTMLEquals(string $expected_html_as_string, string $html_as_string): void
     {
         $html = new DOMDocument();

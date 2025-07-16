@@ -60,7 +60,7 @@ class SettingsGamification extends TestSettings
                     ->withOption((string) self::HIGHSCORE_SHOW_OWN_TABLE, $lng->txt('tst_highscore_own_table'), $lng->txt('tst_highscore_own_table_description'))
                     ->withOption((string) self::HIGHSCORE_SHOW_TOP_TABLE, $lng->txt('tst_highscore_top_table'), $lng->txt('tst_highscore_top_table_description'))
                     ->withOption((string) self::HIGHSCORE_SHOW_ALL_TABLES, $lng->txt('tst_highscore_all_tables'), $lng->txt('tst_highscore_all_tables_description'))
-                    ->withValue($this->getHighScoreMode() > 0 ? (string) $this->getHighScoreMode() : '')
+                    ->withValue($this->getHighScoreMode() > 0 ? (string) $this->getHighScoreMode() : null)
                     ->withRequired(true)
                     ,
                 'highscore_top_num' => $f->numeric($lng->txt('tst_highscore_top_num'), $lng->txt('tst_highscore_top_num_description'))

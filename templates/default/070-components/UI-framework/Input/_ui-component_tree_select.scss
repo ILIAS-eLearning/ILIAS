@@ -1,0 +1,186 @@
+@use "../../../010-settings/" as *;
+@use "../../../050-layout/basics/" as *;
+@use "../../../050-layout/standardpage/" as *;
+@use "../../../030-tools/_tool_buttons" as button-tool;
+@use "../../../030-tools/_tool_focus-outline" as focus-tool;
+@use "../Menu/_ui-component_drilldown" as *;
+@use "../Button/_ui-component_button" as button;
+
+//== Tree (Multi) Select
+
+.c-input-tree_select {
+
+  & > input[type="button"] {
+    @extend .btn;
+    @extend .btn-link;
+  }
+
+  .c-input-node {
+
+    &--selected {
+
+      > .c-drilldown__menulevel--trigger .icon,
+      > .c-input-node__select .glyph {
+        filter: none;
+      }
+
+    }
+
+  }
+
+  .c-input-tree_select__selection {
+
+    button[type="remove"] {
+      @extend .close;
+    }
+
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: $il-padding-large-vertical;
+    width: 100%;
+    height: auto;
+    padding: 0;
+    margin: 0;
+  }
+
+  & .c-drilldown {
+
+    .c-input-node__name {
+      //@extend .il-link;
+      //@extend .link-bulky;
+
+      cursor: default;
+
+      &:hover {
+        border-color: $c-drilldown-item-hover-bg;
+      }
+    }
+
+    .c-input-node__name,
+    &__menulevel--trigger {
+      width: calc(100% - ($c-drilldown-element-max-height));
+      float: left;
+    }
+
+    .c-input-node__select {
+      @include focus-tool.il-focus-border-only();
+      @include button-tool.make-button(
+        $set-basics: false,
+        $set-design: true,
+        $set-full-width: false,
+        $border-color: $c-drilldown-bulky-bg,
+        $text-color: $il-bulky-text-color,
+        $button-color: $c-drilldown-bulky-bg,
+        $font-size: $il-bulky-label-size,
+        $input-field-height: $c-drilldown-element-max-height,
+        $padding-small-x: $il-padding-large-vertical,
+        $padding-small-y: $il-padding-large-horizontal,
+        $inner-spacing: $il-padding-large-vertical,
+        $hover_bg-color: $c-drilldown-item-hover-bg,
+        $hover_border-color: $c-drilldown-item-hover-bg,
+        $active_transform: null,
+      );
+
+      margin-bottom: $il-slate-content-spacing;
+      margin-left: 0;
+      display: none;
+      float: left;
+
+      &:focus-visible {
+        z-index: 100;
+      }
+    }
+
+    .c-drilldown__menulevel--engaged > li > .c-input-node__select {
+      display: inline-block;
+    }
+
+    .c-drilldown__menulevel--engaged > li > .c-input-node__name {
+      display: flex;
+    }
+
+    @container drilldown (min-width: #{$c-drilldown-max-width}) {
+
+      .c-drilldown__menulevel--engagedparent > .c-drilldown__menuitem--engaged > .c-input-node__select {
+        background: $c-drilldown-engaged-bg;
+      }
+
+      .c-drilldown__menulevel--engagedparent > li > .link-bulky.c-input-node__name {
+        width: calc(50% - ($c-drilldown-element-max-height));
+      }
+
+      .c-drilldown__menulevel--engaged {
+        ~ .c-input-node__select {
+          background: $c-drilldown-engaged-bg;
+        }
+        > li {
+          > .c-input-node__select {
+            background-color: $c-drilldown-selected-bg;
+            position: relative;
+            z-index: 40;
+            &:hover {
+              background-color: $c-drilldown-item-hover-bg;
+              border-color: $c-drilldown-item-hover-bg;
+            }
+          }
+        }
+      }
+
+      &.c-drilldown__menulevel--engaged {
+        > .c-drilldown__branch {
+          > .c-input-node__select {
+            background-color: $c-drilldown-engaged-bg;
+          }
+          > ul > li {
+            > .c-input-node__select {
+              display: flex;
+              background-color: $c-drilldown-selected-bg;
+              position: relative;
+              z-index: 40;
+              &:hover {
+                background-color: $c-drilldown-item-hover-bg;
+                border-color: $c-drilldown-item-hover-bg;
+              }
+            }
+          }
+          ~ .c-drilldown__branch {
+            > .c-input-node__select {
+              background-color: $c-drilldown-menulevel-trigger-bg;
+              border-color: $c-drilldown-menulevel-trigger-bg;
+              &:hover {
+                background-color: $c-drilldown-item-hover-bg;
+                border-color: $c-drilldown-item-hover-bg;
+              }
+            }
+          }
+        }
+      }
+
+      &:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent {
+        > li > .c-input-node__select {
+          display: inline-block;
+        }
+
+        &.c-drilldown__menulevel--engaged {
+          > .c-drilldown__branch {
+            > ul > li {
+              > .c-input-node__select {
+                display: inline-block;
+              }
+            }
+            ~ .c-drilldown__branch {
+              > ul > li {
+                > .c-input-node__select {
+                  display: none;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

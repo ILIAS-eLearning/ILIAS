@@ -18,48 +18,35 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Factory as UIFactory;
+use ILIAS\Repository\InternalDomainService;
+use ILIAS\Repository\InternalGUIService;
 
-/**
- * Class ilObjectOwnershipManagementGUI
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
- * @ilCtrl_Calls ilObjectOwnershipManagementGUI:
- */
 class ilObjectOwnershipManagementGUI
 {
     public const P_OWNID = 'ownid';
-    protected ilObjUser $user;
     protected ilCtrl $ctrl;
-    protected ilGlobalTemplateInterface $tpl;
-    protected UIFactory $ui_factory;
-    protected ilToolbarGUI $toolbar;
     protected ilLanguage $lng;
-    protected ilObjectDefinition $obj_definition;
-    protected ilTree $tree;
     protected int $user_id;
     protected int $own_id = 0;
     protected bool $read_only;
     private ilObjectRequestRetriever $retriever;
 
-    public function __construct(?int $user_id = null, bool $read_only = false)
-    {
-        global $DIC;
-
-        $this->user = $DIC['ilUser'];
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->tpl = $DIC['tpl'];
-        $this->ui_factory = $DIC['ui.factory'];
-        $this->toolbar = $DIC['ilToolbar'];
-        $this->lng = $DIC['lng'];
-        $this->obj_definition = $DIC['objDefinition'];
-        $this->tree = $DIC['tree'];
-        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $DIC['refinery']);
+    public function __construct(
+        protected InternalDomainService $domain,
+        protected InternalGUIService $gui,
+        ?int $user_id = null,
+        bool $read_only = false
+    ) {
+        $this->ctrl = $this->gui->ctrl();
+        $this->lng = $this->domain->lng();
+        $this->retriever = new ilObjectRequestRetriever(
+            $this->gui->http()->wrapper(),
+            $this->domain->refinery()
+        );
 
         $this->lng->loadLanguageModule('obj');
 
-        $this->user_id = $this->user->getId();
+        $this->user_id = $domain->user()->getId();
         if (!is_null($user_id)) {
             $this->user_id = $user_id;
         }
@@ -81,12 +68,20 @@ class ilObjectOwnershipManagementGUI
     public function listObjects(): void
     {
         $objects = ilObject::getAllOwnedRepositoryObjects($this->user_id);
-
-        $tbl = new ilObjectOwnershipManagementTableGUI($this, 'listObjects', $this->user_id);
+        $mt = $this->gui->mainTemplate();
+        $toolbar = $this->gui->toolbar();
+        $f = $this->gui->ui()->factory();
 
         if ($objects === []) {
-            $tbl->setTitle($this->lng->txt('user_owns_no_objects'));
-            $this->tpl->setContent($tbl->getHTML());
+            $table_builder = $this->gui->ownership()->ownershipManagementTableBuilder(
+                $this->user_id,
+                $this->lng->txt('user_owns_no_objects'),
+                [],
+                '',
+                $this,
+                'listObjects'
+            );
+            $mt->setContent($table_builder->getTable()->render());
             return;
         }
 
@@ -97,33 +92,46 @@ class ilObjectOwnershipManagementGUI
             $this->ctrl->setParameterByClass(self::class, 'type', $type);
             $target = $this->ctrl->getLinkTargetByClass(self::class, 'listObjects');
             $label = $this->getLabelForObjectType($type);
-            $options[$type] = $this->ui_factory->button()->shy($label, $target);
+            $options[$type] = $f->button()->shy($label, $target);
         }
         asort($options);
 
         $selected_type = $this->retriever->getMaybeString('type') ?? array_keys($options)[0];
         unset($options[$selected_type]);
 
-        $dropdown = $this->ui_factory->dropdown()->standard($options)->withLabel(
+        $dropdown = $f->dropdown()->standard($options)->withLabel(
             $this->lng->txt('select_object_type')
         );
 
-        $this->toolbar->addStickyItem($dropdown);
+        $toolbar->addStickyItem($dropdown);
 
         if (is_array($objects[$selected_type])
             && $objects[$selected_type] !== []) {
             ilObject::fixMissingTitles($selected_type, $objects[$selected_type]);
         }
 
-        $tbl->setTitle($this->getLabelForObjectType($selected_type));
-        $tbl->initItems($objects[$selected_type]);
+        $table_builder = $this->gui->ownership()->ownershipManagementTableBuilder(
+            $this->user_id,
+            $this->getLabelForObjectType($selected_type),
+            $objects,
+            $selected_type,
+            $this,
+            'listObjects'
+        );
+
         $this->ctrl->setParameterByClass(self::class, 'type', $selected_type);
-        $this->tpl->setContent($tbl->getHTML());
+
+        if ($table_builder->getTable()->handleCommand()) {
+            return;
+        }
+
+        $mt->setContent($table_builder->getTable()->render());
     }
 
     private function getLabelForObjectType(string $type): string
     {
-        if ($this->obj_definition->isPlugin($type)) {
+        $obj_definition = $this->domain->objectDefinition();
+        if ($obj_definition->isPlugin($type)) {
             return ilObjectPlugin::getPluginObjectByType($type)
                 ->txt('obj_' . $type);
         }
@@ -131,25 +139,10 @@ class ilObjectOwnershipManagementGUI
         return $this->lng->txt('objs_' . $type);
     }
 
-    public function applyFilter(): void
-    {
-        $tbl = new ilObjectOwnershipManagementTableGUI($this, 'listObjects', $this->user_id);
-        $tbl->resetOffset();
-        $tbl->writeFilterToSession();
-        $this->listObjects();
-    }
-
-    public function resetFilter(): void
-    {
-        $tbl = new ilObjectOwnershipManagementTableGUI($this, 'listObjects', $this->user_id);
-        $tbl->resetOffset();
-        $tbl->resetFilter();
-        $this->listObjects();
-    }
-
     protected function redirectParentCmd(int $ref_id, string $cmd): void
     {
-        $parent = $this->tree->getParentId($ref_id);
+        $tree = $this->domain->repositoryTree();
+        $parent = $tree->getParentId($ref_id);
         $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $parent);
         $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'item_ref_id', $ref_id);
         $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'cmd', $cmd);
@@ -158,8 +151,11 @@ class ilObjectOwnershipManagementGUI
 
     protected function redirectCmd(int $ref_id, string $class, ?string $cmd = null): void
     {
-        $node = $this->tree->getNodeData($ref_id);
-        $gui_class = 'ilObj' . $this->obj_definition->getClassName($node['type']) . 'GUI';
+        $tree = $this->domain->repositoryTree();
+        $obj_definition = $this->domain->objectDefinition();
+
+        $node = $tree->getNodeData($ref_id);
+        $gui_class = 'ilObj' . $obj_definition->getClassName($node['type']) . 'GUI';
         $path = ['ilRepositoryGUI', $gui_class, $class];
 
         if ($class == 'ilExportGUI') {
@@ -188,42 +184,48 @@ class ilObjectOwnershipManagementGUI
         $this->ctrl->redirectByClass($path);
     }
 
-    public function delete(): void
+    public function delete(int $id): void
     {
         $this->checkReadOnly();
 
         $this->redirectParentCmd(
-            $this->own_id,
+            $id,
             'delete'
         );
     }
 
-    public function move(): void
+    public function show(int $id): void
+    {
+        $link = \ilLink::_getLink($id);
+        $this->ctrl->redirectToURL($link);
+    }
+
+    public function move(int $id): void
     {
         $this->checkReadOnly();
 
         $this->redirectParentCmd(
-            $this->own_id,
+            $id,
             'cut'
         );
     }
 
-    public function export(): void
+    public function export(int $id): void
     {
         $this->checkReadOnly();
 
         $this->redirectCmd(
-            $this->own_id,
+            $id,
             ilExportGUI::class
         );
     }
 
-    public function changeOwner(): void
+    public function changeOwner(int $id): void
     {
         $this->checkReadOnly();
 
         $this->redirectCmd(
-            $this->own_id,
+            $id,
             ilPermissionGUI::class,
             'owner'
         );

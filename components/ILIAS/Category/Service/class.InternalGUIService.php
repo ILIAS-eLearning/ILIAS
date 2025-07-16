@@ -22,6 +22,7 @@ namespace ILIAS\Category;
 
 use ILIAS\DI;
 use ILIAS\Repository;
+use ILIAS\Catgory\AssignRoleTableBuilder;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -48,6 +49,24 @@ class InternalGUIService
         return new StandardGUIRequest(
             $this->http(),
             $this->domain_service->refinery()
+        );
+    }
+
+    public function assignedRoleTableBuilder(
+        int $ref_id,
+        int $managed_user_id,
+        int $managing_user_id,
+        object $parent_gui,
+        string $parent_cmd
+    ): AssignRoleTableBuilder {
+        return new AssignRoleTableBuilder(
+            $this->domain_service,
+            $this,
+            $ref_id,
+            $managed_user_id,
+            $managing_user_id,
+            $parent_gui,
+            $parent_cmd
         );
     }
 }

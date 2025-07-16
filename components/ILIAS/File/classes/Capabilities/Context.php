@@ -27,6 +27,7 @@ class Context implements \Stringable
 {
     public const CONTEXT_REPO = 1;
     public const CONTEXT_WORKSPACE = 2;
+    public const CONTEXT_SEARCH = 6;
 
     public function __construct(
         private int $object_id,
@@ -34,7 +35,7 @@ class Context implements \Stringable
         private int $context
     ) {
         // $context mut be one of the constants
-        if ($context !== self::CONTEXT_REPO && $context !== self::CONTEXT_WORKSPACE) {
+        if ($context !== self::CONTEXT_REPO && $context !== self::CONTEXT_WORKSPACE && $context !== self::CONTEXT_SEARCH) {
             throw new \InvalidArgumentException('Invalid context');
         }
     }

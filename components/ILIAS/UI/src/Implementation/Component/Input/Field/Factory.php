@@ -30,24 +30,14 @@ use ILIAS\Language\Language;
 
 class Factory implements I\Factory
 {
-    protected UploadLimitResolver $upload_limit_resolver;
-    protected Data\Factory $data_factory;
-    protected SignalGeneratorInterface $signal_generator;
-    private \ILIAS\Refinery\Factory $refinery;
-    protected Language $lng;
-
     public function __construct(
-        UploadLimitResolver $upload_limit_resolver,
-        SignalGeneratorInterface $signal_generator,
-        Data\Factory $data_factory,
-        \ILIAS\Refinery\Factory $refinery,
-        Language $lng,
+        protected Node\Factory $node_factory,
+        protected UploadLimitResolver $upload_limit_resolver,
+        protected SignalGeneratorInterface $signal_generator,
+        protected Data\Factory $data_factory,
+        protected \ILIAS\Refinery\Factory $refinery,
+        protected Language $lng,
     ) {
-        $this->upload_limit_resolver = $upload_limit_resolver;
-        $this->signal_generator = $signal_generator;
-        $this->data_factory = $data_factory;
-        $this->refinery = $refinery;
-        $this->lng = $lng;
     }
 
     public function text(string $label, ?string $byline = null): Text
@@ -134,6 +124,7 @@ class Factory implements I\Factory
         return new File(
             $this->lng,
             $this->data_factory,
+            $this,
             $this->refinery,
             $this->upload_limit_resolver,
             $handler,
@@ -171,5 +162,42 @@ class Factory implements I\Factory
     public function rating(string $label, ?string $byline = null): Rating
     {
         return new Rating($this->data_factory, $this->refinery, $label, $byline);
+    }
+
+    public function treeSelect(
+        I\Node\NodeRetrieval $node_retrieval,
+        string $label,
+        ?string $byline = null
+    ): TreeSelect {
+        return new TreeSelect(
+            $this->lng,
+            $this->data_factory,
+            $this->refinery,
+            $this->hidden(),
+            $node_retrieval,
+            $label,
+            $byline,
+        );
+    }
+
+    public function treeMultiSelect(
+        I\Node\NodeRetrieval $node_retrieval,
+        string $label,
+        ?string $byline = null,
+    ): TreeMultiSelect {
+        return new TreeMultiSelect(
+            $this->lng,
+            $this->data_factory,
+            $this->refinery,
+            $this->hidden(),
+            $node_retrieval,
+            $label,
+            $byline,
+        );
+    }
+
+    public function node(): Node\Factory
+    {
+        return $this->node_factory;
     }
 }

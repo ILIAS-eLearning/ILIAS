@@ -331,7 +331,7 @@ class ContentAssembler
                 $option = $option->withLabel(
                     '(' . $this->presenter->utilities()->txt('meta_copyright_outdated') .
                     ') ' . $entry->title()
-                );
+                )->withDisabled(true);
                 $outdated[] = $identifier;
             }
             $options[$identifier] = $option;

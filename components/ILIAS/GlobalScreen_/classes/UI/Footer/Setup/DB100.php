@@ -77,4 +77,34 @@ class DB100 implements \ilDatabaseUpdateSteps
         $this->db->addPrimaryKey('gs_item_translation', ['id', 'language_code']);
     }
 
+    public function step_4(): void
+    {
+        if (!$this->db->primaryExistsByFields('gs_footer_items', ['id'])) {
+            $this->db->addPrimaryKey('gs_footer_items', ['id']);
+        }
+    }
+
+    public function step_5(): void
+    {
+        $initial_setup = "INSERT INTO gs_footer_items 
+    (id, type, title, position, is_active, parent, action, external, core)
+VALUES
+    ('ilAccessibilitySupportFooterProvider|accessibility', 1, 'Accessibility', 10, 1, NULL, NULL, NULL, 1),
+    ('ilAccessibilitySupportFooterProvider|accessibility_control', 2, 'Accessibility', 0, 1, 'ilAccessibilitySupportFooterProvider|accessibility', 'ilias.php?baseClass=ilaccessibilitycontrolconceptgui', 0, 1),
+    ('ilFooterStandardGroupsProvider|imprint', 2, 'Legal Notice', 0, 1, 'ilFooterStandardGroupsProvider|legal_information', 'http://10.ilias.localhost/go/impr/0', 0, 1),
+    ('ilFooterStandardGroupsProvider|legal_information', 1, 'Legal Information', 20, 1, NULL, NULL, NULL, 1),
+    ('ilFooterStandardGroupsProvider|services', 1, 'Services', 40, 1, NULL, NULL, NULL, 1),
+    ('ilFooterStandardGroupsProvider|support', 1, 'Support', 30, 1, NULL, NULL, NULL, 1)
+ON DUPLICATE KEY UPDATE
+    type = VALUES(type),
+    title = VALUES(title),
+    position = VALUES(position),
+    is_active = VALUES(is_active),
+    parent = VALUES(parent),
+    action = VALUES(action),
+    external = VALUES(external),
+    core = VALUES(core);";
+
+        $this->db->manipulate($initial_setup);
+    }
 }

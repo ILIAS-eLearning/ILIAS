@@ -25,6 +25,9 @@ use ILIAS\Skill\Table;
 use ILIAS\Skill\Usage;
 use ILIAS\Skill\Access\SkillTreeAccess;
 use ILIAS\UI;
+use ILIAS\Export\ExportHandler\I\FactoryInterface as ExportFactoryInterface;
+use ILIAS\Export\ExportHandler\Factory as ExportFactory;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * Basic GUI class for skill tree nodes
@@ -57,6 +60,8 @@ class ilSkillTreeNodeGUI
     protected ilTabsGUI $tabs;
     protected SkillAdminGUIRequest $admin_gui_request;
     protected SkillUIService $skill_ui_service;
+    protected DataFactory $data_factory;
+    protected ExportFactoryInterface $export_factory;
     protected int $requested_ref_id = 0;
     protected int $requested_node_id = 0;
     protected string $requested_backcmd = "";
@@ -76,6 +81,9 @@ class ilSkillTreeNodeGUI
     public function __construct(Node\SkillTreeNodeManager $node_manager, int $a_node_id = 0)
     {
         global $DIC;
+
+        $this->data_factory = new DataFactory();
+        $this->export_factory = new ExportFactory();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -621,12 +629,18 @@ class ilSkillTreeNodeGUI
             $this->redirectToParent();
         }
 
-        $exp = new ilExport();
-        $conf = $exp->getConfig("components/ILIAS/Skill");
-        $conf->setSelectedNodes($this->requested_node_ids);
-        $conf->setSkillTreeId($this->skill_tree_id);
-        $exp->exportObject("skmg", ilObject::_lookupObjId($this->requested_ref_id));
-
+        /** @var ilSkillExportConfig $config */
+        $configs = $this->export_factory->consumer()->exportConfig()->allExportConfigs();
+        $config = $configs->getElementByComponent('components/ILIAS/Skill');
+        $config->setSelectedNodes($this->requested_node_ids);
+        $config->setSkillTreeId($this->skill_tree_id);
+        /** @var ilObject $obj */
+        $obj = new ilObject();
+        $obj->setRefId($this->requested_ref_id);
+        $obj->setType('skee');
+        $obj->read();
+        $obj->setType('skmg');
+        $this->export_factory->consumer()->handler()->createStandardExportByObject($this->user->getId(), $obj, $configs);
         $ilCtrl->redirectByClass(array("ilobjskilltreegui", "ilexportgui"), "");
     }
 }

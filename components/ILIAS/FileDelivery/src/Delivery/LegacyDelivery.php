@@ -57,7 +57,7 @@ final class LegacyDelivery extends BaseDelivery
         );
     }
 
-    protected function deliver(
+    private function deliver(
         string $path_to_file,
         Disposition $disposition,
         ?string $download_file_name = null,
@@ -76,6 +76,6 @@ final class LegacyDelivery extends BaseDelivery
             $r,
             Streams::ofResource(fopen($path_to_file, 'rb'))
         );
-        $this - $this->saveAndClose($r, $delete_file ? $path_to_file : null);
+        $this->saveAndClose($r, $delete_file ? $path_to_file : null);
     }
 }

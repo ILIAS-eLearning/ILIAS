@@ -69,7 +69,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         return false;
     }
 
-    protected function uploadImage(): void
+    public function uploadImage(): void
     {
         $this->setAdditionalContentEditingModeFromPost();
         if ($this->writePostData(true) === 0) {

@@ -738,7 +738,7 @@ assessment#:#finalized_evaluation#:#採点完了
 assessment#:#finalized_on#:#完了時刻
 assessment#:#finish_all_user_passes#:#全てのテスト受験を終了します
 assessment#:#finish_pass_for_all_users#:#全ユーザ用のテスト受験を本当に終了しますか。
-assessment#:#finish_pass_for_all_users_in_processing_time#:#少なくともまだ一人のユーザが処理時間内のため全ユーザと一緒に合格終了する事はできません。
+assessment#:#finish_pass_for_multiple_users_in_processing_time#:#少なくともまだ一人のユーザが処理時間内のため全ユーザと一緒に合格終了する事はできません。
 assessment#:#finish_pass_for_user_confirmation#:#このテスト受験を本当に終了しますか。
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: やむを得ない理由(例: テストから除外)に限りテストランから終了すべきです。
 assessment#:#finish_test#:#テストを終了

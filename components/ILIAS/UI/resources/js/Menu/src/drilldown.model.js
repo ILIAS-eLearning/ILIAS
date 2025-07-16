@@ -67,28 +67,40 @@ export default class DrilldownModel {
    * @param {HTMLButtonElement} headerDisplayElement
    * @param {int} parent
    * @param {array} leaves
+   * @param {string|null} existingLevelId
    * @returns {this.#level}
    */
-  addLevel(headerDisplayElement, parent, leaves) {
-    const levelId = this.#data.length.toString();
-    const level = this.#buildLevel(levelId, headerDisplayElement, parent, leaves);
-    this.#data[level.id] = level;
-    return this.#data[level.id];
+  addLevel(headerDisplayElement, parent, leaves, existingLevelId = null) {
+    let levelId = existingLevelId;
+    if (levelId === null) {
+      levelId = this.#data.length.toString();
+      const level = this.#buildLevel(levelId, headerDisplayElement, parent, leaves);
+      this.#data[level.id] = level;
+    } else {
+      this.#data[levelId].leaves = leaves;
+    }
+    return this.#data[levelId];
   }
 
   /**
    * @param  {String} levelId
    */
   engageLevel(levelId) {
-    this.#data.forEach(
-      (level) => {
-        const levelRef = level;
-        levelRef.engaged = false;
-        if (level.id === levelId) {
-          levelRef.engaged = true;
-        }
-      },
-    );
+    this.#data.forEach((level) => {
+      level.engaged = (level.id === levelId);
+    });
+  }
+
+  /**
+   * @param {string} levelId
+   * @returns {this.#level}
+   */
+  getLevel(levelId) {
+    const level = this.#data.find((candidate) => candidate.id === levelId);
+    if (!level) {
+      return null;
+    }
+    return level;
   }
 
   /**
@@ -110,7 +122,7 @@ export default class DrilldownModel {
   getParent() {
     const cur = this.getCurrent();
     if (cur.parent) {
-      return this.#data[cur.parent];
+      return this.getLevel(cur.parent);
     }
     return {};
   }
@@ -121,7 +133,7 @@ export default class DrilldownModel {
   upLevel() {
     const cur = this.getCurrent();
     if (cur.parent) {
-      this.engageLevel(this.#data[cur.parent].id);
+      this.engageLevel(this.getLevel(cur.parent).id);
     }
   }
 

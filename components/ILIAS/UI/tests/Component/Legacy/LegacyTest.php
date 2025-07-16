@@ -48,14 +48,20 @@ class LegacyTest extends ILIAS_UI_TestBase
             "ILIAS\\UI\\Component\\Legacy\\Content",
             $f->legacy()->content("Legacy Content")
         );
+        $this->assertInstanceOf(
+            "ILIAS\\UI\\Component\\Legacy\\LatexContent",
+            $f->legacy()->latexContent("Latex Content")
+        );
     }
 
     public function testGetContent(): void
     {
         $f = $this->getUIFactory();
         $g = $f->legacy()->content("Legacy Content");
+        $l = $f->legacy()->latexContent("Latex Content");
 
         $this->assertEquals("Legacy Content", $g->getContent());
+        $this->assertEquals("Latex Content", $l->getContent());
     }
 
 
@@ -65,8 +71,12 @@ class LegacyTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
 
         $g = $f->legacy()->content("Legacy Content");
+        $l = $f->legacy()->latexContent("Latex Content");
+
+        $rendered_latex = '<div style="display: inherit;" class="c-legacy__content--latex">Latex Content</div>';
 
         $this->assertEquals("Legacy Content", $r->render($g));
+        $this->assertEquals($rendered_latex, $r->render($l));
     }
 
     #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]

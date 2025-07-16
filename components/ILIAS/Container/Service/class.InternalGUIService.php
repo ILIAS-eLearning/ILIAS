@@ -32,6 +32,7 @@ class InternalGUIService
 
     protected InternalDataService $data_service;
     protected InternalDomainService $domain_service;
+    protected static array $instance = [];
 
     public function __construct(
         DI\Container $DIC,
@@ -53,7 +54,7 @@ class InternalGUIService
 
     public function content(): Content\GUIService
     {
-        return new Content\GUIService(
+        return self::$instance["content"] ??= new Content\GUIService(
             $this->data_service,
             $this->domain_service,
             $this
@@ -62,7 +63,16 @@ class InternalGUIService
 
     public function classification(): Classification\GUIService
     {
-        return new Classification\GUIService(
+        return self::$instance["classification"] ??= new Classification\GUIService(
+            $this->domain_service,
+            $this
+        );
+    }
+
+    public function filter(): Filter\GUIService
+    {
+        return self::$instance["filter"] ??= new Filter\GUIService(
+            $this->data_service,
             $this->domain_service,
             $this
         );

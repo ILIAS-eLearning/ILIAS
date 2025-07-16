@@ -156,15 +156,10 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 
     /**
     * this one is called from the info button in the repository
-    * not very nice to set cmdClass/Cmd manually, if everything
-    * works through ilCtrl in the future this may be changed
     */
     public function infoScreenObject(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd("showSummary");
-        // $this->ctrl->setCmdClass("ilinfoscreengui");
-        $this->infoScreen();
+        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, "showSummary");
     }
 
     /**

@@ -5812,73 +5812,131 @@ class ilObjTest extends ilObject
         );
 
         $main_settings = $this->getMainSettings();
+
+        $general_settings = $main_settings->getGeneralSettings();
+        $introduction_settings = $main_settings->getIntroductionSettings();
+        $access_settings = $main_settings->getAccessSettings();
+        $test_behavior_settings = $main_settings->getTestBehaviourSettings();
+        $question_behavior_settings = $main_settings->getQuestionBehaviourSettings();
+        $participant_functionality_settings = $main_settings->getParticipantFunctionalitySettings();
+        $finishing_settings = $main_settings->getFinishingSettings();
+        $additional_settings = $main_settings->getAdditionalSettings();
+
         $main_settings = $main_settings
             ->withGeneralSettings(
-                $main_settings->getGeneralSettings()
-                ->withQuestionSetType($testsettings['questionSetType'])
-                ->withAnonymity((bool) $testsettings['Anonymity'])
-            )
-            ->withIntroductionSettings(
-                $main_settings->getIntroductionSettings()
-                ->withIntroductionEnabled((bool) $testsettings['IntroEnabled'])
-                ->withExamConditionsCheckboxEnabled((bool) ($testsettings['ExamConditionsCheckboxEnabled'] ?? false))
-            )
-            ->withAccessSettings(
-                $main_settings->getAccessSettings()
-                ->withStartTimeEnabled((bool) $testsettings['StartingTimeEnabled'])
-                ->withStartTime($this->convertTimeToDateTimeImmutableIfNecessary($testsettings['StartingTime']))
-                ->withEndTimeEnabled((bool) $testsettings['EndingTimeEnabled'])
-                ->withEndTime($this->convertTimeToDateTimeImmutableIfNecessary($testsettings['EndingTime']))
-                ->withPasswordEnabled((bool) $testsettings['password_enabled'])
-                ->withPassword($testsettings['password'])
-                ->withFixedParticipants((bool) $testsettings['fixed_participants'])
-            )
-            ->withTestBehaviourSettings(
-                $main_settings->getTestBehaviourSettings()
-                ->withNumberOfTries((int) $testsettings['NrOfTries'])
-                ->withBlockAfterPassedEnabled((bool) $testsettings['BlockAfterPassed'])
-                ->withPassWaiting($testsettings['pass_waiting'])
-                ->withKioskMode($testsettings['Kiosk'])
-                ->withProcessingTimeEnabled((bool) $testsettings['EnableProcessingTime'])
-                ->withProcessingTime($testsettings['ProcessingTime'])
-                ->withResetProcessingTime((bool) $testsettings['ResetProcessingTime'])
-                ->withExamIdInTestAttemptEnabled((bool) ($testsettings['examid_in_test_pass'] ?? 0))
-            )
-            ->withQuestionBehaviourSettings(
-                $main_settings->getQuestionBehaviourSettings()
-                ->withQuestionTitleOutputMode($testsettings['TitleOutput'])
-                ->withAutosaveEnabled((bool) $testsettings['autosave'])
-                ->withAutosaveInterval($testsettings['autosave_ival'])
-                ->withShuffleQuestions((bool) $testsettings['Shuffle'])
-                ->withInstantFeedbackPointsEnabled((bool) $testsettings['AnswerFeedbackPoints'])
-                ->withInstantFeedbackGenericEnabled((bool) $testsettings['AnswerFeedback'])
-                ->withInstantFeedbackSpecificEnabled((bool) $testsettings['SpecificAnswerFeedback'])
-                ->withInstantFeedbackSolutionEnabled((bool) $testsettings['InstantFeedbackSolution'])
-                ->withForceInstantFeedbackOnNextQuestion((bool) $testsettings['force_inst_fb'])
-                ->withLockAnswerOnInstantFeedbackEnabled((bool) $testsettings['inst_fb_answer_fixation'])
-                ->withLockAnswerOnNextQuestionEnabled((bool) $testsettings['follow_qst_answer_fixation'])
-            )
-            ->withParticipantFunctionalitySettings(
-                $main_settings->getParticipantFunctionalitySettings()
-                ->withUsePreviousAnswerAllowed((bool) $testsettings['use_previous_answers'])
-                ->withSuspendTestAllowed((bool) $testsettings['ShowCancel'])
-                ->withPostponedQuestionsMoveToEnd((bool) $testsettings['SequenceSettings'])
-                ->withUsrPassOverviewMode((int) $testsettings['ListOfQuestionsSettings'])
-                ->withQuestionMarkingEnabled((bool) $testsettings['ShowMarker'])
-            )
-            ->withFinishingSettings(
-                $main_settings->getFinishingSettings()
-                ->withShowAnswerOverview((bool) $testsettings['enable_examview'])
-                ->withConcludingRemarksEnabled((bool) $testsettings['ShowFinalStatement'])
-                ->withRedirectionMode((int) $testsettings['redirection_mode'])
-                ->withRedirectionUrl($testsettings['redirection_url'])
-                ->withMailNotificationContentType((int) $testsettings['mailnotification'])
-                ->withAlwaysSendMailNotification((bool) $testsettings['mailnottype'])
-            )
-            ->withAdditionalSettings(
-                $main_settings->getAdditionalSettings()
-                    ->withSkillsServiceEnabled((bool) $testsettings['skill_service'])
-                    ->withHideInfoTab((bool) ($testsettings['HideInfoTab'] ?? false))
+                $general_settings
+                    ->withQuestionSetType(
+                        $testsettings['questionSetType'] ?? $general_settings->getQuestionSetType()
+                    )->withAnonymity(
+                        $testsettings['Anonymity'] ?? $general_settings->getAnonymity()
+                    )
+            )->withIntroductionSettings(
+                $introduction_settings
+                    ->withIntroductionEnabled(
+                        $testsettings['IntroEnabled'] ?? $introduction_settings->getIntroductionEnabled()
+                    )->withExamConditionsCheckboxEnabled(
+                        $testsettings['ExamConditionsCheckboxEnabled'] ?? $introduction_settings->getExamConditionsCheckboxEnabled()
+                    )
+            )->withAccessSettings(
+                $access_settings
+                    ->withStartTimeEnabled(
+                        $testsettings['StartingTimeEnabled'] ?? $access_settings->getStartTimeEnabled()
+                    )->withStartTime(
+                        $this->convertTimeToDateTimeImmutableIfNecessary(
+                            $testsettings['StartingTime'] ?? $access_settings->getStartTime()
+                        )
+                    )->withEndTimeEnabled(
+                        $testsettings['EndingTimeEnabled'] ?? $access_settings->getEndTimeEnabled()
+                    )->withEndTime(
+                        $this->convertTimeToDateTimeImmutableIfNecessary(
+                            $testsettings['EndingTime'] ?? $access_settings->getEndTime()
+                        )
+                    )->withPasswordEnabled(
+                        $testsettings['password_enabled'] ?? $access_settings->getPasswordEnabled()
+                    )->withPassword(
+                        $testsettings['password'] ?? $access_settings->getPassword()
+                    )->withFixedParticipants(
+                        $testsettings['fixed_participants'] ?? $access_settings->getFixedParticipants()
+                    )
+            )->withTestBehaviourSettings(
+                $test_behavior_settings
+                    ->withNumberOfTries(
+                        $testsettings['NrOfTries'] ?? $test_behavior_settings->getNumberOfTries()
+                    )->withBlockAfterPassedEnabled(
+                        $testsettings['BlockAfterPassed'] ?? $test_behavior_settings->getBlockAfterPassedEnabled()
+                    )->withPassWaiting(
+                        $testsettings['pass_waiting'] ?? $test_behavior_settings->getPassWaiting()
+                    )->withKioskMode(
+                        $testsettings['Kiosk'] ?? $test_behavior_settings->getKioskMode()
+                    )->withProcessingTimeEnabled(
+                        $testsettings['EnableProcessingTime'] ?? $test_behavior_settings->getProcessingTimeEnabled()
+                    )->withProcessingTime(
+                        $testsettings['ProcessingTime'] ?? $test_behavior_settings->getProcessingTime()
+                    )->withResetProcessingTime(
+                        $testsettings['ResetProcessingTime'] ?? $test_behavior_settings->getResetProcessingTime()
+                    )->withExamIdInTestAttemptEnabled(
+                        $testsettings['examid_in_test_pass'] ?? $test_behavior_settings->getExamIdInTestAttemptEnabled()
+                    )
+            )->withQuestionBehaviourSettings(
+                $question_behavior_settings
+                    ->withQuestionTitleOutputMode(
+                        $testsettings['TitleOutput'] ?? $question_behavior_settings->getQuestionTitleOutputMode()
+                    )->withAutosaveEnabled(
+                        $testsettings['autosave'] ?? $question_behavior_settings->getAutosaveEnabled()
+                    )->withAutosaveInterval(
+                        $testsettings['autosave_ival'] ?? $question_behavior_settings->getAutosaveInterval()
+                    )->withShuffleQuestions(
+                        $testsettings['Shuffle'] ?? $question_behavior_settings->getShuffleQuestions()
+                    )->withInstantFeedbackPointsEnabled(
+                        $testsettings['AnswerFeedbackPoints'] ?? $question_behavior_settings->getInstantFeedbackPointsEnabled()
+                    )->withInstantFeedbackGenericEnabled(
+                        $testsettings['AnswerFeedback'] ?? $question_behavior_settings->getInstantFeedbackGenericEnabled()
+                    )->withInstantFeedbackSpecificEnabled(
+                        $testsettings['SpecificAnswerFeedback'] ?? $question_behavior_settings->getInstantFeedbackSpecificEnabled()
+                    )->withInstantFeedbackSolutionEnabled(
+                        $testsettings['InstantFeedbackSolution'] ?? $question_behavior_settings->getInstantFeedbackSolutionEnabled()
+                    )->withForceInstantFeedbackOnNextQuestion(
+                        $testsettings['force_inst_fb'] ?? $question_behavior_settings->getForceInstantFeedbackOnNextQuestion()
+                    )->withLockAnswerOnInstantFeedbackEnabled(
+                        $testsettings['inst_fb_answer_fixation'] ?? $question_behavior_settings->getLockAnswerOnInstantFeedbackEnabled()
+                    )->withLockAnswerOnNextQuestionEnabled(
+                        $testsettings['follow_qst_answer_fixation'] ?? $question_behavior_settings->getLockAnswerOnNextQuestionEnabled()
+                    )
+            )->withParticipantFunctionalitySettings(
+                $participant_functionality_settings
+                    ->withUsePreviousAnswerAllowed(
+                        $testsettings['use_previous_answers'] ?? $participant_functionality_settings->getUsePreviousAnswerAllowed()
+                    )->withSuspendTestAllowed(
+                        $testsettings['ShowCancel'] ?? $participant_functionality_settings->getSuspendTestAllowed()
+                    )->withPostponedQuestionsMoveToEnd(
+                        $testsettings['SequenceSettings'] ?? $participant_functionality_settings->getPostponedQuestionsMoveToEnd()
+                    )->withUsrPassOverviewMode(
+                        $testsettings['ListOfQuestionsSettings'] ?? $participant_functionality_settings->getUsrPassOverviewMode()
+                    )->withQuestionMarkingEnabled(
+                        $testsettings['ShowMarker'] ?? $participant_functionality_settings->getQuestionMarkingEnabled()
+                    )
+            )->withFinishingSettings(
+                $finishing_settings
+                    ->withShowAnswerOverview(
+                        $testsettings['enable_examview'] ?? $finishing_settings->getShowAnswerOverview()
+                    )->withConcludingRemarksEnabled(
+                        $testsettings['ShowFinalStatement'] ?? $finishing_settings->getConcludingRemarksEnabled()
+                    )->withRedirectionMode(
+                        $testsettings['redirection_mode'] ?? $finishing_settings->getRedirectionMode()
+                    )->withRedirectionUrl(
+                        $testsettings['redirection_url'] ?? $finishing_settings->getRedirectionUrl()
+                    )->withMailNotificationContentType(
+                        $testsettings['mailnotification'] ?? $finishing_settings->getMailNotificationContentType()
+                    )->withAlwaysSendMailNotification(
+                        $testsettings['mailnottype'] ?? $finishing_settings->getAlwaysSendMailNotification()
+                    )
+            )->withAdditionalSettings(
+                $additional_settings
+                    ->withSkillsServiceEnabled(
+                        $testsettings['skill_service'] ?? $additional_settings->getSkillsServiceEnabled()
+                    )->withHideInfoTab(
+                        $testsettings['HideInfoTab'] ?? $additional_settings->getHideInfoTab()
+                    )
             );
 
         $this->getMainSettingsRepository()->store($main_settings);
@@ -5895,38 +5953,65 @@ class ilObjTest extends ilObject
         }
 
         $score_settings = $this->getScoreSettings();
+
+        $scoring_settings = $score_settings->getScoringSettings();
+        $result_summary_settings = $score_settings->getResultSummarySettings();
+        $result_details_settings = $score_settings->getResultDetailsSettings();
+        $gamification_settings = $score_settings->getGamificationSettings();
+
         $score_settings = $score_settings
             ->withScoringSettings(
-                $score_settings->getScoringSettings()
-                ->withPassScoring($testsettings['PassScoring'])
-                ->withScoreCutting($testsettings['ScoreCutting'])
-                ->withCountSystem($testsettings['CountSystem'])
-            )
-            ->withResultSummarySettings(
-                $score_settings->getResultSummarySettings()
-                ->withPassDeletionAllowed((bool) $testsettings['pass_deletion_allowed'])
-                ->withShowGradingStatusEnabled((bool) $testsettings['show_grading_status'])
-                ->withShowGradingMarkEnabled((bool) $testsettings['show_grading_mark'])
-                ->withScoreReporting($score_reporting)
-                ->withReportingDate($reporting_date)
-            )
-            ->withResultDetailsSettings(
-                $score_settings->getResultDetailsSettings()
-                ->withResultsPresentation((int) $testsettings['ResultsPresentation'])
-                ->withShowSolutionListComparison((bool) ($testsettings['show_solution_list_comparison'] ?? 0))
-                ->withShowExamIdInTestResults((bool) $testsettings['examid_in_test_res'])
-            )
-            ->withGamificationSettings(
-                $score_settings->getGamificationSettings()
-                ->withHighscoreEnabled((bool) $testsettings['highscore_enabled'])
-                ->withHighscoreAnon((bool) $testsettings['highscore_anon'])
-                ->withHighscoreAchievedTS($testsettings['highscore_achieved_ts'])
-                ->withHighscoreScore((bool) $testsettings['highscore_score'])
-                ->withHighscorePercentage($testsettings['highscore_percentage'])
-                ->withHighscoreWTime((bool) $testsettings['highscore_wtime'])
-                ->withHighscoreOwnTable((bool) $testsettings['highscore_own_table'])
-                ->withHighscoreTopTable((bool) $testsettings['highscore_top_table'])
-                ->withHighscoreTopNum($testsettings['highscore_top_num'])
+                $scoring_settings
+                    ->withPassScoring(
+                        $testsettings['PassScoring'] ?? $scoring_settings->getPassScoring()
+                    )->withScoreCutting(
+                        $testsettings['ScoreCutting'] ?? $scoring_settings->getScoreCutting()
+                    )->withCountSystem(
+                        $testsettings['CountSystem'] ?? $scoring_settings->getCountSystem()
+                    )
+            )->withResultSummarySettings(
+                $result_summary_settings
+                    ->withPassDeletionAllowed(
+                        $testsettings['pass_deletion_allowed'] ?? $result_summary_settings->getPassDeletionAllowed()
+                    )->withShowGradingStatusEnabled(
+                        $testsettings['show_grading_status'] ?? $result_summary_settings->getShowGradingStatusEnabled()
+                    )->withShowGradingMarkEnabled(
+                        $testsettings['show_grading_mark'] ?? $result_summary_settings->getShowGradingMarkEnabled()
+                    )->withScoreReporting(
+                        $score_reporting
+                    )->withReportingDate(
+                        $reporting_date
+                    )
+            )->withResultDetailsSettings(
+                $result_details_settings
+                    ->withResultsPresentation(
+                        $testsettings['ResultsPresentation'] ?? $result_details_settings->getResultsPresentation()
+                    )->withShowSolutionListComparison(
+                        $testsettings['show_solution_list_comparison'] ?? $result_details_settings->getShowSolutionListComparison()
+                    )->withShowExamIdInTestResults(
+                        $testsettings['examid_in_test_res'] ?? $result_details_settings->getShowExamIdInTestResults()
+                    )
+            )->withGamificationSettings(
+                $gamification_settings
+                    ->withHighscoreEnabled(
+                        $testsettings['highscore_enabled'] ?? $gamification_settings->getHighscoreEnabled()
+                    )->withHighscoreAnon(
+                        $testsettings['highscore_anon'] ?? $gamification_settings->getHighscoreAnon()
+                    )->withHighscoreAchievedTS(
+                        $testsettings['highscore_achieved_ts'] ?? $gamification_settings->getHighscoreAchievedTS()
+                    )->withHighscoreScore(
+                        $testsettings['highscore_score'] ?? $gamification_settings->getHighscoreScore()
+                    )->withHighscorePercentage(
+                        $testsettings['highscore_percentage'] ?? $gamification_settings->getHighscorePercentage()
+                    )->withHighscoreWTime(
+                        $testsettings['highscore_wtime'] ?? $gamification_settings->getHighscoreWTime()
+                    )->withHighscoreOwnTable(
+                        $testsettings['highscore_own_table'] ?? $gamification_settings->getHighscoreOwnTable()
+                    )->withHighscoreTopTable(
+                        $testsettings['highscore_top_table'] ?? $gamification_settings->getHighscoreTopTable()
+                    )->withHighscoreTopNum(
+                        $testsettings['highscore_top_num'] ?? $gamification_settings->getHighscoreTopNum()
+                    )
             )
         ;
         $this->getScoreSettingsRepository()->store($score_settings);
@@ -7342,7 +7427,9 @@ class ilObjTest extends ilObject
             $percentage = ($max <= 0.0 || $reached <= 0.0) ? 0 : ($reached / $max) * 100.0;
 
             $mark = $this->getMarkSchema()->getMatchingMark($percentage);
-            $is_passed = $pass <= $test_pass_result_row['last_finished_pass'] && $mark->getPassed();
+            $is_passed = $test_pass_result_row['last_finished_pass'] !== null
+                && $pass <= $test_pass_result_row['last_finished_pass']
+                && $mark->getPassed();
 
             $user_test_result_update_callback = function () use ($active_id, $pass, $max, $reached, $is_passed, $mark) {
                 $passed_once_before = 0;

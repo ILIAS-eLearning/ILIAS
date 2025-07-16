@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ExportHandler\I\Part\Component;
 
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfigCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Component\HandlerInterface as ilExportHanlderExportComponentInfoInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\HandlerInterface as ilExportHanlderExportInfoInterface;
 use ILIAS\Export\ExportHandler\I\Part\Component\HandlerInterface as ilExportHandlerPartComponentInterface;
@@ -27,10 +28,15 @@ use ILIAS\Export\ExportHandler\I\Part\HandlerInterface as ilExportHandlerPartInt
 
 interface HandlerInterface extends ilExportHandlerPartInterface
 {
-    public function getXML(bool $formatted = true): string;
+    public function getXML(
+        bool $formatted = true
+    ): string;
 
-    public function withExportInfo(ilExportHanlderExportInfoInterface $export_info): ilExportHandlerPartComponentInterface;
+    public function withExportInfo(
+        ilExportHanlderExportInfoInterface $export_info
+    ): ilExportHandlerPartComponentInterface;
 
-    public function withComponentInfo(ilExportHanlderExportComponentInfoInterface $component_info): ilExportHandlerPartComponentInterface;
-
+    public function withComponentInfo(
+        ilExportHanlderExportComponentInfoInterface $component_info
+    ): ilExportHandlerPartComponentInterface;
 }

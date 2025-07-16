@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import createDocumentFragment from './createDocumentFragment';
+import createDocumentFragment from './createDocumentFragment.js';
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>

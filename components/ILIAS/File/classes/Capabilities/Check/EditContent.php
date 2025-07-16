@@ -40,7 +40,7 @@ class EditContent extends BaseCheck implements Check
         \ilObjFileInfo $info,
         Context $context,
     ): Capability {
-        if ($context->getContext() !== Context::CONTEXT_REPO) {
+        if ($context->getContext() !== Context::CONTEXT_REPO && $context->getContext() !== Context::CONTEXT_WORKSPACE) {
             return $capability->withUnlocked(false);
         }
         if (!$this->hasPermission($helpers, $context, ...$capability->getPermissions())) {

@@ -29,6 +29,7 @@ use ILIAS\Blog\Settings\SettingsManager;
 use ILIAS\Blog\Posting\PostingManager;
 use ILIAS\Notes;
 use ILIAS\Blog\News\NewsManager;
+use ILIAS\Blog\Notification\NotificationManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -103,9 +104,6 @@ class InternalDomainService
         );
     }
 
-    /**
-     * Access news handling for blog postings.
-     */
     public function news(): NewsManager
     {
         return self::$instance["news"] ??= new NewsManager(
@@ -115,5 +113,11 @@ class InternalDomainService
         );
     }
 
+    public function notification(): NotificationManager
+    {
+        return self::$instance["notification"] ??= new NotificationManager(
+            $this
+        );
+    }
 
 }

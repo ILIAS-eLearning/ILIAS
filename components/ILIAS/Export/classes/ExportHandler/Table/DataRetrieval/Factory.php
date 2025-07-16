@@ -26,31 +26,24 @@ use ILIAS\Export\ExportHandler\I\FactoryInterface as ilExportHandlerFactoryInter
 use ILIAS\Export\ExportHandler\I\Table\DataRetrieval\FactoryInterface as ilExportHandlerTableDataRetrievalFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Table\DataRetrieval\HandlerInterface as ilExportHandlerTableDataRetrievalInterface;
 use ILIAS\Export\ExportHandler\Table\DataRetrieval\Handler as ilExportHandlerTableDataRetrieval;
+use ilLanguage;
 use ilObject;
 
 class Factory implements ilExportHandlerTableDataRetrievalFactoryInterface
 {
-    protected ilExportHandlerFactoryInterface $export_handler;
-    protected ilUIServices $ui_services;
-    protected ilExportGUI $export_gui;
-    protected ilObject $export_object;
-
     public function __construct(
-        ilExportHandlerFactoryInterface $export_handler,
-        ilUIServices $ui_services,
-        ilExportGUI $export_gui,
-        ilObject $export_object
+        protected ilExportHandlerFactoryInterface $export_handler,
+        protected ilUIServices $ui_services,
+        protected ilExportGUI $export_gui,
+        protected ilObject $export_object,
+        protected ilLanguage $lng
     ) {
-        $this->export_handler = $export_handler;
-        $this->ui_services = $ui_services;
-        $this->export_gui = $export_gui;
-        $this->export_object = $export_object;
     }
 
     public function handler(): ilExportHandlerTableDataRetrievalInterface
     {
         return new ilExportHandlerTableDataRetrieval(
-            $this->ui_services,
+            $this->lng,
             $this->export_handler
         );
     }

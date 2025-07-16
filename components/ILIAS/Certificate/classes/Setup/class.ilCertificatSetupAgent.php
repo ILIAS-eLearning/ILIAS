@@ -47,6 +47,7 @@ class ilCertificatSetupAgent implements Setup\Agent
             'Database is updated for component/ILIAS/Certificate',
             true,
             new ilDatabaseUpdateStepsExecutedObjective(new ilCertificateDatabaseUpdateSteps()),
+            new ilDatabaseUpdateStepsExecutedObjective(new ilCertificateDatabaseUpdateSteps11()),
             new ilDatabaseUpdateStepsExecutedObjective(new MigrateCourseCertificateProviderDBUpdateSteps()),
             new ilDatabaseUpdateStepsExecutedObjective(new MigrateExerciseCertificateProviderDBUpdateSteps()),
         );
@@ -63,6 +64,7 @@ class ilCertificatSetupAgent implements Setup\Agent
             'Database is updated for component/ILIAS/Certificate',
             true,
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilCertificateDatabaseUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilCertificateDatabaseUpdateSteps11()),
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new MigrateCourseCertificateProviderDBUpdateSteps()),
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new MigrateExerciseCertificateProviderDBUpdateSteps()),
         );

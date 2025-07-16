@@ -26,8 +26,9 @@ use ILIAS\Skill\Service\SkillInternalFactoryService;
  *
  * @author	Alex Killing <alex.killing@gmx.de>
  */
-class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
+class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\Component\Tree\TreeRecursion
 {
+    protected \ILIAS\DI\UIServices $ui;
     protected ilLanguage $lng;
     protected ilVirtualSkillTree $vtree;
     protected SkillTreeManager $skill_tree_manager;
@@ -42,6 +43,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
+        $this->ui = $DIC->ui();
         parent::__construct($a_id, $a_parent_obj, $a_parent_cmd);
 
         $this->skill_tree_manager = $DIC->skills()->internal()->manager()->getTreeManager();
@@ -223,5 +225,105 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
         }
 
         return $lng->txt($a_node["type"]);
+    }
+
+    public function getHTML(): string
+    {
+        return $this->render();
+    }
+
+    protected function render(): string
+    {
+        $r = $this->ui->renderer();
+
+        return $r->render([
+            $this->getTreeComponent()
+        ]);
+    }
+
+    public function getTreeComponent(): \ILIAS\UI\Implementation\Component\Tree\Tree
+    {
+        $f = $this->ui->factory();
+        $tree = $this->vtree;
+
+        if (!$this->getSkipRootNode()) {
+            $data = array(
+                $tree->getRootNode()
+            );
+        } else {
+            $data = $tree->getChildsOfNode((string) ($tree->getRootNode()["id"]));
+        }
+
+        //$label = $this->vtree->getNodeTitle($tree->getRootNode());
+        //if ($label === "" && $this->getNodeContent($this->getRootNode())) {
+        //            $label = $this->getNodeContent($this->getRootNode());
+        //}
+        $label = "test";
+
+        $tree = $f->tree()->expandable($label, $this)
+                  ->withData($data)
+                  ->withHighlightOnNodeClick(true);
+
+        return $tree;
+    }
+
+    public function getChildren($record, $environment = null): array
+    {
+        return $this->getChildsOfNode((string) $record["id"]);
+    }
+
+    protected function createNode(
+        \ILIAS\UI\Component\Tree\Node\Factory $factory,
+        $record
+    ): \ILIAS\UI\Component\Tree\Node\Node {
+        $nodeIconPath = $this->getNodeIcon($record);
+
+        $icon = null;
+        if ($nodeIconPath !== '') {
+            $icon = $this->ui
+                ->factory()
+                ->symbol()
+                ->icon()
+                ->custom($nodeIconPath, $this->getNodeIconAlt($record));
+        }
+
+        return $factory->simple($this->getNodeContent($record), $icon);
+    }
+
+    public function build(
+        \ILIAS\UI\Component\Tree\Node\Factory $factory,
+        $record,
+        $environment = null
+    ): \ILIAS\UI\Component\Tree\Node\Node {
+        $node = $this->createNode($factory, $record);
+
+        $href = $this->getNodeHref($record);
+        if ($href !== '' && '#' !== $href && $this->isNodeClickable($record)) {
+            $node = $node->withLink(new \ILIAS\Data\URI(ILIAS_HTTP_PATH . '/' . $href));
+        }
+
+        if ($this->isNodeOpen((int) $this->getNodeId($record))) {
+            $node = $node->withExpanded(true);
+        }
+
+        /*
+        $nodeStateToggleCmdClasses = $this->getNodeStateToggleCmdClasses($record);
+        $cmdClass = end($nodeStateToggleCmdClasses);
+
+        if (is_string($cmdClass) && $cmdClass !== '') {
+            $node = $node->withAdditionalOnLoadCode(function ($id) use ($record, $nodeStateToggleCmdClasses, $cmdClass): string {
+                $serverNodeId = $this->getNodeId($record);
+
+                $this->ctrl->setParameterByClass($cmdClass, $this->node_parameter_name, $serverNodeId);
+                $url = $this->ctrl->getLinkTargetByClass($nodeStateToggleCmdClasses, 'toggleExplorerNodeState', '', true, false);
+                $this->ctrl->setParameterByClass($cmdClass, $this->node_parameter_name, null);
+
+                $javascript = "il.UI.tree.registerToggleNodeAsyncAction('$id', '$url', 'prior_state');";
+
+                return $javascript;
+            });
+        }*/
+
+        return $node;
     }
 }

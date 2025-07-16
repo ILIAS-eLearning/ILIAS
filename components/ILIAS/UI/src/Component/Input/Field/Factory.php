@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Component\Input\Field\Node\NodeRetrieval;
+use ILIAS\UI\URLBuilderToken;
 
 /**
  * This is what a factory for input fields looks like.
@@ -804,4 +806,153 @@ interface Factory
      * @return \ILIAS\UI\Component\Input\Field\Rating
      */
     public function rating(string $label, ?string $byline = null): Rating;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The tree select input is designed to guide and assist users in selecting a single node from a large
+     *      hierarchical dataset (tree). A node can be any kind of data which can be represented by some unique
+     *      identifier and a name. The tree select input encourages its users to explore the dataset and maintains
+     *      context through different navigational tools.
+     *   composition: >
+     *      The tree select input is composed of various other UI components. In its surrounding form the input
+     *      is initially displayed as a shy-button, which can be used to open a modal dialog featuring the actual
+     *      input. This dialog consists of a drilldown component, whose menu entries represent the selectable nodes
+     *      of the tree. Each menu entry can be selected or unselected using an additional bulky button.
+     *      To maintain context while browsing the tree, breadcrumbs will be visible, which can be used to jump back
+     *      to a certain level in the menu. The selected node will be displayed as its names, in the surrounding form
+     *      that features a glyph to unselect the according node again.
+     *   effect: >
+     *      Clicking the shy-button initially rendered inside the surrounding form will open a modal dialog, which
+     *      features the actual input.
+     *      Clicking a breadcrumb will jump back to the according drilldown menu level.
+     *      Clicking a bulky-button of a drilldown menu entry will un-/select the node which it represents. At the same
+     *      time, the node is either removed or added in the surrounding form.
+     *      When a node is selected, all other nodes inside the tree will indicate that they can no longer be
+     *      selected. When a node is unselected, all other nodes will indicate that they can be selected again.
+     *      Clicking the glyph of a selected node in the surrounding form will unselect this node again, also causing
+     *      the associated effects above.
+     *      Clicking the primary-button of the modal will close it.
+     *      Opening the modal again after it has been closed will show the same state like when it has been closed,
+     *      so users can pick up where they left off.
+     *      Other effects of the modal and drilldown component are inherited as well.
+     *   rivals:
+     *      Multi Tree Select: should be used if more than one node can be selected.
+     *      Select: should be used if the dataset is a (long) flat list.
+     *
+     * context:
+     *   - The Tree Select Input is used in UI-Forms.
+     *
+     * rules:
+     *   usage:
+     *      1: >
+     *          the node retrieval MUST only return nodes which are visible to the current user. If a node is readable
+     *          by the current user but not visible, this node MUST NOT be shown. If a sub-node of a hidden node is
+     *          visible, this node MUST be shown.
+     *   wording:
+     *      1: >
+     *         The label for opening the modal dialog MUST use words to indicate another context will be
+     *         opened/focused, such as "open", "unfold", "switch to" etc.
+     *   accessibility:
+     *      1: The resource selector MUST be operable by keyboard only.
+     * ---
+     * @param \ILIAS\UI\Component\Input\Field\Node\NodeRetrieval $node_retrieval
+     * @param string                                             $label
+     * @param string|null                                        $byline
+     * @return \ILIAS\UI\Component\Input\Field\TreeSelect
+     */
+    public function treeSelect(
+        NodeRetrieval $node_retrieval,
+        string $label,
+        ?string $byline = null,
+    ): TreeSelect;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The multi tree select input is designed to guide and assist users in selecting multiple nodes from a
+     *      large hierarchical dataset (tree). A node can be any kind of data which can be represented by some unique
+     *      identifier and a name. The tree select input encourages its users to explore the dataset and maintains
+     *      context through different navigational tools.
+     *   composition: >
+     *      The tree select input is composed of various other UI components. In its surrounding form the input
+     *      is initially displayed as a shy-button, which can be used to open a modal dialog featuring the actual
+     *      input. This dialog consists of a drilldown component, whose menu entries represent the selectable nodes
+     *      of the tree. Each menu entry can be selected or unselected using an additional bulky button. Selected
+     *      Nodes are contained in an unordered list in the surrounding form near the input.
+     *      To maintain context while browsing the tree, breadcrumbs will be visible, which can be used to jump back
+     *      to a certain level in the menu. The selected nodes will be displayed as an unordered list of names, where
+     *      each entry features a glyph to unselect the according node again.
+     *   effect: >
+     *      Clicking the shy-button initially rendered inside the surrounding form will open a modal dialog, which
+     *      features the actual input.
+     *      Clicking a breadcrumb will jump back to the according drilldown menu level.
+     *      Clicking a bulky-button of a drilldown menu entry will un-/select the node which it represents. At the same
+     *      time, the node is either removed from or added to the selected nodes in the surrounding form.
+     *      When a node is selected and the selection of sub-nodes is disallowed, all of its sub-nodes will indicate
+     *      that they can no longer be selected. If the sub-node selection is allowed, they remain selectable.
+     *      When a node is unselected and the selection of sub-nodes is disallowed, all of its sub-nodes will indicate
+     *      that they can be selected again.
+     *      Clicking the primary-button of the modal will relay the currently selected nodes to the surrounding form,
+     *      where it will be displayed as an unordered list of their names.
+     *      Clicking the glyph of a selected node inside the surrounding form will unselect this node again, also causing
+     *      the associated effects above.
+     *      Opening the modal again after it has been closed will show the same state like when it has been closed,
+     *      so users can pick up where they left off.
+     *      Other effects of the modal and drilldown component are inherited as well.
+     *   rivals:
+     *      Tree Select: should be used if only one node can be selected.
+     *      Multi Select: should be used if the dataset is a (long) flat list.
+     *
+     * context:
+     *   - The Tree Multi Select Input is used in UI-Forms.
+     *
+     * rules:
+     *   usage:
+     *      1: >
+     *          the node retrieval MUST only return nodes which are visible to the current user. If a node is readable
+     *          by the current user but not visible, this node MUST NOT be shown. If a sub-node of a hidden node is
+     *          visible, this node MUST be shown.
+     *      2: >
+     *          Consumers of this input are responsible for the validity of the submitted selection in terms of nesting
+     *          and MUST verify it.
+     *   wording:
+     *      1: >
+     *         The label for opening the modal dialog MUST use words to indicate another context will be
+     *         opened/focused, such as "open", "unfold", "switch to" etc.
+     *   accessibility:
+     *      1: The resource selector MUST be operable by keyboard only.
+     * ---
+     * @param \ILIAS\UI\Component\Input\Field\Node\NodeRetrieval $node_retrieval
+     * @param string                                             $label
+     * @param string|null                                        $byline
+     * @return \ILIAS\UI\Component\Input\Field\TreeMultiSelect
+     */
+    public function treeMultiSelect(
+        NodeRetrieval $node_retrieval,
+        string $label,
+        ?string $byline = null,
+    ): TreeMultiSelect;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     A Node is used by the Tree (Multi) Select Field to visualise different types of nodes
+     *     inside the tree. A Node consists of a unique identifier, name and optional Icon and can
+     *     represent any kind of data.
+     *
+     * context:
+     *   - A Node is used inside the Tree Select and Tree Multi Select Field.
+     *
+     * rules:
+     *   usage:
+     *     1: >
+     *       You MUST NOT use Node's outside of a Tree Select and Tree Multi Select Field.
+     * ---
+     * @return \ILIAS\UI\Component\Input\Field\Node\Factory
+     */
+    public function node(): Node\Factory;
 }

@@ -297,6 +297,14 @@ class ilCalendarBlockGUI extends ilBlockGUI
         $ilUser = $this->user;
         $ui = $this->ui;
 
+        // aria label
+        $month = (int) $this->seed->get(IL_CAL_FKT_DATE, 'm');
+        $year = (int) $this->seed->get(IL_CAL_FKT_DATE, 'Y');
+        $a_tpl->setVariable(
+            'MONTH_YEAR_LABEL',
+            ilCalendarUtil::_numericMonthToString($month, false) . ' ' . $year
+        );
+
         // weekdays
         if ($this->getShowWeeksColumn()) {
             $a_tpl->setCurrentBlock('month_header_col');

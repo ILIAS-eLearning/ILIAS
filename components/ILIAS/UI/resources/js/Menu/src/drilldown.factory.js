@@ -26,7 +26,7 @@ export default class DrilldownFactory {
   #instances = [];
 
   /**
-   * @type {DOMDocument}
+   * @type {Document}
    */
   #document;
 
@@ -36,9 +36,9 @@ export default class DrilldownFactory {
   #resizeObserver;
 
   /**
-   * @type {jQuery}
+   * @type {JQueryEventListener}
    */
-  #jQuery;
+  #jqueryEventListener;
 
   /**
    * @type {object}
@@ -46,15 +46,15 @@ export default class DrilldownFactory {
   #il;
 
   /**
-   * @param {DOMDocument} document
+   * @param {JQueryEventListener} jqueryEventListener
    * @param {ResizeObserver} resizeObserver
-   * @param {jQuery} jQuery
+   * @param {DOMDocument} document
    * @param {object} il
    */
-  constructor(document, resizeObserver, jQuery, il) {
-    this.#document = document;
+  constructor(jqueryEventListener, resizeObserver, document, il) {
+    this.#jqueryEventListener = jqueryEventListener;
     this.#resizeObserver = resizeObserver;
-    this.#jQuery = jQuery;
+    this.#document = document;
     this.#il = il;
   }
 
@@ -75,12 +75,23 @@ export default class DrilldownFactory {
     }
 
     this.#instances[drilldownId] = new Drilldown(
-      this.#jQuery,
+      this.#jqueryEventListener,
       this.#document,
       new DrilldownPersistence(new this.#il.Utilities.CookieStorage(persistanceId)),
       new DrilldownModel(),
       new DrilldownMapping(this.#document, this.#resizeObserver, drilldownId),
       backSignal,
     );
+  }
+
+  /**
+   * @param {string} drilldownId
+   * @returns {Drilldown|null}
+   */
+  getInstance(drilldownId) {
+    if (this.#instances[drilldownId] !== undefined) {
+      return this.#instances[drilldownId];
+    }
+    return null;
   }
 }

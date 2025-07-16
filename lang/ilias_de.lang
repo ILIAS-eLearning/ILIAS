@@ -742,7 +742,7 @@ assessment#:#finalized_evaluation#:#Endgültig bewertet
 assessment#:#finalized_on#:#Bewertung abgeschlossen am
 assessment#:#finish_all_user_passes#:#Alle Testdurchläufe beenden
 assessment#:#finish_pass_for_all_users#:#Wollen Sie wirklich die Test Durchläufe für alle Benutzer beenden?
-assessment#:#finish_pass_for_all_users_in_processing_time#:#Sie können die Durchläufe aller Benutzer nicht gemeinsam beenden, da für mindestens einen Benutzer die Bearbeitungszeit noch nicht vorbei ist.
+assessment#:#finish_pass_for_multiple_users_in_processing_time#:#Sie können die Durchläufe der ausgewählten Benutzer nicht gemeinsam beenden, da für mindestens einen ausgewählten Benutzer die Bearbeitungszeit noch nicht vorbei ist.
 assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie den Test Durchlauf für den Teilnehmer „%s“ wirklich beenden?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNUNG: die Bearbeitungszeit für diesen Benutzer ist noch nicht vorbei! Sie sollten den Testlauf nur bei zwingendem Grund (z.B. Ausschluss vom Test) beenden.
 assessment#:#finish_test#:#Test beenden
@@ -2689,7 +2689,7 @@ buddysystem#:#buddy_bs_btn_txt_requested_p#:#Kontaktanfrage
 buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Kontakt anfragen
 buddysystem#:#buddy_bs_state_ignored_request_a#:#Angefragt
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignoriert
-buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignoriert
+buddysystem#:#buddy_bs_state_ignoredrequest#:#Von mir Ignoriert
 buddysystem#:#buddy_bs_state_linked#:#Vernetzt
 buddysystem#:#buddy_bs_state_linked_a#:#Vernetzt
 buddysystem#:#buddy_bs_state_linked_p#:#Vernetzt
@@ -2716,7 +2716,7 @@ buddysystem#:#buddy_relation_requested#:#Dem Benutzer wurde eine Kontaktanfrage 
 buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
 buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
 buddysystem#:#buddy_tbl_filter_state#:#Status
-buddysystem#:#buddy_tbl_state_actions_col_label#:#Status / Aktion
+buddysystem#:#buddy_tbl_state_actions_col_label#:#Status
 buddysystem#:#buddy_tbl_title_relations#:#Beziehungen zu anderen Benutzern
 buddysystem#:#buddy_use_osd#:#Pop-up Kontaktanfragen
 buddysystem#:#buddy_use_osd_info#:#Zeigt ein Pop-up an, wenn ein Benutzer mit mir in Kontakt treten möchte.
@@ -4076,15 +4076,15 @@ common#:#file_allowed_suffixes#:#Erlaubte Dateitypen:
 common#:#file_confirm_delete_all_versions#:#Sie haben alle Dateiversionen ausgewählt. Daher wird das ganze Datei-Objekt gelöscht. Wollen Sie fortfahren?
 common#:#file_confirm_delete_versions#:#Sind Sie sicher, dass Sie die folgende(n) Dateiversion(en) löschen wollen?
 common#:#file_created#:#Die Datei wurde hinzugefügt.
-common#:#file_edit#:#Dateieinstellungen bearbeiten
-common#:#file_info#:#Dateiinformation
+common#:#file_edit#:#Einstellungen der Datei bearbeiten
+common#:#file_info#:#Einstellungen der Datei
 common#:#file_is_infected#:#Die Datei ist von einem Virus befallen.
 common#:#file_no_valid_file_type#:#Dieser Dateityp ist nicht erlaubt.
 common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_not_found_sec#:#Diese Datei wurde in ILIAS nicht gefunden oder wurde aus Sicherheitsgründen gesperrt.
 common#:#file_not_valid#:#Datei ist ungültig!
 common#:#file_notice#:#Maximal erlaubte Upload-Größe:
-common#:#file_objects#:#Datei-Objekte
+common#:#file_objects#:#Dateiobjekte
 common#:#file_rollback#:#Diese Version veröffentlichen
 common#:#file_rollback_done#:#Dateiversion %s ist nun die veröffentlichte Version.
 common#:#file_rollback_select_exact_one#:#Es darf nur eine Dateiversion ausgewählten werden, um sie zur veröffentlichten Version zu machen.
@@ -4309,10 +4309,12 @@ common#:#il_grp_admin#:#Gruppenadministration
 common#:#il_grp_member#:#Gruppenmitglied
 common#:#il_grp_status_closed#:#Geschlossene Gruppe
 common#:#il_grp_status_open#:#Offene Gruppe
+common#:#il_iass_member#:#Teilnehmer
 common#:#il_lso_admin#:#Lernsequenzadministration
 common#:#il_lso_member#:#Lernsequenzmitglied
 common#:#il_lti_instructor#:#LTI Instructor
 common#:#il_lti_learner#:#LTI Learner
+common#:#il_lti_user#:#LTI User
 common#:#il_orgu_employee#:#Mitarbeiter
 common#:#il_orgu_superior#:#Vorgesetzte Führungskraft
 common#:#ilias_version#:#ILIAS-Version
@@ -4886,7 +4888,7 @@ common#:#obj_excv#:#Übungszertifikat
 common#:#obj_extt#:#Software von Drittanbietern
 common#:#obj_extt_desc#:#Konfigurieren Sie hier externe Software und Dienste, welche von ILIAS unterstützt werden
 common#:#obj_facs#:#Dateien
-common#:#obj_facs_desc#:#Einstellungen für Dateien und Dateiverwaltung.
+common#:#obj_facs_desc#:#Einstellungen für den Objekttyp Datei
 common#:#obj_file#:#Datei
 common#:#obj_file_duplicate#:#Datei kopieren
 common#:#obj_file_inline#:#Inline Datei
@@ -8497,7 +8499,6 @@ dcl#:#dcl_add_new_table#:#Tabelle hinzufügen
 dcl#:#dcl_add_new_view#:#Neue Ansicht hinzufügen
 dcl#:#dcl_add_perm#:#Neuen Eintrag hinzufügen
 dcl#:#dcl_add_perm_desc#:#Es können Einträge in dieser Tabelle erstellt werden. Wenn Daten in diese Tabelle importiert werden dürfen, steht auch ein Excel-Import zur Verfügung.
-dcl#:#dcl_additional_info_desc#:#Der Inhalt wird oberhalb der Tabelle angezeigt.
 dcl#:#dcl_all_entries#:#Alle Einträge
 dcl#:#dcl_any#:#Alle
 dcl#:#dcl_asc#:#Aufsteigend ↑
@@ -8537,8 +8538,8 @@ dcl#:#dcl_date_desc#:#Datum wird eingegeben oder im Kalender ausgewählt.
 dcl#:#dcl_date_selection#:#Datum per Auswahl
 dcl#:#dcl_date_selection_desc#:#Aus vorgegebenen Optionen kann ein Datum ausgewählt werden.
 dcl#:#dcl_default_sort_field#:#Sortierung
-dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
 dcl#:#dcl_default_sort_field_order#:#Sortierrichtung
+dcl#:#dcl_default_sort_field_order_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
 dcl#:#dcl_delete_fields#:#Felder löschen
 dcl#:#dcl_delete_fields_no_selection#:#Zum Löschen muss mindestens ein Feld ausgewählt werden.
 dcl#:#dcl_delete_perm#:#Einträge löschen
@@ -8555,8 +8556,8 @@ dcl#:#dcl_edit#:#Einstellungen der Datensammlung
 dcl#:#dcl_edit_entry_rules#:#Eintragsbearbeitung
 dcl#:#dcl_edit_field#:#Feld bearbeiten
 dcl#:#dcl_edit_perm#:#Einträge bearbeiten
-dcl#:#dcl_edit_record#:#Eintrag bearbeiten
 dcl#:#dcl_edit_table#:#Einstellungen der Tabelle "%s"
+dcl#:#dcl_edit_view#:#Einstellungen der Ansicht "%s"
 dcl#:#dcl_editable_in_table_gui#:#Ein Eintrag kann nur über die Tabellenansicht bewertet werden.
 dcl#:#dcl_err_formula_field_not_found#:#Feld mit dem Titel „%s“ existiert nicht.
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
@@ -8605,7 +8606,7 @@ dcl#:#dcl_learning_progress#:#Lernfortschritt
 dcl#:#dcl_learning_progress_desc#:#Der Lernfortschritt der betrachtenden Person wird angezeigt.
 dcl#:#dcl_legend_placeholders#:#Platzhalter
 dcl#:#dcl_length#:#Maximale Zeichenanzahl
-dcl#:#dcl_length_info#:#Anzahl von Zeichen, die ein Benutzer eingeben kann (Maximal 4000). Bei mehr als 200 Zeichen aktivieren Sie zusätzlich die Option „Mehrzeiliges Texteingabefeld“.
+dcl#:#dcl_length_info#:#Anzahl von Zeichen, die ein Benutzer eingeben kann. Über 200 wird die Eingabe mehrzeilig dargestellt.
 dcl#:#dcl_limit_end#:#Ende
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limited#:#Zeitlich begrenzte Bearbeitung
@@ -8619,7 +8620,7 @@ dcl#:#dcl_locked_tooltip#:#Ein gesperrtes Feld lässt sich von Benutzern nicht m
 dcl#:#dcl_manage#:#Verwalten
 dcl#:#dcl_max_digits#:#Maximale Anzahl Ziffern
 dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze wurde überschritten.
-dcl#:#dcl_max_text_length#:#Maximale Länge
+dcl#:#dcl_max_text_length#:#Maximale Länge: %s
 dcl#:#dcl_mob#:#Bild, Audio, Video
 dcl#:#dcl_mob_desc#:#Hochgeladene Datei wird direkt in der Datensammlung präsentiert. Erlaubte Dateitypen: %s
 dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert.
@@ -8639,6 +8640,7 @@ dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
 dcl#:#dcl_new#:#Neue Datensammlung anlegen
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_new_table#:#Neue Tabelle
+dcl#:#dcl_new_view#:#Neue Ansicht
 dcl#:#dcl_next_record#:#Nächster Eintrag
 dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Felder
 dcl#:#dcl_no_entries#:#Keine Einträge
@@ -8649,6 +8651,7 @@ dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstell
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
+dcl#:#dcl_no_tableview_found#:#Keine sichbare Tabellenansicht verfügbar!
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
 dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp wird beim Import nicht unterstützt.
 dcl#:#dcl_notification_activate_dcl#:#Benachrichtigung aktivieren
@@ -8661,6 +8664,8 @@ dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// o
 dcl#:#dcl_number#:#Ganze Zahlen
 dcl#:#dcl_number_desc#:#Eingabe ganzer Zahlen mit bis zu 9 Ziffern. Nicht erlaubt sind Brüche und Dezimalzahlen.
 dcl#:#dcl_online_info#:#Datensammlung ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff" und „Eintragen" genutzt werden. Andernfalls ist das Objekt nur für Personen mit dem Recht „Einstellungen bearbeiten" verfügbar.
+dcl#:#dcl_open_detail_view#:#Detailansicht öffnen
+dcl#:#dcl_open_url#:#Link öffen
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_origin_not_found#:#Urprungsfeld konnte nicht gefunden werden!
 dcl#:#dcl_own_entries#:#Nur eigene Einträge
@@ -8668,7 +8673,6 @@ dcl#:#dcl_owner#:#Eigener Eintrag von
 dcl#:#dcl_owner_description#:#Eigene Einträge bleiben stets sichtbar.
 dcl#:#dcl_owner_name#:#Im Besitz von (Name)
 dcl#:#dcl_page_type_dclf#:#Detailansicht
-dcl#:#dcl_permissions_form#:#Erlaubte Aktionen für diese Tabelle
 dcl#:#dcl_please_select#:#--- Bitte wählen ---
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection-Feld Erweiterungen
@@ -8683,6 +8687,7 @@ dcl#:#dcl_rating_desc#:#Bestehende Einträge mit ein bis fünf Sternen bewerten.
 dcl#:#dcl_record#:#Eintrag
 dcl#:#dcl_record_deleted#:#Eintrag gelöscht.
 dcl#:#dcl_record_from_total#:#%d von %d
+dcl#:#dcl_record_settings#:#Eintragseinstellungen
 dcl#:#dcl_reference#:#Referenz
 dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden.
 dcl#:#dcl_reference_link#:#Referenzierten Eintrag verlinken
@@ -8693,11 +8698,9 @@ dcl#:#dcl_regex#:#Texteingabe einschränken
 dcl#:#dcl_regex_info#:#Es kann ein regulärer Ausdruck ohne Delimiter eingegeben werden. Automatisch werden dann bestimmte Einträge zurückgewiesen.
 dcl#:#dcl_required#:#Verpflichtend
 dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
-dcl#:#dcl_save#:#Speichern
 dcl#:#dcl_save_confirmation#:#Eingabe zusätzlich bestätigen
 dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen.
 dcl#:#dcl_save_order#:#Sortierung speichern
-dcl#:#dcl_save_record#:#Eintrag speichern
 dcl#:#dcl_select#:#Auswahl der Tabelle
 dcl#:#dcl_selection_options#:#Optionen
 dcl#:#dcl_selection_type#:#Format
@@ -8720,7 +8723,8 @@ dcl#:#dcl_table_edit#:#Speichern
 dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
 dcl#:#dcl_table_list_tables#:#Verfügbare Tabellen
-dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
+dcl#:#dcl_table_settings#:#Tabelleneinstellungen.
+dcl#:#dcl_table_settings_saved#:#Tabelleneinstellungen wurden gespeichert.
 dcl#:#dcl_table_title_not_matching#:#Die Titel des Excel-Arbeitsblatts und der Tabelle in der Datensammlung stimmen nicht überein. Benennen Sie das Arbeitsblatt um, um einen korrekten Import zu gewährleisten.
 dcl#:#dcl_table_title_unique#:#Es existiert bereits eine Tabelle mit diesem Titel. Der Titel muss eindeutig sein.
 dcl#:#dcl_tables#:#Tabellen
@@ -8744,7 +8748,6 @@ dcl#:#dcl_tableviews_confirm_delete#:#Sind Sie sicher, dass die folgenden Ansich
 dcl#:#dcl_tableviews_of_X#:#Ansichten der Tabelle %s
 dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
 dcl#:#dcl_text#:#Texteingabe
-dcl#:#dcl_text_area#:#Mehrzeiliges Texteingabefeld
 dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
 dcl#:#dcl_text_email_detail_desc#:#Bitte geben Sie eine gültige E-Mail-Adresse oder eine URL ein.
 dcl#:#dcl_text_email_title#:#Titel
@@ -8764,7 +8767,6 @@ dcl#:#dcl_url#:#URL oder E-Mail
 dcl#:#dcl_view_configuration#:#Ansichtskonfiguration
 dcl#:#dcl_view_own_records_perm#:#Nur eigene Einträge anzeigen
 dcl#:#dcl_view_own_records_perm_desc#:#Einträge von anderen Personen werden nicht angezeigt.
-dcl#:#dcl_view_settings#:#Ansichtseinstellungen
 dcl#:#dcl_view_viewdefinition#:#Vorlage für Einzelansicht
 dcl#:#dcl_visible#:#Für alle Benutzer sichtbar
 dcl#:#dcl_visible_desc#:#Benutzer haben Zugriff auf diese Tabelle.
@@ -8782,6 +8784,9 @@ dcl#:#enable_visible#:#Sichtbarkeit aktivieren
 dcl#:#entry_of#:#Eintrag %1$d von %2$d
 dcl#:#fieldtitle_allow_chars#:#Nicht erlaubte Zeichen: %s
 dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann deshalb nicht angezeigt werden. Bitte wenden Sie sich an Ihre Systemadministration.
+dcl#:#role_limitation#:#Rollenbasierte Einschränkung
+dcl#:#roles#:#Rollen mit Zugriff
+dcl#:#roles_desc#:#Wählen sie zugriffsberechtigte Rollen für die Ansicht.
 dcl#:#set_as_default#:#Als Standard setzen
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
 didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.
@@ -9146,6 +9151,7 @@ etal#:#notification_talks_subject#:#Termineinladung: %s
 etal#:#notification_talks_subject_update#:#Terminaktualisierung: %s
 etal#:#notification_talks_updated#:#Folgende Gesprächstermine wurden angepasst.
 etal#:#pending_talks_warning#:#Die folgenden ausstehenden Gesprächstermine werden ersetzt:
+etal#:#tala_no_content_without_admin_info#:#Um auf Gesprächsvorlagen zuzugreifen, wird die Administrator-Rolle benötigt.
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Gespräche hinzufügen
 etal#:#tals_new#:#Neue Gesprächsserie
@@ -9183,7 +9189,7 @@ exc#:#exc_blog_selected#:#Das Blog wurde verknüpft.
 exc#:#exc_cannot_submit_any_files#:#Sie können keine Dateien mehr einreichen.
 exc#:#exc_chars_remaining#:#Verbleibende Zeichen
 exc#:#exc_comment_for_learner_edit#:#Als Kommentar in Textfeld eingeben
-exc#:#exc_comment_for_learner_info#:#Es wird eine Benachrichtigung an den Teilnehmer gesendet. <br /><br />Die Rückmeldung wird in seiner persönlichen Übungseinheiten-Übersicht angezeigt.
+exc#:#exc_comment_for_learner_info#:#Die Person, die die Abgabe eingereicht hat, wird per Mail benachrichtigt. <br /><br /> Die Rückmeldung wird im Reiter „Übersicht“ der Übungseinheit angezeigt.
 exc#:#exc_compare_selected_submissions#:#Vergleiche ausgewählte Lösungsabgaben
 exc#:#exc_compare_submissions#:#Vergleiche Lösungsabgaben
 exc#:#exc_completion_by_submission#:#Automatisch bei Abgabe
@@ -9244,17 +9250,17 @@ exc#:#exc_ended#:#Beendet
 exc#:#exc_ended_on#:#Beendet am
 exc#:#exc_export_excel#:#Export (Excel)
 exc#:#exc_fb_files#:#Bewertungsdateien
-exc#:#exc_fb_tutor_info#:#Wird eine Datei zur Bewertung der Übungseinheit hochgeladen, erhält die Teilnehmerin oder der Teilnehmer eine Benachrichtigung und kann dann in der Übersicht der Übungseinheiten heruntergeladen und eingesehen werden.
+exc#:#exc_fb_tutor_info#:#Die Person, welche die Abgabe eingereicht hat, wird nach dem Hochladen der Datei per Mail benachrichtigt. Die Rückmeldung wird im Reiter „Übersicht“ der Übungseinheit angezeigt und kann heruntergeladen werden.
 exc#:#exc_feedback#:#Feedback
 exc#:#exc_feedback_notification_body#:#Das Feedback zur folgenden Übungseinheit wurde freigeschaltet.
 exc#:#exc_feedback_notification_link#:#Link zur Übung
-exc#:#exc_feedback_notification_reason#:#Sie erhalten diese Nachricht, da Sie ein Teilnehmer der oben genannten Übung sind.
+exc#:#exc_feedback_notification_reason#:#Sie erhalten diese Nachricht, da Sie an der oben genannten Übung teilnehmen.
 exc#:#exc_feedback_notification_subject#:#Feedback für Übungseinheit der Übung „%s“ freigeschaltet
 exc#:#exc_files_returned_text#:#Abgegebener Text
 exc#:#exc_find_zip_error#:#Die Abgabe kann nicht geöffnet werden. Die Originaldateien wurden nicht gefunden.
 exc#:#exc_fixed_date#:#Festes Datum
 exc#:#exc_fixed_date_individual#:#Nur individuelle Termine
-exc#:#exc_fixed_date_individual_info#:#Es gibt keinen gemeinsamen Abgabetermin. Es müssen individuelle Termine für alle Teilnehmer gesetzt werden.
+exc#:#exc_fixed_date_individual_info#:#Es gibt keinen gemeinsamen Abgabetermin. Setzen Sie für jede Person einen individuellen Termin.
 exc#:#exc_fixed_date_info#:#Alle Teilnehmenden erhalten zunächst das gleiche feste Abgabedatum.
 exc#:#exc_fullscreen#:#Vollbild
 exc#:#exc_future#:#Kommende
@@ -9262,12 +9268,12 @@ exc#:#exc_given_feedback#:#Gegebene Feedbacks
 exc#:#exc_global_feedback_file#:#Musterlösung
 exc#:#exc_global_feedback_file_after_date#:#Nach festem Datum
 exc#:#exc_global_feedback_file_cron#:#Benachrichtigung bei Verfügbarkeit
-exc#:#exc_global_feedback_file_cron_info#:#Teilnehmer werden per Mail über die Verfügbarkeit der Musterlösung informiert.
+exc#:#exc_global_feedback_file_cron_info#:#Alle Personen, die an einer Übungseinheit teilnehmen, werden per Mail benachrichtigt, sobald deren Musterlösung verfügbar ist.
 exc#:#exc_global_feedback_file_date#:#Verfügbarkeit
 exc#:#exc_global_feedback_file_date_deadline#:#Nach dem Abgabetermin
 exc#:#exc_global_feedback_file_date_upload#:#Nach der Abgabe
 exc#:#exc_go_to_exercise#:#Zur Übung
-exc#:#exc_graded_mem_notified#:#Alle ausgewählten Teilnehmer mit einer Bewertung wurden benachrichtigt.
+exc#:#exc_graded_mem_notified#:#Alle ausgewählten Personen mit einer Bewertung wurden benachrichtigt.
 exc#:#exc_grades#:#Notenübersicht
 exc#:#exc_grades_overview#:#Notenübersicht
 exc#:#exc_hand_in#:#Datei abgeben
@@ -9302,7 +9308,7 @@ exc#:#exc_mandatory_info#:#Verpflichtende Übungseinheiten müssen bestanden wer
 exc#:#exc_mandatory_rand_determined#:#Zufällige Auswahl
 exc#:#exc_max_char_limit#:#Höchstanzahl Zeichen
 exc#:#exc_max_file#:#Maximale Dateianzahl
-exc#:#exc_max_file_info#:#Nach Erreichen des Limits können Teilnehmer keine weiteren Dateien hochladen. Auch in Team-Übungseinheiten wird das Limit pro Teilnehmer gewertet und nicht für das gesamte Team.
+exc#:#exc_max_file_info#:#Es kann höchstens die angegebene Anzahl von Dateien hochgeladen werden. Für Übungseinheiten, die als Team bearbeitet werden, gilt diese Obergrenze pro Person und nicht für das gesamte Team.
 exc#:#exc_max_file_reached#:#Sie können maximal %s Dateien hochladen.
 exc#:#exc_max_file_tgl#:#Uploads begrenzen
 exc#:#exc_max_team_participants#:#Maximale Anzahl
@@ -9329,13 +9335,13 @@ exc#:#exc_msg_new_message_from_pf_giver#:#Es wurde eine neue Mitteilung zur Übu
 exc#:#exc_msg_new_message_from_pf_giver2#:#Ein Peer-Feedback-Geber hat eine neue Mitteilung für Sie eingestellt:
 exc#:#exc_msg_new_message_from_pf_recipient#:#Es wurde eine neue Mitteilung zur Übung „%s“ hinzugefügt.
 exc#:#exc_msg_new_message_from_pf_recipient2#:#Ein Peer-Feedback-Nehmer hat eine neue Mitteilung für Sie eingestellt:
-exc#:#exc_msg_participants_removed#:#Die Teilnehmer wurden aus der Übung entfernt.
+exc#:#exc_msg_participants_removed#:#Die Personen wurden aus der Übung entfernt.
 exc#:#exc_msg_public_submission#:#Alle Lösungsabgaben werden nach dem Abgabetermin veröffentlicht.
 exc#:#exc_msg_saved_grades#:#Die Änderungen wurden gespeichert.
-exc#:#exc_msg_sure_to_deassign_participant#:#Wollen Sie wirklich die folgenden Teilnehmer aus allen Übungseinheiten der Übung entfernen? Alle Lösungsabgaben aus allen Übungseinheiten der Teilnehmer werden gelöscht.
-exc#:#exc_multi_feedb_info#:#Auf dieser Seite können Sie die Feedback-Dateien für mehrere Übungsteilnehmer auf einmal hochladen.<br /> <br />Klicken Sie zunächst unten auf den Button "ZIP-Verzeichnisstruktur herunterladen" und speichern Sie die ZIP-Datei auf Ihrem Computer. Dort öffnen Sie im nächsten Schritt die ZIP-Datei, um die Verzeichnisstruktur zu entpacken. Legen Sie nun die Feedback-Dateien in die entsprechenden Ordner der Übungsteilnehmer und komprimieren abschließend das Verzeichnis wieder als ZIP-Datei. Wählen Sie nun auf dieser Seite unten diese ZIP-Datei als Multi-Feedback-Datei aus und laden diese hoch. Die Bestätigungsseite führt alle hochgeladenen Dateien auf. <br /> <br /><b>Wichtig</b>: Vermeiden Sie auf jeden Fall Umlaute und Sonderzeichen in den Dateinamen, da hierdurch Probleme bei der Zuordnung der Dateien entstehen.
-exc#:#exc_multi_feedback#:#Rückmeldung an mehrere Teilnehmer
-exc#:#exc_multi_feedback_file#:#Multi-Feedback-Datei
+exc#:#exc_msg_sure_to_deassign_participant#:#Wollen Sie die folgenden Personen wirklich aus allen Übungseinheiten der Übung entfernen? Sämtliche Abgaben dieser Personen werden gelöscht.
+exc#:#exc_multi_feedb_info#:#Hier können Sie Dateien mit Rückmeldungen für mehrere Personen auf einmal hochladen. <b>Wichtig</b>: Vermeiden Sie unbedingt Umlaute und Sonderzeichen im Dateinamen. Das erzeugt Probleme bei der Zuordnung der Dateien.<br /><ol><li>Klicken Sie unten auf den Button „ZIP-Verzeichnisstruktur herunterladen“, und speichern Sie die ZIP-Datei auf Ihrem Computer.</li><li>Entpacken Sie die ZIP-Datei auf Ihrem Computer.</li><li>Öffnen Sie den Ordner. Jede Person, die an der Übung teilnimmt, hat darin einen eigenen Ordner.</li><li>Legen Sie die Dateien mit den Rückmeldungen in die entsprechenden Ordner.</li><li>Komprimieren Sie das Verzeichnis wieder als ZIP-Datei.</li><li>Wählen Sie unten auf dieser Seite unter „ZIP-Datei mit Rückmeldungen“ Ihre ZIP-Datei aus und laden diese hoch.</li><li>ILIAS zeigt eine Tabelle mit allen Namen und zugehörigen Dateien.</li><li>Prüfen Sie die Zuordnung und klicken Sie abschließend auf „Speichern“.</li></ol>
+exc#:#exc_multi_feedback#:#Rückmeldung an mehrere Personen
+exc#:#exc_multi_feedback_file#:#ZIP-Datei mit Rückmeldungen
 exc#:#exc_multi_feedback_files#:#Multi-Feedback-Dateien
 exc#:#exc_needs_deadline#:#Diese Option benötigt einen Abgabetermin.
 exc#:#exc_needs_fixed_deadline#:#Diese Funktion benötigt ein festes Abgabedatum.
@@ -9343,11 +9349,11 @@ exc#:#exc_new_assignment#:#Neue Übungseinheit
 exc#:#exc_no_assignments#:#Keine Übungseinheiten vorhanden.
 exc#:#exc_no_assignments_available#:#Keine Übungseinheiten vorhanden. Bitte wählen Sie "Übungseinheiten" und "Bearbeiten", um eine Übungseinheit zu erstellen.
 exc#:#exc_no_deadline#:#Keine Abgabefrist
-exc#:#exc_no_deadline_info#:#Es gibt keinen Abgabetermin für die Teilnehmer.
+exc#:#exc_no_deadline_info#:#Die Abgabe ist jederzeit möglich.
 exc#:#exc_no_deadline_specified#:#Es wurde kein Abgabetermin festgelegt.
 exc#:#exc_no_feedback_dir_found_in_zip#:#Die Verzeichnisstruktur des hochgeladenen Zip-Archivs konnte nicht verarbeitet werden.
 exc#:#exc_no_get_target#:#Kein gültiges Link-Ziel gefunden.
-exc#:#exc_no_graded_mem_selected#:#Bitte wählen Sie mindestens einen Teilnehmer mit Bewertung aus.
+exc#:#exc_no_graded_mem_selected#:#Wählen Sie nur Personen aus, die auch bewertet wurden.
 exc#:#exc_no_participants#:#Zur Zeit gibt es keine Teilnehmer.
 exc#:#exc_no_peer_feedback_deadline#:#Keine Frist für Abgabe des Feedbacks
 exc#:#exc_no_portfolio_templates#:#Es sind keine Portfoliovorlagen vorhanden.
@@ -9366,7 +9372,7 @@ exc#:#exc_order_by_deadline#:#Nach Abgabetermin sortieren
 exc#:#exc_overview#:#Übersicht
 exc#:#exc_participant#:#Teilnehmer
 exc#:#exc_participant_view#:#Je Teilnehmer
-exc#:#exc_participants#:#Teilnehmer
+exc#:#exc_participants#:#Personen
 exc#:#exc_pass_all#:#Nur verpflichtende Übungseinheiten
 exc#:#exc_pass_all_info#:#Teilnehmer müssen alle verpflichtenden Übungseinheiten bestehen, um die gesamte Übung zu bestehen.
 exc#:#exc_pass_minimum_nr#:#Mindestanzahl an Übungseinheiten
@@ -9488,7 +9494,6 @@ exc#:#exc_select_blog#:#Vorhandenes Blog nutzen
 exc#:#exc_select_blog_change#:#Anderes Blog benutzen
 exc#:#exc_select_blog_info#:#Bitte wählen Sie eines Ihrer Blogs, um es in dieser Übungseinheit zu benutzen.
 exc#:#exc_select_blog_unlink#:#Blog entfernen
-exc#:#exc_select_part#:#Teilnehmer auswählen
 exc#:#exc_select_portfolio#:#Vorhandenes Portfolio nutzen
 exc#:#exc_select_portfolio_change#:#Anderes Portfolio benutzen
 exc#:#exc_select_portfolio_info#:#Bitte wählen Sie eines Ihrer Portfolios, um es in dieser Übungseinheit zu benutzen.
@@ -9647,7 +9652,7 @@ excv#:#excv_create#:#Übungszertifikat erstellen
 excv#:#excv_create_info#:#Wählen Sie eine Übung, für die Sie ein Zertifikat benötigen
 exercise#:#exc_admin_settings#:#Übungs-Administration
 exercise#:#exc_comment#:#Rückmeldung
-exercise#:#exc_comment_for_learner#:#Rückmeldung für Teilnehmer
+exercise#:#exc_comment_for_learner#:#Rückmeldung zur Abgabe
 exercise#:#exc_failed#:#Nicht bestanden
 exercise#:#exc_feedback_from_tutor#:#Bewertung
 exercise#:#exc_grading#:#Bewertung
@@ -9709,7 +9714,7 @@ file#:#copyright_custom#:#Benutzerdefiniert
 file#:#copyright_custom_info#:#Benutzerdefiniertes Copyright auswählen, welches auf alle entpackten Dateien dieses Archivs angewandt wird.
 file#:#copyright_inherited#:#Vererbt
 file#:#copyright_inherited_info#:#Copyright des Zip-Archivs auf seine entpackten Dateien anwenden. <br \>Copyright des Zip-Archivs: %s.
-file#:#could_not_create_file_objs#:#Beim Erstellen der Datei-Objekte ist ein Fehler aufgetreten, wenden Sie sich an die Administrierenden der Plattform.
+file#:#could_not_create_file_objs#:#Beim Erstellen der Dateiobjekte ist ein Fehler aufgetreten, wenden Sie sich an die Administrierenden der Plattform.
 file#:#de_activate_icon#:#(De-)Aktivieren
 file#:#download_ascii_filename#:#Nur ASCII-Zeichen im Download
 file#:#download_ascii_filename_info#:#Die Namen heruntergeladener Dateien enthalten nur ASCII-Zeichen und können so auf allen Systemen problemlos genutzt werden. Andere Zeichen werden durch Unterstriche ersetzt. Auf Installationen, die Dateinamen mit nicht-lateinischen Schriftzeichen nutzen, muss diese Option deaktiviert werden.
@@ -9729,9 +9734,9 @@ file#:#file_rollback_rollback_first#:#Die Version konnte nicht zurückgesetzt we
 file#:#file_rollback_same_version#:#Dies ist bereits die veröffentlichte Version
 file#:#file_unpublish#:#Als Entwurf markieren
 file#:#file_upload_info_file_with_critical_extension#:#Mindestens eine Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Bitte kontaktieren Sie gegebenenfalls Ihre technische Betreuung. Dateiname(n): %s
-file#:#file_uploaded_by#:#Version hochgeladen von
+file#:#file_uploaded_by#:#Hochgeladen von
 file#:#file_version_draft#:#Entwurf
-file#:#file_version_draft_info#:#Die aktuellste Version ist im Status "Entwurf". Solange die Version nicht veröffentlicht wurde, können keine neuen Versionen angelegt werden. Personen mit Leserecht auf die Datei erhalten die aktuellste veröffentlichte Version.
+file#:#file_version_draft_info#:#Die aktuellste Version ist im Status „Entwurf“. Solange diese Version nicht veröffentlicht wurde, können keine neuen Versionen angelegt werden. Personen mit Leserecht auf die Datei erhalten die aktuell veröffentlichte Version.
 file#:#form_icon_creation#:#Icon erstellen
 file#:#form_icon_updating#:#Icon aktualisieren
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
@@ -9785,7 +9790,7 @@ file#:#upload_files_title#:#Dateien hochladen
 file#:#upload_info#:#Datei
 file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
 file#:#version_uploaded#:#Version hochgeladen am
-file#:#versionname#:#Titel
+file#:#versionname#:#Angezeigter Titel
 fils#:#add_upload_policy#:#Richtlinie hinzufügen
 fils#:#edit_upload_policy#:#Richtlinie bearbeiten
 fils#:#file_services#:#Datei-Services
@@ -10510,7 +10515,6 @@ iass#:#iass_usr_download_attachment#:#Datei herunterladen
 iass#:#iass_usr_edit#:#Prüfungsdaten bearbeiten
 iass#:#iass_usr_remove#:#Entfernen
 iass#:#iass_usr_view#:#Prüfungsdaten
-iass#:#il_iass_member#:#Teilnehmer
 iass#:#il_iass_members#:#Teilnehmer
 iass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
 iass#:#save_amend#:#Geänderte Prüfungsdaten speichern
@@ -10582,7 +10586,6 @@ itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks 
 itgr#:#itgr_edit#:#Einstellungen des Objekteblocks
 itgr#:#itgr_expandable_closed#:#Ausklappbar (zunächst geschlossen)
 itgr#:#itgr_expandable_open#:#Ausklappbar (zunächst geöffnet)
-itgr#:#itgr_hide_title#:#Titel verbergen
 itgr#:#itgr_item#:#Objekte, die eingebunden werden können
 itgr#:#itgr_list#:#Liste
 itgr#:#itgr_list_default#:#Standard
@@ -10997,6 +11000,7 @@ lso#:#lso_player_abstract#:#Zur Einleitung
 lso#:#lso_player_extro#:#Zur Abschlussseite
 lso#:#lso_player_finish#:#Beenden
 lso#:#lso_player_next#:#Weiter
+lso#:#lso_player_noitems#:#Keine verfügbaren Inhalte in der Lernsequenz
 lso#:#lso_player_previous#:#Zurück
 lso#:#lso_player_resume#:#Lernsequenz wieder aufnehmen
 lso#:#lso_player_review#:#Lernsequenz überarbeiten
@@ -11042,7 +11046,7 @@ lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash kombiniert mit einer eindeutigen 
 lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#Die Identifikation ist identisch bei jedem Aufruf, aber lässt keine direkten Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
-lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Anmeldename kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
 lti#:#conf_privacy_ident_il_uuid_user_id#:#ID des ILIAS-Kontos kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Die interne numerische ID ist bei jedem Aufruf identisch und ermöglicht Rückschlüsse auf das ILIAS-Konto.
@@ -12530,7 +12534,7 @@ meta#:#meta_oer_exposed_source#:#Veröffentlichung in
 meta#:#meta_oer_harvested_licences#:#Lizenzauswahl
 meta#:#meta_oer_harvested_types#:#Auswahl Objekttypen
 meta#:#meta_oer_harvester#:#OER-Harvester
-meta#:#meta_oer_harvester_desc#:#Der OER-Harvester sammelt alle Ressourcen unter ausgewählten CC-Lizenzen, fügt sie einer in den Cron-Job-Einstellungen definierten Kategorie hinzu, und generiert wenn nötig Exportdateien für sie. Für die für Veröffentlichung bereite Ressourcen werden Einträge angelegt, die (wenn aktiviert) über eine OAI-PMH Schnittstelle ausgelesen werden können. Damit dieser Cron-Job Ergebnisse liefern kann, muss die Copyright-Auswahl in der Metadaten-Administration aktiviert und konfiguriert sein. Nur Dateiobjekte, Glossare, Inhaltsseiten, Lernmodule (ILIAS, SCORM, und HTML), Fragenpools (für Umfragen und Tests), und Medienpools werden unterstützt.
+meta#:#meta_oer_harvester_desc#:#Der OER-Harvester sammelt Objekte ein, die mit vorher ausgewählten Lizenzen ausgezeichnet sind. Welche Objekttypen eingesammelt werden, kann ausgewählt werden. Der Harvester fügt diese Objekte einer definierten Kategorie hinzu und generiert dazugehörige Exportdateien.<br />Für die zur Veröffentlichung bestimmten Objekte werden Einträge angelegt. Diese Einträge können (wenn aktiviert) über eine OAI-PMH Schnittstelle ausgelesen werden. Voraussetzung dafür ist, dass die Lizenz-Auswahl in der Metadaten-Administration aktiviert und konfiguriert wurde.
 meta#:#meta_oer_object_type_selection#:#Sammlung folgender Objekttypen
 meta#:#meta_oer_target#:#Sammlung in
 meta#:#meta_opera#:#Opera
@@ -17083,7 +17087,7 @@ trac#:#trac_mode_course_reference_info#:#Der Lernfortschrittmodus wird automatis
 trac#:#trac_mode_deactivated#:#Lernfortschritt ist deaktiviert
 trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht angezeigt und beeinflusst keine übergeordneten Objekte.
 trac#:#trac_mode_event#:#Teilnahmeliste abhaken
-trac#:#trac_mode_event_info#:#Personen mit dem Recht „Mitglieder verwalten“ erfassen die Teilnahme im Reiter „Teilnehmer“.
+trac#:#trac_mode_event_info#:#Personen mit dem Recht „Mitglieder verwalten“ erfassen die Teilnahme im Reiter „Teilnahmen“.
 trac#:#trac_mode_exercise_returned#:#Manuelle Bewertung
 trac#:#trac_mode_exercise_returned_info#:#Personen mit dem Recht „Einstellungen bearbeiten“ entscheiden anhand der Einreichungen, ob die Übungseinheit gelöst wurde. Im Reiter „Abgaben und Noten“ setzen sie händisch den jeweiligen Status.
 trac#:#trac_mode_individual_assessment#:#Manuelle Bewertung
@@ -17255,6 +17259,7 @@ ui#:#presentation_table_collapse#:#Alle minimieren
 ui#:#presentation_table_expand#:#Alle zeigen
 ui#:#rating_average#:#Andere bewerteten mit %s von 5
 ui#:#reset_stars#:#neutral
+ui#:#select_node#:#Knoten %s zur Auswahl hinzufügen
 ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
@@ -17277,6 +17282,7 @@ ui#:#ui_select_dropdown_label#:#Bitte auswählen
 ui#:#ui_table_no_records#:#Keine Einträge
 ui#:#ui_table_order#:#Reihenfolge
 ui#:#ui_transcription#:#Abschrift
+ui#:#unselect_node#:#Knoten %s von der Auswahl entfernen
 ui#:#vc_sort#:#Sortiert nach:
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
 user#:#back_to_starting_points_list#:#Zurück zu Startseiten
@@ -17444,8 +17450,9 @@ validation#:#not_max_length#:#Der eingegebene Text hat eine Länge von mehr als 
 validation#:#not_min_length#:#Ihre Eingabe hat eine Länge von %d und liegt damit unter der Mindestlänge von %d.
 validation#:#not_numeric#:#„%s“ ist nicht nummerisch.
 validation#:#not_numeric_empty_string#:#Ihre Eingabe ist nicht numerisch.
-validation#:#numeric_only#:#Bitte geben Sie eine ganze Zahl ein.
-validation#:#tag_required#:#Bitte geben Sie mindestens ein Tag ein.
+validation#:#numeric_only#:#Bitte geben sie eine ganze Zahl ein.
+validation#:#required#:#Diese Eingabe ist erforderlich.
+validation#:#tag_required#:#Bitte geben sie mindestens ein Tag ein.
 violation#:#not_a_string#:#Wert ist keine Zeichenkette
 webr#:#invalid_links_tbl#:#Ungültige Links
 webr#:#webr_active#:#Aktiv
@@ -17686,7 +17693,7 @@ wopi#:#msg_wopi_settings_modified#:#Einstellungen gespeichert
 wopi#:#open_external_editor#:#In externem Editor öffnen
 wopi#:#open_external_viewer#:#Inhalt anzeigen
 wopi#:#saving_interval#:#Speicherintervall
-wopi#:#saving_interval_byline#:#Standardmässig fügt ILIAS alle durch einen Externen Editor erhaltenen Änderungen in einer Entwurfs-Version hinzu, bis diese Version manuell veröffentlicht wird. Durch das Aktivieren des Speicherintervall wird nach Möglichkeit nach der festgelegten Sekundenanzahl eine neue Verison veröffentlicht. Bitte beachten Sie, dass eine tiefer Wert zu sehr vielen Dateiversionen führen kann und damit ein Vielfaches des Festplattenspeichers beansprucht.
+wopi#:#saving_interval_byline#:#Standardmässig fügt ILIAS alle durch einen Externen Editor erhaltenen Änderungen in einer Entwurfs-Version hinzu, bis diese Version manuell veröffentlicht wird. Durch das Aktivieren des Speicherintervalls wird nach Möglichkeit nach der festgelegten Sekundenanzahl eine neue Verison veröffentlicht. Bitte beachten Sie, dass eine tiefer Wert zu sehr vielen Dateiversionen führen kann und damit ein Vielfaches des Festplattenspeichers beansprucht.
 wopi#:#wopi_crawler_cronjob_description#:#Aktualisiert die Informationen des angebundenen WOPI-Dienstes.
 wopi#:#wopi_crawler_cronjob_no_apps#:#Es wurden keine WOPI-Apps in der Discovery gefunden.
 wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI ist nicht aktiviert.

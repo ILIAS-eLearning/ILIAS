@@ -17,13 +17,14 @@
  *********************************************************************/
 
 declare(strict_types=1);
+use ILIAS\Export\ExportHandler\Consumer\ExportConfig\BasicHandler as ExportConfig;
 
 /**
  * Export configuration for skills
  *
  * @author Alex Killing <alex.killing@gmx.de>
  */
-class ilSkillExportConfig extends ilExportConfig
+class ilSkillExportConfig extends ExportConfig
 {
     public const MODE_SKILLS = "";
     public const MODE_PROFILES = "prof";

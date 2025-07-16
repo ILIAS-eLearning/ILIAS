@@ -36,4 +36,9 @@ class Factory implements C\Legacy\Factory
     {
         return new Content($content, $this->signal_generator);
     }
+
+    public function latexContent(string $content): LatexContent
+    {
+        return new LatexContent($content, $this->signal_generator);
+    }
 }

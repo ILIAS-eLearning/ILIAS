@@ -102,7 +102,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
             case "ilobjectownershipmanagementgui":
                 $this->setSystemCheckSubTabs("no_owner");
-                $gui = new ilObjectOwnershipManagementGUI(0);
+                $gui = $this->gui->ownership()->ownershipManagementGUI(0);
                 $this->ctrl->forwardCommand($gui);
                 break;
 

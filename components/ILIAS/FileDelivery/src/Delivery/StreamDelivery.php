@@ -22,7 +22,6 @@ namespace ILIAS\FileDelivery\Delivery;
 
 use ILIAS\HTTP\Services;
 use Psr\Http\Message\ResponseInterface;
-use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use ILIAS\FileDelivery\Token\DataSigner;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
 use ILIAS\Filesystem\Stream\FileStream;
@@ -51,11 +50,9 @@ final class StreamDelivery extends BaseDelivery
     }
 
     /**
-     * @param ResponseInterface $r
-     * @return void
-     * @throws ResponseSendingException
+     * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
      */
-    protected function notFound(ResponseInterface $r): void
+    private function notFound(ResponseInterface $r): void
     {
         $this->http->saveResponse($r->withStatus(404));
         $this->http->sendResponse();

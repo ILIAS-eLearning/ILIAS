@@ -1000,17 +1000,12 @@ abstract class assQuestionGUI
      */
     public function getGenericFeedbackOutput(int $active_id, ?int $pass): string
     {
-        $output = '';
         $manual_feedback = ilObjTest::getManualFeedback($active_id, $this->object->getId(), $pass);
         if ($manual_feedback !== '') {
             return $manual_feedback;
         }
 
-        $correct_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), true);
-        $incorrect_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false);
-        if ($correct_feedback . $incorrect_feedback !== '') {
-            $output = $this->genericFeedbackOutputBuilder($correct_feedback, $incorrect_feedback, $active_id, $pass);
-        }
+        $output = $this->genericFeedbackOutputBuilder($active_id, $pass);
 
         if ($this->object->isAdditionalContentEditingModePageObject()) {
             return $output;
@@ -1019,8 +1014,6 @@ abstract class assQuestionGUI
     }
 
     protected function genericFeedbackOutputBuilder(
-        string $feedback_correct,
-        string $feedback_incorrect,
         int $active_id,
         ?int $pass
     ): string {
@@ -1029,11 +1022,16 @@ abstract class assQuestionGUI
         }
         $reached_points = $this->object->calculateReachedPoints($active_id, $pass);
         $max_points = $this->object->getMaximumPoints();
+
+        $is_correct = false;
         if ($reached_points == $max_points) {
-            return $feedback_correct;
+            $is_correct = true;
         }
 
-        return $feedback_incorrect;
+        return $this->object->feedbackOBJ->getGenericFeedbackTestPresentation(
+            $this->object->getId(),
+            $is_correct
+        );
     }
 
     public function getGenericFeedbackOutputForCorrectSolution(): string
@@ -1062,7 +1060,7 @@ abstract class assQuestionGUI
             }
         }
 
-        return $this->questionrepository->getForQuestionId($this->object->getId())->getTypeName($this->lng);
+        return $this->lng->txt($this->object->getQuestionType());
     }
 
     protected function getTypeOptions(): array
@@ -1543,6 +1541,7 @@ abstract class assQuestionGUI
         if ($this->object->getId() > 0) {
             $this->setDefaultTabs($this->tabs_gui);
             $this->setQuestionSpecificTabs($this->tabs_gui);
+            $this->tabs_gui->activateTab('edit_question');
         }
         $this->addBackTab($this->tabs_gui);
     }
@@ -1819,7 +1818,7 @@ abstract class assQuestionGUI
                 $label = $this->lng->txt("answer_is_wrong");
                 break;
             case self::CORRECTNESS_MOSTLY_OK:
-                $icon_name = 'standard/icon_ok.svg';
+                $icon_name = 'standard/icon_mostly_ok.svg';
                 $label = $this->lng->txt("answer_is_not_correct_but_positive");
                 break;
             case self::CORRECTNESS_OK:

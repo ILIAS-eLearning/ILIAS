@@ -88,13 +88,21 @@ class ilContainerFilterAdminGUI
 
         /** @var $container ilObjCategory */
         $container = $this->container_gui->getObject();
-        $table = new ilContainerFilterTableGUI(
-            $this,
-            "show",
+
+        // Get container internal services
+        global $DIC;
+        $table = $DIC->container()->internal()->gui()->filter()->containerFilterTableBuilder(
             $this->container_filter_service,
-            $container
-        );
-        $main_tpl->setContent($table->getHTML());
+            $this->ref_id,
+            $this,
+            "show"
+        )->getTable();
+
+        if ($table->handleCommand()) {
+            return;
+        }
+
+        $main_tpl->setContent($table->render());
     }
 
     protected function selectFields(): void

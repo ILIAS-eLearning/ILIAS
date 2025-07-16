@@ -738,7 +738,7 @@ assessment#:#finalized_evaluation#:#Scoring completed###04 06 2021 new variable
 assessment#:#finalized_on#:#Completed at###04 06 2021 new variable
 assessment#:#finish_all_user_passes#:#Završi sve prolaze testa
 assessment#:#finish_pass_for_all_users#:#Jeste li sigurni da želite završiti prolaze testa za sve korisnike?
-assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.###26 08 2024 new variable
+assessment#:#finish_pass_for_multiple_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.###26 08 2024 new variable
 assessment#:#finish_pass_for_user_confirmation#:#Jeste li sigurni da želite završiti ove prolaze testa za sudionike „%s”?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).###26 08 2024 new variable
 assessment#:#finish_test#:#Završi test

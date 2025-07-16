@@ -54,4 +54,12 @@ interface isItem extends isGlobalScreenItem
 
     public function isTop(): bool;
 
+    public function isCore(): bool;
+
+    /**
+     * @description Core Items are handled differently, they are not translatable via GUI and use their translations
+     * from the language files and are not deletable.
+     */
+    public function withIsCore(): isItem;
+
 }

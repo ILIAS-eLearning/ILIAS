@@ -338,6 +338,10 @@ $icon-font-svg-id:        "glyphicons_halflingsregular" !default;
 		color: $il-glyph-hover-color;
 		text-decoration: none;
 	}
+
+    &:focus-visible {
+      position: relative;
+    }
 }
 
 .glyphicon{

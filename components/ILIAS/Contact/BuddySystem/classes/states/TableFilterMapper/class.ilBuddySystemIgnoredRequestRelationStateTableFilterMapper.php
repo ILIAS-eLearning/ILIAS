@@ -30,4 +30,11 @@ class ilBuddySystemIgnoredRequestRelationStateTableFilterMapper extends ilAbstra
 
         return parent::filterMatchesRelation($filter_key, $relation);
     }
+
+    public function text(ilBuddySystemRelation $relation): string
+    {
+        return $relation->isOwnedByActor() ?
+            (new ilBuddySystemRequestedRelationStateTableFilterMapper($this->lng, new ilBuddySystemRequestedRelationState()))->text($relation) :
+            $this->optionsForState()[$this->state::class];
+    }
 }

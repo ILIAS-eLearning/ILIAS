@@ -36,7 +36,6 @@ class ilBiblEntryTableGUI
     public const SORTATION_BY_YEAR_ASC = 5;
     public const SORTATION_BY_YEAR_DESC = 6;
 
-
     private readonly HttpServices $http;
     private readonly ilLanguage $lng;
     private readonly UIFactory $ui_factory;
@@ -52,8 +51,11 @@ class ilBiblEntryTableGUI
     /**  @var ilBiblFieldFilterInterface[] */
     protected array $filter_objects = [];
 
-    public function __construct(protected ilObjBibliographicGUI $a_parent_obj, protected ilBiblFactoryFacade $facade, protected UIServices $ui)
-    {
+    public function __construct(
+        protected ilObjBibliographicGUI $a_parent_obj,
+        protected ilBiblFactoryFacade $facade,
+        protected UIServices $ui
+    ) {
         global $DIC;
         $this->ctrl = $DIC->ctrl();
         $this->http = $DIC->http();
@@ -85,7 +87,10 @@ class ilBiblEntryTableGUI
             return null;
         }
 
-        $available_field_ids_for_object = array_map(static fn(ilBiblField $field): ?int => $field->getId(), $this->facade->fieldFactory()->getAvailableFieldsForObjId($this->facade->iliasObjId()));
+        $available_field_ids_for_object = array_map(
+            static fn(ilBiblField $field): ?int => $field->getId(),
+            $this->facade->fieldFactory()->getAvailableFieldsForObjId($this->facade->iliasObjId())
+        );
 
         $filter_inputs = [];
         $filter_active_states = [];
@@ -118,7 +123,10 @@ class ilBiblEntryTableGUI
 
     private function renderLibraryButtons(int $entry_id): array
     {
-        $entry = $this->facade->entryFactory()->findByIdAndTypeString($entry_id, $this->facade->type()->getStringRepresentation());
+        $entry = $this->facade->entryFactory()->findByIdAndTypeString(
+            $entry_id,
+            $this->facade->type()->getStringRepresentation()
+        );
 
         $settings = $this->facade->libraryFactory()->getAll();
         if ($settings === []) {
@@ -158,10 +166,10 @@ class ilBiblEntryTableGUI
         }
 
         $view_controls[] = $this->ui_factory->viewControl()->pagination()
-          ->withTargetURL($this->http->request()->getRequestTarget(), self::P_PAGE)
-          ->withTotalEntries(count($records))
-          ->withPageSize($this->entries_per_page)
-            ->withCurrentPage($this->current_page);
+                                            ->withTargetURL($this->http->request()->getRequestTarget(), self::P_PAGE)
+                                            ->withTotalEntries(count($records))
+                                            ->withPageSize($this->entries_per_page)
+                                            ->withCurrentPage($this->current_page);
 
         return $this->ui_factory->table()->presentation(
             "",
@@ -182,10 +190,22 @@ class ilBiblEntryTableGUI
                 $entry_id = $record['entry_id'];
 
                 unset($record['author'], $record['title'], $record['AU'], $record['TI'], $record['entry_id']);
+
                 $translated_record = $this->getRecordWithTranslatedKeys($record);
+
+                $this->ctrl->setParameterByClass(ilObjBibliographicGUI::class, 'entry_id', $entry_id);
 
                 return $row
                     ->withHeadline($title)
+                    ->withAction(
+                        $this->ui_factory->button()->shy(
+                            $this->lng->txt('detail_view'),
+                            $this->ctrl->getLinkTargetByClass(
+                                ilObjBibliographicGUI::class,
+                                'showDetails'
+                            )
+                        )
+                    )
                     ->withSubheadline($author)
                     ->withImportantFields([$year])
                     ->withFurtherFields($this->renderLibraryButtons($entry_id))
@@ -193,7 +213,6 @@ class ilBiblEntryTableGUI
             }
         )->withData($records_current_page);
     }
-
 
     protected function getData(): array
     {
@@ -234,7 +253,10 @@ class ilBiblEntryTableGUI
 
         foreach ($entries as $entry) {
             /** @var $bibl_entry ilBiblEntry */
-            $bibl_entry = $this->facade->entryFactory()->findByIdAndTypeString($entry['entry_id'], $entry['entry_type']);
+            $bibl_entry = $this->facade->entryFactory()->findByIdAndTypeString(
+                $entry['entry_id'],
+                $entry['entry_type']
+            );
             $entry_attributes = $this->facade->attributeFactory()->getAttributesForEntry($bibl_entry);
             $sorted_attributes = $this->facade->attributeFactory()->sortAttributes($entry_attributes);
             $entry_data = [];
@@ -263,7 +285,6 @@ class ilBiblEntryTableGUI
         return $records;
     }
 
-
     protected function getRecordsOfCurrentPage(array $records): array
     {
         $offset = array_search($this->current_page * $this->entries_per_page, array_keys($records), true);
@@ -271,9 +292,10 @@ class ilBiblEntryTableGUI
         return array_slice($records, $offset, $length);
     }
 
-
     protected function getRecordWithTranslatedKeys(array $record): array
     {
+        $record = $this->facade->attributeFactory()->sortAttributesArray($record);
+
         $translated_record = [];
         foreach ($record as $key => $value) {
             /** @var ilBiblField $field */
@@ -286,7 +308,6 @@ class ilBiblEntryTableGUI
         }
         return $translated_record;
     }
-
 
     private function determinePage(): int
     {

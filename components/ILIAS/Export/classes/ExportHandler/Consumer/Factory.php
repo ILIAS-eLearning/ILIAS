@@ -21,11 +21,13 @@ declare(strict_types=1);
 namespace ILIAS\Export\ExportHandler\Consumer;
 
 use ILIAS\Export\ExportHandler\Consumer\Context\Factory as ilExportHandlerConsumerContextFactory;
+use ILIAS\Export\ExportHandler\Consumer\ExportConfig\Factory as ExportConfigFactory;
 use ILIAS\Export\ExportHandler\Consumer\ExportOption\Factory as ilExportHandlerConsumerExportOptionFactory;
 use ILIAS\Export\ExportHandler\Consumer\ExportWriter\Factory as ilExportHandlerConsumerExportWriterFactory;
 use ILIAS\Export\ExportHandler\Consumer\File\Factory as ilExportHandlerConsumerFileFactory;
 use ILIAS\Export\ExportHandler\Consumer\Handler as ilExportHandlerConsumer;
 use ILIAS\Export\ExportHandler\I\Consumer\Context\FactoryInterface as ilExportHandlerConsumerContextFactoryInterface;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\FactoryInterface as ExportConfigFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Consumer\ExportOption\FactoryInterface as ilExportHandlerConsumerExportOptionFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Consumer\ExportWriter\FactoryInterface as ilExportHandlerConsumerExportWriterFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Consumer\FactoryInterface as ilExportHandlerConsumerFactoryInterface;
@@ -55,6 +57,11 @@ class Factory implements ilExportHandlerConsumerFactoryInterface
         return new ilExportHandlerConsumerExportOptionFactory(
             $this->export_handler
         );
+    }
+
+    public function exportConfig(): ExportConfigFactoryInterface
+    {
+        return new ExportConfigFactory();
     }
 
     public function context(): ilExportHandlerConsumerContextFactoryInterface

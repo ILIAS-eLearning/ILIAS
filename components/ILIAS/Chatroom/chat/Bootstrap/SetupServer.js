@@ -1,7 +1,21 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
 var Container = require('../AppContainer');
 var constants = require('constants');
 var SocketIO = require('socket.io');
-var async = require('async');
 var SocketHandler = require('../Handler/SocketHandler');
 var IMSocketHandler = require('../Handler/IMSocketHandler');
 var FileHandler	= require('../Handler/FileHandler');
@@ -37,7 +51,7 @@ module.exports = function SetupServer(result, callback) {
 
 	Container.setServer(server);
 
-	function handleSocket(namespace, next){
+	function handleSocket(namespace){
 		namespace.setIO(io.of(namespace.getName()));
 
 		var handler = SocketHandler;
@@ -48,19 +62,11 @@ module.exports = function SetupServer(result, callback) {
 		}
 
 		namespace.getIO().on('connect', handler);
-
-		next();
 	}
 
-	function onSocketHandled(err) {
-		if (err) {
-			throw err;
-		}
+	Container.getNamespaces().forEach(handleSocket);
 
-		callback();
-	}
-
-	async.eachSeries(Container.getNamespaces(), handleSocket, onSocketHandled);
+	callback();
 };
 
 

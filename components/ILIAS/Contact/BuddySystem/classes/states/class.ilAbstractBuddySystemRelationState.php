@@ -60,4 +60,14 @@ abstract class ilAbstractBuddySystemRelationState implements ilBuddySystemRelati
     {
         throw new ilBuddySystemRelationStateException('Invalid state transition: ' . __FUNCTION__);
     }
+
+    public function __toString(): string
+    {
+        return $this->getName();
+    }
+
+    public function getSnakeName(): string
+    {
+        return ilStr::convertUpperCamelCaseToUnderscoreCase($this->getName());
+    }
 }

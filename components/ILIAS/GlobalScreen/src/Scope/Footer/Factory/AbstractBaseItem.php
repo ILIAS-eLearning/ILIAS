@@ -33,6 +33,7 @@ abstract class AbstractBaseItem implements isItem
     use VisibilityAvailabilityTrait;
 
     private int $position = 0;
+    private bool $is_core = false;
 
     public function __construct(private IdentificationInterface $provider_identification)
     {
@@ -53,6 +54,18 @@ abstract class AbstractBaseItem implements isItem
     public function getProviderIdentification(): IdentificationInterface
     {
         return $this->provider_identification;
+    }
+
+    public function isCore(): bool
+    {
+        return $this->is_core;
+    }
+
+    public function withIsCore(): isItem
+    {
+        $clone = clone $this;
+        $clone->is_core = true;
+        return $clone;
     }
 
 }

@@ -26,7 +26,15 @@ use ILIAS\UI\Implementation\Render\ComponentRenderer;
 
 class GlyphRendererFactory extends Render\DefaultRendererFactory
 {
-    public const USE_BUTTON_CONTEXT_FOR = [
+    /**
+     * components which render glyphs inside an HTML <button> element, where only
+     * palpable content is allowed.
+     * @see https://html.spec.whatwg.org/#palpable-content
+     */
+    protected const array USE_BUTTON_CONTEXT_RENDERER_FOR = [
+        'BranchNodeFieldInput',
+        'LeafNodeFieldInput',
+        'AsyncNodeFieldInput',
         'StandardButton',
         'PrimaryButton',
         'BulkyButton',
@@ -37,7 +45,7 @@ class GlyphRendererFactory extends Render\DefaultRendererFactory
 
     public function getRendererInContext(Component\Component $component, array $contexts): ComponentRenderer
     {
-        if (count(array_intersect(self::USE_BUTTON_CONTEXT_FOR, $contexts)) > 0) {
+        if (count(array_intersect(self::USE_BUTTON_CONTEXT_RENDERER_FOR, $contexts)) > 0) {
             return new ButtonContextRenderer(
                 $this->ui_factory,
                 $this->tpl_factory,

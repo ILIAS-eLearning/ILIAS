@@ -33,6 +33,7 @@ class ilDataCollectionSetupAgent implements Setup\Agent
             'DataCollection Update',
             true,
             new ilDataCollectionObjective(new ilDataCollectionDBUpdateSteps9()),
+            new ilDataCollectionObjective(new ilDataCollectionDBUpdateSteps10()),
             new ilDataCollectionObjective(new ilDataCollectionDBUpdateSteps11()),
         );
     }

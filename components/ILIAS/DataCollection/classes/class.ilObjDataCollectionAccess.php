@@ -251,14 +251,14 @@ class ilObjDataCollectionAccess extends ilObjectAccess
 
     public static function hasAccessToTableView(ilDclTableView $tableview, ?int $user_id = 0): bool
     {
-        global $DIC;
-        $rbacreview = $DIC['rbacreview'];
-        $ilUser = $DIC['ilUser'];
+        if ($tableview->getRoleLimitation()) {
+            global $DIC;
+            $assigned_roles = $DIC->rbac()->review()->assignedRoles($user_id ?: $DIC->user()->getId());
+            $allowed_roles = $tableview->getRoles();
 
-        $assigned_roles = $rbacreview->assignedRoles($user_id ?: $ilUser->getId());
-        $allowed_roles = $tableview->getRoles();
-
-        return !empty(array_intersect($assigned_roles, $allowed_roles));
+            return array_intersect($assigned_roles, $allowed_roles) !== [];
+        }
+        return true;
     }
 
     /**

@@ -74,6 +74,7 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         $language = $this->createMock(ILIAS\Language\Language::class);
 
         return new I\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $this->data_factory,

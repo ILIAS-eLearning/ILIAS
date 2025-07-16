@@ -177,7 +177,7 @@ class ObjectsManager
         }
     }
 
-    public function deleteBookingInfo(int $booking_obj_id): string
+    public function deleteBookingInfo(int $booking_obj_id): void
     {
         if ($this->object_repo->hasBookingInfo($booking_obj_id)) {
             $this->object_repo->deleteBookingInfo($booking_obj_id);

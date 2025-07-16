@@ -257,7 +257,7 @@ class assQuestionExport
             }
             $mattext['value'] = 'il_' . IL_INST_ID . '_' . $matches[2] . '_' . $matches[3];
             if ($matches[1] !== '') {
-                $mattext['value'] = $solution['internal_link'];
+                $mattext['value'] = $solution->getInternalLink();
             }
 
         }

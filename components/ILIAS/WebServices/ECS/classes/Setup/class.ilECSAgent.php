@@ -22,7 +22,19 @@ class ilECSAgent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(?\ILIAS\Setup\Config $config = null): \ILIAS\Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(new ilECSDBUpdateSteps());
+        return new Setup\ObjectiveCollection(
+            "ECS",
+            true,
+            new \ilDatabaseUpdateStepsExecutedObjective(
+                new ilECSDBUpdateSteps()
+            ),
+            new \ilDatabaseUpdateStepsExecutedObjective(
+                new ilECSUpdateSteps8()
+            ),
+            new \ilDatabaseUpdateStepsExecutedObjective(
+                new ilECSUpdateSteps9()
+            )
+        );
     }
 
     public function getStatusObjective(\ILIAS\Setup\Metrics\Storage $storage): \ILIAS\Setup\Objective
@@ -31,7 +43,8 @@ class ilECSAgent extends Setup\Agent\NullAgent
             'Component WebServices',
             true,
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilECSDBUpdateSteps()),
-            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilECSUpdateSteps8())
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilECSUpdateSteps8()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilECSUpdateSteps9())
         );
     }
 }

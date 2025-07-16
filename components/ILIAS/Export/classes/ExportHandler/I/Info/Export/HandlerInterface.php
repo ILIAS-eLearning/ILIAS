@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Export\ExportHandler\I\Info\Export;
 
 use ILIAS\Data\ObjectId;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfigCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Component\CollectionInterface as ilExportHandlerExportComponentInfoCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Component\HandlerInterface as ilExportHandlerExportComponentInfoInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\Container\HandlerInterface as ilExportHandlerContainerExportInfoInterface;
@@ -46,6 +47,12 @@ interface HandlerInterface
     public function withCurrentElement(
         ilExportHandlerRepositoryElementInterface $element
     ): ilExportHandlerExportInfoInterface;
+
+    public function withExportConfigs(
+        ExportConfigCollectionInterface $export_configs
+    ): ilExportHandlerExportInfoInterface;
+
+    public function getExportConfigs(): ExportConfigCollectionInterface;
 
     public function getCurrentElement(): ilExportHandlerRepositoryElementInterface;
 

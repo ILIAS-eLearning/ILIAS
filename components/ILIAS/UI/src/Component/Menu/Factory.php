@@ -64,6 +64,7 @@ interface Factory
      *     top level of the Drilldown Menu.
      * context:
      *   - Drilldown Menus are primarily used in Mainbar-Slates to break down navigational topics into smaller parts.
+     *   - A drilldown menu is also used in resource selectors to navigate a large hierarchical dataset.
      *
      * rules:
      *   usage:

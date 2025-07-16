@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -33,6 +34,7 @@ interface ilBiblAttributeFactoryInterface
      * @return \ilBiblAttributeInterface[]
      */
     public function sortAttributes(array $attributes): array;
+    public function sortAttributesArray(array $attributes): array;
 
     public function createAttribute(string $name, string $value, int $entry_id): bool;
 }

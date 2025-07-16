@@ -57,7 +57,7 @@ class ilBookingBulkCreationTableGUI extends ilTable2GUI
             "components/ILIAS/BookingManager/Objects"
         );
         $this->addHiddenInput(
-            "bulk_data",
+            "data",
             $html_util->escape($raw_data)
         );
     }

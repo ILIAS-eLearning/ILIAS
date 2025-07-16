@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+use ILIAS\Export\ExportHandler\I\FactoryInterface as ExportFactoryInterface;
+use ILIAS\Export\ExportHandler\Factory as ExportFactory;
+use ILIAS\Data\Factory as DataFactory;
+
 /**
  * Media pool object
  *
@@ -26,6 +30,8 @@ class ilObjMediaPool extends ilObject implements ilAdvancedMetaDataSubItems
     protected ?int $default_width = null;
     protected ?int $default_height = null;
     protected ilTree $mep_tree;
+    protected ExportFactoryInterface $export_factory;
+    protected DataFactory $data_factory;
     public bool $for_translation = false;
 
     public function __construct(
@@ -34,6 +40,8 @@ class ilObjMediaPool extends ilObject implements ilAdvancedMetaDataSubItems
     ) {
         global $DIC;
 
+        $this->export_factory = new ExportFactory();
+        $this->data_factory = new DataFactory();
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
         // this also calls read() method! (if $a_id is set)
@@ -509,10 +517,11 @@ class ilObjMediaPool extends ilObject implements ilAdvancedMetaDataSubItems
     public function exportXML(string $a_mode = ""): void
     {
         if (in_array($a_mode, array("master", "masternomedia"))) {
-            $exp = new ilExport();
-            $conf = $exp->getConfig("components/ILIAS/MediaPool");
-            $conf->setMasterLanguageOnly(true, ($a_mode === "master"));
-            $exp->exportObject($this->getType(), $this->getId(), "4.4.0");
+            /** @var ilMediaPoolExportConfig $config */
+            $configs = $this->export_factory->consumer()->exportConfig()->allExportConfigs();
+            $config = $configs->getElementByComponent('components/ILIAS/MediaPool');
+            $config->setMasterLanguageOnly(true, ($a_mode === "master"));
+            $this->export_factory->consumer()->handler()->createStandardExport($this->user->getId(), $this->data_factory->objId($this->getId()), $configs);
         }
     }
 

@@ -39,18 +39,6 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-    public function getRecordQuerySortObject(
-        string $direction = "asc",
-        bool $sort_by_status = false
-    ): ilDclRecordQueryObject {
-        // use custom record sorting for url-fields
-        if ($this->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
-            return new ilDclTextRecordQueryObject();
-        } else {
-            return parent::getRecordQuerySortObject($direction, $sort_by_status);
-        }
-    }
-
     /**
      * @throws ilDclInputException
      */
@@ -88,15 +76,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
 
     public function checkFieldCreationInput(ilPropertyFormGUI $form): bool
     {
-        $return = $this->checkUniqueProp($form);
-
-        if ((int) $form->getInput('prop_' . ilDclBaseFieldModel::PROP_LENGTH) > 200 && !$form->getInput('prop_' . ilDclBaseFieldModel::PROP_TEXTAREA)) {
-            $inputObj = $form->getItemByPostVar('prop_' . ilDclBaseFieldModel::PROP_LENGTH);
-            $inputObj->setAlert($this->lng->txt("form_msg_value_too_high"));
-            $return = false;
-        }
-
-        return parent::checkFieldCreationInput($form) && $return;
+        return parent::checkFieldCreationInput($form) && $this->checkUniqueProp($form);
     }
 
     /**
@@ -108,7 +88,6 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
             ilDclBaseFieldModel::PROP_LENGTH,
             ilDclBaseFieldModel::PROP_REGEX,
             ilDclBaseFieldModel::PROP_URL,
-            ilDclBaseFieldModel::PROP_TEXTAREA,
             ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT,
             ilDclBaseFieldModel::PROP_UNIQUE,
         ];
@@ -116,9 +95,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
 
     protected function checkRegexAndLength(string $value): void
     {
-        if ($this->getProperty(ilDclBaseFieldModel::PROP_LENGTH) < $this->strlen($value)
-            && is_numeric($this->getProperty(ilDclBaseFieldModel::PROP_LENGTH))
-        ) {
+        if ($this->getProperty(ilDclBaseFieldModel::PROP_LENGTH) < $this->strlen($value)) {
             throw new ilDclInputException(ilDclInputException::LENGTH_EXCEPTION);
         }
 
@@ -137,7 +114,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
                 throw new ilDclInputException(ilDclInputException::REGEX_CONFIG_EXCEPTION);
             }
 
-            if ($preg_match == false) {
+            if ($preg_match === false) {
                 throw new ilDclInputException(ilDclInputException::REGEX_EXCEPTION);
             }
         }

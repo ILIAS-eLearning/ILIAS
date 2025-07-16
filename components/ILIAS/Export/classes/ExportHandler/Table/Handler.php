@@ -22,16 +22,13 @@ namespace ILIAS\Export\ExportHandler\Table;
 
 use ilCalendarSettings;
 use ilCtrl;
-use ilExportExportOptionXML;
 use ILIAS\Data\Factory as ilDataFactory;
-use ILIAS\Data\ObjectId;
 use ILIAS\DI\UIServices as ilUIServices;
 use ILIAS\Export\ExportHandler\Factory as ilExportHandler;
 use ILIAS\Export\ExportHandler\I\Consumer\Context\HandlerInterface as ilExportHandlerConsumerContextInterface;
 use ILIAS\Export\ExportHandler\I\Consumer\ExportOption\CollectionInterface as ilExportHandlerConsumerExportOptionCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Consumer\File\Identifier\CollectionInterface as ilExportHandlerConsumerFileIdentifierCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Table\HandlerInterface as ilExportHandlerTableInterface;
-use ILIAS\Export\ExportHandler\I\Table\RowId\CollectionInterface as ilExportHandlerTableRowCollectionInterface;
 use ILIAS\HTTP\Services as ilHTTPServices;
 use ILIAS\Refinery\Factory as ilRefineryFactory;
 use ILIAS\UI\Component\Table\Data as ilDataTable;

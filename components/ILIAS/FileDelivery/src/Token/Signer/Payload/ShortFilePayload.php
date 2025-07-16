@@ -27,9 +27,10 @@ use ILIAS\FileDelivery\Setup\BaseDirObjective;
  */
 class ShortFilePayload extends StructuredPayload
 {
-    public $mime_type;
-    public $disposition;
-    public $user_id;
+    protected string $mime_type = '';
+    protected string $disposition = '';
+    protected int $user_id = 0;
+
     public function __construct(
         private string $uri,
         private string $file_name

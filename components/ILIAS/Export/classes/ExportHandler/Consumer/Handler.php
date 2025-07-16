@@ -21,11 +21,13 @@ declare(strict_types=1);
 namespace ILIAS\Export\ExportHandler\Consumer;
 
 use ILIAS\Data\ObjectId;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfigCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Consumer\ExportWriter\HandlerInterface as ilExportHandlerConsumerExportWriterInterface;
 use ILIAS\Export\ExportHandler\I\Consumer\HandlerInterface as ilExportHandlerConsumerInterface;
 use ILIAS\Export\ExportHandler\I\FactoryInterface as ilExportHandlerFactoryInterface;
 use ILIAS\Export\ExportHandler\I\PublicAccess\HandlerInterface as ilExportHandlerPublicAccessInterface;
 use ILIAS\Export\ExportHandler\I\Repository\Element\HandlerInterface as ilExportHandlerRepositoryElementInterface;
+use ilObject;
 
 class Handler implements ilExportHandlerConsumerInterface
 {
@@ -44,12 +46,32 @@ class Handler implements ilExportHandlerConsumerInterface
 
     public function createStandardExport(
         int $user_id,
-        ObjectId $object_id
+        ObjectId $object_id,
+        ExportConfigCollectionInterface $export_configs = null
     ): ilExportHandlerRepositoryElementInterface {
         $manager = $this->export_handler->manager()->handler();
+        if (is_null($export_configs)) {
+            $export_configs = $this->export_handler->consumer()->exportConfig()->allExportConfigs();
+        }
         return $manager->createExport(
             $user_id,
-            $manager->getExportInfo($object_id, time()),
+            $manager->getExportInfo($object_id, time(), $export_configs),
+            ""
+        );
+    }
+
+    public function createStandardExportByObject(
+        int $user_id,
+        ilObject $object,
+        ExportConfigCollectionInterface $export_configs = null
+    ): ilExportHandlerRepositoryElementInterface {
+        $manager = $this->export_handler->manager()->handler();
+        if (is_null($export_configs)) {
+            $export_configs = $this->export_handler->consumer()->exportConfig()->allExportConfigs();
+        }
+        return $manager->createExport(
+            $user_id,
+            $manager->getExportInfoWithObject($object, time(), $export_configs),
             ""
         );
     }

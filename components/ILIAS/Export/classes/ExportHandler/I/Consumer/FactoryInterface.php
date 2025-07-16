@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Export\ExportHandler\I\Consumer;
 
 use ILIAS\Export\ExportHandler\I\Consumer\Context\FactoryInterface as ilExportHandlerConsumerContextFactoryInterface;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\FactoryInterface as ExportConfigFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Consumer\ExportOption\FactoryInterface as ilExportHandlerConsumerExportOptionFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Consumer\ExportWriter\FactoryInterface as ilExportHandlerConsumerExportWriterFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Consumer\File\FactoryInterface as ilExportHandlerConsumerFileFactoryInterface;
@@ -31,6 +32,8 @@ interface FactoryInterface
     public function handler(): ilExportHandlerConsumerInterface;
 
     public function exportOption(): ilExportHandlerConsumerExportOptionFactoryInterface;
+
+    public function exportConfig(): ExportConfigFactoryInterface;
 
     public function context(): ilExportHandlerConsumerContextFactoryInterface;
 

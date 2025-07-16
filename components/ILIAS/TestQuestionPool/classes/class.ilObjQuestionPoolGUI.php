@@ -587,7 +587,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 break;
 
             default:
-                if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && !$this->access->checkAccess(
+                if (in_array(
+                    $cmd,
+                    ['editQuestion', 'save', 'suggestedsolution', 'uploadImage', 'removeImage']
+                ) && !$this->access->checkAccess(
                     'write',
                     '',
                     $this->object->getRefId()

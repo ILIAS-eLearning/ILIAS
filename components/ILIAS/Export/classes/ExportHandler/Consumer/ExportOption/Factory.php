@@ -45,7 +45,7 @@ class Factory implements ilExportHandlerConsumerExportOptionFactoryInterface
     public function allExportOptions(): ilExportHandlerConsumerExportOptionCollectionInterface
     {
         $collection = $this->collection();
-        $class_names = include ilExportBuildExportOptionsMapObjective::PATH();
+        $class_names = (include ilExportBuildExportOptionsMapObjective::PATH())['export_options'];
         foreach ($class_names as $class_name) {
             /** @var ilExportHandlerConsumerExportOptionInterface $export_option */
             $export_option = new ($class_name)();

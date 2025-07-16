@@ -305,7 +305,21 @@ class ilCalendarViewGUI
         } else {
             $title = ($a_title_forced == "") ? $a_calendar_entry->getPresentationTitle() : $a_title_forced;
         }
-        $comps = [$this->ui_factory->button()->shy($title, "#")->withOnClick($modal->getShowSignal()), $modal];
+
+        // aria label including start time
+        $start_time = '';
+        switch ($this->user_settings->getTimeFormat()) {
+            case ilCalendarSettings::TIME_FORMAT_24:
+                $start_time = $a_calendar_entry->getStart()->get(IL_CAL_FKT_DATE, 'H:i', $this->timezone);
+                break;
+
+            case ilCalendarSettings::TIME_FORMAT_12:
+                $start_time = $a_calendar_entry->getStart()->get(IL_CAL_FKT_DATE, 'h:ia', $this->timezone);
+                break;
+        }
+        $aria_label = $start_time . ' - ' . $title;
+
+        $comps = [$this->ui_factory->button()->shy($title, "#")->withAriaLabel($aria_label)->withOnClick($modal->getShowSignal()), $modal];
         return $this->ui_renderer->render($comps);
     }
 

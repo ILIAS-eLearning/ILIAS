@@ -42,4 +42,9 @@ class ilBuddySystemRequestedRelationStateTableFilterMapper extends ilAbstractBud
             (strtolower($filter_key) === strtolower($this->state::class . '_p') && !$relation->isOwnedByActor())
         );
     }
+
+    public function text(ilBuddySystemRelation $relation): string
+    {
+        return $this->optionsForState()[$this->state::class . ($relation->isOwnedByActor() ? '_a' : '_p')];
+    }
 }

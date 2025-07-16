@@ -738,7 +738,7 @@ assessment#:#finalized_evaluation#:#Final betygsatt
 assessment#:#finalized_on#:#Värderingen slutförd den
 assessment#:#finish_all_user_passes#:#Avsluta alla testkörningar
 assessment#:#finish_pass_for_all_users#:#Vill du verkligen stoppa testkörningarna för alla användare?
-assessment#:#finish_pass_for_all_users_in_processing_time#:#Du kan inte avsluta körningarna för alla användare tillsammans, eftersom behandlingstiden för minst en användare ännu inte är över.
+assessment#:#finish_pass_for_multiple_users_in_processing_time#:#Du kan inte avsluta körningarna för alla användare tillsammans, eftersom behandlingstiden för minst en användare ännu inte är över.
 assessment#:#finish_pass_for_user_confirmation#:#Vill du verkligen avsluta testkörningen för deltagaren "%s"?
 assessment#:#finish_pass_for_user_in_processing_time#:#VARNING
 assessment#:#finish_test#:#Avsluta test

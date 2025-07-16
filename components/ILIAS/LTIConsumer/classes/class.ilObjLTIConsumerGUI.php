@@ -1047,10 +1047,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         /* @var \ILIAS\DI\Container $DIC */
 
         $DIC->tabs()->activateTab(self::TAB_ID_INFO);
-
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $DIC->ctrl()->setCmd("showSummary");
-        // $DIC->ctrl()->setCmdClass("ilinfoscreengui");
+        
         $this->infoScreenForward();
     }
 

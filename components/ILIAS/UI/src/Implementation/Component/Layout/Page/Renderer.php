@@ -31,7 +31,7 @@ use LogicException;
 
 class Renderer extends AbstractComponentRenderer
 {
-    public const COOKIE_NAME_SLATES_ENGAGED = 'il_mb_slates';
+    public const string COOKIE_NAME_SLATES_ENGAGED = 'il_mb_slates';
 
     /**
      * @inheritdoc

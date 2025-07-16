@@ -976,14 +976,19 @@ class ilObjectCopyGUI
         }
 
         $style_id = ilObjStyleSheet::lookupObjectStyle($source_object->getId());
-        if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id)) {
-            $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
-            $new_id = $style_obj->ilClone();
-            ilObjStyleSheet::writeStyleUsage($target_object->getId(), $new_id);
-            ilObjStyleSheet::writeOwner($target_object->getId(), $new_id);
-            $reuse = $this->container_repo->readReuse($source_object->getRefId());
-            $this->container_repo->updateReuse($target_object->getRefId(), $reuse);
+        if ($style_id <= 0) {
+            return;
         }
+        if (ilObjStyleSheet::_lookupStandard($style_id)) {
+            ilObjStyleSheet::writeStyleUsage($target_object->getId(), $style_id);
+            return;
+        }
+        $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
+        $new_id = $style_obj->ilClone();
+        ilObjStyleSheet::writeStyleUsage($target_object->getId(), $new_id);
+        ilObjStyleSheet::writeOwner($target_object->getId(), $new_id);
+        $reuse = $this->container_repo->readReuse($source_object->getRefId());
+        $this->container_repo->updateReuse($target_object->getRefId(), $reuse);
     }
 
     protected function showCopyProgress(): void

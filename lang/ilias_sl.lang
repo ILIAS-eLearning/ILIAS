@@ -738,7 +738,7 @@ assessment#:#finalized_evaluation#:#Scoring completed
 assessment#:#finalized_on#:#Completed at
 assessment#:#finish_all_user_passes#:#Zaključite vsa opravljanja teste.
 assessment#:#finish_pass_for_all_users#:#Ali zares želite končati opravljanje testa za vse uporabnike?
-assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.
+assessment#:#finish_pass_for_multiple_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.
 assessment#:#finish_pass_for_user_confirmation#:#Ali zares želite končati opravljanje testa za udeleženca "%s"?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING
 assessment#:#finish_test#:#Končaj test

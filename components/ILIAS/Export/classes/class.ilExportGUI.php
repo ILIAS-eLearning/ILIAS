@@ -27,6 +27,7 @@ use ILIAS\Export\ExportHandler\I\Consumer\ExportOption\HandlerInterface as ilExp
 use ILIAS\Export\ExportHandler\Factory as ilExportHandler;
 use ILIAS\HTTP\Services as ilHTTPServices;
 use ILIAS\Refinery\Factory as ilRefineryFactory;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfigCollectionInterface;
 
 /**
  * Export User Interface Class
@@ -236,7 +237,7 @@ class ilExportGUI
             $this->showItemSelection();
             return;
         }
-        $this->createXMLExport();
+        $this->createXMLExport($this->export_handler->consumer()->exportConfig()->allExportConfigs());
         $this->tpl->setOnScreenMessage(
             ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
             $this->lng->txt("exp_file_created"),
@@ -278,21 +279,14 @@ class ilExportGUI
         $this->ctrl->redirect($this, self::CMD_LIST_EXPORT_FILES);
     }
 
-    final protected function createXMLExport()
-    {
+    final protected function createXMLExport(
+        ExportConfigCollectionInterface $export_configs
+    ): void {
         $manager = $this->export_handler->manager()->handler();
-        $export_info = $manager->getExportInfoWithObject(
-            $this->obj,
-            time()
-        );
-        $element = $manager->createExport(
-            $this->il_user->getId(),
-            $export_info,
-            ""
-        );
+        $manager->createExportOfObject($this->obj, $this->il_user->getId(), $export_configs);
     }
 
-    final protected function createXMLContainerExport()
+    final protected function createXMLContainerExport(): void
     {
         $tree_nodes = $this->tree->getSubTree($this->tree->getNodeData($this->parent_gui->getObject()->getRefId()));
         $post_export_options = $this->initExportOptionsFromPost();
@@ -331,17 +325,10 @@ class ilExportGUI
                 $ref_ids_all[] = $ref_id;
             }
         }
+        $export_configs = $this->export_handler->consumer()->exportConfig()->allExportConfigs();
         $manager = $this->export_handler->manager()->handler();
         if (count($ref_ids_all) === 1) {
-            $export_info = $manager->getExportInfoWithObject(
-                $this->obj,
-                time()
-            );
-            $element = $manager->createExport(
-                $this->il_user->getId(),
-                $export_info,
-                ""
-            );
+            $manager->createExportOfObject($this->obj, $this->il_user->getId(), $export_configs);
         }
         if (count($ref_ids_all) > 1) {
             $obj_ids_export = array_map(function (int $ref_id) { return ilObject::_lookupObjId($ref_id); }, $ref_ids_export);
@@ -355,7 +342,8 @@ class ilExportGUI
             }
             $container_export_info = $manager->getContainerExportInfo(
                 $this->data_factory->objId($obj_ids_all[0]),
-                $object_id_collection_builder->getCollection()
+                $object_id_collection_builder->getCollection(),
+                $export_configs
             );
             $element = $manager->createContainerExport($this->il_user->getId(), $container_export_info);
         }

@@ -69,8 +69,16 @@ class ScoringByQuestionTable
             [
                 self::COLUMN_NAME => $f->column()->text($this->lng->txt('name'))->withIsSortable(true),
                 self::COLUMN_ATTEMPT => $f->column()->number($this->lng->txt('tst_attempt')),
-                self::COLUMN_POINTS_REACHED => $f->column()->number($this->lng->txt('tst_reached_points'))->withIsSortable(true),
-                self::COLUMN_POINTS_AVAILABLE => $f->column()->number($this->lng->txt('tst_maximum_points'))->withIsSortable(true),
+                self::COLUMN_POINTS_REACHED => $f
+                    ->column()
+                    ->number($this->lng->txt('tst_reached_points'))
+                    ->withDecimals(2)
+                    ->withIsSortable(true),
+                self::COLUMN_POINTS_AVAILABLE => $f
+                    ->column()
+                    ->number($this->lng->txt('tst_maximum_points'))
+                    ->withDecimals(2)
+                    ->withIsSortable(true),
                 self::COLUMN_FEEDBACK => $f->column()->text($this->lng->txt('tst_feedback')),
                 self::COLUMN_FINALIZED => $f->column()->boolean(
                     $this->lng->txt('finalized_evaluation'),

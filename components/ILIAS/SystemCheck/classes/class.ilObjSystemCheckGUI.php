@@ -29,12 +29,15 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 {
     protected const SECTION_MAIN = 'main';
     protected const SECTION_GROUP = 'group';
+    protected \ILIAS\Repository\ExternalGUIService $repo_gui_service;
 
     public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
     {
+        global $DIC;
         $this->type = 'sysc';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule('sysc');
+        $this->repo_gui_service = $DIC->repository()->gui();
     }
 
     protected function getGrpIdFromRequest(): int
@@ -79,7 +82,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 
                 $read_only = !$this->checkPermissionBool('write');
 
-                $gui = new ilObjectOwnershipManagementGUI(0, $read_only);
+                $gui = $gui = $this->repo_gui_service->ownershipManagementGUI(0, $read_only);
                 $this->ctrl->forwardCommand($gui);
                 break;
 

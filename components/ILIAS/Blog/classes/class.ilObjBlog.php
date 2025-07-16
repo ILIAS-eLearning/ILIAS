@@ -163,93 +163,13 @@ class ilObjBlog extends ilObject2
     ): void {
         global $DIC;
 
-        $ilUser = $DIC->user();
-
-        // get blog object id (repository or workspace)
-        if ($a_in_wsp) {
-            $tree = new ilWorkspaceTree($ilUser->getId()); // owner of tree is irrelevant
-            $blog_obj_id = $tree->lookupObjectId($a_blog_node_id);
-            $access_handler = new ilWorkspaceAccessHandler($tree);
-        } else {
-            $blog_obj_id = ilObject::_lookupObjId($a_blog_node_id);
-            $access_handler = null;
-        }
-        if (!$blog_obj_id) {
-            return;
-        }
-
-        $posting = new ilBlogPosting($a_posting_id);
-
-        // #11138
-        $ignore_threshold = ($a_action === "comment");
-
-        $admin_only = false;
-
-        // approval handling
-        if (!$posting->isApproved()) {
-            $blog_settings = $DIC->blog()->internal()->domain()->blogSettings()->getByObjId($blog_obj_id);
-            if ($blog_settings?->getApproval()) {
-                switch ($a_action) {
-                    case "update":
-                        // un-approved posting was updated - no notifications
-                        return;
-
-                    case "new":
-                        // un-approved posting was activated - admin-only notification
-                        $admin_only = true;
-                        $ignore_threshold = true;
-                        $a_action = "approve";
-                        break;
-                }
-            }
-        }
-
-        // create/update news item (only in repository)
-        if (!$a_in_wsp &&
-            in_array($a_action, array("update", "new"))) {
-            $DIC->blog()->internal()->domain()->news()
-                ->handle($posting, ($a_action === "update"));
-        }
-
-        // recipients
-        $users = ilNotification::getNotificationsForObject(
-            ilNotification::TYPE_BLOG,
-            $blog_obj_id,
+        $DIC->blog()->internal()->domain()->notification()->sendNotification(
+            $a_action,
+            $a_in_wsp,
+            $a_blog_node_id,
             $a_posting_id,
-            $ignore_threshold
+            $a_comment
         );
-        if (!count($users)) {
-            return;
-        }
-
-        $ntf = new ilSystemNotification($a_in_wsp);
-        $ntf->setLangModules(array("blog"));
-        $ntf->setRefId($a_blog_node_id);
-        $ntf->setChangedByUserId($ilUser->getId());
-        $ntf->setSubjectLangId('blog_change_notification_subject');
-        $ntf->setIntroductionLangId('blog_change_notification_body_' . $a_action);
-        $ntf->addAdditionalInfo('blog_posting', $posting->getTitle());
-        if ($a_comment) {
-            $ntf->addAdditionalInfo('comment', $a_comment, true);
-        }
-        $ntf->setGotoLangId('blog_change_notification_link');
-        $ntf->setReasonLangId('blog_change_notification_reason');
-
-        $abstract = $posting->getNotificationAbstract();
-        if ($abstract) {
-            $ntf->addAdditionalInfo('content', $abstract, true);
-        }
-
-        $notified = $ntf->sendMailAndReturnRecipients(
-            $users,
-            "_" . $a_posting_id,
-            ($admin_only ? "write" : "read")
-        );
-
-        // #14387
-        if (count($notified)) {
-            ilNotification::updateNotificationTime(ilNotification::TYPE_BLOG, $blog_obj_id, $notified, $a_posting_id);
-        }
     }
 
     /**

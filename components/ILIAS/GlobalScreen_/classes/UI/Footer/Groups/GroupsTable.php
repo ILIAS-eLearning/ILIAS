@@ -18,6 +18,8 @@
 
 namespace ILIAS\GlobalScreen\UI\Footer\Groups;
 
+use ILIAS\GlobalScreen\Scope\Footer\Collector\FooterMainCollector;
+use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\UI\Factory;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\GlobalScreen_\UI\Translator;
@@ -43,6 +45,8 @@ class GroupsTable implements OrderingRetrieval
     private ServerRequestInterface $request;
     private ?URLBuilderToken $id_token = null;
     private ?URLBuilder $url_builder = null;
+    private FooterMainCollector $collector;
+    private IdentificationFactory $identification;
 
     public function __construct(
         private readonly GroupsRepository $repository,
@@ -52,6 +56,8 @@ class GroupsTable implements OrderingRetrieval
         global $DIC;
         $this->ui_factory = $DIC->ui()->factory();
         $this->request = $DIC->http()->request();
+        $this->collector = $DIC->globalScreen()->collector()->footer();
+        $this->identification = $DIC->globalScreen()->identification();
     }
 
     public function getRows(OrderingRowBuilder $row_builder, array $visible_column_ids): \Generator
@@ -60,7 +66,14 @@ class GroupsTable implements OrderingRetrieval
         $nok = $this->nok($this->ui_factory);
 
         foreach ($this->repository->all() as $group) {
-            $title = $this->translations_repository->get($group)->getDefault()?->getTranslation() ?? $group->getTitle();
+            if ($group->isCore()) {
+                $title = $this->collector->getSingleItemFromRaw(
+                    $this->identification->fromSerializedIdentification($group->getId()),
+                )->getTitle();
+            } else {
+                $title = $this->translations_repository->get($group)->getDefault()?->getTranslation(
+                ) ?? $group->getTitle();
+            }
             $row = $row_builder->buildOrderingRow(
                 $this->hash($group->getId()),
                 [
@@ -91,8 +104,6 @@ class GroupsTable implements OrderingRetrieval
         URI $translations_uri
     ): Ordering {
         $uri_builder = $this->initURIBuilder($here_uri);
-
-        $async_translation = false;
 
         return $this->ui_factory
             ->table()

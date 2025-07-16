@@ -27,12 +27,9 @@ use ILIAS\Export\ExportHandler\Wrapper\DataFactory\Factory as ilExportHandlerDat
 
 class Factory implements ilExportHandlerWrapperFactoryInterface
 {
-    protected ilDataFactory $data_factory;
-
     public function __construct(
-        ilDataFactory $data_factory
+        protected ilDataFactory $data_factory
     ) {
-        $this->data_factory = $data_factory;
     }
 
     public function dataFactory(): ilExportHandlerDataFactoryWrapperFactoryInterface

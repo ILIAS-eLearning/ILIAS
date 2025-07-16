@@ -27,11 +27,9 @@ use ILIAS\Export\ExportHandler\Target\Handler as ilExportHandlerTarget;
 
 class Factory implements ilExportHandlerTargetFactoryInterface
 {
-    protected ilExportHandlerFactoryInterface $export_handler;
-
-    public function __construct(ilExportHandlerFactoryInterface $export_handler)
-    {
-        $this->export_handler = $export_handler;
+    public function __construct(
+        protected ilExportHandlerFactoryInterface $export_handler
+    ) {
     }
 
     public function handler(): ilExportHandlerTargetInterface
