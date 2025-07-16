@@ -23,8 +23,6 @@
  * @author     Sascha Hofmann <saschahofmann@gmx.de>
  * @author     Alex Killing <alex.killing@gmx.de>
  *
- * @deprecated 11 This component will be removed with ILIAS 11
- * The 2021 Technical Board has decided to mark the ilUtil class as deprecated. The ilUtil is a historically
  * grown helper class with many different UseCases and functions. The class is not under direct maintainership and the
  * responsibilities are unclear. In this context, the class should no longer be used in the code and existing uses
  * should be converted to their own service in the medium term. If you need ilUtil for the implementation of a new

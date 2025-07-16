@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-/**
- * @deprecated 11 This component will be removed with ILIAS 11
- */
 class ilStr
 {
     public static function subStr(string $a_str, int $a_start, ?int $a_length = null): string
