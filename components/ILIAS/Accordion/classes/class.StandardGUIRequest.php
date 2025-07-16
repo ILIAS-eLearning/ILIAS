@@ -20,9 +20,6 @@ namespace ILIAS\Accordion;
 
 use ILIAS\Repository\BaseGUIRequest;
 
-/**
- * @deprecated 11 This component will be removed with ILIAS 11
- */
 class StandardGUIRequest
 {
     use BaseGUIRequest;
