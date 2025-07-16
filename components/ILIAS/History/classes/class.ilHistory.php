@@ -20,7 +20,6 @@
  * This class methods for maintain history enties for objects
  *
  * @author Alexander Killing <killing@leifos.de>
- * @deprecated 11 This component will be removed with ILIAS 11
  */
 class ilHistory
 {
