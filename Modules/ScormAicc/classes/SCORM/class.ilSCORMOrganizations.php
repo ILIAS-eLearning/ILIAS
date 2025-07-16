@@ -68,7 +68,7 @@ class ilSCORMOrganizations extends ilSCORMObject
             array($this->getId())
         );
         $obj_rec = $ilDB->fetchAssoc($obj_set);
-        $this->setDefaultOrganization($obj_rec["default_organization"]);
+        $this->setDefaultOrganization($obj_rec["default_organization"] ?? '');
     }
 
     public function create(): void
