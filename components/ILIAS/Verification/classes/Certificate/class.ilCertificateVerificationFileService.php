@@ -18,7 +18,6 @@
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
- * @deprecated 11 This component will be removed with ILIAS 11
  */
 class ilCertificateVerificationFileService
 {
