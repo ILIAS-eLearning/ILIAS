@@ -21,7 +21,6 @@ declare(strict_types=1);
 /**
  * Linkify utility class
  * @author Alexander Killing <killing@leifos.de>
- * @deprecated 11 This component will be removed with ILIAS 11
  */
 class ilLinkifyUtil
 {
