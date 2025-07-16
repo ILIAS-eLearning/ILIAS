@@ -44,6 +44,9 @@ class TestSetupAgent extends NullAgent
             new \ilDatabaseUpdateStepsExecutedObjective(
                 new Test10DBUpdateSteps()
             ),
+            new \ilDatabaseUpdateStepsExecutedObjective(
+                new Test11DBUpdateSteps()
+            ),
             new \ilAccessCustomRBACOperationAddedObjective(
                 'tst_history_read',
                 'View History in Tests',
@@ -80,6 +83,10 @@ class TestSetupAgent extends NullAgent
             new \ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,
                 new Test10DBUpdateSteps()
+            ),
+            new \ilDatabaseUpdateStepsMetricsCollectedObjective(
+                $storage,
+                new Test11DBUpdateSteps()
             ),
             new \ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,
