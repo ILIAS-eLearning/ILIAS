@@ -20,10 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-/**
- * @deprecated 11 This component will be removed with ILIAS 11
- *
- */
 class PermanentLink implements Component\Component
 {
     public function init(
