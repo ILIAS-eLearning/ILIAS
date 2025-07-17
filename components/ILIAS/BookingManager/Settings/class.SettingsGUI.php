@@ -22,9 +22,9 @@ namespace ILIAS\BookingManager\Settings;
 
 use ILIAS\BookingManager\InternalDomainService;
 use ILIAS\BookingManager\InternalGUIService;
-use ILIAS\Repository\Form\FormAdapterGUI;
 use ILIAS\BookingManager\InternalDataService;
 use ilDidacticTemplateGUI;
+use ILIAS\BookingManager\Service\Form\FormAdapterGUI;
 
 /**
  * @ilCtrl_Calls ILIAS\BookingManager\Settings\SettingsGUI: ilDidacticTemplateGUI
@@ -76,12 +76,12 @@ class SettingsGUI
     {
         $lng = $this->domain->lng();
         $settings = $this->domain->bookingSettings()->getByObjId($this->obj_id);
-        $form = $this->gui->form(self::class, "save")
-                          ->section("general", $lng->txt("book_edit"))
-                          ->addStdTitleAndDescription(
-                              $this->obj_id,
-                              "book"
-                          );
+        $form = (new FormAdapterGUI(self::class, 'save'))
+            ->section("general", $lng->txt("book_edit"))
+            ->addStdTitleAndDescription(
+                $this->obj_id,
+                "book"
+            );
         $form = $form->addDidacticTemplates(
             "book",
             $this->ref_id,
@@ -180,7 +180,7 @@ class SettingsGUI
         $form->end();
 
         if ($mode_disabled) {
-            $form = $form->disabled(true);
+            $form = $form->disabledGroup(true);
         }
 
         $form = $form
