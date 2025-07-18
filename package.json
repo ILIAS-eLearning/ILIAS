@@ -19,6 +19,7 @@
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.4",
     "eslint": "^8.57.1",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.31.0",
     "jsdom": "^26.1.0",
     "rollup": "^4.28.1",
