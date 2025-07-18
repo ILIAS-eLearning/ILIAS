@@ -227,8 +227,8 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             "extending_ilias" =>
                 array('ecss', "ltis", "wbdv", "cmis", "cmps", "extt"),
             "repository_and_objects" =>
-                array("reps", "crss", "grps", "prgs", "bibs", "blga", "cpad", "chta", "facs", "frma", "lrss",
-                      "mcts", "mobs", "svyf", "assf", "wbrs", 'lsos'),
+                array("reps", "crss", "grps", "prgs", "bibs", "blga", "cpad", "chta", "facs", "frma", "lrss", 'lsos',
+                      "mcts", "mobs", "svyf", "assf", "wbrs"),
         );
         $groups = [];
         // now get all items and groups that are accessible
