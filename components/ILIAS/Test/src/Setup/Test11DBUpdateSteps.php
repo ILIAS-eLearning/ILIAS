@@ -41,7 +41,7 @@ const SETTINGS_COLUMNS = [
     'processing_time' => [['type' => \ilDBConstants::T_TEXT, 'length' => 8, 'default' => null], 'ProcessingTime'],
     'enable_processing_time' => [T_BOOLEAN, 'EnableProcessingTime'],
     'reset_processing_time' => [T_BOOLEAN, 'ResetProcessingTime'],
-    'reporting_date' => [['type' => \ilDBConstants::T_TEXT, 'length' => 14, 'default' => null], 'ReportingDate'],
+    'reporting_date' => [T_BIGINT, 'ReportingDate'],
     'shuffle_questions' => [T_BOOLEAN, 'Shuffle'],
     'count_system' => [T_TINYINT, 'CountSystem'],
     'score_cutting' => [T_TINYINT, 'ScoreCutting'],
@@ -96,6 +96,8 @@ const SETTINGS_COLUMNS = [
     'ip_range_from' => [['type' => \ilDBConstants::T_TEXT, 'length' => 39, 'default' => null], null],
     'ip_range_to' => [['type' => \ilDBConstants::T_TEXT, 'length' => 39, 'default' => null], null]
 ];
+
+const LEGACY_STORAGE_DATE_FORMAT = 'YmdHis';
 
 class Test11DBUpdateSteps implements \ilDatabaseUpdateSteps
 {
@@ -223,6 +225,10 @@ class Test11DBUpdateSteps implements \ilDatabaseUpdateSteps
                 if (isset(SETTINGS_COLUMNS[$column_name])) {
                     [$column_def] = SETTINGS_COLUMNS[$column_name];
 
+                    if ($column_name === 'reporting_date') {
+                        $value = $this->convertLegacyDate($value);
+                    }
+
                     // Convert legacy null values to 0
                     if ($column_def['type'] === \ilDBConstants::T_INTEGER && !$this->columnIsNullable($column_def)) {
                         $value = (int) $value;
@@ -255,6 +261,11 @@ class Test11DBUpdateSteps implements \ilDatabaseUpdateSteps
                 [$column_def, $raw_name] = $column;
                 if (isset($raw_settings[$raw_name])) {
                     $value = $raw_settings[$raw_name];
+
+                    if ($column_name === 'reporting_date') {
+                        $value = $this->convertLegacyDate($value);
+                    }
+
                     $setting_data[$column_name] = [$column_def['type'], $value];
                 }
             }
@@ -298,5 +309,22 @@ class Test11DBUpdateSteps implements \ilDatabaseUpdateSteps
     private function columnIsNullable(array $column_def): bool
     {
         return array_key_exists('default', $column_def) && $column_def['default'] === null;
+    }
+
+    private function convertLegacyDate(string|\DateTimeImmutable|null $date): int
+    {
+        if ($date instanceof \DateTimeImmutable) {
+            return $date->getTimestamp();
+        }
+
+        if ($date === '' || $date === null) {
+            return 0;
+        }
+
+        return \DateTimeImmutable::createFromFormat(
+            LEGACY_STORAGE_DATE_FORMAT,
+            $date,
+            new \DateTimeZone('UTC')
+        )->getTimestamp();
     }
 }

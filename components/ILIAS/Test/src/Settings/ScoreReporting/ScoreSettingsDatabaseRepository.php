@@ -24,8 +24,6 @@ use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
 
 class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
 {
-    public const string STORAGE_DATE_FORMAT = 'YmdHis';
-
     /** @var array<int, ScoreSettings> Test ID -> Settings DTO */
     private array $settings_instances = [];
 
@@ -46,18 +44,18 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
     protected function doSelect(string $where_part): ScoreSettings
     {
         $query = 'SELECT ' . PHP_EOL
-            . 'id,' . PHP_EOL
-            . 'count_system, score_cutting, pass_scoring,' . PHP_EOL
-            . 'score_reporting, reporting_date,' . PHP_EOL
-            . 'show_grading_status, show_grading_mark, pass_deletion_allowed,' . PHP_EOL
-            . 'print_bs_with_res,' . PHP_EOL //print_bs_with_res_sp
-            . 'examid_in_test_res,' . PHP_EOL
-            . 'results_presentation,' . PHP_EOL
-            . 'exportsettings,' . PHP_EOL
-            . 'highscore_enabled, highscore_anon, highscore_achieved_ts, highscore_score, highscore_percentage, highscore_wtime, highscore_own_table, highscore_top_table, highscore_top_num,' . PHP_EOL
-            . 'tst_tests.test_id AS test_id' . PHP_EOL
-            . 'FROM tst_test_settings' . PHP_EOL
-            . 'INNER JOIN tst_tests ON tst_tests.settings_id = tst_test_settings.id' . PHP_EOL
+            . 'st.id,' . PHP_EOL
+            . 'st.count_system, st.score_cutting, st.pass_scoring,' . PHP_EOL
+            . 'st.score_reporting, st.reporting_date,' . PHP_EOL
+            . 'st.show_grading_status, st.show_grading_mark, st.pass_deletion_allowed,' . PHP_EOL
+            . 'st.print_bs_with_res,' . PHP_EOL //print_bs_with_res_sp
+            . 'st.examid_in_test_res,' . PHP_EOL
+            . 'st.results_presentation,' . PHP_EOL
+            . 'st.exportsettings,' . PHP_EOL
+            . 'st.highscore_enabled, st.highscore_anon, st.highscore_achieved_ts, st.highscore_score, st.highscore_percentage, st.highscore_wtime, st.highscore_own_table, st.highscore_top_table, st.highscore_top_num,' . PHP_EOL
+            . 'tst.test_id AS test_id' . PHP_EOL
+            . 'FROM tst_test_settings AS st' . PHP_EOL
+            . 'INNER JOIN tst_tests AS tst ON tst.settings_id = st.id' . PHP_EOL
             . $where_part;
 
         $res = $this->db->query($query);
@@ -76,7 +74,9 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
                 ->withPassScoring((int) $row['pass_scoring']),
             (new SettingsResultSummary())
                 ->withScoreReporting(ScoreReportingTypes::from($row['score_reporting']))
-                ->withReportingDate($this->buildDateFromString($row['reporting_date']))
+                ->withReportingDate($row['reporting_date'] !== 0
+                    ? \DateTimeImmutable::createFromFormat('U', (string) $row['reporting_date'])
+                    : null)
                 ->withShowGradingStatusEnabled((bool) $row['show_grading_status'])
                 ->withShowGradingMarkEnabled((bool) $row['show_grading_mark'])
                 ->withPassDeletionAllowed((bool) $row['pass_deletion_allowed']),
@@ -141,25 +141,13 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
         while (($row = $this->db->fetchAssoc($result)) !== null) {
             $settings_summary[$row['obj_fi']] = (new SettingsResultSummary())
                 ->withScoreReporting(ScoreReportingTypes::from($row['score_reporting']))
-                ->withReportingDate($this->buildDateFromString($row['reporting_date']))
+                ->withReportingDate($row['reporting_date'] !== 0
+                    ? \DateTimeImmutable::createFromFormat('U', (string) $row['reporting_date'])
+                    : null)
                 ->withShowGradingStatusEnabled((bool) $row['show_grading_status'])
                 ->withShowGradingMarkEnabled((bool) $row['show_grading_mark'])
                 ->withPassDeletionAllowed((bool) $row['pass_deletion_allowed']);
         }
         return $settings_summary;
-    }
-
-    private function buildDateFromString(?string $reporting_date): ?\DateTimeImmutable
-    {
-        if ($reporting_date === null
-            || $reporting_date === '') {
-            return null;
-        }
-
-        return \DateTimeImmutable::createFromFormat(
-            self::STORAGE_DATE_FORMAT,
-            $reporting_date,
-            new \DateTimeZone('UTC')
-        );
     }
 }

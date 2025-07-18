@@ -155,15 +155,10 @@ class SettingsResultSummary extends TestSettings
 
     public function toStorage(): array
     {
-        $dat = $this->getReportingDate();
-        if ($dat) {
-            $dat = $dat->setTimezone(new \DateTimeZone('UTC'))
-                ->format(ScoreSettingsDatabaseRepository::STORAGE_DATE_FORMAT);
-        }
         return [
             'pass_deletion_allowed' => ['integer', (int) $this->getPassDeletionAllowed()],
             'score_reporting' => ['integer', $this->getScoreReporting()->value],
-            'reporting_date' => ['text', (string) $dat],
+            'reporting_date' => ['integer', $this->getReportingDate() !== null ? $this->getReportingDate()->getTimestamp() : 0],
             'show_grading_status' => ['integer', (int) $this->getShowGradingStatusEnabled()],
             'show_grading_mark' => ['integer', (int) $this->getShowGradingMarkEnabled()]
         ];

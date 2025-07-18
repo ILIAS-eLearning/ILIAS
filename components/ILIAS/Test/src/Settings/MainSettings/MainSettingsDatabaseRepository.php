@@ -58,59 +58,59 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
     protected function doSelect(string $where_part): MainSettings
     {
         $query = 'SELECT ' . PHP_EOL
-            . 'id,' . PHP_EOL
-            . 'question_set_type,' . PHP_EOL
-            . 'anonymity,' . PHP_EOL
-            . 'intro_enabled,' . PHP_EOL
-            . 'hide_info_tab,' . PHP_EOL
-            . 'conditions_checkbox_enabled,' . PHP_EOL
-            . 'introduction,' . PHP_EOL
-            . 'introduction_page_id,' . PHP_EOL
-            . 'starting_time_enabled,' . PHP_EOL
-            . 'starting_time,' . PHP_EOL
-            . 'ending_time_enabled,' . PHP_EOL
-            . 'ending_time,' . PHP_EOL
-            . 'password_enabled,' . PHP_EOL
-            . 'password,' . PHP_EOL
-            . 'ip_range_from,' . PHP_EOL
-            . 'ip_range_to,' . PHP_EOL
-            . 'fixed_participants,' . PHP_EOL
-            . 'nr_of_tries,' . PHP_EOL
-            . 'block_after_passed,' . PHP_EOL
-            . 'pass_waiting,' . PHP_EOL
-            . 'enable_processing_time,' . PHP_EOL
-            . 'processing_time,' . PHP_EOL
-            . 'reset_processing_time,' . PHP_EOL
-            . 'kiosk,' . PHP_EOL
-            . 'examid_in_test_pass,' . PHP_EOL
-            . 'title_output,' . PHP_EOL
-            . 'autosave,' . PHP_EOL
-            . 'autosave_ival,' . PHP_EOL
-            . 'shuffle_questions,' . PHP_EOL
-            . 'answer_feedback_points,' . PHP_EOL
-            . 'answer_feedback,' . PHP_EOL
-            . 'specific_feedback,' . PHP_EOL
-            . 'instant_verification,' . PHP_EOL
-            . 'force_inst_fb,' . PHP_EOL
-            . 'inst_fb_answer_fixation,' . PHP_EOL
-            . 'follow_qst_answer_fixation,' . PHP_EOL
-            . 'use_previous_answers,' . PHP_EOL
-            . 'suspend_test_allowed,' . PHP_EOL
-            . 'sequence_settings,' . PHP_EOL
-            . 'usr_pass_overview_mode,' . PHP_EOL
-            . 'show_marker,' . PHP_EOL
-            . 'show_questionlist,' . PHP_EOL
-            . 'enable_examview,' . PHP_EOL
-            . 'showfinalstatement,' . PHP_EOL
-            . 'finalstatement,' . PHP_EOL
-            . 'concluding_remarks_page_id,' . PHP_EOL
-            . 'redirection_mode,' . PHP_EOL
-            . 'redirection_url,' . PHP_EOL
-            . 'skill_service,' . PHP_EOL
-            . 'tst_tests.test_id AS test_id,' . PHP_EOL
-            . 'tst_tests.obj_fi AS obj_fi' . PHP_EOL
-            . 'FROM tst_test_settings' . PHP_EOL
-            . 'INNER JOIN tst_tests ON tst_tests.settings_id = tst_test_settings.id' . PHP_EOL
+            . 'st.id,' . PHP_EOL
+            . 'st.question_set_type,' . PHP_EOL
+            . 'st.anonymity,' . PHP_EOL
+            . 'st.intro_enabled,' . PHP_EOL
+            . 'st.hide_info_tab,' . PHP_EOL
+            . 'st.conditions_checkbox_enabled,' . PHP_EOL
+            . 'st.introduction,' . PHP_EOL
+            . 'st.introduction_page_id,' . PHP_EOL
+            . 'st.starting_time_enabled,' . PHP_EOL
+            . 'st.starting_time,' . PHP_EOL
+            . 'st.ending_time_enabled,' . PHP_EOL
+            . 'st.ending_time,' . PHP_EOL
+            . 'st.password_enabled,' . PHP_EOL
+            . 'st.password,' . PHP_EOL
+            . 'st.ip_range_from,' . PHP_EOL
+            . 'st.ip_range_to,' . PHP_EOL
+            . 'st.fixed_participants,' . PHP_EOL
+            . 'st.nr_of_tries,' . PHP_EOL
+            . 'st.block_after_passed,' . PHP_EOL
+            . 'st.pass_waiting,' . PHP_EOL
+            . 'st.enable_processing_time,' . PHP_EOL
+            . 'st.processing_time,' . PHP_EOL
+            . 'st.reset_processing_time,' . PHP_EOL
+            . 'st.kiosk,' . PHP_EOL
+            . 'st.examid_in_test_pass,' . PHP_EOL
+            . 'st.title_output,' . PHP_EOL
+            . 'st.autosave,' . PHP_EOL
+            . 'st.autosave_ival,' . PHP_EOL
+            . 'st.shuffle_questions,' . PHP_EOL
+            . 'st.answer_feedback_points,' . PHP_EOL
+            . 'st.answer_feedback,' . PHP_EOL
+            . 'st.specific_feedback,' . PHP_EOL
+            . 'st.instant_verification,' . PHP_EOL
+            . 'st.force_inst_fb,' . PHP_EOL
+            . 'st.inst_fb_answer_fixation,' . PHP_EOL
+            . 'st.follow_qst_answer_fixation,' . PHP_EOL
+            . 'st.use_previous_answers,' . PHP_EOL
+            . 'st.suspend_test_allowed,' . PHP_EOL
+            . 'st.sequence_settings,' . PHP_EOL
+            . 'st.usr_pass_overview_mode,' . PHP_EOL
+            . 'st.show_marker,' . PHP_EOL
+            . 'st.show_questionlist,' . PHP_EOL
+            . 'st.enable_examview,' . PHP_EOL
+            . 'st.showfinalstatement,' . PHP_EOL
+            . 'st.finalstatement,' . PHP_EOL
+            . 'st.concluding_remarks_page_id,' . PHP_EOL
+            . 'st.redirection_mode,' . PHP_EOL
+            . 'st.redirection_url,' . PHP_EOL
+            . 'st.skill_service,' . PHP_EOL
+            . 'tst.test_id AS test_id,' . PHP_EOL
+            . 'tst.obj_fi AS obj_fi' . PHP_EOL
+            . 'FROM tst_test_settings AS st' . PHP_EOL
+            . 'INNER JOIN tst_tests AS tst ON tst.settings_id = st.id' . PHP_EOL
             . $where_part;
 
         $res = $this->db->query($query);
@@ -200,7 +200,8 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
         return $settings;
     }
 
-    public function createFor(int $test_id): void {
+    public function createFor(int $test_id): int
+    {
         $settings_id = $this->db->nextId('tst_test_settings');
         $this->db->insert(
             'tst_test_settings',
@@ -212,11 +213,13 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
             ['settings_id' => [\ilDBConstants::T_INTEGER, $settings_id]],
             ['test_id' => [\ilDBConstants::T_INTEGER, $test_id]]
         );
+
+        return $settings_id;
     }
 
     public function store(MainSettings $settings): void
     {
-        if($settings->getId() === 0) {
+        if ($settings->getId() === 0) {
             throw new \Exception('Cannot store settings without ID');
         }
 
@@ -248,18 +251,13 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
         );
     }
 
-    public function cloneFor(int $test_id, MainSettings $settings): MainSettings {
-        $settings_id = $this->db->nextId('tst_test_settings');
+    public function cloneFor(int $test_id, MainSettings $settings): MainSettings
+    {
+        $settings_id = $this->createFor($test_id);
         $new_settings = $settings->withId($settings_id);
 
         $this->store($new_settings);
-        $this->db->update(
-            'tst_tests',
-            ['settings_id' => [\ilDBConstants::T_INTEGER, $settings_id]],
-            ['test_id' => [\ilDBConstants::T_INTEGER, $test_id]]
-        );
 
         return $new_settings;
     }
-
 }
