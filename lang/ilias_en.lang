@@ -8520,7 +8520,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#The following data record has bee
 dcl#:#dcl_change_notification_dcl_update_record#:#The following data record has been updated
 dcl#:#dcl_change_notification_link#:#Link to the Data Collection
 dcl#:#dcl_change_notification_subject#:#Data Collection ‘%s’ has been changed
-dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this data collection.
 dcl#:#dcl_changed_by#:#Changed by
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_comments#:#Comments
@@ -8600,7 +8599,6 @@ dcl#:#dcl_formula_desc#:#You can aggregate several entries in a record with a fo
 dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.
 dcl#:#dcl_height#:#Height in Pixels
 dcl#:#dcl_height_desc#:#The height of the file will be reduced to this value during upload.
-dcl#:#dcl_hello#:#Dear
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#The internal ID.
 dcl#:#dcl_ilias_reference#:#Repository Object
@@ -8658,7 +8656,6 @@ dcl#:#dcl_new_field#:#New Field
 dcl#:#dcl_new_table#:#New Table
 dcl#:#dcl_new_view#:#New View
 dcl#:#dcl_next_record#:#Next Entry
-dcl#:#dcl_no_content_warning#:#Please note: the data collection is online but does not yet have any fields.
 dcl#:#dcl_no_entries#:#Action not permitted
 dcl#:#dcl_no_entry#:#No entry
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.

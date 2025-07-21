@@ -8512,7 +8512,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Eintrag wurde erzeug
 dcl#:#dcl_change_notification_dcl_update_record#:#Der folgende Eintrag wurde aktualisiert
 dcl#:#dcl_change_notification_link#:#Zur Datensammlung gehen
 dcl#:#dcl_change_notification_subject#:#Die Datensammlung „%s“ wurde bearbeitet.
-dcl#:#dcl_change_why_you_receive_this_email#:#Sie erhalten diese Nachricht, weil Sie die Benachrichtigungsfunktion für die oben genannte Datensammlung aktiviert haben.
 dcl#:#dcl_changed_by#:#Letzte Änderung durch
 dcl#:#dcl_checked#:#Ausgewählt
 dcl#:#dcl_comments#:#Kommentare
@@ -8590,7 +8589,6 @@ dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Fo
 dcl#:#dcl_formula_detail_desc#:#Einträge in diesem Feld generieren sich automatisch. Sie können hier keinen Eintrag vornehmen.
 dcl#:#dcl_height#:#Höhe in Pixel
 dcl#:#dcl_height_desc#:#Die Datei wird beim Upload auf diese Größe verkleinert.
-dcl#:#dcl_hello#:#Hallo
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Die interne ID.
 dcl#:#dcl_ilias_reference#:#Objekt im Magazin
@@ -8648,7 +8646,6 @@ dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_new_view#:#Neue Ansicht
 dcl#:#dcl_next_record#:#Nächster Eintrag
-dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Felder
 dcl#:#dcl_no_entries#:#Keine Einträge
 dcl#:#dcl_no_entry#:#Kein Eintrag
 dcl#:#dcl_no_export_async_config#:#Keine SOAP Konfiguration für asyncrone Exporte verfügbar.

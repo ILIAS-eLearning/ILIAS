@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 class ilObjDataCollection extends ilObject2
 {
+    public const TYPE = 'dcl';
     private bool $is_online = false;
     private bool $rating = false;
     private bool $approval = false;
@@ -28,15 +29,13 @@ class ilObjDataCollection extends ilObject2
 
     protected function initType(): void
     {
-        $this->type = "dcl";
+        $this->type = $this::TYPE;
     }
 
     protected function doRead(): void
     {
-        $result = $this->db->query("SELECT * FROM il_dcl_data WHERE id = " . $this->db->quote($this->getId(), "integer"));
-
-        $data = $this->db->fetchObject($result);
-        if ($data) {
+        $stmt = $this->db->queryF('SELECT * FROM il_dcl_data WHERE id = %s', [ilDBConstants::T_INTEGER], [$this->getId()]);
+        if ($data = $this->db->fetchObject($stmt)) {
             $this->setOnline((bool) $data->is_online);
             $this->setRating((bool) $data->rating);
             $this->setApproval((bool) $data->approval);
@@ -47,10 +46,7 @@ class ilObjDataCollection extends ilObject2
 
     protected function doCreate(bool $clone_mode = false): void
     {
-        $this->log->write('doCreate');
-
         if (!$clone_mode) {
-            //Create Main Table - The title of the table is per default the title of the data collection object
             $main_table = ilDclCache::getTableCache();
             $main_table->setObjId($this->getId());
             $main_table->setTitle($this->getTitle());
@@ -63,18 +59,16 @@ class ilObjDataCollection extends ilObject2
             $main_table->setIsVisible(true);
             $main_table->doCreate();
         }
-
         $this->createMetaData();
-
         $this->db->insert(
-            "il_dcl_data",
+            'il_dcl_data',
             [
-                "id" => ["integer", $this->getId()],
-                "is_online" => ["integer", (int) $this->getOnline()],
-                "rating" => ["integer", (int) $this->getRating()],
-                "public_notes" => ["integer", (int) $this->getPublicNotes()],
-                "approval" => ["integer", (int) $this->getApproval()],
-                "notification" => ["integer", (int) $this->getNotification()],
+                'id' => [ilDBConstants::T_INTEGER, $this->getId()],
+                'is_online' => [ilDBConstants::T_INTEGER, $this->getOnline() ? 1 : 0],
+                'rating' => [ilDBConstants::T_INTEGER, $this->getRating() ? 1 : 0],
+                'public_notes' => [ilDBConstants::T_INTEGER, $this->getPublicNotes() ? 1 : 0],
+                'approval' => [ilDBConstants::T_INTEGER, $this->getApproval() ? 1 : 0],
+                'notification' => [ilDBConstants::T_INTEGER, $this->getNotification() ? 1 : 0],
             ]
         );
     }
@@ -84,235 +78,101 @@ class ilObjDataCollection extends ilObject2
         foreach ($this->getTables() as $table) {
             $table->doDelete(false, true);
         }
-
         $this->deleteMetaData();
-
-        $query = "DELETE FROM il_dcl_data WHERE id = " . $this->db->quote($this->getId(), "integer");
-        $this->db->manipulate($query);
+        $this->db->manipulateF('DELETE FROM il_dcl_data WHERE id = ', [ilDBConstants::T_INTEGER], [$this->getId()]);
     }
 
     protected function doUpdate(): void
     {
         $this->updateMetaData();
-
         $this->db->update(
-            "il_dcl_data",
+            'il_dcl_data',
             [
-                "id" => ["integer", $this->getId()],
-                "is_online" => ["integer", (int) $this->getOnline()],
-                "rating" => ["integer", (int) $this->getRating()],
-                "public_notes" => ["integer", (int) $this->getPublicNotes()],
-                "approval" => ["integer", (int) $this->getApproval()],
-                "notification" => ["integer", (int) $this->getNotification()],
+                'id' => [ilDBConstants::T_INTEGER, $this->getId()],
+                'is_online' => [ilDBConstants::T_INTEGER, $this->getOnline() ? 1 : 0],
+                'rating' => [ilDBConstants::T_INTEGER, $this->getRating() ? 1 : 0],
+                'public_notes' => [ilDBConstants::T_INTEGER, $this->getPublicNotes() ? 1 : 0],
+                'approval' => [ilDBConstants::T_INTEGER, $this->getApproval() ? 1 : 0],
+                'notification' => [ilDBConstants::T_INTEGER, $this->getNotification() ? 1 : 0],
             ],
             [
-                "id" => ["integer", $this->getId()],
+                'id' => [ilDBConstants::T_INTEGER, $this->getId()],
             ]
         );
     }
 
-    public function sendNotification($a_action, $a_table_id, $a_record_id = null): void
+    public function sendRecordNotification(int $action, ilDclBaseRecordModel $record): void
     {
-        global $DIC;
-        $user = $DIC->user();
-
-        // If coming from trash, never send notifications and don't load dcl Object
-        if ($this->getRefId() === SYSTEM_FOLDER_ID) {
+        if (!$this->getNotification()) {
             return;
         }
 
-        if ($this->getNotification() != 1) {
-            return;
-        }
-        $obj_table = ilDclCache::getTableCache($a_table_id);
-
-        // recipients
         $users = ilNotification::getNotificationsForObject(
             ilNotification::TYPE_DATA_COLLECTION,
             $this->getId(),
             1
         );
-        if (!count($users)) {
-            return;
-        }
 
         ilNotification::updateNotificationTime(ilNotification::TYPE_DATA_COLLECTION, $this->getId(), $users);
 
-        $link = ilLink::_getLink($this->getRefId());
+        $mail = new ilDataCollectionMailNotification();
+        $mail->setType($action);
+        $mail->setActor($this->user->getId());
+        $mail->setObjId($this->getId());
+        $mail->setRefId($this->getRefId());
+        $mail->setRecord($record);
+        $mail->setSender(ANONYMOUS_USER_ID);
 
-        // prepare mail content
-        // use language of recipient to compose message
-
-        // send mails
-        foreach (array_unique($users) as $idx => $user_id) {
-            // the user responsible for the action should not be notified
-            $record = ilDclCache::getRecordCache($a_record_id);
-            $ilDclTable = new ilDclTable($record->getTableId());
-
-            if ($user_id != $user->getId() && $ilDclTable->hasPermissionToViewRecord($this->getRefId(), $record, $user_id)) {
-                // use language of recipient to compose message
-                $ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
-                $ulng->loadLanguageModule('dcl');
-
-                $subject = sprintf($ulng->txt('dcl_change_notification_subject'), $this->getTitle());
-                // update/delete
-                $message = $ulng->txt("dcl_hello") . " " . ilObjUser::_lookupFullname($user_id) . ",\n\n";
-                $message .= $ulng->txt('dcl_change_notification_dcl_' . $a_action) . ":\n\n";
-                $message .= $ulng->txt('obj_dcl') . ": " . $this->getTitle() . "\n\n";
-                $message .= $ulng->txt('dcl_table') . ": " . $obj_table->getTitle() . "\n\n";
-                $message .= $ulng->txt('dcl_record') . ":\n";
-                $message .= "------------------------------------\n";
-                if ($a_record_id) {
-                    if (!$record->getTableId()) {
-                        $record->setTableId($a_table_id);
-                    }
-                    //					$message .= $ulng->txt('dcl_record_id').": ".$a_record_id.":\n";
-                    $t = "";
-
-                    if ($tableview_id = $record->getTable()->getFirstTableViewId($this->getRefId(), $user_id)) {
-                        $visible_fields = ilDclTableView::find($tableview_id)->getVisibleFields();
-                        if (empty($visible_fields)) {
-                            continue;
-                        }
-                        /** @var ilDclBaseFieldModel $field */
-                        foreach ($visible_fields as $field) {
-                            $value = null;
-                            if ($field->isStandardField()) {
-                                $value = $record->getStandardFieldPlainText($field->getId());
-                            } elseif ($record_field = $record->getRecordField((int) $field->getId())) {
-                                $value = $record_field->getPlainText();
-                            }
-
-                            if ($value) {
-                                $t .= $field->getTitle() . ": " . $value . "\n";
-                            }
-                        }
-                    }
-                    $message .= $this->prepareMessageText($t);
-                }
-                $message .= "------------------------------------\n";
-                $message .= $ulng->txt('dcl_changed_by') . ": " . ilUserUtil::getNamePresentation($user->getId())
-                    . "\n\n";
-                $message .= $ulng->txt('dcl_change_notification_link') . ": " . $link . "\n\n";
-
-                $message .= $ulng->txt('dcl_change_why_you_receive_this_email');
-
-                $mail_obj = new ilMail(ANONYMOUS_USER_ID);
-                $mail_obj->appendInstallationSignature(true);
-                $mail_obj->enqueue(ilObjUser::_lookupLogin($user_id), "", "", $subject, $message, []);
-            } else {
-                unset($users[$idx]);
+        foreach ($users as $user_id) {
+            if (
+                $user_id !== $this->user->getId() &&
+                $record->getTable()->hasPermissionToViewRecord($this->getRefId(), $record, $user_id) &&
+                [] !== $record->getTable()->getVisibleTableViews($user_id)
+            ) {
+                $mail->addRecipient($user_id);
             }
         }
+
+        $mail->send();
     }
 
-    /**
-     * for users with write access, return id of table with the lowest sorting
-     * for users with no write access, return id of table with the lowest sorting, which is visible
-     */
-    public function getFirstVisibleTableId(): int
-    {
-        $this->db->setLimit(1);
-        $only_visible = ilObjDataCollectionAccess::hasWriteAccess($this->ref_id) ? '' : ' AND is_visible = 1 ';
-        $result = $this->db->query(
-            'SELECT id FROM il_dcl_table
-                    WHERE obj_id = ' . $this->db->quote($this->getId(), 'integer') .
-                    $only_visible . ' ORDER BY -table_order DESC'
-        ); //"-table_order DESC" is ASC with NULL last
-
-        // if there's no visible table, fetch first one not visible
-        // this is to avoid confusion, since the default of a table after creation is not visible
-        if (!$result->numRows() && $only_visible) {
-            $this->db->setLimit(1);
-            $result = $this->db->query(
-                'SELECT id FROM il_dcl_table
-                        WHERE obj_id = ' . $this->db->quote($this->getId(), 'integer') . ' ORDER BY -table_order DESC '
-            );
-        }
-
-        return $this->db->fetchObject($result)->id;
-    }
-
-    public function reorderTables(array $table_order): void
-    {
-        if ($table_order) {
-            $order = 10;
-            foreach ($table_order as $title) {
-                $table_id = ilDclTable::_getTableIdByTitle($title, $this->getId());
-                $table = ilDclCache::getTableCache($table_id);
-                $table->setOrder($order);
-                $table->doUpdate();
-                $order += 10;
-            }
-        }
-    }
-
-    /**
-     * Clone DCL
-     * @param ilObject2 $new_obj
-     * @param int       $a_target_id ref_id
-     * @param int|null  $a_copy_id
-     * @return void
-     */
     protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null): void
     {
-        assert($new_obj instanceof ilObjDataCollection);
-
         $new_obj->setNotification($this->getNotification());
         if (!(ilCopyWizardOptions::_getInstance($a_copy_id))->isRootNode($this->getRefId())) {
             $new_obj->setOnline($this->getOnline());
             $new_obj->update();
         }
-
         $new_obj->cloneStructure($this->getRefId());
-
         $this->cloneMetaData($new_obj);
     }
 
-    /**
-     * Attention only use this for objects who have not yet been created (use like: $x = new ilObjDataCollection; $x->cloneStructure($id))
-     * @param int $original_id The original ID of the dataselection you want to clone it's structure
-     */
     public function cloneStructure(int $original_id): void
     {
         $original = new ilObjDataCollection($original_id);
-
         $this->setApproval($original->getApproval());
         $this->setNotification($original->getNotification());
         $this->setPublicNotes($original->getPublicNotes());
         $this->setRating($original->getRating());
-
-        // delete old tables.
         foreach ($this->getTables() as $table) {
             $table->doDelete();
         }
-
-        // add new tables.
         foreach ($original->getTables() as $table) {
             $new_table = new ilDclTable();
             $new_table->setObjId($this->getId());
             $new_table->cloneStructure($table);
         }
-
-        // mandatory for all cloning functions
         ilDclCache::setCloneOf($original_id, $this->getId(), ilDclCache::TYPE_DATACOLLECTION);
-
         foreach ($this->getTables() as $table) {
             $table->afterClone();
         }
     }
 
-    /**
-     * setOnline
-     */
     public function setOnline(bool $a_val): void
     {
         $this->is_online = $a_val;
     }
 
-    /**
-     * getOnline
-     */
     public function getOnline(): bool
     {
         return $this->is_online;
@@ -328,7 +188,7 @@ class ilObjDataCollection extends ilObject2
         return $this->rating;
     }
 
-    public function setPublicNotes(bool $a_val)
+    public function setPublicNotes(bool $a_val): void
     {
         $this->public_notes = $a_val;
     }
@@ -359,39 +219,19 @@ class ilObjDataCollection extends ilObject2
     }
 
     /**
-     * @param $ref int the reference id of the datacollection object to check.
-     * @return bool whether or not the current user has admin/write access to the referenced datacollection
-     * @deprecated
-     */
-    public static function _hasWriteAccess(int $ref): bool
-    {
-        return ilObjDataCollectionAccess::hasWriteAccess($ref);
-    }
-
-    /**
-     * @param $ref int the reference id of the datacollection object to check.
-     * @return bool whether or not the current user has add/edit_entry access to the referenced datacollection
-     * @deprecated
-     */
-    public static function _hasReadAccess(int $ref): bool
-    {
-        return ilObjDataCollectionAccess::hasReadAccess($ref);
-    }
-
-    /**
-     * @return ilDclTable[] Returns an array of tables of this collection with ids of the tables as keys.
+     * @return ilDclTable[]
      */
     public function getTables(): array
     {
-        $query = "SELECT id FROM il_dcl_table WHERE obj_id = " . $this->db->quote($this->getId(), "integer") .
-            " ORDER BY title ASC";
-        $set = $this->db->query($query);
+        $stmt = $this->db->queryF(
+            'SELECT id FROM il_dcl_table WHERE obj_id = %s ORDER BY table_order',
+            [ilDBConstants::T_INTEGER],
+            [$this->getId()]
+        );
         $tables = [];
-
-        while ($rec = $this->db->fetchAssoc($set)) {
-            $tables[$rec['id']] = ilDclCache::getTableCache($rec['id']);
+        while ($rec = $this->db->fetchAssoc($stmt)) {
+            $tables[$rec['id']] = $this->getTableById($rec['id']);
         }
-
         return $tables;
     }
 
@@ -400,56 +240,22 @@ class ilObjDataCollection extends ilObject2
         return ilDclCache::getTableCache($table_id);
     }
 
+    /**
+     * @return ilDclTable[]
+     */
     public function getVisibleTables(): array
     {
         $tables = [];
         foreach ($this->getTables() as $table) {
-            if ($table->getIsVisible() && $table->getVisibleTableViews($this->ref_id)) {
+            if ($table->getIsVisible() && $table->getVisibleTableViews()) {
                 $tables[$table->getId()] = $table;
             }
         }
-
         return $tables;
-    }
-
-    /**
-     * Checks if a DataCollection has a table with a given title
-     */
-    public static function _hasTableByTitle(string $title, int $obj_id): bool
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $result = $ilDB->query(
-            'SELECT * FROM il_dcl_table WHERE obj_id = ' . $ilDB->quote($obj_id, 'integer') . ' AND title = '
-            . $ilDB->quote($title, 'text')
-        );
-
-        return (bool) $ilDB->numRows($result);
     }
 
     public function getStyleSheetId(): int
     {
         return 0;
-    }
-
-
-    public function prepareMessageText(string $body): string
-    {
-        if (preg_match_all('/<.*?br.*?>/', $body, $matches)) {
-            $matches = array_unique($matches[0]);
-            $brNewLineMatches = array_map(static function ($match): string {
-                return $match . "\n";
-            }, $matches);
-
-            //Remove carriage return to guarantee all new line can be properly found
-            $body = str_replace("\r", '', $body);
-            //Replace occurrence of <br> + \n with a single \n
-            $body = str_replace($brNewLineMatches, "\n", $body);
-            //Replace additional <br> with a \”
-            $body = str_replace($matches, "\n", $body);
-            //Revert removal of carriage return
-            return str_replace("\n", "\r\n", $body);
-        }
-        return $body;
     }
 }

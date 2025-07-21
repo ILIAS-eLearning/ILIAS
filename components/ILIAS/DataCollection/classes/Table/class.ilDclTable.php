@@ -489,12 +489,11 @@ class ilDclTable
     }
 
     /**
-     * For current user
      * @return ilDclTableView[]
      */
-    public function getVisibleTableViews(int $ref_id, bool $with_active_detailedview = false, int $user_id = 0): array
+    public function getVisibleTableViews(int $user_id = 0, bool $with_active_detailedview = false): array
     {
-        if (ilObjDataCollectionAccess::hasWriteAccess($ref_id, $user_id) && !$with_active_detailedview) {
+        if (ilObjDataCollectionAccess::hasWriteAccess($this->getCollectionObject()->getRefId(), $user_id) && !$with_active_detailedview) {
             return $this->getTableViews();
         }
 
@@ -511,16 +510,12 @@ class ilDclTable
         return $visible_views;
     }
 
-    /**
-     * get id of first (for current user) available view
-     */
-    public function getFirstTableViewId(int $ref_id, int $user_id = 0, bool $with_detailed_view = false): ?int
+    public function getFirstTableViewId(int $user_id = 0, bool $with_detailed_view = false): ?int
     {
-        $uid = $user_id;
-        $array = $this->getVisibleTableViews($ref_id, $with_detailed_view, $uid);
+        $array = $this->getVisibleTableViews($user_id, $with_detailed_view);
         $tableview = array_shift($array);
 
-        return $tableview ? $tableview->getId() : null;
+        return $tableview?->getId();
     }
 
     /**
