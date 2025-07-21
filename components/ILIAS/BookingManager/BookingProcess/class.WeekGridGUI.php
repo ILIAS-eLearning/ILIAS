@@ -127,7 +127,7 @@ class WeekGridGUI
                 $data["entries"] = $this->getEntriesForCell($data["start_ts"], $data["end_ts"]);
                 $cells[$week][$hour] = $data;
                 // store how much slots are max. to be displayed in parallel per day
-                $cells[$week]["col_span"] = max(count($data["entries"]), $cells[$week]["col_span"] ?? 1);
+                $cells[$week]["col_span"] = 1;
             }
             $week++;
         }
@@ -157,17 +157,13 @@ class WeekGridGUI
         $mytpl->setVariable('TIME', $this->lng->txt('time'));
 
 
-        $day_of_week = 0;
         reset($weekday_list);
         foreach ($weekday_list as $date) {
             $date_info = $date->get(IL_CAL_FKT_GETDATE, '', 'UTC');
             $mytpl->setCurrentBlock('weekdays');
             $mytpl->setVariable('TXT_WEEKDAY', \ilCalendarUtil::_numericDayToString((int) $date_info['wday']));
-            $mytpl->setVariable('COL_SPAN', $cells[$day_of_week]["col_span"]);
-            $mytpl->setVariable('WIDTH', "12");
             $mytpl->setVariable('TXT_DATE', $date_info['mday'] . ' ' . \ilCalendarUtil::_numericMonthToString($date_info['mon']));
             $mytpl->parseCurrentBlock();
-            $day_of_week++;
         }
 
         $hours = $this->getHoursOfDay();
@@ -177,25 +173,18 @@ class WeekGridGUI
             $day_of_week = 0;
             foreach (\ilCalendarUtil::_buildWeekDayList($this->seed, $this->week_start)->get() as $date) {
                 $data = $cells[$day_of_week][$hour];
-                $total_tds = $cells[$day_of_week]["col_span"];
-                foreach ($data["entries"] as $e) {
-                    // starting in cell? show it
-                    /** @var WeekGridEntry $e */
-                    if ($e->getStart() >= $data["start_ts"] && $e->getStart() < $data["end_ts"]) {
-                        $mytpl->setCurrentBlock('dates');
-                        $mytpl->setVariable('CONTENT', $e->getHTML());
-                        $row_span = max(1, ceil(($e->getEnd() - $data["end_ts"]) / 3600) + 1);
-                        $mytpl->setVariable('ROW_SPAN', $row_span);
-                        $mytpl->parseCurrentBlock();
+                $entries = $data["entries"];
+                $mytpl->setCurrentBlock("dates");
+
+                $content = "";
+                foreach ($entries as $entry) {
+                    /** @var WeekGridEntry $entry */
+                    if ($entry->getStart() >= $data["start_ts"] && $entry->getStart() < $data["end_ts"]) {
+                        $content .= $entry->getHTML();
                     }
-                    $total_tds--;
                 }
-                while ($total_tds > 0) {
-                    $mytpl->setCurrentBlock('dates');
-                    $mytpl->setVariable('CONTENT', "&nbsp;");
-                    $mytpl->parseCurrentBlock();
-                    $total_tds--;
-                }
+                $mytpl->setVariable('CONTENT', count($entries) > 0 ? $content : "&nbsp;");
+                $mytpl->parseCurrentBlock();
                 $day_of_week++;
             }
 
