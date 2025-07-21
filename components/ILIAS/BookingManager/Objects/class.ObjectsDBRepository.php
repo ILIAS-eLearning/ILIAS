@@ -109,11 +109,11 @@ class ObjectsDBRepository
         return ($rid !== "");
     }
 
-    public function deleteObjectInfo(int $booking_object_id): bool
+    public function deleteObjectInfo(int $booking_object_id, ResourceStakeholder $stakeholder): void
     {
         $rid = $this->getObjectInfoRidForBookingObjectId($booking_object_id);
-        if ($rid === "") {
-            $this->wrapper->deleteResource($rid);
+        if ($rid !== "") {
+            $this->wrapper->deleteResource($rid, $stakeholder);
         }
     }
 
@@ -181,11 +181,11 @@ class ObjectsDBRepository
         return ($rid !== "");
     }
 
-    public function deleteBookingInfo(int $booking_object_id): bool
+    public function deleteBookingInfo(int $booking_object_id, ResourceStakeholder $stakeholder): void
     {
         $rid = $this->getBookingInfoRidForBookingObjectId($booking_object_id);
-        if ($rid === "") {
-            $this->wrapper->deleteResource($rid);
+        if ($rid !== "") {
+            $this->wrapper->deleteResource($rid, $stakeholder);
         }
     }
 
