@@ -1107,8 +1107,13 @@ assessment#:#qpl_skill_point_eval_by_quest_result#:#Evaluation of Competence Poi
 assessment#:#qpl_skill_point_eval_by_solution_compare#:#Evaluation of Competence Points by Solution Compare
 assessment#:#qpl_skill_point_eval_mode_quest_result#:#Question Result
 assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Solution Compare
+assessment#:#qpl_skl_all_questions#:#All questions
+assessment#:#qpl_skl_assigned_questions#:#Questions with assignment
+assessment#:#qpl_skl_assignment_for_question:#:#Competence assignments for question „%s“
 assessment#:#qpl_skl_sub_tab_quest_assign#:#Question/Competence Assignment
 assessment#:#qpl_skl_sub_tab_usages#:#Assignment Frequency
+assessment#:#qpl_skl_unassigned_questions#:#Questions without assignment
+assessment#:#qpl_skl_view_control_mode_aria:#:#View control mode
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#The question was inserted from another repository object. Should the question's original be updated with the current config of competence assignments?
 assessment#:#qpl_tab_competences#:#Competences
 assessment#:#qpl_taxonomy_tab_info_message#:#Taxonomies in question pools can be used to filter the questions. After activating the function in the "Settings" tab, they are displayed in the filter in the "Questions" tab.
@@ -1403,6 +1408,7 @@ assessment#:#tst_change_workingtime#:#Add extra time for a participant
 assessment#:#tst_comp_eval_mode#:#Evaluation by
 assessment#:#tst_comp_points#:#Competence Points
 assessment#:#tst_competence#:#Competence
+assessment#:#tst_competence_tree#:#Competence tree
 assessment#:#tst_conditions_checkbox_enabled#:#Exam Conditions
 assessment#:#tst_conditions_checkbox_enabled_desc#:#Participants must select a checkbox to start the test. Please use the introductory message to present the exam to the participants.
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button.

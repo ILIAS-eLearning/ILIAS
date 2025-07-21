@@ -139,12 +139,12 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 
     public function handlerBeginTag($xmlParser, $tagName, $tagAttributes): void
     {
-        if ($tagName != 'QuestionSkillAssignments' && !$this->isParsingActive()) {
+        if ($tagName != 'SkillAssignments' && !$this->isParsingActive()) {
             return;
         }
 
         switch ($tagName) {
-            case 'QuestionSkillAssignments':
+            case 'SkillAssignments':
                 $this->setParsingActive(true);
                 break;
 
@@ -192,7 +192,7 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
         }
 
         switch ($tagName) {
-            case 'QuestionSkillAssignments':
+            case 'SkillAssignments':
                 $this->setParsingActive(false);
                 break;
 

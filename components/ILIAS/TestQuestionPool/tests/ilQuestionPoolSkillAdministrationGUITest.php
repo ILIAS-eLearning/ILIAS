@@ -38,7 +38,10 @@ class ilQuestionPoolSkillAdministrationGUITest extends assBaseTestCase
         $this->object = new ilQuestionPoolSkillAdministrationGUI(
             $this->createMock(ILIAS::class),
             $this->createMock(ilCtrl::class),
-            $this->createMock(ILIAS\Refinery\Factory::class),
+            $this->createMock(\ILIAS\UI\Factory::class),
+            $this->createMock(\ILIAS\UI\Renderer::class),
+            $this->createMock(\ILIAS\HTTP\GlobalHttpState::class),
+            $this->createMock(\ILIAS\Refinery\Factory::class),
             $this->createMock(ilAccessHandler::class),
             $this->createMock(ilTabsGUI::class),
             $this->createMock(ilGlobalTemplateInterface::class),

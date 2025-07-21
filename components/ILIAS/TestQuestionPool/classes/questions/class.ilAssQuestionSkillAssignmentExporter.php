@@ -102,7 +102,7 @@ class ilAssQuestionSkillAssignmentExporter
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $this->getXmlWriter()->xmlStartTag('QuestionSkillAssignments');
+        $this->getXmlWriter()->xmlStartTag('SkillAssignments');
 
         foreach ($this->getQuestionIds() as $questionId) {
             $this->getXmlWriter()->xmlStartTag('TriggerQuestion', ['Id' => $questionId]);
@@ -165,6 +165,6 @@ class ilAssQuestionSkillAssignmentExporter
             $this->getXmlWriter()->xmlEndTag('TriggerQuestion');
         }
 
-        $this->getXmlWriter()->xmlEndTag('QuestionSkillAssignments');
+        $this->getXmlWriter()->xmlEndTag('SkillAssignments');
     }
 }

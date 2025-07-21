@@ -26,6 +26,7 @@ use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\HTTP\Services;
 use ILIAS\Refinery\Factory;
 use ILIAS\FileUpload\FileUpload;
+use Psr\Http\Message\ServerRequestInterface;
 
 class RequestDataCollector
 {
@@ -37,6 +38,11 @@ class RequestDataCollector
         protected readonly FileUpload $upload
     ) {
         $this->initRequest($http, $refinery);
+    }
+
+    public function getRequest(): ServerRequestInterface
+    {
+        return $this->http->request();
     }
 
     /**
@@ -239,6 +245,27 @@ class RequestDataCollector
         return $this->retrieveArray($key, 1, $this->refinery->identity());
     }
 
+    /**
+     * @return array<int>|string
+     */
+    public function getMultiSelectionIds(string $key): array|string
+    {
+        $query = $this->http->wrapper()->query();
+
+        if (!$query->has($key)) {
+            return [];
+        }
+
+        return $query->retrieve(
+            $key,
+            $this->refinery->custom()->transformation(
+                static fn(array|string $value): array|string => $value === 'ALL_OBJECTS' || $value[0] === 'ALL_OBJECTS'
+                    ? 'ALL_OBJECTS'
+                    : array_map('intval', $value)
+            )
+        );
+    }
+
     private function retrieveArray(string $key, int $depth, Transformation $transformation): array
     {
         $chain = $this->refinery->kindlyTo()->dictOf($transformation);
@@ -246,12 +273,6 @@ class RequestDataCollector
             $chain = $this->refinery->kindlyTo()->dictOf($chain);
         }
 
-        return $this->http->wrapper()->post()->retrieve(
-            $key,
-            $this->refinery->byTrying([
-                $chain,
-                $this->refinery->always([])
-            ])
-        );
+        return $this->get($key, $this->refinery->byTrying([$chain, $this->refinery->always([])])) ?? [];
     }
 }

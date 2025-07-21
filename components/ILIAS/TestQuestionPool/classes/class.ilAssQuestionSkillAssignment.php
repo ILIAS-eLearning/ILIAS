@@ -28,20 +28,20 @@ use ILIAS\Skill\Service\SkillTreeService;
  */
 class ilAssQuestionSkillAssignment
 {
-    public const DEFAULT_COMPETENCE_POINTS = 1;
+    public const int DEFAULT_COMPETENCE_POINTS = 1;
 
-    public const EVAL_MODE_BY_QUESTION_RESULT = 'result';
-    public const EVAL_MODE_BY_QUESTION_SOLUTION = 'solution';
+    public const string EVAL_MODE_BY_QUESTION_RESULT = 'result';
+    public const string EVAL_MODE_BY_QUESTION_SOLUTION = 'solution';
 
     private ilDBInterface $db;
     private int $parent_obj_id;
     private int $question_id;
     private int $skill_base_id;
     private int $skill_tref_id;
-    private int $skill_points;
+    private int $skill_points = self::DEFAULT_COMPETENCE_POINTS;
     private string $skill_title = '';
     private string $skill_path = '';
-    private string $eval_mode;
+    private string $eval_mode = '';
 
     private ilAssQuestionSolutionComparisonExpressionList $solution_comparison_expression_list;
     private SkillTreeService $skill_tree_service;
@@ -80,7 +80,7 @@ class ilAssQuestionSkillAssignment
             $this->setEvalMode($row['eval_mode']);
         }
 
-        if ($this->getEvalMode() == self::EVAL_MODE_BY_QUESTION_SOLUTION) {
+        if ($this->getEvalMode() === self::EVAL_MODE_BY_QUESTION_SOLUTION) {
             $this->loadComparisonExpressions();
         }
     }
@@ -270,10 +270,13 @@ class ilAssQuestionSkillAssignment
         }
 
         $root_node = reset($path);
-        array_unshift(
-            $nodes,
-            $this->skill_tree_service->getObjSkillTreeById($root_node['skl_tree_id'])->getTitleForHTMLOutput()
-        );
+        $skl_tree_id = $root_node['skl_tree_id'] ?? null;
+        if (is_numeric($skl_tree_id)) {
+            array_unshift(
+                $nodes,
+                htmlspecialchars($this->skill_tree_service->getObjSkillTreeById((int) $skl_tree_id)->getTitle())
+            );
+        }
 
         $this->setSkillPath(implode(' > ', $nodes));
     }

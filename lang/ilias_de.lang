@@ -1106,8 +1106,13 @@ assessment#:#qpl_skill_point_eval_by_quest_result#:#Ermittlung der Kompetenzpunk
 assessment#:#qpl_skill_point_eval_by_solution_compare#:#Ermittlung der Kompetenzpunkte durch Lösungsvergleich
 assessment#:#qpl_skill_point_eval_mode_quest_result#:#Antwortergebnis
 assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Lösungsvergleich
+assessment#:#qpl_skl_all_questions#:#Alle Fragen
+assessment#:#qpl_skl_assigned_questions:#:#Fragen mit Zuordnung
+assessment#:#qpl_skl_assignment_for_question:#:#Kompetenz-Zuordnungen zur Frage „%s“
 assessment#:#qpl_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
 assessment#:#qpl_skl_sub_tab_usages#:#Vergabehäufigkeit
+assessment#:#qpl_skl_unassigned_questions:#:#Fragen ohne Zuordnung
+assessment#:#qpl_skl_view_control_mode_aria:#:#Ansichtssteuerungsmodus
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Die Frage wurde aus einem anderen Magazinobjekt eingefügt. Soll die aktuelle Konfiguration von Kompetenzzuweisungen auf das Original der Frage übertragen werden?
 assessment#:#qpl_tab_competences#:#Kompetenzen
 assessment#:#qpl_taxonomy_tab_info_message#:#Taxonomien in Fragenpools klassifizieren und filtern die Fragen. Sie werden nach Aktivierung der Funktion im Reiter „Einstellungen“ im Filter im Reiter „Fragen“ angezeigt.
@@ -1403,6 +1408,7 @@ assessment#:#tst_change_workingtime#:#Zeitverlängerung für einen Teilnehmer er
 assessment#:#tst_comp_eval_mode#:#Evaluierung über
 assessment#:#tst_comp_points#:#Kompetenz-Punkte
 assessment#:#tst_competence#:#Kompetenz
+assessment#:#tst_competence_tree#:#Kompetenzbaum
 assessment#:#tst_conditions_checkbox_enabled#:#Prüfungsbedingungen
 assessment#:#tst_conditions_checkbox_enabled_desc#:#Die Teilnehmer müssen ein Kontrollkästchen auswählen, um den Test zu starten. Bitte verwenden Sie die Einführungsnachricht, um den Teilnehmern die Prüfung vorzustellen.
 assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit mehr, Anworten einzugeben oder zu korrigieren.
