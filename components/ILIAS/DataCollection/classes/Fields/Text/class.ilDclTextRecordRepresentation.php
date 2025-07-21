@@ -47,7 +47,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
             if ($this->http->wrapper()->query()->has('tableview_id')) {
                 $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
             } else {
-                $tableview_id = $this->getRecord()->getTable()->getFirstTableViewId($ref_id, $this->user->getId());
+                $tableview_id = $this->getRecord()->getTable()->getFirstTableViewId($this->user->getId());
             }
             if (ilDclDetailedViewDefinition::isActive($tableview_id)) {
                 $this->ctrl->clearParametersByClass("ilDclDetailedViewGUI");
