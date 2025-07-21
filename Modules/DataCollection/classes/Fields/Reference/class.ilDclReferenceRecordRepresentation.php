@@ -50,7 +50,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
                     $ref_table = $ref_record->getTable();
                     $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
                     if ($v !== null && $v !== '' && $v !== '-') {
-                        $view = $ref_record->getTable()->getFirstTableViewId($ref_id, $this->user->getId(), true);
+                        $view = $ref_record->getTable()->getFirstTableViewId($this->user->getId(), true);
                         if ($view) {
                             $items[] = $this->getLinkHTML($ref_record, $view);
                             continue;
