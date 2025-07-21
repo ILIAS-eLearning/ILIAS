@@ -1,6 +1,6 @@
 # ILIAS Installation
 
-This is the installation guide for ILIAS 10, providing step-by-step instructions to set up all necessary components, 
+This is the installation guide for ILIAS 11, providing step-by-step instructions to set up all necessary components, 
 including the web server, database, and ILIAS code. Follow these instructions carefully to ensure a successful 
 installation of the e-learning software. Each section will guide you through the required configurations and setups 
 for a fully functional ILIAS environment.
@@ -58,14 +58,14 @@ few GBs for the database.
 <a name="supported-system"></a>
 ## Supported Software Setup and Reference System
 
-The following software versions are required/supported for ILIAS 10. The table below lists these versions alongside the 
-current configuration of the [ILIAS test server](https://test10.ilias.de), which serves as a reference system.
+The following software versions are required/supported for ILIAS 11. The table below lists these versions alongside the 
+current configuration of the [ILIAS test server](https://test11.ilias.de), which serves as a reference system.
 
 | Package      | Version                                                | Reference System |
 |--------------|--------------------------------------------------------|------------------|
 | Distribution | current version of Debian GNU Linux, Ubuntu or RHEL    | Ubuntu 22.04 LTS |
 | Database     | MySQL >8.0.21 or MariaDB 10.5 - 10.11                  | MariaDB 10.6.18  |
-| PHP          | 8.2, 8.3                                               | 8.3              |
+| PHP          | 8.3, 8.4                                               | 8.3              |
 | Webserver    | nginx: 1.12.x – 1.18.x, Apache: ≥ 2.4.x                | Apache 2.4.52    |
 | JDK          | Open JDK Runtime 11, 17 or 21 LTS                      | OpenJDK 17       |
 | Node.js      | 20 (LTS), 21, 22 (LTS), 23 Recommended: 22             | 16.20            |
@@ -297,14 +297,14 @@ commands:
 
 ```shell
 cd /var/www/ilias/
-sudo -uwww-data git clone https://github.com/ILIAS-eLearning/ILIAS.git . --single-branch -b release_10
+sudo -uwww-data git clone https://github.com/ILIAS-eLearning/ILIAS.git . --single-branch -b release_11
 ```
 <details>
 <summary>If you use tags to directly reference ILIAS versions</summary>
 
 ```shell
 cd /var/www/ilias/
-sudo -uwww-data git clone https://github.com/ILIAS-eLearning/ILIAS.git . --single-branch -b v10.X
+sudo -uwww-data git clone https://github.com/ILIAS-eLearning/ILIAS.git . --single-branch -b v11.X
 ```
 </details>
 
@@ -314,8 +314,8 @@ sudo -uwww-data git clone https://github.com/ILIAS-eLearning/ILIAS.git . --singl
 Download the file from the [Download & Releases](https://docu.ilias.de/go/lm/35) page.
 
 ```shell
-sudo -uwww-data wget https://github.com/ILIAS-eLearning/ILIAS/releases/download/v10.X/ILIAS-10.X.tar.gz
-sudo -uwww-data tar -xzf ILIAS-10.X.tar.gz  -C /var/www/ilias --strip-components=1 ILIAS-10.X/
+sudo -uwww-data wget https://github.com/ILIAS-eLearning/ILIAS/releases/download/v11.X/ILIAS-11.X.tar.gz
+sudo -uwww-data tar -xzf ILIAS-11.X.tar.gz  -C /var/www/ilias --strip-components=1 ILIAS-11.X/
 ```
 </details>
 
@@ -479,11 +479,11 @@ Before you start you should consider to [backup](#backup-ilias).
 <a name="minor-upgrade"></a>
 ## Minor Upgrade
 
-To apply a minor update (e.g. v10.1 to v10.2) execute the following command in
+To apply a minor update (e.g. v11.1 to v11.2) execute the following command in
 your ILIAS basepath (e.g. `/var/www/ilias/`):
 
 ```shell
-sudo -uwww-data git pull origin release_10
+sudo -uwww-data git pull origin release_11
 sudo -uwww-data npm clean-install --omit-dev --ignore-scripts
 sudo -uwww-data composer install --no-dev
 ```
@@ -492,8 +492,8 @@ sudo -uwww-data composer install --no-dev
 <summary>If you use tags to directly reference ILIAS versions</summary>
 
 ```shell
-sudo -uwww-data git fetch origin v10.X:v10.X
-sudo -uwww-data git checkout v10.X
+sudo -uwww-data git fetch origin v11.X:v11.X
+sudo -uwww-data git checkout v11.X
 sudo -uwww-data npm clean-install --omit-dev --ignore-scripts
 sudo -uwww-data composer install --no-dev
 ```
@@ -505,9 +505,9 @@ sudo -uwww-data composer install --no-dev
 Download the archive of the newest ILIAS minor version on the [Download & Releases](https://docu.ilias.de/go/lm/35) page.
 
 ```shell
-sudo -uwww-data wget https://github.com/ILIAS-eLearning/ILIAS/releases/download/v10.X/ILIAS-10.X.tar.gz
+sudo -uwww-data wget https://github.com/ILIAS-eLearning/ILIAS/releases/download/v11.X/ILIAS-11.X.tar.gz
 sudo -uwww-data mkdir /tmp/ilias_update
-sudo -uwww-data tar -xzf ILIAS-10.X.tar.gz  -C /tmp/ilias_update --strip-components=1 ILIAS-10.X/
+sudo -uwww-data tar -xzf ILIAS-11.X.tar.gz  -C /tmp/ilias_update --strip-components=1 ILIAS-11.X/
 sudo -uwww-data rsync -av --exclude='/public/' --exclude='/Customizing/' --exclude='/data/' --exclude='ilias.ini.php' /tmp/ilias_update/ /var/www/ilias/
 rm -rf /tmp/ilias_update
 ```
@@ -528,7 +528,7 @@ Then complete the update by [updating the database](#update-the-database).
 <a name="major-upgrade"></a>
 ## Major Upgrade
 
-To apply a major upgrade (e.g. v9.13 to v10.1) please check that your OS has the
+To apply a major upgrade (e.g. v10.13 to v11.1) please check that your OS has the
 [proper dependency versions](#upgrading-dependencies) installed. If everything
 is fine, change your default skin to Delos and apply this change at least to
 your root user. Otherwise ILIAS might become unusable due to changes in the
@@ -536,15 +536,15 @@ layout templates. Then execute the following commands in your ILIAS basepath
 (e.g. `/var/www/ilias`).
 
 ```shell
-sudo -uwww-data git fetch origin release_10:release_10
-sudo -uwww-data git checkout release_10
+sudo -uwww-data git fetch origin release_11:release_11
+sudo -uwww-data git checkout release_11
 ```
 <details>
 <summary>If you use tags to directly reference ILIAS versions</summary>
 
 ```shell
-sudo -uwww-data git fetch origin v10.X:v10.X
-sudo -uwww-data git checkout v10.X
+sudo -uwww-data git fetch origin v11.X:v11.X
+sudo -uwww-data git checkout v11.X
 ```
 </details>
 
@@ -554,14 +554,14 @@ sudo -uwww-data git checkout v10.X
 Download the archive of the newest ILIAS minor version from the [Download & Releases](https://docu.ilias.de/go/lm/35) page.
 
 ```shell
-sudo -uwww-data wget https://github.com/ILIAS-eLearning/ILIAS/releases/download/v10.X/ILIAS-10.X.tar.gz
+sudo -uwww-data wget https://github.com/ILIAS-eLearning/ILIAS/releases/download/v11.X/ILIAS-11.X.tar.gz
 sudo -uwww-data mkdir /tmp/ilias_update
-sudo -uwww-data tar -xzf ILIAS-10.X.tar.gz  -C /tmp/ilias_update --strip-components=1 ILIAS-10.X/
+sudo -uwww-data tar -xzf ILIAS-11.X.tar.gz  -C /tmp/ilias_update --strip-components=1 ILIAS-11.X/
 sudo -uwww-data rsync -av --exclude='/public/' --exclude='/Customizing/' --exclude='/data/' --exclude='ilias.ini.php' /tmp/ilias_update/ /var/www/ilias/
 rm -rf /tmp/ilias_update
 ```
 </details>
-After upgrading the code from ILIAS 9 to ILIAS 10 due to structural changes, you need to move the `/Customizing/global/plugins`
+After upgrading the code from ILIAS 10 to ILIAS 11 due to structural changes, you need to move the `/Customizing/global/plugins`
 and `/data` folder to its new destination. Both are now located in the newly created `public` folder.
 
 ```shell
@@ -669,6 +669,7 @@ each ILIAS release.
 
 | ILIAS Version  | PHP Version                 |
 |----------------|-----------------------------|
+| 11.x           | 8.3.x, 8.4.x                |
 | 10.x           | 8.2.x, 8.3.x                |
 | 9.x            | 8.1.x, 8.2.x                |
 | 8.x            | 7.4.x, 8.0.x                |
@@ -681,7 +682,8 @@ We strongly recommend using MariaDB instead of MySQL due to performance, licensi
 
 | ILIAS Version | MySQL Version       | MariaDB Version        |
 |---------------|---------------------|------------------------|
-| 10.0  - 10.x  | 8.0.x               | 10.4, 10.5, 10.6       |
+| 11.0 - 11.x   | 8.0.x               | 10.4, 10.5, 10.6       |
+| 10.0 - 10.x   | 8.0.x               | 10.4, 10.5, 10.6       |
 | 9.0 - 9.x     | 8.0.x               | 10.3, 10.4, 10.5, 10.6 |
 | 8.0 - 8.x     | 5.7.x, 8.0.x        | 10.2, 10.3, 10.4       |
 | 7.0 - 7.x     | 5.7.x, 8.0.x        | 10.1, 10.2, 10.3       |
