@@ -28,13 +28,8 @@ probably the most attractive contractor for clients aiming to change
 aspects of the component due to the very indepth know how and the 
 listing as coordinator. 
 
-The PM and the TB appoint or replace coordinators. The coordinator role belongs to
-the person, not the company, since the role builds on social capital in the community
-and a vision of the component it will be near impossible to leave that role at a
-company.
-
-It is encouraged that two people share the role of the coordinator for one
-component to enhance it's [Bus factor](https://en.wikipedia.org/wiki/Bus_factor).
+The role is modelled via [the authority framework](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#authorities)
+and the rules for changing authorities apply.
 
 <a name="change-management"></a>
 ## Change Management
