@@ -2591,6 +2591,7 @@ book#:#book_bulk_creation#:#Massenerstellung
 book#:#book_bulk_data#:#Daten zu Angeboten
 book#:#book_cal_entry#:#Buchung:
 book#:#book_confirm_booking#:#Buchung vornehmen
+book#:#book_confirm_booking_for_users#:#Sind Sie sicher, dass Sie dieses Angebot für die folgenden Teilnehmer buchen wollen?
 book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Angebot buchen wollen?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Buchungsbestätigung
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Bitte wählen Sie die Anzahl der zu buchenden Angebote.

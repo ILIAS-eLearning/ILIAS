@@ -2592,6 +2592,7 @@ book#:#book_bulk_creation#:#Bulk Creation
 book#:#book_bulk_data#:#Item Data
 book#:#book_cal_entry#:#Booking:
 book#:#book_confirm_booking#:#Confirm Booking
+book#:#book_confirm_booking_for_users#:#Are you sure you want to book this item for the following user(s)?
 book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following item?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Booking Confirmation
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please enter the number of items that you would like to book.
