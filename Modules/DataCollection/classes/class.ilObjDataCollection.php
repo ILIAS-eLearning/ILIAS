@@ -78,7 +78,7 @@ class ilObjDataCollection extends ilObject2
         foreach ($this->getTables() as $table) {
             $table->doDelete(false, true);
         }
-        $this->db->manipulateF('DELETE FROM il_dcl_data WHERE id = ', [ilDBConstants::T_INTEGER], [$this->getId()]);
+        $this->db->manipulateF('DELETE FROM il_dcl_data WHERE id = %s', [ilDBConstants::T_INTEGER], [$this->getId()]);
     }
 
     protected function doUpdate(): void
