@@ -80,7 +80,7 @@ class ilObjDataCollection extends ilObject2
             $table->doDelete(false, true);
         }
         $this->deleteMetaData();
-        $this->db->manipulateF('DELETE FROM il_dcl_data WHERE id = ', [ilDBConstants::T_INTEGER], [$this->getId()]);
+        $this->db->manipulateF('DELETE FROM il_dcl_data WHERE id = %s', [ilDBConstants::T_INTEGER], [$this->getId()]);
     }
 
     protected function doUpdate(): void
