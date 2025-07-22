@@ -20,7 +20,9 @@ declare(strict_types=1);
 
 class ilWorkingTime
 {
-    public function __construct(private readonly ilLanguage $lng) {}
+    public function __construct(private readonly ilLanguage $lng)
+    {
+    }
 
     public function prepareWorkingtimeJsTemplate(
         ilObjTest $object,
