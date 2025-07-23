@@ -99,7 +99,7 @@ class ilForumExportGUI
      *
      * @see \ILIAS\UI\Implementation\Component\Legacy\Renderer::registerResources
      */
-    private function addLatexResources(ilGlobalTemplateInterface $tpl)
+    private function addLatexResources(ilGlobalTemplateInterface $tpl): void
     {
         $tpl->addJavaScript('assets/js/mathjax_config.js');
         $tpl->addJavaScript('node_modules/mathjax/es5/tex-chtml-full.js');
