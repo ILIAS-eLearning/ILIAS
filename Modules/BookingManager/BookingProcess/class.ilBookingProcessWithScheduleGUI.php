@@ -216,7 +216,7 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
 
         $this->lng->loadLanguageModule("dateplaner");
         $this->ctrl->setParameter($this, 'object_id', $obj->getId());
-        //$this->ctrl->setParameter($this, 'returnCmd', "book");
+        $this->ctrl->setParameter($this, 'returnCmd', 'week');
 
         if ($this->user_id_to_book !== $this->user_id_assigner) {
             $this->ctrl->setParameter($this, 'bkusr', $this->user_id_to_book);
