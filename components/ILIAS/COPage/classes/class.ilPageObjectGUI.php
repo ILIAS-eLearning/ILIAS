@@ -1555,8 +1555,6 @@ class ilPageObjectGUI
             }
             $output = str_replace("&amp;", "&", $output);
 
-            $output = ilMathJax::getInstance()->insertLatexImages($output);
-
             // insert page snippets
             //$output = $this->insertContentIncludes($output);
 
@@ -1603,6 +1601,9 @@ class ilPageObjectGUI
         }
 
         $this->addResourcesToTemplate($main_tpl);
+
+        // enable rendering of latex in the whole output
+        $output = $this->ui->renderer()->render($this->ui->factory()->legacy()->latexContent($output));
 
         //		$output = $this->selfAssessmentRendering($output);
 
