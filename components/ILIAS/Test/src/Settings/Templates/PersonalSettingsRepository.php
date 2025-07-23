@@ -18,16 +18,15 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Settings\PersonalSettingsTemplates;
+namespace ILIAS\Test\Settings\Templates;
 
-class PersonalSettingsTemplatesRepository
+class PersonalSettingsRepository
 {
     public function __construct(
         protected \ilDBInterface $db,
         protected \ilObjUser $user,
     ) {
     }
-
 
     /**
      * @return array<int, PersonalSettingsTemplate>
@@ -38,6 +37,23 @@ class PersonalSettingsTemplatesRepository
             "SELECT * FROM tst_test_defaults WHERE user_fi = %s ORDER BY name ASC",
             [\ilDBConstants::T_INTEGER],
             [$this->user->getId()]
+        );
+
+        $defaults = [];
+        while ($row = $this->db->fetchAssoc($stmt)) {
+            $defaults[$row['test_defaults_id']] = self::toTemplate($row);
+        }
+        return $defaults;
+    }
+
+    /**
+     * @param list<int> $ids
+     * @return array<int, PersonalSettingsTemplate>
+     */
+    public function getTemplatesByIds(array $ids): array
+    {
+        $stmt = $this->db->query(
+            "SELECT * FROM tst_test_defaults WHERE " . $this->db->in('test_defaults_id', $ids, false, \ilDBConstants::T_INTEGER),
         );
 
         $defaults = [];
@@ -199,7 +215,9 @@ class PersonalSettingsTemplatesRepository
             $row['test_defaults_id'],
             $row['user_fi'],
             $row['name'],
-            $row['tstamp']
+            $row['description'] ?? '',
+            $row['author'] ?? '',
+            \DateTimeImmutable::createFromFormat('U', (string) $row['tstamp'])
         );
     }
 

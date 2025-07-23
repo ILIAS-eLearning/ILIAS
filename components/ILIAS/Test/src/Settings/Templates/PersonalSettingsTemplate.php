@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Settings\PersonalSettingsTemplates;
+namespace ILIAS\Test\Settings\Templates;
 
 class PersonalSettingsTemplate
 {
@@ -26,7 +26,9 @@ class PersonalSettingsTemplate
         protected int $id,
         protected int $user_id,
         protected string $name,
-        protected int $timestamp,
+        protected string $description,
+        protected string $author,
+        protected \DateTimeImmutable $created_at,
     )
     {
     }
@@ -46,8 +48,18 @@ class PersonalSettingsTemplate
         return $this->name;
     }
 
-    public function getTimestamp(): int
+    public function getDescription(): string
     {
-        return $this->timestamp;
+        return $this->description;
+    }
+
+    public function getAuthor(): string
+    {
+        return $this->author;
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable
+    {
+        return $this->created_at;
     }
 }

@@ -22,7 +22,7 @@ namespace ILIAS\Test;
 
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
-use ILIAS\Test\Settings\PersonalSettingsTemplates\PersonalSettingsTemplatesRepository;
+use ILIAS\Test\Settings\Templates\PersonalSettingsRepository;
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
@@ -111,8 +111,8 @@ class TestDIC extends PimpleContainer
         $dic['settings.main.repository'] = static fn($c): MainSettingsRepository =>
             new MainSettingsDatabaseRepository($DIC['ilDB']);
 
-        $dic['settings.personal_templates.repository'] = static fn($c): PersonalSettingsTemplatesRepository =>
-        new PersonalSettingsTemplatesRepository($DIC->database(), $DIC->user());
+        $dic['settings.personal_templates.repository'] = static fn($c): PersonalSettingsRepository =>
+            new PersonalSettingsRepository($DIC->database(), $DIC->user());
 
         $dic['participant.access_filter.factory'] = static fn($c): \ilTestParticipantAccessFilterFactory =>
             new \ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
