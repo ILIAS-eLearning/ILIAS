@@ -219,7 +219,7 @@ class LaunchGUI
         // introduction
         if ($this->survey->getIntroduction() !== '') {
             $introduction = $this->survey->getIntroduction();
-            $this->launch_information[] = $this->survey->prepareTextareaOutput($introduction);
+            $this->launch_information[] = $this->survey->prepareTextareaOutput($introduction, true);
         }
 
         // access information
@@ -275,7 +275,7 @@ class LaunchGUI
 
             foreach ($this->launch_information as $key => $value) {
                 if (is_numeric($key)) {
-                    $items[] = $f->legacy()->content($value);
+                    $items[] = $f->legacy()->latexContent($value);
                 } else {
                     $key_value[$key] = $value;
                 }

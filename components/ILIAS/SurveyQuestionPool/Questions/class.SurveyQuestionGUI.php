@@ -27,6 +27,7 @@ use ILIAS\SurveyQuestionPool\Editing\EditManager;
  */
 abstract class SurveyQuestionGUI
 {
+    protected \ILIAS\DI\UIServices $ui;
     protected \ILIAS\Survey\InternalGUIService $gui;
     protected EditingGUIRequest $request;
     protected EditManager $edit_manager;
@@ -53,6 +54,7 @@ abstract class SurveyQuestionGUI
         $this->access = $DIC->access();
         $this->tree = $DIC->repositoryTree();
         $this->toolbar = $DIC->toolbar();
+        $this->ui = $DIC->ui();
         $lng = $DIC->language();
         $tpl = $DIC["tpl"];
         $ilCtrl = $DIC->ctrl();
@@ -149,7 +151,12 @@ abstract class SurveyQuestionGUI
         if (preg_match("/^<.[\\>]?>(.*?)<\\/.[\\>]*?>$/", $questiontext, $matches)) {
             $questiontext = $matches[1];
         }
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        $questiontext = $this->object->prepareTextareaOutput($questiontext, true);
+
+
+        $template->setVariable("QUESTIONTEXT", $this->ui->renderer()->render(
+            $this->ui->factory()->legacy()->latexContent($questiontext)
+        ));
         if ($this->object->getObligatory()) {
             $template->setVariable("OBLIGATORY_TEXT", ' *');
         }
@@ -262,6 +269,7 @@ abstract class SurveyQuestionGUI
             $question->setUseRte(true);
             $question->setRteTagSet("mini");
         }
+        $question->setInfo($this->lng->txt("latex_edit_info"));
         $form->addItem($question);
 
         // obligatory

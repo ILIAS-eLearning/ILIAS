@@ -21,6 +21,8 @@
  */
 class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 {
+    private \ILIAS\DI\UIServices $ui;
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -30,6 +32,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
+        $this->ui = $DIC->ui();
 
         $this->setId("svy_cum");
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -120,11 +123,12 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 
         foreach ($a_results as $question_res) {
             if (!is_array($question_res)) {
+                /** @var SurveyQuestion $question */
                 $question = $question_res->getQuestion();
 
                 $data[] = array(
                     "title" => $question->getTitle(),
-                    "question" => strip_tags($question->getQuestiontext()),
+                    "question" => strip_tags($question->prepareTextareaOutput($question->getQuestiontext(), true)),
                     "question_type" => SurveyQuestion::_getQuestionTypeName($question->getQuestionType()),
                     "users_answered" => $question_res->getUsersAnswered(),
                     "users_skipped" => $question_res->getUsersSkipped(),
@@ -174,7 +178,9 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
         foreach ($this->getSelectedColumns() as $c) {
             if (strcmp($c, 'question') === 0) {
                 $this->tpl->setCurrentBlock('question');
-                $this->tpl->setVariable("QUESTION", $a_set['question']);
+                $this->tpl->setVariable("QUESTION", $this->ui->renderer()->render(
+                    $this->ui->factory()->legacy()->latexContent($a_set['question'])
+                ));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'question_type') === 0) {

@@ -3980,13 +3980,17 @@ class ilObjSurvey extends ilObject
     }
 
     /**
-     * Prepares a string for a text area output in surveys
+     * Prepares a string for a text area output in survey forms
+     * @param bool $prepare_for_latex_output    false if content is used in a form, true if content is used elsewhere
+     * @see \SurveyQuestion::prepareTextareaOutput
      */
     public function prepareTextareaOutput(
-        string $txt_output
+        string $txt_output,
+        bool $prepare_for_latex_output = false
     ): string {
-        return ilLegacyFormElementsUtil::prepareTextareaOutput($txt_output);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output);
     }
+
 
     /**
      * Checks if a given string contains HTML or not

@@ -362,12 +362,12 @@ abstract class AbstractUIModifier implements UIModifier
 
         // question "overview"
         $qst_title = $question->getTitle();
-        $svy_text = nl2br($question->getQuestiontext());
+        $svy_text = nl2br($question->prepareTextareaOutput($question->getQuestiontext(), true));
 
         // Question title anchor
         $anchor_id = "svyrdq" . $question->getId();
         $title = "<span id='$anchor_id'>$qst_title</span>";
-        $panel_qst_card = $ui_factory->panel()->sub($title, $ui_factory->legacy()->content($svy_text))
+        $panel_qst_card = $ui_factory->panel()->sub($title, $ui_factory->legacy()->latexContent($svy_text))
             ->withFurtherInformation($this->getPanelCard($question_res));
 
         $panels[] = $panel_qst_card;

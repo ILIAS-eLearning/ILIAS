@@ -327,7 +327,7 @@ class SettingsFormGUI
         $intro->setValue($survey->prepareTextareaOutput($survey->getIntroduction()));
         $intro->setRows(10);
         $intro->setCols(80);
-        $intro->setInfo($lng->txt("survey_introduction_info"));
+        $intro->setInfo($lng->txt("survey_introduction_info") . ' ' . $lng->txt('latex_edit_info'));
         if (\ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
             $intro->setUseRte(true);
             $intro->setRteTagSet("mini");
@@ -450,6 +450,7 @@ class SettingsFormGUI
             $finalstatement->setUseRte(true);
             $finalstatement->setRteTagSet("mini");
         }
+        $finalstatement->setInfo($lng->txt('latex_edit_info'));
         $form->addItem($finalstatement);
 
         // mail notification
