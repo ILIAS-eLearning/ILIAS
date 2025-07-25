@@ -70,6 +70,17 @@ class Repository
         return ($status = $this->readOrQueryStatus($user_id, $test_obj_id)) !== null && $status['finished'];
     }
 
+    public function reachedPercentage(
+        int $a_usr_id,
+        int $a_trigger_obj_id,
+        float $min_threshold,
+        float $max_threshold
+    ): bool {
+        return ($status = $this->readOrQueryStatus($a_usr_id, $a_trigger_obj_id)) !== null
+            && $status['percentage'] >= $min_threshold
+            && $status['percentage'] <= $max_threshold;
+    }
+
     public function getTestResult(int $active_id): ?ParticipantResult
     {
         $result = $this->db->queryF(
@@ -132,6 +143,7 @@ class Repository
                 'passed' => $result->isPassed(),
                 'failed' => $result->isFailed(),
                 'finished' => $status->isFinished(),
+                'percentage' => $result->getPercentage(),
             ]
         );
 
@@ -357,17 +369,15 @@ class Repository
             return null;
         }
 
-        $max_points = $this->ensurePositive($row['max_points'] ?? 0.0);
-        $reached_points = $this->ensurePositive($row['reached_points'] ?? 0.0);
-        $percentage = ($max_points > 0 ? $reached_points / $max_points : 0.0) * 100;
-
-        $mark = $this->marks_repository->getMarkSchemaFor($row['test_id'])->getMatchingMark($percentage);
+        $mark = $this->marks_repository
+            ->getMarkSchemaFor($row['test_id'])
+            ->getMatchingMark($this->calculatePercentage($row) * 100);
 
         return new ParticipantResult(
             $row['active_fi'],
             (int) $row['pass'],
-            $max_points,
-            $reached_points,
+            $this->ensurePositive($row['max_points'] ?? 0.0),
+            $this->ensurePositive($row['reached_points'] ?? 0.0),
             $mark,
             (int) ($row['tstamp'] ?? -1),
             (bool) ($row['passed_once'] ?? false),
@@ -400,7 +410,7 @@ class Repository
     }
 
     /**
-     * @param array{'passed': bool, 'failed': bool, 'finished': bool} $status
+     * @param array{'passed': bool, 'failed': bool, 'finished': bool, 'percentage': float} $status
      */
     private function updateStatusCache(int $user_id, int $test_obj_id, array $status): void
     {
@@ -408,7 +418,7 @@ class Repository
     }
 
     /**
-     * @return array{'passed': bool, 'failed': bool, 'finished': bool}|null
+     * @return array{'passed': bool, 'failed': bool, 'finished': bool, 'percentage': float}|null
      */
     private function readOrQueryStatus(int $user_id, int $test_obj_id): ?array
     {
@@ -418,7 +428,8 @@ class Repository
         }
 
         $status = $this->db->fetchAssoc($this->db->queryF(
-            "SELECT tst_result_cache.passed, tst_result_cache.failed, (tst_active.last_finished_pass IS NOT NULL) AS finished
+            "SELECT tst_result_cache.passed, tst_result_cache.failed, (tst_active.last_finished_pass IS NOT NULL) AS finished,
+                    tst_result_cache.reached_points, tst_result_cache.max_points
                     FROM tst_result_cache
                     INNER JOIN tst_active ON tst_active.active_id = tst_result_cache.active_fi
                     INNER JOIN tst_tests ON tst_tests.test_id = tst_active.test_fi
@@ -430,7 +441,23 @@ class Repository
             return null;
         }
 
+        $status['percentage'] = $this->calculatePercentage($status);
+        unset($status['reached_points'], $status['max_points']);
+
         $this->updateStatusCache($user_id, $test_obj_id, $status);
         return $status;
+    }
+
+    /**
+     * @param array{max_points: float, reached_points: float} $row
+     *
+     * @return float
+     */
+    private function calculatePercentage(array $row): float
+    {
+        $max_points = $this->ensurePositive($row['max_points'] ?? 0.0);
+        $reached_points = $this->ensurePositive($row['reached_points'] ?? 0.0);
+
+        return $max_points > 0 ? $reached_points / $max_points : 0.0;
     }
 }

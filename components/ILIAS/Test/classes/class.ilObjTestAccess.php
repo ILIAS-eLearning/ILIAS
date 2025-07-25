@@ -138,7 +138,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             ilConditionHandler::OPERATOR_PASSED,
             ilConditionHandler::OPERATOR_FAILED,
             ilConditionHandler::OPERATOR_FINISHED,
-            ilConditionHandler::OPERATOR_NOT_FINISHED
+            ilConditionHandler::OPERATOR_NOT_FINISHED,
+            ilConditionHandler::OPERATOR_RESULT_RANGE_PERCENTAGE
         ];
     }
 
@@ -166,6 +167,17 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             case ilConditionHandler::OPERATOR_NOT_FINISHED:
                 return !$test_result_repository->hasFinished($a_usr_id, $a_trigger_obj_id);
 
+            case ilConditionHandler::OPERATOR_RESULT_RANGE_PERCENTAGE:
+                $percentage_thresholds = self::deserializePercentageThresholds($a_value);
+                if ($percentage_thresholds === false) {
+                    return false;
+                }
+                return $test_result_repository->reachedPercentage(
+                    $a_usr_id,
+                    $a_trigger_obj_id,
+                    $percentage_thresholds['min_percentage'],
+                    $percentage_thresholds['max_percentage']
+                );
             default:
                 return true;
         }
@@ -415,5 +427,22 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         }
 
         return false;
+    }
+
+    /**
+     * @return array{min_percentage: float, max_percentage: float}|false
+     */
+    private static function deserializePercentageThresholds(string $value): array|false
+    {
+        $value_arr = unserialize($value);
+
+        if ($value_arr === false) {
+            return false;
+        }
+
+        return [
+            'min_percentage' => (float) ($value_arr['min_percentage'] ?? 0.0) / 100,
+            'max_percentage' => (float) ($value_arr['max_percentage'] ?? 0.0) / 100
+        ];
     }
 }
