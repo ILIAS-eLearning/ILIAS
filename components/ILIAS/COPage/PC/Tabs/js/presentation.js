@@ -57,7 +57,7 @@ const presentation = (function () {
       hideAllTabs(tabsContainer, contentClass, activeHeadClass);
       showTab(toggler, contentNode, activeHeadClass);
     } else {
-      hideAllTabs(tabsContainer, contentClass);
+      hideAllTabs(tabsContainer, contentClass, activeHeadClass);
     }
   }
 
@@ -141,6 +141,10 @@ const presentation = (function () {
         // register click handler (if not all opened is forced)
         if (behaviour !== 'ForceAllOpen') {
           tabContainer.querySelectorAll(`.${toggleClass}`).forEach((toggler) => {
+            // initialise nested toggles only once.
+            if (toggler.dataset.isInitialised) {
+              return;
+            }
             toggler.querySelectorAll('a').forEach((aInToggler) => {
               aInToggler.addEventListener('click', (e) => {
                 e.stopPropagation(); // enable links inside of accordion header
@@ -152,6 +156,7 @@ const presentation = (function () {
             toggler.addEventListener('keypress', () => {
               toggler.querySelector("div[role='button']").click();
             });
+            toggler.dataset.isInitialised = true;
           });
           if (behaviour === 'FirstOpen') {
             const firstToggler = tabContainer.querySelector(`.${toggleClass}`);
