@@ -39,7 +39,8 @@ class QuestionResult
         private readonly bool $answered,
         private readonly int $requested_hints,
         private readonly ?string $content_for_recapitulation,
-        private readonly ?string $autosaved_answer
+        private readonly ?string $autosaved_answer,
+        private readonly int $position,
     ) {
     }
 
@@ -112,6 +113,10 @@ class QuestionResult
     public function getAutosavedAnswer(): ?string
     {
         return $this->autosaved_answer;
+    }
+    public function getPosition(): int
+    {
+        return $this->position;
     }
 
 }
