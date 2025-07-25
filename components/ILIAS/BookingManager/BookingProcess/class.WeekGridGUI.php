@@ -173,17 +173,16 @@ class WeekGridGUI
             $day_of_week = 0;
             foreach (\ilCalendarUtil::_buildWeekDayList($this->seed, $this->week_start)->get() as $date) {
                 $data = $cells[$day_of_week][$hour];
-                $entries = $data["entries"];
                 $mytpl->setCurrentBlock("dates");
 
                 $content = "";
-                foreach ($entries as $entry) {
+                foreach ($data["entries"] as $entry) {
                     /** @var WeekGridEntry $entry */
                     if ($entry->getStart() >= $data["start_ts"] && $entry->getStart() < $data["end_ts"]) {
                         $content .= $entry->getHTML();
                     }
                 }
-                $mytpl->setVariable('CONTENT', count($entries) > 0 ? $content : "&nbsp;");
+                $mytpl->setVariable('CONTENT', $content ?: "&nbsp;");
                 $mytpl->parseCurrentBlock();
                 $day_of_week++;
             }
