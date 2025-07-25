@@ -126,8 +126,6 @@ class WeekGridGUI
                 $data["end_ts"] = $end->get(IL_CAL_UNIX);
                 $data["entries"] = $this->getEntriesForCell($data["start_ts"], $data["end_ts"]);
                 $cells[$week][$hour] = $data;
-                // store how much slots are max. to be displayed in parallel per day
-                $cells[$week]["col_span"] = 1;
             }
             $week++;
         }
@@ -173,17 +171,16 @@ class WeekGridGUI
             $day_of_week = 0;
             foreach (\ilCalendarUtil::_buildWeekDayList($this->seed, $this->week_start)->get() as $date) {
                 $data = $cells[$day_of_week][$hour];
-                $entries = $data["entries"];
                 $mytpl->setCurrentBlock("dates");
 
                 $content = "";
-                foreach ($entries as $entry) {
+                foreach ($data["entries"] as $entry) {
                     /** @var WeekGridEntry $entry */
                     if ($entry->getStart() >= $data["start_ts"] && $entry->getStart() < $data["end_ts"]) {
                         $content .= $entry->getHTML();
                     }
                 }
-                $mytpl->setVariable('CONTENT', count($entries) > 0 ? $content : "&nbsp;");
+                $mytpl->setVariable('CONTENT', $content ?: "&nbsp;");
                 $mytpl->parseCurrentBlock();
                 $day_of_week++;
             }
