@@ -1851,12 +1851,58 @@ class ilObjMediaObject extends ilObject
                 $thumbnail_url = $meta["thumbnail_url"] ?? "";
                 $url = parse_url($thumbnail_url);
                 if ($thumbnail_url !== "") {
+                    $mob_logger = ilLoggerFactory::getLogger('mob');
                     $file = basename($url["path"]);
-                    copy(
-                        $meta["thumbnail_url"],
-                        ilObjMediaObject::_getDirectory($this->getId()) . "/mob_vpreview." .
-                        pathinfo($file, PATHINFO_EXTENSION)
-                    );
+
+                    try {
+                        $mob_logger->debug('Trying to fetch thumbnail from YouTube: {thumbnail_url}', [
+                            'thumbnail_url' => $thumbnail_url,
+                        ]);
+
+                        $curl = new ilCurlConnection($thumbnail_url);
+                        $curl->init(true);
+                        $curl->setOpt(CURLOPT_RETURNTRANSFER, true);
+                        $curl->setOpt(CURLOPT_VERBOSE, true);
+                        $curl->setOpt(CURLOPT_FOLLOWLOCATION, true);
+                        $curl->setOpt(CURLOPT_TIMEOUT_MS, 5000);
+                        $curl->setOpt(CURLOPT_TIMEOUT, 5);
+                        $curl->setOpt(CURLOPT_FAILONERROR, true);
+                        $curl->setOpt(CURLOPT_SSL_VERIFYPEER, 1);
+                        $curl->setOpt(CURLOPT_SSL_VERIFYHOST, 2);
+
+                        $response = $curl->exec();
+                        $info = $curl->getInfo();
+
+                        $mob_logger->debug('cURL Info: {info}', [
+                            'info' => print_r($info, true)
+                        ]);
+
+                        $status = $info['http_code'] ?? '';
+                        if ((int) $status === 200) {
+                            $mob_logger->debug('Successfully fetched preview file from YouTube: Received {bytes} bytes', [
+                                'bytes' => (string) strlen($response),
+                            ]);
+   
+                            file_put_contents(
+                                self::_getDirectory(
+                                    $this->getId()
+                                ) . '/mob_vpreview.' . pathinfo(
+                                    $file,
+                                    PATHINFO_EXTENSION
+                                ),
+                                $response
+                            );
+                        } else {
+                            $mob_logger->error('Could not fetch thumbnail from YouTube: {thumbnail_url}', [
+                                'thumbnail_url' => $thumbnail_url,
+                            ]);
+                        }
+                    } catch (Exception $e) {
+                        $mob_logger->error('Could not fetch thumbnail from YouTube: {message}', [
+                            'message' => $e->getMessage(),
+                        ]);
+                        $mob_logger->error($e->getTraceAsString());
+                    }
                 }
             }
         }
