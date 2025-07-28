@@ -362,17 +362,17 @@ class ParticipantTable implements DataRetrieval
                 ->withIsSortable(true),
         ];
 
+        $columns['status_of_attempt'] = $column_factory->text($this->lng->txt('status_of_attempt'))
+           ->withIsSortable(true);
+
         if ($this->test_object->getEnableProcessingTime()) {
-            $columns['extra_time'] = $column_factory->text($this->lng->txt('extratime'))
-                ->withIsOptional(true, false);
-            $columns['total_duration'] = $column_factory->text($this->lng->txt('total_duration'))
-                ->withIsOptional(true, false);
             $columns['remaining_duration'] = $column_factory->text($this->lng->txt('remaining_duration'))
                 ->withIsOptional(true);
+            $columns['total_duration'] = $column_factory->text($this->lng->txt('total_duration'))
+                ->withIsOptional(true, false);
+            $columns['extra_time'] = $column_factory->text($this->lng->txt('extratime'))
+                ->withIsOptional(true, false);
         }
-
-        $columns['status_of_attempt'] = $column_factory->text($this->lng->txt('status_of_attempt'))
-            ->withIsSortable(true);
 
         if ($this->test_object->getMainSettings()->getTestBehaviourSettings()->getExamIdInTestAttemptEnabled()) {
             $columns['id_of_attempt'] = $column_factory->text($this->lng->txt('exam_id_of_attempt'))
