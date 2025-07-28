@@ -93,7 +93,7 @@ class Repository
 
         // Prevent unfinished passes from being entered in the table so that no inconsistencies occur during an attempt
         $status = StatusOfAttempt::build($attempt, $attempt_result['last_finished_pass'], $attempt_result['finalized_by']);
-        if(!$status->isFinished()) {
+        if (!$status->isFinished()) {
             return null;
         }
 
@@ -181,14 +181,15 @@ class Repository
             $callback();
         }
 
-        if($update_cache) {
+        if ($update_cache) {
             $this->updateTestResultCache($active_id, $process_locker);
         }
 
         return $object;
     }
 
-    public function finalizeTestAttemptResult(int $active_id, int $attempt, StatusOfAttempt $status_of_attempt): void{
+    public function finalizeTestAttemptResult(int $active_id, int $attempt, StatusOfAttempt $status_of_attempt): void
+    {
         if (!$status_of_attempt->isFinished()) {
             throw new \RuntimeException('Status of attempt must be finished to finalize test attempt result');
         }

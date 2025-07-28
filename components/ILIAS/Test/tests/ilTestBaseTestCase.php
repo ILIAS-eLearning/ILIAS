@@ -61,6 +61,8 @@ class ilTestBaseTestCase extends TestCase
 
         $DIC = $this->backup_dic;
 
+        (new ReflectionClass(\ILIAS\Test\TestDIC::class))->getProperty('dic')->setValue(null, null);
+
         parent::tearDown();
     }
 
@@ -92,24 +94,22 @@ class ilTestBaseTestCase extends TestCase
         $this->addGlobal_static_url();
         $this->addGlobal_upload();
         $this->addGlobal_ilLog();
+        $this->addGlobal_ilBench();
         $this->addGlobal_ilSetting();
+        $this->addGlobal_ilCtrl();
         $this->addGlobal_ilCtrl();
         $this->addGlobal_ilObjDataCache();
         $this->addGlobal_ilHelp();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilLocator();
         $this->addGlobal_ilToolbar();
-        $this->addGlobal_ilObjectCustomIconFactory();
         $this->addGlobal_filesystem();
         $this->addGlobal_ilLoggerFactory();
         $this->addGlobal_GlobalScreenService();
         $this->addGlobal_ilNavigationHistory();
-        $this->addGlobal_ilObjTest();
-        $this->addGlobal_ilBench();
-        $this->addGlobal_ilSetting();
         $this->addGlobal_objectService();
-        $this->addGlobal_objectMetadata();
         $this->addGlobal_resourceStorage();
+        $this->addGlobal_objectMetadata();
 
         $this->defineGlobalConstants();
 
@@ -166,13 +166,13 @@ class ilTestBaseTestCase extends TestCase
                 'string' => '',
                 'int' => 0,
                 'float' => 0.0,
-                'bool', 'true' => true ,
+                'bool', 'true' => true,
                 'false' => false,
                 'array' => [],
                 'null', 'resource' => null,
                 'Closure' => (static fn() => null),
                 'object' => (object) [],
-                default => (function($constructor_parameter_type_name) {
+                default => (function ($constructor_parameter_type_name) {
                     if (enum_exists($constructor_parameter_type_name)) {
                         $enum_cases = $constructor_parameter_type_name::cases();
                         return array_shift($enum_cases);

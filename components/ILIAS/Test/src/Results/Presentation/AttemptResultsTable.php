@@ -48,16 +48,16 @@ class AttemptResultsTable
     protected PresentationTable $table;
 
     public function __construct(
-        UIFactory                $ui_factory,
-        private UIRenderer       $ui_renderer,
-        private Refinery         $refinery,
-        private HTTPService      $http,
-        DataFactory              $data_factory,
-        Language                 $lng,
+        UIFactory $ui_factory,
+        private UIRenderer $ui_renderer,
+        private Refinery $refinery,
+        private HTTPService $http,
+        DataFactory $data_factory,
+        Language $lng,
         private AttemptSolutions $test_results,
-        Settings                 $settings,
-        string                   $title,
-        bool                     $for_print
+        Settings $settings,
+        string $title,
+        bool $for_print
     ) {
         list($mode, $sortation) = $this->getViewControlsParameter();
         $results = $this->applyControls($mode, $sortation, $test_results->getQuestionResults());

@@ -549,8 +549,6 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
                     'passed' => 0,
                     'failed' => 1,
                     'tstamp' => 1740557748,
-                    'hint_count' => 0,
-                    'hint_points' => 0,
                     'passed_once' => 0
                 ],
                 [
@@ -564,8 +562,6 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
                     'getMarkShort' => 'failed',
                     'getMarkOfficial' => 'failed',
                     'getTimestamp' => 1740557748,
-                    'getHintCount' => 0,
-                    'getHintPoints' => 0,
                 ]
             ],
         ];
@@ -594,8 +590,6 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
                     'answeredquestions' => 2,
                     'workingtime' => 12,
                     'tstamp' => 1740557748,
-                    'hint_count' => 0,
-                    'hint_points' => 0,
                     'exam_id' => 'I0_T334_A41_P0',
                     'finalized_by' => null,
                     'last_finished_pass' => 0,
@@ -617,8 +611,6 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
                     'getMarkShort' => 'failed',
                     'getMarkOfficial' => 'failed',
                     'getTimestamp' => 1740557748,
-                    'getHintCount' => 0,
-                    'getHintPoints' => 0,
                 ]
             ],
             // Dataset #2: success result
@@ -631,8 +623,6 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
                     'answeredquestions' => 2,
                     'workingtime' => 12,
                     'tstamp' => 1740557748,
-                    'hint_count' => 0,
-                    'hint_points' => 0,
                     'exam_id' => 'I0_T334_A41_P0',
                     'finalized_by' => null,
                     'last_finished_pass' => 1,
@@ -654,8 +644,6 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
                     'getMarkShort' => 'passed',
                     'getMarkOfficial' => 'passed',
                     'getTimestamp' => 1740557748,
-                    'getHintCount' => 0,
-                    'getHintPoints' => 0,
                 ]
             ]
         ];
@@ -681,8 +669,6 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
                     'answeredquestions' => 2,
                     'workingtime' => 12,
                     'tstamp' => 1740557748,
-                    'hint_count' => 0,
-                    'hint_points' => 0,
                     'exam_id' => 'I0_T334_A41_P0',
                     'finalized_by' => null,
                 ],
@@ -695,8 +681,6 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
                     'getAnsweredQuestions' => 2,
                     'getWorkingTime' => 12,
                     'getTimestamp' => 1740557748,
-                    'getHintCount' => 0,
-                    'getHintPoints' => 0,
                     'getExamId' => 'I0_T334_A41_P0',
                     'getFinalizedBy' => null
                 ]
@@ -707,8 +691,8 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
     /**
      * This method returns sample data for these queries:
      *
-     *  SELECT pass, SUM(points) AS points, SUM(hint_count) AS hint_count, SUM(hint_points) AS hint_points,
-     *  COUNT(DISTINCT(question_fi)) answeredquestions FROM tst_test_result WHERE active_fi = %s AND pass = %s
+     *  SELECT pass, SUM(points) AS points, COUNT(DISTINCT(question_fi)) answeredquestions FROM tst_test_result WHERE
+     *  active_fi = %s AND pass = %s
      *
      *  SELECT started, finished FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started
      *
@@ -728,8 +712,6 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
                 [
                     'pass' => 0,
                     'points' => 10,
-                    'hint_count' => 0,
-                    'hint_points' => 0,
                     'answeredquestions' => 2,
                 ],
                 // Result of query 2
@@ -751,8 +733,6 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
                     'getQuestionCount' => 3,
                     'getAnsweredQuestions' => 2,
                     'getWorkingTime' => 12,
-                    'getHintCount' => 0,
-                    'getHintPoints' => 0,
                     'getExamId' => 'I_T100_A10_P0', // see \ilObjTest::buildExamId
                     'getFinalizedBy' => null
                 ],
