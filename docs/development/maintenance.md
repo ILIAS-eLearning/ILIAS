@@ -476,8 +476,8 @@ of ILIAS. The file contains the following fields:
       , [yvseiler](https://docu.ilias.de/go/usr/17694)
     * Authority to (De-)Assign Authorities: [yvseiler](https://docu.ilias.de/go/usr/17694)
 	* Tester: [fschmid](https://docu.ilias.de/go/usr/21087)
-    * Assignee for Security Reports: [amstutz](https://docu.ilias.de/go/usr/26468)
-    * Assignee for Security Issues: [amstutz](https://docu.ilias.de/go/usr/26468)
+    * Assignee for Security Reports: [catenglaender](https://docu.ilias.de/go/usr/79291)
+    * Assignee for Security Issues: [catenglaender](https://docu.ilias.de/go/usr/79291)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END CSSAndTemplates)
