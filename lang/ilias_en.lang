@@ -8581,6 +8581,7 @@ dcl#:#dcl_delete_fields#:#Delete Fields
 dcl#:#dcl_delete_fields_no_selection#:#Please select at least one field to delete
 dcl#:#dcl_delete_perm#:#Delete Entries
 dcl#:#dcl_delete_records#:#Delete Entries
+dcl#:#dcl_deleted_entries#:#Deleted Entries
 dcl#:#dcl_deleted_records#:#Successfully deleted %s Entries
 dcl#:#dcl_deprecated_copy#:#(Deprecated)
 dcl#:#dcl_desc#:#Descending ↓
@@ -8675,6 +8676,7 @@ dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one View must e
 dcl#:#dcl_msg_tableviews_order_updated#:#Order of views updated
 dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_new#:#Create New Data Collection
+dcl#:#dcl_new_entries#:#New Entries
 dcl#:#dcl_new_field#:#New Field
 dcl#:#dcl_new_table#:#New Table
 dcl#:#dcl_new_view#:#New View
@@ -8690,11 +8692,12 @@ dcl#:#dcl_no_such_reference#:#The following value is not available in the refere
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!
 dcl#:#dcl_not_checked#:#Not checked.
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
-dcl#:#dcl_notification_activate_dcl#:#Activate Notification for Data Collection
+dcl#:#dcl_notification_activate#:#Activate Notification for Data Collection
 dcl#:#dcl_notification_activated#:#Notification Activated
-dcl#:#dcl_notification_deactivate_dcl#:#Deactivate Notification for Data Collection
+dcl#:#dcl_notification_deactivate#:#Deactivate Notification for Data Collection
 dcl#:#dcl_notification_deactivated#:#Notification Deactivated
 dcl#:#dcl_notification_info#:#Users can choose for themselves if they wish to activate notifications for their accounts.
+dcl#:#dcl_notification_settings#:#Notification Settings
 dcl#:#dcl_notimage_exception#:#The file has to be a picture.
 dcl#:#dcl_noturl_exception#:#Please enter a link (beginning with http:// or www.) or an e-mail address.
 dcl#:#dcl_number#:#Integer
@@ -8800,6 +8803,7 @@ dcl#:#dcl_unknown_exception#:#The value you entered is not valid.
 dcl#:#dcl_unknown_plugin#:#Unknown plugin type
 dcl#:#dcl_update_field#:#Update Field
 dcl#:#dcl_update_record#:#Update Entry
+dcl#:#dcl_updated_entries#:#Updated Entries
 dcl#:#dcl_url#:#Mandatory URL or E-Mail
 dcl#:#dcl_view_configuration#:#View Configuration
 dcl#:#dcl_view_own_records_perm#:#View Only Own Entries

@@ -102,7 +102,7 @@ class ilDclBaseRecordModel
         if (!$omit_notification) {
             $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
             $objDataCollection = new ilObjDataCollection($ref_id);
-            $objDataCollection->sendRecordNotification(ilDataCollectionMailNotification::TYPE_RECORD_UPDATE, $this);
+            $objDataCollection->sendRecordNotification(ilDclNotificationType::RECORD_UPDATE, $this);
         }
     }
 
@@ -582,7 +582,7 @@ class ilDclBaseRecordModel
         if (!$omit_notification) {
             $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
             $objDataCollection = new ilObjDataCollection($ref_id);
-            $objDataCollection->sendRecordNotification(ilDataCollectionMailNotification::TYPE_RECORD_DELETE, $this);
+            $objDataCollection->sendRecordNotification(ilDclNotificationType::RECORD_DELETE, $this);
 
             $this->event->raise(
                 'components/ILIAS/DataCollection',

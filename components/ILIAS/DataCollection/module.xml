@@ -21,4 +21,7 @@
     <pluginslots>
         <pluginslot id="dclfth" name="FieldTypeHook"/>
     </pluginslots>
+    <events>
+        <event type="listen" id="Services/User" />
+    </events>
 </module>

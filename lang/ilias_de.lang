@@ -8572,6 +8572,7 @@ dcl#:#dcl_delete_fields#:#Felder löschen
 dcl#:#dcl_delete_fields_no_selection#:#Zum Löschen muss mindestens ein Feld ausgewählt werden.
 dcl#:#dcl_delete_perm#:#Einträge löschen
 dcl#:#dcl_delete_records#:#Datensätze löschen
+dcl#:#dcl_deleted_entries#:#Gelöschte Einträge
 dcl#:#dcl_deleted_records#:#Es wurden %s Datensätze gelöscht.
 dcl#:#dcl_deprecated_copy#:#(Veraltet)
 dcl#:#dcl_desc#:#Absteigend ↓
@@ -8665,6 +8666,7 @@ dcl#:#dcl_msg_tableviews_delete_all#:#Löschen nicht möglich: Es muss mindesten
 dcl#:#dcl_msg_tableviews_order_updated#:#Anordnung der Ansichten aktualisiert.
 dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
 dcl#:#dcl_new#:#Neue Datensammlung anlegen
+dcl#:#dcl_new_entries#:#Neue Einträge
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_new_view#:#Neue Ansicht
@@ -8680,11 +8682,12 @@ dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht
 dcl#:#dcl_no_tableview_found#:#Keine sichbare Tabellenansicht verfügbar!
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
 dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp wird beim Import nicht unterstützt.
-dcl#:#dcl_notification_activate_dcl#:#Benachrichtigung aktivieren
+dcl#:#dcl_notification_activate#:#Benachrichtigung aktivieren
 dcl#:#dcl_notification_activated#:#Benachrichtigung aktiv
-dcl#:#dcl_notification_deactivate_dcl#:#Benachrichtigung deaktivieren
+dcl#:#dcl_notification_deactivate#:#Benachrichtigung deaktivieren
 dcl#:#dcl_notification_deactivated#:#Benachrichtigung inaktiv
 dcl#:#dcl_notification_info#:#Jede Person kann Benachrichtigungen für sich aktivieren.
+dcl#:#dcl_notification_settings#:#Benachrichtigungseinstellungen
 dcl#:#dcl_notimage_exception#:#Die Datei muss ein Bild sein.
 dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// oder www.) oder eine E-Mail-Adresse ein.
 dcl#:#dcl_number#:#Ganze Zahlen
@@ -8789,6 +8792,7 @@ dcl#:#dcl_unknown_exception#:#Der eingegebene Wert ist nicht gültig.
 dcl#:#dcl_unknown_plugin#:#Unbekannter Plugintyp
 dcl#:#dcl_update_field#:#Feld aktualisieren
 dcl#:#dcl_update_record#:#Eintrag aktualisieren
+dcl#:#dcl_updated_entries#:#Bearbeitete Einträge
 dcl#:#dcl_url#:#URL oder E-Mail
 dcl#:#dcl_view_configuration#:#Ansichtskonfiguration
 dcl#:#dcl_view_own_records_perm#:#Nur eigene Einträge anzeigen

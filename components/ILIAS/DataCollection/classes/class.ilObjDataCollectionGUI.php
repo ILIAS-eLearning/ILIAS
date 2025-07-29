@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Container\Form\Form;
+use ILIAS\UI\Component\Modal\RoundTrip;
 
 /**
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
@@ -54,6 +55,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     protected ilLanguage $lng;
     protected ilTabsGUI $tabs;
     protected int $table_id;
+    private ilDclNotification $notification_settings;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
@@ -62,6 +64,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
         $this->tabs = $DIC->tabs();
+        $this->notification_settings = new ilDclNotification($DIC->database());
 
         $this->lng->loadLanguageModule('dcl');
         $this->lng->loadLanguageModule('content');
@@ -512,25 +515,31 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         return new ilObjDataCollection($this->ref_id, true);
     }
 
-    final public function toggleNotification(): void
+    final public function activateNotification(): void
     {
-        $ntf = $this->http->wrapper()->query()->retrieve('ntf', $this->refinery->kindlyTo()->int());
-        switch ($ntf) {
-            case 1:
-                ilNotification::setNotification(
-                    ilNotification::TYPE_DATA_COLLECTION,
-                    $this->user->getId(),
-                    $this->obj_id,
-                    false
-                );
-                break;
-            case 2:
-                ilNotification::setNotification(
-                    ilNotification::TYPE_DATA_COLLECTION,
-                    $this->user->getId(),
-                    $this->obj_id
-                );
-                break;
+        ilNotification::setNotification(ilNotification::TYPE_DATA_COLLECTION, $this->user->getId(), $this->obj_id);
+        foreach (ilDclNotificationType::cases() as $notification) {
+            $this->notification_settings->add($this->object, $this->user, $notification);
+        }
+        $this->ctrl->redirectByClass(ilDclRecordListGUI::class, 'show');
+    }
+
+    final public function deactivateNotification(): void
+    {
+        ilNotification::setNotification(ilNotification::TYPE_DATA_COLLECTION, $this->user->getId(), $this->obj_id, false);
+        $this->notification_settings->clear($this->object, $this->user);
+        $this->ctrl->redirectByClass(ilDclRecordListGUI::class, 'show');
+    }
+
+    final public function editNotification(): void
+    {
+        if ($data = $this->getNotificationModal()->withRequest($this->request)->getData()) {
+            $this->notification_settings->clear($this->object, $this->user);
+            foreach (ilDclNotificationType::cases() as $notification) {
+                if ($data[$notification->value]) {
+                    $this->notification_settings->add($this->object, $this->user, $notification);
+                }
+            }
         }
         $this->ctrl->redirectByClass(ilDclRecordListGUI::class, 'show');
     }
@@ -549,17 +558,50 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         if ($this->user->getId() != ANONYMOUS_USER_ID and $this->object->getNotification() == 1) {
             if (ilNotification::hasNotification(ilNotification::TYPE_DATA_COLLECTION, $this->user->getId(), $this->obj_id)) {
-                $this->ctrl->setParameter($this, 'ntf', 1);
-                $lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'toggleNotification'), 'dcl_notification_deactivate_dcl');
+                $lg->addCustomCommandButton(
+                    $this->ui_factory->button()->shy(
+                        $this->lng->txt('dcl_notification_deactivate'),
+                        $this->ctrl->getLinkTarget($this, 'deactivateNotification')
+                    )
+                );
+                $modal = $this->getNotificationModal();
+                $lg->addCustomCommandButton(
+                    $this->ui_factory->button()->shy(
+                        $this->lng->txt('dcl_notification_settings'),
+                        $modal->getShowSignal()
+                    ),
+                    $modal
+                );
                 $lg->addHeaderIcon('not_icon', ilUtil::getImagePath('object/notification_on.svg'), $this->lng->txt('dcl_notification_activated'));
             } else {
-                $this->ctrl->setParameter($this, 'ntf', 2);
-                $lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'toggleNotification'), 'dcl_notification_activate_dcl');
+                $lg->addCustomCommandButton(
+                    $this->ui_factory->button()->shy(
+                        $this->lng->txt('dcl_notification_activate'),
+                        $this->ctrl->getLinkTarget($this, 'activateNotification')
+                    )
+                );
                 $lg->addHeaderIcon('not_icon', ilUtil::getImagePath('object/notification_off.svg'), $this->lng->txt('dcl_notification_deactivated'));
             }
             $this->ctrl->setParameter($this, 'ntf', '');
         }
 
         $this->tpl->setHeaderActionMenu($lg->getHeaderAction());
+    }
+
+    protected function getNotificationModal(): RoundTrip
+    {
+        return $this->ui_factory->modal()->roundtrip(
+            $this->lng->txt('dcl_notification_settings'),
+            null,
+            [
+                ilDclNotificationType::RECORD_CREATE->value => $this->ui_factory->input()->field()->checkbox($this->lng->txt('dcl_new_entries'))
+                    ->withValue($this->notification_settings->has($this->object, $this->user->getId(), ilDclNotificationType::RECORD_CREATE)),
+                ilDclNotificationType::RECORD_UPDATE->value => $this->ui_factory->input()->field()->checkbox($this->lng->txt('dcl_updated_entries'))
+                    ->withValue($this->notification_settings->has($this->object, $this->user->getId(), ilDclNotificationType::RECORD_UPDATE)),
+                ilDclNotificationType::RECORD_DELETE->value => $this->ui_factory->input()->field()->checkbox($this->lng->txt('dcl_deleted_entries'))
+                    ->withValue($this->notification_settings->has($this->object, $this->user->getId(), ilDclNotificationType::RECORD_DELETE)),
+            ],
+            $this->ctrl->getLinkTarget($this, 'editNotification')
+        );
     }
 }

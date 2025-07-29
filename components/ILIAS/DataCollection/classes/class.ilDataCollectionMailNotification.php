@@ -20,10 +20,6 @@ declare(strict_types=1);
 
 class ilDataCollectionMailNotification extends ilMailNotification
 {
-    public const TYPE_RECORD_CREATE = 1;
-    public const TYPE_RECORD_UPDATE = 2;
-    public const TYPE_RECORD_DELETE = 3;
-
     private int $actor;
     private ilDclBaseRecordModel $record;
 
@@ -105,11 +101,11 @@ class ilDataCollectionMailNotification extends ilMailNotification
     private function getAction(ilLanguage $lng): string
     {
         switch ($this->getType()) {
-            case self::TYPE_RECORD_CREATE:
+            case ilDclNotificationType::RECORD_CREATE->value:
                 return $lng->txt('dcl_change_notification_dcl_new_record');
-            case self::TYPE_RECORD_UPDATE:
+            case ilDclNotificationType::RECORD_UPDATE->value:
                 return $lng->txt('dcl_change_notification_dcl_update_record');
-            case self::TYPE_RECORD_DELETE:
+            case ilDclNotificationType::RECORD_DELETE->value:
                 return $lng->txt('dcl_change_notification_dcl_delete_record');
             default:
                 return '';
