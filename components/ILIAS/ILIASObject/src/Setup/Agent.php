@@ -37,7 +37,7 @@ class Agent extends NullAgent
     {
         return new \ilDatabaseUpdateStepsMetricsCollectedObjective(
             $storage,
-            new ilObjectDBUpdateSteps()
+            new DBUpdateSteps11()
         );
     }
 
