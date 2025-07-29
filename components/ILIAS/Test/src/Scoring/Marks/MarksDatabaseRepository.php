@@ -24,35 +24,21 @@ class MarksDatabaseRepository implements MarksRepository
 {
     private const DB_TABLE = 'tst_mark';
 
-
     public function __construct(
-        private readonly \ilDBInterface $db
+        private readonly \ilDBInterface $db,
+        private readonly MarkSchemaFactory $factory
     ) {
     }
 
     public function getMarkSchemaFor(int $test_id): MarkSchema
     {
-        $schema = new MarkSchema($test_id);
-
         $result = $this->db->queryF(
             'SELECT * FROM ' . self::DB_TABLE . ' WHERE test_fi = %s ORDER BY minimum_level',
             ['integer'],
             [$test_id]
         );
-        if ($this->db->numRows($result) > 0) {
-            $mark_steps = [];
-            while ($data = $this->db->fetchAssoc($result)) {
-                $mark_steps[] = new Mark(
-                    $data['short_name'],
-                    $data['official_name'],
-                    (float) $data['minimum_level'],
-                    (bool) $data['passed']
-                );
-            }
-            return $schema->withMarkSteps($mark_steps);
-        }
 
-        return $schema->createSimpleSchema();
+        return $this->factory->createMarkSchema($this->db->fetchAll($result), $test_id);
     }
 
     public function storeMarkSchema(MarkSchema $mark_schema): void

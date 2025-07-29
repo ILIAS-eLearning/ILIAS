@@ -20,15 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\ScoreReporting;
 
-use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
+use ILIAS\Test\Settings\SettingsFactory;
 
 class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
 {
     /** @var array<int, ScoreSettings> Test ID -> Settings DTO */
     private array $settings_instances = [];
 
-    public function __construct(protected \ilDBInterface $db)
-    {
+    public function __construct(
+        protected \ilDBInterface $db,
+        protected SettingsFactory $factory
+    ) {
     }
 
     public function getFor(int $test_id): ScoreSettings
@@ -65,37 +67,7 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
         }
 
         $row = $this->db->fetchAssoc($res);
-
-        $settings = new ScoreSettings(
-            $row['id'],
-            (new SettingsScoring())
-                ->withCountSystem((int) $row['count_system'])
-                ->withScoreCutting((int) $row['score_cutting'])
-                ->withPassScoring((int) $row['pass_scoring']),
-            (new SettingsResultSummary())
-                ->withScoreReporting(ScoreReportingTypes::from($row['score_reporting']))
-                ->withReportingDate($row['reporting_date'] !== 0
-                    ? \DateTimeImmutable::createFromFormat('U', (string) $row['reporting_date'])
-                    : null)
-                ->withShowGradingStatusEnabled((bool) $row['show_grading_status'])
-                ->withShowGradingMarkEnabled((bool) $row['show_grading_mark'])
-                ->withPassDeletionAllowed((bool) $row['pass_deletion_allowed']),
-            //->withShowPassDetails derived from results_presentation with bit RESULTPRES_BIT_PASS_DETAILS
-            (new SettingsResultDetails())
-                ->withResultsPresentation((int) $row['results_presentation'])
-                ->withShowExamIdInTestResults((bool) $row['examid_in_test_res'])
-                ->withExportSettings((int) $row['exportsettings']),
-            (new SettingsGamification())
-                ->withHighscoreEnabled((bool) $row['highscore_enabled'])
-                ->withHighscoreAnon((bool) $row['highscore_anon'])
-                ->withHighscoreAchievedTS((bool) $row['highscore_achieved_ts'])
-                ->withHighscoreScore((bool) $row['highscore_score'])
-                ->withHighscorePercentage((bool) $row['highscore_percentage'])
-                ->withHighscoreWTime((bool) $row['highscore_wtime'])
-                ->withHighscoreOwnTable((bool) $row['highscore_own_table'])
-                ->withHighscoreTopTable((bool) $row['highscore_top_table'])
-                ->withHighscoreTopNum((int) $row['highscore_top_num'])
-        );
+        $settings = $this->factory->createScoreSettings($row);
 
         $this->settings_instances[$row['test_id']] = $settings;
 

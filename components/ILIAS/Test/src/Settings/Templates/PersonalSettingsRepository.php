@@ -20,11 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\Templates;
 
+use ILIAS\Test\Scoring\Marks\MarkSchema;
+use ILIAS\Test\Scoring\Marks\MarkSchemaFactory;
+
 class PersonalSettingsRepository
 {
     public function __construct(
         protected \ilDBInterface $db,
         protected \ilObjUser $user,
+        protected MarkSchemaFactory $marks_factory,
     ) {
     }
 
@@ -61,6 +65,31 @@ class PersonalSettingsRepository
             $defaults[$row['test_defaults_id']] = self::toTemplate($row);
         }
         return $defaults;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getSettings(int $template_id): array
+    {
+        $stmt = $this->db->queryF(
+            "SELECT tst_test_settings.* FROM tst_test_settings 
+                INNER JOIN tst_test_defaults ON tst_test_settings.id = tst_test_defaults.settings_id
+                WHERE tst_test_defaults.test_defaults_id = %s",
+            [\ilDBConstants::T_INTEGER],
+            [$template_id]
+        );
+        return $this->db->fetchAssoc($stmt);
+    }
+
+    public function getMarkSchema(int $template_id): MarkSchema
+    {
+        $stmt = $this->db->queryF(
+            "SELECT tst_mark.* FROM tst_mark INNER JOIN tst_defaults_marks ON tst_mark.mark_id = tst_defaults_marks.mark_id WHERE tst_defaults_marks.defaults_id = %s",
+            [\ilDBConstants::T_INTEGER],
+            [$template_id]
+        );
+        return $this->marks_factory->createMarkSchema($this->db->fetchAll($stmt), -1);
     }
 
     public function applyTemplate(int $test_id, int $template_id): void

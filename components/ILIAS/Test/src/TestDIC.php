@@ -20,8 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Test;
 
+use ILIAS\LegalDocuments\ConsumerToolbox\Setting;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
+use ILIAS\Test\Scoring\Marks\MarkSchemaFactory;
+use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
+use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
+use ILIAS\Test\Settings\SettingsFactory;
 use ILIAS\Test\Settings\Templates\PersonalSettingsRepository;
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\Test\TestManScoringDoneHelper;
@@ -108,11 +113,17 @@ class TestDIC extends PimpleContainer
                 $DIC->globalCache()
             );
 
+        $dic['settings.factory'] = static fn($c): SettingsFactory =>
+            new SettingsFactory();
+
         $dic['settings.main.repository'] = static fn($c): MainSettingsRepository =>
-            new MainSettingsDatabaseRepository($DIC['ilDB']);
+            new MainSettingsDatabaseRepository($DIC->database(), $c['settings.factory']);
+
+        $dic['settings.scoring.repository'] = static fn($c): ScoreSettingsRepository =>
+            new ScoreSettingsDatabaseRepository($DIC->database(), $c['settings.factory']);
 
         $dic['settings.personal_templates.repository'] = static fn($c): PersonalSettingsRepository =>
-            new PersonalSettingsRepository($DIC->database(), $DIC->user());
+            new PersonalSettingsRepository($DIC->database(), $DIC->user(), $c['marks.factory']);
 
         $dic['participant.access_filter.factory'] = static fn($c): \ilTestParticipantAccessFilterFactory =>
             new \ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
@@ -120,8 +131,11 @@ class TestDIC extends PimpleContainer
         $dic['scoring.manual.done_helper'] = static fn($c): TestManScoringDoneHelper =>
             new TestManScoringDoneHelper();
 
+        $dic['marks.factory'] = static fn($c): MarkSchemaFactory =>
+            new MarkSchemaFactory();
+
         $dic['marks.repository'] = static fn($c): MarksRepository =>
-            new MarksDatabaseRepository($DIC['ilDB']);
+            new MarksDatabaseRepository($DIC['ilDB'], $c['marks.factory']);
 
         $dic['request_data_collector'] = static fn($c): RequestDataCollector =>
             new RequestDataCollector(
@@ -147,18 +161,21 @@ class TestDIC extends PimpleContainer
                 $DIC['ilDB']
             );
 
+        $dic['logging.information_generator'] = static fn($c): Logging\AdditionalInformationGenerator =>
+             new Logging\AdditionalInformationGenerator(
+                (new \ilMustacheFactory())->getBasicEngine(),
+                $DIC['lng'],
+                $DIC['ui.factory'],
+                $DIC['refinery'],
+                $c['question.general_properties.repository']
+             );
+
         $dic['logging.logger'] = static fn($c): TestLogger =>
             new TestLogger(
                 $c['logging.settings'],
                 $c['logging.repository'],
                 $c['logging.factory'],
-                new Logging\AdditionalInformationGenerator(
-                    (new \ilMustacheFactory())->getBasicEngine(),
-                    $DIC['lng'],
-                    $DIC['ui.factory'],
-                    $DIC['refinery'],
-                    $c['question.general_properties.repository']
-                ),
+                $c['logging.information_generator'],
                 \ilLoggerFactory::getLogger('tst')
             );
 

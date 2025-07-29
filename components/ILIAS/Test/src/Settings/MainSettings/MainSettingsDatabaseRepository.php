@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
+use ILIAS\Test\Settings\SettingsFactory;
+
 class MainSettingsDatabaseRepository implements MainSettingsRepository
 {
     /** @var array<int, int> Object ID -> Settings ID */
@@ -30,9 +32,10 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
 
     /** @var array<int, MainSettings> Settings ID -> Settings DTO */
     private array $settings_instances = [];
-
-    public function __construct(protected \ilDBInterface $db)
-    {
+    public function __construct(
+        protected \ilDBInterface $db,
+        protected SettingsFactory $factory
+    ) {
     }
 
     public function getForObjFi(int $obj_fi): MainSettings
@@ -120,78 +123,7 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
         }
 
         $row = $this->db->fetchAssoc($res);
-
-        $settings = new MainSettings(
-            $row['id'],
-            new SettingsGeneral(
-                $row['question_set_type'],
-                (bool) $row['anonymity']
-            ),
-            new SettingsIntroduction(
-                (bool) $row['intro_enabled'],
-                $row['introduction'],
-                $row['introduction_page_id'],
-                (bool) $row['conditions_checkbox_enabled'],
-            ),
-            new SettingsAccess(
-                (bool) $row['starting_time_enabled'],
-                $row['starting_time'] !== 0
-                    ? \DateTimeImmutable::createFromFormat('U', (string) $row['starting_time'])
-                    : null,
-                (bool) $row['ending_time_enabled'],
-                $row['ending_time'] !== 0
-                    ? \DateTimeImmutable::createFromFormat('U', (string) $row['ending_time'])
-                    : null,
-                (bool) $row['password_enabled'],
-                $row['password'],
-                $row['ip_range_from'],
-                $row['ip_range_to'],
-                (bool) $row['fixed_participants'],
-            ),
-            new SettingsTestBehaviour(
-                $row['nr_of_tries'],
-                (bool) $row['block_after_passed'],
-                $row['pass_waiting'],
-                (bool) $row['enable_processing_time'],
-                $row['processing_time'],
-                (bool) $row['reset_processing_time'],
-                $row['kiosk'],
-                (bool) $row['examid_in_test_pass']
-            ),
-            new SettingsQuestionBehaviour(
-                (int) $row['title_output'],
-                (bool) $row['autosave'],
-                $row['autosave_ival'],
-                (bool) $row['shuffle_questions'],
-                (bool) $row['answer_feedback_points'],
-                (bool) $row['answer_feedback'],
-                (bool) $row['specific_feedback'],
-                (bool) $row['instant_verification'],
-                (bool) $row['force_inst_fb'],
-                (bool) $row['inst_fb_answer_fixation'],
-                (bool) $row['follow_qst_answer_fixation']
-            ),
-            new SettingsParticipantFunctionality(
-                (bool) $row['use_previous_answers'],
-                (bool) $row['suspend_test_allowed'],
-                (bool) $row['sequence_settings'],
-                $row['usr_pass_overview_mode'],
-                (bool) $row['show_marker'],
-                (bool) $row['show_questionlist']
-            ),
-            new SettingsFinishing(
-                (bool) $row['enable_examview'],
-                (bool) $row['showfinalstatement'],
-                $row['finalstatement'],
-                $row['concluding_remarks_page_id'],
-                RedirectionModes::tryFrom($row['redirection_mode']) ?? RedirectionModes::NONE,
-                $row['redirection_url']
-            ),
-            new SettingsAdditional(
-                (bool) $row['skill_service'],
-                (bool) $row['hide_info_tab']
-            )
-        );
+        $settings = $this->factory->createMainSettings($row);
 
         $this->settings_by_obj_fi[$row['obj_fi']] = $settings->getId();
         $this->settings_by_test_fi[$row['test_id']] = $settings->getId();
