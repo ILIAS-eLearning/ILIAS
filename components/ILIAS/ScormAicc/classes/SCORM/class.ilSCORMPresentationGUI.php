@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Class ilSCORMPresentationGUI
@@ -145,7 +145,8 @@ class ilSCORMPresentationGUI
             $this->ctrl->setParameter($this, "autolaunch", $items[0] ?? "");
         }
         $api_link = $this->ctrl->getLinkTarget($this, "apiInitData");
-        $this->tpl->setVariable("TITLE", $this->slm->getTitle());
+	$this->tpl->setVariable("TITLE", $this->slm->getTitle());
+	$this->tpl->setVariable("ICON", ilUtil::getImagePath("favicon.ico", ""));
         $this->tpl->setVariable("API_LINK", $api_link);
         $this->tpl->printToStdout("DEFAULT", false, true);
 
