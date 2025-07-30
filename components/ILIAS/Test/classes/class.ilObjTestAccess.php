@@ -97,7 +97,14 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             $user_id = $this->user->getId();
         }
 
-        $is_admin = $this->rbac_system->checkAccessOfUser($user_id, 'write', $ref_id);
+        $is_admin = $this->rbac_system->checkAccessOfUser($user_id, 'write', $ref_id)
+            || $this->rbac_system->checkAccessOfUser($user_id, 'score_anon', $ref_id);
+
+        $is_online = !ilObject::lookupOfflineStatus($obj_id);
+
+        if (!$is_admin && !$is_online) {
+            return false;
+        }
 
         switch ($permission) {
             case "visible":
