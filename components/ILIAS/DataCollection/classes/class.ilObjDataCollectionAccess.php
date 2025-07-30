@@ -261,10 +261,6 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return true;
     }
 
-    /**
-     * returns true if either the table is visible for all users, or no tables are visible and this is
-     * the table with the lowest order (getFirstVisibleTableId())
-     */
     protected static function hasAccessToTable(int $table_id, int $ref_id): bool
     {
         $table = ilDclCache::getTableCache($table_id);
