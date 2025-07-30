@@ -84,7 +84,7 @@ class PersonalSettingsTable implements DataRetrieval
     public function getComponent(): DataTable
     {
         return $this->ui_factory->table()
-            ->data($this, $this->lng->txt('tst_defaults_available'), $this->getColumns())
+            ->data($this, $this->lng->txt('personal_settings_templates_available'), $this->getColumns())
             ->withRequest($this->test_request->getRequest())
             ->withActions($this->table_actions->getActions(...$this->acquireParameters()))
             ->withOrder(new Order('timestamp', Order::DESC))
