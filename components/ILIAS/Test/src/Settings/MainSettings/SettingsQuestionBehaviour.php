@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
+use ILIAS\Test\ExportImport\Concerns\PropertyNormalizer;
+use ILIAS\Test\ExportImport\Contracts\Normalizable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -30,8 +32,10 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Implementation\Component\Input\Field\SwitchableGroup;
 
-class SettingsQuestionBehaviour extends TestSettings
+class SettingsQuestionBehaviour extends TestSettings implements Normalizable
 {
+    use PropertyNormalizer;
+
     private const DEFAULT_AUTOSAVE_INTERVAL = 30000;
 
     public const ANSWER_FIXATION_NONE = 'none';

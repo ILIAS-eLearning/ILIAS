@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
+use ILIAS\Test\ExportImport\Concerns\PropertyNormalizer;
+use ILIAS\Test\ExportImport\Contracts\Normalizable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
@@ -27,8 +29,10 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
-class SettingsGeneral extends TestSettings
+class SettingsGeneral extends TestSettings implements Normalizable
 {
+    use PropertyNormalizer;
+
     public function __construct(
         protected string $question_set_type = \ilObjTest::QUESTION_SET_TYPE_FIXED,
         protected bool $anonymous_test = false
@@ -98,7 +102,7 @@ class SettingsGeneral extends TestSettings
     public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         switch ($this->getQuestionSetType()) {
-            case  \ilObjTest::QUESTION_SET_TYPE_FIXED:
+            case \ilObjTest::QUESTION_SET_TYPE_FIXED:
                 $log_array[AdditionalInformationGenerator::KEY_TEST_QUESTION_SET_TYPE] = $additional_info
                     ->getTagForLangVar('test_question_set_type_fixed');
                 break;

@@ -20,14 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Settings;
 
+use ILIAS\Test\ExportImport\Concerns\PropertyNormalizer;
+use ILIAS\Test\ExportImport\Contracts\Normalizable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
-class Settings extends TestSettings
+class Settings extends TestSettings implements Normalizable
 {
     public const COUNT_PARTIAL_SOLUTIONS = 0;
     public const COUNT_CORRECT_SOLUTIONS = 1;
@@ -129,5 +130,22 @@ class Settings extends TestSettings
         $clone = clone $this;
         $clone->pass_scoring = $pass_scoring;
         return $clone;
+    }
+
+    public function normalize(): array
+    {
+        return [
+            'count_system' => $this->getCountSystem(),
+            'score_cutting' => $this->getScoreCutting(),
+            'pass_scoring' => $this->getPassScoring()
+        ];
+    }
+
+    public static function denormalize(array $data): static
+    {
+        return (new self())
+            ->withCountSystem($data['count_system'])
+            ->withScoreCutting($data['score_cutting'])
+            ->withPassScoring($data['pass_scoring']);
     }
 }

@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\ScoreReporting;
 
+use ILIAS\Test\ExportImport\Contracts\Normalizable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
-class SettingsResultDetails extends TestSettings
+class SettingsResultDetails extends TestSettings implements Normalizable
 {
     public const RESULTPRES_BIT_PASS_DETAILS = 1;
     public const RESULTPRES_BIT_SOLUTION_DETAILS = 2;
@@ -264,5 +264,22 @@ class SettingsResultDetails extends TestSettings
         }
         $clone->exportsettings = $v;
         return $clone;
+    }
+
+    public function normalize(): array
+    {
+        return [
+            'results_presentation' => $this->getResultsPresentation(),
+            'examid_in_test_res' => $this->getShowExamIdInTestResults(),
+            'exportsettings' => $this->getExportSettings()
+        ];
+    }
+
+    public static function denormalize(array $data): static
+    {
+        return (new self())
+            ->withResultsPresentation($data['results_presentation'])
+            ->withShowExamIdInTestResults($data['examid_in_test_res'])
+            ->withExportSettings($data['exportsettings']);
     }
 }

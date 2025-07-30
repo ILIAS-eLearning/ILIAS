@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
+use ILIAS\Test\ExportImport\Concerns\PropertyNormalizer;
+use ILIAS\Test\ExportImport\Contracts\Normalizable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
@@ -27,8 +29,10 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
-class SettingsIntroduction extends TestSettings
+class SettingsIntroduction extends TestSettings implements Normalizable
 {
+    use PropertyNormalizer;
+
     public function __construct(
         protected bool $introduction_enabled = false,
         protected ?string $introduction_text = null,

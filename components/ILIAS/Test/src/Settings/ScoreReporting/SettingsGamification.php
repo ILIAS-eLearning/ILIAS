@@ -20,13 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\ScoreReporting;
 
+use ILIAS\Test\ExportImport\Contracts\Normalizable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
-class SettingsGamification extends TestSettings
+class SettingsGamification extends TestSettings implements Normalizable
 {
     public const HIGHSCORE_SHOW_OWN_TABLE = 1;
     public const HIGHSCORE_SHOW_TOP_TABLE = 2;
@@ -291,5 +292,34 @@ class SettingsGamification extends TestSettings
         $clone = clone $this;
         $clone->highscore_wtime = $highscore_wtime;
         return $clone;
+    }
+
+    public function normalize(): array
+    {
+        return [
+            'highscore_enabled' => $this->getHighscoreEnabled(),
+            'highscore_anon' => $this->getHighscoreAnon(),
+            'highscore_achieved_ts' => $this->getHighscoreAchievedTS(),
+            'highscore_score' => $this->getHighscoreScore(),
+            'highscore_percentage' => $this->getHighscorePercentage(),
+            'highscore_wtime' => $this->getHighscoreWTime(),
+            'highscore_own_table' => $this->getHighscoreOwnTable(),
+            'highscore_top_table' => $this->getHighscoreTopTable(),
+            'highscore_top_num' => $this->getHighscoreTopNum(),
+        ];
+    }
+
+    public static function denormalize(array $data): static
+    {
+        return (new self())
+            ->withHighscoreEnabled($data['highscore_enabled'])
+            ->withHighscoreAnon($data['highscore_anon'])
+            ->withHighscoreAchievedTS($data['highscore_achieved_ts'])
+            ->withHighscoreScore($data['highscore_score'])
+            ->withHighscorePercentage($data['highscore_percentage'])
+            ->withHighscoreWTime($data['highscore_wtime'])
+            ->withHighscoreOwnTable($data['highscore_own_table'])
+            ->withHighscoreTopTable($data['highscore_top_table'])
+            ->withHighscoreTopNum($data['highscore_top_num']);
     }
 }

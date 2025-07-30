@@ -20,8 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\Templates;
 
-class PersonalSettingsTemplate
+use ILIAS\Test\ExportImport\Contracts\Normalizable;
+use ILIAS\Test\ExportImport\Concerns\PropertyNormalizer;
+
+class PersonalSettingsTemplate implements Normalizable
 {
+        use PropertyNormalizer;
+
     public function __construct(
         protected int $id,
         protected int $user_id,
@@ -29,8 +34,7 @@ class PersonalSettingsTemplate
         protected string $description,
         protected string $author,
         protected \DateTimeImmutable $created_at,
-    )
-    {
+    ) {
     }
 
     public function getId(): int

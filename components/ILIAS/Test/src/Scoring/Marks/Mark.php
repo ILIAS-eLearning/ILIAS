@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\Test\Scoring\Marks;
 
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Test\ExportImport\Concerns\PropertyNormalizer;
+use ILIAS\Test\ExportImport\Contracts\Normalizable;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Group;
 
@@ -32,8 +34,10 @@ use ILIAS\UI\Component\Input\Field\Group;
  * @version	$Id$
  * @ingroup components\ILIASTest
  */
-class Mark
+class Mark implements Normalizable
 {
+    use PropertyNormalizer;
+
     public function __construct(
         private string $short_name = "",
         private string $official_name = "",
@@ -168,8 +172,8 @@ class Mark
             'passed' => $f->checkbox($lng->txt('tst_mark_passed'))
                 ->withValue($this->getPassed())
         ])->withAdditionalTransformation($mark_trafo)
-        ->withAdditionalTransformation($missing_passed_check)
-        ->withAdditionalTransformation($missing_zero_check);
+            ->withAdditionalTransformation($missing_passed_check)
+            ->withAdditionalTransformation($missing_zero_check);
     }
 
     public function toStorage(): array

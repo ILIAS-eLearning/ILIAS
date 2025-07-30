@@ -21,8 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\MainSettings;
 
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Test\ExportImport\Contracts\Normalizable;
 
-class MainSettings
+class MainSettings implements Normalizable
 {
     public function __construct(
         protected int $id,
@@ -156,5 +157,34 @@ class MainSettings
             + $this->settings_participant_functionality->toLog($additional_info)
             + $this->settings_finishing->toLog($additional_info)
             + $this->settings_additional->toLog($additional_info);
+    }
+
+    public function normalize(): array
+    {
+        return [
+            'settings_general' => $this->settings_general->normalize(),
+            'settings_introduction' => $this->settings_introduction->normalize(),
+            'settings_access' => $this->settings_access->normalize(),
+            'settings_test_behaviour' => $this->settings_test_behaviour->normalize(),
+            'settings_question_behaviour' => $this->settings_question_behaviour->normalize(),
+            'settings_participant_functionality' => $this->settings_participant_functionality->normalize(),
+            'settings_finishing' => $this->settings_finishing->normalize(),
+            'settings_additional' => $this->settings_additional->normalize(),
+        ];
+    }
+
+    public static function denormalize(array $data): static
+    {
+        return new self(
+            $data['id'] ?? -1,
+            SettingsGeneral::denormalize($data['settings_general']),
+            SettingsIntroduction::denormalize($data['settings_introduction']),
+            SettingsAccess::denormalize($data['settings_access']),
+            SettingsTestBehaviour::denormalize($data['settings_test_behaviour']),
+            SettingsQuestionBehaviour::denormalize($data['settings_question_behaviour']),
+            SettingsParticipantFunctionality::denormalize($data['settings_participant_functionality']),
+            SettingsFinishing::denormalize($data['settings_finishing']),
+            SettingsAdditional::denormalize($data['settings_additional']),
+        );
     }
 }
