@@ -67,6 +67,17 @@ class PersonalSettingsRepository
         return $defaults;
     }
 
+    public function getTemplateById(int $id): ?PersonalSettingsTemplate
+    {
+        $stmt = $this->db->queryF(
+            "SELECT * FROM tst_test_defaults WHERE test_defaults_id = %s",
+            [\ilDBConstants::T_INTEGER],
+            [$id]
+        );
+
+        return $this->db->numRows($stmt) > 0 ? self::toTemplate($this->db->fetchAssoc($stmt)) : null;
+    }
+
     /**
      * @return array<string, mixed>
      */
