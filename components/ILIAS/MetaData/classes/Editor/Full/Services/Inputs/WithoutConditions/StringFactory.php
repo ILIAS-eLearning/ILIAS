@@ -23,7 +23,7 @@ namespace ILIAS\MetaData\Editor\Full\Services\Inputs\WithoutConditions;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\MetaData\Elements\ElementInterface;
 use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
-use ILIAS\MetaData\Vocabularies\ElementHelper\ElementHelperInterface;
+use ILIAS\MetaData\Editor\Vocabulary\AdapterInterface as VocabularyAdapter;
 use ILIAS\UI\Component\Input\Field\Factory as UIFactory;
 use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
 use ILIAS\MetaData\Repository\Validation\Dictionary\DictionaryInterface as ConstraintDictionary;
@@ -33,18 +33,18 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class StringFactory extends BaseFactory
 {
-    protected ElementHelperInterface $element_vocab_helper;
+    protected VocabularyAdapter $vocabulary_adapter;
     protected Refinery $refinery;
 
     public function __construct(
         UIFactory $ui_factory,
         PresenterInterface $presenter,
         ConstraintDictionary $constraint_dictionary,
-        ElementHelperInterface $element_vocab_helper,
-        Refinery $refinery,
+        VocabularyAdapter $vocabulary_adapter,
+        Refinery $refinery
     ) {
         parent::__construct($ui_factory, $presenter, $constraint_dictionary);
-        $this->element_vocab_helper = $element_vocab_helper;
+        $this->vocabulary_adapter = $vocabulary_adapter;
         $this->refinery = $refinery;
     }
 
@@ -53,85 +53,28 @@ class StringFactory extends BaseFactory
         ElementInterface $context_element,
         SlotIdentifier $conditional_slot = SlotIdentifier::NULL
     ): FormInput {
-        $slot = $this->element_vocab_helper->slotForElement($element);
+        $slot = $this->vocabulary_adapter->slotForElement($element);
 
-        $data = null;
-        if ($element->getData()->type() !== Type::NULL) {
-            $data = $element->getData()->value();
-        }
-        $data = $this->getPresetValueFromConstraints($this->constraint_dictionary, $element) ?? $data;
-
-        $raw_values = [];
-        $allows_custom_input = true;
-        foreach ($this->element_vocab_helper->vocabulariesForSlot($slot) as $vocab) {
-            $values_from_vocab = iterator_to_array($vocab->values());
-            $raw_values = array_merge($raw_values, $values_from_vocab);
-
-            if (!$vocab->allowsCustomInputs()) {
-                $allows_custom_input = false;
-            }
-        }
-
-        // return finished text input if there are no vocabs
-        if (empty($raw_values)) {
+        if (!$this->vocabulary_adapter->doesSlotHaveVocabularies($slot)) {
             return $this->buildTextInput(
                 $this->getInputLabelFromElement($this->presenter, $element, $context_element),
                 $element,
                 true
             );
         }
-
-        // return finished select input if no custom input is allowed
-        if (!$allows_custom_input) {
-            if (isset($data) && !in_array($data, $raw_values)) {
-                array_unshift($raw_values, $data);
-            }
+        if (!$this->vocabulary_adapter->doesSlotAllowCustomInput($slot)) {
             return $this->buildSelectInput(
                 $this->getInputLabelFromElement($this->presenter, $element, $context_element),
                 $slot,
                 $element,
-                true,
-                ...$raw_values
+                true
             );
         }
-
-        // else, switchable group to choose between the two
-        $value_label = $this->presenter->utilities()->txt('md_editor_value');
-        $select_input = $this->buildSelectInput($value_label, $slot, $element, false, ...$raw_values);
-        $text_input = $this->buildTextInput($value_label, $element, false);
-
-        if (isset($data)) {
-            if (!in_array($data, $raw_values)) {
-                $text_input = $text_input->withValue($data);
-                $radio_value = 'custom';
-            } else {
-                $select_input = $select_input->withValue($data);
-                $radio_value = 'from_vocab';
-            }
-        }
-
-        $input = $this->ui_factory->switchableGroup(
-            [
-                'from_vocab' => $this->ui_factory->group(
-                    ['value' => $select_input],
-                    $this->presenter->utilities()->txt('md_editor_from_vocab_input')
-                ),
-                'custom' => $this->ui_factory->group(
-                    ['value' => $text_input],
-                    $this->presenter->utilities()->txt('md_editor_custom_input')
-                )
-            ],
-            $this->getInputLabelFromElement($this->presenter, $element, $context_element)
+        return $this->buildRadioInput(
+            $this->getInputLabelFromElement($this->presenter, $element, $context_element),
+            $slot,
+            $element
         );
-        if (isset($radio_value)) {
-            $input = $input->withValue($radio_value);
-        }
-        return $this->addConstraintsFromElement($this->constraint_dictionary, $element, $input, true)
-                    ->withAdditionalTransformation(
-                        $this->refinery->custom()->transformation(function ($vs) {
-                            return $vs[1]['value'] ?? null;
-                        })
-                    );
     }
 
     protected function buildTextInput(
@@ -161,10 +104,11 @@ class StringFactory extends BaseFactory
         string $label,
         SlotIdentifier $slot,
         ElementInterface $element,
-        bool $with_value,
-        string ...$raw_values
+        bool $with_value
     ): FormInput {
         $values = [];
+        $data = $this->getValueFromElementOrConstraint($element);
+        $raw_values = $this->vocabulary_adapter->valuesInVocabulariesForSlot($slot, $data);
         foreach ($this->presenter->data()->vocabularyValues($slot, ...$raw_values) as $labelled_value) {
             $values[$labelled_value->value()] = $labelled_value->label();
         }
@@ -174,6 +118,64 @@ class StringFactory extends BaseFactory
             $input = $this->addValueFromElement($element, $input);
         }
         return $this->addConstraintsFromElement($this->constraint_dictionary, $element, $input, !$with_value);
+    }
+
+    protected function buildRadioInput(
+        string $label,
+        SlotIdentifier $slot,
+        ElementInterface $element
+    ): FormInput {
+        $data = $this->getValueFromElementOrConstraint($element);
+
+        $value_label = $this->presenter->utilities()->txt('md_editor_value');
+        $select_input = $this->buildSelectInput($value_label, $slot, $element, false);
+        $text_input = $this->buildTextInput($value_label, $element, false);
+
+        if (isset($data)) {
+            if ($this->vocabulary_adapter->isValueInVocabulariesForSlot($slot, $data)) {
+                $select_input = $select_input->withValue($data);
+                $radio_value = 'from_vocab';
+            } else {
+                $text_input = $text_input->withValue($data);
+                $radio_value = 'custom';
+            }
+        }
+
+        $input = $this->ui_factory->switchableGroup(
+            [
+                'from_vocab' => $this->ui_factory->group(
+                    ['value' => $select_input],
+                    $this->presenter->utilities()->txt('md_editor_from_vocab_input')
+                ),
+                'custom' => $this->ui_factory->group(
+                    ['value' => $text_input],
+                    $this->presenter->utilities()->txt('md_editor_custom_input')
+                )
+            ],
+            $label
+        );
+        if (isset($radio_value)) {
+            $input = $input->withValue($radio_value);
+        }
+        return $this->addConstraintsFromElement($this->constraint_dictionary, $element, $input, true)
+                    ->withAdditionalTransformation(
+                        $this->refinery->custom()->transformation(function ($vs) {
+                            return $vs[1]['value'] ?? null;
+                        })
+                    );
+    }
+
+    /**
+     * Not enough to use addConstraintsFromElement here, since
+     * the value might need to be added to the list of options.
+     */
+    protected function getValueFromElementOrConstraint(ElementInterface $element): ?string
+    {
+        $data = null;
+        if ($element->getData()->type() !== Type::NULL) {
+            $data = $element->getData()->value();
+        }
+        return $this->getPresetValueFromConstraints($this->constraint_dictionary, $element) ?? $data;
     }
 
     public function getInput(

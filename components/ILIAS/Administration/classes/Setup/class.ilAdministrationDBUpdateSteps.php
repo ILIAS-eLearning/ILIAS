@@ -75,4 +75,12 @@ class ilAdministrationDBUpdateSteps implements ilDatabaseUpdateSteps
     {
         $this->db->manipulate("DELETE FROM settings WHERE keyword LIKE 'char_selector%'");
     }
+
+    /**
+     * Remove the global special charactor selector settings
+     */
+    public function step_5(): void
+    {
+        $this->db->manipulate("DELETE FROM settings WHERE module = 'MathJax'");
+    }
 }

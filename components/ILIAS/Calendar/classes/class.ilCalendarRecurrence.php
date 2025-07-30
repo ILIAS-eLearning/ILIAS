@@ -27,14 +27,14 @@ declare(strict_types=1);
  */
 class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 {
-    protected const REC_RECURRENCE = 0;
-    protected const REC_EXCLUSION = 1;
+    protected const int REC_RECURRENCE = 0;
+    protected const int REC_EXCLUSION = 1;
 
-    public const FREQ_NONE = 'NONE';
-    public const FREQ_DAILY = 'DAILY';
-    public const FREQ_WEEKLY = 'WEEKLY';
-    public const FREQ_MONTHLY = 'MONTHLY';
-    public const FREQ_YEARLY = 'YEARLY';
+    public const string FREQ_NONE = 'NONE';
+    public const string FREQ_DAILY = 'DAILY';
+    public const string FREQ_WEEKLY = 'WEEKLY';
+    public const string FREQ_MONTHLY = 'MONTHLY';
+    public const string FREQ_YEARLY = 'YEARLY';
 
     protected ilDBInterface $db;
 
@@ -156,6 +156,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         $this->setFrequenceType('');
         $this->setInterval(1);
         $this->setFrequenceUntilCount(0);
+        $this->setFrequenceUntilDate(null);
     }
 
     public function getRecurrenceId(): int

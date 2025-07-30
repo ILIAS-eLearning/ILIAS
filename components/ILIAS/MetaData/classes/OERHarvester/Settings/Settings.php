@@ -24,15 +24,21 @@ class Settings implements SettingsInterface
 {
     protected const string STORAGE_IDENTIFIER = 'meta_oer';
     protected const array ELIGIBLE_TYPES = [
+        'blog',
+        'copa',
+        'dcl',
+        'exc',
         'file',
         'glo',
-        'copa',
         'lm',
         'htlm',
         'sahs',
+        'mcst',
+        'mep',
         'qpl',
         'spl',
-        'mep'
+        'webr',
+        'wiki'
     ];
 
     protected \ilSetting $settings;

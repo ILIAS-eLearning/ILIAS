@@ -37,7 +37,7 @@ use ILIAS\MetaData\Elements\Markers\MarkerFactoryInterface;
 use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
 use ILIAS\MetaData\Elements\Data\Type;
 use ILIAS\MetaData\Vocabularies\Slots\Identifier;
-use ILIAS\MetaData\Vocabularies\ElementHelper\ElementHelperInterface;
+use ILIAS\MetaData\Vocabularies\Slots\ElementHelperInterface as ElementVocabHelper;
 
 class Processor implements ProcessorInterface
 {
@@ -46,7 +46,7 @@ class Processor implements ProcessorInterface
     protected StructureSetInterface $structure_set;
     protected DataValidatorInterface $data_validator;
     protected DictionaryInterface $dictionary;
-    protected ElementHelperInterface $element_vocab_helper;
+    protected ElementVocabHelper $element_vocab_helper;
     protected \ilLogger $logger;
 
     public function __construct(
@@ -55,7 +55,7 @@ class Processor implements ProcessorInterface
         StructureSetInterface $structure_set,
         DataValidatorInterface $data_validator,
         DictionaryInterface $dictionary,
-        ElementHelperInterface $element_vocab_helper,
+        ElementVocabHelper $element_vocab_helper,
         \ilLogger $logger
     ) {
         $this->element_factory = $element_factory;

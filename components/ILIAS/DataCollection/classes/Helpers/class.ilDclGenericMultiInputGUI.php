@@ -25,6 +25,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 {
     protected Factory $ui_factory;
     protected Renderer $renderer;
+    protected ilObjUser $user;
 
     protected ilFormPropertyGUI $input;
     protected ?array $line_values = [];
@@ -33,6 +34,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
     {
         global $DIC;
 
+        $this->user = $DIC->user();
         $this->ui_factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
 
@@ -47,7 +49,8 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
     public function setValue(string $value): void
     {
         if ($this->input instanceof ilDateTimeInputGUI) {
-            $this->input->setDate(new ilDateTime(strtotime($value), IL_CAL_UNIX));
+            $date = new DateTime($value, new DateTimeZone($this->user->getTimeZone()));
+            $this->input->setDate(new ilDateTime($date->getTimestamp(), IL_CAL_UNIX));
         } else {
             $this->input->setValue($value);
         }

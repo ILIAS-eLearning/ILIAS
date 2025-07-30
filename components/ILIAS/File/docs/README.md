@@ -28,6 +28,7 @@ expected:
 | write, read                                   | Yes                  | Yes                  | Open          | DOWNLOAD            |
 | edit_file                                     | Yes                  | Yes                  | Open          | EDIT_EXTERNAL       |
 | read, visible                                 | No                   | No                   | Info-Page     | FORCED_INFO_PAGE    |
+| read, visible                                 | Yes                  | Yes                  | Info-Page     | FORCED_INFO_PAGE    |
 | read, write, visible, edit_file, view_content | Yes                  | Yes                  | Info-Page     | FORCED_INFO_PAGE    |
 | write, read                                   | Yes                  | Yes                  | Info-Page     | FORCED_INFO_PAGE    |
 | visible                                       | Yes                  | Yes                  | Open          | INFO_PAGE           |

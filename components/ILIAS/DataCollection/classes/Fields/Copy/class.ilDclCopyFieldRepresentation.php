@@ -23,6 +23,7 @@ class ilDclCopyFieldRepresentation extends ilDclBaseFieldRepresentation
         ilDclDatatype::INPUTFORMAT_NUMBER,
         ilDclDatatype::INPUTFORMAT_BOOLEAN,
         ilDclDatatype::INPUTFORMAT_DATE,
+        ilDclDatatype::INPUTFORMAT_DATETIME,
     ];
 
     /**

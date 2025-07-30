@@ -23,6 +23,7 @@ abstract class ilDclBaseFieldRepresentation
     protected ilDclBaseFieldModel $field;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
+    protected ilObjUser $user;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
 
@@ -37,6 +38,7 @@ abstract class ilDclBaseFieldRepresentation
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->http = $DIC->http();
+        $this->user = $DIC->user();
         $this->refinery = $DIC->refinery();
         $this->component_repository = $DIC["component.repository"];
         $this->component_factory = $DIC["component.factory"];

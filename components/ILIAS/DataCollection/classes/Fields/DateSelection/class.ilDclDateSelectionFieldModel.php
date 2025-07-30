@@ -22,4 +22,10 @@ class ilDclDateSelectionFieldModel extends ilDclSelectionFieldModel
 {
     public const PROP_SELECTION_TYPE = 'date_selection_type';
     public const PROP_SELECTION_OPTIONS = 'date_selection_options';
+
+    public function personalizeOptionValue(string $value, ilObjUser $user): string
+    {
+        $value = parent::personalizeOptionValue($value, $user);
+        return (strtotime($value) === false) ? $value : date($user->getDateFormat()->toString(), strtotime($value));
+    }
 }

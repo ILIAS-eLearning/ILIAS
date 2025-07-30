@@ -113,7 +113,7 @@ Further, `Settings` should also be refactored to use `Services` properly.
 
 The following classes are not yet covered by unit tests:
 
-- everything in `Editor`
+- everything in `Editor`, except `Vocabulary`
 - everything in `Settings` except `Vocabularies\Import`
 - `GlobalScreen/ilMDKeywordExposer`
 - `Manipulator/ScaffoldProvider`
@@ -125,7 +125,7 @@ The following classes are not yet covered by unit tests:
 also all methods in `Services\Services` that don't do anything except
 lazily instantiate an object
 - `Vocabularies\Standard\Assignment`, `Vocabularies\Controlled`, `Vocabularies\Manager`,
-`Vocabularies\ElementHelper`, and everything in `Vocabularies\Slots`
+and everything in `Vocabularies\Slots` except `ElementHelper`
 - `XML/Copyright`, `XML/Links`, `XML/Dictionary`, `XML/Writer/SimpleDC`,
 and `XML/Reader/Standard/Legacy`
 - `OERExposer/OAIPMH/HTTP`, `OERExposer/OAIPMH/Initiator`

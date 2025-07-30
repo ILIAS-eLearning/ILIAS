@@ -300,7 +300,8 @@ class Factory
                 $feedback,
                 $workedthrough,
                 $answered,
-                $recapitulation
+                $recapitulation,
+                $idx
             );
         }
 

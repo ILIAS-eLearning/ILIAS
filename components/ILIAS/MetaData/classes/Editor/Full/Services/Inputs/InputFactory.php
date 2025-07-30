@@ -29,10 +29,8 @@ use ILIAS\MetaData\Repository\Dictionary\DictionaryInterface as DatabaseDictiona
 use ILIAS\MetaData\Elements\ElementInterface;
 use ILIAS\MetaData\Editor\Full\Services\DataFinder;
 use ILIAS\MetaData\Paths\FactoryInterface as PathFactory;
-use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 use ILIAS\MetaData\Editor\Full\Services\Inputs\Conditions\FactoryWithConditionTypesService;
-use ILIAS\MetaData\Elements\Data\Type;
-use ILIAS\MetaData\Vocabularies\ElementHelper\ElementHelperInterface;
+use ILIAS\MetaData\Editor\Vocabulary\AdapterInterface as VocabularyAdapter;
 
 class InputFactory
 {
@@ -40,8 +38,7 @@ class InputFactory
     protected Refinery $refinery;
     protected PresenterInterface $presenter;
     protected PathFactory $path_factory;
-    protected NavigatorFactoryInterface $navigator_factory;
-    protected ElementHelperInterface $element_vocab_helper;
+    protected VocabularyAdapter $vocabulary_adapter;
     protected DataFinder $data_finder;
     protected FactoryWithConditionTypesService $types;
 
@@ -62,7 +59,7 @@ class InputFactory
         DataFinder $data_finder,
         DatabaseDictionary $db_dictionary,
         FactoryWithConditionTypesService $types,
-        ElementHelperInterface $element_vocab_helper
+        VocabularyAdapter $vocabulary_adapter
     ) {
         $this->ui_factory = $ui_factory;
         $this->refinery = $refinery;
@@ -71,7 +68,7 @@ class InputFactory
         $this->data_finder = $data_finder;
         $this->db_dictionary = $db_dictionary;
         $this->types = $types;
-        $this->element_vocab_helper = $element_vocab_helper;
+        $this->vocabulary_adapter = $vocabulary_adapter;
     }
 
     public function getInputFields(
@@ -88,12 +85,12 @@ class InputFactory
         $input_elements = [];
         foreach ($data_carriers as $data_carrier) {
             $conditional_element = null;
-            foreach ($this->element_vocab_helper->slotsForElementWithoutCondition($data_carrier) as $slot) {
+            foreach ($this->vocabulary_adapter->slotsForElementWithoutCondition($data_carrier) as $slot) {
                 /**
                  * The conditions of multiple slots for the same element should point at the
                  * same element (or at least not more than one per context element).
                  */
-                if ($el = $this->element_vocab_helper->findElementOfCondition($slot, $data_carrier, ...$data_carriers)) {
+                if ($el = $this->vocabulary_adapter->findElementOfCondition($slot, $data_carrier, ...$data_carriers)) {
                     $conditional_element = $data_carrier;
                     $data_carrier = $el;
                     break;

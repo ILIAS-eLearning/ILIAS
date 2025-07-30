@@ -154,7 +154,7 @@ class Services
                     new DataValidatorService($this->data_helper_services->dataHelper())
                 ),
                 $this->constraintDictionary(),
-                $this->vocabularies_services->elementHelper(),
+                $this->vocabularies_services->slotElementHelper(),
                 $logger
             ),
             new IdentifierHandler(

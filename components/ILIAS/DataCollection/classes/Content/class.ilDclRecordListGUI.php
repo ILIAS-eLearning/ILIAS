@@ -540,7 +540,7 @@ class ilDclRecordListGUI
         );
 
         $switcher->addViewSwitcherToToolbar(
-            $this->table_obj->getVisibleTableViews($this->parent_obj->getRefId()),
+            $this->table_obj->getVisibleTableViews(),
             $this->getTableId(),
             self::class,
             self::CMD_SHOW

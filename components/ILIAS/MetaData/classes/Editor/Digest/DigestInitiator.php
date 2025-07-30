@@ -51,7 +51,8 @@ class DigestInitiator
                     $this->services->OERHarvester()->statusRepository(),
                     $this->services->copyright()->identifiersHandler()
                 ),
-                $this->services->dataHelper()->dataHelper()
+                $this->services->dataHelper()->dataHelper(),
+                $vocabulary_adapter = $this->services->editor()->vocabularyAdapter()
             ),
             new ManipulatorAdapter(
                 $content_assembler,
@@ -59,7 +60,8 @@ class DigestInitiator
                 $path_collection,
                 $this->services->editor()->manipulator(),
                 $path_factory,
-                $navigator_factory
+                $navigator_factory,
+                $vocabulary_adapter
             )
         );
     }

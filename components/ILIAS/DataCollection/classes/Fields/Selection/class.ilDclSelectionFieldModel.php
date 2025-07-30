@@ -83,12 +83,22 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
             ilDclSelectionOption::flushOptions((int) $this->getId());
             $sorting = 1;
             foreach ($value as $id => $val) {
-                ilDclSelectionOption::storeOption((int) $this->getId(), $id, $sorting, $val);
+                ilDclSelectionOption::storeOption((int) $this->getId(), $id, $sorting, $this->sanitizeOptionValue($val));
                 $sorting++;
             }
             return null;
         }
         return parent::setProperty($key, $value);
+    }
+
+    public function sanitizeOptionValue(string $value): string
+    {
+        return $value;
+    }
+
+    public function personalizeOptionValue(string $value, ilObjUser $user): string
+    {
+        return $value;
     }
 
     /**
@@ -125,5 +135,16 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
             $option->delete();
         }
         parent::doDelete();
+    }
+
+    public function checkFieldCreationInput(ilPropertyFormGUI $form): bool
+    {
+        return $this->checkUniqueProp($form) && parent::checkFieldCreationInput($form);
+    }
+
+    public function checkValidity($value, ?int $record_id): bool
+    {
+        $this->checkUnique($value, $record_id);
+        return parent::checkValidity($value, $record_id);
     }
 }

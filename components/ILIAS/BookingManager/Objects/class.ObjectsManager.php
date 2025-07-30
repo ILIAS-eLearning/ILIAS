@@ -173,14 +173,14 @@ class ObjectsManager
     public function deleteObjectInfo(int $booking_obj_id): void
     {
         if ($this->object_repo->hasObjectInfo($booking_obj_id)) {
-            $this->object_repo->deleteObjectInfo($booking_obj_id);
+            $this->object_repo->deleteObjectInfo($booking_obj_id, $this->object_info_stakeholder);
         }
     }
 
     public function deleteBookingInfo(int $booking_obj_id): void
     {
         if ($this->object_repo->hasBookingInfo($booking_obj_id)) {
-            $this->object_repo->deleteBookingInfo($booking_obj_id);
+            $this->object_repo->deleteBookingInfo($booking_obj_id, $this->book_info_stakeholder);
         }
     }
 

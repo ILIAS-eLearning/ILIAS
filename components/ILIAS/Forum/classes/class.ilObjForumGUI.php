@@ -739,8 +739,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     {
         $threads_page = $this->forum_thread_table_session_storage->fetchData($frm, $frm_object);
 
-        $top_group = [];
-        $thread_group = [];
+        $sticky_threads = [];
+        $regular_threads = [];
 
         if (count($threads_page->getForumTopics()) > 0) {
             foreach ($threads_page->getForumTopics() as $thread) {
@@ -760,26 +760,27 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     ->withProperties($this->getThreadProperties($thread));
                 $list_item = $this->markTopThreadInOverview($thread, $list_item);
                 if ($thread->isSticky()) {
-                    $top_group[] = $list_item;
+                    $sticky_threads[] = $list_item;
                 } else {
-                    $thread_group[] = $list_item;
+                    $regular_threads[] = $list_item;
                 }
             }
         }
 
-        $found_threads = false;
-        if (count($top_group) > 0) {
-            $top_threads = $this->factory->item()->group($this->lng->txt('top_thema'), $top_group);
-            $found_threads = true;
-        } else {
-            $top_threads = $this->factory->item()->group('', $top_group);
+        $sticky_threads_item_group = null;
+        if (count($sticky_threads) > 0) {
+            $sticky_threads_item_group = $this->factory->item()->group(
+                count($regular_threads) > 0 ? $this->lng->txt('top_thema') : '',
+                $sticky_threads
+            );
         }
 
-        if (count($thread_group) > 0) {
-            $normal_threads = $this->factory->item()->group($this->lng->txt('thema'), $thread_group);
-            $found_threads = true;
-        } else {
-            $normal_threads = $this->factory->item()->group('', $thread_group);
+        $regular_threads_item_group = null;
+        if (count($regular_threads) > 0) {
+            $regular_threads_item_group = $this->factory->item()->group(
+                count($sticky_threads) > 0 ? $this->lng->txt('thema') : '',
+                $regular_threads
+            );
         }
 
         $url = $this->http->request()->getRequestTarget();
@@ -801,7 +802,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             ->withMaxPaginationButtons(5)
             ->withCurrentPage($current_page);
 
-        if ($found_threads === false) {
+        $item_groups = array_filter([$sticky_threads_item_group, $regular_threads_item_group]);
+        if ($item_groups === []) {
             $vc_container = $this->factory->panel()->listing()->standard(
                 $this->lng->txt('thread_overview'),
                 [$this->factory->item()->group($this->lng->txt('frm_no_threads'), [])]
@@ -809,7 +811,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         } else {
             $vc_container = $this->factory->panel()->listing()->standard(
                 $this->lng->txt('thread_overview'),
-                [$top_threads, $normal_threads]
+                $item_groups
             )->withViewControls($view_controls);
         }
 

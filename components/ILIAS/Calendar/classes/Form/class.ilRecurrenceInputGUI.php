@@ -26,8 +26,8 @@ declare(strict_types=1);
  */
 class ilRecurrenceInputGUI extends ilCustomInputGUI
 {
-    protected const REC_LIMITED = 2;
-    protected const REC_UNLIMITED = 1;
+    protected const int REC_LIMITED = 2;
+    protected const int REC_UNLIMITED = 1;
 
     protected ilCalendarRecurrence $recurrence;
     protected ilObjUser $user;

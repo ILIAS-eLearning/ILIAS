@@ -23,9 +23,8 @@ use ILIAS\MetaData\OERExposer\OAIPMH\Handler;
  */
 
 require_once '../vendor/composer/vendor/autoload.php';
-
-ilContext::init(ilContext::CONTEXT_ICAL);
-ilInitialisation::initILIAS();
+require_once(__DIR__ . '/../artifacts/bootstrap_default.php');
+entry_point('ILIAS Legacy Initialisation Adapter');
 
 $handler = new Handler();
 $handler->sendResponseToRequest();

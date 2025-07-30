@@ -2543,6 +2543,7 @@ book#:#book_bulk_creation#:#Bulk Creation
 book#:#book_bulk_data#:#Item Data
 book#:#book_cal_entry#:#Booking:
 book#:#book_confirm_booking#:#Confirm Booking
+book#:#book_confirm_booking_for_users#:#Are you sure you want to book this item for the following user(s)?
 book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following item?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Booking Confirmation
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please enter the number of items that you would like to book.
@@ -3221,6 +3222,8 @@ cmix#:#content_privacy_ident#:#User identification for resource
 cmix#:#content_privacy_name#:#User name for resource
 cmix#:#create_lrs_type_form#:#New LRS Type
 cmix#:#create_registration#:#Register your E-Mail address
+cmix#:#cron_xapi_del#:#Delete xAPI/cmi5 data in the Learning Record Store
+cmix#:#cron_xapi_del_desc#:#Data is deleted according to the settings of the xAPI/cmi5 objects.
 cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results
 cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.
 cmix#:#description_info#:#The description will be shown below the title.
@@ -4224,6 +4227,7 @@ common#:#group_status#:#Group is
 common#:#groupings#:#Membership Limitations
 common#:#groupings_assigned_obj_crs#:#Assigned Courses
 common#:#groupings_assigned_obj_grp#:#Assigned Groups
+common#:#groupings_source#:#Source
 common#:#groups#:#Groups
 common#:#grp#:#Group
 common#:#grp_add#:#Add Group
@@ -8116,6 +8120,7 @@ dateplaner#:#cal_agenda#:#Agenda
 dateplaner#:#cal_all_day#:#All Day
 dateplaner#:#cal_app_info#:#Appointment Information
 dateplaner#:#cal_app_other_materials_num#:#View other materials
+dateplaner#:#cal_appointment_notifications#:#Notification
 dateplaner#:#cal_appointments#:#Appointment(s)
 dateplaner#:#cal_apps#:#Number of Appointments
 dateplaner#:#cal_assigned_appointments#:#Assigned Appointments
@@ -8124,6 +8129,7 @@ dateplaner#:#cal_back_to_list#:#Back to List
 dateplaner#:#cal_back_to_search#:#Back to Search
 dateplaner#:#cal_batch_file_downloads#:#Batch Download of Calendar Files
 dateplaner#:#cal_batch_file_downloads_info#:#Display a button in calendars to allow all files related to the current calendar/appointment view to be downloaded as a batch.
+dateplaner#:#cal_belongs_to#:#Belongs to Calendar
 dateplaner#:#cal_book_free#:#available
 dateplaner#:#cal_booked_out#:#booked up
 dateplaner#:#cal_booking_cancellation_body#:#your appointment with %s has been cancelled.
@@ -8263,8 +8269,10 @@ dateplaner#:#cal_crs_notification_sub#:#Changed Appointment in Course "%s"
 dateplaner#:#cal_crs_timing_end#:#Suggested End
 dateplaner#:#cal_crs_timing_start#:#Suggested Start
 dateplaner#:#cal_daily#:#Daily
+dateplaner#:#cal_date_and_time#:#Date and Time
 dateplaner#:#cal_date_booked#:#booked
 dateplaner#:#cal_date_format_info#:#Please choose a format for the input of dates.
+dateplaner#:#cal_date_time_title#:#Date and Time
 dateplaner#:#cal_day_end#:#Day End
 dateplaner#:#cal_day_of_month#:#Day of the month
 dateplaner#:#cal_day_overview#:#Day Overview
@@ -8303,6 +8311,8 @@ dateplaner#:#cal_download_files#:#Download Files
 dateplaner#:#cal_download_files_started#:#A ZIP archive with all download files is now created in the background. You can see the status of your background processes at the top right in the Notification Centre. You can also download the ZIP archive there.
 dateplaner#:#cal_dstart_dend_warn#:#Please check your input. The start of a day should be before the end of the day.
 dateplaner#:#cal_duration#:#Duration
+dateplaner#:#cal_duration_end#:#End
+dateplaner#:#cal_duration_start#:#Start
 dateplaner#:#cal_edit_appointment#:#Edit Appointment
 dateplaner#:#cal_edit_category#:#Edit Calendar
 dateplaner#:#cal_edit_milestone#:#Edit Milestone
@@ -8357,6 +8367,8 @@ dateplaner#:#cal_month_overview#:#Month Overview
 dateplaner#:#cal_month_s#:#Month(s)
 dateplaner#:#cal_month_selection#:#Select Month
 dateplaner#:#cal_monthly#:#Monthly
+dateplaner#:#cal_monthly_by_date#:#Monthly by Date
+dateplaner#:#cal_monthly_by_day#:#Monthly by Day
 dateplaner#:#cal_ms_details#:#Milestone Details
 dateplaner#:#cal_ms_users_responsible#:#Users Responsible
 dateplaner#:#cal_new_app#:#New Appointment
@@ -8377,6 +8389,17 @@ dateplaner#:#cal_owner#:#Owner
 dateplaner#:#cal_period#:#Period
 dateplaner#:#cal_rec_err_limit#:#Please enter a valid number of appointments.
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.
+dateplaner#:#cal_recurrence_count#:#Number of Appointments
+dateplaner#:#cal_recurrence_day_interval#:#Every x Day(s)
+dateplaner#:#cal_recurrence_end_date#:#End Date
+dateplaner#:#cal_recurrence_end_date_info#:#Last possible date for an appointment.
+dateplaner#:#cal_recurrence_month_interval#:#Every x Month(s)
+dateplaner#:#cal_recurrence_until#:#Recurrence End
+dateplaner#:#cal_recurrence_until_count#:#Fixed Number of Appointments
+dateplaner#:#cal_recurrence_until_end_date#:#Repeat Until End Date
+dateplaner#:#cal_recurrence_until_info#:#Only relevant if a recurrence was selected.
+dateplaner#:#cal_recurrence_week_interval#:#Every x Week(s)
+dateplaner#:#cal_recurrence_year_interval#:#Every x Year(s)
 dateplaner#:#cal_recurrences#:#Recurrences
 dateplaner#:#cal_reg_register#:#Register
 dateplaner#:#cal_reg_registered#:#You have been registered.
@@ -8470,6 +8493,8 @@ dateplaner#:#cal_weekly#:#Weekly
 dateplaner#:#cal_where#:#Location
 dateplaner#:#cal_year_s#:#Year(s)
 dateplaner#:#cal_yearly#:#Yearly
+dateplaner#:#cal_yearly_by_date#:#Yearly by Date
+dateplaner#:#cal_yearly_by_day#:#Yearly by Day
 dateplaner#:#consultation_hours_block_title#:#Consultation Hours
 dateplaner#:#crs_cal_activation_end#:#Course Availability ends
 dateplaner#:#crs_cal_activation_start#:#Course Availability starts
@@ -8518,7 +8543,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#The following data record has bee
 dcl#:#dcl_change_notification_dcl_update_record#:#The following data record has been updated
 dcl#:#dcl_change_notification_link#:#Link to the Data Collection
 dcl#:#dcl_change_notification_subject#:#Data Collection ‘%s’ has been changed
-dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this data collection.
 dcl#:#dcl_changed_by#:#Changed by
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_comments#:#Comments
@@ -8545,6 +8569,10 @@ dcl#:#dcl_date#:#Date Entry
 dcl#:#dcl_date_desc#:#Users can enter a date of their choice or select one using a calendar.
 dcl#:#dcl_date_selection#:#Date Selection
 dcl#:#dcl_date_selection_desc#:#Allow a date to be chosen from among a predefined selection of date options.
+dcl#:#dcl_datetime#:#Datetime Entry
+dcl#:#dcl_datetime_desc#:#Users can enter a date and time of their choice or select one using a calendar.
+dcl#:#dcl_datetime_selection#:#Datetime Selection
+dcl#:#dcl_datetime_selection_desc#:#Allow a date and time to be chosen from among a predefined selection of datetime options.
 dcl#:#dcl_deactivate_view#:#Deactivate this view
 dcl#:#dcl_default_sort_field#:#Default sort field
 dcl#:#dcl_default_sort_field_order#:#Default sort field order
@@ -8594,7 +8622,6 @@ dcl#:#dcl_formula_desc#:#You can aggregate several entries in a record with a fo
 dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.
 dcl#:#dcl_height#:#Height in Pixels
 dcl#:#dcl_height_desc#:#The height of the file will be reduced to this value during upload.
-dcl#:#dcl_hello#:#Dear
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#The internal ID.
 dcl#:#dcl_ilias_reference#:#Repository Object
@@ -8652,7 +8679,6 @@ dcl#:#dcl_new_field#:#New Field
 dcl#:#dcl_new_table#:#New Table
 dcl#:#dcl_new_view#:#New View
 dcl#:#dcl_next_record#:#Next Entry
-dcl#:#dcl_no_content_warning#:#Please note: the data collection is online but does not yet have any fields.
 dcl#:#dcl_no_entries#:#Action not permitted
 dcl#:#dcl_no_entry#:#No entry
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.
@@ -12007,7 +12033,7 @@ meta#:#meta_annotation_plural#:#Annotations
 meta#:#meta_any#:#Any
 meta#:#meta_atomic#:#Atomic
 meta#:#meta_author#:#Author
-meta#:#meta_authors#:#Authors
+meta#:#meta_authors#:#Contributors
 meta#:#meta_browser#:#Browser
 meta#:#meta_button_to_full_editor_label#:#Edit the Full Learning Object Metadata
 meta#:#meta_c_AD#:#Andorra
@@ -16210,7 +16236,7 @@ survey#:#SurveyTextQuestion#:#Essay
 survey#:#add_heading#:#Add Heading
 survey#:#already_completed_survey#:#You have already completed the survey. It is not possible to take part in a survey a second time.
 survey#:#anonymization#:#Anonymisation
-survey#:#anonymize_anonymous_introduction#:#To gain access to this survey, you need to use a survey code comprised of 5 characters. This can be obtained from the person conducting this survey.<br />Please enter your code in the text field above.
+survey#:#anonymize_anonymous_introduction#:#To gain access to this survey, you need to use a survey code comprised of 5 characters. This can be obtained from the person conducting this survey. Please enter your code in the field that appears after clicking on ‘Start Survey’.
 survey#:#answer#:#Answer
 survey#:#arithmetic_mean#:#Arithmetic Mean
 survey#:#browse_for_questions#:#Add From Pool
@@ -16552,7 +16578,7 @@ survey#:#survey_auto_block_title#:#Page Header
 survey#:#survey_available_question_pools#:#Available Pools
 survey#:#survey_calc_skills#:#Determine Competence Levels
 survey#:#survey_calculate_sum_score#:#Calculate Sum Score
-survey#:#survey_calculate_sum_score_info#:#Calculates the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Caution: If participants skip these kind of questions, the whole sum score will not be calculated anymore.
+survey#:#survey_calculate_sum_score_info#:#Calculate the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Please note: If a participant skips any of these types of questions, their sum score will not be calculated.
 survey#:#survey_cancel_preview#:#Exit Preview
 survey#:#survey_cannot_preview_survey#:#Preview not available.
 survey#:#survey_code#:#Survey Access Code
@@ -16655,7 +16681,7 @@ survey#:#survey_sync_success#:#The selected questions have been updated.
 survey#:#survey_up_to_x_points#:#Up to x points
 survey#:#survey_use_start_button#:#To take part in the survey, you need to use the start button.
 survey#:#svy_activation_limited_visibility_info#:#Allow users to always see the title of the survey and its period of availability. The survey questions themselves will still only be accessible during the indicated period of availability.
-survey#:#svy_activation_online_info#:#Only if a survey is online, users can participate in it.
+survey#:#svy_activation_online_info#:#Users can only participate in a survey if it is online.
 survey#:#svy_add_internal_user#:#Add User Manually
 survey#:#svy_add_internal_user_info#:#Add someone as a rater who is a registered user on this platform.
 survey#:#svy_add_rater#:#Add Rater
@@ -16753,7 +16779,7 @@ survey#:#svy_reminder_mail_template#:#Mail Template
 survey#:#svy_reminder_mail_template_none#:#Do not use mail template
 survey#:#svy_result_mail_notification_info#:#When a participant finishes the survey, their answers will be sent to selected recipients.
 survey#:#svy_results#:#Results
-survey#:#svy_results_mail_confirm#:#Participants can request participation confirmation
+survey#:#svy_results_mail_confirm#:#Confirmation of Participation
 survey#:#svy_results_mail_confirm_info#:#Enable participants to request a mail confirming their participation in the survey upon completion.
 survey#:#svy_results_mail_own#:#Include Given Answers
 survey#:#svy_results_mail_own_info#:#The answers given by the participant will be included in their participation confirmation mail.

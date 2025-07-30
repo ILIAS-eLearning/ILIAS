@@ -396,10 +396,16 @@ class ilCalendarPresentationGUI
         if ($this->category_id == 0 || $this->actions->checkAddEvent($this->category_id)) {
             $toolbar->addSeparator();
             $extra_button_added = true;
+
+            // create appointment should default to current hour
+            $current_hour = (new ilDateTime(time(), IL_CAL_UNIX))->get(IL_CAL_FKT_DATE, 'G', $this->user->getTimeZone());
+            $ctrl->setParameterByClass("ilcalendarappointmentgui", "hour", $current_hour);
             $add_button = $f->button()->standard(
                 $this->lng->txt("cal_add_appointment"),
                 $ctrl->getLinkTargetByClass("ilcalendarappointmentgui", "add")
             );
+            $ctrl->clearParameterByClass("ilcalendarappointmentgui", "hour");
+
             $toolbar->addComponent($add_button);
         }
 

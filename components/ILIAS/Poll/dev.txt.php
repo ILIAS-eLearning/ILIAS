@@ -42,9 +42,6 @@ Implements to UI-Tables:
 - class ilPollUserTableGUI
 - class ilPollAnswerTableGUI
 
-Stores files to the ILIAS data directory:
-- class ilFSStoragePoll
-
 =================================
 DB Tables
 =================================

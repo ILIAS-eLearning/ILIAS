@@ -44,17 +44,6 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     protected \ilOrgUnitPositionDBRepository $positionRepo;
     protected \ilOrgUnitUserAssignmentDBRepository $assignmentRepo;
 
-    public function __construct()
-    {
-        if (! isset($_GET["wsdl"])) {
-            $dic = \ilOrgUnitLocalDIC::dic();
-            $this->positionRepo = $dic["repo.Positions"];
-            $this->assignmentRepo = $dic["repo.UserAssignments"];
-        }
-
-        parent::__construct();
-    }
-
     public function getServiceStyle(): string
     {
         return 'rpc';
@@ -151,5 +140,11 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     private function init(string $session_id): void
     {
         $this->initIliasAndCheckSession($session_id); // Throws exception if session is not valid
+
+        if (!isset($_GET["wsdl"])) {
+            $dic = \ilOrgUnitLocalDIC::dic();
+            $this->positionRepo = $dic["repo.Positions"];
+            $this->assignmentRepo = $dic["repo.UserAssignments"];
+        }
     }
 }

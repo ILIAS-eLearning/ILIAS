@@ -27,8 +27,7 @@ class ilDclTextSelectionFieldRepresentation extends ilDclSelectionFieldRepresent
             'prop_' . $this->field::PROP_SELECTION_OPTIONS
         );
 
-        $text = new ilTextInputGUI($this->lng->txt('dcl_selection_options'), 'selection_value');
-        $selection_options->setInput($text);
+        $selection_options->setInput(new ilTextInputGUI());
 
         return $selection_options;
     }

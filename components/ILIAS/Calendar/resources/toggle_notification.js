@@ -1,21 +1,23 @@
-function ilToggleNotification(ids)
-{
-	var indexValue;
-	
-	index = document.getElementById('calendar').selectedIndex;
-	value = document.getElementById('calendar').options[index].value;
-	
-	for(var i = 0; i < ids.length; i++)
-	{
-		if(ids[i] == value)
-		{
-			document.getElementById('not').disabled = false;
+il.CalendarAppointmentNotificationToggler = {
+	init(calSelectID, notificationCals, checkboxName) {
+		const calSelect = document.getElementById(calSelectID).querySelector('select');
+
+		calSelect.onchange =  function() {
+			const index = calSelect.selectedIndex;
+			const value = calSelect.options[index].value;
+			const checkbox = document.querySelector('input[name$="' + checkboxName + '"]');
+
+			for(var i = 0; i < notificationCals.length; i++)
+			{
+				if(notificationCals[i] == value)
+				{
+					checkbox.disabled = false;
+					return;
+				}
+			}
+			checkbox.disabled = true;
+			checkbox.checked = false;
 			return;
 		}
 	}
-	document.getElementById('not').disabled = true;
-	document.getElementById('not').checked = false;
-	return;	
-	
 }
-

@@ -36,6 +36,8 @@ class ilDclDatatype
     public const INPUTFORMAT_DATE_SELECTION = 15;
     public const INPUTFORMAT_FILE = 16;
     public const INPUTFORMAT_COPY = 17;
+    public const INPUTFORMAT_DATETIME = 18;
+    public const INPUTFORMAT_DATETIME_SELECTION = 19;
 
     protected int $id = 0;
     protected string $title = "unknown";

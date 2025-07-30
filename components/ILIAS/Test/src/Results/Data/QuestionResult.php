@@ -37,7 +37,8 @@ class QuestionResult
         private readonly string $feedback,
         private readonly bool $workedthrough,
         private readonly bool $answered,
-        private readonly ?string $content_for_recapitulation
+        private readonly ?string $content_for_recapitulation,
+        private readonly int $position
     ) {
     }
 
@@ -102,5 +103,9 @@ class QuestionResult
     public function getContentForRecapitulation(): ?string
     {
         return $this->content_for_recapitulation;
+    }
+    public function getPosition(): int
+    {
+        return $this->position;
     }
 }

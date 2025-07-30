@@ -71,7 +71,28 @@ class ilDataCollectionDBUpdateSteps11 implements ilDatabaseUpdateSteps
                 'notnull' => true,
                 'default' => 0
             ]);
+            $this->db->manipulateF('UPDATE il_dcl_tableview SET role_limitation = %s', [ilDBConstants::T_INTEGER], [1]);
         }
-        $this->db->manipulateF('UPDATE il_dcl_tableview SET role_limitation = %s', [ilDBConstants::T_INTEGER], [1]);
+    }
+
+    public function step_3(): void
+    {
+        $query = 'SELECT id FROM il_dcl_datatype WHERE id = %s';
+        if ($this->db->fetchAssoc($this->db->queryF($query, [ilDBConstants::T_INTEGER], [ilDclDatatype::INPUTFORMAT_DATETIME])) === null) {
+            $this->db->insert('il_dcl_datatype', [
+                'id' => [ilDBConstants::T_INTEGER, ilDclDatatype::INPUTFORMAT_DATETIME],
+                'title' => [ilDBConstants::T_TEXT, 'datetime'],
+                'storage_location' => [ilDBConstants::T_INTEGER, 3],
+                'sort' => [ilDBConstants::T_INTEGER, 52],
+            ]);
+        }
+        if ($this->db->fetchAssoc($this->db->queryF($query, [ilDBConstants::T_INTEGER], [ilDclDatatype::INPUTFORMAT_DATETIME_SELECTION])) === null) {
+            $this->db->insert('il_dcl_datatype', [
+                'id' => [ilDBConstants::T_INTEGER, ilDclDatatype::INPUTFORMAT_DATETIME_SELECTION],
+                'title' => [ilDBConstants::T_TEXT, 'datetime_selection'],
+                'storage_location' => [ilDBConstants::T_INTEGER, 1],
+                'sort' => [ilDBConstants::T_INTEGER, 54],
+            ]);
+        }
     }
 }

@@ -205,6 +205,16 @@ class CapabilityTest extends TestCase
                 ],
                 'expected_best' => Capabilities::NONE
             ],
+            'docu_case' => [
+                'wopi_view' => true,
+                'wopi_edit' => true,
+                'infopage_first' => true,
+                'user_permissions' => [
+                    Permissions::READ,
+                    Permissions::VISIBLE,
+                ],
+                'expected_best' => Capabilities::FORCED_INFO_PAGE
+            ],
         ];
     }
 

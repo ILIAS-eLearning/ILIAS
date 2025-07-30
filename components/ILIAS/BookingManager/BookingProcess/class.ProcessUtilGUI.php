@@ -169,14 +169,17 @@ class ProcessUtilGUI
 
         $rsv_ids = $request->getReservationIdsFromString();
 
-        $tmp = array();
-        if (count($rsv_ids) === 0 && $request->getReservationId() !== "") {
-            [$obj_id, $user_id, $from, $to] = explode("_", $request->getReservationId());
+        $tmp = [];
+        if ($rsv_ids === [] && $request->getReservationId() !== '') {
+            $reservationIdParts = explode('_', $request->getReservationId());
+
+            $user_id = (int) ($reservationIdParts[1] ?? 0);
+            $from = (int) ($reservationIdParts[2] ?? 0);
+
             if ($from > time()) {
-                $tmp[$from . "-" . $to + 1] = $tmp[$from . "-" . $to + 1] ?? 0;
-                $tmp[$from . "-" . $to + 1]++;
+                $to = (int) ($reservationIdParts[3] ?? 0);
+                $tmp["$from-" . ($to + 1)] = 1;
             }
-            $user_id = (int) $user_id;
             $rsv_ids = [0];
         }
 

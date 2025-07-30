@@ -29,8 +29,7 @@ use ILIAS\MetaData\Paths\FactoryInterface as PathFactory;
 use ILIAS\MetaData\Editor\Full\Services\Inputs\WithoutConditions\FactoryWithoutConditionTypesService;
 use ILIAS\MetaData\Editor\Full\Services\Inputs\WithoutConditions\BaseFactory;
 use ILIAS\MetaData\DataHelper\DataHelperInterface;
-use ILIAS\MetaData\Vocabularies\ElementHelper\ElementHelperInterface;
-use ILIAS\MetaData\Vocabularies\Slots\HandlerInterface as VocabSlotHandler;
+use ILIAS\MetaData\Editor\Vocabulary\AdapterInterface as VocabularyAdapter;
 
 class FactoryWithConditionTypesService
 {
@@ -44,8 +43,7 @@ class FactoryWithConditionTypesService
         Refinery $refinery,
         PathFactory $path_factory,
         DataHelperInterface $data_helper,
-        ElementHelperInterface $element_vocab_helper,
-        VocabSlotHandler $vocab_slot_handler
+        VocabularyAdapter $vocabulary_adapter
     ) {
         $this->types_without_conditions = new FactoryWithoutConditionTypesService(
             $ui_factory,
@@ -53,7 +51,7 @@ class FactoryWithConditionTypesService
             $constraint_dictionary,
             $refinery,
             $data_helper,
-            $element_vocab_helper,
+            $vocabulary_adapter,
             $path_factory
         );
         $this->vocab_value = new VocabValueConditionFactory(
@@ -62,8 +60,8 @@ class FactoryWithConditionTypesService
             $constraint_dictionary,
             $this->types_without_conditions,
             $path_factory,
-            $element_vocab_helper,
-            $vocab_slot_handler
+            $refinery,
+            $vocabulary_adapter
         );
     }
 

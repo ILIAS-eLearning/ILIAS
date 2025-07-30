@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Editor\Services;
 
+use ILIAS\MetaData\Editor\Manipulator\ManipulatorInterface;
 use ILIAS\MetaData\Editor\Manipulator\Manipulator;
 use ILIAS\MetaData\Editor\Presenter\Presenter;
 use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
@@ -43,6 +44,8 @@ use ILIAS\MetaData\Editor\Observers\ObserverHandlerInterface;
 use ILIAS\MetaData\Manipulator\Services\Services as ManipulatorServices;
 use ILIAS\MetaData\Presentation\Services\Services as PresentationServices;
 use ILIAS\MetaData\Vocabularies\Services\Services as VocabulariesServices;
+use ILIAS\MetaData\Editor\Vocabulary\AdapterInterface as VocabularyAdapterInterface;
+use ILIAS\MetaData\Editor\Vocabulary\Adapter as VocabularyAdapter;
 
 class Services
 {
@@ -51,7 +54,8 @@ class Services
     protected LinkFactoryInterface $link_factory;
     protected RequestParserInterface $request_parser;
     protected ObserverHandlerInterface $observer_handler;
-    protected Manipulator $manipulator;
+    protected ManipulatorInterface $manipulator;
+    protected VocabularyAdapterInterface $vocabulary_adapter;
 
     protected GlobalContainer $dic;
     protected PathServices $path_services;
@@ -138,7 +142,7 @@ class Services
         );
     }
 
-    public function manipulator(): Manipulator
+    public function manipulator(): ManipulatorInterface
     {
         if (isset($this->manipulator)) {
             return $this->manipulator;
@@ -157,5 +161,16 @@ class Services
             return $this->observer_handler;
         }
         return $this->observer_handler = new ObserverHandler();
+    }
+
+    public function vocabularyAdapter(): VocabularyAdapterInterface
+    {
+        if (isset($this->vocabulary_adapter)) {
+            return $this->vocabulary_adapter;
+        }
+        return $this->vocabulary_adapter = new VocabularyAdapter(
+            $this->vocabularies_services->reader(),
+            $this->vocabularies_services->slotElementHelper()
+        );
     }
 }

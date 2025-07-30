@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-require_once("vendor/composer/vendor/autoload.php");
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
@@ -32,7 +32,7 @@ class ilCalendarRecurrenceCalculationTest extends TestCase
         parent::setUp();
     }
 
-    public function testCalculatorConstruct()
+    public function testCalculatorConstruct(): void
     {
         $entry = new ilCalendarEntry(0);
         $entry->setStart(new ilDate('2022-01-01', IL_CAL_DATE));
@@ -75,11 +75,46 @@ class ilCalendarRecurrenceCalculationTest extends TestCase
         }
     }
 
+    public function testYearlyByDay(): void
+    {
+        $entry = new ilCalendarEntry(0);
+        $entry->setStart(new ilDate('2022-01-01', IL_CAL_DATE));
+        $entry->setEnd(new ilDate('2022-01-01', IL_CAL_DATE));
+        $entry->setFullday(true);
+
+        // first saturday and second monday in january and december
+        $rec = new ilCalendarRecurrence(0);
+        $rec->setFrequenceType(ilCalendarRecurrence::FREQ_YEARLY);
+        $rec->setBYDAY('1SA,2MO');
+        $rec->setBYMONTH('1,12');
+        $rec->setInterval(1);
+        $rec->setFrequenceUntilCount(6);
+
+        $calc = new ilCalendarRecurrenceCalculator(
+            $entry,
+            $rec
+        );
+        $dl = $calc->calculateDateList(
+            new ilDateTime('2021-12-31', IL_CAL_DATE),
+            new ilDate('2023-12-31', IL_CAL_DATE),
+            -1
+        );
+        $result = new ilDateList(ilDateList::TYPE_DATE);
+        $result->add(new ilDate('2022-01-01', IL_CAL_DATE));
+        $result->add(new ilDate('2022-01-10', IL_CAL_DATE));
+        $result->add(new ilDate('2022-12-03', IL_CAL_DATE));
+        $result->add(new ilDate('2022-12-12', IL_CAL_DATE));
+        $result->add(new ilDate('2023-01-07', IL_CAL_DATE));
+        $result->add(new ilDate('2023-01-09', IL_CAL_DATE));
+
+        $this->assertTrue($result == $dl);
+    }
+
     public function testMonthly()
     {
         $entry = new ilCalendarEntry(0);
         $entry->setStart(new ilDate('2022-01-01', IL_CAL_DATE));
-        $entry->setEnd(new ilDate('2023-01-01', IL_CAL_DATE));
+        $entry->setEnd(new ilDate('2022-01-01', IL_CAL_DATE));
         $entry->setFullday(true);
 
         $rec = new ilCalendarRecurrence(0);
@@ -107,7 +142,7 @@ class ilCalendarRecurrenceCalculationTest extends TestCase
     {
         $entry = new ilCalendarEntry(0);
         $entry->setStart(new ilDate('2022-01-01', IL_CAL_DATE));
-        $entry->setEnd(new ilDate('2023-01-01', IL_CAL_DATE));
+        $entry->setEnd(new ilDate('2022-01-01', IL_CAL_DATE));
         $entry->setFullday(true);
 
         // next two first days of the month which are on saturday  => (2022-01-01, 2022-10-01)
@@ -130,6 +165,120 @@ class ilCalendarRecurrenceCalculationTest extends TestCase
         $result = new ilDateList(ilDateList::TYPE_DATE);
         $result->add(new ilDate('2022-01-01', IL_CAL_DATE));
         $result->add(new ilDate('2022-10-01', IL_CAL_DATE));
+        $this->assertTrue($result == $dl);
+    }
+
+    public function testWeekly(): void
+    {
+        $entry = new ilCalendarEntry(0);
+        $entry->setStart(new ilDate('2022-01-01', IL_CAL_DATE));
+        $entry->setEnd(new ilDate('2022-01-01', IL_CAL_DATE));
+        $entry->setFullday(true);
+
+        $rec = new ilCalendarRecurrence(0);
+        $rec->setFrequenceType(ilCalendarRecurrence::FREQ_WEEKLY);
+        $rec->setInterval(1);
+        $rec->setFrequenceUntilCount(2);
+
+        $calc = new ilCalendarRecurrenceCalculator(
+            $entry,
+            $rec
+        );
+        $dl = $calc->calculateDateList(
+            new ilDateTime('2021-12-31', IL_CAL_DATE),
+            new ilDate('2023-12-31', IL_CAL_DATE),
+            -1
+        );
+        $result = new ilDateList(ilDateList::TYPE_DATE);
+        $result->add(new ilDate('2022-01-01', IL_CAL_DATE));
+        $result->add(new ilDate('2022-01-08', IL_CAL_DATE));
+
+        $this->assertTrue($result == $dl);
+    }
+
+    public function testWeeklyByDay(): void
+    {
+        $entry = new ilCalendarEntry(0);
+        $entry->setStart(new ilDate('2022-01-01', IL_CAL_DATE));
+        $entry->setEnd(new ilDate('2022-01-01', IL_CAL_DATE));
+        $entry->setFullday(true);
+
+        $rec = new ilCalendarRecurrence(0);
+        $rec->setFrequenceType(ilCalendarRecurrence::FREQ_WEEKLY);
+        $rec->setBYDAY('MO,SA');
+        $rec->setInterval(1);
+        $rec->setFrequenceUntilCount(3);
+
+        $calc = new ilCalendarRecurrenceCalculator(
+            $entry,
+            $rec
+        );
+        $dl = $calc->calculateDateList(
+            new ilDateTime('2021-12-31', IL_CAL_DATE),
+            new ilDate('2023-12-31', IL_CAL_DATE),
+            -1
+        );
+        $result = new ilDateList(ilDateList::TYPE_DATE);
+        $result->add(new ilDate('2022-01-01', IL_CAL_DATE));
+        $result->add(new ilDate('2022-01-03', IL_CAL_DATE));
+        $result->add(new ilDate('2022-01-08', IL_CAL_DATE));
+
+        $this->assertTrue($result == $dl);
+    }
+
+    public function testDaily(): void
+    {
+        $entry = new ilCalendarEntry(0);
+        $entry->setStart(new ilDate('2022-01-01', IL_CAL_DATE));
+        $entry->setEnd(new ilDate('2022-01-01', IL_CAL_DATE));
+        $entry->setFullday(true);
+
+        $rec = new ilCalendarRecurrence(0);
+        $rec->setFrequenceType(ilCalendarRecurrence::FREQ_DAILY);
+        $rec->setInterval(1);
+        $rec->setFrequenceUntilCount(2);
+
+        $calc = new ilCalendarRecurrenceCalculator(
+            $entry,
+            $rec
+        );
+        $dl = $calc->calculateDateList(
+            new ilDateTime('2021-12-31', IL_CAL_DATE),
+            new ilDate('2023-12-31', IL_CAL_DATE),
+            -1
+        );
+        $result = new ilDateList(ilDateList::TYPE_DATE);
+        $result->add(new ilDate('2022-01-01', IL_CAL_DATE));
+        $result->add(new ilDate('2022-01-02', IL_CAL_DATE));
+
+        $this->assertTrue($result == $dl);
+    }
+
+    public function testUntilEndDateInclusive(): void
+    {
+        $entry = new ilCalendarEntry(0);
+        $entry->setStart(new ilDate('2022-01-01', IL_CAL_DATE));
+        $entry->setEnd(new ilDate('2022-01-01', IL_CAL_DATE));
+        $entry->setFullday(true);
+
+        $rec = new ilCalendarRecurrence(0);
+        $rec->setFrequenceType(ilCalendarRecurrence::FREQ_DAILY);
+        $rec->setInterval(1);
+        $rec->setFrequenceUntilDate(new ilDate('2022-01-02', IL_CAL_DATE));
+
+        $calc = new ilCalendarRecurrenceCalculator(
+            $entry,
+            $rec
+        );
+        $dl = $calc->calculateDateList(
+            new ilDateTime('2021-12-31', IL_CAL_DATE),
+            new ilDate('2023-12-31', IL_CAL_DATE),
+            -1
+        );
+        $result = new ilDateList(ilDateList::TYPE_DATE);
+        $result->add(new ilDate('2022-01-01', IL_CAL_DATE));
+        $result->add(new ilDate('2022-01-02', IL_CAL_DATE));
+
         $this->assertTrue($result == $dl);
     }
 

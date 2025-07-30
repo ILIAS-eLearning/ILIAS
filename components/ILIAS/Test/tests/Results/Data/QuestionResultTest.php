@@ -38,7 +38,8 @@ class QuestionResultTest extends TestCase
             $feedback = 'give it another try',
             $worked_through = true,
             $answered = true,
-            $recapitulation = 'some recap'
+            $recapitulation = 'some recap',
+            $position = 765
         );
 
         $this->assertEquals($id, $qr->getId());
@@ -52,5 +53,6 @@ class QuestionResultTest extends TestCase
         $this->assertTrue($qr->isWorkedThrough());
         $this->assertTrue($qr->isAnswered());
         $this->assertEquals($recapitulation, $qr->getContentForRecapitulation());
+        $this->assertEquals($position, $qr->getPosition());
     }
 }

@@ -117,6 +117,7 @@ class PHPResponseBuilder implements ResponseBuilder
         $fh = $stream->detach();
         $buffer_size = 8048 * 10;
 
+        $output_length = 0;
         if ($stream->isSeekable()) {
             fseek($fh, $start);
             while (!feof($fh) && $length > 0) {

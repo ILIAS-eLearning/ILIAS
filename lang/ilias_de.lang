@@ -2535,6 +2535,7 @@ book#:#book_bulk_creation#:#Massenerstellung
 book#:#book_bulk_data#:#Daten zu Angeboten
 book#:#book_cal_entry#:#Buchung:
 book#:#book_confirm_booking#:#Buchung vornehmen
+book#:#book_confirm_booking_for_users#:#Sind Sie sicher, dass Sie dieses Angebot für die folgenden Teilnehmer buchen wollen?
 book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Angebot buchen wollen?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Buchungsbestätigung
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Bitte wählen Sie die Anzahl der zu buchenden Angebote.
@@ -3184,9 +3185,9 @@ cmix#:#conf_privacy_setting_info#:#Konfigurationsoptionen für die Datenschutzei
 cmix#:#conf_remarks#:#Interne Kommentare
 cmix#:#conf_title#:#Titel
 cmix#:#conf_use_proxy#:#xAPI-Proxy
-cmix#:#conf_use_proxy_info#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cron-Job „xAPI/cmi5 Ergebnisse holen“. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich und wird automatisch aktiviert.
+cmix#:#conf_use_proxy_info#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cron-Job „xAPI/cmi5-Ergebnisse holen“. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich und wird automatisch aktiviert.
 cmix#:#conf_use_proxy_info_cmi5#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich.
-cmix#:#conf_use_proxy_info_xapi#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cron-Job „xAPI/cmi5 Ergebnisse holen“.
+cmix#:#conf_use_proxy_info_xapi#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cron-Job „xAPI/cmi5-Ergebnisse holen“.
 cmix#:#conf_user_ident#:#Schlüssel zur Identifikation einer Person
 cmix#:#conf_user_ident_il_uuid_ext_account#:#ID-externes-Konto@ILIAS-Plattform-ID.ilias
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Die E-Mail-Adresse setzt sich zusammen aus der ID eines externen Kontos und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf die Person.zulassen.
@@ -3214,7 +3215,9 @@ cmix#:#content_privacy_ident#:#Identifikation der Person
 cmix#:#content_privacy_name#:#Anmeldename
 cmix#:#create_lrs_type_form#:#Neuer Learning Record Store Typ
 cmix#:#create_registration#:#Registrieren Sie Ihre E-Mail-Adresse
-cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 Ergebnisse holen
+cmix#:#cron_xapi_del#:#xAPI/cmi5-Daten im Learning Record Store löschen
+cmix#:#cron_xapi_del_desc#:#Daten werden gemäß den Einstellungen der xAPI/cmi5-Objekte gelöscht.
+cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5-Ergebnisse holen
 cmix#:#cron_xapi_results_evaluation_desc#:#Fordert alle xAPI-Ergebnisse aus dem Learning Record Store für Objekte an, die den ILIAS xAPI-Proxy nicht unterstützen.
 cmix#:#description_info#:#Die Beschreibung wird unterhalb des Titels angezeigt.
 cmix#:#download_certificate#:#Zertifikat herunterladen
@@ -4217,6 +4220,7 @@ common#:#group_status#:#Gruppe ist
 common#:#groupings#:#Mitgliedschaftsbeschränkung
 common#:#groupings_assigned_obj_crs#:#Zugeordnete Kurse
 common#:#groupings_assigned_obj_grp#:#Zugeordnete Gruppen
+common#:#groupings_source#:#Stammt aus
 common#:#groups#:#Gruppen
 common#:#grp#:#Gruppe
 common#:#grp_add#:#Gruppe anlegen
@@ -8108,6 +8112,7 @@ dateplaner#:#cal_agenda#:#Agenda
 dateplaner#:#cal_all_day#:#Ganztags
 dateplaner#:#cal_app_info#:#Information zum Kalendertermin
 dateplaner#:#cal_app_other_materials_num#:#Weitere Materialien anzeigen
+dateplaner#:#cal_appointment_notifications#:#Benachrichtigung
 dateplaner#:#cal_appointments#:#Termine
 dateplaner#:#cal_apps#:#Anzahl Termine
 dateplaner#:#cal_assigned_appointments#:#Termine dieses Kalenders
@@ -8116,6 +8121,7 @@ dateplaner#:#cal_back_to_list#:#Zurück zur Liste
 dateplaner#:#cal_back_to_search#:#Zurück zur Suche
 dateplaner#:#cal_batch_file_downloads#:#Datei-Downloads aus Kalender stapelweise verarbeiten
 dateplaner#:#cal_batch_file_downloads_info#:#Erlaubt Herunterladen aller Dateien zu Einträgen in der gewählten Kalenderansicht
+dateplaner#:#cal_belongs_to#:#Gehört zu Kalender
 dateplaner#:#cal_book_free#:#frei
 dateplaner#:#cal_booked_out#:#ausgebucht
 dateplaner#:#cal_booking_cancellation_body#:#Ihr Termin mit %s ist abgesagt.
@@ -8255,8 +8261,10 @@ dateplaner#:#cal_crs_notification_sub#:#Terminänderung in Kurs „%s“
 dateplaner#:#cal_crs_timing_end#:#Bearbeitungsende
 dateplaner#:#cal_crs_timing_start#:#Bearbeitungsbeginn
 dateplaner#:#cal_daily#:#Täglich
+dateplaner#:#cal_date_and_time#:#Datum und Uhrzeit
 dateplaner#:#cal_date_booked#:#gebucht
 dateplaner#:#cal_date_format_info#:#Bitte wählen Sie ein Format für die Eingabe eines Datums aus.
+dateplaner#:#cal_date_time_title#:#Datum und Uhrzeit
 dateplaner#:#cal_day_end#:#Tagesende
 dateplaner#:#cal_day_of_month#:#Tag des Monats
 dateplaner#:#cal_day_overview#:#Tagesübersicht
@@ -8295,6 +8303,8 @@ dateplaner#:#cal_download_files#:#Dateien herunterladen
 dateplaner#:#cal_download_files_started#:#Ein ZIP-Archiv mit allen Download-Dateien wird jetzt im Hintergrund erstellt. Den Status Ihrer Hintergrundprozesse sehen Sie oben rechts in der Nachrichtenzentrale. Dort können Sie das ZIP-Archiv auch herunterladen.
 dateplaner#:#cal_dstart_dend_warn#:#Bitte überprüfen Sie Ihre Eingabe. Der Tagesbeginn muss vor dem Tagesende sein.
 dateplaner#:#cal_duration#:#Dauer
+dateplaner#:#cal_duration_end#:#Ende
+dateplaner#:#cal_duration_start#:#Start
 dateplaner#:#cal_edit_appointment#:#Termin bearbeiten
 dateplaner#:#cal_edit_category#:#Kalender bearbeiten
 dateplaner#:#cal_edit_milestone#:#Meilenstein bearbeiten
@@ -8349,6 +8359,8 @@ dateplaner#:#cal_month_overview#:#Monatsübersicht
 dateplaner#:#cal_month_s#:#Monat(e)
 dateplaner#:#cal_month_selection#:#Monatsauswahl
 dateplaner#:#cal_monthly#:#Monatlich
+dateplaner#:#cal_monthly_by_date#:#Monatlich nach Datum
+dateplaner#:#cal_monthly_by_day#:#Monatlich nach Tag
 dateplaner#:#cal_ms_details#:#Details zum Meilenstein
 dateplaner#:#cal_ms_users_responsible#:#Verantwortliche Mitglieder
 dateplaner#:#cal_new_app#:#Neuer Termin
@@ -8369,6 +8381,17 @@ dateplaner#:#cal_owner#:#Im Besitz von
 dateplaner#:#cal_period#:#Zeitraum
 dateplaner#:#cal_rec_err_limit#:#Bitte geben Sie eine Anzahl von Terminen ein.
 dateplaner#:#cal_recurrence_confirm_deletion#:#Bitte wählen Sie aus, ob Sie einzelne Termine oder aber die gesamte Terminserie löschen möchten.
+dateplaner#:#cal_recurrence_count#:#Anzahl
+dateplaner#:#cal_recurrence_day_interval#:#Alle x Tag(e)
+dateplaner#:#cal_recurrence_end_date#:#Enddatum
+dateplaner#:#cal_recurrence_end_date_info#:#Letztes mögliches Datum für einen Termin.
+dateplaner#:#cal_recurrence_month_interval#:#Alle x Monat(e)
+dateplaner#:#cal_recurrence_until#:#Wiederholungsende
+dateplaner#:#cal_recurrence_until_count#:#Feste Anzahl von Terminen
+dateplaner#:#cal_recurrence_until_end_date#:#Wiederholen bis zu Enddatum
+dateplaner#:#cal_recurrence_until_info#:#Nur relevant wenn eine Wiederholung ausgewählt wurde.
+dateplaner#:#cal_recurrence_week_interval#:#Alle x Woche(n)
+dateplaner#:#cal_recurrence_year_interval#:#Alle x Jahr(e)
 dateplaner#:#cal_recurrences#:#Wiederholungen
 dateplaner#:#cal_reg_register#:#Anmelden
 dateplaner#:#cal_reg_registered#:#Sie wurden für diesen Termin angemeldet.
@@ -8462,6 +8485,8 @@ dateplaner#:#cal_weekly#:#Wöchentlich
 dateplaner#:#cal_where#:#Ort
 dateplaner#:#cal_year_s#:#Jahr(e)
 dateplaner#:#cal_yearly#:#Jährlich
+dateplaner#:#cal_yearly_by_date#:#Jährlich nach Datum
+dateplaner#:#cal_yearly_by_day#:#Jährlich nach Tag
 dateplaner#:#consultation_hours_block_title#:#Sprechstunden
 dateplaner#:#crs_cal_activation_end#:#Kursende
 dateplaner#:#crs_cal_activation_start#:#Kursbeginn
@@ -8510,7 +8535,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Eintrag wurde erzeug
 dcl#:#dcl_change_notification_dcl_update_record#:#Der folgende Eintrag wurde aktualisiert
 dcl#:#dcl_change_notification_link#:#Zur Datensammlung gehen
 dcl#:#dcl_change_notification_subject#:#Die Datensammlung „%s“ wurde bearbeitet.
-dcl#:#dcl_change_why_you_receive_this_email#:#Sie erhalten diese Nachricht, weil Sie die Benachrichtigungsfunktion für die oben genannte Datensammlung aktiviert haben.
 dcl#:#dcl_changed_by#:#Letzte Änderung durch
 dcl#:#dcl_checked#:#Ausgewählt
 dcl#:#dcl_comments#:#Kommentare
@@ -8537,6 +8561,10 @@ dcl#:#dcl_date#:#Datumseingabe
 dcl#:#dcl_date_desc#:#Datum wird eingegeben oder im Kalender ausgewählt.
 dcl#:#dcl_date_selection#:#Datum per Auswahl
 dcl#:#dcl_date_selection_desc#:#Aus vorgegebenen Optionen kann ein Datum ausgewählt werden.
+dcl#:#dcl_datetime#:#Datumseingabe mit Uhrzeit
+dcl#:#dcl_datetime_desc#:#Datum und Uhrzeit wird eingegeben oder im Kalender ausgewählt.
+dcl#:#dcl_datetime_selection#:#Datum mit Uhrzeit per Auswahl
+dcl#:#dcl_datetime_selection_desc#:#Aus vorgegebenen Optionen kann ein Datum mit Uhrzeit ausgewählt werden.
 dcl#:#dcl_default_sort_field#:#Sortierung
 dcl#:#dcl_default_sort_field_order#:#Sortierrichtung
 dcl#:#dcl_default_sort_field_order_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
@@ -8584,7 +8612,6 @@ dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Fo
 dcl#:#dcl_formula_detail_desc#:#Einträge in diesem Feld generieren sich automatisch. Sie können hier keinen Eintrag vornehmen.
 dcl#:#dcl_height#:#Höhe in Pixel
 dcl#:#dcl_height_desc#:#Die Datei wird beim Upload auf diese Größe verkleinert.
-dcl#:#dcl_hello#:#Hallo
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Die interne ID.
 dcl#:#dcl_ilias_reference#:#Objekt im Magazin
@@ -8642,7 +8669,6 @@ dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_new_view#:#Neue Ansicht
 dcl#:#dcl_next_record#:#Nächster Eintrag
-dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Felder
 dcl#:#dcl_no_entries#:#Keine Einträge
 dcl#:#dcl_no_entry#:#Kein Eintrag
 dcl#:#dcl_no_export_async_config#:#Keine SOAP Konfiguration für asyncrone Exporte verfügbar.
@@ -9250,8 +9276,8 @@ exc#:#exc_ended#:#Beendet
 exc#:#exc_ended_on#:#Beendet am
 exc#:#exc_export_excel#:#Export (Excel)
 exc#:#exc_fb_files#:#Bewertungsdateien
-exc#:#exc_fb_tutor_info#:#Die Person, welche die Abgabe eingereicht hat, wird nach dem Hochladen der Datei per Mail benachrichtigt. Die Rückmeldung wird im Reiter „Übersicht“ der Übungseinheit angezeigt und kann heruntergeladen werden.
-exc#:#exc_feedback#:#Feedback
+exc#:#exc_fb_tutor_info#:#Wird eine Datei zur Bewertung der Übungseinheit hochgeladen, erhält die Teilnehmerin oder der Teilnehmer eine Benachrichtigung und kann dann in der Übersicht der Übungseinheiten heruntergeladen und eingesehen werden.
+exc#:#exc_feedback#:#Rückmeldungen
 exc#:#exc_feedback_notification_body#:#Das Feedback zur folgenden Übungseinheit wurde freigeschaltet.
 exc#:#exc_feedback_notification_link#:#Link zur Übung
 exc#:#exc_feedback_notification_reason#:#Sie erhalten diese Nachricht, da Sie an der oben genannten Übung teilnehmen.
@@ -9394,7 +9420,7 @@ exc#:#exc_peer_review_completion_none_info#:#Die Übungseinheit wird automatisch
 exc#:#exc_peer_review_completion_one#:#Mindestens ein Feedback
 exc#:#exc_peer_review_completion_one_info#:#Die Übungseinheit wird automatisch auf "Bestanden" gesetzt, nachdem eine Lösung eingereicht wurde und mindestens ein Feedback gegeben wurde.
 exc#:#exc_peer_review_deadline#:#Feedback geben bis
-exc#:#exc_peer_review_deadline_info#:#Bis zu diesem Termin können Bewertungen abgegeben werden. Anschließend ist das erhaltene Feedback einsehbar.
+exc#:#exc_peer_review_deadline_info#:#Bis zu diesem Termin kann Feedback abgegeben werden. Anschließend ist das erhaltene Feedback einsehbar.
 exc#:#exc_peer_review_deadline_info_button#:#Endtermin: %s
 exc#:#exc_peer_review_deadline_reached#:#Feedback-Zeit ist abgelaufen.
 exc#:#exc_peer_review_file#:#Datei-Upload
@@ -9419,7 +9445,7 @@ exc#:#exc_peer_review_overview#:#Peer-Gruppen anzeigen
 exc#:#exc_peer_review_overview_invalid_users#:#Ungültige Benutzer
 exc#:#exc_peer_review_personal#:#Personalisiertes Peer-Feedback
 exc#:#exc_peer_review_personal_info#:#Peers werden mit vollem Namen gezeigt
-exc#:#exc_peer_review_rating#:#Bewertung
+exc#:#exc_peer_review_rating#:#5-Sterne-Bewertung
 exc#:#exc_peer_review_recipient#:#Feedback-Nehmer
 exc#:#exc_peer_review_reset#:#Peer-Feedback löschen und zurücksetzen
 exc#:#exc_peer_review_reset_done#:#Sämtliche Peer-Feedback-Daten wurde für die Übungseinheit gelöscht.
@@ -9427,10 +9453,10 @@ exc#:#exc_peer_review_reset_sure#:#Wollen Sie wirklich das komplette Peer-Feedba
 exc#:#exc_peer_review_show#:#Erhaltenes Feedback zeigen
 exc#:#exc_peer_review_show_missing#:#Sie können das erhaltene Feedback nicht einsehen, da Sie zu wenig Feedback gegeben haben.
 exc#:#exc_peer_review_show_received_none#:#Sie haben kein Feedback erhalten.
-exc#:#exc_peer_review_simple_unlock#:#Anzeige der erhaltenen Bewertungen
-exc#:#exc_peer_review_simple_unlock_active#:#Nach Abgabe einer Bewertung
-exc#:#exc_peer_review_simple_unlock_immed#:#Erhaltene Feedbacks immer anzeigen
-exc#:#exc_peer_review_simple_unlock_inactive#:#Nach Abgabe aller Bewertungen
+exc#:#exc_peer_review_simple_unlock#:#Anzeige des erhaltenen Feedbacks
+exc#:#exc_peer_review_simple_unlock_active#:#Direkt nach erstem abgegebenen Feedback
+exc#:#exc_peer_review_simple_unlock_immed#:#Erhaltenes Feedback immer anzeigen
+exc#:#exc_peer_review_simple_unlock_inactive#:#Nur wenn die geforderte Anzahl an Feedback gegeben wurde
 exc#:#exc_peer_review_text#:#Texteingabe
 exc#:#exc_peer_review_updated#:#Ihr Feedback wurde gespeichert.
 exc#:#exc_peer_reviews_in_lead_text#:#In %s Feedback geben
@@ -13977,14 +14003,14 @@ rbac#:#cmis_edit_permission#:#Rechteeinstellungen der Administration für xAPI/c
 rbac#:#cmis_read#:#Lesezugriff auf Administration für xAPI/cmi5
 rbac#:#cmis_visible#:#Administration für xAPI/cmi5 ist sichtbar.
 rbac#:#cmis_write#:#Einstellungen in Administration für xAPI/cmi5 ändern
-rbac#:#cmix_copy#:#Benutzer kann xAPI/cmi5 Objekt kopieren
+rbac#:#cmix_copy#:#Benutzer kann xAPI/cmi5-Objekt kopieren
 rbac#:#cmix_delete#:#Benutzer kann xAPI/cmi5-Objekt verschieben oder löschen
 rbac#:#cmix_edit_learning_progress#:#Benutzer kann die Einstellungen für den Lernfortschritt bearbeiten
 rbac#:#cmix_edit_permission#:#Benutzer kann Berechtigungseinstellungen ändern
-rbac#:#cmix_read#:#Benutzer kann xAPI/cmi5 Objekt sehen
+rbac#:#cmix_read#:#Benutzer kann xAPI/cmi5-Objekt sehen
 rbac#:#cmix_read_learning_progress#:#Benutzer kann den Lernfortschritt anderer Benutzer einsehen
 rbac#:#cmix_read_outcomes#:#Benutzer kann Lernerfahrungen und das Ranking anderer Benutzer einsehen
-rbac#:#cmix_visible#:#xAPI/cmi5 Objekt ist sichtbar
+rbac#:#cmix_visible#:#xAPI/cmi5-Objekt ist sichtbar
 rbac#:#cmix_write#:#Benutzer kann die Einstellungen des xAPI/cmi5-Objekts bearbeiten
 rbac#:#cmps_edit_permission#:#Rechteeinstellung ändern
 rbac#:#cmps_read#:#Lesezugriff auf Administration für Plugins, Module und Dienste
@@ -17711,7 +17737,7 @@ wsp#:#share_content#:#Ressource freigeben
 wsp#:#share_with#:#Anmeldename
 wsp#:#wsp_copy_to_repository#:#Ins Magazin kopieren
 wsp#:#wsp_invalid_password#:#Das Passwort ist ungültig.
-wsp#:#wsp_list_cmxv#:#Zertifikat des xAPI/cmi5 Objekts
+wsp#:#wsp_list_cmxv#:#Zertifikat des xAPI/cmi5-Objekts
 wsp#:#wsp_list_crsv#:#Kurszertifikat
 wsp#:#wsp_list_excv#:#Übungszertifikat
 wsp#:#wsp_list_ltiv#:#Zertifikat des LTI-Konsument-Objekts

@@ -148,7 +148,6 @@ class ilCronOerHarvester extends CronJob
             $this->lng->txt('meta_oer_copyright_selection'),
             'copyright'
         );
-        $checkbox_group->setRequired(true);
         $checkbox_group->setValue($this->settings->getCopyrightEntryIDsSelectedForHarvesting());
         $checkbox_group->setInfo(
             $this->lng->txt('meta_oer_copyright_selection_info')
@@ -177,11 +176,11 @@ class ilCronOerHarvester extends CronJob
         $checkbox_group->setValue($this->settings->getObjectTypesSelectedForHarvesting());
 
         foreach ($this->settings->getObjectTypesEligibleForHarvesting() as $type) {
-            $copyright_checkox = new ilCheckboxOption(
+            $type_checkox = new ilCheckboxOption(
                 $this->lng->txt('objs_' . $type),
                 $type
             );
-            $checkbox_group->addOption($copyright_checkox);
+            $checkbox_group->addOption($type_checkox);
         }
         $a_form->addItem($checkbox_group);
     }

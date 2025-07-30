@@ -22,6 +22,10 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
+use ILIAS\Calendar\Recurrence\Input\FactoryImpl as RecurrenceInputFactory;
 
 /**
  * Administrate calendar appointments
@@ -30,7 +34,7 @@ use ILIAS\Refinery\Factory as RefineryFactory;
  */
 class ilCalendarAppointmentGUI
 {
-    private ilPropertyFormGUI $form;
+    private Form $form;
     private ilCalendarUserNotification $notification;
     protected bool $requested_rexl;
 
@@ -53,6 +57,8 @@ class ilCalendarAppointmentGUI
     protected HTTPServices $http;
     protected RefineryFactory $refinery;
     protected RequestInterface $request;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
 
     /**
      * @todo make appointment_id required and remove all GET request
@@ -71,7 +77,8 @@ class ilCalendarAppointmentGUI
         $this->tabs = $DIC->tabs();
         $this->help = $DIC->help();
         $this->error = $DIC['ilErr'];
-
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->request = $DIC->http()->request();
@@ -154,34 +161,194 @@ class ilCalendarAppointmentGUI
         $this->ctrl->returnToParent($this);
     }
 
-    protected function initForm(string $a_mode, bool $a_edit_single_app = false): ilPropertyFormGUI
+    protected function initForm(string $a_mode, bool $a_edit_single_app = false): Form
     {
-        $this->form = new ilPropertyFormGUI();
-        ilYuiUtil::initDomEvent();
+        $sections = [];
+
+        // title and description
+
+        $description_input = $this->ui_factory->input()->field()->textarea($this->lng->txt('description'))
+            ->withValue($this->app->getDescription());
+
+        $title_input = $this->ui_factory->input()->field()->text($this->lng->txt('title'))
+            ->withRequired(true)
+            ->withValue($this->app->getTitle())
+            ->withAdditionalTransformation($this->refinery->string()->hasMaxLength(128));
+
+        // time and date
+
+        $start_time = new DateTimeImmutable('@' . $this->app->getStart()->getUnixTime());
+        $end_time = new DateTimeImmutable('@' . $this->app->getEnd()->getUnixTime());
+
+        $duration_datetime_input = $this->ui_factory->input()->field()->duration(
+            $this->lng->txt('cal_duration')
+        )->withTimezone($this->user->getTimeZone())
+         ->withLabels($this->lng->txt('cal_duration_start'), $this->lng->txt('cal_duration_end'))
+         ->withUseTime(true)
+         ->withRequired(true)
+         ->withValue([
+             $start_time->setTimezone(new DateTimeZone($this->user->getTimeZone())),
+             $end_time->setTimezone(new DateTimeZone($this->user->getTimeZone()))
+         ]);
+        $datetime_group = $this->ui_factory->input()->field()->group(
+            [$duration_datetime_input],
+            $this->lng->txt('cal_date_time_title')
+        );
+
+        $duration_date_input = $this->ui_factory->input()->field()->duration(
+            $this->lng->txt('cal_duration')
+        )->withTimezone('UTC')
+         ->withLabels($this->lng->txt('cal_duration_start'), $this->lng->txt('cal_duration_end'))
+         ->withUseTime(false)
+         ->withRequired(true)
+         ->withValue([$start_time, $end_time]);
+        $date_group = $this->ui_factory->input()->field()->group(
+            [$duration_date_input],
+            $this->lng->txt('cal_fullday_title')
+        );
+
+        $event_input = $this->ui_factory->input()->field()->switchableGroup(
+            ['with_time' => $datetime_group, 'full_day' => $date_group],
+            $this->lng->txt('appointment')
+        )->withValue($this->app->isFullday() ? 'full_day' : 'with_time')
+         ->withRequired(true);
+
+        $rec_factory = new RecurrenceInputFactory(
+            $this->ui_factory,
+            $this->refinery,
+            $this->lng,
+            ilCalendarUserSettings::_getInstanceByUserId($this->user->getId())
+        );
+        $recurrence_input = $rec_factory->build($this->rec)->get();
+
+        $location_input = $this->ui_factory->input()->field()->text($this->lng->txt('cal_where'))
+            ->withValue($this->app->getLocation())
+            ->withAdditionalTransformation($this->refinery->string()->hasMaxLength(128));
+
+        // calendar selection
+
+        $selected_calendar = $this->readAndPrepareCalendarSelection($a_mode);
+        $cats = ilCalendarCategories::_getInstance($this->user->getId());
+        $calendar_input = $this->ui_factory->input()->field()->select(
+            $this->lng->txt('cal_category_selection'),
+            $cats->prepareCategoriesOfUserForSelection()
+        )->withRequired(true)
+         ->withValue($selected_calendar);
+
+        // notifications
+
+        $notif_inputs = [];
+
+        if (ilCalendarSettings::_getInstance()->isUserNotificationEnabled()) {
+            $values = [];
+            foreach ($this->notification->getRecipients() as $rcp) {
+                switch ($rcp['type']) {
+                    case ilCalendarUserNotification::TYPE_USER:
+                        $values[] = ilObjUser::_lookupLogin($rcp['usr_id']);
+                        break;
+
+                    case ilCalendarUserNotification::TYPE_EMAIL:
+                        $values[] = $rcp['email'];
+                        break;
+                }
+            }
+
+            /**
+             * Reimplement autocomplete, as soon as tag inputs support it,
+             * see ilCalendarAppointmentGUI::doUserAutoComplete
+             */
+            $notif_inputs['notu'] = $this->ui_factory->input()->field()->tag(
+                $this->lng->txt('cal_user_notification'),
+                [],
+                $this->lng->txt('cal_user_notification_info')
+            )->withValue($values);
+        }
+
+        if (ilCalendarSettings::_getInstance()->isNotificationEnabled() && count($cats->getNotificationCalendars())) {
+            $selected_cal = new ilCalendarCategory($selected_calendar);
+            $disabled = true;
+            if ($selected_cal->getType() == ilCalendarCategory::TYPE_OBJ) {
+                if (ilObject::_lookupType($selected_cal->getObjId()) == 'crs' or ilObject::_lookupType($selected_cal->getObjId()) == 'grp') {
+                    $disabled = false;
+                }
+            }
+
+            $this->tpl->addJavaScript('assets/js/toggle_notification.js');
+
+            $notif_inputs['not'] = $this->ui_factory->input()->field()->checkbox(
+                $this->lng->txt('cal_cg_notification'),
+                $this->lng->txt('cal_notification_info')
+            )->withValue($this->app->isNotificationEnabled())
+             ->withDisabled($disabled)
+             ->withDedicatedName('cal_cg_notif_checkbox');
+
+            $notification_cals = $cats->getNotificationCalendars();
+            $notification_cals = count($notification_cals) ? implode(',', $notification_cals) : '';
+            $calendar_input = $calendar_input->withAdditionalOnLoadCode(function ($id) use ($notification_cals) {
+                return 'il.CalendarAppointmentNotificationToggler.init(' .
+                    '"' . $id . '", ' .
+                    '[' . $notification_cals . '], ' .
+                    '"cal_cg_notif_checkbox"' .
+                    ')';
+            });
+        }
+
+        // put everything together
+
+        $section_title = match ($a_mode) {
+            'create' => $this->lng->txt('cal_new_app'),
+            'edit' => $this->lng->txt('cal_edit_appointment'),
+        };
+        $sections[] = $this->ui_factory->input()->field()->section(
+            ['title' => $title_input, 'description' => $description_input],
+            $section_title,
+        );
+        $sections[] = $this->ui_factory->input()->field()->section(
+            ['event' => $event_input, 'recurrence' => $recurrence_input, 'location' => $location_input],
+            $this->lng->txt('cal_date_and_time'),
+        );
+        $sections[] = $this->ui_factory->input()->field()->section(
+            ['calendar' => $calendar_input],
+            $this->lng->txt('cal_belongs_to'),
+        );
+        if (!empty($notif_inputs)) {
+            $sections[] = $this->ui_factory->input()->field()->section(
+                $notif_inputs,
+                $this->lng->txt('cal_appointment_notifications'),
+            );
+        }
+
         switch ($a_mode) {
             case 'create':
-                $this->ctrl->saveParameter($this, array('seed', 'idate'));
-                $this->form->setFormAction($this->ctrl->getFormAction($this));
-                $this->form->setTitle($this->lng->txt('cal_new_app'));
-                $this->form->addCommandButton('save', $this->lng->txt('cal_add_appointment'));
-                $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
+                $this->ctrl->saveParameter($this, ['seed', 'idate']);
+                $action = $this->ctrl->getLinkTarget($this, 'save');
+                $submit_label = $this->lng->txt('cal_add_appointment');
                 break;
             case 'edit':
-                $this->form->setTitle($this->lng->txt('cal_edit_appointment'));
-                $this->ctrl->saveParameter($this, array('seed', 'app_id', 'idate'));
-                $this->form->setFormAction($this->ctrl->getFormAction($this));
-                $this->form->addCommandButton('update', $this->lng->txt('save'));
-                $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
+                $this->ctrl->saveParameter($this, ['seed', 'app_id', 'idate']);
+                $action = $this->ctrl->getLinkTarget($this, 'update');
+                $submit_label = $this->lng->txt('save');
                 break;
         }
-        // title
-        $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
-        $title->setValue($this->app->getTitle());
-        $title->setRequired(true);
-        $title->setMaxLength(128);
-        $title->setSize(32);
-        $this->form->addItem($title);
 
+        /** @var Form $form */
+        $form = $this->ui_factory->input()->container()->form()->standard(
+            $action,
+            $sections
+        )->withSubmitLabel($submit_label)
+         ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($vs) {
+             // flatten output so we don't need to worry about section post vars
+             $res = [];
+             foreach ($vs as $v) {
+                 $res = array_merge($res, $v);
+             }
+             return $res;
+         }));
+        return $this->form = $form;
+    }
+
+    protected function readAndPrepareCalendarSelection(string $mode): int
+    {
         $category_id = 0;
         if ($this->http->wrapper()->query()->has('category_id')) {
             $category_id = $this->http->wrapper()->query()->retrieve(
@@ -196,9 +363,6 @@ class ilCalendarAppointmentGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-        // calendar selection
-        $calendar = new ilSelectInputGUI($this->lng->txt('cal_category_selection'), 'calendar');
-
         $selected_calendar = 0;
         if ($this->http->wrapper()->post()->has('calendar')) {
             $selected_calendar = $this->http->wrapper()->post()->retrieve(
@@ -206,124 +370,37 @@ class ilCalendarAppointmentGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
+
         if ($selected_calendar > 0) {
-            $calendar->setValue($selected_calendar);
-        } elseif ($category_id) {
-            $calendar->setValue((int) $category_id);
-            $selected_calendar = (int) $category_id;
-        } elseif ($a_mode == 'edit') {
+            return $selected_calendar;
+        }
+
+        if ($category_id) {
+            return (int) $category_id;
+        }
+
+        if ($mode == 'edit') {
             $ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
-            $cat = $ass->getFirstAssignment();
-            $calendar->setValue($cat);
-            $selected_calendar = $cat;
-        } elseif ($ref_id) {
+            return $ass->getFirstAssignment();
+        }
+
+        if ($ref_id) {
             $obj_cal = ilObject::_lookupObjId($ref_id);
-            $calendar->setValue(ilCalendarCategories::_lookupCategoryIdByObjId($obj_cal));
             $selected_calendar = ilCalendarCategories::_lookupCategoryIdByObjId($obj_cal);
             $cats = ilCalendarCategories::_getInstance($this->user->getId());
             $cats->readSingleCalendar($selected_calendar);
-        } else {
-            $cats = ilCalendarCategories::_getInstance($this->user->getId());
-            $categories = $cats->prepareCategoriesOfUserForSelection();
-            $selected_calendar = key($categories);
-            $calendar->setValue($selected_calendar);
+            return $selected_calendar;
         }
-        $calendar->setRequired(true);
+
         $cats = ilCalendarCategories::_getInstance($this->user->getId());
-        $calendar->setOptions($cats->prepareCategoriesOfUserForSelection());
-
-        if (ilCalendarSettings::_getInstance()->isNotificationEnabled()) {
-            $notification_cals = $cats->getNotificationCalendars();
-            $notification_cals = count($notification_cals) ? implode(',', $notification_cals) : '';
-            $calendar->addCustomAttribute("onchange=\"ilToggleNotification([" . $notification_cals . "]);\"");
-        }
-        $this->form->addItem($calendar);
-
-        $dur = new ilDateDurationInputGUI($this->lng->txt('cal_fullday'), 'event');
-        $dur->setRequired(true);
-        $dur->enableToggleFullTime(
-            $this->lng->txt('cal_fullday_title'),
-            $this->app->isFullday()
-        );
-        $dur->setShowTime(true);
-        $dur->setStart($this->app->getStart());
-        $dur->setEnd($this->app->getEnd());
-        $this->form->addItem($dur);
-
-        // recurrence
-        if (!$a_edit_single_app) {
-            $rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'), 'frequence');
-            $rec->setRecurrence($this->rec);
-            $this->form->addItem($rec);
-        }
-
-        // location
-        $where = new ilTextInputGUI($this->lng->txt('cal_where'), 'location');
-        $where->setValue($this->app->getLocation());
-        $where->setMaxLength(128);
-        $where->setSize(32);
-        $this->form->addItem($where);
-
-        $desc = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
-        $desc->setValue($this->app->getDescription());
-        $desc->setRows(5);
-        $this->form->addItem($desc);
-
-        if (ilCalendarSettings::_getInstance()->isUserNotificationEnabled()) {
-            $ajax_url = $this->ctrl->getLinkTarget(
-                $this,
-                'doUserAutoComplete',
-                '',
-                true,
-                false
-            );
-
-            $notu = new ilTextInputGUI(
-                $this->lng->txt('cal_user_notification'),
-                'notu'
-            );
-            $notu->setMulti(true, true);
-            $notu->setInfo($this->lng->txt('cal_user_notification_info'));
-            $notu->setDataSource($ajax_url);
-
-            $values = [];
-            foreach ($this->notification->getRecipients() as $rcp) {
-                switch ($rcp['type']) {
-                    case ilCalendarUserNotification::TYPE_USER:
-                        $values[] = ilObjUser::_lookupLogin($rcp['usr_id']);
-                        break;
-
-                    case ilCalendarUserNotification::TYPE_EMAIL:
-                        $values[] = $rcp['email'];
-                        break;
-                }
-            }
-            $notu->setValue($values);
-            $this->form->addItem($notu);
-        }
-
-        // Notifications
-        if (ilCalendarSettings::_getInstance()->isNotificationEnabled() and count($cats->getNotificationCalendars())) {
-            $selected_cal = new ilCalendarCategory($selected_calendar);
-            $disabled = true;
-            if ($selected_cal->getType() == ilCalendarCategory::TYPE_OBJ) {
-                if (ilObject::_lookupType($selected_cal->getObjId()) == 'crs' or ilObject::_lookupType($selected_cal->getObjId()) == 'grp') {
-                    $disabled = false;
-                }
-            }
-
-            $this->tpl->addJavaScript('assets/js/toggle_notification.js');
-            $not = new ilCheckboxInputGUI($this->lng->txt('cal_cg_notification'), 'not');
-            $not->setInfo($this->lng->txt('cal_notification_info'));
-            $not->setValue('1');
-            $not->setChecked($this->app->isNotificationEnabled());
-            $not->setDisabled($disabled);
-            $this->form->addItem($not);
-        }
-        return $this->form;
+        $categories = $cats->prepareCategoriesOfUserForSelection();
+        return key($categories);
     }
 
-
+    /**
+     * Currently not in use, but will be as soon as tag inputs support autocomplete,
+     * see ilCalendarAppointmentGUI::initForm
+     */
     protected function doUserAutoComplete(): ?string
     {
         // hide anonymout request
@@ -379,27 +456,27 @@ class ilCalendarAppointmentGUI
     /**
      * add new appointment
      */
-    protected function add(?ilPropertyFormGUI $form = null): void
+    protected function add(?Form $form = null): void
     {
         $this->help->setScreenIdComponent("cal");
         $this->help->setScreenId("app");
         $this->help->setSubScreenId("create");
 
-        if (!$form instanceof ilPropertyFormGUI) {
+        if (!$form) {
             $form = $this->initForm('create');
         }
-        $this->tpl->setContent($form->getHTML());
+        $this->tpl->setContent($this->ui_renderer->render($form));
     }
 
     protected function save(): void
     {
-        $form = $this->load('create');
+        $data = $this->load('create');
 
-        if ($this->app->validate() and $this->notification->validate()) {
-            if ((int) $form->getInput('calendar') === 0) {
+        if ($data && $this->app->validate() && $this->notification->validate()) {
+            if ((int) $data['calendar'] === 0) {
                 $cat_id = $this->createDefaultCalendar();
             } else {
-                $cat_id = (int) $form->getInput('calendar');
+                $cat_id = (int) $data['calendar'];
             }
 
             $this->app->save();
@@ -414,7 +491,7 @@ class ilCalendarAppointmentGUI
             // Send notifications
             if (
                 ilCalendarSettings::_getInstance()->isNotificationEnabled() &&
-                (int) $form->getInput('not')
+                ($data['not'] ?? false)
             ) {
                 $this->distributeNotifications($cat_id, $this->app->getEntryId(), true);
             }
@@ -425,8 +502,7 @@ class ilCalendarAppointmentGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_created_appointment'), true);
             $this->ctrl->returnToParent($this);
         } else {
-            $this->form->setValuesByPost();
-            if ($this->error->getMessage() !== '') {
+            if ($data && $this->error->getMessage() !== '') {
                 $this->tpl->setOnScreenMessage('failure', $this->error->getMessage());
             } else {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
@@ -501,13 +577,6 @@ class ilCalendarAppointmentGUI
         $notification->send();
     }
 
-    public function editResponsibleUsers(): void
-    {
-        $cat_id = ilCalendarCategoryAssignments::_lookupCategory($this->app->getEntryId());
-        $cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
-        $this->showResponsibleUsersList($cat_info['obj_id']);
-    }
-
     /**
      * Check edit single apppointment / edit all appointments for recurring appointments.
      */
@@ -546,7 +615,7 @@ class ilCalendarAppointmentGUI
     /**
      * edit appointment
      */
-    protected function edit(bool $a_edit_single_app = false, ?ilPropertyFormGUI $form = null): void
+    protected function edit(bool $a_edit_single_app = false, ?Form $form = null): void
     {
         $this->help->setScreenIdComponent("cal");
         $this->help->setScreenId("app");
@@ -591,10 +660,10 @@ class ilCalendarAppointmentGUI
             $this->showInfoScreen();
             return;
         }
-        if (!$form instanceof ilPropertyFormGUI) {
+        if (!$form) {
             $form = $this->initForm('edit', $a_edit_single_app);
         }
-        $this->tpl->setContent($form->getHTML());
+        $this->tpl->setContent($this->ui_renderer->render($form));
     }
 
     protected function showInfoScreen(): void
@@ -644,13 +713,13 @@ class ilCalendarAppointmentGUI
     protected function update(): void
     {
         $single_editing = $this->requested_rexl;
-        $form = $this->load('edit');
+        $data = $this->load('edit');
 
-        if ($this->app->validate() and $this->notification->validate()) {
-            if (!(int) $form->getInput('calendar')) {
+        if ($data && $this->app->validate() && $this->notification->validate()) {
+            if (!(int) $data['calendar']) {
                 $cat_id = $this->createDefaultCalendar();
             } else {
-                $cat_id = (int) $form->getInput('calendar');
+                $cat_id = (int) $data['calendar'];
             }
 
             if ($single_editing) {
@@ -677,7 +746,7 @@ class ilCalendarAppointmentGUI
             $ass->addAssignment($cat_id);
 
             // Send notifications
-            $notification = (bool) $form->getInput('not');
+            $notification = (bool) ($data['not'] ?? false);
             if (
                 ilCalendarSettings::_getInstance()->isNotificationEnabled() &&
                 $notification
@@ -690,9 +759,10 @@ class ilCalendarAppointmentGUI
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->returnToParent($this);
-        } else {
-            $this->form->setValuesByPost();
+        } elseif ($data && $this->error->getMessage() !== '') {
             $this->tpl->setOnScreenMessage('failure', $this->error->getMessage());
+        } else {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         }
         $this->edit(false, $this->form);
     }
@@ -845,35 +915,54 @@ class ilCalendarAppointmentGUI
         }
     }
 
-    protected function load($a_mode): ilPropertyFormGUI
+    protected function load($a_mode): ?array
     {
         // needed for date handling
-        $form = $this->initForm($a_mode);
-        $this->form->checkInput();
+        $this->form = $this->initForm($a_mode)->withRequest($this->request);
+        $data = $this->form->getData();
+        if (!$data) {
+            return null;
+        }
 
-        $this->app->setTitle($form->getInput('title'));
-        $this->app->setLocation($form->getInput('location'));
-        $this->app->setDescription($form->getInput('description'));
-        $this->app->enableNotification((bool) $form->getInput('not'));
+        $this->app->setTitle($data['title']);
+        $this->app->setLocation($data['location']);
+        $this->app->setDescription($data['description']);
+        if (ilCalendarSettings::_getInstance()->isNotificationEnabled()) {
+            $this->app->enableNotification((bool) ($data['not'] ?? false));
+        }
 
-        $period = $this->form->getItemByPostVar('event');
-        $start = $period->getStart();
-        $end = $period->getEnd();
+        /** @var DateTimeImmutable $start_datetime */
+        $start_datetime = $data['event'][1][0]['start'];
+        /** @var DateTimeImmutable $end_datetime */
+        $end_datetime = $data['event'][1][0]['end'];
+        $full_day = $data['event'][0] === 'full_day';
+        if ($full_day) {
+            $start = new ilDate($start_datetime->getTimestamp(), IL_CAL_UNIX);
+            $end = new ilDate($end_datetime->getTimestamp(), IL_CAL_UNIX);
+        } else {
+            $start = new ilDateTime($start_datetime->getTimestamp(), IL_CAL_UNIX);
+            $end = new ilDateTime($end_datetime->getTimestamp(), IL_CAL_UNIX);
+        }
 
-        $this->app->setFullday($start instanceof ilDate);
+        $this->app->setFullday($full_day);
         $this->app->setStart($start);
         $this->app->setEnd($end);
 
-        $this->loadNotificationRecipients($form);
-        $this->loadRecurrenceSettings($form);
-        return $form;
+        if (ilCalendarSettings::_getInstance()->isUserNotificationEnabled()) {
+            $this->loadNotificationRecipients((array) $data['notu']);
+        }
+        $this->loadRecurrenceSettings($data['recurrence'] ?? null);
+        return $data;
     }
 
-    protected function loadNotificationRecipients(ilPropertyFormGUI $form): void
+    /**
+     * @param string[] $recipients
+     */
+    protected function loadNotificationRecipients(array $recipients): void
     {
-        $this->notification->setRecipients(array());
+        $this->notification->setRecipients([]);
         $map = [];
-        foreach ((array) $form->getInput('notu') as $rcp) {
+        foreach ($recipients as $rcp) {
             $rcp = trim($rcp);
             $usr_id = (int) ilObjUser::_loginExists($rcp);
             if ($rcp === '') {
@@ -898,10 +987,10 @@ class ilCalendarAppointmentGUI
         }
     }
 
-    protected function loadRecurrenceSettings(ilPropertyFormGUI $form): void
+    protected function loadRecurrenceSettings(?ilCalendarRecurrence $recurrence): void
     {
-        if ($form->getItemByPostVar('frequence') instanceof ilRecurrenceInputGUI) {
-            $this->rec = $form->getItemByPostVar('frequence')->getRecurrence();
+        if ($recurrence) {
+            $this->rec = $recurrence;
         } else {
             $this->rec = new ilCalendarRecurrence();
         }

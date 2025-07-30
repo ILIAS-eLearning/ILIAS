@@ -46,34 +46,14 @@ class ilFavouritesListGUI extends ilSelectedItemsBlockGUI
     public function render(): string
     {
         $f = $this->ui->factory();
-        $item_groups = [];
-        $ctrl = $this->ctrl;
+        $items = [];
         foreach ($this->favoritesManager->getItemGroups() as $key => $group) {
-            $items = [];
             foreach ($group as $item) {
                 $items[] = $f->item()->standard(
                     $f->link()->standard($item->getTitle(), ilLink::_getLink($item->getRefId()))
                 )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon((int) $item->getObjId()), $item->getTitle()));
             }
-            if (count($items) > 0) {
-                $item_groups[] = $f->item()->group((string) $key, $items);
-            }
         }
-        if (count($item_groups) > 0) {
-            $configureModal = $this->favoritesManager->getRemoveModal();
-
-            $config_item = $f->item()->standard(
-                $f->button()->shy(
-                    $this->favoritesManager->getRemoveMultipleActionText(),
-                    $configureModal->getShowSignal()
-                )
-            );
-            array_unshift($item_groups, $f->item()->group($this->lng->txt(''), [$config_item]));
-            $panel = $f->panel()->secondary()->listing('', $item_groups);
-
-            return $this->ui->renderer()->render([$panel, $configureModal]);
-        }
-
-        return $this->favoritesManager->getNoItemFoundContent();
+        return $items === [] ? '' : $this->ui->renderer()->render($f->panel()->secondary()->listing('', [$f->item()->group('', $items)]));
     }
 }

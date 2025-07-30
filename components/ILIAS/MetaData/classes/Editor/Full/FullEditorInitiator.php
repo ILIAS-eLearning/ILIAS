@@ -41,8 +41,6 @@ class FullEditorInitiator
                 $this->services->dic(),
                 $this->services->paths(),
                 $this->services->repository(),
-                $this->services->vocabularies(),
-                $this->services->manipulator(),
                 $this->services->editor(),
                 $this->services->dataHelper()
             ),

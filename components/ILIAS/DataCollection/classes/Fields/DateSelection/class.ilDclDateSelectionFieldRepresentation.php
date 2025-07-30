@@ -27,8 +27,7 @@ class ilDclDateSelectionFieldRepresentation extends ilDclSelectionFieldRepresent
             'prop_' . $this->field::PROP_SELECTION_OPTIONS
         );
 
-        $date = new ilDateTimeInputGUI($this->lng->txt('dcl_selection_options'), 'selection_value');
-        $selection_options->setInput($date);
+        $selection_options->setInput(new ilDateTimeInputGUI());
 
         return $selection_options;
     }

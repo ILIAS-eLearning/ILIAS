@@ -27,6 +27,8 @@ use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 use ILIAS\MetaData\Editor\Manipulator\ManipulatorInterface;
 use ILIAS\MetaData\Vocabularies\Factory\Factory;
 use ILIAS\MetaData\Vocabularies\Factory\FactoryInterface;
+use ILIAS\MetaData\Editor\Vocabulary\AdapterInterface as VocabularyAdapter;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
 
 class ManipulatorAdapter
 {
@@ -36,6 +38,7 @@ class ManipulatorAdapter
     protected ManipulatorInterface $manipulator;
     protected PathFactory $path_factory;
     protected NavigatorFactoryInterface $navigator_factory;
+    protected VocabularyAdapter $vocabulary_adapter;
 
     public function __construct(
         ContentAssembler $content_assembler,
@@ -43,7 +46,8 @@ class ManipulatorAdapter
         PathCollection $path_collection,
         ManipulatorInterface $manipulator,
         PathFactory $path_factory,
-        NavigatorFactoryInterface $navigator_factory
+        NavigatorFactoryInterface $navigator_factory,
+        VocabularyAdapter $vocabulary_adapter
     ) {
         $this->content_assembler = $content_assembler;
         $this->copyright_handler = $copyright_handler;
@@ -51,6 +55,7 @@ class ManipulatorAdapter
         $this->manipulator = $manipulator;
         $this->path_factory = $path_factory;
         $this->navigator_factory = $navigator_factory;
+        $this->vocabulary_adapter = $vocabulary_adapter;
     }
 
     public function update(
@@ -71,14 +76,14 @@ class ManipulatorAdapter
         $data = $form->getData();
 
         $set = $this->prepareGeneral($set, $data[ContentAssembler::GENERAL]);
-        $set = $this->prepareAuthors($set, $data[ContentAssembler::AUTHORS]);
+        $set = $this->prepareClassification($set, $data[ContentAssembler::CLASSIFICATION]);
+        $set = $this->prepareContributors($set, $data[ContentAssembler::AUTHORS]);
         if (
             $this->copyright_handler->isCPSelectionActive() &&
             isset($data[ContentAssembler::RIGHTS])
         ) {
             $set = $this->prepareRights($set, $data[ContentAssembler::RIGHTS][0]);
         }
-        $set = $this->prepareTypicalLearningTime($set, $data[ContentAssembler::TYPICAL_LEARNING_TIME]);
 
         $this->manipulator->execute($set);
         return true;
@@ -129,29 +134,54 @@ class ManipulatorAdapter
         return $set;
     }
 
-    protected function prepareTypicalLearningTime(
+    protected function prepareClassification(
         SetInterface $set,
         array $data
     ): SetInterface {
-        foreach ($data as $post_key => $value) {
-            $path = $this->path_factory->fromString($post_key);
-            if ($value === null || $value === '') {
-                $set = $this->manipulator->prepareDelete($set, $path);
-                continue;
-            }
-            $set = $this->manipulator->prepareCreateOrUpdate($set, $path, $value);
+        $type_value = $data[ContentAssembler::LEARNING_RESOURCE_TYPE] ?? '';
+        $type_source = $this->vocabulary_adapter->sourceMapForSlot(SlotIdentifier::EDUCATIONAL_LEARNING_RESOURCE_TYPE)($type_value);
+        if ($type_value === null || $type_value === '') {
+            $set = $this->manipulator->prepareDelete($set, $this->path_collection->firstLearningResourceType());
+        } else {
+            $set = $this->manipulator->prepareCreateOrUpdate(
+                $set,
+                $this->path_collection->firstLearningResourceType(),
+                $type_value
+            );
         }
+        if ($type_source === null || $type_source === '') {
+            $set = $this->manipulator->prepareDelete($set, $this->path_collection->firstLearningResourceTypeSource());
+        } else {
+            $set = $this->manipulator->prepareCreateOrUpdate(
+                $set,
+                $this->path_collection->firstLearningResourceTypeSource(),
+                $type_source
+            );
+        }
+
+        $discipline = $data[ContentAssembler::DISCIPLINE] ?? '';
+        if ($discipline === null || $discipline === '') {
+            $set = $this->manipulator->prepareDelete($set, $this->path_collection->firstDiscipline());
+        } else {
+            $set = $this->manipulator->prepareCreateOrUpdate(
+                $set,
+                $this->path_collection->firstDiscipline(),
+                $discipline
+            );
+        }
+
         return $set;
     }
 
-    protected function prepareAuthors(
+    protected function prepareContributors(
         SetInterface $set,
         array $data
     ): SetInterface {
         $paths = [
             ContentAssembler::FIRST_AUTHOR => $this->path_collection->firstAuthor(),
             ContentAssembler::SECOND_AUTHOR => $this->path_collection->secondAuthor(),
-            ContentAssembler::THIRD_AUTHOR => $this->path_collection->thirdAuthor()
+            ContentAssembler::THIRD_AUTHOR => $this->path_collection->thirdAuthor(),
+            ContentAssembler::PUBLISHER => $this->path_collection->firstPublisher()
         ];
         foreach ($data as $post_key => $value) {
             $path = $paths[$post_key];

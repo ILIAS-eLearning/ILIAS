@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 class ilDclDateFieldModel extends ilDclBaseFieldModel
 {
+    public const string FORMAT = 'Y-m-d';
+
     /**
      * @param string|int $filter_value
      */

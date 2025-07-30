@@ -18,6 +18,7 @@
 
 use ILIAS\File\Capabilities\Capabilities;
 use ILIAS\File\Capabilities\Permissions;
+use ILIAS\Object\ilObjectDIC;
 
 /**
  * Access class for file objects.
@@ -365,7 +366,6 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
 
     public static function _lookupOnline(int $a_obj_id): bool
     {
-        $file_obj = new ilObjFile($a_obj_id, false);
-        return $file_obj->getObjectProperties()->getPropertyIsOnline()->getIsOnline();
+        return ilObjectDIC::dic()['object_properties_agregator']->getFor($a_obj_id, 'file')->getPropertyIsOnline()->getIsOnline();
     }
 }
