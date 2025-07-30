@@ -386,7 +386,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
         $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
         if ($show_question_text) {
-            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
+            $template->setVariable("QUESTIONTEXT", $this->renderLatex($this->object->getQuestionForHTMLOutput()));
         }
         $template->setVariable('LONGMENU_TEXT_SOLUTION', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution, true, $graphical_output));
 
@@ -470,7 +470,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             . json_encode($this->object->getAvailableAnswerOptions())
             . ')');
 
-        $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
+        $template->setVariable('QUESTIONTEXT', $this->renderLatex($this->renderLatex($this->object->getQuestionForHTMLOutput())));
         $template->setVariable('LONGMENU_TEXT', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution));
         return $template;
     }

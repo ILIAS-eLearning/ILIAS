@@ -507,7 +507,9 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
+            $template->setVariable("QUESTIONTEXT", $this->renderLatex(
+                $this->object->getQuestionForHTMLOutput()
+            ));
         }
 
         try {
@@ -621,7 +623,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $template->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
             $template->parseCurrentBlock();
         }
-        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
+        $template->setVariable("QUESTIONTEXT", $this->renderLatex($this->object->getQuestionForHTMLOutput()));
         try {
             $template->setVariable("IMG_SRC", ilWACSignedPath::signFile($imagepath));
         } catch (ilWACException $e) {
@@ -694,7 +696,9 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 }
             }
         }
-        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
+        $template->setVariable("QUESTIONTEXT", $this->renderLatex(
+            $this->object->getQuestionForHTMLOutput()
+        ));
         try {
             $template->setVariable("IMG_SRC", ilWACSignedPath::signFile($imagepath));
         } catch (ilWACException $e) {
@@ -780,7 +784,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $output .= '</tbody></table>';
 
-        return ilLegacyFormElementsUtil::prepareTextareaOutput($output, true);
+        return $this->renderLatex(ilLegacyFormElementsUtil::prepareTextareaOutput($output, true));
     }
 
     /**

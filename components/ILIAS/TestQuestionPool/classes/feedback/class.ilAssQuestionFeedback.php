@@ -259,6 +259,7 @@ abstract class ilAssQuestionFeedback
                 $property->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
                 $property->setUseTagsForRteOnly(false);
             }
+            $property->setInfo($this->lng->txt('latex_edit_info'));
 
             $property->setRTESupport($this->questionOBJ->getId(), "qpl", "assessment");
         }

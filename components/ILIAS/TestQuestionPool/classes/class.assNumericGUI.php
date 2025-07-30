@@ -231,7 +231,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         }
         $template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
+            $template->setVariable("QUESTIONTEXT", $this->renderLatex($this->object->getQuestionForHTMLOutput()));
         }
         $questionoutput = $template->get();
         //$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : ""; // Moving new method
@@ -266,7 +266,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
             $template->setVariable("NUMERIC_VALUE", " value=\"" . $this->getPreviewSession()->getParticipantsSolution() . "\"");
         }
         $template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
-        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
+        $template->setVariable("QUESTIONTEXT", $this->renderLatex($this->object->getQuestionForHTMLOutput()));
         $questionoutput = $template->get();
         if (!$show_question_only) {
             // get page object output
@@ -301,7 +301,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
             }
         }
         $template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
-        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
+        $template->setVariable("QUESTIONTEXT", $this->renderLatex($this->object->getQuestionForHTMLOutput()));
         $questionoutput = $template->get();
         $pageoutput = $this->outQuestionPage("", $is_question_postponed, $active_id, $questionoutput);
         return $pageoutput;
