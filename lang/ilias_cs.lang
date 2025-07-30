@@ -747,6 +747,7 @@ assessment#:#finish_pass_for_user_confirmation#:#Opravdu chcete ukončit tento p
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).###26 08 2024 new variable
 assessment#:#finish_test#:#Ukončit test
 assessment#:#finish_test_all#:#Are you sure you want to finish the test attempts for all users?###28 10 2024 new variable
+assessment#:#finish_test_more_than_one_selected#:#Only a single participant may be selected to finish the pass if the test allows only one pass.###18 07 2025 new variable
 assessment#:#finish_test_multiple#:#Are you sure you want to finish the test attempts for the following participants?###28 10 2024 new variable
 assessment#:#finish_test_no_valid_participants_selected#:#There are no active test runs for the selected participants, so they cannot be completed.###21 05 2025 new variable
 assessment#:#finish_test_single#:#Are you sure you want to finish the test attempt for the participant "%s"?###28 10 2024 new variable
@@ -1227,7 +1228,6 @@ assessment#:#scoringadjust#:#Opravy
 assessment#:#search_groups#:#Vyhledat skupiny
 assessment#:#search_roles#:#Vyhledat role
 assessment#:#search_term#:#Vyhledat termín
-assessment#:#search_users#:#Vyhledat uživatele
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#Please Select at least one type of feedback and a trigger.###26 08 2024 new variable
 assessment#:#select_gap#:#Vybrat mezeru
 assessment#:#select_max_one_item#:#Vyberte prosím pouze jednu položku
@@ -3272,6 +3272,8 @@ cmix#:#content_privacy_ident#:#User identification for resource###07 02 2020 new
 cmix#:#content_privacy_name#:#User name for resource###07 02 2020 new variable
 cmix#:#create_lrs_type_form#:#New LRS-Type###07 02 2020 new variable
 cmix#:#create_registration#:#Register your E-Mail address###07 02 2020 new variable
+cmix#:#cron_xapi_del#:#Delete xAPI/cmi5 data in the Learning Record Store###18 07 2025 new variable
+cmix#:#cron_xapi_del_desc#:#Data is deleted according to the settings of the xAPI/cmi5 objects.###18 07 2025 new variable
 cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results###07 02 2020 new variable
 cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.###07 02 2020 new variable
 cmix#:#description_info#:#The description will be shown below the title.###07 02 2020 new variable
@@ -4384,10 +4386,12 @@ common#:#il_grp_admin#:#Správce skupiny
 common#:#il_grp_member#:#Člen skupiny
 common#:#il_grp_status_closed#:#Skupina uzavřena
 common#:#il_grp_status_open#:#Skupina otevřena
+common#:#il_iass_member#:#Participant###18 07 2025 new variable
 common#:#il_lso_admin#:#Správce sekvence učení
 common#:#il_lso_member#:#Člen výukové sekvence
 common#:#il_lti_instructor#:#LTI Instructor###29 07 2022 new variable
 common#:#il_lti_learner#:#LTI Learner###29 07 2022 new variable
+common#:#il_lti_user#:#LTI User###18 07 2025 new variable
 common#:#il_orgu_employee#:#Zaměstnanec
 common#:#il_orgu_superior#:#Nadřízený
 common#:#ilias_version#:#Verze ILIASu
@@ -5571,6 +5575,7 @@ common#:#search_new#:#Nové hledání
 common#:#search_result#:#Výsledek hledání
 common#:#search_results#:#Výsledky hledání
 common#:#search_user#:#Hledat uživatele
+common#:#search_users#:#Look Up Users###18 07 2025 new variable
 common#:#seas_max_hits#:#Max. počet nálezů
 common#:#seas_max_hits_info#:#Vložte prosím počet výsledků hledání.
 common#:#seas_settings#:#Nastavení hledání
@@ -6391,12 +6396,7 @@ content#:#cont_dir_renamed#:#Adresář byl přejmenován.
 content#:#cont_disable_def_feedback#:#Vypnout výchozí ohlas otázky
 content#:#cont_disable_def_feedback_info#:#Je-li vypnuto, odpovědi otázek nebudou zobrazovat studentovi žádný ohlas. Budete muset poskytovat uživatelské ohlasy pro každou otázku.
 content#:#cont_download#:#Stáhnout
-content#:#cont_download_no_download#:#Stažení pro uživatele nebude dostupné, dokud nebude aktivována vlastnost ke stažení.
-content#:#cont_download_no_menu#:#Stažení pro uživatele nebude dostupné, dokud nebude aktivována nabídka výukového modulu.
 content#:#cont_download_title#:#Název ke stažení
-content#:#cont_downloads#:#Stáhnout
-content#:#cont_downloads_desc#:#Umožňuje stahování všech veřejných exportních souborů.
-content#:#cont_downloads_public_desc#:#Umožňuje stahování dokonce i anonymním uživatelům (na veřejné ploše)
 content#:#cont_drag_and_drop_elements#:#Pro přesun prvků obsahu je uchopte a přesuňte na určené místo.
 content#:#cont_drag_element_click_save#:#Uchop a pušť tento prvek na možadované místo. Pak klepněte na "Uložit".
 content#:#cont_ed_align_center#:#Zarovnat: střed
@@ -6812,7 +6812,6 @@ content#:#cont_nlist#:#Číslovaný seznam
 content#:#cont_no_access#:#Není dostupný
 content#:#cont_no_block#:#No Section###29 07 2022 new variable
 content#:#cont_no_caption#:#Žádká hlavička
-content#:#cont_no_download_file_available#:#Žádný veřejně dostupný soubor nyní není k dispozici.
 content#:#cont_no_glossary#:#Žádný glosář
 content#:#cont_no_manifest#:#Žádný soubor imsmanifest.xml v hlavním adresáři nenalezen.
 content#:#cont_no_page#:#Žádná stránka nebyla nalezena.
@@ -8583,7 +8582,6 @@ dcl#:#dcl_add_new_table#:#Přidat novou tabulku
 dcl#:#dcl_add_new_view#:#Přidat nové zobrazení
 dcl#:#dcl_add_perm#:#Uživatel může přidat položky
 dcl#:#dcl_add_perm_desc#:#Uživatelé mohou tvořit zápisy do této tabulky.
-dcl#:#dcl_additional_info_desc#:#Text se zobrazí přímo nad tabulkou.
 dcl#:#dcl_all_entries#:#Všechny vstupy
 dcl#:#dcl_any#:#Všem
 dcl#:#dcl_asc#:#Vzestupné pořadí (ASC)
@@ -8626,8 +8624,8 @@ dcl#:#dcl_date_selection#:#Výběr termínu
 dcl#:#dcl_date_selection_desc#:#Nabídka výběru možností termínů.
 dcl#:#dcl_deactivate_view#:#Deaktivovat toto zobrazení
 dcl#:#dcl_default_sort_field#:#Výchozí pole třídění
-dcl#:#dcl_default_sort_field_desc#:#Tabulka je standardně tříděna podle vybraného pole.
 dcl#:#dcl_default_sort_field_order#:#Výchozí pořadí pole třídění
+dcl#:#dcl_default_sort_field_order_desc#:#Arrange the order of the entries in the table based on this field.###18 07 2025 new variable
 dcl#:#dcl_delete_fields#:#Vymazat pole
 dcl#:#dcl_delete_fields_no_selection#:#Please select at least one field to delete###26 08 2024 new variable
 dcl#:#dcl_delete_perm#:#Uživatel
@@ -8743,6 +8741,7 @@ dcl#:#dcl_no_fields_yet#:#Zde není žádné pole definované pro tuto tabulku, 
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Nemáte přístup pro čtení v žádném standardním zobrazení tabulky.
 dcl#:#dcl_no_search_results_found_for#:#Žádné moduly nenalezeny pro
 dcl#:#dcl_no_such_reference#:#Následující hodnoty nejsou dostupné tabulce odkazů:
+dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
 dcl#:#dcl_not_checked#:#Nevybráno
 dcl#:#dcl_not_supported_in_import#:#Tento typ pole není v importu podporováno
 dcl#:#dcl_notification_activate_dcl#:#Aktivovat upozornění pro sběr dat
@@ -8762,7 +8761,6 @@ dcl#:#dcl_owner#:#Vlastník
 dcl#:#dcl_owner_description#:#Vlastník záznamu.
 dcl#:#dcl_owner_name#:#Vlastník (jméno)
 dcl#:#dcl_page_type_dclf#:#Details View###29 07 2022 new variable
-dcl#:#dcl_permissions_form#:#Práva uživatele
 dcl#:#dcl_please_select#:#--- Vyberte ---
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#Pluginy pole sběru dat
@@ -8778,6 +8776,7 @@ dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#Následující r
 dcl#:#dcl_record#:#Záznam
 dcl#:#dcl_record_deleted#:#Záznam smazán
 dcl#:#dcl_record_from_total#:#%d z %d
+dcl#:#dcl_record_settings#:#Record Settings###18 07 2025 new variable
 dcl#:#dcl_reference#:#Reference
 dcl#:#dcl_reference_desc#:#Poskytnutí možností výběru, které jsou upraveny v jiném poli tabulky
 dcl#:#dcl_reference_link#:#Zobrazit jako odkaz v tabulkovém zobrazení
@@ -8815,6 +8814,7 @@ dcl#:#dcl_table_edit#:#Aktualizovat tabulku
 dcl#:#dcl_table_id#:#ID tabulky
 dcl#:#dcl_table_list_fields#:#Pole vybrané tabulky
 dcl#:#dcl_table_list_tables#:#Dostupné tabulky
+dcl#:#dcl_table_settings#:#Table Settings.###18 07 2025 new variable
 dcl#:#dcl_table_settings_saved#:#Nastavení tabulky bylo uloženo.
 dcl#:#dcl_table_title_not_matching#:#Názvy listů tabulky Excel a tabulky shromažďování dat se neshodují. Přejmenujte list pro úspěšný import.
 dcl#:#dcl_table_title_unique#:#Již zde existuje tabulka s tímto názvem. Název musí být unikátní.
@@ -9239,6 +9239,7 @@ etal#:#notification_talks_subject#:#Invitation
 etal#:#notification_talks_subject_update#:#Update: %s###26 08 2024 new variable
 etal#:#notification_talks_updated#:#The following talk appointments have been changed by %s.
 etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###26 08 2024 new variable
+etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###18 07 2025 new variable
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Add Talks
 etal#:#tals_new#:#New Talks
@@ -9581,7 +9582,6 @@ exc#:#exc_select_blog#:#Použít existující blog
 exc#:#exc_select_blog_change#:#Použít jiný blog
 exc#:#exc_select_blog_info#:#Vyberte prosím jeden z Vašich blogů k použití s touto úlohou.
 exc#:#exc_select_blog_unlink#:#Remove Blog###26 08 2024 new variable
-exc#:#exc_select_part#:#Vybrat účastníky
 exc#:#exc_select_portfolio#:#Použít existující Portfolio
 exc#:#exc_select_portfolio_change#:#Použít jiné Portfolio
 exc#:#exc_select_portfolio_info#:#Vyberte prosím jedno z Vašich Portfolií k použití s touto úlohou.
@@ -10514,6 +10514,11 @@ help#:#help_tooltips_and_help#:#Nápovědné bubliny a nápověda k pracovnímu 
 help#:#help_tooltips_only#:#Pouze nápovědné bubliny
 help#:#help_topcis#:#Témata
 help#:#help_tt_text#:#Text
+htlm#:#file_import_from_upload_dir_failed#:#File from Upload-Directory not imported###18 07 2025 new variable
+htlm#:#file_imported_from_upload_dir#:#File imported from Upload-Directory###18 07 2025 new variable
+htlm#:#import_from_upload_dir#:#Import from Upload-Directory###18 07 2025 new variable
+htlm#:#import_from_upload_dir_file_name#:#Filename###18 07 2025 new variable
+htlm#:#import_from_upload_dir_info#:#Please select file for import###18 07 2025 new variable
 iass#:#download_assessment_paper#:#Download Record file###29 07 2022 new variable
 iass#:#grading#:#Klasifikace
 iass#:#grading_info#:#Informace o klasifikaci
@@ -10596,7 +10601,6 @@ iass#:#iass_usr_download_attachment#:#Stáhnout přílohu
 iass#:#iass_usr_edit#:#Upravit záznam uživatele a proces učení
 iass#:#iass_usr_remove#:#Odebrat uživatele z objektu
 iass#:#iass_usr_view#:#Záznam uživatele
-iass#:#il_iass_member#:#Individuální hodnocení zkoušeného
 iass#:#il_iass_members#:#Účastníci
 iass#:#lp_inactive#:#Poznámka: Postup učení pro tento objekt je neaktivní. Proto nesmí být členství dokončena.
 iass#:#save_amend#:#Save Amended Record###26 08 2024 new variable
@@ -10668,7 +10672,6 @@ itgr#:#itgr_desc_info#:#Popis nebude součástí prezentace skupin položek v ko
 itgr#:#itgr_edit#:#Upravit skupiny položek
 itgr#:#itgr_expandable_closed#:#Rozšiřitelné (původně zavřené)
 itgr#:#itgr_expandable_open#:#Rozšiřitelné (původně otevřené)
-itgr#:#itgr_hide_title#:#Skrýt název
 itgr#:#itgr_item#:#Položka
 itgr#:#itgr_list#:#List###29 07 2022 new variable
 itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
@@ -11083,6 +11086,7 @@ lso#:#lso_player_abstract#:#Zobrazit informace o abstraktu
 lso#:#lso_player_extro#:#Zobrazit poslední stránku
 lso#:#lso_player_finish#:#Dokončit
 lso#:#lso_player_next#:#Další
+lso#:#lso_player_noitems#:#There are no available items in this Learning Sequence.###18 07 2025 new variable
 lso#:#lso_player_previous#:#Předchozí
 lso#:#lso_player_resume#:#Obnovit sekvenci učení
 lso#:#lso_player_review#:#Vyhodnotit sekvenci učení
@@ -11366,6 +11370,7 @@ lti#:#lti_object_consumer#:#Spotřebitelé LTI
 lti#:#lti_object_release_settings_form#:#Upravit sílené části LTI
 lti#:#lti_provider#:#Sdílené položky LTI
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###07 02 2020 new variable
+lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###18 07 2025 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider###07 02 2020 new variable
 lti#:#lti_released_objects#:#Objekt-sdílené položky
 lti#:#lti_select_provider#:#Select Provider###07 02 2020 new variable
@@ -13352,6 +13357,7 @@ prg#:#auto_membership_src_type#:#Type###07 02 2020 new variable
 prg#:#auto_membership_title#:#Sources for Membership Automation###07 02 2020 new variable
 prg#:#auto_memberships#:#Membership Automation###07 02 2020 new variable
 prg#:#category#:#Category###07 02 2020 new variable
+prg#:#cert_relevance#:#Certificate###18 07 2025 new variable
 prg#:#completion_date#:#Completion Date###07 02 2020 new variable
 prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?###29 07 2022 new variable
 prg#:#cont_ed_insert_prgactionnote#:#Insert Study Programme Action Note###26 08 2024 new variable
@@ -13840,6 +13846,8 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimální délk
 ps#:#ps_export_admin#:#Administrátoři
 ps#:#ps_export_confirm#:#Schválení uživatele při vstupu do kurzu
 ps#:#ps_export_confirm_group#:#Stvrzení uživatelského ujednání při vstupu do skupiny
+ps#:#ps_export_confirm_group_info#:#When joining a group, users are required to accept that their personal data can be viewed by the group admins.###18 07 2025 new variable
+ps#:#ps_export_confirm_info#:#When joining a course, users are required to accept that their personal data can be viewed by the course admins.###18 07 2025 new variable
 ps#:#ps_export_course#:#Rozšířený export dat uživatelského profilu v kurzech
 ps#:#ps_export_data#:#Typy dat osobního profilu
 ps#:#ps_export_excel#:#Spustit export Excelu
@@ -14266,6 +14274,10 @@ rbac#:#grps_edit_permission#:#Uživatel může změnit nastavení oprávnění v
 rbac#:#grps_read#:#Uživatel má přístup ke správě skupiny jen pro čtení
 rbac#:#grps_visible#:#Správa skupiny je viditelná
 rbac#:#grps_write#:#Upravit nastavení ve správě skupiny
+rbac#:#gsfo_edit_permission#:#User can change permission settings in Footer administration###18 07 2025 new variable
+rbac#:#gsfo_read#:#User has read access to Footer administration###18 07 2025 new variable
+rbac#:#gsfo_visible#:#Footer administration is visible###18 07 2025 new variable
+rbac#:#gsfo_write#:#Edit settings in Footer administration###18 07 2025 new variable
 rbac#:#hlps_edit_permission#:#Uživatel může změnit oprávnění správy systému nápovědy.
 rbac#:#hlps_read#:#Uživatel má přístup ke správě systému nápovědy jen pro čtení
 rbac#:#hlps_visible#:#Správa systému nápovědy je viditelná
@@ -15506,7 +15518,6 @@ search#:#search_user#:#Uživatelé
 search#:#search_user_extended#:#Rozšířené hledání uživatele
 search#:#search_user_search_form#:#Vyhledávání uživatelů
 search#:#search_user_search_info_form#:#Pokud je tato možnost povolena, data uživatelů budou indexována a bude možné je vyhledat.
-search#:#search_users#:#Hledání uživatele
 search#:#select_orgu#:#Select Organisational Units###07 02 2020 new variable
 search#:#until#:#do
 search#:#user_search_settings_section#:#User Search in 'Member'-tabs###21 05 2025 new variable
@@ -16561,7 +16572,6 @@ survey#:#saved_messages#:#Dostupné zprávy
 survey#:#scale#:#Meřítko
 survey#:#search_groups#:#Skupiny
 survey#:#search_term#:#Hledat termíny
-survey#:#search_users#:#Hledat uživatele
 survey#:#select_option#:#--- Vyberte prosím volbu ---
 survey#:#select_prior_question#:#Vybrat předchozí otázku
 survey#:#select_questionpool#:#Vyberte prosím zásobník otázek k uložení vytvořené otázky
@@ -17082,7 +17092,6 @@ trac#:#read_count_avg#:#Průměrné zobrazení stránky
 trac#:#registration_filter#:#Datum registrace
 trac#:#search_area_info#:#Zvolte prosím jeden objekt.
 trac#:#search_terms#:#Hledat termín(y)
-trac#:#select_one#:#Vyberte prosím jeden objekt.
 trac#:#session_statistics#:#Statistiky relace
 trac#:#trac_aggregation#:#Seskupení
 trac#:#trac_all#:#Vše
@@ -17550,6 +17559,7 @@ validation#:#not_min_length#:#Váš vstup má délku %d a je tedy kratší než 
 validation#:#not_numeric#:#'%s' není číselná hodnota.
 validation#:#not_numeric_empty_string#:#Your input is not numeric.###07 02 2020 new variable
 validation#:#numeric_only#:#Please insert a whole number.###26 08 2024 new variable
+validation#:#required#:#This input is required.###18 07 2025 new variable
 validation#:#tag_required#:#Please insert at least one tag.###26 08 2024 new variable
 violation#:#not_a_string#:#Given value is not a String###29 07 2022 new variable
 webr#:#invalid_links_tbl#:#Neplatné odkazy

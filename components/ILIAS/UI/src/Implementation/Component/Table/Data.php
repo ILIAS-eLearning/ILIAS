@@ -133,7 +133,7 @@ class Data extends AbstractTable implements T\Data
             $order = ($order instanceof Order) ? $order : null;
 
             if ($range instanceof Range) {
-                $range = $range->withStart($range->getStart() <= $total_count ? $range->getStart() : 0);
+                $range = $range->withStart($range->getStart() < $total_count ? $range->getStart() : 0);
                 $range = $range->croppedTo($total_count ?? PHP_INT_MAX);
             }
 

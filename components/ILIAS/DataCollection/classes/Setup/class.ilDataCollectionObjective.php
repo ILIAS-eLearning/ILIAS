@@ -23,18 +23,6 @@ use ILIAS\Setup\Environment;
 
 class ilDataCollectionObjective extends ilDatabaseUpdateStepsExecutedObjective
 {
-    /** @var ilDataCollectionDBUpdateSteps9 */
-    protected ilDatabaseUpdateSteps $steps;
-
-    public function __construct(ilDatabaseUpdateSteps $steps)
-    {
-        if ($steps instanceof ilDataCollectionDBUpdateSteps9) {
-            parent::__construct($steps);
-        } else {
-            throw new InvalidArgumentException('$steps must be instance of ilDataCollectionDBUpdateSteps9');
-        }
-    }
-
     public function getPreconditions(Environment $environment): array
     {
         return array_merge(

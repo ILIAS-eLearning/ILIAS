@@ -732,6 +732,7 @@ assessment#:#finish_pass_for_user_confirmation#:#Êtes-vous sûr de vouloir term
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).
 assessment#:#finish_test#:#Terminer le Test
 assessment#:#finish_test_all#:#Are you sure you want to finish the test attempts for all users?###28 10 2024 new variable
+assessment#:#finish_test_more_than_one_selected#:#Only a single participant may be selected to finish the pass if the test allows only one pass.###18 07 2025 new variable
 assessment#:#finish_test_multiple#:#Are you sure you want to finish the test attempts for the following participants?###28 10 2024 new variable
 assessment#:#finish_test_no_valid_participants_selected#:#There are no active test runs for the selected participants, so they cannot be completed.###21 05 2025 new variable
 assessment#:#finish_test_single#:#Are you sure you want to finish the test attempt for the participant "%s"?###28 10 2024 new variable
@@ -1212,7 +1213,6 @@ assessment#:#scoringadjust#:#Corrections
 assessment#:#search_groups#:#Rechercher des groupes
 assessment#:#search_roles#:#Recherche des rôles
 assessment#:#search_term#:#Rechercher des termes
-assessment#:#search_users#:#Rechercher des utilisateurs
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#Please Select at least one type of feedback and a trigger.###26 08 2024 new variable
 assessment#:#select_gap#:#Selectionner trou
 assessment#:#select_max_one_item#:#Veuillez ne saisir qu'un objet
@@ -3257,6 +3257,8 @@ cmix#:#content_privacy_ident#:#User identification for resource
 cmix#:#content_privacy_name#:#User name for resource
 cmix#:#create_lrs_type_form#:#New LRS-Type
 cmix#:#create_registration#:#Register your E-Mail address
+cmix#:#cron_xapi_del#:#Delete xAPI/cmi5 data in the Learning Record Store###18 07 2025 new variable
+cmix#:#cron_xapi_del_desc#:#Data is deleted according to the settings of the xAPI/cmi5 objects.###18 07 2025 new variable
 cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results
 cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.
 cmix#:#description_info#:#The description will be shown below the title.
@@ -4369,10 +4371,12 @@ common#:#il_grp_admin#:#Administrateur de Groupe
 common#:#il_grp_member#:#Membre de Groupe
 common#:#il_grp_status_closed#:#Groupe clos
 common#:#il_grp_status_open#:#Groupe ouvert
+common#:#il_iass_member#:#Participant###18 07 2025 new variable
 common#:#il_lso_admin#:#Learning Sequence Admin
 common#:#il_lso_member#:#Learning Sequence Member
 common#:#il_lti_instructor#:#LTI Instructor
 common#:#il_lti_learner#:#LTI Learner
+common#:#il_lti_user#:#LTI User###18 07 2025 new variable
 common#:#il_orgu_employee#:#Employé
 common#:#il_orgu_superior#:#Supérieur
 common#:#ilias_version#:#Version ILIAS
@@ -5556,6 +5560,7 @@ common#:#search_new#:#Nouvelle Recherche
 common#:#search_result#:#Résultat de Recherche
 common#:#search_results#:#Résultats de recherche
 common#:#search_user#:#Rechercher des utilisateurs
+common#:#search_users#:#Look Up Users###18 07 2025 new variable
 common#:#seas_max_hits#:#Nombre maximum de résultats
 common#:#seas_max_hits_info#:#Définir un nombre maximum de résultats de recherche.
 common#:#seas_settings#:#Paramètres de recherche
@@ -6376,12 +6381,7 @@ content#:#cont_dir_renamed#:#Le dossier a été renommé.
 content#:#cont_disable_def_feedback#:#Désactiver le Retour Utilisateur par Défaut
 content#:#cont_disable_def_feedback_info#:#Lorsque désactivé, il n'y a aucun retour utilisateur pour les questions répondues. Vous devez fournir des retours utilisateurs personnalisés pour vos questions.
 content#:#cont_download#:#Télécharger
-content#:#cont_download_no_download#:#Le téléchargement ne sera pas disponible pour les utilisateurs dès lors que la fonction de téléchargement n'est pas active.
-content#:#cont_download_no_menu#:#Le téléchargement ne sera pas disponible pour les utilisateurs dès lors que le menu du document d'apprentissage n'est pas actif.
 content#:#cont_download_title#:#Télécharger Titre
-content#:#cont_downloads#:#Autoriser les Téléchargements
-content#:#cont_downloads_desc#:#Permet le téléchargement pour tous les fichiers publics d'exportation
-content#:#cont_downloads_public_desc#:#Autoriser le téléchargement pour les utilisateurs anonymes dans la zone publique (sans être connecté)
 content#:#cont_drag_and_drop_elements#:#Glissez-déposez les éléments sur les emplacements pour les déplacer.
 content#:#cont_drag_element_click_save#:#Glissez-déposez les éléments aux positions souhaitées, puis cliquez sur "Enregistrer".
 content#:#cont_ed_align_center#:#Alignement : centré
@@ -6797,7 +6797,6 @@ content#:#cont_nlist#:#Liste Numérotée
 content#:#cont_no_access#:#Pas d'Accès
 content#:#cont_no_block#:#No Section
 content#:#cont_no_caption#:#Aucune Légende
-content#:#cont_no_download_file_available#:#Il n'existe aucun fichier public à  télécharger.
 content#:#cont_no_glossary#:#Aucun glossaire assigné.
 content#:#cont_no_manifest#:#Fichier imsmanifest.xml manquant.
 content#:#cont_no_page#:#Aucune page trouvée.
@@ -8568,7 +8567,6 @@ dcl#:#dcl_add_new_table#:#Ajouter Nouveau Tableau
 dcl#:#dcl_add_new_view#:#Ajouter une nouvelle vue
 dcl#:#dcl_add_perm#:#Permission "Ajouter Entrée"
 dcl#:#dcl_add_perm_desc#:#Benutzer können Einträge in dieser Tabelle erstellen.
-dcl#:#dcl_additional_info_desc#:#Der Text wird direkt oberhalb der Tabelle angezeigt.
 dcl#:#dcl_all_entries#:#Toutes les entrées
 dcl#:#dcl_any#:#Tous
 dcl#:#dcl_asc#:#Ordre Croissant (ASC)
@@ -8611,8 +8609,8 @@ dcl#:#dcl_date_selection#:#Sélection de date
 dcl#:#dcl_date_selection_desc#:#Propose une sélection d’options de dates.
 dcl#:#dcl_deactivate_view#:#Désactiver cette vue
 dcl#:#dcl_default_sort_field#:#Champ de triage par défaut
-dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
 dcl#:#dcl_default_sort_field_order#:#Ordre des champs de triage par défaut
+dcl#:#dcl_default_sort_field_order_desc#:#Arrange the order of the entries in the table based on this field.###18 07 2025 new variable
 dcl#:#dcl_delete_fields#:#Supprimer champs
 dcl#:#dcl_delete_fields_no_selection#:#Please select at least one field to delete###31 10 2023 new variable
 dcl#:#dcl_delete_perm#:#Permission "Supprimer Entrée"
@@ -8728,6 +8726,7 @@ dcl#:#dcl_no_fields_yet#:#Aucun champ n'a été défini dans la table. Vous ne p
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Vous n’avez pas d’accès de lecture pour la moindre vue standard d’un tableau.
 dcl#:#dcl_no_search_results_found_for#:#Aucune module n'a été trouvé pour
 dcl#:#dcl_no_such_reference#:#La valeur suivante n'est pas disponible dans la table de références :
+dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
 dcl#:#dcl_not_checked#:#Non coché.
 dcl#:#dcl_not_supported_in_import#:#Ce type de champ n'est pas supporté dans l'import.
 dcl#:#dcl_notification_activate_dcl#:#Activer les Notifications pour la Collection de Données
@@ -8747,7 +8746,6 @@ dcl#:#dcl_owner#:#Propriétaire
 dcl#:#dcl_owner_description#:#Le propriétaire de l’entrée.
 dcl#:#dcl_owner_name#:#Propriétaire (nom)
 dcl#:#dcl_page_type_dclf#:#Details View
-dcl#:#dcl_permissions_form#:#Permissions Utilisateurs
 dcl#:#dcl_please_select#:#--- Veuillez sélectionner ---
 dcl#:#dcl_plugin#:#Plug-in
 dcl#:#dcl_plugin_desc#:#Plug-ins de champ de collecte de données
@@ -8763,6 +8761,7 @@ dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#Les rôles rbac 
 dcl#:#dcl_record#:#Enregistrement
 dcl#:#dcl_record_deleted#:#Enregistrement supprimé
 dcl#:#dcl_record_from_total#:#%d de %d
+dcl#:#dcl_record_settings#:#Record Settings###18 07 2025 new variable
 dcl#:#dcl_reference#:#Référence
 dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden
 dcl#:#dcl_reference_link#:#Afficher comme lien dans le tableau
@@ -8800,6 +8799,7 @@ dcl#:#dcl_table_edit#:#Enregistrer Tableau
 dcl#:#dcl_table_id#:#ID Tableau
 dcl#:#dcl_table_list_fields#:#Champs du Tableau Sélectionné
 dcl#:#dcl_table_list_tables#:#Tableaux disponibles
+dcl#:#dcl_table_settings#:#Table Settings.###18 07 2025 new variable
 dcl#:#dcl_table_settings_saved#:#Les paramètres du tableau ont été enregistrés.
 dcl#:#dcl_table_title_not_matching#:#Les titres de la feuille Excel et le tableau de collecte de données ne correspondent pas. Renommez la feuille pour que l’importation réussisse.
 dcl#:#dcl_table_title_unique#:#Un champs portant ce titre existe déjà. Le titre doit être unique.
@@ -9224,6 +9224,7 @@ etal#:#notification_talks_subject#:#Invitation: %s###31 10 2023 new variable
 etal#:#notification_talks_subject_update#:#Update: %s###31 10 2023 new variable
 etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 10 2023 new variable
 etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###31 10 2023 new variable
+etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###18 07 2025 new variable
 etal#:#talk_serial#:#Talk Serial###31 10 2023 new variable
 etal#:#tals_add#:#Add Talks###31 10 2023 new variable
 etal#:#tals_new#:#New Talks###31 10 2023 new variable
@@ -9566,7 +9567,6 @@ exc#:#exc_select_blog#:#Utiliser un Blog Existant
 exc#:#exc_select_blog_change#:#Utiliser un autre Blog
 exc#:#exc_select_blog_info#:#Sélectionner un de vos Blog pour l'utiliser dans cette activité.
 exc#:#exc_select_blog_unlink#:#Remove Blog###26 08 2024 new variable
-exc#:#exc_select_part#:#Sélectionner un participant
 exc#:#exc_select_portfolio#:#Utiliser un Portfolio Existant
 exc#:#exc_select_portfolio_change#:#Utiliser un autre Portfolio
 exc#:#exc_select_portfolio_info#:#Sélectionner un de vos Portfolio pour l'utiliser dans cette activité.
@@ -10499,6 +10499,11 @@ help#:#help_tooltips_and_help#:#Etiquettes et Workflow
 help#:#help_tooltips_only#:#Etiquettes Seulement
 help#:#help_topcis#:#Sujets
 help#:#help_tt_text#:#Texte
+htlm#:#file_import_from_upload_dir_failed#:#File from Upload-Directory not imported###18 07 2025 new variable
+htlm#:#file_imported_from_upload_dir#:#File imported from Upload-Directory###18 07 2025 new variable
+htlm#:#import_from_upload_dir#:#Import from Upload-Directory###18 07 2025 new variable
+htlm#:#import_from_upload_dir_file_name#:#Filename###18 07 2025 new variable
+htlm#:#import_from_upload_dir_info#:#Please select file for import###18 07 2025 new variable
 iass#:#download_assessment_paper#:#Download Record file
 iass#:#grading#:#Classement
 iass#:#grading_info#:#Informations de classement
@@ -10581,7 +10586,6 @@ iass#:#iass_usr_download_attachment#:#Télécharger la pièce-jointe
 iass#:#iass_usr_edit#:#Edit user record and learning progress
 iass#:#iass_usr_remove#:#Remove user from object
 iass#:#iass_usr_view#:#User record
-iass#:#il_iass_member#:#Individual Assessment examinee
 iass#:#il_iass_members#:#Participants
 iass#:#lp_inactive#:#Note: la progression d’apprentissage pour cet objet est inactive. Les affiliations ne peuvent donc pas être finalisées.
 iass#:#save_amend#:#Save Amended Record###31 10 2023 new variable
@@ -10653,7 +10657,6 @@ itgr#:#itgr_desc_info#:#La description ne fera pas partie de la présentation de
 itgr#:#itgr_edit#:#Editer Objets du Groupe
 itgr#:#itgr_expandable_closed#:#Extensible (initialement fermé)
 itgr#:#itgr_expandable_open#:#Extensible (initialement ouvert)
-itgr#:#itgr_hide_title#:#Masquer titre
 itgr#:#itgr_item#:#Objet
 itgr#:#itgr_list#:#List###31 10 2023 new variable
 itgr#:#itgr_list_default#:#Default###31 10 2023 new variable
@@ -11068,6 +11071,7 @@ lso#:#lso_player_abstract#:#Show Abstract Info
 lso#:#lso_player_extro#:#Show Final Page
 lso#:#lso_player_finish#:#Finish
 lso#:#lso_player_next#:#Next
+lso#:#lso_player_noitems#:#There are no available items in this Learning Sequence.###18 07 2025 new variable
 lso#:#lso_player_previous#:#Previous
 lso#:#lso_player_resume#:#Resume Learning Sequence
 lso#:#lso_player_review#:#Review Learning Sequence
@@ -11351,6 +11355,7 @@ lti#:#lti_object_consumer#:#Consommateurs LTI
 lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten
 lti#:#lti_provider#:#LTI-Freigaben
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'
+lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###18 07 2025 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider
 lti#:#lti_released_objects#:#Objekt-Freigaben
 lti#:#lti_select_provider#:#Select Provider
@@ -13337,6 +13342,7 @@ prg#:#auto_membership_src_type#:#Type
 prg#:#auto_membership_title#:#Sources for Membership Automation
 prg#:#auto_memberships#:#Membership Automation
 prg#:#category#:#Category
+prg#:#cert_relevance#:#Certificate###18 07 2025 new variable
 prg#:#completion_date#:#Completion Date
 prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?
 prg#:#cont_ed_insert_prgactionnote#:#Insert Study Programme Action Note###31 10 2023 new variable
@@ -13825,6 +13831,8 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#La taille minimal
 ps#:#ps_export_admin#:#Administrateurs
 ps#:#ps_export_confirm#:#Confirmation Utilisateur à l'Entrée des Cours
 ps#:#ps_export_confirm_group#:#Confirmation d'utilisateur lors de l'accès aux groupes
+ps#:#ps_export_confirm_group_info#:#When joining a group, users are required to accept that their personal data can be viewed by the group admins.###18 07 2025 new variable
+ps#:#ps_export_confirm_info#:#When joining a course, users are required to accept that their personal data can be viewed by the course admins.###18 07 2025 new variable
 ps#:#ps_export_course#:#Activer les Données Personnelles Spécifiques aux Cours
 ps#:#ps_export_data#:#Données Personnelles
 ps#:#ps_export_excel#:#Démarrer export Excel
@@ -14251,6 +14259,10 @@ rbac#:#grps_edit_permission#:#L'utilisateur peut modifier les permissions de l'o
 rbac#:#grps_read#:#L'utilisateur a un accès en lecture à l'administration de l'objet
 rbac#:#grps_visible#:#L'administration de l'objet est visible
 rbac#:#grps_write#:#L'utilisateur peut modifier les paramètres de l'objet
+rbac#:#gsfo_edit_permission#:#User can change permission settings in Footer administration###18 07 2025 new variable
+rbac#:#gsfo_read#:#User has read access to Footer administration###18 07 2025 new variable
+rbac#:#gsfo_visible#:#Footer administration is visible###18 07 2025 new variable
+rbac#:#gsfo_write#:#Edit settings in Footer administration###18 07 2025 new variable
 rbac#:#hlps_edit_permission#:#Permissions d'administration modifiables
 rbac#:#hlps_read#:#Panneau d'administration accessible
 rbac#:#hlps_visible#:#Panneau d'administration visible
@@ -15491,7 +15503,6 @@ search#:#search_user#:#Utilisateurs
 search#:#search_user_extended#:#Recherche Avancée d'Utilisateurs
 search#:#search_user_search_form#:#Recherche d'Utilisateurs
 search#:#search_user_search_info_form#:#Lorsque activé, les données utilisateurs sont indexées et peuvent être recherchées.
-search#:#search_users#:#Recherche d'utilisateurs
 search#:#select_orgu#:#Select Organisational Units
 search#:#until#:#jusqu'à
 search#:#user_search_settings_section#:#User Search in 'Member'-tabs###21 05 2025 new variable
@@ -16546,7 +16557,6 @@ survey#:#saved_messages#:#Messages disponibles
 survey#:#scale#:#Echelle
 survey#:#search_groups#:#Groupes Trouvés
 survey#:#search_term#:#Rechercher
-survey#:#search_users#:#Rechercher utilisateurs
 survey#:#select_option#:#--- Veuillez choisir une option ---
 survey#:#select_prior_question#:#Sélectionner une question antérieure
 survey#:#select_questionpool#:#Veuillez sélectionner une banque de questions pour enregistrer la question créée
@@ -17067,7 +17077,6 @@ trac#:#read_count_avg#:#Moyenne des vues de page
 trac#:#registration_filter#:#Date d'Inscription
 trac#:#search_area_info#:#Veuillez choisir un élément.
 trac#:#search_terms#:#Rechercher Terme(s)
-trac#:#select_one#:#Veuillez choisir un objet.
 trac#:#session_statistics#:#Statistiques de Sessions
 trac#:#trac_aggregation#:#Agrégation
 trac#:#trac_all#:#Tous
@@ -17535,6 +17544,7 @@ validation#:#not_min_length#:#Your input has a length of %d and falls below the 
 validation#:#not_numeric#:#'%s' is not numeric.
 validation#:#not_numeric_empty_string#:#Your input is not numeric.
 validation#:#numeric_only#:#Please insert a whole number.###26 08 2024 new variable
+validation#:#required#:#This input is required.###18 07 2025 new variable
 validation#:#tag_required#:#Please insert at least one tag.###26 08 2024 new variable
 violation#:#not_a_string#:#Given value is not a String###31 10 2023 new variable
 webr#:#invalid_links_tbl#:#Liens Non Valides

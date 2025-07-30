@@ -151,15 +151,18 @@ class ilObjLearningSequence extends ilContainer
     protected function cloneIntroAndExtroContentPages(ilObjLearningSequence $new_obj, array $cp_types): void
     {
         foreach ($cp_types as $type) {
-            $old_intro_page_id = $this->getContentPageId($type);
-            if (ilContainerPage::_exists(
-                "cont",
-                $old_intro_page_id
-            )) {
-                $new_obj->createContentPage($type);
-                $new_copg_id = $new_obj->getContentPageId($type);
-                $original_page = new \ilContainerPage($old_intro_page_id);
-                $original_page->copy($new_copg_id, "cont", $new_copg_id);
+            $old_intro_page_id = $this->getContentPageId();
+            if ($type === 'lsoi') {
+                $new_obj->createContentPage(LSOPageType::INTRO);
+                $new_copg_id = $new_obj->getContentPageId();
+                $original_page = new \ilLSOIntroPage($old_intro_page_id);
+                $original_page->copy($new_copg_id, $type, $new_copg_id);
+            }
+            if ($type === 'lsoe') {
+                $new_obj->createContentPage(LSOPageType::EXTRO);
+                $new_copg_id = $new_obj->getContentPageId();
+                $original_page = new ilLSOExtroPage($old_intro_page_id);
+                $original_page->copy($new_copg_id, $type, $new_copg_id);
             }
         }
     }

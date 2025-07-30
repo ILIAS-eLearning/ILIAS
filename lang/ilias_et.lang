@@ -747,6 +747,7 @@ assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).###26 08 2024 new variable
 assessment#:#finish_test#:#Lõpeta test
 assessment#:#finish_test_all#:#Are you sure you want to finish the test attempts for all users?###28 10 2024 new variable
+assessment#:#finish_test_more_than_one_selected#:#Only a single participant may be selected to finish the pass if the test allows only one pass.###18 07 2025 new variable
 assessment#:#finish_test_multiple#:#Are you sure you want to finish the test attempts for the following participants?###28 10 2024 new variable
 assessment#:#finish_test_no_valid_participants_selected#:#There are no active test runs for the selected participants, so they cannot be completed.###21 05 2025 new variable
 assessment#:#finish_test_single#:#Are you sure you want to finish the test attempt for the participant "%s"?###28 10 2024 new variable
@@ -1227,7 +1228,6 @@ assessment#:#scoringadjust#:#Corrections
 assessment#:#search_groups#:#Otsi gruppe
 assessment#:#search_roles#:#Otsi rolle
 assessment#:#search_term#:#Otsingusõna
-assessment#:#search_users#:#Otsi kasutajaid
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#Please Select at least one type of feedback and a trigger.###26 08 2024 new variable
 assessment#:#select_gap#:#Vali lünk
 assessment#:#select_max_one_item#:#Palun vali ainult üks element.
@@ -3272,6 +3272,8 @@ cmix#:#content_privacy_ident#:#User identification for resource###07 02 2020 new
 cmix#:#content_privacy_name#:#User name for resource###07 02 2020 new variable
 cmix#:#create_lrs_type_form#:#New LRS-Type###07 02 2020 new variable
 cmix#:#create_registration#:#Register your E-Mail address###07 02 2020 new variable
+cmix#:#cron_xapi_del#:#Delete xAPI/cmi5 data in the Learning Record Store###18 07 2025 new variable
+cmix#:#cron_xapi_del_desc#:#Data is deleted according to the settings of the xAPI/cmi5 objects.###18 07 2025 new variable
 cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results###07 02 2020 new variable
 cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.###07 02 2020 new variable
 cmix#:#description_info#:#The description will be shown below the title.###07 02 2020 new variable
@@ -4384,10 +4386,12 @@ common#:#il_grp_admin#:#Grupi administraator
 common#:#il_grp_member#:#Grupi liige
 common#:#il_grp_status_closed#:#Grupp suletud
 common#:#il_grp_status_open#:#Grupp avatud
+common#:#il_iass_member#:#Participant###18 07 2025 new variable
 common#:#il_lso_admin#:#Learning Sequence Admin###10 11 2018 new variable
 common#:#il_lso_member#:#Learning Sequence Member###10 11 2018 new variable
 common#:#il_lti_instructor#:#LTI Instructor###29 07 2022 new variable
 common#:#il_lti_learner#:#LTI Learner###29 07 2022 new variable
+common#:#il_lti_user#:#LTI User###18 07 2025 new variable
 common#:#il_orgu_employee#:#Employee###30 08 2015 new variable
 common#:#il_orgu_superior#:#Superior###30 08 2015 new variable
 common#:#ilias_version#:#ILIASe versioon
@@ -5571,6 +5575,7 @@ common#:#search_new#:#Uus otsing
 common#:#search_result#:#Otsingu tulemused
 common#:#search_results#:#Otsingutulemused
 common#:#search_user#:#Otsi kasutajat
+common#:#search_users#:#Look Up Users###18 07 2025 new variable
 common#:#seas_max_hits#:#Maksimaalselt vastuseid
 common#:#seas_max_hits_info#:#Sisestage suurim arv otsingutulemuste kirjete jaoks.
 common#:#seas_settings#:#Otsingu seaded
@@ -6391,12 +6396,7 @@ content#:#cont_dir_renamed#:#Kataloog ümbernimetatud.
 content#:#cont_disable_def_feedback#:#Disable Default Question Feedback
 content#:#cont_disable_def_feedback_info#:#If disabled, answered questions will not show any feedback for the learner. You need to provide custom feedbacks for your questions.
 content#:#cont_download#:#Download
-content#:#cont_download_no_download#:#Kasutajad ei saa alla laadida kuna see võimalus pole aktiveeritud.
-content#:#cont_download_no_menu#:#Allalaadimine pole kasutajatele võimaldatud kuna õppemooduli menüü pole aktiveeritud.
 content#:#cont_download_title#:#Lae alla pealkiri
-content#:#cont_downloads#:#Allalaetud failid
-content#:#cont_downloads_desc#:#Võimalda alla laadida kõik avalikud ekspordifailid.
-content#:#cont_downloads_public_desc#:#Võimalda allalaadimine ka anonüümsetele kasutajatele (avalikul alal)
 content#:#cont_drag_and_drop_elements#:#Elementide liigutamiseks tiri ja kukuta sisuelemente kohahoidjatel.
 content#:#cont_drag_element_click_save#:#Lohista element soovitud kohta. Seejärel kinnita käsk nupuga "Salvesta".
 content#:#cont_ed_align_center#:#reasta: keskele
@@ -6812,7 +6812,6 @@ content#:#cont_nlist#:#Numbrinimestik
 content#:#cont_no_access#:#Juurdepääs puudub
 content#:#cont_no_block#:#No Section###29 07 2022 new variable
 content#:#cont_no_caption#:#Pealkiri puudub
-content#:#cont_no_download_file_available#:#Allalaetavad failid pole kättesaadavad.
 content#:#cont_no_glossary#:#Sõnastikku pole
 content#:#cont_no_manifest#:#Põhikaustast ei leitud imsmanifest.xml faili.
 content#:#cont_no_page#:#Lehte ei leitud
@@ -8583,7 +8582,6 @@ dcl#:#dcl_add_new_table#:#Add New Table
 dcl#:#dcl_add_new_view#:#Add New View###25 10 2016 new variable
 dcl#:#dcl_add_perm#:#Permission Add Entry
 dcl#:#dcl_add_perm_desc#:#Benutzer können Einträge in dieser Tabelle erstellen.###30 08 2015 new variable
-dcl#:#dcl_additional_info_desc#:#Der Text wird direkt oberhalb der Tabelle angezeigt.###30 08 2015 new variable
 dcl#:#dcl_all_entries#:#All entries###30 08 2015 new variable
 dcl#:#dcl_any#:#Any
 dcl#:#dcl_asc#:#Ascending Order (ASC)
@@ -8626,8 +8624,8 @@ dcl#:#dcl_date_selection#:#Date Selection###31 08 2017 new variable
 dcl#:#dcl_date_selection_desc#:#Offer selection of date options.###31 08 2017 new variable
 dcl#:#dcl_deactivate_view#:#Deactivate this view
 dcl#:#dcl_default_sort_field#:#Default sort field
-dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.###30 08 2015 new variable
 dcl#:#dcl_default_sort_field_order#:#Default sort field order
+dcl#:#dcl_default_sort_field_order_desc#:#Arrange the order of the entries in the table based on this field.###18 07 2025 new variable
 dcl#:#dcl_delete_fields#:#Delete fields
 dcl#:#dcl_delete_fields_no_selection#:#Please select at least one field to delete###26 08 2024 new variable
 dcl#:#dcl_delete_perm#:#Permission Delete Entry
@@ -8743,6 +8741,7 @@ dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you ca
 dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.###10 11 2018 new variable
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
+dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
 dcl#:#dcl_not_checked#:#Not checked.
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
 dcl#:#dcl_notification_activate_dcl#:#Activate Notification for Data Collection
@@ -8762,7 +8761,6 @@ dcl#:#dcl_owner#:#Owner
 dcl#:#dcl_owner_description#:#The owner of the entry.
 dcl#:#dcl_owner_name#:#Owner (Name)###31 08 2017 new variable
 dcl#:#dcl_page_type_dclf#:#Details View###29 07 2022 new variable
-dcl#:#dcl_permissions_form#:#User rights
 dcl#:#dcl_please_select#:#--- Please select ---
 dcl#:#dcl_plugin#:#Plugin###25 10 2016 new variable
 dcl#:#dcl_plugin_desc#:#DataCollection Field-Plugins###25 10 2016 new variable
@@ -8778,6 +8776,7 @@ dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rb
 dcl#:#dcl_record#:#Record
 dcl#:#dcl_record_deleted#:#Record deleted
 dcl#:#dcl_record_from_total#:#%d of %d
+dcl#:#dcl_record_settings#:#Record Settings###18 07 2025 new variable
 dcl#:#dcl_reference#:#Reference
 dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden###30 08 2015 new variable
 dcl#:#dcl_reference_link#:#Show as link in table view
@@ -8815,6 +8814,7 @@ dcl#:#dcl_table_edit#:#Update Table
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_table_list_fields#:#List Fields of current Table
 dcl#:#dcl_table_list_tables#:#Available Tables###25 10 2016 new variable
+dcl#:#dcl_table_settings#:#Table Settings.###18 07 2025 new variable
 dcl#:#dcl_table_settings_saved#:#Table Settings have been saved.
 dcl#:#dcl_table_title_not_matching#:#The titles of the excel sheet and the Data Collection table do not match. Rename the sheet for a successfull import.###31 08 2017 new variable
 dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.
@@ -9239,6 +9239,7 @@ etal#:#notification_talks_subject#:#Invitation
 etal#:#notification_talks_subject_update#:#Update: %s###26 08 2024 new variable
 etal#:#notification_talks_updated#:#The following talk appointments have been changed by %s.
 etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###26 08 2024 new variable
+etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###18 07 2025 new variable
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Add Talks
 etal#:#tals_new#:#New Talks
@@ -9581,7 +9582,6 @@ exc#:#exc_select_blog#:#Kasuta olemasolevat ajaveebi
 exc#:#exc_select_blog_change#:#Kasuta erinevat ajaveebi
 exc#:#exc_select_blog_info#:#Vali ülesande jaoks üks oma ajaveebidest.
 exc#:#exc_select_blog_unlink#:#Remove Blog###26 08 2024 new variable
-exc#:#exc_select_part#:#Vali osaleja
 exc#:#exc_select_portfolio#:#Kasuta olemasolevat portfooliot
 exc#:#exc_select_portfolio_change#:#Kasuta teist portfooliot
 exc#:#exc_select_portfolio_info#:#Vali ülesande jaoks üks oma portfooliotest.
@@ -10514,6 +10514,11 @@ help#:#help_tooltips_and_help#:#Tooltips and Workflow Help
 help#:#help_tooltips_only#:#Tooltips Only
 help#:#help_topcis#:#Topics
 help#:#help_tt_text#:#Text
+htlm#:#file_import_from_upload_dir_failed#:#File from Upload-Directory not imported###18 07 2025 new variable
+htlm#:#file_imported_from_upload_dir#:#File imported from Upload-Directory###18 07 2025 new variable
+htlm#:#import_from_upload_dir#:#Import from Upload-Directory###18 07 2025 new variable
+htlm#:#import_from_upload_dir_file_name#:#Filename###18 07 2025 new variable
+htlm#:#import_from_upload_dir_info#:#Please select file for import###18 07 2025 new variable
 iass#:#download_assessment_paper#:#Download Record file###29 07 2022 new variable
 iass#:#grading#:#Grading###25 10 2016 new variable
 iass#:#grading_info#:#Grading info###25 10 2016 new variable
@@ -10596,7 +10601,6 @@ iass#:#iass_usr_download_attachment#:#Download Attachment###31 08 2017 new varia
 iass#:#iass_usr_edit#:#Edit user record and learning progress###25 10 2016 new variable
 iass#:#iass_usr_remove#:#Remove user from object###25 10 2016 new variable
 iass#:#iass_usr_view#:#User record###25 10 2016 new variable
-iass#:#il_iass_member#:#Individual Assessment examinee###25 10 2016 new variable
 iass#:#il_iass_members#:#Participants###07 02 2017 new variable
 iass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.###25 10 2016 new variable
 iass#:#save_amend#:#Save Amended Record###26 08 2024 new variable
@@ -10668,7 +10672,6 @@ itgr#:#itgr_desc_info#:#The description will not be a part of the item group's p
 itgr#:#itgr_edit#:#Edit Item Groups
 itgr#:#itgr_expandable_closed#:#Expandable (initially closed)###31 08 2017 new variable
 itgr#:#itgr_expandable_open#:#Expandable (initially opened)###31 08 2017 new variable
-itgr#:#itgr_hide_title#:#Hide Title###30 08 2015 new variable
 itgr#:#itgr_item#:#Item
 itgr#:#itgr_list#:#List###29 07 2022 new variable
 itgr#:#itgr_list_default#:#Default###29 07 2022 new variable
@@ -11083,6 +11086,7 @@ lso#:#lso_player_abstract#:#Show Abstract Info###10 11 2018 new variable
 lso#:#lso_player_extro#:#Show Final Page###10 11 2018 new variable
 lso#:#lso_player_finish#:#Finish###10 11 2018 new variable
 lso#:#lso_player_next#:#Next###10 11 2018 new variable
+lso#:#lso_player_noitems#:#There are no available items in this Learning Sequence.###18 07 2025 new variable
 lso#:#lso_player_previous#:#Previous###10 11 2018 new variable
 lso#:#lso_player_resume#:#Resume Learning Sequence###10 11 2018 new variable
 lso#:#lso_player_review#:#Review Learning Sequence###10 11 2018 new variable
@@ -11366,6 +11370,7 @@ lti#:#lti_object_consumer#:#LTI Consumers###31 08 2017 new variable
 lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten###31 08 2017 new variable
 lti#:#lti_provider#:#LTI-Freigaben###31 08 2017 new variable
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###07 02 2020 new variable
+lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###18 07 2025 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider###07 02 2020 new variable
 lti#:#lti_released_objects#:#Objekt-Freigaben###31 08 2017 new variable
 lti#:#lti_select_provider#:#Select Provider###07 02 2020 new variable
@@ -13352,6 +13357,7 @@ prg#:#auto_membership_src_type#:#Type###07 02 2020 new variable
 prg#:#auto_membership_title#:#Sources for Membership Automation###07 02 2020 new variable
 prg#:#auto_memberships#:#Membership Automation###07 02 2020 new variable
 prg#:#category#:#Category###07 02 2020 new variable
+prg#:#cert_relevance#:#Certificate###18 07 2025 new variable
 prg#:#completion_date#:#Completion Date###07 02 2020 new variable
 prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?###29 07 2022 new variable
 prg#:#cont_ed_insert_prgactionnote#:#Insert Study Programme Action Note###26 08 2024 new variable
@@ -13840,6 +13846,8 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimaalne salas�
 ps#:#ps_export_admin#:#Haldurid
 ps#:#ps_export_confirm#:#Kasutaja kinnitus kursusele sisenemisel
 ps#:#ps_export_confirm_group#:#Kasutaja kinnitus grupiga ühinemisel
+ps#:#ps_export_confirm_group_info#:#When joining a group, users are required to accept that their personal data can be viewed by the group admins.###18 07 2025 new variable
+ps#:#ps_export_confirm_info#:#When joining a course, users are required to accept that their personal data can be viewed by the course admins.###18 07 2025 new variable
 ps#:#ps_export_course#:#Täiustatud kasutajaandmete eksport kursustes
 ps#:#ps_export_data#:#Kasutajaprofiili andmed
 ps#:#ps_export_excel#:#Alusta Excel-eksporti
@@ -14266,6 +14274,10 @@ rbac#:#grps_edit_permission#:#User can change permission settings in Group admin
 rbac#:#grps_read#:#User has read access to Group administration
 rbac#:#grps_visible#:#Group administration is visible
 rbac#:#grps_write#:#Edit settings in Group administration
+rbac#:#gsfo_edit_permission#:#User can change permission settings in Footer administration###18 07 2025 new variable
+rbac#:#gsfo_read#:#User has read access to Footer administration###18 07 2025 new variable
+rbac#:#gsfo_visible#:#Footer administration is visible###18 07 2025 new variable
+rbac#:#gsfo_write#:#Edit settings in Footer administration###18 07 2025 new variable
 rbac#:#hlps_edit_permission#:#User can change permissions of Help System administration.
 rbac#:#hlps_read#:#User has read access to Help System administration.
 rbac#:#hlps_visible#:#Help System administration is visible.
@@ -15506,7 +15518,6 @@ search#:#search_user#:#Kasutajad
 search#:#search_user_extended#:#Laiendatud otsing
 search#:#search_user_search_form#:#User Search
 search#:#search_user_search_info_form#:#If enabled, users data will be indexed and is searchable.
-search#:#search_users#:#Otsi kasutajat
 search#:#select_orgu#:#Select Organisational Units###07 02 2020 new variable
 search#:#until#:#kuni
 search#:#user_search_settings_section#:#User Search in 'Member'-tabs###21 05 2025 new variable
@@ -16561,7 +16572,6 @@ survey#:#saved_messages#:#Kättesaadavad sõnumid
 survey#:#scale#:#Skaala
 survey#:#search_groups#:#Leitud grupid
 survey#:#search_term#:#Otsingusõna
-survey#:#search_users#:#Otsi kasutajaid
 survey#:#select_option#:#--- Palun tee valik ---
 survey#:#select_prior_question#:#Vali eelmine küsimus
 survey#:#select_questionpool#:#Palun vali loodud küsimuse salvestamiseks küsimustevaramu.
@@ -17082,7 +17092,6 @@ trac#:#read_count_avg#:#Keskmine vaadatud lehtede arv
 trac#:#registration_filter#:#Registreerumispäev
 trac#:#search_area_info#:#Vali üks objekt.
 trac#:#search_terms#:#Otsingusõna(d)
-trac#:#select_one#:#Valige esimene objekt
 trac#:#session_statistics#:#Session Statistics
 trac#:#trac_aggregation#:#Aggregation
 trac#:#trac_all#:#All
@@ -17550,6 +17559,7 @@ validation#:#not_min_length#:#Your input has a length of %d and falls below the 
 validation#:#not_numeric#:#'%s' is not numeric.###10 11 2018 new variable
 validation#:#not_numeric_empty_string#:#Your input is not numeric.###07 02 2020 new variable
 validation#:#numeric_only#:#Please insert a whole number.###26 08 2024 new variable
+validation#:#required#:#This input is required.###18 07 2025 new variable
 validation#:#tag_required#:#Please insert at least one tag.###26 08 2024 new variable
 violation#:#not_a_string#:#Given value is not a String###29 07 2022 new variable
 webr#:#invalid_links_tbl#:#Invalid Links

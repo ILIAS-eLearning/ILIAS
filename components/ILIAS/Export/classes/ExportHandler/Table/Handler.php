@@ -331,6 +331,9 @@ class Handler implements ilExportHandlerTableInterface
         $composit_ids = is_array($tokens) ? $tokens : [$tokens];
         $ids_sorted = [];
         foreach ($composit_ids as $composit_id) {
+            if (is_null($composit_id)) {
+                continue;
+            }
             $table_row_id = $this->export_handler->table()->rowId()->handler()
                 ->withCompositId($composit_id);
             $file_identifier = $this->export_handler->consumer()->file()->identifier()->handler()

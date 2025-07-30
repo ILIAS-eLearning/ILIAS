@@ -747,6 +747,7 @@ assessment#:#finish_pass_for_user_confirmation#:#Ali zares želite končati opra
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING
 assessment#:#finish_test#:#Končaj test
 assessment#:#finish_test_all#:#Are you sure you want to finish the test attempts for all users?###28 10 2024 new variable
+assessment#:#finish_test_more_than_one_selected#:#Only a single participant may be selected to finish the pass if the test allows only one pass.###18 07 2025 new variable
 assessment#:#finish_test_multiple#:#Are you sure you want to finish the test attempts for the following participants?###28 10 2024 new variable
 assessment#:#finish_test_no_valid_participants_selected#:#There are no active test runs for the selected participants, so they cannot be completed.###21 05 2025 new variable
 assessment#:#finish_test_single#:#Are you sure you want to finish the test attempt for the participant "%s"?###28 10 2024 new variable
@@ -1227,7 +1228,6 @@ assessment#:#scoringadjust#:#Naknadni popravki
 assessment#:#search_groups#:#po skupinah
 assessment#:#search_roles#:#po vlogah
 assessment#:#search_term#:#Iskani pojem
-assessment#:#search_users#:#po uporabnikih
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#Please Select at least one type of feedback and a trigger.###26 08 2024 new variable
 assessment#:#select_gap#:#Izbrana praznina
 assessment#:#select_max_one_item#:#Izberite samo en objekt
@@ -3272,6 +3272,8 @@ cmix#:#content_privacy_ident#:#User identification for resource
 cmix#:#content_privacy_name#:#User name for resource
 cmix#:#create_lrs_type_form#:#New LRS-Type
 cmix#:#create_registration#:#Register your E-Mail address
+cmix#:#cron_xapi_del#:#Delete xAPI/cmi5 data in the Learning Record Store###18 07 2025 new variable
+cmix#:#cron_xapi_del_desc#:#Data is deleted according to the settings of the xAPI/cmi5 objects.###18 07 2025 new variable
 cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results
 cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.
 cmix#:#description_info#:#The description will be shown below the title.
@@ -4384,10 +4386,12 @@ common#:#il_grp_admin#:#Administrator skupine
 common#:#il_grp_member#:#Član skupine
 common#:#il_grp_status_closed#:#Zaprta skupina
 common#:#il_grp_status_open#:#Odprta skupina
+common#:#il_iass_member#:#Participant###18 07 2025 new variable
 common#:#il_lso_admin#:#Administrator učnega zaporedja
 common#:#il_lso_member#:#Član učnega zaporedja
 common#:#il_lti_instructor#:#LTI Instructor
 common#:#il_lti_learner#:#LTI Learner
+common#:#il_lti_user#:#LTI User###18 07 2025 new variable
 common#:#il_orgu_employee#:#Sodelavci
 common#:#il_orgu_superior#:#Nadrejeni
 common#:#ilias_version#:#Različica ILIAS
@@ -5571,6 +5575,7 @@ common#:#search_new#:#Novo iskanje
 common#:#search_result#:#Rezultat iskanja
 common#:#search_results#:#Rezultati iskanja
 common#:#search_user#:#Išči uporabnika
+common#:#search_users#:#Look Up Users###18 07 2025 new variable
 common#:#seas_max_hits#:#Maksimalno število zadetkov
 common#:#seas_max_hits_info#:#Tukaj lahko nastavite maksimalno število prikazanih zadetkov iskanja. Manjše kot je število, prej se bo stran naložila.
 common#:#seas_settings#:#Nastavitve iskanja
@@ -6391,12 +6396,7 @@ content#:#cont_dir_renamed#:#Seznam je bil preimenovan.
 content#:#cont_disable_def_feedback#:#Onemogoči privzete povratne informacije
 content#:#cont_disable_def_feedback_info#:#Onemogoči privzete povratne informacije po odgovorjenih vprašanjih.
 content#:#cont_download#:#Prenos
-content#:#cont_download_no_download#:#Funkcija prenosa je trenutno onemogočena. Zato datoteka učencem ne bo na voljo.
-content#:#cont_download_no_menu#:#Meni učnega modula je trenutno onemogočen. Zato datoteka učencem ne bo na voljo.
 content#:#cont_download_title#:#Ime datoteke za prenos
-content#:#cont_downloads#:#Prenos
-content#:#cont_downloads_desc#:#Zavihek "Prenos" bo prikazan v pogledu predstavitve. Tam lahko uporabniki prenesejo odobrene datoteke za izvoz, na primer za uporabo na spletu ali uvoz.
-content#:#cont_downloads_public_desc#:#Omogoča prenos tudi neprijavljenim uporabnikom (javno področje)
 content#:#cont_drag_and_drop_elements#:#Za premikanje vsebinskih elementov jih z miško povlecite na rezervirana mesta.
 content#:#cont_drag_element_click_save#:#Premaknite element na želen položaj in nato kliknite "Shrani".
 content#:#cont_ed_align_center#:#Poravnaj sredinsko
@@ -6812,7 +6812,6 @@ content#:#cont_nlist#:#Oštevilčen seznam
 content#:#cont_no_access#:#Ni dostopa
 content#:#cont_no_block#:#No Section###19 08 2022 new variable
 content#:#cont_no_caption#:#Ni legende
-content#:#cont_no_download_file_available#:#Trenutno ni na voljo nobene javne datoteke za prenos.
 content#:#cont_no_glossary#:#Ni glosarja
 content#:#cont_no_manifest#:#V glavnem seznamu ni bilo mogoče najti nobene datoteke z imenom imsmanifest.xml.
 content#:#cont_no_page#:#Nobena stran ni najdena
@@ -8583,7 +8582,6 @@ dcl#:#dcl_add_new_table#:#Dodaj novo tabelo
 dcl#:#dcl_add_new_view#:#Dodaj nov pogled
 dcl#:#dcl_add_perm#:#Dodaj nov vnos
 dcl#:#dcl_add_perm_desc#:#Uporabniki lahko ustvarijo vnose v tej tabeli.
-dcl#:#dcl_additional_info_desc#:#Besedilo bo prikazano neposredno nad tabelo.
 dcl#:#dcl_all_entries#:#Vsi vnosi
 dcl#:#dcl_any#:#Vsi
 dcl#:#dcl_asc#:#Naraščajoči vrstni red (ASC)
@@ -8626,8 +8624,8 @@ dcl#:#dcl_date_selection#:#Izbirni meni za datum
 dcl#:#dcl_date_selection_desc#:#Zagotovitev izbirnih možnosti (datum)
 dcl#:#dcl_deactivate_view#:#Onemogoči predlogo strani
 dcl#:#dcl_default_sort_field#:#Razvrstitev
-dcl#:#dcl_default_sort_field_desc#:#Tabela bo privzeto razvrščena po izbranem polju.
 dcl#:#dcl_default_sort_field_order#:#Smer razvrstitve
+dcl#:#dcl_default_sort_field_order_desc#:#Arrange the order of the entries in the table based on this field.###18 07 2025 new variable
 dcl#:#dcl_delete_fields#:#Izbriši polja
 dcl#:#dcl_delete_fields_no_selection#:#Please select at least one field to delete###26 08 2024 new variable
 dcl#:#dcl_delete_perm#:#Izbriši vnose
@@ -8743,6 +8741,7 @@ dcl#:#dcl_no_fields_yet#:#Za to tabelo še niso bila ustvarjena polja, zato ne m
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Nimate bralnega dostopa do nobenega od privzetih pogledov tabele.
 dcl#:#dcl_no_search_results_found_for#:#Najden ni bil noben modul z:
 dcl#:#dcl_no_such_reference#:#Naslednja vrednost ni na voljo v referenčni tabeli:
+dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
 dcl#:#dcl_not_checked#:#Ni izbrano
 dcl#:#dcl_not_supported_in_import#:#Ta tip polja ni podprt za uvoz.
 dcl#:#dcl_notification_activate_dcl#:#Aktiviraj obveščanje
@@ -8762,7 +8761,6 @@ dcl#:#dcl_owner#:#Imetnik
 dcl#:#dcl_owner_description#:#Imetnik tega vnosa.
 dcl#:#dcl_owner_name#:#Imetnik (ime)
 dcl#:#dcl_page_type_dclf#:#Details View
-dcl#:#dcl_permissions_form#:#Dovoljenja za to tabelo
 dcl#:#dcl_please_select#:#--- Izberite ---
 dcl#:#dcl_plugin#:#Vtičnik
 dcl#:#dcl_plugin_desc#:#Razširitve za polje DataCollection
@@ -8778,6 +8776,7 @@ dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#Naslednje vloge 
 dcl#:#dcl_record#:#Vnos
 dcl#:#dcl_record_deleted#:#Vnos je izbrisan
 dcl#:#dcl_record_from_total#:#%d od %d
+dcl#:#dcl_record_settings#:#Record Settings###18 07 2025 new variable
 dcl#:#dcl_reference#:#Referenca
 dcl#:#dcl_reference_desc#:#Zagotovitev izbirnih možnosti, ki so shranjene v drugem polju tabele
 dcl#:#dcl_reference_link#:#Prikaži kot povezavo do referenčnega vnosa
@@ -8815,6 +8814,7 @@ dcl#:#dcl_table_edit#:#Shrani
 dcl#:#dcl_table_id#:#ID tabele
 dcl#:#dcl_table_list_fields#:#Polja izbrane tabele
 dcl#:#dcl_table_list_tables#:#Razpoložljive tabele
+dcl#:#dcl_table_settings#:#Table Settings.###18 07 2025 new variable
 dcl#:#dcl_table_settings_saved#:#Nastavitve tabele so bile shranjene.
 dcl#:#dcl_table_title_not_matching#:#Naslova Excelovega delovnega lista in tabele v zbirki podatkov se ne ujemata. Preimenujte delovni list, da boste lahko uspešno izvedli uvoz.
 dcl#:#dcl_table_title_unique#:#Tabela s tem naslovom že obstaja. Naslov mora biti edinstven.
@@ -9239,6 +9239,7 @@ etal#:#notification_talks_subject#:#Invitation###19 08 2022 new variable
 etal#:#notification_talks_subject_update#:#Update: %s###26 08 2024 new variable
 etal#:#notification_talks_updated#:#The following talk appointments have been changed by %s.###19 08 2022 new variable
 etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###26 08 2024 new variable
+etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###18 07 2025 new variable
 etal#:#talk_serial#:#Talk Serial###19 08 2022 new variable
 etal#:#tals_add#:#Add Talks###19 08 2022 new variable
 etal#:#tals_new#:#New Talks###19 08 2022 new variable
@@ -9581,7 +9582,6 @@ exc#:#exc_select_blog#:#Uporabi obstoječi blog
 exc#:#exc_select_blog_change#:#Uporabi drug blog
 exc#:#exc_select_blog_info#:#Izberite enega od svojih blogov za uporabo pri tej vadbeni enoti.
 exc#:#exc_select_blog_unlink#:#Remove Blog###26 08 2024 new variable
-exc#:#exc_select_part#:#Izberi udeleženca
 exc#:#exc_select_portfolio#:#Uporabi obstoječi portfelj
 exc#:#exc_select_portfolio_change#:#Uporabi drug portfelj
 exc#:#exc_select_portfolio_info#:#Izberite enega od svojih portfeljev za uporabo pri tej vadbeni enoti.
@@ -10514,6 +10514,11 @@ help#:#help_tooltips_and_help#:#Tooltips and Workflow Help
 help#:#help_tooltips_only#:#Tooltips Only
 help#:#help_topcis#:#Topics
 help#:#help_tt_text#:#Text
+htlm#:#file_import_from_upload_dir_failed#:#File from Upload-Directory not imported###18 07 2025 new variable
+htlm#:#file_imported_from_upload_dir#:#File imported from Upload-Directory###18 07 2025 new variable
+htlm#:#import_from_upload_dir#:#Import from Upload-Directory###18 07 2025 new variable
+htlm#:#import_from_upload_dir_file_name#:#Filename###18 07 2025 new variable
+htlm#:#import_from_upload_dir_info#:#Please select file for import###18 07 2025 new variable
 iass#:#download_assessment_paper#:#Download Record file
 iass#:#grading#:#Ocena
 iass#:#grading_info#:#Informacije o oceni
@@ -10596,7 +10601,6 @@ iass#:#iass_usr_download_attachment#:#Prenesi datoteko
 iass#:#iass_usr_edit#:#Oceni udeleženca in uredi učni napredek
 iass#:#iass_usr_remove#:#Odstrani udeleženca
 iass#:#iass_usr_view#:#Podatki o izpitu
-iass#:#il_iass_member#:#Udeleženec
 iass#:#il_iass_members#:#Udeleženec
 iass#:#lp_inactive#:#Upoštevajte: določanje učnega napredka za ta objekt je onemogočeno. Zato udeležb ni mogoče zaključiti.
 iass#:#save_amend#:#Save Amended Record###26 08 2024 new variable
@@ -10668,7 +10672,6 @@ itgr#:#itgr_desc_info#:#Opis ne bo izpisan v objavi bloka objektov.
 itgr#:#itgr_edit#:#Uredi blok objektov
 itgr#:#itgr_expandable_closed#:#Razširljivo (sprva zaprto)
 itgr#:#itgr_expandable_open#:#Razširljivo (sprva odprto)
-itgr#:#itgr_hide_title#:#Skrij naslov
 itgr#:#itgr_item#:#Objekti, ki bi lahko bili vključeni
 itgr#:#itgr_list#:#List###19 08 2022 new variable
 itgr#:#itgr_list_default#:#Default###19 08 2022 new variable
@@ -11083,6 +11086,7 @@ lso#:#lso_player_abstract#:#Na uvod
 lso#:#lso_player_extro#:#Na zaključno stran
 lso#:#lso_player_finish#:#Zaključi
 lso#:#lso_player_next#:#Naprej
+lso#:#lso_player_noitems#:#There are no available items in this Learning Sequence.###18 07 2025 new variable
 lso#:#lso_player_previous#:#Nazaj
 lso#:#lso_player_resume#:#Nadaljuj z učnim zaporedjem
 lso#:#lso_player_review#:#Predelaj učno zaporedje
@@ -11366,6 +11370,7 @@ lti#:#lti_object_consumer#:#Potrošniki LTI
 lti#:#lti_object_release_settings_form#:#Uredi odobritve LTI
 lti#:#lti_provider#:#Odobritve LTI
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'
+lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###18 07 2025 new variable
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider
 lti#:#lti_released_objects#:#Odobritve objektov
 lti#:#lti_select_provider#:#Select Provider
@@ -13352,6 +13357,7 @@ prg#:#auto_membership_src_type#:#Type
 prg#:#auto_membership_title#:#Sources for Membership Automation
 prg#:#auto_memberships#:#Membership Automation
 prg#:#category#:#Category RefId
+prg#:#cert_relevance#:#Certificate###18 07 2025 new variable
 prg#:#completion_date#:#Completion Date
 prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?###19 08 2022 new variable
 prg#:#cont_ed_insert_prgactionnote#:#Insert Study Programme Action Note###26 08 2024 new variable
@@ -13840,6 +13846,8 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password 
 ps#:#ps_export_admin#:#Administrators
 ps#:#ps_export_confirm#:#User Confirmation when Entering Courses
 ps#:#ps_export_confirm_group#:#User Confirmation when Entering Groups
+ps#:#ps_export_confirm_group_info#:#When joining a group, users are required to accept that their personal data can be viewed by the group admins.###18 07 2025 new variable
+ps#:#ps_export_confirm_info#:#When joining a course, users are required to accept that their personal data can be viewed by the course admins.###18 07 2025 new variable
 ps#:#ps_export_course#:#Allow export of user profile data in courses
 ps#:#ps_export_data#:#Data Types of the Personal Profile
 ps#:#ps_export_excel#:#Start Excel Export
@@ -14266,6 +14274,10 @@ rbac#:#grps_edit_permission#:#Spremeni nastavitve pravic za administracijo skupi
 rbac#:#grps_read#:#Bralni dostop do administracije skupine
 rbac#:#grps_visible#:#Administracija skupine je vidna
 rbac#:#grps_write#:#Uredi nastavitve v administraciji skupine
+rbac#:#gsfo_edit_permission#:#User can change permission settings in Footer administration###18 07 2025 new variable
+rbac#:#gsfo_read#:#User has read access to Footer administration###18 07 2025 new variable
+rbac#:#gsfo_visible#:#Footer administration is visible###18 07 2025 new variable
+rbac#:#gsfo_write#:#Edit settings in Footer administration###18 07 2025 new variable
 rbac#:#hlps_edit_permission#:#Spremeni nastavitve pravic za administracijo spletne pomoči
 rbac#:#hlps_read#:#Bralni dostop do administracije spletne pomoči
 rbac#:#hlps_visible#:#Administracija spletne pomoči je vidna.
@@ -15506,7 +15518,6 @@ search#:#search_user#:#Uporabnik
 search#:#search_user_extended#:#Napredno iskanje uporabnikov
 search#:#search_user_search_form#:#Iskanje v osebnih profilih
 search#:#search_user_search_info_form#:#Uporabniški podatki v osebnih profilih so indeksirani in jih je mogoče uporabiti za globalno iskanje uporabnikov.
-search#:#search_users#:#Išči uporabnika
 search#:#select_orgu#:#Select Organisational Units
 search#:#until#:#do
 search#:#user_search_settings_section#:#User Search in 'Member'-tabs###21 05 2025 new variable
@@ -16561,7 +16572,6 @@ survey#:#saved_messages#:#Razpoložljiva besedila sporočila
 survey#:#scale#:#Scale
 survey#:#search_groups#:#Skupine
 survey#:#search_term#:#Iskalni pojem/pojmi
-survey#:#search_users#:#Išči uporabnika
 survey#:#select_option#:#--- Izberite odgovor ---
 survey#:#select_prior_question#:#Izberi prejšnje vprašanje
 survey#:#select_questionpool#:#Izberite skupino vprašanj, ki ji želite dodeliti novo ustvarjeno vprašanje
@@ -17082,7 +17092,6 @@ trac#:#read_count_avg#:#Povprečni ogledi strani
 trac#:#registration_filter#:#Datum registracije
 trac#:#search_area_info#:#Izberite objekt.
 trac#:#search_terms#:#Iskalni pojem/pojmi
-trac#:#select_one#:#Izberite objekt.
 trac#:#session_statistics#:#Statistika seje
 trac#:#trac_aggregation#:#Združevanje
 trac#:#trac_all#:#Vsi
@@ -17550,6 +17559,7 @@ validation#:#not_min_length#:#Your input has a length of %d and falls below the 
 validation#:#not_numeric#:#'%s' is not numeric.
 validation#:#not_numeric_empty_string#:#Your input is not numeric.
 validation#:#numeric_only#:#Please insert a whole number.###26 08 2024 new variable
+validation#:#required#:#This input is required.###18 07 2025 new variable
 validation#:#tag_required#:#Please insert at least one tag.###26 08 2024 new variable
 violation#:#not_a_string#:#Given value is not a String###19 08 2022 new variable
 webr#:#invalid_links_tbl#:#Invalid Links

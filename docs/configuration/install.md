@@ -696,7 +696,7 @@ You can manage these jobs in the ILIAS Administration under "Administration > Ge
 To test the execution of the Cron Jobs Executable `./cli/cron.php`, the following command can be used:
 
 ```shell
-php /var/www/ilias/cli/cron.php run-jobs <user> <client_id> run-jobs
+php /var/www/ilias/cli/cron.php run-jobs <user> <client_id>
 ```
 
 The `<user>` is a valid, arbitrary user account within the ILIAS installation.
@@ -708,7 +708,7 @@ including a line to execute `./cli/cron.php` every 5 minutes.
 Other methods for executing Linux cron tasks, such as using the user crontab, can also be utilized.
 
 ```cron
-*/5 * * * * www-data /usr/bin/php /var/www/ilias/cli/cron.php run-jobs cron myilias run-jobs > /dev/null 2>&1
+*/5 * * * * www-data /usr/bin/php /var/www/ilias/cli/cron.php run-jobs cron myilias > /dev/null 2>&1
 ```
 
 You can verify the proper automatic execution in the ILIAS Administration section by checking the timestamp 

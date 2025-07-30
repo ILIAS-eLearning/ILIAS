@@ -1841,10 +1841,10 @@ class ilObjContentObject extends ilObject
         $copied_nodes = $this->copyAllPagesAndChapters($new_obj, $copy_id);
 
         // page header and footer
-        if ($this->getHeaderPage() > 0 && ($new_page_header = $copied_nodes[$this->getHeaderPage()]) > 0) {
+        if ($this->getHeaderPage() > 0 && ($new_page_header = ($copied_nodes[$this->getHeaderPage()] ?? null)) > 0) {
             $new_obj->setHeaderPage($new_page_header);
         }
-        if ($this->getFooterPage() > 0 && ($new_page_footer = $copied_nodes[$this->getFooterPage()]) > 0) {
+        if ($this->getFooterPage() > 0 && ($new_page_footer = ($copied_nodes[$this->getFooterPage()] ?? null)) > 0) {
             $new_obj->setFooterPage($new_page_footer);
         }
         $new_obj->update();
@@ -1871,10 +1871,10 @@ class ilObjContentObject extends ilObject
                                'ref_id'	=> $row->link_ref_id,
                                'active'*/
 
-            $new_menu->setTarget($entry["link"]);
-            $new_menu->setTitle($entry["title"]);
-            $new_menu->setLinkType($entry["type"]);
-            $new_menu->setLinkRefId($entry["ref_id"]);
+            $new_menu->setTarget($entry["link"] ?? "");
+            $new_menu->setTitle($entry["title"] ?? "");
+            $new_menu->setLinkType($entry["type"] ?? "");
+            $new_menu->setLinkRefId($entry["ref_id"] ?? 0);
             $new_menu->create();
             ilLMMenuEditor::writeActive($new_menu->getEntryId(), $entry["active"] == "y");
         }

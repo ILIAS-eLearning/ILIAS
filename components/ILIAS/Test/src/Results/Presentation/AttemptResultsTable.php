@@ -23,6 +23,7 @@ namespace ILIAS\Test\Results\Presentation;
 use ILIAS\Test\Results\Data\AttemptResult;
 use ILIAS\Test\Results\Data\QuestionResult;
 use ILIAS\UI\Component\Table\Presentation as PresentationTable;
+use ILIAS\UI\Component\Table\PresentationRow;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -180,19 +181,16 @@ class AttemptResultsTable
 
     private function getMapping(): \Closure
     {
-        return function ($row, $question, $ui_factory, $environment) {
+        return function (PresentationRow $row, QuestionResult $question, UIFactory $ui_factory, array $environment) {
             $env = $environment[self::ENV];
             $lng = $environment[self::LNG];
 
-            $title = sprintf(
-                '%s [ID: %s]',
-                $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
-                    $question->getTitle()
-                ),
-                (string) $question->getId()
+            $title = $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                $question->getTitle()
             );
 
             $important_fields = [
+                $lng->txt('position') => (string) ($question->getPosition() + 1),
                 $lng->txt('question_id') => (string) $question->getId(),
                 $lng->txt('question_type') => $lng->txt($question->getType()),
                 $lng->txt('points') => sprintf(

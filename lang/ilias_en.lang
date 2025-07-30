@@ -2592,6 +2592,7 @@ book#:#book_bulk_creation#:#Bulk Creation
 book#:#book_bulk_data#:#Item Data
 book#:#book_cal_entry#:#Booking:
 book#:#book_confirm_booking#:#Confirm Booking
+book#:#book_confirm_booking_for_users#:#Are you sure you want to book this item for the following user(s)?
 book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following item?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Booking Confirmation
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please enter the number of items that you would like to book.
@@ -3273,6 +3274,8 @@ cmix#:#content_privacy_ident#:#User identification for resource
 cmix#:#content_privacy_name#:#User name for resource
 cmix#:#create_lrs_type_form#:#New LRS Type
 cmix#:#create_registration#:#Register your E-Mail address
+cmix#:#cron_xapi_del#:#Delete xAPI/cmi5 data in the Learning Record Store
+cmix#:#cron_xapi_del_desc#:#Data is deleted according to the settings of the xAPI/cmi5 objects.
 cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results
 cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.
 cmix#:#description_info#:#The description will be shown below the title.
@@ -8592,7 +8595,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#The following data record has bee
 dcl#:#dcl_change_notification_dcl_update_record#:#The following data record has been updated
 dcl#:#dcl_change_notification_link#:#Link to the Data Collection
 dcl#:#dcl_change_notification_subject#:#Data Collection ‘%s’ has been changed
-dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this data collection.
 dcl#:#dcl_changed_by#:#Changed by
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_comments#:#Comments
@@ -8674,7 +8676,6 @@ dcl#:#dcl_formula_desc#:#You can aggregate several entries in a record with a fo
 dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.
 dcl#:#dcl_height#:#Height in Pixels
 dcl#:#dcl_height_desc#:#The height of the file will be reduced to this value during upload.
-dcl#:#dcl_hello#:#Dear
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#The internal ID.
 dcl#:#dcl_ilias_reference#:#Repository Object
@@ -8696,7 +8697,7 @@ dcl#:#dcl_learning_progress#:#Learning Progress
 dcl#:#dcl_learning_progress_desc#:#Show each user their own learning progress for the selected object.
 dcl#:#dcl_legend_placeholders#:#Placeholders
 dcl#:#dcl_length#:#Max. Number of Characters
-dcl#:#dcl_length_info#:#Number of characters a user can enter (maximum 4000). For more than 200 characters, please activate the additional option ‘Multiline Text Field’.
+dcl#:#dcl_length_info#:#Number of characters a user can enter. Above 200 the input will be displayed as multiline.
 dcl#:#dcl_limit_end#:#End
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limited#:#Limited Add / Edit / Delete Period
@@ -8710,7 +8711,7 @@ dcl#:#dcl_locked_tooltip#:#Disable this field for users to edit. Does not includ
 dcl#:#dcl_manage#:#Manage
 dcl#:#dcl_max_digits#:#Maximum Number of Digits
 dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
-dcl#:#dcl_max_text_length#:#Maximum Length
+dcl#:#dcl_max_text_length#:#Maximum Length: %s
 dcl#:#dcl_mob#:#Image, Audio, Video
 dcl#:#dcl_mob_desc#:#Allow users to upload a media file which will be displayed within the data collection. Allowed data types: %s
 dcl#:#dcl_msg_field_modified#:#Field updated
@@ -8731,7 +8732,6 @@ dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_new_field#:#New Field
 dcl#:#dcl_new_table#:#New Table
 dcl#:#dcl_next_record#:#Next Entry
-dcl#:#dcl_no_content_warning#:#Please note: the data collection is online but does not yet have any fields.
 dcl#:#dcl_no_entries#:#Action not permitted
 dcl#:#dcl_no_entry#:#No entry
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.
@@ -8753,6 +8753,8 @@ dcl#:#dcl_noturl_exception#:#Please enter a link (beginning with http:// or www.
 dcl#:#dcl_number#:#Integer
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). Decimals and fractions are not allowed.
 dcl#:#dcl_online_info#:#Publish the data collection and enable all users with the permissions ‘Read’ and ‘Add/Edit Entry’ to use it. If not set to ‘Online’, only users with the permission ‘Edit Settings’ can access this object.
+dcl#:#dcl_open_detail_view#:#Open detail view
+dcl#:#dcl_open_url#:#Open link
 dcl#:#dcl_order#:#Order
 dcl#:#dcl_origin_not_found#:#Origin field was not found!
 dcl#:#dcl_own_entries#:#Only own entries
@@ -8838,7 +8840,6 @@ dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following
 dcl#:#dcl_tableviews_of_X#:#Views of table %s
 dcl#:#dcl_tableviews_table#:#Views of Selected Table
 dcl#:#dcl_text#:#Text Entry
-dcl#:#dcl_text_area#:#Multiline Text Field
 dcl#:#dcl_text_desc#:#A text field for text, links or e-mail addresses.
 dcl#:#dcl_text_email_detail_desc#:#Please enter a valid URL or E-Mail address.
 dcl#:#dcl_text_email_title#:#Title
@@ -16316,7 +16317,7 @@ survey#:#SurveyTextQuestion#:#Essay
 survey#:#add_heading#:#Add Heading
 survey#:#already_completed_survey#:#You have already completed the survey. It is not possible to take part in a survey a second time.
 survey#:#anonymization#:#Anonymisation
-survey#:#anonymize_anonymous_introduction#:#To gain access to this survey, you need to use a survey code comprised of 5 characters. This can be obtained from the person conducting this survey.<br />Please enter your code in the text field above.
+survey#:#anonymize_anonymous_introduction#:#To gain access to this survey, you need to use a survey code comprised of 5 characters. This can be obtained from the person conducting this survey. Please enter your code in the field that appears after clicking on ‘Start Survey’.
 survey#:#answer#:#Answer
 survey#:#arithmetic_mean#:#Arithmetic Mean
 survey#:#browse_for_questions#:#Add From Pool
@@ -16658,7 +16659,7 @@ survey#:#survey_auto_block_title#:#Page Header
 survey#:#survey_available_question_pools#:#Available Pools
 survey#:#survey_calc_skills#:#Determine Competence Levels
 survey#:#survey_calculate_sum_score#:#Calculate Sum Score
-survey#:#survey_calculate_sum_score_info#:#Calculates the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Caution: If participants skip these kind of questions, the whole sum score will not be calculated anymore.
+survey#:#survey_calculate_sum_score_info#:#Calculate the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Please note: If a participant skips any of these types of questions, their sum score will not be calculated.
 survey#:#survey_cancel_preview#:#Exit Preview
 survey#:#survey_cannot_preview_survey#:#Preview not available.
 survey#:#survey_code#:#Survey Access Code
@@ -16761,7 +16762,7 @@ survey#:#survey_sync_success#:#The selected questions have been updated.
 survey#:#survey_up_to_x_points#:#Up to x points
 survey#:#survey_use_start_button#:#To take part in the survey, you need to use the start button.
 survey#:#svy_activation_limited_visibility_info#:#Allow users to always see the title of the survey and its period of availability. The survey questions themselves will still only be accessible during the indicated period of availability.
-survey#:#svy_activation_online_info#:#Only if a survey is online, users can participate in it.
+survey#:#svy_activation_online_info#:#Users can only participate in a survey if it is online.
 survey#:#svy_add_internal_user#:#Add User Manually
 survey#:#svy_add_internal_user_info#:#Add someone as a rater who is a registered user on this platform.
 survey#:#svy_add_rater#:#Add Rater
@@ -16859,7 +16860,7 @@ survey#:#svy_reminder_mail_template#:#Mail Template
 survey#:#svy_reminder_mail_template_none#:#Do not use mail template
 survey#:#svy_result_mail_notification_info#:#When a participant finishes the survey, their answers will be sent to selected recipients.
 survey#:#svy_results#:#Results
-survey#:#svy_results_mail_confirm#:#Participants can request participation confirmation
+survey#:#svy_results_mail_confirm#:#Confirmation of Participation
 survey#:#svy_results_mail_confirm_info#:#Enable participants to request a mail confirming their participation in the survey upon completion.
 survey#:#svy_results_mail_own#:#Include Given Answers
 survey#:#svy_results_mail_own_info#:#The answers given by the participant will be included in their participation confirmation mail.

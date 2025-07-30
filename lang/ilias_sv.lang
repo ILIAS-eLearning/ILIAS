@@ -747,6 +747,7 @@ assessment#:#finish_pass_for_user_confirmation#:#Vill du verkligen avsluta testk
 assessment#:#finish_pass_for_user_in_processing_time#:#VARNING
 assessment#:#finish_test#:#Avsluta test
 assessment#:#finish_test_all#:#Are you sure you want to finish the test attempts for all users?###28 10 2024 new variable
+assessment#:#finish_test_more_than_one_selected#:#Only a single participant may be selected to finish the pass if the test allows only one pass.###18 07 2025 new variable
 assessment#:#finish_test_multiple#:#Are you sure you want to finish the test attempts for the following participants?###28 10 2024 new variable
 assessment#:#finish_test_no_valid_participants_selected#:#There are no active test runs for the selected participants, so they cannot be completed.###21 05 2025 new variable
 assessment#:#finish_test_single#:#Are you sure you want to finish the test attempt for the participant "%s"?###28 10 2024 new variable
@@ -1227,7 +1228,6 @@ assessment#:#scoringadjust#:#postkorrigering
 assessment#:#search_groups#:#efter grupper
 assessment#:#search_roles#:#Efter rullar
 assessment#:#search_term#:#Sökord
-assessment#:#search_users#:#av användare
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#Please Select at least one type of feedback and a trigger.###26 08 2024 new variable
 assessment#:#select_gap#:#Selektionsgap
 assessment#:#select_max_one_item#:#Välj endast ett objekt!
@@ -3272,6 +3272,8 @@ cmix#:#content_privacy_ident#:#Identifiering av användare
 cmix#:#content_privacy_name#:#Login namn
 cmix#:#create_lrs_type_form#:#Ny typ av dyslexi
 cmix#:#create_registration#:#Registrera din e-postadress
+cmix#:#cron_xapi_del#:#Delete xAPI/cmi5 data in the Learning Record Store###18 07 2025 new variable
+cmix#:#cron_xapi_del_desc#:#Data is deleted according to the settings of the xAPI/cmi5 objects.###18 07 2025 new variable
 cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 Få resultat
 cmix#:#cron_xapi_results_evaluation_desc#:#Frågar efter alla xAPI-resultat från Learning Record Store för objekt som inte stöder ILIAS xAPI-proxy.
 cmix#:#description_info#:#Beskrivningen visas under titeln.
@@ -4384,10 +4386,12 @@ common#:#il_grp_admin#:#Gruppadministratör
 common#:#il_grp_member#:#Gruppmedlem
 common#:#il_grp_status_closed#:#Sluten grupp
 common#:#il_grp_status_open#:#Öppen grupp
+common#:#il_iass_member#:#Participant###18 07 2025 new variable
 common#:#il_lso_admin#:#Administratör för inlärningssekvenser
 common#:#il_lso_member#:#Lärande Sekvens Medlem
 common#:#il_lti_instructor#:#LTI Instruktör
 common#:#il_lti_learner#:#LTI Lärare
+common#:#il_lti_user#:#LTI User###18 07 2025 new variable
 common#:#il_orgu_employee#:#Anställda
 common#:#il_orgu_superior#:#Supervisor Manager###Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
 common#:#ilias_version#:#ILIAS version
@@ -5571,6 +5575,7 @@ common#:#search_new#:#Ny sökning
 common#:#search_result#:#Sökresultat
 common#:#search_results#:#Sökresultat
 common#:#search_user#:#Sök användare
+common#:#search_users#:#Look Up Users###18 07 2025 new variable
 common#:#seas_max_hits#:#Maximalt antal träffar
 common#:#seas_max_hits_info#:#Ställ in det maximala antalet sökresultat som ska visas efter en sökfråga. Ju lägre antal, desto snabbare laddas sidan.
 common#:#seas_settings#:#Sökinställningar
@@ -6391,12 +6396,7 @@ content#:#cont_dir_renamed#:#Katalogen har bytt namn.
 content#:#cont_disable_def_feedback#:#Avaktivera standardåterkoppling
 content#:#cont_disable_def_feedback_info#:#Standardåterkopplingen för en fråga visas inte efter att du har besvarat en fråga.
 content#:#cont_download#:#Ladda ner
-content#:#cont_download_no_download#:#Nedladdningsfunktionen är för närvarande avaktiverad. Därför erbjuds inte filen till elever.
-content#:#cont_download_no_menu#:#Menyn för utbildningsmodulen är för närvarande inaktiverad. Därför erbjuds inte filen till elever.
 content#:#cont_download_title#:#Ladda ner filens titel
-content#:#cont_downloads#:#Ladda ner
-content#:#cont_downloads_desc#:#Fliken "Ladda ner" visas i presentationsvyn. Skapa en exportfil på fliken "Export" och dela den för allmän åtkomst. Sedan kan användare ladda ner delade exportfiler, till exempel för offline-användning eller import till en annan ILIAS-installation.
-content#:#cont_downloads_public_desc#:#Tillåter nedladdning även för icke inloggade användare (allmänt område)
 content#:#cont_drag_and_drop_elements#:#<b>Dra</b> ett sidelement till en platshållare med musen för att <b>flytta</b> det.
 content#:#cont_drag_element_click_save#:#Flytta elementet till önskad position och klicka sedan på "Spara".
 content#:#cont_ed_align_center#:#Rikta in centrum
@@ -6812,7 +6812,6 @@ content#:#cont_nlist#:#Numrerad lista
 content#:#cont_no_access#:#Ingen åtkomst
 content#:#cont_no_block#:#Inget block
 content#:#cont_no_caption#:#Ingen legend
-content#:#cont_no_download_file_available#:#Ingen offentlig nedladdningsfil är för närvarande tillgänglig.
 content#:#cont_no_glossary#:#Ingen ordlista
 content#:#cont_no_manifest#:#Ingen fil med namnet imsmanifest.xml hittades i rotkatalogen.
 content#:#cont_no_page#:#Ingen sida hittades
@@ -8583,7 +8582,6 @@ dcl#:#dcl_add_new_table#:#Lägg till ny tabell
 dcl#:#dcl_add_new_view#:#Lägg till ny vy
 dcl#:#dcl_add_perm#:#Lägg till ny post
 dcl#:#dcl_add_perm_desc#:#Användare kan skapa poster i den här tabellen.
-dcl#:#dcl_additional_info_desc#:#Texten visas direkt ovanför tabellen.
 dcl#:#dcl_all_entries#:#Alla poster
 dcl#:#dcl_any#:#Alla
 dcl#:#dcl_asc#:#Stigande ordning (ASC)
@@ -8626,8 +8624,8 @@ dcl#:#dcl_date_selection#:#Meny för val av datum
 dcl#:#dcl_date_selection_desc#:#Ange alternativ för urval (datum)
 dcl#:#dcl_deactivate_view#:#Inaktivera mall för enskild vy
 dcl#:#dcl_default_sort_field#:#Sortering
-dcl#:#dcl_default_sort_field_desc#:#Som standard sorteras tabellen efter det valda fältet.
 dcl#:#dcl_default_sort_field_order#:#Sorteringsriktning
+dcl#:#dcl_default_sort_field_order_desc#:#Arrange the order of the entries in the table based on this field.###18 07 2025 new variable
 dcl#:#dcl_delete_fields#:#Radera fält
 dcl#:#dcl_delete_fields_no_selection#:#Minst ett fält måste vara markerat för borttagning
 dcl#:#dcl_delete_perm#:#Radera poster
@@ -8743,6 +8741,7 @@ dcl#:#dcl_no_fields_yet#:#Inga fält har skapats för denna tabell ännu, så in
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Du har inte läsbehörighet till någon standardtabellvy.
 dcl#:#dcl_no_search_results_found_for#:#Inga moduler hittades med
 dcl#:#dcl_no_such_reference#:#Följande värde finns inte i referenstabellen
+dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
 dcl#:#dcl_not_checked#:#Inte vald
 dcl#:#dcl_not_supported_in_import#:#Den här fälttypen stöds inte under import.
 dcl#:#dcl_notification_activate_dcl#:# Aktivera avisering
@@ -8762,7 +8761,6 @@ dcl#:#dcl_owner#:#Own entry by ###Modifierad som en del av arbetet med att integ
 dcl#:#dcl_owner_description#:#Own entries always remain visible.###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
 dcl#:#dcl_owner_name#:#Possessed by (namn)
 dcl#:#dcl_page_type_dclf#:#Detaljerad vy
-dcl#:#dcl_permissions_form#:#Tillstånd för denna tabell
 dcl#:#dcl_please_select#:#--- Vänligen välj ---
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection Fälttillägg
@@ -8778,6 +8776,7 @@ dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#Följande RBAC-r
 dcl#:#dcl_record#:#inträde
 dcl#:#dcl_record_deleted#:#Ingång raderad
 dcl#:#dcl_record_from_total#:#%d från %d
+dcl#:#dcl_record_settings#:#Record Settings###18 07 2025 new variable
 dcl#:#dcl_reference#:#Hänvisning
 dcl#:#dcl_reference_desc#:#Ange urvalsalternativ som underhålls i ett annat fält i en tabell
 dcl#:#dcl_reference_link#:#Visa som en länk till den refererade posten
@@ -8815,6 +8814,7 @@ dcl#:#dcl_table_edit#:#Spara
 dcl#:#dcl_table_id#:#Tabeller ID
 dcl#:#dcl_table_list_fields#:#Fält i den valda tabellen
 dcl#:#dcl_table_list_tables#:#Tillgängliga tabeller
+dcl#:#dcl_table_settings#:#Table Settings.###18 07 2025 new variable
 dcl#:#dcl_table_settings_saved#:#Bordsinställningarna har sparats.
 dcl#:#dcl_table_title_not_matching#:#Titlarna på Excel-arbetsbladet och tabellen i datainsamlingen stämmer inte överens. Byt namn på kalkylbladet för att utföra en korrekt import.
 dcl#:#dcl_table_title_unique#:#Det finns redan en tabell med denna titel. Titeln måste vara unik.
@@ -9239,6 +9239,7 @@ etal#:#notification_talks_subject#:#Datum inbjudan
 etal#:#notification_talks_subject_update#:#Uppdatering av datum
 etal#:#notification_talks_updated#:#Följande mötesdatum har justerats.
 etal#:#pending_talks_warning#:#Följande utestående intervjutillsättningar kommer att ersättas
+etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###18 07 2025 new variable
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Lägg till konversationer
 etal#:#tals_new#:#Nya samtalsserier
@@ -9581,7 +9582,6 @@ exc#:#exc_select_blog#:#Använd befintlig blogg
 exc#:#exc_select_blog_change#:#Använd andra bloggar
 exc#:#exc_select_blog_info#:#Välj en av dina bloggar att använda i detta övningstillfälle.
 exc#:#exc_select_blog_unlink#:#Remove Blog###26 08 2024 new variable
-exc#:#exc_select_part#:#Välj deltagare
 exc#:#exc_select_portfolio#:#Använd befintlig portfölj
 exc#:#exc_select_portfolio_change#:#Använd annan portfölj
 exc#:#exc_select_portfolio_info#:#Välj en av dina portföljer att använda i detta övningspass.
@@ -10514,6 +10514,11 @@ help#:#help_tooltips_and_help#:#Tooltips och instruktioner för åtgärder
 help#:#help_tooltips_only#:#Endast verktygstips
 help#:#help_topcis#:#Ämnen
 help#:#help_tt_text#:#Text
+htlm#:#file_import_from_upload_dir_failed#:#File from Upload-Directory not imported###18 07 2025 new variable
+htlm#:#file_imported_from_upload_dir#:#File imported from Upload-Directory###18 07 2025 new variable
+htlm#:#import_from_upload_dir#:#Import from Upload-Directory###18 07 2025 new variable
+htlm#:#import_from_upload_dir_file_name#:#Filename###18 07 2025 new variable
+htlm#:#import_from_upload_dir_info#:#Please select file for import###18 07 2025 new variable
 iass#:#download_assessment_paper#:#Ladda ner tentamensblad
 iass#:#grading#:#Rating
 iass#:#grading_info#:#Information om utvärdering
@@ -10596,7 +10601,6 @@ iass#:#iass_usr_download_attachment#:#Ladda ner fil
 iass#:#iass_usr_edit#:#Rating
 iass#:#iass_usr_remove#:#Remove
 iass#:#iass_usr_view#:#Datum för tentamen
-iass#:#il_iass_member#:#Deltagare
 iass#:#il_iass_members#:#Deltagare
 iass#:#lp_inactive#:#Titta på
 iass#:#save_amend#:#Spara ändrade tentamensdata
@@ -10668,7 +10672,6 @@ itgr#:#itgr_desc_info#:#Beskrivningen visas inte när objektblocket visas.
 itgr#:#itgr_edit#:#Inställningar för objektblocket
 itgr#:#itgr_expandable_closed#:#Fold-out (ursprungligen stängd)
 itgr#:#itgr_expandable_open#:#Fold-out (inledningsvis öppen)
-itgr#:#itgr_hide_title#:# Dölj titel
 itgr#:#itgr_item#:#Objekt som kan inkluderas
 itgr#:#itgr_list#:#Lista
 itgr#:#itgr_list_default#:#Standard
@@ -11083,6 +11086,7 @@ lso#:#lso_player_abstract#:#Till inledningen
 lso#:#lso_player_extro#:#Till den avslutande sidan
 lso#:#lso_player_finish#:#Utgång
 lso#:#lso_player_next#:#Fortsättning
+lso#:#lso_player_noitems#:#There are no available items in this Learning Sequence.###18 07 2025 new variable
 lso#:#lso_player_previous#:#Tillbaka
 lso#:#lso_player_resume#:#Återuppta inlärningssekvensen
 lso#:#lso_player_review#:#Se över inlärningssekvensen
@@ -11366,6 +11370,7 @@ lti#:#lti_object_consumer#:#LTI konsumenter
 lti#:#lti_object_release_settings_form#:#Redigera LTI-utgåvor
 lti#:#lti_provider#:#LTI-utgåvor
 lti#:#lti_provider_not_avail_msg#:#LTI leverantör eller verktyg är inställt på "Ej tillgängligt".
+lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###18 07 2025 new variable
 lti#:#lti_providing_tab#:#ILIAS som LTI-leverantör/verktyg
 lti#:#lti_released_objects#:#Utsläpp av objekt
 lti#:#lti_select_provider#:#Välj leverantör eller verktyg
@@ -13352,6 +13357,7 @@ prg#:#auto_membership_src_type#:#Typ
 prg#:#auto_membership_title#:#Källor för automatisk tilldelning
 prg#:#auto_memberships#:#Automatisk tilldelning
 prg#:#category#:#Kategori
+prg#:#cert_relevance#:#Certificate###18 07 2025 new variable
 prg#:#completion_date#:#Datum för stängning
 prg#:#confirm_to_remove_selected_assignments#:#Verkligen ta bort användartilldelning(ar)?
 prg#:#cont_ed_insert_prgactionnote#:#Insert Study Programme Action Note###21 11 2023 new variable
@@ -13840,6 +13846,8 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minsta lösenords
 ps#:#ps_export_admin#:#Administratörer
 ps#:#ps_export_confirm#:#Consent för nya medlemmar att se sina personliga profildata när de går med i en kurs.
 ps#:#ps_export_confirm_group#:#Samtycke för nya medlemmar som går med i gruppen att tillåta gruppledningen att se deras personliga profildata.
+ps#:#ps_export_confirm_group_info#:#When joining a group, users are required to accept that their personal data can be viewed by the group admins.###18 07 2025 new variable
+ps#:#ps_export_confirm_info#:#When joining a course, users are required to accept that their personal data can be viewed by the course admins.###18 07 2025 new variable
 ps#:#ps_export_course#:#Tillåt export av personuppgifter från kurser
 ps#:#ps_export_data#:#Personliga profiluppgifter
 ps#:#ps_export_excel#:#Starta Excel-export
@@ -14266,6 +14274,10 @@ rbac#:#grps_edit_permission#:#Ändra rättighetsinställningar för gruppadminis
 rbac#:#grps_read#:#Läsa åtkomst till gruppadministration
 rbac#:#grps_visible#:#Gruppadministration är synlig
 rbac#:#grps_write#:#Redigera inställningar i gruppadministration
+rbac#:#gsfo_edit_permission#:#User can change permission settings in Footer administration###18 07 2025 new variable
+rbac#:#gsfo_read#:#User has read access to Footer administration###18 07 2025 new variable
+rbac#:#gsfo_visible#:#Footer administration is visible###18 07 2025 new variable
+rbac#:#gsfo_write#:#Edit settings in Footer administration###18 07 2025 new variable
 rbac#:#hlps_edit_permission#:#Ändra rättighetsinställningar för administrationen.av online-hjälpen
 rbac#:#hlps_read#:#Läs åtkomst till administrationen av onlinehjälpen
 rbac#:#hlps_visible#:#Administrationen av onlinehjälpen är synlig.
@@ -15506,7 +15518,6 @@ search#:#search_user#:#Användare
 search#:#search_user_extended#:#Avancerad användarsökning
 search#:#search_user_search_form#:#Global sökning av användare
 search#:#search_user_search_info_form#:#Login-konton kan hittas i den globala sökningen. Om Lucene-fulltextsökningen är aktiverad ingår även profildata i indexet.
-search#:#search_users#:#Sök användare
 search#:#select_orgu#:#Välj organisatoriska enheter
 search#:#until#:#till
 search#:#user_search_settings_section#:#User Search in 'Member'-tabs###21 05 2025 new variable
@@ -16561,7 +16572,6 @@ survey#:#saved_messages#:#Tillgängliga meddelandetexter
 survey#:#scale#:#Skala
 survey#:#search_groups#:#Grupper
 survey#:#search_term#:#Sökord(er)
-survey#:#search_users#:#Sök användare
 survey#:#select_option#:#--- Vänligen välj ett svar ---.
 survey#:#select_prior_question#:#Välj en tidigare fråga
 survey#:#select_questionpool#:#Var vänlig ange en frågepool som du tilldelar den nyskapade frågan till
@@ -17082,7 +17092,6 @@ trac#:#read_count_avg#:#Genomsnittliga sidvisningar
 trac#:#registration_filter#:#Datum för registrering
 trac#:#search_area_info#:#Vänligen välj ett objekt.
 trac#:#search_terms#:#Sökord(er)
-trac#:#select_one#:#Vänligen välj ett objekt.
 trac#:#session_statistics#:#Statistik över sessionen
 trac#:#trac_aggregation#:#Aggregering
 trac#:#trac_all#:#Alla
@@ -17550,6 +17559,7 @@ validation#:#not_min_length#:#Din inmatning har en längd på %d och är därfö
 validation#:#not_numeric#:#'%s' är inte numeriskt.
 validation#:#not_numeric_empty_string#:#Din inmatning är inte numerisk.
 validation#:#numeric_only#:#Please insert a whole number.###26 08 2024 new variable
+validation#:#required#:#This input is required.###18 07 2025 new variable
 validation#:#tag_required#:#Please insert at least one tag.###26 08 2024 new variable
 violation#:#not_a_string#:#Värdet är inte en sträng
 webr#:#invalid_links_tbl#:#Ogiltiga länkar

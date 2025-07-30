@@ -1228,7 +1228,6 @@ assessment#:#scoringadjust#:#Nachkorrektur
 assessment#:#search_groups#:#nach Gruppen
 assessment#:#search_roles#:#nach Rollen
 assessment#:#search_term#:#Suchbegriff
-assessment#:#search_users#:#nach Benutzern
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#Bitte mindestens eine Art der Rückmeldung und einen Auslöser auswählen.
 assessment#:#select_gap#:#Auswahl-Lücke
 assessment#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus!
@@ -2592,6 +2591,7 @@ book#:#book_bulk_creation#:#Massenerstellung
 book#:#book_bulk_data#:#Daten zu Angeboten
 book#:#book_cal_entry#:#Buchung:
 book#:#book_confirm_booking#:#Buchung vornehmen
+book#:#book_confirm_booking_for_users#:#Sind Sie sicher, dass Sie dieses Angebot für die folgenden Teilnehmer buchen wollen?
 book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Angebot buchen wollen?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Buchungsbestätigung
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Bitte wählen Sie die Anzahl der zu buchenden Angebote.
@@ -3243,9 +3243,9 @@ cmix#:#conf_privacy_setting_info#:#Konfigurationsoptionen für die Datenschutzei
 cmix#:#conf_remarks#:#Interne Kommentare
 cmix#:#conf_title#:#Titel
 cmix#:#conf_use_proxy#:#xAPI-Proxy
-cmix#:#conf_use_proxy_info#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cron-Job „xAPI/cmi5 Ergebnisse holen“. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich und wird automatisch aktiviert.
+cmix#:#conf_use_proxy_info#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cron-Job „xAPI/cmi5-Ergebnisse holen“. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich und wird automatisch aktiviert.
 cmix#:#conf_use_proxy_info_cmi5#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich.
-cmix#:#conf_use_proxy_info_xapi#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cron-Job „xAPI/cmi5 Ergebnisse holen“.
+cmix#:#conf_use_proxy_info_xapi#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cron-Job „xAPI/cmi5-Ergebnisse holen“.
 cmix#:#conf_user_ident#:#Schlüssel zur Identifikation einer Person
 cmix#:#conf_user_ident_il_uuid_ext_account#:#ID-externes-Konto@ILIAS-Plattform-ID.ilias
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Die E-Mail-Adresse setzt sich zusammen aus der ID eines externen Kontos und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf die Person.zulassen.
@@ -3273,7 +3273,9 @@ cmix#:#content_privacy_ident#:#Identifikation der Person
 cmix#:#content_privacy_name#:#Anmeldename
 cmix#:#create_lrs_type_form#:#Neuer Learning Record Store Typ
 cmix#:#create_registration#:#Registrieren Sie Ihre E-Mail-Adresse
-cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 Ergebnisse holen
+cmix#:#cron_xapi_del#:#xAPI/cmi5-Daten im Learning Record Store löschen
+cmix#:#cron_xapi_del_desc#:#Daten werden gemäß den Einstellungen der xAPI/cmi5-Objekte gelöscht.
+cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5-Ergebnisse holen
 cmix#:#cron_xapi_results_evaluation_desc#:#Fordert alle xAPI-Ergebnisse aus dem Learning Record Store für Objekte an, die den ILIAS xAPI-Proxy nicht unterstützen.
 cmix#:#description_info#:#Die Beschreibung wird unterhalb des Titels angezeigt.
 cmix#:#download_certificate#:#Zertifikat herunterladen
@@ -5574,6 +5576,7 @@ common#:#search_new#:#Neue Suche
 common#:#search_result#:#Suchergebnis
 common#:#search_results#:#Suchergebnisse
 common#:#search_user#:#Benutzer suchen
+common#:#search_users#:#Look Up Users###18 07 2025 new variable
 common#:#seas_max_hits#:#Maximalanzahl von Treffern
 common#:#seas_max_hits_info#:#Stellen Sie hier die Maximalanzahl von Suchergebnissen ein, die nach einer Suchanfrage ausgegeben werden. Je geringer die Zahl ist, desto schneller erfolgt der Seitenaufbau.
 common#:#seas_settings#:#Sucheinstellungen
@@ -8591,7 +8594,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Eintrag wurde erzeug
 dcl#:#dcl_change_notification_dcl_update_record#:#Der folgende Eintrag wurde aktualisiert
 dcl#:#dcl_change_notification_link#:#Zur Datensammlung gehen
 dcl#:#dcl_change_notification_subject#:#Die Datensammlung „%s“ wurde bearbeitet.
-dcl#:#dcl_change_why_you_receive_this_email#:#Sie erhalten diese Nachricht, weil Sie die Benachrichtigungsfunktion für die oben genannte Datensammlung aktiviert haben.
 dcl#:#dcl_changed_by#:#Letzte Änderung durch
 dcl#:#dcl_checked#:#Ausgewählt
 dcl#:#dcl_comments#:#Kommentare
@@ -8673,7 +8675,6 @@ dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Fo
 dcl#:#dcl_formula_detail_desc#:#Einträge in diesem Feld generieren sich automatisch. Sie können hier keinen Eintrag vornehmen.
 dcl#:#dcl_height#:#Höhe in Pixel
 dcl#:#dcl_height_desc#:#Die Datei wird beim Upload auf diese Größe verkleinert.
-dcl#:#dcl_hello#:#Hallo
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Die interne ID.
 dcl#:#dcl_ilias_reference#:#Objekt im Magazin
@@ -8695,7 +8696,7 @@ dcl#:#dcl_learning_progress#:#Lernfortschritt
 dcl#:#dcl_learning_progress_desc#:#Der Lernfortschritt der betrachtenden Person wird angezeigt.
 dcl#:#dcl_legend_placeholders#:#Platzhalter
 dcl#:#dcl_length#:#Maximale Zeichenanzahl
-dcl#:#dcl_length_info#:#Anzahl von Zeichen, die ein Benutzer eingeben kann (Maximal 4000). Bei mehr als 200 Zeichen aktivieren Sie zusätzlich die Option „Mehrzeiliges Texteingabefeld“.
+dcl#:#dcl_length_info#:#Anzahl von Zeichen, die ein Benutzer eingeben kann. Über 200 wird die Eingabe mehrzeilig dargestellt.
 dcl#:#dcl_limit_end#:#Ende
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limited#:#Zeitlich begrenzte Bearbeitung
@@ -8709,7 +8710,7 @@ dcl#:#dcl_locked_tooltip#:#Ein gesperrtes Feld lässt sich von Benutzern nicht m
 dcl#:#dcl_manage#:#Verwalten
 dcl#:#dcl_max_digits#:#Maximale Anzahl Ziffern
 dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze wurde überschritten.
-dcl#:#dcl_max_text_length#:#Maximale Länge
+dcl#:#dcl_max_text_length#:#Maximale Länge: %s
 dcl#:#dcl_mob#:#Bild, Audio, Video
 dcl#:#dcl_mob_desc#:#Hochgeladene Datei wird direkt in der Datensammlung präsentiert. Erlaubte Dateitypen: %s
 dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert.
@@ -8730,7 +8731,6 @@ dcl#:#dcl_new#:#Neue Datensammlung anlegen
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_next_record#:#Nächster Eintrag
-dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Felder
 dcl#:#dcl_no_entries#:#Keine Einträge
 dcl#:#dcl_no_entry#:#Kein Eintrag
 dcl#:#dcl_no_export_async_config#:#Keine SOAP Konfiguration für asyncrone Exporte verfügbar.
@@ -8752,6 +8752,8 @@ dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// o
 dcl#:#dcl_number#:#Ganze Zahlen
 dcl#:#dcl_number_desc#:#Eingabe ganzer Zahlen mit bis zu 9 Ziffern. Nicht erlaubt sind Brüche und Dezimalzahlen.
 dcl#:#dcl_online_info#:#Datensammlung ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff" und „Eintragen" genutzt werden. Andernfalls ist das Objekt nur für Personen mit dem Recht „Einstellungen bearbeiten" verfügbar.
+dcl#:#dcl_open_detail_view#:#Detailansicht öffnen
+dcl#:#dcl_open_url#:#Link öffen
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_origin_not_found#:#Urprungsfeld konnte nicht gefunden werden!
 dcl#:#dcl_own_entries#:#Nur eigene Einträge
@@ -8837,7 +8839,6 @@ dcl#:#dcl_tableviews_confirm_delete#:#Sind Sie sicher, dass die folgenden Ansich
 dcl#:#dcl_tableviews_of_X#:#Ansichten der Tabelle %s
 dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
 dcl#:#dcl_text#:#Texteingabe
-dcl#:#dcl_text_area#:#Mehrzeiliges Texteingabefeld
 dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
 dcl#:#dcl_text_email_detail_desc#:#Bitte geben Sie eine gültige E-Mail-Adresse oder eine URL ein.
 dcl#:#dcl_text_email_title#:#Titel
@@ -9337,7 +9338,7 @@ exc#:#exc_ended_on#:#Beendet am
 exc#:#exc_export_excel#:#Export (Excel)
 exc#:#exc_fb_files#:#Bewertungsdateien
 exc#:#exc_fb_tutor_info#:#Wird eine Datei zur Bewertung der Übungseinheit hochgeladen, erhält die Teilnehmerin oder der Teilnehmer eine Benachrichtigung und kann dann in der Übersicht der Übungseinheiten heruntergeladen und eingesehen werden.
-exc#:#exc_feedback#:#Feedback
+exc#:#exc_feedback#:#Rückmeldungen
 exc#:#exc_feedback_notification_body#:#Das Feedback zur folgenden Übungseinheit wurde freigeschaltet.
 exc#:#exc_feedback_notification_link#:#Link zur Übung
 exc#:#exc_feedback_notification_reason#:#Sie erhalten diese Nachricht, da Sie ein Teilnehmer der oben genannten Übung sind.
@@ -9480,7 +9481,7 @@ exc#:#exc_peer_review_completion_none_info#:#Die Übungseinheit wird automatisch
 exc#:#exc_peer_review_completion_one#:#Mindestens ein Feedback
 exc#:#exc_peer_review_completion_one_info#:#Die Übungseinheit wird automatisch auf "Bestanden" gesetzt, nachdem eine Lösung eingereicht wurde und mindestens ein Feedback gegeben wurde.
 exc#:#exc_peer_review_deadline#:#Feedback geben bis
-exc#:#exc_peer_review_deadline_info#:#Bis zu diesem Termin können Bewertungen abgegeben werden. Anschließend ist das erhaltene Feedback einsehbar.
+exc#:#exc_peer_review_deadline_info#:#Bis zu diesem Termin kann Feedback abgegeben werden. Anschließend ist das erhaltene Feedback einsehbar.
 exc#:#exc_peer_review_deadline_info_button#:#Endtermin: %s
 exc#:#exc_peer_review_deadline_reached#:#Feedback-Zeit ist abgelaufen.
 exc#:#exc_peer_review_file#:#Datei-Upload
@@ -9505,7 +9506,7 @@ exc#:#exc_peer_review_overview#:#Peer-Gruppen anzeigen
 exc#:#exc_peer_review_overview_invalid_users#:#Ungültige Benutzer
 exc#:#exc_peer_review_personal#:#Personalisiertes Peer-Feedback
 exc#:#exc_peer_review_personal_info#:#Peers werden mit vollem Namen gezeigt
-exc#:#exc_peer_review_rating#:#Bewertung
+exc#:#exc_peer_review_rating#:#5-Sterne-Bewertung
 exc#:#exc_peer_review_recipient#:#Feedback-Nehmer
 exc#:#exc_peer_review_reset#:#Peer-Feedback löschen und zurücksetzen
 exc#:#exc_peer_review_reset_done#:#Sämtliche Peer-Feedback-Daten wurde für die Übungseinheit gelöscht.
@@ -9513,10 +9514,10 @@ exc#:#exc_peer_review_reset_sure#:#Wollen Sie wirklich das komplette Peer-Feedba
 exc#:#exc_peer_review_show#:#Erhaltenes Feedback zeigen
 exc#:#exc_peer_review_show_missing#:#Sie können das erhaltene Feedback nicht einsehen, da Sie zu wenig Feedback gegeben haben.
 exc#:#exc_peer_review_show_received_none#:#Sie haben kein Feedback erhalten.
-exc#:#exc_peer_review_simple_unlock#:#Anzeige der erhaltenen Bewertungen
-exc#:#exc_peer_review_simple_unlock_active#:#Nach Abgabe einer Bewertung
-exc#:#exc_peer_review_simple_unlock_immed#:#Erhaltene Feedbacks immer anzeigen
-exc#:#exc_peer_review_simple_unlock_inactive#:#Nach Abgabe aller Bewertungen
+exc#:#exc_peer_review_simple_unlock#:#Anzeige des erhaltenen Feedbacks
+exc#:#exc_peer_review_simple_unlock_active#:#Direkt nach erstem abgegebenen Feedback
+exc#:#exc_peer_review_simple_unlock_immed#:#Erhaltenes Feedback immer anzeigen
+exc#:#exc_peer_review_simple_unlock_inactive#:#Nur wenn die geforderte Anzahl an Feedback gegeben wurde
 exc#:#exc_peer_review_text#:#Texteingabe
 exc#:#exc_peer_review_updated#:#Ihr Feedback wurde gespeichert.
 exc#:#exc_peer_reviews_in_lead_text#:#In %s Feedback geben
@@ -11368,6 +11369,7 @@ lti#:#lti_object_consumer#:#LTI-Konsumenten
 lti#:#lti_object_release_settings_form#:#LTI-Freigaben bearbeiten
 lti#:#lti_provider#:#LTI-Freigaben
 lti#:#lti_provider_not_avail_msg#:#LTI-Provider ist auf „Nicht verfügbar“ gesetzt.
+lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###18 07 2025 new variable
 lti#:#lti_providing_tab#:#ILIAS als LTI-Provider
 lti#:#lti_released_objects#:#Objekt-Freigaben
 lti#:#lti_select_provider#:#Provider auswählen
@@ -14074,14 +14076,14 @@ rbac#:#cmis_edit_permission#:#Rechteeinstellungen der Administration für xAPI/c
 rbac#:#cmis_read#:#Lesezugriff auf Administration für xAPI/cmi5
 rbac#:#cmis_visible#:#Administration für xAPI/cmi5 ist sichtbar.
 rbac#:#cmis_write#:#Einstellungen in Administration für xAPI/cmi5 ändern
-rbac#:#cmix_copy#:#Benutzer kann xAPI/cmi5 Objekt kopieren
+rbac#:#cmix_copy#:#Benutzer kann xAPI/cmi5-Objekt kopieren
 rbac#:#cmix_delete#:#Benutzer kann xAPI/cmi5-Objekt verschieben oder löschen
 rbac#:#cmix_edit_learning_progress#:#Benutzer kann die Einstellungen für den Lernfortschritt bearbeiten
 rbac#:#cmix_edit_permission#:#Benutzer kann Berechtigungseinstellungen ändern
-rbac#:#cmix_read#:#Benutzer kann xAPI/cmi5 Objekt sehen
+rbac#:#cmix_read#:#Benutzer kann xAPI/cmi5-Objekt sehen
 rbac#:#cmix_read_learning_progress#:#Benutzer kann den Lernfortschritt anderer Benutzer einsehen
 rbac#:#cmix_read_outcomes#:#Benutzer kann Lernerfahrungen und das Ranking anderer Benutzer einsehen
-rbac#:#cmix_visible#:#xAPI/cmi5 Objekt ist sichtbar
+rbac#:#cmix_visible#:#xAPI/cmi5-Objekt ist sichtbar
 rbac#:#cmix_write#:#Benutzer kann die Einstellungen des xAPI/cmi5-Objekts bearbeiten
 rbac#:#cmps_edit_permission#:#Rechteeinstellung ändern
 rbac#:#cmps_read#:#Lesezugriff auf Administration für Plugins, Module und Dienste
@@ -15515,7 +15517,6 @@ search#:#search_user#:#Benutzer
 search#:#search_user_extended#:#Erweiterte Benutzersuche
 search#:#search_user_search_form#:#Globale Benutzersuche
 search#:#search_user_search_info_form#:#Anmeldekonten können in der globalen Suche gefunden werden. Sofern die Lucene-Volltextsuche aktiviert ist, werden auch Profildaten in den Index aufgenommen.
-search#:#search_users#:#Benutzer suchen
 search#:#select_orgu#:#Organisationseinheiten auswählen
 search#:#until#:#bis
 search#:#user_search_settings_section#:#Suche im Reiter 'Mitglieder'
@@ -16570,7 +16571,6 @@ survey#:#saved_messages#:#Verfügbare Nachrichtentexte
 survey#:#scale#:#Skala
 survey#:#search_groups#:#Gruppen
 survey#:#search_term#:#Suchbegriff(e)
-survey#:#search_users#:#Benutzer suchen
 survey#:#select_option#:#--- Bitte wählen Sie eine Antwort aus ---
 survey#:#select_prior_question#:#Eine vorherige Frage auswählen
 survey#:#select_questionpool#:#Bitte geben Sie einen Fragenpool an, dem Sie die neu erstellte Frage zuordnen
@@ -17091,7 +17091,6 @@ trac#:#read_count_avg#:#Durchschnitt Seitenaufrufe
 trac#:#registration_filter#:#Registrierungsdatum
 trac#:#search_area_info#:#Bitte wählen Sie ein Objekt aus.
 trac#:#search_terms#:#Suchbegriff(e)
-trac#:#select_one#:#Bitte wählen Sie ein Objekt aus.
 trac#:#session_statistics#:#Session-Statistik
 trac#:#trac_aggregation#:#Aggregation
 trac#:#trac_all#:#Alle
@@ -17819,7 +17818,7 @@ wsp#:#share_content#:#Ressource freigeben
 wsp#:#share_with#:#Anmeldename
 wsp#:#wsp_copy_to_repository#:#Ins Magazin kopieren
 wsp#:#wsp_invalid_password#:#Das Passwort ist ungültig.
-wsp#:#wsp_list_cmxv#:#Zertifikat des xAPI/cmi5 Objekts
+wsp#:#wsp_list_cmxv#:#Zertifikat des xAPI/cmi5-Objekts
 wsp#:#wsp_list_crsv#:#Kurszertifikat
 wsp#:#wsp_list_excv#:#Übungszertifikat
 wsp#:#wsp_list_ltiv#:#Zertifikat des LTI-Konsument-Objekts

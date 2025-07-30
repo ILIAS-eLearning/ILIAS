@@ -146,7 +146,6 @@ class ilCronOerHarvester extends ilCronJob
             $this->lng->txt('meta_oer_copyright_selection'),
             'copyright'
         );
-        $checkbox_group->setRequired(true);
         $checkbox_group->setValue($this->settings->getCopyrightEntryIDsSelectedForHarvesting());
         $checkbox_group->setInfo(
             $this->lng->txt('meta_oer_copyright_selection_info')

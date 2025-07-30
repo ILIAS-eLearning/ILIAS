@@ -1599,19 +1599,17 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             }
             $user->update();
 
-            $target = $user->getPref('reg_target') ?? '';
-            if ($target !== '') {
-                // Used for ilAccountMail in ilAccountRegistrationMail, which relies on this super global ...
-                // @todo: fixme
-                $_GET['target'] = $target;
-            }
-
-            $accountMail = new ilAccountRegistrationMail(
+            $accountMail = (new ilAccountRegistrationMail(
                 $oRegSettings,
                 $this->lng,
                 ilLoggerFactory::getLogger('user')
-            );
-            $accountMail->withEmailConfirmationRegistrationMode()->send($user, $password);
+            ))->withEmailConfirmationRegistrationMode();
+
+            if ($user->getPref('reg_target') ?? '') {
+                $accountMail = $accountMail->withPermanentLinkTarget($user->getPref('reg_target'));
+            }
+
+            $accountMail->send($user, $password);
 
             $this->mainTemplate->setOnScreenMessage(
                 ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
