@@ -50,6 +50,7 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
 
         // general commands array
         $this->commands = ilObjBookingPoolAccess::_getCommands();
+        $this->lng->loadLanguageModule('book');
     }
 
     public function getCommandLink(string $cmd): string

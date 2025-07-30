@@ -3192,7 +3192,7 @@ cmix#:#content_privacy_name#:#User name for resource
 cmix#:#create_lrs_type_form#:#New LRS type
 cmix#:#create_registration#:#Register your E-Mail address
 cmix#:#cron_xapi_del#:#Delete xAPI/cmi5 data in the Learning Record Store
-cmix#:#cron_xapi_del_desc#:#Data are deleted according to the settings of the xAPI/cmi5 objects.
+cmix#:#cron_xapi_del_desc#:#Data is deleted according to the settings of the xAPI/cmi5 objects.
 cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results
 cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.
 cmix#:#description_info#:#The description will be shown below the title.
@@ -8542,7 +8542,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#The following data record has bee
 dcl#:#dcl_change_notification_dcl_update_record#:#The following data record has been updated
 dcl#:#dcl_change_notification_link#:#Link to the Data Collection
 dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed
-dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this data collection.
 dcl#:#dcl_changed_by#:#Changed by
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_comments#:#Comments
@@ -8622,7 +8621,6 @@ dcl#:#dcl_formula#:#Formula
 dcl#:#dcl_formula_desc#:#You can aggregate several entries in a record with a formula.
 dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.
 dcl#:#dcl_height#:#Height
-dcl#:#dcl_hello#:#Dear
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#The internal ID.
 dcl#:#dcl_ilias_reference#:#Link to an ILIAS module
@@ -8656,7 +8654,7 @@ dcl#:#dcl_locked_tooltip#:#Disable this field for users to edit. Does not includ
 dcl#:#dcl_manage#:#Manage
 dcl#:#dcl_max_digits#:#Maximum Number of Digits
 dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
-dcl#:#dcl_max_text_length#:#Maximum Length
+dcl#:#dcl_max_text_length#:#Maximum Length: %s
 dcl#:#dcl_mob#:#Media Object
 dcl#:#dcl_mob_desc#:#Field to upload an image, audio, or video file. They will be displayed directly in the datacollection. Allowed datatypes: %s
 dcl#:#dcl_msg_field_modified#:#Field updated
@@ -8680,7 +8678,6 @@ dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_new_field#:#New Field
 dcl#:#dcl_new_table#:#New Table
 dcl#:#dcl_next_record#:#Next Entry
-dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
 dcl#:#dcl_no_entry#:#No entry
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.
@@ -8701,6 +8698,8 @@ dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http:// or
 dcl#:#dcl_number#:#Integer
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.
 dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.
+dcl#:#dcl_open_detail_view#:#Open detail view
+dcl#:#dcl_open_url#:#Open link
 dcl#:#dcl_order#:#Order
 dcl#:#dcl_origin_not_found#:#Origin field was not found!
 dcl#:#dcl_own_entries#:#Only own entries
@@ -16768,7 +16767,7 @@ svy#:#svy_all_questions#:#All Questions
 svy#:#svy_codes#:#Access Codes
 svy#:#svy_current_page#:#Current Page
 svy#:#svy_finish_survey#:#Finish survey '%1'
-svy#:#svy_invite_participants#:#Invite Participants
+svy#:#svy_invite_participants#:#Add to Task List of Users
 svy#:#svy_link_to_svy#:#Link to Survey
 svy#:#svy_part_overview#:#Overview
 svy#:#svy_placeholders_label#:#Available Placeholders
@@ -16781,7 +16780,7 @@ svy#:#svy_selection#:#Selection
 svy#:#svy_status#:#Status
 svy#:#svy_status_finished#:#Finished
 svy#:#svy_status_in_progress#:#In Progress
-svy#:#svy_status_invited#:#Invited
+svy#:#svy_status_invited#:#Added to tasks
 svy#:#svy_user_added_appraisee#:#Survey '%1'
 svy#:#svy_user_added_appraisee_close_mail#:#The survey has been closed for your raters.
 svy#:#svy_user_added_appraisee_mail#:#You have been added to the survey as an appraisee.
@@ -16789,7 +16788,7 @@ svy#:#svy_user_added_rater#:#Survey '%1'
 svy#:#svy_user_added_rater_mail#:#You have been added as a rater to the survey.
 svy#:#svy_user_added_rater_reminder_mail#:#Please finish to rate the following appraisees:
 svy#:#svy_user_not_found#:#User not found.
-svy#:#svy_users_invited#:#Users have been invited.
+svy#:#svy_users_invited#:#A ‘to do’, notifying users that they can take part in this survey, has been added to the ‘Tasks’ section of their dashboard(s).
 sysc#:#sysc_action_list_tree#:#Create Repository Tree Dump
 sysc#:#sysc_action_repair#:#Repair
 sysc#:#sysc_action_show_tree#:#Show Repository Tree Dump

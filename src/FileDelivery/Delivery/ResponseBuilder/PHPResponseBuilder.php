@@ -117,6 +117,7 @@ class PHPResponseBuilder implements ResponseBuilder
         $fh = $stream->detach();
         $buffer_size = 8048 * 10;
 
+        $output_length = 0;
         if ($stream->isSeekable()) {
             fseek($fh, $start);
             while (!feof($fh) && $length > 0) {
@@ -130,7 +131,7 @@ class PHPResponseBuilder implements ResponseBuilder
                 $output_length = strlen($content);
             }
         } else {
-            $length = $buffer_size;
+            $length = min($length, $buffer_size);
             $content = stream_get_contents($fh, $length, $start);
             $output_length = strlen($content);
             $response = $response->withBody(

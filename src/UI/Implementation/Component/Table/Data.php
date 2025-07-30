@@ -407,7 +407,7 @@ class Data extends Table implements T\Data, JSBindable
             $range = $range instanceof Range ? $range : null;
             if ($range instanceof Range) {
                 $range = $range
-                    ->withStart($range->getStart() <= $total_count ? $range->getStart() : 0)
+                    ->withStart($range->getStart() < $total_count ? $range->getStart() : 0)
                     ->croppedTo($total_count ?? PHP_INT_MAX);
             }
 

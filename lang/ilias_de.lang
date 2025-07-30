@@ -3161,9 +3161,9 @@ cmix#:#conf_privacy_setting_info#:#Konfigurationsoptionen für die Datenschutzei
 cmix#:#conf_remarks#:#Interne Kommentare
 cmix#:#conf_title#:#Titel
 cmix#:#conf_use_proxy#:#xAPI-Proxy
-cmix#:#conf_use_proxy_info#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich und wird automatisch aktiviert.
+cmix#:#conf_use_proxy_info#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5-Ergebnisse holen“. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich und wird automatisch aktiviert.
 cmix#:#conf_use_proxy_info_cmi5#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich.
-cmix#:#conf_use_proxy_info_xapi#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“.
+cmix#:#conf_use_proxy_info_xapi#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5-Ergebnisse holen“.
 cmix#:#conf_user_ident#:#Schlüssel zur Identifikation einer Person
 cmix#:#conf_user_ident_il_uuid_ext_account#:#ID-externes-Konto@ILIAS-Plattform-ID.ilias
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Die E-Mail-Adresse setzt sich zusammen aus der ID eines externen Kontos und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf die Person.zulassen.
@@ -3191,9 +3191,9 @@ cmix#:#content_privacy_ident#:#Schlüssel zur Identifikation einer Person
 cmix#:#content_privacy_name#:#Name
 cmix#:#create_lrs_type_form#:#Neuer Learning Record Store Typ
 cmix#:#create_registration#:#Registrieren Sie Ihre E-Mail-Adresse
-cmix#:#cron_xapi_del#:#xAPI/cmi5 Daten im Learning Record Store löschen
+cmix#:#cron_xapi_del#:#xAPI/cmi5-Daten im Learning Record Store löschen
 cmix#:#cron_xapi_del_desc#:#Daten werden gemäß den Einstellungen der xAPI/cmi5-Objekte gelöscht.
-cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 Ergebnisse holen
+cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5-Ergebnisse holen
 cmix#:#cron_xapi_results_evaluation_desc#:#Fordert alle xAPI-Ergebnisse aus dem Learning Record Store für Objekte an, die den ILIAS xAPI-Proxy nicht unterstützen.
 cmix#:#description_info#:#Die Beschreibung wird unterhalb des Titels angezeigt.
 cmix#:#download_certificate#:#Zertifikat herunterladen
@@ -8542,7 +8542,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Eintrag wurde erzeug
 dcl#:#dcl_change_notification_dcl_update_record#:#Der folgende Eintrag wurde aktualisiert
 dcl#:#dcl_change_notification_link#:#Zur Datensammlung gehen
 dcl#:#dcl_change_notification_subject#:#Die Datensammlung „%s“ wurde bearbeitet.
-dcl#:#dcl_change_why_you_receive_this_email#:#Sie erhalten diese Nachricht, weil Sie die Benachrichtigungsfunktion für die oben genannte Datensammlung aktiviert haben.
 dcl#:#dcl_changed_by#:#Letzte Änderung durch
 dcl#:#dcl_checked#:#Ausgewählt
 dcl#:#dcl_comments#:#Kommentare
@@ -8622,7 +8621,6 @@ dcl#:#dcl_formula#:#Formel
 dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.
 dcl#:#dcl_formula_detail_desc#:#Einträge in diesem Feld generieren sich automatisch. Sie können hier keinen Eintrag vornehmen.
 dcl#:#dcl_height#:#Höhe
-dcl#:#dcl_hello#:#Hallo
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Die interne ID.
 dcl#:#dcl_ilias_reference#:#Objekt im Magazin
@@ -8656,7 +8654,7 @@ dcl#:#dcl_locked_tooltip#:#Ein gesperrtes Feld lässt sich von Benutzern nicht m
 dcl#:#dcl_manage#:#Verwalten
 dcl#:#dcl_max_digits#:#Maximale Anzahl Ziffern
 dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze wurde überschritten.
-dcl#:#dcl_max_text_length#:#Maximale Länge
+dcl#:#dcl_max_text_length#:#Maximale Länge: %s
 dcl#:#dcl_mob#:#Medienobjekt
 dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
 dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert.
@@ -8680,7 +8678,6 @@ dcl#:#dcl_new#:#Neue Datensammlung anlegen
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_next_record#:#Nächster Eintrag
-dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
 dcl#:#dcl_no_entry#:#Kein Eintrag
 dcl#:#dcl_no_export_async_config#:#Keine SOAP Konfiguration für asyncrone Exporte verfügbar.
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
@@ -8701,6 +8698,8 @@ dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// o
 dcl#:#dcl_number#:#Ganze Zahlen
 dcl#:#dcl_number_desc#:#Eingabefeld für ganze Zahlen (maximal 9 Ziffern). Nicht erlaubt sind Brüche und Dezimalzahlen.
 dcl#:#dcl_online_info#:#Nur wenn die Datensammlung online geschaltet ist, können Benutzer die Datensammlung sehen und benutzen.
+dcl#:#dcl_open_detail_view#:#Detailansicht öffnen
+dcl#:#dcl_open_url#:#Link öffen
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_origin_not_found#:#Urprungsfeld konnte nicht gefunden werden!
 dcl#:#dcl_own_entries#:#Nur eigene Einträge
@@ -13851,14 +13850,14 @@ rbac#:#cmis_edit_permission#:#Rechteeinstellungen der Administration für xAPI/c
 rbac#:#cmis_read#:#Lesezugriff auf Administration für xAPI/cmi5
 rbac#:#cmis_visible#:#Administration für xAPI/cmi5 ist sichtbar.
 rbac#:#cmis_write#:#Einstellungen in Administration für xAPI/cmi5 ändern
-rbac#:#cmix_copy#:#Benutzer kann xAPI/cmi5 Objekt kopieren
+rbac#:#cmix_copy#:#Benutzer kann xAPI/cmi5-Objekt kopieren
 rbac#:#cmix_delete#:#Benutzer kann xAPI/cmi5-Objekt verschieben oder löschen
 rbac#:#cmix_edit_learning_progress#:#Benutzer kann die Einstellungen für den Lernfortschritt bearbeiten
 rbac#:#cmix_edit_permission#:#Benutzer kann Berechtigungseinstellungen ändern
-rbac#:#cmix_read#:#Benutzer kann xAPI/cmi5 Objekt sehen
+rbac#:#cmix_read#:#Benutzer kann xAPI/cmi5-Objekt sehen
 rbac#:#cmix_read_learning_progress#:#Benutzer kann den Lernfortschritt anderer Benutzer einsehen
 rbac#:#cmix_read_outcomes#:#Benutzer kann Lernerfahrungen und das Ranking anderer Benutzer einsehen
-rbac#:#cmix_visible#:#xAPI/cmi5 Objekt ist sichtbar
+rbac#:#cmix_visible#:#xAPI/cmi5-Objekt ist sichtbar
 rbac#:#cmix_write#:#Benutzer kann die Einstellungen des xAPI/cmi5-Objekts bearbeiten
 rbac#:#cmps_edit_permission#:#Rechteeinstellung ändern
 rbac#:#cmps_read#:#Lesezugriff auf Administration für Plugins, Module und Dienste
@@ -17637,7 +17636,7 @@ wsp#:#share_content#:#Ressource freigeben
 wsp#:#share_with#:#Anmeldename###Modified as part of gender mainstreaming activities for ILIAS 8
 wsp#:#wsp_copy_to_repository#:#Ins Magazin kopieren
 wsp#:#wsp_invalid_password#:#Das Passwort ist ungültig.
-wsp#:#wsp_list_cmxv#:#Zertifikat des xAPI/cmi5 Objekts
+wsp#:#wsp_list_cmxv#:#Zertifikat des xAPI/cmi5-Objekts
 wsp#:#wsp_list_crsv#:#Kurszertifikat
 wsp#:#wsp_list_excv#:#Übungszertifikat
 wsp#:#wsp_list_ltiv#:#Zertifikat des LTI-Konsument-Objekts
