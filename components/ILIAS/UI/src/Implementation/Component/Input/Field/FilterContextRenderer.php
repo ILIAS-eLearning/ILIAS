@@ -206,11 +206,7 @@ class FilterContextRenderer extends Renderer
         ->withAdditionalPickerconfig(['useCurrent' => false]);
         $input_html .= $default_renderer->render($input);
 
-        $tpl = $this->getTemplate("tpl.duration.html", true, true);
-        $id = $this->bindJSandApplyId($component, $tpl);
-        $tpl->setVariable('DURATION', $input_html);
-
-        return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get());
+        return $this->wrapInFormContext($component, $component->getLabel(), $input_html);
     }
 
     public function registerResources(ResourceRegistry $registry): void

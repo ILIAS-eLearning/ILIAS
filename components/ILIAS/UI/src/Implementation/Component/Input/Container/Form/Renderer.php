@@ -36,7 +36,7 @@ class Renderer extends AbstractComponentRenderer
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $component = $component->withAdditionalOnLoadCode(
-            fn($id) => "il.UI.Input.Container.init('{$id}');"
+            fn($id) => "il.UI.Input.Container.createContainer('$id');"
         );
 
         if ($component instanceof Form\Standard) {
@@ -62,14 +62,7 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable("BUTTONS_TOP", $default_renderer->render($submit_button));
         $tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($submit_button));
-        $tpl->setVariable(
-            "INPUTS",
-            $default_renderer
-            //->withAdditionalContext($component)
-            ->render($component->getInputGroup())
-        );
-
-
+        $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
 
         $id = $this->bindJavaScript($component);
         $tpl->setVariable("ID", $id);
@@ -108,7 +101,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("TXT_REQUIRED", $this->txt("required_field"));
         }
     }
-
 
     public function registerResources(ResourceRegistry $registry): void
     {

@@ -18,8 +18,9 @@ import copyright from '../../../../../../../scripts/Copyright-Checker/copyright.
 import preserveCopyright from '../../../../../../../scripts/Copyright-Checker/preserveCopyright.js';
 
 export default {
-  input: './src/container.js',
+  input: './src/facade.js',
   output: {
+    // file: '../../../../../../../public/assets/js/container.min.js',
     file: './dist/container.min.js',
     format: 'iife',
     banner: copyright,
@@ -32,7 +33,9 @@ export default {
     ],
     globals: {
       jquery: '$',
+      ilias: 'il',
+      document: 'document',
     },
   },
-  external: ['jquery'],
+  external: ['jquery', 'ilias', 'document'],
 };

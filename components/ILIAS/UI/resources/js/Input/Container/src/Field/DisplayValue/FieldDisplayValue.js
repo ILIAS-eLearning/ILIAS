@@ -13,10 +13,18 @@
  * https://github.com/ILIAS-eLearning
  */
 
-export const PasswordHook = {
+/**
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
+ */
+export default class FieldDisplayValue {
   /**
-   * @param {Presentation} node
-   * @return {null}
+   * @param {Field} field
+   * @param {*} value
+   * @param {*} [children=null]
    */
-  valueTransform: (node) => null,
-};
+  constructor(field, value, children = null) {
+    this.field = field;
+    this.value = value;
+    this.children = children;
+  }
+}

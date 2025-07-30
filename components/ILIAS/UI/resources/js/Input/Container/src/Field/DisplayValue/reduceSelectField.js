@@ -11,25 +11,23 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 
-export const DurationHook = {
-  /**
-   * @param {Presentation} node
-   * @return {Array}
-   */
-  valueTransform: (node) => {
-    const [start, end] = node.getAllChildren().map((child) => child.getValues()[0]);
-    if (start && end) {
-      return [`${start} - ${end}`];
-    }
-    return ['-'];
-  },
+import FieldDisplayValue from './FieldDisplayValue.js';
 
-  /**
-   * @param {Presentation} node
-   * @return {Array}
-   */
-  childrenTransform: (node) => [],
-
-};
+/**
+ * @param {Field} field
+ * @returns {FieldDisplayValue|null}
+ */
+export default function reduceSelectField(field) {
+  const value = field.getInputs()[0]
+    ?.selectedOptions[0]
+    ?.textContent
+    ?.replace(/\s+/g, '');
+  if (value && value !== '-') {
+    return new FieldDisplayValue(field, value);
+  }
+  return null;
+}

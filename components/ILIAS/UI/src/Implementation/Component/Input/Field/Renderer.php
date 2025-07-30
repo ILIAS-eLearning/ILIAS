@@ -741,9 +741,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('ID', $until_input_id);
         $input_html .= $this->wrapInFormContext($input, $input->getLabel(), $tpl->get(), $until_input_id);
 
-        $tpl = $this->getTemplate("tpl.duration.html", true, true);
-        $tpl->setVariable('DURATION', $input_html);
-        return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get());//, $from_input_id);
+        return $this->wrapInFormContext($component, $component->getLabel(), $input_html);
     }
 
     protected function renderSection(F\Section $section, RendererInterface $default_renderer): string
@@ -1006,22 +1004,26 @@ class Renderer extends AbstractComponentRenderer
     protected function renderRatingField(F\Rating $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.rating.html", true, true);
-        $id = $this->createId();
+        $id = $this->bindJSandApplyId($component, $tpl);
         $aria_description_id = $id . '_desc';
         $tpl->setVariable('DESCRIPTION_SRC_ID', $aria_description_id);
+        $neutral_option_id = $id . '-0';
+        $selected_option_id = null;
 
         $option_count = count(FiveStarRatingScale::cases()) - 1;
 
         foreach (range($option_count, 1, -1) as $option) {
+            $current_option_id = $id . '-' . $option;
             $tpl->setCurrentBlock('scaleoption');
             $tpl->setVariable('ARIALABEL', $this->txt($option . 'stars'));
             $tpl->setVariable('OPT_VALUE', (string) $option);
-            $tpl->setVariable('OPT_ID', $id . '-' . $option);
+            $tpl->setVariable('OPT_ID', $current_option_id);
             $tpl->setVariable('NAME', $component->getName());
             $tpl->setVariable('DESCRIPTION_ID', $aria_description_id);
 
             if ($component->getValue() === FiveStarRatingScale::from((int) $option)) {
                 $tpl->setVariable("SELECTED", ' checked="checked"');
+                $selected_option_id = $current_option_id;
             }
             if ($component->isDisabled()) {
                 $tpl->setVariable("DISABLED", 'disabled="disabled"');
@@ -1030,13 +1032,14 @@ class Renderer extends AbstractComponentRenderer
         }
 
         if (!$component->isRequired()) {
-            $tpl->setVariable('NEUTRAL_ID', $id . '-0');
+            $tpl->setVariable('NEUTRAL_ID', $neutral_option_id);
             $tpl->setVariable('NEUTRAL_NAME', $component->getName());
             $tpl->setVariable('NEUTRAL_LABEL', $this->txt('reset_stars'));
             $tpl->setVariable('NEUTRAL_DESCRIPTION_ID', $aria_description_id);
 
             if ($component->getValue() === FiveStarRatingScale::NONE || is_null($component->getValue())) {
                 $tpl->setVariable('NEUTRAL_SELECTED', ' checked="checked"');
+                $selected_option_id = $neutral_option_id;
             }
         }
 
@@ -1053,7 +1056,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('AVERAGE_VALUE_PERCENT', $average / $option_count * self::CENTUM);
         }
 
-        return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get());
+        return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get(), $selected_option_id);
     }
 
     protected function renderTreeMultiSelectField(F\TreeMultiSelect $component, RendererInterface $default_renderer): string

@@ -204,14 +204,13 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $byline = $ms->getByline();
         $expected = '
         <fieldset class="c-input" data-il-ui-component="multi-select-field-input" data-il-ui-input-name="name_0" disabled="disabled" tabindex="0">
-            <label class="c-input__label">label</label>
+            <label>label</label>
             <div class="c-input__field">
                 <ul class="c-field-multiselect">
                     <li>-</li>
                 </ul>
             </div>
             <div class="c-input__help-byline">byline</div>
-            <div class="c-input__value_representation"></div>
         </fieldset>';
 
         $this->assertHTMLEquals($expected, $r->render($ms));
