@@ -50,7 +50,7 @@ class ilObjectCommonSettings
     }
 
     public function storePropertyTitleAndIconVisibility(
-        ilObjectPropertyTitleAndIconVisibility $property_title_and_icon_visibility
+        TitleAndIconVisibility $property_title_and_icon_visibility
     ): void {
         $this->object?->getObjectProperties()->storePropertyTitleAndIconVisibility($property_title_and_icon_visibility);
         $this->object?->flushObjectProperties();

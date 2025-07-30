@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Simple\TitleAndIconVisibility;
 use ILIAS\ILIASObject\Properties\AdditionalProperties\Simple\HeaderActionVisibility;
 use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\Stakeholder;
 use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\FlavourDefinition;
@@ -169,7 +170,7 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
         }
 
         $this->common_settings->storePropertyTitleAndIconVisibility(
-            new ilObjectPropertyTitleAndIconVisibility((bool) $this->legacy_form->getInput('show_header_icon_and_title'))
+            new TitleAndIconVisibility((bool) $this->legacy_form->getInput('show_header_icon_and_title'))
         );
     }
 
