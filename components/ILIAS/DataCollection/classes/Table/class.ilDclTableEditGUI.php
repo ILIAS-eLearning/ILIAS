@@ -79,8 +79,8 @@ class ilDclTableEditGUI
     public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
-        if ($cmd === 'save_create') {
-            $this->save('create');
+        if ($cmd === 'update') {
+            $this->save(false);
         } else {
             $this->$cmd();
         }
@@ -97,7 +97,7 @@ class ilDclTableEditGUI
         $this->help->setSubScreenId('edit');
         $this->tpl->setContent(
             sprintf($this->lng->txt('dcl_edit_table'), $this->table->getTitle()) .
-            $this->ui_renderer->render($this->initForm('edit'))
+            $this->ui_renderer->render($this->initForm(false))
         );
     }
 
@@ -106,7 +106,7 @@ class ilDclTableEditGUI
         $this->ctrl->redirectByClass(ilDclTableListGUI::class, 'listTables');
     }
 
-    public function initForm(string $a_mode = 'create'): Form
+    public function initForm(bool $create = true): Form
     {
         $f = $this->ui_factory->input()->field();
         $inputs = [];
@@ -118,7 +118,7 @@ class ilDclTableEditGUI
         $inputs['edit'] = $f->section($edit, $this->lng->txt('general_settings'));
 
         $table = [];
-        if ($a_mode !== 'create') {
+        if (!$create) {
             $options = [];
             foreach ($this->table->getFields() as $field) {
                 if ($field->getId() !== 'comments' && $field->getRecordQuerySortObject() !== null) {
@@ -168,13 +168,13 @@ class ilDclTableEditGUI
         )->withValue(null);
         $inputs['record'] = $f->section($record, $this->lng->txt('dcl_record_settings'));
 
-        if ($a_mode === 'edit') {
+        if (!$create) {
             $inputs = $this->setValues($inputs);
         }
 
         $this->ctrl->setParameter($this, 'table_id', $this->table_id);
         return $this->ui_factory->input()->container()->form()->standard(
-            $this->ctrl->getFormAction($this, $a_mode === 'edit' ? 'save' : 'save_create'),
+            $this->ctrl->getFormAction($this, $create ? 'save' : 'update'),
             $inputs
         );
     }
@@ -213,17 +213,17 @@ class ilDclTableEditGUI
         return $inputs;
     }
 
-    public function save(string $a_mode = 'edit'): void
+    public function save(bool $create = true): void
     {
         if (!ilObjDataCollectionAccess::checkActionForObjId('write', $this->obj_id)) {
             return;
         }
 
-        $form = $this->initForm($a_mode)->withRequest($this->http->request());
+        $form = $this->initForm($create)->withRequest($this->http->request());
         $data = $form->getData();
 
         if ($data !== null) {
-            if ($a_mode === 'create') {
+            if ($create) {
                 $this->table = new ilDclTable();
             }
             foreach (ilObjectFactory::getInstanceByObjId($this->obj_id)->getTables() as $table) {
@@ -239,10 +239,6 @@ class ilDclTableEditGUI
             $this->table->setDescription($data['edit']['description']);
             $this->table->setIsVisible($data['edit']['visible']);
 
-            if ($a_mode !== 'create') {
-                $this->table->setDefaultSortField($data['table']['default_sort_field']);
-                $this->table->setDefaultSortFieldOrder($data['table']['default_sort_field_order']);
-            }
             $this->table->setExportEnabled($data['table']['export_enabled']);
             $this->table->setImportEnabled($data['table']['import_enabled']);
             $this->table->setPublicCommentsEnabled($data['table']['comments_enabled']);
@@ -266,10 +262,12 @@ class ilDclTableEditGUI
                 $this->table->setLimitEnd('');
             }
 
-            if ($a_mode === 'create') {
+            if ($create) {
                 $this->table->doCreate();
                 $message = 'dcl_msg_table_created';
             } else {
+                $this->table->setDefaultSortField($data['table']['default_sort_field']);
+                $this->table->setDefaultSortFieldOrder($data['table']['default_sort_field_order']);
                 $this->table->doUpdate();
                 $message = 'dcl_msg_table_edited';
             }
