@@ -196,7 +196,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'duration-field-input',
             'label',
-            '<div class="c-field-duration">' . $f1 . $f2 . '</div>',
+            $f1 . $f2,
             'byline',
         );
         $this->assertEquals($expected, $this->render($duration));
@@ -239,7 +239,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'duration-field-input',
             'label',
-            '<div class="c-field-duration">' . $f1 . $f2 . '</div>',
+            $f1 . $f2,
             'byline'
         );
         $this->assertEquals($expected, $this->render($duration));

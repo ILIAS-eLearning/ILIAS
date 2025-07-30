@@ -11,22 +11,20 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 
-export const RadioHook = {
-  /**
-   * @param {Presentation} node
-   * @return {Array}
-   */
-  valueTransform: (node) => {
-    const checked = node.getHtmlFields().filter((element) => element.checked);
-    if (checked.length === 0) {
-      return [];
-    }
-    const representation = [];
-    checked.forEach(
-      (field) => representation.push(field.nextElementSibling.textContent),
-    );
-    return representation;
-  },
-};
+import FieldDisplayValue from './FieldDisplayValue.js';
+
+/**
+ * @param {Field} field
+ * @returns {FieldDisplayValue|null}
+ */
+export default function reduceValueAttributeOfField(field) {
+  const value = field.getInputs()[0]?.value ?? '';
+  if (value) {
+    return new FieldDisplayValue(field, value);
+  }
+  return null;
+}

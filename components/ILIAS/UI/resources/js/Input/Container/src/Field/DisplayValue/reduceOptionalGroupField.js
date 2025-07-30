@@ -11,18 +11,21 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 
-export const OptionalGroupHook = {
-  /**
-   * @param {Presentation} node
-   * @return {Array}
-   */
-  childrenTransform: (node) => {
-    if (!node.getHtmlFields()[0].checked
-    ) {
-      return [];
-    }
-    return node.getAllChildren();
-  },
-};
+import FieldDisplayValue from './FieldDisplayValue.js';
+
+/**
+ * @param {Field} field
+ * @param {Array} childResults
+ * @returns {FieldDisplayValue|null}
+ */
+export default function reduceOptionalGroupField(field, childResults) {
+  const checked = field.getInputs()[0]?.checked ?? false;
+  if (checked) {
+    return new FieldDisplayValue(field, null, childResults);
+  }
+  return null;
+}

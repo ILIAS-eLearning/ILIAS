@@ -130,7 +130,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
             <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\" tabindex=\"0\">
-                <label class=\"c-input__label\">$label</label>
+                <label>$label</label>
                 <div class=\"c-input__field\">
 
                     <div class=\"c-field-markdown\">
@@ -161,8 +161,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                         <div class=\"c-field-markdown__preview hidden\">
                         </div>
                     </div>
+
                 </div>
-                <div class=\"c-input__value_representation\"></div>
             </fieldset>
             "
         );
@@ -185,7 +185,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
             <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\" tabindex=\"0\">
-                <label class=\"c-input__label\">$label</label>
+                <label>$label</label>
                 <div class=\"c-input__field\">
 
                     <div class=\"c-field-markdown\">
@@ -222,7 +222,6 @@ class MarkdownTest extends ILIAS_UI_TestBase
                 
                 </div>
                 <div class=\"c-input__help-byline\">$byline</div>
-                <div class=\"c-input__value_representation\"></div>
             </fieldset>
         "
         );
@@ -248,7 +247,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
             <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\" tabindex=\"0\">
-                <label class=\"c-input__label\">$label</label>
+                <label>$label</label>
                 <div class=\"c-input__field\">
 
                     <div class=\"c-field-markdown\">
@@ -283,7 +282,6 @@ class MarkdownTest extends ILIAS_UI_TestBase
                 
                 </div>
                 <div class=\"c-input__help-byline\">$byline</div>
-                <div class=\"c-input__value_representation\"></div>
             </fieldset>
             "
         );
@@ -307,7 +305,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
             <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" disabled=\"disabled\" id=\"id_2\" tabindex=\"0\">
-                <label class=\"c-input__label\">$label</label>
+                <label>$label</label>
                 <div class=\"c-input__field\">
 
                     <div class=\"c-field-markdown\">
@@ -341,7 +339,6 @@ class MarkdownTest extends ILIAS_UI_TestBase
 
                 </div>
                 <div class=\"c-input__help-byline\">$byline</div>
-                <div class=\"c-input__value_representation\"></div>
             </fieldset>
             "
         );
@@ -365,7 +362,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
             <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\" tabindex=\"0\">
-                <label class=\"c-input__label\">$label<span class=\"asterisk\" aria-label=\"required_field\">*</span></label>
+                <label>$label<span class=\"asterisk\" aria-label=\"required_field\">*</span></label>
                 <div class=\"c-input__field\">
 
                         <div class=\"c-field-markdown\">
@@ -399,7 +396,6 @@ class MarkdownTest extends ILIAS_UI_TestBase
 
                 </div>
                 <div class=\"c-input__help-byline\">$byline</div>
-                <div class=\"c-input__value_representation\"></div>
             </fieldset>
             "
         );
@@ -424,7 +420,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
             <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" aria-describedby=\"id_9\" id=\"id_8\" tabindex=\"0\">
-                <label class=\"c-input__label\">$label</label>
+                <label>$label</label>
                 <div class=\"c-input__field\">
 
                         <div class=\"c-field-markdown\">
@@ -459,7 +455,6 @@ class MarkdownTest extends ILIAS_UI_TestBase
                 </div>
                 <div class=\"c-input__error-msg alert alert-danger\" id=\"id_9\"><span class=\"sr-only\">ui_error:</span>$error</div>
                 <div class=\"c-input__help-byline\">$byline</div>
-                <div class=\"c-input__value_representation\"></div>
             </fieldset>
             "
         );
