@@ -22,11 +22,9 @@ use ILIAS\Refinery\Factory;
 use PHPUnit\Framework\Attributes\DataProvider;
 use ILIAS\Cache\Adaptor\APCu;
 use ILIAS\Cache\Adaptor\Memcached;
-use ILIAS\Cache\Config;
 use ILIAS\Cache\Container\ActiveContainer;
 use ILIAS\Cache\Container\Request;
 use ILIAS\Cache\Nodes\Node;
-use ILIAS\Cache\Services;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Cache\Container\VoidContainer;
 use ILIAS\Cache\Adaptor\PHPStatic;
@@ -144,6 +142,7 @@ class CacheTest extends TestCase
     {
         $services = new Services($this->getConfig());
         $container = $services->get($this->getDummyRequest(self::TEST_CONTAINER));
+        $container->unlock();
 
         $container->set('test', 'test_value');
         $this->assertTrue($container->has('test'));

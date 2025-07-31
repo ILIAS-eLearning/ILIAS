@@ -72,7 +72,7 @@ final class ActiveContainer implements Container
     private Transformation $null_trafo;
     private string $prefix_pattern;
 
-    private array $lock_cache = [];
+    private ?float $lock_cache = null;
 
     public function __construct(
         private Request $request,
@@ -192,19 +192,22 @@ final class ActiveContainer implements Container
 
     public function isLocked(): bool
     {
-        if (isset($this->lock_cache[$this->request->getContainerKey()])) {
-            return $this->lock_cache[$this->request->getContainerKey()];
+        if ($this->lock_cache !== null && $this->lock_cache > microtime(true)) {
+            return true;
         }
 
         if (!$this->adaptor->has($this->request->getContainerKey(), self::LOCK_UNTIL)) {
-            return $this->lock_cache[$this->request->getContainerKey()] = false;
+            $this->lock_cache = null;
+            return false;
         }
 
         // see comment in buildFinalTransformation why this is not a good solution.
         $lock_until = $this->adaptor->get($this->request->getContainerKey(), self::LOCK_UNTIL);
         $lock_until = $lock_until === null ? null : (float) $lock_until;
 
-        return $this->lock_cache[$this->request->getContainerKey()] = ($lock_until !== null && $lock_until > microtime(true));
+        $this->lock_cache = $lock_until;
+
+        return $lock_until !== null && $lock_until > microtime(true);
     }
 
     public function lock(float $seconds): void
@@ -277,5 +280,14 @@ final class ActiveContainer implements Container
     public function getContainerName(): string
     {
         return $this->request->getContainerKey();
+    }
+
+    /**
+     * @internal for UnitTest only
+     */
+    public function unlock(): void
+    {
+        $this->adaptor->delete($this->request->getContainerKey(), self::LOCK_UNTIL);
+        $this->lock_cache = null;
     }
 }
