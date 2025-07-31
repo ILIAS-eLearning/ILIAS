@@ -21,36 +21,52 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\Templates;
 
 use ILIAS\FileDelivery\Services as FileDeliveryServices;
+use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Test\ExportImport\Exporter;
 use ILIAS\Test\Settings\SettingsFactory;
 
 class PersonalSettingsExporter implements Exporter
 {
+    private int $template_id;
+    private ?PersonalSettingsTemplate $template = null;
+    
     public function __construct(
         private readonly SettingsFactory $factory,
-        private FileDeliveryServices $file_delivery,
+        private readonly FileDeliveryServices $file_delivery,
         private readonly PersonalSettingsRepository $repository,
-        private readonly int $template_id,
     ) {
+    }
+
+    public function setTemplateId(int $template_id): void
+    {
+        $this->template_id = $template_id;
+        $this->template = null;
+    }
+
+    private function getTemplate(): PersonalSettingsTemplate
+    {
+        return $this->template ??= $this->repository->getTemplateById($this->template_id);
     }
 
     public function deliver(): void
     {
-        if (($path = $this->write()) === null) {
+        if (($xml_content = $this->write()) === null) {
             return;
         }
-        $this->file_delivery->legacyDelivery()->attached(
-            $path,
-            null,
-            null,
-            true
+
+        $name = $this->escapeName($this->getTemplate()->getName());
+        $stream = Streams::ofString($xml_content);
+
+        $this->file_delivery->delivery()->attached(
+            $stream,
+            "{$name}.xml",
+            'text/xml'
         );
     }
 
     public function write(): ?string
     {
-        $template = $this->repository->getTemplateById($this->template_id);
-        if ($template === null) {
+        if (($template = $this->getTemplate()) === null) {
             return null;
         }
 
@@ -129,5 +145,11 @@ class PersonalSettingsExporter implements Exporter
 
             $xml_writer->endElement();
         }
+    }
+
+    private function escapeName(string $name): string
+    {
+        // Replace all special characters except "_" from the string for safe filename usage
+        return preg_replace('/[^a-zA-Z0-9_]/', '-', $name);
     }
 }

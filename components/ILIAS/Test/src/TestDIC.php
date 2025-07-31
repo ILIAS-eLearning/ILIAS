@@ -27,6 +27,7 @@ use ILIAS\Test\Scoring\Marks\MarkSchemaFactory;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
 use ILIAS\Test\Settings\SettingsFactory;
+use ILIAS\Test\Settings\Templates\PersonalSettingsExporter;
 use ILIAS\Test\Settings\Templates\PersonalSettingsRepository;
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\Test\TestManScoringDoneHelper;
@@ -124,6 +125,13 @@ class TestDIC extends PimpleContainer
 
         $dic['settings.personal_templates.repository'] = static fn($c): PersonalSettingsRepository =>
             new PersonalSettingsRepository($DIC->database(), $DIC->user(), $c['marks.factory']);
+
+        $dic['settings.personal_templates.exporter'] = static fn($c): PersonalSettingsExporter =>
+            new PersonalSettingsExporter(
+                $c['settings.factory'], 
+                $DIC['file_delivery'], 
+                $c['settings.personal_templates.repository']
+            );
 
         $dic['participant.access_filter.factory'] = static fn($c): \ilTestParticipantAccessFilterFactory =>
             new \ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
