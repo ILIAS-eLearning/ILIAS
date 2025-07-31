@@ -22,6 +22,7 @@ namespace ILIAS\Test\Settings\Templates;
 
 use ILIAS\Language\Language;
 use ILIAS\Test\Participants\ParticipantTableActions;
+use ILIAS\Test\Settings\SettingsFactory;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Table\Action\Action;
 use ILIAS\UI\Factory as UIFactory;
@@ -37,7 +38,9 @@ class PersonalSettingsTableApplyAction implements TableAction
     public function __construct(
         private readonly Language $lng,
         private readonly UIFactory $ui_factory,
+        private readonly \ilTestQuestionSetConfigFactory $question_set_config_factory,
         private readonly PersonalSettingsRepository $repository,
+        private readonly SettingsFactory $factory,
         private readonly \ilObjTest $test_obj,
         private readonly GlobalTemplate $tpl,
     ) {
@@ -67,14 +70,12 @@ class PersonalSettingsTableApplyAction implements TableAction
         URLBuilder $url_builder,
         array $selected_templates
     ): ?Modal {
-        if (count($selected_templates) !== 1) {
-            throw new \InvalidArgumentException('Expected exactly one template to be selected');
-        }
-        $template = reset($selected_templates);
+        $template = $this->checkSelectedTemplate($selected_templates);
+        $question_set_type_changed = $this->hasDifferentQuestionSetType($template->getId());
 
         return $this->ui_factory->modal()->interruptive(
             $this->lng->txt('confirm'),
-            $this->lng->txt('apply_template_confirmation'),
+            $this->lng->txt($question_set_type_changed ? 'apply_template_changed_confirmation' : 'apply_template_confirmation'),
             $url_builder->buildURI()->__toString()
         )->withAffectedItems(
             [
@@ -93,12 +94,17 @@ class PersonalSettingsTableApplyAction implements TableAction
         ServerRequestInterface $request,
         array $selected_templates,
     ): ?Modal {
-        if (count($selected_templates) !== 1) {
-            throw new \InvalidArgumentException('Expected exactly one template to be selected');
-        }
-        $template = reset($selected_templates);
+        $template = $this->checkSelectedTemplate($selected_templates);
+
+        $old_question_set_config = $this->hasDifferentQuestionSetType($template->getId()) ?
+            $this->question_set_config_factory->getQuestionSetConfig() :
+            null;
 
         $this->repository->applyTemplate($this->test_obj->getTestId(), $template->getId());
+
+        if ($old_question_set_config && $old_question_set_config->doesQuestionSetRelatedDataExist()) {
+            $old_question_set_config->removeQuestionSetRelatedData();
+        }
 
         $this->tpl->setOnScreenMessage(
             GlobalTemplate::MESSAGE_TYPE_SUCCESS,
@@ -106,5 +112,26 @@ class PersonalSettingsTableApplyAction implements TableAction
             true
         );
         return null;
+    }
+
+    private function checkSelectedTemplate(array $selected_templates): PersonalSettingsTemplate
+    {
+        if (count($selected_templates) !== 1) {
+            throw new \InvalidArgumentException('no_valid_template_selection');
+        }
+
+        // Do not apply if user datasets exist
+        if ($this->test_obj->evalTotalPersons() > 0) {
+            throw new \InvalidArgumentException('apply_template_not_possible');
+        }
+
+        return reset($selected_templates);
+    }
+
+    private function hasDifferentQuestionSetType(int $template_id): bool
+    {
+        $template_settings = $this->repository->getSettings($template_id);
+        $template_main_settings = $this->factory->createMainSettings($template_settings);
+        return $template_main_settings->getGeneralSettings()->getQuestionSetType() !== $this->test_obj->getQuestionSetType();
     }
 }

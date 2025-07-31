@@ -81,40 +81,34 @@ class PersonalSettingsTableActions
         $selection = $this->repository->getTemplatesByIds($selection_ids);
 
         if ($selection === []) {
-            $this->test_response->sendAsync(
-                $this->ui_renderer->renderAsync(
-                    $this->ui_factory->messageBox()->failure($this->lng->txt('no_valid_template_selection'))
-                )
-            );
-            return null;
+            return $this->fail('no_valid_template_selection');
         }
 
         if (!$this->checkAccess($selection)) {
-            $this->test_response->sendAsync(
-                $this->ui_renderer->renderAsync(
-                    $this->ui_factory->messageBox()->failure($this->lng->txt('no_permission'))
-                )
-            );
-            return null;
+            return $this->fail('no_permission');
         }
 
-        $url_builder = $url_builder
-            ->withParameter($row_id_token, $selection_ids)
-            ->withParameter($action_token, $action->getActionId())
-            ->withParameter($action_type_token, self::SUBMIT_ACTION);
+        try {
+            $url_builder = $url_builder
+               ->withParameter($row_id_token, $selection_ids)
+               ->withParameter($action_token, $action->getActionId())
+               ->withParameter($action_type_token, self::SUBMIT_ACTION);
 
-        return match ($this->test_request->strVal($action_type_token->getName())) {
-            self::SUBMIT_ACTION => $this->submit(
-                $action,
-                $url_builder,
-                $selection,
-            ),
-            default => $this->showModal(
-                $action,
-                $url_builder,
-                $selection,
-            )
-        };
+            return match ($this->test_request->strVal($action_type_token->getName())) {
+                self::SUBMIT_ACTION => $this->submit(
+                    $action,
+                    $url_builder,
+                    $selection,
+                ),
+                default => $this->showModal(
+                    $action,
+                    $url_builder,
+                    $selection,
+                )
+            };
+        } catch (\InvalidArgumentException $e) {
+            return $this->fail($e->getMessage());
+        }
     }
 
     protected function submit(
@@ -156,5 +150,15 @@ class PersonalSettingsTableActions
             }
         }
         return true;
+    }
+
+    protected function fail(string $message_key): null
+    {
+        $this->test_response->sendAsync(
+            $this->ui_renderer->renderAsync(
+                $this->ui_factory->messageBox()->failure($this->lng->txt($message_key))
+            )
+        );
+        return null;
     }
 }

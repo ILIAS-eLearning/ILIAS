@@ -125,7 +125,7 @@ class SettingsFactory
                 ->withPassScoring((int) $row['pass_scoring']),
             (new SettingsResultSummary())
                 ->withScoreReporting(ScoreReportingTypes::from($row['score_reporting']))
-                ->withReportingDate($row['reporting_date'] !== 0
+                ->withReportingDate(!empty($row['reporting_date'])
                     ? \DateTimeImmutable::createFromFormat('U', (string) $row['reporting_date'])
                     : null)
                 ->withShowGradingStatusEnabled((bool) $row['show_grading_status'])

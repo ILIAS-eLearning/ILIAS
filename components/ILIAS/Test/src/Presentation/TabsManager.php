@@ -309,9 +309,7 @@ class TabsManager
             case 'certificateDelete':
             case 'certificateSave':
             case 'defaults':
-            case 'deleteDefaults':
             case 'addDefaults':
-            case 'applyDefaults':
             case 'inviteParticipants':
             case 'searchParticipants':
                 if ($this->isWriteAccessGranted() && in_array(strtolower($this->ctrl->getCmdClass()), ['ilobjtestgui', 'ilcertificategui'])) {
@@ -359,7 +357,7 @@ class TabsManager
                 'resetToSimpleMarkSchema', 'saveMarks', 'certificate',
                 'certificateEditor', 'certificateSave',
                 'certificatePreview', 'certificateDelete', 'certificateUpload', 'certificateImport',
-                'scoring', 'defaults', 'addDefaults', 'deleteDefaults', 'applyDefaults',
+                'scoring', 'defaults', 'addDefaults',
                 'inviteParticipants', 'saveFixedParticipantsStatus', 'searchParticipants', 'addParticipants' // ARE THEY RIGHT HERE
             ];
 
@@ -659,7 +657,7 @@ class TabsManager
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS,
             $this->ctrl->getLinkTargetByClass(\ilObjTestGUI::class, 'defaults'),
-            ['defaults', 'deleteDefaults', 'addDefaults', 'applyDefaults'],
+            ['defaults', 'addDefaults'],
             ['', 'ilobjtestgui', 'ilcertificategui']
         );
 

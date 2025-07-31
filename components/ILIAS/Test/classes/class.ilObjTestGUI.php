@@ -19,6 +19,14 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
+use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
+use ILIAS\Test\Settings\Templates\PersonalSettingsRepository;
+use ILIAS\Test\Settings\Templates\PersonalSettingsTable;
+use ILIAS\Test\Settings\Templates\PersonalSettingsTableActions;
+use ILIAS\Test\Settings\Templates\PersonalSettingsTableApplyAction;
+use ILIAS\Test\Settings\Templates\PersonalSettingsTableDeleteAction;
+use ILIAS\Test\Settings\Templates\PersonalSettingsTableExportAction;
+use ILIAS\Test\Settings\Templates\PersonalSettingsTableShowAction;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\ResponseHandler;
@@ -48,6 +56,7 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
@@ -150,6 +159,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected ResultsDataFactory $results_data_factory;
     protected ResultsPresentationFactory $results_presentation_factory;
     protected TestResultRepository $test_pass_result_repository;
+    protected PersonalSettingsRepository $personal_settings_templates_repository;
+    protected MainSettingsDatabaseRepository $main_settings_repository;
     protected ?QuestionsTableQuery $table_query = null;
     protected ?QuestionsTableActions $table_actions = null;
     protected DataFactory $data_factory;
@@ -200,6 +211,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->participant_access_filter_factory = $local_dic['participant.access_filter.factory'];
         $this->test_pass_result_repository = $local_dic['results.data.repository'];
         $this->toplist_repository = $local_dic['results.toplist.repository'];
+        $this->personal_settings_templates_repository = $local_dic['settings.personal_templates.repository'];
+        $this->main_settings_repository = $local_dic['settings.main.repository'];
 
         $ref_id = 0;
         if ($this->testrequest->hasRefId() && is_numeric($this->testrequest->getRefId())) {
@@ -909,7 +922,12 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     return;
                 }
 
-                $local_cmd = $cmd . 'Object';
+                if (in_array($cmd, ['executeTemplatesAction', 'showPersonalSettings'])) {
+                    $local_cmd = $cmd . 'Cmd';
+                } else {
+                    $local_cmd = $cmd . 'Object';
+                }
+
                 if (!method_exists($this, $local_cmd)) {
                     $local_cmd = self::SHOW_QUESTIONS_CMD . 'Object';
                 }
@@ -923,7 +941,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 if (in_array(
                     $cmd,
                     ['editQuestion', 'previewQuestion', 'save', 'saveReturn', 'uploadImage',
-                        'removeImage', 'syncQuestion', 'syncQuestionReturn', 'suggestedsolution']
+                            'removeImage', 'syncQuestion', 'syncQuestionReturn', 'suggestedsolution']
                 )
                     && !$this->access->checkAccess('write', '', $this->getTestObject()->getRefId())) {
                     $this->redirectAfterMissingWrite();
@@ -1378,16 +1396,15 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     public function retrieveAdditionalDidacticTemplateOptions(): array
     {
-        $tst = new ilObjTest();
-        $defaults = $tst->getAvailableDefaults();
+        $defaults = $this->personal_settings_templates_repository->getTemplatesForUser();
         if ($defaults === []) {
             return [];
         }
 
         $additional_options = [];
-        foreach ($defaults as $row) {
-            $additional_options["tstdef_" . $row["test_defaults_id"]] = [$row["name"],
-                $this->lng->txt("tst_default_settings")];
+        foreach ($defaults as $template) {
+            $additional_options["tstdef_" . $template->getId()] =
+                [$template->getName(), $this->lng->txt("tst_default_settings")];
         }
         return $additional_options;
     }
@@ -1401,10 +1418,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $info = '';
         $new_object->saveToDb();
 
-        $test_def_id = $this->getSelectedPersonalDefaultsSettingsFromForm();
-        if ($test_def_id !== null
-            && ($defaults = $new_object->getTestDefaults($test_def_id)) !== null) {
-            $info = $new_object->applyDefaults($defaults);
+        $template_id = $this->getSelectedPersonalDefaultsSettingsFromForm();
+        if ($template_id !== 0) {
+            $this->personal_settings_templates_repository->applyTemplate($new_object->getTestId(), $template_id);
         }
 
         $new_object->saveToDb();
@@ -1429,14 +1445,14 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirectByClass(SettingsMainGUI::class);
     }
 
-    private function getSelectedPersonalDefaultsSettingsFromForm(): ?int
+    private function getSelectedPersonalDefaultsSettingsFromForm(): int
     {
         $data = $this->initCreateForm($this->type)
             ->withRequest($this->request)
             ->getData();
         return isset($data['didactic_templates'])
             ? $this->parseDidacticTemplateVar($data['didactic_templates'], 'tstdef')
-            : null;
+            : 0;
     }
 
     public function backToRepositoryObject()
@@ -1989,155 +2005,117 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirect($this, 'participants');
     }
 
+
+    public function showPersonalSettingsCmd(?Modal $modal = null): void
+    {
+        $components = [
+            $this->buildPersonalSettingsTable()->getComponent(),
+            $modal
+        ];
+
+        $this->tpl->setContent(
+            $this->ui_renderer->render(array_filter($components))
+        );
+    }
+
+    public function executeTemplatesActionCmd(): void
+    {
+        $this->protectByWritePermission();
+
+        $modal = $this->buildPersonalSettingsTable()->execute();
+        if ($modal !== null) {
+            $this->showPersonalSettingsCmd($modal);
+            return;
+        }
+        $this->ctrl->redirectByClass(self::class, 'showPersonalSettings');
+    }
+
+    protected function buildPersonalSettingsTable(): PersonalSettingsTable
+    {
+        $local_dic = TestDIC::dic();
+
+        $actions = new PersonalSettingsTableActions(
+            $this->testrequest,
+            $this->response_handler,
+            $this->ui_renderer,
+            $this->ui_factory,
+            $this->lng,
+            $this->user,
+            $this->personal_settings_templates_repository,
+            [
+                PersonalSettingsTableShowAction::ACTION_ID => new PersonalSettingsTableShowAction(
+                    $this->lng,
+                    $this->ui_factory,
+                    $this->personal_settings_templates_repository,
+                    $this->user,
+                    $local_dic['settings.factory'],
+                    $local_dic['logging.information_generator']
+                ),
+                PersonalSettingsTableApplyAction::ACTION_ID => new PersonalSettingsTableApplyAction(
+                    $this->lng,
+                    $this->ui_factory,
+                    $this->test_question_set_config_factory,
+                    $this->personal_settings_templates_repository,
+                    $local_dic['settings.factory'],
+                    $this->getTestObject(),
+                    $this->tpl
+                ),
+                PersonalSettingsTableExportAction::ACTION_ID => new PersonalSettingsTableExportAction(
+                    $this->lng,
+                    $this->ui_factory,
+                    $local_dic['settings.personal_templates.exporter']
+                ),
+                PersonalSettingsTableDeleteAction::ACTION_ID => new PersonalSettingsTableDeleteAction(
+                    $this->lng,
+                    $this->ui_factory,
+                    $this->personal_settings_templates_repository,
+                    $this->tpl
+                ),
+            ]
+        );
+
+        $uri = $this->ctrl->getLinkTargetByClass(self::class, 'executeTemplatesAction', '', true);
+        $uri_builder = new URLBuilder($this->data_factory->uri(ILIAS_HTTP_PATH . '/' . $uri));
+
+        $table = new PersonalSettingsTable(
+            $this->lng,
+            $this->ui_factory,
+            $this->data_factory,
+            $this->testrequest,
+            $actions,
+            $uri_builder,
+            $this->personal_settings_templates_repository
+        );
+        return $table;
+    }
+
+
     /**
      * Displays the settings page for test defaults
      */
     public function defaultsObject()
     {
         $this->protectByWritePermission();
-
         $this->tabs_manager->activateTab(TabsManager::TAB_ID_SETTINGS);
 
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'addDefaults'));
         $this->toolbar->addFormButton($this->lng->txt('add'), 'addDefaults');
         $this->toolbar->addInputItem(new ilTextInputGUI($this->lng->txt('tst_defaults_defaults_of_test'), 'name'), true);
-        $table = new ilTestPersonalDefaultSettingsTableGUI($this, 'defaults');
-        $defaults = $this->getTestObject()->getAvailableDefaults();
-        $table->setData($defaults);
-        $this->tpl->setContent($table->getHTML());
-    }
 
-    /**
-     * Deletes selected test defaults
-     */
-    public function deleteDefaultsObject()
-    {
-        $this->protectByWritePermission();
-
-        $defaults_ids = $this->testrequest->retrieveArrayOfIntsFromPost('chb_defaults');
-        if ($defaults_ids !== null && $defaults_ids !== []) {
-            foreach ($defaults_ids as $test_default_id) {
-                $this->getTestObject()->deleteDefaults($test_default_id);
-            }
-        } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'));
-        }
-        $this->defaultsObject();
-    }
-
-    /**
-     *
-     */
-    public function confirmedApplyDefaultsObject()
-    {
-        $this->protectByWritePermission();
-
-        $this->applyDefaultsObject(true);
+        $this->showPersonalSettingsCmd();
         return;
     }
 
     /**
-     * Applies the selected test defaults
+     * Adds the defaults of this test to the defaults
      */
-    public function applyDefaultsObject($confirmed = false): void
-    {
-        $this->protectByWritePermission();
-
-        $defaults_id = $this->testrequest->retrieveArrayOfIntsFromPost('chb_defaults');
-        if ($defaults_id === []) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_defaults_apply_select_one'));
-            $this->defaultsObject();
-            return;
-        }
-
-        // do not apply if user datasets exist
-        if ($this->getTestObject()->evalTotalPersons() > 0
-            || ($defaults = $this->getTestObject()->getTestDefaults($defaults_id[0])) === null) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_defaults_apply_not_possible'));
-            $this->defaultsObject();
-            return;
-        }
-
-        $default_settings = unserialize(
-            $defaults['defaults'],
-            ['allowed_classes' => [DateTimeImmutable::class]]
-        );
-
-        if (isset($default_settings['isRandomTest'])) {
-            if ($default_settings['isRandomTest']) {
-                $new_question_set_type = ilObjTest::QUESTION_SET_TYPE_RANDOM;
-                $this->getTestObject()->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_RANDOM);
-            } else {
-                $new_question_set_type = ilObjTest::QUESTION_SET_TYPE_FIXED;
-                $this->getTestObject()->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_FIXED);
-            }
-        } elseif (isset($default_settings['questionSetType'])) {
-            $new_question_set_type = $default_settings['questionSetType'];
-        }
-        $old_question_set_type = $this->getTestObject()->getQuestionSetType();
-        $question_set_type_setting_switched = ($old_question_set_type != $new_question_set_type);
-
-        $old_question_set_config = $this->test_question_set_config_factory->getQuestionSetConfig();
-
-        switch (true) {
-            case !$question_set_type_setting_switched:
-            case !$old_question_set_config->doesQuestionSetRelatedDataExist():
-            case $confirmed:
-
-                break;
-
-            default:
-
-                $confirmation = new ilTestSettingsChangeConfirmationGUI($this->testrequest, $this->getTestObject());
-
-                $confirmation->setFormAction($this->ctrl->getFormAction($this));
-                $confirmation->setCancel($this->lng->txt('cancel'), 'defaults');
-                $confirmation->setConfirm($this->lng->txt('confirm'), 'confirmedApplyDefaults');
-
-                $confirmation->setOldQuestionSetType($this->getTestObject()->getQuestionSetType());
-                $confirmation->setNewQuestionSetType($new_question_set_type);
-                $confirmation->setQuestionLossInfoEnabled(false);
-                $confirmation->build();
-
-                $confirmation->populateParametersFromPost();
-
-                $this->tpl->setContent($this->ctrl->getHTML($confirmation));
-
-                return;
-        }
-
-        if ($question_set_type_setting_switched && !$this->getTestObject()->getOfflineStatus()) {
-            $this->getTestObject()->setOfflineStatus(true);
-            $info = $this->lng->txt('tst_set_offline_due_to_switched_question_set_type_setting');
-            $this->tpl->setOnScreenMessage('info', $info, true);
-        }
-
-        $info = $this->getTestObject()->applyDefaults($defaults);
-        if ($info === '') {
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('tst_defaults_applied'), true);
-        } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt($info), true);
-        }
-
-
-
-        if ($question_set_type_setting_switched && $old_question_set_config->doesQuestionSetRelatedDataExist()) {
-            $old_question_set_config->removeQuestionSetRelatedData();
-        }
-
-        $this->ctrl->redirect($this, 'defaults');
-    }
-
-    /**
-    * Adds the defaults of this test to the defaults
-    */
     public function addDefaultsObject(): void
     {
         $this->protectByWritePermission();
 
         $name = $this->testrequest->strVal('name');
         if ($name !== '') {
-            $this->getTestObject()->addDefaults($name);
+            $this->personal_settings_templates_repository->createTemplateFor($this->getTestObject()->getTestId(), $name);
         } else {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_defaults_enter_name'));
         }
