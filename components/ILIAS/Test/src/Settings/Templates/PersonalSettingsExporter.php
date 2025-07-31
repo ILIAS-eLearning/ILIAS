@@ -29,7 +29,7 @@ class PersonalSettingsExporter implements Exporter
 {
     private int $template_id;
     private ?PersonalSettingsTemplate $template = null;
-    
+
     public function __construct(
         private readonly SettingsFactory $factory,
         private readonly FileDeliveryServices $file_delivery,
@@ -87,6 +87,7 @@ class PersonalSettingsExporter implements Exporter
         $xml_writer->writeComment("Export of Personal Test Settings Template for installation " . IL_INST_ID);
 
         $xml_writer->startElement('template');
+        $xml_writer->writeAttribute('ilias-version', ILIAS_VERSION_NUMERIC);
         foreach ($template->normalize() as $name => $value) {
             $xml_writer->writeAttribute(str_replace('_', '-', $name), (string) $value);
         }

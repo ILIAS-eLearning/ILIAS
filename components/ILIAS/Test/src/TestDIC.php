@@ -124,12 +124,18 @@ class TestDIC extends PimpleContainer
             new ScoreSettingsDatabaseRepository($DIC->database(), $c['settings.factory']);
 
         $dic['settings.personal_templates.repository'] = static fn($c): PersonalSettingsRepository =>
-            new PersonalSettingsRepository($DIC->database(), $DIC->user(), $c['marks.factory']);
+            new PersonalSettingsRepository(
+                $DIC->database(),
+                $DIC->user(),
+                $c['marks.factory'],
+                $c['settings.main.repository'],
+                $c['settings.scoring.repository']
+            );
 
         $dic['settings.personal_templates.exporter'] = static fn($c): PersonalSettingsExporter =>
             new PersonalSettingsExporter(
-                $c['settings.factory'], 
-                $DIC['file_delivery'], 
+                $c['settings.factory'],
+                $DIC['file_delivery'],
                 $c['settings.personal_templates.repository']
             );
 
@@ -171,11 +177,11 @@ class TestDIC extends PimpleContainer
 
         $dic['logging.information_generator'] = static fn($c): Logging\AdditionalInformationGenerator =>
              new Logging\AdditionalInformationGenerator(
-                (new \ilMustacheFactory())->getBasicEngine(),
-                $DIC['lng'],
-                $DIC['ui.factory'],
-                $DIC['refinery'],
-                $c['question.general_properties.repository']
+                 (new \ilMustacheFactory())->getBasicEngine(),
+                 $DIC['lng'],
+                 $DIC['ui.factory'],
+                 $DIC['refinery'],
+                 $c['question.general_properties.repository']
              );
 
         $dic['logging.logger'] = static fn($c): TestLogger =>

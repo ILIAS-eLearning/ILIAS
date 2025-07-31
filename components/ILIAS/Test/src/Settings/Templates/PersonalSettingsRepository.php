@@ -22,6 +22,10 @@ namespace ILIAS\Test\Settings\Templates;
 
 use ILIAS\Test\Scoring\Marks\MarkSchema;
 use ILIAS\Test\Scoring\Marks\MarkSchemaFactory;
+use ILIAS\Test\Settings\MainSettings\MainSettings;
+use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
+use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
+use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
 
 class PersonalSettingsRepository
 {
@@ -29,6 +33,8 @@ class PersonalSettingsRepository
         protected \ilDBInterface $db,
         protected \ilObjUser $user,
         protected MarkSchemaFactory $marks_factory,
+        protected MainSettingsRepository $main_settings_repository,
+        protected ScoreSettingsRepository $score_settings_repository,
     ) {
     }
 
@@ -43,11 +49,11 @@ class PersonalSettingsRepository
             [$this->user->getId()]
         );
 
-        $defaults = [];
+        $templates = [];
         while ($row = $this->db->fetchAssoc($stmt)) {
-            $defaults[$row['test_defaults_id']] = self::toTemplate($row);
+            $templates[$row['test_defaults_id']] = self::toTemplate($row);
         }
-        return $defaults;
+        return $templates;
     }
 
     /**
@@ -60,11 +66,11 @@ class PersonalSettingsRepository
             "SELECT * FROM tst_test_defaults WHERE " . $this->db->in('test_defaults_id', $ids, false, \ilDBConstants::T_INTEGER),
         );
 
-        $defaults = [];
+        $templates = [];
         while ($row = $this->db->fetchAssoc($stmt)) {
-            $defaults[$row['test_defaults_id']] = self::toTemplate($row);
+            $templates[$row['test_defaults_id']] = self::toTemplate($row);
         }
-        return $defaults;
+        return $templates;
     }
 
     public function getTemplateById(int $id): ?PersonalSettingsTemplate
@@ -148,70 +154,26 @@ class PersonalSettingsRepository
         }
     }
 
-    public function createTemplate(int $test_id, string $name): void
+    public function createTemplate(int $test_id, string $name): PersonalSettingsTemplate
     {
         // 1. Duplicate entry in 'tst_test_settings'
         $new_settings_id = $this->cloneSettings($test_id);
 
         // 2. Create entry in 'tst_test_defaults'
-        $new_defaults_id = $this->db->nextId('tst_test_defaults');
-        $this->db->insert(
-            'tst_test_defaults',
-            [
-                'test_defaults_id' => [\ilDBConstants::T_INTEGER, $new_defaults_id],
-                'user_fi' => [\ilDBConstants::T_INTEGER, $this->user->getId()],
-                'name' => [\ilDBConstants::T_TEXT, $name],
-                'tstamp' => [\ilDBConstants::T_INTEGER, time()],
-                'settings_id' => [\ilDBConstants::T_INTEGER, $new_settings_id],
-            ]
+        $template = new PersonalSettingsTemplate(
+            $this->db->nextId('tst_test_defaults'),
+            $this->user->getId(),
+            $name,
+            '',
+            '',
+            \DateTimeImmutable::createFromFormat('U', (string) time())
         );
+        $this->storeTemplate($template, $new_settings_id);
 
         // 3. Duplicate entries in 'tst_mark'
-        $this->cloneMarks($test_id, $new_defaults_id);
-    }
+        $this->cloneMarks($test_id, $template->getId());
 
-    private function cloneSettings(int $test_id): int
-    {
-        $new_settings_id = $this->db->nextId('tst_test_settings');
-
-        $stmt = $this->db->queryF(
-            "SELECT tst_test_settings.* FROM tst_test_settings 
-                INNER JOIN tst_tests ON tst_test_settings.id = tst_tests.settings_id
-                WHERE tst_tests.test_id = %s",
-            [\ilDBConstants::T_INTEGER],
-            [$test_id]
-        );
-        $settings_row = $this->db->fetchAssoc($stmt);
-
-        $settings_row['id'] = $new_settings_id;
-        $this->db->insert('tst_test_settings', self::createDBParams($settings_row));
-
-        return $new_settings_id;
-    }
-
-    private function cloneMarks(int $test_id, int $new_defaults_id): void
-    {
-        $stmt = $this->db->queryF(
-            "SELECT * FROM tst_mark WHERE test_fi = %s",
-            [\ilDBConstants::T_INTEGER],
-            [$test_id]
-        );
-        $mark_rows = $this->db->fetchAll($stmt);
-
-        foreach ($mark_rows as $mark_row) {
-            $new_mark_id = $this->db->nextId('tst_mark');
-
-            $mark_row['mark_id'] = $new_mark_id;
-            $this->db->insert('tst_mark', self::createDBParams($mark_row));
-
-            $this->db->insert(
-                'tst_defaults_marks',
-                [
-                    'defaults_id' => [\ilDBConstants::T_INTEGER, $new_defaults_id],
-                    'mark_id' => [\ilDBConstants::T_INTEGER, $new_mark_id],
-                ]
-            );
-        }
+        return $template;
     }
 
     public function deleteTemplate(int $template_id): void
@@ -247,6 +209,106 @@ class PersonalSettingsRepository
             [\ilDBConstants::T_INTEGER],
             [$settings_id]
         );
+    }
+
+    public function importTemplate(
+        PersonalSettingsTemplate $template,
+        MainSettings $main_settings,
+        ScoreSettings $score_settings,
+        MarkSchema $mark_schema
+    ): void {
+        // 1. Create new blank settings
+        $new_settings_id = $this->db->nextId('tst_test_settings');
+        $this->db->insert(
+            'tst_test_settings',
+            [
+                'id' => [\ilDBConstants::T_INTEGER, $new_settings_id],
+            ]
+        );
+
+        // 2. Store settings using their repositories
+        $this->main_settings_repository->store($main_settings->withId($new_settings_id));
+        $this->score_settings_repository->store($score_settings->withId($new_settings_id));
+
+        // 3. Store template in database
+        $template = $template->withId($this->db->nextId('tst_test_defaults'));
+        $this->storeTemplate($template, $new_settings_id);
+
+        // 4. Store marks in database and create references in tst_defaults_marks
+        foreach ($mark_schema->getMarkSteps() as $mark_step) {
+            $new_mark_id = $this->db->nextId('tst_mark');
+
+            $mark_row = $mark_step->toStorage();
+            $mark_row['mark_id'] = [\ilDBConstants::T_INTEGER, $new_mark_id];
+            $mark_row['test_fi'] = [\ilDBConstants::T_INTEGER, 0];
+
+            $this->db->insert('tst_mark', $mark_row);
+            $this->db->insert(
+                'tst_defaults_marks',
+                [
+                    'defaults_id' => [\ilDBConstants::T_INTEGER, $template->getId()],
+                    'mark_id' => [\ilDBConstants::T_INTEGER, $new_mark_id],
+                ]
+            );
+        }
+    }
+
+    private function storeTemplate(PersonalSettingsTemplate $template, int $settings_id): void
+    {
+        $this->db->insert(
+            'tst_test_defaults',
+            [
+                'test_defaults_id' => [\ilDBConstants::T_INTEGER, $template->getId()],
+                'user_fi' => [\ilDBConstants::T_INTEGER, $template->getUserId()],
+                'name' => [\ilDBConstants::T_TEXT, $template->getName()],
+                'tstamp' => [\ilDBConstants::T_INTEGER, $template->getCreatedAt()->getTimestamp()],
+                'settings_id' => [\ilDBConstants::T_INTEGER, $settings_id],
+            ]
+        );
+    }
+
+    private function cloneSettings(int $test_id): int
+    {
+        $new_settings_id = $this->db->nextId('tst_test_settings');
+
+        $stmt = $this->db->queryF(
+            "SELECT tst_test_settings.* FROM tst_test_settings 
+                INNER JOIN tst_tests ON tst_test_settings.id = tst_tests.settings_id
+                WHERE tst_tests.test_id = %s",
+            [\ilDBConstants::T_INTEGER],
+            [$test_id]
+        );
+        $settings_row = $this->db->fetchAssoc($stmt);
+
+        $settings_row['id'] = $new_settings_id;
+        $this->db->insert('tst_test_settings', self::createDBParams($settings_row));
+
+        return $new_settings_id;
+    }
+
+    private function cloneMarks(int $test_id, int $new_template_id): void
+    {
+        $stmt = $this->db->queryF(
+            "SELECT * FROM tst_mark WHERE test_fi = %s",
+            [\ilDBConstants::T_INTEGER],
+            [$test_id]
+        );
+        $mark_rows = $this->db->fetchAll($stmt);
+
+        foreach ($mark_rows as $mark_row) {
+            $new_mark_id = $this->db->nextId('tst_mark');
+
+            $mark_row['mark_id'] = $new_mark_id;
+            $this->db->insert('tst_mark', self::createDBParams($mark_row));
+
+            $this->db->insert(
+                'tst_defaults_marks',
+                [
+                    'defaults_id' => [\ilDBConstants::T_INTEGER, $new_template_id],
+                    'mark_id' => [\ilDBConstants::T_INTEGER, $new_mark_id],
+                ]
+            );
+        }
     }
 
     private static function toTemplate(array $row): PersonalSettingsTemplate

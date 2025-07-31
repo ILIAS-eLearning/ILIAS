@@ -25,7 +25,7 @@ use ILIAS\Test\ExportImport\Concerns\PropertyNormalizer;
 
 class PersonalSettingsTemplate implements Normalizable
 {
-        use PropertyNormalizer;
+    use PropertyNormalizer;
 
     public function __construct(
         protected int $id,
@@ -40,6 +40,13 @@ class PersonalSettingsTemplate implements Normalizable
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function withId(int $id): self
+    {
+        $clone = clone $this;
+        $clone->id = $id;
+        return $clone;
     }
 
     public function getUserId(): int
