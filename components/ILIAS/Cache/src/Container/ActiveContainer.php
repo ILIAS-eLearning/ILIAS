@@ -68,9 +68,11 @@ final class ActiveContainer implements Container
      */
     private const FALSE = 'false';
 
-    private Factory $data_factory;
-    private $null_trafo;
+    private \ILIAS\Data\Factory $data_factory;
+    private Transformation $null_trafo;
     private string $prefix_pattern;
+
+    private array $lock_cache = [];
 
     public function __construct(
         private Request $request,
@@ -190,11 +192,19 @@ final class ActiveContainer implements Container
 
     public function isLocked(): bool
     {
+        if (isset($this->lock_cache[$this->request->getContainerKey()])) {
+            return $this->lock_cache[$this->request->getContainerKey()];
+        }
+
+        if (!$this->adaptor->has($this->request->getContainerKey(), self::LOCK_UNTIL)) {
+            return $this->lock_cache[$this->request->getContainerKey()] = false;
+        }
+
         // see comment in buildFinalTransformation why this is not a good solution.
         $lock_until = $this->adaptor->get($this->request->getContainerKey(), self::LOCK_UNTIL);
         $lock_until = $lock_until === null ? null : (float) $lock_until;
 
-        return $lock_until !== null && $lock_until > microtime(true);
+        return $this->lock_cache[$this->request->getContainerKey()] = ($lock_until !== null && $lock_until > microtime(true));
     }
 
     public function lock(float $seconds): void
@@ -220,6 +230,10 @@ final class ActiveContainer implements Container
         if ($this->isLocked()) {
             return null;
         }
+        if (!$this->has($key)) {
+            return null;
+        }
+
         $unpacked_values = $this->unpack(
             $this->adaptor->get($this->request->getContainerKey(), $key)
         );

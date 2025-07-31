@@ -25,9 +25,11 @@ namespace ILIAS\Cache\Adaptor;
  */
 class APCu extends BaseAdaptor implements Adaptor
 {
+    protected static ?bool $is_available = null;
+
     public function isAvailable(): bool
     {
-        return function_exists('apcu_fetch');
+        return self::$is_available ?? self::$is_available = (\function_exists('apcu_fetch') && filter_var(\ini_get('apc.enabled'), \FILTER_VALIDATE_BOOL));
     }
 
     public function has(string $container, string $key): bool
@@ -37,12 +39,20 @@ class APCu extends BaseAdaptor implements Adaptor
 
     public function get(string $container, string $key): ?string
     {
-        return apcu_fetch($this->buildKey($container, $key)) ?: null;
+        $success = false;
+        $return = apcu_fetch($this->buildKey($container, $key), $success) ?: null;
+        if (!$success) {
+            return null;
+        }
+
+        return $return;
     }
 
     public function set(string $container, string $key, string $value, int $ttl): void
     {
-        apcu_store($this->buildKey($container, $key), $value, $ttl);
+        if (!apcu_store($this->buildKey($container, $key), $value, $ttl)) {
+            file_put_contents($container . '_chache.log', $key);
+        }
     }
 
     public function delete(string $container, string $key): void
