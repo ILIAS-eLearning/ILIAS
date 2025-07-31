@@ -594,7 +594,7 @@ class ilContainerRenderer
                 if (isset($this->block_items[$a_block_id])) {
                     foreach ($this->block_items[$a_block_id] as $item_id) {
                         if ($view_mode === ilContainerContentGUI::VIEW_MODE_LIST) {
-                            $this->addStandardRow($a_block_tpl, $this->items[$item_id]["html"], (int) $item_id);
+                            $this->addStandardRow($a_block_tpl, $this->items[$item_id]["html"], $item_id);
                         } else {
                             $cards[] = $this->items[$item_id]["html"];
                         }
@@ -770,11 +770,11 @@ class ilContainerRenderer
     protected function addStandardRow(
         ilTemplate $a_tpl,
         string $a_html,
-        int $a_ref_id = 0
+        string $a_item_id = null
     ): void {
-        if ($a_ref_id > 0) {
+        if ($a_item_id) {
             $a_tpl->setCurrentBlock("row");
-            $a_tpl->setVariable("ROW_ID", 'id="item_row_' . $a_ref_id . '"');
+            $a_tpl->setVariable("ROW_ID", 'id="item_row_' . $a_item_id . '"');
             $a_tpl->parseCurrentBlock();
         } else {
             $a_tpl->touchBlock("row");
