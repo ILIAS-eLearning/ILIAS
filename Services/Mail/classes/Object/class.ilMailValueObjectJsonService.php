@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use Transformation\SanitizeMailMB4Encoding;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -29,6 +31,8 @@ class ilMailValueObjectJsonService
     public function convertToJson(array $mailValueObjects): string
     {
         $mailArray = [];
+        $sanitizeMb4Encoding = new SanitizeMailMB4Encoding();
+
         foreach ($mailValueObjects as $mailValueObject) {
             $array = [];
 
@@ -37,8 +41,8 @@ class ilMailValueObjectJsonService
             $array['recipients_cc'] = $mailValueObject->getRecipientsCC();
             $array['recipients_bcc'] = $mailValueObject->getRecipientsBCC();
             $array['attachments'] = $mailValueObject->getAttachments();
-            $array['body'] = $mailValueObject->getBody();
-            $array['subject'] = $mailValueObject->getSubject();
+            $array['body'] = $sanitizeMb4Encoding->transform($mailValueObject->getBody());
+            $array['subject'] = $sanitizeMb4Encoding->transform($mailValueObject->getSubject());
             $array['is_using_placholders'] = $mailValueObject->isUsingPlaceholders();
             $array['should_save_in_sent_box'] = $mailValueObject->shouldSaveInSentBox();
 
