@@ -47,7 +47,7 @@ abstract class BaseDelivery
 
     protected function saveAndClose(
         ResponseInterface $r,
-        string $path_to_delete = null
+        ?string $path_to_delete = null
     ): never {
         $sender = function () use ($r): void {
             $this->http->saveResponse($r);
