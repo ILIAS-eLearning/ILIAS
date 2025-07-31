@@ -127,9 +127,11 @@ class TestDIC extends PimpleContainer
             new PersonalSettingsRepository(
                 $DIC->database(),
                 $DIC->user(),
+                $c['settings.factory'],
                 $c['marks.factory'],
                 $c['settings.main.repository'],
-                $c['settings.scoring.repository']
+                $c['settings.scoring.repository'],
+                $c['marks.repository']
             );
 
         $dic['settings.personal_templates.exporter'] = static fn($c): PersonalSettingsExporter =>

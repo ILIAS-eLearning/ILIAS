@@ -36,6 +36,7 @@ use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
 use ILIAS\Test\Settings\ScoreReporting\SettingsGamification;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultDetails;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
+use ILIAS\Test\Settings\Templates\PersonalSettingsTemplate;
 
 class SettingsFactory
 {
@@ -114,7 +115,8 @@ class SettingsFactory
         );
     }
 
-    public function createScoreSettings(array $row): ScoreSettings {
+    public function createScoreSettings(array $row): ScoreSettings
+    {
         return new ScoreSettings(
             $row['id'],
             (new SettingsScoring())
@@ -144,6 +146,18 @@ class SettingsFactory
                 ->withHighscoreOwnTable((bool) $row['highscore_own_table'])
                 ->withHighscoreTopTable((bool) $row['highscore_top_table'])
                 ->withHighscoreTopNum((int) $row['highscore_top_num'])
+        );
+    }
+
+    public function createTemplate(array $row): PersonalSettingsTemplate
+    {
+        return new PersonalSettingsTemplate(
+            $row['test_defaults_id'],
+            $row['user_fi'],
+            $row['name'],
+            $row['description'] ?? '',
+            $row['author'] ?? '',
+            \DateTimeImmutable::createFromFormat('U', (string) $row['tstamp'])
         );
     }
 }

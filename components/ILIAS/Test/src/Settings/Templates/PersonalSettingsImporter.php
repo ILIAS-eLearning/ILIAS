@@ -71,7 +71,7 @@ class PersonalSettingsImporter
             $this->firstChildElement($doc, 'mark-schema')
         );
 
-        $this->repository->importTemplate(
+        $this->repository->createTemplate(
             PersonalSettingsTemplate::denormalize($template_data),
             MainSettings::denormalize($main_settings_data),
             ScoreSettings::denormalize($score_settings_data),
