@@ -161,7 +161,7 @@ class Test11DBUpdateSteps implements \ilDatabaseUpdateSteps
             );
         }
 
-        // 3. Create a foreign key column in tst_test_defaults
+        // 3. Create a foreign key column and new columns in tst_test_defaults
         if (!$this->db->tableColumnExists('tst_test_defaults', 'settings_id')) {
             $this->db->addTableColumn(
                 'tst_test_defaults',
@@ -176,6 +176,20 @@ class Test11DBUpdateSteps implements \ilDatabaseUpdateSteps
                 'tst_test_settings',
                 ForeignKeyConstraints::NO_ACTION,
                 ForeignKeyConstraints::RESTRICT
+            );
+        }
+        if (!$this->db->tableColumnExists('tst_test_defaults', 'description')) {
+            $this->db->addTableColumn(
+                'tst_test_defaults',
+                'description',
+                ['type' => \ilDBConstants::T_TEXT, 'length' => 4000, 'default' => null],
+            );
+        }
+        if (!$this->db->tableColumnExists('tst_test_defaults', 'author')) {
+            $this->db->addTableColumn(
+                'tst_test_defaults',
+                'author',
+                ['type' => \ilDBConstants::T_TEXT, 'length' => 255, 'default' => null],
             );
         }
 

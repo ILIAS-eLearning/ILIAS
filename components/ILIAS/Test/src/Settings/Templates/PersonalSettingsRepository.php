@@ -135,14 +135,14 @@ class PersonalSettingsRepository
         $this->marks_repository->storeMarkSchema($mark_schema);
     }
 
-    public function createTemplateFor(int $test_id, string $name): PersonalSettingsTemplate
+    public function createTemplateFor(int $test_id, string $name, string $description, string $author): PersonalSettingsTemplate
     {
         $template = new PersonalSettingsTemplate(
             $this->db->nextId('tst_test_defaults'),
             $this->user->getId(),
             $name,
-            '',
-            '',
+            $description,
+            $author,
             \DateTimeImmutable::createFromFormat('U', (string) time())
         );
 
@@ -240,6 +240,8 @@ class PersonalSettingsRepository
                 'test_defaults_id' => [\ilDBConstants::T_INTEGER, $template->getId()],
                 'user_fi' => [\ilDBConstants::T_INTEGER, $template->getUserId()],
                 'name' => [\ilDBConstants::T_TEXT, $template->getName()],
+                'description' => [\ilDBConstants::T_TEXT, $template->getDescription()],
+                'author' => [\ilDBConstants::T_TEXT, $template->getAuthor()],
                 'tstamp' => [\ilDBConstants::T_INTEGER, $template->getCreatedAt()->getTimestamp()],
                 'settings_id' => [\ilDBConstants::T_INTEGER, $settings_id],
             ]
