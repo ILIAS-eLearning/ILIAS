@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\User\Settings\PersonalSettingsGUI;
 
 class ilMailOptionsGUI
 {
@@ -58,6 +59,16 @@ class ilMailOptionsGUI
     public function executeCommand(): void
     {
         if (!$this->mail_options->mayManageInvididualSettings()) {
+            $referrer = '';
+            if ($this->http->wrapper()->query()->has('referrer')) {
+                $referrer = $this->http->wrapper()->query()->retrieve(
+                    'referrer',
+                    $this->refinery->kindlyTo()->string()
+                );
+            }
+            if (strtolower(ilPersonalSettingsGUI::class) === strtolower($referrer)) {
+                $this->ctrl->redirectByClass(PersonalSettingsGUI::class);
+            }
             $this->ctrl->redirectByClass(ilMailGUI::class);
         }
 

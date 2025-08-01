@@ -54,7 +54,7 @@ class ilObjUser extends ilObject
     private bool $time_limit_unlimited = false;
     private ?int $time_limit_until = null;
     private ?int $time_limit_from = null;
-    private int $time_limit_owner = USER_FOLDER_ID;
+    private int $time_limit_owner = 7;
     private string $last_login = '';
     private string $passwd = '';
     private string $passwd_type = '';
@@ -100,6 +100,10 @@ class ilObjUser extends ilObject
         $this->ctrl = $DIC['ilCtrl'];
         $this->app_event_handler = $DIC['ilAppEventHandler'];
         $this->delivery = $DIC['file_delivery']->delivery();
+
+        if (defined('USER_FOLDER_ID')) {
+            $this->time_limit_owner = USER_FOLDER_ID;
+        }
 
         $local_dic = LocalDIC::dic();
         $this->profile_data_repository = $local_dic[ProfileDataRepository::class];

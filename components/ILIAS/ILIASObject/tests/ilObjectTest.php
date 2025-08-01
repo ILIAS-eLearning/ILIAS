@@ -46,6 +46,7 @@ class ilObjectTest extends TestCase
         $DIC['resource_storage'] = $this->createMock(ILIAS\ResourceStorage\Services::class);
         $DIC['object.customicons.factory'] = $this->createMock(ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory::class);
         $DIC['learning_object_metadata'] = $this->createMock(ILIAS\MetaData\Services\ServicesInterface::class);
+        $DIC['user'] = $this->createMock(ILIAS\User\PublicInterface::class);
 
         if (!defined('ILIAS_LOG_DIR')) {
             define('ILIAS_LOG_DIR', '/var/log');

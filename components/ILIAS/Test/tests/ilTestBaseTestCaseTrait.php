@@ -36,6 +36,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Implementation\DefaultRenderer as ImplementationDefaultRenderer;
 use ILIAS\UI\Implementation\FactoryInternal;
 use ILIAS\UI\Implementation\Factory as ImplementationFactory;
+use ILIAS\User\PublicInterface;
 use GuzzleHttp\Psr7\Uri as GuzzleURI;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 
@@ -407,6 +408,14 @@ trait ilTestBaseTestCaseTrait
         $this->setGlobalVariable(
             'file_delivery',
             $this->getFileDelivery()
+        );
+    }
+
+    protected function addGlobal_user(): void
+    {
+        $this->setGlobalVariable(
+            'user',
+            $this->createMock(PublicInterface::class)
         );
     }
 

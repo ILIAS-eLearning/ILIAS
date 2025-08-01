@@ -18,8 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Tests;
+namespace ILIAS\User\Tests\Profile\ChangeListeners;
 
+use ILIAS\User\Tests\BaseTestCase;
 use ILIAS\User\Profile\ChangeMail\Token;
 use ILIAS\User\Profile\ChangeMail\Status;
 use ILIAS\User\Profile\ChangeMail\DBRepository;

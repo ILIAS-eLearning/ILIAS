@@ -71,30 +71,16 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
             ->method('deliverData');
 
         $userDefinedFieldsHelper = $this->getMockBuilder(ilCertificateUserDefinedFieldsHelper::class)
-            ->getMock();
-
-        $definitionsMock = $this->getMockBuilder(ilUserDefinedFields::class)
             ->disableOriginalConstructor()
             ->getMock();
-
-        $definitionsMock->method('getDefinitions')
-            ->willReturn(
-                [
-                    'f_1' => [
-                        'certificate' => true,
-                        'field_id' => 100,
-                        'field_name' => 'Some Field Name',
-                    ]
-                ]
-            );
 
         $field = $this->getMockBuilder(Custom::class)
             ->disableOriginalConstructor()
             ->getMock();
         $field->method('getidentifier')
-            ->withReturn('70ddbac5-c162-474d-9365-e374975fd021');
+            ->willReturn('70ddbac5-c162-474d-9365-e374975fd021');
         $field->method('getLabel')
-            ->withReturn('Some Field Name');
+            ->willReturn('Some Field Name');
 
         $userDefinedFieldsHelper->method('getFields')
             ->willReturn(
@@ -122,8 +108,8 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
             $placeholderValuesObject,
             $irss,
             'some/where/',
-            $lng,
             $user,
+            $lng,
             $utilHelper,
             $userDefinedFieldsHelper,
             $rpcClientFactoryHelper,
