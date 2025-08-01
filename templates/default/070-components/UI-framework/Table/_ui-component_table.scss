@@ -368,6 +368,15 @@ td.c-table-data__cell--highlighted {
     }
 }
 
+// Breadcrumb
+.c-table-data__cell--breadcrumb .breadcrumb_wrapper {
+    background-color: transparent;
+    .breadcrumb {
+        white-space: wrap;
+        padding: 0;
+    }
+}
+
 //
 // Data Table on Small Screens
 //
