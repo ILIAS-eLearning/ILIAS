@@ -68,7 +68,7 @@ class PersonalSettingsTableDeleteAction implements TableAction
     ): ?Modal {
         return $this->ui_factory->modal()->interruptive(
             $this->lng->txt('confirm'),
-            $this->lng->txt('remove_selected_templates_confirmation'),
+            $this->lng->txt('personal_settings_delete_confirmation'),
             $url_builder->buildURI()->__toString()
         )->withAffectedItems(
             array_map(
@@ -92,7 +92,7 @@ class PersonalSettingsTableDeleteAction implements TableAction
 
         $this->tpl->setOnScreenMessage(
             GlobalTemplate::MESSAGE_TYPE_SUCCESS,
-            $this->lng->txt('tst_selected_template_deleted'),
+            $this->lng->txt('personal_settings_delete_success'),
             true
         );
         return null;

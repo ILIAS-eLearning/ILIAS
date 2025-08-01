@@ -75,7 +75,7 @@ class PersonalSettingsTableApplyAction implements TableAction
 
         return $this->ui_factory->modal()->interruptive(
             $this->lng->txt('confirm'),
-            $this->lng->txt($question_set_type_changed ? 'apply_template_changed_confirmation' : 'apply_template_confirmation'),
+            $this->lng->txt($question_set_type_changed ? 'personal_settings_apply_changed_confirmation' : 'personal_settings_apply_confirmation'),
             $url_builder->buildURI()->__toString()
         )->withAffectedItems(
             [
@@ -83,7 +83,7 @@ class PersonalSettingsTableApplyAction implements TableAction
                     (string) $template->getId(),
                     $template->getName(),
                     null,
-                    sprintf($this->lng->txt('apply_template_description'), $this->test_obj->getTitle()),
+                    sprintf($this->lng->txt('personal_settings_apply_description'), $this->test_obj->getTitle()),
                 ),
             ]
         )->withActionButtonLabel($this->lng->txt('apply'));
@@ -108,7 +108,7 @@ class PersonalSettingsTableApplyAction implements TableAction
 
         $this->tpl->setOnScreenMessage(
             GlobalTemplate::MESSAGE_TYPE_SUCCESS,
-            $this->lng->txt('apply_template_success'),
+            $this->lng->txt('personal_settings_apply_success'),
             true
         );
         return null;
@@ -117,12 +117,12 @@ class PersonalSettingsTableApplyAction implements TableAction
     private function checkSelectedTemplate(array $selected_templates): PersonalSettingsTemplate
     {
         if (count($selected_templates) !== 1) {
-            throw new \InvalidArgumentException('no_valid_template_selection');
+            throw new \InvalidArgumentException('personal_settings_invalid_selection');
         }
 
         // Do not apply if user datasets exist
         if ($this->test_obj->evalTotalPersons() > 0) {
-            throw new \InvalidArgumentException('apply_template_not_possible');
+            throw new \InvalidArgumentException('personal_settings_apply_not_possible');
         }
 
         return reset($selected_templates);

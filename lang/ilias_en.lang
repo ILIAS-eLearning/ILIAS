@@ -1014,6 +1014,20 @@ assessment#:#passes_finished#:#%s passes
 assessment#:#percentage#:#Percentage
 assessment#:#percentage_points_achieved#:#Reached Points
 assessment#:#percentile#:#Percentile
+assessment#:#personal_settings#:#Personal Test Settings Templates
+assessment#:#personal_settings_apply_changed_confirmation#:#The current test settings will be overwritten with the settings from the selected template. This also overwrites the Selection of Test Questions. The process cannot be undone!
+assessment#:#personal_settings_apply_confirmation#:#The current test settings will be overwritten with the settings from the selected template. This process cannot be undone!
+assessment#:#personal_settings_apply_description#:#This template overrides all settings of test '%s'.
+assessment#:#personal_settings_apply_not_possible#:#ILIAS could not apply the selected template to this test! Maybe this test already contains participant data sets.
+assessment#:#personal_settings_apply_success#:#Personal Test Settings have been applied successfully.
+assessment#:#personal_settings_create#:#Add New Setting Template
+assessment#:#personal_settings_delete_confirmation#:#The selected template(s) will be permanently deleted. This cannot be undone.
+assessment#:#personal_settings_delete_success#:#The selected template(s) have been deleted.
+assessment#:#personal_settings_explanation#:#ILIAS will store the settings of the current test in a template. This template can be used to transfer the settings to another test.
+assessment#:#personal_settings_invalid_selection#:#Please select one template.
+assessment#:#personal_settings_required_title#:#Please enter a title for your template.
+assessment#:#personal_settings_save#:#Save New Setting Template
+assessment#:#personal_settings_templates_available#:#Test Setting Templates
 assessment#:#picture#:#Picture
 assessment#:#point#:#Point
 assessment#:#points#:#Points
@@ -1193,6 +1207,7 @@ assessment#:#remove_gap#:#Remove Gap
 assessment#:#remove_participants#:#Remove Participant(s)
 assessment#:#remove_question#:#Remove
 assessment#:#remove_selected_participants_confirmation#:#Are you sure you want to remove the selected participants from the test?
+assessment#:#remove_selected_templates_confirmation#:#Are you sure you want to permanently remove the selected personal test settings templates?
 assessment#:#remove_solution#:#Remove Content for Recapitulation
 assessment#:#res_contains_undef_res#:#A result formula contains an undefined result!
 assessment#:#res_contains_undef_var#:#A result formula contains an undefined variable!
@@ -1432,14 +1447,6 @@ assessment#:#tst_count_correct_solutions_desc#:#Participants score either the ma
 assessment#:#tst_count_partial_solutions#:#Incomplete or Partly Wrong Answers Score Points
 assessment#:#tst_count_partial_solutions_desc#:#When a question defines points for partial answers, points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers on these questions.
 assessment#:#tst_current_run_no_longer_valid#:#Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor.
-assessment#:#tst_default_settings#:#Personal Default Settings
-assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.
-assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains participant data sets.
-assessment#:#tst_defaults_apply_select_one#:#Please select exact one test defaults entry to apply the defaults to this test!
-assessment#:#tst_defaults_available#:#Available test defaults
-assessment#:#tst_defaults_defaults_of_test#:#the settings of this test as
-assessment#:#tst_defaults_enter_name#:#Please enter a name for your test default settings!
-assessment#:#tst_defaults_not_defined#:#You don’t have any test default settings defined yet.
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to remove it
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
+use ILIAS\Test\Settings\Templates\PersonalSettingsCreateAction;
 use ILIAS\Test\Settings\Templates\PersonalSettingsRepository;
 use ILIAS\Test\Settings\Templates\PersonalSettingsTable;
 use ILIAS\Test\Settings\Templates\PersonalSettingsTableActions;
@@ -922,7 +923,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     return;
                 }
 
-                if (in_array($cmd, ['executeTemplatesAction', 'showPersonalSettings'])) {
+                if (in_array($cmd, ['executeTemplatesAction', 'showTemplates', 'createTemplate'])) {
                     $local_cmd = $cmd . 'Cmd';
                 } else {
                     $local_cmd = $cmd . 'Object';
@@ -1404,7 +1405,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $additional_options = [];
         foreach ($defaults as $template) {
             $additional_options["tstdef_" . $template->getId()] =
-                [$template->getName(), $this->lng->txt("tst_default_settings")];
+                [$template->getName(), $this->lng->txt("personal_settings")];
         }
         return $additional_options;
     }
@@ -2006,16 +2007,44 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     }
 
 
-    public function showPersonalSettingsCmd(?Modal $modal = null): void
+    public function showTemplatesCmd(?Modal $modal = null): void
     {
+        $this->protectByWritePermission();
+
+        $this->tabs_manager->activateTab(TabsManager::TAB_ID_SETTINGS);
+
+        $create_input = $this->buildPersonalSettingsCreateAction()
+            ->buildInput($this->ctrl->getLinkTargetByClass(self::class, 'createTemplate'));
+
+        $create_button = $this->ui_factory->button()->standard(
+            $this->lng->txt('personal_settings_create'),
+            $create_input->getShowSignal()
+        );
+        $this->toolbar->addComponent($create_button);
+
         $components = [
             $this->buildPersonalSettingsTable()->getComponent(),
-            $modal
+            $modal,
+            $create_input
         ];
 
         $this->tpl->setContent(
             $this->ui_renderer->render(array_filter($components))
         );
+    }
+
+    public function createTemplateCmd(): void
+    {
+        $this->protectByWritePermission();
+
+        try {
+            $this->buildPersonalSettingsCreateAction()
+                ->perform($this->getTestObject()->getTestId(), $this->request);
+        } catch (\InvalidArgumentException $e) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt($e->getMessage()), true);
+        }
+
+        $this->ctrl->redirectByClass(self::class, 'showTemplates');
     }
 
     public function executeTemplatesActionCmd(): void
@@ -2024,10 +2053,20 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $modal = $this->buildPersonalSettingsTable()->execute();
         if ($modal !== null) {
-            $this->showPersonalSettingsCmd($modal);
+            $this->showTemplatesCmd($modal);
             return;
         }
-        $this->ctrl->redirectByClass(self::class, 'showPersonalSettings');
+        $this->ctrl->redirectByClass(self::class, 'showTemplates');
+    }
+
+    protected function buildPersonalSettingsCreateAction(): PersonalSettingsCreateAction
+    {
+        return new PersonalSettingsCreateAction(
+            $this->ui_factory,
+            $this->lng,
+            $this->user,
+            $this->personal_settings_templates_repository
+        );
     }
 
     protected function buildPersonalSettingsTable(): PersonalSettingsTable
@@ -2087,39 +2126,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->personal_settings_templates_repository
         );
         return $table;
-    }
-
-
-    /**
-     * Displays the settings page for test defaults
-     */
-    public function defaultsObject()
-    {
-        $this->protectByWritePermission();
-        $this->tabs_manager->activateTab(TabsManager::TAB_ID_SETTINGS);
-
-        $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'addDefaults'));
-        $this->toolbar->addFormButton($this->lng->txt('add'), 'addDefaults');
-        $this->toolbar->addInputItem(new ilTextInputGUI($this->lng->txt('tst_defaults_defaults_of_test'), 'name'), true);
-
-        $this->showPersonalSettingsCmd();
-        return;
-    }
-
-    /**
-     * Adds the defaults of this test to the defaults
-     */
-    public function addDefaultsObject(): void
-    {
-        $this->protectByWritePermission();
-
-        $name = $this->testrequest->strVal('name');
-        if ($name !== '') {
-            $this->personal_settings_templates_repository->createTemplateFor($this->getTestObject()->getTestId(), $name);
-        } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_defaults_enter_name'));
-        }
-        $this->defaultsObject();
     }
 
     private function isCommandClassAnyInfoScreenChild(): bool

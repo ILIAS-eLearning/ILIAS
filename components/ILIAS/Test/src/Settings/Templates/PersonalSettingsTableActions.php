@@ -81,7 +81,7 @@ class PersonalSettingsTableActions
         $selection = $this->repository->getTemplatesByIds($selection_ids);
 
         if ($selection === []) {
-            return $this->fail('no_valid_template_selection');
+            return $this->fail('personal_settings_invalid_selection');
         }
 
         if (!$this->checkAccess($selection)) {

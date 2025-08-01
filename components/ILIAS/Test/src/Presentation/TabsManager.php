@@ -68,7 +68,7 @@ class TabsManager
     private const SETTINGS_SUBTAB_ID_CERTIFICATE = 'certificate';
     public const SETTINGS_SUBTAB_ID_ASSIGN_SKILL_TRESHOLDS = 'tst_skl_sub_tab_thresholds';
     public const SETTINGS_SUBTAB_ID_ASSIGN_SKILLS_TO_QUESTIONS = 'qpl_skl_sub_tab_quest_assign';
-    private const SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS = 'tst_default_settings';
+    private const SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS = 'personal_settings';
 
     private const QUESTIONS_SUBTAB_ID_RANDOM_SETTINGS = 'tst_rnd_quest_cfg_tab_general';
     private const QUESTIONS_SUBTAB_ID_RANDOM_POOLS = 'tst_rnd_quest_cfg_tab_pool';
@@ -308,8 +308,8 @@ class TabsManager
             case 'certificateEditor':
             case 'certificateDelete':
             case 'certificateSave':
-            case 'defaults':
-            case 'addDefaults':
+            case 'showTemplates':
+            case 'createTemplate':
             case 'inviteParticipants':
             case 'searchParticipants':
                 if ($this->isWriteAccessGranted() && in_array(strtolower($this->ctrl->getCmdClass()), ['ilobjtestgui', 'ilcertificategui'])) {
@@ -357,7 +357,7 @@ class TabsManager
                 'resetToSimpleMarkSchema', 'saveMarks', 'certificate',
                 'certificateEditor', 'certificateSave',
                 'certificatePreview', 'certificateDelete', 'certificateUpload', 'certificateImport',
-                'scoring', 'defaults', 'addDefaults',
+                'scoring', 'showTemplates', 'createTemplate',
                 'inviteParticipants', 'saveFixedParticipantsStatus', 'searchParticipants', 'addParticipants' // ARE THEY RIGHT HERE
             ];
 
@@ -656,8 +656,8 @@ class TabsManager
 
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS,
-            $this->ctrl->getLinkTargetByClass(\ilObjTestGUI::class, 'defaults'),
-            ['defaults', 'addDefaults'],
+            $this->ctrl->getLinkTargetByClass(\ilObjTestGUI::class, 'showTemplates'),
+            ['showTemplates', 'createTemplate'],
             ['', 'ilobjtestgui', 'ilcertificategui']
         );
 
