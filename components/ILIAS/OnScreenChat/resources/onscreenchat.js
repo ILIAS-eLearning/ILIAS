@@ -220,7 +220,7 @@
 				});
 				$('[data-message-time]').each(() => {
 					let $this = $(this);
-					$this.attr("title", dateTimeFormatter.format($this.data("message-time", "LT")));
+					$this.attr('title', dateTimeFormatter.format($this.data('message-time'), 'LT'));
 				});
 			}, 60000);
 
