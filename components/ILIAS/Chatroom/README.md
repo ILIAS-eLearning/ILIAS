@@ -33,6 +33,10 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
   - [Proxy Configuration](#proxy-configuration)
       - [Proxy configuration via nginx](#proxy-configuration-via-nginx)
       - [Proxy configuration via apache2](#proxy-configuration-via-apache2)
+    - [Dependency Management](#dependency-management)
+      - [Development](#development)
+      - [Production](#production)
+  - [Known Issues](#known-issues)
 
 <!-- /TOC -->
 
@@ -486,3 +490,28 @@ In the ILIAS configuration the proxy configurations are adjusted in the ***Chat 
 Example:
 
     https://onscreenchat.domain.de
+
+### Dependency Management
+
+The node module dependencies should be managed by [npm](https://www.npmjs.com/).
+
+#### Development
+
+Dependencies can be installed by the following command:
+
+```bash
+npm clean-install --ignore-scripts
+```
+
+#### Production
+
+Dependencies can be installed by the following command:
+
+```bash
+npm clean-install --omit=dev --ignore-scripts
+```
+
+# Known Issues
+
+As noted in comment: https://github.com/ILIAS-eLearning/ILIAS/pull/9808#issuecomment-3143866215
+the replacement of the dependency `moment` (removed in PR [#8570](https://github.com/ILIAS-eLearning/ILIAS/pull/8570)) with the builtin [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) Object resulted in some grammar issues in some languages (e.g. `vor 1 Jahr` instead of `vor einem Jahr`) which cannot be fixed easily.
