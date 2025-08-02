@@ -19,6 +19,10 @@
 declare(strict_types=1);
 
 use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\PublicProfileGUI;
+use ILIAS\User\Profile\Fields\Standard\Avatar;
+use ILIAS\User\Profile\Fields\Standard\Birthday;
 
 /**
  * Class ilAccountRegistrationGUI
@@ -32,7 +36,7 @@ class ilAccountRegistrationGUI
     protected bool $code_was_used;
     protected ilRecommendedContentManager $recommended_content_manager;
 
-    protected ilUserProfile $user_profile;
+    protected Profile $user_profile;
 
     protected ?ilPropertyFormGUI $form = null;
 
@@ -77,7 +81,7 @@ class ilAccountRegistrationGUI
 
         $this->recommended_content_manager = new ilRecommendedContentManager();
 
-        $this->user_profile = new ilUserProfile();
+        $this->user_profile = new Profile();
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -158,8 +162,7 @@ class ilAccountRegistrationGUI
             }
         }
 
-        $this->user_profile->setMode(ilUserProfile::MODE_REGISTRATION);
-        $this->user_profile->skipGroup("preferences");
+        $this->user_profile->setMode(Profile::MODE_REGISTRATION);
 
         $this->user_profile->setAjaxCallback(
             $this->ctrl->getLinkTarget($this, 'doProfileAutoComplete', '', true)
@@ -379,11 +382,8 @@ class ilAccountRegistrationGUI
             $this->userObj->setAuthMode('local');
         }
 
-        $this->user_profile->skipGroup("preferences");
-        $this->user_profile->skipGroup("settings");
-        $this->user_profile->skipField("password");
-        $this->user_profile->skipField("birthday");
-        $this->user_profile->skipField("upload");
+        $this->user_profile->skipField(Birthday::class);
+        $this->user_profile->skipField(Avatar::class);
         foreach ($this->user_profile->getStandardFields() as $k => $v) {
             if ($v["method"]) {
                 $method = "set" . substr($v["method"], 3);
@@ -653,7 +653,7 @@ class ilAccountRegistrationGUI
         $field_id = (string) $_REQUEST["f"];
         $term = (string) $_REQUEST["term"];
 
-        $result = ilPublicUserProfileGUI::getAutocompleteResult($field_id, $term);
+        $result = PublicProfileGUI::getAutocompleteResult($field_id, $term);
         if (count($result)) {
             echo json_encode($result, JSON_THROW_ON_ERROR);
         }

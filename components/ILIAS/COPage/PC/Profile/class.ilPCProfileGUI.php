@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\User\Profile\PersonalProfileGUI;
+
 /**
  * Class ilPCProfileGUI
  * Handles user commands on personal data
@@ -142,7 +144,7 @@ class ilPCProfileGUI extends ilPageContentGUI
             }
         }
 
-        $profile = new ilPersonalProfileGUI();
+        $profile = new PersonalProfileGUI();
         $profile->showPublicProfileFields($form, $prefs, $mode_manual, $is_template);
 
         if ($a_insert) {

@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\User\Profile\Profile;
 
 class ilOpenIdConnectSettings
 {
@@ -545,13 +546,13 @@ class ilOpenIdConnectSettings
     public function getProfileMappingFields(): array
     {
         $mapping_fields = [];
-        $usr_profile = new ilUserProfile();
+        $usr_profile = new Profile();
 
-        foreach ($usr_profile->getStandardFields() as $id => $definition) {
-            if (in_array($id, self::IGNORED_USER_FIELDS, true)) {
+        foreach ($usr_profile->getStandardFields() as $field) {
+            if (in_array($field->getIdentifier(), self::IGNORED_USER_FIELDS, true)) {
                 continue;
             }
-            $mapping_fields[$id] = $this->lng->txt($id);
+            $mapping_fields[$field->getIdentifier()] = $this->lng->txt($field->getIdentifier());
         }
 
         return $mapping_fields;

@@ -20,9 +20,10 @@ declare(strict_types=1);
 
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 use ILIAS\User\Settings\User\PersonalSettingsGUI;
+use ILIAS\User\Profile\PersonalProfileGUI;
 
 /**
- * @ilCtrl_Calls ilDashboardGUI: ilPersonalProfileGUI
+ * @ilCtrl_Calls ilDashboardGUI: ILIAS\User\Profile\PersonalProfileGUI
  * @ilCtrl_Calls ilDashboardGUI: ilObjUserGUI, ilPDNotesGUI
  * @ilCtrl_Calls ilDashboardGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilDashboardGUI: ilMailSearchGUI, ilContactGUI
@@ -104,10 +105,10 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $next_class = $this->ctrl->getNextClass();
         $this->ctrl->setReturn($this, 'show');
         switch ($next_class) {
-            case strtolower(ilPersonalProfileGUI::class):
+            case strtolower(PersonalProfileGUI::class):
                 $this->getStandardTemplates();
                 $this->setTabs();
-                $profile_gui = new ilPersonalProfileGUI();
+                $profile_gui = new PersonalProfileGUI();
                 $this->ctrl->forwardCommand($profile_gui);
                 break;
 
@@ -379,7 +380,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     public function jumpToProfile(): void
     {
-        $this->ctrl->redirectByClass(ilPersonalProfileGUI::class);
+        $this->ctrl->redirectByClass([self::class, PersonalProfileGUI::class]);
     }
 
     public function jumpToPortfolio(): void

@@ -18,6 +18,8 @@
 
 declare(strict_types=0);
 
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Fields\AvailableSections;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpService;
 
@@ -1024,10 +1026,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
     ): array {
         $cols = $privacy_fields = array();
 
-        $up = new ilUserProfile();
-        $up->skipGroup("preferences");
-        $up->skipGroup("settings");
-        $up->skipGroup("interests");
+        $up = new Profile();
+        $up->skipGroup(AvailableSections::Interests);
         $ufs = $up->getStandardFields();
 
         // default fields

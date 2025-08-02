@@ -18,6 +18,7 @@
 
 use ILIAS\COPage\Editor\EditSessionRepository;
 use ILIAS\COPage\Page\EditGUIRequest;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * Class ilPageObjectGUI
@@ -27,7 +28,7 @@ use ILIAS\COPage\Page\EditGUIRequest;
  * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilObjectMetaDataGUI
- * @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI, ilCommentGUI, ilNewsItemGUI
+ * @ilCtrl_Calls ilPageObjectGUI: ILIAS\User\Profile\PublicProfileGUI, ilNoteGUI, ilCommentGUI, ilNewsItemGUI
  * @ilCtrl_Calls ilPageObjectGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI, ilLearningHistoryGUI
  */
 class ilPageObjectGUI
@@ -863,7 +864,7 @@ class ilPageObjectGUI
                 return $html;
 
             case 'ilpublicuserprofilegui':
-                $profile_gui = new ilPublicUserProfileGUI($this->requested_user_id);
+                $profile_gui = new PublicProfileGUI($this->requested_user_id);
                 $ret = $this->ctrl->forwardCommand($profile_gui);
                 break;
 

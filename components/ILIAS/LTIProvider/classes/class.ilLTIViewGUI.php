@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\LTI\Screen\LtiViewLayoutProvider;
+use ILIAS\User\Profile\PersonalProfileGUI;
 
 /**
  * @classDescription class for ILIAS ViewLTI
@@ -236,7 +237,7 @@ class ilLTIViewGUI
                     &&
                     (
                         $this->wrapper->query()->has('cmdClass') &&
-                        $this->wrapper->query()->retrieve('cmdClass', $this->kindlyTo->string()) === 'ilpersonalprofilegui'
+                        $this->wrapper->query()->retrieve('cmdClass', $this->kindlyTo->string()) === strtolower(PersonalProfileGUI::class)
                     )
                 ) {
                     return $context_id;

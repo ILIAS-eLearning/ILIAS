@@ -35,7 +35,7 @@ use ilUtil;
 use JsonException;
 use ilUserPrivacySettingsGUI;
 use ilDashboardGUI;
-use ilPersonalProfileGUI;
+use ILIAS\User\Profile\PersonalProfileGUI;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 
 /**
@@ -86,7 +86,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                         $this->dic->ctrl()->getLinkTargetByClass(
                             [
                                 ilDashboardGUI::class,
-                                ilPersonalProfileGUI::class,
+                                PersonalProfileGUI::class,
                                 ilUserPrivacySettingsGUI::class
                             ],
                             'showPrivacySettings'

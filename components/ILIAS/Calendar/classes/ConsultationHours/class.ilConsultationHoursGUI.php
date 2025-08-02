@@ -25,11 +25,12 @@ use ILIAS\Calendar\ConsultationHours\BookingDataProvider;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * Consultation hours editor
  * @author      Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls ilConsultationHoursGUI: ilPublicUserProfileGUI, ilRepositorySearchGUI
+ * @ilCtrl_Calls ilConsultationHoursGUI: ILIAS\User\Profile\PublicProfileGUI, ilRepositorySearchGUI
  */
 class ilConsultationHoursGUI
 {
@@ -214,7 +215,7 @@ class ilConsultationHoursGUI
             case "ilpublicuserprofilegui":
                 #22168 don't send the current user if no GET user_id
                 //$profile = new ilPublicUserProfileGUI($this->user_id);
-                $profile = new ilPublicUserProfileGUI();
+                $profile = new PublicProfileGUI();
                 $profile->setBackUrl($this->getProfileBackUrl());
                 $ret = $this->ctrl->forwardCommand($profile);
                 $this->tpl->setContent($ret);
@@ -849,7 +850,7 @@ class ilConsultationHoursGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-        $profile = new ilPublicUserProfileGUI($user_id);
+        $profile = new PublicProfileGUI($user_id);
         $profile->setBackUrl($this->getProfileBackUrl());
         $this->tpl->setContent($this->ctrl->getHTML($profile));
     }

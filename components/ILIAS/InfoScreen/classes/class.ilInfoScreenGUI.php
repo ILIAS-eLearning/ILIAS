@@ -22,12 +22,13 @@ use ILIAS\InfoScreen\StandardGUIRequest;
 use ILIAS\MetaData\Services\ServicesInterface as Metadata;
 use ILIAS\Export\ExportHandler\Factory as ExportServices;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * Class ilInfoScreenGUI
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilInfoScreenGUI: ilCommentGUI, ilColumnGUI, ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilInfoScreenGUI: ilCommentGUI, ilColumnGUI, ILIAS\User\Profile\PublicProfileGUI
  * @ilCtrl_Calls ilInfoScreenGUI: ilCommonActionDispatcherGUI
  */
 class ilInfoScreenGUI
@@ -131,7 +132,7 @@ class ilInfoScreenGUI
                 break;
 
             case "ilpublicuserprofilegui":
-                $user_profile = new ilPublicUserProfileGUI($this->request->getUserId());
+                $user_profile = new PublicProfileGUI($this->request->getUserId());
                 $user_profile->setBackUrl($this->ctrl->getLinkTarget($this, "showSummary"));
                 $html = $this->ctrl->forwardCommand($user_profile);
                 $tpl->setContent($html);

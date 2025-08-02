@@ -24,12 +24,13 @@ use ILIAS\Data\URI;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Component;
 use ILIAS\Contact\BuddySystem\Tables\RelationsTable;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
 * @author Jens Conze
 * @ingroup ServicesMail
 * @ilCtrl_Calls ilContactGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailSearchLearningSequenceGUI, ilMailingListsGUI
-* @ilCtrl_Calls ilContactGUI: ilUsersGalleryGUI, ilPublicUserProfileGUI
+* @ilCtrl_Calls ilContactGUI: ilUsersGalleryGUI, ILIAS\User\Profile\PublicProfileGUI
 */
 class ilContactGUI implements ilCtrlSecurityInterface
 {
@@ -143,8 +144,8 @@ class ilContactGUI implements ilCtrlSecurityInterface
                 $this->tpl->printToStdout();
                 break;
 
-            case strtolower(ilPublicUserProfileGUI::class):
-                $profile_gui = new ilPublicUserProfileGUI(
+            case strtolower(PublicProfileGUI::class):
+                $profile_gui = new PublicProfileGUI(
                     $this->http->wrapper()->query()->retrieve('user', $this->refinery->kindlyTo()->int())
                 );
                 $profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, 'showContacts'));

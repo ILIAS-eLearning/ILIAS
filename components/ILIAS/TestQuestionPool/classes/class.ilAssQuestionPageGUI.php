@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author Alex Killing <alex.killing@gmx.de>
  *
  * @ilCtrl_Calls ilAssQuestionPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
- * @ilCtrl_Calls ilAssQuestionPageGUI: ilPublicUserProfileGUI, ilCommentGUI
+ * @ilCtrl_Calls ilAssQuestionPageGUI: ILIAS\User\Profile\PublicProfileGUI, ilCommentGUI
  * @ilCtrl_Calls ilAssQuestionPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
  *
  * @ingroup components\ILIASTestQuestionPool

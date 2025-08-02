@@ -24,6 +24,7 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Data\Factory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
+use ILIAS\User\Profile\Profile;
 
 final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
 {
@@ -406,7 +407,7 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
         $form->setFormAction($this->ctrl->getFormAction($this, self::CMD_SAVE_USER_ATTRIBUTE_MAPPING));
         $form->setTitle($this->lng->txt(self::LNG_AUTH_SAML_USER_MAPPING));
 
-        $usr_profile = new ilUserProfile();
+        $usr_profile = new Profile();
         foreach (array_keys($usr_profile->getStandardFields()) as $id) {
             if (in_array($id, self::IGNORED_USER_FIELDS, true)) {
                 continue;
@@ -452,7 +453,7 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
         if ($form->checkInput()) {
             $this->mapping->delete();
 
-            $usr_profile = new ilUserProfile();
+            $usr_profile = new Profile();
             foreach (array_keys($usr_profile->getStandardFields()) as $id) {
                 if (in_array($id, self::IGNORED_USER_FIELDS, true)) {
                     continue;

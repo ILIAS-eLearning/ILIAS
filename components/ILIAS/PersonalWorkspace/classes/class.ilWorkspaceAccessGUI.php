@@ -17,13 +17,14 @@
  *********************************************************************/
 
 use ILIAS\PersonalWorkspace\StandardGUIRequest;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * ACL access handler GUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI
- * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchGUI, ilPublicUserProfileGUI, ilSingleUserShareGUI
+ * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchGUI, ILIAS\User\Profile\PublicProfileGUI, ilSingleUserShareGUI
  */
 class ilWorkspaceAccessGUI
 {
@@ -155,7 +156,7 @@ class ilWorkspaceAccessGUI
                     $this->ctrl->getLinkTarget($this, "share")
                 );
 
-                $prof = new ilPublicUserProfileGUI(
+                $prof = new PublicProfileGUI(
                     $this->std_request->getUser()
                 );
                 $prof->setBackUrl($this->ctrl->getLinkTarget($this, "share"));

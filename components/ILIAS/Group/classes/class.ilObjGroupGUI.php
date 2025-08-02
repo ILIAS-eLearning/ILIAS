@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Refinery\Factory;
 use ILIAS\News\Service as News;
 use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * Class ilObjGroupGUI
@@ -29,7 +30,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  * @author    Sascha Hofmann <saschahofmann@gmx.de>
  *
  * @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjectContentStyleSettingsGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ILIAS\User\Profile\PublicProfileGUI, ilObjCourseGroupingGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilContainerPageGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
@@ -202,7 +203,7 @@ class ilObjGroupGUI extends ilContainerGUI
                         $this->refinery->kindlyTo()->int()
                     );
                 }
-                $profile_gui = new ilPublicUserProfileGUI($usr_id);
+                $profile_gui = new PublicProfileGUI($usr_id);
                 $back_url = '';
                 if ($this->http->wrapper()->query()->has('back_url')) {
                     $back_url = $this->http->wrapper()->query()->retrieve(
@@ -1229,7 +1230,7 @@ class ilObjGroupGUI extends ilContainerGUI
         if (count($contacts) > 0) {
             $info->addSection($this->lng->txt("grp_mem_contacts"));
             foreach ($contacts as $c) {
-                $pgui = new ilPublicUserProfileGUI($c);
+                $pgui = new PublicProfileGUI($c);
                 $pgui->setBackUrl($this->ctrl->getLinkTargetByClass("ilinfoscreengui"));
                 $pgui->setEmbedded(true);
                 $info->addProperty("", $pgui->getHTML());

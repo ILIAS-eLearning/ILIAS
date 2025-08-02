@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\PublicProfileGUI;
+
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -713,7 +715,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         if (count($contacts) > 0) {
             $info->addSection($this->lng->txt("crs_mem_contacts"));
             foreach ($contacts as $contact) {
-                $pgui = new ilPublicUserProfileGUI($contact);
+                $pgui = new PublicProfileGUI($contact);
                 $pgui->setBackUrl($this->ctrl->getLinkTargetByClass("ilinfoscreengui"));
                 $pgui->setEmbedded(true);
                 $info->addProperty("", $pgui->getHTML());

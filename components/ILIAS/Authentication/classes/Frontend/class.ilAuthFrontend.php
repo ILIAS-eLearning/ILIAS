@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
+
 class ilAuthFrontend implements ilAuthFrontendInterface
 {
     public const string MIG_EXTERNAL_ACCOUNT = 'mig_ext_account';
@@ -35,7 +37,7 @@ class ilAuthFrontend implements ilAuthFrontendInterface
     private ilAuthSession $auth_session;
     private ilAppEventHandler $ilAppEventHandler;
 
-    private ilUserProfile $user_profile;
+    private Profile $user_profile;
 
     /**
      * @param list<ilAuthProviderInterface> $providers
@@ -53,7 +55,7 @@ class ilAuthFrontend implements ilAuthFrontendInterface
         $this->status = $status;
         $this->providers = $providers;
 
-        $this->user_profile = new ilUserProfile();
+        $this->user_profile = new Profile();
     }
 
     public function getAuthSession(): ilAuthSession

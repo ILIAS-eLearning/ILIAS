@@ -29,6 +29,7 @@ use ILIAS\Mail\Folder\MailFolderSearch;
 use ILIAS\Mail\Folder\MailFolderTableUI;
 use ILIAS\Mail\Folder\MailFolderData;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * @ilCtrl_Calls ilMailFolderGUI:
@@ -373,7 +374,7 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
         $this->tpl->setVariable('TBL_TITLE_IMG', ilUtil::getImagePath('standard/icon_usr.svg'));
         $this->tpl->setVariable('TBL_TITLE_IMG_ALT', $this->lng->txt('public_profile'));
 
-        $profile_gui = new ilPublicUserProfileGUI($usr_id);
+        $profile_gui = new PublicProfileGUI($usr_id);
 
         $mail_id = $this->http->wrapper()->query()->retrieve(
             self::PARAM_MAIL_ID,

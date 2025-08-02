@@ -26,7 +26,7 @@ use ILIAS\Imprint\StandardGUIRequest;
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
  * @ilCtrl_Calls ilImprintGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilImprintGUI: ilPublicUserProfileGUI, ilPageObjectGUI
+ * @ilCtrl_Calls ilImprintGUI: ILIAS\User\Profile\PublicProfileGUI, ilPageObjectGUI
  */
 class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
 {

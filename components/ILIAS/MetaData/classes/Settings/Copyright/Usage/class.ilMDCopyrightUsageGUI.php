@@ -21,10 +21,11 @@ declare(strict_types=1);
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\MetaData\Copyright\EntryInterface;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * @author       Jesús López <lopez@leifos.com>
- * @ilCtrl_Calls ilMDCopyrightUsageGUI: ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilMDCopyrightUsageGUI: ILIAS\User\Profile\PublicProfileGUI
  * @ingroup      ServicesMetaData
  */
 class ilMDCopyrightUsageGUI
@@ -71,7 +72,7 @@ class ilMDCopyrightUsageGUI
         $next_class = $this->ctrl->getNextClass($this);
         switch ($this->ctrl->getNextClass($this)) {
             case 'ilpublicuserprofilegui':
-                $profile_gui = new ilPublicUserProfileGUI($this->http->wrapper()->query()->retrieve(
+                $profile_gui = new PublicProfileGUI($this->http->wrapper()->query()->retrieve(
                     'user',
                     $this->refinery->kindlyTo()->int()
                 ));

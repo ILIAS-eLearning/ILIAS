@@ -28,7 +28,7 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Input;
 use ILIAS\Refinery\Factory as Refinery;
 
-class Style implements SettingConfiguration
+class Style implements SettingDefinition
 {
     private readonly \ilStyleDefinition $style_definition;
 
@@ -166,5 +166,13 @@ class Style implements SettingConfiguration
             $skin = $this->style_definition->getSystemStylesConf()->getDefaultSkinId();
         }
         return "{$skin}:{$style}";
+    }
+
+    public function getValueForUser(\ilObjUser $current_user): array
+    {
+        return [
+            'style' => $current_user->prefs['style'],
+            'skin' => $current_user->skin
+        ];
     }
 }

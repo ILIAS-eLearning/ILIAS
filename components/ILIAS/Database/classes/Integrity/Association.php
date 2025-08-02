@@ -22,16 +22,16 @@ namespace ILIAS\components\Database\Integrity;
 
 class Association
 {
-    public function __construct(private Field $field, private Field $reference_field)
+    public function __construct(private Property $field, private Property $reference_field)
     {
     }
 
-    public function field(): Field
+    public function field(): Property
     {
         return $this->field;
     }
 
-    public function referenceField(): Field
+    public function referenceField(): Property
     {
         return $this->reference_field;
     }

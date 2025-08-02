@@ -18,10 +18,12 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\PublicProfileGUI;
+
 /**
  * @author Stefan Meyer <meyer@leifos.com>
  *
- * @ilCtrl_Calls ilLuceneUserSearchGUI: ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilLuceneUserSearchGUI: ILIAS\User\Profile\PublicProfileGUI
  * @ilCtrl_IsCalledBy ilLuceneUserSearchGUI: ilSearchControllerGUI
  */
 class ilLuceneUserSearchGUI extends ilSearchBaseGUI
@@ -61,7 +63,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
                         $this->refinery->kindlyTo()->int()
                     );
                 }
-                $profile = new ilPublicUserProfileGUI($user_id);
+                $profile = new PublicProfileGUI($user_id);
                 $profile->setBackUrl($this->ctrl->getLinkTarget($this, 'showSavedResults'));
                 $ret = $this->ctrl->forwardCommand($profile);
                 $this->tpl->setContent($ret);
