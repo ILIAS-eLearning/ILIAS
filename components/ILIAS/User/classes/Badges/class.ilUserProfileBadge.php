@@ -77,7 +77,7 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
 
         // use getter mapping from user profile
         $up = new Profile();
-        $pfields = $up->getStandardFields();
+        $pfields = $up->getFields();
 
         // check for value AND publication status
 

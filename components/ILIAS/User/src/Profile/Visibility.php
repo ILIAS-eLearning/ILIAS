@@ -41,7 +41,7 @@ class Visibility
 
     public function getMode(): string
     {
-        $public_profile_pref = $this->user->prefs['public_profile'] ?? null;
+        $public_profile_pref = $this->user->getPref('public_profile');
         if ($public_profile_pref === null
             || !in_array(
                 $public_profile_pref,

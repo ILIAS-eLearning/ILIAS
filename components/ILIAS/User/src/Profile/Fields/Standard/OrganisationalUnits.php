@@ -61,7 +61,7 @@ class OrganisationalUnits implements FieldDefinition
 
     public function requiredForcedTo(): ?bool
     {
-        return true;
+        return false;
     }
 
     public function searchableForcedTo(): ?bool
@@ -76,11 +76,14 @@ class OrganisationalUnits implements FieldDefinition
 
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        ?\ilObjUser $current_user = null
     ): \ilFormPropertyGUI {
         $input = new \ilNonEditableValueGUI($this->getLabel($lng));
+        if ($current_user === null) {
+            return $input;
+        }
         $input->setValue(
-            $this->getValueForUser($current_user)
+            $this->retrieveValueFromUser($current_user)
         );
         return $input;
     }
@@ -93,7 +96,7 @@ class OrganisationalUnits implements FieldDefinition
         throw new Exception('This Value cannot be set here!');
     }
 
-    public function getValueForUser(\ilObjUser $current_user): string
+    public function retrieveValueFromUser(\ilObjUser $current_user): string
     {
         return $current_user->getOrgUnitsRepresentation();
     }

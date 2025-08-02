@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields;
 
-use ILIAS\User\Profile\Fields\AvailableSections;
+use ILIAS\User\Profile\DataRepository;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
 
 class ConfigurationRepository
@@ -31,7 +31,7 @@ class ConfigurationRepository
 
     public function __construct(
         private readonly \ilDBInterface $db,
-        private readonly UserDataRepository $data_repository,
+        private readonly DataRepository $data_repository,
         private readonly UUIDFactory $uuid_factory,
         private readonly array $available_custom_field_types,
         private readonly array $available_standard_profile_fields
@@ -51,22 +51,24 @@ class ConfigurationRepository
         );
     }
 
-    public function getByIdentifier(string $identifier): Field
+    public function getByIdentifier(string $identifier): ?Field
     {
         foreach ($this->available_profile_fields as $definition) {
             if ($definition->getIdentifier() === $identifier) {
                 return $this->buildFieldFromDefinition($definition);
             }
         }
+        return null;
     }
 
-    public function getByClass(string $class): Field
+    public function getByClass(string $class): ?Field
     {
         foreach ($this->available_profile_fields as $definition) {
             if ($definition::class === $class) {
                 return $this->buildFieldFromDefinition($definition);
             }
         }
+        return null;
     }
 
     public function storeConfiguration(Field $field): void

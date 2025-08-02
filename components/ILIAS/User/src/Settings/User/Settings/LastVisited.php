@@ -63,7 +63,7 @@ class LastVisited implements SettingDefinition
 
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        ?\ilObjUser $current_user = null
     ): \ilFormPropertyGUI {
         $input = new \ilSelectInputGUI($lng->txt('user_store_last_visited'));
         $options = [
@@ -72,8 +72,11 @@ class LastVisited implements SettingDefinition
             2 => $lng->txt('user_lv_do_not_store')
         ];
         $input->setOptions($options);
+        if ($current_user === null) {
+            return $input;
+        }
         $input->setValue(
-            $this->getValueForUser($current_user)
+            $this->retrieveValueFromUser($current_user)
         );
         return $input;
     }
@@ -90,13 +93,13 @@ class LastVisited implements SettingDefinition
         \ilSetting $settings,
         \ilObjUser $current_user
     ): bool {
-        return $this->getValueForUser($current_user) !== 0;
+        return $this->retrieveValueFromUser($current_user) !== 0;
     }
 
     public function persistUserInput(
         \ilObjUser $current_user,
         mixed $input
-    ): void {
+    ): \ilObjUser {
         $current_user->setPref('store_last_visited', $input ?? '0');
         if ((int) $input > 0) {
             $this->navigation_history->deleteDBEntries();
@@ -104,9 +107,10 @@ class LastVisited implements SettingDefinition
                 $this->navigation_history->deleteSessionEntries();
             }
         }
+        return $current_user;
     }
 
-    public function getValueForUser(\ilObjUser $current_user): int
+    public function retrieveValueFromUser(\ilObjUser $current_user): int
     {
         return (int) ($current_user->prefs['store_last_visited'] ?? 0);
     }

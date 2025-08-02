@@ -56,11 +56,18 @@ class Birthday implements FieldDefinition
 
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        ?\ilObjUser $current_user = null
     ): \ilFormPropertyGUI {
         $input = new \ilBirthdayInputGUI($this->getLabel($lng));
-        $date = new \ilDateTime($this->getValueForUser($current_user), IL_CAL_DATE);
-        $input->setDate($date);
+        $value = $current_user === null ? '' : $this->retrieveValueFromUser($current_user);
+
+        if ($value === '') {
+            return $input;
+        }
+
+        $input->setDate(
+            new \ilDateTime($value, IL_CAL_DATE)
+        );
         return $input;
     }
 
@@ -73,7 +80,7 @@ class Birthday implements FieldDefinition
         return $current_user;
     }
 
-    public function getValueForUser(\ilObjUser $current_user): ?string
+    public function retrieveValueFromUser(\ilObjUser $current_user): ?string
     {
         return $current_user->getBirthday();
     }

@@ -35,8 +35,8 @@ interface Property
      */
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        ?\ilObjUser $current_user = null
     ): \ilFormPropertyGUI;
 
-    public function getValueForUser(\ilObjUser $current_user): mixed;
+    public function retrieveValueFromUser(\ilObjUser $current_user): mixed;
 }

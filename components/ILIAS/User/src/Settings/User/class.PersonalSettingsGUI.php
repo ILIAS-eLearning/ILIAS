@@ -21,13 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\User\Settings\User;
 
 use ILIAS\User\LocalDIC;
+use ILIAS\User\Context;
 use ILIAS\User\Presentation\SettingsTabs;
 use ILIAS\User\Account\DeleteAccountGUI;
-use ILIAS\User\Settings\User\Repository;
 use ILIAS\DI\LoggingServices;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer;
-use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @ilCtrl_Calls ILIAS\User\Settings\User\PersonalSettingsGUI: ILIAS\User\Account\DeleteAccountGUI
@@ -40,7 +39,6 @@ class PersonalSettingsGUI
     private readonly Renderer $ui_renderer;
     private readonly \ilLanguage $lng;
     private readonly \ilCtrl $ctrl;
-    private readonly Refinery $refinery;
     private readonly LoggingServices $log;
     private readonly \ilMailMimeSenderFactory $mail_sender_factory;
     private readonly \ilHelpGUI $help;
@@ -49,7 +47,7 @@ class PersonalSettingsGUI
     private readonly \ilSetting $settings;
     private readonly \ilAuthSession $auth_session;
     private readonly \ilRbacSystem $rbac_system;
-    private readonly Repository $user_settings_repository;
+    private readonly Settings $user_settings;
     private readonly SettingsTabs $tabs;
 
     public function __construct()
@@ -62,7 +60,6 @@ class PersonalSettingsGUI
         $this->ui_renderer = $DIC['ui.renderer'];
         $this->lng = $DIC['lng'];
         $this->ctrl = $DIC['ilCtrl'];
-        $this->refinery = $DIC['refinery'];
         $this->log = $DIC->logger();
         $this->mail_sender_factory = $DIC->mail()->mime()->senderFactory();
         $this->help = $DIC['ilHelp'];
@@ -77,7 +74,7 @@ class PersonalSettingsGUI
 
         $this->ctrl->saveParameter($this, 'user_page');
 
-        $this->user_settings_repository = LocalDIC::dic()[Repository::class];
+        $this->user_settings = LocalDIC::dic()[Settings::class];
 
         $this->tabs = new SettingsTabs(
             $DIC['ilTabs'],
@@ -136,28 +133,17 @@ class PersonalSettingsGUI
     {
         $form = $this->initForm();
         if (!$form->checkInput()
-            || $this->checkStartingPointValue($form)) {
+            || !$this->user_settings->performAdditionalChecks($form)) {
             $form->setValuesByPost();
             $this->showCmd($form);
             return;
         }
 
-        foreach ($this->getSettingsForPageBySections() as $section => $settings) {
-            $set_settings_to_default = false;
-            if ($section !== 0
-                && (($input = $form->getInput($section)) === '' || $input === '0')) {
-                $set_settings_to_default = true;
-            }
-            foreach ($settings as $setting) {
-                $setting->persistUserInput(
-                    $this->current_user,
-                    $set_settings_to_default ? null : $form->getInput($setting->getIdentifier()),
-                    $form
-                );
-            }
-        }
-
-        $this->current_user->update();
+        $this->current_user = $this->user_settings->saveForm(
+            $form,
+            Context::User,
+            $this->current_user
+        );
 
         $this->tpl->setOnScreenMessage(
             'success',
@@ -170,18 +156,10 @@ class PersonalSettingsGUI
 
     private function initForm(): \ilPropertyFormGUI
     {
-        $form = array_reduce(
-            $this->getSettingsForPageBySections(),
-            fn(\ilPropertyFormGUI $c, array $v): \ilPropertyFormGUI => $this->addSectionToForm(
-                $c,
-                array_values(
-                    array_filter(
-                        $v,
-                        static fn(Setting $v): bool => $v->isChangeableByUser()
-                    )
-                )
-            ),
-            new \ilPropertyFormGUI()
+        $form = $this->user_settings->addSectionsToForm(
+            new \ilPropertyFormGUI(),
+            Context::User,
+            $this->current_user
         );
 
         $form->addCommandButton('save', $this->lng->txt('save'));
@@ -189,108 +167,5 @@ class PersonalSettingsGUI
         $form->setFormAction($this->ctrl->getFormActionByClass(self::class));
 
         return $form;
-    }
-
-    private function getSettingsForPageBySections(): array
-    {
-        return $this->reorderSections(
-            array_reduce(
-                $this->user_settings_repository->get(),
-                function (array $c, Setting $v): array {
-                    if ($v->getSettingsPage() !== AvailablePages::MainSettings) {
-                        return $c;
-                    }
-
-                    if (!array_key_exists($v->getSection()->value, $c)) {
-                        $c[$v->getSection()->value] = [];
-                    }
-
-                    $c[$v->getSection()->value][] = $v;
-                    return $c;
-                },
-                []
-            )
-        );
-    }
-
-    private function reorderSections(array $sections): array
-    {
-        $default_section = $sections[AvailableSections::Main->value];
-        $additional_section = $sections[AvailableSections::Additional->value];
-        unset($sections[AvailableSections::Main->value]);
-        unset($sections[AvailableSections::Additional->value]);
-        array_unshift($sections, $default_section);
-        $sections[AvailableSections::Additional->value] = $additional_section;
-        return $sections;
-    }
-
-    private function addSectionToForm(
-        \ilPropertyFormGUI $form,
-        array $section
-    ): \ilPropertyFormGUI {
-        if ($section === []) {
-            return $form;
-        }
-
-        if ($section[0]->getSection() === AvailableSections::Main) {
-            return $this->addDefaultInputsToForm($form, $section);
-        }
-
-        return $this->addAdditionalInputsToForm($form, $section);
-    }
-
-    private function addDefaultInputsToForm(
-        \ilPropertyFormGUI $form,
-        array $section
-    ): \ilPropertyFormGUI {
-        return array_reduce(
-            $section,
-            function (\ilPropertyFormGUI $c, Setting $v): \ilPropertyFormGUI {
-                $input = $v->getInput($this->lng, $this->current_user);
-                $c->addItem($input);
-                return $c;
-            },
-            $form
-        );
-    }
-
-    private function addAdditionalInputsToForm(
-        \ilPropertyFormGUI $form,
-        array $section
-    ): \ilPropertyFormGUI {
-        $values = array_reduce(
-            $section,
-            function (array $c, Setting $v): array {
-                $input = $v->getInput($this->lng, $this->current_user);
-                $input->setPostVar($v->getIdentifier());
-                $c['checkbox']->addSubItem($input);
-                $c['defaults'] .= "{$v->getLabel($this->lng)}: "
-                    . "{$v->getDefaultValueForDisplay($this->lng, $this->refinery, $this->settings)}; ";
-                if ($v->hasUserPersonalizedSetting($this->settings, $this->current_user)) {
-                    $c['has_personalization'] = true;
-                }
-                return $c;
-            },
-            [
-                'checkbox' => new \ilCheckboxInputGUI(
-                    $this->lng->txt("personalise_{$section[0]->getSection()->value}"),
-                    $section[0]->getSection()->value
-                ),
-                'defaults' => "{$this->lng->txt('default')}<br>",
-                'has_personalization' => false
-            ]
-        );
-        $values['checkbox']->setInfo(trim($values['defaults']));
-        $values['checkbox']->setChecked($values['has_personalization']);
-
-        $form->addItem($values['checkbox']);
-
-        return $form;
-    }
-
-    private function checkStartingPointValue(\ilPropertyFormGUI $form): bool
-    {
-        return $form->getItemByPostVar('starting_point') === null
-            || $this->user_settings_repository->getByIdentifier('starting_point')->validateUserChoice($this->tpl, $this->lng, $form);
     }
 }

@@ -41,7 +41,7 @@ class CollectSettingsObjective extends BuildArtifactObjective
         return new ArrayArtifact(
             array_reduce(
                 $this->contributions,
-                static fn(array $c, Settings $settings): array => array_merge($c, $settings->getSettingConfigurations()),
+                static fn(array $c, UserSettings $settings): array => array_merge($c, $settings->getSettingConfigurations()),
                 []
             )
         );

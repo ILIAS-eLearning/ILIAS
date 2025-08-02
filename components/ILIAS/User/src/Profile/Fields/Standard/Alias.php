@@ -31,7 +31,7 @@ class Alias implements FieldDefinition
 
     public function getIdentifier(): string
     {
-        return 'alias';
+        return 'username';
     }
 
     public function getLabel(Language $lng): string
@@ -91,12 +91,29 @@ class Alias implements FieldDefinition
 
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        ?\ilObjUser $current_user = null
     ): \ilFormPropertyGUI {
-        $input = new \ilTextInputGUI($this->getLabel($lng));
-        $input->setMaxLength(190);
+        $input = new \ilUserLoginInputGUI($lng->txt('login'), 'login');
+        if ($current_user === null) {
+            return $input;
+        }
+
+        $input->setCurrentUserId($current_user->getId());
         $input->setValue(
-            $this->getValueForUser($current_user)
+            $this->retrieveValueFromUser($current_user)
+        );
+
+        $last_history_entry = $current_user->getLastHistoryData();
+        if ($last_history_entry === null) {
+            return $input;
+        }
+
+        $input->setInfo(
+            sprintf(
+                $lng->txt('usr_loginname_history_info'),
+                \ilDatePresentation::formatDate(new ilDateTime($last_history_entry[1], IL_CAL_UNIX)),
+                $last_history_entry[0]
+            )
         );
         return $input;
     }
@@ -110,7 +127,7 @@ class Alias implements FieldDefinition
         return $current_user;
     }
 
-    public function getValueForUser(\ilObjUser $current_user): string
+    public function retrieveValueFromUser(\ilObjUser $current_user): string
     {
         return $current_user->getLogin();
     }

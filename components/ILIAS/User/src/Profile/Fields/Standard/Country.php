@@ -51,11 +51,14 @@ class Country implements FieldDefinition
 
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        ?\ilObjUser $current_user = null
     ): \ilFormPropertyGUI {
         $input = new \ilCountrySelectInputGUI($this->getLabel($lng));
+        if ($current_user === null) {
+            return $input;
+        }
         $input->setValue(
-            $this->getValueForUser($current_user)
+            $this->retrieveValueFromUser($current_user)
         );
         return $input;
     }
@@ -69,7 +72,7 @@ class Country implements FieldDefinition
         return $current_user;
     }
 
-    public function getValueForUser(\ilObjUser $current_user): string
+    public function retrieveValueFromUser(\ilObjUser $current_user): string
     {
         return $current_user->getCountry();
     }

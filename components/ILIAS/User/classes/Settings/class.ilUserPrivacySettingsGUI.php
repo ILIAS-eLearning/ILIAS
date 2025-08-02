@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
 use ILIAS\User\Profile\PublicProfileGUI;
 use ILIAS\User\Profile\ChecklistStatus;
 use ILIAS\User\Profile\Visibility as ProfileVisibility;
@@ -31,21 +32,21 @@ class ilUserPrivacySettingsGUI
     private const PROP_ENABLE_SOUND = 'osd_play_sound';
     private const PROP_ENABLE_BROADCAST_TYPING = 'chat_broadcast_typing';
 
-    protected Language $lng;
-    protected ilCtrl $ctrl;
-    protected ilGlobalTemplateInterface $main_tpl;
-    protected ilUserSettingsConfig $user_settings_config;
-    protected ilObjUser $user;
-    protected ilSetting $settings;
-    protected \Psr\Http\Message\RequestInterface $request;
-    protected ChecklistStatus $checklist_status;
-    protected ProfileVisibility $profile_mode;
+    private Language $lng;
+    private ilCtrl $ctrl;
+    private ilGlobalTemplateInterface $main_tpl;
+    private ilObjUser $user;
+    private ilSetting $settings;
+    private \Psr\Http\Message\RequestInterface $request;
+    private ChecklistStatus $checklist_status;
+    private ProfileVisibility $profile_mode;
+    private Profile $profile;
     private \ILIAS\UI\Factory $ui_factory;
     private \ILIAS\UI\Renderer $ui_renderer;
     private \ILIAS\Refinery\Factory $refinery;
-    protected ilSetting $chatSettings;
-    protected ilSetting $notificationSettings;
-    protected ilAppEventHandler $event;
+    private ilSetting $chatSettings;
+    private ilSetting $notificationSettings;
+    private ilAppEventHandler $event;
 
     public function __construct()
     {
@@ -61,10 +62,10 @@ class ilUserPrivacySettingsGUI
         $this->event = $DIC['ilAppEventHandler'];
         $this->request = $DIC->http()->request();
 
+        $this->profile = new Profile();
         $this->chatSettings = new ilSetting('chatroom');
         $this->notificationSettings = new ilSetting('notifications');
 
-        $this->user_settings_config = new ilUserSettingsConfig();
         $this->settings = $DIC->settings();
         $this->profile_mode = new ProfileVisibility($this->lng, $this->settings, $this->user);
         $this->checklist_status = new ChecklistStatus(
@@ -97,14 +98,14 @@ class ilUserPrivacySettingsGUI
     //
     //
 
-    public function workWithUserSetting(string $setting): bool
+    private function workWithUserSetting(string $setting): bool
     {
-        return $this->user_settings_config->isVisibleAndChangeable($setting);
+        return $this->profile->userSettingEditableByUser($setting);
     }
 
-    public function userSettingVisible(string $setting): bool
+    private function userSettingVisible(string $setting): bool
     {
-        return $this->user_settings_config->isVisible($setting);
+        return $this->profile->userSettingVisibleToUser($setting);
     }
 
     public function showPrivacySettings(
@@ -147,7 +148,7 @@ class ilUserPrivacySettingsGUI
     /**
      * Is awareness tool setting visible
      */
-    protected function isAwarnessSettingVisible(): bool
+    private function isAwarnessSettingVisible(): bool
     {
         $awrn_set = new ilSetting('awrn');
 
@@ -157,7 +158,7 @@ class ilUserPrivacySettingsGUI
     /**
      * Is contact setting visible
      */
-    protected function isContactSettingVisible(): bool
+    private function isContactSettingVisible(): bool
     {
         return ilBuddySystem::getInstance()->isEnabled() && $this->userSettingVisible('bs_allow_to_contact_me');
     }
@@ -215,7 +216,7 @@ class ilUserPrivacySettingsGUI
         return (bool) $this->notificationSettings->get('enable_osd', '0');
     }
 
-    protected function populateWithAwarenessSettingsSection(
+    private function populateWithAwarenessSettingsSection(
         array &$formSections
     ): void {
         if (!$this->isAwarnessSettingVisible()) {
@@ -233,7 +234,7 @@ class ilUserPrivacySettingsGUI
             'n' => $this->lng->txt('user_awrn_show'),
             'y' => $this->lng->txt('user_awrn_hide')
         ];
-        $val = $this->user->prefs['hide_own_online_status'] ?? '';
+        $val = $this->user->getPref('hide_own_online_status') ?? '';
         if ($val == '') {
             $val = 'x';
         }
@@ -254,7 +255,7 @@ class ilUserPrivacySettingsGUI
         $formSections['awrn_sec'] = $this->ui_factory->input()->field()->section($fields, $this->lng->txt('obj_awra'));
     }
 
-    protected function populateWithContactsSettingsSection(
+    private function populateWithContactsSettingsSection(
         array &$formSections
     ): void {
         if (!$this->isContactSettingVisible()) {
@@ -262,8 +263,8 @@ class ilUserPrivacySettingsGUI
         }
 
         $this->lng->loadLanguageModule('buddysystem');
-        $bs_allow_contact_me = isset($this->user->prefs['bs_allow_to_contact_me']) ?
-            $this->user->prefs['bs_allow_to_contact_me'] === 'y' : false;
+        $bs_allow_contact_me = $this->user->getPref('bs_allow_to_contact_me') !== null ?
+            $this->user->getPref('bs_allow_to_contact_me') === 'y' : false;
         $fields['bs_allow_to_contact_me'] = $this->ui_factory->input()
             ->field()
             ->checkbox(
@@ -281,7 +282,7 @@ class ilUserPrivacySettingsGUI
     /**
      * @param Section[] $formSections
      */
-    protected function populateWithNotificationSettingsSection(array &$formSections): void
+    private function populateWithNotificationSettingsSection(array &$formSections): void
     {
         if (!$this->shouldDisplayNotificationSection()) {
             return;
@@ -304,7 +305,7 @@ class ilUserPrivacySettingsGUI
         }
     }
 
-    protected function populateWithChatSettingsSection(
+    private function populateWithChatSettingsSection(
         array &$formSections
     ): void {
         if (!$this->shouldDisplayChatSection()) {
@@ -500,7 +501,7 @@ class ilUserPrivacySettingsGUI
         $this->showPrivacySettings($form);
     }
 
-    protected function appendChatJsToTemplate(
+    private function appendChatJsToTemplate(
         ilGlobalTemplateInterface $pageTemplate
     ): ilTemplate {
         $tpl = new ilTemplate('tpl.personal_chat_settings_form.html', true, true, 'components/ILIAS/Chatroom');

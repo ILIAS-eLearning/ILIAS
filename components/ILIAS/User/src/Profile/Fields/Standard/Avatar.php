@@ -31,7 +31,7 @@ class Avatar implements FieldDefinition
 
     public function getIdentifier(): string
     {
-        return 'avatar';
+        return 'upload';
     }
 
     public function getLabel(Language $lng): string
@@ -81,7 +81,7 @@ class Avatar implements FieldDefinition
 
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        ?\ilObjUser $current_user = null
     ): \ilFormPropertyGUI {
         $image_input = new \ilImageFileInputGUI($this->getLabel($lng));
         $image_input->setAllowCapture(true);
@@ -89,7 +89,7 @@ class Avatar implements FieldDefinition
         if ($file_upload['name'] ?? false) {
             $image_input->setPending($file_upload['name']);
         } else {
-            $picture_path = $this->getValueForUser($current_user);
+            $picture_path = $this->retrieveValueFromUser($current_user);
             if ($picture_path !== '') {
                 $image_input->setImage($picture_path);
                 $image_input->setAlt($this->getLabel($lng));
@@ -107,7 +107,7 @@ class Avatar implements FieldDefinition
         return $current_user;
     }
 
-    public function getValueForUser(\ilObjUser $current_user): string
+    public function retrieveValueFromUser(\ilObjUser $current_user): string
     {
         return \ilObjUser::_getPersonalPicturePath(
             $current_user->getId(),
@@ -133,7 +133,7 @@ class Avatar implements FieldDefinition
         if (!$this->uploads->hasBeenProcessed()) {
             $this->uploads->process();
         }
-        $existing_rid = $this->irss->manage()->find($this->user->getAvatarRid());
+        $existing_rid = $this->user->getAvatarRid();
         $revision_title = 'Avatar for user ' . $this->user->getLogin();
 
         // move uploaded file
@@ -165,7 +165,7 @@ class Avatar implements FieldDefinition
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error_file_not_found'), true);
                 $this->ctrl->redirect($this, 'showProfile');
             }
-            $this->user->setAvatarRid($rid->serialize());
+            $this->user->setAvatarRid($rid);
             $this->irss->flavours()->ensure($rid, new \ilUserProfilePictureDefinition()); // Create different sizes
             $current_user->update();
             return;
@@ -203,7 +203,7 @@ class Avatar implements FieldDefinition
                 $revision_title
             );
         }
-        $current_user->setAvatarRid($rid->serialize());
+        $current_user->setAvatarRid($rid);
         $this->irss->flavours()->ensure($rid, new \ilUserProfilePictureDefinition()); // Create different sizes
         $current_user->update();
     }

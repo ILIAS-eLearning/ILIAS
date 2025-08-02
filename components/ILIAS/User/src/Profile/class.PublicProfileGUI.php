@@ -31,7 +31,6 @@ use ILIAS\Language\Language;
 class PublicProfileGUI implements \ilCtrlBaseClassInterface
 {
     private bool $offline = false;
-    private \ilUserDefinedFields $user_defined_fields;
     private GUIRequest $profile_request;
     private int $userid = 0;
     private string $backurl = '';
@@ -39,6 +38,7 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
     private bool $embedded = false;
     private array $custom_prefs = []; // Missing array type.
     private \ilObjUser $current_user;
+    private Profile $profile;
     private \ilSetting $setting;
     private \ilCtrl $ctrl;
     private \ilTabsGUI $tabs;
@@ -55,6 +55,7 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
         $this->ctrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
         $this->current_user = $DIC['ilUser'];
+        $this->profile = new Profile();
         $this->setting = $DIC['ilSetting'];
         $this->tabs = $DIC['ilTabs'];
         $this->tpl = $DIC['tpl'];
@@ -535,18 +536,14 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
             $tpl->setVariable('MAP_CONTENT', $map_gui->getHtml());
         }
 
-        // additional defined user data fields
-        $this->user_defined_fields = \ilUserDefinedFields::_getInstance();
-        $user_defined_data = $user->getUserDefinedData();
-        foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
+        foreach ($this->profile->getVisibleUserDefinedFields(Context::User) as $field) {
             // public setting
-            if ($this->getPublicPref($user, 'public_udf_' . $definition['field_id']) == 'y') {
-                if ($user_defined_data['f_' . $definition['field_id']] != '') {
-                    $tpl->setCurrentBlock('udf_data');
-                    $tpl->setVariable('TXT_UDF_DATA', $definition['field_name']);
-                    $tpl->setVariable('UDF_DATA', $user_defined_data['f_' . $definition['field_id']]);
-                    $tpl->parseCurrentBlock();
-                }
+            if ($this->getPublicPref($user, 'public_udf_' . $field->getIdentifier()) === 'y'
+                && !empty(($value = $field->retrieveValueFromUser($user)))) {
+                $tpl->setCurrentBlock('udf_data');
+                $tpl->setVariable('TXT_UDF_DATA', $field->getLabel($this->lng));
+                $tpl->setVariable('UDF_DATA', $value);
+                $tpl->parseCurrentBlock();
             }
         }
 
@@ -747,48 +744,35 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
         return null;
     }
 
-    public static function getAutocompleteResult(
-        string $a_field_id,
-        string $a_term
-    ): array {
-        global $DIC;
+    protected function doProfileAutoComplete(): void
+    {
+        $field_id = $this->profile_request->getFieldId();
+        $term = $this->profile_request->getTerm();
 
-        $ilUser = $DIC['ilUser'];
         $result = [];
-
         $multi_fields = [
             'interests_general',
             'interests_help_offered',
             'interests_help_looking'
         ];
-        if (in_array($a_field_id, $multi_fields) && $a_term) {
+        if (in_array($field_id, $multi_fields) && $term) {
             // registration has no current user
             $user_id = null;
-            if ($ilUser && $ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID) {
-                $user_id = $ilUser->getId();
+            if ($this->current_user->getId() !== 0 && $this->current_user->getId() !== ANONYMOUS_USER_ID) {
+                $user_id = $this->current_user->getId();
             }
 
             $result = [];
             $cnt = 0;
 
             // term is searched in ALL interest fields, no distinction
-            foreach (\ilObjUser::findInterests($a_term, $ilUser->getId()) as $item) {
+            foreach (\ilObjUser::findInterests($term, $this->current_user->getId()) as $item) {
                 $result[$cnt] = new stdClass();
                 $result[$cnt]->value = $item;
                 $result[$cnt]->label = $item;
                 $cnt++;
             }
         }
-
-        return $result;
-    }
-
-    protected function doProfileAutoComplete(): void
-    {
-        $field_id = $this->profile_request->getFieldId();
-        $term = $this->profile_request->getTerm();
-
-        $result = self::getAutocompleteResult($field_id, $term);
 
         echo json_encode($result, JSON_THROW_ON_ERROR);
         exit();

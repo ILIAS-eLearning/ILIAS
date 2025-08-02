@@ -67,45 +67,6 @@ class ilUserDefinedFields
         return $udf;
     }
 
-    public function fetchFieldIdFromImportId(string $a_import_id): int
-    {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-
-        if (!strlen($a_import_id)) {
-            return 0;
-        }
-        $parts = explode('_', $a_import_id);
-
-        if (($parts[0] ?? '') != 'il') {
-            return 0;
-        }
-        if (($parts[1] ?? '') != $ilSetting->get('inst_id', '0')) {
-            return 0;
-        }
-        if (($parts[2] ?? '') != 'udf') {
-            return 0;
-        }
-        if ($parts[3] ?? false) {
-            // Check if field exists
-            if (is_array(($this->definitions[$parts[3]] ?? false))) {
-                return $parts[3];
-            }
-        }
-        return 0;
-    }
-
-    public function fetchFieldIdFromName(string $a_name): int
-    {
-        foreach ($this->definitions as $definition) {
-            if ($definition['field_name'] == $a_name) {
-                return $definition['field_id'];
-            }
-        }
-        return 0;
-    }
-
     public function getDefinitions(): array // Missing array type.
     {
         return $this->definitions ?: [];

@@ -20,11 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\User;
 
+use ILIAS\User\Settings\User\Settings as UserSettings;
 use ILIAS\User\Settings\User\Repository as UserSettingsRepository;
 use ILIAS\User\Settings\StartingPoint\Repository as StartingPointRepository;
 use ILIAS\User\Settings\User\CollectSettingsObjective;
 use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileFieldsConfigurationRepository;
-use ILIAS\User\Profile\Fields\UserDataRepository;
+use ILIAS\User\Profile\DataRepository as ProfileDataRepository;
 use ILIAS\User\Profile\Fields\Custom\CollectTypesObjective;
 use ILIAS\User\Profile\Fields\Standard;
 use ILIAS\User\Profile\ChangeListeners\CollectListenersObjective;
@@ -56,6 +57,14 @@ class LocalDIC extends PimpleContainer
                     ? include CollectSettingsObjective::PATH()
                     : []
             );
+        $this[UserSettings::class] = fn($c): UserSettings =>
+            new UserSettings(
+                $DIC['lng'],
+                $DIC['ilSetting'],
+                $DIC['tpl'],
+                $DIC['refinery'],
+                $c[UserSettingsRepository::class]
+            );
         $this[StartingPointRepository::class] = fn($c): StartingPointRepository =>
             new StartingPointRepository(
                 $DIC['ilUser'],
@@ -67,14 +76,15 @@ class LocalDIC extends PimpleContainer
                 $DIC['ilSetting'],
                 $c[UserSettingsRepository::class]
             );
-        $this[UserDataRepository::class] = fn($c): UserDataRepository =>
-            new UserDataRepository(
-                $DIC['ilDB']
+        $this[ProfileDataRepository::class] = fn($c): ProfileDataRepository =>
+            new ProfileDataRepository(
+                $DIC['ilDB'],
+                $DIC['resource_storage']
             );
         $this[ProfileFieldsConfigurationRepository::class] = fn($c): ProfileFieldsConfigurationRepository =>
             new ProfileFieldsConfigurationRepository(
                 $DIC['ilDB'],
-                $c[UserDataRepository::class],
+                $c[ProfileDataRepository::class],
                 new UUIDFactory(),
                 is_readable(CollectTypesObjective::PATH())
                 ? include CollectTypesObjective::PATH()
@@ -91,9 +101,15 @@ class LocalDIC extends PimpleContainer
                         $DIC['rbacreview']
                     ),
                     new Standard\OrganisationalUnits(),
-                    new Standard\Interest(),
-                    new Standard\HelpOffered(),
-                    new Standard\HelpLookedFor(),
+                    new Standard\Interest(
+                        $DIC['ilCtrl']
+                    ),
+                    new Standard\HelpOffered(
+                        $DIC['ilCtrl']
+                    ),
+                    new Standard\HelpLookedFor(
+                        $DIC['ilCtrl']
+                    ),
                     new Standard\Institution(),
                     new Standard\Department(),
                     new Standard\Street(),

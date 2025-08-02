@@ -28,6 +28,12 @@ use ILIAS\Language\Language;
 class Interest implements FieldDefinition
 {
     use NoOverrides;
+    use BuildAutocompletionUrl;
+
+    public function __construct(
+        private readonly \ilCtrl $ctrl
+    ) {
+    }
 
     public function getIdentifier(): string
     {
@@ -71,13 +77,19 @@ class Interest implements FieldDefinition
 
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        ?\ilObjUser $current_user = null
     ): \ilFormPropertyGUI {
         $input = new \ilTextInputGUI($this->getLabel($lng));
         $input->setMulti(true);
+        $input->setDataSource(
+            $this->getAutocompleteUrl($this->ctrl) . '&f=' . $this->getIdentifier()
+        );
         $input->setMaxLength(40);
+        if ($current_user === null) {
+            return $input;
+        }
         $input->setValue(
-            $this->getValueForUser($current_user)
+            $this->retrieveValueFromUser($current_user)
         );
         return $input;
     }
@@ -91,7 +103,7 @@ class Interest implements FieldDefinition
         return $current_user;
     }
 
-    public function getValueForUser(\ilObjUser $current_user): array
+    public function retrieveValueFromUser(\ilObjUser $current_user): array
     {
         return $current_user->getGeneralInterests();
     }

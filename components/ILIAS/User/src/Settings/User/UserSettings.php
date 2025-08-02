@@ -18,19 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\User\Settings;
+namespace ILIAS\User\Settings\User;
 
-use ILIAS\User\Settings\User\UserSettings;
-use ILIAS\User\Settings\StartingPoint\Setting as StartingPointSetting;
-
-class Settings implements UserSettings
+interface UserSettings
 {
-    public function getSettingConfigurations(): array
-    {
-        return [
-            LastVisited::class,
-            SessionReminder::class,
-            StartingPointSetting::class
-        ];
-    }
+    /**
+     * Return all User Settings provided by the component
+     *
+     * @return array<string>
+     */
+    public function getSettingConfigurations(): array;
 }

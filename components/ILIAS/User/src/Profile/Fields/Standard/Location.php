@@ -81,15 +81,15 @@ class Location implements FieldDefinition
 
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        ?\ilObjUser $current_user = null
     ): \ilFormPropertyGUI {
-        $latitude = ($current_user->getLatitude() !== '')
+        $latitude = !empty($current_user?->getLatitude())
             ? (float) $current_user->getLatitude()
             : null;
-        $longitude = ($current_user->getLongitude() !== '')
+        $longitude = !empty($current_user?->getLongitude())
             ? (float) $current_user->getLongitude()
             : null;
-        $zoom = $current_user->getLocationZoom();
+        $zoom = $current_user?->getLocationZoom();
 
         if ($latitude === null && $longitude === null && $zoom === 0) {
             $def = \ilMapUtil::getDefaultSettings();
@@ -98,15 +98,15 @@ class Location implements FieldDefinition
             $zoom = (int) $def['zoom'];
         }
 
-        $street = $current_user->getStreet();
+        $street = $current_user?->getStreet() ?? '';
         if ($street === '') {
             $street = $lng->txt('street');
         }
-        $city = $current_user->getCity();
+        $city = $current_user?->getCity() ?? '';
         if ($city === '') {
             $city = $lng->txt('city');
         }
-        $country = $current_user->getCountry();
+        $country = $current_user?->getCountry() ?? '';
         if ($country === '') {
             $country = $lng->txt('country');
         }
@@ -127,11 +127,19 @@ class Location implements FieldDefinition
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
-        $this->uploadUserPicture($current_user, $form);
+        if (($input['latitude'] ?? 0.0) !== 0.0) {
+            $current_user->setLatitude((string) $input['latitude']);
+        }
+        if (($input['longitude'] ?? 0.0) !== 0.0) {
+            $current_user->setLongitude((string) $input['longitude']);
+        }
+
+        $current_user->setLocationZoom($input['zoom'] ?? null);
+
         return $current_user;
     }
 
-    public function getValueForUser(\ilObjUser $current_user): string
+    public function retrieveValueFromUser(\ilObjUser $current_user): string
     {
         return \ilObjUser::_getPersonalPicturePath(
             $current_user->getId(),

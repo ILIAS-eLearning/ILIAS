@@ -62,7 +62,7 @@ class SessionReminder implements SettingDefinition
 
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        ?\ilObjUser $current_user = null
     ): \ilFormPropertyGUI {
         $input = new \ilNumberInputGUI($lng->txt('session_reminder_input'));
         $input->setInfo(
@@ -73,10 +73,13 @@ class SessionReminder implements SettingDefinition
                 \ilDatePresentation::secondsToString(\ilSession::getSessionExpireValue(), true)
             )
         );
-        $input->setValue((string) $this->getValueForUser($current_user));
         $input->setSize(3);
         $input->setMinValue(\ilSessionReminder::LEAD_TIME_DISABLED);
         $input->setMaxValue($this->session_reminder->getMaxPossibleLeadTime());
+        if ($current_user === null) {
+            return $input;
+        }
+        $input->setValue((string) $this->retrieveValueFromUser($current_user));
         return $input;
     }
 
@@ -92,20 +95,21 @@ class SessionReminder implements SettingDefinition
         \ilSetting $settings,
         \ilObjUser $current_user
     ): bool {
-        return  $this->getValueForUser($current_user) !== $this->session_reminder->getGlobalSessionReminderLeadTime();
+        return  $this->retrieveValueFromUser($current_user) !== $this->session_reminder->getGlobalSessionReminderLeadTime();
     }
 
     public function persistUserInput(
         \ilObjUser $current_user,
         mixed $input
-    ): void {
+    ): \ilObjUser {
         $current_user->setPref(
             'session_reminder_lead_time',
             $input !== null ? (string) $input : (string) $this->session_reminder->getGlobalSessionReminderLeadTime()
         );
+        return $current_user;
     }
 
-    public function getValueForUser(\ilObjUser $current_user): int
+    public function retrieveValueFromUser(\ilObjUser $current_user): int
     {
         return $this->session_reminder->getEffectiveLeadTime();
     }

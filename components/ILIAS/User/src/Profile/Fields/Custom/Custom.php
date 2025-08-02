@@ -137,13 +137,12 @@ class Custom implements FieldDefinition
 
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        ?\ilObjUser $current_user = null
     ): \ilFormPropertyGUI {
-        $udf_data = new \ilUserDefinedData($current_user->getId());
-        $udf_data->get('1');
+        $value = $current_user === null ? '' : $this->retrieveValueFromUser($current_user);
         return $this->type->getInput(
             $lng,
-            $this->getValueForUser($current_user),
+            $value,
             $this->label,
             $this->additional_edit_form_data
         );
@@ -160,8 +159,8 @@ class Custom implements FieldDefinition
         return $user;
     }
 
-    public function getValueForUser(\ilObjUser $current_user): string
+    public function retrieveValueFromUser(\ilObjUser $current_user): string
     {
-        return $current_user->getProfileData()->getByIdentifier($this->getIdentifier());
+        return $current_user->getProfileData()->getAdditionalFieldByIdentifier($this->getIdentifier()) ?? '';
     }
 }

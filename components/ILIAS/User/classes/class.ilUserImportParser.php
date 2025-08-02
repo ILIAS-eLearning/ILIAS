@@ -207,7 +207,6 @@ class ilUserImportParser extends ilSaxParser
     private ilObjUser $userObj;
     private string $current_messenger_type;
     protected ilRecommendedContentManager $recommended_content_manager;
-    protected ilUserSettingsConfig $user_settings_config;
     private Refinery $refinery;
 
     /**
@@ -231,8 +230,10 @@ class ilUserImportParser extends ilSaxParser
         $this->access = $DIC['ilAccess'];
         $this->user = $DIC['ilUser'];
         $this->refinery = $DIC['refinery'];
-
-        $http = $DIC['http'];
+        $this->req_send_mail = (new UserGUIRequest(
+            $DIC['http'],
+            $this->refinery
+        ))->getSendMail();
 
         $this->user_profile = new Profile();
 
@@ -247,9 +248,6 @@ class ilUserImportParser extends ilSaxParser
         $this->parentRolesCache = [];
         $this->send_mail = false;
         $this->mapping_mode = self::IL_USER_MAPPING_LOGIN;
-
-
-        $this->user_settings_config = new ilUserSettingsConfig();
 
         // get all active style  instead of only assigned ones -> cannot transfer all to another otherwise
         $this->userStyles = [];
@@ -270,12 +268,6 @@ class ilUserImportParser extends ilSaxParser
         $this->acc_mail->useLangVariablesAsFallback(true);
 
         $this->recommended_content_manager = new ilRecommendedContentManager();
-
-        $request = new UserGUIRequest(
-            $http,
-            $this->refinery
-        );
-        $this->req_send_mail = $request->getSendMail();
 
         parent::__construct($a_xml_file);
     }
@@ -1171,11 +1163,8 @@ class ilUserImportParser extends ilSaxParser
                             if ($this->tagContained('PostalCode')) {
                                 $updateUser->setZipcode($this->userObj->getZipcode());
                             }
-                            if ($this->tagContained('Country')) {
-                                $updateUser->setCountry($this->userObj->getCountry());
-                            }
                             if ($this->tagContained('SelCountry')) {
-                                $updateUser->setSelectedCountry($this->userObj->getSelectedCountry());
+                                $updateUser->setCountry($this->userObj->getCountry());
                             }
                             if ($this->tagContained('PhoneOffice')) {
                                 $updateUser->setPhoneOffice($this->userObj->getPhoneOffice());
@@ -1559,15 +1548,13 @@ class ilUserImportParser extends ilSaxParser
                 break;
 
             case 'UserDefinedField':
-                $udf = ilUserDefinedFields::_getInstance();
+                $field_id = $this->fetchFieldIdFromImportId($this->tmp_udf_id);
 
-                $field_id = $udf->fetchFieldIdFromImportId($this->tmp_udf_id);
-
-                if ($field_id === 0) {
-                    $field_id = $udf->fetchFieldIdFromName($this->tmp_udf_name);
+                if ($field_id === null) {
+                    $field_id = $this->fetchFieldIdFromName($this->tmp_udf_name);
                 }
 
-                if ($field_id === 0) {
+                if ($field_id === null) {
                     break;
                 }
 
@@ -2259,6 +2246,32 @@ class ilUserImportParser extends ilSaxParser
             $mailOptions->setIncomingType(array_key_exists('mail_incoming_type', $this->prefs) ? (int) $this->prefs['mail_incoming_type'] : $mailOptions->getIncomingType());
             $mailOptions->updateOptions();
         }
+    }
+
+    private function fetchFieldIdFromImportId(string $import_id): ?string
+    {
+        if ($import_id === '') {
+            return null;
+        }
+
+        $parts = explode('_', $import_id);
+        if (($parts[0] ?? '') !== 'il'
+            || ($parts[1] ?? '') !== 'udf'
+            || ($parts[2] ?? '') === ''
+            || $this->user_profile->getFieldByIdentifier($parts[2]) === null) {
+            return null;
+        }
+        return $parts[2];
+    }
+
+    private function fetchFieldIdFromName(string $name): ?string
+    {
+        foreach ($this->user_profile->getAllUserDefinedFields() as $field) {
+            if ($field->getLabel($this->lng) === $name) {
+                return $field->getIdentifier();
+            }
+        }
+        return null;
     }
 
     private function getCDataWithoutTags(): string

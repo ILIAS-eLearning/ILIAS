@@ -311,7 +311,7 @@ class Field implements Property
 
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        ?\ilObjUser $current_user = null
     ): \ilFormPropertyGUI {
         $input = $this->definition->getInput(
             $lng,
@@ -330,9 +330,9 @@ class Field implements Property
         return $this->definition->addValueToUserObject($user, $input, $form);
     }
 
-    public function getValueForUser(\ilObjUser $current_user): mixed
+    public function retrieveValueFromUser(\ilObjUser $current_user): mixed
     {
-        return $this->definition->getValueForUser($current_user);
+        return $this->definition->retrieveValueFromUser($current_user);
     }
 
     private function buildAccessibilityListing(

@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\User\Setup\Agent;
-use ILIAS\User\Settings\User\Settings as UserSettings;
+use ILIAS\User\Settings\User\UserSettings;
 use ILIAS\User\Settings\User\Settings\Settings as SettingsOfUser;
 use ILIAS\User\Profile\Fields\Custom\Type as CustomProfileFieldType;
 use ILIAS\User\Profile\Fields\Custom\Text as CustomTypeText;

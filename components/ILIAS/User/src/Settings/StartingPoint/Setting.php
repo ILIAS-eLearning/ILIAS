@@ -63,9 +63,13 @@ class Setting implements SettingDefinition
 
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        ?\ilObjUser $current_user = null
     ): \ilFormPropertyGUI {
-        ['starting_point_id' => $starting_point_id , 'object_id' => $object_ref_id] = $this->getValueForUser($current_user);
+        $starting_point_id = null;
+        $object_ref_id = null;
+        if ($current_user !== null) {
+            ['starting_point_id' => $starting_point_id , 'object_id' => $object_ref_id] = $this->retrieveValueFromUser($current_user);
+        }
         $input = new \ilRadioGroupInputGUI($lng->txt('adm_user_starting_point'));
         $input->setInfo($lng->txt('adm_user_starting_point_info'));
         $inherit_starting_point = new \ilRadioOption($lng->txt('adm_user_starting_point_inherit'), '0');
@@ -121,7 +125,7 @@ class Setting implements SettingDefinition
         \ilSetting $settings,
         \ilObjUser $current_user
     ): bool {
-        ['starting_point_id' => $starting_point_id , 'object_id' => $object_id] = $this->getValueForUser($current_user);
+        ['starting_point_id' => $starting_point_id , 'object_id' => $object_id] = $this->retrieveValueFromUser($current_user);
         return $starting_point_id !== 0
                 && ($starting_point_id !== $this->starting_point_repository->getSystemDefaultStartingPointType()
             || $object_id !== $this->starting_point_repository->getSystemDefaultStartingObject());
@@ -131,7 +135,7 @@ class Setting implements SettingDefinition
         \ilObjUser $current_user,
         mixed $input,
         ?\ilPropertyFormGUI $form = null
-    ): void {
+    ): \ilObjUser {
         if ($input === null
             || (int) $input === 0) {
             $this->starting_point_repository->setCurrentUserPersonalStartingPoint(0);
@@ -141,6 +145,7 @@ class Setting implements SettingDefinition
             (int) $input,
             $ref_id === '' ? null : (int) $ref_id
         );
+        return $current_user;
     }
 
     public function validateUserChoice(
@@ -161,7 +166,7 @@ class Setting implements SettingDefinition
         return true;
     }
 
-    public function getValueForUser(\ilObjUser $current_user): array
+    public function retrieveValueFromUser(\ilObjUser $current_user): array
     {
         return [
             'starting_point_id' => $this->starting_point_repository->getCurrentUserPersonalStartingPoint(),

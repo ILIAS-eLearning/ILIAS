@@ -358,24 +358,16 @@ class ilAuthProviderECS extends ilAuthProvider
 
         $local_user = ilAuthUtils::_generateLogin($this->getAbreviation() . '_' . $user->getLogin());
 
-        $newUser["login"] = $local_user;
-        $newUser["firstname"] = $user->getFirstname();
-        $newUser["lastname"] = $user->getLastname();
-        $newUser['email'] = $user->getEmail();
-        $newUser['institution'] = $user->getInstitution();
-
-        // set "plain md5" password (= no valid password)
-        $newUser["passwd"] = "";
-        $newUser["passwd_type"] = ilObjUser::PASSWD_CRYPTED;
-
-        $newUser["auth_mode"] = "ecs";
-        $newUser["profile_incomplete"] = 0;
-
         // system data
-        $userObj->assignData($newUser);
+        $userObj->setLogin($local_user);
+        $userObj->setFirstname($user->getFirstname());
+        $userObj->setLastname($user->getLastname());
         $userObj->setTitle($userObj->getFullname());
         $userObj->setDescription($userObj->getEmail());
-
+        $userObj->setEmail($user->getEmail());
+        $userObj->setInstitution($user->getInstitution());
+        $userObj->setPasswd('', ilObjUser::PASSWD_CRYPTED);
+        $userObj->setAuthMode('ecs');
         // set user language to system language
         $userObj->setLanguage($this->setting->get("language"));
 

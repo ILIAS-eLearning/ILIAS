@@ -1,0 +1,334 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\User\Profile;
+
+use ILIAS\User\Profile\Fields\Standard\Genders;
+use ILIAS\ResourceStorage\Services as ResourceStorage;
+
+class DataRepository
+{
+    private const string USER_BASE_TABLE = 'usr_data';
+    private const string USER_VALUES_TABLE = 'usr_profile_data';
+
+    private const string NO_AVATAR_RID = '-';
+
+    public function __construct(
+        private readonly \ilDBInterface $db,
+        private readonly ResourceStorage $irss
+    ) {
+    }
+
+    public function getSingle(int $id): Data
+    {
+        $base_query = $this->db->query(
+            'SELECT * FROM ' . self::USER_BASE_TABLE . " WHERE usr_id={$id}"
+        );
+
+        $additional_query = $this->db->query(
+            'SELECT field_id, value FROM ' . self::USER_VALUES_TABLE . " WHERE usr_id = {$id}"
+        );
+
+        return $this->buildFromData(
+            $this->db->fetchObject($base_query),
+            $this->db->fetchAll(
+                $additional_query,
+                \ilDBConstants::FETCHMODE_OBJECT
+            )
+        );
+
+    }
+
+    /**
+     *
+     * @param array<int> $user_ids
+     * @return Generator<UserData>
+     */
+    public function getMultiple(array $user_ids): \Generator
+    {
+        $query = $this->db->query(
+            'SELECT * FROM ' . self::USER_BASE_TABLE
+                . " WHERE {$this->db->in('usr_id', $user_ids)}"
+        );
+
+        $prepared_query = $this->db->prepare('SELECT field_id, value FROM '
+            . self::USER_VALUES_TABLE . ' WHERE usr_id = ?');
+
+        while(($base_data = $this->db->fetchObject($query)) !== null) {
+            yield $this->buildFromData(
+                $base_data,
+                $this->db->fetchAll(
+                    $this->db->execute($prepared_query, $base_data->usr_id),
+                    \ilDBConstants::FETCHMODE_OBJECT
+                )
+            );
+        }
+
+        $this->db->free($prepared_query);
+    }
+
+    public function store(Data $user_data): void
+    {
+        $system_information = $user_data->getSystemInformation();
+        $this->db->replace(
+            self::USER_BASE_TABLE,
+            [
+                'usr_id' => [
+                    \ilDBConstants::T_INTEGER,
+                    $user_data->getId()
+                ]
+            ],
+            [
+                'login' => [\ilDBConstants::T_TEXT, $user_data->getAlias()],
+                'firstname' => [\ilDBConstants::T_TEXT, $user_data->getFirstname()],
+                'lastname' => [\ilDBConstants::T_TEXT, $user_data->getLastname()],
+                'title' => [\ilDBConstants::T_TEXT, $user_data->getTitle()],
+                'gender' => [\ilDBConstants::T_TEXT, $user_data->getGender()?->value],
+                'rid' => [\ilDBConstants::T_TEXT, $user_data->getAvatarRid()?->serialize() ?? self::NO_AVATAR_RID],
+                'email' => [\ilDBConstants::T_TEXT, $user_data->getEmail()],
+                'second_email' => [\ilDBConstants::T_TEXT, $user_data->getSecondEmail()],
+                'hobby' => [\ilDBConstants::T_TEXT, $user_data->getHobby()],
+                'institution' => [\ilDBConstants::T_TEXT, $user_data->getInstitution()],
+                'department' => [\ilDBConstants::T_TEXT, $user_data->getDepartment()],
+                'street' => [\ilDBConstants::T_TEXT, $user_data->getStreet()],
+                'city' => [\ilDBConstants::T_TEXT, $user_data->getCity()],
+                'zipcode' => [\ilDBConstants::T_TEXT, $user_data->getZipcode()],
+                'country' => [\ilDBConstants::T_TEXT, $user_data->getCountry()],
+                'phone_office' => [\ilDBConstants::T_TEXT, $user_data->getPhoneOffice()],
+                'phone_home' => [\ilDBConstants::T_TEXT, $user_data->getPhoneHome()],
+                'phone_mobile' => [\ilDBConstants::T_TEXT, $user_data->getPhoneMobile()],
+                'fax' => [\ilDBConstants::T_TEXT, $user_data->getFax()],
+                'birthday' => [\ilDBConstants::T_DATE, $user_data->getBirthday()],
+                'referral_comment' => [\ilDBConstants::T_TEXT, $user_data->getReferralComment()],
+                'matriculation' => [\ilDBConstants::T_TEXT, $user_data->getMatriculation()],
+                'latitude' => [\ilDBConstants::T_TEXT, $user_data->getGeoCoordinates()['latitude'] ?? null],
+                'longitude' => [\ilDBConstants::T_TEXT, $user_data->getGeoCoordinates()['longitude'] ?? null],
+                'loc_zoom' => [\ilDBConstants::T_INTEGER, $user_data->getGeoCoordinates()['zoom'] ?? 0],
+                'last_password_change' => [\ilDBConstants::T_INTEGER, $system_information['last_password_change']],
+                'passwd' => [\ilDBConstants::T_TEXT, $system_information['passwd']],
+                'passwd_salt' => [\ilDBConstants::T_TEXT, $system_information['passwd_salt']],
+                'passwd_enc_type' => [\ilDBConstants::T_TEXT, $system_information['passwd_enc_type']],
+                'passwd_policy_reset' => [\ilDBConstants::T_INTEGER, $system_information['passwd_policy_reset'] ? 1 : 0],
+                'client_ip' => [\ilDBConstants::T_TEXT, $system_information['client_ip']],
+                'last_login' => [
+                    \ilDBConstants::T_TIMESTAMP,
+                    $system_information['last_login'] !== '' ? $system_information['last_login'] : null
+                ],
+                'first_login' => [
+                    \ilDBConstants::T_TIMESTAMP,
+                    $system_information['first_login'] !== '' ? $system_information['first_login'] : null
+                ],
+                'last_profile_prompt' => [
+                    \ilDBConstants::T_TIMESTAMP,
+                    $system_information['last_profile_prompt'] !== '' ? $system_information['last_profile_prompt'] : null
+                ],
+                'active' => [\ilDBConstants::T_INTEGER, $system_information['active']],
+                'approve_date' => [\ilDBConstants::T_TIMESTAMP, $system_information['approve_date']],
+                'agree_date' => [\ilDBConstants::T_TIMESTAMP, $system_information['agree_date']],
+                'inactivation_date' => [\ilDBConstants::T_TIMESTAMP, $system_information['inactivation_date']],
+                'time_limit_owner' => [\ilDBConstants::T_INTEGER, $system_information['time_limit_owner']],
+                'time_limit_unlimited' => [\ilDBConstants::T_INTEGER, $system_information['time_limit_unlimited'] ? 1 : 0],
+                'time_limit_from' => [\ilDBConstants::T_INTEGER, $system_information['time_limit_from']],
+                'time_limit_until' => [\ilDBConstants::T_INTEGER, $system_information['time_limit_until']],
+                'time_limit_message' => [\ilDBConstants::T_INTEGER, $system_information['time_limit_message']],
+                'profile_incomplete' => [\ilDBConstants::T_INTEGER, $system_information['profile_incomplete']],
+                'auth_mode' => [\ilDBConstants::T_TEXT, $system_information['auth_mode']],
+                'ext_account' => [\ilDBConstants::T_TEXT, $system_information['ext_account']],
+                'is_self_registered' => [\ilDBConstants::T_INTEGER, $system_information['is_self_registered'] ? 1 : 0],
+                'last_update' => [\ilDBConstants::T_TIMESTAMP, date('Y-m-d H:i:s')],
+                'create_date' => [\ilDBConstants::T_TIMESTAMP, $system_information['create_date']],
+            ]
+        );
+
+        $this->storeAdditionalFields($user_data);
+    }
+
+    public function deleteForFieldIdentifier(string $identifier): void
+    {
+        $this->db->manipulateF(
+            'DELETE FROM ' . self::USER_VALUES_TABLE
+                . " WHERE field_id='{$this->db->quote($identifier, \ilDBConstants::T_TEXT)}'"
+        );
+    }
+
+    public function deleteForUser(int $usr_id): void
+    {
+        $this->db->manipulate(
+            'DELETE FROM ' . self::USER_BASE_TABLE
+                . " WHERE usr_id='{$this->db->quote($usr_id, \ilDBConstants::T_INTEGER)}'"
+        );
+        $this->db->manipulate(
+            'DELETE FROM ' . self::USER_VALUES_TABLE
+                . " WHERE usr_id='{$this->db->quote($usr_id, \ilDBConstants::T_INTEGER)}'"
+        );
+    }
+
+    public function storeUserAgreementAcceptedFor(int $usr_id): void
+    {
+        $this->db->manipulateF(
+            "UPDATE usr_data SET agree_date = {$this->db->now()} WHERE usr_id = %s",
+            [\ilDBConstants::T_INTEGER],
+            [$usr_id]
+        );
+    }
+
+    public function refreshLoginTimestampsFor(int $usr_id, string $first_login): void
+    {
+        $first_login_clause = '';
+        if ($first_login === '') {
+            $first_login_clause = ", first_login = {$this->db->now()}";
+        }
+        $this->db->manipulateF(
+            "UPDATE usr_data SET last_login = {$this->db->now()}{$first_login_clause} WHERE usr_id = %s",
+            [\ilDBConstants::T_INTEGER],
+            [$usr_id]
+        );
+    }
+
+    public function storePasswordFor(
+        int $usr_id,
+        string $password,
+        string $encoding_type,
+        string $salt
+    ): void {
+        $this->db->manipulateF(
+            'UPDATE usr_data SET passwd = %s, passwd_enc_type = %s, passwd_salt = %s WHERE usr_id = %s',
+            [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_INTEGER],
+            [$password, $encoding_type, $salt, $usr_id]
+        );
+    }
+
+    public function storeLoginFor(
+        int $usr_id,
+        string $login
+    ): void {
+        $this->db->manipulateF(
+            'UPDATE usr_data SET login = %s WHERE usr_id = %s',
+            [\ilDBConstants::T_TEXT, \ilDBConstants::T_INTEGER],
+            [$login, $usr_id]
+        );
+    }
+
+    public function storeLastPasswordChangeFor(
+        int $usr_id,
+        int $last_password_change
+    ): void {
+        $this->db->manipulateF(
+            'UPDATE usr_data SET last_password_change = %s WHERE usr_id = %s',
+            [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
+            [$last_password_change,$usr_id]
+        );
+    }
+
+    private function buildFromData(
+        \stdClass $base_data,
+        array $additional_data
+    ): Data {
+        return (new Data(
+            $base_data->usr_id,
+            $base_data->login,
+            $base_data->rid !== self::NO_AVATAR_RID
+                ? $this->irss->manage()->find($base_data->rid)
+                : null,
+            $base_data->firstname,
+            $base_data->lastname,
+            $base_data->title,
+            Genders::tryFrom($base_data->gender ?? ''),
+            $base_data->birthday !== null
+                ? new \DateTimeImmutable($base_data->birthday, new \DateTimeZone('UTC'))
+                : null,
+            $base_data->institution,
+            $base_data->department,
+            $base_data->street,
+            $base_data->city,
+            $base_data->zipcode,
+            $base_data->country,
+            $base_data->email,
+            $base_data->second_email,
+            $base_data->phone_office,
+            $base_data->phone_home,
+            $base_data->phone_mobile,
+            $base_data->fax,
+            $base_data->matriculation,
+            $base_data->hobby,
+            $base_data->referral_comment,
+            [
+                'latitude' => $base_data->latitude,
+                'longitude' => $base_data->longitude,
+                'zoom' => $base_data->loc_zoom
+            ],
+            array_reduce(
+                $additional_data,
+                static function(array $c, \stdClass $v): array {
+                    if (!array_key_exists($v->field_id, $c)) {
+                        $c[$v->field_id] = [];
+                    }
+                    $c[$v->field_id][] = $v->value;
+                    return $c;
+                },
+                []
+            )
+        ))->withSystemInformation([
+            'last_password_change' => $base_data->last_password_change,
+            'login_attempts' => $base_data->login_attempts,
+            'passwd' => $base_data->passwd,
+            'passwd_salt' => $base_data->passwd_salt,
+            'passwd_enc_type' => $base_data->passwd_enc_type,
+            'passwd_policy_reset' => $base_data->passwd_policy_reset === 1,
+            'client_ip' => $base_data->client_ip ?? '',
+            'last_login' => $base_data->last_login ?? '',
+            'first_login' => $base_data->first_login ?? '',
+            'last_profile_prompt' => $base_data->last_profile_prompt ?? '',
+            'active' => $base_data->active,
+            'approve_date' => $base_data->approve_date,
+            'agree_date' => $base_data->agree_date,
+            'inactivation_date' => $base_data->inactivation_date,
+            'time_limit_owner' => $base_data->time_limit_owner,
+            'time_limit_unlimited' => $base_data->time_limit_unlimited === 1,
+            'time_limit_from' => $base_data->time_limit_from,
+            'time_limit_until' => $base_data->time_limit_until,
+            'time_limit_message' => $base_data->time_limit_message,
+            'profile_incomplete' => $base_data->profile_incomplete === 1,
+            'auth_mode' => $base_data->auth_mode,
+            'ext_account' => $base_data->ext_account,
+            'is_self_registered' => $base_data->is_self_registered === 1,
+            'last_update' => $base_data->last_update ?? '',
+            'create_date' => $base_data->create_date ?? '',
+        ]);
+    }
+
+    private function storeAdditionalFields(Data $user_data): void
+    {
+        $this->db->manipulate(
+            'DELETE FROM ' . self::USER_VALUES_TABLE
+            . " WHERE usr_id = {$user_data->getId()}"
+        );
+
+        $values_for_storage = $user_data->getAdditionalFieldsStorageValues();
+        if ($values_for_storage === '') {
+            return;
+        }
+
+        $this->db->manipulate(
+            'INSERT INTO ' . self::USER_VALUES_TABLE . ' (usr_id, field_id, value) '
+            . 'VALUES ' . $values_for_storage
+        );
+    }
+}

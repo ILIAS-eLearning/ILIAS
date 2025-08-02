@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\User\Profile;
 
 use ILIAS\User\LocalDIC;
+use ILIAS\User\Context;
 use ILIAS\User\Profile\Fields\Field as ProfileField;
 use ILIAS\User\Profile\Fields\AvailableSections as AvailableProfileSections;
 use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileFieldsConfigurationRepository;
@@ -39,11 +40,14 @@ class Profile
 
     private ProfileFieldsConfigurationRepository $profile_fields_repository;
     private array $user_fields;
-    protected string $ajax_href;
-    protected array $skip_fields; // Missing array type.
-    protected array $skip_groups; // Missing array type.
-
-    protected \ilUserSettingsConfig $user_settings_config;
+    /**
+     * @var array<string> Identifiers of fields to skip
+     */
+    protected array $skip_fields = [];
+    /**
+     * @var array<string> Identifiers of fields to skip
+     */
+    protected array $skip_groups = [];
 
     public function __construct()
     {
@@ -53,12 +57,8 @@ class Profile
         $this->lng = $DIC['lng'];
         $this->rbac_review = $DIC['rbacreview'];
 
-        $this->user_settings_config = new \ilUserSettingsConfig();
         $this->profile_fields_repository = LocalDIC::dic()[ProfileFieldsConfigurationRepository::class];
         $this->user_fields = $this->profile_fields_repository->get();
-
-        $this->skip_groups = [];
-        $this->skip_fields = [];
 
         $this->lng->loadLanguageModule('awrn');
         $this->lng->loadLanguageModule('buddysystem');
@@ -67,15 +67,14 @@ class Profile
     /**
      * @return array<\ILIAS\User\Profile\Fields\Field>
      */
-    public function getStandardFields(
-
-    ): array {
+    public function getFields(): array
+    {
         return array_reduce(
             $this->user_fields,
             function (array $c, ProfileField $v): array {
                 if (!in_array($v->getSection(), $this->skip_groups)
                     && !in_array($v->getIdentifier(), $this->skip_fields)) {
-                    $c[] = $v;
+                    $c[$v->getIdentifier()] = $v;
                 }
                 return $c;
             },
@@ -83,16 +82,67 @@ class Profile
         );
     }
 
+    /**
+     * @deprecated since version 11 will be removed with 13
+     * @return array<\ILIAS\User\Profile\Fields\Custom\Custom>
+     */
+    public function getAllUserDefinedFields(): array
+    {
+        return array_reduce(
+            $this->user_fields,
+            function (array $c, ProfileField $v): array {
+                if ($v->isCustom()) {
+                    $c[$v->getIdentifier()] = $v;
+                }
+                return $c;
+            },
+            []
+        );
+    }
+
+    /**
+     * @deprecated since version 11 will be removed with 13
+     * @return array<\ILIAS\User\Profile\Fields\Custom>
+     */
+    public function getVisibleUserDefinedFields(
+        Context $context
+    ): array {
+        return array_reduce(
+            $this->getVisibleFields($context),
+            function (array $c, ProfileField $v): array {
+                if ($v->isCustom()) {
+                    $c[$v->getIdentifier()] = $v;
+                }
+                return $c;
+            },
+            []
+        );
+    }
+
+    /**
+     * @return array<\ILIAS\User\Profile\Fields\Field>
+     */
+    public function getVisibleFields(
+        Context $context,
+        ?\ilObjUser $user = null
+    ): array {
+        return array_filter(
+            $this->user_fields,
+            fn(ProfileField $v) => $context->isFieldVisibleInType($v, $user)
+                    && !in_array($v->getIdentifier(), $this->skip_fields)
+                ? true : false
+        );
+    }
+
     public function getVisibleFieldsBySection(
-        FormTypes $form_type
+        Context $context,
+        ?\ilObjUser $current_user
     ): array {
         return array_filter(
             array_reduce(
-                $this->user_fields,
-                function (array $c, ProfileField $v) use ($form_type): array {
-                    if (in_array($v->getSection(), $this->skip_groups)
-                        || in_array($v->getIdentifier(), $this->skip_fields)
-                        || !$form_type->isFieldVisibleInType($v)) {
+                $this->getVisibleFields($context),
+                function (array $c, ProfileField $v): array {
+                    if (in_array($v->getSection(), $this->skip_groups)) {
                         return $c;
                     }
                     $c[$v->getSection()->value][] = $v;
@@ -110,17 +160,9 @@ class Profile
         );
     }
 
-    public function getLocalUserAdministrationFields(): array
+    public function getFieldByIdentifier(string $identifier): ?ProfileField
     {
-        $fields = [];
-        foreach ($this->getStandardFields() as $field => $info) {
-            if ($this->settings->get('usr_settings_visib_lua_' . $field, '1')) {
-                $fields[$field] = $info;
-            } elseif ($info['visib_lua_fix_value'] ?? false) {
-                $fields[$field] = $info;
-            }
-        }
-        return $fields;
+        return $this->profile_fields_repository->getByIdentifier($identifier);
     }
 
     public function skipGroup(string $group): void
@@ -135,11 +177,11 @@ class Profile
         )->getIdentifier();
     }
 
-    public function addStandardFieldsToForm(
+    public function addFieldsToForm(
         \ilPropertyFormGUI $form,
-        FormTypes $form_type,
-        \ilObjUser $current_user,
-        array $custom_fields = []
+        Context $context,
+        bool $do_require,
+        ?\ilObjUser $current_user,
     ): \ilPropertyFormGUI {
         $registration_settings = null;
         if ($this->mode === self::MODE_REGISTRATION) {
@@ -148,36 +190,46 @@ class Profile
         }
 
         return array_reduce(
-            $this->getVisibleFieldsBySection($form_type),
-            function (\ilPropertyFormGUI $c, array $v) use ($current_user): \ilPropertyFormGUI {
+            $this->getVisibleFieldsBySection($context, $current_user),
+            function (\ilPropertyFormGUI $c, array $v) use ($context, $current_user, $do_require): \ilPropertyFormGUI {
                 $section_header = new \ilFormSectionHeaderGUI();
                 $section_header->setTitle($this->lng->txt($v[0]->getSection()->value));
                 $c->addItem($section_header);
-                return $this->addSectionFieldsToForm($current_user, $c, $v);
+                return $this->addSectionFieldsToForm($c, $context, $do_require, $current_user, $v);
             },
             $form
         );
+    }
 
-        // append custom fields as 'other'
-        if ($custom_fields !== [] && !$custom_fields_done) {
-            $form = $this->addCustomFieldsToForm(
-                $form,
-                $custom_fields,
-                $current_group
-            );
-        }
+    public function addFormValuesToUser(
+        \ilPropertyFormGUI $form,
+        Context $context,
+        \ilObjUser $current_user
+    ): \ilObjUser {
+        return array_reduce(
+            $this->getVisibleFields($context, $current_user),
+            static fn(\ilObjUser $c, ProfileField $v): \ilObjUser => $v->addValueToUserObject(
+                $current_user,
+                $form->getInput($setting->getIdentifier()),
+                $form
+            ),
+            $current_user
+        );
     }
 
     private function addSectionFieldsToForm(
-        \ilObjUser $current_user,
         \ilPropertyFormGUI $form,
+        Context $context,
+        bool $do_require,
+        ?\ilObjUser $current_user,
         array $fields
     ): \ilPropertyFormGUI {
         return array_reduce(
             $fields,
-            function (\ilPropertyFormGUI $form, ProfileField $v) use ($current_user): \ilPropertyFormGUI {
+            function (\ilPropertyFormGUI $form, ProfileField $v) use ($context, $current_user, $do_require): \ilPropertyFormGUI {
                 $input = $v->getInput($this->lng, $current_user);
-                $input->setDisabled(!$v->isChangeableByUser());
+                $input->setDisabled(!$context->isFieldChangeableInType($v, $current_user));
+                $input->setRequired($do_require && $v->isRequired());
                 $form->addItem($input);
                 return $form;
             },
@@ -198,42 +250,6 @@ class Profile
         $this->user_fields['roles']['group'] = 'settings';
     }
 
-    private function addCustomFieldsToForm(
-        \ilPropertyFormGUI $form,
-        array $custom_fields,
-        string $current_group
-    ): \ilPropertyFormGUI {
-        if ($current_group !== 'other') {
-            $section_header = new \ilFormSectionHeaderGUI();
-            $section_header->setTitle($this->lng->txt('other'));
-            $form->addItem($section_header);
-        }
-        foreach ($custom_fields as $custom_field) {
-            $form->addItem($custom_field);
-        }
-        return $form;
-    }
-
-    public function setAjaxCallback(string $href): void
-    {
-        $this->ajax_href = $href;
-    }
-
-    public function userSettingVisible(string $setting): bool
-    {
-        if ($this->mode === self::MODE_DESKTOP) {
-            return ($this->user_settings_config->isVisible($setting));
-        }
-
-        if (isset($this->user_fields[$setting]['visib_reg_hide'])
-            && $this->user_fields[$setting]['visib_reg_hide'] === true) {
-            return true;
-        }
-
-        return ($this->settings->get('usr_settings_visib_reg_' . $setting, '1')
-            || $this->settings->get('require_' . $setting, '0'));
-    }
-
     public function setMode(int $mode): bool
     {
         if (in_array($mode, [self::MODE_DESKTOP, self::MODE_REGISTRATION])) {
@@ -243,38 +259,14 @@ class Profile
         return false;
     }
 
-    public function isProfileIncomplete(
-        \ilObjUser $user,
-        bool $include_udf = true,
-        bool $personal_data_only = true
-    ): bool {
-        // standard fields
+    public function isProfileIncomplete(\ilObjUser $user): bool
+    {
         foreach ($this->user_fields as $field) {
-            // only if visible in personal data
-            if ($personal_data_only && !$this->user_settings_config->isVisible($field->getIdentifier())) {
+            if (!$field->isVisibleToUser()) {
                 continue;
             }
 
-            if ($field->isRequired() && $field->getValueForUser($user)) {
-                return true;
-            }
-        }
-
-        // custom fields
-        if (!$include_udf) {
-            return false;
-        }
-
-        $user_defined_data = $user->getUserDefinedData();
-        $user_defined_fields = \ilUserDefinedFields::_getInstance();
-        foreach ($user_defined_fields->getRequiredDefinitions() as $field) {
-            // only if visible in personal data
-            if ($personal_data_only && !$field->isVisibleToUser()) {
-                continue;
-            }
-
-            if (!($user_defined_data['f_' . $field->getIdentifier()] ?? false)) {
-                \ilLoggerFactory::getLogger('user')->info('Profile is incomplete due to missing required udf.');
+            if ($field->isRequired() && $field->retrieveValueFromUser($user)) {
                 return true;
             }
         }
@@ -282,9 +274,24 @@ class Profile
         return false;
     }
 
-    protected function isEditableByUser(string $setting): bool
+    public function userSettingVisibleToUser(string $setting): bool
     {
-        return $this->user_settings_config->isVisibleAndChangeable($setting);
+        if ($this->mode === self::MODE_DESKTOP) {
+            return $this->profile_fields_repository->getByIdentifier($setting)
+                ?->isVisibleToUser() ?? false;
+        }
+
+        return $this->profile_fields_repository->getByIdentifier($setting)
+            ?->isVisibleInRegistration() ?? false;
+    }
+
+    public function userSettingEditableByUser(string $setting): bool
+    {
+        $field = $this->profile_fields_repository->getByIdentifier($setting);
+        if ($field === null) {
+            return false;
+        }
+        return $field->isVisibleToUser() && $field->isChangeableByUser();
     }
 
     public function getIgnorableRequiredSettings(): array // Missing array type.
@@ -303,7 +310,7 @@ class Profile
                 continue;
             }
 
-            if ($this->isEditableByUser($field)) {
+            if ($this->userSettingEditableByUser($field)) {
                 $ignorableSettings[] = $field;
             }
         }

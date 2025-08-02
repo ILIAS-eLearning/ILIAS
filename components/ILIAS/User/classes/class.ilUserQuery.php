@@ -16,6 +16,13 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\User\LocalDIC;
+use ILIAS\User\Profile\Fields\Field as ProfileField;
+use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileFieldsConfigurationRepository;
+use ILIAS\Language\Language;
+
 /**
  * User query class. Put any complex that queries for a set of users into
  * this class and keep ilObjUser "small".
@@ -24,6 +31,8 @@
 class ilUserQuery
 {
     public const DEFAULT_ORDER_FIELD = 'login';
+
+    private Language $lng;
 
     private string $order_field = self::DEFAULT_ORDER_FIELD;
     private string $order_dir = 'asc';
@@ -59,22 +68,38 @@ class ilUserQuery
         "active"
     ];
 
+    private ProfileFieldsConfigurationRepository $profile_fields_repository;
+
     public function __construct()
     {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        $this->lng = $DIC['lng'];
+        $this->profile_fields_repository = LocalDIC::dic()[ProfileFieldsConfigurationRepository::class];
     }
 
     /**
      * Set udf filter
      * @param array $a_val udf filter array
      */
-    public function setUdfFilter(array $a_val): void // Missing array type.
+    public function setUdfFilter(array $filter_array): void // Missing array type.
     {
-        $valid_udfs = [];
+        $field_names = array_reduce(
+            $this->profile_fields_repository->get(),
+            function (array $c, ProfileField $v): array {
+                if (!$v->isCustom()) {
+                    return $c;
+                }
+                $c[] = $v->getLabel($this->lng);
+                return $c;
+            },
+            []
+        );
 
-        $definitions = \ilUserDefinedFields::_getInstance()->getDefinitions();
-        foreach ($a_val as $udf_name => $udf_value) {
-            [$udf_string, $udf_id] = explode('_', $udf_name);
-            if (array_key_exists((int) $udf_id, $definitions)) {
+        $valid_udfs = [];
+        foreach ($filter_array as $udf_name => $udf_value) {
+            [, $udf_id] = explode('_', $udf_name);
+            if (in_array($udf_id, $field_names)) {
                 $valid_udfs[$udf_name] = $udf_value;
             }
         }

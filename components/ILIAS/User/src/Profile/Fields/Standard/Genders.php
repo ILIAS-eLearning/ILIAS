@@ -18,19 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\User\Settings;
+namespace ILIAS\User\Profile\Fields\Standard;
 
-use ILIAS\User\Settings\User\UserSettings;
-use ILIAS\User\Settings\StartingPoint\Setting as StartingPointSetting;
-
-class Settings implements UserSettings
+enum Genders: string
 {
-    public function getSettingConfigurations(): array
-    {
-        return [
-            LastVisited::class,
-            SessionReminder::class,
-            StartingPointSetting::class
-        ];
-    }
+    case Undisclosed = 'n';
+    case Female = 'f';
+    case Male = 'm';
 }

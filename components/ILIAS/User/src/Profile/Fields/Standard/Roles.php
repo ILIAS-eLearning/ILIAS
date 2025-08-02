@@ -30,7 +30,7 @@ class Roles implements FieldDefinition
     use NoOverrides;
 
     public function __construct(
-        private readonly ?\ilRbacReview $rbac_review = null
+        private readonly \ilRbacReview $rbac_review
     ) {
     }
 
@@ -81,7 +81,7 @@ class Roles implements FieldDefinition
 
     public function requiredForcedTo(): ?bool
     {
-        return true;
+        return false;
     }
 
     public function searchableForcedTo(): ?bool
@@ -96,11 +96,14 @@ class Roles implements FieldDefinition
 
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        ?\ilObjUser $current_user = null
     ): \ilFormPropertyGUI {
         $input = new \ilNonEditableValueGUI($this->getLabel($lng));
+        if ($current_user === null) {
+            return $input;
+        }
         $input->setValue(
-            $this->getValueForUser($current_user)
+            $this->retrieveValueFromUser($current_user)
         );
         return $input;
     }
@@ -113,7 +116,7 @@ class Roles implements FieldDefinition
         throw new Exception('This Value cannot be set here!');
     }
 
-    public function getValueForUser(\ilObjUser $current_user): string
+    public function retrieveValueFromUser(\ilObjUser $current_user): string
     {
         if ($this->rbac_review === null) {
             return '';

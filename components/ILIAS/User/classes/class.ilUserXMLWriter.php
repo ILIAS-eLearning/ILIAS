@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\User\Context;
+use ILIAS\User\Profile\Profile;
 use ILIAS\Language\Language;
 
 /**
@@ -32,6 +36,7 @@ class ilUserXMLWriter extends ilXmlWriter
     private ILIAS $ilias;
     private ilDBInterface $db;
     private Language $lng;
+    private Profile $user_profile;
     private array $users; // Missing array type.
     private int $user_id = 0;
     private bool $attach_roles = false;
@@ -77,8 +82,7 @@ class ilUserXMLWriter extends ilXmlWriter
 
         $this->__buildHeader();
 
-        $udf_data = ilUserDefinedFields::_getInstance();
-        $udf_data->addToXML($this);
+        $this->addUDFsToXML();
 
         foreach ($this->users as $user) {
             $this->__handleUser($user);
@@ -317,6 +321,14 @@ class ilUserXMLWriter extends ilXmlWriter
     }
 
     /**
+     * if set to true, all preferences of a user will be set
+     */
+    public function setAttachPreferences(bool $attach_preferences): void
+    {
+        $this->attach_preferences = $attach_preferences;
+    }
+
+    /**
      * return array with base-encoded picture data as key value,
      * encoding type as encoding, and image type as key type.
      */
@@ -341,13 +353,21 @@ class ilUserXMLWriter extends ilXmlWriter
         ];
     }
 
-
     /**
-     * if set to true, all preferences of a user will be set
+     * add user defined field data to xml (using usr dtd)
      */
-    public function setAttachPreferences(bool $attach_preferences): void
+    private function addUDFsToXML(): void
     {
-        $this->attach_preferences = $attach_preferences;
+        foreach ($this->user_profile->getVisibleFields(Context::Export) as $field) {
+            $this->xmlElement(
+                'UserDefinedField',
+                [
+                    'Id' => $field->getIdentifier(),
+                    'Name' => $field->getName($this->lng)
+                ],
+                (string) ($this->user_data['f_' . $field->getIdentifier()] ?? '')
+            );
+        }
     }
 
     /**

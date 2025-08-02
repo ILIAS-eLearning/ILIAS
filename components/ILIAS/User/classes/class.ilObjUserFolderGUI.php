@@ -76,7 +76,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
     private ilDBInterface $db;
     private \ilMustacheFactory $mail_mustache_factory;
     private ilLogger $log;
-    private ilUserSettingsConfig $user_settings_config;
     private ilAppEventHandler $event;
     private Filesystem $filesystem;
     private FileUpload $upload;
@@ -143,7 +142,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
 
         $this->selected_action = $this->user_request->getSelectedAction();
-        $this->user_settings_config = new ilUserSettingsConfig();
 
         $this->log = ilLoggerFactory::getLogger('user');
         $this->requested_ids = $this->user_request->getIds();
@@ -1910,7 +1908,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $export_types = [
             'userfolder_export_excel_x86',
-            'userfolder_export_csv',
             'userfolder_export_xml'
         ];
         $options = [];
@@ -2082,7 +2079,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
         if ($this->rbac_system->checkAccess('write', $this->object->getRefId())) {
             $export_types = [
                 'userfolder_export_excel_x86',
-                'userfolder_export_csv',
                 'userfolder_export_xml'
             ];
             foreach ($export_types as $type) {
@@ -2139,42 +2135,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
             ilFileDelivery::deliverFileLegacy(
                 $fullname . '.xlsx',
                 $this->object->getExportFilename(ilObjUserFolder::FILE_TYPE_EXCEL) . '.xlsx',
-                '',
-                false,
-                true
-            );
-        }
-    }
-
-    protected function usrExportCsvObject(): void
-    {
-        $user_ids = $this->getActionUserIds();
-        if (!$user_ids) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
-            $this->ctrl->redirect(
-                $this,
-                'view'
-            );
-        }
-
-        if ($this->checkPermissionBool('write,read_users')) {
-            $this->object->buildExportFile(
-                ilObjUserFolder::FILE_TYPE_CSV,
-                $user_ids
-            );
-            $this->ctrl->redirectByClass(
-                'ilobjuserfoldergui',
-                'export'
-            );
-        } elseif ($this->checkUserManipulationAccessBool()) {
-            $fullname = $this->object->buildExportFile(
-                ilObjUserFolder::FILE_TYPE_CSV,
-                $user_ids,
-                true
-            );
-            ilFileDelivery::deliverFileLegacy(
-                $fullname,
-                $this->object->getExportFilename(ilObjUserFolder::FILE_TYPE_CSV),
                 '',
                 false,
                 true

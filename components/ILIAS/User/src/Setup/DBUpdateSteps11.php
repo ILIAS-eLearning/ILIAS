@@ -72,7 +72,14 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
             $this->db->dropTable('udf_data');
         }
 
-        if (!$this->db->tableColumnExists('udf_definition', 'old_field_id')) {
+        if (!$this->db->sequenceExists('udf_definition')) {
+            /*
+             * 2025-07-17, sk: This needs to be done here, as we absolutely need
+             * the change to be ready for the next steps
+             */
+            $this->db->modifyTableColumn('ldap_attribute_mapping', 'keyword', ['length' => 68]);
+            $this->db->modifyTableColumn('settings', 'keyword', ['length' => 74]);
+
             $this->db->renameTableColumn('udf_definition', 'field_id', 'old_field_id');
             $this->db->manipulate('ALTER TABLE udf_definition ADD COLUMN field_id VARCHAR(64) NOT NULL FIRST');
             $this->db->modifyTableColumn('udf_clob', 'field_id', ['type' => 'text', 'length' => 64]);
@@ -88,6 +95,15 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
                 );
                 $this->db->manipulate(
                     "UPDATE udf_text SET field_id = '{$uuid}' WHERE field_id = '{$row->old_field_id}'"
+                );
+                $this->db->manipulate(
+                    "UPDATE ldap_attribute_mapping SET keyword = 'udf_{$uuid}' WHERE keyword = 'udf_{$row->old_field_id}'"
+                );
+                $this->db->manipulate(
+                    "UPDATE settings SET keyword = 'pmap_udf_{$uuid}' WHERE keyword = 'pmap_udf_{$row->old_field_id}'"
+                );
+                $this->db->manipulate(
+                    "UPDATE settings SET keyword = 'pumap_udf_{$uuid}' WHERE keyword = 'pumap_udf_{$row->old_field_id}'"
                 );
             }
             $this->db->dropTableColumn('udf_definition', 'old_field_id');

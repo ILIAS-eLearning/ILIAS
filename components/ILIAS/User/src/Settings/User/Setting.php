@@ -91,7 +91,7 @@ class Setting implements Property
 
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        ?\ilObjUser $current_user = null
     ): \ilFormPropertyGUI {
         $input = $this->definition->getInput(
             $lng,
@@ -147,13 +147,13 @@ class Setting implements Property
         \ilObjUser $current_user,
         mixed $input,
         ?\ilPropertyFormGUI $form = null
-    ): void {
-        $this->definition->persistUserInput($current_user, $input, $form);
+    ): \ilObjUser {
+        return $this->definition->persistUserInput($current_user, $input, $form);
     }
 
-    public function getValueForUser(\ilObjUser $current_user): mixed
+    public function retrieveValueFromUser(\ilObjUser $current_user): mixed
     {
-        return $this->definition->getValueForUser($current_user);
+        return $this->definition->retrieveValueFromUser($current_user);
     }
 
     public function validateUserChoice(

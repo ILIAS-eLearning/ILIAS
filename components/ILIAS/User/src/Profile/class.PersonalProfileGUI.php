@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile;
 
+use ILIAS\User\Context;
 use ILIAS\User\Profile\Fields\Field;
 use ILIAS\User\Profile\ChangeMail\Repository as ChangeMailRepository;
 use ILIAS\User\Profile\ChangeMail\DBRepository as ChangeMailDBRepository;
@@ -28,7 +29,6 @@ use ILIAS\User\Profile\ChangeMail\Mail as ChangeMailMail;
 use ILIAS\User\Profile\Prompt\Repository as PromptRepository;
 use ILIAS\Language\Language;
 use ILIAS\FileUpload\FileUpload;
-use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\UI\Factory as UIFactory;
@@ -47,7 +47,6 @@ class PersonalProfileGUI
     public const CHANGE_EMAIL_CMD = 'changeEmail';
 
     private \ilGlobalTemplateInterface $tpl;
-    private ?\ilUserDefinedFields $user_defined_fields = null;
     private \ilAppEventHandler $eventHandler;
     private \ilPropertyFormGUI $form;
     private \ilSetting $settings;
@@ -61,7 +60,6 @@ class PersonalProfileGUI
     private \ilHelpGUI $help;
     private \ilErrorHandling $error_handler;
     private ChecklistGUI $checklist;
-    private \ilUserSettingsConfig $user_settings_config;
     private ChecklistStatus $checklist_status;
     private UIFactory $ui_factory;
     private UIRenderer $ui_renderer;
@@ -69,6 +67,7 @@ class PersonalProfileGUI
     private ChangeMailRepository $change_mail_token_repo;
     private PromptRepository $prompt_repository;
     private GUIRequest $profile_request;
+    private Profile $profile;
 
     private \ilLogger $logger;
     private FileUpload $uploads;
@@ -104,7 +103,7 @@ class PersonalProfileGUI
 
         $this->logger = \ilLoggerFactory::getLogger('user');
         $this->stakeholder = new \ilUserProfilePictureStakeholder();
-        $this->user_defined_fields = \ilUserDefinedFields::_getInstance();
+        $this->profile = new Profile();
         $this->change_mail_token_repo = new ChangeMailDBRepository(
             $DIC['ilDB'],
             $this->settings
@@ -121,7 +120,6 @@ class PersonalProfileGUI
             $this->lng,
             new \ilSetting('user')
         );
-        $this->user_settings_config = new \ilUserSettingsConfig();
         $this->profile_request = new GUIRequest(
             $DIC->http(),
             $DIC->refinery()
@@ -173,20 +171,9 @@ class PersonalProfileGUI
         }
     }
 
-
-    public function workWithUserSetting(string $setting): bool
-    {
-        return $this->user_settings_config->isVisibleAndChangeable($setting);
-    }
-
     public function userSettingVisible(string $setting): bool
     {
         return $this->user_settings_config->isVisible($setting);
-    }
-
-    public function userSettingEnabled(string $setting): bool
-    {
-        return $this->user_settings_config->isChangeable($setting);
     }
 
     /**
@@ -234,71 +221,6 @@ class PersonalProfileGUI
             $this->lng->txt('export') . '/' . $this->lng->txt('import'),
             $this->ctrl->getLinkTarget($this, 'showExportImport')
         );
-    }
-
-
-    public function __showOtherInformations(): bool
-    {
-        $d_set = new \ilSetting('delicous');
-        if ($this->userSettingVisible('matriculation') or count($this->user_defined_fields->getVisibleDefinitions())
-            or $d_set->get('user_profile') == '1') {
-            return true;
-        }
-        return false;
-    }
-
-    public function __showUserDefinedFields(): bool
-    {
-        $user_defined_data = $this->user->getUserDefinedData();
-        foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
-            if ($definition['field_type'] == UDF_TYPE_TEXT) {
-                $this->tpl->setCurrentBlock('field_text');
-                $this->tpl->setVariable(
-                    'FIELD_VALUE',
-                    \ilLegacyFormElementsUtil::prepareFormOutput($user_defined_data[$field_id])
-                );
-                if (!$definition['changeable']) {
-                    $this->tpl->setVariable('DISABLED_FIELD', 'disabled="disabled"');
-                }
-                $this->tpl->setVariable('FIELD_NAME', 'udf[' . $definition['field_id'] . ']');
-            } else {
-                if ($definition['changeable']) {
-                    $name = 'udf[' . $definition['field_id'] . ']';
-                    $disabled = false;
-                } else {
-                    $name = '';
-                    $disabled = true;
-                }
-                $this->tpl->setCurrentBlock('field_select');
-                $this->tpl->setVariable(
-                    'SELECT_BOX',
-                    \ilLegacyFormElementsUtil::formSelect(
-                        $user_defined_data[$field_id],
-                        $name,
-                        $this->user_defined_fields->fieldValuesToSelectArray(
-                            $definition['field_values']
-                        ),
-                        false,
-                        true,
-                        0,
-                        '',
-                        [],
-                        $disabled
-                    )
-                );
-            }
-            $this->tpl->parseCurrentBlock();
-            $this->tpl->setCurrentBlock('user_defined');
-
-            if ($definition['required']) {
-                $name = $definition['field_name'] . '<span class="asterisk">*</span>';
-            } else {
-                $name = $definition['field_name'];
-            }
-            $this->tpl->setVariable('TXT_FIELD_NAME', $name);
-            $this->tpl->parseCurrentBlock();
-        }
-        return true;
     }
 
     public function setHeader(): void
@@ -357,8 +279,8 @@ class PersonalProfileGUI
             $it .= '<br>' . $change_mail_info;
         }
 
-        $pub_prof = in_array($this->user->prefs['public_profile'] ?? '', ['y', 'n', 'g'])
-            ? $this->user->prefs['public_profile']
+        $pub_prof = in_array($this->user->getPref('public_profile'), ['y', 'n', 'g'])
+            ? $this->user->getPref('public_profile')
             : 'n';
         $box = $this->ui_factory->messageBox()->info($it);
         if ($pub_prof === 'n') {
@@ -374,35 +296,11 @@ class PersonalProfileGUI
 
     public function initPersonalDataForm(): void
     {
-        $input = [];
-
         $this->form = new \ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         $this->form->setId(self::PERSONAL_DATA_FORM_ID);
 
-        $user_defined_data = $this->user->getUserDefinedData();
-
-        foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
-            $value = $user_defined_data['f_' . $field_id] ?? '';
-            $changeable = $definition['changeable'] === 1 ? true : false;
-            $fprop = \ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition(
-                $definition,
-                $changeable,
-                $value
-            );
-            if ($fprop instanceof \ilFormPropertyGUI) {
-                $input['udf_' . $definition['field_id']] = $fprop;
-            }
-        }
-
-        // standard fields
-        $up = new Profile();
-        $up->setAjaxCallback(
-            $this->ctrl->getLinkTargetByClass(PublicProfileGUI::class, 'doProfileAutoComplete', '', true)
-        );
-
-        // standard fields
-        $up->addStandardFieldsToForm($this->form, FormTypes::PersonalProfile, $this->user, $input);
+        $this->form = $this->profile->addFieldsToForm($this->form, Context::User, $this->user);
 
         $this->form->addCommandButton('savePersonalData', $this->lng->txt('user_save_continue'));
     }
@@ -486,9 +384,8 @@ class PersonalProfileGUI
 
     private function loginChanged(): bool
     {
-        $login = $this->form->getInput('username');
-        if ((int) $this->settings->get('allow_change_loginname')
-           && $login !== $this->user->getLogin()) {
+        if ($this->profile->userSettingEditableByUser('username')
+            && $this->form->getInput('username') !== $this->user->getLogin()) {
             return true;
         }
 
@@ -524,7 +421,7 @@ class PersonalProfileGUI
 
     public function goToEmailConfirmation(): void
     {
-        $form = $this->initPersonalDataForm();
+        $this->initPersonalDataForm();
         if (!$this->form->checkInput()
             || $this->loginChanged() && !$this->updateLoginOrSetErrorMessages()) {
             $this->form->setValuesByPost();
@@ -548,8 +445,7 @@ class PersonalProfileGUI
 
     private function savePersonalDataForm(): void
     {
-        $up = new Profile();
-        foreach ($up->getVisibleFieldsBySection(FormTypes::PersonalProfile) as $section) {
+        foreach ($this->profile->getVisibleFieldsBySection(Context::PersonalProfile, $this->user) as $section) {
             array_map(
                 function (Field $v): void {
                     $v->addValueToUserObject($this->user, $this->form->getInput($v->getIdentifier()), $this->form);
@@ -557,20 +453,6 @@ class PersonalProfileGUI
                 $section
             );
         }
-
-        // Set user defined data
-        $defs = $this->user_defined_fields->getVisibleDefinitions();
-        $udf = [];
-        foreach ($defs as $definition) {
-            $f = 'udf_' . $definition['field_id'];
-            $item = $this->form->getItemByPostVar($f);
-            if ($item && !$item->getDisabled()) {
-                $udf[$definition['field_id']] = $this->form->getInput($f);
-            }
-        }
-        $this->user->setUserDefinedData($udf);
-
-        $this->uploadUserPicture();
 
         // profile ok
         $this->user->setProfileIncomplete(false);
@@ -659,9 +541,9 @@ class PersonalProfileGUI
             // Activate public profile
             $radg = new \ilRadioGroupInputGUI($this->lng->txt('user_activate_public_profile'), 'public_profile');
             $info = $this->lng->txt('user_activate_public_profile_info');
-            $profile_mode = new ProfileMode($this->lng, $this->settings, $this->user);
-            $pub_prof = $profile_mode->getMode();
-            $radg->setValue($pub_prof);
+            $radg->setValue(
+                (new Visibility($this->lng, $this->settings, $this->user))->getMode()
+            );
             $op1 = new \ilRadioOption($this->lng->txt('usr_public_profile_disabled'), 'n', $this->lng->txt('usr_public_profile_disabled_info'));
             $radg->addOption($op1);
             $op2 = new \ilRadioOption($this->lng->txt('usr_public_profile_logged_in'), 'y');
@@ -694,14 +576,14 @@ class PersonalProfileGUI
             $info = new \ilCustomInputGUI($this->lng->txt('user_activate_public_profile'));
             $info->setHtml($prtf);
             $this->form->addItem($info);
-            $this->showPublicProfileFields($this->form, $this->user->prefs);
+            $this->showPublicProfileFields($this->form, $this->user->getPrefs());
         }
 
         if (isset($op2)) {
-            $this->showPublicProfileFields($this->form, $this->user->prefs, $op2, false, '-1');
+            $this->showPublicProfileFields($this->form, $this->user->getPrefs(), $op2, false, '-1');
         }
         if (isset($op3)) {
-            $this->showPublicProfileFields($this->form, $this->user->prefs, $op3, false, '-2');
+            $this->showPublicProfileFields($this->form, $this->user->getPrefs(), $op3, false, '-2');
         }
         $this->form->setForceTopButtons(true);
         $this->form->addCommandButton('savePublicProfile', $this->lng->txt('user_save_continue'));
@@ -714,6 +596,7 @@ class PersonalProfileGUI
         bool $anonymized = false,
         string $key_suffix = ''
     ): void {
+        $fields = $this->profile->getVisibleFields(Context::PersonalProfile);
         $birthday = $this->user->getBirthday();
         if ($birthday) {
             $birthday = \ilDatePresentation::formatDate(new \ilDate($birthday, IL_CAL_DATE));
@@ -724,9 +607,9 @@ class PersonalProfileGUI
         }
 
         $txt_sel_country = '';
-        if ($this->user->getSelectedCountry() != '') {
+        if ($this->user->getCountry() !== '') {
             $this->lng->loadLanguageModule('meta');
-            $txt_sel_country = $this->lng->txt('meta_c_' . $this->user->getSelectedCountry());
+            $txt_sel_country = $this->lng->txt('meta_c_' . $this->user->getCountry());
         }
 
         // profile picture
@@ -778,7 +661,7 @@ class PersonalProfileGUI
                 $value = null;
             }
 
-            if ($this->userSettingVisible($key)) {
+            if ($this->profile->userSettingVisibleToUser($key)) {
                 // #18795 - we should use ilUserProfile
                 switch ($key) {
                     case 'upload':
@@ -803,27 +686,6 @@ class PersonalProfileGUI
                 } else {
                     $parent->addSubItem($cb);
                 }
-            }
-        }
-
-        // additional defined user data fields
-        $user_defined_data = [];
-        if (!$anonymized) {
-            $user_defined_data = $this->user->getUserDefinedData();
-        }
-        foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
-            // public setting
-            $cb = new \ilCheckboxInputGUI($definition['field_name'], 'chk_udf_' . $definition['field_id'] . $key_suffix);
-            $cb->setOptionTitle($user_defined_data['f_' . $definition['field_id']] ?? '');
-            $public_udf = (string) ($prefs['public_udf_' . $definition['field_id']] ?? '');
-            if ($public_udf === 'y') {
-                $cb->setChecked(true);
-            }
-
-            if (!$parent) {
-                $form->addItem($cb);
-            } else {
-                $parent->addSubItem($cb);
             }
         }
 

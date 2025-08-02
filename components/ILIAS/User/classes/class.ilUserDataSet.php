@@ -326,11 +326,11 @@ class ilUserDataSet extends ilDataSet
                     $prof = new Profile();
                     $prof->skipField(Alias::class);
                     $prof->skipField(Roles::class);
-                    $fields = $prof->getStandardFields();
+                    $fields = $prof->getFields();
                     foreach ($fields as $k => $f) {
                         $up_k = $this->convertToLeadingUpper($k);
                         // only change fields, when it is possible in profile
-                        if ($this->user_profile->userSettingVisible($k) &&
+                        if ($this->user_profile->userSettingVisibleToUser($k) &&
                             !$ilSetting->get("usr_settings_disable_" . $k) &&
                             ($f["method"] ?? "") != "" && isset($a_rec[$up_k])) {
                             $set_method = "set" . substr($f["method"], 3);

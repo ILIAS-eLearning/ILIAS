@@ -97,15 +97,11 @@ class ilUserDefinedData
 
     public function update(): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $udf_obj = ilUserDefinedFields::_getInstance();
 
         foreach ($udf_obj->getDefinitions() as $definition) {
-            if ($definition["field_type"] == UDF_TYPE_WYSIWYG) {
-                $ilDB->replace(
+            if ($definition["field_type"] === UDF_TYPE_WYSIWYG) {
+                $this->db->replace(
                     "udf_clob",
                     [
                         "usr_id" => ["integer", $this->getUserId()],
@@ -115,7 +111,7 @@ class ilUserDefinedData
                         ]
                 );
             } else {
-                $ilDB->replace(
+                $this->db->replace(
                     "udf_text",
                     [
                         "usr_id" => ["integer", $this->getUserId()],

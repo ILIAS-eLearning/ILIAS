@@ -46,5 +46,5 @@ interface SettingDefinition extends Property
     public function persistUserInput(
         \ilObjUser $current_user,
         mixed $input
-    ): void;
+    ): \ilObjUser;
 }
