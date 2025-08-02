@@ -63,6 +63,7 @@ class ilLocalUserPasswordSettingsGUI
 
     public function executeCommand(): void
     {
+        $this->tpl->setTitle($this->lng->txt('chg_password'));
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
             default:

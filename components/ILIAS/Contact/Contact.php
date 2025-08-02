@@ -34,5 +34,7 @@ class Contact implements Component\Component
     ): void {
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "buddy_system.js");
+        $contribute[User\Settings\UserSettings::class] = fn() =>
+            new Contact\UserSettings\Settings();
     }
 }

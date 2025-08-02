@@ -44,5 +44,8 @@ class Style implements Component\Component
             new \ILIAS\Style\Content\Setup\ContentStyleAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[User\Settings\UserSettings::class] = fn() =>
+            new Style\System\UserSettings\Settings();
     }
 }

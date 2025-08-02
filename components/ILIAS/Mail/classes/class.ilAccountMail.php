@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\User\Settings\System\NewAccountMailRepository;
-use ILIAS\User\Settings\System\NewAccountMail;
+use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
+use ILIAS\User\Settings\NewAccountMail\Mail as NewAccountMail;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
 
 class ilAccountMail

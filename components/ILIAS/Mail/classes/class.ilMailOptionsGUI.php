@@ -58,16 +58,6 @@ class ilMailOptionsGUI
     public function executeCommand(): void
     {
         if (!$this->mail_options->mayManageInvididualSettings()) {
-            $referrer = '';
-            if ($this->http->wrapper()->query()->has('referrer')) {
-                $referrer = $this->http->wrapper()->query()->retrieve(
-                    'referrer',
-                    $this->refinery->kindlyTo()->string()
-                );
-            }
-            if (strtolower(ilPersonalSettingsGUI::class) === strtolower((string) $referrer)) {
-                $this->ctrl->redirectByClass(ilPersonalSettingsGUI::class);
-            }
             $this->ctrl->redirectByClass(ilMailGUI::class);
         }
 

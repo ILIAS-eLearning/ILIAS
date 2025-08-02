@@ -38,5 +38,7 @@ class Mail implements Component\Component
             );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilMailComposeFunctions.js");
+        $contribute[User\Settings\UserSettings::class] = fn() =>
+            new Mail\UserSettings\Settings();
     }
 }

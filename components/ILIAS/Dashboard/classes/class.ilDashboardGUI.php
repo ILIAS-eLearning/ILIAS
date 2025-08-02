@@ -19,13 +19,15 @@
 declare(strict_types=1);
 
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
+use ILIAS\User\Settings\User\PersonalSettingsGUI;
 
 /**
  * @ilCtrl_Calls ilDashboardGUI: ilPersonalProfileGUI
  * @ilCtrl_Calls ilDashboardGUI: ilObjUserGUI, ilPDNotesGUI
  * @ilCtrl_Calls ilDashboardGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilDashboardGUI: ilMailSearchGUI, ilContactGUI
- * @ilCtrl_Calls ilDashboardGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilPersonalWorkspaceGUI, ILIAS\User\Settings\User\PersonalSettingsGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilLocalUserPasswordSettingsGUI
  * @ilCtrl_Calls ilDashboardGUI: ilPortfolioRepositoryGUI, ilObjChatroomGUI
  * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
  * @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
@@ -109,10 +111,17 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand($profile_gui);
                 break;
 
-            case strtolower(ilPersonalSettingsGUI::class):
+            case strtolower(PersonalSettingsGUI::class):
                 $this->getStandardTemplates();
                 $this->setTabs();
-                $settings_gui = new ilPersonalSettingsGUI();
+                $settings_gui = new PersonalSettingsGUI();
+                $this->ctrl->forwardCommand($settings_gui);
+                break;
+
+            case strtolower(ilLocalUserPasswordSettingsGUI::class):
+                $this->getStandardTemplates();
+                $this->setTabs();
+                $settings_gui = new ilLocalUserPasswordSettingsGUI();
                 $this->ctrl->forwardCommand($settings_gui);
                 break;
 
@@ -392,7 +401,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     public function jumpToSettings(): void
     {
-        $this->ctrl->redirectByClass(ilPersonalSettingsGUI::class);
+        $this->ctrl->redirectByClass(PersonalSettingsGUI::class);
     }
 
     public function jumpToNews(): void
