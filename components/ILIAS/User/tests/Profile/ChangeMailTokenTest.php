@@ -20,9 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Tests;
 
-use ILIAS\User\Profile\ChangeMailToken;
-use ILIAS\User\Profile\ChangeMailStatus;
-use ILIAS\User\Profile\ChangeMailTokenDBRepository;
+use ILIAS\User\Profile\ChangeMail\Token;
+use ILIAS\User\Profile\ChangeMail\Status;
 
 class ChangeMailTokenTest extends BaseTestCase
 {
@@ -32,10 +31,10 @@ class ChangeMailTokenTest extends BaseTestCase
         $old_email = 'oldemmail@ilias.de';
         $new_email = 'newemail@ilias.de';
         $timestamp = time();
-        $status = ChangeMailStatus::Login;
+        $status = Status::Login;
         $token_string = hash('md5', "{$timestamp}-{$user_id}-{$old_email}-{$status->value}");
 
-        $token1 = new ChangeMailToken(
+        $token1 = new Token(
             $user_id,
             $old_email,
             $new_email,
@@ -51,7 +50,7 @@ class ChangeMailTokenTest extends BaseTestCase
         $this->assertEquals($status, $token1->getStatus());
         $this->assertEquals($token_string, $token1->getToken());
 
-        $token2 = new ChangeMailToken(
+        $token2 = new Token(
             $user_id,
             $old_email,
             $new_email,
@@ -72,7 +71,7 @@ class ChangeMailTokenTest extends BaseTestCase
         $old_email = 'oldemmail@ilias.de';
         $new_email = 'newemail@ilias.de';
 
-        $token1 = new ChangeMailToken(
+        $token1 = new Token(
             $user_id,
             $old_email,
             $new_email,
@@ -81,21 +80,21 @@ class ChangeMailTokenTest extends BaseTestCase
 
         $this->assertEquals(true, $token1->isTokenValidForCurrentStatus($this->createMock(\ilSetting::class)));
 
-        $token2 = new ChangeMailToken(
+        $token2 = new Token(
             $user_id,
             $old_email,
             $new_email,
-            time() - ChangeMailStatus::VALIDITY_LOGIN - 60
+            time() - Status::VALIDITY_LOGIN - 60
         );
 
         $this->assertEquals(false, $token2->isTokenValidForCurrentStatus($this->createMock(\ilSetting::class)));
 
-        $token3 = new ChangeMailToken(
+        $token3 = new Token(
             $user_id,
             $old_email,
             $new_email,
             time() - \ilRegistrationSettings::REG_HASH_LIFETIME_MIN_VALUE - 60,
-            ChangeMailStatus::EmailConfirmation
+            Status::EmailConfirmation
         );
 
         $settings_mock = $this->createMock(\ilSetting::class);

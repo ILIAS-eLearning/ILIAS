@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\User\UserGUIRequest;
+use ILIAS\User\Profile\Profile;
 
 class ilUserImportParser extends ilSaxParser
 {
@@ -46,7 +47,7 @@ class ilUserImportParser extends ilSaxParser
     private ilAccess $access;
     private ilObjUser $user;
 
-    private ilUserProfile $user_profile;
+    private Profile $user_profile;
 
     protected ?string $tmp_udf_name = null;
     protected ?string $tmp_udf_id = null;
@@ -233,7 +234,7 @@ class ilUserImportParser extends ilSaxParser
 
         $http = $DIC['http'];
 
-        $this->user_profile = new ilUserProfile();
+        $this->user_profile = new Profile();
 
         $this->roles = [];
         $this->mode = $a_mode;

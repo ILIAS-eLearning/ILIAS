@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User;
 
+use ILIAS\User\Profile\PersonalProfileGUI;
 use ILIAS\StaticURL\Handler\Handler;
 use ILIAS\StaticURL\Request\Request;
 use ILIAS\StaticURL\Context;
@@ -27,7 +28,6 @@ use ILIAS\StaticURL\Response\Response;
 use ILIAS\StaticURL\Response\Factory;
 use ILIAS\StaticURL\Handler\BaseHandler;
 use ILIAS\StaticURL\Builder\StandardURIBuilder;
-use ILIAS\Data\URI;
 
 class StaticURLHandler extends BaseHandler implements Handler
 {
@@ -58,9 +58,9 @@ class StaticURLHandler extends BaseHandler implements Handler
 
     private function buildChangeEmailUrl(string $token, \ilCtrl $ctrl): string
     {
-        $ctrl->setParameterByClass(\ilPersonalProfileGUI::class, 'token', $token);
-        $link = $ctrl->getLinkTargetByClass([\ilDashboardGUI::class, \ilPersonalProfileGUI::class], \ilPersonalProfileGUI::CHANGE_EMAIL_CMD);
-        $ctrl->clearParameterByClass(\ilPersonalProfileGUI::class, 'token');
+        $ctrl->setParameterByClass(PersonalProfileGUI::class, 'token', $token);
+        $link = $ctrl->getLinkTargetByClass([\ilDashboardGUI::class, PersonalProfileGUI::class], PersonalProfileGUI::CHANGE_EMAIL_CMD);
+        $ctrl->clearParameterByClass(PersonalProfileGUI::class, 'token');
         return $link;
     }
 

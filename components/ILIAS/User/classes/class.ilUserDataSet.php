@@ -16,13 +16,19 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Fields\Standard\Username;
+use ILIAS\User\Profile\Fields\Standard\Roles;
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserDataSet extends ilDataSet
 {
-    private ilUserProfile $user_profile;
     protected ilUserExportConfig $export_config;
+    private Profile $user_profile;
     protected array $temp_picture_dirs = []; // Missing array type.
     public array $multi = []; // Missing array type.
     protected array $users; // Missing array type.
@@ -30,7 +36,8 @@ class ilUserDataSet extends ilDataSet
     public function __construct()
     {
         parent::__construct();
-        $this->user_profile = new ilUserProfile();
+
+        $this->user_profile = new Profile();
     }
 
     public function initByExporter(ilXmlExporter $xml_exporter): void
@@ -316,11 +323,9 @@ class ilUserDataSet extends ilDataSet
                         $this->users[$usr_id] = new ilObjUser($usr_id);
                     }
                     $user = $this->users[$usr_id];
-                    $prof = new ilUserProfile();
-                    $prof->skipField("username");
-                    $prof->skipField("password");
-                    $prof->skipField("roles");
-                    $prof->skipGroup("settings");
+                    $prof = new Profile();
+                    $prof->skipField(Username::class);
+                    $prof->skipField(Roles::class);
                     $fields = $prof->getStandardFields();
                     foreach ($fields as $k => $f) {
                         $up_k = $this->convertToLeadingUpper($k);

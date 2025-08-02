@@ -21,13 +21,13 @@ declare(strict_types=1);
 namespace ILIAS\User\Settings\StartingPoint;
 
 use ILIAS\User\LocalDIC;
-use ILIAS\User\Settings\User\SettingConfiguration;
+use ILIAS\User\Settings\User\SettingDefinition;
 use ILIAS\User\Settings\User\AvailablePages;
 use ILIAS\User\Settings\User\AvailableSections;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 
-class Setting implements SettingConfiguration
+class Setting implements SettingDefinition
 {
     private readonly Repository $starting_point_repository;
 
@@ -65,6 +65,7 @@ class Setting implements SettingConfiguration
         Language $lng,
         \ilObjUser $current_user
     ): \ilFormPropertyGUI {
+        ['starting_point_id' => $starting_point_id , 'object_id' => $object_ref_id] = $this->getValueForUser($current_user);
         $input = new \ilRadioGroupInputGUI($lng->txt('adm_user_starting_point'));
         $input->setInfo($lng->txt('adm_user_starting_point_info'));
         $inherit_starting_point = new \ilRadioOption($lng->txt('adm_user_starting_point_inherit'), '0');
@@ -76,7 +77,7 @@ class Setting implements SettingConfiguration
             }
             $input->addOption(new \ilRadioOption($lng->txt($caption), (string) $value));
         }
-        $input->setValue((string) $this->starting_point_repository->getCurrentUserPersonalStartingPoint());
+        $input->setValue((string) $starting_point_id);
 
         $starting_point_repository = new \ilRadioOption(
             $lng->txt('adm_user_starting_point_object'),
@@ -87,10 +88,9 @@ class Setting implements SettingConfiguration
         $repository_object_id->setRequired(true);
         $repository_object_id->setSize(5);
         if ($this->starting_point_repository->getCurrentUserPersonalStartingPoint() === Repository::START_REPOSITORY_OBJ) {
-            $start_ref_id = $this->starting_point_repository->getCurrentUserPersonalStartingObject();
-            $repository_object_id->setValue($start_ref_id);
-            if ($start_ref_id !== null
-                && ($start_obj_id = \ilObject::_lookupObjId($start_ref_id)) !== 0) {
+            $repository_object_id->setValue($object_ref_id);
+            if ($object_ref_id !== null
+                && ($start_obj_id = \ilObject::_lookupObjId($object_ref_id)) !== 0) {
                 $repository_object_id->setInfo(
                     $lng->txt('obj_' . \ilObject::_lookupType($start_obj_id)) .
                     ': ' . \ilObject::_lookupTitle($start_obj_id)
@@ -121,14 +121,13 @@ class Setting implements SettingConfiguration
         \ilSetting $settings,
         \ilObjUser $current_user
     ): bool {
-        return $this->starting_point_repository->getCurrentUserPersonalStartingPoint() !== 0
-            && ($this->starting_point_repository->getCurrentUserPersonalStartingPoint()
-                !== $this->starting_point_repository->getSystemDefaultStartingPointType()
-            || $this->starting_point_repository->getCurrentUserPersonalStartingObject()
-                !== $this->starting_point_repository->getSystemDefaultStartingObject());
+        ['starting_point_id' => $starting_point_id , 'object_id' => $object_id] = $this->getValueForUser($current_user);
+        return $starting_point_id !== 0
+                && ($starting_point_id !== $this->starting_point_repository->getSystemDefaultStartingPointType()
+            || $object_id !== $this->starting_point_repository->getSystemDefaultStartingObject());
     }
 
-    public function storeUserChoice(
+    public function storeUserInput(
         \ilObjUser $current_user,
         mixed $input,
         ?\ilPropertyFormGUI $form = null
@@ -160,5 +159,13 @@ class Setting implements SettingConfiguration
         }
 
         return true;
+    }
+
+    public function getValueForUser(\ilObjUser $current_user): array
+    {
+        return [
+            'starting_point_id' => $this->starting_point_repository->getCurrentUserPersonalStartingPoint(),
+            'object_id' => $this->starting_point_repository->getCurrentUserPersonalStartingObject()
+        ];
     }
 }

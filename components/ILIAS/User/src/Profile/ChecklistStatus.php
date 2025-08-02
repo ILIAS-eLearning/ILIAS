@@ -42,7 +42,7 @@ class ChecklistStatus
         private readonly Language $lng,
         private readonly \ilSetting $settings,
         private readonly \ilObjUser $user,
-        private readonly Mode $profile_mode
+        private readonly Visibility $profile_mode
     ) {
         $this->settings_chat = new \ilSetting('chatroom');
         $this->settings_awareness = new \ilSetting('awrn');

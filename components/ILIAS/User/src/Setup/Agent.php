@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\User\Setup;
 
 use ILIAS\User\Settings\User\CollectSettingsObjective;
+use ILIAS\User\Profile\Fields\Custom\CollectTypesObjective;
+use ILIAS\User\Profile\ChangeListeners\CollectListenersObjective;
 use ILIAS\Setup;
 use ILIAS\Setup\Agent as SetupAgent;
 use ILIAS\Setup\Agent\HasNoNamedObjective;
@@ -33,7 +35,9 @@ class Agent implements SetupAgent
     use HasNoNamedObjective;
 
     public function __construct(
-        private readonly array $user_settings_contributions
+        private readonly array $user_settings_contributions,
+        private readonly array $user_custom_profile_fields,
+        private readonly array $user_field_attributes_change_listeners
     ) {
     }
 
@@ -49,12 +53,24 @@ class Agent implements SetupAgent
 
     public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
     {
-        return new CollectSettingsObjective($this->user_settings_contributions);
+        return new ObjectiveCollection(
+            'Updates for User',
+            false,
+            new CollectSettingsObjective($this->user_settings_contributions),
+            new CollectTypesObjective($this->user_custom_profile_fields),
+            new CollectListenersObjective($this->user_field_attributes_change_listeners)
+        );
     }
 
     public function getBuildObjective(): Objective
     {
-        return new CollectSettingsObjective($this->user_settings_contributions);
+        return new ObjectiveCollection(
+            'Updates for User',
+            false,
+            new CollectSettingsObjective($this->user_settings_contributions),
+            new CollectTypesObjective($this->user_custom_profile_fields),
+            new CollectListenersObjective($this->user_field_attributes_change_listeners)
+        );
     }
 
     public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
@@ -65,7 +81,9 @@ class Agent implements SetupAgent
             new \ilDatabaseUpdateStepsExecutedObjective(
                 new DBUpdateSteps11()
             ),
-            new CollectSettingsObjective($this->user_settings_contributions)
+            new CollectSettingsObjective($this->user_settings_contributions),
+            new CollectTypesObjective($this->user_custom_profile_fields),
+            new CollectListenersObjective($this->user_field_attributes_change_listeners)
         );
     }
 

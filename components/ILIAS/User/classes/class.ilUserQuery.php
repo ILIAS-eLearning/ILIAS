@@ -273,7 +273,7 @@ class ilUserQuery
 
         // join udf table
         foreach ($udf_fields as $id) {
-            $udf_table = ($udf_def[$id]["field_type"] != UDF_TYPE_WYSIWYG)
+            $udf_table = ($udf_def[$id]["field_type"] !== UDF_TYPE_WYSIWYG)
                 ? "udf_text"
                 : "udf_clob";
             $join .= " LEFT JOIN " . $udf_table . " ud_" . $id . " ON (ud_" . $id . ".field_id=" . $ilDB->quote($id) . " AND ud_" . $id . ".usr_id = usr_data.usr_id) ";
@@ -374,16 +374,15 @@ class ilUserQuery
 
         // udf filter
         foreach ($this->getUdfFilter() as $k => $f) {
-            if ($f != "") {
-                $udf_id = explode("_", $k)[1];
-                if ($udf_def[$udf_id]["field_type"] == UDF_TYPE_TEXT) {
-                    $add = $where . " " . $ilDB->like("ud_" . $udf_id . ".value", "text", "%" . $f . "%");
-                } else {
-                    $add = $where . " ud_" . $udf_id . ".value = " . $ilDB->quote($f, "text");
+            if ($f !== '') {
+                $udf_id = explode('_', $k)[1];
+                $add = "{$where} ud_{$udf_id}.value = {$ilDB->quote($f, 'text')}";
+                if ($udf_def[$udf_id]['field_type'] === UDF_TYPE_TEXT) {
+                    $add = "{$where} {$ilDB->like("ud_{$udf_id}.value", 'text', "%{$f}%")}";
                 }
                 $query .= $add;
                 $count_query .= $add;
-                $where = " AND";
+                $where = ' AND';
             }
         }
 

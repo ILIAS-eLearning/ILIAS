@@ -25,7 +25,7 @@ use ILIAS\ILIASObject\Properties\Translations\Translations;
  * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilWikiPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilWikiPageGUI: ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI, ilCommentGUI
+ * @ilCtrl_Calls ilWikiPageGUI: ILIAS\User\Profile\PublicProfileGUI, ilPageObjectGUI, ilNoteGUI, ilCommentGUI
  * @ilCtrl_Calls ilWikiPageGUI: ilCommonActionDispatcherGUI, ilRatingGUI, ilWikiStatGUI
  * @ilCtrl_Calls ilWikiPageGUI: ilObjectMetaDataGUI, ilPropertyFormGUI
  */

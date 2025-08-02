@@ -23,6 +23,9 @@ namespace ILIAS\User;
 use ILIAS\User\Settings\User\Repository as UserSettingsRepository;
 use ILIAS\User\Settings\StartingPoint\Repository as StartingPointRepository;
 use ILIAS\User\Settings\User\CollectSettingsObjective;
+use ILIAS\User\Profile\Fields\Repository as ProfileFieldsRepository;
+use ILIAS\User\Profile\Fields\Standard;
+use ILIAS\User\Profile\ChangeListeners\CollectListenersObjective;
 use Pimple\Container as PimpleContainer;
 use ILIAS\DI\Container as ILIASContainer;
 
@@ -61,5 +64,45 @@ class LocalDIC extends PimpleContainer
                 $DIC['ilSetting'],
                 $c['settings.user.repository']
             );
+        $this['profile.fields.repository'] = fn($c): ProfileFieldsRepository =>
+            new ProfileFieldsRepository(
+                $DIC['ilSetting'],
+                $DIC['ilDB'],
+                [
+                    new Standard\Username(),
+                    new Standard\FirstName(),
+                    new Standard\LastName(),
+                    new Standard\Title(),
+                    new Standard\Birthday(),
+                    new Standard\Gender(),
+                    new Standard\Avatar(),
+                    new Standard\Roles(
+                        $DIC['rbacreview']
+                    ),
+                    new Standard\OrganisationalUnits(),
+                    new Standard\Interest(),
+                    new Standard\HelpOffered(),
+                    new Standard\HelpLookedFor(),
+                    new Standard\Institution(),
+                    new Standard\Department(),
+                    new Standard\Street(),
+                    new Standard\ZipCode(),
+                    new Standard\City(),
+                    new Standard\Country(),
+                    new Standard\PhoneOffice(),
+                    new Standard\PhoneHome(),
+                    new Standard\PhoneMobile(),
+                    new Standard\Fax(),
+                    new Standard\Email(),
+                    new Standard\SecondEmail(),
+                    new Standard\Hobby(),
+                    new Standard\HearedAboutILIASFrom(),
+                    new Standard\Matriculation()
+                ]
+            );
+        $this['profile.fields.changelisteners'] = fn($c): array =>
+            is_readable(CollectListenersObjective::PATH())
+                ? include CollectListenersObjective::PATH()
+                : [];
     }
 }

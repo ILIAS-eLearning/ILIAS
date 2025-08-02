@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Fields\Standard\Roles;
+use ILIAS\User\Profile\Fields\Standard\Username;
+
 /**
  * Class ilObjUserFolder
  * @author Stefan Meyer <meyer@leifos.com>
@@ -288,8 +292,8 @@ class ilObjUserFolder extends ilObject
 
         $db_settings = [];
 
-        $up = new ilUserProfile();
-        $up->skipField("roles");
+        $up = new Profile();
+        $up->skipField(Roles::class);
         $profile_fields = $up->getStandardFields();
 
         $query = "SELECT * FROM settings WHERE " .
@@ -460,10 +464,9 @@ class ilObjUserFolder extends ilObject
      */
     public static function getProfileFields(): array // Missing array type.
     {
-        $up = new ilUserProfile();
-        $up->skipField("username");
-        $up->skipField("roles");
-        $up->skipGroup("preferences");
+        $up = new Profile();
+        $up->skipField(Username::class);
+        $up->skipField(Roles::class);
         $fds = $up->getStandardFields();
         $profile_fields = [];
         foreach ($fds as $k => $f) {

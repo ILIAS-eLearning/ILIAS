@@ -18,8 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\PublicProfileGUI;
 use ILIAS\User\Profile\ChecklistStatus;
-use ILIAS\User\Profile\Mode as ProfileMode;
+use ILIAS\User\Profile\Visibility as ProfileVisibility;
 use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Section;
 
@@ -38,7 +39,7 @@ class ilUserPrivacySettingsGUI
     protected ilSetting $settings;
     protected \Psr\Http\Message\RequestInterface $request;
     protected ChecklistStatus $checklist_status;
-    protected ProfileMode $profile_mode;
+    protected ProfileVisibility $profile_mode;
     private \ILIAS\UI\Factory $ui_factory;
     private \ILIAS\UI\Renderer $ui_renderer;
     private \ILIAS\Refinery\Factory $refinery;
@@ -65,7 +66,7 @@ class ilUserPrivacySettingsGUI
 
         $this->user_settings_config = new ilUserSettingsConfig();
         $this->settings = $DIC->settings();
-        $this->profile_mode = new ProfileMode($this->lng, $this->settings, $this->user);
+        $this->profile_mode = new ProfileVisibility($this->lng, $this->settings, $this->user);
         $this->checklist_status = new ChecklistStatus(
             $this->lng,
             $this->settings,
@@ -124,7 +125,7 @@ class ilUserPrivacySettingsGUI
             $html = $this->ui_renderer->render([$form]);
         }
 
-        $pub_profile = new ilPublicUserProfileGUI($user->getId());
+        $pub_profile = new PublicProfileGUI($user->getId());
         if ($this->profile_mode->isEnabled()) {
             $pub_profile_legacy = $this->ui_factory->legacy()->content($pub_profile->getEmbeddable());
             $html .= $this->ui_renderer->render($this->ui_factory->panel()->standard(

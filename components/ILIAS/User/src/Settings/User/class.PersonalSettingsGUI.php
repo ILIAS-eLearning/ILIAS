@@ -149,7 +149,7 @@ class PersonalSettingsGUI
                 $set_settings_to_default = true;
             }
             foreach ($settings as $setting) {
-                $setting->storeUserChoice(
+                $setting->storeUserInput(
                     $this->current_user,
                     $set_settings_to_default ? null : $form->getInput($setting->getIdentifier()),
                     $form
@@ -183,7 +183,7 @@ class PersonalSettingsGUI
         );
 
         $form->addCommandButton('save', $this->lng->txt('save'));
-        $form->setTitle($this->lng->txt('general_settings'));
+        $form->setTitle($this->lng->txt('settings'));
         $form->setFormAction($this->ctrl->getFormActionByClass(self::class));
 
         return $form;
@@ -245,7 +245,6 @@ class PersonalSettingsGUI
             $section,
             function (\ilPropertyFormGUI $c, Setting $v): \ilPropertyFormGUI {
                 $input = $v->getInput($this->lng, $this->current_user);
-                $input->setPostVar($v->getIdentifier());
                 $input->setDisabled(!$v->isVisibleInPersonalData());
                 $c->addItem($input);
                 return $c;

@@ -24,8 +24,7 @@ use ILIAS\User\Settings\Administration\SettingsGUI as AdminSettingsGUI;
 use ILIAS\User\Settings\User\ConfigurationGUI as UserSettingsConfigurationGUI;
 use ILIAS\User\Settings\NewAccountMail\SettingsGUI as NewAccountMailSettingsGUI;
 use ILIAS\User\Settings\StartingPoint\SettingsGUI as StartingPointSettingsGUI;
-use ILIAS\User\Profile\Fields\StandardFieldsGUI;
-use ILIAS\User\Profile\Fields\CustomFieldsGUI;
+use ILIAS\User\Profile\Fields\ConfigurationGUI as ProfileFieldsConfigurationGUI;
 use ILIAS\User\Profile\Prompt\SettingsGUI as ProfileSettingsGUI;
 use ILIAS\Language\Language;
 
@@ -43,8 +42,7 @@ class AdminTabs
     private const SUBTAB_ID_SETTINGS_NEW_ACCOUNT_MAIL = 'new_account_mail';
     private const SUBTAB_ID_SETTINGS_STARTING_POINTS = 'starting_points';
 
-    private const SUBTAB_ID_PROFILE_STANDARD_FIELDS = 'standard_fields';
-    private const SUBTAB_ID_PROFILE_CUSTOM_FIELDS = 'custom_fields';
+    private const SUBTAB_ID_PROFILE_FIELDS = 'fields';
     private const SUBTAB_ID_PROFILE_INFO = 'profile_info';
 
     private const CMD_CLASSES_WITH_SETTINGS_SUBTABS = [
@@ -55,8 +53,7 @@ class AdminTabs
     ];
 
     private const CMD_CLASSES_WITH_PROFILE_SUBTABS = [
-        StandardFieldsGUI::class,
-        CustomFieldsGUI::class,
+        ProfileFieldsConfigurationGUI::class,
         ProfileSettingsGUI::class
     ];
 
@@ -120,7 +117,7 @@ class AdminTabs
             self::TAB_ID_PROFILE,
             $this->lng->txt('profile'),
             $this->ctrl->getLinkTargetByClass(
-                [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, StandardFieldsGUI::class],
+                [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, ProfileFieldsConfigurationGUI::class],
                 'show'
             )
         );
@@ -244,19 +241,11 @@ class AdminTabs
     private function addProfileSubTabs(): void
     {
         $this->tabs_gui->addSubTab(
-            self::SUBTAB_ID_PROFILE_STANDARD_FIELDS,
-            $this->lng->txt('standard_fields'),
+            self::SUBTAB_ID_PROFILE_FIELDS,
+            $this->lng->txt('profile_fields'),
             $this->ctrl->getLinkTargetByClass(
-                [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, StandardFieldsGUI::class],
+                [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, ProfileFieldsConfigurationGUI::class],
                 'show'
-            )
-        );
-        $this->tabs_gui->addSubTab(
-            self::SUBTAB_ID_PROFILE_CUSTOM_FIELDS,
-            $this->lng->txt('user_defined_fields'),
-            $this->ctrl->getLinkTargetByClass(
-                [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, CustomFieldsGUI::class],
-                'listUserDefinedFields'
             )
         );
         $this->tabs_gui->addSubTab(
@@ -290,11 +279,8 @@ class AdminTabs
     private function activateProfileSubTab(): void
     {
         switch ($this->ctrl->getNextClass()) {
-            case strtolower(StandardFieldsGUI::class):
-                $this->tabs_gui->activateSubTab(self::SUBTAB_ID_PROFILE_STANDARD_FIELDS);
-                break;
-            case strtolower(CustomFieldsGUI::class):
-                $this->tabs_gui->activateSubTab(self::SUBTAB_ID_PROFILE_CUSTOM_FIELDS);
+            case strtolower(ProfileFieldsConfigurationGUI::class):
+                $this->tabs_gui->activateSubTab(self::SUBTAB_ID_PROFILE_FIELDS);
                 break;
             case strtolower(ProfileSettingsGUI::class):
                 $this->tabs_gui->activateSubTab(self::SUBTAB_ID_PROFILE_INFO);

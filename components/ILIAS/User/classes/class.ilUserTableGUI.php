@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\User\UserGUIRequest;
+use ILIAS\User\Profile\Profile;
 
 /**
  * TableGUI class for user administration
@@ -176,10 +177,7 @@ class ilUserTableGUI extends ilTable2GUI
 
         $lng = $DIC['lng'];
 
-        $up = new ilUserProfile();
-        $up->skipGroup("preferences");
-        $up->skipGroup("interests");
-        $up->skipGroup("settings");
+        $up = new Profile();
 
         // default fields
         $cols = [];
@@ -225,7 +223,7 @@ class ilUserTableGUI extends ilTable2GUI
                 "txt" => $lng->txt("second_email"),
                 "default" => true];
         }
-        // other user profile fields
+        /**
         foreach ($ufs as $f => $fd) {
             if (!isset($cols[$f]) && (!isset($fd["lists_hide"]) || !$fd["lists_hide"])) {
                 // #18795
@@ -235,7 +233,7 @@ class ilUserTableGUI extends ilTable2GUI
                     "default" => false];
             }
         }
-
+        */
 
         /**
          * LTI, showing depending by mode user?

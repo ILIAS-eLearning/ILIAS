@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Tests;
 
-use ILIAS\User\Profile\ChangeMailToken;
-use ILIAS\User\Profile\ChangeMailStatus;
-use ILIAS\User\Profile\ChangeMailTokenDBRepository;
+use ILIAS\User\Profile\ChangeMail\Token;
+use ILIAS\User\Profile\ChangeMail\Status;
+use ILIAS\User\Profile\ChangeMail\DBRepository;
 
 class ChangeMailTokenDBRepositoryTest extends BaseTestCase
 {
@@ -31,10 +31,10 @@ class ChangeMailTokenDBRepositoryTest extends BaseTestCase
         $timestamp = time() + 1000;
         $user_id = 5;
         $old_email = 'oldemail@ilias.de';
-        $status = ChangeMailStatus::Login;
+        $status = Status::Login;
         $token_string = hash('md5', "{$timestamp}-{$user_id}-{$old_email}-{$status->value}");
         $new_email = 'newemail@ilias.de';
-        $our_token = new ChangeMailToken(
+        $our_token = new Token(
             $user_id,
             $old_email,
             $new_email,
@@ -50,7 +50,7 @@ class ChangeMailTokenDBRepositoryTest extends BaseTestCase
         $user_mock->expects($this->once())->method('getId')->willReturn(5);
         $user_mock->expects($this->once())->method('getEmail')->willReturn($old_email);
 
-        $repository = new ChangeMailTokenDBRepository($db_mock, $this->createMock(\ilSetting::class));
+        $repository = new DBRepository($db_mock, $this->createMock(\ilSetting::class));
 
         $returned_token = $repository->getNewTokenForUser($user_mock, $new_email, $timestamp);
 
@@ -62,10 +62,10 @@ class ChangeMailTokenDBRepositoryTest extends BaseTestCase
         $timestamp = time() + 1000;
         $user_id = 5;
         $old_email = 'oldemail@ilias.de';
-        $status = ChangeMailStatus::EmailConfirmation;
+        $status = Status::EmailConfirmation;
         $token_string = hash('md5', "{$timestamp}-{$user_id}-{$old_email}-{$status->value}");
         $new_email = 'newemail@ilias.de';
-        $our_token = new ChangeMailToken(
+        $our_token = new Token(
             $user_id,
             $old_email,
             $new_email,
@@ -88,7 +88,7 @@ class ChangeMailTokenDBRepositoryTest extends BaseTestCase
         $user_mock->expects($this->once())->method('getId')->willReturn($user_id);
         $user_mock->expects($this->once())->method('getEmail')->willReturn($old_email);
 
-        $repository = new ChangeMailTokenDBRepository($db_mock, $this->createMock(\ilSetting::class));
+        $repository = new DBRepository($db_mock, $this->createMock(\ilSetting::class));
 
         $token = $repository->getTokenForTokenString($token_string, $user_mock);
 
@@ -100,7 +100,7 @@ class ChangeMailTokenDBRepositoryTest extends BaseTestCase
         $timestamp = time() + 1000;
         $user_id = 5;
         $old_email = 'oldemail@ilias.de';
-        $status = ChangeMailStatus::EmailConfirmation;
+        $status = Status::EmailConfirmation;
         $token_string = hash('md5', "{$timestamp}-{$user_id}-{$old_email}-{$status->value}");
         $new_email = 'newemail@ilias.de';
 
@@ -118,7 +118,7 @@ class ChangeMailTokenDBRepositoryTest extends BaseTestCase
         $user_mock->expects($this->once())->method('getId')->willReturn(2);
         $user_mock->expects($this->once())->method('getEmail')->willReturn($old_email);
 
-        $repository = new ChangeMailTokenDBRepository($db_mock, $this->createMock(\ilSetting::class));
+        $repository = new DBRepository($db_mock, $this->createMock(\ilSetting::class));
 
         $token = $repository->getTokenForTokenString($token_string, $user_mock);
 
@@ -130,7 +130,7 @@ class ChangeMailTokenDBRepositoryTest extends BaseTestCase
         $timestamp = time() - \ilRegistrationSettings::REG_HASH_LIFETIME_MIN_VALUE - 1;
         $user_id = 5;
         $old_email = 'oldemail@ilias.de';
-        $status = ChangeMailStatus::EmailConfirmation;
+        $status = Status::EmailConfirmation;
         $token_string = hash('md5', "{$timestamp}-{$user_id}-{$old_email}-{$status->value}");
         $new_email = 'newemail@ilias.de';
 
@@ -151,7 +151,7 @@ class ChangeMailTokenDBRepositoryTest extends BaseTestCase
         $settings_mock = $this->createMock(\ilSetting::class);
         $settings_mock->expects($this->once())->method('get')->willReturn('0');
 
-        $repository = new ChangeMailTokenDBRepository($db_mock, $settings_mock);
+        $repository = new DBRepository($db_mock, $settings_mock);
 
         $token = $repository->getTokenForTokenString($token_string, $user_mock);
 
@@ -163,11 +163,11 @@ class ChangeMailTokenDBRepositoryTest extends BaseTestCase
         $timestamp = time() + 1000;
         $user_id = 5;
         $old_email = 'oldemail@ilias.de';
-        $status = ChangeMailStatus::EmailConfirmation;
+        $status = Status::EmailConfirmation;
         $token_string = hash('md5', "{$timestamp}-{$user_id}-{$old_email}-{$status->value}");
         $new_email = 'newemail@ilias.de';
 
-        $expected_token = new ChangeMailToken(
+        $expected_token = new Token(
             $user_id,
             $old_email,
             $new_email,
@@ -180,15 +180,15 @@ class ChangeMailTokenDBRepositoryTest extends BaseTestCase
         $db_mock->expects($this->once())->method('manipulateF')->willReturn(0);
         $db_mock->expects($this->once())->method('replace')->willReturn(0);
 
-        $repository = new ChangeMailTokenDBRepository($db_mock, $this->createMock(\ilSetting::class));
+        $repository = new DBRepository($db_mock, $this->createMock(\ilSetting::class));
 
         $new_token = $repository->moveToNextStep(
-            new ChangeMailToken(
+            new Token(
                 $user_id,
                 $old_email,
                 $new_email,
                 123,
-                ChangeMailStatus::Login,
+                Status::Login,
                 'abc'
             ),
             $timestamp
@@ -206,16 +206,16 @@ class ChangeMailTokenDBRepositoryTest extends BaseTestCase
         $db_mock->expects($this->never())->method('manipulateF');
         $db_mock->expects($this->never())->method('replace');
 
-        $repository = new ChangeMailTokenDBRepository($db_mock, $this->createMock(\ilSetting::class));
+        $repository = new DBRepository($db_mock, $this->createMock(\ilSetting::class));
 
         $this->expectException(\Exception::class);
         $repository->moveToNextStep(
-            new ChangeMailToken(
+            new Token(
                 $user_id,
                 $old_email,
                 'newemail@ilias.de',
                 123,
-                ChangeMailStatus::EmailConfirmation,
+                Status::EmailConfirmation,
                 'abc'
             ),
             time() + 1000

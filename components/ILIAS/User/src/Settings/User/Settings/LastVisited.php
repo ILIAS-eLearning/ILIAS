@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Settings\User\Settings;
 
-use ILIAS\User\Settings\User\SettingConfiguration;
+use ILIAS\User\Settings\User\SettingDefinition;
 use ILIAS\User\Settings\User\AvailablePages;
 use ILIAS\User\Settings\User\AvailableSections;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 
-class LastVisited implements SettingConfiguration
+class LastVisited implements SettingDefinition
 {
     private readonly ?\ilNavigationHistory $navigation_history;
 
@@ -73,7 +73,7 @@ class LastVisited implements SettingConfiguration
         ];
         $input->setOptions($options);
         $input->setValue(
-            (int) ($current_user->prefs['store_last_visited'] ?? '0')
+            $this->getValueForUser($current_user)
         );
         return $input;
     }
@@ -90,10 +90,10 @@ class LastVisited implements SettingConfiguration
         \ilSetting $settings,
         \ilObjUser $current_user
     ): bool {
-        return ($current_user->prefs['store_last_visited'] ?? '0') !== '0';
+        return $this->getValueForUser($current_user) !== 0;
     }
 
-    public function storeUserChoice(
+    public function storeUserInput(
         \ilObjUser $current_user,
         mixed $input
     ): void {
@@ -104,5 +104,10 @@ class LastVisited implements SettingConfiguration
                 $this->navigation_history->deleteSessionEntries();
             }
         }
+    }
+
+    public function getValueForUser(\ilObjUser $current_user): int
+    {
+        return (int) ($current_user->prefs['store_last_visited'] ?? 0);
     }
 }

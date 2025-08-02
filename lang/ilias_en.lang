@@ -5254,7 +5254,7 @@ common#:#personal_picture#:#Avatar
 common#:#personal_profile#:#Profile and Privacy
 common#:#personal_resources#:#Personal Resources
 common#:#personal_settings#:#Settings
-common#:#personalise_date_time#:#Personalise Date & Time Settings
+common#:#personalise_date_time#:#Personalise Date and Time Settings
 common#:#persons#:#Persons
 common#:#pg_add#:#Add page
 common#:#pg_new#:#New page
@@ -17321,6 +17321,7 @@ user#:#del_mail_body#:#Hello %1$s, %2$s You have not logged in to %3$s for a lon
 user#:#del_mail_subject#:#Your ILIAS account will be deleted soon
 user#:#delete_inactive_user_accounts_frequency#:#Frequency
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and e-mail distribution will be tested.
+user#:#edit_field#:#Edit Field
 user#:#edit_setting#:#Edit Setting
 user#:#editing_this_role#:#Role
 user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.
@@ -17340,6 +17341,7 @@ user#:#msg_spoint_not_modified#:#Starting point not modified
 user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.
 user#:#obj_ref_id_not_exist#:#The entered Reference-ID does not exist
 user#:#personalise_additional#:#Personalise Additional Settings
+user#:#profile_fields#:#Profile Fields
 user#:#restrict_user_access#:#Restricted Search in User Accounts
 user#:#restrict_user_access_info#:#ILIAS-accounts will only be autocompleted in search for roles with ‘Read Access to User Accounts’.
 user#:#roles_without_starting_point#:#Roles without defined starting point:

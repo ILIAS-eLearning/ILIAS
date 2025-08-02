@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
+
 /**
  * Class ilUserProfileBadge
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -74,7 +76,7 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
         }
 
         // use getter mapping from user profile
-        $up = new ilUserProfile();
+        $up = new Profile();
         $pfields = $up->getStandardFields();
 
         // check for value AND publication status

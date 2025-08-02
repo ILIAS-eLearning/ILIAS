@@ -540,7 +540,7 @@ class Repository
 
     public function isPersonalStartingPointEnabled(): bool //checked
     {
-        return $this->user_settings_repository->getByIdentifier('starting_point')->isChangeableInProfile();
+        return $this->user_settings_repository->getByIdentifier('starting_point')->isChangeableByUser();
     }
 
     /**

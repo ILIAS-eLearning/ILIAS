@@ -22,6 +22,7 @@ namespace ILIAS\User\Settings\User;
 
 use ILIAS\User\LocalDIC;
 use ILIAS\User\RedirectOnMissingWrite;
+use ILIAS\User\PropertyAttributes;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
@@ -44,16 +45,16 @@ class ConfigurationGUI implements DataRetrieval
     use RedirectOnMissingWrite;
 
     private readonly Repository $user_settings_repository;
-    private array $available_settings;
     private readonly URLBuilder $url_builder;
     private readonly URLBuilderToken $action_token;
     private readonly URLBuilderToken $setting_id_token;
+
+    private array $available_settings;
 
     public function __construct(
         private readonly \ILIAS\Language\Language $lng,
         private readonly \ilCtrl $ctrl,
         private readonly \ilAccess $access,
-        private readonly \ilSetting $settings,
         private readonly \ilGlobalTemplateInterface $tpl,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
@@ -129,12 +130,6 @@ class ConfigurationGUI implements DataRetrieval
         $this->showCmd();
     }
 
-    public function confirmUsrFieldChangeListenersCmd(): void
-    {
-        $this->usrFieldChangeListenersAccepted = true;
-        $this->confirmSavedObject();
-    }
-
     public function getRows(
         DataRowBuilder $row_builder,
         array $visible_column_ids,
@@ -147,11 +142,7 @@ class ConfigurationGUI implements DataRetrieval
         foreach ($this->available_settings as $setting) {
             yield $setting->getTableRow(
                 $row_builder,
-                $this->lng,
-                $this->ui_factory,
-                $this->ui_renderer,
-                $this->refinery,
-                $this->settings
+                $this->lng
             );
         }
     }
@@ -183,18 +174,24 @@ class ConfigurationGUI implements DataRetrieval
         $cf = $this->ui_factory->table()->column();
         return [
             'field' => $cf->text($this->lng->txt('user_field'))->withIsSortable(true),
-            'changeable_in_profile' => $cf->boolean(
-                $this->lng->txt('changeable'),
+            'changeable_by_user' => $cf->boolean(
+                $this->lng->txt(
+                    PropertyAttributes::UnchangeableByUser->getLanguageVariable()
+                ),
                 $this->ui_factory->symbol()->glyph()->checked(),
                 $this->ui_factory->symbol()->glyph()->unchecked()
             )->withIsSortable(true),
             'changeable_in_local_user_administration' => $cf->boolean(
-                $this->lng->txt('usr_settings_changeable_lua'),
+                $this->lng->txt(
+                    PropertyAttributes::ChangeableInLocalUserAdministration->getLanguageVariable()
+                ),
                 $this->ui_factory->symbol()->glyph()->checked(),
                 $this->ui_factory->symbol()->glyph()->unchecked()
             )->withIsSortable(true),
             'export' => $cf->boolean(
-                $this->lng->txt('export'),
+                $this->lng->txt(
+                    PropertyAttributes::Export->getLanguageVariable()
+                ),
                 $this->ui_factory->symbol()->glyph()->checked(),
                 $this->ui_factory->symbol()->glyph()->unchecked()
             )->withIsSortable(true)
@@ -258,11 +255,11 @@ class ConfigurationGUI implements DataRetrieval
             );
         }
 
-        if ($key === 'changeable_in_profile') {
+        if ($key === 'changeable_by_user') {
             usort(
                 $this->available_settings,
                 fn(Setting $v1, Setting $v2): int =>
-                    $factor * ($v1->isChangeableInProfile() <=> $v2->isChangeableInProfile())
+                    $factor * ($v1->isChangeableByUser() <=> $v2->isChangeableByUser())
             );
         }
 

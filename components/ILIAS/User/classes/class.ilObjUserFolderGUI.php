@@ -25,7 +25,7 @@ use ILIAS\User\Settings\User\ConfigurationGUI as UserSettingsConfigurationGUI;
 use ILIAS\User\Settings\NewAccountMail\SettingsGUI as NewAccountMailSettingsGUI;
 use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
 use ILIAS\User\Settings\StartingPoint\SettingsGUI as StartingPointSettingsGUI;
-use ILIAS\User\Profile\Fields\StandardFieldsGUI;
+use ILIAS\User\Profile\Fields\ConfigurationGUI as ProfileFieldsConfigurationGUI;
 use ILIAS\User\Profile\Fields\CustomFieldsGUI;
 use ILIAS\User\Profile\Prompt\SettingsGUI as ProfileSettingsGUI;
 use ILIAS\User\Profile\Prompt\Repository as PromptRepository;
@@ -45,7 +45,7 @@ use ILIAS\ResourceStorage\Services as ResourceStorage;
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\User\ConfigurationGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\NewAccountMail\SettingsGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\StartingPoint\SettingsGUI
- * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Fields\StandardFieldsGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Fields\ConfigurationGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Fields\CustomFieldsGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Prompt\SettingsGUI
  */
@@ -229,7 +229,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
                         $this->lng,
                         $this->ctrl,
                         $this->access,
-                        $this->settings,
                         $this->tpl,
                         $this->ui_factory,
                         $this->ui_renderer,
@@ -264,19 +263,22 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     new StartingPointSettingsGUI($this->ref_id)
                 );
                 break;
-            case strtolower(StandardFieldsGUI::class):
+            case strtolower(ProfileFieldsConfigurationGUI::class):
                 $this->raiseErrorOnMissingWrite();
                 $this->ctrl->forwardCommand(
-                    new StandardFieldsGUI(
+                    new ProfileFieldsConfigurationGUI(
                         $this->lng,
                         $this->ctrl,
+                        $this->event,
                         $this->access,
                         $this->settings,
                         $this->tpl,
                         $this->ui_factory,
                         $this->ui_renderer,
                         $this->refinery,
-                        $this->request
+                        $this->request,
+                        $this->request_wrapper,
+                        $this->http
                     )
                 );
                 break;

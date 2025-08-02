@@ -20,33 +20,30 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\ChangeListeners;
 
-use ILIAS\DI\Container;
+use ILIAS\User\PropertyAttributes;
 use ILIAS\Language\Language;
 
-abstract class UserFieldAttributesChangeListener
+interface UserFieldAttributesChangeListener
 {
-    protected Language $lng;
-    protected Container $dic;
-
-    public function __construct(Container $dic)
-    {
-        $this->dic = $dic;
-        $this->lng = $dic->language();
-    }
-
     /**
-     * Should return a description for a user profile field if the listener is interested in a change of a field attribute.
-     * Returning null or an empty string will skip the listener.
-     * @param string $fieldName
-     * @param string $attribute
-     * @return string|null
+     * MUST return the fully qualified class name of the profile field the
+     * component is interested in.
      */
-    abstract public function getDescriptionForField(string $fieldName, string $attribute): ?string;
+    public function isInterestedInField(): string;
+    public function isInterestedInAttribute(): PropertyAttributes;
 
     /**
-     * Should return the component name like it would be used to raise an event
-     * @return string
+     * MUST return a description for a user profile field.
+     */
+    public function getDescriptionForField(
+        Language $lng,
+        string $field_lang_var,
+        string $attribute_lang_var
+    ): string;
+
+    /**
+     * MUST return the component name like it would be used to raise an event
      * @example "components/ILIAS/Mail"
      */
-    abstract public function getComponentName(): string;
+    public function getComponentName(): string;
 }
