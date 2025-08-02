@@ -18,25 +18,17 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User;
+namespace ILIAS\User\Settings\NewAccountMail;
 
-use ILIAS\Language\Language;
+use ILIAS\ResourceStorage\Services as ResourceStorage;
 
-trait RedirectOnMissingWrite
+interface Mail
 {
-    private function redirectOnMissingWrite(
-        \ilAccess $access,
-        \ilCtrl $ctrl,
-        \ilGlobalTemplateInterface $tpl,
-        Language $lng
-    ): void {
-        if (!$access->checkAccess(
-            'write',
-            '',
-            USER_FOLDER_ID
-        )) {
-            $tpl->setOnScreenMessage('failure', $lng->txt('permission_denied'), true);
-            $ctrl->redirectByClass(\ilRepositoryGUI::class);
-        }
-    }
+    public function getLangCode(): string;
+    public function getSubject(): string;
+    public function getBody(): string;
+    public function getSalutationNoneSpecific(): string;
+    public function getSalutationMale(): string;
+    public function getSalutationFemale(): string;
+    public function getAttachment(ResourceStorage $irss): ?array;
 }

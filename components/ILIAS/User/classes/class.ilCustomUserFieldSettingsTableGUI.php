@@ -45,7 +45,7 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
         $lng = $DIC['lng'];
 
         $this->permissions = $a_permissions;
-        $this->perm_map = ilCustomUserFieldsGUI::getAccessPermissions();
+        $this->perm_map = ILIAS\User\Profile\Fields\CustomFieldsGUI::getAccessPermissions();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setTitle($lng->txt('user_defined_list'));

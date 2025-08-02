@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\User\Profile\DefaultFields;
+use ILIAS\User\Profile\Fields\DefaultFields;
 use ILIAS\Language\Language;
 
 /**

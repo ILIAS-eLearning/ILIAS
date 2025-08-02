@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\System;
+namespace ILIAS\User\Settings\Administration;
 
 use ILIAS\User\RedirectOnMissingWrite;
 use ILIAS\UI\Factory as UIFactory;
@@ -32,7 +32,7 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Authentication\Password\LocalUserPasswordManager;
 use Psr\Http\Message\ServerRequestInterface;
 
-class AdminSettingsGUI
+class SettingsGUI
 {
     use RedirectOnMissingWrite;
 

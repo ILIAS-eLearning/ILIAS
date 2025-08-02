@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\System;
+namespace ILIAS\User\Settings\NewAccountMail;
 
 use ILIAS\ResourceStorage\Services as ResourceStorage;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
-class NewAccountMailImpl implements NewAccountMail
+class MailImplementation implements Mail
 {
     private string $temp_file_path;
     public function __construct(

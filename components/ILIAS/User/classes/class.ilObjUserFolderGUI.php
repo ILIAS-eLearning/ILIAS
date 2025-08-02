@@ -20,11 +20,11 @@ declare(strict_types=1);
 
 use ILIAS\User\UserGUIRequest;
 use ILIAS\User\Presentation\AdminTabs;
-use ILIAS\User\Settings\System\AdminSettingsGUI;
-use ILIAS\User\Settings\System\UserSettingsGUI;
-use ILIAS\User\Settings\System\NewAccountMailSettingsGUI;
-use ILIAS\User\Settings\System\NewAccountMailRepository;
-use ILIAS\User\Settings\System\StartingPointSettingsGUI;
+use ILIAS\User\Settings\Administration\SettingsGUI as AdminSettingsGUI;
+use ILIAS\User\Settings\User\ConfigurationGUI as UserSettingsConfigurationGUI;
+use ILIAS\User\Settings\NewAccountMail\SettingsGUI as NewAccountMailSettingsGUI;
+use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
+use ILIAS\User\Settings\StartingPoint\SettingsGUI as StartingPointSettingsGUI;
 use ILIAS\User\Profile\Fields\StandardFieldsGUI;
 use ILIAS\User\Profile\Fields\CustomFieldsGUI;
 use ILIAS\User\Profile\Prompt\SettingsGUI as ProfileSettingsGUI;
@@ -41,10 +41,10 @@ use ILIAS\ResourceStorage\Services as ResourceStorage;
  * @author       Sascha Hofmann <saschahofmann@gmx.de>
  * @author       Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilUserTableGUI, ilRepositorySearchGUI, ilExportGUI
- * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\System\AdminSettingsGUI
- * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\System\UserSettingsGUI
- * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\System\NewAccountMailSettingsGUI
- * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\System\StartingPointSettingsGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\Administration\SettingsGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\User\ConfigurationGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\NewAccountMail\SettingsGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\StartingPoint\SettingsGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Fields\StandardFieldsGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Fields\CustomFieldsGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Prompt\SettingsGUI
@@ -119,6 +119,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('ui');
         $this->lng->loadLanguageModule('mail');
         $this->lng->loadLanguageModule('meta');
+        $this->lng->loadLanguageModule('chatroom');
+        $this->lng->loadLanguageModule('administration');
+        $this->lng->loadLanguageModule('dateplaner');
+        $this->lng->loadLanguageModule('style');
 
         $this->ctrl->saveParameter(
             $this,
@@ -143,24 +147,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $this->log = ilLoggerFactory::getLogger('user');
         $this->requested_ids = $this->user_request->getIds();
-    }
-
-    private function getTranslationForField(
-        string $field_name,
-        array $properties
-    ): string {
-        $translation = (!isset($properties['lang_var']) || $properties['lang_var'] === '')
-            ? $field_name
-            : $properties['lang_var'];
-
-        if ($field_name === 'country') {
-            $translation = 'country_free_text';
-        }
-        if ($field_name === 'sel_country') {
-            $translation = 'country_selection';
-        }
-
-        return $this->lng->txt($translation);
     }
 
     public function setUserOwnerId(int $a_id): void
@@ -236,10 +222,22 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     )
                 );
                 break;
-            case strtolower(UserSettingsGUI::class):
+            case strtolower(UserSettingsConfigurationGUI::class):
                 $this->raiseErrorOnMissingWrite();
                 $this->ctrl->forwardCommand(
-                    new UserSettingsGUI($this->ref_id)
+                    new UserSettingsConfigurationGUI(
+                        $this->lng,
+                        $this->ctrl,
+                        $this->access,
+                        $this->settings,
+                        $this->tpl,
+                        $this->ui_factory,
+                        $this->ui_renderer,
+                        $this->refinery,
+                        $this->request,
+                        $this->request_wrapper,
+                        $this->http
+                    )
                 );
                 break;
             case strtolower(NewAccountMailSettingsGUI::class):
@@ -270,8 +268,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this->raiseErrorOnMissingWrite();
                 $this->ctrl->forwardCommand(
                     new StandardFieldsGUI(
-                        $this->requested_ref_id,
-                        $this->user_request->getFieldId()
+                        $this->lng,
+                        $this->ctrl,
+                        $this->access,
+                        $this->settings,
+                        $this->tpl,
+                        $this->ui_factory,
+                        $this->ui_renderer,
+                        $this->refinery,
+                        $this->request
                     )
                 );
                 break;
@@ -287,7 +292,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             case strtolower(ProfileSettingsGUI::class):
                 $this->raiseErrorOnMissingWrite();
                 $this->ctrl->forwardCommand(
-                    new SettingsGUI(
+                    new ProfileSettingsGUI(
                         $this->ctrl,
                         $this->lng,
                         $this->ui_factory,

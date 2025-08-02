@@ -24,11 +24,6 @@ use ILIAS\User\UserGUIRequest;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 
-/**
- * Class ilCustomUserFieldsGUI
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilCustomUserFieldsGUI:
- */
 class CustomFieldsGUI
 {
     private UserGUIRequest $request;

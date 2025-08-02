@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\User\Provider;
+namespace ILIAS\User\Presentation;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;

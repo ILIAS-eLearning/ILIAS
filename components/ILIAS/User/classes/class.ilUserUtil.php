@@ -16,8 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\MyStaff\ilMyStaffAccess;
-use ILIAS\MyStaff\ilMyStaffCachedAccessDecorator;
+use ILIAS\User\LocalDIC;
 
 /**
  * Class ilUserUtil
@@ -206,18 +205,6 @@ class ilUserUtil
 
     public static function getStartingPointAsUrl(): string
     {
-        /** @var ILIAS\DI\Container $DIC */
-        global $DIC;
-        $starting_point_repository = new ilUserStartingPointRepository(
-            $DIC['ilUser'],
-            $DIC['ilDB'],
-            $DIC->logger(),
-            $DIC['tree'],
-            $DIC['rbacreview'],
-            $DIC['rbacsystem'],
-            $DIC['ilSetting']
-        );
-
-        return $starting_point_repository->getValidAndAccessibleStartingPointAsUrl();
+        return LocalDIC::dic()['settings.starting_point.repository']->getValidAndAccessibleStartingPointAsUrl();
     }
 }

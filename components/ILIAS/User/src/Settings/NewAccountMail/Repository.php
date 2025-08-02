@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\System;
+namespace ILIAS\User\Settings\NewAccountMail;
 
-class NewAccountMailRepository
+class Repository
 {
     private const TABLE_NAME = 'mail_template';
     private const TYPE = 'nacc';
@@ -30,7 +30,7 @@ class NewAccountMailRepository
     ) {
     }
 
-    public function getFor(string $lang_code): NewAccountMail
+    public function getFor(string $lang_code): Mail
     {
         $result_object = $this->db->fetchObject(
             $this->db->query(
@@ -40,10 +40,10 @@ class NewAccountMailRepository
         );
 
         if ($result_object === null) {
-            return new NewAccountMailImpl($lang_code);
+            return new MailImplementation($lang_code);
         }
 
-        return new NewAccountMailImpl(
+        return new MailImplementation(
             $result_object->lang,
             trim($result_object->subject),
             trim($result_object->body),
@@ -55,7 +55,7 @@ class NewAccountMailRepository
         );
     }
 
-    public function store(NewAccountMail $account_mail): void
+    public function store(Mail $account_mail): void
     {
         $this->db->replace(
             self::TABLE_NAME,

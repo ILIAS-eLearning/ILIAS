@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Settings\StartingPoint\Repository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer;
 
@@ -32,7 +33,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 
     public function __construct(
         object $parent_obj,
-        private ilUserStartingPointRepository $starting_point_repository,
+        private Repository $starting_point_repository,
         private ilRbacReview $rbac_review,
         private UIFactory $ui_factory,
         private Renderer $ui_renderer,
@@ -84,7 +85,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
             $position = $available_starting_point->getPosition();
             $sp_text = $this->lng->txt($valid_points[$starting_point_type]) ?? '';
 
-            if ($starting_point_type === ilUserStartingPointRepository::START_REPOSITORY_OBJ
+            if ($starting_point_type === Repository::START_REPOSITORY_OBJ
                 && $available_starting_point->getStartingObject() !== null) {
                 $starting_object_ref_id = $available_starting_point->getStartingObject();
                 $object_id = ilObject::_lookupObjId($starting_object_ref_id);
@@ -114,7 +115,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 
         $default_sp = $this->starting_point_repository->getSystemDefaultStartingPointType();
         $starting_point = $this->lng->txt($valid_points[$default_sp]);
-        if ($default_sp === ilUserStartingPointRepository::START_REPOSITORY_OBJ) {
+        if ($default_sp === Repository::START_REPOSITORY_OBJ) {
             $starting_object_ref_id = $this->starting_point_repository->getSystemDefaultStartingObject();
 
             $object_id = ilObject::_lookupObjId($starting_object_ref_id);

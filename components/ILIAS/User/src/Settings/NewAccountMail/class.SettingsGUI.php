@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\System;
+namespace ILIAS\User\Settings\NewAccountMail;
 
 use ILIAS\User\RedirectOnMissingWrite;
 use ILIAS\UI\Factory as UIFactory;
@@ -31,14 +31,14 @@ use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
 
 /**
- * @ilCtrl_Calls ILIAS\User\Settings\System\NewAccountMailSettingsGUI: ILIAS\User\Settings\System\MailAttachmentUploadHandlerGUI
+ * @ilCtrl_Calls ILIAS\User\Settings\NewAccountMail\SettingsGUI: ILIAS\User\Settings\NewAccountMail\UploadHandlerGUI
  */
-class NewAccountMailSettingsGUI
+class SettingsGUI
 {
     use RedirectOnMissingWrite;
 
-    private readonly MailAttachmentUploadHandlerGUI $upload_handler_gui;
-    private readonly MailAttachmentsStakeholder $stakeholder;
+    private readonly UploadHandlerGUI $upload_handler_gui;
+    private readonly Stakeholder $stakeholder;
 
     public function __construct(
         private readonly \ilLanguage $lng,
@@ -51,10 +51,10 @@ class NewAccountMailSettingsGUI
         private readonly Refinery $refinery,
         private readonly ServerRequestInterface $request,
         private readonly ResourceStorage $irss,
-        private readonly NewAccountMailRepository $account_mail_repo
+        private readonly Repository $account_mail_repo
     ) {
-        $this->stakeholder = new MailAttachmentsStakeholder();
-        $this->upload_handler_gui = new MailAttachmentUploadHandlerGUI(
+        $this->stakeholder = new Stakeholder();
+        $this->upload_handler_gui = new UploadHandlerGUI(
             $this->irss,
             $this->stakeholder
         );
@@ -63,7 +63,7 @@ class NewAccountMailSettingsGUI
     public function executeCommand(): void
     {
         $this->redirectOnMissingWrite($this->access, $this->ctrl, $this->tpl, $this->lng);
-        if ($this->ctrl->getNextClass() === strtolower(MailAttachmentUploadHandlerGUI::class)) {
+        if ($this->ctrl->getNextClass() === strtolower(UploadHandlerGUI::class)) {
             $this->ctrl->forwardCommand($this->upload_handler_gui);
             return;
         }
@@ -120,16 +120,17 @@ class NewAccountMailSettingsGUI
                 : $new_account_mail['attachment'][0];
 
             if ($old_account_mail->getAttachmentRid() !== null
-                && $old_account_mail->getAttachmentRid() !== $new_attachment_rid) {
+                && $old_account_mail->getAttachmentRid() !== $new_attachment_rid
+                && ($rid = $this->irss->manage()->find($old_account_mail->getAttachmentRid())) !== null) {
                 $this->irss->manage()->remove(
-                    $this->irss->manage()->find($old_account_mail->getAttachmentRid()),
+                    $rid,
                     $this->stakeholder
                 );
                 $old_account_mail->deleteAttachmentTempFile();
             }
 
             $this->account_mail_repo->store(
-                new NewAccountMailImpl(
+                new MailImplementation(
                     $lang_code,
                     trim($new_account_mail['subject']),
                     trim($new_account_mail['body']),

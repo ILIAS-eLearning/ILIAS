@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\System;
+namespace ILIAS\User\Settings\NewAccountMail;
 
 use ILIAS\ResourceStorage\Services as ResourceStorage;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
@@ -32,11 +32,11 @@ use ILIAS\FileUpload\DTO\UploadResult;
  *
  * @author Stephan Kergomard <webmaster@kergomard.ch>
  */
-class MailAttachmentUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
+class UploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
     public function __construct(
         private readonly ResourceStorage $storage,
-        private readonly MailAttachmentsStakeholder $stakeholder
+        private readonly Stakeholder $stakeholder
     ) {
 
         parent::__construct();

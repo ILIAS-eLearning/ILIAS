@@ -18,17 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\System;
+namespace ILIAS\User\Settings\User;
 
-use ILIAS\ResourceStorage\Services as ResourceStorage;
-
-interface NewAccountMail
+interface Settings
 {
-    public function getLangCode(): string;
-    public function getSubject(): string;
-    public function getBody(): string;
-    public function getSalutationNoneSpecific(): string;
-    public function getSalutationMale(): string;
-    public function getSalutationFemale(): string;
-    public function getAttachment(ResourceStorage $irss): ?array;
+    /**
+     * Return all User Settings provided by the component
+     *
+     * @return array<string>
+     */
+    public function getSettingConfigurations(): array;
 }

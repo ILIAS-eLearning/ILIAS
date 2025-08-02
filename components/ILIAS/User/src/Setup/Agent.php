@@ -20,15 +20,52 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Setup;
 
+use ILIAS\User\Settings\User\CollectSettingsObjective;
 use ILIAS\Setup;
-use ILIAS\Setup\Agent\NullAgent;
+use ILIAS\Setup\Agent as SetupAgent;
+use ILIAS\Setup\Agent\HasNoNamedObjective;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Refinery\Transformation;
 
-class Agent extends NullAgent
+class Agent implements SetupAgent
 {
+    use HasNoNamedObjective;
+
+    public function __construct(
+        private readonly array $user_settings_contributions
+    ) {
+    }
+
+    public function hasConfig(): bool
+    {
+        return false;
+    }
+
+    public function getArrayToConfigTransformation(): Transformation
+    {
+        throw new LogicException(self::class . ' has no Config.');
+    }
+
+    public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
+    {
+        return new CollectSettingsObjective($this->user_settings_contributions);
+    }
+
+    public function getBuildObjective(): Objective
+    {
+        return new CollectSettingsObjective($this->user_settings_contributions);
+    }
+
     public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(
-            new DBUpdateSteps11()
+        return new ObjectiveCollection(
+            'Updates for User',
+            false,
+            new \ilDatabaseUpdateStepsExecutedObjective(
+                new DBUpdateSteps11()
+            ),
+            new CollectSettingsObjective($this->user_settings_contributions)
         );
     }
 

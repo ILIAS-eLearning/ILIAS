@@ -23,10 +23,6 @@ use ILIAS\User\Profile\Mode as ProfileMode;
 use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Section;
 
-/**
- * User privacy settings (currently located under "Profile and Privacy")
- * @author Alexander Killing <killing@leifos.de>
- */
 class ilUserPrivacySettingsGUI
 {
     private const PROP_ENABLE_OSC = 'chat_osc_accept_msg';
@@ -43,8 +39,8 @@ class ilUserPrivacySettingsGUI
     protected \Psr\Http\Message\RequestInterface $request;
     protected ChecklistStatus $checklist_status;
     protected ProfileMode $profile_mode;
-    private \ILIAS\UI\Factory $uiFactory;
-    private \ILIAS\UI\Renderer $uiRenderer;
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
     private \ILIAS\Refinery\Factory $refinery;
     protected ilSetting $chatSettings;
     protected ilSetting $notificationSettings;
@@ -59,8 +55,8 @@ class ilUserPrivacySettingsGUI
         $this->ctrl = $DIC['ilCtrl'];
         $this->user = $DIC['ilUser'];
         $this->refinery = $DIC['refinery'];
-        $this->uiFactory = $DIC['ui.factory'];
-        $this->uiRenderer = $DIC['ui.renderer'];
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
         $this->event = $DIC['ilAppEventHandler'];
         $this->request = $DIC->http()->request();
 
@@ -86,7 +82,7 @@ class ilUserPrivacySettingsGUI
 
         switch ($next_class) {
             default:
-                $cmd = $this->ctrl->getCmd("showPrivacySettings");
+                $cmd = $this->ctrl->getCmd('showPrivacySettings');
                 $this->$cmd();
                 break;
         }
@@ -117,7 +113,7 @@ class ilUserPrivacySettingsGUI
         $user = $this->user;
         $lng = $this->lng;
 
-        $html = "";
+        $html = '';
         if ($this->checklist_status->anyVisibilitySettings()
             && ($this->isAwarnessSettingVisible()
                 || $this->isContactSettingVisible()
@@ -125,19 +121,19 @@ class ilUserPrivacySettingsGUI
             if (is_null($form)) {
                 $form = $this->initPrivacySettingsForm();
             }
-            $html = $this->uiRenderer->render([$form]);
+            $html = $this->ui_renderer->render([$form]);
         }
 
         $pub_profile = new ilPublicUserProfileGUI($user->getId());
         if ($this->profile_mode->isEnabled()) {
-            $pub_profile_legacy = $this->uiFactory->legacy()->content($pub_profile->getEmbeddable());
-            $html .= $this->uiRenderer->render($this->uiFactory->panel()->standard(
+            $pub_profile_legacy = $this->ui_factory->legacy()->content($pub_profile->getEmbeddable());
+            $html .= $this->ui_renderer->render($this->ui_factory->panel()->standard(
                 $this->lng->txt('user_profile_preview'),
                 $pub_profile_legacy
             ));
         } elseif (!$this->checklist_status->anyVisibilitySettings()) {
-            $html .= $this->uiRenderer->render(
-                [$this->uiFactory->messageBox()->info($lng->txt("usr_public_profile_disabled"))]
+            $html .= $this->ui_renderer->render(
+                [$this->ui_factory->messageBox()->info($lng->txt('usr_public_profile_disabled'))]
             );
         }
 
@@ -152,9 +148,9 @@ class ilUserPrivacySettingsGUI
      */
     protected function isAwarnessSettingVisible(): bool
     {
-        $awrn_set = new ilSetting("awrn");
+        $awrn_set = new ilSetting('awrn');
 
-        return $awrn_set->get("awrn_enabled", '0') && $this->userSettingVisible("hide_own_online_status");
+        return $awrn_set->get('awrn_enabled', '0') && $this->userSettingVisible('hide_own_online_status');
     }
 
     /**
@@ -177,9 +173,9 @@ class ilUserPrivacySettingsGUI
         $this->populateWithChatSettingsSection($sections);
         $this->populateWithNotificationSettingsSection($sections);
 
-        $form_action = $this->ctrl->getLinkTarget($this, "savePrivacySettings");
+        $form_action = $this->ctrl->getLinkTarget($this, 'savePrivacySettings');
 
-        return $this->uiFactory->input()
+        return $this->ui_factory->input()
             ->container()
             ->form()
             ->standard($form_action, $sections)
@@ -225,28 +221,28 @@ class ilUserPrivacySettingsGUI
             return;
         }
 
-        $this->lng->loadLanguageModule("awrn");
+        $this->lng->loadLanguageModule('awrn');
 
-        $default = ($this->settings->get('hide_own_online_status') === "n")
-            ? $this->lng->txt("user_awrn_show")
-            : $this->lng->txt("user_awrn_hide");
+        $default = ($this->settings->get('hide_own_online_status') === 'n')
+            ? $this->lng->txt('user_awrn_show')
+            : $this->lng->txt('user_awrn_hide');
 
         $options = [
-            "x" => $this->lng->txt("user_awrn_default") . " (" . $default . ")",
-            "n" => $this->lng->txt("user_awrn_show"),
-            "y" => $this->lng->txt("user_awrn_hide")
+            'x' => "{$this->lng->txt('user_awrn_default')} ({$default})",
+            'n' => $this->lng->txt('user_awrn_show'),
+            'y' => $this->lng->txt('user_awrn_hide')
         ];
-        $val = $this->user->prefs["hide_own_online_status"] ?? "";
-        if ($val == "") {
-            $val = "x";
+        $val = $this->user->prefs['hide_own_online_status'] ?? '';
+        if ($val == '') {
+            $val = 'x';
         }
 
-        $fields["hide_own_online_status"] = $this->uiFactory->input()
+        $fields['hide_own_online_status'] = $this->ui_factory->input()
             ->field()
             ->select(
-                $this->lng->txt("awrn_user_show"),
+                $this->lng->txt('awrn_user_show'),
                 $options,
-                $this->lng->txt("awrn_hide_from_awareness_info")
+                $this->lng->txt('awrn_hide_from_awareness_info')
             )
             ->withValue($val)
             ->withRequired(true)
@@ -254,7 +250,7 @@ class ilUserPrivacySettingsGUI
                 $this->settings->get('usr_settings_disable_hide_own_online_status', '0') === '1' ? true : false
             );
 
-        $formSections['awrn_sec'] = $this->uiFactory->input()->field()->section($fields, $this->lng->txt('obj_awra'));
+        $formSections['awrn_sec'] = $this->ui_factory->input()->field()->section($fields, $this->lng->txt('obj_awra'));
     }
 
     protected function populateWithContactsSettingsSection(
@@ -267,18 +263,18 @@ class ilUserPrivacySettingsGUI
         $this->lng->loadLanguageModule('buddysystem');
         $bs_allow_contact_me = isset($this->user->prefs['bs_allow_to_contact_me']) ?
             $this->user->prefs['bs_allow_to_contact_me'] === 'y' : false;
-        $fields["bs_allow_to_contact_me"] = $this->uiFactory->input()
+        $fields['bs_allow_to_contact_me'] = $this->ui_factory->input()
             ->field()
             ->checkbox(
-                $this->lng->txt("buddy_allow_to_contact_me"),
-                $this->lng->txt("buddy_allow_to_contact_me_info")
+                $this->lng->txt('buddy_allow_to_contact_me'),
+                $this->lng->txt('buddy_allow_to_contact_me_info')
             )
             ->withValue($bs_allow_contact_me)
             ->withDisabled(
                 $this->settings->get('usr_settings_disable_bs_allow_to_contact_me', '0') === '1' ? true : false
             );
 
-        $formSections['contacts_sec'] = $this->uiFactory->input()->field()->section($fields, $this->lng->txt('mm_contacts'));
+        $formSections['contacts_sec'] = $this->ui_factory->input()->field()->section($fields, $this->lng->txt('mm_contacts'));
     }
 
     /**
@@ -294,13 +290,13 @@ class ilUserPrivacySettingsGUI
 
         if ($this->shouldShowNotificationOptions()) {
             $this->lng->loadLanguageModule('notifications_adm');
-            $fields[self::PROP_ENABLE_SOUND] = $this->uiFactory->input()->field()
+            $fields[self::PROP_ENABLE_SOUND] = $this->ui_factory->input()->field()
                                                                ->checkbox($this->lng->txt('osd_play_sound'), $this->lng->txt('osd_play_sound_desc'))
                                                                ->withValue((bool) $this->user->getPref('osd_play_sound'));
         }
 
         if ($fields !== []) {
-            $formSections['notification_sec'] = $this->uiFactory->input()->field()->section(
+            $formSections['notification_sec'] = $this->ui_factory->input()->field()->section(
                 $fields,
                 $this->lng->txt('notification_settings')
             );
@@ -314,7 +310,7 @@ class ilUserPrivacySettingsGUI
             return;
         }
 
-        $fieldFactory = $this->uiFactory->input()->field();
+        $fieldFactory = $this->ui_factory->input()->field();
         $fields = [];
 
         $this->lng->loadLanguageModule('chatroom_adm');
@@ -385,7 +381,7 @@ class ilUserPrivacySettingsGUI
         }
 
         if ($fields !== []) {
-            $formSections['chat_sec'] = $this->uiFactory->input()->field()->section(
+            $formSections['chat_sec'] = $this->ui_factory->input()->field()->section(
                 $fields,
                 $this->lng->txt('chat_settings')
             );
@@ -400,25 +396,25 @@ class ilUserPrivacySettingsGUI
         $user = $this->user;
         $ctrl = $this->ctrl;
 
-        if ($request->getMethod() === "POST") {
+        if ($request->getMethod() === 'POST') {
             $form = $form->withRequest($request);
             $formData = $form->getData();
 
-            if ($this->isAwarnessSettingVisible() && $this->workWithUserSetting("hide_own_online_status")) {
-                $val = $formData["hide_own_online_status"] ?? 'x';
-                if ($val == "x") {
-                    $val = "";
+            if ($this->isAwarnessSettingVisible() && $this->workWithUserSetting('hide_own_online_status')) {
+                $val = $formData['hide_own_online_status'] ?? 'x';
+                if ($val == 'x') {
+                    $val = '';
                 }
                 $user->setPref(
-                    "hide_own_online_status",
+                    'hide_own_online_status',
                     $val
                 );
             }
-            if ($this->isContactSettingVisible() && $this->workWithUserSetting("bs_allow_to_contact_me")) {
-                if ($formData["bs_allow_to_contact_me"]) {
-                    $user->setPref("bs_allow_to_contact_me", "y");
+            if ($this->isContactSettingVisible() && $this->workWithUserSetting('bs_allow_to_contact_me')) {
+                if ($formData['bs_allow_to_contact_me']) {
+                    $user->setPref('bs_allow_to_contact_me', 'y');
                 } else {
-                    $user->setPref("bs_allow_to_contact_me", "n");
+                    $user->setPref('bs_allow_to_contact_me', 'n');
                 }
             }
 

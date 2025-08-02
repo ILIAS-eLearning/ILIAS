@@ -18,14 +18,15 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\System;
+namespace ILIAS\User\Settings\StartingPoint;
 
+use ILIAS\User\LocalDIC;
 use ILIAS\User\UserGUIRequest;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer;
 
-class StartingPointSettingsGUI
+class SettingsGUI
 {
     private \ilLogger $log;
     private Language $lng;
@@ -42,7 +43,7 @@ class StartingPointSettingsGUI
     private UIFactory $ui_factory;
     private Renderer $ui_renderer;
     private UserGUIRequest $user_request;
-    private \ilUserStartingPointRepository $starting_point_repository;
+    private Repository $starting_point_repository;
 
     private int $parent_ref_id;
 
@@ -70,15 +71,7 @@ class StartingPointSettingsGUI
             $DIC->refinery()
         );
 
-        $this->starting_point_repository = new \ilUserStartingPointRepository(
-            $this->user,
-            $this->db,
-            $DIC->logger(),
-            $this->tree,
-            $this->rbac_review,
-            $this->rbac_system,
-            $this->settings
-        );
+        $this->starting_point_repository = LocalDIC::dic()['settings.starting_point.repository'];
 
         $this->parent_ref_id = $a_parent_ref_id;
 
@@ -189,7 +182,7 @@ class StartingPointSettingsGUI
         return $form;
     }
 
-    private function getCurrentStartingPointOrNullForStartingPointForm(?int $starting_point_id): ?\ilUserStartingPoint
+    private function getCurrentStartingPointOrNullForStartingPointForm(?int $starting_point_id): ?StartingPoint
     {
         if ($starting_point_id === null) {
             return null;
@@ -200,7 +193,7 @@ class StartingPointSettingsGUI
         );
     }
 
-    private function getCurrentTypeForStartingPointForm(?\ilUserStartingPoint $starting_point): ?int
+    private function getCurrentTypeForStartingPointForm(?StartingPoint $starting_point): ?int
     {
         if ($starting_point === null) {
             return null;
@@ -269,7 +262,7 @@ class StartingPointSettingsGUI
         return $inputs;
     }
 
-    private function getStartingPointSelectionInput(?\ilUserStartingPoint $st_point): \ilRadioGroupInputGUI
+    private function getStartingPointSelectionInput(?\StartingPoint $st_point): \ilRadioGroupInputGUI
     {
         $si = new \ilRadioGroupInputGUI($this->lng->txt('adm_user_starting_point'), 'start_point');
         $si->setRequired(true);
@@ -287,18 +280,18 @@ class StartingPointSettingsGUI
     private function getStartingPointSelectionOption(
         int $value,
         string $caption,
-        ?\ilUserStartingPoint $st_point,
+        ?StartingPoint $st_point,
         array $valid
     ): \ilRadioOption {
         $opt = new \ilRadioOption($this->lng->txt($caption), (string) $value);
 
-        if ($value === \ilUserStartingPointRepository::START_PD_CALENDAR) {
+        if ($value === Repository::START_PD_CALENDAR) {
             $opt->addSubItem(
                 $this->getCalenderSubInputs($st_point)
             );
         }
 
-        if ($value === \ilUserStartingPointRepository::START_REPOSITORY_OBJ) {
+        if ($value === Repository::START_REPOSITORY_OBJ) {
             $opt->addSubItem(
                 $this->getRepositoryObjectInput($st_point)
             );
@@ -311,7 +304,7 @@ class StartingPointSettingsGUI
         return $opt;
     }
 
-    private function getCalenderSubInputs(?\ilUserStartingPoint $st_point): \ilRadioGroupInputGUI
+    private function getCalenderSubInputs(?StartingPoint $st_point): \ilRadioGroupInputGUI
     {
         $default_cal_view = new \ilRadioGroupInputGUI($this->lng->txt('cal_def_view'), 'user_calendar_view');
         $default_cal_view->setRequired(true);
@@ -345,7 +338,7 @@ class StartingPointSettingsGUI
         return $default_cal_view;
     }
 
-    private function getRepositoryObjectInput(?\ilUserStartingPoint $st_point): \ilTextInputGUI
+    private function getRepositoryObjectInput(?StartingPoint $st_point): \ilTextInputGUI
     {
         $repobj_id = new \ilTextInputGUI($this->lng->txt('adm_user_starting_point_ref_id'), 'start_object');
         $repobj_id->setRequired(true);
@@ -471,7 +464,7 @@ class StartingPointSettingsGUI
         $cal_period = (int) $form->getInput('user_cal_period');
 
 
-        if ($starting_point->getStartingPointType() === \ilUserStartingPointRepository::START_REPOSITORY_OBJ
+        if ($starting_point->getStartingPointType() === Repository::START_REPOSITORY_OBJ
             && (\ilObject::_lookupObjId($obj_id) === 0 || $this->tree->isDeleted($obj_id))) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('obj_ref_id_not_exist'), true);
             $form->setValuesByPost();
@@ -480,7 +473,7 @@ class StartingPointSettingsGUI
         }
         $starting_point->setStartingObject($obj_id);
 
-        if ($starting_point->getStartingPointType() === \ilUserStartingPointRepository::START_PD_CALENDAR) {
+        if ($starting_point->getStartingPointType() === Repository::START_PD_CALENDAR) {
             $starting_point->setCalendarView($cal_view);
             $starting_point->setCalendarPeriod($cal_period);
         }

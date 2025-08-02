@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Profile;
+namespace ILIAS\User\Profile\Fields;
 
 use ILIAS\Services\Mail\ilMailUserFieldChangeListener;
 
@@ -35,18 +35,6 @@ class DefaultFields
             'prg_export_fix_value' => 0,
             'changeable_hide' => true,
             'required_hide' => true,
-            'group' => 'personal_data'
-        ],
-        'password' => [
-            'input' => 'password',
-            'required_hide' => true,
-            'visib_reg_hide' => true,
-            'visib_lua_fix_value' => 0,
-            'course_export_hide' => true,
-            'export_hide' => false,
-            'group_export_hide' => true,
-            'prg_export_hide' => true,
-            'lists_hide' => true,
             'group' => 'personal_data'
         ],
         'firstname' => [
@@ -286,121 +274,6 @@ class DefaultFields
             'size' => 40,
             'method' => 'getMatriculation',
             'group' => 'other'
-        ],
-        'language' => [
-            'input' => 'language',
-            'method' => 'getLanguage',
-            'required_hide' => true,
-            'visib_reg_hide' => true,
-            'course_export_hide' => true,
-            'group_export_hide' => true,
-            'prg_export_hide' => true,
-            'group' => 'settings'
-        ],
-        'skin_style' => [
-            'input' => 'skinstyle',
-            'required_hide' => true,
-            'visib_reg_hide' => true,
-            'course_export_hide' => true,
-            'group_export_hide' => true,
-            'prg_export_hide' => true,
-            'group' => 'settings'
-        ],
-        'hide_own_online_status' => [
-            'input' => 'selection',
-            'lang_var' => 'awrn_user_show',
-            'required_hide' => true,
-            'visib_reg_hide' => true,
-            'course_export_hide' => true,
-            'group_export_hide' => true,
-            'prg_export_hide' => true,
-            'group' => 'settings',
-            'default' => 'y',
-            'options' => [
-                'y' => 'user_awrn_hide',
-                'n' => 'user_awrn_show'
-            ]
-        ],
-        'bs_allow_to_contact_me' => [
-            'input' => 'selection',
-            'lang_var' => 'buddy_allow_to_contact_me',
-            'required_hide' => true,
-            'visib_reg_hide' => true,
-            'course_export_hide' => true,
-            'group_export_hide' => true,
-            'prg_export_hide' => true,
-            'group' => 'settings',
-            'default' => 'y',
-            'options' => [
-                'n' => 'buddy_allow_to_contact_me_no',
-                'y' => 'buddy_allow_to_contact_me_yes'
-            ]
-        ],
-        'chat_osc_accept_msg' => [
-            'input' => 'selection',
-            'lang_var' => 'chat_osc_accept_msg',
-            'required_hide' => true,
-            'visib_reg_hide' => true,
-            'course_export_hide' => true,
-            'group_export_hide' => true,
-            'prg_export_hide' => true,
-            'group' => 'settings',
-            'default' => 'y',
-            'options' => [
-                'n' => 'chat_osc_accepts_messages_no',
-                'y' => 'chat_osc_accepts_messages_yes'
-            ]
-        ],
-        'chat_broadcast_typing' => [
-            'input' => 'selection',
-            'lang_var' => 'chat_broadcast_typing',
-            'required_hide' => true,
-            'visib_reg_hide' => true,
-            'course_export_hide' => true,
-            'group_export_hide' => true,
-            'prg_export_hide' => true,
-            'group' => 'settings',
-            'default' => 'y',
-            'options' => [
-                'n' => 'chat_no_use_typing_broadcast',
-                'y' => 'chat_use_typing_broadcast'
-            ]
-        ],
-        'preferences' => [
-            'visible_fix_value' => 1,
-            'changeable_fix_value' => 1,
-            'required_hide' => true,
-            'visib_reg_hide' => true,
-            'course_export_hide' => true,
-            'group_export_hide' => true,
-            'prg_export_hide' => true,
-            'group' => 'preferences'],
-        'mail_incoming_mail' => [
-            'input' => 'selection',
-            'default' => 'y',
-            'options' => [
-                \ilMailOptions::INCOMING_LOCAL => 'mail_incoming_local',
-                \ilMailOptions::INCOMING_EMAIL => 'mail_incoming_smtp',
-                \ilMailOptions::INCOMING_BOTH => 'mail_incoming_both'],
-            'required_hide' => true,
-            'visib_reg_hide' => true,
-            'course_export_hide' => true,
-            'group_export_hide' => true,
-            'export_hide' => true,
-            'prg_export_hide' => true,
-            'search_hide' => true,
-            'group' => 'settings'
-        ],
-        'session_reminder' => [
-            'input' => 'numeric',
-            'default' => 'y',
-            'required_hide' => true,
-            'visib_reg_hide' => true,
-            'course_export_hide' => true,
-            'group_export_hide' => true,
-            'prg_export_hide' => true,
-            'search_hide' => true,
-            'group' => 'settings'
         ]
     ];
 

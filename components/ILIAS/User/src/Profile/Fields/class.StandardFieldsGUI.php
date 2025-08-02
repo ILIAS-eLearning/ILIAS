@@ -20,32 +20,44 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields;
 
+use ILIAS\User\RedirectOnMissingWrite;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Input\Field\Section;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Custom\Constraint;
+use ILIAS\Refinery\Transformation;
+use Psr\Http\Message\ServerRequestInterface;
+
 class StandardFieldsGUI
 {
-    public function __construct(
+    use RedirectOnMissingWrite;
 
+    private bool $confirm_change = false;
+
+    public function __construct(
+        private readonly \ILIAS\Language\Language $lng,
+        private readonly \ilCtrl $ctrl,
+        private readonly \ilAccess $access,
+        private readonly \ilSetting $settings,
+        private readonly \ilGlobalTemplateInterface $tpl,
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
+        private readonly Refinery $refinery,
+        private readonly ServerRequestInterface $request
     ) {
 
     }
 
     public function executeCommand(): void
     {
-        $next_class = $this->ctrl->getNextClass($this);
+        $this->redirectOnMissingWrite($this->access, $this->ctrl, $this->tpl, $this->lng);
         $cmd = $this->ctrl->getCmd() . 'Cmd';
-        $this->prepareOutput();
+        $this->$cmd();
     }
 
     public function showCmd(): void
     {
-        $this->raiseErrorOnMissingWrite();
-
-        $this->lng->loadLanguageModule('administration');
-        $this->lng->loadLanguageModule('mail');
-        $this->lng->loadLanguageModule('chatroom');
-        $this->setSubTabs('settings');
-        $this->tabs_gui->activateTab('settings');
-        $this->tabs_gui->activateSubTab('standard_fields');
-
         $tab = new \ilUserFieldSettingsTableGUI(
             $this,
             'settings'
@@ -58,14 +70,11 @@ class StandardFieldsGUI
 
     public function confirmSavedCmd(): void
     {
-        $this->raiseErrorOnMissingWrite();
         $this->saveGlobalUserSettingsObject('save');
     }
 
     public function saveCmd(string $action = ''): void
     {
-        $this->raiseErrorOnMissingWrite();
-
         $checked = $this->user_request->getChecked();
         $selected = $this->user_request->getSelect();
 
@@ -405,6 +414,24 @@ class StandardFieldsGUI
         return false;
     }
 
+    private function getTranslationForField(
+        string $field_name,
+        array $properties
+    ): string {
+        $translation = (!isset($properties['lang_var']) || $properties['lang_var'] === '')
+            ? $field_name
+            : $properties['lang_var'];
+
+        if ($field_name === 'country') {
+            $translation = 'country_free_text';
+        }
+        if ($field_name === 'sel_country') {
+            $translation = 'country_selection';
+        }
+
+        return $this->lng->txt($translation);
+    }
+
     /**
      * @return array<string, ChangedUserFieldAttribute>
      */
@@ -438,19 +465,5 @@ class StandardFieldsGUI
         }
 
         return $changed_fields;
-    }
-
-    private function raiseErrorOnMissingWrite(): void
-    {
-        if (!$this->access->checkRbacOrPositionPermissionAccess(
-            'write',
-            \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
-            USER_FOLDER_ID
-        )) {
-            $this->ilias->raiseError(
-                $this->lng->txt('permission_denied'),
-                $this->ilias->error_obj->MESSAGE
-            );
-        }
     }
 }

@@ -18,11 +18,14 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\User\Settings\StartingPoint;
+
+use ILIAS\User\Settings\User\Repository as UserSettingsRepository;
 use ILIAS\DI\LoggingServices;
 use ILIAS\MyStaff\ilMyStaffCachedAccessDecorator;
 use ILIAS\MyStaff\ilMyStaffAccess;
 
-class ilUserStartingPointRepository
+class Repository
 {
     private const START_PD_OVERVIEW = 1;
     private const START_PD_SUBSCRIPTION = 2;
@@ -52,19 +55,20 @@ class ilUserStartingPointRepository
         self::START_PD_SUBSCRIPTION => 'ilias.php?baseClass=ilMembershipOverviewGUI',
         self::START_PD_WORKSPACE => 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToWorkspace',
         self::START_PD_CALENDAR => 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToCalendar',
-        self::START_PD_MYSTAFF => 'ilias.php?baseClass=' . ilDashboardGUI::class . '&cmd=' . ilDashboardGUI::CMD_JUMP_TO_MY_STAFF
+        self::START_PD_MYSTAFF => 'ilias.php?baseClass=' . \ilDashboardGUI::class . '&cmd=' . \ilDashboardGUI::CMD_JUMP_TO_MY_STAFF
     ];
 
     private bool $current_user_has_access_to_my_staff;
 
     public function __construct(
-        private readonly ilObjUser $user,
-        private readonly ilDBInterface $db,
+        private readonly \ilObjUser $user,
+        private readonly \ilDBInterface $db,
         private readonly LoggingServices $log,
-        private readonly ilTree $tree,
-        private readonly ilRbacReview $rbac_review,
-        private readonly ilRbacSystem $rbac_system,
-        private readonly ilSetting $settings
+        private readonly \ilTree $tree,
+        private readonly \ilRbacReview $rbac_review,
+        private readonly \ilRbacSystem $rbac_system,
+        private readonly \ilSetting $settings,
+        private readonly UserSettingsRepository $user_settings_repository
     ) {
         global $DIC;
         $this->current_user_has_access_to_my_staff = (new ilMyStaffCachedAccessDecorator(
@@ -73,10 +77,10 @@ class ilUserStartingPointRepository
         ))->hasCurrentUserAccessToMyStaff();
     }
 
-    public function getStartingPointById(?int $id): ilUserStartingPoint
+    public function getStartingPointById(?int $id): StartingPoint
     {
         if ($id === null) {
-            return new ilUserStartingPoint($id);
+            return new StartingPoint($id);
         }
 
         $query = 'SELECT * FROM usr_starting_point WHERE id = ' . $this->db->quote($id, 'integer');
@@ -84,7 +88,7 @@ class ilUserStartingPointRepository
         $starting_point_array = $this->db->fetchAssoc($res);
 
         if ($starting_point_array === null) {
-            $default_starting_point = new ilUserStartingPoint(self::DEFAULT_STARTING_POINT_ID);
+            $default_starting_point = new StartingPoint(self::DEFAULT_STARTING_POINT_ID);
             $default_starting_point->setStartingPointType($this->getSystemDefaultStartingPointType());
             $default_starting_point->setStartingObject($this->getSystemDefaultStartingObject());
             $default_starting_point->setCalendarView($this->getSystemDefaultCalendarView());
@@ -92,7 +96,7 @@ class ilUserStartingPointRepository
             return $default_starting_point;
         }
 
-        return new ilUserStartingPoint(
+        return new StartingPoint(
             $id,
             $starting_point_array['starting_point'],
             $starting_point_array['starting_object'],
@@ -105,7 +109,7 @@ class ilUserStartingPointRepository
     }
 
     /**
-     * @return array<ilUserStartingPoint>
+     * @return array<StartingPoint>
      */
     public function getStartingPoints(): array
     {
@@ -113,7 +117,7 @@ class ilUserStartingPointRepository
         $res = $this->db->query($query);
         $starting_points = [];
         while ($starting_point_array = $this->db->fetchAssoc($res)) {
-            $starting_point = new ilUserStartingPoint(
+            $starting_point = new StartingPoint(
                 $starting_point_array['id'],
                 $starting_point_array['starting_point'],
                 $starting_point_array['starting_object'],
@@ -140,12 +144,12 @@ class ilUserStartingPointRepository
         return self::USER_STARTING_POINT_ID;
     }
 
-    public function onRoleDeleted(ilObjRole $role): void
+    public function onRoleDeleted(\ilObjRole $role): void
     {
         foreach ($this->getRolesWithStartingPoint() as $role_id => $data) {
             if ($role_id === $role->getId()
-                || ($maybe_deleted_role = ilObjectFactory::getInstanceByObjId($role_id, false)) === null
-                || !($maybe_deleted_role instanceof ilObjRole)
+                || ($maybe_deleted_role = \ilObjectFactory::getInstanceByObjId($role_id, false)) === null
+                || !($maybe_deleted_role instanceof \ilObjRole)
             ) {
                 $this->delete($data['id']);
             }
@@ -195,7 +199,7 @@ class ilUserStartingPointRepository
             if ($roleid === ANONYMOUS_ROLE_ID) {
                 continue;
             }
-            $role_obj = new ilObjRole($roleid);
+            $role_obj = new \ilObjRole($roleid);
             $roles[] = [
                 'id' => $role_obj->getId(),
                 'title' => $role_obj->getTitle(),
@@ -205,7 +209,7 @@ class ilUserStartingPointRepository
         return $roles;
     }
 
-    public function save(ilUserStartingPoint $starting_point): void
+    public function save(StartingPoint $starting_point): void
     {
         if ($starting_point->getId() === $this->getDefaultStartingPointID()) {
             $this->setSystemDefaultStartingPoint($starting_point);
@@ -230,14 +234,14 @@ class ilUserStartingPointRepository
         $this->db->manipulateF(
             'INSERT INTO usr_starting_point (id, starting_point, starting_object, position, rule_type, rule_options, calendar_view, calendar_period) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)',
             [
-                ilDBConstants::T_INTEGER,
-                ilDBConstants::T_INTEGER,
-                ilDBConstants::T_INTEGER,
-                ilDBConstants::T_INTEGER,
-                ilDBConstants::T_INTEGER,
-                ilDBConstants::T_TEXT,
-                ilDBConstants::T_INTEGER,
-                ilDBConstants::T_INTEGER
+               \ilDBConstants::T_INTEGER,
+               \ilDBConstants::T_INTEGER,
+               \ilDBConstants::T_INTEGER,
+               \ilDBConstants::T_INTEGER,
+               \ilDBConstants::T_INTEGER,
+               \ilDBConstants::T_TEXT,
+               \ilDBConstants::T_INTEGER,
+               \ilDBConstants::T_INTEGER
             ],
             $values
         );
@@ -246,7 +250,7 @@ class ilUserStartingPointRepository
     /**
      * update starting point
      */
-    public function update(ilUserStartingPoint $starting_point): void
+    public function update(StartingPoint $starting_point): void
     {
         if ($starting_point->getId() === $this->getDefaultStartingPointID()) {
             $this->setSystemDefaultStartingPoint($starting_point);
@@ -264,14 +268,14 @@ class ilUserStartingPointRepository
 				calendar_period = %s
 			WHERE id = %s',
             [
-                ilDBConstants::T_INTEGER,
-                ilDBConstants::T_INTEGER,
-                ilDBConstants::T_INTEGER,
-                ilDBConstants::T_INTEGER,
-                ilDBConstants::T_TEXT,
-                ilDBConstants::T_INTEGER,
-                ilDBConstants::T_INTEGER,
-                ilDBConstants::T_INTEGER
+                \ilDBConstants::T_INTEGER,
+                \ilDBConstants::T_INTEGER,
+                \ilDBConstants::T_INTEGER,
+                \ilDBConstants::T_INTEGER,
+                \ilDBConstants::T_TEXT,
+                \ilDBConstants::T_INTEGER,
+                \ilDBConstants::T_INTEGER,
+                \ilDBConstants::T_INTEGER
             ],
             [
                 $starting_point->getStartingPointType(),
@@ -346,7 +350,7 @@ class ilUserStartingPointRepository
         if ($force_all || !$this->settings->get('disable_personal_workspace')) {
             $all[self::START_PD_WORKSPACE] = 'mm_personal_and_shared_r';
         }
-        $calendar_settings = ilCalendarSettings::_getInstance();
+        $calendar_settings = \ilCalendarSettings::_getInstance();
         if ($force_all || $calendar_settings->isEnabled()) {
             $all[self::START_PD_CALENDAR] = 'calendar';
         }
@@ -384,7 +388,7 @@ class ilUserStartingPointRepository
     }
 
     private function setSystemDefaultStartingPoint(
-        ilUserStartingPoint $starting_point
+        StartingPoint $starting_point
     ): void {
         $starting_point_type = $starting_point->getStartingPointType();
 
@@ -410,7 +414,7 @@ class ilUserStartingPointRepository
         if ($starting_point['type'] === self::START_REPOSITORY_OBJ
             && (
                 $starting_point['object'] === null
-                || !ilObject::_exists($starting_point['object'], true)
+                || !\ilObject::_exists($starting_point['object'], true)
                 || $this->tree->isDeleted($starting_point['object'])
                 || !$this->rbac_system->checkAccessOfUser(
                     $this->user->getId(),
@@ -430,7 +434,7 @@ class ilUserStartingPointRepository
                     $this->tree->getRootId()
                 )
             || $starting_point['type'] === self::START_PD_CALENDAR
-                && !ilCalendarSettings::_getInstance()->isEnabled()
+                && !\ilCalendarSettings::_getInstance()->isEnabled()
         ) {
             $this->log->user()->debug(sprintf('Permission to Starting Point Denied. Starting Point Type: %s.', $starting_point['type']));
             $starting_point['type'] = $this->getFallbackStartingPointType();
@@ -488,7 +492,7 @@ class ilUserStartingPointRepository
         $type = $starting_point['type'];
         if ($type === self::START_REPOSITORY
             || $type === self::START_REPOSITORY_OBJ) {
-            return ilLink::_getStaticLink($starting_point['object'], '', true);
+            return \ilLink::_getStaticLink($starting_point['object'], '', true);
         }
 
         $url = self::URL_LINKS_BY_TYPE[$type];
@@ -536,7 +540,7 @@ class ilUserStartingPointRepository
 
     public function isPersonalStartingPointEnabled(): bool //checked
     {
-        return $this->settings->get('usr_starting_point_personal') === '1' ? true : false;
+        return $this->user_settings_repository->getByIdentifier('starting_point')->isChangeableInProfile();
     }
 
     /**
@@ -576,7 +580,7 @@ class ilUserStartingPointRepository
         }
 
         if ($starting_point_type === self::START_REPOSITORY_OBJ) {
-            if (ilObject::_lookupObjId($ref_id) &&
+            if (\ilObject::_lookupObjId($ref_id) &&
                 !$this->tree->isDeleted($ref_id)) {
                 $this->user->setPref('usr_starting_point', (string) $starting_point_type);
                 $this->user->setPref('usr_starting_point_ref_id', (string) $ref_id);

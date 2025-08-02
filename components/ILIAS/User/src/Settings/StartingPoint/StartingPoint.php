@@ -18,7 +18,9 @@
 
 declare(strict_types=1);
 
-class ilUserStartingPoint
+namespace ILIAS\User\Settings\StartingPoint;
+
+class StartingPoint
 {
     private const ROLE_BASED = 2;
 

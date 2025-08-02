@@ -21,9 +21,8 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\User\Setup\Agent;
-
+use ILIAS\User\Settings\User\Settings as UserSettings;
 use ILIAS\Setup\Agent as SetupAgent;
-use ILIAS\Refinery\Factory as Refinery;
 
 class User implements Component\Component
 {
@@ -39,7 +38,9 @@ class User implements Component\Component
     ): void {
         $contribute[SetupAgent::class] = fn() =>
             new Agent(
-                $pull[Refinery::class]
+                $seek[UserSettings::class]
             );
+        $contribute[User\Settings\User\Settings::class] = fn() =>
+            new User\Settings\User\SettingsProvider();
     }
 }

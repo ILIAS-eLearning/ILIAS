@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * User settings configuration (what preferences can be visible/changed/...)
  * @author Alexander Killing <killing@leifos.de>

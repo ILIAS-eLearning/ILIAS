@@ -18,25 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User;
+namespace ILIAS\User\Settings\User;
 
-use ILIAS\Language\Language;
-
-trait RedirectOnMissingWrite
+enum AvailableSections: string
 {
-    private function redirectOnMissingWrite(
-        \ilAccess $access,
-        \ilCtrl $ctrl,
-        \ilGlobalTemplateInterface $tpl,
-        Language $lng
-    ): void {
-        if (!$access->checkAccess(
-            'write',
-            '',
-            USER_FOLDER_ID
-        )) {
-            $tpl->setOnScreenMessage('failure', $lng->txt('permission_denied'), true);
-            $ctrl->redirectByClass(\ilRepositoryGUI::class);
-        }
-    }
+    case Main = 'main';
+    case Communication = 'communication';
+    case DateTime = 'date_time';
+    case Additional = 'additional';
 }

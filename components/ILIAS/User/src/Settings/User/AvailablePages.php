@@ -18,19 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\System;
+namespace ILIAS\User\Settings\User;
 
-use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
-
-class MailAttachmentsStakeholder extends AbstractResourceStakeholder
+enum AvailablePages: string
 {
-    public function getId(): string
-    {
-        return 'user_mail_attachements';
-    }
-
-    public function getOwnerOfNewResources(): int
-    {
-        return $this->default_owner;
-    }
+    case MainSettings = 'main';
+    case PrivacySettings = 'privacy';
+    case Password = 'password';
 }
