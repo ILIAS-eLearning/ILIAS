@@ -37,6 +37,7 @@ class ilMStListUsersTableGUI extends \ilTable2GUI
     private \ILIAS\UI\Factory $uiFactory;
     private \ILIAS\UI\Renderer $uiRenderer;
     private \ilLanguage $language;
+    private Profile $profile;
 
     /**
      * @param \ilMStListUsersGUI $parent_obj
@@ -57,6 +58,7 @@ class ilMStListUsersTableGUI extends \ilTable2GUI
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->language = $DIC->language();
+        $this->profile = $DIC['user']->getProfile();
 
         $this->setRowTemplate('tpl.list_users_row.html', "components/ILIAS/MyStaff");
         $this->setFormAction($DIC->ctrl()->getFormAction($parent_obj));
@@ -170,7 +172,7 @@ class ilMStListUsersTableGUI extends \ilTable2GUI
             }
         }
 
-        foreach ((new Profile())->getAllUserDefinedFields() as $field) {
+        foreach ($this->profile->getAllUserDefinedFields() as $field) {
             unset($cols["udf_" . $field->getIdentifier()]);
         }
 

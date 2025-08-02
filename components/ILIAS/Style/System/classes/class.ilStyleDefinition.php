@@ -95,10 +95,7 @@ class ilStyleDefinition
         } else {
             $system_style_conf = new ilSystemStyleConfig();
 
-            if ($DIC->isDependencyAvailable('user') && is_object($DIC->user()) && property_exists(
-                $DIC->user(),
-                'skin'
-            )) {
+            if ($DIC->isDependencyAvailable('user') && is_object($DIC->user())) {
                 $skin_id = $DIC->user()->getSkin();
                 if ($skin_id && !self::skinExists($skin_id)) {
                     if ($DIC->isDependencyAvailable('systemStyle')) {

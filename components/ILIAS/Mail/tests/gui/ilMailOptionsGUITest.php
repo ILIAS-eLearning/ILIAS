@@ -23,6 +23,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use ILIAS\User\Settings\Settings;
 
 class ilMailOptionsGUITest extends ilMailBaseTestCase
 {
@@ -75,7 +76,8 @@ class ilMailOptionsGUITest extends ilMailBaseTestCase
             null,
             $this->createMock(\ILIAS\Data\Clock\ClockInterface::class),
             $settings,
-            $this->createMock(ilDBInterface::class)
+            $this->createMock(ilDBInterface::class),
+            $this->createMock(Settings::class)
         );
 
         $gui = $this->getMailOptionsGUI($http, $ctrl, $options);
@@ -158,7 +160,8 @@ class ilMailOptionsGUITest extends ilMailBaseTestCase
             null,
             $this->createMock(\ILIAS\Data\Clock\ClockInterface::class),
             $settings,
-            $this->createMock(ilDBInterface::class)
+            $this->createMock(ilDBInterface::class),
+            $this->createMock(Settings::class)
         );
 
         $gui = $this->getMailOptionsGUI($http, $ctrl, $options);

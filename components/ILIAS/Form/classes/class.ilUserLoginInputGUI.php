@@ -57,7 +57,7 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 
     public function setValueByArray(array $a_values): void
     {
-        $this->setValue($a_values[$this->getPostVar()]);
+        $this->setValue($a_values[$this->getPostVar()] ?? '');
     }
 
     public function setCurrentUserId(int $a_user_id): void
@@ -116,6 +116,10 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
         $a_tpl->setVariable("SIZE", $this->size);
         $a_tpl->setVariable("MAXLENGTH", $this->max_length);
         if ($this->getDisabled()) {
+            $a_tpl->setVariable(
+                "HIDDEN_INPUT",
+                $this->getHiddenTag($this->getPostVar(), $this->getValue())
+            );
             $a_tpl->setVariable(
                 "DISABLED",
                 " disabled=\"disabled\""

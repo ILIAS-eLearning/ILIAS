@@ -33,8 +33,8 @@ use ILIAS\UI\Implementation\Component\Item\Shy;
 use ilSetting;
 use ilUtil;
 use JsonException;
-use ilUserPrivacySettingsGUI;
 use ilDashboardGUI;
+use ILIAS\User\Privacy\SettingsGUI as PrivacySettingsGUI;
 use ILIAS\User\Profile\PersonalProfileGUI;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 
@@ -87,7 +87,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                             [
                                 ilDashboardGUI::class,
                                 PersonalProfileGUI::class,
-                                ilUserPrivacySettingsGUI::class
+                                PrivacySettingsGUI::class
                             ],
                             'showPrivacySettings'
                         )

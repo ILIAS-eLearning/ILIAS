@@ -32,6 +32,7 @@ class ilLDAPAttributeToUser
 
     private array $modes = [];
     private ilLDAPServer $server_settings;
+    private Profile $profile;
     private array $user_data = [];
     private ilLDAPAttributeMapping $mapping;
     private string $new_user_auth_mode = 'ldap';
@@ -51,6 +52,7 @@ class ilLDAPAttributeToUser
         global $DIC;
 
         $this->logger = $DIC->logger()->auth();
+        $this->profile = $DIC['user']->profile();
 
         $this->server_settings = $a_server;
 
@@ -421,7 +423,7 @@ class ilLDAPAttributeToUser
     private function initUserDefinedFields(): void
     {
         if ($this->user_defined_fields === null) {
-            $this->user_defined_fields = (new Profile())->getAllUserDefinedFields();
+            $this->user_defined_fields = $this->profile->getAllUserDefinedFields();
         }
     }
 }

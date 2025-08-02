@@ -374,7 +374,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         // course defined fields
         $cdfs = ilCourseUserData::_getValuesByObjId($this->getParentObject()->getId());
 
-        $udf_data = (new Profile())->getAllUserDefinedFields();
+        $udf_data = $this->profile->getAllUserDefinedFields();
         $print_member = [];
         foreach ($a_members as $member_id) {
             // GET USER OBJ

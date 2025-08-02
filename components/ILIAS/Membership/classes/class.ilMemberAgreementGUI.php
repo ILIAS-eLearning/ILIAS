@@ -126,6 +126,7 @@ class ilMemberAgreementGUI
         global $DIC;
 
         $lng = $DIC->language();
+        $profile = $DIC['user']->getProfile();
 
         $type = ilObject::_lookupType($a_obj_id);
         $fields_info = ilExportFieldsInfo::_getInstanceByType($type);
@@ -141,9 +142,9 @@ class ilMemberAgreementGUI
 
         // #17609 - not part of ilExportFieldsInfo::getExportableFields()
         // see ilExportFieldsInfo::getSelectableFieldsInfo()
-        foreach ((new Profile())->getVisibleUserDefinedFields(Context::buildFromObjectType($type)) as $field) {
+        foreach ($profile->getVisibleUserDefinedFields(Context::buildFromObjectType($type)) as $field) {
             $tpl->setCurrentBlock('field_item');
-            $tpl->setVariable('FIELD_NAME', $field->getLabel($this->lng));
+            $tpl->setVariable('FIELD_NAME', $field->getLabel($lng));
             $tpl->parseCurrentBlock();
         }
         $fields->setHtml($tpl->get());

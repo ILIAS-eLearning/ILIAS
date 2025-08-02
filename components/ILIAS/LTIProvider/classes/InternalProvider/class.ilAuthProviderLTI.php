@@ -397,8 +397,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
             $user_obj->setTimeLimitFrom(time() - 60);
             $user_obj->setTimeLimitUntil(time() + (int) $ilClientIniFile->readVariable("session", "expire"));
         }
-        $user_obj->update();
         $user_obj->refreshLogin();
+        $user_obj->update();
 
         $GLOBALS['DIC']->rbac()->admin()->assignUser($consumer->getRole(), $user_obj->getId());
         $this->getLogger()->debug('Assigned user to: ' . $consumer->getRole());
@@ -448,7 +448,6 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $userObj->setLanguage($consumer->getLanguage());
 
         // Time limit
-        $userObj->setTimeLimitOwner(7);
         $userObj->setTimeLimitUnlimited(false);
         $userObj->setTimeLimitFrom(time() - 5);
         //        todo ?

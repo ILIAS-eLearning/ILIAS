@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\Data;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Data as ProfileData;
 
 /**
  * Class ilObjLearningSequenceGUI
@@ -119,6 +121,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected ArrayBasedRequestWrapper $post_wrapper;
     protected ILIAS\Refinery\Factory $refinery;
     protected Psr\Http\Message\ServerRequestInterface $request;
+    protected Profile $profile;
 
     public static function _goto(string $target): void
     {
@@ -203,6 +206,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->ctrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
         $this->user = $DIC['ilUser'];
+        $this->profile = $DIC['user']->getProfile();
         $this->tabs = $DIC['ilTabs'];
         $this->toolbar = $DIC['ilToolbar'];
         $this->help = $DIC['ilHelp'];
@@ -865,18 +869,18 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
      */
     public function addCustomData(array $a_data): array
     {
-        $res_data = array();
-        foreach ($a_data as $usr_id => $user_data) {
-            $res_data[$usr_id] = $user_data;
-            $udf_data = new ilUserDefinedData($usr_id);
-
-            foreach ($udf_data->getAll() as $field => $value) {
-                list(, $field_id) = explode('_', $field);
-                $res_data[$usr_id]['udf_' . $field_id] = (string) $value;
-            }
-        }
-
-        return $res_data;
+        $udfs = $this->profile->getAllUserDefinedFields();
+        return array_reduce(
+            $this->profile->getDataForMultiple(array_keys($a_data)),
+            function (array $c, ProfileData $v) use ($a_data, $udfs): array {
+                $c[$v->getId()] = $a_data[$v->getId()];
+                foreach ($udfs as $field) {
+                    $field_id = $field->getIdentifier();
+                    $c[$v->getId()]['udf_' . $field_id] = (string) $v->getAdditionalFieldByIdentifier($field_id);
+                }
+            },
+            []
+        );
     }
 
     public function showPossibleSubObjects(): void

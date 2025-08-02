@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Certificate;
 
+use ILIAS\User\Profile\Profile;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -32,6 +33,10 @@ class TestPlaceholderDescriptionTest extends TestCase
         $language_mock = $this->getMockBuilder(\ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt', 'loadLanguageModule'])
+            ->getMock();
+
+        $profile_mock = $this->getMockBuilder(Profile::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $template_mock = $this->getMockBuilder(\ilTemplate::class)
@@ -54,6 +59,7 @@ class TestPlaceholderDescriptionTest extends TestCase
         $placeholder_description_object = new TestPlaceholderDescription(
             null,
             $language_mock,
+            $profile_mock,
             $user_defined_placeholder_mock
         );
 
@@ -73,6 +79,10 @@ class TestPlaceholderDescriptionTest extends TestCase
             ->method('txt')
             ->willReturn('Something translated');
 
+        $profile_mock = $this->getMockBuilder(Profile::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $user_defined_placeholder_mock = $this->getMockBuilder(\ilUserDefinedFieldsPlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -86,6 +96,7 @@ class TestPlaceholderDescriptionTest extends TestCase
         $placeholder_description_object = new TestPlaceholderDescription(
             null,
             $language_mock,
+            $profile_mock,
             $user_defined_placeholder_mock
         );
 

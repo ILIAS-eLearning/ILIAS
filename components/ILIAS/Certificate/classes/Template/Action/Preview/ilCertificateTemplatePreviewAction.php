@@ -155,7 +155,7 @@ class ilCertificateTemplatePreviewAction
 
         $fields = [];
         foreach ($fds as $f) {
-            $fields[$f['field_id']] = [
+            $fields[$f->getIdentifier()] = [
                 'name' => $f->getLabel($this->lng),
                 'ph' => '[#' . str_replace(' ', '_', strtoupper($f->getLabel($this->lng))) . ']'
             ];

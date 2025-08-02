@@ -187,7 +187,6 @@ class ilAuthProviderSoap extends ilAuthProvider
         $userObj->setLanguage($this->language->getDefaultLanguage());
         $userObj->setProfileIncomplete(true);
 
-        $userObj->setTimeLimitOwner(USER_FOLDER_ID);
         $userObj->setTimeLimitUnlimited(true);
         $userObj->setTimeLimitFrom(time());
         $userObj->setTimeLimitUntil(time());

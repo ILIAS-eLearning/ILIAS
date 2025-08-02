@@ -58,6 +58,7 @@ class ilOpenIdConnectSettingsGUI
     private readonly ilGlobalTemplateInterface $mainTemplate;
     private readonly ilTabsGUI $tabs;
     private readonly FileUpload $upload;
+    private readonly Profile $profile;
     private ilToolbarGUI $toolbar;
     private ?array $user_defined_fields = null;
     private ilGlobalTemplateInterface $tpl;
@@ -100,6 +101,7 @@ class ilOpenIdConnectSettingsGUI
         $this->refinery = $DIC->refinery();
         $this->factory = $DIC->ui()->factory();
         $this->request = $DIC->http()->request();
+        $this->profile = $DIC['user']->getProfile();
         $this->attribute_mapping_template = new ilOpenIdAttributeMappingTemplate();
 
         if ($http_wrapper->query()->has(self::POST_VALUE) && $http_wrapper->query()->retrieve(
@@ -1008,7 +1010,7 @@ class ilOpenIdConnectSettingsGUI
     private function initUserDefinedFields(): void
     {
         if ($this->user_defined_fields === null) {
-            $this->user_defined_fields = (new Profile())->getAllUserDefinedFields();
+            $this->user_defined_fields = $this->profile->getAllUserDefinedFields();
         }
     }
 

@@ -45,6 +45,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
     protected ilObjectDefinition $objDefinition;
     protected ilTree $tree;
     protected \ilGlobalTemplateInterface $main_tpl;
+    protected Profile $profile;
 
     public function __construct(
         ?object $a_parent_obj,
@@ -61,6 +62,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $this->setting = $DIC->settings();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->profile = $DIC['user']->getProfile();
 
         $this->anonymized = !ilObjUserTracking::_enabledUserRelatedData();
         if (!$this->anonymized && isset($this->obj_id) && $this->obj_id > 0) {
@@ -1027,14 +1029,13 @@ class ilLPTableBaseGUI extends ilTable2GUI
     ): array {
         $cols = $privacy_fields = array();
 
-        $up = new Profile();
-        $up->skipGroup(AvailableSections::Interests);
+        $this->profile->skipGroup(AvailableSections::Interests);
         if ($a_in_course === 1) {
-            $ufs = $up->getVisibleFields(Context::Course);
+            $ufs = $this->profile->getVisibleFields(Context::Course);
         } elseif ($a_in_group === 1) {
-            $ufs = $up->getVisibleFields(Context::Group);
+            $ufs = $this->profile->getVisibleFields(Context::Group);
         } else {
-            $ufs = $up->getFields();
+            $ufs = $this->profile->getFields();
         }
 
         // default fields
@@ -1138,7 +1139,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 // other user profile fields
                 foreach ($ufs as $fd) {
                     $f = $fd->getIdentifier();
-                    if (!isset($cols[$f]) && $f !== "username" && !($fd["lists_hide"] ?? false)) {
+                    if (!isset($cols[$f]) && $f !== "username" && !$fd->hiddenInLists()) {
                         $cols[$f] = array(
                             "txt" => $fd->getLabel($this->lng),
                             "default" => false

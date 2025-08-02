@@ -86,7 +86,7 @@ class RegistrationCodeRepository
         string $order_direction,
         int $offset,
         int $limit,
-        CodeFilter $code_filter = null
+        ?CodeFilter $code_filter = null
     ): array {
         $sql = 'SELECT * FROM ' . self::TABLE_NAME . ($code_filter ? $this->filterToSQL($code_filter) : '');
         if ($order_field) {

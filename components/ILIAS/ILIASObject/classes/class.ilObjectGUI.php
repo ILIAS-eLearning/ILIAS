@@ -131,7 +131,7 @@ class ilObjectGUI implements ImplementsCreationCallback
 
         $this->http = $DIC['http'];
         $this->locator = $DIC['ilLocator'];
-        $this->user = $DIC['ilUser'];
+        $this->user = $DIC['user']->getLoggedInUser();
         $this->access = $DIC['ilAccess'];
         $this->settings = $DIC['ilSetting'];
         $this->toolbar = $DIC['ilToolbar'];

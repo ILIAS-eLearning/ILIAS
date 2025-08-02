@@ -33,6 +33,7 @@ class ilExportFieldsInfo
 
     private ilSetting $settings;
     private ilLanguage $lng;
+    private Profile $profile;
     private string $obj_type = '';
     private array $possible_fields = array();
 
@@ -46,6 +47,7 @@ class ilExportFieldsInfo
 
         $this->lng = $DIC->language();
         $this->settings = $DIC->settings();
+        $this->profile = $DIC['user']->getProfile();
         $this->obj_type = $a_type;
 
         $this->read();
@@ -106,6 +108,7 @@ class ilExportFieldsInfo
         global $DIC;
 
         $user = $DIC->user();
+        $profile = $DIC['user']->getProfile();
 
         $fields = [];
         foreach ($this->getExportableFields() as $field) {
@@ -136,7 +139,7 @@ class ilExportFieldsInfo
             $fields['consultation_hour']['default'] = 0;
         }
 
-        $udf = (new Profile())->getVisibleUserDefinedFields(Context::buildFromObjectType($this->getType()));
+        $udf = $profile->getVisibleUserDefinedFields(Context::buildFromObjectType($this->getType()));
         if ($udf !== []) {
             foreach ($udf as $field_id => $field) {
                 $fields['udf_' . $field_id]['txt'] = $field->getLabel($this->lng);
@@ -179,8 +182,11 @@ class ilExportFieldsInfo
     {
         $type = $this->getType();
         $this->possible_fields = array_reduce(
-            (new Profile())->getFields(),
+            $this->profile->getFields(),
             function (array $c, ProfileField $v) use ($type): array {
+                if ($v->isCustom()) {
+                    return $c;
+                }
                 if ($type === 'crs') {
                     $c[$v->getIdentifier()] = $v->isVisibleInCourses();
                 }

@@ -55,7 +55,7 @@ class ilAuthFrontend implements ilAuthFrontendInterface
         $this->status = $status;
         $this->providers = $providers;
 
-        $this->user_profile = new Profile();
+        $this->user_profile = $DIC['user']->getProfile();
     }
 
     public function getAuthSession(): ilAuthSession
@@ -252,14 +252,11 @@ class ilAuthFrontend implements ilAuthFrontendInterface
         }
 
         // check if profile is complete
-        if (
-            $this->user_profile->isProfileIncomplete($user) &&
-            ilAuthFactory::getContext() !== ilAuthFactory::CONTEXT_ECS &&
-            ilContext::getType() !== ilContext::CONTEXT_LTI_PROVIDER
-        ) {
+        if ($this->user_profile->isProfileIncomplete($user)
+            && ilAuthFactory::getContext() !== ilAuthFactory::CONTEXT_ECS
+            && ilContext::getType() !== ilContext::CONTEXT_LTI_PROVIDER) {
             ilLoggerFactory::getLogger('auth')->info('User profile is incomplete.');
             $user->setProfileIncomplete(true);
-            $user->update();
         }
 
         // redirects in case of error (session pool limit reached)
@@ -280,13 +277,12 @@ class ilAuthFrontend implements ilAuthFrontendInterface
         ) {
             $user->resetLastPasswordChange();
         }
-        $user->refreshLogin();
 
         if ($user->getLoginAttempts() > 0) {
             $user->setLoginAttempts(0);
-            $user->update();
         }
-
+        $user->refreshLogin();
+        $user->update();
 
         $this->logger->info('Successfully authenticated: ' . ilObjUser::_lookupLogin($this->getStatus()->getAuthenticatedUserId()));
         $this->getAuthSession()->setAuthenticated(true, $this->getStatus()->getAuthenticatedUserId());

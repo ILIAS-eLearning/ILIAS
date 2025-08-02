@@ -67,6 +67,7 @@ class ilStudyProgrammeDIC
             return new ilPRGAssignmentDBRepository(
                 $DIC['ilDB'],
                 $DIC['tree'],
+                $DIC['user']->getProfile(),
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
                 $dic['ilStudyProgrammeDelayedEvents'],
                 ilExportFieldsInfo::_getInstanceByType('prg')
@@ -158,6 +159,7 @@ class ilStudyProgrammeDIC
             new ilPRGAssignmentDBRepository(
                 $DIC['ilDB'],
                 $DIC['tree'],
+                $DIC['user']->getProfile(),
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
                 $dic['ilStudyProgrammeDelayedEvents'],
                 ilExportFieldsInfo::_getInstanceByType('prg')

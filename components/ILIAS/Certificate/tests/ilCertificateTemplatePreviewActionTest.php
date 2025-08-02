@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\Language\Language;
+use ILIAS\User\Profile\Fields\Custom\Custom;
 
 class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
 {
@@ -87,8 +88,20 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
                 ]
             );
 
-        $userDefinedFieldsHelper->method('createInstance')
-            ->willReturn($definitionsMock);
+        $field = $this->getMockBuilder(Custom::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $field->method('getidentifier')
+            ->withReturn('70ddbac5-c162-474d-9365-e374975fd021');
+        $field->method('getLabel')
+            ->withReturn('Some Field Name');
+
+        $userDefinedFieldsHelper->method('getFields')
+            ->willReturn(
+                [
+                    $field
+                ]
+            );
 
         $rpcClientFactoryHelper = $this->getMockBuilder(ilCertificateRpcClientFactoryHelper::class)
             ->getMock();

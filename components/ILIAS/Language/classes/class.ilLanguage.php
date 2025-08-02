@@ -95,7 +95,7 @@ class ilLanguage implements \ILIAS\Language\Language
         }
         if ($DIC->offsetExists("ilUser")) {
             $ilUser = $DIC->user();
-            $this->lang_user = $ilUser->getPref("language");
+            $this->lang_user = $ilUser->getLanguage();
         }
 
         $langs = $this->getInstalledLanguages();
@@ -428,7 +428,7 @@ class ilLanguage implements \ILIAS\Language\Language
         if ($ilUser instanceof ilObjUser &&
             (($ilUser->getId() && !$ilUser->isAnonymous()))
         ) {
-            ilSession::set("lang", $ilUser->getPref("language"));
+            ilSession::set("lang", $ilUser->getLanguage());
         }
 
         $get_lang = null;

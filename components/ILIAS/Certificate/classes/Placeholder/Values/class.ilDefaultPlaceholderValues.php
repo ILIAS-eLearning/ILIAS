@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Data\UUID\Factory;
+use ILIAS\User\Profile\Profile;
 
 /**
  * Collection of basic placeholder values that can be used
@@ -43,6 +44,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         ?ilCertificateDateHelper $dateHelper = null,
         ?int $unix_ts_format_id = null,
         ?ilLanguage $language = null,
+        ?Profile $profile = null,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null,
         ?ILIAS\Data\UUID\Factory $uuid_factory = null,
@@ -56,16 +58,23 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         $this->unix_ts_format_id = $unix_ts_format_id ?? IL_CAL_UNIX;
         $this->birthdayDateFormat = $birthdayDateFormat ?? IL_CAL_DATE;
 
+        global $DIC;
         if (null === $language) {
-            global $DIC;
             $language = $DIC->language();
             $language->loadLanguageModule('certificate');
         }
         $this->language = $language;
 
+        $profile ??= $DIC['user']->getProfile();
+
         $this->utilHelper = $utilHelper ?? new ilCertificateUtilHelper();
         $this->userDefinedFieldsPlaceholderValues =
-            $userDefinedFieldsPlaceholderValues ?? new ilUserDefinedFieldsPlaceholderValues();
+            $userDefinedFieldsPlaceholderValues ?? new ilUserDefinedFieldsPlaceholderValues(
+                $this->language,
+                new ilCertificateObjectHelper(),
+                $profile,
+                new ilCertificateUtilHelper()
+            );
         $this->uuid_factory = $uuid_factory ?? new ILIAS\Data\UUID\Factory();
 
         $this->placeholder = [

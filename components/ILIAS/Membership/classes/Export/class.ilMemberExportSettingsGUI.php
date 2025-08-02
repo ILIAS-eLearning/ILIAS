@@ -35,6 +35,7 @@ class ilMemberExportSettingsGUI
     private int $parent_obj_id = 0;
     private \ILIAS\HTTP\Services $http;
     private \ILIAS\Refinery\Factory $refinery;
+    private Profile $profile;
 
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrlInterface $ctrl;
@@ -59,6 +60,7 @@ class ilMemberExportSettingsGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->profile = $DIC['user']->getProfile();
     }
 
     private function getLang(): ilLanguage
@@ -114,7 +116,7 @@ class ilMemberExportSettingsGUI
         }
 
         // udf
-        $exportable = (new Profile())->getVisibleUserDefinedFields(Context::buildFromObjectType($this->type));
+        $exportable = $this->profile->getVisibleUserDefinedFields(Context::buildFromObjectType($this->type));
         foreach ($exportable as $field) {
             $fields['udf_' . $field->getIdentifier()] = $field->getLabel($this->lng);
         }

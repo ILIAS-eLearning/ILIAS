@@ -31,6 +31,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
 
     private ilSamlIdp $idp;
     private readonly ilLanguage $lng;
+    private readonly Profile $profile;
     /** @var array<string, mixed> */
     private array $attributes = [];
     private string $return_to = '';
@@ -49,6 +50,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
         parent::__construct($credentials);
 
         $this->lng = $DIC->language();
+        $this->profile = $DIC['user']->getProfile();
 
         if (null === $a_idp_id || 0 === $a_idp_id) {
             $this->idp = ilSamlIdp::getFirstActiveIdp();
@@ -516,7 +518,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
     private function initUserDefinedFields(): void
     {
         if ($this->user_defined_fields === null) {
-            $this->user_defined_fields = (new Profile())->getAllUserDefinedFields();
+            $this->user_defined_fields = $this->profile->getAllUserDefinedFields();
         }
     }
 }

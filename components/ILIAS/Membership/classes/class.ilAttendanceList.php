@@ -32,6 +32,7 @@ class ilAttendanceList
     protected ilLanguage $lng;
     protected ilCtrlInterface $ctrl;
     protected ilGlobalTemplateInterface $tpl;
+    protected Profile $profile;
     protected object $parent_gui;
     protected ilObject $parent_obj;
     protected ?ilParticipants $participants;
@@ -65,6 +66,7 @@ class ilAttendanceList
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
+        $this->profile = $DIC['user']->getProfile();
 
         $this->parent_gui = $a_parent_gui;
         $this->parent_obj = $a_parent_obj;
@@ -136,7 +138,7 @@ class ilAttendanceList
         }
 
         // add udf fields
-        foreach ((new Profile())->getVisibleUserDefinedFields(
+        foreach ($this->profile->getVisibleUserDefinedFields(
             Context::buildFromObjectType($this->parent_obj->getType())
         ) as $field) {
             $this->presets['udf_' . $field->getIdentifier()] = array(
@@ -220,12 +222,14 @@ class ilAttendanceList
             }
         }
 
-        foreach ((new Profile())->getVisibleUserDefinedFields(
+        foreach ($this->profile->getVisibleUserDefinedFields(
             Context::buildFromObjectType($this->parent_obj->getType())
         ) as $field) {
+            $profile_data = $this->profile->getDataForMultiple([$user_id]);
             foreach ($profile_data as $user_id => $field) {
-                $udf_data = new ilUserDefinedData($user_id);
-                $a_res[$user_id]['udf_' . $field->getIdentifier()] = $udf_data->get('f_' . $field->getIdentifier());
+                $a_res[$user_id]['udf_' . $field->getIdentifier()] = $profile_data->getAdditionalFieldByIdentifier(
+                    $field->getIdentifier()
+                );
             }
         }
 

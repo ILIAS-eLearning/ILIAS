@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
-use ILIAS\User\Settings\User\PersonalSettingsGUI;
+use ILIAS\User\Settings\PersonalSettingsGUI;
 use ILIAS\User\Profile\PersonalProfileGUI;
 
 /**
@@ -27,7 +27,7 @@ use ILIAS\User\Profile\PersonalProfileGUI;
  * @ilCtrl_Calls ilDashboardGUI: ilObjUserGUI, ilPDNotesGUI
  * @ilCtrl_Calls ilDashboardGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilDashboardGUI: ilMailSearchGUI, ilContactGUI
- * @ilCtrl_Calls ilDashboardGUI: ilPersonalWorkspaceGUI, ILIAS\User\Settings\User\PersonalSettingsGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilPersonalWorkspaceGUI, ILIAS\User\Settings\PersonalSettingsGUI
  * @ilCtrl_Calls ilDashboardGUI: ilLocalUserPasswordSettingsGUI
  * @ilCtrl_Calls ilDashboardGUI: ilPortfolioRepositoryGUI, ilObjChatroomGUI
  * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI

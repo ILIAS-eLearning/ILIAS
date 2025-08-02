@@ -217,8 +217,8 @@ class ilUserSearchOptions
     {
         global $DIC;
         $lng = $DIC->language();
-        foreach ((new Profile())->getVisibleUserDefinedFields(Context::Search) as $field) {
-            $input = $field->getInput();
+        foreach ($DIC['user']->getProfile()->getVisibleUserDefinedFields(Context::Search) as $field) {
+            $input = $field->getLegacyInput($lng, Context::Search);
             if ($input instanceof ilSelectInputGUI) {
                 $fields[$counter]['values'] = ilUserSearchOptions::__prepareValues($input->getOptions());
                 $fields[$counter]['type'] = self::FIELD_TYPE_UDF_SELECT;

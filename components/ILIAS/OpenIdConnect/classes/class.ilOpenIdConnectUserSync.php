@@ -46,7 +46,7 @@ class ilOpenIdConnectUserSync
         $this->logger = $DIC->logger()->auth();
         $this->lng = $DIC->language();
         $this->writer = new ilXmlWriter();
-        $this->user_defined_fields = (new Profile())->getAllUserDefinedFields();
+        $this->user_defined_fields = $DIC['user']->getProfile()->getAllUserDefinedFields();
     }
 
     public function setExternalAccount(string $ext_account): void

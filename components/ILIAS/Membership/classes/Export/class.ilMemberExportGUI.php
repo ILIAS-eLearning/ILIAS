@@ -40,6 +40,7 @@ class ilMemberExportGUI
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected ilToolbarGUI $toolbar;
+    protected Profile $profile;
 
     protected ?ilMemberExport $export = null;
     protected ?ilExportFieldsInfo $fields_info = null;
@@ -61,6 +62,7 @@ class ilMemberExportGUI
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->toolbar = $DIC->toolbar();
+        $this->profile = $DIC['user']->getProfile();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('ps');
         $this->ref_id = $a_ref_id;
@@ -143,11 +145,11 @@ class ilMemberExportGUI
         }
 
         // udf
-        foreach ((new Profile())->getVisibleUserDefinedFields(Context::buildFromObjectType($this->type)) as $field) {
+        foreach ($this->profile->getVisibleUserDefinedFields(Context::buildFromObjectType($this->type)) as $field) {
             $field_id = 'udf_' . $field->getIdentifier();
             $udata->addOption(new ilCheckboxOption($field->getLabel($this->lng), $field_id));
-            if ($this->exportSettings->enabled($field)) {
-                $current_udata[] = $field;
+            if ($this->exportSettings->enabled($field_id)) {
+                $current_udata[] = $field_id;
             }
         }
 

@@ -372,7 +372,6 @@ class ilAuthProviderECS extends ilAuthProvider
         $userObj->setLanguage($this->setting->get("language"));
 
         // Time limit
-        $userObj->setTimeLimitOwner(7);
         $userObj->setTimeLimitUnlimited(false);
         $userObj->setTimeLimitFrom(time() - 5);
         $userObj->setTimeLimitUntil(time() + (int) $this->clientIniFile->readVariable("session", "expire"));
@@ -419,8 +418,8 @@ class ilAuthProviderECS extends ilAuthProvider
             $user_obj->setTimeLimitFrom(time() - 60);
             $user_obj->setTimeLimitUntil(time() + (int) $this->clientIniFile->readVariable("session", "expire"));
         }
-        $user_obj->update();
         $user_obj->refreshLogin();
+        $user_obj->update();
 
         if ($this->getCurrentServer()->getGlobalRole()) {
             $this->rbacAdmin->assignUser(

@@ -26,12 +26,18 @@ use ILIAS\User\Context;
  */
 class ilCertificateUserDefinedFieldsHelper
 {
+    private readonly Profile $profile;
+    public function __construct()
+    {
+        global $DIC;
+        $this->profile = $DIC['user']->getProfile();
+    }
     /**
      *
      * @return <ILIAS\User\Profile\Fields\Custom\Custom>
      */
     public function getFields(): array
     {
-        return (new Profile())->getVisibleUserDefinedFields(Context::Certificate);
+        return $this->profile->getVisibleUserDefinedFields(Context::Certificate);
     }
 }

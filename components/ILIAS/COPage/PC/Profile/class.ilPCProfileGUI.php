@@ -139,7 +139,7 @@ class ilPCProfileGUI extends ilPageContentGUI
             $prefs = array();
             if ($mode_value == "manual") {
                 foreach ($this->content_obj->getFields() as $name) {
-                    $prefs["public_" . $name] = "y";
+                    $prefs["public_" . $name] = true;
                 }
             }
         }
