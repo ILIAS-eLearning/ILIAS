@@ -5835,7 +5835,7 @@ common#:#udf_type_date#:#Datum
 common#:#udf_type_datetime#:#Datum och tid
 common#:#udf_type_select#:#Urvalslista (enstaka urval)
 common#:#udf_type_text#:#Text (fri inmatning)
-common#:#udf_type_wysiwyg#:#Textområde (WYSIWYG)
+common#:#udf_type_textarea#:#Textområde (WYSIWYG)
 common#:#udf_update_select_field#:#Redigera urvalslista
 common#:#udf_update_text_field#:#Redigera textfält
 common#:#udf_update_wysiwyg_field#:#Redigera fält för textområde (WYSIWYG)

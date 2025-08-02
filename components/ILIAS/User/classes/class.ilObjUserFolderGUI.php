@@ -272,12 +272,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
                         $this->event,
                         $this->access,
                         $this->settings,
+                        $this->toolbar,
                         $this->tpl,
                         $this->ui_factory,
                         $this->ui_renderer,
                         $this->refinery,
                         $this->request,
                         $this->request_wrapper,
+                        $this->post_wrapper,
                         $this->http
                     )
                 );

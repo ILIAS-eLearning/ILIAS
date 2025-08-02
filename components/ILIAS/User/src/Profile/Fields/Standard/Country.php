@@ -20,20 +20,23 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields\Standard;
 
+use ILIAS\User\Profile\Fields\NoOverrides;
 use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
 use ILIAS\Language\Language;
 
 class Country implements FieldDefinition
 {
+    use NoOverrides;
+
     public function getIdentifier(): string
     {
         return 'country';
     }
 
-    public function getLanguageVariable(): string
+    public function getLabel(Language $lng): string
     {
-        return 'sel_country';
+        return $lng->txt('sel_country');
     }
 
     public function getSection(): AvailableSections
@@ -41,77 +44,29 @@ class Country implements FieldDefinition
         return AvailableSections::ContactData;
     }
 
-    public function hiddenInLists(): bool
+    public function availableInCertificatesForcedTo(): ?bool
     {
-        return null;
-    }
-
-    public function visibleInPersonalDataForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function visibleInLocalUserAdministrationForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function visibleInCoursesForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function visibleInGroupsForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function visibleInStudyProgrammesForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function changeableByUserForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function changeableInLocalUserAdministrationForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function requiredForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function exportForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function searchableForcedTo(): ?bool
-    {
-        return null;
+        return true;
     }
 
     public function getInput(
         Language $lng,
         \ilObjUser $current_user
     ): \ilFormPropertyGUI {
-        $input = new \ilCountrySelectInputGUI($lng->txt($this->getLanguageVariable()));
+        $input = new \ilCountrySelectInputGUI($this->getLabel($lng));
         $input->setValue(
             $this->getValueForUser($current_user)
         );
         return $input;
     }
 
-    public function storeUserInput(
+    public function addValueToUserObject(
         \ilObjUser $current_user,
-        mixed $input
-    ): void {
+        mixed $input,
+        ?\ilPropertyFormGUI $form = null
+    ): \ilObjUser {
         $current_user->setSelectedCountry($input);
+        return $current_user;
     }
 
     public function getValueForUser(\ilObjUser $current_user): string

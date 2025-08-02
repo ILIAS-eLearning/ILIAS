@@ -5835,7 +5835,7 @@ common#:#udf_type_date#:#Inserir pergunta
 common#:#udf_type_datetime#:#Data e hora
 common#:#udf_type_select#:#Inserir espaço
 common#:#udf_type_text#:#Inserir dados pessoais
-common#:#udf_type_wysiwyg#:#Área de texto (WYSIWYG)
+common#:#udf_type_textarea#:#Área de texto (WYSIWYG)
 common#:#udf_update_select_field#:#Editar caixa de seleção
 common#:#udf_update_text_field#:#Editar campo de texto
 common#:#udf_update_wysiwyg_field#:#Editar área de texto (WYSIWYG) campo

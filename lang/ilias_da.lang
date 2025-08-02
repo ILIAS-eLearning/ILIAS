@@ -5835,7 +5835,7 @@ common#:#udf_type_date#:#Datofelt
 common#:#udf_type_datetime#:#Dato og tid
 common#:#udf_type_select#:#Rummemenu (begrænsede valgmuligheder)
 common#:#udf_type_text#:#Tekstfelt (valgfrie værdier)
-common#:#udf_type_wysiwyg#:#Fritekst (WYSIWYG)
+common#:#udf_type_textarea#:#Fritekst (WYSIWYG)
 common#:#udf_update_select_field#:#Ret rullemenu
 common#:#udf_update_text_field#:#Ret tekstfelt
 common#:#udf_update_wysiwyg_field#:#Ret (WYSIWYG) tekstområde felt

@@ -5820,7 +5820,7 @@ common#:#udf_type_date#:#Zone date
 common#:#udf_type_datetime#:#Date et Heure
 common#:#udf_type_select#:#Boîte de sélection (Les valeurs sont fixées)
 common#:#udf_type_text#:#Zone Texte (Valeurs facultatives)
-common#:#udf_type_wysiwyg#:#Zone de texte (WYSIWYG)
+common#:#udf_type_textarea#:#Zone de texte (WYSIWYG)
 common#:#udf_update_select_field#:#Éditer Boîte de Sélection
 common#:#udf_update_text_field#:#Éditer le Champ Texte
 common#:#udf_update_wysiwyg_field#:#Modifier la zone de texte (WYSIWYG)

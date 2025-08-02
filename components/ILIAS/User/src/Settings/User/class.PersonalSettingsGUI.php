@@ -77,7 +77,7 @@ class PersonalSettingsGUI
 
         $this->ctrl->saveParameter($this, 'user_page');
 
-        $this->user_settings_repository = LocalDIC::dic()['settings.user.repository'];
+        $this->user_settings_repository = LocalDIC::dic()[Repository::class];
 
         $this->tabs = new SettingsTabs(
             $DIC['ilTabs'],
@@ -149,7 +149,7 @@ class PersonalSettingsGUI
                 $set_settings_to_default = true;
             }
             foreach ($settings as $setting) {
-                $setting->storeUserInput(
+                $setting->persistUserInput(
                     $this->current_user,
                     $set_settings_to_default ? null : $form->getInput($setting->getIdentifier()),
                     $form
@@ -174,9 +174,11 @@ class PersonalSettingsGUI
             $this->getSettingsForPageBySections(),
             fn(\ilPropertyFormGUI $c, array $v): \ilPropertyFormGUI => $this->addSectionToForm(
                 $c,
-                array_filter(
-                    $v,
-                    static fn(Setting $v): bool => $v->isVisibleInPersonalData()
+                array_values(
+                    array_filter(
+                        $v,
+                        static fn(Setting $v): bool => $v->isChangeableByUser()
+                    )
                 )
             ),
             new \ilPropertyFormGUI()
@@ -245,7 +247,6 @@ class PersonalSettingsGUI
             $section,
             function (\ilPropertyFormGUI $c, Setting $v): \ilPropertyFormGUI {
                 $input = $v->getInput($this->lng, $this->current_user);
-                $input->setDisabled(!$v->isVisibleInPersonalData());
                 $c->addItem($input);
                 return $c;
             },
@@ -262,9 +263,8 @@ class PersonalSettingsGUI
             function (array $c, Setting $v): array {
                 $input = $v->getInput($this->lng, $this->current_user);
                 $input->setPostVar($v->getIdentifier());
-                $input->setDisabled(!$v->isVisibleInPersonalData());
                 $c['checkbox']->addSubItem($input);
-                $c['defaults'] .= "{$this->lng->txt($v->getLanguageVariable())}: "
+                $c['defaults'] .= "{$v->getLabel($this->lng)}: "
                     . "{$v->getDefaultValueForDisplay($this->lng, $this->refinery, $this->settings)}; ";
                 if ($v->hasUserPersonalizedSetting($this->settings, $this->current_user)) {
                     $c['has_personalization'] = true;
@@ -276,7 +276,7 @@ class PersonalSettingsGUI
                     $this->lng->txt("personalise_{$section[0]->getSection()->value}"),
                     $section[0]->getSection()->value
                 ),
-                'defaults' => "{$this->lng->txt('default')}: ",
+                'defaults' => "{$this->lng->txt('default')}<br>",
                 'has_personalization' => false
             ]
         );

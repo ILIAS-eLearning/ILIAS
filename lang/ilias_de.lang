@@ -3742,6 +3742,7 @@ common#:#condition_not_finished#:#Nicht beendet
 common#:#condition_passed#:#Bestanden
 common#:#condition_select_object#:#Bitte wählen Sie das Objekt aus, das für die Vorbedingung genutzt werden soll.
 common#:#conditions_updated#:#Die Bedingungen wurden gespeichert.
+common#:#configuration#:#Konfiguration
 common#:#confirm#:#Bestätigen
 common#:#confirm_delete_parameter#:#Wollen Sie den Parameter wirklich löschen?
 common#:#confirmation#:#Aktion bestätigen
@@ -5778,7 +5779,7 @@ common#:#udf_type_date#:#Datum
 common#:#udf_type_datetime#:#Datum und Uhrzeit
 common#:#udf_type_select#:#Auswahlliste (Einfachauswahl)
 common#:#udf_type_text#:#Text (freie Eingabe)
-common#:#udf_type_wysiwyg#:#Textbereich (WYSIWYG)
+common#:#udf_type_textarea#:#Textbereich
 common#:#udf_update_select_field#:#Auswahlliste bearbeiten
 common#:#udf_update_text_field#:#Textfeld bearbeiten
 common#:#udf_update_wysiwyg_field#:#Feld für Textbereich bearbeiten (WYSIWYG)
@@ -17328,6 +17329,7 @@ user#:#email_could_not_be_changed#:#Ihre E-Mail-Adresse konnte nicht geändert w
 user#:#enable_local_user_administration#:#Lokale Konten
 user#:#enable_local_user_administration_info#:#In Kategorien und Organisationseinheiten erscheint ein Reiter „Lokale Konten”. Dort können lokale ILIAS-Konten angelegt, importiert und verwaltet werden. Damit können auch Personen ohne Zugriff auf die Administration neue ILIAS-Konten anlegen.
 user#:#feedhash#:#Newsfeed-Hash
+user#:#field_type_custom#:#Selbstdefiniert
 user#:#has_role#:#Rolle
 user#:#info_accessFree_sure#:#Sind Sie sicher, dass Sie die Befristung des Zugangs der folgenden Konten entfernen möchten?
 user#:#inform_user_mail_info#:#An die oben eingetragene E-Mail-Adresse wird eine Benachrichtigung gesendet. Deren Inhalt kann definiert werden in der Administration: „Konten und Rollen » ILIAS-Konten”, Reiter „Einstellungen : Benachrichtigung über Neuanmeldung”

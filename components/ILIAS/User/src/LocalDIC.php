@@ -24,10 +24,12 @@ use ILIAS\User\Settings\User\Repository as UserSettingsRepository;
 use ILIAS\User\Settings\StartingPoint\Repository as StartingPointRepository;
 use ILIAS\User\Settings\User\CollectSettingsObjective;
 use ILIAS\User\Profile\Fields\Repository as ProfileFieldsRepository;
+use ILIAS\User\Profile\Fields\Custom\CollectTypesObjective;
 use ILIAS\User\Profile\Fields\Standard;
 use ILIAS\User\Profile\ChangeListeners\CollectListenersObjective;
 use Pimple\Container as PimpleContainer;
 use ILIAS\DI\Container as ILIASContainer;
+use ILIAS\Data\UUID\Factory as UUIDFactory;
 
 class LocalDIC extends PimpleContainer
 {
@@ -46,14 +48,14 @@ class LocalDIC extends PimpleContainer
 
     private function init(ILIASContainer $DIC): void
     {
-        $this['settings.user.repository'] = fn($c): UserSettingsRepository =>
+        $this[UserSettingsRepository::class] = fn($c): UserSettingsRepository =>
             new UserSettingsRepository(
                 $DIC['ilSetting'],
                 is_readable(CollectSettingsObjective::PATH())
                     ? include CollectSettingsObjective::PATH()
                     : []
             );
-        $this['settings.starting_point.repository'] = fn($c): StartingPointRepository =>
+        $this[StartingPointRepository::class] = fn($c): StartingPointRepository =>
             new StartingPointRepository(
                 $DIC['ilUser'],
                 $DIC['ilDB'],
@@ -62,13 +64,16 @@ class LocalDIC extends PimpleContainer
                 $DIC['rbacreview'],
                 $DIC['rbacsystem'],
                 $DIC['ilSetting'],
-                $c['settings.user.repository']
+                $c[UserSettingsRepository::class]
             );
-        $this['profile.fields.repository'] = fn($c): ProfileFieldsRepository =>
+        $this[ProfileFieldsRepository::class] = fn($c): ProfileFieldsRepository =>
             new ProfileFieldsRepository(
-                $DIC['ilSetting'],
                 $DIC['ilDB'],
-                [
+                new UUIDFactory(),
+                is_readable(CollectTypesObjective::PATH())
+                ? include CollectTypesObjective::PATH()
+                : [],
+                array_filter([
                     new Standard\Username(),
                     new Standard\FirstName(),
                     new Standard\LastName(),
@@ -97,8 +102,9 @@ class LocalDIC extends PimpleContainer
                     new Standard\SecondEmail(),
                     new Standard\Hobby(),
                     new Standard\HearedAboutILIASFrom(),
-                    new Standard\Matriculation()
-                ]
+                    new Standard\Matriculation(),
+                    \ilMapUtil::isActivated() ? new Standard\Location() : null
+                ])
             );
         $this['profile.fields.changelisteners'] = fn($c): array =>
             is_readable(CollectListenersObjective::PATH())

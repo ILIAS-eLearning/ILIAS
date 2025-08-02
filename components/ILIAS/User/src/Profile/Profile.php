@@ -54,7 +54,7 @@ class Profile
         $this->rbac_review = $DIC['rbacreview'];
 
         $this->user_settings_config = new \ilUserSettingsConfig();
-        $this->profile_fields_repository = LocalDIC::dic()['profile.fields.repository'];
+        $this->profile_fields_repository = LocalDIC::dic()[ProfileFieldsRepository::class];
         $this->user_fields = $this->profile_fields_repository->get();
 
         $this->skip_groups = [];

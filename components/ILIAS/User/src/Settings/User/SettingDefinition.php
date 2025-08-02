@@ -36,4 +36,15 @@ interface SettingDefinition extends Property
         \ilSetting $settings,
         \ilObjUser $current_user
     ): bool;
+
+    /**
+     * @param mixed $input `Null` will be handed in, if the  user
+     * wants to use the system default. If you are able to set the preference on
+     * the user without saving it, you can rely on the User-object being saved
+     * after the call to this function.
+     */
+    public function persistUserInput(
+        \ilObjUser $current_user,
+        mixed $input
+    ): void;
 }

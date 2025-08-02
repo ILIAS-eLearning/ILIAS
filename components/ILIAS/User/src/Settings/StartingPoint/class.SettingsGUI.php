@@ -71,7 +71,7 @@ class SettingsGUI
             $DIC->refinery()
         );
 
-        $this->starting_point_repository = LocalDIC::dic()['settings.starting_point.repository'];
+        $this->starting_point_repository = LocalDIC::dic()[Repository::class];
 
         $this->parent_ref_id = $a_parent_ref_id;
 

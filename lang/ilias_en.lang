@@ -3742,6 +3742,7 @@ common#:#condition_not_finished#:#Not finished
 common#:#condition_passed#:#Passed
 common#:#condition_select_object#:#Please select one object.
 common#:#conditions_updated#:#Conditions saved
+common#:#configuration#:#Configuration
 common#:#confirm#:#Confirm
 common#:#confirm_delete_parameter#:#Do you really want to delete the parameter?
 common#:#confirmation#:#Confirmation
@@ -4395,7 +4396,7 @@ common#:#installed_local#:#Installed With Custom file
 common#:#instant_messengers#:#Instant Messengers
 common#:#institution#:#Institution
 common#:#internal_local_roles_only#:#Local roles (only automatically generated)
-common#:#invalid_visible_required_options_selected#:#All fields set to required has to be set to visible in registration, too.
+common#:#invalid_visible_required_options_selected#:#All fields set to required have to be set to visible in registration, too.
 common#:#invisible_block#:#Invisible Block
 common#:#invisible_block_mess#:#You do not have the permission to view this block.
 common#:#ip_address#:#IP Address
@@ -5779,7 +5780,7 @@ common#:#udf_type_date#:#Date
 common#:#udf_type_datetime#:#Date and Time
 common#:#udf_type_select#:#Selection List (Single Choice)
 common#:#udf_type_text#:#Text Field (One Line)
-common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)
+common#:#udf_type_textarea#:#Text Area
 common#:#udf_update_select_field#:#Edit Select Box
 common#:#udf_update_text_field#:#Edit Text Field
 common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field
@@ -17328,6 +17329,7 @@ user#:#email_could_not_be_changed#:#The request to change your email could not b
 user#:#enable_local_user_administration#:#Enable Local User Administration
 user#:#enable_local_user_administration_info#:#Allow local user accounts to be administrated in categories and organisational units.
 user#:#feedhash#:#Newsfeedhash
+user#:#field_type_custom#:#Custom
 user#:#has_role#:#Role
 user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?
 user#:#inform_user_mail_info#:#If activated, an e-mail will be sent to the user. Its content can be defined in 'Administration » Users and Roles » User Management', tab 'Settings : New Account Mail'.

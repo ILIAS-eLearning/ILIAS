@@ -20,62 +20,30 @@ namespace ILIAS\User;
 
 enum PropertyAttributes: string
 {
-    private const string LANG_VAR_VISIBLE_IN_REGISTRATION = 'header_visible_registration';
-    private const string LANG_VAR_HIDDEN_FROM_USER = 'user_visible_in_profile';
-    private const string LANG_VAR_VISIBLE_IN_LOCAL_USER_ADMINISTRATION = 'usr_settings_visib_lua';
-    private const string LANG_VAR_VISIBLE_IN_COURSES = 'course_export';
-    private const string LANG_VAR_VISIBLE_IN_GROUPS = 'group_export';
-    private const string LANG_VAR_VISIBLE_IN_STUDY_PROGRAMMES = 'prg_export';
-    private const string LANG_VAR_UNCHANGEABLE_BY_USER = 'changeable';
-    private const string LANG_VAR_CHANGEABLE_IN_LOCAL_USER_ADMINISTRATION = 'usr_settings_changeable_lua';
-    private const string LANG_VAR_REQUIRED = 'required_field';
-    private const string LANG_VAR_EXPORT = 'export';
-    private const string LANG_VAR_SEARCHABLE = 'header_searchable';
-    private const string LANG_VAR_AVAILABLE_IN_CERTIFICATES = 'certificate';
+    private const string SETTINGS_ACCESS_PREFIX_CHANGEABLE_BY_USER = 'usr_settings_changeable_by_user';
+    private const string SETTINGS_ACCESS_PREFIX_CHANGEABLE_IN_LUA = 'usr_settings_changeable_lua';
+    private const string SETTINGS_ACCESS_PREFIX_EXPORT = 'usr_settings_export';
 
-    case VisibleInRegistration = 'usr_settings_visib_reg';
-    case HiddenFromUser = 'usr_settings_hide';
+    case VisibleInRegistration = 'header_visible_registration';
+    case VisibleToUser = 'user_visible_in_profile';
     case VisibleInLocalUserAdministration = 'usr_settings_visib_lua';
-    case VisibleInCourses = 'usr_settings_course_export';
-    case VisibleInGroups = 'usr_settings_group_export';
-    case VisibleInStudyProgrammes = 'usr_settings_prg_export';
-    case UnchangeableByUser = 'usr_settings_disable';
+    case VisibleInCourses = 'course_export';
+    case VisibleInGroups = 'group_export';
+    case VisibleInStudyProgrammes = 'prg_export';
+    case ChangeableByUser = 'changeable';
     case ChangeableInLocalUserAdministration = 'usr_settings_changeable_lua';
-    case Required = 'require';
-    case Export = 'usr_settings_export';
-    case Searchable = 'search_enabled';
+    case Required = 'required_field';
+    case Export = 'export';
+    case Searchable = 'header_searchable';
     case AvailableInCertificates = 'certificate';
 
-    public function getLanguageVariable(): string
+    public function getSettingsAccessPrefix(): string
     {
         return match($this) {
-            self::VisibleInRegistration => self::LANG_VAR_VISIBLE_IN_REGISTRATION,
-            self::HiddenFromUser => self::LANG_VAR_HIDDEN_FROM_USER,
-            self::VisibleInLocalUserAdministration => self::LANG_VAR_VISIBLE_IN_LOCAL_USER_ADMINISTRATION,
-            self::VisibleInCourses => self::LANG_VAR_VISIBLE_IN_COURSES,
-            self::VisibleInGroups => self::LANG_VAR_VISIBLE_IN_GROUPS,
-            self::VisibleInStudyProgrammes => self::LANG_VAR_VISIBLE_IN_STUDY_PROGRAMMES,
-            self::UnchangeableByUser => self::LANG_VAR_UNCHANGEABLE_BY_USER,
-            self::ChangeableInLocalUserAdministration => self::LANG_VAR_CHANGEABLE_IN_LOCAL_USER_ADMINISTRATION,
-            self::Required => self::LANG_VAR_REQUIRED,
-            self::Export => self::LANG_VAR_EXPORT,
-            self::Searchable => self::LANG_VAR_SEARCHABLE,
-            self::AvailableInCertificates => self::LANG_VAR_AVAILABLE_IN_CERTIFICATES
+            self::ChangeableByUser => self::SETTINGS_ACCESS_PREFIX_CHANGEABLE_BY_USER,
+            self::ChangeableInLocalUserAdministration => self::SETTINGS_ACCESS_PREFIX_CHANGEABLE_IN_LUA,
+            self::Export => self::SETTINGS_ACCESS_PREFIX_EXPORT,
+            default => throw new \Exception('Not a valid setting!')
         };
-    }
-
-    public function retrieve(
-        \ilSetting $settings,
-        Property $property
-    ): bool {
-        return $settings->get("{$this->value}_{$property->getIdentifier()}", '0') === '1';
-    }
-
-    public function store(
-        \ilSetting $settings,
-        Property $property,
-        bool $value
-    ): void {
-        $settings->set("{$this->value}_{$property->getIdentifier()}", $value ? '1' : '0');
     }
 }

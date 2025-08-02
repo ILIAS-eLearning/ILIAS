@@ -33,7 +33,7 @@ enum FormTypes
     {
         return match($this) {
             self::Registration => $field->isVisibleInRegistration(),
-            self::PersonalProfile => $field->isVisibleInPersonalData(),
+            self::PersonalProfile => $field->isVisibleToUser(),
             self::LocalUserAdministration => $field->isVisibleInLocalUserAdministration(),
             self::UserAdministration => true
         };

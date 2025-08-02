@@ -20,20 +20,23 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields\Standard;
 
+use ILIAS\User\Profile\Fields\NoOverrides;
 use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
 use ILIAS\Language\Language;
 
 class Interest implements FieldDefinition
 {
+    use NoOverrides;
+
     public function getIdentifier(): string
     {
         return 'interests';
     }
 
-    public function getLanguageVariable(): string
+    public function getLabel(Language $lng): string
     {
-        return 'interests_general';
+        return $lng->txt('interests_general');
     }
 
     public function getSection(): AvailableSections
@@ -44,16 +47,6 @@ class Interest implements FieldDefinition
     public function hiddenInLists(): bool
     {
         return true;
-    }
-
-    public function visibleInPersonalDataForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function visibleInLocalUserAdministrationForcedTo(): ?bool
-    {
-        return null;
     }
 
     public function visibleInCoursesForcedTo(): ?bool
@@ -71,36 +64,16 @@ class Interest implements FieldDefinition
         return false;
     }
 
-    public function changeableByUserForcedTo(): ?bool
+    public function availableInCertificatesForcedTo(): ?bool
     {
-        return null;
-    }
-
-    public function changeableInLocalUserAdministrationForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function requiredForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function exportForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function searchableForcedTo(): ?bool
-    {
-        return null;
+        return false;
     }
 
     public function getInput(
         Language $lng,
         \ilObjUser $current_user
     ): \ilFormPropertyGUI {
-        $input = new \ilTextInputGUI($lng->txt($this->getLanguageVariable()));
+        $input = new \ilTextInputGUI($this->getLabel($lng));
         $input->setMulti(true);
         $input->setMaxLength(40);
         $input->setValue(
@@ -109,11 +82,13 @@ class Interest implements FieldDefinition
         return $input;
     }
 
-    public function storeUserInput(
+    public function addValueToUserObject(
         \ilObjUser $current_user,
-        mixed $input
-    ): void {
+        mixed $input,
+        ?\ilPropertyFormGUI $form = null
+    ): \ilObjUser {
         $current_user->setGeneralInterests($input);
+        return $current_user;
     }
 
     public function getValueForUser(\ilObjUser $current_user): array

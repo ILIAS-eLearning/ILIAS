@@ -45,9 +45,9 @@ class SessionReminder implements SettingDefinition
         return true;
     }
 
-    public function getLanguageVariable(): string
+    public function getLabel(Language $lng): string
     {
-        return 'session_reminder';
+        return $lng->txt($this->getIdentifier());
     }
 
     public function getSettingsPage(): AvailablePages
@@ -95,7 +95,7 @@ class SessionReminder implements SettingDefinition
         return  $this->getValueForUser($current_user) !== $this->session_reminder->getGlobalSessionReminderLeadTime();
     }
 
-    public function storeUserInput(
+    public function persistUserInput(
         \ilObjUser $current_user,
         mixed $input
     ): void {

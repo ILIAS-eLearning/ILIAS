@@ -18,23 +18,27 @@
 
 namespace ILIAS\User\Profile\Fields\Custom;
 
-use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
 interface Type
 {
+    public function getLabel(Language $lng): string;
+
     /**
      * MAY return a valid FormInput that will be added to the edit form to specify
-     * the form shown to the user;
+     * the input shown to the user. The Input MUST always return a string value
+     * as it will be saved in the table `udf_definition`. Use Transformations to
+     * generate it and for validation.
      */
     public function getAdditionalEditFormInputs(
         Language $lng,
         FieldFactory $ff,
-        Refinery $refinery
+        Refinery $refinery,
+        ?string $data
     ): ?FormInput;
-
-    public function storeAdditionalEditFormInputs(mixed $value): void;
 
     /**
      * You don't need to add a post_var to the input as the User will handle this
@@ -43,17 +47,16 @@ interface Type
      */
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        string $user_value,
+        string $label,
+        ?string $data
     ): \ilFormPropertyGUI;
 
     /**
-     * @param mixed $input `Null` will be handed in, if the  user
-     * wants to use the system default.
+     * @return array|null Returning null will lead to the deletion of all
+     * current values.
      */
-    public function storeUserInput(
-        \ilObjUser $current_user,
+    public function prepareUserInputForStorage(
         mixed $input
-    ): void;
-
-    public function getValueForUser(\ilObjUser $current_user): mixed;
+    ): ?array;
 }

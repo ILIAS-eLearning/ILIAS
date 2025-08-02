@@ -374,7 +374,7 @@ class ilObjUserFolder extends ilObject
 
         // multi-text
         $multi = [];
-        $set = $ilDB->query("SELECT * FROM usr_data_multi");
+        $set = $ilDB->query("SELECT * FROM usr_profile_data");
         while ($row = $ilDB->fetchAssoc($set)) {
             if (!is_array($user_data_filter) ||
                 in_array($row["usr_id"], $user_data_filter)) {

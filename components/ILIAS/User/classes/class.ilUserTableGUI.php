@@ -562,7 +562,7 @@ class ilUserTableGUI extends ilTable2GUI
      */
     public function addFilterItemByUdfType(
         string $id,
-        int $type,
+        string $type,
         bool $a_optional = false,
         ?string $caption = null,
         array $a_options = []

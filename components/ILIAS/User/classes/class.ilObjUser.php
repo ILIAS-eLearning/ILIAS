@@ -4198,7 +4198,7 @@ class ilObjUser extends ilObject
         }
 
         $set = $ilDB->query('SELECT field_id,value' .
-            ' FROM usr_data_multi' .
+            ' FROM usr_profile_data' .
             ' WHERE usr_id = ' . $ilDB->quote($this->getId(), 'integer') .
             ' ORDER BY value');
         while ($row = $ilDB->fetchAssoc($set)) {
@@ -4247,9 +4247,9 @@ class ilObjUser extends ilObject
                 foreach ($values as $value) {
                     $value = trim($value);
                     if ($value) {
-                        $uniq_id = $ilDB->nextId('usr_data_multi');
+                        $uniq_id = $ilDB->nextId('usr_profile_data');
 
-                        $ilDB->manipulate('INSERT usr_data_multi' .
+                        $ilDB->manipulate('INSERT usr_profile_data' .
                             ' (id,usr_id,field_id,value) VALUES' .
                             ' (' . $ilDB->quote($uniq_id, 'integer') .
                             ',' . $ilDB->quote($this->getId(), 'integer') .
@@ -4272,7 +4272,7 @@ class ilObjUser extends ilObject
             return;
         }
 
-        $ilDB->manipulate('DELETE FROM usr_data_multi' .
+        $ilDB->manipulate('DELETE FROM usr_profile_data' .
             ' WHERE usr_id = ' . $ilDB->quote($this->getId(), 'integer'));
     }
 
@@ -4288,7 +4288,7 @@ class ilObjUser extends ilObject
         $res = [];
 
         $sql = 'SELECT DISTINCT(value)' .
-            ' FROM usr_data_multi' .
+            ' FROM usr_profile_data' .
             ' WHERE ' . $ilDB->like('value', 'text', '%' . $a_term . '%');
         if ($a_field_id) {
             $sql .= ' AND field_id = ' . $ilDB->quote($a_field_id, 'text');

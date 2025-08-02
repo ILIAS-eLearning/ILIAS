@@ -22,43 +22,53 @@ namespace ILIAS\User\Profile\Fields\Custom;
 
 use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
 class Select implements Type
 {
+    public function getLabel(Language $lng): string
+    {
+        return $lng->txt('udf_type_select');
+    }
+
     public function getAdditionalEditFormInputs(
         Language $lng,
         FieldFactory $ff,
-        Refinery $refinery
+        Refinery $refinery,
+        ?string $data
     ): ?FormInput {
-        return $ff->tag($label, $tags);
-    }
-
-    public function storeAdditionalEditFormInputs(mixed $value): void
-    {
-        ;
+        return $ff->tag($lng->txt('options'), [])
+            ->withValue($this->parseData($data))
+            ->withAdditionalTransformation(
+                $refinery->custom()->transformation(
+                    static fn(array $vs): string => json_encode($vs)
+                )
+            );
     }
 
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        string $user_value,
+        string $label,
+        ?string $data
     ): \ilFormPropertyGUI {
-        $input = new \ilTextInputGUI($lng->txt($this->getLanguageVariable()));
-        $input->setValue(
-            $this->getValueForUser($current_user)
-        );
+        $input = new \ilSelectInputGUI($label);
+        $input->setOptions(['' => $lng->txt('please_select')] + $this->parseData($data));
+        $input->setValue($user_value);
         return $input;
     }
 
-    public function storeUserInput(
-        \ilObjUser $current_user,
-        mixed $input
-    ): void {
-        ;
+    public function prepareUserInputForStorage(mixed $input): array
+    {
+        return [$input];
     }
 
-    public function getValueForUser(\ilObjUser $current_user): string
+    private function parseData(?string $data): array
     {
-        ;
+        if ($data === null) {
+            return [];
+        }
+        return json_decode($data) ?? unserialize($data, ['allowed_classes' => false]) ?? [];
     }
 }

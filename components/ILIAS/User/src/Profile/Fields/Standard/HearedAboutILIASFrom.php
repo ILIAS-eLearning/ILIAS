@@ -20,40 +20,28 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields\Standard;
 
+use ILIAS\User\Profile\Fields\NoOverrides;
 use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
 use ILIAS\Language\Language;
 
 class HearedAboutILIASFrom implements FieldDefinition
 {
+    use NoOverrides;
+
     public function getIdentifier(): string
     {
-        return 'referral_comment';
+        return 'heared_about_ilias_from';
     }
 
-    public function getLanguageVariable(): string
+    public function getLabel(Language $lng): string
     {
-        return $this->getIdentifier();
+        return $lng->txt('referral_comment');
     }
 
     public function getSection(): AvailableSections
     {
         return AvailableSections::ContactData;
-    }
-
-    public function hiddenInLists(): bool
-    {
-        return null;
-    }
-
-    public function visibleInPersonalDataForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function visibleInLocalUserAdministrationForcedTo(): ?bool
-    {
-        return null;
     }
 
     public function visibleInCoursesForcedTo(): ?bool
@@ -71,47 +59,29 @@ class HearedAboutILIASFrom implements FieldDefinition
         return false;
     }
 
-    public function changeableByUserForcedTo(): ?bool
+    public function availableInCertificatesForcedTo(): ?bool
     {
-        return null;
-    }
-
-    public function changeableInLocalUserAdministrationForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function requiredForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function exportForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function searchableForcedTo(): ?bool
-    {
-        return null;
+        return false;
     }
 
     public function getInput(
         Language $lng,
         \ilObjUser $current_user
     ): \ilFormPropertyGUI {
-        $input = new \ilTextAreaInputGUI($lng->txt($this->getLanguageVariable()));
+        $input = new \ilTextAreaInputGUI($this->getLabel($lng));
         $input->setValue(
             $this->getValueForUser($current_user)
         );
         return $input;
     }
 
-    public function storeUserInput(
+    public function addValueToUserObject(
         \ilObjUser $current_user,
-        mixed $input
-    ): void {
+        mixed $input,
+        ?\ilPropertyFormGUI $form = null
+    ): \ilObjUser {
         $current_user->setComment($input);
+        return $current_user;
     }
 
     public function getValueForUser(\ilObjUser $current_user): string

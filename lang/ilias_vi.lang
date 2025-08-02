@@ -5837,7 +5837,7 @@ common#:#udf_type_date#:#Date Field###25 09 2007 new variable
 common#:#udf_type_datetime#:#Date and Time###23 07 2008 new variable
 common#:#udf_type_select#:#Select Box (fixed values)###25 02 2007 new variable
 common#:#udf_type_text#:#Text Field (optional values)###25 02 2007 new variable
-common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)###24 07 2009 new variable
+common#:#udf_type_textarea#:#Text Area (WYSIWYG)###24 07 2009 new variable
 common#:#udf_update_select_field#:#Edit Select Box###25 02 2007 new variable
 common#:#udf_update_text_field#:#Edit Text Field###25 02 2007 new variable
 common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field###24 07 2009 new variable

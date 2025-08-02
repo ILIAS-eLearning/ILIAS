@@ -5835,7 +5835,7 @@ common#:#udf_type_date#:#日付
 common#:#udf_type_datetime#:#日付と時間
 common#:#udf_type_select#:#選択一覧 (ドロップして下へ)
 common#:#udf_type_text#:#テキスト欄 (1行)
-common#:#udf_type_wysiwyg#:#テキスト範囲 (WYSIWYG)
+common#:#udf_type_textarea#:#テキスト範囲 (WYSIWYG)
 common#:#udf_update_select_field#:#選択ボックスを編集
 common#:#udf_update_text_field#:#テキスト欄を編集
 common#:#udf_update_wysiwyg_field#:#テキスト範囲欄(WYSIWYG)を編集

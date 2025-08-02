@@ -5835,7 +5835,7 @@ common#:#udf_type_date#:#Datové pole
 common#:#udf_type_datetime#:#Datum a čas
 common#:#udf_type_select#:#Seznam výběru (roleta)
 common#:#udf_type_text#:#Textové pole (jeden řádek)
-common#:#udf_type_wysiwyg#:#Textová plocha (WYSIWYG)
+common#:#udf_type_textarea#:#Textová plocha (WYSIWYG)
 common#:#udf_update_select_field#:#Upravit vybrané pole
 common#:#udf_update_text_field#:#Upravit textové pole
 common#:#udf_update_wysiwyg_field#:#Upravit pole textové plochy (WYSIWYG)

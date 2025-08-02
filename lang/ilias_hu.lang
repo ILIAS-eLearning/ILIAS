@@ -5836,7 +5836,7 @@ common#:#udf_type_date#:#Dátum
 common#:#udf_type_datetime#:#Dátum és idő
 common#:#udf_type_select#:#Kiválasztólista (egyválasztásos)
 common#:#udf_type_text#:#Szövegmező (egysoros)
-common#:#udf_type_wysiwyg#:#Szövegterület (WYSIWYG)
+common#:#udf_type_textarea#:#Szövegterület (WYSIWYG)
 common#:#udf_update_select_field#:#Kiválasztódoboz módosítása
 common#:#udf_update_text_field#:#Szövegmező módosítása
 common#:#udf_update_wysiwyg_field#:#Szövegterület (WYSIWYG) mező módosítása

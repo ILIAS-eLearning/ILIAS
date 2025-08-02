@@ -41,7 +41,10 @@ class CollectTypesObjective extends BuildArtifactObjective
         return new ArrayArtifact(
             array_reduce(
                 $this->contributions,
-                fn(array $c, Settings $settings): array => array_merge($c, $settings->getSettingConfigurations()),
+                static function (array $c, Type $type): array {
+                    $c[] = $type::class;
+                    return $c;
+                },
                 []
             )
         );

@@ -5835,7 +5835,7 @@ common#:#udf_type_date#:#Campo Data
 common#:#udf_type_datetime#:#Data e Ora
 common#:#udf_type_select#:#Menu a tendina (valori fissati)
 common#:#udf_type_text#:#Campo testo (valori opzionali)
-common#:#udf_type_wysiwyg#:#Area di testo (WYSIWYG)
+common#:#udf_type_textarea#:#Area di testo (WYSIWYG)
 common#:#udf_update_select_field#:#Modifica menu a tendina
 common#:#udf_update_text_field#:#Modifica campo testo
 common#:#udf_update_wysiwyg_field#:#Area per la modifica del testo (WYSIWYG)

@@ -20,29 +20,60 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields\Custom;
 
+use ILIAS\User\Profile\Fields\NoOverrides;
 use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
 use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\UUID\Uuid;
 
 class Custom implements FieldDefinition
 {
+    use NoOverrides;
+
     public function __construct(
-        private readonly Type $type,
-        private readonly string $identifier,
-        private readonly AvailableSections $section
+        private readonly Uuid $identifier,
+        private ?Type $type = null,
+        private string $label = '',
+        private ?AvailableSections $section = null,
+        private ?string $additional_edit_form_data = null
     ) {
+    }
+
+    public function isUnspecific(): bool
+    {
+        return $this->type === null;
     }
 
     public function getIdentifier(): string
     {
-        return $this->identifier;
+        return $this->identifier->toString();
     }
 
-    public function getLanguageVariable(): string
+    public function getLabel(Language $lng): string
     {
-        return $this->getIdentifier();
+        return $this->label;
+    }
+
+    public function withLabel(string $label): self
+    {
+        $clone = clone $this;
+        $clone->label = $label;
+        return $clone;
+    }
+
+    public function getTypeLabel(Language $lng): string
+    {
+        return $this->type?->getLabel($lng) ?? '';
+    }
+
+    public function withType(Type $type): self
+    {
+        $clone = clone $this;
+        $clone->type = $type;
+        return $clone;
     }
 
     public function getSection(): AvailableSections
@@ -50,90 +81,87 @@ class Custom implements FieldDefinition
         return $this->section;
     }
 
+    public function withSection(AvailableSections $section): self
+    {
+        $clone = clone $this;
+        $clone->section = $section;
+        return $clone;
+    }
+
     public function hiddenInLists(): bool
     {
         return true;
     }
 
-    public function visibleInPersonalDataForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function visibleInLocalUserAdministrationForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function visibleInCoursesForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function visibleInGroupsForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function visibleInStudyProgrammesForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function changeableByUserForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function changeableInLocalUserAdministrationForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function requiredForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function exportForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function searchableForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function buildAdditionalEditFormInputs(
+    public function getAdditionalEditFormInputs(
         Language $lng,
         FieldFactory $ff,
         Refinery $refinery
     ): ?FormInput {
-        $this->type->getAdditionalEditFormInputs($lng, $ff, $refinery);
+        return $this->type?->getAdditionalEditFormInputs(
+            $lng,
+            $ff,
+            $refinery,
+            $this->additional_edit_form_data
+        );
     }
 
-    public function storeAdditionalEditFormInputs(mixed $value): void
+    public function withAdditionalEditFormData(?string $data): self
     {
-        $this->type->storeAdditionalEditFormInputs($value);
+        $clone = clone $this;
+        $clone->additional_edit_form_data = $data;
+        return $clone;
+    }
+
+    public function toStorage(): array
+    {
+        return [
+            'field_name' => [
+                \ilDBConstants::T_TEXT,
+                $this->label
+            ],
+            'field_type' => [
+                \ilDBConstants::T_TEXT,
+                $this->type::class
+            ],
+            'field_values' => [
+                \ilDBConstants::T_TEXT,
+                $this->additional_edit_form_data
+            ],
+            'section' => [
+                \ilDBConstants::T_TEXT,
+                $this->section->value
+            ]
+        ];
     }
 
     public function getInput(
         Language $lng,
         \ilObjUser $current_user
     ): \ilFormPropertyGUI {
-        $this->type->getInput($lng, $current_user);
+        $udf_data = new \ilUserDefinedData($current_user->getId());
+        $udf_data->get('1');
+        return $this->type->getInput(
+            $lng,
+            $this->getValueForUser($current_user),
+            $this->label,
+            $this->additional_edit_form_data
+        );
     }
 
-    public function storeUserInput(
-        \ilObjUser $current_user,
-        mixed $input
-    ): void {
-        $this->type->storeUserInput($current_user, $input);
+    public function addValueToUserObject(
+        \ilObjUser $user,
+        mixed $input,
+        \ilPropertyFormGUI $form
+    ): \ilObjUser {
+        $current_data = $user->getUserDefinedData();
+        $current_data[$this->getIdentifier()] = $this->type->prepareUserInputForStorage($input);
+        $user->setUserDefinedData($current_data);
+        return $user;
     }
 
     public function getValueForUser(\ilObjUser $current_user): string
     {
-        return $this->type->getValueForUser($current_user);
+        return '';
     }
 }

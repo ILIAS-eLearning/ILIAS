@@ -20,20 +20,23 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields\Standard;
 
+use ILIAS\User\Profile\Fields\NoOverrides;
 use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
 use ILIAS\Language\Language;
 
 class Title implements FieldDefinition
 {
+    use NoOverrides;
+
     public function getIdentifier(): string
     {
         return 'title';
     }
 
-    public function getLanguageVariable(): string
+    public function getLabel(Language $lng): string
     {
-        return $this->getIdentifier();
+        return $lng->txt($this->getIdentifier());
     }
 
     public function getSection(): AvailableSections
@@ -46,61 +49,16 @@ class Title implements FieldDefinition
         return false;
     }
 
-    public function visibleInPersonalDataForcedTo(): ?bool
+    public function availableInCertificatesForcedTo(): ?bool
     {
-        return null;
-    }
-
-    public function visibleInLocalUserAdministrationForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function visibleInCoursesForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function visibleInGroupsForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function visibleInStudyProgrammesForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function changeableByUserForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function changeableInLocalUserAdministrationForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function requiredForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function exportForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function searchableForcedTo(): ?bool
-    {
-        return null;
+        return true;
     }
 
     public function getInput(
         Language $lng,
         \ilObjUser $current_user
     ): \ilFormPropertyGUI {
-        $input = new \ilTextInputGUI($lng->txt($this->getLanguageVariable()));
+        $input = new \ilTextInputGUI($this->getLabel($lng));
         $input->setMaxLength(32);
         $input->setValue(
             $this->getValueForUser($current_user)
@@ -108,11 +66,13 @@ class Title implements FieldDefinition
         return $input;
     }
 
-    public function storeUserInput(
+    public function addValueToUserObject(
         \ilObjUser $current_user,
-        mixed $input
-    ): void {
+        mixed $input,
+        ?\ilPropertyFormGUI $form = null
+    ): \ilObjUser {
         $current_user->setUTitle($input);
+        return $current_user;
     }
 
     public function getValueForUser(\ilObjUser $current_user): string

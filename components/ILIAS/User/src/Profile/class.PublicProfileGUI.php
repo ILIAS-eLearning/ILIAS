@@ -570,53 +570,8 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
             $tpl->setVariable('BUDDY_HTML', $button->getHtml());
         }
 
-<<<<<<< HEAD:components/ILIAS/User/classes/Profile/class.ilPublicUserProfileGUI.php
         //badge
         $tpl->setVariable('USER_BADGES', $this->badges_renderer->render($user->getId()));
-=======
-        // badges
-        $this->tpl->addJavaScript('assets/js/PublicProfileBadges.js');
-        $this->tpl->addOnLoadCode('new BadgeToggle("ilbdgprcont", "ilbdgprfhdm", "ilbdgprfhdl", "ilNoDisplay");');
-        $user_badges = \ilBadgeAssignment::getInstancesByUserId($user->getId());
-        if ($user_badges) {
-            $has_public_badge = false;
-            $cnt = 0;
-
-            $cut = 20;
-
-            foreach ($user_badges as $ass) {
-                // only active
-                if ($ass->getPosition()) {
-                    $cnt++;
-
-                    $renderer = new \ilBadgeRenderer($ass);
-
-                    // limit to 20, [MORE] link
-                    if ($cnt > $cut) {
-                        $tpl->setCurrentBlock('hidden_badge');
-                        $tpl->touchBlock('hidden_badge');
-                        $tpl->parseCurrentBlock();
-                    }
-
-                    $tpl->setCurrentBlock('badge_bl');
-                    $tpl->setVariable('BADGE', $renderer->getHTML());
-                    $tpl->parseCurrentBlock();
-
-                    $has_public_badge = true;
-                }
-            }
-
-            if ($cnt > $cut) {
-                $this->lng->loadLanguageModule('badge');
-                $tpl->setVariable('BADGE_HIDDEN_TXT_MORE', $this->lng->txt('badge_profile_more'));
-                $tpl->setVariable('BADGE_HIDDEN_TXT_LESS', $this->lng->txt('badge_profile_less'));
-            }
-
-            if ($has_public_badge) {
-                $tpl->setVariable('TXT_BADGES', $this->lng->txt('obj_bdga'));
-            }
-        }
->>>>>>> 860f476b1e3 (User: Moving Standard Field to Collector Pattern):components/ILIAS/User/src/Profile/class.PublicProfileGUI.php
 
         $goto = '';
         if ($a_add_goto) {

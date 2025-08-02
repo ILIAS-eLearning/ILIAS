@@ -25,18 +25,14 @@ use ILIAS\User\PropertyAttributes;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
-use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Table\DataRow;
 use ILIAS\UI\Component\Table\DataRowBuilder;
-use ILIAS\UI\Component\Listing\Unordered as UnorderedListing;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
 class Setting implements Property
 {
     public function __construct(
         private SettingDefinition $definition,
-        private bool $visible_in_personal_data,
-        private bool $visible_in_local_user_administration,
         private bool $changeable_by_user,
         private bool $changeable_in_local_user_administration,
         private bool $export
@@ -48,19 +44,9 @@ class Setting implements Property
         return $this->definition->getIdentifier();
     }
 
-    public function getLanguageVariable(): string
+    public function getLabel(Language $lng): string
     {
-        return $this->definition->getLanguageVariable();
-    }
-
-    public function isVisibleInPersonalData(): bool
-    {
-        return $this->visible_in_personal_data;
-    }
-
-    public function isVisibleInLocalUserAdministration(): bool
-    {
-        return $this->visible_in_local_user_administration;
+        return $this->definition->getLabel($lng);
     }
 
     public function isChangeableByUser(): bool
@@ -95,7 +81,7 @@ class Setting implements Property
         return $row_builder->buildDataRow(
             $this->definition->getIdentifier(),
             [
-                'field' => $lng->txt($this->definition->getLanguageVariable()),
+                'field' => $this->definition->getLabel($lng),
                 'changeable_by_user' => $this->changeable_by_user,
                 'changeable_in_local_user_administration' => $this->changeable_in_local_user_administration,
                 'export' => $this->export
@@ -123,20 +109,14 @@ class Setting implements Property
     ): array {
         return [
             'setting' => $ff->group([
-                'visible_in_personal_data' => $ff->checkbox($this->lng->txt(
-                    PropertyAttributes::HiddenFromUser->getLanguageVariable()
-                ))->withValue($this->visible_in_personal_data),
-                'visible_in_local_user_administration' => $ff->checkbox($this->lng->txt(
-                    PropertyAttributes::VisibleInLocalUserAdministration->getLanguageVariable()
-                ))->withValue($this->visible_in_local_user_administration),
-                'changeable_by_user' => $ff->checkbox($this->lng->txt(
-                    PropertyAttributes::UnchangeableByUser->getLanguageVariable()
+                'changeable_by_user' => $ff->checkbox($lng->txt(
+                    PropertyAttributes::ChangeableByUser->value
                 ))->withValue($this->changeable_by_user),
-                'changeable_in_local_user_administration' => $ff->checkbox($this->lng->txt(
-                    PropertyAttributes::ChangeableInLocalUserAdministration->getLanguageVariable()
+                'changeable_in_local_user_administration' => $ff->checkbox($lng->txt(
+                    PropertyAttributes::ChangeableInLocalUserAdministration->value
                 ))->withValue($this->changeable_in_local_user_administration),
-                'export' => $ff->checkbox($this->lng->txt(
-                    PropertyAttributes::Export->getLanguageVariable()
+                'export' => $ff->checkbox($lng->txt(
+                    PropertyAttributes::Export->value
                 ))->withValue($this->export),
             ])->withAdditionalTransformation(
                 $this->buildCreateSettingTransformation($refinery)
@@ -163,12 +143,12 @@ class Setting implements Property
         return $this->definition->hasUserPersonalizedSetting($settings, $current_user);
     }
 
-    public function storeUserInput(
+    public function persistUserInput(
         \ilObjUser $current_user,
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): void {
-        $this->definition->storeUserInput($current_user, $input, $form);
+        $this->definition->persistUserInput($current_user, $input, $form);
     }
 
     public function getValueForUser(\ilObjUser $current_user): mixed
@@ -184,39 +164,12 @@ class Setting implements Property
         return $this->definition->validateUserChoice($tpl, $lng, $form);
     }
 
-    private function buildAccessibilityListing(
-        Language $lng,
-        UIFactory $ui_factory
-    ): UnorderedListing {
-        $granted_accesses = [];
-
-        if ($this->visible_in_personal_data) {
-            $granted_accesses[] = $lng->txt('user_visible_in_profile');
-        }
-
-        if ($this->visible_in_local_user_administration) {
-            $granted_accesses[] = $lng->txt('usr_settings_visib_lua');
-        }
-
-        if ($this->changeable_by_user) {
-            $granted_accesses[] = $lng->txt('changeable');
-        }
-
-        if ($this->changeable_in_local_user_administration) {
-            $granted_accesses[] = $lng->txt('usr_settings_changeable_lua');
-        }
-
-        return $ui_factory->listing()->unordered($granted_accesses);
-    }
-
     private function buildCreateSettingTransformation(
         Refinery $refinery
     ): Transformation {
         return $refinery->custom()->transformation(
             function (array $vs): self {
                 $clone = clone $this;
-                $clone->visible_in_personal_data = $vs['visible_in_personal_data'];
-                $clone->visible_in_local_user_administration = $vs['visible_in_local_user_administration'];
                 $clone->changeable_by_user = $vs['changeable_by_user'];
                 $clone->changeable_in_local_user_administration = $vs['changeable_in_local_user_administration'];
                 $clone->export = $vs['export'];

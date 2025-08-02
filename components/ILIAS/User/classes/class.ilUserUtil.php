@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\User\LocalDIC;
+use ILIAS\User\Settings\StartingPoint\Repository as StartingPointRepository;
 
 /**
  * Class ilUserUtil
@@ -205,6 +206,6 @@ class ilUserUtil
 
     public static function getStartingPointAsUrl(): string
     {
-        return LocalDIC::dic()['settings.starting_point.repository']->getValidAndAccessibleStartingPointAsUrl();
+        return LocalDIC::dic()[StartingPointRepository::class]->getValidAndAccessibleStartingPointAsUrl();
     }
 }

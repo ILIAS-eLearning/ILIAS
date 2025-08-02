@@ -58,29 +58,19 @@ class Repository
 
     public function storeConfiguration(Setting $setting): void
     {
-        PropertyAttributes::HiddenFromUser->store(
-            $this->settings,
-            $setting,
-            !$setting->isVisibleInPersonalData()
-        );
-        PropertyAttributes::VisibleInLocalUserAdministration->store(
-            $this->settings,
-            $setting,
-            $setting->isVisibleInLocalUserAdministration()
-        );
-        PropertyAttributes::UnchangeableByUser->store(
-            $this->settings,
-            $setting,
+        $this->storeConfigurationValue(
+            PropertyAttributes::ChangeableByUser->getSettingsAccessPrefix(),
+            $setting->getIdentifier(),
             !$setting->isChangeableByUser()
         );
-        PropertyAttributes::ChangeableInLocalUserAdministration->store(
-            $this->settings,
-            $setting,
+        $this->storeConfigurationValue(
+            PropertyAttributes::ChangeableInLocalUserAdministration->getSettingsAccessPrefix(),
+            $setting->getIdentifier(),
             $setting->isChangeableInLocalUserAdministration()
         );
-        PropertyAttributes::Export->store(
-            $this->settings,
-            $setting,
+        $this->storeConfigurationValue(
+            PropertyAttributes::Export->getSettingsAccessPrefix(),
+            $setting->getIdentifier(),
             $setting->export()
         );
     }
@@ -88,14 +78,56 @@ class Repository
     private function buildSettingFromDefinition(
         SettingDefinition $definition
     ): Setting {
-        $identifier = $definition->getIdentifier();
+        $this->updateLegacyValues($definition);
         return new Setting(
             $definition,
-            !PropertyAttributes::HiddenFromUser->retrieve($this->settings, $definition),
-            PropertyAttributes::VisibleInLocalUserAdministration->retrieve($this->settings, $definition),
-            !PropertyAttributes::UnchangeableByUser->retrieve($this->settings, $definition),
-            PropertyAttributes::ChangeableInLocalUserAdministration->retrieve($this->settings, $definition),
-            PropertyAttributes::Export->retrieve($this->settings, $definition)
+            $this->retrieveConfigurationValue(
+                PropertyAttributes::ChangeableByUser->getSettingsAccessPrefix(),
+                $definition->getIdentifier()
+            ),
+            $this->retrieveConfigurationValue(
+                PropertyAttributes::ChangeableInLocalUserAdministration->getSettingsAccessPrefix(),
+                $definition->getIdentifier()
+            ),
+            $this->retrieveConfigurationValue(
+                PropertyAttributes::Export->getSettingsAccessPrefix(),
+                $definition->getIdentifier()
+            ),
         );
+    }
+
+    /**
+     * @todo: Remove with ILIAS 12
+     */
+    private function updateLegacyValues(SettingDefinition $definition): void
+    {
+        if ($this->settings->get(
+            PropertyAttributes::ChangeableByUser->getSettingsAccessPrefix() . "_{$definition->getIdentifier()}"
+        ) !== null) {
+            return;
+        }
+
+        $legacy_disabled_value = $this->settings->get("usr_settings_disable_{$definition->getIdentifier()}", '0');
+        $this->settings->delete("usr_settings_disable_{$definition->getIdentifier()}");
+        $this->storeConfigurationValue(
+            PropertyAttributes::ChangeableByUser->getSettingsAccessPrefix(),
+            $definition->getIdentifier(),
+            $legacy_disabled_value !== '1'
+        );
+    }
+
+    private function retrieveConfigurationValue(
+        string $prefix,
+        string $identifier
+    ): bool {
+        return $this->settings->get("{$prefix}_{$identifier}", '0') === '1';
+    }
+
+    private function storeConfigurationValue(
+        string $prefix,
+        string $identifier,
+        bool $value
+    ): void {
+        $this->settings->set("{$prefix}_{$identifier}", $value ? '1' : '0');
     }
 }

@@ -22,43 +22,38 @@ namespace ILIAS\User\Profile\Fields\Custom;
 
 use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
 class TextArea implements Type
 {
+    public function getLabel(Language $lng): string
+    {
+        return $lng->txt('udf_type_textarea');
+    }
+
     public function getAdditionalEditFormInputs(
         Language $lng,
         FieldFactory $ff,
-        Refinery $refinery
+        Refinery $refinery,
+        ?string $data
     ): ?FormInput {
         return null;
     }
 
-    public function storeAdditionalEditFormInputs(mixed $value): void
-    {
-        throw new \Exception('We cannot store anything here');
-    }
-
     public function getInput(
         Language $lng,
-        \ilObjUser $current_user
+        string $user_value,
+        string $label,
+        ?string $data
     ): \ilFormPropertyGUI {
-        $input = new \ilTextInputGUI($lng->txt($this->getLanguageVariable()));
-        $input->setValue(
-            $this->getValueForUser($current_user)
-        );
+        $input = new \ilTextAreaInputGUI($label);
+        $input->setValue($user_value);
         return $input;
     }
 
-    public function storeUserInput(
-        \ilObjUser $current_user,
-        mixed $input
-    ): void {
-        ;
-    }
-
-    public function getValueForUser(\ilObjUser $current_user): string
+    public function prepareUserInputForStorage(mixed $input): array
     {
-        ;
+        return [$input];
     }
 }

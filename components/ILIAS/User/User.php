@@ -22,7 +22,11 @@ namespace ILIAS;
 
 use ILIAS\User\Setup\Agent;
 use ILIAS\User\Settings\User\Settings as UserSettings;
+use ILIAS\User\Settings\User\Settings\Settings as SettingsOfUser;
 use ILIAS\User\Profile\Fields\Custom\Type as CustomProfileFieldType;
+use ILIAS\User\Profile\Fields\Custom\Text as CustomTypeText;
+use ILIAS\User\Profile\Fields\Custom\TextArea as CustomTypeTextArea;
+use ILIAS\User\Profile\Fields\Custom\Select as CustomTypeSelect;
 use ILIAS\User\Profile\ChangeListeners\UserFieldAttributesChangeListener;
 use ILIAS\Setup\Agent as SetupAgent;
 
@@ -44,13 +48,13 @@ class User implements Component\Component
                 $seek[CustomProfileFieldType::class],
                 $seek[UserFieldAttributesChangeListener::class]
             );
-        $contribute[User\Settings\User\Settings::class] = fn() =>
-            new User\Settings\User\Settings\Settings();
-        $contribute[User\Profile\Fields\Custom\Text::class] = fn() =>
-            new User\Settings\User\Settings\Settings();
-        $contribute[User\Profile\Fields\Custom\TextArea::class] = fn() =>
-            new User\Settings\User\Settings\Settings();
-        $contribute[User\Profile\Fields\Custom\Select::class] = fn() =>
-            new User\Settings\User\Settings\Settings();
+        $contribute[UserSettings::class] = fn() =>
+            new SettingsOfUser();
+        $contribute[CustomProfileFieldType::class] = fn() =>
+            new CustomTypeText();
+        $contribute[CustomProfileFieldType::class] = fn() =>
+            new CustomTypeTextArea();
+        $contribute[CustomProfileFieldType::class] = fn() =>
+            new CustomTypeSelect();
     }
 }

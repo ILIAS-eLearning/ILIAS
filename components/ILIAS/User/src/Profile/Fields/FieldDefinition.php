@@ -22,7 +22,7 @@ use ILIAS\User\Property;
 
 interface FieldDefinition extends Property
 {
-    public function visibleInPersonalDataForcedTo(): ?bool;
+    public function visibleToUserForcedTo(): ?bool;
     public function visibleInLocalUserAdministrationForcedTo(): ?bool;
     public function visibleInCoursesForcedTo(): ?bool;
     public function visibleInGroupsForcedTo(): ?bool;
@@ -32,5 +32,11 @@ interface FieldDefinition extends Property
     public function requiredForcedTo(): ?bool;
     public function exportForcedTo(): ?bool;
     public function searchableForcedTo(): ?bool;
+    public function availableInCertificatesForcedTo(): ?bool;
     public function hiddenInLists(): bool;
+    public function addValueToUserObject(
+        \ilObjUser $user,
+        mixed $input,
+        \ilPropertyFormGUI $form
+    ): \ilObjUser;
 }

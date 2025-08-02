@@ -287,7 +287,7 @@ class ilUserDataSet extends ilDataSet
                 case "5.2.0":
                 case "5.3.0":
                     $this->data = [];
-                    $set = $ilDB->query("SELECT * FROM usr_data_multi" .
+                    $set = $ilDB->query("SELECT * FROM usr_profile_data" .
                         " WHERE " . $ilDB->in("usr_id", $a_ids, false, "integer"));
                     while ($rec = $ilDB->fetchAssoc($set)) {
                         $this->data[] = ["UserId" => $rec["usr_id"], "FieldId" => $rec["field_id"], "Value" => $rec["value"]];

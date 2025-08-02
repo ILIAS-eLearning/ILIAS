@@ -5834,7 +5834,7 @@ common#:#udf_type_date#:#日期字段
 common#:#udf_type_datetime#:#日期和时间
 common#:#udf_type_select#:#选择框 (特定值)
 common#:#udf_type_text#:#文本字段(可选值)
-common#:#udf_type_wysiwyg#:#文本区域 (所见即所得)：
+common#:#udf_type_textarea#:#文本区域 (所见即所得)：
 common#:#udf_update_select_field#:#编辑选择框
 common#:#udf_update_text_field#:#编辑文本字段
 common#:#udf_update_wysiwyg_field#:#编辑文本区域(所见即所得)字段

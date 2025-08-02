@@ -5835,7 +5835,7 @@ common#:#udf_type_date#:#Datos Laukelis
 common#:#udf_type_datetime#:#Date and Time###23 07 2008 new variable
 common#:#udf_type_select#:#Pasirinkimo Laukelis (numatytos reikšmės)
 common#:#udf_type_text#:#Teksto Laukelis (laisvai pasirenkamos reikšmės)
-common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)###24 07 2009 new variable
+common#:#udf_type_textarea#:#Text Area (WYSIWYG)###24 07 2009 new variable
 common#:#udf_update_select_field#:#Redaguoti Pasirinkimo Laukelį
 common#:#udf_update_text_field#:#Redaguoti Tekstinį Laukelį
 common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field###24 07 2009 new variable

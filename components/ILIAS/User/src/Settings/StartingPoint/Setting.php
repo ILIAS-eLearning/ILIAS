@@ -33,7 +33,7 @@ class Setting implements SettingDefinition
 
     public function __construct()
     {
-        $this->starting_point_repository = LocalDIC::dic()['settings.starting_point.repository'];
+        $this->starting_point_repository = LocalDIC::dic()[Repository::class];
     }
 
     public function getIdentifier(): string
@@ -46,9 +46,9 @@ class Setting implements SettingDefinition
         return true;
     }
 
-    public function getLanguageVariable(): string
+    public function getLabel(Language $lng): string
     {
-        return 'starting_point';
+        return $lng->txt($this->getIdentifier());
     }
 
     public function getSettingsPage(): AvailablePages
@@ -127,7 +127,7 @@ class Setting implements SettingDefinition
             || $object_id !== $this->starting_point_repository->getSystemDefaultStartingObject());
     }
 
-    public function storeUserInput(
+    public function persistUserInput(
         \ilObjUser $current_user,
         mixed $input,
         ?\ilPropertyFormGUI $form = null

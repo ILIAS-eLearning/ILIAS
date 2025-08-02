@@ -98,7 +98,8 @@ class Agent implements SetupAgent
     public function getMigrations(): array
     {
         return [
-            new MigrateNewAccountAttachments()
+            new MigrateNewAccountAttachments(),
+            new UserProfileMigrations()
         ];
     }
 }

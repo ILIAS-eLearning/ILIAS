@@ -85,7 +85,7 @@ class ilCustomUserFieldsHelper
      */
     public function getActivePlugins(): array
     {
-        return iterator_to_array($this->component_factory->getActivePluginsInSlot(ilUDFDefinitionPlugin::UDF_SLOT_ID));
+        return [];
     }
 
     /**

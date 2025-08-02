@@ -63,7 +63,7 @@ class ConfigurationGUI implements DataRetrieval
         private readonly RequestWrapper $request_wrapper,
         private readonly HttpService $http
     ) {
-        $this->user_settings_repository = LocalDIC::dic()['settings.user.repository'];
+        $this->user_settings_repository = LocalDIC::dic()[Repository::class];
         $this->available_settings = $this->user_settings_repository->get();
 
         $url_builder = new URLBuilder(new URI(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(self::class, 'action')));
@@ -176,21 +176,21 @@ class ConfigurationGUI implements DataRetrieval
             'field' => $cf->text($this->lng->txt('user_field'))->withIsSortable(true),
             'changeable_by_user' => $cf->boolean(
                 $this->lng->txt(
-                    PropertyAttributes::UnchangeableByUser->getLanguageVariable()
+                    PropertyAttributes::ChangeableByUser->value
                 ),
                 $this->ui_factory->symbol()->glyph()->checked(),
                 $this->ui_factory->symbol()->glyph()->unchecked()
             )->withIsSortable(true),
             'changeable_in_local_user_administration' => $cf->boolean(
                 $this->lng->txt(
-                    PropertyAttributes::ChangeableInLocalUserAdministration->getLanguageVariable()
+                    PropertyAttributes::ChangeableInLocalUserAdministration->value
                 ),
                 $this->ui_factory->symbol()->glyph()->checked(),
                 $this->ui_factory->symbol()->glyph()->unchecked()
             )->withIsSortable(true),
             'export' => $cf->boolean(
                 $this->lng->txt(
-                    PropertyAttributes::Export->getLanguageVariable()
+                    PropertyAttributes::Export->value
                 ),
                 $this->ui_factory->symbol()->glyph()->checked(),
                 $this->ui_factory->symbol()->glyph()->unchecked()
@@ -243,7 +243,7 @@ class ConfigurationGUI implements DataRetrieval
             usort(
                 $this->available_settings,
                 fn(Setting $v1, Setting $v2): int =>
-                    $factor * ($this->lng->txt($v1->getLanguageVariable()) <=> $this->lng->txt($v2->getLanguageVariable()))
+                    $factor * ($v1->getLabel($this->lng) <=> $v2->getLabel($this->lng))
             );
         }
 

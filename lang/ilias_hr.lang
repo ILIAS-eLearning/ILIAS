@@ -5835,7 +5835,7 @@ common#:#udf_type_date#:#Datum
 common#:#udf_type_datetime#:#Datum i vrijeme
 common#:#udf_type_select#:#Popis za odabir (jedan izbor)
 common#:#udf_type_text#:#Polje za tekst (jedan redak)
-common#:#udf_type_wysiwyg#:#Područje teksta (WYSIWYG)
+common#:#udf_type_textarea#:#Područje teksta (WYSIWYG)
 common#:#udf_update_select_field#:#Uredi popis za odabir
 common#:#udf_update_text_field#:#Uredi polje za tekst
 common#:#udf_update_wysiwyg_field#:#Uredi polje za tekstualno područje (WYSIWYG)

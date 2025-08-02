@@ -5835,7 +5835,7 @@ common#:#udf_type_date#:#Kuupäev
 common#:#udf_type_datetime#:#Kuupäev ja kellaaeg
 common#:#udf_type_select#:#Valikukast (ripploend)
 common#:#udf_type_text#:#Tekstiväli (üherealine)
-common#:#udf_type_wysiwyg#:#Tekstiala (WYSIWYG)
+common#:#udf_type_textarea#:#Tekstiala (WYSIWYG)
 common#:#udf_update_select_field#:#Muuda valikukasti
 common#:#udf_update_text_field#:#Muuda tekstivälja
 common#:#udf_update_wysiwyg_field#:#Tekstiala (WYSIWYG) väli

@@ -532,7 +532,7 @@ class ilUserQuery
         // add multi-field-values to user-data
         if (count($multi_fields) && count($usr_ids)) {
             $usr_multi = [];
-            $set = $ilDB->query("SELECT * FROM usr_data_multi" .
+            $set = $ilDB->query("SELECT * FROM usr_profile_data" .
                 " WHERE " . $ilDB->in("usr_id", $usr_ids, "", "integer"));
             while ($row = $ilDB->fetchAssoc($set)) {
                 $usr_multi[(int) $row["usr_id"]][$row["field_id"]][] = $row["value"];

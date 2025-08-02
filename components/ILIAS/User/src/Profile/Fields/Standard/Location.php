@@ -25,13 +25,13 @@ use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
 use ILIAS\Language\Language;
 
-class FirstName implements FieldDefinition
+class Location implements FieldDefinition
 {
     use NoOverrides;
 
     public function getIdentifier(): string
     {
-        return 'firstname';
+        return 'location';
     }
 
     public function getLabel(Language $lng): string
@@ -46,54 +46,80 @@ class FirstName implements FieldDefinition
 
     public function hiddenInLists(): bool
     {
-        return false;
-    }
-
-    public function visibleToUserForcedTo(): ?bool
-    {
-        return true;
-    }
-
-    public function visibleInLocalUserAdministrationForcedTo(): ?bool
-    {
         return true;
     }
 
     public function visibleInCoursesForcedTo(): ?bool
     {
-        return true;
+        return false;
     }
 
     public function visibleInGroupsForcedTo(): ?bool
     {
-        return true;
+        return false;
     }
 
     public function visibleInStudyProgrammesForcedTo(): ?bool
     {
-        return true;
+        return false;
     }
 
     public function requiredForcedTo(): ?bool
     {
-        return true;
+        return false;
+    }
+
+    public function searchableForcedTo(): ?bool
+    {
+        return false;
     }
 
     public function availableInCertificatesForcedTo(): ?bool
     {
-        return true;
+        return false;
     }
 
     public function getInput(
         Language $lng,
         \ilObjUser $current_user
     ): \ilFormPropertyGUI {
-        $input = new \ilTextInputGUI($this->getLabel($lng));
-        $input->setMaxLength(128);
-        $input->setValue(
-            $this->getValueForUser($current_user)
+        $latitude = ($current_user->getLatitude() !== '')
+            ? (float) $current_user->getLatitude()
+            : null;
+        $longitude = ($current_user->getLongitude() !== '')
+            ? (float) $current_user->getLongitude()
+            : null;
+        $zoom = $current_user->getLocationZoom();
+
+        if ($latitude === null && $longitude === null && $zoom === 0) {
+            $def = \ilMapUtil::getDefaultSettings();
+            $latitude = (float) $def['latitude'];
+            $longitude = (float) $def['longitude'];
+            $zoom = (int) $def['zoom'];
+        }
+
+        $street = $current_user->getStreet();
+        if ($street === '') {
+            $street = $lng->txt('street');
+        }
+        $city = $current_user->getCity();
+        if ($city === '') {
+            $city = $lng->txt('city');
+        }
+        $country = $current_user->getCountry();
+        if ($country === '') {
+            $country = $lng->txt('country');
+        }
+
+        $loc_prop = new \ilLocationInputGUI(
+            $lng->txt('location'),
+            'location'
         );
-        return $input;
+        $loc_prop->setLatitude($latitude);
+        $loc_prop->setLongitude($longitude);
+        $loc_prop->setZoom($zoom);
+        $loc_prop->setAddress($street . ', ' . $city . ', ' . $country);
+        return $loc_prop;
     }
 
     public function addValueToUserObject(
@@ -101,12 +127,17 @@ class FirstName implements FieldDefinition
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
-        $current_user->setFirstname($input);
+        $this->uploadUserPicture($current_user, $form);
         return $current_user;
     }
 
     public function getValueForUser(\ilObjUser $current_user): string
     {
-        return $current_user->getFirstname();
+        return \ilObjUser::_getPersonalPicturePath(
+            $current_user->getId(),
+            'small',
+            true,
+            true
+        );
     }
 }

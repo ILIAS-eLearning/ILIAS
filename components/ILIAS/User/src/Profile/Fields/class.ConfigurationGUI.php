@@ -24,9 +24,13 @@ use ILIAS\User\LocalDIC;
 use ILIAS\User\RedirectOnMissingWrite;
 use ILIAS\User\PropertyAttributes;
 use ILIAS\User\Profile\ChangeListeners\UserFieldAttributesChangeListener;
+use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\MessageBox\MessageBox;
+use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
+use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
 use ILIAS\UI\Component\Table\Data as DataTable;
 use ILIAS\UI\Component\Table\DataRetrieval;
@@ -48,7 +52,10 @@ class ConfigurationGUI implements DataRetrieval
 
     private const string CHANGED_ATTRIBUTES_PARAMETER = 'ca';
 
-    private readonly Repository $profile_fields_repository;
+    private const string ACTION_EDIT = 'edit';
+    private const string ACTION_DELETE = 'delete';
+
+    private readonly Repository $repository;
     private readonly URLBuilder $url_builder;
     private readonly URLBuilderToken $action_token;
     private readonly URLBuilderToken $field_id_token;
@@ -57,22 +64,24 @@ class ConfigurationGUI implements DataRetrieval
     private array $available_fields;
 
     public function __construct(
-        private readonly \ILIAS\Language\Language $lng,
+        private readonly Language $lng,
         private readonly \ilCtrl $ctrl,
         private readonly \ilAppEventHandler $event,
         private readonly \ilAccess $access,
         private readonly \ilSetting $settings,
+        private readonly \ilToolbarGUI $toolbar,
         private readonly \ilGlobalTemplateInterface $tpl,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
         private readonly Refinery $refinery,
         private readonly ServerRequestInterface $request,
         private readonly RequestWrapper $request_wrapper,
+        private readonly RequestWrapper $post_wrapper,
         private readonly HttpService $http
     ) {
         $this->available_change_listeners = LocalDIC::dic()['profile.fields.changelisteners'];
-        $this->profile_fields_repository = LocalDIC::dic()['profile.fields.repository'];
-        $this->available_fields = $this->profile_fields_repository->get();
+        $this->repository = LocalDIC::dic()[Repository::class];
+        $this->available_fields = $this->repository->get();
 
         $url_builder = new URLBuilder(
             new URI(
@@ -102,7 +111,15 @@ class ConfigurationGUI implements DataRetrieval
 
     public function showCmd(?RoundTripModal $modal = null): void
     {
+        $create_modal = $this->buildCreateModal();
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt('add_user_defined_field'),
+                $create_modal->getShowSignal()
+            )
+        );
         $content = [
+            $create_modal,
             $this->buildTable()
         ];
 
@@ -117,15 +134,15 @@ class ConfigurationGUI implements DataRetrieval
 
     public function actionCmd(): void
     {
+        $action = $this->request_wrapper->retrieve(
+            $this->action_token->getName(),
+            $this->refinery->kindlyTo()->string()
+        );
         $this->http->saveResponse(
             $this->http->response()->withBody(
                 Streams::ofString(
                     $this->ui_renderer->renderAsync(
-                        $this->buildEditModal(
-                            $this->profile_fields_repository->getByIdentifier(
-                                $this->retrieveIdentifierFromQuery()
-                            )
-                        )
+                        $this->buildActionModal($action)
                     )
                 )
             )
@@ -135,7 +152,7 @@ class ConfigurationGUI implements DataRetrieval
     }
 
     public function saveCmd(): void {
-        $field = $this->profile_fields_repository->getByIdentifier(
+        $field = $this->repository->getByIdentifier(
             $this->retrieveIdentifierFromQuery()
         );
         $modal = $this->buildEditModal($field)->withRequest($this->request);
@@ -145,29 +162,42 @@ class ConfigurationGUI implements DataRetrieval
             return;
         }
 
-        if ($data['field']->isRequired() && ! $data['field']->isVisibleInRegistration()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('invalid_visible_required_options_selected'));
-            $this->showCmd();
+        $listeners_to_notify = $this->getListenersToNotifyByChangedValues($field, $data['field']);
+        if ($listeners_to_notify !== []) {
+            $this->showChangeListenerConfirmationModal($listeners_to_notify, $data['field']);
             return;
         }
 
-        $listeners_to_notify = $this->getListenersToNotifyByChangedValues($field, $data['field']);
-        if ($listeners_to_notify !== []) {
-            $this->setChangedAttributesParameter($listeners_to_notify);
-            $modal = $this->buildChangeListenerConfirmationModal(
-                $listeners_to_notify,
-                $data['field']
-            );
+        $this->storeField($data['field']);
+        $this->showCmd();
+    }
+
+    public function createCmd(): void
+    {
+        $modal = $this->buildCreateModal()->withRequest($this->request);
+        $data = $modal->getData();
+        if ($data === null) {
             $this->showCmd($modal->withOnLoad($modal->getShowSignal()));
             return;
         }
 
-        $this->storeFieldAndContinue($data['field']);
+        $listeners_to_notify = $this->getListenersToNotifyByChangedValues(
+            $this->repository->getUnspecifiedCustomField(),
+            $data['field']
+        );
+
+        if ($listeners_to_notify !== []) {
+            $this->showChangeListenerConfirmationModal($listeners_to_notify, $data['field']);
+            return;
+        }
+
+        $this->storeField($data['field']);
+        $this->showCmd();
     }
 
     public function saveAfterListenerConfirmationCmd(): void
     {
-        $field = $this->profile_fields_repository->getByIdentifier(
+        $field = $this->repository->getByIdentifier(
             $this->retrieveIdentifierFromQuery()
         );
 
@@ -184,13 +214,34 @@ class ConfigurationGUI implements DataRetrieval
             return;
         }
 
-        $this->storeFieldAndContinue($data['field']);
-
+        $this->storeField($data['field']);
         $this->event->raise(
             'components/ILIAS/User',
             'onUserFieldAttributesChanged',
             $field->getChangedAttributes($data['field'])
         );
+        $this->showCmd();
+    }
+
+    public function deleteCmd(): void
+    {
+        $identifier = $this->post_wrapper->retrieve(
+            'interruptive_items',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->string()
+                ),
+                $this->refinery->always(null)
+            ])
+        );
+        if ($identifier === null) {
+            $this->showCmd();
+        };
+        $this->repository->deleteCustomField(
+            $this->repository->getByIdentifier($identifier[0])
+        );
+        $this->available_fields = $this->repository->get();
+        $this->showCmd();
     }
 
     public function getRows(
@@ -221,28 +272,15 @@ class ConfigurationGUI implements DataRetrieval
         return count($this->available_fields);
     }
 
-    private function storeFieldAndContinue(Field $field): void
-    {
-        $this->profile_fields_repository->storeConfiguration($field);
-        $this->available_fields = $this->profile_fields_repository->get();
-        \ilMemberAgreement::_reset();
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('usr_settings_saved'));
-        $this->showCmd();
-    }
-
     private function buildTable(): DataTable
     {
         return $this->ui_factory->table()->data(
             $this,
             $this->lng->txt('profile_fields'),
             $this->getColumns()
-        )->withActions([
-            $this->ui_factory->table()->action()->single(
-                $this->lng->txt('edit_field'),
-                $this->url_builder,
-                $this->field_id_token
-            )->withAsync(true)
-        ])->withRequest($this->request);
+        )->withActions(
+            $this->getActions()
+        )->withRequest($this->request);
     }
 
     private function getColumns(): array
@@ -250,35 +288,58 @@ class ConfigurationGUI implements DataRetrieval
         $cf = $this->ui_factory->table()->column();
         return [
             'field' => $cf->text($this->lng->txt('user_field'))->withIsSortable(true),
+            'type' => $cf->text($this->lng->txt('type'))->withIsSortable(true),
             'access' => $cf->text($this->lng->txt('access'))->withIsSortable(false),
             'required' => $cf->boolean(
                 $this->lng->txt(
-                    PropertyAttributes::Required->getLanguageVariable()
+                    PropertyAttributes::Required->value
                 ),
                 $this->ui_factory->symbol()->glyph()->checked(),
                 $this->ui_factory->symbol()->glyph()->unchecked()
             )->withIsSortable(true),
             'export' => $cf->boolean(
                 $this->lng->txt(
-                    PropertyAttributes::Export->getLanguageVariable()
+                    PropertyAttributes::Export->value
                 ),
                 $this->ui_factory->symbol()->glyph()->checked(),
                 $this->ui_factory->symbol()->glyph()->unchecked()
             )->withIsSortable(true),
             'searchable' => $cf->boolean(
                 $this->lng->txt(
-                    PropertyAttributes::Searchable->getLanguageVariable()
+                    PropertyAttributes::Searchable->value
                 ),
                 $this->ui_factory->symbol()->glyph()->checked(),
                 $this->ui_factory->symbol()->glyph()->unchecked()
             )->withIsSortable(true),
             'available_in_certificates' => $cf->boolean(
                 $this->lng->txt(
-                    PropertyAttributes::AvailableInCertificates->getLanguageVariable()
+                    PropertyAttributes::AvailableInCertificates->value
                 ),
                 $this->ui_factory->symbol()->glyph()->checked(),
                 $this->ui_factory->symbol()->glyph()->unchecked()
             )->withIsSortable(true)
+        ];
+    }
+
+    private function getActions(): array
+    {
+        return [
+            self::ACTION_EDIT => $this->ui_factory->table()->action()->single(
+                $this->lng->txt('edit_field'),
+                $this->url_builder->withParameter(
+                    $this->action_token,
+                    self::ACTION_EDIT
+                ),
+                $this->field_id_token
+            )->withAsync(true),
+            self::ACTION_DELETE => $this->ui_factory->table()->action()->single(
+                $this->lng->txt('delete'),
+                $this->url_builder->withParameter(
+                    $this->action_token,
+                    self::ACTION_DELETE
+                ),
+                $this->field_id_token
+            )->withAsync(true)
         ];
     }
 
@@ -291,7 +352,15 @@ class ConfigurationGUI implements DataRetrieval
             usort(
                 $this->available_fields,
                 fn(Field $v1, Field $v2): int =>
-                    $factor * ($this->lng->txt($v1->getLanguageVariable()) <=> $this->lng->txt($v2->getLanguageVariable()))
+                    $factor * ($v1->getLabel($this->lng) <=> $this->lng->txt($v2->getLabel($this->lng)))
+            );
+        }
+
+        if ($key === 'field') {
+            usort(
+                $this->available_fields,
+                fn(Field $v1, Field $v2): int =>
+                    $factor * ($this->lng->txt($v1->isCustom() ? 'custom' : 'default') <=> $this->lng->txt($v2->isCustom() ? 'custom' : 'default'))
             );
         }
 
@@ -328,24 +397,77 @@ class ConfigurationGUI implements DataRetrieval
         }
     }
 
+    private function buildActionModal(
+        ?string $action
+    ): Modal|MessageBox {
+        $field = $this->repository->getByIdentifier(
+            $this->retrieveIdentifierFromQuery()
+        );
+        return match ($action) {
+            self::ACTION_EDIT => $this->buildEditModal($field),
+            self::ACTION_DELETE => $this->buildDeleteConfirmationModal($field),
+            default => $this->ui_factory->messageBox()->failure(
+                $this->lng->txt('msg_cancel')
+            )
+        };
+    }
+
     private function buildEditModal(
         Field $field
     ): RoundTripModal {
         $identifier = $this->retrieveIdentifierFromQuery();
         $this->ctrl->setParameterByClass(self::class, $this->field_id_token->getName(), $identifier);
         return $this->ui_factory->modal()->roundtrip(
-            $this->lng->txt('edit_field'),
+            "{$this->lng->txt('edit_field')}: {$field->getLabel($this->lng)}",
             null,
-            $field->getForm(
+            $field->getEditForm(
                 $this->lng,
                 $this->ui_factory->input()->field(),
-                $this->refinery
+                $this->refinery,
+                $this->repository->getCustomFieldTypes(),
+                array_filter(
+                    $this->available_fields,
+                    static fn(Field $v): bool => $v->isCustom()
+                )
             ),
             $this->ctrl->getFormActionByClass(
                 [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, self::class],
                 'save'
             )
         );
+    }
+
+    private function buildCreateModal(): RoundTripModal {
+        return $this->ui_factory->modal()->roundtrip(
+            $this->lng->txt('add_user_defined_field'),
+            null,
+            $this->repository->getUnspecifiedCustomField()->getCreateCustomFieldForm(
+                $this->lng,
+                $this->ui_factory->input()->field(),
+                $this->refinery,
+                $this->repository->getCustomFieldTypes(),
+                array_filter(
+                    $this->available_fields,
+                    static fn(Field $v): bool => $v->isCustom()
+                )
+            ),
+            $this->ctrl->getFormActionByClass(
+                [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, self::class],
+                'create'
+            )
+        );
+    }
+
+    private function showChangeListenerConfirmationModal(
+        array $listeners_to_notify,
+        Field $new
+    ): void {
+        $this->setChangedAttributesParameter($listeners_to_notify);
+        $modal = $this->buildChangeListenerConfirmationModal(
+            $listeners_to_notify,
+            $new
+        );
+        $this->showCmd($modal->withOnLoad($modal->getShowSignal()));
     }
 
     private function buildChangeListenerConfirmationModal(
@@ -356,10 +478,19 @@ class ConfigurationGUI implements DataRetrieval
             $this->lng->txt('usr_field_change_components_listening'),
             $this->ui_factory->messageBox()->confirmation(
                 $this->ui_renderer->render(
-                    $this->buildListingOfListeners($listeners_to_notify, $field->getLanguageVariable())
+                    $this->buildListingOfListeners($listeners_to_notify, $field->getLabel($this->lng))
                 )
             ),
-            $field->getHiddenForm($this->ui_factory->input()->field(), $this->refinery),
+            $field->getHiddenForm(
+                $this->lng,
+                $this->ui_factory->input()->field(),
+                $this->refinery,
+                $this->repository->getCustomFieldTypes(),
+                array_filter(
+                    $this->available_fields,
+                    static fn(Field $v): bool => $v->isCustom()
+                )
+            ),
             $this->ctrl->getFormActionByClass(
                 [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, self::class],
                 'saveAfterListenerConfirmation'
@@ -367,18 +498,54 @@ class ConfigurationGUI implements DataRetrieval
         );
     }
 
+    private function buildDeleteConfirmationModal(
+        Field $field
+    ): InterruptiveModal {
+        return $this->ui_factory->modal()->interruptive(
+            $this->lng->txt('confirm'),
+            $this->lng->txt('udf_delete_sure'),
+            $this->ctrl->getFormActionByClass(
+                [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, self::class],
+                'delete'
+            )
+        )->withAffectedItems([
+            $this->ui_factory->modal()->interruptiveItem()->standard(
+                $field->getIdentifier(),
+                $field->getLabel($this->lng)
+            )
+        ]);
+    }
+
+    private function retrieveIdentifierFromQuery(): string
+    {
+        $identifier = $this->request_wrapper->retrieve(
+            $this->field_id_token->getName(),
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->string()
+                )
+            ])
+        );
+
+        if (is_array($identifier)) {
+            return $identifier[0];
+        }
+        return $identifier;
+    }
+
     private function buildListingOfListeners(
         array $listeners_to_notify,
-        string $field_lang_var
+        string $field_name
     ): DescriptiveListing {
         return $this->ui_factory->listing()->descriptive(
             array_reduce(
                 $listeners_to_notify,
-                function (array $c, UserFieldAttributesChangeListener $v) use ($field_lang_var): array {
+                function (array $c, UserFieldAttributesChangeListener $v) use ($field_name): array {
                     $c[$v->getComponentName()] = $v->getDescriptionForField(
                         $this->lng,
-                        $field_lang_var,
-                        $v->isInterestedInAttribute()->getLanguageVariable()
+                        $field_name,
+                        $this->lng->txt($v->isInterestedInAttribute()->value)
                     );
                     return $c;
                 },
@@ -427,7 +594,7 @@ class ConfigurationGUI implements DataRetrieval
                 string $listener_class
             ) use ($field, $attributes): array {
                 $listener = new $listener_class();
-                if ($field->getIdentifier() === $this->profile_fields_repository->getByClass(
+                if ($field->getIdentifier() === $this->repository->getByClass(
                             $listener->isInterestedInField()
                         )->getIdentifier()
                     && in_array($listener->isInterestedInAttribute(), $attributes)) {
@@ -438,24 +605,6 @@ class ConfigurationGUI implements DataRetrieval
             },
             []
         );
-    }
-
-    private function retrieveIdentifierFromQuery(): string
-    {
-        $identifier = $this->request_wrapper->retrieve(
-            $this->field_id_token->getName(),
-            $this->refinery->byTrying([
-                $this->refinery->kindlyTo()->string(),
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->string()
-                )
-            ])
-        );
-
-        if (is_array($identifier)) {
-            return $identifier[0];
-        }
-        return $identifier;
     }
 
     private function setChangedAttributesParameter(array $listeners_to_notify): void
@@ -495,5 +644,13 @@ class ConfigurationGUI implements DataRetrieval
                 )
             )
         );
+    }
+
+    private function storeField(Field $field): void
+    {
+        $this->repository->storeConfiguration($field);
+        $this->available_fields = $this->repository->get();
+        \ilMemberAgreement::_reset();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('usr_settings_saved'), true);
     }
 }

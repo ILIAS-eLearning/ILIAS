@@ -5835,7 +5835,7 @@ common#:#udf_type_date#:#Date
 common#:#udf_type_datetime#:#Date and Time
 common#:#udf_type_select#:#لیست انتخاب (Drop-Down)
 common#:#udf_type_text#:#فیلد متن (One Line)
-common#:#udf_type_wysiwyg#:#محل متن (WYSIWYG)
+common#:#udf_type_textarea#:#محل متن (WYSIWYG)
 common#:#udf_update_select_field#:#Edit Select Box
 common#:#udf_update_text_field#:#Edit Text Field
 common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field

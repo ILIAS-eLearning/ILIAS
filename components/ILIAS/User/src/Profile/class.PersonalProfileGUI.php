@@ -130,6 +130,7 @@ class PersonalProfileGUI
         $this->lng->loadLanguageModule('jsmath');
         $this->lng->loadLanguageModule('pd');
         $this->lng->loadLanguageModule('user');
+        $this->lng->loadLanguageModule('maps');
         $this->ctrl->saveParameter($this, 'prompted');
     }
 
@@ -196,62 +197,6 @@ class PersonalProfileGUI
     public function showProfile(): void
     {
         $this->showPersonalData();
-    }
-
-    /**
-     * Add location fields to form if activated
-     */
-    public function addLocationToForm(\ilPropertyFormGUI $a_form, \ilObjUser $a_user): void
-    {
-        // check map activation
-        if (!\ilMapUtil::isActivated()) {
-            return;
-        }
-
-        // Don't really know if this is still necessary...
-        $this->lng->loadLanguageModule('maps');
-
-        // Get user settings
-        $latitude = ($a_user->getLatitude() != '')
-            ? (float) $a_user->getLatitude()
-            : null;
-        $longitude = ($a_user->getLongitude() != '')
-            ? (float) $a_user->getLongitude()
-            : null;
-        $zoom = $a_user->getLocationZoom();
-
-        // Get Default settings, when nothing is set
-        if ($latitude == null && $longitude == null && $zoom == 0) {
-            $def = \ilMapUtil::getDefaultSettings();
-            $latitude = (float) $def['latitude'];
-            $longitude = (float) $def['longitude'];
-            $zoom = (int) $def['zoom'];
-        }
-
-        $street = $a_user->getStreet();
-        if (!$street) {
-            $street = $this->lng->txt('street');
-        }
-        $city = $a_user->getCity();
-        if (!$city) {
-            $city = $this->lng->txt('city');
-        }
-        $country = $a_user->getCountry();
-        if (!$country) {
-            $country = $this->lng->txt('country');
-        }
-
-        // location property
-        $loc_prop = new \ilLocationInputGUI(
-            $this->lng->txt('location'),
-            'location'
-        );
-        $loc_prop->setLatitude($latitude);
-        $loc_prop->setLongitude($longitude);
-        $loc_prop->setZoom($zoom);
-        $loc_prop->setAddress($street . ',' . $city . ',' . $country);
-
-        $a_form->addItem($loc_prop);
     }
 
     // init sub tabs
@@ -459,8 +404,6 @@ class PersonalProfileGUI
         // standard fields
         $up->addStandardFieldsToForm($this->form, FormTypes::PersonalProfile, $this->user, $input);
 
-        $this->addLocationToForm($this->form, $this->user);
-
         $this->form->addCommandButton('savePersonalData', $this->lng->txt('user_save_continue'));
     }
 
@@ -609,7 +552,7 @@ class PersonalProfileGUI
         foreach ($up->getVisibleFieldsBySection(FormTypes::PersonalProfile) as $section) {
             array_map(
                 function (Field $v): void {
-                    $v->storeUserInput($this->user, $this->form->getInput($v->getIdentifier()), $this->form);
+                    $v->addValueToUserObject($this->user, $this->form->getInput($v->getIdentifier()), $this->form);
                 },
                 $section
             );

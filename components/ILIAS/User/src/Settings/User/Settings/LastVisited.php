@@ -46,9 +46,9 @@ class LastVisited implements SettingDefinition
         return true;
     }
 
-    public function getLanguageVariable(): string
+    public function getLabel(Language $lng): string
     {
-        return 'last_visited';
+        return $lng->txt($this->getIdentifier());
     }
 
     public function getSettingsPage(): AvailablePages
@@ -93,7 +93,7 @@ class LastVisited implements SettingDefinition
         return $this->getValueForUser($current_user) !== 0;
     }
 
-    public function storeUserInput(
+    public function persistUserInput(
         \ilObjUser $current_user,
         mixed $input
     ): void {

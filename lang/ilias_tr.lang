@@ -5835,7 +5835,7 @@ common#:#udf_type_date#:#Tarih
 common#:#udf_type_datetime#:#Tarih ve Zaman
 common#:#udf_type_select#:#Seçim Listesi (Drop-Down)
 common#:#udf_type_text#:#Metin Alanı (Tek Satır)
-common#:#udf_type_wysiwyg#:#Metin Alanı (WYSIWYG)
+common#:#udf_type_textarea#:#Metin Alanı (WYSIWYG)
 common#:#udf_update_select_field#:#Seçim Kutusu Düzenle
 common#:#udf_update_text_field#:#Metin Alanı Düzenle
 common#:#udf_update_wysiwyg_field#:#Metin Alanı (WYSIWYG) Düzenle

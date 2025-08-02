@@ -20,20 +20,23 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields\Standard;
 
+use ILIAS\User\Profile\Fields\NoOverrides;
 use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
 use ILIAS\Language\Language;
 
 class Avatar implements FieldDefinition
 {
+    use NoOverrides;
+
     public function getIdentifier(): string
     {
         return 'avatar';
     }
 
-    public function getLanguageVariable(): string
+    public function getLabel(Language $lng): string
     {
-        return 'personal_picture';
+        return $lng->txt('personal_picture');
     }
 
     public function getSection(): AvailableSections
@@ -44,16 +47,6 @@ class Avatar implements FieldDefinition
     public function hiddenInLists(): bool
     {
         return true;
-    }
-
-    public function visibleInPersonalDataForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function visibleInLocalUserAdministrationForcedTo(): ?bool
-    {
-        return null;
     }
 
     public function visibleInCoursesForcedTo(): ?bool
@@ -71,27 +64,17 @@ class Avatar implements FieldDefinition
         return false;
     }
 
-    public function changeableByUserForcedTo(): ?bool
-    {
-        return null;
-    }
-
-    public function changeableInLocalUserAdministrationForcedTo(): ?bool
-    {
-        return null;
-    }
-
     public function requiredForcedTo(): ?bool
     {
         return false;
     }
 
-    public function exportForcedTo(): ?bool
+    public function searchableForcedTo(): ?bool
     {
-        return null;
+        return false;
     }
 
-    public function searchableForcedTo(): ?bool
+    public function availableInCertificatesForcedTo(): ?bool
     {
         return false;
     }
@@ -100,7 +83,7 @@ class Avatar implements FieldDefinition
         Language $lng,
         \ilObjUser $current_user
     ): \ilFormPropertyGUI {
-        $image_input = new \ilImageFileInputGUI($lng->txt($this->getLanguageVariable()));
+        $image_input = new \ilImageFileInputGUI($this->getLabel($lng));
         $image_input->setAllowCapture(true);
 
         if ($file_upload['name'] ?? false) {
@@ -109,18 +92,19 @@ class Avatar implements FieldDefinition
             $picture_path = $this->getValueForUser($current_user);
             if ($picture_path !== '') {
                 $image_input->setImage($picture_path);
-                $image_input->setAlt($lng->txt($this->getLanguageVariable()));
+                $image_input->setAlt($this->getLabel($lng));
             }
         }
         return $image_input;
     }
 
-    public function storeUserInput(
+    public function addValueToUserObject(
         \ilObjUser $current_user,
         mixed $input,
         ?\ilPropertyFormGUI $form = null
-    ): void {
+    ): \ilObjUser {
         $this->uploadUserPicture($current_user, $form);
+        return $current_user;
     }
 
     public function getValueForUser(\ilObjUser $current_user): string

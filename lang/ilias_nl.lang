@@ -5835,7 +5835,7 @@ common#:#udf_type_date#:#Date Field
 common#:#udf_type_datetime#:#Date and Time
 common#:#udf_type_select#:#Keuzebox
 common#:#udf_type_text#:#Text veld(optionele waarden)
-common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)
+common#:#udf_type_textarea#:#Text Area (WYSIWYG)
 common#:#udf_update_select_field#:#Wijzig keuzebox
 common#:#udf_update_text_field#:#Wijzig textveld
 common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field

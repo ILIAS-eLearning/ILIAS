@@ -5835,7 +5835,7 @@ common#:#udf_type_date#:#Data
 common#:#udf_type_datetime#:#Data i godzina
 common#:#udf_type_select#:#Pole wyboru (wartość stała)
 common#:#udf_type_text#:#Pole tekstowe (wartość opcjonalna)
-common#:#udf_type_wysiwyg#:#Obszar tekstowy (WYSIWYG)
+common#:#udf_type_textarea#:#Obszar tekstowy (WYSIWYG)
 common#:#udf_update_select_field#:#Edytuj pole wyboru
 common#:#udf_update_text_field#:#Edycja pola tekstowego
 common#:#udf_update_wysiwyg_field#:#Edytuj pole dla obszaru tekstowego (WYSIWYG)

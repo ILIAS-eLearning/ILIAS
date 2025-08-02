@@ -20,15 +20,23 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields;
 
-use ILIAS\User\PropertyAttributes;
+use ILIAS\User\Profile\Fields\AvailableSections;
+use ILIAS\Data\UUID\Factory as UUIDFactory;
 
 class Repository
 {
+    private const string USER_FIELD_CONFIGURATION_TABLE = 'usr_field_config';
+    private const string UDF_DEFINITIONS_TABLE = 'udf_definition';
+    private const string USER_VALUES_TABLE = 'usr_profile_data';
+    private array $available_profile_fields;
+
     public function __construct(
-        private readonly \ilSetting $settings,
         private readonly \ilDBInterface $db,
-        private readonly array $available_profile_fields
+        private readonly UUIDFactory $uuid_factory,
+        private readonly array $available_custom_field_types,
+        private readonly array $available_standard_profile_fields
     ) {
+        $this->available_profile_fields = $this->generateAvailableProfielFields();
     }
 
     public function get(): array
@@ -63,79 +71,159 @@ class Repository
 
     public function storeConfiguration(Field $field): void
     {
-        PropertyAttributes::VisibleInRegistration->store(
-            $this->settings,
-            $field,
-            $field->isVisibleInRegistration()
+        $this->db->replace(
+            self::USER_FIELD_CONFIGURATION_TABLE,
+            ['field_id' => [\ilDBConstants::T_TEXT, $field->getIdentifier()]],
+            [
+                'visible_in_registration' => [
+                    \ilDBConstants::T_INTEGER,
+                    $field->isVisibleInRegistration() ? 1 : 0
+                ],
+                'visible_to_user' => [
+                    \ilDBConstants::T_INTEGER,
+                    $field->isVisibleToUser() ? 1 : 0
+                ],
+                'visible_in_lua' => [
+                    \ilDBConstants::T_INTEGER,
+                    $field->isVisibleInLocalUserAdministration() ? 1 : 0
+                ],
+                'visible_in_crss' => [
+                    \ilDBConstants::T_INTEGER,
+                    $field->isVisibleInCourses() ? 1 : 0
+                ],
+                'visible_in_grps' => [
+                    \ilDBConstants::T_INTEGER,
+                    $field->isVisibleInGroups() ? 1 : 0
+                ],
+                'visible_in_prgs' => [
+                    \ilDBConstants::T_INTEGER,
+                    $field->isVisibleInStudyProgrammes() ? 1 : 0
+                ],
+                'changeable_by_user' => [
+                    \ilDBConstants::T_INTEGER,
+                    $field->isChangeableByUser() ? 1 : 0
+                ],
+                'changeable_in_lua' => [
+                    \ilDBConstants::T_INTEGER,
+                    $field->isChangeableInLocalUserAdministration() ? 1 : 0
+                ],
+                'required' => [
+                    \ilDBConstants::T_INTEGER,
+                    $field->isRequired() ? 1 : 0
+                ],
+                'export' => [
+                    \ilDBConstants::T_INTEGER,
+                    $field->export() ? 1 : 0
+                ],
+                'searchable' => [
+                    \ilDBConstants::T_INTEGER,
+                    $field->isSearchable() ? 1 : 0
+                ],
+                'available_in_certs' => [
+                    \ilDBConstants::T_INTEGER,
+                    $field->isAvailableInCertificates() ? 1 : 0
+                ]
+            ]
         );
-        PropertyAttributes::HiddenFromUser->store(
-            $this->settings,
-            $field,
-            !$field->isVisibleInPersonalData()
+
+        if ($field->isCustom()) {
+            $this->db->replace(
+                self::UDF_DEFINITIONS_TABLE,
+                ['field_id' => [\ilDBConstants::T_TEXT, $field->getIdentifier()]],
+                $field->getDefinition()->toStorage()
+            );
+        }
+
+        $this->available_profile_fields = $this->generateAvailableProfielFields();
+    }
+
+    public function getCustomFieldTypes(): array {
+        return array_map(
+            fn (string $v): Custom\Type => new $v(),
+            $this->available_custom_field_types
         );
-        PropertyAttributes::VisibleInLocalUserAdministration->store(
-            $this->settings,
-            $field,
-            $field->isVisibleInLocalUserAdministration()
+    }
+
+    public function getUnspecifiedCustomField(): Field
+    {
+        return $this->buildFieldFromDefinition(
+            new Custom\Custom(
+                $this->uuid_factory->uuid4()
+            )
         );
-        PropertyAttributes::VisibleInCourses->store(
-            $this->settings,
-            $field,
-            $field->isVisibleInCourses()
+    }
+
+    public function deleteCustomField(Field $field): void
+    {
+        if (!$field->getDefinition() instanceof Custom\Custom) {
+            return;
+        }
+        $this->db->manipulate('DELETE FROM ' . self::USER_VALUES_TABLE . " WHERE field_id='{$field->getIdentifier()}'" );
+        $this->db->manipulate('DELETE FROM ' . self::UDF_DEFINITIONS_TABLE . " WHERE field_id='{$field->getIdentifier()}'" );
+        $this->available_profile_fields = $this->generateAvailableProfielFields();
+    }
+
+    private function buildCustomFieldDefinitions(
+        array $available_custom_field_types
+    ): array {
+        $query_result = $this->db->query(
+            'SELECT * FROM ' . self::UDF_DEFINITIONS_TABLE
         );
-        PropertyAttributes::VisibleInGroups->store(
-            $this->settings,
-            $field,
-            $field->isVisibleInGroups()
-        );
-        PropertyAttributes::VisibleInStudyProgrammes->store(
-            $this->settings,
-            $field,
-            $field->isVisibleInStudyProgrammes()
-        );
-        PropertyAttributes::UnchangeableByUser->store(
-            $this->settings,
-            $field,
-            !$field->isChangeableByUser()
-        );
-        PropertyAttributes::ChangeableInLocalUserAdministration->store(
-            $this->settings,
-            $field,
-            $field->isChangeableInLocalUserAdministration()
-        );
-        PropertyAttributes::Required->store(
-            $this->settings,
-            $field,
-            $field->isRequired()
-        );
-        PropertyAttributes::Export->store(
-            $this->settings,
-            $field,
-            $field->export()
-        );
-        PropertyAttributes::Searchable->store(
-            $this->settings,
-            $field,
-            $field->isSearchable()
-        );
+
+        $custom_field_definitions = [];
+        while(($field = $this->db->fetchObject($query_result)) !== null) {
+            $field_type = array_search($field->field_type, $available_custom_field_types);
+            if ($field_type === null) {
+                continue;
+            }
+            $custom_field_definitions[] = new Custom\Custom(
+                $this->uuid_factory->fromString($field->field_id),
+                new $available_custom_field_types[$field_type](),
+                $field->field_name,
+                AvailableSections::tryFrom($field->section) ?? AvailableSections::Other,
+                $field->field_values
+            );
+        }
+        return $custom_field_definitions;
     }
 
     private function buildFieldFromDefinition(
         FieldDefinition $definition
     ): Field {
+        $values_from_database = $this->db->fetchObject(
+            $this->db->query(
+                'SELECT * FROM ' . self::USER_FIELD_CONFIGURATION_TABLE . " WHERE field_id ='{$definition->getIdentifier()}'"
+            )
+        );
+
+        if ($values_from_database === null) {
+            return new Field(
+                $definition
+            );
+        }
+
         return new Field(
             $definition,
-            PropertyAttributes::VisibleInRegistration->retrieve($this->settings, $definition),
-            !PropertyAttributes::HiddenFromUser->retrieve($this->settings, $definition),
-            PropertyAttributes::VisibleInLocalUserAdministration->retrieve($this->settings, $definition),
-            PropertyAttributes::VisibleInCourses->retrieve($this->settings, $definition),
-            PropertyAttributes::VisibleInGroups->retrieve($this->settings, $definition),
-            PropertyAttributes::VisibleInStudyProgrammes->retrieve($this->settings, $definition),
-            !PropertyAttributes::UnchangeableByUser->retrieve($this->settings, $definition),
-            PropertyAttributes::ChangeableInLocalUserAdministration->retrieve($this->settings, $definition),
-            PropertyAttributes::Required->retrieve($this->settings, $definition),
-            PropertyAttributes::Export->retrieve($this->settings, $definition),
-            PropertyAttributes::Searchable->retrieve($this->settings, $definition)
+            $values_from_database->visible_in_registration === 1,
+            $values_from_database->visible_to_user === 1,
+            $values_from_database->visible_in_lua === 1,
+            $values_from_database->visible_in_crss === 1,
+            $values_from_database->visible_in_grps === 1,
+            $values_from_database->visible_in_prgs === 1,
+            $values_from_database->changeable_by_user === 1,
+            $values_from_database->changeable_in_lua === 1,
+            $values_from_database->required === 1,
+            $values_from_database->export === 1,
+            $values_from_database->searchable === 1,
+            $values_from_database->available_in_certs === 1
+        );
+    }
+
+    private function generateAvailableProfielFields(): array
+    {
+        return array_merge(
+            $this->available_standard_profile_fields,
+            $this->buildCustomFieldDefinitions($this->available_custom_field_types)
         );
     }
 }

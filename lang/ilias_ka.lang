@@ -5835,7 +5835,7 @@ common#:#udf_type_date#:#თარიღი
 common#:#udf_type_datetime#:#თარიღი და დრო
 common#:#udf_type_select#:#სიის მონიშვნა ( ქვემოთ ჩამოტანა)
 common#:#udf_type_text#:#ტექსტის ველი( ერთი ხაზი)
-common#:#udf_type_wysiwyg#:#ტექსტის სივრცე (WYSIWYG)
+common#:#udf_type_textarea#:#ტექსტის სივრცე (WYSIWYG)
 common#:#udf_update_select_field#:#ყუთის მონიშვნის რედაქტირება
 common#:#udf_update_text_field#:#ტექსტის ველი რედაქტირება
 common#:#udf_update_wysiwyg_field#:#ტექსტის სივრცის რედაქტირება (WYSIWYG) ველი

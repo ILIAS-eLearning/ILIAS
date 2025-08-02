@@ -560,7 +560,7 @@ class ilUserDefinedFields
             // #16953
             $tmp = $sort = [];
             $is_numeric = true;
-            foreach ((array) unserialize($row->field_values, ['allowed_classes' => false]) as $item) {
+            foreach ((array) unserialize($row->field_values ?? '', ['allowed_classes' => false]) as $item) {
                 if (!is_numeric($item)) {
                     $is_numeric = false;
                 }

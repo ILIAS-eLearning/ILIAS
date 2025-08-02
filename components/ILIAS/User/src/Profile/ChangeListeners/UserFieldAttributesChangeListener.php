@@ -37,8 +37,8 @@ interface UserFieldAttributesChangeListener
      */
     public function getDescriptionForField(
         Language $lng,
-        string $field_lang_var,
-        string $attribute_lang_var
+        string $translated_field_name,
+        string $translated_attribute_name
     ): string;
 
     /**

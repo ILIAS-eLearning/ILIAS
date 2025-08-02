@@ -25,7 +25,7 @@ use ILIAS\Language\Language;
 interface Property
 {
     public function getIdentifier(): string;
-    public function getLanguageVariable(): string;
+    public function getLabel(Language $lng): string;
     public function getSection(): SettingsSections|ProfileSections;
 
     /**
@@ -37,15 +37,6 @@ interface Property
         Language $lng,
         \ilObjUser $current_user
     ): \ilFormPropertyGUI;
-
-    /**
-     * @param mixed $input `Null` will be handed in, if the  user
-     * wants to use the system default.
-     */
-    public function storeUserInput(
-        \ilObjUser $current_user,
-        mixed $input
-    ): void;
 
     public function getValueForUser(\ilObjUser $current_user): mixed;
 }
