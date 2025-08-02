@@ -38,13 +38,14 @@ class Select implements Type
         Refinery $refinery,
         ?string $data
     ): ?FormInput {
-        return $ff->tag($lng->txt('options'), [])
-            ->withValue($this->parseData($data))
-            ->withAdditionalTransformation(
-                $refinery->custom()->transformation(
-                    static fn(array $vs): string => json_encode($vs)
-                )
-            );
+        return $ff->group([
+            'values' => $ff->tag($lng->txt('options'), [])
+                ->withValue($this->parseData($data))
+        ])->withAdditionalTransformation(
+            $refinery->custom()->transformation(
+                static fn(array $vs): string => json_encode($vs['values'])
+            )
+        );
     }
 
     public function getInput(

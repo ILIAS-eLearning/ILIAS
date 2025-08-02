@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\User\Profile\Profile;
-use ILIAS\User\Profile\Fields\Standard\Username;
+use ILIAS\User\Profile\Fields\Standard\Alias;
 use ILIAS\User\Profile\Fields\Standard\Roles;
 
 /**
@@ -324,7 +324,7 @@ class ilUserDataSet extends ilDataSet
                     }
                     $user = $this->users[$usr_id];
                     $prof = new Profile();
-                    $prof->skipField(Username::class);
+                    $prof->skipField(Alias::class);
                     $prof->skipField(Roles::class);
                     $fields = $prof->getStandardFields();
                     foreach ($fields as $k => $f) {

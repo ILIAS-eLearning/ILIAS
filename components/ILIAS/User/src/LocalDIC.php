@@ -23,7 +23,8 @@ namespace ILIAS\User;
 use ILIAS\User\Settings\User\Repository as UserSettingsRepository;
 use ILIAS\User\Settings\StartingPoint\Repository as StartingPointRepository;
 use ILIAS\User\Settings\User\CollectSettingsObjective;
-use ILIAS\User\Profile\Fields\Repository as ProfileFieldsRepository;
+use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileFieldsConfigurationRepository;
+use ILIAS\User\Profile\Fields\UserDataRepository;
 use ILIAS\User\Profile\Fields\Custom\CollectTypesObjective;
 use ILIAS\User\Profile\Fields\Standard;
 use ILIAS\User\Profile\ChangeListeners\CollectListenersObjective;
@@ -66,15 +67,20 @@ class LocalDIC extends PimpleContainer
                 $DIC['ilSetting'],
                 $c[UserSettingsRepository::class]
             );
-        $this[ProfileFieldsRepository::class] = fn($c): ProfileFieldsRepository =>
-            new ProfileFieldsRepository(
+        $this[UserDataRepository::class] = fn($c): UserDataRepository =>
+            new UserDataRepository(
+                $DIC['ilDB']
+            );
+        $this[ProfileFieldsConfigurationRepository::class] = fn($c): ProfileFieldsConfigurationRepository =>
+            new ProfileFieldsConfigurationRepository(
                 $DIC['ilDB'],
+                $c[UserDataRepository::class],
                 new UUIDFactory(),
                 is_readable(CollectTypesObjective::PATH())
                 ? include CollectTypesObjective::PATH()
                 : [],
                 array_filter([
-                    new Standard\Username(),
+                    new Standard\Alias(),
                     new Standard\FirstName(),
                     new Standard\LastName(),
                     new Standard\Title(),
@@ -101,7 +107,7 @@ class LocalDIC extends PimpleContainer
                     new Standard\Email(),
                     new Standard\SecondEmail(),
                     new Standard\Hobby(),
-                    new Standard\HearedAboutILIASFrom(),
+                    new Standard\ReferralComment(),
                     new Standard\Matriculation(),
                     \ilMapUtil::isActivated() ? new Standard\Location() : null
                 ])

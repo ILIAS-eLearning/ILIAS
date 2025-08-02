@@ -23,15 +23,15 @@ namespace ILIAS\User\Profile\Fields;
 use ILIAS\User\Profile\Fields\AvailableSections;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
 
-class Repository
+class ConfigurationRepository
 {
     private const string USER_FIELD_CONFIGURATION_TABLE = 'usr_field_config';
     private const string UDF_DEFINITIONS_TABLE = 'udf_definition';
-    private const string USER_VALUES_TABLE = 'usr_profile_data';
     private array $available_profile_fields;
 
     public function __construct(
         private readonly \ilDBInterface $db,
+        private readonly UserDataRepository $data_repository,
         private readonly UUIDFactory $uuid_factory,
         private readonly array $available_custom_field_types,
         private readonly array $available_standard_profile_fields
@@ -158,7 +158,7 @@ class Repository
         if (!$field->getDefinition() instanceof Custom\Custom) {
             return;
         }
-        $this->db->manipulate('DELETE FROM ' . self::USER_VALUES_TABLE . " WHERE field_id='{$field->getIdentifier()}'" );
+        $this->data_repository->deleteForFieldIdentifier($field->getIdentifier());
         $this->db->manipulate('DELETE FROM ' . self::UDF_DEFINITIONS_TABLE . " WHERE field_id='{$field->getIdentifier()}'" );
         $this->available_profile_fields = $this->generateAvailableProfielFields();
     }

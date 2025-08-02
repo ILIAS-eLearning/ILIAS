@@ -25,33 +25,48 @@ use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
 use ILIAS\Language\Language;
 
-class HearedAboutILIASFrom implements FieldDefinition
+class Alias implements FieldDefinition
 {
     use NoOverrides;
 
     public function getIdentifier(): string
     {
-        return 'heared_about_ilias_from';
+        return 'alias';
     }
 
     public function getLabel(Language $lng): string
     {
-        return $lng->txt('referral_comment');
+        return $lng->txt('login');
     }
 
     public function getSection(): AvailableSections
     {
-        return AvailableSections::ContactData;
+        return AvailableSections::PersonalData;
+    }
+
+    public function hiddenInLists(): bool
+    {
+        return false;
+    }
+
+    public function visibleToUserForcedTo(): ?bool
+    {
+        return true;
+    }
+
+    public function visibleInLocalUserAdministrationForcedTo(): ?bool
+    {
+        return true;
     }
 
     public function visibleInCoursesForcedTo(): ?bool
     {
-        return false;
+        return true;
     }
 
     public function visibleInGroupsForcedTo(): ?bool
     {
-        return false;
+        return true;
     }
 
     public function visibleInStudyProgrammesForcedTo(): ?bool
@@ -59,16 +74,27 @@ class HearedAboutILIASFrom implements FieldDefinition
         return false;
     }
 
+    public function requiredForcedTo(): ?bool
+    {
+        return true;
+    }
+
+    public function searchableForcedTo(): ?bool
+    {
+        return true;
+    }
+
     public function availableInCertificatesForcedTo(): ?bool
     {
-        return false;
+        return true;
     }
 
     public function getInput(
         Language $lng,
         \ilObjUser $current_user
     ): \ilFormPropertyGUI {
-        $input = new \ilTextAreaInputGUI($this->getLabel($lng));
+        $input = new \ilTextInputGUI($this->getLabel($lng));
+        $input->setMaxLength(190);
         $input->setValue(
             $this->getValueForUser($current_user)
         );
@@ -80,12 +106,12 @@ class HearedAboutILIASFrom implements FieldDefinition
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
-        $current_user->setComment($input);
+        $current_user->setLogin($input);
         return $current_user;
     }
 
     public function getValueForUser(\ilObjUser $current_user): string
     {
-        return $current_user->getComment();
+        return $current_user->getLogin();
     }
 }

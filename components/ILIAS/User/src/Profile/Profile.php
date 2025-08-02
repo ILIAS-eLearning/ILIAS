@@ -23,7 +23,7 @@ namespace ILIAS\User\Profile;
 use ILIAS\User\LocalDIC;
 use ILIAS\User\Profile\Fields\Field as ProfileField;
 use ILIAS\User\Profile\Fields\AvailableSections as AvailableProfileSections;
-use ILIAS\User\Profile\Fields\Repository as ProfileFieldsRepository;
+use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileFieldsConfigurationRepository;
 use ILIAS\Language\Language;
 
 class Profile
@@ -37,7 +37,7 @@ class Profile
     private Language $lng;
     private \ilRbacReview $rbac_review;
 
-    private ProfileFieldsRepository $profile_fields_repository;
+    private ProfileFieldsConfigurationRepository $profile_fields_repository;
     private array $user_fields;
     protected string $ajax_href;
     protected array $skip_fields; // Missing array type.
@@ -54,7 +54,7 @@ class Profile
         $this->rbac_review = $DIC['rbacreview'];
 
         $this->user_settings_config = new \ilUserSettingsConfig();
-        $this->profile_fields_repository = LocalDIC::dic()[ProfileFieldsRepository::class];
+        $this->profile_fields_repository = LocalDIC::dic()[ProfileFieldsConfigurationRepository::class];
         $this->user_fields = $this->profile_fields_repository->get();
 
         $this->skip_groups = [];

@@ -55,7 +55,7 @@ class ConfigurationGUI implements DataRetrieval
     private const string ACTION_EDIT = 'edit';
     private const string ACTION_DELETE = 'delete';
 
-    private readonly Repository $repository;
+    private readonly ConfigurationRepository $repository;
     private readonly URLBuilder $url_builder;
     private readonly URLBuilderToken $action_token;
     private readonly URLBuilderToken $field_id_token;
@@ -80,7 +80,7 @@ class ConfigurationGUI implements DataRetrieval
         private readonly HttpService $http
     ) {
         $this->available_change_listeners = LocalDIC::dic()['profile.fields.changelisteners'];
-        $this->repository = LocalDIC::dic()[Repository::class];
+        $this->repository = LocalDIC::dic()[ConfigurationRepository::class];
         $this->available_fields = $this->repository->get();
 
         $url_builder = new URLBuilder(

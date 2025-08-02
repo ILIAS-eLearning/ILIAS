@@ -20,166 +20,89 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields;
 
-use ILIAS\User\PropertyAttributes;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class UserDataRepository
 {
-    private const string TABLE = 'usr_profile_data';
+    private const string USER_BASE_TABLE = 'usr_profile_data';
+    private const string USER_VALUES_TABLE = 'usr_profile_data';
 
     public function __construct(
-        private readonly \ilSetting $settings,
-        private readonly \ilDBInterface $db,
-        array $available_profile_fields
+        private readonly \ilDBInterface $db
     ) {
     }
 
-    public function get(): array
+    /**
+     *
+     * @param array<int> $user_ids
+     * @return Generator<UserData>
+     */
+    public function getFor(array $user_ids): \Generator
     {
-        return array_reduce(
-            $this->available_profile_fields,
-            function (array $c, FieldDefinition $v): array {
-                $c[] = $this->buildFieldFromDefinition($v);
-                return $c;
-            },
-            []
-        );
-    }
-
-    public function getByIdentifier(string $identifier): Field
-    {
-        foreach ($this->available_profile_fields as $definition) {
-            if ($definition->getIdentifier() === $identifier) {
-                return $this->buildFieldFromDefinition($definition);
-            }
-        }
-    }
-
-    public function getByClass(string $class): Field
-    {
-        foreach ($this->available_profile_fields as $definition) {
-            if ($definition::class === $class) {
-                return $this->buildFieldFromDefinition($definition);
-            }
-        }
-    }
-
-    public function storeConfiguration(Field $field): void
-    {
-        PropertyAttributes::VisibleInRegistration->store(
-            $this->settings,
-            $field,
-            $field->isVisibleInRegistration()
-        );
-        PropertyAttributes::VisibleToUser->store(
-            $this->settings,
-            $field,
-            !$field->isVisibleToUser()
-        );
-        PropertyAttributes::VisibleInLocalUserAdministration->store(
-            $this->settings,
-            $field,
-            $field->isVisibleInLocalUserAdministration()
-        );
-        PropertyAttributes::VisibleInCourses->store(
-            $this->settings,
-            $field,
-            $field->isVisibleInCourses()
-        );
-        PropertyAttributes::VisibleInGroups->store(
-            $this->settings,
-            $field,
-            $field->isVisibleInGroups()
-        );
-        PropertyAttributes::VisibleInStudyProgrammes->store(
-            $this->settings,
-            $field,
-            $field->isVisibleInStudyProgrammes()
-        );
-        PropertyAttributes::UnchangeableByUser->store(
-            $this->settings,
-            $field,
-            !$field->isChangeableByUser()
-        );
-        PropertyAttributes::ChangeableInLocalUserAdministration->store(
-            $this->settings,
-            $field,
-            $field->isChangeableInLocalUserAdministration()
-        );
-        PropertyAttributes::Required->store(
-            $this->settings,
-            $field,
-            $field->isRequired()
-        );
-        PropertyAttributes::Export->store(
-            $this->settings,
-            $field,
-            $field->export()
-        );
-        PropertyAttributes::Searchable->store(
-            $this->settings,
-            $field,
-            $field->isSearchable()
-        );
-        PropertyAttributes::AvailableInCertificates->store(
-            $this->settings,
-            $field,
-            $field->isSearchable()
-        );
-    }
-
-    public function getCustomFieldTypes(): array {
-        return array_map(
-            fn (string $v): Custom\Type => new $v(),
-            $this->available_custom_field_types
-        );
-    }
-
-    private function buildCustomFieldDefinitions(
-        array $available_custom_field_types
-    ): array {
-        $query_result = $this->db->query(
-            'SELECT * FROM ' . self::UDF_DEFINITIONS_TABLE
+        $query = $this->db->query(
+            'SELECT * FROM ' . self::USER_BASE_TABLE
+                . " WHERE {$this->db->in('usr_id', $user_ids)}"
         );
 
-        $custom_field_definitions = [];
-        while(($field = $this->db->fetchObject($query_result)) !== null) {
-            $field_type = match ($field->field_type) {
-                3 => 0,
-                1 => 1,
-                2 => 2
-            };
-            $values = unserialize($field->field_values, ['allowed_classes' => false]);
-            if (!is_array($values)) {
-                $values = null;
-            }
-            $custom_field_definitions[] = new Custom\Custom(
-                new $available_custom_field_types[$field_type](),
-                (string) $field->field_id,
-                $field->field_name,
-                \ILIAS\User\Profile\Fields\AvailableSections::Other,
-                $values
+        $prepared_query = $this->db->prepare('SELECT field_id, value FROM '
+            . self::USER_VALUES_TABLE . ' WHERE usr_id = ?');
+
+        while(($base_data = $this->db->fetchObject($query)) !== null) {
+            $additional_data = $this->db->execute($prepared_query, $base_data->usr_id);
+            yield new UserData(
+                $base_data->usr_id,
+                $base_data->login,
+                new ResourceIdentification($base_data->rid),
+                $base_data->firstname,
+                $base_data->lastname,
+                $base_data->title,
+                $base_data->gender,
+                $base_data->birthday,
+                $base_data->institution,
+                $base_data->department,
+                $base_data->street,
+                $base_data->city,
+                $base_data->zipcode,
+                $base_data->country,
+                $base_data->email,
+                $base_data->second_email,
+                $base_data->phone_office,
+                $base_data->phone_home,
+                $base_data->phone_mobil,
+                $base_data->fax,
+                $base_data->matriculation,
+                $base_data->referral_comment,
+                [
+                    'latitude' => $base_data->latitude,
+                    'longitude' => $base_data->longitude,
+                    'zoom' => $base_data->loc_zoom
+                ],
+                array_reduce(
+                    $additional_data,
+                    static function(array $c, \stdClass $v): array {
+                        if (!array_key_exists($v->field_id, $c)) {
+                            $c[$v->field_id] = [];
+                        }
+                        $c[$v->field_id][] = $v->value;
+                        return $c;
+                    },
+                    []
+                )
             );
         }
-        return $custom_field_definitions;
+
+        $this->db->free($prepared_query);
     }
 
-    private function buildFieldFromDefinition(
-        FieldDefinition $definition
-    ): Field {
-        return new Field(
-            $definition,
-            PropertyAttributes::VisibleInRegistration->retrieve($this->settings, $definition),
-            !PropertyAttributes::HiddenFromUser->retrieve($this->settings, $definition),
-            PropertyAttributes::VisibleInLocalUserAdministration->retrieve($this->settings, $definition),
-            PropertyAttributes::VisibleInCourses->retrieve($this->settings, $definition),
-            PropertyAttributes::VisibleInGroups->retrieve($this->settings, $definition),
-            PropertyAttributes::VisibleInStudyProgrammes->retrieve($this->settings, $definition),
-            !PropertyAttributes::UnchangeableByUser->retrieve($this->settings, $definition),
-            PropertyAttributes::ChangeableInLocalUserAdministration->retrieve($this->settings, $definition),
-            PropertyAttributes::Required->retrieve($this->settings, $definition),
-            PropertyAttributes::Export->retrieve($this->settings, $definition),
-            PropertyAttributes::Searchable->retrieve($this->settings, $definition),
-            PropertyAttributes::AvailableInCertificates->retrieve($this->settings, $definition)
+    public function update(UserData $user_data): void
+    {
+        ;
+    }
+
+    public function deleteForFieldIdentifier(string $identifier): void
+    {
+        $this->db->manipulate(
+            'DELETE FROM ' . self::USER_VALUES_TABLE . " WHERE field_id='{$identifier}'"
         );
     }
 }

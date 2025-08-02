@@ -162,6 +162,6 @@ class Custom implements FieldDefinition
 
     public function getValueForUser(\ilObjUser $current_user): string
     {
-        return '';
+        return $current_user->getProfileData()->getByIdentifier($this->getIdentifier());
     }
 }

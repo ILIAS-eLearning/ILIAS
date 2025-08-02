@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\User\Profile\Profile;
 use ILIAS\User\Profile\Fields\Standard\Roles;
-use ILIAS\User\Profile\Fields\Standard\Username;
+use ILIAS\User\Profile\Fields\Standard\Alias;
 
 /**
  * Class ilObjUserFolder
@@ -465,7 +465,7 @@ class ilObjUserFolder extends ilObject
     public static function getProfileFields(): array // Missing array type.
     {
         $up = new Profile();
-        $up->skipField(Username::class);
+        $up->skipField(Alias::class);
         $up->skipField(Roles::class);
         $fds = $up->getStandardFields();
         $profile_fields = [];

@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+use ILIAS\User\LocalDIC;
+use ILIAS\User\Profile\Fields\UserData;
+use ILIAS\User\Profile\Fields\UserDataRepository;
+use ILIAS\User\Profile\Fields\Standard\Interest;
 use ILIAS\Language\Language;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Services;
@@ -40,88 +44,48 @@ class ilObjUser extends ilObject
 
     public const DATABASE_DATE_FORMAT = 'Y-m-d H:i:s';
 
-    protected string $ext_account = '';
-    protected string $time_limit_message = '';
-    protected bool $time_limit_unlimited = false;
-    protected ?int $time_limit_until = null;
-    protected ?int $time_limit_from = null;
-    protected ?int $time_limit_owner = null;
-    protected string $last_login = '';
-
-    public string $login = '';
-    protected string $passwd = ''; // password encoded in the format specified by $passwd_type
-    protected string $passwd_type = '';
-    // specifies the password format.
-    // value: ilObjUser::PASSWD_PLAIN or ilObjUser::PASSWD_CRYPTED.
-    // Differences between password format in class ilObjUser and
-    // in table usr_data:
-    // Class ilObjUser supports two different password types
-    // (plain and crypted) and it uses the variables $passwd
-    // and $passwd_type to store them.
-    // Table usr_data supports only two different password types
-    // (md5 and bcrypt) and it uses the columns 'passwd' and 'passwd_type' to store them.
-    // The conversion between these two storage layouts is done
-    // in the methods that perform SQL statements. All other
-    // methods work exclusively with the $passwd and $passwd_type
-    // variables.
-    protected ?string $password_encoding_type = null; // The encoding algorithm of the user's password stored in the database
-    // A salt used to encrypt the user's password
-    protected ?string $password_salt = null;
-    public string $gender = '';	// 'm' or 'f'
-    public string $utitle = '';	// user title (keep in mind, that we derive $title from object also!)
-    public string $firstname = '';
-    public string $lastname = '';
-    protected ?string $birthday = null;
-    public string $fullname = '';	// title + firstname + lastname in one string
-    public string $institution = '';
-    public string $department = '';
-    public string $street = '';
-    public string $city = '';
-    public string $zipcode = '';
-    public string $country = '';
-    public string $sel_country = '';
-    public string $phone_office = '';
-    public string $phone_home = '';
-    public string $phone_mobile = '';
-    public string $fax = '';
-    public string $email = '';
-    protected ?string $second_email = null;
-    public string $hobby = '';
-    public string $matriculation = '';
-    public string $referral_comment = '';
+    private string $ext_account = '';
+    private string $time_limit_message = '';
+    private bool $time_limit_unlimited = false;
+    private ?int $time_limit_until = null;
+    private ?int $time_limit_from = null;
+    private ?int $time_limit_owner = null;
+    private string $last_login = '';
+    private string $passwd = '';
+    private string $passwd_type = '';
+    private ?string $password_encoding_type = null;
+    private ?string $password_salt = null;
     public ?string $approve_date = null;
     public ?string $agree_date = null;
     public int $active = 0;
     public string $client_ip = ''; // client ip to check before login
     public ?string $auth_mode = null; // authentication mode
-    public ?string $latitude = null;
-    public ?string $longitude = null;
-    public ?string $loc_zoom = null;
     public int $last_password_change_ts = 0;
-    protected bool $passwd_policy_reset = false;
+    private bool $passwd_policy_reset = false;
     public int $login_attempts = 0;
     public array $user_defined_data = []; // Missing array type.
     /** @var array<string, string> */
-    protected array $oldPrefs = [];
+    private array $oldPrefs = [];
     /** @var array<string, string> */
     public array $prefs = [];
     public string $skin = '';
-    protected static array $personal_image_cache = [];
-    protected ?string $inactivation_date = null;
+    private static array $personal_image_cache = [];
+    private ?string $inactivation_date = null;
     private bool $is_self_registered = false; // flag for self registered users
-    protected string $org_units = '';    // ids of assigned org-units, comma seperated
     /** @var string[] */
-    protected array $interests_general = [];
+    private array $interests_general = [];
     /** @var string[] */
-    protected array $interests_help_offered = [];
+    private array $interests_help_offered = [];
     /** @var string[] */
-    protected array $interests_help_looking = [];
-    protected string $last_profile_prompt = '';	// timestamp
-    protected string $first_login = '';	// timestamp
-    protected bool $profile_incomplete = false;
-    protected ?string $avatar_rid = null;
-    protected \ILIAS\FileDelivery\Delivery\StreamDelivery $delivery;
-    protected DateFormatFactory $date_format_factory;
+    private array $interests_help_looking = [];
+    private string $last_profile_prompt = '';	// timestamp
+    private string $first_login = '';	// timestamp
+    private bool $profile_incomplete = false;
+
+    private UserData $user_data;
+    private UserDataRepository $user_data_repository;
+
+    private DateFormatFactory $date_format_factory;
     private ilCronDeleteInactiveUserReminderMail $cron_delete_user_reminder_mail;
     private Services $irss;
 
@@ -149,6 +113,7 @@ class ilObjUser extends ilObject
             $this->prefs['style'] = $this->ilias->ini->readVariable('layout', 'style');
         }
 
+        $this->user_data_repository = LocalDIC::dic()[UserDataRepository::class];
         $this->app_event_handler = $DIC['ilAppEventHandler'];
         $this->date_format_factory = (new DataFactory())->dateFormat();
         $this->delivery = $DIC->fileDelivery()->delivery();
@@ -166,7 +131,7 @@ class ilObjUser extends ilObject
         $ilErr = $DIC['ilErr'];
         $ilDB = $this->db;
 
-        $r = $ilDB->queryF('SELECT * FROM usr_data ' .
+        $r = $ilDB->queryF('SELECT last_password_change, login_attempts, passwd_policy_reset FROM usr_data ' .
              'WHERE usr_id= %s', ['integer'], [$this->id]);
 
         if ($data = $ilDB->fetchAssoc($r)) {
@@ -4115,7 +4080,9 @@ class ilObjUser extends ilObject
      */
     public function getGeneralInterests(): array
     {
-        return $this->interests_general;
+        return $this->user_data->getAdditionalFieldByIdentifier(
+            \ILIAS\User\Profile\Fields\Standard\Interest::class
+        );
     }
 
     /**
@@ -4179,7 +4146,7 @@ class ilObjUser extends ilObject
      * @param string[]
      * @return string
      */
-    protected function buildTextFromArray(array $a_attr): string
+    private function buildTextFromArray(array $a_attr): string
     {
         if (count($a_attr) > 0) {
             return implode(', ', $a_attr);
@@ -4187,7 +4154,7 @@ class ilObjUser extends ilObject
         return '';
     }
 
-    protected function readMultiTextFields(): void
+    private function readMultiTextFields(): void
     {
         global $DIC;
 
@@ -4262,7 +4229,7 @@ class ilObjUser extends ilObject
         }
     }
 
-    protected function deleteMultiTextFields(): void
+    private function deleteMultiTextFields(): void
     {
         global $DIC;
 
