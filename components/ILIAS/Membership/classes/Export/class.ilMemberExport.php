@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +17,9 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Context;
 
 /**
  * Class for generation of member export files
@@ -202,10 +206,10 @@ class ilMemberExport
             }
         }
 
-        $udf = ilUserDefinedFields::_getInstance();
-        foreach ($udf->getCourseExportableFields() as $field_id => $udf_data) {
-            if ($this->settings->enabled('udf_' . $field_id)) {
-                $fields[] = 'udf_' . $field_id;
+        $profile = new Profile();
+        foreach ($profile->getVisibleFields(Context::Course) as $field) {
+            if ($this->settings->enabled('udf_' . $field->getIdentifier())) {
+                $fields[] = 'udf_' . $field->getIdentifier();
             }
         }
 
@@ -246,8 +250,7 @@ class ilMemberExport
                 default:
                     if (strpos($field, 'udf_') === 0) {
                         $field_id = explode('_', $field);
-                        $udf = ilUserDefinedFields::_getInstance();
-                        $def = $udf->getDefinition((int) $field_id[1]);
+                        $def = (new Profile())->getFieldByIdentifier($field_id[1]);
                         #$this->csv->addColumn($def['field_name']);
                         $this->addCol($def['field_name'], $row, $col++);
                     } elseif (strpos($field, 'cdf_') === 0) {

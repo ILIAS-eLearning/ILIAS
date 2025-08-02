@@ -335,7 +335,7 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
             $new_email = $form->getInput('email');
             $old_email = $this->getBackpackMail();
 
-            ilObjUser::_writePref($ilUser->getId(), self::BACKPACK_EMAIL, $new_email);
+            $ilUser->writePref(self::BACKPACK_EMAIL, $new_email);
 
             // if email was changed: delete badge files
             if ($new_email != $old_email) {

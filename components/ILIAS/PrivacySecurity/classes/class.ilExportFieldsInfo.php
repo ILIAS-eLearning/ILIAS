@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\User\Profile\Profile;
+use ILIAS\User\Context;
 use ILIAS\User\Profile\Fields\Field as ProfileField;
 
 /**
@@ -135,22 +136,10 @@ class ilExportFieldsInfo
             $fields['consultation_hour']['default'] = 0;
         }
 
-        $udf = [];
-        switch ($this->getType()) {
-            case 'crs':
-                $udf = ilUserDefinedFields::_getInstance()->getCourseExportableFields();
-                break;
-            case 'grp':
-                $udf = ilUserDefinedFields::_getInstance()->getGroupExportableFields();
-                break;
-            case 'prg':
-                $udf = ilUserDefinedFields::_getInstance()->getProgrammeExportableFields();
-                break;
-        }
-
+        $udf = (new Profile())->getVisibleUserDefinedFields(Context::buildFromObjectType($this->getType()));
         if ($udf !== []) {
             foreach ($udf as $field_id => $field) {
-                $fields['udf_' . $field_id]['txt'] = $field['field_name'];
+                $fields['udf_' . $field_id]['txt'] = $field->getLabel($this->lng);
                 $fields['udf_' . $field_id]['default'] = 0;
             }
         }
@@ -190,7 +179,7 @@ class ilExportFieldsInfo
     {
         $type = $this->getType();
         $this->possible_fields = array_reduce(
-            (new Profile())->getStandardFields(),
+            (new Profile())->getFields(),
             function (array $c, ProfileField $v) use ($type): array {
                 if ($type === 'crs') {
                     $c[$v->getIdentifier()] = $v->isVisibleInCourses();

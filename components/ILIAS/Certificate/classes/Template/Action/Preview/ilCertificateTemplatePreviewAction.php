@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\Language\Language;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -27,6 +28,7 @@ use ILIAS\ResourceStorage\Services as IRSS;
 class ilCertificateTemplatePreviewAction
 {
     private readonly ilObjUser $user;
+    private readonly Language $lng;
     private readonly ilCertificateUtilHelper $utilHelper;
     private readonly ilCertificateUserDefinedFieldsHelper $userDefinedFieldsHelper;
     private readonly ilCertificateRpcClientFactoryHelper $rpcClientFactoryHelper;
@@ -38,6 +40,7 @@ class ilCertificateTemplatePreviewAction
         private readonly IRSS $irss,
         private readonly string $rootDirectory = CLIENT_WEB_DIR,
         ?ilObjUser $user = null,
+        ?Language $lng = null,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilCertificateUserDefinedFieldsHelper $userDefinedFieldsHelper = null,
         ?ilCertificateRpcClientFactoryHelper $rpcClientFactoryHelper = null,
@@ -48,6 +51,11 @@ class ilCertificateTemplatePreviewAction
             $user = $DIC->user();
         }
         $this->user = $user;
+
+        if (null === $lng) {
+            $lng = $DIC->language();
+        }
+        $this->lng = $lng;
 
         if (null === $utilHelper) {
             $utilHelper = new ilCertificateUtilHelper();
@@ -143,17 +151,14 @@ class ilCertificateTemplatePreviewAction
      */
     private function getCustomCertificateFields(): array
     {
-        $user_field_definitions = $this->userDefinedFieldsHelper->createInstance();
-        $fds = $user_field_definitions->getDefinitions();
+        $fds = $this->userDefinedFieldsHelper->getFields();
 
         $fields = [];
         foreach ($fds as $f) {
-            if ($f['certificate']) {
-                $fields[$f['field_id']] = [
-                    'name' => $f['field_name'],
-                    'ph' => '[#' . str_replace(' ', '_', strtoupper($f['field_name'])) . ']'
-                ];
-            }
+            $fields[$f['field_id']] = [
+                'name' => $f->getLabel($this->lng),
+                'ph' => '[#' . str_replace(' ', '_', strtoupper($f->getLabel($this->lng))) . ']'
+            ];
         }
 
         return $fields;

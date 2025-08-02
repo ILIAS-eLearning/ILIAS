@@ -95,7 +95,7 @@ class ilLanguage implements \ILIAS\Language\Language
         }
         if ($DIC->offsetExists("ilUser")) {
             $ilUser = $DIC->user();
-            $this->lang_user = $ilUser->prefs["language"];
+            $this->lang_user = $ilUser->getPref("language");
         }
 
         $langs = $this->getInstalledLanguages();

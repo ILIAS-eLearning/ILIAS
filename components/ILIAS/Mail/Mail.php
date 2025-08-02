@@ -38,13 +38,9 @@ class Mail implements Component\Component
             );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilMailComposeFunctions.js");
-<<<<<<< HEAD
         $contribute[User\Settings\UserSettings::class] = fn() =>
             new Mail\UserSettings\Settings();
-=======
-
         $contribute[User\Profile\ChangeListeners\UserFieldAttributesChangeListener::class] = fn() =>
             new Mail\ilMailUserFieldChangeListener();
->>>>>>> 78f8c46c552 (User: Changes in Other Components for StandardFields)
     }
 }

@@ -99,9 +99,9 @@ class ilStyleDefinition
                 $DIC->user(),
                 'skin'
             )) {
-                $skin_id = $DIC->user()->skin;
+                $skin_id = $DIC->user()->getSkin();
                 if ($skin_id && !self::skinExists($skin_id)) {
-                    if($DIC->isDependencyAvailable('systemStyle')) {
+                    if ($DIC->isDependencyAvailable('systemStyle')) {
                         $messages = new ilSystemStyleMessageStack($DIC->ui()->mainTemplate());
                         $message_text = $DIC->language()->txt('set_skin_does_not_exist') . ' ' . $skin_id;
                         $messages->addMessage(new ilSystemStyleMessage($message_text, ilSystemStyleMessage::TYPE_ERROR));
@@ -247,8 +247,8 @@ class ilStyleDefinition
             return null;
         }
 
-        if (array_key_exists('style', $DIC->user()->prefs) && $DIC->user()->prefs['style']) {
-            self::setCurrentStyle($DIC->user()->prefs['style']);
+        if ($DIC->user()->getPref('style')) {
+            self::setCurrentStyle($DIC->user()->getPref('style'));
         } else {
             $system_style_config = new ilSystemStyleConfig();
             self::setCurrentStyle($system_style_config->getDefaultStyleId());

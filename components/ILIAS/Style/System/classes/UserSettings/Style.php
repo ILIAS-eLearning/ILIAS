@@ -167,12 +167,4 @@ class Style implements SettingDefinition
         }
         return "{$skin}:{$style}";
     }
-
-    public function getValueForUser(\ilObjUser $current_user): array
-    {
-        return [
-            'style' => $current_user->prefs['style'],
-            'skin' => $current_user->skin
-        ];
-    }
 }

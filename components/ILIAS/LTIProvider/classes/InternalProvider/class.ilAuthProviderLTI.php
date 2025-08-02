@@ -426,79 +426,25 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $userObj = new ilObjUser();
         $local_user = ilAuthUtils::_generateLogin($consumer->getPrefix() . '_' . $this->getCredentials()->getUsername());
 
-        $newUser["login"] = $local_user;
-        if(isset($this->messageParameters['lis_person_name_given'])) {
-            $newUser["firstname"] = $this->messageParameters['lis_person_name_given'];
-        } else {
-            $newUser["firstname"] = '-';
+        $firstname = '-';
+        if (isset($this->messageParameters['lis_person_name_given'])) {
+            $firstname = $this->messageParameters['lis_person_name_given'];
         }
-        if(isset($this->messageParameters['lis_person_name_family'])) {
-            $newUser["lastname"] = $this->messageParameters['lis_person_name_family'];
-        } else {
-            $newUser["lastname"] = '-';
+
+        $lastname = '-';
+        if (isset($this->messageParameters['lis_person_name_family'])) {
+            $lastname = $this->messageParameters['lis_person_name_family'];
         }
-        $newUser['email'] = $this->messageParameters['lis_person_contact_email_primary'];
-
-        // set "plain md5" password (= no valid password)
-        //        $newUser["passwd"] = "";
-        $newUser["passwd_type"] = ilObjUser::PASSWD_CRYPTED;
-
-        $newUser["auth_mode"] = 'lti_' . $consumer->getExtConsumerId();
-        $newUser['ext_account'] = $this->getCredentials()->getUsername();
-        $newUser["profile_incomplete"] = 0;
-
-        // ILIAS 8
-        //check
-        $newUser["gender"] = 'n';
-        $newUser["title"] = null;
-        $newUser["birthday"] = null;
-        $newUser["institution"] = null;
-        $newUser["department"] = null;
-        $newUser["street"] = null;
-        $newUser["city"] = null;
-        $newUser["zipcode"] = null;
-        $newUser["country"] = null;
-        $newUser["sel_country"] = null;
-        $newUser["phone_office"] = null;
-        $newUser["phone_home"] = null;
-        $newUser["phone_mobile"] = null;
-        $newUser["fax"] = null;
-        $newUser["matriculation"] = null;
-        $newUser["second_email"] = null;
-        $newUser["hobby"] = null;
-        $newUser["client_ip"] = null;
-        $newUser["passwd_salt"] = null;//$newUser->getPasswordSalt();
-        $newUser["latitude"] = null;
-        $newUser["longitude"] = null;
-        $newUser["loc_zoom"] = null;
-        $newUser["last_login"] = null;
-        $newUser["first_login"] = null;
-        $newUser["last_profile_prompt"] = null;
-        $newUser["last_update"] = ilUtil::now();
-        $newUser["create_date"] = ilUtil::now();
-        $newUser["referral_comment"] = null;
-        $newUser["approve_date"] = null;
-        $newUser["agree_date"] = null;
-        $newUser["inactivation_date"] = null;
-        $newUser["time_limit_from"] = null;
-        $newUser["time_limit_until"] = null;
-        $newUser["is_self_registered"] = null;
-        //end to check
-
-        $newUser["passwd_enc_type"] = "";
-        $newUser["active"] = true;
-        $newUser["time_limit_owner"] = 7;
-        $newUser["time_limit_unlimited"] = 0;
-        $newUser["time_limit_message"] = 0;
-        $newUser["passwd"] = " ";
-        //        $newUser["last_update"]
 
         // system data
-        $userObj->assignData($newUser);
-        $userObj->setTitle($userObj->getFullname());
-        $userObj->setDescription($userObj->getEmail());
-
-        // set user language
+        $userObj->setLogin($local_user);
+        $userObj->setFirstname($firstname);
+        $userObj->setLastname($lastname);
+        $userObj->setEmail($this->messageParameters['lis_person_contact_email_primary']);
+        $userObj->setPasswd('', ilObjUser::PASSWD_CRYPTED);
+        $userObj->setAuthMode('lti_' . $consumer->getExtConsumerId());
+        $userObj->setExternalAccount($this->getCredentials()->getUsername());
+        // set user language to system language
         $userObj->setLanguage($consumer->getLanguage());
 
         // Time limit

@@ -18,13 +18,20 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Context;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateUserDefinedFieldsHelper
 {
-    public function createInstance(): ilUserDefinedFields
+    /**
+     *
+     * @return <ILIAS\User\Profile\Fields\Custom\Custom>
+     */
+    public function getFields(): array
     {
-        return ilUserDefinedFields::_getInstance();
+        return (new Profile())->getVisibleUserDefinedFields(Context::Certificate);
     }
 }

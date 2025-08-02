@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Context;
 
 /**
  * Export settings gui
@@ -112,15 +114,9 @@ class ilMemberExportSettingsGUI
         }
 
         // udf
-        $udf = ilUserDefinedFields::_getInstance();
-        $exportable = array();
-        if ($this->parent_type === 'crs') {
-            $exportable = $udf->getCourseExportableFields();
-        } elseif ($this->parent_type === 'grp') {
-            $exportable = $udf->getGroupExportableFields();
-        }
-        foreach ($exportable as $field_id => $udf_data) {
-            $fields['udf_' . $field_id] = $udf_data['field_name'];
+        $exportable = (new Profile())->getVisibleUserDefinedFields(Context::buildFromObjectType($this->type));
+        foreach ($exportable as $field) {
+            $fields['udf_' . $field->getIdentifier()] = $field->getLabel($this->lng);
         }
 
         $ufields = new ilCheckboxGroupInputGUI($this->lng->txt('user_detail'), 'preset');

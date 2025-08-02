@@ -17,6 +17,10 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Context;
+
 /**
 * Class ilUserSearchOptions
 *
@@ -211,28 +215,29 @@ class ilUserSearchOptions
 
     public static function __appendUserDefinedFields(array $fields, int $counter): array
     {
-        $user_defined_fields = ilUserDefinedFields::_getInstance();
-        foreach ($user_defined_fields->getSearchableDefinitions() as $definition) {
-            $fields[$counter]['values'] = ilUserSearchOptions::__prepareValues($definition['field_values']);
-            $fields[$counter]['lang'] = $definition['field_name'];
-            $fields[$counter]['db'] = $definition['field_id'];
+        global $DIC;
+        $lng = $DIC->language();
+        foreach ((new Profile())->getVisibleUserDefinedFields(Context::Search) as $field) {
+            $input = $field->getInput();
+            if ($input instanceof ilSelectInputGUI) {
+                $fields[$counter]['values'] = ilUserSearchOptions::__prepareValues($input->getOptions());
+                $fields[$counter]['type'] = self::FIELD_TYPE_UDF_SELECT;
+            }
+            $fields[$counter]['lang'] = $field->getLabel($lng);
+            $fields[$counter]['db'] = $field->getIdentifier();
 
-            switch ($definition['field_type']) {
-                case UDF_TYPE_TEXT:
+            switch (get_class($input)) {
+                case ilTextInputGUI::class:
                     $fields[$counter]['type'] = self::FIELD_TYPE_UDF_TEXT;
                     break;
 
-                case UDF_TYPE_SELECT:
-                    $fields[$counter]['type'] = self::FIELD_TYPE_UDF_SELECT;
-                    break;
-
-                case UDF_TYPE_WYSIWYG:
+                case ilTextAreaInputGUI::class:
                     $fields[$counter]['type'] = self::FIELD_TYPE_UDF_WYSIWYG;
                     break;
 
                 default:
                     // do not throw: udf plugin support
-                    $fields[$counter]['type'] = $definition['field_type'];
+                    $fields[$counter]['type'] = get_class($input);
                     break;
             }
             ++$counter;

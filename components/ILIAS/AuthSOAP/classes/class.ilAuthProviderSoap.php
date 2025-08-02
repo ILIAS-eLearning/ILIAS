@@ -167,30 +167,25 @@ class ilAuthProviderSoap extends ilAuthProvider
         $userObj = new ilObjUser();
         $internalLogin = ilAuthUtils::_generateLogin($this->getCredentials()->getUsername());
 
-        $usrData = [];
-        $usrData['firstname'] = $valid['firstname'];
-        $usrData['lastname'] = $valid['lastname'];
-        $usrData['email'] = $valid['email'];
-        $usrData['login'] = $internalLogin;
-        $usrData['passwd'] = '';
-        $usrData['passwd_type'] = ilObjUser::PASSWD_CRYPTED;
-
         $password = '';
+        $password_type = ilObjUser::PASSWD_CRYPTED;
         if ($this->settings->get('soap_auth_allow_local')) {
             $passwords = ilSecuritySettingsChecker::generatePasswords(1);
             $password = $passwords[0];
-            $usrData['passwd'] = $password;
-            $usrData['passwd_type'] = ilObjUser::PASSWD_PLAIN;
+            $password_type = ilObjUser::PASSWD_PLAIN;
         }
 
-        $usrData['auth_mode'] = 'soap';
-        $usrData['ext_account'] = $this->getCredentials()->getUsername();
-        $usrData['profile_incomplete'] = 1;
-
-        $userObj->assignData($usrData);
+        $userObj->setLogin($internalLogin);
+        $userObj->setFirstname($user->getFirstname());
+        $userObj->setLastname($user->getLastname());
         $userObj->setTitle($userObj->getFullname());
         $userObj->setDescription($userObj->getEmail());
+        $userObj->setEmail($user->getEmail());
+        $userObj->setPasswd($password, $password_type);
+        $userObj->setAuthMode('soap');
+        $userObj->setExternalAccount($this->getCredentials()->getUsername());
         $userObj->setLanguage($this->language->getDefaultLanguage());
+        $userObj->setProfileIncomplete(true);
 
         $userObj->setTimeLimitOwner(USER_FOLDER_ID);
         $userObj->setTimeLimitUnlimited(true);

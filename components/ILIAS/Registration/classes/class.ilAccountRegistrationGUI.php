@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
 use ILIAS\User\Profile\Profile;
-use ILIAS\User\Profile\PublicProfileGUI;
+use ILIAS\User\Context;
 use ILIAS\User\Profile\Fields\Standard\Avatar;
 use ILIAS\User\Profile\Fields\Standard\Birthday;
 
@@ -146,31 +146,11 @@ class ilAccountRegistrationGUI
             $this->form->addItem($code);
         }
 
-        // user defined fields
-        $user_defined_data = $this->globalUser->getUserDefinedData();
-        $user_defined_fields = ilUserDefinedFields::_getInstance();
-        $custom_fields = [];
-
-        foreach ($user_defined_fields->getRegistrationDefinitions() as $field_id => $definition) {
-            $fprop = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition(
-                $definition,
-                true,
-                $user_defined_data['f_' . $field_id] ?? ''
-            );
-            if ($fprop instanceof ilFormPropertyGUI) {
-                $custom_fields['udf_' . $definition['field_id']] = $fprop;
-            }
-        }
-
         $this->user_profile->setMode(Profile::MODE_REGISTRATION);
 
-        $this->user_profile->setAjaxCallback(
-            $this->ctrl->getLinkTarget($this, 'doProfileAutoComplete', '', true)
-        );
         $this->lng->loadLanguageModule("user");
         // add fields to form
-        $this->user_profile->addStandardFieldsToForm($this->form, null, $custom_fields);
-        unset($custom_fields);
+        $this->user_profile->addFieldsToForm($this->form, Context::Registration);
 
         // set language selection to current display language
         $flang = $this->form->getItemByPostVar("usr_language");
@@ -384,7 +364,7 @@ class ilAccountRegistrationGUI
 
         $this->user_profile->skipField(Birthday::class);
         $this->user_profile->skipField(Avatar::class);
-        foreach ($this->user_profile->getStandardFields() as $k => $v) {
+        foreach ($this->user_profile->getFields() as $k => $v) {
             if ($v["method"]) {
                 $method = "set" . substr($v["method"], 3);
                 if (method_exists($this->userObj, $method)) {
@@ -418,15 +398,13 @@ class ilAccountRegistrationGUI
         }
         $this->userObj->setPasswd($password);
 
-        // Set user defined data
-        $user_defined_fields = ilUserDefinedFields::_getInstance();
-        $defs = $user_defined_fields->getRegistrationDefinitions();
+        $fields = $this->user_profile->getVisibleUserDefinedFields(Context::Registration);
         $udf = [];
-        foreach ($defs as $definition) {
-            $f = "udf_" . $definition['field_id'];
+        foreach ($fields as $field) {
+            $f = "udf_" . $field->getIdentifier();
             $item = $this->form->getItemByPostVar($f);
             if ($item && !$item->getDisabled()) {
-                $udf[$definition['field_id']] = $this->form->getInput($f);
+                $udf[$field->getIdentifier()] = $this->form->getInput($f);
             }
         }
         $this->userObj->setUserDefinedData($udf);
@@ -646,18 +624,5 @@ class ilAccountRegistrationGUI
             $tpl->setVariable('TXT_REGISTERED', $this->lng->txt('txt_registered_passw_gen'));
         }
         return $tpl;
-    }
-
-    protected function doProfileAutoComplete(): void
-    {
-        $field_id = (string) $_REQUEST["f"];
-        $term = (string) $_REQUEST["term"];
-
-        $result = PublicProfileGUI::getAutocompleteResult($field_id, $term);
-        if (count($result)) {
-            echo json_encode($result, JSON_THROW_ON_ERROR);
-        }
-
-        exit();
     }
 }

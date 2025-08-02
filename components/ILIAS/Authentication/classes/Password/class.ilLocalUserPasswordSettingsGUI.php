@@ -250,7 +250,7 @@ class ilLocalUserPasswordSettingsGUI
             }
 
             if (!$error) {
-                $this->user->resetPassword($entered_new_password, $entered_new_password);
+                $this->user->resetPassword($entered_new_password);
                 if ($entered_current_password !== $entered_new_password) {
                     $this->user->setLastPasswordChangeToNow();
                     $this->user->setPasswordPolicyResetStatus(false);

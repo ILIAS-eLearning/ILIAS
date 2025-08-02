@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Context;
+
 /**
  * Base class for attendance lists
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -133,10 +136,11 @@ class ilAttendanceList
         }
 
         // add udf fields
-        $udf = ilUserDefinedFields::_getInstance();
-        foreach ($udf->getExportableFields($this->parent_obj->getId()) as $field_id => $udf_data) {
-            $this->presets['udf_' . $field_id] = array(
-                $udf_data['field_name'],
+        foreach ((new Profile())->getVisibleUserDefinedFields(
+            Context::buildFromObjectType($this->parent_obj->getType())
+        ) as $field) {
+            $this->presets['udf_' . $field->getIdentifier()] = array(
+                $field->getLabel(),
                 false
             );
         }
@@ -216,12 +220,12 @@ class ilAttendanceList
             }
         }
 
-        $udf = ilUserDefinedFields::_getInstance();
-
-        foreach ($udf->getExportableFields($this->parent_obj->getId()) as $field_id => $udf_data) {
+        foreach ((new Profile())->getVisibleUserDefinedFields(
+            Context::buildFromObjectType($this->parent_obj->getType())
+        ) as $field) {
             foreach ($profile_data as $user_id => $field) {
                 $udf_data = new ilUserDefinedData($user_id);
-                $a_res[$user_id]['udf_' . $field_id] = $udf_data->get('f_' . $field_id);
+                $a_res[$user_id]['udf_' . $field->getIdentifier()] = $udf_data->get('f_' . $field->getIdentifier());
             }
         }
 

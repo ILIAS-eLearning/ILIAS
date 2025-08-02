@@ -408,16 +408,17 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
         $form->setTitle($this->lng->txt(self::LNG_AUTH_SAML_USER_MAPPING));
 
         $usr_profile = new Profile();
-        foreach (array_keys($usr_profile->getStandardFields()) as $id) {
-            if (in_array($id, self::IGNORED_USER_FIELDS, true)) {
+        foreach ($usr_profile->getFields() as $field) {
+            if (in_array($field->getIdentifier(), self::IGNORED_USER_FIELDS, true)) {
                 continue;
             }
 
-            $this->addAttributeRuleFieldToForm($form, $this->lng->txt($id), $id);
-        }
+            $id = $field->getIdentifier();
+            if ($field->isCustom()) {
+                $id = "udf_{$id}";
+            }
 
-        foreach (ilUserDefinedFields::_getInstance()->getDefinitions() as $definition) {
-            $this->addAttributeRuleFieldToForm($form, $definition['field_name'], 'udf_' . $definition['field_id']);
+            $this->addAttributeRuleFieldToForm($form, $field->getLabel($this->lng), $id);
         }
 
         if ($this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id)) {
@@ -454,21 +455,18 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
             $this->mapping->delete();
 
             $usr_profile = new Profile();
-            foreach (array_keys($usr_profile->getStandardFields()) as $id) {
-                if (in_array($id, self::IGNORED_USER_FIELDS, true)) {
+            foreach ($usr_profile->getFields() as $field) {
+                if (in_array($field->getIdentifier(), self::IGNORED_USER_FIELDS, true)) {
                     continue;
+                }
+
+                $id = $field->getIdentifier();
+                if ($field->isCustom()) {
+                    $id = "udf_{$id}";
                 }
 
                 $rule = $this->mapping->getEmptyRule();
                 $rule->setAttribute($id);
-                $rule->setExternalAttribute((string) $form->getInput($rule->getAttribute()));
-                $rule->updateAutomatically((bool) $form->getInput($rule->getAttribute() . self::PROP_UPDATE_SUFFIX));
-                $this->mapping[$rule->getAttribute()] = $rule;
-            }
-
-            foreach (ilUserDefinedFields::_getInstance()->getDefinitions() as $definition) {
-                $rule = $this->mapping->getEmptyRule();
-                $rule->setAttribute('udf_' . $definition['field_id']);
                 $rule->setExternalAttribute((string) $form->getInput($rule->getAttribute()));
                 $rule->updateAutomatically((bool) $form->getInput($rule->getAttribute() . self::PROP_UPDATE_SUFFIX));
                 $this->mapping[$rule->getAttribute()] = $rule;

@@ -49,7 +49,7 @@ class ilRegistrationMimeMailNotification extends ilMimeMailNotification
                 $this->appendBody("\n\n");
                 $this->appendBody($this->getLanguage()->txt('reg_mail_body_activation'));
                 $this->appendBody("\n");
-                $this->appendBody(ILIAS_HTTP_PATH . '/confirmReg.php?client_id=' . CLIENT_ID . '&rh=' . ilObjUser::_generateRegistrationHash($user->getId()));
+                $this->appendBody(ILIAS_HTTP_PATH . '/confirmReg.php?client_id=' . CLIENT_ID . '&rh=' . $user->generateRegistrationHash());
                 $this->appendBody("\n\n");
                 $this->appendBody(sprintf(
                     $this->getLanguage()->txt('reg_mail_body_2_confirmation'),

@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\Language\Language;
 
 class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
 {
@@ -45,6 +46,8 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
         $user = $this->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
             ->getMock();
+        $user->method('getId')
+            ->willReturn(100);
 
         $pdfFileNameFactory = $this->getMockBuilder(ilCertificatePdfFileNameFactory::class)
             ->disableOriginalConstructor()
@@ -54,8 +57,9 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
             ->method('create')
             ->willReturn('test');
 
-        $user->method('getId')
-            ->willReturn(100);
+        $lng = $this->getMockBuilder(Language::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->disableOriginalConstructor()
@@ -105,6 +109,7 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
             $placeholderValuesObject,
             $irss,
             'some/where/',
+            $lng,
             $user,
             $utilHelper,
             $userDefinedFieldsHelper,
