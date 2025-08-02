@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields\Standard;
 
+use ILIAS\User\Context;
 use ILIAS\User\Profile\Fields\NoOverrides;
 use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
@@ -74,22 +75,28 @@ class Location implements FieldDefinition
         return false;
     }
 
+    public function exportForcedTo(): ?bool
+    {
+        return false;
+    }
+
     public function availableInCertificatesForcedTo(): ?bool
     {
         return false;
     }
 
-    public function getInput(
+    public function getLegacyInput(
         Language $lng,
-        ?\ilObjUser $current_user = null
+        Context $context,
+        ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
-        $latitude = !empty($current_user?->getLatitude())
-            ? (float) $current_user->getLatitude()
+        $latitude = !empty($user?->getLatitude())
+            ? (float) $user->getLatitude()
             : null;
-        $longitude = !empty($current_user?->getLongitude())
-            ? (float) $current_user->getLongitude()
+        $longitude = !empty($user?->getLongitude())
+            ? (float) $user->getLongitude()
             : null;
-        $zoom = $current_user?->getLocationZoom();
+        $zoom = $user?->getLocationZoom();
 
         if ($latitude === null && $longitude === null && $zoom === 0) {
             $def = \ilMapUtil::getDefaultSettings();
@@ -98,15 +105,15 @@ class Location implements FieldDefinition
             $zoom = (int) $def['zoom'];
         }
 
-        $street = $current_user?->getStreet() ?? '';
+        $street = $user?->getStreet() ?? '';
         if ($street === '') {
             $street = $lng->txt('street');
         }
-        $city = $current_user?->getCity() ?? '';
+        $city = $user?->getCity() ?? '';
         if ($city === '') {
             $city = $lng->txt('city');
         }
-        $country = $current_user?->getCountry() ?? '';
+        $country = $user?->getCountry() ?? '';
         if ($country === '') {
             $country = $lng->txt('country');
         }
@@ -123,29 +130,28 @@ class Location implements FieldDefinition
     }
 
     public function addValueToUserObject(
-        \ilObjUser $current_user,
+        \ilObjUser $user,
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
         if (($input['latitude'] ?? 0.0) !== 0.0) {
-            $current_user->setLatitude((string) $input['latitude']);
+            $user->setLatitude((string) $input['latitude']);
         }
         if (($input['longitude'] ?? 0.0) !== 0.0) {
-            $current_user->setLongitude((string) $input['longitude']);
+            $user->setLongitude((string) $input['longitude']);
         }
 
-        $current_user->setLocationZoom($input['zoom'] ?? null);
+        $user->setLocationZoom($input['zoom'] ?? null);
 
-        return $current_user;
+        return $user;
     }
 
-    public function retrieveValueFromUser(\ilObjUser $current_user): string
+    public function retrieveValueFromUser(\ilObjUser $user): array
     {
-        return \ilObjUser::_getPersonalPicturePath(
-            $current_user->getId(),
-            'small',
-            true,
-            true
-        );
+        return  [
+            'latitude' => $user->getLatitude(),
+            'longitude' => $user->getLongitude(),
+            'zoom' => $user?->getLocationZoom()
+        ];
     }
 }

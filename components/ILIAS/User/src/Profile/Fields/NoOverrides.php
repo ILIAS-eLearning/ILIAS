@@ -24,6 +24,11 @@ trait NoOverrides
 {
     public function hiddenInLists(): bool
     {
+        return false;
+    }
+
+    public function visibleInRegistrationForcedTo(): ?bool
+    {
         return null;
     }
 

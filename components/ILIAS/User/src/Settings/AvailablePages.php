@@ -18,12 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\User;
+namespace ILIAS\User\Settings;
 
-enum AvailableSections: string
+enum AvailablePages: string
 {
-    case Main = 'main';
-    case Communication = 'communication';
-    case DateTime = 'date_time';
-    case Additional = 'additional';
+    case MainSettings = 'main';
+    case PrivacySettings = 'privacy';
+    case Password = 'password';
 }

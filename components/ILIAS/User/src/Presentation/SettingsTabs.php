@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Presentation;
 
-use ILIAS\User\Settings\User\PersonalSettingsGUI;
+use ILIAS\User\Settings\PersonalSettingsGUI;
 use ILIAS\User\Account\DeleteAccountGUI;
 use ILIAS\Authentication\Password\LocalUserPasswordManager;
 use ILIAS\Language\Language;

@@ -129,23 +129,6 @@ class SettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function getUserStartingPointForm(): \ilPropertyFormGUI
-    {
-        $form = new \ilPropertyFormGUI();
-
-        // starting point: personal
-        $startp = new \ilCheckboxInputGUI($this->lng->txt('user_chooses_starting_page'), 'usr_start_pers');
-        $startp->setInfo($this->lng->txt('adm_user_starting_point_personal_info'));
-        $startp->setChecked($this->starting_point_repository->isPersonalStartingPointEnabled());
-
-        $form->addItem($startp);
-
-        $form->addCommandButton('saveUserStartingPoint', $this->lng->txt('save'));
-        $form->setFormAction($this->ctrl->getFormAction($this));
-
-        return $form;
-    }
-
     protected function getRoleStartingPointForm(): \ilPropertyFormGUI
     {
         if (!$this->rbac_system->checkAccess('write', $this->parent_ref_id)) {
@@ -262,7 +245,7 @@ class SettingsGUI
         return $inputs;
     }
 
-    private function getStartingPointSelectionInput(?\StartingPoint $st_point): \ilRadioGroupInputGUI
+    private function getStartingPointSelectionInput(?StartingPoint $st_point): \ilRadioGroupInputGUI
     {
         $si = new \ilRadioGroupInputGUI($this->lng->txt('adm_user_starting_point'), 'start_point');
         $si->setRequired(true);
@@ -363,23 +346,6 @@ class SettingsGUI
     public function addRoleAutoCompleteObject(): void
     {
         \ilRoleAutoCompleteInputGUI::echoAutoCompleteList();
-    }
-
-    protected function saveUserStartingPoint(): void
-    {
-        if (!$this->rbac_system->checkAccess('write', $this->parent_ref_id)) {
-            $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->FATAL);
-        }
-
-        $form = $this->getUserStartingPointForm();
-
-        if ($form->checkInput()) {
-            $this->starting_point_repository->togglePersonalStartingPointActivation((bool) $form->getInput('usr_start_pers'));
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-            $this->ctrl->redirect($this, 'startingPoints');
-        }
-        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_error'), true);
-        $this->ctrl->redirect($this, 'startingPoints');
     }
 
     /**

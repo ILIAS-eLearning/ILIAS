@@ -19,9 +19,12 @@
 namespace ILIAS\User\Profile\Fields;
 
 use ILIAS\User\Property;
+use ILIAS\User\Context;
+use ILIAS\Language\Language;
 
 interface FieldDefinition extends Property
 {
+    public function visibleInRegistrationForcedTo(): ?bool;
     public function visibleToUserForcedTo(): ?bool;
     public function visibleInLocalUserAdministrationForcedTo(): ?bool;
     public function visibleInCoursesForcedTo(): ?bool;
@@ -34,6 +37,18 @@ interface FieldDefinition extends Property
     public function searchableForcedTo(): ?bool;
     public function availableInCertificatesForcedTo(): ?bool;
     public function hiddenInLists(): bool;
+
+    /**
+     * You don't need to add a post_var to the input as the User will handle this
+     * for you, thus you can also not rely on the post_var anywhere else, as it
+     * will be changed.
+     */
+    public function getLegacyInput(
+        Language $lng,
+        Context $context,
+        ?\ilObjUser $user = null
+    ): \ilFormPropertyGUI;
+
     public function addValueToUserObject(
         \ilObjUser $user,
         mixed $input,

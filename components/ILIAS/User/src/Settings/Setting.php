@@ -18,8 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\User;
+namespace ILIAS\User\Settings;
 
+use ILIAS\User\Context;
 use ILIAS\User\Property;
 use ILIAS\User\PropertyAttributes;
 use ILIAS\Language\Language;
@@ -28,6 +29,7 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Table\DataRow;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Input;
 
 class Setting implements Property
 {
@@ -90,12 +92,24 @@ class Setting implements Property
     }
 
     public function getInput(
+        FieldFactory $field_factory,
         Language $lng,
-        ?\ilObjUser $current_user = null
+        Refinery $refinery,
+        \ilSetting $settings,
+        ?\ilObjUser $user = null
+    ): Input {
+        return $this->definition->getInput($field_factory, $lng, $refinery, $settings, $user);
+    }
+
+    public function getLegacyInput(
+        Language $lng,
+        \ilSetting $settings,
+        ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
-        $input = $this->definition->getInput(
+        $input = $this->definition->getLegacyInput(
             $lng,
-            $current_user
+            $settings,
+            $user
         );
 
         $input->setPostVar($this->definition->getIdentifier());
@@ -126,10 +140,9 @@ class Setting implements Property
 
     public function getDefaultValueForDisplay(
         Language $lng,
-        Refinery $refinery,
         \ilSetting $settings
     ): string {
-        $default_value = $this->definition->getDefaultValueForDisplay($lng, $refinery, $settings);
+        $default_value = $this->definition->getDefaultValueForDisplay($lng, $settings);
         if ($default_value === null) {
             return '';
         }
@@ -138,29 +151,36 @@ class Setting implements Property
 
     public function hasUserPersonalizedSetting(
         \ilSetting $settings,
-        \ilObjUser $current_user
+        ?\ilObjUser $user
     ): bool {
-        return $this->definition->hasUserPersonalizedSetting($settings, $current_user);
+        if ($user === null) {
+            return false;
+        }
+        return $this->definition->hasUserPersonalizedSetting($settings, $user);
     }
 
     public function persistUserInput(
-        \ilObjUser $current_user,
+        \ilObjUser $user,
+        Context $context,
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
-        return $this->definition->persistUserInput($current_user, $input, $form);
+        if (!$context->isSettingAvailableInType($this)) {
+            throw \Exception('It is not possible to Change this from here!');
+        }
+        return $this->definition->persistUserInput($user, $input, $form);
     }
 
-    public function retrieveValueFromUser(\ilObjUser $current_user): mixed
+    public function retrieveValueFromUser(\ilObjUser $user): mixed
     {
-        return $this->definition->retrieveValueFromUser($current_user);
+        return $this->definition->retrieveValueFromUser($user);
     }
 
     public function validateUserChoice(
         \ilGlobalTemplateInterface $tpl,
         Language $lng,
         \ilPropertyFormGUI $form
-    ): ?string {
+    ): ?bool {
         return $this->definition->validateUserChoice($tpl, $lng, $form);
     }
 

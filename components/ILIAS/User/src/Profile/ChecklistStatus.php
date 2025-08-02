@@ -41,7 +41,7 @@ class ChecklistStatus
     public function __construct(
         private readonly Language $lng,
         private readonly \ilSetting $settings,
-        private readonly \ilObjUser $user,
+        private \ilObjUser $user,
         private readonly Visibility $profile_mode
     ) {
         $this->settings_chat = new \ilSetting('chatroom');
@@ -132,20 +132,23 @@ class ChecklistStatus
         return '';
     }
 
-    public function saveStepSucess(int $step): void
-    {
+    public function setStepSucessOnUser(
+        int $step,
+        \ilObjUser $user
+    ): \ilObjUser {
         switch ($step) {
             case self::STEP_PROFILE_DATA:
-                $this->user->setPref('profile_personal_data_saved', '1');
+                $user->setPref('profile_personal_data_saved', '1');
                 break;
             case self::STEP_PUBLISH_OPTIONS:
-                $this->user->setPref('profile_publish_opt_saved', '1');
+                $user->setPref('profile_publish_opt_saved', '1');
                 break;
             case self::STEP_VISIBILITY_OPTIONS:
-                $this->user->setPref('profile_visibility_opt_saved', '1');
+                $user->setPref('profile_visibility_opt_saved', '1');
                 break;
         }
-        $this->user->update();
+        $this->user = $user;
+        return $user;
     }
 
     private function buildStatusArrayForVisibilityOnSuccess(): string

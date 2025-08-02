@@ -28,7 +28,6 @@ use ILIAS\UI\Renderer;
  */
 class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 {
-    private const TABLE_POSITION_USER_CHOOSES = -1;
     private const TABLE_POSITION_DEFAULT = 9999;
 
     public function __construct(
@@ -67,16 +66,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 
         $valid_points = $this->starting_point_repository->getPossibleStartingPoints();
 
-        $status = ($this->starting_point_repository->isPersonalStartingPointEnabled()
-            ? $this->lng->txt('yes') : $this->lng->txt('no'));
-
         $starting_points = [];
-        $starting_points[] = [
-            'id' => $this->starting_point_repository->getUserStartingPointID(),
-            'criteria' => $this->lng->txt('user_chooses_starting_page'),
-            'starting_page' => $status,
-            'starting_position' => self::TABLE_POSITION_USER_CHOOSES
-        ];
 
         $available_starting_points = $this->starting_point_repository->getStartingPoints();
 
@@ -221,8 +211,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 
     private function isSortingHidden(int $id): bool
     {
-        if ($id === $this->starting_point_repository->getDefaultStartingPointID()
-            || $id === $this->starting_point_repository->getUserStartingPointID()) {
+        if ($id === $this->starting_point_repository->getDefaultStartingPointID()) {
             return true;
         }
         return false;

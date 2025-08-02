@@ -253,14 +253,12 @@ class ConfigurationGUI implements DataRetrieval
         ?array $additional_parameters
     ): \Generator {
         $this->sortRows($order);
-        foreach ($this->available_fields as $setting) {
-            yield $setting->getTableRow(
+        foreach ($this->available_fields as $field) {
+            yield $field->getTableRow(
                 $row_builder,
                 $this->lng,
                 $this->ui_factory,
-                $this->ui_renderer,
-                $this->refinery,
-                $this->settings
+                $this->ui_renderer
             );
         }
     }

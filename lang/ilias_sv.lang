@@ -11601,7 +11601,6 @@ mail#:#mail_serial_letter_placeholders#:#Platshållare för seriebokstav
 mail#:#mail_settings_external_frm_head#:#Externa e-postmeddelanden
 mail#:#mail_settings_external_tab#:#External
 mail#:#mail_settings_general_tab#:#Allmänt
-mail#:#mail_settings_incoming_type_see_also#:#Du har ett annat alternativ för att ändra mottagningstyp för användarna <a href="%s">här</a>.
 mail#:#mail_settings_system_frm_head#:#System e-post
 mail#:#mail_settings_user_frm_head#:#E-post från användare
 mail#:#mail_smtp_encryption#:#Kryptering

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields\Standard;
 
+use ILIAS\User\Context;
 use ILIAS\User\Profile\Fields\NoOverrides;
 use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
@@ -44,22 +45,18 @@ class Birthday implements FieldDefinition
         return AvailableSections::PersonalData;
     }
 
-    public function hiddenInLists(): bool
-    {
-        return false;
-    }
-
     public function availableInCertificatesForcedTo(): ?bool
     {
         return true;
     }
 
-    public function getInput(
+    public function getLegacyInput(
         Language $lng,
-        ?\ilObjUser $current_user = null
+        Context $context,
+        ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
         $input = new \ilBirthdayInputGUI($this->getLabel($lng));
-        $value = $current_user === null ? '' : $this->retrieveValueFromUser($current_user);
+        $value = $user === null ? '' : $this->retrieveValueFromUser($user);
 
         if ($value === '') {
             return $input;
@@ -72,16 +69,16 @@ class Birthday implements FieldDefinition
     }
 
     public function addValueToUserObject(
-        \ilObjUser $current_user,
+        \ilObjUser $user,
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
-        $current_user->setBirthday($input);
-        return $current_user;
+        $user->setBirthday($input);
+        return $user;
     }
 
-    public function retrieveValueFromUser(\ilObjUser $current_user): ?string
+    public function retrieveValueFromUser(\ilObjUser $user): ?string
     {
-        return $current_user->getBirthday();
+        return $user->getBirthday();
     }
 }

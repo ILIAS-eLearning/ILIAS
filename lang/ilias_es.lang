@@ -11603,7 +11603,6 @@ mail#:#mail_serial_letter_placeholders#:#Marcadores de plantilla de correo
 mail#:#mail_settings_external_frm_head#:#External Emails
 mail#:#mail_settings_external_tab#:#Externo
 mail#:#mail_settings_general_tab#:#General
-mail#:#mail_settings_incoming_type_see_also#:#Puedes encontrar una posibilidad de modificar el modo de entrada del correo electrónico del correo de los usuarios <a href="%s">aquí</a>
 mail#:#mail_settings_system_frm_head#:#System Emails
 mail#:#mail_settings_user_frm_head#:#User Emails
 mail#:#mail_smtp_encryption#:#Cifrado

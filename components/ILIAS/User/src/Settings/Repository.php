@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\User;
+namespace ILIAS\User\Settings;
 
 use ILIAS\User\PropertyAttributes;
 
@@ -46,7 +46,7 @@ class Repository
         );
     }
 
-    public function getByIdentifier(string $identifier): Setting
+    public function getByIdentifier(string $identifier): ?Setting
     {
         foreach ($this->available_user_settings as $setting) {
             $definition = new $setting();
@@ -54,6 +54,15 @@ class Repository
                 return $this->buildSettingFromDefinition($definition);
             }
         }
+        return null;
+    }
+
+    public function getByDefinitionClass(string $class): ?Setting
+    {
+        if (!in_array($class, $this->available_user_settings)) {
+            return null;
+        }
+        return $this->buildSettingFromDefinition(new $class());
     }
 
     public function storeConfiguration(Setting $setting): void

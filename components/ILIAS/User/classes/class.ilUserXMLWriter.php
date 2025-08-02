@@ -241,8 +241,7 @@ class ilUserXMLWriter extends ilXmlWriter
         $this->__addElement('LastUpdate', $row['last_update'], null, 'last_update');
         $this->__addElement('LastLogin', $row['last_login'], null, 'last_login');
 
-        $udf_data = new ilUserDefinedData($row['usr_id']);
-        $udf_data->addToXML($this);
+        $udf_data = $this->addUDFsToXML();
 
         $this->__addElement('AccountInfo', $row['ext_account'], ['Type' => 'external']);
 

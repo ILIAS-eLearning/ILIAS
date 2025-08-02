@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields\Custom;
 
+use ILIAS\User\Context;
 use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -48,21 +49,41 @@ class Select implements Type
         );
     }
 
-    public function getInput(
+    public function getLegacyInput(
         Language $lng,
-        string $user_value,
+        Context $context,
+        array $user_value,
         string $label,
         ?string $data
     ): \ilFormPropertyGUI {
         $input = new \ilSelectInputGUI($label);
         $input->setOptions(['' => $lng->txt('please_select')] + $this->parseData($data));
-        $input->setValue($user_value);
+        $input->setValue($user_value[0] ?? '');
         return $input;
     }
 
     public function prepareUserInputForStorage(mixed $input): array
     {
         return [$input];
+    }
+
+    public function buildPresentationValueFromUserValue(
+        array $input,
+        ?string $data
+    ): string {
+        if ($data === null || $input === []) {
+            return '';
+        }
+
+        $options = $this->parseData($data);
+        if (array_key_exists($input[0], $options)) {
+            return $options[$input[0]];
+        }
+        $value = array_search($input[0], $options);
+        if ($value === false) {
+            return '';
+        }
+        return $value;
     }
 
     private function parseData(?string $data): array

@@ -16,305 +16,90 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
-
 namespace ILIAS\User\Profile;
 
-use ILIAS\User\LocalDIC;
 use ILIAS\User\Context;
 use ILIAS\User\Profile\Fields\Field as ProfileField;
-use ILIAS\User\Profile\Fields\AvailableSections as AvailableProfileSections;
-use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileFieldsConfigurationRepository;
-use ILIAS\Language\Language;
 
-class Profile
+interface Profile
 {
-    public const MODE_DESKTOP = 1;
-    public const MODE_REGISTRATION = 2;
-
-    private int $mode = self::MODE_DESKTOP;
-
-    private \ilSetting $settings;
-    private Language $lng;
-    private \ilRbacReview $rbac_review;
-
-    private ProfileFieldsConfigurationRepository $profile_fields_repository;
-    private array $user_fields;
-    /**
-     * @var array<string> Identifiers of fields to skip
-     */
-    protected array $skip_fields = [];
-    /**
-     * @var array<string> Identifiers of fields to skip
-     */
-    protected array $skip_groups = [];
-
-    public function __construct()
-    {
-        /** @var ILIAS\DI\Container $DIC */
-        global $DIC;
-        $this->settings = $DIC['ilSetting'];
-        $this->lng = $DIC['lng'];
-        $this->rbac_review = $DIC['rbacreview'];
-
-        $this->profile_fields_repository = LocalDIC::dic()[ProfileFieldsConfigurationRepository::class];
-        $this->user_fields = $this->profile_fields_repository->get();
-
-        $this->lng->loadLanguageModule('awrn');
-        $this->lng->loadLanguageModule('buddysystem');
-    }
-
     /**
      * @return array<\ILIAS\User\Profile\Fields\Field>
      */
-    public function getFields(): array
-    {
-        return array_reduce(
-            $this->user_fields,
-            function (array $c, ProfileField $v): array {
-                if (!in_array($v->getSection(), $this->skip_groups)
-                    && !in_array($v->getIdentifier(), $this->skip_fields)) {
-                    $c[$v->getIdentifier()] = $v;
-                }
-                return $c;
-            },
-            []
-        );
-    }
-
-    /**
-     * @deprecated since version 11 will be removed with 13
-     * @return array<\ILIAS\User\Profile\Fields\Custom\Custom>
-     */
-    public function getAllUserDefinedFields(): array
-    {
-        return array_reduce(
-            $this->user_fields,
-            function (array $c, ProfileField $v): array {
-                if ($v->isCustom()) {
-                    $c[$v->getIdentifier()] = $v;
-                }
-                return $c;
-            },
-            []
-        );
-    }
-
-    /**
-     * @deprecated since version 11 will be removed with 13
-     * @return array<\ILIAS\User\Profile\Fields\Custom>
-     */
-    public function getVisibleUserDefinedFields(
-        Context $context
-    ): array {
-        return array_reduce(
-            $this->getVisibleFields($context),
-            function (array $c, ProfileField $v): array {
-                if ($v->isCustom()) {
-                    $c[$v->getIdentifier()] = $v;
-                }
-                return $c;
-            },
-            []
-        );
-    }
+    public function getFields(
+        array $groups_to_skip = [],
+        array $fields_to_skip = []
+    ): array;
 
     /**
      * @return array<\ILIAS\User\Profile\Fields\Field>
      */
     public function getVisibleFields(
         Context $context,
-        ?\ilObjUser $user = null
-    ): array {
-        return array_filter(
-            $this->user_fields,
-            fn(ProfileField $v) => $context->isFieldVisibleInType($v, $user)
-                    && !in_array($v->getIdentifier(), $this->skip_fields)
-                ? true : false
-        );
-    }
+        ?\ilObjUser $user = null,
+        array $groups_to_skip = [],
+        array $fields_to_skip = []
+    ): array;
 
-    public function getVisibleFieldsBySection(
-        Context $context,
-        ?\ilObjUser $current_user
-    ): array {
-        return array_filter(
-            array_reduce(
-                $this->getVisibleFields($context),
-                function (array $c, ProfileField $v): array {
-                    if (in_array($v->getSection(), $this->skip_groups)) {
-                        return $c;
-                    }
-                    $c[$v->getSection()->value][] = $v;
-                    return $c;
-                },
-                array_reduce(
-                    AvailableProfileSections::cases(),
-                    static function (array $c, AvailableProfileSections $v): array {
-                        $c[$v->value] = [];
-                        return $c;
-                    },
-                    []
-                )
-            )
-        );
-    }
-
-    public function getFieldByIdentifier(string $identifier): ?ProfileField
-    {
-        return $this->profile_fields_repository->getByIdentifier($identifier);
-    }
-
-    public function skipGroup(string $group): void
-    {
-        $this->skip_groups[] = $group;
-    }
-
-    public function skipField(string $field_definition_class): void
-    {
-        $this->skip_fields[] = $this->profile_fields_repository->getByClass(
-            $field_definition_class
-        )->getIdentifier();
-    }
+    public function getFieldByIdentifier(string $identifier): ?ProfileField;
 
     public function addFieldsToForm(
         \ilPropertyFormGUI $form,
         Context $context,
         bool $do_require,
         ?\ilObjUser $current_user,
-    ): \ilPropertyFormGUI {
-        $registration_settings = null;
-        if ($this->mode === self::MODE_REGISTRATION) {
-            $registration_settings = new \ilRegistrationSettings();
-            $this->addRegistrationFieldsToFieldArray();
-        }
-
-        return array_reduce(
-            $this->getVisibleFieldsBySection($context, $current_user),
-            function (\ilPropertyFormGUI $c, array $v) use ($context, $current_user, $do_require): \ilPropertyFormGUI {
-                $section_header = new \ilFormSectionHeaderGUI();
-                $section_header->setTitle($this->lng->txt($v[0]->getSection()->value));
-                $c->addItem($section_header);
-                return $this->addSectionFieldsToForm($c, $context, $do_require, $current_user, $v);
-            },
-            $form
-        );
-    }
+        array $fields_to_skip = []
+    ): \ilPropertyFormGUI;
 
     public function addFormValuesToUser(
         \ilPropertyFormGUI $form,
         Context $context,
         \ilObjUser $current_user
-    ): \ilObjUser {
-        return array_reduce(
-            $this->getVisibleFields($context, $current_user),
-            static fn(\ilObjUser $c, ProfileField $v): \ilObjUser => $v->addValueToUserObject(
-                $current_user,
-                $form->getInput($setting->getIdentifier()),
-                $form
-            ),
-            $current_user
-        );
-    }
+    ): \ilObjUser;
 
-    private function addSectionFieldsToForm(
-        \ilPropertyFormGUI $form,
-        Context $context,
-        bool $do_require,
-        ?\ilObjUser $current_user,
-        array $fields
-    ): \ilPropertyFormGUI {
-        return array_reduce(
-            $fields,
-            function (\ilPropertyFormGUI $form, ProfileField $v) use ($context, $current_user, $do_require): \ilPropertyFormGUI {
-                $input = $v->getInput($this->lng, $current_user);
-                $input->setDisabled(!$context->isFieldChangeableInType($v, $current_user));
-                $input->setRequired($do_require && $v->isRequired());
-                $form->addItem($input);
-                return $form;
-            },
-            $form
-        );
-    }
+    public function getDataFor(
+        int $usr_id
+    ): Data;
 
-    private function addRegistrationFieldsToFieldArray(): void
-    {
-        $this->user_fields['username']['group'] = 'login_data';
-        $this->user_fields['password']['group'] = 'login_data';
-        $this->user_fields['language']['default'] = $this->lng->lang_key;
+    /**
+     *
+     * @param array $usr_ids
+     * @return \Generator<ILIAS\User\Profile\Data>
+     */
+    public function getDataForMultiple(
+        array $usr_ids
+    ): \Generator;
 
-        // different position for role
-        $roles = $this->user_fields['roles'];
-        unset($this->user_fields['roles']);
-        $this->user_fields['roles'] = $roles;
-        $this->user_fields['roles']['group'] = 'settings';
-    }
+    public function isProfileIncomplete(\ilObjUser $user): bool;
 
-    public function setMode(int $mode): bool
-    {
-        if (in_array($mode, [self::MODE_DESKTOP, self::MODE_REGISTRATION])) {
-            $this->mode = $mode;
-            return true;
-        }
-        return false;
-    }
+    public function userFieldVisibleToUser(
+        string $definition_class
+    ): bool;
 
-    public function isProfileIncomplete(\ilObjUser $user): bool
-    {
-        foreach ($this->user_fields as $field) {
-            if (!$field->isVisibleToUser()) {
-                continue;
-            }
+    public function userFieldEditableByUser(string $definition_class): bool;
 
-            if ($field->isRequired() && $field->retrieveValueFromUser($user)) {
-                return true;
-            }
-        }
+    /**
+     * @return array<\ILIAS\User\Profile\Fields\Field>
+     */
+    public function getIgnorableRequiredFields(): array;
 
-        return false;
-    }
+    /**
+     * @deprecated since version 11 will be removed with 13
+     * @return array<\ILIAS\User\Profile\Fields\Custom\Custom>
+     */
+    public function getAllUserDefinedFields(): array;
+    /**
+     * @deprecated since version 11 will be removed with 13
+     * @return array<\ILIAS\User\Profile\Fields\Custom>
+     */
+    public function getVisibleUserDefinedFields(
+        Context $context
+    ): array;
 
-    public function userSettingVisibleToUser(string $setting): bool
-    {
-        if ($this->mode === self::MODE_DESKTOP) {
-            return $this->profile_fields_repository->getByIdentifier($setting)
-                ?->isVisibleToUser() ?? false;
-        }
-
-        return $this->profile_fields_repository->getByIdentifier($setting)
-            ?->isVisibleInRegistration() ?? false;
-    }
-
-    public function userSettingEditableByUser(string $setting): bool
-    {
-        $field = $this->profile_fields_repository->getByIdentifier($setting);
-        if ($field === null) {
-            return false;
-        }
-        return $field->isVisibleToUser() && $field->isChangeableByUser();
-    }
-
-    public function getIgnorableRequiredSettings(): array // Missing array type.
-    {
-        $ignorableSettings = [];
-
-        foreach (array_keys($this->user_fields) as $field) {
-            // !!!username and password must not be ignored!!!
-            if ('username' == $field ||
-                'password' == $field) {
-                continue;
-            }
-
-            // Field is not required -> continue
-            if (!$this->settings->get('require_' . $field)) {
-                continue;
-            }
-
-            if ($this->userSettingEditableByUser($field)) {
-                $ignorableSettings[] = $field;
-            }
-        }
-
-        return $ignorableSettings;
-    }
+    /**
+     * @deprecated since version 11 will be removed asap
+     */
+    public function tempStorePicture(
+        \ilPropertyFormGUI $form
+    ): \ilPropertyFormGUI;
 }

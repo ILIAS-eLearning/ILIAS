@@ -18,6 +18,7 @@
 
 namespace ILIAS\User\Profile\Fields\Custom;
 
+use ILIAS\User\Context;
 use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -45,9 +46,10 @@ interface Type
      * for you, thus you can also not rely on the post_var anywhere else, as it
      * will be changed.
      */
-    public function getInput(
+    public function getLegacyInput(
         Language $lng,
-        string $user_value,
+        Context $context,
+        array $user_value,
         string $label,
         ?string $data
     ): \ilFormPropertyGUI;
@@ -56,7 +58,15 @@ interface Type
      * @return array|null Returning null will lead to the deletion of all
      * current values.
      */
-    public function prepareUserInputForStorage(
-        mixed $input
-    ): ?array;
+    public function prepareUserInputForStorage(mixed $input): ?array;
+
+    /**
+     * If you have a value that has a $key => $value structure, e.g. because you
+     * implemented ad select-input that returns $key, but needs $value for
+     * presentation, it needs to return the $value, if the input is $key or $value.
+     */
+    public function buildPresentationValueFromUserValue(
+        array $input,
+        ?string $data
+    ): string;
 }

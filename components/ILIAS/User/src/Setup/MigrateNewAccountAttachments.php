@@ -18,7 +18,7 @@
 
 namespace ILIAS\User\Setup;
 
-use ILIAS\User\Settings\System\MailAttachmentsStakeholder;
+use ILIAS\User\Settings\NewAccountMail\Stakeholder;
 use ILIAS\Setup\Migration;
 use ILIAS\Setup\Environment;
 
@@ -45,7 +45,7 @@ class MigrateNewAccountAttachments implements Migration
     public function prepare(Environment $environment): void
     {
         $this->helper = new \ilResourceStorageMigrationHelper(
-            new MailAttachmentsStakeholder(),
+            new Stakeholder(),
             $environment
         );
         $this->root_user_id = $this->helper->getDatabase()->fetchObject(

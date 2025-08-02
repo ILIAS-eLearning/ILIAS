@@ -18,11 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\User;
+namespace ILIAS\User\Settings;
 
-enum AvailablePages: string
+interface UserSettings
 {
-    case MainSettings = 'main';
-    case PrivacySettings = 'privacy';
-    case Password = 'password';
+    /**
+     * Return all User Settings provided by the component
+     *
+     * @return array<string>
+     */
+    public function getSettingConfigurations(): array;
 }

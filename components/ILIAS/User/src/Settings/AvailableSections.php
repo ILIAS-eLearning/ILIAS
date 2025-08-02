@@ -18,19 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\User;
+namespace ILIAS\User\Settings;
 
-use ILIAS\User\Settings\UserSettings;
-use ILIAS\User\Settings\StartingPoint\Setting as StartingPointSetting;
-
-class Settings implements UserSettings
+enum AvailableSections: string
 {
-    public function getSettingConfigurations(): array
-    {
-        return [
-            LastVisited::class,
-            SessionReminder::class,
-            StartingPointSetting::class
-        ];
-    }
+    case Main = 'main';
+    case Communication = 'communication';
+    case DateTime = 'date_time';
+    case Additional = 'additional';
 }

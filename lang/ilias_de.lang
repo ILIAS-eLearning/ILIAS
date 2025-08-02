@@ -2186,6 +2186,8 @@ awrn#:#awrn_seconds#:#Sek.
 awrn#:#awrn_use_osd#:#Pop-up Online-Benutzer
 awrn#:#awrn_use_osd_info#:#Zeigt ein Pop-up an, wenn neue Benutzer in der „Wer ist online?“-Anzeige mit dem Online-Status erscheinen.
 awrn#:#awrn_user_show#:#Mein Status in "Wer ist online?" anzeigen
+awrn#:#awrn_user_show_default#:#Standardwert für die Anzeige in "Wer ist online?"
+awrn#:#awrn_user_show_default_info#:#Definiert den Standardwert für die Anzeige in "Wer ist online?".
 awrn#:#user_awrn_default#:#Standard
 awrn#:#user_awrn_hide#:#Nicht anzeigen
 awrn#:#user_awrn_show#:#Anzeigen
@@ -2671,6 +2673,7 @@ book#:#obj_book_duplicate#:#Buchungspool kopieren
 book#:#participants#:#Teilnehmer
 book#:#reservation_deleted#:#Buchung gelöscht
 buddysystem#:#buddy_allow_to_contact_me#:#Kontaktanfragen erlauben
+buddysystem#:#buddy_allow_to_contact_me_default_info#:#Bestimmt ob standardmässig Kontaktanfragen verschickt werden können.
 buddysystem#:#buddy_allow_to_contact_me_info#:#Wenn aktiviert, können andere Benutzer mir Kontaktanfragen senden.
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Anfrage bestätigen
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Anfrage zurückziehen
@@ -2873,6 +2876,7 @@ chatroom#:#chat_anonymous_not_allowed#:#Um den Chatraum nutzen zu können, logge
 chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeichenketten, die ILIAS zur Authentifizierung in Anfragen an den Chat-Server nutzt. Alternativ können diese bei Klick auf den Button automatisch generiert werden. Der Chat-Server kann mehrere ILIAS-Mandanten verwalten, jeder Mandant benötigt aber einen <b>eindeutigen</b> Namen.
 chatroom#:#chat_ban#:#Sperren
 chatroom#:#chat_broadcast_typing#:#Tippen im Chat anzeigen
+chatroom#:#chat_broadcast_typing_default_info#:#Anderen Anwesenden in einem Chat bzw. Chatraum wird standardmässig angezeigt, wenn jemand beginnt, eine Nachricht zu tippen.
 chatroom#:#chat_broadcast_typing_info#:#Anderen Anwesenden in einem Chat bzw. Chatraum wird angezeigt, wenn Sie beginnen, eine Nachricht zu tippen.
 chatroom#:#chat_connection_disconnected#:##username# hat den Chatraum verlassen.
 chatroom#:#chat_connection_established#:##username# hat den Chatraum betreten.
@@ -2910,6 +2914,7 @@ chatroom#:#chat_message_options#:#Optionen
 chatroom#:#chat_no_use_typing_broadcast#:#Tippen wird anderen im Chat nicht angezeigt
 chatroom#:#chat_not_use_osc#:#Nutzt On-Screen-Chat nicht
 chatroom#:#chat_osc_accept_msg#:#Anchatten erlauben
+chatroom#:#chat_osc_accept_msg_default_info#:#Wenn aktiviert, können Benutzer einander standardmässig Nachrichten über den On-Screen-Chat senden.
 chatroom#:#chat_osc_accept_msg_info#:#Wenn aktiviert, können andere Benutzer mir Nachrichten über den On-Screen-Chat senden.
 chatroom#:#chat_osc_accept_msg_info_slate#:#Um private Konversationen zu nuten, müssen Sie die Einstellungen "Anchatten erlauben" aktivieren.
 chatroom#:#chat_osc_accept_msg_info_slate_link_txt#:#Sichtbarkeit (in "Profil und Datenschutz)
@@ -5546,10 +5551,10 @@ common#:#session_mail_subject_entered#:#Beitritt von Benutzer/in „%s“ zur Si
 common#:#session_mail_subject_registered#:#Registrierung von Benutzer/in „%s“ für die Sitzung „%s“
 common#:#session_reminder#:#Session-Reminder
 common#:#session_reminder_alert#:#Ihre Sitzung läuft in %1$s um %2$s ab!  Klicken Sie auf OK, um Ihre Sitzung zu verlängern! Wollen Sie dagegen in der aktuellen Browser-Sitzung nicht mehr erinnert werden, wählen Sie bitte Abbrechen.  Betroffene Installation: %3$s.
-common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
+common#:#session_reminder_default_lead_time_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
 common#:#session_reminder_input#:#Session-Reminder (in Minuten)
 common#:#session_reminder_lead_time#:#Vorlaufzeit
-common#:#session_reminder_lead_time_info#:#Bitte geben Sie an, wie viele Minuten vor Ablauf einer Sitzung Sie eine Erinnerung erhalten möchten.<br / >Die Funktion ist deaktiviert, wenn der Wert „%s“ ist. Der empfohlene Wert ist %s.<br / >Ihre aktuelle Dauer einer Sitzung ist %s.
+common#:#session_reminder_lead_time_info#:#Bitte geben Sie an, wie viele Minuten vor Ablauf einer Sitzung eine Erinnerung angezeigt werden soll.<br / >Die Funktion ist deaktiviert, wenn der Wert „%s“ ist. Der empfohlene Wert ist %s.<br / >Die aktuelle Dauer einer Sitzung ist %s.
 common#:#session_reminder_session_duration#:#(Aktuelle Sessiondauer: %s).
 common#:#set#:#Setzen
 common#:#setSystemLanguage#:#Systemsprache ändern
@@ -17343,6 +17348,8 @@ user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert.
 user#:#no_deactivate_yourself#:#Sie können Ihr eigenes Benutzerkonto nicht deaktivieren.
 user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-ID existiert nicht.
 user#:#personalise_additional#:#Zusätzliche Einstellungen personalisieren
+user#:#personalise_communication#:#Kommunikationseinstellungen personalisieren
+user#:#personalise_privacy#:#Privatsphäreneinstellungen personalisieren
 user#:#profile_fields#:#Profilfelder
 user#:#restrict_user_access#:#Eingeschränkte Suche in ILIAS-Konten
 user#:#restrict_user_access_info#:#ILIAS-Konten werden bei der Benutzersuche nicht mehr automatisch vervollständigt. Die Suche nach lokalen Konten wird nur vervollständigt, wenn das Recht "Lesezugriff auf Anmeldekonten" vorliegt.

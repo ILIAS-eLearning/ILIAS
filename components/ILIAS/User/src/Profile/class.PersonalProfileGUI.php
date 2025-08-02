@@ -20,34 +20,40 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile;
 
+use ILIAS\User\LocalDIC;
 use ILIAS\User\Context;
-use ILIAS\User\Profile\Fields\Field;
+use ILIAS\User\Privacy\SettingsGUI as PrivacySettingsGUI;
 use ILIAS\User\Profile\ChangeMail\Repository as ChangeMailRepository;
 use ILIAS\User\Profile\ChangeMail\DBRepository as ChangeMailDBRepository;
 use ILIAS\User\Profile\ChangeMail\Status as ChangeMailStatus;
 use ILIAS\User\Profile\ChangeMail\Mail as ChangeMailMail;
 use ILIAS\User\Profile\Prompt\Repository as PromptRepository;
+use ILIAS\User\Profile\Fields\Field as ProfileField;
+use ILIAS\User\Settings\Settings as UserSettings;
 use ILIAS\Language\Language;
 use ILIAS\FileUpload\FileUpload;
-use ILIAS\ResourceStorage\Services as IRSS;
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Modal\Interruptive;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\StaticURL\Services as StaticUrlServices;
+use ILIAS\HTTP\Services as HTTP;
 
 /**
  * GUI class for personal profile
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ILIAS\User\Profile\PersonalProfileGUI: ILIAS\User\Profile\PublicProfileGUI, ilUserPrivacySettingsGUI, ilLegalDocumentsAgreementGUI, ilLegalDocumentsWithdrawalGUI
+ * @ilCtrl_Calls ILIAS\User\Profile\PersonalProfileGUI: ILIAS\User\Profile\PublicProfileGUI
+ * @ilCtrl_Calls ILIAS\User\Profile\PersonalProfileGUI: ILIAS\User\Privacy\SettingsGUI
+ * @ilCtrl_Calls ILIAS\User\Profile\PersonalProfileGUI: ilLegalDocumentsAgreementGUI, ilLegalDocumentsWithdrawalGUI
  */
 class PersonalProfileGUI
 {
     private const PERSONAL_DATA_FORM_ID = 'pd';
+    private const PUBLISH_SETTINGS_PREFIX = 'chk_';
     public const CHANGE_EMAIL_CMD = 'changeEmail';
 
     private \ilGlobalTemplateInterface $tpl;
-    private \ilAppEventHandler $eventHandler;
+    private \ilAppEventHandler $event;
     private \ilPropertyFormGUI $form;
     private \ilSetting $settings;
     private \ilObjUser $user;
@@ -58,32 +64,34 @@ class PersonalProfileGUI
     private \ilTabsGUI $tabs;
     private \ilToolbarGUI $toolbar;
     private \ilHelpGUI $help;
+    private HTTP $http;
     private \ilErrorHandling $error_handler;
     private ChecklistGUI $checklist;
     private ChecklistStatus $checklist_status;
     private UIFactory $ui_factory;
     private UIRenderer $ui_renderer;
+    private Refinery $refinery;
 
     private ChangeMailRepository $change_mail_token_repo;
     private PromptRepository $prompt_repository;
     private GUIRequest $profile_request;
     private Profile $profile;
+    private UserSettings $user_settings;
 
     private \ilLogger $logger;
     private FileUpload $uploads;
-    private IRSS $irss;
-    private ResourceStakeholder $stakeholder;
 
     private ?Interruptive $email_change_confirmation_modal = null;
 
-    public function __construct(
-    ) {
-        /** @var ILIAS\DI\Container $DIC */
+    public function __construct()
+    {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->tabs = $DIC['ilTabs'];
         $this->toolbar = $DIC['ilToolbar'];
         $this->help = $DIC['ilHelp'];
+        $this->http = $DIC['http'];
         $this->user = $DIC['ilUser'];
         $this->auth_session = $DIC['ilAuthSession'];
         $this->lng = $DIC['lng'];
@@ -91,19 +99,20 @@ class PersonalProfileGUI
         $this->tpl = $DIC['tpl'];
         $this->ctrl = $DIC['ilCtrl'];
         $this->error_handler = $DIC['ilErr'];
-        $this->eventHandler = $DIC['ilAppEventHandler'];
+        $this->event = $DIC['ilAppEventHandler'];
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
         $this->uploads = $DIC['upload'];
-        $this->irss = $DIC['resource_storage'];
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
+        $this->refinery = $DIC['refinery'];
         $this->auth_session = $DIC['ilAuthSession'];
         $this->static_url = $DIC['static_url'];
 
         $this->logger = \ilLoggerFactory::getLogger('user');
-        $this->stakeholder = new \ilUserProfilePictureStakeholder();
-        $this->profile = new Profile();
+        $local_dic = LocalDIC::dic();
+        $this->profile = $local_dic[Profile::class];
+        $this->user_settings = $local_dic[UserSettings::class];
         $this->change_mail_token_repo = new ChangeMailDBRepository(
             $DIC['ilDB'],
             $this->settings
@@ -121,11 +130,12 @@ class PersonalProfileGUI
             new \ilSetting('user')
         );
         $this->profile_request = new GUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
+            $this->http,
+            $DIC['refinery']
         );
 
         $this->lng->loadLanguageModule('jsmath');
+        $this->lng->loadLanguageModule('awrn');
         $this->lng->loadLanguageModule('pd');
         $this->lng->loadLanguageModule('user');
         $this->lng->loadLanguageModule('maps');
@@ -137,20 +147,40 @@ class PersonalProfileGUI
         $next_class = $this->ctrl->getNextClass();
 
         switch ($next_class) {
-            case 'ilpublicuserprofilegui':
+            case strtolower(PublicProfileGUI::class):
                 $pub_profile_gui = new PublicProfileGUI($this->user->getId());
                 $pub_profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, 'showPersonalData'));
                 $this->ctrl->forwardCommand($pub_profile_gui);
                 $this->tpl->printToStdout();
                 break;
 
-            case 'iluserprivacysettingsgui':
+            case strtolower(PrivacySettingsGUI::class):
                 $this->setHeader();
                 $this->setTabs();
                 $this->tabs->activateTab('visibility_settings');
                 $this->showChecklist(ChecklistStatus::STEP_VISIBILITY_OPTIONS);
-                $gui = new \ilUserPrivacySettingsGUI();
-                $this->ctrl->forwardCommand($gui);
+                $this->ctrl->forwardCommand(
+                    new PrivacySettingsGUI(
+                        $this->lng,
+                        $this->ctrl,
+                        $this->event,
+                        $this->http->request(),
+                        $this->user,
+                        $this->settings,
+                        $this->tpl,
+                        $this->ui_factory,
+                        $this->ui_renderer,
+                        $this->user_settings,
+                        new Visibility(
+                            $this->lng,
+                            $this->settings,
+                            $this->user
+                        ),
+                        $this->checklist_status,
+                        new \ilSetting('chatroom'),
+                        new \ilSetting('notifications')
+                    )
+                );
                 break;
 
             case strtolower(\ilLegalDocumentsAgreementGUI::class):
@@ -212,7 +242,7 @@ class PersonalProfileGUI
         $this->tabs->addTab(
             'visibility_settings',
             $txt_visibility,
-            $this->ctrl->getLinkTargetByClass('ilUserPrivacySettingsGUI', '')
+            $this->ctrl->getLinkTargetByClass(PrivacySettingsGUI::class, '')
         );
 
         // export
@@ -300,7 +330,7 @@ class PersonalProfileGUI
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         $this->form->setId(self::PERSONAL_DATA_FORM_ID);
 
-        $this->form = $this->profile->addFieldsToForm($this->form, Context::User, $this->user);
+        $this->form = $this->profile->addFieldsToForm($this->form, Context::User, true, $this->user);
 
         $this->form->addCommandButton('savePersonalData', $this->lng->txt('user_save_continue'));
     }
@@ -308,7 +338,6 @@ class PersonalProfileGUI
     public function savePersonalData(): void
     {
         $this->initPersonalDataForm();
-
         $this->uploads->process();
 
         if (!$this->form->checkInput()
@@ -317,16 +346,20 @@ class PersonalProfileGUI
                 && $this->addEmailChangeModal()
             || $this->loginChanged() && !$this->updateLoginOrSetErrorMessages()) {
             $this->form->setValuesByPost();
-            $this->tempStorePicture();
+            $this->profile->tempStorePicture($this->form);
             $this->showPersonalData(true);
             return;
         }
 
-        $this->savePersonalDataForm();
+        $this->addDataFromFormToUser();
 
-        $this->checklist_status->saveStepSucess(ChecklistStatus::STEP_PROFILE_DATA);
+        $this->user = $this->checklist_status->setStepSucessOnUser(
+            ChecklistStatus::STEP_PROFILE_DATA,
+            $this->user
+        );
+        $this->user->update();
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-
         $this->ctrl->redirect($this, 'showPublicProfile');
     }
 
@@ -384,7 +417,7 @@ class PersonalProfileGUI
 
     private function loginChanged(): bool
     {
-        if ($this->profile->userSettingEditableByUser('username')
+        if ($this->profile->userFieldEditableByUser('username')
             && $this->form->getInput('username') !== $this->user->getLogin()) {
             return true;
         }
@@ -428,7 +461,8 @@ class PersonalProfileGUI
             $this->showPersonalData(true);
             return;
         }
-        $this->savePersonalDataForm();
+        $this->addDataFromFormToUser();
+        $this->user->update();
 
         \ilSession::setClosingContext(\ilSession::SESSION_CLOSE_USER);
         $this->auth_session->logout();
@@ -443,25 +477,13 @@ class PersonalProfileGUI
         );
     }
 
-    private function savePersonalDataForm(): void
+    private function addDataFromFormToUser(): void
     {
-        foreach ($this->profile->getVisibleFieldsBySection(Context::PersonalProfile, $this->user) as $section) {
-            array_map(
-                function (Field $v): void {
-                    $v->addValueToUserObject($this->user, $this->form->getInput($v->getIdentifier()), $this->form);
-                },
-                $section
-            );
-        }
-
-        // profile ok
+        $this->user = $this->profile->addFormValuesToUser($this->form, Context::User, $this->user);
         $this->user->setProfileIncomplete(false);
 
-        // save user data & object_data
         $this->user->setTitle($this->user->getFullname());
         $this->user->setDescription($this->user->getEmail());
-
-        $this->user->update();
     }
 
     public function changeEmail(): void
@@ -519,7 +541,7 @@ class PersonalProfileGUI
         $this->tpl->printToStdout();
     }
 
-    protected function getProfilePortfolio(): ?int
+    private function getProfilePortfolio(): ?int
     {
         if ($this->settings->get('user_portfolios')) {
             return \ilObjPortfolio::getDefaultPortfolio($this->user->getId());
@@ -527,7 +549,7 @@ class PersonalProfileGUI
         return null;
     }
 
-    public function initPublicProfileForm(): void
+    private function initPublicProfileForm(): void
     {
         $this->form = new \ilPropertyFormGUI();
 
@@ -576,14 +598,14 @@ class PersonalProfileGUI
             $info = new \ilCustomInputGUI($this->lng->txt('user_activate_public_profile'));
             $info->setHtml($prtf);
             $this->form->addItem($info);
-            $this->showPublicProfileFields($this->form, $this->user->getPrefs());
+            $this->showPublicProfileFields($this->form);
         }
 
         if (isset($op2)) {
-            $this->showPublicProfileFields($this->form, $this->user->getPrefs(), $op2, false, '-1');
+            $this->showPublicProfileFields($this->form, null, $op2, false, '-1');
         }
         if (isset($op3)) {
-            $this->showPublicProfileFields($this->form, $this->user->getPrefs(), $op3, false, '-2');
+            $this->showPublicProfileFields($this->form, null, $op3, false, '-2');
         }
         $this->form->setForceTopButtons(true);
         $this->form->addCommandButton('savePublicProfile', $this->lng->txt('user_save_continue'));
@@ -591,79 +613,23 @@ class PersonalProfileGUI
 
     public function showPublicProfileFields(
         \ilPropertyFormGUI $form,
-        array $prefs,
-        ?object $parent = null,
+        ?array $prefs = null,
+        \ilRadioOption|\ilCheckboxGroupInputGUI|null $parent = null,
         bool $anonymized = false,
         string $key_suffix = ''
     ): void {
-        $fields = $this->profile->getVisibleFields(Context::PersonalProfile);
-        $birthday = $this->user->getBirthday();
-        if ($birthday) {
-            $birthday = \ilDatePresentation::formatDate(new \ilDate($birthday, IL_CAL_DATE));
-        }
-        $gender = $this->user->getGender();
-        if ($gender) {
-            $gender = $this->lng->txt('gender_' . $gender);
-        }
-
-        $txt_sel_country = '';
-        if ($this->user->getCountry() !== '') {
-            $this->lng->loadLanguageModule('meta');
-            $txt_sel_country = $this->lng->txt('meta_c_' . $this->user->getCountry());
-        }
-
-        // profile picture
-        $pic = \ilObjUser::_getPersonalPicturePath($this->user->getId(), 'xsmall', true, true);
-        if ($pic) {
-            $pic = "<img src='{$pic}' alt='{$this->lng->txt('user_avatar')}' />";
-        }
-
-        // personal data
-        $val_array = [
-            'title' => $this->user->getUTitle(),
-            'birthday' => $birthday,
-            'gender' => $gender,
-            'upload' => $pic,
-            'interests_general' => $this->user->getGeneralInterestsAsText(),
-            'interests_help_offered' => $this->user->getOfferingHelpAsText(),
-            'interests_help_looking' => $this->user->getLookingForHelpAsText(),
-            'org_units' => $this->user->getOrgUnitsRepresentation(),
-            'institution' => $this->user->getInstitution(),
-            'department' => $this->user->getDepartment(),
-            'street' => $this->user->getStreet(),
-            'zipcode' => $this->user->getZipcode(),
-            'city' => $this->user->getCity(),
-            'country' => $this->user->getCountry(),
-            'sel_country' => $txt_sel_country,
-            'phone_office' => $this->user->getPhoneOffice(),
-            'phone_home' => $this->user->getPhoneHome(),
-            'phone_mobile' => $this->user->getPhoneMobile(),
-            'fax' => $this->user->getFax(),
-            'email' => $this->user->getEmail(),
-            'second_email' => $this->user->getSecondEmail(),
-            'hobby' => $this->user->getHobby(),
-            'matriculation' => $this->user->getMatriculation()
-        ];
-
-        // location
-        if (\ilMapUtil::isActivated()) {
-            $val_array['location'] = ((int) $this->user->getLatitude() +
-                (int) $this->user->getLongitude()
-                + (int) $this->user->getLocationZoom() > 0)
-                ? ' '
-                : '';
-        }
-        foreach ($val_array as $key => $value) {
-            if (in_array($value, ['', '-']) && !$anonymized) {
+        foreach ($this->profile->getVisibleFields(Context::User) as $field) {
+            $value = $field->retrieveValueFromUser($this->user);
+            if (!$anonymized && ($value === '' || $value === '-')) {
                 continue;
             }
             if ($anonymized) {
                 $value = null;
             }
 
-            if ($this->profile->userSettingVisibleToUser($key)) {
+            if ($field->isVisibleToUser()) {
                 // #18795 - we should use ilUserProfile
-                switch ($key) {
+                switch ($field->getIdentifier()) {
                     case 'upload':
                         $caption = 'personal_picture';
                         break;
@@ -673,13 +639,33 @@ class PersonalProfileGUI
                         break;
 
                     default:
-                        $caption = $key;
+                        $caption = $field->getLabel($this->lng);
                 }
-                $cb = new \ilCheckboxInputGUI($this->lng->txt($caption), 'chk_' . $key . $key_suffix);
-                if (isset($prefs['public_' . $key]) && $prefs['public_' . $key] == 'y') {
-                    $cb->setChecked(true);
-                }
-                $cb->setOptionTitle((string) $value);
+                $cb = new \ilCheckboxInputGUI($caption, self::PUBLISH_SETTINGS_PREFIX . $field->getIdentifier() . $key_suffix);
+                $cb->setChecked(
+                    $prefs === null
+                        ? $field->isPublishedByUser($this->user)
+                        : $prefs["public_{$field->getIdentifier()}"] ?? false
+                );
+
+                $cb->setOptionTitle(
+                    $this->refinery->byTrying([
+                        $this->refinery->kindlyTo()->string(),
+                        $this->refinery->custom()->transformation(
+                            function (mixed $v): string {
+                                return array_reduce(
+                                    $this->refinery->kindlyTo()->listOf(
+                                        $this->refinery->kindlyTo()->string()
+                                    )->transform($v),
+                                    static fn(string $c, string $v): string => $c === ''
+                                        ? $v : "{$c}, {$v}",
+                                    ''
+                                );
+                            }
+                        ),
+                        $this->refinery->always('')
+                    ])->transform($value)
+                );
 
                 if (!$parent) {
                     $form->addItem($cb);
@@ -729,113 +715,47 @@ class PersonalProfileGUI
 
     public function savePublicProfile(): void
     {
-        $key_suffix = '';
-
         $this->initPublicProfileForm();
-        if ($this->form->checkInput()) {
-            // with active portfolio no options are presented
-            if ($this->form->getInput('public_profile') != '') {
-                $this->user->setPref('public_profile', $this->form->getInput('public_profile'));
-            }
-
-            // if check on Institute
-            $val_array = ['title', 'birthday', 'gender', 'org_units',
-                'institution', 'department', 'upload', 'street', 'zipcode',
-                'city', 'country', 'sel_country', 'phone_office', 'phone_home',
-                'phone_mobile', 'fax', 'email', 'second_email', 'hobby',
-                'matriculation', 'location', 'interests_general',
-                'interests_help_offered', 'interests_help_looking'];
-
-            // set public profile preferences
-            $checked_values = $this->getCheckedValues();
-            foreach ($val_array as $key => $value) {
-                if ($checked_values['chk_' . $value] ?? false) {
-                    $this->user->setPref('public_' . $value, 'y');
-                } else {
-                    $this->user->setPref('public_' . $value, 'n');
-                }
-            }
-            // additional defined user data fields
-            foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
-                if ($checked_values['chk_udf_' . $definition['field_id']] ?? false) {
-                    $this->user->setPref('public_udf_' . $definition['field_id'], 'y');
-                } else {
-                    $this->user->setPref('public_udf_' . $definition['field_id'], 'n');
-                }
-            }
-
-            $this->user->update();
-
-            switch ($this->form->getInput('public_profile')) {
-                case 'y':
-                    $key_suffix = '-1';
-                    break;
-                case 'g':
-                    $key_suffix = '-2';
-                    break;
-            }
-
-            $handler = \ilBadgeHandler::getInstance();
-            if ($handler->isActive()) {
-                $badgePositions = [];
-                $bpos = $this->form->getInput('bpos' . $key_suffix);
-                if (isset($bpos) && is_array($bpos)) {
-                    $badgePositions = $bpos;
-                }
-
-                if (count($badgePositions) > 0) {
-                    \ilBadgeAssignment::updatePositions($this->user->getId(), $badgePositions);
-                }
-            }
-
-            // update lucene index
-            \ilLuceneIndexer::updateLuceneIndex([(int) $this->user->getId()]);
-
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-
-            $this->checklist_status->saveStepSucess(ChecklistStatus::STEP_PUBLISH_OPTIONS);
-
-            if (\ilSession::get('orig_request_target')) {
-                $target = \ilSession::get('orig_request_target');
-                \ilSession::set('orig_request_target', '');
-                \ilUtil::redirect($target);
-            } else {
-                $this->ctrl->redirectByClass('iluserprivacysettingsgui', '');
-            }
-        }
-        $this->form->setValuesByPost();
-        $this->tpl->showPublicProfile(true);
-    }
-
-    protected function getCheckedValues(): array
-    {
-        $key_suffix = '';
-        switch ($this->form->getInput('public_profile')) {
-            case 'y':
-                $key_suffix = '-1';
-                break;
-            case 'g':
-                $key_suffix = '-2';
-                break;
+        if (!$this->form->checkInput()) {
+            $this->form->setValuesByPost();
+            $this->tpl->showPublicProfile(true);
         }
 
-        $checked_values = [];
-        $post = $this->profile_request->getParsedBody();
-        foreach ($post as $k => $v) {
-            if (strpos($k, 'chk_') !== 0) {
-                continue;
-            }
-            if (substr($k, -2) === $key_suffix) {
-                $k = str_replace(['-1', '-2'], '', $k);
-            }
-            $checked_values[$k] = $v;
+        if ($this->form->getInput('public_profile') !== '') {
+            $this->user->setPref('public_profile', $this->form->getInput('public_profile'));
         }
-        foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
-            if (isset($post['chk_udf_' . $definition['field_id'] . $key_suffix])) {
-                $checked_values['chk_udf_' . $definition['field_id']] = '1';
+
+        $this->user = array_reduce(
+            $this->profile->getVisibleFields(Context::User, $this->user),
+            fn(\ilObjUser $c, ProfileField $v): \ilObjUser =>
+                $v->setPublishedOnUser($c, $this->getPublishedFromPost($v->getIdentifier())),
+            $this->user
+        );
+
+        if (\ilBadgeHandler::getInstance()->isActive()) {
+            $badge_positions = $this->form->getInput('bpos' . $this->buildKeySuffix()) ?? [];
+            if (is_array($badge_positions) && $badge_positions !== []) {
+                \ilBadgeAssignment::updatePositions($this->user->getId(), $badge_positions);
             }
         }
-        return $checked_values;
+
+        $this->user = $this->checklist_status->setStepSucessOnUser(
+            ChecklistStatus::STEP_PUBLISH_OPTIONS,
+            $this->user
+        );
+        $this->user->update();
+
+        // update lucene index
+        \ilLuceneIndexer::updateLuceneIndex([(int) $this->user->getId()]);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+
+        if (\ilSession::get('orig_request_target')) {
+            $target = \ilSession::get('orig_request_target');
+            \ilSession::set('orig_request_target', '');
+            \ilUtil::redirect($target);
+        }
+
+        $this->ctrl->redirectByClass([self::class, PrivacySettingsGUI::class], '');
     }
 
     public function showExportImport(): void
@@ -952,9 +872,35 @@ class PersonalProfileGUI
         }
     }
 
-    protected function showChecklist(int $active_step): void
+    private function showChecklist(int $active_step): void
     {
         $main_tpl = $this->tpl;
         $main_tpl->setRightContent($this->checklist->render($active_step));
+    }
+
+    private function getPublishedFromPost(string $identifier): bool
+    {
+        $key = self::PUBLISH_SETTINGS_PREFIX . $identifier . $this->buildKeySuffix();
+
+        if (!$this->http->wrapper()->post()->has($key)) {
+            return false;
+        }
+
+        return $this->http->wrapper()->post()->retrieve(
+            $key,
+            $this->refinery->kindlyTo()->string()
+        ) === '1';
+    }
+
+    private function buildKeySuffix(): string
+    {
+        switch ($this->form->getInput('public_profile')) {
+            case 'y':
+                return '-1';
+            case 'g':
+                return '-2';
+            default:
+                return '';
+        }
     }
 }

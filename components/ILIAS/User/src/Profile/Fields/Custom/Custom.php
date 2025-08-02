@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields\Custom;
 
+use ILIAS\User\Context;
 use ILIAS\User\Profile\Fields\NoOverrides;
 use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
@@ -88,11 +89,6 @@ class Custom implements FieldDefinition
         return $clone;
     }
 
-    public function hiddenInLists(): bool
-    {
-        return true;
-    }
-
     public function getAdditionalEditFormInputs(
         Language $lng,
         FieldFactory $ff,
@@ -135,13 +131,17 @@ class Custom implements FieldDefinition
         ];
     }
 
-    public function getInput(
+    public function getLegacyInput(
         Language $lng,
-        ?\ilObjUser $current_user = null
+        Context $context,
+        ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
-        $value = $current_user === null ? '' : $this->retrieveValueFromUser($current_user);
-        return $this->type->getInput(
+        $value = $user === null
+            ? []
+            : $user->getProfileData()->getAdditionalFieldByIdentifier($this->getIdentifier()) ?? [];
+        return $this->type->getLegacyInput(
             $lng,
+            $context,
             $value,
             $this->label,
             $this->additional_edit_form_data
@@ -153,14 +153,19 @@ class Custom implements FieldDefinition
         mixed $input,
         \ilPropertyFormGUI $form
     ): \ilObjUser {
-        $current_data = $user->getUserDefinedData();
-        $current_data[$this->getIdentifier()] = $this->type->prepareUserInputForStorage($input);
-        $user->setUserDefinedData($current_data);
-        return $user;
+        return $user->withProfileData(
+            $user->getProfileData()->withAdditionalFieldByIdentifier(
+                $this->getIdentifier(),
+                $this->type->prepareUserInputForStorage($input)
+            )
+        );
     }
 
-    public function retrieveValueFromUser(\ilObjUser $current_user): string
+    public function retrieveValueFromUser(\ilObjUser $user): string
     {
-        return $current_user->getProfileData()->getAdditionalFieldByIdentifier($this->getIdentifier()) ?? '';
+        return $this->type->buildPresentationValueFromUserValue(
+            $user->getProfileData()->getAdditionalFieldByIdentifier($this->getIdentifier()) ?? [],
+            $this->additional_edit_form_data
+        );
     }
 }

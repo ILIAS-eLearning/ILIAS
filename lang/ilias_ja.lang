@@ -11601,7 +11601,6 @@ mail#:#mail_serial_letter_placeholders#:#シリアルレタープレースフォ
 mail#:#mail_settings_external_frm_head#:#外部email
 mail#:#mail_settings_external_tab#:#外部
 mail#:#mail_settings_general_tab#:#全般
-mail#:#mail_settings_incoming_type_see_also#:#<a href="%s">ここ</a>でユーザの受信emaiタイプを修正可能です。
 mail#:#mail_settings_system_frm_head#:#システムemail
 mail#:#mail_settings_user_frm_head#:#ユーザemail
 mail#:#mail_smtp_encryption#:#エンクリプション

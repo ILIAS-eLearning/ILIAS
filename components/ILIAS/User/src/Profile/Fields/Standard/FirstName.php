@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields\Standard;
 
+use ILIAS\User\Context;
 use ILIAS\User\Profile\Fields\NoOverrides;
 use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
@@ -44,9 +45,9 @@ class FirstName implements FieldDefinition
         return AvailableSections::PersonalData;
     }
 
-    public function hiddenInLists(): bool
+    public function visibleInRegistrationForcedTo(): ?bool
     {
-        return false;
+        return true;
     }
 
     public function visibleToUserForcedTo(): ?bool
@@ -84,32 +85,33 @@ class FirstName implements FieldDefinition
         return true;
     }
 
-    public function getInput(
+    public function getLegacyInput(
         Language $lng,
-        ?\ilObjUser $current_user = null
+        Context $context,
+        ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
         $input = new \ilTextInputGUI($this->getLabel($lng));
         $input->setMaxLength(128);
-        if ($current_user === null) {
+        if ($user === null) {
             return $input;
         }
         $input->setValue(
-            $this->retrieveValueFromUser($current_user)
+            $this->retrieveValueFromUser($user)
         );
         return $input;
     }
 
     public function addValueToUserObject(
-        \ilObjUser $current_user,
+        \ilObjUser $user,
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
-        $current_user->setFirstname($input);
-        return $current_user;
+        $user->setFirstname($input);
+        return $user;
     }
 
-    public function retrieveValueFromUser(\ilObjUser $current_user): string
+    public function retrieveValueFromUser(\ilObjUser $user): string
     {
-        return $current_user->getFirstname();
+        return $user->getFirstname();
     }
 }

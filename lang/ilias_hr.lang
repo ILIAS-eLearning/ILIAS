@@ -11601,7 +11601,6 @@ mail#:#mail_serial_letter_placeholders#:#Rezervirana mjesta za serijska slova
 mail#:#mail_settings_external_frm_head#:#Vanjska e-pošta
 mail#:#mail_settings_external_tab#:#Vanjski
 mail#:#mail_settings_general_tab#:#Općenito
-mail#:#mail_settings_incoming_type_see_also#:#Dodatnu mogućnost za izmjenu dolazne vrste e-pošte za korisnike možete pronaći <a href="%s"> ovdje </a>.
 mail#:#mail_settings_system_frm_head#:#E-pošta sustava
 mail#:#mail_settings_user_frm_head#:#E-pošta korisnika
 mail#:#mail_smtp_encryption#:#Enkripcija

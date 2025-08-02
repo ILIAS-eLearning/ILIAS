@@ -292,16 +292,9 @@ class ilUserQuery
 
         // if udf fields are involved we need the definitions
         $udf_def = [];
-        if (count($udf_fields) > 0) {
-            $udf_def = ilUserDefinedFields::_getInstance()->getDefinitions();
-        }
-
         // join udf table
         foreach ($udf_fields as $id) {
-            $udf_table = ($udf_def[$id]["field_type"] !== UDF_TYPE_WYSIWYG)
-                ? "udf_text"
-                : "udf_clob";
-            $join .= " LEFT JOIN " . $udf_table . " ud_" . $id . " ON (ud_" . $id . ".field_id=" . $ilDB->quote($id) . " AND ud_" . $id . ".usr_id = usr_data.usr_id) ";
+            $join .= " LEFT JOIN udf_clob ud_" . $id . " ON (ud_" . $id . ".field_id=" . $ilDB->quote($id) . " AND ud_" . $id . ".usr_id = usr_data.usr_id) ";
         }
 
         // count query

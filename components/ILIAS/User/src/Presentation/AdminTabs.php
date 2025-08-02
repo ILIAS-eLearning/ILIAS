@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\User\Presentation;
 
 use ILIAS\User\Settings\Administration\SettingsGUI as AdminSettingsGUI;
-use ILIAS\User\Settings\User\ConfigurationGUI as UserSettingsConfigurationGUI;
+use ILIAS\User\Settings\ConfigurationGUI as UserSettingsConfigurationGUI;
 use ILIAS\User\Settings\NewAccountMail\SettingsGUI as NewAccountMailSettingsGUI;
 use ILIAS\User\Settings\StartingPoint\SettingsGUI as StartingPointSettingsGUI;
 use ILIAS\User\Profile\Fields\ConfigurationGUI as ProfileFieldsConfigurationGUI;

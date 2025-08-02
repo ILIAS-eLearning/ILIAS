@@ -28,37 +28,44 @@ class Data
     private array $system_information;
 
     public function __construct(
-        private readonly int $id,
-        private string $alias,
-        private ?ResourceIdentification $avatar_rid,
-        private string $firstname,
-        private string $lastname,
-        private string $title,
-        private ?Genders $gender,
-        private ?\DateTimeImmutable $birthday,
-        private string $institution,
-        private string $department,
-        private string $street,
-        private string $city,
-        private string $zipcode,
-        private string $country,
-        private string $email,
-        private ?string $second_email,
-        private string $phone_office,
-        private string $phone_home,
-        private string $phone_mobile,
-        private string $fax,
-        private string $matriculation,
-        private string $hobby,
-        private string $referral_comment,
-        private array $geo_coordinates,
-        private array $additional_fields
+        private ?int $id = null,
+        private string $alias = '',
+        private ?ResourceIdentification $avatar_rid = null,
+        private string $firstname = '',
+        private string $lastname = '',
+        private string $title = '',
+        private ?Genders $gender = null,
+        private ?\DateTimeImmutable $birthday = null,
+        private string $institution = '',
+        private string $department = '',
+        private string $street = '',
+        private string $city = '',
+        private string $zipcode = '',
+        private string $country = '',
+        private string $email = '',
+        private ?string $second_email = null,
+        private string $phone_office = '',
+        private string $phone_home = '',
+        private string $phone_mobile = '',
+        private string $fax = '',
+        private string $matriculation = '',
+        private string $hobby = '',
+        private string $referral_comment = '',
+        private array $geo_coordinates = [],
+        private array $additional_fields = []
     ) {
     }
 
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function withId(int $id): self
+    {
+        $clone = clone $this;
+        $clone->id = $id;
+        return $clone;
     }
 
     public function getAlias(): string
@@ -349,14 +356,15 @@ class Data
         return $clone;
     }
 
-    public function getAdditionalFieldsStorageValues(): string
+    public function getAdditionalFieldsStorageValues(\ilDBInterface $db): string
     {
         return rtrim(
             array_reduce(
                 array_keys($this->additional_fields),
-                fn(string $c, int $field_id) => $c . array_reduce(
+                fn(string $c, string $field_id) => $c . array_reduce(
                     $this->additional_fields[$field_id],
-                    fn(string $ci, string $value) => $ci . "({$this->id}, {$field_id}, {$value}),",
+                    fn(string $ci, string $value) => $ci . "({$db->quote($this->id, \ilDBConstants::T_INTEGER)}, "
+                    . "{$db->quote($field_id, \ilDBConstants::T_TEXT)}, {$db->quote($value, \ilDBConstants::T_TEXT)}),",
                     ''
                 ),
                 ''

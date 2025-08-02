@@ -23,43 +23,12 @@ show inconsistent behaviour. See
 
 ## Change Listeners for global User Field Attributes
 
-Consumers could add change listeners for changed attributes (e.g. visbility in
-user profile) of global user profile
-fields.  Change listeners could be added by configuration in the static
-definition of user
-fields: `ilUserProfile::$user_field`.
+Each change listener MUST implement the `ILIAS\User\Profile\ChangeListeners\UserFieldAttributesChangeListener`
+interface and it needs to be published through the component class of the component.
 
 ```php
-private static $user_field = [
-    // ...
-    'second_email' => [
-        // ...
-        'change_listeners' => [
-            ilMailUserFieldChangeListener::class,
-        ]]
-    // ...
-];
-```
-
-Each change listener MUST extend the abstract `UserFieldAttributesChangeListener` class.
-
-```php
-class MyChangeListener extends UserFieldAttributesChangeListener
-{
-    public function getDescriptionForField(string $fieldName, string $attribute) : ?string
-    {
-        if ($fieldName === 'second_email' && $attribute === 'visible_second_email') {
-            return 'Dear administration, changed this will lead to ...';
-        }
-
-        return null;
-    }
-
-    public function getComponentName() : string
-    {
-        return 'components/ILIAS/MyComponent';
-    }
-}
+$contribute[User\Profile\ChangeListeners\UserFieldAttributesChangeListener::class] = fn() =>
+    new MyChangeListener();
 ```
 
 If a privledged actor changes one or more attributes of one or more global user
@@ -72,7 +41,23 @@ to emit a system event:
 * Component: `ILIAS/User`
 * Event: `onUserFieldAttributesChanged`
 * Parameters:
-  * `array<string, ChangedUserFieldAttribute>`
+  * `array<string, ILIAS\User\Profile\ChangeListeners\ChangedUserFieldAttribute>`
+
+The array keys will be the value of the enum `ILIAS\User\PropertyAttributes`.
 
 Other components are able listen to this events and act depending on the provided
 `ChangedUserFieldAttribute` elements.
+
+# Custom Profile Field Types
+
+Custom profile field types can be provided as was previously possible through a
+plugin, by providing a class through the component class of the component that
+implements `ILIAS\User\Profile\Fields\Custom\Type`.
+
+```
+$contribute[ILIAS\User\Profile\Fields\Custom\Type::class] = fn() =>
+    new CustomFieldType();
+```
+
+The setup does not yet provide for an integration of custom language variables so
+you will need to find your own solution.

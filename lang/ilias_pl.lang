@@ -11601,7 +11601,6 @@ mail#:#mail_serial_letter_placeholders#:#Pole do wypełnienia dla korespondencji
 mail#:#mail_settings_external_frm_head#:#Zewnętrzne wiadomości mailowe
 mail#:#mail_settings_external_tab#:#Zewnętrzne wiadomości
 mail#:#mail_settings_general_tab#:#Ogólne informacje
-mail#:#mail_settings_incoming_type_see_also#:#Kolejną możliwością zmiany rodzaju otrzymywania wiadomości użytkowników dostępna jest <a href=”%s”>tutaj</a>.
 mail#:#mail_settings_system_frm_head#:#System wiadomości mailowych
 mail#:#mail_settings_user_frm_head#:#Wiadomości mailowe użytkowników
 mail#:#mail_smtp_encryption#:#Zakodowanie

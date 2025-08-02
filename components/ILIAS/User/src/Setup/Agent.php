@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Setup;
 
-use ILIAS\User\Settings\User\CollectSettingsObjective;
+use ILIAS\User\Settings\CollectSettingsObjective;
 use ILIAS\User\Profile\Fields\Custom\CollectTypesObjective;
 use ILIAS\User\Profile\ChangeListeners\CollectListenersObjective;
 use ILIAS\Setup;

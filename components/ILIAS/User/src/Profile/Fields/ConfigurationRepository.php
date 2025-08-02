@@ -31,7 +31,6 @@ class ConfigurationRepository
 
     public function __construct(
         private readonly \ilDBInterface $db,
-        private readonly DataRepository $data_repository,
         private readonly UUIDFactory $uuid_factory,
         private readonly array $available_custom_field_types,
         private readonly array $available_standard_profile_fields
@@ -160,7 +159,10 @@ class ConfigurationRepository
         if (!$field->getDefinition() instanceof Custom\Custom) {
             return;
         }
-        $this->data_repository->deleteForFieldIdentifier($field->getIdentifier());
+        $this->db->manipulateF(
+            'DELETE FROM ' . DataRepository::USER_VALUES_TABLE
+                . " WHERE field_id='{$this->db->quote($field->getIdentifier(), \ilDBConstants::T_TEXT)}'"
+        );
         $this->db->manipulate('DELETE FROM ' . self::UDF_DEFINITIONS_TABLE . " WHERE field_id='{$field->getIdentifier()}'" );
         $this->available_profile_fields = $this->generateAvailableProfielFields();
     }

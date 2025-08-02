@@ -11602,7 +11602,6 @@ mail#:#mail_serial_letter_placeholders#:#Körlevélhelyőrzők
 mail#:#mail_settings_external_frm_head#:#Külső levelek
 mail#:#mail_settings_external_tab#:#Külső
 mail#:#mail_settings_general_tab#:#Általános
-mail#:#mail_settings_incoming_type_see_also#:#További lehetőséget a felhasználókhoz beérkező leveleinek módosítására <a href="%s">itt</a> talál.
 mail#:#mail_settings_system_frm_head#:#Rendszerlevelek
 mail#:#mail_settings_user_frm_head#:#Felhasználói levelek
 mail#:#mail_smtp_encryption#:#Titkosítás

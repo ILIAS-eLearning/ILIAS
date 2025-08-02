@@ -11586,7 +11586,6 @@ mail#:#mail_serial_letter_placeholders#:#Caractères de remplacement des lettres
 mail#:#mail_settings_external_frm_head#:#E-mail externe
 mail#:#mail_settings_external_tab#:#Externe
 mail#:#mail_settings_general_tab#:#Général
-mail#:#mail_settings_incoming_type_see_also#:#Vous avez la possibilité de modifier le type d'arrivée des e-mails pour les utilisateurs <a href="%s">ici</a>
 mail#:#mail_settings_system_frm_head#:#E-mails du système
 mail#:#mail_settings_user_frm_head#:#E-mails de l’utilisateur
 mail#:#mail_smtp_encryption#:#Cryptage

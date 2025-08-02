@@ -18,12 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\User\Settings;
+namespace ILIAS\User\Settings\User;
 
-use ILIAS\User\Settings\User\SettingDefinition;
-use ILIAS\User\Settings\User\AvailablePages;
-use ILIAS\User\Settings\User\AvailableSections;
+use ILIAS\User\Settings\SettingDefinition;
+use ILIAS\User\Settings\AvailablePages;
+use ILIAS\User\Settings\AvailableSections;
 use ILIAS\Language\Language;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Input;
 use ILIAS\Refinery\Factory as Refinery;
 
 class LastVisited implements SettingDefinition
@@ -62,8 +64,31 @@ class LastVisited implements SettingDefinition
     }
 
     public function getInput(
+        FieldFactory $field_factory,
         Language $lng,
-        ?\ilObjUser $current_user = null
+        Refinery $refinery,
+        \ilSetting $settings,
+        ?\ilObjUser $user = null
+    ): Input {
+        return $field_factory->select(
+            $lng->txt('user_store_last_visited'),
+            [
+                0 => $lng->txt('user_lv_keep_entries'),
+                1 => $lng->txt('user_lv_keep_only_for_session'),
+                2 => $lng->txt('user_lv_do_not_store')
+            ]
+        )->withRequired(true)
+        ->withValue(
+            $user !== null
+                ? $this->retrieveValueFromUser($user)
+                : 0
+        );
+    }
+
+    public function getLegacyInput(
+        Language $lng,
+        \ilSetting $settings,
+        ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
         $input = new \ilSelectInputGUI($lng->txt('user_store_last_visited'));
         $options = [
@@ -72,18 +97,16 @@ class LastVisited implements SettingDefinition
             2 => $lng->txt('user_lv_do_not_store')
         ];
         $input->setOptions($options);
-        if ($current_user === null) {
-            return $input;
-        }
         $input->setValue(
-            $this->retrieveValueFromUser($current_user)
+            $user !== null
+                ? $this->retrieveValueFromUser($user)
+                : 0
         );
         return $input;
     }
 
     public function getDefaultValueForDisplay(
         Language $lng,
-        Refinery $refinery,
         \ilSetting $settings
     ): string {
         return $lng->txt('user_lv_keep_entries');
@@ -91,27 +114,27 @@ class LastVisited implements SettingDefinition
 
     public function hasUserPersonalizedSetting(
         \ilSetting $settings,
-        \ilObjUser $current_user
+        \ilObjUser $user
     ): bool {
-        return $this->retrieveValueFromUser($current_user) !== 0;
+        return $this->retrieveValueFromUser($user) !== 0;
     }
 
     public function persistUserInput(
-        \ilObjUser $current_user,
+        \ilObjUser $user,
         mixed $input
     ): \ilObjUser {
-        $current_user->setPref('store_last_visited', $input ?? '0');
+        $user->setPref('store_last_visited', $input ?? '0');
         if ((int) $input > 0) {
             $this->navigation_history->deleteDBEntries();
             if ($input === '2') {
                 $this->navigation_history->deleteSessionEntries();
             }
         }
-        return $current_user;
+        return $user;
     }
 
-    public function retrieveValueFromUser(\ilObjUser $current_user): int
+    public function retrieveValueFromUser(\ilObjUser $user): int
     {
-        return (int) ($current_user->prefs['store_last_visited'] ?? 0);
+        return (int) ($user->getPref('store_last_visited') ?? 0);
     }
 }

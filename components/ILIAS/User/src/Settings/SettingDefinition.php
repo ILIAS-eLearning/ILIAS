@@ -16,10 +16,12 @@
  *
  *********************************************************************/
 
-namespace ILIAS\User\Settings\User;
+namespace ILIAS\User\Settings;
 
 use ILIAS\User\Property;
 use ILIAS\Language\Language;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Input;
 use ILIAS\Refinery\Factory as Refinery;
 
 interface SettingDefinition extends Property
@@ -29,13 +31,31 @@ interface SettingDefinition extends Property
 
     public function getDefaultValueForDisplay(
         Language $lng,
-        Refinery $refinery,
         \ilSetting $settings
     ): ?string;
     public function hasUserPersonalizedSetting(
         \ilSetting $settings,
-        \ilObjUser $current_user
+        \ilObjUser $user
     ): bool;
+
+    public function getInput(
+        FieldFactory $field_factory,
+        Language $lng,
+        Refinery $refinery,
+        \ilSetting $settings,
+        ?\ilObjUser $user = null
+    ): Input;
+
+    /**
+     * You don't need to add a post_var to the input as the User will handle this
+     * for you, thus you can also not rely on the post_var anywhere else, as it
+     * will be changed.
+     */
+    public function getLegacyInput(
+        Language $lng,
+        \ilSetting $settings,
+        ?\ilObjUser $user = null
+    ): \ilFormPropertyGUI;
 
     /**
      * @param mixed $input `Null` will be handed in, if the  user
@@ -44,7 +64,7 @@ interface SettingDefinition extends Property
      * after the call to this function.
      */
     public function persistUserInput(
-        \ilObjUser $current_user,
+        \ilObjUser $user,
         mixed $input
     ): \ilObjUser;
 }

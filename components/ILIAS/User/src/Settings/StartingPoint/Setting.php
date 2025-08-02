@@ -21,10 +21,13 @@ declare(strict_types=1);
 namespace ILIAS\User\Settings\StartingPoint;
 
 use ILIAS\User\LocalDIC;
-use ILIAS\User\Settings\User\SettingDefinition;
-use ILIAS\User\Settings\User\AvailablePages;
-use ILIAS\User\Settings\User\AvailableSections;
+use ILIAS\User\Settings\SettingDefinition;
+use ILIAS\User\Settings\AvailablePages;
+use ILIAS\User\Settings\AvailableSections;
 use ILIAS\Language\Language;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Input;
+use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Refinery\Factory as Refinery;
 
 class Setting implements SettingDefinition
@@ -62,13 +65,81 @@ class Setting implements SettingDefinition
     }
 
     public function getInput(
+        FieldFactory $field_factory,
         Language $lng,
-        ?\ilObjUser $current_user = null
+        Refinery $refinery,
+        \ilSetting $settings,
+        ?\ilObjUser $user = null
+    ): Input {
+        $starting_point_id = null;
+        $object_ref_id = null;
+        if ($user !== null) {
+            [
+                'starting_point_id' => $starting_point_id ,
+                'object_id' => $object_ref_id
+            ] = $this->retrieveValueFromUser($user);
+        }
+        $possible_starting_points = $this->starting_point_repository->getPossibleStartingPoints();
+        return $field_factory->switchableGroup(
+            array_reduce(
+                array_keys($possible_starting_points),
+                static function (array $c, int $v) use (
+                    $field_factory,
+                    $lng,
+                    $possible_starting_points,
+                    $object_ref_id
+                ): array {
+                    $c[$v] = $field_factory->group(
+                        $v === Repository::START_REPOSITORY_OBJ
+                            ? [
+                                'usr_start_ref_id' => $field_factory->numeric(
+                                    $lng->txt('adm_user_starting_point_ref_id'),
+                                    $object_ref_id === null || ($start_obj_id = \ilObject::_lookupObjId($object_ref_id)) === 0
+                                        ? $lng->txt('adm_user_starting_point_ref_id_info')
+                                        : $lng->txt('obj_' . \ilObject::_lookupType($start_obj_id))
+                                                . ': ' . \ilObject::_lookupTitle($start_obj_id)
+                                )->withRequired(true)
+                            ] : [],
+                        $lng->txt($possible_starting_points[$v])
+                    );
+                    return $c;
+                },
+                [
+                    0 => $field_factory->group(
+                        [],
+                        $lng->txt('adm_user_starting_point_inherit'),
+                        $lng->txt('adm_user_starting_point_inherit_info')
+                    )
+                ]
+            ),
+            $lng->txt('adm_user_starting_point'),
+            $lng->txt('adm_user_starting_point_info')
+        )->withAdditionalTransformation(
+            $this->buildValidateObjectConstraint($refinery, $lng)
+        )->withAdditionalTransformation(
+            $refinery->custom()->transformation(
+                static fn(array $v): array => [
+                    'starting_point_id' => $refinery->kindlyTo()->int()->transform($v[0]),
+                    'object_id' => $v[1]['usr_start_ref_id'] ?? null
+                ]
+            )
+        )->withValue(
+            $this->buildValueSetterArray(
+                $starting_point_id,
+                $object_ref_id
+            )
+        );
+    }
+
+    public function getLegacyInput(
+        Language $lng,
+        \ilSetting $settings,
+        ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
         $starting_point_id = null;
         $object_ref_id = null;
-        if ($current_user !== null) {
-            ['starting_point_id' => $starting_point_id , 'object_id' => $object_ref_id] = $this->retrieveValueFromUser($current_user);
+        if ($user !== null) {
+            ['starting_point_id' => $starting_point_id , 'object_id' => $object_ref_id] = $this->retrieveValueFromUser($user);
         }
         $input = new \ilRadioGroupInputGUI($lng->txt('adm_user_starting_point'));
         $input->setInfo($lng->txt('adm_user_starting_point_info'));
@@ -91,10 +162,9 @@ class Setting implements SettingDefinition
         $repository_object_id->setInfo($lng->txt('adm_user_starting_point_ref_id_info'));
         $repository_object_id->setRequired(true);
         $repository_object_id->setSize(5);
-        if ($this->starting_point_repository->getCurrentUserPersonalStartingPoint() === Repository::START_REPOSITORY_OBJ) {
+        if ($object_ref_id !== null) {
             $repository_object_id->setValue($object_ref_id);
-            if ($object_ref_id !== null
-                && ($start_obj_id = \ilObject::_lookupObjId($object_ref_id)) !== 0) {
+            if (($start_obj_id = \ilObject::_lookupObjId($object_ref_id)) !== 0) {
                 $repository_object_id->setInfo(
                     $lng->txt('obj_' . \ilObject::_lookupType($start_obj_id)) .
                     ': ' . \ilObject::_lookupTitle($start_obj_id)
@@ -108,7 +178,6 @@ class Setting implements SettingDefinition
 
     public function getDefaultValueForDisplay(
         Language $lng,
-        Refinery $refinery,
         \ilSetting $settings
     ): string {
         $default_starting_point = $this->starting_point_repository->getSystemDefaultStartingPointType();
@@ -123,38 +192,41 @@ class Setting implements SettingDefinition
 
     public function hasUserPersonalizedSetting(
         \ilSetting $settings,
-        \ilObjUser $current_user
+        \ilObjUser $user
     ): bool {
-        ['starting_point_id' => $starting_point_id , 'object_id' => $object_id] = $this->retrieveValueFromUser($current_user);
-        return $starting_point_id !== 0
-                && ($starting_point_id !== $this->starting_point_repository->getSystemDefaultStartingPointType()
-            || $object_id !== $this->starting_point_repository->getSystemDefaultStartingObject());
+        return $this->starting_point_repository->isPersonalStartingPointEnabledForUser($user);
     }
 
     public function persistUserInput(
-        \ilObjUser $current_user,
+        \ilObjUser $user,
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
-        if ($input === null
-            || (int) $input === 0) {
-            $this->starting_point_repository->setCurrentUserPersonalStartingPoint(0);
+        if ($input === null) {
+            $starting_point_id = 0;
+            $object_ref_id = null;
+        } elseif (is_array($input)) {
+            ['starting_point_id' => $starting_point_id , 'object_id' => $object_ref_id] = $input;
+        } else {
+            $starting_point_id = (int) $input;
+            $object_ref_id_input = $form->getInput('usr_start_ref_id');
+            $object_ref_id = $object_ref_id_input === '' ? null : (int) $object_ref_id_input;
         }
-        $ref_id = $form->getInput('usr_start_ref_id');
-        $this->starting_point_repository->setCurrentUserPersonalStartingPoint(
-            (int) $input,
-            $ref_id === '' ? null : (int) $ref_id
+        $this->starting_point_repository->setPersonalStartingPointForUser(
+            $user,
+            $starting_point_id,
+            $object_ref_id
         );
-        return $current_user;
+        return $user;
     }
 
     public function validateUserChoice(
         \ilGlobalTemplateInterface $tpl,
         Language $lng,
         \ilPropertyFormGUI $form
-    ): ?string {
+    ): bool {
         if ($form->getInput($this->getIdentifier()) !== Repository::START_REPOSITORY_OBJ) {
-            return null;
+            return true;
         }
 
         $ref_id = $form->getInput('usr_start_ref_id');
@@ -166,11 +238,45 @@ class Setting implements SettingDefinition
         return true;
     }
 
-    public function retrieveValueFromUser(\ilObjUser $current_user): array
+    private function buildValidateObjectConstraint(
+        Refinery $refinery,
+        Language $lng
+    ): CustomConstraint {
+        return $refinery->custom()->constraint(
+            function (array $v): bool {
+                if ($v[0] !== Repository::START_REPOSITORY_OBJ) {
+                    return true;
+                }
+                if (!is_int($v[1]['usr_start_ref_id']) || !\ilObject::_exists($v[1]['usr_start_ref_id'], true)) {
+                    return false;
+                }
+                return true;
+            },
+            $lng->txt('obj_ref_id_not_exist')
+        );
+    }
+
+    public function retrieveValueFromUser(\ilObjUser $user): array
     {
         return [
-            'starting_point_id' => $this->starting_point_repository->getCurrentUserPersonalStartingPoint(),
-            'object_id' => $this->starting_point_repository->getCurrentUserPersonalStartingObject()
+            'starting_point_id' => $this->starting_point_repository->getPersonalStartingPointForUser($user),
+            'object_id' => $this->starting_point_repository->getPersonalStartingObjectForUser($user)
+        ];
+    }
+
+    private function buildValueSetterArray(
+        int $starting_point_id,
+        ?int $object_ref_id
+    ): int|array {
+        if ($starting_point_id !== Repository::START_REPOSITORY_OBJ) {
+            return $starting_point_id;
+        }
+
+        return [
+            0 => $starting_point_id,
+            1 => [
+                'usr_start_ref_id' => $object_ref_id
+            ]
         ];
     }
 }

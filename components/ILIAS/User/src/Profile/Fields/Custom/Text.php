@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields\Custom;
 
+use ILIAS\User\Context;
 use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -41,19 +42,27 @@ class Text implements Type
         return null;
     }
 
-    public function getInput(
+    public function getLegacyInput(
         Language $lng,
-        string $user_value,
+        Context $context,
+        array $user_value,
         string $label,
         ?string $data
     ): \ilFormPropertyGUI {
         $input = new \ilTextInputGUI($label);
-        $input->setValue($user_value);
+        $input->setValue($user_value[0] ?? '');
         return $input;
     }
 
     public function prepareUserInputForStorage(mixed $input): array
     {
         return [$input];
+    }
+
+    public function buildPresentationValueFromUserValue(
+        array $input,
+        ?string $data
+    ): string {
+        return $input[0] ?? '';
     }
 }

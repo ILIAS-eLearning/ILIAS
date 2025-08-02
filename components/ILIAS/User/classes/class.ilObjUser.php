@@ -17,11 +17,13 @@
  *********************************************************************/
 
 use ILIAS\User\LocalDIC;
-use ILIAS\User\Profile\Profile;
 use ILIAS\User\Profile\Data;
 use ILIAS\User\Profile\DataRepository as ProfileDataRepository;
+use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileConfigurationRepository;
 use ILIAS\User\Profile\Fields\Standard\Genders;
-use ILIAS\User\Profile\PublicProfileGUI;
+use ILIAS\User\Profile\Fields\Standard\Interests;
+use ILIAS\User\Profile\Fields\Standard\HelpOffered;
+use ILIAS\User\Profile\Fields\Standard\HelpLookedFor;
 use ILIAS\Language\Language;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -31,6 +33,8 @@ use ILIAS\Data\DateFormat\Factory as DateFormatFactory;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Authentication\Password\LocalUserPasswordManager;
 use ILIAS\Export\ExportHandler\Factory as ExportFactory;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\FileDelivery\Delivery\StreamDelivery;
 
 /**
  * User class
@@ -47,11 +51,10 @@ class ilObjUser extends ilObject
 
     private string $ext_account = '';
     private string $fullname;
-    private string $time_limit_message = '';
     private bool $time_limit_unlimited = false;
     private ?int $time_limit_until = null;
     private ?int $time_limit_from = null;
-    private ?int $time_limit_owner = null;
+    private int $time_limit_owner = USER_FOLDER_ID;
     private string $last_login = '';
     private string $passwd = '';
     private string $passwd_type = '';
@@ -65,28 +68,20 @@ class ilObjUser extends ilObject
     private int $last_password_change_ts = 0;
     private bool $passwd_policy_reset = false;
     private int $login_attempts = 0;
-    private array $user_defined_data = []; // Missing array type.
-    /** @var array<string, string> */
-    private array $oldPrefs = [];
     /** @var array<string, string> */
     private array $prefs = [];
-    private string $skin = '';
     private static array $personal_image_cache = [];
     private ?string $inactivation_date = null;
     private bool $is_self_registered = false; // flag for self registered users
-    /** @var string[] */
-    private array $interests_general = [];
-    /** @var string[] */
-    private array $interests_help_offered = [];
-    /** @var string[] */
-    private array $interests_help_looking = [];
     private string $last_profile_prompt = '';	// timestamp
     private string $first_login = '';	// timestamp
     private bool $profile_incomplete = false;
 
     private Data $profile_data;
     private ProfileDataRepository $profile_data_repository;
+    private ProfileConfigurationRepository $profile_configuration_repository;
 
+    private StreamDelivery $delivery;
     private DateFormatFactory $date_format_factory;
     private ilCronDeleteInactiveUserReminderMail $cron_delete_user_reminder_mail;
     private Services $irss;
@@ -103,8 +98,13 @@ class ilObjUser extends ilObject
         $this->settings = $DIC['ilSetting'];
         $this->auth_session = $DIC['ilAuthSession'];
         $this->ctrl = $DIC['ilCtrl'];
-        $this->profile_data_repository = LocalDIC::dic()[ProfileDataRepository::class];
         $this->app_event_handler = $DIC['ilAppEventHandler'];
+        $this->delivery = $DIC['file_delivery']->delivery();
+
+        $local_dic = LocalDIC::dic();
+        $this->profile_data_repository = $local_dic[ProfileDataRepository::class];
+        $this->profile_configuration_repository = $local_dic[ProfileConfigurationRepository::class];
+
         $this->date_format_factory = (new DataFactory())->dateFormat();
 
         $this->type = 'usr';
@@ -117,15 +117,14 @@ class ilObjUser extends ilObject
         if ($a_user_id > 0) {
             $this->setId($a_user_id);
             $this->read();
-        } else {
-            $this->prefs = [];
-            $this->prefs['language'] = $this->ilias->ini->readVariable('language', 'default');
-            $this->skin = $this->ilias->ini->readVariable('layout', 'skin');
-            $this->prefs['skin'] = $this->skin;
-            $this->prefs['style'] = $this->ilias->ini->readVariable('layout', 'style');
+            return;
         }
 
-        $this->delivery = $DIC['file_delivery']->delivery();
+        $this->profile_data = $this->profile_data_repository->getDefault();
+        $this->prefs = [];
+        $this->prefs['language'] = $this->ilias->ini->readVariable('language', 'default');
+        $this->prefs['skin'] = $this->ilias->ini->readVariable('layout', 'skin');
+        $this->prefs['style'] = $this->ilias->ini->readVariable('layout', 'style');
     }
 
     /**
@@ -137,10 +136,9 @@ class ilObjUser extends ilObject
     {
         $this->profile_data = $this->profile_data_repository->getSingle($this->id);
         $this->setFullname();
-        $this->assignSystemInformation($this->profile_data->getSystemInformation());
+        $this->assignSystemInformationFromDB($this->profile_data->getSystemInformation());
 
         $this->readPrefs();
-        $this->cleanupPrefs();
 
         parent::read();
     }
@@ -148,15 +146,16 @@ class ilObjUser extends ilObject
     public function saveAsNew(): void
     {
         $this->inactivation_date = null;
-        if (!$this->active) {
+        if ($this->active === 0) {
             $this->inactivation_date = date('Y-m-d H:i:s');
         }
 
-        $system_information = $this->buildSystemInformationArray();
+        $system_information = $this->buildSystemInformationArrayForDB();
         $system_information['create_date'] = date('Y-m-d H:i:s');
 
+        $this->profile_data = $this->profile_data->withId($this->id);
         $this->profile_data_repository->store(
-            $this->profile_data->withSystemInformation($system_information)
+            $this->profile_data->withSystemInformation($this->buildSystemInformationArrayForDB())
         );
 
         // CREATE ENTRIES FOR MAIL BOX
@@ -175,15 +174,8 @@ class ilObjUser extends ilObject
 
     public function update(): bool
     {
-        $this->syncActive();
-
-        $this->setInactivationDate(null);
-        if ($this->getStoredActive($this->id) && !$this->active) {
-            $this->setInactivationDate(ilUtil::now());
-        }
-
         $this->profile_data_repository->store(
-            $this->profile_data->withSystemInformation($this->buildSystemInformationArray())
+            $this->profile_data->withSystemInformation($this->buildSystemInformationArrayForDB())
         );
 
         $this->writePrefs();
@@ -202,7 +194,7 @@ class ilObjUser extends ilObject
         return true;
     }
 
-    private function assignSystemInformation(array $data): void
+    private function assignSystemInformationFromDB(array $data): void
     {
         if (!empty($data['passwd'])) {
             $this->setPasswd($data['passwd'], self::PASSWD_CRYPTED);
@@ -228,7 +220,6 @@ class ilObjUser extends ilObject
         $this->time_limit_unlimited = $data['time_limit_unlimited'];
         $this->time_limit_from = $data['time_limit_from'];
         $this->time_limit_until = $data['time_limit_until'];
-        $this->time_limit_message = $data['time_limit_message'];
 
         $this->profile_incomplete = $data['profile_incomplete'];
 
@@ -237,10 +228,8 @@ class ilObjUser extends ilObject
         $this->is_self_registered = $data['is_self_registered'];
     }
 
-    private function buildSystemInformationArray(): array
+    private function buildSystemInformationArrayForDB(): array
     {
-
-
         return [
             'last_password_change' => $this->last_password_change_ts,
             'login_attempts' => $this->login_attempts,
@@ -260,7 +249,6 @@ class ilObjUser extends ilObject
             'time_limit_unlimited' => $this->time_limit_unlimited,
             'time_limit_from' => $this->time_limit_from,
             'time_limit_until' => $this->time_limit_until,
-            'time_limit_message' => $this->time_limit_message,
             'profile_incomplete' => $this->profile_incomplete,
             'auth_mode' => $this->auth_mode,
             'ext_account' => $this->ext_account,
@@ -286,57 +274,6 @@ class ilObjUser extends ilObject
             return null;
         }
         return $this->agree_date;
-    }
-
-    private function cleanupPrefs(): void
-    {
-        if (!isset($this->prefs['language']) || $this->prefs['language'] === '') {
-            $this->prefs['language'] = $this->oldPrefs['language'] ?? '';
-        }
-
-        if (
-            !isset($this->prefs['skin']) || $this->prefs['skin'] === '' ||
-            !ilStyleDefinition::skinExists($this->prefs['skin'])
-        ) {
-            $this->prefs['skin'] = $this->oldPrefs['skin'] ?? '';
-        }
-
-        $this->skin = $this->prefs['skin'];
-
-        if (
-            !isset($this->prefs['style']) ||
-            $this->prefs['style'] === '' ||
-            !ilStyleDefinition::styleExists($this->prefs['style']) ||
-            (
-                !ilStyleDefinition::skinExists($this->skin) &&
-                ilStyleDefinition::styleExistsForSkinId($this->skin, $this->prefs['style'])
-            )
-        ) {
-            //load default (css)
-            $this->prefs['skin'] = $this->ilias->ini->readVariable('layout', 'skin');
-            $this->prefs['style'] = $this->ilias->ini->readVariable('layout', 'style');
-        }
-    }
-
-    /**
-     * write accept date of user agreement
-     */
-    public function writeAccepted(): void
-    {
-        $this->profile_data_repository->storeUserAgreementAcceptedFor($usr_id);
-    }
-
-    public function refreshLogin(): void
-    {
-        $this->profile_data_repository->refreshLoginTimestampsFor($this->id, $this->first_login);
-
-        if ($this->getFirstLogin() === '') {
-            $this->app_event_handler->raise(
-                'components/ILIAS/User',
-                'firstLogin',
-                ['user_obj' => $this]
-            );
-        }
     }
 
     public function resetPassword(string $new_raw_password): bool
@@ -459,6 +396,7 @@ class ilObjUser extends ilObject
             ['integer', 'text'],
             [$this->id, $keyword]
         );
+        unset($this->prefs[$keyword]);
     }
 
     private function deleteAllPrefs(): void
@@ -498,12 +436,12 @@ class ilObjUser extends ilObject
 
     public function getDateFormat(): DateFormat
     {
-        $format = $format = $this->getPref('date_format');
+        $format = $this->getPref('date_format');
         if ($format === null) {
             $format = ilCalendarSettings::_getInstance()->getDefaultDateFormat();
         }
 
-        return match ($format) {
+        return match ((int) $format) {
             ilCalendarSettings::DATE_FORMAT_DMY => $this->date_format_factory->germanShort(),
             ilCalendarSettings::DATE_FORMAT_MDY => $this->date_format_factory->americanShort(),
             ilCalendarSettings::DATE_FORMAT_YMD => $this->date_format_factory->standard(),
@@ -531,11 +469,6 @@ class ilObjUser extends ilObject
         return $this->prefs[$a_keyword] ?? null;
     }
 
-    public function existsPref(string $keyword): bool
-    {
-        return array_key_exists($keyword, $this->prefs);
-    }
-
     /**
      * @deprecated 11
      */
@@ -544,10 +477,17 @@ class ilObjUser extends ilObject
         return $this->prefs;
     }
 
-    public function readPrefs(): void
+    private function readPrefs(): void
     {
-        $this->oldPrefs = $this->prefs;
         $this->prefs = self::_getPreferences($this->id);
+        if (!isset($this->prefs['style'])
+            || $this->prefs['style'] === ''
+            || !ilStyleDefinition::styleExists($this->prefs['style'])
+            || !ilStyleDefinition::skinExists($this->prefs['skin'])
+                && ilStyleDefinition::styleExistsForSkinId($this->prefs['skin'], $this->prefs['style'])) {
+            $this->prefs['skin'] = $this->ilias->ini->readVariable('layout', 'skin');
+            $this->prefs['style'] = $this->ilias->ini->readVariable('layout', 'style');
+        }
     }
 
     public function delete(): bool
@@ -588,6 +528,13 @@ class ilObjUser extends ilObject
         parent::delete();
 
         return true;
+    }
+
+    public function withProfileData(Data $profile_data): self
+    {
+        $clone = clone $this;
+        $clone->profile_data = $profile_data;
+        return $clone;
     }
 
     public function getProfileData(): Data
@@ -665,7 +612,7 @@ class ilObjUser extends ilObject
 
     public function getBirthday(): ?string
     {
-        return $this->profile_data->getBirthday();
+        return $this->profile_data->getBirthday()?->format('Y-m-d');
     }
 
     public function setInstitution(string $instituion): void
@@ -874,15 +821,15 @@ class ilObjUser extends ilObject
         return $this->client_ip;
     }
 
-    public function setLanguage(string $a_str): void
+    public function setLanguage(string $language): void
     {
-        $this->setPref('language', $a_str);
+        $this->setPref('language', $language);
         ilSession::clear('lang');
     }
 
     public function getLanguage(): string
     {
-        return $this->prefs['language'];
+        return $this->prefs['language'] ?? '';
     }
 
     public function getPasswordEncodingType(): ?string
@@ -998,15 +945,15 @@ class ilObjUser extends ilObject
      */
     public function getCurrentLanguage(): string
     {
-        return (string) ilSession::get('lang');
+        return ilSession::get('lang') ?? '';
     }
 
     /**
      * Set current language
      */
-    public function setCurrentLanguage(string $a_val): void
+    public function setCurrentLanguage(string $language): void
     {
-        ilSession::set('lang', $a_val);
+        ilSession::set('lang', $language);
     }
 
     public function setLastLogin(string $a_str): void
@@ -1019,9 +966,24 @@ class ilObjUser extends ilObject
         return $this->last_login;
     }
 
-    public function setFirstLogin(string $a_str): void
+    public function refreshLogin(): void
     {
-        $this->first_login = $a_str;
+        $this->last_login = $this->db->now();
+
+        $old_first_login = $this->first_login;
+        if ($old_first_login === '') {
+            $this->first_login = $this->db->now();
+            $this->app_event_handler->raise(
+                'components/ILIAS/User',
+                'firstLogin',
+                ['user_obj' => $this]
+            );
+        }
+    }
+
+    public function setFirstLogin(string $date): void
+    {
+        $this->first_login = $date;
     }
 
     public function getFirstLogin(): string
@@ -1029,9 +991,9 @@ class ilObjUser extends ilObject
         return $this->first_login;
     }
 
-    public function setLastProfilePrompt(string $a_str): void
+    public function setLastProfilePrompt(string $date): void
     {
-        $this->last_profile_prompt = $a_str;
+        $this->last_profile_prompt = $date;
     }
 
     public function getLastProfilePrompt(): string
@@ -1039,9 +1001,9 @@ class ilObjUser extends ilObject
         return $this->last_profile_prompt;
     }
 
-    public function setLastUpdate(string $a_str): void
+    public function setLastUpdate(string $date): void
     {
-        $this->last_update = $a_str;
+        $this->last_update = $date;
     }
 
     public function getLastUpdate(): string
@@ -1067,9 +1029,9 @@ class ilObjUser extends ilObject
     {
         return $this->agree_date;
     }
-    public function setAgreeDate(?string $a_str): void
+    public function setAgreeDate(?string $date): void
     {
-        $this->agree_date = $a_str;
+        $this->agree_date = $date;
     }
 
     /**
@@ -1077,68 +1039,36 @@ class ilObjUser extends ilObject
      * @param int  $a_owner the id of the person who approved the account, defaults to 6 (root)
      */
     public function setActive(
-        bool $a_active,
-        int $a_owner = 0
+        bool $active,
+        int $owner = 0
     ): void {
-        $this->setOwner($a_owner);
+        $this->setOwner($owner);
 
-        if ($a_active) {
+        $current_active = $this->active;
+        if ($active) {
             $this->active = 1;
             $this->setApproveDate(date('Y-m-d H:i:s'));
-            $this->setOwner($a_owner);
-        } else {
-            $this->active = 0;
-            $this->setApproveDate(null);
+            $this->setInactivationDate(null);
+            $this->setOwner($owner);
+            return;
+        }
+
+        $this->active = 0;
+        $this->setApproveDate(null);
+
+        if ($this->getId() > 0 && $current_active !== $active) {
+            $this->setInactivationDate(ilUtil::now());
         }
     }
 
     public function getActive(): bool
     {
-        return (bool) $this->active;
-    }
-
-    /**
-     * synchronizes current and stored user active values
-     * for the owner value to be set correctly, this function should only be called
-     * when an admin is approving a user account
-     */
-    public function syncActive(): void
-    {
-        $stored_active = 0;
-        if ($this->getStoredActive($this->id)) {
-            $stored_active = 1;
-        }
-
-        $current_active = 0;
-        if ($this->active) {
-            $current_active = 1;
-        }
-
-        if (!empty($stored_active) && empty($current_active)
-            || empty($stored_active) && !empty($current_active)) {
-            $this->setActive(
-                $current_active,
-                $this->auth_session->getUserId()
-            );
-        }
-    }
-
-    /**
-     * get user active state
-     */
-    public function getStoredActive(int $a_id): bool
-    {
-        return (bool) self::_lookup($a_id, 'active');
-    }
-
-    public function setSkin(string $a_str): void
-    {
-        $this->skin = $a_str;
+        return $this->active === 1;
     }
 
     public function getSkin(): string
     {
-        return $this->skin;
+        return $this->prefs['skin'];
     }
 
     public function setTimeLimitOwner(int $a_owner): void
@@ -1148,7 +1078,7 @@ class ilObjUser extends ilObject
 
     public function getTimeLimitOwner(): int
     {
-        return $this->time_limit_owner ?: 7;
+        return $this->time_limit_owner;
     }
 
     public function setTimeLimitFrom(?int $a_from): void
@@ -1171,24 +1101,14 @@ class ilObjUser extends ilObject
         return $this->time_limit_until;
     }
 
-    public function setTimeLimitUnlimited(bool $a_unlimited): void
+    public function setTimeLimitUnlimited(bool $unlimited): void
     {
-        $this->time_limit_unlimited = $a_unlimited;
+        $this->time_limit_unlimited = $unlimited;
     }
 
     public function getTimeLimitUnlimited(): bool
     {
         return $this->time_limit_unlimited;
-    }
-
-    public function setTimeLimitMessage(string $a_time_limit_message): void
-    {
-        $this->time_limit_message = $a_time_limit_message;
-    }
-
-    public function getTimeLimitMessage(): string
-    {
-        return $this->time_limit_message;
     }
 
     public function setLoginAttempts(int $a_login_attempts): void
@@ -1243,7 +1163,8 @@ class ilObjUser extends ilObject
         return !ilAuthUtils::_needsExternalAccountByAuthMode($this->getAuthMode(true))
             && ($this->getPasswordPolicyResetStatus()
                 || ilSecuritySettings::_getInstance()->isPasswordChangeOnFirstLoginEnabled()
-                    && $this->getLastPasswordChangeTS() === 0 && $this->is_self_registered === false);
+                    && $this->getLastPasswordChangeTS() === 0
+                    && $this->is_self_registered === false);
     }
 
     public function isPasswordExpired(): bool
@@ -1273,12 +1194,12 @@ class ilObjUser extends ilObject
 
     public function setLastPasswordChangeToNow(): void
     {
-        $this->profile_data_repository->storeLastPasswordChangeFor($this->id, time());
+        $this->last_password_change_ts = time();
     }
 
     public function resetLastPasswordChange(): void
     {
-        $this->profile_data_repository->storeLastPasswordChangeFor($this->id, 0);
+        $this->last_password_change_ts = 0;
     }
 
     public function setAuthMode(?string $a_str): void
@@ -1578,18 +1499,6 @@ class ilObjUser extends ilObject
         $this->update();
     }
 
-    public function setUserDefinedData(array $a_data): void // Missing array type.
-    {
-        foreach ($a_data as $field => $data) {
-            $this->user_defined_data['f_' . $field] = $data;
-        }
-    }
-
-    public function getUserDefinedData(): array // Missing array type.
-    {
-        return $this->user_defined_data ?: [];
-    }
-
     /**
      * Get formatted mail body text of user profile data.
      * @throws ilDateTimeException
@@ -1597,8 +1506,8 @@ class ilObjUser extends ilObject
     public function getProfileAsString(Language $language): string
     {
         global $DIC;
-
         $rbacreview = $DIC['rbacreview'];
+        $profile = $DIC['user']->getProfile();
 
         $language->loadLanguageModule('registration');
         $language->loadLanguageModule('crs');
@@ -1703,7 +1612,7 @@ class ilObjUser extends ilObject
             $body .= $language->txt('to') . ' ' . $end->get(IL_CAL_DATETIME) . "\n";
         }
 
-        foreach ((new Profile())->getAllUserDefinedFields() as $field) {
+        foreach ($profile->getAllUserDefinedFields() as $field) {
             $data = $field->retrieveValueFromUser($this);
             if ($data !== '') {
                 $body .= "{$field->getLabel($this->lng)}: {$data}\n";
@@ -1872,7 +1781,10 @@ class ilObjUser extends ilObject
      */
     public function setGeneralInterests(?array $value = null): void
     {
-        $this->interests_general = $value ?? [];
+        $this->profile_data = $this->profile_data->withAdditionalFieldByIdentifier(
+            $this->profile_configuration_repository->getByClass(Interests::class)->getIdentifier(),
+            $value ?? []
+        );
     }
 
     /**
@@ -1881,7 +1793,7 @@ class ilObjUser extends ilObject
     public function getGeneralInterests(): array
     {
         return $this->profile_data->getAdditionalFieldByIdentifier(
-            \ILIAS\User\Profile\Fields\Standard\Interest::class
+            $this->profile_configuration_repository->getByClass(Interests::class)->getIdentifier()
         ) ?? [];
     }
 
@@ -1890,7 +1802,7 @@ class ilObjUser extends ilObject
      */
     public function getGeneralInterestsAsText(): string
     {
-        return $this->buildTextFromArray($this->interests_general);
+        return $this->buildTextFromArray($this->getGeneralInterests());
     }
 
     /**
@@ -1898,7 +1810,10 @@ class ilObjUser extends ilObject
      */
     public function setOfferingHelp(?array $value = null): void
     {
-        $this->interests_help_offered = $value ?? [];
+        $this->profile_data = $this->profile_data->withAdditionalFieldByIdentifier(
+            $this->profile_configuration_repository->getByClass(HelpOffered::class)->getIdentifier(),
+            $value ?? []
+        );
     }
 
     /**
@@ -1906,7 +1821,9 @@ class ilObjUser extends ilObject
      */
     public function getOfferingHelp(): array
     {
-        return $this->interests_help_offered;
+        return $this->profile_data->getAdditionalFieldByIdentifier(
+            $this->profile_configuration_repository->getByClass(HelpOffered::class)->getIdentifier()
+        ) ?? [];
     }
 
     /**
@@ -1914,30 +1831,56 @@ class ilObjUser extends ilObject
      */
     public function getOfferingHelpAsText(): string
     {
-        return $this->buildTextFromArray($this->interests_help_offered);
+        return $this->buildTextFromArray($this->getOfferingHelp());
     }
 
     public function setLookingForHelp(?array $value = null): void
     {
-        $this->interests_help_looking = $value ?? [];
+        $this->profile_data = $this->profile_data->withAdditionalFieldByIdentifier(
+            $this->profile_configuration_repository->getByClass(HelpLookedFor::class)->getIdentifier(),
+            $value ?? []
+        );
     }
 
     public function getLookingForHelp(): array
     {
-        return $this->interests_help_looking;
+        return $this->profile_data->getAdditionalFieldByIdentifier(
+            $this->profile_configuration_repository->getByClass(HelpLookedFor::class)->getIdentifier()
+        ) ?? [];
     }
 
     public function getLookingForHelpAsText(): string
     {
-        return $this->buildTextFromArray($this->interests_help_looking);
+        return $this->buildTextFromArray($this->getLookingForHelp());
     }
 
-    private function buildTextFromArray(array $a_attr): string
-    {
-        if (count($a_attr) > 0) {
-            return implode(', ', $a_attr);
+
+    public function uploadPersonalPicture(
+        string $tmp_file
+    ): bool {
+        $stakeholder = new ilUserProfilePictureStakeholder();
+        $stakeholder->setOwner($this->getId());
+        $stream = Streams::ofResource(fopen($tmp_file, 'rb'));
+
+        if ($this->getAvatarRid() !== null && $this->getAvatarRid() !== ilObjUser::NO_AVATAR_RID) {
+            $rid = $this->irss->manage()->find($this->getAvatarRid());
+            // append profile picture
+            $this->irss->manage()->replaceWithStream(
+                $rid,
+                $stream,
+                $stakeholder
+            );
+        } else {
+            // new profile picture
+            $rid = $this->irss->manage()->stream(
+                $stream,
+                $stakeholder
+            );
         }
-        return '';
+
+        $this->setAvatarRid($rid);
+        $this->update();
+        return true;
     }
 
     public function generateRegistrationHash(): string
@@ -1966,6 +1909,15 @@ class ilObjUser extends ilObject
         } while (true);
 
         return $hashcode;
+    }
+
+
+    private function buildTextFromArray(array $a_attr): string
+    {
+        if (count($a_attr) > 0) {
+            return implode(', ', $a_attr);
+        }
+        return '';
     }
 
     /*
@@ -2768,6 +2720,139 @@ class ilObjUser extends ilObject
         return (string) self::_lookup($a_user_id, 'ext_account') ?? '';
     }
 
+    /**
+     * Get list of external account by authentication method
+     * Note: If login == ext_account for two user with auth_mode 'default' and auth_mode 'ldap'
+     * 	The ldap auth mode chosen
+     * @param bool $a_read_auth_default also get users with authentication method 'default'
+     */
+    public static function _getExternalAccountsByAuthMode(
+        string $a_auth_mode,
+        bool $a_read_auth_default = false
+    ): array {
+        global $DIC;
+
+        $ilDB = $DIC['ilDB'];
+        $ilSetting = $DIC['ilSetting'];
+
+        $q = 'SELECT login,usr_id,ext_account,auth_mode FROM usr_data ' .
+            'WHERE auth_mode = %s';
+        $types[] = 'text';
+        $values[] = $a_auth_mode;
+        if ($a_read_auth_default and ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode', ilAuthUtils::AUTH_LOCAL)) == $a_auth_mode) {
+            $q .= ' OR auth_mode = %s ';
+            $types[] = 'text';
+            $values[] = 'default';
+        }
+
+        $res = $ilDB->queryF($q, $types, $values);
+        $accounts = [];
+        while ($row = $ilDB->fetchObject($res)) {
+            if ($row->auth_mode == 'default') {
+                $accounts[$row->usr_id] = $row->login;
+            } else {
+                $accounts[$row->usr_id] = $row->ext_account;
+            }
+        }
+        return $accounts;
+    }
+
+    public static function _toggleActiveStatusOfUsers(
+        array $a_usr_ids,
+        bool $a_status
+    ): void {
+        global $DIC;
+
+        $ilDB = $DIC['ilDB'];
+
+        if ($a_status) {
+            $q = 'UPDATE usr_data SET active = 1, inactivation_date = NULL WHERE ' .
+                $ilDB->in('usr_id', $a_usr_ids, false, 'integer');
+            $ilDB->manipulate($q);
+        } else {
+            $usrId_IN_usrIds = $ilDB->in('usr_id', $a_usr_ids, false, 'integer');
+
+            $q = 'UPDATE usr_data SET active = 0 WHERE $usrId_IN_usrIds';
+            $ilDB->manipulate($q);
+
+            $queryString = '
+				UPDATE usr_data
+				SET inactivation_date = %s
+				WHERE inactivation_date IS NULL
+				AND $usrId_IN_usrIds
+			';
+            $ilDB->manipulateF($queryString, ['timestamp'], [ilUtil::now()]);
+        }
+    }
+
+    public static function _lookupAuthMode(int $a_usr_id): string
+    {
+        return (string) self::_lookup($a_usr_id, 'auth_mode');
+    }
+
+    /**
+     * check whether external account and authentication method
+     * matches with a user
+     */
+    public static function _checkExternalAuthAccount(
+        string $a_auth,
+        string $a_account,
+        bool $tryFallback = true
+    ): ?string {
+        $db = $GLOBALS['DIC']->database();
+        $settings = $GLOBALS['DIC']->settings();
+
+        // Check directly with auth_mode
+        $r = $db->queryF(
+            'SELECT * FROM usr_data WHERE ' .
+            ' ext_account = %s AND auth_mode = %s',
+            ['text', 'text'],
+            [$a_account, $a_auth]
+        );
+        if ($usr = $db->fetchAssoc($r)) {
+            return $usr['login'];
+        }
+
+        if (!$tryFallback) {
+            return null;
+        }
+
+        // For compatibility, check for login (no ext_account entry given)
+        $res = $db->queryF(
+            'SELECT login FROM usr_data ' .
+            'WHERE login = %s AND auth_mode = %s AND (ext_account IS NULL OR ext_account = "") ',
+            ['text', 'text'],
+            [$a_account, $a_auth]
+        );
+        if ($usr = $db->fetchAssoc($res)) {
+            return $usr['login'];
+        }
+
+        // If auth_default == $a_auth => check for login
+        if (ilAuthUtils::_getAuthModeName($settings->get('auth_mode')) == $a_auth) {
+            $res = $db->queryF(
+                'SELECT login FROM usr_data WHERE ' .
+                ' ext_account = %s AND auth_mode = %s',
+                ['text', 'text'],
+                [$a_account, 'default']
+            );
+            if ($usr = $db->fetchAssoc($res)) {
+                return $usr['login'];
+            }
+            // Search for login (no ext_account given)
+            $res = $db->queryF(
+                'SELECT login FROM usr_data ' .
+                'WHERE login = %s AND (ext_account IS NULL OR ext_account = "") AND auth_mode = %s',
+                ['text', 'text'],
+                [$a_account, 'default']
+            );
+            if ($usr = $db->fetchAssoc($res)) {
+                return $usr['login'];
+            }
+        }
+        return null;
+    }
+
     public static function getUserIdByLogin(string $a_login): int
     {
         return (int) self::_lookupId($a_login);
@@ -2926,6 +3011,56 @@ class ilObjUser extends ilObject
         }
 
         return $styles;
+    }
+
+    /**
+     * get number of users per auth mode
+     */
+    public static function _getNumberOfUsersPerAuthMode(): array // Missing array type.
+    {
+        global $DIC;
+
+        $ilDB = $DIC['ilDB'];
+
+        $r = $ilDB->query('SELECT count(*) AS cnt, auth_mode FROM usr_data ' .
+            'GROUP BY auth_mode');
+        $cnt_arr = [];
+        while ($cnt = $ilDB->fetchAssoc($r)) {
+            $cnt_arr[$cnt['auth_mode']] = (int) $cnt['cnt'];
+        }
+
+        return $cnt_arr;
+    }
+
+    public static function _getLocalAccountsForEmail(string $a_email): array // Missing array type.
+    {
+        global $DIC;
+
+        $ilDB = $DIC['ilDB'];
+        $ilSetting = $DIC['ilSetting'];
+
+        // default set to local (1)?
+
+        $q = 'SELECT * FROM usr_data WHERE ' .
+            ' email = %s AND (auth_mode = %s ';
+        $types = ['text', 'text'];
+        $values = [$a_email, 'local'];
+
+        if ($ilSetting->get('auth_mode') == 1) {
+            $q .= ' OR auth_mode = %s';
+            $types[] = 'text';
+            $values[] = 'default';
+        }
+
+        $q .= ')';
+
+        $users = [];
+        $usr_set = $ilDB->queryF($q, $types, $values);
+        while ($usr_rec = $ilDB->fetchAssoc($usr_set)) {
+            $users[$usr_rec['usr_id']] = $usr_rec['login'];
+        }
+
+        return $users;
     }
 
     public static function _moveUsersToStyle(

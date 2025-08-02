@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile;
 
+use ILIAS\User\LocalDIC;
+use ILIAS\User\Context;
 use ILIAS\Badge\PublicUserProfileBadgesRenderer;
 use ILIAS\Language\Language;
 
@@ -55,12 +57,13 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
         $this->ctrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
         $this->current_user = $DIC['ilUser'];
-        $this->profile = new Profile();
         $this->setting = $DIC['ilSetting'];
         $this->tabs = $DIC['ilTabs'];
         $this->tpl = $DIC['tpl'];
         $this->rbac_system = $DIC['rbacsystem'];
         $this->lng = $DIC['lng'];
+
+        $this->profile = LocalDIC::dic()[Profile::class];
 
         $this->profile_request = new GUIRequest(
             $DIC->http(),
@@ -165,12 +168,12 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
         $this->tpl->loadStandardTemplate();
 
         switch ($next_class) {
-            case 'ilbuddysystemgui':
+            case strtolower(\ilBuddySystemGUI::class):
                 $gui = new \ilBuddySystemGUI();
                 $this->ctrl->setReturn($this, 'view');
                 $this->ctrl->forwardCommand($gui);
                 break;
-            case 'ilobjportfoliogui':
+            case strtolower(\ilObjPortfolioGUI::class):
                 $portfolio_id = $this->getProfilePortfolio();
                 if ($portfolio_id
                     && $cmd !== 'deliverVCard') {
@@ -206,7 +209,6 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
     {
         $user = new \ilObjUser($this->getUserId());
         $current = $user->getPref('public_profile');
-        // #17462 - see PersonalProfileGUI::initPublicProfileForm()
         if ($user->getPref('public_profile') === 'g' && !$this->setting->get('enable_global_profiles')) {
             $current = 'y';
         }
@@ -229,29 +231,25 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
 
         if ($is_active && $this->getProfilePortfolio()) {
             $this->ctrl->redirectByClass('ilobjportfoliogui', 'preview');
-        } else {
-            if (!$is_active) {
-                \ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
-            }
-
-            // Check from Database if value
-            // of public_profile = 'y' show user infomation
-            $user = new \ilObjUser($this->getUserId());
-            $current = $user->getPref('public_profile');
-            if ($user->getPref('public_profile') == 'g' && !$this->setting->get('enable_global_profiles')) {
-                $current = 'y';
-            }
-
-            if ($current != 'y' &&
-                ($current != 'g' || !$this->setting->get('enable_global_profiles')) &&
-                !$this->custom_prefs) {
-                \ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
-            }
-
-            $this->renderTitle();
-            return $this->getEmbeddable(true);
         }
-        return '';
+
+        if (!$is_active) {
+            \ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
+        }
+
+        $profile_public = $user->getPref('public_profile');
+        if ($user->getPref('public_profile') === 'g' && !$this->setting->get('enable_global_profiles')) {
+            $profile_public = 'y';
+        }
+
+        if ($profile_public !== 'y'
+            && ($profile_public !== 'g' || !$this->setting->get('enable_global_profiles'))
+            && !$this->custom_prefs) {
+            \ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
+        }
+
+        $this->renderTitle();
+        return $this->getEmbeddable(true);
     }
 
 
@@ -280,9 +278,9 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
         $tpl->setVariable('ROWCOL1', 'tblrow1');
         $tpl->setVariable('ROWCOL2', 'tblrow2');
 
-        if (!$this->offline && $this->current_user->getId() != ANONYMOUS_USER_ID) {
+        if (!$this->offline && $this->current_user->getId() !== ANONYMOUS_USER_ID) {
             $ref_url = str_replace('&amp;', '&', $this->getBackUrl());
-            if (!$ref_url) {
+            if ($ref_url === '') {
                 $ref_url = basename($_SERVER['REQUEST_URI']);
             }
 
@@ -297,10 +295,11 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
                         'rcp_to' => $user->getLogin()
                     ]
                 );
-            } elseif ($user->getPref('public_profile') === 'g' ||
-                (!$this->current_user->isAnonymous() && $user->getPref('public_profile') === 'y') &&
-                $user->getPref('public_email') &&
-                $user->getEmail() !== '') {
+            } elseif ($user->getPref('public_profile') === 'g'
+                || !$this->current_user->isAnonymous()
+                    && $user->getPref('public_profile') === 'y'
+                    && $user->getPref('public_email')
+                    && $user->getEmail() !== '') {
                 $mail_url = 'mailto:' . $user->getEmail();
             }
 
@@ -312,8 +311,6 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
             }
         }
 
-
-        // short version, fixes e.g. #27242
         if (!$this->isProfilePublic()) {
             $tpl->setVariable('TXT_NAME', $this->lng->txt('name'));
             $tpl->setVariable('FIRSTNAME', \ilUserUtil::getNamePresentation($user->getId()));
@@ -321,23 +318,24 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
         }
 
         $first_name = '';
-        if ($this->getPublicPref($user, 'public_title') == 'y') {
+        if ($this->getPublicPref($user, 'public_title') === 'y') {
             $first_name .= $user->getUTitle() . ' ';
         }
         $first_name .= $user->getFirstname();
 
-        if ($this->getPublicPref($user, 'public_gender') == 'y' && in_array($user->getGender(), ['m', 'f'])) {
-            $sal = $this->lng->txt('salutation_' . $user->getGender()) . ' ';
-            $tpl->setVariable('SALUTATION', $sal);
+        if ($this->getPublicPref($user, 'public_gender') === 'y' && in_array($user->getGender(), ['m', 'f'])) {
+            $tpl->setVariable(
+                'SALUTATION',
+                "{$this->lng->txt("salutation_{$user->getGender()}")} "
+            );
         }
 
         $tpl->setVariable('TXT_NAME', $this->lng->txt('name'));
         $tpl->setVariable('FIRSTNAME', $first_name);
         $tpl->setVariable('LASTNAME', $user->getLastname());
 
-        if ($user->getBirthday() &&
-            $this->getPublicPref($user, 'public_birthday') == 'y') {
-            // #17574
+        if ($user->getBirthday()
+            && $this->getPublicPref($user, 'public_birthday') == 'y') {
             $tpl->setCurrentBlock('bday_bl');
             $tpl->setVariable('TXT_BIRTHDAY', $this->lng->txt('birthday'));
             $tpl->setVariable('VAL_BIRTHDAY', \ilDatePresentation::formatDate(new \ilDate($user->getBirthday(), IL_CAL_DATE)));
@@ -345,7 +343,6 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
         }
 
         if (!$this->offline) {
-            // vcard
             $tpl->setCurrentBlock('vcard');
             $tpl->setVariable('TXT_VCARD', $this->lng->txt('vcard'));
             $tpl->setVariable('TXT_DOWNLOAD_VCARD', $this->lng->txt('vcard_download'));
@@ -408,7 +405,7 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
                     }
                 }
             }
-            if (count($address)) {
+            if ($address !== []) {
                 $tpl->setCurrentBlock('address_line');
                 foreach ($address as $line) {
                     if (trim($line)) {
@@ -423,23 +420,23 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
         }
 
         // if value 'y' show information
-        if ($this->getPublicPref($user, 'public_org_units') == 'y') {
+        if ($this->getPublicPref($user, 'public_org_units') === 'y') {
             $tpl->setCurrentBlock('org_units');
             $tpl->setVariable('TXT_ORG_UNITS', $this->lng->txt('objs_orgu'));
             $tpl->setVariable('ORG_UNITS', $user->getOrgUnitsRepresentation());
             $tpl->parseCurrentBlock();
         }
 
-        if ($this->getPublicPref($user, 'public_institution') == 'y' ||
-            $this->getPublicPref($user, 'public_department') == 'y') {
+        if ($this->getPublicPref($user, 'public_institution') === 'y'
+            || $this->getPublicPref($user, 'public_department') === 'y') {
             $tpl->setCurrentBlock('inst_dep');
             $sep = '';
-            if ($this->getPublicPref($user, 'public_institution') == 'y') {
+            if ($this->getPublicPref($user, 'public_institution') === 'y') {
                 $h = $this->lng->txt('institution');
                 $v = $user->getInstitution();
                 $sep = ' / ';
             }
-            if ($this->getPublicPref($user, 'public_department') == 'y') {
+            if ($this->getPublicPref($user, 'public_department') === 'y') {
                 $h .= $sep . $this->lng->txt('department');
                 $v .= $sep . $user->getDepartment();
             }
@@ -497,7 +494,7 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
             $back
         );
         $cnt = 0;
-        if (count($port) > 0) {
+        if ($port !== []) {
             foreach ($port as $u) {
                 $tpl->setCurrentBlock('portfolio');
                 foreach ($u as $link => $title) {
@@ -518,9 +515,9 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
         }
 
         // map
-        if (\ilMapUtil::isActivated() &&
-            $this->getPublicPref($user, 'public_location') == 'y' &&
-            $user->getLatitude() != '') {
+        if (\ilMapUtil::isActivated()
+            && $this->getPublicPref($user, 'public_location') === 'y'
+            && $user->getLatitude() != '') {
             $tpl->setVariable('TXT_LOCATION', $this->lng->txt('location'));
 
             $map_gui = \ilMapUtil::getMapGUI();
@@ -547,22 +544,16 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
             }
         }
 
-        // additional information
-        $additional = $this->getAdditional();
-        if (is_array($additional)) {
-            foreach ($additional as $key => $val) {
-                $tpl->setCurrentBlock('profile_data');
-                $tpl->setVariable('TXT_DATA', $key);
-                $tpl->setVariable('DATA', $val);
-                $tpl->parseCurrentBlock();
-            }
+        foreach ($this->getAdditional() as $key => $val) {
+            $tpl->setCurrentBlock('profile_data');
+            $tpl->setVariable('TXT_DATA', $key);
+            $tpl->setVariable('DATA', $val);
+            $tpl->parseCurrentBlock();
         }
 
-        if (
-            $this->getUserId() != $this->current_user->getId() &&
-            !$this->current_user->isAnonymous() &&
-            !\ilObjUser::_isAnonymous($this->getUserId())
-        ) {
+        if ($this->getUserId() !== $this->current_user->getId()
+            && !$this->current_user->isAnonymous()
+            && !\ilObjUser::_isAnonymous($this->getUserId())) {
             $button = \ilBuddySystemLinkButton::getInstanceByUserId($user->getId());
             $tpl->setVariable('BUDDY_HTML', $button->getHtml());
         }

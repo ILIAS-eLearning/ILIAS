@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\User\Profile\Fields;
 
 use ILIAS\User\Property;
+use ILIAS\User\Context;
 use ILIAS\User\PropertyAttributes;
 use ILIAS\User\Profile\ChangeListeners\ChangedUserFieldAttribute;
 use ILIAS\User\Profile\Fields\FieldDefinition;
@@ -79,9 +80,15 @@ class Field implements Property
         return $this->definition instanceof CustomField;
     }
 
+    public function hiddenInLists(): bool
+    {
+        return $this->definition->hiddenInLists();
+    }
+
     public function isVisibleInRegistration(): bool
     {
-        return $this->visible_in_registration;
+        return $this->definition->visibleInRegistrationForcedTo()
+            ?? $this->visible_in_registration;
     }
 
     public function isVisibleToUser(): bool
@@ -309,14 +316,12 @@ class Field implements Property
         };
     }
 
-    public function getInput(
+    public function getLegacyInput(
         Language $lng,
-        ?\ilObjUser $current_user = null
+        Context $context,
+        ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
-        $input = $this->definition->getInput(
-            $lng,
-            $current_user
-        );
+        $input = $this->definition->getLegacyInput($lng, $context, $user);
         $input->setPostVar($this->definition->getIdentifier());
         $input->setRequired($this->required);
         return $input;
@@ -324,15 +329,36 @@ class Field implements Property
 
     public function addValueToUserObject(
         \ilObjUser $user,
+        Context $context,
         mixed $input,
-        \ilPropertyFormGUI $form
+        ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
+        if (!$context->isFieldChangeableInType($this, $user)) {
+            throw \Exception('It is not possible to Change this from here!');
+        }
         return $this->definition->addValueToUserObject($user, $input, $form);
     }
 
-    public function retrieveValueFromUser(\ilObjUser $current_user): mixed
+    public function retrieveValueFromUser(\ilObjUser $user): mixed
     {
-        return $this->definition->retrieveValueFromUser($current_user);
+        return $this->definition->retrieveValueFromUser($user);
+    }
+
+    public function setPublishedOnUser(
+        \ilObjUser $user,
+        bool $value
+    ): \ilObjUser {
+        $user->setPref(
+            "public_{$this->definition->getIdentifier()}",
+            $value ? 'y' : 'n'
+        );
+        return $user;
+    }
+
+    public function isPublishedByUser(\ilObjUser $user): bool
+    {
+        return $this->isVisibleToUser()
+            && $user->getPref("public_{$this->definition->getIdentifier()}") === 'y';
     }
 
     private function buildAccessibilityListing(
@@ -438,7 +464,7 @@ class Field implements Property
                         [
                             'visible_in_registration' => $ff->checkbox(
                                 $lng->txt(PropertyAttributes::VisibleInRegistration->value)
-                            )->withDisabled($this->definition->requiredForcedTo() === true)
+                            )->withDisabled($this->definition->visibleInRegistrationForcedTo() !== null)
                                 ->withValue($this->isVisibleInRegistration()),
                             'visible_in_personal_data' => $ff->checkbox(
                                 $lng->txt(PropertyAttributes::VisibleToUser->value)
@@ -659,6 +685,8 @@ class Field implements Property
                     ?? $settings['export'];
                 $clone->searchable = $this->definition->searchableForcedTo()
                     ?? $settings['searchable'];
+                $clone->available_in_certificates = $this->definition->availableInCertificatesForcedTo()
+                    ?? $settings['available_in_certificates'];
 
                 if (!$clone->isCustom()) {
                     return $clone;

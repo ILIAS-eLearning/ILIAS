@@ -18,19 +18,29 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\User\Settings;
+namespace ILIAS\User;
 
-use ILIAS\User\Settings\User\UserSettings;
-use ILIAS\User\Settings\StartingPoint\Setting as StartingPointSetting;
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Settings\Settings;
 
-class Settings implements UserSettings
+class PublicInterface
 {
-    public function getSettingConfigurations(): array
+    public function __construct(
+        private readonly \ilObjUser $logged_in_user
+    ) {
+    }
+    public function getProfile(): Profile
     {
-        return [
-            LastVisited::class,
-            SessionReminder::class,
-            StartingPointSetting::class
-        ];
+        return LocalDIC::dic()[Profile::class];
+    }
+
+    public function getSettings(): Settings
+    {
+        return LocalDIC::dic()[Settings::class];
+    }
+
+    public function getLoggedInUser(): \ilObjUser
+    {
+        return $this->logged_in_user;
     }
 }

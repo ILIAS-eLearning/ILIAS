@@ -20,12 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields\Standard;
 
+use ILIAS\User\Context;
 use ILIAS\User\Profile\Fields\NoOverrides;
 use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
 use ILIAS\Language\Language;
 
-class Interest implements FieldDefinition
+class Interests implements FieldDefinition
 {
     use NoOverrides;
     use BuildAutocompletionUrl;
@@ -75,9 +76,10 @@ class Interest implements FieldDefinition
         return false;
     }
 
-    public function getInput(
+    public function getLegacyInput(
         Language $lng,
-        ?\ilObjUser $current_user = null
+        Context $context,
+        ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
         $input = new \ilTextInputGUI($this->getLabel($lng));
         $input->setMulti(true);
@@ -85,26 +87,26 @@ class Interest implements FieldDefinition
             $this->getAutocompleteUrl($this->ctrl) . '&f=' . $this->getIdentifier()
         );
         $input->setMaxLength(40);
-        if ($current_user === null) {
+        if ($user === null) {
             return $input;
         }
         $input->setValue(
-            $this->retrieveValueFromUser($current_user)
+            $this->retrieveValueFromUser($user)
         );
         return $input;
     }
 
     public function addValueToUserObject(
-        \ilObjUser $current_user,
+        \ilObjUser $user,
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
-        $current_user->setGeneralInterests($input);
-        return $current_user;
+        $user->setGeneralInterests($input);
+        return $user;
     }
 
-    public function retrieveValueFromUser(\ilObjUser $current_user): array
+    public function retrieveValueFromUser(\ilObjUser $user): array
     {
-        return $current_user->getGeneralInterests();
+        return $user->getGeneralInterests();
     }
 }

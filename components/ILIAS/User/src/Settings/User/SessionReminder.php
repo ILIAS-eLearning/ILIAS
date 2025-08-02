@@ -18,12 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\User\Settings;
+namespace ILIAS\User\Settings\User;
 
-use ILIAS\User\Settings\User\SettingDefinition;
-use ILIAS\User\Settings\User\AvailablePages;
-use ILIAS\User\Settings\User\AvailableSections;
+use ILIAS\User\Settings\SettingDefinition;
+use ILIAS\User\Settings\AvailablePages;
+use ILIAS\User\Settings\AvailableSections;
 use ILIAS\Language\Language;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Input;
 use ILIAS\Refinery\Factory as Refinery;
 
 class SessionReminder implements SettingDefinition
@@ -61,8 +63,39 @@ class SessionReminder implements SettingDefinition
     }
 
     public function getInput(
+        FieldFactory $field_factory,
         Language $lng,
-        ?\ilObjUser $current_user = null
+        Refinery $refinery,
+        \ilSetting $settings,
+        ?\ilObjUser $user = null
+    ): Input {
+        return $field_factory->numeric(
+            $lng->txt('session_reminder_input'),
+            sprintf(
+                $lng->txt('session_reminder_lead_time_info'),
+                \ilSessionReminder::LEAD_TIME_DISABLED,
+                \ilSessionReminder::SUGGESTED_LEAD_TIME,
+                \ilDatePresentation::secondsToString(\ilSession::getSessionExpireValue(), true)
+            )
+        )->withAdditionalTransformation(
+            $refinery->int()->isGreaterThanOrEqual(
+                \ilSessionReminder::LEAD_TIME_DISABLED
+            )
+        )->withAdditionalTransformation(
+            $refinery->int()->isLessThanOrEqual(
+                $this->session_reminder->getMaxPossibleLeadTime()
+            )
+        )->withValue(
+            $user !== null
+                ? $this->retrieveValueFromUser($user)
+                : $this->session_reminder->getGlobalSessionReminderLeadTime()
+        );
+    }
+
+    public function getLegacyInput(
+        Language $lng,
+        \ilSetting $settings,
+        ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
         $input = new \ilNumberInputGUI($lng->txt('session_reminder_input'));
         $input->setInfo(
@@ -76,16 +109,16 @@ class SessionReminder implements SettingDefinition
         $input->setSize(3);
         $input->setMinValue(\ilSessionReminder::LEAD_TIME_DISABLED);
         $input->setMaxValue($this->session_reminder->getMaxPossibleLeadTime());
-        if ($current_user === null) {
-            return $input;
-        }
-        $input->setValue((string) $this->retrieveValueFromUser($current_user));
+        $input->setValue(
+            $user !== null
+                ? (string) $this->retrieveValueFromUser($user)
+                : (string) $this->session_reminder->getGlobalSessionReminderLeadTime()
+        );
         return $input;
     }
 
     public function getDefaultValueForDisplay(
         Language $lng,
-        Refinery $refinery,
         \ilSetting $settings
     ): string {
         return $this->session_reminder->getGlobalSessionReminderLeadTime() . ' ' . $lng->txt('minutes');
@@ -93,23 +126,23 @@ class SessionReminder implements SettingDefinition
 
     public function hasUserPersonalizedSetting(
         \ilSetting $settings,
-        \ilObjUser $current_user
+        \ilObjUser $user
     ): bool {
-        return  $this->retrieveValueFromUser($current_user) !== $this->session_reminder->getGlobalSessionReminderLeadTime();
+        return  $this->retrieveValueFromUser($user) !== $this->session_reminder->getGlobalSessionReminderLeadTime();
     }
 
     public function persistUserInput(
-        \ilObjUser $current_user,
+        \ilObjUser $user,
         mixed $input
     ): \ilObjUser {
-        $current_user->setPref(
+        $user->setPref(
             'session_reminder_lead_time',
             $input !== null ? (string) $input : (string) $this->session_reminder->getGlobalSessionReminderLeadTime()
         );
-        return $current_user;
+        return $user;
     }
 
-    public function retrieveValueFromUser(\ilObjUser $current_user): int
+    public function retrieveValueFromUser(\ilObjUser $user): int
     {
         return $this->session_reminder->getEffectiveLeadTime();
     }

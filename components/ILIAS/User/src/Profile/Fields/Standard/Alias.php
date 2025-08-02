@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields\Standard;
 
+use ILIAS\User\Context;
 use ILIAS\User\Profile\Fields\NoOverrides;
 use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
@@ -44,9 +45,9 @@ class Alias implements FieldDefinition
         return AvailableSections::PersonalData;
     }
 
-    public function hiddenInLists(): bool
+    public function visibleInRegistrationForcedTo(): ?bool
     {
-        return false;
+        return true;
     }
 
     public function visibleToUserForcedTo(): ?bool
@@ -89,21 +90,22 @@ class Alias implements FieldDefinition
         return true;
     }
 
-    public function getInput(
+    public function getLegacyInput(
         Language $lng,
-        ?\ilObjUser $current_user = null
+        Context $context,
+        ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
         $input = new \ilUserLoginInputGUI($lng->txt('login'), 'login');
-        if ($current_user === null) {
+        if ($user === null) {
             return $input;
         }
 
-        $input->setCurrentUserId($current_user->getId());
+        $input->setCurrentUserId($user->getId());
         $input->setValue(
-            $this->retrieveValueFromUser($current_user)
+            $this->retrieveValueFromUser($user)
         );
 
-        $last_history_entry = $current_user->getLastHistoryData();
+        $last_history_entry = $user->getLastHistoryData();
         if ($last_history_entry === null) {
             return $input;
         }
@@ -111,7 +113,7 @@ class Alias implements FieldDefinition
         $input->setInfo(
             sprintf(
                 $lng->txt('usr_loginname_history_info'),
-                \ilDatePresentation::formatDate(new ilDateTime($last_history_entry[1], IL_CAL_UNIX)),
+                \ilDatePresentation::formatDate(new \ilDateTime($last_history_entry[1], IL_CAL_UNIX)),
                 $last_history_entry[0]
             )
         );
@@ -119,16 +121,16 @@ class Alias implements FieldDefinition
     }
 
     public function addValueToUserObject(
-        \ilObjUser $current_user,
+        \ilObjUser $user,
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
-        $current_user->setLogin($input);
-        return $current_user;
+        $user->setLogin($input);
+        return $user;
     }
 
-    public function retrieveValueFromUser(\ilObjUser $current_user): string
+    public function retrieveValueFromUser(\ilObjUser $user): string
     {
-        return $current_user->getLogin();
+        return $user->getLogin();
     }
 }

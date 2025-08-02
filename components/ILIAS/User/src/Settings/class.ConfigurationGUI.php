@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Settings\User;
+namespace ILIAS\User\Settings;
 
 use ILIAS\User\LocalDIC;
 use ILIAS\User\RedirectOnMissingWrite;

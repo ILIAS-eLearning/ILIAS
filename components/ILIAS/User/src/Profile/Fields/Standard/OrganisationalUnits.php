@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields\Standard;
 
+use ILIAS\User\Context;
 use ILIAS\User\Profile\Fields\NoOverrides;
 use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
@@ -31,7 +32,7 @@ class OrganisationalUnits implements FieldDefinition
 
     public function getIdentifier(): string
     {
-        return 'organisational_units';
+        return 'org_units';
     }
 
     public function getLabel(Language $lng): string
@@ -46,7 +47,7 @@ class OrganisationalUnits implements FieldDefinition
 
     public function hiddenInLists(): bool
     {
-        return false;
+        return true;
     }
 
     public function exportForcedTo(): ?bool
@@ -74,30 +75,31 @@ class OrganisationalUnits implements FieldDefinition
         return false;
     }
 
-    public function getInput(
+    public function getLegacyInput(
         Language $lng,
-        ?\ilObjUser $current_user = null
+        Context $context,
+        ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
         $input = new \ilNonEditableValueGUI($this->getLabel($lng));
-        if ($current_user === null) {
+        if ($user === null) {
             return $input;
         }
         $input->setValue(
-            $this->retrieveValueFromUser($current_user)
+            $this->retrieveValueFromUser($user)
         );
         return $input;
     }
 
     public function addValueToUserObject(
-        \ilObjUser $current_user,
+        \ilObjUser $user,
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
-        throw new Exception('This Value cannot be set here!');
+        return $user;
     }
 
-    public function retrieveValueFromUser(\ilObjUser $current_user): string
+    public function retrieveValueFromUser(\ilObjUser $user): string
     {
-        return $current_user->getOrgUnitsRepresentation();
+        return $user->getOrgUnitsRepresentation();
     }
 }

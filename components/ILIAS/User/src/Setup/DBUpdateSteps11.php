@@ -34,6 +34,29 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
         $this->uuid_factory = new UUIDFactory();
     }
 
+    private function insertSetting(
+        string $keyword,
+        string $value
+    ): void {
+        $this->db->insert(
+            'settings',
+            [
+                'module' => [
+                    \ilDBConstants::T_TEXT,
+                    'common'
+                ],
+                'keyword' => [
+                    \ilDBConstants::T_TEXT,
+                    $keyword
+                ],
+                'value' => [
+                    \ilDBConstants::T_TEXT,
+                    $value
+                ],
+            ]
+        );
+    }
+
     public function step_1(): void
     {
         if (!$this->db->tableColumnExists('mail_template', 'att_rid')) {
@@ -57,12 +80,19 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
                 'usr_profile_data'
             );
         }
-        if ($this->db->tableExists('usr_profile_data')
-            && !$this->db->indexExistsByFields('usr_profile_data', ['usr_id', 'field_id'])) {
-            $this->db->addIndex('usr_profile_data', ['usr_id', 'field_id'], 'uf');
-        }
         if ($this->db->tableExists('usr_profile_data')) {
             $this->db->modifyTableColumn('usr_profile_data', 'value', ['type' => \ilDBConstants::T_CLOB]);
+        }
+        if ($this->db->sequenceExists('usr_profile_data')) {
+            $this->db->dropSequence('usr_profile_data');
+        }
+        if ($this->db->tableExists('usr_profile_data')
+            && $this->db->tableColumnExists('usr_profile_data', 'id')) {
+            $this->db->dropTableColumn('usr_profile_data', 'id');
+        }
+        if ($this->db->tableExists('usr_profile_data')
+            && !$this->db->primaryExistsByFields('usr_profile_data', ['usr_id', 'field_id'])) {
+            $this->db->addPrimaryKey('usr_profile_data', ['usr_id', 'field_id']);
         }
     }
 
@@ -237,21 +267,6 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
             [
                 'field_type' => [
                     \ilDBConstants::T_TEXT,
-                    \ILIAS\User\Profile\Fields\Custom\Text::class
-                ]
-            ],
-            [
-                'field_type' => [
-                    \ilDBConstants::T_TEXT,
-                    '1'
-                ]
-            ]
-        );
-        $this->db->update(
-            'udf_definition',
-            [
-                'field_type' => [
-                    \ilDBConstants::T_TEXT,
                     \ILIAS\User\Profile\Fields\Custom\Select::class
                 ]
             ],
@@ -292,6 +307,156 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
                     'default' => AvailableSections::Other->value
                 ]
             );
+        }
+    }
+
+    public function step_7(): void
+    {
+        $this->db->manipulate(
+            'INSERT INTO settings (module, keyword, value) VALUES '
+                . '("common", "usr_settings_changeable_by_user_new_mail_notification", "1"), '
+            . '("common", "usr_settings_changeable_lua_new_mail_notification", "1"), '
+            . '("common", "usr_settings_export_new_mail_notification", "1")'
+        );
+
+        $renamed_fields = [
+            'hide_own_online_status' => 'awrn_user_show',
+            'bs_allow_to_contact_me' => 'allow_contact_request',
+            'mail_incoming_mail' => 'incoming_mail',
+            'skin_style' => 'style',
+            'upload' => 'avatar',
+            'country' => 'old_country',
+            'sel_country' => 'country',
+        ];
+
+        foreach ($renamed_fields as $old_id => $new_id) {
+            $settings_query = $this->db->query(
+                "SELECT keyword FROM settings WHERE {$this->db->like('keyword', \ilDBConstants::T_TEXT, "_{$old_id}")}"
+            );
+            while (($row = $this->db->fetchObject($settings_query)) !== null) {
+                $this->db->update(
+                    'settings',
+                    [
+                        'keyword' => [
+                            \ilDBConstants::T_TEXT,
+                            str_replace("_{$old_id}", "_{$new_id}", $row['keyword'])
+                        ]
+                    ],
+                    [
+                        'module' => [
+                            \ilDBConstants::T_TEXT,
+                            'common'
+                        ],
+                        'keyword' => [
+                            \ilDBConstants::T_TEXT,
+                            $row['keyword']
+                        ]
+                    ]
+                );
+            }
+
+            $user_query = $this->db->query(
+                "SELECT DISTINCT keyword FROM usr_pref WHERE {$this->db->like('keyword', \ilDBConstants::T_TEXT, "_{$old_id}")}"
+            );
+            while (($row = $this->db->fetchObject($user_query)) !== null) {
+                $this->db->update(
+                    'usr_pref',
+                    [
+                        'keyword' => [
+                            \ilDBConstants::T_TEXT,
+                            str_replace("_{$old_id}", "_{$new_id}", $row['keyword'])
+                        ]
+                    ],
+                    [
+                        'keyword' => [
+                            \ilDBConstants::T_TEXT,
+                            $row['keyword']
+                        ]
+                    ]
+                );
+            }
+        }
+    }
+
+    public function step_8(): void
+    {
+        $query = $this->db->query(
+            "SELECT usr_id, keyword FROM usr_pref WHERE {$this->db->like('keyword', \ilDBConstants::T_TEXT, 'public_udf_')}"
+        );
+        while (($row = $this->db->fetchObject($query)) !== null) {
+            $this->db->update(
+                'usr_pref',
+                [
+                    keyword => [
+                        \ilDBConstants::T_TEXT,
+                            str_replace('public_udf_', 'public_', $row['keyword'])
+                    ]
+                ],
+                [
+                    'usr_id' => [
+                        \ilDBConstants::T_INTEGER,
+                        $row['usr_id']
+                    ],
+                    'keyword' => [
+                        \ilDBConstants::T_TEXT,
+                        $row['keyword']
+                    ]
+                ]
+            );
+        }
+    }
+
+    public function step_9(): void
+    {
+        if ($this->db->tableColumnExists('usr_data', 'time_limit_message')) {
+            $this->db->dropTableColumn('usr_data', 'time_limit_message');
+        }
+
+        if ($this->db->tableColumnExists('usr_data', 'sel_country')) {
+            $this->db->renameTableColumn('usr_data', 'country', 'old_country');
+            $this->db->renameTableColumn('usr_data', 'sel_country', 'country');
+        }
+    }
+
+    public function step_10(): void
+    {
+        $this->db->modifyTableColumn('usr_pref', 'keyword', ['length' => 74]);
+    }
+
+    public function step_11(): void
+    {
+        $this->db->update(
+            'settings',
+            [
+                'keyword' => [
+                    \ilDBConstants::T_TEXT,
+                    'usr_settings_changeable_by_user_starting_point'
+                ]
+            ],
+            [
+                'module' => [
+                    \ilDBConstants::T_TEXT,
+                    'common'
+                ],
+                'keyword' => [
+                    \ilDBConstants::T_TEXT,
+                    'usr_starting_point_personal'
+                ]
+            ]
+        );
+
+        $this->insertSetting('usr_settings_changeable_lua_starting_point', '1');
+        $this->insertSetting('usr_settings_export_starting_point', '1');
+
+        foreach ([
+            'last_visited',
+            'timezone',
+            'date_format',
+            'time_format'
+        ] as $setting) {
+            $this->insertSetting("usr_settings_changeable_by_user_{$setting}", '1');
+            $this->insertSetting("usr_settings_changeable_lua_{$setting}", '1');
+            $this->insertSetting("usr_settings_export_{$setting}", '1');
         }
     }
 }

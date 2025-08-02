@@ -186,6 +186,11 @@ class SettingsGUI
         );
 
         $this->settings->set(
+            'session_reminder_lead_time',
+            $data['general']['session_reminder_lead_time']
+        );
+
+        $this->settings->set(
             'password_assistance',
             $data['password']['password_assistance'] ? '1' : '0'
         );
@@ -295,7 +300,20 @@ class SettingsGUI
                 'dpro_withdrawal_usr_deletion' => $ff->checkbox(
                     $this->lng->txt('dpro_withdrawal_usr_deletion'),
                     $this->lng->txt('dpro_withdrawal_usr_deletion_desc')
-                )->withValue($this->settings->get('dpro_withdrawal_usr_deletion') === '1')
+                )->withValue($this->settings->get('dpro_withdrawal_usr_deletion') === '1'),
+                'session_reminder_lead_time' => $ff->numeric(
+                    $this->lng->txt('session_reminder_input'),
+                    sprintf(
+                        $this->lng->txt('session_reminder_default_lead_time_info'),
+                        \ilSessionReminder::LEAD_TIME_DISABLED,
+                        \ilSessionReminder::SUGGESTED_LEAD_TIME,
+                        \ilDatePresentation::secondsToString(\ilSession::getSessionExpireValue(), true)
+                    )
+                )->withRequired(true)
+                ->withAdditionalTransformation($this->refinery->kindlyTo()->string())
+                ->withValue(
+                    \ilSessionReminder::byLoggedInUser()->getGlobalSessionReminderLeadTime()
+                )
             ],
             $this->lng->txt('general_settings')
         );

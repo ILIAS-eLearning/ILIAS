@@ -2186,6 +2186,8 @@ awrn#:#awrn_seconds#:#sec
 awrn#:#awrn_use_osd#:#Popup Online Users
 awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the ‘Who is online?’ list.
 awrn#:#awrn_user_show#:#Show Your Account in "Who-Is-Online?"
+awrn#:#awrn_user_show_default#:#Default Value for  the Visibility in "Who-Is-Online?"
+awrn#:#awrn_user_show_default_info#:#Defines the default value for the visibility of the status of a user in "Who-Is-Online?".
 awrn#:#user_awrn_default#:#Default
 awrn#:#user_awrn_hide#:#Hide my status
 awrn#:#user_awrn_show#:#Show my status
@@ -2672,6 +2674,7 @@ book#:#obj_book_duplicate#:#Copy Booking Pool
 book#:#participants#:#Participants
 book#:#reservation_deleted#:#Booking deleted.
 buddysystem#:#buddy_allow_to_contact_me#:#Allow Contact Requests
+buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.
 buddysystem#:#buddy_allow_to_contact_me_info#:#Other users are able to send me request for getting into contact.
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request
@@ -2874,6 +2877,7 @@ chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.
 chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client name has to be <b>unique</b>.
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing
+chatroom#:#chat_broadcast_typing_default_info#:#If enabled, typing will be broadcasted to other participants of a conversation or chat room by default.
 chatroom#:#chat_broadcast_typing_info#:#If enabled, your typing will be broadcasted to other participants of a conversation or chat room.
 chatroom#:#chat_connection_disconnected#:##username# left the chat room.
 chatroom#:#chat_connection_established#:##username# has entered chat room.
@@ -2911,6 +2915,7 @@ chatroom#:#chat_message_options#:#Display
 chatroom#:#chat_no_use_typing_broadcast#:#Typing will not be broadcasted
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
 chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations
+chatroom#:#chat_osc_accept_msg_default_info#:#If enabled, users are by default allowed to send each other messages using the on-screen chat system.
 chatroom#:#chat_osc_accept_msg_info#:#Allow other users to send you messages using the on-screen chat system.
 chatroom#:#chat_osc_accept_msg_info_slate#:#To have private conversations, you must enable your setting "Allow On-Screen Chat Conversations".
 chatroom#:#chat_osc_accept_msg_info_slate_link_txt#:#Visibility (in Profile and Privacy)
@@ -5547,7 +5552,7 @@ common#:#session_mail_subject_entered#:#Joining of user "%s" in session "%s"
 common#:#session_mail_subject_registered#:#Registration of user "%s" for session "%s"
 common#:#session_reminder#:#Session Reminder
 common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!  Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore.  Installation: %3$s.
-common#:#session_reminder_info#:#Receive a reminder before your online-session expires.
+common#:#session_reminder_default_lead_time_info#:#Please specify how many minutes before the expiration of a session a reminder should be shown.<br / >The function is deactivated when the value is '%s'. The recommended value is %s.<br / >The current length of a session is %s.
 common#:#session_reminder_input#:#Session Reminder (in Minutes)
 common#:#session_reminder_lead_time#:#Leadtime
 common#:#session_reminder_lead_time_info#:#Please specify how many minutes before the expiration of a session you would like to receive a reminder.<br / >The function is deactivated when the value is '%s'. Recommended value is %s.<br / >Your current length of a session is %s.
@@ -17343,6 +17348,8 @@ user#:#msg_spoint_not_modified#:#Starting point not modified
 user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.
 user#:#obj_ref_id_not_exist#:#The entered Reference-ID does not exist
 user#:#personalise_additional#:#Personalise Additional Settings
+user#:#personalise_communication#:#Personalise Communication Settings
+user#:#personalise_privacy#:#Personalise Privacy Settings
 user#:#profile_fields#:#Profile Fields
 user#:#restrict_user_access#:#Restricted Search in User Accounts
 user#:#restrict_user_access_info#:#ILIAS-accounts will only be autocompleted in search for roles with ‘Read Access to User Accounts’.

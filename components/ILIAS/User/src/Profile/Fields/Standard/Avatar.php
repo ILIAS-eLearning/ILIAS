@@ -20,18 +20,41 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields\Standard;
 
+use ILIAS\User\Context;
 use ILIAS\User\Profile\Fields\NoOverrides;
 use ILIAS\User\Profile\Fields\FieldDefinition;
 use ILIAS\User\Profile\Fields\AvailableSections;
 use ILIAS\Language\Language;
+use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Filesystem\Stream\Stream;
+use ILIAS\FileUpload\FileUpload;
+use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Refinery\Factory as Refinery;
 
 class Avatar implements FieldDefinition
 {
     use NoOverrides;
 
+    private ResourceStakeholder $stakeholder;
+
+    public function __construct(
+        private readonly IRSS $irss,
+        private readonly FileUpload $uploads,
+        private readonly ArrayBasedRequestWrapper $post_wrapper,
+        private readonly UIRenderer $ui_renderer,
+        private readonly Refinery $refinery
+    ) {
+        $this->stakeholder = new \ilUserProfilePictureStakeholder();
+    }
+
     public function getIdentifier(): string
     {
-        return 'upload';
+        return 'avatar';
     }
 
     public function getLabel(Language $lng): string
@@ -79,144 +102,191 @@ class Avatar implements FieldDefinition
         return false;
     }
 
-    public function getInput(
+    public function getLegacyInput(
         Language $lng,
-        ?\ilObjUser $current_user = null
+        Context $context,
+        ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
-        $image_input = new \ilImageFileInputGUI($this->getLabel($lng));
-        $image_input->setAllowCapture(true);
+        $input = new \ilImageFileInputGUI($this->getLabel($lng));
+        $input->setAllowCapture(
+            $context === Context::User || $context === Context::Registration
+        );
 
-        if ($file_upload['name'] ?? false) {
-            $image_input->setPending($file_upload['name']);
-        } else {
-            $picture_path = $this->retrieveValueFromUser($current_user);
-            if ($picture_path !== '') {
-                $image_input->setImage($picture_path);
-                $image_input->setAlt($this->getLabel($lng));
-            }
+        if (($_FILES[$this->getIdentifier()]['tmp_name'] ?? '') !== '') {
+            $input->setPending($_FILES[$this->getIdentifier()]['tmp_name']);
+            return $input;
         }
-        return $image_input;
+
+        if ($user === null) {
+            return $input;
+        }
+
+        $picture_path = $user->getPersonalPicturePath();
+        if ($picture_path !== '') {
+            $input->setImage($picture_path);
+            $input->setAlt($this->getLabel($lng));
+        }
+        return $input;
     }
 
     public function addValueToUserObject(
-        \ilObjUser $current_user,
+        \ilObjUser $user,
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
-        $this->uploadUserPicture($current_user, $form);
-        return $current_user;
+        return $this->uploadUserPicture($user, $input, $form);
     }
 
-    public function retrieveValueFromUser(\ilObjUser $current_user): string
+    public function retrieveValueFromUser(\ilObjUser $user): string
     {
-        return \ilObjUser::_getPersonalPicturePath(
-            $current_user->getId(),
-            'small',
-            true,
-            true
-        );
+        $define = new \ilUserAvatarResolver($user->getId());
+        if (!$define->hasProfilePicture()) {
+            return '';
+        }
+        $define->setSize('xsmall');
+        return $this->ui_renderer->render($define->getAvatar());
+    }
+
+    /**
+     * @deprecated since version 11 will be removed asap
+     */
+    public function tempStorePicture(
+        \ilPropertyFormGUI $form
+    ): \ilPropertyFormGUI {
+        $capture = $this->retrieveCapture();
+        if ($capture === '') {
+            return $form;
+        }
+        $form->getItemByPostVar($this->getIdentifier())->setImage($capture);
+        $hidden_user_picture_carry = new \ilHiddenInputGUI('user_picture_carry');
+        $hidden_user_picture_carry->setValue($capture);
+        $form->addItem($hidden_user_picture_carry);
+        return $form;
     }
 
     private function uploadUserPicture(
-        \ilObjUser $current_user,
+        \ilObjUser $user,
+        array $input,
         \ilPropertyFormGUI $form
-    ): void {
-        if (!$form->hasFileUpload('userfile')
-            && $this->profile_request->getUserFileCapture() === '') {
-            if ($form->getItemByPostVar('userfile')->getDeletionFlag()) {
-                $current_user->removeUserPicture();
+    ): \ilObjUser {
+        $capture = $this->retrieveCapture();
+        if ($input['tmp_name'] === '' && $capture === '') {
+            if ($form->getItemByPostVar($this->getIdentifier())->getDeletionFlag()) {
+                $user->removeUserPicture();
             }
-            return;
+            return $user;
         }
 
         // User has uploaded a file of a captured image
         if (!$this->uploads->hasBeenProcessed()) {
             $this->uploads->process();
         }
-        $existing_rid = $this->user->getAvatarRid();
-        $revision_title = 'Avatar for user ' . $this->user->getLogin();
 
-        // move uploaded file
-        if ($form->hasFileUpload('userfile') && $this->uploads->hasBeenProcessed()) {
-            $stream = Streams::ofResource(
-                fopen(
-                    $form->getFileUpload('userfile')['tmp_name'],
-                    'r'
-                )
+        $existing_rid = $user->getAvatarRid();
+        $revision_title = 'Avatar for user ' . $user->getLogin();
+        $this->stakeholder->setOwner($user->getId());
+        $uploads = $this->uploads->getResults();
+
+        if (isset($uploads[$input['tmp_name']])) {
+            $rid = $this->moveUploadToStorage(
+                $existing_rid,
+                $revision_title,
+                $uploads[$input['tmp_name']]
             );
-
-            if ($existing_rid === null) {
-                $rid = $this->irss->manage()->stream(
-                    $stream,
-                    $this->stakeholder,
-                    $revision_title
-                );
-            } else {
-                $rid = $existing_rid;
-                $this->irss->manage()->replaceWithStream(
-                    $existing_rid,
-                    $stream,
-                    $this->stakeholder,
-                    $revision_title
-                );
-            }
-
-            if (!isset($rid)) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error_file_not_found'), true);
-                $this->ctrl->redirect($this, 'showProfile');
-            }
-            $this->user->setAvatarRid($rid);
-            $this->irss->flavours()->ensure($rid, new \ilUserProfilePictureDefinition()); // Create different sizes
-            $current_user->update();
-            return;
+            $user->setAvatarRid($rid);
+            $this->irss->flavours()->ensure($rid, new \ilUserProfilePictureDefinition());
+            return $user;
         }
 
-        $capture = $this->profile_request->getUserFileCapture();
-        if ($capture === null) {
-            return;
+        if ($capture === '') {
+            return $user;
         }
 
-        $img = str_replace(
-            ['data:image/png;base64,', ' '],
-            ['', '+'],
-            $capture
+        $data = base64_decode(
+            str_replace(
+                ['data:image/png;base64,', ' '],
+                ['', '+'],
+                $capture
+            )
         );
-        $data = base64_decode($img);
         if ($data === false) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error_file_not_found'), true);
-            $this->ctrl->redirect($this, 'showProfile');
+            return $user;
         }
-        $stream = Streams::ofString($data);
-
-        if ($existing_rid === null) {
-            $rid = $this->irss->manage()->stream(
-                $stream,
-                $this->stakeholder,
-                $revision_title
-            );
-        } else {
-            $rid = $existing_rid;
-            $this->irss->manage()->replaceWithStream(
-                $rid,
-                $stream,
-                $this->stakeholder,
-                $revision_title
-            );
-        }
-        $current_user->setAvatarRid($rid);
-        $this->irss->flavours()->ensure($rid, new \ilUserProfilePictureDefinition()); // Create different sizes
-        $current_user->update();
+        $rid = $this->moveStreamToStorage(
+            $existing_rid,
+            $revision_title,
+            Streams::ofString($data)
+        );
+        $user->setAvatarRid($rid);
+        $this->irss->flavours()->ensure($rid, new \ilUserProfilePictureDefinition());
+        return $user;
     }
 
-    private function tempStorePicture(): void
-    {
-        $capture = $this->profile_request->getUserFileCapture();
-
-        if ($capture !== '') {
-            $this->form->getItemByPostVar('userfile')->setImage($capture);
-            $hidden_user_picture_carry = new \ilHiddenInputGUI('user_picture_carry');
-            $hidden_user_picture_carry->setValue($capture);
-            $this->form->addItem($hidden_user_picture_carry);
+    private function moveUploadToStorage(
+        ?ResourceIdentification $existing_rid,
+        string $revision_title,
+        UploadResult $upload_result
+    ): ResourceIdentification {
+        if ($existing_rid === null) {
+            return $this->irss->manage()->upload(
+                $upload_result,
+                $this->stakeholder,
+                $revision_title
+            );
         }
+
+        $this->irss->manage()->replaceWithUpload(
+            $existing_rid,
+            $upload_result,
+            $this->stakeholder,
+            $revision_title
+        );
+
+        return $existing_rid;
+    }
+
+    private function moveStreamToStorage(
+        ?ResourceIdentification $existing_rid,
+        string $revision_title,
+        Stream $stream
+    ): ResourceIdentification {
+        if ($existing_rid === null) {
+            return $this->irss->manage()->stream(
+                $stream,
+                $this->stakeholder,
+                $revision_title
+            );
+        }
+
+        $this->irss->manage()->replaceWithStream(
+            $existing_rid,
+            $stream,
+            $this->stakeholder,
+            $revision_title
+        );
+        return $existing_rid;
+    }
+
+    private function retrieveCapture(): ?string
+    {
+        $from_upload = $this->post_wrapper->retrieve(
+            'upload_capture',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always('')
+            ])
+        );
+
+        if ($from_upload !== '') {
+            return $from_upload;
+        }
+
+        return $this->post_wrapper->retrieve(
+            'user_picture_carry',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always('')
+            ])
+        );
     }
 }

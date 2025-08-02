@@ -16,16 +16,22 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
+namespace ILIAS\User\Settings;
 
-namespace ILIAS\User\Settings\User;
+use ILIAS\User\Context;
 
-interface UserSettings
+interface Settings
 {
-    /**
-     * Return all User Settings provided by the component
-     *
-     * @return array<string>
-     */
-    public function getSettingConfigurations(): array;
+    public function getSettingByDefinitionClass(
+        string $definition_class
+    ): Setting;
+
+    public function getValueFromLegacyFormByDefinitionClass(
+        string $definition_class,
+        \ilPropertyFormGUI $form
+    ): mixed;
+
+    public function settingAvailableToUser(
+        string $definition_class
+    ): bool;
 }

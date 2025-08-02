@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Settings\StartingPoint;
 
-use ILIAS\User\Settings\User\Repository as UserSettingsRepository;
+use ILIAS\User\Settings\Repository as UserSettingsRepository;
 use ILIAS\DI\LoggingServices;
 use ILIAS\MyStaff\ilMyStaffCachedAccessDecorator;
 use ILIAS\MyStaff\ilMyStaffAccess;
@@ -409,7 +409,7 @@ class Repository
 
     public function getValidAndAccessibleStartingPointAsUrl(): string
     {
-        $starting_point = $this->getApplicableStartingPointTypeInfo();
+        $starting_point = $this->getApplicableStartingPointTypeInfo($this->user);
 
         if ($starting_point['type'] === self::START_REPOSITORY_OBJ
             && (
@@ -447,13 +447,14 @@ class Repository
         return $this->getLinkUrlByStartingPointTypeInfo($starting_point);
     }
 
-    private function getApplicableStartingPointTypeInfo(): array
-    {
+    private function getApplicableStartingPointTypeInfo(
+        \ilObjUser $user
+    ): array {
         if ($this->isPersonalStartingPointEnabled()
-            && $this->getCurrentUserPersonalStartingPoint() !== 0) {
+            && $this->getPersonalStartingPointForUser($user) !== 0) {
             return [
-                'type' => $this->getCurrentUserPersonalStartingPoint(),
-                'object' => $this->getCurrentUserPersonalStartingObject()
+                'type' => $this->getPersonalStartingPointForUser($user),
+                'object' => $this->getPersonalStartingObjectForUser($user)
             ];
         }
 
@@ -543,23 +544,18 @@ class Repository
         return $this->user_settings_repository->getByIdentifier('starting_point')->isChangeableByUser();
     }
 
-    /**
-     * Did user set any personal starting point (yet)?
-     */
-    public function isCurrentUserPersonalStartingPointEnabled(): bool
-    {
-        return (bool) $this->user->getPref('usr_starting_point');
+    public function isPersonalStartingPointEnabledForUser(
+        \ilObjUser $user
+    ): bool {
+        return !empty($user->getPref('usr_starting_point'));
     }
 
-    /**
-     * Get current personal starting point
-     */
-    public function getCurrentUserPersonalStartingPoint(): int
-    {
-        $valid = array_keys($this->getPossibleStartingPoints());
-        $current = $this->user->getPref('usr_starting_point');
+    public function getPersonalStartingPointForUser(
+        \ilObjUser $user
+    ): int {
+        $current = $user->getPref('usr_starting_point');
         if ($current !== null
-            && in_array((int) $current, $valid)) {
+            && in_array((int) $current, array_keys($this->getPossibleStartingPoints()))) {
             return (int) $current;
         }
 
@@ -569,38 +565,37 @@ class Repository
     /**
      * Set personal starting point setting
      */
-    public function setCurrentUserPersonalStartingPoint(
+    public function setPersonalStartingPointForUser(
+        \ilObjUser $user,
         int $starting_point_type,
         ?int $ref_id = null
     ): bool {
         if ($starting_point_type === 0) {
-            $this->user->setPref('usr_starting_point', null);
-            $this->user->setPref('usr_starting_point_ref_id', null);
+            $user->deletePref('usr_starting_point');
+            $user->deletePref('usr_starting_point_ref_id');
             return false;
         }
 
         if ($starting_point_type === self::START_REPOSITORY_OBJ) {
             if (\ilObject::_lookupObjId($ref_id) &&
                 !$this->tree->isDeleted($ref_id)) {
-                $this->user->setPref('usr_starting_point', (string) $starting_point_type);
-                $this->user->setPref('usr_starting_point_ref_id', (string) $ref_id);
+                $user->setPref('usr_starting_point', (string) $starting_point_type);
+                $user->setPref('usr_starting_point_ref_id', (string) $ref_id);
                 return true;
             }
         }
         $valid = array_keys($this->getPossibleStartingPoints());
         if (in_array($starting_point_type, $valid)) {
-            $this->user->setPref('usr_starting_point', (string) $starting_point_type);
+            $user->setPref('usr_starting_point', (string) $starting_point_type);
             return true;
         }
         return false;
     }
 
-    /**
-     * Get ref id of personal starting object
-     */
-    public function getCurrentUserPersonalStartingObject(): ?int
-    {
-        $personal_starting_object = $this->user->getPref('usr_starting_point_ref_id');
+    public function getPersonalStartingObjectForUser(
+        \ilObjUser $user
+    ): ?int {
+        $personal_starting_object = $user->getPref('usr_starting_point_ref_id');
         if ($personal_starting_object !== null) {
             return (int) $personal_starting_object;
         }

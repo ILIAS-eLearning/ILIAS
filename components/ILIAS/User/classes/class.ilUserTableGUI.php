@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\LocalDIC;
 use ILIAS\User\UserGUIRequest;
 use ILIAS\User\Profile\Profile;
 use ILIAS\User\Context as ProfileContext;
@@ -134,7 +135,7 @@ class ilUserTableGUI extends ilTable2GUI
 
         $lng = $DIC['lng'];
 
-        $up = new Profile();
+        $up = LocalDIC::dic()[Profile::class];
 
         // default fields
         $cols = [];
@@ -197,6 +198,9 @@ class ilUserTableGUI extends ilTable2GUI
             'default' => false];
 
         foreach ($this->udf_fields as $k => $field) {
+            if ($field->hiddenInLists()) {
+                continue;
+            }
             $cols[$k] = $field;
         }
 

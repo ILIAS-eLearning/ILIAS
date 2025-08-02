@@ -36,6 +36,11 @@ class DataRepository
     ) {
     }
 
+    public function getDefault(): Data
+    {
+        return new Data();
+    }
+
     public function getSingle(int $id): Data
     {
         $base_query = $this->db->query(
@@ -115,7 +120,7 @@ class DataRepository
                 'phone_home' => [\ilDBConstants::T_TEXT, $user_data->getPhoneHome()],
                 'phone_mobile' => [\ilDBConstants::T_TEXT, $user_data->getPhoneMobile()],
                 'fax' => [\ilDBConstants::T_TEXT, $user_data->getFax()],
-                'birthday' => [\ilDBConstants::T_DATE, $user_data->getBirthday()],
+                'birthday' => [\ilDBConstants::T_DATE, $user_data->getBirthday()?->format('Y-m-d')],
                 'referral_comment' => [\ilDBConstants::T_TEXT, $user_data->getReferralComment()],
                 'matriculation' => [\ilDBConstants::T_TEXT, $user_data->getMatriculation()],
                 'latitude' => [\ilDBConstants::T_TEXT, $user_data->getGeoCoordinates()['latitude'] ?? null],
@@ -147,7 +152,6 @@ class DataRepository
                 'time_limit_unlimited' => [\ilDBConstants::T_INTEGER, $system_information['time_limit_unlimited'] ? 1 : 0],
                 'time_limit_from' => [\ilDBConstants::T_INTEGER, $system_information['time_limit_from']],
                 'time_limit_until' => [\ilDBConstants::T_INTEGER, $system_information['time_limit_until']],
-                'time_limit_message' => [\ilDBConstants::T_INTEGER, $system_information['time_limit_message']],
                 'profile_incomplete' => [\ilDBConstants::T_INTEGER, $system_information['profile_incomplete']],
                 'auth_mode' => [\ilDBConstants::T_TEXT, $system_information['auth_mode']],
                 'ext_account' => [\ilDBConstants::T_TEXT, $system_information['ext_account']],
@@ -180,33 +184,11 @@ class DataRepository
         );
     }
 
-    public function storeUserAgreementAcceptedFor(int $usr_id): void
-    {
-        $this->db->manipulateF(
-            "UPDATE usr_data SET agree_date = {$this->db->now()} WHERE usr_id = %s",
-            [\ilDBConstants::T_INTEGER],
-            [$usr_id]
-        );
-    }
-
-    public function refreshLoginTimestampsFor(int $usr_id, string $first_login): void
-    {
-        $first_login_clause = '';
-        if ($first_login === '') {
-            $first_login_clause = ", first_login = {$this->db->now()}";
-        }
-        $this->db->manipulateF(
-            "UPDATE usr_data SET last_login = {$this->db->now()}{$first_login_clause} WHERE usr_id = %s",
-            [\ilDBConstants::T_INTEGER],
-            [$usr_id]
-        );
-    }
-
     public function storePasswordFor(
         int $usr_id,
         string $password,
         string $encoding_type,
-        string $salt
+        ?string $salt
     ): void {
         $this->db->manipulateF(
             'UPDATE usr_data SET passwd = %s, passwd_enc_type = %s, passwd_salt = %s WHERE usr_id = %s',
@@ -226,17 +208,6 @@ class DataRepository
         );
     }
 
-    public function storeLastPasswordChangeFor(
-        int $usr_id,
-        int $last_password_change
-    ): void {
-        $this->db->manipulateF(
-            'UPDATE usr_data SET last_password_change = %s WHERE usr_id = %s',
-            [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
-            [$last_password_change,$usr_id]
-        );
-    }
-
     private function buildFromData(
         \stdClass $base_data,
         array $additional_data
@@ -244,7 +215,7 @@ class DataRepository
         return (new Data(
             $base_data->usr_id,
             $base_data->login,
-            $base_data->rid !== self::NO_AVATAR_RID
+            $base_data->rid !== null && $base_data->rid !== self::NO_AVATAR_RID
                 ? $this->irss->manage()->find($base_data->rid)
                 : null,
             $base_data->firstname,
@@ -259,7 +230,7 @@ class DataRepository
             $base_data->street,
             $base_data->city,
             $base_data->zipcode,
-            $base_data->country,
+            $base_data->country ?? '',
             $base_data->email,
             $base_data->second_email,
             $base_data->phone_office,
@@ -304,7 +275,6 @@ class DataRepository
             'time_limit_unlimited' => $base_data->time_limit_unlimited === 1,
             'time_limit_from' => $base_data->time_limit_from,
             'time_limit_until' => $base_data->time_limit_until,
-            'time_limit_message' => $base_data->time_limit_message,
             'profile_incomplete' => $base_data->profile_incomplete === 1,
             'auth_mode' => $base_data->auth_mode,
             'ext_account' => $base_data->ext_account,
@@ -321,14 +291,14 @@ class DataRepository
             . " WHERE usr_id = {$user_data->getId()}"
         );
 
-        $values_for_storage = $user_data->getAdditionalFieldsStorageValues();
+        $values_for_storage = $user_data->getAdditionalFieldsStorageValues($this->db);
         if ($values_for_storage === '') {
             return;
         }
 
         $this->db->manipulate(
             'INSERT INTO ' . self::USER_VALUES_TABLE . ' (usr_id, field_id, value) '
-            . 'VALUES ' . $values_for_storage
+                . 'VALUES ' . $values_for_storage
         );
     }
 }

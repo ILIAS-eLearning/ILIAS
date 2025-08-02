@@ -18,7 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\LocalDIC;
+use ILIAS\User\Context;
 use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Fields\Field as ProfileField;
 use ILIAS\User\Profile\Fields\Standard\Alias;
 use ILIAS\User\Profile\Fields\Standard\Roles;
 
@@ -37,7 +40,7 @@ class ilUserDataSet extends ilDataSet
     {
         parent::__construct();
 
-        $this->user_profile = new Profile();
+        $this->user_profile = LocalDIC::dic()[Profile::class];
     }
 
     public function initByExporter(ilXmlExporter $xml_exporter): void
@@ -322,21 +325,18 @@ class ilUserDataSet extends ilDataSet
                     if (!isset($this->users[$usr_id])) {
                         $this->users[$usr_id] = new ilObjUser($usr_id);
                     }
-                    $user = $this->users[$usr_id];
-                    $prof = new Profile();
-                    $prof->skipField(Alias::class);
-                    $prof->skipField(Roles::class);
-                    $fields = $prof->getFields();
-                    foreach ($fields as $k => $f) {
-                        $up_k = $this->convertToLeadingUpper($k);
-                        // only change fields, when it is possible in profile
-                        if ($this->user_profile->userSettingVisibleToUser($k) &&
-                            !$ilSetting->get("usr_settings_disable_" . $k) &&
-                            ($f["method"] ?? "") != "" && isset($a_rec[$up_k])) {
-                            $set_method = "set" . substr($f["method"], 3);
-                            $user->{$set_method}(ilUtil::secureString($a_rec[$up_k]));
-                        }
-                    }
+                    $user = array_reduce(
+                        $fields = $prof->getFields([], [Alias::class, Roles::class]),
+                        function (\ilObjUser $c, ProfileField $v) use ($a_rec): \ilObjUser {
+                            $up_k = $this->convertToLeadingUpper($k);
+                            if (!$this->user_profile->userFieldVisibleToUser($k)
+                                || !isset($a_rec[$up_k])) {
+                                return $c;
+                            }
+                            return $v->addValueToUserObject($c, Context::UserAdministration, ilUtil::secureString($a_rec[$up_k]));
+                        },
+                        $this->users[$usr_id]
+                    );
 
                     $user->setLatitude($a_rec["Latitude"] ?? null);
                     $user->setLongitude($a_rec["Longitude"] ?? null);
@@ -353,7 +353,7 @@ class ilUserDataSet extends ilDataSet
                             $upload_file = $pic_dir . "/upload_" . $a_rec["Id"] . "pic";
                         }
                         if (is_file($upload_file)) {
-                            ilObjUser::_uploadPersonalPicture($upload_file, $user->getId());
+                            $user->uploadPersonalPicture($upload_file);
                         }
                     }
                 }

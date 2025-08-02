@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\User;
 
 use ILIAS\User\Profile\Fields\Field;
-use ILIAS\User\Settings\User\Setting;
+use ILIAS\User\Settings\Setting;
 
 enum Context
 {
@@ -43,7 +43,7 @@ enum Context
         return match($this) {
             self::Registration => $field->isVisibleInRegistration(),
             self::User => $field->isVisibleToUser()
-                || $field->isRequired() && ($user === null || $field->retrieveValueFromUser($user)),
+                || $field->isRequired() && ($user === null || empty($field->retrieveValueFromUser($user))),
             self::LocalUserAdministration => $field->isVisibleInLocalUserAdministration(),
             self::Certificate => $field->isAvailableInCertificates(),
             self::Course => $field->isVisibleInCourses(),
@@ -62,7 +62,7 @@ enum Context
         return match($this) {
             self::Registration => $field->isVisibleInRegistration(),
             self::User => $field->isChangeableByUser()
-                || $field->isRequired() && ($user === null || $field->retrieveValueFromUser($user)),
+                || $field->isRequired() && ($user === null || empty($field->retrieveValueFromUser($user))),
             self::LocalUserAdministration => $field->isChangeableInLocalUserAdministration(),
             self::UserAdministration => true,
             default => false

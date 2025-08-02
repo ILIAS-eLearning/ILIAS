@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\User\UserGUIRequest;
 use ILIAS\User\Presentation\AdminTabs;
 use ILIAS\User\Settings\Administration\SettingsGUI as AdminSettingsGUI;
-use ILIAS\User\Settings\User\ConfigurationGUI as UserSettingsConfigurationGUI;
+use ILIAS\User\Settings\ConfigurationGUI as UserSettingsConfigurationGUI;
 use ILIAS\User\Settings\NewAccountMail\SettingsGUI as NewAccountMailSettingsGUI;
 use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
 use ILIAS\User\Settings\StartingPoint\SettingsGUI as StartingPointSettingsGUI;
@@ -42,7 +42,7 @@ use ILIAS\ResourceStorage\Services as ResourceStorage;
  * @author       Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilUserTableGUI, ilRepositorySearchGUI, ilExportGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\Administration\SettingsGUI
- * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\User\ConfigurationGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\ConfigurationGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\NewAccountMail\SettingsGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Settings\StartingPoint\SettingsGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Fields\ConfigurationGUI
@@ -122,6 +122,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('administration');
         $this->lng->loadLanguageModule('dateplaner');
         $this->lng->loadLanguageModule('style');
+        $this->lng->loadLanguageModule('awrn');
+        $this->lng->loadLanguageModule('buddysystem');
 
         $this->ctrl->saveParameter(
             $this,
@@ -624,7 +626,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $obj->setTimeLimitUnlimited(true);
                 $obj->setTimeLimitFrom(null);
                 $obj->setTimeLimitUntil(null);
-                $obj->setTimeLimitMessage('');
                 $obj->update();
             }
         }
@@ -752,7 +753,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $obj->setTimeLimitUnlimited(false);
                 $obj->setTimeLimitFrom((int) $timefrom);
                 $obj->setTimeLimitUntil((int) $timeuntil);
-                $obj->setTimeLimitMessage('');
                 $obj->update();
             }
         }

@@ -18,7 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\LocalDIC;
+use ILIAS\User\Context;
 use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Fields\Custom\Custom;
 use ILIAS\User\Profile\Fields\Standard\Roles;
 use ILIAS\User\Profile\Fields\Standard\Alias;
 
@@ -34,12 +37,16 @@ class ilObjUserFolder extends ilObject
     public const FILE_TYPE_CSV = 'userfolder_export_csv';
     public const FILE_TYPE_XML = 'userfolder_export_xml';
 
+    private Profile $profile;
+
     public function __construct(
         int $a_id,
         bool $a_call_by_reference = true
     ) {
         $this->type = "usrf";
         parent::__construct($a_id, $a_call_by_reference);
+
+        $this->profile = LocalDIC::dic()[Profile::class];
     }
 
 
@@ -139,15 +146,13 @@ class ilObjUserFolder extends ilObject
 
     protected function getUserDefinedExportFields(): array // Missing array type.
     {
-        $udf_ex_fields = [];
-        foreach (ilUserDefinedFields::_getInstance()->getDefinitions() as $definition) {
-            if ($definition['export'] != false) {
-                $udf_ex_fields[] = ['name' => $definition['field_name'],
-                    'id' => $definition['field_id']];
-            }
-        }
-
-        return $udf_ex_fields;
+        return array_map(
+            fn(Field $v): array => [
+                'name' => $v->getLabel($this->lng),
+                'id' => $v->getIdentifier()
+            ],
+            $this->profile->getVisibleUserDefinedFields(Context::Export)
+        );
     }
 
     protected function createCSVExport(
@@ -292,9 +297,8 @@ class ilObjUserFolder extends ilObject
 
         $db_settings = [];
 
-        $up = new Profile();
-        $up->skipField(Roles::class);
-        $profile_fields = $up->getFields();
+        $up = LocalDIC::dic()[Profile::class];
+        $profile_fields = $up->getFields([], [Roles::class]);
 
         $query = "SELECT * FROM settings WHERE " .
             $ilDB->like("keyword", "text", '%usr_settings_export_%');
@@ -464,16 +468,10 @@ class ilObjUserFolder extends ilObject
      */
     public static function getProfileFields(): array // Missing array type.
     {
-        $up = new Profile();
-        $up->skipField(Alias::class);
-        $up->skipField(Roles::class);
-        $fds = $up->getFields();
-        $profile_fields = [];
-        foreach ($fds as $k => $f) {
-            $profile_fields[] = $k;
-        }
-
-        return $profile_fields;
+        return array_key(LocalDIC::dic()[Profile::class]->getFields(
+            [],
+            [Alias::class, Roles::class]
+        ));
     }
 
     /**
