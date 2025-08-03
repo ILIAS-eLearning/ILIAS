@@ -155,7 +155,10 @@ class URLBuilderTest extends TestCase
     public function testUrlTooLong(): void
     {
         $url = new URLBuilder($this->URI_COMPLETE);
-        $result = $url->acquireParameter(['test'], 'title', random_bytes(URLBuilder::URL_MAX_LENGTH));
+        $result = $url->acquireParameter(['test'], 'p0', random_bytes(URLBuilder::URL_MAX_LENGTH / 4));
+        $result = $result[0]->acquireParameter(['test'], 'p1', random_bytes(URLBuilder::URL_MAX_LENGTH / 4));
+        $result = $result[0]->acquireParameter(['test'], 'p2', random_bytes(URLBuilder::URL_MAX_LENGTH / 4));
+        $result = $result[0]->acquireParameter(['test'], 'p3', random_bytes(URLBuilder::URL_MAX_LENGTH / 4));
         $this->expectException(\LengthException::class);
         $output = $result[0]->buildURI();
     }

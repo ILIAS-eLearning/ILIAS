@@ -404,7 +404,7 @@
      */
 
 
-    const URLBuilderUrlMaxLength = 2048;
+    const URLBuilderUrlMaxLength = 8192;
     const URLBuilderSeparator = '_';
 
     class URLBuilder {
@@ -519,7 +519,6 @@
           url = url.slice(0, url.length - 1);
         }
         if (this.#fragment !== '') { url += `#${this.#fragment}`; }
-
         if (!URLBuilder.checkLength(url)) {
           throw new Error(`The final URL is longer than ${URLBuilderUrlMaxLength} and will not be valid.`);
         }
