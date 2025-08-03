@@ -28,17 +28,17 @@ function large()
     global $DIC;
 
     /**
-     * @var ILIAS\UI\Factory $f;
+     * @var \ILIAS\UI\Factory $f;
      */
     $f = $DIC['ui.factory'];
 
     /**
-     * @var ILIAS\UI\Renderer $r;
+     * @var \ILIAS\UI\Renderer $r;
      */
     $r = $DIC['ui.renderer'];
 
     /**
-     * @var ILIAS\Refinery\Factory $refinery;
+     * @var \ILIAS\Refinery\Factory $refinery;
      */
     $refinery = $DIC['refinery'];
     $df = new \ILIAS\Data\Factory();
@@ -76,7 +76,7 @@ function large()
     /**
      * This is the data binding: retrieve rows and write back the order of records.
      */
-    $data_retrieval = new class ($f, $r) implements I\OrderingBinding {
+    $data_retrieval = new class ($f, $r) implements I\OrderingRetrieval {
         protected array $records;
 
         public function __construct(
@@ -125,7 +125,7 @@ function large()
     };
 
     $target = (new URI((string) $request->getUri()))->withParameter('ordering_example', 4);
-    $table = $f->table()->ordering('large ids ordering table', $columns, $data_retrieval, $target)
+    $table = $f->table()->ordering($data_retrieval, $target, 'large ids ordering table', $columns)
         ->withActions($actions)
         ->withRequest($request);
 

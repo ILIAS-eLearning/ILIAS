@@ -30,17 +30,17 @@ function large()
     global $DIC;
 
     /**
-     * @var ILIAS\UI\Factory $f;
+     * @var \ILIAS\UI\Factory $f;
      */
     $f = $DIC['ui.factory'];
 
     /**
-     * @var ILIAS\UI\Renderer $r;
+     * @var \ILIAS\UI\Renderer $r;
      */
     $r = $DIC['ui.renderer'];
 
     /**
-     * @var ILIAS\Refinery\Factory $refinery;
+     * @var \ILIAS\Refinery\Factory $refinery;
      */
     $refinery = $DIC['refinery'];
     $df = new \ILIAS\Data\Factory();
@@ -114,7 +114,7 @@ function large()
     };
 
     $target = (new URI((string) $request->getUri()))->withParameter('ordering_example', 4);
-    $table = $f->table()->data('large ids data table', $columns, $data_retrieval)
+    $table = $f->table()->data($data_retrieval, 'large ids data table', $columns)
         ->withActions($actions)
         ->withRequest($request);
 
