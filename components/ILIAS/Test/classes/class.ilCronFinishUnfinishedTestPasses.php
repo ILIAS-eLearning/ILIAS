@@ -160,8 +160,10 @@ class ilCronFinishUnfinishedTestPasses extends CronJob
 
     protected function getTestsFinishAndProcessingTime(): void
     {
-        $query = 'SELECT test_id, obj_fi, ending_time, ending_time_enabled, processing_time, enable_processing_time FROM tst_tests WHERE ' .
-                    $this->db->in('test_id', $this->test_ids, false, 'integer');
+        $query = "SELECT test_id, obj_fi, st.ending_time, st.ending_time_enabled, st.processing_time, st.enable_processing_time
+                    FROM tst_tests INNER JOIN tst_test_settings AS st ON tst_tests.settings_id = st.id WHERE " .
+                 $this->db->in('test_id', $this->test_ids, false, 'integer');
+
         $result = $this->db->query($query);
         while ($row = $this->db->fetchAssoc($result)) {
             $this->test_ending_times[$row['test_id']] = $row;
