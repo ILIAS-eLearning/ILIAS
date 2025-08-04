@@ -60,7 +60,7 @@ class ilBackgroundTasksConfigStoredObjective implements Objective
         }
 
         if ($this->config->getType() === \ilBackgroundTasksSetupConfig::TYPE_ASYNCHRONOUS) {
-            $io = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
+            $io = $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION);
             /** @var Setup\CLI\IOWrapper $io */
             $io->inform('Asynchronous background tasks need SOAP administration to be enabled. Make sure to enable it in your configuarion.');
         }
