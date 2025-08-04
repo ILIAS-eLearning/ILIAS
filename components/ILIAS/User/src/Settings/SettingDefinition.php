@@ -26,13 +26,22 @@ use ILIAS\Refinery\Factory as Refinery;
 
 interface SettingDefinition extends Property
 {
+    /**
+     * If this function returns `false` the setting will not be shown, even if
+     * it's `PropertyAttributes` would allow it to be. This is meant e.g. to
+     * check if the chat server is configured or the badges enabled. Settings
+     * that are not available will also not be available on the table to define
+     * their `PropertyAttributes`
+     */
     public function isAvailable(): bool;
+
     public function getSettingsPage(): AvailablePages;
 
     public function getDefaultValueForDisplay(
         Language $lng,
         \ilSetting $settings
     ): ?string;
+
     public function hasUserPersonalizedSetting(
         \ilSetting $settings,
         \ilObjUser $user
@@ -61,7 +70,9 @@ interface SettingDefinition extends Property
      * @param mixed $input `Null` will be handed in, if the  user
      * wants to use the system default. If you are able to set the preference on
      * the user without saving it, you can rely on the User-object being saved
-     * after the call to this function.
+     * after the call to this function. If your input has different structures
+     * depending on its provenience (KS-Input, Legacy-Input, ...), the function
+     * needs to be able to handle them all.
      */
     public function persistUserInput(
         \ilObjUser $user,

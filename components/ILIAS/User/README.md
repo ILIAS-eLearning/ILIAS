@@ -19,7 +19,13 @@ JF decision: https://mantis.ilias.de/view.php?id=30710
 Camera Input for Profile Picture
 
 - There are some known issues in various iOS mobile version that unfortunately
-show inconsistent behaviour. See
+show inconsistent behaviour.
+
+## Adding Settings
+Settings that can be personalised by users are added by implementing
+`ILIAS\User\Settings\SettingDefinition`. The component contributing the settings
+is responsible for any default values, ie. the system wide values. Any settings
+to be added through this mechanism MUST be approved by the Jour Fixe.
 
 ## Change Listeners for global User Field Attributes
 
