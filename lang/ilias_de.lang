@@ -1950,6 +1950,7 @@ assessment#:#tst_time_limit_message#:#Sie haben <b>%s Minuten</b>, um alle Frage
 assessment#:#tst_title_output#:#Anzeige der Fragentitel
 assessment#:#tst_title_output_full#:#Fragentitel und erreichbare Punkte
 assessment#:#tst_title_output_hide_points#:#Nur Fragentitel
+assessment#:#tst_title_output_info#:#Setzt die Kombination von Titel und/oder verfügbaren Punkten fest, die den Teilnehmenden während der Durchführung sowie auf der Übersicht des Testduchlaufs angezeigt wird.
 assessment#:#tst_title_output_no_title#:#Weder Fragentitel noch erreichbare Punkte
 assessment#:#tst_title_output_only_points#:#Nur erreichbare Punkte
 assessment#:#tst_trigger_result_refreshing#:#Es erfolgt eine Neuberechnung des Ergebnisses. Dies kann eine Weile dauern.

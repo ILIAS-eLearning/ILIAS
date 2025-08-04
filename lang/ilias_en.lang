@@ -1957,6 +1957,7 @@ assessment#:#tst_time_limit_message#:#You will have <b>%s minutes</b> to answer 
 assessment#:#tst_title_output#:#Show Question Title
 assessment#:#tst_title_output_full#:#Question Titles and Available Points
 assessment#:#tst_title_output_hide_points#:#Only Question Titles
+assessment#:#tst_title_output_info#:#Set which combination of question titles and/or points available should be visible to participants while they are taking the test and within the test attempt overview (see below).
 assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Available Points
 assessment#:#tst_title_output_only_points#:#Only Available Points
 assessment#:#tst_trigger_result_refreshing#:#Results need to be recalculated. This may take a while.
