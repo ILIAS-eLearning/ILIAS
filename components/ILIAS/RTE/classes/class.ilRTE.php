@@ -178,6 +178,8 @@ class ilRTE
     {
         $start = '<span class="latex">';
         $end = '</span>';
+        $start_len = ilStr::strLen($start);
+        $end_len = ilStr::strLen($end);
 
         // current position to start the search for delimiters
         $cpos = 0;
@@ -186,25 +188,22 @@ class ilRTE
         while (is_int($spos = ilStr::strIPos($text, $start, $cpos))) {
 
             // find position of end delimiter
-            if (is_int($epos = ilStr::strIPos($text, $end, $spos + ilStr::strLen($start)))) {
-
-                // extract the tex code inside the delimiters
-                $tex = ilStr::subStr($text, $spos + ilStr::strLen($start), $epos - $spos - ilStr::strLen($start));
-
-                //wrap in new delimiters
-                $replacement = '[tex]' . $tex . '[/tex]';
-
-                // replace delimiters and tex code with prepared code or generated image
-                $text = ilStr::subStr($text, 0, $spos) . $replacement
-                    . ilStr::subStr($text, $epos + ilStr::strLen($end));
-
-                // continue search behind replacement
-                $cpos = $spos + ilStr::strLen($replacement);
-
-            } else {
-                // end delimiter position not found => stop search
+            $epos = ilStr::strIPos($text, $end, $spos + $start_len);
+            if (!is_int($epos)) {
                 break;
             }
+
+            // extract the tex code inside the delimiters
+            $tex = ilStr::subStr($text, $spos + $start_len, $epos - $spos - $start_len);
+
+            // wrap the tex code in new delimiters
+            $replace = '[tex]' . $tex . '[/tex]';
+
+            // replace the span
+            $text = ilStr::subStr($text, 0, $spos) . $replace . ilStr::subStr($text, $epos + $end_len);
+
+            // continue search behind the replacement
+            $cpos = $spos + ilStr::strLen($replace);
 
             if ($cpos >= ilStr::strlen($text)) {
                 // current position at the end => stop search
