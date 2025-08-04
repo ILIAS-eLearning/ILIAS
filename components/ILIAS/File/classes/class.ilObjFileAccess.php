@@ -18,7 +18,7 @@
 
 use ILIAS\File\Capabilities\Capabilities;
 use ILIAS\File\Capabilities\Permissions;
-use ILIAS\Object\ilObjectDIC;
+use ILIAS\ILIASObject\LocalDIC;
 
 /**
  * Access class for file objects.
@@ -366,6 +366,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
 
     public static function _lookupOnline(int $a_obj_id): bool
     {
-        return ilObjectDIC::dic()['object_properties_agregator']->getFor($a_obj_id, 'file')->getPropertyIsOnline()->getIsOnline();
+        // TODO: remove this call to LocalDIC, since this is an internal class, see https://mantis.ilias.de/view.php?id=45558
+        return LocalDIC::dic()['properties.aggregator']->getFor($a_obj_id, 'file')->getPropertyIsOnline()->getIsOnline();
     }
 }
