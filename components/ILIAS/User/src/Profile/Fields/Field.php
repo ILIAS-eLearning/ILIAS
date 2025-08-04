@@ -166,9 +166,7 @@ class Field implements Property
         DataRowBuilder $row_builder,
         Language $lng,
         UIFactory $ui_factory,
-        UIRenderer $ui_renderer,
-        Refinery $refinery,
-        \ilSetting $settings
+        UIRenderer $ui_renderer
     ): DataRow {
         return $row_builder->buildDataRow(
             $this->definition->getIdentifier(),

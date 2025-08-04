@@ -38,7 +38,7 @@ class HelpLookedFor implements FieldDefinition
 
     public function getIdentifier(): string
     {
-        return 'help_requested';
+        return 'interests_help_looking';
     }
 
     public function getLabel(Language $lng): string

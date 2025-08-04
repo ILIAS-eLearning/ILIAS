@@ -38,7 +38,7 @@ class Interests implements FieldDefinition
 
     public function getIdentifier(): string
     {
-        return 'interests';
+        return 'interests_general';
     }
 
     public function getLabel(Language $lng): string

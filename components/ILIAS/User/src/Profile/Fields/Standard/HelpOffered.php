@@ -38,7 +38,7 @@ class HelpOffered implements FieldDefinition
 
     public function getIdentifier(): string
     {
-        return 'help_offered';
+        return 'interests_help_offered';
     }
 
     public function getLabel(Language $lng): string

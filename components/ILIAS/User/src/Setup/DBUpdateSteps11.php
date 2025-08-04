@@ -91,8 +91,8 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
             $this->db->dropTableColumn('usr_profile_data', 'id');
         }
         if ($this->db->tableExists('usr_profile_data')
-            && !$this->db->primaryExistsByFields('usr_profile_data', ['usr_id', 'field_id'])) {
-            $this->db->addPrimaryKey('usr_profile_data', ['usr_id', 'field_id']);
+            && !$this->db->indexExistsByFields('usr_profile_data', ['usr_id', 'field_id'])) {
+            $this->db->addIndex('usr_profile_data', ['usr_id', 'field_id'], 'uf');
         }
     }
 
@@ -102,7 +102,7 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
             $this->db->dropTable('udf_data');
         }
 
-        if (!$this->db->sequenceExists('udf_definition')) {
+        if ($this->db->sequenceExists('udf_definition')) {
             /*
              * 2025-07-17, sk: This needs to be done here, as we absolutely need
              * the change to be ready for the next steps
@@ -143,6 +143,19 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
     }
 
     public function step_4(): void
+    {
+        if ($this->db->tableExists('udf_text')) {
+            $this->db->manipulate('INSERT INTO usr_profile_data SELECT * FROM udf_text');
+            $this->db->dropTable('udf_text');
+        }
+
+        if ($this->db->tableExists('udf_clob')) {
+            $this->db->manipulate('INSERT INTO usr_profile_data SELECT * FROM udf_clob');
+            $this->db->dropTable('udf_clob');
+        }
+    }
+
+    public function step_5(): void
     {
         if (!$this->db->tableExists('usr_field_config')) {
             $this->db->createTable(
@@ -231,13 +244,13 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
                     'required' => [\ilDBConstants::T_INTEGER, 0],
                     'export' => [\ilDBConstants::T_INTEGER, 0],
                     'searchable' => [\ilDBConstants::T_INTEGER, 0],
-                    'available_is_certs' => [\ilDBConstants::T_INTEGER, 0]
+                    'available_in_certs' => [\ilDBConstants::T_INTEGER, 0]
                 ]
             );
         }
     }
 
-    public function step_5(): void
+    public function step_6(): void
     {
         $this->db->modifyTableColumn(
             'udf_definition',
@@ -294,7 +307,7 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
         );
     }
 
-    public function step_6(): void
+    public function step_7(): void
     {
         if (!$this->db->tableColumnExists('udf_definition', 'section')) {
             $this->db->addTableColumn(
@@ -310,7 +323,7 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_7(): void
+    public function step_8(): void
     {
         $this->db->manipulate(
             'INSERT INTO settings (module, keyword, value) VALUES '
@@ -325,21 +338,25 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
             'mail_incoming_mail' => 'incoming_mail',
             'skin_style' => 'style',
             'upload' => 'avatar',
+            'sel_country' => 'selcountry',
             'country' => 'old_country',
-            'sel_country' => 'country',
+            'selcountry' => 'country'
         ];
 
         foreach ($renamed_fields as $old_id => $new_id) {
             $settings_query = $this->db->query(
-                "SELECT keyword FROM settings WHERE {$this->db->like('keyword', \ilDBConstants::T_TEXT, "_{$old_id}")}"
+                "SELECT keyword FROM settings WHERE {$this->db->like('keyword', \ilDBConstants::T_TEXT, "%_{$old_id}")}"
             );
             while (($row = $this->db->fetchObject($settings_query)) !== null) {
+                if ($row->keyword === 'admin_country') {
+                    continue;
+                }
                 $this->db->update(
                     'settings',
                     [
                         'keyword' => [
                             \ilDBConstants::T_TEXT,
-                            str_replace("_{$old_id}", "_{$new_id}", $row['keyword'])
+                            str_replace("_{$old_id}", "_{$new_id}", $row->keyword)
                         ]
                     ],
                     [
@@ -349,14 +366,14 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
                         ],
                         'keyword' => [
                             \ilDBConstants::T_TEXT,
-                            $row['keyword']
+                            $row->keyword
                         ]
                     ]
                 );
             }
 
             $user_query = $this->db->query(
-                "SELECT DISTINCT keyword FROM usr_pref WHERE {$this->db->like('keyword', \ilDBConstants::T_TEXT, "_{$old_id}")}"
+                "SELECT DISTINCT keyword FROM usr_pref WHERE {$this->db->like('keyword', \ilDBConstants::T_TEXT, "%_{$old_id}")}"
             );
             while (($row = $this->db->fetchObject($user_query)) !== null) {
                 $this->db->update(
@@ -364,13 +381,13 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
                     [
                         'keyword' => [
                             \ilDBConstants::T_TEXT,
-                            str_replace("_{$old_id}", "_{$new_id}", $row['keyword'])
+                            str_replace("_{$old_id}", "_{$new_id}", $row->keyword)
                         ]
                     ],
                     [
                         'keyword' => [
                             \ilDBConstants::T_TEXT,
-                            $row['keyword']
+                            $row->keyword
                         ]
                     ]
                 );
@@ -378,10 +395,10 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_8(): void
+    public function step_9(): void
     {
         $query = $this->db->query(
-            "SELECT usr_id, keyword FROM usr_pref WHERE {$this->db->like('keyword', \ilDBConstants::T_TEXT, 'public_udf_')}"
+            "SELECT usr_id, keyword FROM usr_pref WHERE {$this->db->like('keyword', \ilDBConstants::T_TEXT, 'public_udf_&')}"
         );
         while (($row = $this->db->fetchObject($query)) !== null) {
             $this->db->update(
@@ -406,7 +423,7 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_9(): void
+    public function step_10(): void
     {
         if ($this->db->tableColumnExists('usr_data', 'time_limit_message')) {
             $this->db->dropTableColumn('usr_data', 'time_limit_message');
@@ -418,12 +435,12 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_10(): void
+    public function step_11(): void
     {
         $this->db->modifyTableColumn('usr_pref', 'keyword', ['length' => 74]);
     }
 
-    public function step_11(): void
+    public function step_12(): void
     {
         $this->db->update(
             'settings',

@@ -157,7 +157,7 @@ class UserProfileMigrations implements Migration
             'avatar',
             'roles',
             'org_units',
-            'interests_general' .
+            'interests_general' ,
             'interests_help_offered',
             'interests_help_looking',
             'institution',
@@ -165,7 +165,7 @@ class UserProfileMigrations implements Migration
             'street',
             'zipcode',
             'city',
-            'sel_country',
+            'country',
             'phone_office',
             'phone_home',
             'phone_mobile',
@@ -233,7 +233,7 @@ class UserProfileMigrations implements Migration
                     ],
                     'field_type' => [
                         \ilDBConstants::T_TEXT,
-                        TextArea::class
+                        Text::class
                     ],
                     'section' => [
                         \ilDBConstants::T_TEXT,
@@ -243,7 +243,7 @@ class UserProfileMigrations implements Migration
             );
             $this->insertConfig(
                 $uuid,
-                ...$this->fetchConfigValuesFromSettings($uuid, $property_attributes)
+                ...$this->fetchConfigValuesFromSettings('old_country', $property_attributes)
             );
             $query = $this->db->query(
                 'SELECT usr_id, old_country FROM usr_data WHERE old_country IS NOT NULL AND NOT old_country = ""'
@@ -310,7 +310,7 @@ class UserProfileMigrations implements Migration
                 "SELECT count(field_id) as cnt FROM usr_field_config WHERE field_id='{$field_id}'"
             ),
             \ilDBConstants::FETCHMODE_OBJECT
-        )[0]?->cnt !== null) {
+        )[0]->cnt !== 0) {
             return;
         }
         $this->db->insert(
