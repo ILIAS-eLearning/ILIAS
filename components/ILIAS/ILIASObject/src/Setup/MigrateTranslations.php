@@ -98,7 +98,7 @@ class MigrateTranslations implements Migration
             );
         }
 
-        if ($this->getRemainingAmountOfSteps() === 0) {
+        if ($this->getRemainingAmountOfSteps() === 1) {
             $this->db->dropTable('obj_content_master_lng');
         }
     }
@@ -109,6 +109,11 @@ class MigrateTranslations implements Migration
             return 0;
         }
 
+        $drop_table_steps = 0;
+        if ($this->db->tableExists('obj_content_master_lng')) {
+            $drop_table_steps = 1;
+        }
+
         return ((int) ceil(
             $this->db->fetchObject(
                 $this->db->query('
@@ -116,6 +121,6 @@ class MigrateTranslations implements Migration
                 FROM obj_content_master_lng
             ')
             )->cnt / self::TESTS_PER_STEP
-        )) + 1;
+        )) + $drop_table_steps;
     }
 }
