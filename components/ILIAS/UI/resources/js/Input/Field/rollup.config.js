@@ -23,6 +23,7 @@ export default {
     'jquery',
     'ilias',
     'document',
+    'Tagify',
   ],
   output: {
     // file: '../../../../../../../public/assets/js/input.factory.min.js',

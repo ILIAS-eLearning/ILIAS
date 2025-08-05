@@ -399,7 +399,7 @@ class Renderer extends AbstractComponentRenderer
         if ($value) {
             $value = array_map(
                 function ($v) {
-                    return ['value' => urlencode($v), 'display' => $v];
+                    return ['value' => rawurlencode($v), 'display' => $v];
                 },
                 $value
             );
@@ -847,9 +847,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('assets/js/tagify.js');
         $registry->register('assets/css/tagify.css');
-        $registry->register('assets/js/tagInput.js');
 
         $registry->register('assets/js/dropzone.min.js');
         $registry->register('assets/js/dropzone.js');

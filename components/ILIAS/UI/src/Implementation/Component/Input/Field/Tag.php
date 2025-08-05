@@ -75,7 +75,7 @@ class Tag extends FormInput implements C\Input\Field\Tag
             if (count($v) == 1 && $v[0] === '') {
                 return [];
             }
-            $array = array_map("urldecode", $v);
+            $array = array_map("rawurldecode", $v);
             return array_map('strip_tags', $array);
         }));
     }
@@ -84,7 +84,7 @@ class Tag extends FormInput implements C\Input\Field\Tag
     {
         $options = array_map(
             fn($tag) => [
-                'value' => urlencode(trim($tag)),
+                'value' => rawurlencode(trim($tag)),
                 'display' => $tag,
                 'searchBy' => $tag
             ],
