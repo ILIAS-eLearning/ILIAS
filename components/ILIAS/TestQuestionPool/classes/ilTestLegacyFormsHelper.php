@@ -115,6 +115,7 @@ class ilTestLegacyFormsHelper
             && $array[$key] !== null
             && $array[$key] !== false
             && $array[$key] !== ''
+            && $array[$key] !== []
             && $array[$key] !== 0
             && $array[$key] !== 0.0;
     }
