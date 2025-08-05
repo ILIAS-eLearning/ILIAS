@@ -411,8 +411,8 @@ class ilContainer extends ilObject
         $log = ilLoggerFactory::getLogger("cont");
 
         // translations
-        $ot = $this->getObjectProperties()->clonePropertyTranslations($new_obj->getId());
-        $ot->setDefaultTitle($new_obj->getTitle());
+        $ot = $this->getObjectProperties()->clonePropertyTranslations($new_obj->getId())
+            ->withDefaultTitle($new_obj->getTitle());
         $new_obj->getObjectProperties()->storePropertyTranslations($ot);
         $new_obj->setObjectTranslation($ot);
         if ($ot->getDefaultDescription() !== "") {

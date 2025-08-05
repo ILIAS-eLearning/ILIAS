@@ -1680,6 +1680,7 @@ class ilObject
             return $this->getTitle();
         }
 
+
         $obj_translations = $this->getObjectProperties()->clonePropertyTranslations($new_obj_id);
 
         $other_children_of_same_type = $this->tree->getChildsByType($target_id, $this->type);
@@ -1717,7 +1718,6 @@ class ilObject
             []
         );
 
-        $new_languages = [];
         $installed_langs = $this->lng->getInstalledLanguages();
         foreach ($obj_translations->getLanguages() as $language) {
             $lang_code = $language->getLanguageCode();
@@ -1725,17 +1725,15 @@ class ilObject
             if (!in_array($suffix_lang, $installed_langs)) {
                 $suffix_lang = $this->lng->getDefaultLanguage();
             }
-            $obj_translations->addLanguage(
-                $language->getLanguageCode(),
-                $this->appendNumberOfCopiesToTitle(
-                    $this->lng->txtlng('common', 'copy_of_suffix', $suffix_lang),
-                    $this->lng->txtlng('common', 'copy_n_of_suffix', $suffix_lang),
-                    $language->getTitle(),
-                    $title_translations_per_lang[$lang_code] ?? []
-                ),
-                $language->getDescription(),
-                $language->isDefault,
-                true
+            $obj_translations = $obj_translations->withLanguage(
+                $language->withTitle(
+                    $this->appendNumberOfCopiesToTitle(
+                        $this->lng->txtlng('common', 'copy_of_suffix', $suffix_lang),
+                        $this->lng->txtlng('common', 'copy_n_of_suffix', $suffix_lang),
+                        $language->getTitle(),
+                        $title_translations_per_lang[$lang_code] ?? []
+                    )
+                )
             );
         }
 
