@@ -20,24 +20,71 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\Templates;
 
+use PersonalSettingsImportHandlerGUI;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\Language\Language;
 use ILIAS\Test\Scoring\Marks\MarkSchema;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
+use ILIAS\UI\Component\Modal\RoundTrip;
+use ILIAS\UI\Factory as UIFactory;
+use Psr\Http\Message\ServerRequestInterface;
 
-class PersonalSettingsImporter
+class PersonalSettingsImportAction
 {
     private const SCHEMA_FILE = __DIR__ . '/../../../xml/personal-settings-template.xsd';
 
     public function __construct(
+        private readonly UIFactory $ui_factory,
+        private readonly Language $lng,
+        private readonly \ilObjUser $user,
         private readonly DataFactory $data_factory,
         private readonly Filesystem $filesystem,
         private readonly PersonalSettingsRepository $repository,
     ) {
     }
 
-    public function run(string $file): void
+    public function buildInput(string $url): RoundTrip
+    {
+        $input_handler = new PersonalSettingsImportHandlerGUI();
+
+        $file_upload_input = $this->ui_factory->input()->field()->file($input_handler, $this->lng->txt('import_file'))
+            ->withAcceptedMimeTypes(PersonalSettingsImportHandlerGUI::SUPPORTED_IMPORT_MIME_TYPES)
+            ->withRequired(true)
+            ->withMaxFiles(1);
+
+        return $this->ui_factory->modal()->roundtrip(
+            $this->lng->txt('personal_settings_import'),
+            [],
+            [
+                'upload' => $file_upload_input
+            ],
+            $url
+        )->withSubmitLabel($this->lng->txt('import'));
+    }
+
+    public function perform(ServerRequestInterface $request): void
+    {
+        $data = $this->buildInput('')->withRequest($request)->getData();
+
+        if (!isset($data['upload']) || $data['upload'] === []) {
+            throw new \InvalidArgumentException('import_file_not_valid_here');
+        }
+
+        $upload_dir = array_pop($data['upload']);
+        $files = $this->filesystem->listContents($upload_dir);
+
+        if (count($files) !== 1) {
+            throw new \InvalidArgumentException('import_file_not_valid_here');
+        }
+
+        $this->importFile($files[0]->getPath());
+
+        $this->filesystem->deleteDir($upload_dir);
+    }
+
+    public function importFile(string $file): void
     {
         $xml_content = $this->filesystem->read($file);
 

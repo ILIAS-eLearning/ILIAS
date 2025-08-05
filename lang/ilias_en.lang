@@ -1028,6 +1028,8 @@ assessment#:#personal_settings_invalid_selection#:#Please select one template.
 assessment#:#personal_settings_required_title#:#Please enter a title for your template.
 assessment#:#personal_settings_save#:#Save New Setting Template
 assessment#:#personal_settings_templates_available#:#Test Setting Templates
+assessment#:#personal_settings_import#:#Import Setting Templates
+assessment#:#personal_settings_import_success#:#The template was imported successfully.
 assessment#:#picture#:#Picture
 assessment#:#point#:#Point
 assessment#:#points#:#Points
