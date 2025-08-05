@@ -32,7 +32,7 @@ class ilAccessRBACSetupAgent extends NullAgent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Config $config = null): Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
         return new ilDatabaseUpdateStepsExecutedObjective(new AccessControl10DBUpdateSteps());
     }
