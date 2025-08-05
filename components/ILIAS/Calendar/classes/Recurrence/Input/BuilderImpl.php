@@ -143,13 +143,9 @@ class BuilderImpl implements Builder
 
     public function get(): Group
     {
-        $rule_input = $this->getRuleInput();
-        $end_input = $this->getEndInput();
-        $output_trafo = $this->getOutputTransformation();
         return $this->ui_factory->input()->field()->group([
-            self::RULE => $rule_input,
-            self::END => $end_input
-        ])->withAdditionalTransformation($output_trafo);
+            self::RULE => $this->getRuleInput()
+        ])->withAdditionalTransformation($this->getOutputTransformation());
     }
 
     protected function getRuleInput(): Input
@@ -190,7 +186,10 @@ class BuilderImpl implements Builder
     protected function getDailyGroup(): Group
     {
         return $this->ui_factory->input()->field()->group(
-            [self::INTERVAL => $this->getIntervalInput($this->lng->txt('cal_recurrence_day_interval'))],
+            [
+                self::INTERVAL => $this->getIntervalInput($this->lng->txt('cal_recurrence_day_interval')),
+                self::END => $this->getEndInput()
+            ],
             $this->lng->txt('cal_daily')
         );
     }
@@ -200,7 +199,8 @@ class BuilderImpl implements Builder
         return $this->ui_factory->input()->field()->group(
             [
                 self::INTERVAL => $this->getIntervalInput($this->lng->txt('cal_recurrence_week_interval')),
-                self::DAY => $this->getDayInput()
+                self::DAY => $this->getDayInput(),
+                self::END => $this->getEndInput()
             ],
             $this->lng->txt('cal_weekly')
         );
@@ -212,7 +212,8 @@ class BuilderImpl implements Builder
             [
                 self::INTERVAL => $this->getIntervalInput($this->lng->txt('cal_recurrence_month_interval')),
                 self::WEEK => $this->getWeekInput(),
-                self::DAY => $this->getDayInput()
+                self::DAY => $this->getDayInput(),
+                self::END => $this->getEndInput()
             ],
             $this->lng->txt('cal_monthly_by_day')
         );
@@ -223,7 +224,8 @@ class BuilderImpl implements Builder
         return $this->ui_factory->input()->field()->group(
             [
                 self::INTERVAL => $this->getIntervalInput($this->lng->txt('cal_recurrence_month_interval')),
-                self::DAY_OF_MONTH => $this->getDayOfMonthInput()
+                self::DAY_OF_MONTH => $this->getDayOfMonthInput(),
+                self::END => $this->getEndInput()
             ],
             $this->lng->txt('cal_monthly_by_date')
         );
@@ -236,7 +238,8 @@ class BuilderImpl implements Builder
                 self::INTERVAL => $this->getIntervalInput($this->lng->txt('cal_recurrence_year_interval')),
                 self::MONTH => $this->getMonthInput(),
                 self::WEEK => $this->getWeekInput(),
-                self::DAY => $this->getDayInput()
+                self::DAY => $this->getDayInput(),
+                self::END => $this->getEndInput()
             ],
             $this->lng->txt('cal_yearly_by_day')
         );
@@ -248,7 +251,8 @@ class BuilderImpl implements Builder
             [
                 self::INTERVAL => $this->getIntervalInput($this->lng->txt('cal_recurrence_year_interval')),
                 self::MONTH => $this->getMonthInput(),
-                self::DAY_OF_MONTH => $this->getDayOfMonthInput()
+                self::DAY_OF_MONTH => $this->getDayOfMonthInput(),
+                self::END => $this->getEndInput()
             ],
             $this->lng->txt('cal_yearly_by_date')
         );
@@ -308,8 +312,7 @@ class BuilderImpl implements Builder
         }
         return $this->ui_factory->input()->field()->switchableGroup(
             $groups,
-            $this->lng->txt('cal_recurrence_until'),
-            $this->lng->txt('cal_recurrence_until_info')
+            $this->lng->txt('cal_recurrence_until')
         )->withValue($value);
     }
 
@@ -497,7 +500,7 @@ class BuilderImpl implements Builder
                     break;
             }
 
-            $end_data = $values[self::END];
+            $end_data = $rule_data[1][self::END];
             if ($end_data[0] === self::UNTIL_COUNT) {
                 $recurrence->setFrequenceUntilCount($end_data[1][self::COUNT]);
             }

@@ -8390,7 +8390,6 @@ dateplaner#:#cal_recurrence_month_interval#:#Alle x Monat(e)
 dateplaner#:#cal_recurrence_until#:#Wiederholungsende
 dateplaner#:#cal_recurrence_until_count#:#Feste Anzahl von Terminen
 dateplaner#:#cal_recurrence_until_end_date#:#Wiederholen bis zu Enddatum
-dateplaner#:#cal_recurrence_until_info#:#Nur relevant wenn eine Wiederholung ausgewählt wurde.
 dateplaner#:#cal_recurrence_week_interval#:#Alle x Woche(n)
 dateplaner#:#cal_recurrence_year_interval#:#Alle x Jahr(e)
 dateplaner#:#cal_recurrences#:#Wiederholungen
