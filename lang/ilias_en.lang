@@ -773,6 +773,7 @@ assessment#:#gap#:#Gap
 assessment#:#gap_combination#:#Gap Combination
 assessment#:#gaps#:#Gaps
 assessment#:#glossary_term#:#Glossary Term
+assessment#:#goto_first_question#:#Show first question
 assessment#:#grading_mark_msg#:#Your mark is: &quot;[mark]&quot;
 assessment#:#grading_status_failed_msg#:#Sorry, you have <b>failed</b> the test.
 assessment#:#grading_status_passed_msg#:#Congratulations, you have <b>passed</b> the test.

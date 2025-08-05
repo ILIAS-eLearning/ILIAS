@@ -773,6 +773,7 @@ assessment#:#gap#:#Lücke
 assessment#:#gap_combination#:#Lückentext-Kombination
 assessment#:#gaps#:#Lücken
 assessment#:#glossary_term#:#Glossarbegriff
+assessment#:#goto_first_question#:#Zur ersten Frage
 assessment#:#grading_mark_msg#:#Sie haben die Note &quot;[mark]&quot; erzielt.
 assessment#:#grading_status_failed_msg#:#Schade, leider haben Sie den Test <b>nicht bestanden</b>.
 assessment#:#grading_status_passed_msg#:#Herzlichen Glückwunsch! Sie haben den Test <b>bestanden</b>.
