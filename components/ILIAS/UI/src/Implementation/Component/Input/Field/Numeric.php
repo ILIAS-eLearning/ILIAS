@@ -32,6 +32,8 @@ use ILIAS\Refinery\ConstraintViolationException;
  */
 class Numeric extends FormInput implements C\Input\Field\Numeric
 {
+    protected int|float $stepsize = 1;
+
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
@@ -39,17 +41,7 @@ class Numeric extends FormInput implements C\Input\Field\Numeric
         ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
-
-        /**
-         * @var $trafo_numericOrNull Transformation
-         */
-        $trafo_numericOrNull = $this->refinery->byTrying([
-            $this->refinery->kindlyTo()->null(),
-            $this->refinery->kindlyTo()->int()
-        ])
-        ->withProblemBuilder(fn($txt) => $txt("numeric_only"));
-
-        $this->setAdditionalTransformation($trafo_numericOrNull);
+        $this->setAdditionalTransformation($this->getStandardTrafoInt());
     }
 
     /**
@@ -90,4 +82,40 @@ class Numeric extends FormInput implements C\Input\Field\Numeric
     {
         return false;
     }
+
+    public function withStepSize(int|float $stepsize = 1): self
+    {
+        $clone = clone $this;
+        $clone->stepsize = $stepsize;
+
+        if (is_int($stepsize) && is_float($this->stepsize)) {
+            $clone->operations = [$this->getStandardTrafoInt()];
+        }
+
+        if (is_float($stepsize) && is_int($this->stepsize)) {
+            $clone->operations = [$this->getStandardTrafoFloat()];
+        }
+        return $clone;
+    }
+
+    private function getStandardTrafoInt(): Transformation
+    {
+        return $this->refinery->byTrying([
+            $this->refinery->kindlyTo()->null(),
+            $this->refinery->kindlyTo()->int()
+        ]);
+    }
+    private function getStandardTrafoFloat(): Transformation
+    {
+        return $this->refinery->byTrying([
+            $this->refinery->kindlyTo()->null(),
+            $this->refinery->kindlyTo()->float()
+        ]);
+    }
+
+    public function getStepSize(): int|float
+    {
+        return $this->stepsize;
+    }
+
 }

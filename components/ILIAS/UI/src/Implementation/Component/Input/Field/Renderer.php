@@ -312,6 +312,8 @@ class Renderer extends AbstractComponentRenderer
         $this->applyName($component, $tpl);
         $this->applyValue($component, $tpl, $this->escapeSpecialChars());
 
+        $tpl->setVariable("STEPSIZE", $component->getStepSize());
+
         $label_id = $this->createId();
         $tpl->setVariable('ID', $label_id);
         return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get(), $label_id);
