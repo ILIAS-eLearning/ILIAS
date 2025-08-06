@@ -31,40 +31,13 @@ abstract class CronJob
 
     private function checkWeeklySchedule(\DateTimeImmutable $last_run, \DateTimeImmutable $now): bool
     {
-        $last_year = (int) $last_run->format('Y');
-        $now_year = (int) $now->format('Y');
-
-        if ($last_year > $now_year) {
-            // Should never happen, don't execute otherwise
+        if ($last_run > $now) {
+            // Defensive check: last run is in the future → don't run again
             return false;
         }
 
-        $last_week = $last_run->format('W');
-        $now_week = $now->format('W');
-
-        if ($last_week !== $now_week) {
-            // Week differs, always execute the job
-            return true;
-        }
-
-        // For all following cases, the week number is always identical
-
-        $last_month = (int) $last_run->format('m');
-        $now_month = (int) $now->format('m');
-
-        $is_within_same_week_in_same_year = ($last_year . '-' . $last_week) === ($now_year . '-' . $now_week);
-        if ($is_within_same_week_in_same_year) {
-            // Same week in same year, only execute if the month differs (2022-52 is valid for January and December)
-            return $last_month !== $now_month && $now->diff($last_run)->d > 7;
-        }
-
-        if ($now_year - $last_year > 1) {
-            // Always execute if the difference of years is greater than 1
-            return true;
-        }
-
-        // Execute for week number 52 in 2022 (last run) and week number 52 in December of 2022 (now), but not for week number 52 in January of 2022 (now)
-        return $last_month === $now_month;
+        // We are using ISO week/year to handle issues with week #52/#53 (see: https://mantis.ilias.de/view.php?id=36118 / https://en.wikipedia.org/wiki/ISO_8601#Week_dates)
+        return $last_run->format('o-W') !== $now->format('o-W');
     }
 
     private function checkSchedule(
