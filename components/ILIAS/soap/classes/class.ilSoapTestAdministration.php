@@ -288,17 +288,10 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
         $ilDB = $DIC['ilDB'];
 
-        $use_previous_answers = 1;
+        $test_obj_id = ilObjTest::_lookupTestObjIdForQuestionId($question_id);
+        $test_obj = new ilObjTest($test_obj_id, false);
+        $use_previous_answers = $test_obj->getUsePreviousAnswers();
 
-        $result = $ilDB->queryF(
-            "SELECT tst_tests.use_previous_answers FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
-            array('integer'),
-            array($active_id)
-        );
-        if ($result->numRows()) {
-            $row = $ilDB->fetchAssoc($result);
-            $use_previous_answers = $row["use_previous_answers"];
-        }
         $lastpass = 0;
         if ($use_previous_answers) {
             $result = $ilDB->queryF(
@@ -360,13 +353,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $user_id = $row["user_fi"];
         $test_id = $row["test_fi"];
 
-        $result = $ilDB->queryF(
-            "SELECT anonymity FROM tst_tests WHERE test_id = %s",
-            array('integer'),
-            array($test_id)
-        );
-        $row = $ilDB->fetchAssoc($result);
-        $anonymity = $row["anonymity"];
+        $test_obj_id = ilObjTest::_getObjectIDFromTestID($test_id);
+        $test_obj = new ilObjTest($test_obj_id, false);
+        $anonymity = $test_obj->getAnonymity();
 
         $result = $ilDB->queryF(
             "SELECT firstname, lastname, title, login FROM usr_data WHERE usr_id = %s",
@@ -416,20 +405,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         }
 
         global $DIC;
-
-        $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
-            "SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
-            array('integer'),
-            array($active_id)
-        );
-        if ($result->numRows() !== 1) {
-            return -1;
-        }
-        $row = $ilDB->fetchAssoc($result);
-        $is_random = $row["random_test"];
 
         $sequence = new ilTestSequence($ilDB, $active_id, $pass, $this->questionrepository);
         return $sequence->getSequenceForQuestion($question_id);
@@ -454,17 +430,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
         $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
-            "SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
-            array('integer'),
-            array($active_id)
-        );
-        if ($result->numRows() !== 1) {
-            return -1;
-        }
-        $row = $ilDB->fetchAssoc($result);
-        $is_random = $row["random_test"];
 
         $sequence = new ilTestSequence($ilDB, $active_id, $pass, $this->questionrepository);
         $result = $ilDB->queryF(
@@ -510,17 +475,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
         $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
-            "SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
-            array('integer'),
-            array($active_id)
-        );
-        if ($result->numRows() !== 1) {
-            return 0;
-        }
-        $row = $ilDB->fetchAssoc($result);
-        $is_random = $row["random_test"];
 
         $sequence = new ilTestSequence($ilDB, $active_id, $pass, $this->questionrepository);
         return $sequence->getUserQuestionCount();

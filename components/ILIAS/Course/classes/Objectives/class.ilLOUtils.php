@@ -100,13 +100,8 @@ class ilLOUtils
             return 0;
         }
 
-        $query = 'SELECT nr_of_tries FROM tst_tests ' .
-            'WHERE obj_fi = ' . $ilDB->quote(ilObject::_lookupObjId($a_test_ref_id), 'integer');
-        $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return (int) $row->nr_of_tries;
-        }
-        return 0;
+        $test_obj = new ilObjTest($a_test_ref_id, true);
+        return $test_obj->getNrOfTries();
     }
 
     public static function lookupRandomTest(int $a_test_obj_id): bool

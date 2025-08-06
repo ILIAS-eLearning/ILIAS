@@ -31,14 +31,14 @@ class ilTestSearch extends ilAbstractSearch
 {
     public function __searchTestIntroduction(): ilSearchResult
     {
-        $this->setFields(array('introduction'));
+        $this->setFields(array('st.introduction'));
 
         $where = $this->__createWhereCondition();
         $locate = $this->__createLocateString();
 
-        $query = "SELECT obj_fi  " .
+        $query = "SELECT tst.obj_fi AS obj_fi " .
             $locate .
-            "FROM tst_tests " .
+            "FROM tst_tests AS tst INNER JOIN tst_test_settings AS st ON st.id = tst.settings_id " .
             $where;
 
         $res = $this->db->query($query);

@@ -22,4 +22,5 @@ interface MainSettingsRepository
 {
     public function getFor(int $test_id): MainSettings;
     public function store(MainSettings $settings): void;
+    public function createFor(int $test_id): int;
 }

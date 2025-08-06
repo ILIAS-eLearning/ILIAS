@@ -182,14 +182,4 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
             fn($value) => $value !== $settings->getId()
         );
     }
-
-    public function cloneFor(int $test_id, MainSettings $settings): MainSettings
-    {
-        $settings_id = $this->createFor($test_id);
-        $new_settings = $settings->withId($settings_id);
-
-        $this->store($new_settings);
-
-        return $new_settings;
-    }
 }
