@@ -44,9 +44,6 @@ class TestSetupAgent extends NullAgent
             new \ilDatabaseUpdateStepsExecutedObjective(
                 new Test10DBUpdateSteps()
             ),
-            new \ilDatabaseUpdateStepsExecutedObjective(
-                new Test11DBUpdateSteps()
-            ),
             new \ilAccessCustomRBACOperationAddedObjective(
                 'tst_history_read',
                 'View History in Tests',
@@ -57,6 +54,9 @@ class TestSetupAgent extends NullAgent
             new \ilAccessRBACOperationDeletedObjective('tst', 56),
             new \ilDatabaseUpdateStepsExecutedObjective(
                 new ilTestNoHintsDBUpdateSteps()
+            ),
+            new \ilDatabaseUpdateStepsExecutedObjective(
+                new TestSettingsUpdateSteps()
             ),
             new \ilAccessCustomRBACOperationAddedObjective(
                 'score_anon',
@@ -86,11 +86,11 @@ class TestSetupAgent extends NullAgent
             ),
             new \ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,
-                new Test11DBUpdateSteps()
+                new ilTestNoHintsDBUpdateSteps()
             ),
             new \ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,
-                new ilTestNoHintsDBUpdateSteps()
+                new TestSettingsUpdateSteps()
             ),
         );
     }
@@ -118,7 +118,8 @@ class TestSetupAgent extends NullAgent
     public function getMigrations(): array
     {
         return [
-            new CloneIntroductionAndClosingRemarksMigration()
+            new CloneIntroductionAndClosingRemarksMigration(),
+            new RemoveLegacyTestSettingsMigration()
         ];
     }
 }

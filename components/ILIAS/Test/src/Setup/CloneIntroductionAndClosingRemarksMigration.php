@@ -68,20 +68,20 @@ class CloneIntroductionAndClosingRemarksMigration implements Migration
     public function getRemainingAmountOfSteps(): int
     {
         $result_intro = $this->db->query('
-            SELECT COUNT(test_id) as cnt
-            FROM tst_tests
+            SELECT COUNT(id) as cnt
+            FROM tst_test_settings
             WHERE NOT introduction_page_id IS NULL
                 AND introduction_page_id IN
-                (SELECT introduction_page_id FROM tst_tests GROUP BY introduction_page_id HAVING COUNT(introduction_page_id) > 1)
+                (SELECT introduction_page_id FROM tst_test_settings GROUP BY introduction_page_id HAVING COUNT(introduction_page_id) > 1)
         ');
         $row_intro = $this->db->fetchObject($result_intro);
 
         $result_conclusion = $this->db->query('
-            SELECT COUNT(test_id) as cnt
-            FROM tst_tests
+            SELECT COUNT(id) as cnt
+            FROM tst_test_settings
             WHERE NOT concluding_remarks_page_id IS NULL
                 AND concluding_remarks_page_id  in
-                (SELECT concluding_remarks_page_id FROM tst_tests GROUP BY concluding_remarks_page_id HAVING COUNT(concluding_remarks_page_id) > 1)
+                (SELECT concluding_remarks_page_id FROM tst_test_settings GROUP BY concluding_remarks_page_id HAVING COUNT(concluding_remarks_page_id) > 1)
         ');
         $row_conclusion = $this->db->fetchObject($result_conclusion);
 
@@ -92,12 +92,13 @@ class CloneIntroductionAndClosingRemarksMigration implements Migration
     {
         $result = $this->db->query(
             '
-            SELECT test_id, obj_fi, introduction_page_id
-            FROM tst_tests
-            WHERE NOT introduction_page_id IS NULL
-                AND introduction_page_id IN
-                (SELECT introduction_page_id FROM tst_tests GROUP BY introduction_page_id HAVING COUNT(introduction_page_id) > 1)
-            ORDER BY introduction_page_id
+            SELECT st.id AS settings_id, st.introduction_page_id, tst.obj_fi AS test_obj_id
+            FROM tst_test_settings AS st
+            INNER JOIN tst_tests AS tst ON tst.settings_id = st.id
+            WHERE NOT st.introduction_page_id IS NULL
+                AND st.introduction_page_id IN
+                (SELECT introduction_page_id FROM tst_test_settings GROUP BY introduction_page_id HAVING COUNT(introduction_page_id) > 1)
+            ORDER BY st.introduction_page_id
             LIMIT ' . self::TESTS_PER_STEP
         );
 
@@ -123,14 +124,14 @@ class CloneIntroductionAndClosingRemarksMigration implements Migration
                 continue;
             }
 
-            $new_page_id = $this->createPageWithNextId($row->obj_fi, $introduction_to_clone);
+            $new_page_id = $this->createPageWithNextId($row->test_obj_id, $introduction_to_clone);
             $this->db->update(
-                'tst_tests',
+                'tst_test_settings',
                 [
                     'introduction_page_id' => [\ilDBConstants::T_INTEGER, $new_page_id]
                 ],
                 [
-                    'test_id' => [\ilDBConstants::T_INTEGER, $row->test_id]
+                    'id' => [\ilDBConstants::T_INTEGER, $row->settings_id]
                 ]
             );
         }
@@ -142,12 +143,13 @@ class CloneIntroductionAndClosingRemarksMigration implements Migration
     {
         $result = $this->db->query(
             '
-            SELECT test_id, obj_fi, concluding_remarks_page_id
-            FROM tst_tests
-            WHERE NOT concluding_remarks_page_id IS NULL
-                AND concluding_remarks_page_id IN
-                (SELECT concluding_remarks_page_id FROM tst_tests GROUP BY concluding_remarks_page_id HAVING COUNT(concluding_remarks_page_id) > 1)
-            ORDER BY concluding_remarks_page_id
+            SELECT st.id AS settings_id, st.concluding_remarks_page_id, tst.obj_fi AS test_obj_id
+            FROM tst_test_settings AS st
+            INNER JOIN tst_tests AS tst ON tst.settings_id = st.id
+            WHERE NOT st.concluding_remarks_page_id IS NULL
+                AND st.concluding_remarks_page_id IN
+                (SELECT concluding_remarks_page_id FROM tst_test_settings GROUP BY concluding_remarks_page_id HAVING COUNT(concluding_remarks_page_id) > 1)
+            ORDER BY st.concluding_remarks_page_id
             LIMIT ' . $max_steps
         );
 
@@ -173,14 +175,14 @@ class CloneIntroductionAndClosingRemarksMigration implements Migration
                 continue;
             }
 
-            $new_page_id = $this->createPageWithNextId($row->obj_fi, $concluding_remarks_to_clone);
+            $new_page_id = $this->createPageWithNextId($row->test_obj_id, $concluding_remarks_to_clone);
             $this->db->update(
-                'tst_tests',
+                'tst_test_settings',
                 [
                     'concluding_remarks_page_id' => [\ilDBConstants::T_INTEGER, $new_page_id]
                 ],
                 [
-                    'test_id' => [\ilDBConstants::T_INTEGER, $row->test_id]
+                    'id' => [\ilDBConstants::T_INTEGER, $row->settings_id]
                 ]
             );
         }
