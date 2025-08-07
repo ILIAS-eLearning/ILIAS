@@ -30,11 +30,11 @@ use ILIAS\Filesystem\Stream\Streams;
  *   form. This example does not contain any data processing.
  *
  * expected output: >
- *   ILIAS shows an input field titled "Basic TagInput". The Tag "Interesting" is already displayed and can get removed
- *   through clicking the "X". A completion of the tags will be displayed by ILIAS if an A, B, I or R is typed into the field.
- *   It is also possible to insert tags of your own and confirm those through hitting the Enter button on your keyboard.
- *   Afterwards the tags will be highlighted with color. An "X" is displayed directly next to each tag. Clicking the "X"
- *   will remove the tag.
+ *   ILIAS shows an input field titled "Tag Input with Autocomplete". A completion of
+ *   the tags will be displayed by ILIAS if an A, B, I or R is typed into the field.
+ *   It is also possible to insert tags of your own and confirm those through hitting
+ *   the Enter button on your keyboard. Afterwards the tags will be highlighted with color.
+ *   An "X" is displayed directly next to each tag. Clicking the "X" will remove the tag.
  *   Clicking "Save" will reload the page and will set the Tag in the input field back to "Interesting".
  * ---
  */

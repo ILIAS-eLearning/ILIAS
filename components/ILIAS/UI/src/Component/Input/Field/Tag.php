@@ -35,22 +35,10 @@ use ILIAS\Data\URI;
 interface Tag extends FormInput
 {
     /**
-     * @return string[] of tags such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
-     */
-    public function getTags(): array;
-
-    /**
      * Get an input like this, but decide whether the user can provide own
      * tags or not. (Default: Allowed)
      */
-    public function withUserCreatedTagsAllowed(bool $extendable): Tag;
-
-    /**
-     * @see withUserCreatedTagsAllowed
-     * @return bool Whether the user is allowed to input more
-     * options than the given.
-     */
-    public function areUserCreatedTagsAllowed(): bool;
+    public function withUserCreatedTagsAllowed(bool $extendable): self;
 
     /**
      * Get an input like this, but change the amount of characters the
@@ -59,33 +47,17 @@ interface Tag extends FormInput
      * @param int $characters defaults to 1
      * @throws InvalidArgumentException
      */
-    public function withSuggestionsStartAfter(int $characters): Tag;
-
-    /**
-     * @see withSuggestionsStartAfter
-     */
-    public function getSuggestionsStartAfter(): int;
+    public function withSuggestionsStartAfter(int $characters): self;
 
     /**
      * Get an input like this, but limit the amount of characters one tag can be. (Default: unlimited)
      */
-    public function withTagMaxLength(int $max_length): Tag;
-
-    /**
-     * @see withTagMaxLength
-     */
-    public function getTagMaxLength(): int;
+    public function withTagMaxLength(int $max_length): self;
 
     /**
      * Get an input like this, but limit the amount of tags a user can select or provide. (Default: unlimited)
      */
-    public function withMaxTags(int $max_tags): Tag;
-
-
-    /**
-     * @see withMaxTags
-     */
-    public function getMaxTags(): int;
+    public function withMaxTags(int $max_tags): self;
 
     /**
      * Get an input like this, but add an endpoint to get a list of possible options.
@@ -94,16 +66,11 @@ interface Tag extends FormInput
      * containing three properties "value", "display", and "searchBy". The property
      * "value" MUST be save to transmit as url-parameter.
      */
-    public function withAsyncAutocomplete(URI $autocomplete_endpoint): Tag;
-
-    /**
-     * @see withAsyncAutocomplete
-     */
-    public function getAsyncAutocomplete(): ?URI;
+    public function withAsyncAutocomplete(URI $autocomplete_endpoint): self;
 
     // Events
 
-    public function withAdditionalOnTagAdded(Signal $signal): Tag;
+    public function withAdditionalOnTagAdded(Signal $signal): self;
 
-    public function withAdditionalOnTagRemoved(Signal $signal): Tag;
+    public function withAdditionalOnTagRemoved(Signal $signal): self;
 }
