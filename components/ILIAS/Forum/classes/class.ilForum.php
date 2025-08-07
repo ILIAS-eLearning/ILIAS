@@ -1488,8 +1488,7 @@ class ilForum
 
         if ($type !== 'export') {
             if ($edit === 0) {
-                // todo: uncomment when PR 9870 is merged
-                // $text = ilRTE::replaceLatexSpan($text);
+                $text = ilRTE::replaceLatexSpan($text);
                 $text = $this->ui_renderer->render($this->ui_factory->legacy()->latexContent($text));
             }
 
