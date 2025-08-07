@@ -24,10 +24,8 @@ use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
-class DataRow implements T\DataRow
+class DataRow extends Row implements T\DataRow
 {
-    use ComponentHelper;
-
     /**
      * @var array<string, bool>
      */
@@ -42,13 +40,19 @@ class DataRow implements T\DataRow
      * @param array<string, mixed> $record
      */
     public function __construct(
-        protected bool $table_has_singleactions,
-        protected bool $table_has_multiactions,
-        protected array $columns,
+        bool $table_has_singleactions,
+        bool $table_has_multiactions,
+        array $columns,
         protected array $actions,
         protected string $id,
-        protected array $record
+        array $record
     ) {
+        parent::__construct(
+            $table_has_singleactions,
+            $table_has_multiactions,
+            $columns,
+            $record,
+        );
     }
 
     public function getId(): string
@@ -64,20 +68,6 @@ class DataRow implements T\DataRow
         $clone = clone $this;
         $clone->disabled_actions[$action_id] = true;
         return $clone;
-    }
-
-    public function getColumns(): array
-    {
-        return $this->columns;
-    }
-
-    public function tableHasSingleActions(): bool
-    {
-        return $this->table_has_singleactions;
-    }
-    public function tableHasMultiActions(): bool
-    {
-        return $this->table_has_multiactions;
     }
 
     public function getActions(): array

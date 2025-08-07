@@ -35,11 +35,4 @@ class HTML implements \Stringable
     {
         return $this->html_text;
     }
-
-    public function __toString(
-    ) {
-        return $this->html_text;
-    }
-
-
 }
