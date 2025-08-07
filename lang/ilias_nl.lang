@@ -12998,6 +12998,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###26 08 2024 new variabl
 obj#:#custom_icon#:#Custom Icon###06 02 2015 new variable
 obj#:#edit_availability_period#:#Availability Period###26 08 2024 new variable
 obj#:#edit_questions#:#Wijzigen vragen
+obj#:#multiple_selection#:#Multiple Selection
 obj#:#no_objects_selected#:#At least one object needs to be selected.###26 08 2024 new variable
 obj#:#obj_activate_content_lang#:#Inschakelen vertalingen voor pagina editor
 obj#:#obj_activate_multilang#:#Inschakelen meertaligheid

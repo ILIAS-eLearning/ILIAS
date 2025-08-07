@@ -12998,6 +12998,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###26 08 2024 new variabl
 obj#:#custom_icon#:#カスタムアイコン
 obj#:#edit_availability_period#:#Availability Period###26 08 2024 new variable
 obj#:#edit_questions#:#問題編集
+obj#:#multiple_selection#:#複数選択
 obj#:#no_objects_selected#:#At least one object needs to be selected.###26 08 2024 new variable
 obj#:#obj_activate_content_lang#:#ページ編集用の翻訳を有効化
 obj#:#obj_activate_multilang#:#多言語機能を有効化

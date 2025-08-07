@@ -39,12 +39,18 @@ class Select implements Type
         Refinery $refinery,
         ?string $data
     ): ?FormInput {
+        $parsed_data = $this->parseData($data);
         return $ff->group([
-            'values' => $ff->tag($lng->txt('options'), [])
-                ->withValue($this->parseData($data))
+            'allow_multiple' => $ff->checkbox($lng->txt('multiple_selection'))
+                ->withValue($parsed_data['allow_multiple']),
+            'options' => $ff->tag($lng->txt('options'), [])
+                ->withValue($parsed_data['options'])
         ])->withAdditionalTransformation(
             $refinery->custom()->transformation(
-                static fn(array $vs): string => json_encode($vs['values'])
+                static fn(array $vs): string => json_encode([
+                    'allow_multiple' => $vs['allow_multiple'],
+                    'options' => $vs['options']
+                ])
             )
         );
     }
@@ -56,14 +62,26 @@ class Select implements Type
         string $label,
         ?string $data
     ): \ilFormPropertyGUI {
+        $parsed_data = $this->parseData($data);
+        if ($parsed_data['allow_multiple']) {
+            $input = new \ilMultiSelectInputGUI($label);
+            $input->setOptions($this->parseData($data)['options']);
+            $input->setValue($user_value);
+            return $input;
+        }
+
         $input = new \ilSelectInputGUI($label);
-        $input->setOptions(['' => $lng->txt('please_select')] + $this->parseData($data));
+        $input->setOptions(['' => $lng->txt('please_select')] + $this->parseData($data)['options']);
         $input->setValue($user_value[0] ?? '');
         return $input;
     }
 
     public function prepareUserInputForStorage(mixed $input): array
     {
+        if (is_array($input)) {
+            return $input;
+        }
+
         return [$input];
     }
 
@@ -75,22 +93,45 @@ class Select implements Type
             return '';
         }
 
-        $options = $this->parseData($data);
-        if (array_key_exists($input[0], $options)) {
-            return $options[$input[0]];
-        }
-        $value = array_search($input[0], $options);
-        if ($value === false) {
-            return '';
-        }
-        return $value;
+        $options = $this->parseData($data)['options'];
+
+        return implode(
+            ', ',
+            array_reduce(
+                $input,
+                static function (array $c, string|int $v) use ($options): array {
+                    if (array_key_exists($v, $options)) {
+                        $c[] = $options[$v];
+                        return $c;
+                    }
+
+                    $value = array_search($v, $options);
+                    if ($value === false) {
+                        return $c;
+                    }
+
+                    $c[] = $v;
+                    return $c;
+                },
+                []
+            )
+        );
     }
 
     private function parseData(?string $data): array
     {
         if ($data === null) {
-            return [];
+            return [
+                'allow_multiple' => false,
+                'options' => []
+            ];
         }
-        return json_decode($data) ?? unserialize($data, ['allowed_classes' => false]) ?? [];
+
+        $values = json_decode($data, true) ?? unserialize($data, ['allowed_classes' => false]) ?? [];
+
+        return [
+            'allow_multiple' => $values['allow_multiple'] ?? false,
+            'options' => $values['options'] ?? $values
+        ];
     }
 }

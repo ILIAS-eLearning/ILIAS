@@ -12983,6 +12983,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###31 10 2023 new variabl
 obj#:#custom_icon#:#Custom Icon###31 10 2023 new variable
 obj#:#edit_availability_period#:#Edit Availability Period###31 10 2023 new variable
 obj#:#edit_questions#:#Editer Questions
+obj#:#multiple_selection#:#Sélection Multiple
 obj#:#no_objects_selected#:#At least one object needs to be selected.###31 10 2023 new variable
 obj#:#obj_activate_content_lang#:#Activer la Traduction pour l'Edition des Pages
 obj#:#obj_activate_multilang#:#Activer Multi-Linguisme

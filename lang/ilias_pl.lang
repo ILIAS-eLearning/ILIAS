@@ -12998,6 +12998,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###26 08 2024 new variabl
 obj#:#custom_icon#:#Custom Icon
 obj#:#edit_availability_period#:#Availability Period###26 08 2024 new variable
 obj#:#edit_questions#:#Edytuj pytania
+obj#:#multiple_selection#:#Wybór wielokrotny
 obj#:#no_objects_selected#:#At least one object needs to be selected.###26 08 2024 new variable
 obj#:#obj_activate_content_lang#:#Aktywuj opcję treści w wielu językach dla edytora stron
 obj#:#obj_activate_multilang#:#Aktywuj opcję treści w wielu językach
