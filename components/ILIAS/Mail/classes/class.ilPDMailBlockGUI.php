@@ -170,7 +170,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
         $item = $item->withProperties([
             $this->lng->txt('from') => $public_name_long,
-            $this->lng->txt('mail_sent_datetime') => ilDatePresentation::formatDate(new ilDateTime($data['send_time'], IL_CAL_DATE)),
+            $this->lng->txt('mail_sent_datetime') => ilDatePresentation::formatDate(new ilDateTime($data['send_time'], IL_CAL_DATETIME)),
         ]);
 
         return $item;
