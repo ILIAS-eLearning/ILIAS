@@ -128,8 +128,9 @@ class SettingsImplementation implements Settings
                 && (
                     is_array($form) && $form[$section] === null
                     || $form instanceof \ilPropertyFormGUI
-                        && (($input = $form->getInput($section)) === '' || $input === '0'))
-                ) {
+                        && (($input = $form->getInput($section)) === '' || $input === '0')
+                )
+            ) {
                 $set_settings_to_default = true;
             }
             foreach ($available_settings as $setting) {
@@ -151,7 +152,7 @@ class SettingsImplementation implements Settings
     ): Setting {
         $setting = $this->user_settings_repository->getByDefinitionClass($definition_class);
         if ($setting === null) {
-            throw new \UnexpectedValueException()('No class by that name');
+            throw new \UnexpectedValueException('No class by that name');
         }
         return $setting;
     }
@@ -352,7 +353,7 @@ class SettingsImplementation implements Settings
 
     private function checkStartingPointValue(\ilPropertyFormGUI $form): bool
     {
-        return $form->getInput('additional')  === ''
+        return $form->getInput('additional') === ''
             || $this->user_settings_repository->getByIdentifier('starting_point')->validateUserChoice($this->tpl, $this->lng, $form);
     }
 }

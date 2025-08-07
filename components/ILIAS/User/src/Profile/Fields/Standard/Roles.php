@@ -119,7 +119,7 @@ class Roles implements FieldDefinition
         $assinged_roles = $rbac_review->assignedRoles($user->getId());
         return substr(
             array_reduce(
-                $rbac_review->getGlobalAssignableRoles(),
+                $rbac_review->getGlobalRolesArray(),
                 static fn(string $c, array $v) => in_array($v['obj_id'], $assinged_roles)
                     ? $c . \ilObjectFactory::getInstanceByObjId($v['obj_id'])->getTitle() . ', '
                     : $c,
