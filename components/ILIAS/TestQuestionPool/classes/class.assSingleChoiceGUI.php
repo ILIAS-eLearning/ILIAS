@@ -290,7 +290,9 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 $this->populateInlineFeedback($template, $answer_id, $user_solution);
             }
             $template->setCurrentBlock('answer_row');
-            $template->setVariable('ANSWER_TEXT', ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true));
+            $template->setVariable('ANSWER_TEXT', $this->renderLatex(
+                ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true)
+            ));
 
             if ($this->renderPurposeSupportsFormHtml() || $this->isRenderPurposePrintPdf()) {
                 if ((string) $user_solution === (string) $answer_id) {
@@ -322,7 +324,9 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $questiontext .= $this->buildFocusAnchorHtml();
         }
         if ($show_question_text === true) {
-            $template->setVariable('QUESTIONTEXT', ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
+            $template->setVariable('QUESTIONTEXT', $this->renderLatex(
+                ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true)
+            ));
         }
         $questionoutput = $template->get();
         $feedback = ($show_feedback && !$this->isTestPresentationContext()) ? $this->getGenericFeedbackOutput((int) $active_id, $pass) : '';
@@ -414,7 +418,9 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $template->setCurrentBlock('answer_row');
             $template->setVariable('QID', $this->object->getId() . 'ID');
             $template->setVariable('ANSWER_ID', $answer_id);
-            $template->setVariable('ANSWER_TEXT', ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true));
+            $template->setVariable('ANSWER_TEXT', $this->renderLatex(
+                ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true)
+            ));
 
             if (is_object($this->getPreviewSession())) {
                 $user_solution = $this->getPreviewSession()->getParticipantsSolution();
@@ -429,7 +435,9 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         if ($show_inline_feedback && $this->hasInlineFeedback()) {
             $questiontext .= $this->buildFocusAnchorHtml();
         }
-        $template->setVariable('QUESTIONTEXT', ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
+        $template->setVariable('QUESTIONTEXT', $this->renderLatex(
+            ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true)
+        ));
         $questionoutput = $template->get();
         if (!$show_question_only) {
             // get page object output
@@ -495,13 +503,17 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             }
             $template->setCurrentBlock('answer_row');
             $template->setVariable('ANSWER_ID', $answer_id);
-            $template->setVariable('ANSWER_TEXT', ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true));
+            $template->setVariable('ANSWER_TEXT', $this->renderLatex(
+                ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true)
+            ));
             if ($user_solution === (string) $answer_id) {
                 $template->setVariable('CHECKED_ANSWER', ' checked="checked"');
             }
             $template->parseCurrentBlock();
         }
-        $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
+        $template->setVariable('QUESTIONTEXT', $this->renderLatex(
+            $this->object->getQuestionForHTMLOutput()
+        ));
         $questionoutput = $template->get();
         $pageoutput = $this->outQuestionPage('', $is_question_postponed, $active_id, $questionoutput, $show_specific_inline_feedback);
         return $pageoutput;
@@ -701,6 +713,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             },
             $this->object->getAnswers()
         ));
+        $choices->setInfo($choices->getInfo() . ' ' . $this->lng->txt('latex_edit_info'));
         $form->addItem($choices);
         return $form;
     }
@@ -793,7 +806,9 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, $answer_id);
             if (strlen($fb)) {
                 $template->setCurrentBlock('feedback');
-                $template->setVariable('FEEDBACK', ilLegacyFormElementsUtil::prepareTextareaOutput($fb, true));
+                $template->setVariable('FEEDBACK', $this->renderLatex(
+                    ilLegacyFormElementsUtil::prepareTextareaOutput($fb, true)
+                ));
                 $template->parseCurrentBlock();
             }
         }

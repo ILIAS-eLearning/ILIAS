@@ -489,9 +489,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $solution_html = $answers_gui->getHTML();
 
         $template = new ilTemplate('tpl.il_as_qpl_nested_ordering_output_solution.html', true, true, 'components/ILIAS/TestQuestionPool');
-        $template->setVariable('SOLUTION_OUTPUT', $solution_html);
+        $template->setVariable('SOLUTION_OUTPUT', $this->renderLatex($solution_html));
         if ($show_question_text == true) {
-            $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
+            $template->setVariable('QUESTIONTEXT', $this->renderLatex($this->object->getQuestionForHTMLOutput()));
         }
         $questionoutput = $template->get();
 
@@ -549,9 +549,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $template = new ilTemplate('tpl.il_as_qpl_ordering_output.html', true, true, 'components/ILIAS/TestQuestionPool');
 
         $template->setCurrentBlock('nested_ordering_output');
-        $template->setVariable('NESTED_ORDERING', $answers->getHTML());
+        $template->setVariable('NESTED_ORDERING', $this->renderLatex($answers->getHTML()));
         $template->parseCurrentBlock();
-        $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
+        $template->setVariable('QUESTIONTEXT', $this->renderLatex($this->object->getQuestionForHTMLOutput()));
 
         if ($show_question_only) {
             return $template->get();
@@ -585,10 +585,10 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $ordering_gui->setElementList($solutionOrderingElementList);
 
         $template->setCurrentBlock('nested_ordering_output');
-        $template->setVariable('NESTED_ORDERING', $ordering_gui->getHTML());
+        $template->setVariable('NESTED_ORDERING', $this->renderLatex($ordering_gui->getHTML()));
         $template->parseCurrentBlock();
 
-        $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
+        $template->setVariable('QUESTIONTEXT', $this->renderLatex($this->object->getQuestionForHTMLOutput()));
 
         $pageoutput = $this->outQuestionPage('', $is_question_postponed, $active_id, $template->get());
 

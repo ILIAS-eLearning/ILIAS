@@ -927,6 +927,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         );
 
         $this->initOrderingElementFormFieldLabels($orderingElementInput);
+        $orderingElementInput->setInfo($orderingElementInput->getInfo() . ' ' . $this->lng->txt('latex_edit_info'));
 
         return $orderingElementInput;
     }

@@ -904,6 +904,7 @@ abstract class assQuestionGUI
             $question->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
             $question->setUseTagsForRteOnly(false);
         }
+        $question->setInfo($this->lng->txt('latex_edit_info'));
         $form->addItem($question);
 
         $question_type = new ilHiddenInputGUI('question_type');
@@ -1010,7 +1011,7 @@ abstract class assQuestionGUI
         if ($this->object->isAdditionalContentEditingModePageObject()) {
             return $output;
         }
-        return ilLegacyFormElementsUtil::prepareTextareaOutput($output, true);
+        return $this->renderLatex(ilLegacyFormElementsUtil::prepareTextareaOutput($output, true));
     }
 
     protected function genericFeedbackOutputBuilder(
@@ -1036,17 +1037,19 @@ abstract class assQuestionGUI
 
     public function getGenericFeedbackOutputForCorrectSolution(): string
     {
-        return ilLegacyFormElementsUtil::prepareTextareaOutput(
+        return $this->renderLatex(ilLegacyFormElementsUtil::prepareTextareaOutput(
             $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), true),
             true
-        );
+        ));
     }
 
     public function getGenericFeedbackOutputForIncorrectSolution(): string
     {
-        return ilLegacyFormElementsUtil::prepareTextareaOutput(
-            $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false),
-            true
+        return  $this->renderLatex(
+            ilLegacyFormElementsUtil::prepareTextareaOutput(
+                $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false),
+                true
+            )
         );
     }
 
@@ -1880,14 +1883,9 @@ abstract class assQuestionGUI
             }
         }
 
-        // since server side mathjax rendering does include svg-xml structures that indeed have linebreaks,
-        // do latex conversion AFTER replacing linebreaks with <br>. <svg> tag MUST NOT contain any <br> tags.
         if ($prepare_for_latex_output) {
-            $result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
-            $result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
-        }
+            $result = ilRTE::replaceLatexSpan($result);
 
-        if ($prepare_for_latex_output) {
             // replace special characters to prevent problems with the ILIAS template system
             // eg. if someone uses {1} as an answer, nothing will be shown without the replacement
             $result = str_replace("{", "&#123;", $result);
@@ -1896,6 +1894,14 @@ abstract class assQuestionGUI
         }
 
         return $result;
+    }
+
+    /**
+     * Wrap content with latex in a LatexContent UI component and render it to be processed by MathJax in the browser
+     */
+    protected function renderLatex($content)
+    {
+        return $this->ui->renderer()->render($this->ui->factory()->legacy()->latexContent($content));
     }
 
     protected ?SuggestedSolutionsDatabaseRepository $suggestedsolution_repo = null;

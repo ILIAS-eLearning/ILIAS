@@ -227,7 +227,9 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             }
         }
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
+            $template->setVariable("QUESTIONTEXT", $this->renderLatex(
+                $this->object->getQuestionForHTMLOutput()
+            ));
         }
         $questionoutput = $template->get();
 
@@ -245,7 +247,9 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             );
 
             $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-            $solutiontemplate->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
+            $solutiontemplate->setVariable("FEEDBACK", $this->renderLatex(
+                ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true)
+            ));
         }
 
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
@@ -383,7 +387,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $keywordString .= $answer->getAnswertext();
 
             $tpl->setCurrentBlock('keyword');
-            $tpl->setVariable('KEYWORD', $keywordString);
+            $tpl->setVariable('KEYWORD', $this->renderLatex($keywordString));
             $tpl->parseCurrentBlock();
         }
 
@@ -451,7 +455,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             );
         }
 
-        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
+        $template->setVariable("QUESTIONTEXT", $this->renderLatex($this->object->getQuestionForHTMLOutput()));
         $template->setVariable("QID", $this->object->getId());
 
         $questionoutput = $template->get();
@@ -511,7 +515,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
         $template->setVariable("QID", $this->object->getId());
         $template->setVariable("ESSAY", $user_solution);
-        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
+        $template->setVariable("QUESTIONTEXT", $this->renderLatex($this->object->getQuestionForHTMLOutput()));
         $questionoutput = $template->get();
 
         $questionoutput .= $this->getJsCode();
