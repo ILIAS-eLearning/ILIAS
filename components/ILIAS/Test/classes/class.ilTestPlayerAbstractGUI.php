@@ -1012,7 +1012,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->object,
             $this->test_result_repository
         ))->performFinishTasks($this->process_locker, $status_of_attempt);
-        $this->test_result_repository->updateTestResultCache($this->test_session->getActiveId(), null);
+        $this->test_result_repository->updateTestResultCache($this->test_session->getActiveId());
 
         $this->sendNewPassFinishedNotificationEmailIfActivated(
             $this->test_session->getActiveId(),

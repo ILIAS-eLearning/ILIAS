@@ -20,24 +20,19 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Results\Data;
 
-/**
- * Class AttemptResult is a model representation of an entry in the tst_pass_result table.
- */
 class AttemptResult
 {
     public function __construct(
-        protected int $active_id,
-        protected int $attempt_id,
-        protected float $max_points,
-        protected float $reached_points,
-        protected int $question_count,
-        protected int $answered_questions,
-        protected int $working_time,
-        protected int $timestamp,
-        protected int $hint_count,
-        protected float $hint_points,
-        protected string $exam_id,
-        protected string $finalized_by,
+        private int $active_id,
+        private int $attempt_id,
+        private float $max_points,
+        private float $reached_points,
+        private int $question_count,
+        private int $answered_questions,
+        private int $working_time,
+        private int $timestamp,
+        private string $exam_id,
+        private string $finalized_by,
     ) {
     }
 
@@ -114,16 +109,6 @@ class AttemptResult
     public function getTimestamp(): int
     {
         return $this->timestamp;
-    }
-
-    public function getHintCount(): int
-    {
-        return $this->hint_count;
-    }
-
-    public function getHintPoints(): float
-    {
-        return $this->hint_points;
     }
 
     public function getExamId(): string

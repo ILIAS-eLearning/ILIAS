@@ -27,6 +27,7 @@ use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\ResourceStorage\Services as IRSS;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -63,6 +64,8 @@ class ilTestArchiver
 
     protected ?ilTestParticipantData $participant_data = null;
 
+    protected TestResultRepository $test_result_repository;
+
     public function __construct(
         private readonly ilLanguage $lng,
         private readonly ilDBInterface $db,
@@ -80,10 +83,12 @@ class ilTestArchiver
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
         $ilias = $DIC['ilias'];
+        $local_dic = TestDIC::dic();
 
         $this->html_generator = new ilTestHTMLGenerator();
         $this->external_directory_path = $ilias->ini_ilias->readVariable('clients', 'datadir');
         $this->archive_data_index = $this->readArchiveDataIndex();
+        $this->test_result_repository = $local_dic['results.data.repository'];
     }
 
     public function getParticipantData(): ?ilTestParticipantData
@@ -616,9 +621,7 @@ class ilTestArchiver
             $template->setVariable('USER_DATA', "{$this->lng->txt('matriculation')}: {$participant_data['matriculation']}");
         }
 
-        /** @var \ILIAS\Test\Results\Data\Repository $test_result_repository */
-        $test_result_repository = TestDic::dic()['results.data.repository'];
-        $results = $test_result_repository->getTestResult($active_id);
+        $results = $this->test_result_repository->getTestResult($active_id);
 
         $status = $this->lng->txt($results->isPassed() ? 'passed_official' : 'failed_official');
         $template->setVariable(

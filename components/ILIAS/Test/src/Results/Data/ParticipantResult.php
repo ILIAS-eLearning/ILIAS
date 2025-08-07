@@ -28,15 +28,13 @@ use ILIAS\Test\Scoring\Marks\Mark;
 class ParticipantResult
 {
     public function __construct(
-        protected int $active_id,
-        protected int $attempt,
-        protected float $max_points,
-        protected float $reached_points,
-        protected Mark $mark,
-        protected int $timestamp,
-        protected int $hint_count,
-        protected float $hint_points,
-        protected bool $passed_once,
+        private int $active_id,
+        private int $attempt,
+        private float $max_points,
+        private float $reached_points,
+        private Mark $mark,
+        private int $timestamp,
+        private bool $passed_once,
     ) {
     }
 
@@ -100,16 +98,6 @@ class ParticipantResult
     public function getTimestamp(): int
     {
         return $this->timestamp;
-    }
-
-    public function getHintCount(): int
-    {
-        return $this->hint_count;
-    }
-
-    public function getHintPoints(): float
-    {
-        return $this->hint_points;
     }
 
     public function isPassedOnce(): bool

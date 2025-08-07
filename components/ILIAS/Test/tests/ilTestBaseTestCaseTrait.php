@@ -415,19 +415,6 @@ trait ilTestBaseTestCaseTrait
         $this->setGlobalVariable('ui.upload_limit_resolver', $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class));
     }
 
-    protected function addGlobal_requestDataCollector(): void
-    {
-        $this->setGlobalVariable('request_data_collector', $this->createMock(RequestDataCollector::class));
-    }
-
-    protected function addGlobal_ilObjTest(): void
-    {
-        $this->setGlobalVariable('ilObjTest', $this->createConfiguredMock(ilObjTest::class, [
-            'getLocalDIC' => $this->buildLocalDICMock(),
-            '_getResultPass' => 0
-        ]));
-    }
-
     protected function getFileDelivery(): \ILIAS\FileDelivery\Services
     {
         $data_signer = new ILIAS\FileDelivery\Token\DataSigner(

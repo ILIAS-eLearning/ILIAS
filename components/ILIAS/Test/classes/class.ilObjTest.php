@@ -1246,7 +1246,7 @@ class ilObjTest extends ilObject
             $this->db->manipulate("DELETE FROM tst_test_rnd_qst WHERE {$in_active_ids}");
         }
 
-        $this->test_result_repository->invalidateStatusCache($active_ids, $this->getId());
+        $this->test_result_repository->removeTestResults($active_ids, $this->getId());
 
         foreach ($active_ids as $active_id) {
             // remove file uploads
@@ -1794,10 +1794,10 @@ class ilObjTest extends ilObject
         bool $consider_hidden_questions = true,
         bool $consider_optional_questions = true
     ): array {
-        $result_cache = $this->test_result_repository->getTestResult($active_id);
+        $test_result = $this->test_result_repository->getTestResult($active_id);
 
         if ($pass === null) {
-            $pass = $result_cache->getAttempt();
+            $pass = $test_result->getAttempt();
         }
 
         $test_sequence_factory = new ilTestSequenceFactory($this, $this->db, $this->questionrepository);
@@ -1930,13 +1930,11 @@ class ilObjTest extends ilObject
         $found['pass']['num_workedthrough'] = $num_worked_through;
         $found['pass']['num_questions_total'] = $numQuestionsTotal;
 
-        $found["test"]["total_max_points"] = $result_cache->getMaxPoints();
-        $found["test"]["total_reached_points"] = $result_cache->getReachedPoints();
-        $found["test"]["total_requested_hints"] = $result_cache->getHintCount();
-        $found["test"]["total_hint_points"] = $result_cache->getHintPoints();
-        $found["test"]["result_pass"] = $result_cache->getAttempt();
-        $found['test']['result_tstamp'] = $result_cache->getTimestamp();
-        $found["test"]["passed"] = $result_cache->isPassed();
+        $found['test']['total_max_points'] = $test_result->getMaxPoints();
+        $found['test']['total_reached_points'] = $test_result->getReachedPoints();
+        $found['test']['result_pass'] = $test_result->getAttempt();
+        $found['test']['result_tstamp'] = $test_result->getTimestamp();
+        $found['test']['passed'] = $test_result->isPassed();
 
         return $found;
     }

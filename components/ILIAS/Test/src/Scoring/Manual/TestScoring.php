@@ -278,7 +278,13 @@ class TestScoring
             $passSelector->setActiveId($active_id);
 
             foreach ($passSelector->getExistingPasses() as $pass) {
-                $this->test_result_repository->updateTestAttemptResult($active_id, $pass, null, null, false);
+                $this->test_result_repository->updateTestAttemptResult(
+                    $active_id,
+                    $pass,
+                    null,
+                    null,
+                    false
+                );
             }
 
             $this->test_result_repository->updateTestResultCache($active_id);

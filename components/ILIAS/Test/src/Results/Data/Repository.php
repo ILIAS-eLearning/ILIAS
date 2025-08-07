@@ -28,12 +28,12 @@ use ILIAS\Test\Scoring\Marks\MarksRepository;
 
 class Repository
 {
-    protected Container $cache;
+    private Container $cache;
 
     public function __construct(
-        protected readonly \ilDBInterface $db,
-        protected readonly Refinery $refinery,
-        protected readonly MarksRepository $marks_repository,
+        private readonly \ilDBInterface $db,
+        private readonly Refinery $refinery,
+        private readonly MarksRepository $marks_repository,
         Services $global_cache
     ) {
         $this->cache = $global_cache->get(new BaseRequest('test_result'));
@@ -92,7 +92,11 @@ class Repository
         }
 
         // Prevent unfinished passes from being entered in the table so that no inconsistencies occur during an attempt
-        $status = StatusOfAttempt::build($attempt, $attempt_result['last_finished_pass'], $attempt_result['finalized_by']);
+        $status = StatusOfAttempt::build(
+            $attempt,
+            $attempt_result['last_finished_pass'],
+            $attempt_result['finalized_by'],
+        );
         if (!$status->isFinished()) {
             return null;
         }
@@ -110,10 +114,12 @@ class Repository
                 'passed' => [\ilDBConstants::T_INTEGER, (int) $result->isPassed()],
                 'failed' => [\ilDBConstants::T_INTEGER, (int) $result->isFailed()],
                 'tstamp' => [\ilDBConstants::T_INTEGER, time()],
-                'hint_count' => [\ilDBConstants::T_INTEGER, $result->getHintCount()],
-                'hint_points' => [\ilDBConstants::T_FLOAT, $result->getHintPoints()]
             ];
-            $this->db->replace('tst_result_cache', ['active_fi' => $result->getActiveId()], $values);
+            $this->db->replace(
+                'tst_result_cache',
+                ['active_fi' => $result->getActiveId()],
+                $values
+            );
         };
 
         if (is_object($process_locker)) {
@@ -122,11 +128,15 @@ class Repository
             $callback();
         }
 
-        $this->updateStatusCache($attempt_result['user_id'], $attempt_result['test_obj_id'], [
-            'passed' => $result->isPassed(),
-            'failed' => $result->isFailed(),
-            'finished' => $status->isFinished()
-        ]);
+        $this->updateStatusCache(
+            $attempt_result['user_id'],
+            $attempt_result['test_obj_id'],
+            [
+                'passed' => $result->isPassed(),
+                'failed' => $result->isFailed(),
+                'finished' => $status->isFinished(),
+            ]
+        );
 
         return $result;
     }
@@ -146,31 +156,34 @@ class Repository
         int $attempt,
         ?\ilAssQuestionProcessLocker $process_locker = null,
         ?int $test_obj_id = null,
-        bool $update_cache = true
+        bool $update_result_cache_table = true
     ): ?AttemptResult {
         $test_result = $this->fetchTestResult($active_id, $attempt);
         if (!$test_result) {
             return null;
         }
 
-        $object = $this->buildTestAttemptResultObject($active_id, $test_result, $test_obj_id);
-        $callback = function () use ($object, $attempt) {
+        $result_object = $this->buildTestAttemptResultObject(
+            $active_id,
+            $test_result,
+            $test_obj_id
+        );
+
+        $callback = function () use ($result_object, $attempt) {
             $this->db->replace(
                 'tst_pass_result',
                 [
-                    'active_fi' => [\ilDBConstants::T_INTEGER, $object->getActiveId()],
+                    'active_fi' => [\ilDBConstants::T_INTEGER, $result_object->getActiveId()],
                     'pass' => [\ilDBConstants::T_INTEGER, $attempt]
                 ],
                 [
-                    'points' => [\ilDBConstants::T_FLOAT, $object->getReachedPoints()],
-                    'maxpoints' => [\ilDBConstants::T_FLOAT, $object->getMaxPoints()],
-                    'questioncount' => [\ilDBConstants::T_INTEGER, $object->getQuestionCount()],
-                    'answeredquestions' => [\ilDBConstants::T_INTEGER, $object->getAnsweredQuestions()],
-                    'workingtime' => [\ilDBConstants::T_INTEGER, $object->getWorkingTime()],
+                    'points' => [\ilDBConstants::T_FLOAT, $result_object->getReachedPoints()],
+                    'maxpoints' => [\ilDBConstants::T_FLOAT, $result_object->getMaxPoints()],
+                    'questioncount' => [\ilDBConstants::T_INTEGER, $result_object->getQuestionCount()],
+                    'answeredquestions' => [\ilDBConstants::T_INTEGER, $result_object->getAnsweredQuestions()],
+                    'workingtime' => [\ilDBConstants::T_INTEGER, $result_object->getWorkingTime()],
                     'tstamp' => [\ilDBConstants::T_INTEGER, time()],
-                    'hint_count' => [\ilDBConstants::T_INTEGER, $object->getHintCount()],
-                    'hint_points' => [\ilDBConstants::T_FLOAT, $object->getHintPoints()],
-                    'exam_id' => [\ilDBConstants::T_TEXT, $object->getExamId()],
+                    'exam_id' => [\ilDBConstants::T_TEXT, $result_object->getExamId()]
                 ]
             );
         };
@@ -181,11 +194,11 @@ class Repository
             $callback();
         }
 
-        if ($update_cache) {
+        if ($update_result_cache_table) {
             $this->updateTestResultCache($active_id, $process_locker);
         }
 
-        return $object;
+        return $result_object;
     }
 
     public function finalizeTestAttemptResult(int $active_id, int $attempt, StatusOfAttempt $status_of_attempt): void
@@ -217,20 +230,19 @@ class Repository
         ));
     }
 
-    private function buildTestResultObject(array $test_attempt_result): ParticipantResult
+    private function buildTestResultObject(array $test_attempt_result_array): ParticipantResult
     {
-        $object = $this->toParticipantResult($test_attempt_result);
+        $test_attempt_result = $this->toParticipantResult($test_attempt_result_array);
 
-        $is_passed = $object->getAttempt() <= $test_attempt_result['last_finished_pass'] && $object->isPassed();
-        $passed_once_before = (bool) ($test_attempt_result['passed_once_before'] ?? false);
-        return $object->withPassedOnce($is_passed || $passed_once_before);
+        $is_passed = $test_attempt_result->getAttempt() <= $test_attempt_result_array['last_finished_pass'] && $test_attempt_result->isPassed();
+        $passed_once_before = (bool) ($test_attempt_result_array['passed_once_before'] ?? false);
+        return $test_attempt_result->withPassedOnce($is_passed || $passed_once_before);
     }
 
     private function fetchTestResult(int $active_id, int $attempt): ?array
     {
         return $this->db->fetchAssoc($this->db->queryF(
-            "SELECT pass, SUM(points) AS points, SUM(hint_count) AS hint_count, 
-                    SUM(hint_points) AS hint_points, COUNT(DISTINCT(question_fi)) answeredquestions
+            "SELECT pass, SUM(points) AS points, COUNT(DISTINCT(question_fi)) answeredquestions
                     FROM tst_test_result
                     WHERE active_fi = %s AND pass = %s",
             [\ilDBConstants::T_INTEGER,\ilDBConstants::T_INTEGER],
@@ -241,13 +253,21 @@ class Repository
     private function buildTestAttemptResultObject(int $active_id, array $test_result, ?int $test_obj_id): AttemptResult
     {
         $test_result['active_fi'] = $active_id;
-        $object = $this->toTestAttemptResult($test_result);
-        $additional_data = $this->fetchAdditionalTestData($object->getActiveId(), $object->getAttempt());
+        $test_attempt_result = $this->toTestAttemptResult($test_result);
+        $additional_data = $this->fetchAdditionalTestData($test_attempt_result->getActiveId(), $test_attempt_result->getAttempt());
 
-        return $object->withMaxPoints($additional_data['max_points'])
+        return $test_attempt_result->withMaxPoints($additional_data['max_points'])
             ->withQuestionCount($additional_data['question_count'])
-            ->withWorkingTime($this->fetchWorkingTime($object->getActiveId(), $object->getAttempt()))
-            ->withExamId(\ilObjTest::buildExamId($object->getActiveId(), $object->getAttempt(), $test_obj_id))
+            ->withWorkingTime(
+                $this->fetchWorkingTime($test_attempt_result->getActiveId(), $test_attempt_result->getAttempt())
+            )
+            ->withExamId(
+                \ilObjTest::buildExamId(
+                    $test_attempt_result->getActiveId(),
+                    $test_attempt_result->getAttempt(),
+                    $test_obj_id
+                )
+            )
             ->withTimestamp();
     }
 
@@ -284,7 +304,7 @@ class Repository
                 [\ilDBConstants::T_INTEGER],
                 [$active_id]
             ),
-            default => throw new \ilTestException("not supported question set type: $question_set_type"),
+            default => throw new \ilTestException('not supported question set type: ' . $question_set_type),
         };
 
         $row = $this->db->fetchAssoc($result);
@@ -308,6 +328,19 @@ class Repository
         return $time;
     }
 
+    public function removeTestResults(array $active_ids, int $test_obj_id): void
+    {
+        $condition = $this->db->in('active_fi', $active_ids, false, \ilDBConstants::T_INTEGER);
+
+        $this->db->manipulate("DELETE FROM tst_test_result WHERE {$condition}");
+        $this->db->manipulate("DELETE FROM tst_pass_result WHERE {$condition}");
+
+        $user_ids = $this->db->fetchAll($this->db->query("SELECT user_fi FROM tst_active WHERE {$condition}"));
+        foreach ($user_ids as $row) {
+            $this->cache->delete($row['user_fi'] . ':' . $test_obj_id);
+        }
+    }
+
 
     private function toParticipantResult(?array $row): ?ParticipantResult
     {
@@ -328,8 +361,6 @@ class Repository
             $reached_points,
             $mark,
             (int) ($row['tstamp'] ?? -1),
-            (int) ($row['hint_count'] ?? 0),
-            (float) ($row['hint_points'] ?? 0.0),
             (bool) ($row['passed_once'] ?? false),
         );
     }
@@ -349,8 +380,6 @@ class Repository
             (int) ($row['answeredquestions'] ?? 0),
             (int) ($row['workingtime'] ?? 0),
             (int) ($row['tstamp'] ?? -1),
-            (int) ($row['hint_count'] ?? 0),
-            (float) ($row['hint_points'] ?? 0.0),
             $row['exam_id'] ?? '',
             $row['finalized_by'] ?? '',
         );
@@ -361,23 +390,12 @@ class Repository
         return max(0.0, (float) $value);
     }
 
-
-    public function invalidateStatusCache(array $active_ids, int $test_obj_id): void
-    {
-        $condition = $this->db->in('active_id', $active_ids, false, \ilDBConstants::T_INTEGER);
-        $result = $this->db->fetchAll($this->db->query("SELECT user_fi FROM tst_active WHERE $condition"));
-
-        foreach ($result as $row) {
-            $this->cache->delete($row['user_fi'] . ":" . $test_obj_id);
-        }
-    }
-
     /**
      * @param array{'passed': bool, 'failed': bool, 'finished': bool} $status
      */
     private function updateStatusCache(int $user_id, int $test_obj_id, array $status): void
     {
-        $this->cache->set("$user_id:$test_obj_id", $status);
+        $this->cache->set($user_id . ':' . $test_obj_id, $status);
     }
 
     /**
@@ -385,7 +403,7 @@ class Repository
      */
     private function readOrQueryStatus(int $user_id, int $test_obj_id): ?array
     {
-        $cached_status = $this->cache->get("$user_id:$test_obj_id", $this->refinery->identity());
+        $cached_status = $this->cache->get($user_id . ':' . $test_obj_id, $this->refinery->identity());
         if ($cached_status !== null) {
             return $cached_status;
         }

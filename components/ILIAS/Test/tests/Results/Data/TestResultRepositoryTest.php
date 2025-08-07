@@ -139,7 +139,7 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
     /**
      * @dataProvider provideCachedStatus
      */
-    public function testInvalidateCache(array $query, array $cached_status, array $expected): void
+    public function testRemoveTestResults(array $query, array $cached_status, array $expected): void
     {
         $repository = $this->createInstance();
         $user_id = $query['user_id'];
@@ -154,7 +154,7 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
         $this->assertEquals($expected['hasFinished'], $repository->hasFinished($user_id, $test_obj_id));
 
         $this->mockGetUserIds([['user_fi' => $user_id]]);
-        $repository->invalidateStatusCache([$active_id], $test_obj_id);
+        $repository->removeTestResults([$active_id], $test_obj_id);
 
         // Ensure the data is queried again
         $this->mockReadResultStatusQuery($cached_status);

@@ -384,7 +384,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             || !self::$certificate_preloader->isPreloaded($user_id, $obj_id)
             || !isset(self::$settings_result_summaries_by_obj_id[$obj_id])
             || self::$settings_result_summaries_by_obj_id[$obj_id]->getScoreReporting()
-            === ScoreReportingTypes::SCORE_REPORTING_DISABLED) {
+                === ScoreReportingTypes::SCORE_REPORTING_DISABLED) {
             return false;
         }
 

@@ -86,15 +86,15 @@ class ilTestGradingMessageBuilder
 
     private function buildGradingMarkMsg()
     {
-        $markMsg = $this->lng->txt('grading_mark_msg');
+        $mark_msg = $this->lng->txt('grading_mark_msg');
 
-        $markMsg = str_replace("[mark]", $this->result->getMarkOfficial(), $markMsg);
-        $markMsg = str_replace("[markshort]", $this->result->getMarkShort(), $markMsg);
-        $markMsg = str_replace("[percentage]", sprintf("%.2f", $this->result->getPercentage()), $markMsg);
-        $markMsg = str_replace("[reached]", (string) $this->result->getReachedPoints(), $markMsg);
-        $markMsg = str_replace("[max]", (string) $this->result->getMaxPoints(), $markMsg);
+        $mark_msg = str_replace('[mark]', $this->result->getMarkOfficial(), $mark_msg);
+        $mark_msg = str_replace('[markshort]', $this->result->getMarkShort(), $mark_msg);
+        $mark_msg = str_replace('[percentage]', sprintf('%.2f', $this->result->getPercentage()), $mark_msg);
+        $mark_msg = str_replace('[reached]', (string) $this->result->getReachedPoints(), $mark_msg);
+        $mark_msg = str_replace('[max]', (string) $this->result->getMaxPoints(), $mark_msg);
 
-        return $markMsg;
+        return $mark_msg;
     }
 
     public function buildList()

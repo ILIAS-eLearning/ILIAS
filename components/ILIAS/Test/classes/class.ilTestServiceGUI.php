@@ -644,8 +644,12 @@ class ilTestServiceGUI
 
     protected function getGradingMessageBuilder(int $active_id): ilTestGradingMessageBuilder
     {
-        $resultData = $this->test_result_repository->getTestResult($active_id);
-        return new ilTestGradingMessageBuilder($this->lng, $this->tpl, $this->object, $resultData);
+        return new ilTestGradingMessageBuilder(
+            $this->lng,
+            $this->tpl,
+            $this->object,
+            $this->test_result_repository->getTestResult($active_id)
+        );
     }
 
     protected function buildQuestionRelatedObjectivesList(
