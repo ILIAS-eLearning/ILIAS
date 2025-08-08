@@ -126,9 +126,12 @@
 				let currentThen = null;
 				const modal = loadModal('confirmRemove');
 				modal.then(({node, closeModal}) => node.querySelector('form').addEventListener('submit', e => {
+					const isSubmit = document.activeElement.matches('input[type="submit"]');
 					e.preventDefault();
 					closeModal();
-					currentThen();
+					if (isSubmit) {
+						currentThen();
+					}
 				}));
 
 				return then => {
