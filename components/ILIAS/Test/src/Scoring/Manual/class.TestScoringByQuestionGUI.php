@@ -85,10 +85,10 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
 
         $this->initJavascript();
 
-        if (! ($this->test_access->checkScoreParticipantsAccess()
-            || $this->test_access->checkScoreParticipantsAccessAnon())
-            || !$this->object->getGlobalSettings()->isManualScoringEnabled()
-        ) {
+        $globally_enabled = $this->object->getGlobalSettings()->isManualScoringEnabled();
+        $access_granted = $this->test_access->checkScoreParticipantsAccess()
+            || $this->test_access->checkScoreParticipantsAccessAnon();
+        if (!($globally_enabled && $access_granted)) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
             $this->ctrl->redirectByClass([\ilRepositoryGUI::class, \ilObjTestGUI::class, \ilInfoScreenGUI::class]);
         }
