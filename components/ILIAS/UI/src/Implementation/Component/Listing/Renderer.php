@@ -23,6 +23,7 @@ namespace ILIAS\UI\Implementation\Component\Listing;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 /**
  * Class Renderer
@@ -30,6 +31,7 @@ use ILIAS\UI\Component;
  */
 class Renderer extends AbstractComponentRenderer
 {
+    private const int TRUNCATION_DISPLAY_LIMIT = 2;
     /**
      * @inheritdocs
      */
@@ -86,17 +88,41 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate($tpl_name, true, true);
 
-        if (count($component->getItems()) > 0) {
-            foreach ($component->getItems() as $item) {
-                $tpl->setCurrentBlock("item");
-                if (is_string($item)) {
-                    $tpl->setVariable("ITEM", $item);
-                } else {
-                    $tpl->setVariable("ITEM", $default_renderer->render($item));
-                }
-                $tpl->parseCurrentBlock();
-            }
+        if ($component->getItems() === []) {
+            return $tpl->get();
         }
+
+        $is_truncated = $component->isTruncated();
+        $nr_of_items = 0;
+        $additional_elements = [];
+        foreach ($component->getItems() as $item) {
+            $tpl->setCurrentBlock("item");
+            if (!is_string($item)) {
+                $item = $default_renderer->render($item);
+            }
+
+            if (!$is_truncated || $is_truncated && $nr_of_items < self::TRUNCATION_DISPLAY_LIMIT) {
+                $tpl->setVariable("ITEM", $item);
+                $tpl->parseCurrentBlock();
+                $nr_of_items += 1;
+                continue;
+            }
+            $additional_elements[] = $item;
+        }
+
+        $id_attribute = '';
+        if ($additional_elements !== []) {
+            $component = $component->withAdditionalOnLoadCode(
+                fn($id): string => 'il.UI.Listing.initTruncation('
+                . "document.querySelector('#{$id}'), "
+                . json_encode($additional_elements) . ', '
+                . '"' . sprintf($this->txt('show_all_items'), $nr_of_items + count($additional_elements)) . '", '
+                . '"' . sprintf($this->txt('hide_items'), count($additional_elements)) . '");'
+            );
+            $id_attribute = " id='{$this->bindJavaScript($component)}'";
+        }
+        $tpl->setVariable("ID", $id_attribute);
+
         return $tpl->get();
     }
 
@@ -120,5 +146,14 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
         return $tpl->get();
+    }
+
+    /**
+    * @inheritdoc
+    */
+    public function registerResources(ResourceRegistry $registry): void
+    {
+        parent::registerResources($registry);
+        $registry->register('assets/js/listing.min.js');
     }
 }

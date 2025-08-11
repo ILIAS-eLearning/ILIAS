@@ -27,13 +27,11 @@ use ILIAS\UI\Component\Component;
 
 class Listing extends Column implements C\Listing
 {
-    private ?Closure $truncated_text_closure = null;
-
     public function format($value): string|Component
     {
         $listing = $this->toArray($value);
         $this->checkArgListElements('value', $listing, [Ordered::class, Unordered::class]);
-        return $value;
+        return $value->withIsTruncated(true);
     }
 
     public function getOrderingLabels(): array
@@ -42,22 +40,5 @@ class Listing extends Column implements C\Listing
             $this->asc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_alphabetical_ascending'),
             $this->desc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_alphabetical_descending')
         ];
-    }
-
-    public function withTruncation(?\Closure $truncated_text_closure): self
-    {
-        $clone = clone $this;
-        $clone->truncated_text_closure = $truncated_text_closure;
-        return $clone;
-    }
-
-    public function isTruncationEnabled(): bool
-    {
-        return $this->header_label !== null;
-    }
-
-    public function getTruncatedTextClosure(): ?\Closure
-    {
-        $this->header_text_closure;
     }
 }

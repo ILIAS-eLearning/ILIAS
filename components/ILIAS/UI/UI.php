@@ -594,6 +594,8 @@ class UI implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Item/dist/notification.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "js/Listing/dist/listing.min.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/MainControls/dist/mainbar.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/MainControls/dist/maincontrols.min.js");

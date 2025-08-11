@@ -46,7 +46,8 @@ function base(): string
             'l1' => $f->listing()->unordered([
                 'Apples',
                 'Oranges',
-                'Bananas'
+                'Bananas',
+                'Pears'
             ])
         ],
         [

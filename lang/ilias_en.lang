@@ -17540,10 +17540,7 @@ ui#:#footer_link_groups#:#Footer Link-Groups
 ui#:#footer_links#:#Footer Links
 ui#:#footer_permanent_link#:#Footer Permanent Link
 ui#:#footer_texts#:#Footer Texts
-ui#:#image_alt_text#:#Alternate Text
-ui#:#image_purpose_decorative#:#Decorative Image
-ui#:#image_purpose_informative#:#Informative Image
-ui#:#image_purpose_user_defined#:#Image Purpose
+ui#:#hide_items#:#Hide last %s
 ui#:#label_fieldselection#:#Field Selection
 ui#:#label_fieldselection_refresh#:#Apply
 ui#:#label_modeviewcontrol#:#view mode
@@ -17564,6 +17561,7 @@ ui#:#presentation_table_expand#:#Expand All
 ui#:#rating_average#:#Others rated %s of 5
 ui#:#reset_stars#:#neutral
 ui#:#select_node#:#Add node %s to selection
+ui#:#show_all_items#:#Show all %s
 ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:

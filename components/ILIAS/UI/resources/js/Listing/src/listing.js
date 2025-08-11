@@ -1,5 +1,3 @@
-<?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,13 +11,14 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+ */
 
-declare(strict_types=1);
+import il from 'ilias';
+import truncate from './truncate.js';
 
-namespace ILIAS\UI\Component\Table\Column;
+il.UI = il.UI || {};
+il.UI.Listing = il.UI.Listing || {};
 
-interface Listing extends Column
-{
-}
+il.UI.Listing.initTruncation = (listing, additional_items, lang_var_more, lang_var_less) => {
+  truncate(listing, additional_items, lang_var_more, lang_var_less);
+};

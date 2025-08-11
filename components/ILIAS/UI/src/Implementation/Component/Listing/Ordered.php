@@ -21,11 +21,27 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Listing;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Class Listing
  * @package ILIAS\UI\Implementation\Component\Listing\Listing
  */
-class Ordered extends Listing implements C\Listing\Ordered
+class Ordered extends Listing implements C\Listing\Ordered, C\JavaScriptBindable
 {
+    use JavaScriptBindable;
+
+    protected bool $truncated = false;
+
+    public function withIsTruncated(bool $truncated = false): self
+    {
+        $clone = clone $this;
+        $clone->truncated = $truncated;
+        return $clone;
+    }
+
+    public function isTruncated(): bool
+    {
+        return $this->truncated;
+    }
 }
