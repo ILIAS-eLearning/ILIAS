@@ -144,17 +144,19 @@ class ColumnTest extends ILIAS_UI_TestBase
         return [
             [
                 'column' => new Column\LinkListing($lng, ''),
-                'value' => new Listing\Unordered([(new Link\Standard('label', '#')),(new Link\Standard('label', '#'))]),
+                'value' => (new Listing\Unordered([(new Link\Standard('label', '#')),(new Link\Standard('label', '#'))]))
+                    ->withIsTruncated(true),
                 'ok' => true
             ],
             [
                 'column' => new Column\LinkListing($lng, ''),
-                'value' => new Listing\Unordered(['string', 'string']),
+                'value' => (new Listing\Unordered(['string', 'string']))->withIsTruncated(true),
                 'ok' => false
             ],
             [
                 'column' => new Column\LinkListing($lng, ''),
-                'value' => new Listing\Ordered([(new Link\Standard('label', '#')),(new Link\Standard('label', '#'))]),
+                'value' => (new Listing\Ordered([(new Link\Standard('label', '#')),(new Link\Standard('label', '#'))]))
+                    ->withIsTruncated(true),
                 'ok' => true
             ],
             [
@@ -184,7 +186,12 @@ class ColumnTest extends ILIAS_UI_TestBase
             ],
             [
                 'column' => new Column\Listing($lng, ''),
-                'value' => new Listing\Ordered(['1', '2', '3']),
+                'value' => (new Listing\Ordered(['1', '2', '3']))->withIsTruncated(true),
+                'ok' => true
+            ],
+            [
+                'column' => new Column\Listing($lng, ''),
+                'value' => (new Listing\Unordered(['1', '2', '3']))->withIsTruncated(true),
                 'ok' => true
             ],
             [
@@ -213,7 +220,7 @@ class ColumnTest extends ILIAS_UI_TestBase
     {
         $col = new Column\LinkListing($this->lng, 'col');
         $link = new Link\Standard('label', '#');
-        $linklisting = new Listing\Unordered([$link, $link, $link]);
+        $linklisting = (new Listing\Unordered([$link, $link, $link]))->withIsTruncated(true);
         $this->assertEquals($linklisting, $col->format($linklisting));
     }
 
