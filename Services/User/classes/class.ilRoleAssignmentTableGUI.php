@@ -61,8 +61,9 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
         $this->setRowTemplate("tpl.role_assignment_row.html", "Services/User");
         $this->setEnableTitle(true);
-
-        if ($rbacsystem->checkAccess("edit_roleassignment", USER_FOLDER_ID)) {
+        $this->edit_access = $rbacsystem->checkAccess("edit_roleassignment", USER_FOLDER_ID);
+        
+        if ($this->edit_access) {
             $this->setSelectAllCheckbox("role_id[]");
             $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
             $this->addMultiCommand("assignSave", $lng->txt("change_assignment"));
@@ -92,11 +93,15 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $option[4] = $lng->txt('internal_local_roles_only');
         $option[5] = $lng->txt('non_internal_local_roles_only');
 
-        $si = new ilSelectInputGUI($lng->txt("roles"), "role_filter");
-        $si->setOptions($option);
-        $this->addFilterItem($si);
-        $si->readFromSession();
-        $this->filter["role_filter"] = $si->getValue();
+        if ($this->edit_access) {
+            $si = new ilSelectInputGUI($lng->txt("roles"), "role_filter");
+            $si->setOptions($option);
+            $this->addFilterItem($si);
+            $si->readFromSession();
+            $this->filter["role_filter"] = $si->getValue();
+        } else {
+            $this->filter["role_filter"] = 0;
+        }
     }
 
     protected function fillRow(array $a_set): void // Missing array type.
