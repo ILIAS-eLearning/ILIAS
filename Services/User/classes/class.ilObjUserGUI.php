@@ -1630,7 +1630,7 @@ class ilObjUserGUI extends ilObjectGUI
                         )))                    
         ) {
             $this->ilias->raiseError(
-                $this->lng->txt('msg_no_perm_assign_role_to_user'),
+                $this->lng->txt('msg_no_perm_view_roles_of_user'),
                 $this->ilias->error_obj->MESSAGE
             );
         }
