@@ -49,7 +49,12 @@ class ilObjFileListGUI extends ilObjectListGUI
         $this->capability_context = new Context(
             0,
             0,
-            ($context === self::CONTEXT_REPOSITORY) ? Context::CONTEXT_REPO : Context::CONTEXT_WORKSPACE
+            match($context) {
+                self::CONTEXT_REPOSITORY => Context::CONTEXT_REPO,
+                self::CONTEXT_WORKSPACE => Context::CONTEXT_WORKSPACE,
+                self::CONTEXT_SEARCH => Context::CONTEXT_SEARCH,
+                default => Context::CONTEXT_REPO,
+            }
         );
 
         parent::__construct($context);
@@ -119,7 +124,6 @@ class ilObjFileListGUI extends ilObjectListGUI
     public function getCommandLink(string $cmd): string
     {
         $this->updateContext();
-        $info = $this->file_info->getByObjectId($this->obj_id);
         $this->capabilities = $this->capability_builder->get($this->capability_context);
 
         $needed_capability = Capabilities::fromCommand($cmd);
@@ -201,8 +205,6 @@ class ilObjFileListGUI extends ilObjectListGUI
         $props = parent::getProperties();
 
         $info = $this->file_info->getByObjectId($this->obj_id);
-
-        $revision = $info->getVersion();
 
         $props[] = [
             "alert" => false,

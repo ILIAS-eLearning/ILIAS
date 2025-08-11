@@ -199,8 +199,30 @@ class ilAssQuestionPreviewGUI
                 break;
             case 'ilassspecfeedbackpagegui':
             case 'ilassgenfeedbackpagegui':
-                $forwarder = new ilAssQuestionFeedbackPageObjectCommandForwarder($this->questionOBJ, $this->ctrl, $this->tabs, $this->lng);
-                $forwarder->forward();
+                $page_id = $this->http->wrapper()->query()->retrieve(
+                    'pg_id',
+                    $this->refinery->byTrying([
+                        $this->refinery->kindlyTo()->int(),
+                        $this->refinery->always(null)
+                    ])
+                );
+
+                if ($this->ctrl->getCmd() === 'displayMediaFullscreen'
+                    && $page_id !== null) {
+
+                    (new ilPageObjectGUI(
+                        $nextClass === 'ilassgenfeedbackpagegui' ? 'qfbg' : 'qfbs',
+                        $page_id
+                    ))->displayMediaFullscreen();
+                    break;
+                }
+
+                (new ilAssQuestionFeedbackPageObjectCommandForwarder(
+                    $this->questionOBJ,
+                    $this->ctrl,
+                    $this->tabs,
+                    $this->lng
+                ))->forward();
                 break;
             case 'ilcommentgui':
                 $comment_gui = new ilCommentGUI($this->questionOBJ->getObjId(), $this->questionOBJ->getId(), 'quest');

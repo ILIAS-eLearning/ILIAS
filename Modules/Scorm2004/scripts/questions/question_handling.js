@@ -766,7 +766,7 @@ ilias.questions.selectErrorText = function(a_id, node) {
 };
 
 ilias.questions.assErrorText = function(a_id) {
-    answers[a_id].wrong = 0;
+  answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
 
 	if (questions[a_id].selected === undefined) {
@@ -816,7 +816,8 @@ ilias.questions.assErrorText = function(a_id) {
             }
             if (correct_answers[i].length === l+1) {
                 found++;
-                l = void 0;
+                l = 0;
+                i = void 0;
                 return;
             }
             if (correct_answers[i].length > ++l) {

@@ -228,6 +228,7 @@ class ilDclRecordListGUI
         $form->addItem($item);
 
         $file = new ilFileInputGUI($this->lng->txt("import_file"), "import_file");
+        $file->setSuffixes(['xlsx']);
         $file->setRequired(true);
         $form->addItem($file);
 
@@ -543,7 +544,7 @@ class ilDclRecordListGUI
         );
 
         $switcher->addViewSwitcherToToolbar(
-            $this->table_obj->getVisibleTableViews($this->parent_obj->getRefId()),
+            $this->table_obj->getVisibleTableViews(),
             $this->getTableId(),
             self::class,
             self::CMD_SHOW

@@ -280,8 +280,10 @@ class ilPCInteractiveImage extends ilPageContent
         string $a_shape_type,
         string $a_coords,
         string $a_title,
-        string $a_id
-    ) {
+        string $a_id,
+        string $hl_mode = "",
+        string $hl_class = ""
+    ): void {
         $link = array(
             "LinkType" => IL_EXT_LINK,
             "Href" => ilUtil::stripSlashes("#")
@@ -293,7 +295,9 @@ class ilPCInteractiveImage extends ilPageContent
             $a_coords,
             ilUtil::stripSlashes($a_title),
             $link,
-            $a_id
+            $a_id,
+            $hl_mode,
+            $hl_class
         );
     }
 
@@ -304,7 +308,9 @@ class ilPCInteractiveImage extends ilPageContent
         ilMediaAliasItem $a_alias_item,
         string $a_shape_type,
         string $a_coords,
-        string $a_title
+        string $a_title,
+        string $hl_mode = "",
+        string $hl_class = ""
     ): void {
         $max = 0;
         $triggers = $this->getTriggers();
@@ -317,7 +323,9 @@ class ilPCInteractiveImage extends ilPageContent
             $a_shape_type,
             $a_coords,
             ilUtil::stripSlashes($a_title),
-            (string) ($max + 1)
+            (string) ($max + 1),
+            $hl_mode,
+            $hl_class
         );
 
         $attributes = array("Type" => self::AREA,
@@ -344,8 +352,10 @@ class ilPCInteractiveImage extends ilPageContent
     /**
      * Add a new trigger marker
      */
-    public function addTriggerMarker(): void
-    {
+    public function addTriggerMarker(
+        string $title = "",
+        string $coords = ""
+    ): void {
         $lng = $this->lng;
 
         $max = 0;
@@ -354,13 +364,24 @@ class ilPCInteractiveImage extends ilPageContent
             $max = max($max, (int) $t["Nr"]);
         }
 
+        if ($title === "") {
+            $title = $lng->txt("cont_new_marker");
+        }
+        $markerx = "0";
+        $markery = "0";
+        if ($coords !== "") {
+            $coord_parts = explode(",", $coords);
+            $markerx = ($coord_parts[0] ?? "0");
+            $markery = ($coord_parts[1] ?? "0");
+        }
+
         $attributes = array("Type" => self::MARKER,
-                            "Title" => $lng->txt("cont_new_marker"),
+                            "Title" => $title,
                             "Nr" => $max + 1,
                             "OverlayX" => "0",
                             "OverlayY" => "0",
-                            "MarkerX" => "0",
-                            "MarkerY" => "0",
+                            "MarkerX" => $markerx,
+                            "MarkerY" => $markery,
                             "PopupNr" => "",
                             "PopupX" => "0",
                             "PopupY" => "0",
@@ -651,27 +672,34 @@ class ilPCInteractiveImage extends ilPageContent
         return null;
     }
 
-    public function setTriggerProperties(string $nr, string $title, string $shape_type, string $coords): void
+    public function setTriggerProperties(string $nr, string $title, string $shape_type, string $coords, string $hl_mode = "", string $hl_class = ""): void
     {
         $tr_node = $this->getTriggerNode($nr);
 
         if ($shape_type === "Marker") {
 
-            // set marker properties
-            $tr_node->setAttribute("Type", "Marker");
-            $tr_node->setAttribute(
-                "Title",
-                $title
-            );
-            $coord_parts = explode(",", $coords);
-            $tr_node->setAttribute("MarkerX", ($coord_parts[0] ?? "0"));
-            $tr_node->setAttribute("MarkerY", ($coord_parts[1] ?? "0"));
+            if (!$tr_node) {
+                $this->addTriggerMarker(
+                    ilUtil::stripSlashes($title),
+                    $coords
+                );
+            } else {
+                // set marker properties
+                $tr_node->setAttribute("Type", "Marker");
+                $tr_node->setAttribute(
+                    "Title",
+                    $title
+                );
+                $coord_parts = explode(",", $coords);
+                $tr_node->setAttribute("MarkerX", ($coord_parts[0] ?? "0"));
+                $tr_node->setAttribute("MarkerY", ($coord_parts[1] ?? "0"));
 
-            // remove area
-            $path = "//PageContent[@HierId = '" . $this->hier_id . "']/InteractiveImage/MediaAliasItem/MapArea[@Id='" . $nr . "']";
-            $res = $this->dom_util->path($this->dom_doc, $path);
-            if ($child = $res->item(0)) {
-                $child->parentNode->removeChild($child);
+                // remove area
+                $path = "//PageContent[@HierId = '" . $this->hier_id . "']/InteractiveImage/MediaAliasItem/MapArea[@Id='" . $nr . "']";
+                $res = $this->dom_util->path($this->dom_doc, $path);
+                if ($child = $res->item(0)) {
+                    $child->parentNode->removeChild($child);
+                }
             }
             return;
         }
@@ -680,20 +708,27 @@ class ilPCInteractiveImage extends ilPageContent
             $tr_node->setAttribute("Type", "Area");
             $tr_node->removeAttribute("MarkerX");
             $tr_node->removeAttribute("MarkerY");
-
+            $tr_node->setAttribute(
+                "Title",
+                ilUtil::stripSlashes($title),
+            );
             $this->setMapAreaProperties(
                 $this->getStandardAliasItem(),
                 $shape_type,
                 $coords,
                 ilUtil::stripSlashes($title),
-                $nr
+                $nr,
+                $hl_mode,
+                $hl_class
             );
         } else {
             $this->addTriggerArea(
                 $this->getStandardAliasItem(),
                 $shape_type,
                 $coords,
-                $title
+                $title,
+                $hl_mode,
+                $hl_class
             );
         }
     }

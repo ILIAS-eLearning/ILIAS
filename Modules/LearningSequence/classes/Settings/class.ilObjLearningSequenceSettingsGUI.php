@@ -179,6 +179,11 @@ class ilObjLearningSequenceSettingsGUI
             $if->field(),
             $this->refinery
         );
+        $custom_icon = $lso->getObjectProperties()->getPropertyIcon()->toForm(
+            $this->lng,
+            $if->field(),
+            $this->refinery
+        );
         $image = $lso->getObjectProperties()->getPropertyTileImage()->toForm(
             $this->lng,
             $if->field(),
@@ -188,6 +193,7 @@ class ilObjLearningSequenceSettingsGUI
             [
                 'icon' => $title_icon,
                 'header_actions' => $header_actions,
+                'custom_icon' => $custom_icon,
                 'image' => $image
             ],
             $txt('cont_presentation')
@@ -241,6 +247,7 @@ class ilObjLearningSequenceSettingsGUI
 
             $lso->getObjectProperties()->storePropertyTitleAndIconVisibility($values['common']['icon']);
             $lso->getObjectProperties()->storePropertyHeaderActionVisibility($values['common']['header_actions']);
+            $lso->getObjectProperties()->storePropertyIcon($values['common']['custom_icon']);
             $lso->getObjectProperties()->storePropertyTileImage($values['common']['image']);
 
             $lso->update();

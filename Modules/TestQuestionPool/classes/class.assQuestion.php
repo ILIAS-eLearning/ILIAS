@@ -1741,7 +1741,7 @@ abstract class assQuestion
 
         $this->syncSuggestedSolutions($this->getOriginalId(), $original_obj_id);
         $this->syncXHTMLMediaObjectsOfQuestion();
-        $this->afterSyncWithOriginal($this->getId(), $this->getOriginalId(), $this->getObjId(), $original_obj_id);
+        $this->afterSyncWithOriginal($this->getOriginalId(), $this->getId(), $original_obj_id, $this->getObjId());
         $this->syncHints();
     }
 

@@ -176,7 +176,7 @@ administration#:#auth_auth_mode_determination#:#認証方式決定(ログイン�
 administration#:#auth_automatic#:#固定シーケンス
 administration#:#auth_by_user#:#ユーザの指定
 administration#:#auth_kind_determination#:#確定方式
-administration#:#auth_mode_default_change_info#:#Changing the default authentication method affects all user accounts configured to use the default authentication method. If the selected default method (e.g., Shibboleth, SAML, SOAP, ...) does not support or is not configured to allow fallback to local ILIAS authentication, affected users may no longer be able to log in. To avoid this, please ensure that local fallback authentication is activated in the configuration of the selected method, or that the authentication method stored for affected user accounts is manually changed.###27 05 2025 new variable
+administration#:#auth_mode_default_change_info#:#デフォルト認証方式の変更は、デフォルト認証方式を利用するための全ユーザアカウント構成に影響します。選択のデフォルト方式(例, Shibboleth, SAML, SOAP, ...) がサポートしていない、又はローカルILIAS認証へのフォールバック構成を許可していない場合は、 影響のあるユーザは以降全くログインできなくなる可能性があります。これを回避するために、ローカルフォールバック認証が選択の認証方式の構成で機能するか、影響するユーザアカウント用に保存された認証方式が手動変更される事を確認してください。
 administration#:#auth_mode_determination_info#:#ユーザがログイン画面で認証方式を選択するか、認証方式を固定化したシーケンスで管理するかいずれかを選びます。
 administration#:#clean#:#クリーンアップ
 administration#:#clean_desc#:#無効な参照やツリーエントリーを削除。ツリー構造のギャップを初期化する。
@@ -947,7 +947,7 @@ assessment#:#participants#:#受験者
 assessment#:#participants_invitation#:#手動選択受験者
 assessment#:#participants_invitation_description#:#このテストは"受験者"タブで手動追加したユーザのみアクセスする事ができます。
 assessment#:#participants_results_subtab#:#全受験者
-assessment#:#pass#:#経過
+assessment#:#pass#:#合格回数
 assessment#:#pass_finished#:#%s回
 assessment#:#passed_official#:#合格です
 assessment#:#passed_only#:#テストのみ合格です
@@ -1917,7 +1917,7 @@ assessment#:#tst_tbl_col_pass_finished#:#終了済回数
 assessment#:#tst_tbl_col_passed_status#:#評価
 assessment#:#tst_tbl_col_percent_result#:#回答率
 assessment#:#tst_tbl_col_reached_points#:#達成点
-assessment#:#tst_tbl_col_scored_pass#:#採点回数
+assessment#:#tst_tbl_col_scored_pass#:#合格回数
 assessment#:#tst_tbl_col_started_passes#:#開始済回数
 assessment#:#tst_tbl_invited_users#:#手動で選択の受験者
 assessment#:#tst_tbl_participants#:#受験者
@@ -4528,7 +4528,7 @@ common#:#login_information_settings_saved#:#ログイン情報は正しく保存
 common#:#login_invalid#:#ログインが正しくありません! 次の文字のみ使用できます。　A-Z a-z 0-9 _.-+*@!$%~(最低3文字)
 common#:#login_to_ilias#:#ILIASへログイン
 common#:#login_to_ilias_via_cas#:#中央認証サービス経由でILIASへログイン
-common#:#login_to_ilias_via_login_form#:#Login to ILIAS###27 05 2025 new variable
+common#:#login_to_ilias_via_login_form#:#ILIASへログイン
 common#:#login_to_ilias_via_saml#:#SAML認証経由でILIASへログインする
 common#:#login_to_ilias_via_shibboleth#:#経由でILIASへログイン
 common#:#loginname_already_exists#:#このログイン名は既に使用されています。
@@ -6662,7 +6662,6 @@ content#:#cont_left_float#:#左、フローティング
 content#:#cont_license#:#ライセンス
 content#:#cont_license_info#:#ライセンス機能を有効
 content#:#cont_light#:#明るく
-content#:#cont_link#:#リンク
 content#:#cont_link_area#:#リンクエリヤ
 content#:#cont_link_ext#:#リンク(外部)
 content#:#cont_link_glo_in_lm#:#全ての用語集表現をラーニングモジュール中に今リンクしなければなりませんか。
@@ -6730,7 +6729,6 @@ content#:#cont_mastery_score_12_info#:#SCOが自立的にステータスを決�
 content#:#cont_mastery_score_2004#:#scaled_passing_scoreを上書き
 content#:#cont_mastery_score_2004_info#:#学習モジュールの中央学習オブジェクトは点数がscaled_passing_scoreのある一定レベルに達すると合格として考慮されます。この値 - パーセント値として宣言すべき - は要求レベルを下げる例のようにここで上書きできます。フィールドが空の場合はSCORMマニフェストの情報が有効になります。次の値はマニフェストファイルへ提供されます。
 content#:#cont_max_time_allowed#:#adlcp：maxtimeallowed
-content#:#cont_media#:#Images/Media
 content#:#cont_media_placeh#:#クリックして挿入メディアを編集
 content#:#cont_media_placehl#:#メディアプレースフォルダ
 content#:#cont_media_source#:#メディアソース
@@ -7369,7 +7367,7 @@ copg#:#copg_page_element_not_found#:#ページ要素が見つかりません。
 copg#:#copg_page_type_stys#:#ページをレイアウト
 copg#:#copg_par_format_selection#:#図書式選択
 copg#:#copg_pc_mob_does_not_exist#:#このメディア オブジェクトは存在しません。
-copg#:#copg_plugin_not_avail#:#Plugin %s not available.###10 12 2024 new variable
+copg#:#copg_plugin_not_avail#:#Plugin %s は利用できません
 copg#:#copg_questions_not_supported_here#:#問題はこのコンテキスト内でサポートされません。
 copg#:#copg_reload_page#:#ページの再読み込み
 copg#:#copg_remove_formats#:#書式を削除
@@ -8542,7 +8540,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#次のレコードが作成され
 dcl#:#dcl_change_notification_dcl_update_record#:#次のレコードが更新されました
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_subject#:#データ収集"%s"は変更されました
-dcl#:#dcl_change_why_you_receive_this_email#:#このデータ収集通知を有効にしているのでメッセージを受領します。
 dcl#:#dcl_changed_by#:#更新者
 dcl#:#dcl_checked#:#チェック済
 dcl#:#dcl_comments#:#コメント
@@ -8567,8 +8564,8 @@ dcl#:#dcl_create_fields#:#”表”タブの表をクリックして”新規フ
 dcl#:#dcl_creation_date#:#作成日
 dcl#:#dcl_creation_date_description#:#エントリが作成された日付
 dcl#:#dcl_datatype#:#データタイプ
-dcl#:#dcl_date#:#Date Entry###27 05 2025 new variable
-dcl#:#dcl_date_desc#:#Field for a date.###27 05 2025 new variable
+dcl#:#dcl_date#:#日付入力
+dcl#:#dcl_date_desc#:#日付用のフィールド
 dcl#:#dcl_date_selection#:#日付選択
 dcl#:#dcl_date_selection_desc#:#日付オプションの選択を提示
 dcl#:#dcl_deactivate_view#:#このビューを解除
@@ -8622,7 +8619,6 @@ dcl#:#dcl_formula#:#公式
 dcl#:#dcl_formula_desc#:#数式つきの記録に複数のエントリーを集計できます。
 dcl#:#dcl_formula_detail_desc#:#エントリーは自動生成されますがエントリーを編集することはできません。
 dcl#:#dcl_height#:#高さ
-dcl#:#dcl_hello#:#みなさま
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#内部ID
 dcl#:#dcl_ilias_reference#:#ILIASモジュールへのリンク
@@ -8680,14 +8676,14 @@ dcl#:#dcl_new#:#新規データ収集を作成
 dcl#:#dcl_new_field#:#新規フィールド
 dcl#:#dcl_new_table#:#新規テーブル
 dcl#:#dcl_next_record#:#次のレコード
-dcl#:#dcl_no_content_warning#:#注意、データ収集はオンラインですがまだ内容がありません!
 dcl#:#dcl_no_entry#:#エントリーなし
-dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###27 05 2025 new variable
+dcl#:#dcl_no_export_async_config#:#async用のSOAP構成エクスポートは利用できません。
 dcl#:#dcl_no_export_data_available#:#エクスポート用のデータまたはフィールドがありません
 dcl#:#dcl_no_fields_yet#:#このテーブルに定義されるフィールドがないのでまだ何もエントリを作成できません。
 dcl#:#dcl_no_read_access_on_any_standard_view#:#表のどのスタンダードビューへも読込みアクセス権がありません。
 dcl#:#dcl_no_search_results_found_for#:#モジュールが見つかりません
 dcl#:#dcl_no_such_reference#:#レファレンステーブル中に次の値はありません:
+dcl#:#dcl_no_tableview_found#:#表示可能なテーブルビューがありません!
 dcl#:#dcl_not_checked#:#未チェック
 dcl#:#dcl_not_supported_in_import#:#このタイプのフィールドはインポートではサポートされません。
 dcl#:#dcl_notification_activate_dcl#:#データ収集用の通知を有効にする
@@ -8700,6 +8696,8 @@ dcl#:#dcl_noturl_exception#:#リンク(http://で始まる)を入力する必要
 dcl#:#dcl_number#:#整数
 dcl#:#dcl_number_desc#:#整数値(最大9桁)用のフィールドです。小数や分数ではありません。
 dcl#:#dcl_online_info#:#データ収集がオンラインの場合に限りユーザはデータ収集を使用できます。
+dcl#:#dcl_open_detail_view#:#Open detail view###22.07.2025 new variable
+dcl#:#dcl_open_url#:#Open link###22.07.2025 new variable
 dcl#:#dcl_order#:#順
 dcl#:#dcl_origin_not_found#:#オリジンフィールドが見つかりませんでした。
 dcl#:#dcl_own_entries#:#自己エントリーのみ
@@ -8796,9 +8794,9 @@ dcl#:#dcl_title_standardview#:#標準ビュー
 dcl#:#dcl_unique#:#ユニーク
 dcl#:#dcl_unique_desc#:#このフィールドの値は全てのエントリー内でユニークにする必要があります。
 dcl#:#dcl_unique_exception#:#入力した値はすでに別のレコードで使用されています。
-dcl#:#dcl_unknown#:#Unkown###27 05 2025 new variable
+dcl#:#dcl_unknown#:#不明
 dcl#:#dcl_unknown_exception#:#入力した値は無効です。
-dcl#:#dcl_unknown_plugin#:#Unknown plugin type###27 05 2025 new variable
+dcl#:#dcl_unknown_plugin#:#不明なプラグインタイプ
 dcl#:#dcl_update_field#:#フィールドを更新
 dcl#:#dcl_update_record#:#レコードを更新
 dcl#:#dcl_url#:#URL
@@ -8812,7 +8810,7 @@ dcl#:#dcl_width#:#幅
 dcl#:#dcl_wrong_input_type#:#入力したテキストはこのフィールドの定義(タイプ間違い)と一致しません。
 dcl#:#dcl_wrong_length#:#入力したテキストは長すぎます
 dcl#:#dcl_wrong_regex#:#入力したテキストはこのフィールドの定義(正規表現)と一致しません。
-dcl#:#dcl_xls_async_export#:#as XLSX (asynchronous)###27 05 2025 new variable
+dcl#:#dcl_xls_async_export#:#XLSX (asynchronous)用
 dcl#:#fieldtitle_allow_chars#:#使用できない文字: %s
 dcl#:#fileupload_not_migrated#:#ファイルの統合がまだ完了していないので表示できません。システム管理者へコンタクトしてください。
 didactic#:#activate_exclusive_template#:#グレイアウトの既定値
@@ -9177,6 +9175,7 @@ etal#:#notification_talks_subject#:#招待: %s
 etal#:#notification_talks_subject_update#:#更新: %s
 etal#:#notification_talks_updated#:#次のアポイントはキャンセルされました。
 etal#:#pending_talks_warning#:#次の保留中のトーク予定は変更されます:
+etal#:#tala_no_content_without_admin_info#:#管理者役割がトークテンプレート用には必須です。
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Talksを追加
 etal#:#tals_new#:#新しいトーク
@@ -10936,6 +10935,7 @@ lso#:#lso_player_abstract#:#要約Infoを表示
 lso#:#lso_player_extro#:#最終ページを表示
 lso#:#lso_player_finish#:#終了
 lso#:#lso_player_next#:#次へ
+lso#:#lso_player_noitems#:#ラーニングシーケンスに利用可能なアイテムがありません。
 lso#:#lso_player_previous#:#戻る
 lso#:#lso_player_resume#:#学習シーケンスを再開
 lso#:#lso_player_review#:#学習シーケンスをレビュー
@@ -11199,6 +11199,7 @@ lti#:#lti_object_consumer#:#LTI Consumers
 lti#:#lti_object_release_settings_form#:#LTI Shareを編集
 lti#:#lti_provider#:#LTI-Share
 lti#:#lti_provider_not_avail_msg#:#LTI Providerを'利用不可'に設定する
+lti#:#lti_provider_not_set_msg#:#LTIプロバイダー / ツール構成が完全に終了していません。
 lti#:#lti_providing_tab#:#LTI ProviderとしてのILIAS
 lti#:#lti_released_objects#:#Object-Share
 lti#:#lti_select_provider#:#プロバイダーを選択
@@ -12791,7 +12792,7 @@ noti#:#noti_notification_deactivated#:#通知を解除しました
 notifications_adm#:#enable_osd#:#オンスクリーン通知を有効化
 notifications_adm#:#enable_osd_desc#:#有効にすると新しい通知についてユーザはポップアップ通知されます。
 notifications_adm#:#notification_settings#:#通知設定
-notifications_adm#:#osd_error_refresh_interval_too_small#:#The Refresh Interval has to be at least than 3000 miliseconds.###27 05 2025 new variable
+notifications_adm#:#osd_error_refresh_interval_too_small#:#リフレッシュ間隔は3000ミリ秒以上開ける必要があります。
 notifications_adm#:#osd_interval#:#リフレッシュ間隔
 notifications_adm#:#osd_interval_desc#:#ミリ秒内の新規通知チエック用のポーリング間隔。低い数字がユーザへ素早く通知されますが、Webサーバが処理する要求数の増加につながります。
 notifications_adm#:#osd_play_sound#:#音を再生
@@ -13124,6 +13125,7 @@ prg#:#auto_membership_src_type#:#Type
 prg#:#auto_membership_title#:#メンバーシップ自動化用のソース
 prg#:#auto_memberships#:#メンバーシップ自動化
 prg#:#category#:#RefIdカテゴリー
+prg#:#cert_relevance#:#Certificate
 prg#:#completion_date#:#完了日
 prg#:#confirm_to_remove_selected_assignments#:#本当にユーザ割当てを削除しますか?
 prg#:#cont_ed_insert_prgactionnote#:#学習プログラムアクションNoteを挿入
@@ -13842,7 +13844,7 @@ rbac#:#chtr_moderate#:#ユーザはチャットルームの討議議長ができ
 rbac#:#chtr_read#:#ユーザはチャットルームへの参加と入室ができます
 rbac#:#chtr_visible#:#チャットルームを表示
 rbac#:#chtr_write#:#ユーザはチャットルーム設定と禁止ユーザの編集ができます
-rbac#:#cmis_edit_permission#:#User can change permission settings of xAPI/cmi5 administration.###27 05 2025 new variable
+rbac#:#cmis_edit_permission#:#ユーザはxAPI/cmi5管理のアクセス権の変更権限があります。
 rbac#:#cmis_read#:#ユーザはxAPI/cmi5管理の読込みアクセス権があります。
 rbac#:#cmis_visible#:#xAPI/cmi5が表示されます。
 rbac#:#cmis_write#:#ユーザはxAPI/cmi5管理の設定を編集できます。
@@ -13914,18 +13916,14 @@ rbac#:#dcl_write#:#ユーザは設定とデータ収集内容の編集ができ�
 rbac#:#delete_files#:#ファイルを削除
 rbac#:#delete_folders#:#フォルダを削除
 rbac#:#delete_wiki_pages#:#ページを削除
-rbac#:#dpro_edit_permission#:#User can change permission settings in the Declaration of Data Protected administration###27 05 2025 new variable
-rbac#:#dpro_read#:#User has read access to the Declaration of Data Protection administration###27 05 2025 new variable
-rbac#:#dpro_visible#:#Declaration of Data Protection administration is visible###27 05 2025 new variable
-rbac#:#dpro_write#:#Edit settings in the Declaration of Data Protection###27 05 2025 new variable
+rbac#:#dpro_edit_permission#:#ユーザはデータ保護規約管理のアクセス権設定を変更できます。
+rbac#:#dpro_read#:#ユーザはデータ保護規約の読込アクセス権があります。
+rbac#:#dpro_visible#:#データ保護規約管理を表示
+rbac#:#dpro_write#:#データ保護規約の設定を変更
 rbac#:#dshs_change_presentation#:#ダッシュボード表示のアクセス権を変更
 rbac#:#dshs_edit_permission#:#ユーザはダッシュボード管理のアクセス権設定変更ができます。
-rbac#:#dshs_edit_permission#:#ユーザはダッシュボード管理設定のアクセス権を変更できます
 rbac#:#dshs_read#:#ユーザはダッシュボード管理の読み取りアクセス権があります。
-rbac#:#dshs_read#:#ユーザはダッシュボード管理の読込アクセス権があります
-rbac#:#dshs_visible#:#Dashboard管理を表示します
 rbac#:#dshs_visible#:#ダッシュボード管理を表示
-rbac#:#dshs_write#:#Dashboard 管理の編集設定
 rbac#:#dshs_write#:#ダッシュボード管理設定を編集
 rbac#:#ecss_edit_permission#:#ユーザはECS管理のアクセス権設定を編集できます
 rbac#:#ecss_read#:#ユーザはECS設定全般を読込む事ができます
@@ -14070,10 +14068,10 @@ rbac#:#il_lti_global_role#:#LTI User
 rbac#:#il_sess_participant#:#セッション参加者
 rbac#:#il_sess_status_closed#:#非参加者限定セッション
 rbac#:#ilias_id#:#ILIAS-ID
-rbac#:#impr_edit_permission#:#User can change permission settings of Legal Notice administration###27 05 2025 new variable
-rbac#:#impr_read#:#User can read in Legal Notice administration###27 05 2025 new variable
-rbac#:#impr_visible#:#Administration of Legal Notice is visible###27 05 2025 new variable
-rbac#:#impr_write#:#User can edit content and settings of Legal Notice###27 05 2025 new variable
+rbac#:#impr_edit_permission#:#ユーザは法的通知管理のアクセス権設定変更ができます。
+rbac#:#impr_read#:#ユーザは法的通知管理を読込できます。
+rbac#:#impr_visible#:#法的通知管理を表示
+rbac#:#impr_write#:#ユーザはコンテンツと法的管理設定を変更できます
 rbac#:#info_user_view_changed#:#ユーザ表示の変更
 rbac#:#internal_mail#:#内部メール
 rbac#:#invite#:#サーベイへ招待
@@ -14121,7 +14119,7 @@ rbac#:#lso_read_learning_progress#:#ユーザは他のユーザの学習進捗�
 rbac#:#lso_unparticipate#:#ユーザは学習シーケンスを購読解除できます
 rbac#:#lso_visible#:#学習シーケンスを表示します。
 rbac#:#lso_write#:#ユーザは学習シーケンスの設定を変更できます
-rbac#:#lsos_edit_permission#:#User can change permission settings of Learning Sequences administration.###27 05 2025 new variable
+rbac#:#lsos_edit_permission#:#ユーザは法的通知管理のアクセス権設定を変更できます。
 rbac#:#lsos_read#:#ユーザはLearning Sequenceの読込みアクセス権があります。
 rbac#:#lsos_visible#:#Learning Sequence管理が表示されます。
 rbac#:#lsos_write#:#ユーザはLearning Sequence管理の設定を編集できます。
@@ -14178,20 +14176,16 @@ rbac#:#mme_read#:#ユーザはメインメニュの管理へ読み込みアク�
 rbac#:#mme_visible#:#メインメニュー管理を表示します
 rbac#:#mme_write#:#ユーザはメインメニュー管理の設定を変更できます。
 rbac#:#mobs_edit_permission#:#ユーザはメディアオブジェクト/メディア集管理のアクセス権設定変更ができます。
-rbac#:#mobs_edit_permission#:#ユーザはメディアオブジェクト・集管理のアクセス権設定を変更できます
 rbac#:#mobs_read#:#ユーザはメディアオブジェクト/メディア集管理の読込アクセス権があります。
-rbac#:#mobs_read#:#ユーザはメディアオブジェクト・集管理への読込アクセス権があります
 rbac#:#mobs_visible#:#メディアオブジェクト/メディア集管理を表示
-rbac#:#mobs_visible#:#メディアオブジェクト・集管理を表示
 rbac#:#mobs_write#:#ユーザはメディアオブジェクト/メディア集管理の設定変更ができます。
-rbac#:#mobs_write#:#ユーザはメディアオブジェクト・集管理の設定を編集できます
 rbac#:#moderate#:#モデレート
 rbac#:#moderate_frm#:#モデレータ役
 rbac#:#msg_anonymous_cannot_be_assigned#:#匿名は役割を割り当てることができません。
 rbac#:#msg_no_roles_of_type#:#選択したフィルタ設定には利用可能な役割がありません
 rbac#:#news_add_news#:#ニュースを追加
 rbac#:#no_corresponding_roles#:#該当する役割が見つかりませんでした。
-rbac#:#nots_edit_permission#:#User can change permission settings of Notes administration.###27 05 2025 new variable
+rbac#:#nots_edit_permission#:#ユーザはノート管理設定変更のアクセス権があります。
 rbac#:#nots_read#:#ユーザは通知管理の読込みアクセス権があります。
 rbac#:#nots_visible#:#通知管理が表示されます。
 rbac#:#nots_write#:#ユーザは通知管理の設定を編集できます。
@@ -14268,7 +14262,7 @@ rbac#:#prgs_edit_permission#:#学習プログラム管理のアクセス権設�
 rbac#:#prgs_read#:#ユーザは学習プログラム管理へ読み込みアクセス権があります。
 rbac#:#prgs_visible#:#学習プログラム管理が表示されます。
 rbac#:#prgs_write#:#学習；プログラム管理の設定を編集
-rbac#:#prss_edit_permission#:#User can change permission settings of Personal Resources administration.###27 05 2025 new variable
+rbac#:#prss_edit_permission#:#ユーザはパーソナルリソース管理のアクセス権設定を変更できます。
 rbac#:#prss_read#:#ユーザはパーソナルリソース管理の読込みアクセス権があります。
 rbac#:#prss_visible#:#パーソナルリソースが表示されます。
 rbac#:#prss_write#:#ユーザはパーソナルリソース管理の設定を編集できます。
@@ -14306,10 +14300,10 @@ rbac#:#rbac_choose_copy_targets#:#選択しているターゲット役割名を�
 rbac#:#rbac_condition_delete_sure#:#次の前提条件を本当に削除しますか?
 rbac#:#rbac_context_global#:#グローバル
 rbac#:#rbac_copy_behaviour#:#コピー設定の役割
-rbac#:#rbac_copy_behaviour_info#:#Transfer Permissions from: %s to: %s###27 05 2025 new variable
+rbac#:#rbac_copy_behaviour_info#:#アクセス権を: %s から: %s へ転送
 rbac#:#rbac_copy_finished#:#コピーを終了しました。
-rbac#:#rbac_copy_multi_targets#:#%s, %s and %s further Roles selected%s###27 05 2025 new variable
-rbac#:#rbac_copy_no_targets#:#At least one Role must be selected as Target###27 05 2025 new variable
+rbac#:#rbac_copy_multi_targets#:#%s, %s と %s の他に選択した役割 %s
+rbac#:#rbac_copy_no_targets#:#目標として一つは役割を選択する必要があります。
 rbac#:#rbac_copy_role#:#役割をコピー
 rbac#:#rbac_copy_role_add_perm#:#アクセス権を追加
 rbac#:#rbac_copy_role_copy#:#アクセス権をコピー
@@ -14430,7 +14424,7 @@ rbac#:#rbac_role_rights_copy_empty#:#None
 rbac#:#rbac_role_selection#:#役割のタイプ
 rbac#:#rbac_role_title#:#役割タイトル
 rbac#:#rbac_select_copy_targets#:#ターゲットの役割を選択してください
-rbac#:#rbac_select_roles#:#Select Roles###27 05 2025 new variable
+rbac#:#rbac_select_roles#:#役割を選択
 rbac#:#rbac_ud_global#:#ユーザ定義のグローバル役割
 rbac#:#rbac_ud_local#:#ユーザ定義のローカル役割
 rbac#:#rbac_ud_rolt#:#ユーザ定義の役割テンプレート
@@ -14621,7 +14615,7 @@ rbac#:#usrf_read#:#ユーザはユーザ管理の読込アクセス権があり�
 rbac#:#usrf_read_users#:#ユーザはローカルユーザアカウント(ローカル管理)の読込アクセス権があります
 rbac#:#usrf_visible#:#ユーザ管理を表示
 rbac#:#usrf_write#:#ユーザ管理の設定を編集
-rbac#:#wbdv_edit_permission#:#User can change permission settings of WebDAV administration.###27 05 2025 new variable
+rbac#:#wbdv_edit_permission#:#ユーザはWebDAV管理設定変更のアクセス権があります。
 rbac#:#wbdv_read#:#ユーザはWebDAV管理の読込みアクセス権があります。
 rbac#:#wbdv_visible#:#WebDAVが表示されます。
 rbac#:#wbdv_write#:#ユーザはWebDAV管理の設定を編集できます。
@@ -15743,7 +15737,7 @@ style#:#sty_ca_cntr_class#:#カルーセルコンテナ
 style#:#sty_ca_icntr_class#:#カルーセルアイテムコンテナ
 style#:#sty_ca_icont_class#:#カルーセルアイテムコンテンツ
 style#:#sty_ca_ihead_class#:#カルーセルアイテムヘッダー
-style#:#sty_cannot_be_copied#:#The following style types cannot be copied###27 05 2025 new variable
+style#:#sty_cannot_be_copied#:#ユーザは次のスタイルタイプをコピーできません。
 style#:#sty_caption#:#見出し
 style#:#sty_caption_class#:#見出し
 style#:#sty_carousel_templates#:#カルーセルテンプレート
@@ -16033,7 +16027,6 @@ style#:#sty_white_space#:#空白
 style#:#sty_width#:#幅
 style#:#sty_width_height#:#幅 x 高さ
 style#:#sty_word_spacing#:#文字の間隔
-style#:#style#:#Style
 style#:#style_assignments_deleted#:#次のサブスタイルのスタイル割当ては削除されました:
 style#:#style_copied#:#スタイルは正しくコピーされました。
 style#:#style_current_style#:#現在のスタイル
@@ -17387,6 +17380,7 @@ validation#:#not_min_length#:#入力の長さはf %dで最小長%dなので失�
 validation#:#not_numeric#:#%s' は数字ではありません。
 validation#:#not_numeric_empty_string#:#入力が数字ではありません。
 validation#:#numeric_only#:#全ての番号を挿入してください。
+validation#:#required#:#この入力は必須です。
 validation#:#tag_required#:#tagを一つは挿入してください。
 violation#:#not_a_string#:#入力の値がストリングではありません。
 webr#:#invalid_links_tbl#:#不正なリンク
@@ -17440,7 +17434,7 @@ wiki#:#wiki_change_notification_page_body_delete#:#次のwikiページが削除�
 wiki#:#wiki_change_notification_page_body_update#:#次のwikiページがアップロードされました
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_salutation#:#こんにちは%s, さん
-wiki#:#wiki_change_notification_subject#:#Wiki "%s"が更新されました。
+wiki#:#wiki_change_notification_subject#:#Wiki "%1$s" が更新されました: %2$s
 wiki#:#wiki_changed_by#:#更新者
 wiki#:#wiki_commented_by#:#コメント者
 wiki#:#wiki_contributor#:#寄稿者

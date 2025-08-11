@@ -27,6 +27,10 @@ use ILIAS\FileDelivery\Setup\BaseDirObjective;
  */
 class ShortFilePayload extends StructuredPayload
 {
+    protected string $mime_type = '';
+    protected string $disposition = '';
+    protected int $user_id = 0;
+
     public function __construct(
         private string $uri,
         private string $file_name
@@ -39,7 +43,8 @@ class ShortFilePayload extends StructuredPayload
 
         parent::__construct([
             'p' => $uri,
-            'n' => $file_name
+            'n' => $file_name,
+            'd' => filemtime($this->uri)
         ]);
     }
 
@@ -47,7 +52,8 @@ class ShortFilePayload extends StructuredPayload
     {
         return new self(
             $raw_payload['p'],
-            $raw_payload['n']
+            $raw_payload['n'],
+            $raw_payload['d']
         );
     }
 
@@ -57,7 +63,7 @@ class ShortFilePayload extends StructuredPayload
         // try to expand uri
         $base = BaseDirObjective::get();
         if ($base !== null) {
-            $uri = $base . $uri;
+            return $base . $uri;
         }
 
         return $uri;

@@ -18,16 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @noinspection AutoloadingIssuesInspection
- */
-class ilDclFileRecordQueryObject extends ilDclRecordQueryObject
+class ilDclException extends ilException
 {
-    public function applyCustomSorting(
-        ilDclBaseFieldModel $field,
-        array $all_records,
-        string $direction = 'asc'
-    ): array {
-        return $all_records;
-    }
 }

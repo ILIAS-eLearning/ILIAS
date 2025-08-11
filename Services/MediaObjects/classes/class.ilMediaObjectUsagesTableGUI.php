@@ -280,7 +280,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
         }
 
         if (($usage["type"] ?? "") != "clip") {
-            if ($item["obj_link"]) {
+            if ($item["obj_link"] ?? false) {
                 $this->tpl->setCurrentBlock("linked_item");
                 $this->tpl->setVariable("TXT_OBJECT", $item["obj_title"]);
                 $this->tpl->setVariable("HREF_LINK", $item["obj_link"]);

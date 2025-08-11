@@ -177,13 +177,10 @@ class ilTestPassResultsTable
             $env = $environment[self::ENV];
             $lng = $environment[self::LNG];
 
-            $title = sprintf(
-                '%s [ID: %s]',
-                htmlspecialchars($question_result->getTitle()),
-                (string) $question_result->getId()
-            );
+            $title = htmlspecialchars($question_result->getTitle());
 
             $important_fields = [
+                $lng->txt('position') => (string) ($question_result->getPosition() + 1),
                 $lng->txt('question_id') => (string) $question_result->getId(),
                 $lng->txt('question_type') => $lng->txt($question_result->getType()),
                 $lng->txt('points') => sprintf(

@@ -22,8 +22,8 @@ require_once 'Modules/Test/classes/inc.AssessmentConstants.php';
 
 class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 {
-    public const EXCEPT_FINALIZED = 1;
-    public const ONLY_FINALIZED = 2;
+    public const EXCEPT_FINALIZED = '1';
+    public const ONLY_FINALIZED = '2';
 
     public function __construct(ilObjTest $a_object)
     {
@@ -71,7 +71,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
         $qst_id = (int) $table->getFilterItemByPostVar('question')->getValue();
         $passNr = $table->getFilterItemByPostVar('pass')->getValue();
-        $finalized_filter = (int) $table->getFilterItemByPostVar('finalize_evaluation')->getValue();
+        $finalized_filter = $table->getFilterItemByPostVar('finalize_evaluation')->getValue();
         $answered_filter = $table->getFilterItemByPostVar('only_answered')->getChecked();
         $table_data = [];
         $selected_questionData = null;
@@ -319,7 +319,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                         $maxPointsByQuestionId[$qst_id],
                         $pass,
                         true,
-                        $this->object->areObligationsEnabled()
+                        $this->object->areObligationsEnabled(),
+                        $this->getTestAccess()->getTestId()
                     );
                 }
             }

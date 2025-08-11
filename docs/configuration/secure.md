@@ -413,23 +413,23 @@ Ensure you have `mod_headers.so` enabled in Apache2:
 
 ```
 <IfModule mod_headers.c>
-    Header always set Strict-Transport-Security "max-age=15552000; includeSubDomains; preload"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 </IfModule>
 ```
 
 #### NGINX
 
 ```
-    add_header Strict-Transport-Security "max-age=15552000; includeSubDomains" preload;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" preload;
 ```
 
-**Warning:** Before activating the configuration above you MUST make sure that you have a good workflow for maintaining your SSL settings (including certificate renewals) as you will not be able to disable HTTPS access to your site for up to 6 months.
+**Warning:** Before activating the configuration above you MUST make sure that you have a good workflow for maintaining your SSL settings (including certificate renewals) as you will not be able to disable HTTPS access to your site for up to 12 months.
 
 **Tip:** When you test HSTS, use a very short max-age timeout
 
 ```
 includeSubDomains:       Restrictions also apply to all subdomains of the current domain.
-max-age:                 Duration of cached information (180 days)
+max-age:                 Duration of cached information (1 year)
 ```
 
 ### Generate the ILIAS `ilClientId` cookie with `secure` attribute

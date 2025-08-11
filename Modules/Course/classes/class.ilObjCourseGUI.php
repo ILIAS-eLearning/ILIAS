@@ -834,7 +834,6 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->object->enableSubscriptionMembershipLimitation((bool) $form->getInput('subscription_membership_limitation'));
         $this->object->setSubscriptionMaxMembers((int) $form->getInput('subscription_max'));
         $this->object->setSubscriptionMinMembers((int) $form->getInput('subscription_min'));
-        $old_autofill = $this->object->hasWaitingListAutoFill();
         switch ((int) $form->getInput('waiting_list')) {
             case 2:
                 $this->object->enableWaitingList(true);
@@ -908,9 +907,6 @@ class ilObjCourseGUI extends ilContainerGUI
             }
         }
 
-        if (!$old_autofill && $this->object->hasWaitingListAutoFill()) {
-            $this->object->handleAutoFill();
-        }
         $this->object->update();
 
         ilObjectServiceSettingsGUI::updateServiceSettingsForm(

@@ -229,7 +229,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
                         <h1 class="modal-title">different label</h1>
                     </div>
                     <div class="modal-body">$msg_html
-                        <form id="id_3" role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="http://localhost/ilias.php" method="post" novalidate="novalidate">
+                        <form id="id_3" role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="http://localhost/ilias.php" method="post" >
                             <div class="form-group row">
                                 <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">Understood</label>
                                 <div class="col-sm-8 col-md-9 col-lg-10">

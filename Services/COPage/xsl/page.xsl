@@ -267,6 +267,8 @@
 			<xsl:if test="$map_edit_mode != 'get_coords'">
 				<span style="display:none;">
 					<xsl:attribute name="data-copg-iim-data-type">area</xsl:attribute>
+					<xsl:attribute name="data-copg-iim-hl-mode"><xsl:value-of select="@HighlightMode"/></xsl:attribute>
+					<xsl:attribute name="data-copg-iim-hl-class"><xsl:value-of select="@HighlightClass"/></xsl:attribute>
 					<xsl:attribute name="data-copg-iim-area-id">marea_<xsl:value-of select = "$pg_id"/>_<xsl:number count="MapArea" level="any" /></xsl:attribute>
 					<xsl:attribute name="data-copg-iim-id"><xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" /></xsl:attribute>
 					<xsl:attribute name="data-copg-iim-tr-nr"><xsl:value-of select = "@Id" /></xsl:attribute>

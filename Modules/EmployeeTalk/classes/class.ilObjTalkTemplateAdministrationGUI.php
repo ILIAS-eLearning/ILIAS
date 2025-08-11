@@ -138,6 +138,17 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
             $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->WARNING);
         }
 
+        /**
+         * Non-admins don't have any access to templates, because
+         * templates don't have permissions.
+         */
+        if (!in_array(SYSTEM_ROLE_ID, $this->rbacreview->assignedRoles($this->user->getId()), true)) {
+            $this->tpl->setOnScreenMessage(
+                ilGlobalTemplateInterface::MESSAGE_TYPE_INFO,
+                $this->lng->txt("tala_no_content_without_admin_info")
+            );
+        }
+
         parent::renderObject();
     }
 

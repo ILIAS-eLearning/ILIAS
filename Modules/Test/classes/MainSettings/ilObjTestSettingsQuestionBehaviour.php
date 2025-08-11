@@ -197,7 +197,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
         );
 
         $instant_feedback = $f->optionalGroup(
-            $this->getSubInputInstantFeedback($lng, $f),
+            $this->getSubInputInstantFeedback($lng, $f, $environment),
             $lng->txt('tst_instant_feedback'),
             $lng->txt('tst_instant_feedback_desc')
         )->withValue(null)
@@ -228,7 +228,8 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
 
     private function getSubInputInstantFeedback(
         \ilLanguage $lng,
-        FieldFactory $f
+        FieldFactory $f,
+        array $environment
     ): array {
         $feedback_options = [
             'instant_feedback_points' => $f->checkbox(
@@ -264,9 +265,15 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
             '1',
             $lng->txt('tst_instant_feedback_trigger_forced'),
             $lng->txt('tst_instant_feedback_trigger_forced_desc')
-        )->withRequired(true);
+        );
 
+        if (!$environment['participant_data_exists']) {
+            $sub_inputs_feedback['feedback_trigger'] = $sub_inputs_feedback['feedback_trigger']
+                ->withRequired(true);
+        }
         return $sub_inputs_feedback;
+
+
     }
 
     private function getInputLockAnswers(

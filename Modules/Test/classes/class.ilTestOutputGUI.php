@@ -161,6 +161,19 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                 $ret = $this->ctrl->forwardCommand($gui);
 
                 break;
+            case 'ilassspecfeedbackpagegui':
+            case 'ilassgenfeedbackpagegui':
+                $id = $this->testrequest->int('pg_id');
+                if ($this->ctrl->getCmd() !== 'displayMediaFullscreen'
+                    || $id === 0) {
+                    break;
+                }
+
+                (new ilPageObjectGUI(
+                    $next_class === 'ilassgenfeedbackpagegui' ? 'qfbg' : 'qfbs',
+                    $id
+                ))->displayMediaFullscreen();
+                break;
 
             case 'iltestpasswordprotectiongui':
                 $this->checkTestExecutable();

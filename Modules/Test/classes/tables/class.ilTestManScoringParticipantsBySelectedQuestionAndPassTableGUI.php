@@ -138,11 +138,11 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
             $this->lng->txt('finalized_evaluation'),
             'finalize_evaluation'
         );
-        $evaluated = array(
-            $this->lng->txt('all_users'),
-            $this->lng->txt('evaluated_users'),
-            $this->lng->txt('not_evaluated_users')
-        );
+        $evaluated = [
+            '' => $this->lng->txt('all_users'),
+            ilTestScoringByQuestionsGUI::ONLY_FINALIZED => $this->lng->txt('evaluated_users'),
+            ilTestScoringByQuestionsGUI::EXCEPT_FINALIZED => $this->lng->txt('not_evaluated_users')
+        ];
         $correction->setOptions($evaluated);
         $this->addFilterItem($correction);
         $correction->readFromSession();

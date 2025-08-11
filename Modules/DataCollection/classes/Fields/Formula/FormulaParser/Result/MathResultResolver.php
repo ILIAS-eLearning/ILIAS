@@ -156,9 +156,7 @@ class MathResultResolver implements ResultResolver
         }
         // If one element is left on stack, we are done. Otherwise calculate
         if ($stack->count() === 1) {
-            $result = $stack->pop();
-
-            $value = (ctype_digit((string) $result)) ? $result : number_format($result, 2, '.', "'");
+            $value = (int) round((float) $stack->pop());
             return [$value, $last_operator ?? null];
         }
 

@@ -724,7 +724,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
                     // Reorder feedback
                     $feedback_order_db = intval($feedback_option['answer']);
-                    $db_answer_id = $db_answer_id_for_order[$feedback_order_db];
+                    $db_answer_id = $db_answer_id_for_order[$feedback_order_db] ?? null;
                     // This cuts feedback that currently would have no corresponding answer
                     // This case can happen while copying "broken" questions
                     // Or when saving a question with less answers than feedback

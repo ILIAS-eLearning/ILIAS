@@ -360,4 +360,29 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
         $this->db->manipulate('UPDATE tst_pass_result SET points = 0 WHERE points < 0');
         $this->db->manipulate('UPDATE tst_result_cache SET reached_points = 0 WHERE reached_points < 0');
     }
+
+    public function step_22(): void
+    {
+        $this->db->modifyTableColumn(
+            'tst_tests',
+            'starting_time',
+            [
+                'length' => 8
+            ]
+        );
+        $this->db->modifyTableColumn(
+            'tst_tests',
+            'ending_time',
+            [
+                'length' => 8
+            ]
+        );
+    }
+
+    public function step_23(): void
+    {
+        $this->db->manipulate(
+            'DELETE FROM settings WHERE module="assessment" AND keyword="assessment_man_scoring_fix_run"'
+        );
+    }
 }

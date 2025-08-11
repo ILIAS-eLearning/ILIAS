@@ -103,7 +103,7 @@ class ItemRenderer
             $item_list_gui->enableDownloadCheckbox((int) $a_item_data["ref_id"]);
         }
 
-        if ($item_ordering && $a_item_data['type'] !== 'sess') {
+        if ($item_ordering) {
             $item_list_gui->setPositionInputField(
                 $a_pos_prefix . "[" . $a_item_data["ref_id"] . "]",
                 sprintf('%d', $a_position * 10)

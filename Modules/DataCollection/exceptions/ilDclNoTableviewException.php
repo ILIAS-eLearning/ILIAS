@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-class ilDclException extends ilException
+class ilDclNoTableviewException extends ilException
 {
-    public function __construct($a_message, $a_code = 0)
-    {
-        parent::__construct($a_message, $a_code);
-    }
 }

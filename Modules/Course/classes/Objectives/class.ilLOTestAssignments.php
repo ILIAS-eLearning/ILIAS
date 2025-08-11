@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * Settings for LO courses
@@ -176,7 +177,7 @@ class ilLOTestAssignments
             }
         } elseif ($this->getSettings()->worksWithInitialTest()) {
             foreach ($this->assignments as $assignment) {
-                if ($assignment->getTestRefId() == $a_test_ref_id) {
+                if ($assignment->getTestRefId() == $a_test_ref_id && $assignment->getAssignmentType() == ilLOSettings::TYPE_TEST_INITIAL) {
                     return ilLOSettings::TYPE_TEST_INITIAL;
                 }
             }
@@ -187,7 +188,7 @@ class ilLOTestAssignments
             }
         } else {
             foreach ($this->assignments as $assignment) {
-                if ($assignment->getTestRefId() == $a_test_ref_id) {
+                if ($assignment->getTestRefId() == $a_test_ref_id && $assignment->getAssignmentType() == ilLOSettings::TYPE_TEST_QUALIFIED) {
                     return ilLOSettings::TYPE_TEST_QUALIFIED;
                 }
             }

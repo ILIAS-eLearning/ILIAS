@@ -384,7 +384,13 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         }
         $this->addFilterItem($ri);
         $ri->readFromSession();
-        $this->filter['repository_root_node'] = $ri->getValue();
+
+        if (!$this->tree->isDeleted($ri->getValue())
+            && $this->tree->isInTree($ri->getValue())) {
+            $this->filter['repository_root_node'] = $ri->getValue();
+        } else {
+            $ri->setValue(self::REPOSITORY_ROOT_NODE_ID);
+        }
     }
 
     private function getParentObjectLabel(): string

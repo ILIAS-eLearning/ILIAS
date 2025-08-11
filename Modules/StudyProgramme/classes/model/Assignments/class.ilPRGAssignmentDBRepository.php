@@ -623,9 +623,9 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         $udf_data = new ilUserDefinedData((int) $row[self::ASSIGNMENT_FIELD_USR_ID]);
         $user_data_values = [];
         foreach ($this->user_data_fields as $field) {
-            switch($field) {
+            switch ($field) {
                 case 'active':
-                    $user_data_values[$field] = (bool)$row[$field];
+                    $user_data_values[$field] = (bool) $row[$field];
                     break;
                 case 'org_units':
                     //$user_data_values[$field] = ilObjUser::lookupOrgUnitsRepresentation((int) $row[self::ASSIGNMENT_FIELD_USR_ID]);
@@ -806,7 +806,7 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
     public function getLatestAssignment(int $root_prg_obj_id, int $usr_id): ?ilPRGAssignment
     {
         $assignments = $this->getForUserOnNode($usr_id, $root_prg_obj_id);
-        if($assignments === []) {
+        if ($assignments === []) {
             return null;
         }
         usort(
@@ -821,18 +821,18 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
     public function getLongestValidAssignment(int $root_prg_obj_id, int $usr_id): ?ilPRGAssignment
     {
         $assignments = $this->getForUserOnNode($usr_id, $root_prg_obj_id);
-        if($assignments === []) {
+        if ($assignments === []) {
             return null;
         }
 
         $now = new \DateTimeImmutable();
         $valid = array_filter($assignments, fn($ass) => $ass->getProgressTree()->hasValidQualification($now));
-        if($valid === []) {
+        if ($valid === []) {
             return null;
         }
 
         $unlimited = array_filter($valid, fn($ass) => $ass->getProgressTree()->getValidityOfQualification() === null);
-        if($unlimited !== []) {
+        if ($unlimited !== []) {
             usort(
                 $unlimited,
                 fn(ilPRGAssignment $a, ilPRGAssignment $b)
@@ -849,5 +849,31 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         );
         $valid = array_reverse($valid);
         return current($valid);
+    }
+
+    public function getCertificateRelevantAssignmentIds(int $prg_obj_id, int ...$usr_id): array
+    {
+        $query = 'SELECT assignment_id FROM (' . PHP_EOL
+            . 'SELECT usr_id, assignment_id, ROW_NUMBER() OVER (' . PHP_EOL
+                . 'PARTITION BY usr_id' . PHP_EOL
+                . 'ORDER BY' . PHP_EOL
+                . 'CASE WHEN vq_date IS NULL THEN 1 ELSE 0 END DESC,' . PHP_EOL
+                . 'vq_date DESC,' . PHP_EOL
+                . 'completion_date DESC' . PHP_EOL
+            . ') AS row_numbers' . PHP_EOL
+        . 'FROM prg_usr_progress' . PHP_EOL
+        . 'WHERE prg_id = ' . $this->db->quote($prg_obj_id, 'integer') . PHP_EOL
+        . 'AND ' . $this->db->in('usr_id', $usr_id, false, 'integer') . PHP_EOL
+        . 'AND ' . $this->db->in('status', [ilPRGProgress::STATUS_COMPLETED, ilPRGProgress::STATUS_ACCREDITED], false, 'integer') . PHP_EOL
+        . ') ranked ' . PHP_EOL
+        . 'WHERE row_numbers = 1';
+
+        $res = $this->db->query($query);
+        $row = array_map(
+            fn($r) => $r['assignment_id'],
+            $this->db->fetchAll($res)
+        );
+
+        return $row;
     }
 }

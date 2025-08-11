@@ -182,26 +182,28 @@ class ilBookingParticipant
             $user_name = ilObjUser::_lookupName($row['user_id']);
             $name = $user_name['lastname'] . ", " . $user_name['firstname'];
             $index = $a_booking_pool . "_" . $row['user_id'];
-            $actions = array();
 
+            $title = (string) ($row['title'] ?? '');
+            $object_id = (int) ($row['object_id'] ?? -1);
             if (!isset($res[$index])) {
-                $res[$index] = array(
-                    "object_title" => array(),
-                    "name" => $name
-                );
+                $res[$index] = ['object_title' => [], 'obj_count' => 0, 'object_ids' => [], 'name' => $name];
 
-                if ($status != ilBookingReservation::STATUS_CANCELLED && $row['title'] !== "") {
-                    $res[$index]['object_title'] = array($row['title']);
+                if (
+                    $status !== ilBookingReservation::STATUS_CANCELLED
+                    && $title !== ''
+                    && $object_id !== -1
+                ) {
+                    $res[$index]['object_title'] = [$title];
                     $res[$index]['obj_count'] = 1;
-                    $res[$index]['object_ids'][] = $row['object_id'];
+                    $res[$index]['object_ids'][] = $object_id;
                 }
-            } elseif ($row['title'] !== "" && (!in_array($row['title'], $res[$index]['object_title'], true) && $status != ilBookingReservation::STATUS_CANCELLED)) {
-                $res[$index]['object_title'][] = $row['title'];
+            } elseif ($title !== '' && (!in_array($title, $res[$index]['object_title'], true) && $status !== ilBookingReservation::STATUS_CANCELLED)) {
+                $res[$index]['object_title'][] = $title;
                 if (!isset($res[$index]['obj_count'])) {
                     $res[$index]['obj_count'] = 0;
                 }
                 $res[$index]['obj_count'] += 1;
-                $res[$index]['object_ids'][] = $row['object_id'];
+                $res[$index]['object_ids'][] = $object_id;
             }
             $res[$index]['user_id'] = $row['user_id'];
         }
@@ -211,6 +213,7 @@ class ilBookingParticipant
                 $res[$index]['object_ids'][] = $row['object_id'];
             }
         }
+
         return $res;
     }
 

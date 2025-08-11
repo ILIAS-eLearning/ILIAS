@@ -36,7 +36,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
     public function __construct(
         int $prg_obj_id,
-        int $prg_ref_id,
+        protected int $prg_ref_id,
         ilObjStudyProgrammeMembersGUI $parent_obj,
         ilPRGPermissionsHelper $permissions,
         Data\Factory $data_factory,
@@ -52,7 +52,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         $this->prg_obj_id = $prg_obj_id;
         $this->prg_user_table = $prg_user_table;
         $this->custom_filter = $custom_filter;
-        parent::__construct($parent_obj, $parent_cmd, $template_context);
 
         $this->data_factory = $data_factory;
         $this->ui_factory = $ui_factory;
@@ -63,6 +62,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
         $this->prg = ilObjStudyProgramme::getInstanceByRefId($prg_ref_id);
         $this->prg_has_lp_children = $parent_obj->getStudyProgramme()->hasLPChildren();
+
+        parent::__construct($parent_obj, $parent_cmd, $template_context);
 
         $this->setEnableTitle(true);
         $this->setTopCommands(false);
@@ -83,7 +84,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         }
 
         $selected = $this->getSelectedColumns();
-        foreach ($this->prg_user_table->getColumns($prg_obj_id) as $column) {
+        foreach ($this->prg_user_table->getColumns($prg_obj_id, false, $this->prg->isCertificateActive()) as $column) {
             [$col, $lng_var, $optional, $lp, $no_lp] = $column;
 
             $show_by_lp = ($this->prg_has_lp_children && $lp) || (!$this->prg_has_lp_children && $no_lp);
@@ -238,6 +239,13 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     $this->tpl->setVariable("UDF", $row->getGender());
                     $this->tpl->parseCurrentBlock();
                     break;
+                case 'cert_relevance':
+                    $cert = '';
+                    if ($row->getCertificateRelevance()) {
+                        $cert = $this->getCertificateLink($row->getUsrId());
+                    }
+                    $this->tpl->setVariable("CERT_RELEVANCE", $cert);
+                    break;
                 default:
                     $value = $row->getUserInformation()->getUserData($column) ?? '';
                     $this->tpl->setCurrentBlock('udf');
@@ -315,7 +323,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     public function getSelectableColumns(): array
     {
         $cols = [];
-        foreach ($this->prg_user_table->getColumns($this->prg_obj_id) as $column) {
+
+        foreach ($this->prg_user_table->getColumns($this->prg_obj_id, false, $this->prg->isCertificateActive()) as $column) {
             [$col, $lng_var, $optional, $lp, $no_lp] = $column;
             if ($optional) {
                 $cols[$col] = ["txt" => $lng_var];
@@ -469,5 +478,17 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             }
         }
         return $link;
+    }
+
+    protected function getCertificateLink(int $usr_id): string
+    {
+        $this->ctrl->setParameter($this->parent_obj, 'cert_usr_id', $usr_id);
+        $cert_url = $this->ctrl->getLinkTarget($this->parent_obj, 'deliverCertificate');
+        $this->ctrl->setParameter($this->parent_obj, 'cert_usr_id', null);
+        $icon = $this->ui_renderer->render(
+            $this->ui_factory->symbol()->icon()->standard('cert', 'relevant', 'small')
+        );
+        $link = $this->ui_factory->link()->standard($icon, $cert_url);
+        return $this->ui_renderer->render($link);
     }
 }

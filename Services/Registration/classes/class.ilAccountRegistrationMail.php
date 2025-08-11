@@ -30,6 +30,7 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
     private ilRegistrationSettings $settings;
     private ilLogger $logger;
     private int $mode = self::MODE_DIRECT_REGISTRATION;
+    private ?string $permanent_link_target = null;
 
     public function __construct(ilRegistrationSettings $settings, ilLanguage $lng, ilLogger $logger)
     {
@@ -41,6 +42,19 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
     public function getMode(): int
     {
         return $this->mode;
+    }
+
+    public function withPermanentLinkTarget(string $permanent_link_target): self
+    {
+        if ($permanent_link_target === '') {
+            throw new InvalidArgumentException(
+                'Permanent link target must not be empty'
+            );
+        }
+
+        $clone = clone $this;
+        $clone->permanent_link_target = $permanent_link_target;
+        return $clone;
     }
 
     public function withDirectRegistrationMode(): ilAccountRegistrationMail
@@ -79,7 +93,7 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
         };
 
         $this->logger->debug(sprintf(
-            "Trying to send configurable email dependent welcome email to user %s (id: %s|language: %s) ...",
+            'Trying to send configurable email dependent welcome email to user %s (id: %s|language: %s) ...',
             $user->getLogin(),
             $user->getId(),
             $user->getLanguage()
@@ -89,7 +103,7 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
 
         if ($this->isEmptyMailConfigurationData($mailData)) {
             $this->logger->debug(sprintf(
-                "Either subject or email missing, trying to determine email configuration via default language: %s",
+                'Either subject or email missing, trying to determine email configuration via default language: %s',
                 $this->language->getDefaultLanguage()
             ));
 
@@ -104,13 +118,14 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
 
             $mailData = array_map($trimStrings, $mailData);
             if ($this->isEmptyMailConfigurationData($mailData)) {
-                $this->logger->debug("Did not find any valid email configuration, skipping attempt ...");
+                $this->logger->debug('Did not find any valid email configuration, skipping attempt ...');
                 return false;
             }
         }
 
         $accountMail = new ilAccountMail();
         $accountMail->setUser($user);
+        $accountMail->setPermanentLinkTarget($this->permanent_link_target);
 
         if ($this->settings->passwordGenerationEnabled()) {
             $accountMail->setUserPassword($rawPassword);
@@ -135,12 +150,12 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
                 $mailData['att_file']
             ));
         } else {
-            $this->logger->debug("Not attachments configured for this email configuration ...");
+            $this->logger->debug('Not attachments configured for this email configuration ...');
         }
 
         $accountMail->send();
 
-        $this->logger->debug("Welcome email sent");
+        $this->logger->debug('Welcome email sent');
 
         return true;
     }
@@ -152,7 +167,7 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
     ): void {
         if (!$user->getEmail()) {
             $this->logger->debug(sprintf(
-                "Missing email address, did not send account registration mail for user %s (id: %s) ...",
+                'Missing email address, did not send account registration mail for user %s (id: %s) ...',
                 $user->getLogin(),
                 $user->getId()
             ));
@@ -160,7 +175,7 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
         }
 
         $this->logger->debug(sprintf(
-            "Sending language variable dependent welcome email to user %s (id: %s|language: %s) as fallback ...",
+            'Sending language variable dependent welcome email to user %s (id: %s|language: %s) as fallback ...',
             $user->getLogin(),
             $user->getId(),
             $user->getLanguage()
@@ -207,7 +222,7 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
 
         $this->sendMimeMail($user->getEmail());
 
-        $this->logger->debug("Welcome email sent");
+        $this->logger->debug('Welcome email sent');
     }
 
     public function send(ilObjUser $user, string $rawPassword = '', bool $usedRegistrationCode = false): void

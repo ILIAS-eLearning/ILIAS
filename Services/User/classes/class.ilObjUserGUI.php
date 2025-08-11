@@ -1905,15 +1905,26 @@ class ilObjUserGUI extends ilObjectGUI
             $a_target = ilObjUser::_lookupId(ilUtil::stripSlashes(substr($a_target, 1)));
         }
 
-        $cmd = 'view';
-        if (strpos($a_target, 'contact_approved') !== false) {
-            $cmd = 'approveContactRequest';
-        } elseif (strpos($a_target, 'contact_ignored') !== false) {
-            $cmd = 'ignoreContactRequest';
+        $target_user = 0;
+        $target_cmd = '';
+        if (is_numeric($a_target)) {
+            $target_user = (int) $a_target;
+        } elseif ($target_array = explode('_', $a_target, 3)) {
+            $target_cmd = $target_array[2];
+            $target_user = (int) $target_array[0];
         }
 
-        $ilCtrl->setParameterByClass('ilpublicuserprofilegui', 'user_id', (int) $a_target);
-        $ilCtrl->redirectByClass(['ilPublicUserProfileGUI'], $cmd);
+        if ($target_user > 0) {
+            $ilCtrl->setParameterByClass(ilPublicUserProfileGUI::class, 'user_id', $target_user);
+        }
+
+        $cmd = 'view';
+        if ($target_cmd === 'contact_approved') {
+            $cmd = 'approveContactRequest';
+        } elseif ($target_cmd === 'contact_ignored') {
+            $cmd = 'ignoreContactRequest';
+        }
+        $ilCtrl->redirectByClass([ilPublicUserProfileGUI::class], $cmd);
     }
 
     /**

@@ -53,6 +53,8 @@ class ilStudyProgrammeUserTableRow
     protected string $expiry_date;
     protected string $validity;
     protected string $restart_date;
+    protected int $lifecycle_status;
+    protected bool $cert_relevance;
 
     public function __construct(
         protected int $ass_id,
@@ -354,10 +356,36 @@ class ilStudyProgrammeUserTableRow
         return $this->restart_date;
     }
 
+    public function withNodeLifecycleStatus(int $lifecycle_status): self
+    {
+        if (! in_array($lifecycle_status, \ilStudyProgrammeAssessmentSettings::$STATUS)) {
+            throw new \LogicException('Invalid status: ' . $lifecycle_status);
+        }
+        $clone = clone $this;
+        $clone->lifecycle_status = $lifecycle_status;
+        return $clone;
+    }
+
+    public function getNodeLifecycleStatus(): int
+    {
+        return $this->lifecycle_status;
+    }
+
+    public function withCertificateRelevance(bool $cert_relevance): self
+    {
+        $clone = clone $this;
+        $clone->cert_relevance = $cert_relevance;
+        return $clone;
+    }
+    public function getCertificateRelevance(): bool
+    {
+        return $this->cert_relevance;
+    }
+
     public function toArray(): array
     {
         $ret = [
-            'prgrs_id' => (string)$this->getId(),
+            'prgrs_id' => (string) $this->getId(),
             'name' => $this->getName(),
             'active_raw' => $this->isUserActiveRaw(),
             'active' => $this->getUserActive(),
@@ -378,7 +406,8 @@ class ilStudyProgrammeUserTableRow
             'assigned_by' => $this->getAssignmentBy(),
             'deadline' => $this->getDeadline(),
             'expiry_date' => $this->getExpiryDate(),
-            'validity' => $this->getValidity()
+            'validity' => $this->getValidity(),
+            'cert_relevance' => $this->getCertificateRelevance(),
         ];
 
         foreach ($this->user_information->getAvailableUserFields() as $user_field) {

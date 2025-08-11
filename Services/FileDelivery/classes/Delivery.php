@@ -95,9 +95,12 @@ final class Delivery
         $this->deliver();
     }
 
-
     private function delivery(): ilFileDeliveryType
     {
+        if ($this->isDeleteFile()) {
+            return $this->factory->getInstance(DeliveryMethod::PHP);
+        }
+
         return $this->factory->getInstance($this->getDeliveryType());
     }
 
@@ -220,10 +223,6 @@ final class Delivery
         ) {
             $this->setDeliveryType(DeliveryMethod::XSENDFILE);
         }
-
-//        if (function_exists('apache_get_version') && strpos(apache_get_version(), '2.4.') !== false) {
-//            $this->setDeliveryType(DeliveryMethod::XSENDFILE);
-//        }
 
         if (is_file('./Services/FileDelivery/classes/override.php')) {
             $override_delivery_type = false;

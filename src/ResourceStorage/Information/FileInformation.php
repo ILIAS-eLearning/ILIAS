@@ -48,7 +48,7 @@ class FileInformation implements Information
 
     public function getSuffix(): string
     {
-        return $this->suffix;
+        return trim($this->suffix); // FIX to ensure no leading/trailing spaces
     }
 
     public function setSuffix(string $suffix): self

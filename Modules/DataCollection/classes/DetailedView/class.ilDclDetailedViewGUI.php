@@ -117,7 +117,7 @@ class ilDclDetailedViewGUI
         $this->ctrl->setParameter($this, 'tableview_id', $this->tableview_id);
 
         if (!$this->checkAccess()) {
-            if ($this->table->getVisibleTableViews($this->dcl_gui_object->getRefId(), true)) {
+            if ($this->table->getVisibleTableViews(0, true)) {
                 $this->offerAlternativeViews();
             } else {
                 $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -168,7 +168,7 @@ class ilDclDetailedViewGUI
         $pageObj = new ilDclDetailedViewDefinitionGUI($this->tableview_id);
         $pageObj->setOutputMode($pageObj::PRESENTATION);
 
-        $html = $pageObj->getHTML();
+        $html = $pageObj->showPage();
         $rctpl->addCss("./Services/COPage/css/content.css");
         $rctpl->fillCssFiles();
         $table = ilDclCache::getTableCache($this->record_obj->getTableId());

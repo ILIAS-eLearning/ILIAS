@@ -25,6 +25,7 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\HTTP\Response\ResponseHeader;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\RequestInterface;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -86,54 +87,59 @@ class PHPResponseBuilder implements ResponseBuilder
         if (!$this->supportPartial()) {
             return $response;
         }
-        $server_params = $request->getServerParams();
+        $request->getServerParams();
 
-        $byte_offset = 0;
-        $byte_length = $content_length = $stream->getSize();
+        $start = 0;
+        $content_length = $stream->getSize();
+        $end = null;
 
-        if (isset($server_params['HTTP_RANGE']) && preg_match(
+        $range_header = $request->getHeaderLine('Range');
+
+        if ($range_header && preg_match(
             '%bytes=(\d+)-(\d+)?%i',
-            (string) $server_params['HTTP_RANGE'],
+            $range_header,
             $match
         )) {
-            $byte_offset = (int) $match[1];
+            $start = (int) $match[1];
             if (isset($match[2])) {
-                $finish_bytes = (int) $match[2];
-                $byte_length = $finish_bytes + 1;
-            } else {
-                $finish_bytes = $content_length;
+                $end = (int) $match[2];
             }
-            $response = $response->withStatus(206, 'Partial Content');
-            $response = $response->withHeader(
-                ResponseHeader::CONTENT_RANGE,
-                "bytes {$byte_offset}-{$finish_bytes}/{$content_length}"
+            $end ??= $content_length - 1;
+        }
+
+        $response = $response->withStatus(206);
+        $response = $response->withHeader(
+            ResponseHeader::CONTENT_RANGE,
+            "bytes {$start}-{$end}/{$content_length}"
+        );
+
+        $length = $end - $start + 1;
+        $fh = $stream->detach();
+        $buffer_size = 8048 * 10;
+
+        $output_length = 0;
+        if ($stream->isSeekable()) {
+            fseek($fh, $start);
+            while (!feof($fh) && $length > 0) {
+                $chunk_size_requested = min($buffer_size, $end - $start);
+                $content = fread($fh, $length);
+                if ($content === false) {
+                    break;
+                }
+                $length -= strlen($content);
+                $response->getBody()->write($content);
+                $output_length = strlen($content);
+            }
+        } else {
+            $length = min($length, $buffer_size);
+            $content = stream_get_contents($fh, $length, $start);
+            $output_length = strlen($content);
+            $response = $response->withBody(
+                Streams::ofString($content)
             );
         }
 
-        $byte_range = $byte_length - $byte_offset;
-
-        $response = $response->withHeader(ResponseHeader::CONTENT_LENGTH, $byte_length);
-
-        $buffer_size = 512 * 16;
-        $bite_pool = $byte_range;
-
-        $fh = $stream->detach();
-
-        while ($bite_pool > 0) {
-            $chunk_size_requested = min($buffer_size, $bite_pool);
-            $buffer = fread($fh, $chunk_size_requested);
-            $chunk_actual_size = strlen($buffer);
-
-            if ($chunk_actual_size === 0) {
-                throw new \RuntimeException("Chunksize became 0");
-            }
-
-            $bite_pool -= $chunk_actual_size;
-
-            $response->getBody()->write($buffer);
-        }
-
-        return $response;
+        return $response->withHeader(ResponseHeader::CONTENT_LENGTH, $output_length);
     }
 
     public function supportPartial(): bool

@@ -131,8 +131,11 @@ class ilTestScreenGUI
             $message_box_message_elements[] = $this->lng->txt('tst_launcher_status_message_password');
         }
 
-        if ($test_behaviour_settings->getProcessingTimeEnabled()) {
-            $message_box_message_elements[] = sprintf($this->lng->txt('tst_time_limit_message'), $test_behaviour_settings->getProcessingTimeAsMinutes());
+        if ($test_behaviour_settings->getProcessingTimeEnabled() && !$this->isUserOutOfProcessingTime()) {
+            $message_box_message_elements[] = sprintf(
+                $this->lng->txt('tst_time_limit_message'),
+                $test_behaviour_settings->getProcessingTimeAsMinutes()
+            );
         }
 
         $nr_of_tries = $this->object->getNrOfTries();
@@ -242,6 +245,12 @@ class ilTestScreenGUI
             ;
         }
 
+        if (!$this->hasAvailablePasses()) {
+            return $launcher_factory
+                ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
+                ->withButtonLabel($this->lng->txt('tst_launcher_button_label_passes_limit_reached'), false);
+        }
+
         $next_pass_allowed_timestamp = 0;
         if (!$this->object->isNextPassAllowed($this->test_passes_selector, $next_pass_allowed_timestamp)) {
             return $launcher_factory
@@ -254,12 +263,6 @@ class ilTestScreenGUI
                     false
                 )
             ;
-        }
-
-        if (!$this->hasAvailablePasses()) {
-            return $launcher_factory
-                ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
-                ->withButtonLabel($this->lng->txt('tst_launcher_button_label_passes_limit_reached'), false);
         }
 
         if ($this->lastPassSuspended()) {
@@ -473,7 +476,8 @@ class ilTestScreenGUI
     private function blockUserAfterHavingPassed(): bool
     {
         if ($this->main_settings->getTestBehaviourSettings()->getBlockAfterPassedEnabled()) {
-            return $this->test_passes_selector->hasTestPassedOnce($this->test_session->getActiveId());
+            return $this->test_passes_selector->getLastFinishedPass() >= 0
+                && $this->test_passes_selector->hasTestPassedOnce($this->test_session->getActiveId());
         }
 
         return false;

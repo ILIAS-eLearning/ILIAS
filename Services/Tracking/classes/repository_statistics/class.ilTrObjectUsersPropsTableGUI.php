@@ -536,8 +536,8 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
     ): void {
         $cnt = 0;
         foreach ($this->getSelectedColumns() as $c) {
-            if ($c != 'status') {
-                $val = $this->parseValue($c, $a_set[$c], $this->type);
+            if ($c !== 'status') {
+                $val = $this->parseValue($c, $a_set[$c] ?? null, $this->type);
             } else {
                 $val = ilLearningProgressBaseGUI::_getStatusText(
                     (int) $a_set[$c]
@@ -560,8 +560,8 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
     protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         foreach ($this->getSelectedColumns() as $c) {
-            if ($c != 'status') {
-                $val = $this->parseValue($c, $a_set[$c], $this->type);
+            if ($c !== 'status') {
+                $val = $this->parseValue($c, $a_set[$c] ?? null, $this->type);
             } else {
                 $val = ilLearningProgressBaseGUI::_getStatusText(
                     (int) $a_set[$c]

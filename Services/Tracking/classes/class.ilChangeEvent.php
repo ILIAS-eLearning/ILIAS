@@ -148,7 +148,7 @@ class ilChangeEvent
                 "integer"
             ) . ", ";
             $read_count_init = max(1, (int) $a_ext_rc);
-            $read_count_diff = max(1, (int) $a_ext_rc) - $row->read_count;
+            $read_count_diff = max(1, (int) $a_ext_rc) - (int) ($row?->read_count ?? 0);
         } else {
             $read_count = 'read_count = read_count + 1, ';
             $read_count_init = 1;

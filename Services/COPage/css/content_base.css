@@ -73,14 +73,32 @@ div.ilc_VerificationPlaceHolder /* no custom image yet */
 }
 
 .copg-iim-area-shape-sel {
-	stroke: #B54F00;
 	stroke-width: 1;
 	fill: transparent;
+	cursor: pointer;
 }
 
+.copg-iim-area-shape-sel.copg-iim-hl-mode-Edit {
+	stroke: #B54F00;
+}
+.copg-iim-area-shape-sel.copg-iim-hl-mode-Always,
+.copg-iim-area-shape-sel.copg-iim-hl-mode-Hover:hover {
+	stroke: #B54F00;
+}
+.copg-iim-area-shape-sel.copg-iim-hl-mode-Always.copg-iim-hl-class-Dark,
+.copg-iim-area-shape-sel.copg-iim-hl-mode-Hover.copg-iim-hl-class-Dark:hover
+{
+	stroke: #181818;
+}
+.copg-iim-area-shape-sel.copg-iim-hl-mode-Always.copg-iim-hl-class-Light,
+.copg-iim-area-shape-sel.copg-iim-hl-mode-Hover.copg-iim-hl-class-Light:hover{
+	stroke: #ffffff;
+}
 .copg-iim-area-shape-sel:hover {
-	stroke: #0078D7;
 	stroke-width: 2;
+}
+.copg-iim-area-shape-sel.copg-iim-hl-mode-Edit:hover {
+	stroke: #0078D7;
 	fill-opacity: 40%;
 	fill: white;
 }
@@ -89,6 +107,7 @@ div.ilc_VerificationPlaceHolder /* no custom image yet */
 	position:absolute;
 	width: auto;
 	box-shadow: 2px 2px 4px rgba(0, 0, 0, .1);
+	z-index: 1;
 }
 
 button.copg-add.dropdown-toggle.btn:focus-visible {

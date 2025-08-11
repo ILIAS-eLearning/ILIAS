@@ -8688,6 +8688,7 @@ dcl#:#dcl_no_fields_yet#:#Inga fält har skapats för denna tabell ännu, så in
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Du har inte läsbehörighet till någon standardtabellvy.
 dcl#:#dcl_no_search_results_found_for#:#Inga moduler hittades med
 dcl#:#dcl_no_such_reference#:#Följande värde finns inte i referenstabellen
+dcl#:#dcl_no_tableview_found#:#No visible tableview found!###08 07 2025 new variable
 dcl#:#dcl_not_checked#:#Inte vald
 dcl#:#dcl_not_supported_in_import#:#Den här fälttypen stöds inte under import.
 dcl#:#dcl_notification_activate_dcl#:# Aktivera avisering
@@ -9177,6 +9178,7 @@ etal#:#notification_talks_subject#:#Datum inbjudan
 etal#:#notification_talks_subject_update#:#Uppdatering av datum
 etal#:#notification_talks_updated#:#Följande mötesdatum har justerats.
 etal#:#pending_talks_warning#:#Följande utestående intervjutillsättningar kommer att ersättas
+etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###08 07 2025 new variable
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Lägg till konversationer
 etal#:#tals_new#:#Nya samtalsserier
@@ -10936,6 +10938,7 @@ lso#:#lso_player_abstract#:#Till inledningen
 lso#:#lso_player_extro#:#Till den avslutande sidan
 lso#:#lso_player_finish#:#Utgång
 lso#:#lso_player_next#:#Fortsättning
+lso#:#lso_player_noitems#:#There are no available items in this Learning Sequence.###08 07 2025 new variable
 lso#:#lso_player_previous#:#Tillbaka
 lso#:#lso_player_resume#:#Återuppta inlärningssekvensen
 lso#:#lso_player_review#:#Se över inlärningssekvensen
@@ -11199,6 +11202,7 @@ lti#:#lti_object_consumer#:#LTI konsumenter
 lti#:#lti_object_release_settings_form#:#Redigera LTI-utgåvor
 lti#:#lti_provider#:#LTI-utgåvor
 lti#:#lti_provider_not_avail_msg#:#LTI leverantör eller verktyg är inställt på "Ej tillgängligt".
+lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###08 07 2025 new variable
 lti#:#lti_providing_tab#:#ILIAS som LTI-leverantör/verktyg
 lti#:#lti_released_objects#:#Utsläpp av objekt
 lti#:#lti_select_provider#:#Välj leverantör eller verktyg
@@ -13124,6 +13128,7 @@ prg#:#auto_membership_src_type#:#Typ
 prg#:#auto_membership_title#:#Källor för automatisk tilldelning
 prg#:#auto_memberships#:#Automatisk tilldelning
 prg#:#category#:#Kategori
+prg#:#cert_relevance#:#Certificate###08 07 2025 new variable
 prg#:#completion_date#:#Datum för stängning
 prg#:#confirm_to_remove_selected_assignments#:#Verkligen ta bort användartilldelning(ar)?
 prg#:#cont_ed_insert_prgactionnote#:#Insert Study Programme Action Note###30 04 2024 new variable
@@ -17379,6 +17384,7 @@ validation#:#not_min_length#:#Din inmatning har en längd på %d och är därfö
 validation#:#not_numeric#:#'%s' är inte numeriskt.
 validation#:#not_numeric_empty_string#:#Din inmatning är inte numerisk.
 validation#:#numeric_only#:#Please insert a whole number.###30 04 2024 new variable
+validation#:#required#:#This input is required.###08 07 2025 new variable
 validation#:#tag_required#:#Please insert at least one tag.###30 04 2024 new variable
 violation#:#not_a_string#:#Värdet är inte en sträng
 webr#:#invalid_links_tbl#:#Ogiltiga länkar

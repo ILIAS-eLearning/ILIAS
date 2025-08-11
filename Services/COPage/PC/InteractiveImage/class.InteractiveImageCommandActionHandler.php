@@ -73,6 +73,9 @@ class InteractiveImageCommandActionHandler implements Server\CommandActionHandle
             case "delete.popup":
                 return $this->deletePopup($query['pc_id'], $body);
 
+            case "delete.trigger":
+                return $this->deleteTrigger($query['pc_id'], $body);
+
             case "save.settings":
                 return $this->saveSettings($query['pc_id'], $body);
 
@@ -125,7 +128,7 @@ class InteractiveImageCommandActionHandler implements Server\CommandActionHandle
         $page = $this->page_gui->getPageObject();
         /** @var \ilPCInteractiveImage $pc */
         $pc = $this->page_gui->getPageObject()->getContentObjectForPcId($pc_id);
-        $pc->setTriggerProperties((string) $body["data"]["trigger_nr"], $body["data"]["title"], $body["data"]["shape_type"], $body["data"]["coords"]);
+        $pc->setTriggerProperties((string) $body["data"]["trigger_nr"], $body["data"]["title"], $body["data"]["shape_type"], $body["data"]["coords"], $body["data"]["hl_mode"], $body["data"]["hl_class"]);
         $updated = $page->update();
 
         return $this->getStandardResponse($updated, $pc);
@@ -235,6 +238,16 @@ class InteractiveImageCommandActionHandler implements Server\CommandActionHandle
         $pc->deletePopupByNr($body["data"]["nr"]);
         $updated = $page->update();
 
+        return $this->getStandardResponse($updated, $pc);
+    }
+
+    protected function deleteTrigger(string $pc_id, array $body): Server\Response
+    {
+        $page = $this->page_gui->getPageObject();
+        $pc = $this->getPCInteractiveImage($pc_id);
+        $std_alias_item = $pc->getStandardAliasItem();
+        $pc->deleteTrigger($std_alias_item, (int) $body["data"]["nr"]);
+        $updated = $page->update();
         return $this->getStandardResponse($updated, $pc);
     }
 

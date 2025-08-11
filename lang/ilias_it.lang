@@ -8687,6 +8687,7 @@ dcl#:#dcl_no_fields_yet#:#Non sono presenti campi definiti per questa tabella, p
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Non si dispone di accesso in lettura in una qualsiasi visualizzazione standard sulla tabella.
 dcl#:#dcl_no_search_results_found_for#:#Non sono stati trovati moduli per:
 dcl#:#dcl_no_such_reference#:#Il seguente valore non è disponibile nella tabella di riferimento:
+dcl#:#dcl_no_tableview_found#:#No visible tableview found!###08 07 2025 new variable
 dcl#:#dcl_not_checked#:#Non controllato.
 dcl#:#dcl_not_supported_in_import#:#Questo tipo di campo non è supportato nell’importazione
 dcl#:#dcl_notification_activate_dcl#:#Attiva notifica per raccolta dati
@@ -9176,6 +9177,7 @@ etal#:#notification_talks_subject#:#Invitation: %s###31 03 2023 new variable
 etal#:#notification_talks_subject_update#:#Update: %s###31 03 2023 new variable
 etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 03 2023 new variable
 etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
+etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###08 07 2025 new variable
 etal#:#talk_serial#:#Talk Serial###31 03 2023 new variable
 etal#:#tals_add#:#Add Talks###31 03 2023 new variable
 etal#:#tals_new#:#New Talks###31 03 2023 new variable
@@ -10935,6 +10937,7 @@ lso#:#lso_player_abstract#:#Mostra informazioni riassunto
 lso#:#lso_player_extro#:#Mostra ultima pagina
 lso#:#lso_player_finish#:#Finito
 lso#:#lso_player_next#:#Prossimo
+lso#:#lso_player_noitems#:#There are no available items in this Learning Sequence.###08 07 2025 new variable
 lso#:#lso_player_previous#:#Precedente
 lso#:#lso_player_resume#:#Riprendi la sequenza di apprendimento
 lso#:#lso_player_review#:#Rivedi la sequenza di apprendimento
@@ -11198,6 +11201,7 @@ lti#:#lti_object_consumer#:#Consumatori LTI
 lti#:#lti_object_release_settings_form#:#Modifica versioni LTI
 lti#:#lti_provider#:#Versioni LTI
 lti#:#lti_provider_not_avail_msg#:#Il fornitore è impostato come 'Non disponibile'
+lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###08 07 2025 new variable
 lti#:#lti_providing_tab#:#ILIAS come fornitore LTI
 lti#:#lti_released_objects#:#Versioni degli Oggetti
 lti#:#lti_select_provider#:#Seleziona un fornitore
@@ -13123,6 +13127,7 @@ prg#:#auto_membership_src_type#:#Tipo
 prg#:#auto_membership_title#:#Fonte di automazione dell'iscrizione
 prg#:#auto_memberships#:#Automazione dell'iscrizione
 prg#:#category#:#Categoria
+prg#:#cert_relevance#:#Certificate###08 07 2025 new variable
 prg#:#completion_date#:#Data di completamento
 prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?###09 03 2022 new variable
 prg#:#cont_ed_insert_prgactionnote#:#Insert Study Programme Action Note###30 04 2024 new variable
@@ -17378,6 +17383,7 @@ validation#:#not_min_length#:#L'input ha una lunghezza di %d e scende al di sott
 validation#:#not_numeric#:# '%s' non è numerico.
 validation#:#not_numeric_empty_string#:#Your input is not numeric.
 validation#:#numeric_only#:#Please insert a whole number.###30 04 2024 new variable
+validation#:#required#:#This input is required.###08 07 2025 new variable
 validation#:#tag_required#:#Please insert at least one tag.###30 04 2024 new variable
 violation#:#not_a_string#:#Given value is not a String###31 03 2023 new variable
 webr#:#invalid_links_tbl#:#Collegamenti non validi

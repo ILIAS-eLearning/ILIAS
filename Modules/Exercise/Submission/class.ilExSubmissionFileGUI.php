@@ -257,7 +257,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
                 "deliver",
                 $this->lng->txt("files"),
                 \Closure::fromCallable([$this, 'handleUploadResult']),
-                "mep_id",
+                "deliver",
                 "",
                 $max_file
             );
@@ -274,14 +274,14 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 
         if ($result->isOK()) {
             return new \ILIAS\FileUpload\Handler\BasicHandlerResult(
-                '',
+                'deliver',
                 \ILIAS\FileUpload\Handler\HandlerResult::STATUS_OK,
                 $title,
                 ''
             );
         } else {
             return new \ILIAS\FileUpload\Handler\BasicHandlerResult(
-                '',
+                'deliver',
                 \ILIAS\FileUpload\Handler\HandlerResult::STATUS_FAILED,
                 $title,
                 $result->getStatus()->getMessage()
@@ -291,10 +291,17 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 
     public function addUploadObject(): void
     {
+        $form = $this->getUploadForm();
+        if ($form->isValid()) {
+            $data = (string) $form->getData("deliver");
+            if ($data !== "") {
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("file_added"), true);
+                $this->handleNewUpload();
+            } else {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_file"), true);
+            }
+        }
         $ilCtrl = $this->ctrl;
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("file_added"), true);
-        $this->handleNewUpload();
 
         $ilCtrl->redirect($this, "submissionScreen");
     }

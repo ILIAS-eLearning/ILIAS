@@ -8688,6 +8688,7 @@ dcl#:#dcl_no_fields_yet#:#Ez az adatkészlet még nem tartalmaz mezőket. A meta
 dcl#:#dcl_no_read_access_on_any_standard_view#:#A táblázat alapértelmezett nézetéhez nincs olvasási hozzáférése.
 dcl#:#dcl_no_search_results_found_for#:#Egyetlen tananyagot sem sikerült találni ez alapján:
 dcl#:#dcl_no_such_reference#:#Az alábbi érték nem érhető el a referenciatáblában:
+dcl#:#dcl_no_tableview_found#:#No visible tableview found!###08 07 2025 new variable
 dcl#:#dcl_not_checked#:#Nem kipipált
 dcl#:#dcl_not_supported_in_import#:#Ez a mezőtípus nem támogatott az importban.
 dcl#:#dcl_notification_activate_dcl#:#Értesítés bekapcsolása adatgyűjtésre
@@ -9177,6 +9178,7 @@ etal#:#notification_talks_subject#:#Meghívás: %s
 etal#:#notification_talks_subject_update#:#Módosítás: %s
 etal#:#notification_talks_updated#:#Az alábbi találkozókat módosították.
 etal#:#pending_talks_warning#:#A következő függőben lévő megbeszéléseket cseréljük le:
+etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###08 07 2025 new variable
 etal#:#talk_serial#:#Megbeszéléssorozat
 etal#:#tals_add#:#Megbeszélés hozzáadása
 etal#:#tals_new#:#Új Megbeszélés
@@ -10936,6 +10938,7 @@ lso#:#lso_player_abstract#:#Absztrakt megjelenítése
 lso#:#lso_player_extro#:#Befejező oldal megjelenítése
 lso#:#lso_player_finish#:#Befejezés
 lso#:#lso_player_next#:#Következő
+lso#:#lso_player_noitems#:#There are no available items in this Learning Sequence.###08 07 2025 new variable
 lso#:#lso_player_previous#:#Előző
 lso#:#lso_player_resume#:#Tanulási sor szüneteltetése
 lso#:#lso_player_review#:#Tanulási sor áttekintése
@@ -11199,6 +11202,7 @@ lti#:#lti_object_consumer#:#LTI-fogyasztók
 lti#:#lti_object_release_settings_form#:#LTI-megosztások módosítása
 lti#:#lti_provider#:#LTI-megosztások
 lti#:#lti_provider_not_avail_msg#:#Az LTI-kiszolgáló / -Eszköz értéke 'Nem érhető el'
+lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###08 07 2025 new variable
 lti#:#lti_providing_tab#:#Az ILIAS, mint LTI-Kiszolgáló
 lti#:#lti_released_objects#:#Megosztott objektumok
 lti#:#lti_select_provider#:#Válasszon Kiszolgáló resp. Eszközt
@@ -13124,6 +13128,7 @@ prg#:#auto_membership_src_type#:#Típus
 prg#:#auto_membership_title#:#Automatizált tagság forrásai
 prg#:#auto_memberships#:#Tagság automatizálása
 prg#:#category#:#Kategória
+prg#:#cert_relevance#:#Certificate###08 07 2025 new variable
 prg#:#completion_date#:#Befejezés időpontja
 prg#:#confirm_to_remove_selected_assignments#:#Biztos, hogy eltávolítja a felhasználó hozzárendeléseit?
 prg#:#cont_ed_insert_prgactionnote#:#Képzési program teendőhez megjegyzés beillesztése
@@ -17379,6 +17384,7 @@ validation#:#not_min_length#:#A megadott érték hossza %d, ami a minimumnál (%
 validation#:#not_numeric#:#'%s' nem szám.
 validation#:#not_numeric_empty_string#:#A megadott adat nem szám.
 validation#:#numeric_only#:#Egész számot adjon meg.
+validation#:#required#:#This input is required.###08 07 2025 new variable
 validation#:#tag_required#:#Legalább egy címkét adjon meg.
 violation#:#not_a_string#:#A megadott érték nem szöveg
 webr#:#invalid_links_tbl#:#Érvénytelen linkek

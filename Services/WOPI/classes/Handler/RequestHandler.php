@@ -82,10 +82,10 @@ final class RequestHandler
             $bearer_token = $this->http->request()->getQueryParams()['access_token'] ?? '';
         }
         if ($bearer_token === '') {
-            throw new \InvalidArgumentException();
+            throw new \InvalidArgumentException('No access token provided');
         }
         if (($token_data = $this->data_signer->verify($bearer_token, 'wopi')) === null) {
-            throw new \InvalidArgumentException();
+            throw new \InvalidArgumentException('Token verification failed');
         }
 
         $this->token_user_id = (int) ($token_data['user_id'] ?? 0);

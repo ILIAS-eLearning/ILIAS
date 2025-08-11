@@ -27,6 +27,7 @@ class IndAssStorageMigration implements Setup\Migration
     private const DEFAULT_AMOUNT_OF_STEPS = 200;
     private ilDBInterface $db;
     private ILIAS\DI\Container $dic;
+    private ?\ilResourceStorageMigrationHelper $helper = null;
 
     /**
      * @var IOWrapper

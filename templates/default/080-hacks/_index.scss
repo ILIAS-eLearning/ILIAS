@@ -216,11 +216,6 @@ img {
 	border: 0 none;
 }
 
-span.latex {
-	color: green;
-	font-weight: bold;
-}
-
 div.framed {
 	border: 1px solid #9eadba;
 	padding: 0 10px;
@@ -229,6 +224,11 @@ div.framed {
 	background-repeat: repeat-x;
 }
 */
+
+span.latex {
+	color: green;
+	font-weight: bold;
+}
 
 // no longer in use?
 div.ilFrame {
@@ -246,7 +246,7 @@ div.ilFrame {
 	}
 }
 
-// used to be in Services/certificates 
+// used to be in Services/certificates
 
 .il-deck {
 	.il-card {

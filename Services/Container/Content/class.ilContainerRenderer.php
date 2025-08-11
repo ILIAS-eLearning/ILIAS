@@ -948,7 +948,7 @@ class ilContainerRenderer
                     $pos_prefix,
                     $item_group_list_presentation,
                     $checkbox,
-                    $this->item_presentation->isActiveItemOrdering(),
+                    $this->item_presentation->isActiveItemOrdering($item_data["type"]),
                     $this->getDetailsLevel($item_data["obj_id"])
                 );
                 if ($html != "") {

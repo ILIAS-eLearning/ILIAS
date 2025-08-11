@@ -174,7 +174,8 @@ class ilTestResultsFactory
                 $answered,
                 $requested_hints,
                 $recapitulation,
-                $autosave_output
+                $autosave_output,
+                $idx
             );
         }
 
