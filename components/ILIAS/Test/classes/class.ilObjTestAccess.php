@@ -179,7 +179,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         return [
             ["permission" => "write", "cmd" => "questionsTabGateway", "lang_var" => "tst_edit_questions"],
             ["permission" => "write", "cmd" => "ILIAS\Test\Settings\MainSettings\SettingsMainGUI::showForm", "lang_var" => "settings"],
-            ["permission" => "read", "cmd" => "ILIAS\Test\Presentation\TestScreenGUI::testScreen", "lang_var" => "tst_run", "default" => true]
+            ["permission" => "read", "cmd" => "ILIAS\Test\Presentation\TestScreenGUI::testScreen", "lang_var" => "tst_run", "default" => true],
+            ["permission" => "score_anon", "cmd" => "ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI::showManScoringByQuestionParticipantsTable", "lang_var" => "manscoring", "default" => true],
         ];
     }
 
@@ -187,6 +188,17 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     // object specific access related methods
     //
 
+    public static function getBypassActivationCheckForPermissions(): array
+    {
+        return [
+            'write',
+            'score_anon'
+        ];
+    }
+
+    /**
+    * checks wether all necessary parts of the test are given
+    */
     private static function lookupCreationComplete(int $a_obj_id): bool
     {
         global $DIC;

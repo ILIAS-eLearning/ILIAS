@@ -540,13 +540,22 @@ class ilAccess implements ilAccessHandler
             }
         }
 
-        // in any case, if user has write permission return true
-        if ($this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id)) {
-            $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
-            return true;
+        // in any case, if user has write permission return true.
+        // you may specify further exceptions in ilObj[TYPE]Access::getBypassActivationCheckForPermissions;
+        $class = $this->objDefinition->getClassName($a_type);
+        $full_class = "ilObj" . $class . "Access";
+
+        $bypass = method_exists($full_class, 'getBypassActivationCheckForPermissions') ?
+            $full_class::getBypassActivationCheckForPermissions() : ['write'];
+
+        foreach ($bypass as $permission) {
+            if ($this->checkAccessOfUser($a_user_id, $permission, "", $a_ref_id)) {
+                $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
+                return true;
+            }
         }
 
-        // no write access => check centralized offline status
+        // no write access/bypass => check centralized offline status
         if (
             $this->objDefinition->supportsOfflineHandling($a_type) &&
             ilObject::lookupOfflineStatus($a_obj_id)
