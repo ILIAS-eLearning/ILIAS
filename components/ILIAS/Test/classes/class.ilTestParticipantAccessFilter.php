@@ -49,13 +49,13 @@ class ilTestParticipantAccessFilterFactory
                 $this->access->checkAccess('write', '', $ref_id, 'tst')
                 || $this->access->checkAccess('score_anon', '', $ref_id, 'tst')
             ) {
-                return $this->access->filterUserIdsByPositionOfCurrentUser(
-                    ilOrgUnitOperation::OP_SCORE_PARTICIPANTS,
-                    $ref_id,
-                    $user_ids
-                );
+                return $user_ids;
             }
-            return [];
+            return $this->access->filterUserIdsByPositionOfCurrentUser(
+                ilOrgUnitOperation::OP_SCORE_PARTICIPANTS,
+                $ref_id,
+                $user_ids
+            );
         };
     }
 
