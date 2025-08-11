@@ -4731,8 +4731,8 @@ common#:#msg_no_delete_yourself#:#Sie können nicht Ihr eigenes Anmeldekonto lö
 common#:#msg_no_file#:#Sie haben keine Datei ausgewählt oder die ausgewählte Datei war zu groß.
 common#:#msg_no_files_selected#:#Keine Dateien ausgewählt
 common#:#msg_no_language_selected#:#Angabe einer Übersetzungsprache fehlt! Sie müssen für alle Übersetzungen eine Sprache bestimmen
-common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung auf die Rollenzuweisung des Kontos zuzugreifen
-common#:#msg_no_perm_assign_user_to_role#:#Sie habe keine Berechtigung, um die Benutzerzuweisung zu ändern
+common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung die Rollenzuweisung des Kontos zu ändern
+common#:#msg_no_perm_assign_user_to_role#:#Sie habe keine Berechtigung, um die Kontenzuweisung zu ändern
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:
 common#:#msg_no_perm_create_rolt#:#Sie besitzen keine ausreichende Berechtigung um neue Rollenvorlagen anzulegen!
 common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden:
@@ -4746,6 +4746,7 @@ common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf
 common#:#msg_no_perm_read#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
 common#:#msg_no_perm_read_item#:#Sie haben keine Berechtigung, auf das Objekt „%s“ zuzugreifen.
 common#:#msg_no_perm_read_lm#:#Sie besitzen keine ausreichende Berechtigung um diese Lernmodul anzuzeigen.
+common#:#msg_no_perm_view_roles_of_user#:#Sie haben keine Berechtigung, auf die Rollenzuweisung des Kontos zuzugreifen
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung!
 common#:#msg_no_search_result#:#Keine Einträge gefunden
 common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
