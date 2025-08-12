@@ -7,7 +7,6 @@ Version 2.3 [updated 2025-02-26]
 This guide provides recommendations for structuring and composing PRIVACY.md files for ILIAS. It is designed to help authorities create PRIVACY.md files for their components. The target group of the PRIVACY.md files is the e-learning team of an educational provider, not other authorities. These teams need to provide relevant information to the officer responsible for ensuring compliance with the EU General Data Protection Regulation (GDPR). Please use clear and accessible language to make the information easy to understand.
 Your feedback and change requests are welcome. Please send them to privacy@lists.ilias.de.
 
-
 ## 2 Where to write » Use Git
 
 - Create **one** file named “PRIVACY.md” **per component**.
