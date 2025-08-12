@@ -98,6 +98,10 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         }
 
         $input->setOptions($options);
+        if ($input instanceof ilMultiSelectInputGUI) {
+            $input->setHeight(32 * min(5, max(1, count($options))));
+        }
+
 
         $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
 
