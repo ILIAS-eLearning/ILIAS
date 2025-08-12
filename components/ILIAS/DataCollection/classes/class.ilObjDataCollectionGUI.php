@@ -295,7 +295,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     public function infoScreen(): void
     {
-        $this->infoScreenForward();
+        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
     }
 
     public function render(): void
