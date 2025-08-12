@@ -84,13 +84,9 @@ trait PropertyNormalizer
 
     private function normalizeArray(array $array): array
     {
-        $normalized = [];
-
-        foreach ($array as $key => $value) {
-            $normalized[$key] = $this->normalizeValue($value);
-        }
-
-        return $normalized;
+        return array_map(function ($value) {
+            return $this->normalizeValue($value);
+        }, $array);
     }
 
     /**
@@ -204,11 +200,8 @@ trait PropertyNormalizer
             throw new \InvalidArgumentException('Value must be an array');
         }
 
-        $denormalized = [];
-        foreach ($value as $key => $item) {
-            $denormalized[$key] = $item;
-        }
-
-        return $denormalized;
+        return array_map(function ($item) {
+            return self::denormalizeValue($item, null);
+        }, $value);
     }
 }
