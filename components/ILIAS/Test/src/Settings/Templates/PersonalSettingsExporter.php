@@ -136,7 +136,7 @@ class PersonalSettingsExporter implements Exporter
                 $value = match ($type) {
                     'NULL' => 'NULL',
                     'boolean' => $value ? 'true' : 'false',
-                    default => (string) $value,
+                    default => htmlspecialchars((string) $value),
                 };
 
                 $xml_writer->writeRaw($value);

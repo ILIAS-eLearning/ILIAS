@@ -183,7 +183,7 @@ class PersonalSettingsImportAction
         $type = $parent->getAttribute('type') ?? 'string';
         $value = $parent->textContent;
         return match($type) {
-            'string' => $value,
+            'string' => htmlspecialchars_decode($value),
             'integer' => (int) $value,
             'boolean' => $value == 'true',
             'double' => (float) $value,
