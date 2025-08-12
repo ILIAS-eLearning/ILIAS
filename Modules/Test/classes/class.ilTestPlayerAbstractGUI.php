@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Presentation\WorkingTime;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
@@ -1153,27 +1154,26 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     public function outProcessingTime(int $active_id): void
     {
         $starting_time = $this->object->getStartingTimeOfUser($active_id);
-        $processing_time = $this->object->getProcessingTimeInSeconds($active_id);
+        $working_time = new WorkingTime(
+            $this->lng,
+            $this->ui_factory,
+            $this->ui_renderer,
+            $starting_time,
+            $this->object->getProcessingTimeInSeconds($active_id)
+        );
 
-        $this->tpl->setCurrentBlock("enableprocessingtime");
-        $this->tpl->setVariable("USER_WORKING_TIME", $this->getUserProcessingTimeString($starting_time, $processing_time));
-        $this->tpl->setVariable("USER_REMAINING_TIME", $this->getUserRemainingTimeString($starting_time, $processing_time));
+        $this->tpl->setCurrentBlock('enableprocessingtime');
+        $this->tpl->setVariable('USER_WORKING_TIME_MESSAGE_BOX', $working_time->getMessageBox());
         $this->tpl->parseCurrentBlock();
 
-        [$processing_time_minutes, $processing_time_seconds] = $this->getUserProcessingTimeMinutesAndSeconds($processing_time);
-
-        /** @var ilWorkingTime $working_time */
-        $working_time = ilTestDIC::dic()['working.time'];
-        $workingtime_js_template = $working_time->prepareWorkingtimeJsTemplate(
+        $working_time_js_template = $working_time->prepareWorkingTimeJsTemplate(
             $this->getObject(),
             getdate($starting_time),
-            $processing_time_minutes,
-            $processing_time_seconds,
             $this->ctrl->getLinkTarget($this, 'checkWorkingTime', '', true),
             $this->ctrl->getFormAction($this, ilTestPlayerCommands::REDIRECT_AFTER_QUESTION_LIST)
         );
 
-        $this->tpl->addOnLoadCode($workingtime_js_template->get());
+        $this->tpl->addOnLoadCode($working_time_js_template->get());
     }
 
     /**

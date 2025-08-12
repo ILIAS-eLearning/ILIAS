@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Presentation\WorkingTime;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 
 /**
@@ -175,35 +176,28 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         if ($this->object->getEnableProcessingTime()) {
             $active_id = $this->testSession->getActiveId();
             $starting_time = $this->object->getStartingTimeOfUser($active_id);
-            $processing_time = $this->object->getProcessingTimeInSeconds($active_id);
-
-            $user_working_time = $this->getUserProcessingTimeString($starting_time, $processing_time);
-            $user_remaining_time = $this->getUserRemainingTimeString($starting_time, $processing_time);
-
-            $html .= $this->ui_renderer->render(
-                $this->ui_factory->messageBox()->info(
-                    $user_working_time . ' <span id="timeleft">' . $user_remaining_time . '</span>'
-                )
+            $working_time = new WorkingTime(
+                $this->lng,
+                $this->ui_factory,
+                $this->ui_renderer,
+                $starting_time,
+                $this->object->getProcessingTimeInSeconds($active_id)
             );
 
-            [$processing_time_minutes, $processing_time_seconds] = $this->getUserProcessingTimeMinutesAndSeconds($processing_time);
+            $html .= $working_time->getMessageBox();
 
             $class = $this->getObject()->isFixedTest()
                 ? ilTestPlayerFixedQuestionSetGUI::class
                 : ilTestPlayerRandomQuestionSetGUI::class;
 
-            /** @var ilWorkingTime $working_time */
-            $working_time = ilTestDIC::dic()['working.time'];
-            $workingtime_js_template = $working_time->prepareWorkingtimeJsTemplate(
+            $working_time_js_template = $working_time->prepareWorkingTimeJsTemplate(
                 $this->getObject(),
                 getdate($starting_time),
-                $processing_time_minutes,
-                $processing_time_seconds,
                 $this->ctrl->getLinkTargetByClass($class, 'checkWorkingTime', '', true),
                 $this->ctrl->getFormActionByClass($class, ilTestPlayerCommands::REDIRECT_AFTER_QUESTION_LIST)
             );
 
-            $this->tpl->addOnLoadCode($workingtime_js_template->get());
+            $this->tpl->addOnLoadCode($working_time_js_template->get());
         }
 
         $html .= $this->buildToolbar('review_nav_top')->getHTML();
