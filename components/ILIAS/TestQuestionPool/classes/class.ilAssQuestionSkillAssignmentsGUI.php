@@ -595,23 +595,22 @@ class ilAssQuestionSkillAssignmentsGUI
     {
         $this->tpl->addCss('./assets/css/content.css');
 
-        $pageGUI = new ilAssQuestionPageGUI($question_gui->getObject()->getId());
+        $page_gui = new ilAssQuestionPageGUI($question_gui->getObject()->getId());
+        $page_gui->setFileDownloadLink($question_gui->buildFileDownloadLink());
+        $page_gui->setOutputMode("presentation");
+        $page_gui->setRenderPageContainer(true);
 
-        $pageGUI->setOutputMode("presentation");
-        $pageGUI->setRenderPageContainer(true);
-
-        $pageGUI->setPresentationTitle($question_gui->getObject()->getTitleForHTMLOutput());
+        $page_gui->setPresentationTitle($question_gui->getObject()->getTitleForHTMLOutput());
 
         $question = $question_gui->getObject();
         $question->setShuffle(false); // dirty, but works ^^
         $question_gui->setObject($question);
-        $questionHTML = $question_gui->getSolutionOutput(0, 0, false, false, true, false, true, false, true);
-        $pageGUI->setQuestionHTML([$question_gui->getObject()->getId() => $questionHTML]);
+        $page_gui->setQuestionHTML([
+            $question_gui->getObject()->getId() => $question_gui->getSolutionOutput(0, 0, false, false, true, false, true, false, true)
+        ]);
 
-        $pageHTML = $pageGUI->presentation();
-        $pageHTML = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $pageHTML);
+        return preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $page_gui->presentation());
 
-        return $pageHTML;
     }
 
     /**

@@ -151,6 +151,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                 $question_id = $this->test_sequence->getQuestionForSequence($this->getCurrentSequenceElement());
 
                 $page_gui = new ilAssQuestionPageGUI($question_id);
+                $page_gui->setFileDownloadLink(
+                    $this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, 'downloadFile')
+                );
                 $ret = $this->ctrl->forwardCommand($page_gui);
                 break;
 

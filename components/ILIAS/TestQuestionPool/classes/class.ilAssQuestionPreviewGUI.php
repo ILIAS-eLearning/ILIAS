@@ -386,6 +386,7 @@ class ilAssQuestionPreviewGUI
         $this->ctrl->setReturnByClass('ilObjQuestionPoolGUI', 'questions');
 
         $page_gui = new ilAssQuestionPageGUI($this->question_obj->getId());
+        $page_gui->setFileDownloadLink($this->question_gui->buildFileDownloadLink());
         $page_gui->setRenderPageContainer(false);
         $page_gui->setEditPreview(true);
         $page_gui->setEnabledTabs(false);
@@ -431,14 +432,14 @@ class ilAssQuestionPreviewGUI
         $this->ctrl->setReturnByClass('ilAssQuestionPageGUI', 'view');
         $this->ctrl->setReturnByClass('ilObjQuestionPoolGUI', 'questions');
 
-        $pageGUI = new ilAssQuestionPageGUI($this->question_obj->getId());
-
-        $pageGUI->setEditPreview(true);
-        $pageGUI->setEnabledTabs(false);
+        $page_gui = new ilAssQuestionPageGUI($this->question_obj->getId());
+        $page_gui->setFileDownloadLink($this->question_gui->buildFileDownloadLink());
+        $page_gui->setEditPreview(true);
+        $page_gui->setEnabledTabs(false);
 
         $this->question_gui->setPreviewSession($this->preview_session);
 
-        $pageGUI->setQuestionHTML([$this->question_obj->getId() => $this->question_gui->getSolutionOutput(0, null, false, false, true, false, true, false, false)]);
+        $page_gui->setQuestionHTML([$this->question_obj->getId() => $this->question_gui->getSolutionOutput(0, null, false, false, true, false, true, false, false)]);
 
         $output = $this->question_gui->getSolutionOutput(0, null, false, false, true, false, true, false, false);
 

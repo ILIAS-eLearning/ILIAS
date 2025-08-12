@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Question page GUI class
  *
@@ -29,47 +31,13 @@
  */
 class ilAssQuestionPageGUI extends ilPageObjectGUI
 {
-    public const TEMP_PRESENTATION_TITLE_PLACEHOLDER = '___TEMP_PRESENTATION_TITLE_PLACEHOLDER___';
+    private $question_info_html = '';
+    private $question_actions_html = '';
 
-    private $originalPresentationTitle = '';
-    private $questionInfoHTML = '';
-    private $questionActionsHTML = '';
-
-
-    /**
-     * Constructor
-     *
-     * @param int $a_id
-     * @param int $a_old_nr
-     */
-    public function __construct($a_id = 0, $a_old_nr = 0)
+    public function __construct(int $a_id = 0)
     {
-        global $DIC;
-        $cmd_class = '';
-        if ($DIC->http()->wrapper()->query()->has('cmdClass')) {
-            $cmd_class = $DIC->http()->wrapper()->query()->retrieve(
-                'cmdClass',
-                $DIC->refinery()->kindlyTo()->string()
-            );
-        }
-
-        parent::__construct('qpl', $a_id, $a_old_nr);
+        parent::__construct('qpl', $a_id);
         $this->setEnabledPageFocus(false);
-        if (strtolower($cmd_class) === 'ilassquestionpreviewgui') {
-            $this->setFileDownloadLink($this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, 'downloadFile'));
-        } else {
-            $this->setFileDownloadLink($this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, 'downloadFile'));
-        }
-    }
-
-    public function getOriginalPresentationTitle(): string
-    {
-        return $this->originalPresentationTitle;
-    }
-
-    public function setOriginalPresentationTitle($originalPresentationTitle): void
-    {
-        $this->originalPresentationTitle = $originalPresentationTitle;
     }
 
     protected function isPageContainerToBeRendered(): bool
@@ -79,14 +47,8 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
 
     public function showPage(): string
     {
-        if ($this->getPresentationTitle() !== null) {
-            $this->setOriginalPresentationTitle($this->getPresentationTitle());
-            $this->setPresentationTitle(self::TEMP_PRESENTATION_TITLE_PLACEHOLDER);
-        }
-
-        // fau: testNav - enable page toc as placeholder for info and actions block (see self::insertPageToc)
         $config = $this->getPageConfig();
-        $config->setEnablePageToc('y');
+        $config->setEnablePageToc(true);
         $this->setPageConfig($config);
         // fau.
         return parent::showPage();
@@ -97,17 +59,9 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
         $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
     }
 
-    public function postOutputProcessing(string $a_output): string
+    public function postOutputProcessing(string $output): string
     {
-        $a_output = str_replace(
-            self::TEMP_PRESENTATION_TITLE_PLACEHOLDER,
-            $this->getOriginalPresentationTitle(),
-            $a_output
-        );
-
-        $a_output = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $a_output);
-
-        return $a_output;
+        return preg_replace('/src="\./ims', 'src="' . ILIAS_HTTP_PATH . '/', $output);
     }
 
     // fau: testNav - support the addition of question info and actions below the title
@@ -118,7 +72,7 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
      */
     public function setQuestionInfoHTML($a_html): void
     {
-        $this->questionInfoHTML = $a_html;
+        $this->question_info_html = $a_html;
     }
 
     /**
@@ -127,7 +81,7 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
      */
     public function setQuestionActionsHTML($a_html): void
     {
-        $this->questionActionsHTML = $a_html;
+        $this->question_actions_html = $a_html;
     }
 
     /**
@@ -137,10 +91,10 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
      */
     public function insertPageToc(string $a_output): string
     {
-        if (!empty($this->questionInfoHTML) || !empty($this->questionActionsHTML)) {
+        if (!empty($this->question_info_html) || !empty($this->question_actions_html)) {
             $tpl = new ilTemplate('tpl.tst_question_subtitle_blocks.html', true, true, 'components/ILIAS/TestQuestionPool');
-            $tpl->setVariable('QUESTION_INFO', $this->questionInfoHTML);
-            $tpl->setVariable('QUESTION_ACTIONS', $this->questionActionsHTML);
+            $tpl->setVariable('QUESTION_INFO', $this->question_info_html);
+            $tpl->setVariable('QUESTION_ACTIONS', $this->question_actions_html);
             $a_output = str_replace("{{{{{PageTOC}}}}}", $tpl->get(), $a_output);
         } else {
             $a_output = str_replace("{{{{{PageTOC}}}}}", '', $a_output);

@@ -83,7 +83,9 @@ class ilAssQuestionPageCommandForwarder
         $this->ctrl->setReturnByClass(ilAssQuestionPageGUI::class, 'view');
         $this->ctrl->setReturnByClass(ilObjTestGUI::class, ilObjTestGUI::SHOW_QUESTIONS_CMD);
         $page_gui = new ilAssQuestionPageGUI($this->testrequest->getQuestionId());
-
+        $page_gui->setFileDownloadLink(
+            $this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, 'downloadFile')
+        );
         $page_gui->setEditPreview(true);
         $page_gui->setQuestionHTML([$q_gui->getObject()->getId() => $q_gui->getPreview(true)]);
         $page_gui->setTemplateTargetVar("ADM_CONTENT");

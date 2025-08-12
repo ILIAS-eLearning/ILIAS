@@ -1566,7 +1566,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     */
     public function fullscreenObject()
     {
-        $page_gui = new ilAssQuestionPageGUI($this->testrequest->raw("pg_id"));
+        $page_gui = new ilAssQuestionPageGUI($this->testrequest->raw('pg_id'));
+        $page_gui->setFileDownloadLink(
+            $this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, 'downloadFile')
+        );
         $page_gui->showMediaFullscreen();
     }
 
