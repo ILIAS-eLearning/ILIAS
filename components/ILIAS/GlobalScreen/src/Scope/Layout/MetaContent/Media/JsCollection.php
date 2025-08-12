@@ -31,6 +31,12 @@ class JsCollection extends AbstractCollection
     public function addItem(Js $item): void
     {
         $basename = $this->stripPath($item->getContent());
+        if (!$this->isContentDataUri($item->getContent())) {
+            $real_path = realpath(parse_url($item->getContent(), PHP_URL_PATH) ?? '');
+            if (!$this->allow_non_existing && $real_path === false) {
+                return;
+            }
+        }
         if (!array_key_exists($basename, $this->items)) {
             $this->storeItem($item);
         } else {
