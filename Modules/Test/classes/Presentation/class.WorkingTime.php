@@ -36,8 +36,7 @@ class WorkingTime
         private readonly Renderer $ui_renderer,
         private readonly int $starting_time,
         private readonly int $processing_time
-    )
-    {
+    ) {
     }
 
     public function prepareWorkingTimeJsTemplate(
