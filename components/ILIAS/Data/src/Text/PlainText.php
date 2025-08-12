@@ -31,4 +31,9 @@ class PlainText
     ) {
         $this->plain_text = $plain_text;
     }
+
+    public function __toString(
+    ) {
+        return $this->plain_text;
+    }
 }
