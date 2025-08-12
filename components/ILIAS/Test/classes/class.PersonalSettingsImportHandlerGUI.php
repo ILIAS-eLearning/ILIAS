@@ -20,9 +20,7 @@ declare(strict_types=1);
 
 class PersonalSettingsImportHandlerGUI extends \ImportUploadHandlerGUI
 {
-    public const SUPPORTED_IMPORT_MIME_TYPES = [
-        'text/xml'
-    ];
+    public const array SUPPORTED_IMPORT_MIME_TYPES = ['text/xml'];
 
     public function __construct()
     {

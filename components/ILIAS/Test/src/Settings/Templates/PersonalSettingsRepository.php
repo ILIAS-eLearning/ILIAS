@@ -67,7 +67,7 @@ class PersonalSettingsRepository
     public function getTemplatesByIds(array $ids): array
     {
         $stmt = $this->db->query(
-            "SELECT * FROM tst_test_defaults WHERE " . $this->db->in('test_defaults_id', $ids, false, \ilDBConstants::T_INTEGER),
+            "SELECT * FROM tst_test_defaults WHERE {$this->db->in('test_defaults_id', $ids, false, \ilDBConstants::T_INTEGER)}",
         );
 
         $templates = [];
@@ -146,11 +146,12 @@ class PersonalSettingsRepository
             \DateTimeImmutable::createFromFormat('U', (string) time())
         );
 
-        $main_settings = $this->main_settings_repository->getFor($test_id);
-        $score_settings = $this->score_settings_repository->getFor($test_id);
-        $mark_schema = $this->marks_repository->getMarkSchemaFor($test_id);
-
-        $this->createTemplate($template, $main_settings, $score_settings, $mark_schema);
+        $this->createTemplate(
+            $template,
+            $this->main_settings_repository->getFor($test_id),
+            $this->score_settings_repository->getFor($test_id),
+            $this->marks_repository->getMarkSchemaFor($test_id),
+        );
 
         return $template;
     }
@@ -205,11 +206,11 @@ class PersonalSettingsRepository
             [\ilDBConstants::T_INTEGER],
             [$template_id]
         );
-        $mark_ids = array_map(fn($row) => $row['mark_id'], $this->db->fetchAll($stmt));
+        $mark_ids = array_map(static fn(array $row): int => $row['mark_id'], $this->db->fetchAll($stmt));
 
         $in_marks = $this->db->in('mark_id', $mark_ids, false, \ilDBConstants::T_INTEGER);
-        $this->db->manipulate("DELETE FROM tst_defaults_marks WHERE $in_marks");
-        $this->db->manipulate("DELETE FROM tst_mark WHERE $in_marks");
+        $this->db->manipulate("DELETE FROM tst_defaults_marks WHERE {$in_marks}");
+        $this->db->manipulate("DELETE FROM tst_mark WHERE {$in_marks}");
 
         // 2. Delete entries in tst_test_defaults and tst_test_settings
         $stmt = $this->db->queryF(

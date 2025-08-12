@@ -127,9 +127,9 @@ class ilObjTest extends ilObject
 
     protected GlobalSettingsRepository $global_settings_repo;
     protected ?MainSettings $main_settings = null;
-    protected ?MainSettingsRepository $main_settings_repo = null;
+    protected ?MainSettingsRepository $main_settings_repository = null;
     protected ?ScoreSettings $score_settings = null;
-    protected ?ScoreSettingsRepository $score_settings_repo = null;
+    protected ?ScoreSettingsRepository $score_settings_repository = null;
 
     protected TestLogger $logger;
     protected TestLogViewer $log_viewer;
@@ -180,8 +180,8 @@ class ilObjTest extends ilObject
         $this->participant_repository = $local_dic['participant.repository'];
         $this->export_factory = $local_dic['exportimport.factory'];
         $this->test_result_repository = $local_dic['results.data.repository'];
-        $this->main_settings_repo = $local_dic['settings.main.repository'];
-        $this->score_settings_repo = $local_dic['settings.scoring.repository'];
+        $this->main_settings_repository = $local_dic['settings.main.repository'];
+        $this->score_settings_repository = $local_dic['settings.scoring.repository'];
 
         parent::__construct($id, $a_call_by_reference);
 
@@ -304,8 +304,6 @@ class ilObjTest extends ilObject
         $participantData->load($this->getTestId());
         $this->removeTestResults($participantData);
 
-        $settings_id = $this->getMainSettings()->getId();
-
         $this->db->manipulateF(
             "DELETE FROM tst_mark WHERE test_fi = %s",
             ['integer'],
@@ -321,7 +319,7 @@ class ilObjTest extends ilObject
         $this->db->manipulateF(
             "DELETE FROM tst_test_settings WHERE id = %s",
             ['integer'],
-            [$settings_id]
+            [$this->getMainSettings()->getId()]
         );
 
         $tst_data_dir = ilFileUtils::getDataDir() . "/tst_data";
@@ -761,10 +759,9 @@ class ilObjTest extends ilObject
      */
     private static function _getScoreSettingsByActiveId(int $active_id): ScoreSettings
     {
-        $repository = TestDIC::dic()['settings.scoring.repository'];
-        $obj_id = ilObjTest::_getObjectIDFromActiveID($active_id);
-        $test_id = ilObjTest::_getTestIDFromObjectID($obj_id);
-        return $repository->getFor($test_id);
+        return TestDIC::dic()['settings.scoring.repository']->getFor(
+            ilObjTest::_getTestIDFromObjectID(ilObjTest::_getObjectIDFromActiveID($active_id)),
+        );
     }
 
     /**
@@ -858,7 +855,7 @@ class ilObjTest extends ilObject
 
     public function isPreviousSolutionReuseEnabled(): bool
     {
-        return $this->getUsePreviousAnswers() && $this->user->getPref("tst_use_previous_answers") === '1';
+        return $this->getUsePreviousAnswers() && $this->user->getPref('tst_use_previous_answers') === '1';
     }
 
     public function getProcessingTime(): ?string
@@ -3995,7 +3992,6 @@ class ilObjTest extends ilObject
                 )
             )->withId($new_settings_id);
 
-
         $this->getMainSettingsRepository()->store($new_settings);
         $this->getScoreSettingsRepository()->store(
             $this->getScoreSettings()->withId($new_settings_id)
@@ -5411,10 +5407,9 @@ class ilObjTest extends ilObject
 
     public function lookupQuestionSetTypeByActiveId(int $active_id): string
     {
-        $obj_id = self::_getObjectIDFromActiveID($active_id);
-        $test_id = self::_getTestIDFromObjectID($obj_id);
-
-        return $this->main_settings_repo->getFor($test_id)->getGeneralSettings()->getQuestionSetType();
+        return $this->main_settings_repository->getFor(
+            self::_getTestIDFromObjectID(self::_getObjectIDFromActiveID($active_id)),
+        )->getGeneralSettings()->getQuestionSetType();
     }
 
     /**
@@ -6631,7 +6626,7 @@ class ilObjTest extends ilObject
 
     public function getMainSettingsRepository(): MainSettingsRepository
     {
-        return $this->main_settings_repo;
+        return $this->main_settings_repository;
     }
 
     public function getScoreSettings(): ScoreSettings
@@ -6645,7 +6640,7 @@ class ilObjTest extends ilObject
 
     public function getScoreSettingsRepository(): ScoreSettingsRepository
     {
-        return $this->score_settings_repo;
+        return $this->score_settings_repository;
     }
 
     public function addToNewsOnOnline(
@@ -6685,11 +6680,9 @@ class ilObjTest extends ilObject
      */
     public static function _lookupRandomTest(int $obj_id): bool
     {
-        $repository = TestDIC::dic()['settings.main.repository'];
-        $test_id = ilObjTest::_getTestIDFromObjectID($obj_id);
-
-        $question_set_type = $repository->getFor($test_id)->getGeneralSettings()->getQuestionSetType();
-        return $question_set_type === self::QUESTION_SET_TYPE_RANDOM;
+        return TestDIC::dic()['settings.main.repository']->getFor(
+            ilObjTest::_getTestIDFromObjectID($obj_id),
+        )->getGeneralSettings()->getQuestionSetType() === self::QUESTION_SET_TYPE_RANDOM;
     }
 
     public function getVisitingTimeOfParticipant(int $active_id): array

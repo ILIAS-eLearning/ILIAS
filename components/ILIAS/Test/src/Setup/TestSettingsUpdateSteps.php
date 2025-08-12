@@ -30,7 +30,7 @@ const LEGACY_STORAGE_DATE_FORMAT = 'YmdHis';
 
 class TestSettingsUpdateSteps implements \ilDatabaseUpdateSteps
 {
-    public const SETTINGS_COLUMNS = [
+    public const array SETTINGS_COLUMNS = [
         'introduction' => [['type' => \ilDBConstants::T_TEXT, 'length' => 4000, 'default' => null], null],
         'sequence_settings' => [T_BOOLEAN, 'SequenceSettings'],
         'score_reporting' => [T_TINYINT, 'ScoreReporting'],
@@ -124,10 +124,7 @@ class TestSettingsUpdateSteps implements \ilDatabaseUpdateSteps
         // 1. Create table schema
         if (!$this->db->tableExists('tst_test_settings')) {
             // Create table and sequence table
-            $this->db->createTable(
-                'tst_test_settings',
-                ['id' => ['type' => \ilDBConstants::T_INTEGER]],
-            );
+            $this->db->createTable('tst_test_settings', ['id' => ['type' => \ilDBConstants::T_INTEGER]]);
             $this->db->createSequence('tst_test_settings');
             $this->db->addPrimaryKey('tst_test_settings', ['id']);
 

@@ -38,10 +38,7 @@ interface TableAction
     /**
      * @param array<PersonalSettingsTemplate> $selected_templates
      */
-    public function buildModal(
-        URLBuilder $url_builder,
-        array $selected_templates,
-    ): ?Modal;
+    public function buildModal(URLBuilder $url_builder, array $selected_templates): ?Modal;
 
     /**
      * @param array<PersonalSettingsTemplate> $selected_templates

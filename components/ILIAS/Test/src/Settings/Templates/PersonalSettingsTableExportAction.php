@@ -60,10 +60,8 @@ class PersonalSettingsTableExportAction implements TableAction
         );
     }
 
-    public function buildModal(
-        URLBuilder $url_builder,
-        array $selected_templates
-    ): ?Modal {
+    public function buildModal(URLBuilder $url_builder, array $selected_templates): ?Modal
+    {
         return null;
     }
 
@@ -76,8 +74,7 @@ class PersonalSettingsTableExportAction implements TableAction
             throw new \InvalidArgumentException('Expected exactly one template to be selected');
         }
 
-        $template_id = reset($selected_templates)->getId();
-        $this->exporter->setTemplateId($template_id);
+        $this->exporter->setTemplateId(reset($selected_templates)->getId());
         $this->exporter->deliver();
 
         return null;

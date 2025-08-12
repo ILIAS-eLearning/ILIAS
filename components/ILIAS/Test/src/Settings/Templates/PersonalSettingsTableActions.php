@@ -76,7 +76,6 @@ class PersonalSettingsTableActions
         URLBuilderToken $action_token,
         URLBuilderToken $action_type_token
     ): ?Modal {
-        $action = $this->getAction($this->test_request->strVal($action_token->getName()));
         $selection_ids = $this->test_request->getMultiSelectionIds($row_id_token->getName());
         $selection = $this->repository->getTemplatesByIds($selection_ids);
 
@@ -88,6 +87,7 @@ class PersonalSettingsTableActions
             return $this->fail('no_permission');
         }
 
+        $action = $this->getAction($this->test_request->strVal($action_token->getName()));
         try {
             $url_builder = $url_builder
                ->withParameter($row_id_token, $selection_ids)

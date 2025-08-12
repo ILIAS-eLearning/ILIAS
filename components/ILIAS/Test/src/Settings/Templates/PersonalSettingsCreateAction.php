@@ -65,9 +65,6 @@ class PersonalSettingsCreateAction
         $data = $this->buildInput('')->withRequest($request)->getData();
 
         $name = $data['name'] ?? '';
-        $description = $data['description'] ?? '';
-        $author = $data['author'] ?? '';
-
         if ($name === '') {
             throw new \InvalidArgumentException('personal_settings_required_title');
         }
@@ -75,8 +72,8 @@ class PersonalSettingsCreateAction
         $this->repository->createTemplateFor(
             $test_id,
             $name,
-            $description,
-            $author
+            $data['description'] ?? '',
+            $data['author'] ?? ''
         );
     }
 }

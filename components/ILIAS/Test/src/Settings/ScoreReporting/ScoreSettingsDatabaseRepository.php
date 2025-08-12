@@ -35,12 +35,8 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
 
     public function getFor(int $test_id): ScoreSettings
     {
-        if (isset($this->settings_instances[$test_id])) {
-            return $this->settings_instances[$test_id];
-        }
-
-        $where_part = 'WHERE test_id = ' . $this->db->quote($test_id, \ilDBConstants::T_INTEGER);
-        return $this->doSelect($where_part);
+        return $this->settings_instances[$test_id]
+            ?? $this->doSelect('WHERE test_id = ' . $this->db->quote($test_id, \ilDBConstants::T_INTEGER));
     }
 
     protected function doSelect(string $where_part): ScoreSettings
@@ -62,8 +58,8 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
 
         $res = $this->db->query($query);
 
-        if ($this->db->numRows($res) == 0) {
-            throw new \Exception('no score settings: ' . $where_part);
+        if ($this->db->numRows($res) === 0) {
+            throw new \Exception("no score settings: {$where_part}");
         }
 
         $row = $this->db->fetchAssoc($res);
@@ -93,7 +89,7 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
 
         $this->settings_instances = array_filter(
             $this->settings_instances,
-            fn($value) => $value->getId() !== $settings->getId()
+            static fn(int $value): bool => $value->getId() !== $settings->getId(),
         );
     }
 

@@ -54,13 +54,10 @@ class PersonalSettingsExporter implements Exporter
             return;
         }
 
-        $name = $this->escapeName($this->getTemplate()->getName());
-        $stream = Streams::ofString($xml_content);
-
         $this->file_delivery->delivery()->attached(
-            $stream,
-            "{$name}.xml",
-            'text/xml'
+            Streams::ofString($xml_content) ,
+            "{$this->escapeName($this->getTemplate()->getName())}.xml" ,
+            'text/xml',
         );
     }
 
@@ -71,11 +68,9 @@ class PersonalSettingsExporter implements Exporter
         }
 
         $raw_settings = $this->repository->getSettings($this->template_id);
-        $raw_marks = $this->repository->getMarkSchema($this->template_id);
-
         $main_settings = $this->factory->createMainSettings($raw_settings)->normalize();
         $score_settings = $this->factory->createScoreSettings($raw_settings)->normalize();
-        $mark_schema = $raw_marks->normalize();
+        $mark_schema = $this->repository->getMarkSchema($this->template_id)->normalize();
 
 
         $xml_writer = new \XMLWriter();
@@ -151,6 +146,6 @@ class PersonalSettingsExporter implements Exporter
     private function escapeName(string $name): string
     {
         // Replace all special characters except "_" from the string for safe filename usage
-        return preg_replace('/[^a-zA-Z0-9_]/', '-', $name);
+        return preg_replace('/[\W_]/', '-', $name);
     }
 }

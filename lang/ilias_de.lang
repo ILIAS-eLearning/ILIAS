@@ -1209,6 +1209,7 @@ assessment#:#remove_gap#:#Lücke entfernen
 assessment#:#remove_participants#:#Teilnehmende entfernen
 assessment#:#remove_question#:#Entfernen
 assessment#:#remove_selected_participants_confirmation#:#Sind Sie sicher, dass Sie die ausgewählten Teilnehmenden entfernen wollen?
+assessment#:#remove_selected_templates_confirmation#:#Möchten Sie die ausgewählten persönlichen Testeinstellungs­vorlagen wirklich dauerhaft entfernen?
 assessment#:#remove_solution#:#Hinweis auf Inhalte zur Wiederholung entfernen
 assessment#:#res_contains_undef_res#:#In der Formel werden Ergebnisse verwendet, die im Fragen-Text nicht vorhanden sind.
 assessment#:#res_contains_undef_var#:#In der Formel werden Variablen verwendet, die im Fragen-Text nicht vorhanden sind.

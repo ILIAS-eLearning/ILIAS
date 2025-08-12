@@ -93,9 +93,7 @@ class PersonalSettingsTable implements DataRetrieval
 
     private function getRecords(): array
     {
-        if ($this->records === null) {
-            $this->records = $this->repository->getTemplatesForUser();
-        }
+        $this->records ??= $this->repository->getTemplatesForUser();
         return $this->records;
     }
 
@@ -106,7 +104,7 @@ class PersonalSettingsTable implements DataRetrieval
 
     private function sortRecords(array $records, Order $order): array
     {
-        uasort($records, static function (PersonalSettingsTemplate $a, PersonalSettingsTemplate $b) use ($order) {
+        uasort($records, static function (PersonalSettingsTemplate $a, PersonalSettingsTemplate $b) use ($order): int {
             foreach ($order->get() as $subject => $direction) {
                 $position = match ($subject) {
                     'name' => $a->getName() <=> $b->getName(),

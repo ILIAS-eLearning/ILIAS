@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Settings;
 
-use ILIAS\Test\ExportImport\Concerns\PropertyNormalizer;
 use ILIAS\Test\ExportImport\Contracts\Normalizable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -30,8 +29,8 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class Settings extends TestSettings implements Normalizable
 {
-    public const COUNT_PARTIAL_SOLUTIONS = 0;
-    public const COUNT_CORRECT_SOLUTIONS = 1;
+    public const int COUNT_PARTIAL_SOLUTIONS = 0;
+    public const int COUNT_CORRECT_SOLUTIONS = 1;
 
     protected int $count_system = self::COUNT_PARTIAL_SOLUTIONS;
     protected int $score_cutting = 0;

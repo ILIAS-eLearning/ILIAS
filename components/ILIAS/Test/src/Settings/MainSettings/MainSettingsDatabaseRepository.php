@@ -32,6 +32,7 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
 
     /** @var array<int, MainSettings> Settings ID -> Settings DTO */
     private array $settings_instances = [];
+
     public function __construct(
         protected \ilDBInterface $db,
         protected SettingsFactory $factory
@@ -40,22 +41,16 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
 
     public function getForObjFi(int $obj_fi): MainSettings
     {
-        if (isset($this->settings_by_obj_fi[$obj_fi])) {
-            return $this->settings_instances[$this->settings_by_obj_fi[$obj_fi]];
-        }
-
-        $where_part = 'WHERE obj_fi = ' . $this->db->quote($obj_fi, \ilDBConstants::T_INTEGER);
-        return $this->doSelect($where_part);
+        return isset($this->settings_by_obj_fi[$obj_fi])
+            ? $this->settings_instances[$this->settings_by_obj_fi[$obj_fi]]
+            : $this->doSelect("WHERE obj_fi = {$this->db->quote($obj_fi, \ilDBConstants::T_INTEGER)}");
     }
 
     public function getFor(int $test_id): MainSettings
     {
-        if (isset($this->settings_by_test_fi[$test_id])) {
-            return $this->settings_instances[$this->settings_by_test_fi[$test_id]];
-        }
-
-        $where_part = 'WHERE test_id = ' . $this->db->quote($test_id, \ilDBConstants::T_INTEGER);
-        return $this->doSelect($where_part);
+        return isset($this->settings_by_test_fi[$test_id])
+            ? $this->settings_instances[$this->settings_by_test_fi[$test_id]]
+            : $this->doSelect("WHERE test_id = {$this->db->quote($test_id, \ilDBConstants::T_INTEGER)}");
     }
 
     protected function doSelect(string $where_part): MainSettings
@@ -118,8 +113,8 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
 
         $res = $this->db->query($query);
 
-        if ($this->db->numRows($res) == 0) {
-            throw new \Exception('Mo main settings for: ' . $where_part);
+        if ($this->db->numRows($res) === 0) {
+            throw new \Exception("Mo main settings for: {$where_part}");
         }
 
         $row = $this->db->fetchAssoc($res);
@@ -135,10 +130,7 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
     public function createFor(int $test_id): int
     {
         $settings_id = $this->db->nextId('tst_test_settings');
-        $this->db->insert(
-            'tst_test_settings',
-            ['id' => [\ilDBConstants::T_INTEGER, $settings_id]],
-        );
+        $this->db->insert('tst_test_settings', ['id' => [\ilDBConstants::T_INTEGER, $settings_id]]);
 
         $this->db->update(
             'tst_tests',
@@ -166,20 +158,16 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
             $settings->getAdditionalSettings()->toStorage()
         );
 
-        $this->db->update(
-            'tst_test_settings',
-            $values,
-            ['id' => [\ilDBConstants::T_INTEGER, $settings->getId()]]
-        );
+        $this->db->update('tst_test_settings', $values, ['id' => [\ilDBConstants::T_INTEGER, $settings->getId()]]);
 
         unset($this->settings_instances[$settings->getId()]);
         $this->settings_by_obj_fi = array_filter(
             $this->settings_by_obj_fi,
-            fn($value) => $value !== $settings->getId()
+            static fn(int $value): bool => $value !== $settings->getId(),
         );
         $this->settings_by_test_fi = array_filter(
             $this->settings_by_test_fi,
-            fn($value) => $value !== $settings->getId()
+            static fn(int $value): bool => $value !== $settings->getId(),
         );
     }
 }

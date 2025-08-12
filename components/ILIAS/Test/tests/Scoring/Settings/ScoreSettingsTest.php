@@ -37,7 +37,9 @@ class ScoreSettingsTest extends ilTestBaseTestCase
 
     public function testScoreSettingsBuild(): void
     {
+        $id = -666;
         $s = new ScoreSettings(
+            $id,
             new SettingsScoring(),
             new SettingsResultSummary(),
             new SettingsResultDetails(),

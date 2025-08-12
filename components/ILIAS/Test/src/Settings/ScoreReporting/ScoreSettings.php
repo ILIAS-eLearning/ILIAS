@@ -26,7 +26,6 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 class ScoreSettings implements Normalizable
 {
-
     public function __construct(
         protected int $id,
         protected SettingsScoring $settings_scoring,
@@ -98,9 +97,8 @@ class ScoreSettings implements Normalizable
         return $clone;
     }
 
-    public function getArrayForLog(
-        AdditionalInformationGenerator $additional_info
-    ): array {
+    public function getArrayForLog(AdditionalInformationGenerator $additional_info): array
+    {
         return $this->settings_scoring->toLog($additional_info)
             + $this->settings_result_summary->toLog($additional_info)
             + $this->settings_result_details->toLog($additional_info)

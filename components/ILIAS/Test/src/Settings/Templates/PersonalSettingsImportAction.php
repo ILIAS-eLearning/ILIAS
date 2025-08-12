@@ -38,7 +38,6 @@ class PersonalSettingsImportAction
     public function __construct(
         private readonly UIFactory $ui_factory,
         private readonly Language $lng,
-        private readonly \ilObjUser $user,
         private readonly DataFactory $data_factory,
         private readonly Filesystem $filesystem,
         private readonly PersonalSettingsRepository $repository,
@@ -57,9 +56,7 @@ class PersonalSettingsImportAction
         return $this->ui_factory->modal()->roundtrip(
             $this->lng->txt('personal_settings_import'),
             [],
-            [
-                'upload' => $file_upload_input
-            ],
+            ['upload' => $file_upload_input],
             $url
         )->withSubmitLabel($this->lng->txt('import'));
     }
@@ -86,10 +83,8 @@ class PersonalSettingsImportAction
 
     public function importFile(string $file): void
     {
-        $xml_content = $this->filesystem->read($file);
-
         $dom = new \DOMDocument();
-        $dom->loadXML($xml_content);
+        $dom->loadXML($this->filesystem->read($file));
 
 
         if (!$dom->schemaValidate(self::SCHEMA_FILE)) {
@@ -104,8 +99,6 @@ class PersonalSettingsImportAction
             throw new \ilImportException('Unsupported Import between ILIAS major versions');
         }
 
-        $template_data = $this->getAttributes($doc);
-
         $main_settings_data = $this->parseElementsRecursive(
             $this->firstChildElement($doc, 'main-settings')
         );
@@ -119,7 +112,7 @@ class PersonalSettingsImportAction
         );
 
         $this->repository->createTemplate(
-            PersonalSettingsTemplate::denormalize($template_data),
+            PersonalSettingsTemplate::denormalize($this->getAttributes($doc)),
             MainSettings::denormalize($main_settings_data),
             ScoreSettings::denormalize($score_settings_data),
             MarkSchema::denormalize($mark_schema_data)
@@ -148,10 +141,9 @@ class PersonalSettingsImportAction
      */
     private function firstChildElement(\DOMElement $element, string $element_name): ?\DOMElement
     {
-        $elements = $element->getElementsByTagName($element_name);
-        foreach ($elements as $element) {
-            if ($element instanceof \DOMElement) {
-                return $element;
+        foreach ($element->getElementsByTagName($element_name) as $item) {
+            if ($item instanceof \DOMElement) {
+                return $item;
             }
         }
         return null;
@@ -165,7 +157,7 @@ class PersonalSettingsImportAction
     {
         $children = array_filter(
             iterator_to_array($parent->childNodes),
-            fn($child) => $child instanceof \DOMElement
+            static fn(mixed $child): bool => $child instanceof \DOMElement,
         );
 
         if (count($children) > 0) {
@@ -188,7 +180,7 @@ class PersonalSettingsImportAction
             'boolean' => $value == 'true',
             'double' => (float) $value,
             'NULL' => null,
-            default => throw new \InvalidArgumentException('Invalid type: ' . $type),
+            default => throw new \InvalidArgumentException("Invalid type: {$type}"),
         };
     }
 }

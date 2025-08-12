@@ -928,9 +928,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 }
 
                 if (in_array($cmd, ['executeTemplatesAction', 'showTemplates', 'createTemplate', 'importTemplate'])) {
-                    $local_cmd = $cmd . 'Cmd';
+                    $local_cmd = "{$cmd}Cmd";
                 } else {
-                    $local_cmd = $cmd . 'Object';
+                    $local_cmd = "{$cmd}Object";
                 }
 
                 if (!method_exists($this, $local_cmd)) {
@@ -1401,15 +1401,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     public function retrieveAdditionalDidacticTemplateOptions(): array
     {
-        $defaults = $this->personal_settings_templates_repository->getTemplatesForUser();
-        if ($defaults === []) {
-            return [];
-        }
-
         $additional_options = [];
-        foreach ($defaults as $template) {
-            $additional_options["tstdef_" . $template->getId()] =
-                [$template->getName(), $this->lng->txt("personal_settings")];
+        foreach ($this->personal_settings_templates_repository->getTemplatesForUser() as $template) {
+            $additional_options["tstdef_{$template->getId()}"] = [$template->getName(), $this->lng->txt('personal_settings')];
         }
         return $additional_options;
     }
@@ -2104,7 +2098,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         return new PersonalSettingsImportAction(
             $this->ui_factory,
             $this->lng,
-            $this->user,
             $this->data_factory,
             $this->temp_file_system,
             $this->personal_settings_templates_repository
@@ -2156,18 +2149,15 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         );
 
         $uri = $this->ctrl->getLinkTargetByClass(self::class, 'executeTemplatesAction', '', true);
-        $uri_builder = new URLBuilder($this->data_factory->uri(ILIAS_HTTP_PATH . '/' . $uri));
-
-        $table = new PersonalSettingsTable(
+        return new PersonalSettingsTable(
             $this->lng,
             $this->ui_factory,
             $this->data_factory,
             $this->testrequest,
             $actions,
-            $uri_builder,
-            $this->personal_settings_templates_repository
+            new URLBuilder($this->data_factory->uri(ILIAS_HTTP_PATH . '/' . $uri)),
+            $this->personal_settings_templates_repository,
         );
-        return $table;
     }
 
     private function isCommandClassAnyInfoScreenChild(): bool

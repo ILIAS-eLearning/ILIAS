@@ -26,7 +26,7 @@ use ILIAS\Setup\Migration;
 
 class RemoveLegacyTestSettingsMigration implements Migration
 {
-    public const UNUSED_LEGACY_COLUMNS = [
+    public const array UNUSED_LEGACY_COLUMNS = [
         'ects_output',
         'ects_fx',
         'ects_a',
@@ -57,9 +57,7 @@ class RemoveLegacyTestSettingsMigration implements Migration
 
     public function getPreconditions(Environment $environment): array
     {
-        return [
-            new \ilDatabaseInitializedObjective()
-        ];
+        return [new \ilDatabaseInitializedObjective()];
     }
 
     public function prepare(Environment $environment): void

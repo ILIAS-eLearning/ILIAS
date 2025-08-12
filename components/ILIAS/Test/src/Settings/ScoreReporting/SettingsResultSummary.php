@@ -157,11 +157,11 @@ class SettingsResultSummary extends TestSettings implements Normalizable
     public function toStorage(): array
     {
         return [
-            'pass_deletion_allowed' => ['integer', (int) $this->getPassDeletionAllowed()],
-            'score_reporting' => ['integer', $this->getScoreReporting()->value],
-            'reporting_date' => ['integer', $this->getReportingDate() !== null ? $this->getReportingDate()->getTimestamp() : 0],
-            'show_grading_status' => ['integer', (int) $this->getShowGradingStatusEnabled()],
-            'show_grading_mark' => ['integer', (int) $this->getShowGradingMarkEnabled()]
+            'pass_deletion_allowed' => [\ilDBConstants::T_INTEGER, (int) $this->getPassDeletionAllowed()],
+            'score_reporting' => [\ilDBConstants::T_INTEGER, $this->getScoreReporting()->value],
+            'reporting_date' => [\ilDBConstants::T_INTEGER, $this->getReportingDate() !== null ? $this->getReportingDate()->getTimestamp() : 0],
+            'show_grading_status' => [\ilDBConstants::T_INTEGER, (int) $this->getShowGradingStatusEnabled()],
+            'show_grading_mark' => [\ilDBConstants::T_INTEGER, (int) $this->getShowGradingMarkEnabled()]
         ];
     }
 

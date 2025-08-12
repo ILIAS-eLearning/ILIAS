@@ -36,6 +36,7 @@ class MainSettingsTest extends ilTestBaseTestCase
     {
         $IO = $IO($this);
         $main_settings = (new MainSettings(
+            0,
             $this->createMock(SettingsGeneral::class),
             $this->createMock(SettingsIntroduction::class),
             $this->createMock(SettingsAccess::class),
@@ -63,6 +64,7 @@ class MainSettingsTest extends ilTestBaseTestCase
     {
         $IO = $IO($this);
         $main_settings = (new MainSettings(
+            0,
             $this->createMock(SettingsGeneral::class),
             $this->createMock(SettingsIntroduction::class),
             $this->createMock(SettingsAccess::class),
@@ -90,6 +92,7 @@ class MainSettingsTest extends ilTestBaseTestCase
     {
         $IO = $IO($this);
         $main_settings = (new MainSettings(
+            0,
             $this->createMock(SettingsGeneral::class),
             $this->createMock(SettingsIntroduction::class),
             $this->createMock(SettingsAccess::class),
@@ -117,6 +120,7 @@ class MainSettingsTest extends ilTestBaseTestCase
     {
         $IO = $IO($this);
         $main_settings = (new MainSettings(
+            0,
             $this->createMock(SettingsGeneral::class),
             $this->createMock(SettingsIntroduction::class),
             $this->createMock(SettingsAccess::class),
@@ -144,6 +148,7 @@ class MainSettingsTest extends ilTestBaseTestCase
     {
         $IO = $IO($this);
         $main_settings = (new MainSettings(
+            0,
             $this->createMock(SettingsGeneral::class),
             $this->createMock(SettingsIntroduction::class),
             $this->createMock(SettingsAccess::class),
@@ -171,6 +176,7 @@ class MainSettingsTest extends ilTestBaseTestCase
     {
         $IO = $IO($this);
         $main_settings = (new MainSettings(
+            0,
             $this->createMock(SettingsGeneral::class),
             $this->createMock(SettingsIntroduction::class),
             $this->createMock(SettingsAccess::class),
@@ -198,6 +204,7 @@ class MainSettingsTest extends ilTestBaseTestCase
     {
         $IO = $IO($this);
         $main_settings = (new MainSettings(
+            0,
             $this->createMock(SettingsGeneral::class),
             $this->createMock(SettingsIntroduction::class),
             $this->createMock(SettingsAccess::class),
@@ -225,6 +232,7 @@ class MainSettingsTest extends ilTestBaseTestCase
     {
         $IO = $IO($this);
         $main_settings = (new MainSettings(
+            0,
             $this->createMock(SettingsGeneral::class),
             $this->createMock(SettingsIntroduction::class),
             $this->createMock(SettingsAccess::class),

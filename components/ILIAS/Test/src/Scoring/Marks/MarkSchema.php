@@ -206,15 +206,12 @@ class MarkSchema implements Normalizable
 
     public function normalize(): array
     {
-        return [
-            'mark_steps' => array_map(fn(Mark $mark) => $mark->normalize(), $this->mark_steps),
-        ];
+        return ['mark_steps' => array_map(static fn(Mark $mark): array => $mark->normalize(), $this->mark_steps)];
     }
 
     public static function denormalize(array $data): static
     {
-        $mark_steps = array_map(fn(array $mark) => Mark::denormalize($mark), $data['mark_steps']);
         return (new self($data['test_id'] ?? -1))
-            ->withMarkSteps($mark_steps);
+            ->withMarkSteps(array_map(static fn(array $mark): Mark => Mark::denormalize($mark), $data['mark_steps']));
     }
 }

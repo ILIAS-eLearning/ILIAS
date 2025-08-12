@@ -44,12 +44,11 @@ trait PropertyNormalizer
     public function normalize(): array
     {
         $reflection = new ReflectionClass($this);
-        $properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED | ReflectionProperty::IS_PRIVATE);
+        $properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED);
 
         $normalized = [];
 
         foreach ($properties as $property) {
-            $property->setAccessible(true);
             $value = $property->getValue($this);
             $normalized[$property->getName()] = $this->normalizeValue($value);
         }
@@ -57,7 +56,7 @@ trait PropertyNormalizer
         return $normalized;
     }
 
-    private function normalizeValue($value)
+    private function normalizeValue($value): mixed
     {
         if ($value === null) {
             return null;
@@ -105,12 +104,10 @@ trait PropertyNormalizer
             throw new \InvalidArgumentException('Class must have a constructor');
         }
 
-        $parameters = $constructor->getParameters();
         $arguments = [];
 
-        foreach ($parameters as $parameter) {
+        foreach ($constructor->getParameters() as $parameter) {
             $parameter_name = $parameter->getName();
-            $parameter_type = $parameter->getType();
 
             if (!isset($data[$parameter_name])) {
                 if ($parameter->isDefaultValueAvailable()) {
@@ -122,13 +119,13 @@ trait PropertyNormalizer
             }
 
             $value = $data[$parameter_name];
-            $arguments[] = self::denormalizeValue($value, $parameter_type);
+            $arguments[] = self::denormalizeValue($value, $parameter->getType());
         }
 
         return new static(...$arguments);
     }
 
-    private static function denormalizeValue($value, ?\ReflectionType $type)
+    private static function denormalizeValue(mixed $value, ?\ReflectionType $type)
     {
         if ($value === null) {
             return null;
@@ -144,7 +141,7 @@ trait PropertyNormalizer
             foreach ($types as $union_type) {
                 try {
                     return self::denormalizeValue($value, $union_type);
-                } catch (\InvalidArgumentException $e) {
+                } catch (\InvalidArgumentException) {
                     continue;
                 }
             }
@@ -153,8 +150,7 @@ trait PropertyNormalizer
 
         // Handle intersection types
         if ($type instanceof \ReflectionIntersectionType) {
-            $types = $type->getTypes();
-            foreach ($types as $intersection_type) {
+            foreach ($type->getTypes() as $intersection_type) {
                 $value = self::denormalizeValue($value, $intersection_type);
             }
             return $value;
@@ -200,8 +196,6 @@ trait PropertyNormalizer
             throw new \InvalidArgumentException('Value must be an array');
         }
 
-        return array_map(function ($item) {
-            return self::denormalizeValue($item, null);
-        }, $value);
+        return array_map(static fn(mixed $item): mixed => self::denormalizeValue($item, null), $value);
     }
 }

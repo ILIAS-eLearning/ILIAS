@@ -31,7 +31,7 @@ class ilTestSearch extends ilAbstractSearch
 {
     public function __searchTestIntroduction(): ilSearchResult
     {
-        $this->setFields(array('st.introduction'));
+        $this->setFields(['st.introduction']);
 
         $where = $this->__createWhereCondition();
         $locate = $this->__createLocateString();

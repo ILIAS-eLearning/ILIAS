@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\Templates;
 
-
 use ILIAS\Language\Language;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Test\Participants\ParticipantTableActions;
@@ -66,10 +65,8 @@ class PersonalSettingsTableShowAction implements TableAction
         )->withAsync();
     }
 
-    public function buildModal(
-        URLBuilder $url_builder,
-        array $selected_templates
-    ): ?Modal {
+    public function buildModal(URLBuilder $url_builder, array $selected_templates): ?Modal
+    {
         if (count($selected_templates) !== 1) {
             throw new \InvalidArgumentException('Expected exactly one template to show');
         }
@@ -88,11 +85,11 @@ class PersonalSettingsTableShowAction implements TableAction
         );
 
         $modal_content[] = $this->information_generator->parseForTable(
-            array_map(fn($v) => $v === null ? '' : $v, $settings_info),
+            array_map(static fn(mixed $v): mixed => $v ?? '', $settings_info),
             $environment
         );
 
-        $modal_content[] = $this->ui_factory->legacy()->content("<h4>" . $this->lng->txt('mark_schema') . "</h4>");
+        $modal_content[] = $this->ui_factory->legacy()->content("<h4>{$this->lng->txt('mark_schema')}</h4>");
         $modal_content[] = $this->information_generator->parseForTable(
             $this->repository->getMarkSchema($template->getId())->toLog($this->information_generator),
             $environment

@@ -34,8 +34,8 @@ class MarksDatabaseRepository implements MarksRepository
     {
         $result = $this->db->queryF(
             'SELECT * FROM ' . self::DB_TABLE . ' WHERE test_fi = %s ORDER BY minimum_level',
-            ['integer'],
-            [$test_id]
+            [\ilDBConstants::T_INTEGER],
+            [$test_id],
         );
 
         return $this->factory->createMarkSchema($this->db->fetchAll($result), $test_id);

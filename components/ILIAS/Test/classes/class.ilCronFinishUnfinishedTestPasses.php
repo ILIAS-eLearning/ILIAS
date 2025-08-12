@@ -162,7 +162,7 @@ class ilCronFinishUnfinishedTestPasses extends CronJob
     {
         $query = "SELECT test_id, obj_fi, st.ending_time, st.ending_time_enabled, st.processing_time, st.enable_processing_time
                     FROM tst_tests INNER JOIN tst_test_settings AS st ON tst_tests.settings_id = st.id WHERE " .
-                 $this->db->in('test_id', $this->test_ids, false, 'integer');
+                 $this->db->in('test_id', $this->test_ids, false, ilDBConstants::T_INTEGER);
 
         $result = $this->db->query($query);
         while ($row = $this->db->fetchAssoc($result)) {
