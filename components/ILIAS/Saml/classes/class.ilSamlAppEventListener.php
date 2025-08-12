@@ -28,7 +28,8 @@ class ilSamlAppEventListener implements ilAppEventListener
             isset($a_parameter['is_explicit_logout']) && $a_parameter['is_explicit_logout'] === true &&
             isset($a_parameter['used_external_auth_mode']) && $a_parameter['used_external_auth_mode']) {
             if ((int) $a_parameter['used_external_auth_mode'] === ilAuthUtils::AUTH_SAML) {
-                $DIC->ctrl()->redirectToURL('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
+                $url = $a_parameter['logout_target'] ?? ILIAS_HTTP_PATH . '/login.php';
+                $DIC->ctrl()->redirectToURL('saml.php?action=logout&logout_url=' . urlencode($url));
             }
         }
     }

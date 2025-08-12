@@ -1260,15 +1260,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $this->authSession->logout();
-        $this->eventHandler->raise(
-            'components/ILIAS/Authentication',
-            'afterLogout',
-            [
-                'username' => $this->user->getLogin(),
-                'is_explicit_logout' => true,
-                'used_external_auth_mode' => $used_external_auth_mode,
-            ]
-        );
 
         $target = new ConfigurableLogoutTarget(
             $this->ctrl,
@@ -1278,6 +1269,17 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         );
         $target = $legal_documents->logoutTarget($target);
         $url = $target->asURI();
+
+        $this->eventHandler->raise(
+            'components/ILIAS/Authentication',
+            'afterLogout',
+            [
+                'username' => $this->user->getLogin(),
+                'is_explicit_logout' => true,
+                'used_external_auth_mode' => $used_external_auth_mode,
+                'logout_target' => $url
+            ]
+        );
 
         $this->mainTemplate->setOnScreenMessage(
             $this->mainTemplate::MESSAGE_TYPE_INFO,
