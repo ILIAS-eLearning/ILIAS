@@ -104,11 +104,19 @@ class ilScormAiccDataSet extends ilDataSet
                     continue;
                 }
                 //end fix
-                if (isset($data[$key]) && is_array($data[$key])) {
-                    if (count($data[$key]) > 0) {
-                        $columns [$value["db_col"]] = [$value["db_type"], $data[$key][0]];
-                    }
-                }
+				if ( isset( $data[ $key ] ) ) {
+					$data_value = '';
+					if ( is_array( $data[ $key ] ) ) {
+						$data_value = $data[ $key ][ 0 ] ?? '';
+					}
+					else {
+						$data_value = $data[ $key ];
+					}
+					$columns [ $value[ "db_col" ] ] = [
+						$value[ "db_type" ],
+						$data_value
+					];
+				}
             }
             if (is_array($columns)) {
                 if (count($columns) > 0) {
@@ -124,11 +132,19 @@ class ilScormAiccDataSet extends ilDataSet
                 "Description" => ["db_col" => "description", "db_type" => "text"]
             ];
             foreach ($od_properties as $key => $value) {
-                if (isset($data[$key]) && is_array($data[$key])) {
-                    if (count($data[$key]) > 0) {
-                        $od_columns [$value["db_col"]] = [$value["db_type"], $data[$key][0]];
-                    }
-                }
+				if ( isset( $data[ $key ] ) ) {
+					$data_value = '';
+					if ( is_array( $data[ $key ] ) ) {
+						$data_value = $data[ $key ][ 0 ] ?? '';
+					}
+					else {
+						$data_value = $data[ $key ];
+					}
+					$od_columns [ $value[ "db_col" ] ] = [
+						$value[ "db_type" ],
+						$data_value
+					];
+				}
 
                 if (isset($od_columns) && is_array($od_columns)) {
                     if (count($od_columns) > 0) {
