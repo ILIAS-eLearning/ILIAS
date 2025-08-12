@@ -57,11 +57,11 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("description"), "description");
         $this->addColumn($this->lng->txt("context"), "context");
         $this->addColumn($this->lng->txt('path'), 'path');
+        $this->edit_access = $rbacsystem->checkAccess("edit_roleassignment", USER_FOLDER_ID);
         $this->initFilter();
         $this->setEnableHeader(true);
         $this->setRowTemplate("tpl.role_assignment_row.html", "Services/User");
         $this->setEnableTitle(true);
-        $this->edit_access = $rbacsystem->checkAccess("edit_roleassignment", USER_FOLDER_ID);
         
         if ($this->edit_access) {
             $this->setSelectAllCheckbox("role_id[]");
@@ -106,13 +106,15 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void // Missing array type.
     {
-        if (isset($a_set['checkbox']['id'])) {
-            $this->tpl->setVariable('VAL_ID', $a_set['checkbox']['id']);
-            if ($a_set['checkbox']['disabled']) {
-                $this->tpl->setVariable('VAL_DISABLED', 'disabled="disabled"');
-            }
-            if ($a_set['checkbox']['checked']) {
-                $this->tpl->setVariable('VAL_CHECKED', 'checked="checked"');
+        if ($this->edit_access) {
+            if (isset($a_set['checkbox']['id'])) {
+                $this->tpl->setVariable('VAL_ID', $a_set['checkbox']['id']);
+                if ($a_set['checkbox']['disabled']) {
+                    $this->tpl->setVariable('VAL_DISABLED', 'disabled="disabled"');
+                }
+                if ($a_set['checkbox']['checked']) {
+                    $this->tpl->setVariable('VAL_CHECKED', 'checked="checked"');
+                }
             }
         }
 
