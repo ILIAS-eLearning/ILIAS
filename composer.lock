@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "91404cf0d971a2cb40716c375eaf4b7c",
+    "content-hash": "153769cd320596c1f6efba3e5a2fb35c",
     "packages": [
         {
             "name": "brick/math",
@@ -328,26 +328,25 @@
         },
         {
             "name": "enshrined/svg-sanitize",
-            "version": "0.16.0",
+            "version": "0.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/darylldoyle/svg-sanitizer.git",
-                "reference": "239e257605e2141265b429e40987b2ee51bba4b4"
+                "reference": "0afa95ea74be155a7bcd6c6fb60c276c39984500"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/239e257605e2141265b429e40987b2ee51bba4b4",
-                "reference": "239e257605e2141265b429e40987b2ee51bba4b4",
+                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/0afa95ea74be155a7bcd6c6fb60c276c39984500",
+                "reference": "0afa95ea74be155a7bcd6c6fb60c276c39984500",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
-                "ezyang/htmlpurifier": "^4.16",
-                "php": "^5.6 || ^7.0 || ^8.0"
+                "php": "^7.1 || ^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.7 || ^6.5 || ^8.5"
+                "phpunit/phpunit": "^6.5 || ^8.5"
             },
             "type": "library",
             "autoload": {
@@ -368,9 +367,9 @@
             "description": "An SVG sanitizer for PHP",
             "support": {
                 "issues": "https://github.com/darylldoyle/svg-sanitizer/issues",
-                "source": "https://github.com/darylldoyle/svg-sanitizer/tree/0.16.0"
+                "source": "https://github.com/darylldoyle/svg-sanitizer/tree/0.22.0"
             },
-            "time": "2023-03-20T10:51:12+00:00"
+            "time": "2025-08-12T10:13:48+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -10956,7 +10955,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -10973,6 +10972,6 @@
         "ext-imagick": "*",
         "ext-mbstring": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
