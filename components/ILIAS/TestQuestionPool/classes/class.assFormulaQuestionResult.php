@@ -33,6 +33,7 @@ class assFormulaQuestionResult
 
     private ilGlobalTemplateInterface $main_tpl;
     private Refinery $refinery;
+    private ilLanguage $lng;
 
     private $available_units = [];
     private ?float $range_min = null;
@@ -56,6 +57,7 @@ class assFormulaQuestionResult
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->refinery = $DIC->refinery();
+        $this->lng = $DIC->language();
         $this->setRangeMin($range_min_txt);
         $this->setRangeMax($range_max_txt);
 
@@ -70,30 +72,30 @@ class assFormulaQuestionResult
         }
     }
 
-    public function substituteFormula($variables, $results)
+    public function substituteFormula(array $variables, array $results): false|string
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
         $formula = $this->getFormula();
+        preg_match_all('/\$r\d+/mi', $formula, $matches);
 
-        if (preg_match_all("/(\\\$r\\d+)/ims", $formula, $matches)) {
-            foreach ($matches[1] as $result) {
-                if (strcmp($result, $this->getResult()) == 0) {
-                    $this->main_tpl->setOnScreenMessage('failure', $lng->txt("errRecursionInResult"));
-                    return false;
-                }
-
-                if (is_object($results[$result])) {
-                    $formula = str_replace($result, $results[$result]->substituteFormula($variables, $results), $formula);
-                } else {
-                    $this->main_tpl->setOnScreenMessage('failure', $lng->txt("errFormulaQuestion"));
-                    return false;
-                }
+        foreach ($matches[0] as $result) {
+            if ($result === $this->getResult()) {
+                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('errRecursionInResult'));
+                return false;
             }
+
+            if (!isset($results[$result]) || !$results[$result] instanceof self) {
+                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('errFormulaQuestion'));
+                return false;
+            }
+
+            $formula = preg_replace(
+                '/\\' . $result . '(?!\d)/m',
+                $results[$result]->substituteFormula($variables, $results),
+                $formula,
+            );
         }
 
-        return "(" . $formula . ")";
+        return "({$formula})";
     }
 
     public function calculateFormula($variables, $results, $question_id = 0, $use_precision = true)
