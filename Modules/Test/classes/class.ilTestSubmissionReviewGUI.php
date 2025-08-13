@@ -184,7 +184,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
                 $this->object->getProcessingTimeInSeconds($active_id)
             );
 
-            $html .= $working_time->getMessageBox();
+            $html .= $working_time->getMessageBox(true);
 
             $class = $this->getObject()->isFixedTest()
                 ? ilTestPlayerFixedQuestionSetGUI::class

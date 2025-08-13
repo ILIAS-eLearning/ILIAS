@@ -87,13 +87,12 @@ class WorkingTime
         return $template;
     }
 
-    public function getMessageBox(): string
+    public function getMessageBox(bool $verbose = false): string
     {
-        return $this->ui_renderer->render(
-            $this->ui_factory->messageBox()->info(
-                $this->getUserProcessingTimeString() . ' <span id="timeleft">' . $this->getUserRemainingTimeString() . '</span>'
-            )
-        );
+        $message_text = $verbose
+            ? $this->getUserProcessingTimeString() . ' <span id="timeleft">' . $this->getUserRemainingTimeString() . '</span>'
+            : '<div class="ilTstWorkingFormBlock_WorkingTime"><span id="timeleft" class="ilTstWorkingFormInfo_ProcessTimeLeft">' . $this->getUserRemainingTimeString() . '</span></div>';
+        return $this->ui_renderer->render($this->ui_factory->messageBox()->info($message_text));
     }
 
     private function getUserProcessingTimeMinutesAndSeconds(): array
