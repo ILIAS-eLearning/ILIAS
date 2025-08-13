@@ -44,7 +44,7 @@ trait PropertyNormalizer
     public function normalize(): array
     {
         $reflection = new ReflectionClass($this);
-        $properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED);
+        $properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED | ReflectionProperty::IS_PRIVATE);
 
         $normalized = [];
 

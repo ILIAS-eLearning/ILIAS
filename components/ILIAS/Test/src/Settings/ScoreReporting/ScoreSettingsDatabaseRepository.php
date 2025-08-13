@@ -89,7 +89,7 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
 
         $this->settings_instances = array_filter(
             $this->settings_instances,
-            static fn(int $value): bool => $value->getId() !== $settings->getId(),
+            static fn(ScoreSettings $value): bool => $value->getId() !== $settings->getId(),
         );
     }
 
