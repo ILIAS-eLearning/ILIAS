@@ -83,13 +83,13 @@ class assFormulaQuestionResult
                 return false;
             }
 
-            if (!is_object($results[$result])) {
+            if (!isset($results[$result]) || !$results[$result] instanceof self) {
                 $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('errFormulaQuestion'));
                 return false;
             }
 
             $formula = preg_replace(
-                '/(?<!\w)\\' . $result . '(?!\d)/m',
+                '/\\' . $result . '(?!\d)/m',
                 $results[$result]->substituteFormula($variables, $results),
                 $formula,
             );
