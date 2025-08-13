@@ -114,17 +114,7 @@ class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
 
     public function getBlockType(): string
     {
-        return 'pdprg';
-    }
-
-    public function removeMultipleEnabled(): bool
-    {
-        return false;
-    }
-
-    public function getRemoveMultipleActionText(): string
-    {
-        return '';
+        return 'dash_sp';
     }
 
     protected function maybeGetCertificateLink(int $usr_id, int $prg_obj_id, int $prg_ref_id): ?string
