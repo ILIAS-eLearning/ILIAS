@@ -26,6 +26,7 @@ use ILIAS\Test\Questions\Presentation\QuestionsOfAttemptTable;
 use ILIAS\Test\Results\Data\StatusOfAttempt;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
+use ILIAS\Test\Presentation\WorkingTime;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Signal;
 
@@ -1159,7 +1160,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setVariable("QUEST_ID", $question_id);
 
         if ($this->object->getEnableProcessingTime()) {
-            $this->outProcessingTime($this->test_session->getActiveId());
+            $this->outProcessingTime($this->test_session->getActiveId(), false);
         }
 
         $this->tpl->setVariable("PAGETITLE", "- " . $this->object->getTitle());
@@ -1779,97 +1780,29 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->parseCurrentBlock();
     }
 
-    public function outProcessingTime(int $active_id): void
+    private function outProcessingTime(int $active_id, bool $verbose): void
     {
         $starting_time = $this->object->getStartingTimeOfUser($active_id);
-        $processing_time = $this->object->getProcessingTimeInSeconds($active_id);
-        $processing_time_minutes = floor($processing_time / 60);
-        $processing_time_seconds = $processing_time - $processing_time_minutes * 60;
-        $str_processing_time = "";
-        if ($processing_time_minutes > 0) {
-            $str_processing_time = $processing_time_minutes . " "
-                . ($processing_time_minutes == 1 ? $this->lng->txt("minute") : $this->lng->txt("minutes"));
-        }
-        if ($processing_time_seconds > 0) {
-            if ($str_processing_time !== '') {
-                $str_processing_time .= ' ' . $this->lng->txt('and') . ' ';
-            }
-            $str_processing_time .= $processing_time_seconds . " " . ($processing_time_seconds == 1 ? $this->lng->txt("second") : $this->lng->txt("seconds"));
-        }
-        $time_left = $starting_time + $processing_time - time();
-        $time_left_minutes = floor($time_left / 60);
-        $time_left_seconds = $time_left - $time_left_minutes * 60;
-        $str_time_left = "";
-        if ($time_left_minutes > 0) {
-            $str_time_left = $time_left_minutes . " "
-                . ($time_left_minutes == 1 ? $this->lng->txt("minute") : $this->lng->txt("minutes"));
-        }
-        if ($time_left < 300) {
-            if ($time_left_seconds > 0) {
-                if (strlen($str_time_left) > 0) {
-                    $str_time_left .= " " . $this->lng->txt("and") . " ";
-                }
-                $str_time_left .= $time_left_seconds . " "
-                    . ($time_left_seconds == 1 ? $this->lng->txt("second") : $this->lng->txt("seconds"));
-            }
-        }
-        $date = getdate($starting_time);
-        $formattedStartingTime = ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_FKT_GETDATE));
-        $datenow = getdate();
-        $this->tpl->setCurrentBlock("enableprocessingtime");
-        $this->tpl->setVariable(
-            "USER_WORKING_TIME",
-            sprintf(
-                $this->lng->txt("tst_time_already_spent"),
-                $formattedStartingTime,
-                $str_processing_time
-            )
+        $working_time = new WorkingTime(
+            $this->lng,
+            $this->ui_factory,
+            $this->ui_renderer,
+            $starting_time,
+            $this->object->getProcessingTimeInSeconds($active_id)
         );
-        $this->tpl->setVariable("USER_REMAINING_TIME", sprintf($this->lng->txt("tst_time_already_spent_left"), $str_time_left));
+
+        $this->tpl->setCurrentBlock('enableprocessingtime');
+        $this->tpl->setVariable('USER_WORKING_TIME_MESSAGE_BOX', $working_time->getMessageBox($verbose));
         $this->tpl->parseCurrentBlock();
 
-        // jQuery is required by tpl.workingtime.js
-        iljQueryUtil::initjQuery();
-        $template = new ilTemplate("tpl.workingtime.js", true, true, 'components/ILIAS/Test');
-        $template->setVariable("STRING_MINUTE", $this->lng->txt("minute"));
-        $template->setVariable("STRING_MINUTES", $this->lng->txt("minutes"));
-        $template->setVariable("STRING_SECOND", $this->lng->txt("second"));
-        $template->setVariable("STRING_SECONDS", $this->lng->txt("seconds"));
-        $template->setVariable("STRING_TIMELEFT", $this->lng->txt("tst_time_already_spent_left"));
-        $template->setVariable("AND", strtolower($this->lng->txt("and")));
-        $template->setVariable("YEAR", $date["year"]);
-        $template->setVariable("MONTH", $date["mon"] - 1);
-        $template->setVariable("DAY", $date["mday"]);
-        $template->setVariable("HOUR", $date["hours"]);
-        $template->setVariable("MINUTE", $date["minutes"]);
-        $template->setVariable("SECOND", $date["seconds"]);
-        if ($this->object->isEndingTimeEnabled()) {
-            $date_time = new ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX);
-            preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $date_time->get(IL_CAL_TIMESTAMP), $matches);
-            if (!empty($matches)) {
-                $template->setVariable("ENDYEAR", $matches[1]);
-                $template->setVariable("ENDMONTH", $matches[2] - 1);
-                $template->setVariable("ENDDAY", $matches[3]);
-                $template->setVariable("ENDHOUR", $matches[4]);
-                $template->setVariable("ENDMINUTE", $matches[5]);
-                $template->setVariable("ENDSECOND", $matches[6]);
-            }
-        }
-        $template->setVariable("YEARNOW", $datenow["year"]);
-        $template->setVariable("MONTHNOW", $datenow["mon"] - 1);
-        $template->setVariable("DAYNOW", $datenow["mday"]);
-        $template->setVariable("HOURNOW", $datenow["hours"]);
-        $template->setVariable("MINUTENOW", $datenow["minutes"]);
-        $template->setVariable("SECONDNOW", $datenow["seconds"]);
-        $template->setVariable("PTIME_M", $processing_time_minutes);
-        $template->setVariable("PTIME_S", $processing_time_seconds);
-        if ($this->ctrl->getCmd() == 'outQuestionSummary') {
-            $template->setVariable("REDIRECT_URL", $this->ctrl->getLinkTargetByClass(static::class, ilTestPlayerCommands::REDIRECT_AFTER_QUESTION_LIST));
-        } else {
-            $template->setVariable("REDIRECT_URL", "");
-        }
-        $template->setVariable("CHECK_URL", $this->ctrl->getLinkTarget($this, 'checkWorkingTime', '', true));
-        $this->tpl->addOnLoadCode($template->get());
+        $working_time_js_template = $working_time->prepareWorkingTimeJsTemplate(
+            $this->getObject(),
+            getdate($starting_time),
+            $this->ctrl->getLinkTarget($this, 'checkWorkingTime', '', true),
+            $this->ctrl->getFormAction($this, ilTestPlayerCommands::REDIRECT_AFTER_QUESTION_LIST)
+        );
+
+        $this->tpl->addOnLoadCode($working_time_js_template->get());
     }
 
     /**
@@ -1975,7 +1908,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $this->ui_renderer->render($table->buildComponents($is_first_page)));
 
         if ($this->object->getEnableProcessingTime()) {
-            $this->outProcessingTime($active_id);
+            $this->outProcessingTime($active_id, true);
         }
 
         if ($this->object->isShowExamIdInTestPassEnabled()) {
