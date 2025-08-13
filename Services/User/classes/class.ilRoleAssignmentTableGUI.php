@@ -28,6 +28,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
     protected \ILIAS\UI\Renderer $renderer;
 
     protected ilObjectDefinition $objectDefinition;
+    protected bool edit_access;
 
     public function __construct(
         object $a_parent_obj,
@@ -62,7 +63,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
         $this->setRowTemplate("tpl.role_assignment_row.html", "Services/User");
         $this->setEnableTitle(true);
-        
+
         if ($this->edit_access) {
             $this->setSelectAllCheckbox("role_id[]");
             $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
