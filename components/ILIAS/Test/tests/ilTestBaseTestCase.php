@@ -61,8 +61,6 @@ class ilTestBaseTestCase extends TestCase
 
         $DIC = $this->backup_dic;
 
-        (new ReflectionClass(\ILIAS\Test\TestDIC::class))->getProperty('dic')->setValue(null, null);
-
         parent::tearDown();
     }
 
@@ -113,7 +111,15 @@ class ilTestBaseTestCase extends TestCase
 
         $this->defineGlobalConstants();
 
+        $this->prepareLocalDIC();
+
         parent::setUp();
+    }
+
+    private function prepareLocalDIC(): void
+    {
+        (new ReflectionClass(\ILIAS\Test\TestDIC::class))
+            ->getProperty('dic')->setValue(null, null);
     }
 
     public static function callMethod($obj, $name, array $args = [])
