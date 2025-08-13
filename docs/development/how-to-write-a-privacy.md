@@ -20,7 +20,7 @@ To extend or add the privacy documentation, base your Pull Request on the follow
 
 ### [Name of the component] Privacy
 
-> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information via the [ILIAS issue tracker](https://mantis.ilias.de) or submit a fix via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).**
+> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).**
 
 ### General information
 
