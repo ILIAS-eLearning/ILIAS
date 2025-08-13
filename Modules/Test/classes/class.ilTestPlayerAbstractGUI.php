@@ -81,7 +81,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if (!$executable['executable']) {
             $this->tpl->setOnScreenMessage('info', $executable['errormessage'], true);
-            $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+            $this->ctrl->redirectByClass(ilTestScreenGUI::class, ilTestScreenGUI::DEFAULT_CMD);
         }
     }
 
@@ -758,9 +758,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         // redirect after test
         $redirection_url = $this->object->getMainSettings()->getFinishingSettings()->getRedirectionUrl();
-        if (!$this->object->canShowTestResults($this->test_session)
-            && $this->object->getMainSettings()->getFinishingSettings()->getRedirectionMode() !== '0'
-            && $redirection_url !== '') {
+        if (!empty($redirection_url)
+            && !$this->object->canShowTestResults($this->test_session)
+            && $this->object->getMainSettings()->getFinishingSettings()->getRedirectionMode() !== ilObjTest::REDIRECT_NONE) {
             if ($this->object->isRedirectModeKiosk()) {
                 if ($this->object->getKioskMode()) {
                     ilUtil::redirect($redirection_url);

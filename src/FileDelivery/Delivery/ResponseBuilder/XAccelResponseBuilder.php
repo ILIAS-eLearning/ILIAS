@@ -43,7 +43,7 @@ class XAccelResponseBuilder implements ResponseBuilder
         ResponseInterface $response,
         FileStream $stream,
     ): ResponseInterface {
-        $path_to_file = $stream->getStream()->getMetadata('uri');
+        $path_to_file = $stream->getMetadata('uri');
         if (str_starts_with((string) $path_to_file, './' . self::DATA . '/')) {
             $path_to_file = str_replace(
                 './' . self::DATA . '/',

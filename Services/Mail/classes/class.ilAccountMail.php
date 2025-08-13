@@ -269,6 +269,16 @@ class ilAccountMail
             default:
                 $replacements["MAIL_SALUTATION"] = trim($a_amail["sal_g"]);
         }
+
+        $replacements['MAIL_SALUTATION'] = $mustache_factory->getBasicEngine()->render(
+            $replacements['MAIL_SALUTATION'],
+            [
+                'FIRST_NAME' => $a_user->getFirstname(),
+                'LAST_NAME' => $a_user->getLastname(),
+                'LOGIN' => $a_user->getLogin(),
+            ]
+        );
+
         $replacements["LOGIN"] = $a_user->getLogin();
         $replacements["FIRST_NAME"] = $a_user->getFirstname();
         $replacements["LAST_NAME"] = $a_user->getLastname();

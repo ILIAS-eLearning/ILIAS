@@ -8754,8 +8754,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendunge
 dcl#:#dcl_switch_table#:#Tabelle wechseln
 dcl#:#dcl_switch_view#:#Ansicht ändern
 dcl#:#dcl_table#:#Tabelle
-dcl#:#dcl_table_create#:#Erstelle Tabelle
-dcl#:#dcl_table_edit#:#Speichern
 dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer in dieser Tabelle tun dürfen, die für die Datensammlung das Recht „Eintragen“ besitzen.
 dcl#:#dcl_table_info_title#:#Info
