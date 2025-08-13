@@ -87,7 +87,7 @@ class WorkingTime
         return $template;
     }
 
-    public function getMessageBox(bool $verbose = false): string
+    public function getMessageBox(bool $verbose): string
     {
         $message_text = $verbose
             ? $this->getUserProcessingTimeString() . ' <span id="timeleft">' . $this->getUserRemainingTimeString() . '</span>'

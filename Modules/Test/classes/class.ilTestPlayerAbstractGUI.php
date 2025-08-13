@@ -865,7 +865,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setVariable("QUEST_ID", $questionId);
 
         if ($this->object->getEnableProcessingTime()) {
-            $this->outProcessingTime($this->test_session->getActiveId());
+            $this->outProcessingTime($this->test_session->getActiveId(), false);
         }
 
         $this->tpl->setVariable("PAGETITLE", "- " . $this->object->getTitle());
@@ -1151,7 +1151,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->parseCurrentBlock();
     }
 
-    public function outProcessingTime(int $active_id): void
+    private function outProcessingTime(int $active_id, bool $verbose): void
     {
         $starting_time = $this->object->getStartingTimeOfUser($active_id);
         $working_time = new WorkingTime(
@@ -1163,7 +1163,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         );
 
         $this->tpl->setCurrentBlock('enableprocessingtime');
-        $this->tpl->setVariable('USER_WORKING_TIME_MESSAGE_BOX', $working_time->getMessageBox());
+        $this->tpl->setVariable('USER_WORKING_TIME_MESSAGE_BOX', $working_time->getMessageBox($verbose));
         $this->tpl->parseCurrentBlock();
 
         $working_time_js_template = $working_time->prepareWorkingTimeJsTemplate(
@@ -1292,7 +1292,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $table_gui->getHTML());
 
         if ($this->object->getEnableProcessingTime()) {
-            $this->outProcessingTime($active_id);
+            $this->outProcessingTime($active_id, true);
         }
 
         if ($this->object->isShowExamIdInTestPassEnabled()) {
