@@ -251,21 +251,20 @@ class ilTestScoringGUI extends ilTestServiceGUI
         }
 
         foreach ($questionGuiList as $questionId => $questionGui) {
-            $reachedPoints = $reached_points = $this->refinery->kindlyTo()->float()->transform(
-                $form->getItemByPostVar("question__{$questionId}__points")->getValue()
-            );
-            ;
+            $old_points = assQuestion::_getReachedPoints($active_id, $questionId, $pass);
+            $reached_points = $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->float(),
+                $this->refinery->always($old_points)
+            ])->transform($form->getItemByPostVar("question__{$questionId}__points")?->getValue());
 
-            $finalized = (bool) $form->getItemByPostVar("{$questionId}__evaluated")->getchecked();
-
+            $finalized = (bool) $form->getItemByPostVar("{$questionId}__evaluated")?->getChecked();
             // fix #35543: save manual points only if they differ from the existing points
             // this prevents a question being set to "answered" if only feedback is entered
-            $oldPoints = assQuestion::_getReachedPoints($active_id, $questionId, $pass);
-            if ($reachedPoints != $oldPoints) {
+            if ($reached_points !== $old_points) {
                 assQuestion::_setReachedPoints(
                     $active_id,
                     $questionId,
-                    $reachedPoints,
+                    $reached_points,
                     $maxPointsByQuestionId[$questionId],
                     $pass,
                     true,
@@ -280,10 +279,10 @@ class ilTestScoringGUI extends ilTestServiceGUI
                 ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
             );
 
-            $this->object->saveManualFeedback($active_id, (int) $questionId, (int) $pass, $feedback, $finalized, true);
+            $this->object->saveManualFeedback($active_id, (int) $questionId, $pass, $feedback, $finalized, true);
 
             $notificationData[$questionId] = [
-                'points' => $reachedPoints, 'feedback' => $feedback
+                'points' => $reached_points, 'feedback' => $feedback
             ];
         }
 
