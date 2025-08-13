@@ -8075,6 +8075,18 @@ dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites
 dash#:#dash_avail_presentation#:#Available Presentations
 dash#:#dash_avail_sortation#:#Available Sortations
 dash#:#dash_click_here#:#Click here
+dash#:#dash_dash_fav_remove#:#Remove
+dash#:#dash_dash_fav_remove_info#:#Are you sure you want to remove the following objects from your Favourites?
+dash#:#dash_dash_fav_remove_multiple#:#Remove Multiple Favorites
+dash#:#dash_dash_ls_remove#:#Unsubscribe
+dash#:#dash_dash_ls_remove_info#:#Are you sure you want to unsubscribe from the following learning sequences?
+dash#:#dash_dash_ls_remove_multiple#:#Unsubscribe Multiple Learning Sequences
+dash#:#dash_dash_mem_remove#:#Unsubscribe
+dash#:#dash_dash_mem_remove_info#:#Are you sure you want to unsubscribe from the following courses and groups?
+dash#:#dash_dash_mem_remove_multiple#:#Unsubscribe Multiple Courses and Groups
+dash#:#dash_dash_rc_remove#:#Remove
+dash#:#dash_dash_rc_remove_info#:#Are you sure you want to remove the following objects from your recommended content?
+dash#:#dash_dash_rc_remove_multiple#:#Remove Multiple Contents
 dash#:#dash_dashboard#:#Dashboard
 dash#:#dash_default_presentation#:#Default Presentation
 dash#:#dash_default_sortation#:#Default Sortation
@@ -8088,7 +8100,6 @@ dash#:#dash_enable_recommended_content#:#Recommended Content
 dash#:#dash_enable_study_programmes#:#Study Programmes
 dash#:#dash_enable_task#:#Tasks
 dash#:#dash_favourites#:#Favourites
-dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?
 dash#:#dash_item_removed#:#Recommendation has been removed from the list.
 dash#:#dash_learning_sequences#:#My Learning Sequences
 dash#:#dash_list#:#List
@@ -8096,6 +8107,7 @@ dash#:#dash_main_panel#:#Main Panel
 dash#:#dash_make_favourite#:#Add to Favourites
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.
 dash#:#dash_memberships#:#My Courses and Groups
+dash#:#dash_no_items_to_manage#:#No items available for removal.
 dash#:#dash_presentation#:#Presentation
 dash#:#dash_recommended_content#:#Recommended Content
 dash#:#dash_remove_from_list#:#Remove from List
@@ -12490,7 +12502,6 @@ mmbr#:#info_refuse_sure#:#Are you sure you want to refuse the following user(s)?
 mmbr#:#mmbr_awrn_my_groups_courses#:#My Groups and Courses
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#All members of groups or courses of the current user are listed.
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
 mmbr#:#mmbr_memberships#:#Memberships
 mmbr#:#mmbr_selected_users#:#Selected Participants
 mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.
@@ -13028,7 +13039,6 @@ pd#:#pd_import_personal_data#:#Import Personal Data
 pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships
 pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in. Currently, there aren't any memberships assigned to you. To become a member of a course or group, there are two ways:<br /><ol><li>You can join courses or groups provided that joining them has been allowed by their administrators.</li><li>An administratrator of a course or group can assign a membership to you.</li></ol><br />In any case, the respective objects will appear automatically in this place.
 pd#:#pd_my_memberships_sort_default#:#Default of Sort Option
-pd#:#pd_no_items_to_manage#:#No items available for removal.
 pd#:#pd_not_dated#:#Not Dated
 pd#:#pd_ongoing#:#Ongoing
 pd#:#pd_personal_items_default_view#:#Default View
@@ -13038,9 +13048,6 @@ pd#:#pd_presentation_mode_tile#:#Tile Presentation
 pd#:#pd_private_calendars#:#Private Calendars
 pd#:#pd_profile_data#:#Profile Data
 pd#:#pd_remove_multi_confirm#:#The objects were removed.
-pd#:#pd_remove_multiple#:#Remove Multiple Objects
-pd#:#pd_unsubscribe_memberships#:#Unsubscribe
-pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple
 pd#:#pd_upcoming#:#Upcoming
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either ‘Selected Items’ and/or ‘My Memberships’.
 pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
