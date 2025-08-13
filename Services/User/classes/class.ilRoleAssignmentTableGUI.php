@@ -28,7 +28,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
     protected \ILIAS\UI\Renderer $renderer;
 
     protected ilObjectDefinition $objectDefinition;
-    protected bool edit_access;
+    protected bool $edit_access;
 
     public function __construct(
         object $a_parent_obj,
