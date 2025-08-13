@@ -398,6 +398,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             if ($this->viewSettings->isSelectedItemsViewActive()) {
                 $question = $this->lng->txt('dash_info_sure_remove_from_favs');
             } else {
+                $this->lng->loadLanguageModule('mmbr');
                 $question = $this->lng->txt('mmbr_info_delete_sure_unsubscribe');
             }
             $modal = $this->ui->factory()->modal()->roundtrip(
