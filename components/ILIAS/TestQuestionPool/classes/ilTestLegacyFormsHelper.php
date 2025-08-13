@@ -110,6 +110,13 @@ class ilTestLegacyFormsHelper
      */
     public function inArray($array, $key): bool
     {
-        return is_array($array) && array_key_exists($key, $array) && !empty($array[$key]);
+        return is_array($array)
+            && array_key_exists($key, $array)
+            && $array[$key] !== null
+            && $array[$key] !== false
+            && $array[$key] !== ''
+            && $array[$key] !== []
+            && $array[$key] !== 0
+            && $array[$key] !== 0.0;
     }
 }

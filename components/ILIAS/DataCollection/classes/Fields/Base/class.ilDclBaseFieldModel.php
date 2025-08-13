@@ -609,8 +609,13 @@ class ilDclBaseFieldModel
 
             $value = $originalField->getProperty($prop_name);
 
-            // If reference field, we must reset the referenced field, otherwise it will point to the old ID
-            if ($originalField->getDatatypeId() == ilDclDatatype::INPUTFORMAT_REFERENCE && $prop_name == ilDclBaseFieldModel::PROP_REFERENCE) {
+            if (
+                $prop_name == ilDclBaseFieldModel::PROP_REFERENCE &&
+                (
+                    $originalField->getDatatypeId() == ilDclDatatype::INPUTFORMAT_REFERENCE ||
+                    $originalField->getDatatypeId() == ilDclDatatype::INPUTFORMAT_COPY
+                )
+            ) {
                 $value = null;
             }
 

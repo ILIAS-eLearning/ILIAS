@@ -3170,35 +3170,42 @@ class ilObjUser extends ilObject
      * Lookup news feed hash for user. If hash does not exist, create one.
      */
     public static function _lookupFeedHash(
-        int $a_user_id,
-        bool $a_create = false
+        int $user_id,
+        bool $create = false
     ): ?string {
         global $DIC;
-
         $ilDB = $DIC['ilDB'];
 
-        if ($a_user_id > 0) {
-            $set = $ilDB->queryF(
-                'SELECT feed_hash from usr_data WHERE usr_id = %s',
-                ['integer'],
-                [$a_user_id]
-            );
-            if ($rec = $ilDB->fetchAssoc($set)) {
-                if (strlen($rec['feed_hash']) == 32) {
-                    return $rec['feed_hash'];
-                } elseif ($a_create) {
-                    $hash = md5(random_int(1, 9999999) + str_replace(' ', '', microtime()));
-                    $ilDB->manipulateF(
-                        'UPDATE usr_data SET feed_hash = %s' .
-                        ' WHERE usr_id = %s',
-                        ['text', 'integer'],
-                        [$hash, $a_user_id]
-                    );
-                    return $hash;
-                }
-            }
+        if ($user_id === 0) {
+            return null;
         }
-        return null;
+
+        $set = $ilDB->queryF(
+            'SELECT feed_hash from usr_data WHERE usr_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [$user_id]
+        );
+        if (($rec = $ilDB->fetchAssoc($set)) === null) {
+            return null;
+        }
+
+        $feed_hash = $rec['feed_hash'];
+        if (is_string($feed_hash) && strlen($feed_hash) === 32) {
+            return $feed_hash;
+        }
+
+        if (!$create) {
+            return null;
+        }
+
+        $hash = md5(random_int(1, 9999999) + str_replace(' ', '', microtime()));
+        $ilDB->manipulateF(
+            'UPDATE usr_data SET feed_hash = %s' .
+            ' WHERE usr_id = %s',
+            [ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
+            [$hash, $user_id]
+        );
+        return $hash;
     }
 
     /**

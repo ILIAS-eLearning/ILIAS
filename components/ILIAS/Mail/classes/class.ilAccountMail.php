@@ -259,11 +259,18 @@ class ilAccountMail
         $replacements = [];
 
         // determine salutation
-        $replacements['MAIL_SALUTATION'] = match ($a_user->getGender()) {
-            'f' => trim((string) $a_amail['sal_f']),
-            'm' => trim((string) $a_amail['sal_m']),
-            default => trim((string) $a_amail['sal_g']),
-        };
+        $replacements['MAIL_SALUTATION'] = $mustache_factory->getBasicEngine()->render(
+            match ($a_user->getGender()) {
+                'f' => trim((string) $a_amail['sal_f']),
+                'm' => trim((string) $a_amail['sal_m']),
+                default => trim((string) $a_amail['sal_g']),
+            },
+            [
+                'FIRST_NAME' => $a_user->getFirstname(),
+                'LAST_NAME' => $a_user->getLastname(),
+                'LOGIN' => $a_user->getLogin(),
+            ]
+        );
         $replacements['LOGIN'] = $a_user->getLogin();
         $replacements['FIRST_NAME'] = $a_user->getFirstname();
         $replacements['LAST_NAME'] = $a_user->getLastname();

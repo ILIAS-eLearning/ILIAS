@@ -570,7 +570,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         if ($solution) {
             $tpl->setVariable('SIZE', 'size="' . mb_strlen($value) . '"');
         }
-        $tpl->setVariable('VALUE', $value);
+        $tpl->setVariable('VALUE', htmlentities($value));
         $tpl->setVariable('KEY', $key);
 
         return $tpl->get();

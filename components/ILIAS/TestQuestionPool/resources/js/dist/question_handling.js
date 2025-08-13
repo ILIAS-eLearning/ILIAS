@@ -797,7 +797,8 @@ ilias.questions.assErrorText = function(a_id) {
             }
             if (correct_answers[i].length === l+1) {
                 found++;
-                l = void 0;
+                l = 0;
+                i = void 0;
                 return;
             }
             if (correct_answers[i].length > ++l) {

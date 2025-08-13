@@ -23,9 +23,7 @@ namespace ILIAS\Cache\Container;
 use ILIAS\Cache\Adaptor\Adaptor;
 use ILIAS\Cache\Config;
 use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\Factory;
 use ILIAS\Refinery\ByTrying;
-use ILIAS\Refinery\To\Transformation\FloatTransformation;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -43,8 +41,10 @@ final class ActiveContainer implements Container
     private const FALSE = 'false';
 
     private \ILIAS\Data\Factory $data_factory;
-    private $null_trafo;
+    private Transformation $null_trafo;
     private string $prefix_pattern;
+
+    private ?float $lock_cache = null;
 
     public function __construct(
         private Request $request,
@@ -174,9 +174,20 @@ final class ActiveContainer implements Container
 
     public function isLocked(): bool
     {
+        if ($this->lock_cache !== null && $this->lock_cache > microtime(true)) {
+            return true;
+        }
+
+        if (!$this->adaptor->has($this->request->getContainerKey(), self::LOCK_UNTIL)) {
+            $this->lock_cache = null;
+            return false;
+        }
+
         // see comment in buildFinalTransformation why this is not a good solution.
         $lock_until = $this->adaptor->get($this->request->getContainerKey(), self::LOCK_UNTIL);
         $lock_until = $lock_until === null ? null : (float) $lock_until;
+
+        $this->lock_cache = $lock_until;
 
         return $lock_until !== null && $lock_until > microtime(true);
     }
@@ -204,6 +215,10 @@ final class ActiveContainer implements Container
         if ($this->isLocked()) {
             return null;
         }
+        if (!$this->has($key)) {
+            return null;
+        }
+
         $unpacked_values = $this->unpack(
             $this->adaptor->get($this->request->getContainerKey(), $key)
         );
@@ -247,5 +262,14 @@ final class ActiveContainer implements Container
     public function getContainerName(): string
     {
         return $this->request->getContainerKey();
+    }
+
+    /**
+     * @internal for UnitTest only
+     */
+    public function unlock(): void
+    {
+        $this->adaptor->delete($this->request->getContainerKey(), self::LOCK_UNTIL);
+        $this->lock_cache = null;
     }
 }

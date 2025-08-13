@@ -139,6 +139,7 @@ class ilDclTableListGUI
                 break;
 
             default:
+                $this->ctrl->clearParameterByClass(ilObjDataCollectionGUI::class, 'table_id');
                 $this->$cmd();
         }
     }

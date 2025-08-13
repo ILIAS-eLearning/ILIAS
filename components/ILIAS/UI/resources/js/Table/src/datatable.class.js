@@ -102,6 +102,12 @@ export default class DataTable {
     this.#actionsRegistry = {};
 
     this.#component.addEventListener('keydown', (event) => this.navigateCellsWithArrowKeys(event));
+
+    const cols = this.#table.getElementsByClassName('c-table-data__row-selector');
+    for (let i = 0; i < cols.length; i += 1) {
+      const col = cols[i];
+      col.addEventListener('change', () => this.selectionChange());
+    }
   }
 
   /**
@@ -120,6 +126,53 @@ export default class DataTable {
   }
 
   /**
+   * @return {void}
+   */
+  selectionChange() {
+    this.#disableRowSelection(!this.#checkUrlLengthForSelectedRows());
+  }
+
+  /**
+   * @return {bool}
+   */
+  #checkUrlLengthForSelectedRows() {
+    const { urlBuilder } = this.#actionsRegistry[Object.keys(this.#actionsRegistry).at(0)];
+    const { urlTokens } = this.#actionsRegistry[Object.keys(this.#actionsRegistry).at(0)];
+    const token = urlTokens.values().next().value;
+
+    const rowIds = this.collectSelectedRowIds();
+    rowIds.push(rowIds[0]); // add one more.
+    urlBuilder.writeParameter(token, rowIds);
+    try {
+      urlBuilder.getUrl().toString();
+    } catch (error) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * @return {void}
+   */
+  #showWarningUrlTooLong() {
+    const dialog = this.#component.querySelector('dialog.c-table-data__multiaction-warning');
+    il.UI.modal.showModal(dialog, {}, { id: dialog.id });
+  }
+
+  /**
+   * @param {bool} flag
+   * @return {void}
+   */
+  #disableRowSelection(flag) {
+    const rows = this.#table.getElementsByClassName('c-table-data__row-selector');
+    rows.forEach(
+      (chk) => {
+        chk.disabled = (flag === true && !chk.checked);
+      },
+    );
+  }
+
+  /**
    * @param {bool} state
    * @return {void}
    */
@@ -131,12 +184,18 @@ export default class DataTable {
     for (let i = 0; i < cols.length; i += 1) {
       const col = cols[i];
       col.checked = state;
+      if (state && !this.#checkUrlLengthForSelectedRows()) {
+        this.#disableRowSelection(true);
+        this.#showWarningUrlTooLong();
+        break;
+      }
     }
 
     if (state) {
       selectorAll.style.display = 'none';
       selectorNone.style.display = 'block';
     } else {
+      this.#disableRowSelection(false);
       selectorAll.style.display = 'block';
       selectorNone.style.display = 'none';
     }

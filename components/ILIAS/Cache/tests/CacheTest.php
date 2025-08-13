@@ -20,16 +20,13 @@ namespace ILIAS\Cache;
 
 use ILIAS\Cache\Adaptor\APCu;
 use ILIAS\Cache\Adaptor\Memcached;
-use ILIAS\Cache\Config;
 use ILIAS\Cache\Container\ActiveContainer;
 use ILIAS\Cache\Container\Request;
 use ILIAS\Cache\Nodes\Node;
-use ILIAS\Cache\Services;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Cache\Container\VoidContainer;
 use ILIAS\Cache\Adaptor\PHPStatic;
 use ILIAS\Cache\Container\BaseRequest;
-use ILIAS\Cache\Nodes\NodeRepository;
 use ILIAS\Cache\Nodes\NullNodeRepository;
 
 require_once(__DIR__ . '/../../../../vendor/composer/vendor/autoload.php');
@@ -143,6 +140,7 @@ class CacheTest extends TestCase
     {
         $services = new Services($this->getConfig());
         $container = $services->get($this->getDummyRequest(self::TEST_CONTAINER));
+        $container->unlock();
 
         $container->set('test', 'test_value');
         $this->assertTrue($container->has('test'));

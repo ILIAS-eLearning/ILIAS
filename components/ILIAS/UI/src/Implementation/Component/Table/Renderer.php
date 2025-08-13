@@ -256,6 +256,8 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setVariable('MULTI_ACTION_SPAN', (string) $multi_action_col_span);
                 $tpl->setVariable('MULTI_ACTION_TRIGGERER', $default_renderer->render($multi_actions_dropdown));
                 $tpl->setVariable('MULTI_ACTION_ALL_MODAL', $default_renderer->render($modal));
+                $tpl->setVariable('MULTI_ACTION_WARNING', $default_renderer->render($this->getUrlTooLongWarning()));
+                $tpl->setVariable('MULTI_ACTION_WARNING_BUTTON_CLOSE_LABEL', $this->txt('datatable_close_warning'));
             }
 
             $sortation_view_control = array_filter(
@@ -459,6 +461,12 @@ class Renderer extends AbstractComponentRenderer
             ->roundtrip($this->txt('datatable_multiactionmodal_title'), [$msg, $select])
             ->withActionButtons([$submit]);
         return $modal;
+    }
+
+    protected function getUrlTooLongWarning(): \ILIAS\UI\Component\MessageBox\MessageBox
+    {
+        $f = $this->getUIFactory();
+        return $f->messageBox()->failure($this->txt('warning_url_too_long_msg'));
     }
 
     /**
@@ -727,6 +735,8 @@ class Renderer extends AbstractComponentRenderer
 
             $tpl->setVariable('MULTI_ACTION_TRIGGERER', $default_renderer->render($multi_actions_dropdown));
             $tpl->setVariable('MULTI_ACTION_ALL_MODAL', $default_renderer->render($modal));
+            $tpl->setVariable('MULTI_ACTION_WARNING', $default_renderer->render($this->getUrlTooLongWarning()));
+            $tpl->setVariable('MULTI_ACTION_WARNING_BUTTON_CLOSE_LABEL', $this->txt('datatable_close_warning'));
         }
         if ($component->hasMultiActions() || !$component->isOrderingDisabled()) {
             $multi_action_col_span = count($component->getVisibleColumns()) + $compensate_col_count;

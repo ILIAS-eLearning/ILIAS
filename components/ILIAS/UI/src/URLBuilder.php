@@ -39,10 +39,10 @@ use ILIAS\Data\URI;
 class URLBuilder
 {
     /**
-     * A maximum length of 2048 characters should be safe to use in
+     * A maximum length of 8192 characters should be safe to use in
      * most browsers, even though longer URLs will be supported by some
      */
-    public const URL_MAX_LENGTH = 2048;
+    public const URL_MAX_LENGTH = 8192;
     /**
      * Separator for parts of a parameter's namespace
      */
@@ -207,6 +207,8 @@ class URLBuilder
 
     /**
      * Get a URI representation of the full URL including query string and fragment/hash
+     *
+     * @throws \LengthException if length of URI is greater than self::URL_MAX_LENGTH
      */
     public function buildURI(): URI
     {

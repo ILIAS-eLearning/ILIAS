@@ -296,17 +296,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         return $tableview_id;
     }
 
-    /**
-     * this one is called from the info button in the repository
-     * not very nice to set cmdClass/Cmd manually, if everything
-     * works through ilCtrl in the future this may be changed
-     */
     public function infoScreen(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd("showSummary");
-        // $this->ctrl->setCmdClass(ilInfoScreenGUI::class);
-        $this->infoScreenForward();
+        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
     }
 
     public function render(): void
@@ -314,9 +306,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->listRecords();
     }
 
-    /**
-     * show information screen
-     */
     public function infoScreenForward(): void
     {
         $this->tabs->activateTab(self::TAB_INFO);

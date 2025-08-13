@@ -78,11 +78,12 @@ class QuestionsOfAttemptTable implements DataRetrieval
     /**
      * @return array<Component>
      */
-    public function buildComponents(): array
-    {
+    public function buildComponents(
+        bool $is_start_page
+    ): array {
         $components = [
             $this->ui_factory->button()->standard(
-                $this->lng->txt('tst_resume_test'),
+                $is_start_page ? $this->lng->txt('goto_first_question') : $this->lng->txt('tst_resume_test'),
                 $this->ctrl->getLinkTarget($this->parent_gui, ilTestPlayerCommands::SHOW_QUESTION)
             )
         ];

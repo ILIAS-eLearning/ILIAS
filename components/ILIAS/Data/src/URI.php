@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Data;
@@ -63,18 +79,18 @@ class URI
     private const HOST_IPV6_LONG = '^\\[' . self::IPV6_COUNT_COLONS . '{7}' . self::HEXDIG . '{1,4}\\]$';
     // HOST_IPV6_SHORT corresponds to the form defined in RFC4291 Section 2.2.2.
     private const HOST_IPV6_SHORT = '^\\[(?=' . self::IPV6_COLONS_BETWEEN . '{2,7}\\]$)' . // Ensure whole string contains between 2-7 colons.
-                                  self::IPV6_LEFT_SHORT . '::' .
-                                  // Right of "::" are separated with one ":".
-                                  '(' . self::HEXDIG . '{1,4}|(' . self::HEXDIG . '{1,4}:)*' . self::HEXDIG . '{1,4})?\\]$';
+        self::IPV6_LEFT_SHORT . '::' .
+        // Right of "::" are separated with one ":".
+        '(' . self::HEXDIG . '{1,4}|(' . self::HEXDIG . '{1,4}:)*' . self::HEXDIG . '{1,4})?\\]$';
 
     // HOST_IPV6_EMBEDDED_LONG corresponds to the form defined in RFC4291 Section 2.2.3 but not in a compressed form.
     private const HOST_IPV6_EMBEDDED_IPV4_LONG = '^\\[' . self::IPV6_COUNT_COLONS . '{5}' . self::HEXDIG . '{1,4}:' . self::HOST_IPV4_EMBEDDED . '\\]$';
     // HOST_IPV6_EMBEDDED_SHORT corresponds to the form defined in RFC4291 Section 2.2.3 in a compressed form.
     private const HOST_IPV6_EMBEDDED_IPV4_SHORT = '^\\[(?=' . self::IPV6_COLONS_BETWEEN . '{2,6}' . self::HOST_IPV4_EMBEDDED . '\\]$)' . // Ensure whole string contains between 2-6 colons.
-                                                self::IPV6_LEFT_SHORT . '::' .
-                                                // Right of "::" are separated with one ":".
-                                                // The hexdig pair before the ipv4 is 0-4 to accommodate for both ::1.2.3.4 and ::2:1.2.3.4 colon usages.
-                                                '(' . self::HEXDIG . '{1,4}|(' . self::HEXDIG . '{1,4}:)*' . self::HEXDIG . '{0,4})?' . self::HOST_IPV4_EMBEDDED . '\\]$';
+        self::IPV6_LEFT_SHORT . '::' .
+        // Right of "::" are separated with one ":".
+        // The hexdig pair before the ipv4 is 0-4 to accommodate for both ::1.2.3.4 and ::2:1.2.3.4 colon usages.
+        '(' . self::HEXDIG . '{1,4}|(' . self::HEXDIG . '{1,4}:)*' . self::HEXDIG . '{0,4})?' . self::HOST_IPV4_EMBEDDED . '\\]$';
 
     private const HOST_IPV6_EMBEDDED_IPV4 = self::HOST_IPV6_EMBEDDED_IPV4_SHORT . '|' . self::HOST_IPV6_EMBEDDED_IPV4_LONG;
 
@@ -149,7 +165,11 @@ class URI
         if ($query === null) {
             return null;
         }
-        return $this->checkCorrectFormatOrThrow(self::QUERY, $query);
+        $qparts = explode('&', $query);
+        foreach ($qparts as $q) {
+            $this->checkCorrectFormatOrThrow(self::QUERY, $q);
+        }
+        return $query;
     }
 
     /**

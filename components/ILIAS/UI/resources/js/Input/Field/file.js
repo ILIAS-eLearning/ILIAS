@@ -294,7 +294,7 @@ il.UI.Input = il.UI.Input || {};
 
 			event.preventDefault();
 			setFormControlsDisabledState(dropzone.options.form, true);
-			processCurrentFormDropzones(dropzone, event);
+			processCurrentFormDropzones(dropzone.options.form, event);
 		}
 
 		let toggleExpansionGlyphsHook = function () {
@@ -411,7 +411,9 @@ il.UI.Input = il.UI.Input || {};
 		let submitCurrentFormHook = function (dropzone) {
 			// submit the current form only if all dropzones
 			// were processed.
-			if (dropzone.options.form.should_submit === true && ++current_dropzone === current_dropzone_count) {
+      console.log(current_dropzone);
+      console.log(current_dropzone_count);
+			if (dropzone.options.form.should_submit === true && current_dropzone >= current_dropzone_count) {
 				dropzone.options.form.submit();
 			}
 		}
@@ -618,36 +620,38 @@ il.UI.Input = il.UI.Input || {};
 			}
 		}
 
-		let processCurrentFormDropzones = function (dropzone, event) {
+		let processCurrentFormDropzones = function (form, event) {
 			// retrieve all file inputs of the current form.
-			let file_inputs = $(dropzone.options.form).find(SELECTOR.file_input);
+			let file_inputs = $(form).find(SELECTOR.file_input);
 			current_dropzone_count = file_inputs.length;
 
             if (typeof file_inputs[Symbol.iterator] === 'function') {
-                let to_process = 0;
+                let total_files = 0;
                 for (let i = 0; i < file_inputs.length; i++) {
                     let input_id = $(file_inputs[i]).attr('id');
                     let dropzone = dropzones[input_id];
+                    const queue = dropzone.getQueuedFiles();
                     processRemovals(input_id, event);
-                    to_process += dropzone.files.length;
-                    if (dropzone.files.length !== 0) {
+                    total_files += dropzone.files.length;
+                    if (queue.length !== 0) {
                         dropzone.processQueue();
                     } else {
                         current_dropzone++;
                     }
                 }
-                if (to_process === 0) {
-									dropzone.options.form.submit();
+                // handle case if no files selected.
+                if (total_files === 0) {
+                  form.submit();
                 }
             } else {
                 let input_id = file_inputs.attr('id');
-				let dropzone = dropzones[input_id];
-				processRemovals(input_id, event);
-				if (0 !== dropzone.files.length) {
-					dropzone.processQueue();
-				} else {
-					dropzone.options.form.submit();
-				}
+                let dropzone = dropzones[input_id];
+                processRemovals(input_id, event);
+                if (0 !== dropzone.getQueuedFiles().length) {
+                    dropzone.processQueue();
+                } else {
+                    form.submit();
+                }
             }
 		}
 

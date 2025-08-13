@@ -1081,9 +1081,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         // redirect after test
         $redirection_url = $this->object->getMainSettings()->getFinishingSettings()->getRedirectionUrl();
-        if (!$this->object->canShowTestResults($this->test_session)
-            && $this->object->getMainSettings()->getFinishingSettings()->getRedirectionMode() !== '0'
-            && $redirection_url !== '') {
+        if (!empty($redirection_url)
+            && !$this->object->canShowTestResults($this->test_session)
+            && $this->object->getMainSettings()->getFinishingSettings()->getRedirectionMode() !== ilObjTest::REDIRECT_NONE) {
             if ($this->object->isRedirectModeKiosk()) {
                 if ($this->object->getKioskMode()) {
                     ilUtil::redirect($redirection_url);
@@ -1739,6 +1739,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
 
         if ($this->object->getListOfQuestionsStart()) {
+            $this->ctrl->setParameterByClass(static::class, 'first', '1');
             $this->ctrl->redirect($this, ilTestPlayerCommands::QUESTION_SUMMARY);
         }
 
@@ -1978,6 +1979,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->help->setScreenId('assessment');
         $this->help->setSubScreenId('question_summary');
 
+        $is_first_page = $this->testrequest->strVal('first') === '1';
+
         $this->tpl->addBlockFile(
             $this->getContentBlockName(),
             'adm_content',
@@ -2005,7 +2008,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->object,
             $question_summary_data
         );
-        $this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $this->ui_renderer->render($table->buildComponents()));
+        $this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $this->ui_renderer->render($table->buildComponents($is_first_page)));
 
         if ($this->object->getEnableProcessingTime()) {
             $this->outProcessingTime($active_id);

@@ -35,7 +35,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         global $DIC;
 
         parent::__construct($a_id, $a_reference);
-        $this->initTranslationService();
+
         $this->initPageMetricsService($DIC->refinery());
         $this->content_style_domain = $DIC->contentStyle()
             ->domain();
@@ -58,6 +58,8 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
 
     public function getObjectTranslation(): ilObjectTranslation
     {
+        $this->initTranslationService();
+
         return $this->objTrans;
     }
 
@@ -74,6 +76,9 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
 
         $ot = ilObjectTranslation::getInstance($this->getId());
         $ot->copy($new_obj->getId());
+        $new_ot = clone $ot;
+        $new_ot->setObjId($new_obj->getId());
+        $new_obj->objTrans = $new_ot;
 
         if (ilContentPagePage::_exists($this->getType(), $this->getId(), '', true)) {
             $translations = ilContentPagePage::lookupTranslations($this->getType(), $this->getId());
@@ -120,6 +125,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         } else {
             $new_obj->setOfflineStatus(true);
         }
+
         $new_obj->update();
     }
 
@@ -151,8 +157,6 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
     protected function doUpdate(): void
     {
         parent::doUpdate();
-
-        $this->initTranslationService();
 
         $trans = $this->getObjectTranslation();
         $trans->setDefaultTitle($this->getTitle());

@@ -22,7 +22,6 @@ namespace ILIAS\Test\Settings\MainSettings;
 
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\OptionalGroup;
@@ -77,7 +76,7 @@ class SettingsAccess extends TestSettings
         array $environment = null
     ): Group {
         $constraint = $refinery->custom()->constraint(
-            static fn (array $vs) =>
+            static fn(array $vs) =>
                 $vs['start_time'] === null || $vs['end_time'] === null || $vs['start_time'] < $vs['end_time'],
             $lng->txt('duration_end_must_not_be_earlier_than_start')
         );
@@ -271,8 +270,8 @@ class SettingsAccess extends TestSettings
         }
 
         return [
-            AdditionalInformationGenerator::KEY_TEST_END_TIME => $starting_time,
-            AdditionalInformationGenerator::KEY_TEST_START_TIME => $end_time,
+            AdditionalInformationGenerator::KEY_TEST_START_TIME => $starting_time,
+            AdditionalInformationGenerator::KEY_TEST_END_TIME => $end_time,
             AdditionalInformationGenerator::KEY_TEST_PASSWORD => $this->getPassword() ?? $additional_info->getNoneTag(),
             AdditionalInformationGenerator::KEY_TEST_IP_RANGE => $this->isIpRangeEnabled()
                 ? $this->getIpRangeFrom() . ' - ' . $this->getIpRangeTo()

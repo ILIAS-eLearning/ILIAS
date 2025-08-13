@@ -1763,7 +1763,7 @@ abstract class assQuestion implements Question
         $original->clonePageOfQuestion($this->getId());
         $original = $this->cloneQuestionTypeSpecificProperties($original);
         $this->cloneXHTMLMediaObjectsOfQuestion($original->getId());
-        $this->afterSyncWithOriginal($this->getOriginalId(), $this->getId(), $this->getObjId(), $original_parent_id);
+        $this->afterSyncWithOriginal($this->getOriginalId(), $this->getId(), $original_parent_id, $this->getObjId());
         $this->cloneHints($this->id, $this->original_id);
     }
 
