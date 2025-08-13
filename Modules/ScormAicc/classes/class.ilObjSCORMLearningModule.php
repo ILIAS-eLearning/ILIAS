@@ -719,8 +719,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     }
 
     protected function kindlyToDateTime(
-        string $maybe_datetime,
         string $format,
+        string $maybe_datetime,
         ?DateTimeImmutable $default = null
     ): ?DateTimeImmutable {
         $datetime = $default;
