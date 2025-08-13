@@ -1627,7 +1627,7 @@ class ilObjUserGUI extends ilObjectGUI
                         \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
                         USER_FOLDER_ID,
                         [$this->object->getId()]
-                        )))                    
+                    )))
         ) {
             $this->ilias->raiseError(
                 $this->lng->txt('msg_no_perm_view_roles_of_user'),
