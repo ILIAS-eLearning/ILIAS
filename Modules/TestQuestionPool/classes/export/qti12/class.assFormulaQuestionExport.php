@@ -79,7 +79,15 @@ class assFormulaQuestionExport extends assQuestionExport
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "unit_categories");
-        $a_xml_writer->xmlElement("fieldentry", null, base64_encode(serialize($unit_categories)));
+        $var = [];
+        /** @var assFormulaQuestionUnitCategory $unit_category */
+        foreach ($unit_categories as $unit_category) {
+            $var[$unit_category->getCategory()] = [
+                "id" => $unit_category->getId(),
+                "question_fi" => $unit_category->getQuestionFi(),
+            ];
+        }
+        $a_xml_writer->xmlElement("fieldentry", null, serialize($var));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $categorized_units = array_filter(
@@ -89,7 +97,19 @@ class assFormulaQuestionExport extends assQuestionExport
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "units");
-        $a_xml_writer->xmlElement("fieldentry", null, base64_encode(serialize($categorized_units)));
+        $var = [];
+        /** @var assFormulaQuestionUnit $categorized_unit */
+        foreach ($categorized_units as $categorized_unit) {
+            $var[$categorized_unit->getUnit()] = [
+                "id" => $categorized_unit->getId(),
+                "sequence" => $categorized_unit->getSequence(),
+                "factor" => $categorized_unit->getFactor(),
+                "base_unit" => $categorized_unit->getBaseUnit(),
+                "base_unit_title" => $categorized_unit->getBaseunitTitle(),
+                "category" => $categorized_unit->getCategory(),
+            ];
+        }
+        $a_xml_writer->xmlElement("fieldentry", null, serialize($var));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         foreach ($this->object->getVariables() as $variable) {

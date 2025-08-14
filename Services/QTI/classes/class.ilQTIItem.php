@@ -264,30 +264,62 @@ class ilQTIItem
         return $this->questiontype;
     }
 
-    public function setUnitCategories(string $serialized_and_base64_encoded_unit_categories): void
+    public function setUnitCategories(array $unit_categories): void
     {
-        $this->unit_categories = unserialize(base64_decode($serialized_and_base64_encoded_unit_categories));
+        $this->unit_categories = $unit_categories;
     }
 
-    /**
-     * @return assFormulaQuestionUnitCategory[]
-     */
     public function getUnitCategories(): array
     {
         return $this->unit_categories;
     }
 
-    public function setUnits(string $serialized_and_base64_encoded_units): void
+    /**
+     * @return assFormulaQuestionUnitCategory[]
+     */
+    public function getUnitCategoryObjets(): array
     {
-        $this->units = unserialize(base64_decode($serialized_and_base64_encoded_units));
+        $unit_categories = [];
+        foreach ($this->getUnitCategories() as $key => $unit_category) {
+            $formula_question_unit_category = new assFormulaQuestionUnitCategory();
+            $formula_question_unit_category->setCategory($key);
+            $formula_question_unit_category->setId($unit_category['id']);
+            $formula_question_unit_category->setQuestionFi($unit_category['question_fi']);
+            $unit_categories[$key] = $formula_question_unit_category;
+        }
+
+        return $unit_categories;
+    }
+
+    public function setUnits(array $units): void
+    {
+        $this->units = $units;
+    }
+
+    public function getUnits(): array
+    {
+        return $this->units;
     }
 
     /**
      * @return assFormulaQuestionUnit[]
      */
-    public function getUnits(): array
+    public function getUnitObjects(): array
     {
-        return $this->units;
+        $units = [];
+        foreach ($this->getUnits() as $key => $unit) {
+            $formula_question_unit = new assFormulaQuestionUnit();
+            $formula_question_unit->setUnit($key);
+            $formula_question_unit->setId($unit['id']);
+            $formula_question_unit->setSequence($unit['sequence']);
+            $formula_question_unit->setFactor($unit['factor']);
+            $formula_question_unit->setBaseUnit($unit['base_unit']);
+            $formula_question_unit->setBaseunitTitle($unit['base_unit_title']);
+            $formula_question_unit->setCategory($unit['category']);
+            $units[$key] = $formula_question_unit;
+        }
+
+        return $units;
     }
 
     public function setAuthor(string $a_author): void

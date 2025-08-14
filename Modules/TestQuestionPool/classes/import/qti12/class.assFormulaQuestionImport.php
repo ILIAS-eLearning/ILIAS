@@ -152,7 +152,7 @@ class assFormulaQuestionImport extends assQuestionImport
     {
         /** @var ilUnitConfigurationRepository $unit_repository */
         $unit_repository = $this->object->getUnitrepository();
-        foreach ($item->getUnitCategories() as $unit_category) {
+        foreach ($item->getUnitCategoryObjets() as $unit_category) {
             $old_category_id = $unit_category->getId();
 
             $unit_repository->saveNewUnitCategory($unit_category);
@@ -162,7 +162,7 @@ class assFormulaQuestionImport extends assQuestionImport
             $units = [];
             $base_unit_map = [];
 
-            foreach ($item->getUnits() as $unit) {
+            foreach ($item->getUnitObjects() as $unit) {
                 if ($unit->getCategory() !== $old_category_id) {
                     continue;
                 }

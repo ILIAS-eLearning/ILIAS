@@ -611,10 +611,10 @@ class ilQTIParser extends ilSaxParser
                         }
                         break;
                     case "unit_categories":
-                        $this->item?->setUnitCategories($this->metadata["entry"]);
+                        $this->item?->setUnitCategories(unserialize($this->metadata["entry"], ['allowed_classes' => false]));
                         break;
                     case "units":
-                        $this->item?->setUnits($this->metadata["entry"]);
+                        $this->item?->setUnits(unserialize($this->metadata["entry"], ['allowed_classes' => false]));
                         break;
                     case "AUTHOR":
                         if ($this->item !== null) {
