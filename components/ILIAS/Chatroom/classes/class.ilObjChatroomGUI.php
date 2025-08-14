@@ -116,6 +116,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
     {
         return [
             'view-toggleAutoMessageDisplayState',
+            'ban-handleTableActions',
         ];
     }
 

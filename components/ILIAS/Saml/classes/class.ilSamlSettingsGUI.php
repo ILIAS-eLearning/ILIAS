@@ -27,7 +27,7 @@ use ILIAS\Data\Factory;
  * Class ilSamlSettingsGUI
  * @author Michael Jansen <mjansen@databay.de>
  */
-final class ilSamlSettingsGUI
+final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
 {
     private const VIEW_MODE_GLOBAL = 1;
     private const VIEW_MODE_SINGLE = 2;
@@ -145,6 +145,18 @@ final class ilSamlSettingsGUI
         if (!$this->rbac->system()->checkAccess($operation, $this->ref_id)) {
             $this->error_handler->raiseError($this->lng->txt('msg_no_perm_read'), $this->error_handler->WARNING);
         }
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+            'handleTableActions'
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
     }
 
     private function ensureWriteAccess(): void
