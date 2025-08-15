@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilForumModeratorsGUI: ilRepositorySearchGUI
  * @ingroup      components\ILIASForum
  */
-class ilForumModeratorsGUI
+class ilForumModeratorsGUI implements ilCtrlSecurityInterface
 {
     private readonly ilCtrlInterface $ctrl;
     private readonly ilGlobalTemplateInterface $tpl;
@@ -213,5 +213,17 @@ class ilForumModeratorsGUI
             'detachModeratorRole' => $this->detachModeratorRole(),
             default => $this->ctrl->redirect($this, 'showModerators'),
         };
+    }
+
+    public function getUnsafeGetCommands() : array
+    {
+        return [
+            'handleModeratorActions',
+        ];
+    }
+
+    public function getSafePostCommands() : array
+    {
+        return [];
     }
 }

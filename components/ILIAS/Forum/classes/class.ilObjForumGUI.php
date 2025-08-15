@@ -265,7 +265,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         return [
             'enableForumNotification',
             'disableForumNotification',
-            'toggleThreadNotification'
+            'toggleThreadNotification',
+            'deleteThreadDrafts'
         ];
     }
 
