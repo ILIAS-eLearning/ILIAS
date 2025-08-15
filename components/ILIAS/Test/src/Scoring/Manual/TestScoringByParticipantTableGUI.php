@@ -36,6 +36,9 @@ class TestScoringByParticipantTableGUI extends \ilTable2GUI
 
     public const PARENT_EDIT_SCORING_CMD = 'showManScoringParticipantScreen';
 
+    protected bool $has_name_columns = false;
+    protected ?array $anon_only_user_ids = null;
+
     public function __construct(TestScoringByParticipantGUI $parent_obj)
     {
         $this->setPrefix('manScorePartTable');
@@ -68,6 +71,7 @@ class TestScoringByParticipantTableGUI extends \ilTable2GUI
         if (!$this->parent_obj->getObject()->getAnonymity()
             && $this->parent_obj->getTestAccess()->checkScoreParticipantsAccess()
         ) {
+            $this->has_name_columns = true;
             $this->addColumn($this->lng->txt("lastname"), 'lastname', '');
             $this->addColumn($this->lng->txt("firstname"), 'firstname', '');
             $this->addColumn($this->lng->txt("login"), 'login', '');
@@ -106,6 +110,15 @@ class TestScoringByParticipantTableGUI extends \ilTable2GUI
         }
     }
 
+    protected function getAnonOnlyUserIds(): array
+    {
+        if ($this->anon_only_user_ids === null) {
+            $this->anon_only_user_ids =
+                $this->parent_obj->getObject()->getAnonOnlyParticipantIds();
+        }
+        return $this->anon_only_user_ids;
+    }
+
     public function fillRow(array $a_set): void
     {
         $this->ctrl->setParameter($this->parent_obj, 'active_id', $a_set['active_id']);
@@ -116,9 +129,12 @@ class TestScoringByParticipantTableGUI extends \ilTable2GUI
         );
         $this->tpl->setVariable("PARTICIPANT_EXAMID", $participant_examid);
 
-        if (!$this->parent_obj->getObject()->getAnonymity()
-            && $this->parent_obj->getTestAccess()->checkScoreParticipantsAccess()
-        ) {
+        if (in_array($a_set['usr_id'], $this->getAnonOnlyUserIds())) {
+            $a_set['lastname'] = '';
+            $a_set['firstname'] = '';
+            $a_set['login'] = '';
+        }
+        if ($this->has_name_columns) {
             $this->tpl->setCurrentBlock('personal');
             $this->tpl->setVariable("PARTICIPANT_LASTNAME", $a_set['lastname']);
             $this->tpl->setVariable("PARTICIPANT_FIRSTNAME", $a_set['firstname']);

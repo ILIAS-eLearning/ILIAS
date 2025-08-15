@@ -144,7 +144,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
                     $this->object,
                     $question_id
                 ),
-                $this->object->getAnonymity() || !$this->test_access->checkScoreParticipantsAccess()
+                $this->object->getAnonymity() || !$this->test_access->checkScoreParticipantsAccess(),
             )
         ];
 
@@ -382,8 +382,9 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
 
     private function getModalTitle(int $active_id, int $attempt): string
     {
+        $usr_id = $this->object->_getUserIdFromActiveId($active_id);
         if ($this->object->getAnonymity() === true
-            || $this->test_access->checkScoreParticipantsAccess() === false
+            || in_array($usr_id, $this->object->getAnonOnlyParticipantIds())
         ) {
             return $this->lng->txt('answers_of')
                 . ' '

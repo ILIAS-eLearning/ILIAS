@@ -61,6 +61,9 @@ class ScoringByQuestionTableBinder implements DataRetrieval
         $this->sortData($order);
         $data = array_slice($this->participant_data, $range->getStart(), $range->getLength());
         foreach ($data as $row) {
+            if (in_array($row['usr_id'], $this->test_obj->getAnonOnlyParticipantIds())) {
+                $row[ScoringByQuestionTable::COLUMN_NAME] = '';
+            }
             yield $row_builder->buildDataRow(
                 array_shift($row),
                 $row
@@ -171,7 +174,8 @@ class ScoringByQuestionTableBinder implements DataRetrieval
                     ScoringByQuestionTable::COLUMN_POINTS_AVAILABLE => $current_participant->getQuestionByAttemptAndId($pd->getPass(), $question_id)['points'] ?? 0.0,
                     ScoringByQuestionTable::COLUMN_FEEDBACK => $feedback_data['feedback'] ?? '',
                     ScoringByQuestionTable::COLUMN_FINALIZED => isset($feedback_data['finalized_evaluation']) && $feedback_data['finalized_evaluation'] === 1,
-                    ScoringByQuestionTable::COLUMN_FINALIZED_BY => $this->buildFinalizedByName($feedback_data)
+                    ScoringByQuestionTable::COLUMN_FINALIZED_BY => $this->buildFinalizedByName($feedback_data),
+                    'usr_id' => $current_participant->getUserId()
                 ];
 
                 if (isset($feedback_data['finalized_tstamp'])
