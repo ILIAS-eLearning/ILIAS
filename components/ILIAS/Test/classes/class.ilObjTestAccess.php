@@ -196,9 +196,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         ];
     }
 
-    /**
-    * checks wether all necessary parts of the test are given
-    */
     private static function lookupCreationComplete(int $a_obj_id): bool
     {
         global $DIC;
