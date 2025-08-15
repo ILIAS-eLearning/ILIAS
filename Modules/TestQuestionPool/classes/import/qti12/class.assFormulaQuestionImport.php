@@ -172,11 +172,11 @@ class assFormulaQuestionImport extends assQuestionImport
                 $old_sequence = $unit->getSequence();
 
                 $unit->setCategory($unit_category->getId());
-                $unit->setBaseUnit($old_base_unit_id);
                 $unit->setFactor($old_unit_factor);
                 $unit->setSequence($old_sequence);
 
                 $unit_repository->createNewUnit($unit);
+                $unit->setBaseUnit($old_base_unit_id);
 
                 $units[] = $unit;
                 $base_unit_map[$old_unit_id] = $unit->getId();

@@ -264,9 +264,9 @@ class ilQTIItem
         return $this->questiontype;
     }
 
-    public function setUnitCategories(array $unit_categories): void
+    public function addUnitCategory(string $label, array $unit_category): void
     {
-        $this->unit_categories = $unit_categories;
+        $this->unit_categories[$label] = $unit_category;
     }
 
     public function getUnitCategories(): array
@@ -283,17 +283,17 @@ class ilQTIItem
         foreach ($this->getUnitCategories() as $key => $unit_category) {
             $formula_question_unit_category = new assFormulaQuestionUnitCategory();
             $formula_question_unit_category->setCategory($key);
-            $formula_question_unit_category->setId($unit_category['id']);
-            $formula_question_unit_category->setQuestionFi($unit_category['question_fi']);
+            $formula_question_unit_category->setId((int) $unit_category['id']);
+            $formula_question_unit_category->setQuestionFi((int) $unit_category['question_fi']);
             $unit_categories[$key] = $formula_question_unit_category;
         }
 
         return $unit_categories;
     }
 
-    public function setUnits(array $units): void
+    public function addUnit(string $label, array $unit): void
     {
-        $this->units = $units;
+        $this->units[$label] = $unit;
     }
 
     public function getUnits(): array
@@ -310,12 +310,12 @@ class ilQTIItem
         foreach ($this->getUnits() as $key => $unit) {
             $formula_question_unit = new assFormulaQuestionUnit();
             $formula_question_unit->setUnit($key);
-            $formula_question_unit->setId($unit['id']);
-            $formula_question_unit->setSequence($unit['sequence']);
-            $formula_question_unit->setFactor($unit['factor']);
-            $formula_question_unit->setBaseUnit($unit['base_unit']);
+            $formula_question_unit->setId((int) $unit['id']);
+            $formula_question_unit->setSequence((int) $unit['sequence']);
+            $formula_question_unit->setFactor((float) $unit['factor']);
+            $formula_question_unit->setBaseUnit((int) $unit['base_unit']);
             $formula_question_unit->setBaseunitTitle($unit['base_unit_title']);
-            $formula_question_unit->setCategory($unit['category']);
+            $formula_question_unit->setCategory((int) $unit['category']);
             $units[$key] = $formula_question_unit;
         }
 

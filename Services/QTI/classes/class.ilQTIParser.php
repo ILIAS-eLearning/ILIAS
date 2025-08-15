@@ -188,6 +188,8 @@ class ilQTIParser extends ilSaxParser
     protected \ILIAS\TestQuestionPool\QuestionFilesService $questionfiles;
     protected array $mappings;
 
+    private array $attributes = [];
+
     public function __construct(
         ?string $a_xml_file,
         int $a_mode = self::IL_MO_PARSE_QTI,
@@ -328,6 +330,9 @@ class ilQTIParser extends ilSaxParser
                 break;
             case "qtimetadatafield":
                 $this->metadata = ["label" => "", "entry" => ""];
+                break;
+            case "fieldentry";
+                $this->attributes = $a_attribs;
                 break;
             case "flow":
                 $this->flow++;
@@ -610,12 +615,6 @@ class ilQTIParser extends ilSaxParser
                             $this->item->setQuestiontype($this->metadata["entry"]);
                         }
                         break;
-                    case "unit_categories":
-                        $this->item?->setUnitCategories(unserialize($this->metadata["entry"], ['allowed_classes' => false]));
-                        break;
-                    case "units":
-                        $this->item?->setUnits(unserialize($this->metadata["entry"], ['allowed_classes' => false]));
-                        break;
                     case "AUTHOR":
                         if ($this->item !== null) {
                             $this->item->setAuthor($this->metadata["entry"]);
@@ -631,6 +630,19 @@ class ilQTIParser extends ilSaxParser
                     $this->assessment->addQtiMetadata($this->metadata);
                 }
                 $this->metadata = ["label" => "", "entry" => ""];
+                break;
+            case "fieldentry":
+                $label = $this->metadata["label"];
+                if ($label === "unit_categories") {
+                    $this->item?->addUnitCategory($this->metadata["entry"], $this->attributes);
+                    break;
+                }
+
+                if ($label === "units") {
+                    $this->item?->addUnit($this->metadata["entry"], $this->attributes);
+                    break;
+                }
+
                 break;
             case "flow":
                 $this->flow--;
