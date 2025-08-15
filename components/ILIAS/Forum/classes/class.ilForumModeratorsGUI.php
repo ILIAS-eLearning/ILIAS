@@ -215,14 +215,14 @@ class ilForumModeratorsGUI implements ilCtrlSecurityInterface
         };
     }
 
-    public function getUnsafeGetCommands() : array
+    public function getUnsafeGetCommands(): array
     {
         return [
             'handleModeratorActions',
         ];
     }
 
-    public function getSafePostCommands() : array
+    public function getSafePostCommands(): array
     {
         return [];
     }
