@@ -331,7 +331,7 @@ class ilQTIParser extends ilSaxParser
             case "qtimetadatafield":
                 $this->metadata = ["label" => "", "entry" => ""];
                 break;
-            case "fieldentry";
+            case "fieldentry":
                 $this->attributes = $a_attribs;
                 break;
             case "flow":
