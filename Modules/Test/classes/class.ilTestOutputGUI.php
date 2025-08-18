@@ -207,11 +207,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                     }
                 }
 
-                if ($cmd === 'outQuestionSummary'
-                    || $cmd === 'submitSolution') {
-                    $this->handleCheckTestPassValid();
-                }
-
                 $cmd .= 'Cmd';
                 $ret = $this->$cmd();
                 break;
@@ -479,8 +474,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
 
-    protected function submitSolutionAndNextCmd()
+    protected function submitSolutionAndNextCmd(): void
     {
+        $this->handleCheckTestPassValid();
+
         if ($this->object->isForceInstantFeedbackEnabled()) {
             $this->submitSolutionCmd();
             return;
@@ -509,8 +506,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
 
-    protected function submitSolutionCmd()
+    protected function submitSolutionCmd(): void
     {
+        $this->handleCheckTestPassValid();
+
         if ($this->saveQuestionSolution(true, false)) {
             $questionId = $this->testSequence->getQuestionForSequence(
                 $this->getCurrentSequenceElement()

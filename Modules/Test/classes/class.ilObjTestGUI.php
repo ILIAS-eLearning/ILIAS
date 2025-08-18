@@ -3098,9 +3098,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
                     $this->toolbar->addSeparator();
                     if ($testSession->getActiveId() > 0) {
-                        $this->toolbar->addButton($this->lng->txt('tst_resume_test'), $this->ctrl->getLinkTarget($player_instance, 'resumePlayer'));
+                        $this->toolbar->addButton($this->lng->txt('tst_resume_test'), $this->ctrl->getLinkTarget($player_instance, ilTestPlayerCommands::RESUME_PLAYER));
                     } else {
-                        $this->toolbar->addButton($this->lng->txt('tst_start_test'), $this->ctrl->getLinkTarget($player_instance, 'startTest'));
+                        $this->toolbar->addButton($this->lng->txt('tst_start_test'), $this->ctrl->getLinkTarget($player_instance, ilTestPlayerCommands::START_TEST));
                     }
                 }
             }

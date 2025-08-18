@@ -108,7 +108,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         // command buttons
         $this->command_buttons[] = $this->ui_factory->button()->standard(
             $this->lng->txt('tst_resume_test'),
-            $this->ctrl->getLinkTarget($this->parent_obj, ilTestPlayerCommands::SHOW_QUESTION)
+            $this->ctrl->getLinkTarget($this->parent_obj, ilTestPlayerCommands::RESUME_PLAYER)
         );
 
         if (!$this->areObligationsNotAnswered() && $this->isFinishTestButtonEnabled()) {

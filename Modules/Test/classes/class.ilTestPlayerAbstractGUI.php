@@ -63,6 +63,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->passwordChecker = new ilTestPasswordChecker($this->rbac_system, $this->user, $this->object, $this->lng);
     }
 
+    abstract protected function handleCheckTestPassValid(): void;
+
     protected function checkReadAccess(): bool|string
     {
         if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
@@ -622,8 +624,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     }
     // fau.
 
-    protected function submitIntermediateSolutionCmd()
+    protected function submitIntermediateSolutionCmd(): void
     {
+        $this->handleCheckTestPassValid();
+
         $this->saveQuestionSolution(false, true);
         // fau: testNav - set the 'answer changed' parameter when an intermediate solution is submitted
         $this->setAnswerChangedParameter(true);
@@ -1247,6 +1251,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         bool $obligations_info = false,
         bool $obligations_filter = false
     ) {
+        $this->handleCheckTestPassValid();
+
         $this->help->setScreenIdComponent("tst");
         $this->help->setScreenId("assessment");
         $this->help->setSubScreenId("question_summary");
