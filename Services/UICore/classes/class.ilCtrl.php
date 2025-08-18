@@ -275,9 +275,9 @@ class ilCtrl implements ilCtrlInterface
                 if (null !== $sent_token && $stored_token->verifyWith($sent_token)) {
                     return $command;
                 }
-            } else {
-                return $command;
+                return $fallback_command ?? '';
             }
+            return $command;
         }
 
         return $fallback_command ?? '';
