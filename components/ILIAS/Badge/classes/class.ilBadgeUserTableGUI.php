@@ -340,12 +340,12 @@ class ilBadgeUserTableGUI implements DataRetrieval
         ] : [];
     }
 
-    public function renderTable(): void
+    public function renderTable(string $url): void
     {
         $df = new \ILIAS\Data\Factory();
         $this->date_format = $this->user->getDateTimeFormat();
 
-        $table_uri = $df->uri($this->request->getUri()->__toString());
+        $table_uri = $df->uri($url);
         $url_builder = new URLBuilder($table_uri);
         $query_params_namespace = ['tid'];
 
