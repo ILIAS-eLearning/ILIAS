@@ -21,7 +21,7 @@ use ILIAS\Badge\TileView;
 use ILIAS\Badge\PresentationHeader;
 use ILIAS\Badge\Tile;
 
-class ilBadgeProfileGUI
+class ilBadgeProfileGUI implements ilCtrlSecurityInterface
 {
     final public const BACKPACK_EMAIL = 'badge_mozilla_bp';
 
@@ -79,8 +79,9 @@ class ilBadgeProfileGUI
                 $query = $DIC->http()->wrapper()->query();
                 $action = '';
                 $parameter = 'badge_table_action';
-                if ($query->has($parameter)) {
-                    $action = $query->retrieve($parameter, $DIC->refinery()->kindlyTo()->string());
+                if ($cmd === 'action' && $this->query->has($parameter)) {
+                    $action = $this->query->retrieve($parameter, $DIC->refinery()->kindlyTo()->string());
+                    $cmd = 'listBadges';
                 }
                 if ($action === 'obj_badge_activate') {
                     $this->activate();
@@ -90,6 +91,16 @@ class ilBadgeProfileGUI
                 $this->$cmd();
                 break;
         }
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return ['action'];
     }
 
     protected function listBadges(): void
@@ -108,7 +119,7 @@ class ilBadgeProfileGUI
     protected function manageBadges(): void
     {
         $tpl = new ilBadgePersonalTableGUI();
-        $tpl->renderTable();
+        $tpl->renderTable(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'action'));
     }
 
     protected function getMultiSelection(): array

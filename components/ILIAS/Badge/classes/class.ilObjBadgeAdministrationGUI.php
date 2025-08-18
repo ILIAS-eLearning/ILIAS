@@ -26,7 +26,7 @@ use ILIAS\Badge\ilBadgeUserTableGUI;
  * @ilCtrl_Calls ilObjBadgeAdministrationGUI: ilPermissionGUI, ilBadgeManagementGUI
  * @ilCtrl_IsCalledBy ilObjBadgeAdministrationGUI: ilAdministrationGUI
  */
-class ilObjBadgeAdministrationGUI extends ilObjectGUI
+class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityInterface
 {
     public const TABLE_ALL_OBJECTS_ACTION = 'ALL_OBJECTS';
     private \ILIAS\ResourceStorage\Services $resource_storage;
@@ -91,46 +91,42 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
                     $this->ctrl->setParameter($this, 'tid', $this->badge_request->getBadgeIdFromUrl());
                 }
 
-                $table_action = $this->http->wrapper()->query()->retrieve(
-                    'tid_table_action',
+                $get = fn(string $key) => $this->http->wrapper()->query()->retrieve(
+                    $key,
                     $this->refinery->byTrying([
                         $this->refinery->kindlyTo()->string(),
                         $this->refinery->always('')
                     ])
                 );
 
+                $table_action = $get('tid_table_action');
+                $return_cmd = $get('returnCmd') ?: 'view';
+
                 $render_default = true;
-                if ($table_action === 'badge_type_activate') {
-                    $this->activateTypes();
-                } elseif ($table_action === 'badge_type_deactivate') {
-                    $this->deactivateTypes();
-                } elseif ($table_action === 'badge_image_template_editImageTemplate') {
-                    $this->editImageTemplate();
-                    $render_default = false;
-                } elseif ($table_action === 'obj_badge_user') {
-                    $this->editImageTemplate();
-                    $render_default = false;
-                } elseif ($table_action === 'obj_badge_activate') {
-                    $this->activateObjectBadges();
-                    $render_default = false;
-                } elseif ($table_action === 'obj_badge_deactivate') {
-                    $this->deactivateObjectBadges();
-                    $render_default = false;
-                } elseif ($table_action === 'obj_badge_show_users') {
-                    $this->listObjectBadgeUsers();
-                    $render_default = false;
-                } elseif ($table_action === 'badge_image_template_delete') {
-                    $this->confirmDeleteImageTemplates();
-                    $render_default = false;
-                } elseif ($table_action === 'obj_badge_delete') {
-                    $this->confirmDeleteObjectBadges();
-                    $render_default = false;
+                $actions = [
+                    'badge_type_activate' => ['activateTypes', true],
+                    'badge_type_deactivate' => ['deactivateTypes', true],
+                    'badge_image_template_editImageTemplate' => 'editImageTemplate',
+                    'obj_badge_user' => 'editImageTemplate',
+                    'obj_badge_activate' => 'activateObjectBadges',
+                    'obj_badge_deactivate' => 'deactivateObjectBadges',
+                    'obj_badge_show_users' => 'listObjectBadgeUsers',
+                    'badge_image_template_delete' => 'confirmDeleteImageTemplates',
+                    'obj_badge_delete' => 'confirmDeleteObjectBadges',
+                ];
+
+                $entry = $actions[$table_action] ?? null;
+                if ($cmd !== 'action' || !$entry) {
+                    $this->$cmd();
+                    return;
                 }
 
-                if ($render_default) {
-                    $this->$cmd();
-                    break;
+                $entry = is_array($entry) ? $entry : [$entry, false];
+                $this->{$entry[0]}();
+                if ($entry[1] && in_array($return_cmd, ['listObjectBadges', 'listObjectBadgeUsers', 'listImageTemplates', 'listTypes'], true)) {
+                    $this->$return_cmd();
                 }
+                break;
         }
     }
 
@@ -179,6 +175,16 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm')
             );
         }
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return ['action'];
     }
 
     protected function assertActive(): void
@@ -259,7 +265,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         $this->tabs_gui->setTabActive('types');
 
         $tpl = new ilBadgeTypesTableGUI($this->access->checkAccess("write", "", $this->object->getRefId()));
-        $tpl->renderTable();
+        $this->ctrl->setParameter($this, 'returnCmd', __FUNCTION__);
+        $tpl->renderTable(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'action'));
     }
 
     protected function activateTypes(): void
@@ -343,7 +350,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         }
 
         $template_table = new ilBadgeImageTemplateTableGUI($this->access->checkAccess("write", "", $this->object->getRefId()));
-        $template_table->renderTable();
+        $this->ctrl->setParameter($this, 'returnCmd', __FUNCTION__);
+        $template_table->renderTable(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'action'));
     }
 
 
@@ -634,7 +642,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         $this->ctrl->saveParameter($this, 'pid');
 
         $tbl = new ilBadgeUserTableGUI(null, null, $parent_obj_id, $this->badge_request->getBadgeId());
-        $tbl->renderTable();
+        $this->ctrl->setParameter($this, 'returnCmd', __FUNCTION__);
+        $tbl->renderTable(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'action'));
     }
 
     protected function applylistObjectBadgeUsers(): void
@@ -653,7 +662,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         $this->tabs_gui->setTabActive('obj_badges');
 
         $tbl = new ilObjectBadgeTableGUI($this, $this->access->checkAccess("write", "", $this->object->getRefId()));
-        $tbl->renderTable();
+        $this->ctrl->setParameter($this, 'returnCmd', __FUNCTION__);
+        $tbl->renderTable(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'action'));
     }
 
     //
@@ -784,5 +794,4 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         $this->tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
         $ilCtrl->redirect($this, 'listObjectBadges');
     }
-
 }

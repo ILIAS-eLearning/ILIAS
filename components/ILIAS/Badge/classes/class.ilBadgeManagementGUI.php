@@ -30,7 +30,7 @@ use ILIAS\Setup\ArrayEnvironment;
 /**
  * @ilCtrl_Calls ilBadgeManagementGUI: ilPropertyFormGUI
  */
-class ilBadgeManagementGUI
+class ilBadgeManagementGUI implements ilCtrlSecurityInterface
 {
     public const TABLE_ALL_OBJECTS_ACTION = 'ALL_OBJECTS';
 
@@ -188,37 +188,47 @@ class ilBadgeManagementGUI
                         $DIC->ctrl()->setParameter($this, "tid", $id);
                     }
                 }
-                $action = '';
-                if ($query->has($parameter)) {
-                    $action = $query->retrieve($parameter, $DIC->refinery()->kindlyTo()->string());
-                }
-                if ($action === 'badge_table_activate') {
-                    $this->activateBadges();
-                } elseif ($action === 'badge_table_deactivate') {
-                    $this->deactivateBadges();
-                } elseif ($action === 'badge_table_edit') {
-                    $this->editBadge();
-                    $render_default = false;
-                } elseif ($action === 'badge_table_delete') {
-                    $this->confirmDeleteBadges();
-                    $render_default = false;
-                } elseif ($action === 'award_revoke_badge') {
-                    $this->awardBadgeUserSelection();
-                    $render_default = false;
-                } elseif ($action === 'revokeBadge') {
-                    $this->confirmDeassignBadge();
-                    $render_default = false;
-                } elseif ($action === 'assignBadge') {
-                    $this->assignBadge();
-                    $render_default = false;
+
+                $get = fn(string $key) => $query->has($key) ?
+                    $query->retrieve($key, $DIC->refinery()->kindlyTo()->string()) :
+                    '';
+
+                $action = $get($parameter);
+                $return_cmd = $get('returnCmd');
+
+                $actions = [
+                    'badge_table_activate' => ['activateBadges', true],
+                    'badge_table_deactivate' => ['deactivateBadges', true],
+                    'badge_table_edit' => 'editBadge',
+                    'badge_table_delete' => 'confirmDeleteBadges',
+                    'award_revoke_badge' => 'awardBadgeUserSelection',
+                    'revokeBadge' => 'confirmDeassignBadge',
+                    'assignBadge' => 'assignBadge',
+                ];
+
+                $entry = $actions[$action] ?? null;
+                if ($cmd !== 'action' || !$entry) {
+                    $this->$cmd();
+                    return;
                 }
 
-                if ($render_default) {
-                    $this->$cmd();
-                    break;
+                $entry = is_array($entry) ? $entry : [$entry, false];
+                $this->{$entry[0]}();
+                if ($entry[1] && in_array($return_cmd, ['awardBadgeUserSelection', 'listUsers', 'listUsers', 'listBadges'], true)) {
+                    $this->$return_cmd();
                 }
                 break;
         }
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return ['action'];
     }
 
     protected function setTabs(string $a_active): void
@@ -309,7 +319,8 @@ class ilBadgeManagementGUI
         }
 
         $table = new ilBadgeTableGUI($this->parent_obj_id, $this->parent_obj_type, $this->hasWrite());
-        $table->renderTable();
+        $this->ctrl->setParameter($this, 'returnCmd', __FUNCTION__);
+        $table->renderTable(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'action'));
     }
 
 
@@ -820,7 +831,8 @@ class ilBadgeManagementGUI
         }
 
         $tbl = new ilBadgeUserTableGUI($this->parent_ref_id);
-        $tbl->renderTable();
+        $this->ctrl->setParameter($this, 'returnCmd', __FUNCTION__);
+        $tbl->renderTable(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'action'));
     }
 
     private function selectBadgeForAwardingOrRevoking(): never
@@ -878,7 +890,8 @@ class ilBadgeManagementGUI
         $badge = new ilBadge($bid);
 
         $tbl = new ilBadgeUserTableGUI($this->parent_ref_id, $badge);
-        $tbl->renderTable();
+        $this->ctrl->setParameter($this, 'returnCmd', __FUNCTION__);
+        $tbl->renderTable(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'action'));
     }
 
     protected function assignBadge(): void
