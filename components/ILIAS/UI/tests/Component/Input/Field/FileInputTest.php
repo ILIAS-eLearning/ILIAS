@@ -313,10 +313,11 @@ class FileInputTest extends ILIAS_UI_TestBase
                         </div>
                         <div class="ui-input-file-metadata" style="display: none;">
                             <fieldset class="c-input" data-il-ui-component="text-field-input" data-il-ui-input-name="name_0[input_1][]">
-                                <label for="id_1">text_input</label>
+                                <label class="c-input__label" for="id_1">text_input</label>
                                 <div class="c-input__field">
                                     <input id="id_1" type="text" name="name_0[input_1][]" class="c-field-text"/>
                                 </div>
+                                <div class="c-input__value_representation"></div>
                             </fieldset>
                             <input id="id_2" type="hidden" name="name_0[input_2][]" value="file_id"/>
                         </div>
@@ -339,9 +340,10 @@ class FileInputTest extends ILIAS_UI_TestBase
                                     data-dz-error-msg></span></div>
                             <div class="ui-input-file-metadata" style="display: none;">
                                 <fieldset class="c-input" data-il-ui-component="text-field-input"
-                                    data-il-ui-input-name="name_0[input_1][]"><label for="id_3">text_input</label>
+                                    data-il-ui-input-name="name_0[input_1][]"><label class="c-input__label" for="id_3">text_input</label>
                                     <div class="c-input__field"><input id="id_3" type="text" name="name_0[input_1][]"
                                             class="c-field-text" /></div>
+                                    <div class="c-input__value_representation"></div>
                                 </fieldset><input id="id_4" type="hidden" name="name_0[input_2][]" value="" />
                             </div>
                             <div class="ui-input-file-input-progress-container">
@@ -420,10 +422,11 @@ class FileInputTest extends ILIAS_UI_TestBase
                         </div>
                         <div class="ui-input-file-metadata" style="display: none;">
                             <fieldset class="c-input" data-il-ui-component="text-field-input" data-il-ui-input-name="name_0[input_1][]">
-                                <label for="id_1">text_input</label>
+                                <label class="c-input__label" for="id_1">text_input</label>
                                 <div class="c-input__field">
                                     <input id="id_1" type="text" value="test" name="name_0[input_1][]" class="c-field-text"/>
                                 </div>
+                                <div class="c-input__value_representation"></div>
                             </fieldset>
                             <input id="id_2" type="hidden" name="name_0[input_2][]" value="test_file_id_1"/>
                         </div>
@@ -452,9 +455,10 @@ class FileInputTest extends ILIAS_UI_TestBase
                                     class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                             <div class="ui-input-file-metadata" style="display: none;">
                                 <fieldset class="c-input" data-il-ui-component="text-field-input"
-                                data-il-ui-input-name="name_0[input_1][]"><label for="id_3">text_input</label>
+                                data-il-ui-input-name="name_0[input_1][]"><label class="c-input__label" for="id_3">text_input</label>
                                 <div class="c-input__field"><input id="id_3" type="text" name="name_0[input_1][]"
                                         class="c-field-text" /></div>
+                                        <div class="c-input__value_representation"></div>
                                 </fieldset><input id="id_4" type="hidden" name="name_0[input_2][]" value="" />
                             </div>
                             <div class="ui-input-file-input-progress-container">

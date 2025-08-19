@@ -136,7 +136,7 @@ trait CommonFieldRendering
 
         $html = '
         <fieldset class="c-input" data-il-ui-component="' . $type . '" data-il-ui-input-name="' . $name . '"' . $js_id . $tab . '>
-            <label' . $label_id . '>' . $headline_tag_open . $label . $headline_tag_close . '</label>
+            <label class="c-input__label"' . $label_id . '>' . $headline_tag_open . $label . $headline_tag_close . '</label>
             <div class="c-input__field">';
         $html .= $payload_field;
         $html .= '
@@ -146,6 +146,7 @@ trait CommonFieldRendering
             <div class="c-input__help-byline">' . $byline . '</div>';
         }
         $html .= '
+            <div class="c-input__value_representation"></div>
         </fieldset>
         ';
         return $this->brutallyTrimHTML($html);

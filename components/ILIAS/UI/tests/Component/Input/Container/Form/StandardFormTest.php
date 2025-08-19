@@ -129,7 +129,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->getDefaultRenderer()->render($form);
 
         $expected = $this->brutallyTrimHTML('
-        <form class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post">
+        <form id="id_2" class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post">
            <div class="c-form__header">
               <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
            </div>'
@@ -174,7 +174,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($form));
 
         $expected = $this->brutallyTrimHTML('
-        <form class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post">
+        <form id="id_2" class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post">
            <div class="c-form__header">
               <div class="c-form__actions"><button class="btn btn-default" data-action="">create</button></div>
            </div>'
@@ -201,7 +201,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($form));
 
         $expected = $this->brutallyTrimHTML('
-        <form class="c-form c-form--horizontal" enctype="multipart/form-data" method="post">
+        <form id="id_2" class="c-form c-form--horizontal" enctype="multipart/form-data" method="post">
             <div class="c-form__header">
                 <div class="c-form__actions">
                     <button class="btn btn-default" data-action="">save</button>
@@ -262,7 +262,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $html = $this->brutallyTrimHTML($r->render($form));
         $expected = $this->brutallyTrimHTML('
-<form class="c-form c-form--horizontal" enctype="multipart/form-data" method="post">
+<form id="id_3" class="c-form c-form--horizontal" enctype="multipart/form-data" method="post">
     <div class="c-form__header">
         <div class="c-form__actions">
             <button class="btn btn-default" data-action="">save</button>
@@ -272,12 +272,13 @@ class StandardFormTest extends ILIAS_UI_TestBase
         message
     </div>
     <fieldset class="c-input" data-il-ui-component="text-field-input" data-il-ui-input-name="form_0/input_1"
-              aria-describedby="id_2"><label for="id_1">label</label>
+              aria-describedby="id_2"><label class="c-input__label" for="id_1">label</label>
         <div class="c-input__field"><input id="id_1" type="text" name="form_0/input_1" class="c-field-text" /></div>
         <div class="c-input__error-msg alert alert-danger" id="id_2"><span class="sr-only">ui_error:</span>This is
             invalid...
         </div>
         <div class="c-input__help-byline">byline</div>
+        <div class="c-input__value_representation"></div>
     </fieldset>
     <div class="c-form__footer">
         <div class="c-form__actions">
@@ -339,7 +340,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $html = $this->brutallyTrimHTML($r->render($form));
         $expected = $this->brutallyTrimHTML('
-            <form class="c-form c-form--horizontal" enctype="multipart/form-data" method="post">
+            <form id="id_2" class="c-form c-form--horizontal" enctype="multipart/form-data" method="post">
                 <div class="c-form__header">
                     <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
                 </div>
@@ -375,7 +376,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         );
 
         $expected = $this->brutallyTrimHTML('
-<form class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post">
+<form id="id_2" class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post">
     <div class="c-form__header">
         <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
         <div class="c-form__required">
