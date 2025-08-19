@@ -155,7 +155,7 @@ class ilTestEvaluationFactory
                     $attempt->setStartTime($start_time);
                 }
                 $attempt->setStatusOfAttempt(
-                    $this->buildFinalizedBy($current_attempt, $row['last_finished_pass'], $row['finalized_by'])
+                    StatusOfAttempt::build($current_attempt, $row['last_finished_pass'], $row['finalized_by'])
                 );
             }
 
@@ -442,18 +442,5 @@ class ilTestEvaluationFactory
         );
 
         return $times['first_access'];
-    }
-
-    private function buildFinalizedBy(int $current_attempt, ?int $last_finished_attempt, ?string $finalized_by): StatusOfAttempt
-    {
-        if ($last_finished_attempt === null || $current_attempt > $last_finished_attempt) {
-            return StatusOfAttempt::RUNNING;
-        }
-
-        if ($finalized_by === null) {
-            return StatusOfAttempt::FINISHED_BY_UNKNOWN;
-        }
-
-        return StatusOfAttempt::tryFrom($finalized_by);
     }
 }

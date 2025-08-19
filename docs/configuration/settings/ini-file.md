@@ -30,7 +30,6 @@ to the webserver. These files are located here:
 | java                            | ""                                 |             |
 | ffmpeg                          | ""                                 |             |
 | ghostscript                     | "/usr/bin/gs"                      |             |
-| latex                           | ""                                 |             |
 | vscantype                       | "none"                             |             |
 | scancommand                     | ""                                 |             |
 | cleancommand                    | ""                                 |             |

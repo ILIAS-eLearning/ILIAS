@@ -151,6 +151,11 @@ class CachedRepository
     ): Translations {
         $this->delete($translations->getObjId());
 
+        if ($translations->getLanguages() === []) {
+            self::$data_cache[$translations->getObjId()] = $translations;
+            return $translations;
+        }
+
         $values = array_reduce(
             $translations->getLanguages(),
             function (string $c, Language $v) use ($translations): string {

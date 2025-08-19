@@ -5,7 +5,7 @@ Version 2.3 [updated 2025-02-26]
 ## 1 Purpose and target group
 
 This guide provides recommendations for structuring and composing PRIVACY.md files for ILIAS. It is designed to help authorities create PRIVACY.md files for their components. The target group of the PRIVACY.md files is the e-learning team of an educational provider, not other authorities. These teams need to provide relevant information to the officer responsible for ensuring compliance with the EU General Data Protection Regulation (GDPR). Please use clear and accessible language to make the information easy to understand.
-Your feedback and change requests are welcome. Please send them to toedt@leifos.com and elyesa.seidel@hhu.de.
+Your feedback and change requests are welcome. Please send them to privacy@lists.ilias.de.
 
 ## 2 Where to write » Use Git
 
@@ -20,7 +20,7 @@ To extend or add the privacy documentation, base your Pull Request on the follow
 
 ### [Name of the component] Privacy
 
-> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information via the [ILIAS issue tracker](https://mantis.ilias.de) or submit a fix via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).**
+> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).**
 
 ### General information
 

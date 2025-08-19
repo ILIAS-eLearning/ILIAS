@@ -22,6 +22,7 @@ namespace ILIAS\Test\Scoring\Manual;
 
 use ILIAS\Test\Logging\TestScoringInteraction;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 
 /**
  * Class ilTestScoring
@@ -56,7 +57,7 @@ class TestScoring
         private \ilObjTest $test,
         private \ilObjUser $scorer,
         private \ilDBInterface $db,
-        private \ilLanguage $lng
+        private readonly TestResultRepository $test_result_repository
     ) {
     }
 
@@ -112,7 +113,7 @@ class TestScoring
             $active_id,
             $pass
         );
-        $this->test->updateTestResultCache($active_id);
+        $this->test_result_repository->updateTestResultCache($active_id);
     }
 
     public function recalculatePasses(\ilTestEvaluationUserData $userdata, int $active_id): void
@@ -123,7 +124,7 @@ class TestScoring
                 $this->recalculatePass($passdata, $userdata->getUserID(), $active_id, $pass);
             }
         }
-        $this->test->updateTestResultCache($active_id);
+        $this->test_result_repository->updateTestResultCache($active_id);
     }
 
     public function recalculatePass(
@@ -277,10 +278,16 @@ class TestScoring
             $passSelector->setActiveId($active_id);
 
             foreach ($passSelector->getExistingPasses() as $pass) {
-                $this->test->updateTestPassResults($active_id, $pass);
+                $this->test_result_repository->updateTestAttemptResult(
+                    $active_id,
+                    $pass,
+                    null,
+                    null,
+                    false
+                );
             }
 
-            $this->test->updateTestResultCache($active_id);
+            $this->test_result_repository->updateTestResultCache($active_id);
         }
     }
 

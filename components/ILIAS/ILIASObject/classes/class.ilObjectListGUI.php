@@ -2690,17 +2690,6 @@ class ilObjectListGUI
         return $this->adm_commands_included;
     }
 
-    public function storeAccessCache(): void
-    {
-        if ($this->acache->getLastAccessStatus() == 'miss' && !$this->prevent_access_caching) {
-            $this->acache->storeEntry(
-                $this->user->getId() . ':' . $this->ref_id,
-                serialize($this->access_cache),
-                $this->ref_id
-            );
-        }
-    }
-
     /**
      * Get all item information (title, commands, description) in HTML
      */
@@ -2731,16 +2720,6 @@ class ilObjectListGUI
                     true
                 );
             }
-        }
-
-        // read from cache
-        $this->acache = new ilListItemAccessCache();
-        $cres = $this->acache->getEntry($this->user->getId() . ':' . $ref_id);
-        if ($this->acache->getLastAccessStatus() == 'hit') {
-            $this->access_cache = unserialize($cres);
-        } else {
-            // write to cache
-            $this->storeAccessCache();
         }
 
         // visible check

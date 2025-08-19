@@ -431,6 +431,7 @@ class ilObjFileGUI extends ilObject2GUI
         $inputs[self::PARAM_FILES] = $this->ui->factory()->input()->field()->file(
             $this->upload_handler,
             $this->lng->txt('upload_files'),
+            null,
             $this->ui->factory()->input()->field()->group([
                 self::PARAM_TITLE => $this->ui->factory()->input()->field()->text(
                     $this->lng->txt('title')

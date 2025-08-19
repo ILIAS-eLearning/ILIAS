@@ -289,6 +289,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $this->ctrl->setReturnByClass('ilAssQuestionPageGUI', 'view');
                 $this->ctrl->setReturn($this, self::DEFAULT_CMD);
                 $page_gui = new ilAssQuestionPageGUI($this->request_data_collector->getQuestionId());
+                $page_gui->setFileDownloadLink(
+                    $this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, 'downloadFile')
+                );
                 $page_gui->obj->addUpdateListener(
                     $question,
                     'updateTimestamp'
@@ -691,6 +694,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public function fullscreenObject(): void
     {
         $page_gui = new ilAssQuestionPageGUI($this->request_data_collector->raw('pg_id'));
+        $page_gui->setFileDownloadLink(
+            $this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, 'downloadFile')
+        );
         $page_gui->showMediaFullscreen();
     }
 

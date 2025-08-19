@@ -159,7 +159,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
                     $lang_title .= " (" . $this->lng->txt("last_change") . " "
                         . ilDatePresentation::formatDate(new ilDateTime(
                             $last_change,
-                            IL_CAL_DATETIME
+                            IL_CAL_DATETIME,
+                            'UTC'
                         )) . ")";
                 }
                 $items[] = $f->modal()->interruptiveItem()->standard($id, $lang_title);

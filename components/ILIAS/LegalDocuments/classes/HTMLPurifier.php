@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments;
 
-use ilObjAdvancedEditing;
+use ilRTESettings;
 use ilHtmlPurifierAbstractLibWrapper;
 use HTMLPurifier_Config;
 use Closure;
@@ -44,7 +44,7 @@ class HTMLPurifier extends ilHtmlPurifierAbstractLibWrapper
         ?Closure $create_config = null
     ) {
         $this->cache_directory = $cache_directory ?? ilHtmlPurifierAbstractLibWrapper::_getCacheDirectory();
-        $this->allowed_tags = $allowed_tags ?? ilObjAdvancedEditing::_getUsedHTMLTags('textarea');
+        $this->allowed_tags = $allowed_tags ?? ilRTESettings::_getUsedHTMLTags('textarea');
         $this->create_config = $create_config ?? HTMLPurifier_Config::createDefault(...);
         parent::__construct();
     }

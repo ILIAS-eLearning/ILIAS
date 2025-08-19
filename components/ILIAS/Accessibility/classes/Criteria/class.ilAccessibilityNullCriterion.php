@@ -67,7 +67,7 @@ class ilAccessibilityNullCriterion implements ilAccessibilityCriterionType
                 ilAccessibilityCriterionConfig $config,
                 Factory $uiFactory
             ): Component {
-                return $uifactory->legacy()->content('-');
+                return $uiFactory->legacy()->content('-');
             }
 
             public function getSelection(ilAccessibilityCriterionConfig $config): ilSelectInputGUI

@@ -58,14 +58,14 @@ class ilTestPassFinishTasks
                 $this->test_session->increaseTestPass(); // saves to db
             }
 
-            $this->test_pass_result_repository->finalizeTestPassResult(
+            $this->test_pass_result_repository->finalizeTestAttemptResult(
                 $this->test_session->getActiveId(),
                 $pass,
                 $status_of_attempt
             );
         });
 
-        $this->obj_test->updateTestResultCache($this->test_session->getActiveId(), null);
+        $this->test_pass_result_repository->updateTestResultCache($this->test_session->getActiveId(), null);
 
         $this->updateLearningProgressAfterPassFinishedIsWritten();
     }

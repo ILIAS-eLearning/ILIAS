@@ -201,7 +201,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             $template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $reached_points));
         }
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
+            $template->setVariable("QUESTIONTEXT", $this->renderLatex($this->object->getQuestionForHTMLOutput()));
         }
         //		$template->setVariable("SOLUTION_TEXT", ilUtil::prepareFormOutput($solutionvalue));
         if ($this->object->getTextSize() >= 10) {
@@ -266,7 +266,9 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         if ($this->object->getTextSize() >= 10) {
             $template->setVariable('STYLE', ' style="font-size: ' . $this->object->getTextSize() . '%;"');
         }
-        $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
+        $template->setVariable('QUESTIONTEXT', $this->renderLatex(
+            $this->object->getQuestionForHTMLOutput()
+        ));
         if ($show_question_only) {
             return $template->get();
         }
@@ -306,7 +308,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             $template->setVariable('STYLE', ' style="font-size: ' . $this->object->getTextSize() . '%;"');
         }
         $template->setVariable('VALUE_ORDERRESULT', ' value="' . join('{::}', $elements) . '"');
-        $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
+        $template->setVariable('QUESTIONTEXT', $this->renderLatex($this->object->getQuestionForHTMLOutput()));
         return $this->outQuestionPage("", $is_question_postponed, $active_id, $template->get());
     }
 

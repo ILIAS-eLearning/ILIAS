@@ -130,7 +130,7 @@ class ilUserPrivacySettingsGUI
 
         $pub_profile = new ilPublicUserProfileGUI($user->getId());
         if ($this->profile_mode->isEnabled()) {
-            $pub_profile_legacy = $this->uifactory->legacy()->content($pub_profile->getEmbeddable());
+            $pub_profile_legacy = $this->uiFactory->legacy()->content($pub_profile->getEmbeddable());
             $html .= $this->uiRenderer->render($this->uiFactory->panel()->standard(
                 $this->lng->txt('user_profile_preview'),
                 $pub_profile_legacy

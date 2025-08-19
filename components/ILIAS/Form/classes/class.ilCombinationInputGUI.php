@@ -22,6 +22,7 @@ declare(strict_types=1);
  * This class represents a number property in a property form.
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {

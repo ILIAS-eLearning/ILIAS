@@ -45,7 +45,7 @@ class ilCourseXMLParser extends ilSaxParser implements ilSaxSubsetParser
     private ?ilObjCourse $course_obj;
     private ?ilLogger $log;
     protected ilSetting $setting;
-    protected Translation $translation;
+    protected Translations $translations;
     protected ilSaxController $sax_controller;
     protected ilCourseParticipants $course_members;
     protected ilCourseWaitingList $course_waiting_list;
@@ -61,7 +61,7 @@ class ilCourseXMLParser extends ilSaxParser implements ilSaxSubsetParser
         $this->log = $DIC->logger()->crs();
         $this->setting = $DIC->settings();
         $this->course_obj = $a_course_obj;
-        $this->translation = $this->course_obj->getObjectProperties()->getPropertyTranslations();
+        $this->translations = $this->course_obj->getObjectProperties()->getPropertyTranslations();
         $this->course_members = ilCourseParticipants::_getInstanceByObjId($this->course_obj->getId());
         $this->course_waiting_list = new ilCourseWaitingList($this->course_obj->getId());
         // flip the array so we can use array_key_exists
@@ -486,26 +486,27 @@ class ilCourseXMLParser extends ilSaxParser implements ilSaxSubsetParser
 
                 $this->course_obj->readContainerSettings();
                 // see #26169
-                $transl = $this->translation;
+                $transl = $this->translations;
                 if ($transl->getDefaultTitle() !== "") {
                     $this->course_obj->setTitle($transl->getDefaultTitle());
                 }
                 if ($transl->getDefaultDescription() !== "") {
                     $this->course_obj->setDescription($transl->getDefaultDescription());
                 }
+                $this->course_obj->getObjectProperties()->storePropertyTranslations(
+                    $this->translations
+                );
                 $this->course_obj->update();
                 break;
 
             case "Title":
-                $transl = ilObjectTranslation::getInstance($this->course_obj->getId());
                 $this->course_obj->setTitle(trim($this->cdata));
-                $transl->setDefaultTitle(trim($this->cdata));
+                $this->translations = $this->translations->withDefaultTitle(trim($this->cdata));
                 break;
 
             case "Description":
-                $transl = ilObjectTranslation::getInstance($this->course_obj->getId());
                 $this->course_obj->setDescription(trim($this->cdata));
-                $transl->setDefaultDescription(trim($this->cdata));
+                $this->translations = $this->translations->withDefaultDescription(trim($this->cdata));
                 break;
 
             case 'Settings':

@@ -41,30 +41,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
-        if (!defined('ANONYMOUS_USER_ID')) {
-            define('ANONYMOUS_USER_ID', 13);
-        }
-        if (!defined('CLIENT_DATA_DIR')) {
-            define('CLIENT_DATA_DIR', 'data/');
-        }
-
         parent::setUp();
-
-        $this->addGlobal_ilLocator();
-        $this->addGlobal_ilSetting();
-        $this->addGlobal_rbacreview();
-        $this->addGlobal_ilToolbar();
-        $this->addGlobal_rbacsystem();
-        $this->addGlobal_filesystem();
-        $this->addGlobal_ilErr();
-        $this->addGlobal_ilTabs();
-        $this->addGlobal_ilias();
-        $this->addGlobal_ilNavigationHistory();
-        $this->addGlobal_skillService();
-        $this->addGlobal_ilHelp();
-        $this->addGlobal_ilObjDataCache();
-        $this->addGlobal_ilRbacAdmin();
-        $this->addGlobal_GlobalScreenService();
 
         $this->testObj = $this->getNewTestGUI();
     }
@@ -83,15 +60,6 @@ class ilObjTestGUITest extends ilTestBaseTestCase
                 return $this->mock_table_query;
             }
         };
-    }
-
-    protected function tearDown(): void
-    {
-        global $DIC;
-
-        $DIC = $this->dic;
-
-        parent::tearDown();
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

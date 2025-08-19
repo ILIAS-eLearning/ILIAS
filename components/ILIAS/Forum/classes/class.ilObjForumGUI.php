@@ -2430,6 +2430,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         $oPostGUI->setPurifier(ilHtmlPurifierFactory::getInstanceByType('frm_post'));
+        $oPostGUI->setInfo($this->lng->txt('latex_edit_info'));
 
         $this->replyEditForm->addItem($oPostGUI);
 
@@ -2518,7 +2519,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             );
 
             if ($show_rte) {
-                ilObjAdvancedEditing::_setRichTextEditorUserState($show_rte);
+                (new ilRTESettings($this->lng, $this->user))->setRichTextEditorUserState($show_rte);
             }
 
             if ($quotingAllowed) {

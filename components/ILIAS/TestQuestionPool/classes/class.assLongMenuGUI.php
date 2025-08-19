@@ -188,7 +188,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $long_menu_text->setCols(80);
         if (!$this->object->getSelfAssessmentEditingMode()) {
             if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE) {
-                $long_menu_text->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+                $long_menu_text->setRteTags(ilRTESettings::_getUsedHTMLTags("assessment"));
                 $long_menu_text->setRTESupport($this->object->getId(), "qpl", "assessment");
                 $long_menu_text->setUseRte(true);
             }
@@ -386,7 +386,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
         $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
         if ($show_question_text) {
-            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
+            $template->setVariable("QUESTIONTEXT", $this->renderLatex($this->object->getQuestionForHTMLOutput()));
         }
         $template->setVariable('LONGMENU_TEXT_SOLUTION', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution, true, $graphical_output));
 
@@ -470,7 +470,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             . json_encode($this->object->getAvailableAnswerOptions())
             . ')');
 
-        $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
+        $template->setVariable('QUESTIONTEXT', $this->renderLatex($this->renderLatex($this->object->getQuestionForHTMLOutput())));
         $template->setVariable('LONGMENU_TEXT', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution));
         return $template;
     }
@@ -570,7 +570,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         if ($solution) {
             $tpl->setVariable('SIZE', 'size="' . mb_strlen($value) . '"');
         }
-        $tpl->setVariable('VALUE', $value);
+        $tpl->setVariable('VALUE', htmlentities($value));
         $tpl->setVariable('KEY', $key);
 
         return $tpl->get();

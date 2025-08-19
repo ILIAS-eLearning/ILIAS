@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Badge\PublicUserProfileBadgesRenderer;
 use ILIAS\User\Profile\GUIRequest;
 use ILIAS\User\Profile\VCard;
 use ILIAS\Language\Language;
@@ -44,6 +45,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     private ilGlobalTemplateInterface $tpl;
     private ilRbacSystem $rbac_system;
     private Language $lng;
+    private PublicUserProfileBadgesRenderer $badges_renderer;
 
     public function __construct(int $a_user_id = 0)
     {
@@ -63,6 +65,8 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             $DIC->http(),
             $DIC->refinery()
         );
+
+        $this->badges_renderer = new PublicUserProfileBadgesRenderer();
 
         if ($a_user_id) {
             $this->setUserId($a_user_id);
@@ -566,48 +570,8 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             $tpl->setVariable('BUDDY_HTML', $button->getHtml());
         }
 
-        // badges
-        $this->tpl->addJavaScript('assets/js/PublicProfileBadges.js');
-        $this->tpl->addOnLoadCode('new BadgeToggle("ilbdgprcont", "ilbdgprfhdm", "ilbdgprfhdl", "ilNoDisplay");');
-        $user_badges = ilBadgeAssignment::getInstancesByUserId($user->getId());
-        if ($user_badges) {
-            $has_public_badge = false;
-            $cnt = 0;
-
-            $cut = 20;
-
-            foreach ($user_badges as $ass) {
-                // only active
-                if ($ass->getPosition()) {
-                    $cnt++;
-
-                    $renderer = new ilBadgeRenderer($ass);
-
-                    // limit to 20, [MORE] link
-                    if ($cnt > $cut) {
-                        $tpl->setCurrentBlock('hidden_badge');
-                        $tpl->touchBlock('hidden_badge');
-                        $tpl->parseCurrentBlock();
-                    }
-
-                    $tpl->setCurrentBlock('badge_bl');
-                    $tpl->setVariable('BADGE', $renderer->getHTML());
-                    $tpl->parseCurrentBlock();
-
-                    $has_public_badge = true;
-                }
-            }
-
-            if ($cnt > $cut) {
-                $this->lng->loadLanguageModule('badge');
-                $tpl->setVariable('BADGE_HIDDEN_TXT_MORE', $this->lng->txt('badge_profile_more'));
-                $tpl->setVariable('BADGE_HIDDEN_TXT_LESS', $this->lng->txt('badge_profile_less'));
-            }
-
-            if ($has_public_badge) {
-                $tpl->setVariable('TXT_BADGES', $this->lng->txt('obj_bdga'));
-            }
-        }
+        //badge
+        $tpl->setVariable('USER_BADGES', $this->badges_renderer->render($user->getId()));
 
         $goto = '';
         if ($a_add_goto) {

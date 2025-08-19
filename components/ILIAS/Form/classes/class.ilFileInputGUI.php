@@ -26,6 +26,7 @@ use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
  * This class represents a file property in a property form.
  *
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarItem
 {
@@ -212,7 +213,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
                 case UPLOAD_ERR_NO_FILE:
                     if ($this->getRequired()) {
-                        if (!strlen($this->getValue())) {
+                        if (!strlen($this->getValue()) || $this->getDeletionFlag()) {
                             $this->setAlert($lng->txt("form_msg_file_no_upload"));
                             return false;
                         }

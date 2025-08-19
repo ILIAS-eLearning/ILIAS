@@ -33,9 +33,6 @@ class ilDclFieldListGUI
     protected ilDclTableListGUI $parent_obj;
     protected int $obj_id;
 
-    /**
-     * Constructor
-     */
     public function __construct(ilDclTableListGUI $a_parent_obj)
     {
         global $DIC;

@@ -79,8 +79,8 @@ class ilDclTableEditGUI
     public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
-        if ($cmd === 'save_create') {
-            $this->save(true);
+        if ($cmd === 'update') {
+            $this->save(false);
         } else {
             $this->$cmd();
         }
@@ -89,7 +89,7 @@ class ilDclTableEditGUI
     public function create(): void
     {
         $this->help->setSubScreenId('create');
-        $this->tpl->setContent($this->lng->txt('dcl_new_table') . $this->ui_renderer->render($this->initForm(true)));
+        $this->tpl->setContent($this->lng->txt('dcl_new_table') . $this->ui_renderer->render($this->initForm()));
     }
 
     public function edit(): void
@@ -97,11 +97,11 @@ class ilDclTableEditGUI
         $this->help->setSubScreenId('edit');
         $this->tpl->setContent(
             sprintf($this->lng->txt('dcl_edit_table'), $this->table->getTitle()) .
-            $this->ui_renderer->render($this->initForm())
+            $this->ui_renderer->render($this->initForm(false))
         );
     }
 
-    public function initForm(bool $create = false): Form
+    public function initForm(bool $create = true): Form
     {
         $f = $this->ui_factory->input()->field();
         $inputs = [];
@@ -170,7 +170,7 @@ class ilDclTableEditGUI
 
         $this->ctrl->setParameter($this, 'table_id', $this->table_id);
         return $this->ui_factory->input()->container()->form()->standard(
-            $this->ctrl->getFormAction($this, $create ? 'save_create' : 'save'),
+            $this->ctrl->getFormAction($this, $create ? 'save' : 'update'),
             $inputs
         );
     }
@@ -209,7 +209,7 @@ class ilDclTableEditGUI
         return $inputs;
     }
 
-    public function save(bool $create = false): void
+    public function save(bool $create = true): void
     {
         if (!ilObjDataCollectionAccess::checkActionForObjId('write', $this->obj_id)) {
             return;
@@ -235,10 +235,6 @@ class ilDclTableEditGUI
             $this->table->setDescription($data['edit']['description']);
             $this->table->setIsVisible($data['edit']['visible']);
 
-            if (!$create) {
-                $this->table->setDefaultSortField($data['table']['default_sort_field']);
-                $this->table->setDefaultSortFieldOrder($data['table']['default_sort_field_order']);
-            }
             $this->table->setExportEnabled($data['table']['export_enabled']);
             $this->table->setImportEnabled($data['table']['import_enabled']);
             $this->table->setPublicCommentsEnabled($data['table']['comments_enabled']);
@@ -266,6 +262,8 @@ class ilDclTableEditGUI
                 $this->table->doCreate();
                 $message = 'dcl_msg_table_created';
             } else {
+                $this->table->setDefaultSortField($data['table']['default_sort_field']);
+                $this->table->setDefaultSortFieldOrder($data['table']['default_sort_field_order']);
                 $this->table->doUpdate();
                 $message = 'dcl_msg_table_edited';
             }

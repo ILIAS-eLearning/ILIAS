@@ -66,14 +66,15 @@ class SettingsQuestionBehaviour extends TestSettings
         Refinery $refinery,
         ?array $environment = null
     ): FormInput {
-        $inputs['title_output'] = $f->radio($lng->txt('tst_title_output'))
-            ->withOption('0', $lng->txt('tst_title_output_full'))
-            ->withOption('1', $lng->txt('tst_title_output_hide_points'))
-            ->withOption('3', $lng->txt('tst_title_output_only_points'))
-            ->withOption('2', $lng->txt('tst_title_output_no_title'))
-            ->withValue($this->getQuestionTitleOutputMode())
-            ->withAdditionalTransformation($refinery->kindlyTo()->int())
-        ;
+        $inputs['title_output'] = $f->radio(
+            $lng->txt('tst_title_output'),
+            $lng->txt('tst_title_output_info')
+        )->withOption('0', $lng->txt('tst_title_output_full'))
+        ->withOption('1', $lng->txt('tst_title_output_hide_points'))
+        ->withOption('3', $lng->txt('tst_title_output_only_points'))
+        ->withOption('2', $lng->txt('tst_title_output_no_title'))
+        ->withValue($this->getQuestionTitleOutputMode())
+        ->withAdditionalTransformation($refinery->kindlyTo()->int());
 
         $inputs['autosave'] = $this->getInputAutosave($lng, $f, $refinery);
 

@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\HTTP\Agent\AgentDetermination;
+use ILIAS\Language\Language;
 
 /**
  * Rich Text Editor base class
@@ -100,6 +101,8 @@ class ilRTE
     }
 
     public function addRTESupport(
+        Language $lng,
+        ilObjUser $user,
         int $obj_id,
         string $obj_type,
         string $a_module = '',
@@ -124,7 +127,8 @@ class ilRTE
 
     public static function _getRTEClassname(): string
     {
-        $editor = ilObjAdvancedEditing::_getRichTextEditor();
+        global $DIC;
+        $editor = (new ilRTESettings($DIC['lng'], $DIC['ilUser']))->getRichTextEditor();
         if (strtolower($editor) === 'tinymce') {
             return ilTinyMCE::class;
         }
@@ -162,6 +166,56 @@ class ilRTE
             $mob_obj = new ilObjMediaObject($mob);
             $mob_obj->delete();
         }
+    }
+
+    /**
+     * Replace the latex delimiters used by the rich text editor
+     * Unfortunately these can't be processed by MathJax:
+     * "Note that the delimiters can’t look like HTML tags (i.e., can’t include the less-than sign),
+     * as these would be turned into tags by the browser before MathJax has the chance to run.
+     * You can only include text, not tags, as your math delimiters."
+     * @see https://docs.mathjax.org/en/latest/options/input/tex.html#option-descriptions
+     *
+     * This function should called by components that display RTE content.
+     */
+    public static function replaceLatexSpan(string $text): string
+    {
+        $start = '<span class="latex">';
+        $end = '</span>';
+        $start_len = ilStr::strLen($start);
+        $end_len = ilStr::strLen($end);
+
+        // current position to start the search for delimiters
+        $cpos = 0;
+
+        // find position of start delimiter
+        while (is_int($spos = ilStr::strIPos($text, $start, $cpos))) {
+
+            // find position of end delimiter
+            $epos = ilStr::strIPos($text, $end, $spos + $start_len);
+            if (!is_int($epos)) {
+                break;
+            }
+
+            // extract the tex code inside the delimiters
+            $tex = ilStr::subStr($text, $spos + $start_len, $epos - $spos - $start_len);
+
+            // wrap the tex code in new delimiters
+            $replace = '[tex]' . $tex . '[/tex]';
+
+            // replace the span
+            $text = ilStr::subStr($text, 0, $spos) . $replace . ilStr::subStr($text, $epos + $end_len);
+
+            // continue search behind the replacement
+            $cpos = $spos + ilStr::strLen($replace);
+
+            if ($cpos >= ilStr::strlen($text)) {
+                // current position at the end => stop search
+                break;
+            }
+        }
+
+        return $text;
     }
 
     /**

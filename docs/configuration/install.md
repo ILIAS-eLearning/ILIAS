@@ -71,7 +71,6 @@ current configuration of the [ILIAS test server](https://test11.ilias.de), which
 | Node.js      | 20 (LTS), 21, 22 (LTS), 23 Recommended: 22             | 16.20            |
 | Ghostscript  | 10.x                                                   | 9.55             |
 | Imagemagick  | 6.9.x                                                  | 6.9.11           |
-| MathJax      | MathJax 3, MathJax 2 with safe mode                    | 2.7.9            |
 | Browser      | a contemporary browser supporting ES6, CSS3 and HTML 5 |                  |
 
 Package names may vary depending on the Linux distribution.

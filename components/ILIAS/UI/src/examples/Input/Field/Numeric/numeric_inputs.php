@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\Numeric;
 
+use ILIAS\UI\URLBuilder;
+
 /**
  * ---
  * description: >
@@ -48,6 +50,14 @@ function numeric_inputs()
     $ui = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
+    $refinery = $DIC->refinery();
+    $df = new \ILIAS\Data\Factory();
+    $query = $DIC->http()->wrapper()->query();
+    $here_uri = $df->uri($request->getUri()->__toString());
+    $url_builder = new URLBuilder($here_uri);
+    $example_namespace = ['input', 'numeric'];
+    list($url_builder, $example_name) = $url_builder->acquireParameters($example_namespace, "example_name");
+    $url_builder = $url_builder->withParameter($example_name, "numeric");
 
     //Step 1: Declare the numeric input
     $number_input = $ui->input()->field()
@@ -57,13 +67,16 @@ function numeric_inputs()
     $number_input2 = $number_input->withRequired(true)->withValue('');
 
     //Step 2, define form and form actions
-    $form = $ui->input()->container()->form()->standard('#', [
+    $form_action = $url_builder->buildURI()->__toString();
+    $form = $ui->input()->container()->form()->standard($form_action, [
         'n1' => $number_input,
         'n2' => $number_input2
     ]);
 
     //Step 3, implement some form data processing.
-    if ($request->getMethod() == "POST") {
+    if ($query->has($example_name->getName())
+        && $query->retrieve($example_name->getName(), $refinery->custom()->transformation(fn($v) => $v === 'numeric'))
+    ) {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

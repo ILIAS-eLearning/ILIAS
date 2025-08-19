@@ -69,14 +69,15 @@ class ilObjRoleGUI extends ilObjectGUI
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
 
+        $this->type = 'role';
+
+        parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         // Add ref_id of object that contains role
         $this->initParentRefId();
         $this->obj_obj_id = ilObject::_lookupObjId($this->getParentRefId());
         $this->obj_obj_type = ilObject::_lookupType($this->getParentObjId());
         $this->container_type = ilObject::_lookupType(ilObject::_lookupObjId($this->obj_ref_id));
 
-        $this->type = "role";
-        parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->ctrl->saveParameter($this, ['obj_id', 'rolf_ref_id']);
         $this->lng->loadLanguageModule('rbac');
     }

@@ -19,9 +19,6 @@
 use ILIAS\StaticURL\Services;
 use ILIAS\Data\ReferenceId;
 
-/**
- * @deprecated Use ILIAS\components\StaticURL instead
- */
 class ilLink
 {
     /**

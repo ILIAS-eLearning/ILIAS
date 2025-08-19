@@ -253,12 +253,13 @@ abstract class ilAssQuestionFeedback
 
             if (!$this->questionOBJ->getPreventRteUsage()) {
                 $property->setUseRte(true);
-                $property->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+                $property->setRteTags(ilRTESettings::_getUsedHTMLTags("assessment"));
                 $property->setRTESupport($this->questionOBJ->getId(), "qpl", "assessment");
             } else {
                 $property->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
                 $property->setUseTagsForRteOnly(false);
             }
+            $property->setInfo($this->lng->txt('latex_edit_info'));
 
             $property->setRTESupport($this->questionOBJ->getId(), "qpl", "assessment");
         }

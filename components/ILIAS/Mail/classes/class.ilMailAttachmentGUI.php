@@ -27,7 +27,7 @@ use ILIAS\FileUpload\Handler\HandlerResult;
 use ILIAS\Mail\Attachments\AttachmentManagement;
 use ILIAS\Mail\Attachments\MailAttachmentTableGUI;
 
-class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler
+class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements ilCtrlSecurityInterface
 {
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilLanguage $lng;
@@ -57,6 +57,18 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler
 
         $this->umail = new ilFormatMail($DIC->user()->getId());
         $this->mfile = new ilFileDataMail($DIC->user()->getId());
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+            'handleTableActions',
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
     }
 
     public function manage(): self

@@ -327,13 +327,14 @@ JS;
         $cloze_text = new ilTextAreaInputGUI($this->lng->txt("cloze_text"), 'cloze_text');
         $cloze_text->setRequired(true);
         $cloze_text->setValue($this->applyIndizesToGapText($this->object->getClozeText()));
-        $cloze_text->setInfo($this->lng->txt("close_text_hint"));
+        $cloze_text->setInfo($this->lng->txt("close_text_hint") . ' '
+            . $this->lng->txt('latex_edit_info'));
         $cloze_text->setRows(10);
         $cloze_text->setCols(80);
         if (!$this->object->getSelfAssessmentEditingMode()) {
             if ($this->object->getAdditionalContentEditingMode() !== assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE) {
                 $cloze_text->setUseRte(true);
-                $cloze_text->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+                $cloze_text->setRteTags(ilRTESettings::_getUsedHTMLTags("assessment"));
             }
         } else {
             $cloze_text->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
@@ -800,8 +801,8 @@ JS;
                     break;
             }
         }
-        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
-        $template->setVariable("CLOZETEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($output, true));
+        $template->setVariable("QUESTIONTEXT", $this->renderLatex($this->object->getQuestionForHTMLOutput()));
+        $template->setVariable("CLOZETEXT", $this->renderLatex(ilLegacyFormElementsUtil::prepareTextareaOutput($output, true)));
         $questionoutput = $template->get();
         if (!$show_question_only) {
             // get page object output
@@ -988,13 +989,11 @@ JS;
         }
 
         if ($show_question_text) {
-            $template->setVariable(
-                "QUESTIONTEXT",
-                $this->object->getQuestionForHTMLOutput()
-            );
+            $template->setVariable("QUESTIONTEXT", $this->renderLatex($this->object->getQuestionForHTMLOutput()));
         }
 
-        $template->setVariable("CLOZETEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($output, true));
+        $template->setVariable("CLOZETEXT", $this->renderLatex(ilLegacyFormElementsUtil::prepareTextareaOutput($output, true)));
+
         // generate the question output
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
         $questionoutput = $template->get();
@@ -1016,7 +1015,9 @@ JS;
             );
 
             $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-            $solutiontemplate->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
+            $solutiontemplate->setVariable("FEEDBACK", $this->renderLatex(
+                ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true)
+            ));
         }
 
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
@@ -1066,10 +1067,10 @@ JS;
 
         $output = '';
         if ($correct_feedback . $incorrect_feedback !== '') {
-            $output = $this->genericFeedbackOutputBuilder($correct_feedback, $incorrect_feedback, $active_id, $pass);
+            $output = $this->genericFeedbackOutputBuilder($active_id, $pass);
         }
         //$test = new ilObjTest($this->object->active_id);
-        return ilLegacyFormElementsUtil::prepareTextareaOutput($output, true);
+        return $this->renderLatex(ilLegacyFormElementsUtil::prepareTextareaOutput($output, true));
     }
 
     public function getTestOutput(
@@ -1165,8 +1166,8 @@ JS;
             }
         }
 
-        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
-        $template->setVariable("CLOZETEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($output, true));
+        $template->setVariable("QUESTIONTEXT", $this->renderLatex($this->object->getQuestionForHTMLOutput()));
+        $template->setVariable("CLOZETEXT", $this->renderLatex(ilLegacyFormElementsUtil::prepareTextareaOutput($output, true)));
         $questionoutput = $template->get();
         $pageoutput = $this->outQuestionPage("", $is_question_postponed, $active_id, $questionoutput);
         return $pageoutput;
@@ -1196,7 +1197,7 @@ JS;
         }
         $feedback .= '</tbody></table>';
 
-        return ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true);
+        return $this->renderLatex(ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
     }
 
     /**

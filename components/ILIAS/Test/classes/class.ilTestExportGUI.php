@@ -63,7 +63,8 @@ class ilTestExportGUI extends ilExportGUI
         $manager = $this->export_handler->manager()->handler();
         $export_info = $manager->getExportInfoWithObject(
             $this->obj,
-            time()
+            time(),
+            $this->export_handler->consumer()->exportConfig()->allExportConfigs()
         );
         $element = $manager->createExport(
             $this->il_user->getId(),

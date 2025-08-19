@@ -20,6 +20,7 @@
  * Internal Link: Repository Item Selector Explorer
  *
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated 10 This component will be removed with ILIAS 10
  */
 class ilIntLinkRepItemExplorerGUI extends ilRepositorySelectorExplorerGUI
 {

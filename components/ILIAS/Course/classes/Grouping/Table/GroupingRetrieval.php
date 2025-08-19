@@ -55,7 +55,7 @@ class GroupingRetrieval implements DataRetrieval
         ?array $filter_data,
         ?array $additional_parameters
     ): Generator {
-        $grouping_ids = array_slice($this->getAllGroupingIDs(), $range->getStart(), $range->getLength());
+        $grouping_ids = $this->getAllGroupingIDs();
 
         $records = [];
         foreach ($grouping_ids as $grouping_id) {
@@ -82,6 +82,7 @@ class GroupingRetrieval implements DataRetrieval
         }
 
         $records = $this->sortRecords($records, $order);
+        $records = array_slice($records, $range->getStart(), $range->getLength(), true);
 
         foreach ($records as $id => $record) {
             yield $row_builder->buildDataRow((string) $id, $record);

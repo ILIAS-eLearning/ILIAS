@@ -36,12 +36,14 @@ use ILIAS\UI\Component\ViewControl\Factory as ViewControl;
 use ILIAS\UI\Component\ViewControl\Sortation;
 use ILIAS\UI\Renderer;
 use ilLanguage;
+use ILIAS\ResourceStorage\Services as IRSS;
 
 class TileViewTest extends TestCase
 {
     public function testConstruct(): void
     {
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
+        $container->method('offsetGet')->with("resource_storage")->willReturn($this->createMock(IRSS::class));
         $tile = $this->getMockBuilder(Tile::class)->disableOriginalConstructor()->getMock();
         $head = $this->getMockBuilder(PresentationHeader::class)->disableOriginalConstructor()->getMock();
 
@@ -84,6 +86,7 @@ class TileViewTest extends TestCase
         $language->method('txt')->willReturnCallback(static fn(string $name): string => $name);
 
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
+        $container->method('offsetGet')->with("resource_storage")->willReturn($this->createMock(IRSS::class));
         $container->method('http')->willReturn($http);
         $container->method('user')->willReturn($user);
         $container->method('ui')->willReturn($ui);

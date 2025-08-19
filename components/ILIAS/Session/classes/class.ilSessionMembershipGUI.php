@@ -356,6 +356,11 @@ class ilSessionMembershipGUI extends ilMembershipGUI
         return $this->lng->txt($this->getParentObject()->getType() . '_members');
     }
 
+    protected function getMailButtonLabel(): string
+    {
+        return $this->lng->txt("sess_mail_type");
+    }
+
     protected function getMailContextOptions(): array
     {
         $context_options = [

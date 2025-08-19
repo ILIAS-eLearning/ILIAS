@@ -442,7 +442,7 @@ class ilObjLanguage extends ilObject
                 } elseif ($scope === "local") {
                     // get the modification date of the local file
                     // get the newer local changes for a local file
-                    $min_date = date("Y-m-d H:i:s", filemtime($lang_file));
+                    $min_date = gmdate("Y-m-d H:i:s", filemtime($lang_file));
                     $local_changes = $this->getLocalChanges($min_date);
                 }
                 $dbAccess = new ilObjLanguageDBAccess($ilDB, $this->key, $content, $local_changes, $scope);

@@ -21,6 +21,9 @@ namespace ILIAS\Survey;
 use ilUtil;
 use RuntimeException;
 
+/**
+ * @deprecated 11 This component will be removed with ILIAS 11
+ */
 class CSVReader
 {
     /**

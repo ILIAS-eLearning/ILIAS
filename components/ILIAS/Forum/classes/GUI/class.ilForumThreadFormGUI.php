@@ -91,6 +91,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
             'formatselect'
         ]);
         $message->setPurifier(ilHtmlPurifierFactory::getInstanceByType('frm_post'));
+        $message->setInfo($this->lng->txt('latex_edit_info'));
         $this->addItem($message);
     }
 

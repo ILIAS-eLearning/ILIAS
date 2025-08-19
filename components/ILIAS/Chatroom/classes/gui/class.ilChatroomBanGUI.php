@@ -74,7 +74,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
 
     public function delete(): void
     {
-        $userTrafo = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int());
+        $userTrafo = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string());
 
         $users = $this->getRequestValue('chat_ban_table_user_ids', $userTrafo, []);
         if ($users === []) {
@@ -84,6 +84,12 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
 
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
+
+        if ((string) current($users) === 'ALL_OBJECTS') {
+            $users = array_map(static fn(array $row): int => (int) $row['user_id'], $room->getBannedUsers());
+        } else {
+            $users = array_map(intval(...), $users);
+        }
 
         $room->unbanUser($users);
 

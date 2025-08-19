@@ -189,10 +189,10 @@ class ilLanguageFolderTable implements DataTableInterface\DataRetrieval
                 if ($this->access->checkAccess('write', '', $this->folder->getId())) {
                     $record['language'] = $record['language']->withDisabled(false);
                 }
-                $record['last_refresh'] = ilDatePresentation::formatDate(new ilDateTime($record["last_update"], IL_CAL_DATETIME));
+                $record['last_refresh'] = ilDatePresentation::formatDate(new ilDateTime($record["last_update"], IL_CAL_DATETIME, 'UTC'));
 
                 $last_change = ilObjLanguage::_getLastLocalChange($record["key"]);
-                $record['last_change'] = ilDatePresentation::formatDate(new ilDateTime($last_change, IL_CAL_DATETIME));
+                $record['last_change'] = ilDatePresentation::formatDate(new ilDateTime($last_change, IL_CAL_DATETIME, 'UTC'));
             }
 
             yield $row_builder->buildDataRow($obj_id, $record)

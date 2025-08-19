@@ -98,8 +98,13 @@ class TestDIC extends PimpleContainer
         $dic['results.toplist.repository'] = static fn($c): TestTopListRepository =>
             new TestTopListRepository($DIC['ilDB']);
 
-        $dic['results.data.test_result_repository'] = static fn($c): TestResultRepository =>
-            new TestResultRepository($DIC['ilDB']);
+        $dic['results.data.repository'] = static fn($c): TestResultRepository =>
+            new TestResultRepository(
+                $DIC->database(),
+                $DIC->refinery(),
+                $c['marks.repository'],
+                $DIC->globalCache()
+            );
 
         $dic['settings.main.repository'] = static fn($c): MainSettingsRepository =>
             new MainSettingsDatabaseRepository($DIC['ilDB']);

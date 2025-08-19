@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -49,7 +50,7 @@ class ilTestPlayerToolProvider extends AbstractDynamicToolProvider
             )->withSymbol($ui->factory()->symbol()->icon()->standard('tst', $lng->txt('more')))
             ->withTitle($lng->txt('mainbar_button_label_questionlist'))
             ->withContent(
-                $ui->factory()->legacy(
+                $ui->factory()->legacy()->content(
                     $ui->renderer()->render(
                         $called_contexts->current()->getAdditionalData()->get(ilTestPlayerLayoutProvider::TEST_PLAYER_QUESTIONLIST)
                     )

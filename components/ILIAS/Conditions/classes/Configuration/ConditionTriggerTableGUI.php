@@ -35,13 +35,13 @@ use ilConditionHandlerGUI;
 
 class ConditionTriggerTableGUI implements DataRetrieval
 {
-    public const ACTION_TOKEN = 'action';
-    public const ID_TOKEN = 'id';
-    public const TABLE_NS = 'cond_trigger_table';
+    public const string ACTION_TOKEN = 'action';
+    public const string ID_TOKEN = 'id';
+    public const string TABLE_NS = 'cond_trigger_table';
 
-    public const ACTION_TOKEN_NS = self::TABLE_NS . '_' . self::ACTION_TOKEN;
+    public const string ACTION_TOKEN_NS = self::TABLE_NS . '_' . self::ACTION_TOKEN;
 
-    public const ID_TOKEN_NS = self::TABLE_NS . '_' . self::ID_TOKEN;
+    public const string ID_TOKEN_NS = self::TABLE_NS . '_' . self::ID_TOKEN;
 
     protected \Psr\Http\Message\ServerRequestInterface $http_request;
     protected \ILIAS\UI\Renderer $ui_renderer;
@@ -104,7 +104,7 @@ class ConditionTriggerTableGUI implements DataRetrieval
             'condition' => $this->ui_factory
                 ->table()
                 ->column()
-                ->text($this->lng->txt('condition'))
+                ->text($this->lng->txt('rbac_precondition_condition'))
                 ->withIsSortable(true),
             'obligatory' => $this->ui_factory
                 ->table()

@@ -32,7 +32,7 @@ class ilAccessibilityDocumentHtmlPurifier extends ilHtmlPurifierAbstractLibWrapp
         $this->cacheDirectory = $cacheDirectory;
 
         if (null === $allowedTags) {
-            $allowedTags = ilObjAdvancedEditing::_getUsedHTMLTags('textarea');
+            $allowedTags = ilRTESettings::_getUsedHTMLTags('textarea');
         }
         $this->allowedTags = $allowedTags;
 

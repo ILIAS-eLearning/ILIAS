@@ -773,6 +773,7 @@ assessment#:#gap#:#Gap
 assessment#:#gap_combination#:#Gap Combination
 assessment#:#gaps#:#Gaps
 assessment#:#glossary_term#:#Glossary Term
+assessment#:#goto_first_question#:#Show first question
 assessment#:#grading_mark_msg#:#Your mark is: &quot;[mark]&quot;
 assessment#:#grading_status_failed_msg#:#Sorry, you have <b>failed</b> the test.
 assessment#:#grading_status_passed_msg#:#Congratulations, you have <b>passed</b> the test.
@@ -1957,6 +1958,7 @@ assessment#:#tst_time_limit_message#:#You will have <b>%s minutes</b> to answer 
 assessment#:#tst_title_output#:#Show Question Title
 assessment#:#tst_title_output_full#:#Question Titles and Available Points
 assessment#:#tst_title_output_hide_points#:#Only Question Titles
+assessment#:#tst_title_output_info#:#Set which combination of question titles and/or points available should be visible to participants while they are taking the test and within the test attempt overview (see below).
 assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Available Points
 assessment#:#tst_title_output_only_points#:#Only Available Points
 assessment#:#tst_trigger_result_refreshing#:#Results need to be recalculated. This may take a while.
@@ -4339,7 +4341,7 @@ common#:#import_file#:#Import File
 common#:#import_file_not_valid_here#:#The import file is not valid or the contained object type cannot be imported here.
 common#:#import_finished#:#Number of imported messages.
 common#:#import_lm#:#Import ILIAS Learning module
-common#:#import_qpl#:#Import Question Pool Test
+common#:#import_qpl#:#Import Question Pool for Tests
 common#:#import_questions_into_qpl#:#Import question(s) into question pool
 common#:#import_sahs#:#Import SCORM Package
 common#:#import_sahs_info#:#To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again.
@@ -4450,6 +4452,7 @@ common#:#last_reminder#:#Last reminder
 common#:#last_update#:#Updated
 common#:#last_visited#:#Last Visited
 common#:#lastname#:#Last Name
+common#:#latex_edit_info#:#You can enter LaTeX code in the delimiters <code>[tex]</code> and <code>[/tex]</code>.
 common#:#laugh#:#Laugh
 common#:#launch#:#Launch
 common#:#ldap#:#LDAP
@@ -4739,6 +4742,7 @@ common#:#msg_no_perm_perm#:#You have no permission to change permission settings
 common#:#msg_no_perm_read#:#You have no permission to access this item.
 common#:#msg_no_perm_read_item#:#You have no permission to access item '%s’.
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user
 common#:#msg_no_perm_write#:#You have no permission to edit settings.
 common#:#msg_no_search_result#:#No entries found
 common#:#msg_no_search_string#:#Please enter your query.
@@ -5017,9 +5021,9 @@ common#:#obj_prtt#:#Portfolio Template
 common#:#obj_prtt_duplicate#:#Copy Portfolio Template
 common#:#obj_ps#:#Privacy and Security
 common#:#obj_ps_desc#:#Configure global privacy and security settings here.
-common#:#obj_qpl#:#Question Pool Test
-common#:#obj_qpl_duplicate#:#Copy Question Pool Test
-common#:#obj_qpl_select#:#-- Please select one question pool test --
+common#:#obj_qpl#:#Question Pool for Tests
+common#:#obj_qpl_duplicate#:#Copy Question Pool for Tests
+common#:#obj_qpl_select#:#-- Please select one question pool for tests --
 common#:#obj_rcat#:#ECS Category
 common#:#obj_rcrs#:#ECS Course
 common#:#obj_recf#:#Restored Objects
@@ -5146,7 +5150,7 @@ common#:#objs_prg#:#Study Programmes
 common#:#objs_prgr#:#Links to Study Programmes
 common#:#objs_prtf#:#Portfolios
 common#:#objs_prtt#:#Portfolio Templates
-common#:#objs_qpl#:#Question Pools Test
+common#:#objs_qpl#:#Question Pools for Tests
 common#:#objs_qst#:#Questions
 common#:#objs_rcat#:#ECS Categories
 common#:#objs_rcrs#:#ECS Courses
@@ -5347,9 +5351,9 @@ common#:#public_notes#:#Public Notes
 common#:#public_profile#:#Profile
 common#:#public_room#:#Public Chat Room
 common#:#purpose#:#Purpose
-common#:#qpl#:#Question Pool Test
-common#:#qpl_add#:#Add Question Pool Test
-common#:#qpl_new#:#New Question Pool Test
+common#:#qpl#:#Question Pool for Tests
+common#:#qpl_add#:#Add Question Pool for Tests
+common#:#qpl_new#:#New Question Pool for Tests
 common#:#query_data#:#Query data
 common#:#question#:#Question
 common#:#question_message#:#Question
@@ -5819,7 +5823,6 @@ common#:#uploading#:#Uploading...
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_not_found#:#File Not Found
-common#:#url_to_latex#:#URL to LaTeX CGI script
 common#:#use_customized_instructions#:#Use customized instructions:
 common#:#use_default_instructions#:#Use default instructions.
 common#:#user#:#User
@@ -8397,7 +8400,6 @@ dateplaner#:#cal_recurrence_month_interval#:#Every x Month(s)
 dateplaner#:#cal_recurrence_until#:#Recurrence End
 dateplaner#:#cal_recurrence_until_count#:#Fixed Number of Appointments
 dateplaner#:#cal_recurrence_until_end_date#:#Repeat Until End Date
-dateplaner#:#cal_recurrence_until_info#:#Only relevant if a recurrence was selected.
 dateplaner#:#cal_recurrence_week_interval#:#Every x Week(s)
 dateplaner#:#cal_recurrence_year_interval#:#Every x Year(s)
 dateplaner#:#cal_recurrences#:#Recurrences
@@ -8758,8 +8760,6 @@ dcl#:#dcl_supported_filetypes_desc#:#You can set which file types can be uploade
 dcl#:#dcl_switch_table#:#Switch Table
 dcl#:#dcl_switch_view#:#Change View
 dcl#:#dcl_table#:#Table
-dcl#:#dcl_table_create#:#Create Table
-dcl#:#dcl_table_edit#:#Update Table
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_table_list_fields#:#Fields Of Selected Table
 dcl#:#dcl_table_list_tables#:#Available Tables
@@ -9719,7 +9719,7 @@ exp#:#exp_import_validation_err_no_matching_xsd#:#No valid schema file for versi
 exp#:#exp_not_public_access_status#:#Not published
 exp#:#exp_print_pdf#:#Print/PDF
 exp#:#exp_print_pdf_info#:#To create a PDF please select "Print to PDF" in the print modal that appears after clicking on ‘Print View’.
-exp#:#exp_public_access_status#:#Available on ‘Info’-tab
+exp#:#exp_public_access_status#:#Available in ‘Info’-tab
 exp#:#exp_really_delete#:#Are you sure you want to delete the following export file(s)?
 exp#:#exp_show_print_view#:#Show Print View
 exp#:#exp_xml#:#XML
@@ -11684,39 +11684,6 @@ maps#:#maps_std_location#:#Default Location
 maps#:#maps_std_location_desc#:#Click map to set location.
 maps#:#maps_tile_server#:#Server for Tiles
 maps#:#maps_zoom_level#:#Zoom Level
-mathjax#:#mathjax_enable_client#:#Enable MathJax in the Browser
-mathjax#:#mathjax_enable_client_info#:#Activates a client-side rendering of TeX in the browser by including the MathJax script. Mathjax 3 is supported, but MathJax 2 is recommended.
-mathjax#:#mathjax_enable_server#:#Enable MathJax on the Server
-mathjax#:#mathjax_enable_server_info#:#Activates a server-side rendering of TeX to graphics.
-mathjax#:#mathjax_home_link#:# ➜︎ MathJax web site
-mathjax#:#mathjax_limiter#:#Inline Delimiters
-mathjax#:#mathjax_limiter_info#:#Select the inline delimiters that ILIAS should produce for the MathJax script
-mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill
-mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 and MathJax 3 with current browsers not needed.
-mathjax#:#mathjax_polyfill_url_desc_line2#:#Please remove any reference to polyfill.io! See https://sansec.io/research/polyfill-supply-chain-attack
-mathjax#:#mathjax_script_url#:#URL of the MathJax Script
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s
-mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s
-mathjax#:#mathjax_server_address#:#Server Address
-mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003
-mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
-mathjax#:#mathjax_server_cache_size#:#Cache Size
-mathjax#:#mathjax_server_cache_size_info#:#Disk space used for caching rendered graphics.
-mathjax#:#mathjax_server_clear_cache#:# ➜ Clear Cache Now
-mathjax#:#mathjax_server_for_browser#:#Use for Browser
-mathjax#:#mathjax_server_for_browser_info#:#TeX will be shown as SVG graphics. Enabling MathJax in the browser is unneccessary.
-mathjax#:#mathjax_server_for_export#:#Use for HTML Export
-mathjax#:#mathjax_server_for_export_info#:#TeX will be exported as SVG graphic for learning module exports to HTML.
-mathjax#:#mathjax_server_for_pdf#:#Use for PDF Generation
-mathjax#:#mathjax_server_for_pdf_info#:#The server will be used when PDF files are generated.
-mathjax#:#mathjax_server_installation#:# ➜ Installation Manual
-mathjax#:#mathjax_server_timeout#:#Timeout
-mathjax#:#mathjax_server_timeout_info#:#Timeout for calling the MathJax server in seconds
-mathjax#:#mathjax_settings#:#MathJax Settings
-mathjax#:#mathjax_test_expression#:#Test Expression
-mathjax#:#mathjax_test_expression_info_client#:#This expression will be rendered by the script in the browser.
-mathjax#:#mathjax_test_expression_info_server#:#This expression will be rendered on the server.
 mcst#:#mcst_add_new_item#:#Add New Mediacast Item
 mcst#:#mcst_audio_files#:#Audio Files
 mcst#:#mcst_audioportable_settings_info#:#Comma separated list of file suffixes
@@ -13004,8 +12971,9 @@ obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multiling
 obj#:#obj_fallback_lang#:#Default Language
 obj#:#obj_features#:#Additional Features
 obj#:#obj_import_file_error#:#This file could not be imported. Please make sure that this is a valid ILIAS export file (XML Export), of the same object type.
-obj#:#obj_insert_into_clipboard#:#Insert into Clipboard
-obj#:#obj_inserted_clipboard#:#Objects have been moved to the clipboard.
+obj#:#obj_insert_into_clipboard#:#Add to Clipboard
+obj#:#obj_inserted_clipboard#:#Selected object(s) successfully added to the clipboard.
+obj#:#obj_master_lang#:#Master Language
 obj#:#obj_more_translations#:#More Translations
 obj#:#obj_multilang_deactivated#:#Multilingualism has been deactivated.
 obj#:#obj_multilang_title_descr_only#:#Translation is activated for title and description only. Translation support for Page editing (‘Customize Page’) needs additional activation.
@@ -14516,7 +14484,7 @@ rbac#:#rbac_create_poll#:#Create Poll
 rbac#:#rbac_create_prg#:#Create Study Programme
 rbac#:#rbac_create_prgr#:#Create link to study programme
 rbac#:#rbac_create_prtt#:#Create Portfolio Template
-rbac#:#rbac_create_qpl#:#Create Question Pool Test
+rbac#:#rbac_create_qpl#:#Create Question Pool for Tests
 rbac#:#rbac_create_rcrs#:#Create ECS Course
 rbac#:#rbac_create_role#:#Create new Role
 rbac#:#rbac_create_rolt#:#Create new Role Template
@@ -14578,6 +14546,7 @@ rbac#:#rbac_log_source_object#:#Source object
 rbac#:#rbac_msg_user_already_assigned#:#The chosen users are already assigned to this role.
 rbac#:#rbac_not_change_existing_objects#:#Do NOT change existing objects
 rbac#:#rbac_permissions#:#Permissions
+rbac#:#rbac_precondition_condition#:#Access requires having this status
 rbac#:#rbac_precondition_hide#:#Hide Object
 rbac#:#rbac_precondition_hide_info#:# This option allows to hide the object for users who currently have not fulfilled the preconditions. Therefore, all not accessible content is invisible.
 rbac#:#rbac_precondition_minimum_optional#:#At least 2 preconditions have to remain optional.
@@ -17261,6 +17230,7 @@ ui#:#2stars#:#two of five stars
 ui#:#3stars#:#three of five stars
 ui#:#4stars#:#four of five stars
 ui#:#5stars#:#five of five stars
+ui#:#datatable_close_warning#:#OK
 ui#:#datatable_multiaction_label#:#Bulk Actions
 ui#:#datatable_multiactionmodal_actionlabel#:#Action for All Entries
 ui#:#datatable_multiactionmodal_apply#:#Apply
@@ -17321,6 +17291,7 @@ ui#:#ui_table_order#:#Order
 ui#:#ui_transcription#:#Transcript
 ui#:#unselect_node#:#Remove node %s from selection
 ui#:#vc_sort#:#Sort by:
+ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.
 user#:#all_roles_has_starting_point#:#All the roles have starting points
 user#:#back_to_starting_points_list#:#Back to Starting Points
 user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes.

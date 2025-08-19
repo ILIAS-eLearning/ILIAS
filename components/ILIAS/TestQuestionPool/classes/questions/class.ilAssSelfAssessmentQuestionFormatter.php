@@ -30,10 +30,9 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
     {
         $string = $this->handleLineBreaks($string);
         $string = ilRTE::_replaceMediaObjectImageSrc($string, 1);
+        $string = ilRTE::replaceLatexSpan($string);
         $string = str_replace("</li><br />", "</li>", $string);
         $string = str_replace("</li><br>", "</li>", $string);
-        $string = ilMathJax::getInstance()->insertLatexImages($string, "\[tex\]", "\[\/tex\]");
-        $string = ilMathJax::getInstance()->insertLatexImages($string, "\<span class\=\"latex\">", "\<\/span>");
         $string = str_replace('{', '&#123;', $string);
         $string = str_replace('}', '&#125;', $string);
 
@@ -48,36 +47,6 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
     {
         if (!ilUtil::isHTML($string)) {
             $string = nl2br($string);
-        }
-
-        return $string;
-    }
-
-    /**
-     * @param string $string
-     * @return string
-     */
-    protected function convertLatexSpanToTex($string): string
-    {
-        // we try to save all latex tags
-        $try = true;
-        $ls = '<span class="latex">';
-        $le = '</span>';
-        while ($try) {
-            // search position of start tag
-            $pos1 = strpos($string, $ls);
-            if (is_int($pos1)) {
-                $pos2 = strpos($string, $le, $pos1);
-                if (is_int($pos2)) {
-                    // both found: replace end tag
-                    $string = substr($string, 0, $pos2) . "[/tex]" . substr($string, $pos2 + 7);
-                    $string = substr($string, 0, $pos1) . "[tex]" . substr($string, $pos1 + 20);
-                } else {
-                    $try = false;
-                }
-            } else {
-                $try = false;
-            }
         }
 
         return $string;
@@ -108,7 +77,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
      */
     public function migrateToLmContent($string): string
     {
-        $string = $this->convertLatexSpanToTex($string);
+        $string = ilRTE::replaceLatexSpan($string);
         $string = $this->stripHtmlExceptSelfAssessmentTags($string);
         return $string;
     }

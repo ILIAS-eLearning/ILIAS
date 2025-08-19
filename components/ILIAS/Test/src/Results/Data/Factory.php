@@ -171,7 +171,7 @@ class Factory
         int $active_id,
         int $attempt_id,
         bool $is_user_output
-    ): AttemptResult {
+    ): AttemptSolutions {
         return $this->buildAttemptResults(
             $settings,
             $test_obj,
@@ -187,7 +187,7 @@ class Factory
         int $active_id,
         int $attempt_id,
         bool $is_user_output
-    ): AttemptResult {
+    ): AttemptSolutions {
         $question_results = [];
 
         $results = $test_obj->getTestResult(
@@ -305,7 +305,7 @@ class Factory
             );
         }
 
-        return new AttemptResult(
+        return new AttemptSolutions(
             $active_id,
             $attempt_id,
             $question_results

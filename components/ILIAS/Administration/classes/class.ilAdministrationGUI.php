@@ -76,7 +76,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
     protected int $requested_obj_id = 0;
     protected AdminGUIRequest $request;
     protected ilObjectGUI $gui_obj;
-    private readonly ilErrorHandling $error;
+    private readonly ilLogger $logger;
 
     public function __construct()
     {
@@ -85,13 +85,13 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
 
         $this->help = $DIC["ilHelp"];
         $this->db = $DIC->database();
+        $this->logger = $DIC->logger()->root();
         $lng = $DIC->language();
         $tpl = $DIC->ui()->mainTemplate();
         $tree = $DIC->repositoryTree();
         $rbacsystem = $DIC->rbac()->system();
         $objDefinition = $DIC["objDefinition"];
         $ilCtrl = $DIC->ctrl();
-        $this->error = $DIC['ilErr'];
 
         $this->lng = $lng;
         $this->lng->loadLanguageModule('administration');
@@ -139,12 +139,15 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         $rbacsystem = $this->rbacsystem;
         $objDefinition = $this->objDefinition;
         $ilHelp = $this->help;
-        $ilDB = $this->db;
 
         // permission checks
         if (!$rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID) &&
                 !$rbacsystem->checkAccess("read", SYSTEM_FOLDER_ID)) {
-            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+            $this->logger->log($this->lng->txt('permission_denied'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectToURL(
+                ilUserUtil::getStartingPointAsUrl()
+            );
         }
 
         // check creation mode

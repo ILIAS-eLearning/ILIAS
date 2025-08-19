@@ -37,8 +37,16 @@ class EmbeddedApplication
      * @var string
      */
     private const WOPI_SRC = 'WOPISrc';
+    private const SUB_THM = 'thm';
+    private const SUB_DCHAT = 'dchat';
+    private const SUB_EMBED = 'embed';
     private int $ttl = 3600;
     private string $token;
+    private array $substitutions = [
+        self::SUB_THM => 1,
+        self::SUB_DCHAT => 0,
+        self::SUB_EMBED => false
+    ];
 
     public function __construct(
         protected ResourceIdentification $identification,
@@ -53,12 +61,17 @@ class EmbeddedApplication
         /** @var DataSigner $data_signer */
         $data_signer = $DIC['file_delivery.data_signer'];
 
+        $editable = $edit ?? ($this->action === null
+            ? false
+            : $this->action->getName() === ActionTarget::EDIT->value);
         $payload = [
             'resource_id' => $this->identification->serialize(),
             'user_id' => $DIC->user()->getId(),
             'stakeholder' => $this->stakeholder::class,
-            'editable' => $edit ?? ($this->action->getName() === ActionTarget::EDIT->value)
+            'editable' => $editable
         ];
+
+        $this->substitutions[self::SUB_EMBED] = !$editable;
         $this->token = $data_signer->sign($payload, 'wopi', new \DateTimeImmutable("now + $this->ttl seconds"));
     }
 
@@ -94,11 +107,13 @@ class EmbeddedApplication
             . '?'
             . self::WOPI_SRC
             . '='
-            . urlencode(rtrim((string) $this->ilias_base_url, '/')
-                        . RequestHandler::WOPI_BASE_URL
-                        . RequestHandler::NAMESPACE_FILES
-                        . '/'
-                        . $this->identification->serialize());
+            . urlencode(
+                rtrim((string) $this->ilias_base_url, '/')
+                . RequestHandler::WOPI_BASE_URL
+                . RequestHandler::NAMESPACE_FILES
+                . '/'
+                . $this->identification->serialize()
+            );
 
         if ($appendices !== []) {
             $url .= '&' . implode('&', $appendices);
@@ -119,18 +134,29 @@ class EmbeddedApplication
             if ($appendix !== null) {
                 preg_match_all('/([^<]*)=([^>&]*)/m', $appendix, $appendices, PREG_SET_ORDER, 0);
 
-                $appendices = array_filter($appendices, static fn($appendix): true => isset($appendix[1], $appendix[2]));
+                $appendices = array_filter($appendices, static fn($appendix): bool => isset($appendix[1], $appendix[2]));
 
                 // we set the wopisrc ourselves
                 $appendices = array_filter($appendices, static fn($appendix): bool => strtolower((string) $appendix[1]) !== 'wopisrc');
 
+                // try substitutions
+                $appendices = array_map(function ($appendix): array {
+                    $key = strtolower((string) $appendix[1]);
+                    if (isset($this->substitutions[$key])) {
+                        $appendix[2] = (string) $this->substitutions[$key];
+                    }
+                    return $appendix;
+                }, $appendices);
+
                 // we remove all those placeholders
-                $appendices = array_filter($appendices, static fn($appendix): bool => !preg_match('/([A-Z\_]*)/m', (string) $appendix[2]));
+                $appendices = array_filter($appendices, static fn($appendix): bool => $appendix[0] !== $appendix[1] . '=' . $appendix[2]);
+
+                $here = 1;
 
                 $appendices = array_map(static fn($appendix): string => $appendix[1] . '=' . $appendix[2], $appendices);
             }
-        } catch (\Throwable) {
-            return $appendices;
+        } catch (\Throwable $t) {
+            return [];
         }
 
         return $appendices;

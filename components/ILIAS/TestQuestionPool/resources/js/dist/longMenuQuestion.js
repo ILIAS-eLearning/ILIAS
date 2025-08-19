@@ -382,31 +382,40 @@ var longMenuQuestion = (function () {
 	pro.redrawAnswerList = function(question_id)
 	{
 		pro.checkAnswersArray(question_id);
-		var buttons = $('.layout_dummy_add_remove_buttons').html();
-		var html = '';
-		if(pro.inputFieldsStillPossible(question_id))
+    const answer_options_element = document.querySelector('#ilGapModal .modal_answer_options');
+    answer_options_element.innerHTML = '';
+
+    if (pro.inputFieldsStillPossible(question_id))
 		{
-			var t0 = pro.benchmarkCallsDummyNotForUsage('redrawAnswerList');
-			$.each(pub.answers[question_id] , function( index, value ) {
-				html += '<input type="text" class="col-sm-10 answerlist" size="5" value="' +
-						value + '" data-id="' + index + '">' + buttons;
+      const buttons = document.querySelector('.layout_dummy_add_remove_buttons > .col-sm-2');
+      const input = document.createElement('input');
+      input.setAttribute('type', 'text');
+      input.setAttribute('size', '5');
+      input.classList.add('col-sm-10');
+      input.classList.add('answerlist');
+			pub.answers[question_id].forEach((value, index) => {
+        const new_input = input.cloneNode();
+        new_input.setAttribute('value', value);
+        new_input.dataset.id = index;
+        answer_options_element.append(new_input, buttons.cloneNode(true));
 			});
-			if(html === '')
+			if (answer_options_element.innerHTML === '')
 			{
-				html += '<input type="text" class="col-sm-10 answerlist" size="5" value="" data-id="0">' + buttons;
+        input.setAttribute('value', '');
+        input.dataset.id = '0';
+        answer_options_element.append(input, buttons.cloneNode(true));
 			}
-			pro.benchmarkCallsDummyNotForUsage('redrawAnswerList only html build', t0);
-			$('#' + pub.gap_modal_id + ' .modal_answer_options').html(html);
-			pro.benchmarkCallsDummyNotForUsage('redrawAnswerList', t0);
-		}
-		else
-		{
-			html += '<textarea rows="25" cols="70" class="input-large">';
-			$.each(pub.answers[question_id] , function( index, value ) {
-				html += value + '\n';
+		} else {
+      const textarea = document.createElement('textarea');
+      textarea.setAttribute('rows', '25');
+      textarea.setAttribute('cols', '70');
+      textarea.classList.add('input-large');
+      let value_string = '';
+			pub.answers[question_id].forEach(function(value) {
+				value_string += value + '\n';
 			});
-			html += '</textarea>';
-			$('#' + pub.gap_modal_id + ' .modal_answer_options').html(html);
+      textarea.value = value_string;
+			answer_options_element.appendChild(textarea);
 		}
 		pro.appendAnswerCloneButtonEvents();
 		pro.redrawFormParts();
@@ -569,7 +578,6 @@ var longMenuQuestion = (function () {
 		var result = [];
 		var t0 = pro.benchmarkCallsDummyNotForUsage('checkAnswersArray');
 		$.each(pub.answers[question_id], function(index, value) {
-			value = value.toString().replace(/"/g,'');
 			if ($.inArray(value, result) === -1 )
 			{
 				if( value !== '' )
@@ -579,7 +587,7 @@ var longMenuQuestion = (function () {
 			}
 		});
 		pro.benchmarkCallsDummyNotForUsage('checkAnswersArray', t0);
-		var removed = pub.answers[question_id].length - result.length;
+		pub.answers[question_id].length - result.length;
 		pub.answers[question_id] = result.sort();
 		pro.syncWithCorrectAnswers(question_id);
 		pro.syncWithHiddenTextField();

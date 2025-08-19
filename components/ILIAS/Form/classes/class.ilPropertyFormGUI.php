@@ -26,6 +26,7 @@ use ILIAS\Refinery;
  *
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPropertyFormGUI: ilFormPropertyDispatchGUI
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilPropertyFormGUI extends ilFormGUI
 {

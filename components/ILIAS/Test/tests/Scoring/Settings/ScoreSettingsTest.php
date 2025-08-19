@@ -463,7 +463,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $fields .= $this->getFormWrappedHtml(
             'numeric-field-input',
             'tst_highscore_top_num<span class="asterisk" aria-label="required_field">*</span>',
-            '<input id="id_3" type="number" value="10" class="c-field-number" />',
+            '<input id="id_3" type="number" step="1" value="10" class="c-field-number" />',
             'tst_highscore_top_num_description',
             'id_3',
             null,

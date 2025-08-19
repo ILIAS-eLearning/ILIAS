@@ -56,7 +56,7 @@ class AssignmentRetrieval implements DataRetrieval
         ?array $filter_data,
         ?array $additional_parameters
     ): Generator {
-        $ref_ids = array_slice($this->getAllEligibleRefIDs(), $range->getStart(), $range->getLength());
+        $ref_ids = $this->getAllEligibleRefIDs();
 
         $assigned = $this->grouping->getAssignedItems();
         $assigned_ref_ids = [];
@@ -82,6 +82,7 @@ class AssignmentRetrieval implements DataRetrieval
         }
 
         $records = $this->sortRecords($records, $order);
+        $records = array_slice($records, $range->getStart(), $range->getLength(), true);
 
         foreach ($records as $ref_id => $record) {
             yield $row_builder->buildDataRow((string) $ref_id, $record);

@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Participants\ParticipantRepository;
+use ILIAS\Test\Results\Data\Repository;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\TestManScoringDoneHelper;
@@ -145,6 +146,7 @@ class ilObjTest extends ilObject
 
     protected ?ilTestParticipantList $access_filtered_participant_list = null;
     protected ParticipantRepository $participant_repository;
+    protected Repository $test_result_repository;
 
     protected LOMetadata $lo_metadata;
 
@@ -180,6 +182,7 @@ class ilObjTest extends ilObject
         $this->testrequest = $local_dic['request_data_collector'];
         $this->participant_repository = $local_dic['participant.repository'];
         $this->export_factory = $local_dic['exportimport.factory'];
+        $this->test_result_repository = $local_dic['results.data.repository'];
 
         parent::__construct($id, $a_call_by_reference);
 
@@ -1004,7 +1007,7 @@ class ilObjTest extends ilObject
             $this,
             $this->user,
             $this->db,
-            $this->lng
+            $this->test_result_repository
         );
 
         array_walk(
@@ -1242,6 +1245,8 @@ class ilObjTest extends ilObject
         if ($this->isRandomTest()) {
             $this->db->manipulate("DELETE FROM tst_test_rnd_qst WHERE {$in_active_ids}");
         }
+
+        $this->test_result_repository->removeTestResults($active_ids, $this->getId());
 
         foreach ($active_ids as $active_id) {
             // remove file uploads
@@ -1784,19 +1789,23 @@ class ilObjTest extends ilObject
      */
     public function getTestResult(
         int $active_id,
-        ?int $pass = null,
+        ?int $attempt = null,
         bool $ordered_sequence = false,
         bool $consider_hidden_questions = true,
         bool $consider_optional_questions = true
     ): array {
-        $results = $this->getResultsForActiveId($active_id);
+        $test_result = $this->test_result_repository->getTestResult($active_id);
 
-        if ($pass === null) {
-            $pass = (int) $results['pass'];
+        if ($test_result === null) {
+            $test_result = $this->test_result_repository->updateTestResultCache($active_id);
+        }
+
+        if ($attempt === null) {
+            $attempt = $test_result->getAttempt();
         }
 
         $test_sequence_factory = new ilTestSequenceFactory($this, $this->db, $this->questionrepository);
-        $test_sequence = $test_sequence_factory->getSequenceByActiveIdAndPass($active_id, $pass);
+        $test_sequence = $test_sequence_factory->getSequenceByActiveIdAndPass($active_id, $attempt);
 
         $test_sequence->setConsiderHiddenQuestionsEnabled($consider_hidden_questions);
         $test_sequence->setConsiderOptionalQuestionsEnabled($consider_optional_questions);
@@ -1836,33 +1845,22 @@ class ilObjTest extends ilObject
         $solutionresult = $this->db->queryF(
             $query,
             ['integer', 'integer'],
-            [$active_id, $pass]
+            [$active_id, $attempt]
         );
 
         while ($row = $this->db->fetchAssoc($solutionresult)) {
             $arr_results[ $row['question_fi'] ] = $row;
         }
 
-        $num_worked_through = count($arr_results);
+        $result = $this->db->query(
+            'SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_sol_sug.question_fi has_sug_sol' . PHP_EOL
+            . 'FROM	qpl_qst_type, qpl_questions' . PHP_EOL
+            . 'LEFT JOIN qpl_sol_sug' . PHP_EOL
+            . 'ON qpl_sol_sug.question_fi = qpl_questions.question_id' . PHP_EOL
+            . 'WHERE qpl_qst_type.question_type_id = qpl_questions.question_type_fi' . PHP_EOL
+            . 'AND ' . $this->db->in('qpl_questions.question_id', $sequence, false, 'integer')
+        );
 
-        $IN_question_ids = $this->db->in('qpl_questions.question_id', $sequence, false, 'integer');
-
-        $query = "
-			SELECT		qpl_questions.*,
-						qpl_qst_type.type_tag,
-						qpl_sol_sug.question_fi has_sug_sol
-
-			FROM		qpl_qst_type,
-						qpl_questions
-
-			LEFT JOIN	qpl_sol_sug
-			ON			qpl_sol_sug.question_fi = qpl_questions.question_id
-
-			WHERE		qpl_qst_type.question_type_id = qpl_questions.question_type_fi
-			AND			$IN_question_ids
-		";
-
-        $result = $this->db->query($query);
         $unordered = [];
         $key = 1;
         while ($row = $this->db->fetchAssoc($result)) {
@@ -1878,16 +1876,16 @@ class ilObjTest extends ilObject
             }
 
             $data = [
-                "nr" => "$key",
-                "title" => ilLegacyFormElementsUtil::prepareFormOutput($row['title']),
-                "max" => round($row['points'], 2),
-                "reached" => round($arr_results[$row['question_id']]['reached'] ?? 0, 2),
-                "percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
-                "solution" => ($row['has_sug_sol']) ? assQuestion::_getSuggestedSolutionOutput($row['question_id']) : '',
-                "type" => $row["type_tag"],
-                "qid" => $row['question_id'],
-                "original_id" => $row["original_id"],
-                "workedthrough" => isset($arr_results[$row['question_id']]) ? 1 : 0,
+                'nr' => $key,
+                'title' => ilLegacyFormElementsUtil::prepareFormOutput($row['title']),
+                'max' => round($row['points'], 2),
+                'reached' => round($arr_results[$row['question_id']]['reached'] ?? 0, 2),
+                'percent' => sprintf('%2.2f ', ($percentvalue) * 100) . '%',
+                'solution' => ($row['has_sug_sol']) ? assQuestion::_getSuggestedSolutionOutput($row['question_id']) : '',
+                'type' => $row['type_tag'],
+                'qid' => $row['question_id'],
+                'original_id' => $row['original_id'],
+                'workedthrough' => isset($arr_results[$row['question_id']]) ? 1 : 0,
                 'answered' => $arr_results[$row['question_id']]['answered'] ?? 0,
                 'finalized_evaluation' => $arr_results[$row['question_id']]['finalized_evaluation'] ?? 0,
             ];
@@ -1896,13 +1894,10 @@ class ilObjTest extends ilObject
             $key++;
         }
 
-        $numQuestionsTotal = count($unordered);
-
         $pass_max = 0;
         $pass_reached = 0;
 
         $found = [];
-
         foreach ($sequence as $qid) {
             // building pass point sums based on prepared data
             // for question that exists in users qst sequence
@@ -1911,13 +1906,7 @@ class ilObjTest extends ilObject
             $found[] = $unordered[$qid];
         }
 
-        $unordered = null;
-
         if ($this->getScoreCutting() == 1) {
-            if ($results['reached_points'] < 0) {
-                $results['reached_points'] = 0;
-            }
-
             if ($pass_reached < 0) {
                 $pass_reached = 0;
             }
@@ -1926,25 +1915,14 @@ class ilObjTest extends ilObject
         $found['pass']['total_max_points'] = $pass_max;
         $found['pass']['total_reached_points'] = $pass_reached;
         $found['pass']['percent'] = ($pass_max > 0) ? $pass_reached / $pass_max : 0;
-        $found['pass']['num_workedthrough'] = $num_worked_through;
-        $found['pass']['num_questions_total'] = $numQuestionsTotal;
+        $found['pass']['num_workedthrough'] = count($arr_results);
+        $found['pass']['num_questions_total'] = count($unordered);
 
-        $found["test"]["total_max_points"] = $results['max_points'];
-        $found["test"]["total_reached_points"] = $results['reached_points'];
-        $found["test"]["result_pass"] = $results['pass'];
-        $found['test']['result_tstamp'] = $results['tstamp'];
-
-        if ((!$found['pass']['total_reached_points']) or (!$found['pass']['total_max_points'])) {
-            $percentage = 0.0;
-        } else {
-            $percentage = ($found['pass']['total_reached_points'] / $found['pass']['total_max_points']) * 100.0;
-
-            if ($percentage < 0) {
-                $percentage = 0.0;
-            }
-        }
-
-        $found["test"]["passed"] = $results['passed'];
+        $found['test']['total_max_points'] = $test_result->getMaxPoints();
+        $found['test']['total_reached_points'] = $test_result->getReachedPoints();
+        $found['test']['result_pass'] = $attempt;
+        $found['test']['result_tstamp'] = $test_result->getTimestamp();
+        $found['test']['passed'] = $test_result->isPassed();
 
         return $found;
     }
@@ -2096,36 +2074,12 @@ class ilObjTest extends ilObject
         return $time;
     }
 
+    /**
+     * @depracated 11, will be removed in 12, use TestResultManager::fetchWorkingTime instead
+     */
     public function getWorkingTimeOfParticipantForPass(int $active_id, int $pass): int
     {
-        $result = $this->db->queryF(
-            "SELECT * FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started",
-            ['integer','integer'],
-            [$active_id, $pass]
-        );
-        $time = 0;
-        while ($row = $this->db->fetchAssoc($result)) {
-            preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["started"], $matches);
-            $epoch_1 = mktime(
-                (int) $matches[4],
-                (int) $matches[5],
-                (int) $matches[6],
-                (int) $matches[2],
-                (int) $matches[3],
-                (int) $matches[1]
-            );
-            preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["finished"], $matches);
-            $epoch_2 = mktime(
-                (int) $matches[4],
-                (int) $matches[5],
-                (int) $matches[6],
-                (int) $matches[2],
-                (int) $matches[3],
-                (int) $matches[1]
-            );
-            $time += ($epoch_2 - $epoch_1);
-        }
-        return $time;
+        return $this->test_result_repository->fetchWorkingTime($active_id, $pass);
     }
 
     /**
@@ -5009,7 +4963,7 @@ class ilObjTest extends ilObject
             }
 
             if ($this->isBlockPassesAfterPassedEnabled() && !$testPassesSelector->openPassExists()) {
-                if (ilObjTestAccess::_isPassed($user_id, $this->getId())) {
+                if ($this->test_result_repository->isPassed($user_id, $this->getId())) {
                     $result['executable'] = false;
                     $result['errormessage'] = $this->lng->txt("tst_addit_passes_blocked_after_passed_msg");
                     return $result;
@@ -6416,23 +6370,6 @@ class ilObjTest extends ilObject
             )->isActive();
     }
 
-    public function getPassed($active_id)
-    {
-        $result = $this->db->queryF(
-            "SELECT passed FROM tst_result_cache WHERE active_fi = %s",
-            ['integer'],
-            [$active_id]
-        );
-        if ($result->numRows()) {
-            $row = $this->db->fetchAssoc($result);
-            return $row['passed'];
-        } else {
-            $counted_pass = ilObjTest::_getResultPass($active_id);
-            $result_array = &$this->getTestResult($active_id, $counted_pass);
-            return $result_array["test"]["passed"];
-        }
-    }
-
     /**
      * Creates an associated array with all active id's for a given test and original question id
      */
@@ -6592,41 +6529,6 @@ class ilObjTest extends ilObject
             unset($fd);
             @unlink($path);
         }
-    }
-
-    public function getResultsForActiveId(int $active_id): array
-    {
-        $query = "
-			SELECT		*
-			FROM		tst_result_cache
-			WHERE		active_fi = %s
-		";
-
-        $result = $this->db->queryF(
-            $query,
-            ['integer'],
-            [$active_id]
-        );
-
-        if (!$result->numRows()) {
-            $this->updateTestResultCache($active_id);
-
-            $query = "
-				SELECT		*
-				FROM		tst_result_cache
-				WHERE		active_fi = %s
-			";
-
-            $result = $this->db->queryF(
-                $query,
-                ['integer'],
-                [$active_id]
-            );
-        }
-
-        $row = $this->db->fetchAssoc($result);
-
-        return $row;
     }
 
     public function getMailNotificationType(): bool
@@ -7394,168 +7296,6 @@ class ilObjTest extends ilObject
             $this->score_settings_repo = new ScoreSettingsDatabaseRepository($this->db);
         }
         return $this->score_settings_repo;
-    }
-
-    public function updateTestResultCache(int $active_id, ?ilAssQuestionProcessLocker $process_locker = null): void
-    {
-        $pass = ilObjTest::_getResultPass($active_id);
-
-        if ($pass !== null) {
-            $query = '
-                SELECT		tst_pass_result.*,
-                            tst_active.last_finished_pass
-                FROM		tst_pass_result
-                INNER JOIN  tst_active
-                on          tst_pass_result.active_fi = tst_active.active_id
-                WHERE		active_fi = %s
-                AND			pass = %s
-            ';
-
-            $result = $this->db->queryF(
-                $query,
-                ['integer','integer'],
-                [$active_id, $pass]
-            );
-
-            $test_pass_result_row = $this->db->fetchAssoc($result);
-
-            if (!is_array($test_pass_result_row)) {
-                $test_pass_result_row = [];
-            }
-            $max = (float) ($test_pass_result_row['maxpoints'] ?? 0);
-            $reached = (float) ($test_pass_result_row['points'] ?? 0);
-            $percentage = ($max <= 0.0 || $reached <= 0.0) ? 0 : ($reached / $max) * 100.0;
-
-            $mark = $this->getMarkSchema()->getMatchingMark($percentage);
-            $is_passed = $test_pass_result_row['last_finished_pass'] !== null
-                && $pass <= $test_pass_result_row['last_finished_pass']
-                && $mark->getPassed();
-
-            $user_test_result_update_callback = function () use ($active_id, $pass, $max, $reached, $is_passed, $mark) {
-                $passed_once_before = 0;
-                $query = 'SELECT passed_once FROM tst_result_cache WHERE active_fi = %s';
-                $res = $this->db->queryF($query, ['integer'], [$active_id]);
-                while ($passed_once_result_row = $this->db->fetchAssoc($res)) {
-                    $passed_once_before = (int) $passed_once_result_row['passed_once'];
-                }
-
-                $passed_once = (int) ($is_passed || $passed_once_before);
-
-                $this->db->manipulateF(
-                    'DELETE FROM tst_result_cache WHERE active_fi = %s',
-                    ['integer'],
-                    [$active_id]
-                );
-
-                if ($reached < 0.0) {
-                    $reached = 0.0;
-                }
-
-                $mark_short_name = $mark->getShortName();
-                if ($mark_short_name === '') {
-                    $mark_short_name = ' ';
-                }
-
-                $mark_official_name = $mark->getOfficialName();
-                if ($mark_official_name === '') {
-                    $mark_official_name = ' ';
-                }
-
-                $this->db->insert(
-                    'tst_result_cache',
-                    [
-                        'active_fi' => ['integer', $active_id],
-                        'pass' => ['integer', $pass ?? 0],
-                        'max_points' => ['float', $max],
-                        'reached_points' => ['float', $reached],
-                        'mark_short' => ['text', $mark_short_name],
-                        'mark_official' => ['text', $mark_official_name],
-                        'passed_once' => ['integer', $passed_once],
-                        'passed' => ['integer', (int) $is_passed],
-                        'failed' => ['integer', (int) !$is_passed],
-                        'tstamp' => ['integer', time()]
-                    ]
-                );
-            };
-
-            if (is_object($process_locker)) {
-                $process_locker->executeUserTestResultUpdateLockOperation($user_test_result_update_callback);
-            } else {
-                $user_test_result_update_callback();
-            }
-        }
-    }
-
-    public function updateTestPassResults(
-        int $active_id,
-        int $pass,
-        ?ilAssQuestionProcessLocker $process_locker = null,
-        ?int $test_obj_id = null
-    ): array {
-        $data = $this->getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
-        $time = $this->getWorkingTimeOfParticipantForPass($active_id, $pass);
-
-        $result = $this->db->queryF(
-            '
-			SELECT		SUM(points) reachedpoints,
-						COUNT(DISTINCT(question_fi)) answeredquestions
-			FROM		tst_test_result
-			WHERE		active_fi = %s
-			AND			pass = %s
-			',
-            ['integer','integer'],
-            [$active_id, $pass]
-        );
-
-        if ($result->numRows() > 0) {
-            $row = $this->db->fetchAssoc($result);
-
-            if ($row['reachedpoints'] === null
-                || $row['reachedpoints'] < 0.0) {
-                $row['reachedpoints'] = 0.0;
-            }
-
-            $exam_identifier = ilObjTest::buildExamId($active_id, $pass, $test_obj_id);
-
-            $update_pass_result_callback = function () use ($data, $active_id, $pass, $row, $time, $exam_identifier) {
-                $this->db->replace(
-                    'tst_pass_result',
-                    [
-                        'active_fi' => ['integer', $active_id],
-                        'pass' => ['integer', $pass]
-                    ],
-                    [
-                        'points' => ['float', $row['reachedpoints']],
-                        'maxpoints' => ['float', $data['points']],
-                        'questioncount' => ['integer', $data['count']],
-                        'answeredquestions' => ['integer', $row['answeredquestions']],
-                        'workingtime' => ['integer', $time],
-                        'tstamp' => ['integer', time()],
-                        'exam_id' => ['text', $exam_identifier]
-                    ]
-                );
-            };
-
-            if (is_object($process_locker) && $process_locker instanceof ilAssQuestionProcessLocker) {
-                $process_locker->executeUserPassResultUpdateLockOperation($update_pass_result_callback);
-            } else {
-                $update_pass_result_callback();
-            }
-        }
-
-        $this->updateTestResultCache($active_id, $process_locker);
-
-        return [
-            'active_fi' => $active_id,
-            'pass' => $pass,
-            'points' => $row['reachedpoints'],
-            'maxpoints' => $data['points'],
-            'questioncount' => $data['count'],
-            'answeredquestions' => $row['answeredquestions'],
-            'workingtime' => $time,
-            'tstamp' => time(),
-            'exam_id' => $exam_identifier
-        ];
     }
 
     public function addToNewsOnOnline(

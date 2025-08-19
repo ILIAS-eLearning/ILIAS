@@ -26,6 +26,7 @@ use ILIAS\Refinery;
  * This class represents a property in a property form.
  *
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilFormPropertyGUI
 {

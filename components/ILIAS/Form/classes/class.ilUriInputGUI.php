@@ -24,6 +24,7 @@ use ILIAS\Data\URI;
  * Legacy Uri input
  *
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilUriInputGUI extends ilTextInputGUI
 {

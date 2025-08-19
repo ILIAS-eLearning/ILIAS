@@ -28,6 +28,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
     protected \ILIAS\UI\Renderer $renderer;
 
     protected ilObjectDefinition $objectDefinition;
+    protected bool $edit_access;
 
     public function __construct(
         object $a_parent_obj,
@@ -57,12 +58,13 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("description"), "description");
         $this->addColumn($this->lng->txt("context"), "context");
         $this->addColumn($this->lng->txt('path'), 'path');
+        $this->edit_access = $rbacsystem->checkAccess("edit_roleassignment", USER_FOLDER_ID);
         $this->initFilter();
         $this->setEnableHeader(true);
         $this->setRowTemplate("tpl.role_assignment_row.html", "components/ILIAS/User");
         $this->setEnableTitle(true);
 
-        if ($rbacsystem->checkAccess("edit_roleassignment", USER_FOLDER_ID)) {
+        if ($this->edit_access) {
             $this->setSelectAllCheckbox("role_id[]");
             $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
             $this->addMultiCommand("assignSave", $lng->txt("change_assignment"));
@@ -92,22 +94,28 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $option[4] = $lng->txt('internal_local_roles_only');
         $option[5] = $lng->txt('non_internal_local_roles_only');
 
-        $si = new ilSelectInputGUI($lng->txt("roles"), "role_filter");
-        $si->setOptions($option);
-        $this->addFilterItem($si);
-        $si->readFromSession();
-        $this->filter["role_filter"] = $si->getValue();
+        if ($this->edit_access) {
+            $si = new ilSelectInputGUI($lng->txt("roles"), "role_filter");
+            $si->setOptions($option);
+            $this->addFilterItem($si);
+            $si->readFromSession();
+            $this->filter["role_filter"] = $si->getValue();
+        } else {
+            $this->filter["role_filter"] = 0;
+        }
     }
 
     protected function fillRow(array $a_set): void // Missing array type.
     {
-        if (isset($a_set['checkbox']['id'])) {
-            $this->tpl->setVariable('VAL_ID', $a_set['checkbox']['id']);
-            if ($a_set['checkbox']['disabled']) {
-                $this->tpl->setVariable('VAL_DISABLED', 'disabled="disabled"');
-            }
-            if ($a_set['checkbox']['checked']) {
-                $this->tpl->setVariable('VAL_CHECKED', 'checked="checked"');
+        if ($this->edit_access) {
+            if (isset($a_set['checkbox']['id'])) {
+                $this->tpl->setVariable('VAL_ID', $a_set['checkbox']['id']);
+                if ($a_set['checkbox']['disabled']) {
+                    $this->tpl->setVariable('VAL_DISABLED', 'disabled="disabled"');
+                }
+                if ($a_set['checkbox']['checked']) {
+                    $this->tpl->setVariable('VAL_CHECKED', 'checked="checked"');
+                }
             }
         }
 

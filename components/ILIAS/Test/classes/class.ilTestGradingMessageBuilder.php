@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Results\Data\ParticipantResult;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -27,8 +29,6 @@ declare(strict_types=1);
 class ilTestGradingMessageBuilder
 {
     private ilTemplate $tpl;
-    private array $resultData;
-    private int $activeId;
 
     /**
      * @var array<string> $messageText
@@ -38,24 +38,13 @@ class ilTestGradingMessageBuilder
     public function __construct(
         private ilLanguage $lng,
         private ilGlobalTemplateInterface $main_tpl,
-        private ilObjTest $testOBJ
+        private ilObjTest $testOBJ,
+        private readonly ParticipantResult $result
     ) {
-    }
-
-    public function setActiveId($activeId)
-    {
-        $this->activeId = $activeId;
-    }
-
-    public function getActiveId(): int
-    {
-        return $this->activeId;
     }
 
     public function buildMessage()
     {
-        $this->loadResultData();
-
         if ($this->testOBJ->isShowGradingStatusEnabled()) {
             $this->addMessagePart($this->buildGradingStatusMsg());
         }
@@ -75,30 +64,20 @@ class ilTestGradingMessageBuilder
         return implode(' ', $this->messageText);
     }
 
-    private function isPassed(): bool
-    {
-        return (bool) $this->resultData['passed'];
-    }
-
     public function sendMessage()
     {
         if (!$this->testOBJ->isShowGradingStatusEnabled()) {
             $this->main_tpl->setOnScreenMessage('info', $this->getFullMessage());
-        } elseif ($this->isPassed()) {
+        } elseif ($this->result->isPassed()) {
             $this->main_tpl->setOnScreenMessage('success', $this->getFullMessage());
         } else {
             $this->main_tpl->setOnScreenMessage('info', $this->getFullMessage());
         }
     }
 
-    private function loadResultData()
-    {
-        $this->resultData = $this->testOBJ->getResultsForActiveId($this->getActiveId());
-    }
-
     private function buildGradingStatusMsg(): string
     {
-        if ($this->isPassed()) {
+        if ($this->result->isPassed()) {
             return $this->lng->txt('grading_status_passed_msg');
         }
 
@@ -107,56 +86,23 @@ class ilTestGradingMessageBuilder
 
     private function buildGradingMarkMsg()
     {
-        $markMsg = $this->lng->txt('grading_mark_msg');
+        $mark_msg = $this->lng->txt('grading_mark_msg');
 
-        $markMsg = str_replace("[mark]", $this->getMarkOfficial(), $markMsg);
-        $markMsg = str_replace("[markshort]", $this->getMarkShort(), $markMsg);
-        $markMsg = str_replace("[percentage]", $this->getPercentage(), $markMsg);
-        $markMsg = str_replace("[reached]", (string) $this->getReachedPoints(), $markMsg);
-        $markMsg = str_replace("[max]", (string) $this->getMaxPoints(), $markMsg);
+        $mark_msg = str_replace('[mark]', $this->result->getMarkOfficial(), $mark_msg);
+        $mark_msg = str_replace('[markshort]', $this->result->getMarkShort(), $mark_msg);
+        $mark_msg = str_replace('[percentage]', sprintf('%.2f', $this->result->getPercentage()), $mark_msg);
+        $mark_msg = str_replace('[reached]', (string) $this->result->getReachedPoints(), $mark_msg);
+        $mark_msg = str_replace('[max]', (string) $this->result->getMaxPoints(), $mark_msg);
 
-        return $markMsg;
-    }
-
-    private function getMarkOfficial()
-    {
-        return $this->resultData['mark_official'];
-    }
-
-    private function getMarkShort()
-    {
-        return $this->resultData['mark_short'];
-    }
-
-    private function getPercentage(): string
-    {
-        $percentage = 0;
-
-        if ($this->getMaxPoints() > 0) {
-            $percentage = $this->getReachedPoints() / $this->getMaxPoints();
-        }
-
-        return sprintf("%.2f", $percentage);
-    }
-
-    private function getReachedPoints()
-    {
-        return $this->resultData['reached_points'];
-    }
-
-    private function getMaxPoints()
-    {
-        return $this->resultData['max_points'];
+        return $mark_msg;
     }
 
     public function buildList()
     {
-        $this->loadResultData();
-
         $this->initListTemplate();
 
         if ($this->testOBJ->isShowGradingStatusEnabled()) {
-            $passedStatusLangVar = $this->isPassed() ? 'passed_official' : 'failed_official';
+            $passedStatusLangVar = $this->result->isPassed() ? 'passed_official' : 'failed_official';
 
             $this->populateListEntry(
                 $this->lng->txt('passed_status'),
@@ -165,7 +111,7 @@ class ilTestGradingMessageBuilder
         }
 
         if ($this->testOBJ->isShowGradingMarkEnabled()) {
-            $this->populateListEntry($this->lng->txt('tst_mark'), $this->getMarkOfficial());
+            $this->populateListEntry($this->lng->txt('tst_mark'), $this->result->getMarkOfficial());
         }
 
         $this->parseListTemplate();

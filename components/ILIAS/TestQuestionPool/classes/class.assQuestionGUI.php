@@ -629,6 +629,7 @@ abstract class assQuestionGUI
     public function getILIASPage(string $html = ""): string
     {
         $page_gui = new ilAssQuestionPageGUI($this->object->getId());
+        $page_gui->setFileDownloadLink($this->buildFileDownloadLink());
         $page_gui->setQuestionHTML(
             [$this->object->getId() => $html]
         );
@@ -650,7 +651,8 @@ abstract class assQuestionGUI
         $this->lng->loadLanguageModule("content");
 
         $page_gui = new ilAssQuestionPageGUI($this->object->getId());
-        $page_gui->setOutputMode("presentation");
+        $page_gui->setFileDownloadLink($this->buildFileDownloadLink());
+        $page_gui->setOutputMode('presentation');
         $page_gui->setTemplateTargetVar($a_temp_var);
 
         if ($this->getNavigationGUI()) {
@@ -897,13 +899,14 @@ abstract class assQuestionGUI
         if (!$this->object->getSelfAssessmentEditingMode()) {
             if ($this->object->getAdditionalContentEditingMode() !== assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE) {
                 $question->setUseRte(true);
-                $question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags('assessment'));
+                $question->setRteTags(ilRTESettings::_getUsedHTMLTags('assessment'));
                 $question->setRTESupport($this->object->getId(), 'qpl', 'assessment');
             }
         } else {
             $question->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
             $question->setUseTagsForRteOnly(false);
         }
+        $question->setInfo($this->lng->txt('latex_edit_info'));
         $form->addItem($question);
 
         $question_type = new ilHiddenInputGUI('question_type');
@@ -1010,7 +1013,7 @@ abstract class assQuestionGUI
         if ($this->object->isAdditionalContentEditingModePageObject()) {
             return $output;
         }
-        return ilLegacyFormElementsUtil::prepareTextareaOutput($output, true);
+        return $this->renderLatex(ilLegacyFormElementsUtil::prepareTextareaOutput($output, true));
     }
 
     protected function genericFeedbackOutputBuilder(
@@ -1036,17 +1039,19 @@ abstract class assQuestionGUI
 
     public function getGenericFeedbackOutputForCorrectSolution(): string
     {
-        return ilLegacyFormElementsUtil::prepareTextareaOutput(
+        return $this->renderLatex(ilLegacyFormElementsUtil::prepareTextareaOutput(
             $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), true),
             true
-        );
+        ));
     }
 
     public function getGenericFeedbackOutputForIncorrectSolution(): string
     {
-        return ilLegacyFormElementsUtil::prepareTextareaOutput(
-            $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false),
-            true
+        return  $this->renderLatex(
+            ilLegacyFormElementsUtil::prepareTextareaOutput(
+                $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false),
+                true
+            )
         );
     }
 
@@ -1880,14 +1885,9 @@ abstract class assQuestionGUI
             }
         }
 
-        // since server side mathjax rendering does include svg-xml structures that indeed have linebreaks,
-        // do latex conversion AFTER replacing linebreaks with <br>. <svg> tag MUST NOT contain any <br> tags.
         if ($prepare_for_latex_output) {
-            $result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
-            $result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
-        }
+            $result = ilRTE::replaceLatexSpan($result);
 
-        if ($prepare_for_latex_output) {
             // replace special characters to prevent problems with the ILIAS template system
             // eg. if someone uses {1} as an answer, nothing will be shown without the replacement
             $result = str_replace("{", "&#123;", $result);
@@ -1896,6 +1896,14 @@ abstract class assQuestionGUI
         }
 
         return $result;
+    }
+
+    /**
+     * Wrap content with latex in a LatexContent UI component and render it to be processed by MathJax in the browser
+     */
+    protected function renderLatex($content)
+    {
+        return $this->ui->renderer()->render($this->ui->factory()->legacy()->latexContent($content));
     }
 
     protected ?SuggestedSolutionsDatabaseRepository $suggestedsolution_repo = null;
@@ -1922,7 +1930,7 @@ abstract class assQuestionGUI
             return ilArrayUtil::stripSlashesRecursive(
                 $answer_text,
                 false,
-                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
+                ilRTESettings::_getUsedHTMLTagsAsString("assessment")
             );
         }
 
@@ -2029,5 +2037,13 @@ abstract class assQuestionGUI
             $show_autosave_title,
             $show_inline_feedback
         );
+    }
+
+    public function buildFileDownloadLink(): string
+    {
+        if (strtolower($this->request_data_collector->string('cmdClass')) === 'ilassquestionpreviewgui') {
+            return $this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, 'downloadFile');
+        }
+        return $this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, 'downloadFile');
     }
 }

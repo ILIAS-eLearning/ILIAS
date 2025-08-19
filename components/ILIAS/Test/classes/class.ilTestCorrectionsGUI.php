@@ -191,6 +191,9 @@ class ilTestCorrectionsGUI
     {
         $question_gui = $this->question_gui;
         $page_gui = new ilAssQuestionPageGUI($question_gui->getObject()->getId());
+        $page_gui->setFileDownloadLink(
+            $this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, 'downloadFile')
+        );
         $page_gui->setRenderPageContainer(false);
         $page_gui->setEditPreview(true);
         $page_gui->setEnabledTabs(false);

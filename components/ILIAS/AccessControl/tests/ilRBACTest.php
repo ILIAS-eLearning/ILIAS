@@ -92,5 +92,9 @@ class ilRBACTest extends TestCase
         if (!defined('ILIAS_LOG_DIR')) {
             define('ILIAS_LOG_DIR', '/var/log');
         }
+
+        if (!defined('ILIAS_LOG_FILE')) {
+            define('ILIAS_LOG_FILE', '/var/log/ilias.log');
+        }
     }
 }

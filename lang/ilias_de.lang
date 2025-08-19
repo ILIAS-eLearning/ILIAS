@@ -773,6 +773,7 @@ assessment#:#gap#:#Lücke
 assessment#:#gap_combination#:#Lückentext-Kombination
 assessment#:#gaps#:#Lücken
 assessment#:#glossary_term#:#Glossarbegriff
+assessment#:#goto_first_question#:#Zur ersten Frage
 assessment#:#grading_mark_msg#:#Sie haben die Note &quot;[mark]&quot; erzielt.
 assessment#:#grading_status_failed_msg#:#Schade, leider haben Sie den Test <b>nicht bestanden</b>.
 assessment#:#grading_status_passed_msg#:#Herzlichen Glückwunsch! Sie haben den Test <b>bestanden</b>.
@@ -1950,6 +1951,7 @@ assessment#:#tst_time_limit_message#:#Sie haben <b>%s Minuten</b>, um alle Frage
 assessment#:#tst_title_output#:#Anzeige der Fragentitel
 assessment#:#tst_title_output_full#:#Fragentitel und erreichbare Punkte
 assessment#:#tst_title_output_hide_points#:#Nur Fragentitel
+assessment#:#tst_title_output_info#:#Setzt die Kombination von Titel und/oder verfügbaren Punkten fest, die den Teilnehmenden während der Durchführung sowie auf der Übersicht des Testduchlaufs angezeigt wird.
 assessment#:#tst_title_output_no_title#:#Weder Fragentitel noch erreichbare Punkte
 assessment#:#tst_title_output_only_points#:#Nur erreichbare Punkte
 assessment#:#tst_trigger_result_refreshing#:#Es erfolgt eine Neuberechnung des Ergebnisses. Dies kann eine Weile dauern.
@@ -4443,6 +4445,7 @@ common#:#last_reminder#:#Letzte Erinnerung
 common#:#last_update#:#Aktualisiert
 common#:#last_visited#:#Zuletzt besucht
 common#:#lastname#:#Nachname
+common#:#latex_edit_info#:#Sie können LaTeX-Code in den Begrenzern <code>[tex]</code> und <code>[/tex]</code> eingeben.
 common#:#laugh#:#Laugh
 common#:#launch#:#Start
 common#:#ldap#:#LDAP
@@ -4717,8 +4720,8 @@ common#:#msg_no_delete_yourself#:#Sie können nicht Ihr eigenes Anmeldekonto lö
 common#:#msg_no_file#:#Sie haben keine Datei ausgewählt oder die ausgewählte Datei war zu groß.
 common#:#msg_no_files_selected#:#Keine Dateien ausgewählt
 common#:#msg_no_language_selected#:#Angabe einer Übersetzungsprache fehlt! Sie müssen für alle Übersetzungen eine Sprache bestimmen.
-common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung die Rollenzuweisung des Benutzers zu ändern.
-common#:#msg_no_perm_assign_user_to_role#:#Sie habe keine Berechtigung, um die Benutzerzuweisung zu ändern.
+common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung die Rollenzuweisung des Kontos zu ändern.
+common#:#msg_no_perm_assign_user_to_role#:#Sie habe keine Berechtigung, um die Kontenzuweisung zu ändern.
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:
 common#:#msg_no_perm_create_rolt#:#Sie besitzen keine ausreichende Berechtigung um neue Rollenvorlagen anzulegen!
 common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden:
@@ -4732,6 +4735,7 @@ common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf
 common#:#msg_no_perm_read#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
 common#:#msg_no_perm_read_item#:#Sie haben keine Berechtigung, auf das Objekt „%s“ zuzugreifen.
 common#:#msg_no_perm_read_lm#:#Sie besitzen keine ausreichende Berechtigung, um diese Lernmodul anzuzeigen.
+common#:#msg_no_perm_view_roles_of_user#:#Sie haben keine Berechtigung, auf die Rollenzuweisung des Kontos zuzugreifen
 common#:#msg_no_perm_write#:#Sie besitzen keine Rechte, um Einstellungen zu ändern!
 common#:#msg_no_search_result#:#Keine Einträge gefunden
 common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein.
@@ -5811,7 +5815,6 @@ common#:#uploading#:#Hochladen...
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_not_found#:#Datei wurde nicht gefunden
-common#:#url_to_latex#:#URL zum LaTeX CGI-Skript
 common#:#use_customized_instructions#:#Angepassten Anleitungstext verwenden:
 common#:#use_default_instructions#:#Standard-Anleitungstext verwenden.
 common#:#user#:#Benutzer
@@ -8389,7 +8392,6 @@ dateplaner#:#cal_recurrence_month_interval#:#Alle x Monat(e)
 dateplaner#:#cal_recurrence_until#:#Wiederholungsende
 dateplaner#:#cal_recurrence_until_count#:#Feste Anzahl von Terminen
 dateplaner#:#cal_recurrence_until_end_date#:#Wiederholen bis zu Enddatum
-dateplaner#:#cal_recurrence_until_info#:#Nur relevant wenn eine Wiederholung ausgewählt wurde.
 dateplaner#:#cal_recurrence_week_interval#:#Alle x Woche(n)
 dateplaner#:#cal_recurrence_year_interval#:#Alle x Jahr(e)
 dateplaner#:#cal_recurrences#:#Wiederholungen
@@ -8747,8 +8749,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendunge
 dcl#:#dcl_switch_table#:#Tabelle wechseln
 dcl#:#dcl_switch_view#:#Ansicht ändern
 dcl#:#dcl_table#:#Tabelle
-dcl#:#dcl_table_create#:#Erstelle Tabelle
-dcl#:#dcl_table_edit#:#Speichern
 dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
 dcl#:#dcl_table_list_tables#:#Verfügbare Tabellen
@@ -11674,39 +11674,6 @@ maps#:#maps_std_location#:#Standardposition
 maps#:#maps_std_location_desc#:#Klicken Sie auf die Karte, um die eigene Position anzugeben.
 maps#:#maps_tile_server#:#Server für Kacheln
 maps#:#maps_zoom_level#:#Vergrößerungsstufe
-mathjax#:#mathjax_enable_client#:#MathJax im Browser aktivieren
-mathjax#:#mathjax_enable_client_info#:#Aktiviert die Darstellung von TeX im Browser durch Einbindung des MathJax-Skripts. MathJax 3 wird unterstützt, aber MathJax 2 empfohlen.
-mathjax#:#mathjax_enable_server#:#MathJax im Server aktivieren
-mathjax#:#mathjax_enable_server_info#:#Aktiviert die serverseitige Umwandlung von TeX in Grafiken.
-mathjax#:#mathjax_home_link#:# ➜ MathJax-Webseite
-mathjax#:#mathjax_limiter#:#Trennzeichen
-mathjax#:#mathjax_limiter_info#:#Wählen Sie die Trennzeichen, die ILIAS für das MathJax-Skript produzieren soll
-mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_polyfill_url#:#Url eines Polyfills
-mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 und MathJax 3 mit aktuellen Browsern nicht benötigt.
-mathjax#:#mathjax_polyfill_url_desc_line2#:#Bitte entfernen Sie die Einbindung von polyfill.io! Siehe https://sansec.io/research/polyfill-supply-chain-attack
-mathjax#:#mathjax_script_url#:#URL des MathJax-Skripts
-mathjax#:#mathjax_script_url_desc_line1#:#Für MathJax 2 z.B. %s
-mathjax#:#mathjax_script_url_desc_line2#:#Bitte verwenden Sie den Safe Mode, um XSS-Angriffe durch MathJax-Code mit Javascript zu vermeiden. Für MathJax 2 kann er an die CDN-Url als Parameter angefügt werden (s.o). Für MathJax 3 müssen Sie ein Skript einbinden, dass ihn konfiguriert, bevor MathJax geladen wird. Verwenden Sie z.B. %s
-mathjax#:#mathjax_server_address#:#Server-Adresse
-mathjax#:#mathjax_server_address_info#:#z.B. http://localhost:8003
-mathjax#:#mathjax_server_cache_cleared#:#Der MathJax-Cache wurde geleert.
-mathjax#:#mathjax_server_cache_size#:#Cache-Größe
-mathjax#:#mathjax_server_cache_size_info#:#Festplattenspeicher, der zur Speicherung der Grafiken verbraucht wird.
-mathjax#:#mathjax_server_clear_cache#:# ➜ Jetzt Cache leeren
-mathjax#:#mathjax_server_for_browser#:#Für den Browser verwenden
-mathjax#:#mathjax_server_for_browser_info#:#TeX wird als SVG-Grafik eingebunden. Damit ist die Aktivierung von MathJax im Browser überflüssig.
-mathjax#:#mathjax_server_for_export#:#Für HTML-Exporte verwenden
-mathjax#:#mathjax_server_for_export_info#:#TeX wird in HTML-Exporten von Lernmodulen als SVG-Grafik exportiert.
-mathjax#:#mathjax_server_for_pdf#:#Für die PDF-Erzeugung verwenden
-mathjax#:#mathjax_server_for_pdf_info#:#Der Server wird zur Darstellung von TeX in PDF-Dokumenten verwendet.
-mathjax#:#mathjax_server_installation#:# ➜ Installationsanleitung
-mathjax#:#mathjax_server_timeout#:#Antwortzeit
-mathjax#:#mathjax_server_timeout_info#:#Maximale Wartezeit auf eine Antwort des MathJax-Servers in Sekunden
-mathjax#:#mathjax_settings#:#MathJax-Einstellungen
-mathjax#:#mathjax_test_expression#:#Test-Ausdruck
-mathjax#:#mathjax_test_expression_info_client#:#Dieser Ausdruck wird mit dem Skript im Browser dargestellt
-mathjax#:#mathjax_test_expression_info_server#:#Dieser Ausdruck wird auf dem Server in eine Grafik umgewandelt
 mcst#:#mcst_add_new_item#:#Neuen Mediacast-Beitrag hinzufügen
 mcst#:#mcst_audio_files#:#Audiodateien
 mcst#:#mcst_audioportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
@@ -12994,8 +12961,9 @@ obj#:#obj_deactivate_multilang_conf#:#Wollen Sie die Unterstützung für mehrspr
 obj#:#obj_fallback_lang#:#Standardsprache
 obj#:#obj_features#:#Zusätzliche Funktionen
 obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiname unverändert ist. Fehlermeldung:
-obj#:#obj_insert_into_clipboard#:#In Zwischenablage einfügen
-obj#:#obj_inserted_clipboard#:#Die Objekte wurden in die Zwischenablage eingefügt
+obj#:#obj_insert_into_clipboard#:#In Zwischenablage übernehmen
+obj#:#obj_inserted_clipboard#:#Die Objekte wurden in die Zwischenablage übernommen.
+obj#:#obj_master_lang#:#Basissprache
 obj#:#obj_more_translations#:#Weitere Übersetzungen
 obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
 obj#:#obj_multilang_title_descr_only#:#Die Mehrsprachigkeit ist nur für Titel und Beschreibung aktiviert. Die Unterstützung für Inhalte im Seiteneditor ("Seite bearbeiten") kann separat aktiviert werden.
@@ -13893,7 +13861,7 @@ rbac#:#accs_read#:#Einstellungen zur Barrierefreiheit einsehen
 rbac#:#accs_visible#:#Administrationsknoten „Barrierefreiheit“ sehen
 rbac#:#accs_write#:#Einstellungen zur Barrierefreiheit bearbeiten
 rbac#:#activate_wiki_protection#:#Schreibschutz aktivieren
-rbac#:#active_preconditions#:#Definierte Vorbedingungen
+rbac#:#active_preconditions#:#Vorbedingungen
 rbac#:#add_consultation_hours#:#Sprechstundentermine anlegen
 rbac#:#add_consume_provider#:#Eigene LTI-Provider-Einstellungen hinzufügen
 rbac#:#add_pages#:#Seiten erstellen
@@ -14400,8 +14368,8 @@ rbac#:#poll_visible#:#Abstimmung ist sichtbar
 rbac#:#poll_write#:#Abstimmung bearbeiten
 rbac#:#positions_override_operations#:#Globale Einstellungen überschreiben
 rbac#:#precondition_not_obligatory_alt#:#Die Vorbedingung ist optional
-rbac#:#precondition_num_obligatory#:#Anzahl benötigter Materialien
-rbac#:#precondition_num_optional_info#:#Bitte geben Sie die Mindestanzahl der Materialien an, die notwendig ist, um die Vorbedingung zu erfüllen.
+rbac#:#precondition_num_obligatory#:#Geforderte Anzahl Materialien
+rbac#:#precondition_num_optional_info#:#Anzahl von Materialien, die bis zum festgelegten Status / Ergebnis zu bearbeiten sind
 rbac#:#precondition_obligatory#:#Verpflichtend
 rbac#:#precondition_obligatory_alt#:#Die Vorbedingung muss erfüllt werden
 rbac#:#precondition_obligatory_info#:#Verpflichtende Vorbedingungen müssen erfüllt werden, um Zugriff zu erhalten.
@@ -14568,16 +14536,17 @@ rbac#:#rbac_log_source_object#:#Quell-Objekt
 rbac#:#rbac_msg_user_already_assigned#:#Die ausgewählten Benutzer sind dieser Rolle bereits zugeordnet.
 rbac#:#rbac_not_change_existing_objects#:#Vorhandene Objekte NICHT anpassen
 rbac#:#rbac_permissions#:#Rechte
+rbac#:#rbac_precondition_condition#:#Zugriff erfordert folgenden Status
 rbac#:#rbac_precondition_hide#:#Objekt verbergen
 rbac#:#rbac_precondition_hide_info#:#Dieses Objekt wird Benutzern solange nicht angezeigt, bis die definierten Vorbedingungen erfüllt sind.
 rbac#:#rbac_precondition_minimum_optional#:#Es müssen mindestens zwei Vorbedingungen optional verbleiben.
 rbac#:#rbac_precondition_mode#:#Modus
-rbac#:#rbac_precondition_mode_all#:#Alle Vorbedingungen
-rbac#:#rbac_precondition_mode_all_info#:#Alle definierten Vorbedingungen müssen für einen Zugriff erfüllt werden.
-rbac#:#rbac_precondition_mode_subset#:#Untermenge der Vorbedingungen
-rbac#:#rbac_precondition_mode_subset_info#:#Eine Untermenge der definierten Vorbedingungen muss für einen Zugriff erfüllt werden. Einige Vorbedingungen können trotzdem verpflichtend sein.
-rbac#:#rbac_precondition_save_obligatory#:#Verpflichtend speichern
-rbac#:#rbac_precondition_source#:#Vorbedingung durch
+rbac#:#rbac_precondition_mode_all#:#Alle Vorbedingungen erfüllen
+rbac#:#rbac_precondition_mode_all_info#:#Um auf dieses Objekt zuzugreifen, muss jemand vorher alle Vorbedingungen erfüllen und alle Materialien bis zum festgelegten Status / Ergebnis bearbeiten.
+rbac#:#rbac_precondition_mode_subset#:#Nur einige Vorbedingungen erfüllen
+rbac#:#rbac_precondition_mode_subset_info#:#Die festgelegte Anzahl von Materialien muss bis zum festgelegten Status / Ergebnis bearbeitet werden.<br/>Achtung: Das Durcharbeiten einiger Materialien kann trotzdem auf "verpflichtend" gesetzt werden.
+rbac#:#rbac_precondition_save_obligatory#:#Verpflichtend-Status speichern
+rbac#:#rbac_precondition_source#:#Materialien
 rbac#:#rbac_precondition_target#:#Vorbedingung für Zugriff auf
 rbac#:#rbac_repository_permissions#:#Magazinrechte
 rbac#:#rbac_role_delete_qst#:#Sind Sie sicher, dass Sie diese Rolle löschen möchten. Alle Rechte, die durch die Rolle gewährt werden, sind dann unwiderruflich aufgehoben.
@@ -17254,6 +17223,7 @@ ui#:#2stars#:#zwei von fünf Sternen
 ui#:#3stars#:#drei von fünf Sternen
 ui#:#4stars#:#vier von fünf Sternen
 ui#:#5stars#:#fünf von fünf Sternen
+ui#:#datatable_close_warning#:#OK
 ui#:#datatable_multiaction_label#:#Sammelaktionen
 ui#:#datatable_multiactionmodal_actionlabel#:#Aktion für alle Einträge
 ui#:#datatable_multiactionmodal_apply#:#Ausführen
@@ -17314,6 +17284,7 @@ ui#:#ui_table_order#:#Reihenfolge
 ui#:#ui_transcription#:#Abschrift
 ui#:#unselect_node#:#Knoten %s von der Auswahl entfernen
 ui#:#vc_sort#:#Sortiert nach:
+ui#:#warning_url_too_long_msg#:#Die Anzahl der ausgewählten Zeilen führt zu einer zu großen Datenmenge, die nicht übertragen werden kann. Wählen Sie weniger Zeilen aus oder führen Sie die Aktion für die gesamte Tabelle durch (Sammelaktionen).
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
 user#:#back_to_starting_points_list#:#Zurück zu Startseiten
 user#:#change_email_email_confirmation_body#:#Die E-Mail-Adresse des Kontos %s wurde geändert. Bitte klicken Sie auf diesen Link %s , um die Änderung zu bestätigen. Der Link ist für %s Minuten gültig.
