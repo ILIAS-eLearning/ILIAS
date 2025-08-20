@@ -414,7 +414,7 @@ class ilColumnGUI
 
         $ilCtrl->setParameter($this, "col_side", $this->getSide());
 
-        $this->tpl = new ilTemplate("tpl.column.html", true, true, "components/ILIAS/Block");
+        $this->tpl = new ilTemplate("tpl.column.html", true, true, "components/ILIAS/Container");
         $this->determineBlocks();
         $this->showBlocks();
         return $this->tpl->get();
