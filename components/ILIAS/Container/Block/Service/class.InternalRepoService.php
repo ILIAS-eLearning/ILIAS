@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Container\Block;
 
-use ILIAS\Block\BlockSessionRepository;
-
 /**
  * Block repo service
  * @author Alexander Killing <killing@leifos.de>
