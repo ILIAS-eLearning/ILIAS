@@ -451,8 +451,8 @@ class ilSetupLanguage extends ilLanguage
                     // set the change date to import time for a local file
                     // get the modification date of the local file
                     // get the newer local changes for a local file
-                    $change_date = date("Y-m-d H:i:s", time());
-                    $min_date = date("Y-m-d H:i:s", filemtime($lang_file));
+                    $change_date = gmdate("Y-m-d H:i:s", time());
+                    $min_date = gmdate("Y-m-d H:i:s", filemtime($lang_file));
                     $local_changes = $this->getLocalChanges($lang_key, $min_date);
                 }
 

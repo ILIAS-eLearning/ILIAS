@@ -583,7 +583,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         $filename = "ilias_" . $this->object->key . '_'
         . str_replace(".", "_", substr(ILIAS_VERSION, 0, strpos(ILIAS_VERSION, " ")))
-        . "-" . date("Y-m-d")
+        . "-" . gmdate("Y-m-d")
         . ".lang." . $this->getSession()["export"]["scope"];
 
         $global_file_obj = $this->object->getGlobalLanguageFile();
@@ -1035,7 +1035,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                         $id,
                         $lang_key,
                         $trans,
-                        date("Y-m-d H:i:s"),
+                        gmdate("Y-m-d H:i:s"),
                         $ilUser->getLogin()
                     );
 
