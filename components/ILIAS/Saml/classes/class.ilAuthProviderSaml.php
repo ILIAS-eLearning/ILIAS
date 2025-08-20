@@ -39,7 +39,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
     private bool $force_new_account = false;
     private string $migration_account = '';
     /**
-     * @var array<ILIAS\User\Profile\Field>
+     * @var array<string, ILIAS\User\Profile\Field>|null
      */
     private ?array $user_defined_fields = null;
 
@@ -508,7 +508,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
 
                 $xml_writer->xmlElement(
                     'UserDefinedField',
-                    ['Id' => $$field->getIdentifier(), 'Name' => $field->getLabel($this->lng)],
+                    ['Id' => $field->getIdentifier(), 'Name' => $field->getLabel($this->lng)],
                     $value
                 );
                 break;

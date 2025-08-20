@@ -39,7 +39,7 @@ class ilLDAPAttributeToUser
     private ilLogger $logger;
     private ilXmlWriter $writer;
     /**
-     * @var array<ILIAS\User\Profile\Field>
+     * @var array<string, ILIAS\User\Profile\Field>|null
      */
     private ?array $user_defined_fields = null;
 

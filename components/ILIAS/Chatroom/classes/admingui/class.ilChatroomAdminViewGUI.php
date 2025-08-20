@@ -150,11 +150,11 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 
         $osc_accept_msg = $form->getInput('chat_osc_accept_msg');
         $broadcast_typing = $form->getInput('chat_broadcast_typing');
-        if ($osc_accept_msg !== null && in_array($osc_accept_msg, ['n', 'y'])) {
+        if (in_array($osc_accept_msg, ['n', 'y'], true)) {
             $this->commonSettings->set('chat_osc_accept_msg', $osc_accept_msg);
         }
 
-        if ($broadcast_typing !== null && in_array($broadcast_typing, ['n', 'y'])) {
+        if (in_array($broadcast_typing, ['n', 'y'], true)) {
             $this->commonSettings->set('chat_broadcast_typing', $broadcast_typing);
         }
 

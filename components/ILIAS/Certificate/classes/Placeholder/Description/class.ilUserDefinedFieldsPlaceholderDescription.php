@@ -37,7 +37,8 @@ class ilUserDefinedFieldsPlaceholderDescription implements ilCertificatePlacehol
         $this->placeholder = array_reduce(
             $user_profile->getVisibleUserDefinedFields(Context::Certificate),
             static function (array $c, Field $v) use ($lng): array {
-                $c["#{$v->getLabel($lng)}"] = $v->getLabel($lng);
+                $placeholder_text = str_replace(' ', '_', strtoupper($v->getLabel($lng)));
+                $c["#{$placeholder_text}"] = $v->getLabel($lng);
                 return $c;
             },
             []

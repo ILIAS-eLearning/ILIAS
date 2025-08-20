@@ -27,6 +27,7 @@ use ILIAS\User\Context;
 class ilCertificateUserDefinedFieldsHelper
 {
     private readonly Profile $profile;
+
     public function __construct()
     {
         global $DIC;

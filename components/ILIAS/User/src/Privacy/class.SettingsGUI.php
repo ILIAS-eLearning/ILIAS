@@ -138,6 +138,11 @@ class SettingsGUI
         return '';
     }
 
+    /**
+     * @todo sk 2025-08-20: This is actually in the completely wrong place, but we
+     * will leave it here for the time being until a good solution to initialize the
+     * javascript without the need for a template is found.
+     */
     private function buildChatJsTemplate(
         \ilGlobalTemplateInterface $global_template
     ): string {

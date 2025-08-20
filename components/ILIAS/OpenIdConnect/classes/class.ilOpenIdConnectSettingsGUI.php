@@ -60,6 +60,9 @@ class ilOpenIdConnectSettingsGUI
     private readonly FileUpload $upload;
     private readonly Profile $profile;
     private ilToolbarGUI $toolbar;
+    /**
+     * @var array<string, ILIAS\User\Profile\Field>|null
+     */
     private ?array $user_defined_fields = null;
     private ilGlobalTemplateInterface $tpl;
     private int $mapping_template = self::VIEW_TAB_EFFECTIVE_MAPPING;

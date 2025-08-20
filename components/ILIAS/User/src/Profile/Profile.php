@@ -85,12 +85,12 @@ interface Profile
 
     /**
      * @deprecated since version 11 will be removed with 13
-     * @return array<\ILIAS\User\Profile\Fields\Custom\Custom>
+     * @return array<string, \ILIAS\User\Profile\Field>
      */
     public function getAllUserDefinedFields(): array;
     /**
      * @deprecated since version 11 will be removed with 13
-     * @return array<\ILIAS\User\Profile\Fields\Custom>
+     * @return array<string, \ILIAS\User\Profile\Field>
      */
     public function getVisibleUserDefinedFields(
         Context $context

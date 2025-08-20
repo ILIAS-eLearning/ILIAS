@@ -33,7 +33,7 @@ class ilOpenIdConnectUserSync
     private string $int_account = '';
     private int $usr_id = 0;
     /**
-     * @var array<ILIAS\User\Profile\Field>
+     * @var array<string, ILIAS\User\Profile\Field>|null
      */
     private array $user_defined_fields;
 
