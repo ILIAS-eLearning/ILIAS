@@ -347,7 +347,7 @@ class ilCalendarPresentationGUI
                 $this->showSideBlocks();
                 break;
 
-            case 'ilpublicuserprofilegui':
+            case strtolower(PublicProfileGUI::class):
                 $user_id = $this->user->getId();
                 if ($this->http->wrapper()->query()->has('user_id')) {
                     $user_id = $this->http->wrapper()->query()->retrieve(
@@ -355,7 +355,7 @@ class ilCalendarPresentationGUI
                         $this->refinery->kindlyTo()->int()
                     );
                 }
-                $user_profile = new ilPublicUserProfileGUI($user_id);
+                $user_profile = new PublicProfileGUI($user_id);
                 $html = $this->ctrl->forwardCommand($user_profile);
                 $this->tpl->setContent($html);
                 break;

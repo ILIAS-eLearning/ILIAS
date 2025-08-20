@@ -54,7 +54,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 
         $this->prepareOutput();
         switch ($next_class) {
-            case "ilpublicuserprofilegui":
+            case strtolower(PublicProfileGUI::class):
 
                 $user_id = 0;
                 if ($this->http->wrapper()->query()->has('user_id')) {

@@ -71,7 +71,7 @@ class ilMDCopyrightUsageGUI
         $this->setTabs();
         $next_class = $this->ctrl->getNextClass($this);
         switch ($this->ctrl->getNextClass($this)) {
-            case 'ilpublicuserprofilegui':
+            case strtolower(PublicProfileGUI::class):
                 $profile_gui = new PublicProfileGUI($this->http->wrapper()->query()->retrieve(
                     'user',
                     $this->refinery->kindlyTo()->int()

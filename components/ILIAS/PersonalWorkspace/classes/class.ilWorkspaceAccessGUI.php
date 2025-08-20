@@ -149,7 +149,7 @@ class ilWorkspaceAccessGUI
                 $this->setObjectTitle();
                 break;
 
-            case "ilpublicuserprofilegui":
+            case strtolower(PublicProfileGUI::class):
                 $ilTabs->clearTargets();
                 $ilTabs->setBackTarget(
                     $this->lng->txt("back"),

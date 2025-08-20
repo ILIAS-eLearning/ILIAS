@@ -65,6 +65,7 @@ use ILIAS\Skill\Service\SkillService;
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\Taxonomy\DomainService as TaxonomyService;
 use ILIAS\Style\Content\Service as ContentStyle;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * Class ilObjTestGUI
@@ -112,10 +113,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     public const SHOW_QUESTIONS_CMD = 'showQuestions';
     private const SHOW_LOGS_CMD = 'history';
-
-    private const INFO_SCREEN_CHILD_CLASSES = [
-        'ilpublicuserprofilegui', 'ilobjportfoliogui'
-    ];
 
     private const QUESTION_CREATION_POOL_SELECTION_NO_POOL = 1;
     private const QUESTION_CREATION_POOL_SELECTION_NEW_POOL = 2;
@@ -2159,7 +2156,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     private function isCommandClassAnyInfoScreenChild(): bool
     {
-        if (in_array($this->ctrl->getCmdClass(), self::INFO_SCREEN_CHILD_CLASSES)) {
+        if (in_array(
+            $this->ctrl->getCmdClass(),
+            [
+                strtolower(PublicProfileGUI::class),
+                'ilobjportfoliogui'
+            ]
+        )) {
             return true;
         }
 

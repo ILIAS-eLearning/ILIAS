@@ -191,7 +191,7 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
         }
 
         // only for direct links
-        if (strtolower($this->profile_request->getBaseClass()) == 'ilpublicuserprofilegui') {
+        if (strtolower($this->profile_request->getBaseClass()) === strtolower(self::class)) {
             $this->tpl->printToStdout();
         }
         return (string) $ret;
@@ -776,7 +776,7 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
             $this->ctrl->setParameterByClass('ilBuddySystemGUI', 'osd_id', $osd_id);
         }
         $this->ctrl->setParameterByClass('ilBuddySystemGUI', 'user_id', $this->getUserId());
-        $this->ctrl->redirectByClass(['ilPublicUserProfileGUI', 'ilBuddySystemGUI'], 'link');
+        $this->ctrl->redirectByClass([self::class, 'ilBuddySystemGUI'], 'link');
     }
 
     protected function ignoreContactRequest(): void
@@ -787,6 +787,6 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
         }
 
         $this->ctrl->setParameterByClass('ilBuddySystemGUI', 'user_id', $this->getUserId());
-        $this->ctrl->redirectByClass(['ilPublicUserProfileGUI', 'ilBuddySystemGUI'], 'ignore');
+        $this->ctrl->redirectByClass([self::class, 'ilBuddySystemGUI'], 'ignore');
     }
 }

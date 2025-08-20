@@ -1249,13 +1249,13 @@ class ilObjUserGUI extends ilObjectGUI
         $target_cmd = '';
         if (is_numeric($a_target)) {
             $target_user = (int) $a_target;
-        } elseif ($target_array = explode('_', $a_target, 3)) {
+        } elseif (($target_array = explode('_', $a_target, 3))) {
             $target_cmd = $target_array[2];
             $target_user = (int) $target_array[0];
         }
 
         if ($target_user > 0) {
-            $ilCtrl->setParameterByClass(ilPublicUserProfileGUI::class, 'user_id', $target_user);
+            $ilCtrl->setParameterByClass(PublicProfileGUI::class, 'user_id', $target_user);
         }
 
         $cmd = 'view';
@@ -1264,7 +1264,7 @@ class ilObjUserGUI extends ilObjectGUI
         } elseif ($target_cmd === 'contact_ignored') {
             $cmd = 'ignoreContactRequest';
         }
-        $ilCtrl->setParameterByClass('ilpublicuserprofilegui', 'user_id', (int) $a_target);
+        $ilCtrl->setParameterByClass(PublicProfileGUI::class, 'user_id', (int) $a_target);
         $ilCtrl->redirectByClass([PublicProfileGUI::class], $cmd);
     }
 

@@ -196,7 +196,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($course_content_obj);
                 break;
 
-            case 'ilpublicuserprofilegui':
+            case strtolower(PublicProfileGUI::class):
                 $this->setSubTabs('members');
                 $this->tabs_gui->setTabActive('group_members');
                 $this->tabs_gui->setSubTabActive('grp_members_gallery');

@@ -215,7 +215,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($cp);
                 break;
 
-            case 'ilpublicuserprofilegui':
+            case strtolower(PublicProfileGUI::class):
                 $profile_gui = new PublicProfileGUI(
                     $this->edit_request->getUserId()
                 );

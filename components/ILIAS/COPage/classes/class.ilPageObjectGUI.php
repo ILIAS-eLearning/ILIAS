@@ -863,7 +863,7 @@ class ilPageObjectGUI
                 $this->tabs_gui->setTabActive("edit");
                 return $html;
 
-            case 'ilpublicuserprofilegui':
+            case strtolower(PublicProfileGUI::class):
                 $profile_gui = new PublicProfileGUI($this->requested_user_id);
                 $ret = $this->ctrl->forwardCommand($profile_gui);
                 break;

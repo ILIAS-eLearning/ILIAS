@@ -212,7 +212,7 @@ class ilConsultationHoursGUI
     {
         $this->help->setScreenIdComponent("cal");
         switch ($this->ctrl->getNextClass($this)) {
-            case "ilpublicuserprofilegui":
+            case strtolower(PublicProfileGUI::class):
                 #22168 don't send the current user if no GET user_id
                 //$profile = new ilPublicUserProfileGUI($this->user_id);
                 $profile = new PublicProfileGUI();

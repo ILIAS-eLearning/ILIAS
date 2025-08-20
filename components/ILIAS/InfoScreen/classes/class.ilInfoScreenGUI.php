@@ -131,7 +131,7 @@ class ilInfoScreenGUI
                 $this->showSummary();
                 break;
 
-            case "ilpublicuserprofilegui":
+            case strtolower(PublicProfileGUI::class):
                 $user_profile = new PublicProfileGUI($this->request->getUserId());
                 $user_profile->setBackUrl($this->ctrl->getLinkTarget($this, "showSummary"));
                 $html = $this->ctrl->forwardCommand($user_profile);
@@ -534,11 +534,11 @@ class ilInfoScreenGUI
                 if (!is_object($ownerObj) || $ownerObj->getType() != "usr") {        // root user deleted
                     $this->addProperty($lng->txt("owner"), $lng->txt("no_owner"));
                 } elseif ($ownerObj->hasPublicProfile()) {
-                    $ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $ownerObj->getId());
+                    $ilCtrl->setParameterByClass(PublicProfileGUI::class, "user_id", $ownerObj->getId());
                     $this->addProperty(
                         $lng->txt("owner"),
                         $ownerObj->getPublicName(),
-                        $ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML")
+                        $ilCtrl->getLinkTargetByClass(PublicProfileGUI::class, "getHTML")
                     );
                 } else {
                     $this->addProperty($lng->txt("owner"), $ownerObj->getPublicName());

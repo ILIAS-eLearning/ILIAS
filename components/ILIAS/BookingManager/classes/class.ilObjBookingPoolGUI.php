@@ -168,7 +168,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($schedule_gui);
                 break;
 
-            case 'ilpublicuserprofilegui':
+            case strtolower(PublicProfileGUI::class):
                 $this->checkPermission('read');
                 $ilTabs->clearTargets();
                 $profile = new PublicProfileGUI($this->profile_user_id);
