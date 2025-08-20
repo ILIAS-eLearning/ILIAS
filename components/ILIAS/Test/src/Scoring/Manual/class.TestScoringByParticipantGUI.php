@@ -507,7 +507,10 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
 
     private function buildManScoringParticipantsTable(bool $with_data = false): TestScoringByParticipantTableGUI
     {
-        $table = new TestScoringByParticipantTableGUI($this);
+        $table = new TestScoringByParticipantTableGUI(
+            $this,
+            $this->object->getAnonOnlyParticipantIds()
+        );
 
         if ($with_data) {
             $participant_list = new \ilTestParticipantList($this->object, $this->user, $this->lng, $this->db);

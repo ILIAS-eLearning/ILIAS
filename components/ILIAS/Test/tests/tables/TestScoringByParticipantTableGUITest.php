@@ -69,7 +69,7 @@ class TestScoringByParticipantTableGUITest extends ilTestBaseTestCase
         $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->getTestObjMock());
         $this->parentObj_mock->expects($this->any())->method('getTestAccess')->willReturn($access_mock);
 
-        $this->tableGui = new TestScoringByParticipantTableGUI($this->parentObj_mock, "");
+        $this->tableGui = new TestScoringByParticipantTableGUI($this->parentObj_mock, []);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

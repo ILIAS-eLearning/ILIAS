@@ -37,10 +37,11 @@ class TestScoringByParticipantTableGUI extends \ilTable2GUI
     public const PARENT_EDIT_SCORING_CMD = 'showManScoringParticipantScreen';
 
     protected bool $has_name_columns = false;
-    protected ?array $anon_only_user_ids = null;
 
-    public function __construct(TestScoringByParticipantGUI $parent_obj)
-    {
+    public function __construct(
+        TestScoringByParticipantGUI $parent_obj,
+        protected array $anon_only_user_ids
+    ) {
         $this->setPrefix('manScorePartTable');
         $this->setId('manScorePartTable');
 
@@ -110,15 +111,6 @@ class TestScoringByParticipantTableGUI extends \ilTable2GUI
         }
     }
 
-    protected function getAnonOnlyUserIds(): array
-    {
-        if ($this->anon_only_user_ids === null) {
-            $this->anon_only_user_ids =
-                $this->parent_obj->getObject()->getAnonOnlyParticipantIds();
-        }
-        return $this->anon_only_user_ids;
-    }
-
     public function fillRow(array $a_set): void
     {
         $this->ctrl->setParameter($this->parent_obj, 'active_id', $a_set['active_id']);
@@ -129,7 +121,7 @@ class TestScoringByParticipantTableGUI extends \ilTable2GUI
         );
         $this->tpl->setVariable("PARTICIPANT_EXAMID", $participant_examid);
 
-        if (in_array($a_set['usr_id'], $this->getAnonOnlyUserIds())) {
+        if (in_array($a_set['usr_id'], $this->anon_only_user_ids)) {
             $a_set['lastname'] = '';
             $a_set['firstname'] = '';
             $a_set['login'] = '';
