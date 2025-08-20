@@ -30,6 +30,12 @@ class ilCertificateDateHelper
             $dateFormat = IL_CAL_DATETIME;
         }
 
+        if ($dateFormat === IL_CAL_UNIX) {
+            $date = (int) $date;
+        } else {
+            $date = (string) $date;
+        }
+
         $oldDatePresentationValue = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
         $date = ilDatePresentation::formatDate(
@@ -53,6 +59,12 @@ class ilCertificateDateHelper
         if (null === $dateFormat) {
             require_once __DIR__ . '/../../../Calendar/classes/class.ilDateTime.php'; // Required because of global constant IL_CAL_DATE
             $dateFormat = IL_CAL_DATETIME;
+        }
+
+        if ($dateFormat === IL_CAL_UNIX) {
+            $dateTime = (int) $dateTime;
+        } else {
+            $dateTime = (string) $dateTime;
         }
 
         $oldDatePresentationValue = ilDatePresentation::useRelativeDates();
