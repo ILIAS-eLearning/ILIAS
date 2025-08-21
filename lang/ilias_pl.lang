@@ -925,7 +925,7 @@ assessment#:#option_label_plus#:#+
 assessment#:#option_label_plus_minus#:#+ / -
 assessment#:#option_label_right#:#prawidłowe
 assessment#:#option_label_right_wrong#:#prawidłowe / nieprawidłowe
-assessment#:#option_label_wrong#:#FALSCH
+assessment#:#option_label_wrong#:#nieprawidłowe
 assessment#:#oq_btn_define_pictures#:#Do wglądu: wysyłanie obrazów
 assessment#:#oq_btn_define_terms#:#Do wglądu: tworzenie pojęć
 assessment#:#oq_btn_nest_pictures#:#Do wglądu: podział obrazów
