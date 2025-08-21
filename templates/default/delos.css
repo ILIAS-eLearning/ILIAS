@@ -8611,11 +8611,11 @@ button .minimize, button .close {
   font-size: 0.875rem;
   padding: 12px 6px;
   gap: 6px;
-  background-color: rgb(226.2857142857, 231.6428571429, 238.7142857143);
+  background-color: transparent;
   color: #161616;
   border-width: 1px;
   border-style: solid;
-  border-color: rgb(226.2857142857, 231.6428571429, 238.7142857143);
+  border-color: transparent;
   border-radius: 0px;
   margin-bottom: 2px;
   margin-left: 0;
@@ -8636,11 +8636,11 @@ button .minimize, button .close {
   border-color: rgb(161.2, 178.7, 201.8);
 }
 .c-input-tree_select .c-drilldown .c-input-node__select:active {
-  background-color: rgb(161.2, 178.7, 201.8);
+  background-color: rgba(0, 0, 0, 0);
   color: #161616;
   border-width: 1px;
   border-style: solid;
-  border-color: rgb(161.2, 178.7, 201.8);
+  border-color: rgba(0, 0, 0, 0);
 }
 .c-input-tree_select .c-drilldown .c-input-node__select:focus {
   color: #161616;
@@ -8648,10 +8648,10 @@ button .minimize, button .close {
 }
 .c-input-tree_select .c-drilldown .c-input-node__select[disabled],
 .c-input-tree_select .c-drilldown .c-input-node__select fieldset[disabled] {
-  background-color: rgb(218.99, 220.615, 222.76);
+  background-color: rgba(0, 0, 0, 0);
   border-width: 1px;
   border-style: solid;
-  border-color: rgb(218.99, 220.615, 222.76);
+  border-color: rgba(0, 0, 0, 0);
   color: rgba(255, 255, 255, 0.9);
   cursor: not-allowed;
 }
@@ -8659,7 +8659,7 @@ button .minimize, button .close {
   background-color: white;
   border-width: 3px;
   border-style: solid;
-  border-color: rgb(226.2857142857, 231.6428571429, 238.7142857143);
+  border-color: transparent;
   color: #000;
 }
 .c-input-tree_select .c-drilldown .c-input-node__select:focus-visible {
@@ -8670,14 +8670,6 @@ button .minimize, button .close {
 }
 .c-input-tree_select .c-drilldown .c-drilldown__menulevel--engaged > li > .c-input-node__name {
   display: flex;
-}
-.c-input-tree_select .c-drilldown .c-input-node__select {
-  background-color: transparent;
-  border-color: transparent;
-}
-.c-input-tree_select .c-drilldown .c-input-node__select:hover {
-  background-color: rgb(161.2, 178.7, 201.8);
-  color: inherit;
 }
 @container drilldown (min-width: 658px) {
   .c-input-tree_select .c-drilldown .c-drilldown__menulevel--engagedparent > .c-drilldown__menuitem--engaged > .c-input-node__select {
