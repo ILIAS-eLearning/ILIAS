@@ -4582,7 +4582,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         if (!$this->user->isAnonymous()) {
-            if ($this->isParentObjectCrsOrGrp()) {
+            if ($this->object->isParentObjectCrsOrGrp()) {
                 // special behaviour for CRS/GRP-Forum notification!!
                 if ($isForumNotificationEnabled && $userMayDisableNotifications) {
                     $lg->addCustomCommand(
@@ -4745,7 +4745,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         $ref_id = $this->retrieveRefId();
-        if ($this->isParentObjectCrsOrGrp() && $this->objProperties->getNotificationType() === 'per_user') {
+        if ($this->object->isParentObjectCrsOrGrp() && $this->objProperties->getNotificationType() === 'per_user') {
             $frm_noti = new ilForumNotification($this->retrieveRefId());
             $frm_noti->setUserId($this->user->getId());
 
@@ -4753,14 +4753,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         return false;
-    }
-
-    public function isParentObjectCrsOrGrp(): bool
-    {
-        $grpRefId = $this->tree->checkForParentType($this->object->getRefId(), 'grp');
-        $crsRefId = $this->tree->checkForParentType($this->object->getRefId(), 'crs');
-
-        return ($grpRefId > 0 || $crsRefId > 0);
     }
 
     public function mergeThreadsObject(): void
