@@ -39,7 +39,7 @@ final class Request
     public const BY_TITLE_ASC = 'by_title_asc';
     public const BY_SIZE_DESC = 'by_size_desc';
     public const BY_SIZE_ASC = 'by_size_asc';
-    public const P_MODE = 'mode';
+    public const P_MODE = 'irss_coll_view_mode';
     private Mode $mode;
     private int $page;
     private string $sortation;
