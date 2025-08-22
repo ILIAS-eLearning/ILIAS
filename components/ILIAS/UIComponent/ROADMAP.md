@@ -28,7 +28,6 @@ The Legacy-UIComponents-Service has been lingering and causing problems for user
 ### ILIAS 10
 * Confirmation & Confirmation Table
 * Explorer & Explorer2
-* Glyph
 * Grouped List
 * Lightbox
 * Modal
