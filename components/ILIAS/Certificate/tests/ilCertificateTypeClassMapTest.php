@@ -28,6 +28,7 @@ class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->classMap = new ilCertificateTypeClassMap();
     }
 

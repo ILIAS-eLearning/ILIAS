@@ -28,7 +28,7 @@ class ilCertificateDateHelper
         require_once __DIR__ . '/../../../Calendar/classes/class.ilDateTime.php'; // Required because of global constant IL_CAL_DATE
 
         if ($date_format === null) {
-            $date_format = IL_CAL_DATETIME;
+            $date_format = IL_CAL_DATE;
         }
 
         if ($date_format === IL_CAL_UNIX) {

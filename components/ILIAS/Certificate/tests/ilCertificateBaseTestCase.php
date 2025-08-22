@@ -40,6 +40,15 @@ abstract class ilCertificateBaseTestCase extends TestCase
         parent::setUp();
     }
 
+    protected function tearDown(): void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
+    }
+
     protected function setGlobalVariable(string $name, mixed $value): void
     {
         global $DIC;
