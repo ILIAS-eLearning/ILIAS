@@ -43,6 +43,7 @@ use ILIAS\UI\Component\Table\Data as DataTable;
 use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
 use ILIAS\UI\Implementation\Component\Table\Action\Action;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as FilterComponent;
+use ilUtil;
 
 class ForumNotificationTable implements DataRetrieval
 {
@@ -112,13 +113,13 @@ class ForumNotificationTable implements DataRetrieval
     public function getTableComponent(): DataTable
     {
         if (!isset($this->table_component)) {
-            $query_params_namespace = ['forum', 'notification'];
-            $table_uri = $this->data_factory->uri(ILIAS_HTTP_PATH . '/' . $this->action);
+            $query_params_namespace = ['frm', 'notifications', 'table'];
+            $table_uri = $this->data_factory->uri(ilUtil::_getHttpPath() . '/' . $this->action);
             $url_builder = new URLBuilder($table_uri);
             [$url_builder, $action_parameter_token, $row_id_token] = $url_builder->acquireParameters(
                 $query_params_namespace,
-                'table_action',
-                'user_ids'
+                'action',
+                'usr_ids'
             );
 
             $this->table_component = $this->ui_factory->table()
@@ -329,26 +330,23 @@ class ForumNotificationTable implements DataRetrieval
         URLBuilderToken $action_parameter_token,
         URLBuilderToken $row_id_token
     ): array {
-        $actions = [];
-        $actions['enable_hide_user_toggle'] = $this->ui_factory->table()->action()->multi(
-            $this->lng->txt('enable_hide_user_toggle'),
-            $url_builder->withParameter($action_parameter_token, 'enableHideUserToggleNoti'),
-            $row_id_token
-        );
-
-        $actions['disable_hide_user_toggle'] = $this->ui_factory->table()->action()->multi(
-            $this->lng->txt('disable_hide_user_toggle'),
-            $url_builder->withParameter($action_parameter_token, 'disableHideUserToggleNoti'),
-            $row_id_token
-        );
-
-        $actions['notification_settings'] = $this->ui_factory->table()->action()->single(
-            $this->lng->txt('notification_settings'),
-            $url_builder->withParameter($action_parameter_token, 'notificationSettings'),
-            $row_id_token
-        )->withAsync(true);
-
-        return $actions;
+        return [
+            'enableHideUserToggleNoti' => $this->ui_factory->table()->action()->multi(
+                $this->lng->txt('enable_hide_user_toggle'),
+                $url_builder->withParameter($action_parameter_token, 'enableHideUserToggleNoti'),
+                $row_id_token
+            ),
+            'disableHideUserToggleNoti' => $this->ui_factory->table()->action()->multi(
+                $this->lng->txt('disable_hide_user_toggle'),
+                $url_builder->withParameter($action_parameter_token, 'disableHideUserToggleNoti'),
+                $row_id_token
+            ),
+            'notificationSettings' => $this->ui_factory->table()->action()->single(
+                $this->lng->txt('notification_settings'),
+                $url_builder->withParameter($action_parameter_token, 'notificationSettings'),
+                $row_id_token
+            )->withAsync(true),
+        ];
     }
 
     /**

@@ -22,13 +22,14 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\UI\Renderer as UiRenderer;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Forum\Notification\ForumNotificationTable;
+use ILIAS\HTTP\Response\ResponseHeader;
 
 /**
  * Class ilForumSettingsGUI
  * @author  Nadia Matuschek <nmatuschek@databay.de>
  * @ilCtrl_Calls ilForumSettingsGUI: ilObjectContentStyleSettingsGUI
  */
-class ilForumSettingsGUI implements ilForumObjectConstants
+class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterface
 {
     private readonly ilCtrlInterface $ctrl;
     private readonly ilGlobalTemplateInterface $tpl;
@@ -427,51 +428,63 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             $this->getParticipants(),
             $this->forumNotificationObj,
             $this->ui_service,
-            $this->ctrl->getLinkTarget($this, 'showMembers')
+            $this->ctrl->getLinkTarget($this, 'handleNotificationActions')
         );
     }
 
     public function notificationSettings(): never
     {
-        $response = '';
-        if ($this->http->wrapper()->query()->has('forum_notification_user_ids')) {
-            $user_ids = $this->http->wrapper()->query()->retrieve(
-                'forum_notification_user_ids',
-                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int())
+        $send_bad_request = function () {
+            $this->http->saveResponse(
+                $this->http->response()
+                           ->withStatus(400)
             );
-            if (count($user_ids) === 1) {
-                $user_id = current($user_ids);
-                $this->initForcedForumNotification();
-                $forced_events = $this->forumNotificationObj->getForcedEventsObjectByUserId($user_id);
-                $interested_events = $forced_events->getInterestedEvents();
-                $form_gui = new ilForumNotificationEventsFormGUI(
-                    $this->ctrl->getFormAction($this->parent_obj, 'saveEventsForUser'),
-                    [
-                        'hidden_value' => json_encode([
-                            'usr_id' => $user_id
-                        ], JSON_THROW_ON_ERROR),
-                        'notify_modified' => (bool) ($interested_events & ilForumNotificationEvents::UPDATED),
-                        'notify_censored' => (bool) ($interested_events & ilForumNotificationEvents::CENSORED),
-                        'notify_uncensored' => (bool) ($interested_events & ilForumNotificationEvents::UNCENSORED),
-                        'notify_post_deleenableted' => (bool) ($interested_events & ilForumNotificationEvents::POST_DELETED),
-                        'notify_thread_deleted' => (bool) ($interested_events & ilForumNotificationEvents::THREAD_DELETED),
-                    ],
-                    $this->ui_factory,
-                    $this->lng
-                );
+            $this->http->sendResponse();
+            $this->http->close();
+        };
 
-                $modal = $this->ui_factory->modal()->roundtrip(
-                    $this->lng->txt('notification_settings'),
-                    [],
-                    $form_gui->getInputs(),
-                    $this->ctrl->getFormAction($this, 'saveEventsForUser')
-                );
-
-                $response = Streams::ofString($this->ui_renderer->renderAsync($modal));
-
-            }
+        if (!$this->http->wrapper()->query()->has('frm_notifications_table_usr_ids')) {
+            $send_bad_request();
         }
-        $this->http->saveResponse($this->http->response()->withBody($response));
+
+        $user_ids = $this->http->wrapper()->query()->retrieve(
+            'frm_notifications_table_usr_ids',
+            $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int())
+        );
+        if (count($user_ids) !== 1) {
+            $send_bad_request();
+        }
+
+        $user_id = current($user_ids);
+        $this->initForcedForumNotification();
+        $forced_events = $this->forumNotificationObj->getForcedEventsObjectByUserId($user_id);
+        $interested_events = $forced_events->getInterestedEvents();
+        $form_gui = new ilForumNotificationEventsFormGUI(
+            $this->ctrl->getFormAction($this->parent_obj, 'saveEventsForUser'),
+            [
+                'hidden_value' => json_encode([
+                    'usr_id' => $user_id
+                ], JSON_THROW_ON_ERROR),
+                'notify_modified' => (bool) ($interested_events & ilForumNotificationEvents::UPDATED),
+                'notify_censored' => (bool) ($interested_events & ilForumNotificationEvents::CENSORED),
+                'notify_uncensored' => (bool) ($interested_events & ilForumNotificationEvents::UNCENSORED),
+                'notify_post_deleted' => (bool) ($interested_events & ilForumNotificationEvents::POST_DELETED),
+                'notify_thread_deleted' => (bool) ($interested_events & ilForumNotificationEvents::THREAD_DELETED),
+            ],
+            $this->ui_factory,
+            $this->lng
+        );
+
+        $modal = $this->ui_factory->modal()->roundtrip(
+            $this->lng->txt('notification_settings'),
+            [],
+            $form_gui->getInputs(),
+            $this->ctrl->getFormAction($this, 'saveEventsForUser')
+        );
+
+        $this->http->saveResponse($this->http->response()->withBody(
+            Streams::ofString($this->ui_renderer->renderAsync($modal))
+        )->withHeader(ResponseHeader::CONTENT_TYPE, 'text/html'));
         $this->http->sendResponse();
         $this->http->close();
     }
@@ -616,9 +629,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
 
         $user_ids = [];
-        if ($this->dic->http()->wrapper()->query()->has('forum_notification_user_ids')) {
+        if ($this->dic->http()->wrapper()->query()->has('frm_notifications_table_usr_ids')) {
             $user_ids = $this->dic->http()->wrapper()->query()->retrieve(
-                'forum_notification_user_ids',
+                'frm_notifications_table_usr_ids',
                 $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->string())
             );
             if ($user_ids === ['ALL_OBJECTS']) {
@@ -637,11 +650,11 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                 $frm_noti->setUserToggle(true);
                 $is_enabled = $frm_noti->isAdminForceNotification();
 
-                if (!$is_enabled) {
+                if ($is_enabled) {
+                    $frm_noti->updateUserToggle();
+                } else {
                     $frm_noti->setAdminForce(true);
                     $frm_noti->insertAdminForce();
-                } else {
-                    $frm_noti->updateUserToggle();
                 }
             }
 
@@ -661,9 +674,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
 
         $user_ids = [];
-        if ($this->dic->http()->wrapper()->query()->has('forum_notification_user_ids')) {
+        if ($this->dic->http()->wrapper()->query()->has('frm_notifications_table_usr_ids')) {
             $user_ids = $this->dic->http()->wrapper()->query()->retrieve(
-                'forum_notification_user_ids',
+                'frm_notifications_table_usr_ids',
                 $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->string())
             );
             if ($user_ids === ['ALL_OBJECTS']) {
@@ -858,5 +871,33 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->notificationSettingsForm->setValuesByPost();
 
         $this->showMembers();
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return ['handleNotificationActions'];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
+    }
+
+    private function handleNotificationActions(): void
+    {
+        $action = $this->http->wrapper()->query()->retrieve(
+            'frm_notifications_table_action',
+            $this->dic->refinery()->byTrying([
+                $this->dic->refinery()->kindlyTo()->string(),
+                $this->dic->refinery()->always(null)
+            ])
+        );
+
+        match ($action) {
+            'enableHideUserToggleNoti' => $this->enableHideUserToggleNoti(),
+            'disableHideUserToggleNoti' => $this->disableHideUserToggleNoti(),
+            'notificationSettings' => $this->notificationSettings(),
+            default => $this->ctrl->redirect($this, 'showMembers'),
+        };
     }
 }
