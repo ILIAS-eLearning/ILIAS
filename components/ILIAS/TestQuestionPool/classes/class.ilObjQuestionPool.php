@@ -1189,7 +1189,7 @@ class ilObjQuestionPool extends ilObject
     public function isPluginActive($questionType): bool
     {
         if (!$this->component_repository->getComponentByTypeAndName(
-            ilComponentInfo::TYPE_MODULES,
+            ilComponentInfo::TYPE_COMPONENT,
             'TestQuestionPool'
         )->getPluginSlotById('qst')->hasPluginName($questionType)) {
             return false;
@@ -1197,7 +1197,7 @@ class ilObjQuestionPool extends ilObject
 
         return $this->component_repository
             ->getComponentByTypeAndName(
-                ilComponentInfo::TYPE_MODULES,
+                ilComponentInfo::TYPE_COMPONENT,
                 'TestQuestionPool'
             )
             ->getPluginSlotById(
