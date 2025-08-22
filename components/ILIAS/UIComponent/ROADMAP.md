@@ -40,4 +40,3 @@ The Legacy-UIComponents-Service has been lingering and causing problems for user
 * Tabs
 * Text Highlighter
 * Toolbar
-* Tooltip
