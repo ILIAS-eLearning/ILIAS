@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ilCertificateDateHelperTest extends ilCertificateBaseTestCase
 {
@@ -43,19 +44,47 @@ class ilCertificateDateHelperTest extends ilCertificateBaseTestCase
         $this->current_time = time();
     }
 
-    public function testFormatDateWithDefaultFormat(): void
+    public static function dataProviderFormatDate(): array
+    {
+        return [
+            [null, 'No date'],
+            ['2001-01-01', '1. Jan 2001'],
+            ['2001-01-01 00:00:00', '1. Jan 2001'],
+            [20010101, '1. Jan 2001'],
+            [0, 'No date'],
+            ['', 'No date'],
+        ];
+    }
+
+    #[DataProvider('dataProviderFormatDate')]
+    public function testFormatDateWithDefaultFormat($input, $output): void
     {
         $helper = new ilCertificateDateHelper();
-        $this->expectExceptionMessage('Cannot parse date: invalid-date');
-        $helper->formatDate('invalid-date');
-        $this->assertEquals('No date', $helper->formatDate(null));
-        $this->assertEquals('1. Jan 2001', $helper->formatDate('2001-01-01'));
-        $this->assertEquals('1. Jan 2001', $helper->formatDate('2001-01-01 00:00:00'));
-        $this->assertEquals('1. Jan 2001', $helper->formatDate(20010101));
-        $this->assertEquals('No date', $helper->formatDate(0));
-        $this->assertEquals('No date', $helper->formatDate(''));
-        $this->expectExceptionMessage('Cannot parse date: ' . $this->current_time);
-        $helper->formatDate($this->current_time);
+        $this->assertEquals($output, $helper->formatDate($input));
+    }
+
+    public function doesNotChangeUseRelativeDates(): void
+    {
+        $oldDatePresentationValue = ilDatePresentation::useRelativeDates();
+        $helper = new ilCertificateDateHelper();
+        $helper->formatDate('2001-01-01');
+        $this->assertEquals($oldDatePresentationValue, ilDatePresentation::useRelativeDates());
+
+        ilDatePresentation::setUseRelativeDates(true);
+        $helper->formatDate('2001-01-01');
+        $this->assertTrue(ilDatePresentation::useRelativeDates());
+
+        ilDatePresentation::setUseRelativeDates(false);
+        $helper->formatDate('2001-01-01');
+        $this->assertFalse(ilDatePresentation::useRelativeDates());
+
+        ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
+    }
+
+    public function testUnixFormatIsCastToString(): void
+    {
+        $helper = new ilCertificateDateHelper();
+        $this->assertNotEmpty($helper->formatDate(time(), null, IL_CAL_UNIX));
     }
 
     public function testFormatDateWithUnixFormat(): void
@@ -69,20 +98,41 @@ class ilCertificateDateHelperTest extends ilCertificateBaseTestCase
         $this->assertNotEquals('Today', $helper->formatDate($this->current_time, null, IL_CAL_UNIX));
     }
 
-    public function testFormatDateTimeWithDefaultFormat(): void
+    public static function dataProviderFormatDateTime(): array
+    {
+        return [
+            [null, 'No date'],
+            ['2001-01-01 00:00:00', '1. Jan 2001, 00:00'],
+            [20010101000000, '1. Jan 2001, 00:00'],
+            [0, 'No date'],
+            ['', 'No date'],
+        ];
+    }
+
+    #[DataProvider('dataProviderFormatDateTime')]
+    public function testFormatDateTimeWithDefaultFormat($input, $output): void
+    {
+        $helper = new ilCertificateDateHelper();
+        $this->assertEquals($output, $helper->formatDateTime($input));
+    }
+
+    public function testCannotFormatString(): void
     {
         $helper = new ilCertificateDateHelper();
         $this->expectExceptionMessage('Cannot parse date: invalid-date');
         $helper->formatDateTime('invalid-date');
-        $this->assertEquals('No date', $helper->formatDateTime(null));
-        $this->assertEquals('1. Jan 2001, 00:00', $helper->formatDateTime('2001-01-01 00:00:00'));
-        $this->assertEquals('1. Jan 2001, 00:00', $helper->formatDateTime(20010101000000));
-        $this->expectExceptionMessage('Cannot parse date: 2001-01-01');
-        $this->assertEquals('1. Jan 2001, 00:00', $helper->formatDateTime('2001-01-01'));
-        $this->assertEquals('No date', $helper->formatDateTime(0));
-        $this->assertEquals('No date', $helper->formatDateTime(''));
+        $this->expectExceptionMessage('Cannot parse date: invalid-date');
+        $helper->formatDate('invalid-date');
+    }
+
+    public function testCannotParseTimestampWithDateTimeFormat(): void
+    {
+        $helper = new ilCertificateDateHelper();
         $this->expectExceptionMessage('Cannot parse date: ' . $this->current_time);
         $helper->formatDateTime($this->current_time);
+
+        $this->expectExceptionMessage('Cannot parse date: ' . $this->current_time);
+        $helper->formatDate($this->current_time);
     }
 
     public function testFormatDateTimeWithUnixFormat(): void
