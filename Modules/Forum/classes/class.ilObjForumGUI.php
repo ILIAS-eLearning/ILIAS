@@ -23,6 +23,7 @@ use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Dropdown\Standard;
 use ILIAS\UI\Component\Item\Item;
 use ILIAS\UI\Component\Modal\RoundTrip;
+use ILIAS\Modules\Forum\Notification\NotificationType;
 
 /**
  * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
@@ -4582,7 +4583,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         if (!$this->user->isAnonymous()) {
-            if ($this->object->isParentObjectCrsOrGrp()) {
+            if ($this->object->isParentMembershipEnabledContainer($this->object->getRefId())) {
                 // special behaviour for CRS/GRP-Forum notification!!
                 if ($isForumNotificationEnabled && $userMayDisableNotifications) {
                     $lg->addCustomCommand(
@@ -4736,16 +4737,22 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     public function isUserAllowedToDeactivateNotification(): bool
     {
-        if ($this->objProperties->getNotificationType() === 'default') {
+        if ($this->objProperties->getNotificationType() === NotificationType::DEFAULT) {
             return true;
         }
 
-        if (!$this->objProperties->isUserToggleNoti() && $this->objProperties->getNotificationType() === 'all_users') {
+        if (
+            !$this->objProperties->isUserToggleNoti() &&
+            $this->objProperties->getNotificationType() === NotificationType::ALL_USERS
+        ) {
             return true;
         }
 
         $ref_id = $this->retrieveRefId();
-        if ($this->object->isParentObjectCrsOrGrp() && $this->objProperties->getNotificationType() === 'per_user') {
+        if (
+            $this->objProperties->getNotificationType() === NotificationType::PER_USER &&
+            $this->object->isParentMembershipEnabledContainer($this->object->getRefId())
+        ) {
             $frm_noti = new ilForumNotification($this->retrieveRefId());
             $frm_noti->setUserId($this->user->getId());
 

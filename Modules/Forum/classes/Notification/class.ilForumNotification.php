@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Modules\Forum\Notification\NotificationType;
+
 /**
  * Class ilForumNotification
  * @author  Nadia Matuschek <nmatuschek@databay.de>
@@ -33,6 +35,7 @@ class ilForumNotification
 
     private ilDBInterface $db;
     private ilObjUser $user;
+    private ilTree $tree;
     private int $notification_id;
     private ?int $user_id = null;
     private int $forum_id;
@@ -48,6 +51,7 @@ class ilForumNotification
 
         $this->db = $DIC->database();
         $this->user = $DIC->user();
+        $this->tree = $DIC->repositoryTree();
         $this->forum_id = $DIC['ilObjDataCache']->lookupObjId($ref_id);
     }
 
@@ -560,5 +564,24 @@ class ilForumNotification
         $new_object->insertAdminForce();
 
         return $new_object;
+    }
+
+    public function updateUserNotifications(array $user_ids, ilForumProperties $object_properties): void
+    {
+        $all_notis = $this->read();
+        foreach ($user_ids as $user_id) {
+            $this->setUserId($user_id);
+
+            $this->setAdminForce(true);
+
+            $this->setUserToggle($object_properties->isUserToggleNoti());
+            $this->setInterestedEvents($object_properties->getInterestedEvents());
+
+            if (array_key_exists($user_id, $all_notis) && $object_properties->getNotificationType() === NotificationType::ALL_USERS) {
+                $this->update();
+            } elseif (!$this->existsNotification()) {
+                $this->insertAdminForce();
+            }
+        }
     }
 }

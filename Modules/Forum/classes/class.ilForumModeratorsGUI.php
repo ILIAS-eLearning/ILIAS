@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Modules\Forum\Notification\NotificationType;
+
 /**
  * Class ilForumModeratorsGUI
  * @author       Nadia Matuschek <nmatuschek@databay.de>
@@ -107,7 +109,7 @@ class ilForumModeratorsGUI
 
         foreach ($users as $user_id) {
             $this->oForumModerators->addModeratorRole((int) $user_id);
-            if ($isCrsGrp && $frm_noti_type !== 'default') {
+            if ($isCrsGrp && $frm_noti_type !== NotificationType::DEFAULT) {
                 $tmp_frm_noti = new ilForumNotification($this->ref_id);
                 $tmp_frm_noti->setUserId((int) $user_id);
                 $tmp_frm_noti->setUserIdNoti($this->user->getId());
@@ -151,7 +153,11 @@ class ilForumModeratorsGUI
         foreach ($usr_ids as $usr_id) {
             $this->oForumModerators->detachModeratorRole((int) $usr_id);
 
-            if ($isCrsGrp && $frm_noti_type !== 'default' && !ilParticipants::_isParticipant($this->ref_id, $usr_id)) {
+            if (
+                $isCrsGrp &&
+                $frm_noti_type !== NotificationType::DEFAULT &&
+                !ilParticipants::_isParticipant($this->ref_id, $usr_id)
+            ) {
                 $tmp_frm_noti = new ilForumNotification($this->ref_id);
                 $tmp_frm_noti->setUserId((int) $usr_id);
                 $tmp_frm_noti->setForumId(ilObject::_lookupObjId($this->ref_id));

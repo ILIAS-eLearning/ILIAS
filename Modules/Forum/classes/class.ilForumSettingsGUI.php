@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Modules\Forum\Notification\NotificationType;
+
 /**
  * Class ilForumSettingsGUI
  * @author  Nadia Matuschek <nmatuschek@databay.de>
@@ -377,7 +379,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             }
 
             $this->notificationSettingsForm->setValuesByArray([
-                'notification_type' => $this->parent_obj->objProperties->getNotificationType(),
+                'notification_type' => $this->parent_obj->objProperties->getNotificationType()->value,
                 'adm_force' => $this->parent_obj->objProperties->isAdminForceNoti(),
                 'usr_toggle' => $this->parent_obj->objProperties->isUserToggleNoti(),
                 'notification_events' => $form_events
@@ -387,7 +389,13 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         // set form html into template
         $this->tpl->setVariable('NOTIFICATIONS_SETTINGS_FORM', $this->notificationSettingsForm->getHTML());
 
-        $oParticipants = $this->parent_obj->getObject()->getParticipants();
+        $oParticipants = $this->parent_obj->getObject()->parentParticipants();
+        if (!$oParticipants instanceof ilParticipants) {
+            $this->error->raiseError(
+                $this->lng->txt('msg_no_perm_read'),
+                $this->error->MESSAGE
+            );
+        }
 
         $moderator_ids = ilForum::_getModerators($this->parent_obj->getObject()->getRefId());
 
@@ -395,7 +403,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $member_ids = $oParticipants->getMembers();
         $tutor_ids = $oParticipants->getTutors();
 
-        if ($this->parent_obj->objProperties->getNotificationType() === 'default') {
+        if ($this->parent_obj->objProperties->getNotificationType() === NotificationType::DEFAULT) {
             // update forum_notification table
             $forum_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
             $forum_noti->setAdminForce($this->parent_obj->objProperties->isAdminForceNoti());
@@ -403,7 +411,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             $forum_noti->setForumId($this->parent_obj->objProperties->getObjId());
             $forum_noti->setInterestedEvents($this->parent_obj->objProperties->getInterestedEvents());
             $forum_noti->update();
-        } elseif ($this->parent_obj->objProperties->getNotificationType() === 'per_user') {
+        } elseif ($this->parent_obj->objProperties->getNotificationType() === NotificationType::PER_USER) {
             $this->initForcedForumNotification();
 
             $moderators = $this->getUserNotificationTableData($moderator_ids);
@@ -488,14 +496,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
             if (isset($formData['hidden_value']) && $formData['hidden_value']) {
                 $hidden_value = json_decode($formData['hidden_value'], false, 512, JSON_THROW_ON_ERROR);
-
-                $oParticipants = $this->parent_obj->getObject()->getParticipants();
-                $moderator_ids = ilForum::_getModerators($this->parent_obj->getObject()->getRefId());
-                $admin_ids = $oParticipants->getAdmins();
-                $member_ids = $oParticipants->getMembers();
-                $tutor_ids = $oParticipants->getTutors();
-
-                $valid_usr_ids = array_unique(array_merge($moderator_ids, $admin_ids, $member_ids, $tutor_ids));
+                $valid_usr_ids = $this->parent_obj->getObject()->getAllForumParticipants();
 
                 if (in_array($hidden_value->usr_id, $valid_usr_ids)) {
                     $frm_noti = new ilForumNotification($this->parent_obj->getRefId());
@@ -679,9 +680,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             $radio_grp = new ilRadioGroupInputGUI('', 'notification_type');
             $radio_grp->setValue('default');
 
-            $opt_default = new ilRadioOption($this->lng->txt("user_decides_notification"), 'default');
-            $opt_0 = new ilRadioOption($this->lng->txt("settings_for_all_members"), 'all_users');
-            $opt_1 = new ilRadioOption($this->lng->txt("settings_per_users"), 'per_user');
+            $opt_default = new ilRadioOption($this->lng->txt("user_decides_notification"), NotificationType::DEFAULT->value);
+            $opt_0 = new ilRadioOption($this->lng->txt("settings_for_all_members"), NotificationType::ALL_USERS->value);
+            $opt_1 = new ilRadioOption($this->lng->txt("settings_per_users"), NotificationType::PER_USER->value);
 
             $radio_grp->addOption($opt_default);
             $radio_grp->addOption($opt_0);
@@ -735,6 +736,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->initNotificationSettingsForm();
 
         // check input
+        $frm_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
         if ($this->notificationSettingsForm->checkInput()) {
             $notification_type = '';
             if ($this->dic->http()->wrapper()->post()->has('notification_type')) {
@@ -742,9 +744,10 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                     'notification_type',
                     $this->dic->refinery()->kindlyTo()->string()
                 );
+                $notification_type = NotificationType::tryFrom($notification_type);
             }
 
-            if ($notification_type === 'all_users') {
+            if ($notification_type === NotificationType::ALL_USERS) {
                 // set values and call update
                 $notification_events = $this->notificationSettingsForm->getInput('notification_events');
                 $interested_events = 0;
@@ -757,20 +760,20 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
                 $this->parent_obj->objProperties->setAdminForceNoti(true);
                 $this->parent_obj->objProperties->setUserToggleNoti((bool) $this->notificationSettingsForm->getInput('usr_toggle'));
-                $this->parent_obj->objProperties->setNotificationType('all_users');
+                $this->parent_obj->objProperties->setNotificationType(NotificationType::ALL_USERS);
                 $this->parent_obj->objProperties->setInterestedEvents($interested_events);
-            } elseif ($notification_type === 'per_user') {
-                $this->parent_obj->objProperties->setNotificationType('per_user');
+            } elseif ($notification_type === NotificationType::PER_USER) {
+                $this->parent_obj->objProperties->setNotificationType(NotificationType::PER_USER);
                 $this->parent_obj->objProperties->setAdminForceNoti(true);
                 $this->parent_obj->objProperties->setUserToggleNoti(false);
             } else { //  if($notification_type] == 'default')
-                $this->parent_obj->objProperties->setNotificationType('default');
+                $this->parent_obj->objProperties->setNotificationType(NotificationType::DEFAULT);
                 $this->parent_obj->objProperties->setAdminForceNoti(false);
                 $this->parent_obj->objProperties->setUserToggleNoti(false);
-                $frm_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
                 $frm_noti->deleteNotificationAllUsers();
             }
-            $this->parent_obj->getObject()->updateUserNotifications($notification_type);
+            $properties = ilForumProperties::getInstance($this->parent_obj->getObject()->getId());
+            $frm_noti->updateUserNotifications($this->parent_obj->getObject()->getAllForumParticipants(), $properties);
 
             $this->parent_obj->objProperties->update();
 
