@@ -272,16 +272,12 @@ var ilMultiFormValues = {
 		$(element).find('select[id*="' + group_id + '"],input:text[id*="' + group_id + '"]').each(function (i) {
 			const value = preset[Object.keys(preset)[i]];
 			$(this).find('option:selected').removeAttr('selected');
-			if(value !== undefined && value != '') {
-				$(this).find('option[value="' + il.Form.escapeSelector(String(value)) + '"]').attr('selected', true);
-				if (this.tagName === 'INPUT') {
-					$(this).attr('value', value);
-				}
-			} else {
-				if (this.tagName === 'INPUT') {
-					$(this).val('');
-				}
-			}
+      if (this.tagName === 'INPUT') {
+        $(this).val('');
+      }
+      if(value !== undefined && value !== '') {
+        $(this).val(value);
+      }
 		});
 
 		// non-editable value
