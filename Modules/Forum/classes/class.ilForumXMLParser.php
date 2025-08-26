@@ -325,9 +325,8 @@ class ilForumXMLParser extends ilSaxParser
                     $newObjProp->setAddReSubject((bool) ($this->forumArray['PresetRe'] ?? false));
                     $newObjProp->setNotificationType(
                         NotificationType::tryFrom(
-                            $this->forumArray['NotificationType']
-                        ) ?:
-                            NotificationType::ALL_USERS
+                            $this->forumArray['NotificationType'] ?? NotificationType::ALL_USERS->value
+                        ) ?? NotificationType::ALL_USERS
                     );
                     $newObjProp->setInterestedEvents((int) ($this->forumArray['NotificationEvents'] ?? 0));
                     $newObjProp->setAdminForceNoti((bool) ($this->forumArray['ForceNotification'] ?? false));

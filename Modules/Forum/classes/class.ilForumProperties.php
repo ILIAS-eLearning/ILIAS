@@ -43,9 +43,6 @@ class ilForumProperties
     private bool $anonymized = false;
     private bool $statistics_enabled = false;
     private bool $post_activation_enabled = false;
-    /**
-     * Global notification-type setting (CRS/GRP)
-     */
     private NotificationType $notification_type = NotificationType::DEFAULT;
     /** Activation of (CRS/GRP) forum notification by mod/admin */
     private bool $admin_force_noti = false;
@@ -110,7 +107,7 @@ class ilForumProperties
                 $this->interested_events = (int) $row->interested_events;
 
                 $this->notification_type =
-                    NotificationType::tryFrom($row->notification_type ?? 'default') ??
+                    NotificationType::tryFrom($row->notification_type ?? NotificationType::DEFAULT->value) ??
                     NotificationType::DEFAULT;
                 $this->mark_mod_posts = (bool) $row->mark_mod_posts;
                 $this->is_thread_rating_enabled = (bool) $row->thread_rating;

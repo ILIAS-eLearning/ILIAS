@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\Modules\Forum\Notification\NotificationType;
-
 /**
  * Class ilObjForum
  * @author  Wolfgang Merkens <wmerkens@databay.de>
@@ -367,23 +365,18 @@ class ilObjForum extends ilObject
             $old_forum_files->ilClone($new_obj->getId(), $newPostId);
         }
 
-        $sourceRefId = $this->getRefId();
-        $targetRefId = $new_obj->getRefId();
-        $notifications = new ilForumNotification($targetRefId);
+        $soure_ref_id = $this->getRefId();
+        $target_ref_id = $new_obj->getRefId();
+        $target_notifications = new ilForumNotification($target_ref_id);
 
-        if (
-            $sourceRefId > 0 && $targetRefId > 0 &&
-            $this->tree->getParentId($sourceRefId) === $this->tree->getParentId($targetRefId)
-        ) {
-            $grpRefId = $this->tree->checkForParentType($targetRefId, 'grp');
-            $crsRefId = $this->tree->checkForParentType($targetRefId, 'crs');
-
-            if ($grpRefId > 0 || $crsRefId > 0) {
-                $notifications->cloneFromSource($sourceRefId);
+        if ($soure_ref_id > 0 && $target_ref_id > 0 &&
+            $this->tree->getParentId($soure_ref_id) === $this->tree->getParentId($target_ref_id)) {
+            if ($new_obj->isParentMembershipEnabledContainer()) {
+                $target_notifications->cloneFromSource($soure_ref_id);
             }
         } else {
             $object_properties = ilForumProperties::getInstance($this->getId());
-            $notifications->updateUserNotifications($new_obj->getAllForumParticipants(), $object_properties);
+            $target_notifications->updateUserNotifications($new_obj->getAllForumParticipants(), $object_properties);
         }
 
         if (ilForumPage::_exists($this->getType(), $this->getId())) {
@@ -413,30 +406,35 @@ class ilObjForum extends ilObject
         return $new_obj;
     }
 
-    public function isParentMembershipEnabledContainer(int $ref_id): bool
+    public function isParentMembershipEnabledContainer(): bool
     {
-        $grpRefId = $this->tree->checkForParentType($ref_id, 'grp');
-        $crsRefId = $this->tree->checkForParentType($ref_id, 'crs');
+        $maybe_grp_ref_id = $this->tree->checkForParentType($this->getRefId(), 'grp');
+        if ($maybe_grp_ref_id > 0) {
+            return true;
+        }
 
-        return $grpRefId > 0 || $crsRefId > 0;
+        return $this->tree->checkForParentType($this->getRefId(), 'crs') > 0;
     }
 
+    /**
+     * @return list<int>
+     */
     public function getAllForumParticipants(): array
     {
-        $oParticipants = $this->parentParticipants();
-        if (!$oParticipants instanceof ilParticipants) {
-            $this->error->raiseError(
-                $this->lng->txt('msg_no_perm_read'),
-                $this->error->MESSAGE
+        $participant_usr_ids = ilForum::_getModerators($this->getRefId());
+
+        try {
+            $participants = $this->parentParticipants();
+            $participant_usr_ids = array_merge(
+                $participant_usr_ids,
+                $participants->getAdmins(),
+                $participants->getMembers(),
+                $participants->getTutors()
             );
+        } catch (DomainException) {
         }
-        $moderator_ids = ilForum::_getModerators($this->getRefId());
 
-        $admin_ids = $oParticipants->getAdmins();
-        $member_ids = $oParticipants->getMembers();
-        $tutor_ids = $oParticipants->getTutors();
-
-        return array_unique(array_merge($moderator_ids, $admin_ids, $member_ids, $tutor_ids));
+        return array_unique($participant_usr_ids);
     }
 
     /**
@@ -444,13 +442,14 @@ class ilObjForum extends ilObject
      */
     public function parentParticipants(): ilParticipants
     {
-        if (!$this->isParentMembershipEnabledContainer($this->getRefId())) {
+        if (!$this->isParentMembershipEnabledContainer()) {
             throw new DomainException('Parent is not a membership enabled container.');
         }
 
-        $grp_ref_id = $this->tree->checkForParentType($this->getRefId(), 'grp');
-        if ($grp_ref_id > 0) {
-            $parent_obj = ilObjectFactory::getInstanceByRefId($grp_ref_id);
+        $maybe_grp_ref_id = $this->tree->checkForParentType($this->getRefId(), 'grp');
+        if ($maybe_grp_ref_id > 0) {
+            $parent_obj = ilObjectFactory::getInstanceByRefId($maybe_grp_ref_id);
+
             return ilGroupParticipants::_getInstanceByObjId($parent_obj->getId());
         }
 

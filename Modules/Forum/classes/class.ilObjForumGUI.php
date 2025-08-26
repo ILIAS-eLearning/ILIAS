@@ -423,7 +423,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                         $this->ctrl->getLinkTarget(new ilForumPageGUI($this->object->getId()), 'edit')
                     );
                 } else {
-                    $forum_settings_gui = new ilForumSettingsGUI($this);
+                    $forum_settings_gui = new ilForumSettingsGUI($this, $this->object);
                     $forum_settings_gui->settingsTabs();
                 }
 
@@ -436,7 +436,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 break;
 
             case strtolower(ilForumSettingsGUI::class):
-                $forum_settings_gui = new ilForumSettingsGUI($this);
+                $forum_settings_gui = new ilForumSettingsGUI($this, $this->object);
                 $this->ctrl->forwardCommand($forum_settings_gui);
                 break;
 
@@ -465,7 +465,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 break;
 
             case strtolower(ilForumModeratorsGUI::class):
-                $fm_gui = new ilForumModeratorsGUI();
+                $fm_gui = new ilForumModeratorsGUI($this->object);
                 $this->ctrl->forwardCommand($fm_gui);
                 break;
 
@@ -551,7 +551,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             case strtolower(ilContainerNewsSettingsGUI::class):
                 $this->checkPermission('write');
 
-                $forum_settings_gui = new ilForumSettingsGUI($this);
+                $forum_settings_gui = new ilForumSettingsGUI($this, $this->object);
                 $forum_settings_gui->settingsTabs();
 
                 $this->lng->loadLanguageModule('cont');
@@ -627,7 +627,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     protected function initEditCustomForm(ilPropertyFormGUI $a_form): void
     {
-        $this->forum_settings_gui = new ilForumSettingsGUI($this);
+        $this->forum_settings_gui = new ilForumSettingsGUI($this, $this->object);
         $this->forum_settings_gui->getCustomForm($a_form);
     }
 
@@ -4583,8 +4583,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         if (!$this->user->isAnonymous()) {
-            if ($this->object->isParentMembershipEnabledContainer($this->object->getRefId())) {
-                // special behaviour for CRS/GRP-Forum notification!!
+            if ($this->object->isParentMembershipEnabledContainer()) {
                 if ($isForumNotificationEnabled && $userMayDisableNotifications) {
                     $lg->addCustomCommand(
                         $this->ctrl->getLinkTarget($this, 'disableForumNotification'),
@@ -4741,18 +4740,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             return true;
         }
 
-        if (
-            !$this->objProperties->isUserToggleNoti() &&
-            $this->objProperties->getNotificationType() === NotificationType::ALL_USERS
-        ) {
+        if (!$this->objProperties->isUserToggleNoti() &&
+            $this->objProperties->getNotificationType() === NotificationType::ALL_USERS) {
             return true;
         }
 
-        $ref_id = $this->retrieveRefId();
-        if (
-            $this->objProperties->getNotificationType() === NotificationType::PER_USER &&
-            $this->object->isParentMembershipEnabledContainer($this->object->getRefId())
-        ) {
+        if ($this->objProperties->getNotificationType() === NotificationType::PER_USER &&
+            $this->object->isParentMembershipEnabledContainer()) {
             $frm_noti = new ilForumNotification($this->retrieveRefId());
             $frm_noti->setUserId($this->user->getId());
 

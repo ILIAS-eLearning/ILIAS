@@ -35,7 +35,6 @@ class ilForumNotification
 
     private ilDBInterface $db;
     private ilObjUser $user;
-    private ilTree $tree;
     private int $notification_id;
     private ?int $user_id = null;
     private int $forum_id;
@@ -51,7 +50,6 @@ class ilForumNotification
 
         $this->db = $DIC->database();
         $this->user = $DIC->user();
-        $this->tree = $DIC->repositoryTree();
         $this->forum_id = $DIC['ilObjDataCache']->lookupObjId($ref_id);
     }
 
@@ -342,36 +340,22 @@ class ilForumNotification
         return self::$node_data_cache[$ref_id];
     }
 
-    public static function _isParentNodeGrpCrs(int $a_ref_id): bool
-    {
-        global $DIC;
-
-        $parent_ref_id = $DIC->repositoryTree()->getParentId($a_ref_id);
-        $parent_obj = ilObjectFactory::getInstanceByRefId($parent_ref_id);
-
-        return $parent_obj->getType() === 'crs' || $parent_obj->getType() === 'grp';
-    }
-
     public static function _clearForcedForumNotifications(array $move_tree_event): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        $ilObjDataCache = $DIC['ilObjDataCache'];
 
         if ($move_tree_event['tree'] !== 'tree') {
             return;
         }
 
-        $ref_id = (int) $move_tree_event['source_id'];
-        $is_parent = self::_isParentNodeGrpCrs($ref_id);
-
-        if ($is_parent) {
-            $forum_id = $ilObjDataCache->lookupObjId($ref_id);
-
+        /** @var ilObjForum $source_forum */
+        $source_forum = ilObjectFactory::getInstanceByRefId((int) $move_tree_event['source_id']);
+        if ($source_forum->isParentMembershipEnabledContainer()) {
             $ilDB->manipulateF(
                 'DELETE FROM frm_notification WHERE frm_id = %s AND admin_force_noti = %s',
                 ['integer', 'integer'],
-                [$forum_id, 1]
+                [$source_forum->getId(), 1]
             );
         }
     }
@@ -566,18 +550,20 @@ class ilForumNotification
         return $new_object;
     }
 
-    public function updateUserNotifications(array $user_ids, ilForumProperties $object_properties): void
+    /**
+     * @param list<int> $usr_ids
+     */
+    public function updateUserNotifications(array $usr_ids, ilForumProperties $object_properties): void
     {
-        $all_notis = $this->read();
-        foreach ($user_ids as $user_id) {
-            $this->setUserId($user_id);
-
+        $notification_settings_by_usr_id = $this->read();
+        foreach ($usr_ids as $usr_id) {
+            $this->setUserId($usr_id);
             $this->setAdminForce(true);
-
             $this->setUserToggle($object_properties->isUserToggleNoti());
             $this->setInterestedEvents($object_properties->getInterestedEvents());
 
-            if (array_key_exists($user_id, $all_notis) && $object_properties->getNotificationType() === NotificationType::ALL_USERS) {
+            if (array_key_exists($usr_id, $notification_settings_by_usr_id) &&
+                $object_properties->getNotificationType() === NotificationType::ALL_USERS) {
                 $this->update();
             } elseif (!$this->existsNotification()) {
                 $this->insertAdminForce();
