@@ -1212,7 +1212,9 @@ class ilInitialisation
         if (ilContext::initClient() && ilContext::hasUser()) {
             self::initSession();
             self::initUser();
-
+            if (ilContext::hasHTML()) {
+                self::initHTML();
+            }
             if (ilContext::supportsPersistentSessions()) {
                 self::resumeUserSession();
             }
