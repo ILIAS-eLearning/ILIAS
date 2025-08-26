@@ -32,7 +32,7 @@ use ILIAS\Registration\RegistrationFilterComponent;
  * @ilCtrl_Calls ilRegistrationSettingsGUI:
  * @ingroup      ServicesRegistration
  */
-class ilRegistrationSettingsGUI
+class ilRegistrationSettingsGUI implements ilCtrlSecurityInterface
 {
     public const CODE_TYPE_REGISTRATION = 1;
     public const CODE_TYPE_EXTENSION = 2;
@@ -829,7 +829,7 @@ class ilRegistrationSettingsGUI
                 $this->ui_factory,
                 new DataFactory(),
                 $this->rbacreview,
-                $this->ctrl->getLinkTarget($this, 'listCodes', '', true),
+                $this->ctrl->getLinkTarget($this, 'handleRegistrationTableActions', '', true),
                 $this->user,
                 $this->code_repository,
                 $this->checkAccessBool('write'),
@@ -1136,5 +1136,15 @@ class ilRegistrationSettingsGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('registration_export_codes_no_data'));
             $this->listCodes();
         }
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return ['handleRegistrationTableActions'];
+    }
+
+   public function getSafePostCommands(): array
+    {
+        return [];
     }
 }
