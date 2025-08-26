@@ -1,5 +1,18 @@
-
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 ilObjStat =
 {
@@ -17,9 +30,6 @@ ilObjStat =
 		{
 			window.eventReturnValue = false;
 		}
-
-		// hide overlays
-		il.Overlay.hideAllOverlays(e, true);
 		
 		// add panel
 		this.initPanel(e);
@@ -35,19 +45,12 @@ ilObjStat =
 			if (!n)
 			{
 				var b = $("body");
-				b.append("<div class='yui-skin-sam'><div id='ilobjstatlpdt' class='ilOverlay' style='overflow:auto;'>" +
+				b.append("<div class='yui-skin-sam'><div id='ilobjstatlpdt' style='overflow:auto;'>" +
 					"&nbsp;</div>");
 				var n = document.getElementById('ilobjstatlpdt');
 			}
-			
-			il.Overlay.add("ilobjstatlpdt", {yuicfg: {}});
-			il.Overlay.show(e, "ilobjstatlpdt");
+
 			this.panel = true;
-		}
-		else
-		{
-			il.Overlay.show(e, "ilobjstatlpdt");
-//			this.panel.show();
 		}
 		
 		ilObjStat.insertPanelHTML("");
@@ -73,13 +76,7 @@ ilObjStat =
 			else
 			{
 				// default action: replace html
-				ilObjStat.insertPanelHTML(o.responseText);		
-														
-				// add close event			
-				$('#ilobjstatlpdtclosebtn').click(function(e) {							
-						il.Overlay.hideAllOverlays(e.originalEvent, true);							
-						return false;
-					});
+				ilObjStat.insertPanelHTML(o.responseText);
 			}
 		}
 	},

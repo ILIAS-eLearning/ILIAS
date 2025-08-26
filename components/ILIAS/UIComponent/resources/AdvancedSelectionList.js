@@ -12,7 +12,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ******************************************************************** */
+ *********************************************************************/
 
 il.AdvancedSelectionList = {
   lists: {},
@@ -23,14 +23,6 @@ il.AdvancedSelectionList = {
   add(id, cfg) {
     this.lists[id] = cfg;
     this.items[id] = {};
-    // this.showAnchor(cfg.anchor_id);
-
-	    // hide all overlays on trigger
-	   	$(`#ilAdvSelListAnchorText_${id}`).click((e) => {
-      if (typeof il.Overlay !== 'undefined') {
-        // il.Overlay.hideAllOverlays(e, true);
-      }
-    });
   },
 
   itemOn(obj) {
