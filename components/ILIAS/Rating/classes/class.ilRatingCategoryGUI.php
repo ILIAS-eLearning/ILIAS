@@ -16,16 +16,26 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Data\Factory as DataFactory;
 use Psr\Http\Message\RequestInterface;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\HTTP\Services as HttpServices;
+use ILIAS\Rating\RatingCategoryOrderingTable;
 
 /**
  * Class ilRatingCategoryGUI. User interface class for rating categories.
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilRatingCategoryGUI
+class ilRatingCategoryGUI implements ilCtrlSecurityInterface
 {
-    protected ilLanguage $lng;
+    protected readonly ilLanguage $lng;
+    private readonly UIFactory $ui_factory;
+    private readonly UIRenderer $ui_renderer;
+    private readonly Refinery $refinery;
+    private readonly HttpServices $http;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
     protected ilToolbarGUI $toolbar;
@@ -38,7 +48,6 @@ class ilRatingCategoryGUI
 
     /**
      * ilRatingCategoryGUI constructor.
-     * @param int         $a_parent_id
      * @param ?mixed  $a_export_callback
      * @param ?string $a_export_subobj_title
      */
@@ -49,11 +58,16 @@ class ilRatingCategoryGUI
     ) {
         global $DIC;
 
-        $this->lng = $DIC->language();
-        $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC["tpl"];
+        $this->http = $DIC->http();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
         $this->toolbar = $DIC->toolbar();
+        $this->refinery = $DIC->refinery();
         $this->request = $DIC->http()->request();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+
         $lng = $DIC->language();
 
         $this->parent_id = $a_parent_id;
@@ -68,7 +82,7 @@ class ilRatingCategoryGUI
 
         if ($this->requested_cat_id) {
             $cat = new ilRatingCategory($this->requested_cat_id);
-            if ($cat->getParentId() == $this->parent_id) {
+            if ($cat->getParentId() === $this->parent_id) {
                 $this->cat_id = $cat->getId();
             }
         }
@@ -82,7 +96,14 @@ class ilRatingCategoryGUI
         $ilCtrl = $this->ctrl;
 
         $next_class = $ilCtrl->getNextClass($this);
-        $cmd = $ilCtrl->getCmd("listCategories");
+        $cmd = $ilCtrl->getCmd('listCategories');
+
+        if ($this->http->wrapper()->query()->has('rating_category_ordering_table_action')) {
+            $cmd = $this->http->wrapper()->query()->retrieve(
+                'rating_category_ordering_table_action',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
 
         switch ($next_class) {
             default:
@@ -110,10 +131,21 @@ class ilRatingCategoryGUI
             $ilCtrl->getLinkTarget($this, "export")
         );
 
-        $table = new ilRatingCategoryTableGUI($this, "listCategories", $this->parent_id);
-        $tpl->setContent($table->getHTML());
+        $tpl->setContent($this->ui_renderer->render($this->getRatingCategoryOrderingTable()->getComponent()));
     }
 
+    public function getRatingCategoryOrderingTable(): RatingCategoryOrderingTable
+    {
+        return new RatingCategoryOrderingTable(
+            $this->parent_id,
+            $this->ui_factory,
+            $this->lng,
+            $this->ctrl,
+            new DataFactory(),
+            $this->http->request()
+        )
+        ;
+    }
 
     protected function initCategoryForm(?int $a_id = null): ilPropertyFormGUI
     {
@@ -190,10 +222,17 @@ class ilRatingCategoryGUI
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
 
-        $ilCtrl->setParameter($this, "cat_id", $this->cat_id);
+        $cat_id = $this->http->wrapper()->query()->has('rating_category_ordering_rating_ids') ?
+            $this->http->wrapper()->query()->retrieve(
+                'rating_category_ordering_rating_ids',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            ) : 0;
+        $cat_id = $cat_id[0] ?? 0;
+
+        $ilCtrl->setParameter($this, 'cat_id', $cat_id);
 
         if (!$a_form) {
-            $a_form = $this->initCategoryForm($this->cat_id);
+            $a_form = $this->initCategoryForm($cat_id);
         }
 
         $tpl->setContent($a_form->getHTML());
@@ -224,22 +263,21 @@ class ilRatingCategoryGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $body = $this->request->getParsedBody();
-        $order = $body["pos"];
-        asort($order);
+        $table = $this->getRatingCategoryOrderingTable();
+        $data = $table->getComponent()->getData();
 
         $cnt = 0;
-        foreach ($order as $id => $pos) {
+        foreach ($data as $id) {
             $cat = new ilRatingCategory($id);
-            if ($cat->getParentId() == $this->parent_id) {
+            if ($cat->getParentId() === $this->parent_id) {
                 $cnt += 10;
                 $cat->setPosition($cnt);
                 $cat->update();
             }
         }
 
-        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
-        $ilCtrl->redirect($this, "listCategories");
+        $this->tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
+        $ilCtrl->redirect($this, 'listCategories');
     }
 
     protected function confirmDelete(): void
@@ -248,21 +286,29 @@ class ilRatingCategoryGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        if (!$this->cat_id) {
+        $cat_id = $this->http->wrapper()->query()->has('rating_category_ordering_rating_ids') ?
+            $this->http->wrapper()->query()->retrieve(
+                'rating_category_ordering_rating_ids',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            ) : 0;
+        $cat_id = $cat_id[0] ?? 0;
+
+        if (!$cat_id) {
             $this->listCategories();
+
             return;
         }
 
         $cgui = new ilConfirmationGUI();
-        $cgui->setHeaderText($lng->txt("rating_category_delete_sure") . "<br/>" .
-            $lng->txt("info_delete_warning_no_trash"));
+        $cgui->setHeaderText($lng->txt('rating_category_delete_sure') . '<br/>' .
+            $lng->txt('info_delete_warning_no_trash'));
 
         $cgui->setFormAction($ilCtrl->getFormAction($this));
-        $cgui->setCancel($lng->txt("cancel"), "listCategories");
-        $cgui->setConfirm($lng->txt("confirm"), "delete");
+        $cgui->setCancel($lng->txt('cancel'), 'listCategories');
+        $cgui->setConfirm($lng->txt('confirm'), 'delete');
 
-        $cat = new ilRatingCategory($this->cat_id);
-        $cgui->addItem("cat_id", $this->cat_id, $cat->getTitle());
+        $cat = new ilRatingCategory($cat_id);
+        $cgui->addItem('cat_id', $cat_id, $cat->getTitle());
 
         $tpl->setContent($cgui->getHTML());
     }
@@ -336,5 +382,15 @@ class ilRatingCategoryGUI
         }
 
         $excel->sendToClient(ilObject::_lookupTitle($this->parent_id));
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return ['listCategories'];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
     }
 }
