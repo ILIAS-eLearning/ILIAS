@@ -1,19 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Container\Content;
 
@@ -280,39 +283,37 @@ class ItemSetManager
         // using long descriptions?
         $short_desc = $ilSetting->get("rep_shorten_description");
         $short_desc_max_length = (int) $ilSetting->get("rep_shorten_description_length");
-        if (!$short_desc || $short_desc_max_length != \ilObject::DESC_LENGTH) {
-            // using (part of) shortened description
-            if ($short_desc && $short_desc_max_length && $short_desc_max_length < \ilObject::DESC_LENGTH) {
-                foreach ($this->raw as $key => $object) {
-                    $this->raw[$key]["description"] = \ilStr::shortenTextExtended(
-                        $object["description"],
-                        $short_desc_max_length,
-                        true
-                    );
-                }
+        // using (part of) shortened description
+        if ($short_desc && $short_desc_max_length && $short_desc_max_length < \ilObject::DESC_LENGTH) {
+            foreach ($this->raw as $key => $object) {
+                $this->raw[$key]["description"] = \ilStr::shortenTextExtended(
+                    $object["description"],
+                    $short_desc_max_length,
+                    true
+                );
             }
-            // using (part of) long description
-            else {
-                $obj_ids = array();
+        }
+        // using (part of) long description
+        else {
+            $obj_ids = array();
+            foreach ($this->raw as $key => $object) {
+                $obj_ids[] = $object["obj_id"];
+            }
+            if (count($obj_ids) > 0) {
+                $long_desc = \ilObject::getLongDescriptions($obj_ids);
                 foreach ($this->raw as $key => $object) {
-                    $obj_ids[] = $object["obj_id"];
-                }
-                if (count($obj_ids) > 0) {
-                    $long_desc = \ilObject::getLongDescriptions($obj_ids);
-                    foreach ($this->raw as $key => $object) {
-                        // #12166 - keep translation, ignore long description
-                        if ($ilObjDataCache->isTranslatedDescription((int) $object["obj_id"])) {
-                            $long_desc[$object["obj_id"]] = $object["description"];
-                        }
-                        if ($short_desc && $short_desc_max_length) {
-                            $long_desc[$object["obj_id"]] = \ilStr::shortenTextExtended(
-                                (string) ($long_desc[$object["obj_id"]] ?? ""),
-                                $short_desc_max_length,
-                                true
-                            );
-                        }
-                        $this->raw[$key]["description"] = $long_desc[$object["obj_id"]] ?? '';
+                    // #12166 - keep translation, ignore long description
+                    if ($ilObjDataCache->isTranslatedDescription((int) $object["obj_id"])) {
+                        $long_desc[$object["obj_id"]] = $object["description"];
                     }
+                    if ($short_desc && $short_desc_max_length) {
+                        $long_desc[$object["obj_id"]] = \ilStr::shortenTextExtended(
+                            (string) ($long_desc[$object["obj_id"]] ?? ""),
+                            $short_desc_max_length,
+                            true
+                        );
+                    }
+                    $this->raw[$key]["description"] = $long_desc[$object["obj_id"]] ?? '';
                 }
             }
         }
