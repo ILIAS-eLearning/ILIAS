@@ -25,7 +25,7 @@ use ILIAS\User\Profile\Profile;
 /**
  * @author Stefan Meyer <meyer@leifos.com>
  */
-class ilLDAPSettingsGUI
+class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 {
     private int $ref_id;
     private ilLDAPServer $server;
@@ -279,7 +279,8 @@ class ilLDAPSettingsGUI
                 if (!$cmd) {
                     $cmd = "serverList";
                 }
-                $this->$cmd();
+                $safe_command = $cmd . 'Cmd';
+                $this->$safe_command();
                 break;
         }
         return true;
@@ -320,7 +321,7 @@ class ilLDAPSettingsGUI
     /**
      * Edit role assignments
      */
-    public function roleAssignments(): void
+    public function roleAssignmentsCmd(): void
     {
         $this->setSubTabs();
         $this->tabs_gui->activateTab('role_assignments');
@@ -341,11 +342,11 @@ class ilLDAPSettingsGUI
      * Edit role assignment
      * @throws ilCtrlException
      */
-    public function editRoleAssignment(): void
+    public function editRoleAssignmentCmd(): void
     {
         if (!$this->rule_id) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
-            $this->roleAssignments();
+            $this->roleAssignmentsCmd();
             return;
         }
         $this->setSubTabs();
@@ -390,11 +391,11 @@ class ilLDAPSettingsGUI
     /**
      * update role assignment
      */
-    public function updateRoleAssignment(): bool
+    public function updateRoleAssignmentCmd(): bool
     {
         if (!$this->ilAccess->checkAccess('write', '', $this->ref_id)) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->roleAssignments();
+            $this->roleAssignmentsCmd();
             return false;
         }
 
@@ -421,7 +422,7 @@ class ilLDAPSettingsGUI
         } else {
             $this->rule->update();
             $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
-            $this->roleAssignments();
+            $this->roleAssignmentsCmd();
         }
         return true;
     }
@@ -430,13 +431,13 @@ class ilLDAPSettingsGUI
      * Confirm delete rules
      * @throws ilCtrlException
      */
-    public function confirmDeleteRules(): void
+    public function confirmDeleteRulesCmd(): void
     {
         $this->checkAccess("write");
 
         if (!$this->rule_ids) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
-            $this->roleAssignments();
+            $this->roleAssignmentsCmd();
             return;
         }
         $this->setSubTabs();
@@ -461,11 +462,11 @@ class ilLDAPSettingsGUI
     /**
      * delete role assignment rule
      */
-    public function deleteRules(): void
+    public function deleteRulesCmd(): void
     {
         if (!$this->rule_ids) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_once'));
-            $this->roleAssignments();
+            $this->roleAssignmentsCmd();
             return;
         }
         foreach ($this->rule_ids as $rule_id) {
@@ -479,11 +480,11 @@ class ilLDAPSettingsGUI
     /**
      * add new role assignment
      */
-    public function addRoleAssignment(): bool
+    public function addRoleAssignmentCmd(): bool
     {
         if (!$this->ilAccess->checkAccess('write', '', $this->ref_id)) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->roleAssignments();
+            $this->roleAssignmentsCmd();
             return false;
         }
         $this->setSubTabs();
@@ -573,11 +574,11 @@ class ilLDAPSettingsGUI
      * Save role selection
      * @return
      */
-    protected function saveRoleSelection(): bool
+    protected function saveRoleSelectionCmd(): bool
     {
         if (!$this->ilAccess->checkAccess('write', '', $this->ref_id)) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->roleAssignments();
+            $this->roleAssignmentsCmd();
             return false;
         }
 
@@ -597,7 +598,7 @@ class ilLDAPSettingsGUI
         }
 
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
-        $this->roleAssignments();
+        $this->roleAssignmentsCmd();
         return true;
     }
 
@@ -624,6 +625,7 @@ class ilLDAPSettingsGUI
                 $this->ui_factory,
                 new Factory(),
                 $this->server->getServerId(),
+                ilUtil::_getHttpPath() . '/' . $this->ctrl->getLinkTarget($this, 'handleServerTableActions')
             );
             return $table->getComponent();
         }
@@ -700,7 +702,7 @@ class ilLDAPSettingsGUI
     {
         if (!$this->mappings) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
-            $this->roleMapping();
+            $this->roleMappingCmd();
             return false;
         }
 
@@ -710,14 +712,14 @@ class ilLDAPSettingsGUI
             $this->role_mapping->delete($mapping_id);
         }
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('ldap_deleted_role_mapping'));
-        $this->roleMapping();
+        $this->roleMappingCmd();
         return true;
     }
 
-    public function chooseMapping(): void
+    public function chooseMappingCmd(): void
     {
         if (!$this->mapping_template) {
-            $this->userMapping();
+            $this->userMappingCmd();
             return;
         }
 
@@ -727,10 +729,10 @@ class ilLDAPSettingsGUI
         foreach (ilLDAPAttributeMappingUtils::_getMappingRulesByClass($this->mapping_template) as $key => $value) {
             $this->mapping->setRule($key, $value, false);
         }
-        $this->userMapping();
+        $this->userMappingCmd();
     }
 
-    public function saveMapping(): void
+    public function saveMappingCmd(): void
     {
         $this->initAttributeMapping();
         $this->tabs_gui->activateTab('role_mapping');
@@ -753,12 +755,12 @@ class ilLDAPSettingsGUI
         }
 
         $this->mapping->save();
-        $this->userMapping();
+        $this->userMappingCmd();
 
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
     }
 
-    private function handleServerTableActions(): void
+    private function handleServerTableActionsCmd(): void
     {
         $action = $this->http->wrapper()->query()->retrieve(
             'ldap_servers_table_action',
@@ -768,15 +770,32 @@ class ilLDAPSettingsGUI
             ])
         );
         match ($action) {
-            'editServerSettings' => $this->editServerSettings(),
-            'activateServer' => $this->activateServer(),
-            'deactivateServer' => $this->deactivateServer(),
+            'editServerSettings' => $this->editServerSettingsCmd(),
+            'activateServer' => $this->activateServerCmd(),
+            'deactivateServer' => $this->deactivateServerCmd(),
             'confirmDeleteServerSettings' => $this->confirmDeleteServerSettings(),
             default => $this->ctrl->redirect($this, 'serverList'),
         };
     }
 
-    private function serverList(): void
+    private function handleRoleMappingTableActionsCmd(): void
+    {
+        $action = $this->http->wrapper()->query()->retrieve(
+            'ldap_servers_table_action',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always('')
+            ])
+        );
+        match ($action) {
+            'delete' => $this->deleteRoleMapping(),
+            'copy' => $this->addRoleMapping(),
+            'edit' => $this->editRoleMapping(),
+            default => $this->ctrl->redirect($this, 'serverList'),
+        };
+    }
+
+    private function serverListCmd(): void
     {
         if (!$this->rbacSystem->checkAccess('visible,read', $this->ref_id)) {
             $this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilErr->WARNING);
@@ -1051,7 +1070,7 @@ class ilLDAPSettingsGUI
     /*
      * Update Settings
      */
-    public function save(): bool
+    public function saveCmd(): bool
     {
         $this->setSubTabs();
         $this->tabs_gui->setTabActive('settings');
@@ -1453,7 +1472,7 @@ class ilLDAPSettingsGUI
     /**
      * Role Mapping Tab
      */
-    public function roleMapping(): void
+    public function roleMappingCmd(): void
     {
         $this->setSubTabs();
         $this->tabs_gui->setTabActive('role_mapping');
@@ -1500,7 +1519,8 @@ class ilLDAPSettingsGUI
             new Factory(),
             $this->server->getServerId(),
             $this->object_data_cache,
-            $this->rbacReview
+            $this->rbacReview,
+            ilUtil::_getHttpPath() . '/' . $this->ctrl->getLinkTarget($this, 'handleServerTableActions')
         );
         $this->tpl->setVariable('RULES_TBL', $this->ui_renderer->render($table->getComponent()));
     }
@@ -1545,7 +1565,7 @@ class ilLDAPSettingsGUI
     /**
      * Check add screen input and save to db
      */
-    public function createRoleMapping(): void
+    public function createRoleMappingCmd(): void
     {
         $propertie_form = $this->initRoleMappingForm("createRoleMapping");
 
@@ -1576,7 +1596,7 @@ class ilLDAPSettingsGUI
     /**
      * confirm delete role mappings
      */
-    public function confirmDeleteRoleMapping(): void
+    public function confirmDeleteRoleMappingCmd(): void
     {
         if (!$this->mappings) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
@@ -1605,7 +1625,7 @@ class ilLDAPSettingsGUI
         $this->tpl->setContent($c_gui->getHTML());
     }
 
-    public function addServerSettings(): void
+    public function addServerSettingsCmd(): void
     {
         $this->checkAccess("write");
 
@@ -1615,7 +1635,7 @@ class ilLDAPSettingsGUI
         $this->tpl->setContent($this->form_gui->getHTML());
     }
 
-    public function editServerSettings(): void
+    public function editServerSettingsCmd(): void
     {
         $this->checkAccess("write");
 
@@ -1637,7 +1657,7 @@ class ilLDAPSettingsGUI
 
         if (!$this->ldap_server_id) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
-            $this->serverList();
+            $this->serverListCmd();
             return;
         }
 
@@ -1659,11 +1679,11 @@ class ilLDAPSettingsGUI
     /**
      *
      */
-    public function deleteServerSettings(): void
+    public function deleteServerSettingsCmd(): void
     {
         if (!$this->server_ids) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
-            $this->serverList();
+            $this->serverListCmd();
             return;
         }
 
@@ -1678,7 +1698,7 @@ class ilLDAPSettingsGUI
     /**
      * Ldap User Mapping
      */
-    public function userMapping(): void
+    public function userMappingCmd(): void
     {
         $this->initAttributeMapping();
 
@@ -1693,22 +1713,22 @@ class ilLDAPSettingsGUI
 
 
 
-    public function activateServer(): void
+    public function activateServerCmd(): void
     {
         $this->checkAccess("write");
 
         $this->server->toggleActive(true);
         $this->server->update();
-        $this->serverList();
+        $this->serverListCmd();
     }
 
-    public function deactivateServer(): void
+    public function deactivateServerCmd(): void
     {
         $this->checkAccess("write");
 
         $this->server->toggleActive(false);
         $this->server->update();
-        $this->serverList();
+        $this->serverListCmd();
     }
 
 
@@ -1790,7 +1810,7 @@ class ilLDAPSettingsGUI
     /**
      * Add Assigments for role mapping
      */
-    public function addRoleMapping(): void
+    public function addRoleMappingCmd(): void
     {
         $propertie_form = $this->initRoleMappingForm("createRoleMapping");
         if ($propertie_form->getItemByPostVar("url")) {
@@ -1829,7 +1849,7 @@ class ilLDAPSettingsGUI
     /**
      * Check edit screen input and save to db
      */
-    public function updateRoleMapping(): void
+    public function updateRoleMappingCmd(): void
     {
         $propertie_form = $this->initRoleMappingForm("updateRoleMapping");
 
@@ -1860,7 +1880,7 @@ class ilLDAPSettingsGUI
     /**
      * save Syncronization Settings on Role Mapping screen
      */
-    public function saveSyncronizationSettings(): void
+    public function saveSyncronizationSettingsCmd(): void
     {
         $this->server->setRoleBindDN($this->role_bind_user);
         $this->server->setRoleBindPassword($this->role_bind_pass);
@@ -1872,5 +1892,15 @@ class ilLDAPSettingsGUI
         }
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, "roleMapping");
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return ['handleServerTableActions', 'handleRoleMappingTableActions', 'deactivateServer', 'activateServer'];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
     }
 }

@@ -51,6 +51,7 @@ class LDAPRoleMappingTable implements DataRetrieval
         private readonly int $server_id,
         private readonly ilObjectDataCache $object_data_cache,
         private readonly ilRbacReview $rbac_review,
+        private readonly string $action
     ) {
     }
 
@@ -92,7 +93,7 @@ class LDAPRoleMappingTable implements DataRetrieval
     public function getComponent(): DataTable
     {
         $query_params_namespace = ['ldap', 'role', 'mapping'];
-        $table_uri = $this->data_factory->uri($this->http_request->getUri()->__toString());
+        $table_uri = $this->data_factory->uri(ilUtil::_getHttpPath() . '/' . $this->action);
         $url_builder = new URLBuilder($table_uri);
         [$url_builder, $action_parameter_token, $row_id_token] = $url_builder->acquireParameters(
             $query_params_namespace,

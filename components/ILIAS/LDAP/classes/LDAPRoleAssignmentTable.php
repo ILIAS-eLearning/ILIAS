@@ -49,6 +49,7 @@ class LDAPRoleAssignmentTable implements DataRetrieval
         private readonly UIFactory $ui_factory,
         private readonly DataFactory $data_factory,
         private readonly int $server_id,
+        private readonly string $action_url
     ) {
     }
 
@@ -105,7 +106,7 @@ class LDAPRoleAssignmentTable implements DataRetrieval
     public function getComponent(): DataTable
     {
         $query_params_namespace = ['ldap', 'role', 'assignment'];
-        $table_uri = $this->data_factory->uri($this->http_request->getUri()->__toString());
+        $table_uri = $this->data_factory->uri(ilUtil::_getHttpPath() . '/' . $this->action_url);
         $url_builder = new URLBuilder($table_uri);
         [$url_builder, $action_parameter_token, $row_id_token] = $url_builder->acquireParameters(
             $query_params_namespace,
