@@ -164,7 +164,7 @@ class ilSetupLanguage extends ilLanguage
                     }
                     $query = "UPDATE object_data SET " .
                             "description = " . $ilDB->quote($ld, "text") . ", " .
-                            "last_update = " . $ilDB->quote(date("Y-m-d H:i:s"), "timestamp") . " " .
+                            "last_update = " . $ilDB->quote(gmdate("Y-m-d H:i:s"), "timestamp") . " " .
                             "WHERE obj_id = " . $ilDB->quote($val["obj_id"], "integer") . " " .
                             "AND type = " . $ilDB->quote("lng", "text");
                     $ilDB->manipulate($query);
@@ -174,7 +174,7 @@ class ilSetupLanguage extends ilLanguage
                     if (strpos($val["status"], "installed") === 0) {
                         $query = "UPDATE object_data SET " .
                                 "description = " . $ilDB->quote("not_installed", "text") . ", " .
-                                "last_update = " . $ilDB->quote(date("Y-m-d H:i:s"), "timestamp") . " " .
+                                "last_update = " . $ilDB->quote(gmdate("Y-m-d H:i:s"), "timestamp") . " " .
                                 "WHERE obj_id = " . $ilDB->quote($val["obj_id"], "integer") . " " .
                                 "AND type = " . $ilDB->quote("lng", "text");
                         $ilDB->manipulate($query);
