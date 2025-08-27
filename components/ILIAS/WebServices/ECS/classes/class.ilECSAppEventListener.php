@@ -253,10 +253,7 @@ class ilECSAppEventListener implements ilAppEventListener
             $remote_user->getMid()
         );
         $server = ilECSSetting::getInstanceByServerId($remote_user->getServerId());
-        if (
-            $part->getIncomingAuthType() === ilECSParticipantSetting::INCOMING_AUTH_TYPE_LOGIN_PAGE ||
-            $part->getIncomingAuthType() === ilECSParticipantSetting::INCOMING_AUTH_TYPE_SHIBBOLETH
-        ) {
+        if (in_array($part->getIncomingAuthType(), ilECSAuthStrategy::getAuthTypes(), true)) {
             $this->logger->info('Assigning ' . $username . ' to global ecs role');
             $this->rbac_admin->assignUser($server->getGlobalRole(), $user_id);
         }

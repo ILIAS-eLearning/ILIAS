@@ -228,17 +228,11 @@ class ilECSParticipantSettingsGUI
         $external_auth_type->setValue(
             (string) $this->getParticipant()->getIncomingAuthType()
         );
-        $external_auth_type->addOption(
-            new ilRadioOption(
-                $this->lng->txt('ecs_export_auth_type_ilias'),
-                (string) ilECSParticipantSetting::INCOMING_AUTH_TYPE_LOGIN_PAGE
-            )
-        );
-        if ($this->isShibbolethActive()) {
+        foreach (ilECSAuthStrategy::getAvailableStrategies() as $auth_type => $auth_strategy) {
             $external_auth_type->addOption(
                 new ilRadioOption(
-                    $this->lng->txt('ecs_export_auth_type_shib'),
-                    (string) ilECSParticipantSetting::INCOMING_AUTH_TYPE_SHIBBOLETH
+                    $this->lng->txt("ecs_export_auth_type_{$auth_strategy->getName()}"),
+                    (string) $auth_type
                 )
             );
         }
@@ -315,22 +309,18 @@ class ilECSParticipantSettingsGUI
         return $form;
     }
 
-    protected function parseAvailableAuthModes($a_mode_incoming = true): array
+    protected function parseAvailableAuthModes(): array
     {
         $options = [];
-        if ($this->isShibbolethActive()) {
-            $options['shibboleth'] = $this->lng->txt('auth_shib');
+        foreach (ilECSAuthStrategy::getAvailableStrategies() as $auth_strategy) {
+            $options[$auth_strategy->getName()] = $this->lng->txt("auth{$auth_strategy->getName()}");
         }
+
         foreach (ilLDAPServer::getServerIds() as $server_id) {
             $server = ilLDAPServer::getInstanceByServerId($server_id);
             $options['ldap_' . $server->getServerId()] = $server->getName();
         }
         return $options;
-    }
-
-    protected function isShibbolethActive(): bool
-    {
-        return (bool) $this->settings->get('shib_active', '0');
     }
 
     /**

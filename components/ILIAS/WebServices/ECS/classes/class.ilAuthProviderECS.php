@@ -167,23 +167,10 @@ class ilAuthProviderECS extends ilAuthProvider
             $status->setAuthenticatedUserId($this->authSession->getUserId());
             return true;
         }
-        if (
-            $is_external_account &&
-            $part_settings->getIncomingAuthType() === ilECSParticipantSetting::INCOMING_AUTH_TYPE_LOGIN_PAGE
-        ) {
-            $this->getLogger()->info('ILIAS login page authentication required.');
-            ilSession::set('success', $this->lng->txt('ecs_login_success_ilias'));
+        if ($is_external_account) {
             $this->initRemoteUserWithRemoteId();
-            $this->ctrl->redirectToURL('login.php?target=' . $redirection_target);
+            ilECSAuthStrategy::build($part_settings->getIncomingAuthType())->handleLogin($redirection_target);
             return false;
-        }
-        if (
-            $is_external_account &&
-            $part_settings->getIncomingAuthType() === ilECSParticipantSetting::INCOMING_AUTH_TYPE_SHIBBOLETH
-        ) {
-            $this->getLogger()->info('Redirect to shibboleth authentication');
-            $this->initRemoteUserWithRemoteId();
-            $this->ctrl->redirectToURL('shib_login.php?target=' . $redirection_target);
         }
         if ($part_settings->areIncomingLocalAccountsSupported()) {
             // handle successful authentication
