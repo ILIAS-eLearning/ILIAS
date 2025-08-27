@@ -9019,6 +9019,7 @@ ecs#:#ecs_export_auth_type#:#Authentifikations-Methode für Benutzer mit externe
 ecs#:#ecs_export_auth_type_ilias#:#Benutzerauthentifikation via LDAP
 ecs#:#ecs_export_auth_type_info#:#Bitte wählen Sie, mit welcher Authentifizierungsmethode sich Benutzer via ECS authentifizieren sollen, bei denen via ECS ein externes Benutzerattribut übertragen wurde.
 ecs#:#ecs_export_auth_type_none#:#Keine Benutzer mit externem Benutzerattribut zulassen
+ecs#:#ecs_export_auth_type_oidc#:#Benutzerauthentifikation via OpenID Connect
 ecs#:#ecs_export_auth_type_shib#:#Benutzerauthentifikation via Shibboleth
 ecs#:#ecs_export_created_body_a#:#Ein neuer Kurs wurde freigegeben:
 ecs#:#ecs_export_disabled#:#Nicht freigeben

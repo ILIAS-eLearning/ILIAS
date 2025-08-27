@@ -9023,6 +9023,7 @@ ecs#:#ecs_export_auth_type#:#Authentication method for users with external user 
 ecs#:#ecs_export_auth_type_ilias#:#User authentication via LDAP
 ecs#:#ecs_export_auth_type_info#:#Please choose the authentication method for users to authenticate via ECS, for whom an external user attribute was transferred via ECS.
 ecs#:#ecs_export_auth_type_none#:#Do not allow users with external user attribute
+ecs#:#ecs_export_auth_type_oidc#:#User authentication via OpenID Connect
 ecs#:#ecs_export_auth_type_shib#:#User authentication via Shibboleth
 ecs#:#ecs_export_created_body_a#:#A new course has been released
 ecs#:#ecs_export_disabled#:#Do not release this Course
