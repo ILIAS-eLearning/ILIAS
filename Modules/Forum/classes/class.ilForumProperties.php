@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Modules\Forum\Notification\NotificationType;
+use ILIAS\Forum\Notification\NotificationType;
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>

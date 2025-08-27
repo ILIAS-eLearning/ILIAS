@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Modules\Forum\Notification;
+namespace ILIAS\Forum\Notification;
 
 enum NotificationType: string
 {

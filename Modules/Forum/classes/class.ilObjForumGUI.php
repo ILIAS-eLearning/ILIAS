@@ -23,7 +23,7 @@ use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Dropdown\Standard;
 use ILIAS\UI\Component\Item\Item;
 use ILIAS\UI\Component\Modal\RoundTrip;
-use ILIAS\Modules\Forum\Notification\NotificationType;
+use ILIAS\Forum\Notification\NotificationType;
 
 /**
  * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
