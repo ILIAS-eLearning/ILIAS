@@ -573,7 +573,7 @@ il.UICore = {
 
           // ...put last child into collapsed drop down
           $(children[count - 1]).prependTo('#ilTabDropDown');
-          if(count == 0) {
+          if (count == 0) {
             more_than_two_lines = false;
           } else {
             more_than_two_lines = tabs.innerHeight() >= 50;
@@ -597,7 +597,6 @@ il.UICore = {
     }
   },
 
-
   initLastTabDropdown() {
     const toggle = document.querySelector('#ilLastTab > .dropdown-toggle');
     const toggler = (e) => {
@@ -612,7 +611,7 @@ il.UICore = {
       lastTab.classList.add('open');
       const dropdownRight = dropdown?.getBoundingClientRect().right;
       if (dropdownRight > window.innerWidth) {
-        dropdown.style.left = (window.innerWidth - dropdownRight - 10) + 'px';
+        dropdown.style.left = `${window.innerWidth - dropdownRight - 10}px`;
       }
     };
     toggle.addEventListener('click', toggler);
@@ -670,7 +669,7 @@ il.UICore = {
         il.Util.fixPosition(this);
       });
     });
-  }
+  },
 };
 
 $(document).on('visibilitychange', () => {
@@ -810,9 +809,10 @@ il.Rating = {
     $(`#${prefix}rating_value_${category_id}`).val(value);
 
     // handle icons
-    for (i = 1; i <= 5; i++) {
-      const icon_id = `${prefix}rating_icon_${category_id}_${i}`;
-      let src = $(`#${icon_id}`).attr('src');
+    for (let i = 1; i <= 5; i++) {
+      const $icon = $(`#${prefix}rating_icon_${category_id}_${i}`);
+      const icon_id = $icon.attr('id');
+      let src = $icon.attr('src');
 
       // active
       if (i <= value) {
@@ -820,13 +820,18 @@ il.Rating = {
           src = `${src.substring(0, src.length - 6)}on_user.svg`;
         } else if (src.substring(src.length - 7) == 'off.svg') {
           src = `${src.substring(0, src.length - 7)}on_user.svg`;
+        } else if (/_\d\.svg$/.test(src)) {
+          src = `${src.replace(/(\d)?\.svg$/, '')}on_user.svg`;
         }
-      }
-      // inactive
-      else if (src.substring(src.length - 6) == 'on.svg') {
-        src = `${src.substring(0, src.length - 6)}off.svg`;
-      } else if (src.substring(src.length - 11) == 'on_user.svg') {
-        src = `${src.substring(0, src.length - 11)}off.svg`;
+      } else {
+        const fraction = $icon.data('rating-fraction');
+        if (fraction === 0) {
+          src = `${src.replace(/(on_user|on|off|\d)?\.svg$/, '')}off.svg`;
+        } else if (fraction === 10) {
+          src = `${src.replace(/(on_user|on|off|\d)?\.svg$/, '')}on.svg`;
+        } else if (fraction < 10 && fraction > 0) {
+          src = `${src.replace(/(_on_user|_on|_off|_\d)?\.svg$/, '')}_${fraction}.svg`;
+        }
       }
 
       // resetting img cache so onmouseout will not change icons again
