@@ -138,7 +138,7 @@ open a PR against the `trunk`-branch of the [official ILIAS Repository](https://
 and tag it with `authorities`, `documentation` and `jour fixe`. The change will
 then be announced on the next Jour Fixe.
 * If a `Component` lacks an `Authority to Sign off on Code Changes` or if the holder
-of the last `Authority to Sign off on Code Chagnes` would like to pass the
+of the last `Authority to Sign off on Code Changes` would like to pass the
 responsibility over to somebody else, the `Component` is added to the agenda of
 the Jour Fixe by the Product Manager.
 
