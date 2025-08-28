@@ -52,7 +52,7 @@ class RatingCategoryOrderingTable implements OrderingRetrieval
     {
         $query_params_namespace = ['rating', 'category', 'ordering'];
         $uri = $this->data_factory->uri(
-            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(ilRatingCategoryGUI::class, 'listCategories')
+            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(ilRatingCategoryGUI::class, 'handleTableActions')
         );
         $url_builder = new URLBuilder($uri);
         [$url_builder, $action_parameter_token, $row_id_token] = $url_builder->acquireParameters(

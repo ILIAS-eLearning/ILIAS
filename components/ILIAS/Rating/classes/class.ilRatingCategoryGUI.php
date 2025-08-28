@@ -98,17 +98,27 @@ class ilRatingCategoryGUI implements ilCtrlSecurityInterface
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd('listCategories');
 
-        if ($this->http->wrapper()->query()->has('rating_category_ordering_table_action')) {
-            $cmd = $this->http->wrapper()->query()->retrieve(
-                'rating_category_ordering_table_action',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-
         switch ($next_class) {
             default:
                 $this->$cmd();
                 break;
+        }
+    }
+
+    public function handleTableActions(): void
+    {
+        $cmd = $this->http->wrapper()->query()->retrieve(
+            'rating_category_ordering_table_action',
+            $this->refinery->byTrying(
+                [
+                    $this->refinery->kindlyTo()->string(),
+                    $this->refinery->always('')
+            ]
+            )
+        );
+
+        if ($cmd !== '') {
+            $this->$cmd();
         }
     }
 
@@ -386,7 +396,7 @@ class ilRatingCategoryGUI implements ilCtrlSecurityInterface
 
     public function getUnsafeGetCommands(): array
     {
-        return ['listCategories'];
+        return ['handleTableActions'];
     }
 
     public function getSafePostCommands(): array
