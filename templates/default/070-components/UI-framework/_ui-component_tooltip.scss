@@ -12,7 +12,7 @@ $c-tooltip-arrow-background-color: $c-tooltip-border-color;
 $c-tooltip-z-index: 9999;
 
 .c-tooltip__container {
-	position: relative;
+	position: fixed;
 	display: inline-block;
 }
 
