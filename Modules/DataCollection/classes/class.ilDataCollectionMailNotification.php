@@ -73,7 +73,7 @@ class ilDataCollectionMailNotification extends ilMailNotification
             $this->initMail();
             $this->setSubject(sprintf($lng->txt('dcl_change_notification_subject'), $title));
 
-            $this->appendBody(ilMail::getSalutation($user_id, $lng));
+            $this->setBody(ilMail::getSalutation($user_id, $lng));
             $this->appendBody($this->getAction($lng));
             $this->appendBody($lng->txt('obj_dcl') . ": $title");
             $this->appendBody($lng->txt('dcl_table') . ": $table");
