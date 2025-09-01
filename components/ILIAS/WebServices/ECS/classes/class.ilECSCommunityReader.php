@@ -19,8 +19,8 @@
 declare(strict_types=1);
 
 /**
-* @author Stefan Meyer <meyer@leifos.com>
-*/
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilECSCommunityReader
 {
     private static ?array $instances = null;
@@ -30,6 +30,7 @@ class ilECSCommunityReader
     private ilLogger $logger;
     private ilECSSetting $settings;
     private ilECSConnector $connector;
+    private ilDBInterface $database;
 
     /**
      * @var ilECSCommunity[]
@@ -50,6 +51,7 @@ class ilECSCommunityReader
 
         $this->logger = $DIC->logger()->wsrv();
         $this->logger->debug(print_r($setting->getServerId(), true));
+        $this->database = $DIC->database();
         $this->settings = $setting;
 
         $this->connector = new ilECSConnector($this->settings);
@@ -209,9 +211,32 @@ class ilECSCommunityReader
                 }
                 $this->communities[] = $tmp_comm;
             }
+
+            $this->createNewParticipants();
         } catch (ilECSConnectorException $e) {
             $this->logger->error(__METHOD__ . ': Error connecting to ECS server. ' . $e->getMessage());
             throw $e;
+        }
+    }
+
+    private function createNewParticipants(): void
+    {
+        $query = $this->database->queryF(
+            "SELECT mid FROM ecs_part_settings WHERE sid = %s",
+            [ilDBConstants::T_INTEGER],
+            [$this->connector->getServer()->getServerId()]
+        );
+        $existing_ids = array_map(fn($row) => $row['mid'], $this->database->fetchAll($query));
+        $missing_ids = array_diff(array_keys($this->participants), $existing_ids);
+
+        foreach ($missing_ids as $mid) {
+            $participant = $this->getParticipantByMID($mid);
+            $community = $this->getCommunityByMID($mid);
+
+            $part_settings = ilECSParticipantSetting::getInstance($this->getServer()->getServerId(), $mid);
+            $part_settings->setTitle($participant->getParticipantName());
+            $part_settings->setCommunityName($community->getTitle());
+            $part_settings->update();
         }
     }
 }
