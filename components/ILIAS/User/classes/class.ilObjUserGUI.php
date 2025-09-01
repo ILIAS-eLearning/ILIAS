@@ -810,7 +810,7 @@ class ilObjUserGUI extends ilObjectGUI
     private function addOptionsSectionToForm(): void
     {
         $this->form_gui->addItem(
-            $this->buildSectionHeader('options')
+            $this->buildSectionHeader('user_admin_options')
         );
 
         $se = new ilCheckboxInputGUI($this->lng->txt('inform_user_mail'), 'send_mail');
