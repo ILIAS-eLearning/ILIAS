@@ -631,12 +631,14 @@ class ilObjUserGUI extends ilObjectGUI
     private function buildLoginInput(
         ?\ilObjUser $user
     ): ilUserLoginInputGUI {
-        $input = $this->user_profile->getFieldByIdentifier('username')->getLegacyInput(
+        $field = $this->user_profile->getFieldByIdentifier('username');
+        $input = $field->getLegacyInput(
             $this->lng,
             $this->context,
             $user
         );
-        $input->setRequired(true);
+        $input->setDisabled(!$this->context->isFieldChangeableInType($field, $user));
+        $input->setRequired($this->context->isFieldChangeableInType($field, $user));
         return $input;
     }
 
