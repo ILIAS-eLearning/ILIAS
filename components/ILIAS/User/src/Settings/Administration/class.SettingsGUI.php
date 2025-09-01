@@ -450,7 +450,7 @@ class SettingsGUI
     private function buildAllowAccountDeletionTrafo(): Transformation
     {
         return $this->refinery->custom()->transformation(
-            function (array $vs): array {
+            function (?array $vs): array {
                 if ($vs === null) {
                     return [
                         'allow_account_deletion' => false
@@ -484,7 +484,7 @@ class SettingsGUI
     private function buildBlockingTimeMustBeFloatConstraint(): Constraint
     {
         return $this->refinery->custom()->constraint(
-            function (array $vs): bool {
+            function (?array $vs): bool {
                 if ($vs === null) {
                     return true;
                 }
@@ -502,7 +502,7 @@ class SettingsGUI
     private function buildAllowLoginnameChangeTrafo(): Transformation
     {
         return $this->refinery->custom()->transformation(
-            function (array $vs): array {
+            function (?array $vs): array {
                 if ($vs === null) {
                     return [
                         'allow_change_loginname' => false
