@@ -322,7 +322,14 @@ class ilObjUserGUI extends ilObjectGUI
      */
     public function saveObject(): void
     {
-        $this->checkUserWritePermission();
+        if (!$this->rbac_system->checkAccess('create_usr', $this->usrf_ref_id)
+            && !$this->access->checkAccess('cat_administrate_users', '', $this->usrf_ref_id)) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('msg_no_perm_modify_user')
+            );
+            $this->redirectToRefId($this->usrf_ref_id);
+        }
 
         $this->initCreate();
         $profile_maybe_incomplete = $this->retrieveAllowIncompleteProfileFromPost();
