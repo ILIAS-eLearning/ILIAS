@@ -151,7 +151,8 @@ class ConfigurationGUI implements DataRetrieval
         $this->http->close();
     }
 
-    public function saveCmd(): void {
+    public function saveCmd(): void
+    {
         $field = $this->repository->getByIdentifier(
             $this->retrieveIdentifierFromQuery()
         );
@@ -350,11 +351,11 @@ class ConfigurationGUI implements DataRetrieval
             usort(
                 $this->available_fields,
                 fn(Field $v1, Field $v2): int =>
-                    $factor * ($v1->getLabel($this->lng) <=> $this->lng->txt($v2->getLabel($this->lng)))
+                    $factor * ($this->lng->txt($v1->getLabel($this->lng)) <=> $this->lng->txt($v2->getLabel($this->lng)))
             );
         }
 
-        if ($key === 'field') {
+        if ($key === 'type') {
             usort(
                 $this->available_fields,
                 fn(Field $v1, Field $v2): int =>
@@ -435,7 +436,8 @@ class ConfigurationGUI implements DataRetrieval
         );
     }
 
-    private function buildCreateModal(): RoundTripModal {
+    private function buildCreateModal(): RoundTripModal
+    {
         return $this->ui_factory->modal()->roundtrip(
             $this->lng->txt('add_user_defined_field'),
             null,
@@ -593,8 +595,8 @@ class ConfigurationGUI implements DataRetrieval
             ) use ($field, $attributes): array {
                 $listener = new $listener_class();
                 if ($field->getIdentifier() === $this->repository->getByClass(
-                            $listener->isInterestedInField()
-                        )->getIdentifier()
+                    $listener->isInterestedInField()
+                )->getIdentifier()
                     && in_array($listener->isInterestedInAttribute(), $attributes)) {
                     $c[] = $listener;
                 }
@@ -613,7 +615,7 @@ class ConfigurationGUI implements DataRetrieval
             implode(
                 ',',
                 array_map(
-                    fn (UserFieldAttributesChangeListener $v): string => $v->isInterestedInAttribute()->value,
+                    fn(UserFieldAttributesChangeListener $v): string => $v->isInterestedInAttribute()->value,
                     $listeners_to_notify
                 )
             )
@@ -629,7 +631,7 @@ class ConfigurationGUI implements DataRetrieval
         return $this->request_wrapper->retrieve(
             self::CHANGED_ATTRIBUTES_PARAMETER,
             $this->refinery->custom()->transformation(
-                fn (string $v): array => array_reduce(
+                fn(string $v): array => array_reduce(
                     explode(',', $v),
                     static function (array $c, string $v): array {
                         $a = PropertyAttributes::tryFrom($v);
