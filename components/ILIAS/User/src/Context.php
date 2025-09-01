@@ -64,7 +64,8 @@ enum Context
             self::Registration => $field->isVisibleInRegistration(),
             self::User => $field->isChangeableByUser()
                 || $field->isRequired() && ($user === null || empty($field->retrieveValueFromUser($user))),
-            self::LocalUserAdministration => $field->isChangeableInLocalUserAdministration(),
+            self::LocalUserAdministration => $field->isChangeableInLocalUserAdministration()
+                || $field->isRequired() && ($user === null || empty($field->retrieveValueFromUser($user))),
             self::UserAdministration => true,
             default => false
         };
