@@ -44,7 +44,8 @@ enum Context
             self::Registration => $field->isVisibleInRegistration(),
             self::User => $field->isVisibleToUser()
                 || $field->isRequired() && ($user === null || empty($field->retrieveValueFromUser($user))),
-            self::LocalUserAdministration => $field->isVisibleInLocalUserAdministration(),
+            self::LocalUserAdministration => $field->isVisibleInLocalUserAdministration()
+                || $field->isRequired() && ($user === null || empty($field->retrieveValueFromUser($user))),
             self::Certificate => $field->isAvailableInCertificates(),
             self::Course => $field->isVisibleInCourses(),
             self::Group => $field->isVisibleInGroups(),

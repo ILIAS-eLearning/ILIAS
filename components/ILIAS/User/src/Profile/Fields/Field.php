@@ -332,7 +332,7 @@ class Field implements Property
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
         if (!$context->isFieldChangeableInType($this, $user)) {
-            throw \Exception('It is not possible to Change this from here!');
+            throw new \Exception('It is not possible to Change this from here!');
         }
         return $this->definition->addValueToUserObject($user, $input, $form);
     }
