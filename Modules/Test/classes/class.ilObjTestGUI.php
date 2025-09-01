@@ -1500,6 +1500,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             );
         }
 
+        if ($newObj->getId() > 0) {
+            $this->callCreationCallback($newObj, $this->obj_definition, $this->requested_crtcb);
+        }
 
         // delete import directory
         ilFileUtils::delDir(ilObjTest::_getImportDirectory());

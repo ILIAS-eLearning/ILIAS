@@ -993,6 +993,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
         ilFileUtils::delDir(dirname(ilObjQuestionPool::_getImportDirectory()));
 
+        if ($newObj->getId() > 0) {
+            $this->callCreationCallback($newObj, $this->obj_definition, $this->requested_crtcb);
+        }
+
         if ($_POST['questions_only'] == 1) {
             $this->ctrl->redirect($this, 'questions');
         } else {
