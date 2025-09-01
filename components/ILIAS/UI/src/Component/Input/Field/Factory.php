@@ -703,7 +703,7 @@ interface Factory
         ImagePurpose $image_purpose,
         string $label,
         ?string $byline = null,
-        FormInput $metadata_input = null,
+        ?FormInput $metadata_input = null,
     ): Image;
 
     /**
