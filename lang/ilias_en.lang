@@ -1341,12 +1341,12 @@ assessment#:#tst_activate_skill_service_desc#:#Supports the assignment of questi
 assessment#:#tst_activation_limited_visibility_info#:#Before and after the period during which the test is available,  the test's title will be displayed, but participants won’t be able to take the test. Access, including to tests already in progress, will be prevented once the period of availability has ended.
 assessment#:#tst_activation_online_info#:#Participants can take the test if it is ‘Online’.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor
-assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Use plain text for questions and answers and ILIAS page editor for feedback and hints
-assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.
-assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers, feedbacks and hints
-assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Use plain text for questions and answers and ILIAS page editor for feedback
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback can be reused when question is embedded in ILIAS learning module.
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers and feedbacks
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers and feedbacks. But feedback cannot be reused when question is embedded in ILIAS learning module.
 assessment#:#tst_add_quest_cont_edit_mode_plain#:#Use plain text
-assessment#:#tst_add_quest_cont_edit_mode_plain_info#:#No formatting of text in question, answers, feedback, and hints.
+assessment#:#tst_add_quest_cont_edit_mode_plain_info#:#No formatting of text in question, answers and feedback.
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#tst_all_test_competences#:#All Test Competence
 assessment#:#tst_all_user_data_deleted#:#All user data for this test has been removed!
@@ -1515,8 +1515,6 @@ assessment#:#tst_highscore_anon#:#Without Names
 assessment#:#tst_highscore_anon_description#:#Ranking is displayed without listing the names of the other participants. This will be the case anyway if the test was taken anonymously.
 assessment#:#tst_highscore_description#:#Within the 'My Results'-tab participants are presented with a subtab 'Show Ranking'. On clicking it participants are presented with a league table on the performance in the test. You have to activate 'Access to Test Results', too in order to use this functionality.
 assessment#:#tst_highscore_enabled#:#Ranking
-assessment#:#tst_highscore_hints#:#Hints
-assessment#:#tst_highscore_hints_description#:#A column containing the requested hints will be included in the ranking.
 assessment#:#tst_highscore_mode#:#Mode
 assessment#:#tst_highscore_own_table#:#Participant's Own Rank
 assessment#:#tst_highscore_own_table_description#:#Participants are advised of their own position in the ranking.
@@ -1769,13 +1767,6 @@ assessment#:#tst_question_set_type_random#:#Random Set of Questions
 assessment#:#tst_question_set_type_random_desc#:#Each participant gets a different set of questions. Questions are randomly selected from one or more question pools.
 assessment#:#tst_question_title#:#Question Title
 assessment#:#tst_question_type#:#Question Type
-assessment#:#tst_questions_hints_table_cmd_save_order#:#Save Order
-assessment#:#tst_questions_hints_table_multicmd_cut_hint#:#Cut Hint to Ordering Clipboard
-assessment#:#tst_questions_hints_table_multicmd_delete_hint#:#Delete Hint(s)
-assessment#:#tst_questions_hints_table_multicmd_paste_hint_after#:#Append Hint to the Selected One
-assessment#:#tst_questions_hints_table_multicmd_paste_hint_before#:#Prepend Hint to the Selected One
-assessment#:#tst_questions_hints_toolbar_cmd_add_hint#:#Add Hint
-assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Reset Hint Ordering Clipboard
 assessment#:#tst_questions_inserted#:#Question(s) inserted!
 assessment#:#tst_questions_removed#:#Question(s) removed!
 assessment#:#tst_random_nr_of_questions#:#How many questions?
