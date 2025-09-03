@@ -130,7 +130,7 @@ class ilErrorHandling
 
     public function raiseError(
         string $message,
-        ?int $code
+        ?int $code = null
     ): void {
         $backtrace = debug_backtrace();
         if (isset($backtrace[0], $backtrace[0]['object'])) {
