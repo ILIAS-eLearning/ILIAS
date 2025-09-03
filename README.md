@@ -19,7 +19,7 @@ ILIAS can be extended with a lot of Plugins. You find the complete list in the [
 
 ### Community
 
-We have a big [community](http://www.ilias.de/docu/goto.php?target=cat_1444&client_id=docu) and you can get a member of [ILIAS Society](http://www.ilias.de/docu/goto.php?target=cat_1669&client_id=docu).
+We have a big [community](http://www.ilias.de/docu/goto.php?target=cat_1444&client_id=docu) and you become a member of [ILIAS Society](http://www.ilias.de/docu/goto.php?target=cat_1669&client_id=docu).
 You may even join us at one of our regular [ILIAS Conferences](http://www.ilias.de/docu/goto.php?target=cat_2255&client_id=docu).
 
 
