@@ -190,12 +190,12 @@ class ilObjLearningSequenceSettingsGUI
             $this->refinery
         );
         $section_common = $if->field()->section(
-            [
+            array_filter([
                 'icon' => $title_icon,
                 'header_actions' => $header_actions,
                 'custom_icon' => $custom_icon,
                 'image' => $image
-            ],
+            ]),
             $txt('cont_presentation')
         );
         $formElements['common'] = $section_common;
