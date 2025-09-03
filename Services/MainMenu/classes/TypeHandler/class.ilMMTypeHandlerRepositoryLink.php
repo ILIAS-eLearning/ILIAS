@@ -51,8 +51,10 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
                 ->withVisibilityCallable(
                     function () use ($DIC, $ref_id, $item) {
                         $is_visible_parent = $item->isVisible();
-                        $has_access = $DIC->access()->checkAccess('join', '', $ref_id)
-                            || $DIC->access()->checkAccess('read', '', $ref_id);
+                        $has_access = $DIC->access()->checkAccess('visible', '', $ref_id) && (
+                            $DIC->access()->checkAccess('join', '', $ref_id) ||
+                            $DIC->access()->checkAccess('read', '', $ref_id)
+                        );
 
                         return $is_visible_parent
                             && $has_access;
