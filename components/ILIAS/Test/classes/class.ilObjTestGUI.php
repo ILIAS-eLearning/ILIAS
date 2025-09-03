@@ -35,6 +35,7 @@ use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
 use ILIAS\Test\Scoring\Marks\MarkSchemaGUI;
 use ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI;
 use ILIAS\Test\Scoring\Manual\TestScoringByParticipantGUI;
+use ILIAS\Test\Scoring\Manual\ConsecutiveScoringGUI;
 use ILIAS\Test\Logging\LogTable;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
@@ -104,6 +105,7 @@ use ILIAS\User\Profile\PublicProfileGUI;
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestQuestionBrowserTableGUI, ilTestInfoScreenToolbarGUI, ilLTIProviderObjectSettingGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPageGUI
+ * @ilCtrl_Calls ilObjTestGUI: ILIAS\Test\Scoring\Manual\ConsecutiveScoringGUI
  *
  * @ingroup components\ILIASTest
  */
@@ -566,6 +568,18 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $output_gui->setTestAccess($this->getTestAccess());
                 $this->ctrl->forwardCommand($output_gui);
                 break;
+
+            case strtolower(ConsecutiveScoringGUI::class):
+                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
+                    $this->redirectAfterMissingRead();
+                }
+                $specific_dic = $this->getTestObject()->getLocalDIC()->specificDic($this->getTestObject());
+                $output_gui = $specific_dic['manscoring.consecutive.gui'];
+                $this->prepareOutput();
+                $this->ctrl->forwardCommand($output_gui);
+                $this->addHeaderAction();
+                break;
+
 
             case strtolower(MarkSchemaGUI::class):
                 if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {

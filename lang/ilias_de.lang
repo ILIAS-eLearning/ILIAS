@@ -933,6 +933,10 @@ assessment#:#min_auto_complete#:#Autovervollständigung
 assessment#:#min_ip_label#:#Kleinste IP mit Zugriff
 assessment#:#min_percentage_ne_0#:#Das Notenschema muss mindestens eine Stufe mit einem minimalen Prozentsatz von 0 Prozent enthalten.
 assessment#:#misc#:#Verschiedene Optionen
+assessment#:#mode_allatonce#:#Alle
+assessment#:#mode_onebyone#:#Nacheinander
+assessment#:#mode_question#:#Nach Frage
+assessment#:#mode_user#:#Nach Teilnehmer
 assessment#:#msg_circle_added#:#Kreis hinzugefügt
 assessment#:#msg_no_questions_selected#:#Keine Fragen ausgewählt.
 assessment#:#msg_number_of_terms_too_low#:#Die Anzahl der Terme muss größer oder gleich der Anzahl der Definitionen sein.
@@ -1240,6 +1244,7 @@ assessment#:#selection#:#Auswahl
 assessment#:#set_edit_mode#:#Bearbeitungsmodus setzen
 assessment#:#set_filter#:#Filter setzen
 assessment#:#set_manscoring_done#:#Als bewertet markieren
+assessment#:#set_manscoring_open#:#Als nicht bewertet markieren
 assessment#:#set_manual_feedback#:#Manuelle Rückmeldung
 assessment#:#shape#:#Form
 assessment#:#showSuggestedSolution#:#Art
@@ -1593,13 +1598,22 @@ assessment#:#tst_list_of_answers_show#:#Bewertete Antworten
 assessment#:#tst_list_of_questions_end#:#Vor dem Ende des Test anzeigen
 assessment#:#tst_list_of_questions_start#:#Noch vor der ersten Frage anzeigen
 assessment#:#tst_list_of_questions_with_description#:#Fragenbeschreibungen anzeigen
+assessment#:#tst_man_scoring_answered_hide#:#Nur unbeantwortete Fragen
+assessment#:#tst_man_scoring_answered_only#:#Nur beantwortete Fragen
 assessment#:#tst_man_scoring_by_part#:#Bewertung nach Teilnehmer
 assessment#:#tst_man_scoring_by_qst#:#Bewertung nach Frage
+assessment#:#tst_man_scoring_finalized#:#Bewertete Antworten anzeigen
+assessment#:#tst_man_scoring_finalized_hide#:#Bewertete Antworten ausblenden
+assessment#:#tst_man_scoring_finalized_only#:#Nur bewertete Antworten anzeigen
 assessment#:#tst_man_scoring_only_answered#:#Nur beantwortete
+assessment#:#tst_man_scoring_questionselection#:#Fragen
+assessment#:#tst_man_scoring_userselection#:#Teilnehmer
 assessment#:#tst_manage_competence_assigns#:#Kompetenz-Zuordnungen verwalten
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximale Punktezahl für die Frage
+assessment#:#tst_manscoring_input_of_max#:#von
 assessment#:#tst_manscoring_input_question_and_user_solution#:#Frage und Teilnehmerlösung
 assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#Die maximale Anzahl von %s Punkt(en) ist überschritten!
+assessment#:#tst_manscoring_no_feedback#:#Es wurde noch kein Bewertungstext verfasst.
 assessment#:#tst_manscoring_question_section_header#:#Frage: %s
 assessment#:#tst_manscoring_user_notification#:#Benachrichtigung senden
 assessment#:#tst_mark#:#Note
@@ -2008,6 +2022,7 @@ assessment#:#use_previous_solution_advice#:#Die angezeigte Lösung wurde vormals
 assessment#:#user_has_finished_a_test#:#Ein Teilnehmer hat einen Test beendet.
 assessment#:#user_ip_outside_range#:#Sie dürfen von Ihrer IP aus nicht auf den Test zugreifen.
 assessment#:#user_not_invited#:#Sie sind kein Teilnehmer der Prüfung.
+assessment#:#usr_manscoring_complete#:#Als bewertet markiert
 assessment#:#value_between_x_and_y#:#Der Wert muss zwischen %s und %s liegen
 assessment#:#values#:#Werte
 assessment#:#variable#:#Variable

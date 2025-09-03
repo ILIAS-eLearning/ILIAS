@@ -934,6 +934,10 @@ assessment#:#min_auto_complete#:#Autocomplete
 assessment#:#min_ip_label#:#Lowest IP With Access
 assessment#:#min_percentage_ne_0#:#One of your grade categories needs to start at the ‘Minimum Score Required (in %)’ level of 0%  Your grading system hasn’t been saved.
 assessment#:#misc#:#Misc Options
+assessment#:#mode_allatonce#:#All
+assessment#:#mode_onebyone#:#One by One
+assessment#:#mode_question#:#Question oriented
+assessment#:#mode_user#:#Participant oriented
 assessment#:#msg_circle_added#:#Circle added
 assessment#:#msg_no_questions_selected#:#No questions were selected.
 assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater or equal to the number of definitions.
@@ -1240,6 +1244,7 @@ assessment#:#selection#:#Selection
 assessment#:#set_edit_mode#:#Set Edit Mode
 assessment#:#set_filter#:#Set Filter
 assessment#:#set_manscoring_done#:#Mark as ‘Scored Participant’
+assessment#:#set_manscoring_open#:#Remove 'scoring complete' flag
 assessment#:#set_manual_feedback#:#Manual Feedback
 assessment#:#shape#:#Shape
 assessment#:#showSuggestedSolution#:#Type
@@ -1593,13 +1598,22 @@ assessment#:#tst_list_of_answers_show#:#Review of Scored Answers
 assessment#:#tst_list_of_questions_end#:#Show before a participant finishes the test
 assessment#:#tst_list_of_questions_start#:#Show prior to the first question
 assessment#:#tst_list_of_questions_with_description#:#Include question descriptions
+assessment#:#tst_man_scoring_answered_hide#:#Hide answered questions
+assessment#:#tst_man_scoring_answered_only#:#Show only answered questions
 assessment#:#tst_man_scoring_by_part#:#Scoring by Participant
 assessment#:#tst_man_scoring_by_qst#:#Scoring by Question
+assessment#:#tst_man_scoring_finalized#:#Show finalized gradings
+assessment#:#tst_man_scoring_finalized_hide#:#Hide finalized gradings
+assessment#:#tst_man_scoring_finalized_only#:#Show only finalized gradings
 assessment#:#tst_man_scoring_only_answered#:#Only answered
+assessment#:#tst_man_scoring_questionselection#:#Questions
+assessment#:#tst_man_scoring_userselection#:#Participants
 assessment#:#tst_manage_competence_assigns#:#Manage Competence Assignments
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question
+assessment#:#tst_manscoring_input_of_max#:#of
 assessment#:#tst_manscoring_input_question_and_user_solution#:#Question and User Solution
 assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!
+assessment#:#tst_manscoring_no_feedback#:#No written feedback has been given yet.
 assessment#:#tst_manscoring_question_section_header#:#Question: %s
 assessment#:#tst_manscoring_user_notification#:#Send Notification
 assessment#:#tst_mark#:#Mark
@@ -2008,6 +2022,7 @@ assessment#:#use_previous_solution_advice#:#The shown solution for the question 
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.
 assessment#:#user_not_invited#:#You are not supposed to take this test.
+assessment#:#usr_manscoring_complete#:#Marke as 'scored'
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s
 assessment#:#values#:#Values
 assessment#:#variable#:#Variable

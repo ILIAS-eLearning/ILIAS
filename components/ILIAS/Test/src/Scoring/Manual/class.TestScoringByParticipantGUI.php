@@ -77,6 +77,16 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
             $this->lng->txt('tst_man_scoring_by_part'),
             $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, self::class], 'showManScoringParticipantsTable')
         );
+
+        $this->tabs->addSubTab(
+            'manual_scoring',
+            $this->lng->txt('tst_manual_scoring'),
+            $this->ctrl->getLinkTargetByClass(
+                [\ilObjTestGUI::class, ConsecutiveScoringGUI::class],
+                ConsecutiveScoringGUI::DEFAULT_COMMAND
+            )
+        );
+
         $this->tabs->setSubTabActive($active_sub_tab);
     }
 
