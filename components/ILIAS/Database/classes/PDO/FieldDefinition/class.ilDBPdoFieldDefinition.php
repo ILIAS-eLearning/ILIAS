@@ -41,6 +41,9 @@ abstract class ilDBPdoFieldDefinition
     public const T_TEXT = 'text';
     public const T_TIME = 'time';
     public const T_TIMESTAMP = 'timestamp';
+
+    private const MAX_TABLE_IDENTIFIER_LENGTH = 48;
+
     protected static \ilDBPdoFieldDefinition $instance;
     /**
      * @var string[][]
@@ -866,8 +869,9 @@ abstract class ilDBPdoFieldDefinition
             throw new ilDatabaseException("Invalid table name '" . $table_name . "'. Name must not start with 'sys_'.");
         }
 
-        if (strlen($table_name) > 22) {
-            throw new ilDatabaseException("Invalid table name '" . $table_name . "'. Maximum table identifer length is 22 bytes.");
+        if (strlen($table_name) > self::MAX_TABLE_IDENTIFIER_LENGTH) {
+            throw new ilDatabaseException("Invalid table name '" . $table_name
+                . "'. Maximum table identifer length is " . self::MAX_TABLE_IDENTIFIER_LENGTH . " bytes.");
         }
 
         return true;
