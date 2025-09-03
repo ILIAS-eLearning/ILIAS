@@ -922,9 +922,9 @@ of ILIAS. The file contains the following fields:
 * **Learning Module SCORM (1.2 and 2004)**
     * Authority to Sign off on Conceptual Changes: [wischniak](https://docu.ilias.de/go/usr/21896)
     * Authority to Sign off on Code Changes: [qualitus.dahme](https://docu.ilias.de/go/usr/99160)
-    * Authority to Curate Test Cases: [tim.fehske](https://docu.ilias.de/go/usr/101255)
+    * Authority to Curate Test Cases: [emix](https://docu.ilias.de/go/usr/57311)
     * Authority to (De-)Assign Authorities: [wischniak](https://docu.ilias.de/go/usr/21896)
-	* Tester: n.n., Qualitus
+	* Tester: [emix](https://docu.ilias.de/go/usr/57311)
     * Assignee for Security Reports: [wischniak](https://docu.ilias.de/go/usr/21896)
     * Assignee for Security Issues: [wischniak](https://docu.ilias.de/go/usr/21896)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
