@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\HTTP\Services as HTTP;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\MainSettingsRepository;
@@ -111,6 +112,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     private ilComponentRepository $component_repository;
     private ilComponentFactory $component_factory;
     private Filesystem $filesystem_web;
+    private HTTP $http;
 
     protected ?ilTestParticipantList $access_filtered_participant_list = null;
 
@@ -134,6 +136,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $this->component_repository = $DIC['component.repository'];
         $this->component_factory = $DIC['component.factory'];
         $this->filesystem_web = $DIC->filesystem()->web();
+        $this->http = $DIC->http();
 
         $local_dic = $this->getLocalDIC();
         $this->participant_access_filter = $local_dic['participantAccessFilterFactory'];
@@ -676,8 +679,18 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         }
 
         // moved activation to ilObjectActivation
-        if (isset($this->ref_id)) {
-            $activation = ilObjectActivation::getItem($this->ref_id);
+        // TODO: needs some work
+        /** @var int $ref_id */
+        $ref_id = $this->ref_id ?? $this->http->wrapper()->query()->retrieve(
+            'ref_id',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always(0)
+            ])
+        );
+
+        if ($ref_id > 1) {
+            $activation = ilObjectActivation::getItem($ref_id);
             switch ($activation["timing_type"]) {
                 case ilObjectActivation::TIMINGS_ACTIVATION:
                     $this->setActivationLimited(true);

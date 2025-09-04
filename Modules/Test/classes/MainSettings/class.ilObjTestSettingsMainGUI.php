@@ -19,6 +19,9 @@
 declare(strict_types=1);
 
 use ILIAS\DI\UIServices;
+use ILIAS\Object\ilObjectDIC;
+use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectAvailabilityPeriodProperty;
+use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectReferencePropertiesRepository;
 use ILIAS\Test\MainSettingsRepository;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Input\Field\Section;
@@ -26,7 +29,6 @@ use ILIAS\UI\Component\Input\Field\Checkbox;
 use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Refinery\Transformation as TransformationInterface;
 use ILIAS\Data\Factory as DataFactory;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Constraint;
@@ -73,6 +75,8 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     protected ServerRequestInterface $request;
     protected ilObjectDataCache $object_data_cache;
     protected ilSetting $settings;
+    protected ilObjUser $user;
+    protected ObjectReferencePropertiesRepository $object_reference_properties_repo;
 
     private ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory;
 
@@ -98,6 +102,8 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         $this->request = $DIC->http()->request();
         $this->object_data_cache = $DIC['ilObjDataCache'];
         $this->settings = $DIC['ilSetting'];
+        $this->user = $DIC->user();
+        $this->object_reference_properties_repo = ilObjectDIC::dic()['object_reference_repository'];
 
         $this->main_settings = $this->test_gui->getTestObject()->getMainSettings();
         $this->main_settings_repository = $this->test_gui->getTestObject()->getMainSettingsRepository();
@@ -163,11 +169,9 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         );
     }
 
-    private function showForm(StandardForm $form = null, InterruptiveModal $modal = null): void
+    private function showForm(?StandardForm $form = null, ?InterruptiveModal $modal = null): void
     {
-        if ($form === null) {
-            $form = $this->buildForm();
-        }
+        $form ??= $this->buildForm();
 
         if ($this->main_settings->getIntroductionSettings()->getIntroductionText() !== '') {
             $this->toolbar->addComponent(
@@ -187,10 +191,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             );
         }
 
-        $rendered_modal = '';
-        if ($modal !== null) {
-            $rendered_modal = $this->ui->renderer()->render($modal);
-        }
+        $rendered_modal = $modal instanceof InterruptiveModal ? $this->ui->renderer()->render($modal) : '';
 
         $this->tpl->setContent($this->ui->renderer()->render($form) . $rendered_modal);
     }
@@ -216,7 +217,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     {
         $form = $this->buildForm()->withRequest($this->request);
         $data = $form->getData();
-        if ($data === null) {
+        if (!is_array($data) || $data === []) {
             $this->showForm($form);
             return;
         }
@@ -225,8 +226,10 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         $current_question_config = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
         $new_question_set_type = $data[self::GENERAL_SETTINGS_SECTION_LABEL]['question_set_type'];
 
-        if ($new_question_set_type !== $current_question_set_type
-            && $current_question_config->doesQuestionSetRelatedDataExist()) {
+        if (
+            $new_question_set_type !== $current_question_set_type
+            && $current_question_config->doesQuestionSetRelatedDataExist()
+        ) {
             $modal = $this->populateConfirmationModal($current_question_set_type, $new_question_set_type);
             $this->showForm($form, $modal);
             return;
@@ -327,7 +330,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         return $modal->withOnLoad($modal->getShowSignal());
     }
 
-    private function performSaveForm(array $data)
+    private function performSaveForm(array $data): void
     {
         $old_online_status = $this->test_object->getObjectProperties()->getPropertyIsOnline()->getIsOnline();
         $this->test_object->getObjectProperties()->storePropertyTitleAndDescription(
@@ -425,13 +428,11 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 
     private function getAvailabilitySettingsSection(): Section
     {
-        $input_factory = $this->ui->factory()->input();
-
-        $inputs['is_online'] = $this->getIsOnlineSettingInput();
-        $inputs['timebased_availability'] = $this->getTimebasedAvailabilityInputs();
-
-        return $input_factory->field()->section(
-            $inputs,
+        return $this->ui->factory()->input()->field()->section(
+            [
+                'is_online' => $this->getIsOnlineSettingInput(),
+                'timebased_availability' => $this->getTimeBasedAvailabilityInputs()
+            ],
             $this->lng->txt('rep_activation_availability')
         );
     }
@@ -462,97 +463,51 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         return $is_online;
     }
 
-    private function getTimebasedAvailabilityInputs(): OptionalGroup
+    private function getTimeBasedAvailabilityInputs(): OptionalGroup
     {
-        $field_factory = $this->ui->factory()->input()->field();
-
-        $trafo = $this->getTransformationForActivationLimitedOptionalGroup();
-        $value = $this->getValueForActivationLimitedOptionalGroup();
-
-        $data_factory = new DataFactory();
-        $user_format = $this->activeUser->getDateFormat();
-        $format = $data_factory->dateFormat()->withTime24($user_format);
-
-        $inputs['time_span'] = $field_factory->duration($this->lng->txt('rep_time_period'))
-            ->withTimezone($this->activeUser->getTimeZone())
-            ->withFormat($format)
-            ->withUseTime(true)
-            ->withRequired(true);
-        $inputs['activation_visibility'] = $field_factory->checkbox(
-            $this->lng->txt('rep_activation_limited_visibility'),
-            $this->lng->txt('tst_activation_limited_visibility_info')
-        );
-
-        return $field_factory->optionalGroup(
-            $inputs,
-            $this->lng->txt('rep_time_based_availability')
-        )->withAdditionalTransformation($trafo)
-            ->withValue($value);
-    }
-
-    private function getTransformationForActivationLimitedOptionalGroup(): TransformationInterface
-    {
-        return $this->refinery->custom()->transformation(
-            static function (?array $vs): array {
-                if ($vs === null) {
-                    return [
-                        'is_activation_limited' => false,
-                        'activation_starting_time' => null,
-                        'activation_ending_time' => null,
-                        'activation_visibility' => false
-                    ];
-                }
-
-                $start = $vs['time_span']['start']->getTimestamp();
-                $end = $vs['time_span']['end']->getTimestamp();
-
-                return [
-                    'is_activation_limited' => true,
-                    'activation_starting_time' => $start,
-                    'activation_ending_time' => $end,
-                    'activation_visibility' => $vs['activation_visibility']
-                ];
-            }
-        );
-    }
-
-    private function getValueForActivationLimitedOptionalGroup(): ?array
-    {
-        $value = null;
-        if ($this->test_object->isActivationLimited()) {
-            $value = [
-                'time_span' => [
-                    DateTimeImmutable::createFromFormat(
-                        'U',
-                        (string) $this->test_object->getActivationStartingTime()
-                    )->setTimezone(new DateTimeZone($this->activeUser->getTimeZone())),
-                    DateTimeImmutable::createFromFormat(
-                        'U',
-                        (string) $this->test_object->getActivationEndingTime()
-                    )->setTimezone(new DateTimeZone($this->activeUser->getTimeZone())),
-                ],
-                'activation_visibility' => $this->test_object->getActivationVisibility()
-            ];
-        }
-        return $value;
+        /** @var OptionalGroup $form */
+        $form = $this->object_reference_properties_repo
+            ->getFor($this->test_object->getRefId())
+            ->getPropertyAvailabilityPeriod()
+            ->toForm(
+                $this->lng,
+                $this->ui->factory()->input()->field(),
+                $this->refinery,
+                [
+                    'user_time_zone' => $this->user->getTimeZone(),
+                    'user_date_format' => (new DataFactory())->dateFormat()->withTime24($this->user->getDateFormat())
+                ]
+            );
+        return $form;
     }
 
     private function saveAvailabilitySettingsSection(array $section): void
     {
-        $time_based_availability = $section['timebased_availability'];
+        /**
+         * @var ilObjectPropertyIsOnline $il_object_property_is_online
+         * @var ObjectAvailabilityPeriodProperty $object_availability_period_property
+         */
+        [
+            'is_online' => $il_object_property_is_online,
+            'timebased_availability' => $object_availability_period_property
+        ] = $section;
 
-        $participant_data_exists = $this->test_object->participantDataExist();
-        $this->test_object->storeActivationSettings(
-            $participant_data_exists
-                ? $this->test_object->isActivationLimited()
-                : $time_based_availability['is_activation_limited'],
-            $participant_data_exists
-                ? $this->test_object->getActivationStartingTime()
-                : $time_based_availability['activation_starting_time'],
-            $time_based_availability['activation_ending_time'],
-            $time_based_availability['activation_visibility']
-        );
-        $this->test_object->getObjectProperties()->storePropertyIsOnline($section['is_online']);
+        $this->test_object->getObjectProperties()->storePropertyIsOnline($il_object_property_is_online);
+
+        if ($this->test_object->participantDataExist()) {
+            $current_object_availability_period_property = $this->object_reference_properties_repo
+                ->getFor($this->test_object->getRefId())
+                ->getPropertyAvailabilityPeriod();
+
+            $object_availability_period_property->setAvailabilityPeriodEnabled(
+                $current_object_availability_period_property->getAvailabilityPeriodEnabled()
+            );
+            $object_availability_period_property->setAvailabilityPeriodStart(
+                $current_object_availability_period_property->getAvailabilityPeriodStart()
+            );
+        }
+
+        $this->object_reference_properties_repo->storePropertyAvailabilityPeriod($object_availability_period_property);
     }
 
     protected function getPresentationSettingsSection(): Section

@@ -50,14 +50,29 @@ class ObjectAvailabilityPeriodProperty implements \ilObjectProperty
         return $this->availability_period_enabled === true;
     }
 
+    public function setAvailabilityPeriodEnabled(?bool $availability_period_enabled): void
+    {
+        $this->availability_period_enabled = $availability_period_enabled;
+    }
+
     public function getAvailabilityPeriodStart(): ?\DateTimeImmutable
     {
         return $this->time_limit_start;
     }
 
+    public function setAvailabilityPeriodStart(?\DateTimeImmutable $time_limit_start): void
+    {
+        $this->time_limit_start = $time_limit_start;
+    }
+
     public function getAvailabilityPeriodEnd(): ?\DateTimeImmutable
     {
         return $this->time_limit_end;
+    }
+
+    public function setAvailabilityPeriodEnd(?\DateTimeImmutable $time_limit_end): void
+    {
+        $this->time_limit_end = $time_limit_end;
     }
 
     public function getVisibleWhenDisabled(): bool
@@ -71,15 +86,11 @@ class ObjectAvailabilityPeriodProperty implements \ilObjectProperty
             return true;
         }
 
-        $timing_start_utc = $this->timing_start->setTimezone(new \DateTimeZone('UTC'));
-        $timing_end_utc = $this->timing_end->setTimezone(new \DateTimeZone('UTC'));
+        $timing_start_utc = $this->time_limit_start->setTimezone(new \DateTimeZone('UTC'));
+        $timing_end_utc = $this->time_limit_end->setTimezone(new \DateTimeZone('UTC'));
         $now_utc = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
 
-        if ($timing_start_utc < $now_utc && $now_utc < $timing_end_utc) {
-            return true;
-        }
-
-        return false;
+        return $timing_start_utc < $now_utc && $now_utc < $timing_end_utc;
     }
 
     public function withObjectReferenceId(int $object_reference_id): self
@@ -93,7 +104,7 @@ class ObjectAvailabilityPeriodProperty implements \ilObjectProperty
         \ilLanguage $language,
         FieldFactory $field_factory,
         Refinery $refinery,
-        array $environment = null
+        ?array $environment = null
     ): FormInput {
         $constraint = $this->getConstraintForActivationLimitedOptionalGroup(
             $refinery,
@@ -130,9 +141,10 @@ class ObjectAvailabilityPeriodProperty implements \ilObjectProperty
     {
         return $refinery->custom()->transformation(
             function (?array $vs): self {
-                if ($vs === null
-                    || $vs['time_limit_start'] === null
-                        && $vs['time_limit_end'] === null) {
+                if (
+                    $vs === null
+                    || ($vs['time_limit_start'] === null && $vs['time_limit_end'] === null)
+                ) {
                     return new self($this->getObjectReferenceId());
                 }
 
