@@ -2494,7 +2494,6 @@ book#:#book_booking#:#Buchung
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Angebote
 book#:#book_booking_reminders#:#Anstehende Buchungen
-book#:#book_bookings_per_user#:#Buchungen je Benutzer
 book#:#book_bulk_confirmation#:#Bitte überprüfen Sie die angegebenen Werte.
 book#:#book_bulk_creation#:#Massenerstellung
 book#:#book_bulk_data#:#Daten zu Angeboten
@@ -2623,6 +2622,7 @@ book#:#book_show_message#:#Mitteilung anzeigen
 book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
 book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile je Buchungsobjekt.
 book#:#book_too_many_preferences#:#Sie haben zu viele Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
+book#:#book_total_individual_bookings_limit#:#Begrenze die Gesamtanzahl an Buchungen, die von/für einzelne Teilnehmende durchgeführt werden können – über alle verfügbaren Objekte hinweg. Jedes buchbare Objekt kann dabei weiterhin nur einmal pro Teilnehmendem gebucht werden.
 book#:#book_type_warning#:#Es sind momentan keine Angebote vorhanden. Um den Pool nutzen zu können, müssen zuerst Angebote angelegt werden.
 book#:#book_week#:#Wochenansicht
 book#:#book_your_bookings#:#Ihre Buchungen
