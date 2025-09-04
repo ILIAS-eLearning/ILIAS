@@ -2593,7 +2593,6 @@ book#:#book_booking#:#Booking###21 11 2023 new variable
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Bokningsobjekt
 book#:#book_booking_reminders#:#Väntande reservationer
-book#:#book_bookings_per_user#:#Bokningar per användare
 book#:#book_bulk_confirmation#:#Please check, if all values are listed correctly.###21 11 2023 new variable
 book#:#book_bulk_creation#:#Bulk Creation###21 11 2023 new variable
 book#:#book_bulk_data#:#Object Data###21 11 2023 new variable

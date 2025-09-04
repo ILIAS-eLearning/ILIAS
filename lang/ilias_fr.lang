@@ -2578,7 +2578,6 @@ book#:#book_booking#:#Booking###31 10 2023 new variable
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Booking Objects###31 10 2023 new variable
 book#:#book_booking_reminders#:#Upcoming reservations
-book#:#book_bookings_per_user#:#Bookings per User###31 10 2023 new variable
 book#:#book_bulk_confirmation#:#Please check, if all values are listed correctly.###31 10 2023 new variable
 book#:#book_bulk_creation#:#Bulk Creation###31 10 2023 new variable
 book#:#book_bulk_data#:#Object Data###31 10 2023 new variable
