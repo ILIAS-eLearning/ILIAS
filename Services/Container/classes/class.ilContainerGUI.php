@@ -1414,6 +1414,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         // process CUT command
         if ($command === 'cut') {
+            ilItemGroupItems::removeItemGroupAssociations($ref_ids);
+
             foreach ($nodes as $folder_ref_id) {
                 foreach ($ref_ids as $ref_id) {
                     // Store old parent
@@ -1731,6 +1733,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         // process CUT command
         if ($this->clipboard->getCmd() === "cut") {
+            ilItemGroupItems::removeItemGroupAssociations($ref_ids);
+
             foreach ($ref_ids as $ref_id) {
                 // Store old parent
                 $old_parent = $tree->getParentId($ref_id);

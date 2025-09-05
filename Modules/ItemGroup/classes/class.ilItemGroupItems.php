@@ -96,6 +96,20 @@ class ilItemGroupItems
         }
     }
 
+    public static function removeItemGroupAssociations(array $item_ref_ids, ?int $item_group_id = null): void
+    {
+        global $DIC;
+        $db = $DIC->database();
+
+        $query = "DELETE FROM item_group_item WHERE ({$db->in('item_ref_id', $item_ref_ids, false, ilDBConstants::T_INTEGER)})";
+
+        if (is_int($item_group_id) && $item_group_id > 0) {
+            $query .= " AND item_group_id = {$db->quote($item_group_id, ilDBConstants::T_INTEGER)}";
+        }
+
+        $db->manipulate($query);
+    }
+
     public function delete(): void
     {
         $query = "DELETE FROM item_group_item " .
