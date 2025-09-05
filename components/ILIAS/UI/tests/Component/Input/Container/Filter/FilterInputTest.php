@@ -291,10 +291,10 @@ class FilterInputTest extends ILIAS_UI_TestBase
         <div class="col-md-6 col-lg-4 il-popover-container">
             <div class="input-group">
                 <label class="input-group-addon leftaddon">label</label>
-                <span role="button" tabindex="0" class="form-control il-filter-field" id="id_7" data-placement="bottom"></span>
-                <div class="il-standard-popover-content" style="display:none;" id="id_5"></div>
+                <span role="button" tabindex="0" class="form-control il-filter-field" id="id_6" data-placement="bottom"></span>
+                <div class="il-standard-popover-content" style="display:none;" id="id_4"></div>
                 <span class="input-group-addon rightaddon">
-                    <a class="glyph" href="" aria-label="remove" id="id_8">
+                    <a class="glyph" href="" aria-label="remove" id="id_7">
                         <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                     </a>
                 </span>

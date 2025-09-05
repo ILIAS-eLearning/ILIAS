@@ -129,7 +129,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->getDefaultRenderer()->render($form);
 
         $expected = $this->brutallyTrimHTML('
-        <form class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post">
+        <form id="id_2" class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post">
            <div class="c-form__header">
               <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
            </div>'
@@ -174,7 +174,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($form));
 
         $expected = $this->brutallyTrimHTML('
-        <form class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post">
+        <form id="id_2" class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post">
            <div class="c-form__header">
               <div class="c-form__actions"><button class="btn btn-default" data-action="">create</button></div>
            </div>'
@@ -201,7 +201,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($form));
 
         $expected = $this->brutallyTrimHTML('
-        <form class="c-form c-form--horizontal" enctype="multipart/form-data" method="post">
+        <form id="id_2" class="c-form c-form--horizontal" enctype="multipart/form-data" method="post">
             <div class="c-form__header">
                 <div class="c-form__actions">
                     <button class="btn btn-default" data-action="">save</button>
@@ -262,7 +262,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $html = $this->brutallyTrimHTML($r->render($form));
         $expected = $this->brutallyTrimHTML('
-<form class="c-form c-form--horizontal" enctype="multipart/form-data" method="post">
+<form id="id_3" class="c-form c-form--horizontal" enctype="multipart/form-data" method="post">
     <div class="c-form__header">
         <div class="c-form__actions">
             <button class="btn btn-default" data-action="">save</button>
@@ -339,7 +339,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $html = $this->brutallyTrimHTML($r->render($form));
         $expected = $this->brutallyTrimHTML('
-            <form class="c-form c-form--horizontal" enctype="multipart/form-data" method="post">
+            <form id="id_2" class="c-form c-form--horizontal" enctype="multipart/form-data" method="post">
                 <div class="c-form__header">
                     <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
                 </div>
@@ -375,7 +375,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         );
 
         $expected = $this->brutallyTrimHTML('
-<form class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post">
+<form id="id_2" class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post">
     <div class="c-form__header">
         <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
         <div class="c-form__required">

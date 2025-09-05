@@ -26,6 +26,7 @@ use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use LogicException;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -34,6 +35,10 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
+        $component = $component->withAdditionalOnLoadCode(
+            fn($id) => "il.UI.Input.Container.createContainer('$id');"
+        );
+
         if ($component instanceof Form\Standard) {
             return $this->renderStandard($component, $default_renderer);
         }
@@ -58,6 +63,9 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("BUTTONS_TOP", $default_renderer->render($submit_button));
         $tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($submit_button));
         $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
+
+        $id = $this->bindJavaScript($component);
+        $tpl->setVariable("ID", $id);
 
         return $tpl->get();
     }
@@ -92,5 +100,11 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("TXT_REQUIRED_TOP", $this->txt("required_field"));
             $tpl->setVariable("TXT_REQUIRED", $this->txt("required_field"));
         }
+    }
+
+    public function registerResources(ResourceRegistry $registry): void
+    {
+        parent::registerResources($registry);
+        $registry->register('./assets/js/container.min.js');
     }
 }
