@@ -165,6 +165,8 @@ class ilRepUtil
         if (!$ilSetting->get('enable_trash')) {
             self::removeObjectsFromSystem($a_ids);
         }
+
+        ilItemGroupItems::removeItemGroupAssociations($a_ids);
     }
 
     /**
