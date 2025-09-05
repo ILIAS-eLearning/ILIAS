@@ -90,7 +90,7 @@ class ilCertificateDateHelperTest extends ilCertificateBaseTestCase
         );
     }
 
-    public function testDateTimeFormatIsCastToInt()
+    public function testDateTimeFormatIsCastToInt(): void
     {
         $helper = new ilCertificateDateHelper();
         $this->assertEquals(
