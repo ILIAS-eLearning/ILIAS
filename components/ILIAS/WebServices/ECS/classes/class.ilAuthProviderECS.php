@@ -150,12 +150,13 @@ class ilAuthProviderECS extends ilAuthProvider
                 $this->refinery->kindlyTo()->bool()
             );
         }
-        $redirection_target = '';
         if ($this->http->wrapper()->query()->has('target')) {
             $redirection_target = $this->http->wrapper()->query()->retrieve(
                 'target',
                 $this->refinery->kindlyTo()->string()
             );
+        }else{
+            $redirection_target = $this->http->request()->getUri()->getPath();
         }
         $part_settings = new ilECSParticipantSetting(
             $this->getCurrentServer()->getServerId(),

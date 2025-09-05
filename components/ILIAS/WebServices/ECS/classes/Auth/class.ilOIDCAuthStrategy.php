@@ -24,6 +24,7 @@ class ilOIDCAuthStrategy extends ilECSAuthStrategy
         private readonly ilLogger $logger
     ) {
     }
+
     public function isActive(): bool
     {
         return ilOpenIdConnectSettings::getInstance()->getActive();
@@ -33,8 +34,16 @@ class ilOIDCAuthStrategy extends ilECSAuthStrategy
     {
         return 'oidc';
     }
+
     public function handleLogin(string $redirection_target): void
     {
+        // the target may be '/goto.php/crs/123' which is not supported by oidc (see `LegacyGotoHandler::handle`)
+        // instead it should be 'crs_123' and will be built to '/goto.php/?target=crs_123' in oidc login page
+        if (str_contains($redirection_target, 'goto.php/')) {
+            $redirection_target = ltrim(str_replace('goto.php', '', $redirection_target), '/');
+            $redirection_target = str_replace('/', '_', $redirection_target);
+        }
+
         $this->logger->info('Redirect to oidc authentication');
         $this->ctrl->redirectToURL('openidconnect.php?target=' . $redirection_target);
     }
