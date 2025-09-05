@@ -240,7 +240,8 @@ class Renderer extends AbstractComponentRenderer
         $sortation_signal = null;
         // if the generator is empty, and thus invalid, we render an empty row.
         if (!$rows->valid()) {
-            $this->renderFullWidthDataCell($component, $tpl, $this->txt('ui_table_no_records'));
+            $cell_tpl = $this->getTemplate("tpl.datacell.html", true, true);
+            $this->renderFullWidthCell($component, $cell_tpl, $tpl, $this->txt('ui_table_no_records'));
         } else {
             $this->renderActionsHeader($default_renderer, $component, $tpl, $compensate_col_count);
             $this->appendTableRows($tpl, $rows, $default_renderer);
@@ -361,9 +362,12 @@ class Renderer extends AbstractComponentRenderer
      * Renders a full-width cell with a single message within, indication there is no
      * data to display. This is achieved using a <td> colspan attribute.
      */
-    protected function renderFullWidthDataCell(Component\Table\Data $component, Template $tpl, string $content): void
-    {
-        $cell_tpl = $this->getTemplate('tpl.datacell.html', true, true);
+    protected function renderFullWidthCell(
+        Component\Table\Table $component,
+        Template $cell_tpl,
+        Template $main_tpl,
+        string $content
+    ): void {
         $cell_tpl->setCurrentBlock('cell');
         $cell_tpl->setVariable('CELL_CONTENT', $content);
         $cell_tpl->setVariable('COL_SPAN', count($component->getVisibleColumns()));
@@ -371,10 +375,10 @@ class Renderer extends AbstractComponentRenderer
         $cell_tpl->setVariable('COL_INDEX', '1');
         $cell_tpl->parseCurrentBlock();
 
-        $tpl->setCurrentBlock('row');
-        $tpl->setVariable('ALTERNATION', 'even');
-        $tpl->setVariable('CELLS', $cell_tpl->get());
-        $tpl->parseCurrentBlock();
+        $main_tpl->setCurrentBlock('row');
+        $main_tpl->setVariable('ALTERNATION', 'even');
+        $main_tpl->setVariable('CELLS', $cell_tpl->get());
+        $main_tpl->parseCurrentBlock();
     }
 
     protected function registerActions(Component\Table\Table $component): Component\Table\Table
@@ -659,7 +663,7 @@ class Renderer extends AbstractComponentRenderer
         );
 
 
-        if (!$component->isOrderingDisabled()) {
+        if (!$component->isOrderingDisabled() && $rows->valid()) {
             $component = $component->withAdditionalOnLoadCode(
                 static fn($id): string => "il.UI.table.ordering.init('{$id}');"
             );
@@ -688,7 +692,7 @@ class Renderer extends AbstractComponentRenderer
 
         $tableid = $this->bindJavaScript($component) ?? $this->createId();
 
-        if (!$component->isOrderingDisabled()) {
+        if (!$component->isOrderingDisabled() && $rows->valid()) {
             $submit = $this->getUIFactory()->button()->standard($this->txt('sorting_save'), "")
                 ->withOnLoadCode(static fn($id) => "document.getElementById('$id').addEventListener('click',
                     function() {document.querySelector('#$tableid form.c-table-ordering__form').submit();return false;});");
@@ -713,17 +717,21 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('COL_TYPE', strtolower($col->getType()));
             $tpl->parseCurrentBlock();
         }
+        if (!$rows->valid()) {
+            $cell_tpl = $this->getTemplate("tpl.orderingcell.html", true, true);
+            $this->renderFullWidthCell($component, $cell_tpl, $tpl, $this->txt('ui_table_no_records'));
+        } else {
+            $row_iterator = iterator_to_array($rows);
+            $r = [];
+            foreach ($row_iterator as $idx => $row) {
+                $r[] = $row
+                    ->withPosition($idx + 1)
+                    ->withOrderingDisabled($component->isOrderingDisabled());
+            }
 
-        $rows = iterator_to_array($rows);
-        $r = [];
-        foreach ($rows as $idx => $row) {
-            $r[] = $row
-                ->withPosition($idx + 1)
-                ->withOrderingDisabled($component->isOrderingDisabled());
+            $this->renderActionsHeader($default_renderer, $component, $tpl, $compensate_col_count);
+            $this->appendTableRows($tpl, $r, $default_renderer);
         }
-
-        $this->renderActionsHeader($default_renderer, $component, $tpl, $compensate_col_count);
-        $this->appendTableRows($tpl, $r, $default_renderer);
 
         if ($component->hasMultiActions()) {
             $multi_actions = $component->getMultiActions();
@@ -739,7 +747,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('MULTI_ACTION_WARNING', $default_renderer->render($this->getUrlTooLongWarning()));
             $tpl->setVariable('MULTI_ACTION_WARNING_BUTTON_CLOSE_LABEL', $this->txt('datatable_close_warning'));
         }
-        if ($component->hasMultiActions() || !$component->isOrderingDisabled()) {
+        if ($component->hasMultiActions() || (!$component->isOrderingDisabled() && $rows->valid())) {
             $multi_action_col_span = count($component->getVisibleColumns()) + $compensate_col_count;
             $tpl->setVariable('MULTI_ACTION_SPAN', (string) $multi_action_col_span);
         }
