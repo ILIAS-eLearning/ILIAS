@@ -19,7 +19,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Mail\Object;
 
-class Mb3SafeMailEncoder implements MailPayloadEncoder
+final class Mb3SafeMailEncoder implements MailPayloadEncoder
 {
     public function __construct(
         private readonly MailPayloadEncoder $inner,

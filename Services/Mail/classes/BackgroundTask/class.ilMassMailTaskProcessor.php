@@ -38,7 +38,6 @@ class ilMassMailTaskProcessor
         ilLanguage $language = null,
         ilLogger $logger = null,
         Container $dic = null,
-        ilMailValueObjectJsonService $object_json_service = null,
         \ILIAS\Mail\Object\MailPayloadEncoder $payload_encoder = null
     ) {
         if (null === $dic) {
@@ -66,13 +65,11 @@ class ilMassMailTaskProcessor
         }
         $this->logger = $logger;
 
-        if ($object_json_service === null) {
-            $object_json_service = new ilMailValueObjectJsonService();
-        }
-
         if ($payload_encoder === null) {
             $payload_encoder = new ILIAS\Mail\Object\Mb3SafeMailEncoder(
-                new ILIAS\Mail\Object\PureJsonMailEncoder($object_json_service),
+                new ILIAS\Mail\Object\PureJsonMailEncoder(
+                    new ilMailValueObjectJsonService()
+                ),
                 new ILIAS\Mail\Transformation\Utf8Mb4Sanitizer()
             );
         }
