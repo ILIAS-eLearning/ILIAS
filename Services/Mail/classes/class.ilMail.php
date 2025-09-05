@@ -22,7 +22,7 @@ use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\Mail\Autoresponder\AutoresponderService;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\Mail\Recipient;
-use Transformation\SanitizeMailMB4Encoding;
+use ILIAS\Mail\Transformation\Utf8Mb4Sanitizer;
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -980,7 +980,7 @@ class ilMail
     ): array {
         global $DIC;
 
-        $sanitizeMb4Encoding = new SanitizeMailMB4Encoding();
+        $sanitizeMb4Encoding = new Utf8Mb4Sanitizer();
         $a_m_subject = $sanitizeMb4Encoding->transform($a_m_subject);
         $a_m_message = $sanitizeMb4Encoding->transform($a_m_message);
 

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace Transformation;
+namespace ILIAS\Mail\Transformation;
 
 use ilDBConstants;
 use ILIAS\Refinery\ConstraintViolationException;
@@ -26,14 +26,14 @@ use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\Transformation;
 
-class SanitizeMailMB4Encoding implements Transformation
+class Utf8Mb4Sanitizer implements Transformation
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
     public function transform($from): string
     {
-        if (!is_string($from)) {
+        if (!\is_string($from)) {
             throw new ConstraintViolationException(
                 'Value to be transformed must be of type string',
                 'not_string'
