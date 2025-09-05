@@ -315,6 +315,6 @@ class ilFileDataForumDraftsLegacyImplementation extends ilFileData implements il
 
     public function storeUploadedFiles(): bool
     {
-        return true;
+        throw new DomainException('Not implemented');
     }
 }
