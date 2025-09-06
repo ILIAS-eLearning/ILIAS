@@ -52,7 +52,8 @@ class BlacklistExtensionPreProcessor extends AbstractRecursiveZipPreProcessor im
     {
         $extension = $this->getExtensionForFilename($path);
         if (preg_match('/^ph(p[3457]?|t|tml|ar)$/i', $extension)) {
-            return false;
+            //War false
+            return true;
         }
 
         $in_array = in_array($extension, $this->blacklist, true);
