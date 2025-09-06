@@ -29,6 +29,25 @@ AddType video/webm .webm
 AddType audio/mp3 .mp3
 
 
+RewriteEngine On
+
+# Block legacy Lucene search route that triggers ilCtrlException
+RewriteCond %{QUERY_STRING} "(^|&)cmdClass=ilLuceneSearchGUI(&|$)" [NC]
+RewriteRule ^ - [G]
+
+# Fix bare /ilias.php (HEAD/GET ohne baseClass) -> /login.php
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # nur /ilias.php abfangen
+  RewriteCond %{REQUEST_URI} ^/ilias\.php$ [NC]
+  # HEAD oder GET
+  RewriteCond %{REQUEST_METHOD} HEAD [OR]
+  RewriteCond %{REQUEST_METHOD} GET
+  # nur wenn KEIN baseClass-Parameter vorhanden ist
+  RewriteCond %{QUERY_STRING} !(^|&)baseClass=[^&]+ [NC]
+  RewriteRule ^ilias\.php$ /login.php [R=302,L]
+</IfModule>
+
 # .htaccess (ILIAS document root)
 
 <IfModule mod_rewrite.c>
@@ -72,3 +91,6 @@ AddType audio/mp3 .mp3
   RewriteCond %{REQUEST_URI} ^/(ilias\.php|login\.php|goto\.php)$ [NC]
   RewriteRule ^ - [F]
 </IfModule>
+
+
+
