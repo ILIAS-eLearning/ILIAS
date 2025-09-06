@@ -27,3 +27,48 @@ AddType video/ogg .ogv
 AddType video/mp4 .mp4
 AddType video/webm .webm
 AddType audio/mp3 .mp3
+
+
+# .htaccess (ILIAS document root)
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # === ILIAS bad-ref_id guard ===
+  # Block non-numeric ref_id to /ilias.php (bot scans, malformed links)
+  RewriteCond %{REQUEST_URI} ^/ilias\.php$ [NC]
+  RewriteCond %{QUERY_STRING} (?:^|&)ref_id=[^&]*[^0-9&] [NC]
+  RewriteRule ^ - [F]
+
+  # === ILIAS frameset guard ===
+  # Strip cmd=frameset from queries to /ilias.php (keeps other params)
+  RewriteCond %{REQUEST_URI} ^/ilias\.php$ [NC]
+  RewriteCond %{QUERY_STRING} ^(.*)(^|&)cmd=frameset(&|$)(.*)$ [NC]
+  RewriteRule ^ /ilias.php?%1%4 [R=302,L]
+
+  # === ILIAS lucene guard ===
+  # Block old/unsupported Lucene route that can trigger ilCtrlException
+  RewriteCond %{REQUEST_URI} ^/ilias\.php$ [NC]
+  RewriteCond %{QUERY_STRING} (?:^|&)cmdClass=ilLuceneSearchGUI(?:&|$) [NC]
+  RewriteRule ^ - [G]   # 410 Gone
+
+  # === ILIAS InfoScreen guard ===
+  # Redirect direct showSummary hits with numeric ref_id to canonical goto.php
+  RewriteCond %{REQUEST_URI} ^/ilias\.php$ [NC]
+  RewriteCond %{QUERY_STRING} (^|&)cmd=showSummary(&|$) [NC]
+  RewriteCond %{QUERY_STRING} (^|&)cmdClass=ilInfoScreenGUI(&|$) [NC]
+  RewriteCond %{QUERY_STRING} (^|&)ref_id=([0-9]+)(&|$) [NC]
+  RewriteRule ^ /goto.php/cat/%1 [R=302,L,E=INFOSCREEN_GUARD:1]
+</IfModule>
+
+# Marker header for logs/curl when the InfoScreen guard fired
+<IfModule mod_headers.c>
+  Header always set X-InfoScreen-Guard "active" env=INFOSCREEN_GUARD
+</IfModule>
+
+# === Optional: hard 403 for DotBot on dynamic entry points without session ===
+<IfModule mod_rewrite.c>
+  RewriteCond %{HTTP_USER_AGENT} DotBot [NC]
+  RewriteCond %{REQUEST_URI} ^/(ilias\.php|login\.php|goto\.php)$ [NC]
+  RewriteRule ^ - [F]
+</IfModule>
