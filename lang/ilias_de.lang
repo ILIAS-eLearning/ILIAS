@@ -5886,7 +5886,7 @@ common#:#usr_new#:#Neuer Benutzer
 common#:#usr_settings_changeable_lua#:#Änderbar in „Lokale Konten“ in Kategorien
 common#:#usr_settings_explanation_profile#:#Pro Datenfeld kann der Zugriff in Profil, Mitglieder-Reitern und lokalen Konten konfiguriert werden:<ul><li>Sichtbar: Angabe wird angezeigt, kann aber nicht geändert werden.</li><li>Änderbar: Angabe wird angezeigt und kann geändert werden.</li><li>Export: Angabe kann in Listen der Teilnehmerinnen und Teilnehmern exportiert werden.</li><li>Durchsuchbar: Nach der Angabe kann gesucht werden, und es gibt eine Autovervollständigung in Formularfeldern.</li><li>Bei der Einstellung „Erforderliche Angabe“ ist die Eingabe verpflichtend.</li></ul>Unabhängig von diesen Einstellungen kann die Systemadministration alle Daten ändern.
 common#:#usr_settings_header_profile#:#Einstellungen für die Anmeldekonten
-common#:#usr_settings_saved#:#Die globalen Benutzereinstellungen wurden erfolgreich gespeichert und sind nun aktiviert!
+common#:#usr_settings_saved#:#Die globalen Benutzereinstellungen wurden erfolgreich gespeichert und sind nun aktiviert.
 common#:#usr_settings_visib_lua#:#Sichtbar in „Lokale Konten“ in Kategorien
 common#:#usr_skin_style#:#Skin/Style
 common#:#usr_without_courses#:#Benutzer ohne Kurse zugewiesen
@@ -14900,7 +14900,7 @@ registration#:#registration_settings#:#ILIAS-Auth / Selbstregistrierung
 registration#:#registration_tab_codes#:#Registrierungscodes
 registration#:#registration_tab_settings#:#Einstellungen
 registration#:#registration_used#:#Verbraucht am
-registration#:#registration_user_new_account_mail#:#Benachrichtigung über Neuanmeldung editieren
+registration#:#registration_user_new_account_mail#:#Benachrichtigung über Neuanmeldung
 rep#:#btn_undelete_new_location#:#Wiederherstellen (neuer Ort)
 rep#:#btn_undelete_origin_location#:#Wiederherstellen (Originalort)
 rep#:#rep_activation_access#:#Zugriff
@@ -17328,7 +17328,7 @@ user#:#del_mail_body#:#Hallo %1$s, %2$s Sie haben sich seit längerer Zeit nicht
 user#:#del_mail_subject#:#Ihr ILIAS-Konto wird bald gelöscht
 user#:#delete_inactive_user_accounts_frequency#:#Intervall
 user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf E-Mail-Versand getestet wird.
-user#:#edit_field#:#Feld Bearbeiten
+user#:#edit_field#:#Feld bearbeiten
 user#:#edit_setting#:#Einstellung bearbeiten
 user#:#editing_this_role#:#Regel editieren
 user#:#email_could_not_be_changed#:#Ihre E-Mail-Adresse konnte nicht geändert werden.

@@ -70,7 +70,7 @@ class Repository
         $this->storeConfigurationValue(
             PropertyAttributes::ChangeableByUser->getSettingsAccessPrefix(),
             $setting->getIdentifier(),
-            !$setting->isChangeableByUser()
+            $setting->isChangeableByUser()
         );
         $this->storeConfigurationValue(
             PropertyAttributes::ChangeableInLocalUserAdministration->getSettingsAccessPrefix(),

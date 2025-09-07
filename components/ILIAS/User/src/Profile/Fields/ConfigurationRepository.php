@@ -138,9 +138,10 @@ class ConfigurationRepository
         $this->available_profile_fields = $this->generateAvailableProfielFields();
     }
 
-    public function getCustomFieldTypes(): array {
+    public function getCustomFieldTypes(): array
+    {
         return array_map(
-            fn (string $v): Custom\Type => new $v(),
+            fn(string $v): Custom\Type => new $v(),
             $this->available_custom_field_types
         );
     }
@@ -159,11 +160,14 @@ class ConfigurationRepository
         if (!$field->getDefinition() instanceof Custom\Custom) {
             return;
         }
-        $this->db->manipulateF(
+        $this->db->manipulate(
             'DELETE FROM ' . DataRepository::USER_VALUES_TABLE
-                . " WHERE field_id='{$this->db->quote($field->getIdentifier(), \ilDBConstants::T_TEXT)}'"
+                . " WHERE field_id={$this->db->quote($field->getIdentifier(), \ilDBConstants::T_TEXT)}"
         );
-        $this->db->manipulate('DELETE FROM ' . self::UDF_DEFINITIONS_TABLE . " WHERE field_id='{$field->getIdentifier()}'" );
+        $this->db->manipulate(
+            'DELETE FROM ' . self::UDF_DEFINITIONS_TABLE
+                . " WHERE field_id={$this->db->quote($field->getIdentifier(), \ilDBConstants::T_TEXT)}"
+        );
         $this->available_profile_fields = $this->generateAvailableProfielFields();
     }
 
@@ -175,7 +179,7 @@ class ConfigurationRepository
         );
 
         $custom_field_definitions = [];
-        while(($field = $this->db->fetchObject($query_result)) !== null) {
+        while (($field = $this->db->fetchObject($query_result)) !== null) {
             $field_type = array_search($field->field_type, $available_custom_field_types);
             if ($field_type === null) {
                 continue;

@@ -26,7 +26,7 @@ use ILIAS\ResourceStorage\Services as ResourceStorage;
 class DataRepository
 {
     private const string USER_BASE_TABLE = 'usr_data';
-    private const string USER_VALUES_TABLE = 'usr_profile_data';
+    public const string USER_VALUES_TABLE = 'usr_profile_data';
 
     private const string NO_AVATAR_RID = '-';
 
@@ -76,7 +76,7 @@ class DataRepository
         $prepared_query = $this->db->prepare('SELECT field_id, value FROM '
             . self::USER_VALUES_TABLE . ' WHERE usr_id = ?');
 
-        while(($base_data = $this->db->fetchObject($query)) !== null) {
+        while (($base_data = $this->db->fetchObject($query)) !== null) {
             yield $this->buildFromData(
                 $base_data,
                 $this->db->fetchAll(
@@ -247,7 +247,7 @@ class DataRepository
             ],
             array_reduce(
                 $additional_data,
-                static function(array $c, \stdClass $v): array {
+                static function (array $c, \stdClass $v): array {
                     if (!array_key_exists($v->field_id, $c)) {
                         $c[$v->field_id] = [];
                     }

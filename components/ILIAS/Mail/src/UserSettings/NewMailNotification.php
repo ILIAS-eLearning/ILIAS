@@ -62,6 +62,7 @@ class NewMailNotification implements SettingDefinition
         \ilSetting $settings,
         ?\ilObjUser $user = null
     ): Input {
+        $lng->loadLanguageModule('mail');
         return $field_factory->checkbox(
             $this->getLabel($lng),
             $lng->txt('mail_cronjob_notification_info')
@@ -77,6 +78,7 @@ class NewMailNotification implements SettingDefinition
         \ilSetting $setting,
         ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
+        $lng->loadLanguageModule('mail');
         $input = new \ilCheckboxInputGUI($this->getLabel($lng));
         $input->setInfo($lng->txt('mail_cronjob_notification_info'));
         $input->setChecked(

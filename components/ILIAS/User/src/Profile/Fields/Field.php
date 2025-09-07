@@ -141,7 +141,7 @@ class Field implements Property
 
     public function export(): bool
     {
-        return $this->definition->requiredForcedTo()
+        return $this->definition->exportForcedTo()
             ?? $this->export;
     }
 
@@ -241,6 +241,10 @@ class Field implements Property
             'field' => $ff->group([
                 'edit_field' => $ff->section(
                     [
+                        'label' => $ff->text($lng->txt('field_name'))
+                            ->withAdditionalTransformation(
+                                $this->buildLabelConstraint($lng, $refinery, $available_custom_fields)
+                            )->withRequired(true),
                         'type' => $ff->switchableGroup(
                             $this->buildCustomTypeSelectionGroups(
                                 $lng,
@@ -250,10 +254,6 @@ class Field implements Property
                             ),
                             $lng->txt('type')
                         )->withRequired(true),
-                        'label' => $ff->text($lng->txt('field_name'))
-                            ->withAdditionalTransformation(
-                                $this->buildLabelConstraint($lng, $refinery, $available_custom_fields)
-                            )->withRequired(true),
                         'section' => $ff->select(
                             $lng->txt('meta_section'),
                             array_reduce(
@@ -695,7 +695,7 @@ class Field implements Property
                     ->withSection(AvailableSections::tryFrom($vs['edit_field']['section']))
                     ->withAdditionalEditFormData(
                         $vs['edit_field']['data']
-                            ?? $vs['edit_field']['type'][0]['data']
+                            ?? $vs['edit_field']['type'][1]['data']
                             ?? null
                     );
                 if ($definition->isUnspecific()
