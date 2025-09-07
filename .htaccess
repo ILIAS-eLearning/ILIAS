@@ -94,3 +94,7 @@ RewriteRule ^ - [G]
 
 
 
+<IfModule mod_headers.c>
+  # 302-Weiterleitungen nicht cachen (verhindert „klebrige“ Rewrites)
+  Header always set Cache-Control "no-store" "expr=%{REQUEST_STATUS} = 302"
+</IfModule>
