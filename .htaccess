@@ -71,14 +71,6 @@ RewriteRule ^ - [G]
   RewriteCond %{QUERY_STRING} (?:^|&)cmdClass=ilLuceneSearchGUI(?:&|$) [NC]
   RewriteRule ^ - [G]   # 410 Gone
 
-  # === ILIAS InfoScreen guard ===
-  # Redirect direct showSummary hits with numeric ref_id to canonical goto.php
-  RewriteCond %{REQUEST_URI} ^/ilias\.php$ [NC]
-  RewriteCond %{QUERY_STRING} (^|&)cmd=showSummary(&|$) [NC]
-  RewriteCond %{QUERY_STRING} (^|&)cmdClass=ilInfoScreenGUI(&|$) [NC]
-  RewriteCond %{QUERY_STRING} (^|&)ref_id=([0-9]+)(&|$) [NC]
-  RewriteRule ^ /goto.php/cat/%1 [R=302,L,E=INFOSCREEN_GUARD:1]
-</IfModule>
 
 # Marker header for logs/curl when the InfoScreen guard fired
 <IfModule mod_headers.c>
