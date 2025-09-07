@@ -31,10 +31,6 @@ AddType audio/mp3 .mp3
 
 RewriteEngine On
 
-# Block legacy Lucene search route that triggers ilCtrlException
-RewriteCond %{QUERY_STRING} "(^|&)cmdClass=ilLuceneSearchGUI(&|$)" [NC]
-RewriteRule ^ - [G]
-
 # Fix bare /ilias.php (HEAD/GET ohne baseClass) -> /login.php
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -65,17 +61,7 @@ RewriteRule ^ - [G]
   RewriteCond %{QUERY_STRING} ^(.*)(^|&)cmd=frameset(&|$)(.*)$ [NC]
   RewriteRule ^ /ilias.php?%1%4 [R=302,L]
 
-  # === ILIAS lucene guard ===
-  # Block old/unsupported Lucene route that can trigger ilCtrlException
-  RewriteCond %{REQUEST_URI} ^/ilias\.php$ [NC]
-  RewriteCond %{QUERY_STRING} (?:^|&)cmdClass=ilLuceneSearchGUI(?:&|$) [NC]
-  RewriteRule ^ - [G]   # 410 Gone
 
-
-# Marker header for logs/curl when the InfoScreen guard fired
-<IfModule mod_headers.c>
-  Header always set X-InfoScreen-Guard "active" env=INFOSCREEN_GUARD
-</IfModule>
 
 # === Optional: hard 403 for DotBot on dynamic entry points without session ===
 <IfModule mod_rewrite.c>
