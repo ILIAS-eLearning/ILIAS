@@ -52,7 +52,6 @@ use ILIAS\File\Capabilities\Context;
  */
 class ilObjFileGUI extends ilObject2GUI
 {
-
     use ilObjFileCopyrightInput;
     use ilObjFileInfoProvider;
     use ilObjFileTransformation;
