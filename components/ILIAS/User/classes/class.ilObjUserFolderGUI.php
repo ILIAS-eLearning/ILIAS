@@ -18,13 +18,16 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\LocalDIC;
 use ILIAS\User\UserGUIRequest;
 use ILIAS\User\Presentation\AdminTabs;
 use ILIAS\User\Settings\Administration\SettingsGUI as AdminSettingsGUI;
 use ILIAS\User\Settings\ConfigurationGUI as UserSettingsConfigurationGUI;
 use ILIAS\User\Settings\NewAccountMail\SettingsGUI as NewAccountMailSettingsGUI;
 use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
+use ILIAS\User\Settings\Repository as UserSettingsRepository;
 use ILIAS\User\Settings\StartingPoint\SettingsGUI as StartingPointSettingsGUI;
+use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileConfigurationRepository;
 use ILIAS\User\Profile\Fields\ConfigurationGUI as ProfileFieldsConfigurationGUI;
 use ILIAS\User\Profile\Fields\CustomFieldsGUI;
 use ILIAS\User\Profile\Prompt\SettingsGUI as ProfileSettingsGUI;
@@ -82,6 +85,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
     private LegacyArchives $archives;
     private ResourceStorage $irss;
     private NewAccountMailRepository $account_mail_repo;
+    private UserSettingsRepository $user_settings_repo;
+    private ProfileConfigurationRepository $profile_configuration_repo;
+    private array $profile_field_change_listeners;
 
     public function __construct(
         $a_data,
@@ -98,7 +104,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->mail_mustache_factory = $DIC->mail()->mustacheFactory();
         $this->archives = $DIC->legacyArchives();
         $this->irss = $DIC['resource_storage'];
-        $this->account_mail_repo = new NewAccountMailRepository($this->db);
+
+        $local_dic = LocalDIC::dic();
+        $this->account_mail_repo = $local_dic[NewAccountMailRepository::class];
+        $this->user_settings_repo = $local_dic[UserSettingsRepository::class];
+        $this->profile_configuration_repo = $local_dic[ProfileConfigurationRepository::class];
+        $this->profile_field_change_listeners = $local_dic['profile.fields.changelisteners'];
 
         $this->type = 'usrf';
         parent::__construct(
@@ -218,7 +229,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
                         $this->ui_factory,
                         $this->ui_renderer,
                         $this->refinery,
-                        $this->request
+                        $this->request,
+                        $this->profile_configuration_repo
                     )
                 );
                 break;
@@ -235,7 +247,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
                         $this->refinery,
                         $this->request,
                         $this->request_wrapper,
-                        $this->http
+                        $this->http,
+                        $this->user_settings_repo
                     )
                 );
                 break;
@@ -271,7 +284,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
                         $this->ctrl,
                         $this->event,
                         $this->access,
-                        $this->settings,
                         $this->toolbar,
                         $this->tpl,
                         $this->ui_factory,
@@ -280,7 +292,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
                         $this->request,
                         $this->request_wrapper,
                         $this->post_wrapper,
-                        $this->http
+                        $this->http,
+                        $this->profile_field_change_listeners,
+                        $this->profile_configuration_repo
                     )
                 );
                 break;

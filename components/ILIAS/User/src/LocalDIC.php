@@ -22,6 +22,7 @@ namespace ILIAS\User;
 
 use ILIAS\User\Settings\Settings as UserSettings;
 use ILIAS\User\Settings\SettingsImplementation as UserSettingsImplementation;
+use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
 use ILIAS\User\Settings\Repository as UserSettingsRepository;
 use ILIAS\User\Settings\StartingPoint\Repository as StartingPointRepository;
 use ILIAS\User\Settings\CollectSettingsObjective;
@@ -146,5 +147,7 @@ class LocalDIC extends PimpleContainer
                 $c[ProfileFieldsConfigurationRepository::class],
                 $c[ProfileDataRepository::class]
             );
+        $this[NewAccountMailRepository::class] = fn($c): NewAccountMailRepository =>
+            new NewAccountMailRepository($DIC['ilDB']);
     }
 }

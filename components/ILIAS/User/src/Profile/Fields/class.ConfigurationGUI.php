@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Fields;
 
-use ILIAS\User\LocalDIC;
 use ILIAS\User\RedirectOnMissingWrite;
 use ILIAS\User\PropertyAttributes;
 use ILIAS\User\Profile\ChangeListeners\UserFieldAttributesChangeListener;
@@ -55,12 +54,10 @@ class ConfigurationGUI implements DataRetrieval
     private const string ACTION_EDIT = 'edit';
     private const string ACTION_DELETE = 'delete';
 
-    private readonly ConfigurationRepository $repository;
     private readonly URLBuilder $url_builder;
     private readonly URLBuilderToken $action_token;
     private readonly URLBuilderToken $field_id_token;
 
-    private array $available_change_listeners;
     private array $available_fields;
 
     public function __construct(
@@ -68,7 +65,6 @@ class ConfigurationGUI implements DataRetrieval
         private readonly \ilCtrl $ctrl,
         private readonly \ilAppEventHandler $event,
         private readonly \ilAccess $access,
-        private readonly \ilSetting $settings,
         private readonly \ilToolbarGUI $toolbar,
         private readonly \ilGlobalTemplateInterface $tpl,
         private readonly UIFactory $ui_factory,
@@ -77,10 +73,10 @@ class ConfigurationGUI implements DataRetrieval
         private readonly ServerRequestInterface $request,
         private readonly RequestWrapper $request_wrapper,
         private readonly RequestWrapper $post_wrapper,
-        private readonly HttpService $http
+        private readonly HttpService $http,
+        private readonly array $available_change_listeners,
+        private readonly ConfigurationRepository $repository
     ) {
-        $this->available_change_listeners = LocalDIC::dic()['profile.fields.changelisteners'];
-        $this->repository = LocalDIC::dic()[ConfigurationRepository::class];
         $this->available_fields = $this->repository->get();
 
         $url_builder = new URLBuilder(

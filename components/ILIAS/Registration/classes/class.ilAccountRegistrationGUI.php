@@ -22,11 +22,8 @@ use ILIAS\Language\UserSettings\Language as LanguageSetting;
 use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
 use ILIAS\User\Settings\Settings as UserSettings;
 use ILIAS\User\Profile\Profile;
-use ILIAS\User\Profile\Data as ProfileData;
-use ILIAS\User\Profile\Fields\Field as ProfileField;
+use ILIAS\User\Profile\Fields\Standard\Alias;
 use ILIAS\User\Context;
-use ILIAS\User\Profile\Fields\Standard\Avatar;
-use ILIAS\User\Profile\Fields\Standard\Birthday;
 
 /**
  * Class ilAccountRegistrationGUI
@@ -156,7 +153,7 @@ class ilAccountRegistrationGUI
 
         $this->lng->loadLanguageModule("user");
         // add fields to form
-        $this->user_profile->addFieldsToForm($this->form, Context::Registration, true, null);
+        $this->user_profile->addFieldsToForm($this->form, Context::Registration, true, null, [Alias::class]);
 
         $field = new ilFormSectionHeaderGUI();
         $field->setTitle($this->lng->txt('settings'));
@@ -327,7 +324,7 @@ class ilAccountRegistrationGUI
                 if (ilObjUser::_loginExists($login)) {
                     $login_obj->setAlert($this->lng->txt('login_exists'));
                     $form_valid = false;
-                } elseif ((int) $this->settings->get('allow_change_loginname') &&
+                } elseif ($this->user_profile->userFieldEditableByUser(Alias::class) &&
                     (int) $this->settings->get('reuse_of_loginnames') === 0 &&
                     ilObjUser::_doesLoginnameExistInHistory($login)) {
                     $login_obj->setAlert($this->lng->txt('login_exists'));

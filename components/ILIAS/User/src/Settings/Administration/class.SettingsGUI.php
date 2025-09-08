@@ -21,13 +21,14 @@ declare(strict_types=1);
 namespace ILIAS\User\Settings\Administration;
 
 use ILIAS\User\RedirectOnMissingWrite;
+use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileConfigurationRepository;
+use ILIAS\User\Profile\Fields\Standard\Alias;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Custom\Constraint;
-use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Authentication\Password\LocalUserPasswordManager;
 use Psr\Http\Message\ServerRequestInterface;
@@ -47,7 +48,8 @@ class SettingsGUI
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
         private readonly Refinery $refinery,
-        private readonly ServerRequestInterface $request
+        private readonly ServerRequestInterface $request,
+        private readonly ProfileConfigurationRepository $profile_configuration_repository
     ) {
 
     }
@@ -138,23 +140,21 @@ class SettingsGUI
         );
         \ilUserAccountSettings::getInstance()->update();
 
-        $this->settings->set(
-            'allow_change_loginname',
-            $data['login_name']['allow_change_loginname']['allow_change_loginname'] ? '1' : '0'
-        );
+        if ($this->profile_configuration_repository->getByClass(Alias::class)->isChangeableByUser()) {
 
-        if ($data['login_name']['allow_change_loginname']['allow_change_loginname']) {
             $this->settings->set(
                 'create_history_loginname',
-                $data['login_name']['allow_change_loginname']['create_history_loginname'] ? '1' : '0'
+                $data['login_name']['create_history_loginname'] ? '1' : '0'
             );
             $this->settings->set(
                 'reuse_of_loginnames',
-                $data['login_name']['allow_change_loginname']['allow_reuse_of_loginnames'] ? '1' : '0'
+                $data['login_name']['allow_reuse_of_loginnames'] ? '1' : '0'
             );
             $this->settings->set(
                 'loginname_change_blocking_time',
-                $data['login_name']['allow_change_loginname']['loginname_change_blocking_time']
+                $this->refinery->kindlyTo()->string()->transform(
+                    $data['login_name']['loginname_change_blocking_time']
+                )
             );
         }
 
@@ -407,37 +407,37 @@ class SettingsGUI
     private function buildLoginNameSettings(): Section
     {
         $ff = $this->ui_factory->input()->field();
-
+        $alias_changeable_by_user = $this->profile_configuration_repository->getByClass(Alias::class)->isChangeableByUser();
         return $ff->section(
             [
-                'allow_change_loginname' => $ff->optionalGroup(
-                    [
-                        'create_history_loginname' => $ff->checkbox(
-                            $this->lng->txt('history_loginname'),
-                            $this->lng->txt('loginname_history_info')
-                        )->withValue($this->settings->get('create_history_loginname') === '1'),
-                        'allow_reuse_of_loginnames' => $ff->checkbox(
-                            $this->lng->txt('reuse_of_loginnames_contained_in_history'),
-                            $this->lng->txt('reuse_of_loginnames_contained_in_history_info')
-                        )->withValue($this->settings->get('reuse_of_loginnames') === '1'),
-                        'loginname_change_blocking_time' => $ff->text(
-                            $this->lng->txt('loginname_change_blocking_time'),
-                            $this->lng->txt('loginname_change_blocking_time_info')
-                        )->withValue(
-                            (string) ((float) $this->settings->get('loginname_change_blocking_time') / 86400)
-                        ),
-                    ],
-                    $this->lng->txt('allow_change_loginname')
-                )->withAdditionalTransformation($this->buildBlockingTimeMustBeFloatConstraint())
-                ->withAdditionalTransformation($this->buildAllowLoginnameChangeTrafo())
-                ->withValue(
-                    $this->settings->get('allow_change_loginname') === '1'
-                    ? [
-                        'create_history_loginname' => $this->settings->get('create_history_loginname') === '1',
-                        'allow_reuse_of_loginnames' => $this->settings->get('reuse_of_loginnames') === '1',
-                        'loginname_change_blocking_time' => (string) ((float) $this->settings->get('loginname_change_blocking_time') / 86400)
-                    ] : null
-                ),
+                'create_history_loginname' => $ff->checkbox(
+                    $this->lng->txt('history_loginname'),
+                    $alias_changeable_by_user
+                        ? $this->lng->txt('loginname_history_info')
+                        : $this->lng->txt('activate_in_profile_fields')
+                )->withValue($this->settings->get('create_history_loginname') === '1')
+                ->withDisabled(!$alias_changeable_by_user),
+                'allow_reuse_of_loginnames' => $ff->checkbox(
+                    $this->lng->txt('reuse_of_loginnames_contained_in_history'),
+                    $alias_changeable_by_user
+                        ? $this->lng->txt('reuse_of_loginnames_contained_in_history_info')
+                        : $this->lng->txt('activate_in_profile_fields')
+                )->withValue($this->settings->get('reuse_of_loginnames') === '1')
+                ->withDisabled(!$alias_changeable_by_user),
+                'loginname_change_blocking_time' => $ff->numeric(
+                    $this->lng->txt('loginname_change_blocking_time'),
+                    $alias_changeable_by_user
+                        ? $this->lng->txt('loginname_change_blocking_time_info')
+                        : $this->lng->txt('activate_in_profile_fields')
+                )->withStepSize(
+                    0.00001
+                )->withAdditionalTransformation(
+                    $this->refinery->custom()->transformation(
+                        fn(?float $v): ?float => $v === null ? null : $v * 86400
+                    )
+                )->withValue(
+                    (float) $this->settings->get('loginname_change_blocking_time') / 86400
+                )->withDisabled(!$alias_changeable_by_user),
                 'letter_avatars' => $ff->checkbox(
                     $this->lng->txt('usr_letter_avatars'),
                     $this->lng->txt('usr_letter_avatars_info')
@@ -478,43 +478,6 @@ class SettingsGUI
         return $this->refinery->custom()->constraint(
             static fn(array $vs): bool => $vs['password_min_length'] > $vs['password_max_length'],
             $this->lng->txt('ps_error_message_password_max_less_min')
-        );
-    }
-
-    private function buildBlockingTimeMustBeFloatConstraint(): Constraint
-    {
-        return $this->refinery->custom()->constraint(
-            function (?array $vs): bool {
-                if ($vs === null) {
-                    return true;
-                }
-                try {
-                    $this->refinery->kindlyTo()->float()->transform($vs['loginname_change_blocking_time']);
-                    return true;
-                } catch (ConstraintViolationException $e) {
-                    return false;
-                }
-            },
-            $this->lng->txt('loginname_change_blocking_time_invalidity_info')
-        );
-    }
-
-    private function buildAllowLoginnameChangeTrafo(): Transformation
-    {
-        return $this->refinery->custom()->transformation(
-            function (?array $vs): array {
-                if ($vs === null) {
-                    return [
-                        'allow_change_loginname' => false
-                    ];
-                }
-
-                $vs['allow_change_loginname'] = true;
-                $vs['loginname_change_blocking_time'] = $this->refinery->kindlyTo()->string()->transform(
-                    $this->refinery->kindlyTo()->float()->transform($vs['loginname_change_blocking_time']) * 86400
-                );
-                return $vs;
-            }
         );
     }
 

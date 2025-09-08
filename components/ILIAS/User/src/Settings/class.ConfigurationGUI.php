@@ -44,7 +44,6 @@ class ConfigurationGUI implements DataRetrieval
 {
     use RedirectOnMissingWrite;
 
-    private readonly Repository $user_settings_repository;
     private readonly URLBuilder $url_builder;
     private readonly URLBuilderToken $action_token;
     private readonly URLBuilderToken $setting_id_token;
@@ -61,9 +60,9 @@ class ConfigurationGUI implements DataRetrieval
         private readonly Refinery $refinery,
         private readonly ServerRequestInterface $request,
         private readonly RequestWrapper $request_wrapper,
-        private readonly HttpService $http
+        private readonly HttpService $http,
+        private readonly Repository $user_settings_repository
     ) {
-        $this->user_settings_repository = LocalDIC::dic()[Repository::class];
         $this->available_settings = $this->user_settings_repository->get();
 
         $url_builder = new URLBuilder(new URI(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(self::class, 'action')));

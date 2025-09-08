@@ -20,6 +20,7 @@ use ILIAS\User\LocalDIC;
 use ILIAS\User\Profile\Data;
 use ILIAS\User\Profile\DataRepository as ProfileDataRepository;
 use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileConfigurationRepository;
+use ILIAS\User\Profile\Fields\Standard\Alias;
 use ILIAS\User\Profile\Fields\Standard\Genders;
 use ILIAS\User\Profile\Fields\Standard\Interests;
 use ILIAS\User\Profile\Fields\Standard\HelpOffered;
@@ -321,14 +322,17 @@ class ilObjUser extends ilObject
 
         $last_history_entry = $this->getLastHistoryData();
 
+        $allow_change_login_name = $this->profile_configuration_repository
+            ->getByClass(Alias::class)->isChangeableByUser();
+
         // throw exception if the desired loginame is already in history and it is not allowed to reuse it
-        if ($this->settings->get('allow_change_loginname') === '1'
+        if ($allow_change_login_name
             && $this->settings->get('reuse_of_loginnames') === '0'
             && self::_doesLoginnameExistInHistory($login)) {
             throw new ilUserException($this->lng->txt('loginname_already_exists'));
         }
 
-        if ($this->settings->get('allow_change_loginname') === '1'
+        if ($allow_change_login_name
             && (int) $this->settings->get('loginname_change_blocking_time') > 0
             && is_array($last_history_entry)
             && $last_history_entry[1] + (int) $this->settings->get('loginname_change_blocking_time') > time()) {
@@ -345,7 +349,7 @@ class ilObjUser extends ilObject
             );
         }
 
-        if ($this->settings->get('allow_change_loginname') === '1'
+        if ($allow_change_login_name
             && $this->settings->get('create_history_loginname') === '1') {
             $this->writeHistory($this->getId(), $this->profile_data->getAlias());
         }

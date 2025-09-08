@@ -199,7 +199,7 @@ class UserProfileMigrations implements Migration
         ];
 
         $this->updateCountryField($property_attributes);
-        foreach($field_ids as $field_id) {
+        foreach ($field_ids as $field_id) {
             $this->insertConfig(
                 $field_id,
                 ...$this->fetchConfigValuesFromSettings($field_id, $property_attributes)
@@ -250,7 +250,7 @@ class UserProfileMigrations implements Migration
             );
 
             $insert = [];
-            while(($row = $this->db->fetchObject($query))) {
+            while (($row = $this->db->fetchObject($query))) {
                 $insert[] = "('{$row->usr_id}', '{$uuid}', '{$row->old_country}')";
             }
 
@@ -275,6 +275,9 @@ class UserProfileMigrations implements Migration
     ): array {
         return array_map(
             function (string $v) use ($field_id): bool {
+                if ($field_id === 'username' && $v === 'usr_settings_disable') {
+                    return $this->settings->get('allow_change_loginname', '0') === '1';
+                }
                 $value = $this->retrievePropertyAttributeValue($field_id, $v);
                 if (in_array($v, ['usr_settings_hide', 'usr_settings_disable'])) {
                     return !$value;
