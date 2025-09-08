@@ -76,3 +76,7 @@ RewriteEngine On
   # 302-Weiterleitungen nicht cachen (verhindert „klebrige“ Rewrites)
   Header always set Cache-Control "no-store" "expr=%{REQUEST_STATUS} = 302"
 </IfModule>
+
+# If there is no PHP session cookie, redirect to /
+RewriteCond %{HTTP_COOKIE} !PHPSESSID
+RewriteRule ^ilias\.php$ / [R=302,L]
