@@ -32,6 +32,8 @@ class ilCertificateDateHelperTest extends ilCertificateBaseTestCase
     {
         parent::setUp();
 
+        class_exists('ilDateTime');
+
         ilTimeZone::_setDefaultTimeZone(self::DEFAULT_TIME_ZONE);
 
         $logger = $this->getMockBuilder(ilLogger::class)
