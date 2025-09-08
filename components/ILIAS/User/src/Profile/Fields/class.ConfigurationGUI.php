@@ -233,11 +233,12 @@ class ConfigurationGUI implements DataRetrieval
         );
         if ($identifier === null) {
             $this->showCmd();
-        };
+        }
         $this->repository->deleteCustomField(
             $this->repository->getByIdentifier($identifier[0])
         );
         $this->available_fields = $this->repository->get();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('udf_field_deleted'), true);
         $this->showCmd();
     }
 
