@@ -18,30 +18,41 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 class ilCertificateDateHelperTest extends ilCertificateBaseTestCase
 {
+    private const string USER_TIME_ZONE = 'Europe/Berlin';
+    private const string DEFAULT_TIME_ZONE = 'UTC';
+
     private int $current_time;
 
     protected function setUp(): void
     {
         parent::setUp();
-        require_once __DIR__ . '/../../Calendar/classes/class.ilDateTime.php';
+
+        ilTimeZone::_setDefaultTimeZone(self::DEFAULT_TIME_ZONE);
+
         $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+                       ->disableOriginalConstructor()
+                       ->getMock();
 
         $logger_factory = $this->getMockBuilder(ilLoggerFactory::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getComponentLogger'])
-            ->getMock();
+                               ->disableOriginalConstructor()
+                               ->onlyMethods(['getComponentLogger'])
+                               ->getMock();
         $logger_factory->method('getComponentLogger')->willReturn($logger);
         $this->setGlobalVariable('ilLoggerFactory', $logger_factory);
         $this->setGlobalVariable('lng', $this->getSystemLanguageMock());
         $this->setGlobalVariable('ilUser', $this->getUserMock());
         $this->current_time = time();
+    }
+
+    protected function tearDown(): void
+    {
+        ilTimeZone::_restoreDefaultTimeZone();
+        parent::tearDown();
     }
 
     public static function dataProviderFormatDateWithDateFormat(): array
@@ -65,10 +76,11 @@ class ilCertificateDateHelperTest extends ilCertificateBaseTestCase
 
     public function doesNotChangeUseRelativeDates(): void
     {
-        $oldDatePresentationValue = ilDatePresentation::useRelativeDates();
+        $used_relative_dates = ilDatePresentation::useRelativeDates();
+
         $helper = new ilCertificateDateHelper();
         $helper->formatDate('2001-01-01');
-        $this->assertEquals($oldDatePresentationValue, ilDatePresentation::useRelativeDates());
+        $this->assertEquals($used_relative_dates, ilDatePresentation::useRelativeDates());
 
         ilDatePresentation::setUseRelativeDates(true);
         $helper->formatDate('2001-01-01');
@@ -78,10 +90,10 @@ class ilCertificateDateHelperTest extends ilCertificateBaseTestCase
         $helper->formatDate('2001-01-01');
         $this->assertFalse(ilDatePresentation::useRelativeDates());
 
-        ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
+        ilDatePresentation::setUseRelativeDates($used_relative_dates);
     }
 
-    public function testUnixFormatIsCastToString(): void
+    public function testUnixFormatIsCastedToString(): void
     {
         $helper = new ilCertificateDateHelper();
         $this->assertEquals(
@@ -94,7 +106,7 @@ class ilCertificateDateHelperTest extends ilCertificateBaseTestCase
     {
         $helper = new ilCertificateDateHelper();
         $this->assertEquals(
-            $helper->formatDate("20010101", null, IL_CAL_DATE),
+            $helper->formatDate('20010101', null, IL_CAL_DATE),
             $helper->formatDate(20010101, null, IL_CAL_DATE)
         );
     }
@@ -114,8 +126,8 @@ class ilCertificateDateHelperTest extends ilCertificateBaseTestCase
     {
         return [
             [null, 'No date'],
-            ['2001-01-01 00:00:00', '1. Jan 2001, 00:00'],
-            [20010101000000, '1. Jan 2001, 00:00'],
+            ['2001-01-01 00:00:00', '1. Jan 2001, 01:00'],
+            [20010101000000, '1. Jan 2001, 01:00'],
             [0, 'No date'],
             ['', 'No date'],
         ];
@@ -128,55 +140,72 @@ class ilCertificateDateHelperTest extends ilCertificateBaseTestCase
         $this->assertEquals($output, $helper->formatDateTime($input));
     }
 
-    public function testCannotFormatString(): void
+    /**
+     * @return array{'formatDateTime'|'formatDate', array{0: string}}
+     */
+    public static function invalidDateProvider(): array
     {
-        $helper = new ilCertificateDateHelper();
-        $this->expectExceptionMessage('Cannot parse date: invalid-date');
-        $helper->formatDateTime('invalid-date');
-        $this->expectExceptionMessage('Cannot parse date: invalid-date');
-        $helper->formatDate('invalid-date');
+        return [
+            'formatDateTime' => ['formatDateTime'],
+            'formatDate' => ['formatDate'],
+        ];
     }
 
-    public function testCannotParseTimestampWithDateTimeFormat(): void
+    #[DataProvider('invalidDateProvider')]
+    public function testCannotFormatString(string $method): void
+    {
+        $helper = new ilCertificateDateHelper();
+        $this->expectExceptionMessage('Cannot parse date: invalid-date');
+        $helper->$method('invalid-date');
+    }
+
+    #[DataProvider('invalidDateProvider')]
+    public function testCannotParseTimestampWithDateTimeFormat(string $method): void
     {
         $helper = new ilCertificateDateHelper();
         $this->expectExceptionMessage('Cannot parse date: ' . $this->current_time);
-        $helper->formatDateTime($this->current_time);
-
-        $this->expectExceptionMessage('Cannot parse date: ' . $this->current_time);
-        $helper->formatDate($this->current_time);
+        $helper->$method($this->current_time);
     }
 
     public function testFormatDateWithoutRelativeDates(): void
     {
         $helper = new ilCertificateDateHelper();
         $this->assertNotEquals('Today', $helper->formatDateTime($this->current_time, null, IL_CAL_UNIX));
+
+        $used_relative_dates = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(true);
         $this->assertNotEquals('Today', $helper->formatDateTime($this->current_time, null, IL_CAL_UNIX));
+        ilDatePresentation::setUseRelativeDates($used_relative_dates);
     }
 
+    #[RunInSeparateProcess]
     public function testFormatDateWithUserLanguage(): void
     {
         $this->mockUserLanguageGerman();
+
         $helper = new ilCertificateDateHelper();
         $this->assertEquals('1. Mai 2001', $helper->formatDate('2001-05-01 01:30:59', $this->getUserMock()));
     }
 
+    #[RunInSeparateProcess]
     public function testFormatDateTimeWithUserLanguage(): void
     {
         $this->mockUserLanguageGerman();
+
         $helper = new ilCertificateDateHelper();
-        $this->assertEquals('1. Mai 2001, 01:30', $helper->formatDateTime('2001-05-01 01:30:59', $this->getUserMock()));
+        $this->assertEquals('1. Mai 2001, 03:30', $helper->formatDateTime('2001-05-01 01:30:59', $this->getUserMock()));
     }
 
     private function getUserMock(): ilObjUser
     {
         $user = $this->getMockBuilder(ilObjUser::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+                     ->disableOriginalConstructor()
+                     ->onlyMethods(['getTimeFormat', 'getLanguage', 'getTimeZone'])
+                     ->getMock();
         $user->prefs = ['language' => 'de'];
         $user->method('getTimeFormat')->willReturn((string) ilCalendarSettings::TIME_FORMAT_24);
         $user->method('getLanguage')->willReturn('de');
+        $user->method('getTimeZone')->willReturn(self::USER_TIME_ZONE);
 
         return $user;
     }
@@ -184,73 +213,84 @@ class ilCertificateDateHelperTest extends ilCertificateBaseTestCase
     private function getSystemLanguageMock(): ilLanguage
     {
         $lng = $this->getMockBuilder(ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $lng->method('txt')->willReturnMap([
-            ['month_01_short', '', 'Jan'],
-            ['month_01_long', '', 'January'],
-            ['month_02_short', '', 'Feb'],
-            ['month_03_short', '', 'Mar'],
-            ['month_04_short', '', 'Apr'],
-            ['month_05_short', '', 'May'],
-            ['month_06_short', '', 'Jun'],
-            ['month_07_short', '', 'Jul'],
-            ['month_08_short', '', 'Aug'],
-            ['month_09_short', '', 'Sep'],
-            ['month_10_short', '', 'Oct'],
-            ['month_11_short', '', 'Nov'],
-            ['month_12_short', '', 'Dec'],
-            ['no_date', '', 'No date'],
-            ['today', '', 'Today'],
-            ['yesterday', '', 'Yesterday'],
-            ['tomorrow', '', 'Tomorrow'],
-        ]);
+                    ->onlyMethods(['txt', 'loadLanguageModule'])
+                    ->disableOriginalConstructor()
+                    ->getMock();
+        $lng->method('txt')->willReturnCallback(function (string $topic): string {
+            return match ($topic) {
+                'month_01_short' => 'Jan',
+                'month_01_long' => 'January',
+                'month_02_short' => 'Feb',
+                'month_03_short' => 'Mar',
+                'month_04_short' => 'Apr',
+                'month_05_short' => 'May',
+                'month_06_short' => 'Jun',
+                'month_07_short' => 'Jul',
+                'month_08_short' => 'Aug',
+                'month_09_short' => 'Sep',
+                'month_10_short' => 'Oct',
+                'month_11_short' => 'Nov',
+                'month_12_short' => 'Dec',
+                'no_date' => 'No date',
+                'today' => 'Today',
+                'yesterday' => 'Yesterday',
+                'tomorrow' => 'Tomorrow',
+                default => '-' . $topic . '-'
+            };
+        });
 
         return $lng;
     }
 
-    public function mockUserLanguageGerman(): void
+    private function mockUserLanguageGerman(): void
     {
-        $ilClientIniFile = $this->getMockBuilder(ilIniFile::class)
-                                ->disableOriginalConstructor()
-                                ->getMock();
-        $this->setGlobalVariable('ilClientIniFile', $ilClientIniFile);
-
         if (!defined('ILIAS_LOG_ENABLED')) {
             define('ILIAS_LOG_ENABLED', false);
         }
         if (!defined('ILIAS_ABSOLUTE_PATH')) {
             define('ILIAS_ABSOLUTE_PATH', dirname(__FILE__, 5));
         }
-        $ilDB = $this->getMockBuilder(ilDBInterface::class)
-                     ->disableOriginalConstructor()
-                     ->getMock();
-        $ilDB->method('query')->willReturnCallback(function ($query): ilDBStatement {
-            $mock_object = $this->createMock(ilDBStatement::class);
-            $mock_object->method('fetchRow')->willReturn([
-                'lang_array' => serialize([
-                    'month_01_short' => 'Jan',
-                    'month_01_long' => 'Januar',
-                    'month_02_short' => 'Feb',
-                    'month_03_short' => 'Mär',
-                    'month_04_short' => 'Apr',
-                    'month_05_short' => 'Mai',
-                    'month_06_short' => 'Jun',
-                    'month_07_short' => 'Jul',
-                    'month_08_short' => 'Aug',
-                    'month_09_short' => 'Sep',
-                    'month_10_short' => 'Okt',
-                    'month_11_short' => 'Nov',
-                    'month_12_short' => 'Dez',
-                    'no_date' => 'Kein Datum',
-                    'today' => 'Heute',
-                    'yesterday' => 'Gestern',
-                    'tomorrow' => 'Morgen'
-                ]),
-            ]);
 
-            return $mock_object;
+        $ilClientIniFile = $this->getMockBuilder(ilIniFile::class)
+                                ->disableOriginalConstructor()
+                                ->getMock();
+        $this->setGlobalVariable('ilClientIniFile', $ilClientIniFile);
+
+        $ilDB = $this->createMock(ilDBInterface::class);
+        $ilDB->method('query')->willReturnCallback(function ($query): ilDBStatement {
+            $statement = $this->createMock(ilDBStatement::class);
+
+            if (str_contains($query, 'SELECT * FROM lng_modules')) {
+                $statement->method('numRows')->willReturn(1);
+                $statement->method('fetchRow')->willReturn([
+                    'lang_array' => serialize([
+                        'month_01_short' => 'Jan',
+                        'month_01_long' => 'Januar',
+                        'month_02_short' => 'Feb',
+                        'month_03_short' => 'Mär',
+                        'month_04_short' => 'Apr',
+                        'month_05_short' => 'Mai',
+                        'month_06_short' => 'Jun',
+                        'month_07_short' => 'Jul',
+                        'month_08_short' => 'Aug',
+                        'month_09_short' => 'Sep',
+                        'month_10_short' => 'Okt',
+                        'month_11_short' => 'Nov',
+                        'month_12_short' => 'Dez',
+                        'no_date' => 'Kein Datum',
+                        'today' => 'Heute',
+                        'yesterday' => 'Gestern',
+                        'tomorrow' => 'Morgen'
+                    ]),
+                ]);
+            } else {
+                $statement->method('numRows')->willReturn(0);
+                $statement->method('fetchRow')->willReturn(false);
+            }
+
+            return $statement;
         });
+
         $this->setGlobalVariable('ilDB', $ilDB);
     }
 }

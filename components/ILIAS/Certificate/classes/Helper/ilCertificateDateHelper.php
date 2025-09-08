@@ -22,10 +22,11 @@ class ilCertificateDateHelper
 {
     /**
      * @param string|int $raw_date_input
+     * @throws ilDateTimeException
      */
     public function formatDate($raw_date_input, ?ilObjUser $user = null, ?int $date_format = null): string
     {
-        require_once __DIR__ . '/../../../Calendar/classes/class.ilDateTime.php'; // Required because of global constant IL_CAL_DATE
+        class_exists('ilDateTime'); // Required because of global constant IL_CAL_DATE
 
         if ($date_format === null) {
             $date_format = IL_CAL_DATE;
@@ -57,7 +58,7 @@ class ilCertificateDateHelper
      */
     public function formatDateTime($raw_datetime_input, ?ilObjuser $user = null, ?int $datetime_format = null): string
     {
-        require_once __DIR__ . '/../../../Calendar/classes/class.ilDateTime.php'; // Required because of global constant IL_CAL_DATE
+        class_exists('ilDateTime'); // Required because of global constant IL_CAL_DATE
 
         if ($datetime_format === null) {
             $datetime_format = IL_CAL_DATETIME;
