@@ -3671,7 +3671,7 @@ common#:#change_assignment#:#Change assignment
 common#:#change_header_title#:#Edit Header Title
 common#:#change_owner#:#Change Owner
 common#:#change_sort_direction#:#Change sort direction
-common#:#changeable#:#Changeable in Profile
+common#:#changeable#:#Changeable by User
 common#:#changed_to#:#changed to
 common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
 common#:#chapter#:#Chapter

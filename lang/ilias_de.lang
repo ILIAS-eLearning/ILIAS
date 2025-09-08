@@ -3671,7 +3671,7 @@ common#:#change_assignment#:#Zuweisung ändern
 common#:#change_header_title#:#Installationsüberschrift bearbeiten
 common#:#change_owner#:#Speichern
 common#:#change_sort_direction#:#Sortierrichtung ändern
-common#:#changeable#:#Kann durch Benutzer selbst im Profil geändert werden
+common#:#changeable#:#Kann durch Benutzer selbst geändert werden
 common#:#changed_to#:#gewechselt zu
 common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Anmeldenamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen.
 common#:#chapter#:#Kapitel
