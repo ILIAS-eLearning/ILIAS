@@ -5783,7 +5783,7 @@ common#:#udf_name_already_exists#:#This field name already exists. Please choose
 common#:#udf_required_requires_visib_reg#:#When a field is ‘Required’, it must also be ‘Visible in Registration’
 common#:#udf_type_date#:#Date
 common#:#udf_type_datetime#:#Date and Time
-common#:#udf_type_select#:#Selection List (Single Choice)
+common#:#udf_type_select#:#Selection List
 common#:#udf_type_text#:#Text Field (One Line)
 common#:#udf_type_textarea#:#Text Area
 common#:#udf_update_select_field#:#Edit Select Box
@@ -17368,6 +17368,7 @@ user#:#starting_page#:#Starting Point
 user#:#starting_point#:#Starting Point
 user#:#starting_point_settings#:#Starting Point Settings
 user#:#starting_points#:#Starting Points
+user#:#udf_select_options#:#Options
 user#:#user_access_limited#:#Limited
 user#:#user_access_unlimited#:#Unlimited
 user#:#user_account_code#:#Code

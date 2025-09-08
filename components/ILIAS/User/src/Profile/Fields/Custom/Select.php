@@ -43,7 +43,7 @@ class Select implements Type
         return $ff->group([
             'allow_multiple' => $ff->checkbox($lng->txt('multiple_selection'))
                 ->withValue($parsed_data['allow_multiple']),
-            'options' => $ff->tag($lng->txt('options'), [])
+            'options' => $ff->tag($lng->txt('udf_select_options'), [])
                 ->withValue($parsed_data['options'])
         ])->withAdditionalTransformation(
             $refinery->custom()->transformation(

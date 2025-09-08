@@ -5782,7 +5782,7 @@ common#:#udf_name_already_exists#:#Ein Feld mit diesem Namen existiert bereits. 
 common#:#udf_required_requires_visib_reg#:#Die Einstellung "Erforderliche Angabe" erfordert die Einstellung "Sichtbar im Registrierungsformular"
 common#:#udf_type_date#:#Datum
 common#:#udf_type_datetime#:#Datum und Uhrzeit
-common#:#udf_type_select#:#Auswahlliste (Einfachauswahl)
+common#:#udf_type_select#:#Auswahlliste
 common#:#udf_type_text#:#Text (freie Eingabe)
 common#:#udf_type_textarea#:#Textbereich
 common#:#udf_update_select_field#:#Auswahlliste bearbeiten
@@ -17368,6 +17368,7 @@ user#:#starting_page#:#Startseite
 user#:#starting_point#:#Startseite
 user#:#starting_point_settings#:#Einstellungen Startseite
 user#:#starting_points#:#Startseiten
+user#:#udf_select_options#:#Auswahloptionen
 user#:#user_access_limited#:#Zeitlich begrenzt
 user#:#user_access_unlimited#:#Unbegrenzt
 user#:#user_account_code#:#Code
