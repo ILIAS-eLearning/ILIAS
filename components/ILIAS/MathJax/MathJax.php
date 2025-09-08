@@ -37,6 +37,8 @@ class MathJax implements Component\Component
                 $pull[\ILIAS\Refinery\Factory::class]
             );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\ComponentJS($this, "js/cdn-mathjax2-tex-mml-chtml-safe.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
         new Component\Resource\ComponentJS($this, "js/cdn-mathjax3-es5-tex-mml-chtml-safe.js");
     }
 }
