@@ -31,7 +31,7 @@ use ILIAS\Contact\BuddySystem\Tables\RelationsTable;
 * @ilCtrl_Calls ilContactGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailSearchLearningSequenceGUI, ilMailingListsGUI
 * @ilCtrl_Calls ilContactGUI: ilUsersGalleryGUI, ilPublicUserProfileGUI
 */
-class ilContactGUI
+class ilContactGUI implements ilCtrlSecurityInterface
 {
     final public const string CONTACTS_VIEW_GALLERY = 'buddy_view_gallery';
     final public const string CONTACTS_VIEW_TABLE = 'buddy_view_table';
@@ -88,6 +88,18 @@ class ilContactGUI
             $this->http
         );
         $this->lng->loadLanguageModule('buddysystem');
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+          'updateState'
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
     }
 
     public function executeCommand(): bool

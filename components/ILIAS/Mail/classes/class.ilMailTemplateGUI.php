@@ -27,7 +27,7 @@ use ILIAS\Data\Factory as DataFactory;
 /**
  * @ilCtrl_isCalledBy ilMailTemplateGUI: ilObjMailGUI
  */
-class ilMailTemplateGUI
+class ilMailTemplateGUI implements ilCtrlSecurityInterface
 {
     protected ilPropertyFormGUI $form;
     protected ilGlobalTemplateInterface $tpl;
@@ -76,20 +76,41 @@ class ilMailTemplateGUI
         return $this->rbacsystem->checkAccess('write', $this->parent_object->getRefId());
     }
 
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+            'executeTableAction'
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
+    }
+
     public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
-
-        if ($this->http->wrapper()->query()->has('mail_template_table_action')) {
-            $cmd = $this->http->wrapper()->query()->retrieve(
-                'mail_template_table_action',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
         if (!$cmd || !method_exists($this, $cmd)) {
             $cmd = 'showTemplates';
         }
         $this->$cmd();
+    }
+
+    public function executeTableAction(): void
+    {
+        $action = $this->http->wrapper()->query()->retrieve(
+            'mail_template_table_action',
+            $this->refinery->kindlyTo()->string()
+        );
+
+        match ($action) {
+            'showEditTemplateForm' => $this->showEditTemplateForm(),
+            'confirmDeleteTemplate' => $this->confirmDeleteTemplate(),
+            'unsetAsContextDefault' => $this->unsetAsContextDefault(),
+            'setAsContextDefault' => $this->setAsContextDefault(),
+            default => $this->ctrl->redirect($this, 'showTemplates'),
+        };
     }
 
     protected function showTemplates(): void
@@ -104,11 +125,14 @@ class ilMailTemplateGUI
             ));
         }
 
+        $table_uri = (new DataFactory())->uri(ILIAS_HTTP_PATH . '/'
+            . $this->ctrl->getLinkTarget($this, 'executeTableAction'));
+
         $tbl = new ilMailTemplateTable(
             $this->http->request(),
             $this->lng,
             $this->ui_factory,
-            new DataFactory(),
+            $table_uri,
             $this->service,
             !$this->isEditingAllowed()
         );

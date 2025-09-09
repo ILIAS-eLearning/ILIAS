@@ -28,6 +28,7 @@ use ILIAS\UI\Component\Table\DataRetrieval;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Table\Data as DataTable;
 use ILIAS\UI\Implementation\Component\Table\Action\Action;
+use ILIAS\Data\URI;
 
 class ilMailTemplateTable implements DataRetrieval
 {
@@ -41,7 +42,7 @@ class ilMailTemplateTable implements DataRetrieval
         private readonly ServerRequestInterface $http_request,
         private readonly ilLanguage $lng,
         private readonly UIFactory $ui_factory,
-        private readonly DataFactory $data_factory,
+        private readonly Uri $table_uri,
         private readonly ilMailTemplateService $service,
         private readonly bool $read_only = false,
     ) {
@@ -88,8 +89,7 @@ class ilMailTemplateTable implements DataRetrieval
     public function getComponent(): DataTable
     {
         $query_params_namespace = ['mail', 'template'];
-        $table_uri = $this->data_factory->uri($this->http_request->getUri()->__toString());
-        $url_builder = new URLBuilder($table_uri);
+        $url_builder = new URLBuilder($this->table_uri);
         [$url_builder, $action_parameter_token, $row_id_token] = $url_builder->acquireParameters(
             $query_params_namespace,
             'table_action',
