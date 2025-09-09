@@ -229,7 +229,11 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->getStandardTemplates();
                 $this->setTabs();
                 $cmd = $this->ctrl->getCmd('show');
-                $this->$cmd();
+                // Guard: fallback to 'show' if the requested command isn't a method of this class
+                if (!method_exists($this, $cmd)) {
+                    $cmd = 'show';
+                }
+                $this->{$cmd}();
                 break;
         }
     }

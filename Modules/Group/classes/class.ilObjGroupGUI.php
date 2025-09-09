@@ -1048,7 +1048,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->tabs_gui->addTab(
                     "news_timeline",
                     $this->lng->txt("cont_news_timeline_tab"),
-                    $this->ctrl->getLinkTargetByClass("ilnewstimelinegui", "show")
+                    $this->ctrl->getLinkTargetByClass(['ilRepositoryGUI','ilObjGroupGUI','ilNewsTimelineGUI'],'show')
                 );
                 if ($this->object->isNewsTimelineLandingPageEffective()) {
                     $this->addContentTab();
