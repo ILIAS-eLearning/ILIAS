@@ -58,9 +58,7 @@ class ilMathJaxConfigCheckedObjective implements Setup\Objective
         $interaction = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
 
         $repo = new ilMathJaxConfigSettingsRepository($factory->settingsFor('MathJax'));
-        if (!empty($new_config = $this->checkClientScriptUrl($repo->getConfig(), $interaction))) {
-            $repo->updateConfig($new_config);
-        }
+        $this->checkClientScriptUrl($repo->getConfig(), $interaction);
 
         return $environment;
     }
@@ -71,44 +69,19 @@ class ilMathJaxConfigCheckedObjective implements Setup\Objective
     }
 
     /**
-     * Check if an outdated script URL is used and try to correct it
-     * - Correct automatically if MathJax in the browser is not enabled (change an old default setting)
-     * - Ask if MathJax in the browser is enabled
-     * - Warn if an outdated URL is used in the config.json
-     *
-     * Return a config object which has to be saved, if changes are made
+     * Check if an outdated script URL is used
      */
-    protected function checkClientScriptUrl(ilMathJaxConfig $config, Setup\AdminInteraction $interaction): ?ilMathJaxConfig
+    protected function checkClientScriptUrl(ilMathJaxConfig $config, Setup\AdminInteraction $interaction): void
     {
-        $change = false;
-        $recommended = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe';
-        $outdated = [
-            'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML',
-            'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe',
-            'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML',
-            'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe',
-            'https://cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML',
-            'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
-        ];
+        $recommended = 'https://YOUR_ILIAS_URL/assets/js/cdn-mathjax2-tex-mml-chtml-safe.js';
 
-        if (in_array($config->getClientScriptUrl(), $outdated)) {
-            if ($config->isClientEnabled()) {
-                $change = $interaction->confirmOrDeny("Replace outdated or unsave MathJax URL with $recommended ?");
-            } else {
-                $interaction->inform("Replaced inactive outdated MathJax URL with $recommended");
-                $change = true;
+        if (str_contains($config->getClientScriptUrl(), '?')) {
+            $interaction->inform("ILIAS 10 cuts query params of javascript URLs that are added to the page."
+                . " Please replace your MathJax URL with $recommended or a similar script that sets the save mode of MathJax!");
+
+            if ($this->setup_config !== null && str_contains($this->setup_config->getConfig()->getClientScriptUrl(), '?')) {
+                $interaction->inform("Change the URL in the setup.json to avoid this message in the next update.");
             }
         }
-        if ($change
-            && $this->setup_config !== null
-            && in_array($this->setup_config->getConfig()->getClientScriptUrl(), $outdated)
-        ) {
-            $interaction->inform("Please change the URL in the setup.json to avoid this message in the next update.");
-        }
-
-        if ($change) {
-            return $config->withClientScriptUrl($recommended);
-        }
-        return null;
     }
 }
