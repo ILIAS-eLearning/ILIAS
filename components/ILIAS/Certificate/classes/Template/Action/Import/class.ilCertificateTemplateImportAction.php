@@ -215,6 +215,11 @@ class ilCertificateTemplateImportAction
 
                         if (str_contains($file->getPath(), '.xml')) {
                             $xsl = $this->filesystem->read($file->getPath());
+                            $xsl = preg_replace(
+                                "/url\([']{0,1}(.*?)[']{0,1}\)/",
+                                'url([BACKGROUND_IMAGE])',
+                                $xsl
+                            );
                         } elseif (str_contains($file->getPath(), '.jpg')) {
                             $background_rid = $this->irss->manage()->stream(
                                 $this->filesystem->readStream($file->getPath()),
