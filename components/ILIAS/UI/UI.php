@@ -644,10 +644,9 @@ class UI implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("mediaelement/build/renderers/vimeo.min.js");
         */
-        /* This library was missing after discussing dependencies for ILIAS 10
+        /* This library was missing after discussing dependencies for ILIAS 10 */
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("webui-popover/dist/jquery.webui-popover.min.js");
-        */
 
         // This is included via anonymous classes
         // because MathJax resources are taken from node_modules and they may be directories
