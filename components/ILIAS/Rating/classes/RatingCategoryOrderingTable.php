@@ -66,7 +66,7 @@ class RatingCategoryOrderingTable implements OrderingRetrieval
             ->ordering(
                 $this,
                 $uri->withParameter('cmd', 'updateOrder'),
-                $this->lng->txt('drafts'),
+                $this->lng->txt('rating_categories'),
                 $this->getColumns(),
             )
             ->withId(
