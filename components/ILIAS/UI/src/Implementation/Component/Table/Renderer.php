@@ -691,8 +691,9 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $tableid = $this->bindJavaScript($component) ?? $this->createId();
+        $ordering_table_has_rows = $rows->valid();
 
-        if (!$component->isOrderingDisabled() && $rows->valid()) {
+        if ($ordering_table_has_rows && !$component->isOrderingDisabled()) {
             $submit = $this->getUIFactory()->button()->standard($this->txt('sorting_save'), "")
                 ->withOnLoadCode(static fn($id) => "document.getElementById('$id').addEventListener('click',
                     function() {document.querySelector('#$tableid form.c-table-ordering__form').submit();return false;});");
@@ -717,7 +718,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('COL_TYPE', strtolower($col->getType()));
             $tpl->parseCurrentBlock();
         }
-        if (!$rows->valid()) {
+        if (!$ordering_table_has_rows) {
             $cell_tpl = $this->getTemplate("tpl.orderingcell.html", true, true);
             $this->renderFullWidthCell($component, $cell_tpl, $tpl, $this->txt('ui_table_no_records'));
         } else {
@@ -747,7 +748,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('MULTI_ACTION_WARNING', $default_renderer->render($this->getUrlTooLongWarning()));
             $tpl->setVariable('MULTI_ACTION_WARNING_BUTTON_CLOSE_LABEL', $this->txt('datatable_close_warning'));
         }
-        if ($component->hasMultiActions() || (!$component->isOrderingDisabled() && $rows->valid())) {
+        if ($component->hasMultiActions() || (!$component->isOrderingDisabled() && $ordering_table_has_rows)) {
             $multi_action_col_span = count($component->getVisibleColumns()) + $compensate_col_count;
             $tpl->setVariable('MULTI_ACTION_SPAN', (string) $multi_action_col_span);
         }
