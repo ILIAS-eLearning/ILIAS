@@ -166,7 +166,7 @@ class ilCertificateDateHelperTest extends ilCertificateBaseTestCase
         $helper = new ilCertificateDateHelper();
 
         $this->assertDoesNotThrow(
-            fn() => $helper->formatDate($this->current_time),
+            fn() => $helper->formatDate($this->current_time, null, IL_CAL_UNIX),
             'formatDate should not throw for a valid timestamp'
         );
 
