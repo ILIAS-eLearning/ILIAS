@@ -1776,21 +1776,7 @@ class ilObject
 
     private function buildTitleWithoutCopySuffix(string $title): string
     {
-        /*
-         * create a regular expression from the language text copy_n_of_suffix, so that
-         * we can match it against $filenameWithoutExtension, and retrieve the number of the copy.
-         * for example, if copy_n_of_suffix is 'Copy (%1s)', this creates the regular
-         * expression '/ Copy \\([0-9]+)\\)$/'.
-         */
-        $regexp_for_suffix = preg_replace(
-            '/([\^$.\[\]|()?*+{}])/',
-            '\\\\${1}',
-            ' '
-            . '(%1$s)'
-        );
-        $regexp_for_file_name = '/' . preg_replace('/%1\\\\\$s/', '([0-9]+)', $regexp_for_suffix) . '$/';
-
-        if (preg_match($regexp_for_file_name, $title, $matches)) {
+        if (preg_match('/ \((\d+)\)$/', $title, $matches)) {
             return substr($title, 0, -strlen($matches[0]));
         }
 
