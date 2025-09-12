@@ -93,13 +93,13 @@ class ilPDNewsGUI
             return false;
         }
 
-        switch ($next_class) {
-            case "ilnewstimelinegui":
+        switch (strtolower($next_class)) {
+            case strtolower(ilNewsTimelineGUI::class):
                 $t = $this->gui->dashboard()->getTimelineGUI();
                 $this->ctrl->forwardCommand($t);
                 break;
 
-            case "ilcommonactiondispatchergui":
+            case strtolower(ilCommonActionDispatcherGUI::class):
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;

@@ -173,7 +173,7 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->setCmdClass($next_class);
             }
         } elseif ((($next_class = $this->ctrl->getNextClass($this)) == "")
-            || ($next_class === "ilrepositorygui" && $this->ctrl->getCmd() === "return")) {
+            || (strcasecmp($next_class, ilRepositoryGUI::class) === 0 && $this->ctrl->getCmd() === "return")) {
             // get GUI of current object
             $obj_type = ilObject::_lookupType($this->cur_ref_id, true);
             $class_name = $this->objDefinition->getClassName($obj_type);
@@ -202,7 +202,7 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
 
             default:
                 // forward all other classes to gui commands
-                if ($next_class !== null && $next_class !== "" && $next_class !== "ilrepositorygui") {
+                if ($next_class !== null && $next_class !== "" && strcasecmp($next_class, ilRepositoryGUI::class) !== 0) {
                     $class_path = $this->ctrl->lookupClassPath($next_class);
                     // get gui class instance
                     //require_once($class_path);
