@@ -104,19 +104,19 @@ class ilScormAiccDataSet extends ilDataSet
                     continue;
                 }
                 //end fix
-				if ( isset( $data[ $key ] ) ) {
-					$data_value = '';
-					if ( is_array( $data[ $key ] ) ) {
-						$data_value = $data[ $key ][ 0 ] ?? '';
-					}
-					else {
-						$data_value = $data[ $key ];
-					}
-					$columns [ $value[ "db_col" ] ] = [
-						$value[ "db_type" ],
-						$data_value
-					];
-				}
+                if ( isset( $data[ $key ] ) ) {
+                    $data_value = '';
+                    if ( is_array( $data[ $key ] ) ) {
+                        $data_value = $data[ $key ][ 0 ] ?? '';
+                    }
+                    else {
+                        $data_value = $data[ $key ];
+                    }
+                    $columns [ $value[ "db_col" ] ] = [
+                        $value[ "db_type" ],
+                        $data_value
+                    ];
+                }
             }
             if (is_array($columns)) {
                 if (count($columns) > 0) {
@@ -132,19 +132,19 @@ class ilScormAiccDataSet extends ilDataSet
                 "Description" => ["db_col" => "description", "db_type" => "text"]
             ];
             foreach ($od_properties as $key => $value) {
-				if ( isset( $data[ $key ] ) ) {
-					$data_value = '';
-					if ( is_array( $data[ $key ] ) ) {
-						$data_value = $data[ $key ][ 0 ] ?? '';
-					}
-					else {
-						$data_value = $data[ $key ];
-					}
-					$od_columns [ $value[ "db_col" ] ] = [
-						$value[ "db_type" ],
-						$data_value
-					];
-				}
+                if ( isset( $data[ $key ] ) ) {
+                    $data_value = '';
+                    if ( is_array( $data[ $key ] ) ) {
+                        $data_value = $data[ $key ][ 0 ] ?? '';
+                    }
+                    else {
+                        $data_value = $data[ $key ];
+                    }
+                    $od_columns [ $value[ "db_col" ] ] = [
+                        $value[ "db_type" ],
+                        $data_value
+                    ];
+                }
 
                 if (isset($od_columns) && is_array($od_columns)) {
                     if (count($od_columns) > 0) {
@@ -169,7 +169,11 @@ class ilScormAiccDataSet extends ilDataSet
         bool $a_omit_header = false,
         bool $a_omit_types = false
     ): string {
-        $GLOBALS['DIC']["ilLog"]->write(json_encode($this->getTypes("sahs", "5.1.0"), JSON_PRETTY_PRINT));
+
+        global $DIC;
+        $ilLog = ilLoggerFactory::getLogger('sahs');
+
+        $ilLog->write(json_encode($this->getTypes("sahs", "5.1.0"), JSON_PRETTY_PRINT));
 
         $this->dircnt = 1;
 
@@ -209,8 +213,13 @@ class ilScormAiccDataSet extends ilDataSet
 
         // build content zip file
         if (isset($this->_archive['files']['scormFile'])) {
-            $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
-            ilFileUtils::zip($lmDir, $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['scormFile'], true);
+            $lmDir = './' . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/lm_data/lm_" . $id;
+            // Important: content zip should not contain a 'lm_x' directory
+            $DIC->legacyArchives()->zip(
+                $lmDir,
+                $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['scormFile'],
+                false
+            );
         }
 
         // build property xml file
