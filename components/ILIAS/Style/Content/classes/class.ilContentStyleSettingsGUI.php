@@ -199,14 +199,10 @@ class ilContentStyleSettingsGUI
             $this->toolbar->addSeparator();
 
             // from styles selector
-<<<<<<< HEAD:components/ILIAS/Style/Content/classes/class.ilContentStyleSettingsGUI.php
             $si = new ilSelectInputGUI(
-                $this->lng->txt("sty_move_lm_styles") . ": " . $this->lng->txt("sty_from"),
+                $this->lng->txt("sty_move_obj_styles") . ": " . $this->lng->txt("sty_from"),
                 "from_style"
             );
-=======
-            $si = new ilSelectInputGUI($this->lng->txt("sty_move_obj_styles") . ": " . $this->lng->txt("sty_from"), "from_style");
->>>>>>> 101b8c5e3a8 (45732: Change Style of Learning Modules did not work properly):Services/Style/Content/classes/class.ilContentStyleSettingsGUI.php
             $si->setOptions($from_styles);
             $this->toolbar->addInputItem($si, true);
 
