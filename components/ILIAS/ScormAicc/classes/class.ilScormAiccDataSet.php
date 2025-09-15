@@ -71,6 +71,9 @@ class ilScormAiccDataSet extends ilDataSet
         ];
 
         $this->element_db_mapping = [];
+
+        parent::__construct();
+
         foreach ($this->properties as $key => $value) {
             $this->element_db_mapping [$value["db_col"]] = $key;
         }
@@ -162,6 +165,7 @@ class ilScormAiccDataSet extends ilDataSet
      * own getXmlRepresentation function to embed zipfile in xml
      */
     public function getExtendedXmlRepresentation(
+        string $exportArchiveDir,
         string $a_entity,
         string $a_schema_version,
         array $a_ids,
@@ -179,16 +183,6 @@ class ilScormAiccDataSet extends ilDataSet
 
         $this->readData($a_entity, $a_schema_version, $a_ids, $a_field = "");
         $id = (int) $this->data["id"];
-        $exportDir = ilExport::_getExportDirectory((int) $id, "xml", "sahs");
-
-        // prepare archive skeleton
-        $objTypeAndId = "sahs_" . $id;
-        $this->_archive['directories'] = [
-            "exportDir" => ilExport::_getExportDirectory($id)
-            ,"tempDir" => ilExport::_getExportDirectory($id) . "/temp"
-            ,"archiveDir" => time() . "__" . IL_INST_ID . "__" . $objTypeAndId
-            ,"moduleDir" => $objTypeAndId
-        ];
 
         $this->_archive['files'] = [
             "properties" => "properties.xml",
@@ -196,18 +190,9 @@ class ilScormAiccDataSet extends ilDataSet
             'scormFile' => "content.zip"
         ];
 
-        // Prepare temp storage on the local filesystem
-        if (!file_exists($this->_archive['directories']['exportDir'])) {
-            mkdir($this->_archive['directories']['exportDir'], 0755, true);
-            //$DIC->filesystem()->storage()->createDir($this->_archive['directories']['tempDir']);
-        }
-        if (!file_exists($this->_archive['directories']['tempDir'])) {
-            mkdir($this->_archive['directories']['tempDir'], 0755, true);
-        }
-
         // build manifest xml file
         file_put_contents(
-            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['manifest'],
+            $exportArchiveDir . "/" . $this->_archive['files']['manifest'],
             $this->buildManifest()
         );
 
@@ -217,47 +202,18 @@ class ilScormAiccDataSet extends ilDataSet
             // Important: content zip should not contain a 'lm_x' directory
             $DIC->legacyArchives()->zip(
                 $lmDir,
-                $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['scormFile'],
+                $exportArchiveDir . "/" . $this->_archive['files']['scormFile'],
                 false
             );
         }
 
         // build property xml file
         file_put_contents(
-            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['properties'],
+            $exportArchiveDir . "/" . $this->_archive['files']['properties'],
             $this->buildProperties($a_entity, $a_omit_header)
         );
 
-        // zip tempDir and append to export folder
-        $fileName = $this->_archive['directories']['exportDir'] . "/" . $this->_archive['directories']['archiveDir'] . ".zip";
-        $zArchive = new ZipArchive();
-        if ($zArchive->open($fileName, ZipArchive::CREATE) !== true) {
-            exit("cannot open <$fileName>\n");
-        }
-        $zArchive->addFile(
-            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['properties'],
-            $this->_archive['directories']['archiveDir'] . '/properties.xml'
-        );
-        $zArchive->addFile(
-            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['manifest'],
-            $this->_archive['directories']['archiveDir'] . '/' . "manifest.xml"
-        );
-        if (isset($this->_archive['files']['scormFile'])) {
-            $zArchive->addFile(
-                $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['scormFile'],
-                $this->_archive['directories']['archiveDir'] . '/content.zip'
-            );
-        }
-        $zArchive->close();
-
-        // unlink tempDir and its content
-        unlink($this->_archive['directories']['tempDir'] . "/manifest.xml");
-        unlink($this->_archive['directories']['tempDir'] . "/properties.xml");
-        if (isset($this->_archive['files']['scormFile']) && file_exists($this->_archive['directories']['tempDir'] . "/content.zip")) {
-            unlink($this->_archive['directories']['tempDir'] . "/content.zip");
-        }
-
-        return $fileName;
+        return $exportArchiveDir . '.zip';
     }
 
     /**
