@@ -57,10 +57,6 @@ class AdditionalInformationGenerator
     public const KEY_TEST_TITLE = 'title';
     public const KEY_TEST_DESCRIPTION = 'description';
     public const KEY_TEST_ONLINE = 'online';
-    public const KEY_TEST_VISIBILITY_PERIOD = 'crs_visibility_until';
-    public const KEY_TEST_VISIBILITY_PERIOD_FROM = 'from';
-    public const KEY_TEST_VISIBILITY_PERIOD_UNTIL = 'to';
-    public const KEY_TEST_VISIBLE_OUTSIDE_PERIOD = 'activation_visible_when_disabled';
     public const KEY_TEST_QUESTION_SET_TYPE = 'test_question_set_type';
     public const KEY_TEST_ANONYMITY = 'tst_anonymity';
     public const KEY_TEST_INTRODUCTION_ENABLED = 'tst_introduction';

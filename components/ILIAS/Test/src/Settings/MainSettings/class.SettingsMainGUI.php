@@ -292,30 +292,6 @@ class SettingsMainGUI extends TestSettingsGUI
                 )
         ];
 
-        if (!$this->test_object->isActivationLimited()) {
-            $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD] = $this->logger
-                ->getAdditionalInformationGenerator()->getEnabledDisabledTagForBool(false);
-            return $log_array;
-        }
-
-        $none_tag = $this->logger->getAdditionalInformationGenerator()->getNoneTag();
-        $from = $this->test_object->getActivationStartingTime() === null
-            ? $none_tag
-            : \DateTimeImmutable::createFromFormat('U', (string) $this->test_object->getActivationStartingTime())
-                ->format(AdditionalInformationGenerator::DATE_STORAGE_FORMAT);
-        $until = $this->test_object->getActivationEndingTime() === null
-            ? $none_tag
-            : \DateTimeImmutable::createFromFormat('U', (string) $this->test_object->getActivationEndingTime())
-                ->format(AdditionalInformationGenerator::DATE_STORAGE_FORMAT);
-
-        $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD] = [
-            AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD_FROM => $from,
-            AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD_UNTIL => $until
-        ];
-        $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBLE_OUTSIDE_PERIOD] = $this->logger
-            ->getAdditionalInformationGenerator()->getEnabledDisabledTagForBool(
-                $this->test_object->getActivationVisibility()
-            );
         return $log_array;
     }
 
@@ -504,7 +480,6 @@ class SettingsMainGUI extends TestSettingsGUI
         $input_factory = $this->ui_factory->input();
 
         $inputs['is_online'] = $this->getIsOnlineSettingInput();
-        $inputs['timebased_availability'] = $this->getTimebasedAvailabilityInputs();
 
         return $input_factory->field()->section(
             $inputs,
@@ -538,76 +513,8 @@ class SettingsMainGUI extends TestSettingsGUI
         return $is_online;
     }
 
-    private function getTimebasedAvailabilityInputs(): OptionalGroup
-    {
-        $field_factory = $this->ui_factory->input()->field();
-        $inputs['time_limit_start'] = $field_factory->dateTime($this->lng->txt('rep_activation_limited_start'))
-            ->withTimezone($this->active_user->getTimeZone())
-            ->withFormat($this->active_user->getDateTimeFormat())
-            ->withUseTime(true);
-        $inputs['time_limit_end'] = $field_factory->dateTime($this->lng->txt('rep_activation_limited_end'))
-            ->withTimezone($this->active_user->getTimeZone())
-            ->withFormat($this->active_user->getDateTimeFormat())
-            ->withUseTime(true);
-        $inputs['activation_visibility'] = $field_factory->checkbox(
-            $this->lng->txt('rep_activation_limited_visibility'),
-            $this->lng->txt('tst_activation_limited_visibility_info')
-        );
-
-        return $field_factory->optionalGroup(
-            $inputs,
-            $this->lng->txt('rep_time_based_availability')
-        )->withAdditionalTransformation(
-            $this->getTransformationForActivationLimitedOptionalGroup()
-        )->withValue(
-            $this->getValueForActivationLimitedOptionalGroup()
-        );
-    }
-
-    private function getTransformationForActivationLimitedOptionalGroup(): TransformationInterface
-    {
-        return $this->refinery->custom()->transformation(
-            static function (?array $vs): array {
-                if ($vs === null
-                    || $vs['time_limit_start'] === null && $vs['time_limit_end'] === null) {
-                    return [
-                        'is_activation_limited' => false,
-                        'activation_starting_time' => null,
-                        'activation_ending_time' => null,
-                        'activation_visibility' => false
-                    ];
-                }
-
-                return [
-                    'is_activation_limited' => true,
-                    'activation_starting_time' => $vs['time_limit_start']?->getTimestamp(),
-                    'activation_ending_time' => $vs['time_limit_end']?->getTimestamp(),
-                    'activation_visibility' => $vs['activation_visibility']
-                ];
-            }
-        );
-    }
-
-    private function getValueForActivationLimitedOptionalGroup(): ?array
-    {
-        $value = null;
-        if ($this->test_object->isActivationLimited()) {
-            $value = [
-                'time_limit_start' => $this->buildDateOrNullFromILIASValue(
-                    $this->test_object->getActivationStartingTime()
-                ),
-                'time_limit_end' => $this->buildDateOrNullFromILIASValue(
-                    $this->test_object->getActivationEndingTime()
-                ),
-                'activation_visibility' => $this->test_object->getActivationVisibility()
-            ];
-        }
-        return $value;
-    }
-
     private function saveAvailabilitySettingsSection(array $section): void
     {
-        $this->test_object->storeActivationSettings(...$section['timebased_availability']);
         $this->test_object->getObjectProperties()->storePropertyIsOnline($section['is_online']);
     }
 
