@@ -1330,7 +1330,6 @@ assessment#:#true#:#Verdadeiro
 assessment#:#tst_access_code_created#:#Para fornecer-lhe acesso permanente aos resultados do seu teste e permitir-lhe retomar este teste, foi criado um acesso único ao teste. Anote este código para poder usá-lo noutras ocasiões.
 assessment#:#tst_activate_skill_service#:#Serviço de competência
 assessment#:#tst_activate_skill_service_desc#:#Suporta a atribuição de perguntas a competências e a definição de limites para alcançar um nível de competência específico.
-assessment#:#tst_activation_limited_visibility_info#:#Antes e depois do período indicado, aparece somente o título do teste. Os participantes não podem fazer o teste.
 assessment#:#tst_activation_online_info#:#Se estiverem online, os participantes podem fazer o teste.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor para feedback e sugestões
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Usar editor de páginas ILIAS para editar feedback e sugestões

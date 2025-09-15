@@ -1330,7 +1330,6 @@ assessment#:#true#:#Sandt
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please write down this code use it for further actions.
 assessment#:#tst_activate_skill_service#:#Activate Competence Service###26 09 2014 new variable
 assessment#:#tst_activate_skill_service_desc#:#A new tab 'Competences' will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.###27 01 2015 new variable
-assessment#:#tst_activation_limited_visibility_info#:#If chosen, the test is visible even outside of the given availability.###28 08 2012 new variable
 assessment#:#tst_activation_online_info#:#Indtil testen er aktiveret er det kun administratorer der kan se og redigere testen.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content###16 09 2013 new variable
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Additional Content Editing with Page Object Editor###16 09 2013 new variable

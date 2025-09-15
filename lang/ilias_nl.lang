@@ -1330,7 +1330,6 @@ assessment#:#true#:#Waar
 assessment#:#tst_access_code_created#:#Om je permanente toegang te geven tot de toets resultaten en de mogelijkheid te bieden je toets later te hernemem, heeft ILIAS een toegangscode aangemaakt. Schrijf deze code op zodat je deze later kan gebruiken
 assessment#:#tst_activate_skill_service#:#Inschakelen van competenties
 assessment#:#tst_activate_skill_service_desc#:#A new tab ‘Competences’ will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.###06 02 2015 new variable
-assessment#:#tst_activation_limited_visibility_info#:#Als gekozen, is de toets zichtbaar, zelfs buiten de gegeven beschikbaarheid.
 assessment#:#tst_activation_online_info#:#Als offline kunnen alleen beheerders de toets zien en wijzigen.
 assessment#:#tst_add_quest_cont_edit_mode#:#Edit-modus voor extra inhoud
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Edit extra inhoud met behulp van de ILIAS pagina editor

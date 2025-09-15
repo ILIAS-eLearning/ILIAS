@@ -1330,7 +1330,6 @@ assessment#:#true#:#Pravda
 assessment#:#tst_access_code_created#:#Byl vytvořen unikátní kód k Vašemu stálému přístupu k Vašim výsledkům testu, a který Vám umožňuje v testu pokračovat. Zapište si prosím tento kód pro další použití.
 assessment#:#tst_activate_skill_service#:#Aktivujte službu způsobilosti
 assessment#:#tst_activate_skill_service_desc#:#Zobrazí se nová záložka 'Způsobilosti'. V této záložce jsou otázky přiřazeny způsobilostem, poté jsou připsány prahy pro dosažení určité úrovně způsobilosti.
-assessment#:#tst_activation_limited_visibility_info#:#Je-li vybráno, tento test je viditelný i mimo zadanou dostupnost.
 assessment#:#tst_activation_online_info#:#Je-li offline, pouze správci mohou vidět a upravovat tento test.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editační mód pro dodatečný obsah otázky
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Editace dodatečného obsahu s Editorem objektů stránky

@@ -1329,7 +1329,6 @@ assessment#:#true#:#是
 assessment#:#tst_access_code_created#:#为您提供永久访问您的测试结果并提供一种恢复这个测试的可能性，一个唯一性的测试访问码将被创建。请抄下这个访问码以备用。
 assessment#:#tst_activate_skill_service#:#Activate Competence Service###26 09 2014 new variable
 assessment#:#tst_activate_skill_service_desc#:#A new tab 'Competences' will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.###27 01 2015 new variable
-assessment#:#tst_activation_limited_visibility_info#:#如果已选择，测试是可见的，即使超出了给定的可用性之外。
 assessment#:#tst_activation_online_info#:#如果离线，仅管理员能看和编辑测试。
 assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content###24 10 2013 new variable
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Additional Content Editing with Page Object Editor###24 10 2013 new variable

@@ -1315,7 +1315,6 @@ assessment#:#true#:#Vrai
 assessment#:#tst_access_code_created#:#Pour vous donner un accès permanent aux résultats du test et vous permettre de le refaire, un code d'accès unique a été créé. Veuillez noter et conserver ce code pour consulter les résultats ou refaire ce test ultérieurement.
 assessment#:#tst_activate_skill_service#:#Activer Service de Compétences
 assessment#:#tst_activate_skill_service_desc#:#Un nouvel onglet 'Competences' sera affiché. Dans cet onglet les questions sont affectées aux compétences, puis des seuils sont attribués pour atteindre un niveau spécifique d'une compétence.
-assessment#:#tst_activation_limited_visibility_info#:#Lorsque activé, le test est visible même en dehors de la période de disponibilité.
 assessment#:#tst_activation_online_info#:#Lorsque le test est hors-ligne, seuls les administrateurs peuvent le voir et l'éditer.
 assessment#:#tst_add_quest_cont_edit_mode#:#Mode d'Edition par Défaut pour Contenu Additionnel
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Edition de Contenu Supplémentaire avec Editeur de Page

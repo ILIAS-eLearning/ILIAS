@@ -1332,7 +1332,6 @@ assessment#:#true#:#Verdadero
 assessment#:#tst_access_code_created#:#Para proporcionarle acceso permanente a sus resultados de test y ofrecerle la posibilidad de retomar este test, un código de acceso único fue creado. Por favor, anote este código y úselo en acciones posteriores.
 assessment#:#tst_activate_skill_service#:#Activar servicio de Competencias
 assessment#:#tst_activate_skill_service_desc#:#Se mostrará una nueva pestaña 'Competencias'. En esta pestaña las preguntas se asignan a las competencias, luego se establecen los umbrales para alcanzar un nivel específico de una competencia.
-assessment#:#tst_activation_limited_visibility_info#:#Si se activa, el test es visible incluso fuera de la disponibilidad que tenga asignada
 assessment#:#tst_activation_online_info#:#Si está desactivado, sólo los administradores pueden ver y editar el test.
 assessment#:#tst_add_quest_cont_edit_mode#:#Modo de Edición para introducir el texto de la pregunta
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Modo de edición simple (sin formato de texto) para el contenido de las preguntas

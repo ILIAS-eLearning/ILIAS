@@ -1330,7 +1330,6 @@ assessment#:#true#:#WAHR
 assessment#:#tst_access_code_created#:#Dla zapewnienia Ci stałego dostępu do wyników Twojego testu i do umożliwienia jego odzyskania, został utworzony unikalny kod dostępu do testu. Zapisz ten kod i użyj go do dalszych operacji.
 assessment#:#tst_activate_skill_service#:#Kompetencje
 assessment#:#tst_activate_skill_service_desc#:#Umożliwia przydzielanie pytań do kompetencji oraz definicję wartości progowych w celu osiągnięcia poszczególnych poziomów kompetencji.
-assessment#:#tst_activation_limited_visibility_info#:#Jeśli wybrano, widoczny jest tylko tytuł testu pomimo ustawień o dostępności testu.
 assessment#:#tst_activation_online_info#:#Jeśli wybrano tryb offline, tylko administratorzy mogą wyświetlać i edytować test.
 assessment#:#tst_add_quest_cont_edit_mode#:#Edytor komunikatów zwrotnych i podpowiedzi
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Użyj edytora stron ILIAS do edytowania komunikatów zwrotnych oraz podpowiedzi.

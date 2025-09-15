@@ -1331,7 +1331,6 @@ assessment#:#true#:#Αληθές
 assessment#:#tst_access_code_created#:#Για να σας παρέχεται μόνιμη πρόσβαση στα αποτελέσματα του τεστ και η δυνατότητα να συνεχίσετε το τεστ, δημιουργήθηκε ένας μοναδικός κωδικός πρόσβασης για το τεστ. Παρακαλώ καταγράψτε αυτόν τον κωδικό και χρησιμοποιήστε το για περαιτέρω ενέργειες.
 assessment#:#tst_activate_skill_service#:#Activate Competence Service###26 09 2014 new variable
 assessment#:#tst_activate_skill_service_desc#:#A new tab 'Competences' will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.###27 01 2015 new variable
-assessment#:#tst_activation_limited_visibility_info#:#If chosen, the test is visible even outside of the given availability.###28 08 2012 new variable
 assessment#:#tst_activation_online_info#:#If offline, only administrators can see and edit the test.###28 08 2012 new variable
 assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content###24 10 2013 new variable
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Additional Content Editing with Page Object Editor###24 10 2013 new variable
