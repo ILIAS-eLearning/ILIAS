@@ -107,9 +107,6 @@ class ilQTIParser extends ilSaxParser
 
     public int $parser_mode = 0;
 
-    protected $solutionhint = null;
-    public $solutionhints = [];
-
     /**
      * @var string[]
      */
@@ -545,9 +542,6 @@ class ilQTIParser extends ilSaxParser
             case "resprocessing":
                 $this->resprocessingBeginTag($a_attribs);
                 break;
-            case assQuestionExport::ITEM_SOLUTIONHINT:
-                $this->solutionhint['points'] = (float) $a_attribs['points'];
-                break;
         }
     }
 
@@ -787,10 +781,7 @@ class ilQTIParser extends ilSaxParser
                     $this->tst_object,
                     $this->question_counter,
                     $this->import_mapping,
-                    $this->solutionhints
                 );
-
-                $this->solutionhints = [];
 
                 $this->numImportedItems++;
 
@@ -882,11 +873,6 @@ class ilQTIParser extends ilSaxParser
                     $this->material->addMatapplet($this->matapplet);
                 }
                 $this->matapplet = null;
-                break;
-
-            case assQuestionExport::ITEM_SOLUTIONHINT:
-                $this->solutionhint['txt'] = $this->characterbuffer;
-                $this->solutionhints[] = $this->solutionhint;
                 break;
         }
         $this->depth[$a_xml_parser] -= 1; // Issue with SplObjectStorage: Cannot use --.
@@ -1078,10 +1064,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
 
-            case assQuestionExport::ITEM_SOLUTIONHINT:
-                $this->solutionhint = array_map('intval', $a_attribs);
-                $this->solutionhint['txt'] = '';
-                break;
             case "response_str":
                 if (strlen($this->founditems[count($this->founditems) - 1]["type"]) == 0) {
                     // test for non ILIAS generated question types
