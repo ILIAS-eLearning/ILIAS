@@ -466,18 +466,32 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
         if ($_FILES["scormfile"]["name"]) {
             if ($importFromXml) {
+                // Handle content.zip
                 $scormFile = "content.zip";
-                $scormFilePath = $import_dirname . "/" . $scormFile;
-                $file_path = $newObj->getDataDirectory() . "/" . $scormFile;
-                ilFileUtils::rename($scormFilePath, $file_path);
+                $file_path = $import_dirname . "/" . $scormFile;
+                // Unzip content.zip before copying
+                $content_unzip_dir = $import_dirname . '/content';
                 $this->archives->unzip(
                     $file_path,
-                    $newObj->getDataDirectory(),
+                    $content_unzip_dir,
                     false,
                     false,
                     false
                 );
-                unlink($file_path);
+                // Handle ILIAS 9 Exports containing 'lm_x' directories
+                $source_dir_for_copy = $content_unzip_dir;
+                $content_unzip_dir_iterator = new DirectoryIterator( $content_unzip_dir );
+                foreach ( $content_unzip_dir_iterator as $fileinfo ) {
+                    if ( $fileinfo->isDir() && !$fileinfo->isDot() ) {
+                        if ( preg_match( '/^lm_\d+$/', $fileinfo->getFilename() ) ) {
+                            $source_dir_for_copy = $source_dir_for_copy . '/' . $fileinfo->getFilename();
+                            break;
+                        }
+                    }
+                }
+                // Move content
+                ilFileUtils::rename($source_dir_for_copy, $newObj->getDataDirectory());
+                // Cleanup
                 ilFileUtils::delDir($lmTempDir, false);
             } else {
                 // copy uploaded file to data directory
