@@ -247,7 +247,10 @@ class ilObjLearningSequenceSettingsGUI
 
             $lso->getObjectProperties()->storePropertyTitleAndIconVisibility($values['common']['icon']);
             $lso->getObjectProperties()->storePropertyHeaderActionVisibility($values['common']['header_actions']);
-            $lso->getObjectProperties()->storePropertyIcon($values['common']['custom_icon']);
+            if (array_key_exists('custom_icon', $values['common'])) {
+                $lso->getObjectProperties()->storePropertyIcon($values['common']['custom_icon']);
+            }
+
             $lso->getObjectProperties()->storePropertyTileImage($values['common']['image']);
 
             $lso->update();
