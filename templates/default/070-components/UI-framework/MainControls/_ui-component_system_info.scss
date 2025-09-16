@@ -1,5 +1,7 @@
-@use "../../../010-settings/"as *;
+@use "sass:color";
+@use "../../../010-settings/" as *;
 @use "../../../050-layout/basics" as *;
+@use "../../../030-tools/tool_contrast-color" as cont-col;
 
 /*
 **************************************************************
@@ -40,9 +42,8 @@ $il-standard-page-system-info-color-variant-important: lighten($il-danger-color,
 $il-standard-page-system-info-color-variant-breaking: darken($il-danger-color, 10%);
 
 .il-system-info {
-
   @mixin head-info-color-variant($variant_name, $base-color){
-    $contrast-color: contrast(greyscale($base-color), darken($base-color, $il-standard-page-system-info-contrast), lighten($base-color, $il-standard-page-system-info-contrast), $il-standard-page-system-info-contrast-threshold);
+    $contrast-color: cont-col.contrast-color($base-color, $il-text-color, $il-main-bg, $il-standard-page-system-info-contrast-threshold);
     &.il-system-info-#{$variant_name} {
       // Shadow
       -webkit-box-shadow: $il-standard-page-system-info-shadow;
@@ -57,6 +58,9 @@ $il-standard-page-system-info-color-variant-breaking: darken($il-danger-color, 1
       // Colors
       color: $contrast-color;
 
+      a {
+        color: cont-col.contrast-color($base-color, $il-link-color, color.scale($il-link-color, $whiteness: 70%), $il-standard-page-system-info-contrast-threshold);
+      }
       a.glyph {
         color: $contrast-color;
       }
