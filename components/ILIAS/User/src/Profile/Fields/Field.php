@@ -175,6 +175,7 @@ class Field implements Property
                 'type' => $this->definition instanceof CustomField
                     ? "{$lng->txt('field_type_custom')}: {$this->definition->getTypeLabel($lng)}"
                     : $lng->txt('default'),
+                'section' => $lng->txt($this->getSection()->value),
                 'access' => $ui_renderer->render($this->buildAccessibilityListing($lng, $ui_factory)),
                 'required' => $this->isRequired(),
                 'export' => $this->export(),
@@ -255,7 +256,7 @@ class Field implements Property
                             $lng->txt('type')
                         )->withRequired(true),
                         'section' => $ff->select(
-                            $lng->txt('meta_section'),
+                            $lng->txt('profile_section'),
                             array_reduce(
                                 AvailableSections::cases(),
                                 static function (array $c, AvailableSections $v) use ($lng): array {
@@ -436,7 +437,7 @@ class Field implements Property
                 ->withValue('0'),
             'data' => $this->definition->getAdditionalEditFormInputs($lng, $ff, $refinery),
             'section' => $ff->select(
-                $lng->txt('meta_section'),
+                $lng->txt('profile_section'),
                 array_reduce(
                     AvailableSections::cases(),
                     function (array $c, AvailableSections $v) use ($lng): array {

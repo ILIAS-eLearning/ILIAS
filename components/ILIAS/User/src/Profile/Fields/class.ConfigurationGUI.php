@@ -250,7 +250,7 @@ class ConfigurationGUI implements DataRetrieval
         ?array $filter_data,
         ?array $additional_parameters
     ): \Generator {
-        $this->sortRows($order);
+        $this->orderRows($order);
         foreach ($this->available_fields as $field) {
             yield $field->getTableRow(
                 $row_builder,
@@ -284,7 +284,12 @@ class ConfigurationGUI implements DataRetrieval
         $cf = $this->ui_factory->table()->column();
         return [
             'field' => $cf->text($this->lng->txt('user_field'))->withIsSortable(true),
-            'type' => $cf->text($this->lng->txt('type'))->withIsSortable(true),
+            'type' => $cf->text($this->lng->txt('type'))
+                ->withIsOptional(true, true)
+                ->withIsSortable(true),
+            'section' => $cf->text($this->lng->txt('profile_section'))
+                ->withIsOptional(true, false)
+                ->withIsSortable(true),
             'access' => $cf->text($this->lng->txt('access'))->withIsSortable(false),
             'required' => $cf->boolean(
                 $this->lng->txt(
@@ -339,7 +344,7 @@ class ConfigurationGUI implements DataRetrieval
         ];
     }
 
-    private function sortRows(Order $order): void
+    private function orderRows(Order $order): void
     {
         $order_array = $order->get();
         $key = array_key_first($order_array);
@@ -350,6 +355,7 @@ class ConfigurationGUI implements DataRetrieval
                 fn(Field $v1, Field $v2): int =>
                     $factor * ($this->lng->txt($v1->getLabel($this->lng)) <=> $this->lng->txt($v2->getLabel($this->lng)))
             );
+            return;
         }
 
         if ($key === 'type') {
@@ -358,6 +364,16 @@ class ConfigurationGUI implements DataRetrieval
                 fn(Field $v1, Field $v2): int =>
                     $factor * ($this->lng->txt($v1->isCustom() ? 'custom' : 'default') <=> $this->lng->txt($v2->isCustom() ? 'custom' : 'default'))
             );
+            return;
+        }
+
+        if ($key === 'section') {
+            usort(
+                $this->available_fields,
+                fn(Field $v1, Field $v2): int =>
+                    $factor * ($this->lng->txt($v1->getSection()->value) <=> $this->lng->txt($v2->getSection()->value))
+            );
+            return;
         }
 
         if ($key === 'export') {
@@ -366,6 +382,7 @@ class ConfigurationGUI implements DataRetrieval
                 fn(Field $v1, Field $v2): int =>
                     $factor * ($v1->export() <=> $v2->export())
             );
+            return;
         }
 
         if ($key === 'required') {
@@ -374,6 +391,7 @@ class ConfigurationGUI implements DataRetrieval
                 fn(Field $v1, Field $v2): int =>
                     $factor * ($v1->isRequired() <=> $v2->isRequired())
             );
+            return;
         }
 
         if ($key === 'searchable') {
@@ -382,6 +400,7 @@ class ConfigurationGUI implements DataRetrieval
                 fn(Field $v1, Field $v2): int =>
                     $factor * ($v1->isSearchable() <=> $v2->isSearchable())
             );
+            return;
         }
 
         if ($key === 'available_in_certificates') {
@@ -390,6 +409,7 @@ class ConfigurationGUI implements DataRetrieval
                 fn(Field $v1, Field $v2): int =>
                     $factor * ($v1->isAvailableInCertificates() <=> $v2->isAvailableInCertificates())
             );
+            return;
         }
     }
 

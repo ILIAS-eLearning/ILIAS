@@ -5886,7 +5886,7 @@ common#:#usr_new#:#Neuer Benutzer
 common#:#usr_settings_changeable_lua#:#Änderbar in „Lokale Konten“ in Kategorien
 common#:#usr_settings_explanation_profile#:#Pro Datenfeld kann der Zugriff in Profil, Mitglieder-Reitern und lokalen Konten konfiguriert werden:<ul><li>Sichtbar: Angabe wird angezeigt, kann aber nicht geändert werden.</li><li>Änderbar: Angabe wird angezeigt und kann geändert werden.</li><li>Export: Angabe kann in Listen der Teilnehmerinnen und Teilnehmern exportiert werden.</li><li>Durchsuchbar: Nach der Angabe kann gesucht werden, und es gibt eine Autovervollständigung in Formularfeldern.</li><li>Bei der Einstellung „Erforderliche Angabe“ ist die Eingabe verpflichtend.</li></ul>Unabhängig von diesen Einstellungen kann die Systemadministration alle Daten ändern.
 common#:#usr_settings_header_profile#:#Einstellungen für die Anmeldekonten
-common#:#usr_settings_saved#:#Die globalen Benutzereinstellungen wurden erfolgreich gespeichert und sind nun aktiviert.
+common#:#usr_settings_saved#:#Die Konfiguration wurde erfolgreich gespeichert und ist nun aktiviert.
 common#:#usr_settings_visib_lua#:#Sichtbar in „Lokale Konten“ in Kategorien
 common#:#usr_skin_style#:#Skin/Style
 common#:#usr_without_courses#:#Benutzer ohne Kurse zugewiesen
@@ -17353,6 +17353,7 @@ user#:#personalise_additional#:#Zusätzliche Einstellungen personalisieren
 user#:#personalise_communication#:#Kommunikationseinstellungen personalisieren
 user#:#personalise_privacy#:#Privatsphäreneinstellungen personalisieren
 user#:#profile_fields#:#Profilfelder
+user#:#profile_section#:#Bereich
 user#:#restrict_user_access#:#Eingeschränkte Suche in ILIAS-Konten
 user#:#restrict_user_access_info#:#ILIAS-Konten werden bei der Benutzersuche nicht mehr automatisch vervollständigt. Die Suche nach lokalen Konten wird nur vervollständigt, wenn das Recht "Lesezugriff auf Anmeldekonten" vorliegt.
 user#:#roles_without_starting_point#:#Rollen ohne definierte Startseite
