@@ -33,6 +33,8 @@ class ilDclCopyFieldRepresentation extends ilDclBaseFieldRepresentation
     {
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
             $input = new ilMultiSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
+            $input->setWidth(100);
+            $input->setWidthUnit('%');
         } else {
             $input = new ilSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         }
@@ -67,6 +69,9 @@ class ilDclCopyFieldRepresentation extends ilDclBaseFieldRepresentation
         }
 
         $input->setOptions($options);
+        if ($input instanceof ilMultiSelectInputGUI) {
+            $input->setHeight(32 * min(5, max(1, count($options))));
+        }
 
         return $input;
     }
