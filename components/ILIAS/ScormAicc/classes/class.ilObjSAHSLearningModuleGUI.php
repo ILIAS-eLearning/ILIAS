@@ -399,7 +399,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $newObj->createReference();
         $newObj->putInTree($refId);
         $newObj->setPermissions($refId);
-        $newObj->setOfflineStatus(false);
+        $newObj->setOfflineStatus(true);
 
         // create data directory, copy file to directory
         $newObj->createDataDirectory();
