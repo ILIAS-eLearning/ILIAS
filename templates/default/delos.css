@@ -372,15 +372,6 @@
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
 }
-@media (prefers-contrast: more) {
-  .caret {
-    border: none;
-  }
-  .caret:before {
-    font-family: il-icons;
-    content: "\e604";
-  }
-}
 
 .dropup,
 .dropdown {
@@ -390,17 +381,17 @@
 }
 
 .dropdown-menu {
+  width: 320px;
   position: absolute;
   top: 100%;
-  left: 0;
   z-index: 1000;
   display: none;
   float: left;
   overflow: auto;
   min-width: 160px;
   max-height: 50vh;
-  padding: 5px 0;
-  margin: 2px 0 0;
+  padding: 6px 0;
+  margin: 3px 0 0;
   font-size: 0.875rem;
   text-align: left;
   list-style: none;
@@ -415,6 +406,14 @@
   right: 0;
   left: auto;
 }
+.dropdown-menu.dropdown-menu__right {
+  right: auto;
+  left: 0;
+}
+.dropdown-menu.dropdown-menu__left {
+  right: 0;
+  left: auto;
+}
 .dropdown-menu .divider {
   height: 1px;
   margin: 9px 0;
@@ -423,6 +422,12 @@
 }
 .dropdown-menu hr {
   margin: 6px 0;
+}
+.dropdown-menu > .dropdown-menu-list {
+  padding: 6px 0;
+  margin: 3px 0 0;
+  text-align: left;
+  list-style-type: none;
 }
 
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
@@ -513,26 +518,33 @@
 .dropdown-menu .row > ul[class*=col-] {
   padding-left: 15px;
 }
-.dropdown-menu li > a,
-.dropdown-menu li > .btn-link {
-  display: block;
+.dropdown-menu li a,
+.dropdown-menu li .btn-link {
+  display: flex;
+  align-items: center;
   width: 100%;
-  clear: both;
   border: none;
-  padding: 3px 15px;
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.428571429;
   background-color: transparent;
   color: #161616;
+  min-height: 28px;
+  width: 100%;
+  padding: 3px 15px;
+  justify-content: start;
   white-space: nowrap;
 }
-.dropdown-menu li > a:hover, .dropdown-menu li > a:focus,
-.dropdown-menu li > .btn-link:hover,
-.dropdown-menu li > .btn-link:focus {
-  text-decoration: none;
+.dropdown-menu li a:hover, .dropdown-menu li a:focus,
+.dropdown-menu li .btn-link:hover,
+.dropdown-menu li .btn-link:focus {
   color: black;
   background-color: #e2e8ef;
+  text-decoration: none;
+}
+.dropdown-menu li a[disabled],
+.dropdown-menu li .btn-link[disabled] {
+  background-color: #b0b0b0;
 }
 .dropdown-menu img {
   border: 0;
@@ -3161,6 +3173,7 @@ input.btn, input.il-link.link-bulky,
   background-color: #b0b0b0;
   color: black;
   border: 1px solid #b0b0b0;
+  cursor: not-allowed;
 }
 .btn-link[disabled]:hover, fieldset[disabled] .btn-link:hover {
   text-decoration: none;
@@ -18424,7 +18437,6 @@ div.framed {
 	background-repeat: repeat-x;
 }
 */
-
 span.latex {
   color: green;
   font-weight: bold;
