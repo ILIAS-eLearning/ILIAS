@@ -166,7 +166,10 @@ class ConfigurationGUI implements DataRetrieval
         }
 
         $this->storeField($data['field']);
-        $this->showCmd();
+        $this->ctrl->redirectByClass(
+            [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, self::class],
+            'show'
+        );
     }
 
     public function createCmd(): void
