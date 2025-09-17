@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\News\Data;
 
-use DateTimeImmutable;
-
 /**
  * News Context DTO represents a context where news items can be associated with. It encapsulates
  * all relevant information about the context and provides validation, caching, and serialization
@@ -30,18 +28,11 @@ use DateTimeImmutable;
 final class NewsContext
 {
     public function __construct(
-        private int $ref_id,
-        private ?int $obj_id = null,
-        private ?string $obj_type = null,
-        private ?int $parent_ref_id = null,
-        private ?int $sub_obj_id = null,
-        private ?string $sub_obj_type = null,
-        private int $level = 0,
-        private ?DateTimeImmutable $last_news_date = null,
-        private int $news_count = 0,
-        private bool $has_news = false,
-        private array $child_contexts = [],
-        private array $metadata = []
+        private readonly int $ref_id,
+        private readonly ?int $obj_id = null,
+        private readonly ?string $obj_type = null,
+        private readonly ?int $parent_ref_id = null,
+        private readonly int $level = 0,
     ) {
     }
 
@@ -69,58 +60,13 @@ final class NewsContext
         return $this->parent_ref_id;
     }
 
-    public function getSubObjId(): ?int
-    {
-        return $this->sub_obj_id;
-    }
-
-    public function getSubObjType(): ?string
-    {
-        return $this->sub_obj_type;
-    }
-
+    /**
+     * @return int The level of this context in the hierarchy of contexts. This is different
+     * from the depth in the ilias tree because it will be considered relative.
+     */
     public function getLevel(): int
     {
         return $this->level;
-    }
-
-    public function getLastNewsDate(): ?DateTimeImmutable
-    {
-        return $this->last_news_date;
-    }
-
-    public function getNewsCount(): int
-    {
-        return $this->news_count;
-    }
-
-    public function hasNews(): bool
-    {
-        return $this->has_news;
-    }
-
-    public function getChildContexts(): array
-    {
-        return $this->child_contexts;
-    }
-
-    public function getMetadata(): array
-    {
-        return $this->metadata;
-    }
-
-    public function withChildContext(NewsContext $child_context): self
-    {
-        $new = clone $this;
-        $new->child_contexts[] = $child_context;
-        return $new;
-    }
-
-    public function withMetadata(string $key, mixed $value): self
-    {
-        $new = clone $this;
-        $new->metadata[$key] = $value;
-        return $new;
     }
 
     /*
@@ -149,29 +95,5 @@ final class NewsContext
     public function isRoot(): bool
     {
         return $this->parent_ref_id === null;
-    }
-
-    /**
-     * Check if this context has sub-objects
-     */
-    public function hasSubObject(): bool
-    {
-        return $this->sub_obj_id !== null && $this->sub_obj_type !== null;
-    }
-
-    /**
-     * Check if this context supports aggregation (courses, groups, or categories)
-     */
-    public function supportsAggregation(): bool
-    {
-        return in_array($this->obj_type, ['crs', 'grp', 'cat'], true);
-    }
-
-    /**
-     * Check if this context supports nesting (courses, groups, or categories)
-     */
-    public function supportsNesting(): bool
-    {
-        return in_array($this->obj_type, ['crs', 'grp', 'cat'], true);
     }
 }

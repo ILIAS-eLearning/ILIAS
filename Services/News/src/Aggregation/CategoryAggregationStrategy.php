@@ -42,7 +42,13 @@ class CategoryAggregationStrategy implements NewsAggregationStrategy
 
         foreach ($contexts as $context) {
             foreach ($this->tree->getChilds($context->getRefId()) as $node) {
-                $aggregated[] = new NewsContext($node['child'], $node['obj_id'], $node['type'], $context->getRefId());
+                $aggregated[] = new NewsContext(
+                    $node['child'],
+                    $node['obj_id'],
+                    $node['type'],
+                    $context->getRefId(),
+                    $context->getLevel() + 1
+                );
             }
         }
         return $aggregated;

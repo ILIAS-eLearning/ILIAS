@@ -34,15 +34,22 @@ class NewsAggregator
     ) {
     }
 
-    public function aggregate(NewsContext $news_context): array
+    /**
+     * @param NewsContext[] $contexts
+     * @return NewsContext[] aggregated contexts
+     */
+    public function aggregate(array $contexts): array
     {
         /** @var SplQueue<NewsContext> $frontier */
         $frontier = new SplQueue();
         $visited = [];
         $aggregated = [];
 
-        $frontier->enqueue($news_context);
-        $visited[$news_context->getRefId()] = true;
+        // Prepare queue and visited set
+        foreach ($contexts as $context) {
+            $frontier->enqueue($context);
+            $visited[$context->getRefId()] = true;
+        }
 
         while (!$frontier->isEmpty()) {
             // 1. Aggregate current layer and group by type
