@@ -37,6 +37,7 @@ $il-toolbar-border: 1px solid $il-main-border-color !default;
 	padding-left: 0; // Override default ul/ol
 	margin-bottom: 0;
 	list-style: none;
+    overflow: auto;
 	@include clearfix;
 
 	>li {
