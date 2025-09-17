@@ -33,4 +33,10 @@ interface NewsAggregationStrategy
      * @return NewsContext[]
      */
     public function aggregate(array $contexts): array;
+
+    /**
+     * Returns true if the strategy already resolves contexts recursively (which is more performant in some cases).
+     * If it returns false, the returned contexts will be enqueued by the aggregator to be resolved iteratively.
+     */
+    public function isRecursive(): bool;
 }

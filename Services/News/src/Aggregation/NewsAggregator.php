@@ -23,15 +23,20 @@ namespace ILIAS\News\Aggregation;
 use ILIAS\News\Data\NewsContext;
 use SplQueue;
 
+use function RectorPrefix202304\compressJs;
+
 /**
  * News Aggregator aggregates related contexts for a news context using a layer-wise Batching BFS to aggregate context
  * grouped by objects types in a single iteration.
  */
 class NewsAggregator
 {
-    public function __construct(
-        protected readonly StrategyRegistry $registry,
-    ) {
+    /** @var array<string, NewsAggregationStrategy> */
+    protected array $strategies = [];
+
+    public function __construct()
+    {
+        $this->initializeStrategies();
     }
 
     /**
@@ -63,21 +68,46 @@ class NewsAggregator
             }
 
             // 2. Collect children for each type using the appropriate strategy
-            $children = [];
             foreach ($batches as $type => $batch) {
-                $strategy = $this->registry->getStrategy($type);
-                $children = array_merge($children, $strategy->aggregate($batch));
-            }
+                $strategy = $this->getStrategy($type);
+                if (!$strategy) {
+                    continue;
+                }
 
-            // 3. Enqueue new children for the next layer
-            foreach ($children as $child) {
-                if (!isset($visited[$child->getRefId()])) {
-                    $frontier->enqueue($child);
+                foreach ($strategy->aggregate($batch) as $child) {
+                    // Ensure each context is only visited once
+                    if (isset($visited[$child->getRefId()])) {
+                        continue;
+                    }
                     $visited[$child->getRefId()] = true;
+
+                    // 3. Enqueue new children for the next layer (iterative) or store directly (recursive strategy)
+                    if (!$strategy->isRecursive()) {
+                        $frontier->enqueue($child);
+                    } else {
+                        $aggregated[] = $child;
+                    }
                 }
             }
         }
 
         return $aggregated;
+    }
+
+    protected function getStrategy(string $object_type): ?NewsAggregationStrategy
+    {
+        return $this->strategies[$object_type] ?? null;
+    }
+
+    protected function initializeStrategies(): void
+    {
+        //TODO: use constructor injection instead
+        global $DIC;
+
+        $subtree_strategy = new SubtreeAggregationStrategy($DIC->repositoryTree());
+
+        $this->strategies['cat'] = new CategoryAggregationStrategy($DIC->repositoryTree());
+        $this->strategies['crs'] = $subtree_strategy;
+        $this->strategies['grp'] = $subtree_strategy;
     }
 }

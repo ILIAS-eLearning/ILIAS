@@ -23,9 +23,9 @@ namespace ILIAS\News\Aggregation;
 use ILIAS\News\Data\NewsContext;
 
 /**
- * Category Aggregation Strategy aggregates related contexts for a category context
+ * Subtree Aggregation Strategy aggregates related contexts for groups and courses.
  */
-class CategoryAggregationStrategy implements NewsAggregationStrategy
+class SubtreeAggregationStrategy implements NewsAggregationStrategy
 {
     public function __construct(
         protected readonly \ilTree $tree
@@ -41,21 +41,40 @@ class CategoryAggregationStrategy implements NewsAggregationStrategy
         $aggregated = [];
 
         foreach ($contexts as $context) {
-            foreach ($this->tree->getChilds($context->getRefId()) as $node) {
+            if ($this->shouldSkip($context)) {
+                continue;
+            }
+
+            $context_node = $this->tree->getNodeData($context->getRefId());
+            if (!$context_node) {
+                continue;
+            }
+
+            $nodes = $this->tree->getSubTree($context_node);
+            foreach ($nodes as $node) {
                 $aggregated[] = new NewsContext(
                     $node['child'],
                     $node['obj_id'],
                     $node['type'],
                     $context->getRefId(),
-                    $context->getLevel() + 1
+                    $context->getLevel() + ($node['depth'] - $context_node['depth'])
                 );
             }
         }
+
         return $aggregated;
     }
 
     public function isRecursive(): bool
     {
         return true;
+    }
+
+    private function shouldSkip(NewsContext $context): bool
+    {
+        // see #31471, #30687, and ilMembershipNotification
+        return !\ilContainer::_lookupContainerSetting($context->getObjId(), 'cont_use_news', '1')
+            || (!\ilContainer::_lookupContainerSetting($context->getObjId(), 'cont_show_news', '1')
+                && !\ilContainer::_lookupContainerSetting($context->getObjId(), 'news_timeline'));
     }
 }
