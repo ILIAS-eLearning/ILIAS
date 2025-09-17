@@ -359,21 +359,16 @@ class Renderer extends AbstractComponentRenderer
             $forward_btn = $f->button()->standard("", $url_next);
         }
 
-        if ($component->getCurrentPage() === 0) {
-            $back_btn = $back_btn->withUnavailableAction();
+        if ($component->getCurrentPage() != 0) {
+            $back_glyph = $f->symbol()->glyph()->back();
+            $back_btn = $back_btn->withSymbol($back_glyph);
+            $tpl->setVariable('PREVIOUS', $default_renderer->render($back_btn));
         }
-        if ($component->getCurrentPage() >= $component->getNumberOfPages() - 1) {
-            $forward_btn = $forward_btn->withUnavailableAction();
+        if ($component->getCurrentPage() != $component->getNumberOfPages() - 1) {
+            $forward_glyph = $f->symbol()->glyph()->next();
+            $forward_btn = $forward_btn->withSymbol($forward_glyph);
+            $tpl->setVariable('NEXT', $default_renderer->render($forward_btn));
         }
-
-        $back_glyph = $f->symbol()->glyph()->back();
-        $forward_glyph = $f->symbol()->glyph()->next();
-
-        $back_btn = $back_btn->withSymbol($back_glyph);
-        $forward_btn = $forward_btn->withSymbol($forward_glyph);
-
-        $tpl->setVariable('PREVIOUS', $default_renderer->render($back_btn));
-        $tpl->setVariable('NEXT', $default_renderer->render($forward_btn));
     }
 
     /**

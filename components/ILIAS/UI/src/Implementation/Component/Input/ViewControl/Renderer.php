@@ -273,50 +273,46 @@ class Renderer extends AbstractComponentRenderer
                 $entries = $this->sliceRangesToVisibleEntries($ranges, $current, $component->getNumberOfVisibleEntries());
             }
 
-            foreach ($ranges as $idx => $range) {
-                if (in_array($range, $entries)) {
-                    $signal = clone $internal_signal;
-                    $signal->addOption('offset', $range->getStart());
-                    $signal->addOption('limit', $limit);
-                    $tpl->setCurrentBlock("entry");
-                    $entry = $ui_factory->button()->shy((string) ($idx + 1), '#')->withOnClick($signal);
-                    if ($idx === $current) {
-                        $entry = $entry->withEngagedState(true);
-                    }
-                    $tpl->setVariable("ENTRY", $default_renderer->render($entry));
-                    $tpl->parseCurrentBlock();
-                } else {
-                    if ($idx === 1 || $idx === count($ranges) - 2) {
+            if (count($entries) > 1) {
+                foreach ($ranges as $idx => $range) {
+                    if (in_array($range, $entries)) {
+                        $signal = clone $internal_signal;
+                        $signal->addOption('offset', $range->getStart());
+                        $signal->addOption('limit', $limit);
+                        $tpl->setCurrentBlock("entry");
+                        $entry = $ui_factory->button()->shy((string) ($idx + 1), '#')->withOnClick($signal);
+                        if ($idx === $current) {
+                            $entry = $entry->withEngagedState(true);
+                        }
+                        $tpl->setVariable("ENTRY", $default_renderer->render($entry));
+                        $tpl->parseCurrentBlock();
+                    } elseif ($idx === 1 || $idx === count($ranges) - 2) {
                         $tpl->setCurrentBlock("entry");
                         $tpl->touchBlock("spacer");
                         $tpl->parseCurrentBlock();
                     }
                 }
-            }
 
-            $signal = null;
-            if ($current > 0 && count($entries) > 1) {
-                $range = $ranges[$current - 1];
-                $signal = clone $internal_signal;
-                $signal->addOption('offset', $range->getStart());
-                $signal->addOption('limit', $limit);
-            }
-            $btn_left = $ui_factory->button()->shy('', $signal ?? '#')
-                ->withSymbol($ui_factory->symbol()->glyph()->back())
-                ->withUnavailableAction($signal === null);
-            $tpl->setVariable("LEFT_ROCKER", $default_renderer->render($btn_left));
+                if ($current > 0) {
+                    $range = $ranges[$current - 1];
+                    $signal = clone $internal_signal;
+                    $signal->addOption('offset', $range->getStart());
+                    $signal->addOption('limit', $limit);
+                    $btn_left = $ui_factory->button()->shy('', $signal ?? '#')
+                                           ->withSymbol($ui_factory->symbol()->glyph()->back());
+                    $tpl->setVariable("LEFT_ROCKER", $default_renderer->render($btn_left));
+                }
 
-            $signal = null;
-            if ($current < count($ranges) - 1) {
-                $range = $ranges[$current + 1];
-                $signal = clone $internal_signal;
-                $signal->addOption('offset', $range->getStart());
-                $signal->addOption('limit', $limit);
+                if ($current < count($ranges) - 1) {
+                    $range = $ranges[$current + 1];
+                    $signal = clone $internal_signal;
+                    $signal->addOption('offset', $range->getStart());
+                    $signal->addOption('limit', $limit);
+                    $btn_right = $ui_factory->button()->shy('', $signal ?? '#')
+                                            ->withSymbol($ui_factory->symbol()->glyph()->next());
+                    $tpl->setVariable("RIGHT_ROCKER", $default_renderer->render($btn_right));
+                }
             }
-            $btn_right = $ui_factory->button()->shy('', $signal ?? '#')
-                ->withSymbol($ui_factory->symbol()->glyph()->next())
-                ->withUnavailableAction($signal === null);
-            $tpl->setVariable("RIGHT_ROCKER", $default_renderer->render($btn_right));
         }
 
         foreach ($component->getLimitOptions() as $option) {
