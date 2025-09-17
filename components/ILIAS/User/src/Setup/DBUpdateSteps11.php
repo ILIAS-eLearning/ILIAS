@@ -38,6 +38,15 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
         string $keyword,
         string $value
     ): void {
+        if ($this->db->fetchObject(
+            $this->db->query(
+                "SELECT COUNT(*) cnt FROM settings WHERE module = 'common' AND keyword='{$keyword}'"
+            )
+        )?->cnt > 0
+        ) {
+            return;
+        }
+
         $this->db->insert(
             'settings',
             [
@@ -325,12 +334,20 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
 
     public function step_8(): void
     {
-        $this->db->manipulate(
-            'INSERT INTO settings (module, keyword, value) VALUES '
-                . '("common", "usr_settings_changeable_by_user_new_mail_notification", "1"), '
-            . '("common", "usr_settings_changeable_lua_new_mail_notification", "1"), '
-            . '("common", "usr_settings_export_new_mail_notification", "1")'
-        );
+        if ($this->db->fetchObject(
+            $this->db->query(
+                'SELECT COUNT(*) cnt FROM settings WHERE module = "common"' . PHP_EOL
+                    . 'AND keyword="usr_settings_changeable_by_user_new_mail_notification"'
+            )
+        )?->cnt <= 0
+        ) {
+            $this->db->manipulate(
+                'INSERT INTO settings (module, keyword, value) VALUES '
+                    . '("common", "usr_settings_changeable_by_user_new_mail_notification", "1"), '
+                . '("common", "usr_settings_changeable_lua_new_mail_notification", "1"), '
+                . '("common", "usr_settings_export_new_mail_notification", "1")'
+            );
+        }
 
         $renamed_fields = [
             'hide_own_online_status' => 'awrn_user_show',
@@ -442,25 +459,37 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
 
     public function step_12(): void
     {
-        $this->db->update(
-            'settings',
-            [
-                'keyword' => [
-                    \ilDBConstants::T_TEXT,
-                    'usr_settings_changeable_by_user_starting_point'
-                ]
-            ],
-            [
-                'module' => [
-                    \ilDBConstants::T_TEXT,
-                    'common'
+        if ($this->db->fetchObject(
+            $this->db->query(
+                'SELECT COUNT(*) cnt FROM settings WHERE module = "common"' . PHP_EOL
+                    . 'AND keyword="usr_settings_changeable_by_user_starting_point"'
+            )
+        )?->cnt <= 0
+        ) {
+            $this->db->update(
+                'settings',
+                [
+                    'keyword' => [
+                        \ilDBConstants::T_TEXT,
+                        'usr_settings_changeable_by_user_starting_point'
+                    ]
                 ],
-                'keyword' => [
-                    \ilDBConstants::T_TEXT,
-                    'usr_starting_point_personal'
+                [
+                    'module' => [
+                        \ilDBConstants::T_TEXT,
+                        'common'
+                    ],
+                    'keyword' => [
+                        \ilDBConstants::T_TEXT,
+                        'usr_starting_point_personal'
+                    ]
                 ]
-            ]
-        );
+            );
+        } else {
+            $this->db->manipulate(
+                'DELETE FROM settings WHERE module = "common" AND keyword= "usr_starting_point_personal"'
+            );
+        }
 
         $this->insertSetting('usr_settings_changeable_lua_starting_point', '1');
         $this->insertSetting('usr_settings_export_starting_point', '1');
