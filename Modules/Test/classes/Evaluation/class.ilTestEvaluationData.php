@@ -157,10 +157,10 @@ class ilTestEvaluationData
                     $filtered_participants[$active_id] = $participant;
                 }
             }
-            return $this->sortParticipants($filtered_participants);
-        } else {
-            return $this->sortParticipants($this->participants);
+            return $this->orderParticipants($filtered_participants);
         }
+
+        return $this->orderParticipants($this->participants);
     }
 
     public function resetFilter(): void
@@ -214,7 +214,7 @@ class ilTestEvaluationData
         return array_keys($this->participants);
     }
 
-    private function sortParticipants(array $participants): array
+    private function orderParticipants(array $participants): array
     {
         uasort($participants, static fn($a, $b) => $a->getName() <=> $b->getName());
         return $participants;
