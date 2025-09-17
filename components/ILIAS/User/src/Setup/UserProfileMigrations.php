@@ -251,7 +251,7 @@ class UserProfileMigrations implements Migration
 
             $insert = [];
             while (($row = $this->db->fetchObject($query))) {
-                $insert[] = "('{$row->usr_id}', '{$uuid}', '{$row->old_country}')";
+                $insert[] = "('{$row->usr_id}', '{$uuid}', {$this->db->quote($row->old_country, \ilDBConstants::T_TEXT)})";
             }
 
             if ($insert === []) {
