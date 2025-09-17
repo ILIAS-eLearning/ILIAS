@@ -52,6 +52,10 @@ class ilObjectTest extends TestCase
             define('ILIAS_LOG_DIR', '/var/log');
         }
 
+        if (!defined('ILIAS_LOG_FILE')) {
+            define('ILIAS_LOG_FILE', '/var/log/ilias.log');
+        }
+
         if (!defined('ILIAS_LOG_ENABLED')) {
             define('ILIAS_LOG_ENABLED', true);
         }
