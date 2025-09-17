@@ -27,14 +27,12 @@ class ilRepositoryObjectPluginSlot
     public static function addCreatableSubObjects(array $a_obj_array): array
     {
         global $DIC;
+        $plugins = $DIC['repository.objects']->getAll();
 
-        $component_repository = $DIC["component.repository"];
-        $plugins = $component_repository->getPluginSlotById("robj")->getActivePlugins();
         foreach ($plugins as $plugin) {
             $pl_id = $plugin->getId();
             $a_obj_array[$pl_id] = ["name" => $pl_id, "lng" => $pl_id, "plugin" => true];
         }
-
         return $a_obj_array;
     }
 
@@ -44,19 +42,7 @@ class ilRepositoryObjectPluginSlot
         bool $a_active_status = true
     ): bool {
         global $DIC;
-
-        $component_repository = $DIC["component.repository"];
-
-        if (!$component_repository->hasPluginId($a_type)) {
-            return false;
-        }
-
-        if (!$a_active_status) {
-            return true;
-        }
-
-        $plugin = $component_repository->getPluginById($a_type);
-        return $plugin->isActive();
+        return $DIC['repository.objects']->has($a_type);
     }
 
     // Check whether a repository type is a plugin which has active learning progress
@@ -65,20 +51,8 @@ class ilRepositoryObjectPluginSlot
         bool $a_active_status = true
     ): bool {
         global $DIC;
-        $component_repository = $DIC["component.repository"];
-
-        if (!$component_repository->hasPluginId($a_type)) {
-            return false;
-        }
-        $slot = $component_repository->getPluginSlotById("robj");
-        if ($slot->hasPluginId($a_type)) {
-            $plugin = $slot->getPluginById($a_type);
-            if (!$a_active_status || $plugin->isActive()) {
-                if ($plugin->supportsLearningProgress()) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return $DIC['repository.objects']
+            ->get($a_type)
+            ->supportsLearningProgress();
     }
 }

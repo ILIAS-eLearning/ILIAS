@@ -23,16 +23,15 @@ declare(strict_types=1);
  */
 class ilPluginLanguage
 {
-    protected ilPluginInfo $plugin_info;
-
-    public function __construct(ilPluginInfo $plugin_info)
-    {
-        $this->plugin_info = $plugin_info;
+    public function __construct(
+        protected string $prefix,
+        protected string $path
+    ) {
     }
 
     protected function getLanguageDirectory(): string
     {
-        return $this->plugin_info->getPath() . "/lang";
+        return $this->path . "/lang";
     }
 
     /**
@@ -76,11 +75,7 @@ class ilPluginLanguage
 
     public function getPrefix(): string
     {
-        $plugin = $this->plugin_info;
-        $component = $plugin->getComponent();
-        $slot = $plugin->getPluginSlot();
-
-        return $component->getId() . "_" . $slot->getId() . "_" . $plugin->getId();
+        return $this->prefix;
     }
 
     /**

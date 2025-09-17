@@ -1887,13 +1887,11 @@ class ilObject
             return ilUtil::getImagePath("standard/icon_{$type}.svg");
         }
 
-        if ($objDefinition->getClassName($type) !== '') {
-            $class_name = "il{$objDefinition->getClassName($type)}Plugin";
-            $location = $objDefinition->getLocation($type);
-            if (is_file($location . "/class.{$class_name}.php")) {
-                return call_user_func([$class_name, '_getIcon'], $type);
-            }
+        $plugin_repository = $DIC['repository.objects'];
+        if ($plugin_repository->has($type)) {
+            return ilUtil::getImagePath("../{$type}/images/icon_{$type}.svg");
         }
+
         return ilUtil::getImagePath('standard/icon_cmps.svg');
     }
 

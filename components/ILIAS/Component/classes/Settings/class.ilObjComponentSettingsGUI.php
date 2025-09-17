@@ -49,6 +49,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI implements ilCtrlSecurityInt
     public const P_PLUGIN_NAME = "pname";
     public const P_PLUGIN_ID = "plugin_id";
     public const P_ADMIN_MODE = 'admin_mode';
+    public const P_BACK = 'back';
 
     protected ilTabsGUI $tabs;
     protected ilRbacSystem $rbac_system;

@@ -60,7 +60,8 @@ abstract class ilPluginConfigGUI
         $lng = $DIC->language();
         $tpl = $DIC['tpl'];
         $request_wrapper = $DIC->http()->wrapper()->query();
-        $string_trafo = $DIC["refinery"]->kindlyTo()->string();
+        $refinery = $DIC["refinery"];
+        $string_trafo = $refinery->kindlyTo()->string();
 
         $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "ctype", $request_wrapper->retrieve("ctype", $string_trafo));
         $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "cname", $request_wrapper->retrieve("cname", $string_trafo));
@@ -82,6 +83,17 @@ abstract class ilPluginConfigGUI
             $ilTabs->setBackTarget(
                 $lng->txt("cmps_plugins"),
                 $ilCtrl->getLinkTargetByClass("ilobjcomponentsettingsgui", "listPlugins")
+            );
+        }
+
+        $back = $request_wrapper->retrieve(
+            \ilObjComponentSettingsGUI::P_BACK,
+            $refinery->byTrying([$string_trafo, $refinery->always(null)])
+        );
+        if ($back !== null) {
+            $ilTabs->setBackTarget(
+                $lng->txt("back"),
+                urldecode($back)
             );
         }
 

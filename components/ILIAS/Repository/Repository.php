@@ -43,5 +43,11 @@ class Repository implements Component\Component
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "repository.js");
+
+        $provide[\ILIAS\Repository\AdditionalRepositoryObjects::class] = fn() =>
+            new \ILIAS\Repository\AdditionalRepositoryObjects(
+                $seek[\ILIAS\Repository\RepositoryObject::class]
+            );
+
     }
 }

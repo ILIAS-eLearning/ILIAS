@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Administration\AdminGUIRequest;
+use ILIAS\Repository\AdditionalRepositoryObjects;
 
 /**
 * Class ilAdministratioGUI
@@ -75,8 +76,9 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
     protected bool $creation_mode = false;
     protected int $requested_obj_id = 0;
     protected AdminGUIRequest $request;
-    protected ilObjectGUI $gui_obj;
+    protected ilObjectGUI|ilPluginConfigGUI $gui_obj;
     private readonly ilLogger $logger;
+    protected readonly AdditionalRepositoryObjects $plugin_repository;
 
     public function __construct()
     {
@@ -100,6 +102,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         $this->rbacsystem = $rbacsystem;
         $this->objDefinition = $objDefinition;
         $this->ctrl = $ilCtrl;
+        $this->plugin_repository = $DIC['repository.objects'];
 
         $context = $DIC->globalScreen()->tool()->context();
         $context->claim()->administration();
@@ -109,24 +112,26 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
             $DIC->refinery()
         );
 
-        $this->ctrl->saveParameter($this, array("ref_id", "admin_mode"));
+        if ($this->ctrl->getCmd() !== \ilObjComponentSettingsGUI::CMD_CONFIGURE) {
+            $this->ctrl->saveParameter($this, array("ref_id", "admin_mode"));
 
-        $this->admin_mode = $this->request->getAdminMode();
-        if ($this->admin_mode !== ilObjectGUI::ADMIN_MODE_REPOSITORY) {
-            $this->admin_mode = ilObjectGUI::ADMIN_MODE_SETTINGS;
+            $this->admin_mode = $this->request->getAdminMode();
+            if ($this->admin_mode !== ilObjectGUI::ADMIN_MODE_REPOSITORY) {
+                $this->admin_mode = ilObjectGUI::ADMIN_MODE_SETTINGS;
+            }
+
+            $this->ctrl->setReturn($this, "");
+
+            // determine current ref id and mode
+            $ref_id = $this->request->getRefId();
+            if ($tree->isInTree($ref_id)) {
+                $this->cur_ref_id = $ref_id;
+            } else {
+                throw new ilPermissionException("Invalid ref id.");
+            }
+
+            $this->requested_obj_id = $this->request->getObjId();
         }
-
-        $this->ctrl->setReturn($this, "");
-
-        // determine current ref id and mode
-        $ref_id = $this->request->getRefId();
-        if ($tree->isInTree($ref_id)) {
-            $this->cur_ref_id = $ref_id;
-        } else {
-            throw new ilPermissionException("Invalid ref id.");
-        }
-
-        $this->requested_obj_id = $this->request->getObjId();
     }
 
 
@@ -187,8 +192,13 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         switch ($next_class) {
             default:
 
+                if (preg_match("/configgui$/i", $next_class)) {
+                    $this->forwardConfigGUI($next_class);
+                }
+
                 // forward all other classes to gui commands
-                if ($next_class != "" && $next_class !== "iladministrationgui") {
+                elseif ($next_class != "" && $next_class !== "iladministrationgui") {
+
                     $class_path = $this->ctrl->lookupClassPath($next_class);
                     if (is_file($class_path)) {
                         require_once $class_path;   // note: org unit plugins still need the require
@@ -237,12 +247,25 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
                         $this->tpl->setVariable("OBJECTS", $html);
                     }
                     $this->tpl->printToStdout();
-                } else {	//
+                } else {
                     $cmd = $this->ctrl->getCmd("forward");
                     $this->$cmd();
                 }
                 break;
         }
+    }
+
+    protected function forwardConfigGUI(string $name): void
+    {
+        $name = $this->ctrl->lookupOriginalClassName($name);
+        if (!class_exists($name)) {
+            throw new Exception("class $name not found!");
+        }
+        $gui = new $name();
+        $plugin_name = substr($name, 2, -9);
+        $plugin = $this->plugin_repository->getPluginByName($plugin_name);
+        $gui->setPluginObject($plugin);
+        $this->ctrl->forwardCommand($gui);
     }
 
     /**
