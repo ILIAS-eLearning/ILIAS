@@ -1757,7 +1757,7 @@ class ilObject
         }
 
         for ($i = 1; true; $i++) {
-            $title_with_suffix = $title_without_suffix . " ($i)";
+            $title_with_suffix = "{$title_without_suffix} ({$i})";
             if ($this->isTitleUnique($title_with_suffix, $other_titles_for_lang)) {
                 return $title_with_suffix;
             }
