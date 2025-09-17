@@ -223,7 +223,6 @@ class Mail_RFC822
         $this->address = preg_replace('/\r?\n/', "\r\n", $this->address);
         $this->address = preg_replace('/\r\n(\t| )+/', ' ', $this->address);
 
-        $tmp_address = false;
         while ($tmp_address = $this->_splitAddresses($this->address)) {
             $this->address = $tmp_address;
         }
@@ -315,9 +314,8 @@ class Mail_RFC822
         // If the next char is a comma and this was a group, then
         // there are more addresses, otherwise, if there are any more
         // chars, then there is another address.
-        if ($is_group && $address[0] === ',') {
+        if ($is_group && $address !== '' && str_starts_with($address, ',')) {
             $address = trim(substr($address, 1));
-            return $address;
         }
 
         return $address;

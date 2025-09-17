@@ -26,7 +26,7 @@ use ILIAS\components\Authentication\Pages\AuthPageLanguagesOverviewTable;
  * @ilCtrl_isCalledBy ilAuthPageEditorGUI: ilObjAuthSettingsGUI
  * @ilCtrl_Calls      ilAuthPageEditorGUI: ilLoginPageGUI, ilLogoutPageGUI
  */
-class ilAuthPageEditorGUI
+class ilAuthPageEditorGUI implements ilCtrlSecurityInterface
 {
     final public const DEFAULT_COMMAND = 'showPageEditorLanguages';
     final public const LANGUAGE_TABLE_ACTIONS_COMMAND = 'handlePageActions';
@@ -94,6 +94,18 @@ class ilAuthPageEditorGUI
             ])
         );
         $this->ctrl->setParameter($this, self::CONTEXT_HTTP_PARAM, $this->request_ipe_context);
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+           self::LANGUAGE_TABLE_ACTIONS_COMMAND
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
     }
 
     public function executeCommand(): void

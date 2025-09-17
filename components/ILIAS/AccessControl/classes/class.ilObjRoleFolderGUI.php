@@ -511,10 +511,10 @@ class ilObjRoleFolderGUI extends ilObjectGUI
                         break;
                 }
             }
-
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('rbac_copy_finished'), true);
-            $this->ctrl->redirect($this, 'view');
         }
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('rbac_copy_finished'), true);
+        $this->ctrl->redirect($this, 'view');
     }
 
     /**

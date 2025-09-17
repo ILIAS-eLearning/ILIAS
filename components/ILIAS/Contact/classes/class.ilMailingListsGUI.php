@@ -22,11 +22,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Contact\MailingLists\MailingListsTable;
 use ILIAS\Contact\MailingLists\MailingListsMembersTable;
 
-/**
- * @author  Michael Jansen <mjansen@databay.de>
- * @ingroup ServicesMail
- */
-class ilMailingListsGUI
+class ilMailingListsGUI implements ilCtrlSecurityInterface
 {
     private readonly \ILIAS\HTTP\GlobalHttpState $http;
     private readonly Refinery $refinery;
@@ -69,6 +65,20 @@ class ilMailingListsGUI
         $this->ctrl->saveParameter($this, 'ref');
 
         $this->lng->loadLanguageModule('mail');
+    }
+
+
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+            'handleMailingListActions',
+            'handleMailingListMemberActions'
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
     }
 
     private function getQueryMailingListId(): int

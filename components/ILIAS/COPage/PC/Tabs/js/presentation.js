@@ -86,13 +86,15 @@ const presentation = (function () {
   function init(node) {
     node.querySelectorAll('[data-copg-tabs-type]').forEach((tabContainer) => {
       const type = tabContainer.dataset.copgTabsType;
-
       if (type === 'Carousel') {
         // +
         // carousel
         // +
-
-        const displayDuration = tabContainer.dataset.copgTabsAutoAnimWait;
+        let displayDuration = tabContainer.dataset.copgTabsAutoAnimWait;
+        if (displayDuration == '' || displayDuration == 'NaN') {
+          displayDuration = 5000;
+        }
+        console.log(displayDuration);
         // const randomStart = tabContainer.dataset.copgTabsRandomStart;
         const slides = tabContainer.querySelectorAll('& > div');
         const totalSlides = slides.length;

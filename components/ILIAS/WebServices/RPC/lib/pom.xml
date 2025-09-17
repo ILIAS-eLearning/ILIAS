@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.ilias.ilserver</groupId>
     <artifactId>ilServer</artifactId>
-    <version>10.0.2</version>
-    <build>
+    <version>10.0.3</version>
+   <build>
         <finalName>ilServer</finalName>
         <plugins>
             <plugin>

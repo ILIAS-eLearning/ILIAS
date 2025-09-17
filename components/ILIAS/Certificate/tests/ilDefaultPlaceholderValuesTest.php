@@ -155,12 +155,12 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
         $placeHolderObject = new ilDefaultPlaceholderValues(
             $objectHelper,
             $dateHelper,
-            1,
+            3,
             $language,
             $utilHelper,
             $userDefinePlaceholderMock,
             $uuid_factory_mock,
-            1
+            2
         );
         $placeHolderObject->setUserLanguage($language);
 
@@ -239,12 +239,12 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
         $placeHolderObject = new ilDefaultPlaceholderValues(
             $objectHelper,
             $dateHelper,
-            1,
+            3,
             $language,
             $utilHelper,
             $userDefinePlaceholderMock,
             $uuid_factory_mock,
-            1
+            2
         );
 
         $result = $placeHolderObject->getPlaceholderValuesForPreview(

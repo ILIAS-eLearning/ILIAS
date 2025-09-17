@@ -91,6 +91,12 @@ class ilTemplateTest extends TestCase
                 'component' => $il_root . '/components/ILIAS/Component/classes/../../../../public/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/EditorAsMode',
                 'expected' => $il_root . '/components/ILIAS/Component/classes/../../../../public/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/EditorAsMode/templates/default/tpl.test.html',
             ],
+            'plugin template_file_no_component' => [
+                'skin' => 'default', 'style' => 'delos', 'file_exists' => true,
+                'tpl_filename' => $il_root . '/components/ILIAS/Component/classes/../../../../public/Customizing/global/plugins/Services/User/UDFDefinition/CascadingSelect/templates/tpl.prop_cascading_select.html',
+                'component' => '',
+                'expected' => $il_root . '/components/ILIAS/Component/classes/../../../../public/Customizing/global/plugins/Services/User/UDFDefinition/CascadingSelect/templates/tpl.prop_cascading_select.html',
+            ],
             'custom skin' => [
                 'skin' => 'mySkin', 'style' => 'myStyle', 'file_exists' => true,
                 'tpl_filename' => 'tpl.external_settings.html',

@@ -22,6 +22,7 @@
 class ilUserDataSet extends ilDataSet
 {
     private ilUserProfile $user_profile;
+    protected ilUserExportConfig $export_config;
     protected array $temp_picture_dirs = []; // Missing array type.
     public array $multi = []; // Missing array type.
     protected array $users; // Missing array type.
@@ -29,8 +30,15 @@ class ilUserDataSet extends ilDataSet
     public function __construct()
     {
         parent::__construct();
-
         $this->user_profile = new ilUserProfile();
+    }
+
+    public function initByExporter(ilXmlExporter $xml_exporter): void
+    {
+        parent::initByExporter($xml_exporter);
+        /** @var ilUserExportConfig $config */
+        $config = $this->export->getExportConfigs()->getElementByClassName('ilUserExportConfig');
+        $this->export_config = $config;
     }
 
     public function getSupportedVersions(): array // Missing array type.
@@ -100,7 +108,7 @@ class ilUserDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "personal_data") {
+        if ($this->export_config->getExportType() == "personal_data") {
             switch ($a_version) {
                 case "4.3.0":
                 case "4.5.0":
@@ -177,7 +185,7 @@ class ilUserDataSet extends ilDataSet
             $a_ids = [$a_ids];
         }
 
-        if ($a_entity == "personal_data") {
+        if ($this->export_config->getExportType() == "personal_data") {
             switch ($a_version) {
                 case "4.3.0":
                 case "4.5.0":
@@ -295,7 +303,7 @@ class ilUserDataSet extends ilDataSet
         $ilUser = $DIC['ilUser'];
 
         switch ($a_entity) {
-            case "personal_data":
+            case "usr":
                 // only users themselves import their profiles!
                 // thus we can map the import id of the dataset to the current user
                 $a_mapping->addMapping("components/ILIAS/User", "usr", $a_rec["Id"], $ilUser->getId());

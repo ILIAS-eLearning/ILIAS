@@ -1912,6 +1912,7 @@ assessment#:#tst_setting_offer_hints_info#:#Participants request hints to answer
 assessment#:#tst_setting_offer_hints_label#:#Hints
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".
+assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.
 assessment#:#tst_settings_header_additional#:#Additional Features
 assessment#:#tst_settings_header_execution#:#Administering the Test: Access
 assessment#:#tst_settings_header_intro#:#Information Before Start of Test
@@ -2633,6 +2634,7 @@ book#:#book_new#:#New Booking Pool
 book#:#book_no_bookings_for_you#:#No bookings have been made for you.
 book#:#book_no_objects#:#No Bookings
 book#:#book_no_of_objects#:#No. of Units
+book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.
 book#:#book_no_preferences_for_you#:#No preferences have been recorded for you.
 book#:#book_no_recurrence#:#Book only this date
 book#:#book_not#:#Not
@@ -4409,7 +4411,7 @@ common#:#import_file#:#Import File
 common#:#import_file_not_valid_here#:#The import file is not valid or the contained object type cannot be imported here.
 common#:#import_finished#:#Number of imported messages.
 common#:#import_lm#:#Import ILIAS Learning module
-common#:#import_qpl#:#Import Question Pool Test
+common#:#import_qpl#:#Import Question Pool for Tests
 common#:#import_questions_into_qpl#:#Import question(s) into question pool
 common#:#import_sahs#:#Import SCORM Package
 common#:#import_sahs_info#:#To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again.
@@ -4813,6 +4815,7 @@ common#:#msg_no_perm_perm#:#You have no permission to change permission settings
 common#:#msg_no_perm_read#:#You have no permission to access this item.
 common#:#msg_no_perm_read_item#:#You have no permission to access item '%s’.
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user
 common#:#msg_no_perm_write#:#You have no permission to edit settings.
 common#:#msg_no_search_result#:#No entries found
 common#:#msg_no_search_string#:#Please enter your query.
@@ -5091,9 +5094,9 @@ common#:#obj_prtt#:#Portfolio Template
 common#:#obj_prtt_duplicate#:#Copy Portfolio Template
 common#:#obj_ps#:#Privacy and Security
 common#:#obj_ps_desc#:#Configure global privacy and security settings here.
-common#:#obj_qpl#:#Question Pool Test
-common#:#obj_qpl_duplicate#:#Copy Question Pool Test
-common#:#obj_qpl_select#:#-- Please select one question pool test --
+common#:#obj_qpl#:#Question Pool for Tests
+common#:#obj_qpl_duplicate#:#Copy Question Pool for Tests
+common#:#obj_qpl_select#:#-- Please select one question pool for tests --
 common#:#obj_rcat#:#ECS Category
 common#:#obj_rcrs#:#ECS Course
 common#:#obj_recf#:#Restored Objects
@@ -5220,7 +5223,7 @@ common#:#objs_prg#:#Study Programmes
 common#:#objs_prgr#:#Links to Study Programmes
 common#:#objs_prtf#:#Portfolios
 common#:#objs_prtt#:#Portfolio Templates
-common#:#objs_qpl#:#Question Pools Test
+common#:#objs_qpl#:#Question Pools for Tests
 common#:#objs_qst#:#Questions
 common#:#objs_rcat#:#ECS Categories
 common#:#objs_rcrs#:#ECS Courses
@@ -5421,9 +5424,9 @@ common#:#public_notes#:#Public Notes
 common#:#public_profile#:#Profile
 common#:#public_room#:#Public Chat Room
 common#:#purpose#:#Purpose
-common#:#qpl#:#Question Pool Test
-common#:#qpl_add#:#Add Question Pool Test
-common#:#qpl_new#:#New Question Pool Test
+common#:#qpl#:#Question Pool for Tests
+common#:#qpl_add#:#Add Question Pool for Tests
+common#:#qpl_new#:#New Question Pool for Tests
 common#:#query_data#:#Query data
 common#:#question#:#Question
 common#:#question_message#:#Question
@@ -6495,7 +6498,7 @@ content#:#cont_ed_split_page_next#:#Split to Next Page
 content#:#cont_ed_textitem#:# Text Item
 content#:#cont_ed_width#:#Width
 content#:#cont_edit_base_image#:#Edit Background Image
-content#:#cont_edit_comp#:#Editing
+content#:#cont_edit_comp#:#Edit
 content#:#cont_edit_definition#:#Edit Definition
 content#:#cont_edit_file_list_properties#:#Edit File List Properties
 content#:#cont_edit_language_version#:#Edit Version
@@ -6504,7 +6507,7 @@ content#:#cont_edit_marker_position#:#Edit Marker Position
 content#:#cont_edit_mob#:#Edit Media Object
 content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties
 content#:#cont_edit_mode#:#Edit Mode
-content#:#cont_edit_multi#:#Selection
+content#:#cont_edit_multi#:#Select
 content#:#cont_edit_overlay_position#:#Edit Overlay Position
 content#:#cont_edit_par#:#Edit Text
 content#:#cont_edit_personal_data#:#Edit Personal Data
@@ -7410,6 +7413,7 @@ copg#:#copg_page_type_stys#:#Layout Page
 copg#:#copg_pages#:#Pages
 copg#:#copg_par_format_selection#:#Paragraph Format Selection
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.
+copg#:#copg_plugin#:#Plugin
 copg#:#copg_plugin_not_avail#:#Plugin %s not available.
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 copg#:#copg_reload_page#:#Reload Page
@@ -9766,7 +9770,7 @@ exp#:#exp_import_validation_err_no_matching_xsd#:#No valid schema file for versi
 exp#:#exp_not_public_access_status#:#Not published
 exp#:#exp_print_pdf#:#Print/PDF
 exp#:#exp_print_pdf_info#:#To create a PDF please select "Print to PDF" in the print modal that appears after clicking on ‘Print View’.
-exp#:#exp_public_access_status#:#Available on ‘Info’-tab
+exp#:#exp_public_access_status#:#Available in ‘Info’-tab
 exp#:#exp_really_delete#:#Are you sure you want to delete the following export file(s)?
 exp#:#exp_show_print_view#:#Show Print View
 exp#:#exp_xml#:#XML
@@ -11760,8 +11764,8 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 and MathJax 3 with current browsers not needed.
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Please remove any reference to polyfill.io! See https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s
-mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s
+mathjax#:#mathjax_script_url_desc_line1#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. <br />For MathJax 2 e.g. %s
+mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. %s
 mathjax#:#mathjax_server_address#:#Server Address
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
@@ -13062,8 +13066,8 @@ obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multiling
 obj#:#obj_fallback_lang#:#Default Language
 obj#:#obj_features#:#Additional Features
 obj#:#obj_import_file_error#:#This file could not be imported. Please make sure that this is a valid ILIAS export file (XML Export), of the same object type.
-obj#:#obj_insert_into_clipboard#:#Insert into Clipboard
-obj#:#obj_inserted_clipboard#:#Objects have been moved to the clipboard.
+obj#:#obj_insert_into_clipboard#:#Add to Clipboard
+obj#:#obj_inserted_clipboard#:#Selected object(s) successfully added to the clipboard.
 obj#:#obj_master_lang#:#Master Language
 obj#:#obj_more_translations#:#More Translations
 obj#:#obj_multilang_deactivated#:#Multilingualism has been deactivated.
@@ -13923,6 +13927,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files
 pwsp#:#pwsp_enable_wsp_links#:#Enable Links
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments
 qpl#:#qpl_filter_commented_only#:#Questions with comments
 qpl#:#qpl_page_type_qfbg#:#General Feedback
@@ -14580,7 +14585,7 @@ rbac#:#rbac_create_poll#:#Create Poll
 rbac#:#rbac_create_prg#:#Create Study Programme
 rbac#:#rbac_create_prgr#:#Create link to study programme
 rbac#:#rbac_create_prtt#:#Create Portfolio Template
-rbac#:#rbac_create_qpl#:#Create Question Pool Test
+rbac#:#rbac_create_qpl#:#Create Question Pool for Tests
 rbac#:#rbac_create_rcrs#:#Create ECS Course
 rbac#:#rbac_create_role#:#Create new Role
 rbac#:#rbac_create_rolt#:#Create new Role Template
@@ -14642,6 +14647,7 @@ rbac#:#rbac_log_source_object#:#Source object
 rbac#:#rbac_msg_user_already_assigned#:#The chosen users are already assigned to this role.
 rbac#:#rbac_not_change_existing_objects#:#Do NOT change existing objects
 rbac#:#rbac_permissions#:#Permissions
+rbac#:#rbac_precondition_condition#:#Access requires having this status
 rbac#:#rbac_precondition_hide#:#Hide Object
 rbac#:#rbac_precondition_hide_info#:# This option allows to hide the object for users who currently have not fulfilled the preconditions. Therefore, all not accessible content is invisible.
 rbac#:#rbac_precondition_minimum_optional#:#At least 2 preconditions have to remain optional.
@@ -16084,6 +16090,7 @@ style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#A separate CSS block is added for each media query after the default (no special media query) block.
 style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
+style#:#sty_move_obj_styles#:#Change Style of Objects
 style#:#sty_move_style#:#Change Style
 style#:#sty_move_user_styles#:#Change Style of Users
 style#:#sty_move_user_styles_saved#:#The assignment of the users assigned to skind-id %s has been changed to skin-id %s.
@@ -16092,6 +16099,7 @@ style#:#sty_msg_color_must_only_include#:#The color name may only include the fo
 style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.
 style#:#sty_name#:#Name
 style#:#sty_nr_learning_modules#:#Number of Learning Modules
+style#:#sty_nr_objects#:#Number of Objects
 style#:#sty_odd_col_class#:#Odd Columns
 style#:#sty_odd_row_class#:#Odd Rows
 style#:#sty_ol#:#Ordered List

@@ -109,42 +109,23 @@ class RevisionDBRepository implements RevisionRepository
     public function store(Revision $revision): void
     {
         $rid = $revision->getIdentification()->serialize();
-        $r = $this->db->queryF(
-            "SELECT " . self::IDENTIFICATION . " FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s AND version_number = %s",
-            ['text', 'integer'],
-            [$rid, $revision->getVersionNumber()]
+        $version = $revision->getVersionNumber();
+
+        $this->db->replace(
+            self::TABLE_NAME,
+            [
+                self::IDENTIFICATION => ['text', $rid],
+                'version_number' => ['integer', $version],
+            ],
+            [
+                'available' => ['integer', 1],
+                'owner_id' => ['integer', $revision->getOwnerId()],
+                'title' => ['text', $revision->getTitle()],
+                'status' => ['text', $revision->getStatus()->value],
+            ]
         );
 
-        if ($r->numRows() > 0) {
-            // UPDATE
-            $this->db->update(
-                self::TABLE_NAME,
-                [
-                    'available' => ['integer', true],
-                    'owner_id' => ['integer', $revision->getOwnerId()],
-                    'title' => ['text', $revision->getTitle()],
-                    'status' => ['text', $revision->getStatus()->value],
-                ],
-                [
-                    self::IDENTIFICATION => ['text', $rid],
-                    'version_number' => ['integer', $revision->getVersionNumber()],
-                ]
-            );
-        } else {
-            // CREATE
-            $this->db->insert(
-                self::TABLE_NAME,
-                [
-                    self::IDENTIFICATION => ['text', $rid],
-                    'version_number' => ['integer', $revision->getVersionNumber()],
-                    'available' => ['integer', true],
-                    'owner_id' => ['integer', $revision->getOwnerId()],
-                    'title' => ['text', $revision->getTitle()],
-                    'status' => ['text', $revision->getStatus()->value],
-                ]
-            );
-        }
-        $this->cache[$rid][$revision->getVersionNumber()] = $revision;
+        $this->cache[$rid][$version] = $revision;
     }
 
     /**
@@ -155,7 +136,7 @@ class RevisionDBRepository implements RevisionRepository
         $collection = new RevisionCollection($resource->getIdentification());
 
         $rid = $resource->getIdentification()->serialize();
-        if (isset($this->cache[$rid]) && is_array($this->cache[$rid])) {
+        if (isset($this->cache[$rid]) && \is_array($this->cache[$rid])) {
             foreach ($this->cache[$rid] as $rev) {
                 $collection->add($rev);
             }
@@ -168,12 +149,12 @@ class RevisionDBRepository implements RevisionRepository
         );
         while ($d = $this->db->fetchObject($r)) {
             $revision = new FileRevision(new ResourceIdentification($d->rid));
-            $revision->setVersionNumber((int)$d->version_number);
-            $revision->setOwnerId((int)$d->owner_id);
-            $revision->setTitle((string)$d->title);
-            $revision->setStatus(RevisionStatus::from((int)$d->status));
+            $revision->setVersionNumber((int) $d->version_number);
+            $revision->setOwnerId((int) $d->owner_id);
+            $revision->setTitle((string) $d->title);
+            $revision->setStatus(RevisionStatus::from((int) $d->status));
             $collection->add($revision);
-            $this->cache[$d->rid][(int)$d->version_number] = $revision;
+            $this->cache[$d->rid][(int) $d->version_number] = $revision;
         }
 
         return $collection;
@@ -211,10 +192,10 @@ class RevisionDBRepository implements RevisionRepository
     public function populateFromArray(array $data): void
     {
         $revision = new FileRevision(new ResourceIdentification($data['rid']));
-        $revision->setVersionNumber((int)$data['version_number']);
-        $revision->setOwnerId((int)$data['owner_id']);
-        $revision->setTitle((string)$data['revision_title']);
-        $revision->setStatus(RevisionStatus::from((int)$data['status']));
-        $this->cache[$data['rid']][(int)$data['version_number']] = $revision;
+        $revision->setVersionNumber((int) $data['version_number']);
+        $revision->setOwnerId((int) $data['owner_id']);
+        $revision->setTitle((string) $data['revision_title']);
+        $revision->setStatus(RevisionStatus::from((int) $data['status']));
+        $this->cache[$data['rid']][(int) $data['version_number']] = $revision;
     }
 }

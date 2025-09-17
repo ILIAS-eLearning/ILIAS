@@ -92,7 +92,7 @@
 		},
 		"classmap": [
 			"./public/Customizing/global/plugins",
-			"./components/ILIAS",
+			"./components",
 			"./vendor/ilias",
 			"./components/ILIAS/soap",
 			"./components/ILIAS/setup_/classes"

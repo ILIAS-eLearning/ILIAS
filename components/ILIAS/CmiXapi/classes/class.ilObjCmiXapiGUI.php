@@ -27,10 +27,9 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  * @author       Stefan Schneider <info@eqsoft.de>
  * @package      Module/CmiXapi
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilObjectCopyGUI
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjCmiXapiGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilPermissionGUI
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilInfoScreenGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilLearningProgressGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiRegistrationGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiLaunchGUI
@@ -405,6 +404,15 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 
                 break;
 
+            case strtolower(ilInfoScreenGUI::class):
+                $DIC->tabs()->activateTab(self::TAB_ID_INFO);
+                $this->infoScreenForward();
+                break;
+
+            case strtolower(ilCommentGUI::class):
+                $DIC->ctrl()->redirectByClass(ilCommentGUI::class, "getListHTML");
+                break;
+
             case strtolower(ilObjectMetaDataGUI::class):
 
                 $DIC->tabs()->activateTab(self::TAB_ID_METADATA);
@@ -499,7 +507,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $DIC->tabs()->addTab(
             self::TAB_ID_INFO,
             $DIC->language()->txt(self::TAB_ID_INFO),
-            $DIC->ctrl()->getLinkTargetByClass(self::class)
+            $DIC->ctrl()->getLinkTargetByClass(ilInfoScreenGUI::class)
         );
 
         if ($this->cmixAccess->hasWriteAccess()) {
@@ -638,14 +646,9 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     public function infoScreen(): void
     {
         global $DIC;
-        /* @var \ILIAS\DI\Container $DIC */
 
         $DIC->tabs()->activateTab(self::TAB_ID_INFO);
-        if (strtolower($this->ctrl->getCmd() ?? '') === 'infoscreen') {
-            $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
-        }
-
-        $this->infoScreenForward();
+        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
     }
 
     public function infoScreenForward(): void

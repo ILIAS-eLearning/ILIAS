@@ -22,11 +22,22 @@ $il-counter-status-position-bottom: -5px;
 $il-counter-novelty-bg: $il-warning-color;
 $il-counter-novelty-position-top: -5px;
 
+
+// the size of the parent button or glyph link should control the absolute positioning
+// for refactoring: this should probably be a container with the button/link inside
+*:has(> .il-counter) {
+  position: relative;
+}
+
+.il-counter {
+  font-size: $il-font-size-base;
+}
+
+// this class is randomly used stand-alone in some legacy html templates
 .badge {
   min-width: 10px;
   font-size: $il-counter-font-size;
   margin-left: $il-counter-margin-left;
-  position: relative;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
@@ -36,24 +47,19 @@ $il-counter-novelty-position-top: -5px;
   &:empty {
     display: none;
   }
-}
-
-.il-counter {
-  position: relative;
-  font-size: $il-font-size-base;
-}
-
-.il-counter-novelty {
-  padding: $il-counter-padding;
-  position: absolute;
-  top: $il-counter-novelty-position-top;
-  background-color: $il-counter-novelty-bg;
-}
-.il-counter-status {
-  padding: $il-counter-padding;
-  position: absolute;
-  bottom: $il-counter-status-position-bottom;
-  background-color: $il-counter-status-bg;
+  &.il-counter-novelty,
+  &.il-counter-status {
+    padding: $il-counter-padding;
+    position: absolute;
+  }
+  &.il-counter-novelty {
+    top: $il-counter-novelty-position-top;
+    background-color: $il-counter-novelty-bg;
+  }
+  &.il-counter-status {
+    bottom: $il-counter-status-position-bottom;
+    background-color: $il-counter-status-bg;
+  }
 }
 
 .glyph {

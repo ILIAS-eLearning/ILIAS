@@ -24,6 +24,7 @@ use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\Data\DateFormat\Factory as DateFormatFactory;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Authentication\Password\LocalUserPasswordManager;
+use ILIAS\Export\ExportHandler\Factory as ExportFactory;
 
 /**
  * User class
@@ -36,6 +37,9 @@ class ilObjUser extends ilObject
     public const NO_AVATAR_RID = '-';
     public const PASSWD_PLAIN = 'plain';
     public const PASSWD_CRYPTED = 'crypted';
+
+    public const DATABASE_DATE_FORMAT = 'Y-m-d H:i:s';
+
     protected string $ext_account = '';
     protected string $time_limit_message = '';
     protected bool $time_limit_unlimited = false;
@@ -116,7 +120,7 @@ class ilObjUser extends ilObject
     protected string $first_login = '';	// timestamp
     protected bool $profile_incomplete = false;
     protected ?string $avatar_rid = null;
-
+    protected \ILIAS\FileDelivery\Delivery\StreamDelivery $delivery;
     protected DateFormatFactory $date_format_factory;
     private ilCronDeleteInactiveUserReminderMail $cron_delete_user_reminder_mail;
     private Services $irss;
@@ -147,6 +151,7 @@ class ilObjUser extends ilObject
 
         $this->app_event_handler = $DIC['ilAppEventHandler'];
         $this->date_format_factory = (new DataFactory())->dateFormat();
+        $this->delivery = $DIC->fileDelivery()->delivery();
     }
 
     /**
@@ -371,6 +376,9 @@ class ilObjUser extends ilObject
             $this->setInactivationDate(null);
         }
 
+        $now_string = (new \DateTimeImmutable('@' . time(), new DateTimeZone('UTC')))
+            ->format(self::DATABASE_DATE_FORMAT);
+
         $insert_array = [
             'usr_id' => ['integer', $this->id],
             'login' => ['text', $this->login],
@@ -399,8 +407,8 @@ class ilObjUser extends ilObject
             'last_login' => ['timestamp', null],
             'first_login' => ['timestamp', null],
             'last_profile_prompt' => ['timestamp', null],
-            'last_update' => ['timestamp', ilUtil::now()],
-            'create_date' => ['timestamp', ilUtil::now()],
+            'last_update' => ['timestamp', $now_string],
+            'create_date' => ['timestamp', $now_string],
             'referral_comment' => ['text', $this->referral_comment],
             'matriculation' => ['text', $this->matriculation],
             'client_ip' => ['text', $this->client_ip],
@@ -496,7 +504,11 @@ class ilObjUser extends ilObject
             'login_attempts' => ['integer', $this->login_attempts],
             'last_password_change' => ['integer', $this->last_password_change_ts],
             'passwd_policy_reset' => ['integer', $this->passwd_policy_reset],
-            'last_update' => ['timestamp', ilUtil::now()],
+            'last_update' => [
+                'timestamp',
+                (new \DateTimeImmutable('@' . time(), new DateTimeZone('UTC')))
+                    ->format(self::DATABASE_DATE_FORMAT)
+            ],
             'inactivation_date' => ['timestamp', $this->inactivation_date],
             'reg_hash' => ['text', null],
             'rid' => [
@@ -2704,31 +2716,32 @@ class ilObjUser extends ilObject
     }
 
     public static function _toggleActiveStatusOfUsers(
-        array $a_usr_ids,
+        array $usr_ids,
         bool $a_status
     ): void {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $db = $DIC['ilDB'];
 
         if ($a_status) {
-            $q = 'UPDATE usr_data SET active = 1, inactivation_date = NULL WHERE ' .
-                $ilDB->in('usr_id', $a_usr_ids, false, 'integer');
-            $ilDB->manipulate($q);
-        } else {
-            $usrId_IN_usrIds = $ilDB->in('usr_id', $a_usr_ids, false, 'integer');
-
-            $q = 'UPDATE usr_data SET active = 0 WHERE $usrId_IN_usrIds';
-            $ilDB->manipulate($q);
-
-            $queryString = '
-				UPDATE usr_data
-				SET inactivation_date = %s
-				WHERE inactivation_date IS NULL
-				AND $usrId_IN_usrIds
-			';
-            $ilDB->manipulateF($queryString, ['timestamp'], [ilUtil::now()]);
+            $db->manipulate(
+                'UPDATE usr_data SET active = 1, inactivation_date = NULL' . PHP_EOL
+                . "WHERE {$db->in('usr_id', $usr_ids, false, 'integer')}"
+            );
+            return;
         }
+
+        $in_part = $db->in('usr_id', $usr_ids, false, 'integer');
+        $db->manipulate(
+            "UPDATE usr_data SET active = 0 WHERE {$in_part}"
+        );
+        $db->manipulateF(
+            'UPDATE usr_data SET inactivation_date = %s' . PHP_EOL
+            . "WHERE inactivation_date IS NULL AND {$in_part}",
+            ['timestamp'],
+            [(new \DateTimeImmutable('@' . time(), new DateTimeZone('UTC')))
+                ->format(self::DATABASE_DATE_FORMAT)]
+        );
     }
 
     public static function _lookupAuthMode(int $a_usr_id): string
@@ -3565,20 +3578,29 @@ class ilObjUser extends ilObject
     }
 
     public static function _setUserInactive(
-        int $a_usr_id
+        int $usr_id
     ): bool {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $db = $DIC['ilDB'];
 
-        $query = 'UPDATE usr_data SET active = 0, inactivation_date = %s WHERE usr_id = %s';
-        $affected = $ilDB->manipulateF($query, ['timestamp', 'integer'], [ilUtil::now(), $a_usr_id]);
+        $affected = $db->manipulateF(
+            'UPDATE usr_data SET active = 0, inactivation_date = %s WHERE usr_id = %s',
+            [
+                'timestamp',
+                'integer'
+            ],
+            [
+                (new \DateTimeImmutable('@' . time(), new DateTimeZone('UTC')))
+                    ->format(self::DATABASE_DATE_FORMAT),
+                $usr_id
+            ]
+        );
 
         if ($affected) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -3880,26 +3902,25 @@ class ilObjUser extends ilObject
     public static function _getUserIdsByInactivationPeriod(
         int $period
     ): array {
-        /////////////////////////////
-        $field = 'inactivation_date';
-        /////////////////////////////
-
         if (!$period) {
             throw new ilException('no valid period given');
         }
 
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $db = $DIC['ilDB'];
 
-        $date = date('Y-m-d H:i:s', (time() - ($period * 24 * 60 * 60)));
-
-        $query = "SELECT usr_id FROM usr_data WHERE $field < %s AND active = %s";
-
-        $res = $ilDB->queryF($query, ['timestamp', 'integer'], [$date, 0]);
+        $res = $db->queryF(
+            'SELECT usr_id FROM usr_data WHERE inactivation_date < %s AND active = %s',
+            ['timestamp', 'integer'],
+            [
+                date('Y-m-d H:i:s', (time() - ($period * 24 * 60 * 60))),
+                0
+            ]
+        );
 
         $ids = [];
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        while ($row = $db->fetchRow($res, ilDBConstants::FETCHMODE_OBJECT)) {
             $ids[] = (int) $row->usr_id;
         }
 
@@ -3957,18 +3978,24 @@ class ilObjUser extends ilObject
 
     public function exportPersonalData(): void
     {
-        $exp = new ilExport();
-        $dir = ilExport::_getExportDirectory($this->getId(), 'xml', 'usr', 'personal_data');
-        ilFileUtils::delDir($dir, true);
-        $title = $this->getLastname() . ', ' . $this->getLastname() . ' [' . $this->getLogin() . ']';
-        $exp->exportEntity(
-            'personal_data',
-            $this->getId(),
-            '',
-            'components/ILIAS/User',
-            $title,
-            $dir
+        if (!isset($this->user)) {
+            global $DIC;
+            $this->user = $DIC->user();
+        }
+        $export_consumer = (new ExportFactory())->consumer()->handler();
+        $configs = $export_consumer->exportConfig()->allExportConfigs();
+        /** @var ilUserExportConfig $config */
+        $config = $configs->getElementByClassName('ilUserExportConfig');
+        $config->setExportType('personal_data');
+        $export = $export_consumer->createStandardExportByObject(
+            $this->user->getId(),
+            $this,
+            $configs
         );
+        $stream = Streams::ofString($export->getIRSSInfo()->getStream()->getContents());
+        $file_name = $export->getIRSSInfo()->getFileName();
+        $export->getIRSS()->delete($export_consumer->exportStakeholderHandler());
+        $this->delivery->deliver($stream, $file_name);
     }
 
     public function getPersonalDataExportFile(): string
@@ -4020,7 +4047,7 @@ class ilObjUser extends ilObject
         $imp->importEntity(
             $a_file['tmp_name'],
             $a_file['name'],
-            'personal_data',
+            'usr',
             'components/ILIAS/User'
         );
     }

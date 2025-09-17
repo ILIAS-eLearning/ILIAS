@@ -758,6 +758,7 @@ assessment#:#gap#:#Trou
 assessment#:#gap_combination#:#Association de Gap
 assessment#:#gaps#:#Gaps###21 05 2025 new variable
 assessment#:#glossary_term#:#Terme de glossaire
+assessment#:#goto_first_question#:#Show first question###26 08 2025 new variable
 assessment#:#grading_mark_msg#:#Votre résultat est: &quot;[mark]&quot;
 assessment#:#grading_status_failed_msg#:#Désolé, vous <b>avez échoué</b> le test.
 assessment#:#grading_status_passed_msg#:#Félicitations, vous <b>avez réussi</b> le test.
@@ -1987,6 +1988,7 @@ assessment#:#tst_time_limit_message#:#You will have <b>%s minutes</b> to answer 
 assessment#:#tst_title_output#:#Présentation des Titres de Questions
 assessment#:#tst_title_output_full#:#Afficher le titre des questions et les points à obtenir
 assessment#:#tst_title_output_hide_points#:#Afficher seulement le titre des questions
+assessment#:#tst_title_output_info#:#Set which combination of question titles and/or points available should be visible to participants while they are taking the test and within the test attempt overview (see below).###26 08 2025 new variable
 assessment#:#tst_title_output_no_title#:#Ne pas afficher le titre des questions et le nombre de points à obtenir
 assessment#:#tst_title_output_only_points#:#Only Available Points###31 10 2023 new variable
 assessment#:#tst_trigger_result_refreshing#:#Le résultat doit être recalculé. Cela peut prendre un certain temps.
@@ -2576,6 +2578,7 @@ book#:#book_bulk_creation#:#Bulk Creation###31 10 2023 new variable
 book#:#book_bulk_data#:#Object Data###31 10 2023 new variable
 book#:#book_cal_entry#:#Réservation de :
 book#:#book_confirm_booking#:#Confirmer réservation
+book#:#book_confirm_booking_for_users#:#Are you sure you want to book this item for the following user(s)?###26 08 2025 new variable
 book#:#book_confirm_booking_no_schedule#:#Etes-vous sûr de vouloir réserver cette ressource ?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Confirmation de Réservation
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please enter the number of items that you would like to book.###26 08 2024 new variable
@@ -4794,6 +4797,7 @@ common#:#msg_no_perm_perm#:#Vous n'avez pas le droit de modifier les permissions
 common#:#msg_no_perm_read#:#Vous n'avez pas la permission d'accéder à cet objet.
 common#:#msg_no_perm_read_item#:#Vous n'avez pas la permission d'accéder à l'objet '%s'.
 common#:#msg_no_perm_read_lm#:#Vous n'avez pas la permission de lire ce module.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Vous n'avez pas de permission en écrire
 common#:#msg_no_search_result#:#Aucune entrée trouvée
 common#:#msg_no_search_string#:#Veuillez saisir votre requête
@@ -8578,7 +8582,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#l'enregistrement suivant a été 
 dcl#:#dcl_change_notification_dcl_update_record#:#l'enregistrement suivant a été enregistré
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_subject#:#La Collection de Données "%s" a été modifiée
-dcl#:#dcl_change_why_you_receive_this_email#:#Vous recevez ce message car vous avez activé la notification pour cette collection de données.
 dcl#:#dcl_changed_by#:#Modifié par
 dcl#:#dcl_checked#:#Coché.
 dcl#:#dcl_comments#:#Commentaires
@@ -8660,7 +8663,6 @@ dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Fo
 dcl#:#dcl_formula_detail_desc#:#Les entrées sont générées automatiquement, vous n'êtes pas en mesure d'éditer l'entrée.
 dcl#:#dcl_height#:#Hauteur
 dcl#:#dcl_height_desc#:#The file will be resized to the given height###21 05 2025 new variable
-dcl#:#dcl_hello#:#Cher
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#L’ID interne.
 dcl#:#dcl_ilias_reference#:#Lien vers un module ILIAS
@@ -8717,7 +8719,6 @@ dcl#:#dcl_new#:#Créer Nouvelle Collection de Données
 dcl#:#dcl_new_field#:#Nouveau Champ
 dcl#:#dcl_new_table#:#Nouveau Tableau
 dcl#:#dcl_next_record#:#Next record
-dcl#:#dcl_no_content_warning#:#Attention, la Collection de Données est en-ligne mais n'a actuellement aucun contenu !
 dcl#:#dcl_no_entries#:#No entries###21 05 2025 new variable
 dcl#:#dcl_no_entry#:#No entry
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###21 05 2025 new variable
@@ -8739,6 +8740,8 @@ dcl#:#dcl_noturl_exception#:#Vous devez entrer un lien (commençant par http://)
 dcl#:#dcl_number#:#Nombre entier
 dcl#:#dcl_number_desc#:#Champ pour les valeurs de nombre entier (max. 9 chiffres). Pas de décimales ou de fractions.
 dcl#:#dcl_online_info#:#Les utilisateurs sont capables d’utiliser la collecte de données uniquement si celle-ci est en ligne.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Ordre
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###21 05 2025 new variable
 dcl#:#dcl_own_entries#:#Uniquement les entrées propres
@@ -8794,8 +8797,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Vous pouvez définir les extensions autoris
 dcl#:#dcl_switch_table#:#Switch Table###31 10 2023 new variable
 dcl#:#dcl_switch_view#:#Change View###31 10 2023 new variable
 dcl#:#dcl_table#:#Tableau
-dcl#:#dcl_table_create#:#Créer Tableau
-dcl#:#dcl_table_edit#:#Enregistrer Tableau
 dcl#:#dcl_table_id#:#ID Tableau
 dcl#:#dcl_table_list_fields#:#Champs du Tableau Sélectionné
 dcl#:#dcl_table_list_tables#:#Tableaux disponibles
@@ -8824,7 +8825,6 @@ dcl#:#dcl_tableviews_confirm_delete#:#Voulez-vous vraiment supprimer les vues su
 dcl#:#dcl_tableviews_of_X#:#Views of table %s###26 08 2024 new variable
 dcl#:#dcl_tableviews_table#:#Vues du tableau sélectionné
 dcl#:#dcl_text#:#Texte
-dcl#:#dcl_text_area#:#Zone de Texte
 dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
 dcl#:#dcl_text_email_detail_desc#:#Veuillez entrer une URL valide ou une adresse e-mail.
 dcl#:#dcl_text_email_title#:#Titre
@@ -11745,8 +11745,8 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###31 10 2023 new variable
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 and MathJax 3 with current browsers not needed.
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Please remove any reference to polyfill.io! See https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 10 2023 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 10 2023 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s###31 10 2023 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. <br />For MathJax 2 e.g. %s
+mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. %s
 mathjax#:#mathjax_server_address#:#Adresse de serveur
 mathjax#:#mathjax_server_address_info#:#Par ex. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#Le cache MathJax a été supprimé.
@@ -14627,6 +14627,7 @@ rbac#:#rbac_log_source_object#:#Object source
 rbac#:#rbac_msg_user_already_assigned#:#Les utilisateurs choisis sont déjà  assignés à  ce rôle
 rbac#:#rbac_not_change_existing_objects#:#Ne PAS modifier les objets existants
 rbac#:#rbac_permissions#:#Permissions
+rbac#:#rbac_precondition_condition#:#Access requires having this status###26 08 2025 new variable
 rbac#:#rbac_precondition_hide#:#Masquer l’objet
 rbac#:#rbac_precondition_hide_info#:# Cette option permet de masquer l’objet pour les utilisateurs qui n’ont actuellement pas rempli les conditions préalables. Par conséquent, tout le contenu inaccessible est invisible.
 rbac#:#rbac_precondition_minimum_optional#:#Au moins 2 préconditions doivent rester optionnelles.
@@ -17320,6 +17321,7 @@ ui#:#2stars#:#two of five stars###26 08 2024 new variable
 ui#:#3stars#:#three of five stars###26 08 2024 new variable
 ui#:#4stars#:#four of five stars###26 08 2024 new variable
 ui#:#5stars#:#five of five stars###26 08 2024 new variable
+ui#:#datatable_close_warning#:#OK###26 08 2025 new variable
 ui#:#datatable_multiaction_label#:#Bulk Actions###26 08 2024 new variable
 ui#:#datatable_multiactionmodal_actionlabel#:#operation###31 10 2023 new variable
 ui#:#datatable_multiactionmodal_apply#:#Apply###26 08 2024 new variable
@@ -17377,6 +17379,7 @@ ui#:#ui_table_no_records#:#No records###31 10 2023 new variable
 ui#:#ui_table_order#:#Order###21 05 2025 new variable
 ui#:#ui_transcription#:#Transcript###31 10 2023 new variable
 ui#:#vc_sort#:#Sort by:###21 05 2025 new variable
+ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.###26 08 2025 new variable
 user#:#all_roles_has_starting_point#:#Tous les rôles ont des points de départ
 user#:#back_to_starting_points_list#:#Retour aux points de départ
 user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes.###28 10 2024 new variable

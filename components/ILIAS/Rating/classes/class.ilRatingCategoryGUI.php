@@ -136,6 +136,7 @@ class ilRatingCategoryGUI
         $ta = new ilTextAreaInputGUI($lng->txt("description"), "desc");
         $ta->setCols(40);
         $ta->setRows(2);
+        $ta->setMaxNumOfChars(ilObject::LONG_DESC_LENGTH);
         $form->addItem($ta);
 
         if (!$a_id) {

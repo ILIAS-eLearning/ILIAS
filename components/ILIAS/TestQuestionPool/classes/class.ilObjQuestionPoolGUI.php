@@ -1303,17 +1303,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
     }
 
-    public function createExportExcel(): void
-    {
-        $rbacsystem = $this->rbac_system;
-        if ($rbacsystem->checkAccess('write', $this->request_data_collector->getRefId())) {
-            $question_ids = &$this->object->getAllQuestionIds();
-            $qpl_exp = new ilQuestionpoolExport($this->object, 'xlsx', $question_ids);
-            $qpl_exp->buildExportFile();
-            $this->ctrl->redirectByClass('ilquestionpoolexportgui', '');
-        }
-    }
-
     public function editQuestionForTestObject(): void
     {
         $this->ctrl->redirectByClass(ilAssQuestionPreviewGUI::class, 'show');

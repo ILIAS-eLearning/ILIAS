@@ -748,7 +748,7 @@ class ilMediaItem
     }
 
 
-    public function getOriginalSource() : string
+    public function getOriginalSource(): string
     {
         if ($this->getLocationType() !== "Reference") {
             return $this->mob_manager->getLocalSrc(
@@ -809,7 +809,7 @@ class ilMediaItem
         string $a_shape,
         string $a_coords
     ): void {
-//        $this->buildMapWorkImage();
+        //        $this->buildMapWorkImage();
 
         // determine ratios
         $size = getimagesize($this->getOriginalSource());
@@ -1037,33 +1037,61 @@ class ilMediaItem
         } else {
             $file = $this->getLocationSrc();
 
-            $remote = false;
-
             try {
-                if (substr($file, 0, 4) == "http") {
-                    if ($fp_remote = fopen($file, 'rb')) {
+                if (str_starts_with($file, 'http')) {
+                    $mob_logger = ilLoggerFactory::getLogger('mob');
+
+                    try {
                         $tmpdir = ilFileUtils::ilTempnam();
                         ilFileUtils::makeDir($tmpdir);
                         $localtempfilename = tempnam($tmpdir, 'getID3');
-                        if ($fp_local = fopen($localtempfilename, 'wb')) {
-                            while ($buffer = fread($fp_remote, 8192)) {
-                                fwrite($fp_local, $buffer);
-                            }
-                            fclose($fp_local);
+                        $fp_local = fopen($localtempfilename, 'wb');
+
+                        $mob_logger->debug('Determining duration of file: {file}', [
+                            'file' => $file,
+                        ]);
+
+                        $curl = new ilCurlConnection($file);
+                        $curl->init(true);
+                        $curl->setOpt(CURLOPT_VERBOSE, true);
+                        $curl->setOpt(CURLOPT_FILE, $fp_local);
+                        $curl->setOpt(CURLOPT_FOLLOWLOCATION, true);
+                        $curl->setOpt(CURLOPT_TIMEOUT_MS, 600000);
+                        $curl->setOpt(CURLOPT_TIMEOUT, 600);
+                        $curl->setOpt(CURLOPT_FAILONERROR, true);
+                        $curl->setOpt(CURLOPT_SSL_VERIFYPEER, 1);
+                        $curl->setOpt(CURLOPT_SSL_VERIFYHOST, 2);
+
+                        $success = $curl->exec();
+                        $info = $curl->getInfo();
+
+                        $mob_logger->debug('cURL Info: {info}', [
+                            'info' => print_r($info, true)
+                        ]);
+
+                        if ($success) {
+                            $mob_logger->debug('Successfully downloaded remote file: {file}', [
+                                'file' => $file,
+                            ]);
+
                             $file = $localtempfilename;
+                        } else {
+                            $mob_logger->error('Could not fetch file: {file}', [
+                                'file' => $file,
+                            ]);
                         }
-                        fclose($fp_remote);
+                    } catch (Exception $e) {
+                        $mob_logger->error('Could not determine duration: {message}', [
+                            'message' => $e->getMessage(),
+                        ]);
+                        $mob_logger->error($e->getTraceAsString());
                     }
                 }
 
                 $ana->setFile($file);
                 $ana->analyzeFile();
-                $this->setDuration((int) $ana->getPlaytimeSeconds());
-
-                if ($remote) {
-                    unlink($localtempfilename);
-                }
-            } catch (Exception $e) {
+                $this->setDuration($ana->getPlaytimeSeconds());
+            } catch (Exception) {
             }
         }
     }
@@ -1097,7 +1125,7 @@ class ilMediaItem
         return $src;
     }
 
-    public function getLocationStream() : ZIPStream
+    public function getLocationStream(): ZIPStream
     {
         return $this->mob_manager->getLocationStream(
             $this->getMobId(),

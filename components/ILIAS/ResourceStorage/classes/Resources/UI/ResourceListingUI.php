@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Resources\UI;
 
+use ILIAS\UI\Factory;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\components\ResourceStorage\Resources\DataSource\TableDataSource;
 use ILIAS\components\ResourceStorage\Resources\Listing\SortDirection;
@@ -33,19 +36,19 @@ use ILIAS\UI\Component\Table\PresentationRow;
  */
 class ResourceListingUI
 {
-    public const P_RESOURCE_ID = 'resource_id';
-    public const P_PAGE = 'page';
-    public const P_SORTATION = 'sort';
+    public const P_RESOURCE_ID = 'irss:resource_id';
+    public const P_PAGE = 'irss_page';
+    public const P_SORTATION = 'irss_sort';
 
     private \ilUIFilterService $filter_service;
     private \ilCtrlInterface $ctrl;
-    private \ILIAS\UI\Factory $ui_factory;
+    private Factory $ui_factory;
     private \ILIAS\Refinery\Factory $refinery;
-    private \ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $query;
+    private ArrayBasedRequestWrapper $query;
     private \ilLanguage $language;
     private array $components = [];
     private ActionGenerator $action_generator;
-    private \ILIAS\ResourceStorage\Services $irss;
+    private Services $irss;
 
     public function __construct(
         private ViewDefinition $view_definition,
@@ -85,9 +88,7 @@ class ResourceListingUI
                 $this->ctrl->getLinkTargetByClass($embedding_gui, $this->view_definition->getEmbeddingCmd()),
                 $filters,
                 array_map(
-                    function ($filter): bool {
-                        return true;
-                    },
+                    fn($filter): bool => true,
                     $filters
                 ),
                 true,

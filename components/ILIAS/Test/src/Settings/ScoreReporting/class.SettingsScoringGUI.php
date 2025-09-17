@@ -112,7 +112,6 @@ class SettingsScoringGUI extends TestSettingsGUI
                         $this->saveForm();
                         break;
                     case self::CMD_CONFIRMED_RECALC:
-                        $this->saveForm();
                         $settings = $this->buildForm()
                             ->withRequest($this->getRelayedRequest())
                             ->getData();
@@ -234,13 +233,13 @@ class SettingsScoringGUI extends TestSettingsGUI
     {
         $result_summary_settings = $this->test_object->getScoreSettings()
             ->getResultSummarySettings();
-        if ($result_summary_settings->getScoreReporting()->isReportingEnabled()) {
+        if (!$result_summary_settings->getScoreReporting()->isReportingEnabled()) {
             return false;
         }
 
         if ($result_summary_settings->getScoreReporting() === ScoreReportingTypes::SCORE_REPORTING_DATE) {
-            return $result_summary_settings->getResultSummarySettings()
-                ->getReportingDate() <= new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+            return $result_summary_settings->getReportingDate()
+                <= new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
         }
 
         return true;

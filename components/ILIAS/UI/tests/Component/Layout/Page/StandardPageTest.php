@@ -469,8 +469,8 @@ class StandardPageTest extends ILIAS_UI_TestBase
         <div class="nav il-maincontrols">MainBar Stub</div>
         <main class="il-layout-page-content">
                 <div class="breadcrumbs">
-                    <nav aria-label="breadcrumbs_aria_label" class="breadcrumb_wrapper">
-                        <div class="breadcrumb"><span class="crumb"><a href="#">label1</a></span><span class="crumb"><a href="#">label2</a></span><span class="crumb"><a href="#">label3</a></span></div>
+                    <nav aria-label="breadcrumbs_aria_label" class="breadcrumb-wrapper">
+                        <div class="breadcrumb" dir="rtl"><span class="breadcrumb-crumb" dir="ltr"><a href="#">label3</a></span><span class="breadcrumb-separator" dir="rtl">&#9247;</span><span class="breadcrumb-crumb" dir="ltr"><a href="#">label2</a></span><span class="breadcrumb-separator" dir="rtl">&#9247;</span><span class="breadcrumb-crumb" dir="ltr"><a href="#">label1</a></span></div>
                     </nav>
                 </div>some content
         </main>

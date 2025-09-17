@@ -21,19 +21,26 @@ declare(strict_types=1);
 class ilCertificateDateHelper
 {
     /**
-     * @param string|int $date
+     * @param string|int $raw_date_input
      */
-    public function formatDate($date, ilObjUser $user = null, ?int $dateFormat = null): string
+    public function formatDate($raw_date_input, ?ilObjUser $user = null, ?int $date_format = null): string
     {
-        if (null === $dateFormat) {
-            require_once __DIR__ . '/../../../Calendar/classes/class.ilDateTime.php'; // Required because of global constant IL_CAL_DATE
-            $dateFormat = IL_CAL_DATETIME;
+        require_once __DIR__ . '/../../../Calendar/classes/class.ilDateTime.php'; // Required because of global constant IL_CAL_DATE
+
+        if ($date_format === null) {
+            $date_format = IL_CAL_DATETIME;
+        }
+
+        if ($date_format === IL_CAL_UNIX) {
+            $raw_date_input = (int) $raw_date_input;
+        } else {
+            $raw_date_input = (string) $raw_date_input;
         }
 
         $oldDatePresentationValue = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
-        $date = ilDatePresentation::formatDate(
-            new ilDate($date, $dateFormat),
+        $raw_date_input = ilDatePresentation::formatDate(
+            new ilDate($raw_date_input, $date_format),
             false,
             false,
             false,
@@ -41,25 +48,32 @@ class ilCertificateDateHelper
         );
         ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
 
-        return $date;
+        return $raw_date_input;
     }
 
     /**
-     * @param string|int $dateTime
+     * @param string|int $raw_datetime_input
      * @throws ilDateTimeException
      */
-    public function formatDateTime($dateTime, ilObjuser $user = null, ?int $dateFormat = null): string
+    public function formatDateTime($raw_datetime_input, ?ilObjuser $user = null, ?int $datetime_format = null): string
     {
-        if (null === $dateFormat) {
-            require_once __DIR__ . '/../../../Calendar/classes/class.ilDateTime.php'; // Required because of global constant IL_CAL_DATE
-            $dateFormat = IL_CAL_DATETIME;
+        require_once __DIR__ . '/../../../Calendar/classes/class.ilDateTime.php'; // Required because of global constant IL_CAL_DATE
+
+        if ($datetime_format === null) {
+            $datetime_format = IL_CAL_DATETIME;
+        }
+
+        if ($datetime_format === IL_CAL_UNIX) {
+            $raw_datetime_input = (int) $raw_datetime_input;
+        } else {
+            $raw_datetime_input = (string) $raw_datetime_input;
         }
 
         $oldDatePresentationValue = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
 
         $date = ilDatePresentation::formatDate(
-            new ilDateTime($dateTime, $dateFormat),
+            new ilDateTime($raw_datetime_input, $datetime_format),
             false,
             false,
             false,

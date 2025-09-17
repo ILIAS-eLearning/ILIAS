@@ -198,16 +198,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
         return 0;
     }
 
-    public function resetSavedPreviewSession(): void
-    {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $user_id = $ilUser->getId();
-        $question_id = $this->object->getId();
-        $ilAssQuestionPreviewSession = new ilAssQuestionPreviewSession($user_id, $question_id);
-        $ilAssQuestionPreviewSession->setParticipantsSolution([]);
-    }
-
     public function editQuestion(
         bool $checkonly = false,
         ?bool $is_save_cmd = null,

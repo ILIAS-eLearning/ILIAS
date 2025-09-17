@@ -1,6 +1,7 @@
 @use "sass:math";
 @use "../../../010-settings/" as s;
 @use "../../../010-settings/legacy-settings/legacy-settings_menu" as t-menu;
+@use "../../../010-settings/legacy-settings/legacy-settings_form" as s-form;
 @use "../../../030-tools/legacy-bootstrap-mixins/nav-divider" as t-ndiv;
 @use "../../../030-tools/_tool_browser-prefixes" as t-ven;
 @use "../../../050-layout/basics" as l;
@@ -50,7 +51,7 @@ $cursor-disabled: not-allowed !default;
 	border-right: s.$il-caret-width-base solid transparent;
 	border-left: s.$il-caret-width-base solid transparent;
   }
-  
+
   // The dropdown wrapper (div)
   .dropup,
   .dropdown {
@@ -58,7 +59,7 @@ $cursor-disabled: not-allowed !default;
 	display: inline-block; // so dropdown can be in one line with a button
 	min-width: max-content;
   }
-  
+
   // The dropdown menu (ul)
   .dropdown-menu {
 	  width: 320px;
@@ -80,7 +81,7 @@ $cursor-disabled: not-allowed !default;
 	border: 1px solid $dropdown-border;
 	border-radius: s.$il-border-radius-base;
 	@include t-ven.box-shadow(0 6px 12px rgba(0, 0, 0, .175));
-  
+
 	// Aligns the dropdown menu to right
 	//
 	// Deprecated as of 3.1.0 in favor of `.dropdown-menu-[dir]`
@@ -88,7 +89,7 @@ $cursor-disabled: not-allowed !default;
 	  right: 0;
 	  left: auto;
 	}
- 
+
 	&.dropdown-menu__right {
 	  right: auto;
 	  left: 0;
@@ -114,7 +115,7 @@ $cursor-disabled: not-allowed !default;
 		list-style-type: none;
 	}
   }
-  
+
   // Active state
   .dropdown-menu > .active > a {
 	&,
@@ -126,18 +127,18 @@ $cursor-disabled: not-allowed !default;
 	  outline: 0;
 	}
   }
-  
+
   // Disabled state
   //
   // Gray out text and ensure the hover/focus state remains gray
-  
+
   .dropdown-menu > .disabled > a {
 	&,
 	&:hover,
 	&:focus {
 	  color: $dropdown-link-disabled-color;
 	}
-  
+
 	// Nuke hover/focus effects
 	&:hover,
 	&:focus {
@@ -148,20 +149,20 @@ $cursor-disabled: not-allowed !default;
 	  // @include reset-filter;
 	}
   }
-  
+
   // Open state for the dropdown
   .open {
 	// Show the menu
 	> .dropdown-menu {
 	  display: block;
 	}
-  
+
 	// Remove the outline when :focus is triggered
 	> a {
 	  outline: 0;
 	}
   }
-  
+
   // Menu positioning
   //
   // Add extra class to `.dropdown-menu` to flip the alignment of the dropdown
@@ -180,7 +181,7 @@ $cursor-disabled: not-allowed !default;
 	right: auto;
 	left: 0;
   }
-  
+
   // Backdrop to catch body clicks on mobile, etc.
   .dropdown-backdrop {
 	position: fixed;
@@ -190,18 +191,18 @@ $cursor-disabled: not-allowed !default;
 	left: 0;
 	z-index: ($zindex-dropdown - 10);
   }
-  
+
   // Right aligned dropdowns
   .pull-right > .dropdown-menu {
 	right: 0;
 	left: auto;
   }
-  
+
   // Allow for dropdowns to go bottom up (aka, dropup-menu)
   //
   // Just add .dropup after the standard .dropdown class and you're set, bro.
   // TODO: abstract this so that the navbar fixed styles are not placed here?
-  
+
   .dropup,
   .navbar-fixed-bottom .dropdown {
 	// Reverse the caret
@@ -218,7 +219,7 @@ $cursor-disabled: not-allowed !default;
 	  margin-bottom: 2px;
 	}
   }
-  
+
 
 .dropdown-header {
 	padding: 3px 10px;
@@ -244,25 +245,32 @@ $cursor-disabled: not-allowed !default;
 			padding-left: math.div(l.$grid-gutter-width, 2);
 		}
 	}
-	// Links within the dropdown menu
-	li > a,
-	li > .btn-link {
-		display: block;
+	// Menu items within the dropdown menu
+	// TO DO: this would be better as a reusable menu pattern tool
+	li a,
+	li .btn-link {
+		display: flex;
+		align-items: center;
 		width: 100%;
-		clear: both;
 		border: none;
-		padding: l.$il-padding-small-vertical l.$il-padding-xlarge-horizontal;
 		font-weight: s.$il-font-weight-base;
 		font-size: t-menu.$il-font-size-dropdown;
 		line-height: s.$il-line-height-base;
 		background-color: t-menu.$dropdown-link-bg;
 		color: $dropdown-link-color;
-		white-space: nowrap; // prevent links from randomly breaking onto new lines
+		min-height: s-form.$il-input-min-height;
+		width: 100%;
+		padding: l.$il-padding-small-vertical l.$il-padding-xlarge-horizontal;
+		justify-content: start;
+		white-space: nowrap;
 		&:hover,
 		&:focus {
-			text-decoration: none;
 			color: $dropdown-link-hover-color;
 			background-color: $dropdown-link-hover-bg;
+			text-decoration: none;
+		}
+		&[disabled] {
+			background-color: s.$il-disabled-btn-bg;
 		}
 	}
 	img {

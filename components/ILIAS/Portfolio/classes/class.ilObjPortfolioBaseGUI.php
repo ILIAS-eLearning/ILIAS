@@ -767,7 +767,11 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             } else {
                 $button = $this->ui->factory()->button()->standard(
                     $this->lng->txt("prtf_edit_portfolio"),
-                    $this->ctrl->getLinkTargetByClass(["ilobjportfoliogui"], "view")
+                    $this->ctrl->getLinkTargetByClass([
+                        ilDashboardGUI::class,
+                        ilPortfolioRepositoryGUI::class,
+                        ilObjPortfolioGUI::class
+                    ], "view")
                 );
             }
             $this->toolbar->addComponent($button);

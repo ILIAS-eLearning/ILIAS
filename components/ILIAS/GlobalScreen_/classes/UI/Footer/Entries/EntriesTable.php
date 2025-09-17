@@ -52,7 +52,8 @@ class EntriesTable implements OrderingBinding
         private readonly Group $group,
         private readonly EntriesRepository $repository,
         private readonly TranslationsRepository $translations_repository,
-        private readonly Translator $translator
+        private readonly Translator $translator,
+        private bool $write_access = false
     ) {
         global $DIC;
         $this->ui_factory = $DIC->ui()->factory();
@@ -84,11 +85,14 @@ class EntriesTable implements OrderingBinding
                 ]
             );
 
-            if ($entry->isCore()) {
+            if (!$this->write_access || $entry->isCore()) {
                 $row = $row->withDisabledAction('delete')
                            ->withDisabledAction('edit')
                            ->withDisabledAction('translate')
                            ->withDisabledAction('move');
+            }
+            if (!$this->write_access) {
+                $row = $row->withDisabledAction('toggle_activation');
             }
 
             yield $row;

@@ -133,7 +133,7 @@ input.btn {
 
 // Link buttons
 // -------------------------
-
+// design doesn't use the btn mixin because it is easier to style without it
 // Make a button look and behave like a link
 .btn-link {
   padding: 0;
@@ -167,6 +167,7 @@ input.btn {
     background-color: s.$il-disabled-btn-bg;
     color: s.$il-disabled-btn-color;
     border: 1px solid s.$il-disabled-btn-border;
+    cursor: s-form.$cursor-disabled;
     &:hover {
       text-decoration: none;
     }

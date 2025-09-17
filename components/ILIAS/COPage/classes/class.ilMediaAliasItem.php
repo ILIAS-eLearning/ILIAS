@@ -539,7 +539,7 @@ class ilMediaAliasItem
             $childs = $ma_nodes[$a_nr - 1]->childNodes;
             if (is_object($childs[0]) &&
                 ($childs[0]->nodeName == "IntLink" || $childs[0]->nodeName == "ExtLink")) {
-                $childs[0]->set_content($a_title);
+                $childs[0]->nodeValue = $a_title;
             }
         }
     }
@@ -613,8 +613,8 @@ class ilMediaAliasItem
             $this->getPcId()
         );
         if (is_object($ma_nodes[$a_nr - 1])) {
-            $ma_nodes[$a_nr - 1]->set_attribute("Shape", $a_shape_type);
-            $ma_nodes[$a_nr - 1]->set_attribute("Coords", $a_coords);
+            $ma_nodes[$a_nr - 1]->setAttribute("Shape", $a_shape_type);
+            $ma_nodes[$a_nr - 1]->setAttribute("Coords", $a_coords);
         }
     }
 
@@ -631,7 +631,7 @@ class ilMediaAliasItem
             $this->getPcId()
         );
         if (is_object($ma_nodes[$a_nr - 1])) {
-            $ma_nodes[$a_nr - 1]->set_attribute("HighlightMode", $a_mode);
+            $ma_nodes[$a_nr - 1]->setAttribute("HighlightMode", $a_mode);
         }
     }
 
@@ -648,7 +648,7 @@ class ilMediaAliasItem
             $this->getPcId()
         );
         if (is_object($ma_nodes[$a_nr - 1])) {
-            $ma_nodes[$a_nr - 1]->set_attribute("HighlightClass", $a_class);
+            $ma_nodes[$a_nr - 1]->setAttribute("HighlightClass", $a_class);
         }
     }
 

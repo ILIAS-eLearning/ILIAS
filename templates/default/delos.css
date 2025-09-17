@@ -518,26 +518,33 @@
 .dropdown-menu .row > ul[class*=col-] {
   padding-left: 15px;
 }
-.dropdown-menu li > a,
-.dropdown-menu li > .btn-link {
-  display: block;
+.dropdown-menu li a,
+.dropdown-menu li .btn-link {
+  display: flex;
+  align-items: center;
   width: 100%;
-  clear: both;
   border: none;
-  padding: 3px 15px;
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.428571429;
   background-color: transparent;
   color: #161616;
+  min-height: 28px;
+  width: 100%;
+  padding: 3px 15px;
+  justify-content: start;
   white-space: nowrap;
 }
-.dropdown-menu li > a:hover, .dropdown-menu li > a:focus,
-.dropdown-menu li > .btn-link:hover,
-.dropdown-menu li > .btn-link:focus {
-  text-decoration: none;
+.dropdown-menu li a:hover, .dropdown-menu li a:focus,
+.dropdown-menu li .btn-link:hover,
+.dropdown-menu li .btn-link:focus {
   color: black;
   background-color: #e2e8ef;
+  text-decoration: none;
+}
+.dropdown-menu li a[disabled],
+.dropdown-menu li .btn-link[disabled] {
+  background-color: #b0b0b0;
 }
 .dropdown-menu img {
   border: 0;
@@ -2570,16 +2577,15 @@ code {
   display: inline-block;
 }
 
-.breadcrumb_wrapper {
+.breadcrumb-wrapper {
   width: 100%;
   display: inline-grid;
   background: white;
 }
-.breadcrumb_wrapper .breadcrumb {
+.breadcrumb-wrapper .breadcrumb {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  direction: rtl;
   text-align: left;
   margin: 0;
   font-weight: 600;
@@ -2587,38 +2593,42 @@ code {
   padding: 6px;
   padding-left: 20px;
 }
-.breadcrumb_wrapper .breadcrumb span.crumb a {
+.breadcrumb-wrapper .breadcrumb div.breadcrumb-crumb a {
   color: #4c6586;
 }
-.breadcrumb_wrapper .breadcrumb span.crumb a:hover {
+.breadcrumb-wrapper .breadcrumb div.breadcrumb-crumb a:hover {
   color: #3a4c65;
 }
-.breadcrumb_wrapper .breadcrumb span.crumb a:focus {
+.breadcrumb-wrapper .breadcrumb div.breadcrumb-crumb a:focus {
   border: inherit;
   box-shadow: inherit;
   outline: none;
   outline-offset: 0px;
 }
-.breadcrumb_wrapper .breadcrumb span.crumb a:focus::after {
+.breadcrumb-wrapper .breadcrumb div.breadcrumb-crumb a:focus::after {
   content: none;
 }
-.breadcrumb_wrapper .breadcrumb span.crumb a:focus-visible {
+.breadcrumb-wrapper .breadcrumb div.breadcrumb-crumb a:focus-visible {
   border: inherit;
   box-shadow: inherit;
   outline: none;
   outline-offset: 0px;
 }
-.breadcrumb_wrapper .breadcrumb span.crumb a:focus-visible::after {
+.breadcrumb-wrapper .breadcrumb div.breadcrumb-crumb a:focus-visible::after {
   content: none;
 }
-.breadcrumb_wrapper .breadcrumb span.crumb a:focus-visible {
+.breadcrumb-wrapper .breadcrumb div.breadcrumb-crumb a:focus-visible {
   outline: 3px solid #0078D7;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
-.breadcrumb_wrapper .breadcrumb > span + span:before {
+.breadcrumb-wrapper .breadcrumb .breadcrumb-separator {
+  visibility: hidden;
+}
+.breadcrumb-wrapper .breadcrumb .breadcrumb-separator:after {
+  visibility: visible;
   content: " \e606";
   color: #737373;
-  padding: 8px 10px;
+  padding: 2px 8px;
   font-weight: 400;
   font-family: "il-icons";
 }
@@ -3363,6 +3373,7 @@ input.btn, input.il-link.link-bulky,
   background-color: #b0b0b0;
   color: black;
   border: 1px solid #b0b0b0;
+  cursor: not-allowed;
 }
 .btn-link[disabled]:hover, fieldset[disabled] .btn-link:hover {
   text-decoration: none;
@@ -3968,11 +3979,18 @@ button .minimize, button .close {
   padding-bottom: 12px;
 }
 
+*:has(> .il-counter) {
+  position: relative;
+}
+
+.il-counter {
+  font-size: 0.875rem;
+}
+
 .badge {
   min-width: 10px;
   font-size: 0.625rem;
   margin-left: -4px;
-  position: relative;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
@@ -3983,22 +4001,15 @@ button .minimize, button .close {
 .badge:empty {
   display: none;
 }
-
-.il-counter {
-  position: relative;
-  font-size: 0.875rem;
-}
-
-.il-counter-novelty {
+.badge.il-counter-novelty, .badge.il-counter-status {
   padding: 2px 4px;
   position: absolute;
+}
+.badge.il-counter-novelty {
   top: -5px;
   background-color: #B54F00;
 }
-
-.il-counter-status {
-  padding: 2px 4px;
-  position: absolute;
+.badge.il-counter-status {
   bottom: -5px;
   background-color: #737373;
 }
@@ -7512,6 +7523,7 @@ input.btn, .c-drilldown input.c-drilldown__menulevel--trigger, input.il-link.lin
   background-color: #b0b0b0;
   color: black;
   border: 1px solid #b0b0b0;
+  cursor: not-allowed;
 }
 
 .btn-link[disabled]:hover, fieldset[disabled] .btn-link:hover {
@@ -18892,7 +18904,10 @@ img.ilRatingMarker {
   height: 7px;
 }
 
-a.ilRating {
+a.ilRating, button.ilRating {
+  text-decoration: none;
+}
+a.ilRating:hover, button.ilRating:hover {
   text-decoration: none;
 }
 
@@ -20599,7 +20614,6 @@ div.framed {
 	background-repeat: repeat-x;
 }
 */
-
 span.latex {
   color: green;
   font-weight: bold;

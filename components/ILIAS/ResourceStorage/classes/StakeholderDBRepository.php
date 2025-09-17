@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\ResourceStorage\Stakeholder\Repository;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Stakeholder\LostStakeholder;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
@@ -60,46 +59,33 @@ class StakeholderDBRepository implements StakeholderRepository
         $stakeholder_id = $s->getId();
         $stakeholder_class_name = $s->getFullyQualifiedClassName();
 
-        if (strlen($stakeholder_id) > 64) {
+        if (\strlen($stakeholder_id) > 64) {
             throw new \InvalidArgumentException('stakeholder ids MUST be shorter or equal to than 64 characters');
         }
-        if (strlen($stakeholder_class_name) > 250) {
+        if (\strlen($stakeholder_class_name) > 250) {
             throw new \InvalidArgumentException(
                 'stakeholder classnames MUST be shorter or equal to than 250 characters'
             );
         }
 
-        $r = $this->db->queryF(
-            "SELECT " . self::IDENTIFICATION . " FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s AND stakeholder_id = %s",
-            ['text', 'text'],
-            [$identification, $stakeholder_id]
+        $this->db->replace(
+            self::TABLE_NAME,
+            [
+                self::IDENTIFICATION => ['text', $identification],
+                'stakeholder_id' => ['text', $stakeholder_id],
+            ],
+            []
         );
 
-        if ($r->numRows() === 0) {
-            // CREATE
-            $this->db->insert(
-                self::TABLE_NAME,
-                [
-                    self::IDENTIFICATION => ['text', $identification],
-                    'stakeholder_id' => ['text', $stakeholder_id],
-                ]
-            );
-        }
-
-        $r = $this->db->queryF(
-            "SELECT id FROM " . self::TABLE_NAME_REL . " WHERE id = %s",
-            ['text',],
-            [$stakeholder_id]
+        $this->db->replace(
+            self::TABLE_NAME_REL,
+            [
+                'id' => ['text', $stakeholder_id]
+            ],
+            [
+                'class_name' => ['text', $stakeholder_class_name]
+            ]
         );
-        if ($r->numRows() === 0) {
-            $this->db->insert(
-                self::TABLE_NAME_REL,
-                [
-                    'id' => ['text', $stakeholder_id],
-                    'class_name' => ['text', $stakeholder_class_name],
-                ]
-            );
-        }
 
         $this->cache[$identification][$stakeholder_id] = $s;
 
@@ -124,7 +110,7 @@ class StakeholderDBRepository implements StakeholderRepository
     public function getStakeholders(ResourceIdentification $i): array
     {
         $rid = $i->serialize();
-        if (isset($this->cache[$rid]) && is_array($this->cache[$rid])) {
+        if (isset($this->cache[$rid]) && \is_array($this->cache[$rid])) {
             return $this->cache[$rid];
         }
 
@@ -161,12 +147,10 @@ class StakeholderDBRepository implements StakeholderRepository
 
     public function populateFromArray(array $data): void
     {
-        $stakeholders = [];
         $class_name = $data['class_name'];
 
         if (class_exists($class_name)) {
             $stakeholder = new $class_name();
-            $stakeholders[] = $stakeholder;
             $this->cache[$data['rid']][$data['stakeholder_id']] = $stakeholder;
         }
     }

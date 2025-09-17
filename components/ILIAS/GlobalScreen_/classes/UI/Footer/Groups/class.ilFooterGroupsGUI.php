@@ -141,7 +141,8 @@ final class ilFooterGroupsGUI
         $table = new GroupsTable(
             $this->repository,
             new TranslationsRepositoryDB($this->dic->database()),
-            $this->translator
+            $this->translator,
+            $this->ui_handling->hasPermission('write')
         );
 
         $this->ui_handling->out(
@@ -402,8 +403,12 @@ final class ilFooterGroupsGUI
             default:
                 switch ($cmd) {
                     case self::CMD_DEFAULT:
-                        $this->ui_handling->requireWritable();
+                        $this->ui_handling->requireReadable();
                         $this->index();
+                        break;
+                    case 'editEntries':
+                        $this->ui_handling->requireReadable();
+                        $this->editEntries();
                         break;
                     case self::CMD_ADD:
                     case self::CMD_CREATE:

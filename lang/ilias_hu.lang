@@ -20,7 +20,7 @@
 * @module language file Hungarian
 * @modulegroup language
 * @author Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version 10.x 2025-05-23
+* @version 10.x 2025-08-27
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -742,12 +742,12 @@ assessment#:#finalized_evaluation#:#A pontozás befejezve
 assessment#:#finalized_on#:#Befejezve
 assessment#:#finish_all_user_passes#:#Összes tesztkitöltés befejezettre állítása
 assessment#:#finish_pass_for_all_users#:#Biztos, hogy az összes felhasználó kitöltését befejezettre állítja?
-assessment#:#finish_pass_for_multiple_users_in_processing_time#:#Nem állíthatja befejezettre az összes tesztkitöltést, mert van, aki(k)nek az ideje még nem járt le.
+assessment#:#finish_pass_for_multiple_users_in_processing_time#:#Nem állíthatja befejezettre a kiválasztott felhasználók tesztkitöltést, mert legalább egy kitöltési időkorlátja még nem járt le.
 assessment#:#finish_pass_for_user_confirmation#:#Biztos, hogy befejezettre állítja '%s' tesztkitöltését?
 assessment#:#finish_pass_for_user_in_processing_time#:#FIGYELMEZTETÉS: a felhasználó ideje még nem járt le! Csak nyomós ok esetén fejezze be a tesztkitöltést (például kizárás a tesztből).
 assessment#:#finish_test#:#Teszt befejezése
 assessment#:#finish_test_all#:#Biztos, hogy befejezettre állítja az összes felhasználó tesztkitöltését?
-assessment#:#finish_test_more_than_one_selected#:#Only a single participant may be selected to finish the pass if the test allows only one pass.###18 07 2025 new variable
+assessment#:#finish_test_more_than_one_selected#:#Ha csak egy kitöltés engedélyezett, akkor csak az egyszeres kitöltőknél állítható befejezettre a tesz.
 assessment#:#finish_test_multiple#:#Biztos, hogy befejezettre állítja a kiválasztott felhasználók tesztkitöltését?
 assessment#:#finish_test_no_valid_participants_selected#:#Egy aktív tesztkitöltése sincs a kiválasztott felhasználóknak, így nincs mit befejezni.
 assessment#:#finish_test_single#:#Biztos, hogy befejezettre állítja '%s' felhasználók tesztkitöltését?
@@ -773,6 +773,7 @@ assessment#:#gap#:#Kitöltendő hely
 assessment#:#gap_combination#:#Kitöltéskombináció
 assessment#:#gaps#:#Kitöltendő helyek
 assessment#:#glossary_term#:#Fogalomtár fogalma
+assessment#:#goto_first_question#:#Az első kérdés megjelenítése
 assessment#:#grading_mark_msg#:#Érdemjegye: &quot;[mark]&quot;
 assessment#:#grading_status_failed_msg#:#Sajnáljuk, <b>nem teljesítette</b> a tesztet.
 assessment#:#grading_status_passed_msg#:#Gratulálunk, <b>sikeresen teljesítette</b> a tesztet.
@@ -2002,6 +2003,7 @@ assessment#:#tst_time_limit_message#:#<b>%s perce</b> lesz az összes kérdés m
 assessment#:#tst_title_output#:#Kérdéscím megjelenítése
 assessment#:#tst_title_output_full#:#Kérdéscímek és elérhető pontszámok
 assessment#:#tst_title_output_hide_points#:#Csak kérdéscímek
+assessment#:#tst_title_output_info#:#Azt határozza meg, hogy a kérdéscímek és/vagy az elérhető pontszámok melyik kombinációja legyen látható a résztvevők számára a teszt kitöltése közben és a tesztkísérlet áttekintésében (lásd alább).
 assessment#:#tst_title_output_no_title#:#Sem a kérdéscímek, sem az elérhető pontszámok
 assessment#:#tst_title_output_only_points#:#Csak az elérhetőpontok
 assessment#:#tst_trigger_result_refreshing#:#A végeredményeket újra kell számolni. Ez egy ideig eltarthat.
@@ -2591,6 +2593,7 @@ book#:#book_bulk_creation#:#Üres létrehozása
 book#:#book_bulk_data#:#Objektum adata
 book#:#book_cal_entry#:#Ennek a foglalása:
 book#:#book_confirm_booking#:#Foglalás megerősítése
+book#:#book_confirm_booking_for_users#:#Biztos, hogy lefoglalja ezt az objektumot az alábbi felhaszáló(k)nak?
 book#:#book_confirm_booking_no_schedule#:#Biztos, hogy lefoglalja az alábbi objektumot?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Foglalás visszaigazolása
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Adja meg a lefoglalandó objektumok számát.
@@ -3272,8 +3275,8 @@ cmix#:#content_privacy_ident#:#A felhasználó azonosítása az erőforráshoz
 cmix#:#content_privacy_name#:#A felhasználó neve az erőforráshoz
 cmix#:#create_lrs_type_form#:#Új LRS-típus
 cmix#:#create_registration#:#E-mail cím regisztrálása
-cmix#:#cron_xapi_del#:#Delete xAPI/cmi5 data in the Learning Record Store###18 07 2025 new variable
-cmix#:#cron_xapi_del_desc#:#Data is deleted according to the settings of the xAPI/cmi5 objects.###18 07 2025 new variable
+cmix#:#cron_xapi_del#:#xAPI/cmi5 adat törlése az LRS-ben
+cmix#:#cron_xapi_del_desc#:#Az xAPI/cmi5 objektum beállításainak megfelelően töröltük az adatot.
 cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 eredmények használata
 cmix#:#cron_xapi_results_evaluation_desc#:#Az összes xAPI eredmény lekérése az ILIAS xAPI proxyt nem támogató objektumok esetén.
 cmix#:#description_info#:#A leírás a cím alatt jelenik meg.
@@ -4386,12 +4389,12 @@ common#:#il_grp_admin#:#Csoportvezető
 common#:#il_grp_member#:#Csoporttag
 common#:#il_grp_status_closed#:#Zárt csoport
 common#:#il_grp_status_open#:#Nyílt csoport
-common#:#il_iass_member#:#Participant###18 07 2025 new variable
+common#:#il_iass_member#:#Résztvevő
 common#:#il_lso_admin#:#Tanulás sor vezetője
 common#:#il_lso_member#:#Tanulási sor tagja
 common#:#il_lti_instructor#:#LTI-Instruktor
 common#:#il_lti_learner#:#LTI-Tanuló
-common#:#il_lti_user#:#LTI User###18 07 2025 new variable
+common#:#il_lti_user#:#LTI-Felhasználó
 common#:#il_orgu_employee#:#Beosztott
 common#:#il_orgu_superior#:#Felettes
 common#:#ilias_version#:#ILIAS-verzió
@@ -4809,6 +4812,7 @@ common#:#msg_no_perm_perm#:#Nincs jogosultsága módosítani a jogosultsági be�
 common#:#msg_no_perm_read#:#Nincs jogosultsága ezekhez az elemekhez.
 common#:#msg_no_perm_read_item#:#Nincs jogosultsága elérni: '%s'.
 common#:#msg_no_perm_read_lm#:#Nincs olvasási jogosultsága ehhez a tananyaghoz.
+common#:#msg_no_perm_view_roles_of_user#:#Nincs jogosultsága megtekinteni a felhasználó szerepköreit
 common#:#msg_no_perm_write#:#Nincs jogosultsága módosítani a beállításokat.
 common#:#msg_no_search_result#:#Egy bejegyzés sem található
 common#:#msg_no_search_string#:#Adjon meg egy keresési kifejezést.
@@ -5575,7 +5579,7 @@ common#:#search_new#:#Új keresés
 common#:#search_result#:#Keresési találat
 common#:#search_results#:#Keresési találatok
 common#:#search_user#:#Felhasználó keresése
-common#:#search_users#:#Look Up Users###18 07 2025 new variable
+common#:#search_users#:#Felhasználók keresése
 common#:#seas_max_hits#:#Találatok maximális száma
 common#:#seas_max_hits_info#:#Adja meg, maximum hány találatot szeretne kapni.
 common#:#seas_settings#:#Keresési beállítások
@@ -6161,6 +6165,7 @@ contact#:#contact_awrn_req_contacts_info#:#Az összes felhasználót felsoroljuk
 content#:#Pages#:#Lapok
 content#:#add_menu_entry#:#Menübejegyzés hozzáadása
 content#:#all_pages#:#a teljes tananyag
+content#:#cfont_act_number#:#Fejezetszámozás
 content#:#citate#:#Idéz
 content#:#citate_from#:#Idéz honnan …
 content#:#citate_page#:#Idézi ezt a lapot
@@ -6199,7 +6204,6 @@ content#:#cont_TableContent#:#Táblázattartalom
 content#:#cont_Verse#:#Verssor/Strófa
 content#:#cont_WholePicture#:#Teljes kép
 content#:#cont_accented#:#Ékezetes
-content#:#cont_act_number#:#Chapter Numeration###18 07 2025 new variable
 content#:#cont_activate_html#:#HTML renderelés bekapcsolása
 content#:#cont_activate_js#:#JavaScript mód bekapcsolása
 content#:#cont_activate_media#:#Média bekapcsolása
@@ -6787,7 +6791,7 @@ content#:#cont_mob_usages#:#Felhasználás
 content#:#cont_more_character_styles#:#…további karakterstílusok
 content#:#cont_more_functions#:#Továbbiak
 content#:#cont_moved_srt_files#:#Feliratfájlokat sikeresen hozzárendelte a médiaobjektumokhoz.
-content#:#cont_multi_srt_files#:#SRT-fájlok
+content#:#cont_multi_srt_files#:#Feliratfájlok
 content#:#cont_mycourses_sortorder#:#Alapértelmezett rendezés
 content#:#cont_mycourses_sortorder_alphabetical#:#Alfabetikus
 content#:#cont_mycourses_sortorder_info#:#Ez az alapértelmezett beállítás. Az összes felhasználó egyéni rendezést választhat, ami bármelyik portfólió összes 'Kurzusaim' elemeire vonatkozik.
@@ -7142,7 +7146,7 @@ content#:#cont_structure#:#struktúra
 content#:#cont_style#:#Stílus
 content#:#cont_subchapters#:#Alfejezetek
 content#:#cont_submit_answers#:#Mehet
-content#:#cont_subtitle_file#:#SRT ZIP-fájl
+content#:#cont_subtitle_file#:#Felirat ZIP-fájl
 content#:#cont_subtitle_files#:#Médiafeliratok
 content#:#cont_sur_block_format#:#Körülölelő fejezet
 content#:#cont_switch_to_media_pool#:#Váltás mások médiagyűjteményre
@@ -7246,7 +7250,7 @@ content#:#cont_update_skills#:#Kompetencia módosítása
 content#:#cont_update_verification#:#Tanúsítvány módosítása
 content#:#cont_upload_dir#:#Feltöltési mappa
 content#:#cont_upload_file#:#Fájl feltöltése
-content#:#cont_upload_multi_srt_howto#:#Ennek a funkciónak a használatával lehetősége van a tananyag médiaobjektumaihoz többnyelvű feliratok (SRT-fájlok) feltöltésére ZIP-fájlban. A .zip fájl ne tartalmazzon mappát, egyik .srt fájl se legyen mappában. Az összes SRT-fájl vége legyen '_&lt;nyelvi kód&gt;.srt', ahol a nyelvi kód például hu, en, de. A fájlnév eleje célszerű hogy a videófájl nevéhez illeszkedjen, például 'video.mp4' ➜ 'video_hu.srt'.
+content#:#cont_upload_multi_srt_howto#:#Ennek a funkciónak a használatával lehetősége van a tananyag médiaobjektumaihoz többnyelvű feliratok (VTT-fájlok) feltöltésére ZIP-fájlban. A .zip fájl ne tartalmazzon mappát, egyik .vtt fájl se legyen mappában. Az összes VTT-fájl vége legyen '_&lt;nyelvi kód&gt;.vtt', ahol a nyelvi kód például hu, en, de. A fájlnév eleje célszerű hogy a videófájl nevéhez illeszkedjen, például 'video.mp4' ➜ 'video_hu.vtt'.
 content#:#cont_uploaded_file#:#Létező fájl.
 content#:#cont_url_info#:#Médiafájl vagy Youtube URL.
 content#:#cont_usage#:#Felhasználás
@@ -8593,7 +8597,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#ezúton tájékoztatjuk, hogy az 
 dcl#:#dcl_change_notification_dcl_update_record#:#ezúton tájékoztatjuk, hogy az alábbi bejegyzés megváltozott
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_subject#:#'%s' adatgyűjtés megváltozott
-dcl#:#dcl_change_why_you_receive_this_email#:#Ezt az üzenetet azért küldtük, mert bekapcsolta az értesítést erre az adatgyűjtésre.
 dcl#:#dcl_changed_by#:#Módosította
 dcl#:#dcl_checked#:#Kipipált
 dcl#:#dcl_comments#:#Megjegyzések
@@ -8625,7 +8628,7 @@ dcl#:#dcl_date_selection_desc#:#Dátumlehetőségek választásának felkínál�
 dcl#:#dcl_deactivate_view#:#Nézet kikapcsolása
 dcl#:#dcl_default_sort_field#:#Alapértelmezett rendezési mező
 dcl#:#dcl_default_sort_field_order#:#Alapértelmezett rendezési irány
-dcl#:#dcl_default_sort_field_order_desc#:#Arrange the order of the entries in the table based on this field.###18 07 2025 new variable
+dcl#:#dcl_default_sort_field_order_desc#:#A táblázatot alapértelmezetten ezen mező alapján rendezzük.
 dcl#:#dcl_delete_fields#:#Mezők törlése
 dcl#:#dcl_delete_fields_no_selection#:#Legalább egy törlendő mezőt válasszon ki
 dcl#:#dcl_delete_perm#:#A felhasználó törölhet rekordokat
@@ -8675,7 +8678,6 @@ dcl#:#dcl_formula_desc#:#Képlet segítségével bejegyzések értékeit aggreg�
 dcl#:#dcl_formula_detail_desc#:#Automatikusan generált, nem módosítható bejegyzések.
 dcl#:#dcl_height#:#Magasság
 dcl#:#dcl_height_desc#:#A fájlt átméretezzük a megadott magasságra
-dcl#:#dcl_hello#:#Tisztelt
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#A belső azonosító (internal-ID).
 dcl#:#dcl_ilias_reference#:#Link egy ILIAS objektumhoz
@@ -8732,7 +8734,6 @@ dcl#:#dcl_new#:#Új adatgyűjtés létrehozása
 dcl#:#dcl_new_field#:#Új mező
 dcl#:#dcl_new_table#:#Új tábla
 dcl#:#dcl_next_record#:#Következő bejegyzés
-dcl#:#dcl_no_content_warning#:#Figyelem, az adatgyűjtés online, de még nincs tartalma!
 dcl#:#dcl_no_entries#:#A művelet nem engedélyezett
 dcl#:#dcl_no_entry#:#Egy bejegyzés sem található
 dcl#:#dcl_no_export_async_config#:#Nincs elérhető SOAP konfiguráció aszinkron exportálásokhoz.
@@ -8741,7 +8742,7 @@ dcl#:#dcl_no_fields_yet#:#Ez az adatkészlet még nem tartalmaz mezőket. A meta
 dcl#:#dcl_no_read_access_on_any_standard_view#:#A táblázat alapértelmezett nézetéhez nincs olvasási hozzáférése.
 dcl#:#dcl_no_search_results_found_for#:#Egyetlen tananyagot sem sikerült találni ez alapján:
 dcl#:#dcl_no_such_reference#:#Az alábbi érték nem érhető el a referenciatáblában:
-dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
+dcl#:#dcl_no_tableview_found#:#Egy látható táblanézet se található!
 dcl#:#dcl_not_checked#:#Nem kipipált
 dcl#:#dcl_not_supported_in_import#:#Ez a mezőtípus nem támogatott az importban.
 dcl#:#dcl_notification_activate_dcl#:#Értesítés bekapcsolása adatgyűjtésre
@@ -8754,6 +8755,8 @@ dcl#:#dcl_noturl_exception#:#Linket adjon meg (http://-rel vagy www.-tal kezdőd
 dcl#:#dcl_number#:#Egész szám
 dcl#:#dcl_number_desc#:#Egész szám típusú beviteli mező (max. 9 számjegy). Közönséges és tizedes törtek nem engedélyezettek.
 dcl#:#dcl_online_info#:#Az adatgyűjtést csak online állapotában használhatják a felhasználók.
+dcl#:#dcl_open_detail_view#:#Részletes nézet megnyitása
+dcl#:#dcl_open_url#:#Link megnyitása
 dcl#:#dcl_order#:#Sorrend
 dcl#:#dcl_origin_not_found#:#Az eredeti mező nem található!
 dcl#:#dcl_own_entries#:#Csak a saját bejegyzéseim
@@ -8776,7 +8779,7 @@ dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#A következő sz
 dcl#:#dcl_record#:#Bejegyzés
 dcl#:#dcl_record_deleted#:#Bejegyzést sikeresen törölte
 dcl#:#dcl_record_from_total#:#%d / %d
-dcl#:#dcl_record_settings#:#Record Settings###18 07 2025 new variable
+dcl#:#dcl_record_settings#:#Bejegyzés beállításai
 dcl#:#dcl_reference#:#Hivatkozás másik mezőre
 dcl#:#dcl_reference_desc#:#Másik mező vagy táblázat kiválasztási lehetőségét biztosítja.
 dcl#:#dcl_reference_link#:#Link megjelenítése hivatkozott bejegyzésként
@@ -8809,12 +8812,10 @@ dcl#:#dcl_supported_filetypes_desc#:#Az engedélyezni kívánt fájlkiterjeszté
 dcl#:#dcl_switch_table#:#Tábla módosítása
 dcl#:#dcl_switch_view#:#Nézet váltása
 dcl#:#dcl_table#:#Tábla
-dcl#:#dcl_table_create#:#Tábla létrehozása
-dcl#:#dcl_table_edit#:#Tábla módosítása
 dcl#:#dcl_table_id#:#Tábla-ID
 dcl#:#dcl_table_list_fields#:#Kiválasztott tábla mezői
 dcl#:#dcl_table_list_tables#:#Elérhető táblák
-dcl#:#dcl_table_settings#:#Table Settings.###18 07 2025 new variable
+dcl#:#dcl_table_settings#:#Tábla beállításai.
 dcl#:#dcl_table_settings_saved#:#A táblabeállításokat sikeresen mentette.
 dcl#:#dcl_table_title_not_matching#:#Az Excel munkalap neve és az adatgyűjtés neve nem azonos, kérem, nevezze át a munkalapot.
 dcl#:#dcl_table_title_unique#:#Ilyen táblanév már létezik. A táblanévnek egyedinek kell lennie.
@@ -8839,7 +8840,6 @@ dcl#:#dcl_tableviews_confirm_delete#:#Biztos, hogy törli az alábbi nézeteket?
 dcl#:#dcl_tableviews_of_X#:#'%s' tábla nézetei
 dcl#:#dcl_tableviews_table#:#Kiválasztott tábla nézetei
 dcl#:#dcl_text#:#Szöveg
-dcl#:#dcl_text_area#:#Szövegterület
 dcl#:#dcl_text_desc#:#Beviteli mező szöveg, link vagy e-mail cím tárolására.
 dcl#:#dcl_text_email_detail_desc#:#Érvényes URL-t vagy e-mail címet adjon meg.
 dcl#:#dcl_text_email_title#:#Cím
@@ -9239,11 +9239,11 @@ etal#:#notification_talks_subject#:#Meghívás: %s
 etal#:#notification_talks_subject_update#:#Módosítás: %s
 etal#:#notification_talks_updated#:#Az alábbi találkozókat módosították.
 etal#:#pending_talks_warning#:#A következő függőben lévő megbeszéléseket cseréljük le:
-etal#:#tala_no_content_without_admin_info#:#The Administrator role is required for access to Talk Templates.###18 07 2025 new variable
+etal#:#tala_no_content_without_admin_info#:#Az Administrator szerepkörnek hozzáféréssel kell rendelkezni a Megbeszéléssablonokhoz.
 etal#:#talk_serial#:#Megbeszéléssorozat
 etal#:#tals_add#:#Megbeszélés hozzáadása
 etal#:#tals_new#:#Új Megbeszélés
-etal#:#talt_activation_online_info#:#Állítsa be a beszélgetéssablont onlinera, hogy láthatóvá és elérhetővé tegye az alkalmazottak számára. Ha nem, akkor csak a rendszergazdák férhetnek hozzá.
+etal#:#talt_activation_online_info#:#Állítsa be a megbeszéléssablont onlinera, hogy láthatóvá és elérhetővé tegye az alkalmazottak számára. Ha nem, akkor csak a rendszergazdák férhetnek hozzá.
 etal#:#talt_add#:#Sablon hozzáadása
 etal#:#talt_edit#:#Általános
 etal#:#talt_etal#:#Munkavállalói megbeszélés
@@ -10514,11 +10514,11 @@ help#:#help_tooltips_and_help#:#Buboréksúgók és munkamenet súgó
 help#:#help_tooltips_only#:#Csak buboréksúgók
 help#:#help_topcis#:#Témasúgó
 help#:#help_tt_text#:#Szöveg
-htlm#:#file_import_from_upload_dir_failed#:#File from Upload-Directory not imported###18 07 2025 new variable
-htlm#:#file_imported_from_upload_dir#:#File imported from Upload-Directory###18 07 2025 new variable
-htlm#:#import_from_upload_dir#:#Import from Upload-Directory###18 07 2025 new variable
-htlm#:#import_from_upload_dir_file_name#:#Filename###18 07 2025 new variable
-htlm#:#import_from_upload_dir_info#:#Please select file for import###18 07 2025 new variable
+htlm#:#file_import_from_upload_dir_failed#:#A fájlt importálása a Feltöltési mappából sikertelen
+htlm#:#file_imported_from_upload_dir#:#A fájlt sikeresen importálta a Feltöltési mappából
+htlm#:#import_from_upload_dir#:#Importálás a Feltöltési mappából
+htlm#:#import_from_upload_dir_file_name#:#Fáj neve
+htlm#:#import_from_upload_dir_info#:#Válasszon egy importfájlt
 iass#:#download_assessment_paper#:#Felvétel-fájl letöltése
 iass#:#grading#:#Értékelés
 iass#:#grading_info#:#Értékelésinformáció
@@ -11086,7 +11086,7 @@ lso#:#lso_player_abstract#:#Absztrakt megjelenítése
 lso#:#lso_player_extro#:#Befejező oldal megjelenítése
 lso#:#lso_player_finish#:#Befejezés
 lso#:#lso_player_next#:#Következő
-lso#:#lso_player_noitems#:#There are no available items in this Learning Sequence.###18 07 2025 new variable
+lso#:#lso_player_noitems#:#Egy elérhető elem sincs ebben a Tanulási sorban.
 lso#:#lso_player_previous#:#Előző
 lso#:#lso_player_resume#:#Tanulási sor szüneteltetése
 lso#:#lso_player_review#:#Tanulási sor áttekintése
@@ -11303,7 +11303,7 @@ lti#:#lti_con_prov_provider_key_global_info#:#Ha nincs beállítva, a felhaszná
 lti#:#lti_con_prov_remarks#:#Internal Remarks
 lti#:#lti_con_prov_secret#:#Titok
 lti#:#lti_con_prov_title#:#Cím
-lti#:#lti_con_prov_url#:#Kiszolgáló resp. eszközének URL-je
+lti#:#lti_con_prov_url#:#LTI kiszolgáló URL-je
 lti#:#lti_con_prov_use_provider_id#:#Kiszolgáló ID használata
 lti#:#lti_con_prov_use_provider_id_info#:#Általában az LTI-Fogyasztó Ref-Id-je átkerül a Kiszolgálóba. Néhány Kiszolgálók leképezi ezt a Ref-Id-t a Kiszolgáló erőforrásával. Ahhoz, hogy ezekhez a Kiszolgálókhoz mindig ugyanaz az Erőforrás legyen, ezt az opciót aktiválni kell.
 lti#:#lti_con_prov_use_xapi#:#Kiszolgáló támogatja az xAPI-Statements kéréseket
@@ -11370,7 +11370,7 @@ lti#:#lti_object_consumer#:#LTI-fogyasztók
 lti#:#lti_object_release_settings_form#:#LTI-megosztások módosítása
 lti#:#lti_provider#:#LTI-megosztások
 lti#:#lti_provider_not_avail_msg#:#Az LTI-kiszolgáló / -Eszköz értéke 'Nem érhető el'
-lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###18 07 2025 new variable
+lti#:#lti_provider_not_set_msg#:#Az LTI-kiszolgáló / -eszköz beállítása még nem teljes.
 lti#:#lti_providing_tab#:#Az ILIAS, mint LTI-Kiszolgáló
 lti#:#lti_released_objects#:#Megosztott objektumok
 lti#:#lti_select_provider#:#Válasszon Kiszolgáló resp. Eszközt
@@ -11760,8 +11760,8 @@ mathjax#:#mathjax_polyfill_url#:#Polyfill URJ-je
 mathjax#:#mathjax_polyfill_url_desc_line1#:#MathJax 2-höz és 3-hoz nem szükséges
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Távolítson el minden polyfill.io hivatkozást! Lásd https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#MathJax Script URL-je
-mathjax#:#mathjax_script_url_desc_line1#:#MathJax 2-höz például %s
-mathjax#:#mathjax_script_url_desc_line2#:#Kérem, aktiválja a biztonságos módot, hogy elkerülje a MathJax kódon keresztüli javascript-alapú XSS-támadásokat. MathJax 2 alatt ezt a CDN url-hez a 'Safe' paraméter hozzádásával teheti meg. MathJax 3 alatt egy szkriptet kell beletennie, ami ezt beállítja, mielőtt a MathJax betöltődik. Például: https://domain/ilias/Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js
+mathjax#:#mathjax_script_url_desc_line1#:#Kérem, aktiválja a biztonságos módot, hogy elkerülje a MathJax kódon keresztüli javascript-alapú XSS-támadásokat. <br />MathJax 2-höz például %s
+mathjax#:#mathjax_script_url_desc_line2#:#MathJax 3-höz például %s
 mathjax#:#mathjax_server_address#:#Szerver címe
 mathjax#:#mathjax_server_address_info#:#Például http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#A MathJax gyorsítótárát sikeresen ürítette.
@@ -12826,23 +12826,23 @@ mob#:#mob_general#:#Általános
 mob#:#mob_image_extracted#:#Az előnétezetio képet sikeresen kicsomagolta.
 mob#:#mob_language#:#Nyelv
 mob#:#mob_mime_type_not_allowed#:#A következő mime-típusok nem engedélyezettek a címzettnél.
-mob#:#mob_multi_srt_files#:#SRT-fájlok
+mob#:#mob_multi_srt_files#:#Feliratfájlok
 mob#:#mob_no_extraction_possible#:#A képet nem sikerült kicsomagolni a fájlból.
 mob#:#mob_no_fixed_size_map_editing#:#Térképterület használata előtt adja meg képének méretét. Ha a képét tartalomstílus vagy egyéb CSS szabály átméretezi, a térképterület nem fog illeszkedni.
 mob#:#mob_object#:#Objektum
 mob#:#mob_please_select_pool#:#Kérem, válasszon ki egy médiagyűjteményt.
 mob#:#mob_preview_picture#:#Előnézeti kép
-mob#:#mob_really_delete_srt#:#Biztos, hogy törli az alábbi SRT-fájlokat?
+mob#:#mob_really_delete_srt#:#Biztos, hogy törli az alábbi feliratfájlokat?
 mob#:#mob_second#:#másodperc
-mob#:#mob_srt_files_deleted#:#A felirat fájlt töröltük.
-mob#:#mob_srt_not_allowed#:#.srt kiterjesztésű fájlok felöltése jelenleg nem megengedett. Kérem, keresse a rendszerüzemeltetőket.
-mob#:#mob_subtitle_file#:#Felirat fájl
-mob#:#mob_subtitle_files#:#Felirat fájlok
+mob#:#mob_srt_files_deleted#:#A feliratfájlt sikeresen törölte.
+mob#:#mob_srt_not_allowed#:#A .vtt kiterjesztésű fájlok felöltése jelenleg nem megengedett. Kérem, keresse a rendszerüzemeltetőket.
+mob#:#mob_subtitle_file#:#Feliratfájl
+mob#:#mob_subtitle_files#:#Feliratfájlok
 mob#:#mob_subtitles#:#Feliratok
 mob#:#mob_type_not_supported#:#Mime-típus nem támogatott:
 mob#:#mob_upload_file#:#Fájl feltöltése
 mob#:#mob_upload_multi_srt#:#ZIP-fájl feltöltése
-mob#:#mob_upload_multi_srt_howto#:#A .zip fájl ne tartalmazzon mappát, egyik .srt fájl se legyen mappában. Az összes SRT-fájl vége legyen '_&lt;nyelvi kód&gt;.srt', ahol a nyelvi kód például hu, en, de. A fájlnév eleje célszerű, hogy a videófájl nevéhez illeszkedjen, például 'video.mp4' -> 'video_hu.srt'.
+mob#:#mob_upload_multi_srt_howto#:#A .zip fájl ne tartalmazzon mappát, egyik .vtt fájl se legyen mappában. Az fájlnév vége legyen '_&lt;nyelvi kód&gt;.vtt', ahol a nyelvi kód például hu, en, de. A fájlnév eleje célszerű, hogy a videófájl nevéhez illeszkedjen, például 'video.mp4' -> 'video_hu.srt'.
 mob#:#mob_url#:#URL
 mob#:#mob_url_info#:#Külső erőforrás URL-je, például Youtube vagy Vimeo URL.
 mob#:#mob_url_info1#:#Külső erőforrás URL-je, az engedélyzett utótagok:
@@ -13357,7 +13357,7 @@ prg#:#auto_membership_src_type#:#Típus
 prg#:#auto_membership_title#:#Automatizált tagság forrásai
 prg#:#auto_memberships#:#Tagság automatizálása
 prg#:#category#:#Kategória
-prg#:#cert_relevance#:#Certificate###18 07 2025 new variable
+prg#:#cert_relevance#:#Tanúsítvány
 prg#:#completion_date#:#Befejezés időpontja
 prg#:#confirm_to_remove_selected_assignments#:#Biztos, hogy eltávolítja a felhasználó hozzárendeléseit?
 prg#:#cont_ed_insert_prgactionnote#:#Képzési program teendőhez megjegyzés beillesztése
@@ -13846,8 +13846,8 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#A maximális jels
 ps#:#ps_export_admin#:#Vezetők
 ps#:#ps_export_confirm#:#Felhasználói megerősítés, amikor kurzusba lép be
 ps#:#ps_export_confirm_group#:#Felhasználói megerősítés, amikor csoportba lép be
-ps#:#ps_export_confirm_group_info#:#When joining a group, users are required to accept that their personal data can be viewed by the group admins.###18 07 2025 new variable
-ps#:#ps_export_confirm_info#:#When joining a course, users are required to accept that their personal data can be viewed by the course admins.###18 07 2025 new variable
+ps#:#ps_export_confirm_group_info#:#Amikor valaki egy csporthoz csatlakozik, el kell fogadnia, hogy a csoportvezetők láthatják a személyes adatait.
+ps#:#ps_export_confirm_info#:#Amikor valaki egy kurzushoz csatlakozik, el kell fogadnia, hogy a kurzusvezetők láthatják a személyes adatait.
 ps#:#ps_export_course#:#Felhasználó profiladatainak exportálásának engedélyezése kurzusokban
 ps#:#ps_export_data#:#Felhasználói adatok adattípusai
 ps#:#ps_export_excel#:#Excel-export indítása
@@ -14274,10 +14274,10 @@ rbac#:#grps_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállít
 rbac#:#grps_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Csoport beállításaihoz
 rbac#:#grps_visible#:#A felhasználó láthatja a Rendszerbeállítások » Csoport menüpontot
 rbac#:#grps_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Csoport beállításait
-rbac#:#gsfo_edit_permission#:#User can change permission settings in Footer administration###18 07 2025 new variable
-rbac#:#gsfo_read#:#User has read access to Footer administration###18 07 2025 new variable
-rbac#:#gsfo_visible#:#Footer administration is visible###18 07 2025 new variable
-rbac#:#gsfo_write#:#Edit settings in Footer administration###18 07 2025 new variable
+rbac#:#gsfo_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Lábléc jogosultsági beállításait
+rbac#:#gsfo_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Lábléc beállításaihoz
+rbac#:#gsfo_visible#:#A felhasználó láthatja a Rendszerbeállítások » Lábléc menüpontot
+rbac#:#gsfo_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Lábléc beállításait
 rbac#:#hlps_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Súgórendszer jogosultsági beállításait
 rbac#:#hlps_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Súgórendszer beállításaihoz
 rbac#:#hlps_visible#:#A felhasználó láthatja a Rendszerbeállítások » Súgórendszer menüpontot
@@ -14642,6 +14642,7 @@ rbac#:#rbac_log_source_object#:#Forrásobjektum
 rbac#:#rbac_msg_user_already_assigned#:#A kiválasztott felhasználók már hozzá vannak rendelve ehhez a szerepkörhöz.
 rbac#:#rbac_not_change_existing_objects#:#Ne változtasson létező objektumokat
 rbac#:#rbac_permissions#:#Jogosultságok
+rbac#:#rbac_precondition_condition#:#Az állapot eléréséhez hozzáférés szükséges
 rbac#:#rbac_precondition_hide#:#Objektum elrejtése
 rbac#:#rbac_precondition_hide_info#:#Ez az opció lehetővé teszi, hogy az objektum rejtve maradjon az előfeltételeit nem teljesített felhasználók elől, vagyis az összes el nem elérhető tartalom nem látható a felhasználó számára.
 rbac#:#rbac_precondition_minimum_optional#:#Legalább két előfeltétel választhatóként kell maradjon.
@@ -17335,6 +17336,7 @@ ui#:#2stars#:#öt csillagból kettő
 ui#:#3stars#:#öt csillagból három
 ui#:#4stars#:#öt csillagból négy
 ui#:#5stars#:#öt csillagból öt
+ui#:#datatable_close_warning#:#OK
 ui#:#datatable_multiaction_label#:#Tömeges művelet
 ui#:#datatable_multiactionmodal_actionlabel#:#művelet
 ui#:#datatable_multiactionmodal_apply#:#Alkalmazás
@@ -17392,6 +17394,7 @@ ui#:#ui_table_no_records#:#Egy bejegyzés sem található
 ui#:#ui_table_order#:#Rendezés
 ui#:#ui_transcription#:#Transcript
 ui#:#vc_sort#:#Rendezés alapja:
+ui#:#warning_url_too_long_msg#:#A kiválasztott sorok száma nagyon nagy URL-t eredményez; a szerver valószínűleg blokkolja az ekkora kérést.<br>Kérjük, válasszon kevesebb sort, vagy hajtsa végre a műveletet az összes bejegyzésen.
 user#:#all_roles_has_starting_point#:#Az összes szabálynak van kiindulási pontja
 user#:#back_to_starting_points_list#:#Vissza a kiindulási pontokhoz
 user#:#change_email_email_confirmation_body#:#%s e-mail címe megváltozott. Ennek megerősítéséhez kattintson a linkre: %s. A link %s percig érvényes.
@@ -17559,7 +17562,7 @@ validation#:#not_min_length#:#A megadott érték hossza %d, ami a minimumnál (%
 validation#:#not_numeric#:#'%s' nem szám.
 validation#:#not_numeric_empty_string#:#A megadott adat nem szám.
 validation#:#numeric_only#:#Egész számot adjon meg.
-validation#:#required#:#This input is required.###18 07 2025 new variable
+validation#:#required#:#Ezt kötelező megadni.
 validation#:#tag_required#:#Legalább egy címkét adjon meg.
 violation#:#not_a_string#:#A megadott érték nem szöveg
 webr#:#invalid_links_tbl#:#Érvénytelen linkek

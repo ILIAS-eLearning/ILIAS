@@ -773,6 +773,7 @@ assessment#:#gap#:#Mezera
 assessment#:#gap_combination#:#Gap Combination###26 09 2014 new variable
 assessment#:#gaps#:#Gaps###21 05 2025 new variable
 assessment#:#glossary_term#:#Pojem glosáře
+assessment#:#goto_first_question#:#Show first question###26 08 2025 new variable
 assessment#:#grading_mark_msg#:#Your resulting mark is: &quot;[mark]&quot;###26 09 2014 new variable
 assessment#:#grading_status_failed_msg#:#Sorry, you <b>failed</b> the test.###26 09 2014 new variable
 assessment#:#grading_status_passed_msg#:#Congratulations, you <b>passed</b> the test.###26 09 2014 new variable
@@ -2002,6 +2003,7 @@ assessment#:#tst_time_limit_message#:#You will have <b>%s minutes</b> to answer 
 assessment#:#tst_title_output#:#Výstupní název testu
 assessment#:#tst_title_output_full#:#Zobrazit název otázek a dostupné body
 assessment#:#tst_title_output_hide_points#:#Zobrazit pouze název otázek
+assessment#:#tst_title_output_info#:#Set which combination of question titles and/or points available should be visible to participants while they are taking the test and within the test attempt overview (see below).###26 08 2025 new variable
 assessment#:#tst_title_output_no_title#:#Nezobrazit název otázek a dosažitelné body
 assessment#:#tst_title_output_only_points#:#Only Available Points###26 08 2024 new variable
 assessment#:#tst_trigger_result_refreshing#:#Results need to be recalculated. This may take a while.###24 10 2013 new variable
@@ -2591,6 +2593,7 @@ book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
 book#:#book_bulk_data#:#Item Data###26 08 2024 new variable
 book#:#book_cal_entry#:#Objednávka od:
 book#:#book_confirm_booking#:#Potvrdit objednávku
+book#:#book_confirm_booking_for_users#:#Are you sure you want to book this item for the following user(s)?###26 08 2025 new variable
 book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following object?###28 08 2012 new variable
 book#:#book_confirm_booking_schedule_number_of_objects#:#Booking Confirmation###24 10 2013 new variable
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please state the numbers of objects to book.###24 10 2013 new variable
@@ -4809,6 +4812,7 @@ common#:#msg_no_perm_perm#:#Nemáte oprávnění měnit nastavení přístupový
 common#:#msg_no_perm_read#:#Nemáte oprávnění přístupu k této položce.
 common#:#msg_no_perm_read_item#:#Nemáte oprávnění přístupu k položce '%s'.
 common#:#msg_no_perm_read_lm#:#Nemáte oprávnění číst tento výukový modul.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Nemáte oprávnění k zápisu
 common#:#msg_no_search_result#:#Žádné položky nenalezeny
 common#:#msg_no_search_string#:#Zadejte prosím dotaz
@@ -8593,7 +8597,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#the following record was created#
 dcl#:#dcl_change_notification_dcl_update_record#:#the following record was updated###28 08 2012 new variable
 dcl#:#dcl_change_notification_link#:#URL###28 08 2012 new variable
 dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed###28 08 2012 new variable
-dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this datacollection.###26 04 2013 new variable
 dcl#:#dcl_changed_by#:#Changed by###28 08 2012 new variable
 dcl#:#dcl_checked#:#Checked.###28 08 2012 new variable
 dcl#:#dcl_comments#:#Comments###26 09 2014 new variable
@@ -8675,7 +8678,6 @@ dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Fo
 dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.###30 08 2015 new variable
 dcl#:#dcl_height#:#Height###02 09 2012 new variable
 dcl#:#dcl_height_desc#:#The file will be resized to the given height###21 05 2025 new variable
-dcl#:#dcl_hello#:#Dear###26 04 2013 new variable
 dcl#:#dcl_id#:#ID###20 07 2014 new variable
 dcl#:#dcl_id_description#:#The internal ID.###20 07 2014 new variable
 dcl#:#dcl_ilias_reference#:#Link to an ILIAS module###25 10 2016 new variable
@@ -8732,7 +8734,6 @@ dcl#:#dcl_new#:#Create New Data Collection###28 08 2012 new variable
 dcl#:#dcl_new_field#:#New Field###28 08 2012 new variable
 dcl#:#dcl_new_table#:#New Table###28 08 2012 new variable
 dcl#:#dcl_next_record#:#Next record###26 09 2014 new variable
-dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!###28 09 2012 new variable
 dcl#:#dcl_no_entries#:#No entries###21 05 2025 new variable
 dcl#:#dcl_no_entry#:#No entry###07 02 2020 new variable
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###21 05 2025 new variable
@@ -8754,6 +8755,8 @@ dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http://)##
 dcl#:#dcl_number#:#Integer###25 10 2016 new variable
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.###25 10 2016 new variable
 dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.###06 02 2015 new variable
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Order###28 08 2012 new variable
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###21 05 2025 new variable
 dcl#:#dcl_own_entries#:#Only own entries###30 08 2015 new variable
@@ -8809,8 +8812,6 @@ dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma se
 dcl#:#dcl_switch_table#:#Switch Table###26 08 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###26 08 2024 new variable
 dcl#:#dcl_table#:#Table###28 08 2012 new variable
-dcl#:#dcl_table_create#:#Create Table###28 08 2012 new variable
-dcl#:#dcl_table_edit#:#Update Table###28 08 2012 new variable
 dcl#:#dcl_table_id#:#Table ID###28 08 2012 new variable
 dcl#:#dcl_table_list_fields#:#List Fields of current Table###28 08 2012 new variable
 dcl#:#dcl_table_list_tables#:#Available Tables###25 10 2016 new variable
@@ -8839,7 +8840,6 @@ dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following
 dcl#:#dcl_tableviews_of_X#:#Views of table %s###26 08 2024 new variable
 dcl#:#dcl_tableviews_table#:#Views of Selected Table###25 10 2016 new variable
 dcl#:#dcl_text#:#Text###28 08 2012 new variable
-dcl#:#dcl_text_area#:#Textarea###02 09 2012 new variable
 dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen###30 08 2015 new variable
 dcl#:#dcl_text_email_detail_desc#:#Please enter a valid URL or E-Mail address.###30 08 2015 new variable
 dcl#:#dcl_text_email_title#:#Title###30 08 2015 new variable
@@ -11760,8 +11760,8 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###31 03 2023 new variable
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 and MathJax 3 with current browsers not needed.
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Please remove any reference to polyfill.io! See https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 03 2023 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. <br />For MathJax 2 e.g. %s
+mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. %s
 mathjax#:#mathjax_server_address#:#Server Address###25 10 2016 new variable
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003###25 10 2016 new variable
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.###25 10 2016 new variable
@@ -14642,6 +14642,7 @@ rbac#:#rbac_log_source_object#:#Zdrojový objekt
 rbac#:#rbac_msg_user_already_assigned#:#Vybraní uživatelé jsou již dané roli přiřazeni.
 rbac#:#rbac_not_change_existing_objects#:#Do NOT change existing objects###01 10 2011 new variable
 rbac#:#rbac_permissions#:#Permissions###30 08 2015 new variable
+rbac#:#rbac_precondition_condition#:#Access requires having this status###26 08 2025 new variable
 rbac#:#rbac_precondition_hide#:#Hide Object###26 09 2014 new variable
 rbac#:#rbac_precondition_hide_info#:# This option allows to hide the object for users who currently have not fulfilled the preconditions. Therefore, all not accessible content is invisible.###26 09 2014 new variable
 rbac#:#rbac_precondition_minimum_optional#:#At least 2 preconditions have to remain optional.###01 10 2011 new variable
@@ -17335,6 +17336,7 @@ ui#:#2stars#:#two of five stars###26 08 2024 new variable
 ui#:#3stars#:#three of five stars###26 08 2024 new variable
 ui#:#4stars#:#four of five stars###26 08 2024 new variable
 ui#:#5stars#:#five of five stars###26 08 2024 new variable
+ui#:#datatable_close_warning#:#OK###26 08 2025 new variable
 ui#:#datatable_multiaction_label#:#Bulk Actions###26 08 2024 new variable
 ui#:#datatable_multiactionmodal_actionlabel#:#Action for All Entries###26 08 2024 new variable
 ui#:#datatable_multiactionmodal_apply#:#Apply###26 08 2024 new variable
@@ -17392,6 +17394,7 @@ ui#:#ui_table_no_records#:#No records###26 08 2024 new variable
 ui#:#ui_table_order#:#Order###21 05 2025 new variable
 ui#:#ui_transcription#:#Transcript###29 07 2022 new variable
 ui#:#vc_sort#:#Sort by:###21 05 2025 new variable
+ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.###26 08 2025 new variable
 user#:#all_roles_has_starting_point#:#All the roles have starting points###31 08 2017 new variable
 user#:#back_to_starting_points_list#:#Back to Starting Points###31 08 2017 new variable
 user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes.###28 10 2024 new variable

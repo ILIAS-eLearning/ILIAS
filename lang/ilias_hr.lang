@@ -773,6 +773,7 @@ assessment#:#gap#:#Praznina
 assessment#:#gap_combination#:#Kombinacija praznina
 assessment#:#gaps#:#Gaps###21 05 2025 new variable
 assessment#:#glossary_term#:#Pojam iz pojmovnika
+assessment#:#goto_first_question#:#Show first question###26 08 2025 new variable
 assessment#:#grading_mark_msg#:#Vaša ocjena je. &quot;[ocjena]&quot;
 assessment#:#grading_status_failed_msg#:#Nažalost ste <b>pali</b> na testu.
 assessment#:#grading_status_passed_msg#:#Čestitke, <b>prošli</b> ste na testu.
@@ -2002,6 +2003,7 @@ assessment#:#tst_time_limit_message#:#You will have <b>%s minutes</b> to answer 
 assessment#:#tst_title_output#:#Prikaži naslov pitanja
 assessment#:#tst_title_output_full#:#Naslovi pitanja i raspoloživi bodovi
 assessment#:#tst_title_output_hide_points#:#Samo naslovi pitanja
+assessment#:#tst_title_output_info#:#Set which combination of question titles and/or points available should be visible to participants while they are taking the test and within the test attempt overview (see below).###26 08 2025 new variable
 assessment#:#tst_title_output_no_title#:#Niti naslovi pitanja niti raspoloživi bodovi
 assessment#:#tst_title_output_only_points#:#Only Available Points###26 08 2024 new variable
 assessment#:#tst_trigger_result_refreshing#:#Rezultati se moraju ponovno izračunati. Taj postupak bi mogao potrajati određeno vrijeme.
@@ -2591,6 +2593,7 @@ book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
 book#:#book_bulk_data#:#Item Data###26 08 2024 new variable
 book#:#book_cal_entry#:#Rezervacija:
 book#:#book_confirm_booking#:#Potvrdi rezervaciju
+book#:#book_confirm_booking_for_users#:#Are you sure you want to book this item for the following user(s)?###26 08 2025 new variable
 book#:#book_confirm_booking_no_schedule#:#Jeste li sigurni da želite rezervirati sljedeći objekt?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Potvrda rezervacije
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Navedite brojeve predmeta koje želite rezervirati.
@@ -4809,6 +4812,7 @@ common#:#msg_no_perm_perm#:#Nemate dopuštenje za pristup postavkama prava
 common#:#msg_no_perm_read#:#Nemate dozvolu za pristup ovom objektu.
 common#:#msg_no_perm_read_item#:#Nemate dozvolu za pristup objektu '%s'.
 common#:#msg_no_perm_read_lm#:#Nemate dopuštenje za čitanje ovog modula za učenje.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Nemate dopuštenje za pisanje
 common#:#msg_no_search_result#:#Nije pronađen nijedan unos
 common#:#msg_no_search_string#:#Unesite upit
@@ -8593,7 +8597,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#Stvoren je sljedeći zapis podata
 dcl#:#dcl_change_notification_dcl_update_record#:#Ažuriran je sljedeći zapis podataka
 dcl#:#dcl_change_notification_link#:#Poveznica na zbirku podataka
 dcl#:#dcl_change_notification_subject#:#Izmijenjeno je prikupljanje podataka "%s"
-dcl#:#dcl_change_why_you_receive_this_email#:#Ovu poruku primate jer ste aktivirali obavijest o ovom prikupljanju podataka.
 dcl#:#dcl_changed_by#:#Promijenio
 dcl#:#dcl_checked#:#Provjereno.
 dcl#:#dcl_comments#:#Komentari
@@ -8675,7 +8678,6 @@ dcl#:#dcl_formula_desc#:#Možete agregirati nekoliko unosa u zapisu s pomoću fo
 dcl#:#dcl_formula_detail_desc#:#Unosi se generiraju automatski, unos ne možete urediti.
 dcl#:#dcl_height#:#Visina
 dcl#:#dcl_height_desc#:#The file will be resized to the given height###21 05 2025 new variable
-dcl#:#dcl_hello#:#Poštovani
 dcl#:#dcl_id#:#ID br.
 dcl#:#dcl_id_description#:#Interni ID.
 dcl#:#dcl_ilias_reference#:#Poveznica na modul ILIAS
@@ -8732,7 +8734,6 @@ dcl#:#dcl_new#:#Stvori novu zbirku podataka
 dcl#:#dcl_new_field#:#Novo polje
 dcl#:#dcl_new_table#:#Nova tablica
 dcl#:#dcl_next_record#:#Sljedeći unos
-dcl#:#dcl_no_content_warning#:#Pozor, zbirka podataka je online, ali još nema sadržaja!
 dcl#:#dcl_no_entries#:#No entries###21 05 2025 new variable
 dcl#:#dcl_no_entry#:#No entry###04 06 2021 new variable
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###21 05 2025 new variable
@@ -8754,6 +8755,8 @@ dcl#:#dcl_noturl_exception#:#Morate unijeti poveznicu (koja počinje s http:// i
 dcl#:#dcl_number#:#Cijeli broj
 dcl#:#dcl_number_desc#:#Polje za cijele brojeve (najviše 9 znamenki). Bez decimala ili razlomaka.
 dcl#:#dcl_online_info#:#Korisnici mogu koristiti zbirku podataka samo ako je zbirka podataka online.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Redoslijed
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###21 05 2025 new variable
 dcl#:#dcl_own_entries#:#Samo vlastiti unosi
@@ -8809,8 +8812,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Dopuštene ekstenije možete postaviti odvo
 dcl#:#dcl_switch_table#:#Switch Table###26 08 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###26 08 2024 new variable
 dcl#:#dcl_table#:#Tablica
-dcl#:#dcl_table_create#:#Kreiraj tablicu
-dcl#:#dcl_table_edit#:#Ažuriraj tablicu
 dcl#:#dcl_table_id#:#ID tablice
 dcl#:#dcl_table_list_fields#:#Polja odabrane tablice
 dcl#:#dcl_table_list_tables#:#Dostupne tablice
@@ -8839,7 +8840,6 @@ dcl#:#dcl_tableviews_confirm_delete#:#Želite li zaista izbrisati sljedeće prik
 dcl#:#dcl_tableviews_of_X#:#Views of table %s###26 08 2024 new variable
 dcl#:#dcl_tableviews_table#:#Prikazi odabrane tablice
 dcl#:#dcl_text#:#Unos teksta
-dcl#:#dcl_text_area#:#Područje za tekst
 dcl#:#dcl_text_desc#:#Tekstualno polje za tekst, poveznice ili adrese e-pošte.
 dcl#:#dcl_text_email_detail_desc#:#Unesite valjani URL ili adresu e-pošte.
 dcl#:#dcl_text_email_title#:#Naziv
@@ -11760,8 +11760,8 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###31 03 2023 new variable
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 and MathJax 3 with current browsers not needed.
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Please remove any reference to polyfill.io! See https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 03 2023 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. <br />For MathJax 2 e.g. %s
+mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. %s
 mathjax#:#mathjax_server_address#:#Server Address
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
@@ -14642,6 +14642,7 @@ rbac#:#rbac_log_source_object#:#Izvorni objekt
 rbac#:#rbac_msg_user_already_assigned#:#Odabrani korisnici su već dodijeljeni ovoj ulozi.
 rbac#:#rbac_not_change_existing_objects#:#NE mijenjajte postojeće objekte
 rbac#:#rbac_permissions#:#Dozvole
+rbac#:#rbac_precondition_condition#:#Access requires having this status###26 08 2025 new variable
 rbac#:#rbac_precondition_hide#:#Sakrij objekt
 rbac#:#rbac_precondition_hide_info#:#  Ova opcija omogućuje skrivanje objekta za korisnike koji trenutačno nisu ispunili preduvjete. Stoga su svi nepristupačni sadržaji nevidljivi.
 rbac#:#rbac_precondition_minimum_optional#:#Najmanje 2 preduvjeta moraju ostati neobavezna.
@@ -17335,6 +17336,7 @@ ui#:#2stars#:#two of five stars###26 08 2024 new variable
 ui#:#3stars#:#three of five stars###26 08 2024 new variable
 ui#:#4stars#:#four of five stars###26 08 2024 new variable
 ui#:#5stars#:#five of five stars###26 08 2024 new variable
+ui#:#datatable_close_warning#:#OK###26 08 2025 new variable
 ui#:#datatable_multiaction_label#:#Bulk Actions###26 08 2024 new variable
 ui#:#datatable_multiactionmodal_actionlabel#:#Action for All Entries###26 08 2024 new variable
 ui#:#datatable_multiactionmodal_apply#:#Apply###26 08 2024 new variable
@@ -17392,6 +17394,7 @@ ui#:#ui_table_no_records#:#No records###26 08 2024 new variable
 ui#:#ui_table_order#:#Order###21 05 2025 new variable
 ui#:#ui_transcription#:#Transcript###29 07 2022 new variable
 ui#:#vc_sort#:#Sort by:###21 05 2025 new variable
+ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.###26 08 2025 new variable
 user#:#all_roles_has_starting_point#:#All the roles have starting points###04 06 2021 new variable
 user#:#back_to_starting_points_list#:#Back to Starting Points###04 06 2021 new variable
 user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes.###28 10 2024 new variable

@@ -25,6 +25,7 @@
  */
 class ilUserExporter extends ilXmlExporter
 {
+    protected ilUserExportConfig $export_config;
     private ilUserDataSet $ds;
 
     public function init(): void
@@ -32,11 +33,14 @@ class ilUserExporter extends ilXmlExporter
         $this->ds = new ilUserDataSet();
         $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
+        /** @var ilUserExportConfig $config */
+        $config = $this->exp->getExportConfigs()->getElementByClassName('ilUserExportConfig');
+        $this->export_config = $config;
     }
 
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array // Missing array type.
     {
-        if ($a_entity == "personal_data") {
+        if ($a_entity === 'usr' && $this->export_config->getExportType() === 'personal_data') {
             $cal_ids = [];
             foreach ($a_ids as $user_id) {
                 foreach (ilCalendarCategories::lookupPrivateCategories($user_id) as $ct) {

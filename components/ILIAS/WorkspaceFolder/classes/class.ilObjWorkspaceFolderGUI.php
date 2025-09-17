@@ -46,6 +46,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
         $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule("pwsp");
         $this->help = $DIC["ilHelp"];
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->user = $DIC->user();
@@ -334,6 +335,18 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             $owner = $this->tree->lookupOwner($current_node);
             if ($owner != $ilUser->getId()) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+                $this->ctrl->redirect($this);
+            }
+            if (!$this->obj_definition->allowCopy($node["type"])) {
+                $this->tpl->setOnScreenMessage(
+                    'failure',
+                    str_replace(
+                        "%s",
+                        $this->lng->txt("obj_" . $node["type"]),
+                        $this->lng->txt("pwsp_type_cannot_be_copied")
+                    ),
+                    true
+                );
                 $this->ctrl->redirect($this);
             }
         }

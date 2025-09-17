@@ -355,17 +355,20 @@ class ilRatingGUI
                             "SRC_ICON",
                             ilUtil::getImagePath("standard/icon_rate_on.svg")
                         );
+                        $star_tpl->setVariable('RATING_FRACTION', 10);
                     } elseif ($overall_rating["avg"] + 1 <= $i) {
                         $star_tpl->setVariable(
                             "SRC_ICON",
                             ilUtil::getImagePath("standard/icon_rate_off.svg")
                         );
+                        $star_tpl->setVariable('RATING_FRACTION', 0);
                     } else {
                         $nr = round(($overall_rating["avg"] + 1 - $i) * 10);
                         $star_tpl->setVariable(
                             "SRC_ICON",
                             ilUtil::getImagePath("standard/icon_rate_$nr.svg")
                         );
+                        $star_tpl->setVariable("RATING_FRACTION", $nr);
                     }
                     $star_tpl->setVariable(
                         "ALT_ICON",
@@ -577,7 +580,10 @@ class ilRatingGUI
         );
 
 
-        $button = $f->button()->shy('###button###', '#');
+        $button = $f->button()->shy('###button###', '#')
+            ->withOnLoadCode(function (string $id): string {
+                return "document.getElementById('$id').classList.add('ilRating');";
+            });
         if ($has_overlay) {
             $ttpl->setVariable(
                 "RATING_DETAILS",

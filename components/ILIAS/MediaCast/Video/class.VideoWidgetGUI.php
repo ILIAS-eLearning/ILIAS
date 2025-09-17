@@ -65,7 +65,7 @@ class VideoWidgetGUI
         $ui = $this->ui;
         $video = $ui->factory()->player()->video("")->withPoster("");
         $video_tpl_html = $ui->renderer()->render($video);
-        $video_tpl_html = str_replace("\n", "", $video_tpl_html);
+        $video_tpl_html = str_replace(["\n", "\r"], "", $video_tpl_html);
 
         $tpl = new \ilTemplate("tpl.wrapper.html", true, true, "components/ILIAS/MediaCast/Video");
         $f = $ui->factory();

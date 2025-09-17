@@ -411,12 +411,12 @@ class GeneralQuestionPropertiesRepository
             return true;
         }
 
-        $plugin_slot = !$this->component_repository->getComponentByTypeAndName(
-            \ilComponentInfo::TYPE_MODULES,
+        $plugin_slot = $this->component_repository->getComponentByTypeAndName(
+            \ilComponentInfo::TYPE_COMPONENT,
             'TestQuestionPool'
         )->getPluginSlotById('qst');
 
-        if ($plugin_slot->hasPluginName($plugin_name)) {
+        if (!$plugin_slot->hasPluginName($plugin_name)) {
             return false;
         }
 

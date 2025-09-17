@@ -73,7 +73,7 @@ class ilRatingCategoryTableGUI extends ilTable2GUI
         $this->tpl->setVariable("VAL_ID", $a_set["id"]);
         $this->tpl->setVariable("VAL_POS", $a_set["pos"]);
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
-        $this->tpl->setVariable("TXT_DESCRIPTION", nl2br($a_set["description"]));
+        $this->tpl->setVariable("TXT_DESCRIPTION", nl2br($a_set["description"] ?? ''));
 
         $ilCtrl->setParameter($this->parent_obj, "cat_id", $a_set["id"]);
 

@@ -2118,7 +2118,6 @@ class ilPageObjectGUI
     {
         $tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "components/ILIAS/LearningModule");
         $tpl->setCurrentBlock("ilMedia");
-
         //$int_links = $page_object->getInternalLinks();
         $med_links = ilMediaItem::_getMapAreasIntLinks($this->request->getMobId());
 
@@ -2167,7 +2166,7 @@ class ilPageObjectGUI
         ilObjMediaObjectGUI::includePresentationJS($tpl);
         //$tpl->fillJavaScriptFiles();
         //$tpl->fillCssFiles();
-
+        $this->gui->toolbar()->setItems([]);    // clear toolbar, see #45620
         $tpl->printToStdout();
         exit;
     }
