@@ -46,7 +46,7 @@ class Repository
         return new MailImplementation(
             $result_object->lang,
             trim($result_object->subject),
-            trim($result_object->body),
+            trim($result_object->body ?? ''),
             trim($result_object->sal_g),
             trim($result_object->sal_m),
             trim($result_object->sal_f),
