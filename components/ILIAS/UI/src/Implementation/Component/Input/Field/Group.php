@@ -162,4 +162,19 @@ class Group extends FormInput implements C\Input\Field\Group, GroupInternal
     {
         return $this->getInputs();
     }
+
+    public function setNestingLevel(int $nesting_level): void
+    {
+        $this->updateChildrenNestingLevels($nesting_level);
+    }
+
+    private function updateChildrenNestingLevels(int $nesting_level): void
+    {
+        foreach ($this->getInputs() as $input) {
+            if ($input instanceof Group) {
+                $input->setNestingLevel($nesting_level);
+                continue;
+            }
+        }
+    }
 }
