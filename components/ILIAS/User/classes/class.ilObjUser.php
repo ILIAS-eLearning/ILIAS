@@ -108,6 +108,7 @@ class ilObjUser extends ilObject
 
         $local_dic = LocalDIC::dic();
         $this->profile_data_repository = $local_dic[ProfileDataRepository::class];
+        $this->profile_data = $this->profile_data_repository->getDefault();
         $this->profile_configuration_repository = $local_dic[ProfileConfigurationRepository::class];
 
         $this->date_format_factory = (new DataFactory())->dateFormat();
@@ -125,7 +126,6 @@ class ilObjUser extends ilObject
             return;
         }
 
-        $this->profile_data = $this->profile_data_repository->getDefault();
         $this->prefs = [];
         $this->prefs['language'] = $this->ilias->ini->readVariable('language', 'default');
         $this->prefs['skin'] = $this->ilias->ini->readVariable('layout', 'skin');

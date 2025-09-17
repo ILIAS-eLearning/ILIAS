@@ -39,10 +39,12 @@ class ilUserDataSet extends ilDataSet
 
     public function __construct()
     {
+        global $DIC;
+        $this->current_user = $DIC['ilUser'];
+
         parent::__construct();
 
         $this->user_profile = LocalDIC::dic()[Profile::class];
-        $this->current_user = $DIC['ilUser'];
     }
 
     public function initByExporter(ilXmlExporter $xml_exporter): void

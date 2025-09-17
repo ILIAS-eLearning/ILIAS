@@ -26,6 +26,7 @@
 class ilUserExporter extends ilXmlExporter
 {
     private ilUserDataSet $data_set;
+    private ilUserExportConfig $export_config;
 
     public function init(): void
     {
@@ -33,8 +34,7 @@ class ilUserExporter extends ilXmlExporter
         $this->data_set->initByExporter($this);
         $this->data_set->setDSPrefix('ds');
         /** @var ilUserExportConfig $config */
-        $config = $this->exp->getExportConfigs()->getElementByClassName('ilUserExportConfig');
-        $this->export_config = $config;
+        $this->export_config = $this->exp->getExportConfigs()->getElementByClassName('ilUserExportConfig');
     }
 
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array // Missing array type.
