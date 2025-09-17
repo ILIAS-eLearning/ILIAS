@@ -38,6 +38,15 @@ class ConfigurationRepository
         $this->available_profile_fields = $this->generateAvailableProfielFields();
     }
 
+    public function hasMigrationBeenRun(): bool
+    {
+        return $this->db->fetchObject(
+            $this->db->query(
+                'SELECT COUNT(field_id) cnt FROM ' . self::USER_FIELD_CONFIGURATION_TABLE
+            )
+        )?->cnt > 1;
+    }
+
     public function get(): array
     {
         return array_reduce(

@@ -107,6 +107,11 @@ class ConfigurationGUI implements DataRetrieval
 
     public function showCmd(?RoundTripModal $modal = null): void
     {
+        if (!$this->repository->hasMigrationBeenRun()) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('missing_migration'));
+            return;
+        }
+
         $create_modal = $this->buildCreateModal();
         $this->toolbar->addComponent(
             $this->ui_factory->button()->standard(
