@@ -264,7 +264,6 @@ class ilCertificateDateHelperTest extends ilCertificateBaseTestCase
                      ->disableOriginalConstructor()
                      ->onlyMethods(['getTimeFormat', 'getLanguage', 'getTimeZone'])
                      ->getMock();
-        $user->prefs = ['language' => 'de'];
         $user->method('getTimeFormat')->willReturn((string) ilCalendarSettings::TIME_FORMAT_24);
         $user->method('getLanguage')->willReturn('de');
         $user->method('getTimeZone')->willReturn(self::USER_TIME_ZONE);
